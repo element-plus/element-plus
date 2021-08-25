@@ -1,6 +1,6 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[226],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[298],{
 
-/***/ 979:
+/***/ 711:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10,45 +10,45 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.prod.js
 var vue_esm_browser_prod = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/jp/container.md?vue&type=template&id=eaeab7ee
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/zh-CN/container.md?vue&type=template&id=128ecb58
 
-const containervue_type_template_id_eaeab7ee_hoisted_1 = {
+const containervue_type_template_id_128ecb58_hoisted_1 = {
   class: "content element-doc"
 };
 
-const containervue_type_template_id_eaeab7ee_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("コンテナ ");
+const containervue_type_template_id_128ecb58_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Container 布局容器 ");
 
-const containervue_type_template_id_eaeab7ee_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<p>ページの基本構造を組み立てるためのコンテナコンポーネント:</p><p><code>&lt;el-container&gt;</code>: ラッパーコンテナ。<code>&lt;el-header&gt;</code> や <code>&lt;el-footer&gt;</code> と入れ子になっている場合、その子要素はすべて垂直方向に配置されます。それ以外の場合は水平に配置されます。</p><p><code>&lt;el-header&gt;</code>: ヘッダ用のコンテナ。</p><p><code>&lt;el-aside&gt;</code>: サイドセクションのコンテナ (通常はサイドナビ)。</p><p><code>&lt;el-main&gt;</code>: メインセクションのコンテナ。</p><p><code>&lt;el-footer&gt;</code>: フッター用のコンテナ。</p><div class=\"tip\"><p>これらのコンポーネントはレイアウトにフレックスを使用していますので、ブラウザがフレックスをサポートしていることを確認してください。また、<code>&lt;el-container&gt;</code>の直接の子要素は<code>el-container</code> 以下の4つのコンポーネントのうちの1つ以上でなければなりません。また、4つの要素の親要素は <code>&lt;el-container&gt;</code> でなければなりません。</p></div>", 7);
+const containervue_type_template_id_128ecb58_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<p>用于布局的容器组件，方便快速搭建页面的基本结构：</p><p><code>&lt;el-container&gt;</code>：外层容器。当子元素中包含 <code>&lt;el-header&gt;</code> 或 <code>&lt;el-footer&gt;</code> 时，全部子元素会垂直上下排列，否则会水平左右排列。</p><p><code>&lt;el-header&gt;</code>：顶栏容器。</p><p><code>&lt;el-aside&gt;</code>：侧边栏容器。</p><p><code>&lt;el-main&gt;</code>：主要区域容器。</p><p><code>&lt;el-footer&gt;</code>：底栏容器。</p><div class=\"tip\"><p>以上组件采用了 flex 布局，使用前请确定目标浏览器是否兼容。此外，<code>&lt;el-container&gt;</code> 的子元素只能是后四者，后四者的父元素也只能是 <code>&lt;el-container&gt;</code>。</p></div>", 7);
 
-const containervue_type_template_id_eaeab7ee_hoisted_10 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("共通レイアウト ");
+const containervue_type_template_id_128ecb58_hoisted_10 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("常见页面布局 ");
 
-const containervue_type_template_id_eaeab7ee_hoisted_11 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+const containervue_type_template_id_128ecb58_hoisted_11 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
 }, "<div class=\"common-layout\">\n  <el-container>\n    <el-header>Header</el-header>\n    <el-main>Main</el-main>\n  </el-container>\n\n  <el-container>\n    <el-header>Header</el-header>\n    <el-main>Main</el-main>\n    <el-footer>Footer</el-footer>\n  </el-container>\n\n  <el-container>\n    <el-aside width=\"200px\">Aside</el-aside>\n    <el-main>Main</el-main>\n  </el-container>\n\n  <el-container>\n    <el-header>Header</el-header>\n    <el-container>\n      <el-aside width=\"200px\">Aside</el-aside>\n      <el-main>Main</el-main>\n    </el-container>\n  </el-container>\n\n  <el-container>\n    <el-header>Header</el-header>\n    <el-container>\n      <el-aside width=\"200px\">Aside</el-aside>\n      <el-container>\n        <el-main>Main</el-main>\n        <el-footer>Footer</el-footer>\n      </el-container>\n    </el-container>\n  </el-container>\n\n  <el-container>\n    <el-aside width=\"200px\">Aside</el-aside>\n    <el-container>\n      <el-header>Header</el-header>\n      <el-main>Main</el-main>\n    </el-container>\n  </el-container>\n\n  <el-container>\n    <el-aside width=\"200px\">Aside</el-aside>\n    <el-container>\n      <el-header>Header</el-header>\n      <el-main>Main</el-main>\n      <el-footer>Footer</el-footer>\n    </el-container>\n  </el-container>\n</div>\n\n<style>\n  .el-header, .el-footer {\n    background-color: #B3C0D1;\n    color: #333;\n    text-align: center;\n    line-height: 60px;\n  }\n\n  .el-aside {\n    background-color: #D3DCE6;\n    color: #333;\n    text-align: center;\n    line-height: 200px;\n  }\n\n  .el-main {\n    background-color: #E9EEF3;\n    color: #333;\n    text-align: center;\n    line-height: 160px;\n  }\n\n  body > .el-container {\n    margin-bottom: 40px;\n  }\n\n  .el-container:nth-child(5) .el-aside,\n  .el-container:nth-child(6) .el-aside {\n    line-height: 260px;\n  }\n\n  .el-container:nth-child(7) .el-aside {\n    line-height: 320px;\n  }\n</style>\n")], -1);
 
-const containervue_type_template_id_eaeab7ee_hoisted_12 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("例 ");
+const containervue_type_template_id_128ecb58_hoisted_12 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("实例 ");
 
-const containervue_type_template_id_eaeab7ee_hoisted_13 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+const containervue_type_template_id_128ecb58_hoisted_13 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-container style=\"height: 500px; border: 1px solid #eee\">\n  <el-aside width=\"200px\" style=\"background-color: rgb(238, 241, 246)\">\n    <el-menu :default-openeds=\"['1', '3']\">\n      <el-submenu index=\"1\">\n        <template #title><i class=\"el-icon-message\"></i>Navigator One</template>\n        <el-menu-item-group>\n          <template #title>Group 1</template>\n          <el-menu-item index=\"1-1\">Option 1</el-menu-item>\n          <el-menu-item index=\"1-2\">Option 2</el-menu-item>\n        </el-menu-item-group>\n        <el-menu-item-group title=\"Group 2\">\n          <el-menu-item index=\"1-3\">Option 3</el-menu-item>\n        </el-menu-item-group>\n        <el-submenu index=\"1-4\">\n          <template #title>Option4</template>\n          <el-menu-item index=\"1-4-1\">Option 4-1</el-menu-item>\n        </el-submenu>\n      </el-submenu>\n      <el-submenu index=\"2\">\n        <template #title><i class=\"el-icon-menu\"></i>Navigator Two</template>\n        <el-menu-item-group>\n          <template #title>Group 1</template>\n          <el-menu-item index=\"2-1\">Option 1</el-menu-item>\n          <el-menu-item index=\"2-2\">Option 2</el-menu-item>\n        </el-menu-item-group>\n        <el-menu-item-group title=\"Group 2\">\n          <el-menu-item index=\"2-3\">Option 3</el-menu-item>\n        </el-menu-item-group>\n        <el-submenu index=\"2-4\">\n          <template #title>Option 4</template>\n          <el-menu-item index=\"2-4-1\">Option 4-1</el-menu-item>\n        </el-submenu>\n      </el-submenu>\n      <el-submenu index=\"3\">\n        <template #title><i class=\"el-icon-setting\"></i>Navigator Three</template>\n        <el-menu-item-group>\n          <template #title>Group 1</template>\n          <el-menu-item index=\"3-1\">Option 1</el-menu-item>\n          <el-menu-item index=\"3-2\">Option 2</el-menu-item>\n        </el-menu-item-group>\n        <el-menu-item-group title=\"Group 2\">\n          <el-menu-item index=\"3-3\">Option 3</el-menu-item>\n        </el-menu-item-group>\n        <el-submenu index=\"3-4\">\n          <template #title>Option 4</template>\n          <el-menu-item index=\"3-4-1\">Option 4-1</el-menu-item>\n        </el-submenu>\n      </el-submenu>\n    </el-menu>\n  </el-aside>\n\n  <el-container>\n    <el-header style=\"text-align: right; font-size: 12px\">\n      <el-dropdown>\n        <i class=\"el-icon-setting\" style=\"margin-right: 15px\"></i>\n        <template #dropdown>\n          <el-dropdown-menu>\n              <el-dropdown-item>View</el-dropdown-item>\n              <el-dropdown-item>Add</el-dropdown-item>\n              <el-dropdown-item>Delete</el-dropdown-item>\n          </el-dropdown-menu>\n        </template>\n      </el-dropdown>\n      <span>Tom</span>\n    </el-header>\n\n    <el-main>\n      <el-table :data=\"tableData\">\n        <el-table-column prop=\"date\" label=\"Date\" width=\"140\">\n        </el-table-column>\n        <el-table-column prop=\"name\" label=\"Name\" width=\"120\">\n        </el-table-column>\n        <el-table-column prop=\"address\" label=\"Address\">\n        </el-table-column>\n      </el-table>\n    </el-main>\n  </el-container>\n</el-container>\n\n<style>\n  .el-header {\n    background-color: #B3C0D1;\n    color: #333;\n    line-height: 60px;\n  }\n\n  .el-aside {\n    color: #333;\n  }\n</style>\n\n<script>\n  export default {\n    data() {\n      const item = {\n        date: '2016-05-02',\n        name: 'Tom',\n        address: 'No. 189, Grove St, Los Angeles'\n      };\n      return {\n        tableData: Array(20).fill(item)\n      }\n    }\n  };\n</script>\n\n<!--\n<setup>\n\n  import { defineComponent, ref } from 'vue';\n\n  export default defineComponent({\n    setup() {\n      const item = {\n        date: '2016-05-02',\n        name: 'Tom',\n        address: 'No. 189, Grove St, Los Angeles',\n      };\n\n      const tableData = ref(Array(20).fill(item));\n\n      return {\n        tableData,\n      };\n    },\n  });\n\n</setup>\n-->\n")], -1);
+}, "<el-container style=\"height: 500px; border: 1px solid #eee\">\n  <el-aside width=\"200px\" style=\"background-color: rgb(238, 241, 246)\">\n    <el-menu :default-openeds=\"['1', '3']\">\n      <el-sub-menu index=\"1\">\n        <template #title><i class=\"el-icon-message\"></i>导航一</template>\n        <el-menu-item-group>\n          <template #title>分组一</template>\n          <el-menu-item index=\"1-1\">选项1</el-menu-item>\n          <el-menu-item index=\"1-2\">选项2</el-menu-item>\n        </el-menu-item-group>\n        <el-menu-item-group title=\"分组2\">\n          <el-menu-item index=\"1-3\">选项3</el-menu-item>\n        </el-menu-item-group>\n        <el-sub-menu index=\"1-4\">\n          <template #title>选项4</template>\n          <el-menu-item index=\"1-4-1\">选项4-1</el-menu-item>\n        </el-sub-menu>\n      </el-sub-menu>\n      <el-sub-menu index=\"2\">\n        <template #title><i class=\"el-icon-menu\"></i>导航二</template>\n        <el-menu-item-group>\n          <template #title>分组一</template>\n          <el-menu-item index=\"2-1\">选项1</el-menu-item>\n          <el-menu-item index=\"2-2\">选项2</el-menu-item>\n        </el-menu-item-group>\n        <el-menu-item-group title=\"分组2\">\n          <el-menu-item index=\"2-3\">选项3</el-menu-item>\n        </el-menu-item-group>\n        <el-sub-menu index=\"2-4\">\n          <template #title>选项4</template>\n          <el-menu-item index=\"2-4-1\">选项4-1</el-menu-item>\n        </el-sub-menu>\n      </el-sub-menu>\n      <el-sub-menu index=\"3\">\n        <template #title><i class=\"el-icon-setting\"></i>导航三</template>\n        <el-menu-item-group>\n          <template #title>分组一</template>\n          <el-menu-item index=\"3-1\">选项1</el-menu-item>\n          <el-menu-item index=\"3-2\">选项2</el-menu-item>\n        </el-menu-item-group>\n        <el-menu-item-group title=\"分组2\">\n          <el-menu-item index=\"3-3\">选项3</el-menu-item>\n        </el-menu-item-group>\n        <el-sub-menu index=\"3-4\">\n          <template #title>选项4</template>\n          <el-menu-item index=\"3-4-1\">选项4-1</el-menu-item>\n        </el-sub-menu>\n      </el-sub-menu>\n    </el-menu>\n  </el-aside>\n\n  <el-container>\n    <el-header style=\"text-align: right; font-size: 12px\">\n      <el-dropdown>\n        <i class=\"el-icon-setting\" style=\"margin-right: 15px\"></i>\n        <template #dropdown>\n          <el-dropdown-menu>\n              <el-dropdown-item>查看</el-dropdown-item>\n              <el-dropdown-item>新增</el-dropdown-item>\n              <el-dropdown-item>删除</el-dropdown-item>\n          </el-dropdown-menu>\n        </template>\n      </el-dropdown>\n      <span>王小虎</span>\n    </el-header>\n\n    <el-main>\n      <el-table :data=\"tableData\">\n        <el-table-column prop=\"date\" label=\"日期\" width=\"140\">\n        </el-table-column>\n        <el-table-column prop=\"name\" label=\"姓名\" width=\"120\">\n        </el-table-column>\n        <el-table-column prop=\"address\" label=\"地址\">\n        </el-table-column>\n      </el-table>\n    </el-main>\n  </el-container>\n</el-container>\n\n<style>\n  .el-header {\n    background-color: #B3C0D1;\n    color: #333;\n    line-height: 60px;\n  }\n\n  .el-aside {\n    color: #333;\n  }\n</style>\n\n<script>\n  export default {\n    data() {\n      const item = {\n        date: '2016-05-02',\n        name: '王小虎',\n        address: '上海市普陀区金沙江路 1518 弄'\n      };\n      return {\n        tableData: Array(20).fill(item)\n      }\n    }\n  };\n</script>\n<!--\n<setup>\n\n  import { defineComponent, ref } from 'vue';\n\n  export default defineComponent({\n    setup() {\n      const item = {\n        date: '2016-05-02',\n        name: '王小虎',\n        address: '上海市普陀区金沙江路 1518 弄',\n      };\n\n      const tableData = ref(Array(20).fill(item));\n\n      return {\n        tableData,\n      };\n    },\n  });\n\n</setup>\n-->\n")], -1);
 
-const containervue_type_template_id_eaeab7ee_hoisted_14 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("コンテナ属性 ");
+const containervue_type_template_id_128ecb58_hoisted_14 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Container Attributes ");
 
-const containervue_type_template_id_eaeab7ee_hoisted_15 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Accepted Values</th><th>Default</th></tr></thead><tbody><tr><td>direction</td><td>子要素のレイアウト方向</td><td>string</td><td>horizontal / vertical</td><td>vertical when nested with <code>el-header</code> or <code>el-footer</code>; horizontal otherwise</td></tr></tbody></table>", 1);
+const containervue_type_template_id_128ecb58_hoisted_15 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>可选值</th><th>默认值</th></tr></thead><tbody><tr><td>direction</td><td>子元素的排列方向</td><td>string</td><td>horizontal / vertical</td><td>子元素中有 <code>el-header</code> 或 <code>el-footer</code> 时为 vertical，否则为 horizontal</td></tr></tbody></table>", 1);
 
-const containervue_type_template_id_eaeab7ee_hoisted_16 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("ヘッダー属性 ");
+const containervue_type_template_id_128ecb58_hoisted_16 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Header Attributes ");
 
-const containervue_type_template_id_eaeab7ee_hoisted_17 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Accepted Values</th><th>Default</th></tr></thead><tbody><tr><td>height</td><td>ヘッダーの高さ</td><td>string</td><td>—</td><td>60px</td></tr></tbody></table>", 1);
+const containervue_type_template_id_128ecb58_hoisted_17 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>可选值</th><th>默认值</th></tr></thead><tbody><tr><td>height</td><td>顶栏高度</td><td>string</td><td>—</td><td>60px</td></tr></tbody></table>", 1);
 
-const containervue_type_template_id_eaeab7ee_hoisted_18 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("アサイド属性 ");
+const containervue_type_template_id_128ecb58_hoisted_18 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Aside Attributes ");
 
-const containervue_type_template_id_eaeab7ee_hoisted_19 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Accepted Values</th><th>Default</th></tr></thead><tbody><tr><td>width</td><td>サイドセクションの幅</td><td>string</td><td>—</td><td>300px</td></tr></tbody></table>", 1);
+const containervue_type_template_id_128ecb58_hoisted_19 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>可选值</th><th>默认值</th></tr></thead><tbody><tr><td>width</td><td>侧边栏宽度</td><td>string</td><td>—</td><td>300px</td></tr></tbody></table>", 1);
 
-const containervue_type_template_id_eaeab7ee_hoisted_20 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("フッター属性 ");
+const containervue_type_template_id_128ecb58_hoisted_20 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Footer Attributes ");
 
-const containervue_type_template_id_eaeab7ee_hoisted_21 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Accepted Values</th><th>Default</th></tr></thead><tbody><tr><td>height</td><td>フッターの高さ</td><td>string</td><td>—</td><td>60px</td></tr></tbody></table>", 1);
+const containervue_type_template_id_128ecb58_hoisted_21 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>可选值</th><th>默认值</th></tr></thead><tbody><tr><td>height</td><td>底栏高度</td><td>string</td><td>—</td><td>60px</td></tr></tbody></table>", 1);
 
-function containervue_type_template_id_eaeab7ee_render(_ctx, _cache, $props, $setup, $data, $options) {
+function containervue_type_template_id_128ecb58_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_app_link = Object(vue_esm_browser_prod["resolveComponent"])("app-link");
 
   const _component_app_heading = Object(vue_esm_browser_prod["resolveComponent"])("app-heading");
@@ -61,96 +61,96 @@ function containervue_type_template_id_eaeab7ee_render(_ctx, _cache, $props, $se
 
   const _component_right_nav = Object(vue_esm_browser_prod["resolveComponent"])("right-nav");
 
-  return Object(vue_esm_browser_prod["openBlock"])(), Object(vue_esm_browser_prod["createElementBlock"])("section", containervue_type_template_id_eaeab7ee_hoisted_1, [Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "kontena",
-    content: "コンテナ",
-    href: "#kontena",
+  return Object(vue_esm_browser_prod["openBlock"])(), Object(vue_esm_browser_prod["createElementBlock"])("section", containervue_type_template_id_128ecb58_hoisted_1, [Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "container-bu-ju-rong-qi",
+    content: "Container 布局容器",
+    href: "#container-bu-ju-rong-qi",
     level: "2"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [containervue_type_template_id_eaeab7ee_hoisted_2, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [containervue_type_template_id_128ecb58_hoisted_2, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#kontena"
+      href: "#container-bu-ju-rong-qi"
     })]),
     _: 1
-  }), containervue_type_template_id_eaeab7ee_hoisted_3, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "gong-tongreiauto",
-    content: "共通レイアウト",
-    href: "#gong-tongreiauto",
+  }), containervue_type_template_id_128ecb58_hoisted_3, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "chang-jian-ye-mian-bu-ju",
+    content: "常见页面布局",
+    href: "#chang-jian-ye-mian-bu-ju",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [containervue_type_template_id_eaeab7ee_hoisted_10, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [containervue_type_template_id_128ecb58_hoisted_10, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#gong-tongreiauto"
+      href: "#chang-jian-ye-mian-bu-ju"
     })]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
     source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo0)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [containervue_type_template_id_eaeab7ee_hoisted_11]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [containervue_type_template_id_128ecb58_hoisted_11]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "li",
-    content: "例",
-    href: "#li",
+    id: "shi-li",
+    content: "实例",
+    href: "#shi-li",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [containervue_type_template_id_eaeab7ee_hoisted_12, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [containervue_type_template_id_128ecb58_hoisted_12, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#li"
+      href: "#shi-li"
     })]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
     source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo1)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [containervue_type_template_id_eaeab7ee_hoisted_13]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [containervue_type_template_id_128ecb58_hoisted_13]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "kontena-shu-xing",
-    content: "コンテナ属性",
-    href: "#kontena-shu-xing",
+    id: "container-attributes",
+    content: "Container Attributes",
+    href: "#container-attributes",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [containervue_type_template_id_eaeab7ee_hoisted_14, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [containervue_type_template_id_128ecb58_hoisted_14, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#kontena-shu-xing"
+      href: "#container-attributes"
     })]),
     _: 1
-  }), containervue_type_template_id_eaeab7ee_hoisted_15, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "hetuda-shu-xing",
-    content: "ヘッダー属性",
-    href: "#hetuda-shu-xing",
+  }), containervue_type_template_id_128ecb58_hoisted_15, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "header-attributes",
+    content: "Header Attributes",
+    href: "#header-attributes",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [containervue_type_template_id_eaeab7ee_hoisted_16, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [containervue_type_template_id_128ecb58_hoisted_16, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#hetuda-shu-xing"
+      href: "#header-attributes"
     })]),
     _: 1
-  }), containervue_type_template_id_eaeab7ee_hoisted_17, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "asaido-shu-xing",
-    content: "アサイド属性",
-    href: "#asaido-shu-xing",
+  }), containervue_type_template_id_128ecb58_hoisted_17, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "aside-attributes",
+    content: "Aside Attributes",
+    href: "#aside-attributes",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [containervue_type_template_id_eaeab7ee_hoisted_18, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [containervue_type_template_id_128ecb58_hoisted_18, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#asaido-shu-xing"
+      href: "#aside-attributes"
     })]),
     _: 1
-  }), containervue_type_template_id_eaeab7ee_hoisted_19, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "hututa-shu-xing",
-    content: "フッター属性",
-    href: "#hututa-shu-xing",
+  }), containervue_type_template_id_128ecb58_hoisted_19, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "footer-attributes",
+    content: "Footer Attributes",
+    href: "#footer-attributes",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [containervue_type_template_id_eaeab7ee_hoisted_20, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [containervue_type_template_id_128ecb58_hoisted_20, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#hututa-shu-xing"
+      href: "#footer-attributes"
     })]),
     _: 1
-  }), containervue_type_template_id_eaeab7ee_hoisted_21, Object(vue_esm_browser_prod["createVNode"])(_component_right_nav)]);
+  }), containervue_type_template_id_128ecb58_hoisted_21, Object(vue_esm_browser_prod["createVNode"])(_component_right_nav)]);
 }
-// CONCATENATED MODULE: ./website/docs/jp/container.md?vue&type=template&id=eaeab7ee
+// CONCATENATED MODULE: ./website/docs/zh-CN/container.md?vue&type=template&id=128ecb58
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/jp/container.md?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/zh-CN/container.md?vue&type=script&lang=ts
 
 /* harmony default export */ var containervue_type_script_lang_ts = ({
   name: 'component-doc',
@@ -355,55 +355,55 @@ function containervue_type_template_id_eaeab7ee_render(_ctx, _cache, $props, $se
         class: "el-icon-message"
       }, null, -1);
 
-      const _hoisted_2 = /*#__PURE__*/_createTextVNode("Navigator One");
+      const _hoisted_2 = /*#__PURE__*/_createTextVNode("导航一");
 
-      const _hoisted_3 = /*#__PURE__*/_createTextVNode("Group 1");
+      const _hoisted_3 = /*#__PURE__*/_createTextVNode("分组一");
 
-      const _hoisted_4 = /*#__PURE__*/_createTextVNode("Option 1");
+      const _hoisted_4 = /*#__PURE__*/_createTextVNode("选项1");
 
-      const _hoisted_5 = /*#__PURE__*/_createTextVNode("Option 2");
+      const _hoisted_5 = /*#__PURE__*/_createTextVNode("选项2");
 
-      const _hoisted_6 = /*#__PURE__*/_createTextVNode("Option 3");
+      const _hoisted_6 = /*#__PURE__*/_createTextVNode("选项3");
 
-      const _hoisted_7 = /*#__PURE__*/_createTextVNode("Option4");
+      const _hoisted_7 = /*#__PURE__*/_createTextVNode("选项4");
 
-      const _hoisted_8 = /*#__PURE__*/_createTextVNode("Option 4-1");
+      const _hoisted_8 = /*#__PURE__*/_createTextVNode("选项4-1");
 
       const _hoisted_9 = /*#__PURE__*/_createElementVNode("i", {
         class: "el-icon-menu"
       }, null, -1);
 
-      const _hoisted_10 = /*#__PURE__*/_createTextVNode("Navigator Two");
+      const _hoisted_10 = /*#__PURE__*/_createTextVNode("导航二");
 
-      const _hoisted_11 = /*#__PURE__*/_createTextVNode("Group 1");
+      const _hoisted_11 = /*#__PURE__*/_createTextVNode("分组一");
 
-      const _hoisted_12 = /*#__PURE__*/_createTextVNode("Option 1");
+      const _hoisted_12 = /*#__PURE__*/_createTextVNode("选项1");
 
-      const _hoisted_13 = /*#__PURE__*/_createTextVNode("Option 2");
+      const _hoisted_13 = /*#__PURE__*/_createTextVNode("选项2");
 
-      const _hoisted_14 = /*#__PURE__*/_createTextVNode("Option 3");
+      const _hoisted_14 = /*#__PURE__*/_createTextVNode("选项3");
 
-      const _hoisted_15 = /*#__PURE__*/_createTextVNode("Option 4");
+      const _hoisted_15 = /*#__PURE__*/_createTextVNode("选项4");
 
-      const _hoisted_16 = /*#__PURE__*/_createTextVNode("Option 4-1");
+      const _hoisted_16 = /*#__PURE__*/_createTextVNode("选项4-1");
 
       const _hoisted_17 = /*#__PURE__*/_createElementVNode("i", {
         class: "el-icon-setting"
       }, null, -1);
 
-      const _hoisted_18 = /*#__PURE__*/_createTextVNode("Navigator Three");
+      const _hoisted_18 = /*#__PURE__*/_createTextVNode("导航三");
 
-      const _hoisted_19 = /*#__PURE__*/_createTextVNode("Group 1");
+      const _hoisted_19 = /*#__PURE__*/_createTextVNode("分组一");
 
-      const _hoisted_20 = /*#__PURE__*/_createTextVNode("Option 1");
+      const _hoisted_20 = /*#__PURE__*/_createTextVNode("选项1");
 
-      const _hoisted_21 = /*#__PURE__*/_createTextVNode("Option 2");
+      const _hoisted_21 = /*#__PURE__*/_createTextVNode("选项2");
 
-      const _hoisted_22 = /*#__PURE__*/_createTextVNode("Option 3");
+      const _hoisted_22 = /*#__PURE__*/_createTextVNode("选项3");
 
-      const _hoisted_23 = /*#__PURE__*/_createTextVNode("Option 4");
+      const _hoisted_23 = /*#__PURE__*/_createTextVNode("选项4");
 
-      const _hoisted_24 = /*#__PURE__*/_createTextVNode("Option 4-1");
+      const _hoisted_24 = /*#__PURE__*/_createTextVNode("选项4-1");
 
       const _hoisted_25 = /*#__PURE__*/_createElementVNode("i", {
         class: "el-icon-setting",
@@ -412,20 +412,20 @@ function containervue_type_template_id_eaeab7ee_render(_ctx, _cache, $props, $se
         }
       }, null, -1);
 
-      const _hoisted_26 = /*#__PURE__*/_createTextVNode("View");
+      const _hoisted_26 = /*#__PURE__*/_createTextVNode("查看");
 
-      const _hoisted_27 = /*#__PURE__*/_createTextVNode("Add");
+      const _hoisted_27 = /*#__PURE__*/_createTextVNode("新增");
 
-      const _hoisted_28 = /*#__PURE__*/_createTextVNode("Delete");
+      const _hoisted_28 = /*#__PURE__*/_createTextVNode("删除");
 
-      const _hoisted_29 = /*#__PURE__*/_createElementVNode("span", null, "Tom", -1);
+      const _hoisted_29 = /*#__PURE__*/_createElementVNode("span", null, "王小虎", -1);
 
       function render(_ctx, _cache) {
         const _component_el_menu_item = _resolveComponent("el-menu-item");
 
         const _component_el_menu_item_group = _resolveComponent("el-menu-item-group");
 
-        const _component_el_submenu = _resolveComponent("el-submenu");
+        const _component_el_sub_menu = _resolveComponent("el-sub-menu");
 
         const _component_el_menu = _resolveComponent("el-menu");
 
@@ -462,7 +462,7 @@ function containervue_type_template_id_eaeab7ee_render(_ctx, _cache, $props, $se
             default: _withCtx(() => [_createVNode(_component_el_menu, {
               "default-openeds": ['1', '3']
             }, {
-              default: _withCtx(() => [_createVNode(_component_el_submenu, {
+              default: _withCtx(() => [_createVNode(_component_el_sub_menu, {
                 index: "1"
               }, {
                 title: _withCtx(() => [_hoisted_1, _hoisted_2]),
@@ -481,7 +481,7 @@ function containervue_type_template_id_eaeab7ee_render(_ctx, _cache, $props, $se
                   })]),
                   _: 1
                 }), _createVNode(_component_el_menu_item_group, {
-                  title: "Group 2"
+                  title: "分组2"
                 }, {
                   default: _withCtx(() => [_createVNode(_component_el_menu_item, {
                     index: "1-3"
@@ -490,7 +490,7 @@ function containervue_type_template_id_eaeab7ee_render(_ctx, _cache, $props, $se
                     _: 1
                   })]),
                   _: 1
-                }), _createVNode(_component_el_submenu, {
+                }), _createVNode(_component_el_sub_menu, {
                   index: "1-4"
                 }, {
                   title: _withCtx(() => [_hoisted_7]),
@@ -503,7 +503,7 @@ function containervue_type_template_id_eaeab7ee_render(_ctx, _cache, $props, $se
                   _: 1
                 })]),
                 _: 1
-              }), _createVNode(_component_el_submenu, {
+              }), _createVNode(_component_el_sub_menu, {
                 index: "2"
               }, {
                 title: _withCtx(() => [_hoisted_9, _hoisted_10]),
@@ -522,7 +522,7 @@ function containervue_type_template_id_eaeab7ee_render(_ctx, _cache, $props, $se
                   })]),
                   _: 1
                 }), _createVNode(_component_el_menu_item_group, {
-                  title: "Group 2"
+                  title: "分组2"
                 }, {
                   default: _withCtx(() => [_createVNode(_component_el_menu_item, {
                     index: "2-3"
@@ -531,7 +531,7 @@ function containervue_type_template_id_eaeab7ee_render(_ctx, _cache, $props, $se
                     _: 1
                   })]),
                   _: 1
-                }), _createVNode(_component_el_submenu, {
+                }), _createVNode(_component_el_sub_menu, {
                   index: "2-4"
                 }, {
                   title: _withCtx(() => [_hoisted_15]),
@@ -544,7 +544,7 @@ function containervue_type_template_id_eaeab7ee_render(_ctx, _cache, $props, $se
                   _: 1
                 })]),
                 _: 1
-              }), _createVNode(_component_el_submenu, {
+              }), _createVNode(_component_el_sub_menu, {
                 index: "3"
               }, {
                 title: _withCtx(() => [_hoisted_17, _hoisted_18]),
@@ -563,7 +563,7 @@ function containervue_type_template_id_eaeab7ee_render(_ctx, _cache, $props, $se
                   })]),
                   _: 1
                 }), _createVNode(_component_el_menu_item_group, {
-                  title: "Group 2"
+                  title: "分组2"
                 }, {
                   default: _withCtx(() => [_createVNode(_component_el_menu_item, {
                     index: "3-3"
@@ -572,7 +572,7 @@ function containervue_type_template_id_eaeab7ee_render(_ctx, _cache, $props, $se
                     _: 1
                   })]),
                   _: 1
-                }), _createVNode(_component_el_submenu, {
+                }), _createVNode(_component_el_sub_menu, {
                   index: "3-4"
                 }, {
                   title: _withCtx(() => [_hoisted_23]),
@@ -620,15 +620,15 @@ function containervue_type_template_id_eaeab7ee_render(_ctx, _cache, $props, $se
               }, {
                 default: _withCtx(() => [_createVNode(_component_el_table_column, {
                   prop: "date",
-                  label: "Date",
+                  label: "日期",
                   width: "140"
                 }), _createVNode(_component_el_table_column, {
                   prop: "name",
-                  label: "Name",
+                  label: "姓名",
                   width: "120"
                 }), _createVNode(_component_el_table_column, {
                   prop: "address",
-                  label: "Address"
+                  label: "地址"
                 })]),
                 _: 1
               }, 8, ["data"])]),
@@ -644,8 +644,8 @@ function containervue_type_template_id_eaeab7ee_render(_ctx, _cache, $props, $se
         data() {
           const item = {
             date: '2016-05-02',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles'
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄'
           };
           return {
             tableData: Array(20).fill(item)
@@ -660,13 +660,13 @@ function containervue_type_template_id_eaeab7ee_render(_ctx, _cache, $props, $se
     }()
   }
 });
-// CONCATENATED MODULE: ./website/docs/jp/container.md?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./website/docs/zh-CN/container.md?vue&type=script&lang=ts
  
-// CONCATENATED MODULE: ./website/docs/jp/container.md
+// CONCATENATED MODULE: ./website/docs/zh-CN/container.md
 
 
 
-containervue_type_script_lang_ts.render = containervue_type_template_id_eaeab7ee_render
+containervue_type_script_lang_ts.render = containervue_type_template_id_128ecb58_render
 
 /* harmony default export */ var container = __webpack_exports__["default"] = (containervue_type_script_lang_ts);
 

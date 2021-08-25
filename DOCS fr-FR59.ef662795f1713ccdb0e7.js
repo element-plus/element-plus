@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[56],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[200],{
 
 /***/ 110:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -17,93 +17,98 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _element_plus_components__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1177);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _element_plus_components__WEBPACK_IMPORTED_MODULE_0__) if(["default","makeInstaller"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _element_plus_components__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _element_plus_directives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ClickOutside", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_1__["a"]; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "install", function() { return install; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "version", function() { return version; });
+/* harmony import */ var _defaults__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(683);
+/* harmony import */ var _element_plus_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1177);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _element_plus_components__WEBPACK_IMPORTED_MODULE_1__) if(["default","makeInstaller","install","version"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _element_plus_components__WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _element_plus_directives__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(12);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ClickOutside", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_2__["a"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RepeatClick", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_1__["c"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RepeatClick", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_2__["c"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TrapFocus", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_1__["e"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TrapFocus", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_2__["e"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Mousewheel", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_1__["b"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Mousewheel", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_2__["b"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Resize", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_1__["d"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Resize", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_2__["d"]; });
 
-/* harmony import */ var _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useAttrs", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["f"]; });
+/* harmony import */ var _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useAttrs", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["f"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useEvents", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["h"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useEvents", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["h"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useLockScreen", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["m"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useLockScreen", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["m"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useRestoreActive", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["w"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useRestoreActive", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["w"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useModal", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["o"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useModal", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["o"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useMigrating", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["n"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useMigrating", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["n"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useFocus", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["i"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useFocus", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["i"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useThrottleRender", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["z"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useThrottleRender", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["z"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePreventGlobal", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["v"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePreventGlobal", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["v"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTeleport", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["x"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTeleport", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["x"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTimeout", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["A"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTimeout", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["A"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useModelToggleProps", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["r"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useModelToggleProps", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["r"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useModelToggleEmits", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["q"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useModelToggleEmits", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["q"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useModelToggle", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["p"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useModelToggle", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["p"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DARK_EFFECT", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["a"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DARK_EFFECT", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["a"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LIGHT_EFFECT", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["b"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LIGHT_EFFECT", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["b"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePopperControlProps", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["s"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePopperControlProps", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["s"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePopperProps", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["u"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePopperProps", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["u"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePopperHook", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["t"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePopperHook", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["t"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "themeVarsKey", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["e"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "themeVarsKey", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["e"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useCssVar", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["g"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useCssVar", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["g"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useThemeVars", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["y"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useThemeVars", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["y"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useLocaleProps", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["l"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useLocaleProps", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["l"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LocaleInjectionKey", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["c"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LocaleInjectionKey", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["c"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useLocale", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["j"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useLocale", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["j"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "localeProviderMaker", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["d"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "localeProviderMaker", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["d"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useLocaleInject", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["k"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useLocaleInject", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["k"]; });
 
-/* harmony import */ var _element_plus_tokens__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(10);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "elFormKey", function() { return _element_plus_tokens__WEBPACK_IMPORTED_MODULE_3__["c"]; });
+/* harmony import */ var _element_plus_tokens__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "elFormKey", function() { return _element_plus_tokens__WEBPACK_IMPORTED_MODULE_4__["c"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "elFormItemKey", function() { return _element_plus_tokens__WEBPACK_IMPORTED_MODULE_3__["b"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "elFormItemKey", function() { return _element_plus_tokens__WEBPACK_IMPORTED_MODULE_4__["b"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "elFormEvents", function() { return _element_plus_tokens__WEBPACK_IMPORTED_MODULE_3__["a"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "elFormEvents", function() { return _element_plus_tokens__WEBPACK_IMPORTED_MODULE_4__["a"]; });
 
-/* harmony import */ var _make_installer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(161);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "makeInstaller", function() { return _make_installer__WEBPACK_IMPORTED_MODULE_4__["a"]; });
+/* harmony import */ var _make_installer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(161);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "makeInstaller", function() { return _make_installer__WEBPACK_IMPORTED_MODULE_5__["a"]; });
 
-/* harmony import */ var _defaults__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(685);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _defaults__WEBPACK_IMPORTED_MODULE_5__["a"]; });
-
-
-
-
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _defaults__WEBPACK_IMPORTED_MODULE_0__["a"]; });
 
 
 
+
+
+
+
+
+const install = _defaults__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].install;
+const version = _defaults__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].version;
 
 /***/ }),
 
@@ -185,7 +190,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElCollapseItem", function() { return _collapse__WEBPACK_IMPORTED_MODULE_16__["b"]; });
 
-/* harmony import */ var _collapse_transition__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(35);
+/* harmony import */ var _collapse_transition__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(34);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElCollapseTransition", function() { return _collapse_transition__WEBPACK_IMPORTED_MODULE_17__["a"]; });
 
 /* harmony import */ var _color_picker__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(122);
@@ -315,7 +320,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "renderThumbStyle", function() { return _scrollbar__WEBPACK_IMPORTED_MODULE_46__["d"]; });
 
-/* harmony import */ var _select__WEBPACK_IMPORTED_MODULE_47__ = __webpack_require__(36);
+/* harmony import */ var _select__WEBPACK_IMPORTED_MODULE_47__ = __webpack_require__(35);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElSelect", function() { return _select__WEBPACK_IMPORTED_MODULE_47__["c"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElOption", function() { return _select__WEBPACK_IMPORTED_MODULE_47__["a"]; });
@@ -358,10 +363,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElTabPane", function() { return _tabs__WEBPACK_IMPORTED_MODULE_55__["a"]; });
 
-/* harmony import */ var _tag__WEBPACK_IMPORTED_MODULE_56__ = __webpack_require__(34);
+/* harmony import */ var _tag__WEBPACK_IMPORTED_MODULE_56__ = __webpack_require__(33);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElTag", function() { return _tag__WEBPACK_IMPORTED_MODULE_56__["a"]; });
 
-/* harmony import */ var _time_picker__WEBPACK_IMPORTED_MODULE_57__ = __webpack_require__(33);
+/* harmony import */ var _time_picker__WEBPACK_IMPORTED_MODULE_57__ = __webpack_require__(32);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "rangeArr", function() { return _time_picker__WEBPACK_IMPORTED_MODULE_57__["i"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "extractDateFormat", function() { return _time_picker__WEBPACK_IMPORTED_MODULE_57__["g"]; });
@@ -1381,10 +1386,10 @@ const FixedSizeGrid = Object(_builders_buildGrid__WEBPACK_IMPORTED_MODULE_2__[/*
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _src_components_fixed_size_list__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(683);
+/* harmony import */ var _src_components_fixed_size_list__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(684);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FixedSizeList", function() { return _src_components_fixed_size_list__WEBPACK_IMPORTED_MODULE_0__["a"]; });
 
-/* harmony import */ var _src_components_dynamic_size_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(684);
+/* harmony import */ var _src_components_dynamic_size_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(685);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DynamicSizeList", function() { return _src_components_dynamic_size_list__WEBPACK_IMPORTED_MODULE_1__["a"]; });
 
 /* harmony import */ var _src_components_fixed_size_grid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1178);
@@ -1404,7 +1409,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 815:
+/***/ 949:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1414,7 +1419,7 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.prod.js
 var vue_esm_browser_prod = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/en-US/switch.md?vue&type=template&id=7882a51f
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/fr-FR/switch.md?vue&type=template&id=e467b272
 
 const _hoisted_1 = {
   class: "content element-doc"
@@ -1422,35 +1427,35 @@ const _hoisted_1 = {
 
 const _hoisted_2 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Switch ");
 
-const _hoisted_3 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "Switch is used for switching between two opposing states.", -1);
+const _hoisted_3 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "Switch est utilisé pour choisir entre deux états opposés.", -1);
 
-const _hoisted_4 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Basic usage ");
+const _hoisted_4 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Usage ");
 
-const _hoisted_5 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Bind "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "v-model"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" to a "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" typed variable. The "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "active-color"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" and "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "inactive-color"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" attribute decides the background color in two states.")])], -1);
+const _hoisted_5 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Liez "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "v-model"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" à une variable de type "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(". Les attributs "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "active-color"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" et "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "inactive-color"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" déterminent les couleurs des deux états.")])], -1);
 
 const _hoisted_6 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
 }, "<el-switch v-model=\"value1\"> </el-switch>\n<el-switch v-model=\"value2\" active-color=\"#13ce66\" inactive-color=\"#ff4949\">\n</el-switch>\n\n<script>\n  export default {\n    data() {\n      return {\n        value1: true,\n        value2: true,\n      }\n    },\n  }\n</script>\n")], -1);
 
-const _hoisted_7 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Text description ");
+const _hoisted_7 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Description ");
 
-const _hoisted_8 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("You can add "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "active-text"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" and "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "inactive-text"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" attribute to show texts.")])], -1);
+const _hoisted_8 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Utilisez "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "active-text"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" et "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "inactive-text"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" pour afficher une description de chaque étape.")])], -1);
 
 const _hoisted_9 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-switch\n  v-model=\"value1\"\n  active-text=\"Pay by month\"\n  inactive-text=\"Pay by year\"\n>\n</el-switch>\n<el-switch\n  style=\"display: block\"\n  v-model=\"value2\"\n  active-color=\"#13ce66\"\n  inactive-color=\"#ff4949\"\n  active-text=\"Pay by month\"\n  inactive-text=\"Pay by year\"\n>\n</el-switch>\n\n<script>\n  export default {\n    data() {\n      return {\n        value1: true,\n        value2: true,\n      }\n    },\n  }\n</script>\n")], -1);
+}, "<el-switch\n  v-model=\"value1\"\n  active-text=\"Paiement mensuel\"\n  inactive-text=\"Paiement annuel\"\n>\n</el-switch>\n<el-switch\n  style=\"display: block\"\n  v-model=\"value2\"\n  active-color=\"#13ce66\"\n  inactive-color=\"#ff4949\"\n  active-text=\"Paiement mensuel\"\n  inactive-text=\"Paiement annuel\"\n>\n</el-switch>\n\n<script>\n  export default {\n    data() {\n      return {\n        value1: true,\n        value2: true,\n      }\n    },\n  }\n</script>\n")], -1);
 
-const _hoisted_10 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Extended value types ");
+const _hoisted_10 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Valeurs des états ");
 
-const _hoisted_11 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("You can set "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "active-value"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" and "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "inactive-value"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" attributes. They both receive a "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(", "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "String"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" or "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Number"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" typed value.")])], -1);
+const _hoisted_11 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Vous pouvez utiliser "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "active-value"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" et "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "inactive-value"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" pour déterminer la valeur de chaque état. Ils prennent un "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(", "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "String"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" ou "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Number"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(".")])], -1);
 
 const _hoisted_12 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-tooltip :content=\"'Switch value: ' + value\" placement=\"top\">\n  <el-switch\n    v-model=\"value\"\n    active-color=\"#13ce66\"\n    inactive-color=\"#ff4949\"\n    active-value=\"100\"\n    inactive-value=\"0\"\n  >\n  </el-switch>\n</el-tooltip>\n\n<script>\n  export default {\n    data() {\n      return {\n        value: '100',\n      }\n    },\n  }\n</script>\n")], -1);
+}, "<el-tooltip :content=\"'Valeur de l\\'état: ' + value\" placement=\"top\">\n  <el-switch\n    v-model=\"value\"\n    active-color=\"#13ce66\"\n    inactive-color=\"#ff4949\"\n    active-value=\"100\"\n    inactive-value=\"0\"\n  >\n  </el-switch>\n</el-tooltip>\n\n<script>\n  export default {\n    data() {\n      return {\n        value: '100',\n      }\n    },\n  }\n</script>\n")], -1);
 
-const _hoisted_13 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Disabled ");
+const _hoisted_13 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Désactivé ");
 
-const _hoisted_14 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Adding the "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "disabled"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" attribute disables Switch.")])], -1);
+const _hoisted_14 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Ajoutez l'attribut "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "disabled"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" pour désactiver le switch.")])], -1);
 
 const _hoisted_15 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
@@ -1464,27 +1469,27 @@ const _hoisted_18 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode
   class: "html"
 }, "<el-switch v-model=\"value1\" loading> </el-switch>\n<el-switch v-model=\"value2\" loading> </el-switch>\n<script>\n  export default {\n    data() {\n      return {\n        value1: true,\n        value2: false,\n      }\n    },\n  }\n</script>\n")], -1);
 
-const _hoisted_19 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("prevent switching ");
+const _hoisted_19 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Empêcher la commutation ");
 
-const _hoisted_20 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("set the "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "beforeChange"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" property, If "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "false"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" is returned or a "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Promise"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" is returned and then is rejected, will stop switching.")])], -1);
+const _hoisted_20 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Définissez la propriété "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "beforeChange"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(". Si elle renvoie false ou renvoie une promesse et est rejetée, le commutateur s'arrêtera.")])], -1);
 
 const _hoisted_21 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-switch v-model=\"value1\" :loading=\"loading1\" :beforeChange=\"beforeChange1\">\n</el-switch>\n<el-switch v-model=\"value2\" :loading=\"loading2\" :beforeChange=\"beforeChange2\">\n</el-switch>\n<script>\n  import { reactive, toRefs } from 'vue'\n  import { ElMessage } from 'element-plus'\n\n  export default {\n    setup() {\n      const status1 = reactive({\n        value1: false,\n        loading1: false,\n      })\n\n      const beforeChange1 = () => {\n        status1.loading1 = true\n        return new Promise(resolve => {\n          setTimeout(() => {\n            status1.loading1 = false\n            ElMessage.success('switch success')\n            return resolve(true)\n          }, 1000)\n        })\n      }\n\n      const status2 = reactive({\n        value2: false,\n        loading2: false,\n      })\n\n      const beforeChange2 = () => {\n        status2.loading2 = true\n        return new Promise((resolve, reject) => {\n          setTimeout(() => {\n            status2.loading2 = false\n            ElMessage.error('switch failed')\n            return reject(new Error('error'))\n          }, 1000)\n        })\n      }\n\n      return {\n        ...toRefs(status1),\n        ...toRefs(status2),\n        beforeChange1,\n        beforeChange2,\n      }\n    },\n  }\n</script>\n")], -1);
+}, "<el-switch v-model=\"value1\" :loading=\"loading1\" :beforeChange=\"beforeChange1\">\n</el-switch>\n<el-switch v-model=\"value2\" :loading=\"loading2\" :beforeChange=\"beforeChange2\">\n</el-switch>\n<script>\n  import { reactive, toRefs } from 'vue'\n  import { ElMessage } from 'element-plus'\n\n  export default {\n    setup() {\n      const status1 = reactive({\n        value1: false,\n        loading1: false,\n      })\n\n      const beforeChange1 = () => {\n        status1.loading1 = true\n        return new Promise(resolve => {\n          setTimeout(() => {\n            status1.loading1 = false\n            ElMessage.success('Basculer avec succès')\n            return resolve(true)\n          }, 1000)\n        })\n      }\n\n      const status2 = reactive({\n        value2: false,\n        loading2: false,\n      })\n\n      const beforeChange2 = () => {\n        status2.loading2 = true\n        return new Promise((resolve, reject) => {\n          setTimeout(() => {\n            status2.loading2 = false\n            ElMessage.error('Le commutateur a échoué')\n            return reject(new Error('error'))\n          }, 1000)\n        })\n      }\n\n      return {\n        ...toRefs(status1),\n        ...toRefs(status2),\n        beforeChange1,\n        beforeChange2,\n      }\n    },\n  }\n</script>\n")], -1);
 
-const _hoisted_22 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Attributes ");
+const _hoisted_22 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Attributs ");
 
-const _hoisted_23 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Accepted Values</th><th>Default</th></tr></thead><tbody><tr><td>model-value / v-model</td><td>binding value, it should be equivalent to either <code>active-value</code> or <code>inactive-value</code>, by default it&#39;s <code>boolean</code> type</td><td>boolean / string / number</td><td>—</td><td>—</td></tr><tr><td>disabled</td><td>whether Switch is disabled</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>loading</td><td>whether Switch is in loading state</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>width</td><td>width of Switch</td><td>number</td><td>—</td><td>40</td></tr><tr><td>active-icon-class</td><td>class name of the icon displayed when in <code>on</code> state, overrides <code>active-text</code></td><td>string</td><td>—</td><td>—</td></tr><tr><td>inactive-icon-class</td><td>class name of the icon displayed when in <code>off</code> state, overrides <code>inactive-text</code></td><td>string</td><td>—</td><td>—</td></tr><tr><td>active-text</td><td>text displayed when in <code>on</code> state</td><td>string</td><td>—</td><td>—</td></tr><tr><td>inactive-text</td><td>text displayed when in <code>off</code> state</td><td>string</td><td>—</td><td>—</td></tr><tr><td>active-value</td><td>switch value when in <code>on</code> state</td><td>boolean / string / number</td><td>—</td><td>true</td></tr><tr><td>inactive-value</td><td>switch value when in <code>off</code> state</td><td>boolean / string / number</td><td>—</td><td>false</td></tr><tr><td>active-color</td><td>background color when in <code>on</code> state</td><td>string</td><td>—</td><td>#409EFF</td></tr><tr><td>inactive-color</td><td>background color when in <code>off</code> state</td><td>string</td><td>—</td><td>#C0CCDA</td></tr><tr><td>border-color</td><td>border color of the switch</td><td>string</td><td>—</td><td>—</td></tr><tr><td>name</td><td>input name of Switch</td><td>string</td><td>—</td><td>—</td></tr><tr><td>validate-event</td><td>whether to trigger form validation</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>before-change</td><td>before-change hook before the switch state changes. If <code>false</code> is returned or a <code>Promise</code> is returned and then is rejected, will stop switching</td><td>function</td><td>—</td><td>—</td></tr></tbody></table>", 1);
+const _hoisted_23 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>Attribut</th><th>Description</th><th>Type</th><th>Valeurs acceptées</th><th>Défaut</th></tr></thead><tbody><tr><td>model-value / v-model</td><td>Valeur liée. Elle doit être équivalente à <code>active-value</code> ou <code>inactive-value</code>, par défaut elle est de type <code>boolean</code>.</td><td>boolean / string / number</td><td>—</td><td>—</td></tr><tr><td>disabled</td><td>Si le switch est désactivé.</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>loading</td><td>Si le switch est en chargement.</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>width</td><td>Largeur du switch.</td><td>number</td><td>—</td><td>40</td></tr><tr><td>active-icon-class</td><td>Classe de l&#39;icône de l&#39;état <code>on</code>, écrase <code>active-text</code>.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>inactive-icon-class</td><td>Classe de l&#39;icône de l&#39;état <code>off</code>, écrase <code>inactive-text</code>.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>active-text</td><td>Texte affiché dans l&#39;état <code>on</code>.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>inactive-text</td><td>Texte affiché dans l&#39;état <code>off</code>.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>active-value</td><td>Valeur du switch dans l&#39;état <code>on</code>.</td><td>boolean / string / number</td><td>—</td><td>true</td></tr><tr><td>inactive-value</td><td>Valeur du switch dans l&#39;état <code>off</code>.</td><td>boolean / string / number</td><td>—</td><td>false</td></tr><tr><td>active-color</td><td>Couleur de fond de l&#39;état <code>on</code>.</td><td>string</td><td>—</td><td>#409EFF</td></tr><tr><td>inactive-color</td><td>Couleur de fond de l&#39;état <code>off</code>.</td><td>string</td><td>—</td><td>#C0CCDA</td></tr><tr><td>border-color</td><td>Couleur de la bordure du switch.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>name</td><td>Nom du champ d&#39;input du switch.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>validate-event</td><td>Si la validation doit avoir lieu.</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>before-change</td><td>Le hook avant le changement d&#39;état du commutateur. S&#39;il renvoie false ou renvoie une promesse et est rejeté, le commutateur s&#39;arrêtera.</td><td>function</td><td>—</td><td>—</td></tr></tbody></table>", 1);
 
-const _hoisted_24 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Events ");
+const _hoisted_24 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Évènements ");
 
-const _hoisted_25 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("table", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("thead", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Event Name"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Description"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Parameters")])]), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tbody", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "change"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "triggers when value changes"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "value after changing")])])], -1);
+const _hoisted_25 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("table", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("thead", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Nom"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Description"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Paramètres")])]), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tbody", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "change"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Se déclenche quand la valeur change."), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "La valeur après changement.")])])], -1);
 
-const _hoisted_26 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Methods ");
+const _hoisted_26 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Méthodes ");
 
-const _hoisted_27 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("table", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("thead", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Method"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Description"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Parameters")])]), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tbody", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "focus"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "focus the Switch component"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—")])])], -1);
+const _hoisted_27 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("table", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("thead", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Méthode"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Description"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Paramètres")])]), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tbody", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "focus"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Donne le focus au switch."), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—")])])], -1);
 
-function switchvue_type_template_id_7882a51f_render(_ctx, _cache, $props, $setup, $data, $options) {
+function switchvue_type_template_id_e467b272_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_app_link = Object(vue_esm_browser_prod["resolveComponent"])("app-link");
 
   const _component_app_heading = Object(vue_esm_browser_prod["resolveComponent"])("app-heading");
@@ -1517,14 +1522,14 @@ function switchvue_type_template_id_7882a51f_render(_ctx, _cache, $props, $setup
     })]),
     _: 1
   }), _hoisted_3, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "basic-usage",
-    content: "Basic usage",
-    href: "#basic-usage",
+    id: "usage",
+    content: "Usage",
+    href: "#usage",
     level: "3"
   }, {
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_4, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#basic-usage"
+      href: "#usage"
     })]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
@@ -1533,14 +1538,14 @@ function switchvue_type_template_id_7882a51f_render(_ctx, _cache, $props, $setup
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_5]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "text-description",
-    content: "Text description",
-    href: "#text-description",
+    id: "description",
+    content: "Description",
+    href: "#description",
     level: "3"
   }, {
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_7, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#text-description"
+      href: "#description"
     })]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
@@ -1549,14 +1554,14 @@ function switchvue_type_template_id_7882a51f_render(_ctx, _cache, $props, $setup
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_8]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "extended-value-types",
-    content: "Extended value types",
-    href: "#extended-value-types",
+    id: "valeurs-des-etats",
+    content: "Valeurs des états",
+    href: "#valeurs-des-etats",
     level: "3"
   }, {
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_10, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#extended-value-types"
+      href: "#valeurs-des-etats"
     })]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
@@ -1565,14 +1570,14 @@ function switchvue_type_template_id_7882a51f_render(_ctx, _cache, $props, $setup
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_11]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "disabled",
-    content: "Disabled",
-    href: "#disabled",
+    id: "desactive",
+    content: "Désactivé",
+    href: "#desactive",
     level: "3"
   }, {
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_13, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#disabled"
+      href: "#desactive"
     })]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
@@ -1597,14 +1602,14 @@ function switchvue_type_template_id_7882a51f_render(_ctx, _cache, $props, $setup
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_17]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "prevent-switching",
-    content: "prevent switching",
-    href: "#prevent-switching",
+    id: "empecher-la-commutation",
+    content: "Empêcher la commutation",
+    href: "#empecher-la-commutation",
     level: "3"
   }, {
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_19, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#prevent-switching"
+      href: "#empecher-la-commutation"
     })]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
@@ -1613,43 +1618,43 @@ function switchvue_type_template_id_7882a51f_render(_ctx, _cache, $props, $setup
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_20]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "attributes",
-    content: "Attributes",
-    href: "#attributes",
+    id: "attributs",
+    content: "Attributs",
+    href: "#attributs",
     level: "3"
   }, {
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_22, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#attributes"
+      href: "#attributs"
     })]),
     _: 1
   }), _hoisted_23, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "events",
-    content: "Events",
-    href: "#events",
+    id: "evenements",
+    content: "Évènements",
+    href: "#evenements",
     level: "3"
   }, {
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_24, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#events"
+      href: "#evenements"
     })]),
     _: 1
   }), _hoisted_25, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "methods",
-    content: "Methods",
-    href: "#methods",
+    id: "methodes",
+    content: "Méthodes",
+    href: "#methodes",
     level: "3"
   }, {
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_26, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#methods"
+      href: "#methodes"
     })]),
     _: 1
   }), _hoisted_27, Object(vue_esm_browser_prod["createVNode"])(_component_right_nav)]);
 }
-// CONCATENATED MODULE: ./website/docs/en-US/switch.md?vue&type=template&id=7882a51f
+// CONCATENATED MODULE: ./website/docs/fr-FR/switch.md?vue&type=template&id=e467b272
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/en-US/switch.md?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/fr-FR/switch.md?vue&type=script&lang=ts
 
 /* harmony default export */ var switchvue_type_script_lang_ts = ({
   name: 'component-doc',
@@ -1704,8 +1709,8 @@ function switchvue_type_template_id_7882a51f_render(_ctx, _cache, $props, $setup
         return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_switch, {
           modelValue: _ctx.value1,
           "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value1 = $event),
-          "active-text": "Pay by month",
-          "inactive-text": "Pay by year"
+          "active-text": "Paiement mensuel",
+          "inactive-text": "Paiement annuel"
         }, null, 8, ["modelValue"]), _createVNode(_component_el_switch, {
           style: {
             "display": "block"
@@ -1714,8 +1719,8 @@ function switchvue_type_template_id_7882a51f_render(_ctx, _cache, $props, $setup
           "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.value2 = $event),
           "active-color": "#13ce66",
           "inactive-color": "#ff4949",
-          "active-text": "Pay by month",
-          "inactive-text": "Pay by year"
+          "active-text": "Paiement mensuel",
+          "inactive-text": "Paiement annuel"
         }, null, 8, ["modelValue"])]);
       }
 
@@ -1748,7 +1753,7 @@ function switchvue_type_template_id_7882a51f_render(_ctx, _cache, $props, $setup
         const _component_el_tooltip = _resolveComponent("el-tooltip");
 
         return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_tooltip, {
-          content: 'Switch value: ' + _ctx.value,
+          content: 'Valeur de l\'état: ' + _ctx.value,
           placement: "top"
         }, {
           default: _withCtx(() => [_createVNode(_component_el_switch, {
@@ -1893,7 +1898,7 @@ function switchvue_type_template_id_7882a51f_render(_ctx, _cache, $props, $setup
             return new Promise(resolve => {
               setTimeout(() => {
                 status1.loading1 = false;
-                ElMessage.success('switch success');
+                ElMessage.success('Basculer avec succès');
                 return resolve(true);
               }, 1000);
             });
@@ -1909,7 +1914,7 @@ function switchvue_type_template_id_7882a51f_render(_ctx, _cache, $props, $setup
             return new Promise((resolve, reject) => {
               setTimeout(() => {
                 status2.loading2 = false;
-                ElMessage.error('switch failed');
+                ElMessage.error('Le commutateur a échoué');
                 return reject(new Error('error'));
               }, 1000);
             });
@@ -1930,15 +1935,15 @@ function switchvue_type_template_id_7882a51f_render(_ctx, _cache, $props, $setup
     }()
   }
 });
-// CONCATENATED MODULE: ./website/docs/en-US/switch.md?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./website/docs/fr-FR/switch.md?vue&type=script&lang=ts
  
-// CONCATENATED MODULE: ./website/docs/en-US/switch.md
+// CONCATENATED MODULE: ./website/docs/fr-FR/switch.md
 
 
 
-switchvue_type_script_lang_ts.render = switchvue_type_template_id_7882a51f_render
+switchvue_type_script_lang_ts.render = switchvue_type_template_id_e467b272_render
 
-/* harmony default export */ var en_US_switch = __webpack_exports__["default"] = (switchvue_type_script_lang_ts);
+/* harmony default export */ var fr_FR_switch = __webpack_exports__["default"] = (switchvue_type_script_lang_ts);
 
 /***/ })
 

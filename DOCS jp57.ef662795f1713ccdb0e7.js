@@ -1,6 +1,6 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[272],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[270],{
 
-/***/ 1016:
+/***/ 1014:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10,77 +10,171 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.prod.js
 var vue_esm_browser_prod = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/jp/switch.md?vue&type=template&id=753bc096
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/jp/space.md?vue&type=template&id=17265c66
 
-const _hoisted_1 = {
+const spacevue_type_template_id_17265c66_hoisted_1 = {
   class: "content element-doc"
 };
 
-const _hoisted_2 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("スイッチ ");
+const spacevue_type_template_id_17265c66_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Space (Translation needed) ");
 
-const _hoisted_3 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "スイッチは、2 つの状態を切り替えるために使用されます。", -1);
+const spacevue_type_template_id_17265c66_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Even though we have ");
 
-const _hoisted_4 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("基本的な使い方 ");
+const spacevue_type_template_id_17265c66_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Divider");
 
-const _hoisted_5 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "v-model"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" を "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" 型変数にバインドする。"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "active-color"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("と"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "inactive-color"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("属性は、2 つの状態の背景色を決定する。")])], -1);
+const spacevue_type_template_id_17265c66_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(", but sometimes we need more than one ");
 
-const _hoisted_6 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+const spacevue_type_template_id_17265c66_hoisted_6 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Divider");
+
+const spacevue_type_template_id_17265c66_hoisted_7 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" to split the elements apart, so we stack each elements upon ");
+
+const spacevue_type_template_id_17265c66_hoisted_8 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Divider");
+
+const spacevue_type_template_id_17265c66_hoisted_9 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(", but doing so not only makes our code ugly but also makes it difficult to maintain. ");
+
+const spacevue_type_template_id_17265c66_hoisted_10 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("strong", null, "Space", -1);
+
+const spacevue_type_template_id_17265c66_hoisted_11 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" is this kind of component provides us both productivity and elegance.");
+
+const spacevue_type_template_id_17265c66_hoisted_12 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Basic usage ");
+
+const spacevue_type_template_id_17265c66_hoisted_13 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "The basic use case is using this component to provide unified space between each components", -1);
+
+const spacevue_type_template_id_17265c66_hoisted_14 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "Using Space to provide space")], -1);
+
+const spacevue_type_template_id_17265c66_hoisted_15 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-switch v-model=\"value1\"> </el-switch>\n<el-switch v-model=\"value2\" active-color=\"#13ce66\" inactive-color=\"#ff4949\">\n</el-switch>\n\n<script>\n  export default {\n    data() {\n      return {\n        value1: true,\n        value2: true,\n      }\n    },\n  }\n</script>\n")], -1);
+}, "<template>\n  <el-space wrap>\n    <el-card class=\"box-card\" style=\"width: 250px\" v-for=\"i in 3\" :key=\"i\">\n      <template #header>\n        <div class=\"card-header\">\n          <span>Card name</span>\n          <el-button class=\"button\" type=\"text\">Operation button</el-button>\n        </div>\n      </template>\n      <div v-for=\"o in 4\" :key=\"o\" class=\"text item\">\n        {{ 'List item ' + o }}\n      </div>\n    </el-card>\n  </el-space>\n</template>\n")], -1);
 
-const _hoisted_7 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("テキストの説明 ");
+const _hoisted_16 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Vertical layout ");
 
-const _hoisted_8 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("テキストを表示するために "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "active-color"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" と "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "inactive-color"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" 属性を追加することができます。")])], -1);
+const _hoisted_17 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Using "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "direction"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" attribute to control the layout, we use "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "flex-direction"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" to implement this.")], -1);
 
-const _hoisted_9 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+const _hoisted_18 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "We also provide vertical layout.")], -1);
+
+const _hoisted_19 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-switch\n  v-model=\"value1\"\n  active-text=\"Pay by month\"\n  inactive-text=\"Pay by year\"\n>\n</el-switch>\n<el-switch\n  style=\"display: block\"\n  v-model=\"value2\"\n  active-color=\"#13ce66\"\n  inactive-color=\"#ff4949\"\n  active-text=\"Pay by month\"\n  inactive-text=\"Pay by year\"\n>\n</el-switch>\n\n<script>\n  export default {\n    data() {\n      return {\n        value1: true,\n        value2: true,\n      }\n    },\n  }\n</script>\n")], -1);
+}, "<template>\n  <el-space direction=\"vertical\">\n    <el-card class=\"box-card\" style=\"width: 250px\" v-for=\"i in 2\" :key=\"i\">\n      <template #header>\n        <div class=\"card-header\">\n          <span>Card name</span>\n          <el-button class=\"button\" type=\"text\">Operation button</el-button>\n        </div>\n      </template>\n      <div v-for=\"o in 4\" :key=\"o\" class=\"text item\">\n        {{ 'List item ' + o }}\n      </div>\n    </el-card>\n  </el-space>\n</template>\n")], -1);
 
-const _hoisted_10 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("拡張された値型 ");
+const _hoisted_20 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Control the size of the space ");
 
-const _hoisted_11 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "active-value"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("と"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "inactive-value"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("を設定することができる。どちらも "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(", "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "String"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" または "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Number"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" 型の値を受け取る。")])], -1);
+const _hoisted_21 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<p>Control the space size via <code>size</code> API.</p><p>You can set the size with built-in sizes <code>mini</code>, <code>small</code>, <code>medium</code>, <code>large</code>, these size coresponds to <code>4px</code>, <code>8px</code>, <code>12px</code>, <code>16px</code>. The default size is <code>small</code>, A.K.A. <code>8px</code></p><p>You can also using customized size to override it. Refer to the next part.</p>", 3);
 
-const _hoisted_12 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+const _hoisted_24 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-tooltip :content=\"'Switch value: ' + value\" placement=\"top\">\n  <el-switch\n    v-model=\"value\"\n    active-color=\"#13ce66\"\n    inactive-color=\"#ff4949\"\n    active-value=\"100\"\n    inactive-value=\"0\"\n  >\n  </el-switch>\n</el-tooltip>\n\n<script>\n  export default {\n    data() {\n      return {\n        value: '100',\n      }\n    },\n  }\n</script>\n")], -1);
+}, "<template>\n  <el-space direction=\"vertical\" alignment=\"start\" :size=\"30\">\n  <el-radio-group v-model=\"size\">\n    <el-radio :label=\"'mini'\">mini</el-radio>\n    <el-radio :label=\"'small'\">small</el-radio>\n    <el-radio :label=\"'medium'\">medium</el-radio>\n    <el-radio :label=\"'large'\">large</el-radio>\n  </el-radio-group>\n\n  <el-space wrap :size=\"size\">\n    <el-card class=\"box-card\" style=\"width: 250px\" v-for=\"i in 3\" :key=\"i\">\n      <template #header>\n        <div class=\"card-header\">\n          <span>Card name</span>\n          <el-button class=\"button\" type=\"text\">Operation button</el-button>\n        </div>\n      </template>\n      <div v-for=\"o in 4\" :key=\"o\" class=\"text item\">\n        {{ 'List item ' + o }}\n      </div>\n    </el-card>\n  </el-space>\n  </el-space>\n</template>\n\n<script>\n\nexport default {\n\n  data() {\n    return {\n      size: 'mini',\n    }\n  }\n}\n</script>\n")], -1);
 
-const _hoisted_13 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("無効化 ");
+const _hoisted_25 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Customized Size ");
 
-const _hoisted_14 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "disabled"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("属性を追加すると、スイッチを無効にすることができます。")])], -1);
+const _hoisted_26 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "Sometimes built-in sizes could not meet the business needs, we can use custom size (number type) to control the space between items.", -1);
 
-const _hoisted_15 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+const _hoisted_27 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-switch v-model=\"value1\" disabled> </el-switch>\n<el-switch v-model=\"value2\" disabled> </el-switch>\n\n<script>\n  export default {\n    data() {\n      return {\n        value1: true,\n        value2: false,\n      }\n    },\n  }\n</script>\n")], -1);
+}, "<template>\n  <el-slider v-model=\"size\" />\n  <el-space wrap :size=\"size\">\n    <el-card class=\"box-card\" style=\"width: 250px\" v-for=\"i in 2\" :key=\"i\">\n      <template #header>\n        <div class=\"card-header\">\n          <span>Card name</span>\n          <el-button class=\"button\" type=\"text\">Operation button</el-button>\n        </div>\n      </template>\n      <div v-for=\"o in 4\" :key=\"o\" class=\"text item\">\n        {{ 'List item ' + o }}\n      </div>\n    </el-card>\n  </el-space>\n</template>\n\n<script>\nexport default {\n\n  data() {\n    return {\n      size: 20,\n    }\n  }\n}\n</script>\n")], -1);
 
-const _hoisted_16 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("ローディング ");
+const _hoisted_28 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", {
+  class: "tip"
+}, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Do not use "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "ElSpace"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" with components that depend on ancestor width (height), e.g. "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "ElSlider"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(", in this case when you drag the trigger button the bar will grow which causes misplacement between cursor and trigger button.")])], -1);
 
-const _hoisted_17 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "loading"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("属性を"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "true"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("に設定すると、ロード状態を表示することができます。")])], -1);
+const _hoisted_29 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Auto wrapping ");
 
-const _hoisted_18 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+const _hoisted_30 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("When in "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("strong", null, "horizontal"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" mode, using "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "wrap"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" ("), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("strong", null, "bool type"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(") to control auto wrapping behavior.")], -1);
+
+const _hoisted_31 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Using "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "wrap"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" to control line wrap")])], -1);
+
+const _hoisted_32 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-switch v-model=\"value1\" loading> </el-switch>\n<el-switch v-model=\"value2\" loading> </el-switch>\n<script>\n  export default {\n    data() {\n      return {\n        value1: true,\n        value2: false,\n      }\n    },\n  }\n</script>\n")], -1);
+}, "<el-space wrap>\n  <div v-for=\"i in 20\" :key=\"i\">\n    <el-button type=\"text\">\n      Text button\n    </el-button>\n  </div>\n</el-space>\n")], -1);
 
-const _hoisted_19 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("切り替えを防ぐ ");
+const _hoisted_33 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Spacer ");
 
-const _hoisted_20 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "beforeChange"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("プロパティを設定します。false を返すか、Promise を返し、拒否された場合は、切り替えを停止します。")])], -1);
+const _hoisted_34 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "Sometimes we want something more than blank space, so we have (spacer) to help us.", -1);
 
-const _hoisted_21 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+const _hoisted_35 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Literal type spacer ");
+
+const _hoisted_36 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-switch v-model=\"value1\" :loading=\"loading1\" :beforeChange=\"beforeChange1\">\n</el-switch>\n<el-switch v-model=\"value2\" :loading=\"loading2\" :beforeChange=\"beforeChange2\">\n</el-switch>\n<script>\n  import { reactive, toRefs } from 'vue'\n  import { ElMessage } from 'element-plus'\n\n  export default {\n    setup() {\n      const status1 = reactive({\n        value1: false,\n        loading1: false,\n      })\n\n      const beforeChange1 = () => {\n        status1.loading1 = true\n        return new Promise(resolve => {\n          setTimeout(() => {\n            status1.loading1 = false\n            ElMessage.success('正常に切り替えます')\n            return resolve(true)\n          }, 1000)\n        })\n      }\n\n      const status2 = reactive({\n        value2: false,\n        loading2: false,\n      })\n\n      const beforeChange2 = () => {\n        status2.loading2 = true\n        return new Promise((resolve, reject) => {\n          setTimeout(() => {\n            status2.loading2 = false\n            ElMessage.error('スイッチに失敗しました')\n            return reject(new Error('error'))\n          }, 1000)\n        })\n      }\n\n      return {\n        ...toRefs(status1),\n        ...toRefs(status2),\n        beforeChange1,\n        beforeChange2,\n      }\n    },\n  }\n</script>\n")], -1);
+}, "<template>\n <el-space :size=\"size\" spacer=\"|\">\n    <div v-for=\"i in 2\" :key=\"i\">\n      <el-button>\n        button {{ i }}\n      </el-button>\n    </div>\n  </el-space>\n</template>\n\n<script>\n\nexport default {\n  data() {\n    return {\n      size: 10,\n    }\n  },\n}\n</script>\n")], -1);
 
-const _hoisted_22 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("属性 ");
+const _hoisted_37 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Spacer can also be VNode ");
 
-const _hoisted_23 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Accepted Values</th><th>Default</th></tr></thead><tbody><tr><td>model-value / v-model</td><td>バインド値は、&quot;active-value &quot;または &quot;inactive-value &quot;と等しくなければなりません。デフォルトの型は &quot;boolean &quot;です。</td><td>boolean / string / number</td><td>—</td><td>—</td></tr><tr><td>disabled</td><td>スイッチが無効になっているかどうか</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>loading</td><td>スイッチがロード中になっているかどうか</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>width</td><td>スイッチの幅</td><td>number</td><td>—</td><td>40</td></tr><tr><td>active-icon-class</td><td><code>on</code> 状態のときに表示されるアイコンのクラス名で、<code>active-text</code> を上書きします。</td><td>string</td><td>—</td><td>—</td></tr><tr><td>inactive-icon-class</td><td><code>off</code> 状態のときに表示されるアイコンのクラス名で、<code>inactive-text</code> を上書きします。</td><td>string</td><td>—</td><td>—</td></tr><tr><td>active-text</td><td><code>on</code> 状態のときに表示されるテキスト</td><td>string</td><td>—</td><td>—</td></tr><tr><td>inactive-text</td><td><code>off</code> 状態のときに表示されるテキスト</td><td>string</td><td>—</td><td>—</td></tr><tr><td>active-value</td><td><code>on</code> 状態のときのスイッチの値</td><td>boolean / string / number</td><td>—</td><td>true</td></tr><tr><td>inactive-value</td><td><code>off</code> 状態のときのスイッチの値</td><td>boolean / string / number</td><td>—</td><td>false</td></tr><tr><td>active-color</td><td><code>on</code> 状態のときの背景色</td><td>string</td><td>—</td><td>#409EFF</td></tr><tr><td>inactive-color</td><td><code>off</code> 状態のときの背景色</td><td>string</td><td>—</td><td>#C0CCDA</td></tr><tr><td>border-color</td><td>スイッチの境界線の色</td><td>string</td><td>—</td><td>—</td></tr><tr><td>name</td><td>スイッチのインプット名</td><td>string</td><td>—</td><td>—</td></tr><tr><td>validate-event</td><td>フォームバリデーションをトリガするかどうか</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>before-change</td><td>スイッチの状態が変化する前のフックは、false を返すか、Promise を返し、切り替えを停止するために拒否されます</td><td>function</td><td>—</td><td>—</td></tr></tbody></table>", 1);
+const _hoisted_38 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+  class: "html"
+}, "<template>\n <el-space :size=\"size\" :spacer=\"spacer\">\n    <div v-for=\"i in 2\" :key=\"i\">\n      <el-button>\n        button {{ i }}\n      </el-button>\n    </div>\n  </el-space>\n</template>\n\n<script>\nimport { h, resolveComponent } from 'vue'\nimport { ElDivider } from 'element-plus'\nexport default {\n  data() {\n    return {\n      size: 10,\n      spacer: h(ElDivider, { direction: 'vertical' }),\n    }\n  },\n}\n</script>\n\n")], -1);
 
-const _hoisted_24 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("イベント ");
+const _hoisted_39 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Alignment ");
 
-const _hoisted_25 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("table", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("thead", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Event Name"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Description"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Parameters")])]), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tbody", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "change"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "値が変わるとトリガー"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "value after changing")])])], -1);
+const _hoisted_40 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Setting this attribute can adjust the alignment of child nodes, the desirable value can be found at ");
 
-const _hoisted_26 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("メソッド ");
+const _hoisted_41 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("align-items");
 
-const _hoisted_27 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("table", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("thead", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Method"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Description"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Parameters")])]), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tbody", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "focus"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "スイッチコンポーネントにフォーカス"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—")])])], -1);
+const _hoisted_42 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(".");
 
-function switchvue_type_template_id_753bc096_render(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_43 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Using "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "alignment")])], -1);
+
+const _hoisted_44 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+  class: "html"
+}, "\n<template>\n  <div style=\"width: 240px;margin-bottom: 20px;padding: 8px;border: 1px solid #ccc;\">\n    <el-space>\n      string\n      <el-button>\n        button\n      </el-button>\n      <el-card>\n        <template #header>\n          header\n        </template>\n        body\n      </el-card>\n    </el-space>\n  </div>\n  <div style=\"width: 240px;margin-bottom: 20px;padding: 8px;border: 1px solid #ccc;\">\n    <el-space alignment=\"flex-start\">\n      string\n      <el-button>\n        button\n      </el-button>\n      <el-card>\n        <template #header>\n          header\n        </template>\n        body\n      </el-card>\n    </el-space>\n  </div>\n  <div style=\"width: 240px;margin-bottom: 20px;padding: 8px;border: 1px solid #ccc;\">\n    <el-space alignment=\"flex-end\">\n      string\n      <el-button>\n        button\n      </el-button>\n      <el-card>\n        <template #header>\n          header\n        </template>\n        body\n      </el-card>\n    </el-space>\n  </div>\n</template>\n\n")], -1);
+
+const _hoisted_45 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Fill the container ");
+
+const _hoisted_46 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Through the "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "fill"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("strong", null, "(Boolean type)"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" parameter, you can control whether the child node automatically fills the container.")], -1);
+
+const _hoisted_47 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("In the following example, when set to "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "fill"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(", the width of the child node will automatically adapt to the width of the container.")], -1);
+
+const _hoisted_48 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "Use fill to automatically fill the container with child nodes")], -1);
+
+const _hoisted_49 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+  class: "html"
+}, "<template>\n  <div>\n  <div style=\"margin-bottom:15px\">\n    fill:  <el-switch v-model=\"fill\"></el-switch>\n  </div>\n  <el-space :fill=\"fill\" wrap>\n    <el-card class=\"box-card\" v-for=\"i in 3\" :key=\"i\">\n      <template #header>\n        <div class=\"card-header\">\n          <span>Card name</span>\n          <el-button class=\"button\" type=\"text\">Operation button</el-button>\n        </div>\n      </template>\n      <div v-for=\"o in 4\" :key=\"o\" class=\"text item\">\n        {{ 'List item ' + o }}\n      </div>\n    </el-card>\n  </el-space>\n  </div>\n</template>\n\n<script>\n\nexport default {\n  data() {\n    return { fill: true }\n  },\n}\n</script>\n")], -1);
+
+const _hoisted_50 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("You can also use the "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "fillRatio"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" parameter to customize the filling ratio. The default value is "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "100"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(", which represents filling based on the width of the parent container at "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "100%"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(".")], -1);
+
+const _hoisted_51 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "It should be noted that the expression of horizontal layout and vertical layout is slightly different, the specific effect can be viewed in the following example.", -1);
+
+const _hoisted_52 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "Use fillRatio to customize the fill ratio")], -1);
+
+const _hoisted_53 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+  class: "html"
+}, "<template>\n  <div>\n  <div style=\"margin-bottom: 15px\">\n    direction:\n    <el-radio v-model=\"direction\" label=\"horizontal\">horizontal</el-radio>\n    <el-radio v-model=\"direction\" label=\"vertical\">vertical</el-radio>\n  </div>\n  <div style=\"margin-bottom: 15px\">\n    fillRatio:<el-slider v-model=\"fillRatio\"></el-slider>\n  </div>\n  <el-space fill wrap :fillRatio=\"fillRatio\" :direction=\"direction\" style=\" width: 100%\">\n    <el-card class=\"box-card\" v-for=\"i in 5\" :key=\"i\">\n      <template #header>\n        <div class=\"card-header\">\n          <span>Card name</span>\n          <el-button class=\"button\" type=\"text\">Operation button</el-button>\n        </div>\n      </template>\n      <div v-for=\"o in 4\" :key=\"o\" class=\"text item\">\n        {{ 'List item ' + o }}\n      </div>\n    </el-card>\n  </el-space>\n  </div>\n</template>\n\n<script>\n\nexport default {\n  data() {\n    return { direction: 'horizontal', fillRatio: 30 }\n  },\n}\n</script>\n")], -1);
+
+const _hoisted_54 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Space Attributes ");
+
+const _hoisted_55 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("thead", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Attribute"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Description"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Type"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Available value"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Defaults")])], -1);
+
+const _hoisted_56 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "alignment", -1);
+
+const _hoisted_57 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Controls the alignment of items", -1);
+
+const _hoisted_58 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string", -1);
+
+const _hoisted_59 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("align-items");
+
+const _hoisted_60 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "'center'", -1);
+
+const _hoisted_61 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "class"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Classname"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string / Array<Object | String> / Object"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-")], -1);
+
+const _hoisted_62 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "direction"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Placement direction"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "vertical/horizontal"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "horizontal")], -1);
+
+const _hoisted_63 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "prefixCls"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Prefix for space-items"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "el-space"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-")], -1);
+
+const _hoisted_64 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "style"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Extra style rules"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string / Array<Object | String> / Object"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-")], -1);
+
+const _hoisted_65 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "spacer"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Spacer"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string / number / VNode"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-")], -1);
+
+const _hoisted_66 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "size"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Spacing size"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string / number / [number, number]"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "'small'")], -1);
+
+const _hoisted_67 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "wrap"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Auto wrapping"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "true / false"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "false")], -1);
+
+const _hoisted_68 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "fill"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Whether to fill the container"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "true / false"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "false")], -1);
+
+const _hoisted_69 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "fillRatio"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Ratio of fill"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "number"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "100")], -1);
+
+const _hoisted_70 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Space Slot ");
+
+const _hoisted_71 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("table", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("thead", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "name"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "description")])]), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tbody", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "default"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Items to be spaced")])])], -1);
+
+function spacevue_type_template_id_17265c66_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_app_link = Object(vue_esm_browser_prod["resolveComponent"])("app-link");
 
   const _component_app_heading = Object(vue_esm_browser_prod["resolveComponent"])("app-heading");
@@ -99,188 +193,299 @@ function switchvue_type_template_id_753bc096_render(_ctx, _cache, $props, $setup
 
   const _component_element_demo5 = Object(vue_esm_browser_prod["resolveComponent"])("element-demo5");
 
+  const _component_element_demo6 = Object(vue_esm_browser_prod["resolveComponent"])("element-demo6");
+
+  const _component_element_demo7 = Object(vue_esm_browser_prod["resolveComponent"])("element-demo7");
+
+  const _component_element_demo8 = Object(vue_esm_browser_prod["resolveComponent"])("element-demo8");
+
+  const _component_element_demo9 = Object(vue_esm_browser_prod["resolveComponent"])("element-demo9");
+
   const _component_right_nav = Object(vue_esm_browser_prod["resolveComponent"])("right-nav");
 
-  return Object(vue_esm_browser_prod["openBlock"])(), Object(vue_esm_browser_prod["createElementBlock"])("section", _hoisted_1, [Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "suituti",
-    content: "スイッチ",
-    href: "#suituti",
+  return Object(vue_esm_browser_prod["openBlock"])(), Object(vue_esm_browser_prod["createElementBlock"])("section", spacevue_type_template_id_17265c66_hoisted_1, [Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "space-translation-needed",
+    content: "Space (Translation needed)",
+    href: "#space-translation-needed",
     level: "2"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_2, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [spacevue_type_template_id_17265c66_hoisted_2, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#suituti"
+      href: "#space-translation-needed"
     })]),
     _: 1
-  }), _hoisted_3, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "ji-ben-dena-shii-fang",
-    content: "基本的な使い方",
-    href: "#ji-ben-dena-shii-fang",
+  }), Object(vue_esm_browser_prod["createElementVNode"])("p", null, [spacevue_type_template_id_17265c66_hoisted_3, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    href: "#/en-US/component/divider"
+  }, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [spacevue_type_template_id_17265c66_hoisted_4]),
+    _: 1
+  }), spacevue_type_template_id_17265c66_hoisted_5, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    href: "#/en-US/component/divider"
+  }, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [spacevue_type_template_id_17265c66_hoisted_6]),
+    _: 1
+  }), spacevue_type_template_id_17265c66_hoisted_7, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    href: "#/en-US/component/divider"
+  }, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [spacevue_type_template_id_17265c66_hoisted_8]),
+    _: 1
+  }), spacevue_type_template_id_17265c66_hoisted_9, spacevue_type_template_id_17265c66_hoisted_10, spacevue_type_template_id_17265c66_hoisted_11]), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "basic-usage",
+    content: "Basic usage",
+    href: "#basic-usage",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_4, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [spacevue_type_template_id_17265c66_hoisted_12, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#ji-ben-dena-shii-fang"
+      href: "#basic-usage"
     })]),
     _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+  }), spacevue_type_template_id_17265c66_hoisted_13, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
     source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo0)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_6]),
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_5]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [spacevue_type_template_id_17265c66_hoisted_15]),
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [spacevue_type_template_id_17265c66_hoisted_14]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "tekisutono-shuo-ming",
-    content: "テキストの説明",
-    href: "#tekisutono-shuo-ming",
-    level: "3"
-  }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_7, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
-      class: "header-anchor",
-      href: "#tekisutono-shuo-ming"
-    })]),
-    _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
-    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo1)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_9]),
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_8]),
-    _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "kuo-zhangsareta-zhi-xing",
-    content: "拡張された値型",
-    href: "#kuo-zhangsareta-zhi-xing",
-    level: "3"
-  }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_10, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
-      class: "header-anchor",
-      href: "#kuo-zhangsareta-zhi-xing"
-    })]),
-    _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
-    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo2)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_12]),
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_11]),
-    _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "wu-xiao-hua",
-    content: "無効化",
-    href: "#wu-xiao-hua",
-    level: "3"
-  }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_13, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
-      class: "header-anchor",
-      href: "#wu-xiao-hua"
-    })]),
-    _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
-    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo3)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_15]),
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_14]),
-    _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "rodeingu",
-    content: "ローディング",
-    href: "#rodeingu",
+    id: "vertical-layout",
+    content: "Vertical layout",
+    href: "#vertical-layout",
     level: "3"
   }, {
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_16, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#rodeingu"
+      href: "#vertical-layout"
     })]),
     _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
-    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo4)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_18]),
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_17]),
+  }), _hoisted_17, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo1)]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_19]),
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_18]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "qieri-tiewo-fanggu",
-    content: "切り替えを防ぐ",
-    href: "#qieri-tiewo-fanggu",
+    id: "control-the-size-of-the-space",
+    content: "Control the size of the space",
+    href: "#control-the-size-of-the-space",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_19, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_20, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#qieri-tiewo-fanggu"
+      href: "#control-the-size-of-the-space"
+    })]),
+    _: 1
+  }), _hoisted_21, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo2)]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_24]),
+    _: 1
+  }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "customized-size",
+    content: "Customized Size",
+    href: "#customized-size",
+    level: "3"
+  }, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_25, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+      class: "header-anchor",
+      href: "#customized-size"
+    })]),
+    _: 1
+  }), _hoisted_26, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo3)]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_27]),
+    _: 1
+  }), _hoisted_28, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "auto-wrapping",
+    content: "Auto wrapping",
+    href: "#auto-wrapping",
+    level: "3"
+  }, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_29, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+      class: "header-anchor",
+      href: "#auto-wrapping"
+    })]),
+    _: 1
+  }), _hoisted_30, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo4)]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_32]),
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_31]),
+    _: 1
+  }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "spacer",
+    content: "Spacer",
+    href: "#spacer",
+    level: "3"
+  }, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_33, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+      class: "header-anchor",
+      href: "#spacer"
+    })]),
+    _: 1
+  }), _hoisted_34, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "literal-type-spacer",
+    content: "Literal type spacer",
+    href: "#literal-type-spacer",
+    level: "4"
+  }, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_35, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+      class: "header-anchor",
+      href: "#literal-type-spacer"
     })]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
     source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo5)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_21]),
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_20]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_36]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "shu-xing",
-    content: "属性",
-    href: "#shu-xing",
-    level: "3"
+    id: "spacer-can-also-be-vnode",
+    content: "Spacer can also be VNode",
+    href: "#spacer-can-also-be-vnode",
+    level: "4"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_22, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_37, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#shu-xing"
+      href: "#spacer-can-also-be-vnode"
     })]),
     _: 1
-  }), _hoisted_23, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "ibento",
-    content: "イベント",
-    href: "#ibento",
+  }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo6)]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_38]),
+    _: 1
+  }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "alignment",
+    content: "Alignment",
+    href: "#alignment",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_24, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_39, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#ibento"
+      href: "#alignment"
     })]),
     _: 1
-  }), _hoisted_25, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "mesotudo",
-    content: "メソッド",
-    href: "#mesotudo",
+  }), Object(vue_esm_browser_prod["createElementVNode"])("p", null, [_hoisted_40, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    href: "https://developer.mozilla.org/en-US/docs/Web/CSS/align-items"
+  }, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_41]),
+    _: 1
+  }), _hoisted_42]), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo7)]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_44]),
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_43]),
+    _: 1
+  }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "fill-the-container",
+    content: "Fill the container",
+    href: "#fill-the-container",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_26, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_45, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#mesotudo"
+      href: "#fill-the-container"
     })]),
     _: 1
-  }), _hoisted_27, Object(vue_esm_browser_prod["createVNode"])(_component_right_nav)]);
+  }), _hoisted_46, _hoisted_47, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo8)]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_49]),
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_48]),
+    _: 1
+  }), _hoisted_50, _hoisted_51, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo9)]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_53]),
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_52]),
+    _: 1
+  }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "space-attributes",
+    content: "Space Attributes",
+    href: "#space-attributes",
+    level: "3"
+  }, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_54, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+      class: "header-anchor",
+      href: "#space-attributes"
+    })]),
+    _: 1
+  }), Object(vue_esm_browser_prod["createElementVNode"])("table", null, [_hoisted_55, Object(vue_esm_browser_prod["createElementVNode"])("tbody", null, [Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [_hoisted_56, _hoisted_57, _hoisted_58, Object(vue_esm_browser_prod["createElementVNode"])("td", null, [Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    href: "https://developer.mozilla.org/en-US/docs/Web/CSS/align-items"
+  }, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_59]),
+    _: 1
+  })]), _hoisted_60]), _hoisted_61, _hoisted_62, _hoisted_63, _hoisted_64, _hoisted_65, _hoisted_66, _hoisted_67, _hoisted_68, _hoisted_69])]), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "space-slot",
+    content: "Space Slot",
+    href: "#space-slot",
+    level: "3"
+  }, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_70, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+      class: "header-anchor",
+      href: "#space-slot"
+    })]),
+    _: 1
+  }), _hoisted_71, Object(vue_esm_browser_prod["createVNode"])(_component_right_nav)]);
 }
-// CONCATENATED MODULE: ./website/docs/jp/switch.md?vue&type=template&id=753bc096
+// CONCATENATED MODULE: ./website/docs/jp/space.md?vue&type=template&id=17265c66
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/jp/switch.md?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/jp/space.md?vue&type=script&lang=ts
 
-/* harmony default export */ var switchvue_type_script_lang_ts = ({
+/* harmony default export */ var spacevue_type_script_lang_ts = ({
   name: 'component-doc',
   components: {
     "element-demo0": function () {
       const {
-        resolveComponent: _resolveComponent,
-        createVNode: _createVNode,
+        renderList: _renderList,
+        Fragment: _Fragment,
         openBlock: _openBlock,
-        createElementBlock: _createElementBlock
+        createElementBlock: _createElementBlock,
+        createElementVNode: _createElementVNode,
+        createTextVNode: _createTextVNode,
+        resolveComponent: _resolveComponent,
+        withCtx: _withCtx,
+        createVNode: _createVNode,
+        toDisplayString: _toDisplayString
       } = vue_esm_browser_prod;
+      const _hoisted_1 = {
+        class: "card-header"
+      };
+
+      const _hoisted_2 = /*#__PURE__*/_createElementVNode("span", null, "Card name", -1);
+
+      const _hoisted_3 = /*#__PURE__*/_createTextVNode("Operation button");
 
       function render(_ctx, _cache) {
-        const _component_el_switch = _resolveComponent("el-switch");
+        const _component_el_button = _resolveComponent("el-button");
 
-        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_switch, {
-          modelValue: _ctx.value1,
-          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value1 = $event)
-        }, null, 8, ["modelValue"]), _createVNode(_component_el_switch, {
-          modelValue: _ctx.value2,
-          "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.value2 = $event),
-          "active-color": "#13ce66",
-          "inactive-color": "#ff4949"
-        }, null, 8, ["modelValue"])]);
+        const _component_el_card = _resolveComponent("el-card");
+
+        const _component_el_space = _resolveComponent("el-space");
+
+        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_space, {
+          wrap: ""
+        }, {
+          default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(3, i => {
+            return _createVNode(_component_el_card, {
+              class: "box-card",
+              style: {
+                "width": "250px"
+              },
+              key: i
+            }, {
+              header: _withCtx(() => [_createElementVNode("div", _hoisted_1, [_hoisted_2, _createVNode(_component_el_button, {
+                class: "button",
+                type: "text"
+              }, {
+                default: _withCtx(() => [_hoisted_3]),
+                _: 1
+              })])]),
+              default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(4, o => {
+                return _createElementVNode("div", {
+                  key: o,
+                  class: "text item"
+                }, _toDisplayString('List item ' + o), 1);
+              }), 64))]),
+              _: 2
+            }, 1024);
+          }), 64))]),
+          _: 1
+        })]);
       }
 
-      const democomponentExport = {
-        data() {
-          return {
-            value1: true,
-            value2: true
-          };
-        }
-
-      };
+      const democomponentExport = {};
       return {
         render,
         ...democomponentExport
@@ -288,42 +493,64 @@ function switchvue_type_template_id_753bc096_render(_ctx, _cache, $props, $setup
     }(),
     "element-demo1": function () {
       const {
-        resolveComponent: _resolveComponent,
-        createVNode: _createVNode,
+        renderList: _renderList,
+        Fragment: _Fragment,
         openBlock: _openBlock,
-        createElementBlock: _createElementBlock
+        createElementBlock: _createElementBlock,
+        createElementVNode: _createElementVNode,
+        createTextVNode: _createTextVNode,
+        resolveComponent: _resolveComponent,
+        withCtx: _withCtx,
+        createVNode: _createVNode,
+        toDisplayString: _toDisplayString
       } = vue_esm_browser_prod;
+      const _hoisted_1 = {
+        class: "card-header"
+      };
+
+      const _hoisted_2 = /*#__PURE__*/_createElementVNode("span", null, "Card name", -1);
+
+      const _hoisted_3 = /*#__PURE__*/_createTextVNode("Operation button");
 
       function render(_ctx, _cache) {
-        const _component_el_switch = _resolveComponent("el-switch");
+        const _component_el_button = _resolveComponent("el-button");
 
-        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_switch, {
-          modelValue: _ctx.value1,
-          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value1 = $event),
-          "active-text": "Pay by month",
-          "inactive-text": "Pay by year"
-        }, null, 8, ["modelValue"]), _createVNode(_component_el_switch, {
-          style: {
-            "display": "block"
-          },
-          modelValue: _ctx.value2,
-          "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.value2 = $event),
-          "active-color": "#13ce66",
-          "inactive-color": "#ff4949",
-          "active-text": "Pay by month",
-          "inactive-text": "Pay by year"
-        }, null, 8, ["modelValue"])]);
+        const _component_el_card = _resolveComponent("el-card");
+
+        const _component_el_space = _resolveComponent("el-space");
+
+        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_space, {
+          direction: "vertical"
+        }, {
+          default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(2, i => {
+            return _createVNode(_component_el_card, {
+              class: "box-card",
+              style: {
+                "width": "250px"
+              },
+              key: i
+            }, {
+              header: _withCtx(() => [_createElementVNode("div", _hoisted_1, [_hoisted_2, _createVNode(_component_el_button, {
+                class: "button",
+                type: "text"
+              }, {
+                default: _withCtx(() => [_hoisted_3]),
+                _: 1
+              })])]),
+              default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(4, o => {
+                return _createElementVNode("div", {
+                  key: o,
+                  class: "text item"
+                }, _toDisplayString('List item ' + o), 1);
+              }), 64))]),
+              _: 2
+            }, 1024);
+          }), 64))]),
+          _: 1
+        })]);
       }
 
-      const democomponentExport = {
-        data() {
-          return {
-            value1: true,
-            value2: true
-          };
-        }
-
-      };
+      const democomponentExport = {};
       return {
         render,
         ...democomponentExport
@@ -331,38 +558,114 @@ function switchvue_type_template_id_753bc096_render(_ctx, _cache, $props, $setup
     }(),
     "element-demo2": function () {
       const {
+        createTextVNode: _createTextVNode,
         resolveComponent: _resolveComponent,
-        createVNode: _createVNode,
         withCtx: _withCtx,
+        createVNode: _createVNode,
+        renderList: _renderList,
+        Fragment: _Fragment,
         openBlock: _openBlock,
-        createElementBlock: _createElementBlock
+        createElementBlock: _createElementBlock,
+        createElementVNode: _createElementVNode,
+        toDisplayString: _toDisplayString
       } = vue_esm_browser_prod;
 
+      const _hoisted_1 = /*#__PURE__*/_createTextVNode("mini");
+
+      const _hoisted_2 = /*#__PURE__*/_createTextVNode("small");
+
+      const _hoisted_3 = /*#__PURE__*/_createTextVNode("medium");
+
+      const _hoisted_4 = /*#__PURE__*/_createTextVNode("large");
+
+      const _hoisted_5 = {
+        class: "card-header"
+      };
+
+      const _hoisted_6 = /*#__PURE__*/_createElementVNode("span", null, "Card name", -1);
+
+      const _hoisted_7 = /*#__PURE__*/_createTextVNode("Operation button");
+
       function render(_ctx, _cache) {
-        const _component_el_switch = _resolveComponent("el-switch");
+        const _component_el_radio = _resolveComponent("el-radio");
 
-        const _component_el_tooltip = _resolveComponent("el-tooltip");
+        const _component_el_radio_group = _resolveComponent("el-radio-group");
 
-        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_tooltip, {
-          content: 'Switch value: ' + _ctx.value,
-          placement: "top"
+        const _component_el_button = _resolveComponent("el-button");
+
+        const _component_el_card = _resolveComponent("el-card");
+
+        const _component_el_space = _resolveComponent("el-space");
+
+        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_space, {
+          direction: "vertical",
+          alignment: "start",
+          size: 30
         }, {
-          default: _withCtx(() => [_createVNode(_component_el_switch, {
-            modelValue: _ctx.value,
-            "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value = $event),
-            "active-color": "#13ce66",
-            "inactive-color": "#ff4949",
-            "active-value": "100",
-            "inactive-value": "0"
-          }, null, 8, ["modelValue"])]),
+          default: _withCtx(() => [_createVNode(_component_el_radio_group, {
+            modelValue: _ctx.size,
+            "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.size = $event)
+          }, {
+            default: _withCtx(() => [_createVNode(_component_el_radio, {
+              label: 'mini'
+            }, {
+              default: _withCtx(() => [_hoisted_1]),
+              _: 1
+            }), _createVNode(_component_el_radio, {
+              label: 'small'
+            }, {
+              default: _withCtx(() => [_hoisted_2]),
+              _: 1
+            }), _createVNode(_component_el_radio, {
+              label: 'medium'
+            }, {
+              default: _withCtx(() => [_hoisted_3]),
+              _: 1
+            }), _createVNode(_component_el_radio, {
+              label: 'large'
+            }, {
+              default: _withCtx(() => [_hoisted_4]),
+              _: 1
+            })]),
+            _: 1
+          }, 8, ["modelValue"]), _createVNode(_component_el_space, {
+            wrap: "",
+            size: _ctx.size
+          }, {
+            default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(3, i => {
+              return _createVNode(_component_el_card, {
+                class: "box-card",
+                style: {
+                  "width": "250px"
+                },
+                key: i
+              }, {
+                header: _withCtx(() => [_createElementVNode("div", _hoisted_5, [_hoisted_6, _createVNode(_component_el_button, {
+                  class: "button",
+                  type: "text"
+                }, {
+                  default: _withCtx(() => [_hoisted_7]),
+                  _: 1
+                })])]),
+                default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(4, o => {
+                  return _createElementVNode("div", {
+                    key: o,
+                    class: "text item"
+                  }, _toDisplayString('List item ' + o), 1);
+                }), 64))]),
+                _: 2
+              }, 1024);
+            }), 64))]),
+            _: 1
+          }, 8, ["size"])]),
           _: 1
-        }, 8, ["content"])]);
+        })]);
       }
 
       const democomponentExport = {
         data() {
           return {
-            value: '100'
+            size: 'mini'
           };
         }
 
@@ -376,29 +679,71 @@ function switchvue_type_template_id_753bc096_render(_ctx, _cache, $props, $setup
       const {
         resolveComponent: _resolveComponent,
         createVNode: _createVNode,
+        renderList: _renderList,
+        Fragment: _Fragment,
         openBlock: _openBlock,
-        createElementBlock: _createElementBlock
+        createElementBlock: _createElementBlock,
+        createElementVNode: _createElementVNode,
+        createTextVNode: _createTextVNode,
+        withCtx: _withCtx,
+        toDisplayString: _toDisplayString
       } = vue_esm_browser_prod;
+      const _hoisted_1 = {
+        class: "card-header"
+      };
+
+      const _hoisted_2 = /*#__PURE__*/_createElementVNode("span", null, "Card name", -1);
+
+      const _hoisted_3 = /*#__PURE__*/_createTextVNode("Operation button");
 
       function render(_ctx, _cache) {
-        const _component_el_switch = _resolveComponent("el-switch");
+        const _component_el_slider = _resolveComponent("el-slider");
 
-        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_switch, {
-          modelValue: _ctx.value1,
-          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value1 = $event),
-          disabled: ""
-        }, null, 8, ["modelValue"]), _createVNode(_component_el_switch, {
-          modelValue: _ctx.value2,
-          "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.value2 = $event),
-          disabled: ""
-        }, null, 8, ["modelValue"])]);
+        const _component_el_button = _resolveComponent("el-button");
+
+        const _component_el_card = _resolveComponent("el-card");
+
+        const _component_el_space = _resolveComponent("el-space");
+
+        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_slider, {
+          modelValue: _ctx.size,
+          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.size = $event)
+        }, null, 8, ["modelValue"]), _createVNode(_component_el_space, {
+          wrap: "",
+          size: _ctx.size
+        }, {
+          default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(2, i => {
+            return _createVNode(_component_el_card, {
+              class: "box-card",
+              style: {
+                "width": "250px"
+              },
+              key: i
+            }, {
+              header: _withCtx(() => [_createElementVNode("div", _hoisted_1, [_hoisted_2, _createVNode(_component_el_button, {
+                class: "button",
+                type: "text"
+              }, {
+                default: _withCtx(() => [_hoisted_3]),
+                _: 1
+              })])]),
+              default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(4, o => {
+                return _createElementVNode("div", {
+                  key: o,
+                  class: "text item"
+                }, _toDisplayString('List item ' + o), 1);
+              }), 64))]),
+              _: 2
+            }, 1024);
+          }), 64))]),
+          _: 1
+        }, 8, ["size"])]);
       }
 
       const democomponentExport = {
         data() {
           return {
-            value1: true,
-            value2: false
+            size: 20
           };
         }
 
@@ -410,31 +755,86 @@ function switchvue_type_template_id_753bc096_render(_ctx, _cache, $props, $setup
     }(),
     "element-demo4": function () {
       const {
-        resolveComponent: _resolveComponent,
-        createVNode: _createVNode,
+        renderList: _renderList,
+        Fragment: _Fragment,
         openBlock: _openBlock,
-        createElementBlock: _createElementBlock
+        createElementBlock: _createElementBlock,
+        createTextVNode: _createTextVNode,
+        resolveComponent: _resolveComponent,
+        withCtx: _withCtx,
+        createVNode: _createVNode,
+        createElementVNode: _createElementVNode
+      } = vue_esm_browser_prod;
+
+      const _hoisted_1 = /*#__PURE__*/_createTextVNode(" Text button ");
+
+      function render(_ctx, _cache) {
+        const _component_el_button = _resolveComponent("el-button");
+
+        const _component_el_space = _resolveComponent("el-space");
+
+        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_space, {
+          wrap: ""
+        }, {
+          default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(20, i => {
+            return _createElementVNode("div", {
+              key: i
+            }, [_createVNode(_component_el_button, {
+              type: "text"
+            }, {
+              default: _withCtx(() => [_hoisted_1]),
+              _: 1
+            })]);
+          }), 64))]),
+          _: 1
+        })]);
+      }
+
+      const democomponentExport = {};
+      return {
+        render,
+        ...democomponentExport
+      };
+    }(),
+    "element-demo5": function () {
+      const {
+        renderList: _renderList,
+        Fragment: _Fragment,
+        openBlock: _openBlock,
+        createElementBlock: _createElementBlock,
+        toDisplayString: _toDisplayString,
+        createTextVNode: _createTextVNode,
+        resolveComponent: _resolveComponent,
+        withCtx: _withCtx,
+        createVNode: _createVNode,
+        createElementVNode: _createElementVNode
       } = vue_esm_browser_prod;
 
       function render(_ctx, _cache) {
-        const _component_el_switch = _resolveComponent("el-switch");
+        const _component_el_button = _resolveComponent("el-button");
 
-        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_switch, {
-          modelValue: _ctx.value1,
-          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value1 = $event),
-          loading: ""
-        }, null, 8, ["modelValue"]), _createVNode(_component_el_switch, {
-          modelValue: _ctx.value2,
-          "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.value2 = $event),
-          loading: ""
-        }, null, 8, ["modelValue"])]);
+        const _component_el_space = _resolveComponent("el-space");
+
+        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_space, {
+          size: _ctx.size,
+          spacer: "|"
+        }, {
+          default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(2, i => {
+            return _createElementVNode("div", {
+              key: i
+            }, [_createVNode(_component_el_button, null, {
+              default: _withCtx(() => [_createTextVNode(" button " + _toDisplayString(i), 1)]),
+              _: 2
+            }, 1024)]);
+          }), 64))]),
+          _: 1
+        }, 8, ["size"])]);
       }
 
       const democomponentExport = {
         data() {
           return {
-            value1: true,
-            value2: false
+            size: 10
           };
         }
 
@@ -444,77 +844,368 @@ function switchvue_type_template_id_753bc096_render(_ctx, _cache, $props, $setup
         ...democomponentExport
       };
     }(),
-    "element-demo5": function () {
+    "element-demo6": function () {
       const {
+        renderList: _renderList,
+        Fragment: _Fragment,
+        openBlock: _openBlock,
+        createElementBlock: _createElementBlock,
+        toDisplayString: _toDisplayString,
+        createTextVNode: _createTextVNode,
         resolveComponent: _resolveComponent,
+        withCtx: _withCtx,
         createVNode: _createVNode,
+        createElementVNode: _createElementVNode
+      } = vue_esm_browser_prod;
+
+      function render(_ctx, _cache) {
+        const _component_el_button = _resolveComponent("el-button");
+
+        const _component_el_space = _resolveComponent("el-space");
+
+        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_space, {
+          size: _ctx.size,
+          spacer: _ctx.spacer
+        }, {
+          default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(2, i => {
+            return _createElementVNode("div", {
+              key: i
+            }, [_createVNode(_component_el_button, null, {
+              default: _withCtx(() => [_createTextVNode(" button " + _toDisplayString(i), 1)]),
+              _: 2
+            }, 1024)]);
+          }), 64))]),
+          _: 1
+        }, 8, ["size", "spacer"])]);
+      }
+
+      const {
+        h,
+        resolveComponent
+      } = vue_esm_browser_prod;
+
+      const {
+        ElDivider
+      } = __webpack_require__(111);
+
+      const democomponentExport = {
+        data() {
+          return {
+            size: 10,
+            spacer: h(ElDivider, {
+              direction: 'vertical'
+            })
+          };
+        }
+
+      };
+      return {
+        render,
+        ...democomponentExport
+      };
+    }(),
+    "element-demo7": function () {
+      const {
+        createTextVNode: _createTextVNode,
+        resolveComponent: _resolveComponent,
+        withCtx: _withCtx,
+        createVNode: _createVNode,
+        createElementVNode: _createElementVNode,
         openBlock: _openBlock,
         createElementBlock: _createElementBlock
       } = vue_esm_browser_prod;
+      const _hoisted_1 = {
+        style: {
+          "width": "240px",
+          "margin-bottom": "20px",
+          "padding": "8px",
+          "border": "1px solid #ccc"
+        }
+      };
+
+      const _hoisted_2 = /*#__PURE__*/_createTextVNode(" string ");
+
+      const _hoisted_3 = /*#__PURE__*/_createTextVNode(" button ");
+
+      const _hoisted_4 = /*#__PURE__*/_createTextVNode(" header ");
+
+      const _hoisted_5 = /*#__PURE__*/_createTextVNode(" body ");
+
+      const _hoisted_6 = {
+        style: {
+          "width": "240px",
+          "margin-bottom": "20px",
+          "padding": "8px",
+          "border": "1px solid #ccc"
+        }
+      };
+
+      const _hoisted_7 = /*#__PURE__*/_createTextVNode(" string ");
+
+      const _hoisted_8 = /*#__PURE__*/_createTextVNode(" button ");
+
+      const _hoisted_9 = /*#__PURE__*/_createTextVNode(" header ");
+
+      const _hoisted_10 = /*#__PURE__*/_createTextVNode(" body ");
+
+      const _hoisted_11 = {
+        style: {
+          "width": "240px",
+          "margin-bottom": "20px",
+          "padding": "8px",
+          "border": "1px solid #ccc"
+        }
+      };
+
+      const _hoisted_12 = /*#__PURE__*/_createTextVNode(" string ");
+
+      const _hoisted_13 = /*#__PURE__*/_createTextVNode(" button ");
+
+      const _hoisted_14 = /*#__PURE__*/_createTextVNode(" header ");
+
+      const _hoisted_15 = /*#__PURE__*/_createTextVNode(" body ");
+
+      function render(_ctx, _cache) {
+        const _component_el_button = _resolveComponent("el-button");
+
+        const _component_el_card = _resolveComponent("el-card");
+
+        const _component_el_space = _resolveComponent("el-space");
+
+        return _openBlock(), _createElementBlock("div", null, [_createElementVNode("div", _hoisted_1, [_createVNode(_component_el_space, null, {
+          default: _withCtx(() => [_hoisted_2, _createVNode(_component_el_button, null, {
+            default: _withCtx(() => [_hoisted_3]),
+            _: 1
+          }), _createVNode(_component_el_card, null, {
+            header: _withCtx(() => [_hoisted_4]),
+            default: _withCtx(() => [_hoisted_5]),
+            _: 1
+          })]),
+          _: 1
+        })]), _createElementVNode("div", _hoisted_6, [_createVNode(_component_el_space, {
+          alignment: "flex-start"
+        }, {
+          default: _withCtx(() => [_hoisted_7, _createVNode(_component_el_button, null, {
+            default: _withCtx(() => [_hoisted_8]),
+            _: 1
+          }), _createVNode(_component_el_card, null, {
+            header: _withCtx(() => [_hoisted_9]),
+            default: _withCtx(() => [_hoisted_10]),
+            _: 1
+          })]),
+          _: 1
+        })]), _createElementVNode("div", _hoisted_11, [_createVNode(_component_el_space, {
+          alignment: "flex-end"
+        }, {
+          default: _withCtx(() => [_hoisted_12, _createVNode(_component_el_button, null, {
+            default: _withCtx(() => [_hoisted_13]),
+            _: 1
+          }), _createVNode(_component_el_card, null, {
+            header: _withCtx(() => [_hoisted_14]),
+            default: _withCtx(() => [_hoisted_15]),
+            _: 1
+          })]),
+          _: 1
+        })])]);
+      }
+
+      const democomponentExport = {};
+      return {
+        render,
+        ...democomponentExport
+      };
+    }(),
+    "element-demo8": function () {
+      const {
+        resolveComponent: _resolveComponent,
+        createVNode: _createVNode,
+        createTextVNode: _createTextVNode,
+        createElementVNode: _createElementVNode,
+        renderList: _renderList,
+        Fragment: _Fragment,
+        openBlock: _openBlock,
+        createElementBlock: _createElementBlock,
+        withCtx: _withCtx,
+        toDisplayString: _toDisplayString
+      } = vue_esm_browser_prod;
+      const _hoisted_1 = {
+        style: {
+          "margin-bottom": "15px"
+        }
+      };
+
+      const _hoisted_2 = /*#__PURE__*/_createTextVNode(" fill: ");
+
+      const _hoisted_3 = {
+        class: "card-header"
+      };
+
+      const _hoisted_4 = /*#__PURE__*/_createElementVNode("span", null, "Card name", -1);
+
+      const _hoisted_5 = /*#__PURE__*/_createTextVNode("Operation button");
 
       function render(_ctx, _cache) {
         const _component_el_switch = _resolveComponent("el-switch");
 
-        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_switch, {
-          modelValue: _ctx.value1,
-          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value1 = $event),
-          loading: _ctx.loading1,
-          beforeChange: _ctx.beforeChange1
-        }, null, 8, ["modelValue", "loading", "beforeChange"]), _createVNode(_component_el_switch, {
-          modelValue: _ctx.value2,
-          "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.value2 = $event),
-          loading: _ctx.loading2,
-          beforeChange: _ctx.beforeChange2
-        }, null, 8, ["modelValue", "loading", "beforeChange"])]);
+        const _component_el_button = _resolveComponent("el-button");
+
+        const _component_el_card = _resolveComponent("el-card");
+
+        const _component_el_space = _resolveComponent("el-space");
+
+        return _openBlock(), _createElementBlock("div", null, [_createElementVNode("div", null, [_createElementVNode("div", _hoisted_1, [_hoisted_2, _createVNode(_component_el_switch, {
+          modelValue: _ctx.fill,
+          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.fill = $event)
+        }, null, 8, ["modelValue"])]), _createVNode(_component_el_space, {
+          fill: _ctx.fill,
+          wrap: ""
+        }, {
+          default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(3, i => {
+            return _createVNode(_component_el_card, {
+              class: "box-card",
+              key: i
+            }, {
+              header: _withCtx(() => [_createElementVNode("div", _hoisted_3, [_hoisted_4, _createVNode(_component_el_button, {
+                class: "button",
+                type: "text"
+              }, {
+                default: _withCtx(() => [_hoisted_5]),
+                _: 1
+              })])]),
+              default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(4, o => {
+                return _createElementVNode("div", {
+                  key: o,
+                  class: "text item"
+                }, _toDisplayString('List item ' + o), 1);
+              }), 64))]),
+              _: 2
+            }, 1024);
+          }), 64))]),
+          _: 1
+        }, 8, ["fill"])])]);
       }
 
-      const {
-        reactive,
-        toRefs
-      } = vue_esm_browser_prod;
+      const democomponentExport = {
+        data() {
+          return {
+            fill: true
+          };
+        }
 
+      };
+      return {
+        render,
+        ...democomponentExport
+      };
+    }(),
+    "element-demo9": function () {
       const {
-        ElMessage
-      } = __webpack_require__(111);
+        createTextVNode: _createTextVNode,
+        resolveComponent: _resolveComponent,
+        withCtx: _withCtx,
+        createVNode: _createVNode,
+        createElementVNode: _createElementVNode,
+        renderList: _renderList,
+        Fragment: _Fragment,
+        openBlock: _openBlock,
+        createElementBlock: _createElementBlock,
+        toDisplayString: _toDisplayString
+      } = vue_esm_browser_prod;
+      const _hoisted_1 = {
+        style: {
+          "margin-bottom": "15px"
+        }
+      };
+
+      const _hoisted_2 = /*#__PURE__*/_createTextVNode(" direction: ");
+
+      const _hoisted_3 = /*#__PURE__*/_createTextVNode("horizontal");
+
+      const _hoisted_4 = /*#__PURE__*/_createTextVNode("vertical");
+
+      const _hoisted_5 = {
+        style: {
+          "margin-bottom": "15px"
+        }
+      };
+
+      const _hoisted_6 = /*#__PURE__*/_createTextVNode(" fillRatio:");
+
+      const _hoisted_7 = {
+        class: "card-header"
+      };
+
+      const _hoisted_8 = /*#__PURE__*/_createElementVNode("span", null, "Card name", -1);
+
+      const _hoisted_9 = /*#__PURE__*/_createTextVNode("Operation button");
+
+      function render(_ctx, _cache) {
+        const _component_el_radio = _resolveComponent("el-radio");
+
+        const _component_el_slider = _resolveComponent("el-slider");
+
+        const _component_el_button = _resolveComponent("el-button");
+
+        const _component_el_card = _resolveComponent("el-card");
+
+        const _component_el_space = _resolveComponent("el-space");
+
+        return _openBlock(), _createElementBlock("div", null, [_createElementVNode("div", null, [_createElementVNode("div", _hoisted_1, [_hoisted_2, _createVNode(_component_el_radio, {
+          modelValue: _ctx.direction,
+          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.direction = $event),
+          label: "horizontal"
+        }, {
+          default: _withCtx(() => [_hoisted_3]),
+          _: 1
+        }, 8, ["modelValue"]), _createVNode(_component_el_radio, {
+          modelValue: _ctx.direction,
+          "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.direction = $event),
+          label: "vertical"
+        }, {
+          default: _withCtx(() => [_hoisted_4]),
+          _: 1
+        }, 8, ["modelValue"])]), _createElementVNode("div", _hoisted_5, [_hoisted_6, _createVNode(_component_el_slider, {
+          modelValue: _ctx.fillRatio,
+          "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => _ctx.fillRatio = $event)
+        }, null, 8, ["modelValue"])]), _createVNode(_component_el_space, {
+          fill: "",
+          wrap: "",
+          fillRatio: _ctx.fillRatio,
+          direction: _ctx.direction,
+          style: {
+            "width": "100%"
+          }
+        }, {
+          default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(5, i => {
+            return _createVNode(_component_el_card, {
+              class: "box-card",
+              key: i
+            }, {
+              header: _withCtx(() => [_createElementVNode("div", _hoisted_7, [_hoisted_8, _createVNode(_component_el_button, {
+                class: "button",
+                type: "text"
+              }, {
+                default: _withCtx(() => [_hoisted_9]),
+                _: 1
+              })])]),
+              default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(4, o => {
+                return _createElementVNode("div", {
+                  key: o,
+                  class: "text item"
+                }, _toDisplayString('List item ' + o), 1);
+              }), 64))]),
+              _: 2
+            }, 1024);
+          }), 64))]),
+          _: 1
+        }, 8, ["fillRatio", "direction"])])]);
+      }
 
       const democomponentExport = {
-        setup() {
-          const status1 = reactive({
-            value1: false,
-            loading1: false
-          });
-
-          const beforeChange1 = () => {
-            status1.loading1 = true;
-            return new Promise(resolve => {
-              setTimeout(() => {
-                status1.loading1 = false;
-                ElMessage.success('正常に切り替えます');
-                return resolve(true);
-              }, 1000);
-            });
-          };
-
-          const status2 = reactive({
-            value2: false,
-            loading2: false
-          });
-
-          const beforeChange2 = () => {
-            status2.loading2 = true;
-            return new Promise((resolve, reject) => {
-              setTimeout(() => {
-                status2.loading2 = false;
-                ElMessage.error('スイッチに失敗しました');
-                return reject(new Error('error'));
-              }, 1000);
-            });
-          };
-
-          return { ...toRefs(status1),
-            ...toRefs(status2),
-            beforeChange1,
-            beforeChange2
+        data() {
+          return {
+            direction: 'horizontal',
+            fillRatio: 30
           };
         }
 
@@ -526,15 +1217,15 @@ function switchvue_type_template_id_753bc096_render(_ctx, _cache, $props, $setup
     }()
   }
 });
-// CONCATENATED MODULE: ./website/docs/jp/switch.md?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./website/docs/jp/space.md?vue&type=script&lang=ts
  
-// CONCATENATED MODULE: ./website/docs/jp/switch.md
+// CONCATENATED MODULE: ./website/docs/jp/space.md
 
 
 
-switchvue_type_script_lang_ts.render = switchvue_type_template_id_753bc096_render
+spacevue_type_script_lang_ts.render = spacevue_type_template_id_17265c66_render
 
-/* harmony default export */ var jp_switch = __webpack_exports__["default"] = (switchvue_type_script_lang_ts);
+/* harmony default export */ var space = __webpack_exports__["default"] = (spacevue_type_script_lang_ts);
 
 /***/ }),
 
@@ -555,93 +1246,98 @@ switchvue_type_script_lang_ts.render = switchvue_type_template_id_753bc096_rende
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _element_plus_components__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1177);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _element_plus_components__WEBPACK_IMPORTED_MODULE_0__) if(["default","makeInstaller"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _element_plus_components__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _element_plus_directives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ClickOutside", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_1__["a"]; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "install", function() { return install; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "version", function() { return version; });
+/* harmony import */ var _defaults__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(683);
+/* harmony import */ var _element_plus_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1177);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _element_plus_components__WEBPACK_IMPORTED_MODULE_1__) if(["default","makeInstaller","install","version"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _element_plus_components__WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _element_plus_directives__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(12);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ClickOutside", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_2__["a"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RepeatClick", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_1__["c"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RepeatClick", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_2__["c"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TrapFocus", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_1__["e"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TrapFocus", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_2__["e"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Mousewheel", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_1__["b"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Mousewheel", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_2__["b"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Resize", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_1__["d"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Resize", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_2__["d"]; });
 
-/* harmony import */ var _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useAttrs", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["f"]; });
+/* harmony import */ var _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useAttrs", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["f"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useEvents", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["h"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useEvents", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["h"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useLockScreen", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["m"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useLockScreen", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["m"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useRestoreActive", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["w"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useRestoreActive", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["w"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useModal", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["o"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useModal", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["o"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useMigrating", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["n"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useMigrating", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["n"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useFocus", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["i"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useFocus", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["i"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useThrottleRender", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["z"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useThrottleRender", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["z"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePreventGlobal", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["v"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePreventGlobal", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["v"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTeleport", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["x"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTeleport", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["x"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTimeout", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["A"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTimeout", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["A"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useModelToggleProps", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["r"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useModelToggleProps", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["r"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useModelToggleEmits", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["q"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useModelToggleEmits", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["q"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useModelToggle", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["p"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useModelToggle", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["p"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DARK_EFFECT", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["a"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DARK_EFFECT", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["a"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LIGHT_EFFECT", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["b"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LIGHT_EFFECT", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["b"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePopperControlProps", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["s"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePopperControlProps", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["s"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePopperProps", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["u"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePopperProps", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["u"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePopperHook", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["t"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePopperHook", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["t"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "themeVarsKey", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["e"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "themeVarsKey", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["e"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useCssVar", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["g"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useCssVar", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["g"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useThemeVars", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["y"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useThemeVars", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["y"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useLocaleProps", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["l"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useLocaleProps", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["l"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LocaleInjectionKey", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["c"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LocaleInjectionKey", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["c"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useLocale", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["j"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useLocale", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["j"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "localeProviderMaker", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["d"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "localeProviderMaker", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["d"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useLocaleInject", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["k"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useLocaleInject", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["k"]; });
 
-/* harmony import */ var _element_plus_tokens__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(10);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "elFormKey", function() { return _element_plus_tokens__WEBPACK_IMPORTED_MODULE_3__["c"]; });
+/* harmony import */ var _element_plus_tokens__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "elFormKey", function() { return _element_plus_tokens__WEBPACK_IMPORTED_MODULE_4__["c"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "elFormItemKey", function() { return _element_plus_tokens__WEBPACK_IMPORTED_MODULE_3__["b"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "elFormItemKey", function() { return _element_plus_tokens__WEBPACK_IMPORTED_MODULE_4__["b"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "elFormEvents", function() { return _element_plus_tokens__WEBPACK_IMPORTED_MODULE_3__["a"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "elFormEvents", function() { return _element_plus_tokens__WEBPACK_IMPORTED_MODULE_4__["a"]; });
 
-/* harmony import */ var _make_installer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(161);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "makeInstaller", function() { return _make_installer__WEBPACK_IMPORTED_MODULE_4__["a"]; });
+/* harmony import */ var _make_installer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(161);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "makeInstaller", function() { return _make_installer__WEBPACK_IMPORTED_MODULE_5__["a"]; });
 
-/* harmony import */ var _defaults__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(685);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _defaults__WEBPACK_IMPORTED_MODULE_5__["a"]; });
-
-
-
-
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _defaults__WEBPACK_IMPORTED_MODULE_0__["a"]; });
 
 
 
+
+
+
+
+
+const install = _defaults__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].install;
+const version = _defaults__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].version;
 
 /***/ }),
 
@@ -723,7 +1419,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElCollapseItem", function() { return _collapse__WEBPACK_IMPORTED_MODULE_16__["b"]; });
 
-/* harmony import */ var _collapse_transition__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(35);
+/* harmony import */ var _collapse_transition__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(34);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElCollapseTransition", function() { return _collapse_transition__WEBPACK_IMPORTED_MODULE_17__["a"]; });
 
 /* harmony import */ var _color_picker__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(122);
@@ -853,7 +1549,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "renderThumbStyle", function() { return _scrollbar__WEBPACK_IMPORTED_MODULE_46__["d"]; });
 
-/* harmony import */ var _select__WEBPACK_IMPORTED_MODULE_47__ = __webpack_require__(36);
+/* harmony import */ var _select__WEBPACK_IMPORTED_MODULE_47__ = __webpack_require__(35);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElSelect", function() { return _select__WEBPACK_IMPORTED_MODULE_47__["c"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElOption", function() { return _select__WEBPACK_IMPORTED_MODULE_47__["a"]; });
@@ -896,10 +1592,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElTabPane", function() { return _tabs__WEBPACK_IMPORTED_MODULE_55__["a"]; });
 
-/* harmony import */ var _tag__WEBPACK_IMPORTED_MODULE_56__ = __webpack_require__(34);
+/* harmony import */ var _tag__WEBPACK_IMPORTED_MODULE_56__ = __webpack_require__(33);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElTag", function() { return _tag__WEBPACK_IMPORTED_MODULE_56__["a"]; });
 
-/* harmony import */ var _time_picker__WEBPACK_IMPORTED_MODULE_57__ = __webpack_require__(33);
+/* harmony import */ var _time_picker__WEBPACK_IMPORTED_MODULE_57__ = __webpack_require__(32);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "rangeArr", function() { return _time_picker__WEBPACK_IMPORTED_MODULE_57__["i"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "extractDateFormat", function() { return _time_picker__WEBPACK_IMPORTED_MODULE_57__["g"]; });
@@ -1919,10 +2615,10 @@ const FixedSizeGrid = Object(_builders_buildGrid__WEBPACK_IMPORTED_MODULE_2__[/*
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _src_components_fixed_size_list__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(683);
+/* harmony import */ var _src_components_fixed_size_list__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(684);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FixedSizeList", function() { return _src_components_fixed_size_list__WEBPACK_IMPORTED_MODULE_0__["a"]; });
 
-/* harmony import */ var _src_components_dynamic_size_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(684);
+/* harmony import */ var _src_components_dynamic_size_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(685);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DynamicSizeList", function() { return _src_components_dynamic_size_list__WEBPACK_IMPORTED_MODULE_1__["a"]; });
 
 /* harmony import */ var _src_components_fixed_size_grid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1178);

@@ -10,67 +10,67 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.prod.js
 var vue_esm_browser_prod = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/zh-CN/menu.md?vue&type=template&id=2be8553e
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/zh-CN/menu.md?vue&type=template&id=5db66d76
 
-const menuvue_type_template_id_2be8553e_hoisted_1 = {
+const menuvue_type_template_id_5db66d76_hoisted_1 = {
   class: "content element-doc"
 };
 
-const menuvue_type_template_id_2be8553e_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("NavMenu 导航菜单 ");
+const menuvue_type_template_id_5db66d76_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("NavMenu 导航菜单 ");
 
-const menuvue_type_template_id_2be8553e_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "为网站提供导航功能的菜单。", -1);
+const menuvue_type_template_id_5db66d76_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "为网站提供导航功能的菜单。", -1);
 
-const menuvue_type_template_id_2be8553e_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("顶栏 ");
+const menuvue_type_template_id_5db66d76_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("顶栏 ");
 
-const menuvue_type_template_id_2be8553e_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "适用广泛的基础用法。", -1);
+const menuvue_type_template_id_5db66d76_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "适用广泛的基础用法。", -1);
 
-const menuvue_type_template_id_2be8553e_hoisted_6 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("导航菜单默认为垂直模式，通过"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "mode"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("属性可以使导航菜单变更为水平模式。另外，在菜单中通过"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "submenu"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("组件可以生成二级菜单。Menu 还提供了"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "background-color"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("、"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "text-color"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("和"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "active-text-color"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("，分别用于设置菜单的背景色、菜单的文字颜色和当前激活菜单的文字颜色。")])], -1);
+const menuvue_type_template_id_5db66d76_hoisted_6 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("导航菜单默认为垂直模式，通过"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "mode"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("属性可以使导航菜单变更为水平模式。另外，在菜单中通过"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "sub-menu"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("组件可以生成二级菜单。Menu 还提供了"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "background-color"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("、"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "text-color"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("和"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "active-text-color"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("，分别用于设置菜单的背景色、菜单的文字颜色和当前激活菜单的文字颜色。")])], -1);
 
-const menuvue_type_template_id_2be8553e_hoisted_7 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+const menuvue_type_template_id_5db66d76_hoisted_7 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-menu :default-active=\"activeIndex\" class=\"el-menu-demo\" mode=\"horizontal\" @select=\"handleSelect\">\n  <el-menu-item index=\"1\">处理中心</el-menu-item>\n  <el-submenu index=\"2\">\n    <template #title>我的工作台</template>\n    <el-menu-item index=\"2-1\">选项1</el-menu-item>\n    <el-menu-item index=\"2-2\">选项2</el-menu-item>\n    <el-menu-item index=\"2-3\">选项3</el-menu-item>\n    <el-submenu index=\"2-4\">\n      <template #title>选项4</template>\n      <el-menu-item index=\"2-4-1\">选项1</el-menu-item>\n      <el-menu-item index=\"2-4-2\">选项2</el-menu-item>\n      <el-menu-item index=\"2-4-3\">选项3</el-menu-item>\n    </el-submenu>\n  </el-submenu>\n  <el-menu-item index=\"3\" disabled>消息中心</el-menu-item>\n  <el-menu-item index=\"4\"><a href=\"https://www.ele.me\" target=\"_blank\">订单管理</a></el-menu-item>\n</el-menu>\n<div class=\"line\"></div>\n<el-menu\n  :default-active=\"activeIndex2\"\n  class=\"el-menu-demo\"\n  mode=\"horizontal\"\n  @select=\"handleSelect\"\n  background-color=\"#545c64\"\n  text-color=\"#fff\"\n  active-text-color=\"#ffd04b\">\n  <el-menu-item index=\"1\">处理中心</el-menu-item>\n  <el-submenu index=\"2\">\n    <template #title>我的工作台</template>\n    <el-menu-item index=\"2-1\">选项1</el-menu-item>\n    <el-menu-item index=\"2-2\">选项2</el-menu-item>\n    <el-menu-item index=\"2-3\">选项3</el-menu-item>\n    <el-submenu index=\"2-4\">\n      <template #title>选项4</template>\n      <el-menu-item index=\"2-4-1\">选项1</el-menu-item>\n      <el-menu-item index=\"2-4-2\">选项2</el-menu-item>\n      <el-menu-item index=\"2-4-3\">选项3</el-menu-item>\n    </el-submenu>\n  </el-submenu>\n  <el-menu-item index=\"3\" disabled>消息中心</el-menu-item>\n  <el-menu-item index=\"4\"><a href=\"https://www.ele.me\" target=\"_blank\">订单管理</a></el-menu-item>\n</el-menu>\n\n<script>\n  export default {\n    data() {\n      return {\n        activeIndex: '1',\n        activeIndex2: '1'\n      };\n    },\n    methods: {\n      handleSelect(key, keyPath) {\n        console.log(key, keyPath);\n      }\n    }\n  }\n</script>\n<!--\n<setup>\n\n  import { defineComponent, ref } from 'vue';\n\n  export default defineComponent({\n    setup() {\n      const activeIndex = ref('1');\n      const activeIndex2 = ref('1');\n      const handleSelect = (key, keyPath) => {\n        console.log(key, keyPath);\n      };\n      return {\n        activeIndex,\n        activeIndex2,\n        handleSelect,\n      };\n    },\n  });\n\n</setup>\n-->\n")], -1);
+}, "<el-menu :default-active=\"activeIndex\" class=\"el-menu-demo\" mode=\"horizontal\" @select=\"handleSelect\">\n  <el-menu-item index=\"1\">处理中心</el-menu-item>\n  <el-sub-menu index=\"2\">\n    <template #title>我的工作台</template>\n    <el-menu-item index=\"2-1\">选项1</el-menu-item>\n    <el-menu-item index=\"2-2\">选项2</el-menu-item>\n    <el-menu-item index=\"2-3\">选项3</el-menu-item>\n    <el-sub-menu index=\"2-4\">\n      <template #title>选项4</template>\n      <el-menu-item index=\"2-4-1\">选项1</el-menu-item>\n      <el-menu-item index=\"2-4-2\">选项2</el-menu-item>\n      <el-menu-item index=\"2-4-3\">选项3</el-menu-item>\n    </el-sub-menu>\n  </el-sub-menu>\n  <el-menu-item index=\"3\" disabled>消息中心</el-menu-item>\n  <el-menu-item index=\"4\"><a href=\"https://www.ele.me\" target=\"_blank\">订单管理</a></el-menu-item>\n</el-menu>\n<div class=\"line\"></div>\n<el-menu\n  :default-active=\"activeIndex2\"\n  class=\"el-menu-demo\"\n  mode=\"horizontal\"\n  @select=\"handleSelect\"\n  background-color=\"#545c64\"\n  text-color=\"#fff\"\n  active-text-color=\"#ffd04b\">\n  <el-menu-item index=\"1\">处理中心</el-menu-item>\n  <el-sub-menu index=\"2\">\n    <template #title>我的工作台</template>\n    <el-menu-item index=\"2-1\">选项1</el-menu-item>\n    <el-menu-item index=\"2-2\">选项2</el-menu-item>\n    <el-menu-item index=\"2-3\">选项3</el-menu-item>\n    <el-sub-menu index=\"2-4\">\n      <template #title>选项4</template>\n      <el-menu-item index=\"2-4-1\">选项1</el-menu-item>\n      <el-menu-item index=\"2-4-2\">选项2</el-menu-item>\n      <el-menu-item index=\"2-4-3\">选项3</el-menu-item>\n    </el-sub-menu>\n  </el-sub-menu>\n  <el-menu-item index=\"3\" disabled>消息中心</el-menu-item>\n  <el-menu-item index=\"4\"><a href=\"https://www.ele.me\" target=\"_blank\">订单管理</a></el-menu-item>\n</el-menu>\n\n<script>\n  export default {\n    data() {\n      return {\n        activeIndex: '1',\n        activeIndex2: '1'\n      };\n    },\n    methods: {\n      handleSelect(key, keyPath) {\n        console.log(key, keyPath);\n      }\n    }\n  }\n</script>\n<!--\n<setup>\n\n  import { defineComponent, ref } from 'vue';\n\n  export default defineComponent({\n    setup() {\n      const activeIndex = ref('1');\n      const activeIndex2 = ref('1');\n      const handleSelect = (key, keyPath) => {\n        console.log(key, keyPath);\n      };\n      return {\n        activeIndex,\n        activeIndex2,\n        handleSelect,\n      };\n    },\n  });\n\n</setup>\n-->\n")], -1);
 
-const menuvue_type_template_id_2be8553e_hoisted_8 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("侧栏 ");
+const menuvue_type_template_id_5db66d76_hoisted_8 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("侧栏 ");
 
-const menuvue_type_template_id_2be8553e_hoisted_9 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "垂直菜单，可内嵌子菜单。", -1);
+const menuvue_type_template_id_5db66d76_hoisted_9 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "垂直菜单，可内嵌子菜单。", -1);
 
-const menuvue_type_template_id_2be8553e_hoisted_10 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("通过"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "el-menu-item-group"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("组件可以实现菜单进行分组，分组名可以通过"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "title"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("属性直接设定，也可以通过具名 slot 来设定。")])], -1);
+const menuvue_type_template_id_5db66d76_hoisted_10 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("通过"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "el-menu-item-group"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("组件可以实现菜单进行分组，分组名可以通过"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "title"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("属性直接设定，也可以通过具名 slot 来设定。")])], -1);
 
-const menuvue_type_template_id_2be8553e_hoisted_11 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+const menuvue_type_template_id_5db66d76_hoisted_11 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-row class=\"tac\">\n  <el-col :span=\"12\">\n    <h5>默认颜色</h5>\n    <el-menu\n      default-active=\"2\"\n      class=\"el-menu-vertical-demo\"\n      @open=\"handleOpen\"\n      @close=\"handleClose\">\n      <el-submenu index=\"1\">\n        <template #title>\n          <i class=\"el-icon-location\"></i>\n          <span>导航一</span>\n        </template>\n        <el-menu-item-group>\n          <template #title>分组一</template>\n          <el-menu-item index=\"1-1\">选项1</el-menu-item>\n          <el-menu-item index=\"1-2\">选项2</el-menu-item>\n        </el-menu-item-group>\n        <el-menu-item-group title=\"分组2\">\n          <el-menu-item index=\"1-3\">选项3</el-menu-item>\n        </el-menu-item-group>\n        <el-submenu index=\"1-4\">\n          <template #title>选项4</template>\n          <el-menu-item index=\"1-4-1\">选项1</el-menu-item>\n        </el-submenu>\n      </el-submenu>\n      <el-menu-item index=\"2\">\n        <i class=\"el-icon-menu\"></i>\n        <template #title>导航二</template>\n      </el-menu-item>\n      <el-menu-item index=\"3\" disabled>\n        <i class=\"el-icon-document\"></i>\n        <template #title>导航三</template>\n      </el-menu-item>\n      <el-menu-item index=\"4\">\n        <i class=\"el-icon-setting\"></i>\n        <template #title>导航四</template>\n      </el-menu-item>\n    </el-menu>\n  </el-col>\n  <el-col :span=\"12\">\n    <h5>自定义颜色</h5>\n    <el-menu\n      :uniqueOpened=\"true\"\n      default-active=\"2\"\n      class=\"el-menu-vertical-demo\"\n      @open=\"handleOpen\"\n      @close=\"handleClose\"\n      background-color=\"#545c64\"\n      text-color=\"#fff\"\n      active-text-color=\"#ffd04b\">\n      <el-submenu index=\"1\">\n        <template #title>\n          <i class=\"el-icon-location\"></i>\n          <span>导航一</span>\n        </template>\n        <el-menu-item-group>\n          <template #title>分组一</template>\n          <el-menu-item index=\"1-1\">选项1</el-menu-item>\n          <el-menu-item index=\"1-2\">选项2</el-menu-item>\n        </el-menu-item-group>\n        <el-menu-item-group title=\"分组2\">\n          <el-menu-item index=\"1-3\">选项3</el-menu-item>\n        </el-menu-item-group>\n        <el-submenu index=\"1-4\">\n          <template #title>选项4</template>\n          <el-menu-item index=\"1-4-1\">选项1</el-menu-item>\n        </el-submenu>\n      </el-submenu>\n      <el-menu-item index=\"2\">\n        <i class=\"el-icon-menu\"></i>\n        <template #title>导航二</template>\n      </el-menu-item>\n      <el-menu-item index=\"3\" disabled>\n        <i class=\"el-icon-document\"></i>\n        <template #title>导航三</template>\n      </el-menu-item>\n      <el-menu-item index=\"4\">\n        <i class=\"el-icon-setting\"></i>\n        <template #title>导航四</template>\n      </el-menu-item>\n      <el-submenu index=\"5\">\n        <template #title>\n          <i class=\"el-icon-location\"></i>\n          <span>导航一</span>\n        </template>\n        <el-menu-item-group>\n          <template #title>分组一</template>\n          <el-menu-item index=\"5-1\">选项1</el-menu-item>\n          <el-menu-item index=\"5-2\">选项2</el-menu-item>\n        </el-menu-item-group>\n        <el-menu-item-group title=\"分组2\">\n          <el-menu-item index=\"5-3\">选项3</el-menu-item>\n        </el-menu-item-group>\n      </el-submenu>\n    </el-menu>\n  </el-col>\n</el-row>\n\n<script>\n  export default {\n    methods: {\n      handleOpen(key, keyPath) {\n        console.log(key, keyPath);\n      },\n      handleClose(key, keyPath) {\n        console.log(key, keyPath);\n      }\n    }\n  }\n</script>\n<!--\n<setup>\n\n  import { defineComponent } from 'vue';\n\n  export default defineComponent({\n    setup() {\n      const handleOpen = (key, keyPath) => {\n        console.log(key, keyPath);\n      };\n      const handleClose = (key, keyPath) => {\n        console.log(key, keyPath);\n      };\n      return {\n        handleOpen,\n        handleClose,\n      };\n    },\n  });\n\n</setup>\n-->\n")], -1);
+}, "<el-row class=\"tac\">\n  <el-col :span=\"12\">\n    <h5>默认颜色</h5>\n    <el-menu\n      default-active=\"2\"\n      class=\"el-menu-vertical-demo\"\n      @open=\"handleOpen\"\n      @close=\"handleClose\">\n      <el-sub-menu index=\"1\">\n        <template #title>\n          <i class=\"el-icon-location\"></i>\n          <span>导航一</span>\n        </template>\n        <el-menu-item-group>\n          <template #title>分组一</template>\n          <el-menu-item index=\"1-1\">选项1</el-menu-item>\n          <el-menu-item index=\"1-2\">选项2</el-menu-item>\n        </el-menu-item-group>\n        <el-menu-item-group title=\"分组2\">\n          <el-menu-item index=\"1-3\">选项3</el-menu-item>\n        </el-menu-item-group>\n        <el-sub-menu index=\"1-4\">\n          <template #title>选项4</template>\n          <el-menu-item index=\"1-4-1\">选项1</el-menu-item>\n        </el-sub-menu>\n      </el-sub-menu>\n      <el-menu-item index=\"2\">\n        <i class=\"el-icon-menu\"></i>\n        <template #title>导航二</template>\n      </el-menu-item>\n      <el-menu-item index=\"3\" disabled>\n        <i class=\"el-icon-document\"></i>\n        <template #title>导航三</template>\n      </el-menu-item>\n      <el-menu-item index=\"4\">\n        <i class=\"el-icon-setting\"></i>\n        <template #title>导航四</template>\n      </el-menu-item>\n    </el-menu>\n  </el-col>\n  <el-col :span=\"12\">\n    <h5>自定义颜色</h5>\n    <el-menu\n      :uniqueOpened=\"true\"\n      default-active=\"2\"\n      class=\"el-menu-vertical-demo\"\n      @open=\"handleOpen\"\n      @close=\"handleClose\"\n      background-color=\"#545c64\"\n      text-color=\"#fff\"\n      active-text-color=\"#ffd04b\">\n      <el-sub-menu index=\"1\">\n        <template #title>\n          <i class=\"el-icon-location\"></i>\n          <span>导航一</span>\n        </template>\n        <el-menu-item-group>\n          <template #title>分组一</template>\n          <el-menu-item index=\"1-1\">选项1</el-menu-item>\n          <el-menu-item index=\"1-2\">选项2</el-menu-item>\n        </el-menu-item-group>\n        <el-menu-item-group title=\"分组2\">\n          <el-menu-item index=\"1-3\">选项3</el-menu-item>\n        </el-menu-item-group>\n        <el-sub-menu index=\"1-4\">\n          <template #title>选项4</template>\n          <el-menu-item index=\"1-4-1\">选项1</el-menu-item>\n        </el-sub-menu>\n      </el-sub-menu>\n      <el-menu-item index=\"2\">\n        <i class=\"el-icon-menu\"></i>\n        <template #title>导航二</template>\n      </el-menu-item>\n      <el-menu-item index=\"3\" disabled>\n        <i class=\"el-icon-document\"></i>\n        <template #title>导航三</template>\n      </el-menu-item>\n      <el-menu-item index=\"4\">\n        <i class=\"el-icon-setting\"></i>\n        <template #title>导航四</template>\n      </el-menu-item>\n      <el-sub-menu index=\"5\">\n        <template #title>\n          <i class=\"el-icon-location\"></i>\n          <span>导航一</span>\n        </template>\n        <el-menu-item-group>\n          <template #title>分组一</template>\n          <el-menu-item index=\"5-1\">选项1</el-menu-item>\n          <el-menu-item index=\"5-2\">选项2</el-menu-item>\n        </el-menu-item-group>\n        <el-menu-item-group title=\"分组2\">\n          <el-menu-item index=\"5-3\">选项3</el-menu-item>\n        </el-menu-item-group>\n      </el-sub-menu>\n    </el-menu>\n  </el-col>\n</el-row>\n\n<script>\n  export default {\n    methods: {\n      handleOpen(key, keyPath) {\n        console.log(key, keyPath);\n      },\n      handleClose(key, keyPath) {\n        console.log(key, keyPath);\n      }\n    }\n  }\n</script>\n<!--\n<setup>\n\n  import { defineComponent } from 'vue';\n\n  export default defineComponent({\n    setup() {\n      const handleOpen = (key, keyPath) => {\n        console.log(key, keyPath);\n      };\n      const handleClose = (key, keyPath) => {\n        console.log(key, keyPath);\n      };\n      return {\n        handleOpen,\n        handleClose,\n      };\n    },\n  });\n\n</setup>\n-->\n")], -1);
 
-const menuvue_type_template_id_2be8553e_hoisted_12 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("折叠 ");
+const menuvue_type_template_id_5db66d76_hoisted_12 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("折叠 ");
 
-const menuvue_type_template_id_2be8553e_hoisted_13 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+const menuvue_type_template_id_5db66d76_hoisted_13 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-radio-group v-model=\"isCollapse\" style=\"margin-bottom: 20px;\">\n  <el-radio-button :label=\"false\">展开</el-radio-button>\n  <el-radio-button :label=\"true\">收起</el-radio-button>\n</el-radio-group>\n<el-menu default-active=\"1-4-1\" class=\"el-menu-vertical-demo\" @open=\"handleOpen\" @close=\"handleClose\" :collapse=\"isCollapse\">\n  <el-submenu index=\"1\">\n    <template #title>\n      <i class=\"el-icon-location\"></i>\n      <span>导航一</span>\n    </template>\n    <el-menu-item-group>\n      <template #title>分组一</template>\n      <el-menu-item index=\"1-1\">选项1</el-menu-item>\n      <el-menu-item index=\"1-2\">选项2</el-menu-item>\n    </el-menu-item-group>\n    <el-menu-item-group title=\"分组2\">\n      <el-menu-item index=\"1-3\">选项3</el-menu-item>\n    </el-menu-item-group>\n    <el-submenu index=\"1-4\">\n      <template #title>选项4</template>\n      <el-menu-item index=\"1-4-1\">选项1</el-menu-item>\n    </el-submenu>\n  </el-submenu>\n  <el-menu-item index=\"2\">\n    <i class=\"el-icon-menu\"></i>\n    <template #title>导航二</template>\n  </el-menu-item>\n  <el-menu-item index=\"3\" disabled>\n    <i class=\"el-icon-document\"></i>\n    <template #title>导航三</template>\n  </el-menu-item>\n  <el-menu-item index=\"4\">\n    <i class=\"el-icon-setting\"></i>\n    <template #title>导航四</template>\n  </el-menu-item>\n</el-menu>\n\n<style>\n  .el-menu-vertical-demo:not(.el-menu--collapse) {\n    width: 200px;\n    min-height: 400px;\n  }\n</style>\n\n<script>\n  export default {\n    data() {\n      return {\n        isCollapse: true\n      };\n    },\n    methods: {\n      handleOpen(key, keyPath) {\n        console.log(key, keyPath);\n      },\n      handleClose(key, keyPath) {\n        console.log(key, keyPath);\n      }\n    }\n  }\n</script>\n<!--\n<setup>\n\n  import { defineComponent, ref } from 'vue';\n\n  export default defineComponent({\n    setup() {\n      const isCollapse = ref(true);\n      const handleOpen = (key, keyPath) => {\n        console.log(key, keyPath);\n      };\n      const handleClose = (key, keyPath) => {\n        console.log(key, keyPath);\n      };\n      return {\n        isCollapse,\n        handleOpen,\n        handleClose,\n      };\n    },\n  });\n\n</setup>\n-->\n")], -1);
+}, "<el-radio-group v-model=\"isCollapse\" style=\"margin-bottom: 20px;\">\n  <el-radio-button :label=\"false\">展开</el-radio-button>\n  <el-radio-button :label=\"true\">收起</el-radio-button>\n</el-radio-group>\n<el-menu default-active=\"1-4-1\" class=\"el-menu-vertical-demo\" @open=\"handleOpen\" @close=\"handleClose\" :collapse=\"isCollapse\">\n  <el-sub-menu index=\"1\">\n    <template #title>\n      <i class=\"el-icon-location\"></i>\n      <span>导航一</span>\n    </template>\n    <el-menu-item-group>\n      <template #title>分组一</template>\n      <el-menu-item index=\"1-1\">选项1</el-menu-item>\n      <el-menu-item index=\"1-2\">选项2</el-menu-item>\n    </el-menu-item-group>\n    <el-menu-item-group title=\"分组2\">\n      <el-menu-item index=\"1-3\">选项3</el-menu-item>\n    </el-menu-item-group>\n    <el-sub-menu index=\"1-4\">\n      <template #title>选项4</template>\n      <el-menu-item index=\"1-4-1\">选项1</el-menu-item>\n    </el-sub-menu>\n  </el-sub-menu>\n  <el-menu-item index=\"2\">\n    <i class=\"el-icon-menu\"></i>\n    <template #title>导航二</template>\n  </el-menu-item>\n  <el-menu-item index=\"3\" disabled>\n    <i class=\"el-icon-document\"></i>\n    <template #title>导航三</template>\n  </el-menu-item>\n  <el-menu-item index=\"4\">\n    <i class=\"el-icon-setting\"></i>\n    <template #title>导航四</template>\n  </el-menu-item>\n</el-menu>\n\n<style>\n  .el-menu-vertical-demo:not(.el-menu--collapse) {\n    width: 200px;\n    min-height: 400px;\n  }\n</style>\n\n<script>\n  export default {\n    data() {\n      return {\n        isCollapse: true\n      };\n    },\n    methods: {\n      handleOpen(key, keyPath) {\n        console.log(key, keyPath);\n      },\n      handleClose(key, keyPath) {\n        console.log(key, keyPath);\n      }\n    }\n  }\n</script>\n<!--\n<setup>\n\n  import { defineComponent, ref } from 'vue';\n\n  export default defineComponent({\n    setup() {\n      const isCollapse = ref(true);\n      const handleOpen = (key, keyPath) => {\n        console.log(key, keyPath);\n      };\n      const handleClose = (key, keyPath) => {\n        console.log(key, keyPath);\n      };\n      return {\n        isCollapse,\n        handleOpen,\n        handleClose,\n      };\n    },\n  });\n\n</setup>\n-->\n")], -1);
 
-const menuvue_type_template_id_2be8553e_hoisted_14 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Menu Attribute ");
+const menuvue_type_template_id_5db66d76_hoisted_14 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Menu Attribute ");
 
-const menuvue_type_template_id_2be8553e_hoisted_15 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>可选值</th><th>默认值</th></tr></thead><tbody><tr><td>mode</td><td>模式</td><td>string</td><td>horizontal / vertical</td><td>vertical</td></tr><tr><td>collapse</td><td>是否水平折叠收起菜单（仅在 mode 为 vertical 时可用）</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>background-color</td><td>菜单的背景色（仅支持 hex 格式）</td><td>string</td><td>—</td><td>#ffffff</td></tr><tr><td>text-color</td><td>菜单的文字颜色（仅支持 hex 格式）</td><td>string</td><td>—</td><td>#303133</td></tr><tr><td>active-text-color</td><td>当前激活菜单的文字颜色（仅支持 hex 格式）</td><td>string</td><td>—</td><td>#409EFF</td></tr><tr><td>default-active</td><td>当前激活菜单的 index</td><td>string</td><td>—</td><td>—</td></tr><tr><td>default-openeds</td><td>当前打开的 sub-menu 的 index 的数组</td><td>Array</td><td>—</td><td>—</td></tr><tr><td>unique-opened</td><td>是否只保持一个子菜单的展开</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>menu-trigger</td><td>子菜单打开的触发方式(只在 mode 为 horizontal 时有效)</td><td>string</td><td>hover / click</td><td>hover</td></tr><tr><td>router</td><td>是否使用 vue-router 的模式，启用该模式会在激活导航时以 index 作为 path 进行路由跳转</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>collapse-transition</td><td>是否开启折叠动画</td><td>boolean</td><td>—</td><td>true</td></tr></tbody></table>", 1);
+const menuvue_type_template_id_5db66d76_hoisted_15 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>可选值</th><th>默认值</th></tr></thead><tbody><tr><td>mode</td><td>模式</td><td>string</td><td>horizontal / vertical</td><td>vertical</td></tr><tr><td>collapse</td><td>是否水平折叠收起菜单（仅在 mode 为 vertical 时可用）</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>background-color</td><td>菜单的背景色（仅支持 hex 格式）</td><td>string</td><td>—</td><td>#ffffff</td></tr><tr><td>text-color</td><td>菜单的文字颜色（仅支持 hex 格式）</td><td>string</td><td>—</td><td>#303133</td></tr><tr><td>active-text-color</td><td>当前激活菜单的文字颜色（仅支持 hex 格式）</td><td>string</td><td>—</td><td>#409EFF</td></tr><tr><td>default-active</td><td>当前激活菜单的 index</td><td>string</td><td>—</td><td>—</td></tr><tr><td>default-openeds</td><td>当前打开的 sub-menu 的 index 的数组</td><td>Array</td><td>—</td><td>—</td></tr><tr><td>unique-opened</td><td>是否只保持一个子菜单的展开</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>menu-trigger</td><td>子菜单打开的触发方式(只在 mode 为 horizontal 时有效)</td><td>string</td><td>hover / click</td><td>hover</td></tr><tr><td>router</td><td>是否使用 vue-router 的模式，启用该模式会在激活导航时以 index 作为 path 进行路由跳转</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>collapse-transition</td><td>是否开启折叠动画</td><td>boolean</td><td>—</td><td>true</td></tr></tbody></table>", 1);
 
-const menuvue_type_template_id_2be8553e_hoisted_16 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Menu Methods ");
+const menuvue_type_template_id_5db66d76_hoisted_16 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Menu Methods ");
 
-const menuvue_type_template_id_2be8553e_hoisted_17 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>方法名称</th><th>说明</th><th>参数</th></tr></thead><tbody><tr><td>open</td><td>展开指定的 sub-menu</td><td>index: 需要打开的 sub-menu 的 index</td></tr><tr><td>close</td><td>收起指定的 sub-menu</td><td>index: 需要收起的 sub-menu 的 index</td></tr></tbody></table>", 1);
+const menuvue_type_template_id_5db66d76_hoisted_17 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>方法名称</th><th>说明</th><th>参数</th></tr></thead><tbody><tr><td>open</td><td>展开指定的 sub-menu</td><td>index: 需要打开的 sub-menu 的 index</td></tr><tr><td>close</td><td>收起指定的 sub-menu</td><td>index: 需要收起的 sub-menu 的 index</td></tr></tbody></table>", 1);
 
-const menuvue_type_template_id_2be8553e_hoisted_18 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Menu Events ");
+const menuvue_type_template_id_5db66d76_hoisted_18 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Menu Events ");
 
-const menuvue_type_template_id_2be8553e_hoisted_19 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>事件名称</th><th>说明</th><th>回调参数</th></tr></thead><tbody><tr><td>select</td><td>菜单激活回调</td><td>index: 选中菜单项的 index, indexPath: 选中菜单项的 index path, item: 选中菜单项, routeResult: vue-router 的返回值（如果 router 为 true）</td></tr><tr><td>open</td><td>sub-menu 展开的回调</td><td>index: 打开的 sub-menu 的 index, indexPath: 打开的 sub-menu 的 index path</td></tr><tr><td>close</td><td>sub-menu 收起的回调</td><td>index: 收起的 sub-menu 的 index, indexPath: 收起的 sub-menu 的 index path</td></tr></tbody></table>", 1);
+const menuvue_type_template_id_5db66d76_hoisted_19 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>事件名称</th><th>说明</th><th>回调参数</th></tr></thead><tbody><tr><td>select</td><td>菜单激活回调</td><td>index: 选中菜单项的 index, indexPath: 选中菜单项的 index path, item: 选中菜单项, routeResult: vue-router 的返回值（如果 router 为 true）</td></tr><tr><td>open</td><td>sub-menu 展开的回调</td><td>index: 打开的 sub-menu 的 index, indexPath: 打开的 sub-menu 的 index path</td></tr><tr><td>close</td><td>sub-menu 收起的回调</td><td>index: 收起的 sub-menu 的 index, indexPath: 收起的 sub-menu 的 index path</td></tr></tbody></table>", 1);
 
-const menuvue_type_template_id_2be8553e_hoisted_20 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("SubMenu Attribute ");
+const menuvue_type_template_id_5db66d76_hoisted_20 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("SubMenu Attribute ");
 
-const menuvue_type_template_id_2be8553e_hoisted_21 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>可选值</th><th>默认值</th></tr></thead><tbody><tr><td>index</td><td>唯一标志</td><td>string/null</td><td>—</td><td>null</td></tr><tr><td>popper-class</td><td>弹出菜单的自定义类名</td><td>string</td><td>—</td><td>—</td></tr><tr><td>show-timeout</td><td>展开 sub-menu 的延时</td><td>number</td><td>—</td><td>300</td></tr><tr><td>hide-timeout</td><td>收起 sub-menu 的延时</td><td>number</td><td>—</td><td>300</td></tr><tr><td>disabled</td><td>是否禁用</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>popper-append-to-body</td><td>是否将弹出菜单插入至 body 元素。在菜单的定位出现问题时，可尝试修改该属性</td><td>boolean</td><td>—</td><td>一级子菜单：true / 非一级子菜单：false</td></tr></tbody></table>", 1);
+const menuvue_type_template_id_5db66d76_hoisted_21 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>可选值</th><th>默认值</th></tr></thead><tbody><tr><td>index</td><td>唯一标志</td><td>string/null</td><td>—</td><td>null</td></tr><tr><td>popper-class</td><td>弹出菜单的自定义类名</td><td>string</td><td>—</td><td>—</td></tr><tr><td>show-timeout</td><td>展开 sub-menu 的延时</td><td>number</td><td>—</td><td>300</td></tr><tr><td>hide-timeout</td><td>收起 sub-menu 的延时</td><td>number</td><td>—</td><td>300</td></tr><tr><td>disabled</td><td>是否禁用</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>popper-append-to-body</td><td>是否将弹出菜单插入至 body 元素。在菜单的定位出现问题时，可尝试修改该属性</td><td>boolean</td><td>—</td><td>一级子菜单：true / 非一级子菜单：false</td></tr></tbody></table>", 1);
 
-const menuvue_type_template_id_2be8553e_hoisted_22 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Menu-Item Attribute ");
+const menuvue_type_template_id_5db66d76_hoisted_22 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Menu-Item Attribute ");
 
-const menuvue_type_template_id_2be8553e_hoisted_23 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>可选值</th><th>默认值</th></tr></thead><tbody><tr><td>index</td><td>唯一标志</td><td>string</td><td>—</td><td>—</td></tr><tr><td>route</td><td>Vue Router 路径对象</td><td>Object</td><td>—</td><td>—</td></tr><tr><td>disabled</td><td>是否禁用</td><td>boolean</td><td>—</td><td>false</td></tr></tbody></table>", 1);
+const menuvue_type_template_id_5db66d76_hoisted_23 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>可选值</th><th>默认值</th></tr></thead><tbody><tr><td>index</td><td>唯一标志</td><td>string</td><td>—</td><td>—</td></tr><tr><td>route</td><td>Vue Router 路径对象</td><td>Object</td><td>—</td><td>—</td></tr><tr><td>disabled</td><td>是否禁用</td><td>boolean</td><td>—</td><td>false</td></tr></tbody></table>", 1);
 
-const menuvue_type_template_id_2be8553e_hoisted_24 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Menu-Group Attribute ");
+const menuvue_type_template_id_5db66d76_hoisted_24 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Menu-Group Attribute ");
 
-const menuvue_type_template_id_2be8553e_hoisted_25 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>可选值</th><th>默认值</th></tr></thead><tbody><tr><td>title</td><td>分组标题</td><td>string</td><td>—</td><td>—</td></tr></tbody></table>", 1);
+const menuvue_type_template_id_5db66d76_hoisted_25 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>可选值</th><th>默认值</th></tr></thead><tbody><tr><td>title</td><td>分组标题</td><td>string</td><td>—</td><td>—</td></tr></tbody></table>", 1);
 
-function menuvue_type_template_id_2be8553e_render(_ctx, _cache, $props, $setup, $data, $options) {
+function menuvue_type_template_id_5db66d76_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_app_link = Object(vue_esm_browser_prod["resolveComponent"])("app-link");
 
   const _component_app_heading = Object(vue_esm_browser_prod["resolveComponent"])("app-heading");
@@ -85,32 +85,32 @@ function menuvue_type_template_id_2be8553e_render(_ctx, _cache, $props, $setup, 
 
   const _component_right_nav = Object(vue_esm_browser_prod["resolveComponent"])("right-nav");
 
-  return Object(vue_esm_browser_prod["openBlock"])(), Object(vue_esm_browser_prod["createElementBlock"])("section", menuvue_type_template_id_2be8553e_hoisted_1, [Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+  return Object(vue_esm_browser_prod["openBlock"])(), Object(vue_esm_browser_prod["createElementBlock"])("section", menuvue_type_template_id_5db66d76_hoisted_1, [Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
     id: "navmenu-dao-hang-cai-dan",
     content: "NavMenu 导航菜单",
     href: "#navmenu-dao-hang-cai-dan",
     level: "2"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_2be8553e_hoisted_2, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_5db66d76_hoisted_2, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
       href: "#navmenu-dao-hang-cai-dan"
     })]),
     _: 1
-  }), menuvue_type_template_id_2be8553e_hoisted_3, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+  }), menuvue_type_template_id_5db66d76_hoisted_3, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
     id: "ding-lan",
     content: "顶栏",
     href: "#ding-lan",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_2be8553e_hoisted_4, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_5db66d76_hoisted_4, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
       href: "#ding-lan"
     })]),
     _: 1
-  }), menuvue_type_template_id_2be8553e_hoisted_5, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+  }), menuvue_type_template_id_5db66d76_hoisted_5, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
     source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo0)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_2be8553e_hoisted_7]),
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_2be8553e_hoisted_6]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_5db66d76_hoisted_7]),
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_5db66d76_hoisted_6]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
     id: "ce-lan",
@@ -118,15 +118,15 @@ function menuvue_type_template_id_2be8553e_render(_ctx, _cache, $props, $setup, 
     href: "#ce-lan",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_2be8553e_hoisted_8, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_5db66d76_hoisted_8, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
       href: "#ce-lan"
     })]),
     _: 1
-  }), menuvue_type_template_id_2be8553e_hoisted_9, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+  }), menuvue_type_template_id_5db66d76_hoisted_9, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
     source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo1)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_2be8553e_hoisted_11]),
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_2be8553e_hoisted_10]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_5db66d76_hoisted_11]),
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_5db66d76_hoisted_10]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
     id: "zhe-die",
@@ -134,14 +134,14 @@ function menuvue_type_template_id_2be8553e_render(_ctx, _cache, $props, $setup, 
     href: "#zhe-die",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_2be8553e_hoisted_12, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_5db66d76_hoisted_12, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
       href: "#zhe-die"
     })]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
     source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo2)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_2be8553e_hoisted_13]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_5db66d76_hoisted_13]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
     id: "menu-attribute",
@@ -149,69 +149,69 @@ function menuvue_type_template_id_2be8553e_render(_ctx, _cache, $props, $setup, 
     href: "#menu-attribute",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_2be8553e_hoisted_14, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_5db66d76_hoisted_14, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
       href: "#menu-attribute"
     })]),
     _: 1
-  }), menuvue_type_template_id_2be8553e_hoisted_15, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+  }), menuvue_type_template_id_5db66d76_hoisted_15, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
     id: "menu-methods",
     content: "Menu Methods",
     href: "#menu-methods",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_2be8553e_hoisted_16, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_5db66d76_hoisted_16, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
       href: "#menu-methods"
     })]),
     _: 1
-  }), menuvue_type_template_id_2be8553e_hoisted_17, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+  }), menuvue_type_template_id_5db66d76_hoisted_17, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
     id: "menu-events",
     content: "Menu Events",
     href: "#menu-events",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_2be8553e_hoisted_18, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_5db66d76_hoisted_18, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
       href: "#menu-events"
     })]),
     _: 1
-  }), menuvue_type_template_id_2be8553e_hoisted_19, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+  }), menuvue_type_template_id_5db66d76_hoisted_19, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
     id: "submenu-attribute",
     content: "SubMenu Attribute",
     href: "#submenu-attribute",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_2be8553e_hoisted_20, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_5db66d76_hoisted_20, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
       href: "#submenu-attribute"
     })]),
     _: 1
-  }), menuvue_type_template_id_2be8553e_hoisted_21, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+  }), menuvue_type_template_id_5db66d76_hoisted_21, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
     id: "menu-item-attribute",
     content: "Menu-Item Attribute",
     href: "#menu-item-attribute",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_2be8553e_hoisted_22, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_5db66d76_hoisted_22, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
       href: "#menu-item-attribute"
     })]),
     _: 1
-  }), menuvue_type_template_id_2be8553e_hoisted_23, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+  }), menuvue_type_template_id_5db66d76_hoisted_23, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
     id: "menu-group-attribute",
     content: "Menu-Group Attribute",
     href: "#menu-group-attribute",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_2be8553e_hoisted_24, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [menuvue_type_template_id_5db66d76_hoisted_24, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
       href: "#menu-group-attribute"
     })]),
     _: 1
-  }), menuvue_type_template_id_2be8553e_hoisted_25, Object(vue_esm_browser_prod["createVNode"])(_component_right_nav)]);
+  }), menuvue_type_template_id_5db66d76_hoisted_25, Object(vue_esm_browser_prod["createVNode"])(_component_right_nav)]);
 }
-// CONCATENATED MODULE: ./website/docs/zh-CN/menu.md?vue&type=template&id=2be8553e
+// CONCATENATED MODULE: ./website/docs/zh-CN/menu.md?vue&type=template&id=5db66d76
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/zh-CN/menu.md?vue&type=script&lang=ts
 
@@ -286,7 +286,7 @@ function menuvue_type_template_id_2be8553e_render(_ctx, _cache, $props, $setup, 
       function render(_ctx, _cache) {
         const _component_el_menu_item = _resolveComponent("el-menu-item");
 
-        const _component_el_submenu = _resolveComponent("el-submenu");
+        const _component_el_sub_menu = _resolveComponent("el-sub-menu");
 
         const _component_el_menu = _resolveComponent("el-menu");
 
@@ -301,7 +301,7 @@ function menuvue_type_template_id_2be8553e_render(_ctx, _cache, $props, $setup, 
           }, {
             default: _withCtx(() => [_hoisted_1]),
             _: 1
-          }), _createVNode(_component_el_submenu, {
+          }), _createVNode(_component_el_sub_menu, {
             index: "2"
           }, {
             title: _withCtx(() => [_hoisted_2]),
@@ -320,7 +320,7 @@ function menuvue_type_template_id_2be8553e_render(_ctx, _cache, $props, $setup, 
             }, {
               default: _withCtx(() => [_hoisted_5]),
               _: 1
-            }), _createVNode(_component_el_submenu, {
+            }), _createVNode(_component_el_sub_menu, {
               index: "2-4"
             }, {
               title: _withCtx(() => [_hoisted_6]),
@@ -370,7 +370,7 @@ function menuvue_type_template_id_2be8553e_render(_ctx, _cache, $props, $setup, 
           }, {
             default: _withCtx(() => [_hoisted_13]),
             _: 1
-          }), _createVNode(_component_el_submenu, {
+          }), _createVNode(_component_el_sub_menu, {
             index: "2"
           }, {
             title: _withCtx(() => [_hoisted_14]),
@@ -389,7 +389,7 @@ function menuvue_type_template_id_2be8553e_render(_ctx, _cache, $props, $setup, 
             }, {
               default: _withCtx(() => [_hoisted_17]),
               _: 1
-            }), _createVNode(_component_el_submenu, {
+            }), _createVNode(_component_el_sub_menu, {
               index: "2-4"
             }, {
               title: _withCtx(() => [_hoisted_18]),
@@ -554,7 +554,7 @@ function menuvue_type_template_id_2be8553e_render(_ctx, _cache, $props, $setup, 
 
         const _component_el_menu_item_group = _resolveComponent("el-menu-item-group");
 
-        const _component_el_submenu = _resolveComponent("el-submenu");
+        const _component_el_sub_menu = _resolveComponent("el-sub-menu");
 
         const _component_el_menu = _resolveComponent("el-menu");
 
@@ -574,7 +574,7 @@ function menuvue_type_template_id_2be8553e_render(_ctx, _cache, $props, $setup, 
               onOpen: _ctx.handleOpen,
               onClose: _ctx.handleClose
             }, {
-              default: _withCtx(() => [_createVNode(_component_el_submenu, {
+              default: _withCtx(() => [_createVNode(_component_el_sub_menu, {
                 index: "1"
               }, {
                 title: _withCtx(() => [_hoisted_2, _hoisted_3]),
@@ -602,7 +602,7 @@ function menuvue_type_template_id_2be8553e_render(_ctx, _cache, $props, $setup, 
                     _: 1
                   })]),
                   _: 1
-                }), _createVNode(_component_el_submenu, {
+                }), _createVNode(_component_el_sub_menu, {
                   index: "1-4"
                 }, {
                   title: _withCtx(() => [_hoisted_8]),
@@ -651,7 +651,7 @@ function menuvue_type_template_id_2be8553e_render(_ctx, _cache, $props, $setup, 
               "text-color": "#fff",
               "active-text-color": "#ffd04b"
             }, {
-              default: _withCtx(() => [_createVNode(_component_el_submenu, {
+              default: _withCtx(() => [_createVNode(_component_el_sub_menu, {
                 index: "1"
               }, {
                 title: _withCtx(() => [_hoisted_17, _hoisted_18]),
@@ -679,7 +679,7 @@ function menuvue_type_template_id_2be8553e_render(_ctx, _cache, $props, $setup, 
                     _: 1
                   })]),
                   _: 1
-                }), _createVNode(_component_el_submenu, {
+                }), _createVNode(_component_el_sub_menu, {
                   index: "1-4"
                 }, {
                   title: _withCtx(() => [_hoisted_23]),
@@ -711,7 +711,7 @@ function menuvue_type_template_id_2be8553e_render(_ctx, _cache, $props, $setup, 
                 title: _withCtx(() => [_hoisted_30]),
                 default: _withCtx(() => [_hoisted_29]),
                 _: 1
-              }), _createVNode(_component_el_submenu, {
+              }), _createVNode(_component_el_sub_menu, {
                 index: "5"
               }, {
                 title: _withCtx(() => [_hoisted_31, _hoisted_32]),
@@ -827,7 +827,7 @@ function menuvue_type_template_id_2be8553e_render(_ctx, _cache, $props, $setup, 
 
         const _component_el_menu_item_group = _resolveComponent("el-menu-item-group");
 
-        const _component_el_submenu = _resolveComponent("el-submenu");
+        const _component_el_sub_menu = _resolveComponent("el-sub-menu");
 
         const _component_el_menu = _resolveComponent("el-menu");
 
@@ -857,7 +857,7 @@ function menuvue_type_template_id_2be8553e_render(_ctx, _cache, $props, $setup, 
           onClose: _ctx.handleClose,
           collapse: _ctx.isCollapse
         }, {
-          default: _withCtx(() => [_createVNode(_component_el_submenu, {
+          default: _withCtx(() => [_createVNode(_component_el_sub_menu, {
             index: "1"
           }, {
             title: _withCtx(() => [_hoisted_3, _hoisted_4]),
@@ -885,7 +885,7 @@ function menuvue_type_template_id_2be8553e_render(_ctx, _cache, $props, $setup, 
                 _: 1
               })]),
               _: 1
-            }), _createVNode(_component_el_submenu, {
+            }), _createVNode(_component_el_sub_menu, {
               index: "1-4"
             }, {
               title: _withCtx(() => [_hoisted_9]),
@@ -953,7 +953,7 @@ function menuvue_type_template_id_2be8553e_render(_ctx, _cache, $props, $setup, 
 
 
 
-menuvue_type_script_lang_ts.render = menuvue_type_template_id_2be8553e_render
+menuvue_type_script_lang_ts.render = menuvue_type_template_id_5db66d76_render
 
 /* harmony default export */ var menu = __webpack_exports__["default"] = (menuvue_type_script_lang_ts);
 

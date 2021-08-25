@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[128],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[342],{
 
 /***/ 110:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -17,93 +17,98 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _element_plus_components__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1177);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _element_plus_components__WEBPACK_IMPORTED_MODULE_0__) if(["default","makeInstaller"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _element_plus_components__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _element_plus_directives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ClickOutside", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_1__["a"]; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "install", function() { return install; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "version", function() { return version; });
+/* harmony import */ var _defaults__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(683);
+/* harmony import */ var _element_plus_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1177);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _element_plus_components__WEBPACK_IMPORTED_MODULE_1__) if(["default","makeInstaller","install","version"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _element_plus_components__WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _element_plus_directives__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(12);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ClickOutside", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_2__["a"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RepeatClick", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_1__["c"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RepeatClick", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_2__["c"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TrapFocus", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_1__["e"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TrapFocus", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_2__["e"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Mousewheel", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_1__["b"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Mousewheel", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_2__["b"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Resize", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_1__["d"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Resize", function() { return _element_plus_directives__WEBPACK_IMPORTED_MODULE_2__["d"]; });
 
-/* harmony import */ var _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useAttrs", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["f"]; });
+/* harmony import */ var _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useAttrs", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["f"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useEvents", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["h"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useEvents", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["h"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useLockScreen", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["m"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useLockScreen", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["m"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useRestoreActive", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["w"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useRestoreActive", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["w"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useModal", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["o"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useModal", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["o"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useMigrating", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["n"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useMigrating", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["n"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useFocus", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["i"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useFocus", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["i"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useThrottleRender", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["z"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useThrottleRender", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["z"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePreventGlobal", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["v"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePreventGlobal", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["v"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTeleport", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["x"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTeleport", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["x"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTimeout", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["A"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTimeout", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["A"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useModelToggleProps", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["r"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useModelToggleProps", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["r"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useModelToggleEmits", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["q"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useModelToggleEmits", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["q"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useModelToggle", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["p"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useModelToggle", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["p"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DARK_EFFECT", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["a"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DARK_EFFECT", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["a"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LIGHT_EFFECT", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["b"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LIGHT_EFFECT", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["b"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePopperControlProps", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["s"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePopperControlProps", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["s"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePopperProps", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["u"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePopperProps", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["u"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePopperHook", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["t"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePopperHook", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["t"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "themeVarsKey", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["e"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "themeVarsKey", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["e"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useCssVar", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["g"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useCssVar", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["g"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useThemeVars", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["y"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useThemeVars", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["y"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useLocaleProps", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["l"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useLocaleProps", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["l"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LocaleInjectionKey", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["c"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LocaleInjectionKey", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["c"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useLocale", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["j"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useLocale", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["j"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "localeProviderMaker", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["d"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "localeProviderMaker", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["d"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useLocaleInject", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_2__["k"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useLocaleInject", function() { return _element_plus_hooks__WEBPACK_IMPORTED_MODULE_3__["k"]; });
 
-/* harmony import */ var _element_plus_tokens__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(10);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "elFormKey", function() { return _element_plus_tokens__WEBPACK_IMPORTED_MODULE_3__["c"]; });
+/* harmony import */ var _element_plus_tokens__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "elFormKey", function() { return _element_plus_tokens__WEBPACK_IMPORTED_MODULE_4__["c"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "elFormItemKey", function() { return _element_plus_tokens__WEBPACK_IMPORTED_MODULE_3__["b"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "elFormItemKey", function() { return _element_plus_tokens__WEBPACK_IMPORTED_MODULE_4__["b"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "elFormEvents", function() { return _element_plus_tokens__WEBPACK_IMPORTED_MODULE_3__["a"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "elFormEvents", function() { return _element_plus_tokens__WEBPACK_IMPORTED_MODULE_4__["a"]; });
 
-/* harmony import */ var _make_installer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(161);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "makeInstaller", function() { return _make_installer__WEBPACK_IMPORTED_MODULE_4__["a"]; });
+/* harmony import */ var _make_installer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(161);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "makeInstaller", function() { return _make_installer__WEBPACK_IMPORTED_MODULE_5__["a"]; });
 
-/* harmony import */ var _defaults__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(685);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _defaults__WEBPACK_IMPORTED_MODULE_5__["a"]; });
-
-
-
-
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _defaults__WEBPACK_IMPORTED_MODULE_0__["a"]; });
 
 
 
+
+
+
+
+
+const install = _defaults__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].install;
+const version = _defaults__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].version;
 
 /***/ }),
 
@@ -185,7 +190,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElCollapseItem", function() { return _collapse__WEBPACK_IMPORTED_MODULE_16__["b"]; });
 
-/* harmony import */ var _collapse_transition__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(35);
+/* harmony import */ var _collapse_transition__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(34);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElCollapseTransition", function() { return _collapse_transition__WEBPACK_IMPORTED_MODULE_17__["a"]; });
 
 /* harmony import */ var _color_picker__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(122);
@@ -315,7 +320,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "renderThumbStyle", function() { return _scrollbar__WEBPACK_IMPORTED_MODULE_46__["d"]; });
 
-/* harmony import */ var _select__WEBPACK_IMPORTED_MODULE_47__ = __webpack_require__(36);
+/* harmony import */ var _select__WEBPACK_IMPORTED_MODULE_47__ = __webpack_require__(35);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElSelect", function() { return _select__WEBPACK_IMPORTED_MODULE_47__["c"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElOption", function() { return _select__WEBPACK_IMPORTED_MODULE_47__["a"]; });
@@ -358,10 +363,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElTabPane", function() { return _tabs__WEBPACK_IMPORTED_MODULE_55__["a"]; });
 
-/* harmony import */ var _tag__WEBPACK_IMPORTED_MODULE_56__ = __webpack_require__(34);
+/* harmony import */ var _tag__WEBPACK_IMPORTED_MODULE_56__ = __webpack_require__(33);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElTag", function() { return _tag__WEBPACK_IMPORTED_MODULE_56__["a"]; });
 
-/* harmony import */ var _time_picker__WEBPACK_IMPORTED_MODULE_57__ = __webpack_require__(33);
+/* harmony import */ var _time_picker__WEBPACK_IMPORTED_MODULE_57__ = __webpack_require__(32);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "rangeArr", function() { return _time_picker__WEBPACK_IMPORTED_MODULE_57__["i"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "extractDateFormat", function() { return _time_picker__WEBPACK_IMPORTED_MODULE_57__["g"]; });
@@ -1381,10 +1386,10 @@ const FixedSizeGrid = Object(_builders_buildGrid__WEBPACK_IMPORTED_MODULE_2__[/*
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _src_components_fixed_size_list__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(683);
+/* harmony import */ var _src_components_fixed_size_list__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(684);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FixedSizeList", function() { return _src_components_fixed_size_list__WEBPACK_IMPORTED_MODULE_0__["a"]; });
 
-/* harmony import */ var _src_components_dynamic_size_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(684);
+/* harmony import */ var _src_components_dynamic_size_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(685);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DynamicSizeList", function() { return _src_components_dynamic_size_list__WEBPACK_IMPORTED_MODULE_1__["a"]; });
 
 /* harmony import */ var _src_components_fixed_size_grid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1178);
@@ -1404,7 +1409,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 882:
+/***/ 746:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1414,79 +1419,173 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.prod.js
 var vue_esm_browser_prod = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/es/switch.md?vue&type=template&id=53f172b7
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/zh-CN/space.md?vue&type=template&id=14d9f492
 
-const _hoisted_1 = {
+const spacevue_type_template_id_14d9f492_hoisted_1 = {
   class: "content element-doc"
 };
 
-const _hoisted_2 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Switch ");
+const spacevue_type_template_id_14d9f492_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Space 间距 ");
 
-const _hoisted_3 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "Switch es utilizado para realizar cambios entre dos estados opuestos.", -1);
+const spacevue_type_template_id_14d9f492_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("虽然我们拥有 ");
 
-const _hoisted_4 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Uso básico ");
+const spacevue_type_template_id_14d9f492_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Divider 组件");
 
-const _hoisted_5 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Enlace "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "v-model"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" a una variable de tipo "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(". Los atributos "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "active-color"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" y "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "inactive-color"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" deciden el color de fondo en cada estado.")])], -1);
+const spacevue_type_template_id_14d9f492_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(", 但很多时候我们需要不是一个被 ");
 
-const _hoisted_6 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+const spacevue_type_template_id_14d9f492_hoisted_6 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Divider 组件");
+
+const spacevue_type_template_id_14d9f492_hoisted_7 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" 分割开的页面结构, 因此我们会重复的使用很多的 ");
+
+const spacevue_type_template_id_14d9f492_hoisted_8 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Divider 组件");
+
+const spacevue_type_template_id_14d9f492_hoisted_9 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(", 这在我们的开发效率上造成了一定的困扰, ");
+
+const spacevue_type_template_id_14d9f492_hoisted_10 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("strong", null, "间距组件", -1);
+
+const spacevue_type_template_id_14d9f492_hoisted_11 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("就是为了解决这种困扰应运而生的.");
+
+const spacevue_type_template_id_14d9f492_hoisted_12 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("基础用法 ");
+
+const spacevue_type_template_id_14d9f492_hoisted_13 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "最基础的用法, 通过这个组件来给组件之间提供统一的间距", -1);
+
+const spacevue_type_template_id_14d9f492_hoisted_14 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "通过间距组件来给多个组件之间提供间距")], -1);
+
+const spacevue_type_template_id_14d9f492_hoisted_15 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-switch v-model=\"value1\"> </el-switch>\n<el-switch v-model=\"value2\" active-color=\"#13ce66\" inactive-color=\"#ff4949\">\n</el-switch>\n\n<script>\n  export default {\n    data() {\n      return {\n        value1: true,\n        value2: true,\n      }\n    },\n  }\n</script>\n")], -1);
+}, "<template>\n  <el-space wrap>\n    <el-card class=\"box-card\" style=\"width: 250px\" v-for=\"i in 3\" :key=\"i\">\n      <template #header>\n        <div class=\"card-header\">\n          <span>Card name</span>\n          <el-button class=\"button\" type=\"text\">Operation button</el-button>\n        </div>\n      </template>\n      <div v-for=\"o in 4\" :key=\"o\" class=\"text item\">\n        {{ 'List item ' + o }}\n      </div>\n    </el-card>\n  </el-space>\n</template>\n")], -1);
 
-const _hoisted_7 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Texto de descripción ");
+const _hoisted_16 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("垂直布局 ");
 
-const _hoisted_8 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Puede agregar los atributos "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "active-text"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" y "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "inactive-text"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" para mostrar los textos.")])], -1);
+const _hoisted_17 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("使用 "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "direction"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" 来控制布局的方式, 背后实际上是利用了 "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "flex-direction"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" 来控制.")], -1);
 
-const _hoisted_9 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+const _hoisted_18 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "当然也提供垂直布局的方式")], -1);
+
+const _hoisted_19 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-switch\n  v-model=\"value1\"\n  active-text=\"Pay by month\"\n  inactive-text=\"Pay by year\"\n>\n</el-switch>\n<el-switch\n  style=\"display: block\"\n  v-model=\"value2\"\n  active-color=\"#13ce66\"\n  inactive-color=\"#ff4949\"\n  active-text=\"Pay by month\"\n  inactive-text=\"Pay by year\"\n>\n</el-switch>\n\n<script>\n  export default {\n    data() {\n      return {\n        value1: true,\n        value2: true,\n      }\n    },\n  }\n</script>\n")], -1);
+}, "<template>\n  <el-space direction=\"vertical\">\n    <el-card class=\"box-card\" style=\"width: 250px\" v-for=\"i in 2\" :key=\"i\">\n      <template #header>\n        <div class=\"card-header\">\n          <span>Card name</span>\n          <el-button class=\"button\" type=\"text\">Operation button</el-button>\n        </div>\n      </template>\n      <div v-for=\"o in 4\" :key=\"o\" class=\"text item\">\n        {{ 'List item ' + o }}\n      </div>\n    </el-card>\n  </el-space>\n</template>\n")], -1);
 
-const _hoisted_10 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Tipos de valores extendidos ");
+const _hoisted_20 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("控制间距的大小 ");
 
-const _hoisted_11 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Puede establecer los atributos "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "active-value"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" y "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "inactive-value"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(". Ambos reciben valores de tipo "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(", "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "String"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" o "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Number"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(".")])], -1);
+const _hoisted_21 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<p>通过调整 <code>size</code> 的值来控制间距的大小</p><p>可供选择的内建的值有 <code>mini</code>, <code>small</code>, <code>medium</code>, <code>large</code>, 分别对应 <code>4px</code>, <code>8px</code>, <code>12px</code>, <code>16px</code>. 默认的间距大小为 <code>small</code> 也就是 <code>8px</code></p><p>您也可以通过自定义的 <code>size</code> 来控制大小，详见下一部分</p>", 3);
 
-const _hoisted_12 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+const _hoisted_24 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("使用 "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "size"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" 属性控制大小")])], -1);
+
+const _hoisted_25 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-tooltip :content=\"'Switch value: ' + value\" placement=\"top\">\n  <el-switch\n    v-model=\"value\"\n    active-color=\"#13ce66\"\n    inactive-color=\"#ff4949\"\n    active-value=\"100\"\n    inactive-value=\"0\"\n  >\n  </el-switch>\n</el-tooltip>\n\n<script>\n  export default {\n    data() {\n      return {\n        value: '100',\n      }\n    },\n  }\n</script>\n")], -1);
+}, "<template>\n  <el-space direction=\"vertical\" alignment=\"start\" :size=\"30\">\n  <el-radio-group v-model=\"size\">\n    <el-radio :label=\"'mini'\">迷你</el-radio>\n    <el-radio :label=\"'small'\">小</el-radio>\n    <el-radio :label=\"'medium'\">中等</el-radio>\n    <el-radio :label=\"'large'\">大号</el-radio>\n  </el-radio-group>\n\n  <el-space wrap :size=\"size\">\n    <el-card class=\"box-card\" style=\"width: 250px\" v-for=\"i in 3\" :key=\"i\">\n      <template #header>\n        <div class=\"card-header\">\n          <span>Card name</span>\n          <el-button class=\"button\" type=\"text\">Operation button</el-button>\n        </div>\n      </template>\n      <div v-for=\"o in 4\" :key=\"o\" class=\"text item\">\n        {{ 'List item ' + o }}\n      </div>\n    </el-card>\n  </el-space>\n  </el-space>\n</template>\n\n<script>\n\nexport default {\n\n  data() {\n    return {\n      size: 'mini',\n    }\n  }\n}\n</script>\n")], -1);
 
-const _hoisted_13 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Disabled ");
+const _hoisted_26 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("自定义 Size ");
 
-const _hoisted_14 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Agregar el atributo "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "disabled"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" desactiva el componente Switch.")])], -1);
+const _hoisted_27 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "很多时候, 内建的大小不满足设计师的要求, 我们可以通过传入自己定义的大小 (数字类型) 来设置", -1);
 
-const _hoisted_15 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+const _hoisted_28 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-switch v-model=\"value1\" disabled> </el-switch>\n<el-switch v-model=\"value2\" disabled> </el-switch>\n\n<script>\n  export default {\n    data() {\n      return {\n        value1: true,\n        value2: false,\n      }\n    },\n  }\n</script>\n")], -1);
+}, "<template>\n  <el-slider v-model=\"size\" />\n  <el-space wrap :size=\"size\">\n    <el-card class=\"box-card\" style=\"width: 250px\" v-for=\"i in 2\" :key=\"i\">\n      <template #header>\n        <div class=\"card-header\">\n          <span>Card name</span>\n          <el-button class=\"button\" type=\"text\">Operation button</el-button>\n        </div>\n      </template>\n      <div v-for=\"o in 4\" :key=\"o\" class=\"text item\">\n        {{ 'List item ' + o }}\n      </div>\n    </el-card>\n  </el-space>\n</template>\n\n<script>\nexport default {\n\n  data() {\n    return {\n      size: 20,\n    }\n  }\n}\n</script>\n")], -1);
 
-const _hoisted_16 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Loading ");
+const _hoisted_29 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", {
+  class: "tip"
+}, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("不要与使用依赖父元素百分比宽度 (高度) 的元素一起使用, 例如 "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "ElSlider"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(", 这样会造成光标不同步")])], -1);
 
-const _hoisted_17 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Setting the "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "loading"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" attribute to "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "true"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" indicates a loading state on the Switch.")])], -1);
+const _hoisted_30 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("自动换行 ");
 
-const _hoisted_18 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+const _hoisted_31 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("在"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("strong", null, "水平 (horizontal)"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" 模式下,通过控制 "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "wrap"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("strong", null, "(布尔类型)"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" 来控制是否自动换行")], -1);
+
+const _hoisted_32 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("利用 "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "wrap"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" 控制换行")])], -1);
+
+const _hoisted_33 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-switch v-model=\"value1\" loading> </el-switch>\n<el-switch v-model=\"value2\" loading> </el-switch>\n<script>\n  export default {\n    data() {\n      return {\n        value1: true,\n        value2: false,\n      }\n    },\n  }\n</script>\n")], -1);
+}, "<el-space wrap>\n  <div v-for=\"i in 20\" :key=\"i\">\n    <el-button type=\"text\">\n      文字按钮\n    </el-button>\n  </div>\n</el-space>\n")], -1);
 
-const _hoisted_19 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("prevent switching ");
+const _hoisted_34 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("行间分隔符 ");
 
-const _hoisted_20 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("set the "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "beforeChange"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" property, If "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "false"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" is returned or a "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Promise"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" is returned and then is rejected, will stop switching.")])], -1);
+const _hoisted_35 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "有时候, 仅仅在行间加空白, 并不能满足我们的日常需求, 此时分隔符 (spacer) 就可以发挥非常好的作用了.", -1);
 
-const _hoisted_21 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+const _hoisted_36 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("字符串 或 数字类型的分隔符 ");
+
+const _hoisted_37 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-switch v-model=\"value1\" :loading=\"loading1\" :beforeChange=\"beforeChange1\">\n</el-switch>\n<el-switch v-model=\"value2\" :loading=\"loading2\" :beforeChange=\"beforeChange2\">\n</el-switch>\n<script>\n  import { reactive, toRefs } from 'vue'\n  import { ElMessage } from 'element-plus'\n\n  export default {\n    setup() {\n      const status1 = reactive({\n        value1: false,\n        loading1: false,\n      })\n\n      const beforeChange1 = () => {\n        status1.loading1 = true\n        return new Promise(resolve => {\n          setTimeout(() => {\n            status1.loading1 = false\n            ElMessage.success('switch success')\n            return resolve(true)\n          }, 1000)\n        })\n      }\n\n      const status2 = reactive({\n        value2: false,\n        loading2: false,\n      })\n\n      const beforeChange2 = () => {\n        status2.loading2 = true\n        return new Promise((resolve, reject) => {\n          setTimeout(() => {\n            status2.loading2 = false\n            ElMessage.error('switch failed')\n            return reject(new Error('error'))\n          }, 1000)\n        })\n      }\n\n      return {\n        ...toRefs(status1),\n        ...toRefs(status2),\n        beforeChange1,\n        beforeChange2,\n      }\n    },\n  }\n</script>\n")], -1);
+}, "<template>\n <el-space :size=\"size\" spacer=\"|\">\n    <div v-for=\"i in 2\" :key=\"i\">\n      <el-button>\n        button {{ i }}\n      </el-button>\n    </div>\n  </el-space>\n</template>\n\n<script>\n\nexport default {\n  data() {\n    return {\n      size: 10,\n    }\n  },\n}\n</script>\n")], -1);
 
-const _hoisted_22 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Atributos ");
+const _hoisted_38 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("分隔符还可以是 VNode 类型 ");
 
-const _hoisted_23 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>Atributo</th><th>Descripción</th><th>Tipo</th><th>Valores aceptados</th><th>Por defecto</th></tr></thead><tbody><tr><td>model-value / v-model</td><td>valor vinculante, debe ser equivalente al <code>active-value</code> o al <code>inactive-value</code>. El tipo por defecto es el tipo <code>boolean</code>.</td><td>boolean / string / number</td><td>—</td><td>—</td></tr><tr><td>disabled</td><td>si Switch esta deshabilitado</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>loading</td><td>whether Switch is in loading state</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>width</td><td>ancho del componente Switch</td><td>number</td><td>—</td><td>40</td></tr><tr><td>active-icon-class</td><td>nombre de la clase del icono mostrado en el estado <code>on</code>, sobrescribe <code>active-text</code></td><td>string</td><td>—</td><td>—</td></tr><tr><td>inactive-icon-class</td><td>nombre de la clase del icono mostrado en el estado <code>off</code>, sobrescribe <code>inactive-text</code></td><td>string</td><td>—</td><td>—</td></tr><tr><td>active-text</td><td>texto mostrado en el estado <code>on</code></td><td>string</td><td>—</td><td>—</td></tr><tr><td>inactive-text</td><td>texto mostrado en el estado <code>off</code></td><td>string</td><td>—</td><td>—</td></tr><tr><td>active-value</td><td>cambia su valor cuando se encuentra en el estado <code>on</code></td><td>boolean / string / number</td><td>—</td><td>true</td></tr><tr><td>inactive-value</td><td>cambia su valor cuando se encuentra en el estado <code>off</code></td><td>boolean / string / number</td><td>—</td><td>false</td></tr><tr><td>active-color</td><td>color de fondo cuando se encuentra en el estado <code>on</code></td><td>string</td><td>—</td><td>#409EFF</td></tr><tr><td>inactive-color</td><td>color de fondo cuando se encuentra en el estado <code>off</code></td><td>string</td><td>—</td><td>#C0CCDA</td></tr><tr><td>border-color</td><td>color del borde del switch.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>name</td><td>nombre de entrada del componente Switch</td><td>string</td><td>—</td><td>—</td></tr><tr><td>validate-event</td><td>si se debe lanzar la validación de formulario</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>before-change</td><td>before-change hook before the switch state changes. If <code>false</code> is returned or a <code>Promise</code> is returned and then is rejected, will stop switching</td><td>function</td><td>—</td><td>—</td></tr></tbody></table>", 1);
+const _hoisted_39 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+  class: "html"
+}, "<template>\n <el-space :size=\"size\" :spacer=\"spacer\">\n    <div v-for=\"i in 2\" :key=\"i\">\n      <el-button>\n        button {{ i }}\n      </el-button>\n    </div>\n  </el-space>\n</template>\n\n<script>\nimport { h, resolveComponent } from 'vue'\nimport { ElDivider } from 'element-plus'\nexport default {\n  data() {\n    return {\n      size: 10,\n      spacer: h(ElDivider, { direction: 'vertical' }),\n    }\n  },\n}\n</script>\n\n")], -1);
 
-const _hoisted_24 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Eventos ");
+const _hoisted_40 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("对齐方式 ");
 
-const _hoisted_25 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("table", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("thead", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Nombre del evento"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Descripción"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Parametro")])]), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tbody", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "change"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "se dispara cuando el valor cambia"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "valor")])])], -1);
+const _hoisted_41 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("设置该值可以调整所有子节点在容器内的对齐方式, 可设置的值与 ");
 
-const _hoisted_26 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "después de cambiar", -1);
+const _hoisted_42 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("align-items");
 
-const _hoisted_27 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Metodos ");
+const _hoisted_43 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" 一致");
 
-const _hoisted_28 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("table", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("thead", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Metodo"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Descripción"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Parametro")])]), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tbody", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "focus"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "foco al componente Switch"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—")])])], -1);
+const _hoisted_44 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "用 alignment 来控制对齐")], -1);
 
-function switchvue_type_template_id_53f172b7_render(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_45 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+  class: "html"
+}, "\n<template>\n  <div style=\"width: 240px;margin-bottom: 20px;padding: 8px;border: 1px solid #ccc;\">\n    <el-space>\n      string\n      <el-button>\n        button\n      </el-button>\n      <el-card>\n        <template #header>\n          header\n        </template>\n        body\n      </el-card>\n    </el-space>\n  </div>\n  <div style=\"width: 240px;margin-bottom: 20px;padding: 8px;border: 1px solid #ccc;\">\n    <el-space alignment=\"flex-start\">\n      string\n      <el-button>\n        button\n      </el-button>\n      <el-card>\n        <template #header>\n          header\n        </template>\n        body\n      </el-card>\n    </el-space>\n  </div>\n  <div style=\"width: 240px;margin-bottom: 20px;padding: 8px;border: 1px solid #ccc;\">\n    <el-space alignment=\"flex-end\">\n      string\n      <el-button>\n        button\n      </el-button>\n      <el-card>\n        <template #header>\n          header\n        </template>\n        body\n      </el-card>\n    </el-space>\n  </div>\n</template>\n\n")], -1);
+
+const _hoisted_46 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("自动填充容器 ");
+
+const _hoisted_47 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("通过 "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "fill"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("strong", null, "(布尔类型)"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" 参数可以控制子节点是否自动填充容器")], -1);
+
+const _hoisted_48 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("下面的例子中，当设置为 "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "fill"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" 时，子节点的宽度会自动适配容器的宽度")], -1);
+
+const _hoisted_49 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "用 fill 让子节点自动填充容器")], -1);
+
+const _hoisted_50 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+  class: "html"
+}, "<template>\n  <div>\n  <div style=\"margin-bottom:15px\">\n    fill:  <el-switch v-model=\"fill\"></el-switch>\n  </div>\n  <el-space :fill=\"fill\" wrap>\n    <el-card class=\"box-card\" v-for=\"i in 3\" :key=\"i\">\n      <template #header>\n        <div class=\"card-header\">\n          <span>Card name</span>\n          <el-button class=\"button\" type=\"text\">Operation button</el-button>\n        </div>\n      </template>\n      <div v-for=\"o in 4\" :key=\"o\" class=\"text item\">\n        {{ 'List item ' + o }}\n      </div>\n    </el-card>\n  </el-space>\n  </div>\n</template>\n\n<script>\n\nexport default {\n  data() {\n    return { fill: true }\n  },\n}\n</script>\n")], -1);
+
+const _hoisted_51 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("也可以使用 "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "fillRatio"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" 参数，自定义填充的比例，默认值为 "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "100"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("，代表基于父容器宽度的 "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "100%"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" 进行填充")], -1);
+
+const _hoisted_52 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "需要注意的是，水平布局和垂直布局的表现形式稍有不同，具体的效果可以查看下面的例子", -1);
+
+const _hoisted_53 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "用 fillRatio 自定义填充比例")], -1);
+
+const _hoisted_54 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+  class: "html"
+}, "<template>\n  <div>\n  <div style=\"margin-bottom: 15px\">\n    direction:\n    <el-radio v-model=\"direction\" label=\"horizontal\">horizontal</el-radio>\n    <el-radio v-model=\"direction\" label=\"vertical\">vertical</el-radio>\n  </div>\n  <div style=\"margin-bottom: 15px\">\n    fillRatio:<el-slider v-model=\"fillRatio\"></el-slider>\n  </div>\n  <el-space fill wrap :fillRatio=\"fillRatio\" :direction=\"direction\" style=\" width: 100%\">\n    <el-card class=\"box-card\" v-for=\"i in 5\" :key=\"i\">\n      <template #header>\n        <div class=\"card-header\">\n          <span>Card name</span>\n          <el-button class=\"button\" type=\"text\">Operation button</el-button>\n        </div>\n      </template>\n      <div v-for=\"o in 4\" :key=\"o\" class=\"text item\">\n        {{ 'List item ' + o }}\n      </div>\n    </el-card>\n  </el-space>\n  </div>\n</template>\n\n<script>\n\nexport default {\n  data() {\n    return { direction: 'horizontal', fillRatio: 30 }\n  },\n}\n</script>\n")], -1);
+
+const _hoisted_55 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Space Attributes ");
+
+const _hoisted_56 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("thead", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "参数"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "说明"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "类型"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "可选值"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "默认值")])], -1);
+
+const _hoisted_57 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "alignment", -1);
+
+const _hoisted_58 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "对齐的方式", -1);
+
+const _hoisted_59 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string", -1);
+
+const _hoisted_60 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("align-items");
+
+const _hoisted_61 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "'center'", -1);
+
+const _hoisted_62 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "class"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "类名"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string / Array<Object | String> / Object"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-")], -1);
+
+const _hoisted_63 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "direction"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "排列的方向"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "vertical/horizontal"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "horizontal")], -1);
+
+const _hoisted_64 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "prefixCls"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "给 space-items 的类名前缀"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "el-space"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-")], -1);
+
+const _hoisted_65 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "style"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "额外样式"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string / Array<Object | String> / Object"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-")], -1);
+
+const _hoisted_66 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "spacer"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "间隔符"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string / number / VNode"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-")], -1);
+
+const _hoisted_67 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "size"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "间隔大小"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string / number / [number, number]"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "'small'")], -1);
+
+const _hoisted_68 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "wrap"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "设置是否自动折行"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "true / false"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "false")], -1);
+
+const _hoisted_69 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "fill"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "子元素是否填充父容器"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "true / false"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "false")], -1);
+
+const _hoisted_70 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "fillRatio"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "填充父容器的比例"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "number"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "100")], -1);
+
+const _hoisted_71 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Space Slot ");
+
+const _hoisted_72 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("table", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("thead", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "name"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "说明")])]), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tbody", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "default"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "需要添加间隔的元素")])])], -1);
+
+function spacevue_type_template_id_14d9f492_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_app_link = Object(vue_esm_browser_prod["resolveComponent"])("app-link");
 
   const _component_app_heading = Object(vue_esm_browser_prod["resolveComponent"])("app-heading");
@@ -1505,188 +1604,300 @@ function switchvue_type_template_id_53f172b7_render(_ctx, _cache, $props, $setup
 
   const _component_element_demo5 = Object(vue_esm_browser_prod["resolveComponent"])("element-demo5");
 
+  const _component_element_demo6 = Object(vue_esm_browser_prod["resolveComponent"])("element-demo6");
+
+  const _component_element_demo7 = Object(vue_esm_browser_prod["resolveComponent"])("element-demo7");
+
+  const _component_element_demo8 = Object(vue_esm_browser_prod["resolveComponent"])("element-demo8");
+
+  const _component_element_demo9 = Object(vue_esm_browser_prod["resolveComponent"])("element-demo9");
+
   const _component_right_nav = Object(vue_esm_browser_prod["resolveComponent"])("right-nav");
 
-  return Object(vue_esm_browser_prod["openBlock"])(), Object(vue_esm_browser_prod["createElementBlock"])("section", _hoisted_1, [Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "switch",
-    content: "Switch",
-    href: "#switch",
+  return Object(vue_esm_browser_prod["openBlock"])(), Object(vue_esm_browser_prod["createElementBlock"])("section", spacevue_type_template_id_14d9f492_hoisted_1, [Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "space-jian-ju",
+    content: "Space 间距",
+    href: "#space-jian-ju",
     level: "2"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_2, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [spacevue_type_template_id_14d9f492_hoisted_2, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#switch"
+      href: "#space-jian-ju"
     })]),
     _: 1
-  }), _hoisted_3, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "uso-basico",
-    content: "Uso básico",
-    href: "#uso-basico",
+  }), Object(vue_esm_browser_prod["createElementVNode"])("p", null, [spacevue_type_template_id_14d9f492_hoisted_3, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    href: "#/zh-CN/component/divider"
+  }, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [spacevue_type_template_id_14d9f492_hoisted_4]),
+    _: 1
+  }), spacevue_type_template_id_14d9f492_hoisted_5, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    href: "#/zh-CN/component/divider"
+  }, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [spacevue_type_template_id_14d9f492_hoisted_6]),
+    _: 1
+  }), spacevue_type_template_id_14d9f492_hoisted_7, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    href: "#/zh-CN/component/divider"
+  }, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [spacevue_type_template_id_14d9f492_hoisted_8]),
+    _: 1
+  }), spacevue_type_template_id_14d9f492_hoisted_9, spacevue_type_template_id_14d9f492_hoisted_10, spacevue_type_template_id_14d9f492_hoisted_11]), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "ji-chu-yong-fa",
+    content: "基础用法",
+    href: "#ji-chu-yong-fa",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_4, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [spacevue_type_template_id_14d9f492_hoisted_12, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#uso-basico"
+      href: "#ji-chu-yong-fa"
     })]),
     _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+  }), spacevue_type_template_id_14d9f492_hoisted_13, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
     source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo0)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_6]),
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_5]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [spacevue_type_template_id_14d9f492_hoisted_15]),
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [spacevue_type_template_id_14d9f492_hoisted_14]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "texto-de-descripcion",
-    content: "Texto de descripción",
-    href: "#texto-de-descripcion",
-    level: "3"
-  }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_7, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
-      class: "header-anchor",
-      href: "#texto-de-descripcion"
-    })]),
-    _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
-    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo1)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_9]),
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_8]),
-    _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "tipos-de-valores-extendidos",
-    content: "Tipos de valores extendidos",
-    href: "#tipos-de-valores-extendidos",
-    level: "3"
-  }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_10, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
-      class: "header-anchor",
-      href: "#tipos-de-valores-extendidos"
-    })]),
-    _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
-    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo2)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_12]),
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_11]),
-    _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "disabled",
-    content: "Disabled",
-    href: "#disabled",
-    level: "3"
-  }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_13, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
-      class: "header-anchor",
-      href: "#disabled"
-    })]),
-    _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
-    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo3)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_15]),
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_14]),
-    _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "loading",
-    content: "Loading",
-    href: "#loading",
+    id: "chui-zhi-bu-ju",
+    content: "垂直布局",
+    href: "#chui-zhi-bu-ju",
     level: "3"
   }, {
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_16, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#loading"
+      href: "#chui-zhi-bu-ju"
     })]),
     _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
-    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo4)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_18]),
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_17]),
+  }), _hoisted_17, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo1)]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_19]),
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_18]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "prevent-switching",
-    content: "prevent switching",
-    href: "#prevent-switching",
+    id: "kong-zhi-jian-ju-de-da-xiao",
+    content: "控制间距的大小",
+    href: "#kong-zhi-jian-ju-de-da-xiao",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_19, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_20, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#prevent-switching"
+      href: "#kong-zhi-jian-ju-de-da-xiao"
+    })]),
+    _: 1
+  }), _hoisted_21, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo2)]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_25]),
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_24]),
+    _: 1
+  }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "zi-ding-yi-size",
+    content: "自定义 Size",
+    href: "#zi-ding-yi-size",
+    level: "3"
+  }, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_26, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+      class: "header-anchor",
+      href: "#zi-ding-yi-size"
+    })]),
+    _: 1
+  }), _hoisted_27, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo3)]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_28]),
+    _: 1
+  }), _hoisted_29, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "zi-dong-huan-xing",
+    content: "自动换行",
+    href: "#zi-dong-huan-xing",
+    level: "3"
+  }, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_30, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+      class: "header-anchor",
+      href: "#zi-dong-huan-xing"
+    })]),
+    _: 1
+  }), _hoisted_31, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo4)]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_33]),
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_32]),
+    _: 1
+  }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "xing-jian-fen-ge-fu",
+    content: "行间分隔符",
+    href: "#xing-jian-fen-ge-fu",
+    level: "3"
+  }, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_34, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+      class: "header-anchor",
+      href: "#xing-jian-fen-ge-fu"
+    })]),
+    _: 1
+  }), _hoisted_35, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "zi-fu-chuan-huo-shu-zi-lei-xing-de-fen-ge-fu",
+    content: "字符串 或 数字类型的分隔符",
+    href: "#zi-fu-chuan-huo-shu-zi-lei-xing-de-fen-ge-fu",
+    level: "4"
+  }, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_36, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+      class: "header-anchor",
+      href: "#zi-fu-chuan-huo-shu-zi-lei-xing-de-fen-ge-fu"
     })]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
     source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo5)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_21]),
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_20]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_37]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "atributos",
-    content: "Atributos",
-    href: "#atributos",
-    level: "3"
+    id: "fen-ge-fu-huan-ke-yi-shi-vnode-lei-xing",
+    content: "分隔符还可以是 VNode 类型",
+    href: "#fen-ge-fu-huan-ke-yi-shi-vnode-lei-xing",
+    level: "4"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_22, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_38, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#atributos"
+      href: "#fen-ge-fu-huan-ke-yi-shi-vnode-lei-xing"
     })]),
     _: 1
-  }), _hoisted_23, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "eventos",
-    content: "Eventos",
-    href: "#eventos",
+  }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo6)]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_39]),
+    _: 1
+  }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "dui-qi-fang-shi",
+    content: "对齐方式",
+    href: "#dui-qi-fang-shi",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_24, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_40, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#eventos"
+      href: "#dui-qi-fang-shi"
     })]),
     _: 1
-  }), _hoisted_25, _hoisted_26, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "metodos",
-    content: "Metodos",
-    href: "#metodos",
+  }), Object(vue_esm_browser_prod["createElementVNode"])("p", null, [_hoisted_41, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    href: "https://developer.mozilla.org/zh-CN/docs/Web/CSS/align-items"
+  }, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_42]),
+    _: 1
+  }), _hoisted_43]), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo7)]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_45]),
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_44]),
+    _: 1
+  }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "zi-dong-tian-chong-rong-qi",
+    content: "自动填充容器",
+    href: "#zi-dong-tian-chong-rong-qi",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_27, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_46, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#metodos"
+      href: "#zi-dong-tian-chong-rong-qi"
     })]),
     _: 1
-  }), _hoisted_28, Object(vue_esm_browser_prod["createVNode"])(_component_right_nav)]);
+  }), _hoisted_47, _hoisted_48, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo8)]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_50]),
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_49]),
+    _: 1
+  }), _hoisted_51, _hoisted_52, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo9)]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_54]),
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_53]),
+    _: 1
+  }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "space-attributes",
+    content: "Space Attributes",
+    href: "#space-attributes",
+    level: "3"
+  }, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_55, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+      class: "header-anchor",
+      href: "#space-attributes"
+    })]),
+    _: 1
+  }), Object(vue_esm_browser_prod["createElementVNode"])("table", null, [_hoisted_56, Object(vue_esm_browser_prod["createElementVNode"])("tbody", null, [Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [_hoisted_57, _hoisted_58, _hoisted_59, Object(vue_esm_browser_prod["createElementVNode"])("td", null, [Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    href: "https://developer.mozilla.org/zh-CN/docs/Web/CSS/align-items"
+  }, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_60]),
+    _: 1
+  })]), _hoisted_61]), _hoisted_62, _hoisted_63, _hoisted_64, _hoisted_65, _hoisted_66, _hoisted_67, _hoisted_68, _hoisted_69, _hoisted_70])]), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "space-slot",
+    content: "Space Slot",
+    href: "#space-slot",
+    level: "3"
+  }, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_71, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+      class: "header-anchor",
+      href: "#space-slot"
+    })]),
+    _: 1
+  }), _hoisted_72, Object(vue_esm_browser_prod["createVNode"])(_component_right_nav)]);
 }
-// CONCATENATED MODULE: ./website/docs/es/switch.md?vue&type=template&id=53f172b7
+// CONCATENATED MODULE: ./website/docs/zh-CN/space.md?vue&type=template&id=14d9f492
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/es/switch.md?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/zh-CN/space.md?vue&type=script&lang=ts
 
-/* harmony default export */ var switchvue_type_script_lang_ts = ({
+/* harmony default export */ var spacevue_type_script_lang_ts = ({
   name: 'component-doc',
   components: {
     "element-demo0": function () {
       const {
-        resolveComponent: _resolveComponent,
-        createVNode: _createVNode,
+        renderList: _renderList,
+        Fragment: _Fragment,
         openBlock: _openBlock,
-        createElementBlock: _createElementBlock
+        createElementBlock: _createElementBlock,
+        createElementVNode: _createElementVNode,
+        createTextVNode: _createTextVNode,
+        resolveComponent: _resolveComponent,
+        withCtx: _withCtx,
+        createVNode: _createVNode,
+        toDisplayString: _toDisplayString
       } = vue_esm_browser_prod;
+      const _hoisted_1 = {
+        class: "card-header"
+      };
+
+      const _hoisted_2 = /*#__PURE__*/_createElementVNode("span", null, "Card name", -1);
+
+      const _hoisted_3 = /*#__PURE__*/_createTextVNode("Operation button");
 
       function render(_ctx, _cache) {
-        const _component_el_switch = _resolveComponent("el-switch");
+        const _component_el_button = _resolveComponent("el-button");
 
-        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_switch, {
-          modelValue: _ctx.value1,
-          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value1 = $event)
-        }, null, 8, ["modelValue"]), _createVNode(_component_el_switch, {
-          modelValue: _ctx.value2,
-          "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.value2 = $event),
-          "active-color": "#13ce66",
-          "inactive-color": "#ff4949"
-        }, null, 8, ["modelValue"])]);
+        const _component_el_card = _resolveComponent("el-card");
+
+        const _component_el_space = _resolveComponent("el-space");
+
+        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_space, {
+          wrap: ""
+        }, {
+          default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(3, i => {
+            return _createVNode(_component_el_card, {
+              class: "box-card",
+              style: {
+                "width": "250px"
+              },
+              key: i
+            }, {
+              header: _withCtx(() => [_createElementVNode("div", _hoisted_1, [_hoisted_2, _createVNode(_component_el_button, {
+                class: "button",
+                type: "text"
+              }, {
+                default: _withCtx(() => [_hoisted_3]),
+                _: 1
+              })])]),
+              default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(4, o => {
+                return _createElementVNode("div", {
+                  key: o,
+                  class: "text item"
+                }, _toDisplayString('List item ' + o), 1);
+              }), 64))]),
+              _: 2
+            }, 1024);
+          }), 64))]),
+          _: 1
+        })]);
       }
 
-      const democomponentExport = {
-        data() {
-          return {
-            value1: true,
-            value2: true
-          };
-        }
-
-      };
+      const democomponentExport = {};
       return {
         render,
         ...democomponentExport
@@ -1694,42 +1905,64 @@ function switchvue_type_template_id_53f172b7_render(_ctx, _cache, $props, $setup
     }(),
     "element-demo1": function () {
       const {
-        resolveComponent: _resolveComponent,
-        createVNode: _createVNode,
+        renderList: _renderList,
+        Fragment: _Fragment,
         openBlock: _openBlock,
-        createElementBlock: _createElementBlock
+        createElementBlock: _createElementBlock,
+        createElementVNode: _createElementVNode,
+        createTextVNode: _createTextVNode,
+        resolveComponent: _resolveComponent,
+        withCtx: _withCtx,
+        createVNode: _createVNode,
+        toDisplayString: _toDisplayString
       } = vue_esm_browser_prod;
+      const _hoisted_1 = {
+        class: "card-header"
+      };
+
+      const _hoisted_2 = /*#__PURE__*/_createElementVNode("span", null, "Card name", -1);
+
+      const _hoisted_3 = /*#__PURE__*/_createTextVNode("Operation button");
 
       function render(_ctx, _cache) {
-        const _component_el_switch = _resolveComponent("el-switch");
+        const _component_el_button = _resolveComponent("el-button");
 
-        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_switch, {
-          modelValue: _ctx.value1,
-          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value1 = $event),
-          "active-text": "Pay by month",
-          "inactive-text": "Pay by year"
-        }, null, 8, ["modelValue"]), _createVNode(_component_el_switch, {
-          style: {
-            "display": "block"
-          },
-          modelValue: _ctx.value2,
-          "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.value2 = $event),
-          "active-color": "#13ce66",
-          "inactive-color": "#ff4949",
-          "active-text": "Pay by month",
-          "inactive-text": "Pay by year"
-        }, null, 8, ["modelValue"])]);
+        const _component_el_card = _resolveComponent("el-card");
+
+        const _component_el_space = _resolveComponent("el-space");
+
+        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_space, {
+          direction: "vertical"
+        }, {
+          default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(2, i => {
+            return _createVNode(_component_el_card, {
+              class: "box-card",
+              style: {
+                "width": "250px"
+              },
+              key: i
+            }, {
+              header: _withCtx(() => [_createElementVNode("div", _hoisted_1, [_hoisted_2, _createVNode(_component_el_button, {
+                class: "button",
+                type: "text"
+              }, {
+                default: _withCtx(() => [_hoisted_3]),
+                _: 1
+              })])]),
+              default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(4, o => {
+                return _createElementVNode("div", {
+                  key: o,
+                  class: "text item"
+                }, _toDisplayString('List item ' + o), 1);
+              }), 64))]),
+              _: 2
+            }, 1024);
+          }), 64))]),
+          _: 1
+        })]);
       }
 
-      const democomponentExport = {
-        data() {
-          return {
-            value1: true,
-            value2: true
-          };
-        }
-
-      };
+      const democomponentExport = {};
       return {
         render,
         ...democomponentExport
@@ -1737,38 +1970,114 @@ function switchvue_type_template_id_53f172b7_render(_ctx, _cache, $props, $setup
     }(),
     "element-demo2": function () {
       const {
+        createTextVNode: _createTextVNode,
         resolveComponent: _resolveComponent,
-        createVNode: _createVNode,
         withCtx: _withCtx,
+        createVNode: _createVNode,
+        renderList: _renderList,
+        Fragment: _Fragment,
         openBlock: _openBlock,
-        createElementBlock: _createElementBlock
+        createElementBlock: _createElementBlock,
+        createElementVNode: _createElementVNode,
+        toDisplayString: _toDisplayString
       } = vue_esm_browser_prod;
 
+      const _hoisted_1 = /*#__PURE__*/_createTextVNode("迷你");
+
+      const _hoisted_2 = /*#__PURE__*/_createTextVNode("小");
+
+      const _hoisted_3 = /*#__PURE__*/_createTextVNode("中等");
+
+      const _hoisted_4 = /*#__PURE__*/_createTextVNode("大号");
+
+      const _hoisted_5 = {
+        class: "card-header"
+      };
+
+      const _hoisted_6 = /*#__PURE__*/_createElementVNode("span", null, "Card name", -1);
+
+      const _hoisted_7 = /*#__PURE__*/_createTextVNode("Operation button");
+
       function render(_ctx, _cache) {
-        const _component_el_switch = _resolveComponent("el-switch");
+        const _component_el_radio = _resolveComponent("el-radio");
 
-        const _component_el_tooltip = _resolveComponent("el-tooltip");
+        const _component_el_radio_group = _resolveComponent("el-radio-group");
 
-        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_tooltip, {
-          content: 'Switch value: ' + _ctx.value,
-          placement: "top"
+        const _component_el_button = _resolveComponent("el-button");
+
+        const _component_el_card = _resolveComponent("el-card");
+
+        const _component_el_space = _resolveComponent("el-space");
+
+        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_space, {
+          direction: "vertical",
+          alignment: "start",
+          size: 30
         }, {
-          default: _withCtx(() => [_createVNode(_component_el_switch, {
-            modelValue: _ctx.value,
-            "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value = $event),
-            "active-color": "#13ce66",
-            "inactive-color": "#ff4949",
-            "active-value": "100",
-            "inactive-value": "0"
-          }, null, 8, ["modelValue"])]),
+          default: _withCtx(() => [_createVNode(_component_el_radio_group, {
+            modelValue: _ctx.size,
+            "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.size = $event)
+          }, {
+            default: _withCtx(() => [_createVNode(_component_el_radio, {
+              label: 'mini'
+            }, {
+              default: _withCtx(() => [_hoisted_1]),
+              _: 1
+            }), _createVNode(_component_el_radio, {
+              label: 'small'
+            }, {
+              default: _withCtx(() => [_hoisted_2]),
+              _: 1
+            }), _createVNode(_component_el_radio, {
+              label: 'medium'
+            }, {
+              default: _withCtx(() => [_hoisted_3]),
+              _: 1
+            }), _createVNode(_component_el_radio, {
+              label: 'large'
+            }, {
+              default: _withCtx(() => [_hoisted_4]),
+              _: 1
+            })]),
+            _: 1
+          }, 8, ["modelValue"]), _createVNode(_component_el_space, {
+            wrap: "",
+            size: _ctx.size
+          }, {
+            default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(3, i => {
+              return _createVNode(_component_el_card, {
+                class: "box-card",
+                style: {
+                  "width": "250px"
+                },
+                key: i
+              }, {
+                header: _withCtx(() => [_createElementVNode("div", _hoisted_5, [_hoisted_6, _createVNode(_component_el_button, {
+                  class: "button",
+                  type: "text"
+                }, {
+                  default: _withCtx(() => [_hoisted_7]),
+                  _: 1
+                })])]),
+                default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(4, o => {
+                  return _createElementVNode("div", {
+                    key: o,
+                    class: "text item"
+                  }, _toDisplayString('List item ' + o), 1);
+                }), 64))]),
+                _: 2
+              }, 1024);
+            }), 64))]),
+            _: 1
+          }, 8, ["size"])]),
           _: 1
-        }, 8, ["content"])]);
+        })]);
       }
 
       const democomponentExport = {
         data() {
           return {
-            value: '100'
+            size: 'mini'
           };
         }
 
@@ -1782,29 +2091,71 @@ function switchvue_type_template_id_53f172b7_render(_ctx, _cache, $props, $setup
       const {
         resolveComponent: _resolveComponent,
         createVNode: _createVNode,
+        renderList: _renderList,
+        Fragment: _Fragment,
         openBlock: _openBlock,
-        createElementBlock: _createElementBlock
+        createElementBlock: _createElementBlock,
+        createElementVNode: _createElementVNode,
+        createTextVNode: _createTextVNode,
+        withCtx: _withCtx,
+        toDisplayString: _toDisplayString
       } = vue_esm_browser_prod;
+      const _hoisted_1 = {
+        class: "card-header"
+      };
+
+      const _hoisted_2 = /*#__PURE__*/_createElementVNode("span", null, "Card name", -1);
+
+      const _hoisted_3 = /*#__PURE__*/_createTextVNode("Operation button");
 
       function render(_ctx, _cache) {
-        const _component_el_switch = _resolveComponent("el-switch");
+        const _component_el_slider = _resolveComponent("el-slider");
 
-        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_switch, {
-          modelValue: _ctx.value1,
-          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value1 = $event),
-          disabled: ""
-        }, null, 8, ["modelValue"]), _createVNode(_component_el_switch, {
-          modelValue: _ctx.value2,
-          "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.value2 = $event),
-          disabled: ""
-        }, null, 8, ["modelValue"])]);
+        const _component_el_button = _resolveComponent("el-button");
+
+        const _component_el_card = _resolveComponent("el-card");
+
+        const _component_el_space = _resolveComponent("el-space");
+
+        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_slider, {
+          modelValue: _ctx.size,
+          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.size = $event)
+        }, null, 8, ["modelValue"]), _createVNode(_component_el_space, {
+          wrap: "",
+          size: _ctx.size
+        }, {
+          default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(2, i => {
+            return _createVNode(_component_el_card, {
+              class: "box-card",
+              style: {
+                "width": "250px"
+              },
+              key: i
+            }, {
+              header: _withCtx(() => [_createElementVNode("div", _hoisted_1, [_hoisted_2, _createVNode(_component_el_button, {
+                class: "button",
+                type: "text"
+              }, {
+                default: _withCtx(() => [_hoisted_3]),
+                _: 1
+              })])]),
+              default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(4, o => {
+                return _createElementVNode("div", {
+                  key: o,
+                  class: "text item"
+                }, _toDisplayString('List item ' + o), 1);
+              }), 64))]),
+              _: 2
+            }, 1024);
+          }), 64))]),
+          _: 1
+        }, 8, ["size"])]);
       }
 
       const democomponentExport = {
         data() {
           return {
-            value1: true,
-            value2: false
+            size: 20
           };
         }
 
@@ -1816,31 +2167,86 @@ function switchvue_type_template_id_53f172b7_render(_ctx, _cache, $props, $setup
     }(),
     "element-demo4": function () {
       const {
-        resolveComponent: _resolveComponent,
-        createVNode: _createVNode,
+        renderList: _renderList,
+        Fragment: _Fragment,
         openBlock: _openBlock,
-        createElementBlock: _createElementBlock
+        createElementBlock: _createElementBlock,
+        createTextVNode: _createTextVNode,
+        resolveComponent: _resolveComponent,
+        withCtx: _withCtx,
+        createVNode: _createVNode,
+        createElementVNode: _createElementVNode
+      } = vue_esm_browser_prod;
+
+      const _hoisted_1 = /*#__PURE__*/_createTextVNode(" 文字按钮 ");
+
+      function render(_ctx, _cache) {
+        const _component_el_button = _resolveComponent("el-button");
+
+        const _component_el_space = _resolveComponent("el-space");
+
+        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_space, {
+          wrap: ""
+        }, {
+          default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(20, i => {
+            return _createElementVNode("div", {
+              key: i
+            }, [_createVNode(_component_el_button, {
+              type: "text"
+            }, {
+              default: _withCtx(() => [_hoisted_1]),
+              _: 1
+            })]);
+          }), 64))]),
+          _: 1
+        })]);
+      }
+
+      const democomponentExport = {};
+      return {
+        render,
+        ...democomponentExport
+      };
+    }(),
+    "element-demo5": function () {
+      const {
+        renderList: _renderList,
+        Fragment: _Fragment,
+        openBlock: _openBlock,
+        createElementBlock: _createElementBlock,
+        toDisplayString: _toDisplayString,
+        createTextVNode: _createTextVNode,
+        resolveComponent: _resolveComponent,
+        withCtx: _withCtx,
+        createVNode: _createVNode,
+        createElementVNode: _createElementVNode
       } = vue_esm_browser_prod;
 
       function render(_ctx, _cache) {
-        const _component_el_switch = _resolveComponent("el-switch");
+        const _component_el_button = _resolveComponent("el-button");
 
-        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_switch, {
-          modelValue: _ctx.value1,
-          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value1 = $event),
-          loading: ""
-        }, null, 8, ["modelValue"]), _createVNode(_component_el_switch, {
-          modelValue: _ctx.value2,
-          "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.value2 = $event),
-          loading: ""
-        }, null, 8, ["modelValue"])]);
+        const _component_el_space = _resolveComponent("el-space");
+
+        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_space, {
+          size: _ctx.size,
+          spacer: "|"
+        }, {
+          default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(2, i => {
+            return _createElementVNode("div", {
+              key: i
+            }, [_createVNode(_component_el_button, null, {
+              default: _withCtx(() => [_createTextVNode(" button " + _toDisplayString(i), 1)]),
+              _: 2
+            }, 1024)]);
+          }), 64))]),
+          _: 1
+        }, 8, ["size"])]);
       }
 
       const democomponentExport = {
         data() {
           return {
-            value1: true,
-            value2: false
+            size: 10
           };
         }
 
@@ -1850,77 +2256,368 @@ function switchvue_type_template_id_53f172b7_render(_ctx, _cache, $props, $setup
         ...democomponentExport
       };
     }(),
-    "element-demo5": function () {
+    "element-demo6": function () {
       const {
+        renderList: _renderList,
+        Fragment: _Fragment,
+        openBlock: _openBlock,
+        createElementBlock: _createElementBlock,
+        toDisplayString: _toDisplayString,
+        createTextVNode: _createTextVNode,
         resolveComponent: _resolveComponent,
+        withCtx: _withCtx,
         createVNode: _createVNode,
+        createElementVNode: _createElementVNode
+      } = vue_esm_browser_prod;
+
+      function render(_ctx, _cache) {
+        const _component_el_button = _resolveComponent("el-button");
+
+        const _component_el_space = _resolveComponent("el-space");
+
+        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_space, {
+          size: _ctx.size,
+          spacer: _ctx.spacer
+        }, {
+          default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(2, i => {
+            return _createElementVNode("div", {
+              key: i
+            }, [_createVNode(_component_el_button, null, {
+              default: _withCtx(() => [_createTextVNode(" button " + _toDisplayString(i), 1)]),
+              _: 2
+            }, 1024)]);
+          }), 64))]),
+          _: 1
+        }, 8, ["size", "spacer"])]);
+      }
+
+      const {
+        h,
+        resolveComponent
+      } = vue_esm_browser_prod;
+
+      const {
+        ElDivider
+      } = __webpack_require__(111);
+
+      const democomponentExport = {
+        data() {
+          return {
+            size: 10,
+            spacer: h(ElDivider, {
+              direction: 'vertical'
+            })
+          };
+        }
+
+      };
+      return {
+        render,
+        ...democomponentExport
+      };
+    }(),
+    "element-demo7": function () {
+      const {
+        createTextVNode: _createTextVNode,
+        resolveComponent: _resolveComponent,
+        withCtx: _withCtx,
+        createVNode: _createVNode,
+        createElementVNode: _createElementVNode,
         openBlock: _openBlock,
         createElementBlock: _createElementBlock
       } = vue_esm_browser_prod;
+      const _hoisted_1 = {
+        style: {
+          "width": "240px",
+          "margin-bottom": "20px",
+          "padding": "8px",
+          "border": "1px solid #ccc"
+        }
+      };
+
+      const _hoisted_2 = /*#__PURE__*/_createTextVNode(" string ");
+
+      const _hoisted_3 = /*#__PURE__*/_createTextVNode(" button ");
+
+      const _hoisted_4 = /*#__PURE__*/_createTextVNode(" header ");
+
+      const _hoisted_5 = /*#__PURE__*/_createTextVNode(" body ");
+
+      const _hoisted_6 = {
+        style: {
+          "width": "240px",
+          "margin-bottom": "20px",
+          "padding": "8px",
+          "border": "1px solid #ccc"
+        }
+      };
+
+      const _hoisted_7 = /*#__PURE__*/_createTextVNode(" string ");
+
+      const _hoisted_8 = /*#__PURE__*/_createTextVNode(" button ");
+
+      const _hoisted_9 = /*#__PURE__*/_createTextVNode(" header ");
+
+      const _hoisted_10 = /*#__PURE__*/_createTextVNode(" body ");
+
+      const _hoisted_11 = {
+        style: {
+          "width": "240px",
+          "margin-bottom": "20px",
+          "padding": "8px",
+          "border": "1px solid #ccc"
+        }
+      };
+
+      const _hoisted_12 = /*#__PURE__*/_createTextVNode(" string ");
+
+      const _hoisted_13 = /*#__PURE__*/_createTextVNode(" button ");
+
+      const _hoisted_14 = /*#__PURE__*/_createTextVNode(" header ");
+
+      const _hoisted_15 = /*#__PURE__*/_createTextVNode(" body ");
+
+      function render(_ctx, _cache) {
+        const _component_el_button = _resolveComponent("el-button");
+
+        const _component_el_card = _resolveComponent("el-card");
+
+        const _component_el_space = _resolveComponent("el-space");
+
+        return _openBlock(), _createElementBlock("div", null, [_createElementVNode("div", _hoisted_1, [_createVNode(_component_el_space, null, {
+          default: _withCtx(() => [_hoisted_2, _createVNode(_component_el_button, null, {
+            default: _withCtx(() => [_hoisted_3]),
+            _: 1
+          }), _createVNode(_component_el_card, null, {
+            header: _withCtx(() => [_hoisted_4]),
+            default: _withCtx(() => [_hoisted_5]),
+            _: 1
+          })]),
+          _: 1
+        })]), _createElementVNode("div", _hoisted_6, [_createVNode(_component_el_space, {
+          alignment: "flex-start"
+        }, {
+          default: _withCtx(() => [_hoisted_7, _createVNode(_component_el_button, null, {
+            default: _withCtx(() => [_hoisted_8]),
+            _: 1
+          }), _createVNode(_component_el_card, null, {
+            header: _withCtx(() => [_hoisted_9]),
+            default: _withCtx(() => [_hoisted_10]),
+            _: 1
+          })]),
+          _: 1
+        })]), _createElementVNode("div", _hoisted_11, [_createVNode(_component_el_space, {
+          alignment: "flex-end"
+        }, {
+          default: _withCtx(() => [_hoisted_12, _createVNode(_component_el_button, null, {
+            default: _withCtx(() => [_hoisted_13]),
+            _: 1
+          }), _createVNode(_component_el_card, null, {
+            header: _withCtx(() => [_hoisted_14]),
+            default: _withCtx(() => [_hoisted_15]),
+            _: 1
+          })]),
+          _: 1
+        })])]);
+      }
+
+      const democomponentExport = {};
+      return {
+        render,
+        ...democomponentExport
+      };
+    }(),
+    "element-demo8": function () {
+      const {
+        resolveComponent: _resolveComponent,
+        createVNode: _createVNode,
+        createTextVNode: _createTextVNode,
+        createElementVNode: _createElementVNode,
+        renderList: _renderList,
+        Fragment: _Fragment,
+        openBlock: _openBlock,
+        createElementBlock: _createElementBlock,
+        withCtx: _withCtx,
+        toDisplayString: _toDisplayString
+      } = vue_esm_browser_prod;
+      const _hoisted_1 = {
+        style: {
+          "margin-bottom": "15px"
+        }
+      };
+
+      const _hoisted_2 = /*#__PURE__*/_createTextVNode(" fill: ");
+
+      const _hoisted_3 = {
+        class: "card-header"
+      };
+
+      const _hoisted_4 = /*#__PURE__*/_createElementVNode("span", null, "Card name", -1);
+
+      const _hoisted_5 = /*#__PURE__*/_createTextVNode("Operation button");
 
       function render(_ctx, _cache) {
         const _component_el_switch = _resolveComponent("el-switch");
 
-        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_switch, {
-          modelValue: _ctx.value1,
-          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value1 = $event),
-          loading: _ctx.loading1,
-          beforeChange: _ctx.beforeChange1
-        }, null, 8, ["modelValue", "loading", "beforeChange"]), _createVNode(_component_el_switch, {
-          modelValue: _ctx.value2,
-          "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.value2 = $event),
-          loading: _ctx.loading2,
-          beforeChange: _ctx.beforeChange2
-        }, null, 8, ["modelValue", "loading", "beforeChange"])]);
+        const _component_el_button = _resolveComponent("el-button");
+
+        const _component_el_card = _resolveComponent("el-card");
+
+        const _component_el_space = _resolveComponent("el-space");
+
+        return _openBlock(), _createElementBlock("div", null, [_createElementVNode("div", null, [_createElementVNode("div", _hoisted_1, [_hoisted_2, _createVNode(_component_el_switch, {
+          modelValue: _ctx.fill,
+          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.fill = $event)
+        }, null, 8, ["modelValue"])]), _createVNode(_component_el_space, {
+          fill: _ctx.fill,
+          wrap: ""
+        }, {
+          default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(3, i => {
+            return _createVNode(_component_el_card, {
+              class: "box-card",
+              key: i
+            }, {
+              header: _withCtx(() => [_createElementVNode("div", _hoisted_3, [_hoisted_4, _createVNode(_component_el_button, {
+                class: "button",
+                type: "text"
+              }, {
+                default: _withCtx(() => [_hoisted_5]),
+                _: 1
+              })])]),
+              default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(4, o => {
+                return _createElementVNode("div", {
+                  key: o,
+                  class: "text item"
+                }, _toDisplayString('List item ' + o), 1);
+              }), 64))]),
+              _: 2
+            }, 1024);
+          }), 64))]),
+          _: 1
+        }, 8, ["fill"])])]);
       }
 
-      const {
-        reactive,
-        toRefs
-      } = vue_esm_browser_prod;
+      const democomponentExport = {
+        data() {
+          return {
+            fill: true
+          };
+        }
 
+      };
+      return {
+        render,
+        ...democomponentExport
+      };
+    }(),
+    "element-demo9": function () {
       const {
-        ElMessage
-      } = __webpack_require__(111);
+        createTextVNode: _createTextVNode,
+        resolveComponent: _resolveComponent,
+        withCtx: _withCtx,
+        createVNode: _createVNode,
+        createElementVNode: _createElementVNode,
+        renderList: _renderList,
+        Fragment: _Fragment,
+        openBlock: _openBlock,
+        createElementBlock: _createElementBlock,
+        toDisplayString: _toDisplayString
+      } = vue_esm_browser_prod;
+      const _hoisted_1 = {
+        style: {
+          "margin-bottom": "15px"
+        }
+      };
+
+      const _hoisted_2 = /*#__PURE__*/_createTextVNode(" direction: ");
+
+      const _hoisted_3 = /*#__PURE__*/_createTextVNode("horizontal");
+
+      const _hoisted_4 = /*#__PURE__*/_createTextVNode("vertical");
+
+      const _hoisted_5 = {
+        style: {
+          "margin-bottom": "15px"
+        }
+      };
+
+      const _hoisted_6 = /*#__PURE__*/_createTextVNode(" fillRatio:");
+
+      const _hoisted_7 = {
+        class: "card-header"
+      };
+
+      const _hoisted_8 = /*#__PURE__*/_createElementVNode("span", null, "Card name", -1);
+
+      const _hoisted_9 = /*#__PURE__*/_createTextVNode("Operation button");
+
+      function render(_ctx, _cache) {
+        const _component_el_radio = _resolveComponent("el-radio");
+
+        const _component_el_slider = _resolveComponent("el-slider");
+
+        const _component_el_button = _resolveComponent("el-button");
+
+        const _component_el_card = _resolveComponent("el-card");
+
+        const _component_el_space = _resolveComponent("el-space");
+
+        return _openBlock(), _createElementBlock("div", null, [_createElementVNode("div", null, [_createElementVNode("div", _hoisted_1, [_hoisted_2, _createVNode(_component_el_radio, {
+          modelValue: _ctx.direction,
+          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.direction = $event),
+          label: "horizontal"
+        }, {
+          default: _withCtx(() => [_hoisted_3]),
+          _: 1
+        }, 8, ["modelValue"]), _createVNode(_component_el_radio, {
+          modelValue: _ctx.direction,
+          "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.direction = $event),
+          label: "vertical"
+        }, {
+          default: _withCtx(() => [_hoisted_4]),
+          _: 1
+        }, 8, ["modelValue"])]), _createElementVNode("div", _hoisted_5, [_hoisted_6, _createVNode(_component_el_slider, {
+          modelValue: _ctx.fillRatio,
+          "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => _ctx.fillRatio = $event)
+        }, null, 8, ["modelValue"])]), _createVNode(_component_el_space, {
+          fill: "",
+          wrap: "",
+          fillRatio: _ctx.fillRatio,
+          direction: _ctx.direction,
+          style: {
+            "width": "100%"
+          }
+        }, {
+          default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(5, i => {
+            return _createVNode(_component_el_card, {
+              class: "box-card",
+              key: i
+            }, {
+              header: _withCtx(() => [_createElementVNode("div", _hoisted_7, [_hoisted_8, _createVNode(_component_el_button, {
+                class: "button",
+                type: "text"
+              }, {
+                default: _withCtx(() => [_hoisted_9]),
+                _: 1
+              })])]),
+              default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(4, o => {
+                return _createElementVNode("div", {
+                  key: o,
+                  class: "text item"
+                }, _toDisplayString('List item ' + o), 1);
+              }), 64))]),
+              _: 2
+            }, 1024);
+          }), 64))]),
+          _: 1
+        }, 8, ["fillRatio", "direction"])])]);
+      }
 
       const democomponentExport = {
-        setup() {
-          const status1 = reactive({
-            value1: false,
-            loading1: false
-          });
-
-          const beforeChange1 = () => {
-            status1.loading1 = true;
-            return new Promise(resolve => {
-              setTimeout(() => {
-                status1.loading1 = false;
-                ElMessage.success('switch success');
-                return resolve(true);
-              }, 1000);
-            });
-          };
-
-          const status2 = reactive({
-            value2: false,
-            loading2: false
-          });
-
-          const beforeChange2 = () => {
-            status2.loading2 = true;
-            return new Promise((resolve, reject) => {
-              setTimeout(() => {
-                status2.loading2 = false;
-                ElMessage.error('switch failed');
-                return reject(new Error('error'));
-              }, 1000);
-            });
-          };
-
-          return { ...toRefs(status1),
-            ...toRefs(status2),
-            beforeChange1,
-            beforeChange2
+        data() {
+          return {
+            direction: 'horizontal',
+            fillRatio: 30
           };
         }
 
@@ -1932,15 +2629,15 @@ function switchvue_type_template_id_53f172b7_render(_ctx, _cache, $props, $setup
     }()
   }
 });
-// CONCATENATED MODULE: ./website/docs/es/switch.md?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./website/docs/zh-CN/space.md?vue&type=script&lang=ts
  
-// CONCATENATED MODULE: ./website/docs/es/switch.md
+// CONCATENATED MODULE: ./website/docs/zh-CN/space.md
 
 
 
-switchvue_type_script_lang_ts.render = switchvue_type_template_id_53f172b7_render
+spacevue_type_script_lang_ts.render = spacevue_type_template_id_14d9f492_render
 
-/* harmony default export */ var es_switch = __webpack_exports__["default"] = (switchvue_type_script_lang_ts);
+/* harmony default export */ var space = __webpack_exports__["default"] = (spacevue_type_script_lang_ts);
 
 /***/ })
 

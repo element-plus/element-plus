@@ -48,7 +48,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"0":"zh-CN0~zh-CN2~zh-CN3~zh-CN4~zh-CN5~zh-CN6","1":"DOCS en-US0","2":"DOCS en-US1","3":"DOCS en-US10","4":"DOCS en-US11","5":"DOCS en-US12","6":"DOCS en-US13","7":"DOCS en-US14","8":"DOCS en-US15","9":"DOCS en-US16","10":"DOCS en-US17","11":"DOCS en-US18","12":"DOCS en-US19","13":"DOCS en-US2","14":"DOCS en-US20","15":"DOCS en-US21","16":"DOCS en-US22","17":"DOCS en-US23","18":"DOCS en-US24","19":"DOCS en-US25","20":"DOCS en-US26","21":"DOCS en-US27","22":"DOCS en-US28","23":"DOCS en-US29","24":"DOCS en-US3","25":"DOCS en-US30","26":"DOCS en-US31","27":"DOCS en-US32","28":"DOCS en-US33","29":"DOCS en-US34","30":"DOCS en-US35","31":"DOCS en-US36","32":"DOCS en-US37","33":"DOCS en-US38","34":"DOCS en-US39","35":"DOCS en-US4","36":"DOCS en-US40","37":"DOCS en-US41","38":"DOCS en-US42","39":"DOCS en-US43","40":"DOCS en-US44","41":"DOCS en-US45","42":"DOCS en-US46","43":"DOCS en-US47","44":"DOCS en-US48","45":"DOCS en-US49","46":"DOCS en-US5","47":"DOCS en-US50","48":"DOCS en-US51","49":"DOCS en-US52","50":"DOCS en-US53","51":"DOCS en-US54","52":"DOCS en-US55","53":"DOCS en-US56","54":"DOCS en-US57","55":"DOCS en-US58","56":"DOCS en-US59","57":"DOCS en-US6","58":"DOCS en-US60","59":"DOCS en-US61","60":"DOCS en-US62","61":"DOCS en-US63","62":"DOCS en-US64","63":"DOCS en-US65","64":"DOCS en-US66","65":"DOCS en-US67","66":"DOCS en-US68","67":"DOCS en-US69","68":"DOCS en-US7","69":"DOCS en-US70","70":"DOCS en-US71","71":"DOCS en-US8","72":"DOCS en-US9","73":"DOCS es0","74":"DOCS es1","75":"DOCS es10","76":"DOCS es11","77":"DOCS es12","78":"DOCS es13","79":"DOCS es14","80":"DOCS es15","81":"DOCS es16","82":"DOCS es17","83":"DOCS es18","84":"DOCS es19","85":"DOCS es2","86":"DOCS es20","87":"DOCS es21","88":"DOCS es22","89":"DOCS es23","90":"DOCS es24","91":"DOCS es25","92":"DOCS es26","93":"DOCS es27","94":"DOCS es28","95":"DOCS es29","96":"DOCS es3","97":"DOCS es30","98":"DOCS es31","99":"DOCS es32","100":"DOCS es33","101":"DOCS es34","102":"DOCS es35","103":"DOCS es36","104":"DOCS es37","105":"DOCS es38","106":"DOCS es39","107":"DOCS es4","108":"DOCS es40","109":"DOCS es41","110":"DOCS es42","111":"DOCS es43","112":"DOCS es44","113":"DOCS es45","114":"DOCS es46","115":"DOCS es47","116":"DOCS es48","117":"DOCS es49","118":"DOCS es5","119":"DOCS es50","120":"DOCS es51","121":"DOCS es52","122":"DOCS es53","123":"DOCS es54","124":"DOCS es55","125":"DOCS es56","126":"DOCS es57","127":"DOCS es58","128":"DOCS es59","129":"DOCS es6","130":"DOCS es60","131":"DOCS es61","132":"DOCS es62","133":"DOCS es63","134":"DOCS es64","135":"DOCS es65","136":"DOCS es66","137":"DOCS es67","138":"DOCS es68","139":"DOCS es69","140":"DOCS es7","141":"DOCS es70","142":"DOCS es71","143":"DOCS es8","144":"DOCS es9","145":"DOCS fr-FR0","146":"DOCS fr-FR1","147":"DOCS fr-FR10","148":"DOCS fr-FR11","149":"DOCS fr-FR12","150":"DOCS fr-FR13","151":"DOCS fr-FR14","152":"DOCS fr-FR15","153":"DOCS fr-FR16","154":"DOCS fr-FR17","155":"DOCS fr-FR18","156":"DOCS fr-FR19","157":"DOCS fr-FR2","158":"DOCS fr-FR20","159":"DOCS fr-FR21","160":"DOCS fr-FR22","161":"DOCS fr-FR23","162":"DOCS fr-FR24","163":"DOCS fr-FR25","164":"DOCS fr-FR26","165":"DOCS fr-FR27","166":"DOCS fr-FR28","167":"DOCS fr-FR29","168":"DOCS fr-FR3","169":"DOCS fr-FR30","170":"DOCS fr-FR31","171":"DOCS fr-FR32","172":"DOCS fr-FR33","173":"DOCS fr-FR34","174":"DOCS fr-FR35","175":"DOCS fr-FR36","176":"DOCS fr-FR37","177":"DOCS fr-FR38","178":"DOCS fr-FR39","179":"DOCS fr-FR4","180":"DOCS fr-FR40","181":"DOCS fr-FR41","182":"DOCS fr-FR42","183":"DOCS fr-FR43","184":"DOCS fr-FR44","185":"DOCS fr-FR45","186":"DOCS fr-FR46","187":"DOCS fr-FR47","188":"DOCS fr-FR48","189":"DOCS fr-FR49","190":"DOCS fr-FR5","191":"DOCS fr-FR50","192":"DOCS fr-FR51","193":"DOCS fr-FR52","194":"DOCS fr-FR53","195":"DOCS fr-FR54","196":"DOCS fr-FR55","197":"DOCS fr-FR56","198":"DOCS fr-FR57","199":"DOCS fr-FR58","200":"DOCS fr-FR59","201":"DOCS fr-FR6","202":"DOCS fr-FR60","203":"DOCS fr-FR61","204":"DOCS fr-FR62","205":"DOCS fr-FR63","206":"DOCS fr-FR64","207":"DOCS fr-FR65","208":"DOCS fr-FR66","209":"DOCS fr-FR67","210":"DOCS fr-FR68","211":"DOCS fr-FR69","212":"DOCS fr-FR7","213":"DOCS fr-FR70","214":"DOCS fr-FR71","215":"DOCS fr-FR8","216":"DOCS fr-FR9","217":"DOCS jp0","218":"DOCS jp1","219":"DOCS jp10","220":"DOCS jp11","221":"DOCS jp12","222":"DOCS jp13","223":"DOCS jp14","224":"DOCS jp15","225":"DOCS jp16","226":"DOCS jp17","227":"DOCS jp18","228":"DOCS jp19","229":"DOCS jp2","230":"DOCS jp20","231":"DOCS jp21","232":"DOCS jp22","233":"DOCS jp23","234":"DOCS jp24","235":"DOCS jp25","236":"DOCS jp26","237":"DOCS jp27","238":"DOCS jp28","239":"DOCS jp29","240":"DOCS jp3","241":"DOCS jp30","242":"DOCS jp31","243":"DOCS jp32","244":"DOCS jp33","245":"DOCS jp34","246":"DOCS jp35","247":"DOCS jp36","248":"DOCS jp37","249":"DOCS jp38","250":"DOCS jp39","251":"DOCS jp4","252":"DOCS jp40","253":"DOCS jp41","254":"DOCS jp42","255":"DOCS jp43","256":"DOCS jp44","257":"DOCS jp45","258":"DOCS jp46","259":"DOCS jp47","260":"DOCS jp48","261":"DOCS jp49","262":"DOCS jp5","263":"DOCS jp50","264":"DOCS jp51","265":"DOCS jp52","266":"DOCS jp53","267":"DOCS jp54","268":"DOCS jp55","269":"DOCS jp56","270":"DOCS jp57","271":"DOCS jp58","272":"DOCS jp59","273":"DOCS jp6","274":"DOCS jp60","275":"DOCS jp61","276":"DOCS jp62","277":"DOCS jp63","278":"DOCS jp64","279":"DOCS jp65","280":"DOCS jp66","281":"DOCS jp67","282":"DOCS jp68","283":"DOCS jp69","284":"DOCS jp7","285":"DOCS jp70","286":"DOCS jp71","287":"DOCS jp8","288":"DOCS jp9","289":"DOCS zh-CN0","290":"DOCS zh-CN1","291":"DOCS zh-CN10","292":"DOCS zh-CN11","293":"DOCS zh-CN12","294":"DOCS zh-CN13","295":"DOCS zh-CN14","296":"DOCS zh-CN15","297":"DOCS zh-CN16","298":"DOCS zh-CN17","299":"DOCS zh-CN18","300":"DOCS zh-CN19","301":"DOCS zh-CN2","302":"DOCS zh-CN20","303":"DOCS zh-CN21","304":"DOCS zh-CN22","305":"DOCS zh-CN23","306":"DOCS zh-CN24","307":"DOCS zh-CN25","308":"DOCS zh-CN26","309":"DOCS zh-CN27","310":"DOCS zh-CN28","311":"DOCS zh-CN29","312":"DOCS zh-CN3","313":"DOCS zh-CN30","314":"DOCS zh-CN31","315":"DOCS zh-CN32","316":"DOCS zh-CN33","317":"DOCS zh-CN34","318":"DOCS zh-CN35","319":"DOCS zh-CN36","320":"DOCS zh-CN37","321":"DOCS zh-CN38","322":"DOCS zh-CN39","323":"DOCS zh-CN4","324":"DOCS zh-CN40","325":"DOCS zh-CN41","326":"DOCS zh-CN42","327":"DOCS zh-CN43","328":"DOCS zh-CN44","329":"DOCS zh-CN45","330":"DOCS zh-CN46","331":"DOCS zh-CN47","332":"DOCS zh-CN48","333":"DOCS zh-CN49","334":"DOCS zh-CN5","335":"DOCS zh-CN50","336":"DOCS zh-CN51","337":"DOCS zh-CN52","338":"DOCS zh-CN53","339":"DOCS zh-CN54","340":"DOCS zh-CN55","341":"DOCS zh-CN56","342":"DOCS zh-CN57","343":"DOCS zh-CN58","344":"DOCS zh-CN59","345":"DOCS zh-CN6","346":"DOCS zh-CN60","347":"DOCS zh-CN61","348":"DOCS zh-CN62","349":"DOCS zh-CN63","350":"DOCS zh-CN64","351":"DOCS zh-CN65","352":"DOCS zh-CN66","353":"DOCS zh-CN67","354":"DOCS zh-CN68","355":"DOCS zh-CN69","356":"DOCS zh-CN7","357":"DOCS zh-CN70","358":"DOCS zh-CN71","359":"DOCS zh-CN8","360":"DOCS zh-CN9","362":"zh-CN0","363":"zh-CN1","364":"zh-CN2","365":"zh-CN3","366":"zh-CN4","367":"zh-CN5","368":"zh-CN6"}[chunkId]||chunkId) + "." + "9b9be2e9974f848958ee" + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"0":"zh-CN0~zh-CN2~zh-CN3~zh-CN4~zh-CN5~zh-CN6","1":"DOCS en-US0","2":"DOCS en-US1","3":"DOCS en-US10","4":"DOCS en-US11","5":"DOCS en-US12","6":"DOCS en-US13","7":"DOCS en-US14","8":"DOCS en-US15","9":"DOCS en-US16","10":"DOCS en-US17","11":"DOCS en-US18","12":"DOCS en-US19","13":"DOCS en-US2","14":"DOCS en-US20","15":"DOCS en-US21","16":"DOCS en-US22","17":"DOCS en-US23","18":"DOCS en-US24","19":"DOCS en-US25","20":"DOCS en-US26","21":"DOCS en-US27","22":"DOCS en-US28","23":"DOCS en-US29","24":"DOCS en-US3","25":"DOCS en-US30","26":"DOCS en-US31","27":"DOCS en-US32","28":"DOCS en-US33","29":"DOCS en-US34","30":"DOCS en-US35","31":"DOCS en-US36","32":"DOCS en-US37","33":"DOCS en-US38","34":"DOCS en-US39","35":"DOCS en-US4","36":"DOCS en-US40","37":"DOCS en-US41","38":"DOCS en-US42","39":"DOCS en-US43","40":"DOCS en-US44","41":"DOCS en-US45","42":"DOCS en-US46","43":"DOCS en-US47","44":"DOCS en-US48","45":"DOCS en-US49","46":"DOCS en-US5","47":"DOCS en-US50","48":"DOCS en-US51","49":"DOCS en-US52","50":"DOCS en-US53","51":"DOCS en-US54","52":"DOCS en-US55","53":"DOCS en-US56","54":"DOCS en-US57","55":"DOCS en-US58","56":"DOCS en-US59","57":"DOCS en-US6","58":"DOCS en-US60","59":"DOCS en-US61","60":"DOCS en-US62","61":"DOCS en-US63","62":"DOCS en-US64","63":"DOCS en-US65","64":"DOCS en-US66","65":"DOCS en-US67","66":"DOCS en-US68","67":"DOCS en-US69","68":"DOCS en-US7","69":"DOCS en-US70","70":"DOCS en-US71","71":"DOCS en-US8","72":"DOCS en-US9","73":"DOCS es0","74":"DOCS es1","75":"DOCS es10","76":"DOCS es11","77":"DOCS es12","78":"DOCS es13","79":"DOCS es14","80":"DOCS es15","81":"DOCS es16","82":"DOCS es17","83":"DOCS es18","84":"DOCS es19","85":"DOCS es2","86":"DOCS es20","87":"DOCS es21","88":"DOCS es22","89":"DOCS es23","90":"DOCS es24","91":"DOCS es25","92":"DOCS es26","93":"DOCS es27","94":"DOCS es28","95":"DOCS es29","96":"DOCS es3","97":"DOCS es30","98":"DOCS es31","99":"DOCS es32","100":"DOCS es33","101":"DOCS es34","102":"DOCS es35","103":"DOCS es36","104":"DOCS es37","105":"DOCS es38","106":"DOCS es39","107":"DOCS es4","108":"DOCS es40","109":"DOCS es41","110":"DOCS es42","111":"DOCS es43","112":"DOCS es44","113":"DOCS es45","114":"DOCS es46","115":"DOCS es47","116":"DOCS es48","117":"DOCS es49","118":"DOCS es5","119":"DOCS es50","120":"DOCS es51","121":"DOCS es52","122":"DOCS es53","123":"DOCS es54","124":"DOCS es55","125":"DOCS es56","126":"DOCS es57","127":"DOCS es58","128":"DOCS es59","129":"DOCS es6","130":"DOCS es60","131":"DOCS es61","132":"DOCS es62","133":"DOCS es63","134":"DOCS es64","135":"DOCS es65","136":"DOCS es66","137":"DOCS es67","138":"DOCS es68","139":"DOCS es69","140":"DOCS es7","141":"DOCS es70","142":"DOCS es71","143":"DOCS es8","144":"DOCS es9","145":"DOCS fr-FR0","146":"DOCS fr-FR1","147":"DOCS fr-FR10","148":"DOCS fr-FR11","149":"DOCS fr-FR12","150":"DOCS fr-FR13","151":"DOCS fr-FR14","152":"DOCS fr-FR15","153":"DOCS fr-FR16","154":"DOCS fr-FR17","155":"DOCS fr-FR18","156":"DOCS fr-FR19","157":"DOCS fr-FR2","158":"DOCS fr-FR20","159":"DOCS fr-FR21","160":"DOCS fr-FR22","161":"DOCS fr-FR23","162":"DOCS fr-FR24","163":"DOCS fr-FR25","164":"DOCS fr-FR26","165":"DOCS fr-FR27","166":"DOCS fr-FR28","167":"DOCS fr-FR29","168":"DOCS fr-FR3","169":"DOCS fr-FR30","170":"DOCS fr-FR31","171":"DOCS fr-FR32","172":"DOCS fr-FR33","173":"DOCS fr-FR34","174":"DOCS fr-FR35","175":"DOCS fr-FR36","176":"DOCS fr-FR37","177":"DOCS fr-FR38","178":"DOCS fr-FR39","179":"DOCS fr-FR4","180":"DOCS fr-FR40","181":"DOCS fr-FR41","182":"DOCS fr-FR42","183":"DOCS fr-FR43","184":"DOCS fr-FR44","185":"DOCS fr-FR45","186":"DOCS fr-FR46","187":"DOCS fr-FR47","188":"DOCS fr-FR48","189":"DOCS fr-FR49","190":"DOCS fr-FR5","191":"DOCS fr-FR50","192":"DOCS fr-FR51","193":"DOCS fr-FR52","194":"DOCS fr-FR53","195":"DOCS fr-FR54","196":"DOCS fr-FR55","197":"DOCS fr-FR56","198":"DOCS fr-FR57","199":"DOCS fr-FR58","200":"DOCS fr-FR59","201":"DOCS fr-FR6","202":"DOCS fr-FR60","203":"DOCS fr-FR61","204":"DOCS fr-FR62","205":"DOCS fr-FR63","206":"DOCS fr-FR64","207":"DOCS fr-FR65","208":"DOCS fr-FR66","209":"DOCS fr-FR67","210":"DOCS fr-FR68","211":"DOCS fr-FR69","212":"DOCS fr-FR7","213":"DOCS fr-FR70","214":"DOCS fr-FR71","215":"DOCS fr-FR8","216":"DOCS fr-FR9","217":"DOCS jp0","218":"DOCS jp1","219":"DOCS jp10","220":"DOCS jp11","221":"DOCS jp12","222":"DOCS jp13","223":"DOCS jp14","224":"DOCS jp15","225":"DOCS jp16","226":"DOCS jp17","227":"DOCS jp18","228":"DOCS jp19","229":"DOCS jp2","230":"DOCS jp20","231":"DOCS jp21","232":"DOCS jp22","233":"DOCS jp23","234":"DOCS jp24","235":"DOCS jp25","236":"DOCS jp26","237":"DOCS jp27","238":"DOCS jp28","239":"DOCS jp29","240":"DOCS jp3","241":"DOCS jp30","242":"DOCS jp31","243":"DOCS jp32","244":"DOCS jp33","245":"DOCS jp34","246":"DOCS jp35","247":"DOCS jp36","248":"DOCS jp37","249":"DOCS jp38","250":"DOCS jp39","251":"DOCS jp4","252":"DOCS jp40","253":"DOCS jp41","254":"DOCS jp42","255":"DOCS jp43","256":"DOCS jp44","257":"DOCS jp45","258":"DOCS jp46","259":"DOCS jp47","260":"DOCS jp48","261":"DOCS jp49","262":"DOCS jp5","263":"DOCS jp50","264":"DOCS jp51","265":"DOCS jp52","266":"DOCS jp53","267":"DOCS jp54","268":"DOCS jp55","269":"DOCS jp56","270":"DOCS jp57","271":"DOCS jp58","272":"DOCS jp59","273":"DOCS jp6","274":"DOCS jp60","275":"DOCS jp61","276":"DOCS jp62","277":"DOCS jp63","278":"DOCS jp64","279":"DOCS jp65","280":"DOCS jp66","281":"DOCS jp67","282":"DOCS jp68","283":"DOCS jp69","284":"DOCS jp7","285":"DOCS jp70","286":"DOCS jp71","287":"DOCS jp8","288":"DOCS jp9","289":"DOCS zh-CN0","290":"DOCS zh-CN1","291":"DOCS zh-CN10","292":"DOCS zh-CN11","293":"DOCS zh-CN12","294":"DOCS zh-CN13","295":"DOCS zh-CN14","296":"DOCS zh-CN15","297":"DOCS zh-CN16","298":"DOCS zh-CN17","299":"DOCS zh-CN18","300":"DOCS zh-CN19","301":"DOCS zh-CN2","302":"DOCS zh-CN20","303":"DOCS zh-CN21","304":"DOCS zh-CN22","305":"DOCS zh-CN23","306":"DOCS zh-CN24","307":"DOCS zh-CN25","308":"DOCS zh-CN26","309":"DOCS zh-CN27","310":"DOCS zh-CN28","311":"DOCS zh-CN29","312":"DOCS zh-CN3","313":"DOCS zh-CN30","314":"DOCS zh-CN31","315":"DOCS zh-CN32","316":"DOCS zh-CN33","317":"DOCS zh-CN34","318":"DOCS zh-CN35","319":"DOCS zh-CN36","320":"DOCS zh-CN37","321":"DOCS zh-CN38","322":"DOCS zh-CN39","323":"DOCS zh-CN4","324":"DOCS zh-CN40","325":"DOCS zh-CN41","326":"DOCS zh-CN42","327":"DOCS zh-CN43","328":"DOCS zh-CN44","329":"DOCS zh-CN45","330":"DOCS zh-CN46","331":"DOCS zh-CN47","332":"DOCS zh-CN48","333":"DOCS zh-CN49","334":"DOCS zh-CN5","335":"DOCS zh-CN50","336":"DOCS zh-CN51","337":"DOCS zh-CN52","338":"DOCS zh-CN53","339":"DOCS zh-CN54","340":"DOCS zh-CN55","341":"DOCS zh-CN56","342":"DOCS zh-CN57","343":"DOCS zh-CN58","344":"DOCS zh-CN59","345":"DOCS zh-CN6","346":"DOCS zh-CN60","347":"DOCS zh-CN61","348":"DOCS zh-CN62","349":"DOCS zh-CN63","350":"DOCS zh-CN64","351":"DOCS zh-CN65","352":"DOCS zh-CN66","353":"DOCS zh-CN67","354":"DOCS zh-CN68","355":"DOCS zh-CN69","356":"DOCS zh-CN7","357":"DOCS zh-CN70","358":"DOCS zh-CN71","359":"DOCS zh-CN8","360":"DOCS zh-CN9","362":"zh-CN0","363":"zh-CN1","364":"zh-CN2","365":"zh-CN3","366":"zh-CN4","367":"zh-CN5","368":"zh-CN6"}[chunkId]||chunkId) + "." + "ef662795f1713ccdb0e7" + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -2858,7 +2858,7 @@ const useThemeVars = () => {
   return themeVars;
 };
 // EXTERNAL MODULE: ./packages/locale/lang/en.ts
-var en = __webpack_require__(32);
+var en = __webpack_require__(41);
 
 // CONCATENATED MODULE: ./packages/hooks/use-locale/index.ts
 
@@ -2927,11 +2927,9 @@ function template(str, option) {
   });
 }
 
-const localeProviderMaker = ({
-  locale
-}) => {
-  const lang = Object(vue_esm_browser_prod["ref"])((locale || en["a" /* default */]).name);
-  const localeRef = Object(vue_esm_browser_prod["ref"])(locale || en["a" /* default */]);
+const localeProviderMaker = (locale = en["a" /* default */]) => {
+  const lang = Object(vue_esm_browser_prod["ref"])(locale.name);
+  const localeRef = Object(vue_esm_browser_prod["ref"])(locale);
   return {
     lang,
     locale: localeRef,
@@ -3796,7 +3794,7 @@ const getNormalizedProps = node => {
 /* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(37),
+var isObject = __webpack_require__(36),
     now = __webpack_require__(635),
     toNumber = __webpack_require__(636);
 
@@ -6387,7 +6385,7 @@ module.exports = function (list, options) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var debounce = __webpack_require__(18),
-    isObject = __webpack_require__(37);
+    isObject = __webpack_require__(36);
 
 /** Error message constants. */
 var FUNC_ERROR_TEXT = 'Expected a function';
@@ -6697,139 +6695,6 @@ class Node {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({
-  name: 'en',
-  el: {
-    colorpicker: {
-      confirm: 'OK',
-      clear: 'Clear'
-    },
-    datepicker: {
-      now: 'Now',
-      today: 'Today',
-      cancel: 'Cancel',
-      clear: 'Clear',
-      confirm: 'OK',
-      selectDate: 'Select date',
-      selectTime: 'Select time',
-      startDate: 'Start Date',
-      startTime: 'Start Time',
-      endDate: 'End Date',
-      endTime: 'End Time',
-      prevYear: 'Previous Year',
-      nextYear: 'Next Year',
-      prevMonth: 'Previous Month',
-      nextMonth: 'Next Month',
-      year: '',
-      month1: 'January',
-      month2: 'February',
-      month3: 'March',
-      month4: 'April',
-      month5: 'May',
-      month6: 'June',
-      month7: 'July',
-      month8: 'August',
-      month9: 'September',
-      month10: 'October',
-      month11: 'November',
-      month12: 'December',
-      week: 'week',
-      weeks: {
-        sun: 'Sun',
-        mon: 'Mon',
-        tue: 'Tue',
-        wed: 'Wed',
-        thu: 'Thu',
-        fri: 'Fri',
-        sat: 'Sat'
-      },
-      months: {
-        jan: 'Jan',
-        feb: 'Feb',
-        mar: 'Mar',
-        apr: 'Apr',
-        may: 'May',
-        jun: 'Jun',
-        jul: 'Jul',
-        aug: 'Aug',
-        sep: 'Sep',
-        oct: 'Oct',
-        nov: 'Nov',
-        dec: 'Dec'
-      }
-    },
-    select: {
-      loading: 'Loading',
-      noMatch: 'No matching data',
-      noData: 'No data',
-      placeholder: 'Select'
-    },
-    cascader: {
-      noMatch: 'No matching data',
-      loading: 'Loading',
-      placeholder: 'Select',
-      noData: 'No data'
-    },
-    pagination: {
-      goto: 'Go to',
-      pagesize: '/page',
-      total: 'Total {total}',
-      pageClassifier: '',
-      deprecationWarning: 'Deprecated usages detected, please refer to the el-pagination documentation for more details'
-    },
-    messagebox: {
-      title: 'Message',
-      confirm: 'OK',
-      cancel: 'Cancel',
-      error: 'Illegal input'
-    },
-    upload: {
-      deleteTip: 'press delete to remove',
-      delete: 'Delete',
-      preview: 'Preview',
-      continue: 'Continue'
-    },
-    table: {
-      emptyText: 'No Data',
-      confirmFilter: 'Confirm',
-      resetFilter: 'Reset',
-      clearFilter: 'All',
-      sumText: 'Sum'
-    },
-    tree: {
-      emptyText: 'No Data'
-    },
-    transfer: {
-      noMatch: 'No matching data',
-      noData: 'No data',
-      titles: ['List 1', 'List 2'],
-      // to be translated
-      filterPlaceholder: 'Enter keyword',
-      // to be translated
-      noCheckedFormat: '{total} items',
-      // to be translated
-      hasCheckedFormat: '{checked}/{total} checked' // to be translated
-
-    },
-    image: {
-      error: 'FAILED'
-    },
-    pageHeader: {
-      title: 'Back' // to be translated
-
-    },
-    popconfirm: {
-      confirmButtonText: 'Yes',
-      cancelButtonText: 'No'
-    }
-  }
-});
-
-/***/ }),
-/* 33 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, "i", function() { return /* reexport */ date_utils["c" /* rangeArr */]; });
@@ -6952,7 +6817,7 @@ var aria = __webpack_require__(4);
 var basic_time_spinner = __webpack_require__(90);
 
 // EXTERNAL MODULE: ./packages/components/time-picker/src/time-picker-com/useTimePicker.ts
-var useTimePicker = __webpack_require__(41);
+var useTimePicker = __webpack_require__(40);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--11-0!./packages/components/time-picker/src/time-picker-com/panel-time-range.vue?vue&type=script&lang=ts
 
@@ -7329,7 +7194,7 @@ _TimePicker.install = app => {
 const ElTimePicker = _TimePicker;
 
 /***/ }),
-/* 34 */
+/* 33 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7461,7 +7326,7 @@ const _Tag = src;
 const ElTag = _Tag;
 
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7579,7 +7444,7 @@ const _CollapseTransition = collapse_transition;
 const ElCollapseTransition = _CollapseTransition;
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7816,7 +7681,7 @@ var components_popper = __webpack_require__(16);
 var components_scrollbar = __webpack_require__(23);
 
 // EXTERNAL MODULE: ./packages/components/tag/index.ts + 3 modules
-var components_tag = __webpack_require__(34);
+var components_tag = __webpack_require__(33);
 
 // EXTERNAL MODULE: ./packages/utils/constants.ts
 var constants = __webpack_require__(5);
@@ -9302,7 +9167,7 @@ const ElOptionGroup = option_group;
 
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports) {
 
 /**
@@ -9339,7 +9204,7 @@ module.exports = isObject;
 
 
 /***/ }),
-/* 38 */
+/* 37 */
 /***/ (function(module, exports) {
 
 /**
@@ -9374,7 +9239,7 @@ module.exports = isObjectLike;
 
 
 /***/ }),
-/* 39 */
+/* 38 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9644,7 +9509,7 @@ const useDialogProps = {
 });
 
 /***/ }),
-/* 40 */
+/* 39 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12799,7 +12664,7 @@ function useRoute() {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(69)))
 
 /***/ }),
-/* 41 */
+/* 40 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12877,6 +12742,139 @@ const useOldValue = props => {
   });
   return oldValue;
 };
+
+/***/ }),
+/* 41 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+  name: 'en',
+  el: {
+    colorpicker: {
+      confirm: 'OK',
+      clear: 'Clear'
+    },
+    datepicker: {
+      now: 'Now',
+      today: 'Today',
+      cancel: 'Cancel',
+      clear: 'Clear',
+      confirm: 'OK',
+      selectDate: 'Select date',
+      selectTime: 'Select time',
+      startDate: 'Start Date',
+      startTime: 'Start Time',
+      endDate: 'End Date',
+      endTime: 'End Time',
+      prevYear: 'Previous Year',
+      nextYear: 'Next Year',
+      prevMonth: 'Previous Month',
+      nextMonth: 'Next Month',
+      year: '',
+      month1: 'January',
+      month2: 'February',
+      month3: 'March',
+      month4: 'April',
+      month5: 'May',
+      month6: 'June',
+      month7: 'July',
+      month8: 'August',
+      month9: 'September',
+      month10: 'October',
+      month11: 'November',
+      month12: 'December',
+      week: 'week',
+      weeks: {
+        sun: 'Sun',
+        mon: 'Mon',
+        tue: 'Tue',
+        wed: 'Wed',
+        thu: 'Thu',
+        fri: 'Fri',
+        sat: 'Sat'
+      },
+      months: {
+        jan: 'Jan',
+        feb: 'Feb',
+        mar: 'Mar',
+        apr: 'Apr',
+        may: 'May',
+        jun: 'Jun',
+        jul: 'Jul',
+        aug: 'Aug',
+        sep: 'Sep',
+        oct: 'Oct',
+        nov: 'Nov',
+        dec: 'Dec'
+      }
+    },
+    select: {
+      loading: 'Loading',
+      noMatch: 'No matching data',
+      noData: 'No data',
+      placeholder: 'Select'
+    },
+    cascader: {
+      noMatch: 'No matching data',
+      loading: 'Loading',
+      placeholder: 'Select',
+      noData: 'No data'
+    },
+    pagination: {
+      goto: 'Go to',
+      pagesize: '/page',
+      total: 'Total {total}',
+      pageClassifier: '',
+      deprecationWarning: 'Deprecated usages detected, please refer to the el-pagination documentation for more details'
+    },
+    messagebox: {
+      title: 'Message',
+      confirm: 'OK',
+      cancel: 'Cancel',
+      error: 'Illegal input'
+    },
+    upload: {
+      deleteTip: 'press delete to remove',
+      delete: 'Delete',
+      preview: 'Preview',
+      continue: 'Continue'
+    },
+    table: {
+      emptyText: 'No Data',
+      confirmFilter: 'Confirm',
+      resetFilter: 'Reset',
+      clearFilter: 'All',
+      sumText: 'Sum'
+    },
+    tree: {
+      emptyText: 'No Data'
+    },
+    transfer: {
+      noMatch: 'No matching data',
+      noData: 'No data',
+      titles: ['List 1', 'List 2'],
+      // to be translated
+      filterPlaceholder: 'Enter keyword',
+      // to be translated
+      noCheckedFormat: '{total} items',
+      // to be translated
+      hasCheckedFormat: '{checked}/{total} checked' // to be translated
+
+    },
+    image: {
+      error: 'FAILED'
+    },
+    pageHeader: {
+      title: 'Back' // to be translated
+
+    },
+    popconfirm: {
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No'
+    }
+  }
+});
 
 /***/ }),
 /* 42 */
@@ -12957,7 +12955,7 @@ itemvue_type_script_lang_ts.render = render
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.prod.js
 var vue_esm_browser_prod = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/components/menu/src/menu.vue?vue&type=template&id=a9031000
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/components/menu/src/menu.vue?vue&type=template&id=49590c00
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_el_menu_collapse_transition = Object(vue_esm_browser_prod["resolveComponent"])("el-menu-collapse-transition");
@@ -13435,7 +13433,7 @@ function useMenuColor(props) {
       closeMenu(index);
     };
 
-    const handleSubmenuClick = submenu => {
+    const handleSubMenuClick = submenu => {
       const {
         index,
         indexPath
@@ -13549,7 +13547,7 @@ function useMenuColor(props) {
     Object(vue_esm_browser_prod["onMounted"])(() => {
       initializeMenu();
       rootMenuEmitter.on('menuItem:item-click', handleItemClick);
-      rootMenuEmitter.on('submenu:submenu-click', handleSubmenuClick);
+      rootMenuEmitter.on('submenu:submenu-click', handleSubMenuClick);
 
       if (props.mode === 'horizontal') {
         new menu_bar(instance.vnode.el);
@@ -17705,7 +17703,7 @@ menuItemvue_type_script_lang_ts.render = render
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.prod.js
 var vue_esm_browser_prod = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/components/menu/src/menuItemGroup.vue?vue&type=template&id=00a24ede
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/components/menu/src/menuItemGroup.vue?vue&type=template&id=04ce56be
 
 const _hoisted_1 = {
   class: "el-menu-item-group"
@@ -17748,7 +17746,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       if (rootProps.collapse) return 20;
 
       while (parent && parent.type.name !== 'ElMenu') {
-        if (parent.type.name === 'ElSubmenu') {
+        if (parent.type.name === 'ElSubMenu') {
           padding += 20;
         }
 
@@ -17791,7 +17789,7 @@ var mitt_es = __webpack_require__(25);
 var vue_esm_browser_prod = __webpack_require__(0);
 
 // EXTERNAL MODULE: ./packages/components/collapse-transition/index.ts + 3 modules
-var collapse_transition = __webpack_require__(35);
+var collapse_transition = __webpack_require__(34);
 
 // EXTERNAL MODULE: ./packages/components/popper/index.ts + 3 modules
 var popper = __webpack_require__(16);
@@ -17806,8 +17804,8 @@ var useMenu = __webpack_require__(88);
 
 
 /* harmony default export */ var submenuvue_type_script_lang_ts = (Object(vue_esm_browser_prod["defineComponent"])({
-  name: 'ElSubmenu',
-  componentName: 'ElSubmenu',
+  name: 'ElSubMenu',
+  componentName: 'ElSubMenu',
   props: {
     index: {
       type: String,
@@ -17862,8 +17860,8 @@ var useMenu = __webpack_require__(88);
       rootMenuEmit
     } = Object(vue_esm_browser_prod["inject"])('rootMenu');
     const {
-      addSubMenu: parentAddSubmenu,
-      removeSubMenu: parentRemoveSubmenu,
+      addSubMenu: parentAddSubMenu,
+      removeSubMenu: parentRemoveSubMenu,
       handleMouseleave: parentHandleMouseleave
     } = Object(vue_esm_browser_prod["inject"])(`subMenu:${parentMenu.value.uid}`); // computed
 
@@ -17875,7 +17873,7 @@ var useMenu = __webpack_require__(88);
       let parent = instance.parent;
 
       while (parent && parent.type.name !== 'ElMenu') {
-        if (['ElSubmenu', 'ElMenuItemGroup'].includes(parent.type.name)) {
+        if (['ElSubMenu', 'ElMenuItemGroup'].includes(parent.type.name)) {
           isFirstLevel = false;
           break;
         } else {
@@ -18015,7 +18013,7 @@ var useMenu = __webpack_require__(88);
       }, props.hideTimeout);
 
       if (appendToBody.value && deepDispatch) {
-        if (instance.parent.type.name === 'ElSubmenu') {
+        if (instance.parent.type.name === 'ElSubMenu') {
           parentHandleMouseleave(true);
         }
       }
@@ -18067,7 +18065,7 @@ var useMenu = __webpack_require__(88);
         indexPath,
         active
       });
-      parentAddSubmenu({
+      parentAddSubMenu({
         index: props.index,
         indexPath,
         active
@@ -18075,7 +18073,7 @@ var useMenu = __webpack_require__(88);
       updatePlacement();
     });
     Object(vue_esm_browser_prod["onBeforeUnmount"])(() => {
-      parentRemoveSubmenu({
+      parentRemoveSubMenu({
         index: props.index,
         indexPath,
         active
@@ -18118,7 +18116,7 @@ var useMenu = __webpack_require__(88);
     var _this$$slots$title, _this$$slots;
 
     const titleTag = [(_this$$slots$title = (_this$$slots = this.$slots).title) == null ? void 0 : _this$$slots$title.call(_this$$slots), Object(vue_esm_browser_prod["h"])('i', {
-      class: ['el-submenu__icon-arrow', this.submenuTitleIcon]
+      class: ['el-sub-menu__icon-arrow', this.submenuTitleIcon]
     }, null)];
     const ulStyle = {
       backgroundColor: this.rootProps.backgroundColor || ''
@@ -18156,7 +18154,7 @@ var useMenu = __webpack_require__(88);
         }, [(_this$$slots$default = (_this$$slots2 = this.$slots).default) == null ? void 0 : _this$$slots$default.call(_this$$slots2)])]);
       },
       trigger: () => Object(vue_esm_browser_prod["h"])('div', {
-        class: 'el-submenu__title',
+        class: 'el-sub-menu__title',
         style: [this.paddingStyle, this.titleStyle, {
           backgroundColor: this.backgroundColor
         }],
@@ -18165,7 +18163,7 @@ var useMenu = __webpack_require__(88);
         onMouseleave: this.handleTitleMouseleave
       }, titleTag)
     }) : Object(vue_esm_browser_prod["h"])(vue_esm_browser_prod["Fragment"], {}, [Object(vue_esm_browser_prod["h"])('div', {
-      class: 'el-submenu__title',
+      class: 'el-sub-menu__title',
       style: [this.paddingStyle, this.titleStyle, {
         backgroundColor: this.backgroundColor
       }],
@@ -18185,7 +18183,7 @@ var useMenu = __webpack_require__(88);
       }
     })]);
     return Object(vue_esm_browser_prod["h"])('li', {
-      class: ['el-submenu', {
+      class: ['el-sub-menu', {
         'is-active': this.active,
         'is-opened': this.opened,
         'is-disabled': this.disabled
@@ -21640,7 +21638,7 @@ var hooks = __webpack_require__(7);
 var basic_time_spinner = __webpack_require__(90);
 
 // EXTERNAL MODULE: ./packages/components/time-picker/src/time-picker-com/useTimePicker.ts
-var useTimePicker = __webpack_require__(41);
+var useTimePicker = __webpack_require__(40);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--11-0!./packages/components/time-picker/src/time-picker-com/panel-time-pick.vue?vue&type=script&lang=ts
 
@@ -23580,7 +23578,7 @@ function useMenu(instance, currentIndex) {
   const parentMenu = Object(vue__WEBPACK_IMPORTED_MODULE_0__["computed"])(() => {
     let parent = instance.parent;
 
-    while (parent && ['ElMenu', 'ElSubmenu'].indexOf(parent.type.name) === -1) {
+    while (parent && ['ElMenu', 'ElSubMenu'].indexOf(parent.type.name) === -1) {
       parent = parent.parent;
     }
 
@@ -23595,7 +23593,7 @@ function useMenu(instance, currentIndex) {
       padding = 20;
     } else {
       while (parent && parent.type.name !== 'ElMenu') {
-        if (parent.type.name === 'ElSubmenu') {
+        if (parent.type.name === 'ElSubMenu') {
           padding += 20;
         }
 
@@ -24433,7 +24431,7 @@ var directives = __webpack_require__(12);
 var scrollbar = __webpack_require__(23);
 
 // EXTERNAL MODULE: ./packages/components/time-picker/src/time-picker-com/useTimePicker.ts
-var useTimePicker = __webpack_require__(41);
+var useTimePicker = __webpack_require__(40);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--11-0!./packages/components/time-picker/src/time-picker-com/basic-time-spinner.vue?vue&type=script&lang=ts
 
@@ -24916,7 +24914,7 @@ var directives = __webpack_require__(12);
 var src = __webpack_require__(686);
 
 // EXTERNAL MODULE: ./packages/components/dialog/src/useDialog.ts
-var useDialog = __webpack_require__(39);
+var useDialog = __webpack_require__(38);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--11-0!./packages/components/dialog/src/index.vue?vue&type=script&lang=ts
 
@@ -35322,7 +35320,7 @@ var directives = __webpack_require__(12);
 var components_popper = __webpack_require__(16);
 
 // EXTERNAL MODULE: ./packages/components/tag/index.ts + 3 modules
-var components_tag = __webpack_require__(34);
+var components_tag = __webpack_require__(33);
 
 // EXTERNAL MODULE: ./packages/utils/constants.ts
 var constants = __webpack_require__(5);
@@ -35331,10 +35329,10 @@ var constants = __webpack_require__(5);
 var util = __webpack_require__(1);
 
 // EXTERNAL MODULE: ./packages/components/virtual-list/src/components/fixed-size-list.ts
-var fixed_size_list = __webpack_require__(683);
+var fixed_size_list = __webpack_require__(684);
 
 // EXTERNAL MODULE: ./packages/components/virtual-list/src/components/dynamic-size-list.ts
-var dynamic_size_list = __webpack_require__(684);
+var dynamic_size_list = __webpack_require__(685);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/components/select-v2/src/group-item.vue?vue&type=template&id=4ea24636
 
@@ -37631,7 +37629,7 @@ function tree_nodevue_type_template_id_2452b53a_render(_ctx, _cache, $props, $se
   })], 42, tree_nodevue_type_template_id_2452b53a_hoisted_1)), [[vue_esm_browser_prod["vShow"], _ctx.node.visible]]);
 }
 // EXTERNAL MODULE: ./packages/components/collapse-transition/index.ts + 3 modules
-var collapse_transition = __webpack_require__(35);
+var collapse_transition = __webpack_require__(34);
 
 // EXTERNAL MODULE: ./packages/components/checkbox/index.ts + 10 modules
 var components_checkbox = __webpack_require__(22);
@@ -40835,7 +40833,7 @@ __webpack_require__.d(__webpack_exports__, "b", function() { return /* binding *
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.prod.js
 var vue_esm_browser_prod = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/components/descriptions/src/index.vue?vue&type=template&id=56f8fab5
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/components/descriptions/src/index.vue?vue&type=template&id=2d92acb8
 
 const _hoisted_1 = {
   class: "el-descriptions"
@@ -40857,7 +40855,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_el_descriptions_row = Object(vue_esm_browser_prod["resolveComponent"])("el-descriptions-row");
 
   return Object(vue_esm_browser_prod["openBlock"])(), Object(vue_esm_browser_prod["createElementBlock"])("div", _hoisted_1, [_ctx.title || _ctx.extra || _ctx.$slots.title || _ctx.$slots.extra ? (Object(vue_esm_browser_prod["openBlock"])(), Object(vue_esm_browser_prod["createElementBlock"])("div", _hoisted_2, [Object(vue_esm_browser_prod["createElementVNode"])("div", _hoisted_3, [Object(vue_esm_browser_prod["renderSlot"])(_ctx.$slots, "title", {}, () => [Object(vue_esm_browser_prod["createTextVNode"])(Object(vue_esm_browser_prod["toDisplayString"])(_ctx.title), 1)])]), Object(vue_esm_browser_prod["createElementVNode"])("div", _hoisted_4, [Object(vue_esm_browser_prod["renderSlot"])(_ctx.$slots, "extra", {}, () => [Object(vue_esm_browser_prod["createTextVNode"])(Object(vue_esm_browser_prod["toDisplayString"])(_ctx.extra), 1)])])])) : Object(vue_esm_browser_prod["createCommentVNode"])("", true), Object(vue_esm_browser_prod["createElementVNode"])("div", _hoisted_5, [Object(vue_esm_browser_prod["createElementVNode"])("table", {
-    class: Object(vue_esm_browser_prod["normalizeClass"])([{
+    class: Object(vue_esm_browser_prod["normalizeClass"])(['el-descriptions__table', {
       'is-bordered': _ctx.border
     }, _ctx.descriptionsSize ? `el-descriptions--${_ctx.descriptionsSize}` : ''])
   }, [Object(vue_esm_browser_prod["createElementVNode"])("tbody", null, [(Object(vue_esm_browser_prod["openBlock"])(true), Object(vue_esm_browser_prod["createElementBlock"])(vue_esm_browser_prod["Fragment"], null, Object(vue_esm_browser_prod["renderList"])(_ctx.getRows(), (row, index) => {
@@ -40969,7 +40967,7 @@ const elDescriptionsKey = 'elDescriptions';
       case 'label':
         return Object(vue_esm_browser_prod["h"])(this.tag, {
           style: style,
-          class: ['el-descriptions__label', {
+          class: ['el-descriptions__cell', 'el-descriptions__label', {
             'is-bordered-label': this.descriptions.border
           }, labelAlign, labelClassName],
           colSpan: this.descriptions.direction === 'vertical' ? span : 1
@@ -40978,7 +40976,7 @@ const elDescriptionsKey = 'elDescriptions';
       case 'content':
         return Object(vue_esm_browser_prod["h"])(this.tag, {
           style: style,
-          class: ['el-descriptions__content', align, className],
+          class: ['el-descriptions__cell', 'el-descriptions__content', align, className],
           colSpan: this.descriptions.direction === 'vertical' ? span : span * 2 - 1
         }, content);
 
@@ -40988,9 +40986,9 @@ const elDescriptionsKey = 'elDescriptions';
           class: [align],
           colSpan: span
         }, [Object(vue_esm_browser_prod["h"])('span', {
-          class: ['el-descriptions__label', labelClassName]
+          class: ['el-descriptions__cell', 'el-descriptions__label', labelClassName]
         }, label), Object(vue_esm_browser_prod["h"])('span', {
-          class: ['el-descriptions__content', className]
+          class: ['el-descriptions__cell', 'el-descriptions__content', className]
         }, content)]);
     }
   }
@@ -42379,10 +42377,10 @@ var resize_event = __webpack_require__(14);
 
         if (autoLabelWidth && autoLabelWidth !== 'auto') {
           const marginWidth = Math.max(0, parseInt(autoLabelWidth, 10) - computedWidth.value);
-          const marginPositon = elForm.labelPosition === 'left' ? 'marginRight' : 'marginLeft';
+          const marginPosition = elForm.labelPosition === 'left' ? 'marginRight' : 'marginLeft';
 
           if (marginWidth) {
-            style[marginPositon] = marginWidth + 'px';
+            style[marginPosition] = marginWidth + 'px';
           }
         }
 
@@ -44104,7 +44102,7 @@ function collapse_itemvue_type_template_id_a8f030a0_render(_ctx, _cache, $props,
 var util = __webpack_require__(1);
 
 // EXTERNAL MODULE: ./packages/components/collapse-transition/index.ts + 3 modules
-var collapse_transition = __webpack_require__(35);
+var collapse_transition = __webpack_require__(34);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--11-0!./packages/components/collapse/src/collapse-item.vue?vue&type=script&lang=ts
 
@@ -46669,7 +46667,7 @@ var components_popper = __webpack_require__(16);
 var scrollbar = __webpack_require__(23);
 
 // EXTERNAL MODULE: ./packages/components/tag/index.ts + 3 modules
-var components_tag = __webpack_require__(34);
+var components_tag = __webpack_require__(33);
 
 // EXTERNAL MODULE: ./packages/tokens/index.ts + 1 modules
 var tokens = __webpack_require__(10);
@@ -47370,7 +47368,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 var src = __webpack_require__(686);
 
 // EXTERNAL MODULE: ./packages/components/dialog/src/useDialog.ts
-var useDialog = __webpack_require__(39);
+var useDialog = __webpack_require__(38);
 
 // EXTERNAL MODULE: ./packages/directives/index.ts + 5 modules
 var directives = __webpack_require__(12);
@@ -48896,7 +48894,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, 8, ["model-value", "disabled", "clearable", "clear-icon", "size", "placeholder", "filterable"]);
 }
 // EXTERNAL MODULE: ./packages/components/select/index.ts + 15 modules
-var components_select = __webpack_require__(36);
+var components_select = __webpack_require__(35);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--11-0!./packages/components/time-select/src/time-select.vue?vue&type=script&lang=ts
 
@@ -49986,7 +49984,7 @@ module.exports = content.locals || {};
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseIsEqualDeep = __webpack_require__(581),
-    isObjectLike = __webpack_require__(38);
+    isObjectLike = __webpack_require__(37);
 
 /**
  * The base implementation of `_.isEqual` which supports partial comparisons
@@ -50053,7 +50051,7 @@ module.exports = Stack;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(53),
-    isObject = __webpack_require__(37);
+    isObject = __webpack_require__(36);
 
 /** `Object#toString` result references. */
 var asyncTag = '[object AsyncFunction]',
@@ -50425,7 +50423,7 @@ module.exports = arrayLikeKeys;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseIsArguments = __webpack_require__(618),
-    isObjectLike = __webpack_require__(38);
+    isObjectLike = __webpack_require__(37);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -52836,7 +52834,7 @@ var isEqual = __webpack_require__(26);
 var isEqual_default = /*#__PURE__*/__webpack_require__.n(isEqual);
 
 // EXTERNAL MODULE: ./packages/components/select/index.ts + 15 modules
-var components_select = __webpack_require__(36);
+var components_select = __webpack_require__(35);
 
 // CONCATENATED MODULE: ./packages/components/pagination/src/usePagination.ts
 
@@ -99945,8 +99943,8 @@ module.exports = zephir;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_ref_4_3_node_modules_vue_loader_dist_index_js_ref_11_0_demo_block_vue_vue_type_style_index_0_id_3cdb5513_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(297);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_ref_4_3_node_modules_vue_loader_dist_index_js_ref_11_0_demo_block_vue_vue_type_style_index_0_id_3cdb5513_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_cjs_js_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_ref_4_3_node_modules_vue_loader_dist_index_js_ref_11_0_demo_block_vue_vue_type_style_index_0_id_3cdb5513_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_ref_4_3_node_modules_vue_loader_dist_index_js_ref_11_0_demo_block_vue_vue_type_style_index_0_id_f7a3d1ca_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(297);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_ref_4_3_node_modules_vue_loader_dist_index_js_ref_11_0_demo_block_vue_vue_type_style_index_0_id_f7a3d1ca_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_cjs_js_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_ref_4_3_node_modules_vue_loader_dist_index_js_ref_11_0_demo_block_vue_vue_type_style_index_0_id_f7a3d1ca_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_0__);
 /* unused harmony reexport * */
 
 
@@ -100537,7 +100535,7 @@ module.exports = stackSet;
 
 var isFunction = __webpack_require__(308),
     isMasked = __webpack_require__(595),
-    isObject = __webpack_require__(37),
+    isObject = __webpack_require__(36),
     toSource = __webpack_require__(310);
 
 /**
@@ -101415,7 +101413,7 @@ module.exports = baseTimes;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(53),
-    isObjectLike = __webpack_require__(38);
+    isObjectLike = __webpack_require__(37);
 
 /** `Object#toString` result references. */
 var argsTag = '[object Arguments]';
@@ -101495,7 +101493,7 @@ module.exports = isIndex;
 
 var baseGetTag = __webpack_require__(53),
     isLength = __webpack_require__(321),
-    isObjectLike = __webpack_require__(38);
+    isObjectLike = __webpack_require__(37);
 
 /** `Object#toString` result references. */
 var argsTag = '[object Arguments]',
@@ -102331,7 +102329,7 @@ module.exports = now;
 /* 636 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(37),
+var isObject = __webpack_require__(36),
     isSymbol = __webpack_require__(637);
 
 /** Used as references for various `Number` constants. */
@@ -102404,7 +102402,7 @@ module.exports = toNumber;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(53),
-    isObjectLike = __webpack_require__(38);
+    isObjectLike = __webpack_require__(37);
 
 /** `Object#toString` result references. */
 var symbolTag = '[object Symbol]';
@@ -103194,7 +103192,7 @@ module.exports = noop;
 /***/ (function(module, exports, __webpack_require__) {
 
 var isArrayLike = __webpack_require__(107),
-    isObjectLike = __webpack_require__(38);
+    isObjectLike = __webpack_require__(37);
 
 /**
  * This method is like `_.isArrayLike` except that it also checks if `value`
@@ -103250,7 +103248,7 @@ var Stack = __webpack_require__(307),
     isArray = __webpack_require__(55),
     isBuffer = __webpack_require__(102),
     isMap = __webpack_require__(677),
-    isObject = __webpack_require__(37),
+    isObject = __webpack_require__(36),
     isSet = __webpack_require__(679),
     keys = __webpack_require__(101),
     keysIn = __webpack_require__(108);
@@ -103478,7 +103476,7 @@ module.exports = baseAssignIn;
 /* 662 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(37),
+var isObject = __webpack_require__(36),
     isPrototype = __webpack_require__(106),
     nativeKeysIn = __webpack_require__(663);
 
@@ -103908,7 +103906,7 @@ module.exports = initCloneObject;
 /* 676 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(37);
+var isObject = __webpack_require__(36);
 
 /** Built-in value references. */
 var objectCreate = Object.create;
@@ -103978,7 +103976,7 @@ module.exports = isMap;
 /***/ (function(module, exports, __webpack_require__) {
 
 var getTag = __webpack_require__(74),
-    isObjectLike = __webpack_require__(38);
+    isObjectLike = __webpack_require__(37);
 
 /** `Object#toString` result references. */
 var mapTag = '[object Map]';
@@ -104035,7 +104033,7 @@ module.exports = isSet;
 /***/ (function(module, exports, __webpack_require__) {
 
 var getTag = __webpack_require__(74),
-    isObjectLike = __webpack_require__(38);
+    isObjectLike = __webpack_require__(37);
 
 /** `Object#toString` result references. */
 var setTag = '[object Set]';
@@ -112454,7 +112452,7 @@ var clipboard_copy = __webpack_require__(81);
 var clipboard_copy_default = /*#__PURE__*/__webpack_require__.n(clipboard_copy);
 
 // EXTERNAL MODULE: ./node_modules/vue-router/dist/vue-router.esm-bundler.js
-var vue_router_esm_bundler = __webpack_require__(40);
+var vue_router_esm_bundler = __webpack_require__(39);
 
 // EXTERNAL MODULE: ./website/i18n/route.json
 var i18n_route = __webpack_require__(342);
@@ -112661,35 +112659,35 @@ route_config_route = route_config_route.concat([{
   }
 }]);
 /* harmony default export */ var route_config = (route_config_route);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./website/components/demo-block.vue?vue&type=template&id=3cdb5513&scoped=true
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./website/components/demo-block.vue?vue&type=template&id=f7a3d1ca&scoped=true
 
 
-Object(vue_esm_browser_prod["pushScopeId"])("data-v-3cdb5513");
+Object(vue_esm_browser_prod["pushScopeId"])("data-v-f7a3d1ca");
 
-const demo_blockvue_type_template_id_3cdb5513_scoped_true_hoisted_1 = {
+const demo_blockvue_type_template_id_f7a3d1ca_scoped_true_hoisted_1 = {
   class: "source"
 };
-const demo_blockvue_type_template_id_3cdb5513_scoped_true_hoisted_2 = {
+const demo_blockvue_type_template_id_f7a3d1ca_scoped_true_hoisted_2 = {
   ref: "meta",
   class: "meta"
 };
-const demo_blockvue_type_template_id_3cdb5513_scoped_true_hoisted_3 = {
+const demo_blockvue_type_template_id_f7a3d1ca_scoped_true_hoisted_3 = {
   key: 0,
   class: "description"
 };
-const demo_blockvue_type_template_id_3cdb5513_scoped_true_hoisted_4 = {
+const demo_blockvue_type_template_id_f7a3d1ca_scoped_true_hoisted_4 = {
   class: "highlight"
 };
-const demo_blockvue_type_template_id_3cdb5513_scoped_true_hoisted_5 = {
+const demo_blockvue_type_template_id_f7a3d1ca_scoped_true_hoisted_5 = {
   class: "control-button-container control-button-container-left"
 };
-const demo_blockvue_type_template_id_3cdb5513_scoped_true_hoisted_6 = {
+const demo_blockvue_type_template_id_f7a3d1ca_scoped_true_hoisted_6 = {
   class: "control-button-container"
 };
 
 Object(vue_esm_browser_prod["popScopeId"])();
 
-function demo_blockvue_type_template_id_3cdb5513_scoped_true_render(_ctx, _cache, $props, $setup, $data, $options) {
+function demo_blockvue_type_template_id_f7a3d1ca_scoped_true_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_el_button = Object(vue_esm_browser_prod["resolveComponent"])("el-button");
 
   const _component_el_tooltip = Object(vue_esm_browser_prod["resolveComponent"])("el-tooltip");
@@ -112700,7 +112698,7 @@ function demo_blockvue_type_template_id_3cdb5513_scoped_true_render(_ctx, _cache
     }]]),
     onMouseenter: _cache[1] || (_cache[1] = $event => $data.hovering = true),
     onMouseleave: _cache[2] || (_cache[2] = $event => $data.hovering = false)
-  }, [Object(vue_esm_browser_prod["createElementVNode"])("div", demo_blockvue_type_template_id_3cdb5513_scoped_true_hoisted_1, [Object(vue_esm_browser_prod["renderSlot"])(_ctx.$slots, "source")]), Object(vue_esm_browser_prod["createElementVNode"])("div", demo_blockvue_type_template_id_3cdb5513_scoped_true_hoisted_2, [_ctx.$slots.default ? (Object(vue_esm_browser_prod["openBlock"])(), Object(vue_esm_browser_prod["createElementBlock"])("div", demo_blockvue_type_template_id_3cdb5513_scoped_true_hoisted_3, [Object(vue_esm_browser_prod["renderSlot"])(_ctx.$slots, "default")])) : Object(vue_esm_browser_prod["createCommentVNode"])("", true), Object(vue_esm_browser_prod["createElementVNode"])("div", demo_blockvue_type_template_id_3cdb5513_scoped_true_hoisted_4, [Object(vue_esm_browser_prod["renderSlot"])(_ctx.$slots, "highlight")])], 512), Object(vue_esm_browser_prod["createElementVNode"])("div", {
+  }, [Object(vue_esm_browser_prod["createElementVNode"])("div", demo_blockvue_type_template_id_f7a3d1ca_scoped_true_hoisted_1, [Object(vue_esm_browser_prod["renderSlot"])(_ctx.$slots, "source")]), Object(vue_esm_browser_prod["createElementVNode"])("div", demo_blockvue_type_template_id_f7a3d1ca_scoped_true_hoisted_2, [_ctx.$slots.default ? (Object(vue_esm_browser_prod["openBlock"])(), Object(vue_esm_browser_prod["createElementBlock"])("div", demo_blockvue_type_template_id_f7a3d1ca_scoped_true_hoisted_3, [Object(vue_esm_browser_prod["renderSlot"])(_ctx.$slots, "default")])) : Object(vue_esm_browser_prod["createCommentVNode"])("", true), Object(vue_esm_browser_prod["createElementVNode"])("div", demo_blockvue_type_template_id_f7a3d1ca_scoped_true_hoisted_4, [Object(vue_esm_browser_prod["renderSlot"])(_ctx.$slots, "highlight")])], 512), Object(vue_esm_browser_prod["createElementVNode"])("div", {
     ref: "control",
     class: Object(vue_esm_browser_prod["normalizeClass"])(["demo-block-control", {
       'is-fixed': $data.fixedControl
@@ -112720,7 +112718,7 @@ function demo_blockvue_type_template_id_3cdb5513_scoped_true_render(_ctx, _cache
   }, {
     default: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["withDirectives"])(Object(vue_esm_browser_prod["createElementVNode"])("span", null, Object(vue_esm_browser_prod["toDisplayString"])($options.controlText), 513), [[vue_esm_browser_prod["vShow"], $data.hovering]])]),
     _: 1
-  }), Object(vue_esm_browser_prod["createElementVNode"])("div", demo_blockvue_type_template_id_3cdb5513_scoped_true_hoisted_5, [Object(vue_esm_browser_prod["withDirectives"])(Object(vue_esm_browser_prod["createVNode"])(_component_el_button, {
+  }), Object(vue_esm_browser_prod["createElementVNode"])("div", demo_blockvue_type_template_id_f7a3d1ca_scoped_true_hoisted_5, [Object(vue_esm_browser_prod["withDirectives"])(Object(vue_esm_browser_prod["createVNode"])(_component_el_button, {
     size: "small",
     type: "text",
     class: "control-button",
@@ -112728,7 +112726,7 @@ function demo_blockvue_type_template_id_3cdb5513_scoped_true_render(_ctx, _cache
   }, {
     default: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createTextVNode"])(Object(vue_esm_browser_prod["toDisplayString"])($data.showSetup ? $options.langConfig['switch-button-option-text'] : $options.langConfig['switch-button-setup-text']), 1)]),
     _: 1
-  }, 8, ["onClick"]), [[vue_esm_browser_prod["vShow"], $data.isExpanded && $data.hasSetup]])]), Object(vue_esm_browser_prod["createElementVNode"])("div", demo_blockvue_type_template_id_3cdb5513_scoped_true_hoisted_6, [Object(vue_esm_browser_prod["withDirectives"])(Object(vue_esm_browser_prod["createVNode"])(_component_el_button, {
+  }, 8, ["onClick"]), [[vue_esm_browser_prod["vShow"], $data.isExpanded && $data.hasSetup]])]), Object(vue_esm_browser_prod["createElementVNode"])("div", demo_blockvue_type_template_id_f7a3d1ca_scoped_true_hoisted_6, [Object(vue_esm_browser_prod["withDirectives"])(Object(vue_esm_browser_prod["createVNode"])(_component_el_button, {
     ref: "copyButton",
     size: "small",
     type: "text",
@@ -112759,7 +112757,7 @@ function demo_blockvue_type_template_id_3cdb5513_scoped_true_render(_ctx, _cache
     _: 1
   }, 8, ["content"])])], 2)], 34);
 }
-// CONCATENATED MODULE: ./website/components/demo-block.vue?vue&type=template&id=3cdb5513&scoped=true
+// CONCATENATED MODULE: ./website/components/demo-block.vue?vue&type=template&id=f7a3d1ca&scoped=true
 
 // EXTERNAL MODULE: ./node_modules/highlight.js/lib/index.js
 var lib = __webpack_require__(343);
@@ -112986,9 +112984,9 @@ ${this.codepen.style}
         html,
         style
       } = this.codepen;
-      const resourcesTpl = '<scr' + 'ipt src="//unpkg.com/vue@next"></scr' + 'ipt>' + '\n<scr' + `ipt src="//unpkg.com/element-plus/lib/index.full.js"></scr` + 'ipt>';
+      const resourcesTpl = '<scr' + 'ipt src="//unpkg.com/vue@next"></scr' + 'ipt>' + '\n<scr' + `ipt src="//unpkg.com/element-plus/dist/index.full.js"></scr` + 'ipt>';
       let htmlTpl = `${resourcesTpl}\n<div id="app">\n${html.trim()}\n</div>`;
-      let cssTpl = `@import url("//unpkg.com/element-plus/lib/theme-chalk/index.css");\n${(style || '').trim()}\n`;
+      let cssTpl = `@import url("//unpkg.com/element-plus/dist/index.css");\n${(style || '').trim()}\n`;
       let jsTpl = script ? script.replace(/export default/, 'var Main =').trim().replace(/import ({.*}) from 'vue'/g, (s, s1) => `const ${s1} = Vue`).replace(/import ({.*}) from 'element-plus'/g, (s, s1) => `const ${s1} = ElementPlus`) : 'var Main = {}';
       jsTpl += '\n;const app = Vue.createApp(Main);\napp.use(ElementPlus);\napp.mount("#app")';
       const data = {
@@ -113035,8 +113033,8 @@ ${this.codepen.style}
 });
 // CONCATENATED MODULE: ./website/components/demo-block.vue?vue&type=script&lang=js
  
-// EXTERNAL MODULE: ./website/components/demo-block.vue?vue&type=style&index=0&id=3cdb5513&lang=scss&scoped=true
-var demo_blockvue_type_style_index_0_id_3cdb5513_lang_scss_scoped_true = __webpack_require__(558);
+// EXTERNAL MODULE: ./website/components/demo-block.vue?vue&type=style&index=0&id=f7a3d1ca&lang=scss&scoped=true
+var demo_blockvue_type_style_index_0_id_f7a3d1ca_lang_scss_scoped_true = __webpack_require__(558);
 
 // CONCATENATED MODULE: ./website/components/demo-block.vue
 
@@ -113044,8 +113042,8 @@ var demo_blockvue_type_style_index_0_id_3cdb5513_lang_scss_scoped_true = __webpa
 
 
 
-demo_blockvue_type_script_lang_js.render = demo_blockvue_type_template_id_3cdb5513_scoped_true_render
-demo_blockvue_type_script_lang_js.__scopeId = "data-v-3cdb5513"
+demo_blockvue_type_script_lang_js.render = demo_blockvue_type_template_id_f7a3d1ca_scoped_true_render
+demo_blockvue_type_script_lang_js.__scopeId = "data-v-f7a3d1ca"
 
 /* harmony default export */ var demo_block = (demo_blockvue_type_script_lang_js);
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./website/components/right-nav.vue?vue&type=template&id=3cbe4ed6&scoped=true
@@ -114486,7 +114484,7 @@ var config_provider = __webpack_require__(160);
   }
 });
 // EXTERNAL MODULE: ./packages/locale/lang/en.ts
-var en = __webpack_require__(32);
+var en = __webpack_require__(41);
 
 // CONCATENATED MODULE: ./packages/locale/lang/es.ts
 /* harmony default export */ var es = ({
@@ -114948,7 +114946,7 @@ const localeMap = {
 
 /* harmony default export */ var app = (appvue_type_script_lang_js);
 // EXTERNAL MODULE: ./packages/element-plus/defaults.ts + 2 modules
-var defaults = __webpack_require__(685);
+var defaults = __webpack_require__(683);
 
 // EXTERNAL MODULE: ./packages/theme-chalk/src/index.scss
 var src = __webpack_require__(631);
@@ -115057,6 +115055,302 @@ entry_app.mount('#app');
 /***/ }),
 /* 682 */,
 /* 683 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXTERNAL MODULE: ./packages/element-plus/make-installer.ts + 1 modules
+var make_installer = __webpack_require__(161);
+
+// EXTERNAL MODULE: ./packages/components/affix/index.ts + 3 modules
+var affix = __webpack_require__(143);
+
+// EXTERNAL MODULE: ./packages/components/alert/index.ts + 3 modules
+var components_alert = __webpack_require__(144);
+
+// EXTERNAL MODULE: ./packages/components/autocomplete/index.ts + 3 modules
+var autocomplete = __webpack_require__(145);
+
+// EXTERNAL MODULE: ./packages/components/avatar/index.ts + 3 modules
+var avatar = __webpack_require__(146);
+
+// EXTERNAL MODULE: ./packages/components/backtop/index.ts + 4 modules
+var backtop = __webpack_require__(141);
+
+// EXTERNAL MODULE: ./packages/components/badge/index.ts + 3 modules
+var badge = __webpack_require__(147);
+
+// EXTERNAL MODULE: ./packages/components/breadcrumb/index.ts + 6 modules
+var breadcrumb = __webpack_require__(133);
+
+// EXTERNAL MODULE: ./packages/components/button/index.ts + 6 modules
+var components_button = __webpack_require__(21);
+
+// EXTERNAL MODULE: ./packages/components/calendar/index.ts + 6 modules
+var calendar = __webpack_require__(134);
+
+// EXTERNAL MODULE: ./packages/components/card/index.ts + 3 modules
+var card = __webpack_require__(148);
+
+// EXTERNAL MODULE: ./packages/components/carousel/index.ts + 6 modules
+var carousel = __webpack_require__(135);
+
+// EXTERNAL MODULE: ./packages/components/cascader/index.ts + 3 modules
+var cascader = __webpack_require__(149);
+
+// EXTERNAL MODULE: ./packages/components/cascader-panel/index.ts + 13 modules
+var cascader_panel = __webpack_require__(62);
+
+// EXTERNAL MODULE: ./packages/components/check-tag/index.ts + 3 modules
+var check_tag = __webpack_require__(150);
+
+// EXTERNAL MODULE: ./packages/components/checkbox/index.ts + 10 modules
+var components_checkbox = __webpack_require__(22);
+
+// EXTERNAL MODULE: ./packages/components/col/index.ts + 1 modules
+var col = __webpack_require__(162);
+
+// EXTERNAL MODULE: ./packages/components/collapse/index.ts + 6 modules
+var collapse = __webpack_require__(136);
+
+// EXTERNAL MODULE: ./packages/components/collapse-transition/index.ts + 3 modules
+var collapse_transition = __webpack_require__(34);
+
+// EXTERNAL MODULE: ./packages/components/color-picker/index.ts + 18 modules
+var color_picker = __webpack_require__(122);
+
+// EXTERNAL MODULE: ./packages/components/config-provider/index.ts + 2 modules
+var config_provider = __webpack_require__(160);
+
+// EXTERNAL MODULE: ./packages/components/container/index.ts + 15 modules
+var container = __webpack_require__(123);
+
+// EXTERNAL MODULE: ./packages/components/date-picker/index.ts + 19 modules
+var date_picker = __webpack_require__(121);
+
+// EXTERNAL MODULE: ./packages/components/descriptions/index.ts + 9 modules
+var descriptions = __webpack_require__(130);
+
+// EXTERNAL MODULE: ./packages/components/dialog/index.ts + 3 modules
+var dialog = __webpack_require__(93);
+
+// EXTERNAL MODULE: ./packages/components/divider/index.ts + 3 modules
+var divider = __webpack_require__(151);
+
+// EXTERNAL MODULE: ./packages/components/drawer/index.ts + 3 modules
+var drawer = __webpack_require__(152);
+
+// EXTERNAL MODULE: ./packages/components/dropdown/index.ts + 10 modules
+var dropdown = __webpack_require__(129);
+
+// EXTERNAL MODULE: ./packages/components/empty/index.ts + 6 modules
+var empty = __webpack_require__(137);
+
+// EXTERNAL MODULE: ./packages/components/form/index.ts + 7 modules
+var components_form = __webpack_require__(132);
+
+// EXTERNAL MODULE: ./packages/components/icon/index.ts + 3 modules
+var icon = __webpack_require__(142);
+
+// EXTERNAL MODULE: ./packages/components/image/index.ts + 3 modules
+var components_image = __webpack_require__(153);
+
+// EXTERNAL MODULE: ./packages/components/image-viewer/index.ts + 3 modules
+var image_viewer = __webpack_require__(65);
+
+// EXTERNAL MODULE: ./packages/components/input/index.ts + 4 modules
+var input = __webpack_require__(19);
+
+// EXTERNAL MODULE: ./packages/components/input-number/index.ts + 3 modules
+var input_number = __webpack_require__(66);
+
+// EXTERNAL MODULE: ./packages/components/link/index.ts + 3 modules
+var components_link = __webpack_require__(154);
+
+// EXTERNAL MODULE: ./packages/components/menu/index.ts
+var menu = __webpack_require__(113);
+
+// EXTERNAL MODULE: ./packages/components/page-header/index.ts + 3 modules
+var page_header = __webpack_require__(155);
+
+// EXTERNAL MODULE: ./packages/components/pagination/index.ts
+var pagination = __webpack_require__(114);
+
+// EXTERNAL MODULE: ./packages/components/popconfirm/index.ts + 3 modules
+var popconfirm = __webpack_require__(156);
+
+// EXTERNAL MODULE: ./packages/components/popover/index.ts + 4 modules
+var popover = __webpack_require__(64);
+
+// EXTERNAL MODULE: ./packages/components/popper/index.ts + 3 modules
+var popper = __webpack_require__(16);
+
+// EXTERNAL MODULE: ./packages/components/progress/index.ts + 3 modules
+var progress = __webpack_require__(67);
+
+// EXTERNAL MODULE: ./packages/components/radio/index.ts + 11 modules
+var components_radio = __webpack_require__(63);
+
+// EXTERNAL MODULE: ./packages/components/rate/index.ts + 3 modules
+var rate = __webpack_require__(157);
+
+// EXTERNAL MODULE: ./packages/components/result/index.ts + 15 modules
+var result = __webpack_require__(124);
+
+// EXTERNAL MODULE: ./packages/components/row/index.ts + 1 modules
+var row = __webpack_require__(163);
+
+// EXTERNAL MODULE: ./packages/components/scrollbar/index.ts + 6 modules
+var scrollbar = __webpack_require__(23);
+
+// EXTERNAL MODULE: ./packages/components/select/index.ts + 15 modules
+var components_select = __webpack_require__(35);
+
+// EXTERNAL MODULE: ./packages/components/select-v2/index.ts + 15 modules
+var select_v2 = __webpack_require__(125);
+
+// EXTERNAL MODULE: ./packages/components/skeleton/index.ts
+var skeleton = __webpack_require__(115);
+
+// EXTERNAL MODULE: ./packages/components/slider/index.ts
+var slider = __webpack_require__(116);
+
+// EXTERNAL MODULE: ./packages/components/space/index.ts + 5 modules
+var space = __webpack_require__(139);
+
+// EXTERNAL MODULE: ./packages/components/steps/index.ts + 6 modules
+var steps = __webpack_require__(138);
+
+// EXTERNAL MODULE: ./packages/components/switch/index.ts + 3 modules
+var components_switch = __webpack_require__(158);
+
+// EXTERNAL MODULE: ./packages/components/table/index.ts + 37 modules
+var table = __webpack_require__(120);
+
+// EXTERNAL MODULE: ./packages/components/tabs/index.ts + 9 modules
+var tabs = __webpack_require__(131);
+
+// EXTERNAL MODULE: ./packages/components/tag/index.ts + 3 modules
+var tag = __webpack_require__(33);
+
+// EXTERNAL MODULE: ./packages/components/time-picker/index.ts + 4 modules
+var time_picker = __webpack_require__(32);
+
+// EXTERNAL MODULE: ./packages/components/time-select/index.ts + 3 modules
+var time_select = __webpack_require__(159);
+
+// EXTERNAL MODULE: ./packages/components/timeline/index.ts + 5 modules
+var timeline = __webpack_require__(140);
+
+// EXTERNAL MODULE: ./packages/components/tooltip/index.ts + 1 modules
+var tooltip = __webpack_require__(46);
+
+// EXTERNAL MODULE: ./packages/components/transfer/index.ts + 11 modules
+var transfer = __webpack_require__(128);
+
+// EXTERNAL MODULE: ./packages/components/tree/index.ts + 14 modules
+var tree = __webpack_require__(126);
+
+// EXTERNAL MODULE: ./packages/components/upload/index.ts + 13 modules
+var upload = __webpack_require__(127);
+
+// CONCATENATED MODULE: ./packages/element-plus/component.ts
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* harmony default export */ var component = ([affix["a" /* ElAffix */], components_alert["a" /* ElAlert */], autocomplete["a" /* ElAutocomplete */], avatar["a" /* ElAvatar */], backtop["a" /* ElBacktop */], badge["a" /* ElBadge */], breadcrumb["a" /* ElBreadcrumb */], components_button["a" /* ElButton */], calendar["a" /* ElCalendar */], card["a" /* ElCard */], carousel["a" /* ElCarousel */], cascader["a" /* ElCascader */], cascader_panel["d" /* ElCascaderPanel */], check_tag["a" /* ElCheckTag */], components_checkbox["a" /* ElCheckbox */], col["a" /* ElCol */], collapse["a" /* ElCollapse */], collapse_transition["a" /* ElCollapseTransition */], color_picker["a" /* ElColorPicker */], config_provider["a" /* ElConfigProvider */], container["b" /* ElContainer */], date_picker["a" /* ElDatePicker */], descriptions["a" /* ElDescriptions */], dialog["a" /* ElDialog */], divider["a" /* ElDivider */], drawer["a" /* ElDrawer */], dropdown["a" /* ElDropdown */], empty["a" /* ElEmpty */], components_form["a" /* ElForm */], icon["a" /* ElIcon */], components_image["a" /* ElImage */], image_viewer["a" /* ElImageViewer */], input["a" /* ElInput */], input_number["a" /* ElInputNumber */], components_link["a" /* ElLink */], menu["ElMenu"], page_header["a" /* ElPageHeader */], pagination["ElPagination"], popconfirm["a" /* ElPopconfirm */], popover["a" /* ElPopover */], popper["b" /* ElPopper */], progress["a" /* ElProgress */], components_radio["a" /* ElRadio */], rate["a" /* ElRate */], result["a" /* ElResult */], row["a" /* ElRow */], scrollbar["b" /* ElScrollbar */], components_select["c" /* ElSelect */], select_v2["a" /* ElSelectV2 */], skeleton["ElSkeleton"], slider["ElSlider"], space["a" /* ElSpace */], steps["b" /* ElSteps */], components_switch["a" /* ElSwitch */], table["a" /* ElTable */], tabs["b" /* ElTabs */], tag["a" /* ElTag */], time_picker["e" /* ElTimePicker */], time_select["a" /* ElTimeSelect */], timeline["a" /* ElTimeline */], tooltip["a" /* ElTooltip */], transfer["b" /* ElTransfer */], tree["a" /* ElTree */], upload["a" /* ElUpload */]]);
+// EXTERNAL MODULE: ./packages/components/infinite-scroll/index.ts + 1 modules
+var infinite_scroll = __webpack_require__(164);
+
+// EXTERNAL MODULE: ./packages/components/loading/index.ts
+var loading = __webpack_require__(117);
+
+// EXTERNAL MODULE: ./packages/components/message/index.ts
+var message = __webpack_require__(118);
+
+// EXTERNAL MODULE: ./packages/components/message-box/index.ts
+var message_box = __webpack_require__(112);
+
+// EXTERNAL MODULE: ./packages/components/notification/index.ts
+var notification = __webpack_require__(119);
+
+// CONCATENATED MODULE: ./packages/element-plus/plugin.ts
+
+
+
+
+
+
+/* harmony default export */ var element_plus_plugin = ([infinite_scroll["a" /* ElInfiniteScroll */], loading["ElLoading"], message["ElMessage"], message_box["ElMessageBox"], notification["ElNotification"], popover["b" /* ElPopoverDirective */]]);
+// CONCATENATED MODULE: ./packages/element-plus/defaults.ts
+
+
+
+/* harmony default export */ var defaults = __webpack_exports__["a"] = (Object(make_installer["a" /* default */])([...component, ...element_plus_plugin]));
+
+/***/ }),
+/* 684 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -115176,7 +115470,7 @@ const FixedSizeList = Object(_builders_buildList__WEBPACK_IMPORTED_MODULE_2__[/*
 /* harmony default export */ __webpack_exports__["a"] = (FixedSizeList);
 
 /***/ }),
-/* 684 */
+/* 685 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -115406,302 +115700,6 @@ const DynamicSizeList = Object(_builders_buildList__WEBPACK_IMPORTED_MODULE_1__[
   }
 });
 /* harmony default export */ __webpack_exports__["a"] = (DynamicSizeList);
-
-/***/ }),
-/* 685 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// EXTERNAL MODULE: ./packages/element-plus/make-installer.ts + 1 modules
-var make_installer = __webpack_require__(161);
-
-// EXTERNAL MODULE: ./packages/components/affix/index.ts + 3 modules
-var affix = __webpack_require__(143);
-
-// EXTERNAL MODULE: ./packages/components/alert/index.ts + 3 modules
-var components_alert = __webpack_require__(144);
-
-// EXTERNAL MODULE: ./packages/components/autocomplete/index.ts + 3 modules
-var autocomplete = __webpack_require__(145);
-
-// EXTERNAL MODULE: ./packages/components/avatar/index.ts + 3 modules
-var avatar = __webpack_require__(146);
-
-// EXTERNAL MODULE: ./packages/components/backtop/index.ts + 4 modules
-var backtop = __webpack_require__(141);
-
-// EXTERNAL MODULE: ./packages/components/badge/index.ts + 3 modules
-var badge = __webpack_require__(147);
-
-// EXTERNAL MODULE: ./packages/components/breadcrumb/index.ts + 6 modules
-var breadcrumb = __webpack_require__(133);
-
-// EXTERNAL MODULE: ./packages/components/button/index.ts + 6 modules
-var components_button = __webpack_require__(21);
-
-// EXTERNAL MODULE: ./packages/components/calendar/index.ts + 6 modules
-var calendar = __webpack_require__(134);
-
-// EXTERNAL MODULE: ./packages/components/card/index.ts + 3 modules
-var card = __webpack_require__(148);
-
-// EXTERNAL MODULE: ./packages/components/carousel/index.ts + 6 modules
-var carousel = __webpack_require__(135);
-
-// EXTERNAL MODULE: ./packages/components/cascader/index.ts + 3 modules
-var cascader = __webpack_require__(149);
-
-// EXTERNAL MODULE: ./packages/components/cascader-panel/index.ts + 13 modules
-var cascader_panel = __webpack_require__(62);
-
-// EXTERNAL MODULE: ./packages/components/check-tag/index.ts + 3 modules
-var check_tag = __webpack_require__(150);
-
-// EXTERNAL MODULE: ./packages/components/checkbox/index.ts + 10 modules
-var components_checkbox = __webpack_require__(22);
-
-// EXTERNAL MODULE: ./packages/components/col/index.ts + 1 modules
-var col = __webpack_require__(162);
-
-// EXTERNAL MODULE: ./packages/components/collapse/index.ts + 6 modules
-var collapse = __webpack_require__(136);
-
-// EXTERNAL MODULE: ./packages/components/collapse-transition/index.ts + 3 modules
-var collapse_transition = __webpack_require__(35);
-
-// EXTERNAL MODULE: ./packages/components/color-picker/index.ts + 18 modules
-var color_picker = __webpack_require__(122);
-
-// EXTERNAL MODULE: ./packages/components/config-provider/index.ts + 2 modules
-var config_provider = __webpack_require__(160);
-
-// EXTERNAL MODULE: ./packages/components/container/index.ts + 15 modules
-var container = __webpack_require__(123);
-
-// EXTERNAL MODULE: ./packages/components/date-picker/index.ts + 19 modules
-var date_picker = __webpack_require__(121);
-
-// EXTERNAL MODULE: ./packages/components/descriptions/index.ts + 9 modules
-var descriptions = __webpack_require__(130);
-
-// EXTERNAL MODULE: ./packages/components/dialog/index.ts + 3 modules
-var dialog = __webpack_require__(93);
-
-// EXTERNAL MODULE: ./packages/components/divider/index.ts + 3 modules
-var divider = __webpack_require__(151);
-
-// EXTERNAL MODULE: ./packages/components/drawer/index.ts + 3 modules
-var drawer = __webpack_require__(152);
-
-// EXTERNAL MODULE: ./packages/components/dropdown/index.ts + 10 modules
-var dropdown = __webpack_require__(129);
-
-// EXTERNAL MODULE: ./packages/components/empty/index.ts + 6 modules
-var empty = __webpack_require__(137);
-
-// EXTERNAL MODULE: ./packages/components/form/index.ts + 7 modules
-var components_form = __webpack_require__(132);
-
-// EXTERNAL MODULE: ./packages/components/icon/index.ts + 3 modules
-var icon = __webpack_require__(142);
-
-// EXTERNAL MODULE: ./packages/components/image/index.ts + 3 modules
-var components_image = __webpack_require__(153);
-
-// EXTERNAL MODULE: ./packages/components/image-viewer/index.ts + 3 modules
-var image_viewer = __webpack_require__(65);
-
-// EXTERNAL MODULE: ./packages/components/input/index.ts + 4 modules
-var input = __webpack_require__(19);
-
-// EXTERNAL MODULE: ./packages/components/input-number/index.ts + 3 modules
-var input_number = __webpack_require__(66);
-
-// EXTERNAL MODULE: ./packages/components/link/index.ts + 3 modules
-var components_link = __webpack_require__(154);
-
-// EXTERNAL MODULE: ./packages/components/menu/index.ts
-var menu = __webpack_require__(113);
-
-// EXTERNAL MODULE: ./packages/components/page-header/index.ts + 3 modules
-var page_header = __webpack_require__(155);
-
-// EXTERNAL MODULE: ./packages/components/pagination/index.ts
-var pagination = __webpack_require__(114);
-
-// EXTERNAL MODULE: ./packages/components/popconfirm/index.ts + 3 modules
-var popconfirm = __webpack_require__(156);
-
-// EXTERNAL MODULE: ./packages/components/popover/index.ts + 4 modules
-var popover = __webpack_require__(64);
-
-// EXTERNAL MODULE: ./packages/components/popper/index.ts + 3 modules
-var popper = __webpack_require__(16);
-
-// EXTERNAL MODULE: ./packages/components/progress/index.ts + 3 modules
-var progress = __webpack_require__(67);
-
-// EXTERNAL MODULE: ./packages/components/radio/index.ts + 11 modules
-var components_radio = __webpack_require__(63);
-
-// EXTERNAL MODULE: ./packages/components/rate/index.ts + 3 modules
-var rate = __webpack_require__(157);
-
-// EXTERNAL MODULE: ./packages/components/result/index.ts + 15 modules
-var result = __webpack_require__(124);
-
-// EXTERNAL MODULE: ./packages/components/row/index.ts + 1 modules
-var row = __webpack_require__(163);
-
-// EXTERNAL MODULE: ./packages/components/scrollbar/index.ts + 6 modules
-var scrollbar = __webpack_require__(23);
-
-// EXTERNAL MODULE: ./packages/components/select/index.ts + 15 modules
-var components_select = __webpack_require__(36);
-
-// EXTERNAL MODULE: ./packages/components/select-v2/index.ts + 15 modules
-var select_v2 = __webpack_require__(125);
-
-// EXTERNAL MODULE: ./packages/components/skeleton/index.ts
-var skeleton = __webpack_require__(115);
-
-// EXTERNAL MODULE: ./packages/components/slider/index.ts
-var slider = __webpack_require__(116);
-
-// EXTERNAL MODULE: ./packages/components/space/index.ts + 5 modules
-var space = __webpack_require__(139);
-
-// EXTERNAL MODULE: ./packages/components/steps/index.ts + 6 modules
-var steps = __webpack_require__(138);
-
-// EXTERNAL MODULE: ./packages/components/switch/index.ts + 3 modules
-var components_switch = __webpack_require__(158);
-
-// EXTERNAL MODULE: ./packages/components/table/index.ts + 37 modules
-var table = __webpack_require__(120);
-
-// EXTERNAL MODULE: ./packages/components/tabs/index.ts + 9 modules
-var tabs = __webpack_require__(131);
-
-// EXTERNAL MODULE: ./packages/components/tag/index.ts + 3 modules
-var tag = __webpack_require__(34);
-
-// EXTERNAL MODULE: ./packages/components/time-picker/index.ts + 4 modules
-var time_picker = __webpack_require__(33);
-
-// EXTERNAL MODULE: ./packages/components/time-select/index.ts + 3 modules
-var time_select = __webpack_require__(159);
-
-// EXTERNAL MODULE: ./packages/components/timeline/index.ts + 5 modules
-var timeline = __webpack_require__(140);
-
-// EXTERNAL MODULE: ./packages/components/tooltip/index.ts + 1 modules
-var tooltip = __webpack_require__(46);
-
-// EXTERNAL MODULE: ./packages/components/transfer/index.ts + 11 modules
-var transfer = __webpack_require__(128);
-
-// EXTERNAL MODULE: ./packages/components/tree/index.ts + 14 modules
-var tree = __webpack_require__(126);
-
-// EXTERNAL MODULE: ./packages/components/upload/index.ts + 13 modules
-var upload = __webpack_require__(127);
-
-// CONCATENATED MODULE: ./packages/element-plus/component.ts
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* harmony default export */ var component = ([affix["a" /* ElAffix */], components_alert["a" /* ElAlert */], autocomplete["a" /* ElAutocomplete */], avatar["a" /* ElAvatar */], backtop["a" /* ElBacktop */], badge["a" /* ElBadge */], breadcrumb["a" /* ElBreadcrumb */], components_button["a" /* ElButton */], calendar["a" /* ElCalendar */], card["a" /* ElCard */], carousel["a" /* ElCarousel */], cascader["a" /* ElCascader */], cascader_panel["d" /* ElCascaderPanel */], check_tag["a" /* ElCheckTag */], components_checkbox["a" /* ElCheckbox */], col["a" /* ElCol */], collapse["a" /* ElCollapse */], collapse_transition["a" /* ElCollapseTransition */], color_picker["a" /* ElColorPicker */], config_provider["a" /* ElConfigProvider */], container["b" /* ElContainer */], date_picker["a" /* ElDatePicker */], descriptions["a" /* ElDescriptions */], dialog["a" /* ElDialog */], divider["a" /* ElDivider */], drawer["a" /* ElDrawer */], dropdown["a" /* ElDropdown */], empty["a" /* ElEmpty */], components_form["a" /* ElForm */], icon["a" /* ElIcon */], components_image["a" /* ElImage */], image_viewer["a" /* ElImageViewer */], input["a" /* ElInput */], input_number["a" /* ElInputNumber */], components_link["a" /* ElLink */], menu["ElMenu"], page_header["a" /* ElPageHeader */], pagination["ElPagination"], popconfirm["a" /* ElPopconfirm */], popover["a" /* ElPopover */], popper["b" /* ElPopper */], progress["a" /* ElProgress */], components_radio["a" /* ElRadio */], rate["a" /* ElRate */], result["a" /* ElResult */], row["a" /* ElRow */], scrollbar["b" /* ElScrollbar */], components_select["c" /* ElSelect */], select_v2["a" /* ElSelectV2 */], skeleton["ElSkeleton"], slider["ElSlider"], space["a" /* ElSpace */], steps["b" /* ElSteps */], components_switch["a" /* ElSwitch */], table["a" /* ElTable */], tabs["b" /* ElTabs */], tag["a" /* ElTag */], time_picker["e" /* ElTimePicker */], time_select["a" /* ElTimeSelect */], timeline["a" /* ElTimeline */], tooltip["a" /* ElTooltip */], transfer["b" /* ElTransfer */], tree["a" /* ElTree */], upload["a" /* ElUpload */]]);
-// EXTERNAL MODULE: ./packages/components/infinite-scroll/index.ts + 1 modules
-var infinite_scroll = __webpack_require__(164);
-
-// EXTERNAL MODULE: ./packages/components/loading/index.ts
-var loading = __webpack_require__(117);
-
-// EXTERNAL MODULE: ./packages/components/message/index.ts
-var message = __webpack_require__(118);
-
-// EXTERNAL MODULE: ./packages/components/message-box/index.ts
-var message_box = __webpack_require__(112);
-
-// EXTERNAL MODULE: ./packages/components/notification/index.ts
-var notification = __webpack_require__(119);
-
-// CONCATENATED MODULE: ./packages/element-plus/plugin.ts
-
-
-
-
-
-
-/* harmony default export */ var element_plus_plugin = ([infinite_scroll["a" /* ElInfiniteScroll */], loading["ElLoading"], message["ElMessage"], message_box["ElMessageBox"], notification["ElNotification"], popover["b" /* ElPopoverDirective */]]);
-// CONCATENATED MODULE: ./packages/element-plus/defaults.ts
-
-
-
-/* harmony default export */ var defaults = __webpack_exports__["a"] = (Object(make_installer["a" /* default */])([...component, ...element_plus_plugin]));
 
 /***/ }),
 /* 686 */
