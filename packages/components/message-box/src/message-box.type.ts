@@ -157,12 +157,12 @@ export interface ElMessageBoxOptions {
 
 export type ElMessageBoxShortcutMethod =
   ((
-      message: string,
-      title: string,
+      message: ElMessageBoxOptions['message'],
+      title: ElMessageBoxOptions['title'],
       options?: ElMessageBoxOptions,
     ) => Promise<MessageBoxData>)
   & ((
-      message: string,
+      message: ElMessageBoxOptions['message'],
       options?: ElMessageBoxOptions,
     ) => Promise<MessageBoxData>)
 
