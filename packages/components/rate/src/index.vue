@@ -48,6 +48,7 @@ import { elFormKey } from '@element-plus/tokens'
 import { hasClass } from '@element-plus/utils/dom'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 
+import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import type { PropType } from 'vue'
 import type { ElFormContext } from '@element-plus/tokens'
 
@@ -123,7 +124,7 @@ export default defineComponent({
       default: '{value}',
     },
   },
-  emits: ['update:modelValue', 'change'],
+  emits: [UPDATE_MODEL_EVENT, 'change'],
   setup(props, { emit }) {
     const elForm = inject(elFormKey, {} as ElFormContext)
 
@@ -229,12 +230,12 @@ export default defineComponent({
         return
       }
       if (props.allowHalf && pointerAtLeftHalf.value) {
-        emit('update:modelValue', currentValue.value)
+        emit(UPDATE_MODEL_EVENT, currentValue.value)
         if (props.modelValue !== currentValue.value) {
           emit('change', currentValue.value)
         }
       } else {
-        emit('update:modelValue', value)
+        emit(UPDATE_MODEL_EVENT, value)
         if (props.modelValue !== value) {
           emit('change', value)
         }
@@ -266,7 +267,7 @@ export default defineComponent({
       }
       _currentValue = _currentValue < 0 ? 0 : _currentValue
       _currentValue = _currentValue > props.max ? props.max : _currentValue
-      emit('update:modelValue', _currentValue)
+      emit(UPDATE_MODEL_EVENT, _currentValue)
       emit('change', _currentValue)
       return _currentValue
     }
@@ -306,7 +307,7 @@ export default defineComponent({
     }
 
     if (!props.modelValue) {
-      emit('update:modelValue', 0)
+      emit(UPDATE_MODEL_EVENT, 0)
     }
     return {
       hoverIndex,
