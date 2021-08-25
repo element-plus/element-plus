@@ -88,13 +88,9 @@ function template(str: string, option) {
   })
 }
 
-export const localeProviderMaker = ({
-  locale,
-}: {
-  locale?: Language
-}) => {
-  const lang = ref((locale || English).name)
-  const localeRef = ref(locale || English)
+export const localeProviderMaker = (locale = English) => {
+  const lang = ref(locale.name)
+  const localeRef = ref(locale)
   return {
     lang,
     locale: localeRef,
