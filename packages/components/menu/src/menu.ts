@@ -87,9 +87,7 @@ export interface ISubMenuProps {
 export interface IMenuItemProps {
   index: string
   route: string | Record<string, unknown>
-  popperClass: string
   disabled: boolean
-  popperAppendToBody?: boolean
 }
 
 // menuGroup

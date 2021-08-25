@@ -81,7 +81,7 @@ export default defineComponent({
       ...toRefs(props),
       radioGroupSize: radioGroupSize,
       changeEvent: changeEvent,
-    }))
+    } as any))
 
     watch(() => props.modelValue, val => {
       elFormItem.formItemMitt?.emit('el.form.change', [val])

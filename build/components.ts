@@ -97,8 +97,9 @@ async function buildComponents() {
     }
 
     const cjs = {
-      format: 'es',
+      format: 'cjs',
       file: `${outputDir}/lib/components/${componentName}/index.js`,
+      exports: 'named',
       plugins: [
         filesize({
           reporter,

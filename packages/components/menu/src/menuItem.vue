@@ -48,26 +48,26 @@ import {
   getCurrentInstance,
 } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
-import { IMenuItemProps, RootMenuProvider, SubMenuProvider } from './menu'
+import { RootMenuProvider, SubMenuProvider } from './menu'
 import useMenu from './useMenu'
 
 export default defineComponent({
   name: 'ElMenuItem',
 
-  componentName: 'ElMenuItem',
+  // componentName: 'ElMenuItem',
 
   components: { ElTooltip },
 
   props: {
     index: {
+      type: String,
       default: null,
-      validator: val => typeof val === 'string' || val === null,
     },
     route: [String, Object],
     disabled: Boolean,
   },
   emits: ['click'],
-  setup(props: IMenuItemProps, { emit, slots }) {
+  setup(props, { emit, slots }) {
     const instance = getCurrentInstance()
     const rootMenu = inject<RootMenuProvider>('rootMenu')
     const { parentMenu, paddingStyle, indexPath } = useMenu(
