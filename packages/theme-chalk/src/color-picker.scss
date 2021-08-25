@@ -222,38 +222,6 @@
     color: $--color-black;
     width: 160px;
   }
-
-  @include e(btn) {
-    border: 1px solid #dcdcdc;
-    color: #333;
-    line-height: 24px;
-    border-radius: 2px;
-    padding: 0 20px;
-    cursor: pointer;
-    background-color: transparent;
-    outline: none;
-    font-size: 12px;
-
-    &[disabled] {
-      color: #cccccc;
-      cursor: not-allowed;
-    }
-    &:hover {
-      color: var(--el-color-primary);
-      border-color: var(--el-color-primary);
-    }
-  }
-
-  @include e(link-btn) {
-    cursor: pointer;
-    color: var(--el-color-primary);
-    text-decoration: none;
-    padding: 15px;
-    font-size: 12px;
-    &:hover {
-      color: var(--el-color-primary-light-2);
-    }
-  }
 }
 
 @include b(color-picker) {
