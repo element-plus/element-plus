@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 
-import type { IMenuProps } from './menu'
+import type { IMenuProps } from './menu.type'
 
 export default function useMenuColor(props: IMenuProps) {
   const menuBarColor = computed(() => {

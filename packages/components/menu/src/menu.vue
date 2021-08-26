@@ -42,14 +42,15 @@ import {
 } from 'vue'
 import mitt from 'mitt'
 import Menubar from '@element-plus/utils/menu/menu-bar'
-import {
+import ElMenuCollapseTransition from './menu-collapse-transition.vue'
+import useMenuColor from './useMenuColor'
+
+import type {
   IMenuProps,
   RootMenuProvider,
   RegisterMenuItem,
   SubMenuProvider,
-} from './menu'
-import ElMenuCollapseTransition from './menu-collapse-transition.vue'
-import useMenuColor from './useMenuColor'
+} from './menu.type'
 
 export default defineComponent({
   name: 'ElMenu',
