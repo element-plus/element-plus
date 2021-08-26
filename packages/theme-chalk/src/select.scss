@@ -4,6 +4,7 @@
 @import 'mixins/utils';
 @import 'mixins/var';
 @import 'common/var';
+@import './select-dropdown.scss';
 
 @include b(select) {
   @include set-component-css-var('select', $--select);
