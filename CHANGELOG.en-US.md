@@ -1,12 +1,24 @@
 ## Changelog
 
-### 1.1.0-beta.5
+### 1.1.0-beta.6
 
-*2021-08-25*
+*2021-08-26*
 
 #### Breaking changes:
 
 - Please refer to: [Breaking changes made in 1.1.0-beta.1](https://github.com/element-plus/element-plus/discussions/3020)
+
+#### Bug fixes
+  
+- Components [table] avoid table border style conflict (#3064 by @adaex)
+- Eslint ignore bundle file (#3061 by @sxzz)
+- Form el-from/src/token.d.ts file miss (#2979 by @imswk) (#2988)
+- Components exposing style folder for select dropdpwn (#3077 by @JeremyWuuuuu)
+- Style(docs): Optimized style of documentation (#3010 by @kooriookami)
+
+### 1.1.0-beta.5
+
+*2021-08-25*
 
 #### Features
   

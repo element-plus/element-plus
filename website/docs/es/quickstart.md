@@ -202,21 +202,26 @@ A continuación, debe añadir el siguiente código a su archivo `babel.config.js
 ```javascript
 module.exports = {
   plugins: [
-    // ...others
     [
       "import",
       {
         libraryName: 'element-plus',
+        // import component
+        customName: (name) => {
+          name = name.slice(3)
+          return `element-plus/lib/components/${name}`
+        },
+        // import style
         customStyleName: (name) => {
           name = name.slice(3)
-          // Si necesita el archivo [nombre].css, debe devolver la siguiente línea
-          return `element-plus/es/${name}/style/css`
           // Si necesitas el archivo [nombre].scss, entonces necesitas comentar
           // la línea de código anterior y descomentar la siguiente línea de código
-          // return `element-plus/es/${name}/style`;
+          // return `element-plus/lib/components/${name}/style`
+          // Si necesita el archivo [nombre].css, debe devolver la siguiente línea
+          return `element-plus/lib/components/${name}/style/css`
         },
       },
     ],
-  ],
-};
+  ]
+}
 ```

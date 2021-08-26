@@ -1,7 +1,7 @@
 ## Select V2 虚拟列表选择器
 
 :::tip
- 这个组件目前在测试当中，如果在使用中发现任何漏洞和问题，请在 [Github](https://github.com/element-plus/element-plus/issues) 中提交 issue 以便我们进行处理
+这个组件目前在测试当中，如果在使用中发现任何漏洞和问题，请在 [Github](https://github.com/element-plus/element-plus/issues) 中提交 issue 以便我们进行处理
 :::
 
 ### 背景
@@ -251,7 +251,7 @@
   >
     <template #default="{item}">
       <span style="margin-right: 8px;">{{ item.label }}</span>
-      <span style="color: #8492a6; font-size: 13px">
+      <span style="color: var(--el-text-color-secondary); font-size: 13px">
         {{ item.value }}
       </span>
     </template>

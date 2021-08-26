@@ -257,7 +257,7 @@ Vous pouvez définir un template HTML pour l'affichage des options.
       :label="item.label"
       :value="item.value">
       <span style="float: left">{{ item.label }}</span>
-      <span style="float: right; color: #8492a6; font-size: 13px">{{ item.value }}</span>
+      <span style="float: right; color: var(--el-text-color-secondary); font-size: 13px">{{ item.value }}</span>
     </el-option>
   </el-select>
 </template>

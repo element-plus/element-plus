@@ -115,6 +115,8 @@ function useStyle<T>(props: TableHeaderProps<T>) {
       )
     }
 
+    classes.push('el-table__cell')
+
     return classes.join(' ')
   }
 

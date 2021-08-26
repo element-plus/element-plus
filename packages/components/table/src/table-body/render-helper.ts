@@ -155,7 +155,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
               'td',
               {
                 colspan: store.states.columns.value.length,
-                class: 'el-table__expanded-cell',
+                class: 'el-table__cell el-table__expanded-cell',
               },
               [renderExpanded({ row, $index, store })],
             ),

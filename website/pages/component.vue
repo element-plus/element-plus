@@ -211,12 +211,12 @@ export default {
         th {
           text-align: left;
           white-space: nowrap;
-          color: #909399;
+          color: var(--el-text-color-secondary);
           font-weight: normal;
         }
 
         td {
-          color: #606266;
+          color: var(--el-text-color-regular);
         }
 
         th:first-child, td:first-child {
