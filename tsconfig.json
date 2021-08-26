@@ -16,5 +16,11 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true
   },
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "**/__tests__",
+    "dist/**",
+    "packages/*/es",
+    "packages/*/lib"
+  ]
 }
