@@ -81,6 +81,7 @@
                 @change="val => handleTimeChange(val, 'max')"
               />
               <time-pick-panel
+                class="is-last-time-pick"
                 datetime-role="end"
                 :visible="maxTimePickerVisible"
                 :format="timeFormat"

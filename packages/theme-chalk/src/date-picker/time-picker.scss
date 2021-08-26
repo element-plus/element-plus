@@ -9,6 +9,11 @@
   user-select: none;
   box-sizing: content-box;
 
+  @include when(last-time-pick) {
+    right: 0;
+    left: auto;
+  }
+
   @include e(content) {
     font-size: 0;
     position: relative;

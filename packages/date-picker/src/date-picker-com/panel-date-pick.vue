@@ -43,6 +43,7 @@
               @change="handleVisibleTimeChange"
             />
             <time-pick-panel
+              class="is-last-time-pick"
               :visible="timePickerVisible"
               :format="timeFormat"
               :time-arrow-control="arrowControl"
