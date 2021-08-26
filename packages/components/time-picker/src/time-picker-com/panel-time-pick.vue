@@ -104,7 +104,7 @@ export default defineComponent({
     const handleCancel = () => {
       ctx.emit('pick', oldValue.value, false)
     }
-    const handleConfirm = (visible = false, first) => {
+    const handleConfirm = (visible = false, first = false) => {
       if (first) return
       ctx.emit('pick', props.parsedValue, visible)
     }
