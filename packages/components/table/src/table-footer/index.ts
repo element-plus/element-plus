@@ -115,7 +115,7 @@ export default defineComponent({
                     key: cellIndex,
                     colspan: column.colSpan,
                     rowspan: column.rowSpan,
-                    class: this.getRowClasses(column, cellIndex),
+                    class: [...this.getRowClasses(column, cellIndex), 'el-table__cell'],
                   },
                   [
                     h(

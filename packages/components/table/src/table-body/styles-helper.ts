@@ -111,6 +111,8 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
       )
     }
 
+    classes.push('el-table__cell')
+
     return classes.join(' ')
   }
   const getSpan = (
