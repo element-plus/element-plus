@@ -143,6 +143,11 @@ Simple step bars, where `align-center`, `description`, `direction` and `space` w
 | align-center | center title and description | boolean | — | false |
 | simple | whether to apply simple theme | boolean | - | false |
 
+### Steps Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Step |
+
 ### Step Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------- |---------- |-------------  |-------- |

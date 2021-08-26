@@ -412,6 +412,11 @@ export default defineComponent({
 |---------- |-------- |---------- |
 | change  | triggers when the binding value changes | the updated value |
 
+### Checkbox Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |
+
 ### Checkbox-group Attributes
 | Attribute      | Description         | Type    | Accepted Values         | Default|
 |---------- |-------- |---------- |-------------  |-------- |
@@ -428,6 +433,11 @@ export default defineComponent({
 |---------- |-------- |---------- |
 | change  | triggers when the binding value changes | the updated value |
 
+### Checkbox-group Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Checkbox / Checkbox-button |
+
 ### Checkbox-button Attributes
 | Attribute      | Description         | Type    | Accepted Values        | Default|
 |---------- |-------- |---------- |-------------  |-------- |
@@ -437,3 +447,8 @@ export default defineComponent({
 | disabled  | whether the checkbox is disabled | boolean   |  — | false   |
 | name | native 'name' attribute | string    |      —         |     —    |
 | checked  | if the checkbox is checked | boolean   |  — | false   |
+
+### Checkbox-button Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

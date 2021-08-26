@@ -621,6 +621,11 @@ All components in a Form inherit their `size` attribute from that Form. Similarl
 |----------- |------------ |----------- |
 | validate   | triggers after a form item is validated | prop name of the form item being validated, whether validation is passed and the error message if not |
 
+### Form Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Form-Item |
+
 ### Form-Item Attributes
 
 | Attribute      | Description          | Type      | Accepted Values       | Default  |

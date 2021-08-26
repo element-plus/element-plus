@@ -387,7 +387,7 @@ Some APIs are still undergoing (comparing to the non-virtualized select), becaus
 | collapse-tags | whether to collapse tags to a text when multiple selecting | boolean | — | false |
 | multiple-limit | maximum number of options user can select when multiple is true. No limit when set to 0 | number | — | 0 |
 | name | the name attribute of select input | string | — | — |
-| autocomplete | select input 的 autocomplete 属性 | string | — | off |
+| autocomplete | the autocomplete attribute of select input | string | — | off |
 | placeholder | the autocomplete attribute of select input | string | — | Please select |
 | filterable | is filterable | boolean | — | false |
 | allow-create | whether creating new items is allowed. To use this, `filterable` must be true | boolean | — | false |

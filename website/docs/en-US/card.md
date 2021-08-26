@@ -176,3 +176,8 @@ You can define when to show the card shadows
 | header | title of the card. Also accepts a DOM passed by `slot#header` | string| — | — |
 | body-style | CSS style of body | object| — | { padding: '20px' } |
 | shadow | when to show card shadows | string | always / hover / never | always |
+
+### Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

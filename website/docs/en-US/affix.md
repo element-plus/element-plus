@@ -58,3 +58,8 @@ The affix component provides two fixed positions: `top` and `bottom`.
 | Method | Description | Parameters |
 |------|--------|-------|
 | update | update affix state manually | — |
+
+### Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

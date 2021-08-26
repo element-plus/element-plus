@@ -363,6 +363,11 @@ Vサブメニューのある縦型ナビメニュー。
 | ------ | -------- | ----- |
 | default | customize default content | Submenu / Menu-Item / Menu-Item-Group |
 
+### Submenu Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Submenu / Menu-Item / Menu-Item-Group |
+
 ### メニューアイテム属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------- |---------- |-------------  |-------- |

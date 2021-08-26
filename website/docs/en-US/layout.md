@@ -345,6 +345,11 @@ The classes are:
 | align | vertical alignment of flex layout | string | top/middle/bottom | top |
 | tag | custom element tag | string | * | div |
 
+### Row Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Col |
+
 ### Col Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
@@ -359,4 +364,7 @@ The classes are:
 | xl | `≥1920px` Responsive columns or column props object | number/object (e.g. {span: 4, offset: 4}) | — | — |
 | tag | custom element tag | string | * | div |
 
-
+### Col Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

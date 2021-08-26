@@ -316,11 +316,3 @@ export default defineComponent({
 | Attribute    | Description             | Type    | Acceptable Value       | Default  |
 | ------- | ---------------- | ------- | ------------ | ------ |
 | variant | The current rendering skeleton type | Enum(string) | p / text / h1 / h3 / text / caption / button / image / circle / rect | text |
-
-
-### Skeleton Slots
-
-| Name | Description |
-| ---- | ----------- |
-| default | Real rendering DOM |
-| template | Custom rendering skeleton template |

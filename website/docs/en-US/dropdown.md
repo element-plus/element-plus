@@ -375,9 +375,9 @@ Besides default size, Dropdown component provides three additional sizes for you
 
 ### Dropdown-Menu Slots
 
-| Name | Description |
-|------|--------|
-| — | content of Dropdown Menu |
+| Name | Description | Subtags |
+|------|--------| ----- |
+| — | content of Dropdown Menu | Dropdown-Item |
 
 ### Dropdown-Item Attributes
 | Attribute     | Description          | Type      | Accepted Values       | Default  |
@@ -386,3 +386,9 @@ Besides default size, Dropdown component provides three additional sizes for you
 | disabled      | whether the item is disabled  | boolean  |          —             |    false     |
 | divided       | whether a divider is displayed  | boolean  |          —             |    false     |
 | icon          | icon class name | string   |  —  |  —  |
+
+### Dropdown-Item Slots
+
+| Name | Description |
+|------|--------|
+| — | content of Dropdown Menu |

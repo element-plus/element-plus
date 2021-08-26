@@ -59,3 +59,9 @@ You can customize the content on the divider line.
 |-------------  |---------------- |---------------- |---------------------- |-------- |
 | direction      | Set divider's direction  | string  |          horizontal / vertical           |    horizontal     |
 | content-position      | customize the content on the divider line | String  |  left / right / center  |  center |
+
+### Divider Slots
+
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

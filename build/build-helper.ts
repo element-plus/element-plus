@@ -36,15 +36,6 @@ helper({
 })
 
 function reComponentName(title) {
-<<<<<<< HEAD:build/build-helper.ts
-  return (
-    'el-' +
-    title
-      .replace(/\B([A-Z])/g, '-$1')
-      .replace(/[ ]+/g, '-')
-      .toLowerCase()
-  )
-=======
   return 'el-' + title
     .replace(/\B([A-Z])/g, '-$1')
     .replace(/[ ]+/g, '-')
@@ -57,7 +48,6 @@ function reWebTypesSource(title) {
     .replace(/^\w|\s+\w/g, item => item.trim().toUpperCase())
 
   return { symbol }
->>>>>>> 4c57d7db (chore: upgrade the version of components-helper):build/build-helper.js
 }
 
 function reDocUrl(fileName, header) {
@@ -65,10 +55,6 @@ function reDocUrl(fileName, header) {
   const _header = header
     ? header.replace(/[ ]+/g, '-').toLowerCase()
     : undefined
-<<<<<<< HEAD:build/build-helper.ts
-=======
-
->>>>>>> 4c57d7db (chore: upgrade the version of components-helper):build/build-helper.js
   return docs + fileName + (_header ? '#' + _header : '')
 }
 
