@@ -26,7 +26,6 @@
       <input
         v-if="trueLabel || falseLabel"
         v-model="model"
-        :checked="isChecked"
         class="el-checkbox__original"
         type="checkbox"
         :aria-hidden="indeterminate ? 'true' : 'false'"
