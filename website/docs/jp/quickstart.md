@@ -197,4 +197,28 @@ module.exports = {
     ],
   ],
 };
+
+module.exports = {
+  plugins: [
+    [
+      "import",
+      {
+        libraryName: 'element-plus',
+        // import component
+        customName: (name) => {
+          name = name.slice(3)
+          return `element-plus/lib/components/${name}`
+        },
+        // import style
+        customStyleName: (name) => {
+          name = name.slice(3)
+          // [name].scssファイルが必要な場合は、前の行のコードをコメントアウトし、次の行のコードをアンコメントする必要があります。
+          // return `element-plus/lib/components/${name}/style`
+          // [name].cssファイルが必要な場合は、次の行を返す必要があります。
+          return `element-plus/lib/components/${name}/style/css`
+        },
+      },
+    ],
+  ]
+}
 ```

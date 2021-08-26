@@ -3,6 +3,9 @@
 @import 'mixins/mixins';
 @import 'mixins/utils';
 @import 'common/var';
+@import './select-dropdown-v2.scss';
+@import './option-item.scss';
+@import './option-group.scss';
 
 $--input-inline-start: 15px !default;
 
