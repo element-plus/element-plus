@@ -1,12 +1,22 @@
 ## Changelog
 
-### 1.1.0-beta.6
+### 1.1.0-beta.7
 
 *2021-08-26*
 
 #### Breaking changes:
 
 - Please refer to: [Breaking changes made in 1.1.0-beta.1](https://github.com/element-plus/element-plus/discussions/3020)
+
+#### Bug fixes
+  
+- Components style path error for radio button (#3079 by @JeremyWuuuuu)
+- Input autosize type problem (#3008 by @imswk) (#3012)
+- Build marking side effects for webpack importing styles
+
+### 1.1.0-beta.6
+
+*2021-08-26*
 
 #### Bug fixes
   
