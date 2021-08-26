@@ -356,12 +356,7 @@ Vertical NavMenu could be collapsed.
 ### SubMenu Slots
 | Name | Description | Subtags |
 | ------ | -------- | ----- |
-| default | customize default content | Menu-Item / Menu-Item-Group |
-
-### Submenu Slots
-| Name | Description | Subtags |
-| ------ | -------- | ----- |
-| default | customize default content | Submenu / Menu-Item / Menu-Item-Group |
+| default | customize default content | SubMenu / Menu-Item / Menu-Item-Group |
 
 ### Menu-Item Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
