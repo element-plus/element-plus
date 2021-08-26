@@ -55,6 +55,8 @@
   box-sizing: border-box;
   @include utils-clearfix;
   &.#{$namespace}-menu--horizontal {
+    display: flex;
+    flex-wrap: nowrap;
     border-bottom: solid 1px var(--el-menu-border-color);
   }
 

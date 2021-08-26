@@ -86,7 +86,7 @@ export default defineComponent({
     // computed
     const submenuTitleIcon = computed(() => {
       return (mode.value === 'horizontal' && isFirstLevel.value) ||
-        (mode.value === 'vertical' && !rootProps.collapse)
+      (mode.value === 'vertical' && !rootProps.collapse)
         ? 'el-icon-arrow-down'
         : 'el-icon-arrow-right'
     })
@@ -111,6 +111,11 @@ export default defineComponent({
     const menuTransitionName = computed(() => {
       return rootProps.collapse ? 'el-zoom-in-left' : 'el-zoom-in-top'
     })
+    const fallbackPlacements = computed(() =>
+      mode.value === 'horizontal' && isFirstLevel.value
+        ? ['bottom-start', 'top-start']
+        : ['right-start', 'left-start'],
+    )
     const opened = computed(() => {
       return openedMenus.value.includes(props.index)
     })
@@ -326,6 +331,7 @@ export default defineComponent({
       backgroundColor,
       rootProps,
       menuTransitionName,
+      fallbackPlacements,
       submenuTitleIcon,
       appendToBody,
 
@@ -345,7 +351,6 @@ export default defineComponent({
     }
   },
   render() {
-
     const titleTag = [
       this.$slots.title?.(),
       h('i', {
@@ -370,6 +375,7 @@ export default defineComponent({
         popperClass: this.popperClass,
         placement: this.data.currentPlacement,
         appendToBody: this.appendToBody,
+        fallbackPlacements: this.fallbackPlacements,
         transition: this.menuTransitionName,
         gpuAcceleration: false,
       }, {
