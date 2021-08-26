@@ -29,7 +29,7 @@ export type IPopperOptions = {
   manualMode: boolean
   offset: number
   placement: Placement
-  popperOptions: Options
+  popperOptions: Partial<Options>
   showAfter: number
   showArrow: boolean
   strategy: PositioningStrategy
@@ -118,7 +118,7 @@ export default {
   },
   // Once this option were given, the entire popper is under the users' control, top priority
   popperOptions: {
-    type: Object as PropType<Options>,
+    type: Object as PropType<Partial<Options>>,
     default: () => null,
   },
   showArrow: {
