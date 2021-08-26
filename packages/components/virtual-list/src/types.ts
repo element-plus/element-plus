@@ -5,7 +5,6 @@ import type {
 } from 'vue'
 
 export type Instance = ComponentInternalInstance
-export type StyleValue = string | CSSProperties | Array<StyleValue>
 export type ScrollEvent = WheelEvent | MouseEvent
 
 export type Alignment = 'auto' | 'smart' | 'center' | 'start' | 'end'
