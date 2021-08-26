@@ -10,10 +10,9 @@ import {
   ref,
   watch,
   provide,
-  PropType,
-  Ref,
   onUnmounted,
 } from 'vue'
+import type { PropType, Ref } from 'vue'
 import mitt, { Emitter } from 'mitt'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 

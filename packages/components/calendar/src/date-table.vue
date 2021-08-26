@@ -44,8 +44,8 @@ import {
   computed,
   defineComponent,
   ref,
-  PropType,
 } from 'vue'
+import { PropType } from 'vue'
 import dayjs, { Dayjs } from 'dayjs'
 import localeData from 'dayjs/plugin/localeData'
 import { useLocaleInject } from '@element-plus/hooks'

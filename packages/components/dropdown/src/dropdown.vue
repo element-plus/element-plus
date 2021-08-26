@@ -58,8 +58,8 @@ import {
   computed,
   watch,
   onMounted,
-  PropType,
 } from 'vue'
+import type { PropType } from 'vue'
 import ElButton from '@element-plus/components/button'
 import ElPopper, { Effect, Placement } from '@element-plus/components/popper'
 import ElScrollbar from '@element-plus/components/scrollbar'
