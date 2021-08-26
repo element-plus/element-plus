@@ -3,7 +3,7 @@
     ref="refPopper"
     v-model:visible="pickerVisible"
     manual-mode
-    effect="light"
+    :effect="Effect.LIGHT"
     pure
     trigger="click"
     v-bind="$attrs"
@@ -138,7 +138,7 @@ import { useLocaleInject } from '@element-plus/hooks'
 import { ClickOutside } from '@element-plus/directives'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import ElInput from '@element-plus/components/input'
-import ElPopper from '@element-plus/components/popper'
+import ElPopper, { Effect } from '@element-plus/components/popper'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { useGlobalConfig, isEmpty } from '@element-plus/utils/util'
 import { timePickerDefaultProps } from './props'
@@ -538,7 +538,10 @@ export default defineComponent({
     provide('EP_PICKER_BASE', {
       props,
     })
+
     return {
+      Effect,
+
       // injected popper options
       elPopperOptions,
 

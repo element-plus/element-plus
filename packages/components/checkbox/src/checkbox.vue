@@ -18,8 +18,8 @@
         'is-indeterminate': indeterminate,
         'is-focus': focus
       }"
-      :tabindex="indeterminate ? 0 : false"
-      :role="indeterminate ? 'checkbox' : false"
+      :tabindex="indeterminate ? 0 : undefined"
+      :role="indeterminate ? 'checkbox' : undefined"
       :aria-checked="indeterminate ? 'mixed' : false"
     >
       <span class="el-checkbox__inner"></span>

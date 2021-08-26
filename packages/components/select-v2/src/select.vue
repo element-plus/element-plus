@@ -17,7 +17,7 @@
       :stop-popper-mouse-event="false"
       :popper-options="popperOptions"
       :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
-      effect="light"
+      :effect="Effect.LIGHT"
       manual-mode
       placement="bottom-start"
       pure

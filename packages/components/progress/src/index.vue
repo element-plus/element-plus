@@ -66,7 +66,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, PropType, SVGAttributes } from 'vue'
 
 type ProgressFuncType = (percentage: number) => string;
 
@@ -77,7 +77,7 @@ interface IProgressProps {
   indeterminate: boolean
   duration: number
   strokeWidth: number
-  strokeLinecap: string
+  strokeLinecap: NonNullable<SVGAttributes['stroke-linecap']>
   textInside: boolean
   width: number
   showText: boolean
@@ -117,8 +117,8 @@ export default defineComponent({
       default: 6,
     },
     strokeLinecap: {
-      type: String,
-      default: 'round',
+      type: String as PropType<IProgressProps['strokeLinecap']>,
+      default: 'round' as IProgressProps['strokeLinecap'],
     },
     textInside: {
       type: Boolean,
