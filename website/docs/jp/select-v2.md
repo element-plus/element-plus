@@ -250,7 +250,7 @@ We can define our own template for rendering the option in the popup.
   >
     <template #default="{item}">
       <span style="margin-right: 8px;">{{ item.label }}</span>
-      <span style="color: #8492a6; font-size: 13px">
+      <span style="color: var(--el-text-color-secondary); font-size: 13px">
         {{ item.value }}
       </span>
     </template>

@@ -259,7 +259,7 @@ export default defineComponent({
   .nav-item {
     a {
       font-size: 16px;
-      color: #333;
+      color: var(--el-text-color-primary);
       line-height: 40px;
       height: 40px;
       margin: 0;
@@ -328,7 +328,7 @@ export default defineComponent({
 
   .nav-group__title {
     font-size: 12px;
-    color: #999;
+    color: var(--el-text-color-secondary);
     line-height: 26px;
     margin-top: 15px;
   }

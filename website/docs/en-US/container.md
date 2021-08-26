@@ -76,21 +76,21 @@ These components use flex for layout, so please make sure your browser supports 
 <style>
   .el-header, .el-footer {
     background-color: #B3C0D1;
-    color: #333;
+    color: var(--el-text-color-primary);
     text-align: center;
     line-height: 60px;
   }
 
   .el-aside {
     background-color: #D3DCE6;
-    color: #333;
+    color: var(--el-text-color-primary);
     text-align: center;
     line-height: 200px;
   }
 
   .el-main {
     background-color: #E9EEF3;
-    color: #333;
+    color: var(--el-text-color-primary);
     text-align: center;
     line-height: 160px;
   }
@@ -197,12 +197,12 @@ These components use flex for layout, so please make sure your browser supports 
 <style>
   .el-header {
     background-color: #B3C0D1;
-    color: #333;
+    color: var(--el-text-color-primary);
     line-height: 60px;
   }
 
   .el-aside {
-    color: #333;
+    color: var(--el-text-color-primary);
   }
 </style>
 
