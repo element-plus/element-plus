@@ -1,4 +1,4 @@
-import { nextTick } from 'vue'
+import { CSSProperties, nextTick } from 'vue'
 import { hasOwn } from '@vue/shared'
 import { addClass, getStyle, removeClass } from '@element-plus/utils/dom'
 import PopupManager from '@element-plus/utils/popup-manager'
@@ -29,11 +29,11 @@ const globalLoadingOption: ILoadingGlobalConfig = {
 }
 
 const addStyle = async (options: ILoadingOptions, parent: HTMLElement, instance: ILoadingInstance) => {
-  const maskStyle: Partial<CSSStyleDeclaration> = {}
+  const maskStyle: Partial<CSSProperties> = {}
   if (options.fullscreen) {
     instance.originalPosition.value = getStyle(document.body, 'position')
     instance.originalOverflow.value = getStyle(document.body, 'overflow')
-    maskStyle.zIndex = String(PopupManager.nextZIndex())
+    maskStyle.zIndex = PopupManager.nextZIndex()
   } else if (options.body) {
     instance.originalPosition.value = getStyle(document.body, 'position')
     /**

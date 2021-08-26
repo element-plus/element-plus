@@ -26,7 +26,7 @@
   >
     <div
       class="el-tree-node__content"
-      :style="{ 'padding-left': (node.level - 1) * tree.props.indent + 'px' }"
+      :style="{ paddingLeft: (node.level - 1) * tree.props.indent + 'px' }"
     >
       <span
         :class="[

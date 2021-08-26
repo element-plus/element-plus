@@ -65,7 +65,7 @@
 
 <script lang='ts'>
 
-import { defineComponent, computed, ref, onMounted, watch, nextTick } from 'vue'
+import { defineComponent, computed, ref, onMounted, watch, nextTick, CSSProperties } from 'vue'
 import { useLocaleInject } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { on, off } from '@element-plus/utils/dom'
@@ -160,7 +160,7 @@ export default defineComponent({
         transition: enableTransition ? 'transform .3s' : '',
         marginLeft: `${offsetX}px`,
         marginTop: `${offsetY}px`,
-      } as CSSStyleDeclaration
+      } as CSSProperties
       if (mode.value.name === Mode.CONTAIN.name) {
         style.maxWidth = style.maxHeight = '100%'
       }

@@ -1,4 +1,4 @@
-import { withDirectives, Transition, vShow, withCtx, h } from 'vue'
+import { withDirectives, Transition, vShow, withCtx, h, CSSProperties } from 'vue'
 import { NOOP } from '@vue/shared'
 import { stop } from '@element-plus/utils/dom'
 
@@ -10,7 +10,7 @@ interface IRenderPopperProps {
   name: string
   stopPopperMouseEvent: boolean
   popperClass: string
-  popperStyle?: Partial<CSSStyleDeclaration>
+  popperStyle?: Partial<CSSProperties>
   popperId: string
   popperRef?: Ref<HTMLElement>
   pure?: boolean

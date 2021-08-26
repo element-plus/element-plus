@@ -101,6 +101,7 @@
 <script lang="ts">
 import {
   computed,
+  CSSProperties,
   defineComponent,
   nextTick,
   onBeforeUnmount,
@@ -142,7 +143,7 @@ export default defineComponent({
     })
 
     const navStyle = computed(() => {
-      const style = {}
+      const style: CSSProperties = {}
       if (isSmallScreen.value) {
         style.paddingBottom = '60px'
       }

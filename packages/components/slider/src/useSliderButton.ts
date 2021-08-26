@@ -1,4 +1,4 @@
-import { computed, inject, nextTick, ref, watch } from 'vue'
+import { computed, CSSProperties, inject, nextTick, ref, watch } from 'vue'
 import debounce from 'lodash/debounce'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { off, on } from '@element-plus/utils/dom'
@@ -65,7 +65,7 @@ export const useSliderButton = (props: ISliderButtonProps, initData: ISliderButt
   })
 
   const wrapperStyle = computed(() => {
-    return (props.vertical ? { bottom: currentPosition.value } : { left: currentPosition.value }) as CSSStyleDeclaration
+    return (props.vertical ? { bottom: currentPosition.value } : { left: currentPosition.value }) as CSSProperties
   })
 
   const handleMouseEnter = () => {
