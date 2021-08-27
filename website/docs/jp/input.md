@@ -568,7 +568,7 @@ export default defineComponent({
 
 ### 限界長さ
 
-:::demo `maxlength` と `minlength` はネイティブ入力の属性であり、ユーザが入力できる文字数の制限を宣言するものである。テキストやテキストエリア型のインプットに対して `maxlength` プロップを設定すると、インプット値の長さを制限することができ、同時に `show-word-limit` を `true` に設定することで単語数を表示することができます。
+:::demo `maxlength` と `minlength` 属性であり、ユーザが入力できる文字数の制限を宣言するものである。テキストやテキストエリア型のインプットに対して `maxlength` プロップを設定すると、インプット値の長さを制限することができ、同時に `show-word-limit` を `true` に設定することで単語数を表示することができます。
 
 ```html
 <el-input
@@ -609,7 +609,7 @@ export default defineComponent ({
 | ----| ----| ----| ---- | ----- |
 |type| インプットタイプ | string | text, textarea and other [native input types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types) | text |
 |modelValue / v-model| バインディング値 | string / number| — | — |
-|maxlength| ネイティブインプットの `maxlength` と同じ | number| — | — |
+|maxlength| 最大長さ | string / number | — | — |
 |minlength| ネイティブインプットの `minlength` と同じ | number | — | — |
 |show-word-limit | `type` が 'text' または 'textarea' の場合に単語数を表示するかどうかを指定する | boolean    |  —  | false |
 |placeholder| インプットのプレースホルダー | string | — | — |
@@ -621,7 +621,7 @@ export default defineComponent ({
 | suffix-icon   | サフィックスアイコンクラス  | string          | — | — |
 |rows | textareaの行数、`type`が'textarea'の場合にのみ動作します。 | number | — | 2 |
 |autosize | textareaが適応的な高さを持つかどうか、`type`が'textarea'の場合にのみ動作します。オブジェクトを受け取ることができます。 e.g. { minRows: 2, maxRows: 6 }  | boolean / object | — | false |
-|autocomplete | ネイティブインプットの `autocomplete` と同じ | string | on/off | off |
+|autocomplete | ネイティブインプットの `autocomplete` と同じ | string | — | off |
 |name | ネイティブインプットの `name` と同じ | string | — | — |
 | readonly | ネイティブインプットの `readonly` と同じ | boolean | — | false |
 |max | ネイティブインプットの `max` と同じ | — | — | — |

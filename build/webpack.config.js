@@ -39,7 +39,7 @@ const config = {
   mode: 'production',
   entry,
   output: {
-    path: path.resolve(__dirname, '../lib'),
+    path: path.resolve(__dirname, '../dist/element-plus/dist'),
     publicPath: '/',
     filename: isFullMode ? 'index.full.js' : 'index.js',
     libraryTarget: 'umd',

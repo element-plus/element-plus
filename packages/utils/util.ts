@@ -1,13 +1,11 @@
-import type { Ref } from 'vue'
 import { getCurrentInstance } from 'vue'
-
 import { camelize, capitalize, extend, hasOwn, hyphenate, isArray, isObject, isString, isFunction, looseEqual, toRawType } from '@vue/shared'
-
 import isEqualWith from 'lodash/isEqualWith'
-
 import isServer from './isServer'
-import type { AnyFunction } from './types'
 import { warn } from './error'
+
+import type { ComponentPublicInstance, CSSProperties, Ref } from 'vue'
+import type { AnyFunction, TimeoutHandle, Hash, Nullable } from './types'
 
 // type polyfill for compat isIE method
 declare global {
@@ -17,8 +15,6 @@ declare global {
 }
 
 export const SCOPE = 'Util'
-
-export type PartialCSSStyleDeclaration = Partial<Pick<CSSStyleDeclaration, 'transform' | 'transition' | 'animation'>>
 
 export function toObject<T>(arr: Array<T>): Record<string, T> {
   const res = {}
@@ -104,8 +100,8 @@ export const isFirefox = function (): boolean {
 }
 
 export const autoprefixer = function (
-  style: PartialCSSStyleDeclaration,
-): PartialCSSStyleDeclaration {
+  style: CSSProperties,
+): CSSProperties {
   const rules = ['transform', 'transition', 'animation']
   const prefixes = ['ms-', 'webkit-']
   rules.forEach(rule => {
@@ -253,3 +249,16 @@ export function isEqualWithFunction (obj: any, other: any) {
     return isFunction(objVal) && isFunction(otherVal) ? `${objVal}` === `${otherVal}` : undefined
   })
 }
+
+/**
+ * Generate function for attach ref for the h renderer
+ * @param ref Ref<HTMLElement | ComponentPublicInstance>
+ * @returns (val: T) => void
+ */
+
+export const refAttacher =
+  <T extends (HTMLElement | ComponentPublicInstance)>(ref: Ref<T>) => {
+    return (val: T) => {
+      ref.value = val
+    }
+  }

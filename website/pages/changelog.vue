@@ -8,27 +8,27 @@
     </div>
     <ul ref="timeline" class="timeline">
     </ul>
-    <change-log-cn v-if="lang === 'zh-CN'" ref="changeLog" />
-    <change-log-es v-if="lang === 'es'" ref="changeLog" />
-    <change-log-en v-if="lang === 'en-US'" ref="changeLog" />
-    <change-log-fr v-if="lang === 'fr-FR'" ref="changeLog" />
-    <change-log-jp v-if="lang === 'jp'" ref="changeLog" />
+    <!-- <change-log-cn v-if="lang === 'zh-CN'" ref="changeLog" /> -->
+    <!-- <change-log-es v-if="lang === 'es'" ref="changeLog" /> -->
+    <change-log-en ref="changeLog" />
+    <!-- <change-log-fr v-if="lang === 'fr-FR'" ref="changeLog" /> -->
+    <!-- <change-log-jp v-if="lang === 'jp'" ref="changeLog" /> -->
   </div>
 </template>
 <script>
-import ChangeLogCn from '../../CHANGELOG.zh-CN.md'
-import ChangeLogEs from '../../CHANGELOG.es.md'
+// import ChangeLogCn from '../../CHANGELOG.zh-CN.md'
+// import ChangeLogEs from '../../CHANGELOG.es.md'
 import ChangeLogEn from '../../CHANGELOG.en-US.md'
-import ChangeLogFr from '../../CHANGELOG.fr-FR.md'
-import ChangeLogJp from '../../CHANGELOG.jp.md'
+// import ChangeLogFr from '../../CHANGELOG.fr-FR.md'
+// import ChangeLogJp from '../../CHANGELOG.jp.md'
 import pageLang from '../i18n/page.json'
 export default {
   components: {
-    ChangeLogCn,
-    ChangeLogEs,
+    // ChangeLogCn,
+    // ChangeLogEs,
     ChangeLogEn,
-    ChangeLogFr,
-    ChangeLogJp,
+    // ChangeLogFr,
+    // ChangeLogJp,
   },
   data() {
     return {
@@ -46,7 +46,7 @@ export default {
     let a = changeLogNodes[1].querySelector('a')
     a && a.remove()
     let release = changeLogNodes[1].textContent.trim()
-    let fragments = `<li><h3><a href="https://github.com/element-plus/element-plus/releases/tag/v${release}" target="_blank">${release}</a></h3>`
+    let fragments = `<li><h3><a href="https://github.com/element-plus/element-plus/releases/tag/${release}" target="_blank">${release}</a></h3>`
 
     for (let len = changeLogNodes.length, i = 2; i < len; i++) {
       let node = changeLogNodes[i]
@@ -55,8 +55,9 @@ export default {
       if (node.tagName !== 'H3') {
         fragments += changeLogNodes[i].outerHTML
       } else {
-        release = changeLogNodes[i].textContent.trim()
-        fragments += `</li><li><h3><a href="https://github.com/element-plus/element-plus/releases/tag/v${release}" target="_blank">${release}</a></h3>`
+        // removing ¶ from the texts.
+        release = changeLogNodes[i].textContent.slice(2).trim()
+        fragments += `</li><li><h3><a href="https://github.com/element-plus/element-plus/releases/tag/${release}" target="_blank">${release}</a></h3>`
       }
     }
     fragments = fragments.replace(/#(\d+)/g, '<a href="https://github.com/element-plus/element-plus/issues/$1" target="_blank">#$1</a>')
@@ -79,7 +80,7 @@ export default {
       a {
         display: block;
         padding: 10px 15px;
-        color: #333;
+        color: var(--el-text-color-primary);
       }
       &:hover a {
         color: #409EFF;
@@ -88,7 +89,7 @@ export default {
     .heading {
       font-size: 24px;
       margin-bottom: 60px;
-      color: #333;
+      color: var(--el-text-color-primary);
     }
     .timeline {
       padding: 0;
@@ -120,7 +121,7 @@ export default {
           li::before {
             content: '';
             circle: 4px #fff;
-            border: solid 1px #333;
+            border: solid 1px var(--el-text-color-primary);
             margin-right: -12px;
             display: inline-block;
             vertical-align: middle;
@@ -132,11 +133,11 @@ export default {
         list-style: none;
         padding-left: 20px;
         padding-bottom: 5px;
-        color: #333;
+        color: var(--el-text-color-primary);
         word-break: break-all;
         &:before {
           content: '';
-          circle: 6px #333;
+          circle: 6px var(--el-text-color-primary);
           transform: translateX(-20px);
           display: inline-block;
           vertical-align: middle;
@@ -152,14 +153,14 @@ export default {
         padding: 15px 30px;
         border-bottom: 1px solid #ddd;
         font-size: 20px;
-        color: #333;
+        color: var(--el-text-color-primary);
         font-weight: bold;
         a {
           opacity: 1;
           font-size: 20px;
           float: none;
           margin-left: 0;
-          color: #333;
+          color: var(--el-text-color-primary);
         }
       }
       h4 {
@@ -179,7 +180,7 @@ export default {
         font-style: normal;
         top: 23px;
         font-size: 16px;
-        color: #666;
+        color: var(--el-text-color-regular);
       }
     }
   }

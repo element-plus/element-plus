@@ -5,7 +5,7 @@
 .demo-block.demo-slider .block {
   padding: 30px 24px;
   overflow: hidden;
-  border-bottom: solid 1px #eff2f6;
+  border-bottom: solid 1px var(--el-border-color-base);
   &:last-child {
     border-bottom: none;
   }
@@ -13,7 +13,7 @@
 
 .demo-block.demo-slider .demonstration {
   font-size: 14px;
-  color: #8492a6;
+  color: var(--el-text-color-secondary);
   line-height: 44px;
 }
 

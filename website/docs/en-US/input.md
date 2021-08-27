@@ -568,7 +568,7 @@ export default defineComponent({
 
 ### Limit length
 
-:::demo `maxlength` and `minlength` are attributes of native input, they declare a limit on the number of characters a user can input. The "number of characters" is measured using JavaScript string length.Setting the `maxlength` prop for a text or textarea type of Input can limit the length of input value, allows you to show word count by setting `show-word-limit` to `true` at the same time.
+:::demo `maxlength` and `minlength` attributes of input, they declare a limit on the number of characters a user can input. The "number of characters" is measured using JavaScript string length.Setting the `maxlength` prop for a text or textarea type of Input can limit the length of input value, allows you to show word count by setting `show-word-limit` to `true` at the same time.
 
 ```html
 <el-input
@@ -609,7 +609,7 @@ export default defineComponent ({
 | ----| ----| ----| ---- | ----- |
 |type| type of input | string | text, textarea and other [native input types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types) | text |
 |modelValue / v-model| binding value | string / number| — | — |
-|maxlength| same as `maxlength` in native input | number| — | — |
+|maxlength| the max length | string / number| — | — |
 |minlength| same as `minlength` in native input | number | — | — |
 |show-word-limit | whether show word count，only works when `type` is 'text' or 'textarea' | boolean    |  —  | false |
 |placeholder| placeholder of Input| string | — | — |
@@ -621,7 +621,7 @@ export default defineComponent ({
 | suffix-icon   | suffix icon class  | string          | — | — |
 |rows | number of rows of textarea, only works when `type` is 'textarea' | number | — | 2 |
 |autosize | whether textarea has an adaptive height, only works when `type` is 'textarea'. Can accept an object, e.g. { minRows: 2, maxRows: 6 }  | boolean / object | — | false |
-|autocomplete | same as `autocomplete` in native input | string | on/off | off |
+|autocomplete | same as `autocomplete` in native input | string | — | off |
 |name | same as `name` in native input | string | — | — |
 | readonly | same as `readonly` in native input | boolean | — | false |
 |max | same as `max` in native input | — | — | — |

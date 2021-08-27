@@ -1,6 +1,8 @@
 import isServer from './isServer'
 import { camelize, isObject } from './util'
 
+import type { Nullable } from './types'
+
 /* istanbul ignore next */
 const trim = function(s: string) {
   return (s || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '')
@@ -166,7 +168,7 @@ export const isScroll = (
       ? getStyle(el, 'overflow-y')
       : getStyle(el, 'overflow-x')
 
-  return overflow.match(/(scroll|auto)/)
+  return overflow.match(/(scroll|auto|overlay)/)
 }
 
 export const getScrollContainer = (

@@ -29,6 +29,17 @@
           <p>Share Code</p>
         </div>
       </a>
+      <a
+        class="sponsor renren"
+        href="https://www.renren.io/?from=element-ui"
+        target="_blank"
+      >
+        <img width="45" src="~examples/assets/images/renren.png" alt="bit">
+        <div>
+          <p>{{ sponsorLabel }} <span class="name">{{ sponsorNameR }}</span></p>
+          <p>{{ sponsorIntroR }}</p>
+        </div>
+      </a>
     </div>
     <div class="cards">
       <ul class="container">
@@ -93,6 +104,12 @@ export default {
     sponsorLabel() {
       return this.lang === 'zh-CN' ? '赞助商' : 'Sponsored by'
     },
+    sponsorIntroR() {
+      return this.lang === 'zh-CN' ? '企业级的快速开发平台' : 'Rapid development platform'
+    },
+    sponsorNameR() {
+      return this.lang === 'zh-CN' ? '人人开源' : 'renren.io'
+    },
     langConfig() {
       return pageLang.filter(config => config.lang === this.lang)[0].pages.index
     },
@@ -154,10 +171,11 @@ export default {
   width: 300px;
   height: 100px;
   justify-content: center;
+  align-items: center;
 
   .name {
     font-weight: bold;
-    color: #666;
+    color: var(--el-text-color-regular);
   }
 
   img {
@@ -173,7 +191,7 @@ export default {
   p {
     margin: 0;
     line-height: 1.8;
-    color: #999;
+    color: var(--el-text-color-secondary);
     font-size: 14px;
   }
 }
@@ -228,7 +246,7 @@ export default {
   height: 430px;
   width: 100%;
   background:#ffffff;
-  border:1px solid #eaeefb;
+  border:1px solid var(--el-border-color-base);
   border-radius:5px;
   box-sizing: border-box;
   text-align: center;
@@ -258,7 +276,7 @@ export default {
     color: #409EFF;
     text-align: center;
     border: 0;
-    border-top: 1px solid #eaeefb;
+    border-top: 1px solid var(--el-border-color-base);
     padding: 0;
     cursor: pointer;
     width: 100%;

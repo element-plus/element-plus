@@ -1,0 +1,28 @@
+@use "sass:map";
+
+@mixin set-css-color-type-light($type, $i) {
+  --el-color-#{$type}-light-#{$i}: #{map.get($--colors, $type, 'light-#{$i}')};
+}
+
+@mixin set-css-color-type($type) {
+  --el-color-#{$type}: #{map.get($--colors, $type, 'base')};
+  --el-color-#{$type}-light: #{map.get($--colors, $type, 'light-8')};
+  --el-color-#{$type}-lighter: #{map.get($--colors, $type, 'light-9')};
+
+  // need to be considered
+  // may be we do not need add it to css var
+  // @each $i in (2, 4, 5, 6, 8, 9) {
+  //   @include set-css-color-type-light($type, $i);
+  // }
+}
+
+@mixin set-css-var-type($name, $type, $--variables) {
+  --el-#{$name}-#{$type}: #{map.get($--variables, $type)};
+}
+
+// set all css var for component by map
+@mixin set-component-css-var($name, $--variables) {
+  @each $attribute, $value in $--variables {
+    --el-#{$name}-#{$attribute}: #{$value};
+  }
+}

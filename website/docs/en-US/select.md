@@ -257,7 +257,7 @@ You can customize HTML templates for options.
       :label="item.label"
       :value="item.value">
       <span style="float: left">{{ item.label }}</span>
-      <span style="float: right; color: #8492a6; font-size: 13px">{{ item.value }}</span>
+      <span style="float: right; color: var(--el-text-color-secondary); font-size: 13px">{{ item.value }}</span>
     </el-option>
   </el-select>
 </template>
@@ -550,7 +550,7 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 | popper-class | custom class name for Select's dropdown | string | — | — |
 | reserve-keyword | when `multiple` and `filter` is true, whether to reserve current keyword after selecting an option | boolean | — | false |
 | default-first-option | select first matching option on enter key. Use with `filterable` or `remote` | boolean | - | false |
-| popper-append-to-body| whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false | boolean | - | false |
+| popper-append-to-body| whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false | boolean | - | true |
 | automatic-dropdown | for non-filterable Select, this prop decides if the option menu pops up when the input is focused | boolean | - | false |
 | clear-icon | Custom clear icon class | string | — | el-icon-circle-close |
 

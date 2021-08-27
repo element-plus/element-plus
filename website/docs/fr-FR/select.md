@@ -257,7 +257,7 @@ Vous pouvez définir un template HTML pour l'affichage des options.
       :label="item.label"
       :value="item.value">
       <span style="float: left">{{ item.label }}</span>
-      <span style="float: right; color: #8492a6; font-size: 13px">{{ item.value }}</span>
+      <span style="float: right; color: var(--el-text-color-secondary); font-size: 13px">{{ item.value }}</span>
     </el-option>
   </el-select>
 </template>
@@ -553,7 +553,7 @@ Si la valeur de Select est un objet, assurez-vous d'utiliser `value-key` comme i
 | popper-class | Classe du menu déroulant. | string | — | — |
 | reserve-keyword | Quand `multiple` et `filter` sont activés, s'il faut réserver le mot-clé courant après la sélection d'une option. | boolean | — | false |
 | default-first-option | Sélectionne la première option avec Entrée. Utilisable avec `filterable` ou `remote` | boolean | - | false |
-| popper-append-to-body| Si le menu déroulant doit être ajouté au body. Si le positionnement du menu est incorrect, essayez de mettre cette option à `false`. | boolean | - | false |
+| popper-append-to-body| Si le menu déroulant doit être ajouté au body. Si le positionnement du menu est incorrect, essayez de mettre cette option à `false`. | boolean | - | true |
 | automatic-dropdown | Pour les sélecteurs non filtrables, détermine si le menu apparaît au focus du champ. | boolean | - | false |
 | clear-icon | Classe de l'icône d'effacement. | string | — | el-icon-circle-close |
 

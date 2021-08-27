@@ -250,7 +250,7 @@ We can define our own template for rendering the option in the popup.
   >
     <template #default="{item}">
       <span style="margin-right: 8px;">{{ item.label }}</span>
-      <span style="color: #8492a6; font-size: 13px">
+      <span style="color: var(--el-text-color-secondary); font-size: 13px">
         {{ item.value }}
       </span>
     </template>
@@ -319,9 +319,50 @@ We can clear all the selected options at once, also applicable for single select
 
 :::
 
-### Create Option
+### Crear nuevos items
+Crear y seleccionar nuevos items que no están incluidas en las opciones de selección.
 
-WIP👷‍♀️
+:::demo Al utilizar el atributo `allow-create`, los usuarios pueden crear nuevos elementos escribiendo en el cuadro del input. Tenga en cuenta que para que `allow-create` funcione, `filterable` debe ser `true`.
+```html
+<template>
+  <el-select-v2
+    v-model="value1"
+    :options="options"
+    placeholder="Please select"
+    style="width: 200px; margin-right: 16px; vertical-align: middle;"
+    allow-create
+    filterable
+    multiple
+    clearable
+  />
+  <el-select-v2
+    v-model="value2"
+    :options="options"
+    placeholder="Please select"
+    style="width: 200px; vertical-align: middle;"
+    allow-create
+    filterable
+    clearable
+  />
+</template>
+
+<script>
+  const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+  export default {
+    data() {
+      return {
+        options: Array.from({ length: 1000 }).map((_, idx) => ({
+          value: `Option ${idx + 1}`,
+          label: `${initials[idx % 10]}${idx}`,
+        })),
+        value1: [],
+        value2: '',
+      }
+    },
+  }
+</script>
+```
+:::
 
 ### Remote search
 
@@ -350,12 +391,14 @@ Some APIs are still undergoing (comparing to the non-virtualized select), becaus
 | autocomplete | select input 的 autocomplete 属性 | string | — | off |
 | placeholder | the autocomplete attribute of select input | string | — | Please select |
 | filterable | is filterable | boolean | — | false |
+| allow-create         | si esta permitido crear nuevos items. Para usar esto, `filterable` debe ser `true`. | boolean  | —                 | false            |
 | no-data-text | displayed text when there is no options, you can also use slot empty | string | — | No Data |
 | popper-class | custom class name for Select's dropdown | string | — | — |
 | popper-append-to-body | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false | boolean | - | false |
 | popper-options | Customized popper option see more at [popper.js](https://popper.js.org/documentation.html) | object | - | - |
 | automatic-dropdown | for non-filterable Select, this prop decides if the option menu pops up when the input is focused | boolean | - | false |
 | clear-icon | Customized clear icon class | string | — | el-icon-circle-close |
+| height | The height of the dropdown panel, 34px for each item| number | - | 170 |
 
 <span style="display: none;">
 <!-- | no-match-text | 搜索条件无匹配时显示的文字，也可以使用`#empty`设置 | string | — | 无匹配数据 | -->

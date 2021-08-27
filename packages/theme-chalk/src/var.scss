@@ -1,0 +1,92 @@
+@use "sass:map";
+
+// CSS3 var
+@import 'common/var';
+@import 'mixins/var';
+
+// for better performance do not dynamically change the root variable if you really
+// do not need that, since this could introduce recalculation overhead for rendering.
+// https://lisilinhart.info/posts/css-variables-performance/
+
+:root {
+  --el-color-white: #{$--color-white};
+  --el-color-black: #{$--color-black};
+
+  --el-color-primary: #{$--color-primary};
+
+  @for $i from 1 through 9 {
+    @include set-css-color-type-light('primary', $i);
+  }
+
+  // --el-color-#{$type}
+  // --el-color-#{$type}-light-{$i}
+  @each $type in (success, warning, danger, error, info) {
+    @include set-css-color-type($type);
+  }
+
+  // --el-text-color-#{$type}
+  @each $type in (primary, regular, secondary, placeholder) {
+    @include set-css-var-type('text-color', $type, $--text-color);
+  }
+
+  // --el-border-color-#{$type}
+  @each $type in (base, light, lighter, extra-light) {
+    @include set-css-var-type('border-color', $type, $--border-color);
+  }
+
+  // Background
+  --el-background-color-base: #{$--background-color-base};
+
+  // Border
+  --el-border-width-base: #{$--border-width-base};
+  --el-border-style-base: #{$--border-style-base};
+  --el-border-color-hover: var(--el-text-color-placeholder);
+  --el-border-base: var(--el-border-width-base) var(--el-border-style-base)
+    var(--el-border-color-base);
+
+  // --el-border-radius-#{$type}
+  @each $type in (base, small, round, circle) {
+    @include set-css-var-type('border-radius', $type, $--border-radius);
+  }
+
+  // Box-shadow
+  // --el-box-shadow-#{$type}
+  @each $type in (base, light) {
+    @include set-css-var-type('box-shadow', $type, $--box-shadow);
+  }
+
+  // Svg
+  --el-svg-monochrome-grey: #dcdde0;
+
+  // Fill
+  --el-fill-base: var(--el-color-white);
+
+  // Typography
+  @each $type in (extra-large, large, medium, base, small, extra-small) {
+    @include set-css-var-type('font-size', $type, $--font-size);
+  }
+
+  --el-font-weight-primary: 500;
+  --el-font-line-height-primary: 24px;
+  --el-font-color-disabled-base: #bbb;
+
+  // z-index
+  --el-index-normal: 1;
+  --el-index-top: 1000;
+  --el-index-popper: 2000;
+
+  // Disable base
+  --el-disabled-fill-base: var(--el-background-color-base);
+  --el-disabled-color-base: var(--el-text-color-placeholder);
+  --el-disabled-border-base: var(--el-border-color-light);
+
+  /* Transition
+-------------------------- */
+  // refer to this website to get the bezier motion function detail
+  //  https://cubic-bezier.com/#p1,p2,p3,p4 (change px as your function parameter)
+  --el-transition-duration: #{map.get($--transition-duration, 'default')};
+  --el-transition-duration-fast: #{map.get($--transition-duration, 'fast')};
+
+  @include set-component-css-var('transition-function', $--transition-function);
+  @include set-component-css-var('transition', $--transition);
+}

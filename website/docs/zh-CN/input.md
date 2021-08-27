@@ -910,7 +910,7 @@ export default defineComponent({
 
 ### 输入长度限制
 
-:::demo  `maxlength` 和 `minlength` 是原生属性，用来限制输入框的字符长度，其中字符长度是用 Javascript 的字符串长度统计的。对于类型为 `text` 或 `textarea` 的输入框，在使用 `maxlength` 属性限制最大输入长度的同时，可通过设置 `show-word-limit` 属性来展示字数统计。
+:::demo  `maxlength` 和 `minlength` 属性，用来限制输入框的字符长度，其中字符长度是用 Javascript 的字符串长度统计的。对于类型为 `text` 或 `textarea` 的输入框，在使用 `maxlength` 属性限制最大输入长度的同时，可通过设置 `show-word-limit` 属性来展示字数统计。
 ```html
 <el-input
   type="text"
@@ -951,7 +951,7 @@ export default defineComponent ({
 |-------------  |---------------- |---------------- |---------------------- |-------- |
 | type         | 类型   | string  | text，textarea 和其他 [原生 input 的 type 值](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types) | text |
 | model-value / v-model | 绑定值           | string / number  | — | — |
-| maxlength     | 原生属性，最大输入长度      | number          |  —  | — |
+| maxlength     | 最大输入长度      | string / number          |  —  | — |
 | minlength     | 原生属性，最小输入长度      | number          | — | — |
 | show-word-limit | 是否显示输入字数统计，只在 `type = "text"` 或 `type = "textarea"` 时有效 | boolean    |  —  | false |
 | placeholder   | 输入框占位文本    | string          | — | — |
@@ -963,7 +963,7 @@ export default defineComponent ({
 | suffix-icon   | 输入框尾部图标    | string          | — | — |
 | rows          | 输入框行数，只对 `type="textarea"` 有效  |  number | — |  2   |
 | autosize      | 自适应内容高度，只对 `type="textarea"` 有效，可传入对象，如，{ minRows: 2, maxRows: 6 }  |  boolean / object | — |  false   |
-| autocomplete | 原生属性，自动补全 | string | on, off | off |
+| autocomplete | 原生属性，自动补全 | string | — | off |
 | name | 原生属性 | string | — | — |
 | readonly | 原生属性，是否只读 | boolean | — | false |
 | max | 原生属性，设置最大值 | — | — | — |

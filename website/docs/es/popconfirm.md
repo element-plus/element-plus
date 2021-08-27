@@ -20,6 +20,7 @@ Popconfirm is similar to Popover. So for some duplicated attributes, please refe
 ````
 :::
 
+
 ### Customise
 You can customise Popconfirm like:
 :::demo
@@ -38,6 +39,44 @@ You can customise Popconfirm like:
 </el-popconfirm>
 </template>
 ```
+:::
+
+### Trigger event
+Click the button to trigger the event
+
+:::demo
+
+```html
+<template>
+  <el-popconfirm
+    confirmButtonText="Yes"
+    cancelButtonText="No"
+    icon="el-icon-info"
+    iconColor="red"
+    title="Are you sure to delete this?"
+    @confirm="confirmEvent"
+    @cancel="cancelEvent"
+  >
+    <template #reference>
+      <el-button>Delete</el-button>
+    </template>
+  </el-popconfirm>
+</template>
+
+<script>
+export default {
+  methods: {
+    confirmEvent() {
+      console.log("confirm!");
+    },
+    cancelEvent() {
+      console.log("cancel!");
+    },
+  },
+};
+</script>
+```
+
 :::
 
 ### Attributes

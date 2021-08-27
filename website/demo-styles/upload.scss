@@ -1,5 +1,5 @@
 .upload-tip {
-  color: #8492a6;
+  color: var(--el-text-color-secondary);
   font-size: 12px;
   margin-top: 7px;
 }
@@ -11,7 +11,7 @@
   }
   .avatar-uploader {
     .#{$namespace}-upload {
-      border: 1px dashed #d9d9d9;
+      border: 1px dashed var(--el-border-color-base);
       border-radius: 6px;
       cursor: pointer;
       position: relative;
@@ -19,12 +19,12 @@
 
       &:hover,
       &:focus {
-        border-color: #409eff;
+        border-color: var(--el-color-primary);
       }
     }
     .avatar-uploader-icon {
       font-size: 28px;
-      color: #8c939d;
+      color: var(--el-text-color-secondary);
       width: 178px;
       height: 178px;
       line-height: 178px;

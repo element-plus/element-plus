@@ -1,4 +1,4 @@
-@import "../common/var";
+@import '../common/var';
 
 @include b(time-spinner) {
   &.has-seconds {
@@ -8,14 +8,15 @@
   }
 
   @include e(wrapper) {
-    max-height: 190px;
+    max-height: 192px;
     overflow: auto;
     display: inline-block;
     width: 50%;
     vertical-align: top;
     position: relative;
 
-    & .#{$namespace}-scrollbar__wrap:not(.#{$namespace}-scrollbar__wrap--hidden-default) {
+    &
+      .#{$namespace}-scrollbar__wrap:not(.#{$namespace}-scrollbar__wrap--hidden-default) {
       padding-bottom: 15px;
     }
 
@@ -37,18 +38,18 @@
 
   @include e(arrow) {
     font-size: 12px;
-    color: $--color-text-secondary;
+    color: var(--el-text-color-secondary);
     position: absolute;
     left: 0;
     width: 100%;
-    z-index: $--index-normal;
+    z-index: var(--el-index-normal);
     text-align: center;
     height: 30px;
     line-height: 30px;
     cursor: pointer;
 
     &:hover {
-      color: $--color-primary;
+      color: var(--el-color-primary);
     }
 
     &.#{$namespace}-icon-arrow-up {
@@ -90,7 +91,7 @@
     height: 32px;
     line-height: 32px;
     font-size: 12px;
-    color: $--color-text-regular;
+    color: var(--el-text-color-regular);
 
     &:hover:not(.disabled):not(.active) {
       background: $--background-color-base;
@@ -98,12 +99,12 @@
     }
 
     &.active:not(.disabled) {
-      color: $--color-text-primary;
+      color: var(--el-text-color-primary);
       font-weight: bold;
     }
 
     &.disabled {
-      color: $--color-text-placeholder;
+      color: var(--el-text-color-placeholder);
       cursor: not-allowed;
     }
   }

@@ -43,18 +43,18 @@
           value: new Date(),
         }, {
           text: 'Yesterday',
-          value: (() => {
+          value: () => {
             const date = new Date()
             date.setTime(date.getTime() - 3600 * 1000 * 24)
             return date
-          })(),
+          },
         }, {
           text: 'A week ago',
-          value: (() => {
+          value: () => {
             const date = new Date()
             date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
             return date
-          })(),
+          },
         }],
         value1: '',
         value2: '',
@@ -80,19 +80,19 @@
           },
           {
             text: 'Yesterday',
-            value: (() => {
+            value: () => {
               const date = new Date();
               date.setTime(date.getTime() - 3600 * 1000 * 24);
               return date;
-            })(),
+            },
           },
           {
             text: 'A week ago',
-            value: (() => {
+            value: () => {
               const date = new Date();
               date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
               return date;
-            })(),
+            },
           },
         ],
         value1: '',
@@ -229,28 +229,28 @@
       return {
         shortcuts: [{
           text: '最近一周',
-          value: (() => {
+          value: () => {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
             return [start, end]
-          })(),
+          },
         }, {
           text: '最近一个月',
-          value: (() => {
+          value: () => {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
             return [start, end]
-          })(),
+          },
         }, {
           text: '最近三个月',
-          value: (() => {
+          value: () => {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
             return [start, end]
-          })(),
+          },
         }],
         value1: '',
         value2: ''
@@ -269,30 +269,30 @@ import { defineComponent, reactive, toRefs } from 'vue';
         shortcuts: [
           {
             text: '最近一周',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
               return [start, end];
-            })(),
+            },
           },
           {
             text: '最近一个月',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
               return [start, end];
-            })(),
+            },
           },
           {
             text: '最近三个月',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
               return [start, end];
-            })(),
+            },
           },
         ],
         value1: '',
@@ -352,19 +352,19 @@ import { defineComponent, reactive, toRefs } from 'vue';
           value: [new Date(), new Date()],
         }, {
           text: '今年至今',
-          value: (() => {
+          value: () => {
             const end = new Date()
             const start = new Date(new Date().getFullYear(), 0)
             return [start, end]
-          })(),
+          },
         }, {
           text: '最近六个月',
-          value: (() => {
+          value: () => {
             const end = new Date()
             const start = new Date()
             start.setMonth(start.getMonth() - 6)
             return [start, end]
-          })(),
+          },
         }],
         value1: '',
         value2: ''
@@ -387,20 +387,20 @@ import { defineComponent, reactive, toRefs } from 'vue';
           },
           {
             text: '今年至今',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date(new Date().getFullYear(), 0);
               return [start, end];
-            })(),
+            },
           },
           {
             text: '最近六个月',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setMonth(start.getMonth() - 6);
               return [start, end];
-            })(),
+            },
           },
         ],
         value1: '',
@@ -482,7 +482,7 @@ import { defineComponent, reactive, toRefs } from 'vue';
 
 ###  日期格式
 
-使用`format`指定输入框的格式。
+使用`format`指定输入框的格式。使用`value-format`指定绑定值的格式。
 
 默认情况下，组件接受并返回`Date`对象。
 
@@ -516,6 +516,17 @@ import { defineComponent, reactive, toRefs } from 'vue';
       value-format="YYYY/MM/DD">
     </el-date-picker>
   </div>
+  <div class="block">
+    <span class="demonstration">时间戳</span>
+    <div class="demonstration">值：{{ value3 }}</div>
+    <el-date-picker
+      v-model="value3"
+      type="date"
+      placeholder="选择日期"
+      format="YYYY 年 MM 月 DD 日"
+      value-format="x">``
+    </el-date-picker>
+  </div>
 </template>
 
 <script>
@@ -524,6 +535,7 @@ import { defineComponent, reactive, toRefs } from 'vue';
       return {
         value1: '',
         value2: '',
+        value3: ''
       };
     }
   };
@@ -538,6 +550,7 @@ import { defineComponent, ref } from 'vue';
       return {
         value1: ref(''),
         value2: ref(''),
+        value3: ref('')
       };
     },
   });
@@ -634,7 +647,7 @@ import { defineComponent, ref } from 'vue';
 | prefix-icon | 自定义头部图标的类名 | string | — | el-icon-date |
 | clear-icon | 自定义清空图标的类名 | string | — | el-icon-circle-close |
 | validate-event | 输入时是否触发表单的校验 | boolean | - | true |
-| shortcuts | 设置快捷选项，需要传入数组对象 | object[{ text: string, value: Date }] | — | — |
+| shortcuts | 设置快捷选项，需要传入数组对象 | object[{ text: string, value: date / function }] | — | — |
 | disabledDate | 设置禁用状态，参数为当前日期，要求返回 Boolean | Function | — | — |
 
 ### Events
@@ -643,6 +656,7 @@ import { defineComponent, ref } from 'vue';
 | change | 用户确认选定的值时触发 | 组件绑定值 |
 | blur | 当 input 失去焦点时触发 | 组件实例 |
 | focus | 当 input 获得焦点时触发 | 组件实例 |
+| calendar-change | 选中日历日期后会执行的回调，只有当 `daterange` 才生效 | [Date, Date] |
 
 ### Methods
 | 方法名 | 说明 | 参数 |
