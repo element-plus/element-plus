@@ -24,7 +24,6 @@ import type { ISubMenuProps, RootMenuProvider, SubMenuProvider } from './menu.ty
 
 export default defineComponent({
   name: 'ElSubMenu',
-  componentName: 'ElSubMenu',
   props: {
     index: {
       type: String,
