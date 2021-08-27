@@ -4,7 +4,7 @@ import ColorPicker from '../src/index.vue'
 
 import type { Nullable } from '@element-plus/utils/types'
 
-const _mount = (template: string, data: () => ({[key:string]: any;})) => {
+const _mount = (template: string, data: () => ({ [key: string]: any; })) => {
   const Component = defineComponent({
     components: {
       ElColorPicker: ColorPicker,
@@ -89,7 +89,7 @@ describe('Color-picker', () => {
     const mockThumbDom = jest.spyOn(thumbDom, 'offsetHeight', 'get').mockImplementation(() => 4)
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     await nextTick()
-    expect((hueSlideWrapper.vm as ComponentPublicInstance<{thumbTop: number;}>).thumbTop > 10).toBeTruthy()
+    expect((hueSlideWrapper.vm as ComponentPublicInstance<{ thumbTop: number; }>).thumbTop > 10).toBeTruthy()
     mockHueSlideHeight.mockRestore()
     mockThumbDom.mockRestore()
     wrapper.unmount()

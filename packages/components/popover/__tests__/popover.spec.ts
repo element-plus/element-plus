@@ -86,7 +86,7 @@ describe('Popover.vue', () => {
 
     const Comp = {
       render() {
-        const slot = () => [ h('button', { ref: 'btn' }, 'click 激活') ]
+        const slot = () => [h('button', { ref: 'btn' }, 'click 激活')]
 
         return h(Popover, {
           placement: 'bottom',
