@@ -9,7 +9,7 @@ export interface INotificationHandle {
 }
 
 export interface INotification {
-  (options?: INotificationOptions) : INotificationHandle
+  (options?: INotificationOptions): INotificationHandle
   success?: (options: TypedNotificationOptions) => INotificationHandle
   warning?: (options: TypedNotificationOptions) => INotificationHandle
   error?: (options: TypedNotificationOptions) => INotificationHandle

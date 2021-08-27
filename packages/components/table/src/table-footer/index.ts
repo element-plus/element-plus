@@ -27,7 +27,7 @@ export default defineComponent({
       type: Object as PropType<TableFooter<DefaultRow>['store']>,
     },
     summaryMethod: Function as PropType<
-      TableFooter<DefaultRow>['summaryMethod']
+    TableFooter<DefaultRow>['summaryMethod']
     >,
     sumText: String,
     border: Boolean,

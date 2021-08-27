@@ -70,7 +70,7 @@ interface ISwitchProps {
   name: string
   validateEvent: boolean
   id: string
-  loading:boolean
+  loading: boolean
   beforeChange?: () => (Promise<boolean> | boolean)
 }
 
@@ -190,7 +190,7 @@ export default defineComponent({
     })
 
     const switchDisabled = computed((): boolean => {
-      return props.disabled || props.loading ||(elForm || {}).disabled
+      return props.disabled || props.loading || (elForm || {}).disabled
     })
 
     const handleChange = (): void => {
