@@ -9,47 +9,27 @@
 import {
   computed,
   defineComponent,
-  onBeforeUnmount,
   onMounted,
   reactive,
-  ref,
+  shallowRef,
   watch,
 } from 'vue'
-import { getScrollContainer, off, on } from '@element-plus/utils/dom'
-import {
-  addResizeListener,
-  removeResizeListener,
-} from '@element-plus/utils/resize-event'
+import { useEventListener, useResizeObserver } from '@vueuse/core'
+import { getScrollContainer } from '@element-plus/utils/dom'
+import { affixEmits, affixProps } from './affix'
 
-import type { PropType } from 'vue'
-
-type Position = 'top' | 'bottom'
+import type { CSSProperties } from 'vue'
 
 export default defineComponent({
   name: 'ElAffix',
-  props: {
-    zIndex: {
-      type: Number,
-      default: 100,
-    },
-    target: {
-      type: String,
-      default: '',
-    },
-    offset: {
-      type: Number,
-      default: 0,
-    },
-    position: {
-      type: String as PropType<Position>,
-      default: 'top',
-    },
-  },
-  emits: ['scroll', 'change'],
+
+  props: affixProps,
+  emits: affixEmits,
+
   setup(props, { emit }) {
-    const target = ref(null)
-    const root = ref(null)
-    const scrollContainer = ref(null)
+    const target = shallowRef<HTMLElement>()
+    const root = shallowRef<HTMLDivElement>()
+    const scrollContainer = shallowRef<HTMLElement | Window>()
 
     const state = reactive({
       fixed: false,
@@ -60,17 +40,16 @@ export default defineComponent({
       transform: 0,
     })
 
-    const rootStyle = computed(() => {
+    const rootStyle = computed<CSSProperties>(() => {
       return {
         height: state.fixed ? `${state.height}px` : '',
         width: state.fixed ? `${state.width}px` : '',
       }
     })
 
-    const affixStyle = computed(() => {
-      if (!state.fixed) {
-        return
-      }
+    const affixStyle = computed<CSSProperties | undefined>(() => {
+      if (!state.fixed) return
+
       const offset = props.offset ? `${props.offset}px` : 0
       const transform = state.transform
         ? `translateY(${state.transform}px)`
@@ -87,12 +66,14 @@ export default defineComponent({
     })
 
     const update = () => {
+      if (!root.value || !target.value || !scrollContainer.value) return
+
       const rootRect = root.value.getBoundingClientRect()
       const targetRect = target.value.getBoundingClientRect()
       state.height = rootRect.height
       state.width = rootRect.width
       state.scrollTop =
-        scrollContainer.value === window
+        scrollContainer.value instanceof Window
           ? document.documentElement.scrollTop
           : scrollContainer.value.scrollTop
       state.clientHeight = document.documentElement.clientHeight
@@ -137,29 +118,25 @@ export default defineComponent({
 
     onMounted(() => {
       if (props.target) {
-        target.value = document.querySelector(props.target)
+        target.value =
+          document.querySelector<HTMLElement>(props.target) ?? undefined
         if (!target.value) {
           throw new Error(`target is not existed: ${props.target}`)
         }
       } else {
         target.value = document.documentElement
       }
-      scrollContainer.value = getScrollContainer(root.value)
-      on(scrollContainer.value, 'scroll', onScroll)
-      addResizeListener(root.value, update)
+      scrollContainer.value = getScrollContainer(root.value!)
     })
 
-    onBeforeUnmount(() => {
-      off(scrollContainer.value, 'scroll', onScroll)
-      removeResizeListener(root.value, update)
-    })
+    useEventListener(scrollContainer, 'scroll', onScroll)
+    useResizeObserver(root, () => update())
 
     return {
       root,
       state,
       rootStyle,
       affixStyle,
-      update,
     }
   },
 })
