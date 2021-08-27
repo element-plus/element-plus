@@ -6,6 +6,7 @@
 <script lang="ts">
 import { defineComponent, provide } from 'vue'
 import { ElButtonGruopKey } from './context'
+import { isValidComponentSize } from '@element-plus/utils/validators'
 
 import type { PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'
@@ -15,6 +16,7 @@ export default defineComponent({
   props: {
     size: {
       type: String as PropType<ComponentSize>,
+      validator: isValidComponentSize,
     },
   },
   setup(props){
