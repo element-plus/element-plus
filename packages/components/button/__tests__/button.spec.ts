@@ -109,7 +109,7 @@ describe('Button.vue', () => {
 })
 describe('Button Group', () => {
   const TestComponent = {
-    template: `<el-button-group>
+    template: `<el-button-group size="small">
       <el-button type="primary">Prev</el-button>
       <el-button type="primary">Next</el-button>
     </el-button-group>`,
@@ -122,6 +122,6 @@ describe('Button Group', () => {
   it('create', () => {
     const wrapper = mount(TestComponent)
     expect(wrapper.classes()).toContain('el-button-group')
-    expect(wrapper.findAll('button').length).toBe(2)
+    expect(wrapper.findAll('button.el-button--small').length).toBe(2)
   })
 })
