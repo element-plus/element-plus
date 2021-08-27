@@ -8,9 +8,11 @@ Used to replace the browser's native scrollbar.
 
 ```html
 
-<el-scrollbar height="400px">
-  <p class="item" v-for="item in 20">{{ item }}</p>
-</el-scrollbar>
+<template>
+  <el-scrollbar height="400px">
+    <p class="item" v-for="item in 20">{{ item }}</p>
+  </el-scrollbar>
+</template>
 ```
 
 :::
@@ -21,11 +23,13 @@ Used to replace the browser's native scrollbar.
 
 ```html
 
-<el-scrollbar>
-  <div class="flex-content">
-    <p class="item" v-for="item in 50">{{ item }}</p>
-  </div>
-</el-scrollbar>
+<template>
+  <el-scrollbar>
+    <div class="flex-content">
+      <p class="item" v-for="item in 50">{{ item }}</p>
+    </div>
+  </el-scrollbar>
+</template>
 ```
 
 :::
@@ -122,6 +126,7 @@ Used to replace the browser's native scrollbar.
 | noresize  | do not respond to container size changes, if the container size does not change, it is better to set it to optimize performance    | boolean  |    —  |  false |
 | tag  | element tag of the view    | string  |    —  |  div |
 | always  | always show scrollbar    | boolean  |    —  |  false |
+| min-size  | minimum size of scrollbar    | number  |    —  |  20 |
 
 ### Scrollbar Events
 

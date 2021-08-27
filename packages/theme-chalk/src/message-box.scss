@@ -4,16 +4,9 @@
 @import 'mixins/var';
 @import 'common/var';
 @import 'common/popup';
-@import 'button';
-@import 'input';
-@import 'overlay';
 
 @include b(message-box) {
   @include set-component-css-var('messagebox', $--messagebox);
-
-  @each $type in (success, info, warning, error) {
-    --el-messagebox-#{$type}-color: var(--el-color-#{$type});
-  }
 }
 
 @include b(message-box) {
@@ -117,7 +110,8 @@
 
     @each $type in (success, info, warning, error) {
       &.#{$namespace}-icon-#{$type} {
-        color: var(--el-messagebox-#{$type}-color);
+        --el-messagebox-color: var(--el-color-#{$type});
+        color: var(--el-messagebox-color);
       }
     }
   }

@@ -7,8 +7,8 @@
     margin: 10px;
     text-align: center;
     border-radius: 4px;
-    background: #ecf5ff;
-    color: #409eff;
+    background: var(--el-color-primary-light-9);
+    color: var(--el-color-primary);
   }
 
   .flex-content {
@@ -24,8 +24,8 @@
       margin: 10px;
       text-align: center;
       border-radius: 4px;
-      background: #fef0f0;
-      color: #f56c6c;
+      background: var(--el-color-danger-lighter);
+      color: var(--el-color-danger);
     }
   }
 

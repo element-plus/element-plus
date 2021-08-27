@@ -40,14 +40,14 @@ $--colors: map.deep-merge(
   $--colors
 );
 
-$--color-white: map.get($--colors, 'white');
-$--color-black: map.get($--colors, 'black');
-$--color-primary: map.get($--colors, 'primary', 'base');
-$--color-success: map.get($--colors, 'success', 'base');
-$--color-warning: map.get($--colors, 'warning', 'base');
-$--color-danger: map.get($--colors, 'danger', 'base');
-$--color-error: map.get($--colors, 'error', 'base');
-$--color-info: map.get($--colors, 'info', 'base');
+$--color-white: map.get($--colors, 'white') !default;
+$--color-black: map.get($--colors, 'black') !default;
+$--color-primary: map.get($--colors, 'primary', 'base') !default;
+$--color-success: map.get($--colors, 'success', 'base') !default;
+$--color-warning: map.get($--colors, 'warning', 'base') !default;
+$--color-danger: map.get($--colors, 'danger', 'base') !default;
+$--color-error: map.get($--colors, 'error', 'base') !default;
+$--color-info: map.get($--colors, 'info', 'base') !default;
 
 // https://sass-lang.com/documentation/values/maps#immutability
 @mixin set-color-type-light($type, $number) {
@@ -312,7 +312,7 @@ $--select: map.merge(
     'font-size': var(--el-font-size-base),
     'close-hover-color': var(--el-text-color-secondary),
     'input-color': var(--el-text-color-placeholder),
-    'multiple-input-color': #666,
+    'multiple-input-color': var(--el-text-color-regular),
     'input-focus-border-color': var(--el-color-primary),
     'input-font-size': 14px,
   ),
@@ -346,7 +346,7 @@ $--select-dropdown: map.merge(
   (
     'background': var(--el-color-white),
     'shadow': var(--el-box-shadow-light),
-    'empty-color': #999,
+    'empty-color': var(--el-text-color-secondary),
     'max-height': 274px,
     'padding': 6px 0,
     'empty-padding': 10px 0,
@@ -529,7 +529,7 @@ $--cascader: map.merge(
 
 /* Button
 -------------------------- */
-// css3 var in packages/theme-chalk/src/cascader.scss
+// css3 var in packages/theme-chalk/src/button.scss
 $--button: () !default;
 $--button: map.merge(
   (
@@ -844,8 +844,17 @@ $--card: map.merge(
       var(--el-border-color-light, map.get($--border-color, 'lighter')),
     'border-radius': 4px,
     'padding': 20px,
+    'background-color': var(--el-color-white),
   ),
   $--card
+);
+
+$--dark-card: () !default;
+$--dark-card: map.merge(
+  (
+    'background-color': var(--el-color-black),
+  ),
+  $--dark-card
 );
 
 /* Slider
@@ -915,6 +924,17 @@ $--datepicker: map.merge(
     'hover-font-color': var(--el-color-primary),
   ),
   $--datepicker
+);
+
+$--date-editor: () !default;
+$--date-editor: map.merge(
+  (
+    'width': 220px,
+    'monthrange-width': 300px,
+    'daterange-width': 350px,
+    'datetimerange-width': 400px,
+  ),
+  $--date-editor
 );
 
 /* Loading
@@ -1039,6 +1059,17 @@ $--link: map.merge(
   ),
   $--link
 );
+
+$--link-font-color: () !default;
+
+@each $type in $--types {
+  $--link-font-color: map.merge(
+    $--link-font-color,
+    (
+      $type: map.get($--colors, $type, 'base'),
+    )
+  ) !global;
+}
 
 /* Calendar
 --------------------------*/

@@ -2,7 +2,6 @@
 @import 'mixins/var';
 @import 'common/var';
 @import 'common/transition';
-@import 'checkbox';
 
 @include b(tree) {
   @include set-component-css-var('tree', $--tree);

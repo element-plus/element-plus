@@ -1,8 +1,5 @@
 @import 'mixins/mixins';
 @import 'mixins/var';
-@import 'checkbox';
-@import 'tag';
-@import 'tooltip';
 @import 'common/var';
 
 @include b(table) {
@@ -49,7 +46,7 @@
   @include e(expand-icon) {
     position: relative;
     cursor: pointer;
-    color: #666;
+    color: var(--el-text-color-regular);
     font-size: 12px;
     transition: transform var(--el-transition-duration-fast) ease-in-out;
     height: 20px;
@@ -94,8 +91,7 @@
     border-right: 0;
     border-bottom: 0;
 
-    th.gutter,
-    td.gutter {
+    .#{$namespace}-table__cell.gutter {
       border-right-width: 1px;
     }
   }
@@ -117,14 +113,13 @@
     font-weight: 500;
 
     &.is-group {
-      th {
+      th.#{$namespace}-table__cell {
         background: var(--el-background-color-base);
       }
     }
   }
 
-  th,
-  td {
+  .#{$namespace}-table__cell {
     padding: 12px 0;
     min-width: 0;
     box-sizing: border-box;
@@ -156,24 +151,21 @@
   }
 
   @include m(medium) {
-    th,
-    td {
+    .#{$namespace}-table__cell {
       padding: 10px 0;
     }
   }
 
   @include m(small) {
     font-size: 12px;
-    th,
-    td {
+    .#{$namespace}-table__cell {
       padding: 8px 0;
     }
   }
 
   @include m(mini) {
     font-size: 12px;
-    th,
-    td {
+    .#{$namespace}-table__cell {
       padding: 6px 0;
     }
   }
@@ -186,16 +178,16 @@
     }
   }
 
-  th.is-leaf,
-  td {
+  th.#{$namespace}-table__cell.is-leaf,
+  td.#{$namespace}-table__cell {
     border-bottom: var(--el-table-border);
   }
 
-  th.is-sortable {
+  th.#{$namespace}-table__cell.is-sortable {
     cursor: pointer;
   }
 
-  th {
+  th.#{$namespace}-table__cell {
     overflow: hidden;
     user-select: none;
     background-color: var(--el-table-header-background-color);
@@ -224,7 +216,7 @@
     }
   }
 
-  td {
+  td.#{$namespace}-table__cell {
     div {
       box-sizing: border-box;
     }
@@ -290,8 +282,7 @@
     //   border-color: transparent;
     // }
 
-    th,
-    td {
+    .#{$namespace}-table__cell {
       border-right: var(--el-table-border);
 
       &:first-child .cell {
@@ -299,12 +290,12 @@
       }
     }
 
-    th.gutter:last-of-type {
+    th.#{$namespace}-table__cell.gutter:last-of-type {
       border-bottom: var(--el-table-border);
       border-bottom-width: 1px;
     }
 
-    & th {
+    & th.#{$namespace}-table__cell {
       border-bottom: var(--el-table-border);
     }
   }
@@ -367,7 +358,7 @@
     bottom: 0;
     z-index: 3;
 
-    & tbody td {
+    & tbody td.#{$namespace}-table__cell {
       border-top: var(--el-table-border);
       background-color: var(--el-table-row-hover-background-color);
       color: var(--el-table-font-color);
@@ -388,7 +379,7 @@
 
   @include e(footer-wrapper) {
     margin-top: -1px;
-    td {
+    td.#{$namespace}-table__cell {
       border-top: var(--el-table-border);
     }
   }
@@ -401,7 +392,7 @@
   @include e((header-wrapper, footer-wrapper)) {
     overflow: hidden;
 
-    & tbody td {
+    & tbody td.#{$namespace}-table__cell {
       background-color: var(--el-table-row-hover-background-color);
       color: var(--el-table-font-color);
     }
@@ -492,11 +483,11 @@
   @include m(striped) {
     & .#{$namespace}-table__body {
       & tr.#{$namespace}-table__row--striped {
-        td {
+        td.#{$namespace}-table__cell {
           background: #fafafa;
         }
 
-        &.current-row td {
+        &.current-row td.#{$namespace}-table__cell {
           background-color: var(--el-table-current-row-background-color);
         }
       }
@@ -509,14 +500,14 @@
       &.#{$namespace}-table__row--striped {
         &,
         &.current-row {
-          > td {
+          > td.#{$namespace}-table__cell {
             background-color: var(--el-table-row-hover-background-color);
           }
         }
       }
     }
 
-    tr.current-row > td {
+    tr.current-row > td.#{$namespace}-table__cell {
       background-color: var(--el-table-current-row-background-color);
     }
   }
@@ -544,13 +535,13 @@
   }
 
   @include m(enable-row-transition) {
-    .#{$namespace}-table__body td {
+    .#{$namespace}-table__body td.#{$namespace}-table__cell {
       transition: background-color 0.25s ease;
     }
   }
 
   @include m(enable-row-hover) {
-    .#{$namespace}-table__body tr:hover > td {
+    .#{$namespace}-table__body tr:hover > td.#{$namespace}-table__cell {
       background-color: var(--el-table-row-hover-background-color);
     }
   }

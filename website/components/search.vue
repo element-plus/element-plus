@@ -174,7 +174,7 @@ export default {
     }
 
     li {
-      border-bottom: solid 1px #ebebeb;
+      border-bottom: solid 1px var(--el-border-color-base);
 
       &:last-child {
          border-bottom: none;
@@ -231,7 +231,7 @@ export default {
     .algolia-search-empty {
       margin: 5px 0;
       text-align: center;
-      color: #999;
+      color: var(--el-text-color-secondary);
     }
   }
 </style>

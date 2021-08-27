@@ -4,10 +4,10 @@
   }
 
   .my-label {
-    background: #e1f3d8;
+    background: var(--el-color-success-lighter);
   }
 
   .my-content {
-    background: #fde2e2;
+    background: var(--el-color-danger-lighter);
   }
 }

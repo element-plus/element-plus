@@ -1,4 +1,4 @@
-import type { Plugin } from 'vue'
+import type { CSSProperties, Plugin } from 'vue'
 
 type OptionalKeys<T extends Record<string, unknown>> = {
   [K in keyof T]: T extends Record<K, T[K]>
@@ -22,3 +22,19 @@ export type PartialReturnType<T extends (...args: unknown[]) => unknown> = Parti
 export type SFCWithInstall<T> = T & Plugin
 
 export type RefElement = HTMLElement | null
+
+export type Nullable<T> = T | null;
+
+export type CustomizedHTMLElement<T> = HTMLElement & T
+
+export type Indexable<T> = {
+  [key: string]: T
+}
+
+export type Hash<T> = Indexable<T>
+
+export type TimeoutHandle = ReturnType<typeof global.setTimeout>
+
+export type ComponentSize = 'large' | 'medium' | 'small' | 'mini'
+
+export type StyleValue = string | CSSProperties | Array<StyleValue>
