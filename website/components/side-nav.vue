@@ -188,10 +188,10 @@ export default defineComponent({
       hideAllMenu()
       let activeAnchor = document.querySelector('a.active')
       let ul = activeAnchor.parentNode
-      while (ul.tagName !== 'UL') {
+      while (ul.nodeName !== 'UL') {
         ul = ul.parentNode
       }
-      ul.style.height = 'auto'
+      (ul as HTMLUListElement).style.height = 'auto'
     }
 
     const hideAllMenu = () => {
