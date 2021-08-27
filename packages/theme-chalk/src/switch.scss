@@ -96,7 +96,7 @@
       background-color: var(--el-switch-on-color);
       .#{$namespace}-switch__action {
         left: 100%;
-        margin-left: calc(0px - var(--el-switch-button-size) - 1px);
+        margin-left: calc(-1px - var(--el-switch-button-size));
         color: var(--el-switch-on-color);
       }
     }
