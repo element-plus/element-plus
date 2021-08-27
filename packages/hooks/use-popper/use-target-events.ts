@@ -59,8 +59,8 @@ export const useTargetEvents = (
   }
 
   const triggerEventsMap: Partial<Record<
-    TriggerType,
-    (keyof PopperEvents)[]
+  TriggerType,
+  (keyof PopperEvents)[]
   >> = {
     click: ['onClick'],
     hover: ['onMouseenter', 'onMouseleave'],

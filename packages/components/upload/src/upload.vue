@@ -99,7 +99,7 @@ export default defineComponent({
     },
     beforeUpload: {
       type: Function as PropType<
-        (file: File) => Promise<File | Blob> | boolean | unknown
+      (file: File) => Promise<File | Blob> | boolean | unknown
       >,
       default: NOOP as (file: File) => void,
     },
@@ -113,7 +113,7 @@ export default defineComponent({
     },
     onRemove: {
       type: Function as PropType<
-        (file: Nullable<FileList>, rawFile: ElFile) => void
+      (file: Nullable<FileList>, rawFile: ElFile) => void
       >,
       default: NOOP as (file: Nullable<FileList>, rawFile: ElFile) => void,
     },
@@ -142,7 +142,7 @@ export default defineComponent({
     },
     onExceed: {
       type: Function as PropType<
-        (files: FileList, fileList: UploadFile[]) => void
+      (files: FileList, fileList: UploadFile[]) => void
       >,
       default: NOOP,
     },

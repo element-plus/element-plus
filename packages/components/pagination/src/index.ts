@@ -5,6 +5,7 @@ import {
   computed,
   defineComponent,
   getCurrentInstance,
+  watch,
 } from 'vue'
 import { warn } from '@element-plus/utils/error'
 import { useLocaleInject } from '@element-plus/hooks'
@@ -185,10 +186,6 @@ export default defineComponent({
       } else if (!isAbsent(props.total)) {
         pageCount = Math.max(1, Math.ceil(props.total / pageSizeBridge.value))
       }
-      // side effect
-      if (currentPageBridge.value > pageCount) {
-        currentPageBridge.value = pageCount
-      }
       return pageCount
     })
 
@@ -211,6 +208,11 @@ export default defineComponent({
           emit('current-change', newCurrentPage)
         }
       },
+    })
+
+    watch(pageCountBridge, val => {
+      if (currentPageBridge.value > val)
+        currentPageBridge.value = val
     })
 
     function handleCurrentChange(val: number) {

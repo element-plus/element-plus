@@ -20,18 +20,33 @@ module.exports = {
     'plugin:vue/vue3-recommended',
   ],
   rules: {
-    // js/ts
+    // style
+    'block-spacing': 'error',
     'eol-last': 'error',
     'no-trailing-spaces': 'error',
     'comma-style': ['error', 'last'],
     'comma-dangle': ['error', 'always-multiline'],
     'no-multi-spaces': 'error',
-    quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: true }],
-    camelcase: ['error', { properties: 'never' }],
     semi: ['error', 'never'],
-    indent: ['error', 2, { SwitchCase: 1 }],
-    'object-curly-spacing': ['error', 'always'],
-    'arrow-parens': ['error', 'as-needed'],
+    'arrow-parens':['error', 'as-needed'],
+    'array-bracket-spacing': ['error', 'never'],
+
+    'indent': 'off',
+    '@typescript-eslint/indent':['error', 2, { SwitchCase: 1 }],
+
+    'object-curly-spacing': 'off',
+    '@typescript-eslint/object-curly-spacing': ['error', 'always'],
+
+    quotes: 'off',
+    '@typescript-eslint/quotes': ['error', 'single', { avoidEscape: true, allowTemplateLiterals: true }],
+
+    'space-infix-ops': 'off',
+    '@typescript-eslint/space-infix-ops': ['error', { 'int32Hint': false }],
+
+    '@typescript-eslint/type-annotation-spacing': ['error', {}],
+
+    // js/ts
+    camelcase: ['error', { properties: 'never' }],
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/member-delimiter-style': [
@@ -47,6 +62,7 @@ module.exports = {
         },
       },
     ],
+
     // vue
     'vue/no-v-html': 'off',
     'vue/singleline-html-element-content-newline': 'off',

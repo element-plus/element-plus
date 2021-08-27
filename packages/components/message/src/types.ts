@@ -26,7 +26,7 @@ export type MessageParams = IMessageOptions | string
 export type TypedMessageParams<T extends MessageType> = { type: T; } & Omit<IMessageOptions, 'type'> | string
 
 export interface IMessage {
-  (options?: MessageParams) : IMessageHandle
+  (options?: MessageParams): IMessageHandle
   success: (options?: TypedMessageParams<'success'>) => IMessageHandle
   warning: (options?: TypedMessageParams<'warning'>) => IMessageHandle
   info: (options?: TypedMessageParams<'info'>) => IMessageHandle

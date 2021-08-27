@@ -112,6 +112,8 @@ const useCheckboxStatus = (props: IUseCheckboxProps, { model }: PartialReturnTyp
       return value.includes(props.label)
     } else if (value !== null && value !== undefined) {
       return value === props.trueLabel
+    } else {
+      return !!value
     }
   })
   const checkboxSize = computed(() => {
