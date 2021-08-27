@@ -24,85 +24,48 @@
 </template>
 
 <script lang='ts'>
-import { computed, inject, defineComponent } from 'vue'
+import { defineComponent } from 'vue'
+export default defineComponent({
+  name: 'ElButton',
+})
+</script>
+
+<script lang='ts' setup>
+import { computed, inject } from 'vue'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import { useGlobalConfig } from '@element-plus/utils/util'
-import { isValidComponentSize } from '@element-plus/utils/validators'
-
-import type { PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 
-type IButtonType = PropType<'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text' | 'default'>
-type IButtonNativeType = PropType<'button' | 'submit' | 'reset'>
+export type ButtonType = 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text' | 'default'
+export type ButtonNativeType = 'button' | 'submit' | 'reset'
 
-export default defineComponent({
-  name: 'ElButton',
+const props = withDefaults(defineProps<{
+  type?: ButtonType
+  size?: ComponentSize
+  icon?: string
+  nativeType?: ButtonNativeType
+  loading?: boolean
+  disabled?: boolean
+  plain?: boolean
+  autofocus?: boolean
+  round?: boolean
+  circle?: boolean
+}>(), {
+  type: 'default',
+  icon: '',
+  nativeType: 'button'
+});
+const emit = defineEmits<{
+  (e: 'click', evt: MouseEvent): void
+}>();
 
-  props: {
-    type: {
-      type: String as IButtonType,
-      default: 'default',
-      validator: (val: string) => {
-        return [
-          'default',
-          'primary',
-          'success',
-          'warning',
-          'info',
-          'danger',
-          'text',
-        ].includes(val)
-      },
-    },
-    size: {
-      type: String as PropType<ComponentSize>,
-      validator: isValidComponentSize,
-    },
-    icon: {
-      type: String,
-      default: '',
-    },
-    nativeType: {
-      type: String as IButtonNativeType,
-      default: 'button',
-      validator: (val: string) => {
-        return ['button', 'submit', 'reset'].includes(val)
-      },
-    },
-    loading: Boolean,
-    disabled: Boolean,
-    plain: Boolean,
-    autofocus: Boolean,
-    round: Boolean,
-    circle: Boolean,
-  },
+const $ELEMENT = useGlobalConfig()
 
-  emits: ['click'],
+const elForm = inject(elFormKey, {} as ElFormContext)
+const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
 
-  setup(props, { emit }) {
-    const $ELEMENT = useGlobalConfig()
-
-    const elForm = inject(elFormKey, {} as ElFormContext)
-    const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
-
-    const buttonSize = computed(() => {
-      return props.size || elFormItem.size || $ELEMENT.size
-    })
-    const buttonDisabled = computed(() => {
-      return props.disabled || elForm.disabled
-    })
-
-    //methods
-    const handleClick = (evt: MouseEvent) => {
-      emit('click', evt)
-    }
-
-    return {
-      buttonSize,
-      buttonDisabled,
-      handleClick,
-    }
-  },
-})
+const buttonSize = computed(() => props.size || elFormItem.size || $ELEMENT.size)
+const buttonDisabled = computed(() => props.disabled || elForm.disabled)
+const handleClick = (evt: MouseEvent) => emit('click', evt)
 </script>
