@@ -89,15 +89,15 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import '../assets/styles/pages/home.scss'
-import localeData from '../locales/index.json'
-import pageLang from '../assets/pages/home.json'
+import sponsorsData from '../assets/components/sponsors.json'
+import homeData from '../assets/pages/home.json'
 import { throttle } from 'throttle-debounce'
 import { useLang } from '../utils/routes'
 
 const lang = useLang()
 const mainImgOffset = ref(0)
-const locale = computed(() => localeData[lang.value])
-const homeLocale = computed(() => pageLang[lang.value])
+const locale = computed(() => sponsorsData[lang.value])
+const homeLocale = computed(() => homeData[lang.value])
 const indexMainImg = ref()
 
 const handleScroll = () => {

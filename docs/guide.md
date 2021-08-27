@@ -2,8 +2,9 @@
 title: 'Guide'
 lang: en-US
 ---
+
 <script setup>
-import HomePage from '../pages/home.vue'
+import Page from './pages/guide.vue'
 </script>
 
-<HomePage />
+<Page />

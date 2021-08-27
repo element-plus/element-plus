@@ -22,10 +22,11 @@ const isSkipped = computed(() => skipped.includes(propsRefs.item.value.link))
     <a class="item" v-bind="linkProps">
       {{ item.text }}
       <el-icon
+        v-if="!isSkipped && isExternal"
         style="font-size: 14px;margin-left: 4px"
         color="inherit"
       >
-        <ExternalIcon v-if="!isSkipped && isExternal" />
+        <ExternalIcon />
       </el-icon>
     </a>
   </div>

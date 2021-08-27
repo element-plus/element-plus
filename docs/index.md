@@ -1,6 +1,6 @@
 ---
-title: '指南'
-lang: zh-CN
+title: 'A Desktop UI Toolkit for Web'
+lang: en-US
 ---
 
 <script setup>

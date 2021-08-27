@@ -12,3 +12,7 @@ export enum Language {
   /** Japanese */
   // JP = 'jp',
 }
+
+export const defaultLang = Language.EN
+
+export const langPack = [Language.CN, Language.EN]

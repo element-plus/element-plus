@@ -26,24 +26,27 @@
           <li class="nav-item">
             <nav-link
               :item="{
-                link: `/${lang}/guide`,
+                link: `/${rootPath}/guide`,
                 text: locale.guide,
+                activeMatch: 'guide'
               }"
             />
           </li>
           <li class="nav-item">
             <nav-link
               :item="{
-                link: `/${lang}/component`,
+                link: `/${rootPath}/component`,
                 text: locale.components,
+                activeMatch: 'component'
               }"
             />
           </li>
           <li class="nav-item">
             <nav-link
               :item="{
-                link: `/${lang}/resource`,
+                link: `/${rootPath}/resource`,
                 text: locale.resource,
+                activeMatch: 'resource'
               }"
             />
           </li>
@@ -85,12 +88,12 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { reactive, computed } from 'vue'
+import { reactive, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vitepress'
 import { version } from 'element-plus'
 import AlgoliaSearch from '../components/search.vue'
-import { Language } from '../constants/language'
-import { useLang } from '../utils/routes'
+import { Language, defaultLang } from '../constants/language'
+import { useLang, useRootPath } from '../utils/routes'
 import localeData from '../assets/components/header.json'
 const router = useRouter()
 const route = useRoute()
@@ -111,18 +114,18 @@ const lang = useLang()
 const locale = computed(() => localeData[lang.value])
 const isComponentPage = computed(() => route.path.includes('component'))
 
+const rootPath = useRootPath(lang)
+
 const switchLang = (targetLang: string) => {
   if (lang.value === targetLang) return
   localStorage.setItem('ELEMENT_LANGUAGE', targetLang)
-  if (lang.value === Language.CN) {
-    router.go(`/${targetLang}/${route.path.slice(1)}`)
-    return
+  let go = ''
+  if (lang.value === defaultLang) {
+    go = `/${targetLang}${route.path}`
+  } else {
+    go = `/${route.path.split('/').slice(2).join('/')}`
   }
-  if (targetLang === Language.CN) {
-    router.go(route.path.replace(`/${lang.value}`, ''))
-    return
-  }
-  router.go(route.path.replace(lang.value, targetLang))
+  router.go(go)
 }
 
 const handleLangDropdownToggle = (visible: boolean) => {
