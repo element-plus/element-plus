@@ -6,12 +6,15 @@ jobs:
   build:
     name: Unit Test
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['14', '16']
     steps:
       - uses: actions/checkout@v2
       - name: Setup node
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: ${{ matrix.node-version }}
           cache: 'yarn'
       - name: Install dependencies
         run: yarn bootstrap
