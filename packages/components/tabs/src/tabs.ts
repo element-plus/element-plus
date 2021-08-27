@@ -93,13 +93,11 @@ export default defineComponent({
     )
 
     watch(currentName, () => {
-      if (nav$.value) {
-        nextTick(() => {
-          nav$.value.$nextTick(() => {
-            nav$.value.scrollToActiveTab()
-          })
+      nextTick(() => {
+        nav$.value && nav$.value.$nextTick(() => {
+          nav$.value && nav$.value.scrollToActiveTab()
         })
-      }
+      })
       setPaneInstances(true)
     })
 

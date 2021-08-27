@@ -350,7 +350,7 @@ describe('Form', () => {
     const form: any = wrapper.findComponent({ ref: 'form' }).vm
     const nameField: any = wrapper.findComponent({ ref: 'name' }).vm
     const addressField: any = wrapper.findComponent({ ref: 'address' }).vm
-    form.validate()
+    await form.validate().catch(_ => undefined)
     await nextTick()
     expect(nameField.validateMessage).toBe('Please input name')
     expect(addressField.validateMessage).toBe('Please input address')

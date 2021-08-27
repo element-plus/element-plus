@@ -12,19 +12,20 @@ describe('virtual scrollbar', () => {
         Scrollbar,
       },
     })
-    await nextTick
+    await nextTick()
     const scrollbar = wrapper.findComponent(Scrollbar)
     const styles = getComputedStyle(scrollbar.vm.$el)
-    expect(styles).toMatchObject({
+
+    Object.entries({
       display: 'block',
       position: 'absolute',
       width: 'vertical' !== layout ? '100%' : '6px',
-      height: 'vertical' !== layout ? '6px' : '100%',
+      height: 'vertical' !== layout ? '6px' : 'auto',
       [ScrollbarDirKey[layout]]: '2px',
       right: '2px',
       bottom: '2px',
       'border-radius': '4px',
-    })
+    }).forEach(([key, value]) => expect(`${key}: ${styles.getPropertyValue(key)}`).toBe(`${key}: ${value}`))
   }
 
   it('vertical inline style', async () => {
