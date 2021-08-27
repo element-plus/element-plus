@@ -93,7 +93,7 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    scrollToError: Boolean
+    scrollToError: Boolean,
   },
   emits: ['validate'],
   setup(props, { emit }) {
@@ -191,8 +191,8 @@ export default defineComponent({
           }
         })
       }
-      if (!valid && this.scrollToError) {
-        this.scrollToField(Object.keys(firstInvalidFields)[0])
+      if (!valid && props.scrollToError) {
+        scrollToField(Object.keys(firstInvalidFields)[0])
       }
       return promise
     }
@@ -211,11 +211,11 @@ export default defineComponent({
     }
 
     const scrollToField = (prop: string) => {
-      this.fields.forEach((item) => {
+      fields.forEach(item => {
         if (item.prop === prop) {
-          item.$el.scrollIntoView();
+          item.$el.scrollIntoView()
         }
-      });
+      })
     }
 
     const elForm = reactive({
@@ -235,7 +235,7 @@ export default defineComponent({
       resetFields,
       clearValidate,
       validateField,
-      scrollToField
+      scrollToField,
     }
   },
 })
