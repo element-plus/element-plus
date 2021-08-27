@@ -36,26 +36,29 @@ helper({
 })
 
 function reComponentName(title) {
-  return 'el-' + title
-    .replace(/\B([A-Z])/g, '-$1')
-    .replace(/[ ]+/g, '-')
-    .toLowerCase()
+  return (
+    'el-' +
+    title
+      .replace(/\B([A-Z])/g, '-$1')
+      .replace(/[ ]+/g, '-')
+      .toLowerCase()
+  )
 }
 
 function reWebTypesSource(title) {
-  const symbol = 'EL' + title
-    .replace(/-/, ' ')
-    .replace(/^\w|\s+\w/g, item => item.trim().toUpperCase())
-
+  const symbol = (
+    'EL' +
+    title
+      .replace(/-/, ' ')
+      .replace(/^\w|\s+\w/g, item => item.trim().toUpperCase())
+  )
   return { symbol }
 }
 
-function reDocUrl(fileName, header) {
+function reDocUrl(fileName) {
   const docs = 'https://element-plus.org/#/en-US/component/'
-  const _header = header
-    ? header.replace(/[ ]+/g, '-').toLowerCase()
-    : undefined
-  return docs + fileName + (_header ? '#' + _header : '')
+
+  return docs + fileName
 }
 
 function reAttribute(value, key, item) {
