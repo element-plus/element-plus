@@ -22,8 +22,8 @@ app.mount('#app')
 
 ### Introduction de composants à la demande
 
- Le code JS d'ElementPlus supporte par défaut le [tree shaking](https://webpack.js.org/guides/tree-shaking/)
- basé sur les modules ES.
+Le code JS d'ElementPlus supporte par défaut le [tree shaking](https://webpack.js.org/guides/tree-shaking/)
+basé sur les modules ES.
 
 > App.vue
 
@@ -34,15 +34,15 @@ app.mount('#app')
   </el-button>
 </template>
 <script>
-import { defineComponent } from 'vue'
-import { ElButton } from 'element-plus'
+  import { defineComponent } from 'vue'
+  import { ElButton } from 'element-plus'
 
-export default defineComponent({
-  name: 'app'
-  components: {
-    ElButton,
-  },
-})
+  export default defineComponent({
+    name: 'app'
+    components: {
+      ElButton,
+    },
+  })
 </script>
 ```
 
@@ -65,7 +65,7 @@ Introduit par les en-têtes HTML
 ```html
 <!-- index.html -->
 <head>
-  <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css">
+  <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
 </head>
 ```
 
@@ -77,7 +77,6 @@ Voir [FAQ](/#/fr-FR/component/quickstart#faqs)
 
 ### Utilisez vue-cli@4.5
 
-
 Nous avons préparé les plugins vue-cli correspondants pour la nouvelle version de
 [Element Plus plugins](https://github.com/element-plus/vue-cli-plugin-element-plus)
 que vous pouvez utiliser pour créer rapidement un projet basé sur les éléments suivants
@@ -85,7 +84,7 @@ Projet Element Plus.
 
 ### Utilisation du kit de démarrage
 
-Nous fournissons des [modèles de projet  génériques ](https://github.com/element-plus/element-plus-starter)
+Nous fournissons des [modèles de projet génériques ](https://github.com/element-plus/element-plus-starter)
 que vous pouvez utiliser directement, et nous fournissons également les éléments
 suivants vite [modèle](https://github.com/element-plus/element-plus-vite-starter).
 Pour
@@ -105,23 +104,23 @@ Présentation complète d'ElementPlus.
 
 ```js
 import { createApp } from 'vue'
-import ElementPlus from 'element-plus';
-import App from './App.vue';
+import ElementPlus from 'element-plus'
+import App from './App.vue'
 
 const app = createApp(App)
-app.use(ElementPlus, { size: 'small', zIndex: 3000 });
+app.use(ElementPlus, { size: 'small', zIndex: 3000 })
 ```
 
 Présentation d'ElementPlus à la demande.
 
 ```js
 import { createApp } from 'vue'
-import { ElButton } from 'element-plus';
-import App from './App.vue';
+import { ElButton } from 'element-plus'
+import App from './App.vue'
 
 const app = createApp(App)
 app.config.globalProperties.$ELEMENT = option
-app.use(ElButton);
+app.use(ElButton)
 ```
 
 Avec les paramètres ci-dessus, tous les composants du projet ayant la propriété
@@ -165,7 +164,7 @@ import vue from '@vitejs/plugin-vue'
 import VitePluginElementPlus from 'vite-plugin-element-plus'
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => {
   plugins: [
     vue(),
     VitePluginElementPlus({
@@ -175,10 +174,10 @@ export default defineConfig({
       // https://github.com/element-plus/vite-plugin-element-plus.
       // pour les commentaires de la documentation
       // useSource: true
+      format: mode === 'development' ? 'esm' : 'cjs',
     }),
   ],
 })
-
 ```
 
 #### Chargement des styles à la demande avec webpack
