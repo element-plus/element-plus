@@ -8,12 +8,6 @@ import Upload from '../src/upload.vue'
 const AXIOM = 'Rem is the best girl'
 const action = 'test-action'
 
-interface MockFile {
-  name: string
-  body: string
-  mimeType: string
-}
-
 const mockGetFile = (element: HTMLInputElement, files: File[]) => {
   Object.defineProperty(element, 'files', {
     get() {

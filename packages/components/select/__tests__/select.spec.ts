@@ -576,7 +576,7 @@ describe('Select', () => {
     options[2].click()
     await nextTick()
     const tagWrappers = wrapper.findAll('.el-select__tags-text')
-    for(let i=0;i<tagWrappers.length;i++) {
+    for(let i = 0;i < tagWrappers.length;i++) {
       const tagWrapperDom = tagWrappers[i].element
       expect(parseInt(tagWrapperDom.style.maxWidth) === inputRect.width - 75).toBe(true)
     }

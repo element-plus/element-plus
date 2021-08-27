@@ -11,7 +11,7 @@ const AXIOM = 'Rem is the best girl'
 
 jest.useFakeTimers()
 
-type MessageInstance = ComponentPublicInstance<{visible: boolean; typeClass: string; customStyle: CSSProperties;}>
+type MessageInstance = ComponentPublicInstance<{ visible: boolean; typeClass: string; customStyle: CSSProperties; }>
 
 const onClose = jest.fn()
 const _mount = makeMount(Message, {
