@@ -41,68 +41,34 @@
 </template>
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue'
-
-import type { PropType } from 'vue'
-
-const TYPE_CLASSES_MAP = {
-  success: 'el-icon-success',
-  warning: 'el-icon-warning',
-  error: 'el-icon-error',
-}
+import { alertProps, alertEmits, ALERT_TYPE_CLASSES_MAP } from './alert'
 
 export default defineComponent({
   name: 'ElAlert',
-  props: {
-    title: {
-      type: String,
-      default: '',
-    },
-    description: {
-      type: String,
-      default: '',
-    },
-    type: {
-      type: String as PropType<'success' | 'info' | 'error' | 'warning'>,
-      default: 'info',
-    },
-    closable: {
-      type: Boolean,
-      default: true,
-    },
-    closeText: {
-      type: String,
-      default: '',
-    },
-    showIcon: Boolean,
-    center: Boolean,
-    effect: {
-      type: String,
-      default: 'light',
-      validator: (value: string): boolean =>
-        ['light', 'dark'].indexOf(value) > -1,
-    },
-  },
-  emits: ['close'],
-  setup(props, ctx) {
+
+  props: alertProps,
+  emits: alertEmits,
+
+  setup(props, { emit, slots }) {
     // state
     const visible = ref(true)
 
     // computed
     const typeClass = computed(() => `el-alert--${props.type}`)
     const iconClass = computed(
-      () => TYPE_CLASSES_MAP[props.type] || 'el-icon-info'
+      () => ALERT_TYPE_CLASSES_MAP[props.type] || ALERT_TYPE_CLASSES_MAP['info']
     )
     const isBigIcon = computed(() =>
-      props.description || ctx.slots.default ? 'is-big' : ''
+      props.description || slots.default ? 'is-big' : ''
     )
     const isBoldTitle = computed(() =>
-      props.description || ctx.slots.default ? 'is-bold' : ''
+      props.description || slots.default ? 'is-bold' : ''
     )
 
     // methods
-    const close = (evt) => {
+    const close = (evt: MouseEvent) => {
       visible.value = false
-      ctx.emit('close', evt)
+      emit('close', evt)
     }
 
     return {
