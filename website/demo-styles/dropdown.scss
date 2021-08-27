@@ -6,7 +6,7 @@
   }
   .#{$namespace}-dropdown-link {
     cursor: pointer;
-    color: #409eff;
+    color: var(--el-color-primary);
   }
   .#{$namespace}-icon-arrow-down {
     font-size: 12px;
@@ -19,7 +19,7 @@
   .#{$namespace}-col {
     padding: 30px 0;
     text-align: center;
-    border-right: 1px solid #eff2f6;
+    border-right: 1px solid var(--el-border-color-base);
 
     &:last-child {
       border-right: 0;
@@ -29,7 +29,7 @@
 
 .demo-dropdown .demonstration {
   display: block;
-  color: #8492a6;
+  color: var(--el-text-color-secondary);
   font-size: 14px;
   margin-bottom: 20px;
 }

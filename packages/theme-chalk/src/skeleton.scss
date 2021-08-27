@@ -1,7 +1,6 @@
 @import 'mixins/mixins';
 @import 'mixins/var';
 @import 'common/var';
-@import './skeleton-item.scss';
 
 @include b(skeleton) {
   @include set-component-css-var('skeleton', $--skeleton);

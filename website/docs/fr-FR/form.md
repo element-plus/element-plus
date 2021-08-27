@@ -633,7 +633,7 @@ Tout les composants d'un formulaire héritent leur attribut `size` de ce formula
 | error | Message d'erreur du champ. S'il est modifié, le champ l'affichera immédiatement. | string | — | — |
 | show-message  | Si le message d'erreur doit apparaître. | boolean | — | true |
 | inline-message  | Si le message d'erreur doit être en ligne avec le champ. | boolean | — | false |
-| size  | Contrôle la taille du FormItem. | string | medium / small / mini | - |
+| size  | Contrôle la taille du FormItem. | string | medium / small / mini | — |
 
 ### Rules
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
@@ -644,10 +644,6 @@ Tout les composants d'un formulaire héritent leur attribut `size` de ce formula
 | Nom | Description |
 |------|--------|
 | — | Contenu de Form Item. |
-
-### Slot avec portée de Form-Item
-|      Nom     | Description |
-|---------------|-------------|
 | label | Custom content to display on label. The scope parameter is { label } |
 |      error    | Contenu personnalisé pour les messages de validation. Le paramètre du scope est { error }. |
 
@@ -656,4 +652,4 @@ Tout les composants d'un formulaire héritent leur attribut `size` de ce formula
 | Méthode | Description | Paramètres |
 | ---- | ---- | ---- |
 | resetField | Efface le champ et les résultats de validation. | — |
-| clearValidate | Efface le status de validation du champ. | - |
+| clearValidate | Efface le status de validation du champ. | — |

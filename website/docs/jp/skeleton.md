@@ -316,5 +316,5 @@ export default defineComponent({
 
 | Name | Description |
 | ---- | ----------- |
-| default | Real rendering DOM |
+| default | Real rendering DOM |
 | template | Custom rendering skeleton template |

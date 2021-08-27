@@ -633,7 +633,7 @@ All components in a Form inherit their `size` attribute from that Form. Similarl
 | error | field error message, set its value and the field will validate error and show this message immediately | string | — | — |
 | show-message  | whether to show the error message | boolean | — | true |
 | inline-message  | inline style validate message | boolean | — | false |
-| size  | control the size of components in this form-item | string | medium / small / mini | - |
+| size  | control the size of components in this form-item | string | medium / small / mini | — |
 
 ### Rules
 | Attribute       | Description                | Type     | Accepted Values  | Default  |
@@ -644,10 +644,6 @@ All components in a Form inherit their `size` attribute from that Form. Similarl
 | Name | Description |
 |------|--------|
 | — | content of Form Item |
-
-### Form-Item Scoped Slot
-|      Name     | Description |
-|---------------|-------------|
 | label | Custom content to display on label. The scope parameter is { label } |
 |      error    | Custom content to display validation message. The scope parameter is { error } |
 
@@ -656,4 +652,4 @@ All components in a Form inherit their `size` attribute from that Form. Similarl
 | Method | Description | Parameters |
 | ---- | ---- | ---- |
 | resetField | reset current field and remove validation result | — |
-| clearValidate | remove validation status of the field | - |
+| clearValidate | remove validation status of the field | — |

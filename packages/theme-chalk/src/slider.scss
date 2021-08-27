@@ -3,9 +3,6 @@
 @import 'mixins/mixins';
 @import 'mixins/utils';
 @import 'mixins/var';
-@import 'input-number';
-@import 'tooltip';
-@import 'common/var';
 
 @include b(slider) {
   @include set-component-css-var('slider', $--slider);

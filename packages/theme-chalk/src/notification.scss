@@ -4,10 +4,6 @@
 
 @include b(notification) {
   @include set-component-css-var('notification', $--notification);
-
-  @each $type in (success, info, warning, error) {
-    --el-notification-#{$type}-icon-color: var(--el-color-#{$type});
-  }
 }
 
 @include b(notification) {
@@ -82,7 +78,8 @@
 
   @each $type in (success, info, warning, error) {
     .#{$namespace}-icon-#{$type} {
-      color: var(--el-notification-#{$type}-icon-color);
+      --el-notification-icon-color: var(--el-color-#{$type});
+      color: var(--el-notification-icon-color);
     }
   }
 }

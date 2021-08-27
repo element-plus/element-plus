@@ -634,7 +634,7 @@ The component has been upgraded with a flex layout to replace the old float layo
 | error | フィールドのエラーメッセージ、値を設定すると、フィールドはエラーを検証し、このメッセージをすぐに表示します。 | string | — | — |
 | show-message  | エラーメッセージを表示するかどうか | boolean | — | true |
 | inline-message  | インラインスタイルバリデートメッセージ | boolean | — | false |
-| size  | フォームアイテムのコンポーネントのサイズを制御します。 | string | medium / small / mini | - |
+| size  | フォームアイテムのコンポーネントのサイズを制御します。 | string | medium / small / mini | — |
 
 ### Rules
 | Attribute       | Description                | Type     | Accepted Values  | Default  |
@@ -645,10 +645,6 @@ The component has been upgraded with a flex layout to replace the old float layo
 | Name | Description |
 |------|--------|
 | — | フォームアイテムの内容 |
-
-### フォームアイテムのスコープスロット
-|      Name     | Description |
-|---------------|-------------|
 | label | Custom content to display on label. The scope parameter is { label } |
 |      error    | Custom content to display validation message. The scope parameter is { error } |
 
@@ -657,4 +653,4 @@ The component has been upgraded with a flex layout to replace the old float layo
 | Method | Description | Parameters |
 | ---- | ---- | ---- |
 | resetField | 現在のフィールドをリセットしてバリデーション結果を削除する | — |
-| clearValidate | フィールドのバリデーションステータスを削除する | - |
+| clearValidate | フィールドのバリデーションステータスを削除する | — |
