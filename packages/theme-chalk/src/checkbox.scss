@@ -20,10 +20,10 @@ $--checkbox-height: map.merge(
 $--checkbox-bordered-padding: () !default;
 $--checkbox-bordered-padding: map.merge(
   (
-    'default': 9px 20px 9px 10px,
-    'medium': 7px 20px 7px 10px,
-    'small': 5px 15px 5px 10px,
-    'mini': 3px 15px 3px 10px,
+    'default': 0 20px 0 10px,
+    'medium': 0 20px 0 10px,
+    'small': 0 15px 0 10px,
+    'mini': 0 15px 0 10px,
   ),
   $--checkbox-bordered-padding
 );
