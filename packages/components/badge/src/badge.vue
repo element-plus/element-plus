@@ -3,7 +3,7 @@
     <slot></slot>
     <transition name="el-zoom-in-center">
       <sup
-        v-show="!hidden && (content || content === 0 || isDot)"
+        v-show="!hidden && (content || content === '0' || isDot)"
         class="el-badge__content"
         :class="[
           'el-badge__content--' + type,
@@ -21,38 +21,23 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
+import { badgeProps } from './badge'
 
 export default defineComponent({
   name: 'ElBadge',
-  props: {
-    value: {
-      type: [String, Number],
-      default: '',
-    },
-    max: {
-      type: Number,
-      default: 99,
-    },
-    isDot: Boolean,
-    hidden: Boolean,
-    type: {
-      type: String,
-      default: 'danger',
-      validator: (val: string) => {
-        return ['primary', 'success', 'warning', 'info', 'danger'].includes(val)
-      },
-    },
-  },
+
+  props: badgeProps,
+
   setup(props) {
-    const content = computed(() => {
-      if (props.isDot) {
-        return
-      }
+    const content = computed<string>(() => {
+      if (props.isDot) return ''
+
       if (typeof props.value === 'number' && typeof props.max === 'number') {
-        return props.max < props.value ? `${props.max}+` : props.value
+        return props.max < props.value ? `${props.max}+` : `${props.value}`
       }
-      return props.value
+      return `${props.value}`
     })
+
     return {
       content,
     }
