@@ -158,6 +158,8 @@ function useStyle<T>(
     })
     if (props.fit) {
       addResizeListener(table.vnode.el as ResizableElement, resizeListener)
+    } else {
+      window.addEventListener('resize', doLayout)
     }
   }
   onUnmounted(() => {
@@ -167,6 +169,8 @@ function useStyle<T>(
     table.refs.bodyWrapper?.removeEventListener('scroll', syncPostion, true)
     if (props.fit) {
       removeResizeListener(table.vnode.el as ResizableElement, resizeListener)
+    } else {
+      window.removeEventListener('resize', doLayout)
     }
   }
   const resizeListener = () => {
