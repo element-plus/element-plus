@@ -12,7 +12,7 @@ import {
   isRef,
   h,
   withDirectives,
-  Fragment,
+  nextTick,
 } from 'vue'
 import mitt from 'mitt'
 import { Resize } from '@element-plus/directives'
@@ -78,7 +78,7 @@ export default defineComponent({
     const rootMenuEmitter = mitt()
     const router = instance.appContext.config.globalProperties.$router
     const menu = ref(null)
-    const filteredSlot = ref(null)
+    const filteredSlot = ref(slots.default?.())
 
     const hoverBackground = useMenuColor(props)
 
@@ -223,7 +223,9 @@ export default defineComponent({
       }
     }
 
-    const getFilteredSlot = () => {
+    const updateFilteredSlot = async () => {
+      filteredSlot.value = slots.default?.()
+      await nextTick()
       if (props.mode === 'horizontal') {
         const items = Array.from(menu.value.childNodes).filter((item: HTMLElement) => item.nodeName !== '#text' || item.nodeValue) as [HTMLElement]
         if (items.length === slots.default?.().length) {
@@ -240,26 +242,29 @@ export default defineComponent({
           const defaultSlot = slots.default?.().slice(0, itemIndex + 1)
           const overflowSlot = slots.default?.().slice(itemIndex + 1)
           if (overflowSlot?.length) {
-            return h(Fragment, [
+            filteredSlot.value = [
               ...defaultSlot,
               h(ElSubMenu, {
+                class: 'el-sub-menu__overflow',
                 index: 'overflow-sub-menu',
               }, {
                 title: () => h('i', { class: 'el-icon-more' }),
                 default: () => overflowSlot,
               }),
-            ])
+            ]
           }
         }
       }
-      return slots.default?.()
     }
 
     const handleResize = () => {
-      filteredSlot.value = getFilteredSlot()
+      updateFilteredSlot()
     }
 
     // watch
+    watch(() => slots.default?.(), () => {
+      updateFilteredSlot()
+    })
 
     watch(
       () => props.defaultActive,
@@ -353,7 +358,7 @@ export default defineComponent({
     }, this.filteredSlot), [[Resize, this.handleResize]])
 
     if (this.collapseTransition) {
-      return h(ElMenuCollapseTransition, menu)
+      return h(ElMenuCollapseTransition, () => menu)
     }
     return menu
   },

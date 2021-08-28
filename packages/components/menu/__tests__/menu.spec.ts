@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
-import { sleep } from '@element-plus/test-utils'
+import { defineGetter, sleep } from '@element-plus/test-utils'
 import { rAF } from '@element-plus/test-utils/tick'
 
 import Menu from '../src/menu.vue'
@@ -173,6 +173,10 @@ describe('menu', () => {
     vm.background = '#F00'
     await nextTick()
     expect(vm.$refs.menu.hoverBackground).toEqual('rgb(204, 0, 0)')
+  })
+
+  test('menu-overflow', async () => {
+    // TODO: jsdom not support `offsetWidth`.
   })
 })
 
