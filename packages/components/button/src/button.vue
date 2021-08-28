@@ -28,7 +28,7 @@ import { computed, inject, defineComponent } from 'vue'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import { ElButtonGruopKey } from './context'
+import { ElButtonGroupKey } from './context'
 
 import type { PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'
@@ -86,7 +86,7 @@ export default defineComponent({
 
     const elForm = inject(elFormKey, {} as ElFormContext)
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
-    const elBtnGroup = inject(ElButtonGruopKey, {})
+    const elBtnGroup = inject(ElButtonGroupKey, {})
 
     const buttonSize = computed(() => {
       return props.size || elBtnGroup.size || elFormItem.size || $ELEMENT.size

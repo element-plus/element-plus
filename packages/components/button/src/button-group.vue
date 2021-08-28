@@ -5,7 +5,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, provide } from 'vue'
-import { ElButtonGruopKey } from './context'
+import { ElButtonGroupKey } from './context'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 
 import type { PropType } from 'vue'
@@ -20,7 +20,7 @@ export default defineComponent({
     },
   },
   setup(props){
-    provide(ElButtonGruopKey, {
+    provide(ElButtonGroupKey, {
       size: props.size,
     })
   },
