@@ -130,6 +130,18 @@ export default defineComponent({
     })
 
     const preview = computed(() => {
+      document.body.addEventListener('wheel', e => {
+        if (e.ctrlKey) {
+          if (e.deltaY < 0) {
+            e.preventDefault()
+            return false
+          }
+          if (e.deltaY > 0) {
+            e.preventDefault()
+            return false
+          }
+        }
+      }, { passive: false })
       const { previewSrcList } = props
       return Array.isArray(previewSrcList) && previewSrcList.length > 0
     })
