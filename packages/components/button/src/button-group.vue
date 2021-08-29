@@ -4,7 +4,7 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, provide } from 'vue'
+import { defineComponent, provide, reactive, toRef } from 'vue'
 import { elButtonGroupKey } from '@element-plus/tokens'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 
@@ -20,9 +20,9 @@ export default defineComponent({
     },
   },
   setup(props){
-    provide(elButtonGroupKey, {
-      size: props.size,
-    })
+    provide(elButtonGroupKey, reactive({
+      size: toRef(props,'size'),
+    }))
   },
 })
 </script>
