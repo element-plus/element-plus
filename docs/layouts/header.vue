@@ -1,11 +1,11 @@
 <template>
   <div
     class="header-wrapper"
-    style="position: fixed; top: 0px; width: 100%; z-index: 2000;"
   >
     <header ref="header" class="header">
-      <div class="container">
+      <div class="header-container">
         <h1>
+          <toggle-sidebar-btn @toggle="$emit('toggle-sidebar')" />
           <a href="/" class="icon-link">
             <img
               src="../assets/images/element-plus-logo.svg"
@@ -19,16 +19,17 @@
             >
           </a>
         </h1>
+        <div style="flex-grow: 1;"></div>
+        <div class="nav-item nav-algolia-search">
+          <algolia-search />
+        </div>
         <ul class="nav">
-          <li v-show="isComponentPage" class="nav-item nav-algolia-search">
-            <algolia-search />
-          </li>
           <li class="nav-item">
             <nav-link
               :item="{
                 link: `/${rootPath}/guide`,
                 text: locale.guide,
-                activeMatch: 'guide'
+                activeMatch: 'guide',
               }"
             />
           </li>
@@ -37,7 +38,7 @@
               :item="{
                 link: `/${rootPath}/component`,
                 text: locale.components,
-                activeMatch: 'component'
+                activeMatch: 'component',
               }"
             />
           </li>
@@ -46,57 +47,56 @@
               :item="{
                 link: `/${rootPath}/resource`,
                 text: locale.resource,
-                activeMatch: 'resource'
+                activeMatch: 'resource',
               }"
             />
           </li>
 
           <!-- gap -->
-          <li v-show="isComponentPage" class="nav-item">
-            <div class="nav-gap"></div>
-          </li>
           <!-- 语言选择器 -->
-          <li class="nav-item lang-item">
-            <el-dropdown
-              trigger="click"
-              class="nav-dropdown nav-lang"
-              :class="{ 'is-active': state.langDropdownVisible }"
-              @visible-change="handleLangDropdownToggle"
-            >
-              <span>
-                {{ state.langs[lang] }}
-                <i class="el-icon-arrow-down el-icon--right"></i>
-              </span>
-              <template #dropdown>
-                <el-dropdown-menu
-                  class="nav-dropdown-list"
-                >
-                  <el-dropdown-item
-                    v-for="(value, key) in state.langs"
-                    :key="key"
-                    @click="switchLang(key)"
-                  >
-                    {{ value }}
-                  </el-dropdown-item>
-                </el-dropdown-menu>
-              </template>
-            </el-dropdown>
-          </li>
         </ul>
+        <div class="nav-gap"></div>
+        <div class="language-selector">
+          <el-dropdown
+            class="nav-dropdown nav-lang"
+            :class="{ 'is-active': state.langDropdownVisible }"
+            @visible-change="handleLangDropdownToggle"
+          >
+            <span>
+              {{ state.langs[lang] }}
+              <i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <template #dropdown>
+              <el-dropdown-menu class="nav-dropdown-list">
+                <el-dropdown-item
+                  v-for="(value, key) in state.langs"
+                  :key="key"
+                  :class="{ 'current-language': lang === value }"
+                  @click="switchLang(key)"
+                >
+                  {{ value }}
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </div>
       </div>
     </header>
   </div>
 </template>
 <script lang="ts" setup>
-import { reactive, computed, watch } from 'vue'
+import { reactive, computed } from 'vue'
 import { useRoute, useRouter } from 'vitepress'
 import { version } from 'element-plus'
 import AlgoliaSearch from '../components/search.vue'
+import ToggleSidebarBtn from '../components/toggle-sidebar-btn.vue'
 import { Language, defaultLang } from '../constants/language'
 import { useLang, useRootPath } from '../utils/routes'
 import localeData from '../assets/components/header.json'
 const router = useRouter()
 const route = useRoute()
+
+defineEmits(['toggle-sidebar', 'toggle-theme'])
 
 const state = reactive({
   active: '',
@@ -123,7 +123,10 @@ const switchLang = (targetLang: string) => {
   if (lang.value === defaultLang) {
     go = `/${targetLang}${route.path}`
   } else {
-    go = `/${route.path.split('/').slice(2).join('/')}`
+    go = `/${route.path
+      .split('/')
+      .slice(2)
+      .join('/')}`
   }
   router.go(go)
 }

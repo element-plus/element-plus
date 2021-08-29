@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useRoute, useData } from 'vitepress'
-import { getSideBarConfig } from 'vitepress/dist/client/theme-default/support/sideBar'
+// import { useRoute, useData } from 'vitepress'
 import zhCN from 'element-plus/es/locale/lang/zh-cn'
 import enUS from 'element-plus/es/locale/lang/en'
 import { useLang } from '../utils/routes'
+import { useToggle } from '../utils'
 import EpHeader from './header.vue'
 import EpFooter from './footer.vue'
 import EpSideNav from './side-nav.vue'
+import EpPage from './page.vue'
 import 'element-plus/theme-chalk/src/index.scss'
+import '../assets/styles/vars.scss'
+import '../assets/styles/layout.scss'
 import '../assets/styles/common.scss'
 
 const langMap = {
@@ -16,45 +18,38 @@ const langMap = {
   'en-US': enUS,
 }
 
-const route = useRoute()
-const { site } = useData()
+// const route = useRoute()
+// const { site } = useData()
 const lang = useLang()
 
+const [showSidebar, toggleSidebar] = useToggle()
+const [darkMode, toggleDarkmode] = useToggle()
+const [hasSidebar, toggleHasSidebar] = useToggle()
 
-const sidebars = computed(() => {
-  const themeSidebar = getSideBarConfig(site.value.themeConfig.sidebar, route.data.relativePath)
-  if (themeSidebar === false) return []
-  if (themeSidebar === 'auto') return []
-  return themeSidebar
-})
-
-const shouldShowSideNav = computed(() => sidebars.value.length > 0)
-
-const showBackToTop = computed(() => false)
 </script>
 
 <template>
   <el-config-provider :locale="langMap[lang]">
-    <ep-header />
-    <div class="main-cnt">
-      <div class="page-container page-component">
-        <el-scrollbar v-if="shouldShowSideNav" class="page-component__nav">
-          <ep-side-nav :data="sidebars" :base="`/${ lang }/component`" />
-        </el-scrollbar>
-        <div class="page-component__content">
-          <div class="content-wrap">
-            <router-view class="content" />
-          </div>
-          <footer-nav />
-        </div>
-        <el-backtop
-          v-if="showBackToTop"
-          target=".page-component__scroll .el-scrollbar__wrap"
-          :right="100"
-          :bottom="50"
-        />
-      </div>
+    <div
+      :class="{
+        'theme-wrapper': true,
+        'theme-dark': darkMode,
+        'has-sidebar': hasSidebar,
+        'sidebar-open': showSidebar,
+      }"
+    >
+      <ep-header
+        @toggle-sidebar="toggleSidebar"
+        @toggle-theme="toggleDarkmode"
+      />
+      <ep-side-nav :open="showSidebar" @sidebar-change="toggleHasSidebar">
+        <template #sidebar-top></template>
+        <template #sidebar-bottom></template>
+      </ep-side-nav>
+      <div class="sidebar-overlay" @click="toggleSidebar(false)"></div>
+      <ep-page />
+      <ep-footer />
     </div>
-    <ep-footer />
+    <Debug />
   </el-config-provider>
 </template>

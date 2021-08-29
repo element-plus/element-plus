@@ -1,13 +1,11 @@
-@import './components/header.scss';
-@import './components/footer.scss';
+
 
 html,
 body {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
-    'Microsoft YaHei', SimSun, sans-serif;
+  font-family: var(--font-family);
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
@@ -15,11 +13,6 @@ body {
   &.is-component {
     overflow: hidden;
   }
-}
-
-body {
-  padding-top: 80px;
-  height: calc(100% - 80px);
 }
 
 #app {
@@ -50,7 +43,7 @@ body {
 }
 
 a {
-  color: var(--el-color-primary);
+  color: var(--anchor-color);
   text-decoration: none;
 }
 
@@ -87,12 +80,6 @@ textarea {
   padding-bottom: 340px;
   box-sizing: border-box;
   min-height: 100%;
-}
-
-.container,
-.page-container {
-  //width: 1140px;
-  padding: 0 40px;
 }
 
 .page-container {

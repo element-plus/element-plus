@@ -1,0 +1,27 @@
+:root {
+  --text-color: var(--el-text-color-primary);
+  --font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', SimSun, sans-serif;
+  --brand-color: var(--el-color-primary);
+  --brand-color-light: var(--el-color-primary-light-1);
+  --bg-color: var(--el-color-white);
+  --border-color: var(--el-border-color-base);
+
+  //
+  --success-color: var(--el-color-success);
+  --warning-color: var(--el-color-warning);
+  --danger-color: var(--el-color-danger);
+
+  //
+  --header-height: 80px;
+  --header-item-height: 34px;
+  --header-z-index: 10;
+
+  --sidebar-z-index: 6;
+
+}
+  // breakpoints
+
+$breakpoint-lg: 1024px !default;
+$breakpoint-md: 768px !default;
+$breakpoint-sm: 480px !default;

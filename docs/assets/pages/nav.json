@@ -1,0 +1,12 @@
+{
+  "zh-CN": {
+    "guide": "指南",
+    "component": "组件",
+    "resource": "资源"
+  },
+  "en-US": {
+    "guide": "Guide",
+    "component": "Component",
+    "resource": "Resource"
+  }
+}

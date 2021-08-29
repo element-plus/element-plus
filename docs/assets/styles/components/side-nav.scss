@@ -1,11 +1,27 @@
-.side-nav {
-  width: 100%;
-  box-sizing: border-box;
-  padding-right: 30px;
-  transition: opacity 0.3s;
-  &.is-fade {
-    transition: opacity 3s;
+.sidebar {
+  position: fixed;
+  top: var(--header-height);
+  bottom: 0;
+  left: 0;
+  z-index: var(--sidebar-z-index);
+  border-right: 1px solid var(--border-color);
+  width: 16.4rem;
+  background-color: var(--bg-color);
+  overflow-y: auto;
+  transform: translate(-100%);
+  transition: transform .25s ease;
+
+  &.open {
+    transform: translate(0);
   }
+
+
+  .nav-links {
+    padding: .75rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+
 
   li {
     list-style: none;

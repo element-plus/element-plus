@@ -56,6 +56,11 @@
         </a>
       </div>
     </div>
+    <!-- TODO: uncomment this -->
+    <!-- <div class="made-with-love">
+      Supercharged by vitepress
+      Made with ❤️ by ElementPlus Team
+    </div> -->
   </footer>
 </template>
 <script setup lang="ts">
