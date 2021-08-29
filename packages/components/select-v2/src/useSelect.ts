@@ -33,9 +33,10 @@ import { flattenOptions } from './util'
 import type { ExtractPropTypes, CSSProperties } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 import type { OptionType, Option } from './select.types'
+import { useInput } from './useInput'
 
 const DEFAULT_INPUT_PLACEHOLDER = ''
-const MINIMUM_INPUT_WIDTH = 4
+const MINIMUM_INPUT_WIDTH = 11
 
 const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
@@ -64,6 +65,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     inputWidth: 240,
     initialInputHeight: 0,
     previousQuery: null,
+    previousValue: '',
     query: '',
     selectedLabel: '',
     softFocus: false,
@@ -116,8 +118,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     if (props.loading) {
       return props.loadingText || t('el.select.loading')
     } else {
-      if (props.remote && states.query === '' && options.length === 0) return false
-      if (props.filterable && states.query && options.length > 0) {
+      if (props.remote && states.inputValue === '' && options.length === 0) return false
+      if (props.filterable && states.inputValue && options.length > 0) {
         return props.noMatchText || t('el.select.noMatch')
       }
       if (options.length === 0) {
@@ -135,7 +137,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       const containsQueryString = query ? o.label.includes(query) : true
       return containsQueryString
     }
-
+    if (props.loading) {
+      return []
+    }
     return flattenOptions((props.options as OptionType[]).concat(states.createdOptions).map(v => {
       if (isArray(v.options)) {
         const filtered = v.options.filter(isValidOption)
@@ -146,7 +150,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
           }
         }
       } else {
-        if (isValidOption(v as Option)) {
+        if (props.remote || isValidOption(v as Option)) {
           return v
         }
       }
@@ -161,13 +165,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const calculatePopperSize = () => {
     popperSize.value = selectRef.value?.getBoundingClientRect?.()?.width || 200
   }
-  // const readonly = computed(() => !props.filterable || props.multiple || (!isIE() && !isEdge() && !expanded.value))
 
   const inputWrapperStyle = computed(() => {
 
     return {
       width: `${
-        // 7 represents the margin-left value
         states.calculatedWidth === 0
           ? MINIMUM_INPUT_WIDTH
           : Math.ceil(states.calculatedWidth) + MINIMUM_INPUT_WIDTH
@@ -209,8 +211,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     return -1
   })
 
+  const dropdownMenuVisible = computed(() => expanded.value && emptyText.value !== false)
+
   // hooks
   const { createNewOption, removeNewOption, selectNewOption, clearAllNewOption } = useAllowCreate(props, states)
+  const { handleCompositionStart, handleCompositionUpdate, handleCompositionEnd } = useInput(e => onInput(e))
 
   // methods
   const focusAndUpdatePopup = () => {
@@ -221,78 +226,35 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const toggleMenu = () => {
     if (props.automaticDropdown) return
     if (!selectDisabled.value) {
-      // if (states.menuVisibleOnFocus) {
-      //   states.menuVisibleOnFocus = false
-      // } else {
-      // if (expanded.value) {
-      //   expanded.value = false
-      // }
       if (states.isComposing) states.softFocus = true
       expanded.value = !expanded.value
       inputRef.value?.focus?.()
-      // }
     }
   }
-
-  const handleQueryChange = (val: string) => {
-    if (states.previousQuery === val || states.isOnComposition) return
-    if (
-      states.previousQuery === null &&
-      (isFunction(props.filterMethod) || isFunction(props.remoteMethod))
-    ) {
-      states.previousQuery = val
-      return
-    }
-    states.previousQuery = val
-    nextTick(() => {
-      if (expanded.value) popper.value?.update?.()
-    })
-    states.hoveringIndex = -1
-    if (props.multiple && props.filterable) {
-      nextTick(() => {
-        const length = inputRef.value.value.length * 15 + 20
-        states.inputLength = props.collapseTags ? Math.min(50, length) : length
-        resetInputHeight()
-      })
-    }
-    if (props.remote && isFunction(props.remoteMethod)) {
-      states.hoveringIndex = -1
-      props.remoteMethod(val)
-    } else if (isFunction(props.filterMethod)) {
-      props.filterMethod(val)
-      // states.selectEmitter.emit('elOptionGroupQueryChange')
-    } else {
-      // states.selectEmitter.emit('elOptionQueryChange', val)
-      // states.selectEmitter.emit('elOptionGroupQueryChange')
-    }
-    if (props.defaultFirstOption && (props.filterable || props.remote)) {
-      // checkDefaultFirstOption()
-    }
-  }
-
-  // const handleComposition = event => {
-  //   const text = event.target.value
-  //   if (event.type === 'compositionend') {
-  //     states.isOnComposition = false
-  //     nextTick(() => handleQueryChange(text))
-  //   } else {
-  //     const lastCharacter = text[text.length - 1] || ''
-  //     states.isOnComposition = !isKorean(lastCharacter)
-  //   }
-  // }
 
   const onInputChange = () => {
     if (props.filterable && states.inputValue !== states.selectedLabel) {
       states.query = states.selectedLabel
-      handleQueryChange(states.query)
     }
+    handleQueryChange(states.inputValue)
+    return nextTick(() => {
+      createNewOption(states.inputValue)
+    })
   }
 
   const debouncedOnInputChange = lodashDebounce(onInputChange, debounce.value)
 
-  const debouncedQueryChange = lodashDebounce(e => {
-    handleQueryChange(e.target.value)
-  }, debounce.value)
+  const handleQueryChange = (val: string) => {
+    if (states.previousQuery === val) {
+      return
+    }
+    states.previousQuery = val
+    if (props.filterable && isFunction(props.filterMethod)) {
+      props.filterMethod(val)
+    } else if (props.filterable && props.remote && isFunction(props.remoteMethod)) {
+      props.remoteMethod(val)
+    }
+  }
 
   const emitChange = (val: any | any[]) => {
     if (!isEqual(props.modelValue, val)) {
@@ -303,9 +265,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const update = (val: any) => {
     emit(UPDATE_MODEL_EVENT, val)
     emitChange(val)
+    states.previousValue = val.toString()
   }
 
-  // TODO 提取
   const getValueIndex = (arr = [], value: unknown) => {
     if (!isObject(value)) return arr.indexOf(value)
 
@@ -423,12 +385,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       removeNewOption(tag)
     }
     event.stopPropagation()
-  }
-
-  const handleInputBoxClick = () => {
-    if (states.displayInputValue.length === 0 && expanded.value) {
-      expanded.value = false
-    }
   }
 
   const handleFocus = (event: FocusEvent) => {
@@ -565,7 +521,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   }
 
-  const onInput = () => {
+  const onInput = event => {
+    const value = event.target.value
+    onUpdateInputValue(value)
     if (states.displayInputValue.length > 0 && !expanded.value) {
       expanded.value = true
     }
@@ -574,13 +532,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     if (props.multiple) {
       resetInputHeight()
     }
-    debouncedOnInputChange()
-    createNewOption(states.displayInputValue)
-  }
-
-  const onCompositionUpdate = (e: CompositionEvent) => {
-    onUpdateInputValue(states.displayInputValue += e.data)
-    onInput()
+    if (props.remote) {
+      debouncedOnInputChange()
+    } else {
+      return onInputChange()
+    }
   }
 
   const handleClickOutside = () => {
@@ -590,7 +546,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const handleMenuEnter = () => {
     states.inputValue = states.displayInputValue
-    nextTick(() => {
+    return nextTick(() => {
       if (~indexRef.value) {
         scrollToItem(indexRef.value)
       }
@@ -642,8 +598,20 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   })
 
-  watch([() => props.modelValue, () => props.options], () => {
-    initStates()
+  watch(() => props.modelValue, val => {
+    if (!val || val.toString() !== states.previousValue) {
+      initStates()
+    }
+  }, {
+    deep: true,
+  })
+
+  watch(() => props.options, () => {
+    const input = inputRef.value
+    // filter or remote-search scenarios are not initialized
+    if (!input || (input && document.activeElement !== input)) {
+      initStates()
+    }
   }, {
     deep: true,
   })
@@ -674,6 +642,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     iconClass,
     inputWrapperStyle,
     popperSize,
+    dropdownMenuVisible,
     // readonly,
     shouldShowPlaceholder,
     selectDisabled,
@@ -694,7 +663,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
     // methods exports
     debouncedOnInputChange,
-    debouncedQueryChange,
     deleteTag,
     getLabel,
     getValueKey,
@@ -704,16 +672,17 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     handleDel,
     handleEsc,
     handleFocus,
-    handleInputBoxClick,
     handleMenuEnter,
     toggleMenu,
     scrollTo: scrollToItem,
-    onCompositionUpdate,
     onInput,
     onKeyboardNavigate,
     onKeyboardSelect,
     onSelect,
     onUpdateInputValue,
+    handleCompositionStart,
+    handleCompositionEnd,
+    handleCompositionUpdate,
   }
 }
 
