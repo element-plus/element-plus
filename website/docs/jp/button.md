@@ -168,7 +168,7 @@ Button コンポーネントにはデフォルトサイズの他に、3 つの�
 
 :::
 
-### 属性
+### Button 属性
 
 | Attribute   | Description                                    | Type    | Accepted values                                    | Default |
 | ----------- | ---------------------------------------------- | ------- | -------------------------------------------------- | ------- |
@@ -182,3 +182,15 @@ Button コンポーネントにはデフォルトサイズの他に、3 つの�
 | icon        | アイコンクラス名                               | string  | —                                                  | —       |
 | autofocus   | ネイティブ button の `オートフォーカス` と同じ | boolean | —                                                  | false   |
 | native-type | ネイティブ button の `タイプ` と同じ           | string  | button / submit / reset                            | button  |
+
+### Button-Group 属性
+
+| Attribute | Description                                      | Type   | Accepted Values       | Default |
+| --------- | ------------------------------------------------ | ------ | --------------------- | ------- |
+| size      | control the size of buttons in this button-group | string | medium / small / mini | —       |
+
+### Button-Group スロット
+
+| Name    | Description                    |
+| ------- | ------------------------------ |
+| default | customize button group content |

@@ -1,3 +1,4 @@
+import { ref, h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import Button from '../src/button.vue'
 import ButtonGroup from '../src/button-group.vue'
@@ -108,20 +109,40 @@ describe('Button.vue', () => {
 
 })
 describe('Button Group', () => {
-  const TestComponent = {
-    template: `<el-button-group>
-      <el-button type="primary">Prev</el-button>
-      <el-button type="primary">Next</el-button>
-    </el-button-group>`,
-    components: {
-      'el-button-group': ButtonGroup,
-      'el-button': Button,
-    },
-  }
-
   it('create', () => {
-    const wrapper = mount(TestComponent)
+    const wrapper = mount({
+      template: `<el-button-group>
+        <el-button type="primary">Prev</el-button>
+        <el-button type="primary">Next</el-button>
+      </el-button-group>`,
+      components: {
+        'el-button-group': ButtonGroup,
+        'el-button': Button,
+      },
+    })
     expect(wrapper.classes()).toContain('el-button-group')
     expect(wrapper.findAll('button').length).toBe(2)
+  })
+
+  it('button group reactive size', async () => {
+    const size = ref('small')
+    const wrapper = mount({
+      setup(){
+        return () => h(ButtonGroup, { size: size.value }, () => [
+          h(Button, { type: 'primary' }, () => 'Prev'),
+          h(Button, { type: 'primary' }, () => 'Next'),
+          h(Button, { type: 'primary', size :'mini' }, () => 'Mini'),
+        ])
+      },
+    })
+    expect(wrapper.classes()).toContain('el-button-group')
+    expect(wrapper.findAll('.el-button-group button.el-button--small').length).toBe(2)
+    expect(wrapper.findAll('.el-button-group button.el-button--mini').length).toBe(1)
+
+    size.value = 'medium'
+    await nextTick()
+
+    expect(wrapper.findAll('.el-button-group button.el-button--medium').length).toBe(2)
+    expect(wrapper.findAll('.el-button-group button.el-button--mini').length).toBe(1)
   })
 })
