@@ -255,11 +255,26 @@ export default defineComponent({
       prevOverflow = document.body.style.overflow
       document.body.style.overflow = 'hidden'
       showViewer.value = true
+      const IMAGE_VIEWER = document.getElementsByClassName('el-image-viewer__wrapper')
+      IMAGE_VIEWER[0].addEventListener('wheel', (e: WheelEvent) => {
+        if (e.ctrlKey) {
+          if (e.deltaY < 0) {
+            e.preventDefault()
+            return false
+          }
+          if (e.deltaY > 0) {
+            e.preventDefault()
+            return false
+          }
+        }
+      }, { passive: false })
     }
 
     function closeViewer() {
       document.body.style.overflow = prevOverflow
       showViewer.value = false
+      const IMAGE_VIEWER = document.getElementsByClassName('el-image-viewer__wrapper')
+      IMAGE_VIEWER[0].removeEventListener('wheel', (e: WheelEvent) => {})
     }
 
     watch(() => props.src, () => {
