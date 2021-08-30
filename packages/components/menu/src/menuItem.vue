@@ -73,7 +73,7 @@ export default defineComponent({
     const rootMenu = inject<RootMenuProvider>('rootMenu')
     const { parentMenu, paddingStyle, indexPath } = useMenu(
       instance,
-      props.index,
+      computed(() => props.index),
     )
     const { addSubMenu, removeSubMenu } = inject<SubMenuProvider>(
       `subMenu:${parentMenu.value.uid}`,

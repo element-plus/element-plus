@@ -61,7 +61,7 @@ export default defineComponent({
     const instance = getCurrentInstance()
     const { paddingStyle, indexPath, parentMenu } = useMenu(
       instance,
-      props.index,
+      computed(() => props.index),
     )
 
     // inject
