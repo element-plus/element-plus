@@ -6,7 +6,7 @@ export const useLang = () => {
   const route = useRoute()
   return computed(() => {
     // the first part of the first slash
-    const langSign = route.data.relativePath.split('/').shift()
+    const langSign = route.path.slice(1).split('/').shift()
     return langSign || defaultLang
   })
 }
