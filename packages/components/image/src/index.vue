@@ -100,7 +100,7 @@ export default defineComponent({
       default: 2000,
     },
   },
-  emits: ['error', 'switch'],
+  emits: ['error', 'switch', 'close'],
   setup(props, { emit }) {
     const { t } = useLocaleInject()
     // init here
@@ -261,6 +261,7 @@ export default defineComponent({
     function closeViewer() {
       document.body.style.overflow = prevOverflow
       showViewer.value = false
+      emit('close')
     }
 
     function switchViewer(val) {
