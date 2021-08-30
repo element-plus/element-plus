@@ -357,7 +357,7 @@ export default defineComponent({
         'el-menu--horizontal': this.mode === 'horizontal',
         'el-menu--collapse': this.collapse,
       },
-    }, this.filteredSlot), [[Resize, this.handleResize]])
+    }, [this.filteredSlot]), [[Resize, this.handleResize]])
 
     if (this.collapseTransition) {
       return h(ElMenuCollapseTransition, () => menu)
