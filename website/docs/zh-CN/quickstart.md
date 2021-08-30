@@ -33,15 +33,15 @@ app.mount('#app')
   </el-button>
 </template>
 <script>
-import { defineComponent } from 'vue'
-import { ElButton } from 'element-plus'
+  import { defineComponent } from 'vue'
+  import { ElButton } from 'element-plus'
 
-export default defineComponent({
-  name: 'app'
-  components: {
-    ElButton,
-  },
-})
+  export default defineComponent({
+    name: 'app'
+    components: {
+      ElButton,
+    },
+  })
 </script>
 ```
 
@@ -61,7 +61,7 @@ import 'element-plus/dist/index.css'
 ```html
 <!-- index.html -->
 <head>
-  <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css">
+  <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
 </head>
 ```
 
@@ -90,23 +90,23 @@ Laravel 用户，我们也准备了相应的[模板](https://github.com/element-
 
 ```js
 import { createApp } from 'vue'
-import ElementPlus from 'element-plus';
-import App from './App.vue';
+import ElementPlus from 'element-plus'
+import App from './App.vue'
 
 const app = createApp(App)
-app.use(ElementPlus, { size: 'small', zIndex: 3000 });
+app.use(ElementPlus, { size: 'small', zIndex: 3000 })
 ```
 
 按需引入 ElementPlus：
 
 ```js
 import { createApp } from 'vue'
-import { ElButton } from 'element-plus';
-import App from './App.vue';
+import { ElButton } from 'element-plus'
+import App from './App.vue'
 
 const app = createApp(App)
 app.config.globalProperties.$ELEMENT = option
-app.use(ElButton);
+app.use(ElButton)
 ```
 
 按照以上设置，项目中所有拥有 `size` 属性的组件的默认尺寸均为 'small'，弹框的初始 z-index 为 3000。
@@ -145,7 +145,7 @@ import vue from '@vitejs/plugin-vue'
 import VitePluginElementPlus from 'vite-plugin-element-plus'
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => {
   plugins: [
     vue(),
     VitePluginElementPlus({
@@ -153,10 +153,10 @@ export default defineConfig({
       // 对于所有的 API 你可以参考 https://github.com/element-plus/vite-plugin-element-plus
       // 的文档注释
       // useSource: true
+      format: mode === 'development' ? 'esm' : 'cjs',
     }),
   ],
 })
-
 ```
 
 #### 使用 webpack 按需加载样式
@@ -177,16 +177,16 @@ npm install babel-plugin-import -D
 module.exports = {
   plugins: [
     [
-      "import",
+      'import',
       {
         libraryName: 'element-plus',
         // 引入组件
-        customName: (name) => {
+        customName: name => {
           name = name.slice(3)
           return `element-plus/lib/components/${name}`
         },
         // 引入样式
-        customStyleName: (name) => {
+        customStyleName: name => {
           name = name.slice(3)
           // 如果你需要引入 [name].scss 文件，你需要用下面这行
           // return `element-plus/lib/components/${name}/style`
@@ -195,6 +195,6 @@ module.exports = {
         },
       },
     ],
-  ]
+  ],
 }
 ```

@@ -93,6 +93,7 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    scrollToError: Boolean,
   },
   emits: ['validate'],
   setup(props, { emit }) {
@@ -177,16 +178,21 @@ export default defineComponent({
       let valid = true
       let count = 0
       let invalidFields = {}
+      let firstInvalidFields
       for (const field of fields) {
         field.validate('', (message, field) => {
           if (message) {
             valid = false
+            firstInvalidFields || (firstInvalidFields = field)
           }
           invalidFields = { ...invalidFields, ...field }
           if (++count === fields.length) {
             callback(valid, invalidFields)
           }
         })
+      }
+      if (!valid && props.scrollToError) {
+        scrollToField(Object.keys(firstInvalidFields)[0])
       }
       return promise
     }
@@ -201,6 +207,14 @@ export default defineComponent({
 
       fds.forEach(field => {
         field.validate('', cb)
+      })
+    }
+
+    const scrollToField = (prop: string) => {
+      fields.forEach(item => {
+        if (item.prop === prop) {
+          item.$el.scrollIntoView()
+        }
       })
     }
 
@@ -221,6 +235,7 @@ export default defineComponent({
       resetFields,
       clearValidate,
       validateField,
+      scrollToField,
     }
   },
 })

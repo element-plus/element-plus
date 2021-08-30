@@ -190,6 +190,12 @@ En plus de la taille par défaut, le composant Button fournit trois tailles supp
 | ------ | -------- |
 | default | customize default content |
 
+### Button-Group Attributes
+
+| Attribute | Description                                      | Type   | Accepted Values       | Default |
+| --------- | ------------------------------------------------ | ------ | --------------------- | ------- |
+| size      | control the size of buttons in this button-group | string | medium / small / mini | —       |
+
 ### Button-Group Slots
 
 | Name    | Description                    | Subtags |

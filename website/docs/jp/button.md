@@ -168,7 +168,7 @@ Button コンポーネントにはデフォルトサイズの他に、3 つの�
 
 :::
 
-### 属性
+### Button 属性
 
 | Attribute   | Description                                    | Type    | Accepted values                                    | Default |
 | ----------- | ---------------------------------------------- | ------- | -------------------------------------------------- | ------- |
@@ -188,7 +188,13 @@ Button コンポーネントにはデフォルトサイズの他に、3 つの�
 | ------ | -------- |
 | default | customize default content |
 
-### Button-Group Slots
+### Button-Group 属性
+
+| Attribute | Description                                      | Type   | Accepted Values       | Default |
+| --------- | ------------------------------------------------ | ------ | --------------------- | ------- |
+| size      | control the size of buttons in this button-group | string | medium / small / mini | —       |
+
+### Button-Group スロット
 
 | Name    | Description                    | Subtags |
 | ------- | ------------------------------ | ------- |

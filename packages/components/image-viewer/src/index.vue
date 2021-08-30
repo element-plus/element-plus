@@ -94,7 +94,7 @@ export default defineComponent({
   props: {
     urlList: {
       type: Array as PropType<string[]>,
-      default: [],
+      default: () => [],
     },
     zIndex: {
       type: Number,

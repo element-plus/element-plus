@@ -1,5 +1,6 @@
 <template>
   <div
+    ref="formItemRef"
     class="el-form-item"
     :class="formItemClass"
   >
@@ -116,6 +117,8 @@ export default defineComponent({
 
     const computedLabelWidth = ref('')
 
+    const formItemRef = ref<HTMLDivElement>()
+
     const vm = getCurrentInstance()
     const isNested = computed(() => {
       let parent = vm.parent
@@ -200,7 +203,7 @@ export default defineComponent({
       return required
     })
     const elFormItemSize = computed(() => props.size || elForm.size)
-    const sizeClass = computed(() => {
+    const sizeClass = computed<ComponentSize>(() => {
       return elFormItemSize.value || $ELEMENT.size
     })
 
@@ -327,12 +330,13 @@ export default defineComponent({
       ...toRefs(props),
       size: sizeClass,
       validateState,
+      $el: formItemRef,
+      formItemMitt,
       removeValidateEvents,
       addValidateEvents,
       resetField,
       clearValidate,
       validate,
-      formItemMitt,
       updateComputedLabelWidth,
     })
 
@@ -370,6 +374,7 @@ export default defineComponent({
     })
 
     return {
+      formItemRef,
       formItemClass,
       shouldShowError,
       elForm,

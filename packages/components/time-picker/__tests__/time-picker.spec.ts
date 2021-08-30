@@ -445,14 +445,14 @@ describe('TimePicker(range)', () => {
     const list = document.querySelectorAll('.el-time-spinner__list')
     const leftHoursEl = list[0]
     const leftEndbledHours = getSpinnerTextAsArray(leftHoursEl, ':not(.disabled)')
-    expect(leftEndbledHours).toEqual([ 8, 9, 10, 11, 12 ])
+    expect(leftEndbledHours).toEqual([8, 9, 10, 11, 12])
     const rightHoursEl = list[3]
     const rightEndbledHours = getSpinnerTextAsArray(rightHoursEl, ':not(.disabled)')
-    expect(rightEndbledHours).toEqual([ 11, 12, 13, 14, 15, 16 ]);
+    expect(rightEndbledHours).toEqual([11, 12, 13, 14, 15, 16]);
     (leftHoursEl.querySelectorAll('.el-time-spinner__item')[12] as any).click()
     await nextTick()
     const NextRightEndbledHours = getSpinnerTextAsArray(rightHoursEl, ':not(.disabled)')
-    expect(NextRightEndbledHours).toEqual([ 12, 13, 14, 15, 16 ])
+    expect(NextRightEndbledHours).toEqual([12, 13, 14, 15, 16])
   })
 
   it('arrow key', async () => {

@@ -226,7 +226,7 @@ $--input-inline-start: 15px !default;
     right: 5px;
     height: 40px;
     top: 50%;
-    margin-top: -20px;
+    transform: translateY(-50%);
   }
 
   @include e(caret) {

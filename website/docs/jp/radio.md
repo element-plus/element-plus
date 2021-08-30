@@ -9,15 +9,32 @@
 :::demo radioコンポーネントの作成は簡単で、Radioの `v-model` に変数をバインドするだけです。これは選択したラジオの `label` の値に等しくなります。ラベルの型は `String`, `Number`, `Boolean` のいずれかです。
 ```html
 <template>
-  <el-radio v-model="radio" label="1">Option A</el-radio>
-  <el-radio v-model="radio" label="2">Option B</el-radio>
+  <div>
+    <el-radio v-model="radio1" label="1">Option 1</el-radio>
+    <el-radio v-model="radio1" label="2">Option 2</el-radio>
+  </div>
+  <div>
+    <el-radio v-model="radio2" label="1" size="medium">Option 1</el-radio>
+    <el-radio v-model="radio2" label="2" size="medium">Option 2</el-radio>
+  </div>
+  <div>
+    <el-radio v-model="radio3" label="1" size="small">Option 1</el-radio>
+    <el-radio v-model="radio3" label="2" size="small">Option 2</el-radio>
+  </div>
+  <div>
+    <el-radio v-model="radio4" label="1" size="mini">Option 1</el-radio>
+    <el-radio v-model="radio4" label="2" size="mini">Option 2</el-radio>
+  </div>
 </template>
 
 <script>
   export default {
     data () {
       return {
-        radio: '1'
+        radio1: '1',
+        radio2: '1',
+        radio3: '1',
+        radio4: '1',
       };
     }
   }
@@ -29,7 +46,10 @@
   export default defineComponent({
     setup() {
       return {
-        radio: ref('1'),
+        radio1: ref('1'),
+        radio2: ref('1'),
+        radio3: ref('1'),
+        radio4: ref('1'),
       }
     }
   })
@@ -250,7 +270,7 @@ model-value / v-model | バインド値 | string / number / boolean | — | —
 label | ラジオの値 | string / number / boolean | — | —
 disabled | ラジオが無効になっているかどうか | boolean | — | false
 border  | ラジオの周りにボーダーを追加するかどうか  | boolean   | — | false
-size  | ラジオのサイズ、`border` が真の場合のみ動作します。  | string  | medium / small / mini | —
+size  | ラジオのサイズ  | string  | medium / small / mini | —
 name | ネイティブ 'name' 属性 | string    |      —         |     —
 
 ### ラジオイベント
@@ -269,7 +289,7 @@ name | ネイティブ 'name' 属性 | string    |      —         |     —
  Attribute      | Description          | Type      | Accepted Values       | Default
 ---- | ---- | ---- | ---- | ----
 model-value / v-model | バインディング値 | string / number / boolean | — | —
-size | ラジオボタンのボーダーもしくはラジオボタンの大きさ | string | medium / small / mini | —
+size | ラジオボタンの大きさ | string | medium / small / mini | —
 disabled  | ネストしたラジオが無効になっているかどうか | boolean   | — | false
 text-color | ボタンがアクティブなときのフォント色 | string   | — | #ffffff   |
 fill  | ボタンがアクティブなときの境界線と背景色 | string   | — | #409EFF   |

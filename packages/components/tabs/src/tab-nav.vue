@@ -48,7 +48,7 @@ export default defineComponent({
     editable: Boolean,
     onTabClick: {
       type: Function as PropType<
-        (tab: Pane, tabName: string, ev: Event) => void
+      (tab: Pane, tabName: string, ev: Event) => void
       >,
       default: NOOP,
     },

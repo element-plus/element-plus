@@ -130,7 +130,7 @@ export default class TreeStore {
     }
   }
 
-  append(data: TreeNodeData, parentData: TreeNodeData| TreeKey | Node ): void {
+  append(data: TreeNodeData, parentData: TreeNodeData | TreeKey | Node ): void {
     const parentNode = parentData ? this.getNode(parentData) : this.root
 
     if (parentNode) {

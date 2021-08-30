@@ -364,9 +364,80 @@ Crear y seleccionar nuevos items que no están incluidas en las opciones de sele
 ```
 :::
 
-### Remote search
+### Búsqueda remota
 
-WIP 👷‍♀️
+Introduzca palabras y datos para buscar desde el servidor.
+
+:::demo Configure el valor de `filterable` y `remote` con `true` para habilitar la búsqueda remota, y debería pasar el método `remote-method`. `remote-method` es una función que se llama cuando el valor del input cambia, y su parámetro es el valor del input actual.
+```html
+<template>
+  <el-select-v2
+    v-model="value"
+    style="width:200px"
+    multiple
+    size="medium"
+    filterable
+    remote
+    :remote-method="remoteMethod"
+    clearable
+    :options="options"
+    :loading="loading"
+    placeholder="Please enter a keyword"
+  />
+</template>
+
+<script>
+  export default {
+    created() {
+      this.list = this.states.map(item => {
+        return { value: `value:${item}`, label: `label:${item}` }
+      })
+    },
+    methods: {
+      remoteMethod(query) {
+        if (query !== '') {
+          this.loading = true
+          setTimeout(() => {
+            this.loading = false
+            this.options = this.list.filter(item => {
+              return item.label.toLowerCase()
+                .indexOf(query.toLowerCase()) > -1
+            })
+          }, 200)
+        } else {
+          this.options = []
+        }
+      },
+    },
+    data() {
+      return {
+        list: [],
+        loading: false,
+        states: ['Alabama', 'Alaska', 'Arizona',
+          'Arkansas', 'California', 'Colorado',
+          'Connecticut', 'Delaware', 'Florida',
+          'Georgia', 'Hawaii', 'Idaho', 'Illinois',
+          'Indiana', 'Iowa', 'Kansas', 'Kentucky',
+          'Louisiana', 'Maine', 'Maryland',
+          'Massachusetts', 'Michigan', 'Minnesota',
+          'Mississippi', 'Missouri', 'Montana',
+          'Nebraska', 'Nevada', 'New Hampshire',
+          'New Jersey', 'New Mexico', 'New York',
+          'North Carolina', 'North Dakota', 'Ohio',
+          'Oklahoma', 'Oregon', 'Pennsylvania',
+          'Rhode Island', 'South Carolina',
+          'South Dakota', 'Tennessee', 'Texas',
+          'Utah', 'Vermont', 'Virginia',
+          'Washington', 'West Virginia', 'Wisconsin',
+          'Wyoming'],
+        options: [],
+        value: [],
+      }
+    },
+  }
+</script>
+```
+:::
 
 ### Keyboard navigation
 
@@ -391,6 +462,9 @@ Some APIs are still undergoing (comparing to the non-virtualized select), becaus
 | autocomplete | select input 的 autocomplete 属性 | string | — | off |
 | placeholder | the autocomplete attribute of select input | string | — | Please select |
 | filterable | is filterable | boolean | — | false |
+| filter-method        | método de filtrado personalizado   | function | —                 | —                |
+| remote               | si las opciones se traerán desde el servidor | boolean  | —                 | false            |
+| remote-method        | método de búsqueda remota personalizada | function | —                 | —                |
 | allow-create         | si esta permitido crear nuevos items. Para usar esto, `filterable` debe ser `true`. | boolean  | —                 | false            |
 | no-data-text | displayed text when there is no options, you can also use slot empty | string | — | No Data |
 | popper-class | custom class name for Select's dropdown | string | — | — |

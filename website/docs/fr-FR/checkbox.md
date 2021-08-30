@@ -10,14 +10,35 @@ Checkbox peut être utilisé seul pour switcher entre deux états.
 
 ```html
 <template>
-  <!-- `checked` should be true or false -->
-  <el-checkbox v-model="checked">Option</el-checkbox>
+  <div>
+    <el-checkbox v-model="checked1" label="Option 1"></el-checkbox>
+    <el-checkbox v-model="checked2" label="Option 2"></el-checkbox>
+  </div>
+  <div>
+    <el-checkbox v-model="checked3" label="Option 1" size="medium"></el-checkbox>
+    <el-checkbox v-model="checked4" label="Option 2" size="medium"></el-checkbox>
+  </div>
+  <div>
+    <el-checkbox v-model="checked5" label="Option 1" size="small"></el-checkbox>
+    <el-checkbox v-model="checked6" label="Option 2" size="small"></el-checkbox>
+  </div>
+  <div>
+    <el-checkbox v-model="checked7" label="Option 1" size="mini"></el-checkbox>
+    <el-checkbox v-model="checked8" label="Option 2" size="mini"></el-checkbox>
+  </div>
 </template>
 <script>
   export default {
     data() {
       return {
-        checked: true
+        checked1: true,
+        checked2: false,
+        checked3: false,
+        checked4: false,
+        checked5: false,
+        checked6: false,
+        checked7: false,
+        checked8: false,
       };
     }
   };
@@ -29,9 +50,23 @@ Checkbox peut être utilisé seul pour switcher entre deux états.
 
   export default defineComponent({
     setup() {
-      const checked = ref(true);
+      const checked1 = ref(true);
+      const checked2 = ref(false);
+      const checked3 = ref(false);
+      const checked4 = ref(false);
+      const checked5 = ref(false);
+      const checked6 = ref(false);
+      const checked7 = ref(false);
+      const checked8 = ref(false);
       return {
-        checked,
+        checked1,
+        checked2,
+        checked3,
+        checked4,
+        checked5,
+        checked6,
+        checked7,
+        checked8,
       };
     },
   });
@@ -136,7 +171,6 @@ La propriété `indeterminate` permet de réaliser un effet "Sélectionner tout"
 ```html
 <template>
   <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">Sélectionner tout</el-checkbox>
-  <div style="margin: 15px 0;"></div>
   <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
     <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
   </el-checkbox-group>
@@ -401,7 +435,7 @@ export default defineComponent({
 | false-label | Valeur de la checkbox si non cochée.   | string / number    |      —         |     —    |
 | disabled  | Désactive la checkbox.   | boolean   |  — | false   |
 | border  | Ajoute une bordure à la checkbox.  | boolean   | — | false   |
-| size  | taille de la checkbox, ne marche que si `border` est 'true'  | string  | medium / small / mini | — |
+| size  | taille de la checkbox  | string  | medium / small / mini | — |
 | name | Attribut 'name' natif. | string    |      —         |     —    |
 | checked  | Si la checkbox est cochée.   | boolean   |  — | false   |
 | indeterminate  | Identique à `indeterminate` dans les checkbox natives. | boolean   |  — | false   |
@@ -420,7 +454,7 @@ export default defineComponent({
 | Attribut      | Description         | Type    | Options                         | Défaut|
 |---------- |-------- |---------- |-------------  |-------- |
 | model-value / v-model | La valeur liée. | array | — | — |
-|size | Taille des checkbox-boutons ou des checkbox avec bordure. | string | medium / small / mini | — |
+|size | size of checkbox | string | medium / small / mini | — |
 | disabled  | Si les checkbox imbriquées sont désactivées. | boolean   | — | false   |
 | min     | Nombre minimum de checkbox cochées.   | number    |       —        |     —    |
 | max     | Nombre maximum de checkbox cochées.   | number    |       —        |     —    |

@@ -5,11 +5,9 @@ import type {
 } from 'vue'
 
 export type Instance = ComponentInternalInstance
-export type StyleValue = string | CSSProperties | Array<StyleValue>
-export type ScrollEvent = WheelEvent | MouseEvent
 
 export type Alignment = 'auto' | 'smart' | 'center' | 'start' | 'end'
-export type ItemSize = (idx: number) => number | number
+export type ItemSize = (idx: number) => number
 export type Direction = 'ltr' | 'rtl'
 export type LayoutDirection = 'horizontal' | 'vertical'
 export type RTLOffsetType = 'negative' | 'positive-descending' | 'positive-ascending';

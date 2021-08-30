@@ -9,15 +9,32 @@ Radio should not have too many options. Otherwise, use the Select component inst
 :::demo Creating a radio component is easy, you just need to bind a variable to Radio's `v-model`. It equals to the value of `label` of the chosen radio. The type of `label` is `String`, `Number` or `Boolean`.
 ```html
 <template>
-  <el-radio v-model="radio" label="1">Option A</el-radio>
-  <el-radio v-model="radio" label="2">Option B</el-radio>
+  <div>
+    <el-radio v-model="radio1" label="1">Option 1</el-radio>
+    <el-radio v-model="radio1" label="2">Option 2</el-radio>
+  </div>
+  <div>
+    <el-radio v-model="radio2" label="1" size="medium">Option 1</el-radio>
+    <el-radio v-model="radio2" label="2" size="medium">Option 2</el-radio>
+  </div>
+  <div>
+    <el-radio v-model="radio3" label="1" size="small">Option 1</el-radio>
+    <el-radio v-model="radio3" label="2" size="small">Option 2</el-radio>
+  </div>
+  <div>
+    <el-radio v-model="radio4" label="1" size="mini">Option 1</el-radio>
+    <el-radio v-model="radio4" label="2" size="mini">Option 2</el-radio>
+  </div>
 </template>
 
 <script>
   export default {
     data () {
       return {
-        radio: '1'
+        radio1: '1',
+        radio2: '1',
+        radio3: '1',
+        radio4: '1',
       };
     }
   }
@@ -29,7 +46,10 @@ Radio should not have too many options. Otherwise, use the Select component inst
   export default defineComponent({
     setup() {
       return {
-        radio: ref('1'),
+        radio1: ref('1'),
+        radio2: ref('1'),
+        radio3: ref('1'),
+        radio4: ref('1'),
       }
     }
   })
@@ -250,7 +270,7 @@ model-value / v-model | binding value | string / number / boolean | — | —
 label | the value of Radio | string / number / boolean | — | —
 disabled | whether Radio is disabled | boolean | — | false
 border  | whether to add a border around Radio  | boolean   | — | false
-size  | size of the Radio, only works when `border` is true  | string  | medium / small / mini | —
+size  | size of the Radio  | string  | medium / small / mini | —
 name | native 'name' attribute | string    |      —         |     —
 
 ### Radio Events
@@ -269,7 +289,7 @@ name | native 'name' attribute | string    |      —         |     —
  Attribute      | Description          | Type      | Accepted Values       | Default
 ---- | ---- | ---- | ---- | ----
 model-value / v-model | binding value | string / number / boolean | — | —
-size | the size of radio buttons or bordered radios | string | medium / small / mini | —
+size | the size of radio | string | medium / small / mini | —
 disabled  | whether the nesting radios are disabled | boolean   | — | false
 text-color | font color when button is active | string   | — | #ffffff   |
 fill  | border and background color when button is active | string   | — | #409EFF   |

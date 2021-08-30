@@ -27,7 +27,7 @@ export default defineComponent({
     accordion: Boolean,
     modelValue: {
       type: [Array, String, Number] as PropType<
-        string | number | Array<string | number>
+      string | number | Array<string | number>
       >,
       default: () => [],
     },
