@@ -111,6 +111,7 @@
           background-color: #fff;
         }
       }
+
       & .#{$namespace}-sub-menu__icon-arrow {
         position: static;
         vertical-align: middle;
@@ -128,6 +129,7 @@
         padding: 0 10px;
         color: var(--el-text-color-secondary);
       }
+
       & .#{$namespace}-menu-item.is-active,
       & .#{$namespace}-sub-menu.is-active > .#{$namespace}-sub-menu__title {
         color: var(--el-text-color-primary);
@@ -154,9 +156,11 @@
         width: 24px;
         text-align: center;
       }
+
       .#{$namespace}-sub-menu__icon-arrow {
         display: none;
       }
+
       span {
         height: 0;
         width: 0;
@@ -176,6 +180,7 @@
 
     .#{$namespace}-sub-menu {
       position: relative;
+
       & .#{$namespace}-menu {
         position: absolute;
         margin-left: 5px;
@@ -207,6 +212,7 @@
     box-shadow: var(--el-box-shadow-light);
   }
 }
+
 @include b(menu-item) {
   @include menu-item;
 
@@ -245,6 +251,9 @@
     line-height: 50px;
     padding: 0 45px;
     min-width: 200px;
+  }
+  @include e(icon-more) {
+    margin-right: 0 !important;
   }
   @include e(icon-arrow) {
     position: absolute;

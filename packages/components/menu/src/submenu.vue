@@ -89,6 +89,7 @@ export default defineComponent({
         ? 'el-icon-arrow-down'
         : 'el-icon-arrow-right'
     })
+    const showSubmenuTitleIcon = computed(() => mode.value === 'vertical' || !isFirstLevel.value)
     const isFirstLevel = computed(() => {
       let isFirstLevel = true
       let parent = instance.parent
@@ -332,6 +333,7 @@ export default defineComponent({
       menuTransitionName,
       fallbackPlacements,
       submenuTitleIcon,
+      showSubmenuTitleIcon,
       appendToBody,
 
       handleClick,
@@ -350,11 +352,14 @@ export default defineComponent({
     }
   },
   render() {
-    const titleTag = [
-      this.$slots.title?.(),
-      h('i', {
-        class: ['el-sub-menu__icon-arrow', this.submenuTitleIcon],
-      }, null)]
+    const titleTag = [this.$slots.title?.()]
+    if (this.showSubmenuTitleIcon) {
+      titleTag.push(
+        h('i', {
+          class: ['el-sub-menu__icon-arrow', this.submenuTitleIcon],
+        }, null),
+      )
+    }
     const ulStyle = {
       backgroundColor: this.rootProps.backgroundColor || '',
     }

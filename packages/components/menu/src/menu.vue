@@ -229,7 +229,7 @@ export default defineComponent({
       if (props.mode === 'horizontal') {
         const items = Array.from(menu.value.childNodes).filter((item: HTMLElement) => item.nodeName !== '#text' || item.nodeValue) as [HTMLElement]
         if (items.length === slots.default?.().length) {
-          const overflowItemWidth = 89
+          const moreItemWidth = 64
           const paddingLeft = parseInt(getComputedStyle(menu.value).paddingLeft)
           const paddingRight = parseInt(getComputedStyle(menu.value).paddingRight)
           const menuWidth = menu.value.offsetWidth - paddingLeft - paddingRight
@@ -237,21 +237,20 @@ export default defineComponent({
           let itemIndex = 0
           items.forEach((item, index) => {
             calcWidth += item.offsetWidth || 0
-            if (calcWidth <= menuWidth - overflowItemWidth) {
+            if (calcWidth <= menuWidth - moreItemWidth) {
               itemIndex = index
             }
           })
           const defaultSlot = slots.default?.().slice(0, itemIndex + 1)
-          const overflowSlot = slots.default?.().slice(itemIndex + 1)
-          if (overflowSlot?.length) {
+          const moreSlot = slots.default?.().slice(itemIndex + 1)
+          if (moreSlot?.length) {
             filteredSlot.value = [
               ...defaultSlot,
               h(ElSubMenu, {
-                class: 'el-sub-menu__overflow',
-                index: 'overflow-sub-menu',
+                index: 'sub-menu-more',
               }, {
-                title: () => h('i', { class: 'el-icon-more' }),
-                default: () => overflowSlot,
+                title: () => h('i', { class: ['el-icon-more', 'el-sub-menu__icon-more'] }),
+                default: () => moreSlot,
               }),
             ]
           }
