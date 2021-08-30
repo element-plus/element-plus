@@ -245,7 +245,6 @@ export default defineComponent({
       _scrollContainer = null
       _lazyLoadHandler = null
     }
-
     function clickHandler() {
       // don't show viewer when preview is false
       if (!preview.value) {
@@ -255,8 +254,8 @@ export default defineComponent({
       prevOverflow = document.body.style.overflow
       document.body.style.overflow = 'hidden'
       showViewer.value = true
-      const IMAGE_VIEWER = document.getElementsByClassName('el-image-viewer__wrapper')
-      IMAGE_VIEWER[0].addEventListener('wheel', (e: WheelEvent) => {
+      const wrapper = ref(null)
+      wrapper.value.addEventListener('wheel', (e: WheelEvent) => {
         if (e.ctrlKey) {
           if (e.deltaY < 0) {
             e.preventDefault()
@@ -273,8 +272,8 @@ export default defineComponent({
     function closeViewer() {
       document.body.style.overflow = prevOverflow
       showViewer.value = false
-      const IMAGE_VIEWER = document.getElementsByClassName('el-image-viewer__wrapper')
-      IMAGE_VIEWER[0].removeEventListener('wheel', (e: WheelEvent) => {})
+      const wrapper = ref(null)
+      wrapper.value.removeEventListener('wheel', () => {})
     }
 
     watch(() => props.src, () => {
