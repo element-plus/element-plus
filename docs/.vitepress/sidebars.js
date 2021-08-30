@@ -1,5 +1,5 @@
-const guideLocale = require('../assets/pages/guide.json')
-const { ensureLang } = require('./utils')
+const guideLocale = require('./assets/pages/guide.json')
+const { ensureLang } = require('./site-utils')
 
 function getGuideSidebar() {
   const guideSidebars = {}

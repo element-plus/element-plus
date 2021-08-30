@@ -2,7 +2,7 @@ import { computed } from 'vue'
 import { useRoute, useData } from 'vitepress'
 import { useActiveSidebarLinks } from 'vitepress/dist/client/theme-default/composables/activeSidebarLink'
 import { useLang } from '../utils/routes'
-import { ensureStartingSlash } from '../utils'
+import { ensureStartingSlash } from '../utils/index'
 
 type SidebarItem = {
   text: string

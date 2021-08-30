@@ -1,7 +1,7 @@
 import ElementPlus from 'element-plus'
-import NotFound from '../../components/not-found.vue'
-import ElementPlusLayout from '../../layouts/layout.vue'
-import NavLink from '../../components/nav-link.vue'
+import NotFound from '../components/not-found.vue'
+import ElementPlusLayout from '../layouts/layout.vue'
+import NavLink from '../components/nav-link.vue'
 
 
 export default {

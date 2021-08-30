@@ -1,5 +1,5 @@
-const navLocale = require('../assets/pages/nav.json')
-const { ensureLang } = require('./utils')
+const navLocale = require('./assets/pages/nav.json')
+const { ensureLang } = require('./site-utils')
 
 // Mapping the first sub link to the nav link to avoid 404 error.
 

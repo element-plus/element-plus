@@ -4,7 +4,7 @@ lang: en-US
 ---
 
 <script setup>
-import HomePage from '../pages/home.vue'
+import HomePage from '../.vitepress/pages/home.vue'
 </script>
 
 <HomePage />
