@@ -101,6 +101,7 @@
     "rollup-plugin-css-only": "^2.1.0",
     "rollup-plugin-esbuild": "^4.2.3",
     "rollup-plugin-filesize": "^9.1.1",
+    "rollup-plugin-replace": "^2.2.0",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.27.3",
     "rollup-plugin-vue": "^6.0.0",
@@ -157,8 +158,7 @@
     "lodash": "^4.17.20",
     "mitt": "^2.1.0",
     "normalize-wheel": "^1.0.1",
-    "resize-observer-polyfill": "^1.5.1",
-    "rollup-plugin-replace": "^2.2.0"
+    "resize-observer-polyfill": "^1.5.1"
   },
   "files": [
     "lib",
