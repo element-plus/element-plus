@@ -112,8 +112,8 @@ export default defineComponent({
     })
     const fallbackPlacements = computed(() =>
       mode.value === 'horizontal' && isFirstLevel.value
-        ? ['bottom-start', 'top-start']
-        : ['right-start', 'left-start'],
+        ? ['bottom-start', 'top-start', 'right-start', 'left-start']
+        : ['right-start', 'left-start', 'bottom-start', 'top-start'],
     )
     const opened = computed(() => {
       return openedMenus.value.includes(props.index)
