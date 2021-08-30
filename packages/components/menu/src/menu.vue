@@ -230,7 +230,9 @@ export default defineComponent({
         const items = Array.from(menu.value.childNodes).filter((item: HTMLElement) => item.nodeName !== '#text' || item.nodeValue) as [HTMLElement]
         if (items.length === slots.default?.().length) {
           const overflowItemWidth = 89
-          const menuWidth = menu.value.offsetWidth
+          const paddingLeft = parseInt(getComputedStyle(menu.value).paddingLeft)
+          const paddingRight = parseInt(getComputedStyle(menu.value).paddingRight)
+          const menuWidth = menu.value.offsetWidth - paddingLeft - paddingRight
           let calcWidth = 0
           let itemIndex = 0
           items.forEach((item, index) => {
