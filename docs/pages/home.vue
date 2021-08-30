@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="home-page">
     <div class="banner">
       <div class="banner-desc">
         <h1>{{ homeLocale[1] }}</h1>

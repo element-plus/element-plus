@@ -1,45 +1,29 @@
 <template>
-  <aside v-if="nav.length > 0 || sidebars.length > 0" :class="{ sidebar: true, open }">
+  <aside
+    v-if="nav.length > 0 || sidebars.length > 0"
+    :class="{ sidebar: true, open }"
+  >
+    <div class="nav sponsors">
+      <p class="sponsors-title">{{ sponsorsLocale.title }}</p>
+      <ul class="sponsors-list">
+        <li v-for="(sponsor, key) in sponsors" :key="key" class="sponsor-item">
+          <a
+            class="sponsor-link"
+            :title="sponsor.name"
+            :href="sponsor.url"
+            target="_blank"
+          >
+            <img :src="sponsor.img" :alt="sponsor.name">
+          </a>
+        </li>
+      </ul>
+    </div>
     <nav class="nav-links nav">
       <nav-link v-for="(item, key) in nav" :key="key" :item="item" />
     </nav>
-    <div v-if="sidebars.length > 0" class="side-nav">
-      <ul>
-        <li class="nav-item sponsors">
-          <a>{{ sponsorsLocale.title }}</a>
-          <ul class="pure-menu-list sub-nav">
-            <li class="nav-item">
-              <a
-                class="sponsor"
-                href="https://bit.dev/?from=element-ui"
-                target="_blank"
-                title="bit"
-              >
-                <img :src="withBase('/assets/images/bit.svg')">
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="sponsor"
-                href="https://www.renren.io/?from=element-ui"
-                target="_blank"
-                :title="sponsorsLocale.sponsorIntroR"
-              >
-                <img :src="withBase('/assets/images/renren.png')">
-              </a>
-            </li>
-          </ul>
-        </li>
-        <ul class="sidebar-links">
-          <sidebar-link
-            v-for="(item, key) of sidebars"
-            :key="key"
-            :item="item"
-          />
-        </ul>
-      </ul>
-      <!--<div id="code-sponsor-widget"></div>-->
-    </div>
+    <ul class="sidebar-links">
+      <sidebar-link v-for="(item, key) of sidebars" :key="key" :item="item" />
+    </ul>
   </aside>
 </template>
 <script lang="ts" setup>
@@ -48,9 +32,9 @@ import { useRoute, withBase, useData } from 'vitepress'
 import { SidebarLink } from '../components/sidebar-link'
 import { useSidebar } from '../composables/use-sidebar'
 import { useNav } from '../composables/use-nav'
+import { useLang, useIsHome } from '../utils/routes'
 
 import sponsorsData from '../assets/components/sponsors.json'
-import { useLang } from '../utils/routes'
 
 type SideNavItem = {
   beta: boolean
@@ -62,21 +46,32 @@ type SideNavItem = {
 
 defineProps<{ open: boolean; }>()
 const emit = defineEmits(['sidebar-change'])
+const isHome = useIsHome()
 const { theme } = useData()
-
-console.log(theme.value)
 
 const isSmallScreen = ref(false)
 const isFade = ref(false)
 const route = useRoute()
-
-console.log(route.data)
 
 const lang = useLang()
 const sponsorsLocale = computed(() => sponsorsData[lang.value])
 
 const sidebars = useSidebar()
 const nav = useNav()
+
+// TODO: make this configuable.
+const sponsors = [
+  {
+    name: 'bit',
+    img: withBase('/assets/images/bit.svg'),
+    url: 'https://bit.dev/?from=element-ui',
+  },
+  {
+    url: 'https://www.renren.io/?from=element-ui',
+    img: withBase('/assets/images/renren.png'),
+    name: sponsorsLocale.value.sponsorNameR,
+  },
+]
 
 watch(sidebars, val => {
   emit('sidebar-change', val.length > 0)

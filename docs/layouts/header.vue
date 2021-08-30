@@ -6,7 +6,7 @@
       <div class="header-container">
         <h1>
           <toggle-sidebar-btn @toggle="$emit('toggle-sidebar')" />
-          <a href="/" class="icon-link">
+          <a :href="currentRoot" class="icon-link">
             <img
               src="../assets/images/element-plus-logo.svg"
               alt="element-logo"
@@ -20,38 +20,13 @@
           </a>
         </h1>
         <div style="flex-grow: 1;"></div>
-        <div class="nav-item nav-algolia-search">
-          <algolia-search />
-        </div>
+        <algolia-search />
         <ul class="nav">
-          <li class="nav-item">
+          <li v-for="(navItem, key) in nav" :key="key" class="nav-item">
             <nav-link
-              :item="{
-                link: `/${rootPath}/guide`,
-                text: locale.guide,
-                activeMatch: 'guide',
-              }"
+              :item="navItem"
             />
           </li>
-          <li class="nav-item">
-            <nav-link
-              :item="{
-                link: `/${rootPath}/component`,
-                text: locale.components,
-                activeMatch: 'component',
-              }"
-            />
-          </li>
-          <li class="nav-item">
-            <nav-link
-              :item="{
-                link: `/${rootPath}/resource`,
-                text: locale.resource,
-                activeMatch: 'resource',
-              }"
-            />
-          </li>
-
           <!-- gap -->
           <!-- 语言选择器 -->
         </ul>
@@ -90,9 +65,11 @@ import { useRoute, useRouter } from 'vitepress'
 import { version } from 'element-plus'
 import AlgoliaSearch from '../components/search.vue'
 import ToggleSidebarBtn from '../components/toggle-sidebar-btn.vue'
+import { useNav } from '../composables/use-nav'
 import { Language, defaultLang } from '../constants/language'
 import { useLang, useRootPath } from '../utils/routes'
 import localeData from '../assets/components/header.json'
+
 const router = useRouter()
 const route = useRoute()
 
@@ -112,22 +89,17 @@ const state = reactive({
 
 const lang = useLang()
 const locale = computed(() => localeData[lang.value])
-const isComponentPage = computed(() => route.path.includes('component'))
+const nav = useNav()
 
-const rootPath = useRootPath(lang)
+const currentRoot = computed(() => `/${lang.value}/`)
 
 const switchLang = (targetLang: string) => {
   if (lang.value === targetLang) return
   localStorage.setItem('ELEMENT_LANGUAGE', targetLang)
   let go = ''
-  if (lang.value === defaultLang) {
-    go = `/${targetLang}${route.path}`
-  } else {
-    go = `/${route.path
-      .split('/')
-      .slice(2)
-      .join('/')}`
-  }
+  const firstSlash = route.path.indexOf('/', 1)
+
+  go = `/${targetLang}/${route.path.slice(firstSlash + 1)}`
   router.go(go)
 }
 

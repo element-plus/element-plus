@@ -4,10 +4,9 @@ const { ensureLang } = require('./utils')
 function getGuideSidebar() {
   const guideSidebars = {}
   Object.entries(guideLocale).forEach(([lang, val]) => {
-    guideSidebars[lang] = Object.entries(val).map(([path, text]) => ({
-      link: `${ensureLang(lang)}/guide/${path}`,
-      text,
-    }))
+    guideSidebars[lang] = Object.values(val).map(item => {
+      return mapLangPrefix(item, lang)
+    })
   })
   return guideSidebars
 }
@@ -22,6 +21,21 @@ const getSidebars = () => {
   return {
     '/guide/': getGuideSidebar(),
     '/component/': getComponentsSideBar(),
+  }
+}
+
+function mapLangPrefix(item, lang) {
+  if (item.children && item.children.length > 0) {
+    return {
+      ...item,
+      children: item.children.map((child) => {
+        return mapLangPrefix(child, lang)
+      })
+    }
+  }
+  return {
+    ...item,
+    link: `${ensureLang(lang)}${item.link}`
   }
 }
 

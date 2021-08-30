@@ -22,7 +22,6 @@ export function useSidebar() {
   useActiveSidebarLinks()
   return computed(() => {
     const sidebars = getSidebarConfig(site.value.themeConfig.sidebars, route.data.relativePath, lang.value)
-    console.log(sidebars)
     return sidebars
   })
 }
@@ -35,7 +34,7 @@ function getSidebarConfig(sidebar: Sidebar, path: string, lang: string) {
   path = ensureStartingSlash(path)
   for (const dir in sidebar) {
     // make sure the multi sidebar key starts with slash too
-    if (path.startsWith(ensureStartingSlash(dir))) {
+    if (path.startsWith(ensureStartingSlash(`${lang}${dir}`))) {
       return sidebar[dir][lang]
     }
   }

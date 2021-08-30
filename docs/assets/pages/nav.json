@@ -1,12 +1,30 @@
 {
-  "zh-CN": {
-    "guide": "指南",
-    "component": "组件",
-    "resource": "资源"
-  },
-  "en-US": {
-    "guide": "Guide",
-    "component": "Component",
-    "resource": "Resource"
-  }
+  "zh-CN": [
+    {
+      "text": "指南",
+      "link": "/guide/design"
+    },
+    {
+      "text": "组件",
+      "link": "/component/layout"
+    },
+    {
+      "text": "资源",
+      "link": "/resource/"
+    }
+  ],
+  "en-US": [
+    {
+      "text": "Guide",
+      "link": "/guide/design"
+    },
+    {
+      "text": "Component",
+      "link": "/component/layout"
+    },
+    {
+      "text": "Resource",
+      "link": "/resource/"
+    }
+  ]
 }

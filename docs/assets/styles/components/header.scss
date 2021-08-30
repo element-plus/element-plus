@@ -77,6 +77,11 @@
     &::after {
       clear: both;
     }
+
+    .nav-item > .nav-link > a {
+      line-height: var(--header-height);
+      padding: 0;
+    }
   }
 
   .nav-gap {
@@ -203,7 +208,7 @@
 //   }
 // }
 
-@media (min-width: #{$breakpoint-lg}) {
+@media screen and (min-width: #{$breakpoint-lg}) {
   .header-container {
     padding: 0.7rem 0;
   }
@@ -216,7 +221,7 @@
   }
 }
 
-@media (max-width: 850px) {
+@media (max-width: 849px) {
   .header {
     .nav-logo {
       display: none;

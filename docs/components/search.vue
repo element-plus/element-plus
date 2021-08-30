@@ -1,5 +1,26 @@
 <template>
-  <el-autocomplete
+  <div id="search-box" class="algolia-search-box">
+    <button @click="open" class="search-box-button">
+      <el-icon class="search-box-icon">
+        <search />
+      </el-icon>
+      <span class="search-box-placeholder">
+        {{ placeholder }}
+      </span>
+      <span class="search-box-key">
+        ⌘
+      </span>
+      <span class="search-box-key">
+        K
+      </span>
+    </button>
+    <el-dialog v-model="showDialog">
+      <div>
+        I am content
+      </div>
+    </el-dialog>
+  </div>
+  <!-- <el-autocomplete
     v-model="query"
     size="small"
     :popper-class="`algolia-search${ isEmpty ? ' is-empty' : '' }`"
@@ -39,15 +60,17 @@
         {{ emptyText }}
       </p>
     </template>
-  </el-autocomplete>
+  </el-autocomplete> -->
 </template>
 
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue'
 import { useRouter } from 'vitepress'
+import algoliasearch from 'algoliasearch'
+import { Search } from '@element-plus/icons'
+import { useToggle } from '../utils'
 import localeData from '../assets/components/search.json'
 import { useLang } from '../utils/routes'
-import algoliasearch from 'algoliasearch'
 import { Language } from '../constants/language'
 
 import type { SearchIndex } from 'algoliasearch'
@@ -105,9 +128,75 @@ const handleSelect = (val: any) => {
   router.go(`/${ lang.value }/component/${ component }${ anchor ? `#${ anchor }` : '' }`)
 }
 
+const [showDialog, toggleDialog] = useToggle()
+
+const open = () => {
+  toggleDialog(true)
+}
+
 watch(lang, initIndex)
 
 onMounted(initIndex)
-
 </script>
 
+<style scoped lang="scss">
+.algolia-search-box {
+  display: flex;
+  align-items: center;
+  line-height: var(--header-height);
+  padding-left: 0.5rem;
+  padding-top: 1px;
+
+  @media screen and (min-width: 850px) {
+    min-width: 176.3px;
+
+    .search-box-placeholder, .search-box-key {
+      display: flex;
+    }
+  }
+}
+
+.search-box-icon {
+  font-size: 20px;
+}
+
+.search-box-placeholder {
+  display: none;
+  margin: 0 4px;
+  line-height: var(--header-item-height);
+}
+.search-box-button {
+  align-items: center;
+  background: var(--docsearch-searchbox-background);
+  border: 0;
+  border-radius: 40px;
+  color: var(--docsearch-muted-color);
+  cursor: pointer;
+  display: flex;
+  font-weight: 500;
+  height: var(--header-item-height);
+  margin: 0 0 0 16px;
+  padding: 0 8px;
+  user-select: none;
+
+  &:focus {
+    outline: none;
+    box-shadow: inset 0 0 0 2px var(--brand-color);
+  }
+}
+
+.search-box-key {
+  align-items: center;
+  background: var(--docsearch-key-gradient);
+  border-radius: 3px;
+  box-shadow: var(--docsearch-key-shadow);
+  color: var(--docsearch-muted-color);
+  display: none;
+  height: 18px;
+  justify-content: center;
+  margin-right: 0.4em;
+  padding-bottom: 2px;
+  position: relative;
+  width: 20px;
+}
+</style>

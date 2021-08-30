@@ -23,7 +23,7 @@ export const SidebarLink = props => {
   const childItems = depth < maxDepth
     ? createChildren(active, children, headers, depth + 1)
     : null
-  return h('li', { class: 'nav-item' }, [
+  return h('li', { class: 'sidebar-link' }, [
     h(link ? 'a' : 'p', {
       class: { 'sidebar-link-item': true, active },
       href: link,

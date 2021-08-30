@@ -1,24 +1,54 @@
 {
   "zh-CN": {
-    "design": "设计原则",
-    "nav": "导航",
-    "installation": "安装",
-    "quickstart": "快速上手",
-    "i18n": "国际化",
-    "migration": "从 Element 2.x 升级",
-    "theming": "自定义主题",
-    "transitions": "内置动画",
-    "changelog": "更新日志"
+    "intro": {
+      "text": "基础",
+      "children": [
+        { "text": "设计原则", "link": "/guide/design" },
+        { "text": "导航", "link": "/guide/nav" },
+        {
+          "text": "安装",
+          "link": "/guide/installation"
+        },
+        {
+          "text": "快速上手",
+          "link": "/guide/quickstart"
+        }
+      ]
+    },
+    "advanced": {
+      "text": "深入",
+      "children": [
+        { "text": "国际化", "link": "/guide/i18n" },
+        { "text": "从 Element 2.x 升级", "link": "/guide/migration" },
+        { "text": "自定义主题", "link": "/guide/theming" },
+        { "text": "内置动画", "link": "/guide/transitions" }
+      ]
+    }
   },
   "en-US": {
-    "design": "Design",
-    "nav": "Navigation",
-    "installation": "Installation",
-    "quickstart": "Quick start",
-    "i18n": "Internationalization",
-    "migration": "Migrate from ElementUI 2.x",
-    "theming": "Custom Theme",
-    "transitions": "Built-in transition",
-    "changelog": "Changelog"
+    "intro": {
+      "text": "Basics",
+      "children": [
+        { "text": "Design", "link": "/guide/design" },
+        { "text": "Navigation", "link": "/guide/nav" },
+        {
+          "text": "Installation",
+          "link": "/guide/installation"
+        },
+        {
+          "text": "Quick start",
+          "link": "/guide/quickstart"
+        }
+      ]
+    },
+    "advanced": {
+      "text": "Advanced",
+      "children": [
+        { "text": "i18n", "link": "/guide/i18n" },
+        { "text": "Migrate from ElementUI 2.x", "link": "/guide/migration" },
+        { "text": "Theming", "link": "/guide/theming" },
+        { "text": "Built-in transitions", "link": "/guide/transitions" }
+      ]
+    }
   }
 }

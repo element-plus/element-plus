@@ -1,8 +1,10 @@
 <script setup lang="ts">
-// import { useRoute, useData } from 'vitepress'
+import { computed } from 'vue'
+import { useRoute } from 'vitepress'
 import zhCN from 'element-plus/es/locale/lang/zh-cn'
 import enUS from 'element-plus/es/locale/lang/en'
-import { useLang } from '../utils/routes'
+import NotFound from '../components/not-found.vue'
+import { useLang, useIsHome } from '../utils/routes'
 import { useToggle } from '../utils'
 import EpHeader from './header.vue'
 import EpFooter from './footer.vue'
@@ -18,14 +20,16 @@ const langMap = {
   'en-US': enUS,
 }
 
-// const route = useRoute()
+const route = useRoute()
 // const { site } = useData()
 const lang = useLang()
+const isHome = useIsHome()
+
+const isNotFound = computed(() => route.component === NotFound)
 
 const [showSidebar, toggleSidebar] = useToggle()
 const [darkMode, toggleDarkmode] = useToggle()
 const [hasSidebar, toggleHasSidebar] = useToggle()
-
 </script>
 
 <template>
@@ -36,19 +40,25 @@ const [hasSidebar, toggleHasSidebar] = useToggle()
         'theme-dark': darkMode,
         'has-sidebar': hasSidebar,
         'sidebar-open': showSidebar,
+        'is-home': isHome,
       }"
     >
-      <ep-header
-        @toggle-sidebar="toggleSidebar"
-        @toggle-theme="toggleDarkmode"
-      />
-      <ep-side-nav :open="showSidebar" @sidebar-change="toggleHasSidebar">
-        <template #sidebar-top></template>
-        <template #sidebar-bottom></template>
-      </ep-side-nav>
-      <div class="sidebar-overlay" @click="toggleSidebar(false)"></div>
-      <ep-page />
-      <ep-footer />
+      <template v-if="isNotFound">
+        <not-found />
+      </template>
+      <template v-else>
+        <ep-header
+          @toggle-sidebar="toggleSidebar"
+          @toggle-theme="toggleDarkmode"
+        />
+        <ep-side-nav :open="showSidebar" @sidebar-change="toggleHasSidebar">
+          <template #sidebar-top></template>
+          <template #sidebar-bottom></template>
+        </ep-side-nav>
+        <div class="sidebar-overlay" @click="toggleSidebar(false)"></div>
+        <ep-page />
+        <ep-footer v-if="isHome" />
+      </template>
     </div>
     <Debug />
   </el-config-provider>

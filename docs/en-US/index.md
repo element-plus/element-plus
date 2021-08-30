@@ -4,7 +4,7 @@ lang: en-US
 ---
 
 <script setup>
-
-window.location.pathname = '/en-US/'
-
+import HomePage from '../pages/home.vue'
 </script>
+
+<HomePage />

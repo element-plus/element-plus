@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer">
+  <footer v-if="isHome" class="footer">
     <div class="container">
       <div class="footer-main">
         <h4>{{ locale.links }}</h4>
@@ -66,7 +66,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import GithubIcon from '../components/github-icon.vue'
-import { useLang } from '../utils/routes'
+import { useLang, useIsHome } from '../utils/routes'
 import localeData from '../assets/components/footer.json'
 import { Language } from '../constants/language'
 
@@ -79,6 +79,9 @@ const lang = useLang()
 const locale = computed(
   () => localeData[lang.value],
 )
+
+const isHome = useIsHome()
+
 const gitterLink = computed(() =>
   linkMap[lang.value],
 )

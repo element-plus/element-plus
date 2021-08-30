@@ -2,6 +2,7 @@ import { computed } from 'vue'
 import { useData } from 'vitepress'
 
 import { useLang } from '../utils/routes'
+import { ensureLang } from '../utils'
 
 export const useNav = () => {
 

@@ -37,7 +37,7 @@ defineEmits(['toggle'])
   height: 1.25rem;
 }
 
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 849px) {
   .sidebar-button {
     display: block;
   }

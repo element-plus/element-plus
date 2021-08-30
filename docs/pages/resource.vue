@@ -155,7 +155,7 @@ export default {
       margin-top: 20px;
     }
   }
-  @media (max-width: 850px) {
+  @media (max-width: 849px) {
     .cards {
       li {
         max-width: 500px;

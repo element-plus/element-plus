@@ -1,5 +1,5 @@
 const ensureLang = (lang) => {
-  return lang === 'en-US' ? '' : `/${lang}`
+  return `/${lang}`
 }
 
 exports.ensureLang = ensureLang

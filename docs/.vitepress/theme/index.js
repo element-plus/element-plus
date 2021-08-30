@@ -1,7 +1,8 @@
-import NotFound from 'vitepress/dist/client/theme-default/NotFound.vue'
 import ElementPlus from 'element-plus'
+import NotFound from '../../components/not-found.vue'
 import ElementPlusLayout from '../../layouts/layout.vue'
 import NavLink from '../../components/nav-link.vue'
+
 
 export default {
   NotFound,

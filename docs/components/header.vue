@@ -408,7 +408,7 @@ export default {
     }
   }
 
-  @media (max-width: 850px) {
+  @media (max-width: 849px) {
     .header {
       .nav-logo {
         display: none;

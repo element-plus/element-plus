@@ -38,8 +38,8 @@ const isSkipped = computed(() => skipped.includes(propsRefs.item.value.link))
   padding: 0 1.5rem;
   line-height: 36px;
   font-size: 1rem;
-  font-weight: 600;
-  color: var(--c-text);
+  font-weight: 500;
+  color: var(--text-color);
   white-space: nowrap;
 }
 
@@ -54,19 +54,18 @@ const isSkipped = computed(() => skipped.includes(propsRefs.item.value.link))
   color: var(--text-color);
 }
 
-@media (min-width: 720px) {
+@media (min-width: 850px) {
   .item {
-    border-bottom: 2px solid transparent;
-    padding: 0;
-    line-height: 24px;
-    font-size: 0.9rem;
+    border-bottom: none;
+    padding: 0 1.5rem;
+    line-height: var(--header-item-height);
+    font-size: 1rem;
     font-weight: 500;
   }
 
   .item:hover,
   .item.active {
-    border-bottom-color: var(--brand-color);
-    color: var(--text-color);
+    color: var(--brand-color);
   }
 }
 </style>

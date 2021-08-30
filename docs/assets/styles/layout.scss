@@ -222,13 +222,27 @@ form {
   top: 0;
 }
 
-@media screen and (min-width: 720px) {
-  .theme.no-sidebar aside {
+.is-home {
+  .page {
+    margin-left: 0 !important;
+  }
+
+  .sidebar:not(.open) {
+    transform: translate(-100%);
+  }
+}
+
+@media screen and (min-width: 850px) {
+  .theme-wrapper.no-sidebar aside {
     display: none;
   }
 
-  .theme.no-sidebar main {
-    margin-left: 0;
+  .theme-wrapper main {
+    margin-left: 16.4rem;
+  }
+
+  .is-home .sidebar {
+    transform: translate(-100%);
   }
 }
 
