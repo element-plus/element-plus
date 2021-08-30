@@ -258,7 +258,9 @@ export default defineComponent({
     }
 
     const handleResize = () => {
-      updateFilteredSlot()
+      if (props.mode === 'horizontal') {
+        updateFilteredSlot()
+      }
     }
 
     // watch
