@@ -23,7 +23,7 @@ import {
   getValueByPath,
   useGlobalConfig,
 } from '@element-plus/utils/util'
-import { Effect } from '@element-plus/components/popper/src/use-popper'
+import { Effect } from '@element-plus/components/popper'
 
 import { useAllowCreate } from './useAllowCreate'
 

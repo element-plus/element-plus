@@ -157,7 +157,7 @@ import isServer from '@element-plus/utils/isServer'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import { Effect, Options } from '@element-plus/components/popper/src/use-popper/index'
+import { Effect, Options } from '@element-plus/components/popper'
 
 import type { ComputedRef, PropType } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'

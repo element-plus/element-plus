@@ -66,7 +66,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, SVGAttributes } from 'vue'
+import { computed, defineComponent } from 'vue'
+import type { PropType, SVGAttributes } from 'vue'
 
 type ProgressFuncType = (percentage: number) => string;
 

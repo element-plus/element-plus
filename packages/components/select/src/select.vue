@@ -189,10 +189,11 @@ import { isValidComponentSize } from '@element-plus/utils/validators'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
 import { useSelect, useSelectStates } from './useSelect'
-import { SelectContext, selectKey } from './token'
+import { selectKey } from './token'
 
 import type { PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'
+import type { SelectContext } from './token'
 
 export default defineComponent({
   name: 'ElSelect',

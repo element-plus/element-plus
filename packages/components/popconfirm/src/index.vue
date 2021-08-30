@@ -41,10 +41,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, PropType } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
 import ElButton from '@element-plus/components/button'
 import ElPopper, { Effect } from '@element-plus/components/popper'
 import { useLocaleInject } from '@element-plus/hooks'
+
+import type { PropType } from 'vue'
 import type { ButtonType } from '@element-plus/components/button/src/types'
 
 export default defineComponent({

@@ -1,4 +1,4 @@
-import { ComputedRef, CSSProperties, Ref } from 'vue'
+import type { ComputedRef, CSSProperties, Ref } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'
 
 export interface ISliderProps {

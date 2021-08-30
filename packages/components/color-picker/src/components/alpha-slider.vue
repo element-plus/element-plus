@@ -22,9 +22,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch, ref, onMounted, getCurrentInstance, PropType, shallowRef } from 'vue'
+import { defineComponent, watch, ref, onMounted, getCurrentInstance, shallowRef } from 'vue'
 import draggable from '../draggable'
 
+import type { PropType } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'
 import type Color from '../color'
 

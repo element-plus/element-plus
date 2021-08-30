@@ -3,7 +3,7 @@ import { isValidComponentSize } from '@element-plus/utils/validators'
 import type { PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'
 import type { OptionType } from './select.types'
-import type { Options } from '@element-plus/components/popper/src/use-popper/index'
+import type { Options } from '@element-plus/components/popper/index'
 
 export const SelectProps = {
   allowCreate: Boolean,

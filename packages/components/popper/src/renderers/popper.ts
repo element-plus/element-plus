@@ -1,8 +1,8 @@
-import { withDirectives, Transition, vShow, withCtx, h, CSSProperties } from 'vue'
+import { withDirectives, Transition, vShow, withCtx, h } from 'vue'
 import { NOOP } from '@vue/shared'
 import { stop } from '@element-plus/utils/dom'
 
-import type { VNode, Ref } from 'vue'
+import type { VNode, Ref, CSSProperties } from 'vue'
 import type { Effect } from '../use-popper/defaults'
 
 interface IRenderPopperProps {
