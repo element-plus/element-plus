@@ -73,6 +73,29 @@ export const defaultProps = {
   },
 }
 
+function flexGapSupported (){
+  if (!window.document.documentElement) return false
+  let flexGapSupported: boolean | null = null
+
+  // create flex container with row-gap set
+  const flex = document.createElement('div')
+  flex.style.display = 'flex'
+  flex.style.flexDirection = 'column'
+  flex.style.rowGap = '1px'
+
+  // create two, elements inside it
+  flex.appendChild(document.createElement('div'))
+  flex.appendChild(document.createElement('div'))
+
+  // append to the DOM (needed to obtain scrollHeight)
+  document.body.appendChild(flex)
+  flexGapSupported = flex.scrollHeight === 1 // flex container should be 1px high from the row-gap
+  document.body.removeChild(flex)
+  return flexGapSupported
+}
+
+
+
 export function useSpace(props: ExtractPropTypes<typeof defaultProps>) {
   const classes = computed(() => [
     'el-space',
@@ -116,10 +139,14 @@ export function useSpace(props: ExtractPropTypes<typeof defaultProps>) {
   )
 
   const containerStyle = computed(() => {
-    const wrapKls: CSSProperties =
-      props.wrap || props.fill
-        ? { flexWrap: 'wrap', marginBottom: `-${verticalSize.value}px` }
-        : null
+    const flexGapStyles: CSSProperties = flexGapSupported()
+      ? { gap:`${verticalSize.value}px ${horizontalSize.value}px` }
+      : { marginBottom: `-${verticalSize.value}px` }
+
+    const wrapKls: CSSProperties = props.wrap || props.fill
+      ? { ...flexGapStyles , flexWrap: 'wrap' }
+      : flexGapSupported() ? { gap:`${verticalSize.value || horizontalSize.value}px` }:null
+
     const alignment: CSSProperties = {
       alignItems: props.alignment,
     }
@@ -127,10 +154,11 @@ export function useSpace(props: ExtractPropTypes<typeof defaultProps>) {
   })
 
   const itemStyle = computed(() => {
-    const itemBaseStyle = {
-      paddingBottom: `${verticalSize.value}px`,
-      marginRight: `${horizontalSize.value}px`,
-    }
+    const itemBaseStyle = !flexGapSupported() &&
+      {
+        paddingBottom: `${verticalSize.value}px`,
+        marginRight: `${horizontalSize.value}px`,
+      }
 
     const fillStyle = props.fill
       ? { flexGrow: 1, minWidth: `${props.fillRatio}%` }
