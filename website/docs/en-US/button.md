@@ -168,7 +168,7 @@ Besides default size, Button component provides three additional sizes for you t
 
 :::
 
-### Attributes
+### Button Attributes
 
 | Attribute   | Description                            | Type    | Accepted Values                                    | Default |
 | ----------- | -------------------------------------- | ------- | -------------------------------------------------- | ------- |
@@ -182,6 +182,12 @@ Besides default size, Button component provides three additional sizes for you t
 | icon        | icon class name                        | string  | —                                                  | —       |
 | autofocus   | same as native button's `autofocus`    | boolean | —                                                  | false   |
 | native-type | same as native button's `type`         | string  | button / submit / reset                            | button  |
+
+### Button-Group Attributes
+
+| Attribute | Description                                      | Type   | Accepted Values       | Default |
+| --------- | ------------------------------------------------ | ------ | --------------------- | ------- |
+| size      | control the size of buttons in this button-group | string | medium / small / mini | —       |
 
 ### Button-Group Slots
 
