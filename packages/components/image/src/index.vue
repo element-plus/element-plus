@@ -100,7 +100,7 @@ export default defineComponent({
       default: 2000,
     },
   },
-  emits: ['error','switch'],
+  emits: ['error', 'switch'],
   setup(props, { emit }) {
     const { t } = useLocaleInject()
     // init here
