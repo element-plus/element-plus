@@ -28,6 +28,7 @@
           :url-list="previewSrcList"
           :hide-on-click-modal="hideOnClickModal"
           @close="closeViewer"
+          @switch="switchViewer"
         />
       </template>
     </teleport>
@@ -99,7 +100,7 @@ export default defineComponent({
       default: 2000,
     },
   },
-  emits: ['error'],
+  emits: ['error','switch'],
   setup(props, { emit }) {
     const { t } = useLocaleInject()
     // init here
@@ -262,6 +263,10 @@ export default defineComponent({
       showViewer.value = false
     }
 
+    function switchViewer(val) {
+      emit('switch', val)
+    }
+
     watch(() => props.src, () => {
       loadImage()
     })
@@ -291,6 +296,7 @@ export default defineComponent({
       imageIndex,
       clickHandler,
       closeViewer,
+      switchViewer,
       container,
       handleError,
       t,
