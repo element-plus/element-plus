@@ -232,17 +232,17 @@ export default defineComponent({
           const moreItemWidth = 64
           const paddingLeft = parseInt(getComputedStyle(menu.value).paddingLeft)
           const paddingRight = parseInt(getComputedStyle(menu.value).paddingRight)
-          const menuWidth = menu.value.offsetWidth - paddingLeft - paddingRight
+          const menuWidth = menu.value.clientWidth - paddingLeft - paddingRight
           let calcWidth = 0
-          let itemIndex = 0
+          let sliceIndex = 0
           items.forEach((item, index) => {
             calcWidth += item.offsetWidth || 0
             if (calcWidth <= menuWidth - moreItemWidth) {
-              itemIndex = index
+              sliceIndex = index + 1
             }
           })
-          const defaultSlot = slots.default?.().slice(0, itemIndex + 1)
-          const moreSlot = slots.default?.().slice(itemIndex + 1)
+          const defaultSlot = slots.default?.().slice(0, sliceIndex)
+          const moreSlot = slots.default?.().slice(sliceIndex)
           if (moreSlot?.length) {
             filteredSlot.value = [
               ...defaultSlot,
