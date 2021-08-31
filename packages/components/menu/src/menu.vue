@@ -279,6 +279,10 @@ export default defineComponent({
       },
     )
 
+    watch(items.value, () => {
+      initializeMenu()
+    })
+
     watch(
       () => props.collapse,
       (value, prev) => {
