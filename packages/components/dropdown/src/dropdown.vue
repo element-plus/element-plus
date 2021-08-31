@@ -84,7 +84,7 @@ export default defineComponent({
   },
   props: {
     trigger: {
-      type: String as PropType<TriggerType>,
+      type: String as PropType<TriggerType | 'contextmenu'>,
       default: 'hover',
     },
     type: String as PropType<ButtonType>,
@@ -252,7 +252,7 @@ export default defineComponent({
         on(triggerElm.value, 'mouseleave', hide)
       } else if (props.trigger === 'click') {
         on(triggerElm.value, 'click', handleClick)
-      } else if ((props.trigger as string) === 'contextmenu') {
+      } else if (props.trigger === 'contextmenu') {
         on(triggerElm.value, 'contextmenu', e => {
           e.preventDefault()
           handleClick()
