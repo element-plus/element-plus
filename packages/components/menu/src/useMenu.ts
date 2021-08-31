@@ -1,17 +1,17 @@
-import { computed, inject } from 'vue'
+import { computed, ComputedRef, inject } from 'vue'
 
 import type { ComponentInternalInstance } from 'vue'
-import type { RootMenuProvider } from './menu'
+import type { RootMenuProvider } from './menu.type'
 
 export default function useMenu(
   instance: ComponentInternalInstance,
-  currentIndex: string,
+  currentIndex: ComputedRef<string>,
 ) {
   const rootMenu = inject<RootMenuProvider>('rootMenu')
 
   const indexPath = computed(() => {
     let parent = instance.parent
-    const path = [currentIndex]
+    const path = [currentIndex.value]
     while (parent.type.name !== 'ElMenu') {
       if (parent.props.index) {
         path.unshift(parent.props.index as string)

@@ -49,8 +49,9 @@ import {
 } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
 import { Effect } from '@element-plus/components/popper'
-import { RootMenuProvider, SubMenuProvider } from './menu'
 import useMenu from './useMenu'
+
+import type { RootMenuProvider, SubMenuProvider } from './menu.type'
 
 export default defineComponent({
   name: 'ElMenuItem',
@@ -73,7 +74,7 @@ export default defineComponent({
     const rootMenu = inject<RootMenuProvider>('rootMenu')
     const { parentMenu, paddingStyle, indexPath } = useMenu(
       instance,
-      props.index,
+      computed(() => props.index),
     )
     const { addSubMenu, removeSubMenu } = inject<SubMenuProvider>(
       `subMenu:${parentMenu.value.uid}`,

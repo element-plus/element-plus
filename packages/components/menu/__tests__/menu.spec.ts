@@ -174,6 +174,10 @@ describe('menu', () => {
     await nextTick()
     expect(vm.$refs.menu.hoverBackground).toEqual('rgb(204, 0, 0)')
   })
+
+  test('menu-overflow', async () => {
+    // TODO: jsdom not support `offsetWidth`.
+  })
 })
 
 describe('default active', () => {

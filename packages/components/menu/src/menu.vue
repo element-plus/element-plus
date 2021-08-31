@@ -1,32 +1,3 @@
-<template>
-  <el-menu-collapse-transition v-if="collapseTransition">
-    <ul
-      :key="+collapse"
-      role="menubar"
-      :style="{ backgroundColor: backgroundColor || '' }"
-      :class="{
-        'el-menu': true,
-        'el-menu--horizontal': mode === 'horizontal',
-        'el-menu--collapse': collapse,
-      }"
-    >
-      <slot></slot>
-    </ul>
-  </el-menu-collapse-transition>
-  <ul
-    v-else
-    :key="+collapse"
-    role="menubar"
-    :style="{ backgroundColor: backgroundColor || '' }"
-    :class="{
-      'el-menu': true,
-      'el-menu--horizontal': mode === 'horizontal',
-      'el-menu--collapse': collapse,
-    }"
-  >
-    <slot></slot>
-  </ul>
-</template>
 <script lang="ts">
 import {
   defineComponent,
@@ -39,23 +10,32 @@ import {
   onMounted,
   ComputedRef,
   isRef,
+  h,
+  withDirectives,
+  nextTick,
 } from 'vue'
 import mitt from 'mitt'
+import { Resize } from '@element-plus/directives'
 import Menubar from '@element-plus/utils/menu/menu-bar'
-import {
+import ElMenuCollapseTransition from './menu-collapse-transition.vue'
+import ElSubMenu from './submenu.vue'
+import useMenuColor from './useMenuColor'
+
+import type {
   IMenuProps,
   RootMenuProvider,
   RegisterMenuItem,
   SubMenuProvider,
-} from './menu'
-import ElMenuCollapseTransition from './menu-collapse-transition.vue'
-import useMenuColor from './useMenuColor'
+} from './menu.type'
 
 export default defineComponent({
   name: 'ElMenu',
-  componentName: 'ElMenu',
+  directives: {
+    Resize,
+  },
   components: {
     ElMenuCollapseTransition,
+    ElSubMenu,
   },
   props: {
     mode: {
@@ -83,7 +63,7 @@ export default defineComponent({
     },
   },
   emits: ['close', 'open', 'select'],
-  setup(props: IMenuProps, ctx) {
+  setup(props: IMenuProps, { emit, slots }) {
     // data
     const openedMenus = ref(
       props.defaultOpeneds && !props.collapse
@@ -97,6 +77,8 @@ export default defineComponent({
     const alteredCollapse = ref(false)
     const rootMenuEmitter = mitt()
     const router = instance.appContext.config.globalProperties.$router
+    const menu = ref(null)
+    const filteredSlot = ref(slots.default?.())
 
     const hoverBackground = useMenuColor(props)
 
@@ -178,10 +160,10 @@ export default defineComponent({
 
       if (isOpened) {
         closeMenu(index)
-        ctx.emit('close', index, indexPath.value)
+        emit('close', index, indexPath.value)
       } else {
         openMenu(index, indexPath)
-        ctx.emit('open', index, indexPath.value)
+        emit('open', index, indexPath.value)
       }
     }
 
@@ -212,14 +194,14 @@ export default defineComponent({
             }
             return navigationResult
           })
-        ctx.emit('select', ...emitParams.concat(routerResult))
+        emit('select', ...emitParams.concat(routerResult))
       } else {
         activeIndex.value = item.index
-        ctx.emit('select', ...emitParams)
+        emit('select', ...emitParams)
       }
     }
 
-    const updateActiveIndex = (val?: string) => {
+    const updateActiveIndex = (val: string) => {
       const itemsInData = items.value
       const item =
         itemsInData[val] ||
@@ -241,7 +223,51 @@ export default defineComponent({
       }
     }
 
+    const updateFilteredSlot = async () => {
+      filteredSlot.value = slots.default?.()
+      await nextTick()
+      if (props.mode === 'horizontal') {
+        const items = Array.from(menu.value.childNodes).filter((item: HTMLElement) => item.nodeName !== '#text' || item.nodeValue) as [HTMLElement]
+        if (items.length === slots.default?.().length) {
+          const moreItemWidth = 64
+          const paddingLeft = parseInt(getComputedStyle(menu.value).paddingLeft)
+          const paddingRight = parseInt(getComputedStyle(menu.value).paddingRight)
+          const menuWidth = menu.value.clientWidth - paddingLeft - paddingRight
+          let calcWidth = 0
+          let sliceIndex = 0
+          items.forEach((item, index) => {
+            calcWidth += item.offsetWidth || 0
+            if (calcWidth <= menuWidth - moreItemWidth) {
+              sliceIndex = index + 1
+            }
+          })
+          const defaultSlot = slots.default?.().slice(0, sliceIndex)
+          const moreSlot = slots.default?.().slice(sliceIndex)
+          if (moreSlot?.length) {
+            filteredSlot.value = [
+              ...defaultSlot,
+              h(ElSubMenu, {
+                index: 'sub-menu-more',
+              }, {
+                title: () => h('i', { class: ['el-icon-more', 'el-sub-menu__icon-more'] }),
+                default: () => moreSlot,
+              }),
+            ]
+          }
+        }
+      }
+    }
+
+    const handleResize = () => {
+      if (props.mode === 'horizontal') {
+        updateFilteredSlot()
+      }
+    }
+
     // watch
+    watch(() => slots.default?.(), () => {
+      updateFilteredSlot()
+    })
 
     watch(
       () => props.defaultActive,
@@ -254,7 +280,7 @@ export default defineComponent({
     )
 
     watch(items.value, () => {
-      updateActiveIndex()
+      initializeMenu()
     })
 
     watch(
@@ -311,12 +337,33 @@ export default defineComponent({
     return {
       hoverBackground,
       isMenuPopup,
+      menu,
+      filteredSlot,
 
       props,
 
       open,
       close,
+      handleResize,
     }
+  },
+  render() {
+    const menu = withDirectives(h('ul', {
+      key: String(this.collapse),
+      role: 'menubar',
+      ref: 'menu',
+      style: { backgroundColor: this.backgroundColor || '' },
+      class: {
+        'el-menu': true,
+        'el-menu--horizontal': this.mode === 'horizontal',
+        'el-menu--collapse': this.collapse,
+      },
+    }, [this.filteredSlot]), [[Resize, this.handleResize]])
+
+    if (this.collapseTransition) {
+      return h(ElMenuCollapseTransition, () => menu)
+    }
+    return menu
   },
 })
 </script>
