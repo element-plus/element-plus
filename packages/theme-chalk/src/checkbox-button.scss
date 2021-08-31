@@ -22,14 +22,14 @@
     vertical-align: middle;
     cursor: pointer;
     background: var(
-      --el-button-default-background-color,
-      map.get($--button, 'default-background-color')
+      --el-button-background-color,
+      map.get($--button, 'background-color')
     );
     border: $--border-base;
     border-left: 0;
     color: var(
-      --el-button-default-font-color,
-      map.get($--button, 'default-font-color')
+      --el-button-font-color,
+      map.get($--button, 'font-color')
     );
     -webkit-appearance: none;
     text-align: center;

@@ -252,7 +252,7 @@ export default defineComponent({
         on(triggerElm.value, 'mouseleave', hide)
       } else if (props.trigger === 'click') {
         on(triggerElm.value, 'click', handleClick)
-      } else if (props.trigger === 'contextmenu') {
+      } else if ((props.trigger as string) === 'contextmenu') {
         on(triggerElm.value, 'contextmenu', e => {
           e.preventDefault()
           handleClick()
