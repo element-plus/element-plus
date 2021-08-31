@@ -87,17 +87,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 }
 // CONCATENATED MODULE: ./website/pages/changelog.vue?vue&type=template&id=f505aa66
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./CHANGELOG.en-US.md?vue&type=template&id=a430bdd4
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./CHANGELOG.en-US.md?vue&type=template&id=4811a692
 
-const md_loader_CHANGELOG_en_USvue_type_template_id_a430bdd4_hoisted_1 = {
+const md_loader_CHANGELOG_en_USvue_type_template_id_4811a692_hoisted_1 = {
   class: "content element-doc"
 };
 
-const md_loader_CHANGELOG_en_USvue_type_template_id_a430bdd4_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Changelog ");
+const md_loader_CHANGELOG_en_USvue_type_template_id_4811a692_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Changelog ");
 
-const md_loader_CHANGELOG_en_USvue_type_template_id_a430bdd4_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("1.1.0-beta.8 ");
+const md_loader_CHANGELOG_en_USvue_type_template_id_4811a692_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("1.1.0-beta.8 ");
 
-const md_loader_CHANGELOG_en_USvue_type_template_id_a430bdd4_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("em", null, "2021-08-31")], -1);
+const md_loader_CHANGELOG_en_USvue_type_template_id_4811a692_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("em", null, "2021-08-31")], -1);
 
 const _hoisted_5 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Breaking changes: ");
 
@@ -111,7 +111,7 @@ const _hoisted_9 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"
 
 const _hoisted_10 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Bug fixes ");
 
-const _hoisted_11 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<ul><li>Theme-chalk add the missing margin-left to transfer</li><li>Remove useless and duplicate declaration (#3082 by @BeADre)</li><li>Components image no emit switch event (close #3132) (#3134 by @imswk)</li><li>Components [el-upload] revoke object url on item remove (#3135 by @adaex)</li><li>[el-cascader-panel] fix childrenData (close #3126) (#3131 by @qinpeip)</li><li>Locale update korean translation (#3137 by @rikapo)</li><li>Components layout css lost (#3140 by @JeremyWuuuuu)</li><li>Icon clipboard (#3142 by @kooriookami)</li><li>Components [el-table] width init error (close #3087) (#3117 by @imswk)</li><li>[el-scrollbar] add missing off mouseup (#3143 by @kooriookami)</li><li>Style update calc style (#3090 by @kooriookami)</li><li>Style checkbox support size prop both border or not (#3099 by @kooriookami)</li><li>Style radio support size prop both border or not (#3103 by @kooriookami)</li><li>Table fix Destructuring assignment bug (#2893 by @HaitaoWang555)</li><li></li></ul>", 1);
+const _hoisted_11 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<ul><li>Theme-chalk add the missing margin-left to transfer</li><li>Remove useless and duplicate declaration (#3082 by @BeADre)</li><li>Components image no emit switch event (close #3132) (#3134 by @imswk)</li><li>Components [el-upload] revoke object url on item remove (#3135 by @adaex)</li><li>[el-cascader-panel] fix childrenData (close #3126) (#3131 by @qinpeip)</li><li>Locale update korean translation (#3137 by @rikapo)</li><li>Components layout css lost (#3140 by @JeremyWuuuuu)</li><li>Icon clipboard (#3142 by @kooriookami)</li><li>Components [el-table] width init error (close #3087) (#3117 by @imswk)</li><li>[el-scrollbar] add missing off mouseup (#3143 by @kooriookami)</li><li>Style update calc style (#3090 by @kooriookami)</li><li>Style checkbox support size prop both border or not (#3099 by @kooriookami)</li><li>Style radio support size prop both border or not (#3103 by @kooriookami)</li><li>Table fix Destructuring assignment bug (#2893 by @HaitaoWang555)</li><li>[image-viewer] two-finger zoom in and out (#3114 by @Alanscut)</li></ul>", 1);
 
 const _hoisted_12 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Refactors ");
 
@@ -823,20 +823,20 @@ const _hoisted_365 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"]
 
 const _hoisted_366 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("ul", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("li", null, "Fix router behavior (#745)"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("li", null, "Add esm bundle (#577)"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("li", null, "Fix date picker referencing issue (#757)"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("li", null, "Fix pagination current-change event not emitting (#756)"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("li", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Fix "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "bodyStyle"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" bug (#754)")])], -1);
 
-function md_loader_CHANGELOG_en_USvue_type_template_id_a430bdd4_render(_ctx, _cache) {
+function md_loader_CHANGELOG_en_USvue_type_template_id_4811a692_render(_ctx, _cache) {
   const _component_app_link = Object(vue_esm_browser_prod["resolveComponent"])("app-link");
 
   const _component_app_heading = Object(vue_esm_browser_prod["resolveComponent"])("app-heading");
 
   const _component_right_nav = Object(vue_esm_browser_prod["resolveComponent"])("right-nav");
 
-  return Object(vue_esm_browser_prod["openBlock"])(), Object(vue_esm_browser_prod["createElementBlock"])("section", md_loader_CHANGELOG_en_USvue_type_template_id_a430bdd4_hoisted_1, [Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+  return Object(vue_esm_browser_prod["openBlock"])(), Object(vue_esm_browser_prod["createElementBlock"])("section", md_loader_CHANGELOG_en_USvue_type_template_id_4811a692_hoisted_1, [Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
     id: "changelog",
     content: "Changelog",
     href: "#changelog",
     level: "2"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [md_loader_CHANGELOG_en_USvue_type_template_id_a430bdd4_hoisted_2, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [md_loader_CHANGELOG_en_USvue_type_template_id_4811a692_hoisted_2, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
       href: "#changelog"
     })]),
@@ -847,12 +847,12 @@ function md_loader_CHANGELOG_en_USvue_type_template_id_a430bdd4_render(_ctx, _ca
     href: "#one-one-zero-beta-eight",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [md_loader_CHANGELOG_en_USvue_type_template_id_a430bdd4_hoisted_3, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [md_loader_CHANGELOG_en_USvue_type_template_id_4811a692_hoisted_3, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
       href: "#one-one-zero-beta-eight"
     })]),
     _: 1
-  }), md_loader_CHANGELOG_en_USvue_type_template_id_a430bdd4_hoisted_4, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+  }), md_loader_CHANGELOG_en_USvue_type_template_id_4811a692_hoisted_4, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
     id: "breaking-changes",
     content: "Breaking changes:",
     href: "#breaking-changes",
@@ -2839,12 +2839,12 @@ function md_loader_CHANGELOG_en_USvue_type_template_id_a430bdd4_render(_ctx, _ca
     _: 1
   }), _hoisted_366, Object(vue_esm_browser_prod["createVNode"])(_component_right_nav)]);
 }
-// CONCATENATED MODULE: ./CHANGELOG.en-US.md?vue&type=template&id=a430bdd4
+// CONCATENATED MODULE: ./CHANGELOG.en-US.md?vue&type=template&id=4811a692
 
 // CONCATENATED MODULE: ./CHANGELOG.en-US.md
 
 const script = {}
-script.render = md_loader_CHANGELOG_en_USvue_type_template_id_a430bdd4_render
+script.render = md_loader_CHANGELOG_en_USvue_type_template_id_4811a692_render
 
 /* harmony default export */ var CHANGELOG_en_US = (script);
 // EXTERNAL MODULE: ./website/i18n/page.json
