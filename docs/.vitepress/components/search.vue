@@ -27,7 +27,7 @@ import { ref, computed, watch, onMounted } from 'vue'
 import { useRouter } from 'vitepress'
 import algoliasearch from 'algoliasearch'
 import { Search } from '@element-plus/icons'
-import { useToggle } from '../utils/index'
+import { useToggle } from '../utils'
 import localeData from '../assets/components/search.json'
 import { useLang } from '../utils/routes'
 import { Language } from '../constants/language'
@@ -42,6 +42,7 @@ const query = ref('')
 const isEmpty = ref(false)
 const placeholder = computed(() => locale.value.search || '')
 const emptyText = computed(() => locale.value.empty || '')
+
 const initIndex = () => {
   const client = algoliasearch('7DCTSU0WBW', '463385cf36ad2e81aff21afea1c0409c')
   index.value = client.initIndex(`element-${ locale.value.index }`)
@@ -109,7 +110,8 @@ onMounted(initIndex)
   @media screen and (min-width: 850px) {
     min-width: 176.3px;
 
-    .search-box-placeholder, .search-box-key {
+    .search-box-placeholder,
+    .search-box-key {
       display: flex;
     }
   }

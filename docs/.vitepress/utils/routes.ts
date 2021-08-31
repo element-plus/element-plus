@@ -6,9 +6,10 @@ export const useLang = () => {
   const route = useRoute()
   return computed(() => {
     // the first part of the first slash
-    const path = route.data.relativePath
+    const path = route.data?.relativePath
     let langSign: Language
-    if (path.includes('/')) {
+
+    if (path?.includes('/')) {
       langSign = path.split('/').shift() as Language
     } else {
       langSign = defaultLang
@@ -24,5 +25,10 @@ export const useRootPath = (lang: ReturnType<typeof useLang>) => {
 export const useIsHome = () => {
   const route = useRoute()
 
-  return computed(() => route.path === '/' || route.data.relativePath.split('/')[1] === 'index.md')
+  return computed(() => {
+
+    const { relativePath: path } = route.data || {}
+
+    return !path.includes('/') ? true : path.split('/')[1] === 'index.md'
+  })
 }

@@ -5,6 +5,8 @@ lang: en-US
 
 <script setup>
 
-window.location.pathname = '/en-US/'
+if (typeof window !== 'undefined') {
+  window.location.pathname = '/en-US/'
+}
 
 </script>

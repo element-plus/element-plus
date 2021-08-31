@@ -1,5 +1,5 @@
 ---
-title: '网站快速成型工具'
+title: 网站快速成型工具
 lang: zh-CN
 ---
 <script setup>

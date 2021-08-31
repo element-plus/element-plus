@@ -1,8 +1,6 @@
 <template>
-  <div
-    class="header-wrapper"
-  >
-    <header ref="header" class="header">
+  <div class="header-wrapper">
+    <header class="header">
       <div class="header-container">
         <h1>
           <toggle-sidebar-btn @toggle="$emit('toggle-sidebar')" />
@@ -11,49 +9,49 @@
               src="../assets/images/element-plus-logo.svg"
               alt="element-logo"
               class="nav-logo"
-            >
+            />
             <img
               src="../assets/images/element-plus-logo-small.svg"
               alt="element-logo"
               class="nav-logo-small"
-            >
+            />
           </a>
         </h1>
         <div style="flex-grow: 1;"></div>
         <algolia-search />
         <ul class="nav">
           <li v-for="(navItem, key) in nav" :key="key" class="nav-item">
-            <nav-link
-              :item="navItem"
-            />
+            <nav-link :item="navItem" />
           </li>
           <!-- gap -->
           <!-- 语言选择器 -->
         </ul>
         <div class="nav-gap"></div>
         <div class="language-selector">
-          <el-dropdown
-            class="nav-dropdown nav-lang"
-            :class="{ 'is-active': state.langDropdownVisible }"
-            @visible-change="handleLangDropdownToggle"
-          >
-            <span>
-              {{ state.langs[lang] }}
-              <i class="el-icon-arrow-down el-icon--right"></i>
-            </span>
-            <template #dropdown>
-              <el-dropdown-menu class="nav-dropdown-list">
-                <el-dropdown-item
-                  v-for="(value, key) in state.langs"
-                  :key="key"
-                  :class="{ 'current-language': lang === value }"
-                  @click="switchLang(key)"
-                >
-                  {{ value }}
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
+          <ClientOnly>
+            <el-dropdown
+              class="nav-dropdown nav-lang"
+              :class="{ 'is-active': state.langDropdownVisible }"
+              @visible-change="handleLangDropdownToggle"
+            >
+              <span>
+                {{ state.langs[lang] }}
+                <i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+              <template #dropdown>
+                <el-dropdown-menu class="nav-dropdown-list">
+                  <el-dropdown-item
+                    v-for="(value, key) in state.langs"
+                    :key="key"
+                    :class="{ 'current-language': lang === value }"
+                    @click="switchLang(key)"
+                  >
+                    {{ value }}
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </ClientOnly>
         </div>
       </div>
     </header>
