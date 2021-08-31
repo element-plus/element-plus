@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute } from 'vitepress'
-import zhCN from 'element-plus/es/locale/lang/zh-cn'
-import enUS from 'element-plus/es/locale/lang/en'
+import zhCN from 'element-plus/lib/locale/lang/zh-cn'
+import enUS from 'element-plus/lib/locale/lang/en'
 import NotFound from '../components/not-found.vue'
 import { useLang, useIsHome } from '../utils/routes'
 import { useToggle } from '../utils'

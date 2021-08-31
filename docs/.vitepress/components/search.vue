@@ -20,47 +20,6 @@
       </div>
     </el-dialog>
   </div>
-  <!-- <el-autocomplete
-    v-model="query"
-    size="small"
-    :popper-class="`algolia-search${ isEmpty ? ' is-empty' : '' }`"
-    :fetch-suggestions="querySearch"
-    :placeholder="placeholder"
-    :trigger-on-focus="false"
-    highlight-first-item
-    @select="handleSelect"
-  >
-    <template #default="props">
-      <p v-if="props && props.item.title" class="algolia-search-title">
-        <span v-html="props.item.highlightedCompo"></span>
-        <span class="algolia-search-separator"></span>
-        <span v-html="props.item.title"></span>
-      </p>
-      <p
-        v-if="props && props.item.content"
-        class="algolia-search-content"
-        v-html="props.item.content"
-      ></p>
-      <a
-        v-if="props && props.item.img"
-        class="algolia-search-link"
-        target="_blank"
-        href="https://www.algolia.com/docsearch"
-      >
-        <img
-          class="algolia-search-logo"
-          src="../assets/images/search-by-algolia.svg"
-          alt="algolia-logo"
-        >
-      </a>
-      <p
-        v-if="props && props.item.isEmpty"
-        class="algolia-search-empty"
-      >
-        {{ emptyText }}
-      </p>
-    </template>
-  </el-autocomplete> -->
 </template>
 
 <script setup lang="ts">

@@ -1,20 +1,25 @@
 import { computed } from 'vue'
 import { useRoute } from 'vitepress'
-import { defaultLang } from '../constants/language'
+import { defaultLang, Language } from '../constants/language'
 
 export const useLang = () => {
   const route = useRoute()
   return computed(() => {
     // the first part of the first slash
-    const langSign = route.path.slice(1).split('/').shift()
-    return langSign || defaultLang
+    const path = route.data.relativePath
+    let langSign: Language
+    if (path.includes('/')) {
+      langSign = path.split('/').shift() as Language
+    } else {
+      langSign = defaultLang
+    }
+    return langSign
   })
 }
 
 export const useRootPath = (lang: ReturnType<typeof useLang>) => {
   return computed(() => lang.value === defaultLang ? '' : `${lang.value}`)
 }
-
 
 export const useIsHome = () => {
   const route = useRoute()
