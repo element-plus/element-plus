@@ -3,7 +3,9 @@ import type { IOptionProps } from './token'
 export function useOption(props: IOptionProps, { emit }) {
   return {
     hoverItem: () => {
-      emit('hover', props.index)
+      if (!props.disabled) {
+        emit('hover', props.index)
+      }
     },
     selectOptionClick: () => {
       if (!props.disabled) {

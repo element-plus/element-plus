@@ -1,6 +1,7 @@
 @use "sass:map";
 
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
 
 @include b(select-dropdown) {
@@ -10,6 +11,14 @@
 
   .#{$namespace}-scrollbar.is-empty .#{$namespace}-select-dropdown__list {
     padding: 0;
+  }
+
+  @include e(option-item) {
+    &:hover {
+      &:not(.hover) {
+        background-color: transparent;
+      }
+    }
   }
 }
 
