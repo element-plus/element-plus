@@ -149,6 +149,59 @@ export default defineComponent({
       }
     })
 
+    // 计算正确的日期范围
+    const calculateValidatedDateRange = (startDayjs: dayjs.Dayjs,endDayjs: dayjs.Dayjs) => {
+      const firstDay = startDayjs.startOf('week')
+      const lastDay = endDayjs.endOf('week')
+      const firstMonth = firstDay.get('month')
+      const lastMonth = lastDay.get('month')
+
+      // 当月
+      if(firstMonth === lastMonth){
+        return [[firstDay, lastDay]]
+      }
+      // 隔月
+      else if(firstMonth + 1 === lastMonth ){
+
+        const firstMonthLastDay = firstDay.endOf('month')
+        const lastMonthFirstDay = lastDay.startOf('month')
+
+        // 第一个月最后一天和最后一个月的第一天是否在同一周
+        const isSameWeek = firstMonthLastDay.isSame(lastMonthFirstDay, 'week')
+        const lastMonthStartDay = isSameWeek ? lastMonthFirstDay.add(1, 'week') : lastMonthFirstDay
+
+        return [[firstDay, firstMonthLastDay], [lastMonthStartDay.startOf('week'), lastDay]]
+      }
+      // 隔两月(特殊情况，兼容2021年1月30到2021年2月28日这样的情况)
+      else if(firstMonth + 2 === lastMonth ){
+
+        const firstMonthLastDay = firstDay.endOf('month')
+        const secondMonthFisrtDay = firstDay.add(1,'month').startOf('month')
+
+        // 第一个月最后一天和第二个月的第一天是否在同一周
+        const secondMonthStartDay = firstMonthLastDay.isSame(secondMonthFisrtDay, 'week') ? secondMonthFisrtDay.add(1, 'week') : secondMonthFisrtDay
+
+        const secondMonthLastDay = secondMonthStartDay.endOf('month')
+        const lastMonthFirstDay = lastDay.startOf('month')
+
+        // 第二个月最后一天和最后一个月的第一天是否在同一周
+        const lastMonthStartDay = secondMonthLastDay.isSame(lastMonthFirstDay, 'week') ? lastMonthFirstDay.add(1, 'week') : lastMonthFirstDay
+
+        return [
+          [firstDay, firstMonthLastDay],
+          [secondMonthStartDay.startOf('week'), secondMonthLastDay],
+          [lastMonthStartDay.startOf('week'), lastDay],
+        ]
+      }
+      // 其他情况
+      else {
+        console.warn(
+          '[ElementCalendar]start time and end time interval must not exceed two months',
+        )
+        return []
+      }
+    }
+
     // if range is valid, we get a two-digit array
     const validatedRange = computed(() => {
       if (!props.range) return []
@@ -162,10 +215,7 @@ export default defineComponent({
       }
       if (startDayjs.isSame(endDayjs, 'month')) {
         // same month
-        return [[
-          startDayjs.startOf('week'),
-          endDayjs.endOf('week'),
-        ]]
+        return calculateValidatedDateRange(startDayjs, endDayjs)
       } else {
         // two months
         if (startDayjs.add(1, 'month').month() !== endDayjs.month()) {
@@ -174,22 +224,7 @@ export default defineComponent({
           )
           return []
         }
-        const endMonthFirstDay = endDayjs.startOf('month')
-        const endMonthFirstWeekDay = endMonthFirstDay.startOf('week')
-        let endMonthStart = endMonthFirstDay
-        if (!endMonthFirstDay.isSame(endMonthFirstWeekDay, 'month')) {
-          endMonthStart = endMonthFirstDay.endOf('week').add(1, 'day')
-        }
-        return [
-          [
-            startDayjs.startOf('week'),
-            startDayjs.endOf('month'),
-          ],
-          [
-            endMonthStart,
-            endDayjs.endOf('week'),
-          ],
-        ]
+        return calculateValidatedDateRange(startDayjs, endDayjs)
       }
     })
 
