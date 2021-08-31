@@ -63,9 +63,9 @@ router.isReady().then(() => {
 
   app.config.globalProperties.$copySvgIcon = iconName => {
     clipboardCopy(
-      `<el-svg-icon>
+      `<el-icon>
   <${hyphenate(iconName)} />
-</el-svg-icon>
+</el-icon>
       `,
     ).then(() => {
       app.config.globalProperties.$message({
