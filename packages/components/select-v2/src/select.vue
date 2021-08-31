@@ -10,14 +10,14 @@
   >
     <el-popper
       ref="popper"
-      v-model:visible="expanded"
+      v-model:visible="dropdownMenuVisible"
       :append-to-body="popperAppendToBody"
       :popper-class="`el-select-v2__popper ${popperClass}`"
       :gpu-acceleration="false"
       :stop-popper-mouse-event="false"
       :popper-options="popperOptions"
       :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
-      effect="light"
+      :effect="Effect.LIGHT"
       manual-mode
       placement="bottom-start"
       pure
@@ -109,11 +109,11 @@
                 :name="name"
                 :unselectable="expanded ? 'on' : undefined"
                 @update:modelValue="onUpdateInputValue"
-                @click.stop.prevent="handleInputBoxClick"
                 @focus="handleFocus"
                 @input="onInput"
-                @compositionupdate="onCompositionUpdate"
-                @compositionend="onInput"
+                @compositionstart="handleCompositionStart"
+                @compositionupdate="handleCompositionUpdate"
+                @compositionend="handleCompositionEnd"
                 @keydown.esc.stop.prevent="handleEsc"
                 @keydown.delete.stop="handleDel"
               >
@@ -149,9 +149,9 @@
                 spellcheck="false"
                 type="text"
                 :unselectable="expanded ? 'on' : undefined"
-                @click.stop.prevent="handleInputBoxClick"
-                @compositionend="onInput"
-                @compositionupdate="onCompositionUpdate"
+                @compositionstart="handleCompositionStart"
+                @compositionupdate="handleCompositionUpdate"
+                @compositionend="handleCompositionEnd"
                 @focus="handleFocus"
                 @input="onInput"
                 @keydown.esc.stop.prevent="handleEsc"
@@ -203,7 +203,7 @@
           </template>
           <template #empty>
             <slot name="empty">
-              <p class="el-select-v2__empty">{{ emptyText }}</p>
+              <p class="el-select-v2__empty">{{ emptyText ? emptyText : '' }}</p>
             </slot>
           </template>
         </el-select-menu>

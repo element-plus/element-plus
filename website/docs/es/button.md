@@ -168,7 +168,7 @@ Además del tamaño por defecto, el componente Button provee tres tamaños adici
 
 :::
 
-### Atributos
+### Button Atributos
 
 | Atributo    | Descripción                                   | Tipo    | Valores aceptados                                  | Por defecto |
 | ----------- | --------------------------------------------- | ------- | -------------------------------------------------- | ----------- |
@@ -182,3 +182,15 @@ Además del tamaño por defecto, el componente Button provee tres tamaños adici
 | icon        | nombre de la clase del icono                  | string  | —                                                  | —           |
 | autofocus   | misma funcionalidad que la nativa `autofocus` | boolean | —                                                  | false       |
 | native-type | misma funcionalidad que la nativa `type`      | string  | button / submit / reset                            | button      |
+
+### Button-Group Attributes
+
+| Attribute | Description                                      | Type   | Accepted Values       | Default |
+| --------- | ------------------------------------------------ | ------ | --------------------- | ------- |
+| size      | control the size of buttons in this button-group | string | medium / small / mini | —       |
+
+### Button-Group Slots
+
+| Name    | Description                    |
+| ------- | ------------------------------ |
+| default | customize button group content |

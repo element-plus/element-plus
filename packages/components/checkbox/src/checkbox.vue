@@ -3,7 +3,7 @@
     :id="id"
     class="el-checkbox"
     :class="[
-      border && checkboxSize ? 'el-checkbox--' + checkboxSize : '',
+      checkboxSize ? 'el-checkbox--' + checkboxSize : '',
       { 'is-disabled': isDisabled },
       { 'is-bordered': border },
       { 'is-checked': isChecked }
@@ -18,15 +18,14 @@
         'is-indeterminate': indeterminate,
         'is-focus': focus
       }"
-      :tabindex="indeterminate ? 0 : false"
-      :role="indeterminate ? 'checkbox' : false"
+      :tabindex="indeterminate ? 0 : undefined"
+      :role="indeterminate ? 'checkbox' : undefined"
       :aria-checked="indeterminate ? 'mixed' : false"
     >
       <span class="el-checkbox__inner"></span>
       <input
         v-if="trueLabel || falseLabel"
         v-model="model"
-        :checked="isChecked"
         class="el-checkbox__original"
         type="checkbox"
         :aria-hidden="indeterminate ? 'true' : 'false'"

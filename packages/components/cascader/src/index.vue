@@ -11,7 +11,7 @@
     :stop-popper-mouse-event="false"
     transition="el-zoom-in-top"
     :gpu-acceleration="false"
-    effect="light"
+    :effect="Effect.LIGHT"
     pure
     @after-leave="hideSuggestionPanel"
   >
@@ -157,6 +157,7 @@ import isServer from '@element-plus/utils/isServer'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
 import { isValidComponentSize } from '@element-plus/utils/validators'
+import { Effect, Options } from '@element-plus/components/popper'
 
 import type { ComputedRef, PropType } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
@@ -171,7 +172,7 @@ const INPUT_HEIGHT_MAP = {
   mini: 28,
 }
 
-const popperOptions = {
+const popperOptions: Partial<Options> = {
   modifiers: [
     {
       name: 'arrowPosition',
@@ -279,7 +280,7 @@ export default defineComponent({
 
     const isDisabled = computed(() => props.disabled || elForm.disabled)
     const inputPlaceholder = computed(() => props.placeholder || t('el.cascader.placeholder'))
-    const realSize: ComputedRef<string> = computed(() => props.size || elFormItem.size || $ELEMENT.size)
+    const realSize: ComputedRef<ComponentSize> = computed(() => props.size || elFormItem.size || $ELEMENT.size)
     const tagSize = computed(() => ['small', 'mini'].includes(realSize.value) ? 'mini' : 'small')
     const multiple = computed(() => !!props.props.multiple)
     const readonly = computed(() => !props.filterable || multiple.value)
@@ -303,7 +304,7 @@ export default defineComponent({
         : ''
     })
 
-    const checkedValue = computed({
+    const checkedValue = computed<CascaderValue>({
       get () {
         return props.modelValue
       },
@@ -553,6 +554,7 @@ export default defineComponent({
     })
 
     return {
+      Effect,
       popperOptions,
       popper,
       popperPaneRef,

@@ -63,6 +63,7 @@ interface TableColumnCtx<T> {
   columns: TableColumnCtx<T>[]
   getColumnIndex: () => number
   no: number
+  filterOpened?: boolean
 }
 
 interface TableColumn<T> extends ComponentInternalInstance {
@@ -95,7 +96,7 @@ export default {
     default: '',
   },
   renderHeader: Function as PropType<
-    TableColumnCtx<DefaultRow>['renderHeader']
+  TableColumnCtx<DefaultRow>['renderHeader']
   >,
   sortable: {
     type: [Boolean, String],
@@ -103,7 +104,7 @@ export default {
   },
   sortMethod: Function as PropType<TableColumnCtx<DefaultRow>['sortMethod']>,
   sortBy: [String, Function, Array] as PropType<
-    TableColumnCtx<DefaultRow>['sortBy']
+  TableColumnCtx<DefaultRow>['sortBy']
   >,
   resizable: {
     type: Boolean,
@@ -119,7 +120,7 @@ export default {
   selectable: Function as PropType<TableColumnCtx<DefaultRow>['selectable']>,
   reserveSelection: Boolean,
   filterMethod: Function as PropType<
-    TableColumnCtx<DefaultRow>['filterMethod']
+  TableColumnCtx<DefaultRow>['filterMethod']
   >,
   filteredValue: Array as PropType<TableColumnCtx<DefaultRow>['filteredValue']>,
   filters: Array as PropType<TableColumnCtx<DefaultRow>['filters']>,

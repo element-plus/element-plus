@@ -743,7 +743,7 @@ describe('DateRangePicker', () => {
     await nextTick();
     (panels[1].querySelector('td.available') as HTMLElement).click()
     await nextTick()
-    expect((wrapper.vm as any).value.toString()).toBe([ '01/05 2021', '01/06 2021' ].toString())
+    expect((wrapper.vm as any).value.toString()).toBe(['01/05 2021', '01/06 2021'].toString())
   })
 })
 

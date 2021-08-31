@@ -129,6 +129,7 @@ export default defineComponent({
         dataList && store.value.appendNodes(dataList, parent)
         node.loading = false
         node.loaded = true
+        node.childrenData = node.childrenData || []
         cb && cb(dataList)
       }
 
@@ -297,7 +298,7 @@ export default defineComponent({
     }))
 
     watch(
-      [ config, () => props.options ],
+      [config, () => props.options],
       initStore,
       { deep: true, immediate: true },
     )

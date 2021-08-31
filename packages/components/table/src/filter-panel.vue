@@ -6,7 +6,7 @@
     :placement="placement"
     :show-arrow="false"
     :stop-popper-mouse-event="false"
-    effect="light"
+    :effect="Effect.LIGHT"
     pure
     manual-mode
     popper-class="el-table-filter"
@@ -89,7 +89,7 @@ import {
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ClickOutside } from '@element-plus/directives'
 import { useLocaleInject } from '@element-plus/hooks'
-import ElPopper from '@element-plus/components/popper'
+import ElPopper, { Effect, Placement } from '@element-plus/components/popper'
 import ElScrollbar from '@element-plus/components/scrollbar'
 
 import type {
@@ -113,7 +113,7 @@ export default defineComponent({
   directives: { ClickOutside },
   props: {
     placement: {
-      type: String,
+      type: String as PropType<Placement>,
       default: 'bottom-start',
     },
     store: {
@@ -239,6 +239,7 @@ export default defineComponent({
       hideFilterPanel,
       popperPaneRef,
       tooltip,
+      Effect,
     }
   },
 })

@@ -224,6 +224,17 @@ $--radio: map.merge(
   $--radio
 );
 
+$--radio-height: () !default;
+$--radio-height: map.merge(
+  (
+    'default': 40px,
+    'medium': 36px,
+    'small': 32px,
+    'mini': 28px,
+  ),
+  $--radio-height
+);
+
 $--radio-button: () !default;
 $--radio-button: map.merge(
   (
@@ -263,10 +274,10 @@ $--radio-input-border-color-hover: var(--el-color-primary) !default;
 $--radio-bordered-padding: () !default;
 $--radio-bordered-padding: map.merge(
   (
-    'default': 12px 20px 0 10px,
-    'medium': 10px 20px 0 10px,
-    'small': 8px 15px 0 10px,
-    'mini': 6px 15px 0 10px,
+    'default': 0 20px 0 10px,
+    'medium': 0 20px 0 10px,
+    'small': 0 15px 0 10px,
+    'mini': 0 15px 0 10px,
   ),
   $--radio-bordered-padding
 );
@@ -289,17 +300,6 @@ $--radio-bordered-input-width: map.merge(
     'mini': 12px,
   ),
   $--radio-bordered-input-width
-);
-
-$--radio-bordered-height: () !default;
-$--radio-bordered-height: map.merge(
-  (
-    'default': 40px,
-    'medium': 36px,
-    'small': 32px,
-    'mini': 28px,
-  ),
-  $--radio-bordered-height
 );
 
 /* Select

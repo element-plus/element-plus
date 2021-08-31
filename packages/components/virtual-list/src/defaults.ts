@@ -1,7 +1,8 @@
 import { isNumber } from '@element-plus/utils/util'
 
 import type { PropType } from 'vue'
-import type { Direction, LayoutDirection, StyleValue, ItemSize } from './types'
+import type { Direction, LayoutDirection, ItemSize } from './types'
+import type { StyleValue } from '@element-plus/utils/types'
 
 
 export const DEFAULT_DYNAMIC_LIST_ITEM_SIZE = 50

@@ -10,10 +10,9 @@ import {
   ref,
   watch,
   provide,
-  PropType,
-  Ref,
   onUnmounted,
 } from 'vue'
+import type { PropType, Ref } from 'vue'
 import mitt, { Emitter } from 'mitt'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 
@@ -27,7 +26,7 @@ export default defineComponent({
     accordion: Boolean,
     modelValue: {
       type: [Array, String, Number] as PropType<
-        string | number | Array<string | number>
+      string | number | Array<string | number>
       >,
       default: () => [],
     },

@@ -10,6 +10,8 @@
 </template>
 <script lang='ts'>
 import { defineComponent } from 'vue'
+import type { PropType } from 'vue'
+import type { StyleValue } from '@element-plus/utils/types'
 
 export default defineComponent({
   name: 'ElCard',
@@ -19,8 +21,8 @@ export default defineComponent({
       default: '',
     },
     bodyStyle: {
-      type: [String, Object, Array],
-      default: '',
+      type: [String, Object, Array] as PropType<StyleValue>,
+      default: '' as StyleValue,
     },
     shadow: {
       type: String,

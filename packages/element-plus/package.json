@@ -10,7 +10,11 @@
   "style": "dist/index.css",
   "unpkg": "dist/index.full.js",
   "jsdevlivr": "dist/index.full.js",
-  "sideEffects": false,
+  "sideEffects": [
+    "dist/*",
+    "theme-chalk/*.css",
+    "theme-chalk/src/*.scss"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/element-plus/element-plus.git"

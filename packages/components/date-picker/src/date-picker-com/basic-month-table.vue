@@ -68,7 +68,7 @@ export default defineComponent({
   setup(props, ctx) {
     const { t, lang } = useLocaleInject()
     const months = ref(props.date.locale('en').localeData().monthsShort().map(_=>_.toLowerCase()))
-    const tableRows = ref([ [], [], [] ])
+    const tableRows = ref([[], [], []])
     const lastRow = ref(null)
     const lastColumn = ref(null)
     const rows = computed(() => {

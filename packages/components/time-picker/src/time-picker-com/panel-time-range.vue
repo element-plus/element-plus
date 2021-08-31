@@ -98,7 +98,7 @@ export default defineComponent({
     visible: Boolean,
     actualVisible: Boolean,
     parsedValue: {
-      type: [Array, String] as PropType<string | Array<Dayjs>>,
+      type: [Array] as PropType<Array<Dayjs>>,
     },
     format: {
       type: String,
