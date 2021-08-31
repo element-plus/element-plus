@@ -4,7 +4,7 @@ lang: zh-CN
 ---
 
 <script setup>
-import Page from '../../pages/guide.vue'
+import Page from '../../.vitepress/pages/home.vue'
 </script>
 
 <Page />
