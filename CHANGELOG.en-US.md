@@ -33,7 +33,8 @@
 - Style checkbox support size prop both border or not (#3099 by @kooriookami)
 - Style radio support size prop both border or not (#3103 by @kooriookami)
 - Table fix Destructuring assignment bug (#2893 by @HaitaoWang555)
-- 
+- [image-viewer] two-finger zoom in and out (#3114 by @Alanscut)
+
 #### Refactors
   
 - Enhance type definition (#3062 by @sxzz)

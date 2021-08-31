@@ -6,11 +6,7 @@
     "gen": "bash ./scripts/gc.sh",
     "bootstrap": "yarn --frozen-lockfile && npx lerna bootstrap && yarn gen:version",
     "gen:version": "esno build/gen-version.ts",
-    "build": "yarn bootstrap && yarn clean:lib && yarn build:esm-bundle && yarn build:lib && yarn build:lib-full && yarn build:esm && yarn build:utils && yarn build:locale && yarn build:locale-umd && yarn build:theme && yarn build:helper",
     "clean:lib": "rimraf lib && rimraf es && rimraf dist",
-    "build:lib": "cross-env LIBMODE=core webpack --config ./build/webpack.config.js",
-    "build:lib-full": "cross-env LIBMODE=full webpack --config ./build/webpack.config.js",
-    "build:esm-bundle": "rollup --config ./build/rollup.config.bundle.js && yarn build:type",
     "build:locale-umd": "esno ./build/build-locale.ts",
     "build:helper": "esno build/build-helper.ts",
     "build:indices": "esno build/build-indices.ts",
@@ -31,9 +27,7 @@
     "lint-fix": "eslint --fix ./packages --ext .vue,.js,.ts",
     "website-build": "rimraf website-dist && cross-env NODE_ENV=production webpack --config ./website/webpack.config.js",
     "website-dev": "webpack-dev-server --config ./website/webpack.config.js",
-    "website-dev:play": "cross-env PLAY_ENV=true yarn website-dev",
-    "upgrade:vue": "bash ./scripts/update-versions.sh",
-    "fast-build": "sh ./scripts/build.sh"
+    "website-dev:play": "cross-env PLAY_ENV=true yarn website-dev"
   },
   "peerDependencies": {
     "vue": "^3.2.0"
@@ -113,6 +107,7 @@
     "transliteration": "^2.1.11",
     "ts-loader": "^8.0.3",
     "ts-morph": "^11.0.3",
+    "ts-node": "^10.1.0",
     "typescript": "^4.3.5",
     "url-loader": "^4.1.0",
     "vue": "^3.2.0",
