@@ -43,6 +43,7 @@ describe('Calendar.vue', () => {
     expect(wrapper.element.querySelector('.el-calendar__button-group')).toBeNull()
   })
 
+  // https://github.com/element-plus/element-plus/issues/3155
   it('range when the start date will be calculated to last month', () => {
     const wrapper = _mount(`
     <el-calendar :range="[new Date(2021, 1, 2), new Date(2021, 1, 28)]"></el-calendar>
@@ -73,6 +74,7 @@ describe('Calendar.vue', () => {
     expect(cell.classList.contains('is-selected')).toBeTruthy()
   })
 
+  // https://github.com/element-plus/element-plus/issues/3155
   it('range tow monthes when the start date will be calculated to last month', async() => {
     const wrapper = _mount(`
     <el-calendar :range="[new Date(2021, 1, 2), new Date(2021, 2, 21)]"></el-calendar>
