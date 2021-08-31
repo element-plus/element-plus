@@ -323,6 +323,7 @@ describe('Select', () => {
     await nextTick()
     const vm = wrapper.vm as any
     await wrapper.trigger('click')
+    await nextTick()
     expect(vm.visible).toBeTruthy()
   })
 
@@ -796,7 +797,7 @@ describe('Select', () => {
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).exists()).toBeFalsy()
     // Simulate keyboard events
     const selectInput = wrapper.find('input')
-    selectInput.trigger('keydown', {
+    await selectInput.trigger('keydown', {
       key: EVENT_CODE.backspace,
     })
     await nextTick()
@@ -896,5 +897,86 @@ describe('Select', () => {
     it('should call remote method in multiple mode', async () => {
       await testRemoteSearch({ multiple: true })
     })
+  })
+
+  it('keyboard operations', async () => {
+    const wrapper = createSelect({
+      data () {
+        return {
+          multiple: true,
+          options: [
+            {
+              value: 1,
+              label: 'option 1',
+              disabled: true,
+            },
+            {
+              value: 2,
+              label: 'option 2',
+              disabled: true,
+            },
+            {
+              value: 3,
+              label: 'option 3',
+            },
+            {
+              value: 4,
+              label: 'option 4',
+            },
+            {
+              value: 5,
+              label: 'option 5',
+              options: [
+                {
+                  value: 51,
+                  label: 'option 5-1',
+                },
+                {
+                  value: 52,
+                  label: 'option 5-2',
+                },
+                {
+                  value: 53,
+                  label: 'option 5-3',
+                  disabled: true,
+                },
+              ],
+            },
+            {
+              value: 6,
+              label: 'option 6',
+            },
+          ],
+          value: [],
+        }
+      },
+    })
+    const select = wrapper.findComponent(Select)
+    const selectVm = select.vm as any
+    const vm = wrapper.vm as any
+    await wrapper.trigger('click')
+    await nextTick()
+    expect(selectVm.states.hoveringIndex).toBe(-1)
+    // should skip the disabled option
+    selectVm.onKeyboardNavigate('forward')
+    selectVm.onKeyboardNavigate('forward')
+    await nextTick()
+    expect(selectVm.states.hoveringIndex).toBe(3)
+    //  should skip the group option
+    selectVm.onKeyboardNavigate('backward')
+    selectVm.onKeyboardNavigate('backward')
+    selectVm.onKeyboardNavigate('backward')
+    selectVm.onKeyboardNavigate('backward')
+    await nextTick()
+    expect(selectVm.states.hoveringIndex).toBe(5)
+    selectVm.onKeyboardNavigate('backward')
+    selectVm.onKeyboardNavigate('backward')
+    selectVm.onKeyboardNavigate('backward')
+    await nextTick()
+    // navigate to the last one
+    expect(selectVm.states.hoveringIndex).toBe(9)
+    selectVm.onKeyboardSelect()
+    await nextTick()
+    expect(vm.value).toEqual([6])
   })
 })

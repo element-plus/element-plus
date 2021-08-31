@@ -159,6 +159,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }).filter(v => v !== null))
   })
 
+  const optionsAllDisabled = computed(() => filteredOptions.value.every(option => option.disabled))
+
   const selectSize = computed(() => props.size || elFormItem.size || $ELEMENT.size)
 
   const collapseTagSize = computed(() => ['small', 'mini'].indexOf(selectSize.value) > -1 ? 'mini' : 'small')
@@ -212,7 +214,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     return -1
   })
 
-  const dropdownMenuVisible = computed(() => expanded.value && emptyText.value !== false)
+  const dropdownMenuVisible = computed(() => {
+    return expanded.value && emptyText.value !== false
+  })
 
   // hooks
   const { createNewOption, removeNewOption, selectNewOption, clearAllNewOption } = useAllowCreate(props, states)
@@ -228,8 +232,10 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     if (props.automaticDropdown) return
     if (!selectDisabled.value) {
       if (states.isComposing) states.softFocus = true
-      expanded.value = !expanded.value
-      inputRef.value?.focus?.()
+      return nextTick(() => {
+        expanded.value = !expanded.value
+        inputRef.value?.focus?.()
+      })
     }
   }
 
@@ -270,8 +276,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const getValueIndex = (arr = [], value: unknown) => {
-    if (!isObject(value)) return arr.indexOf(value)
-
+    if (!isObject(value)) {
+      return arr.indexOf(value)
+    }
     const valueKey = props.valueKey
     let index = -1
     arr.some((item, i) => {
@@ -299,8 +306,10 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const resetInputHeight = () => {
-    if (props.collapseTags && !props.filterable) return
-    nextTick(() => {
+    if (props.collapseTags && !props.filterable) {
+      return
+    }
+    return nextTick(() => {
       if (!inputRef.value) return
       const selection = selectionRef.value
 
@@ -340,6 +349,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         selectedOptions = [...selectedOptions, option.value]
         states.cachedOptions.push(option)
         selectNewOption(option)
+        updateHoveringIndex(idx)
       }
       update(selectedOptions)
       if (option.created) {
@@ -355,6 +365,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         states.calculatedWidth = calculatorRef.value.getBoundingClientRect().width
       }
       resetInputHeight()
+      setSoftFocus()
     } else {
       selectedIndex.value = idx
       states.selectedLabel = option.label
@@ -366,6 +377,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       if (!option.created) {
         clearAllNewOption()
       }
+      updateHoveringIndex(idx)
     }
   }
 
@@ -382,8 +394,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       update(value)
       emit('remove-tag', tag.value)
       states.softFocus = true
-      nextTick(focusAndUpdatePopup)
       removeNewOption(tag)
+      return nextTick(focusAndUpdatePopup)
     }
     event.stopPropagation()
   }
@@ -392,9 +404,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     const focused = states.isComposing
     states.isComposing = true
     if (!states.softFocus) {
-      if (props.automaticDropdown || props.filterable) {
-        expanded.value = true
-      }
       // If already in the focus state, shouldn't trigger event
       if (!focused) emit('focus', event)
     } else {
@@ -407,7 +416,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
     // reset input value when blurred
     // https://github.com/ElemeFE/element/pull/10822
-    nextTick(() => {
+    return nextTick(() => {
       inputRef.value?.blur?.()
       if (calculatorRef.value) {
         states.calculatedWidth = calculatorRef.value.getBoundingClientRect().width
@@ -461,7 +470,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     update(emptyValue)
     emit('clear')
     clearAllNewOption()
-    nextTick(focusAndUpdatePopup)
+    return nextTick(focusAndUpdatePopup)
   }
 
   const onUpdateInputValue = (val: string) => {
@@ -469,56 +478,66 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     states.inputValue = val
   }
 
-  const onKeyboardNavigate = (direction: 'forward' | 'backward') => {
-    if (selectDisabled.value) return
-
-    if (props.multiple) {
-      expanded.value = true
+  const onKeyboardNavigate = (direction: 'forward' | 'backward', hoveringIndex: number = undefined) => {
+    const options = filteredOptions.value
+    if (
+      !['forward', 'backward'].includes(direction) ||
+      selectDisabled.value ||
+      options.length <= 0 ||
+      optionsAllDisabled.value
+    ) {
       return
     }
-
-    let newIndex: number
-
-    if (props.options.length === 0 || filteredOptions.value.length === 0) return
-
-    if (filteredOptions.value.length > 0) {
-      // only two ways: forward or backward
-      if (direction === 'forward') {
-        newIndex = selectedIndex.value + 1
-
-        if (newIndex > filteredOptions.value.length - 1) {
-          newIndex = 0
-        }
-        // states.hoveringIndex++
-        // if (states.hoveringIndex === props.options.length) {
-        //   states.hoveringIndex = 0
-        // }
-      } else {
-        newIndex = selectedIndex.value - 1
-
-        if (newIndex < 0) {
-          newIndex = filteredOptions.value.length - 1
-        }
+    if (!expanded.value) {
+      return toggleMenu()
+    }
+    if (hoveringIndex === undefined) {
+      hoveringIndex = states.hoveringIndex
+    }
+    let newIndex = -1
+    if (direction === 'forward') {
+      newIndex = hoveringIndex + 1
+      if (newIndex >= options.length) {
+        // return to the first option
+        newIndex = 0
       }
-
-      selectedIndex.value = newIndex
-      const option = filteredOptions.value[newIndex]
-      if (option.disabled || option.type === 'Group') {
-        onKeyboardNavigate(direction)
-        // prevent dispatching multiple nextTick callbacks.
-        return
+    } else if (direction === 'backward') {
+      newIndex = hoveringIndex - 1
+      if (newIndex < 0) {
+        // navigate to the last one
+        newIndex = options.length - 1
       }
-
-      emit(UPDATE_MODEL_EVENT, filteredOptions.value[newIndex])
-      emitChange(filteredOptions.value[newIndex])
+    }
+    const option = options[newIndex]
+    if (option.disabled || option.type === 'Group') {
+      // prevent dispatching multiple nextTick callbacks.
+      return onKeyboardNavigate(direction, newIndex)
+    } else {
+      updateHoveringIndex(newIndex)
+      scrollToItem(newIndex)
     }
   }
 
   const onKeyboardSelect = () => {
     if (!expanded.value) {
-      toggleMenu()
-    } else {
+      return toggleMenu()
+    } else if (~states.hoveringIndex) {
       onSelect(filteredOptions.value[states.hoveringIndex], states.hoveringIndex, false)
+    }
+  }
+
+  const updateHoveringIndex = (idx: number) => {
+    states.hoveringIndex = idx
+  }
+
+  const resetHoveringIndex = () => {
+    states.hoveringIndex = -1
+  }
+
+  const setSoftFocus = () => {
+    const _input = inputRef.value
+    if (_input) {
+      _input.focus?.()
     }
   }
 
@@ -542,14 +561,15 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const handleClickOutside = () => {
     expanded.value = false
-    handleBlur()
+    return handleBlur()
   }
 
   const handleMenuEnter = () => {
     states.inputValue = states.displayInputValue
     return nextTick(() => {
       if (~indexRef.value) {
-        scrollToItem(indexRef.value)
+        updateHoveringIndex(indexRef.value)
+        scrollToItem(states.hoveringIndex)
       }
     })
   }
@@ -559,21 +579,29 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const initStates = () => {
+    resetHoveringIndex()
     if (props.multiple) {
       if ((props.modelValue as Array<any>).length > 0) {
+        let initHovering = false
         states.cachedOptions.length = 0;
         (props.modelValue as Array<any>).map(selected => {
-          const item = filteredOptions.value.find(option => option.value === selected)
-          if (item) {
-            states.cachedOptions.push(item as Option)
+          const itemIndex = filteredOptions.value.findIndex(option => option.value === selected)
+          if (~itemIndex) {
+            states.cachedOptions.push(filteredOptions.value[itemIndex] as Option)
+            if (!initHovering) {
+              updateHoveringIndex(itemIndex)
+            }
+            initHovering = true
           }
         })
       }
     } else {
       if (props.modelValue) {
-        const selectedItem = filteredOptions.value.find(o => o.value === props.modelValue)
-        if (selectedItem) {
-          states.selectedLabel = selectedItem.label
+        const options = filteredOptions.value
+        const selectedItemIndex = options.findIndex(o => o.value === props.modelValue)
+        if (~selectedItemIndex) {
+          states.selectedLabel = options[selectedItemIndex].label
+          updateHoveringIndex(selectedItemIndex)
         } else {
           states.selectedLabel = `${props.modelValue}`
         }
@@ -682,6 +710,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     onKeyboardNavigate,
     onKeyboardSelect,
     onSelect,
+    onHover: updateHoveringIndex,
     onUpdateInputValue,
     handleCompositionStart,
     handleCompositionEnd,

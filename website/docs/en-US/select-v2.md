@@ -438,14 +438,6 @@ Enter keywords and search data from server.
 ```
 :::
 
-### Keyboard navigation
-
-WIP 👷‍♀️
-
-:::tip
-Some APIs are still undergoing (comparing to the non-virtualized select), because there were lots of legacy API refactors and new designs, the current version only implements the simplest and most used functionalities.
-:::
-
 ### SelectV2 Attributes
 | Param      | Description     | Type      | Accepted Values                  | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |

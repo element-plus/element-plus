@@ -114,6 +114,9 @@
                 @compositionstart="handleCompositionStart"
                 @compositionupdate="handleCompositionUpdate"
                 @compositionend="handleCompositionEnd"
+                @keydown.up.stop.prevent="onKeyboardNavigate('backward')"
+                @keydown.down.stop.prevent="onKeyboardNavigate('forward')"
+                @keydown.enter.stop.prevent="onKeyboardSelect"
                 @keydown.esc.stop.prevent="handleEsc"
                 @keydown.delete.stop="handleDel"
               >
@@ -154,6 +157,9 @@
                 @compositionend="handleCompositionEnd"
                 @focus="handleFocus"
                 @input="onInput"
+                @keydown.up.stop.prevent="onKeyboardNavigate('backward')"
+                @keydown.down.stop.prevent="onKeyboardNavigate('forward')"
+                @keydown.enter.stop.prevent="onKeyboardSelect"
                 @keydown.esc.stop.prevent="handleEsc"
                 @update:modelValue="onUpdateInputValue"
               >
@@ -248,6 +254,7 @@ export default defineComponent({
         height: API.popupHeight,
       }),
       onSelect: API.onSelect,
+      onHover: API.onHover,
       onKeyboardNavigate: API.onKeyboardNavigate,
       onKeyboardSelect: API.onKeyboardSelect,
     } as any)
