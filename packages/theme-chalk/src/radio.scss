@@ -13,22 +13,29 @@
 @include b(radio) {
   color: var(--el-radio-font-color);
   font-weight: var(--el-radio-font-weight);
-  line-height: 1;
   position: relative;
   cursor: pointer;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   white-space: nowrap;
   outline: none;
   font-size: var(--el-font-size-base);
+  user-select: none;
   margin-right: 30px;
+  height: map.get($--radio-height, 'default');
   @include utils-user-select(none);
+
+  @each $size in (medium, small, mini) {
+    &.#{$namespace}-radio--#{$size} {
+      height: map.get($--radio-height, $size);
+    }
+  }
 
   @include when(bordered) {
     padding: map.get($--radio-bordered-padding, 'default');
     border-radius: var(--el-border-radius-base);
     border: var(--el-border-base);
     box-sizing: border-box;
-    height: map.get($--radio-bordered-height, 'default');
 
     &.is-checked {
       border-color: var(--el-color-primary);
@@ -42,19 +49,20 @@
     & + .#{$namespace}-radio.is-bordered {
       margin-left: 10px;
     }
-  }
 
-  @each $size in (medium, small, mini) {
-    &.is-bordered {
-      padding: map.get($--radio-bordered-padding, $size);
-      border-radius: var(--el-border-radius-base);
-      height: map.get($--radio-bordered-height, $size);
-      .#{$namespace}-radio__label {
-        font-size: map.get($--button-font-size, $size);
-      }
-      .#{$namespace}-radio__inner {
-        height: map.get($--radio-bordered-input-height, $size);
-        width: map.get($--radio-bordered-input-width, $size);
+    @each $size in (medium, small, mini) {
+      &.#{$namespace}-radio--#{$size} {
+        padding: map.get($--radio-bordered-padding, $size);
+        border-radius: var(--el-border-radius-base);
+
+        .#{$namespace}-radio__label {
+          font-size: map.get($--button-font-size, $size);
+        }
+
+        .#{$namespace}-radio__inner {
+          height: map.get($--radio-bordered-input-height, $size);
+          width: map.get($--radio-bordered-input-width, $size);
+        }
       }
     }
   }
@@ -67,8 +75,7 @@
     white-space: nowrap;
     cursor: pointer;
     outline: none;
-    display: inline-block;
-    line-height: 1;
+    display: inline-flex;
     position: relative;
     vertical-align: middle;
 

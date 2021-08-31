@@ -78,7 +78,7 @@ const Message: IMessage = function(
   return {
     // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
     // for out component, so that all closing steps will not be skipped.
-    close: () => (vm.component.proxy as ComponentPublicInstance<{visible: boolean;}>).visible = false,
+    close: () => (vm.component.proxy as ComponentPublicInstance<{ visible: boolean; }>).visible = false,
   }
 } as any
 

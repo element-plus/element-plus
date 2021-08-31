@@ -3,7 +3,7 @@
     ref="refPopper"
     v-model:visible="pickerVisible"
     manual-mode
-    effect="light"
+    :effect="Effect.LIGHT"
     pure
     trigger="click"
     v-bind="$attrs"
@@ -138,7 +138,7 @@ import { useLocaleInject } from '@element-plus/hooks'
 import { ClickOutside } from '@element-plus/directives'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import ElInput from '@element-plus/components/input'
-import ElPopper from '@element-plus/components/popper'
+import ElPopper, { Effect } from '@element-plus/components/popper'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { useGlobalConfig, isEmpty } from '@element-plus/utils/util'
 import { timePickerDefaultProps } from './props'
@@ -148,14 +148,14 @@ import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 import type { Options } from '@popperjs/core'
 
 interface PickerOptions {
-  isValidValue: any
-  handleKeydown: any
-  parseUserInput: any
-  formatToString: any
-  getRangeAvailableTime: any
-  getDefaultValue: any
+  isValidValue: (date: Dayjs) => boolean
+  handleKeydown: (event: KeyboardEvent) => void
+  parseUserInput: (value: Dayjs) => dayjs.Dayjs
+  formatToString: (value: Dayjs) => string | string[]
+  getRangeAvailableTime: (date: Dayjs) => dayjs.Dayjs
+  getDefaultValue: () => Dayjs
   panelReady: boolean
-  handleClear: any
+  handleClear: () => void
 }
 
 // Date object and string
@@ -343,22 +343,16 @@ export default defineComponent({
       return ''
     })
 
-    const isTimeLikePicker = computed(() => {
-      return props.type.indexOf('time') !== -1
-    })
+    const isTimeLikePicker = computed(() =>props.type.includes('time'))
 
-    const isTimePicker = computed(() => {
-      return props.type.indexOf('time') === 0
-    })
+    const isTimePicker = computed(() => props.type.startsWith('time'))
 
-    const isDatesPicker = computed(() => {
-      return props.type === 'dates'
-    })
+    const isDatesPicker = computed(() => props.type === 'dates')
 
-    const triggerClass = computed(() => {
-      return props.prefixIcon || (isTimeLikePicker.value ? 'el-icon-time' : 'el-icon-date')
-    })
+    const triggerClass = computed(() => props.prefixIcon || (isTimeLikePicker.value ? 'el-icon-time' : 'el-icon-date'))
+
     const showClose = ref(false)
+
     const onClearIconClick = event => {
       if (props.readonly || pickerDisabled.value) return
       if (showClose.value) {
@@ -525,8 +519,8 @@ export default defineComponent({
       }
     }
 
-    const pickerOptions = ref({} as PickerOptions)
-    const onSetPickerOption = e => {
+    const pickerOptions = ref<Partial<PickerOptions>>({})
+    const onSetPickerOption = <T extends keyof PickerOptions>(e: [T, PickerOptions[T]]) => {
       pickerOptions.value[e[0]] = e[1]
       pickerOptions.value.panelReady = true
     }
@@ -538,7 +532,10 @@ export default defineComponent({
     provide('EP_PICKER_BASE', {
       props,
     })
+
     return {
+      Effect,
+
       // injected popper options
       elPopperOptions,
 

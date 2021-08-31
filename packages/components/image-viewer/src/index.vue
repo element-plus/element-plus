@@ -71,7 +71,7 @@ import { EVENT_CODE } from '@element-plus/utils/aria'
 import { on, off } from '@element-plus/utils/dom'
 import { rafThrottle, isFirefox } from '@element-plus/utils/util'
 
-import type { PropType } from 'vue'
+import type { PropType, CSSProperties } from 'vue'
 
 const Mode = {
   CONTAIN: {
@@ -94,7 +94,7 @@ export default defineComponent({
   props: {
     urlList: {
       type: Array as PropType<string[]>,
-      default: [],
+      default: () => [],
     },
     zIndex: {
       type: Number,
@@ -160,7 +160,7 @@ export default defineComponent({
         transition: enableTransition ? 'transform .3s' : '',
         marginLeft: `${offsetX}px`,
         marginTop: `${offsetY}px`,
-      } as CSSStyleDeclaration
+      } as CSSProperties
       if (mode.value.name === Mode.CONTAIN.name) {
         style.maxWidth = style.maxHeight = '100%'
       }

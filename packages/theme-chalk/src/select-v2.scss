@@ -10,6 +10,10 @@
 $--input-inline-start: 15px !default;
 
 @include b(select-v2) {
+  @include set-component-css-var('select', $--select);
+}
+
+@include b(select-v2) {
   display: inline-block;
   position: relative;
   font-size: map.get($--input-font-size, 'default');
@@ -226,7 +230,7 @@ $--input-inline-start: 15px !default;
     right: 5px;
     height: 40px;
     top: 50%;
-    margin-top: -20px;
+    transform: translateY(-50%);
   }
 
   @include e(caret) {

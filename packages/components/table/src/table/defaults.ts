@@ -58,19 +58,19 @@ type ColumnStyle<T> =
 type CellCls<T> =
   | string
   | ((data: {
-      row: T
-      rowIndex: number
-      column: TableColumnCtx<T>
-      columnIndex: number
-    }) => string)
+    row: T
+    rowIndex: number
+    column: TableColumnCtx<T>
+    columnIndex: number
+  }) => string)
 type CellStyle<T> =
   | CSSProperties
   | ((data: {
-      row: T
-      rowIndex: number
-      column: TableColumnCtx<T>
-      columnIndex: number
-    }) => CSSProperties)
+    row: T
+    rowIndex: number
+    column: TableColumnCtx<T>
+    columnIndex: number
+  }) => CSSProperties)
 
 interface TableProps<T> {
   data: T[]
@@ -108,11 +108,11 @@ interface TableProps<T> {
     column: TableColumnCtx<T>
     columnIndex: number
   }) =>
-    | number[]
-    | {
-        rowspan: number
-        colspan: number
-      }
+  | number[]
+  | {
+    rowspan: number
+    colspan: number
+  }
   selectOnIndeterminate?: boolean
   indent?: number
   treeProps?: {
@@ -182,26 +182,26 @@ export default {
   sumText: String,
   summaryMethod: Function as PropType<TableProps<DefaultRow>['summaryMethod']>,
   rowClassName: [String, Function] as PropType<
-    TableProps<DefaultRow>['rowClassName']
+  TableProps<DefaultRow>['rowClassName']
   >,
   rowStyle: [Object, Function] as PropType<TableProps<DefaultRow>['rowStyle']>,
   cellClassName: [String, Function] as PropType<
-    TableProps<DefaultRow>['cellClassName']
+  TableProps<DefaultRow>['cellClassName']
   >,
   cellStyle: [Object, Function] as PropType<
-    TableProps<DefaultRow>['cellStyle']
+  TableProps<DefaultRow>['cellStyle']
   >,
   headerRowClassName: [String, Function] as PropType<
-    TableProps<DefaultRow>['headerRowClassName']
+  TableProps<DefaultRow>['headerRowClassName']
   >,
   headerRowStyle: [Object, Function] as PropType<
-    TableProps<DefaultRow>['headerRowStyle']
+  TableProps<DefaultRow>['headerRowStyle']
   >,
   headerCellClassName: [String, Function] as PropType<
-    TableProps<DefaultRow>['headerCellClassName']
+  TableProps<DefaultRow>['headerCellClassName']
   >,
   headerCellStyle: [Object, Function] as PropType<
-    TableProps<DefaultRow>['headerCellStyle']
+  TableProps<DefaultRow>['headerCellStyle']
   >,
   highlightCurrentRow: Boolean,
   currentRowKey: [String, Number],

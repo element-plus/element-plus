@@ -14,7 +14,7 @@
       :popper-class="`el-select__popper ${popperClass}`"
       :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
       manual-mode
-      effect="light"
+      :effect="Effect.LIGHT"
       pure
       trigger="click"
       transition="el-zoom-in-top"
@@ -28,7 +28,7 @@
             v-if="multiple"
             ref="tags"
             class="el-select__tags"
-            :style="{ 'max-width': inputWidth - 32 + 'px', width: '100%' }"
+            :style="{ maxWidth: inputWidth - 32 + 'px', width: '100%' }"
           >
             <span v-if="collapseTags && selected.length">
               <el-tag
@@ -39,7 +39,7 @@
                 disable-transitions
                 @close="deleteTag($event, selected[0])"
               >
-                <span class="el-select__tags-text" :style="{ 'max-width': inputWidth - 123 + 'px' }">{{ selected[0].currentLabel }}</span>
+                <span class="el-select__tags-text" :style="{ maxWidth: inputWidth - 123 + 'px' }">{{ selected[0].currentLabel }}</span>
               </el-tag>
               <el-tag
                 v-if="selected.length > 1"
@@ -64,7 +64,7 @@
                   disable-transitions
                   @close="deleteTag($event, item)"
                 >
-                  <span class="el-select__tags-text" :style="{ 'max-width': inputWidth - 75 + 'px' }">{{ item.currentLabel }}</span>
+                  <span class="el-select__tags-text" :style="{ maxWidth: inputWidth - 75 + 'px' }">{{ item.currentLabel }}</span>
                 </el-tag>
               </span>
             </transition>
@@ -180,7 +180,7 @@ import {
 import { ClickOutside } from '@element-plus/directives'
 import { useFocus, useLocaleInject } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
-import ElPopper from '@element-plus/components/popper'
+import ElPopper, { Effect } from '@element-plus/components/popper'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
@@ -193,6 +193,7 @@ import { selectKey } from './token'
 
 import type { PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'
+import type { SelectContext } from './token'
 
 export default defineComponent({
   name: 'ElSelect',
@@ -348,7 +349,7 @@ export default defineComponent({
       selectWrapper,
       selected,
       setSelected,
-    }))
+    }) as unknown as SelectContext)
 
     onMounted(() => {
       states.cachedPlaceHolder = currentPlaceholder.value = (props.placeholder || t('el.select.placeholder'))
@@ -403,6 +404,7 @@ export default defineComponent({
     })
 
     return {
+      Effect,
       tagInMultiLine,
       prefixWidth,
       selectSize,

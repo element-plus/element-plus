@@ -25,7 +25,7 @@ export default defineComponent({
 
   render(
     ctx: ReturnType<typeof useSpace> &
-      ExtractPropTypes<typeof defaultProps> & { $slots: Slots; },
+    ExtractPropTypes<typeof defaultProps> & { $slots: Slots; },
   ) {
     const {
       classes,

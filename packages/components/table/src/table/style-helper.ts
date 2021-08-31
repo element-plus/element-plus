@@ -1,4 +1,4 @@
-import { onMounted, onUnmounted, computed, ref, watchEffect, watch, unref } from 'vue'
+import { onMounted, onUnmounted, computed, ref, watchEffect, watch, unref, nextTick } from 'vue'
 import {
   addResizeListener,
   removeResizeListener,
@@ -6,6 +6,7 @@ import {
 import throttle from 'lodash/throttle'
 import { parseHeight } from '../util'
 import { useGlobalConfig } from '@element-plus/utils/util'
+import { on, off } from '@element-plus/utils/dom'
 
 import type { ResizableElement } from '@element-plus/utils/resize-event'
 import type { Table, TableProps } from './defaults'
@@ -88,11 +89,11 @@ function useStyle<T>(
     layout.updateColumnsWidth()
     syncPostion()
   }
-
-  onMounted(() => {
+  onMounted(async () => {
     setScrollClass('is-scrolling-left')
-    bindEvents()
     store.updateColumns()
+    await nextTick()
+    bindEvents()
     doLayout()
 
     resizeState.value = {
@@ -153,12 +154,13 @@ function useStyle<T>(
   }, 10)
 
   const bindEvents = () => {
-    window.addEventListener('resize', doLayout)
     table.refs.bodyWrapper.addEventListener('scroll', syncPostion, {
       passive: true,
     })
     if (props.fit) {
       addResizeListener(table.vnode.el as ResizableElement, resizeListener)
+    } else {
+      on(window, 'resize', doLayout)
     }
   }
   onUnmounted(() => {
@@ -166,9 +168,10 @@ function useStyle<T>(
   })
   const unbindEvents = () => {
     table.refs.bodyWrapper?.removeEventListener('scroll', syncPostion, true)
-    window.removeEventListener('resize', doLayout)
     if (props.fit) {
       removeResizeListener(table.vnode.el as ResizableElement, resizeListener)
+    } else {
+      off(window, 'resize', doLayout)
     }
   }
   const resizeListener = () => {

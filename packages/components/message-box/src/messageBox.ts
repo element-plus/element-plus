@@ -17,13 +17,13 @@ import type {
 // component default merge props & data
 
 const messageInstance = new Map<
-  ComponentPublicInstance<{ doClose: () => void; }>, // marking doClose as function
-  {
-    options: any
-    callback: Callback
-    resolve: (res: any) => void
-    reject: (reason?: any) => void
-  }
+ComponentPublicInstance<{ doClose: () => void; }>, // marking doClose as function
+{
+  options: any
+  callback: Callback
+  resolve: (res: any) => void
+  reject: (reason?: any) => void
+}
 >()
 
 
@@ -110,7 +110,7 @@ const showMessage = (options: any) => {
 async function MessageBox(options: ElMessageBoxOptions): Promise<MessageBoxData>
 function MessageBox(
   options: ElMessageBoxOptions | string | VNode,
-): Promise<{value: string; action: Action;} | Action> {
+): Promise<{ value: string; action: Action; } | Action> {
   if (isServer) return
   let callback
   if (isString(options) || isVNode(options)) {

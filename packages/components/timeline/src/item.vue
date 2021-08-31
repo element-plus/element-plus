@@ -48,16 +48,6 @@
 <script lang='ts'>
 import { inject, defineComponent } from 'vue'
 
-interface ITimeLineItemProps {
-    timestamp: string
-    hideTimestamp: boolean
-    placement: string
-    type: string
-    color: string
-    size: string
-    icon: string
-}
-
 export default defineComponent({
   name: 'ElTimelineItem',
   props: {

@@ -22,11 +22,11 @@ function useCurrent<T>(watcherData: WatcherPropsData<T>) {
   }
 
   const setCurrentRowByKey = (key: string) => {
-    const { data = [], rowKey } = watcherData
+    const { data, rowKey } = watcherData
     let _currentRow = null
     if (rowKey.value) {
       _currentRow = arrayFind(
-        unref(data),
+        unref(data) || [],
         item => getRowIdentity(item, rowKey.value) === key,
       )
     }

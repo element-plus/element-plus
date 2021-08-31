@@ -10,14 +10,35 @@ Checkbox puede ser usado para alternar entre dos estados.
 
 ```html
 <template>
-  <!-- `checked` debe ser true o false -->
-  <el-checkbox v-model="checked">Opción</el-checkbox>
+  <div>
+    <el-checkbox v-model="checked1" label="Option 1"></el-checkbox>
+    <el-checkbox v-model="checked2" label="Option 2"></el-checkbox>
+  </div>
+  <div>
+    <el-checkbox v-model="checked3" label="Option 1" size="medium"></el-checkbox>
+    <el-checkbox v-model="checked4" label="Option 2" size="medium"></el-checkbox>
+  </div>
+  <div>
+    <el-checkbox v-model="checked5" label="Option 1" size="small"></el-checkbox>
+    <el-checkbox v-model="checked6" label="Option 2" size="small"></el-checkbox>
+  </div>
+  <div>
+    <el-checkbox v-model="checked7" label="Option 1" size="mini"></el-checkbox>
+    <el-checkbox v-model="checked8" label="Option 2" size="mini"></el-checkbox>
+  </div>
 </template>
 <script>
   export default {
     data() {
       return {
-        checked: true
+        checked1: true,
+        checked2: false,
+        checked3: false,
+        checked4: false,
+        checked5: false,
+        checked6: false,
+        checked7: false,
+        checked8: false,
       };
     }
   };
@@ -29,9 +50,23 @@ Checkbox puede ser usado para alternar entre dos estados.
 
   export default defineComponent({
     setup() {
-      const checked = ref(true);
+      const checked1 = ref(true);
+      const checked2 = ref(false);
+      const checked3 = ref(false);
+      const checked4 = ref(false);
+      const checked5 = ref(false);
+      const checked6 = ref(false);
+      const checked7 = ref(false);
+      const checked8 = ref(false);
       return {
-        checked,
+        checked1,
+        checked2,
+        checked3,
+        checked4,
+        checked5,
+        checked6,
+        checked7,
+        checked8,
       };
     },
   });
@@ -136,7 +171,6 @@ La propiedad `indeterminate` puede ser usada para generar el efecto de marcar to
 ```html
 <template>
   <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">Marcar todos</el-checkbox>
-  <div style="margin: 15px 0;"></div>
   <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
     <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
   </el-checkbox-group>
@@ -401,7 +435,7 @@ export default defineComponent({
 | false-label   | valor del Checkbox si no está marcado    | string / number           | —                     | —           |
 | disabled      | especifica si el Checkbox está deshabilitado | boolean                   | —                     | false       |
 | border        | especifica si agrega un borde alrededor del Checkbox | boolean                   | —                     | false       |
-| size          | tamaño del Checkbox, sólo funciona si `border` es true | string                    | medium / small / mini | —           |
+| size          | tamaño del Checkbox | string                    | medium / small / mini | —           |
 | name          | atributo `name` nativo                 | string                    | —                     | —           |
 | checked       | especifica si el Checkbox está marcado   | boolean                   | —                     | false       |
 | indeterminate | similar a `indeterminate` en el checkbox nativo | boolean                   | —                     | false       |
@@ -415,7 +449,7 @@ export default defineComponent({
 | Atributo   | Descripción                              | Tipo    | Valores aceptados     | Por Defecto |
 | ---------- | ---------------------------------------- | ------- | --------------------- | ----------- |
 | model-value / v-model | valor enlazado | array | — | — |
-| size       | tamaño de los checkboxes de tipo botón o los checkboxes con border | string  | medium / small / mini | —           |
+| size       | size of checkbox | string  | medium / small / mini | —           |
 | disabled   | especifica si los checkboxes anidados están deshabilitados | boolean | —                     | false       |
 | min        | cantidad mínima de checkboxes que deben ser marcados | number  | —                     | —           |
 | max        | cantidad máxima de checkboxes que pueden ser marcados | number  | —                     | —           |

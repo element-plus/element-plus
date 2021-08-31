@@ -52,7 +52,7 @@ describe('v-popover', () => {
     const refNode = '#reference-node'
     expect(wrapper.find(refNode).exists()).toBe(false);
 
-    (wrapper.vm as ComponentPublicInstance<{visible: boolean;}>).visible = true
+    (wrapper.vm as ComponentPublicInstance<{ visible: boolean; }>).visible = true
     await nextTick()
 
     expect(wrapper.find(refNode).exists()).toBe(true)

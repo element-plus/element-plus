@@ -1,4 +1,3 @@
-
 import { ref, watch } from 'vue'
 import { NOOP } from '@vue/shared'
 import cloneDeep from 'lodash/cloneDeep'
@@ -85,11 +84,17 @@ export default (props: IUseHandlersProps) => {
     if (raw) {
       file = getFile(raw, uploadFiles.value)
     }
+    const revokeObjectURL = () => {
+      if (file.url && file.url.indexOf('blob:') === 0) {
+        URL.revokeObjectURL(file.url)
+      }
+    }
     const doRemove = () => {
       abort(file)
       const fileList = uploadFiles.value
       fileList.splice(fileList.indexOf(file), 1)
       props.onRemove(file, fileList)
+      revokeObjectURL()
     }
     if (!props.beforeRemove) {
       doRemove()

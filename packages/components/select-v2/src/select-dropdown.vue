@@ -139,7 +139,7 @@ export default defineComponent({
 
     const Comp = isSized ? FixedSizeList : DynamicSizeList
 
-    const { props: selectProps, onSelect, onKeyboardNavigate, onKeyboardSelect } = select
+    const { props: selectProps, onSelect, onHover, onKeyboardNavigate, onKeyboardSelect } = select
     const { height, modelValue, multiple } = selectProps
 
     if (data.length === 0) {
@@ -179,6 +179,7 @@ export default defineComponent({
             hovering: isItemHovering(index),
             item,
             onSelect,
+            onHover,
           },
           {
             default: withCtx((props: OptionItemProps) => {

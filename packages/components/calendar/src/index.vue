@@ -56,11 +56,10 @@
 <script lang="ts">
 import {
   ref,
-  ComputedRef,
-  PropType,
   computed,
   defineComponent,
 } from 'vue'
+import type { PropType, ComputedRef } from 'vue'
 import dayjs from 'dayjs'
 
 import ElButton from '@element-plus/components/button'

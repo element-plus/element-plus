@@ -14,7 +14,6 @@
     <input
       v-if="trueLabel || falseLabel"
       v-model="model"
-      :checked="isChecked"
       class="el-checkbox-button__original"
       type="checkbox"
       :name="name"
