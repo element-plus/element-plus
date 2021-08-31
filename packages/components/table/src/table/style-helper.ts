@@ -6,6 +6,7 @@ import {
 import throttle from 'lodash/throttle'
 import { parseHeight } from '../util'
 import { useGlobalConfig } from '@element-plus/utils/util'
+import { on, off } from '@element-plus/utils/dom'
 
 import type { ResizableElement } from '@element-plus/utils/resize-event'
 import type { Table, TableProps } from './defaults'
@@ -159,7 +160,7 @@ function useStyle<T>(
     if (props.fit) {
       addResizeListener(table.vnode.el as ResizableElement, resizeListener)
     } else {
-      window.addEventListener('resize', doLayout)
+      on(window, 'resize', doLayout)
     }
   }
   onUnmounted(() => {
@@ -170,7 +171,7 @@ function useStyle<T>(
     if (props.fit) {
       removeResizeListener(table.vnode.el as ResizableElement, resizeListener)
     } else {
-      window.removeEventListener('resize', doLayout)
+      off(window, 'resize', doLayout)
     }
   }
   const resizeListener = () => {
