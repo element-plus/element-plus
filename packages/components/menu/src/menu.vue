@@ -201,7 +201,7 @@ export default defineComponent({
       }
     }
 
-    const updateActiveIndex = (val?: string) => {
+    const updateActiveIndex = (val: string) => {
       const itemsInData = items.value
       const item =
         itemsInData[val] ||
@@ -278,10 +278,6 @@ export default defineComponent({
         updateActiveIndex(currentActive)
       },
     )
-
-    watch(items.value, () => {
-      updateActiveIndex()
-    })
 
     watch(
       () => props.collapse,
