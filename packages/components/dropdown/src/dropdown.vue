@@ -84,7 +84,7 @@ export default defineComponent({
   },
   props: {
     trigger: {
-      type: String as PropType<TriggerType>,
+      type: String as PropType<TriggerType | 'contextmenu'>,
       default: 'hover',
     },
     type: String as PropType<ButtonType>,
