@@ -46,7 +46,7 @@
           v-if="file.status === 'uploading'"
           :type="listType === 'picture-card' ? 'circle' : 'line'"
           :stroke-width="listType === 'picture-card' ? 6 : 2"
-          :percentage="parsePercentage(file.percentage)"
+          :percentage="+file.percentage"
         />
         <span v-if="listType === 'picture-card'" class="el-upload-list__item-actions">
           <span
@@ -75,13 +75,14 @@ import { useLocaleInject } from '@element-plus/hooks'
 import ElProgress from '@element-plus/components/progress'
 
 import type { PropType } from 'vue'
+import type { UploadFile } from './upload.type'
 
 export default defineComponent({
   name: 'ElUploadList',
   components: { ElProgress },
   props: {
     files: {
-      type: Array as PropType<File[]>,
+      type: Array as PropType<UploadFile[]>,
       default: () => [] as File[],
     },
     disabled: {
@@ -89,7 +90,7 @@ export default defineComponent({
       default: false,
     },
     handlePreview: {
-      type: Function as PropType<(file: File) => void>,
+      type: Function as PropType<(file: UploadFile) => void>,
       default: () => NOOP,
     },
     listType: {
@@ -101,11 +102,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const { t } = useLocaleInject()
 
-    const parsePercentage = (val: string) => {
-      return parseInt(val, 10)
-    }
-
-    const handleClick = (file: File) => {
+    const handleClick = (file: UploadFile) => {
       props.handlePreview(file)
     }
 
@@ -113,12 +110,11 @@ export default defineComponent({
       (e.target as HTMLElement).focus()
     }
 
-    const handleRemove = (e: Event, file: File) => {
+    const handleRemove = (e: Event, file: UploadFile) => {
       emit('remove', file)
     }
     return {
       focusing: ref(false),
-      parsePercentage,
       handleClick,
       handleRemove,
       onFileClicked,

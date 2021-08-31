@@ -2,7 +2,7 @@
   <el-popper
     ref="popper"
     v-model:visible="showPicker"
-    effect="light"
+    :effect="Effect.LIGHT"
     manual-mode
     trigger="click"
     :show-arrow="false"
@@ -93,7 +93,7 @@ import ElButton from '@element-plus/components/button'
 import { ClickOutside } from '@element-plus/directives'
 import { elFormItemKey, elFormKey } from '@element-plus/tokens'
 import { useLocaleInject } from '@element-plus/hooks'
-import ElPopper from '@element-plus/components/popper'
+import ElPopper, { Effect } from '@element-plus/components/popper'
 import ElInput from '@element-plus/components/input'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { useGlobalConfig } from '@element-plus/utils/util'
@@ -282,7 +282,8 @@ export default defineComponent({
     })
 
     return {
-      color,
+      Effect,
+      color: color as Color,
       colorDisabled,
       colorSize,
       displayedColor,

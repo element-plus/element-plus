@@ -1,4 +1,4 @@
-import { computed, inject, nextTick, ref } from 'vue'
+import { computed, CSSProperties, inject, nextTick, ref, shallowRef } from 'vue'
 import { CHANGE_EVENT } from '@element-plus/utils/constants'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import type { ButtonRefs, ISliderInitData, ISliderProps } from './slider.type'
@@ -10,7 +10,7 @@ export const useSlide = (props: ISliderProps, initData: ISliderInitData, emit) =
   const elForm = inject(elFormKey, {} as ElFormContext)
   const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
 
-  const slider = ref<Nullable<HTMLElement>>(null)
+  const slider = shallowRef<Nullable<HTMLElement>>(null)
 
   const firstButton = ref(null)
 
@@ -45,11 +45,11 @@ export const useSlide = (props: ISliderProps, initData: ISliderInitData, emit) =
       : '0%'
   })
 
-  const runwayStyle = computed(() => {
-    return (props.vertical ? { height: props.height } : {}) as CSSStyleDeclaration
+  const runwayStyle = computed<CSSProperties>(() => {
+    return (props.vertical ? { height: props.height } : {})
   })
 
-  const barStyle = computed(() => {
+  const barStyle = computed<CSSProperties>(() => {
     return (props.vertical
       ? {
         height: barSize.value,
@@ -57,7 +57,7 @@ export const useSlide = (props: ISliderProps, initData: ISliderInitData, emit) =
       } : {
         width: barSize.value,
         left: barStart.value,
-      }) as CSSStyleDeclaration
+      })
   })
 
   const resetSize = () => {

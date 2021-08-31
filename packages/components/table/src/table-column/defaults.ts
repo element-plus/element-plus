@@ -63,6 +63,7 @@ interface TableColumnCtx<T> {
   columns: TableColumnCtx<T>[]
   getColumnIndex: () => number
   no: number
+  filterOpened?: boolean
 }
 
 interface TableColumn<T> extends ComponentInternalInstance {

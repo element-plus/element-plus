@@ -7,7 +7,7 @@
     :append-to-body="popperAppendToBody"
     pure
     manual-mode
-    effect="light"
+    :effect="Effect.LIGHT"
     trigger="click"
     transition="el-zoom-in-top"
     :gpu-acceleration="false"
@@ -100,7 +100,7 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import throwError from '@element-plus/utils/error'
 import ElInput from '@element-plus/components/input'
 import ElScrollbar from '@element-plus/components/scrollbar'
-import ElPopper from '@element-plus/components/popper'
+import ElPopper, { Effect, Placement } from '@element-plus/components/popper'
 
 import type { PropType } from 'vue'
 
@@ -129,7 +129,7 @@ export default defineComponent({
       default: 300,
     },
     placement: {
-      type: String,
+      type: String as PropType<Placement>,
       validator: (val: string): boolean => {
         return ['top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end'].includes(val)
       },
@@ -313,7 +313,11 @@ export default defineComponent({
       inputRef.value.inputOrTextarea.setAttribute('aria-activedescendant', `${id.value}-item-${highlightedIndex.value}`)
     }
 
+
+
     return {
+      Effect,
+
       attrs,
       suggestions,
       highlightedIndex,

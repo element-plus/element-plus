@@ -23,6 +23,7 @@ import {
   getValueByPath,
   useGlobalConfig,
 } from '@element-plus/utils/util'
+import { Effect } from '@element-plus/components/popper'
 
 import { useAllowCreate } from './useAllowCreate'
 
@@ -660,6 +661,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     selectionRef,
 
     popperRef,
+
+    Effect,
 
     // methods exports
     debouncedOnInputChange,

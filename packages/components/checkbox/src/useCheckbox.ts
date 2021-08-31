@@ -104,7 +104,7 @@ const useCheckboxStatus = (props: IUseCheckboxProps, { model }: PartialReturnTyp
   const { isGroup, checkboxGroup, elFormItemSize, ELEMENT } = useCheckboxGroup()
   const focus = ref(false)
   const size = computed<string | undefined>(() => checkboxGroup?.checkboxGroupSize?.value || elFormItemSize.value || ELEMENT.size)
-  const isChecked = computed(() => {
+  const isChecked = computed<boolean>(() => {
     const value = model.value
     if (toTypeString(value) === '[object Boolean]') {
       return value

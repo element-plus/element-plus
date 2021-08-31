@@ -119,6 +119,7 @@
     "vue-jest": "5.0.0-alpha.5",
     "vue-loader": "^16.1.2",
     "vue-router": "^4.0.2",
+    "vue-tsc": "^0.3.0",
     "webpack": "^4.44.1",
     "webpack-bundle-analyzer": "^3.9.0",
     "webpack-cli": "^3.3.12",

@@ -2,7 +2,7 @@
   <el-popper
     v-model:visible="visible"
     trigger="click"
-    effect="light"
+    :effect="Effect.LIGHT"
     popper-class="el-popover"
     append-to-body
     :fallback-placements="['bottom' ,'top', 'right', 'left']"
@@ -43,8 +43,11 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue'
 import ElButton from '@element-plus/components/button'
-import ElPopper from '@element-plus/components/popper'
+import ElPopper, { Effect } from '@element-plus/components/popper'
 import { useLocaleInject } from '@element-plus/hooks'
+
+import type { PropType } from 'vue'
+import type { ButtonType } from '@element-plus/components/button/src/types'
 
 export default defineComponent({
   name: 'ElPopconfirm',
@@ -65,12 +68,12 @@ export default defineComponent({
       type: String,
     },
     confirmButtonType: {
-      type: String,
-      default: 'primary',
+      type: String as PropType<ButtonType>,
+      default: 'primary' as ButtonType,
     },
     cancelButtonType: {
-      type: String,
-      default: 'text',
+      type: String as PropType<ButtonType>,
+      default: 'text' as ButtonType,
     },
     icon: {
       type: String,
@@ -104,6 +107,7 @@ export default defineComponent({
       return props.cancelButtonText || t('el.popconfirm.cancelButtonText')
     })
     return {
+      Effect,
       visible,
       confirm,
       cancel,

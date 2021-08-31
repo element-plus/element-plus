@@ -56,7 +56,7 @@ export const timePickerDefaultProps = {
     default: '',
   },
   popperOptions: {
-    type: Object as PropType<Options>,
+    type: Object as PropType<Partial<Options>>,
     default: () => ({}),
   },
   modelValue: {

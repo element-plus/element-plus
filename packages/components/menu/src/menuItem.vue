@@ -20,7 +20,7 @@
           rootMenu.props.collapse &&
           slots.title
       "
-      effect="dark"
+      :effect="Effect.DARK"
       placement="right"
     >
       <template #content>
@@ -48,6 +48,7 @@ import {
   getCurrentInstance,
 } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
+import { Effect } from '@element-plus/components/popper'
 import { RootMenuProvider, SubMenuProvider } from './menu'
 import useMenu from './useMenu'
 
@@ -148,6 +149,7 @@ export default defineComponent({
     })
 
     return {
+      Effect,
       parentMenu,
       rootMenu,
       slots,
