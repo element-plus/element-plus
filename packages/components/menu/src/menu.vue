@@ -274,9 +274,7 @@ export default defineComponent({
     }
 
     const handleResize = () => {
-      if (props.mode === 'horizontal') {
-        updateFilteredSlot()
-      }
+      updateFilteredSlot()
     }
 
     // watch
@@ -363,6 +361,7 @@ export default defineComponent({
     }
   },
   render() {
+    const directives = this.mode === 'horizontal' ? [[Resize, this.handleResize]] : []
     const menu = withDirectives(h('ul', {
       key: String(this.collapse),
       role: 'menubar',
@@ -373,7 +372,7 @@ export default defineComponent({
         'el-menu--horizontal': this.mode === 'horizontal',
         'el-menu--collapse': this.collapse,
       },
-    }, [this.filteredSlot]), [[Resize, this.handleResize]])
+    }, [this.filteredSlot]), directives)
 
     if (this.collapseTransition) {
       return h(ElMenuCollapseTransition, () => menu)
