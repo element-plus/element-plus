@@ -1,9 +1,9 @@
 .#{$namespace}-table .warning-row {
-  background: var(--el-color-warning-lighter);
+  --el-table-tr-background-color: var(--el-color-warning-lighter);
 }
 
 .#{$namespace}-table .success-row {
-  background: var(--el-color-success-lighter);
+  --el-table-tr-background-color: var(--el-color-success-lighter);
 }
 
 .demo-table .name-wrapper {
