@@ -1,0 +1,14 @@
+{
+  "zh-CN": {
+    "title": "赞助商",
+    "sponsorLabel": "赞助商",
+    "sponsorIntroR": "企业级的快速开发平台",
+    "sponsorNameR": "人人开源"
+  },
+  "en-US": {
+    "title": "Sponsors",
+    "sponsorLabel": "Sponsored by",
+    "sponsorIntroR": "Rapid development platform",
+    "sponsorNameR": "renren.io"
+  }
+}
