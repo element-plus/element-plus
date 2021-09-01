@@ -17,7 +17,7 @@ export const on = function(
   useCapture = false,
 ): void {
   if (element && event && handler) {
-    element.addEventListener(event, handler, useCapture)
+    element?.addEventListener(event, handler, useCapture)
   }
 }
 
