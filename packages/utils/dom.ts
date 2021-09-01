@@ -29,7 +29,7 @@ export const off = function(
   useCapture = false,
 ): void {
   if (element && event && handler) {
-    element.removeEventListener(event, handler, useCapture)
+    element?.removeEventListener(event, handler, useCapture)
   }
 }
 
