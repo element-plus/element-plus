@@ -1,0 +1,11 @@
+{
+  "name": "@element-plus/docs",
+  "version": "0.0.1",
+  "dependencies": {
+    "element-plus": "^1.1.0-beta.7",
+    "throttle-debounce": "^3.0.1"
+  },
+  "devDependencies": {
+    "vitepress": "^0.16.1"
+  }
+}
