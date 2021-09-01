@@ -89,8 +89,8 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import '../assets/styles/pages/home.scss'
-import sponsorsData from '../assets/components/sponsors.json'
-import homeData from '../assets/pages/home.json'
+import sponsorsData from '../i18n/component/sponsor.json'
+import homeData from '../i18n/pages/home.json'
 import { throttle } from 'throttle-debounce'
 import { useLang } from '../utils/routes'
 

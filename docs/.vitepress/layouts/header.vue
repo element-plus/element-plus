@@ -66,7 +66,7 @@ import ToggleSidebarBtn from '../components/toggle-sidebar-btn.vue'
 import { useNav } from '../composables/use-nav'
 import { Language, defaultLang } from '../constants/language'
 import { useLang, useRootPath } from '../utils/routes'
-import localeData from '../assets/components/header.json'
+import localeData from '../i18n/layouts/header.json'
 
 const router = useRouter()
 const route = useRoute()

@@ -67,7 +67,7 @@
 import { computed } from 'vue'
 import GithubIcon from '../components/github-icon.vue'
 import { useLang, useIsHome } from '../utils/routes'
-import localeData from '../assets/components/footer.json'
+import localeData from '../i18n/layouts/footer.json'
 import { Language } from '../constants/language'
 
 const linkMap = {
