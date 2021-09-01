@@ -52,7 +52,9 @@
                 >
                   <span
                     class="el-select-v2__tags-text"
-                    :style="{ maxWidth: states.inputWidth - 123 + 'px' }"
+                    :style="{
+                      maxWidth: `${tagMaxWidth}px`
+                    }"
                   >{{ states.cachedOptions[0].label }}</span>
                 </el-tag>
                 <el-tag
@@ -62,7 +64,12 @@
                   type="info"
                   disable-transitions
                 >
-                  <span class="el-select-v2__tags-text">+ {{ modelValue.length - 1 }}</span>
+                  <span
+                    class="el-select-v2__tags-text"
+                    :style="{
+                      maxWidth: `${tagMaxWidth}px`
+                    }"
+                  >+ {{ modelValue.length - 1 }}</span>
                 </el-tag>
               </div>
             </template>
@@ -81,7 +88,12 @@
                   disable-transitions
                   @close="deleteTag($event, selected)"
                 >
-                  {{ getLabel(selected) }}
+                  <span
+                    class="el-select-v2__tags-text"
+                    :style="{
+                      maxWidth: `${tagMaxWidth}px`
+                    }"
+                  >{{ getLabel(selected) }}</span>
                 </el-tag>
               </div>
             </template>

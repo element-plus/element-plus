@@ -979,4 +979,54 @@ describe('Select', () => {
     await nextTick()
     expect(vm.value).toEqual([6])
   })
+
+  it('multiple select when content overflow', async () => {
+    const wrapper = createSelect({
+      data () {
+        return {
+          options: [{
+            value: '选项1',
+            label: '黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕',
+          }, {
+            value: '选项2',
+            label: '双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶',
+          }, {
+            value: '选项3',
+            label: '蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎',
+          }, {
+            value: '选项4',
+            label: '龙须面',
+          }, {
+            value: '选项5',
+            label: '北京烤鸭',
+          }],
+        }
+      },
+    })
+    const select = wrapper.findComponent(Select)
+    const selectVm = select.vm as any
+    const selectDom = wrapper.find('.el-select-v2__wrapper').element
+    const selectRect = {
+      height: 40,
+      width: 221,
+      x:44,
+      y:8,
+      top:8,
+    }
+    const mockSelectWidth = jest.spyOn(selectDom, 'getBoundingClientRect').mockReturnValue(selectRect as DOMRect)
+    selectVm.handleResize()
+    const options = getOptions()
+    options[0].click()
+    await nextTick()
+    options[1].click()
+    await nextTick()
+    options[2].click()
+    await nextTick()
+    const tagWrappers = wrapper.findAll('.el-select-v2__tags-text')
+    for(let i = 0;i < tagWrappers.length;i++) {
+      const tagWrapperDom = tagWrappers[i].element
+      expect(parseInt(tagWrapperDom.style.maxWidth) === selectRect.width - 42).toBe(true)
+    }
+    mockSelectWidth.mockRestore()
+  })
 })

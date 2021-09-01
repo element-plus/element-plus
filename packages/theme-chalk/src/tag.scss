@@ -84,9 +84,9 @@
 @include b(tag) {
   @include genTheme(10%, 20%, 100%, 100%);
   display: inline-block;
-  height: 32px;
+  height: map.get($--tag-height, 'default');
   padding: var(--el-tag-padding);
-  line-height: 30px;
+  line-height: map.get($--tag-height, 'default') - 2px;
   font-size: var(--el-tag-font-size);
   border-width: 1px;
   border-style: solid;
@@ -120,30 +120,28 @@
     @include genTheme(0, 40%, 100%, 100%);
   }
 
-  @include m(medium) {
-    height: 28px;
-    line-height: 26px;
+  @each $size in (medium, small, mini) {
+    @include m($size) {
+      height: map.get($--tag-height, $size);
+      line-height: map.get($--tag-height, $size) - 2px;
+    }
+  }
 
+  @include m(medium) {
     .#{$namespace}-icon-close {
       transform: scale(0.8);
     }
   }
 
   @include m(small) {
-    height: 24px;
     padding: 0 8px;
-    line-height: 22px;
-
     .#{$namespace}-icon-close {
       transform: scale(0.8);
     }
   }
 
   @include m(mini) {
-    height: 20px;
     padding: 0 5px;
-    line-height: 19px;
-
     .#{$namespace}-icon-close {
       margin-left: -3px;
       transform: scale(0.7);
