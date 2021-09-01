@@ -256,7 +256,7 @@ export default defineComponent({
         }
       })
       on(document, 'mousemove', _dragHandler)
-      on(document, 'mouseup', (e: any) => {
+      on(document, 'mouseup', (e: MouseEvent) => {
         const mouseX = e.pageX
         const mouseY = e.pageY
         if (mouseX < divLeft || mouseX > divRight || mouseY < divTop || mouseY > divBottom){
