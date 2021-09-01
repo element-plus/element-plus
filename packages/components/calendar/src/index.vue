@@ -64,6 +64,7 @@ import dayjs from 'dayjs'
 
 import ElButton from '@element-plus/components/button'
 import { useLocaleInject } from '@element-plus/hooks'
+import { warn } from '@element-plus/utils/error'
 import DateTable from './date-table.vue'
 
 import type { Dayjs } from 'dayjs'
@@ -196,9 +197,7 @@ export default defineComponent({
       }
       // Other cases
       else {
-        console.warn(
-          '[ElementCalendar]start time and end time interval must not exceed two months',
-        )
+        warn('ElCalendar', 'start time and end time interval must not exceed two months')
         return []
       }
     }
@@ -209,9 +208,7 @@ export default defineComponent({
       const rangeArrDayjs = props.range.map(_ => dayjs(_).locale(lang.value))
       const [startDayjs, endDayjs] = rangeArrDayjs
       if (startDayjs.isAfter(endDayjs)) {
-        console.warn(
-          '[ElementCalendar]end time should be greater than start time',
-        )
+        warn('ElCalendar', 'end time should be greater than start time')
         return []
       }
       if (startDayjs.isSame(endDayjs, 'month')) {
@@ -220,9 +217,7 @@ export default defineComponent({
       } else {
         // two months
         if (startDayjs.add(1, 'month').month() !== endDayjs.month()) {
-          console.warn(
-            '[ElementCalendar]start time and end time interval must not exceed two months',
-          )
+          warn('ElCalendar', 'start time and end time interval must not exceed two months')
           return []
         }
         return calculateValidatedDateRange(startDayjs, endDayjs)
