@@ -223,12 +223,26 @@ export default defineComponent({
       }
     }
 
+    const flattedChildren = children => {
+      const temp = Array.isArray(children) ? children : [children]
+      const res = []
+      temp.forEach(child => {
+        if (Array.isArray(child.children)) {
+          res.push(...flattedChildren(child.children))
+        } else {
+          res.push(child)
+        }
+      })
+      return res
+    }
+
     const updateFilteredSlot = async () => {
       filteredSlot.value = slots.default?.()
       await nextTick()
       if (props.mode === 'horizontal') {
         const items = Array.from(menu.value.childNodes).filter((item: HTMLElement) => item.nodeName !== '#text' || item.nodeValue) as [HTMLElement]
-        if (items.length === slots.default?.().length) {
+        const originalSlot = flattedChildren(slots.default?.()) || []
+        if (items.length === originalSlot.length) {
           const moreItemWidth = 64
           const paddingLeft = parseInt(getComputedStyle(menu.value).paddingLeft)
           const paddingRight = parseInt(getComputedStyle(menu.value).paddingRight)
@@ -241,13 +255,14 @@ export default defineComponent({
               sliceIndex = index + 1
             }
           })
-          const defaultSlot = slots.default?.().slice(0, sliceIndex)
-          const moreSlot = slots.default?.().slice(sliceIndex)
+          const defaultSlot = originalSlot.slice(0, sliceIndex)
+          const moreSlot = originalSlot.slice(sliceIndex)
           if (moreSlot?.length) {
             filteredSlot.value = [
               ...defaultSlot,
               h(ElSubMenu, {
                 index: 'sub-menu-more',
+                class: 'el-sub-menu__hide-arrow',
               }, {
                 title: () => h('i', { class: ['el-icon-more', 'el-sub-menu__icon-more'] }),
                 default: () => moreSlot,
@@ -259,9 +274,7 @@ export default defineComponent({
     }
 
     const handleResize = () => {
-      if (props.mode === 'horizontal') {
-        updateFilteredSlot()
-      }
+      updateFilteredSlot()
     }
 
     // watch
@@ -348,6 +361,7 @@ export default defineComponent({
     }
   },
   render() {
+    const directives = this.mode === 'horizontal' ? [[Resize, this.handleResize]] : []
     const menu = withDirectives(h('ul', {
       key: String(this.collapse),
       role: 'menubar',
@@ -358,7 +372,7 @@ export default defineComponent({
         'el-menu--horizontal': this.mode === 'horizontal',
         'el-menu--collapse': this.collapse,
       },
-    }, [this.filteredSlot]), [[Resize, this.handleResize]])
+    }, [this.filteredSlot]), directives)
 
     if (this.collapseTransition) {
       return h(ElMenuCollapseTransition, () => menu)
