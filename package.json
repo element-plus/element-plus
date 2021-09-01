@@ -27,7 +27,10 @@
     "lint-fix": "eslint --fix ./packages --ext .vue,.js,.ts",
     "website-build": "rimraf website-dist && cross-env NODE_ENV=production webpack --config ./website/webpack.config.js",
     "website-dev": "webpack-dev-server --config ./website/webpack.config.js",
-    "website-dev:play": "cross-env PLAY_ENV=true yarn website-dev"
+    "website-dev:play": "cross-env PLAY_ENV=true yarn website-dev",
+    "docs:dev": "cd docs && yarn vitepress dev .",
+    "docs:build": "cd docs && yarn vitepress build .",
+    "docs:serve": "cd docs && yarn vitepress serve ."
   },
   "peerDependencies": {
     "vue": "^3.2.0"
