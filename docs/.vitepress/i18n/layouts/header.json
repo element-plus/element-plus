@@ -1,0 +1,37 @@
+{
+  "en-US": {
+    "guide": "Guide",
+    "components": "Component",
+    "theme": "Theme",
+    "resource": "Resource",
+    "backToTop": "Back to top"
+  },
+  "es-ES": {
+    "guide": "Guías",
+    "components": "Componentes",
+    "theme": "Tema",
+    "resource": "Recursos",
+    "backToTop": "Volver arriba"
+  },
+  "fr-FR": {
+    "guide": "Guide",
+    "components": "Component",
+    "theme": "Thèmes",
+    "resource": "Resource",
+    "backToTop": "Back to top"
+  },
+  "ja-JP": {
+    "guide": "Guide",
+    "components": "Component",
+    "theme": "テーマ",
+    "resource": "Resource",
+    "backToTop": "Back to top"
+  },
+  "zh-CN": {
+    "guide": "指南",
+    "components": "组件",
+    "theme": "主题",
+    "resource": "资源",
+    "backToTop": "回到顶部"
+  }
+}

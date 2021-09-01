@@ -1,0 +1,27 @@
+{
+  "en-US": {
+    "search": "Search",
+    "empty": "No results",
+    "index": "en"
+  },
+  "es-ES": {
+    "search": "Buscar",
+    "empty": "¡Vaya, no hemos encontrado nada!",
+    "index": "es"
+  },
+  "fr-FR": {
+    "search": "Search",
+    "empty": "No results",
+    "index": "en"
+  },
+  "ja-JP": {
+    "search": "Search",
+    "empty": "No results",
+    "index": "en"
+  },
+  "zh-CN": {
+    "search": "搜索",
+    "empty": "暂无结果",
+    "index": "en"
+  }
+}

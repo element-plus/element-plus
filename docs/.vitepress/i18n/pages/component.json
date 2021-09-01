@@ -1,0 +1,1507 @@
+{
+  "en-US": {
+    "basic": {
+      "text": "Basic",
+      "children": [
+        {
+          "link": "/border",
+          "text": "Border"
+        },
+        {
+          "link": "/button",
+          "text": "Button"
+        },
+        {
+          "link": "/color",
+          "text": "Color"
+        },
+        {
+          "link": "/container",
+          "text": "Layout Container"
+        },
+        {
+          "link": "/icon",
+          "text": "Icon"
+        },
+        {
+          "link": "/layout",
+          "text": "Layout"
+        },
+        {
+          "link": "/link",
+          "text": "Link"
+        },
+        {
+          "link": "/scrollbar",
+          "text": "Scrollbar"
+        },
+        {
+          "link": "/space",
+          "text": "Space"
+        },
+        {
+          "link": "/typography",
+          "text": "Typography"
+        }
+      ]
+    },
+    "configuration": {
+      "text": "Configuration",
+      "children": [
+        {
+          "link": "/config-provider",
+          "text": "Config Provider"
+        }
+      ]
+    },
+    "form": {
+      "text": "Form",
+      "children": [
+        {
+          "link": "/cascader",
+          "text": "Cascader"
+        },
+        {
+          "link": "/checkbox",
+          "text": "Checkbox"
+        },
+        {
+          "link": "/color-picker",
+          "text": "Color Picker"
+        },
+        {
+          "link": "/date-picker",
+          "text": "Date Picker"
+        },
+        {
+          "link": "/datetime-picker",
+          "text": "DateTime Picker"
+        },
+        {
+          "link": "/form",
+          "text": "Form"
+        },
+        {
+          "link": "/input",
+          "text": "Input"
+        },
+        {
+          "link": "/input-number",
+          "text": "Input Number"
+        },
+        {
+          "link": "/radio",
+          "text": "Radio"
+        },
+        {
+          "link": "/rate",
+          "text": "Rate"
+        },
+        {
+          "link": "/select",
+          "text": "Select"
+        },
+        {
+          "link": "/select-v2",
+          "text": "Virtualized Select"
+        },
+        {
+          "link": "/slider",
+          "text": "Slider"
+        },
+        {
+          "link": "/switch",
+          "text": "Switch"
+        },
+        {
+          "link": "/time-picker",
+          "text": "Time Picker"
+        },
+        {
+          "link": "/time-select",
+          "text": "Time Select"
+        },
+        {
+          "link": "/transfer",
+          "text": "Transfer"
+        },
+        {
+          "link": "/upload",
+          "text": "Upload"
+        }
+      ]
+    },
+    "data": {
+      "text": "Data",
+      "children": [
+        {
+          "link": "/avatar",
+          "text": "Avatar"
+        },
+        {
+          "link": "/badge",
+          "text": "Badge"
+        },
+        {
+          "link": "/calendar",
+          "text": "Calendar"
+        },
+        {
+          "link": "/card",
+          "text": "Card"
+        },
+        {
+          "link": "/carousel",
+          "text": "Carousel"
+        },
+        {
+          "link": "/collapse",
+          "text": "Collapse"
+        },
+        {
+          "link": "/descriptions",
+          "text": "Descriptions"
+        },
+        {
+          "link": "/empty",
+          "text": "Empty"
+        },
+        {
+          "link": "/image",
+          "text": "Image"
+        },
+        {
+          "link": "/infinite-scroll",
+          "text": "Infinite Scroll"
+        },
+        {
+          "link": "/pagination",
+          "text": "Pagination"
+        },
+        {
+          "link": "/progress",
+          "text": "Progress"
+        },
+        {
+          "link": "/result",
+          "text": "Result"
+        },
+        {
+          "link": "/skeleton",
+          "text": "Skeleton"
+        },
+        {
+          "link": "/table",
+          "text": "Table"
+        },
+        {
+          "link": "/tag",
+          "text": "Tag"
+        },
+        {
+          "link": "/timeline",
+          "text": "Timeline"
+        },
+        {
+          "link": "/tree",
+          "text": "Tree"
+        }
+      ]
+    },
+    "navigation": {
+      "text": "Navigation",
+      "children": [
+        {
+          "link": "/affix",
+          "text": "Affix"
+        },
+        {
+          "link": "/breadcrumb",
+          "text": "Breadcrumb"
+        },
+        {
+          "link": "/dropdown",
+          "text": "Dropdown"
+        },
+        {
+          "link": "/menu",
+          "text": "NavMenu"
+        },
+        {
+          "link": "/page-header",
+          "text": "Page Header"
+        },
+        {
+          "link": "/steps",
+          "text": "Steps"
+        },
+        {
+          "link": "/tabs",
+          "text": "Tabs"
+        }
+      ]
+    },
+    "feedback": {
+      "text": "Feedback",
+      "children": [
+        {
+          "link": "/alert",
+          "text": "Alert"
+        },
+        {
+          "link": "/dialog",
+          "text": "Dialog"
+        },
+        {
+          "link": "/drawer",
+          "text": "Drawer"
+        },
+        {
+          "link": "/loading",
+          "text": "Loading"
+        },
+        {
+          "link": "/message",
+          "text": "Message"
+        },
+        {
+          "link": "/message-box",
+          "text": "Message Box"
+        },
+        {
+          "link": "/notification",
+          "text": "Notification"
+        },
+        {
+          "link": "/popconfirm",
+          "text": "Pop Confirm"
+        },
+        {
+          "link": "/popover",
+          "text": "Popover"
+        },
+        {
+          "link": "/tooltip",
+          "text": "Tooltip"
+        }
+      ]
+    },
+    "others": {
+      "text": "Others",
+      "children": [
+        {
+          "link": "/backtop",
+          "text": "Backtop"
+        },
+        {
+          "link": "/divider",
+          "text": "Divider"
+        }
+      ]
+    }
+  },
+  "es-ES": {
+    "basic": {
+      "text": "Básico",
+      "children": [
+        {
+          "link": "/border",
+          "text": "Border"
+        },
+        {
+          "link": "/button",
+          "text": "Button"
+        },
+        {
+          "link": "/color",
+          "text": "Color"
+        },
+        {
+          "link": "/container",
+          "text": "Layout Container"
+        },
+        {
+          "link": "/icon",
+          "text": "Icono"
+        },
+        {
+          "link": "/layout",
+          "text": "Layout"
+        },
+        {
+          "link": "/link",
+          "text": "Link"
+        },
+        {
+          "link": "/scrollbar",
+          "text": "Scrollbar"
+        },
+        {
+          "link": "/space",
+          "text": "Space (Translation needed)"
+        },
+        {
+          "link": "/typography",
+          "text": "Tipografía"
+        }
+      ]
+    },
+    "configuration": {
+      "text": "Configuration",
+      "children": [
+        {
+          "link": "/config-provider",
+          "text": "Config Provider"
+        }
+      ]
+    },
+    "form": {
+      "text": "Form",
+      "children": [
+        {
+          "link": "/cascader",
+          "text": "Cascader"
+        },
+        {
+          "link": "/checkbox",
+          "text": "Checkbox"
+        },
+        {
+          "link": "/color-picker",
+          "text": "Color Picker"
+        },
+        {
+          "link": "/date-picker",
+          "text": "Date Picker"
+        },
+        {
+          "link": "/datetime-picker",
+          "text": "DateTime Picker"
+        },
+        {
+          "link": "/form",
+          "text": "Form"
+        },
+        {
+          "link": "/input",
+          "text": "Input"
+        },
+        {
+          "link": "/input-number",
+          "text": "Input Number"
+        },
+        {
+          "link": "/radio",
+          "text": "Radio"
+        },
+        {
+          "link": "/rate",
+          "text": "Calificación"
+        },
+        {
+          "link": "/select",
+          "text": "Select"
+        },
+        {
+          "link": "/select-v2",
+          "text": "Virtualized Select"
+        },
+        {
+          "link": "/slider",
+          "text": "Slider"
+        },
+        {
+          "link": "/switch",
+          "text": "Switch"
+        },
+        {
+          "link": "/time-picker",
+          "text": "Time Picker"
+        },
+        {
+          "link": "/time-select",
+          "text": "Time Select"
+        },
+        {
+          "link": "/transfer",
+          "text": "Transfer"
+        },
+        {
+          "link": "/upload",
+          "text": "Carga de archivos"
+        }
+      ]
+    },
+    "data": {
+      "text": "Data",
+      "children": [
+        {
+          "link": "/avatar",
+          "text": "Avatar"
+        },
+        {
+          "link": "/badge",
+          "text": "Badge"
+        },
+        {
+          "link": "/calendar",
+          "text": "Calendar"
+        },
+        {
+          "link": "/card",
+          "text": "Card"
+        },
+        {
+          "link": "/carousel",
+          "text": "Carousel"
+        },
+        {
+          "link": "/collapse",
+          "text": "Collapse"
+        },
+        {
+          "link": "/descriptions",
+          "text": "Descriptions"
+        },
+        {
+          "link": "/empty",
+          "text": "Empty"
+        },
+        {
+          "link": "/image",
+          "text": "Image"
+        },
+        {
+          "link": "/infinite-scroll",
+          "text": "Infinite Scroll"
+        },
+        {
+          "link": "/pagination",
+          "text": "Paginación"
+        },
+        {
+          "link": "/progress",
+          "text": "Progreso"
+        },
+        {
+          "link": "/result",
+          "text": "Result"
+        },
+        {
+          "link": "/skeleton",
+          "text": "Skeleton"
+        },
+        {
+          "link": "/table",
+          "text": "Tablas"
+        },
+        {
+          "link": "/tag",
+          "text": "Tag"
+        },
+        {
+          "link": "/timeline",
+          "text": "Timeline"
+        },
+        {
+          "link": "/tree",
+          "text": "Tree"
+        }
+      ]
+    },
+    "navigation": {
+      "text": "Navigation",
+      "children": [
+        {
+          "link": "/affix",
+          "text": "Affix"
+        },
+        {
+          "link": "/breadcrumb",
+          "text": "Breadcrumb"
+        },
+        {
+          "link": "/dropdown",
+          "text": "Dropdown"
+        },
+        {
+          "link": "/menu",
+          "text": "NavMenu"
+        },
+        {
+          "link": "/page-header",
+          "text": "Page Header"
+        },
+        {
+          "link": "/steps",
+          "text": "Steps"
+        },
+        {
+          "link": "/tabs",
+          "text": "Tabulación"
+        }
+      ]
+    },
+    "feedback": {
+      "text": "Feedback",
+      "children": [
+        {
+          "link": "/alert",
+          "text": "Alert"
+        },
+        {
+          "link": "/dialog",
+          "text": "Dialog"
+        },
+        {
+          "link": "/drawer",
+          "text": "Drawer"
+        },
+        {
+          "link": "/loading",
+          "text": "Cargando"
+        },
+        {
+          "link": "/message",
+          "text": "Message"
+        },
+        {
+          "link": "/message-box",
+          "text": "Message Box"
+        },
+        {
+          "link": "/notification",
+          "text": "Notification"
+        },
+        {
+          "link": "/popconfirm",
+          "text": "Pop Confirm"
+        },
+        {
+          "link": "/popover",
+          "text": "Popover"
+        },
+        {
+          "link": "/tooltip",
+          "text": "Tooltip"
+        }
+      ]
+    },
+    "others": {
+      "text": "Others",
+      "children": [
+        {
+          "link": "/backtop",
+          "text": "Backtop"
+        },
+        {
+          "link": "/divider",
+          "text": "Divider"
+        }
+      ]
+    }
+  },
+  "fr-FR": {
+    "basic": {
+      "text": "Usage basique",
+      "children": [
+        {
+          "link": "/border",
+          "text": "Bordure"
+        },
+        {
+          "link": "/button",
+          "text": "Bouton"
+        },
+        {
+          "link": "/color",
+          "text": "Couleur"
+        },
+        {
+          "link": "/container",
+          "text": "Layout Container"
+        },
+        {
+          "link": "/icon",
+          "text": "Font Icônes"
+        },
+        {
+          "link": "/layout",
+          "text": "Layout"
+        },
+        {
+          "link": "/link",
+          "text": "Link"
+        },
+        {
+          "link": "/scrollbar",
+          "text": "Scrollbar"
+        },
+        {
+          "link": "/space",
+          "text": "Space (Translation needed)"
+        },
+        {
+          "link": "/typography",
+          "text": "Typographie"
+        }
+      ]
+    },
+    "configuration": {
+      "text": "Configuration",
+      "children": [
+        {
+          "link": "/config-provider",
+          "text": "Config Provider"
+        }
+      ]
+    },
+    "form": {
+      "text": "Form",
+      "children": [
+        {
+          "link": "/cascader",
+          "text": "Cascader"
+        },
+        {
+          "link": "/checkbox",
+          "text": "Checkbox"
+        },
+        {
+          "link": "/color-picker",
+          "text": "Color Picker"
+        },
+        {
+          "link": "/date-picker",
+          "text": "Date Picker"
+        },
+        {
+          "link": "/datetime-picker",
+          "text": "DateTime Picker"
+        },
+        {
+          "link": "/form",
+          "text": "Form"
+        },
+        {
+          "link": "/input",
+          "text": "Entrée"
+        },
+        {
+          "link": "/input-number",
+          "text": "Input Number"
+        },
+        {
+          "link": "/radio",
+          "text": "Radio"
+        },
+        {
+          "link": "/rate",
+          "text": "Rate"
+        },
+        {
+          "link": "/select",
+          "text": "Select"
+        },
+        {
+          "link": "/select-v2",
+          "text": "Virtualized Select"
+        },
+        {
+          "link": "/slider",
+          "text": "Slider"
+        },
+        {
+          "link": "/switch",
+          "text": "Switch"
+        },
+        {
+          "link": "/time-picker",
+          "text": "Time Picker"
+        },
+        {
+          "link": "/time-select",
+          "text": "Time Select"
+        },
+        {
+          "link": "/transfer",
+          "text": "Transfer"
+        },
+        {
+          "link": "/upload",
+          "text": "Upload"
+        }
+      ]
+    },
+    "data": {
+      "text": "Data",
+      "children": [
+        {
+          "link": "/avatar",
+          "text": "Avatar avatar"
+        },
+        {
+          "link": "/badge",
+          "text": "Badge"
+        },
+        {
+          "link": "/calendar",
+          "text": "Calendrier"
+        },
+        {
+          "link": "/card",
+          "text": "Card"
+        },
+        {
+          "link": "/carousel",
+          "text": "Carousel"
+        },
+        {
+          "link": "/collapse",
+          "text": "Menu réduit"
+        },
+        {
+          "link": "/descriptions",
+          "text": "Descriptions"
+        },
+        {
+          "link": "/empty",
+          "text": "Empty"
+        },
+        {
+          "link": "/image",
+          "text": "Image"
+        },
+        {
+          "link": "/infinite-scroll",
+          "text": "Infinite Scroll"
+        },
+        {
+          "link": "/pagination",
+          "text": "Pagination"
+        },
+        {
+          "link": "/progress",
+          "text": "Progress"
+        },
+        {
+          "link": "/result",
+          "text": "Result"
+        },
+        {
+          "link": "/skeleton",
+          "text": "Skeleton"
+        },
+        {
+          "link": "/table",
+          "text": "Table"
+        },
+        {
+          "link": "/tag",
+          "text": "Tag"
+        },
+        {
+          "link": "/timeline",
+          "text": "Timeline"
+        },
+        {
+          "link": "/tree",
+          "text": "Tree"
+        }
+      ]
+    },
+    "navigation": {
+      "text": "Navigation",
+      "children": [
+        {
+          "link": "/affix",
+          "text": "Affix"
+        },
+        {
+          "link": "/breadcrumb",
+          "text": "Breadcrumb"
+        },
+        {
+          "link": "/dropdown",
+          "text": "Dropdown"
+        },
+        {
+          "link": "/menu",
+          "text": "NavMenu"
+        },
+        {
+          "link": "/page-header",
+          "text": "Page Header"
+        },
+        {
+          "link": "/steps",
+          "text": "Pas"
+        },
+        {
+          "link": "/tabs",
+          "text": "Tabs"
+        }
+      ]
+    },
+    "feedback": {
+      "text": "Feedback",
+      "children": [
+        {
+          "link": "/alert",
+          "text": "Alert"
+        },
+        {
+          "link": "/dialog",
+          "text": "Dialog"
+        },
+        {
+          "link": "/drawer",
+          "text": "Drawer"
+        },
+        {
+          "link": "/loading",
+          "text": "Loading"
+        },
+        {
+          "link": "/message",
+          "text": "Message"
+        },
+        {
+          "link": "/message-box",
+          "text": "Message Box"
+        },
+        {
+          "link": "/notification",
+          "text": "Notification"
+        },
+        {
+          "link": "/popconfirm",
+          "text": "Pop Confirm"
+        },
+        {
+          "link": "/popover",
+          "text": "Popover"
+        },
+        {
+          "link": "/tooltip",
+          "text": "Tooltip"
+        }
+      ]
+    },
+    "others": {
+      "text": "Others",
+      "children": [
+        {
+          "link": "/backtop",
+          "text": "Backtop"
+        },
+        {
+          "link": "/divider",
+          "text": "Divider"
+        }
+      ]
+    }
+  },
+  "ja-JP": {
+    "basic": {
+      "text": "ベーシック",
+      "children": [
+        {
+          "link": "/border",
+          "text": "Border"
+        },
+        {
+          "link": "/button",
+          "text": "Button"
+        },
+        {
+          "link": "/color",
+          "text": "カラー"
+        },
+        {
+          "link": "/container",
+          "text": "Layout Container"
+        },
+        {
+          "link": "/icon",
+          "text": "アイコン"
+        },
+        {
+          "link": "/layout",
+          "text": "レイアウト"
+        },
+        {
+          "link": "/link",
+          "text": "リンク"
+        },
+        {
+          "link": "/scrollbar",
+          "text": "Scrollbar"
+        },
+        {
+          "link": "/space",
+          "text": "Space (Translation needed)"
+        },
+        {
+          "link": "/typography",
+          "text": "タイポグラフィ"
+        }
+      ]
+    },
+    "configuration": {
+      "text": "Configuration",
+      "children": [
+        {
+          "link": "/config-provider",
+          "text": "Config Provider"
+        }
+      ]
+    },
+    "form": {
+      "text": "フォーム",
+      "children": [
+        {
+          "link": "/cascader",
+          "text": "Cascader(カスケード)"
+        },
+        {
+          "link": "/checkbox",
+          "text": "Checkbox"
+        },
+        {
+          "link": "/color-picker",
+          "text": "Color Picker"
+        },
+        {
+          "link": "/date-picker",
+          "text": "Date Picker"
+        },
+        {
+          "link": "/datetime-picker",
+          "text": "DateTime Picker"
+        },
+        {
+          "link": "/form",
+          "text": "フォーム"
+        },
+        {
+          "link": "/input",
+          "text": "インプット"
+        },
+        {
+          "link": "/input-number",
+          "text": "Input Number"
+        },
+        {
+          "link": "/radio",
+          "text": "ラジオ"
+        },
+        {
+          "link": "/rate",
+          "text": "レート"
+        },
+        {
+          "link": "/select",
+          "text": "Select"
+        },
+        {
+          "link": "/select-v2",
+          "text": "Virtualized Select"
+        },
+        {
+          "link": "/slider",
+          "text": "スライダー"
+        },
+        {
+          "link": "/switch",
+          "text": "スイッチ"
+        },
+        {
+          "link": "/time-picker",
+          "text": "Time Picker"
+        },
+        {
+          "link": "/time-select",
+          "text": "Time Select"
+        },
+        {
+          "link": "/transfer",
+          "text": "トランスファー"
+        },
+        {
+          "link": "/upload",
+          "text": "アップロード"
+        }
+      ]
+    },
+    "data": {
+      "text": "Data",
+      "children": [
+        {
+          "link": "/avatar",
+          "text": "Avator"
+        },
+        {
+          "link": "/badge",
+          "text": "Badge"
+        },
+        {
+          "link": "/calendar",
+          "text": "カレンダー"
+        },
+        {
+          "link": "/card",
+          "text": "Card"
+        },
+        {
+          "link": "/carousel",
+          "text": "Carousel(カルーセル)"
+        },
+        {
+          "link": "/collapse",
+          "text": "コラプス"
+        },
+        {
+          "link": "/descriptions",
+          "text": "Descriptions"
+        },
+        {
+          "link": "/empty",
+          "text": "Empty"
+        },
+        {
+          "link": "/image",
+          "text": "イメージ"
+        },
+        {
+          "link": "/infinite-scroll",
+          "text": "Infinite Scroll"
+        },
+        {
+          "link": "/pagination",
+          "text": "ページネーション"
+        },
+        {
+          "link": "/progress",
+          "text": "進捗状況"
+        },
+        {
+          "link": "/result",
+          "text": "Result"
+        },
+        {
+          "link": "/skeleton",
+          "text": "Skeleton"
+        },
+        {
+          "link": "/table",
+          "text": "テーブル"
+        },
+        {
+          "link": "/tag",
+          "text": "タグ"
+        },
+        {
+          "link": "/timeline",
+          "text": "タイムライン"
+        },
+        {
+          "link": "/tree",
+          "text": "ツリー"
+        }
+      ]
+    },
+    "navigation": {
+      "text": "Navigation",
+      "children": [
+        {
+          "link": "/affix",
+          "text": "Affix"
+        },
+        {
+          "link": "/breadcrumb",
+          "text": "Breadcrumb(パンくず)"
+        },
+        {
+          "link": "/dropdown",
+          "text": "Dropdown"
+        },
+        {
+          "link": "/menu",
+          "text": "ナビゲーションメニュー"
+        },
+        {
+          "link": "/page-header",
+          "text": "Page Header"
+        },
+        {
+          "link": "/steps",
+          "text": "ステップ"
+        },
+        {
+          "link": "/tabs",
+          "text": "タブ"
+        }
+      ]
+    },
+    "feedback": {
+      "text": "Feedback",
+      "children": [
+        {
+          "link": "/alert",
+          "text": "アラート"
+        },
+        {
+          "link": "/dialog",
+          "text": "Dialog"
+        },
+        {
+          "link": "/drawer",
+          "text": "Drawer"
+        },
+        {
+          "link": "/loading",
+          "text": "ローディング"
+        },
+        {
+          "link": "/message",
+          "text": "メッセージ"
+        },
+        {
+          "link": "/message-box",
+          "text": "Message Box"
+        },
+        {
+          "link": "/notification",
+          "text": "通知"
+        },
+        {
+          "link": "/popconfirm",
+          "text": "Pop Confirm"
+        },
+        {
+          "link": "/popover",
+          "text": "Popover"
+        },
+        {
+          "link": "/tooltip",
+          "text": "ツールチップ"
+        }
+      ]
+    },
+    "others": {
+      "text": "Others",
+      "children": [
+        {
+          "link": "/backtop",
+          "text": "Backtop"
+        },
+        {
+          "link": "/divider",
+          "text": "Divider(仕切り)"
+        }
+      ]
+    }
+  },
+  "zh-CN": {
+    "basic": {
+      "text": "Basic 基础组件",
+      "children": [
+        {
+          "link": "/border",
+          "text": "Border 边框"
+        },
+        {
+          "link": "/button",
+          "text": "Button 按钮"
+        },
+        {
+          "link": "/color",
+          "text": "Color 颜色"
+        },
+        {
+          "link": "/container",
+          "text": "Container 布局容器"
+        },
+        {
+          "link": "/icon",
+          "text": "Icon 图标集合"
+        },
+        {
+          "link": "/layout",
+          "text": "Layout 布局"
+        },
+        {
+          "link": "/link",
+          "text": "Link 链接"
+        },
+        {
+          "link": "/scrollbar",
+          "text": "Scrollbar 滚动条"
+        },
+        {
+          "link": "/space",
+          "text": "Space 间距"
+        },
+        {
+          "link": "/typography",
+          "text": "Typography 排版"
+        }
+      ]
+    },
+    "configuration": {
+      "text": "配置组件",
+      "children": [
+        {
+          "link": "/config-provider",
+          "text": "Config Provider 全局配置"
+        }
+      ]
+    },
+    "form": {
+      "text": "Form 表单组件",
+      "children": [
+        {
+          "link": "/cascader",
+          "text": "Cascader 级联选择器"
+        },
+        {
+          "link": "/checkbox",
+          "text": "Checkbox 多选框"
+        },
+        {
+          "link": "/color-picker",
+          "text": "Color Picker 取色器"
+        },
+        {
+          "link": "/date-picker",
+          "text": "Date Picker 日期选择器"
+        },
+        {
+          "link": "/datetime-picker",
+          "text": "DateTime Picker 日期时间选择器"
+        },
+        {
+          "link": "/form",
+          "text": "Form 表单"
+        },
+        {
+          "link": "/input",
+          "text": "Input 输入框"
+        },
+        {
+          "link": "/input-number",
+          "text": "Input Number 数字输入框"
+        },
+        {
+          "link": "/radio",
+          "text": "Radio 单选框"
+        },
+        {
+          "link": "/rate",
+          "text": "Rate 评分"
+        },
+        {
+          "link": "/select",
+          "text": "Select 选择器"
+        },
+        {
+          "link": "/select-v2",
+          "text": "Virtualized Select \b虚拟化选择器"
+        },
+        {
+          "link": "/slider",
+          "text": "Slider 滑块"
+        },
+        {
+          "link": "/switch",
+          "text": "Switch 开关"
+        },
+        {
+          "link": "/time-picker",
+          "text": "Time Picker 时间选择器"
+        },
+        {
+          "link": "/time-select",
+          "text": "Time Select 时间选择"
+        },
+        {
+          "link": "/transfer",
+          "text": "Transfer 穿梭框"
+        },
+        {
+          "link": "/upload",
+          "text": "Upload 上传器"
+        }
+      ]
+    },
+    "data": {
+      "text": "数据展示",
+      "children": [
+        {
+          "link": "/avatar",
+          "text": "Avatar 头像"
+        },
+        {
+          "link": "/badge",
+          "text": "Badge 徽章"
+        },
+        {
+          "link": "/calendar",
+          "text": "Calendar 日历"
+        },
+        {
+          "link": "/card",
+          "text": "Card 卡片"
+        },
+        {
+          "link": "/carousel",
+          "text": "Carousel 走马灯"
+        },
+        {
+          "link": "/collapse",
+          "text": "Collapse 折叠面板"
+        },
+        {
+          "link": "/descriptions",
+          "text": "Descriptions 描述列表"
+        },
+        {
+          "link": "/empty",
+          "text": "Empty 空状态"
+        },
+        {
+          "link": "/image",
+          "text": "Image 图片"
+        },
+        {
+          "link": "/infinite-scroll",
+          "text": "Infinite Scroll 无限滚动"
+        },
+        {
+          "link": "/pagination",
+          "text": "Pagination 分页"
+        },
+        {
+          "link": "/progress",
+          "text": "Progress 进度条"
+        },
+        {
+          "link": "/result",
+          "text": "Result 结果"
+        },
+        {
+          "link": "/skeleton",
+          "text": "Skeleton 骨架屏"
+        },
+        {
+          "link": "/table",
+          "text": "Table 表格"
+        },
+        {
+          "link": "/tag",
+          "text": "Tag 标签"
+        },
+        {
+          "link": "/timeline",
+          "text": "Timeline 时间线"
+        },
+        {
+          "link": "/tree",
+          "text": "Tree 树形控件"
+        }
+      ]
+    },
+    "navigation": {
+      "text": "导航",
+      "children": [
+        {
+          "link": "/affix",
+          "text": "Affix 固钉"
+        },
+        {
+          "link": "/breadcrumb",
+          "text": "Breadcrumb 面包屑"
+        },
+        {
+          "link": "/dropdown",
+          "text": "Dropdown 下拉菜单"
+        },
+        {
+          "link": "/menu",
+          "text": "NavMenu 导航菜单"
+        },
+        {
+          "link": "/page-header",
+          "text": "Page Header 页眉"
+        },
+        {
+          "link": "/steps",
+          "text": "Steps 步骤条"
+        },
+        {
+          "link": "/tabs",
+          "text": "Tabs 标签页"
+        }
+      ]
+    },
+    "feedback": {
+      "text": "反馈组件",
+      "children": [
+        {
+          "link": "/alert",
+          "text": "Alert 提示"
+        },
+        {
+          "link": "/dialog",
+          "text": "Dialog 弹出框"
+        },
+        {
+          "link": "/drawer",
+          "text": "Drawer 抽屉"
+        },
+        {
+          "link": "/loading",
+          "text": "Loading 加载"
+        },
+        {
+          "link": "/message",
+          "text": "Message 消息提示"
+        },
+        {
+          "link": "/message-box",
+          "text": "Message Box 消息弹出框"
+        },
+        {
+          "link": "/notification",
+          "text": "Notification 通知"
+        },
+        {
+          "link": "/popconfirm",
+          "text": "Pop Confirm 弹出确认框"
+        },
+        {
+          "link": "/popover",
+          "text": "Popover 弹出框"
+        },
+        {
+          "link": "/tooltip",
+          "text": "Tooltip 文字提示"
+        }
+      ]
+    },
+    "others": {
+      "text": "其它",
+      "children": [
+        {
+          "link": "/backtop",
+          "text": "Backtop 回到顶部"
+        },
+        {
+          "link": "/divider",
+          "text": "Divider 分割线"
+        }
+      ]
+    }
+  }
+}

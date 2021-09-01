@@ -1,0 +1,27 @@
+{
+  "en-US": {
+    "title": "Resource not found",
+    "button-title": "Back to Home",
+    "desc": "The page you requested did not exist"
+  },
+  "es-ES": {
+    "title": "Resource not found",
+    "button-title": "Back to Home",
+    "desc": "The page you requested did not exist"
+  },
+  "fr-FR": {
+    "title": "Resource not found",
+    "button-title": "Back to Home",
+    "desc": "The page you requested did not exist"
+  },
+  "ja-JP": {
+    "title": "Resource not found",
+    "button-title": "Back to Home",
+    "desc": "The page you requested did not exist"
+  },
+  "zh-CN": {
+    "title": "找不到资源",
+    "button-title": "回到首页",
+    "desc": "请求的页面不存在。"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "intro": {
+    "text": "基础",
+    "children": [
+      {
+        "text": "设计",
+        "link": "/guide/design"
+      },
+      {
+        "text": "导航",
+        "link": "/guide/nav"
+      },
+      {
+        "text": "安装",
+        "link": "/guide/installation"
+      },
+      {
+        "text": "快速开始",
+        "link": "/guide/quickstart"
+      }
+    ]
+  },
+  "advanced": {
+    "text": "进阶",
+    "children": [
+      {
+        "text": "国际化",
+        "link": "/guide/i18n"
+      },
+      {
+        "text": "从 ElementUI 2.x 迁移",
+        "link": "/guide/migration"
+      },
+      {
+        "text": "主题",
+        "link": "/guide/theming"
+      },
+      {
+        "text": "内置过渡动画",
+        "link": "/guide/transitions"
+      }
+    ]
+  }
+}

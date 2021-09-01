@@ -1,0 +1,67 @@
+{
+  "en-US": {
+    "links": "Links",
+    "repo": "GitHub",
+    "community": "Community",
+    "changelog": "Changelog",
+    "theme": "Online Theme Roller",
+    "faq": "FAQ",
+    "gitter": "Gitter",
+    "starter": "Starter kit",
+    "feedback": "Feedback",
+    "contribution": "Contribution",
+    "eleme": "Eleme"
+  },
+  "es-ES": {
+    "links": "Vincular",
+    "repo": "GitHub",
+    "community": "¿Comunidad?",
+    "changelog": "Cambios",
+    "theme": "Tema en línea Roller",
+    "faq": "FAQ",
+    "gitter": "Gitter",
+    "starter": "Kit de inicio",
+    "feedback": "Sugerencias",
+    "contribution": "Contribuciones",
+    "eleme": "Eleme"
+  },
+  "fr-FR": {
+    "links": "Links",
+    "repo": "GitHub",
+    "community": "Community",
+    "changelog": "Changelog",
+    "theme": "Online Theme Roller",
+    "faq": "FAQ",
+    "gitter": "Gitter",
+    "starter": "Starter kit",
+    "feedback": "Feedback",
+    "contribution": "Contribution",
+    "eleme": "Eleme"
+  },
+  "ja-JP": {
+    "links": "Links",
+    "repo": "GitHub",
+    "community": "Community",
+    "changelog": "Changelog",
+    "theme": "Online Theme Roller",
+    "faq": "FAQ",
+    "gitter": "Gitter",
+    "starter": "Starter kit",
+    "feedback": "Feedback",
+    "contribution": "Contribution",
+    "eleme": "Eleme"
+  },
+  "zh-CN": {
+    "links": "链接",
+    "repo": "Github",
+    "community": "社区",
+    "changelog": "更新日志",
+    "theme": "在线主题生成器",
+    "faq": "常见问题",
+    "gitter": "Gitter",
+    "starter": "脚手架",
+    "feedback": "反馈建议",
+    "contribution": "贡献指南",
+    "eleme": "饿了么"
+  }
+}

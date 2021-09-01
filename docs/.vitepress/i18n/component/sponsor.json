@@ -1,0 +1,22 @@
+{
+  "en-US": {
+    "title": "Sponsors",
+    "sponsoredBy": "Sponsored by"
+  },
+  "es-ES": {
+    "title": "Patrocinadores",
+    "sponsoredBy": "Patrocinado por"
+  },
+  "fr-FR": {
+    "title": "Sponsors",
+    "sponsoredBy": "Sponsored by"
+  },
+  "ja-JP": {
+    "title": "Sponsors",
+    "sponsoredBy": "Sponsored by"
+  },
+  "zh-CN": {
+    "title": "赞助商",
+    "sponsoredBy": "赞助商"
+  }
+}
