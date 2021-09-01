@@ -775,6 +775,17 @@ $--tag: map.merge(
 
 $--tag-color: () !default;
 
+$--tag-height: () !default;
+$--tag-height: map.merge(
+  (
+    'default': 32px,
+    'medium': 28px,
+    'small': 24px,
+    'mini': 20px,
+  ),
+  $--tag-height
+);
+
 @each $type in $--types {
   $--tag-color: map.merge(
     (

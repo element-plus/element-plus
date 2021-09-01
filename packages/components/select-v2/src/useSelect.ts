@@ -38,6 +38,10 @@ import { useInput } from './useInput'
 
 const DEFAULT_INPUT_PLACEHOLDER = ''
 const MINIMUM_INPUT_WIDTH = 11
+const TAG_BASE_WIDTH = {
+  small: 42,
+  mini: 33,
+}
 
 const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
@@ -63,7 +67,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     isSilentBlur: false,
     isComposing: false,
     inputLength: 20,
-    inputWidth: 240,
+    selectWidth: 200,
     initialInputHeight: 0,
     previousQuery: null,
     previousValue: '',
@@ -165,6 +169,14 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const collapseTagSize = computed(() => ['small', 'mini'].indexOf(selectSize.value) > -1 ? 'mini' : 'small')
 
+  const tagMaxWidth = computed(() => {
+    const select = selectionRef.value
+    const size = collapseTagSize.value
+    const paddingLeft = select ? parseInt(getComputedStyle(select).paddingLeft) : 0
+    const paddingRight = select ? parseInt(getComputedStyle(select).paddingRight) : 0
+    return states.selectWidth - paddingRight - paddingLeft - TAG_BASE_WIDTH[size]
+  })
+
   const calculatePopperSize = () => {
     popperSize.value = selectRef.value?.getBoundingClientRect?.()?.width || 200
   }
@@ -203,8 +215,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   // the index with current value in options
   const indexRef = computed<number>(() => {
     if (props.multiple) {
+      const len = (props.modelValue as []).length
       if ((props.modelValue as Array<any>).length > 0) {
-        return filteredOptions.value.findIndex(o => o.value === props.modelValue[0])
+        return filteredOptions.value.findIndex(o => o.value === props.modelValue[len - 1])
       }
     } else {
       if (props.modelValue) {
@@ -324,12 +337,15 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     resetInputWidth()
     calculatePopperSize()
     popper.value?.update?.()
-    if (props.multiple) resetInputHeight()
+    if (props.multiple) {
+      return resetInputHeight()
+    }
   }
 
   const resetInputWidth = () => {
-    if (inputRef.value) {
-      states.inputWidth = inputRef.value.getBoundingClientRect().width
+    const select = selectionRef.value
+    if (select) {
+      states.selectWidth = select.getBoundingClientRect().width
     }
   }
 
@@ -678,6 +694,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     selectSize,
     showClearBtn,
     states,
+    tagMaxWidth,
 
     // refs items exports
     calculatorRef,
@@ -704,6 +721,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     handleEsc,
     handleFocus,
     handleMenuEnter,
+    handleResize,
     toggleMenu,
     scrollTo: scrollToItem,
     onInput,

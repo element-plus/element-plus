@@ -20,7 +20,7 @@ The simplest selector
     v-model="value"
     :options="options"
     placeholder="Please select"
-    style="width: 200px;"
+    style="width: 240px;"
   />
 </template>
 
@@ -53,7 +53,7 @@ The basic multi-select selector with tags
     v-model="value"
     :options="options"
     placeholder="Please select"
-    style="width: 200px;"
+    style="width: 240px;"
     multiple
   />
 </template>
@@ -86,7 +86,7 @@ The basic multi-select selector with tags
     v-model="value"
     :options="options"
     placeholder="Please select"
-    style="width: 200px;"
+    style="width: 240px;"
     multiple
     collapse-tags
   />
@@ -122,7 +122,7 @@ When the options are overwhelmingly too many, you can use `filterable` option to
     filterable
     :options="options"
     placeholder="Please select"
-    style="width: 200px;"
+    style="width: 240px;"
     multiple
   />
 </template>
@@ -157,7 +157,7 @@ You can choose to disable selector itself or the option.
     filterable
     :options="options"
     placeholder="Please select"
-    style="width: 200px; margin-right: 16px; vertical-align: middle;"
+    style="width: 240px; margin-right: 16px; vertical-align: middle;"
     multiple
   />
   <el-select-v2
@@ -166,7 +166,7 @@ You can choose to disable selector itself or the option.
     filterable
     :options="options"
     placeholder="Please select"
-    style="width: 200px; vertical-align: middle;"
+    style="width: 240px; vertical-align: middle;"
     multiple
   />
 </template>
@@ -203,7 +203,7 @@ We can group option as we wanted, as long as the data satisfies the pattern.
     filterable
     :options="options"
     placeholder="Please select"
-    style="width: 200px;"
+    style="width: 240px;"
     multiple
   />
 </template>
@@ -245,7 +245,7 @@ We can define our own template for rendering the option in the popup.
     filterable
     :options="options"
     placeholder="Please select"
-    style="width: 200px;"
+    style="width: 240px;"
     multiple
   >
     <template #default="{item}">
@@ -287,7 +287,7 @@ We can clear all the selected options at once, also applicable for single select
     v-model="value1"
     :options="options"
     placeholder="Please select"
-    style="width: 200px; margin-right: 16px; vertical-align: middle;"
+    style="width: 240px; margin-right: 16px; vertical-align: middle;"
     multiple
     clearable
   />
@@ -295,7 +295,7 @@ We can clear all the selected options at once, also applicable for single select
     v-model="value2"
     :options="options"
     placeholder="Please select"
-    style="width: 200px; vertical-align: middle;"
+    style="width: 240px; vertical-align: middle;"
     clearable
   />
 </template>
@@ -330,7 +330,7 @@ Vous pouvez entrer des choix dans le champ de sélection qui ne sont pas incluse
     v-model="value1"
     :options="options"
     placeholder="Please select"
-    style="width: 200px; margin-right: 16px; vertical-align: middle;"
+    style="width: 240px; margin-right: 16px; vertical-align: middle;"
     allow-create
     filterable
     multiple
@@ -340,7 +340,7 @@ Vous pouvez entrer des choix dans le champ de sélection qui ne sont pas incluse
     v-model="value2"
     :options="options"
     placeholder="Please select"
-    style="width: 200px; vertical-align: middle;"
+    style="width: 240px; vertical-align: middle;"
     allow-create
     filterable
     clearable
@@ -374,7 +374,7 @@ Vous pouvez aller chercher les options sur le serveur de manière dynamique.
 <template>
   <el-select-v2
     v-model="value"
-    style="width:200px"
+    style="width: 240px"
     multiple
     size="medium"
     filterable
