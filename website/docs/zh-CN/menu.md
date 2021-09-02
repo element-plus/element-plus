@@ -24,7 +24,7 @@
     </el-sub-menu>
   </el-sub-menu>
   <el-menu-item index="3" disabled>消息中心</el-menu-item>
-  <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
+  <el-menu-item index="4">订单管理</el-menu-item>
 </el-menu>
 <div class="line"></div>
 <el-menu
@@ -49,7 +49,7 @@
     </el-sub-menu>
   </el-sub-menu>
   <el-menu-item index="3" disabled>消息中心</el-menu-item>
-  <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
+  <el-menu-item index="4">订单管理</el-menu-item>
 </el-menu>
 
 <script>

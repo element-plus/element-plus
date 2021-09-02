@@ -1,12 +1,47 @@
 ## Changelog
 
-### 1.1.0-beta.7
+### 1.1.0-beta.8
 
-*2021-08-26*
+*2021-08-31*
 
 #### Breaking changes:
 
 - Please refer to: [Breaking changes made in 1.1.0-beta.1](https://github.com/element-plus/element-plus/discussions/3020)
+
+#### Features
+  
+- Components form add scrollToField method (#3110 by @sxzz)
+- Components select-v2 support filter-method & remote-search (#3092 by @msidolphin)
+- Components button-group add size (#3098 by @sxzz)
+- Components [el-image-viewer] emit close event (#3129 by @btea)
+- Components select-v2 support keyboard operations (#3138 by @msidolphin)
+- Menu add ellipsis in horizontal mode (#3083 by @kooriookami)
+
+#### Bug fixes
+  
+- Theme-chalk add the missing margin-left to transfer
+- Remove useless and duplicate declaration (#3082 by @BeADre)
+- Components image no emit switch event (close #3132) (#3134 by @imswk)
+- Components [el-upload] revoke object url on item remove (#3135 by @adaex)
+- [el-cascader-panel] fix childrenData (close #3126) (#3131 by @qinpeip)
+- Locale update korean translation (#3137 by @rikapo)
+- Components layout css lost (#3140 by @JeremyWuuuuu)
+- Icon clipboard (#3142 by @kooriookami)
+- Components [el-table] width init error (close #3087) (#3117 by @imswk)
+- [el-scrollbar] add missing off mouseup (#3143 by @kooriookami)
+- Style update calc style (#3090 by @kooriookami)
+- Style checkbox support size prop both border or not (#3099 by @kooriookami)
+- Style radio support size prop both border or not (#3103 by @kooriookami)
+- Table fix Destructuring assignment bug (#2893 by @HaitaoWang555)
+- [image-viewer] two-finger zoom in and out (#3114 by @Alanscut)
+
+#### Refactors
+  
+- Enhance type definition (#3062 by @sxzz)
+
+### 1.1.0-beta.7
+
+*2021-08-26*
 
 #### Bug fixes
   

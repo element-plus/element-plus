@@ -23,7 +23,7 @@ Top bar NavMenu can be used in a variety of scenarios.
     </el-sub-menu>
   </el-sub-menu>
   <el-menu-item index="3" disabled>Info</el-menu-item>
-  <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">Orders</a></el-menu-item>
+  <el-menu-item index="4">Orders</el-menu-item>
 </el-menu>
 <div class="line"></div>
 <el-menu
@@ -48,7 +48,7 @@ Top bar NavMenu can be used in a variety of scenarios.
     </el-sub-menu>
   </el-sub-menu>
   <el-menu-item index="3" disabled>Info</el-menu-item>
-  <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">Orders</a></el-menu-item>
+  <el-menu-item index="4">Orders</el-menu-item>
 </el-menu>
 
 <script>

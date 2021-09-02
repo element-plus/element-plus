@@ -23,7 +23,7 @@ La barre du haut peut être utilisée pour différents scénarios.
     </el-sub-menu>
   </el-sub-menu>
   <el-menu-item index="3" disabled>Infos</el-menu-item>
-  <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">Commandes</a></el-menu-item>
+  <el-menu-item index="4">Commandes</el-menu-item>
 </el-menu>
 <div class="line"></div>
 <el-menu
@@ -48,7 +48,7 @@ La barre du haut peut être utilisée pour différents scénarios.
     </el-sub-menu>
   </el-sub-menu>
   <el-menu-item index="3" disabled>Info</el-menu-item>
-  <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">Commandes</a></el-menu-item>
+  <el-menu-item index="4">Commandes</el-menu-item>
 </el-menu>
 
 <script>

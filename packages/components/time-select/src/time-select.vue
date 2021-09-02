@@ -28,8 +28,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref } from 'vue'
+import { defineComponent, computed, ref, PropType } from 'vue'
 import ElSelect from '@element-plus/components/select'
+import { ComponentSize } from '@element-plus/utils/types'
 
 const { Option: ElOption } = ElSelect
 
@@ -103,7 +104,7 @@ export default defineComponent({
       default: true,
     },
     size: {
-      type: String,
+      type: String as PropType<ComponentSize>,
       default: '',
       validator: (value: string) =>
         !value || ['medium', 'small', 'mini'].indexOf(value) !== -1,

@@ -1,4 +1,4 @@
-import { ComputedRef, Ref } from 'vue'
+import type { ComputedRef, CSSProperties, Ref } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'
 
 export interface ISliderProps {
@@ -54,7 +54,7 @@ export type Marks = ComputedRef<Mark[]>
 
 export type Stops = {
   stops: ComputedRef<number[]>
-  getStopStyle: (position: number) => CSSStyleDeclaration
+  getStopStyle: (position: number) => CSSProperties
 }
 
 export type Slide = {
@@ -64,8 +64,8 @@ export type Slide = {
   sliderDisabled: ComputedRef<boolean>
   minValue: ComputedRef<number>
   maxValue: ComputedRef<number>
-  runwayStyle: ComputedRef<CSSStyleDeclaration>
-  barStyle: ComputedRef<CSSStyleDeclaration>
+  runwayStyle: ComputedRef<CSSProperties>
+  barStyle: ComputedRef<CSSProperties>
   resetSize: () => void
   setPosition: (percent: number) => void
   emitChange: () => void
@@ -98,7 +98,7 @@ export interface ISliderButtonInitData {
 export interface ISliderButton {
   tooltip: Ref<Nullable<HTMLElement>>
   showTooltip: Ref<boolean>
-  wrapperStyle: ComputedRef<CSSStyleDeclaration>
+  wrapperStyle: ComputedRef<CSSProperties>
   formatValue: ComputedRef<number | string>
   handleMouseEnter: () => void
   handleMouseLeave: () => void

@@ -22,7 +22,7 @@ import {
   reactive,
 } from 'vue'
 
-import type { IMenuGroupProps, RootMenuProvider } from './menu'
+import type { IMenuGroupProps, RootMenuProvider } from './menu.type'
 
 export default defineComponent({
   name: 'ElMenuItemGroup',

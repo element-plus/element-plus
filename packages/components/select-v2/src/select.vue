@@ -17,7 +17,7 @@
       :stop-popper-mouse-event="false"
       :popper-options="popperOptions"
       :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
-      effect="light"
+      :effect="Effect.LIGHT"
       manual-mode
       placement="bottom-start"
       pure
@@ -52,7 +52,9 @@
                 >
                   <span
                     class="el-select-v2__tags-text"
-                    :style="{ maxWidth: states.inputWidth - 123 + 'px' }"
+                    :style="{
+                      maxWidth: `${tagMaxWidth}px`
+                    }"
                   >{{ states.cachedOptions[0].label }}</span>
                 </el-tag>
                 <el-tag
@@ -62,7 +64,12 @@
                   type="info"
                   disable-transitions
                 >
-                  <span class="el-select-v2__tags-text">+ {{ modelValue.length - 1 }}</span>
+                  <span
+                    class="el-select-v2__tags-text"
+                    :style="{
+                      maxWidth: `${tagMaxWidth}px`
+                    }"
+                  >+ {{ modelValue.length - 1 }}</span>
                 </el-tag>
               </div>
             </template>
@@ -81,7 +88,12 @@
                   disable-transitions
                   @close="deleteTag($event, selected)"
                 >
-                  {{ getLabel(selected) }}
+                  <span
+                    class="el-select-v2__tags-text"
+                    :style="{
+                      maxWidth: `${tagMaxWidth}px`
+                    }"
+                  >{{ getLabel(selected) }}</span>
                 </el-tag>
               </div>
             </template>
@@ -114,6 +126,9 @@
                 @compositionstart="handleCompositionStart"
                 @compositionupdate="handleCompositionUpdate"
                 @compositionend="handleCompositionEnd"
+                @keydown.up.stop.prevent="onKeyboardNavigate('backward')"
+                @keydown.down.stop.prevent="onKeyboardNavigate('forward')"
+                @keydown.enter.stop.prevent="onKeyboardSelect"
                 @keydown.esc.stop.prevent="handleEsc"
                 @keydown.delete.stop="handleDel"
               >
@@ -154,6 +169,9 @@
                 @compositionend="handleCompositionEnd"
                 @focus="handleFocus"
                 @input="onInput"
+                @keydown.up.stop.prevent="onKeyboardNavigate('backward')"
+                @keydown.down.stop.prevent="onKeyboardNavigate('forward')"
+                @keydown.enter.stop.prevent="onKeyboardSelect"
                 @keydown.esc.stop.prevent="handleEsc"
                 @update:modelValue="onUpdateInputValue"
               >
@@ -248,6 +266,7 @@ export default defineComponent({
         height: API.popupHeight,
       }),
       onSelect: API.onSelect,
+      onHover: API.onHover,
       onKeyboardNavigate: API.onKeyboardNavigate,
       onKeyboardSelect: API.onKeyboardSelect,
     } as any)

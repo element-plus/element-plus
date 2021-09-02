@@ -323,6 +323,7 @@ describe('Select', () => {
     await nextTick()
     const vm = wrapper.vm as any
     await wrapper.trigger('click')
+    await nextTick()
     expect(vm.visible).toBeTruthy()
   })
 
@@ -796,7 +797,7 @@ describe('Select', () => {
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).exists()).toBeFalsy()
     // Simulate keyboard events
     const selectInput = wrapper.find('input')
-    selectInput.trigger('keydown', {
+    await selectInput.trigger('keydown', {
       key: EVENT_CODE.backspace,
     })
     await nextTick()
@@ -896,5 +897,136 @@ describe('Select', () => {
     it('should call remote method in multiple mode', async () => {
       await testRemoteSearch({ multiple: true })
     })
+  })
+
+  it('keyboard operations', async () => {
+    const wrapper = createSelect({
+      data () {
+        return {
+          multiple: true,
+          options: [
+            {
+              value: 1,
+              label: 'option 1',
+              disabled: true,
+            },
+            {
+              value: 2,
+              label: 'option 2',
+              disabled: true,
+            },
+            {
+              value: 3,
+              label: 'option 3',
+            },
+            {
+              value: 4,
+              label: 'option 4',
+            },
+            {
+              value: 5,
+              label: 'option 5',
+              options: [
+                {
+                  value: 51,
+                  label: 'option 5-1',
+                },
+                {
+                  value: 52,
+                  label: 'option 5-2',
+                },
+                {
+                  value: 53,
+                  label: 'option 5-3',
+                  disabled: true,
+                },
+              ],
+            },
+            {
+              value: 6,
+              label: 'option 6',
+            },
+          ],
+          value: [],
+        }
+      },
+    })
+    const select = wrapper.findComponent(Select)
+    const selectVm = select.vm as any
+    const vm = wrapper.vm as any
+    await wrapper.trigger('click')
+    await nextTick()
+    expect(selectVm.states.hoveringIndex).toBe(-1)
+    // should skip the disabled option
+    selectVm.onKeyboardNavigate('forward')
+    selectVm.onKeyboardNavigate('forward')
+    await nextTick()
+    expect(selectVm.states.hoveringIndex).toBe(3)
+    //  should skip the group option
+    selectVm.onKeyboardNavigate('backward')
+    selectVm.onKeyboardNavigate('backward')
+    selectVm.onKeyboardNavigate('backward')
+    selectVm.onKeyboardNavigate('backward')
+    await nextTick()
+    expect(selectVm.states.hoveringIndex).toBe(5)
+    selectVm.onKeyboardNavigate('backward')
+    selectVm.onKeyboardNavigate('backward')
+    selectVm.onKeyboardNavigate('backward')
+    await nextTick()
+    // navigate to the last one
+    expect(selectVm.states.hoveringIndex).toBe(9)
+    selectVm.onKeyboardSelect()
+    await nextTick()
+    expect(vm.value).toEqual([6])
+  })
+
+  it('multiple select when content overflow', async () => {
+    const wrapper = createSelect({
+      data () {
+        return {
+          options: [{
+            value: '选项1',
+            label: '黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕',
+          }, {
+            value: '选项2',
+            label: '双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶',
+          }, {
+            value: '选项3',
+            label: '蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎',
+          }, {
+            value: '选项4',
+            label: '龙须面',
+          }, {
+            value: '选项5',
+            label: '北京烤鸭',
+          }],
+        }
+      },
+    })
+    const select = wrapper.findComponent(Select)
+    const selectVm = select.vm as any
+    const selectDom = wrapper.find('.el-select-v2__wrapper').element
+    const selectRect = {
+      height: 40,
+      width: 221,
+      x:44,
+      y:8,
+      top:8,
+    }
+    const mockSelectWidth = jest.spyOn(selectDom, 'getBoundingClientRect').mockReturnValue(selectRect as DOMRect)
+    selectVm.handleResize()
+    const options = getOptions()
+    options[0].click()
+    await nextTick()
+    options[1].click()
+    await nextTick()
+    options[2].click()
+    await nextTick()
+    const tagWrappers = wrapper.findAll('.el-select-v2__tags-text')
+    for(let i = 0;i < tagWrappers.length;i++) {
+      const tagWrapperDom = tagWrappers[i].element
+      expect(parseInt(tagWrapperDom.style.maxWidth) === selectRect.width - 42).toBe(true)
+    }
+    mockSelectWidth.mockRestore()
   })
 })

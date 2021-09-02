@@ -129,6 +129,7 @@ export default defineComponent({
         dataList && store.value.appendNodes(dataList, parent)
         node.loading = false
         node.loaded = true
+        node.childrenData = node.childrenData || []
         cb && cb(dataList)
       }
 

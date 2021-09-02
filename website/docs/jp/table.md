@@ -199,11 +199,10 @@
 
 <style>
   .el-table .warning-row {
-    background: oldlace;
+    --el-table-tr-background-color: var(--el-color-warning-lighter);
   }
-
   .el-table .success-row {
-    background: #f0f9eb;
+    --el-table-tr-background-color: var(--el-color-success-lighter);
   }
 </style>
 

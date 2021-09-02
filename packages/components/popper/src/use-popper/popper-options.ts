@@ -5,7 +5,7 @@ import type { Ref } from 'vue'
 import type { Options, Placement } from '@popperjs/core'
 
 interface IUsePopperProps {
-  popperOptions: Options
+  popperOptions: Partial<Options>
   arrowOffset: number
   offset: number
   placement: Placement

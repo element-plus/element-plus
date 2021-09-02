@@ -20,7 +20,7 @@
     v-model="value"
     :options="options"
     placeholder="请选择"
-    style="width: 200px;"
+    style="width: 240px;"
   />
 </template>
 
@@ -53,7 +53,7 @@
     v-model="value"
     :options="options"
     placeholder="请选择"
-    style="width: 200px;"
+    style="width: 240px;"
     multiple
   />
 </template>
@@ -86,7 +86,7 @@
     v-model="value"
     :options="options"
     placeholder="请选择"
-    style="width: 200px;"
+    style="width: 240px;"
     multiple
     collapse-tags
   />
@@ -122,7 +122,7 @@
     filterable
     :options="options"
     placeholder="请选择"
-    style="width: 200px;"
+    style="width: 240px;"
     multiple
   />
 </template>
@@ -157,7 +157,7 @@
     filterable
     :options="options"
     placeholder="请选择"
-    style="width: 200px; margin-right: 16px; vertical-align: middle;"
+    style="width: 240px; margin-right: 16px; vertical-align: middle;"
     multiple
   />
   <el-select-v2
@@ -166,7 +166,7 @@
     filterable
     :options="options"
     placeholder="请选择"
-    style="width: 200px; vertical-align: middle;"
+    style="width: 240px; vertical-align: middle;"
     multiple
   />
 </template>
@@ -203,7 +203,7 @@
     filterable
     :options="options"
     placeholder="请选择"
-    style="width: 200px;"
+    style="width: 240px;"
     multiple
   />
 </template>
@@ -246,7 +246,7 @@
     filterable
     :options="options"
     placeholder="请选择"
-    style="width: 200px;"
+    style="width: 240px;"
     multiple
   >
     <template #default="{item}">
@@ -287,7 +287,7 @@
     v-model="value1"
     :options="options"
     placeholder="请选择"
-    style="width: 200px; margin-right: 16px; vertical-align: middle;"
+    style="width: 240px; margin-right: 16px; vertical-align: middle;"
     multiple
     clearable
   />
@@ -295,7 +295,7 @@
     v-model="value2"
     :options="options"
     placeholder="请选择"
-    style="width: 200px; vertical-align: middle;"
+    style="width: 240px; vertical-align: middle;"
     clearable
   />
 </template>
@@ -329,7 +329,7 @@
     v-model="value1"
     :options="options"
     placeholder="请选择"
-    style="width: 200px; margin-right: 16px; vertical-align: middle;"
+    style="width: 240px; margin-right: 16px; vertical-align: middle;"
     allow-create
     filterable
     multiple
@@ -339,7 +339,7 @@
     v-model="value2"
     :options="options"
     placeholder="请选择"
-    style="width: 200px; vertical-align: middle;"
+    style="width: 240px; vertical-align: middle;"
     allow-create
     filterable
     clearable
@@ -372,7 +372,7 @@
 <template>
   <el-select-v2
     v-model="value"
-    style="width:200px"
+    style="width: 240px"
     multiple
     size="medium"
     filterable
@@ -436,14 +436,6 @@
   }
 </script>
 ```
-:::
-
-### 键盘操作
-
-WIP (该功能还在施工中👷‍♀️)
-
-:::tip
-有一些 API 暂时还没有被实现（相较于当前的 select 而言），因为还需要更多设计以及一些遗留 API 的改动，所以当前仅支持一些最简单的展示功能。
 :::
 
 ### SelectV2 Attributes

@@ -59,14 +59,17 @@ import {
   watch,
   onMounted,
 } from 'vue'
+import type { PropType } from 'vue'
 import ElButton from '@element-plus/components/button'
-import ElPopper from '@element-plus/components/popper'
+import ElPopper, { Effect, Placement } from '@element-plus/components/popper'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import { on, addClass, removeClass } from '@element-plus/utils/dom'
 import { addUnit } from '@element-plus/utils/util'
 import { useDropdown } from './useDropdown'
 
 import type { ComponentPublicInstance } from 'vue'
+import type { TriggerType } from '@element-plus/hooks/use-popper/use-target-events'
+import type { ButtonType } from '@element-plus/components/button/src/types'
 
 type Nullable<T> = null | T
 const { ButtonGroup: ElButtonGroup } = ElButton
@@ -81,10 +84,10 @@ export default defineComponent({
   },
   props: {
     trigger: {
-      type: String,
+      type: String as PropType<TriggerType | 'contextmenu'>,
       default: 'hover',
     },
-    type: String,
+    type: String as PropType<ButtonType>,
     size: {
       type: String,
       default: '',
@@ -95,7 +98,7 @@ export default defineComponent({
       default: true,
     },
     placement: {
-      type: String,
+      type: String as PropType<Placement>,
       default: 'bottom',
     },
     showTimeout: {
@@ -111,8 +114,8 @@ export default defineComponent({
       default: 0,
     },
     effect: {
-      type: String,
-      default: 'light',
+      type: String as PropType<Effect>,
+      default: Effect.LIGHT,
     },
     maxHeight: {
       type: [Number, String],
@@ -156,9 +159,8 @@ export default defineComponent({
 
     const triggerVnode = ref<Nullable<ComponentPublicInstance>>(null)
     const triggerElm = computed<Nullable<HTMLButtonElement>>(() => {
-      const _: any =
-        (triggerVnode.value?.$refs.triggerRef as HTMLElement)?.children[0] ?? {}
-      return !props.splitButton ? _ : _.children?.[1]
+      const _: any = (triggerVnode.value?.$refs.triggerRef as HTMLElement)?.children[0]
+      return !props.splitButton ? _ : _?.children?.[1]
     })
 
     function handleClick() {

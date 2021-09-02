@@ -1,3 +1,4 @@
+import { CSSProperties } from 'vue'
 import isServer from './isServer'
 import { camelize, isObject } from './util'
 
@@ -16,7 +17,7 @@ export const on = function(
   useCapture = false,
 ): void {
   if (element && event && handler) {
-    element.addEventListener(event, handler, useCapture)
+    element?.addEventListener(event, handler, useCapture)
   }
 }
 
@@ -28,7 +29,7 @@ export const off = function(
   useCapture = false,
 ): void {
   if (element && event && handler) {
-    element.removeEventListener(event, handler, useCapture)
+    element?.removeEventListener(event, handler, useCapture)
   }
 }
 
@@ -102,7 +103,7 @@ export function removeClass(el: HTMLElement, cls: string): void {
 }
 
 /* istanbul ignore next */
-// Here I want to use the type CSSStyleDeclaration, but the definition for CSSStyleDeclaration
+// Here I want to use the type CSSProperties, but the definition for CSSProperties
 // has { [index: number]: string } in its type annotation, which does not satisfy the method
 // camelize(s: string)
 // Same as the return type
@@ -129,7 +130,7 @@ export const getStyle = function(
 /* istanbul ignore next */
 export function setStyle(
   element: HTMLElement,
-  styleName: CSSStyleDeclaration | string,
+  styleName: CSSProperties | string,
   value?: string,
 ): void {
   if (!element || !styleName) return
@@ -144,7 +145,7 @@ export function setStyle(
   }
 }
 
-export function removeStyle(element: HTMLElement, style: CSSStyleDeclaration | string) {
+export function removeStyle(element: HTMLElement, style: CSSProperties | string) {
   if (!element || !style) return
 
   if (isObject(style)) {

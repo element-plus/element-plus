@@ -96,6 +96,7 @@ export default defineComponent({
       cursorDown.value = false
       barStore.value[bar.value.axis] = 0
       off(document, 'mousemove', mouseMoveDocumentHandler)
+      off(document, 'mouseup', mouseUpDocumentHandler)
       document.onselectstart = onselectstartStore
       if (cursorLeave.value) {
         visible.value = false

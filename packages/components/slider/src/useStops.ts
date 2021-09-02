@@ -1,4 +1,4 @@
-import { computed } from 'vue'
+import { computed, CSSProperties } from 'vue'
 
 import { ComputedRef } from 'vue'
 import type { ISliderInitData, ISliderProps, Stops } from './slider.type'
@@ -26,7 +26,7 @@ export const useStops = (props: ISliderProps, initData: ISliderInitData, minValu
   })
 
   const getStopStyle = (position: number) => {
-    return (props.vertical ? { 'bottom': position + '%' } : { 'left': position + '%' }) as CSSStyleDeclaration
+    return (props.vertical ? { 'bottom': position + '%' } : { 'left': position + '%' }) as CSSProperties
   }
 
   return {
