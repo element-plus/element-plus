@@ -442,7 +442,7 @@ export default defineComponent({
               [
                 !type
                   ? h(TabBar, {
-                    tabs: panes,
+                    tabs: [...panes],
                   })
                   : null,
                 tabs,

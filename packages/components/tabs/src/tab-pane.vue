@@ -35,7 +35,6 @@ export default defineComponent({
     const loaded = ref(false)
     const rootTabs = inject<RootTabs>('rootTabs')
     const updatePaneState = inject<UpdatePaneStateCallback>('updatePaneState')
-    const updatePanes = inject<UpdatePaneStateCallback>('updatePanes')
 
     if (!rootTabs || !updatePaneState) {
       throw new Error(`ElTabPane must use with ElTabs`)
@@ -70,17 +69,6 @@ export default defineComponent({
       active,
       index,
       isClosable,
-    })
-    watch(() => props.label, () => {
-      updatePanes({
-        uid: instance.uid,
-        instance,
-        props,
-        paneName,
-        active,
-        index,
-        isClosable,
-      })
     })
 
     return {

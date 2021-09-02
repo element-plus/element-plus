@@ -78,13 +78,6 @@ export default defineComponent({
       paneStatesMap[pane.uid] = pane
     })
 
-    provide<UpdatePaneStateCallback>('updatePanes', (pane: Pane) => {
-      panes.value = panes.value.map((val: Pane)=>{
-        if(val.uid === pane.uid) val = pane
-        return val
-      })
-    })
-
     watch(
       () => props.activeName,
       modelValue => {
