@@ -340,6 +340,7 @@ DateTimePicker se deriva de DatePicker y TimePicker. Por una explicación más a
 | change           | Se dispara cuando el usuario confirma el valor | valor enlazado del componente |
 | blur             | Se dispara cuando el input pierde el foco | instancia del componente      |
 | focus            | Se dispara cuando el input obtiene el foco | instancia del componente      |
+| calendar-change | se dispara cuando se cambia la fecha seleccionada. Solamente para `datetimerange` | [Date, Date] |
 
 ### Métodos
 | Método | Descripción      | Parámetros |

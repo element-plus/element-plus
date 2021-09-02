@@ -76,21 +76,21 @@ Ces composants utilisent flexbox, assurez vous que le navigateur supporte cette 
 <style>
   .el-header, .el-footer {
     background-color: #B3C0D1;
-    color: #333;
+    color: var(--el-text-color-primary);
     text-align: center;
     line-height: 60px;
   }
 
   .el-aside {
     background-color: #D3DCE6;
-    color: #333;
+    color: var(--el-text-color-primary);
     text-align: center;
     line-height: 200px;
   }
 
   .el-main {
     background-color: #E9EEF3;
-    color: #333;
+    color: var(--el-text-color-primary);
     text-align: center;
     line-height: 160px;
   }
@@ -118,7 +118,7 @@ Ces composants utilisent flexbox, assurez vous que le navigateur supporte cette 
 <el-container style="height: 500px; border: 1px solid #eee">
   <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
     <el-menu :default-openeds="['1', '3']">
-      <el-submenu index="1">
+      <el-sub-menu index="1">
         <template #title><i class="el-icon-message"></i>Navigator One</template>
         <el-menu-item-group>
           <template #title>Group 1</template>
@@ -128,12 +128,12 @@ Ces composants utilisent flexbox, assurez vous que le navigateur supporte cette 
         <el-menu-item-group title="Group 2">
           <el-menu-item index="1-3">Option 3</el-menu-item>
         </el-menu-item-group>
-        <el-submenu index="1-4">
+        <el-sub-menu index="1-4">
           <template #title>Option4</template>
           <el-menu-item index="1-4-1">Option 4-1</el-menu-item>
-        </el-submenu>
-      </el-submenu>
-      <el-submenu index="2">
+        </el-sub-menu>
+      </el-sub-menu>
+      <el-sub-menu index="2">
         <template #title><i class="el-icon-menu"></i>Navigator Two</template>
         <el-menu-item-group>
           <template #title>Group 1</template>
@@ -143,12 +143,12 @@ Ces composants utilisent flexbox, assurez vous que le navigateur supporte cette 
         <el-menu-item-group title="Group 2">
           <el-menu-item index="2-3">Option 3</el-menu-item>
         </el-menu-item-group>
-        <el-submenu index="2-4">
+        <el-sub-menu index="2-4">
           <template #title>Option 4</template>
           <el-menu-item index="2-4-1">Option 4-1</el-menu-item>
-        </el-submenu>
-      </el-submenu>
-      <el-submenu index="3">
+        </el-sub-menu>
+      </el-sub-menu>
+      <el-sub-menu index="3">
         <template #title><i class="el-icon-setting"></i>Navigator Three</template>
         <el-menu-item-group>
           <template #title>Group 1</template>
@@ -158,11 +158,11 @@ Ces composants utilisent flexbox, assurez vous que le navigateur supporte cette 
         <el-menu-item-group title="Group 2">
           <el-menu-item index="3-3">Option 3</el-menu-item>
         </el-menu-item-group>
-        <el-submenu index="3-4">
+        <el-sub-menu index="3-4">
           <template #title>Option 4</template>
           <el-menu-item index="3-4-1">Option 4-1</el-menu-item>
-        </el-submenu>
-      </el-submenu>
+        </el-sub-menu>
+      </el-sub-menu>
     </el-menu>
   </el-aside>
 
@@ -197,12 +197,12 @@ Ces composants utilisent flexbox, assurez vous que le navigateur supporte cette 
 <style>
   .el-header {
     background-color: #B3C0D1;
-    color: #333;
+    color: var(--el-text-color-primary);
     line-height: 60px;
   }
 
   .el-aside {
-    color: #333;
+    color: var(--el-text-color-primary);
   }
 </style>
 

@@ -665,6 +665,7 @@ Note, date time locale (month name, first day of the week ...) are also configed
 | change | se dispara cuando el usuario confirma el valor | valor enlazado al componente |
 | blur   | se dispara cuando el input pierde el foco | instancia del componente     |
 | focus  | se dispara cuando el input obtiene el foco | instancia del componente     |
+| calendar-change | se dispara cuando se cambia la fecha seleccionada. Solamente para `daterange` | [Date, Date] |
 
 ### Metodos
 | Metodo | Descripción                | Parameteros |

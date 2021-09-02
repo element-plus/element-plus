@@ -60,21 +60,4 @@ describe('use-locale', () => {
       English.el.popconfirm.confirmButtonText,
     )
   })
-
-  it('should be able to use external translator', async () => {
-    await nextTick()
-    expect(wrapper.find('.locale-manifest').text()).toBe(
-      Chinese.el.popconfirm.confirmButtonText,
-    )
-
-    const translator = jest.fn().mockImplementation(k => k)
-    await wrapper.setProps({
-      i18n: translator,
-    })
-
-    expect(wrapper.find('.locale-manifest').text()).toBe(
-      'el.popconfirm.confirmButtonText',
-    )
-    expect(translator).toHaveBeenCalled()
-  })
 })

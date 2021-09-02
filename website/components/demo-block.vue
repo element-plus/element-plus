@@ -262,9 +262,9 @@ ${this.codepen.style}
       // since 2.6.2 use code rather than jsfiddle https://blog.codepen.io/documentation/api/prefill/
       const { script, html, style } = this.codepen
       const resourcesTpl = '<scr' + 'ipt src="//unpkg.com/vue@next"></scr' + 'ipt>' +
-        '\n<scr' + `ipt src="//unpkg.com/element-plus/lib/index.full.js"></scr` + 'ipt>'
+        '\n<scr' + `ipt src="//unpkg.com/element-plus/dist/index.full.js"></scr` + 'ipt>'
       let htmlTpl = `${resourcesTpl}\n<div id="app">\n${html.trim()}\n</div>`
-      let cssTpl = `@import url("//unpkg.com/element-plus/lib/theme-chalk/index.css");\n${(style || '').trim()}\n`
+      let cssTpl = `@import url("//unpkg.com/element-plus/dist/index.css");\n${(style || '').trim()}\n`
       let jsTpl = script ? script.replace(/export default/, 'var Main =').trim().replace(/import ({.*}) from 'vue'/g, (s, s1) => `const ${s1} = Vue`).replace(/import ({.*}) from 'element-plus'/g, (s, s1) => `const ${s1} = ElementPlus`) : 'var Main = {}'
       jsTpl += '\n;const app = Vue.createApp(Main);\napp.use(ElementPlus);\napp.mount("#app")'
       const data = {
@@ -307,9 +307,9 @@ ${this.codepen.style}
   },
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
   .demo-block {
-    border: solid 1px #ebebeb;
+    border: solid 1px var(--el-border-color-base);
     border-radius: 3px;
     transition: .2s;
 
@@ -331,7 +331,7 @@ ${this.codepen.style}
 
     .meta {
       background-color: #fafafa;
-      border-top: solid 1px #eaeefb;
+      border-top: solid 1px var(--el-border-color-base);
       overflow: hidden;
       height: 0;
       transition: height .2s;
@@ -340,11 +340,11 @@ ${this.codepen.style}
     .description {
       padding: 20px;
       box-sizing: border-box;
-      border: solid 1px #ebebeb;
+      border: solid 1px var(--el-border-color-base);
       border-radius: 3px;
       font-size: 14px;
       line-height: 22px;
-      color: #666;
+      color: var(--el-text-color-regular);
       word-break: break-word;
       margin: 10px;
       background-color: #fff;
@@ -385,7 +385,7 @@ ${this.codepen.style}
     }
 
     .demo-block-control {
-      border-top: solid 1px #eaeefb;
+      border-top: solid 1px var(--el-border-color-base);
       height: 44px;
       box-sizing: border-box;
       background-color: #fff;

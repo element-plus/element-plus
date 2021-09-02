@@ -649,7 +649,7 @@ Todos los componentes de un formulario heredan su atributo `size`. De manera sim
 | error          | mensaje de error de campo, establezca su valor y el campo validará el error y mostrará este mensaje inmediatamente. | string  | —                                           | —           |
 | show-message   | si mostrar o no el mensaje de error                          | boolean | —                                           | true        |
 | inline-message | mensaje de validación estilo inline                          | boolean | —                                           | false       |
-| size           | Tamaño de los componentes en este form item                  | string  | medium / small / mini                       | -           |
+| size           | Tamaño de los componentes en este form item                  | string  | medium / small / mini                       | —           |
 
 ### Rules
 | Atributo       | Descripción  | Tipo    | Valores aceptados | Por defecto |
@@ -661,11 +661,6 @@ Todos los componentes de un formulario heredan su atributo `size`. De manera sim
 | Nombre | Descripción              |
 | ------ | ------------------------ |
 | —      | contenido del Form Item  |
-
-### Form-Item Scoped Slot
-
-| Name  | Description                                                  |
-| ----- | ------------------------------------------------------------ |
 | label | Custom content to display on label. The scope parameter is { label } |
 | error | Contenido personalizado para mostrar el mensaje de validación. El parámetro del scope es { error } |
 
@@ -674,4 +669,4 @@ Todos los componentes de un formulario heredan su atributo `size`. De manera sim
 | Metodo        | Descripción                                                 | Parametros |
 | ------------- | ----------------------------------------------------------- | ---------- |
 | resetField    | restablecer campo actual y eliminar resultado de validación | —          |
-| clearValidate | elimina el estado de la validación de un campo              | -          |
+| clearValidate | elimina el estado de la validación de un campo              | —          |

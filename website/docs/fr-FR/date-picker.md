@@ -669,6 +669,7 @@ Note, date time locale (month name, first day of the week ...) are also configed
 | change | Se déclenche quand l'utilisateur confirme la valeur | component's binding value |
 | blur | Se déclenche quand le champ perds le focus. | component instance |
 | focus | Se déclenche quand le champ a le focus. | component instance |
+| calendar-change | Se déclenchant quand la date sélectionnée change. Uniquement pour `daterange` | [Date, Date] |
 
 ### Méthodes
 | Méthode | Description | Paramètres |

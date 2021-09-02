@@ -1,21 +1,12 @@
 @use "sass:math";
 
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
 
-:root {
-  --el-carousel-arrow-font-size: 12px;
-  --el-carousel-arrow-size: 36px;
-  --el-carousel-arrow-background: rgba(31, 45, 61, 0.11);
-  --el-carousel-arrow-hover-background: rgba(31, 45, 61, 0.23);
-  --el-carousel-indicator-width: 30px;
-  --el-carousel-indicator-height: 2px;
-  --el-carousel-indicator-padding-horizontal: 4px;
-  --el-carousel-indicator-padding-vertical: 12px;
-  --el-carousel-indicator-out-color: var(--el-border-color-hover);
-}
-
 @include b(carousel) {
+  @include set-component-css-var('carousel', $--carousel);
+
   position: relative;
 
   @include m(horizontal) {
@@ -141,7 +132,7 @@
         var(--el-carousel-indicator-padding-vertical);
       .#{$namespace}-carousel__button {
         width: var(--el-carousel-indicator-height);
-        height: calc(var(--el-carousel-indicator-width / 2));
+        height: calc(var(--el-carousel-indicator-width) / 2);
       }
     }
 

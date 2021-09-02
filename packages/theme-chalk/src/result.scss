@@ -1,19 +1,11 @@
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
 
 $types: success, warning, danger, info, error;
 
-:root {
-  --el-result-padding: 40px 30px;
-  --el-result-icon-font-size: 64px;
-  --el-result-title-font-size: 20px;
-  --el-result-title-margin-top: 20px;
-  --el-result-subtitle-margin-top: 10px;
-  --el-result-extra-margin-top: 30px;
-
-  @each $type in $types {
-    --el-result-#{$type}-color: var(--el-color-#{$type});
-  }
+@include b(result) {
+  @include set-component-css-var('result', $--result);
 }
 
 @include b(result) {
@@ -60,7 +52,8 @@ $types: success, warning, danger, info, error;
 
   @each $type in $types {
     .icon-#{$type} {
-      fill: var(--el-result-#{$type}-color);
+      --el-result-color: var(--el-color-#{$type});
+      fill: var(--el-result-color);
     }
   }
 }

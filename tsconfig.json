@@ -1,21 +1,26 @@
 {
- "compilerOptions": {
-   "module": "ESNext",
-   "declaration": true,
-   "noImplicitAny": false,
-   "removeComments": true,
-   "moduleResolution": "node",
-   "esModuleInterop": true,
-   "jsx": "preserve",
-   "noLib": false,
-   "target": "es6",
-   "sourceMap": true,
-   "lib": [
-     "ESNext", "DOM"
-   ],
-   "allowSyntheticDefaultImports": true
- },
- "exclude": [
-   "node_modules"
- ]
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "jsx": "preserve",
+    "noLib": false,
+    "target": "es6",
+    "sourceMap": true,
+    "lib": ["ESNext", "DOM"],
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true
+  },
+  "exclude": [
+    "node_modules",
+    "**/__tests__",
+    "dist/**",
+    "packages/*/es",
+    "packages/*/lib"
+  ]
 }

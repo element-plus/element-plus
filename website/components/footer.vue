@@ -91,7 +91,7 @@ export default {
 
       h4 {
         font-size: 18px;
-        color: #333;
+        color: var(--el-text-color-primary);
         line-height: 1;
         margin: 0 0 15px 0;
       }
@@ -101,10 +101,10 @@ export default {
         margin: 0;
         line-height: 2;
         font-size: 14px;
-        color: #666;
+        color: var(--el-text-color-regular);
 
         &:hover {
-          color: #333;
+          color: var(--el-text-color-primary);
         }
       }
     }
@@ -114,7 +114,7 @@ export default {
       text-align: right;
 
       .footer-social-title {
-        color: #666;
+        color: var(--el-text-color-regular);
         font-size: 18px;
         line-height: 1;
         margin: 0 0 20px 0;
@@ -152,7 +152,7 @@ export default {
     box-shadow: 0 0 11px 0 rgba(174, 187, 211, 0.24);
 
     .footer-popover-title {
-      border-bottom: solid 1px #eaeefb;
+      border-bottom: solid 1px var(--el-border-color-base);
       height: 30px;
       line-height: 30px;
       text-align: center;

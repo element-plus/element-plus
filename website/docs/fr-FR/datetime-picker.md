@@ -338,6 +338,7 @@ DateTimePicker est dérivé de DatePicker et TimePicker. Pour plus d'information
 | change | Se déclenche quand l'utilisateur confirme la valeur | component's binding value |
 | blur | Se déclenche quand le champ perds le focus. | component instance |
 | focus | Se déclenche quand le champ a le focus. | component instance |
+| calendar-change | Se déclenchant quand la date sélectionnée change. Uniquement pour `datetimerange` | [Date, Date] |
 
 ### Méthodes
 | Méthode | Description | Paramètres |

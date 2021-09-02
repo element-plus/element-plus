@@ -338,6 +338,7 @@ DateTimePicker is derived from DatePicker and TimePicker. For a more detailed ex
 | change | triggers when user confirms the value | component's binding value |
 | blur | triggers when Input blurs | component instance |
 | focus | triggers when Input focuses | component instance |
+| calendar-change | triggers when the calendar selected date is changed. Only for `datetimerange` | [Date, Date] |
 
 ### Methods
 | Method | Description | Parameters |

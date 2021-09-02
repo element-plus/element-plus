@@ -1,19 +1,10 @@
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
-@import 'button';
-@import 'button-group';
-
-:root {
-  --el-calendar-border: var(
-    --el-table-border,
-    1px solid var(--el-border-color-lighter)
-  );
-  --el-calendar-header-border-bottom: var(--el-calendar-border);
-  --el-calendar-selected-background-color: #f2f8fe;
-  --el-calendar-cell-width: 85px;
-}
 
 @include b(calendar) {
+  @include set-component-css-var('calendar', $--calendar);
+
   background-color: #fff;
 
   @include e(header) {

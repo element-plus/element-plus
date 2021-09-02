@@ -1,15 +1,11 @@
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
-@import 'descriptions-item';
 
-:root {
-  --el-descriptions-header-margin-bottom: 20px;
-  --el-descriptions-title-font-size: 16px;
-  --el-descriptions-table-border: 1px solid map.get($--border-color, 'lighter');
-  --el-descriptions-item-bordered-label-background: #fafafa;
-}
 
 @include b(descriptions) {
+  @include set-component-css-var('descriptions', $--descriptions);
+
   box-sizing: border-box;
   font-size: var(--el-font-size-base);
   color: var(--el-text-color-primary);
@@ -30,12 +26,11 @@
     color: var(--el-text-color-regular);
     background-color: $--color-white;
 
-    table {
+    .#{$namespace}-descriptions__table {
       border-collapse: collapse;
       width: 100%;
 
-      th,
-      td {
+      .#{$namespace}-descriptions__cell {
         box-sizing: border-box;
         text-align: left;
         font-weight: normal;
@@ -57,31 +52,27 @@
   }
 
   .is-bordered {
-    th,
-    td {
+    .#{$namespace}-descriptions__cell {
       border: var(--el-descriptions-table-border);
       padding: 12px 10px;
     }
   }
 
   :not(.is-bordered) {
-    th,
-    td {
+    .#{$namespace}-descriptions__cell {
       padding-bottom: 12px;
     }
   }
 
   @include m(medium) {
     &.is-bordered {
-      th,
-      td {
+      .#{$namespace}-descriptions__cell {
         padding: 10px;
       }
     }
 
     &:not(.is-bordered) {
-      th,
-      td {
+      .#{$namespace}-descriptions__cell {
         padding-bottom: 10px;
       }
     }
@@ -91,15 +82,13 @@
     font-size: 12px;
 
     &.is-bordered {
-      th,
-      td {
+      .#{$namespace}-descriptions__cell {
         padding: 8px 10px;
       }
     }
 
     &:not(.is-bordered) {
-      th,
-      td {
+      .#{$namespace}-descriptions__cell {
         padding-bottom: 8px;
       }
     }
@@ -109,15 +98,13 @@
     font-size: 12px;
 
     &.is-bordered {
-      th,
-      td {
+      .#{$namespace}-descriptions__cell {
         padding: 6px 10px;
       }
     }
 
     &:not(.is-bordered) {
-      th,
-      td {
+      .#{$namespace}-descriptions__cell {
         padding-bottom: 6px;
       }
     }

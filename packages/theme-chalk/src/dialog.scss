@@ -1,19 +1,14 @@
+@use "sass:map";
+
 @import 'mixins/mixins';
 @import 'mixins/utils';
+@import 'mixins/var';
 @import 'common/var';
 @import 'common/popup';
-@import './overlay.scss';
-
-:root {
-  --el-dialog-background-color: var(--el-color-white);
-  --el-dialog-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-  --el-dialog-title-font-size: var(--el-font-size-large);
-  --el-dialog-content-font-size: 14px;
-  --el-dialog-font-line-height: var(--el-font-line-height-primary);
-  --el-dialog-padding-primary: 20px;
-}
 
 @include b(dialog) {
+  @include set-component-css-var('dialog', $--dialog);
+
   position: relative;
   margin: 0 auto 50px;
   background: var(--el-dialog-background-color);
@@ -54,7 +49,7 @@
     border: none;
     outline: none;
     cursor: pointer;
-    font-size: var(--el-message-close-size);
+    font-size: var(--el-message-close-size, map.get($--message, 'close-size'));
 
     .#{$namespace}-dialog__close {
       color: var(--el-color-info);

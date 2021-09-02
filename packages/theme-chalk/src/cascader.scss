@@ -1,28 +1,12 @@
 @use "sass:map";
 
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
-@import './input';
-@import './popper';
-@import './tag';
-
-:root {
-  --el-cascader-menu-font-color: var(--el-text-color-regular);
-  --el-cascader-menu-selected-font-color: var(--el-color-primary);
-  --el-cascader-menu-fill: var(--el-fill-base);
-  --el-cascader-menu-font-size: var(--el-font-size-base);
-  --el-cascader-menu-radius: var(--el-border-radius-base);
-  --el-cascader-menu-border: solid 1px var(--el-border-color-light);
-  --el-cascader-menu-shadow: var(--el-box-shadow-light);
-  --el-cascader-node-background-hover: var(--el-background-color-base);
-  --el-cascader-node-color-disabled: var(--el-text-color-placeholder);
-  --el-cascader-color-empty: var(--el-text-color-placeholder);
-  --el-cascader-tag-background: #f0f2f5;
-}
-
-@import './cascader-panel';
 
 @include b(cascader) {
+  @include set-component-css-var('cascader', $--cascader);
+
   display: inline-block;
   position: relative;
   font-size: var(--el-font-size-base);
@@ -32,7 +16,10 @@
   &:not(.is-disabled):hover {
     .#{$namespace}-input__inner {
       cursor: pointer;
-      border-color: $--input-hover-border;
+      border-color: var(
+        --el-input-hover-border,
+        map.get($--input, 'hover-border')
+      );
     }
   }
 
@@ -43,7 +30,10 @@
       text-overflow: ellipsis;
 
       &:focus {
-        border-color: $--input-focus-border;
+        border-color: var(
+          --el-input-focus-border,
+          map.get($--input, 'focus-border')
+        );
       }
     }
 
@@ -57,12 +47,18 @@
     }
 
     .#{$namespace}-icon-circle-close:hover {
-      color: $--input-clear-hover-color;
+      color: var(
+        --el-input-clear-hover-color,
+        map.get($--input, 'clear-hover-color')
+      );
     }
 
     @include when(focus) {
       .#{$namespace}-input__inner {
-        border-color: $--input-focus-border;
+        border-color: var(
+          --el-input-focus-border,
+          map.get($--input, 'focus-border')
+        );
       }
     }
   }
@@ -79,6 +75,10 @@
       z-index: calc(var(--el-index-normal) + 1);
       color: var(--el-disabled-color-base);
     }
+  }
+
+  @include e(dropdown) {
+    @include set-component-css-var('cascader', $--cascader);
   }
 
   @include e(dropdown) {

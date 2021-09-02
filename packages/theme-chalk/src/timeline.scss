@@ -1,5 +1,10 @@
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
+
+@include b(timeline) {
+  @include set-component-css-var('timeline', $--timeline);
+}
 
 @include b(timeline) {
   margin: 0;

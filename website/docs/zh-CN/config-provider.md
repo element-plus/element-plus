@@ -1,55 +1,92 @@
-## Config Provider
+# Config Provider
 
-Config Provider 被用来提供全局的配置选项，让你的配置能够在全局都能够被访问到。
+Config Provider 被用来提供全局的配置选项，让你的配置能够在全局都能够被访问到，Config Provider 使用了 [Vue 的 provide/inject 特性](https://v3.vuejs.org/guide/composition-api-provide-inject.html#reactivity)
 
-### 国际化相关配置
+```html
+<template>
+  <el-config-provider :locale="locale">
+    <app />
+  </el-config-provider>
+</template>
 
-通过 Config Provider 来配置国际化相关的服务，能让你的应用完成语言切换和获取。
+<script>
+  import { defineComponent } from 'vue'
+  import { ElConfigProvider } from 'element-plus'
 
-:::demo 通过两个属性来提供国际化相关的语言配置
+  import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+
+  export default defineComponent({
+    components: {
+      ElConfigProvider,
+    },
+    setup() {
+      return {
+        locale: zhCn,
+      }
+    },
+  })
+</script>
+```
+
+## 代码演示
+
+:::demo
 
 ```html
 <div>
   <el-config-provider :locale="locale1">
-    <el-color-picker :modelValue="''" style="vertical-align: middle;" />
+    <div style="margin: 8px;">
+      <el-empty />
+    </div>
+    <div style="margin: 8px;">
+      <el-transfer />
+    </div>
   </el-config-provider>
   <el-button @click="toggle" style="margin-left: 8px; vertical-align: middle;">
     切换语言
   </el-button>
 </div>
-
 <script>
+  import { ref } from 'vue'
   // import { ConfigProvider } from 'element-plus'
   export default {
-    data() {
+    setup() {
+      const locale1 = ref({
+        name: 'zh-cn',
+        el: {
+          table: {
+            emptyText: '无数据',
+          },
+          transfer: {
+            titles: ['列表1', '列表2'],
+            noData: '无数据',
+          },
+        },
+      })
+      const locale2 = ref({
+        name: 'en',
+        el: {
+          table: {
+            emptyText: 'no data',
+          },
+          transfer: {
+            titles: ['list 1', 'list 2'],
+            noData: 'no data'
+          },
+        },
+      })
+      const toggle = () => {
+        const temp = locale1.value
+        locale1.value = locale2.value
+        locale2.value = temp
+      }
       return {
-        locale1: {
-          name: 'zh-cn',
-          el: {
-            colorpicker: {
-              confirm: '确定',
-              clear: '清空',
-            },
-          },
-        },
-        locale2: {
-          name: 'en',
-          el: {
-            colorpicker: {
-              confirm: 'Confirm',
-              clear: 'Clear',
-            },
-          },
-        },
+        locale1,
+        locale2,
+        toggle,
       }
     },
-    methods: {
-      toggle() {
-        const temp = this.locale1
-        this.locale1 = this.locale2
-        this.locale2 = temp
-      },
-    },
+
   }
 </script>
 ```
@@ -61,4 +98,3 @@ Config Provider 被用来提供全局的配置选项，让你的配置能够在�
 | 参数   | 说明                                                                                               | 类型                                 | 可选值                                                                                  | 默认值  |
 | ------ | -------------------------------------------------------------------------------------------------- | ------------------------------------ | --------------------------------------------------------------------------------------- | ------- |
 | locale | 翻译文本对象                                                                                       | Object\<Language\>                   | [languages](https://github.com/element-plus/element-plus/tree/dev/packages/locale/lang) | English |
-| i18n   | 外部的翻译方法，当该方法被提供时，会优先使用该方法进行翻译的操作，若返回空值便会落回到自带翻译方法 | Function\<(...args: []) =\> string\> | -                                                                                       | -       |

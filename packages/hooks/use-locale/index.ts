@@ -14,9 +14,6 @@ export const useLocaleProps = {
   locale: {
     type: Object as PropType<Language>,
   },
-  i18n: {
-    type: Function as PropType<Translator>,
-  },
 }
 
 type Translator = (...args: any[]) => string
@@ -29,11 +26,27 @@ export type LocaleContext = {
 
 export const LocaleInjectionKey = 'ElLocaleInjection' as unknown as InjectionKey<LocaleContext>
 
+// this is meant to fix global methods like `ElMessage(opts)`, this way we can inject current locale
+// into the component as default injection value.
+// refer to: https://github.com/element-plus/element-plus/issues/2610#issuecomment-887965266
+let localeObjCache: LocaleContext
+
+function translate(path, option, current) {
+  const paths = path.split('.')
+  let value
+  for (let i = 0, j = paths.length; i < j; i++) {
+    const property = paths[i]
+    value = current[property]
+    if (i === j - 1) return template(value, option)
+    if (!value) return ''
+    current = value
+  }
+}
+
 export const useLocale = () => {
   const vm = getCurrentInstance()
   const props = vm.props as {
     locale: Language
-    i18n: Translator
   }
 
   const locale = computed(() => props.locale || English)
@@ -41,27 +54,30 @@ export const useLocale = () => {
 
   const _translator = (...args: any[]) => {
     const [path, option] = args
-    let value
-    const array = path.split('.')
-    let current = locale.value
-    for (let i = 0, j = array.length; i < j; i++) {
-      const property = array[i]
-      value = current[property]
-      if (i === j - 1) return template(value, option)
-      if (!value) return ''
-      current = value
-    }
+    return translate(path, option, locale.value)
   }
 
   const t = (...args: any[]) => {
-    return props.i18n?.(...args) || _translator(...args)
+    return _translator(...args)
   }
 
-  provide(LocaleInjectionKey, {
+  const provides = {
     locale,
     lang,
     t,
-  })
+  }
+
+  // this could be broken if someone tries to do following:
+
+  /**
+   * <config-provider :locale="lang1">
+   *   <config-provider :locale="lang2">
+   *     Something calls modal component.
+   *   </config-provider>
+   * </config-provider>
+   */
+  localeObjCache = provides
+  provide(LocaleInjectionKey, provides)
 }
 
 
@@ -72,23 +88,27 @@ function template(str: string, option) {
   })
 }
 
+export const localeProviderMaker = (locale = English) => {
+  const lang = ref(locale.name)
+  const localeRef = ref(locale)
+  return {
+    lang,
+    locale: localeRef,
+    t: (...args: any[]) => {
+      const [path, option] = args
+      return translate(path, option, localeRef.value)
+    },
+  }
+}
+
 
 export const useLocaleInject = () => {
-  return inject(LocaleInjectionKey, {
+  return inject(LocaleInjectionKey, localeObjCache || {
     lang: ref(English.name),
     locale: ref(English),
     t: (...args) => {
       const [path, option] = args
-      let value
-      const array = path.split('.')
-      let current = English
-      for (let i = 0, j = array.length; i < j; i++) {
-        const property = array[i]
-        value = current[property]
-        if (i === j - 1) return template(value, option)
-        if (!value) return ''
-        current = value
-      }
+      return translate(path, option, English)
     },
   })
 }

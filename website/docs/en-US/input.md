@@ -621,7 +621,7 @@ export default defineComponent ({
 | suffix-icon   | suffix icon class  | string          | — | — |
 |rows | number of rows of textarea, only works when `type` is 'textarea' | number | — | 2 |
 |autosize | whether textarea has an adaptive height, only works when `type` is 'textarea'. Can accept an object, e.g. { minRows: 2, maxRows: 6 }  | boolean / object | — | false |
-|autocomplete | same as `autocomplete` in native input | string | on/off | off |
+|autocomplete | same as `autocomplete` in native input | string | — | off |
 |name | same as `name` in native input | string | — | — |
 | readonly | same as `readonly` in native input | boolean | — | false |
 |max | same as `max` in native input | — | — | — |

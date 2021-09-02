@@ -1,14 +1,10 @@
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
 
-:root {
-  --el-empty-padding: 40px 0;
-  --el-empty-image-width: 160px;
-  --el-empty-description-margin-top: 20px;
-  --el-empty-bottom-margin-top: 20px;
-}
-
 @include b(empty) {
+  @include set-component-css-var('empty', $--empty);
+
   display: flex;
   justify-content: center;
   align-items: center;

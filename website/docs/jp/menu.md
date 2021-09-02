@@ -10,20 +10,20 @@
 ```html
 <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
   <el-menu-item index="1">Processing Center</el-menu-item>
-  <el-submenu index="2">
+  <el-sub-menu index="2">
     <template #title>Workspace</template>
     <el-menu-item index="2-1">item one</el-menu-item>
     <el-menu-item index="2-2">item two</el-menu-item>
     <el-menu-item index="2-3">item three</el-menu-item>
-    <el-submenu index="2-4">
+    <el-sub-menu index="2-4">
       <template #title>item four</template>
       <el-menu-item index="2-4-1">item one</el-menu-item>
       <el-menu-item index="2-4-2">item two</el-menu-item>
       <el-menu-item index="2-4-3">item three</el-menu-item>
-    </el-submenu>
-  </el-submenu>
+    </el-sub-menu>
+  </el-sub-menu>
   <el-menu-item index="3" disabled>Info</el-menu-item>
-  <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">Orders</a></el-menu-item>
+  <el-menu-item index="4">Orders</el-menu-item>
 </el-menu>
 <div class="line"></div>
 <el-menu
@@ -35,20 +35,20 @@
   text-color="#fff"
   active-text-color="#ffd04b">
   <el-menu-item index="1">Processing Center</el-menu-item>
-  <el-submenu index="2">
+  <el-sub-menu index="2">
     <template #title>Workspace</template>
     <el-menu-item index="2-1">item one</el-menu-item>
     <el-menu-item index="2-2">item two</el-menu-item>
     <el-menu-item index="2-3">item three</el-menu-item>
-    <el-submenu index="2-4">
+    <el-sub-menu index="2-4">
       <template #title>item four</template>
       <el-menu-item index="2-4-1">item one</el-menu-item>
       <el-menu-item index="2-4-2">item two</el-menu-item>
       <el-menu-item index="2-4-3">item three</el-menu-item>
-    </el-submenu>
-  </el-submenu>
+    </el-sub-menu>
+  </el-sub-menu>
   <el-menu-item index="3" disabled>Info</el-menu-item>
-  <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">Orders</a></el-menu-item>
+  <el-menu-item index="4">Orders</el-menu-item>
 </el-menu>
 
 <script>
@@ -105,7 +105,7 @@ Vサブメニューのある縦型ナビメニュー。
       class="el-menu-vertical-demo"
       @open="handleOpen"
       @close="handleClose">
-      <el-submenu index="1">
+      <el-sub-menu index="1">
         <template #title>
           <i class="el-icon-location"></i>
           <span>Navigator One</span>
@@ -117,11 +117,11 @@ Vサブメニューのある縦型ナビメニュー。
         <el-menu-item-group title="Group Two">
           <el-menu-item index="1-3">item three</el-menu-item>
         </el-menu-item-group>
-        <el-submenu index="1-4">
+        <el-sub-menu index="1-4">
           <template #title>item four</template>
           <el-menu-item index="1-4-1">item one</el-menu-item>
-        </el-submenu>
-      </el-submenu>
+        </el-sub-menu>
+      </el-sub-menu>
       <el-menu-item index="2">
         <i class="el-icon-menu"></i>
         <span>Navigator Two</span>
@@ -146,7 +146,7 @@ Vサブメニューのある縦型ナビメニュー。
       background-color="#545c64"
       text-color="#fff"
       active-text-color="#ffd04b">
-      <el-submenu index="1">
+      <el-sub-menu index="1">
         <template #title>
           <i class="el-icon-location"></i>
           <span>Navigator One</span>
@@ -158,11 +158,11 @@ Vサブメニューのある縦型ナビメニュー。
         <el-menu-item-group title="Group Two">
           <el-menu-item index="1-3">item three</el-menu-item>
         </el-menu-item-group>
-        <el-submenu index="1-4">
+        <el-sub-menu index="1-4">
           <template #title>item four</template>
           <el-menu-item index="1-4-1">item one</el-menu-item>
-        </el-submenu>
-      </el-submenu>
+        </el-sub-menu>
+      </el-sub-menu>
       <el-menu-item index="2">
         <i class="el-icon-menu"></i>
         <span>Navigator Two</span>
@@ -227,7 +227,7 @@ Vサブメニューのある縦型ナビメニュー。
   <el-radio-button :label="true">collapse</el-radio-button>
 </el-radio-group>
 <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
-  <el-submenu index="1">
+  <el-sub-menu index="1">
     <template #title>
       <i class="el-icon-location"></i>
       <span>Navigator One</span>
@@ -240,11 +240,11 @@ Vサブメニューのある縦型ナビメニュー。
     <el-menu-item-group title="Group Two">
       <el-menu-item index="1-3">item three</el-menu-item>
     </el-menu-item-group>
-    <el-submenu index="1-4">
+    <el-sub-menu index="1-4">
       <template #title><span>item four</span></template>
       <el-menu-item index="1-4-1">item one</el-menu-item>
-    </el-submenu>
-  </el-submenu>
+    </el-sub-menu>
+  </el-sub-menu>
   <el-menu-item index="2">
     <i class="el-icon-menu"></i>
     <template #title>Navigator Two</template>
@@ -351,7 +351,7 @@ Vサブメニューのある縦型ナビメニュー。
 | show-timeout | サブメニュー表示前のタイムアウト | number | — | 300 |
 | hide-timeout | サブメニューを隠す前のタイムアウト | number | — | 300 |
 | disabled | サブメニューが無効化されているかどうか | boolean | — | false |
-| popper-append-to-body | ポップアップメニューをボディに追加するかどうかを指定します。メニューの位置が正しくない場合は、このpropを調整してみてください。 | boolean | - | level one Submenu: true / other Submenus: false |
+| popper-append-to-body | ポップアップメニューをボディに追加するかどうかを指定します。メニューの位置が正しくない場合は、このpropを調整してみてください。 | boolean | - | level one SubMenu: true / other SubMenus: false |
 
 ### メニューアイテム属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
