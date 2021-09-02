@@ -57,14 +57,14 @@ export default defineComponent({
       default:
         return h('td', {
           style: style,
-          class: [align],
+          class: ['el-descriptions__cell', align],
           colSpan: span,
         }, [
           h('span', {
-            class: ['el-descriptions__cell', 'el-descriptions__label', labelClassName],
+            class: ['el-descriptions__label', labelClassName],
           }, label),
           h('span', {
-            class: ['el-descriptions__cell', 'el-descriptions__content', className],
+            class: ['el-descriptions__content', className],
           }, content)])
     }
   },
