@@ -374,7 +374,7 @@ export default defineComponent({
       },
     }, [this.filteredSlot]), directives)
 
-    if (this.collapseTransition) {
+    if (this.collapseTransition && this.mode === 'vertical') {
       return h(ElMenuCollapseTransition, () => menu)
     }
     return menu
