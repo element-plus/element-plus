@@ -166,3 +166,11 @@ Besides using the `title` attribute, you can customize panel title with named sl
 | name      | unique identification of the panel | string/number | — | — |
 | title     | title of the panel                 | string        | — | — |
 | disabled  | disable the collapse item          | boolean       | — | — |
+
+
+### Collapse Item Slot
+| Name | Description |
+|--- | ---|
+| — | content of Collapse Item |
+| title | content of Collapse Item title |
+

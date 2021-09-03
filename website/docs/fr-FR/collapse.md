@@ -166,3 +166,10 @@ En plus de l'utilisation de l'attribut `title`, vous pouvez configurer les titre
 | name      | Identifiant unique du panneau. | string/number | — | — |
 | title     | Titre du panneau.              | string        | — | — |
 | disabled  | Désactive le panneau.          | boolean       | — | — |
+
+
+### Collapse Item Slot
+| Nom | Description |
+|--- | ---|
+| — | Contenu du Collapse Item |
+| title | Contenu du Collapse Item |
