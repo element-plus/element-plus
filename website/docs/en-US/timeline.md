@@ -55,6 +55,7 @@ Size, color, and icons can be customized in node.
       :type="activity.type"
       :color="activity.color"
       :size="activity.size"
+      :hollow="activity.hollow"
       :timestamp="activity.timestamp">
       {{activity.content}}
     </el-timeline-item>
@@ -79,6 +80,11 @@ Size, color, and icons can be customized in node.
           content: 'Custom size',
           timestamp: '2018-04-03 20:46',
           size: 'large'
+        }, {
+          content: 'Custom hollow',
+          timestamp: '2018-04-03 20:46',
+          type: 'primary',
+          hollow: true
         }, {
           content: 'Default node',
           timestamp: '2018-04-03 20:46'
@@ -136,6 +142,7 @@ Timestamp can be placed on top of content when content is too high.
 | color | background color of node | string | hsl / hsv / hex / rgb | — |
 | size | node size | string | normal / large | normal |
 | icon | icon class name | string | — | — |
+| hollow | icon is hollow | boolean | — | false |
 
 ### Timeline-Item Slots
 | Name | Description |

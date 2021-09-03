@@ -55,6 +55,7 @@ El tamaño, el color y los iconos se pueden personalizar en el nodo.
       :type="activity.type"
       :color="activity.color"
       :size="activity.size"
+      :hollow="activity.hollow"
       :timestamp="activity.timestamp">
       {{activity.content}}
     </el-timeline-item>
@@ -79,6 +80,11 @@ El tamaño, el color y los iconos se pueden personalizar en el nodo.
           content: 'Custom size',
           timestamp: '2018-04-03 20:46',
           size: 'large'
+        }, {
+          content: 'Custom hollow',
+          timestamp: '2018-04-03 20:46',
+          type: 'primary',
+          hollow: true
         }, {
           content: 'Default node',
           timestamp: '2018-04-03 20:46'
@@ -131,6 +137,7 @@ Las marcas de tiempo ( timestamp )  puede colocarse encima del contenido cuando 
 | color | color de fondo del nodo | string | hsl / hsv / hex / rgb | — |
 | size | tamaño del nodo | string | normal / large | normal |
 | icon | nombre de la clase del icono | string | — | — |
+| hollow | icon is hollow | boolean | — | false |
 
 ### Timeline-Item Slot
 | name | Description |

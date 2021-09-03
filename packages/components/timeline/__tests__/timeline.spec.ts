@@ -200,6 +200,23 @@ describe('TimeLine.vue', () => {
     expect(nodeWrapper.classes('el-icon-more')).toBe(true)
   })
 
+  test('hollow', () => {
+    const wrapper = mount({
+      ...Component,
+      template: `
+        <el-timeline>
+          <el-timeline-item
+            timestamp="2018-04-11"
+            hollow>
+            Step 1: xxxxxx
+          </el-timeline-item>
+        </el-timeline>
+      `,
+    })
+    const nodeWrapper = wrapper.find('.el-timeline-item__node')
+    expect(nodeWrapper.classes('is-hollow')).toBe(true)
+  })
+
   test('dot', () => {
     const wrapper = mount({
       ...Component,

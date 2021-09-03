@@ -55,6 +55,7 @@ Vous pouvez personnaliser la taille, la couleur et les icônes de chaque Noeud.
       :type="activity.type"
       :color="activity.color"
       :size="activity.size"
+      :hollow="activity.hollow"
       :timestamp="activity.timestamp">
       {{activity.content}}
     </el-timeline-item>
@@ -79,6 +80,11 @@ Vous pouvez personnaliser la taille, la couleur et les icônes de chaque Noeud.
           content: 'Taille',
           timestamp: '2018-04-03 20:46',
           size: 'large'
+        }, {
+          content: 'Custom hollow',
+          timestamp: '2018-04-03 20:46',
+          type: 'primary',
+          hollow: true
         }, {
           content: 'Défaut',
           timestamp: '2018-04-03 20:46'
@@ -132,6 +138,7 @@ Le timestamp peut être placé au-dessus du contenu lorsque celui-ci est trop ha
 | color | La couleur de fond du noeud. | string | hsl / hsv / hex / rgb | — |
 | size | La taille du noeud | string | normal / large | normal |
 | icon | Le nom de classe de l'icône. | string | — | — |
+| hollow | icon is hollow | boolean | — | false |
 
 ### Slots de Timeline-Item
 

@@ -8,7 +8,7 @@
       :class="[
         `el-timeline-item__node--${size || ''}`,
         `el-timeline-item__node--${type || ''}`,
-        hollow ? 'el-timeline-item__node--hollow' : ''
+        hollow ? 'is-hollow' : ''
       ]"
       :style="{
         backgroundColor: color
