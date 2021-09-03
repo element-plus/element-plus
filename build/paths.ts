@@ -10,6 +10,7 @@ const directiveRoot = path.resolve(pkgRoot, './directives')
 const epRoot = path.resolve(pkgRoot, './element-plus')
 const utilRoot = path.resolve(pkgRoot, './utils')
 const buildOutput = path.resolve(projRoot, './dist')
+const docRoot = path.resolve(projRoot, './docs')
 
 export {
   projRoot,
@@ -22,4 +23,5 @@ export {
   epRoot,
   utilRoot,
   buildOutput,
+  docRoot,
 }

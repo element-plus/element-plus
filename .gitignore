@@ -16,3 +16,10 @@ packages/element-plus/version.ts
 es
 
 .vitepress/*.js
+
+docs/.vitepress/i18n
+docs/temp
+
+docs/.vitepress/crowdin/*
+
+!docs/.vitepress/crowdin/en-US
