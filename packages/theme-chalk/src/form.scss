@@ -107,6 +107,7 @@
     line-height: 40px;
     position: relative;
     font-size: 14px;
+    min-width: 0;
 
     .#{$namespace}-input-group {
       vertical-align: top;

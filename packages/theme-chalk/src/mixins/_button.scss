@@ -1,3 +1,5 @@
+@use "sass:map";
+
 @import '../common/var';
 
 @mixin button-plain($color, $type) {
