@@ -101,7 +101,7 @@ yarn cz
 Example
 ```
 [TYPE](SCOPE):DESCRIPTION#[ISSUE]
-# example feat(button):add type 'button' for form usage #1234
+# example feat(components): add type 'button' for form usage #1234
 ```
 
 ## Licence
