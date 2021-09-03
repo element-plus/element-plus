@@ -49,7 +49,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, PropType, inject, computed, ref } from 'vue'
-import { CollapseProvider } from './collapse'
+import type { CollapseProvider } from './collapse.type'
 import { generateId } from '@element-plus/utils/util'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 
@@ -71,7 +71,6 @@ export default defineComponent({
   },
   setup(props) {
     const collapse = inject<CollapseProvider>('collapse')
-    const collapseMitt = collapse?.collapseMitt
 
     const contentWrapStyle = ref({
       height: 'auto',
@@ -98,13 +97,13 @@ export default defineComponent({
 
     const handleHeaderClick = () => {
       if (props.disabled) return
-      collapseMitt?.emit('item-click', props.name)
+      collapse?.handleItemClick(props.name)
       focusing.value = false
       isClick.value = true
     }
 
     const handleEnterClick = () => {
-      collapseMitt?.emit('item-click', props.name)
+      collapse?.handleItemClick(props.name)
     }
 
     return {
