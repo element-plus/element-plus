@@ -363,6 +363,38 @@ describe('Form', () => {
     expect(addressField.validateMessage).toBe('')
   })
 
+  test('scroll to field', () => {
+    const wrapper = mountForm({
+      template: `
+        <div>
+          <el-form ref="form">
+            <el-form-item prop="name" ref="formItem">
+              <el-input></el-input>
+            </el-form-item>
+          </el-form>
+        </div>
+      `,
+      data() {
+        return {
+          form: {
+            name: '',
+          },
+        }
+      },
+    })
+
+    const oldScrollIntoView = window.HTMLElement.prototype.scrollIntoView
+
+    const scrollIntoViewMock = jest.fn()
+    window.HTMLElement.prototype.scrollIntoView = function() { scrollIntoViewMock(this) }
+
+    const form: any = wrapper.findComponent({ ref: 'form' }).vm
+    form.scrollToField('name')
+    expect(scrollIntoViewMock).toHaveBeenCalledWith(wrapper.findComponent({ ref: 'formItem' }).element)
+
+    window.HTMLElement.prototype.scrollIntoView = oldScrollIntoView
+  })
+
   /*
   test('form item nest', done => {
     const wrapper = mountForm({
