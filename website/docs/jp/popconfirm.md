@@ -40,6 +40,45 @@ popconfirmは以下のようにカスタマイズすることができます。:
 ```
 :::
 
+### トリガーイベント
+
+ボタンをクリックしてイベントを起動します。
+
+:::demo
+
+```html
+<template>
+  <el-popconfirm
+    confirmButtonText="Yes"
+    cancelButtonText="No"
+    icon="el-icon-info"
+    iconColor="red"
+    title="Are you sure to delete this?"
+    @confirm="confirmEvent"
+    @cancel="cancelEvent"
+  >
+    <template #reference>
+      <el-button>Delete</el-button>
+    </template>
+  </el-popconfirm>
+</template>
+
+<script>
+export default {
+  methods: {
+    confirmEvent() {
+      console.log("confirm!");
+    },
+    cancelEvent() {
+      console.log("cancel!");
+    },
+  },
+};
+</script>
+```
+
+:::
+
 ### 属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |--------------------|----------------------------------------------------------|-------------------|-------------|--------|

@@ -414,14 +414,18 @@ Drawer 提供一个 `destroyOnClose` API, 用来在关闭 Drawer 时销毁子组
 
 :::
 ### Drawer Attributes
-Drawer has almost identical attributes as Dialog.
+Drawer 和 Dialog 的属性几乎相同。
 
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | model-value / v-model | 是否显示 Drawer | boolean | — | false |
 | append-to-body     | Drawer 自身是否插入至 body 元素上。嵌套的 Drawer 必须指定该属性并赋值为 true   | boolean   | — | false |
+| lock-scroll | 是否在 Drawer 出现时将 body 滚动锁定 | boolean | — | true |
 | before-close | 关闭前的回调，会暂停 Drawer 的关闭 | function(done)，done 用于关闭 Drawer | — | — |
+| close-on-click-modal | 是否可以通过点击 modal 关闭 Drawer | boolean    | — | true |
 | close-on-press-escape | 是否可以通过按下 ESC 关闭 Drawer | boolean    | — | true |
+| open-delay      | Drawer 打开的延时时间，单位毫秒 | number    | — | 0 |
+| close-delay      | Drawer 关闭的延时时间，单位毫秒 | number    | — | 0 |
 | custom-class      | Drawer 的自定义类名 | string    | — | — |
 | destroy-on-close | 控制是否在关闭 Drawer 之后将子元素全部销毁 | boolean | - | false |
 | modal     | 是否需要遮罩层   | boolean   | — | true |
@@ -431,6 +435,8 @@ Drawer has almost identical attributes as Dialog.
 | title     | Drawer 的标题，也可通过具名 slot （见下表）传入 | string    | — | — |
 | withHeader | 控制是否显示 header 栏, 默认为 true, 当此项为 false 时, title attribute 和 title slot 均不生效 | boolean | - | true |
 | modal-class | 遮罩层的自定义类名 | string | - | - |
+| z-index | 设置 z-index | number | - | - |
+
 ### Drawer Slot
 
 | name | 说明 |

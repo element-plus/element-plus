@@ -110,7 +110,7 @@ export default {
     height: 394px;
     width: 100%;
     background:#ffffff;
-    border:1px solid #eaeefb;
+    border:1px solid var(--el-border-color-base);
     border-radius:5px;
     box-sizing: border-box;
     text-align: center;

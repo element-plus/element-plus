@@ -269,6 +269,91 @@ export default {
 ```
 :::
 
+### 自动填充容器
+
+通过 `fill` **(布尔类型)** 参数可以控制子节点是否自动填充容器
+
+下面的例子中，当设置为 `fill` 时，子节点的宽度会自动适配容器的宽度
+
+:::demo 用 fill 让子节点自动填充容器
+
+```html
+<template>
+  <div>
+  <div style="margin-bottom:15px">
+    fill:  <el-switch v-model="fill"></el-switch>
+  </div>
+  <el-space :fill="fill" wrap>
+    <el-card class="box-card" v-for="i in 3" :key="i">
+      <template #header>
+        <div class="card-header">
+          <span>Card name</span>
+          <el-button class="button" type="text">Operation button</el-button>
+        </div>
+      </template>
+      <div v-for="o in 4" :key="o" class="text item">
+        {{ 'List item ' + o }}
+      </div>
+    </el-card>
+  </el-space>
+  </div>
+</template>
+
+<script>
+
+export default {
+  data() {
+    return { fill: true }
+  },
+}
+</script>
+```
+:::
+
+也可以使用 `fillRatio` 参数，自定义填充的比例，默认值为 `100`，代表基于父容器宽度的 `100%` 进行填充
+
+需要注意的是，水平布局和垂直布局的表现形式稍有不同，具体的效果可以查看下面的例子
+
+:::demo 用 fillRatio 自定义填充比例
+
+```html
+<template>
+  <div>
+  <div style="margin-bottom: 15px">
+    direction:
+    <el-radio v-model="direction" label="horizontal">horizontal</el-radio>
+    <el-radio v-model="direction" label="vertical">vertical</el-radio>
+  </div>
+  <div style="margin-bottom: 15px">
+    fillRatio:<el-slider v-model="fillRatio"></el-slider>
+  </div>
+  <el-space fill wrap :fillRatio="fillRatio" :direction="direction" style=" width: 100%">
+    <el-card class="box-card" v-for="i in 5" :key="i">
+      <template #header>
+        <div class="card-header">
+          <span>Card name</span>
+          <el-button class="button" type="text">Operation button</el-button>
+        </div>
+      </template>
+      <div v-for="o in 4" :key="o" class="text item">
+        {{ 'List item ' + o }}
+      </div>
+    </el-card>
+  </el-space>
+  </div>
+</template>
+
+<script>
+
+export default {
+  data() {
+    return { direction: 'horizontal', fillRatio: 30 }
+  },
+}
+</script>
+```
+:::
+
 ### Space Attributes
 
 | 参数      | 说明    | 类型      | 可选值       | 默认值   |
@@ -281,6 +366,8 @@ export default {
 | spacer    | 间隔符     | string / number / VNode | - | - |
 | size      | 间隔大小   | string / number / [number, number] | - | 'small' |
 | wrap      | 设置是否自动折行 | boolean | true / false  | false |
+| fill      | 子元素是否填充父容器 | boolean | true / false  | false |
+| fillRatio | 填充父容器的比例  | number | - | 100 |
 ### Space Slot
 | name | 说明  |
 |----|----|

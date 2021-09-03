@@ -1,20 +1,23 @@
+@use "sass:map";
+
 @import '../common/var';
-@mixin button-plain($color) {
+
+@mixin button-plain($color, $type) {
   color: $color;
-  background: mix($--color-white, $color, 90%);
-  border-color: mix($--color-white, $color, 60%);
+  background-color: map.get($--colors, $type, 'light-9');
+  border-color: map.get($--colors, $type, 'light-6');
 
   &:hover,
   &:focus {
     background: $color;
     border-color: $color;
-    color: $--color-white;
+    color: var(--el-color-white);
   }
 
   &:active {
-    background: mix($--color-black, $color, $--button-active-shade-percent);
-    border-color: mix($--color-black, $color, $--button-active-shade-percent);
-    color: $--color-white;
+    background: var(--el-button-active-background-color);
+    border-color: var(--el-button-active-border-color);
+    color: var(--el-color-white);
     outline: none;
   }
 
@@ -23,60 +26,32 @@
     &:hover,
     &:focus,
     &:active {
-      color: mix($--color-white, $color, 40%);
-      background-color: mix($--color-white, $color, 90%);
-      border-color: mix($--color-white, $color, 80%);
+      color: map.get($--colors, $type, 'light-4');
+      background-color: map.get($--colors, $type, 'light-9');
+      border-color: map.get($--colors, $type, 'light-8');
     }
   }
 }
 
-@mixin button-variant($color, $background-color, $border-color) {
-  color: $color;
-  background-color: $background-color;
-  border-color: $border-color;
-
+@mixin button-variant($type) {
   &:hover,
   &:focus {
-    background: mix(
-      $--color-white,
-      $background-color,
-      $--button-hover-tint-percent
-    );
-    border-color: mix(
-      $--color-white,
-      $border-color,
-      $--button-hover-tint-percent
-    );
-    color: $color;
+    background: var(--el-button-hover-color);
+    border-color: var(--el-button-hover-color);
+    color: var(--el-button-font-color);
   }
 
   &:active {
-    background: mix(
-      $--color-black,
-      $background-color,
-      $--button-active-shade-percent
-    );
-    border-color: mix(
-      $--color-black,
-      $border-color,
-      $--button-active-shade-percent
-    );
-    color: $color;
+    background: var(--el-button-active-background-color);
+    border-color: var(--el-button-active-border-color);
+    color: var(--el-button-active-font-color);
     outline: none;
   }
 
   &.is-active {
-    background: mix(
-      $--color-black,
-      $background-color,
-      $--button-active-shade-percent
-    );
-    border-color: mix(
-      $--color-black,
-      $border-color,
-      $--button-active-shade-percent
-    );
-    color: $color;
+    background: var(--el-button-active-background-color);
+    border-color: var(--el-button-active-border-color);
+    color: var(--el-button-active-font-color);
   }
 
   &.is-disabled {
@@ -85,13 +60,13 @@
     &:focus,
     &:active {
       color: $--color-white;
-      background-color: mix($background-color, $--color-white);
-      border-color: mix($border-color, $--color-white);
+      background-color: map.get($--colors, $type, 'light-5');
+      border-color: map.get($--colors, $type, 'light-5');
     }
   }
 
   &.is-plain {
-    @include button-plain($background-color);
+    @include button-plain(var(--el-button-background-color), $type);
   }
 }
 

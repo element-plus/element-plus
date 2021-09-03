@@ -81,7 +81,7 @@ export default {
 <style lang="scss" scoped>
   .footer-nav {
     padding: 40px 0;
-    color: #333;
+    color: var(--el-text-color-primary);
     font-size: 14px;
 
     &::after {
@@ -92,7 +92,7 @@ export default {
 
     & i {
       transition: .3s;
-      color: #999;
+      color: var(--el-text-color-secondary);
       vertical-align: baseline;
     }
   }

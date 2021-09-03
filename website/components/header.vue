@@ -226,7 +226,7 @@ export default {
       font-weight: normal;
 
       a {
-        color: #333;
+        color: var(--el-text-color-primary);
         text-decoration: none;
         display: block;
       }
@@ -273,7 +273,7 @@ export default {
         top: calc(50% - 8px);
         width: 1px;
         height: 16px;
-        background: #ebebeb;
+        background: var(--el-border-color-base);
       }
     }
 

@@ -1,0 +1,28 @@
+{
+  "name": "@element-plus/components",
+  "version": "0.0.5",
+  "description": "all components are settled here",
+  "dependencies": {
+    "@element-plus/icons": "^0.0.11",
+    "@element-plus/directives": "^0.0.5",
+    "@element-plus/hooks": "^0.0.5",
+    "@element-plus/tokens": "^0.0.5",
+    "@element-plus/utils": "^0.0.5",
+    "@element-plus/theme-chalk": "^0.0.5",
+    "@popperjs/core": "^2.4.4",
+    "async-validator": "^3.4.0",
+    "dayjs": "1.x",
+    "lodash": "^4.17.20",
+    "mitt": "^2.1.0"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.0"
+  },
+  "main": "index.js",
+  "module": "index.js",
+  "types": "index.d.ts",
+  "unpkg": "index.js",
+  "jsdelivr": "index.js",
+  "sideEffects": false,
+  "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
+}

@@ -1,30 +1,34 @@
 @use "sass:math";
+@use "sass:map";
 
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
 
 @include b(badge) {
+  @include set-component-css-var('badge', $--badge);
+
   position: relative;
   vertical-align: middle;
   display: inline-block;
 
   @include e(content) {
-    background-color: $--badge-background-color;
-    border-radius: $--badge-radius;
-    color: $--color-white;
+    background-color: var(--el-badge-background-color);
+    border-radius: var(--el-badge-radius);
+    color: var(--el-color-white);
     display: inline-block;
-    font-size: $--badge-font-size;
-    height: $--badge-size;
-    line-height: $--badge-size;
-    padding: 0 $--badge-padding;
+    font-size: var(--el-badge-font-size);
+    height: var(--el-badge-size);
+    line-height: var(--el-badge-size);
+    padding: 0 var(--el-badge-padding);
     text-align: center;
     white-space: nowrap;
-    border: 1px solid $--color-white;
+    border: 1px solid var(--el-color-white);
 
     @include when(fixed) {
       position: absolute;
       top: 0;
-      right: #{1 + math.div($--badge-size, 2)};
+      right: calc(1px + var(--el-badge-size) / 2);
       transform: translateY(-50%) translateX(100%);
 
       @include when(dot) {

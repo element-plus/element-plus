@@ -1,6 +1,7 @@
 import { on, once } from '@element-plus/utils/dom'
 
 import type { ObjectDirective } from 'vue'
+
 export default {
   beforeMount(el, binding) {
     let interval = null

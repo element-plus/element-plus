@@ -1,18 +1,11 @@
 @use "sass:map";
 
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
 
-:root {
-  --el-message-min-width: 380px;
-  --el-message-background-color: #edf2fc;
-  --el-message-padding: 15px 15px 15px 20px;
-  --el-message-close-icon-color: var(--el-text-color-placeholder);
-  --el-message-close-hover-color: var(--el-text-color-secondary);
-
-  @each $type in (success, info, warning, error) {
-    --el-message-#{$type}-font-color: var(--el-color-#{$type});
-  }
+@include b(message) {
+  @include set-component-css-var('message', $--message);
 }
 
 @include b(message) {
@@ -57,11 +50,13 @@
 
   @each $type in (success, info, warning, error) {
     @include m($type) {
-      background-color: map.get($--colors, $type, 'lighter');
-      border-color: map.get($--colors, $type, 'light');
+      background-color: map.get($--colors, $type, 'light-9');
+      border-color: map.get($--colors, $type, 'light-8');
+
+      --el-message-font-color: var(--el-color-#{$type});
 
       .#{$namespace}-message__content {
-        color: var(--el-message-#{$type}-font-color);
+        color: var(--el-message-font-color);
       }
     }
   }
@@ -86,7 +81,7 @@
     transform: translateY(-50%);
     cursor: pointer;
     color: var(--el-message-close-icon-color);
-    font-size: var(--el-message-close-size);
+    font-size: var(--el-message-close-size, map.get($--message, 'close-size'));
 
     &:focus {
       outline-width: 0;
@@ -98,7 +93,8 @@
 
   @each $type in (success, info, warning, error) {
     & .#{$namespace}-icon-#{$type} {
-      color: var(--el-message-#{$type}-font-color);
+      --el-message-font-color: var(--el-color-#{$type});
+      color: var(--el-message-font-color);
     }
   }
 }

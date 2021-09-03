@@ -1,5 +1,6 @@
 import MenuItem from './menu-item'
-import { RendererNode } from 'vue'
+
+import type { RendererNode } from 'vue'
 
 class Menu {
   constructor(public domNode: RendererNode) {

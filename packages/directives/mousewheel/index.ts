@@ -1,4 +1,5 @@
 import normalizeWheel from 'normalize-wheel'
+
 import type { ObjectDirective } from 'vue'
 
 const isFirefox =

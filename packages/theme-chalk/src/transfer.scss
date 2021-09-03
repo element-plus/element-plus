@@ -1,23 +1,13 @@
 @use "sass:math";
+@use "sass:map";
 
 @import 'mixins/mixins';
 @import 'mixins/utils';
+@import 'mixins/var';
 @import 'common/var';
-@import 'input';
-@import 'button';
-@import 'checkbox';
-@import 'checkbox-group';
 
-:root {
-  --el-transfer-border-color: var(--el-border-color-lighter);
-  --el-transfer-border-radius: var(--el-border-radius-base);
-  --el-transfer-panel-width: 200px;
-  --el-transfer-panel-header-height: 40px;
-  --el-transfer-panel-header-background-color: var(--el-background-color-base);
-  --el-transfer-panel-footer-height: 40px;
-  --el-transfer-panel-body-height: 246px;
-  --el-transfer-item-height: 30px;
-  --el-transfer-filter-height: 32px;
+@include b(transfer) {
+  @include set-component-css-var('transfer', $--transfer);
 }
 
 @include b(transfer) {
@@ -35,7 +25,7 @@
     }
 
     &:nth-child(2) {
-      margin: 0;
+      margin: 0 0 0 10px;
     }
 
     i,
@@ -55,6 +45,7 @@
   overflow: hidden;
   background: var(--el-color-white);
   display: inline-block;
+  text-align: left;
   vertical-align: middle;
   width: var(--el-transfer-panel-width);
   max-height: 100%;

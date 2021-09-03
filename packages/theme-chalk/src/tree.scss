@@ -1,12 +1,10 @@
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
 @import 'common/transition';
-@import 'checkbox';
 
-:root {
-  --el-tree-node-hover-background-color: var(--el-background-color-base);
-  --el-tree-font-color: var(--el-text-color-regular);
-  --el-tree-expand-icon-color: var(--el-text-color-placeholder);
+@include b(tree) {
+  @include set-component-css-var('tree', $--tree);
 }
 
 @include b(tree) {

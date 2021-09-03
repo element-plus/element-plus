@@ -6,7 +6,7 @@ export const isValidWidthUnit = (val: string | number): boolean =>{
   } else {
     return ['px', 'rem', 'em', 'vw', '%', 'vmin', 'vmax'].some(unit =>
       (val as string).endsWith(unit),
-    )
+    ) || (val as string).startsWith('calc')
   }
 }
 

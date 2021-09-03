@@ -30,6 +30,7 @@ const scopes = [
   'typography',
   'color',
   'border',
+  'var',
 ]
 
 module.exports = {
@@ -66,6 +67,7 @@ module.exports = {
         'perf',
         'refactor',
         'revert',
+        'release',
         'style',
         'test',
         'improvement',

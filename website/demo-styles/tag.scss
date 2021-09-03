@@ -24,7 +24,7 @@
     &__title {
       width: 45px;
       font-size: 14px;
-      color: #606266;
+      color: var(--el-text-color-regular);
     }
 
     & + .tag-group {

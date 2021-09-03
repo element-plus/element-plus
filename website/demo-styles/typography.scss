@@ -1,6 +1,6 @@
 .demo-typo-size {
   .color-dark-light {
-    color: #99a9bf;
+    color: var(--el-text-color-secondary);
   }
 }
 .demo-term-box img {
@@ -21,7 +21,7 @@
 }
 .lineH-right li {
   font-size: 13px;
-  color: #666;
+  color: var(--el-text-color-regular);
   height: 20px;
   line-height: 20px;
 }

@@ -1,5 +1,5 @@
 @import 'mixins/mixins';
-@import 'progress';
+@import 'mixins/utils';
 @import 'common/var';
 
 @include b(upload) {
@@ -194,7 +194,7 @@
 
       .#{$namespace}-upload-list__item-name:hover,
       .#{$namespace}-upload-list__item-name:focus {
-        color: $--link-hover-color;
+        color: var(--el-color-primary);
         cursor: pointer;
       }
 
@@ -548,7 +548,7 @@
       font-size: 14px;
       cursor: pointer;
       vertical-align: middle;
-      transition: var(--el-md-fade-transition);
+      transition: var(--el-transition-md-fade);
       margin-top: 60px;
 
       i {
