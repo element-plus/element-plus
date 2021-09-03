@@ -41,6 +41,9 @@
       width: var(--el-timeline-node-size-large);
       height: var(--el-timeline-node-size-large);
     }
+    @include m(hollow) {
+      background: var(--el-color-white);
+    }
 
     @each $type in (primary, success, warning, danger, info) {
       @include m($type) {
