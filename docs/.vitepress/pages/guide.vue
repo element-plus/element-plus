@@ -14,7 +14,7 @@
 import { computed } from 'vue'
 import SideNav from '../layouts/side-nav.vue'
 import '../assets/styles/pages/guide.scss'
-import localeData from '../assets/pages/guide.json'
+import localeData from '../i18n/pages/guide.json'
 import { useLang, useRootPath } from '../utils/routes'
 
 const lang = useLang()

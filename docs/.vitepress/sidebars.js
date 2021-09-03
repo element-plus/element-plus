@@ -1,4 +1,4 @@
-const guideLocale = require('./assets/pages/guide.json')
+const guideLocale = require('./i18n/pages/guide.json')
 const { ensureLang } = require('./site-utils')
 
 function getGuideSidebar() {
