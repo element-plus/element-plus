@@ -9,7 +9,7 @@
   "module": "es/index.js",
   "style": "dist/index.css",
   "unpkg": "dist/index.full.js",
-  "jsdevlivr": "dist/index.full.js",
+  "jsdelivr": "dist/index.full.js",
   "sideEffects": [
     "dist/*",
     "theme-chalk/*.css",
