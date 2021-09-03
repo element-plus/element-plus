@@ -1,4 +1,3 @@
-<script lang="ts">
 import {
   defineComponent,
   getCurrentInstance,
@@ -21,22 +20,18 @@ import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './submenu.vue'
 import useMenuColor from './useMenuColor'
 
+import type { VNode } from 'vue'
 import type {
   IMenuProps,
   RootMenuProvider,
   RegisterMenuItem,
   SubMenuProvider,
 } from './menu.type'
+import debounce from 'lodash/debounce'
 
 export default defineComponent({
   name: 'ElMenu',
-  directives: {
-    Resize,
-  },
-  components: {
-    ElMenuCollapseTransition,
-    ElSubMenu,
-  },
+
   props: {
     mode: {
       type: String,
@@ -63,7 +58,8 @@ export default defineComponent({
     },
   },
   emits: ['close', 'open', 'select'],
-  setup(props: IMenuProps, { emit, slots }) {
+
+  setup(props: IMenuProps, { emit, slots, expose }) {
     // data
     const openedMenus = ref(
       props.defaultOpeneds && !props.collapse
@@ -78,7 +74,6 @@ export default defineComponent({
     const rootMenuEmitter = mitt()
     const router = instance.appContext.config.globalProperties.$router
     const menu = ref(null)
-    const filteredSlot = ref(slots.default?.())
 
     const hoverBackground = useMenuColor(props)
 
@@ -220,79 +215,7 @@ export default defineComponent({
         }
       }
     }
-
-    const flattedChildren = (children) => {
-      const temp = Array.isArray(children) ? children : [children]
-      const res = []
-      temp.forEach((child) => {
-        if (Array.isArray(child.children)) {
-          res.push(...flattedChildren(child.children))
-        } else {
-          res.push(child)
-        }
-      })
-      return res
-    }
-
-    const updateFilteredSlot = async () => {
-      filteredSlot.value = slots.default?.()
-      await nextTick()
-      if (props.mode === 'horizontal') {
-        const items = Array.from(menu.value.childNodes).filter(
-          (item: HTMLElement) => item.nodeName !== '#text' || item.nodeValue
-        ) as [HTMLElement]
-        const originalSlot = flattedChildren(slots.default?.()) || []
-        if (items.length === originalSlot.length) {
-          const moreItemWidth = 64
-          const paddingLeft = parseInt(getComputedStyle(menu.value).paddingLeft)
-          const paddingRight = parseInt(
-            getComputedStyle(menu.value).paddingRight
-          )
-          const menuWidth = menu.value.clientWidth - paddingLeft - paddingRight
-          let calcWidth = 0
-          let sliceIndex = 0
-          items.forEach((item, index) => {
-            calcWidth += item.offsetWidth || 0
-            if (calcWidth <= menuWidth - moreItemWidth) {
-              sliceIndex = index + 1
-            }
-          })
-          const defaultSlot = originalSlot.slice(0, sliceIndex)
-          const moreSlot = originalSlot.slice(sliceIndex)
-          if (moreSlot?.length) {
-            filteredSlot.value = [
-              ...defaultSlot,
-              h(
-                ElSubMenu,
-                {
-                  index: 'sub-menu-more',
-                  class: 'el-sub-menu__hide-arrow',
-                },
-                {
-                  title: () =>
-                    h('i', {
-                      class: ['el-icon-more', 'el-sub-menu__icon-more'],
-                    }),
-                  default: () => moreSlot,
-                }
-              ),
-            ]
-          }
-        }
-      }
-    }
-
-    const handleResize = () => {
-      updateFilteredSlot()
-    }
-
-    // watch
-    watch(
-      () => slots.default?.(),
-      () => {
-        updateFilteredSlot()
-      }
-    )
+    const handleResize = debounce(() => instance.proxy.$forceUpdate(), 50)
 
     watch(
       () => props.defaultActive,
@@ -359,45 +282,95 @@ export default defineComponent({
       }
     })
 
-    return {
-      hoverBackground,
-      isMenuPopup,
-      menu,
-      filteredSlot,
-
-      props,
-
+    expose({
       open,
       close,
-      handleResize,
-    }
-  },
-  render() {
-    const directives =
-      this.mode === 'horizontal' ? [[Resize, this.handleResize]] : []
-    const menu = withDirectives(
-      h(
-        'ul',
-        {
-          key: String(this.collapse),
-          role: 'menubar',
-          ref: 'menu',
-          style: { backgroundColor: this.backgroundColor || '' },
-          class: {
-            'el-menu': true,
-            'el-menu--horizontal': this.mode === 'horizontal',
-            'el-menu--collapse': this.collapse,
-          },
-        },
-        [this.filteredSlot]
-      ),
-      directives
-    )
+      hoverBackground,
+    })
 
-    if (this.collapseTransition && this.mode === 'vertical') {
-      return h(ElMenuCollapseTransition, () => menu)
+    const useVNodeResize = (vnode: VNode) =>
+      props.mode === 'horizontal'
+        ? withDirectives(vnode, [[Resize, handleResize]])
+        : vnode
+    return () => {
+      let slot = slots.default?.() ?? []
+      const showMore = []
+
+      if (props.mode === 'horizontal') {
+        const items = Array.from(
+          (menu.value as Node | undefined)?.childNodes ?? []
+        ).filter(
+          (item) => item.nodeName !== '#text' || item.nodeValue
+        ) as HTMLElement[]
+        const originalSlot = slot.flat(Infinity)
+        if (items.length === originalSlot.length) {
+          const moreItemWidth = 64
+          const paddingLeft = parseInt(
+            getComputedStyle(menu.value).paddingLeft,
+            10
+          )
+          const paddingRight = parseInt(
+            getComputedStyle(menu.value).paddingRight,
+            10
+          )
+          const menuWidth = menu.value.clientWidth - paddingLeft - paddingRight
+          let calcWidth = 0
+          let sliceIndex = 0
+          items.forEach((item, index) => {
+            calcWidth += item.offsetWidth || 0
+            if (calcWidth <= menuWidth - moreItemWidth) {
+              sliceIndex = index + 1
+            }
+          })
+          const defaultSlot = originalSlot.slice(0, sliceIndex)
+          const moreSlot = originalSlot.slice(sliceIndex)
+          if (moreSlot?.length) {
+            slot = defaultSlot
+            showMore.push(
+              h(
+                ElSubMenu,
+                {
+                  index: 'sub-menu-more',
+                  class: 'el-sub-menu__hide-arrow',
+                },
+                {
+                  title: () =>
+                    h('i', {
+                      class: ['el-icon-more', 'el-sub-menu__icon-more'],
+                    }),
+                  default: () => moreSlot,
+                }
+              )
+            )
+          }
+        } else {
+          nextTick(() => instance.proxy.$forceUpdate())
+        }
+      }
+
+      const vnodeMenu = useVNodeResize(
+        h(
+          'ul',
+          {
+            key: String(props.collapse),
+            role: 'menubar',
+            ref: menu,
+            style: { backgroundColor: props.backgroundColor || '' },
+            class: {
+              'el-menu': true,
+              'el-menu--horizontal': props.mode === 'horizontal',
+              'el-menu--collapse': props.collapse,
+            },
+          },
+          [...slot.map((vnode) => useVNodeResize(vnode)), ...showMore]
+        )
+      )
+
+      if (props.collapseTransition && props.mode === 'vertical') {
+        return h(ElMenuCollapseTransition, () => vnodeMenu)
+      }
+
+      return vnodeMenu
     }
-    return menu
   },
 })
-</script>
