@@ -34,7 +34,7 @@ import { useSidebar } from '../composables/use-sidebar'
 import { useNav } from '../composables/use-nav'
 import { useLang, useIsHome } from '../utils/routes'
 
-import sponsorsData from '../assets/components/sponsors.json'
+import sponsorsData from '../i18n/component/sponsor.json'
 import bit from '../assets/images/bit.svg'
 import renren from '../assets/images/renren.png'
 

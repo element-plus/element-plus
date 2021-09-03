@@ -28,12 +28,12 @@ import { useRouter } from 'vitepress'
 import algoliasearch from 'algoliasearch'
 import { Search } from '@element-plus/icons'
 import { useToggle } from '../utils'
-import localeData from '../assets/components/search.json'
+import localeData from '../i18n/component/search.json'
 import { useLang } from '../utils/routes'
 import { Language } from '../constants/language'
 
 import type { SearchIndex } from 'algoliasearch'
-
+console.log(localeData)
 const router = useRouter()
 const lang = useLang()
 const locale = computed<Record<string, string>>(() => localeData[lang.value])
