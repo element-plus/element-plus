@@ -383,12 +383,16 @@ describe('Form', () => {
       },
     })
 
+    const oldScrollIntoView = window.HTMLElement.prototype.scrollIntoView
+
     const scrollIntoViewMock = jest.fn()
     window.HTMLElement.prototype.scrollIntoView = function() { scrollIntoViewMock(this) }
 
     const form: any = wrapper.findComponent({ ref: 'form' }).vm
     form.scrollToField('name')
-    expect(scrollIntoViewMock).toHaveBeenCalledWith(wrapper.findComponent({ ref:'formItem' }).element)
+    expect(scrollIntoViewMock).toHaveBeenCalledWith(wrapper.findComponent({ ref: 'formItem' }).element)
+
+    window.HTMLElement.prototype.scrollIntoView = oldScrollIntoView
   })
 
   /*
