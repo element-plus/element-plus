@@ -3,7 +3,6 @@
 
 @import 'mixins/mixins';
 @import 'common/var';
-@import 'input';
 
 @include b(input-number) {
   position: relative;
@@ -38,12 +37,15 @@
       color: var(--el-color-primary);
 
       & ~ .#{$namespace}-input:not(.is-disabled) .#{$namespace}-input__inner {
-        border-color: $--input-focus-border;
+        border-color: var(
+          --el-input-focus-border,
+          map.get($--input, 'focus-border')
+        );
       }
     }
 
     &.is-disabled {
-      color: $--disabled-color-base;
+      color: var(--el-disabled-color-base);
       cursor: not-allowed;
     }
   }
@@ -51,22 +53,22 @@
   @include e(increase) {
     right: 1px;
     border-radius: 0 var(--el-border-radius-base) var(--el-border-radius-base) 0;
-    border-left: $--border-base;
+    border-left: var(--el-border-base);
   }
 
   @include e(decrease) {
     left: 1px;
     border-radius: var(--el-border-radius-base) 0 0 var(--el-border-radius-base);
-    border-right: $--border-base;
+    border-right: var(--el-border-base);
   }
 
   @include when(disabled) {
     @include e((increase, decrease)) {
-      border-color: $--disabled-border-base;
-      color: $--disabled-border-base;
+      border-color: var(--el-disabled-border-base);
+      color: var(--el-disabled-border-base);
 
       &:hover {
-        color: $--disabled-border-base;
+        color: var(--el-disabled-border-base);
         cursor: not-allowed;
       }
     }
@@ -129,7 +131,7 @@
 
     @include e(increase) {
       border-radius: 0 var(--el-border-radius-base) 0 0;
-      border-bottom: $--border-base;
+      border-bottom: var(--el-border-base);
     }
 
     @include e(decrease) {
@@ -138,7 +140,7 @@
       top: auto;
       left: auto;
       border-right: none;
-      border-left: $--border-base;
+      border-left: var(--el-border-base);
       border-radius: 0 0 var(--el-border-radius-base) 0;
     }
 

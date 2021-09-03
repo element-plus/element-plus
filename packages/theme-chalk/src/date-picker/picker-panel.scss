@@ -1,7 +1,6 @@
 @import '../common/var';
 
 @include b(picker-panel) {
-  position: relative;
   color: var(--el-text-color-regular);
   background: $--color-white;
   border-radius: var(--el-border-radius-base);
@@ -61,7 +60,7 @@
 
   @include e(btn) {
     border: 1px solid #dcdcdc;
-    color: #333;
+    color: var(--el-text-color-primary);
     line-height: 24px;
     border-radius: 2px;
     padding: 0 20px;

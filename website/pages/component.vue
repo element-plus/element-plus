@@ -19,7 +19,7 @@
     </div>
   </el-scrollbar>
 </template>
-<script>
+<script lang="ts">
 import bus from '../bus'
 import navsData from '../nav.config.json'
 import { throttle } from 'throttle-debounce'
@@ -48,6 +48,11 @@ export default {
         this.componentScrollBar.update()
       })
     },
+    '$route.hash'() {
+      this.$nextTick(() => {
+        this.goAnchor()
+      })
+    },
   },
   created() {
     bus.$on('nav-fade', val => {
@@ -61,6 +66,7 @@ export default {
     this.componentScrollBox.addEventListener('scroll', this.throttledScrollHandler)
     document.body.classList.add('is-component')
     this.addContentObserver()
+    this.goAnchor()
   },
   unmounted() {
     document.body.classList.remove('is-component')
@@ -71,7 +77,7 @@ export default {
   },
   methods: {
     addContentObserver() {
-      this.observer = new MutationObserver((mutationsList, observer) => {
+      this.observer = new MutationObserver(mutationsList => {
         for(const mutation of mutationsList) {
           if (mutation.type === 'childList') {
             this.renderAnchorHref()
@@ -105,7 +111,7 @@ export default {
         if (!elm) return
 
         setTimeout(() => {
-          this.componentScrollBox.scrollTop = elm.offsetTop
+          this.componentScrollBox.scrollTop = (elm as HTMLElement).offsetTop
         }, 50)
       }
     },
@@ -183,9 +189,6 @@ export default {
   .content {
 
     ::v-deep(>) {
-      h3 {
-        margin: 55px 0 20px;
-      }
 
       table {
         border-collapse: collapse;
@@ -208,12 +211,12 @@ export default {
         th {
           text-align: left;
           white-space: nowrap;
-          color: #909399;
+          color: var(--el-text-color-secondary);
           font-weight: normal;
         }
 
         td {
-          color: #606266;
+          color: var(--el-text-color-regular);
         }
 
         th:first-child, td:first-child {

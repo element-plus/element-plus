@@ -1,8 +1,8 @@
 @use "sass:map";
 
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
-@import 'popper';
 
 $positions: top, bottom, left, right;
 
@@ -13,13 +13,8 @@ $positionMap: (
   'right': 'left',
 );
 
-:root {
-  --el-tooltip-fill: var(--el-text-color-primary);
-  --el-tooltip-color: var(--el-color-white);
-  --el-tooltip-font-size: 12px;
-  --el-tooltip-border-color: var(--el-text-color-primary);
-  --el-tooltip-arrow-size: 6px;
-  --el-tooltip-padding: 10px;
+@include b(tooltip) {
+  @include set-component-css-var('tooltip', $--tooltip);
 }
 
 @include b(tooltip) {

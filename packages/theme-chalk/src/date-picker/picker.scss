@@ -1,13 +1,14 @@
 @use "sass:map";
 
 @import '../mixins/mixins';
+@import '../mixins/var';
 @import '../common/var';
 @import '../common/transition';
 
 @include b(picker) {
   @include e(popper) {
     @include picker-popper(
-      $--color-white,
+      var(--el-color-white),
       1px solid var(--el-datepicker-border-color),
       var(--el-box-shadow-light)
     );
@@ -15,33 +16,35 @@
 }
 
 @include b(date-editor) {
+  @include set-component-css-var('date-editor', $--date-editor);
+
   position: relative;
   display: inline-block;
   text-align: left;
 
   &.#{$namespace}-input,
   &.#{$namespace}-input__inner {
-    width: 220px;
+    width: var(--el-date-editor-width);
   }
 
   @include m((monthrange)) {
     &.#{$namespace}-input,
     &.#{$namespace}-input__inner {
-      width: 300px;
+      width: var(--el-date-editor-monthrange-width);
     }
   }
 
   @include m((daterange, timerange)) {
     &.#{$namespace}-input,
     &.#{$namespace}-input__inner {
-      width: 350px;
+      width: var(--el-date-editor-daterange-width);
     }
   }
 
   @include m(datetimerange) {
     &.#{$namespace}-input,
     &.#{$namespace}-input__inner {
-      width: 400px;
+      width: var(--el-date-editor-datetimerange-width);
     }
   }
 
@@ -148,27 +151,27 @@
   }
 
   @include when(disabled) {
-    background-color: $--input-disabled-fill;
-    border-color: $--input-disabled-border;
-    color: $--input-disabled-color;
+    background-color: map.get($--input-disabled, 'fill');
+    border-color: map.get($--input-disabled, 'border');
+    color: map.get($--input-disabled, 'color');
     cursor: not-allowed;
 
     &:hover,
     &:focus {
-      border-color: $--input-disabled-border;
+      border-color: map.get($--input-disabled, 'border');
     }
 
     input {
-      background-color: $--input-disabled-fill;
-      color: $--input-disabled-color;
+      background-color: map.get($--input-disabled, 'fill');
+      color: map.get($--input-disabled, 'color');
       cursor: not-allowed;
       &::placeholder {
-        color: $--input-disabled-placeholder-color;
+        color: map.get($--input-disabled, 'placeholder-color');
       }
     }
 
     .#{$namespace}-range-separator {
-      color: $--input-disabled-color;
+      color: map.get($--input-disabled, 'color');
     }
   }
 }

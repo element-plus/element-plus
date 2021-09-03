@@ -14,7 +14,7 @@ module.exports = function(source) {
   const endTag = ':element-demo-->'
   const endTagLen = endTag.length
 
-  let componenetsString = ''
+  let componentsString = ''
   let id = 0 // demo 的 id
   let output = [] // 输出的内容
   let start = 0 // 字符串开始位置
@@ -30,7 +30,7 @@ module.exports = function(source) {
     let demoComponentContent = genInlineComponentText(html, script)
     const demoComponentName = `element-demo${id}`
     output.push(`<template #source><${demoComponentName} /></template>`)
-    componenetsString += `${JSON.stringify(demoComponentName)}: ${demoComponentContent},`
+    componentsString += `${JSON.stringify(demoComponentName)}: ${demoComponentContent},`
 
     // 重新计算下一次的位置
     id++
@@ -43,13 +43,13 @@ module.exports = function(source) {
   // todo: 优化这段逻辑
 
   let pageScript = ''
-  if (componenetsString) {
+  if (componentsString) {
     pageScript = `<script lang="ts">
       import * as Vue from 'vue';
       export default {
         name: 'component-doc',
         components: {
-          ${componenetsString}
+          ${componentsString}
         }
       }
     </script>`

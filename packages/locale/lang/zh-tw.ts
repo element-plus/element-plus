@@ -94,7 +94,7 @@ export default {
       confirmFilter: '篩選',
       resetFilter: '重置',
       clearFilter: '全部',
-      sumText: 'Sum', // to be translated
+      sumText: '合計',
     },
     tree: {
       emptyText: '暫無資料',
@@ -102,10 +102,10 @@ export default {
     transfer: {
       noMatch: '無匹配資料',
       noData: '無資料',
-      titles: ['List 1', 'List 2'], // to be translated
-      filterPlaceholder: 'Enter keyword', // to be translated
-      noCheckedFormat: '{total} items', // to be translated
-      hasCheckedFormat: '{checked}/{total} checked', // to be translated
+      titles: ['列表 1', '列表 2'],
+      filterPlaceholder: '請輸入搜索內容',
+      noCheckedFormat: '共 {total} 項',
+      hasCheckedFormat: '已選 {checked}/{total} 項',
     },
     image: {
       error: '加載失敗',
@@ -114,8 +114,8 @@ export default {
       title: '返回',
     },
     popconfirm: {
-      confirmButtonText: 'Yes', // to be translated
-      cancelButtonText: 'No', // to be translated
+      confirmButtonText: '確認',
+      cancelButtonText: '取消',
     },
   },
 }

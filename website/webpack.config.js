@@ -5,6 +5,7 @@ const { VueLoaderPlugin } = require('vue-loader')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
@@ -81,6 +82,7 @@ const config = {
       favicon: './website/favicon.ico',
     }),
     // new BundleAnalyzerPlugin(),
+    new ProgressBarPlugin(),
   ],
   devServer: {
     inline: true,
@@ -94,9 +96,7 @@ const config = {
   },
   optimization: {
     minimize: true,
-    minimizer: [
-      new CssMinimizerPlugin(),
-    ],
+    minimizer: [new CssMinimizerPlugin()],
   },
 }
 

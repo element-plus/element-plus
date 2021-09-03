@@ -43,11 +43,12 @@ import type {
   Instance as PopperInstance,
   StrictModifiers,
 } from '@popperjs/core'
-import type { RefElement } from '@element-plus/utils/types'
+import type { RefElement, Nullable } from '@element-plus/utils/types'
 import type { Trigger } from './use-target-events'
 
-export type Effect = 'light' | 'dark'
+export type PopperEffect = 'light' | 'dark'
 export type Offset = [number, number] | number
+
 
 type ElementType = ComponentPublicInstance | HTMLElement
 
@@ -92,7 +93,7 @@ export const usePopperProps = {
     default: false,
   },
   effect: {
-    type: String as PropType<Effect>,
+    type: String as PropType<PopperEffect>,
     default: DARK_EFFECT,
   },
   enterable: {
@@ -133,10 +134,10 @@ export const usePopperProps = {
   },
 }
 
-export const usePopper = () => {
+export const usePopperHook = () => {
 
   const vm = getCurrentInstance()
-  const props = vm.props as ExtractPropTypes<typeof usePopperProps>
+  const props: ExtractPropTypes<typeof usePopperProps> = vm.props as any
   const { slots } = vm
 
   const arrowRef = ref<RefElement>(null)
@@ -284,7 +285,7 @@ export const usePopper = () => {
   function popupRenderer() {
     const mouseUpAndDown = props.stopPopperMouseEvent ? stop : NOOP
     return h(
-      Transition,
+      Transition as any,
       {
         name: props.transition,
         onAfterEnter,

@@ -1,30 +1,9 @@
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
 
-:root {
-  --el-notification-width: 330px;
-  --el-notification-padding: 14px 26px 14px 13px;
-  --el-notification-radius: 8px;
-  --el-notification-shadow: var(--el-box-shadow-light);
-  --el-notification-border-color: var(--el-border-color-lighter);
-  --el-notification-icon-size: 24px;
-  --el-notification-close-font-size: var(
-    --el-message-close-size,
-    map.get($--message, 'close-size')
-  );
-
-  --el-notification-group-margin-left: 13px;
-  --el-notification-group-margin-right: 8px;
-  --el-notification-content-font-size: var(--el-font-size-base);
-  --el-notification-content-color: var(--el-text-color-regular);
-  --el-notification-title-font-size: 16px;
-  --el-notification-title-color: var(--el-text-color-primary);
-  --el-notification-close-color: var(--el-text-color-secondary);
-  --el-notification-close-hover-color: var(--el-text-color-regular);
-
-  @each $type in (success, info, warning, error) {
-    --el-notification-#{$type}-icon-color: var(--el-color-#{$type});
-  }
+@include b(notification) {
+  @include set-component-css-var('notification', $--notification);
 }
 
 @include b(notification) {
@@ -99,7 +78,8 @@
 
   @each $type in (success, info, warning, error) {
     .#{$namespace}-icon-#{$type} {
-      color: var(--el-notification-#{$type}-icon-color);
+      --el-notification-icon-color: var(--el-color-#{$type});
+      color: var(--el-notification-icon-color);
     }
   }
 }

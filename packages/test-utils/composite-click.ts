@@ -1,5 +1,6 @@
 import { nextTick } from 'vue'
 import triggerEvent from './trigger-event'
+
 import type { DOMWrapper, VueWrapper } from '@vue/test-utils'
 
 

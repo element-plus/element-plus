@@ -10,6 +10,10 @@ import MainFooter from './components/footer'
 import MainHeader from './components/header'
 import SideNav from './components/side-nav'
 import FooterNav from './components/footer-nav'
+import AppHeading from './components/heading'
+import AppLink from './components/link'
+import AppImg from './components/img'
+
 import title from './i18n/title'
 import 'highlight.js/styles/color-brewer.css'
 import './demo-styles/index.scss'
@@ -43,6 +47,9 @@ app.component('MainFooter', MainFooter)
 app.component('MainHeader', MainHeader)
 app.component('SideNav', SideNav)
 app.component('FooterNav', FooterNav)
+app.component('AppHeading', AppHeading)
+app.component('AppLink', AppLink)
+app.component('AppImg', AppImg)
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -56,9 +63,9 @@ router.isReady().then(() => {
 
   app.config.globalProperties.$copySvgIcon = iconName => {
     clipboardCopy(
-      `<el-svg-icon>
+      `<el-icon>
   <${hyphenate(iconName)} />
-</el-svg-icon>
+</el-icon>
       `,
     ).then(() => {
       app.config.globalProperties.$message({

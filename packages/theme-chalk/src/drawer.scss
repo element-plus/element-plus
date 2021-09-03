@@ -1,6 +1,6 @@
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
-@import './overlay.scss';
 
 @keyframes #{$namespace}-drawer-fade-in {
   0% {
@@ -71,12 +71,8 @@
 
 $directions: rtl, ltr, ttb, btt;
 
-:root {
-  --el-drawer-background-color: var(
-    --el-dialog-background-color,
-    var(--el-color-white)
-  );
-  --el-drawer-padding-primary: var(--el-dialog-padding-primary, 20px);
+@include b(drawer) {
+  @include set-component-css-var('drawer', $--drawer);
 }
 
 @include b(drawer) {
@@ -104,7 +100,7 @@ $directions: rtl, ltr, ttb, btt;
     color: rgb(114, 118, 123);
     display: flex;
     margin-bottom: 32px;
-    padding: var(--el-dialog-padding-primary);
+    padding: var(--el-drawer-padding-primary);
     padding-bottom: 0;
     & > :first-child {
       flex: 1;

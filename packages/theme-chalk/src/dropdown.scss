@@ -1,14 +1,12 @@
+@use "sass:map";
+
 @import 'mixins/mixins';
 @import 'mixins/var';
 @import 'common/var';
-@import 'button';
-@import 'popper';
-
-:root {
-  @include set-component-css-var('dropdown', $--dropdown);
-}
 
 @include b(dropdown) {
+  @include set-component-css-var('dropdown', $--dropdown);
+
   display: inline-block;
   position: relative;
   color: var(--el-text-color-regular);
@@ -16,6 +14,8 @@
   line-height: 1;
 
   @include e(popper) {
+    @include set-component-css-var('dropdown', $--dropdown);
+
     // using attributes selector to override
 
     @include picker-popper(
@@ -33,7 +33,7 @@
     }
 
     @include b(scrollbar__bar) {
-      z-index: calc(var(--el-dropdown-menu-index + 1));
+      z-index: calc(var(--el-dropdown-menu-index) + 1);
     }
 
     @include b(dropdown__list) {
@@ -72,7 +72,8 @@
     }
 
     &.#{$namespace}-button--default::before {
-      background: mix($--button-default-border-color, transparent, 50%);
+      background: var(--el-default-border-color);
+      opacity: 0.5;
     }
 
     &:hover {

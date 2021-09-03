@@ -60,7 +60,7 @@ Since v-model is natively supported for all components, `visible.sync` has been 
 
   export default defineComponent({
     setup() {
-      
+
       const drawer = ref(false);
       const direction = ref('rtl');
       const handleClose = (done) => {
@@ -244,12 +244,12 @@ export default {
 <!--
 <setup>
 
-import {defineComponent, reactive, toRefs } from 'vue'; 
-import { ElMessageBox } from 'element-plus'; 
+import {defineComponent, reactive, toRefs } from 'vue';
+import { ElMessageBox } from 'element-plus';
 
   export default defineComponent({
     setup() {
-      
+
       const state = reactive({
         table: false,
         dialog: false,
@@ -382,7 +382,7 @@ import { ElMessageBox } from 'element-plus';
 
   export default defineComponent({
     setup() {
-      
+
       const drawer = ref(false);
       const innerDrawer = ref(false);
       const handleClose = (done) => {
@@ -426,8 +426,12 @@ Drawerは `destroyOnClose` というAPIを提供しています。これはフ�
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | model-value / v-model | Drawerを表示する場合は、 | boolean | — | false |
 | append-to-body | DrawerがDocumentBody要素に挿入されている場合のコントロールは、ネストされたDrawerはこのパラメータを**true**に割り当てなければなりません。| boolean   | — | false |
+| lock-scroll     | Drawer 表示中にボディのスクロールを無効にするかどうか | boolean   | — | true |
 | before-close | 設定されている場合は、終了処理を停止します。 | function(done), done is function type that accepts a boolean as parameter, calling done with true or without parameter will abort the close procedure | — | — |
+| close-on-click-modal | Drawer を閉じることができるかどうか | boolean    | — | true |
 | close-on-press-escape | ESC を押してDrawerを閉じることができるかどうかを示す。 | boolean | — | true |
+| open-delay        | Time(milliseconds) before open | number    | — | 0 |
+| close-delay       | Time(milliseconds) before close | number    | — | 0 |
 | custom-class | Drawerの追加クラス名 | string | — | — |
 | destroy-on-close | Drawerが閉じた後にChildrenが破壊されるべきかどうかを示す | boolean | - | false |
 | modal | シャドウイングレイヤーを表示するか | boolean | — | true |
@@ -437,6 +441,8 @@ Drawerは `destroyOnClose` というAPIを提供しています。これはフ�
 | title | Drawerのタイトルは、スロットの名前を指定して設定することもできます。 | string | — | — |
 | withHeader | デフォルトは true で、withHeader が false に設定されている場合は `title attribute` と `title slot` の両方が動作しません。 | boolean | - | true |
 | modal-class | シャドウレイヤーの追加クラス名 | string | — | — |
+| z-index | set z-index | number | - | - |
+
 ### Drawerスロット
 
 | Name | Description |

@@ -1,8 +1,6 @@
 @use "sass:map";
 
 @import 'mixins/mixins';
-@import 'checkbox';
-@import 'tag';
 @import 'common/var';
 
 @include b(table-column) {

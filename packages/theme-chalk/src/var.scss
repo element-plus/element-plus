@@ -9,18 +9,17 @@
 // https://lisilinhart.info/posts/css-variables-performance/
 
 :root {
-  --el-color-primary: #{$--color-primary};
   --el-color-white: #{$--color-white};
   --el-color-black: #{$--color-black};
 
-  // --el-color-primary-light-#{$i}
+  --el-color-primary: #{$--color-primary};
+
   @for $i from 1 through 9 {
-    @include set-css-color-primary($i);
+    @include set-css-color-type-light('primary', $i);
   }
 
   // --el-color-#{$type}
-  // --el-color-#{$type}-light
-  // --el-color-#{$type}-lighter
+  // --el-color-#{$type}-light-{$i}
   @each $type in (success, warning, danger, error, info) {
     @include set-css-color-type($type);
   }
@@ -41,7 +40,7 @@
   // Border
   --el-border-width-base: #{$--border-width-base};
   --el-border-style-base: #{$--border-style-base};
-  --el-border-color-hover: var(--el-text-color-placeholder);
+  --el-border-color-hover: #{$--border-color-hover};
   --el-border-base: var(--el-border-width-base) var(--el-border-style-base)
     var(--el-border-color-base);
 
@@ -81,38 +80,13 @@
   --el-disabled-color-base: var(--el-text-color-placeholder);
   --el-disabled-border-base: var(--el-border-color-light);
 
-  // some var for component, but because they are used in many places, need to be global
-  // button
-  --el-button-font-weight: var(--el-font-weight-primary);
-
-  --el-button-default-font-color: var(--el-text-color-regular);
-  --el-button-default-background-color: var(--el-color-white);
-  --el-button-default-border-color: var(--el-border-color-base);
-  --el-button-disabled-font-color: var(--el-text-color-placeholder);
-  --el-button-disabled-background-color: var(--el-color-white);
-  --el-button-disabled-border-color: var(--el-border-color-light);
-}
-
-/* Transition
+  /* Transition
 -------------------------- */
-// refer to this website to get the bezier motion function detail
-//  https://cubic-bezier.com/#p1,p2,p3,p4 (change px as your function parameter)
-:root {
-  --el-transition-duration: 0.3s;
-  --el-transition-duration-fast: 0.2s;
-  --el-ease-in-out-bezier-function: cubic-bezier(0.645, 0.045, 0.355, 1);
-  --el-fast-bezier-transition: cubic-bezier(0.23, 1, 0.32, 1);
+  // refer to this website to get the bezier motion function detail
+  //  https://cubic-bezier.com/#p1,p2,p3,p4 (change px as your function parameter)
+  --el-transition-duration: #{map.get($--transition-duration, 'default')};
+  --el-transition-duration-fast: #{map.get($--transition-duration, 'fast')};
 
-  --el-all-transition: all var(--el-transition-duration)
-    var(--el-ease-in-out-bezier-function);
-  --el-fade-transition: opacity var(--el-transition-duration)
-    var(--el-fast-bezier-transition);
-  --el-md-fade-transition: transform var(--el-transition-duration)
-      var(--el-fast-bezier-transition),
-    opacity var(--el-transition-duration) var(--el-fast-bezier-transition);
-  --el-fade-linear-transition: opacity var(--el-transition-duration-fast) linear;
-  --el-border-transition-base: border-color var(--el-transition-duration-fast)
-    var(--el-ease-in-out-bezier-function);
-  --el-color-transition-base: color var(--el-transition-duration-fast)
-    var(--el-ease-in-out-bezier-function);
+  @include set-component-css-var('transition-function', $--transition-function);
+  @include set-component-css-var('transition', $--transition);
 }

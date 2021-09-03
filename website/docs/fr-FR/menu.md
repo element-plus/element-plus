@@ -6,24 +6,24 @@ Menu qui fournit un système de navigation à votre site.
 
 La barre du haut peut être utilisée pour différents scénarios.
 
-:::demo Par défaut le menu est vertical, mais vous pouvez le passer en horizontal en réglant l'attribut `mode` sur 'horizontal'. De plus, vous pouvez utiliser le composant submenu pour créer un second niveau niveau de menu. Le menu utilises `background-color`, `text-color` et `active-text-color` pour personnaliser les couleurs.
+:::demo Par défaut le menu est vertical, mais vous pouvez le passer en horizontal en réglant l'attribut `mode` sur 'horizontal'. De plus, vous pouvez utiliser le composant sub-menu pour créer un second niveau niveau de menu. Le menu utilises `background-color`, `text-color` et `active-text-color` pour personnaliser les couleurs.
 ```html
 <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
   <el-menu-item index="1">Centre de traitement</el-menu-item>
-  <el-submenu index="2">
+  <el-sub-menu index="2">
     <template #title>Lieu de travail</template>
     <el-menu-item index="2-1">item un</el-menu-item>
     <el-menu-item index="2-2">item deux</el-menu-item>
     <el-menu-item index="2-3">item trois</el-menu-item>
-    <el-submenu index="2-4">
+    <el-sub-menu index="2-4">
       <template #title>item quatre</template>
       <el-menu-item index="2-4-1">item un</el-menu-item>
       <el-menu-item index="2-4-2">item deux</el-menu-item>
       <el-menu-item index="2-4-3">item trois</el-menu-item>
-    </el-submenu>
-  </el-submenu>
+    </el-sub-menu>
+  </el-sub-menu>
   <el-menu-item index="3" disabled>Infos</el-menu-item>
-  <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">Commandes</a></el-menu-item>
+  <el-menu-item index="4">Commandes</el-menu-item>
 </el-menu>
 <div class="line"></div>
 <el-menu
@@ -35,20 +35,20 @@ La barre du haut peut être utilisée pour différents scénarios.
   text-color="#fff"
   active-text-color="#ffd04b">
   <el-menu-item index="1">Centre de traitement</el-menu-item>
-  <el-submenu index="2">
+  <el-sub-menu index="2">
     <template #title>Lieu de travail</template>
     <el-menu-item index="2-1">item un</el-menu-item>
     <el-menu-item index="2-2">item deux</el-menu-item>
     <el-menu-item index="2-3">item trois</el-menu-item>
-    <el-submenu index="2-4">
+    <el-sub-menu index="2-4">
       <template #title>item quatre</template>
       <el-menu-item index="2-4-1">item un</el-menu-item>
       <el-menu-item index="2-4-2">item deux</el-menu-item>
       <el-menu-item index="2-4-3">item trois</el-menu-item>
-    </el-submenu>
-  </el-submenu>
+    </el-sub-menu>
+  </el-sub-menu>
   <el-menu-item index="3" disabled>Info</el-menu-item>
-  <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">Commandes</a></el-menu-item>
+  <el-menu-item index="4">Commandes</el-menu-item>
 </el-menu>
 
 <script>
@@ -105,7 +105,7 @@ Menu vertical avec sous-menus.
       class="el-menu-vertical-demo"
       @open="handleOpen"
       @close="handleClose">
-      <el-submenu index="1">
+      <el-sub-menu index="1">
         <template #title>
           <i class="el-icon-location"></i>
           <span>Navigateur Un</span>
@@ -117,11 +117,11 @@ Menu vertical avec sous-menus.
         <el-menu-item-group title="Group Deux">
           <el-menu-item index="1-3">item trois</el-menu-item>
         </el-menu-item-group>
-        <el-submenu index="1-4">
+        <el-sub-menu index="1-4">
           <template #title>item quatre</template>
           <el-menu-item index="1-4-1">item un</el-menu-item>
-        </el-submenu>
-      </el-submenu>
+        </el-sub-menu>
+      </el-sub-menu>
       <el-menu-item index="2">
         <i class="el-icon-menu"></i>
         <span>Navigateur Deux</span>
@@ -146,7 +146,7 @@ Menu vertical avec sous-menus.
       background-color="#545c64"
       text-color="#fff"
       active-text-color="#ffd04b">
-      <el-submenu index="1">
+      <el-sub-menu index="1">
         <template #title>
           <i class="el-icon-location"></i>
           <span>Navigateur Un</span>
@@ -158,11 +158,11 @@ Menu vertical avec sous-menus.
         <el-menu-item-group title="Group Deux">
           <el-menu-item index="1-3">item trois</el-menu-item>
         </el-menu-item-group>
-        <el-submenu index="1-4">
+        <el-sub-menu index="1-4">
           <template #title>item quatre</template>
           <el-menu-item index="1-4-1">item un</el-menu-item>
-        </el-submenu>
-      </el-submenu>
+        </el-sub-menu>
+      </el-sub-menu>
       <el-menu-item index="2">
         <i class="el-icon-menu"></i>
         <span>Navigateur Deux</span>
@@ -227,7 +227,7 @@ Le menu vertical peut être réduit.
   <el-radio-button :label="true">Réduire</el-radio-button>
 </el-radio-group>
 <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
-  <el-submenu index="1">
+  <el-sub-menu index="1">
     <template #title>
       <i class="el-icon-location"></i>
       <span>Navigateur Un</span>
@@ -240,11 +240,11 @@ Le menu vertical peut être réduit.
     <el-menu-item-group title="Group Deux">
       <el-menu-item index="1-3">item trois</el-menu-item>
     </el-menu-item-group>
-    <el-submenu index="1-4">
+    <el-sub-menu index="1-4">
       <template #title><span>item quatre</span></template>
       <el-menu-item index="1-4-1">item un</el-menu-item>
-    </el-submenu>
-  </el-submenu>
+    </el-sub-menu>
+  </el-sub-menu>
   <el-menu-item index="2">
     <i class="el-icon-menu"></i>
     <template #title>Navigator Deux</template>

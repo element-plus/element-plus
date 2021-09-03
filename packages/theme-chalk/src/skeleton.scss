@@ -1,10 +1,9 @@
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
-@import './skeleton-item.scss';
 
-:root {
-  --el-skeleton-color: #f2f2f2;
-  --el-skeleton-to-color: #e6e6e6;
+@include b(skeleton) {
+  @include set-component-css-var('skeleton', $--skeleton);
 }
 
 @mixin skeleton-color() {

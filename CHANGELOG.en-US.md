@@ -1,5 +1,270 @@
 ## Changelog
 
+### 1.1.0-beta.8
+
+*2021-08-31*
+
+#### Breaking changes:
+
+- Please refer to: [Breaking changes made in 1.1.0-beta.1](https://github.com/element-plus/element-plus/discussions/3020)
+
+#### Features
+  
+- Components form add scrollToField method (#3110 by @sxzz)
+- Components select-v2 support filter-method & remote-search (#3092 by @msidolphin)
+- Components button-group add size (#3098 by @sxzz)
+- Components [el-image-viewer] emit close event (#3129 by @btea)
+- Components select-v2 support keyboard operations (#3138 by @msidolphin)
+- Menu add ellipsis in horizontal mode (#3083 by @kooriookami)
+
+#### Bug fixes
+  
+- Theme-chalk add the missing margin-left to transfer
+- Remove useless and duplicate declaration (#3082 by @BeADre)
+- Components image no emit switch event (close #3132) (#3134 by @imswk)
+- Components [el-upload] revoke object url on item remove (#3135 by @adaex)
+- [el-cascader-panel] fix childrenData (close #3126) (#3131 by @qinpeip)
+- Locale update korean translation (#3137 by @rikapo)
+- Components layout css lost (#3140 by @JeremyWuuuuu)
+- Icon clipboard (#3142 by @kooriookami)
+- Components [el-table] width init error (close #3087) (#3117 by @imswk)
+- [el-scrollbar] add missing off mouseup (#3143 by @kooriookami)
+- Style update calc style (#3090 by @kooriookami)
+- Style checkbox support size prop both border or not (#3099 by @kooriookami)
+- Style radio support size prop both border or not (#3103 by @kooriookami)
+- Table fix Destructuring assignment bug (#2893 by @HaitaoWang555)
+- [image-viewer] two-finger zoom in and out (#3114 by @Alanscut)
+
+#### Refactors
+  
+- Enhance type definition (#3062 by @sxzz)
+
+### 1.1.0-beta.7
+
+*2021-08-26*
+
+#### Bug fixes
+  
+- Components style path error for radio button (#3079 by @JeremyWuuuuu)
+- Input autosize type problem (#3008 by @imswk) (#3012)
+- Build marking side effects for webpack importing styles
+
+### 1.1.0-beta.6
+
+*2021-08-26*
+
+#### Bug fixes
+  
+- Components [table] avoid table border style conflict (#3064 by @adaex)
+- Eslint ignore bundle file (#3061 by @sxzz)
+- Form el-from/src/token.d.ts file miss (#2979 by @imswk) (#2988)
+- Components exposing style folder for select dropdpwn (#3077 by @JeremyWuuuuu)
+- Style(docs): Optimized style of documentation (#3010 by @kooriookami)
+
+### 1.1.0-beta.5
+
+*2021-08-25*
+
+#### Features
+  
+- Select-v2 support allow-create feature (#3017 by @msidolphin)
+
+#### Bug fixes
+  
+- Missing folders and umd locale builds and i18n docs for umd builds (#3053 by @JeremyWuuuuu)
+- Rateuse constant (#3011 by @Notryag)
+- Stop pinning vue peer dependency version (#3051 by @sodatea)
+- Ed resolve font path errors (#3048 by @wilhantian)
+- Build unpin vue compiler version (#3055 by @JeremyWuuuuu)
+- Style remove useless style (#3042 by @kooriookami)
+- Perf pdate tw lang (#3045 by @kooriookami)
+
+### 1.1.0-beta.4
+
+*2021-08-25*
+
+#### Bug fixes
+  
+- Message-box fix type (#3038 by @sxzz)
+- [label-wrap] Fix misspellings (#3030 by @wangbincyzj)
+- Components [descriptions] avoid conflict with el-table (#3005 by @adaex)
+- Build exposing installer function and version for umd build (#3041 by @JeremyWuuuuu)
+
+#### Refactors
+  
+- Rename el-submenu to el-sub-menu (#3037 by @sxzz)
+
+### 1.1.0-beta.3
+
+*2021-08-24*
+
+#### Bug fixes
+  
+- Build fix rollup full bundile issue (#3034 by @JeremyWuuuuu)
+
+### 1.1.0-beta.2
+
+*2021-08-24*
+
+#### Bug fixes
+  
+- Build upgrade vue to 3.2.x (#3031 by @JeremyWuuuuu)
+- Build: update browserslist (#3027 by @kooriookami)
+
+
+### 1.1.0-beta.1
+
+*2021-08-24*
+
+#### Features
+
+- Date-picker custom date-editor width (#2836 by @YunYouJun)
+- Card add var background-color & prepare for dark mode (#2912 by @YunYouJun)
+- Link remove href prototype when empty (#2969 by @adaex)
+- Add ElSkeleton template scoped parameter `key`.  (#2944 by @callmesoul)
+
+#### Bug fixes
+
+- Dropdown add css var for popper (#2909 by @inottn)
+- Carousel a invalid css rule by typo (#2951 by @KawaiiZapic)
+- Pagination icon center aligned (#2962 by @adaex)
+- Link fix style (#2990 by @kooriookami)
+- Notification icon color error (#2992 by @adaex)
+- Components form-item Fix misspellings (#3019 by @wangbincyzj)
+- Update token.ts (#3001 by @wangbincyzj)
+- Improvement(tabs): optimize tab-bar offset calc (#2844 by @Senasiko)
+- checkbox fix the size property is invalid (#2985 by @kooriookami)
+- Menu change to border-box (#2999 by @kooriookami)
+- Transfer add text-algin (#3018 by @kooriookami)
+
+#### Refactors
+
+- Update package path and bundle folder (#3016 by @JeremyWuuuuu)
+
+### 1.0.2-beta.71
+
+*2021-08-18*
+
+#### Features
+
+- Table add new css var background-color (#2866 by @YunYouJun)
+- Switch add border color (#2933 by @HatemSat)
+- Add 'calendar-change' event to date-range datetime-range picker (#2964 by @iamkun)
+- Scrollbar add min-size prop (#2916 by @kooriookami)
+
+#### Bug fixes
+
+- Button when(circle) use button-padding-vertical & add size demo (#2860 by @YunYouJun)
+- Drawer missing css var, close #2848 (#2861 by @YunYouJun)
+- Select options display fix when allow-create, also empty & entered #2826 #2854 (#2830 by @noah19846)
+- Locale update error url and remove useless code (#2852 by @zwwtj2014)
+- Comments update var button comments (#2896 by @liamfend)
+- Tabs add v-resize directive (#2886 by @kooriookami)
+- Tree undefined parent cause error on SSR (#2942 by @tolking)
+- Badge fix dot-badge color (#2943 by @ninedev-i)
+- Style allow custom alone color sass var (#2963 by @YunYouJun)
+- Pagination locale key correction (#2889 by @ioslh)
+- Pagination Fix that current-page and page-size do not support hyphen style when using v-model (#2884 by @LeeSamFong)
+
+#### Refactors
+
+- Transition use sass map refactor & rename some transition (#2879 by @YunYouJun)
+- Tag use inherit css var way to simplify tag (#2878 by @YunYouJun)
+- Color add css var color for button & fix style for datepicker (#2869 by @YunYouJun)
+- Pagination optimize demo style (#2890 by @Eyes22798)
+- Var alert/badge/link/message/message-box/notification/tag (#2892 by @YunYouJun)
+
+### 1.0.2-beta.70
+
+*2021-08-05*
+
+#### Bug fixes
+
+- Date-picker color-text has been renamed to text-color (#2835 by @YunYouJun)
+- Cascader revert #2344 to fix not update when options change (#2843 by @SimonaliaChen)
+- Cascader missing cascader-panel css var & add default var for thumb (#2847 by @YunYouJun)
+
+### 1.0.2-beta.69
+
+*2021-08-04*
+
+#### Bug fixes
+
+- Fix sass compiling error (#2831)
+
+### 1.0.2-beta.68
+
+*2021-08-04*
+#### Bug fixes
+
+- Dropdown styles error (#2823 by @tolking)
+- Var fix input/radio/checkbox used by other components (#2821 by @YunYouJun)
+- Project node is not exporting issue (#2827 by @JeremyWuuuuu)
+
+### 1.0.2-beta.67
+
+*2021-08-04*
+
+#### Bug fixes
+
+- Theme-chalk fix fonts build by gulp (#2817 by @YunYouJun)
+
+#### Refactors
+
+- Var move css var from root to class (#2808 by @YunYouJun)
+
+### 1.0.2-beta.66
+
+*2021-08-03*
+
+#### Features
+
+- Input Removed validator for autocomplete attribute (#2757 by @ShookTea)
+- Icon introduce-el-icons-into-ep (#2766 by @JeremyWuuuuu)
+- Space add fill support (#2716 by @adaex)
+- Var var sass map for components (#2778 by @YunYouJun)
+
+#### Bug fixes
+
+- Var map merge default var (#2727 by @YunYouJun)
+- Scrollbar the problem of ScrollbarDirKey being deleted (#2722 by @msidolphin)
+- Input no trigger input event when clear value (#2723 by @msidolphin)
+- Message using iconClass causes "el-message__icon" to be lost (#2709 by @GaliMu)
+- Locale inject locale for modal like components (#2737 by @JeremyWuuuuu)
+- Tooltip styles error (#2763 by @tolking)
+- Input Improve inputStyle reference (#2780 by @adaex)
+- Select-v2's dropdown width wrong if create in style(display: none) (#2791 by @zhaozhongyu)
+- Checkbox checkbox bordered padding & height (#2784 by @YunYouJun)
+- Locale update Norwegian translation file (#2789 by @AdrianAndersen)
+- Select option does not delete in onBeforeMount (#2753 by @zhaozhongyu)
+- Fix Nullable type for RefElement (#2730 by @PxlBuzzard)
+- Fix LabelWraplabel-width bug (#2742 by @SorrowX)
+
+#### Refactors
+
+- Var simplify checkbox var & move transition to root (#2729 by @YunYouJun)
+- Backtop migrate css var (#2711 by @YunYouJun)
+- Badge/card/dropdown/rate migrate css var & use sass:map (#2764 by @YunYouJun)
+- Link remove unused link variables & add sass map (#2768 by @YunYouJun)
+- Slider migrate css var & use sass map for message (#2772 by @YunYouJun)
+- Button use sass map & add outline:none for focus (#2774 by @YunYouJun)
+
+### 1.0.2-beta.65
+
+*2021-07-28*
+
+#### Bug fixes
+
+- fix(input-number): fix style (#2738)
+- fix(date-picker): date-picker focus end-time resets start-time (#2290)
+- fix: date-time picker same day select time bug (#2747)
+- fix(image-viewer): image-viewer export error (#2754)
+- fix: time picker adjust spinner bug (#2743)
+
+#### Chore
+
+- test(select-v2): complete unit tests (#2739)
+
 ### 1.0.2-beta.64
 
 #### Bug fixes

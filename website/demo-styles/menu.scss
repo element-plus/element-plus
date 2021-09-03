@@ -8,12 +8,12 @@
   }
   .line {
     height: 1px;
-    background-color: #e0e6ed;
+    background-color: var(--el-border-color-base);
     margin: 35px -24px;
   }
   h5 {
     font-size: 14px;
-    color: #8492a6;
+    color: var(--el-text-color-secondary);
     margin-top: 10px;
   }
   .tac {

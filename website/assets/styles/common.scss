@@ -47,14 +47,14 @@ body {
 }
 
 a {
-  color: #409eff;
+  color: var(--el-color-primary);
   text-decoration: none;
 }
 
 code {
   background-color: #f9fafc;
   padding: 0 4px;
-  border: 1px solid #eaeefb;
+  border: 1px solid var(--el-border-color-base);
   border-radius: 4px;
 }
 
@@ -74,7 +74,7 @@ textarea {
   font-size: 12px;
   padding: 18px 24px;
   background-color: #fafafa;
-  border: solid 1px #eaeefb;
+  border: solid 1px var(--el-border-color-base);
   margin-bottom: 25px;
   border-radius: 4px;
   -webkit-font-smoothing: auto;
@@ -95,20 +95,34 @@ textarea {
 .page-container {
   padding-top: 55px;
 
+  h1 {
+    margin-top: 8px;
+    margin-bottom: 20px;
+    color: rgba(0, 0, 0, .85);
+    font-weight: 500;
+    font-size: 30px;
+  }
+
+  h2, h3, h4, h5, h6 {
+    margin: 1.6em 0 .6em;
+    font-weight: 500;
+    color: rgba(0, 0, 0, .85);
+  }
+
   h2 {
-    font-size: 28px;
+    font-size: 24px;
+    line-height: 36px;
     color: #1f2d3d;
-    margin: 0;
   }
+
   h3 {
-    font-size: 22px;
+    font-size: 18px;
   }
+
   h2,
   h3,
   h4,
   h5 {
-    font-weight: normal;
-    color: #1f2f3d;
 
     &:hover a {
       opacity: 0.4;
@@ -128,15 +142,15 @@ textarea {
 
   p {
     font-size: 14px;
-    color: #5e6d82;
+    color: #303133;
     line-height: 1.5em;
   }
 
   .tip {
     padding: 8px 16px;
-    background-color: #ecf8ff;
+    background-color: var(--el-color-primary-light-9);
     border-radius: 4px;
-    border-left: #50bfff 5px solid;
+    border-left: var(--el-color-primary) 5px solid;
     margin: 20px 0;
 
     code {
@@ -147,9 +161,9 @@ textarea {
 
   .warning {
     padding: 8px 16px;
-    background-color: #fff6f7;
+    background-color: var(--el-color-danger-lighter);
     border-radius: 4px;
-    border-left: #fe6c6f 5px solid;
+    border-left: var(--el-color-danger) 5px solid;
     margin: 20px 0;
 
     ul {
@@ -180,5 +194,44 @@ textarea {
 
   #app.is-component .headerWrapper .container {
     padding: 0 12px;
+  }
+}
+
+.element-doc {
+  .example-code {
+    position: relative;
+
+    .lang-mark {
+      position: absolute;
+      bottom: .5rem;
+      color: #909399;
+      font-family: inherit;
+      font-size: .7rem;
+      font-weight: 700;
+      right: 1rem;
+      text-transform: uppercase;
+      user-select: none;
+    }
+  }
+
+  blockquote {
+    margin: 1em 0;
+    padding-left: .8em;
+    color: #909399;
+    font-size: 90%;
+    border-left: 4px solid #f0f0f0;
+
+    p {
+      color: inherit;
+      margin: 0;
+    }
+  }
+
+  .element-plus__link {
+
+    .el-icon {
+      vertical-align: text-top;
+      line-height: 1.5em;
+    }
   }
 }

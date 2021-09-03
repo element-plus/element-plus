@@ -1,12 +1,11 @@
 @import 'mixins/mixins';
 @import 'mixins/utils';
+@import 'mixins/var';
 @import 'common/var';
 
-:root {
-  --el-form-label-font-size: var(--el-font-size-base);
-}
-
 @include b(form) {
+  @include set-component-css-var('form', $--form);
+
   @include m(label-left) {
     & .#{$namespace}-form-item__label {
       text-align: left;
@@ -108,6 +107,7 @@
     line-height: 40px;
     position: relative;
     font-size: 14px;
+    min-width: 0;
 
     .#{$namespace}-input-group {
       vertical-align: top;

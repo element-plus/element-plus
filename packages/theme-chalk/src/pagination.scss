@@ -2,28 +2,12 @@
 
 @import 'mixins/mixins';
 @import 'mixins/utils';
+@import 'mixins/var';
 @import 'common/var';
-@import 'select';
-
-:root {
-  --el-pagination-font-size: 13px;
-  --el-pagination-background-color: var(--el-color-white);
-  --el-pagination-font-color: var(--el-text-color-primary);
-  --el-pagination-border-radius: 3px;
-  --el-pagination-button-color: var(--el-text-color-primary);
-  --el-pagination-button-width: 35.5px;
-  --el-pagination-button-height: 28px;
-  --el-pagination-button-disabled-color: var(--el-text-color-placeholder);
-  --el-pagination-button-disabled-background-color: var(--el-color-white);
-  --el-pagination-hover-color: var(--el-color-primary);
-
-  --el-pagination-height-extra-small: 22px;
-  --el-pagination-line-height-extra-small: var(
-    --el-pagination-height-extra-small
-  );
-}
 
 @include b(pagination) {
+  @include set-component-css-var('pagination', $--pagination);
+
   white-space: nowrap;
   padding: 2px 5px;
   color: var(--el-pagination-font-color);
@@ -96,6 +80,7 @@
       display: block;
       font-size: 12px;
       font-weight: bold;
+      width: inherit;
     }
   }
 
@@ -230,7 +215,7 @@
     .btn-next,
     .#{$namespace}-pager li {
       margin: 0 5px;
-      background-color: map.get($--colors, 'info', 'lighter');
+      background-color: map.get($--colors, 'info', 'light-9');
       color: var(--el-text-color-regular);
       min-width: 30px;
       border-radius: 2px;
