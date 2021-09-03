@@ -929,7 +929,7 @@ $--datepicker: map.merge(
     'header-font-color': var(--el-text-color-regular),
     'icon-color': var(--el-text-color-primary),
     'border-color': var(--el-disabled-border-base),
-    'inner-border-color': #e4e4e4,
+    'inner-border-color': var(--el-border-color-light),
     'inrange-background-color': var(--el-border-color-extra-light),
     'inrange-hover-background-color': var(--el-border-color-extra-light),
     'active-color': var(--el-color-primary),
