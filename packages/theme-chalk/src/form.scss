@@ -133,7 +133,9 @@
 
   @include when(required) {
     @include pseudo('not(.is-no-asterisk)') {
-      & > .#{$namespace}-form-item__label:before {
+      & > .#{$namespace}-form-item__label:before,
+      & > .#{$namespace}-form-item__label-wrap > .#{$namespace}-form-item__label:before
+      {
         content: '*';
         color: var(--el-color-danger);
         margin-right: 4px;
