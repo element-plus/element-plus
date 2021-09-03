@@ -28,6 +28,7 @@
           :url-list="previewSrcList"
           :hide-on-click-modal="hideOnClickModal"
           @close="closeViewer"
+          @switch="switchViewer"
         />
       </template>
     </teleport>
@@ -99,7 +100,7 @@ export default defineComponent({
       default: 2000,
     },
   },
-  emits: ['error'],
+  emits: ['error', 'switch', 'close'],
   setup(props, { emit }) {
     const { t } = useLocaleInject()
     // init here
@@ -246,11 +247,25 @@ export default defineComponent({
       _lazyLoadHandler = null
     }
 
+    function _wheelHandler(e){
+      if (e.ctrlKey) {
+        if (e.deltaY < 0) {
+          e.preventDefault()
+          return false
+        }
+        if (e.deltaY > 0) {
+          e.preventDefault()
+          return false
+        }
+      }
+    }
+
     function clickHandler() {
       // don't show viewer when preview is false
       if (!preview.value) {
         return
       }
+      document.body.addEventListener('wheel', _wheelHandler, { passive: false })
       // prevent body scroll
       prevOverflow = document.body.style.overflow
       document.body.style.overflow = 'hidden'
@@ -258,8 +273,14 @@ export default defineComponent({
     }
 
     function closeViewer() {
+      document.body.removeEventListener('wheel', _wheelHandler, false)
       document.body.style.overflow = prevOverflow
       showViewer.value = false
+      emit('close')
+    }
+
+    function switchViewer(val) {
+      emit('switch', val)
     }
 
     watch(() => props.src, () => {
@@ -291,6 +312,7 @@ export default defineComponent({
       imageIndex,
       clickHandler,
       closeViewer,
+      switchViewer,
       container,
       handleError,
       t,

@@ -20,7 +20,7 @@
           rootMenu.props.collapse &&
           slots.title
       "
-      effect="dark"
+      :effect="Effect.DARK"
       placement="right"
     >
       <template #content>
@@ -48,8 +48,10 @@ import {
   getCurrentInstance,
 } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
-import { RootMenuProvider, SubMenuProvider } from './menu'
+import { Effect } from '@element-plus/components/popper'
 import useMenu from './useMenu'
+
+import type { RootMenuProvider, SubMenuProvider } from './menu.type'
 
 export default defineComponent({
   name: 'ElMenuItem',
@@ -72,7 +74,7 @@ export default defineComponent({
     const rootMenu = inject<RootMenuProvider>('rootMenu')
     const { parentMenu, paddingStyle, indexPath } = useMenu(
       instance,
-      props.index,
+      computed(() => props.index),
     )
     const { addSubMenu, removeSubMenu } = inject<SubMenuProvider>(
       `subMenu:${parentMenu.value.uid}`,
@@ -148,6 +150,7 @@ export default defineComponent({
     })
 
     return {
+      Effect,
       parentMenu,
       rootMenu,
       slots,

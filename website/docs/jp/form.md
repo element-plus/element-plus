@@ -25,11 +25,20 @@ The component has been upgraded with a flex layout to replace the old float layo
   </el-form-item>
   <el-form-item label="Activity time">
     <el-col :span="11">
-      <el-date-picker type="date" placeholder="Pick a date" v-model="form.date1" style="width: 100%;"></el-date-picker>
+      <el-date-picker
+        type="date"
+        placeholder="Pick a date"
+        v-model="form.date1"
+        style="width: 100%;"
+      ></el-date-picker>
     </el-col>
     <el-col class="line" :span="2">-</el-col>
     <el-col :span="11">
-      <el-time-picker placeholder="Pick a time" v-model="form.date2" style="width: 100%;"></el-time-picker>
+      <el-time-picker
+        placeholder="Pick a time"
+        v-model="form.date2"
+        style="width: 100%;"
+      ></el-time-picker>
     </el-col>
   </el-form-item>
   <el-form-item label="Instant delivery">
@@ -69,26 +78,28 @@ The component has been upgraded with a flex layout to replace the old float layo
           delivery: false,
           type: [],
           resource: '',
-          desc: ''
-        }
+          desc: '',
+        },
       }
     },
     methods: {
       onSubmit() {
-        console.log('submit!');
-      }
-    }
+        console.log('submit!')
+      },
+    },
   }
 </script>
 ```
+
 :::
 
 :::tip
 [W3C](https://www.w3.org/MarkUp/html-spec/html-spec_8.html#SEC8.2) は規制しているのは
-> <i>フォーム内に1つの単一行テキスト入力フィールドしかない場合、ユーザエージェントは、そのフィールドでのEnterをフォームの送信要求として受け入れるべきである。</i>
+
+> <i>フォーム内に 1 つの単一行テキスト入力フィールドしかない場合、ユーザエージェントは、そのフィールドでの Enter をフォームの送信要求として受け入れるべきである。</i>
 
 この動作を防ぐには、`<el-form>` に `@submit.prevent` を追加します。
-  :::
+:::
 
 ### インラインフォーム
 
@@ -117,18 +128,19 @@ The component has been upgraded with a flex layout to replace the old float layo
       return {
         formInline: {
           user: '',
-          region: ''
-        }
+          region: '',
+        },
       }
     },
     methods: {
       onSubmit() {
-        console.log('submit!');
-      }
-    }
+        console.log('submit!')
+      },
+    },
   }
 </script>
 ```
+
 :::
 
 ### アライメント
@@ -144,7 +156,11 @@ The component has been upgraded with a flex layout to replace the old float layo
   <el-radio-button label="top">Top</el-radio-button>
 </el-radio-group>
 <div style="margin: 20px;"></div>
-<el-form :label-position="labelPosition" label-width="100px" :model="formLabelAlign">
+<el-form
+  :label-position="labelPosition"
+  label-width="100px"
+  :model="formLabelAlign"
+>
   <el-form-item label="Name">
     <el-input v-model="formLabelAlign.name"></el-input>
   </el-form-item>
@@ -163,13 +179,14 @@ The component has been upgraded with a flex layout to replace the old float layo
         formLabelAlign: {
           name: '',
           region: '',
-          type: ''
-        }
-      };
-    }
+          type: '',
+        },
+      }
+    },
   }
 </script>
 ```
+
 :::
 
 ### バリデーション
@@ -179,7 +196,13 @@ The component has been upgraded with a flex layout to replace the old float layo
 :::demo `Form` コンポーネントに `rules` 属性を追加して検証ルールを渡し、`Form-Item`に `prop` 属性を検証が必要な特定のキーとして設定するだけです。詳細は [async-validator](https://github.com/yiminghe/async-validator) を参照してください。
 
 ```html
-<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+<el-form
+  :model="ruleForm"
+  :rules="rules"
+  ref="ruleForm"
+  label-width="120px"
+  class="demo-ruleForm"
+>
   <el-form-item label="Activity name" prop="name">
     <el-input v-model="ruleForm.name"></el-input>
   </el-form-item>
@@ -192,13 +215,22 @@ The component has been upgraded with a flex layout to replace the old float layo
   <el-form-item label="Activity time" required>
     <el-col :span="11">
       <el-form-item prop="date1">
-        <el-date-picker type="date" placeholder="Pick a date" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
+        <el-date-picker
+          type="date"
+          placeholder="Pick a date"
+          v-model="ruleForm.date1"
+          style="width: 100%;"
+        ></el-date-picker>
       </el-form-item>
     </el-col>
     <el-col class="line" :span="2">-</el-col>
     <el-col :span="11">
       <el-form-item prop="date2">
-        <el-time-picker placeholder="Pick a time" v-model="ruleForm.date2" style="width: 100%;"></el-time-picker>
+        <el-time-picker
+          placeholder="Pick a time"
+          v-model="ruleForm.date2"
+          style="width: 100%;"
+        ></el-time-picker>
       </el-form-item>
     </el-col>
   </el-form-item>
@@ -239,67 +271,119 @@ The component has been upgraded with a flex layout to replace the old float layo
           delivery: false,
           type: [],
           resource: '',
-          desc: ''
+          desc: '',
         },
         rules: {
           name: [
-            { required: true, message: 'Please input Activity name', trigger: 'blur' },
-            { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' }
+            {
+              required: true,
+              message: 'Please input Activity name',
+              trigger: 'blur',
+            },
+            {
+              min: 3,
+              max: 5,
+              message: 'Length should be 3 to 5',
+              trigger: 'blur',
+            },
           ],
           region: [
-            { required: true, message: 'Please select Activity zone', trigger: 'change' }
+            {
+              required: true,
+              message: 'Please select Activity zone',
+              trigger: 'change',
+            },
           ],
           date1: [
-            { type: 'date', required: true, message: 'Please pick a date', trigger: 'change' }
+            {
+              type: 'date',
+              required: true,
+              message: 'Please pick a date',
+              trigger: 'change',
+            },
           ],
           date2: [
-            { type: 'date', required: true, message: 'Please pick a time', trigger: 'change' }
+            {
+              type: 'date',
+              required: true,
+              message: 'Please pick a time',
+              trigger: 'change',
+            },
           ],
           type: [
-            { type: 'array', required: true, message: 'Please select at least one activity type', trigger: 'change' }
+            {
+              type: 'array',
+              required: true,
+              message: 'Please select at least one activity type',
+              trigger: 'change',
+            },
           ],
           resource: [
-            { required: true, message: 'Please select activity resource', trigger: 'change' }
+            {
+              required: true,
+              message: 'Please select activity resource',
+              trigger: 'change',
+            },
           ],
           desc: [
-            { required: true, message: 'Please input activity form', trigger: 'blur' }
-          ]
-        }
-      };
+            {
+              required: true,
+              message: 'Please input activity form',
+              trigger: 'blur',
+            },
+          ],
+        },
+      }
     },
     methods: {
       submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
+        this.$refs[formName].validate(valid => {
           if (valid) {
-            alert('submit!');
+            alert('submit!')
           } else {
-            console.log('error submit!!');
-            return false;
+            console.log('error submit!!')
+            return false
           }
-        });
+        })
       },
       resetForm(formName) {
-        this.$refs[formName].resetFields();
-      }
-    }
+        this.$refs[formName].resetFields()
+      },
+    },
   }
 </script>
 ```
+
 :::
 
 ### カスタムバリデーションルール
 
-
-この例では、独自の検証ルールをカスタマイズして、2ファクタのパスワード検証を完了させる方法を示しています。
+この例では、独自の検証ルールをカスタマイズして、2 ファクタのパスワード検証を完了させる方法を示しています。
 
 :::demo ここでは、検証結果をアイコンとして反映させるために `status-icon` を用いる。
+
 ```html
-<el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+<el-form
+  :model="ruleForm"
+  status-icon
+  :rules="rules"
+  ref="ruleForm"
+  label-width="120px"
+  class="demo-ruleForm"
+>
   <el-form-item label="Password" prop="pass">
-    <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+    <el-input
+      type="password"
+      v-model="ruleForm.pass"
+      autocomplete="off"
+    ></el-input>
   </el-form-item>
   <el-form-item label="Confirm" prop="checkPass">
-    <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+    <el-input
+      type="password"
+      v-model="ruleForm.checkPass"
+      autocomplete="off"
+    ></el-input>
   </el-form-item>
   <el-form-item label="Age" prop="age">
     <el-input v-model.number="ruleForm.age"></el-input>
@@ -314,76 +398,71 @@ The component has been upgraded with a flex layout to replace the old float layo
     data() {
       var checkAge = (rule, value, callback) => {
         if (!value) {
-          return callback(new Error('Please input the age'));
+          return callback(new Error('Please input the age'))
         }
         setTimeout(() => {
           if (!Number.isInteger(value)) {
-            callback(new Error('Please input digits'));
+            callback(new Error('Please input digits'))
           } else {
             if (value < 18) {
-              callback(new Error('Age must be greater than 18'));
+              callback(new Error('Age must be greater than 18'))
             } else {
-              callback();
+              callback()
             }
           }
-        }, 1000);
-      };
+        }, 1000)
+      }
       var validatePass = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('Please input the password'));
+          callback(new Error('Please input the password'))
         } else {
           if (this.ruleForm.checkPass !== '') {
-            this.$refs.ruleForm.validateField('checkPass');
+            this.$refs.ruleForm.validateField('checkPass')
           }
-          callback();
+          callback()
         }
-      };
+      }
       var validatePass2 = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('Please input the password again'));
+          callback(new Error('Please input the password again'))
         } else if (value !== this.ruleForm.pass) {
-          callback(new Error('Two inputs don\'t match!'));
+          callback(new Error("Two inputs don't match!"))
         } else {
-          callback();
+          callback()
         }
-      };
+      }
       return {
         ruleForm: {
           pass: '',
           checkPass: '',
-          age: ''
+          age: '',
         },
         rules: {
-          pass: [
-            { validator: validatePass, trigger: 'blur' }
-          ],
-          checkPass: [
-            { validator: validatePass2, trigger: 'blur' }
-          ],
-          age: [
-            { validator: checkAge, trigger: 'blur' }
-          ]
-        }
-      };
+          pass: [{ validator: validatePass, trigger: 'blur' }],
+          checkPass: [{ validator: validatePass2, trigger: 'blur' }],
+          age: [{ validator: checkAge, trigger: 'blur' }],
+        },
+      }
     },
     methods: {
       submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
+        this.$refs[formName].validate(valid => {
           if (valid) {
-            alert('submit!');
+            alert('submit!')
           } else {
-            console.log('error submit!!');
-            return false;
+            console.log('error submit!!')
+            return false
           }
-        });
+        })
       },
       resetForm(formName) {
-        this.$refs[formName].resetFields();
-      }
-    }
+        this.$refs[formName].resetFields()
+      },
+    },
   }
 </script>
 ```
+
 :::
 
 :::tip
@@ -395,7 +474,12 @@ The component has been upgraded with a flex layout to replace the old float layo
 :::demo フォームコンポーネントにすべてのバリデーションルールを一度に渡すことに加えて、単一のフォームフィールドにバリデーションルールを動的に渡したり削除したりすることもできます。
 
 ```html
-<el-form :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="120px" class="demo-dynamic">
+<el-form
+  :model="dynamicValidateForm"
+  ref="dynamicValidateForm"
+  label-width="120px"
+  class="demo-dynamic"
+>
   <el-form-item
     prop="email"
     label="Email"
@@ -415,10 +499,13 @@ The component has been upgraded with a flex layout to replace the old float layo
       required: true, message: 'domain can not be null', trigger: 'blur'
     }"
   >
-    <el-input v-model="domain.value"></el-input><el-button @click.prevent="removeDomain(domain)">Delete</el-button>
+    <el-input v-model="domain.value"></el-input
+    ><el-button @click.prevent="removeDomain(domain)">Delete</el-button>
   </el-form-item>
   <el-form-item>
-    <el-button type="primary" @click="submitForm('dynamicValidateForm')">Submit</el-button>
+    <el-button type="primary" @click="submitForm('dynamicValidateForm')"
+      >Submit</el-button
+    >
     <el-button @click="addDomain">New domain</el-button>
     <el-button @click="resetForm('dynamicValidateForm')">Reset</el-button>
   </el-form-item>
@@ -428,51 +515,60 @@ The component has been upgraded with a flex layout to replace the old float layo
     data() {
       return {
         dynamicValidateForm: {
-          domains: [{
-            key: 1,
-            value: ''
-          }],
-          email: ''
-        }
-      };
+          domains: [
+            {
+              key: 1,
+              value: '',
+            },
+          ],
+          email: '',
+        },
+      }
     },
     methods: {
       submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
+        this.$refs[formName].validate(valid => {
           if (valid) {
-            alert('submit!');
+            alert('submit!')
           } else {
-            console.log('error submit!!');
-            return false;
+            console.log('error submit!!')
+            return false
           }
-        });
+        })
       },
       resetForm(formName) {
-        this.$refs[formName].resetFields();
+        this.$refs[formName].resetFields()
       },
       removeDomain(item) {
-        var index = this.dynamicValidateForm.domains.indexOf(item);
+        var index = this.dynamicValidateForm.domains.indexOf(item)
         if (index !== -1) {
-          this.dynamicValidateForm.domains.splice(index, 1);
+          this.dynamicValidateForm.domains.splice(index, 1)
         }
       },
       addDomain() {
         this.dynamicValidateForm.domains.push({
           key: Date.now(),
-          value: ''
-        });
-      }
-    }
+          value: '',
+        })
+      },
+    },
   }
 </script>
 ```
+
 :::
 
 ### ナンバーの検証(Number Validate)
 
-:::demo Number Validateでは、入力された `v-model` バインディングに `.number` という修飾子を追加する必要がありますが、これは文字列の値をVuejsが提供する数値に変換するために使われます。
+:::demo Number Validate では、入力された `v-model` バインディングに `.number` という修飾子を追加する必要がありますが、これは文字列の値を Vuejs が提供する数値に変換するために使われます。
+
 ```html
-<el-form :model="numberValidateForm" ref="numberValidateForm" label-width="100px" class="demo-ruleForm">
+<el-form
+  :model="numberValidateForm"
+  ref="numberValidateForm"
+  label-width="100px"
+  class="demo-ruleForm"
+>
   <el-form-item
     label="age"
     prop="age"
@@ -481,10 +577,16 @@ The component has been upgraded with a flex layout to replace the old float layo
       { type: 'number', message: 'age must be a number'}
     ]"
   >
-    <el-input type="age" v-model.number="numberValidateForm.age" autocomplete="off"></el-input>
+    <el-input
+      type="age"
+      v-model.number="numberValidateForm.age"
+      autocomplete="off"
+    ></el-input>
   </el-form-item>
   <el-form-item>
-    <el-button type="primary" @click="submitForm('numberValidateForm')">Submit</el-button>
+    <el-button type="primary" @click="submitForm('numberValidateForm')"
+      >Submit</el-button
+    >
     <el-button @click="resetForm('numberValidateForm')">Reset</el-button>
   </el-form-item>
 </el-form>
@@ -493,28 +595,29 @@ The component has been upgraded with a flex layout to replace the old float layo
     data() {
       return {
         numberValidateForm: {
-          age: ''
-        }
-      };
+          age: '',
+        },
+      }
     },
     methods: {
       submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
+        this.$refs[formName].validate(valid => {
           if (valid) {
-            alert('submit!');
+            alert('submit!')
           } else {
-            console.log('error submit!!');
-            return false;
+            console.log('error submit!!')
+            return false
           }
-        });
+        })
       },
       resetForm(formName) {
-        this.$refs[formName].resetFields();
-      }
-    }
+        this.$refs[formName].resetFields()
+      },
+    },
   }
 </script>
 ```
+
 :::
 
 :::tip
@@ -526,6 +629,7 @@ The component has been upgraded with a flex layout to replace the old float layo
 フォームのすべてのコンポーネントはそのフォームから `size` 属性を継承します。同様に、FormItem にも `size` 属性があります。
 
 :::demo それでも、コンポーネントのサイズを From や FormIten から継承させたくない場合は、各コンポーネントの `size` を微調整することができます。
+
 ```html
 <el-form ref="form" :model="sizeForm" label-width="120px" size="mini">
   <el-form-item label="Activity name">
@@ -539,17 +643,32 @@ The component has been upgraded with a flex layout to replace the old float layo
   </el-form-item>
   <el-form-item label="Activity time">
     <el-col :span="11">
-      <el-date-picker type="date" placeholder="Pick a date" v-model="sizeForm.date1" style="width: 100%;"></el-date-picker>
+      <el-date-picker
+        type="date"
+        placeholder="Pick a date"
+        v-model="sizeForm.date1"
+        style="width: 100%;"
+      ></el-date-picker>
     </el-col>
     <el-col class="line" :span="2">-</el-col>
     <el-col :span="11">
-      <el-time-picker placeholder="Pick a time" v-model="sizeForm.date2" style="width: 100%;"></el-time-picker>
+      <el-time-picker
+        placeholder="Pick a time"
+        v-model="sizeForm.date2"
+        style="width: 100%;"
+      ></el-time-picker>
     </el-col>
   </el-form-item>
   <el-form-item label="Activity type">
     <el-checkbox-group v-model="sizeForm.type">
-      <el-checkbox-button label="Online activities" name="type"></el-checkbox-button>
-      <el-checkbox-button label="Promotion activities" name="type"></el-checkbox-button>
+      <el-checkbox-button
+        label="Online activities"
+        name="type"
+      ></el-checkbox-button>
+      <el-checkbox-button
+        label="Promotion activities"
+        name="type"
+      ></el-checkbox-button>
     </el-checkbox-group>
   </el-form-item>
   <el-form-item label="Resources">
@@ -576,81 +695,86 @@ The component has been upgraded with a flex layout to replace the old float layo
           delivery: false,
           type: [],
           resource: '',
-          desc: ''
-        }
-      };
+          desc: '',
+        },
+      }
     },
     methods: {
       onSubmit() {
-        console.log('submit!');
-      }
-    }
-  };
+        console.log('submit!')
+      },
+    },
+  }
 </script>
 ```
+
 :::
 
 ### フォーム属性
 
-| Attribute      | Description          | Type      | Accepted Values       | Default  |
-| ---- | ----| ---- | ---- | ---- |
-| model| フォームコンポーネントのデータ | object | — | — |
-| rules | フォームのバリデーションルール | object | — | — |
-| inline | フォームがインラインであるかどうか | boolean | — | false |
-| label-position | ラベルの位置。’left'、’right’ もしくは`label-width`が設定されている場合は propも必要です。 | string | left / right / top | right |
-| label-width    | ラベルの幅、例えば  '50px'。直接の子フォーム項目はすべてこの値を継承します。Width `auto` がサポートされています。        | string / number | — | — |
-| label-suffix | ラベルの接尾辞 | string | — | — |
-| hide-required-asterisk | 必須フィールドのラベルの横に赤いアスタリスク（星）を付けるかどうか | boolean | — | false |
-| show-message  | エラーメッセージを表示するかどうか | boolean | — | true |
-| inline-message  | エラーメッセージをフォーム項目とインラインで表示するかどうか。 | boolean | — | false |
-| status-icon  | バリデーション結果を示すアイコンを表示するかどうか | boolean | — | false |
-| validate-on-rule-change  | `rules` propが変更されたときにバリデーションをトリガするかどうか。 | boolean | — | true |
-| size  | コンポーネントのサイズを制御する形式 | string | medium / small / mini | — |
-| disabled | このフォームのすべてのコンポーネントを無効にするかどうかを指定します。true に設定されている場合、内部のコンポーネントの `disabled` プロップで上書きすることはできません。 | boolean | — | false |
+| Attribute               | Description                                                                                                                                                               | Type            | Accepted Values       | Default |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- | --------------------- | ------- |
+| model                   | フォームコンポーネントのデータ                                                                                                                                            | object          | —                     | —       |
+| rules                   | フォームのバリデーションルール                                                                                                                                            | object          | —                     | —       |
+| inline                  | フォームがインラインであるかどうか                                                                                                                                        | boolean         | —                     | false   |
+| label-position          | ラベルの位置。’left'、’right’ もしくは`label-width`が設定されている場合は prop も必要です。                                                                               | string          | left / right / top    | right   |
+| label-width             | ラベルの幅、例えば '50px'。直接の子フォーム項目はすべてこの値を継承します。Width `auto` がサポートされています。                                                          | string / number | —                     | —       |
+| label-suffix            | ラベルの接尾辞                                                                                                                                                            | string          | —                     | —       |
+| hide-required-asterisk  | 必須フィールドのラベルの横に赤いアスタリスク（星）を付けるかどうか                                                                                                        | boolean         | —                     | false   |
+| show-message            | エラーメッセージを表示するかどうか                                                                                                                                        | boolean         | —                     | true    |
+| inline-message          | エラーメッセージをフォーム項目とインラインで表示するかどうか。                                                                                                            | boolean         | —                     | false   |
+| status-icon             | バリデーション結果を示すアイコンを表示するかどうか                                                                                                                        | boolean         | —                     | false   |
+| validate-on-rule-change | `rules` prop が変更されたときにバリデーションをトリガするかどうか。                                                                                                       | boolean         | —                     | true    |
+| size                    | コンポーネントのサイズを制御する形式                                                                                                                                      | string          | medium / small / mini | —       |
+| disabled                | このフォームのすべてのコンポーネントを無効にするかどうかを指定します。true に設定されている場合、内部のコンポーネントの `disabled` プロップで上書きすることはできません。 | boolean         | —                     | false   |
 
 ### フォームメソッド
 
-| Method | Description | Parameters |
-| ---- | ---- | ---- |
-| validate | バリデートはフォーム全体を検証します。パラメータとしてコールバックを受け取ります。バリデーションが通過したかどうかを示すブール値と、バリデーションに失敗したすべてのフィールドを含むオブジェクトです。コールバックが省略された場合はpromiseを返します。 | Function(callback: Function(boolean, object)) |
-| validateField | フォーム項目を検証する | Function(props: string \| array, callback: Function(errorMessage: string)) |
-| resetFields | すべてのフィールドをリセットし、検証結果を削除します。 | — |
-| clearValidate | 特定のフィールドのバリデーションメッセージをクリアします。パラメータはprop名、または検証メッセージが削除されるフォーム項目のprop名の配列です。省略された場合、すべてのフィールドのバリデーションメッセージがクリアされます。 | Function(props: string \| array) |
+| Method        | Description                                                                                                                                                                                                                                               | Parameters                                                                 |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| validate      | バリデートはフォーム全体を検証します。パラメータとしてコールバックを受け取ります。バリデーションが通過したかどうかを示すブール値と、バリデーションに失敗したすべてのフィールドを含むオブジェクトです。コールバックが省略された場合は promise を返します。 | Function(callback: Function(boolean, object))                              |
+| validateField | フォーム項目を検証する                                                                                                                                                                                                                                    | Function(props: string \| array, callback: Function(errorMessage: string)) |
+| resetFields   | すべてのフィールドをリセットし、検証結果を削除します。                                                                                                                                                                                                    | —                                                                          |
+| scrollToField | 指定されたフォームフィールドまでスクロールします                                                                                                                                                                                                          | Function(prop: string)                                                     |
+| clearValidate | 特定のフィールドのバリデーションメッセージをクリアします。パラメータは prop 名、または検証メッセージが削除されるフォーム項目の prop 名の配列です。省略された場合、すべてのフィールドのバリデーションメッセージがクリアされます。                          | Function(props: string \| array)                                           |
 
 ### フォームイベント
-| Event Name | Description | Parameters |
-|----------- |------------ |----------- |
+
+| Event Name | Description                                    | Parameters                                                                                            |
+| ---------- | ---------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
 | validate   | フォーム項目バリデーション後にトリガされます。 | prop name of the form item being validated, whether validation is passed and the error message if not |
 
 ### フォームアイテム属性
 
-| Attribute      | Description          | Type      | Accepted Values       | Default  |
-| ---- | ----| ---- | ---- | ---- |
-| prop | `model` のキーです。validateメソッドとresetFieldsメソッドを利用する際には、この属性が必須です。 | string | keys of model that passed to `form` |
-| label | ラベル | string | — | — |
-| label-width | ラベルの幅。Width `auto` がサポートされています。 | string / number | — | — |
-| required | フィールドが必須かどうか、省略された場合はバリデーションルールによって決定されます。 | boolean |  — | false |
-| rules | フォームのバリデーションルール | object / array | — | — |
-| error | フィールドのエラーメッセージ、値を設定すると、フィールドはエラーを検証し、このメッセージをすぐに表示します。 | string | — | — |
-| show-message  | エラーメッセージを表示するかどうか | boolean | — | true |
-| inline-message  | インラインスタイルバリデートメッセージ | boolean | — | false |
-| size  | フォームアイテムのコンポーネントのサイズを制御します。 | string | medium / small / mini | — |
+| Attribute      | Description                                                                                                  | Type            | Accepted Values                     | Default |
+| -------------- | ------------------------------------------------------------------------------------------------------------ | --------------- | ----------------------------------- | ------- |
+| prop           | `model` のキーです。validate メソッドと resetFields メソッドを利用する際には、この属性が必須です。           | string          | keys of model that passed to `form` |
+| label          | ラベル                                                                                                       | string          | —                                   | —       |
+| label-width    | ラベルの幅。Width `auto` がサポートされています。                                                            | string / number | —                                   | —       |
+| required       | フィールドが必須かどうか、省略された場合はバリデーションルールによって決定されます。                         | boolean         | —                                   | false   |
+| rules          | フォームのバリデーションルール                                                                               | object / array  | —                                   | —       |
+| error          | フィールドのエラーメッセージ、値を設定すると、フィールドはエラーを検証し、このメッセージをすぐに表示します。 | string          | —                                   | —       |
+| show-message   | エラーメッセージを表示するかどうか                                                                           | boolean         | —                                   | true    |
+| inline-message | インラインスタイルバリデートメッセージ                                                                       | boolean         | —                                   | false   |
+| size           | フォームアイテムのコンポーネントのサイズを制御します。                                                       | string          | medium / small / mini               | —       |
 
 ### Rules
-| Attribute       | Description                | Type     | Accepted Values  | Default  |
-| -------- | ----------------- | ------ | ---- | ---- |
-| trigger    | how the validator is triggered | string | blur / change   | —    |
+
+| Attribute | Description                    | Type   | Accepted Values | Default |
+| --------- | ------------------------------ | ------ | --------------- | ------- |
+| trigger   | how the validator is triggered | string | blur / change   | —       |
 
 ### フォームアイテムスロット
-| Name | Description |
-|------|--------|
-| — | フォームアイテムの内容 |
-| label | Custom content to display on label. The scope parameter is { label } |
-|      error    | Custom content to display validation message. The scope parameter is { error } |
+
+| Name  | Description                                                                    |
+| ----- | ------------------------------------------------------------------------------ |
+| —     | フォームアイテムの内容                                                         |
+| label | Custom content to display on label. The scope parameter is { label }           |
+| error | Custom content to display validation message. The scope parameter is { error } |
 
 ### フォームアイテムのメソッド
 
-| Method | Description | Parameters |
-| ---- | ---- | ---- |
-| resetField | 現在のフィールドをリセットしてバリデーション結果を削除する | — |
-| clearValidate | フィールドのバリデーションステータスを削除する | — |
+| Method        | Description                                                | Parameters |
+| ------------- | ---------------------------------------------------------- | ---------- |
+| resetField    | 現在のフィールドをリセットしてバリデーション結果を削除する | —          |
+| clearValidate | フィールドのバリデーションステータスを削除する             | —          |

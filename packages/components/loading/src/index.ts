@@ -5,6 +5,8 @@ import PopupManager from '@element-plus/utils/popup-manager'
 import isServer from '@element-plus/utils/isServer'
 import { createLoadingComponent } from './createLoadingComponent'
 
+import type { CSSProperties } from 'vue'
+
 import type {
   ILoadingGlobalConfig,
   ILoadingInstance,
@@ -29,11 +31,11 @@ const globalLoadingOption: ILoadingGlobalConfig = {
 }
 
 const addStyle = async (options: ILoadingOptions, parent: HTMLElement, instance: ILoadingInstance) => {
-  const maskStyle: Partial<CSSStyleDeclaration> = {}
+  const maskStyle: Partial<CSSProperties> = {}
   if (options.fullscreen) {
     instance.originalPosition.value = getStyle(document.body, 'position')
     instance.originalOverflow.value = getStyle(document.body, 'overflow')
-    maskStyle.zIndex = String(PopupManager.nextZIndex())
+    maskStyle.zIndex = PopupManager.nextZIndex()
   } else if (options.body) {
     instance.originalPosition.value = getStyle(document.body, 'position')
     /**

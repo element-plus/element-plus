@@ -43,6 +43,18 @@ describe('Calendar.vue', () => {
     expect(wrapper.element.querySelector('.el-calendar__button-group')).toBeNull()
   })
 
+  // https://github.com/element-plus/element-plus/issues/3155
+  it('range when the start date will be calculated to last month', () => {
+    const wrapper = _mount(`
+    <el-calendar :range="[new Date(2021, 1, 2), new Date(2021, 1, 28)]"></el-calendar>
+    `)
+    const titleEl = wrapper.find('.el-calendar__title')
+    expect(/2021.*January/.test((titleEl.element as HTMLElement).innerHTML)).toBeTruthy()
+    const rows = wrapper.element.querySelectorAll('.el-calendar-table__row')
+    expect(rows.length).toBe(5)
+    expect(wrapper.element.querySelector('.el-calendar__button-group')).toBeNull()
+  })
+
   it('range tow monthes', async() => {
     const wrapper = _mount(`
     <el-calendar :range="[new Date(2019, 3, 14), new Date(2019, 4, 18)]"></el-calendar>
@@ -59,6 +71,26 @@ describe('Calendar.vue', () => {
     await nextTick()
 
     expect(/2019.*May/.test((titleEl.element as HTMLElement).innerHTML)).toBeTruthy()
+    expect(cell.classList.contains('is-selected')).toBeTruthy()
+  })
+
+  // https://github.com/element-plus/element-plus/issues/3155
+  it('range tow monthes when the start date will be calculated to last month', async() => {
+    const wrapper = _mount(`
+    <el-calendar :range="[new Date(2021, 1, 2), new Date(2021, 2, 21)]"></el-calendar>
+    `)
+    const titleEl = wrapper.find('.el-calendar__title')
+    expect(/2021.*January/.test((titleEl.element as HTMLElement).innerHTML)).toBeTruthy()
+    const dateTables = wrapper.element.querySelectorAll('.el-calendar-table.is-range')
+    expect(dateTables.length).toBe(3)
+    const rows = wrapper.element.querySelectorAll('.el-calendar-table__row')
+    expect(rows.length).toBe(8)
+    const cell = rows[rows.length - 1].firstElementChild;
+    (cell as HTMLElement).click()
+
+    await nextTick()
+
+    expect(/2021.*March/.test((titleEl.element as HTMLElement).innerHTML)).toBeTruthy()
     expect(cell.classList.contains('is-selected')).toBeTruthy()
   })
 

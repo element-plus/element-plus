@@ -20,7 +20,7 @@
     v-model="value"
     :options="options"
     placeholder="请选择"
-    style="width: 200px;"
+    style="width: 240px;"
   />
 </template>
 
@@ -53,7 +53,7 @@
     v-model="value"
     :options="options"
     placeholder="请选择"
-    style="width: 200px;"
+    style="width: 240px;"
     multiple
   />
 </template>
@@ -86,7 +86,7 @@
     v-model="value"
     :options="options"
     placeholder="请选择"
-    style="width: 200px;"
+    style="width: 240px;"
     multiple
     collapse-tags
   />
@@ -122,7 +122,7 @@
     filterable
     :options="options"
     placeholder="请选择"
-    style="width: 200px;"
+    style="width: 240px;"
     multiple
   />
 </template>
@@ -157,7 +157,7 @@
     filterable
     :options="options"
     placeholder="请选择"
-    style="width: 200px; margin-right: 16px; vertical-align: middle;"
+    style="width: 240px; margin-right: 16px; vertical-align: middle;"
     multiple
   />
   <el-select-v2
@@ -166,7 +166,7 @@
     filterable
     :options="options"
     placeholder="请选择"
-    style="width: 200px; vertical-align: middle;"
+    style="width: 240px; vertical-align: middle;"
     multiple
   />
 </template>
@@ -203,7 +203,7 @@
     filterable
     :options="options"
     placeholder="请选择"
-    style="width: 200px;"
+    style="width: 240px;"
     multiple
   />
 </template>
@@ -246,7 +246,7 @@
     filterable
     :options="options"
     placeholder="请选择"
-    style="width: 200px;"
+    style="width: 240px;"
     multiple
   >
     <template #default="{item}">
@@ -287,7 +287,7 @@
     v-model="value1"
     :options="options"
     placeholder="请选择"
-    style="width: 200px; margin-right: 16px; vertical-align: middle;"
+    style="width: 240px; margin-right: 16px; vertical-align: middle;"
     multiple
     clearable
   />
@@ -295,7 +295,7 @@
     v-model="value2"
     :options="options"
     placeholder="请选择"
-    style="width: 200px; vertical-align: middle;"
+    style="width: 240px; vertical-align: middle;"
     clearable
   />
 </template>
@@ -329,7 +329,7 @@
     v-model="value1"
     :options="options"
     placeholder="请选择"
-    style="width: 200px; margin-right: 16px; vertical-align: middle;"
+    style="width: 240px; margin-right: 16px; vertical-align: middle;"
     allow-create
     filterable
     multiple
@@ -339,7 +339,7 @@
     v-model="value2"
     :options="options"
     placeholder="请选择"
-    style="width: 200px; vertical-align: middle;"
+    style="width: 240px; vertical-align: middle;"
     allow-create
     filterable
     clearable
@@ -366,14 +366,76 @@
 
 ### 远程搜索
 
-WIP (该功能还在施工中👷‍♀️)
+从服务器搜索数据，输入关键字进行查找
+:::demo 为了启用远程搜索，需要将`filterable`和`remote`设置为`true`，同时传入一个`remote-method`。`remote-method`为一个`Function`，它会在输入值发生变化时调用，参数为当前输入值。
+```html
+<template>
+  <el-select-v2
+    v-model="value"
+    style="width: 240px"
+    multiple
+    size="medium"
+    filterable
+    remote
+    :remote-method="remoteMethod"
+    clearable
+    :options="options"
+    :loading="loading"
+    placeholder="请输入关键词"
+  />
+</template>
 
-### 键盘操作
-
-WIP (该功能还在施工中👷‍♀️)
-
-:::tip
-有一些 API 暂时还没有被实现（相较于当前的 select 而言），因为还需要更多设计以及一些遗留 API 的改动，所以当前仅支持一些最简单的展示功能。
+<script>
+  export default {
+    created() {
+      this.list = this.states.map(item => {
+        return { value: `value:${item}`, label: `label:${item}` }
+      })
+    },
+    methods: {
+      remoteMethod(query) {
+        if (query !== '') {
+          this.loading = true
+          setTimeout(() => {
+            this.loading = false
+            this.options = this.list.filter(item => {
+              return item.label.toLowerCase()
+                .indexOf(query.toLowerCase()) > -1
+            })
+          }, 200)
+        } else {
+          this.options = []
+        }
+      },
+    },
+    data() {
+      return {
+        list: [],
+        loading: false,
+        states: ['Alabama', 'Alaska', 'Arizona',
+          'Arkansas', 'California', 'Colorado',
+          'Connecticut', 'Delaware', 'Florida',
+          'Georgia', 'Hawaii', 'Idaho', 'Illinois',
+          'Indiana', 'Iowa', 'Kansas', 'Kentucky',
+          'Louisiana', 'Maine', 'Maryland',
+          'Massachusetts', 'Michigan', 'Minnesota',
+          'Mississippi', 'Missouri', 'Montana',
+          'Nebraska', 'Nevada', 'New Hampshire',
+          'New Jersey', 'New Mexico', 'New York',
+          'North Carolina', 'North Dakota', 'Ohio',
+          'Oklahoma', 'Oregon', 'Pennsylvania',
+          'Rhode Island', 'South Carolina',
+          'South Dakota', 'Tennessee', 'Texas',
+          'Utah', 'Vermont', 'Virginia',
+          'Washington', 'West Virginia', 'Wisconsin',
+          'Wyoming'],
+        options: [],
+        value: [],
+      }
+    },
+  }
+</script>
+```
 :::
 
 ### SelectV2 Attributes
@@ -391,6 +453,9 @@ WIP (该功能还在施工中👷‍♀️)
 | autocomplete | select input 的 autocomplete 属性 | string | — | off |
 | placeholder | 占位符 | string | — | 请选择 |
 | filterable | 是否可搜索 | boolean | — | false |
+| filter-method | 自定义搜索方法 | function | — | — |
+| remote | 是否为远程搜索 | boolean | — | false |
+| remote-method | 远程搜索方法 | function | — | — |
 | allow-create | 是否允许用户创建新条目，需配合 `filterable` 使用 | boolean | — | false |
 | no-data-text | 选项为空时显示的文字，也可以使用`#empty`设置 | string | — | 无数据 |
 | popper-class | Select 下拉框的类名 | string | — | — |

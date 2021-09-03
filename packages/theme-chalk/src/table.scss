@@ -171,7 +171,7 @@
   }
 
   tr {
-    background-color: var(--el-color-white);
+    background-color: var(--el-table-tr-background-color);
 
     input[type='checkbox'] {
       margin: 0;
@@ -328,7 +328,7 @@
     position: absolute;
     top: -1px;
     right: 0;
-    background-color: var(--el-color-white);
+    background-color: var(--el-table-header-background-color);
     border-bottom: var(--el-table-border);
   }
 

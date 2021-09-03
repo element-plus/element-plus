@@ -1,91 +1,3 @@
-<!-- <template>
-  <li
-    :class="[
-      'el-sub-menu',
-      active && 'is-active',
-      opened && 'is-opened',
-      disabled && 'is-disabled',
-    ]"
-    role="menuitem"
-    aria-haspopup="true"
-    aria-expanded="opened"
-    @mouseenter="handleMouseenter"
-    @mouseleave="() => handleMouseleave(false)"
-    @focus="handleMouseenter"
-  >
-    <el-popper
-      v-if="isMenuPopup"
-      ref="popperVnode"
-      v-model:visible="opened"
-      :manual-mode="true"
-      effect="light"
-      :pure="true"
-      :offset="6"
-      :show-arrow="false"
-      :popper-class="props.popperClass"
-      :placement="data.currentPlacement"
-      :append-to-body="appendToBody"
-      transition: this.menuTransitionName,
-      gpuAcceleration: false,
-    >
-      <template #default>
-        <div
-          ref="menu"
-          :class="[`el-menu--${mode}`, props.popperClass]"
-          @mouseenter="$event => handleMouseenter($event, 100)"
-          @mouseleave="() => handleMouseleave(true)"
-          @focus="$event => handleMouseenter($event, 100)"
-        >
-          <ul
-            role="menu"
-            :class="[
-              'el-menu el-menu--popup',
-              `el-menu--popup-${data.currentPlacement}`,
-            ]"
-            :style="{ backgroundColor: rootProps.backgroundColor || '' }"
-          >
-            <slot name="default"></slot>
-          </ul>
-        </div>
-      </template>
-      <template #trigger>
-        <div
-          class="el-sub-menu__title"
-          :style="[paddingStyle, titleStyle, { backgroundColor }]"
-          @click="handleClick"
-          @mouseenter="handleTitleMouseenter"
-          @mouseleave="handleTitleMouseleave"
-        >
-          <slot name="title"></slot>
-          <i :class="['el-sub-menu__icon-arrow', submenuTitleIcon]"></i>
-        </div>
-      </template>
-    </el-popper>
-    <div
-      v-if="!isMenuPopup"
-      ref="verticalTitleRef"
-      class="el-sub-menu__title"
-      :style="[paddingStyle, titleStyle, { backgroundColor }]"
-      @click="handleClick"
-      @mouseenter="handleTitleMouseenter"
-      @mouseleave="handleTitleMouseleave"
-    >
-      <slot name="title"></slot>
-      <i :class="['el-sub-menu__icon-arrow', submenuTitleIcon]"></i>
-    </div>
-    <el-collapse-transition v-if="!isMenuPopup">
-      <ul
-        v-show="opened"
-        role="menu"
-        class="el-menu el-menu--inline"
-        :style="{ backgroundColor: rootProps.backgroundColor || '' }"
-      >
-        <slot></slot>
-      </ul>
-    </el-collapse-transition>
-  </li>
-</template> -->
-
 <script lang="ts">
 import mitt from 'mitt'
 import {
@@ -106,12 +18,12 @@ import {
 } from 'vue'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElPopper from '@element-plus/components/popper'
-import { ISubMenuProps, RootMenuProvider, SubMenuProvider } from './menu'
 import useMenu from './useMenu'
+
+import type { ISubMenuProps, RootMenuProvider, SubMenuProvider } from './menu.type'
 
 export default defineComponent({
   name: 'ElSubMenu',
-  componentName: 'ElSubMenu',
   props: {
     index: {
       type: String,
@@ -149,7 +61,7 @@ export default defineComponent({
     const instance = getCurrentInstance()
     const { paddingStyle, indexPath, parentMenu } = useMenu(
       instance,
-      props.index,
+      computed(() => props.index),
     )
 
     // inject
@@ -173,7 +85,7 @@ export default defineComponent({
     // computed
     const submenuTitleIcon = computed(() => {
       return (mode.value === 'horizontal' && isFirstLevel.value) ||
-        (mode.value === 'vertical' && !rootProps.collapse)
+      (mode.value === 'vertical' && !rootProps.collapse)
         ? 'el-icon-arrow-down'
         : 'el-icon-arrow-right'
     })
@@ -198,6 +110,11 @@ export default defineComponent({
     const menuTransitionName = computed(() => {
       return rootProps.collapse ? 'el-zoom-in-left' : 'el-zoom-in-top'
     })
+    const fallbackPlacements = computed(() =>
+      mode.value === 'horizontal' && isFirstLevel.value
+        ? ['bottom-start', 'bottom-end', 'top-start', 'top-end', 'right-start', 'left-start']
+        : ['right-start', 'left-start', 'bottom-start', 'bottom-end', 'top-start', 'top-end'],
+    )
     const opened = computed(() => {
       return openedMenus.value.includes(props.index)
     })
@@ -413,6 +330,7 @@ export default defineComponent({
       backgroundColor,
       rootProps,
       menuTransitionName,
+      fallbackPlacements,
       submenuTitleIcon,
       appendToBody,
 
@@ -457,6 +375,7 @@ export default defineComponent({
         popperClass: this.popperClass,
         placement: this.data.currentPlacement,
         appendToBody: this.appendToBody,
+        fallbackPlacements: this.fallbackPlacements,
         transition: this.menuTransitionName,
         gpuAcceleration: false,
       }, {

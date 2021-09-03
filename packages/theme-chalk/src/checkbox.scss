@@ -6,13 +6,24 @@
 @import 'mixins/_button';
 @import 'mixins/utils';
 
+$--checkbox-height: () !default;
+$--checkbox-height: map.merge(
+  (
+    'default': 40px,
+    'medium': 36px,
+    'small': 32px,
+    'mini': 28px,
+  ),
+  $--checkbox-height
+);
+
 $--checkbox-bordered-padding: () !default;
 $--checkbox-bordered-padding: map.merge(
   (
-    'default': 9px 20px 9px 10px,
-    'medium': 7px 20px 7px 10px,
-    'small': 5px 15px 5px 10px,
-    'mini': 3px 15px 3px 10px,
+    'default': 0 20px 0 10px,
+    'medium': 0 20px 0 10px,
+    'small': 0 15px 0 10px,
+    'mini': 0 15px 0 10px,
   ),
   $--checkbox-bordered-padding
 );
@@ -33,17 +44,6 @@ $--checkbox-bordered-input-width: map.merge(
   $--checkbox-bordered-input-width
 );
 
-$--checkbox-bordered-height: () !default;
-$--checkbox-bordered-height: map.merge(
-  (
-    'default': 40px,
-    'medium': 36px,
-    'small': 32px,
-    'mini': 28px,
-  ),
-  $--checkbox-bordered-height
-);
-
 @include b(checkbox) {
   @include set-component-css-var('checkbox', $--checkbox);
 }
@@ -59,13 +59,19 @@ $--checkbox-bordered-height: map.merge(
   white-space: nowrap;
   user-select: none;
   margin-right: 30px;
+  height: map.get($--checkbox-height, 'default');
+
+  @each $size in (medium, small, mini) {
+    &.#{$namespace}-checkbox--#{$size} {
+      height: map.get($--checkbox-height, $size);
+    }
+  }
 
   @include when(bordered) {
     padding: map.get($--checkbox-bordered-padding, 'default');
     border-radius: var(--el-border-radius-base);
     border: var(--el-border-base);
     box-sizing: border-box;
-    height: map.get($--checkbox-bordered-height, 'default');
 
     &.is-checked {
       border-color: var(--el-color-primary);
@@ -84,7 +90,6 @@ $--checkbox-bordered-height: map.merge(
       &.#{$namespace}-checkbox--#{$size} {
         padding: map.get($--checkbox-bordered-padding, $size);
         border-radius: map.get($--button-border-radius, $size);
-        height: map.get($--checkbox-bordered-height, $size);
 
         .#{$namespace}-checkbox__label {
           font-size: map.get($--button-font-size, $size);

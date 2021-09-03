@@ -9,7 +9,7 @@ import FormItem from '../src/form-item.vue'
 
 type Methods = Record<string, () => any>
 function mountForm<D, M extends Methods, C>(
-  config: C & {data?(): D; methods?: M;},
+  config: C & { data?(): D; methods?: M; },
 ) {
   return mount({
     components: {
@@ -350,7 +350,7 @@ describe('Form', () => {
     const form: any = wrapper.findComponent({ ref: 'form' }).vm
     const nameField: any = wrapper.findComponent({ ref: 'name' }).vm
     const addressField: any = wrapper.findComponent({ ref: 'address' }).vm
-    form.validate()
+    await form.validate().catch(() => undefined)
     await nextTick()
     expect(nameField.validateMessage).toBe('Please input name')
     expect(addressField.validateMessage).toBe('Please input address')
@@ -361,6 +361,38 @@ describe('Form', () => {
     form.clearValidate()
     await nextTick()
     expect(addressField.validateMessage).toBe('')
+  })
+
+  test('scroll to field', () => {
+    const wrapper = mountForm({
+      template: `
+        <div>
+          <el-form ref="form">
+            <el-form-item prop="name" ref="formItem">
+              <el-input></el-input>
+            </el-form-item>
+          </el-form>
+        </div>
+      `,
+      data() {
+        return {
+          form: {
+            name: '',
+          },
+        }
+      },
+    })
+
+    const oldScrollIntoView = window.HTMLElement.prototype.scrollIntoView
+
+    const scrollIntoViewMock = jest.fn()
+    window.HTMLElement.prototype.scrollIntoView = function() { scrollIntoViewMock(this) }
+
+    const form: any = wrapper.findComponent({ ref: 'form' }).vm
+    form.scrollToField('name')
+    expect(scrollIntoViewMock).toHaveBeenCalledWith(wrapper.findComponent({ ref: 'formItem' }).element)
+
+    window.HTMLElement.prototype.scrollIntoView = oldScrollIntoView
   })
 
   /*

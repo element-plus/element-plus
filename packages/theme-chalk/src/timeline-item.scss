@@ -43,7 +43,9 @@
     }
 
     @each $type in (primary, success, warning, danger, info) {
-      background-color: var(--el-color-#{$type});
+      @include m($type) {
+        background-color: var(--el-color-#{$type});
+      }
     }
   }
 

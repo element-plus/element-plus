@@ -20,7 +20,7 @@ The simplest selector
     v-model="value"
     :options="options"
     placeholder="Please select"
-    style="width: 200px;"
+    style="width: 240px;"
   />
 </template>
 
@@ -53,7 +53,7 @@ The basic multi-select selector with tags
     v-model="value"
     :options="options"
     placeholder="Please select"
-    style="width: 200px;"
+    style="width: 240px;"
     multiple
   />
 </template>
@@ -86,7 +86,7 @@ The basic multi-select selector with tags
     v-model="value"
     :options="options"
     placeholder="Please select"
-    style="width: 200px;"
+    style="width: 240px;"
     multiple
     collapse-tags
   />
@@ -122,7 +122,7 @@ When the options are overwhelmingly too many, you can use `filterable` option to
     filterable
     :options="options"
     placeholder="Please select"
-    style="width: 200px;"
+    style="width: 240px;"
     multiple
   />
 </template>
@@ -157,7 +157,7 @@ You can choose to disable selector itself or the option.
     filterable
     :options="options"
     placeholder="Please select"
-    style="width: 200px; margin-right: 16px; vertical-align: middle;"
+    style="width: 240px; margin-right: 16px; vertical-align: middle;"
     multiple
   />
   <el-select-v2
@@ -166,7 +166,7 @@ You can choose to disable selector itself or the option.
     filterable
     :options="options"
     placeholder="Please select"
-    style="width: 200px; vertical-align: middle;"
+    style="width: 240px; vertical-align: middle;"
     multiple
   />
 </template>
@@ -203,7 +203,7 @@ We can group option as we wanted, as long as the data satisfies the pattern.
     filterable
     :options="options"
     placeholder="Please select"
-    style="width: 200px;"
+    style="width: 240px;"
     multiple
   />
 </template>
@@ -245,7 +245,7 @@ We can define our own template for rendering the option in the popup.
     filterable
     :options="options"
     placeholder="Please select"
-    style="width: 200px;"
+    style="width: 240px;"
     multiple
   >
     <template #default="{item}">
@@ -287,7 +287,7 @@ We can clear all the selected options at once, also applicable for single select
     v-model="value1"
     :options="options"
     placeholder="Please select"
-    style="width: 200px; margin-right: 16px; vertical-align: middle;"
+    style="width: 240px; margin-right: 16px; vertical-align: middle;"
     multiple
     clearable
   />
@@ -295,7 +295,7 @@ We can clear all the selected options at once, also applicable for single select
     v-model="value2"
     :options="options"
     placeholder="Please select"
-    style="width: 200px; vertical-align: middle;"
+    style="width: 240px; vertical-align: middle;"
     clearable
   />
 </template>
@@ -328,7 +328,7 @@ We can clear all the selected options at once, also applicable for single select
     v-model="value1"
     :options="options"
     placeholder="Please select"
-    style="width: 200px; margin-right: 16px; vertical-align: middle;"
+    style="width: 240px; margin-right: 16px; vertical-align: middle;"
     allow-create
     filterable
     multiple
@@ -338,7 +338,7 @@ We can clear all the selected options at once, also applicable for single select
     v-model="value2"
     :options="options"
     placeholder="Please select"
-    style="width: 200px; vertical-align: middle;"
+    style="width: 240px; vertical-align: middle;"
     allow-create
     filterable
     clearable
@@ -363,16 +363,79 @@ We can clear all the selected options at once, also applicable for single select
 ```
 :::
 
-### Remote search
+### リモート検索
 
-WIP 👷‍♀️
+サーバーからキーワードや検索データを入力します。
 
-### Keyboard navigation
+:::demo リモート検索を有効にするには `filterable` と `remote` を `true` を設定し、`remote-method` を渡す必要がある。`remote-method`は入力値が変化したときに呼び出される `Function` であり、そのパラメータは現在の入力値である。
+```html
+<template>
+  <el-select-v2
+    v-model="value"
+    style="width: 240px"
+    multiple
+    size="medium"
+    filterable
+    remote
+    :remote-method="remoteMethod"
+    clearable
+    :options="options"
+    :loading="loading"
+    placeholder="Please enter a keyword"
+  />
+</template>
 
-WIP 👷‍♀️
-
-:::tip
-Some APIs are still undergoing (comparing to the non-virtualized select), because there were lots of legacy API refactors and new designs, the current version only implements the simplest and most used functionalities.
+<script>
+  export default {
+    created() {
+      this.list = this.states.map(item => {
+        return { value: `value:${item}`, label: `label:${item}` }
+      })
+    },
+    methods: {
+      remoteMethod(query) {
+        if (query !== '') {
+          this.loading = true
+          setTimeout(() => {
+            this.loading = false
+            this.options = this.list.filter(item => {
+              return item.label.toLowerCase()
+                .indexOf(query.toLowerCase()) > -1
+            })
+          }, 200)
+        } else {
+          this.options = []
+        }
+      },
+    },
+    data() {
+      return {
+        list: [],
+        loading: false,
+        states: ['Alabama', 'Alaska', 'Arizona',
+          'Arkansas', 'California', 'Colorado',
+          'Connecticut', 'Delaware', 'Florida',
+          'Georgia', 'Hawaii', 'Idaho', 'Illinois',
+          'Indiana', 'Iowa', 'Kansas', 'Kentucky',
+          'Louisiana', 'Maine', 'Maryland',
+          'Massachusetts', 'Michigan', 'Minnesota',
+          'Mississippi', 'Missouri', 'Montana',
+          'Nebraska', 'Nevada', 'New Hampshire',
+          'New Jersey', 'New Mexico', 'New York',
+          'North Carolina', 'North Dakota', 'Ohio',
+          'Oklahoma', 'Oregon', 'Pennsylvania',
+          'Rhode Island', 'South Carolina',
+          'South Dakota', 'Tennessee', 'Texas',
+          'Utah', 'Vermont', 'Virginia',
+          'Washington', 'West Virginia', 'Wisconsin',
+          'Wyoming'],
+        options: [],
+        value: [],
+      }
+    },
+  }
+</script>
+```
 :::
 
 ### SelectV2 Attributes
@@ -390,6 +453,9 @@ Some APIs are still undergoing (comparing to the non-virtualized select), becaus
 | autocomplete | select input 的 autocomplete 属性 | string | — | off |
 | placeholder | the autocomplete attribute of select input | string | — | Please select |
 | filterable | is filterable | boolean | — | false |
+| filter-method | カスタムフィルタ方式 | function | — | — |
+| remote | オプションがサーバから読み込まれているかどうか | boolean | — | false |
+| remote-method | カスタムリモート検索法 | function | — | — |
 | allow-create | 新しいアイテムの作成を許可するかどうかを指定します。これを使うには、`filterable` がtrueでなければなりません。 | boolean | — | false |
 | no-data-text | displayed text when there is no options, you can also use slot empty | string | — | No Data |
 | popper-class | custom class name for Select's dropdown | string | — | — |

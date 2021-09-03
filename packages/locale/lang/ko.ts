@@ -61,21 +61,21 @@ export default {
     },
     select: {
       loading: '불러오는 중',
-      noMatch: '맞는 데이터가 없습니다',
+      noMatch: '검색된 데이터 없음',
       noData: '데이터 없음',
       placeholder: '선택',
     },
     cascader: {
-      noMatch: '맞는 데이터가 없습니다',
+      noMatch: '검색된 데이터 없음',
       loading: '불러오는 중',
       placeholder: '선택',
       noData: '데이터 없음',
     },
     pagination: {
-      goto: '이동',
-      pagesize: '/page',
-      total: '총 {total}',
-      pageClassifier: '',
+      goto: '',
+      pagesize: '건/페이지',
+      total: '총 {total} 건',
+      pageClassifier: '페이지로',
     },
     messagebox: {
       title: '메시지',
@@ -84,7 +84,7 @@ export default {
       error: '올바르지 않은 입력',
     },
     upload: {
-      deleteTip: '클릭시 삭제됩니다',
+      deleteTip: 'Delete 키를 눌러 삭제',
       delete: '삭제',
       preview: '미리보기',
       continue: '계속하기',
@@ -94,28 +94,28 @@ export default {
       confirmFilter: '확인',
       resetFilter: '초기화',
       clearFilter: '전체',
-      sumText: '합',
+      sumText: '합계',
     },
     tree: {
       emptyText: '데이터 없음',
     },
     transfer: {
-      noMatch: '맞는 데이터가 없습니다',
+      noMatch: '검색된 데이터 없음',
       noData: '데이터 없음',
       titles: ['리스트 1', '리스트 2'],
-      filterPlaceholder: ' 입력하세요',
-      noCheckedFormat: '{total} 항목',
+      filterPlaceholder: '검색어를 입력하세요',
+      noCheckedFormat: '총 {total} 건',
       hasCheckedFormat: '{checked}/{total} 선택됨',
     },
     image: {
-      error: 'FAILED', // to be translated
+      error: '불러오기 실패',
     },
     pageHeader: {
-      title: 'Back', // to be translated
+      title: '뒤로',
     },
     popconfirm: {
-      confirmButtonText: 'Yes', // to be translated
-      cancelButtonText: 'No', // to be translated
+      confirmButtonText: '예',
+      cancelButtonText: '아니오',
     },
   },
 }

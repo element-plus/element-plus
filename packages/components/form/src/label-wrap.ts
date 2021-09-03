@@ -66,7 +66,7 @@ export default defineComponent({
 
     onBeforeUnmount(() => {
       updateLabelWidth('remove')
-      removeResizeListener(el.value.firstElementChild as ResizableElement, updateLabelWidthFn)
+      removeResizeListener(el.value?.firstElementChild as ResizableElement, updateLabelWidthFn)
     })
 
     function render() {

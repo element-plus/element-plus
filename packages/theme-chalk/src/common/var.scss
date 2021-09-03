@@ -224,6 +224,17 @@ $--radio: map.merge(
   $--radio
 );
 
+$--radio-height: () !default;
+$--radio-height: map.merge(
+  (
+    'default': 40px,
+    'medium': 36px,
+    'small': 32px,
+    'mini': 28px,
+  ),
+  $--radio-height
+);
+
 $--radio-button: () !default;
 $--radio-button: map.merge(
   (
@@ -263,10 +274,10 @@ $--radio-input-border-color-hover: var(--el-color-primary) !default;
 $--radio-bordered-padding: () !default;
 $--radio-bordered-padding: map.merge(
   (
-    'default': 12px 20px 0 10px,
-    'medium': 10px 20px 0 10px,
-    'small': 8px 15px 0 10px,
-    'mini': 6px 15px 0 10px,
+    'default': 0 20px 0 10px,
+    'medium': 0 20px 0 10px,
+    'small': 0 15px 0 10px,
+    'mini': 0 15px 0 10px,
   ),
   $--radio-bordered-padding
 );
@@ -289,17 +300,6 @@ $--radio-bordered-input-width: map.merge(
     'mini': 12px,
   ),
   $--radio-bordered-input-width
-);
-
-$--radio-bordered-height: () !default;
-$--radio-bordered-height: map.merge(
-  (
-    'default': 40px,
-    'medium': 36px,
-    'small': 32px,
-    'mini': 28px,
-  ),
-  $--radio-bordered-height
 );
 
 /* Select
@@ -668,6 +668,7 @@ $--table: map.merge(
     'header-background-color': var(--el-color-white),
     'fixed-box-shadow': 0 0 10px rgba(0, 0, 0, 0.12),
     'background-color': var(--el-color-white),
+    'tr-background-color': var(--el-color-white),
     'expanded-cell-background-color': var(--el-color-white),
   ),
   $--table
@@ -774,6 +775,17 @@ $--tag: map.merge(
 );
 
 $--tag-color: () !default;
+
+$--tag-height: () !default;
+$--tag-height: map.merge(
+  (
+    'default': 32px,
+    'medium': 28px,
+    'small': 24px,
+    'mini': 20px,
+  ),
+  $--tag-height
+);
 
 @each $type in $--types {
   $--tag-color: map.merge(
@@ -917,7 +929,7 @@ $--datepicker: map.merge(
     'header-font-color': var(--el-text-color-regular),
     'icon-color': var(--el-text-color-primary),
     'border-color': var(--el-disabled-border-base),
-    'inner-border-color': #e4e4e4,
+    'inner-border-color': var(--el-border-color-light),
     'inrange-background-color': var(--el-border-color-extra-light),
     'inrange-hover-background-color': var(--el-border-color-extra-light),
     'active-color': var(--el-color-primary),

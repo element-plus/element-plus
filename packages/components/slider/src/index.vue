@@ -104,7 +104,7 @@ import { useSlide } from './useSlide'
 import { useStops } from './useStops'
 
 import type { PropType } from 'vue'
-import type { Nullable } from '@element-plus/utils/types'
+import type { ComponentSize, Nullable } from '@element-plus/utils/types'
 
 export default defineComponent({
   name: 'ElSlider',
@@ -141,7 +141,7 @@ export default defineComponent({
       default: true,
     },
     inputSize: {
-      type: String,
+      type: String as PropType<ComponentSize>,
       default: 'small',
     },
     showStops: {

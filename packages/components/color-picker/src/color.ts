@@ -179,7 +179,7 @@ export default class Color {
     this.doOnChange()
   }
 
-  set(prop: {[key: string]: any;} | any, value?: number) {
+  set(prop: { [key: string]: any; } | any, value?: number) {
     if (arguments.length === 1 && typeof prop === 'object') {
       for (const p in prop) {
         if (hasOwn(prop, p)) {

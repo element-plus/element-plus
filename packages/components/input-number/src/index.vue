@@ -101,7 +101,6 @@ export default defineComponent({
       default: -Infinity,
     },
     modelValue: {
-      required: true,
       type: Number,
     },
     disabled: {

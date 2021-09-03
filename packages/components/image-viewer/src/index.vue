@@ -71,7 +71,7 @@ import { EVENT_CODE } from '@element-plus/utils/aria'
 import { on, off } from '@element-plus/utils/dom'
 import { rafThrottle, isFirefox } from '@element-plus/utils/util'
 
-import type { PropType } from 'vue'
+import type { PropType, CSSProperties } from 'vue'
 
 const Mode = {
   CONTAIN: {
@@ -94,7 +94,7 @@ export default defineComponent({
   props: {
     urlList: {
       type: Array as PropType<string[]>,
-      default: [],
+      default: () => [],
     },
     zIndex: {
       type: Number,
@@ -160,7 +160,7 @@ export default defineComponent({
         transition: enableTransition ? 'transform .3s' : '',
         marginLeft: `${offsetX}px`,
         marginTop: `${offsetY}px`,
-      } as CSSStyleDeclaration
+      } as CSSProperties
       if (mode.value.name === Mode.CONTAIN.name) {
         style.maxWidth = style.maxHeight = '100%'
       }
@@ -242,6 +242,12 @@ export default defineComponent({
       const { offsetX, offsetY } = transform.value
       const startX = e.pageX
       const startY = e.pageY
+
+      const divLeft = wrapper.value.clientLeft
+      const divRight = wrapper.value.clientLeft + wrapper.value.clientWidth
+      const divTop = wrapper.value.clientTop
+      const divBottom = wrapper.value.clientTop + wrapper.value.clientHeight
+
       _dragHandler = rafThrottle(ev => {
         transform.value = {
           ...transform.value,
@@ -250,7 +256,12 @@ export default defineComponent({
         }
       })
       on(document, 'mousemove', _dragHandler)
-      on(document, 'mouseup', () => {
+      on(document, 'mouseup', (e: MouseEvent) => {
+        const mouseX = e.pageX
+        const mouseY = e.pageY
+        if (mouseX < divLeft || mouseX > divRight || mouseY < divTop || mouseY > divBottom){
+          reset()
+        }
         off(document, 'mousemove', _dragHandler)
       })
 

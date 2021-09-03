@@ -40,7 +40,7 @@
   // Border
   --el-border-width-base: #{$--border-width-base};
   --el-border-style-base: #{$--border-style-base};
-  --el-border-color-hover: var(--el-text-color-placeholder);
+  --el-border-color-hover: #{$--border-color-hover};
   --el-border-base: var(--el-border-width-base) var(--el-border-style-base)
     var(--el-border-color-base);
 

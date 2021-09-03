@@ -28,20 +28,19 @@ import { computed, inject, defineComponent } from 'vue'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
+import { elButtonGroupKey } from '@element-plus/tokens'
 
 import type { PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
-
-type IButtonType = PropType<'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text' | 'default'>
-type IButtonNativeType = PropType<'button' | 'submit' | 'reset'>
+import type { ButtonNativeType, ButtonType } from './types'
 
 export default defineComponent({
   name: 'ElButton',
 
   props: {
     type: {
-      type: String as IButtonType,
+      type: String as PropType<ButtonType>,
       default: 'default',
       validator: (val: string) => {
         return [
@@ -64,7 +63,7 @@ export default defineComponent({
       default: '',
     },
     nativeType: {
-      type: String as IButtonNativeType,
+      type: String as PropType<ButtonNativeType>,
       default: 'button',
       validator: (val: string) => {
         return ['button', 'submit', 'reset'].includes(val)
@@ -85,9 +84,10 @@ export default defineComponent({
 
     const elForm = inject(elFormKey, {} as ElFormContext)
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
+    const elBtnGroup = inject(elButtonGroupKey, {})
 
     const buttonSize = computed(() => {
-      return props.size || elFormItem.size || $ELEMENT.size
+      return props.size || elBtnGroup.size || elFormItem.size || $ELEMENT.size
     })
     const buttonDisabled = computed(() => {
       return props.disabled || elForm.disabled

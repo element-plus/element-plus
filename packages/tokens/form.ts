@@ -34,6 +34,7 @@ export interface ElFormItemContext {
   formItemMitt: Emitter
   size?: ComponentSize
   validateState: string
+  $el: HTMLDivElement
   validate(trigger: string, callback?: ValidateFieldCallback): void
   updateComputedLabelWidth(width: number): void
   addValidateEvents(): void

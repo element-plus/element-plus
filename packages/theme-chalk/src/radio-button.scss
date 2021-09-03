@@ -21,8 +21,8 @@
     white-space: nowrap;
     vertical-align: middle;
     background: var(
-      --el-button-default-background-color,
-      map.get($--button, 'default-background-color')
+      --el-button-background-color,
+      map.get($--button, 'background-color')
     );
     border: $--border-base;
     font-weight: var(
@@ -31,8 +31,8 @@
     );
     border-left: 0;
     color: var(
-      --el-button-default-font-color,
-      map.get($--button, 'default-font-color')
+      --el-button-font-color,
+      map.get($--button, 'font-color')
     );
     -webkit-appearance: none;
     text-align: center;
@@ -42,6 +42,7 @@
     position: relative;
     cursor: pointer;
     transition: var(--el-transition-all);
+    @include utils-user-select(none);
 
     @include button-size(
       map.get($--button-padding-vertical, 'default'),

@@ -1,4 +1,4 @@
-import { onMounted, onUpdated, onBeforeUnmount, ref, watch } from 'vue'
+import { onMounted, onUpdated, onBeforeUnmount, watch, shallowRef } from 'vue'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { on, off } from '@element-plus/utils/dom'
 import TreeStore from './tree-store'
@@ -10,8 +10,8 @@ interface UseKeydownOption {
   el$: Ref<HTMLElement>
 }
 export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
-  const treeItems = ref<Nullable<HTMLElement>[]>([])
-  const checkboxItems = ref<Nullable<HTMLElement>[]>([])
+  const treeItems = shallowRef<Nullable<HTMLElement>[]>([])
+  const checkboxItems = shallowRef<Nullable<HTMLElement>[]>([])
 
   onMounted(() => {
     initTabIndex()
