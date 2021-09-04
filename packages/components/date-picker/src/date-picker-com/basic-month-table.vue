@@ -133,7 +133,7 @@ export default defineComponent({
             cell.type = 'today'
           }
           cell.text = index
-          let cellDate = calTime.toDate()
+          const cellDate = calTime.toDate()
           cell.disabled = props.disabledDate && props.disabledDate(cellDate)
           row[j] = cell
         }

@@ -84,8 +84,8 @@ export const orderBy = function <T>(
   return array
     .map(function (value, index) {
       return {
-        value: value,
-        index: index,
+        value,
+        index,
         key: getKey ? getKey(value, index) : null,
       }
     })

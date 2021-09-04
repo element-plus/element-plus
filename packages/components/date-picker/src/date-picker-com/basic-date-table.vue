@@ -249,7 +249,7 @@ export default defineComponent({
     }
 
     const getCellClasses = (cell) => {
-      let classes = []
+      const classes = []
       if ((cell.type === 'normal' || cell.type === 'today') && !cell.disabled) {
         classes.push('available')
         if (cell.type === 'today') {
@@ -374,7 +374,7 @@ export default defineComponent({
         ctx.emit('pick', {
           year: newDate.year(),
           week: weekNumber,
-          value: value,
+          value,
           date: newDate.startOf('week'),
         })
       } else if (props.selectionMode === 'dates') {

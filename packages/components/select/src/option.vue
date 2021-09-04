@@ -64,7 +64,7 @@ export default defineComponent({
 
     onBeforeUnmount(() => {
       const { selected } = select
-      let selectedOptions = select.props.multiple ? selected : [selected]
+      const selectedOptions = select.props.multiple ? selected : [selected]
       const doesExist = select.cachedOptions.has(key)
       const doesSelected = selectedOptions.some((item) => {
         return item.value === (vm as unknown as SelectOptionProxy).value

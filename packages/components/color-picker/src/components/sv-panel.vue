@@ -60,7 +60,7 @@ export default defineComponent({
       const value = props.color.get('value')
 
       const el = instance.vnode.el
-      let { clientWidth: width, clientHeight: height } = el
+      const { clientWidth: width, clientHeight: height } = el
 
       cursorLeft.value = (saturation * width) / 100
       cursorTop.value = ((100 - value) * height) / 100

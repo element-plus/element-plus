@@ -206,9 +206,9 @@ export default defineComponent({
       seconds: arrowSecondList,
     }))
     const getAmPmFlag = (hour) => {
-      let shouldShowAmPm = !!props.amPmMode
+      const shouldShowAmPm = !!props.amPmMode
       if (!shouldShowAmPm) return ''
-      let isCapital = props.amPmMode === 'A'
+      const isCapital = props.amPmMode === 'A'
       // todo locale
       let content = hour < 12 ? ' am' : ' pm'
       if (isCapital) content = content.toUpperCase()

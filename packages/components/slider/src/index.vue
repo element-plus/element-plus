@@ -224,8 +224,8 @@ export default defineComponent({
     useWatch(props, initData, minValue, maxValue, emit, elFormItem)
 
     const precision = computed(() => {
-      let precisions = [props.min, props.max, props.step].map((item) => {
-        let decimal = ('' + item).split('.')[1]
+      const precisions = [props.min, props.max, props.step].map((item) => {
+        const decimal = ('' + item).split('.')[1]
         return decimal ? decimal.length : 0
       })
       return Math.max.apply(null, precisions)
@@ -244,10 +244,10 @@ export default defineComponent({
       ...toRefs(props),
       sliderSize,
       disabled: sliderDisabled,
-      precision: precision,
-      emitChange: emitChange,
-      resetSize: resetSize,
-      updateDragging: updateDragging,
+      precision,
+      emitChange,
+      resetSize,
+      updateDragging,
     })
 
     return {

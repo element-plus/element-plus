@@ -1109,7 +1109,7 @@ describe('Table.vue', () => {
             },
           ]
           return {
-            testData: testData,
+            testData,
           }
         },
       })
@@ -1155,7 +1155,7 @@ describe('Table.vue', () => {
           ]
           testData[1].hasChildren = true
           return {
-            testData: testData,
+            testData,
           }
         },
         methods: {
@@ -1215,7 +1215,7 @@ describe('Table.vue', () => {
           ]
           testData[1].hasChildrenTest = true
           return {
-            testData: testData,
+            testData,
           }
         },
         methods: {
@@ -1280,7 +1280,7 @@ describe('Table.vue', () => {
             },
           ]
           return {
-            testData: testData,
+            testData,
           }
         },
         methods: {

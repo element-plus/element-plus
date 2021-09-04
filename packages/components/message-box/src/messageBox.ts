@@ -152,8 +152,8 @@ MessageBox.alert = (
   return MessageBox(
     Object.assign(
       {
-        title: title,
-        message: message,
+        title,
+        message,
         type: '',
         closeOnPressEscape: false,
         closeOnClickModal: false,
@@ -180,8 +180,8 @@ MessageBox.confirm = (
   return MessageBox(
     Object.assign(
       {
-        title: title,
-        message: message,
+        title,
+        message,
         type: '',
         showCancelButton: true,
       },
@@ -207,8 +207,8 @@ MessageBox.prompt = (
   return MessageBox(
     Object.assign(
       {
-        title: title,
-        message: message,
+        title,
+        message,
         showCancelButton: true,
         showInput: true,
         type: '',

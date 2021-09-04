@@ -96,7 +96,7 @@ export default defineComponent({
 
       if (!currentOffset) return
 
-      let newOffset =
+      const newOffset =
         currentOffset > containerSize ? currentOffset - containerSize : 0
 
       navOffset.value = newOffset
@@ -110,7 +110,7 @@ export default defineComponent({
 
       if (navSize - currentOffset <= containerSize) return
 
-      let newOffset =
+      const newOffset =
         navSize - currentOffset > containerSize * 2
           ? currentOffset + containerSize
           : navSize - containerSize
@@ -345,7 +345,7 @@ export default defineComponent({
       : null
 
     const tabs = panes.map((pane, index) => {
-      let tabName = pane.props.name || pane.index || `${index}`
+      const tabName = pane.props.name || pane.index || `${index}`
       const closable = pane.isClosable || editable
 
       pane.index = `${index}`
@@ -379,7 +379,7 @@ export default defineComponent({
           role: 'tab',
           'aria-selected': pane.active,
           ref: `tab-${tabName}`,
-          tabindex: tabindex,
+          tabindex,
           onFocus: () => {
             setFocus()
           },

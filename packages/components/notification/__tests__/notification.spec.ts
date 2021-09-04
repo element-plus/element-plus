@@ -87,7 +87,7 @@ describe('Notification.vue', () => {
       const zIndex = PopupManager.nextZIndex()
       const wrapper = _mount({
         props: {
-          zIndex: zIndex,
+          zIndex,
         },
       })
 

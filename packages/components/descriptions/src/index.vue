@@ -116,7 +116,7 @@ export default defineComponent({
       let totalSpan = 0 // all spans number of item
 
       children.forEach((node, index) => {
-        let span = node.props?.span || 1
+        const span = node.props?.span || 1
 
         if (index < children.length - 1) {
           totalSpan += span > count ? count : span

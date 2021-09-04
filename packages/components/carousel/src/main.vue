@@ -223,7 +223,7 @@ export default defineComponent({
         console.warn('[Element Warn][Carousel]index must be an integer.')
         return
       }
-      let length = items.value.length
+      const length = items.value.length
       const oldIndex = data.activeIndex
       if (index < 0) {
         data.activeIndex = props.loop ? length - 1 : 0

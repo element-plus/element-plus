@@ -39,7 +39,7 @@ export default defineComponent({
     const instance = getCurrentInstance()
 
     const getBarStyle = () => {
-      let style = {} as CSSProperties
+      const style = {} as CSSProperties
       let offset = 0
       let tabSize = 0
 
@@ -49,7 +49,7 @@ export default defineComponent({
       const sizeDir = sizeName === 'width' ? 'x' : 'y'
 
       props.tabs.every((tab) => {
-        let $el = instance.parent.refs?.[`tab-${tab.paneName}`] as Element
+        const $el = instance.parent.refs?.[`tab-${tab.paneName}`] as Element
         if (!$el) {
           return false
         }

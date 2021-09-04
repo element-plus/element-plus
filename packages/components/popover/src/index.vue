@@ -123,12 +123,12 @@ export default defineComponent({
       popperClass,
     ].join(' ')
 
-    let popover = renderPopper(
+    const popover = renderPopper(
       {
         effect: Effect.LIGHT,
         name: transition,
         popperClass: kls,
-        popperStyle: popperStyle,
+        popperStyle,
         popperId,
         visibility,
         onMouseenter: onPopperMouseEnter,

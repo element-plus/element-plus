@@ -60,10 +60,10 @@ export default function renderPopper(
     Transition,
     {
       name,
-      onAfterEnter: onAfterEnter,
-      onAfterLeave: onAfterLeave,
-      onBeforeEnter: onBeforeEnter,
-      onBeforeLeave: onBeforeLeave,
+      onAfterEnter,
+      onAfterLeave,
+      onBeforeEnter,
+      onBeforeLeave,
     },
     {
       default: withCtx(() => [

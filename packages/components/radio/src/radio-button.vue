@@ -80,7 +80,7 @@ export default defineComponent({
     const { isDisabled, tabIndex } = useRadioAttrs(props, {
       model: value,
       elForm,
-      radioGroup: radioGroup,
+      radioGroup,
       isGroup,
     })
 

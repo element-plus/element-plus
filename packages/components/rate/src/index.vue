@@ -212,8 +212,8 @@ export default defineComponent({
       getValueFromMap(currentValue.value, classMap.value)
     )
     const classes = computed(() => {
-      let result = Array(props.max)
-      let threshold = currentValue.value
+      const result = Array(props.max)
+      const threshold = currentValue.value
       // if (props.allowHalf && currentValue.value !== Math.floor(currentValue.value)) {
       //   threshold--
       // }
@@ -233,13 +233,13 @@ export default defineComponent({
     )
 
     function showDecimalIcon(item: number) {
-      let showWhenDisabled =
+      const showWhenDisabled =
         rateDisabled.value &&
         valueDecimal.value > 0 &&
         item - 1 < props.modelValue &&
         item > props.modelValue
       /* istanbul ignore next */
-      let showWhenAllowHalf =
+      const showWhenAllowHalf =
         props.allowHalf &&
         pointerAtLeftHalf.value &&
         item - 0.5 <= currentValue.value &&

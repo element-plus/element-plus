@@ -81,8 +81,8 @@ export default defineComponent({
       reactive({
         name: 'ElRadioGroup',
         ...toRefs(props),
-        radioGroupSize: radioGroupSize,
-        changeEvent: changeEvent,
+        radioGroupSize,
+        changeEvent,
       } as any)
     )
 

@@ -184,7 +184,7 @@ export default defineComponent({
       return getPropByPath(model, path, true).v
     })
     const isRequired = computed(() => {
-      let rules = getRules()
+      const rules = getRules()
       let required = false
 
       if (rules && rules.length) {
@@ -249,13 +249,13 @@ export default defineComponent({
     const resetField = () => {
       validateState.value = ''
       validateMessage.value = ''
-      let model = elForm.model
-      let value = fieldValue.value
+      const model = elForm.model
+      const value = fieldValue.value
       let path = props.prop
       if (path.indexOf(':') !== -1) {
         path = path.replace(/:/, '.')
       }
-      let prop = getPropByPath(model, path, true)
+      const prop = getPropByPath(model, path, true)
       validateDisabled.value = true
       if (Array.isArray(value)) {
         prop.o[prop.k] = [].concat(initialValue)
@@ -341,7 +341,7 @@ export default defineComponent({
       if (props.prop) {
         elForm.formMitt?.emit(elFormEvents.addField, elFormItem)
 
-        let value = fieldValue.value
+        const value = fieldValue.value
         initialValue = Array.isArray(value) ? [...value] : value
 
         addValidateEvents()

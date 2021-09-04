@@ -65,7 +65,7 @@ export default defineComponent({
       const defaults = {
         ...cellStarts[type],
         id: columnId.value,
-        type: type,
+        type,
         property: props.prop || props.property,
         align: realAlign,
         headerAlign: realHeaderAlign,
@@ -78,7 +78,7 @@ export default defineComponent({
         isColumnGroup: false,
         filterOpened: false,
         // sort 相关属性
-        sortable: sortable,
+        sortable,
         // index 列
         index: props.index,
         // <el-table-column key="xxx" />

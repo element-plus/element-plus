@@ -229,7 +229,7 @@ export default defineComponent({
                           h(FilterPanel, {
                             store: this.$parent.store,
                             placement: column.filterPlacement || 'bottom-start',
-                            column: column,
+                            column,
                             upDataColumn: (key, value) => {
                               column[key] = value
                             },

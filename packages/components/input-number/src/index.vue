@@ -278,7 +278,7 @@ export default defineComponent({
       { immediate: true }
     )
     onMounted(() => {
-      let innerInput = input.value.input
+      const innerInput = input.value.input
       innerInput.setAttribute('role', 'spinbutton')
       innerInput.setAttribute('aria-valuemax', props.max)
       innerInput.setAttribute('aria-valuemin', props.min)
@@ -292,7 +292,7 @@ export default defineComponent({
       }
     })
     onUpdated(() => {
-      let innerInput = input.value.input
+      const innerInput = input.value.input
       innerInput.setAttribute('aria-valuenow', data.currentValue)
     })
     return {

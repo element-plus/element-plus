@@ -70,30 +70,30 @@ const PopupManager: IPopupManager = {
   modalDom: undefined,
   zIndex,
 
-  getInstance: function (id) {
+  getInstance(id) {
     return instances[id]
   },
 
-  register: function (id, instance) {
+  register(id, instance) {
     if (id && instance) {
       instances[id] = instance
     }
   },
 
-  deregister: function (id) {
+  deregister(id) {
     if (id) {
       instances[id] = null
       delete instances[id]
     }
   },
 
-  nextZIndex: function () {
+  nextZIndex() {
     return ++PopupManager.zIndex
   },
 
   modalStack: [],
 
-  doOnModalClick: function () {
+  doOnModalClick() {
     const topItem = PopupManager.modalStack[PopupManager.modalStack.length - 1]
     if (!topItem) return
 
@@ -103,7 +103,7 @@ const PopupManager: IPopupManager = {
     }
   },
 
-  openModal: function (id, zIndex, dom, modalClass, modalFade) {
+  openModal(id, zIndex, dom, modalClass, modalFade) {
     if (isServer) return
     if (!id || zIndex === undefined) return
     this.modalFade = modalFade
@@ -143,10 +143,10 @@ const PopupManager: IPopupManager = {
     modalDom.tabIndex = 0
     modalDom.style.display = ''
 
-    this.modalStack.push({ id: id, zIndex: zIndex, modalClass: modalClass })
+    this.modalStack.push({ id, zIndex, modalClass })
   },
 
-  closeModal: function (id) {
+  closeModal(id) {
     const modalStack = this.modalStack
     const modalDom = getModal()
 

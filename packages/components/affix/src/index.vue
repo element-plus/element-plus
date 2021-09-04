@@ -81,7 +81,7 @@ export default defineComponent({
         width: `${state.width}px`,
         top: props.position === 'top' ? offset : '',
         bottom: props.position === 'bottom' ? offset : '',
-        transform: transform,
+        transform,
         zIndex: props.zIndex,
       }
     })

@@ -130,7 +130,7 @@ const Utils = {
    * @returns {Boolean}
    *  true if a focusable element is found and focus is set.
    */
-  focusFirstDescendant: function (element: HTMLElement): boolean {
+  focusFirstDescendant(element: HTMLElement): boolean {
     for (let i = 0; i < element.childNodes.length; i++) {
       const child = element.childNodes[i] as HTMLElement
       if (attemptFocus(child) || this.focusFirstDescendant(child)) {
@@ -146,7 +146,7 @@ const Utils = {
    * @returns {Boolean}
    *  true if a focusable element is found and focus is set.
    */
-  focusLastDescendant: function (element: HTMLElement): boolean {
+  focusLastDescendant(element: HTMLElement): boolean {
     for (let i = element.childNodes.length - 1; i >= 0; i--) {
       const child = element.childNodes[i] as HTMLElement
       if (attemptFocus(child) || this.focusLastDescendant(child)) {

@@ -97,12 +97,12 @@ export default defineComponent({
       const activeItem = items.value[index]
       if (!activeItem || props.mode === 'horizontal' || props.collapse) return
 
-      let indexPath = activeItem.indexPath
+      const indexPath = activeItem.indexPath
 
       // 展开该菜单项的路径上所有子菜单
       // expand all submenus of the menu item
       indexPath.forEach((index) => {
-        let submenu = submenus.value[index]
+        const submenu = submenus.value[index]
         submenu && openMenu(index, submenu?.indexPath)
       })
     }
@@ -156,7 +156,7 @@ export default defineComponent({
 
     const handleSubMenuClick = (submenu) => {
       const { index, indexPath } = submenu
-      let isOpened = openedMenus.value.includes(index)
+      const isOpened = openedMenus.value.includes(index)
 
       if (isOpened) {
         closeMenu(index)
@@ -185,7 +185,7 @@ export default defineComponent({
       }
 
       if (props.router && router) {
-        let route = item.route || item.index
+        const route = item.route || item.index
         const routerResult = router.push(route).then((navigationResult) => {
           if (!navigationResult) {
             activeIndex.value = item.index

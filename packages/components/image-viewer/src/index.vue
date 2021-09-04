@@ -136,7 +136,7 @@ export default defineComponent({
     const wrapper = ref(null)
     const img = ref(null)
     const mode = ref(Mode.CONTAIN)
-    let transform = ref({
+    const transform = ref({
       scale: 1,
       deg: 0,
       offsetX: 0,

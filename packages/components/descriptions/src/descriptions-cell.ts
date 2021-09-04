@@ -51,7 +51,7 @@ export default defineComponent({
         return h(
           this.tag,
           {
-            style: style,
+            style,
             class: [
               'el-descriptions__cell',
               'el-descriptions__label',
@@ -67,7 +67,7 @@ export default defineComponent({
         return h(
           this.tag,
           {
-            style: style,
+            style,
             class: [
               'el-descriptions__cell',
               'el-descriptions__content',
@@ -83,7 +83,7 @@ export default defineComponent({
         return h(
           'td',
           {
-            style: style,
+            style,
             class: ['el-descriptions__cell', align],
             colSpan: span,
           },
