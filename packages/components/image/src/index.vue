@@ -301,12 +301,17 @@ export default defineComponent({
       emit('switch', val)
     }
 
-    watch(
-      () => props.src,
-      () => {
+    watch(() => props.src, () => {
+      if (props.lazy) {
+        // reset status
+        loading.value = true
+        hasLoadError.value = false
+        removeLazyLoadListener()
+        nextTick(addLazyLoadListener)
+      } else {
         loadImage()
       }
-    )
+    })
 
     onMounted(() => {
       if (props.lazy) {
