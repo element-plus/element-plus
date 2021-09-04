@@ -229,7 +229,7 @@ export default defineComponent({
         { firstFields: true },
         (errors, invalidFields) => {
           validateState.value = !errors ? 'success' : 'error'
-          validateMessage.value = errors ? errors[0].message : ''
+          validateMessage.value = errors ? errors[0].message || `${props.prop} is required` : ''
           callback(validateMessage.value, invalidFields)
           elForm.emit?.(
             'validate',
