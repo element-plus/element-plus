@@ -1,18 +1,8 @@
-import { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
-import Dialog from './src/index.vue'
+import { withInstall } from '@element-plus/utils/with-install'
+import Dialog from './src/dialog.vue'
 
-Dialog.install = (app: App): void => {
-  app.component(Dialog.name, Dialog)
-}
+export const ElDialog = withInstall(Dialog)
+export default ElDialog
 
-const _Dialog = Dialog as SFCWithInstall<typeof Dialog>
-
-export default _Dialog
-export {
-  default as useDialog,
-  useDialogProps,
-  useDialogEmits,
-} from './src/useDialog'
-
-export const ElDialog = _Dialog
+export * from './src/use-dialog'
+export * from './src/dialog'
