@@ -21,9 +21,9 @@
     "build:utils": "cd packages/utils && yarn clean && yarn build",
     "build:tokens": "cd packages/tokens && yarn clean && yarn build",
     "build:full-bundle": "esno build/full-bundle.ts",
-    "format": "prettier --write '**/*.{vue,js,ts,jsx,tsx,scss,json,yaml,md,html}'",
-    "lint": "eslint ./packages --ext .vue,.js,.ts,.jsx,.tsx && prettier --check '**/*.{scss,json,yaml,md,html}'",
-    "lint:fix": "eslint --fix ./packages --ext .vue,.js,.ts,.jsx,.tsx && prettier --write '**/*.{scss,json,yaml,md,html}'",
+    "format": "prettier --write .",
+    "lint": "eslint ./packages --ext .vue,.js,.ts,.jsx,.tsx && prettier --check .",
+    "lint:fix": "eslint --fix ./packages --ext .vue,.js,.ts,.jsx,.tsx && prettier --write .",
     "website-build": "rimraf website-dist && cross-env NODE_ENV=production webpack --config ./website/webpack.config.js",
     "website-dev": "webpack-dev-server --config ./website/webpack.config.js",
     "website-dev:play": "cross-env PLAY_ENV=true yarn website-dev"
@@ -136,7 +136,7 @@
   },
   "lint-staged": {
     "*.{vue,js,ts,jsx,tsx}": "eslint --fix",
-    "*.{scss,json,yaml,md,html}": "prettier --write"
+    "*.{scss,css,json,yaml,yml,md,html}": "prettier --write"
   },
   "workspaces": [
     "packages/*"
