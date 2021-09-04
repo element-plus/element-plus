@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import chalk from 'chalk'
 import gulp from 'gulp'
 import gulpSass from 'gulp-sass'
