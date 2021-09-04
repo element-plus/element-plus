@@ -30,7 +30,7 @@ const langs = {
   const index = client.initIndex(indexName)
   index.clearObjects().then(() => {
     const files = fg.sync(`website/docs/${lang}/*.md`)
-    const indices: Index[][] = []
+    let indices: Index[] = []
     files.forEach(file => {
       const regExp = new RegExp(`website\/docs\/${lang}\/(.*).md`)
       const pathContent = file.match(regExp)
@@ -58,17 +58,14 @@ const langs = {
           return match
         })
       let i = 0
-      indices.push(
+      indices = indices.concat(
         matches.map(match => {
           const title = match[0].replace(/#{2,4}/, '').trim()
-          const index: Index = {
-            component,
-            title,
-            anchor: slugify(title),
-            content: (match[1] || title).replace(/<[^>]+>/g, ''),
-            path: path,
-            sort: i++,
-          }
+          const index = { component, title } as Index
+          index.anchor = slugify(title)
+          index.content = (match[1] || title).replace(/<[^>]+>/g, '')
+          index.path = path
+          index.sort = i++
           return index
         }),
       )
