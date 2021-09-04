@@ -197,7 +197,7 @@ const FixedSizeGrid = createGrid({
     )
   },
 
-  initCache: () => void 0,
+  initCache: () => undefined,
 
   clearCache: true,
 

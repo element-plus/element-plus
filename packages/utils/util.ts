@@ -181,7 +181,7 @@ export function entries<T>(obj: Hash<T>): [string, T][] {
 }
 
 export function isUndefined(val: any): val is undefined {
-  return val === void 0
+  return val === undefined
 }
 
 export { isVNode } from 'vue'

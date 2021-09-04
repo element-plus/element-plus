@@ -77,7 +77,7 @@ export default defineComponent({
     offset: { type: Number, default: 0 },
     onClick: {
       type: Function as PropType<() => void>,
-      default: () => void 0,
+      default: () => undefined,
     },
     onClose: {
       type: Function as PropType<() => void>,

@@ -124,7 +124,7 @@ export const useModelToggle = ({
 
   if (
     shouldHideWhenRouteChanges &&
-    appContext.config.globalProperties.$route !== void 0
+    appContext.config.globalProperties.$route !== undefined
   ) {
     watch(
       () => ({

@@ -113,7 +113,7 @@ const FixedSizeList = buildList({
   },
 
   initCache() {
-    return void 0
+    return undefined
   },
 
   clearCache: true,

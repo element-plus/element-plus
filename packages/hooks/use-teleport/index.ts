@@ -44,7 +44,7 @@ export default (contentRenderer: () => VNode, appendToBody: Ref<boolean>) => {
       ? contentRenderer()
       : isTeleportVisible.value
       ? [h(Teleport, { to: $el }, contentRenderer())]
-      : void 0
+      : undefined
   }
 
   onUnmounted(hideTeleport)

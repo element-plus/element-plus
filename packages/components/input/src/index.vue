@@ -331,8 +331,8 @@ export default defineComponent({
       if (isServer || type !== 'textarea') return
 
       if (autosize) {
-        const minRows = isObject(autosize) ? autosize.minRows : void 0
-        const maxRows = isObject(autosize) ? autosize.maxRows : void 0
+        const minRows = isObject(autosize) ? autosize.minRows : undefined
+        const maxRows = isObject(autosize) ? autosize.maxRows : undefined
         _textareaCalcStyle.value = {
           ...calcTextareaHeight(textarea.value, minRows, maxRows),
         }
