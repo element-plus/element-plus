@@ -332,6 +332,22 @@ export default defineComponent({
       calcIconOffset('suffix')
     }
 
+    const calcInputPadding = (place: 'prefix' | 'suffix') => {
+      const { el } = instance.vnode
+      const inputEle = el.querySelector('.el-input__inner')
+      const target = el.querySelector(`.el-input__${place}`)
+      const styles = getComputedStyle(target)
+      const position = place === 'prefix' ? 'left' : 'right'
+      // for absolute position(left/right)  5px base
+      const positionOffset = parseInt(styles.getPropertyValue(position))
+      inputEle.style[`padding-${position}`] = target.offsetWidth + positionOffset + 'px'
+    }
+
+    const updateInputPadding = () => {
+      ctx.slots.prefix && calcInputPadding('prefix')
+      ctx.slots.suffix && calcInputPadding('suffix')
+    }
+
     const handleInput = event => {
       let { value } = event.target
 
@@ -450,17 +466,22 @@ export default defineComponent({
         setNativeInputValue()
         resizeTextarea()
         updateIconOffset()
+        updateInputPadding()
       })
     })
 
     onMounted(() => {
       setNativeInputValue()
       updateIconOffset()
+      updateInputPadding()
       nextTick(resizeTextarea)
     })
 
     onUpdated(() => {
-      nextTick(updateIconOffset)
+      nextTick(() => {
+        updateIconOffset()
+        updateInputPadding()
+      })
     })
 
     const onMouseLeave = e => {
