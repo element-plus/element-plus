@@ -1,4 +1,4 @@
-import Menu from './src/menu.vue'
+import Menu from './src/menu'
 import MenuItem from './src/menuItem.vue'
 import MenuItemGroup from './src/menuItemGroup.vue'
 import SubMenu from './src/submenu.vue'
