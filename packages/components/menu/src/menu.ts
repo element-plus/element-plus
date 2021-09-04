@@ -13,7 +13,6 @@ import {
   withDirectives,
   nextTick,
 } from 'vue'
-import debounce from 'lodash/debounce'
 import mitt from 'mitt'
 import { Resize } from '@element-plus/directives'
 import Menubar from '@element-plus/utils/menu/menu-bar'
@@ -215,7 +214,7 @@ export default defineComponent({
         }
       }
     }
-    const handleResize = debounce(() => instance.proxy.$forceUpdate(), 50)
+    const handleResize = () => instance.proxy.$forceUpdate()
 
     watch(
       () => props.defaultActive,
