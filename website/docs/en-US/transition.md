@@ -5,6 +5,7 @@ You can use Element's built-in transitions directly. Before that, please read th
 ### fade
 
 :::demo We have two fading effects: `el-fade-in-linear` and `el-fade-in`.
+
 ```html
 <template>
   <div>
@@ -22,10 +23,10 @@ You can use Element's built-in transitions directly. Before that, please read th
 </template>
 
 <script>
-    export default {
+  export default {
     data: () => ({
-      show: true
-    })
+      show: true,
+    }),
   }
 </script>
 
@@ -35,7 +36,7 @@ You can use Element's built-in transitions directly. Before that, please read th
     width: 200px;
     height: 100px;
     border-radius: 4px;
-    background-color: #409EFF;
+    background-color: #409eff;
     text-align: center;
     color: #fff;
     padding: 40px 20px;
@@ -44,11 +45,13 @@ You can use Element's built-in transitions directly. Before that, please read th
   }
 </style>
 ```
+
 :::
 
 ### zoom
 
 :::demo `el-zoom-in-center`, `el-zoom-in-top` and `el-zoom-in-bottom` are provided.
+
 ```html
 <template>
   <div>
@@ -71,10 +74,10 @@ You can use Element's built-in transitions directly. Before that, please read th
 </template>
 
 <script>
-    export default {
+  export default {
     data: () => ({
-      show2: true
-    })
+      show2: true,
+    }),
   }
 </script>
 
@@ -84,7 +87,7 @@ You can use Element's built-in transitions directly. Before that, please read th
     width: 200px;
     height: 100px;
     border-radius: 4px;
-    background-color: #409EFF;
+    background-color: #409eff;
     text-align: center;
     color: #fff;
     padding: 40px 20px;
@@ -93,14 +96,15 @@ You can use Element's built-in transitions directly. Before that, please read th
   }
 </style>
 ```
-:::
 
+:::
 
 ### collapse
 
 For collapse effect, use the `el-collapse-transition` component.
 
 :::demo
+
 ```html
 <template>
   <div>
@@ -118,10 +122,10 @@ For collapse effect, use the `el-collapse-transition` component.
 </template>
 
 <script>
-    export default {
+  export default {
     data: () => ({
-      show3: true
-    })
+      show3: true,
+    }),
   }
 </script>
 
@@ -131,7 +135,7 @@ For collapse effect, use the `el-collapse-transition` component.
     width: 200px;
     height: 100px;
     border-radius: 4px;
-    background-color: #409EFF;
+    background-color: #409eff;
     text-align: center;
     color: #fff;
     padding: 40px 20px;
@@ -140,15 +144,16 @@ For collapse effect, use the `el-collapse-transition` component.
   }
 </style>
 ```
+
 :::
 
 ### On demand
 
 ```js
 // fade/zoom
-import 'element-plus/lib/theme-chalk/base.css';
+import 'element-plus/lib/theme-chalk/base.css'
 // collapse
-import { ElCollapseTransition } from 'element-plus';
+import { ElCollapseTransition } from 'element-plus'
 import Vue from 'vue'
 
 Vue.component(ElCollapseTransition.name, ElCollapseTransition)

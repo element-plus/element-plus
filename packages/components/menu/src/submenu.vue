@@ -20,7 +20,11 @@ import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElPopper from '@element-plus/components/popper'
 import useMenu from './useMenu'
 
-import type { ISubMenuProps, RootMenuProvider, SubMenuProvider } from './menu.type'
+import type {
+  ISubMenuProps,
+  RootMenuProvider,
+  SubMenuProvider,
+} from './menu.type'
 
 export default defineComponent({
   name: 'ElSubMenu',
@@ -61,7 +65,7 @@ export default defineComponent({
     const instance = getCurrentInstance()
     const { paddingStyle, indexPath, parentMenu } = useMenu(
       instance,
-      computed(() => props.index),
+      computed(() => props.index)
     )
 
     // inject
@@ -85,7 +89,7 @@ export default defineComponent({
     // computed
     const submenuTitleIcon = computed(() => {
       return (mode.value === 'horizontal' && isFirstLevel.value) ||
-      (mode.value === 'vertical' && !rootProps.collapse)
+        (mode.value === 'vertical' && !rootProps.collapse)
         ? 'el-icon-arrow-down'
         : 'el-icon-arrow-right'
     })
@@ -112,8 +116,22 @@ export default defineComponent({
     })
     const fallbackPlacements = computed(() =>
       mode.value === 'horizontal' && isFirstLevel.value
-        ? ['bottom-start', 'bottom-end', 'top-start', 'top-end', 'right-start', 'left-start']
-        : ['right-start', 'left-start', 'bottom-start', 'bottom-end', 'top-start', 'top-end'],
+        ? [
+            'bottom-start',
+            'bottom-end',
+            'top-start',
+            'top-end',
+            'right-start',
+            'left-start',
+          ]
+        : [
+            'right-start',
+            'left-start',
+            'bottom-start',
+            'bottom-end',
+            'top-start',
+            'top-end',
+          ]
     )
     const opened = computed(() => {
       return openedMenus.value.includes(props.index)
@@ -123,13 +141,13 @@ export default defineComponent({
       const submenus = data.submenus
       const items = data.items
 
-      Object.keys(items).forEach(index => {
+      Object.keys(items).forEach((index) => {
         if (items[index].active) {
           isActive = true
         }
       })
 
-      Object.keys(submenus).forEach(index => {
+      Object.keys(submenus).forEach((index) => {
         if (submenus[index].active) {
           isActive = true
         }
@@ -175,23 +193,23 @@ export default defineComponent({
 
     // methods
 
-    const handleCollapseToggle = value => {
+    const handleCollapseToggle = (value) => {
       if (value) {
         updatePlacement()
       } else {
         doDestroy()
       }
     }
-    const addItem = item => {
+    const addItem = (item) => {
       data.items[item.index] = item
     }
-    const removeItem = item => {
+    const removeItem = (item) => {
       delete data.items[item.index]
     }
-    const addSubMenu = item => {
+    const addSubMenu = (item) => {
       data.submenus[item.index] = item
     }
-    const removeSubMenu = item => {
+    const removeSubMenu = (item) => {
       delete data.submenus[item.index]
     }
     const handleClick = () => {
@@ -350,12 +368,16 @@ export default defineComponent({
     }
   },
   render() {
-
     const titleTag = [
       this.$slots.title?.(),
-      h('i', {
-        class: ['el-sub-menu__icon-arrow', this.submenuTitleIcon],
-      }, null)]
+      h(
+        'i',
+        {
+          class: ['el-sub-menu__icon-arrow', this.submenuTitleIcon],
+        },
+        null
+      ),
+    ]
     const ulStyle = {
       backgroundColor: this.rootProps.backgroundColor || '',
     }
@@ -363,84 +385,127 @@ export default defineComponent({
     // temporaryly mark ElPopper as any due to type inconsistency.
     // TODO: correct popper's type.
     const child = this.isMenuPopup
-      ? h(ElPopper as any, {
-        ref: 'popperVNode',
-        manualMode: true,
-        visible: this.opened,
-        'onUpdate:visible': (val: boolean) => this.opened = val,
-        effect: 'light',
-        pure: true,
-        offset: 6,
-        showArrow: false,
-        popperClass: this.popperClass,
-        placement: this.data.currentPlacement,
-        appendToBody: this.appendToBody,
-        fallbackPlacements: this.fallbackPlacements,
-        transition: this.menuTransitionName,
-        gpuAcceleration: false,
-      }, {
-        default: () => h('div', {
-          ref: 'menu',
-          class: [
-            `el-menu--${this.mode}`,
-            this.popperClass,
-          ],
-          onMouseenter: ($event: Event) => this.handleMouseenter($event, 100),
-          onMouseleave: () => this.handleMouseleave(true),
-          onFocus: ($event: Event) => this.handleMouseenter($event, 100),
-        }, [
-          h('ul', {
-            class: [
-              'el-menu el-menu--popup',
-              `el-menu--popup-${this.data.currentPlacement}`,
-            ],
-            style: ulStyle,
-          }, [this.$slots.default?.()]),
-        ]),
-        trigger: () => h('div', {
-          class: 'el-sub-menu__title',
-          style: [this.paddingStyle, this.titleStyle, { backgroundColor: this.backgroundColor }],
-          onClick: this.handleClick,
-          onMouseenter: this.handleTitleMouseenter,
-          onMouseleave: this.handleTitleMouseleave,
-        }, titleTag),
-      })
+      ? h(
+          ElPopper as any,
+          {
+            ref: 'popperVNode',
+            manualMode: true,
+            visible: this.opened,
+            'onUpdate:visible': (val: boolean) => (this.opened = val),
+            effect: 'light',
+            pure: true,
+            offset: 6,
+            showArrow: false,
+            popperClass: this.popperClass,
+            placement: this.data.currentPlacement,
+            appendToBody: this.appendToBody,
+            fallbackPlacements: this.fallbackPlacements,
+            transition: this.menuTransitionName,
+            gpuAcceleration: false,
+          },
+          {
+            default: () =>
+              h(
+                'div',
+                {
+                  ref: 'menu',
+                  class: [`el-menu--${this.mode}`, this.popperClass],
+                  onMouseenter: ($event: Event) =>
+                    this.handleMouseenter($event, 100),
+                  onMouseleave: () => this.handleMouseleave(true),
+                  onFocus: ($event: Event) =>
+                    this.handleMouseenter($event, 100),
+                },
+                [
+                  h(
+                    'ul',
+                    {
+                      class: [
+                        'el-menu el-menu--popup',
+                        `el-menu--popup-${this.data.currentPlacement}`,
+                      ],
+                      style: ulStyle,
+                    },
+                    [this.$slots.default?.()]
+                  ),
+                ]
+              ),
+            trigger: () =>
+              h(
+                'div',
+                {
+                  class: 'el-sub-menu__title',
+                  style: [
+                    this.paddingStyle,
+                    this.titleStyle,
+                    { backgroundColor: this.backgroundColor },
+                  ],
+                  onClick: this.handleClick,
+                  onMouseenter: this.handleTitleMouseenter,
+                  onMouseleave: this.handleTitleMouseleave,
+                },
+                titleTag
+              ),
+          }
+        )
       : h(Fragment, {}, [
-        h('div', {
-          class: 'el-sub-menu__title',
-          style: [this.paddingStyle, this.titleStyle, { backgroundColor: this.backgroundColor }],
-          ref: 'verticalTitleRef',
-          onClick: this.handleClick,
-          onMouseenter: this.handleTitleMouseenter,
-          onMouseleave: this.handleTitleMouseleave,
-        }, titleTag),
-        h(ElCollapseTransition, {}, {
-          default: () => withDirectives(
-            h('ul', {
-              role: 'menu',
-              class: 'el-menu el-menu--inline',
-              style: ulStyle,
-            }, [this.$slots.default?.()]),
-            [[vShow, this.opened]]),
-        }),
-      ])
+          h(
+            'div',
+            {
+              class: 'el-sub-menu__title',
+              style: [
+                this.paddingStyle,
+                this.titleStyle,
+                { backgroundColor: this.backgroundColor },
+              ],
+              ref: 'verticalTitleRef',
+              onClick: this.handleClick,
+              onMouseenter: this.handleTitleMouseenter,
+              onMouseleave: this.handleTitleMouseleave,
+            },
+            titleTag
+          ),
+          h(
+            ElCollapseTransition,
+            {},
+            {
+              default: () =>
+                withDirectives(
+                  h(
+                    'ul',
+                    {
+                      role: 'menu',
+                      class: 'el-menu el-menu--inline',
+                      style: ulStyle,
+                    },
+                    [this.$slots.default?.()]
+                  ),
+                  [[vShow, this.opened]]
+                ),
+            }
+          ),
+        ])
 
-    return h('li', {
-      class: [
-        'el-sub-menu',
-        {
-          'is-active': this.active,
-          'is-opened': this.opened,
-          'is-disabled': this.disabled,
-        },
-      ],
-      role: 'menuitem',
-      ariaHaspopup: true,
-      ariaExpanded: this.opened,
-      onMouseenter: this.handleMouseenter,
-      onMouseleave: () => this.handleMouseleave(true),
-      onFocus: this.handleMouseenter,
-    }, [child])
+    return h(
+      'li',
+      {
+        class: [
+          'el-sub-menu',
+          {
+            'is-active': this.active,
+            'is-opened': this.opened,
+            'is-disabled': this.disabled,
+          },
+        ],
+        role: 'menuitem',
+        ariaHaspopup: true,
+        ariaExpanded: this.opened,
+        onMouseenter: this.handleMouseenter,
+        onMouseleave: () => this.handleMouseleave(true),
+        onFocus: this.handleMouseenter,
+      },
+      [child]
+    )
   },
 })
 </script>

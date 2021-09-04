@@ -18,11 +18,14 @@ export default defineComponent({
   },
   setup(props) {
     return {
-      style: computed(() => (
-        props.height ? {
-          '--el-header-height': props.height,
-        } : {}
-      ) as CSSProperties),
+      style: computed(
+        () =>
+          (props.height
+            ? {
+                '--el-header-height': props.height,
+              }
+            : {}) as CSSProperties
+      ),
     }
   },
 })

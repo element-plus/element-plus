@@ -3,10 +3,11 @@
     class="el-radio-button"
     :class="[
       size ? 'el-radio-button--' + size : '',
-      { 'is-active': value === label,
+      {
+        'is-active': value === label,
         'is-disabled': isDisabled,
         'is-focus': focus,
-      }
+      },
     ]"
     role="radio"
     :aria-checked="value === label"
@@ -25,7 +26,7 @@
       tabindex="-1"
       @focus="focus = true"
       @blur="focus = false"
-    >
+    />
     <span
       class="el-radio-button__inner"
       :style="value === label ? activeStyle : null"
@@ -56,14 +57,8 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const {
-      isGroup,
-      radioGroup,
-      elFormItemSize,
-      ELEMENT,
-      focus,
-      elForm,
-    } = useRadio()
+    const { isGroup, radioGroup, elFormItemSize, ELEMENT, focus, elForm } =
+      useRadio()
 
     const size = computed(() => {
       return radioGroup.radioGroupSize || elFormItemSize.value || ELEMENT.size
@@ -82,10 +77,7 @@ export default defineComponent({
       },
     })
 
-    const {
-      isDisabled,
-      tabIndex,
-    } = useRadioAttrs(props, {
+    const { isDisabled, tabIndex } = useRadioAttrs(props, {
       model: value,
       elForm,
       radioGroup: radioGroup,

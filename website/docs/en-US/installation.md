@@ -5,11 +5,11 @@
 - Modern browser
 
 | ![IE](https://cdn.jsdelivr.net/npm/@browser-logos/edge/edge_32x32.png) | ![Firefox](https://cdn.jsdelivr.net/npm/@browser-logos/firefox/firefox_32x32.png) | ![Chrome](https://cdn.jsdelivr.net/npm/@browser-logos/chrome/chrome_32x32.png) | ![Safari](https://cdn.jsdelivr.net/npm/@browser-logos/safari/safari_32x32.png) |
-| --- | --- | --- | --- |
-| Edge | last 2 versions | last 2 versions | last 2 versions |
+| ---------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| Edge                                                                   | last 2 versions                                                                   | last 2 versions                                                                | last 2 versions                                                                |
 
 > Since Vue3 no longer supports IE11, ElementPlus does not support IE11 and previous
-versions.
+> versions.
 
 ## Current latest version
 
@@ -47,7 +47,7 @@ You can also use other **CDN** providers.
 ```html
 <head>
   <!-- Introduce style -->
-  <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css">
+  <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
   <!-- Introduce Vue -->
   <script src="//unpkg.com/vue@next"></script>
   <!-- Introduce component library -->
@@ -60,7 +60,10 @@ You can also use other **CDN** providers.
 ```html
 <head>
   <!-- Introduce style -->
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/element-plus/dist/index.css">
+  <link
+    rel="stylesheet"
+    href="//cdn.jsdelivr.net/npm/element-plus/dist/index.css"
+  />
   <!-- Introduce Vue -->
   <script src="//cdn.jsdelivr.net/npm/vue@next"></script>
   <!-- Introduce component library -->

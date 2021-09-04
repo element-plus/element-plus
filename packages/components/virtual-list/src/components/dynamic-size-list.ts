@@ -22,7 +22,7 @@ const SCOPE = 'ElDynamicSizeList'
 const getItemFromCache = (
   props: Props,
   index: number,
-  listCache: ListCache,
+  listCache: ListCache
 ): ListItem => {
   const { itemSize } = props
   const { items, lastVisitedIndex } = listCache
@@ -51,31 +51,16 @@ const getItemFromCache = (
   return items[index]
 }
 
-const findItem = (
-  props: Props,
-  listCache: ListCache,
-  offset: number,
-) => {
+const findItem = (props: Props, listCache: ListCache, offset: number) => {
   const { items, lastVisitedIndex } = listCache
 
   const lastVisitedOffset =
     lastVisitedIndex > 0 ? items[lastVisitedIndex].offset : 0
 
   if (lastVisitedOffset >= offset) {
-    return bs(
-      props,
-      listCache,
-      0,
-      lastVisitedIndex,
-      offset,
-    )
+    return bs(props, listCache, 0, lastVisitedIndex, offset)
   }
-  return es(
-    props,
-    listCache,
-    Math.max(0, lastVisitedIndex),
-    offset,
-  )
+  return es(props, listCache, Math.max(0, lastVisitedIndex), offset)
 }
 
 // bs stands for binary search which has approximately time complexity of O(Log n)
@@ -87,7 +72,7 @@ const bs = (
   listCache: ListCache,
   low: number,
   high: number,
-  offset: number,
+  offset: number
 ) => {
   while (low <= high) {
     const mid = low + Math.floor((high - low) / 2)
@@ -115,7 +100,7 @@ const es = (
   props: Props,
   listCache: ListCache,
   index: number,
-  offset: number,
+  offset: number
 ) => {
   const { total } = props
   let exponent = 1
@@ -133,13 +118,13 @@ const es = (
     listCache,
     Math.floor(index / 2),
     Math.min(index, total - 1),
-    offset,
+    offset
   )
 }
 
 const getEstimatedTotalSize = (
   { total }: Props,
-  { items, estimatedItemSize, lastVisitedIndex }: ListCache,
+  { items, estimatedItemSize, lastVisitedIndex }: ListCache
 ) => {
   let totalSizeOfMeasuredItems = 0
 
@@ -159,27 +144,14 @@ const getEstimatedTotalSize = (
 
 const DynamicSizeList = createList({
   name: 'ElDynamicSizeList',
-  getItemOffset: (
-    props,
-    index,
-    listCache,
-  ) => getItemFromCache(props, index, listCache).offset,
+  getItemOffset: (props, index, listCache) =>
+    getItemFromCache(props, index, listCache).offset,
 
-  getItemSize: (
-    _,
-    index,
-    { items },
-  )=> items[index].size,
+  getItemSize: (_, index, { items }) => items[index].size,
 
   getEstimatedTotalSize,
 
-  getOffset: (
-    props,
-    index,
-    alignment,
-    scrollOffset,
-    listCache,
-  ) => {
+  getOffset: (props, index, alignment, scrollOffset, listCache) => {
     const { height, layout, width } = props
 
     const size = (isHorizontal(layout) ? width : height) as number
@@ -189,12 +161,9 @@ const DynamicSizeList = createList({
 
     const maxOffset = Math.max(
       0,
-      Math.min(estimatedTotalSize - size, item.offset),
+      Math.min(estimatedTotalSize - size, item.offset)
     )
-    const minOffset = Math.max(
-      0,
-      item.offset - size + item.size,
-    )
+    const minOffset = Math.max(0, item.offset - size + item.size)
 
     if (alignment === SMART_ALIGNMENT) {
       if (
@@ -230,18 +199,10 @@ const DynamicSizeList = createList({
     }
   },
 
-  getStartIndexForOffset: (
-    props,
-    offset,
-    listCache,
-  ) => findItem(props, listCache, offset),
+  getStartIndexForOffset: (props, offset, listCache) =>
+    findItem(props, listCache, offset),
 
-  getStopIndexForStartIndex: (
-    props,
-    startIndex,
-    scrollOffset,
-    listCache,
-  ) => {
+  getStopIndexForStartIndex: (props, startIndex, scrollOffset, listCache) => {
     const { height, total, layout, width } = props
 
     const size = (isHorizontal(layout) ? width : height) as number
@@ -260,19 +221,14 @@ const DynamicSizeList = createList({
   },
 
   initCache({ estimatedItemSize = DEFAULT_DYNAMIC_LIST_ITEM_SIZE }, instance) {
-
     const cache = {
       items: {},
       estimatedItemSize,
       lastVisitedIndex: -1,
     } as ListCache
 
-    cache.clearCacheAfterIndex = (index: number,
-      forceUpdate = true) => {
-      cache.lastVisitedIndex = Math.min(
-        cache.lastVisitedIndex,
-        index - 1,
-      )
+    cache.clearCacheAfterIndex = (index: number, forceUpdate = true) => {
+      cache.lastVisitedIndex = Math.min(cache.lastVisitedIndex, index - 1)
       instance.exposed.getItemStyleCache(-1)
 
       if (forceUpdate) {
@@ -288,9 +244,12 @@ const DynamicSizeList = createList({
   validateProps: ({ itemSize }) => {
     if (process.env.NODE_ENV !== 'production') {
       if (typeof itemSize !== 'function') {
-        throwError(SCOPE, `
+        throwError(
+          SCOPE,
+          `
           itemSize is required as function, but the given value was ${typeof itemSize}
-        `)
+        `
+        )
       }
     }
   },

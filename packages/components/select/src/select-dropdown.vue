@@ -8,7 +8,7 @@
   </div>
 </template>
 
-<script  lang="ts">
+<script lang="ts">
 import {
   defineComponent,
   computed,
@@ -17,11 +17,12 @@ import {
   inject,
   ref,
 } from 'vue'
-import { addResizeListener, removeResizeListener, ResizableElement } from '@element-plus/utils/resize-event'
 import {
-  selectKey,
-} from './token'
-
+  addResizeListener,
+  removeResizeListener,
+  ResizableElement,
+} from '@element-plus/utils/resize-event'
+import { selectKey } from './token'
 
 export default defineComponent({
   name: 'ElSelectDropdown',
@@ -37,18 +38,25 @@ export default defineComponent({
     const minWidth = ref('')
 
     function updateMinWidth() {
-      minWidth.value = select.selectWrapper?.getBoundingClientRect().width + 'px'
+      minWidth.value =
+        select.selectWrapper?.getBoundingClientRect().width + 'px'
     }
 
     onMounted(() => {
       // TODO: updatePopper
       // popper.value.update()
 
-      addResizeListener(select.selectWrapper as ResizableElement, updateMinWidth)
+      addResizeListener(
+        select.selectWrapper as ResizableElement,
+        updateMinWidth
+      )
     })
 
     onBeforeUnmount(() => {
-      removeResizeListener(select.selectWrapper as ResizableElement, updateMinWidth)
+      removeResizeListener(
+        select.selectWrapper as ResizableElement,
+        updateMinWidth
+      )
     })
 
     return {

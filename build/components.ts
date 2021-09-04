@@ -22,8 +22,8 @@ async function getComponents() {
   // filter out package.json since under packages/components we only got this file
   //
   return raw
-    .filter(f => f !== 'package.json' && f !== 'index.ts')
-    .map(f => ({ path: path.resolve(compRoot, f), name: f }))
+    .filter((f) => f !== 'package.json' && f !== 'index.ts')
+    .map((f) => ({ path: path.resolve(compRoot, f), name: f }))
 }
 
 const plugins = [
@@ -42,29 +42,33 @@ const externals = getDeps(pathToPkgJson)
 
 const excludes = ['icons']
 
-const pathsRewriter = id => {
-  if (id.startsWith(`${EP_PREFIX}/components`)) return id.replace(`${EP_PREFIX}/components`, '..')
-  if (id.startsWith(EP_PREFIX) && excludes.every(e => !id.endsWith(e))) return id.replace(EP_PREFIX, '../..')
+const pathsRewriter = (id) => {
+  if (id.startsWith(`${EP_PREFIX}/components`))
+    return id.replace(`${EP_PREFIX}/components`, '..')
+  if (id.startsWith(EP_PREFIX) && excludes.every((e) => !id.endsWith(e)))
+    return id.replace(EP_PREFIX, '../..')
   return id
 }
 
-  ; (async () => {
-    // run type diagnoses first
-    yellow('Start building types for individual components')
-    await genDefs(compRoot)
-    green('Typing generated successfully')
+;(async () => {
+  // run type diagnoses first
+  yellow('Start building types for individual components')
+  await genDefs(compRoot)
+  green('Typing generated successfully')
 
-    yellow('Start building individual components')
-    await buildComponents()
-    green('Components built successfully')
+  yellow('Start building individual components')
+  await buildComponents()
+  green('Components built successfully')
 
-    yellow('Start building entry file')
-    await buildEntry()
-    green('Entry built successfully')
-  })().then(() => {
+  yellow('Start building entry file')
+  await buildEntry()
+  green('Entry built successfully')
+})()
+  .then(() => {
     console.log('Individual component build finished')
     process.exit(0)
-  }).catch((e) => {
+  })
+  .catch((e) => {
     console.error(e.message)
     process.exit(1)
   })
@@ -72,55 +76,53 @@ const pathsRewriter = id => {
 async function buildComponents() {
   const componentPaths = await getComponents()
 
-  const builds = componentPaths.map(async ({
-    path: p,
-    name: componentName,
-  }) => {
-    const entry = path.resolve(p, './index.ts')
-    if (!fs.existsSync(entry)) return
+  const builds = componentPaths.map(
+    async ({ path: p, name: componentName }) => {
+      const entry = path.resolve(p, './index.ts')
+      if (!fs.existsSync(entry)) return
 
-    const external = (id) => {
-      return id.startsWith(VUE_REGEX)
-        || id.startsWith(VUE_MONO)
-        || id.startsWith(EP_PREFIX)
-        || externals.some(i => id.startsWith(i))
-    }
-    const esm = {
-      format: 'es',
-      file: `${outputDir}/es/components/${componentName}/index.js`,
-      plugins: [
-        filesize({
-          reporter,
-        })
-      ],
-      paths: pathsRewriter,
-    }
+      const external = (id) => {
+        return (
+          id.startsWith(VUE_REGEX) ||
+          id.startsWith(VUE_MONO) ||
+          id.startsWith(EP_PREFIX) ||
+          externals.some((i) => id.startsWith(i))
+        )
+      }
+      const esm = {
+        format: 'es',
+        file: `${outputDir}/es/components/${componentName}/index.js`,
+        plugins: [
+          filesize({
+            reporter,
+          }),
+        ],
+        paths: pathsRewriter,
+      }
 
-    const cjs = {
-      format: 'cjs',
-      file: `${outputDir}/lib/components/${componentName}/index.js`,
-      exports: 'named',
-      plugins: [
-        filesize({
-          reporter,
-        })
-      ],
-      paths: pathsRewriter,
+      const cjs = {
+        format: 'cjs',
+        file: `${outputDir}/lib/components/${componentName}/index.js`,
+        exports: 'named',
+        plugins: [
+          filesize({
+            reporter,
+          }),
+        ],
+        paths: pathsRewriter,
+      }
+      const rollupConfig = {
+        input: entry,
+        plugins,
+        external,
+      }
+      const bundle = await rollup.rollup(rollupConfig)
+      await bundle.write(esm as any)
+      await bundle.write(cjs as any)
     }
-    const rollupConfig = {
-      input: entry,
-      plugins,
-      external,
-    }
-    const bundle = await rollup.rollup(rollupConfig)
-    await bundle.write(esm as any)
-    await bundle.write(cjs as any)
-
-  })
+  )
   try {
-    await Promise.all(
-      builds
-    )
+    await Promise.all(builds)
   } catch (e) {
     logAndShutdown(e)
   }
@@ -131,7 +133,7 @@ async function buildEntry() {
   const config = {
     input: entry,
     plugins,
-    external: _ => true,
+    external: (_) => true,
   }
 
   try {
@@ -142,8 +144,8 @@ async function buildEntry() {
       plugins: [
         filesize({
           reporter,
-        })
-      ]
+        }),
+      ],
     })
 
     await bundle.write({
@@ -152,7 +154,7 @@ async function buildEntry() {
       plugins: [
         filesize({
           reporter,
-        })
+        }),
       ],
     })
   } catch (e) {

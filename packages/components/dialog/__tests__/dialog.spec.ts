@@ -4,7 +4,6 @@ import { rAF } from '@element-plus/test-utils/tick'
 import triggerCompositeClick from '@element-plus/test-utils/composite-click'
 import Dialog from '../'
 
-
 const AXIOM = 'Rem is the best girl'
 
 const _mount = ({ slots, ...rest }: Indexable<any>) => {
@@ -83,7 +82,7 @@ describe('Dialog.vue', () => {
     })
     await nextTick()
     expect(
-      document.body.firstElementChild.classList.contains('el-overlay'),
+      document.body.firstElementChild.classList.contains('el-overlay')
     ).toBe(true)
     wrapper.unmount()
   })
@@ -240,7 +239,7 @@ describe('Dialog.vue', () => {
       const wrapper = _mount({
         props: {
           modelValue: visible,
-          'onUpdate:modelValue': (val: boolean) => visible = val,
+          'onUpdate:modelValue': (val: boolean) => (visible = val),
           onClose,
           onClosed,
         },

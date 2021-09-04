@@ -65,7 +65,9 @@ describe('Card.vue', () => {
         bodyStyle: style,
       },
     })
-    expect(wrapper.find('.el-card__body').attributes('style')).toBe('font-size: 14px;')
+    expect(wrapper.find('.el-card__body').attributes('style')).toBe(
+      'font-size: 14px;'
+    )
   })
 
   test('body style with array', () => {
@@ -78,7 +80,9 @@ describe('Card.vue', () => {
         bodyStyle: style,
       },
     })
-    expect(wrapper.find('.el-card__body').attributes('style').replace(/[ ]/g, '')).toBe('font-size:14px;color:blue;')
+    expect(
+      wrapper.find('.el-card__body').attributes('style').replace(/[ ]/g, '')
+    ).toBe('font-size:14px;color:blue;')
   })
 
   test('shadow', () => {

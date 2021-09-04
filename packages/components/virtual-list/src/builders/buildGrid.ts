@@ -50,13 +50,11 @@ const createGrid = ({
   initCache,
   validateProps,
 }: GridConstructorProps<typeof DefaultGridProps>) => {
-
   return defineComponent({
     name: name ?? 'ElVirtualList',
     props: DefaultGridProps,
     emits: [ITEM_RENDER_EVT, SCROLL_EVT],
     setup(props, { emit, expose }) {
-
       validateProps(props)
       const instance = getCurrentInstance()
       const cache = ref(initCache(props, instance))
@@ -88,13 +86,13 @@ const createGrid = ({
         const startIndex = getColumnStartIndexForOffset(
           props,
           scrollLeft,
-          $(cache),
+          $(cache)
         )
         const stopIndex = getColumnStopIndexForStartIndex(
           props,
           startIndex,
           scrollLeft,
-          $(cache),
+          $(cache)
         )
 
         const cacheBackward =
@@ -122,16 +120,12 @@ const createGrid = ({
           return [0, 0, 0, 0]
         }
 
-        const startIndex = getRowStartIndexForOffset(
-          props,
-          scrollTop,
-          $(cache),
-        )
+        const startIndex = getRowStartIndexForOffset(props, scrollTop, $(cache))
         const stopIndex = getRowStopIndexForStartIndex(
           props,
           startIndex,
           scrollTop,
-          $(cache),
+          $(cache)
         )
 
         const cacheBackward =
@@ -139,9 +133,7 @@ const createGrid = ({
             ? Math.max(1, rowCache)
             : 1
         const cacheForward =
-          !isScrolling || yAxisScrollDir === FORWARD
-            ? Math.max(1, rowCache)
-            : 1
+          !isScrolling || yAxisScrollDir === FORWARD ? Math.max(1, rowCache) : 1
 
         return [
           Math.max(0, startIndex - cacheBackward),
@@ -151,22 +143,27 @@ const createGrid = ({
         ]
       })
 
-      const estimatedTotalHeight = computed(() => getEstimatedTotalHeight(props, $(cache)))
-      const estimatedTotalWidth = computed(() => getEstimatedTotalWidth(props, $(cache)))
+      const estimatedTotalHeight = computed(() =>
+        getEstimatedTotalHeight(props, $(cache))
+      )
+      const estimatedTotalWidth = computed(() =>
+        getEstimatedTotalWidth(props, $(cache))
+      )
 
-      const windowStyle = computed(() => ([
+      const windowStyle = computed(() => [
         {
           position: 'relative',
           overflow: 'auto',
           WebkitOverflowScrolling: 'touch',
           willChange: 'transform',
-        }, {
+        },
+        {
           direction: props.direction,
           height: isNumber(props.height) ? `${props.height}px` : props.height,
           width: isNumber(props.width) ? `${props.width}px` : props.width,
           ...props.style,
         },
-      ]))
+      ])
 
       const innerStyle = computed(() => {
         const width = `${$(estimatedTotalWidth)}px`
@@ -184,8 +181,14 @@ const createGrid = ({
         const { totalColumn, totalRow } = props
 
         if (totalColumn > 0 && totalRow > 0) {
-          const [columnCacheStart, columnCacheEnd, columnVisibleStart, columnVisibleEnd] = $(columnsToRender)
-          const [rowCacheStart, rowCacheEnd, rowVisibleStart, rowVisibleEnd] = $(rowsToRender)
+          const [
+            columnCacheStart,
+            columnCacheEnd,
+            columnVisibleStart,
+            columnVisibleEnd,
+          ] = $(columnsToRender)
+          const [rowCacheStart, rowCacheEnd, rowVisibleStart, rowVisibleEnd] =
+            $(rowsToRender)
           // emit the render item event with
           // [xAxisInvisibleStart, xAxisInvisibleEnd, xAxisVisibleStart, xAxisVisibleEnd]
           // [yAxisInvisibleStart, yAxisInvisibleEnd, yAxisVisibleStart, yAxisVisibleEnd]
@@ -198,18 +201,24 @@ const createGrid = ({
             columnVisibleStart,
             columnVisibleEnd,
             rowVisibleStart,
-            rowVisibleEnd,
+            rowVisibleEnd
           )
         }
 
-        const { scrollLeft, scrollTop, updateRequested, xAxisScrollDir, yAxisScrollDir } = $(states)
+        const {
+          scrollLeft,
+          scrollTop,
+          updateRequested,
+          xAxisScrollDir,
+          yAxisScrollDir,
+        } = $(states)
         emit(
           SCROLL_EVT,
           xAxisScrollDir,
           scrollLeft,
           yAxisScrollDir,
           scrollTop,
-          updateRequested,
+          updateRequested
         )
       }
 
@@ -224,7 +233,10 @@ const createGrid = ({
         } = e.currentTarget as HTMLElement
 
         const _states = $(states)
-        if (_states.scrollTop === scrollTop && _states.scrollLeft === scrollLeft) {
+        if (
+          _states.scrollTop === scrollTop &&
+          _states.scrollLeft === scrollLeft
+        ) {
           return
         }
 
@@ -245,7 +257,10 @@ const createGrid = ({
           ..._states,
           isScrolling: true,
           scrollLeft: _scrollLeft,
-          scrollTop: Math.max(0, Math.min(scrollTop, scrollHeight - clientHeight)),
+          scrollTop: Math.max(
+            0,
+            Math.min(scrollTop, scrollHeight - clientHeight)
+          ),
           updateRequested: false,
           xAxisScrollDir: getScrollDir(_states.scrollLeft, _scrollLeft),
           yAxisScrollDir: getScrollDir(_states.scrollTop, scrollTop),
@@ -259,14 +274,14 @@ const createGrid = ({
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const getItemStyleCache = memo((_: any, __: any, ___: any) => ({}))
 
-      const scrollTo = ({
-        scrollLeft,
-        scrollTop,
-      }) => {
+      const scrollTo = ({ scrollLeft, scrollTop }) => {
         scrollLeft = Math.max(scrollLeft, 0)
         scrollTop = Math.max(scrollTop, 0)
         const _states = $(states)
-        if (scrollTop === _states.scrollTop && scrollLeft === _states.scrollLeft) {
+        if (
+          scrollTop === _states.scrollTop &&
+          scrollLeft === _states.scrollLeft
+        ) {
           return
         }
 
@@ -285,7 +300,7 @@ const createGrid = ({
       const scrollToItem = (
         rowIndex = 0,
         columnIdx = 0,
-        alignment: Alignment = AUTO_ALIGNMENT,
+        alignment: Alignment = AUTO_ALIGNMENT
       ) => {
         const _states = $(states)
         columnIdx = Math.max(0, Math.min(columnIdx, props.totalColumn - 1))
@@ -303,7 +318,7 @@ const createGrid = ({
             alignment,
             _states.scrollLeft,
             _cache,
-            estimatedWidth > props.width ? scrollBarWidth : 0,
+            estimatedWidth > props.width ? scrollBarWidth : 0
           ),
           scrollTop: getRowOffset(
             props,
@@ -311,18 +326,21 @@ const createGrid = ({
             alignment,
             _states.scrollTop,
             _cache,
-            estimatedHeight > props.height ? scrollBarWidth : 0,
+            estimatedHeight > props.height ? scrollBarWidth : 0
           ),
         })
       }
 
-      const getItemStyle = (rowIndex: number, columnIndex: number): CSSProperties => {
+      const getItemStyle = (
+        rowIndex: number,
+        columnIndex: number
+      ): CSSProperties => {
         const { columnWidth, direction, rowHeight } = props
 
         const itemStyleCache = getItemStyleCache(
           clearCache && columnWidth,
           clearCache && rowHeight,
-          clearCache && direction,
+          clearCache && direction
         )
         // since there was no need to introduce an nested array into cache object
         // we use row,column to construct the key for indexing the map.
@@ -349,7 +367,6 @@ const createGrid = ({
 
           return itemStyleCache[key]
         }
-
       }
 
       // TODO: debounce setting is scrolling.
@@ -361,7 +378,6 @@ const createGrid = ({
         nextTick(() => {
           getItemStyleCache(-1, null, null)
         })
-
       }
 
       // life cycles
@@ -400,7 +416,8 @@ const createGrid = ({
               }
               default: {
                 const { clientWidth, scrollWidth } = windowElement
-                windowElement.scrollLeft = scrollWidth - clientWidth - scrollLeft
+                windowElement.scrollLeft =
+                  scrollWidth - clientWidth - scrollLeft
                 break
               }
             }
@@ -411,7 +428,6 @@ const createGrid = ({
           windowElement.scrollTop = Math.max(0, scrollTop)
         }
       })
-
 
       const api = {
         windowStyle,
@@ -466,8 +482,8 @@ const createGrid = ({
 
       const children = []
       if (totalRow > 0 && totalColumn > 0) {
-        for (let row = rowStart; row <= rowEnd; row ++) {
-          for (let column = columnStart; column <= columnEnd; column ++) {
+        for (let row = rowStart; row <= rowEnd; row++) {
+          for (let column = columnStart; column <= columnEnd; column++) {
             children.push(
               $slots.default?.({
                 columnIndex: column,
@@ -476,25 +492,37 @@ const createGrid = ({
                 isScrolling: useIsScrolling ? states.isScrolling : undefined,
                 style: getItemStyle(row, column),
                 rowIndex: row,
-              }),
+              })
             )
           }
         }
       }
 
-      const InnerNode = [h(Inner as VNode, {
-        style: innerStyle,
-        ref: 'innerRef',
-      }, !isString(Inner) ? {
-        default: () => children,
-      } : children)]
+      const InnerNode = [
+        h(
+          Inner as VNode,
+          {
+            style: innerStyle,
+            ref: 'innerRef',
+          },
+          !isString(Inner)
+            ? {
+                default: () => children,
+              }
+            : children
+        ),
+      ]
 
-      return h(Container as VNode, {
-        class: className,
-        style: windowStyle,
-        onScroll,
-        ref: 'windowRef',
-      }, !isString(Container) ? { default: () => InnerNode } : InnerNode)
+      return h(
+        Container as VNode,
+        {
+          class: className,
+          style: windowStyle,
+          onScroll,
+          ref: 'windowRef',
+        },
+        !isString(Container) ? { default: () => InnerNode } : InnerNode
+      )
     },
   })
 }

@@ -25,7 +25,12 @@
       </el-scrollbar>
     </template>
     <template #trigger>
-      <div :class="['el-dropdown', dropdownSize ? 'el-dropdown--' + dropdownSize : '']">
+      <div
+        :class="[
+          'el-dropdown',
+          dropdownSize ? 'el-dropdown--' + dropdownSize : '',
+        ]"
+      >
         <slot v-if="!splitButton" name="default"></slot>
         <template v-else>
           <el-button-group>
@@ -135,17 +140,17 @@ export default defineComponent({
 
     watch(
       () => visible.value,
-      val => {
+      (val) => {
         if (val) triggerElmFocus()
         if (!val) triggerElmBlur()
         emit('visible-change', val)
-      },
+      }
     )
 
     const focusing = ref(false)
     watch(
       () => focusing.value,
-      val => {
+      (val) => {
         const selfDefine = triggerElm.value
         if (selfDefine) {
           if (val) {
@@ -154,12 +159,13 @@ export default defineComponent({
             removeClass(selfDefine, 'focusing')
           }
         }
-      },
+      }
     )
 
     const triggerVnode = ref<Nullable<ComponentPublicInstance>>(null)
     const triggerElm = computed<Nullable<HTMLButtonElement>>(() => {
-      const _: any = (triggerVnode.value?.$refs.triggerRef as HTMLElement)?.children[0]
+      const _: any = (triggerVnode.value?.$refs.triggerRef as HTMLElement)
+        ?.children[0]
       return !props.splitButton ? _ : _?.children?.[1]
     })
 
@@ -179,7 +185,7 @@ export default defineComponent({
         () => {
           visible.value = true
         },
-        ['click', 'contextmenu'].includes(props.trigger) ? 0 : props.showTimeout,
+        ['click', 'contextmenu'].includes(props.trigger) ? 0 : props.showTimeout
       )
     }
 
@@ -194,7 +200,7 @@ export default defineComponent({
         () => {
           visible.value = false
         },
-        ['click', 'contextmenu'].includes(props.trigger) ? 0 : props.hideTimeout,
+        ['click', 'contextmenu'].includes(props.trigger) ? 0 : props.hideTimeout
       )
     }
 
@@ -252,7 +258,7 @@ export default defineComponent({
       } else if (props.trigger === 'click') {
         on(triggerElm.value, 'click', handleClick)
       } else if (props.trigger === 'contextmenu') {
-        on(triggerElm.value, 'contextmenu', e => {
+        on(triggerElm.value, 'contextmenu', (e) => {
           e.preventDefault()
           handleClick()
         })
@@ -265,7 +271,7 @@ export default defineComponent({
       })
     })
 
-    const handlerMainButtonClick = event => {
+    const handlerMainButtonClick = (event) => {
       emit('click', event)
       hide()
     }

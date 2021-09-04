@@ -14,7 +14,7 @@ export const CommonProps = {
   modelValue: [Number, String, Array] as PropType<CascaderValue>,
   options: {
     type: Array as PropType<CascaderOption[]>,
-    default: () => ([] as CascaderOption[]),
+    default: () => [] as CascaderOption[],
   },
   props: {
     type: Object as PropType<CascaderProps>,
@@ -37,7 +37,7 @@ export const DefaultProps: CascaderConfig = {
   hoverThreshold: 500,
 }
 
-export const useCascaderConfig = (props: { props: CascaderProps; }) => {
+export const useCascaderConfig = (props: { props: CascaderProps }) => {
   return computed(() => ({
     ...DefaultProps,
     ...props.props,

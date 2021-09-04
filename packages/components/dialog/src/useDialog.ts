@@ -7,8 +7,13 @@ import PopupManager from '@element-plus/utils/popup-manager'
 import { clearTimer, isNumber } from '@element-plus/utils/util'
 import { isValidWidthUnit } from '@element-plus/utils/validators'
 
-
-import type { CSSProperties, ExtractPropTypes ,PropType, Ref, SetupContext } from 'vue'
+import type {
+  CSSProperties,
+  ExtractPropTypes,
+  PropType,
+  Ref,
+  SetupContext,
+} from 'vue'
 import type { TimeoutHandle } from '@element-plus/utils/types'
 
 export const CLOSE_EVENT = 'close'
@@ -16,7 +21,8 @@ export const OPEN_EVENT = 'open'
 export const CLOSED_EVENT = 'closed'
 export const OPENED_EVENT = 'opened'
 
-export const useDialogEmits = [CLOSE_EVENT,
+export const useDialogEmits = [
+  CLOSE_EVENT,
   CLOSED_EVENT,
   OPEN_EVENT,
   OPENED_EVENT,
@@ -98,10 +104,10 @@ export const useDialogProps = {
   },
 }
 
-export default function(
+export default function (
   props: ExtractPropTypes<typeof useDialogProps>,
   ctx: SetupContext,
-  targetRef: Ref<HTMLElement>,
+  targetRef: Ref<HTMLElement>
 ) {
   const visible = ref(false)
   const closed = ref(false)
@@ -113,10 +119,8 @@ export default function(
   const modalRef = ref<HTMLElement>(null)
 
   const normalizeWidth = () => {
-    if(isNumber(props.width))
-      return `${props.width}px`
-    else
-      return props.width
+    if (isNumber(props.width)) return `${props.width}px`
+    else return props.width
   }
 
   const style = computed(() => {
@@ -214,33 +218,39 @@ export default function(
   }
 
   if (props.closeOnPressEscape) {
-    useModal({
-      handleClose,
-    }, visible)
+    useModal(
+      {
+        handleClose,
+      },
+      visible
+    )
   }
 
   useRestoreActive(visible)
 
-  watch(() => props.modelValue, val => {
-    if (val) {
-      closed.value = false
-      open()
-      rendered.value = true // enables lazy rendering
-      ctx.emit(OPEN_EVENT)
-      zIndex.value = props.zIndex ? zIndex.value++ : PopupManager.nextZIndex()
-      // this.$el.addEventListener('scroll', this.updatePopper)
-      nextTick(() => {
-        if (targetRef.value) {
-          targetRef.value.scrollTop = 0
+  watch(
+    () => props.modelValue,
+    (val) => {
+      if (val) {
+        closed.value = false
+        open()
+        rendered.value = true // enables lazy rendering
+        ctx.emit(OPEN_EVENT)
+        zIndex.value = props.zIndex ? zIndex.value++ : PopupManager.nextZIndex()
+        // this.$el.addEventListener('scroll', this.updatePopper)
+        nextTick(() => {
+          if (targetRef.value) {
+            targetRef.value.scrollTop = 0
+          }
+        })
+      } else {
+        // this.$el.removeEventListener('scroll', this.updatePopper
+        if (visible.value) {
+          close()
         }
-      })
-    } else {
-      // this.$el.removeEventListener('scroll', this.updatePopper
-      if (visible.value) {
-        close()
       }
     }
-  })
+  )
 
   onMounted(() => {
     if (props.modelValue) {

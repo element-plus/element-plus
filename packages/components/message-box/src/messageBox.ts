@@ -17,15 +17,14 @@ import type {
 // component default merge props & data
 
 const messageInstance = new Map<
-ComponentPublicInstance<{ doClose: () => void; }>, // marking doClose as function
-{
-  options: any
-  callback: Callback
-  resolve: (res: any) => void
-  reject: (reason?: any) => void
-}
+  ComponentPublicInstance<{ doClose: () => void }>, // marking doClose as function
+  {
+    options: any
+    callback: Callback
+    resolve: (res: any) => void
+    reject: (reason?: any) => void
+  }
 >()
-
 
 const initInstance = (props: any, container: HTMLElement) => {
   const vnode = h(MessageBoxConstructor, props)
@@ -52,9 +51,8 @@ const showMessage = (options: any) => {
   }
 
   options.onAction = (action: Action) => {
-
     const currentMsg = messageInstance.get(vm)
-    let resolve: Action | { value: string; action: Action; }
+    let resolve: Action | { value: string; action: Action }
     if (options.showInput) {
       resolve = { value: vm.inputValue, action }
     } else {
@@ -80,10 +78,12 @@ const showMessage = (options: any) => {
   // This is how we use message box programmably.
   // Maybe consider releasing a template version?
   // get component instance like v2.
-  const vm = instance.proxy as ComponentPublicInstance<{
-    visible: boolean
-    doClose: () => void
-  } & MessageBoxState>
+  const vm = instance.proxy as ComponentPublicInstance<
+    {
+      visible: boolean
+      doClose: () => void
+    } & MessageBoxState
+  >
 
   for (const prop in options) {
     if (hasOwn(options, prop) && !hasOwn(vm.$props, prop)) {
@@ -91,16 +91,20 @@ const showMessage = (options: any) => {
     }
   }
 
-  watch(() => vm.message, (newVal, oldVal) => {
-    if (isVNode(newVal)) {
-      // Override slots since message is vnode type.
-      instance.slots.default = () => [newVal]
-    } else if(isVNode(oldVal) && !isVNode(newVal)){
-      delete instance.slots.default
+  watch(
+    () => vm.message,
+    (newVal, oldVal) => {
+      if (isVNode(newVal)) {
+        // Override slots since message is vnode type.
+        instance.slots.default = () => [newVal]
+      } else if (isVNode(oldVal) && !isVNode(newVal)) {
+        delete instance.slots.default
+      }
+    },
+    {
+      immediate: true,
     }
-  }, {
-    immediate: true,
-  })
+  )
 
   // change visibility after everything is settled
   vm.visible = true
@@ -109,8 +113,8 @@ const showMessage = (options: any) => {
 
 async function MessageBox(options: ElMessageBoxOptions): Promise<MessageBoxData>
 function MessageBox(
-  options: ElMessageBoxOptions | string | VNode,
-): Promise<{ value: string; action: Action; } | Action> {
+  options: ElMessageBoxOptions | string | VNode
+): Promise<{ value: string; action: Action } | Action> {
   if (isServer) return
   let callback
   if (isString(options) || isVNode(options)) {
@@ -136,7 +140,7 @@ function MessageBox(
 MessageBox.alert = (
   message: string,
   title: string,
-  options?: ElMessageBoxOptions,
+  options?: ElMessageBoxOptions
 ) => {
   if (typeof title === 'object') {
     options = title
@@ -157,15 +161,15 @@ MessageBox.alert = (
       options,
       {
         boxType: 'alert',
-      },
-    ),
+      }
+    )
   )
 }
 
 MessageBox.confirm = (
   message: string,
   title: string,
-  options?: ElMessageBoxOptions,
+  options?: ElMessageBoxOptions
 ) => {
   if (typeof title === 'object') {
     options = title
@@ -184,15 +188,15 @@ MessageBox.confirm = (
       options,
       {
         boxType: 'confirm',
-      },
-    ),
+      }
+    )
   )
 }
 
 MessageBox.prompt = (
   message: string,
   title: string,
-  options?: ElMessageBoxOptions,
+  options?: ElMessageBoxOptions
 ) => {
   if (typeof title === 'object') {
     options = title
@@ -212,8 +216,8 @@ MessageBox.prompt = (
       options,
       {
         boxType: 'prompt',
-      },
-    ),
+      }
+    )
   )
 }
 

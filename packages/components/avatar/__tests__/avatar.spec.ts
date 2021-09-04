@@ -1,6 +1,10 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { IMAGE_SUCCESS, IMAGE_FAIL, mockImageEvent } from '@element-plus/test-utils'
+import {
+  IMAGE_SUCCESS,
+  IMAGE_FAIL,
+  mockImageEvent,
+} from '@element-plus/test-utils'
 
 import Avatar from '../src/index.vue'
 
@@ -66,7 +70,9 @@ describe('Avatar.vue', () => {
       const wrapper = mount(Avatar, {
         props: { fit, src: IMAGE_SUCCESS },
       })
-      expect(wrapper.find('img').attributes('style')).toContain(`object-fit: ${fit};`)
+      expect(wrapper.find('img').attributes('style')).toContain(
+        `object-fit: ${fit};`
+      )
     }
   })
 
@@ -84,4 +90,3 @@ describe('Avatar.vue', () => {
     expect(wrapper.find('img').exists()).toBe(true)
   })
 })
-

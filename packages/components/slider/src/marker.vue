@@ -21,10 +21,14 @@ export default defineComponent({
     }
   },
   render() {
-    return h('div', {
-      class: 'el-slider__marks-text',
-      style: this.mark?.style,
-    }, this.label)
+    return h(
+      'div',
+      {
+        class: 'el-slider__marks-text',
+        style: this.mark?.style,
+      },
+      this.label
+    )
   },
 })
 </script>

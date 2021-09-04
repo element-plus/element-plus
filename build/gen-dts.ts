@@ -17,12 +17,15 @@ const excludedFiles = [
   'css',
   '.DS_Store',
 ]
-const exclude = (path: string) => !excludedFiles.some(f => path.includes(f))
+const exclude = (path: string) => !excludedFiles.some((f) => path.includes(f))
 
 /**
  * fork = require( https://github.com/egoist/vue-dts-gen/blob/main/src/index.ts
  */
-const genVueTypes = async (root, outDir = path.resolve(__dirname, '../dist/types')) => {
+const genVueTypes = async (
+  root,
+  outDir = path.resolve(__dirname, '../dist/types')
+) => {
   const project = new Project({
     compilerOptions: {
       allowJs: true,
@@ -45,13 +48,13 @@ const genVueTypes = async (root, outDir = path.resolve(__dirname, '../dist/types
   const filePaths = klawSync(root, {
     nodir: true,
   })
-    .map(item => item.path)
-    .filter(path => !DEMO_RE.test(path))
-    .filter(path => !TEST_RE.test(path))
+    .map((item) => item.path)
+    .filter((path) => !DEMO_RE.test(path))
+    .filter((path) => !TEST_RE.test(path))
     .filter(exclude)
 
   await Promise.all(
-    filePaths.map(async file => {
+    filePaths.map(async (file) => {
       if (file.endsWith('.vue')) {
         const content = await fs.promises.readFile(file, 'utf-8')
         const sfc = vueCompiler.parse(content)
@@ -72,7 +75,7 @@ const genVueTypes = async (root, outDir = path.resolve(__dirname, '../dist/types
           }
           const sourceFile = project.createSourceFile(
             path.relative(process.cwd(), file) + (isTS ? '.ts' : '.js'),
-            content,
+            content
           )
           sourceFiles.push(sourceFile)
         }
@@ -80,7 +83,7 @@ const genVueTypes = async (root, outDir = path.resolve(__dirname, '../dist/types
         const sourceFile = project.addSourceFileAtPath(file)
         sourceFiles.push(sourceFile)
       }
-    }),
+    })
   )
 
   const diagnostics = project.getPreEmitDiagnostics()
@@ -95,10 +98,8 @@ const genVueTypes = async (root, outDir = path.resolve(__dirname, '../dist/types
     console.log(
       chalk.yellow(
         'Generating definition for file: ' +
-        chalk.bold(
-          sourceFile.getBaseName(),
-        ),
-      ),
+          chalk.bold(sourceFile.getBaseName())
+      )
     )
 
     const emitOutput = sourceFile.getEmitOutput()
@@ -109,21 +110,27 @@ const genVueTypes = async (root, outDir = path.resolve(__dirname, '../dist/types
         recursive: true,
       })
 
-      await fs.promises.writeFile(filepath,
+      await fs.promises.writeFile(
+        filepath,
         outputFile
           .getText()
-          .replace(new RegExp('@element-plus/components', 'g'), 'element-plus/es')
-          .replace(new RegExp('@element-plus/theme-chalk', 'g'), 'element-plus/theme-chalk')
+          .replace(
+            new RegExp('@element-plus/components', 'g'),
+            'element-plus/es'
+          )
+          .replace(
+            new RegExp('@element-plus/theme-chalk', 'g'),
+            'element-plus/theme-chalk'
+          )
           .replace(new RegExp('@element-plus', 'g'), 'element-plus/es'),
-        'utf8')
+        'utf8'
+      )
       console.log(
         chalk.green(
           'Definition for file: ' +
-          chalk.bold(
-            sourceFile.getBaseName(),
-          ) +
-          ' generated',
-        ),
+            chalk.bold(sourceFile.getBaseName()) +
+            ' generated'
+        )
       )
     }
   }

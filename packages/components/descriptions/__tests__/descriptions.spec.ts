@@ -44,8 +44,12 @@ describe('Descriptions.vue', () => {
       </el-descriptions>
     `)
 
-    expect(wrapper.find('.el-descriptions__label').classes()).toContain('is-center')
-    expect(wrapper.find('.el-descriptions__content').classes()).toContain('is-right')
+    expect(wrapper.find('.el-descriptions__label').classes()).toContain(
+      'is-center'
+    )
+    expect(wrapper.find('.el-descriptions__content').classes()).toContain(
+      'is-right'
+    )
   })
 
   test('should render width props', () => {
@@ -55,8 +59,12 @@ describe('Descriptions.vue', () => {
       </el-descriptions>
     `)
 
-    expect(wrapper.find('.el-descriptions__label').attributes('style')).toContain('width: 50px; min-width: 60px;')
-    expect(wrapper.find('.el-descriptions__content').attributes('style')).toContain('width: 50px; min-width: 60px;')
+    expect(
+      wrapper.find('.el-descriptions__label').attributes('style')
+    ).toContain('width: 50px; min-width: 60px;')
+    expect(
+      wrapper.find('.el-descriptions__content').attributes('style')
+    ).toContain('width: 50px; min-width: 60px;')
   })
 
   test('should render class props', () => {
@@ -66,8 +74,12 @@ describe('Descriptions.vue', () => {
       </el-descriptions>
     `)
 
-    expect(wrapper.find('.el-descriptions__label').classes()).toContain('label-class-name')
-    expect(wrapper.find('.el-descriptions__content').classes()).toContain('class-name')
+    expect(wrapper.find('.el-descriptions__label').classes()).toContain(
+      'label-class-name'
+    )
+    expect(wrapper.find('.el-descriptions__content').classes()).toContain(
+      'class-name'
+    )
   })
 
   test('should render width props', () => {
@@ -77,20 +89,27 @@ describe('Descriptions.vue', () => {
       </el-descriptions>
     `)
 
-    expect(wrapper.find('.el-descriptions__label').attributes('style')).toContain('width: 50px; min-width: 60px;')
-    expect(wrapper.find('.el-descriptions__content').attributes('style')).toContain('width: 50px; min-width: 60px;')
+    expect(
+      wrapper.find('.el-descriptions__label').attributes('style')
+    ).toContain('width: 50px; min-width: 60px;')
+    expect(
+      wrapper.find('.el-descriptions__content').attributes('style')
+    ).toContain('width: 50px; min-width: 60px;')
   })
 
   test('should render column props', async () => {
-    const wrapper = _mount(`
+    const wrapper = _mount(
+      `
       <el-descriptions :column="5" :border="border">
         <el-descriptions-item v-for="item in 10" :label="item">{{ item }}</el-descriptions-item>
       </el-descriptions>
-    `, () => {
-      return {
-        border: false,
+    `,
+      () => {
+        return {
+          border: false,
+        }
       }
-    })
+    )
 
     expect(wrapper.find('tr').element.children.length).toEqual(5)
     wrapper.vm.border = true
@@ -99,22 +118,29 @@ describe('Descriptions.vue', () => {
   })
 
   test('should render direction props', async () => {
-    const wrapper = _mount(`
+    const wrapper = _mount(
+      `
       <el-descriptions :column="5" :direction="direction" border>
         <el-descriptions-item v-for="item in 10" :label="item">{{ item }}</el-descriptions-item>
       </el-descriptions>
-    `, () => {
-      return {
-        direction: 'horizontal',
+    `,
+      () => {
+        return {
+          direction: 'horizontal',
+        }
       }
-    })
+    )
 
     expect(wrapper.find('tr').element.children.length).toEqual(10)
-    expect(wrapper.findAll('tr')[0].element.children[0].innerHTML).toEqual(wrapper.findAll('tr')[0].element.children[1].innerHTML)
+    expect(wrapper.findAll('tr')[0].element.children[0].innerHTML).toEqual(
+      wrapper.findAll('tr')[0].element.children[1].innerHTML
+    )
     wrapper.vm.direction = 'vertical'
     await nextTick()
     expect(wrapper.find('tr').element.children.length).toEqual(5)
-    expect(wrapper.findAll('tr')[0].element.children[0].innerHTML).toEqual(wrapper.findAll('tr')[1].element.children[0].innerHTML)
+    expect(wrapper.findAll('tr')[0].element.children[0].innerHTML).toEqual(
+      wrapper.findAll('tr')[1].element.children[0].innerHTML
+    )
   })
 
   test('should render title slots', async () => {
@@ -138,28 +164,36 @@ describe('Descriptions.vue', () => {
       </el-descriptions>
     `)
 
-    expect(wrapper.findAll('td')[1].element.getAttribute('colSpan')).toEqual('2')
-    expect(wrapper.findAll('td')[3].element.getAttribute('colSpan')).toEqual('2')
+    expect(wrapper.findAll('td')[1].element.getAttribute('colSpan')).toEqual(
+      '2'
+    )
+    expect(wrapper.findAll('td')[3].element.getAttribute('colSpan')).toEqual(
+      '2'
+    )
   })
 
   test('re-rendered when slots is updated', async () => {
     const CHANGE_VALUE = 'company'
-    const wrapper = _mount(`
+    const wrapper = _mount(
+      `
       <el-descriptions v-for="(remark,index) in remarks" :key="index" :title="remark">
         <el-descriptions-item label="remark">
           <el-tag size="small">{{remark}}</el-tag>
         </el-descriptions-item>
       </el-descriptions>
       <button @click="onClick">click</button>
-    `, () => {
-      return {
-        remarks: ['school', 'hospital'],
-      }
-    }, {
-      onClick() {
-        this.remarks[0] = CHANGE_VALUE
+    `,
+      () => {
+        return {
+          remarks: ['school', 'hospital'],
+        }
       },
-    })
+      {
+        onClick() {
+          this.remarks[0] = CHANGE_VALUE
+        },
+      }
+    )
     wrapper.find('button').trigger('click')
     await nextTick()
     expect(wrapper.find('el-tag').text()).toBe(CHANGE_VALUE)

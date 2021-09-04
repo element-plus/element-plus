@@ -5,7 +5,6 @@ import RadioGroup from './src/radio-group.vue'
 import type { App } from 'vue'
 import type { SFCWithInstall } from '@element-plus/utils/types'
 
-
 Radio.install = (app: App): void => {
   app.component(Radio.name, Radio)
   app.component(RadioButton.name, RadioButton)

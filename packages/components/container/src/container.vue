@@ -1,5 +1,5 @@
 <template>
-  <section class="el-container" :class="{'is-vertical': isVertical}">
+  <section class="el-container" :class="{ 'is-vertical': isVertical }">
     <slot></slot>
   </section>
 </template>
@@ -25,7 +25,7 @@ export default defineComponent({
       }
       if (slots && slots.default) {
         const vNodes: VNode[] = slots.default()
-        return vNodes.some(vNode => {
+        return vNodes.some((vNode) => {
           const tag = (vNode.type as Component).name
           return tag === 'ElHeader' || tag === 'ElFooter'
         })

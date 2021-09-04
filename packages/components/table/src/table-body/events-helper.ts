@@ -3,9 +3,9 @@ import { getStyle, hasClass } from '@element-plus/utils/dom'
 import { createTablePopper, getCell, getColumnByCell } from '../util'
 import debounce from 'lodash/debounce'
 
-import type{ TableColumnCtx } from '../table-column/defaults'
-import type{ Table } from '../table/defaults'
-import type{ TableBodyProps } from './defaults'
+import type { TableColumnCtx } from '../table-column/defaults'
+import type { Table } from '../table/defaults'
+import type { TableBodyProps } from './defaults'
 
 function useEvents<T>(props: Partial<TableBodyProps<T>>) {
   const instance = getCurrentInstance()
@@ -21,7 +21,7 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
         {
           columns: props.store.states.columns.value,
         },
-        cell,
+        cell
       )
       if (column) {
         table.emit(`cell-${name}`, row, column, cell, event)
@@ -39,15 +39,15 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
   const handleContextMenu = (event: Event, row: T) => {
     handleEvent(event, row, 'contextmenu')
   }
-  const handleMouseEnter = debounce(function(index: number) {
+  const handleMouseEnter = debounce(function (index: number) {
     props.store.commit('setHoverRow', index)
   }, 30)
-  const handleMouseLeave = debounce(function() {
+  const handleMouseLeave = debounce(function () {
     props.store.commit('setHoverRow', null)
   }, 30)
   const handleCellMouseEnter = (
     event: MouseEvent,
-    row: T & { tooltipEffect: string; },
+    row: T & { tooltipEffect: string }
   ) => {
     const table = parent
     const cell = getCell(event)
@@ -57,7 +57,7 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
         {
           columns: props.store.states.columns.value,
         },
-        cell,
+        cell
       )
       const hoverState = (table.hoverState = { cell, column, row })
       table.emit(
@@ -65,13 +65,13 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
         hoverState.row,
         hoverState.column,
         hoverState.cell,
-        event,
+        event
       )
     }
 
     // 判断是否text-overflow, 如果是就显示tooltip
     const cellChild = (event.target as HTMLElement).querySelector(
-      '.cell',
+      '.cell'
     ) as HTMLElement
     if (!(hasClass(cellChild, 'el-tooltip') && cellChild.childNodes.length)) {
       return
@@ -96,11 +96,11 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
           placement: 'top',
           strategy: 'fixed',
         },
-        row.tooltipEffect,
+        row.tooltipEffect
       )
     }
   }
-  const handleCellMouseLeave = event => {
+  const handleCellMouseLeave = (event) => {
     const cell = getCell(event)
     if (!cell) return
 
@@ -110,7 +110,7 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
       oldHoverState?.row,
       oldHoverState?.column,
       oldHoverState?.cell,
-      event,
+      event
     )
   }
 

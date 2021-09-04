@@ -5,7 +5,6 @@ import Switch from '../src/index.vue'
 jest.useFakeTimers()
 
 describe('Switch.vue', () => {
-
   test('create', () => {
     const wrapper = mount(Switch, {
       props: {

@@ -22,17 +22,12 @@ module.exports = {
   overrides: [
     {
       test: /\.vue$/,
-      plugins: [
-        '@babel/transform-typescript',
-      ],
+      plugins: ['@babel/transform-typescript'],
     },
   ],
   env: {
     utils: {
-      ignore: [
-        '**/*.test.ts',
-        '**/*.spec.ts',
-      ],
+      ignore: ['**/*.test.ts', '**/*.spec.ts'],
       presets: [
         [
           '@babel/env',

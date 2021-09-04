@@ -1,7 +1,7 @@
 <template>
   <div class="el-empty">
     <div class="el-empty__image" :style="imageStyle">
-      <img v-if="image" :src="image" ondragstart="return false">
+      <img v-if="image" :src="image" ondragstart="return false" />
       <slot v-else name="image">
         <img-empty />
       </slot>
@@ -39,7 +39,9 @@ export default defineComponent({
   },
   setup(props) {
     const { t } = useLocaleInject()
-    const emptyDescription = computed(() => props.description || t('el.table.emptyText'))
+    const emptyDescription = computed(
+      () => props.description || t('el.table.emptyText')
+    )
     const imageStyle = computed(() => {
       return {
         width: props.imageSize ? `${props.imageSize}px` : '',

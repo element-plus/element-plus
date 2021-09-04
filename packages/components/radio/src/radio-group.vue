@@ -69,27 +69,35 @@ export default defineComponent({
     })
 
     // methods
-    const changeEvent = value => {
+    const changeEvent = (value) => {
       ctx.emit(UPDATE_MODEL_EVENT, value)
       nextTick(() => {
         ctx.emit('change', value)
       })
     }
 
-    provide(radioGroupKey, reactive({
-      name: 'ElRadioGroup',
-      ...toRefs(props),
-      radioGroupSize: radioGroupSize,
-      changeEvent: changeEvent,
-    } as any))
+    provide(
+      radioGroupKey,
+      reactive({
+        name: 'ElRadioGroup',
+        ...toRefs(props),
+        radioGroupSize: radioGroupSize,
+        changeEvent: changeEvent,
+      } as any)
+    )
 
-    watch(() => props.modelValue, val => {
-      elFormItem.formItemMitt?.emit('el.form.change', [val])
-    })
+    watch(
+      () => props.modelValue,
+      (val) => {
+        elFormItem.formItemMitt?.emit('el.form.change', [val])
+      }
+    )
 
-    const handleKeydown = e => { // 左右上下按键 可以在radio组内切换不同选项
+    const handleKeydown = (e) => {
+      // 左右上下按键 可以在radio组内切换不同选项
       const target = e.target
-      const className = target.nodeName === 'INPUT' ? '[type=radio]' : '[role=radio]'
+      const className =
+        target.nodeName === 'INPUT' ? '[type=radio]' : '[role=radio]'
       const radios = radioGroup.value.querySelectorAll(className)
       const length = radios.length
       const index = Array.from(radios).indexOf(target)
@@ -106,7 +114,7 @@ export default defineComponent({
         case EVENT_CODE.down:
           e.stopPropagation()
           e.preventDefault()
-          nextIndex = (index === (length - 1)) ? 0 : index + 1
+          nextIndex = index === length - 1 ? 0 : index + 1
           break
         default:
           break
@@ -119,7 +127,10 @@ export default defineComponent({
     onMounted(() => {
       const radios = radioGroup.value.querySelectorAll('[type=radio]')
       const firstLabel = radios[0]
-      if (!Array.from(radios).some((radio: HTMLInputElement) => radio.checked) && firstLabel) {
+      if (
+        !Array.from(radios).some((radio: HTMLInputElement) => radio.checked) &&
+        firstLabel
+      ) {
         firstLabel.tabIndex = 0
       }
     })
@@ -131,4 +142,3 @@ export default defineComponent({
   },
 })
 </script>
-

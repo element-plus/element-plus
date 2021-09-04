@@ -13,23 +13,21 @@ export const useTransitionProps = {
 
 export const useTransition = (
   props: ExtractPropTypes<typeof useTransitionProps>,
-  indicator: Ref<boolean>,
+  indicator: Ref<boolean>
 ) => {
   const transitionState = ref(indicator.value)
-  watch(indicator, val => {
-    nextTick(() => transitionState.value = val)
+  watch(indicator, (val) => {
+    nextTick(() => (transitionState.value = val))
   })
 
   return {
     transition: computed(() => {
       return `el-transition--${
-        transitionState.value
-          ? props.transitionShow
-          : props.transitionHide
+        transitionState.value ? props.transitionShow : props.transitionHide
       }`
     }),
-    transitionStyle: computed(() =>
-      `--el-transition-duration: ${props.transitionDuration}s`,
+    transitionStyle: computed(
+      () => `--el-transition-duration: ${props.transitionDuration}s`
     ),
   }
 }

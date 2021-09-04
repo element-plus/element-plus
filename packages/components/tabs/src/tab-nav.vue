@@ -48,7 +48,7 @@ export default defineComponent({
     editable: Boolean,
     onTabClick: {
       type: Function as PropType<
-      (tab: Pane, tabName: string, ev: Event) => void
+        (tab: Pane, tabName: string, ev: Event) => void
       >,
       default: NOOP,
     },
@@ -125,7 +125,7 @@ export default defineComponent({
       if (!activeTab) return
       const navScroll = navScroll$.value
       const isHorizontal = ['top', 'bottom'].includes(
-        rootTabs.props.tabPosition,
+        rootTabs.props.tabPosition
       )
       const activeTabBounding = activeTab.getBoundingClientRect()
       const navScrollBounding = navScroll.getBoundingClientRect()
@@ -182,7 +182,7 @@ export default defineComponent({
       }
     }
 
-    const changeTab = e => {
+    const changeTab = (e) => {
       const code = e.code
       let nextIndex
       let currentIndex, tabList
@@ -319,29 +319,29 @@ export default defineComponent({
 
     const scrollBtn = scrollable
       ? [
-        h(
-          'span',
-          {
-            class: [
-              'el-tabs__nav-prev',
-              scrollable.prev ? '' : 'is-disabled',
-            ],
-            onClick: scrollPrev,
-          },
-          [h('i', { class: 'el-icon-arrow-left' })],
-        ),
-        h(
-          'span',
-          {
-            class: [
-              'el-tabs__nav-next',
-              scrollable.next ? '' : 'is-disabled',
-            ],
-            onClick: scrollNext,
-          },
-          [h('i', { class: 'el-icon-arrow-right' })],
-        ),
-      ]
+          h(
+            'span',
+            {
+              class: [
+                'el-tabs__nav-prev',
+                scrollable.prev ? '' : 'is-disabled',
+              ],
+              onClick: scrollPrev,
+            },
+            [h('i', { class: 'el-icon-arrow-left' })]
+          ),
+          h(
+            'span',
+            {
+              class: [
+                'el-tabs__nav-next',
+                scrollable.next ? '' : 'is-disabled',
+              ],
+              onClick: scrollNext,
+            },
+            [h('i', { class: 'el-icon-arrow-right' })]
+          ),
+        ]
       : null
 
     const tabs = panes.map((pane, index) => {
@@ -352,11 +352,11 @@ export default defineComponent({
 
       const btnClose = closable
         ? h('span', {
-          class: 'el-icon-close',
-          onClick: ev => {
-            onTabRemove(pane, ev)
-          },
-        })
+            class: 'el-icon-close',
+            onClick: (ev) => {
+              onTabRemove(pane, ev)
+            },
+          })
         : null
 
       const tabLabelContent = pane.instance.slots.label?.() || pane.props.label
@@ -386,11 +386,11 @@ export default defineComponent({
           onBlur: () => {
             removeFocus()
           },
-          onClick: ev => {
+          onClick: (ev) => {
             removeFocus()
             onTabClick(pane, tabName, ev)
           },
-          onKeydown: ev => {
+          onKeydown: (ev) => {
             if (
               closable &&
               (ev.code === EVENT_CODE.delete ||
@@ -400,7 +400,7 @@ export default defineComponent({
             }
           },
         },
-        [tabLabelContent, btnClose],
+        [tabLabelContent, btnClose]
       )
     })
 
@@ -442,15 +442,15 @@ export default defineComponent({
               [
                 !type
                   ? h(TabBar, {
-                    tabs: [...panes],
-                  })
+                      tabs: [...panes],
+                    })
                   : null,
                 tabs,
-              ],
+              ]
             ),
-          ],
+          ]
         ),
-      ],
+      ]
     )
   },
 })

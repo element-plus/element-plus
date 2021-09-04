@@ -15,7 +15,8 @@ Vous pouvez aussi laisser l'utilisateur choisir librement un horaire.
     :disabled-hours="disabledHours"
     :disabled-minutes="disabledMinutes"
     :disabled-seconds="disabledSeconds"
-    placeholder="Horaire libre">
+    placeholder="Horaire libre"
+  >
   </el-time-picker>
   <el-time-picker
     arrow-control
@@ -23,7 +24,8 @@ Vous pouvez aussi laisser l'utilisateur choisir librement un horaire.
     :disabled-hours="disabledHours"
     :disabled-minutes="disabledMinutes"
     :disabled-seconds="disabledSeconds"
-    placeholder="Horaire libre">
+    placeholder="Horaire libre"
+  >
   </el-time-picker>
 </template>
 
@@ -39,15 +41,15 @@ Vous pouvez aussi laisser l'utilisateur choisir librement un horaire.
     data() {
       return {
         value1: new Date(2016, 9, 10, 18, 40),
-        value2: new Date(2016, 9, 10, 18, 40)
-      };
+        value2: new Date(2016, 9, 10, 18, 40),
+      }
     },
     methods: {
       // e.g. allow 17:30:00 - 18:30:00
       disabledHours() {
         return makeRange(0, 16).concat(makeRange(19, 23))
       },
-      disabledMinutes (hour) {
+      disabledMinutes(hour) {
         if (hour === 17) {
           return makeRange(0, 29)
         }
@@ -64,6 +66,7 @@ Vous pouvez aussi laisser l'utilisateur choisir librement un horaire.
   }
 </script>
 ```
+
 :::
 
 ### Intervalle de temps libre
@@ -71,6 +74,7 @@ Vous pouvez aussi laisser l'utilisateur choisir librement un horaire.
 Vous pouvez également définir un intervalle libre.
 
 :::demo Ajoutez l'attribut `is-range`. L'attribut `arrow-control` est aussi supporté dans ce mode.
+
 ```html
 <template>
   <el-time-picker
@@ -78,7 +82,8 @@ Vous pouvez également définir un intervalle libre.
     v-model="value1"
     range-separator="To"
     start-placeholder="Horaire de début"
-    end-placeholder="Horaire de fin">
+    end-placeholder="Horaire de fin"
+  >
   </el-time-picker>
   <el-time-picker
     is-range
@@ -86,7 +91,8 @@ Vous pouvez également définir un intervalle libre.
     v-model="value2"
     range-separator="To"
     start-placeholder="Horaire de début"
-    end-placeholder="Horaire de fin">
+    end-placeholder="Horaire de fin"
+  >
   </el-time-picker>
 </template>
 
@@ -95,52 +101,53 @@ Vous pouvez également définir un intervalle libre.
     data() {
       return {
         value1: [new Date(2016, 9, 10, 8, 40), new Date(2016, 9, 10, 9, 40)],
-        value2: [new Date(2016, 9, 10, 8, 40), new Date(2016, 9, 10, 9, 40)]
-      };
-    }
+        value2: [new Date(2016, 9, 10, 8, 40), new Date(2016, 9, 10, 9, 40)],
+      }
+    },
   }
 </script>
 ```
+
 :::
 
 ### Attributs
 
-| Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| model-value / v-model | La valeur liée. | Date | — | — |
-| readonly | Si TimePicker est en lecture seule. | boolean | — | false |
-| disabled | Si TimePicker est désactivé. | boolean | — | false |
-| editable | Si le champ d'input est éditable. | boolean | — | true |
-| clearable | Si un bouton d'effacement doit être affiché. | boolean | — | true |
-| size | Taille du champ. | string | medium / small / mini | — |
-| placeholder | Placeholder en mode non-intervalle. | string | — | — |
-| start-placeholder | Placeholder de l'horaire de début en mode intervalle. | string | — | — |
-| end-placeholder | Placeholder de l'horaire de fin en mode intervalle. | string | — | — |
-| is-range | Si le mode intervalle est activé | boolean | — | false |
-| arrow-control | Si les flèches directionnelles peuvent être utilisées | boolean | — | false |
-| align | Alignement. | left / center / right | left |
-| popper-class | Classe du menu du TimePicker. | string | — | — |
-| range-separator | Séparateur d'intervalle. | string | — | '-' |
-| format | format of the displayed value in the input box | string | see [date formats](#/en-US/component/date-picker#date-formats) | HH:mm:ss |
-| default-value | Optionnel, date d'aujourd'hui par défaut. | `Date` pour le TimePicker, `string` pour le TimeSelect | Toute valeur acceptée par `new Date()` pour le TimePicker, une valeur sélectionnable pour TimeSelect. | — |
-| name | Attribut `name` natif de l'input. | string | — | — |
-| prefix-icon | Classe de l'icône de préfixe. | string | — | el-icon-time |
-| clear-icon | Classe de l'icône d'effacement. | string | — | el-icon-circle-close |
-| disabled-hours | To specify the array of hours that cannot be selected | function | — | — |
-| disabled-minutes | To specify the array of minutes that cannot be selected | function(selectedHour) | — | — |
-| disabled-seconds | To specify the array of seconds that cannot be selected | function(selectedHour, selectedMinute) | — | — |
+| Attribut              | Description                                             | Type                                                   | Valeurs acceptées                                                                                     | Défaut               |
+| --------------------- | ------------------------------------------------------- | ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------- | -------------------- |
+| model-value / v-model | La valeur liée.                                         | Date                                                   | —                                                                                                     | —                    |
+| readonly              | Si TimePicker est en lecture seule.                     | boolean                                                | —                                                                                                     | false                |
+| disabled              | Si TimePicker est désactivé.                            | boolean                                                | —                                                                                                     | false                |
+| editable              | Si le champ d'input est éditable.                       | boolean                                                | —                                                                                                     | true                 |
+| clearable             | Si un bouton d'effacement doit être affiché.            | boolean                                                | —                                                                                                     | true                 |
+| size                  | Taille du champ.                                        | string                                                 | medium / small / mini                                                                                 | —                    |
+| placeholder           | Placeholder en mode non-intervalle.                     | string                                                 | —                                                                                                     | —                    |
+| start-placeholder     | Placeholder de l'horaire de début en mode intervalle.   | string                                                 | —                                                                                                     | —                    |
+| end-placeholder       | Placeholder de l'horaire de fin en mode intervalle.     | string                                                 | —                                                                                                     | —                    |
+| is-range              | Si le mode intervalle est activé                        | boolean                                                | —                                                                                                     | false                |
+| arrow-control         | Si les flèches directionnelles peuvent être utilisées   | boolean                                                | —                                                                                                     | false                |
+| align                 | Alignement.                                             | left / center / right                                  | left                                                                                                  |
+| popper-class          | Classe du menu du TimePicker.                           | string                                                 | —                                                                                                     | —                    |
+| range-separator       | Séparateur d'intervalle.                                | string                                                 | —                                                                                                     | '-'                  |
+| format                | format of the displayed value in the input box          | string                                                 | see [date formats](#/en-US/component/date-picker#date-formats)                                        | HH:mm:ss             |
+| default-value         | Optionnel, date d'aujourd'hui par défaut.               | `Date` pour le TimePicker, `string` pour le TimeSelect | Toute valeur acceptée par `new Date()` pour le TimePicker, une valeur sélectionnable pour TimeSelect. | —                    |
+| name                  | Attribut `name` natif de l'input.                       | string                                                 | —                                                                                                     | —                    |
+| prefix-icon           | Classe de l'icône de préfixe.                           | string                                                 | —                                                                                                     | el-icon-time         |
+| clear-icon            | Classe de l'icône d'effacement.                         | string                                                 | —                                                                                                     | el-icon-circle-close |
+| disabled-hours        | To specify the array of hours that cannot be selected   | function                                               | —                                                                                                     | —                    |
+| disabled-minutes      | To specify the array of minutes that cannot be selected | function(selectedHour)                                 | —                                                                                                     | —                    |
+| disabled-seconds      | To specify the array of seconds that cannot be selected | function(selectedHour, selectedMinute)                 | —                                                                                                     | —                    |
 
 ### Évènements
 
-| Nom | Description | Paramètres |
-|---------|--------|---------|
-| change | Se déclenche quand l'utilisateur confirme la valeur. | La valeur confirmée. |
-| blur | Se déclenche quand le composant perd le focus. | L'instance du composant. |
-| focus | Se déclenche quand le composant a le focus. | L'instance du composant. |
+| Nom    | Description                                          | Paramètres               |
+| ------ | ---------------------------------------------------- | ------------------------ |
+| change | Se déclenche quand l'utilisateur confirme la valeur. | La valeur confirmée.     |
+| blur   | Se déclenche quand le composant perd le focus.       | L'instance du composant. |
+| focus  | Se déclenche quand le composant a le focus.          | L'instance du composant. |
 
 ### Méthodes
 
-| Méthode | Description | Paramètres |
-| ---- | ---- | ---- |
-| focus | Met le focus sur le composant. | — |
-| blur | blur the Input component | — |
+| Méthode | Description                    | Paramètres |
+| ------- | ------------------------------ | ---------- |
+| focus   | Met le focus sur le composant. | —          |
+| blur    | blur the Input component       | —          |

@@ -2,7 +2,7 @@
   <div
     class="el-color-svpanel"
     :style="{
-      backgroundColor: background
+      backgroundColor: background,
     }"
   >
     <div class="el-color-svpanel__white"></div>
@@ -11,7 +11,7 @@
       class="el-color-svpanel__cursor"
       :style="{
         top: cursorTop + 'px',
-        left: cursorLeft + 'px'
+        left: cursorLeft + 'px',
       }"
     >
       <div></div>
@@ -20,7 +20,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch, getCurrentInstance, onMounted } from 'vue'
+import {
+  defineComponent,
+  ref,
+  computed,
+  watch,
+  getCurrentInstance,
+  onMounted,
+} from 'vue'
 import draggable from '../draggable'
 
 import type { PropType } from 'vue'
@@ -55,8 +62,8 @@ export default defineComponent({
       const el = instance.vnode.el
       let { clientWidth: width, clientHeight: height } = el
 
-      cursorLeft.value = saturation * width / 100
-      cursorTop.value = (100 - value) * height / 100
+      cursorLeft.value = (saturation * width) / 100
+      cursorTop.value = ((100 - value) * height) / 100
 
       background.value = 'hsl(' + props.color.get('hue') + ', 100%, 50%)'
     }
@@ -76,21 +83,24 @@ export default defineComponent({
       cursorLeft.value = left
       cursorTop.value = top
       props.color.set({
-        saturation: left / rect.width * 100,
-        value: 100 - top / rect.height * 100,
+        saturation: (left / rect.width) * 100,
+        value: 100 - (top / rect.height) * 100,
       })
     }
     // watch
-    watch(() => colorValue.value, () => {
-      update()
-    })
+    watch(
+      () => colorValue.value,
+      () => {
+        update()
+      }
+    )
     // mounted
     onMounted(() => {
       draggable(instance.vnode.el as HTMLElement, {
-        drag: event => {
+        drag: (event) => {
           handleDrag(event)
         },
-        end: event => {
+        end: (event) => {
           handleDrag(event)
         },
       })

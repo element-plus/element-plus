@@ -39,7 +39,11 @@
                 disable-transitions
                 @close="deleteTag($event, selected[0])"
               >
-                <span class="el-select__tags-text" :style="{ maxWidth: inputWidth - 123 + 'px' }">{{ selected[0].currentLabel }}</span>
+                <span
+                  class="el-select__tags-text"
+                  :style="{ maxWidth: inputWidth - 123 + 'px' }"
+                  >{{ selected[0].currentLabel }}</span
+                >
               </el-tag>
               <el-tag
                 v-if="selected.length > 1"
@@ -48,12 +52,19 @@
                 type="info"
                 disable-transitions
               >
-                <span class="el-select__tags-text">+ {{ selected.length - 1 }}</span>
+                <span class="el-select__tags-text"
+                  >+ {{ selected.length - 1 }}</span
+                >
               </el-tag>
             </span>
             <!-- <div> -->
             <transition v-if="!collapseTags" @after-leave="resetInputHeight">
-              <span :style="{marginLeft: prefixWidth && selected.length ? `${prefixWidth}px` : null}">
+              <span
+                :style="{
+                  marginLeft:
+                    prefixWidth && selected.length ? `${prefixWidth}px` : null,
+                }"
+              >
                 <el-tag
                   v-for="item in selected"
                   :key="getValueKey(item)"
@@ -64,7 +75,11 @@
                   disable-transitions
                   @close="deleteTag($event, item)"
                 >
-                  <span class="el-select__tags-text" :style="{ maxWidth: inputWidth - 75 + 'px' }">{{ item.currentLabel }}</span>
+                  <span
+                    class="el-select__tags-text"
+                    :style="{ maxWidth: inputWidth - 75 + 'px' }"
+                    >{{ item.currentLabel }}</span
+                  >
                 </el-tag>
               </span>
             </transition>
@@ -75,10 +90,18 @@
               v-model="query"
               type="text"
               class="el-select__input"
-              :class="[selectSize ? `is-${ selectSize }` : '']"
+              :class="[selectSize ? `is-${selectSize}` : '']"
               :disabled="selectDisabled"
               :autocomplete="autocomplete"
-              :style="{ marginLeft: prefixWidth && !selected.length || tagInMultiLine ? `${prefixWidth}px` : null, flexGrow: '1', width: `${inputLength / (inputWidth - 32)}%`, maxWidth: `${inputWidth - 42}px` }"
+              :style="{
+                marginLeft:
+                  (prefixWidth && !selected.length) || tagInMultiLine
+                    ? `${prefixWidth}px`
+                    : null,
+                flexGrow: '1',
+                width: `${inputLength / (inputWidth - 32)}%`,
+                maxWidth: `${inputWidth - 42}px`,
+              }"
               @focus="handleFocus"
               @blur="handleBlur"
               @keyup="managePlaceholder"
@@ -93,7 +116,7 @@
               @compositionupdate="handleComposition"
               @compositionend="handleComposition"
               @input="debouncedQueryChange"
-            >
+            />
           </div>
           <el-input
             :id="id"
@@ -108,7 +131,7 @@
             :readonly="readonly"
             :validate-event="false"
             :class="{ 'is-focus': visible }"
-            :tabindex="(multiple && filterable) ? '-1' : null"
+            :tabindex="multiple && filterable ? '-1' : null"
             @focus="handleFocus"
             @blur="handleBlur"
             @input="debouncedOnInputChange"
@@ -122,12 +145,26 @@
             @mouseleave="inputHovering = false"
           >
             <template v-if="$slots.prefix" #prefix>
-              <div style="height: 100%;display: flex;justify-content: center;align-items: center">
+              <div
+                style="
+                  height: 100%;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                "
+              >
                 <slot name="prefix"></slot>
               </div>
             </template>
             <template #suffix>
-              <i v-show="!showClose" :class="['el-select__caret', 'el-input__icon', 'el-icon-' + iconClass]"></i>
+              <i
+                v-show="!showClose"
+                :class="[
+                  'el-select__caret',
+                  'el-input__icon',
+                  'el-icon-' + iconClass,
+                ]"
+              ></i>
               <i
                 v-if="showClose"
                 :class="`el-select__caret el-input__icon ${clearIcon}`"
@@ -145,16 +182,19 @@
             tag="ul"
             wrap-class="el-select-dropdown__wrap"
             view-class="el-select-dropdown__list"
-            :class="{ 'is-empty': !allowCreate && query && filteredOptionsCount === 0 }"
+            :class="{
+              'is-empty': !allowCreate && query && filteredOptionsCount === 0,
+            }"
           >
-            <el-option
-              v-if="showNewOption"
-              :value="query"
-              :created="true"
-            />
+            <el-option v-if="showNewOption" :value="query" :created="true" />
             <slot></slot>
           </el-scrollbar>
-          <template v-if="emptyText && (!allowCreate || loading || (allowCreate && options.size === 0 ))">
+          <template
+            v-if="
+              emptyText &&
+              (!allowCreate || loading || (allowCreate && options.size === 0))
+            "
+          >
             <slot v-if="$slots.empty" name="empty"></slot>
             <p v-else class="el-select-dropdown__empty">
               {{ emptyText }}
@@ -184,7 +224,10 @@ import ElPopper, { Effect } from '@element-plus/components/popper'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
-import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
+import {
+  addResizeListener,
+  removeResizeListener,
+} from '@element-plus/utils/resize-event'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
@@ -259,7 +302,15 @@ export default defineComponent({
       default: 'el-icon-circle-close',
     },
   },
-  emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'remove-tag', 'clear', 'visible-change', 'focus', 'blur'],
+  emits: [
+    UPDATE_MODEL_EVENT,
+    CHANGE_EVENT,
+    'remove-tag',
+    'clear',
+    'visible-change',
+    'focus',
+    'blur',
+  ],
 
   setup(props, ctx) {
     const { t } = useLocaleInject()
@@ -334,26 +385,34 @@ export default defineComponent({
       tagInMultiLine,
     } = toRefs(states)
 
-    provide(selectKey, reactive({
-      props,
-      options,
-      optionsArray,
-      cachedOptions,
-      optionsCount,
-      filteredOptionsCount,
-      hoverIndex,
-      handleOptionSelect,
-      selectEmitter: states.selectEmitter,
-      onOptionCreate,
-      onOptionDestroy,
-      selectWrapper,
-      selected,
-      setSelected,
-    }) as unknown as SelectContext)
+    provide(
+      selectKey,
+      reactive({
+        props,
+        options,
+        optionsArray,
+        cachedOptions,
+        optionsCount,
+        filteredOptionsCount,
+        hoverIndex,
+        handleOptionSelect,
+        selectEmitter: states.selectEmitter,
+        onOptionCreate,
+        onOptionDestroy,
+        selectWrapper,
+        selected,
+        setSelected,
+      }) as unknown as SelectContext
+    )
 
     onMounted(() => {
-      states.cachedPlaceHolder = currentPlaceholder.value = (props.placeholder || t('el.select.placeholder'))
-      if (props.multiple && Array.isArray(props.modelValue) && props.modelValue.length > 0) {
+      states.cachedPlaceHolder = currentPlaceholder.value =
+        props.placeholder || t('el.select.placeholder')
+      if (
+        props.multiple &&
+        Array.isArray(props.modelValue) &&
+        props.modelValue.length > 0
+      ) {
         currentPlaceholder.value = ''
       }
       addResizeListener(selectWrapper.value as any, handleResize)
@@ -364,7 +423,8 @@ export default defineComponent({
           mini: 28,
         }
         const input = reference.value.input
-        states.initialInputHeight = input.getBoundingClientRect().height || sizeMap[selectSize.value]
+        states.initialInputHeight =
+          input.getBoundingClientRect().height || sizeMap[selectSize.value]
       }
       if (props.remote && props.multiple) {
         resetInputHeight()
@@ -375,9 +435,15 @@ export default defineComponent({
         }
         if (ctx.slots.prefix) {
           const inputChildNodes = reference.value.$el.childNodes
-          const input = [].filter.call(inputChildNodes, item => item.tagName === 'INPUT')[0]
+          const input = [].filter.call(
+            inputChildNodes,
+            (item) => item.tagName === 'INPUT'
+          )[0]
           const prefix = reference.value.$el.querySelector('.el-input__prefix')
-          prefixWidth.value = Math.max(prefix.getBoundingClientRect().width + 5, 30)
+          prefixWidth.value = Math.max(
+            prefix.getBoundingClientRect().width + 5,
+            30
+          )
           if (states.prefixWidth) {
             input.style.paddingLeft = `${Math.max(states.prefixWidth, 30)}px`
           }
@@ -385,8 +451,6 @@ export default defineComponent({
       })
       setSelected()
     })
-
-
 
     onBeforeUnmount(() => {
       removeResizeListener(selectWrapper.value as any, handleResize)

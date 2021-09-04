@@ -1,4 +1,10 @@
-import type { ComponentInternalInstance, CSSProperties, Ref, VNode, PropType } from 'vue'
+import type {
+  ComponentInternalInstance,
+  CSSProperties,
+  Ref,
+  VNode,
+  PropType,
+} from 'vue'
 import type { Nullable } from '@element-plus/utils/types'
 import type { Store } from '../store'
 import type { TableColumnCtx } from '../table-column/defaults'
@@ -31,7 +37,7 @@ type HoverState<T> = Nullable<{
   row: T
 }>
 
-type RIS<T> = { row: T; $index: number; store: Store<T>; }
+type RIS<T> = { row: T; $index: number; store: Store<T> }
 
 type RenderExpanded<T> = ({ row, $index, store }: RIS<T>) => VNode
 
@@ -51,26 +57,26 @@ interface Table<T> extends ComponentInternalInstance {
   state: TableState
 }
 
-type ColumnCls<T> = string | ((data: { row: T; rowIndex: number; }) => string)
+type ColumnCls<T> = string | ((data: { row: T; rowIndex: number }) => string)
 type ColumnStyle<T> =
   | CSSProperties
-  | ((data: { row: T; rowIndex: number; }) => CSSProperties)
+  | ((data: { row: T; rowIndex: number }) => CSSProperties)
 type CellCls<T> =
   | string
   | ((data: {
-    row: T
-    rowIndex: number
-    column: TableColumnCtx<T>
-    columnIndex: number
-  }) => string)
+      row: T
+      rowIndex: number
+      column: TableColumnCtx<T>
+      columnIndex: number
+    }) => string)
 type CellStyle<T> =
   | CSSProperties
   | ((data: {
-    row: T
-    rowIndex: number
-    column: TableColumnCtx<T>
-    columnIndex: number
-  }) => CSSProperties)
+      row: T
+      rowIndex: number
+      column: TableColumnCtx<T>
+      columnIndex: number
+    }) => CSSProperties)
 
 interface TableProps<T> {
   data: T[]
@@ -108,11 +114,11 @@ interface TableProps<T> {
     column: TableColumnCtx<T>
     columnIndex: number
   }) =>
-  | number[]
-  | {
-    rowspan: number
-    colspan: number
-  }
+    | number[]
+    | {
+        rowspan: number
+        colspan: number
+      }
   selectOnIndeterminate?: boolean
   indent?: number
   treeProps?: {
@@ -182,26 +188,26 @@ export default {
   sumText: String,
   summaryMethod: Function as PropType<TableProps<DefaultRow>['summaryMethod']>,
   rowClassName: [String, Function] as PropType<
-  TableProps<DefaultRow>['rowClassName']
+    TableProps<DefaultRow>['rowClassName']
   >,
   rowStyle: [Object, Function] as PropType<TableProps<DefaultRow>['rowStyle']>,
   cellClassName: [String, Function] as PropType<
-  TableProps<DefaultRow>['cellClassName']
+    TableProps<DefaultRow>['cellClassName']
   >,
   cellStyle: [Object, Function] as PropType<
-  TableProps<DefaultRow>['cellStyle']
+    TableProps<DefaultRow>['cellStyle']
   >,
   headerRowClassName: [String, Function] as PropType<
-  TableProps<DefaultRow>['headerRowClassName']
+    TableProps<DefaultRow>['headerRowClassName']
   >,
   headerRowStyle: [Object, Function] as PropType<
-  TableProps<DefaultRow>['headerRowStyle']
+    TableProps<DefaultRow>['headerRowStyle']
   >,
   headerCellClassName: [String, Function] as PropType<
-  TableProps<DefaultRow>['headerCellClassName']
+    TableProps<DefaultRow>['headerCellClassName']
   >,
   headerCellStyle: [Object, Function] as PropType<
-  TableProps<DefaultRow>['headerCellStyle']
+    TableProps<DefaultRow>['headerCellStyle']
   >,
   highlightCurrentRow: Boolean,
   currentRowKey: [String, Number],
@@ -239,4 +245,15 @@ export default {
     default: '',
   },
 }
-export type { SummaryMethod, Table, TableProps, TableRefs, ColumnCls, ColumnStyle, TreeNode, RenderRowData, Sort, Filter }
+export type {
+  SummaryMethod,
+  Table,
+  TableProps,
+  TableRefs,
+  ColumnCls,
+  ColumnStyle,
+  TreeNode,
+  RenderRowData,
+  Sort,
+  Filter,
+}

@@ -15,11 +15,8 @@ type VarsType = Ref<Record<string, string>> | Record<string, string>
 
 const VAR_PREFIX = '--el-'
 
-const setVars = (
-  target: HTMLElement,
-  val: Record<string, string>,
-) => {
-  Object.keys(val).forEach(key => {
+const setVars = (target: HTMLElement, val: Record<string, string>) => {
+  Object.keys(val).forEach((key) => {
     if (key.startsWith(VAR_PREFIX)) {
       target?.style.setProperty(key, val[key])
     } else {
@@ -62,12 +59,12 @@ export const themeVarsKey: InjectionKey<VarsType> = 'themeVars' as any
  */
 export function useCssVar(
   vars: VarsType,
-  target?: Ref<HTMLElement> | HTMLElement,
+  target?: Ref<HTMLElement> | HTMLElement
 ) {
   let stopWatchCssVar: WatchStopHandle | null = null
 
   const elRef = computed(
-    () => unref(target) || window?.document?.documentElement,
+    () => unref(target) || window?.document?.documentElement
   )
 
   const themeVars = useThemeVars()
@@ -78,22 +75,22 @@ export function useCssVar(
   onMounted(() => {
     isRef(vars)
       ? (stopWatchCssVar = watch(
-        vars,
-        val => {
-          setVars(elRef.value, {
-            ...unref(themeVars),
-            ...val,
-          })
-        },
-        {
-          immediate: true,
-          deep: true,
-        },
-      ))
+          vars,
+          (val) => {
+            setVars(elRef.value, {
+              ...unref(themeVars),
+              ...val,
+            })
+          },
+          {
+            immediate: true,
+            deep: true,
+          }
+        ))
       : setVars(elRef.value, {
-        ...unref(themeVars),
-        ...vars,
-      })
+          ...unref(themeVars),
+          ...vars,
+        })
   })
 
   onUnmounted(() => stopWatchCssVar && stopWatchCssVar())

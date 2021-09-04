@@ -29,7 +29,7 @@ function compileCjs() {
     .pipe(
       ts.createProject('tsconfig.json', {
         module: 'commonjs',
-      })(),
+      })()
     )
     .pipe(rewriter())
     .pipe(gulp.dest(cjs))

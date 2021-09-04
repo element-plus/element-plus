@@ -31,4 +31,3 @@ We are excited that you are interested in contributing to Element Plus. Before s
 - If your PR fixes a bug, please provide a description about the related bug.
 
 - Merging a PR takes two maintainers: one approves the changes after reviewing, and then the other reviews and merges.
-

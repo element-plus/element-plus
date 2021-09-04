@@ -25,7 +25,7 @@ interface IRenderPopperProps {
 
 export default function renderPopper(
   props: IRenderPopperProps,
-  children: VNode[],
+  children: VNode[]
 ) {
   const {
     effect,
@@ -45,12 +45,7 @@ export default function renderPopper(
     onBeforeLeave,
   } = props
 
-  const kls = [
-    popperClass,
-    'el-popper',
-    'is-' + effect,
-    pure ? 'is-pure' : '',
-  ]
+  const kls = [popperClass, 'el-popper', 'is-' + effect, pure ? 'is-pure' : '']
   /**
    * Equivalent to
    * <transition :name="name">
@@ -65,32 +60,34 @@ export default function renderPopper(
     Transition,
     {
       name,
-      'onAfterEnter': onAfterEnter,
-      'onAfterLeave': onAfterLeave,
-      'onBeforeEnter': onBeforeEnter,
-      'onBeforeLeave': onBeforeLeave,
+      onAfterEnter: onAfterEnter,
+      onAfterLeave: onAfterLeave,
+      onBeforeEnter: onBeforeEnter,
+      onBeforeLeave: onBeforeLeave,
     },
     {
-      default: withCtx(() => [withDirectives(
-        h(
-          'div',
-          {
-            'aria-hidden': String(!visibility),
-            class: kls,
-            style: popperStyle ?? {},
-            id: popperId,
-            ref: popperRef ?? 'popperRef',
-            role: 'tooltip',
-            onMouseenter,
-            onMouseleave,
-            onClick: stop,
-            onMousedown: mouseUpAndDown,
-            onMouseup: mouseUpAndDown,
-          },
-          children,
+      default: withCtx(() => [
+        withDirectives(
+          h(
+            'div',
+            {
+              'aria-hidden': String(!visibility),
+              class: kls,
+              style: popperStyle ?? {},
+              id: popperId,
+              ref: popperRef ?? 'popperRef',
+              role: 'tooltip',
+              onMouseenter,
+              onMouseleave,
+              onClick: stop,
+              onMousedown: mouseUpAndDown,
+              onMouseup: mouseUpAndDown,
+            },
+            children
+          ),
+          [[vShow, visibility]]
         ),
-        [[vShow, visibility]],
-      )]),
-    },
+      ]),
+    }
   )
 }

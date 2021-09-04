@@ -4,7 +4,6 @@ import Scrollbar from '../src/components/scrollbar'
 import { ScrollbarDirKey } from '../src/defaults'
 
 describe('virtual scrollbar', () => {
-
   async function testInlineStyle(layout = 'vertical') {
     const wrapper = mount({
       template: `<scrollbar visible layout="${layout}"></scrollbar>`,
@@ -25,7 +24,9 @@ describe('virtual scrollbar', () => {
       right: '2px',
       bottom: '2px',
       'border-radius': '4px',
-    }).forEach(([key, value]) => expect(`${key}: ${styles.getPropertyValue(key)}`).toBe(`${key}: ${value}`))
+    }).forEach(([key, value]) =>
+      expect(`${key}: ${styles.getPropertyValue(key)}`).toBe(`${key}: ${value}`)
+    )
   }
 
   it('vertical inline style', async () => {
@@ -35,5 +36,4 @@ describe('virtual scrollbar', () => {
   it('horizontal inline style', () => {
     testInlineStyle('horizontal')
   })
-
 })

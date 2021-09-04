@@ -12,7 +12,14 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref, computed, inject, getCurrentInstance, watch } from 'vue'
+import {
+  defineComponent,
+  ref,
+  computed,
+  inject,
+  getCurrentInstance,
+  watch,
+} from 'vue'
 import type { RootTabs, UpdatePaneStateCallback } from './token'
 
 export default defineComponent({
@@ -56,7 +63,7 @@ export default defineComponent({
       return !props.lazy || loaded.value || active.value
     })
 
-    watch(active, val => {
+    watch(active, (val) => {
       if (val) loaded.value = true
     })
 

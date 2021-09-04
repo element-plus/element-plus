@@ -44,7 +44,9 @@
             <template v-if="collapseTags && modelValue.length > 0">
               <div class="el-select-v2__selected-item">
                 <el-tag
-                  :closable="!selectDisabled && !states.cachedOptions[0].disable"
+                  :closable="
+                    !selectDisabled && !states.cachedOptions[0].disable
+                  "
                   :size="collapseTagSize"
                   type="info"
                   disable-transitions
@@ -53,9 +55,10 @@
                   <span
                     class="el-select-v2__tags-text"
                     :style="{
-                      maxWidth: `${tagMaxWidth}px`
+                      maxWidth: `${tagMaxWidth}px`,
                     }"
-                  >{{ states.cachedOptions[0].label }}</span>
+                    >{{ states.cachedOptions[0].label }}</span
+                  >
                 </el-tag>
                 <el-tag
                   v-if="modelValue.length > 1"
@@ -67,9 +70,10 @@
                   <span
                     class="el-select-v2__tags-text"
                     :style="{
-                      maxWidth: `${tagMaxWidth}px`
+                      maxWidth: `${tagMaxWidth}px`,
                     }"
-                  >+ {{ modelValue.length - 1 }}</span>
+                    >+ {{ modelValue.length - 1 }}</span
+                  >
                 </el-tag>
               </div>
             </template>
@@ -91,9 +95,10 @@
                   <span
                     class="el-select-v2__tags-text"
                     :style="{
-                      maxWidth: `${tagMaxWidth}px`
+                      maxWidth: `${tagMaxWidth}px`,
                     }"
-                  >{{ getLabel(selected) }}</span>
+                    >{{ getLabel(selected) }}</span
+                  >
                 </el-tag>
               </div>
             </template>
@@ -112,7 +117,7 @@
                 :aria-expanded="expanded"
                 :aria-labelledby="label"
                 class="el-select-v2__combobox-input"
-                :class="[selectSize ? `is-${ selectSize }` : '']"
+                :class="[selectSize ? `is-${selectSize}` : '']"
                 :disabled="disabled"
                 role="combobox"
                 :readonly="!filterable"
@@ -131,7 +136,7 @@
                 @keydown.enter.stop.prevent="onKeyboardSelect"
                 @keydown.esc.stop.prevent="handleEsc"
                 @keydown.delete.stop="handleDel"
-              >
+              />
               <span
                 v-if="filterable"
                 ref="calculatorRef"
@@ -174,7 +179,7 @@
                 @keydown.enter.stop.prevent="onKeyboardSelect"
                 @keydown.esc.stop.prevent="handleEsc"
                 @update:modelValue="onUpdateInputValue"
-              >
+              />
             </div>
             <span
               v-if="filterable"
@@ -189,18 +194,24 @@
             v-if="shouldShowPlaceholder"
             :class="{
               'el-select-v2__placeholder': true,
-              'is-transparent': states.isComposing
-                || (
-                  placeholder && multiple
-                    ? modelValue.length === 0
-                    : !modelValue
-                ),
+              'is-transparent':
+                states.isComposing ||
+                (placeholder && multiple
+                  ? modelValue.length === 0
+                  : !modelValue),
             }"
           >
             {{ currentPlaceholder }}
           </span>
           <span class="el-select-v2__suffix">
-            <i v-show="!showClearBtn" :class="['el-select-v2__caret', 'el-input__icon', 'el-icon-' + iconClass]"></i>
+            <i
+              v-show="!showClearBtn"
+              :class="[
+                'el-select-v2__caret',
+                'el-input__icon',
+                'el-icon-' + iconClass,
+              ]"
+            ></i>
             <i
               v-if="showClearBtn"
               :class="`el-select-v2__caret el-input__icon ${clearIcon}`"
@@ -221,7 +232,9 @@
           </template>
           <template #empty>
             <slot name="empty">
-              <p class="el-select-v2__empty">{{ emptyText ? emptyText : '' }}</p>
+              <p class="el-select-v2__empty">
+                {{ emptyText ? emptyText : '' }}
+              </p>
             </slot>
           </template>
         </el-select-menu>
@@ -231,13 +244,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  provide,
-  toRefs,
-  reactive,
-  vModelText,
-} from 'vue'
+import { defineComponent, provide, toRefs, reactive, vModelText } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
 import ElPopper from '@element-plus/components/popper'
 import ElTag from '@element-plus/components/tag'
@@ -255,7 +262,15 @@ export default defineComponent({
   },
   directives: { ClickOutside, ModelText: vModelText },
   props: SelectProps,
-  emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'remove-tag', 'clear', 'visible-change', 'focus', 'blur'],
+  emits: [
+    UPDATE_MODEL_EVENT,
+    CHANGE_EVENT,
+    'remove-tag',
+    'clear',
+    'visible-change',
+    'focus',
+    'blur',
+  ],
 
   setup(props, { emit }) {
     const API = useSelect(props, emit)

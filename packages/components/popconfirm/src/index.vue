@@ -5,7 +5,7 @@
     :effect="Effect.LIGHT"
     popper-class="el-popover"
     append-to-body
-    :fallback-placements="['bottom' ,'top', 'right', 'left']"
+    :fallback-placements="['bottom', 'top', 'right', 'left']"
   >
     <div class="el-popconfirm">
       <p class="el-popconfirm__main">
@@ -13,23 +13,15 @@
           v-if="!hideIcon"
           :class="icon"
           class="el-popconfirm__icon"
-          :style="{color: iconColor}"
+          :style="{ color: iconColor }"
         ></i>
         {{ title }}
       </p>
       <div class="el-popconfirm__action">
-        <el-button
-          size="mini"
-          :type="cancelButtonType"
-          @click="cancel"
-        >
+        <el-button size="mini" :type="cancelButtonType" @click="cancel">
           {{ cancelButtonText_ }}
         </el-button>
-        <el-button
-          size="mini"
-          :type="confirmButtonType"
-          @click="confirm"
-        >
+        <el-button size="mini" :type="confirmButtonType" @click="confirm">
           {{ confirmButtonText_ }}
         </el-button>
       </div>
@@ -88,8 +80,8 @@ export default defineComponent({
       default: false,
     },
   },
-  emits:['confirm','cancel'],
-  setup(props,{ emit }){
+  emits: ['confirm', 'cancel'],
+  setup(props, { emit }) {
     const { t } = useLocaleInject()
     const visible = ref(false)
     const confirm = () => {

@@ -5,11 +5,11 @@
 - Navigateurs modernes
 
 | ![IE](https://cdn.jsdelivr.net/npm/@browser-logos/edge/edge_32x32.png) | ![Firefox](https://cdn.jsdelivr.net/npm/@browser-logos/firefox/firefox_32x32.png) | ![Chrome](https://cdn.jsdelivr.net/npm/@browser-logos/chrome/chrome_32x32.png) | ![Safari](https://cdn.jsdelivr.net/npm/@browser-logos/safari/safari_32x32.png) |
-| --- | --- | --- | --- |
-| Edge | last 2 versions | last 2 versions | last 2 versions |
+| ---------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| Edge                                                                   | last 2 versions                                                                   | last 2 versions                                                                | last 2 versions                                                                |
 
 > Comme IE11 n'est plus pris en charge par Vue3, ElementPlus ne prend pas non plus
-en charge IE11 et les versions antérieures.
+> en charge IE11 et les versions antérieures.
 
 ## Version actuelle
 
@@ -46,7 +46,7 @@ Vous pouvez également utiliser d'autres fournisseurs **CDN**.
 ```html
 <head>
   <!-- Introduction des styles -->
-  <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css">
+  <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
   <!-- Présentation de Vue -->
   <script src="//unpkg.com/vue@next"></script>
   <!-- Introduction des bibliothèques de composants -->
@@ -59,7 +59,10 @@ Vous pouvez également utiliser d'autres fournisseurs **CDN**.
 ```html
 <head>
   <!-- Introduction des styles -->
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/element-plus/dist/index.css">
+  <link
+    rel="stylesheet"
+    href="//cdn.jsdelivr.net/npm/element-plus/dist/index.css"
+  />
   <!-- Présentation de Vue -->
   <script src="//cdn.jsdelivr.net/npm/vue@next"></script>
   <!-- Introduction des bibliothèques de composants -->
@@ -86,4 +89,4 @@ utilisant `ElementPlus`.[Démonstration en ligne](https://codepen.io/iamkun/pen/
 </iframe>
 
 Si vous installez via npm / yarn et souhaitez l'utiliser avec l'outil de conditionnement,
- veuillez lire la section suivante : [Démarrage](/#/fr-FR/component/quickstart)。
+veuillez lire la section suivante : [Démarrage](/#/fr-FR/component/quickstart)。

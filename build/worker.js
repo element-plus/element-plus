@@ -6,10 +6,9 @@ const { Project } = require('ts-morph')
 const chalk = require('chalk')
 const vueCompiler = require('@vue/compiler-sfc')
 
-
 const TSCONFIG_PATH = path.resolve(process.cwd(), 'tsconfig.dts.json')
 
-  ; (async () => {
+;(async () => {
   const { filePaths, workerId, outDir } = workerData
   let messagePort
   parentPort.once('message', async ({ port }) => {
@@ -17,7 +16,9 @@ const TSCONFIG_PATH = path.resolve(process.cwd(), 'tsconfig.dts.json')
 
     messagePort.postMessage({
       type: 'log',
-      message: chalk.yellow(`Worker: ${chalk.bold(workerData.workerId)} started`),
+      message: chalk.yellow(
+        `Worker: ${chalk.bold(workerData.workerId)} started`
+      ),
     })
 
     const project = new Project({
@@ -30,36 +31,38 @@ const TSCONFIG_PATH = path.resolve(process.cwd(), 'tsconfig.dts.json')
 
     const sourceFiles = []
 
-    await Promise.all(filePaths.map(async file => {
-      if (file.endsWith('.vue')) {
-        const content = await fs.promises.readFile(file, 'utf-8')
-        const sfc = vueCompiler.parse(content)
-        const { script, scriptSetup } = sfc.descriptor
-        if (script || scriptSetup) {
-          let content = ''
-          let isTS = false
-          if (script && script.content) {
-            content += script.content
-            if (script.lang === 'ts') isTS = true
+    await Promise.all(
+      filePaths.map(async (file) => {
+        if (file.endsWith('.vue')) {
+          const content = await fs.promises.readFile(file, 'utf-8')
+          const sfc = vueCompiler.parse(content)
+          const { script, scriptSetup } = sfc.descriptor
+          if (script || scriptSetup) {
+            let content = ''
+            let isTS = false
+            if (script && script.content) {
+              content += script.content
+              if (script.lang === 'ts') isTS = true
+            }
+            if (scriptSetup) {
+              const compiled = vueCompiler.compileScript(sfc.descriptor, {
+                id: 'xxx',
+              })
+              content += compiled.content
+              if (scriptSetup.lang === 'ts') isTS = true
+            }
+            const sourceFile = project.createSourceFile(
+              path.relative(process.cwd(), file) + (isTS ? '.ts' : '.js'),
+              content
+            )
+            sourceFiles.push(sourceFile)
           }
-          if (scriptSetup) {
-            const compiled = vueCompiler.compileScript(sfc.descriptor, {
-              id: 'xxx',
-            })
-            content += compiled.content
-            if (scriptSetup.lang === 'ts') isTS = true
-          }
-          const sourceFile = project.createSourceFile(
-            path.relative(process.cwd(), file) + (isTS ? '.ts' : '.js'),
-            content,
-          )
+        } else if (file.endsWith('.ts')) {
+          const sourceFile = project.addSourceFileAtPath(file)
           sourceFiles.push(sourceFile)
         }
-      } else if (file.endsWith('.ts')) {
-        const sourceFile = project.addSourceFileAtPath(file)
-        sourceFiles.push(sourceFile)
-      }
-    }))
+      })
+    )
 
     const diagnostics = project.getPreEmitDiagnostics()
     await project.emit({
@@ -72,28 +75,28 @@ const TSCONFIG_PATH = path.resolve(process.cwd(), 'tsconfig.dts.json')
     })
 
     for (const sourceFile of sourceFiles) {
-
       messagePort.postMessage({
         type: 'log',
         message: chalk.yellow(
           'Generating definition for file: ' +
-            chalk.bold(
-              sourceFile.getFilePath(),
-            ),
+            chalk.bold(sourceFile.getFilePath())
         ),
       })
 
       // console.log(sourceFile.getStructure())
       const ElementPlusSign = '@element-plus/'
 
-      sourceFile.getImportDeclarations(dec => dec.getModuleSpecifierValue().startsWith(ElementPlusSign)).map(modifySpecifier)
+      sourceFile
+        .getImportDeclarations((dec) =>
+          dec.getModuleSpecifierValue().startsWith(ElementPlusSign)
+        )
+        .map(modifySpecifier)
 
       function modifySpecifier(d) {
-
-        const replaceTo = 'element-plus/es/' + d.getModuleSpecifierValue().slice(ElementPlusSign.length)
-        d.setModuleSpecifier(
-          replaceTo,
-        )
+        const replaceTo =
+          'element-plus/es/' +
+          d.getModuleSpecifierValue().slice(ElementPlusSign.length)
+        d.setModuleSpecifier(replaceTo)
       }
 
       // console.log(sourceFile.getFilePath())
@@ -114,19 +117,14 @@ const TSCONFIG_PATH = path.resolve(process.cwd(), 'tsconfig.dts.json')
           type: 'log',
           message: chalk.green(
             'Definition for file: ' +
-              chalk.bold(
-                sourceFile.getBaseName(),
-              ) +
-              ' generated',
+              chalk.bold(sourceFile.getBaseName()) +
+              ' generated'
           ),
         })
       }
 
       messagePort.postMessage({ type: 'fulfill', message: workerId })
     }
-
-
-
   })
   // parentPort.emit
 })()

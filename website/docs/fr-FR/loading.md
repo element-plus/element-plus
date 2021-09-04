@@ -10,24 +10,10 @@ Affiche une animation dans un conteneur (Comme un tableau par exemple) pendant l
 
 ```html
 <template>
-  <el-table
-    v-loading="loading"
-    :data="tableData"
-    style="width: 100%">
-    <el-table-column
-      prop="date"
-      label="Date"
-      width="180">
-    </el-table-column>
-    <el-table-column
-      prop="name"
-      label="Nom"
-      width="180">
-    </el-table-column>
-    <el-table-column
-      prop="address"
-      label="Adresse">
-    </el-table-column>
+  <el-table v-loading="loading" :data="tableData" style="width: 100%">
+    <el-table-column prop="date" label="Date" width="180"> </el-table-column>
+    <el-table-column prop="name" label="Nom" width="180"> </el-table-column>
+    <el-table-column prop="address" label="Adresse"> </el-table-column>
   </el-table>
 </template>
 
@@ -41,23 +27,27 @@ Affiche une animation dans un conteneur (Comme un tableau par exemple) pendant l
   export default {
     data() {
       return {
-        tableData: [{
-          date: '2016-05-02',
-          name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District'
-        }, {
-          date: '2016-05-04',
-          name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District'
-        }, {
-          date: '2016-05-01',
-          name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District'
-        }],
-        loading: true
-      };
-    }
-  };
+        tableData: [
+          {
+            date: '2016-05-02',
+            name: 'John Smith',
+            address: 'No.1518,  Jinshajiang Road, Putuo District',
+          },
+          {
+            date: '2016-05-04',
+            name: 'John Smith',
+            address: 'No.1518,  Jinshajiang Road, Putuo District',
+          },
+          {
+            date: '2016-05-01',
+            name: 'John Smith',
+            address: 'No.1518,  Jinshajiang Road, Putuo District',
+          },
+        ],
+        loading: true,
+      }
+    },
+  }
 </script>
 <!--
 <setup>
@@ -95,6 +85,7 @@ export default defineComponent({
 </setup>
 -->
 ```
+
 :::
 
 ### Personnalisation
@@ -102,6 +93,7 @@ export default defineComponent({
 Vous pouvez personnaliser le texte, le spinner et la couleur de fond.
 
 :::demo Ajoutez l'attribut `element-loading-text` à l'élement sur lequel `v-loading` est attaché et sa valeur sera affichée sous le spinner. De même, les attributs `element-loading-spinner`, `element-loading-background` et `element-loading-svg` sont utilisés pour définir respectivement le nom de la classe d'icône, la valeur de la couleur d'arrière-plan et l'icône de chargement.
+
 ```html
 <template>
   <el-table
@@ -110,21 +102,11 @@ Vous pouvez personnaliser le texte, le spinner et la couleur de fond.
     element-loading-spinner="el-icon-loading"
     element-loading-background="rgba(0, 0, 0, 0.8)"
     :data="tableData"
-    style="width: 100%">
-    <el-table-column
-      prop="date"
-      label="Date"
-      width="180">
-    </el-table-column>
-    <el-table-column
-      prop="name"
-      label="Nom"
-      width="180">
-    </el-table-column>
-    <el-table-column
-      prop="address"
-      label="Adresse">
-    </el-table-column>
+    style="width: 100%"
+  >
+    <el-table-column prop="date" label="Date" width="180"> </el-table-column>
+    <el-table-column prop="name" label="Nom" width="180"> </el-table-column>
+    <el-table-column prop="address" label="Adresse"> </el-table-column>
   </el-table>
   <el-table
     v-loading="loading"
@@ -132,21 +114,11 @@ Vous pouvez personnaliser le texte, le spinner et la couleur de fond.
     class="custom-loading-svg"
     element-loading-svg-view-box="-10, -10, 50, 50"
     :data="tableData"
-    style="width: 100%">
-    <el-table-column
-      prop="date"
-      label="Date"
-      width="180">
-    </el-table-column>
-    <el-table-column
-      prop="name"
-      label="Nom"
-      width="180">
-    </el-table-column>
-    <el-table-column
-      prop="address"
-      label="Adresse">
-    </el-table-column>
+    style="width: 100%"
+  >
+    <el-table-column prop="date" label="Date" width="180"> </el-table-column>
+    <el-table-column prop="name" label="Nom" width="180"> </el-table-column>
+    <el-table-column prop="address" label="Adresse"> </el-table-column>
   </el-table>
 </template>
 
@@ -154,19 +126,23 @@ Vous pouvez personnaliser le texte, le spinner et la couleur de fond.
   export default {
     data() {
       return {
-        tableData: [{
-          date: '2016-05-02',
-          name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District'
-        }, {
-          date: '2016-05-04',
-          name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District'
-        }, {
-          date: '2016-05-01',
-          name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District'
-        }],
+        tableData: [
+          {
+            date: '2016-05-02',
+            name: 'John Smith',
+            address: 'No.1518,  Jinshajiang Road, Putuo District',
+          },
+          {
+            date: '2016-05-04',
+            name: 'John Smith',
+            address: 'No.1518,  Jinshajiang Road, Putuo District',
+          },
+          {
+            date: '2016-05-01',
+            name: 'John Smith',
+            address: 'No.1518,  Jinshajiang Road, Putuo District',
+          },
+        ],
         loading: true,
         svg: `
           <path class="path" d="
@@ -178,9 +154,9 @@ Vous pouvez personnaliser le texte, le spinner et la couleur de fond.
             L 15 15
           " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>
         `,
-      };
-    }
-  };
+      }
+    },
+  }
 </script>
 <!--
 <setup>
@@ -228,6 +204,7 @@ export default defineComponent({
 </setup>
 -->
 ```
+
 :::
 
 :::warning
@@ -245,42 +222,39 @@ Affichez une animation en plein écran quand vous charger des données.
   <el-button
     type="primary"
     @click="openFullScreen1"
-    v-loading.fullscreen.lock="fullscreenLoading">
+    v-loading.fullscreen.lock="fullscreenLoading"
+  >
     Comme directive
   </el-button>
-  <el-button
-    type="primary"
-    @click="openFullScreen2">
-    Comme service
-  </el-button>
+  <el-button type="primary" @click="openFullScreen2"> Comme service </el-button>
 </template>
 
 <script>
   export default {
     data() {
       return {
-        fullscreenLoading: false
+        fullscreenLoading: false,
       }
     },
     methods: {
       openFullScreen1() {
-        this.fullscreenLoading = true;
+        this.fullscreenLoading = true
         setTimeout(() => {
-          this.fullscreenLoading = false;
-        }, 2000);
+          this.fullscreenLoading = false
+        }, 2000)
       },
       openFullScreen2() {
         const loading = this.$loading({
           lock: true,
           text: 'Loading',
           spinner: 'el-icon-loading',
-          background: 'rgba(0, 0, 0, 0.7)'
-        });
+          background: 'rgba(0, 0, 0, 0.7)',
+        })
         setTimeout(() => {
-          loading.close();
-        }, 2000);
-      }
-    }
+          loading.close()
+        }, 2000)
+      },
+    },
   }
 </script>
 <!--
@@ -322,6 +296,7 @@ Affichez une animation en plein écran quand vous charger des données.
 </setup>
 -->
 ```
+
 :::
 
 ### Service
@@ -329,29 +304,31 @@ Affichez une animation en plein écran quand vous charger des données.
 Vous pouvez invoquer Loading comme un service. Importez le service Loading:
 
 ```javascript
-import { ElLoading } from 'element-plus';
+import { ElLoading } from 'element-plus'
 ```
+
 Et invoquer-le:
 
 ```javascript
-ElLoading.service(options);
+ElLoading.service(options)
 ```
 
 Le paramètre `options` correspond à la configuration de Loading (voir table suivante). `LoadingService` retourne une instance de Loading, que vous pouvez fermer en appelant la méthode `close`:
 
 ```javascript
-let loadingInstance = ElLoading.service(options);
-this.$nextTick(() => { // Loading should be closed asynchronously
-  loadingInstance.close();
-});
+let loadingInstance = ElLoading.service(options)
+this.$nextTick(() => {
+  // Loading should be closed asynchronously
+  loadingInstance.close()
+})
 ```
 
 Notez que dans ce cas le Loading plein écran est un singleton. Si un nouveau Loading plein écran est invoqué avant la fermeture du précédent, celui-ci sera retourné au lieu d'en créer un nouveau:
 
 ```javascript
-let loadingInstance1 = ElLoading.service({ fullscreen: true });
-let loadingInstance2 = ElLoading.service({ fullscreen: true });
-console.log(loadingInstance1 === loadingInstance2); // true
+let loadingInstance1 = ElLoading.service({ fullscreen: true })
+let loadingInstance2 = ElLoading.service({ fullscreen: true })
+console.log(loadingInstance1 === loadingInstance2) // true
 ```
 
 Appeler la méthode `close` sur n'importe lequel des deux fermera le Loading.
@@ -360,13 +337,13 @@ Si Element Plus est importé en entier, une méthode globale `$loading` sera ajo
 
 ### Options
 
-| Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| target | L'élément du DOM a couvrir. Accepte un objet DOM ou un string. Si c'est un string, il sera passé à `document.querySelector` Pour avoir l'élément du DOM correspondant. | object/string | — | document.body |
-| body | Identique au modificateur `body` de `v-loading`. | boolean | — | false |
-| fullscreen | Identique au modificateur `fullscreen` de `v-loading`. | boolean | — | true |
-| lock | Identique au modificateur `lock` de `v-loading`. | boolean | — | false |
-| text | Texte a afficher sous le spinner. | string | — | — |
-| spinner | Classe du spinner. | string | — | — |
-| background | Couleur de fond du masque. | string | — | — |
-| customClass | Classe du Loading. | string | — | — |
+| Attribut    | Description                                                                                                                                                            | Type          | Valeurs acceptées | Défaut        |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ----------------- | ------------- |
+| target      | L'élément du DOM a couvrir. Accepte un objet DOM ou un string. Si c'est un string, il sera passé à `document.querySelector` Pour avoir l'élément du DOM correspondant. | object/string | —                 | document.body |
+| body        | Identique au modificateur `body` de `v-loading`.                                                                                                                       | boolean       | —                 | false         |
+| fullscreen  | Identique au modificateur `fullscreen` de `v-loading`.                                                                                                                 | boolean       | —                 | true          |
+| lock        | Identique au modificateur `lock` de `v-loading`.                                                                                                                       | boolean       | —                 | false         |
+| text        | Texte a afficher sous le spinner.                                                                                                                                      | string        | —                 | —             |
+| spinner     | Classe du spinner.                                                                                                                                                     | string        | —                 | —             |
+| background  | Couleur de fond du masque.                                                                                                                                             | string        | —                 | —             |
+| customClass | Classe du Loading.                                                                                                                                                     | string        | —                 | —             |

@@ -124,7 +124,8 @@ $--input-inline-start: 15px !default;
   @include m(medium) {
     @include e(wrapper) {
       padding: 3px 30px 3px 0px;
-      &, #{$selector}__input-wrapper {
+      &,
+      #{$selector}__input-wrapper {
         line-height: map.get($--input-height, 'medium');
       }
     }

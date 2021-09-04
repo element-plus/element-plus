@@ -36,23 +36,23 @@ const FixedSizeGrid = createGrid({
     alignment,
     scrollLeft,
     _,
-    scrollBarWidth,
+    scrollBarWidth
   ) => {
     width = Number(width)
     const lastColumnOffset = Math.max(
       0,
-      totalColumn * (columnWidth as number) - width,
+      totalColumn * (columnWidth as number) - width
     )
     const maxOffset = Math.min(
       lastColumnOffset,
-      columnIndex * (columnWidth as number),
+      columnIndex * (columnWidth as number)
     )
     const minOffset = Math.max(
       0,
       columnIndex * (columnWidth as number) -
-      width +
-      scrollBarWidth +
-      (columnWidth as number),
+        width +
+        scrollBarWidth +
+        (columnWidth as number)
     )
 
     if (alignment === 'smart') {
@@ -97,7 +97,7 @@ const FixedSizeGrid = createGrid({
     align,
     scrollTop,
     _,
-    scrollBarWidth,
+    scrollBarWidth
   ): number => {
     height = Number(height)
     const lastRowOffset = Math.max(0, totalRow * (rowHeight as number) - height)
@@ -105,9 +105,9 @@ const FixedSizeGrid = createGrid({
     const minOffset = Math.max(
       0,
       rowIndex * (rowHeight as number) -
-      height +
-      scrollBarWidth +
-      (rowHeight as number),
+        height +
+        scrollBarWidth +
+        (rowHeight as number)
     )
 
     if (align === SMART_ALIGNMENT) {
@@ -151,52 +151,49 @@ const FixedSizeGrid = createGrid({
       0,
       Math.min(
         totalColumn - 1,
-        Math.floor(scrollLeft / (columnWidth as number)),
-      ),
+        Math.floor(scrollLeft / (columnWidth as number))
+      )
     ),
 
   getColumnStopIndexForStartIndex: (
     { columnWidth, totalColumn, width },
     startIndex: number,
-    scrollLeft: number,
+    scrollLeft: number
   ): number => {
     const left = startIndex * (columnWidth as number)
     const visibleColumnsCount = Math.ceil(
-      ((width as number) + scrollLeft - left) / (columnWidth as number),
+      ((width as number) + scrollLeft - left) / (columnWidth as number)
     )
     return Math.max(
       0,
-      Math.min(
-        totalColumn - 1,
-        startIndex + visibleColumnsCount - 1,
-      ),
+      Math.min(totalColumn - 1, startIndex + visibleColumnsCount - 1)
     )
   },
 
   getRowStartIndexForOffset: (
     { rowHeight, totalRow },
-    scrollTop: number,
+    scrollTop: number
   ): number =>
     Math.max(
       0,
-      Math.min(totalRow - 1, Math.floor(scrollTop / (rowHeight as number))),
+      Math.min(totalRow - 1, Math.floor(scrollTop / (rowHeight as number)))
     ),
 
   getRowStopIndexForStartIndex: (
     { rowHeight, totalRow, height },
     startIndex: number,
-    scrollTop: number,
+    scrollTop: number
   ): number => {
     const top = startIndex * (rowHeight as number)
     const numVisibleRows = Math.ceil(
-      ((height as number) + scrollTop - top) / (rowHeight as number),
+      ((height as number) + scrollTop - top) / (rowHeight as number)
     )
     return Math.max(
       0,
       Math.min(
         totalRow - 1,
-        startIndex + numVisibleRows - 1, // -1 is because stop index is inclusive
-      ),
+        startIndex + numVisibleRows - 1 // -1 is because stop index is inclusive
+      )
     )
   },
 
@@ -207,17 +204,23 @@ const FixedSizeGrid = createGrid({
   validateProps: ({ columnWidth, rowHeight }) => {
     if (process.env.NODE_ENV !== 'production') {
       if (!isNumber(columnWidth)) {
-        throwError(SCOPE, `
+        throwError(
+          SCOPE,
+          `
           "columnWidth" must be passed as number,
             instead ${typeof columnWidth} was given.
-        `)
+        `
+        )
       }
 
       if (!isNumber(rowHeight)) {
-        throwError(SCOPE, `
+        throwError(
+          SCOPE,
+          `
           "columnWidth" must be passed as number,
             instead ${typeof rowHeight} was given.
-        `)
+        `
+        )
       }
     }
   },

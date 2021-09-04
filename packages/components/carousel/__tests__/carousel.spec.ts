@@ -4,7 +4,7 @@ import Carousel from '../src/main.vue'
 import CarouselItem from '../src/item.vue'
 
 const wait = (ms = 100) =>
-  new Promise(resolve => setTimeout(() => resolve(0), ms))
+  new Promise((resolve) => setTimeout(() => resolve(0), ms))
 
 const _mount = (template: string, data?: () => void, methods?: any) =>
   mount({
@@ -26,14 +26,14 @@ describe('Carousel', () => {
             <el-carousel-item v-for="item in 3" :key="item"></el-carousel-item>
           </el-carousel>
         </div>
-      `,
+      `
     )
 
     expect(wrapper.vm.$refs.carousel.direction).toBe('horizontal')
     expect(wrapper.findAll('.el-carousel__item').length).toEqual(3)
   })
 
-  it('auto play', async done => {
+  it('auto play', async (done) => {
     const wrapper = _mount(`
         <div>
           <el-carousel :interval="50">
@@ -51,7 +51,7 @@ describe('Carousel', () => {
     done()
   })
 
-  it('initial index', async done => {
+  it('initial index', async (done) => {
     const wrapper = _mount(`
         <div>
           <el-carousel :autoplay="false" :initial-index="1">
@@ -66,12 +66,12 @@ describe('Carousel', () => {
     expect(
       wrapper.vm.$el
         .querySelectorAll('.el-carousel__item')[1]
-        .classList.contains('is-active'),
+        .classList.contains('is-active')
     ).toBeTruthy()
     done()
   })
 
-  it('reset timer', async done => {
+  it('reset timer', async (done) => {
     const wrapper = _mount(`
         <div>
           <el-carousel :interval="500">
@@ -91,7 +91,7 @@ describe('Carousel', () => {
     done()
   })
 
-  it('change', async done => {
+  it('change', async (done) => {
     const wrapper = _mount(
       `
         <div>
@@ -111,7 +111,7 @@ describe('Carousel', () => {
           this.val = val
           this.oldVal = oldVal
         },
-      },
+      }
     )
 
     await nextTick()
@@ -121,7 +121,7 @@ describe('Carousel', () => {
     done()
   })
 
-  it('label', async done => {
+  it('label', async (done) => {
     const wrapper = _mount(`
         <div>
           <el-carousel>
@@ -135,7 +135,7 @@ describe('Carousel', () => {
   })
 
   describe('manual control', () => {
-    it('hover', async done => {
+    it('hover', async (done) => {
       const wrapper = _mount(`
         <div>
           <el-carousel :autoplay="false">
@@ -152,13 +152,13 @@ describe('Carousel', () => {
       expect(
         wrapper.vm.$el
           .querySelectorAll('.el-carousel__item')[1]
-          .classList.contains('is-active'),
+          .classList.contains('is-active')
       ).toBeTruthy()
       done()
     })
   })
 
-  it('card', async done => {
+  it('card', async (done) => {
     const wrapper = _mount(`
         <div>
           <el-carousel :autoplay="false" type="card">
@@ -198,7 +198,7 @@ describe('Carousel', () => {
     expect(items[0].style.transform.indexOf('translateY') !== -1).toBeTruthy()
   })
 
-  it('pause auto play on hover', async done => {
+  it('pause auto play on hover', async (done) => {
     const wrapper = _mount(`
         <div>
           <el-carousel :interval="50" :pause-on-hover="false">

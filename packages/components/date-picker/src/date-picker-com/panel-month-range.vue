@@ -1,9 +1,11 @@
 <template>
   <div
     class="el-picker-panel el-date-range-picker"
-    :class="[{
-      'has-sidebar': $slots.sidebar || hasShortcuts
-    }]"
+    :class="[
+      {
+        'has-sidebar': $slots.sidebar || hasShortcuts,
+      },
+    ]"
   >
     <div class="el-picker-panel__body-wrapper">
       <slot name="sidebar" class="el-picker-panel__sidebar"></slot>
@@ -19,7 +21,9 @@
         </button>
       </div>
       <div class="el-picker-panel__body">
-        <div class="el-picker-panel__content el-date-range-picker__content is-left">
+        <div
+          class="el-picker-panel__content el-date-range-picker__content is-left"
+        >
           <div class="el-date-range-picker__header">
             <button
               type="button"
@@ -48,7 +52,13 @@
             @select="onSelect"
           />
         </div>
-        <div class="el-picker-panel__content el-date-range-picker__content is-right">
+        <div
+          class="
+            el-picker-panel__content
+            el-date-range-picker__content
+            is-right
+          "
+        >
           <div class="el-date-range-picker__header">
             <button
               v-if="unlinkPanels"
@@ -83,13 +93,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  computed,
-  ref,
-  watch,
-  inject,
-} from 'vue'
+import { defineComponent, computed, ref, watch, inject } from 'vue'
 import dayjs from 'dayjs'
 import { useLocaleInject } from '@element-plus/hooks'
 import MonthTable from './basic-month-table.vue'
@@ -98,10 +102,9 @@ import type { PropType } from 'vue'
 import type { Dayjs } from 'dayjs'
 
 export default defineComponent({
-
   components: { MonthTable },
 
-  props:{
+  props: {
     unlinkPanels: Boolean,
     parsedValue: {
       type: Array as PropType<Dayjs[]>,
@@ -117,8 +120,9 @@ export default defineComponent({
 
     const hasShortcuts = computed(() => !!shortcuts.length)
 
-    const handleShortcutClick = shortcut => {
-      const shortcutValues = typeof shortcut.value === 'function' ? shortcut.value() : shortcut.value
+    const handleShortcutClick = (shortcut) => {
+      const shortcutValues =
+        typeof shortcut.value === 'function' ? shortcut.value() : shortcut.value
       if (shortcutValues) {
         ctx.emit('pick', [
           dayjs(shortcutValues[0]).locale(lang.value),
@@ -165,7 +169,9 @@ export default defineComponent({
     })
 
     const rightYear = computed(() => {
-      return rightDate.value.year() === leftDate.value.year() ? leftDate.value.year() + 1 : rightDate.value.year()
+      return rightDate.value.year() === leftDate.value.year()
+        ? leftDate.value.year() + 1
+        : rightDate.value.year()
     })
 
     const enableYearArrow = computed(() => {
@@ -180,7 +186,7 @@ export default defineComponent({
       selecting: false,
     })
 
-    const handleChangeRange = val => {
+    const handleChangeRange = (val) => {
       rangeState.value = val
     }
 
@@ -201,10 +207,14 @@ export default defineComponent({
       handleConfirm()
     }
 
-    const isValidValue = value => {
-      return Array.isArray(value) &&
-          value && value[0] && value[1] &&
-          value[0].valueOf() <= value[1].valueOf()
+    const isValidValue = (value) => {
+      return (
+        Array.isArray(value) &&
+        value &&
+        value[0] &&
+        value[1] &&
+        value[0].valueOf() <= value[1].valueOf()
+      )
     }
 
     const handleConfirm = (visible = false) => {
@@ -213,15 +223,15 @@ export default defineComponent({
       }
     }
 
-    const onSelect = selecting => {
+    const onSelect = (selecting) => {
       rangeState.value.selecting = selecting
       if (!selecting) {
         rangeState.value.endDate = null
       }
     }
 
-    const formatToString = value => {
-      return value.map(_=> _.format(format))
+    const formatToString = (value) => {
+      return value.map((_) => _.format(format))
     }
 
     const getDefaultValue = () => {
@@ -247,26 +257,31 @@ export default defineComponent({
     const pickerBase = inject('EP_PICKER_BASE') as any
     const { shortcuts, disabledDate, format, defaultValue } = pickerBase.props
 
-    watch(() => props.parsedValue, newVal => {
-      if (newVal && newVal.length === 2) {
-        minDate.value = newVal[0]
-        maxDate.value = newVal[1]
-        leftDate.value = minDate.value
-        if (props.unlinkPanels && maxDate.value) {
-          const minDateYear = minDate.value.year()
-          const maxDateYear = maxDate.value.year()
-          rightDate.value = minDateYear === maxDateYear
-            ? maxDate.value.add(1, 'year')
-            : maxDate.value
+    watch(
+      () => props.parsedValue,
+      (newVal) => {
+        if (newVal && newVal.length === 2) {
+          minDate.value = newVal[0]
+          maxDate.value = newVal[1]
+          leftDate.value = minDate.value
+          if (props.unlinkPanels && maxDate.value) {
+            const minDateYear = minDate.value.year()
+            const maxDateYear = maxDate.value.year()
+            rightDate.value =
+              minDateYear === maxDateYear
+                ? maxDate.value.add(1, 'year')
+                : maxDate.value
+          } else {
+            rightDate.value = leftDate.value.add(1, 'year')
+          }
         } else {
-          rightDate.value = leftDate.value.add(1, 'year')
+          const defaultArr = getDefaultValue()
+          leftDate.value = defaultArr[0]
+          rightDate.value = defaultArr[1]
         }
-      } else {
-        const defaultArr = getDefaultValue()
-        leftDate.value = defaultArr[0]
-        rightDate.value = defaultArr[1]
-      }
-    }, { immediate: true })
+      },
+      { immediate: true }
+    )
 
     return {
       shortcuts,

@@ -68,10 +68,10 @@
 
 ### 属性
 
-| Attribute | Description                         | Type    | Options                                     | Default |
-| --------- | ----------------------------------- | ------- | ------------------------------------------- | ------- |
-| type      | タイプ                                | string  | primary / success / warning / danger / info | default |
-| underline | コンポーネントに下線があるか | boolean | —                                           | true    |
-| disabled  | コンポーネントが無効化されているか   | boolean | —                                           | false   |
-| href      | ネイティブハイパーリンクの `href` と同じ   | string  | —                                           | -       |
-| icon      | アイコンのクラス名                  | string  | —                                           | -       |
+| Attribute | Description                              | Type    | Options                                     | Default |
+| --------- | ---------------------------------------- | ------- | ------------------------------------------- | ------- |
+| type      | タイプ                                   | string  | primary / success / warning / danger / info | default |
+| underline | コンポーネントに下線があるか             | boolean | —                                           | true    |
+| disabled  | コンポーネントが無効化されているか       | boolean | —                                           | false   |
+| href      | ネイティブハイパーリンクの `href` と同じ | string  | —                                           | -       |
+| icon      | アイコンのクラス名                       | string  | —                                           | -       |

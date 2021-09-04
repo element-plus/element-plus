@@ -13,4 +13,3 @@ export default _Message
 export const ElMessage = _Message
 
 export * from './src/types'
-

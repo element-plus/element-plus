@@ -30,13 +30,11 @@
         fileList: [
           {
             name: 'food.jpeg',
-            url:
-              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+            url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
           },
           {
             name: 'food2.jpeg',
-            url:
-              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+            url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
           },
         ],
       }
@@ -54,7 +52,7 @@
             files.length
           } files this time, add up to ${
             files.length + fileList.length
-          } totally`,
+          } totally`
         )
       },
       beforeRemove(file, fileList) {
@@ -64,6 +62,7 @@
   }
 </script>
 ```
+
 :::
 
 ### ユーザーアバターのアップロード
@@ -71,6 +70,7 @@
 アップロードするファイルの形式やサイズを制限するには、`before-upload` フックを使う。
 
 :::demo
+
 ```html
 <el-upload
   class="avatar-uploader"
@@ -136,11 +136,12 @@
   }
 </script>
 ```
+
 :::
 
 ### フォトウォール
 
-fileListのスタイルを変更するには `list-type` を用いる。
+fileList のスタイルを変更するには `list-type` を用いる。
 
 :::demo
 
@@ -176,6 +177,7 @@ fileListのスタイルを変更するには `list-type` を用いる。
   }
 </script>
 ```
+
 :::
 
 ### カスタムファイルのサムネイル
@@ -244,9 +246,10 @@ fileListのスタイルを変更するには `list-type` を用いる。
   }
 </script>
 ```
+
 :::
 
-### サムネイル付きFileList
+### サムネイル付き FileList
 
 :::demo
 
@@ -261,9 +264,7 @@ fileListのスタイルを変更するには `list-type` を用いる。
 >
   <el-button size="small" type="primary">Click to upload</el-button>
   <template #tip>
-    <div class="el-upload__tip">
-      jpg/png files with a size less than 500kb
-    </div>
+    <div class="el-upload__tip">jpg/png files with a size less than 500kb</div>
   </template>
 </el-upload>
 <script>
@@ -273,13 +274,11 @@ fileListのスタイルを変更するには `list-type` を用いる。
         fileList: [
           {
             name: 'food.jpeg',
-            url:
-              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+            url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
           },
           {
             name: 'food2.jpeg',
-            url:
-              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+            url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
           },
         ],
       }
@@ -295,6 +294,7 @@ fileListのスタイルを変更するには `list-type` を用いる。
   }
 </script>
 ```
+
 :::
 
 ### ファイルリスト制御
@@ -312,9 +312,7 @@ fileListのスタイルを変更するには `list-type` を用いる。
 >
   <el-button size="small" type="primary">Click to upload</el-button>
   <template #tip>
-    <div class="el-upload__tip">
-      jpg/png files with a size less than 500kb
-    </div>
+    <div class="el-upload__tip">jpg/png files with a size less than 500kb</div>
   </template>
 </el-upload>
 <script>
@@ -324,13 +322,11 @@ fileListのスタイルを変更するには `list-type` を用いる。
         fileList: [
           {
             name: 'food.jpeg',
-            url:
-              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+            url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
           },
           {
             name: 'food2.jpeg',
-            url:
-              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+            url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
           },
         ],
       }
@@ -343,6 +339,7 @@ fileListのスタイルを変更するには `list-type` を用いる。
   }
 </script>
 ```
+
 :::
 
 ### ドラッグしてアップロード
@@ -364,17 +361,17 @@ fileListのスタイルを変更するには `list-type` を用いる。
   <i class="el-icon-upload"></i>
   <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
   <template #tip>
-    <div class="el-upload__tip">
-      jpg/png files with a size less than 500kb
-    </div>
+    <div class="el-upload__tip">jpg/png files with a size less than 500kb</div>
   </template>
 </el-upload>
 ```
+
 :::
 
 ### 手動アップロード
 
 :::demo
+
 ```html
 <el-upload
   class="upload-demo"
@@ -393,9 +390,7 @@ fileListのスタイルを変更するには `list-type` を用いる。
     >upload to server</el-button
   >
   <template #tip>
-    <div class="el-upload__tip">
-      jpg/png files with a size less than 500kb
-    </div>
+    <div class="el-upload__tip">jpg/png files with a size less than 500kb</div>
   </template>
 </el-upload>
 <script>
@@ -408,46 +403,50 @@ fileListのスタイルを変更するには `list-type` を用いる。
   }
 </script>
 ```
+
 :::
 
 ### 属性
-Attribute      | Description          | Type      | Accepted Values       | Default
-----| ----| ----| ----| ----
-action | 必須、リクエストURL | string | — | —
-headers | リクエストヘッダ | object | — | —
-multiple | 複数ファイルのアップロードが許可されているかどうか | boolean | — | —
-data | リクエストの追加オプション | object | — | —
-name | アップロードファイルのキー名 | string | — | file
-with-credentials | クッキーを送信するかどうか | boolean | — |false
-show-file-list | アップロードされたファイルリストを表示するかどうか | boolean | — | true
- drag | ドラッグ＆ドロップモードを有効にするかどうか | boolean | — | false
-accept | accepted [file types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-accept), will not work when `thumbnail-mode` is `true` | string | — | —
-on-preview | アップロードされたファイルをクリックした時のフック関数 | function(file) | — | —
-on-remove | ファイル削除時のフック関数 | function(file, fileList) | — | —
-on-success | アップロード成功時のフック関数 | function(response, file, fileList) | — | —
-on-error | エラー時のフック関数 | function(err, file, fileList) | — | —
-on-progress | 進捗時のフック関数 | function(event, file, fileList) | — | — |
-on-change | ファイル選択時、アップロード成功時、アップロード失敗時のフック関数 | function(file, fileList) | — | — |
-before-upload | フック関数を使用してアップロードする前に、アップロードするファイルをパラメータとしてアップロードすることができます。`false`を返すか、`Promise`を返した後に拒否された場合、アップロードは中止されます。 | function(file) | — | —
-before-remove | フック関数を使用して、ファイルとファイルリストをパラメータとしてファイルを削除することができます。`false`を返すか、`Promise`を返した後に拒否された場合、削除は中止される。 | function(file, fileList) | — | — |
-thumbnail-mode | サムネイルが表示されているかどうか | boolean | — | false
-file-list | default uploaded files, e.g. [{name: 'food.jpg', url: 'https://xxx.cdn.com/xxx.jpg'}] | array | — | []
-list-type | ファイルリストの型 | string | text/picture/picture-card | text |
-auto-upload | ファイルを自動アップロードするかどうか | boolean | — | true |
-http-request | デフォルトの xhr の動作をオーバーライドし、独自のアップロードファイルのリクエストを実装できるようにします。 | function | — | — |
-disabled | アップロードを無効にするかどうか | boolean | — | false |
-limit | アップロード可能な最大数 | number | — | — |
-on-exceed | リミットを突破した時のフック関数 | function(files, fileList) | — | - |
+
+| Attribute        | Description                                                                                                                                                                                            | Type                               | Accepted Values           | Default |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------- | ------------------------- | ------- |
+| action           | 必須、リクエスト URL                                                                                                                                                                                   | string                             | —                         | —       |
+| headers          | リクエストヘッダ                                                                                                                                                                                       | object                             | —                         | —       |
+| multiple         | 複数ファイルのアップロードが許可されているかどうか                                                                                                                                                     | boolean                            | —                         | —       |
+| data             | リクエストの追加オプション                                                                                                                                                                             | object                             | —                         | —       |
+| name             | アップロードファイルのキー名                                                                                                                                                                           | string                             | —                         | file    |
+| with-credentials | クッキーを送信するかどうか                                                                                                                                                                             | boolean                            | —                         | false   |
+| show-file-list   | アップロードされたファイルリストを表示するかどうか                                                                                                                                                     | boolean                            | —                         | true    |
+| drag             | ドラッグ＆ドロップモードを有効にするかどうか                                                                                                                                                           | boolean                            | —                         | false   |
+| accept           | accepted [file types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-accept), will not work when `thumbnail-mode` is `true`                                                      | string                             | —                         | —       |
+| on-preview       | アップロードされたファイルをクリックした時のフック関数                                                                                                                                                 | function(file)                     | —                         | —       |
+| on-remove        | ファイル削除時のフック関数                                                                                                                                                                             | function(file, fileList)           | —                         | —       |
+| on-success       | アップロード成功時のフック関数                                                                                                                                                                         | function(response, file, fileList) | —                         | —       |
+| on-error         | エラー時のフック関数                                                                                                                                                                                   | function(err, file, fileList)      | —                         | —       |
+| on-progress      | 進捗時のフック関数                                                                                                                                                                                     | function(event, file, fileList)    | —                         | —       |
+| on-change        | ファイル選択時、アップロード成功時、アップロード失敗時のフック関数                                                                                                                                     | function(file, fileList)           | —                         | —       |
+| before-upload    | フック関数を使用してアップロードする前に、アップロードするファイルをパラメータとしてアップロードすることができます。`false`を返すか、`Promise`を返した後に拒否された場合、アップロードは中止されます。 | function(file)                     | —                         | —       |
+| before-remove    | フック関数を使用して、ファイルとファイルリストをパラメータとしてファイルを削除することができます。`false`を返すか、`Promise`を返した後に拒否された場合、削除は中止される。                             | function(file, fileList)           | —                         | —       |
+| thumbnail-mode   | サムネイルが表示されているかどうか                                                                                                                                                                     | boolean                            | —                         | false   |
+| file-list        | default uploaded files, e.g. [{name: 'food.jpg', url: 'https://xxx.cdn.com/xxx.jpg'}]                                                                                                                  | array                              | —                         | []      |
+| list-type        | ファイルリストの型                                                                                                                                                                                     | string                             | text/picture/picture-card | text    |
+| auto-upload      | ファイルを自動アップロードするかどうか                                                                                                                                                                 | boolean                            | —                         | true    |
+| http-request     | デフォルトの xhr の動作をオーバーライドし、独自のアップロードファイルのリクエストを実装できるようにします。                                                                                            | function                           | —                         | —       |
+| disabled         | アップロードを無効にするかどうか                                                                                                                                                                       | boolean                            | —                         | false   |
+| limit            | アップロード可能な最大数                                                                                                                                                                               | number                             | —                         | —       |
+| on-exceed        | リミットを突破した時のフック関数                                                                                                                                                                       | function(files, fileList)          | —                         | -       |
 
 ### スロット
-| Name | Description |
-|------|--------|
+
+| Name    | Description                          |
+| ------- | ------------------------------------ |
 | trigger | ファイルダイアログをトリガーする内容 |
-| tip | tipsの内容 |
+| tip     | tips の内容                          |
 
 ### メソッド
-| Methods Name | Description | Parameters |
-|---------- |-------- |---------- |
-| clearFiles | アップロードされたファイルリストをクリアします (このメソッドは `before-upload` フックではサポートされていません)。 | — |
-| abort      | アップロード要求の取り消し                    | （ file: fileList's item ） |
-| submit     | ファイルリストを手動でアップロード            |  —                         |
+
+| Methods Name | Description                                                                                                        | Parameters                  |
+| ------------ | ------------------------------------------------------------------------------------------------------------------ | --------------------------- |
+| clearFiles   | アップロードされたファイルリストをクリアします (このメソッドは `before-upload` フックではサポートされていません)。 | —                           |
+| abort        | アップロード要求の取り消し                                                                                         | （ file: fileList's item ） |
+| submit       | ファイルリストを手動でアップロード                                                                                 | —                           |

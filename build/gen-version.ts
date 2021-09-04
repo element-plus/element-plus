@@ -13,5 +13,5 @@ if (tagVer) {
 fs.writeFileSync(
   path.resolve(__dirname, '../packages/element-plus/version.ts'),
   `export const version = '${version}'
-`,
+`
 )

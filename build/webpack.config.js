@@ -23,15 +23,17 @@ const plugins = [
 const entry = path.resolve(__dirname, '../packages/element-plus/index.ts')
 
 if (!isFullMode) {
-  externals.push({
-    '@popperjs/core': '@popperjs/core',
-    'async-validator': 'async-validator',
-    'mitt': 'mitt',
-    'normalize-wheel': 'normalize-wheel',
-    'resize-observer-polyfill': 'resize-observer-polyfill',
-  },
-  /^dayjs.*/,
-  /^lodash.*/)
+  externals.push(
+    {
+      '@popperjs/core': '@popperjs/core',
+      'async-validator': 'async-validator',
+      mitt: 'mitt',
+      'normalize-wheel': 'normalize-wheel',
+      'resize-observer-polyfill': 'resize-observer-polyfill',
+    },
+    /^dayjs.*/,
+    /^lodash.*/
+  )
 }
 
 const config = {
@@ -44,7 +46,7 @@ const config = {
     libraryTarget: 'umd',
     library: 'ElementPlus',
     umdNamedDefine: true,
-    globalObject: 'typeof self !== \'undefined\' ? self : this',
+    globalObject: "typeof self !== 'undefined' ? self : this",
   },
   module: {
     rules: [

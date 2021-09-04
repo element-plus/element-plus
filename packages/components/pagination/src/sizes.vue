@@ -55,19 +55,26 @@ export default defineComponent({
     const { pagination } = usePagination()
     const innerPageSize = ref<Nullable<number>>(props.pageSize)
 
-    watch(() => props.pageSizes, (newVal, oldVal) => {
-      if (isEqual(newVal, oldVal)) return
-      if (Array.isArray(newVal)) {
-        const pageSize = newVal.indexOf(props.pageSize) > -1
-          ? props.pageSize
-          : props.pageSizes[0]
-        emit('page-size-change', pageSize)
+    watch(
+      () => props.pageSizes,
+      (newVal, oldVal) => {
+        if (isEqual(newVal, oldVal)) return
+        if (Array.isArray(newVal)) {
+          const pageSize =
+            newVal.indexOf(props.pageSize) > -1
+              ? props.pageSize
+              : props.pageSizes[0]
+          emit('page-size-change', pageSize)
+        }
       }
-    })
+    )
 
-    watch(() => props.pageSize, newVal => {
-      innerPageSize.value = newVal
-    })
+    watch(
+      () => props.pageSize,
+      (newVal) => {
+        innerPageSize.value = newVal
+      }
+    )
 
     const innerPagesizes = computed(() => props.pageSizes)
 

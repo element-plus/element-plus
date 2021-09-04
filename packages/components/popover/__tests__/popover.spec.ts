@@ -30,21 +30,24 @@ describe('Popover.vue', () => {
     expect(wrapper.text()).toContain(title)
   })
 
-  test('should modify popover\'s style with width', async () => {
+  test("should modify popover's style with width", async () => {
     const wrapper = mount({
       props: {
         width: 200,
       },
     })
 
-    expect(wrapper.find('.el-popover').attributes('style')).toContain('width: 200px')
+    expect(wrapper.find('.el-popover').attributes('style')).toContain(
+      'width: 200px'
+    )
 
     await wrapper.setProps({
       width: '100vw',
     })
 
-
-    expect(wrapper.find('.el-popover').attributes('style')).toContain('width: 100vw')
+    expect(wrapper.find('.el-popover').attributes('style')).toContain(
+      'width: 100vw'
+    )
   })
 
   test('the content should be overrode by slots', () => {
@@ -58,7 +61,6 @@ describe('Popover.vue', () => {
   })
 
   test('should render content when no slots were passed', () => {
-
     const content = 'test content'
     const wrapper = makeMount(Popover, {
       props: {
@@ -76,8 +78,8 @@ describe('Popover.vue', () => {
 
     expect(
       Number.parseInt(
-        window.getComputedStyle(wrapper.find('.el-popper').element).zIndex,
-      ),
+        window.getComputedStyle(wrapper.find('.el-popper').element).zIndex
+      )
     ).toBeLessThanOrEqual(PopupManager.zIndex)
   })
 
@@ -88,14 +90,18 @@ describe('Popover.vue', () => {
       render() {
         const slot = () => [h('button', { ref: 'btn' }, 'click 激活')]
 
-        return h(Popover, {
-          placement: 'bottom',
-          title: '标题',
-          width: 200,
-          trigger: 'click',
-          tabindex: tabindex.value,
-          content: '这是一段内容,这是一段内容,这是一段内容,这是一段内容。',
-        }, createSlots({}, [{ name: 'reference', fn: slot }]))
+        return h(
+          Popover,
+          {
+            placement: 'bottom',
+            title: '标题',
+            width: 200,
+            trigger: 'click',
+            tabindex: tabindex.value,
+            content: '这是一段内容,这是一段内容,这是一段内容,这是一段内容。',
+          },
+          createSlots({}, [{ name: 'reference', fn: slot }])
+        )
       },
     }
 

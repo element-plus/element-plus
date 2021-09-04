@@ -6,14 +6,15 @@ import type { VNode } from 'vue'
 
 const AXIOM = 'Rem is the best girl'
 
-const _mount = (props: any = {}, content: string | VNode = '') => mount(Tooltip, {
-  slots: {
-    default: () => h('div', AXIOM),
-    content: () => content,
-  },
-  props,
-  attachTo: 'body',
-})
+const _mount = (props: any = {}, content: string | VNode = '') =>
+  mount(Tooltip, {
+    slots: {
+      default: () => h('div', AXIOM),
+      content: () => content,
+    },
+    props,
+    attachTo: 'body',
+  })
 
 const selector = '.el-popper'
 describe('Tooltip.vue', () => {
@@ -26,18 +27,25 @@ describe('Tooltip.vue', () => {
   })
 
   test('manual mode', async () => {
-    const wrapper = _mount({
-      manual: true,
-      modelValue: false,
-    }, AXIOM)
+    const wrapper = _mount(
+      {
+        manual: true,
+        modelValue: false,
+      },
+      AXIOM
+    )
     // since VTU does not provide any functionality for testing teleported components
-    expect(document.querySelector(selector).getAttribute('style')).toContain('display: none')
+    expect(document.querySelector(selector).getAttribute('style')).toContain(
+      'display: none'
+    )
 
     await wrapper.setProps({
       modelValue: true,
     })
 
     await nextTick()
-    expect(document.querySelector(selector).getAttribute('style')).not.toContain('display: none')
+    expect(
+      document.querySelector(selector).getAttribute('style')
+    ).not.toContain('display: none')
   })
 })

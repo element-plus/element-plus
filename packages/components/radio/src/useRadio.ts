@@ -8,7 +8,6 @@ import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 import type { RadioGroupContext } from './token'
 
 export const useRadio = () => {
-
   const ELEMENT = useGlobalConfig()
   const elForm = inject(elFormKey, {} as ElFormContext)
   const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
@@ -39,12 +38,10 @@ interface IUseRadioAttrsState {
   model: WritableComputedRef<string | number | boolean>
 }
 
-export const useRadioAttrs = (props: IUseRadioAttrsProps, {
-  isGroup,
-  radioGroup,
-  elForm,
-  model,
-}: IUseRadioAttrsState) => {
+export const useRadioAttrs = (
+  props: IUseRadioAttrsProps,
+  { isGroup, radioGroup, elForm, model }: IUseRadioAttrsState
+) => {
   const isDisabled = computed(() => {
     return isGroup.value
       ? radioGroup.disabled || props.disabled || elForm.disabled
@@ -52,12 +49,13 @@ export const useRadioAttrs = (props: IUseRadioAttrsProps, {
   })
 
   const tabIndex = computed(() => {
-    return (isDisabled.value || (isGroup.value && model.value !== props.label)) ? -1 : 0
+    return isDisabled.value || (isGroup.value && model.value !== props.label)
+      ? -1
+      : 0
   })
 
   return {
     isDisabled,
     tabIndex,
   }
-
 }

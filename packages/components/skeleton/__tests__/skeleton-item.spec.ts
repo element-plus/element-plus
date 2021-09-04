@@ -11,7 +11,6 @@ describe('<skeleton-item />', () => {
   })
 
   test('should render image placeholder', () => {
-
     const wrapper = mount({
       props: {
         variant: 'image',
@@ -20,5 +19,4 @@ describe('<skeleton-item />', () => {
 
     expect(wrapper.find('svg').exists()).toBe(true)
   })
-
 })

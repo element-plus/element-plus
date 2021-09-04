@@ -1,7 +1,7 @@
 <template>
   <div
     class="el-collapse-item"
-    :class="{'is-active': isActive, 'is-disabled': disabled }"
+    :class="{ 'is-active': isActive, 'is-disabled': disabled }"
   >
     <div
       role="tab"
@@ -15,8 +15,8 @@
         role="button"
         :tabindex="disabled ? -1 : 0"
         :class="{
-          'focusing': focusing,
-          'is-active': isActive
+          focusing: focusing,
+          'is-active': isActive,
         }"
         @click="handleHeaderClick"
         @keyup.space.enter.stop="handleEnterClick"
@@ -26,7 +26,7 @@
         <slot name="title">{{ title }}</slot>
         <i
           class="el-collapse-item__arrow el-icon-arrow-right"
-          :class="{'is-active': isActive}"
+          :class="{ 'is-active': isActive }"
         >
         </i>
       </div>
@@ -47,7 +47,7 @@
     </el-collapse-transition>
   </div>
 </template>
-<script lang='ts'>
+<script lang="ts">
 import { defineComponent, PropType, inject, computed, ref } from 'vue'
 import { CollapseProvider } from './collapse'
 import { generateId } from '@element-plus/utils/util'
@@ -88,7 +88,7 @@ export default defineComponent({
 
     const handleFocus = () => {
       setTimeout(() => {
-        if(!isClick.value) {
+        if (!isClick.value) {
           focusing.value = true
         } else {
           isClick.value = false
@@ -97,7 +97,7 @@ export default defineComponent({
     }
 
     const handleHeaderClick = () => {
-      if(props.disabled) return
+      if (props.disabled) return
       collapseMitt?.emit('item-click', props.name)
       focusing.value = false
       isClick.value = true

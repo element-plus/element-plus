@@ -80,32 +80,33 @@ export default defineComponent({
 
     watch(
       () => props.activeName,
-      modelValue => {
+      (modelValue) => {
         setCurrentName(modelValue)
-      },
+      }
     )
 
     watch(
       () => props.modelValue,
-      modelValue => {
+      (modelValue) => {
         setCurrentName(modelValue)
-      },
+      }
     )
 
     watch(currentName, () => {
       nextTick(() => {
-        nav$.value && nav$.value.$nextTick(() => {
-          nav$.value && nav$.value.scrollToActiveTab()
-        })
+        nav$.value &&
+          nav$.value.$nextTick(() => {
+            nav$.value && nav$.value.scrollToActiveTab()
+          })
       })
       setPaneInstances(true)
     })
 
     const getPaneInstanceFromSlot = (
       vnode: VNode,
-      paneInstanceList: ComponentInternalInstance[] = [],
+      paneInstanceList: ComponentInternalInstance[] = []
     ) => {
-      Array.from((vnode.children || []) as ArrayLike<VNode>).forEach(node => {
+      Array.from((vnode.children || []) as ArrayLike<VNode>).forEach((node) => {
         let type = node.type
         type = (type as Component).name || type
         if (type === 'ElTabPane' && node.component) {
@@ -124,20 +125,20 @@ export default defineComponent({
         const content = Array.from(children as ArrayLike<VNode>).find(
           ({ props }) => {
             return props.class === 'el-tabs__content'
-          },
+          }
         )
 
         if (!content) return
 
         const paneInstanceList: Pane[] = getPaneInstanceFromSlot(content).map(
-          paneComponent => {
+          (paneComponent) => {
             return paneStatesMap[paneComponent.uid]
-          },
+          }
         )
         const panesChanged = !(
           paneInstanceList.length === panes.value.length &&
           paneInstanceList.every(
-            (pane, index) => pane.uid === panes.value[index].uid,
+            (pane, index) => pane.uid === panes.value[index].uid
           )
         )
 
@@ -149,13 +150,13 @@ export default defineComponent({
       }
     }
 
-    const changeCurrentName = value => {
+    const changeCurrentName = (value) => {
       currentName.value = value
       ctx.emit('input', value)
       ctx.emit('update:modelValue', value)
     }
 
-    const setCurrentName = value => {
+    const setCurrentName = (value) => {
       // should do nothing.
       if (currentName.value === value) return
 
@@ -169,7 +170,7 @@ export default defineComponent({
           },
           () => {
             // ignore promise rejection in `before-leave` hook
-          },
+          }
         )
       } else if (before !== false) {
         changeCurrentName(value)
@@ -229,19 +230,19 @@ export default defineComponent({
     const newButton =
       editable || addable
         ? h(
-          'span',
-          {
-            class: 'el-tabs__new-tab',
-            tabindex: '0',
-            onClick: handleTabAdd,
-            onKeydown: ev => {
-              if (ev.code === EVENT_CODE.enter) {
-                handleTabAdd()
-              }
+            'span',
+            {
+              class: 'el-tabs__new-tab',
+              tabindex: '0',
+              onClick: handleTabAdd,
+              onKeydown: (ev) => {
+                if (ev.code === EVENT_CODE.enter) {
+                  handleTabAdd()
+                }
+              },
             },
-          },
-          [h('i', { class: 'el-icon-plus' })],
-        )
+            [h('i', { class: 'el-icon-plus' })]
+          )
         : null
 
     const header = h(
@@ -261,7 +262,7 @@ export default defineComponent({
           onTabClick: handleTabClick,
           onTabRemove: handleTabRemove,
         }),
-      ],
+      ]
     )
 
     const panels = h(
@@ -269,7 +270,7 @@ export default defineComponent({
       {
         class: 'el-tabs__content',
       },
-      this.$slots?.default(),
+      this.$slots?.default()
     )
 
     return h(
@@ -282,7 +283,7 @@ export default defineComponent({
           'el-tabs--border-card': type === 'border-card',
         },
       },
-      tabPosition !== 'bottom' ? [header, panels] : [panels, header],
+      tabPosition !== 'bottom' ? [header, panels] : [panels, header]
     )
   },
 })

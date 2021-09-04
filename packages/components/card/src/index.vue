@@ -1,5 +1,8 @@
 <template>
-  <div class="el-card" :class="shadow ? 'is-' + shadow + '-shadow' : 'is-always-shadow'">
+  <div
+    class="el-card"
+    :class="shadow ? 'is-' + shadow + '-shadow' : 'is-always-shadow'"
+  >
     <div v-if="$slots.header || header" class="el-card__header">
       <slot name="header">{{ header }}</slot>
     </div>
@@ -8,7 +11,7 @@
     </div>
   </div>
 </template>
-<script lang='ts'>
+<script lang="ts">
 import { defineComponent } from 'vue'
 import type { PropType } from 'vue'
 import type { StyleValue } from '@element-plus/utils/types'

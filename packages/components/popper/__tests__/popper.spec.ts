@@ -51,7 +51,6 @@ const popperMock = jest
   }))
 
 describe('Popper.vue', () => {
-
   afterAll(() => {
     popperMock.mockReset()
   })
@@ -67,7 +66,7 @@ describe('Popper.vue', () => {
       },
       {
         default: () => AXIOM,
-      },
+      }
     )
 
     expect(wrapper.text()).toEqual(AXIOM)
@@ -106,8 +105,8 @@ describe('Popper.vue', () => {
 
     expect(
       Number.parseInt(
-        window.getComputedStyle(wrapper.find('.el-popper').element).zIndex,
-      ),
+        window.getComputedStyle(wrapper.find('.el-popper').element).zIndex
+      )
     ).toBeLessThanOrEqual(PopupManager.zIndex)
   })
 
@@ -142,7 +141,7 @@ describe('Popper.vue', () => {
     })
 
     expect(wrapper.find(selector).attributes('style')).not.toContain(
-      DISPLAY_NONE,
+      DISPLAY_NONE
     )
   })
 
@@ -196,7 +195,7 @@ describe('Popper.vue', () => {
     await $trigger.trigger(MOUSE_ENTER_EVENT)
 
     expect(wrapper.find(selector).attributes('style')).not.toContain(
-      DISPLAY_NONE,
+      DISPLAY_NONE
     )
   })
 
@@ -219,7 +218,7 @@ describe('Popper.vue', () => {
     await rAF()
     await nextTick()
     expect(wrapper.find(selector).attributes('style')).not.toContain(
-      DISPLAY_NONE,
+      DISPLAY_NONE
     )
 
     await $trigger.trigger(MOUSE_LEAVE_EVENT)

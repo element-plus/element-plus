@@ -30,14 +30,18 @@ const TAG = '.el-tag'
 const SUGGESTION_ITEM = '.el-cascader__suggestion-item'
 const CHECK_ICON = '.el-icon-check'
 
-const _mount: typeof mount = options => mount({
-  components: {
-    Cascader,
-  },
-  ...options,
-}, {
-  attachTo: 'body',
-})
+const _mount: typeof mount = (options) =>
+  mount(
+    {
+      components: {
+        Cascader,
+      },
+      ...options,
+    },
+    {
+      attachTo: 'body',
+    }
+  )
 
 afterEach(() => {
   document.body.innerHTML = ''
@@ -79,7 +83,7 @@ describe('Cascader.vue', () => {
           @expand-change="handleExpandChange"
         />
       `,
-      data () {
+      data() {
         return {
           value: [],
           options: OPTIONS,
@@ -194,11 +198,14 @@ describe('Cascader.vue', () => {
           :props="props"
         />
       `,
-      data () {
+      data() {
         return {
           options: OPTIONS,
           props: { multiple: true },
-          value: [['zhejiang', 'hangzhou'], ['zhejiang', 'ningbo']],
+          value: [
+            ['zhejiang', 'hangzhou'],
+            ['zhejiang', 'ningbo'],
+          ],
         }
       },
     })
@@ -219,7 +226,10 @@ describe('Cascader.vue', () => {
         options: OPTIONS,
         props: { multiple: true },
         collapseTags: true,
-        modelValue: [['zhejiang', 'hangzhou'], ['zhejiang', 'ningbo']],
+        modelValue: [
+          ['zhejiang', 'hangzhou'],
+          ['zhejiang', 'ningbo'],
+        ],
       },
     })
     await nextTick()
@@ -237,7 +247,7 @@ describe('Cascader.vue', () => {
           filterable
         />
       `,
-      data () {
+      data() {
         return {
           options: OPTIONS,
           value: [],
@@ -249,7 +259,9 @@ describe('Cascader.vue', () => {
     const dropdown = document.querySelector(DROPDOWN)
     input.element.value = 'Ha'
     await input.trigger('input')
-    const suggestions = dropdown.querySelectorAll(SUGGESTION_ITEM) as NodeListOf<HTMLElement>
+    const suggestions = dropdown.querySelectorAll(
+      SUGGESTION_ITEM
+    ) as NodeListOf<HTMLElement>
     const hzSuggestion = suggestions[0]
     expect(suggestions.length).toBe(1)
     expect(hzSuggestion.textContent).toBe('Zhejiang / Hangzhou')
@@ -272,7 +284,7 @@ describe('Cascader.vue', () => {
           filterable
         />
       `,
-      data () {
+      data() {
         return {
           options: OPTIONS,
           props: { multiple: true },

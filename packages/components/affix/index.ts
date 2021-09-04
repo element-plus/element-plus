@@ -4,7 +4,6 @@ import type { App } from 'vue'
 import type { SFCWithInstall } from '@element-plus/utils/types'
 
 Affix.install = (app: App): void => {
-
   app.component(Affix.name, Affix)
 }
 

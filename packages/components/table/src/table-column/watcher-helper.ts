@@ -7,7 +7,7 @@ import type { TableColumnCtx, TableColumn, ValueOf } from './defaults'
 
 function useWatcher<T>(
   owner: ComputedRef<any>,
-  props_: Partial<TableColumnCtx<T>>,
+  props_: Partial<TableColumnCtx<T>>
 ) {
   const instance = getCurrentInstance() as TableColumn<T>
   const registerComplexWatchers = () => {
@@ -21,12 +21,12 @@ function useWatcher<T>(
       return prev
     }, aliases)
 
-    Object.keys(allAliases).forEach(key => {
+    Object.keys(allAliases).forEach((key) => {
       const columnKey = aliases[key]
       if (hasOwn(props_, columnKey)) {
         watch(
           () => props_[columnKey],
-          newVal => {
+          (newVal) => {
             let value: ValueOf<TableColumnCtx<T>> = newVal
             if (columnKey === 'width' && key === 'realWidth') {
               value = parseWidth(newVal)
@@ -38,7 +38,7 @@ function useWatcher<T>(
             instance.columnConfig.value[key] = value
             const updateColumns = columnKey === 'fixed'
             owner.value.store.scheduleLayout(updateColumns)
-          },
+          }
         )
       }
     })
@@ -64,14 +64,14 @@ function useWatcher<T>(
       prev[cur] = cur
       return prev
     }, aliases)
-    Object.keys(allAliases).forEach(key => {
+    Object.keys(allAliases).forEach((key) => {
       const columnKey = aliases[key]
       if (hasOwn(props_, columnKey)) {
         watch(
           () => props_[columnKey],
-          newVal => {
+          (newVal) => {
             instance.columnConfig.value[key] = newVal
-          },
+          }
         )
       }
     })

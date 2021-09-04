@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script lang="ts">
 import { h, provide, defineComponent } from 'vue'
 
 export default defineComponent({
@@ -32,7 +32,7 @@ export default defineComponent({
         {
           class: { 'el-timeline': true },
         },
-        ctx.slots.default?.(),
+        ctx.slots.default?.()
       )
     }
   },

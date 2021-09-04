@@ -7,7 +7,7 @@ import type { TableBodyProps } from './defaults'
 function useStyles<T>(props: Partial<TableBodyProps<T>>) {
   const instance = getCurrentInstance()
   const parent = instance.parent as Table<T>
-  const isColumnHidden = index => {
+  const isColumnHidden = (index) => {
     if (props.fixed === 'left') {
       return index >= props.store.states.fixedLeafColumnsLength.value
     } else if (props.fixed === 'right') {
@@ -56,7 +56,7 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
         rowClassName.call(null, {
           row,
           rowIndex,
-        }),
+        })
       )
     }
 
@@ -71,7 +71,7 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
     rowIndex: number,
     columnIndex: number,
     row: T,
-    column: TableColumnCtx<T>,
+    column: TableColumnCtx<T>
   ) => {
     const cellStyle = parent.props.cellStyle
     if (typeof cellStyle === 'function') {
@@ -89,7 +89,7 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
     rowIndex: number,
     columnIndex: number,
     row: T,
-    column: TableColumnCtx<T>,
+    column: TableColumnCtx<T>
   ) => {
     const classes = [column.id, column.align, column.className]
 
@@ -107,7 +107,7 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
           columnIndex,
           row,
           column,
-        }),
+        })
       )
     }
 
@@ -119,7 +119,7 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
     row: T,
     column: TableColumnCtx<T>,
     rowIndex: number,
-    columnIndex: number,
+    columnIndex: number
   ) => {
     let rowspan = 1
     let colspan = 1
@@ -144,7 +144,7 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
   const getColspanRealWidth = (
     columns: TableColumnCtx<T>[],
     colspan: number,
-    index: number,
+    index: number
   ): number => {
     if (colspan < 1) {
       return columns[index].realWidth
@@ -153,7 +153,7 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
       .map(({ realWidth, width }) => realWidth || width)
       .slice(index, index + colspan)
     return Number(
-      widthArr.reduce((acc, width) => Number(acc) + Number(width), -1),
+      widthArr.reduce((acc, width) => Number(acc) + Number(width), -1)
     )
   }
 

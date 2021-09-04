@@ -3,8 +3,10 @@
 滚动至底部时，加载更多数据。
 
 ### 基础用法
+
 在要实现滚动加载的列表上上添加`v-infinite-scroll`，并赋值相应的加载方法，可实现滚动到底部时自动执行加载方法。
 :::demo
+
 ```html
 <template>
   <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
@@ -14,16 +16,16 @@
 
 <script>
   export default {
-    data () {
+    data() {
       return {
-        count: 0
+        count: 0,
       }
     },
     methods: {
-      load () {
+      load() {
         this.count += 2
-      }
-    }
+      },
+    },
   }
 </script>
 <!--
@@ -47,18 +49,21 @@
 </setup>
 -->
 ```
+
 :::
 
 ### 禁用加载
 
 :::demo
+
 ```html
 <template>
   <div class="infinite-list-wrapper" style="overflow:auto">
     <ul
       class="list"
       v-infinite-scroll="load"
-      infinite-scroll-disabled="disabled">
+      infinite-scroll-disabled="disabled"
+    >
       <li v-for="i in count" class="list-item">{{ i }}</li>
     </ul>
     <p v-if="loading">加载中...</p>
@@ -68,29 +73,29 @@
 
 <script>
   export default {
-    data () {
+    data() {
       return {
         count: 10,
-        loading: false
+        loading: false,
       }
     },
     computed: {
-      noMore () {
+      noMore() {
         return this.count >= 20
       },
-      disabled () {
+      disabled() {
         return this.loading || this.noMore
-      }
+      },
     },
     methods: {
-      load () {
+      load() {
         this.loading = true
         setTimeout(() => {
           this.count += 2
           this.loading = false
         }, 2000)
-      }
-    }
+      },
+    },
   }
 </script>
 <!--
@@ -124,14 +129,14 @@
 </setup>
 -->
 ```
-:::
 
+:::
 
 ### Attributes
 
-| 参数           | 说明                           | 类型      | 可选值                               | 默认值  |
-| -------------- | ------------------------------ | --------- | ------------------------------------ | ------- |
-| infinite-scroll-disabled | 是否禁用           | boolean      | - |false |
-| infinite-scroll-delay   | 节流时延，单位为ms   | number       |   - |200   |
-| infinite-scroll-distance| 触发加载的距离阈值，单位为px | number   |- |0 |
-| infinite-scroll-immediate | 是否立即执行加载方法，以防初始状态下内容无法撑满容器。| boolean | - |true |
+| 参数                      | 说明                                                   | 类型    | 可选值 | 默认值 |
+| ------------------------- | ------------------------------------------------------ | ------- | ------ | ------ |
+| infinite-scroll-disabled  | 是否禁用                                               | boolean | -      | false  |
+| infinite-scroll-delay     | 节流时延，单位为 ms                                    | number  | -      | 200    |
+| infinite-scroll-distance  | 触发加载的距离阈值，单位为 px                          | number  | -      | 0      |
+| infinite-scroll-immediate | 是否立即执行加载方法，以防初始状态下内容无法撑满容器。 | boolean | -      | true   |

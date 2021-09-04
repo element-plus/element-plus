@@ -68,7 +68,7 @@ export default defineComponent({
     const openedMenus = ref(
       props.defaultOpeneds && !props.collapse
         ? props.defaultOpeneds.slice(0)
-        : [],
+        : []
     )
     const instance = getCurrentInstance()
     const activeIndex = ref(props.defaultActive)
@@ -101,7 +101,7 @@ export default defineComponent({
 
       // 展开该菜单项的路径上所有子菜单
       // expand all submenus of the menu item
-      indexPath.forEach(index => {
+      indexPath.forEach((index) => {
         let submenu = submenus.value[index]
         submenu && openMenu(index, submenu?.indexPath)
       })
@@ -138,23 +138,23 @@ export default defineComponent({
       openedMenus.value.push(index)
     }
 
-    const closeMenu = index => {
+    const closeMenu = (index) => {
       const i = openedMenus.value.indexOf(index)
       if (i !== -1) {
         openedMenus.value.splice(i, 1)
       }
     }
 
-    const open = index => {
+    const open = (index) => {
       const { indexPath } = submenus.value[index.toString()]
-      indexPath.forEach(i => openMenu(i, indexPath))
+      indexPath.forEach((i) => openMenu(i, indexPath))
     }
 
-    const close = index => {
+    const close = (index) => {
       closeMenu(index)
     }
 
-    const handleSubMenuClick = submenu => {
+    const handleSubMenuClick = (submenu) => {
       const { index, indexPath } = submenu
       let isOpened = openedMenus.value.includes(index)
 
@@ -186,14 +186,12 @@ export default defineComponent({
 
       if (props.router && router) {
         let route = item.route || item.index
-        const routerResult = router
-          .push(route)
-          .then(navigationResult => {
-            if (!navigationResult) {
-              activeIndex.value = item.index
-            }
-            return navigationResult
-          })
+        const routerResult = router.push(route).then((navigationResult) => {
+          if (!navigationResult) {
+            activeIndex.value = item.index
+          }
+          return navigationResult
+        })
         emit('select', ...emitParams.concat(routerResult))
       } else {
         activeIndex.value = item.index
@@ -223,10 +221,10 @@ export default defineComponent({
       }
     }
 
-    const flattedChildren = children => {
+    const flattedChildren = (children) => {
       const temp = Array.isArray(children) ? children : [children]
       const res = []
-      temp.forEach(child => {
+      temp.forEach((child) => {
         if (Array.isArray(child.children)) {
           res.push(...flattedChildren(child.children))
         } else {
@@ -240,12 +238,16 @@ export default defineComponent({
       filteredSlot.value = slots.default?.()
       await nextTick()
       if (props.mode === 'horizontal') {
-        const items = Array.from(menu.value.childNodes).filter((item: HTMLElement) => item.nodeName !== '#text' || item.nodeValue) as [HTMLElement]
+        const items = Array.from(menu.value.childNodes).filter(
+          (item: HTMLElement) => item.nodeName !== '#text' || item.nodeValue
+        ) as [HTMLElement]
         const originalSlot = flattedChildren(slots.default?.()) || []
         if (items.length === originalSlot.length) {
           const moreItemWidth = 64
           const paddingLeft = parseInt(getComputedStyle(menu.value).paddingLeft)
-          const paddingRight = parseInt(getComputedStyle(menu.value).paddingRight)
+          const paddingRight = parseInt(
+            getComputedStyle(menu.value).paddingRight
+          )
           const menuWidth = menu.value.clientWidth - paddingLeft - paddingRight
           let calcWidth = 0
           let sliceIndex = 0
@@ -260,13 +262,20 @@ export default defineComponent({
           if (moreSlot?.length) {
             filteredSlot.value = [
               ...defaultSlot,
-              h(ElSubMenu, {
-                index: 'sub-menu-more',
-                class: 'el-sub-menu__hide-arrow',
-              }, {
-                title: () => h('i', { class: ['el-icon-more', 'el-sub-menu__icon-more'] }),
-                default: () => moreSlot,
-              }),
+              h(
+                ElSubMenu,
+                {
+                  index: 'sub-menu-more',
+                  class: 'el-sub-menu__hide-arrow',
+                },
+                {
+                  title: () =>
+                    h('i', {
+                      class: ['el-icon-more', 'el-sub-menu__icon-more'],
+                    }),
+                  default: () => moreSlot,
+                }
+              ),
             ]
           }
         }
@@ -278,18 +287,21 @@ export default defineComponent({
     }
 
     // watch
-    watch(() => slots.default?.(), () => {
-      updateFilteredSlot()
-    })
+    watch(
+      () => slots.default?.(),
+      () => {
+        updateFilteredSlot()
+      }
+    )
 
     watch(
       () => props.defaultActive,
-      currentActive => {
+      (currentActive) => {
         if (!items.value[currentActive]) {
           activeIndex.value = ''
         }
         updateActiveIndex(currentActive)
-      },
+      }
     )
 
     watch(items.value, () => {
@@ -305,9 +317,9 @@ export default defineComponent({
         if (value) openedMenus.value = []
         rootMenuEmitter.emit(
           'rootMenu:toggle-collapse',
-          Boolean(props.collapse),
+          Boolean(props.collapse)
         )
-      },
+      }
     )
 
     // provide
@@ -361,18 +373,26 @@ export default defineComponent({
     }
   },
   render() {
-    const directives = this.mode === 'horizontal' ? [[Resize, this.handleResize]] : []
-    const menu = withDirectives(h('ul', {
-      key: String(this.collapse),
-      role: 'menubar',
-      ref: 'menu',
-      style: { backgroundColor: this.backgroundColor || '' },
-      class: {
-        'el-menu': true,
-        'el-menu--horizontal': this.mode === 'horizontal',
-        'el-menu--collapse': this.collapse,
-      },
-    }, [this.filteredSlot]), directives)
+    const directives =
+      this.mode === 'horizontal' ? [[Resize, this.handleResize]] : []
+    const menu = withDirectives(
+      h(
+        'ul',
+        {
+          key: String(this.collapse),
+          role: 'menubar',
+          ref: 'menu',
+          style: { backgroundColor: this.backgroundColor || '' },
+          class: {
+            'el-menu': true,
+            'el-menu--horizontal': this.mode === 'horizontal',
+            'el-menu--collapse': this.collapse,
+          },
+        },
+        [this.filteredSlot]
+      ),
+      directives
+    )
 
     if (this.collapseTransition && this.mode === 'vertical') {
       return h(ElMenuCollapseTransition, () => menu)

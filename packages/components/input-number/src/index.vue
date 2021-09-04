@@ -41,8 +41,8 @@
       :label="label"
       @keydown.up.prevent="increase"
       @keydown.down.prevent="decrease"
-      @blur="event => $emit('blur', event)"
-      @focus="event => $emit('focus', event)"
+      @blur="(event) => $emit('blur', event)"
+      @focus="(event) => $emit('focus', event)"
       @input="handleInput"
       @change="handleInputChange"
     />
@@ -150,7 +150,7 @@ export default defineComponent({
       if (props.precision !== undefined) {
         if (stepPrecision > props.precision) {
           console.warn(
-            '[ElementPlus Warn][InputNumber] precision should not be less than the decimal places of step',
+            '[ElementPlus Warn][InputNumber] precision should not be less than the decimal places of step'
           )
         }
         return props.precision
@@ -182,10 +182,10 @@ export default defineComponent({
     const toPrecision = (num, pre?) => {
       if (pre === undefined) pre = numPrecision.value
       return parseFloat(
-        Math.round(num * Math.pow(10, pre)) / Math.pow(10, pre) + '',
+        Math.round(num * Math.pow(10, pre)) / Math.pow(10, pre) + ''
       )
     }
-    const getPrecision = value => {
+    const getPrecision = (value) => {
       if (value === undefined) return 0
       const valueString = value.toString()
       const dotPosition = valueString.indexOf('.')
@@ -195,20 +195,20 @@ export default defineComponent({
       }
       return precision
     }
-    const _increase = val => {
+    const _increase = (val) => {
       if (typeof val !== 'number' && val !== undefined) return data.currentValue
       const precisionFactor = Math.pow(10, numPrecision.value)
       // Solve the accuracy problem of JS decimal calculation by converting the value to integer.
       return toPrecision(
-        (precisionFactor * val + precisionFactor * props.step) / precisionFactor,
+        (precisionFactor * val + precisionFactor * props.step) / precisionFactor
       )
     }
-    const _decrease = val => {
+    const _decrease = (val) => {
       if (typeof val !== 'number' && val !== undefined) return data.currentValue
       const precisionFactor = Math.pow(10, numPrecision.value)
       // Solve the accuracy problem of JS decimal calculation by converting the value to integer.
       return toPrecision(
-        (precisionFactor * val - precisionFactor * props.step) / precisionFactor,
+        (precisionFactor * val - precisionFactor * props.step) / precisionFactor
       )
     }
     const increase = () => {
@@ -223,12 +223,9 @@ export default defineComponent({
       const newVal = _decrease(value)
       setCurrentValue(newVal)
     }
-    const setCurrentValue = newVal => {
+    const setCurrentValue = (newVal) => {
       const oldVal = data.currentValue
-      if (
-        typeof newVal === 'number' &&
-        props.precision !== undefined
-      ) {
+      if (typeof newVal === 'number' && props.precision !== undefined) {
         newVal = toPrecision(newVal, props.precision)
       }
       if (newVal !== undefined && newVal >= props.max) newVal = props.max
@@ -240,10 +237,10 @@ export default defineComponent({
       emit('change', newVal, oldVal)
       data.currentValue = newVal
     }
-    const handleInput = value => {
+    const handleInput = (value) => {
       return (data.userInput = value)
     }
-    const handleInputChange = value => {
+    const handleInputChange = (value) => {
       const newVal = value === '' ? undefined : Number(value)
       if (!isNaN(newVal) || value === '') {
         setCurrentValue(newVal)
@@ -252,7 +249,7 @@ export default defineComponent({
     }
     watch(
       () => props.modelValue,
-      value => {
+      (value) => {
         let newVal = value === undefined ? value : Number(value)
         if (newVal !== undefined) {
           if (isNaN(newVal)) return
@@ -278,7 +275,7 @@ export default defineComponent({
         data.currentValue = newVal
         data.userInput = null
       },
-      { immediate: true },
+      { immediate: true }
     )
     onMounted(() => {
       let innerInput = input.value.input
@@ -287,7 +284,10 @@ export default defineComponent({
       innerInput.setAttribute('aria-valuemin', props.min)
       innerInput.setAttribute('aria-valuenow', data.currentValue)
       innerInput.setAttribute('aria-disabled', inputNumberDisabled.value)
-      if (toRawType(props.modelValue) !== 'Number' && props.modelValue !== undefined) {
+      if (
+        toRawType(props.modelValue) !== 'Number' &&
+        props.modelValue !== undefined
+      ) {
         emit('update:modelValue', undefined)
       }
     })

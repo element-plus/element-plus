@@ -5,6 +5,7 @@ Element Plus 内应用在部分组件的过渡动画，你也可以直接使用�
 ### fade 淡入淡出
 
 :::demo 提供 `el-fade-in-linear` 和 `el-fade-in` 两种效果。
+
 ```html
 <template>
   <div>
@@ -22,10 +23,10 @@ Element Plus 内应用在部分组件的过渡动画，你也可以直接使用�
 </template>
 
 <script>
-    export default {
+  export default {
     data: () => ({
-      show: true
-    })
+      show: true,
+    }),
   }
 </script>
 
@@ -35,7 +36,7 @@ Element Plus 内应用在部分组件的过渡动画，你也可以直接使用�
     width: 200px;
     height: 100px;
     border-radius: 4px;
-    background-color: #409EFF;
+    background-color: #409eff;
     text-align: center;
     color: #fff;
     padding: 40px 20px;
@@ -44,11 +45,13 @@ Element Plus 内应用在部分组件的过渡动画，你也可以直接使用�
   }
 </style>
 ```
+
 :::
 
 ### zoom 缩放
 
 :::demo 提供 `el-zoom-in-center`，`el-zoom-in-top` 和 `el-zoom-in-bottom` 三种效果。
+
 ```html
 <template>
   <div>
@@ -71,10 +74,10 @@ Element Plus 内应用在部分组件的过渡动画，你也可以直接使用�
 </template>
 
 <script>
-    export default {
+  export default {
     data: () => ({
-      show2: true
-    })
+      show2: true,
+    }),
   }
 </script>
 
@@ -84,7 +87,7 @@ Element Plus 内应用在部分组件的过渡动画，你也可以直接使用�
     width: 200px;
     height: 100px;
     border-radius: 4px;
-    background-color: #409EFF;
+    background-color: #409eff;
     text-align: center;
     color: #fff;
     padding: 40px 20px;
@@ -93,14 +96,15 @@ Element Plus 内应用在部分组件的过渡动画，你也可以直接使用�
   }
 </style>
 ```
-:::
 
+:::
 
 ### collapse 展开折叠
 
 使用 `el-collapse-transition` 组件实现折叠展开效果。
 
 :::demo
+
 ```html
 <template>
   <div>
@@ -118,10 +122,10 @@ Element Plus 内应用在部分组件的过渡动画，你也可以直接使用�
 </template>
 
 <script>
-    export default {
+  export default {
     data: () => ({
-      show3: true
-    })
+      show3: true,
+    }),
   }
 </script>
 
@@ -131,7 +135,7 @@ Element Plus 内应用在部分组件的过渡动画，你也可以直接使用�
     width: 200px;
     height: 100px;
     border-radius: 4px;
-    background-color: #409EFF;
+    background-color: #409eff;
     text-align: center;
     color: #fff;
     padding: 40px 20px;
@@ -140,15 +144,16 @@ Element Plus 内应用在部分组件的过渡动画，你也可以直接使用�
   }
 </style>
 ```
+
 :::
 
 ### 按需引入
 
 ```js
 // fade/zoom 等
-import 'element-plus/lib/theme-chalk/base.css';
+import 'element-plus/lib/theme-chalk/base.css'
 // collapse 展开折叠
-import { ElCollapseTransition } from 'element-plus';
+import { ElCollapseTransition } from 'element-plus'
 import Vue from 'vue'
 
 Vue.component(ElCollapseTransition.name, ElCollapseTransition)
