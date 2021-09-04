@@ -1,8 +1,12 @@
 {
-  "printWidth": 80,
-  "tabWidth": 2,
   "semi": false,
   "singleQuote": true,
-  "endOfLine": "lf",
-  "trailingComma": "es5"
+  "overrides": [
+    {
+      "files": ".prettierrc",
+      "options": {
+        "parser": "json"
+      }
+    }
+  ]
 }
