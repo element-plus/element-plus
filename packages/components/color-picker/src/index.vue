@@ -16,12 +16,7 @@
     <template #default>
       <div v-click-outside="hide">
         <div class="el-color-dropdown__main-wrapper">
-          <hue-slider
-            ref="hue"
-            class="hue-slider"
-            :color="color"
-            vertical
-          />
+          <hue-slider ref="hue" class="hue-slider" :color="color" vertical />
           <sv-panel ref="svPanel" :color="color" />
         </div>
         <alpha-slider v-if="showAlpha" ref="alpha" :color="color" />
@@ -65,21 +60,30 @@
         :class="[
           'el-color-picker',
           colorDisabled ? 'is-disabled' : '',
-          colorSize ? `el-color-picker--${ colorSize }` : ''
+          colorSize ? `el-color-picker--${colorSize}` : '',
         ]"
       >
         <div v-if="colorDisabled" class="el-color-picker__mask"></div>
         <div class="el-color-picker__trigger" @click="handleTrigger">
-          <span class="el-color-picker__color" :class="{ 'is-alpha': showAlpha }">
+          <span
+            class="el-color-picker__color"
+            :class="{ 'is-alpha': showAlpha }"
+          >
             <span
               class="el-color-picker__color-inner"
               :style="{
-                backgroundColor: displayedColor
+                backgroundColor: displayedColor,
               }"
             ></span>
-            <span v-if="!modelValue && !showPanelColor" class="el-color-picker__empty el-icon-close"></span>
+            <span
+              v-if="!modelValue && !showPanelColor"
+              class="el-color-picker__empty el-icon-close"
+            ></span>
           </span>
-          <span v-show="modelValue || showPanelColor" class="el-color-picker__icon el-icon-arrow-down"></span>
+          <span
+            v-show="modelValue || showPanelColor"
+            class="el-color-picker__icon el-icon-arrow-down"
+          ></span>
         </div>
       </div>
     </template>
@@ -87,7 +91,17 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, nextTick, onMounted, provide, reactive, ref, watch } from 'vue'
+import {
+  computed,
+  defineComponent,
+  inject,
+  nextTick,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+  watch,
+} from 'vue'
 import debounce from 'lodash/debounce'
 import ElButton from '@element-plus/components/button'
 import { ClickOutside } from '@element-plus/directives'
@@ -148,10 +162,12 @@ export default defineComponent({
     const alpha = ref(null)
     const popper = ref(null)
     // data
-    const color = reactive(new Color({
-      enableAlpha: props.showAlpha,
-      format: props.colorFormat,
-    }))
+    const color = reactive(
+      new Color({
+        enableAlpha: props.showAlpha,
+        format: props.colorFormat,
+      })
+    )
     const showPicker = ref(false)
     const showPanelColor = ref(false)
     const customInput = ref('')
@@ -173,24 +189,33 @@ export default defineComponent({
       return !props.modelValue && !showPanelColor.value ? '' : color.value
     })
     // watch
-    watch(() => props.modelValue, newVal => {
-      if (!newVal) {
-        showPanelColor.value = false
-      } else if (newVal && newVal !== color.value) {
-        color.fromString(newVal)
+    watch(
+      () => props.modelValue,
+      (newVal) => {
+        if (!newVal) {
+          showPanelColor.value = false
+        } else if (newVal && newVal !== color.value) {
+          color.fromString(newVal)
+        }
       }
-    })
-    watch(() => currentColor.value, val => {
-      customInput.value = val
-      emit('active-change', val)
-      // showPanelColor.value = true
-    })
+    )
+    watch(
+      () => currentColor.value,
+      (val) => {
+        customInput.value = val
+        emit('active-change', val)
+        // showPanelColor.value = true
+      }
+    )
 
-    watch(() => color.value, () => {
-      if (!props.modelValue && !showPanelColor.value) {
-        showPanelColor.value = true
+    watch(
+      () => color.value,
+      () => {
+        if (!props.modelValue && !showPanelColor.value) {
+          showPanelColor.value = true
+        }
       }
-    })
+    )
 
     // methods
     function displayedRgb(color, showAlpha) {
@@ -200,8 +225,8 @@ export default defineComponent({
 
       const { r, g, b } = color.toRgb()
       return showAlpha
-        ? `rgba(${ r }, ${ g }, ${ b }, ${ color.get('alpha') / 100 })`
-        : `rgb(${ r }, ${ g }, ${ b })`
+        ? `rgba(${r}, ${g}, ${b}, ${color.get('alpha') / 100})`
+        : `rgb(${r}, ${g}, ${b})`
     }
 
     function setShowPicker(value) {
@@ -269,13 +294,16 @@ export default defineComponent({
         customInput.value = currentColor.value
       }
     })
-    watch(() => showPicker.value, () => {
-      nextTick(() => {
-        hue.value?.update()
-        svPanel.value?.update()
-        alpha.value?.update()
-      })
-    })
+    watch(
+      () => showPicker.value,
+      () => {
+        nextTick(() => {
+          hue.value?.update()
+          svPanel.value?.update()
+          alpha.value?.update()
+        })
+      }
+    )
 
     provide<IUseOptions>(OPTIONS_KEY, {
       currentColor,

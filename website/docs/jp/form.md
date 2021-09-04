@@ -337,7 +337,7 @@ The component has been upgraded with a flex layout to replace the old float layo
     },
     methods: {
       submitForm(formName) {
-        this.$refs[formName].validate(valid => {
+        this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!')
           } else {
@@ -446,7 +446,7 @@ The component has been upgraded with a flex layout to replace the old float layo
     },
     methods: {
       submitForm(formName) {
-        this.$refs[formName].validate(valid => {
+        this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!')
           } else {
@@ -527,7 +527,7 @@ The component has been upgraded with a flex layout to replace the old float layo
     },
     methods: {
       submitForm(formName) {
-        this.$refs[formName].validate(valid => {
+        this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!')
           } else {
@@ -601,7 +601,7 @@ The component has been upgraded with a flex layout to replace the old float layo
     },
     methods: {
       submitForm(formName) {
-        this.$refs[formName].validate(valid => {
+        this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!')
           } else {

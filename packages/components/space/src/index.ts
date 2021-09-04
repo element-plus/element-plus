@@ -25,7 +25,7 @@ export default defineComponent({
 
   render(
     ctx: ReturnType<typeof useSpace> &
-    ExtractPropTypes<typeof defaultProps> & { $slots: Slots; },
+      ExtractPropTypes<typeof defaultProps> & { $slots: Slots }
   ) {
     const {
       classes,
@@ -63,8 +63,8 @@ export default defineComponent({
                     default: () => [nested as VNode],
                   },
                   PatchFlags.PROPS | PatchFlags.STYLE,
-                  ['style', 'prefixCls'],
-                ),
+                  ['style', 'prefixCls']
+                )
               )
             })
           }
@@ -83,8 +83,8 @@ export default defineComponent({
                 default: () => [child as VNode],
               },
               PatchFlags.PROPS | PatchFlags.STYLE,
-              ['style', 'prefixCls'],
-            ),
+              ['style', 'prefixCls']
+            )
           )
         }
       })
@@ -96,26 +96,33 @@ export default defineComponent({
         extractedChildren = extractedChildren.reduce((acc, child, idx) => {
           return idx === len
             ? [...acc, child]
-            : [...acc,
-              child,
-              createVNode(
-                'span',
-                // adding width 100% for vertical alignment,
-                // when the spacer inherit the width from the
-                // parent, this span's width was not set, so space
-                // might disappear
-                { style: [itemStyle, direction === 'vertical' ? 'width: 100%' : null], key: idx },
-                [
-                // if spacer is already a valid vnode, then append it to the current
-                // span element.
-                // otherwise, treat it as string.
-                  isVNode(spacer)
-                    ? spacer
-                    : createTextVNode(spacer as string, PatchFlags.TEXT),
-                ],
-                PatchFlags.STYLE,
-              ),
-            ]
+            : [
+                ...acc,
+                child,
+                createVNode(
+                  'span',
+                  // adding width 100% for vertical alignment,
+                  // when the spacer inherit the width from the
+                  // parent, this span's width was not set, so space
+                  // might disappear
+                  {
+                    style: [
+                      itemStyle,
+                      direction === 'vertical' ? 'width: 100%' : null,
+                    ],
+                    key: idx,
+                  },
+                  [
+                    // if spacer is already a valid vnode, then append it to the current
+                    // span element.
+                    // otherwise, treat it as string.
+                    isVNode(spacer)
+                      ? spacer
+                      : createTextVNode(spacer as string, PatchFlags.TEXT),
+                  ],
+                  PatchFlags.STYLE
+                ),
+              ]
         }, [])
       }
 
@@ -127,7 +134,7 @@ export default defineComponent({
           style: containerStyle,
         },
         extractedChildren,
-        PatchFlags.STYLE | PatchFlags.CLASS,
+        PatchFlags.STYLE | PatchFlags.CLASS
       )
     }
 

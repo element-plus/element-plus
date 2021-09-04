@@ -6,28 +6,35 @@ jest.unmock('lodash/debounce')
 
 import Autocomplete from '../src/index.vue'
 
-const _mount = (payload = {}) => mount({
-  components: {
-    'el-autocomplete': Autocomplete,
-  },
-  data() {
-    return {
-      state: '',
-      list: [
-        { value: 'Java', tag: 'java' },
-        { value: 'Go', tag: 'go' },
-        { value: 'JavaScript', tag: 'javascript' },
-        { value: 'Python', tag: 'python' },
-      ],
-      payload,
-    }
-  },
-  methods: {
-    querySearch(queryString, cb) {
-      cb(queryString ? this.list.filter(i => i.value.indexOf(queryString.toLowerCase()) === 0) : this.list)
+const _mount = (payload = {}) =>
+  mount({
+    components: {
+      'el-autocomplete': Autocomplete,
     },
-  },
-  template: `
+    data() {
+      return {
+        state: '',
+        list: [
+          { value: 'Java', tag: 'java' },
+          { value: 'Go', tag: 'go' },
+          { value: 'JavaScript', tag: 'javascript' },
+          { value: 'Python', tag: 'python' },
+        ],
+        payload,
+      }
+    },
+    methods: {
+      querySearch(queryString, cb) {
+        cb(
+          queryString
+            ? this.list.filter(
+                (i) => i.value.indexOf(queryString.toLowerCase()) === 0
+              )
+            : this.list
+        )
+      },
+    },
+    template: `
     <el-autocomplete
       ref="autocomplete"
       v-model="state"
@@ -35,7 +42,7 @@ const _mount = (payload = {}) => mount({
       v-bind="payload"
     />
   `,
-})
+  })
 
 describe('Autocomplete.vue', () => {
   beforeEach(() => {
@@ -76,11 +83,17 @@ describe('Autocomplete.vue', () => {
     const wrapper = _mount()
 
     await wrapper.setProps({ popperClass: 'error' })
-    expect(document.body.querySelector('.el-popper').classList.contains('error')).toBe(true)
+    expect(
+      document.body.querySelector('.el-popper').classList.contains('error')
+    ).toBe(true)
 
     await wrapper.setProps({ popperClass: 'success' })
-    expect(document.body.querySelector('.el-popper').classList.contains('error')).toBe(false)
-    expect(document.body.querySelector('.el-popper').classList.contains('success')).toBe(true)
+    expect(
+      document.body.querySelector('.el-popper').classList.contains('error')
+    ).toBe(false)
+    expect(
+      document.body.querySelector('.el-popper').classList.contains('success')
+    ).toBe(true)
   })
 
   test('popperAppendToBody', async () => {

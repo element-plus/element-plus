@@ -25,7 +25,7 @@ function useStyle<T>(props: TableFooter<T>) {
   const isCellHidden = (
     index: number,
     columns: TableColumnCtx<T>[],
-    column: TableColumnCtx<T>,
+    column: TableColumnCtx<T>
   ) => {
     if (props.fixed || props.fixed === 'left') {
       return index >= leftFixedLeafCount.value

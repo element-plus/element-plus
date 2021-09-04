@@ -30,4 +30,3 @@ export const ElMenuItemGroup = MenuItemGroup
 export const ElSubMenu = SubMenu
 
 export * from './src/menu.type'
-

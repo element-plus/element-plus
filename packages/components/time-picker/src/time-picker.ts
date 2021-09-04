@@ -44,11 +44,12 @@ export default defineComponent({
           format,
           type,
           ref: commonPicker,
-          'onUpdate:modelValue': value => ctx.emit('update:modelValue', value),
+          'onUpdate:modelValue': (value) =>
+            ctx.emit('update:modelValue', value),
         },
         {
-          default: scopedProps => h(panel, scopedProps),
-        },
+          default: (scopedProps) => h(panel, scopedProps),
+        }
       )
     }
   },

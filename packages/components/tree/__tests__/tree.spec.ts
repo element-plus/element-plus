@@ -6,142 +6,188 @@ import { sleep, defineGetter } from '@element-plus/test-utils'
 const ALL_NODE_COUNT = 9
 
 const getTreeVm = (props = '', options = {}) => {
-  const wrapper = mount(Object.assign({
-    components: {
-      'el-tree': Tree,
-    },
-    template: `
-      <el-tree ref="tree" :data="data" ${ props }></el-tree>
-    `,
-    data() {
-      return {
-        currentNode: null,
-        nodeExpended: false,
-        defaultExpandedKeys: [],
-        defaultCheckedKeys: [],
-        clickedNode: null,
-        count: 1,
-        data: [{
-          id: 1,
-          label: '一级 1',
-          children: [{
-            id: 11,
-            label: '二级 1-1',
-            children: [{
-              id: 111,
-              label: '三级 1-1',
-            }],
-          }],
-        }, {
-          id: 2,
-          label: '一级 2',
-          children: [{
-            id: 21,
-            label: '二级 2-1',
-          }, {
-            id: 22,
-            label: '二级 2-2',
-          }],
-        }, {
-          id: 3,
-          label: '一级 3',
-          children: [{
-            id: 31,
-            label: '二级 3-1',
-          }, {
-            id: 32,
-            label: '二级 3-2',
-          }],
-        }],
-        defaultProps: {
-          children: 'children',
-          label: 'label',
+  const wrapper = mount(
+    Object.assign(
+      {
+        components: {
+          'el-tree': Tree,
         },
-      }
-    },
-  }, options))
+        template: `
+      <el-tree ref="tree" :data="data" ${props}></el-tree>
+    `,
+        data() {
+          return {
+            currentNode: null,
+            nodeExpended: false,
+            defaultExpandedKeys: [],
+            defaultCheckedKeys: [],
+            clickedNode: null,
+            count: 1,
+            data: [
+              {
+                id: 1,
+                label: '一级 1',
+                children: [
+                  {
+                    id: 11,
+                    label: '二级 1-1',
+                    children: [
+                      {
+                        id: 111,
+                        label: '三级 1-1',
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                id: 2,
+                label: '一级 2',
+                children: [
+                  {
+                    id: 21,
+                    label: '二级 2-1',
+                  },
+                  {
+                    id: 22,
+                    label: '二级 2-2',
+                  },
+                ],
+              },
+              {
+                id: 3,
+                label: '一级 3',
+                children: [
+                  {
+                    id: 31,
+                    label: '二级 3-1',
+                  },
+                  {
+                    id: 32,
+                    label: '二级 3-2',
+                  },
+                ],
+              },
+            ],
+            defaultProps: {
+              children: 'children',
+              label: 'label',
+            },
+          }
+        },
+      },
+      options
+    )
+  )
   return { wrapper, vm: wrapper.vm }
 }
 
 const getDisableTreeVm = (props = '', options = {}) => {
-  const wrapper = mount(Object.assign({
-    components: {
-      'el-tree': Tree,
-    },
-    template: `
-      <el-tree ref="tree" :data="data" ${ props }></el-tree>
-    `,
-    data() {
-      return {
-        defaultExpandedKeys: [],
-        defaultCheckedKeys: [],
-        clickedNode: null,
-        count: 1,
-        data: [{
-          id: 1,
-          label: '一级 1',
-          children: [{
-            id: 11,
-            label: '二级 1-1',
-            children: [{
-              id: 111,
-              label: '三级 1-1',
-              disabled: true,
-            }],
-          }],
-        }, {
-          id: 2,
-          label: '一级 2',
-          children: [{
-            id: 21,
-            label: '二级 2-1',
-          }, {
-            id: 22,
-            label: '二级 2-2',
-          }],
-        }, {
-          id: 3,
-          label: '一级 3',
-          children: [{
-            id: 31,
-            label: '二级 3-1',
-          }, {
-            id: 32,
-            label: '二级 3-2',
-          }],
-        }],
-        defaultProps: {
-          children: 'children',
-          label: 'label',
-          disabled: 'disabled',
+  const wrapper = mount(
+    Object.assign(
+      {
+        components: {
+          'el-tree': Tree,
         },
-      }
-    },
-  }, options))
+        template: `
+      <el-tree ref="tree" :data="data" ${props}></el-tree>
+    `,
+        data() {
+          return {
+            defaultExpandedKeys: [],
+            defaultCheckedKeys: [],
+            clickedNode: null,
+            count: 1,
+            data: [
+              {
+                id: 1,
+                label: '一级 1',
+                children: [
+                  {
+                    id: 11,
+                    label: '二级 1-1',
+                    children: [
+                      {
+                        id: 111,
+                        label: '三级 1-1',
+                        disabled: true,
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                id: 2,
+                label: '一级 2',
+                children: [
+                  {
+                    id: 21,
+                    label: '二级 2-1',
+                  },
+                  {
+                    id: 22,
+                    label: '二级 2-2',
+                  },
+                ],
+              },
+              {
+                id: 3,
+                label: '一级 3',
+                children: [
+                  {
+                    id: 31,
+                    label: '二级 3-1',
+                  },
+                  {
+                    id: 32,
+                    label: '二级 3-2',
+                  },
+                ],
+              },
+            ],
+            defaultProps: {
+              children: 'children',
+              label: 'label',
+              disabled: 'disabled',
+            },
+          }
+        },
+      },
+      options
+    )
+  )
   return { wrapper, vm: wrapper.vm }
 }
 
 describe('Tree.vue', () => {
-
   test('create', async () => {
-    const { wrapper, vm } = getTreeVm(`:props="defaultProps" default-expand-all`)
+    const { wrapper, vm } = getTreeVm(
+      `:props="defaultProps" default-expand-all`
+    )
 
     expect(wrapper.find('.el-tree').exists()).toBeTruthy()
     expect(wrapper.findAll('.el-tree > .el-tree-node').length).toEqual(3)
-    expect(wrapper.findAll('.el-tree .el-tree-node').length).toEqual(ALL_NODE_COUNT)
+    expect(wrapper.findAll('.el-tree .el-tree-node').length).toEqual(
+      ALL_NODE_COUNT
+    )
     vm.data[1].children = [{ label: '二级 2-1' }] as any
     await nextTick()
-    expect(wrapper.findAll('.el-tree .el-tree-node').length).toEqual(ALL_NODE_COUNT - 1)
+    expect(wrapper.findAll('.el-tree .el-tree-node').length).toEqual(
+      ALL_NODE_COUNT - 1
+    )
   })
 
   test('click node', async () => {
-    const { wrapper, vm } = getTreeVm(`:props="defaultProps" @node-click="handleNodeClick"`, {
-      methods: {
-        handleNodeClick(data) {
-          this.clickedNode = data
+    const { wrapper, vm } = getTreeVm(
+      `:props="defaultProps" @node-click="handleNodeClick"`,
+      {
+        methods: {
+          handleNodeClick(data) {
+            this.clickedNode = data
+          },
         },
-      },
-    })
+      }
+    )
 
     const firstNodeContentWrapper = wrapper.find('.el-tree-node__content')
     const firstNodeWrapper = wrapper.find('.el-tree-node')
@@ -168,7 +214,9 @@ describe('Tree.vue', () => {
   })
 
   test('expandOnNodeClick', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" :expand-on-click-node="false"`)
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" :expand-on-click-node="false"`
+    )
 
     const firstNodeContentWrapper = wrapper.find('.el-tree-node__content')
     const firstNodeWrapper = wrapper.find('.el-tree-node')
@@ -180,7 +228,9 @@ describe('Tree.vue', () => {
   })
 
   test('checkOnNodeClick', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" node-key="id" show-checkbox check-on-click-node`)
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" node-key="id" show-checkbox check-on-click-node`
+    )
 
     const treeWrapper = wrapper.findComponent(Tree)
     const firstNodeContentWrapper = wrapper.find('.el-tree-node__content')
@@ -190,9 +240,13 @@ describe('Tree.vue', () => {
   })
 
   test('current-node-key', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" default-expand-all highlight-current node-key="id" :current-node-key="11"`)
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" default-expand-all highlight-current node-key="id" :current-node-key="11"`
+    )
 
-    const currentNodeLabelWrapper = wrapper.find('.is-current .el-tree-node__label')
+    const currentNodeLabelWrapper = wrapper.find(
+      '.is-current .el-tree-node__label'
+    )
 
     expect(currentNodeLabelWrapper.text()).toEqual('二级 1-1')
     expect(wrapper.find('.el-tree--highlight-current').exists()).toBe(true)
@@ -205,21 +259,27 @@ describe('Tree.vue', () => {
   })
 
   test('defaultExpandedKeys', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" :default-expanded-keys="defaultExpandedKeys" node-key="id"`, {
-      created() {
-        this.defaultExpandedKeys = [1, 3]
-      },
-    })
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" :default-expanded-keys="defaultExpandedKeys" node-key="id"`,
+      {
+        created() {
+          this.defaultExpandedKeys = [1, 3]
+        },
+      }
+    )
     const expanedNodeWrappers = wrapper.findAll('.el-tree-node.is-expanded')
     expect(expanedNodeWrappers.length).toEqual(2)
   })
 
   test('defaultExpandedKeys set', async () => {
-    const { wrapper, vm } = getTreeVm(`:props="defaultProps" :default-expanded-keys="defaultExpandedKeys" node-key="id"`, {
-      created() {
-        this.defaultExpandedKeys = [1, 3]
-      },
-    })
+    const { wrapper, vm } = getTreeVm(
+      `:props="defaultProps" :default-expanded-keys="defaultExpandedKeys" node-key="id"`,
+      {
+        created() {
+          this.defaultExpandedKeys = [1, 3]
+        },
+      }
+    )
     let expanedNodeWrappers = wrapper.findAll('.el-tree-node.is-expanded')
     expect(expanedNodeWrappers.length).toEqual(2)
 
@@ -232,14 +292,17 @@ describe('Tree.vue', () => {
   })
 
   test('filter-node-method', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" :filter-node-method="filterNode"`, {
-      methods: {
-        filterNode(value, data) {
-          if (!value) return true
-          return data.label.indexOf(value) !== -1
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" :filter-node-method="filterNode"`,
+      {
+        methods: {
+          filterNode(value, data) {
+            if (!value) return true
+            return data.label.indexOf(value) !== -1
+          },
         },
-      },
-    })
+      }
+    )
 
     const treeWrapper = wrapper.findComponent(Tree)
     treeWrapper.vm.filter('2-1')
@@ -249,20 +312,26 @@ describe('Tree.vue', () => {
   })
 
   test('autoExpandParent = true', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" :default-expanded-keys="defaultExpandedKeys" node-key="id"`, {
-      created() {
-        this.defaultExpandedKeys = [111]
-      },
-    })
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" :default-expanded-keys="defaultExpandedKeys" node-key="id"`,
+      {
+        created() {
+          this.defaultExpandedKeys = [111]
+        },
+      }
+    )
     expect(wrapper.findAll('.el-tree-node.is-expanded').length).toEqual(3)
   })
 
   test('autoExpandParent = false', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" :default-expanded-keys="defaultExpandedKeys" node-key="id" :auto-expand-parent="false"`, {
-      created() {
-        this.defaultExpandedKeys = [11]
-      },
-    })
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" :default-expanded-keys="defaultExpandedKeys" node-key="id" :auto-expand-parent="false"`,
+      {
+        created() {
+          this.defaultExpandedKeys = [11]
+        },
+      }
+    )
     expect(wrapper.findAll('.el-tree-node.is-expanded').length).toEqual(0)
 
     const firstNodeContentWrapper = wrapper.find('.el-tree-node__content')
@@ -273,20 +342,26 @@ describe('Tree.vue', () => {
   })
 
   test('defaultCheckedKeys & check-strictly = false', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" default-expand-all show-checkbox :default-checked-keys="defaultCheckedKeys" node-key="id"`, {
-      created() {
-        this.defaultCheckedKeys = [1]
-      },
-    })
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" default-expand-all show-checkbox :default-checked-keys="defaultCheckedKeys" node-key="id"`,
+      {
+        created() {
+          this.defaultCheckedKeys = [1]
+        },
+      }
+    )
     expect(wrapper.findAll('.el-checkbox .is-checked').length).toEqual(3)
   })
 
   test('defaultCheckedKeys & check-strictly', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" default-expand-all show-checkbox :default-checked-keys="defaultCheckedKeys" node-key="id" check-strictly`, {
-      created() {
-        this.defaultCheckedKeys = [1]
-      },
-    })
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" default-expand-all show-checkbox :default-checked-keys="defaultCheckedKeys" node-key="id" check-strictly`,
+      {
+        created() {
+          this.defaultCheckedKeys = [1]
+        },
+      }
+    )
     expect(wrapper.findAll('.el-checkbox .is-checked').length).toEqual(1)
   })
 
@@ -295,9 +370,14 @@ describe('Tree.vue', () => {
 
     const treeWrapper = wrapper.findComponent(Tree)
     const treeVm = treeWrapper.vm
-    const seconNodeContentWrapper = treeWrapper.findAll('.el-tree-node__content')[1]
-    const seconNodeCheckboxWrapper = seconNodeContentWrapper.find('.el-checkbox')
-    const seconNodeExpandIconWrapper = seconNodeContentWrapper.find('.el-tree-node__expand-icon')
+    const seconNodeContentWrapper = treeWrapper.findAll(
+      '.el-tree-node__content'
+    )[1]
+    const seconNodeCheckboxWrapper =
+      seconNodeContentWrapper.find('.el-checkbox')
+    const seconNodeExpandIconWrapper = seconNodeContentWrapper.find(
+      '.el-tree-node__expand-icon'
+    )
 
     expect(seconNodeCheckboxWrapper.exists()).toBe(true)
     await seconNodeCheckboxWrapper.trigger('click')
@@ -309,7 +389,9 @@ describe('Tree.vue', () => {
     await sleep()
 
     const secondTreeNodeWrapper = treeWrapper.findAll('.el-tree-node')[1]
-    const secondNodefirstLeafCheckboxWrapper = secondTreeNodeWrapper.find('.el-tree-node__children .el-tree-node__content .el-checkbox')
+    const secondNodefirstLeafCheckboxWrapper = secondTreeNodeWrapper.find(
+      '.el-tree-node__children .el-tree-node__content .el-checkbox'
+    )
 
     await secondNodefirstLeafCheckboxWrapper.trigger('click')
     expect(treeVm.getCheckedNodes().length).toEqual(1)
@@ -317,14 +399,20 @@ describe('Tree.vue', () => {
 
   test('check', async () => {
     const handleCheckMockFunction = jest.fn()
-    const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox @check="handleCheck"`, {
-      methods: {
-        handleCheck: handleCheckMockFunction,
-      },
-    })
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" show-checkbox @check="handleCheck"`,
+      {
+        methods: {
+          handleCheck: handleCheckMockFunction,
+        },
+      }
+    )
 
-    const secondNodeContentWrapper = wrapper.findAll('.el-tree-node__content')[1]
-    const secondNodeCheckboxWrapper = secondNodeContentWrapper.find('.el-checkbox')
+    const secondNodeContentWrapper = wrapper.findAll(
+      '.el-tree-node__content'
+    )[1]
+    const secondNodeCheckboxWrapper =
+      secondNodeContentWrapper.find('.el-checkbox')
     expect(secondNodeCheckboxWrapper.exists()).toBe(true)
 
     await secondNodeCheckboxWrapper.trigger('click')
@@ -337,10 +425,14 @@ describe('Tree.vue', () => {
   })
 
   test('setCheckedNodes', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox node-key="id"`)
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" show-checkbox node-key="id"`
+    )
     const treeWrapper = wrapper.findComponent(Tree)
     const treeVm = treeWrapper.vm
-    const secondNodeContentWrapper = wrapper.findAll('.el-tree-node__content')[1]
+    const secondNodeContentWrapper = wrapper.findAll(
+      '.el-tree-node__content'
+    )[1]
     const secondNodeCheckWrapper = secondNodeContentWrapper.find('.el-checkbox')
     await secondNodeCheckWrapper.trigger('click')
 
@@ -352,7 +444,9 @@ describe('Tree.vue', () => {
   })
 
   test('setCheckedKeys', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox node-key="id"`)
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" show-checkbox node-key="id"`
+    )
     const treeWrapper = wrapper.findComponent(Tree)
     const tree = treeWrapper.vm
 
@@ -374,7 +468,9 @@ describe('Tree.vue', () => {
   })
 
   test('setCheckedKeys with checkStrictly', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" checkStrictly show-checkbox node-key="id"`)
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" checkStrictly show-checkbox node-key="id"`
+    )
     const treeWrapper = wrapper.findComponent(Tree)
     const tree = treeWrapper.vm
 
@@ -396,7 +492,9 @@ describe('Tree.vue', () => {
   })
 
   test('method setChecked', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox node-key="id"`)
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" show-checkbox node-key="id"`
+    )
     const treeWrapper = wrapper.findComponent(Tree)
     const tree = treeWrapper.vm
 
@@ -410,7 +508,9 @@ describe('Tree.vue', () => {
   })
 
   test('setCheckedKeys with leafOnly=false', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox node-key="id"`)
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" show-checkbox node-key="id"`
+    )
     const treeWrapper = wrapper.findComponent(Tree)
     const tree = treeWrapper.vm
 
@@ -420,7 +520,9 @@ describe('Tree.vue', () => {
   })
 
   test('setCheckedKeys with leafOnly=true', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox node-key="id"`)
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" show-checkbox node-key="id"`
+    )
     const treeWrapper = wrapper.findComponent(Tree)
     const tree = treeWrapper.vm
 
@@ -430,7 +532,9 @@ describe('Tree.vue', () => {
   })
 
   test('setCurrentKey', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox node-key="id"`)
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" show-checkbox node-key="id"`
+    )
     const treeWrapper = wrapper.findComponent(Tree)
     const tree = treeWrapper.vm
 
@@ -442,7 +546,9 @@ describe('Tree.vue', () => {
   })
 
   test('setCurrentKey should also auto expand parent', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox node-key="id"`)
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" show-checkbox node-key="id"`
+    )
     const treeWrapper = wrapper.findComponent(Tree)
     const tree = treeWrapper.vm
 
@@ -456,7 +562,9 @@ describe('Tree.vue', () => {
   })
 
   test('setCurrentKey should not expand self', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox node-key="id"`)
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" show-checkbox node-key="id"`
+    )
     const treeWrapper = wrapper.findComponent(Tree)
     const tree = treeWrapper.vm
 
@@ -477,7 +585,9 @@ describe('Tree.vue', () => {
   })
 
   test('setCurrentNode', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox node-key="id"`)
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" show-checkbox node-key="id"`
+    )
     const treeWrapper = wrapper.findComponent(Tree)
     const tree = treeWrapper.vm
 
@@ -492,7 +602,9 @@ describe('Tree.vue', () => {
   })
 
   test('setCurrentNode should also auto expand parent', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox node-key="id"`)
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" show-checkbox node-key="id"`
+    )
     const treeWrapper = wrapper.findComponent(Tree)
     const tree = treeWrapper.vm
 
@@ -509,7 +621,9 @@ describe('Tree.vue', () => {
   })
 
   test('setCurrentNode should not expand self', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox node-key="id"`)
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" show-checkbox node-key="id"`
+    )
     const treeWrapper = wrapper.findComponent(Tree)
     const tree = treeWrapper.vm
 
@@ -539,7 +653,9 @@ describe('Tree.vue', () => {
   })
 
   test('getCurrentKey', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox node-key="id"`)
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" show-checkbox node-key="id"`
+    )
     const treeWrapper = wrapper.findComponent(Tree)
     const tree = treeWrapper.vm
 
@@ -551,7 +667,9 @@ describe('Tree.vue', () => {
   })
 
   test('getCurrentNode', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox node-key="id"`)
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" show-checkbox node-key="id"`
+    )
     const treeWrapper = wrapper.findComponent(Tree)
     const tree = treeWrapper.vm
 
@@ -594,7 +712,6 @@ describe('Tree.vue', () => {
     expect(tree.getNode(88).data).toEqual(nodeData)
   })
 
-
   test('insertBefore', async () => {
     const { wrapper } = getTreeVm(`:props="defaultProps" node-key="id"`)
     const treeWrapper = wrapper.findComponent(Tree)
@@ -620,39 +737,50 @@ describe('Tree.vue', () => {
   })
 
   test('set disabled checkbox', async () => {
-    const { wrapper } = getDisableTreeVm(`:props="defaultProps" show-checkbox node-key="id" default-expand-all`)
+    const { wrapper } = getDisableTreeVm(
+      `:props="defaultProps" show-checkbox node-key="id" default-expand-all`
+    )
     const nodeWrapper = wrapper.findAll('.el-tree-node__content')[2]
     const checkboxWrapper = nodeWrapper.find('.el-checkbox input')
 
     expect((checkboxWrapper.element as HTMLInputElement).disabled).toEqual(true)
   })
 
-
   test('check strictly', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox check-strictly default-expand-all`)
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" show-checkbox check-strictly default-expand-all`
+    )
     const treeWrapper = wrapper.findComponent(Tree)
-    const secondNodeContentWrapper = wrapper.findAll('.el-tree-node__content')[3]
-    const secondNodeCheckboxWrapper = secondNodeContentWrapper.find('.el-checkbox')
+    const secondNodeContentWrapper = wrapper.findAll(
+      '.el-tree-node__content'
+    )[3]
+    const secondNodeCheckboxWrapper =
+      secondNodeContentWrapper.find('.el-checkbox')
     await secondNodeCheckboxWrapper.trigger('click')
     expect(treeWrapper.vm.getCheckedNodes().length).toEqual(1)
     expect(treeWrapper.vm.getCheckedNodes(true).length).toEqual(0)
 
     const secondTreeNodeWrapper = treeWrapper.findAll('.el-tree-node')[3]
-    const secondNodefirstLeafCheckboxWrapper = secondTreeNodeWrapper.find('.el-tree-node__children .el-tree-node__content .el-checkbox')
+    const secondNodefirstLeafCheckboxWrapper = secondTreeNodeWrapper.find(
+      '.el-tree-node__children .el-tree-node__content .el-checkbox'
+    )
     await secondNodefirstLeafCheckboxWrapper.trigger('click')
     expect(treeWrapper.vm.getCheckedNodes().length).toEqual(2)
   })
 
   test('render content', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" :render-content="renderContent"`, {
-      methods: {
-        renderContent(h, node) {
-          return h('div', { class: 'custom-content' }, [
-            h('button', { class: 'el-button' }, [node.node.label]),
-          ])
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" :render-content="renderContent"`,
+      {
+        methods: {
+          renderContent(h, node) {
+            return h('div', { class: 'custom-content' }, [
+              h('button', { class: 'el-button' }, [node.node.label]),
+            ])
+          },
         },
-      },
-    })
+      }
+    )
     const firstNodeWrapper = wrapper.find('.el-tree-node__content')
     expect(firstNodeWrapper.find('.custom-content').exists()).toBe(true)
 
@@ -691,23 +819,29 @@ describe('Tree.vue', () => {
   })
 
   test('load node', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" lazy :load="loadNode" show-checkbox`, {
-      methods: {
-        loadNode(node, resolve) {
-          if (node.level === 0) {
-            return resolve([{ label: 'region1' }, { label: 'region2' }])
-          }
-          if (node.level > 4) return resolve([])
-          setTimeout(() => {
-            resolve([{
-              label: 'zone' + this.count++,
-            }, {
-              label: 'zone' + this.count++,
-            }])
-          }, 50)
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" lazy :load="loadNode" show-checkbox`,
+      {
+        methods: {
+          loadNode(node, resolve) {
+            if (node.level === 0) {
+              return resolve([{ label: 'region1' }, { label: 'region2' }])
+            }
+            if (node.level > 4) return resolve([])
+            setTimeout(() => {
+              resolve([
+                {
+                  label: 'zone' + this.count++,
+                },
+                {
+                  label: 'zone' + this.count++,
+                },
+              ])
+            }, 50)
+          },
         },
-      },
-    })
+      }
+    )
 
     let nodeWrappers = wrapper.findAll('.el-tree-node__content')
 
@@ -719,25 +853,34 @@ describe('Tree.vue', () => {
   })
 
   test('lazy defaultChecked', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" node-key="id" lazy :load="loadNode" show-checkbox`, {
-      methods: {
-        loadNode(node, resolve) {
-          if (node.level === 0) {
-            return resolve([{ label: 'region1', id: this.count++ }, { label: 'region2', id: this.count++ }])
-          }
-          if (node.level > 4) return resolve([])
-          setTimeout(() => {
-            resolve([{
-              label: 'zone' + this.count,
-              id: this.count++,
-            }, {
-              label: 'zone' + this.count,
-              id: this.count++,
-            }])
-          }, 50)
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" node-key="id" lazy :load="loadNode" show-checkbox`,
+      {
+        methods: {
+          loadNode(node, resolve) {
+            if (node.level === 0) {
+              return resolve([
+                { label: 'region1', id: this.count++ },
+                { label: 'region2', id: this.count++ },
+              ])
+            }
+            if (node.level > 4) return resolve([])
+            setTimeout(() => {
+              resolve([
+                {
+                  label: 'zone' + this.count,
+                  id: this.count++,
+                },
+                {
+                  label: 'zone' + this.count,
+                  id: this.count++,
+                },
+              ])
+            }, 50)
+          },
         },
-      },
-    })
+      }
+    )
 
     const treeWrapper = wrapper.findComponent(Tree)
     const tree = treeWrapper.vm
@@ -754,25 +897,34 @@ describe('Tree.vue', () => {
   })
 
   test('lazy expandOnChecked', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" node-key="id" lazy :load="loadNode" show-checkbox check-descendants`, {
-      methods: {
-        loadNode(node, resolve) {
-          if (node.level === 0) {
-            return resolve([{ label: 'region1', id: this.count++ }, { label: 'region2', id: this.count++ }])
-          }
-          if (node.level > 2) return resolve([])
-          setTimeout(() => {
-            resolve([{
-              label: 'zone' + this.count,
-              id: this.count++,
-            }, {
-              label: 'zone' + this.count,
-              id: this.count++,
-            }])
-          }, 10)
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" node-key="id" lazy :load="loadNode" show-checkbox check-descendants`,
+      {
+        methods: {
+          loadNode(node, resolve) {
+            if (node.level === 0) {
+              return resolve([
+                { label: 'region1', id: this.count++ },
+                { label: 'region2', id: this.count++ },
+              ])
+            }
+            if (node.level > 2) return resolve([])
+            setTimeout(() => {
+              resolve([
+                {
+                  label: 'zone' + this.count,
+                  id: this.count++,
+                },
+                {
+                  label: 'zone' + this.count,
+                  id: this.count++,
+                },
+              ])
+            }, 10)
+          },
         },
-      },
-    })
+      }
+    )
 
     const treeWrapper = wrapper.findComponent(Tree)
     const tree = treeWrapper.vm
@@ -783,25 +935,34 @@ describe('Tree.vue', () => {
   })
 
   test('lazy without expandOnChecked', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" node-key="id" lazy :load="loadNode" show-checkbox`, {
-      methods: {
-        loadNode(node, resolve) {
-          if (node.level === 0) {
-            return resolve([{ label: 'region1', id: this.count++ }, { label: 'region2', id: this.count++ }])
-          }
-          if (node.level > 4) return resolve([])
-          setTimeout(() => {
-            resolve([{
-              label: 'zone' + this.count,
-              id: this.count++,
-            }, {
-              label: 'zone' + this.count,
-              id: this.count++,
-            }])
-          }, 50)
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" node-key="id" lazy :load="loadNode" show-checkbox`,
+      {
+        methods: {
+          loadNode(node, resolve) {
+            if (node.level === 0) {
+              return resolve([
+                { label: 'region1', id: this.count++ },
+                { label: 'region2', id: this.count++ },
+              ])
+            }
+            if (node.level > 4) return resolve([])
+            setTimeout(() => {
+              resolve([
+                {
+                  label: 'zone' + this.count,
+                  id: this.count++,
+                },
+                {
+                  label: 'zone' + this.count,
+                  id: this.count++,
+                },
+              ])
+            }, 50)
+          },
         },
-      },
-    })
+      }
+    )
 
     const treeWrapper = wrapper.findComponent(Tree)
     const tree = treeWrapper.vm
@@ -818,7 +979,9 @@ describe('Tree.vue', () => {
     const { wrapper } = getTreeVm(`:props="defaultProps" accordion`)
 
     const firstNodeContentWrapper = wrapper.find('.el-tree-node__content')
-    const secondNodeContentWrapper = wrapper.find('.el-tree-node:nth-child(2) .el-tree-node__content')
+    const secondNodeContentWrapper = wrapper.find(
+      '.el-tree-node:nth-child(2) .el-tree-node__content'
+    )
     await firstNodeContentWrapper.trigger('click')
     await sleep()
     expect(wrapper.find('.el-tree-node').classes('is-expanded')).toBe(true)
@@ -828,36 +991,44 @@ describe('Tree.vue', () => {
   })
 
   test('handleNodeOpen & handleNodeClose', async () => {
-    const { wrapper, vm } = getTreeVm(`:props="defaultProps" lazy :load="loadNode" @node-expand="handleNodeOpen" @node-collapse="handleNodeClose"`, {
-      methods: {
-        loadNode(node, resolve) {
-          if (node.level === 0) {
-            return resolve([{ label: 'region1' }, { label: 'region2' }])
-          }
-          if (node.level > 4) return resolve([])
-          nextTick(() => {
-            resolve([{
-              label: 'zone' + this.count++,
-            }, {
-              label: 'zone' + this.count++,
-            }])
-          })
+    const { wrapper, vm } = getTreeVm(
+      `:props="defaultProps" lazy :load="loadNode" @node-expand="handleNodeOpen" @node-collapse="handleNodeClose"`,
+      {
+        methods: {
+          loadNode(node, resolve) {
+            if (node.level === 0) {
+              return resolve([{ label: 'region1' }, { label: 'region2' }])
+            }
+            if (node.level > 4) return resolve([])
+            nextTick(() => {
+              resolve([
+                {
+                  label: 'zone' + this.count++,
+                },
+                {
+                  label: 'zone' + this.count++,
+                },
+              ])
+            })
+          },
+          handleNodeOpen(data) {
+            this.currentNode = data
+            this.nodeExpended = true
+          },
+          handleNodeClose(data) {
+            this.currentNode = data
+            this.nodeExpended = false
+          },
         },
-        handleNodeOpen(data) {
-          this.currentNode = data
-          this.nodeExpended = true
-        },
-        handleNodeClose(data) {
-          this.currentNode = data
-          this.nodeExpended = false
-        },
-      },
-    })
+      }
+    )
 
     const firstNodeContentWrapper = wrapper.find('.el-tree-node__content')
     const firstNodeWrapper = wrapper.find('.el-tree-node')
 
-    expect(firstNodeWrapper.find('.el-tree-node__children').exists()).toBe(false)
+    expect(firstNodeWrapper.find('.el-tree-node__children').exists()).toBe(
+      false
+    )
 
     await firstNodeContentWrapper.trigger('click')
     await nextTick() // first next tick for UI update
@@ -877,15 +1048,19 @@ describe('Tree.vue', () => {
   })
 
   test('updateKeyChildren', async () => {
-    const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox node-key="id" default-expand-all`)
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" show-checkbox node-key="id" default-expand-all`
+    )
 
     const treeWrapper = wrapper.findComponent(Tree)
     const tree = treeWrapper.vm
 
-    tree.updateKeyChildren(1, [{
-      id: 111,
-      label: '三级 1-1',
-    }])
+    tree.updateKeyChildren(1, [
+      {
+        id: 111,
+        label: '三级 1-1',
+      },
+    ])
 
     await nextTick()
 
@@ -927,7 +1102,10 @@ describe('Tree.vue', () => {
       `,
     })
     const tree = wrapper.findComponent({ name: 'ElTree' })
-    expect(Object.values(tree.vm.store.nodesMap).filter(item => item.canFocus).length).toBe(9)
+    expect(
+      Object.values(tree.vm.store.nodesMap).filter((item) => item.canFocus)
+        .length
+    ).toBe(9)
   })
 
   test('navigate up', async () => {
@@ -939,7 +1117,7 @@ describe('Tree.vue', () => {
       `,
     })
     let flag = false
-    function handleFocus(){
+    function handleFocus() {
       return () => (flag = true)
     }
     await nextTick()
@@ -949,7 +1127,13 @@ describe('Tree.vue', () => {
     defineGetter(targetElement, 'focus', handleFocus)
     tree.vm.setCurrentKey(1)
     expect(fromElement.classList.contains('is-focusable')).toBeTruthy()
-    fromElement.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp', bubbles: true, cancelable: false }))
+    fromElement.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        code: 'ArrowUp',
+        bubbles: true,
+        cancelable: false,
+      })
+    )
     expect(flag).toBe(true)
   })
 
@@ -962,7 +1146,7 @@ describe('Tree.vue', () => {
       `,
     })
     let flag = false
-    function handleFocus(){
+    function handleFocus() {
       return () => (flag = true)
     }
     await nextTick()
@@ -972,12 +1156,18 @@ describe('Tree.vue', () => {
     defineGetter(targetElement, 'focus', handleFocus)
     tree.vm.setCurrentKey(1)
     expect(fromElement.classList.contains('is-focusable')).toBeTruthy()
-    fromElement.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowDown', bubbles: true, cancelable: false }))
+    fromElement.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        code: 'ArrowDown',
+        bubbles: true,
+        cancelable: false,
+      })
+    )
     expect(flag).toBe(true)
   })
 
   test('navigate with disabled', async () => {
-    const wrapper = mount( {
+    const wrapper = mount({
       template: `
         <div>
           <el-tree ref="tree1" :data="data" node-key="id" :props="defaultProps"></el-tree>
@@ -986,42 +1176,56 @@ describe('Tree.vue', () => {
       components: {
         'el-tree': Tree,
       },
-      data(){
+      data() {
         return {
-          data: [{
-            id: 1,
-            label: '一级 1',
-            children: [{
-              id: 11,
-              label: '二级 1-1',
-              children: [{
-                id: 111,
-                label: '三级 1-1',
-                disabled: true,
-              }],
-            }],
-          }, {
-            id: 2,
-            label: '一级 2',
-            disabled: true,
-            children: [{
-              id: 21,
-              label: '二级 2-1',
-            }, {
-              id: 22,
-              label: '二级 2-2',
-            }],
-          }, {
-            id: 3,
-            label: '一级 3',
-            children: [{
-              id: 31,
-              label: '二级 3-1',
-            }, {
-              id: 32,
-              label: '二级 3-2',
-            }],
-          }],
+          data: [
+            {
+              id: 1,
+              label: '一级 1',
+              children: [
+                {
+                  id: 11,
+                  label: '二级 1-1',
+                  children: [
+                    {
+                      id: 111,
+                      label: '三级 1-1',
+                      disabled: true,
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              id: 2,
+              label: '一级 2',
+              disabled: true,
+              children: [
+                {
+                  id: 21,
+                  label: '二级 2-1',
+                },
+                {
+                  id: 22,
+                  label: '二级 2-2',
+                },
+              ],
+            },
+            {
+              id: 3,
+              label: '一级 3',
+              children: [
+                {
+                  id: 31,
+                  label: '二级 3-1',
+                },
+                {
+                  id: 32,
+                  label: '二级 3-2',
+                },
+              ],
+            },
+          ],
           defaultProps: {
             children: 'children',
             label: 'label',
@@ -1031,7 +1235,7 @@ describe('Tree.vue', () => {
       },
     })
     let flag = false
-    function handleFocus(){
+    function handleFocus() {
       return () => (flag = true)
     }
     await nextTick()
@@ -1041,12 +1245,18 @@ describe('Tree.vue', () => {
     defineGetter(targetElement, 'focus', handleFocus)
     tree.vm.setCurrentKey(1)
     expect(fromElement.classList.contains('is-focusable')).toBeTruthy()
-    fromElement.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowDown', bubbles: true, cancelable: false }))
+    fromElement.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        code: 'ArrowDown',
+        bubbles: true,
+        cancelable: false,
+      })
+    )
     expect(flag).toBe(true)
   })
 
   test('navigate with lazy and without node-key', async () => {
-    const wrapper = mount( {
+    const wrapper = mount({
       template: `
         <div>
         <el-tree
@@ -1060,7 +1270,7 @@ describe('Tree.vue', () => {
       components: {
         'el-tree': Tree,
       },
-      data(){
+      data() {
         return {
           defaultProps: {
             children: 'children',
@@ -1087,11 +1297,14 @@ describe('Tree.vue', () => {
 
           let data
           if (hasChild) {
-            data = [{
-              name: 'zone' + this.count++,
-            }, {
-              name: 'zone' + this.count++,
-            }]
+            data = [
+              {
+                name: 'zone' + this.count++,
+              },
+              {
+                name: 'zone' + this.count++,
+              },
+            ]
           } else {
             data = []
           }
@@ -1100,7 +1313,7 @@ describe('Tree.vue', () => {
       },
     })
     let flag = false
-    function handleFocus(){
+    function handleFocus() {
       return () => (flag = !flag)
     }
     await nextTick()
@@ -1114,16 +1327,38 @@ describe('Tree.vue', () => {
     expect(region1.classList.contains('is-focusable')).toBeTruthy()
     await sleep(100)
     expect(Object.values(tree.vm.store.nodesMap.length === 4)).toBeTruthy()
-    expect(Object.values(Object.values(tree.vm.store.nodesMap).filter(item => item.canFocus).length === 4)).toBeTruthy()
+    expect(
+      Object.values(
+        Object.values(tree.vm.store.nodesMap).filter((item) => item.canFocus)
+          .length === 4
+      )
+    ).toBeTruthy()
     // collapse
     region1.dispatchEvent(new MouseEvent('click'))
-    expect(Object.values(Object.values(tree.vm.store.nodesMap).filter(item => item.canFocus).length === 2)).toBeTruthy()
+    expect(
+      Object.values(
+        Object.values(tree.vm.store.nodesMap).filter((item) => item.canFocus)
+          .length === 2
+      )
+    ).toBeTruthy()
     // ArrowDown, region2 focus
-    region1.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowDown', bubbles: true, cancelable: false }))
+    region1.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        code: 'ArrowDown',
+        bubbles: true,
+        cancelable: false,
+      })
+    )
     expect(flag).toBe(true)
     defineGetter(region1, 'focus', handleFocus)
     // ArrowDown, region1 focus
-    region2.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowDown', bubbles: true, cancelable: false }))
+    region2.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        code: 'ArrowDown',
+        bubbles: true,
+        cancelable: false,
+      })
+    )
     expect(flag).toBe(false)
   })
 })

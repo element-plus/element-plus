@@ -307,7 +307,7 @@ export default defineComponent({
   setup(props) {
     type Row = typeof props.data[number]
     const { t } = useLocaleInject()
-    let table = getCurrentInstance() as Table<Row>
+    const table = getCurrentInstance() as Table<Row>
     const store = createStore<Row>(table, props)
     table.store = store
     const layout = new TableLayout<Row>({

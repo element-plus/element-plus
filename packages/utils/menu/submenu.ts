@@ -20,7 +20,7 @@ class SubMenu {
     } else if (idx < 0) {
       idx = this.subMenuItems.length - 1
     }
-    (this.subMenuItems[idx] as HTMLElement).focus()
+    ;(this.subMenuItems[idx] as HTMLElement).focus()
     this.subIndex = idx
   }
 

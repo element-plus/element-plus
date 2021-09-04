@@ -11,16 +11,17 @@ const MOUSE_LEAVE_EVENT = 'mouseleave'
 const CLICK = 'click'
 const CONTEXTMENU = 'contextmenu'
 
-const _mount = (template: string, data, otherObj?) => mount({
-  components: {
-    [Dropdown.name]: Dropdown,
-    [DropdownItem.name]: DropdownItem,
-    [DropdownMenu.name]: DropdownMenu,
-  },
-  template,
-  data,
-  ...otherObj,
-})
+const _mount = (template: string, data, otherObj?) =>
+  mount({
+    components: {
+      [Dropdown.name]: Dropdown,
+      [DropdownItem.name]: DropdownItem,
+      [DropdownMenu.name]: DropdownMenu,
+    },
+    template,
+    data,
+    ...otherObj,
+  })
 
 describe('Dropdown', () => {
   test('create', async () => {
@@ -30,26 +31,24 @@ describe('Dropdown', () => {
           <Dropdown
             ref="b"
             placement="right"
-            v-slots = {
-              {
-                dropdown: () => (
-                  <DropdownMenu>
-                    <DropdownItem>Apple</DropdownItem>
-                    <DropdownItem>Orange</DropdownItem>
-                    <DropdownItem>Cherry</DropdownItem>
-                    <DropdownItem disabled>Peach</DropdownItem>
-                    <DropdownItem divided>Pear</DropdownItem>
-                  </DropdownMenu>
-                )
-              }
-            }
+            v-slots={{
+              dropdown: () => (
+                <DropdownMenu>
+                  <DropdownItem>Apple</DropdownItem>
+                  <DropdownItem>Orange</DropdownItem>
+                  <DropdownItem>Cherry</DropdownItem>
+                  <DropdownItem disabled>Peach</DropdownItem>
+                  <DropdownItem divided>Pear</DropdownItem>
+                </DropdownMenu>
+              ),
+            }}
           >
             <span class="el-dropdown-link" ref="a">
               dropdown<i class="el-icon-arrow-down el-icon--right"></i>
             </span>
           </Dropdown>
         )
-      }
+      },
     })
     const content = wrapper.findComponent({ ref: 'b' }).vm as any
     const triggerElm = wrapper.find('.el-dropdown-link')
@@ -92,7 +91,7 @@ describe('Dropdown', () => {
             this.name = command.name
           },
         },
-      },
+      }
     )
     // const content = wrapper.findComponent({ ref: 'b' }).vm as any
     const triggerElm = wrapper.find('.el-dropdown-link')
@@ -124,7 +123,7 @@ describe('Dropdown', () => {
       () => ({
         myCommandObject: { name: 'CommandC' },
         name: '',
-      }),
+      })
     )
     const content = wrapper.findComponent({ ref: 'b' }).vm as any
     const triggerElm = wrapper.find('.el-dropdown-link')
@@ -158,7 +157,7 @@ describe('Dropdown', () => {
       () => ({
         myCommandObject: { name: 'CommandC' },
         name: '',
-      }),
+      })
     )
     const content = wrapper.findComponent({ ref: 'b' }).vm as any
     const triggerElm = wrapper.find('.el-dropdown-link')
@@ -194,7 +193,7 @@ describe('Dropdown', () => {
             this.name = 'click'
           },
         },
-      },
+      }
     )
     const content = wrapper.findComponent({ ref: 'b' }).vm as any
     const triggerElm = wrapper.find('.el-dropdown__caret-button')
@@ -227,7 +226,7 @@ describe('Dropdown', () => {
         </template>
       </el-dropdown>
       `,
-      () => ({}),
+      () => ({})
     )
 
     const content = wrapper.findComponent({ ref: 'b' }).vm as any
@@ -259,7 +258,7 @@ describe('Dropdown', () => {
         </template>
       </el-dropdown>
       `,
-      () => ({}),
+      () => ({})
     )
 
     const content = wrapper.findComponent({ ref: 'b' }).vm as any
@@ -301,7 +300,7 @@ describe('Dropdown', () => {
         </template>
       </el-dropdown>
       `,
-      () => ({}),
+      () => ({})
     )
 
     const content = wrapper.findComponent({ ref: 'a' })
@@ -333,11 +332,13 @@ describe('Dropdown', () => {
         </template>
       </el-dropdown>
       `,
-      () => ({}),
+      () => ({})
     )
     const content = wrapper.findComponent({ ref: 'b' })
     const scrollbar = content.findComponent({ ref: 'scrollbar' })
-    expect(scrollbar.find('.el-scrollbar__wrap').attributes('style')).toContain('max-height: 60px;')
+    expect(scrollbar.find('.el-scrollbar__wrap').attributes('style')).toContain(
+      'max-height: 60px;'
+    )
   })
 
   test('tooltip debounce', async () => {
@@ -358,7 +359,7 @@ describe('Dropdown', () => {
         </template>
       </el-dropdown>
       `,
-      () => ({}),
+      () => ({})
     )
     const content = wrapper.findComponent({ ref: 'b' }).vm as any
     const triggerElm = wrapper.find('.el-dropdown-link')

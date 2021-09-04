@@ -26,7 +26,7 @@ describe('menu', () => {
       `<el-menu>
         <el-menu-item index="1" ref="item1">处理中心</el-menu-item>
         <el-menu-item index="2" ref="item2">订单管理</el-menu-item>
-      </el-menu>`,
+      </el-menu>`
     )
     const item1 = await wrapper.findComponent({ ref: 'item1' })
     const item2 = await wrapper.findComponent({ ref: 'item2' })
@@ -45,7 +45,7 @@ describe('menu', () => {
         active-text-color="#0f0">
         <el-menu-item index="1" ref="item1">处理中心</el-menu-item>
         <el-menu-item index="2" ref="item2">订单管理</el-menu-item>
-      </el-menu>`,
+      </el-menu>`
     )
     const instance = wrapper.vm.$el
     const item1 = await wrapper.findComponent({ ref: 'item1' })
@@ -80,7 +80,7 @@ describe('menu', () => {
             this.clicksCount = this.clicksCount + 1
           },
         },
-      },
+      }
     )
     const item1 = await wrapper.findComponent({ ref: 'item1' })
     await item1.trigger('click')
@@ -92,7 +92,7 @@ describe('menu', () => {
       `<el-menu default-active="2">
         <el-menu-item index="1" ref="item1" disabled>处理中心</el-menu-item>
         <el-menu-item index="2" ref="item2">订单管理</el-menu-item>
-      </el-menu>`,
+      </el-menu>`
     )
     const item1 = await wrapper.findComponent({ ref: 'item1' })
     const item2 = await wrapper.findComponent({ ref: 'item2' })
@@ -141,7 +141,7 @@ describe('menu', () => {
             this.$refs.menu.open('1')
           },
         },
-      },
+      }
     )
     const elSubMenu = wrapper.findComponent({ name: 'ElSubMenu' })
     const button = wrapper.find('button')
@@ -165,7 +165,7 @@ describe('menu', () => {
             background: '#008C74',
           }
         },
-      },
+      }
     )
     await nextTick()
     const vm = wrapper.vm as any
@@ -186,7 +186,7 @@ describe('default active', () => {
       `<el-menu default-active="2">
         <el-menu-item index="1" ref="item1">处理中心</el-menu-item>
         <el-menu-item index="2" ref="item2">订单管理</el-menu-item>
-      </el-menu>`,
+      </el-menu>`
     )
     const item1 = await wrapper.findComponent({ ref: 'item1' })
     const item2 = await wrapper.findComponent({ ref: 'item2' })
@@ -208,7 +208,7 @@ describe('default active', () => {
             active: '2',
           }
         },
-      },
+      }
     )
     const instance = wrapper.vm as any
     instance.active = '1'
@@ -229,7 +229,7 @@ describe('default active', () => {
           </el-sub-menu>
           <el-menu-item index="3">订单管理</el-menu-item>
         </el-menu>
-      </div>`,
+      </div>`
     )
     const submenu = await wrapper.findComponent({ ref: 'submenu' })
     const submenuItem2 = await wrapper.findComponent({ ref: 'submenuItem2' })
@@ -251,7 +251,7 @@ describe('default active', () => {
           </el-sub-menu>
           <el-menu-item index="3">订单管理</el-menu-item>
         </el-menu>
-      </div>`,
+      </div>`
     )
     const submenu = await wrapper.findComponent({ ref: 'submenu' })
     const submenuItem2 = await wrapper.findComponent({ ref: 'submenuItem2' })
@@ -274,7 +274,7 @@ describe('submenu', () => {
           <el-menu-item index="2-3">选项3</el-menu-item>
         </el-sub-menu>
         <el-menu-item index="3">订单管理</el-menu-item>
-      </el-menu>`,
+      </el-menu>`
     )
     const submenu = await wrapper.findComponent({ ref: 'submenu' })
     const submenuItem2 = await wrapper.findComponent({ ref: 'submenuItem2' })
@@ -311,7 +311,7 @@ describe('submenu', () => {
             defaultOpeneds: ['2', '3'],
           }
         },
-      },
+      }
     )
     const submenu1 = await wrapper.findComponent({ ref: 'submenu1' })
     const submenu2 = await wrapper.findComponent({ ref: 'submenu2' })
@@ -342,7 +342,7 @@ describe('submenu', () => {
             defaultOpeneds: ['2', '3'],
           }
         },
-      },
+      }
     )
     const submenu = await wrapper.findComponent({ ref: 'submenu' })
     await submenu.trigger('click')
@@ -368,7 +368,7 @@ describe('other', () => {
           <el-menu-item index="3-2" ref="submenu2Item2">选项2</el-menu-item>
           <el-menu-item index="3-3">选项3</el-menu-item>
         </el-sub-menu>
-      </el-menu>`,
+      </el-menu>`
     )
     const submenu2 = await wrapper.findComponent({ ref: 'submenu2' })
     submenu2.vm.$el.querySelector('.el-sub-menu__title').click()
@@ -387,7 +387,7 @@ describe('other', () => {
           <el-menu-item index="2-3">选项3</el-menu-item>
         </el-sub-menu>
         <el-menu-item index="3">订单管理</el-menu-item>
-      </el-menu>`,
+      </el-menu>`
     )
     expect(wrapper.classes()).toContain('el-menu--horizontal')
     const submenu = await wrapper.findComponent({ ref: 'submenu' })
@@ -395,9 +395,7 @@ describe('other', () => {
     submenu.trigger('mouseenter')
     await sleep(500)
     expect(
-      document.body
-        .querySelector('body [role="tooltip"]')
-        .getAttribute('style'),
+      document.body.querySelector('body [role="tooltip"]').getAttribute('style')
     ).not.toContain('display: none')
   })
   test('menu group', async () => {
@@ -414,11 +412,11 @@ describe('other', () => {
             <el-menu-item index="5-2">选项2</el-menu-item>
           </el-menu-item-group>
         </el-sub-menu>
-      </el-menu>`,
+      </el-menu>`
     )
     const group1 = await wrapper.findComponent({ ref: 'group1' })
     expect(
-      group1.vm.$el.querySelector('.el-menu-item-group__title').innerHTML,
+      group1.vm.$el.querySelector('.el-menu-item-group__title').innerHTML
     ).toEqual('分组一')
   })
   test('dynamic menus, issue 9092', async () => {
@@ -438,7 +436,7 @@ describe('other', () => {
             menus: [],
           }
         },
-      },
+      }
     )
     await rAF()
     const instance = wrapper.vm as any
@@ -452,7 +450,7 @@ describe('other', () => {
 
     await nextTick()
     expect(
-      instance.$el.querySelector('.el-menu-item.is-active').innerHTML,
+      instance.$el.querySelector('.el-menu-item.is-active').innerHTML
     ).toEqual('new')
   })
 })

@@ -6,14 +6,21 @@
       class="el-color-hue-slider__thumb"
       :style="{
         left: thumbLeft + 'px',
-        top: thumbTop + 'px'
+        top: thumbTop + 'px',
       }"
     ></div>
   </div>
 </template>
 
 <script lang="ts">
-import { ref, computed, watch, onMounted, getCurrentInstance, defineComponent } from 'vue'
+import {
+  ref,
+  computed,
+  watch,
+  onMounted,
+  getCurrentInstance,
+  defineComponent,
+} from 'vue'
 import draggable from '../draggable'
 
 import type { PropType } from 'vue'
@@ -43,9 +50,12 @@ export default defineComponent({
       return props.color.get('hue')
     })
     // watch
-    watch(() => hueValue.value, () => {
-      update()
-    })
+    watch(
+      () => hueValue.value,
+      () => {
+        update()
+      }
+    )
     // methods
     function handleClick(event: Event) {
       const target = event.target
@@ -64,13 +74,21 @@ export default defineComponent({
         left = Math.min(left, rect.width - thumb.value.offsetWidth / 2)
         left = Math.max(thumb.value.offsetWidth / 2, left)
 
-        hue = Math.round((left - thumb.value.offsetWidth / 2) / (rect.width - thumb.value.offsetWidth) * 360)
+        hue = Math.round(
+          ((left - thumb.value.offsetWidth / 2) /
+            (rect.width - thumb.value.offsetWidth)) *
+            360
+        )
       } else {
         let top = event.clientY - rect.top
 
         top = Math.min(top, rect.height - thumb.value.offsetHeight / 2)
         top = Math.max(thumb.value.offsetHeight / 2, top)
-        hue = Math.round((top - thumb.value.offsetHeight / 2) / (rect.height - thumb.value.offsetHeight) * 360)
+        hue = Math.round(
+          ((top - thumb.value.offsetHeight / 2) /
+            (rect.height - thumb.value.offsetHeight)) *
+            360
+        )
       }
       props.color.set('hue', hue)
     }
@@ -81,7 +99,9 @@ export default defineComponent({
       const hue = props.color.get('hue')
 
       if (!el) return 0
-      return Math.round(hue * (el.offsetWidth - thumb.value.offsetWidth / 2) / 360)
+      return Math.round(
+        (hue * (el.offsetWidth - thumb.value.offsetWidth / 2)) / 360
+      )
     }
 
     function getThumbTop() {
@@ -90,7 +110,9 @@ export default defineComponent({
       const hue = props.color.get('hue')
 
       if (!el) return 0
-      return Math.round(hue * (el.offsetHeight - thumb.value.offsetHeight / 2) / 360)
+      return Math.round(
+        (hue * (el.offsetHeight - thumb.value.offsetHeight / 2)) / 360
+      )
     }
     function update() {
       thumbLeft.value = getThumbLeft()
@@ -99,10 +121,10 @@ export default defineComponent({
     // mounded
     onMounted(() => {
       const dragConfig = {
-        drag: event => {
+        drag: (event) => {
           handleDrag(event)
         },
-        end: event => {
+        end: (event) => {
           handleDrag(event)
         },
       }

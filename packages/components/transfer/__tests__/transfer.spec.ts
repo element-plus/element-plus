@@ -130,7 +130,7 @@ describe('Transfer', () => {
         }
       },
       methods: {
-        renderFunc(h ,option) {
+        renderFunc(h, option) {
           return h('span', `${option.key} - ${option.label}`)
         },
       },
@@ -138,7 +138,9 @@ describe('Transfer', () => {
 
     const label = wrapper.find('.el-transfer-panel__header .el-checkbox__label')
     expect(label.text().includes('表1')).toBeTruthy()
-    expect(wrapper.find('.el-transfer-panel__list .el-checkbox__label span').text()).toBe('1 - 备选项 1')
+    expect(
+      wrapper.find('.el-transfer-panel__list .el-checkbox__label span').text()
+    ).toBe('1 - 备选项 1')
     expect(label.find('span').text()).toBe('no')
   })
 
@@ -190,8 +192,15 @@ describe('Transfer', () => {
       const ElTransfer: any = wrapper.findComponent({ name: 'ElTransfer' })
       ElTransfer.vm.addToRight()
       await nextTick()
-      const targetItems = wrapper.findAll('.el-transfer__buttons + .el-transfer-panel .el-transfer-panel__body .el-checkbox__label span')
-      expect(targetItems.map(item => item.text())).toStrictEqual(['备选项 1', '备选项 2', '备选项 3', '备选项 4'])
+      const targetItems = wrapper.findAll(
+        '.el-transfer__buttons + .el-transfer-panel .el-transfer-panel__body .el-checkbox__label span'
+      )
+      expect(targetItems.map((item) => item.text())).toStrictEqual([
+        '备选项 1',
+        '备选项 2',
+        '备选项 3',
+        '备选项 4',
+      ])
     })
 
     it('push', async () => {
@@ -218,9 +227,15 @@ describe('Transfer', () => {
       const ElTransfer: any = wrapper.findComponent({ name: 'ElTransfer' })
       ElTransfer.vm.addToRight()
       await nextTick()
-      const targetItems = wrapper.findAll('.el-transfer__buttons + .el-transfer-panel .el-transfer-panel__body .el-checkbox__label span')
-      expect(targetItems.map(item => item.text()))
-        .toStrictEqual(['备选项 1', '备选项 4', '备选项 2', '备选项 3'])
+      const targetItems = wrapper.findAll(
+        '.el-transfer__buttons + .el-transfer-panel .el-transfer-panel__body .el-checkbox__label span'
+      )
+      expect(targetItems.map((item) => item.text())).toStrictEqual([
+        '备选项 1',
+        '备选项 4',
+        '备选项 2',
+        '备选项 3',
+      ])
     })
 
     it('unshift', async () => {
@@ -247,8 +262,15 @@ describe('Transfer', () => {
       const ElTransfer: any = wrapper.findComponent({ name: 'ElTransfer' })
       ElTransfer.vm.addToRight()
       await nextTick()
-      const targetItems = wrapper.findAll('.el-transfer__buttons + .el-transfer-panel .el-transfer-panel__body .el-checkbox__label span')
-      expect(targetItems.map(item => item.text())).toStrictEqual(['备选项 2', '备选项 3', '备选项 1', '备选项 4'])
+      const targetItems = wrapper.findAll(
+        '.el-transfer__buttons + .el-transfer-panel .el-transfer-panel__body .el-checkbox__label span'
+      )
+      expect(targetItems.map((item) => item.text())).toStrictEqual([
+        '备选项 2',
+        '备选项 3',
+        '备选项 1',
+        '备选项 4',
+      ])
     })
   })
 })

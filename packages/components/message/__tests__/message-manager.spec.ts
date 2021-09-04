@@ -70,7 +70,7 @@ describe('Message on command', () => {
       parseInt(getStyle(elm as HTMLElement, 'top'), 10)
 
     const topValues = []
-    elements.forEach(e => {
+    elements.forEach((e) => {
       topValues.push(getTopValue(e))
     })
 
@@ -78,7 +78,7 @@ describe('Message on command', () => {
       expect(topValues[i - 1]).toBeLessThan(topValues[i])
     }
 
-    messages.forEach(m => m.close())
+    messages.forEach((m) => m.close())
   })
 
   test('it should have 4 other types of message', () => {

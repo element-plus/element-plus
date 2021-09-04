@@ -31,11 +31,15 @@ describe('Empty.vue', () => {
         imageSize: 500,
       },
     })
-    expect(wrapper.find('.el-empty__image').attributes('style')).toContain('width: 500px')
+    expect(wrapper.find('.el-empty__image').attributes('style')).toContain(
+      'width: 500px'
+    )
     await wrapper.setProps({
       imageSize: 200,
     })
-    expect(wrapper.find('.el-empty__image').attributes('style')).toContain('width: 200px')
+    expect(wrapper.find('.el-empty__image').attributes('style')).toContain(
+      'width: 200px'
+    )
   })
 
   test('should render description props', () => {

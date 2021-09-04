@@ -11,7 +11,6 @@ const epRoot = path.resolve(pkgRoot, './element-plus')
 const utilRoot = path.resolve(pkgRoot, './utils')
 const buildOutput = path.resolve(projRoot, './dist')
 
-
 export {
   projRoot,
   pkgRoot,

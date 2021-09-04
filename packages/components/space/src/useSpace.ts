@@ -25,7 +25,7 @@ export const defaultProps = {
 
   style: {
     type: [String, Array, Object] as PropType<
-    string | Array<any> | CSSProperties
+      string | Array<any> | CSSProperties
     >,
   },
 
@@ -63,7 +63,7 @@ export const defaultProps = {
 
   size: {
     type: [String, Array, Number] as PropType<
-    ComponentSize | [number, number] | number
+      ComponentSize | [number, number] | number
     >,
     validator: (val: unknown) => {
       return (
@@ -112,7 +112,7 @@ export function useSpace(props: ExtractPropTypes<typeof defaultProps>) {
         }
       }
     },
-    { immediate: true },
+    { immediate: true }
   )
 
   const containerStyle = computed(() => {

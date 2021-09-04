@@ -11,7 +11,8 @@ module.exports = {
   transform: {
     '^.+\\.vue$': 'vue-jest',
     '^.+\\.(t|j)sx?$': [
-      'babel-jest', {
+      'babel-jest',
+      {
         presets: [
           [
             '@babel/preset-env',

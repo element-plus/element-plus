@@ -9,8 +9,8 @@
         'is-loading': loading,
         'is-plain': plain,
         'is-round': round,
-        'is-circle': circle
-      }
+        'is-circle': circle,
+      },
     ]"
     :disabled="buttonDisabled || loading"
     :autofocus="autofocus"
@@ -23,7 +23,7 @@
   </button>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import { computed, inject, defineComponent } from 'vue'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import { useGlobalConfig } from '@element-plus/utils/util'

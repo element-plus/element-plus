@@ -28,7 +28,7 @@ describe('Drawer', () => {
       () => ({
         title,
         visible: true,
-      }),
+      })
     )
     await nextTick()
     await rAF()
@@ -53,13 +53,15 @@ describe('Drawer', () => {
       () => ({
         title,
         visible: true,
-      }),
+      })
     )
 
     await nextTick()
     await rAF()
     await nextTick()
-    expect(wrapper.find('.el-drawer__body span').element.textContent).toEqual('this is a sentence')
+    expect(wrapper.find('.el-drawer__body span').element.textContent).toEqual(
+      'this is a sentence'
+    )
     const footerBtns = wrapper.findAll('.el-button')
     expect(footerBtns.length).toEqual(2)
     expect(footerBtns[0].find('span').element.textContent).toEqual('cancel')
@@ -76,7 +78,7 @@ describe('Drawer', () => {
       () => ({
         title,
         visible: false,
-      }),
+      })
     )
     const vm = wrapper.vm as any
 
@@ -84,7 +86,9 @@ describe('Drawer', () => {
     await nextTick()
     await rAF()
     await nextTick()
-    expect(document.querySelector('.el-overlay').parentNode).toEqual(document.body)
+    expect(document.querySelector('.el-overlay').parentNode).toEqual(
+      document.body
+    )
   })
 
   test('should open and close drawer properly', async () => {
@@ -107,7 +111,7 @@ describe('Drawer', () => {
           onClose,
           onClosed,
         },
-      },
+      }
     )
     const vm = wrapper.vm as any
     await nextTick()
@@ -141,14 +145,16 @@ describe('Drawer', () => {
       () => ({
         title,
         visible: true,
-      }),
+      })
     )
     const vm = wrapper.vm as any
 
     await nextTick()
     await rAF()
     await nextTick()
-    expect(wrapper.find('.el-drawer__body span').element.textContent).toEqual(content)
+    expect(wrapper.find('.el-drawer__body span').element.textContent).toEqual(
+      content
+    )
     vm.$refs.drawer.handleClose()
     await nextTick()
     await rAF()
@@ -166,7 +172,7 @@ describe('Drawer', () => {
       () => ({
         title,
         visible: true,
-      }),
+      })
     )
     await nextTick()
     await rAF()
@@ -199,7 +205,7 @@ describe('Drawer', () => {
         title,
         visible: true,
         beforeClose,
-      }),
+      })
     )
     const vm = wrapper.vm as any
     vm.$refs.drawer.handleClose()
@@ -217,7 +223,7 @@ describe('Drawer', () => {
       () => ({
         title,
         visible: true,
-      }),
+      })
     )
 
     expect(wrapper.find('.el-drawer__close-btn').exists()).toBe(false)
@@ -234,7 +240,7 @@ describe('Drawer', () => {
       () => ({
         title,
         visible: true,
-      }),
+      })
     )
 
     expect(wrapper.find(`.${classes}`).exists()).toBe(true)
@@ -250,14 +256,14 @@ describe('Drawer', () => {
       () => ({
         title,
         visible: true,
-      }),
+      })
     )
 
     expect(wrapper.find('.el-drawer__header').exists()).toBe(false)
   })
 
   describe('directions', () => {
-    const renderer = direction => {
+    const renderer = (direction) => {
       return _mount(
         `
         <el-drawer :title='title' v-model='visible' direction='${direction}'>
@@ -267,7 +273,7 @@ describe('Drawer', () => {
         () => ({
           title,
           visible: true,
-        }),
+        })
       )
     }
     test('should render from left to right', async () => {
@@ -316,7 +322,7 @@ describe('Drawer', () => {
           open,
           opened,
         },
-      },
+      }
     )
     const vm = wrapper.vm as any
     const drawer = wrapper.vm.$refs.drawer as any
@@ -340,23 +346,27 @@ describe('Drawer', () => {
     const renderer = (size, isVertical) =>
       _mount(
         `
-        <el-drawer :title='title' v-model='visible' direction='${isVertical ? 'ltr' : 'ttb'}' size='${size}'>
+        <el-drawer :title='title' v-model='visible' direction='${
+          isVertical ? 'ltr' : 'ttb'
+        }' size='${size}'>
           <span>${content}</span>
         </el-drawer>
         `,
         () => ({
           visible: true,
           title,
-        }),
+        })
       )
 
     test('should effect height when drawer is vertical', async () => {
-      const drawerEl = renderer('50%', true).find('.el-drawer').element as HTMLDivElement
+      const drawerEl = renderer('50%', true).find('.el-drawer')
+        .element as HTMLDivElement
       expect(drawerEl.style.width).toEqual('50%')
     })
 
     test('should effect width when drawer is horizontal', async () => {
-      const drawerEl = renderer('50%', false).find('.el-drawer').element as HTMLDivElement
+      const drawerEl = renderer('50%', false).find('.el-drawer')
+        .element as HTMLDivElement
       expect(drawerEl.style.height).toEqual('50%')
     })
   })

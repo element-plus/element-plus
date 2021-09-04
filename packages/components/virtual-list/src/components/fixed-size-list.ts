@@ -17,10 +17,7 @@ type IProps = ExtractPropTypes<typeof DefaultListProps>
 
 const FixedSizeList = buildList({
   name: 'ElFixedSizeList',
-  getItemOffset: (
-    { itemSize },
-    index,
-  ) => index * (itemSize as number),
+  getItemOffset: ({ itemSize }, index) => index * (itemSize as number),
 
   getItemSize: ({ itemSize }) => itemSize as number,
 
@@ -30,29 +27,23 @@ const FixedSizeList = buildList({
     { height, total, itemSize, layout, width },
     index,
     alignment,
-    scrollOffset,
+    scrollOffset
   ) => {
     const size = (isHorizontal(layout) ? width : height) as number
     if (process.env.NODE_ENV !== 'production' && isString(size)) {
-      throwError('[ElVirtualList]', `
+      throwError(
+        '[ElVirtualList]',
+        `
         You should set
           width/height
         to number when your layout is
           horizontal/vertical
-      `)
+      `
+      )
     }
-    const lastItemOffset = Math.max(
-      0,
-      total * (itemSize as number) - size,
-    )
-    const maxOffset = Math.min(
-      lastItemOffset,
-      index * (itemSize as number),
-    )
-    const minOffset = Math.max(
-      0,
-      (index + 1) * (itemSize as number) - size,
-    )
+    const lastItemOffset = Math.max(0, total * (itemSize as number) - size)
+    const maxOffset = Math.min(lastItemOffset, index * (itemSize as number))
+    const minOffset = Math.max(0, (index + 1) * (itemSize as number) - size)
 
     if (alignment === SMART_ALIGNMENT) {
       if (
@@ -75,9 +66,7 @@ const FixedSizeList = buildList({
       case CENTERED_ALIGNMENT: {
         // "Centered" offset is usually the average of the min and max.
         // But near the edges of the list, this doesn't hold true.
-        const middleOffset = Math.round(
-          minOffset + (maxOffset - minOffset) / 2,
-        )
+        const middleOffset = Math.round(minOffset + (maxOffset - minOffset) / 2)
         if (middleOffset < Math.ceil(size / 2)) {
           return 0 // near the beginning
         } else if (middleOffset > lastItemOffset + Math.floor(size / 2)) {
@@ -99,24 +88,18 @@ const FixedSizeList = buildList({
     }
   },
 
-  getStartIndexForOffset: (
-    { total, itemSize },
-    offset,
-  ) =>
-    Math.max(
-      0,
-      Math.min(total - 1, Math.floor(offset / (itemSize as number))),
-    ),
+  getStartIndexForOffset: ({ total, itemSize }, offset) =>
+    Math.max(0, Math.min(total - 1, Math.floor(offset / (itemSize as number)))),
 
   getStopIndexForStartIndex: (
     { height, total, itemSize, layout, width }: IProps,
     startIndex: number,
-    scrollOffset: number,
+    scrollOffset: number
   ) => {
     const offset = startIndex * (itemSize as number)
     const size = isHorizontal(layout) ? width : height
     const numVisibleItems = Math.ceil(
-      ((size as number) + scrollOffset - offset) / (itemSize as number),
+      ((size as number) + scrollOffset - offset) / (itemSize as number)
     )
     return Math.max(
       0,
@@ -124,13 +107,13 @@ const FixedSizeList = buildList({
         total - 1,
         // because startIndex is inclusive, so in order to prevent array outbound indexing
         // we need to - 1 to prevent outbound behavior
-        startIndex + numVisibleItems - 1,
-      ),
+        startIndex + numVisibleItems - 1
+      )
     )
   },
 
   initCache() {
-    return void 0
+    return undefined
   },
 
   clearCache: true,

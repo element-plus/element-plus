@@ -3,7 +3,7 @@
     class="el-dropdown-menu__item"
     :class="{
       'is-disabled': disabled,
-      'el-dropdown-menu__item--divided': divided
+      'el-dropdown-menu__item--divided': divided,
     }"
     :aria-disabled="disabled"
     :tabindex="disabled ? null : -1"
@@ -13,7 +13,7 @@
     <slot></slot>
   </li>
 </template>
-<script lang='ts'>
+<script lang="ts">
 import { defineComponent, getCurrentInstance } from 'vue'
 import { useDropdown } from './useDropdown'
 

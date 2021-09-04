@@ -1,4 +1,3 @@
-
 import type { VNode, InjectionKey } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'
 import type { default as CascaderNode } from './node'
@@ -7,17 +6,23 @@ export type { CascaderNode }
 
 export type CascaderNodeValue = string | number
 export type CascaderNodePathValue = CascaderNodeValue[]
-export type CascaderValue = CascaderNodeValue | CascaderNodePathValue | (CascaderNodeValue | CascaderNodePathValue)[]
+export type CascaderValue =
+  | CascaderNodeValue
+  | CascaderNodePathValue
+  | (CascaderNodeValue | CascaderNodePathValue)[]
 export type CascaderConfig = Required<CascaderProps>
 export type isDisabled = (data: CascaderOption, node: CascaderNode) => boolean
 export type isLeaf = (data: CascaderOption, node: CascaderNode) => boolean
 export type Resolve = (dataList?: CascaderOption[]) => void
 export type LazyLoad = (node: CascaderNode, resolve: Resolve) => void
-export type RenderLabel = ({ node: CascaderNode, data: CascaderOption }) => VNode | VNode[]
+export type RenderLabel = ({
+  node: CascaderNode,
+  data: CascaderOption,
+}) => VNode | VNode[]
 
 export enum ExpandTrigger {
   CLICK = 'click',
-  HOVER = 'hover'
+  HOVER = 'hover',
 }
 
 export interface CascaderOption extends Record<string, unknown> {
@@ -57,9 +62,17 @@ export interface ElCascaderPanelContext {
   checkedNodes: CascaderNode[]
   isHoverMenu: boolean
   renderLabelFn: RenderLabel
-  lazyLoad: (node?: CascaderNode, cb?: (dataList: CascaderOption[]) => void) => void
+  lazyLoad: (
+    node?: CascaderNode,
+    cb?: (dataList: CascaderOption[]) => void
+  ) => void
   expandNode: (node: CascaderNode, silent?: boolean) => void
-  handleCheckChange: (node: CascaderNode, checked: boolean, emitClose?: boolean) => void
+  handleCheckChange: (
+    node: CascaderNode,
+    checked: boolean,
+    emitClose?: boolean
+  ) => void
 }
 
-export const CASCADER_PANEL_INJECTION_KEY: InjectionKey<ElCascaderPanelContext> = Symbol()
+export const CASCADER_PANEL_INJECTION_KEY: InjectionKey<ElCascaderPanelContext> =
+  Symbol()

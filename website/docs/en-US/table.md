@@ -807,7 +807,7 @@ You can also select multiple rows.
     methods: {
       toggleSelection(rows) {
         if (rows) {
-          rows.forEach(row => {
+          rows.forEach((row) => {
             this.$refs.multipleTable.toggleRowSelection(row)
           })
         } else {
@@ -1448,8 +1448,8 @@ For table of numbers, you can add an extra row at the table footer displaying ea
             sums[index] = 'Total Cost'
             return
           }
-          const values = data.map(item => Number(item[column.property]))
-          if (!values.every(value => isNaN(value))) {
+          const values = data.map((item) => Number(item[column.property]))
+          if (!values.every((value) => isNaN(value))) {
             sums[index] =
               '$ ' +
               values.reduce((prev, curr) => {

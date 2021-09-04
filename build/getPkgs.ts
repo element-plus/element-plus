@@ -1,4 +1,4 @@
 /* eslint-disable */
-import { getPackagesSync } from '@lerna/project';
+import { getPackagesSync } from '@lerna/project'
 
-export default getPackagesSync();
+export default getPackagesSync()

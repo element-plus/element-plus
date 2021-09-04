@@ -337,7 +337,7 @@ Form component allows you to verify your data, helping you find and correct erro
     },
     methods: {
       submitForm(formName) {
-        this.$refs[formName].validate(valid => {
+        this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!')
           } else {
@@ -446,7 +446,7 @@ This example shows how to customize your own validation rules to finish a two-fa
     },
     methods: {
       submitForm(formName) {
-        this.$refs[formName].validate(valid => {
+        this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!')
           } else {
@@ -527,7 +527,7 @@ Custom validate callback function must be called. See more advanced usage at [as
     },
     methods: {
       submitForm(formName) {
-        this.$refs[formName].validate(valid => {
+        this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!')
           } else {
@@ -601,7 +601,7 @@ Custom validate callback function must be called. See more advanced usage at [as
     },
     methods: {
       submitForm(formName) {
-        this.$refs[formName].validate(valid => {
+        this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!')
           } else {

@@ -1,11 +1,4 @@
-import {
-  inject,
-  nextTick,
-  computed,
-  watch,
-  ref,
-  reactive,
-} from 'vue'
+import { inject, nextTick, computed, watch, ref, reactive } from 'vue'
 import mitt from 'mitt'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import { EVENT_CODE } from '@element-plus/utils/aria'
@@ -35,7 +28,7 @@ export function useSelectStates(props) {
     cachedOptions: new Map(),
     createdLabel: null,
     createdSelected: false,
-    selected: props.multiple ? [] : {} as any,
+    selected: props.multiple ? [] : ({} as any),
     inputLength: 20,
     inputWidth: 0,
     initialInputHeight: 0,
@@ -78,14 +71,21 @@ export const useSelect = (props, states: States, ctx) => {
   const elForm = inject(elFormKey, {} as ElFormContext)
   const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
 
-  const readonly = computed(() => !props.filterable || props.multiple || (!isIE() && !isEdge() && !states.visible))
+  const readonly = computed(
+    () =>
+      !props.filterable ||
+      props.multiple ||
+      (!isIE() && !isEdge() && !states.visible)
+  )
 
   const selectDisabled = computed(() => props.disabled || elForm.disabled)
 
   const showClose = computed(() => {
     const hasValue = props.multiple
       ? Array.isArray(props.modelValue) && props.modelValue.length > 0
-      : props.modelValue !== undefined && props.modelValue !== null && props.modelValue !== ''
+      : props.modelValue !== undefined &&
+        props.modelValue !== null &&
+        props.modelValue !== ''
 
     const criteria =
       props.clearable &&
@@ -94,16 +94,28 @@ export const useSelect = (props, states: States, ctx) => {
       hasValue
     return criteria
   })
-  const iconClass = computed(() => props.remote && props.filterable ? '' : (states.visible ? 'arrow-up is-reverse' : 'arrow-up'))
+  const iconClass = computed(() =>
+    props.remote && props.filterable
+      ? ''
+      : states.visible
+      ? 'arrow-up is-reverse'
+      : 'arrow-up'
+  )
 
-  const debounce = computed(() => props.remote ? 300 : 0)
+  const debounce = computed(() => (props.remote ? 300 : 0))
 
   const emptyText = computed(() => {
     if (props.loading) {
       return props.loadingText || t('el.select.loading')
     } else {
-      if (props.remote && states.query === '' && states.options.size === 0) return false
-      if (props.filterable && states.query && states.options.size > 0 && states.filteredOptionsCount === 0) {
+      if (props.remote && states.query === '' && states.options.size === 0)
+        return false
+      if (
+        props.filterable &&
+        states.query &&
+        states.options.size > 0 &&
+        states.filteredOptionsCount === 0
+      ) {
         return props.noMatchText || t('el.select.noMatch')
       }
       if (states.options.size === 0) {
@@ -115,111 +127,148 @@ export const useSelect = (props, states: States, ctx) => {
 
   const optionsArray = computed(() => Array.from(states.options.values()))
 
-  const cachedOptionsArray = computed(() => Array.from(states.cachedOptions.values()))
+  const cachedOptionsArray = computed(() =>
+    Array.from(states.cachedOptions.values())
+  )
 
   const showNewOption = computed(() => {
-    const hasExistingOption = optionsArray.value.filter(option => {
-      return !option.created
-    }).some(option => {
-      return option.currentLabel === states.query
-    })
-    return props.filterable && props.allowCreate && states.query !== '' && !hasExistingOption
+    const hasExistingOption = optionsArray.value
+      .filter((option) => {
+        return !option.created
+      })
+      .some((option) => {
+        return option.currentLabel === states.query
+      })
+    return (
+      props.filterable &&
+      props.allowCreate &&
+      states.query !== '' &&
+      !hasExistingOption
+    )
   })
 
-  const selectSize = computed(() => props.size || elFormItem.size || ELEMENT.size)
+  const selectSize = computed(
+    () => props.size || elFormItem.size || ELEMENT.size
+  )
 
-  const collapseTagSize = computed(() => ['small', 'mini'].indexOf(selectSize.value) > -1 ? 'mini' : 'small')
+  const collapseTagSize = computed(() =>
+    ['small', 'mini'].indexOf(selectSize.value) > -1 ? 'mini' : 'small'
+  )
 
-  const dropMenuVisible = computed(() => states.visible && emptyText.value !== false)
+  const dropMenuVisible = computed(
+    () => states.visible && emptyText.value !== false
+  )
 
   // watch
-  watch(() => selectDisabled.value, () => {
-    nextTick(() => {
-      resetInputHeight()
-    })
-  })
-
-  watch(() => props.placeholder, val => {
-    states.cachedPlaceHolder = states.currentPlaceholder = val
-  })
-
-  watch(() => props.modelValue, (val, oldVal) => {
-    if (props.multiple) {
-      resetInputHeight()
-      if ((val && val.length > 0) || (input.value && states.query !== '')) {
-        states.currentPlaceholder = ''
-      } else {
-        states.currentPlaceholder = states.cachedPlaceHolder
-      }
-      if (props.filterable && !props.reserveKeyword) {
-        states.query = ''
-        handleQueryChange(states.query)
-      }
-    }
-    setSelected()
-    if (props.filterable && !props.multiple) {
-      states.inputLength = 20
-    }
-    if (!isEqual(val, oldVal)) {
-      elFormItem.formItemMitt?.emit('el.form.change', val)
-    }
-  }, {
-    flush: 'post',
-    deep: true,
-  })
-
-  watch(() => states.visible, val => {
-    if (!val) {
-      input.value && input.value.blur()
-      states.query = ''
-      states.previousQuery = null
-      states.selectedLabel = ''
-      states.inputLength = 20
-      states.menuVisibleOnFocus = false
-      resetHoverIndex()
+  watch(
+    () => selectDisabled.value,
+    () => {
       nextTick(() => {
-        if (input.value && input.value.value === '' && states.selected.length === 0) {
+        resetInputHeight()
+      })
+    }
+  )
+
+  watch(
+    () => props.placeholder,
+    (val) => {
+      states.cachedPlaceHolder = states.currentPlaceholder = val
+    }
+  )
+
+  watch(
+    () => props.modelValue,
+    (val, oldVal) => {
+      if (props.multiple) {
+        resetInputHeight()
+        if ((val && val.length > 0) || (input.value && states.query !== '')) {
+          states.currentPlaceholder = ''
+        } else {
           states.currentPlaceholder = states.cachedPlaceHolder
         }
-      })
-
-      if (!props.multiple) {
-        if (states.selected) {
-          if (props.filterable && props.allowCreate && states.createdSelected && states.createdLabel) {
-            states.selectedLabel = states.createdLabel
-          } else {
-            states.selectedLabel = states.selected.currentLabel
-          }
-          if (props.filterable) states.query = states.selectedLabel
+        if (props.filterable && !props.reserveKeyword) {
+          states.query = ''
+          handleQueryChange(states.query)
         }
+      }
+      setSelected()
+      if (props.filterable && !props.multiple) {
+        states.inputLength = 20
+      }
+      if (!isEqual(val, oldVal)) {
+        elFormItem.formItemMitt?.emit('el.form.change', val)
+      }
+    },
+    {
+      flush: 'post',
+      deep: true,
+    }
+  )
+
+  watch(
+    () => states.visible,
+    (val) => {
+      if (!val) {
+        input.value && input.value.blur()
+        states.query = ''
+        states.previousQuery = null
+        states.selectedLabel = ''
+        states.inputLength = 20
+        states.menuVisibleOnFocus = false
+        resetHoverIndex()
+        nextTick(() => {
+          if (
+            input.value &&
+            input.value.value === '' &&
+            states.selected.length === 0
+          ) {
+            states.currentPlaceholder = states.cachedPlaceHolder
+          }
+        })
+
+        if (!props.multiple) {
+          if (states.selected) {
+            if (
+              props.filterable &&
+              props.allowCreate &&
+              states.createdSelected &&
+              states.createdLabel
+            ) {
+              states.selectedLabel = states.createdLabel
+            } else {
+              states.selectedLabel = states.selected.currentLabel
+            }
+            if (props.filterable) states.query = states.selectedLabel
+          }
+
+          if (props.filterable) {
+            states.currentPlaceholder = states.cachedPlaceHolder
+          }
+        }
+      } else {
+        popper.value?.update?.()
 
         if (props.filterable) {
-          states.currentPlaceholder = states.cachedPlaceHolder
-        }
-      }
-    } else {
-      popper.value?.update?.()
-
-      if (props.filterable) {
-        states.filteredOptionsCount = states.optionsCount
-        states.query = props.remote ? '' : states.selectedLabel
-        if (props.multiple) {
-          input.value.focus()
-        } else {
-          if (states.selectedLabel) {
-            states.currentPlaceholder = states.selectedLabel
-            states.selectedLabel = ''
+          states.filteredOptionsCount = states.optionsCount
+          states.query = props.remote ? '' : states.selectedLabel
+          if (props.multiple) {
+            input.value.focus()
+          } else {
+            if (states.selectedLabel) {
+              states.currentPlaceholder = states.selectedLabel
+              states.selectedLabel = ''
+            }
+          }
+          handleQueryChange(states.query)
+          if (!props.multiple && !props.remote) {
+            states.selectEmitter.emit('elOptionQueryChange', '')
+            states.selectEmitter.emit('elOptionGroupQueryChange')
           }
         }
-        handleQueryChange(states.query)
-        if (!props.multiple && !props.remote) {
-          states.selectEmitter.emit('elOptionQueryChange', '')
-          states.selectEmitter.emit('elOptionGroupQueryChange')
-        }
       }
+      ctx.emit('visible-change', val)
     }
-    ctx.emit('visible-change', val)
-  })
+  )
 
   watch(
     // fix `Array.prototype.push/splice/..` cannot trigger non-deep watcher
@@ -235,24 +284,30 @@ export const useSelect = (props, states: States, ctx) => {
       if ([].indexOf.call(inputs, document.activeElement) === -1) {
         setSelected()
       }
-      if (props.defaultFirstOption && (props.filterable || props.remote) && states.filteredOptionsCount) {
+      if (
+        props.defaultFirstOption &&
+        (props.filterable || props.remote) &&
+        states.filteredOptionsCount
+      ) {
         checkDefaultFirstOption()
       }
     },
     {
       flush: 'post',
-    },
+    }
   )
 
-  watch(() => states.hoverIndex, val => {
-    if (typeof val === 'number' && val > -1) {
-      hoverOption.value = optionsArray.value[val] || {}
+  watch(
+    () => states.hoverIndex,
+    (val) => {
+      if (typeof val === 'number' && val > -1) {
+        hoverOption.value = optionsArray.value[val] || {}
+      }
+      optionsArray.value.forEach((option) => {
+        option.hover = hoverOption.value === option
+      })
     }
-    optionsArray.value.forEach(option => {
-      option.hover = hoverOption.value === option
-    })
-  })
-
+  )
 
   // methods
   const resetInputHeight = () => {
@@ -260,14 +315,21 @@ export const useSelect = (props, states: States, ctx) => {
     nextTick(() => {
       if (!reference.value) return
       const inputChildNodes = reference.value.$el.childNodes
-      const input = [].filter.call(inputChildNodes, item => item.tagName === 'INPUT')[0]
+      const input = [].filter.call(
+        inputChildNodes,
+        (item) => item.tagName === 'INPUT'
+      )[0]
       const _tags = tags.value
       const sizeInMap = states.initialInputHeight || 40
-      input.style.height = states.selected.length === 0
-        ? sizeInMap + 'px'
-        : Math.max(
-          _tags ? (_tags.clientHeight + (_tags.clientHeight > sizeInMap ? 6 : 0)) : 0,
-          sizeInMap) + 'px'
+      input.style.height =
+        states.selected.length === 0
+          ? sizeInMap + 'px'
+          : Math.max(
+              _tags
+                ? _tags.clientHeight + (_tags.clientHeight > sizeInMap ? 6 : 0)
+                : 0,
+              sizeInMap
+            ) + 'px'
 
       states.tagInMultiLine = parseFloat(input.style.height) > sizeInMap
 
@@ -277,11 +339,12 @@ export const useSelect = (props, states: States, ctx) => {
     })
   }
 
-  const handleQueryChange = val => {
+  const handleQueryChange = (val) => {
     if (states.previousQuery === val || states.isOnComposition) return
     if (
       states.previousQuery === null &&
-      (typeof props.filterMethod === 'function' || typeof props.remoteMethod === 'function')
+      (typeof props.filterMethod === 'function' ||
+        typeof props.remoteMethod === 'function')
     ) {
       states.previousQuery = val
       return
@@ -310,14 +373,20 @@ export const useSelect = (props, states: States, ctx) => {
       states.selectEmitter.emit('elOptionQueryChange', val)
       states.selectEmitter.emit('elOptionGroupQueryChange')
     }
-    if (props.defaultFirstOption && (props.filterable || props.remote) && states.filteredOptionsCount) {
+    if (
+      props.defaultFirstOption &&
+      (props.filterable || props.remote) &&
+      states.filteredOptionsCount
+    ) {
       checkDefaultFirstOption()
     }
   }
 
   const managePlaceholder = () => {
     if (states.currentPlaceholder !== '') {
-      states.currentPlaceholder = input.value.value ? '' : states.cachedPlaceHolder
+      states.currentPlaceholder = input.value.value
+        ? ''
+        : states.cachedPlaceHolder
     }
   }
 
@@ -332,10 +401,15 @@ export const useSelect = (props, states: States, ctx) => {
    *   (NOTE: exclude options that are disabled or in disabled-group)
    */
   const checkDefaultFirstOption = () => {
-    const optionsInDropdown = optionsArray.value.filter(n => n.visible && !n.disabled && !n.groupDisabled)
-    const userCreatedOption = optionsInDropdown.filter(n => n.created)[0]
+    const optionsInDropdown = optionsArray.value.filter(
+      (n) => n.visible && !n.disabled && !n.groupDisabled
+    )
+    const userCreatedOption = optionsInDropdown.filter((n) => n.created)[0]
     const firstOriginOption = optionsInDropdown[0]
-    states.hoverIndex = getValueIndex(optionsArray.value, userCreatedOption || firstOriginOption)
+    states.hoverIndex = getValueIndex(
+      optionsArray.value,
+      userCreatedOption || firstOriginOption
+    )
   }
 
   const setSelected = () => {
@@ -354,7 +428,7 @@ export const useSelect = (props, states: States, ctx) => {
     }
     const result = []
     if (Array.isArray(props.modelValue)) {
-      props.modelValue.forEach(value => {
+      props.modelValue.forEach((value) => {
         result.push(getOption(value))
       })
     }
@@ -364,7 +438,7 @@ export const useSelect = (props, states: States, ctx) => {
     })
   }
 
-  const getOption = value => {
+  const getOption = (value) => {
     let option
     const isObjectValue = toRawType(value).toLowerCase() === 'object'
     const isNull = toRawType(value).toLowerCase() === 'null'
@@ -373,7 +447,8 @@ export const useSelect = (props, states: States, ctx) => {
     for (let i = states.cachedOptions.size - 1; i >= 0; i--) {
       const cachedOption = cachedOptionsArray.value[i]
       const isEqualValue = isObjectValue
-        ? getValueByPath(cachedOption.value, props.valueKey) === getValueByPath(value, props.valueKey)
+        ? getValueByPath(cachedOption.value, props.valueKey) ===
+          getValueByPath(value, props.valueKey)
         : cachedOption.value === value
       if (isEqualValue) {
         option = {
@@ -385,13 +460,13 @@ export const useSelect = (props, states: States, ctx) => {
       }
     }
     if (option) return option
-    const label = (!isObjectValue && !isNull && !isUndefined) ? value : ''
+    const label = !isObjectValue && !isNull && !isUndefined ? value : ''
     const newOption = {
       value,
       currentLabel: label,
     }
     if (props.multiple) {
-      (newOption as any).hitState = false
+      ;(newOption as any).hitState = false
     }
     return newOption
   }
@@ -400,16 +475,25 @@ export const useSelect = (props, states: States, ctx) => {
     setTimeout(() => {
       const valueKey = props.valueKey
       if (!props.multiple) {
-        states.hoverIndex = optionsArray.value.findIndex(item => {
-          return getValueByPath(item, valueKey) === getValueByPath(states.selected, valueKey)
+        states.hoverIndex = optionsArray.value.findIndex((item) => {
+          return (
+            getValueByPath(item, valueKey) ===
+            getValueByPath(states.selected, valueKey)
+          )
         })
       } else {
         if (states.selected.length > 0) {
-          states.hoverIndex = Math.min.apply(null, states.selected.map(selected => {
-            return optionsArray.value.findIndex(item => {
-              return getValueByPath(item, valueKey) === getValueByPath(selected, valueKey)
+          states.hoverIndex = Math.min.apply(
+            null,
+            states.selected.map((selected) => {
+              return optionsArray.value.findIndex((item) => {
+                return (
+                  getValueByPath(item, valueKey) ===
+                  getValueByPath(selected, valueKey)
+                )
+              })
             })
-          }))
+          )
         } else {
           states.hoverIndex = -1
         }
@@ -438,17 +522,17 @@ export const useSelect = (props, states: States, ctx) => {
     onInputChange()
   }, debounce.value)
 
-  const debouncedQueryChange = lodashDebounce(e => {
+  const debouncedQueryChange = lodashDebounce((e) => {
     handleQueryChange(e.target.value)
   }, debounce.value)
 
-  const emitChange = val => {
+  const emitChange = (val) => {
     if (!isEqual(props.modelValue, val)) {
       ctx.emit(CHANGE_EVENT, val)
     }
   }
 
-  const deletePrevTag = e => {
+  const deletePrevTag = (e) => {
     if (e.target.value.length <= 0 && !toggleLastOptionHitState()) {
       const value = props.modelValue.slice()
       value.pop()
@@ -473,7 +557,7 @@ export const useSelect = (props, states: States, ctx) => {
     event.stopPropagation()
   }
 
-  const deleteSelected = event => {
+  const deleteSelected = (event) => {
     event.stopPropagation()
     const value = props.multiple ? [] : ''
     if (typeof value !== 'string') {
@@ -493,7 +577,10 @@ export const useSelect = (props, states: States, ctx) => {
       const optionIndex = getValueIndex(value, option.value)
       if (optionIndex > -1) {
         value.splice(optionIndex, 1)
-      } else if (props.multipleLimit <= 0 || value.length < props.multipleLimit) {
+      } else if (
+        props.multipleLimit <= 0 ||
+        value.length < props.multipleLimit
+      ) {
         value.push(option.value)
       }
       ctx.emit(UPDATE_MODEL_EVENT, value)
@@ -540,19 +627,23 @@ export const useSelect = (props, states: States, ctx) => {
     }
   }
 
-  const scrollToOption = option => {
+  const scrollToOption = (option) => {
     const targetOption = Array.isArray(option) ? option[0] : option
     let target = null
 
-    if(targetOption?.value){
-      const options = optionsArray.value.filter(item => item.value === targetOption.value)
+    if (targetOption?.value) {
+      const options = optionsArray.value.filter(
+        (item) => item.value === targetOption.value
+      )
       if (options.length > 0) {
         target = options[0].$el
       }
     }
 
     if (popper.value && target) {
-      const menu = popper.value?.popperRef?.querySelector?.('.el-select-dropdown__wrap')
+      const menu = popper.value?.popperRef?.querySelector?.(
+        '.el-select-dropdown__wrap'
+      )
       if (menu) {
         scrollIntoView(menu, target)
       }
@@ -567,7 +658,7 @@ export const useSelect = (props, states: States, ctx) => {
     states.cachedOptions.set(vm.value, vm)
   }
 
-  const onOptionDestroy = key => {
+  const onOptionDestroy = (key) => {
     states.optionsCount--
     states.filteredOptionsCount--
     states.options.delete(key)
@@ -593,7 +684,7 @@ export const useSelect = (props, states: States, ctx) => {
     return option.hitState
   }
 
-  const handleComposition = event => {
+  const handleComposition = (event) => {
     const text = event.target.value
     if (event.type === 'compositionend') {
       states.isOnComposition = false
@@ -608,7 +699,7 @@ export const useSelect = (props, states: States, ctx) => {
     nextTick(() => scrollToOption(states.selected))
   }
 
-  const handleFocus = event => {
+  const handleFocus = (event) => {
     if (!states.softFocus) {
       if (props.automaticDropdown || props.filterable) {
         states.visible = true
@@ -656,7 +747,7 @@ export const useSelect = (props, states: States, ctx) => {
         states.visible = !states.visible
       }
       if (states.visible) {
-        (input.value || reference.value).focus()
+        ;(input.value || reference.value).focus()
       }
     }
   }
@@ -671,15 +762,19 @@ export const useSelect = (props, states: States, ctx) => {
     }
   }
 
-  const getValueKey = item => {
+  const getValueKey = (item) => {
     return isObject(item.value)
       ? getValueByPath(item.value, props.valueKey)
       : item.value
   }
 
-  const optionsAllDisabled = computed(() => optionsArray.value.filter(option => option.visible).every(option => option.disabled))
+  const optionsAllDisabled = computed(() =>
+    optionsArray.value
+      .filter((option) => option.visible)
+      .every((option) => option.disabled)
+  )
 
-  const navigateOptions = direction => {
+  const navigateOptions = (direction) => {
     if (!states.visible) {
       states.visible = true
       return
@@ -699,9 +794,11 @@ export const useSelect = (props, states: States, ctx) => {
         }
       }
       const option = optionsArray.value[states.hoverIndex]
-      if (option.disabled === true ||
+      if (
+        option.disabled === true ||
         option.groupDisabled === true ||
-        !option.visible) {
+        !option.visible
+      ) {
         navigateOptions(direction)
       }
       nextTick(() => scrollToOption(hoverOption.value))
@@ -755,4 +852,3 @@ export const useSelect = (props, states: States, ctx) => {
     scrollbar,
   }
 }
-

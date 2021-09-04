@@ -1,10 +1,12 @@
 <template>
   <div
     class="el-picker-panel el-date-range-picker"
-    :class="[{
-      'has-sidebar': $slots.sidebar || hasShortcuts,
-      'has-time': showTime
-    }]"
+    :class="[
+      {
+        'has-sidebar': $slots.sidebar || hasShortcuts,
+        'has-time': showTime,
+      },
+    ]"
   >
     <div class="el-picker-panel__body-wrapper">
       <slot name="sidebar" class="el-picker-panel__sidebar"></slot>
@@ -29,11 +31,14 @@
                 :placeholder="t('el.datepicker.startDate')"
                 class="el-date-range-picker__editor"
                 :model-value="minVisibleDate"
-                @input="val => handleDateInput(val, 'min')"
-                @change="val => handleDateChange(val, 'min')"
+                @input="(val) => handleDateInput(val, 'min')"
+                @change="(val) => handleDateChange(val, 'min')"
               />
             </span>
-            <span v-clickoutside="handleMinTimeClose" class="el-date-range-picker__time-picker-wrap">
+            <span
+              v-clickoutside="handleMinTimeClose"
+              class="el-date-range-picker__time-picker-wrap"
+            >
               <el-input
                 size="small"
                 class="el-date-range-picker__editor"
@@ -41,8 +46,8 @@
                 :placeholder="t('el.datepicker.startTime')"
                 :model-value="minVisibleTime"
                 @focus="minTimePickerVisible = true"
-                @input="val => handleTimeInput(val, 'min')"
-                @change="val => handleTimeChange(val, 'min')"
+                @input="(val) => handleTimeInput(val, 'min')"
+                @change="(val) => handleTimeChange(val, 'min')"
               />
               <time-pick-panel
                 :visible="minTimePickerVisible"
@@ -64,11 +69,14 @@
                 :placeholder="t('el.datepicker.endDate')"
                 :model-value="maxVisibleDate"
                 :readonly="!minDate"
-                @input="val => handleDateInput(val, 'max')"
-                @change="val => handleDateChange(val, 'max')"
+                @input="(val) => handleDateInput(val, 'max')"
+                @change="(val) => handleDateChange(val, 'max')"
               />
             </span>
-            <span v-clickoutside="handleMaxTimeClose" class="el-date-range-picker__time-picker-wrap">
+            <span
+              v-clickoutside="handleMaxTimeClose"
+              class="el-date-range-picker__time-picker-wrap"
+            >
               <el-input
                 size="small"
                 class="el-date-range-picker__editor"
@@ -77,8 +85,8 @@
                 :model-value="maxVisibleTime"
                 :readonly="!minDate"
                 @focus="minDate && (maxTimePickerVisible = true)"
-                @input="val => handleTimeInput(val, 'max')"
-                @change="val => handleTimeChange(val, 'max')"
+                @input="(val) => handleTimeInput(val, 'max')"
+                @change="(val) => handleTimeChange(val, 'max')"
               />
               <time-pick-panel
                 datetime-role="end"
@@ -91,7 +99,9 @@
             </span>
           </span>
         </div>
-        <div class="el-picker-panel__content el-date-range-picker__content is-left">
+        <div
+          class="el-picker-panel__content el-date-range-picker__content is-left"
+        >
           <div class="el-date-range-picker__header">
             <button
               type="button"
@@ -134,7 +144,13 @@
             @select="onSelect"
           />
         </div>
-        <div class="el-picker-panel__content el-date-range-picker__content is-right">
+        <div
+          class="
+            el-picker-panel__content
+            el-date-range-picker__content
+            is-right
+          "
+        >
           <div class="el-date-range-picker__header">
             <button
               v-if="unlinkPanels"
@@ -209,7 +225,11 @@ import ElButton from '@element-plus/components/button'
 import { ClickOutside } from '@element-plus/directives'
 import { useLocaleInject } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
-import { extractDateFormat, extractTimeFormat, TimePickPanel } from '@element-plus/components/time-picker'
+import {
+  extractDateFormat,
+  extractTimeFormat,
+  TimePickPanel,
+} from '@element-plus/components/time-picker'
 import { isValidDatePickType } from '@element-plus/utils/validators'
 import DateTable from './basic-date-table.vue'
 
@@ -218,7 +238,6 @@ import type { Dayjs } from 'dayjs'
 import type { IDatePickerType } from '../date-picker.type'
 
 export default defineComponent({
-
   directives: { clickoutside: ClickOutside },
 
   components: { TimePickPanel, DateTable, ElInput, ElButton },
@@ -254,11 +273,23 @@ export default defineComponent({
     })
 
     const leftLabel = computed(() => {
-      return leftDate.value.year() + ' ' + t('el.datepicker.year') + ' ' + t(`el.datepicker.month${leftDate.value.month() + 1}`)
+      return (
+        leftDate.value.year() +
+        ' ' +
+        t('el.datepicker.year') +
+        ' ' +
+        t(`el.datepicker.month${leftDate.value.month() + 1}`)
+      )
     })
 
     const rightLabel = computed(() => {
-      return rightDate.value.year() + ' ' + t('el.datepicker.year') + ' ' + t(`el.datepicker.month${rightDate.value.month() + 1}`)
+      return (
+        rightDate.value.year() +
+        ' ' +
+        t('el.datepicker.year') +
+        ' ' +
+        t(`el.datepicker.month${rightDate.value.month() + 1}`)
+      )
     })
 
     const leftYear = computed(() => {
@@ -287,7 +318,8 @@ export default defineComponent({
 
     const maxVisibleDate = computed(() => {
       if (dateUserInput.value.max !== null) return dateUserInput.value.max
-      if (maxDate.value || minDate.value) return ((maxDate.value || minDate.value)).format(dateFormat.value)
+      if (maxDate.value || minDate.value)
+        return (maxDate.value || minDate.value).format(dateFormat.value)
       return ''
     })
 
@@ -299,7 +331,8 @@ export default defineComponent({
 
     const maxVisibleTime = computed(() => {
       if (timeUserInput.value.max !== null) return timeUserInput.value.max
-      if (maxDate.value || minDate.value) return ((maxDate.value || minDate.value)).format(timeFormat.value)
+      if (maxDate.value || minDate.value)
+        return (maxDate.value || minDate.value).format(timeFormat.value)
       return ''
     })
 
@@ -362,17 +395,30 @@ export default defineComponent({
     const enableMonthArrow = computed(() => {
       const nextMonth = (leftMonth.value + 1) % 12
       const yearOffset = leftMonth.value + 1 >= 12 ? 1 : 0
-      return props.unlinkPanels && new Date(leftYear.value + yearOffset, nextMonth) < new Date(rightYear.value, rightMonth.value)
+      return (
+        props.unlinkPanels &&
+        new Date(leftYear.value + yearOffset, nextMonth) <
+          new Date(rightYear.value, rightMonth.value)
+      )
     })
 
     const enableYearArrow = computed(() => {
-      return props.unlinkPanels && rightYear.value * 12 + rightMonth.value - (leftYear.value * 12 + leftMonth.value + 1) >= 12
+      return (
+        props.unlinkPanels &&
+        rightYear.value * 12 +
+          rightMonth.value -
+          (leftYear.value * 12 + leftMonth.value + 1) >=
+          12
+      )
     })
 
-    const isValidValue = value => {
-      return Array.isArray(value) &&
-        value[0] && value[1] &&
+    const isValidValue = (value) => {
+      return (
+        Array.isArray(value) &&
+        value[0] &&
+        value[1] &&
         value[0].valueOf() <= value[1].valueOf()
+      )
     }
 
     const rangeState = ref({
@@ -381,21 +427,28 @@ export default defineComponent({
     })
 
     const btnDisabled = computed(() => {
-      return !(minDate.value && maxDate.value && !rangeState.value.selecting && isValidValue([minDate.value, maxDate.value]))
+      return !(
+        minDate.value &&
+        maxDate.value &&
+        !rangeState.value.selecting &&
+        isValidValue([minDate.value, maxDate.value])
+      )
     })
 
-    const handleChangeRange = val => {
+    const handleChangeRange = (val) => {
       rangeState.value = val
     }
 
-    const onSelect = selecting => {
+    const onSelect = (selecting) => {
       rangeState.value.selecting = selecting
       if (!selecting) {
         rangeState.value.endDate = null
       }
     }
 
-    const showTime = computed(() => props.type === 'datetime' || props.type === 'datetimerange')
+    const showTime = computed(
+      () => props.type === 'datetime' || props.type === 'datetimerange'
+    )
 
     const handleConfirm = (visible = false) => {
       if (isValidValue([minDate.value, maxDate.value])) {
@@ -406,8 +459,13 @@ export default defineComponent({
     const formatEmit = (emitDayjs: Dayjs, index?) => {
       if (!emitDayjs) return
       if (defaultTime) {
-        const defaultTimeD = dayjs(defaultTime[index] || defaultTime).locale(lang.value)
-        return defaultTimeD.year(emitDayjs.year()).month(emitDayjs.month()).date(emitDayjs.date())
+        const defaultTimeD = dayjs(defaultTime[index] || defaultTime).locale(
+          lang.value
+        )
+        return defaultTimeD
+          .year(emitDayjs.year())
+          .month(emitDayjs.month())
+          .date(emitDayjs.date())
       }
       return emitDayjs
     }
@@ -429,8 +487,9 @@ export default defineComponent({
       handleConfirm()
     }
 
-    const handleShortcutClick = shortcut => {
-      const shortcutValues = typeof shortcut.value === 'function' ? shortcut.value() : shortcut.value
+    const handleShortcutClick = (shortcut) => {
+      const shortcutValues =
+        typeof shortcut.value === 'function' ? shortcut.value() : shortcut.value
       if (shortcutValues) {
         ctx.emit('pick', [
           dayjs(shortcutValues[0]).locale(lang.value),
@@ -459,20 +518,25 @@ export default defineComponent({
       const parsedValueD = dayjs(value, dateFormat.value).locale(lang.value)
 
       if (parsedValueD.isValid()) {
-        if (disabledDate &&
-          disabledDate(parsedValueD.toDate())) {
+        if (disabledDate && disabledDate(parsedValueD.toDate())) {
           return
         }
         if (type === 'min') {
           leftDate.value = parsedValueD
-          minDate.value = (minDate.value || leftDate.value).year(parsedValueD.year()).month(parsedValueD.month()).date(parsedValueD.date())
+          minDate.value = (minDate.value || leftDate.value)
+            .year(parsedValueD.year())
+            .month(parsedValueD.month())
+            .date(parsedValueD.date())
           if (!props.unlinkPanels) {
             rightDate.value = parsedValueD.add(1, 'month')
             maxDate.value = minDate.value.add(1, 'month')
           }
         } else {
           rightDate.value = parsedValueD
-          maxDate.value = (maxDate.value || rightDate.value).year(parsedValueD.year()).month(parsedValueD.month()).date(parsedValueD.date())
+          maxDate.value = (maxDate.value || rightDate.value)
+            .year(parsedValueD.year())
+            .month(parsedValueD.month())
+            .date(parsedValueD.date())
           if (!props.unlinkPanels) {
             leftDate.value = parsedValueD.subtract(1, 'month')
             minDate.value = maxDate.value.subtract(1, 'month')
@@ -492,13 +556,19 @@ export default defineComponent({
       if (parsedValueD.isValid()) {
         if (type === 'min') {
           minTimePickerVisible.value = true
-          minDate.value = (minDate.value || leftDate.value).hour(parsedValueD.hour()).minute(parsedValueD.minute()).second(parsedValueD.second())
+          minDate.value = (minDate.value || leftDate.value)
+            .hour(parsedValueD.hour())
+            .minute(parsedValueD.minute())
+            .second(parsedValueD.second())
           if (!maxDate.value || maxDate.value.isBefore(minDate.value)) {
             maxDate.value = minDate.value
           }
         } else {
           maxTimePickerVisible.value = true
-          maxDate.value = (maxDate.value || rightDate.value).hour(parsedValueD.hour()).minute(parsedValueD.minute()).second(parsedValueD.second())
+          maxDate.value = (maxDate.value || rightDate.value)
+            .hour(parsedValueD.hour())
+            .minute(parsedValueD.minute())
+            .second(parsedValueD.second())
           rightDate.value = maxDate.value
           if (maxDate.value && maxDate.value.isBefore(minDate.value)) {
             minDate.value = maxDate.value
@@ -518,12 +588,14 @@ export default defineComponent({
       }
     }
 
-
     const handleMinTimePick = (value, visible, first) => {
       if (timeUserInput.value.min) return
       if (value) {
         leftDate.value = value
-        minDate.value = (minDate.value || leftDate.value).hour(value.hour()).minute(value.minute()).second(value.second())
+        minDate.value = (minDate.value || leftDate.value)
+          .hour(value.hour())
+          .minute(value.minute())
+          .second(value.second())
       }
 
       if (!first) {
@@ -540,7 +612,10 @@ export default defineComponent({
       if (timeUserInput.value.max) return
       if (value) {
         rightDate.value = value
-        maxDate.value = (maxDate.value || rightDate.value).hour(value.hour()).minute(value.minute()).second(value.second())
+        maxDate.value = (maxDate.value || rightDate.value)
+          .hour(value.hour())
+          .minute(value.minute())
+          .second(value.second())
       }
 
       if (!first) {
@@ -559,12 +634,14 @@ export default defineComponent({
     }
 
     const formatToString = (value: Dayjs | Dayjs[]) => {
-      return Array.isArray(value) ? value.map(_ => _.format(format)) : value.format(format)
+      return Array.isArray(value)
+        ? value.map((_) => _.format(format))
+        : value.format(format)
     }
 
     const parseUserInput = (value: Dayjs | Dayjs[]) => {
       return Array.isArray(value)
-        ? value.map(_ => dayjs(_, format).locale(lang.value))
+        ? value.map((_) => dayjs(_, format).locale(lang.value))
         : dayjs(value, format).locale(lang.value)
     }
 
@@ -604,36 +681,41 @@ export default defineComponent({
       clearable,
     } = pickerBase.props
 
-    watch(() => props.parsedValue, newVal => {
-      if (newVal && newVal.length === 2) {
-        minDate.value = newVal[0]
-        maxDate.value = newVal[1]
-        leftDate.value = minDate.value
-        if (props.unlinkPanels && maxDate.value) {
-          const minDateYear = minDate.value.year()
-          const minDateMonth = minDate.value.month()
-          const maxDateYear = maxDate.value.year()
-          const maxDateMonth = maxDate.value.month()
-          rightDate.value = minDateYear === maxDateYear && minDateMonth === maxDateMonth
-            ? maxDate.value.add(1, 'month')
-            : maxDate.value
-        } else {
-          rightDate.value = leftDate.value.add(1, 'month')
-          if (maxDate.value) {
-            rightDate.value = rightDate.value
-              .hour(maxDate.value.hour())
-              .minute(maxDate.value.minute())
-              .second(maxDate.value.second())
+    watch(
+      () => props.parsedValue,
+      (newVal) => {
+        if (newVal && newVal.length === 2) {
+          minDate.value = newVal[0]
+          maxDate.value = newVal[1]
+          leftDate.value = minDate.value
+          if (props.unlinkPanels && maxDate.value) {
+            const minDateYear = minDate.value.year()
+            const minDateMonth = minDate.value.month()
+            const maxDateYear = maxDate.value.year()
+            const maxDateMonth = maxDate.value.month()
+            rightDate.value =
+              minDateYear === maxDateYear && minDateMonth === maxDateMonth
+                ? maxDate.value.add(1, 'month')
+                : maxDate.value
+          } else {
+            rightDate.value = leftDate.value.add(1, 'month')
+            if (maxDate.value) {
+              rightDate.value = rightDate.value
+                .hour(maxDate.value.hour())
+                .minute(maxDate.value.minute())
+                .second(maxDate.value.second())
+            }
           }
+        } else {
+          const defaultArr = getDefaultValue()
+          minDate.value = null
+          maxDate.value = null
+          leftDate.value = defaultArr[0]
+          rightDate.value = defaultArr[1]
         }
-      } else {
-        const defaultArr = getDefaultValue()
-        minDate.value = null
-        maxDate.value = null
-        leftDate.value = defaultArr[0]
-        rightDate.value = defaultArr[1]
-      }
-    }, { immediate: true })
+      },
+      { immediate: true }
+    )
 
     return {
       shortcuts,

@@ -40,7 +40,6 @@ for (let i in ElementPlusSvgIcons) {
 app.config.globalProperties.$svgIcons = svgIcons
 app.config.globalProperties.$icon = icon
 
-
 app.component('DemoBlock', demoBlock)
 app.component('RightNav', RightNav)
 app.component('MainFooter', MainFooter)
@@ -59,29 +58,33 @@ app.use(ElementPlus)
 app.use(router)
 router.isReady().then(() => {
   let lang = location.hash.split('/')[1]
-  let langConfig = compLang.filter(config => config.lang === lang)[0]['demo-block']
+  let langConfig = compLang.filter((config) => config.lang === lang)[0][
+    'demo-block'
+  ]
 
-  app.config.globalProperties.$copySvgIcon = iconName => {
+  app.config.globalProperties.$copySvgIcon = (iconName) => {
     clipboardCopy(
       `<el-icon>
   <${hyphenate(iconName)} />
 </el-icon>
-      `,
-    ).then(() => {
-      app.config.globalProperties.$message({
-        showClose: true,
-        message: langConfig['copy-success'],
-        type: 'success',
+      `
+    )
+      .then(() => {
+        app.config.globalProperties.$message({
+          showClose: true,
+          message: langConfig['copy-success'],
+          type: 'success',
+        })
       })
-    }).catch(() => {
-      app.config.globalProperties.$message({
-        showClose: true,
-        message: langConfig['copy-error'],
-        type: 'error',
+      .catch(() => {
+        app.config.globalProperties.$message({
+          showClose: true,
+          message: langConfig['copy-error'],
+          type: 'error',
+        })
       })
-    })
   }
-  router.afterEach(async route => {
+  router.afterEach(async (route) => {
     await nextTick()
     lang = location.hash.split('/')[1]
     const data = title[route.meta.lang]
@@ -94,7 +97,6 @@ router.isReady().then(() => {
     document.title = 'Element'
     ga('send', 'event', 'PageView', route.name)
   })
-
 })
 
 app.mount('#app')

@@ -7,7 +7,9 @@
       :style="{ background: getCssVarName('text-color', text.type) }"
     >
       {{ text.name || formatType(text.type) + ' Text' }}
-      <div class="value">{{ getCssVarValue('text-color', text.type).toUpperCase() }}</div>
+      <div class="value">
+        {{ getCssVarValue('text-color', text.type).toUpperCase() }}
+      </div>
     </div>
   </div>
 </template>

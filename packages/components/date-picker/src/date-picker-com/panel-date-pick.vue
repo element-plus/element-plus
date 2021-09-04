@@ -1,10 +1,12 @@
 <template>
   <div
     class="el-picker-panel el-date-picker"
-    :class="[{
-      'has-sidebar': $slots.sidebar || hasShortcuts,
-      'has-time': showTime
-    }]"
+    :class="[
+      {
+        'has-sidebar': $slots.sidebar || hasShortcuts,
+        'has-time': showTime,
+      },
+    ]"
   >
     <div class="el-picker-panel__body-wrapper">
       <slot name="sidebar" class="el-picker-panel__sidebar"></slot>
@@ -26,7 +28,7 @@
               :placeholder="t('el.datepicker.selectDate')"
               :model-value="visibleDate"
               size="small"
-              @input="val => userInputDate = val"
+              @input="(val) => (userInputDate = val)"
               @change="handleVisibleDateChange"
             />
           </span>
@@ -39,7 +41,7 @@
               :model-value="visibleTime"
               size="small"
               @focus="onTimePickerInputFocus"
-              @input="val => userInputTime = val"
+              @input="(val) => (userInputTime = val)"
               @change="handleVisibleTimeChange"
             />
             <time-pick-panel
@@ -54,50 +56,67 @@
         <div
           v-show="currentView !== 'time'"
           class="el-date-picker__header"
-          :class="{ 'el-date-picker__header--bordered': currentView === 'year' || currentView === 'month' }"
+          :class="{
+            'el-date-picker__header--bordered':
+              currentView === 'year' || currentView === 'month',
+          }"
         >
           <button
             type="button"
             :aria-label="t(`el.datepicker.prevYear`)"
-            class="el-picker-panel__icon-btn el-date-picker__prev-btn el-icon-d-arrow-left"
+            class="
+              el-picker-panel__icon-btn
+              el-date-picker__prev-btn
+              el-icon-d-arrow-left
+            "
             @click="prevYear_"
-          >
-          </button>
+          ></button>
           <button
             v-show="currentView === 'date'"
             type="button"
             :aria-label="t(`el.datepicker.prevMonth`)"
-            class="el-picker-panel__icon-btn el-date-picker__prev-btn el-icon-arrow-left"
+            class="
+              el-picker-panel__icon-btn
+              el-date-picker__prev-btn
+              el-icon-arrow-left
+            "
             @click="prevMonth_"
-          >
-          </button>
+          ></button>
           <span
             role="button"
             class="el-date-picker__header-label"
             @click="showYearPicker"
-          >{{ yearLabel }}</span>
+            >{{ yearLabel }}</span
+          >
           <span
             v-show="currentView === 'date'"
             role="button"
             class="el-date-picker__header-label"
             :class="{ active: currentView === 'month' }"
             @click="showMonthPicker"
-          >{{ t(`el.datepicker.month${ month + 1 }`) }}</span>
+            >{{ t(`el.datepicker.month${month + 1}`) }}</span
+          >
           <button
             type="button"
             :aria-label="t(`el.datepicker.nextYear`)"
-            class="el-picker-panel__icon-btn el-date-picker__next-btn el-icon-d-arrow-right"
+            class="
+              el-picker-panel__icon-btn
+              el-date-picker__next-btn
+              el-icon-d-arrow-right
+            "
             @click="nextYear_"
-          >
-          </button>
+          ></button>
           <button
             v-show="currentView === 'date'"
             type="button"
             :aria-label="t(`el.datepicker.nextMonth`)"
-            class="el-picker-panel__icon-btn el-date-picker__next-btn el-icon-arrow-right"
+            class="
+              el-picker-panel__icon-btn
+              el-date-picker__next-btn
+              el-icon-arrow-right
+            "
             @click="nextMonth_"
-          >
-          </button>
+          ></button>
         </div>
         <div class="el-picker-panel__content">
           <date-table
@@ -157,7 +176,11 @@ import ElButton from '@element-plus/components/button'
 import { ClickOutside } from '@element-plus/directives'
 import { useLocaleInject } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
-import { extractDateFormat, extractTimeFormat, TimePickPanel } from '@element-plus/components/time-picker'
+import {
+  extractDateFormat,
+  extractTimeFormat,
+  TimePickPanel,
+} from '@element-plus/components/time-picker'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { isValidDatePickType } from '@element-plus/utils/validators'
 import DateTable from './basic-date-table.vue'
@@ -174,7 +197,12 @@ const timeWithinRange = (_: ConfigType, __: any, ___: string) => true
 
 export default defineComponent({
   components: {
-    DateTable, ElInput, ElButton, TimePickPanel, MonthTable, YearTable,
+    DateTable,
+    ElInput,
+    ElButton,
+    TimePickPanel,
+    MonthTable,
+    YearTable,
   },
 
   directives: { clickoutside: ClickOutside },
@@ -216,13 +244,20 @@ export default defineComponent({
     // todo update to disableHour
     const checkDateWithinRange = (date: ConfigType) => {
       return selectableRange.value.length > 0
-        ? timeWithinRange(date, selectableRange.value, props.format || 'HH:mm:ss')
+        ? timeWithinRange(
+            date,
+            selectableRange.value,
+            props.format || 'HH:mm:ss'
+          )
         : true
     }
     const formatEmit = (emitDayjs: Dayjs) => {
       if (defaultTime) {
         const defaultTimeD = dayjs(defaultTime).locale(lang.value)
-        return defaultTimeD.year(emitDayjs.year()).month(emitDayjs.month()).date(emitDayjs.date())
+        return defaultTimeD
+          .year(emitDayjs.year())
+          .month(emitDayjs.month())
+          .date(emitDayjs.date())
       }
       if (showTime.value) return emitDayjs.millisecond(0)
       return emitDayjs.startOf('day')
@@ -241,10 +276,18 @@ export default defineComponent({
     }
     const handleDatePick = (value: Dayjs) => {
       if (selectionMode.value === 'day') {
-        let newDate = props.parsedValue ? (props.parsedValue as Dayjs).year(value.year()).month(value.month()).date(value.date()) : value
+        let newDate = props.parsedValue
+          ? (props.parsedValue as Dayjs)
+              .year(value.year())
+              .month(value.month())
+              .date(value.date())
+          : value
         // change default time while out of selectableRange
         if (!checkDateWithinRange(newDate)) {
-          newDate = (selectableRange.value[0][0] as Dayjs).year(value.year()).month(value.month()).date(value.date())
+          newDate = (selectableRange.value[0][0] as Dayjs)
+            .year(value.year())
+            .month(value.month())
+            .date(value.date())
         }
         innerDate.value = newDate
         emit(newDate, showTime.value)
@@ -285,15 +328,24 @@ export default defineComponent({
       if (currentView.value === 'year') {
         const startYear = Math.floor(year.value / 10) * 10
         if (yearTranslation) {
-          return startYear + ' ' + yearTranslation + ' - ' + (startYear + 9) + ' ' + yearTranslation
+          return (
+            startYear +
+            ' ' +
+            yearTranslation +
+            ' - ' +
+            (startYear + 9) +
+            ' ' +
+            yearTranslation
+          )
         }
         return startYear + ' - ' + (startYear + 9)
       }
       return year.value + ' ' + yearTranslation
     })
 
-    const handleShortcutClick = shortcut => {
-      const shortcutValue = typeof shortcut.value === 'function' ? shortcut.value() : shortcut.value
+    const handleShortcutClick = (shortcut) => {
+      const shortcutValue =
+        typeof shortcut.value === 'function' ? shortcut.value() : shortcut.value
       if (shortcutValue) {
         emit(dayjs(shortcutValue).locale(lang.value))
         return
@@ -310,17 +362,21 @@ export default defineComponent({
       return 'day'
     })
 
-    watch(() => selectionMode.value, val => {
-      if(['month', 'year'].includes(val)) {
-        currentView.value = val
-        return
-      }
-      currentView.value = 'date'
-    }, { immediate: true })
+    watch(
+      () => selectionMode.value,
+      (val) => {
+        if (['month', 'year'].includes(val)) {
+          currentView.value = val
+          return
+        }
+        currentView.value = 'date'
+      },
+      { immediate: true }
+    )
 
     const hasShortcuts = computed(() => !!shortcuts.length)
 
-    const handleMonthPick = month => {
+    const handleMonthPick = (month) => {
       innerDate.value = innerDate.value.startOf('month').month(month)
       if (selectionMode.value === 'month') {
         emit(innerDate.value)
@@ -329,12 +385,11 @@ export default defineComponent({
       }
     }
 
-    const handleYearPick = year => {
+    const handleYearPick = (year) => {
       if (selectionMode.value === 'year') {
         innerDate.value = innerDate.value.startOf('year').year(year)
         emit(innerDate.value)
-      }
-      else {
+      } else {
         innerDate.value = innerDate.value.year(year)
         currentView.value = 'month'
       }
@@ -348,7 +403,9 @@ export default defineComponent({
       currentView.value = 'year'
     }
 
-    const showTime = computed(() => props.type === 'datetime' || props.type === 'datetimerange')
+    const showTime = computed(
+      () => props.type === 'datetime' || props.type === 'datetimerange'
+    )
 
     const footerVisible = computed(() => {
       return showTime.value || selectionMode.value === 'dates'
@@ -363,12 +420,14 @@ export default defineComponent({
         if (!result) {
           const defaultTimeD = dayjs(defaultTime).locale(lang.value)
           const defaultValueD = getDefaultValue()
-          result = defaultTimeD.year(defaultValueD.year()).month(defaultValueD.month()).date(defaultValueD.date())
+          result = defaultTimeD
+            .year(defaultValueD.year())
+            .month(defaultValueD.month())
+            .date(defaultValueD.date())
         }
         innerDate.value = result
         emit(result)
       }
-
     }
 
     const changeToNow = () => {
@@ -376,7 +435,10 @@ export default defineComponent({
       //       consider disable "now" button in the future
       const now = dayjs().locale(lang.value)
       const nowDate = now.toDate()
-      if ((!disabledDate || !disabledDate(nowDate)) && checkDateWithinRange(nowDate)) {
+      if (
+        (!disabledDate || !disabledDate(nowDate)) &&
+        checkDateWithinRange(nowDate)
+      ) {
         innerDate.value = dayjs().locale(lang.value)
         emit(innerDate.value)
       }
@@ -393,13 +455,17 @@ export default defineComponent({
     const visibleTime = computed(() => {
       if (userInputTime.value) return userInputTime.value
       if (!props.parsedValue && !defaultValue) return
-      return ((props.parsedValue || innerDate.value) as Dayjs).format(timeFormat.value)
+      return ((props.parsedValue || innerDate.value) as Dayjs).format(
+        timeFormat.value
+      )
     })
 
     const visibleDate = computed(() => {
       if (userInputDate.value) return userInputDate.value
       if (!props.parsedValue && !defaultValue) return
-      return ((props.parsedValue || innerDate.value) as Dayjs).format(dateFormat.value)
+      return ((props.parsedValue || innerDate.value) as Dayjs).format(
+        dateFormat.value
+      )
     })
 
     const timePickerVisible = ref(false)
@@ -411,7 +477,12 @@ export default defineComponent({
     }
 
     const handleTimePick = (value, visible, first) => {
-      const newDate = props.parsedValue ? (props.parsedValue as Dayjs).hour(value.hour()).minute(value.minute()).second(value.second()) : value
+      const newDate = props.parsedValue
+        ? (props.parsedValue as Dayjs)
+            .hour(value.hour())
+            .minute(value.minute())
+            .second(value.second())
+        : value
       innerDate.value = newDate
       emit(innerDate.value, true)
       if (!first) {
@@ -419,44 +490,48 @@ export default defineComponent({
       }
     }
 
-    const handleVisibleTimeChange = value => {
+    const handleVisibleTimeChange = (value) => {
       const newDate = dayjs(value, timeFormat.value).locale(lang.value)
       if (newDate.isValid() && checkDateWithinRange(newDate)) {
-        innerDate.value = newDate.year(innerDate.value.year()).month(innerDate.value.month()).date(innerDate.value.date())
+        innerDate.value = newDate
+          .year(innerDate.value.year())
+          .month(innerDate.value.month())
+          .date(innerDate.value.date())
         userInputTime.value = null
         timePickerVisible.value = false
         emit(innerDate.value, true)
       }
     }
 
-    const handleVisibleDateChange = value => {
+    const handleVisibleDateChange = (value) => {
       const newDate = dayjs(value, dateFormat.value).locale(lang.value)
       if (newDate.isValid()) {
         if (disabledDate && disabledDate(newDate.toDate())) {
           return
         }
-        innerDate.value = newDate.hour(innerDate.value.hour()).minute(innerDate.value.minute()).second(innerDate.value.second())
+        innerDate.value = newDate
+          .hour(innerDate.value.hour())
+          .minute(innerDate.value.minute())
+          .second(innerDate.value.second())
         userInputDate.value = null
         emit(innerDate.value, true)
       }
     }
 
-    const isValidValue = date_ => {
-      return date_.isValid() && (
-        disabledDate
-          ? !disabledDate(date_.toDate())
-          : true
+    const isValidValue = (date_) => {
+      return (
+        date_.isValid() && (disabledDate ? !disabledDate(date_.toDate()) : true)
       )
     }
 
-    const formatToString = value => {
+    const formatToString = (value) => {
       if (selectionMode.value === 'dates') {
-        return value.map(_ => _.format(props.format))
+        return value.map((_) => _.format(props.format))
       }
       return value.format(props.format)
     }
 
-    const parseUserInput = value => {
+    const parseUserInput = (value) => {
       return dayjs(value, props.format).locale(lang.value)
     }
 
@@ -464,37 +539,60 @@ export default defineComponent({
       return dayjs(defaultValue).locale(lang.value)
     }
 
-    const handleKeydown = event => {
+    const handleKeydown = (event) => {
       const { code, keyCode } = event
-      const list = [EVENT_CODE.up, EVENT_CODE.down, EVENT_CODE.left, EVENT_CODE.right]
+      const list = [
+        EVENT_CODE.up,
+        EVENT_CODE.down,
+        EVENT_CODE.left,
+        EVENT_CODE.right,
+      ]
       if (props.visible && !timePickerVisible.value) {
         if (list.includes(code)) {
           handleKeyControl(keyCode)
           event.stopPropagation()
           event.preventDefault()
         }
-        if (code === EVENT_CODE.enter
-          && userInputDate.value === null
-            && userInputTime.value === null
-        ) { // Enter
+        if (
+          code === EVENT_CODE.enter &&
+          userInputDate.value === null &&
+          userInputTime.value === null
+        ) {
+          // Enter
           emit(innerDate, false)
         }
       }
     }
 
-    const handleKeyControl = keyCode => {
+    const handleKeyControl = (keyCode) => {
       const mapping = {
-        'year': {
-          38: -4, 40: 4, 37: -1, 39: 1, offset: (date, step) => date.setFullYear(date.getFullYear() + step),
+        year: {
+          38: -4,
+          40: 4,
+          37: -1,
+          39: 1,
+          offset: (date, step) => date.setFullYear(date.getFullYear() + step),
         },
-        'month': {
-          38: -4, 40: 4, 37: -1, 39: 1, offset: (date, step) => date.setMonth(date.getMonth() + step),
+        month: {
+          38: -4,
+          40: 4,
+          37: -1,
+          39: 1,
+          offset: (date, step) => date.setMonth(date.getMonth() + step),
         },
-        'week': {
-          38: -1, 40: 1, 37: -1, 39: 1, offset: (date, step) => date.setDate(date.getDate() + step * 7),
+        week: {
+          38: -1,
+          40: 1,
+          37: -1,
+          39: 1,
+          offset: (date, step) => date.setDate(date.getDate() + step * 7),
         },
-        'day': {
-          38: -7, 40: 7, 37: -1, 39: 1, offset: (date, step) => date.setDate(date.getDate() + step),
+        day: {
+          38: -7,
+          40: 7,
+          37: -1,
+          39: 1,
+          offset: (date, step) => date.setDate(date.getDate() + step),
         },
       }
 
@@ -515,20 +613,31 @@ export default defineComponent({
     ctx.emit('set-picker-option', ['isValidValue', isValidValue])
     ctx.emit('set-picker-option', ['formatToString', formatToString])
     ctx.emit('set-picker-option', ['parseUserInput', parseUserInput])
-    ctx.emit('set-picker-option',['handleKeydown', handleKeydown])
+    ctx.emit('set-picker-option', ['handleKeydown', handleKeydown])
 
     const pickerBase = inject('EP_PICKER_BASE') as any
-    const { shortcuts, disabledDate, cellClassName, defaultTime, defaultValue, arrowControl } = pickerBase.props
+    const {
+      shortcuts,
+      disabledDate,
+      cellClassName,
+      defaultTime,
+      defaultValue,
+      arrowControl,
+    } = pickerBase.props
 
-    watch(() => props.parsedValue, val => {
-      if (val) {
-        if (selectionMode.value === 'dates') return
-        if (Array.isArray(val)) return
-        innerDate.value = val
-      } else {
-        innerDate.value = getDefaultValue()
-      }
-    }, { immediate: true })
+    watch(
+      () => props.parsedValue,
+      (val) => {
+        if (val) {
+          if (selectionMode.value === 'dates') return
+          if (Array.isArray(val)) return
+          innerDate.value = val
+        } else {
+          innerDate.value = getDefaultValue()
+        }
+      },
+      { immediate: true }
+    )
 
     return {
       handleTimePick,

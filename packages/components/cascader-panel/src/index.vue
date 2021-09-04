@@ -1,27 +1,30 @@
 <template>
   <div
-    :class="[
-      'el-cascader-panel',
-      border && 'is-bordered'
-    ]"
+    :class="['el-cascader-panel', border && 'is-bordered']"
     @keydown="handleKeyDown"
   >
     <el-cascader-menu
       v-for="(menu, index) in menus"
       :key="index"
-      :ref="item => menuList[index] = item"
+      :ref="(item) => (menuList[index] = item)"
       :index="index"
       :nodes="menu"
     />
   </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import {
-  computed, defineComponent, nextTick,
-  onBeforeUpdate, onMounted,
-  provide, reactive,
-  Ref, ref, watch,
+  computed,
+  defineComponent,
+  nextTick,
+  onBeforeUpdate,
+  onMounted,
+  provide,
+  reactive,
+  Ref,
+  ref,
+  watch,
 } from 'vue'
 import isEqual from 'lodash/isEqual'
 import { EVENT_CODE } from '@element-plus/utils/aria'
@@ -76,12 +79,7 @@ export default defineComponent({
     renderLabel: Function as PropType<RenderLabel>,
   },
 
-  emits: [
-    UPDATE_MODEL_EVENT,
-    CHANGE_EVENT,
-    'close',
-    'expand-change',
-  ],
+  emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'close', 'expand-change'],
 
   setup(props, { emit, slots }) {
     let initialLoaded = true
@@ -97,7 +95,9 @@ export default defineComponent({
     const expandingNode: Ref<Nullable<CascaderNode>> = ref(null)
     const checkedNodes: Ref<CascaderNode[]> = ref([])
 
-    const isHoverMenu = computed(() => config.value.expandTrigger === ExpandTrigger.HOVER)
+    const isHoverMenu = computed(
+      () => config.value.expandTrigger === ExpandTrigger.HOVER
+    )
     const renderLabelFn = computed(() => props.renderLabel || slots.default)
 
     const initStore = () => {
@@ -148,14 +148,18 @@ export default defineComponent({
         newMenus.push(node.children)
       }
 
-      if(expandingNode.value?.uid !== newExpandingNode?.uid) {
+      if (expandingNode.value?.uid !== newExpandingNode?.uid) {
         expandingNode.value = node
         menus.value = newMenus
         !silent && emit('expand-change', node?.pathValues || [])
       }
     }
 
-    const handleCheckChange: ElCascaderPanelContext['handleCheckChange'] = (node, checked, emitClose = true) => {
+    const handleCheckChange: ElCascaderPanelContext['handleCheckChange'] = (
+      node,
+      checked,
+      emitClose = true
+    ) => {
       const { checkStrictly, multiple } = config.value
       const oldNode = checkedNodes.value[0]
       manualChecked = true
@@ -171,12 +175,11 @@ export default defineComponent({
     }
 
     const getCheckedNodes = (leafOnly: boolean) => {
-      return getFlattedNodes(leafOnly)
-        .filter(node => node.checked !== false)
+      return getFlattedNodes(leafOnly).filter((node) => node.checked !== false)
     }
 
     const clearCheckedNodes = () => {
-      checkedNodes.value.forEach(node => node.doCheck(false))
+      checkedNodes.value.forEach((node) => node.doCheck(false))
       calculateCheckedValue()
     }
 
@@ -186,9 +189,9 @@ export default defineComponent({
       const newNodes = getCheckedNodes(!checkStrictly)
       // ensure the original order
       const nodes = sortByOriginalOrder(oldNodes, newNodes)
-      const values = nodes.map(node => node.valueByOption)
+      const values = nodes.map((node) => node.valueByOption)
       checkedNodes.value = nodes
-      checkedValue.value = multiple ? values : (values[0] ?? null)
+      checkedValue.value = multiple ? values : values[0] ?? null
     }
 
     const syncCheckedValue = (loaded = false, forced = false) => {
@@ -199,44 +202,58 @@ export default defineComponent({
       if (
         !initialLoaded ||
         manualChecked ||
-        !forced && isEqual(modelValue, checkedValue.value)
-      ) return
+        (!forced && isEqual(modelValue, checkedValue.value))
+      )
+        return
 
       if (lazy && !loaded) {
-        const values: CascaderNodeValue[] = deduplicate(arrayFlat(coerceTruthyValueToArray(modelValue)))
-        const nodes = values.map(val => store.value.getNodeByValue(val))
-          .filter(node => !!node && !node.loaded && !node.loading)
+        const values: CascaderNodeValue[] = deduplicate(
+          arrayFlat(coerceTruthyValueToArray(modelValue))
+        )
+        const nodes = values
+          .map((val) => store.value.getNodeByValue(val))
+          .filter((node) => !!node && !node.loaded && !node.loading)
 
         if (nodes.length) {
-          nodes.forEach(node => {
+          nodes.forEach((node) => {
             lazyLoad(node, () => syncCheckedValue(false, forced))
           })
         } else {
           syncCheckedValue(true, forced)
         }
       } else {
-        const values = multiple ? coerceTruthyValueToArray(modelValue) : [modelValue]
-        const nodes = deduplicate(values.map(val => store.value.getNodeByValue(val, leafOnly)))
+        const values = multiple
+          ? coerceTruthyValueToArray(modelValue)
+          : [modelValue]
+        const nodes = deduplicate(
+          values.map((val) => store.value.getNodeByValue(val, leafOnly))
+        )
         syncMenuState(nodes, false)
         checkedValue.value = modelValue
       }
     }
 
-    const syncMenuState = (newCheckedNodes: CascaderNode[], reserveExpandingState = true) => {
+    const syncMenuState = (
+      newCheckedNodes: CascaderNode[],
+      reserveExpandingState = true
+    ) => {
       const { checkStrictly } = config.value
       const oldNodes = checkedNodes.value
-      const newNodes = newCheckedNodes.filter(node => !!node && (checkStrictly || node.isLeaf))
+      const newNodes = newCheckedNodes.filter(
+        (node) => !!node && (checkStrictly || node.isLeaf)
+      )
       const oldExpandingNode = store.value.getSameNode(expandingNode.value)
-      const newExpandingNode = reserveExpandingState && oldExpandingNode || newNodes[0]
+      const newExpandingNode =
+        (reserveExpandingState && oldExpandingNode) || newNodes[0]
 
       if (newExpandingNode) {
-        newExpandingNode.pathNodes.forEach(node => expandNode(node, true))
+        newExpandingNode.pathNodes.forEach((node) => expandNode(node, true))
       } else {
         expandingNode.value = null
       }
 
-      oldNodes.forEach(node => node.doCheck(false))
-      newNodes.forEach(node => node.doCheck(true))
+      oldNodes.forEach((node) => node.doCheck(false))
+      newNodes.forEach((node) => node.doCheck(true))
 
       checkedNodes.value = newNodes
       nextTick(scrollToExpandingNode)
@@ -245,11 +262,12 @@ export default defineComponent({
     const scrollToExpandingNode = () => {
       if (isServer) return
 
-      menuList.value.forEach(menu => {
+      menuList.value.forEach((menu) => {
         const menuElement = menu?.$el
         if (menuElement) {
           const container = menuElement.querySelector('.el-scrollbar__wrap')
-          const activeNode = menuElement.querySelector('.el-cascader-node.is-active') ||
+          const activeNode =
+            menuElement.querySelector('.el-cascader-node.is-active') ||
             menuElement.querySelector('.el-cascader-node.in-active-path')
           scrollIntoView(container, activeNode)
         }
@@ -268,12 +286,16 @@ export default defineComponent({
           break
         case EVENT_CODE.left:
           const preMenu = menuList.value[getMenuIndex(target) - 1]
-          const expandedNode = preMenu?.$el.querySelector('.el-cascader-node[aria-expanded="true"]')
+          const expandedNode = preMenu?.$el.querySelector(
+            '.el-cascader-node[aria-expanded="true"]'
+          )
           focusNode(expandedNode)
           break
         case EVENT_CODE.right:
           const nextMenu = menuList.value[getMenuIndex(target) + 1]
-          const firstNode = nextMenu?.$el.querySelector('.el-cascader-node[tabindex="-1"]')
+          const firstNode = nextMenu?.$el.querySelector(
+            '.el-cascader-node[tabindex="-1"]'
+          )
           focusNode(firstNode)
           break
         case EVENT_CODE.enter:
@@ -286,36 +308,41 @@ export default defineComponent({
       }
     }
 
-    provide(CASCADER_PANEL_INJECTION_KEY, reactive({
-      config,
-      expandingNode,
-      checkedNodes,
-      isHoverMenu,
-      renderLabelFn,
-      lazyLoad,
-      expandNode,
-      handleCheckChange,
-    }))
-
-    watch(
-      [config, () => props.options],
-      initStore,
-      { deep: true, immediate: true },
+    provide(
+      CASCADER_PANEL_INJECTION_KEY,
+      reactive({
+        config,
+        expandingNode,
+        checkedNodes,
+        isHoverMenu,
+        renderLabelFn,
+        lazyLoad,
+        expandNode,
+        handleCheckChange,
+      })
     )
 
-    watch(() => props.modelValue, () => {
-      manualChecked = false
-      syncCheckedValue()
+    watch([config, () => props.options], initStore, {
+      deep: true,
+      immediate: true,
     })
 
-    watch(checkedValue, val => {
+    watch(
+      () => props.modelValue,
+      () => {
+        manualChecked = false
+        syncCheckedValue()
+      }
+    )
+
+    watch(checkedValue, (val) => {
       if (!isEqual(val, props.modelValue)) {
         emit(UPDATE_MODEL_EVENT, val)
         emit(CHANGE_EVENT, val)
       }
     })
 
-    onBeforeUpdate(() => menuList.value = [])
+    onBeforeUpdate(() => (menuList.value = []))
 
     onMounted(() => !isEmpty(props.modelValue) && syncCheckedValue())
 

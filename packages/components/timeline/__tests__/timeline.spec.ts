@@ -11,16 +11,20 @@ const Component = defineComponent({
   props: [],
   data() {
     return {
-      activities: [{
-        content: 'Step 1: xxxxxx',
-        timestamp: '2018-04-11',
-      }, {
-        content: 'Step 2: xxxxxx',
-        timestamp: '2018-04-13',
-      }, {
-        content: 'Step 3: xxxxxx',
-        timestamp: '2018-04-15',
-      }],
+      activities: [
+        {
+          content: 'Step 1: xxxxxx',
+          timestamp: '2018-04-11',
+        },
+        {
+          content: 'Step 2: xxxxxx',
+          timestamp: '2018-04-13',
+        },
+        {
+          content: 'Step 3: xxxxxx',
+          timestamp: '2018-04-15',
+        },
+      ],
     }
   },
   template: `
@@ -67,17 +71,21 @@ describe('TimeLine.vue', () => {
       `,
       data() {
         return {
-          activities: [{
-            content: 'Step 1: xxxxxx',
-            timestamp: '2018-04-11',
-            placement: 'top',
-          }, {
-            content: 'Step 2: xxxxxx',
-            timestamp: '2018-04-13',
-          }, {
-            content: 'Step 3: xxxxxx',
-            timestamp: '2018-04-15',
-          }],
+          activities: [
+            {
+              content: 'Step 1: xxxxxx',
+              timestamp: '2018-04-11',
+              placement: 'top',
+            },
+            {
+              content: 'Step 2: xxxxxx',
+              timestamp: '2018-04-13',
+            },
+            {
+              content: 'Step 3: xxxxxx',
+              timestamp: '2018-04-15',
+            },
+          ],
         }
       },
     })
@@ -101,17 +109,21 @@ describe('TimeLine.vue', () => {
       `,
       data() {
         return {
-          activities: [{
-            content: 'Step 1: xxxxxx',
-            timestamp: '2018-04-11',
-            hideTimestamp: true,
-          }, {
-            content: 'Step 2: xxxxxx',
-            timestamp: '2018-04-13',
-          }, {
-            content: 'Step 3: xxxxxx',
-            timestamp: '2018-04-15',
-          }],
+          activities: [
+            {
+              content: 'Step 1: xxxxxx',
+              timestamp: '2018-04-11',
+              hideTimestamp: true,
+            },
+            {
+              content: 'Step 2: xxxxxx',
+              timestamp: '2018-04-13',
+            },
+            {
+              content: 'Step 3: xxxxxx',
+              timestamp: '2018-04-15',
+            },
+          ],
         }
       },
     })

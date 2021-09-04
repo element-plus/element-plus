@@ -4,11 +4,14 @@ import PopupManager from '@element-plus/utils/popup-manager'
 import { getValueByPath } from '@element-plus/utils/util'
 import { off, on } from '@element-plus/utils/dom'
 
-import type { PopperInstance, IPopperOptions } from '@element-plus/components/popper'
+import type {
+  PopperInstance,
+  IPopperOptions,
+} from '@element-plus/components/popper'
 import type { Indexable, Nullable } from '@element-plus/utils/types'
 import type { TableColumnCtx } from './table-column/defaults'
 
-export const getCell = function(event: Event): HTMLElement {
+export const getCell = function (event: Event): HTMLElement {
   let cell = event.target as HTMLElement
 
   while (cell && cell.tagName.toUpperCase() !== 'HTML') {
@@ -21,16 +24,16 @@ export const getCell = function(event: Event): HTMLElement {
   return null
 }
 
-const isObject = function(obj: unknown): boolean {
+const isObject = function (obj: unknown): boolean {
   return obj !== null && typeof obj === 'object'
 }
 
-export const orderBy = function<T>(
+export const orderBy = function <T>(
   array: T[],
   sortKey: string,
   reverse: string | number,
   sortMethod,
-  sortBy: string | (string | ((a: T, b: T, array?: T[]) => number))[],
+  sortBy: string | (string | ((a: T, b: T, array?: T[]) => number))[]
 ) {
   if (
     !sortKey &&
@@ -46,25 +49,25 @@ export const orderBy = function<T>(
   }
   const getKey = sortMethod
     ? null
-    : function(value, index) {
-      if (sortBy) {
-        if (!Array.isArray(sortBy)) {
-          sortBy = [sortBy]
-        }
-        return sortBy.map(function(by) {
-          if (typeof by === 'string') {
-            return getValueByPath(value, by)
-          } else {
-            return by(value, index, array)
+    : function (value, index) {
+        if (sortBy) {
+          if (!Array.isArray(sortBy)) {
+            sortBy = [sortBy]
           }
-        })
+          return sortBy.map(function (by) {
+            if (typeof by === 'string') {
+              return getValueByPath(value, by)
+            } else {
+              return by(value, index, array)
+            }
+          })
+        }
+        if (sortKey !== '$key') {
+          if (isObject(value) && '$value' in value) value = value.$value
+        }
+        return [isObject(value) ? getValueByPath(value, sortKey) : value]
       }
-      if (sortKey !== '$key') {
-        if (isObject(value) && '$value' in value) value = value.$value
-      }
-      return [isObject(value) ? getValueByPath(value, sortKey) : value]
-    }
-  const compare = function(a, b) {
+  const compare = function (a, b) {
     if (sortMethod) {
       return sortMethod(a.value, b.value)
     }
@@ -79,14 +82,14 @@ export const orderBy = function<T>(
     return 0
   }
   return array
-    .map(function(value, index) {
+    .map(function (value, index) {
       return {
-        value: value,
-        index: index,
+        value,
+        index,
         key: getKey ? getKey(value, index) : null,
       }
     })
-    .sort(function(a, b) {
+    .sort(function (a, b) {
       let order = compare(a, b)
       if (!order) {
         // make stable https://en.wikipedia.org/wiki/Sorting_algorithm#Stability
@@ -94,17 +97,17 @@ export const orderBy = function<T>(
       }
       return order * +reverse
     })
-    .map(item => item.value)
+    .map((item) => item.value)
 }
 
-export const getColumnById = function<T>(
+export const getColumnById = function <T>(
   table: {
     columns: TableColumnCtx<T>[]
   },
-  columnId: string,
+  columnId: string
 ): null | TableColumnCtx<T> {
   let column = null
-  table.columns.forEach(function(item) {
+  table.columns.forEach(function (item) {
     if (item.id === columnId) {
       column = item
     }
@@ -112,11 +115,11 @@ export const getColumnById = function<T>(
   return column
 }
 
-export const getColumnByKey = function<T>(
+export const getColumnByKey = function <T>(
   table: {
     columns: TableColumnCtx<T>[]
   },
-  columnKey: string,
+  columnKey: string
 ): TableColumnCtx<T> {
   let column = null
   for (let i = 0; i < table.columns.length; i++) {
@@ -129,11 +132,11 @@ export const getColumnByKey = function<T>(
   return column
 }
 
-export const getColumnByCell = function<T>(
+export const getColumnByCell = function <T>(
   table: {
     columns: TableColumnCtx<T>[]
   },
-  cell: HTMLElement,
+  cell: HTMLElement
 ): null | TableColumnCtx<T> {
   const matches = (cell.className || '').match(/el-table_[^\s]+/gm)
   if (matches) {
@@ -144,7 +147,7 @@ export const getColumnByCell = function<T>(
 
 export const getRowIdentity = <T>(
   row: T,
-  rowKey: string | ((row: T) => any),
+  rowKey: string | ((row: T) => any)
 ): string => {
   if (!row) throw new Error('row is required when get row identity')
   if (typeof rowKey === 'string') {
@@ -162,10 +165,10 @@ export const getRowIdentity = <T>(
   }
 }
 
-export const getKeysMap = function<T>(
+export const getKeysMap = function <T>(
   array: T[],
-  rowKey: string,
-): Record<string, { row: T; index: number; }> {
+  rowKey: string
+): Record<string, { row: T; index: number }> {
   const arrayMap = {}
   ;(array || []).forEach((row, index) => {
     arrayMap[getRowIdentity(row, rowKey)] = { row, index }
@@ -180,7 +183,7 @@ export function mergeOptions<T, K>(defaults: T, config: K): T & K {
     options[key] = defaults[key]
   }
   for (key in config) {
-    if (hasOwn((config as unknown) as Indexable<any>, key)) {
+    if (hasOwn(config as unknown as Indexable<any>, key)) {
       const value = config[key]
       if (typeof value !== 'undefined') {
         options[key] = value
@@ -227,18 +230,22 @@ export function parseHeight(height: number | string) {
 // https://github.com/reduxjs/redux/blob/master/src/compose.js
 export function compose(...funcs) {
   if (funcs.length === 0) {
-    return arg => arg
+    return (arg) => arg
   }
   if (funcs.length === 1) {
     return funcs[0]
   }
-  return funcs.reduce((a, b) => (...args) => a(b(...args)))
+  return funcs.reduce(
+    (a, b) =>
+      (...args) =>
+        a(b(...args))
+  )
 }
 
 export function toggleRowStatus<T>(
   statusArr: T[],
   row: T,
-  newVal: boolean,
+  newVal: boolean
 ): boolean {
   let changed = false
   const index = statusArr.indexOf(row)
@@ -273,13 +280,13 @@ export function walkTreeNode(
   root,
   cb,
   childrenKey = 'children',
-  lazyKey = 'hasChildren',
+  lazyKey = 'hasChildren'
 ) {
-  const isNil = array => !(Array.isArray(array) && array.length)
+  const isNil = (array) => !(Array.isArray(array) && array.length)
 
   function _walker(parent, children, level) {
     cb(parent, children, level)
-    children.forEach(item => {
+    children.forEach((item) => {
       if (item[lazyKey]) {
         cb(item, null, level + 1)
         return
@@ -291,7 +298,7 @@ export function walkTreeNode(
     })
   }
 
-  root.forEach(item => {
+  root.forEach((item) => {
     if (item[lazyKey]) {
       cb(item, null, 0)
       return
@@ -309,7 +316,7 @@ export function createTablePopper(
   trigger: HTMLElement,
   popperContent: string,
   popperOptions: Partial<IPopperOptions>,
-  tooltipEffect: string,
+  tooltipEffect: string
 ) {
   function renderContent(): HTMLDivElement {
     const isLight = tooltipEffect === 'light'

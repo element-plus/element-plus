@@ -5,10 +5,7 @@
     role="menu"
     class="el-cascader-menu"
     wrap-class="el-cascader-menu__wrap"
-    :view-class="[
-      'el-cascader-menu__list',
-      isEmpty && 'is-empty'
-    ]"
+    :view-class="['el-cascader-menu__list', isEmpty && 'is-empty']"
     @mousemove="handleMouseMove"
     @mouseleave="clearHoverZone"
   >
@@ -19,10 +16,7 @@
       :menu-id="menuId"
       @expand="handleExpand"
     />
-    <div
-      v-if="isEmpty"
-      class="el-cascader-menu__empty-text"
-    >
+    <div v-if="isEmpty" class="el-cascader-menu__empty-text">
       {{ t('el.cascader.noData') }}
     </div>
     <svg
@@ -34,18 +28,13 @@
 </template>
 
 <script lang="ts">
-import {
-  computed, defineComponent, getCurrentInstance,
-  inject, ref,
-} from 'vue'
+import { computed, defineComponent, getCurrentInstance, inject, ref } from 'vue'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import { useLocaleInject } from '@element-plus/hooks'
 import { generateId } from '@element-plus/utils/util'
 import ElCascaderNode from './node.vue'
 import { default as CascaderNode } from './node'
-import {
-  CASCADER_PANEL_INJECTION_KEY,
-} from './types'
+import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
 import type { PropType } from 'vue'
 import type { TimeoutHandle, Nullable } from '@element-plus/utils/types'
@@ -60,7 +49,7 @@ export default defineComponent({
 
   props: {
     nodes: {
-      type: Array as PropType< CascaderNode[]>,
+      type: Array as PropType<CascaderNode[]>,
       required: true,
     },
     index: {
@@ -69,7 +58,7 @@ export default defineComponent({
     },
   },
 
-  setup (props) {
+  setup(props) {
     const instance = getCurrentInstance()
     const { t } = useLocaleInject()
     const id = generateId()
@@ -105,7 +94,10 @@ export default defineComponent({
           <path style="pointer-events: auto;" fill="transparent" d="M${startX} ${bottom} L${offsetWidth} ${offsetHeight} V${bottom} Z" />
         `
       } else if (!hoverTimer) {
-        hoverTimer = window.setTimeout(clearHoverZone, panel.config.hoverThreshold)
+        hoverTimer = window.setTimeout(
+          clearHoverZone,
+          panel.config.hoverThreshold
+        )
       }
     }
 
@@ -133,6 +125,4 @@ export default defineComponent({
     }
   },
 })
-
 </script>
-

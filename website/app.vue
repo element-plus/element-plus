@@ -1,5 +1,12 @@
 <script>
-import { defineComponent, h, computed, watch, getCurrentInstance, onMounted } from 'vue'
+import {
+  defineComponent,
+  h,
+  computed,
+  watch,
+  getCurrentInstance,
+  onMounted,
+} from 'vue'
 import { RouterView, useRoute } from 'vue-router'
 import { ElScrollbar, ElMessageBox, ElConfigProvider } from 'element-plus'
 import MainHeader from './components/header'
@@ -17,7 +24,6 @@ const localeMap = {
   [Language.FR]: frLocale,
   [Language.JP]: jaLocale,
   [Language.EN]: enLocale,
-
 }
 
 export default defineComponent({
@@ -39,7 +45,10 @@ export default defineComponent({
       if (cnHref || preferGithub) return
       setTimeout(() => {
         if (lang.value !== Language.CN) return
-        ElMessageBox.confirm('建议大陆用户访问部署在国内的站点，是否跳转？', '提示')
+        ElMessageBox.confirm(
+          '建议大陆用户访问部署在国内的站点，是否跳转？',
+          '提示'
+        )
           .then(() => {
             location.replace('https://element-plus.gitee.io')
           })
@@ -49,9 +58,12 @@ export default defineComponent({
       }, 1000)
     }
 
-    watch(() => lang.value, val => {
-      if (val === Language.CN) suggestJump()
-    })
+    watch(
+      () => lang.value,
+      (val) => {
+        if (val === Language.CN) suggestJump()
+      }
+    )
 
     onMounted(() => {
       if (lang.value === Language.CN) suggestJump()
@@ -68,32 +80,49 @@ export default defineComponent({
 
     const notComponent = !this.isComponent
 
-    const mainHeader = notPlay ? h(MainHeader, {
-      style: 'position: fixed;top: 0;width: 100%;z-index: 2000',
-    }) : null
+    const mainHeader = notPlay
+      ? h(MainHeader, {
+          style: 'position: fixed;top: 0;width: 100%;z-index: 2000',
+        })
+      : null
 
     const mainFooter = notPlay && notComponent ? h(MainFooter) : null
 
-    const content = [h('div', {
-      class: 'main-cnt',
-    }, [h(RouterView)]), mainFooter]
+    const content = [
+      h(
+        'div',
+        {
+          class: 'main-cnt',
+        },
+        [h(RouterView)]
+      ),
+      mainFooter,
+    ]
 
     const contentWrapper = notComponent
       ? h(ElScrollbar, null, { default: () => content })
       : content
 
-    return h(ElConfigProvider, {
-      locale: localeMap[this.lang],
-    }, {
-      default: () => {
-        return h('div', {
-          id: 'app',
-          class: {
-            'is-component': this.isComponent,
-          },
-        }, [mainHeader, contentWrapper])
+    return h(
+      ElConfigProvider,
+      {
+        locale: localeMap[this.lang],
       },
-    })
+      {
+        default: () => {
+          return h(
+            'div',
+            {
+              id: 'app',
+              class: {
+                'is-component': this.isComponent,
+              },
+            },
+            [mainHeader, contentWrapper]
+          )
+        },
+      }
+    )
   },
 })
 </script>

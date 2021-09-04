@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import chalk from 'chalk'
 import gulp from 'gulp'
 import gulpSass from 'gulp-sass'
@@ -25,20 +27,20 @@ function compile() {
     .pipe(sass.sync())
     .pipe(autoprefixer({ cascade: false }))
     .pipe(
-      cleanCSS({}, details => {
+      cleanCSS({}, (details) => {
         console.log(
           `${chalk.cyan(details.name)}: ${chalk.yellow(
-            details.stats.originalSize / 1000,
-          )} KB -> ${chalk.green(details.stats.minifiedSize / 1000)} KB`,
+            details.stats.originalSize / 1000
+          )} KB -> ${chalk.green(details.stats.minifiedSize / 1000)} KB`
         )
-      }),
+      })
     )
     .pipe(
-      rename(path => {
+      rename((path) => {
         if (!noElPrefixFile.test(path.basename)) {
           path.basename = `el-${path.basename}`
         }
-      }),
+      })
     )
     .pipe(gulp.dest(distFolder))
 }
@@ -68,12 +70,6 @@ function copySourceToLib() {
   return gulp.src('./src/**').pipe(gulp.dest(path.resolve(distBundle, './src')))
 }
 
-
-export const build = gulp.series(
-  compile,
-  copyFont,
-  copyToLib,
-  copySourceToLib,
-)
+export const build = gulp.series(compile, copyFont, copyToLib, copySourceToLib)
 
 export default build

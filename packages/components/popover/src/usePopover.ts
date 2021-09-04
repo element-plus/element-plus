@@ -12,7 +12,10 @@ export interface IUsePopover extends IPopperOptions {
 export const SHOW_EVENT = 'show'
 export const HIDE_EVENT = 'hide'
 
-export default function usePopover(props: IUsePopover, ctx: SetupContext<string[]>) {
+export default function usePopover(
+  props: IUsePopover,
+  ctx: SetupContext<string[]>
+) {
   const zIndex = ref(PopupManager.nextZIndex())
   const width = computed(() => {
     if (isString(props.width)) {
@@ -30,7 +33,7 @@ export default function usePopover(props: IUsePopover, ctx: SetupContext<string[
 
   const popperProps = usePopper(props, ctx as SetupContext<EmitType[]>)
 
-  watch(popperProps.visibility, val => {
+  watch(popperProps.visibility, (val) => {
     if (val) {
       zIndex.value = PopupManager.nextZIndex()
     }

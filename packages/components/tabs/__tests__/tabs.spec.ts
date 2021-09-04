@@ -142,19 +142,24 @@ describe('Tabs.vue', () => {
       `,
       data() {
         return {
-          tabs: [{
-            label: 'tab1',
-            name: 'tab1',
-          }, {
-            label: 'tab2',
-            name: 'tab2',
-          }, {
-            label: 'tab3',
-            name: 'tab3',
-          }, {
-            label: 'tab4',
-            name: 'tab4',
-          }],
+          tabs: [
+            {
+              label: 'tab1',
+              name: 'tab1',
+            },
+            {
+              label: 'tab2',
+              name: 'tab2',
+            },
+            {
+              label: 'tab3',
+              name: 'tab3',
+            },
+            {
+              label: 'tab4',
+              name: 'tab4',
+            },
+          ],
         }
       },
     })
@@ -200,19 +205,23 @@ describe('Tabs.vue', () => {
       data() {
         return {
           editableTabsValue: '2',
-          editableTabs: [{
-            title: 'Tab 1',
-            name: '1',
-            content: 'Tab 1 content',
-          }, {
-            title: 'Tab 2',
-            name: '2',
-            content: 'Tab 2 content',
-          }, {
-            title: 'Tab 3',
-            name: '3',
-            content: 'Tab 3 content',
-          }],
+          editableTabs: [
+            {
+              title: 'Tab 1',
+              name: '1',
+              content: 'Tab 1 content',
+            },
+            {
+              title: 'Tab 2',
+              name: '2',
+              content: 'Tab 2 content',
+            },
+            {
+              title: 'Tab 3',
+              name: '3',
+              content: 'Tab 3 content',
+            },
+          ],
           tabIndex: 3,
         }
       },
@@ -241,7 +250,7 @@ describe('Tabs.vue', () => {
               })
             }
             this.editableTabsValue = activeName
-            this.editableTabs = tabs.filter(tab => tab.name !== targetName)
+            this.editableTabs = tabs.filter((tab) => tab.name !== targetName)
           }
         },
       },
@@ -306,15 +315,18 @@ describe('Tabs.vue', () => {
       data() {
         return {
           editableTabsValue: '2',
-          editableTabs: [{
-            title: 'Tab 1',
-            name: '1',
-            content: 'Tab 1 content',
-          }, {
-            title: 'Tab 2',
-            name: '2',
-            content: 'Tab 2 content',
-          }],
+          editableTabs: [
+            {
+              title: 'Tab 1',
+              name: '1',
+              content: 'Tab 1 content',
+            },
+            {
+              title: 'Tab 2',
+              name: '2',
+              content: 'Tab 2 content',
+            },
+          ],
           tabIndex: 2,
         }
       },
@@ -342,7 +354,7 @@ describe('Tabs.vue', () => {
             })
           }
           this.editableTabsValue = activeName
-          this.editableTabs = tabs.filter(tab => tab.name !== targetName)
+          this.editableTabs = tabs.filter((tab) => tab.name !== targetName)
         },
       },
     })
@@ -437,7 +449,9 @@ describe('Tabs.vue', () => {
     expect(tabsWrapper.find('.el-tabs__header').classes('is-left')).toBe(true)
     expect(tabsWrapper.find('.el-tabs__nav-wrap').classes('is-left')).toBe(true)
     expect(tabsWrapper.find('.el-tabs__nav').classes('is-left')).toBe(true)
-    expect(tabsWrapper.find('.el-tabs__active-bar').classes('is-left')).toBe(true)
+    expect(tabsWrapper.find('.el-tabs__active-bar').classes('is-left')).toBe(
+      true
+    )
     expect(tabsWrapper.find('.el-tabs__item').classes('is-left')).toBe(true)
   })
 
@@ -496,19 +510,29 @@ describe('Tabs.vue', () => {
 
     const tabsWrapper = wrapper.findComponent(Tabs)
     await nextTick()
-    const mockCRect = jest.spyOn(wrapper.find('#tab-C').element, 'getBoundingClientRect').mockReturnValue({ left: 300 } as DOMRect)
-    const mockComputedStyle = jest.spyOn(window, 'getComputedStyle').mockReturnValue({ paddingLeft: '0px' } as CSSStyleDeclaration)
+    const mockCRect = jest
+      .spyOn(wrapper.find('#tab-C').element, 'getBoundingClientRect')
+      .mockReturnValue({ left: 300 } as DOMRect)
+    const mockComputedStyle = jest
+      .spyOn(window, 'getComputedStyle')
+      .mockReturnValue({ paddingLeft: '0px' } as CSSStyleDeclaration)
     await wrapper.find('#tab-C').trigger('click')
 
-    expect(tabsWrapper.find('.el-tabs__active-bar').attributes().style).toMatch('translateX(300px)')
+    expect(tabsWrapper.find('.el-tabs__active-bar').attributes().style).toMatch(
+      'translateX(300px)'
+    )
 
     wrapper.vm.tabPosition = 'left'
     await nextTick()
-    const mockCYRect = jest.spyOn(wrapper.find('#tab-C').element, 'getBoundingClientRect').mockReturnValue({ top: 200 } as DOMRect)
+    const mockCYRect = jest
+      .spyOn(wrapper.find('#tab-C').element, 'getBoundingClientRect')
+      .mockReturnValue({ top: 200 } as DOMRect)
     await wrapper.find('#tab-A').trigger('click')
     await wrapper.find('#tab-C').trigger('click')
 
-    expect(tabsWrapper.find('.el-tabs__active-bar').attributes().style).toMatch('translateY(200px)')
+    expect(tabsWrapper.find('.el-tabs__active-bar').attributes().style).toMatch(
+      'translateY(200px)'
+    )
 
     mockCRect.mockRestore()
     mockCYRect.mockRestore()
@@ -617,19 +641,29 @@ describe('Tabs.vue', () => {
     const vm = wrapper.vm
     await nextTick()
 
-    await wrapper.find('#tab-second').trigger('keydown', { code: EVENT_CODE.right })
+    await wrapper
+      .find('#tab-second')
+      .trigger('keydown', { code: EVENT_CODE.right })
     expect(vm.activeName).toEqual('third')
 
-    await wrapper.find('#tab-third').trigger('keydown', { code: EVENT_CODE.right })
+    await wrapper
+      .find('#tab-third')
+      .trigger('keydown', { code: EVENT_CODE.right })
     expect(vm.activeName).toEqual('fourth')
 
-    await wrapper.find('#tab-fourth').trigger('keydown', { code: EVENT_CODE.right })
+    await wrapper
+      .find('#tab-fourth')
+      .trigger('keydown', { code: EVENT_CODE.right })
     expect(vm.activeName).toEqual('first')
 
-    await wrapper.find('#tab-first').trigger('keydown', { code: EVENT_CODE.left })
+    await wrapper
+      .find('#tab-first')
+      .trigger('keydown', { code: EVENT_CODE.left })
     expect(vm.activeName).toEqual('fourth')
 
-    await wrapper.find('#tab-fourth').trigger('keydown', { code: EVENT_CODE.left })
+    await wrapper
+      .find('#tab-fourth')
+      .trigger('keydown', { code: EVENT_CODE.left })
     expect(vm.activeName).toEqual('third')
   })
 

@@ -6,7 +6,7 @@
       'is-disabled': isDisabled,
       'is-focus': focus,
       'is-bordered': border,
-      'is-checked': model === label
+      'is-checked': model === label,
     }"
     role="radio"
     :aria-checked="model === label"
@@ -18,7 +18,7 @@
       class="el-radio__input"
       :class="{
         'is-disabled': isDisabled,
-        'is-checked': model === label
+        'is-checked': model === label,
       }"
     >
       <span class="el-radio__inner"></span>
@@ -35,7 +35,7 @@
         @focus="focus = true"
         @blur="focus = false"
         @change="handleChange"
-      >
+      />
     </span>
     <span class="el-radio__label" @keydown.stop>
       <slot>
@@ -45,11 +45,8 @@
   </label>
 </template>
 
-<script lang='ts'>
-import {
-  defineComponent,
-  computed, nextTick, ref,
-} from 'vue'
+<script lang="ts">
+import { defineComponent, computed, nextTick, ref } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 import { useRadio, useRadioAttrs } from './useRadio'
@@ -85,14 +82,8 @@ export default defineComponent({
   emits: [UPDATE_MODEL_EVENT, 'change'],
 
   setup(props, ctx) {
-    const {
-      isGroup,
-      radioGroup,
-      elFormItemSize,
-      ELEMENT,
-      focus,
-      elForm,
-    } = useRadio()
+    const { isGroup, radioGroup, elFormItemSize, ELEMENT, focus, elForm } =
+      useRadio()
 
     const radioRef = ref<HTMLInputElement>()
     const model = computed<string | number | boolean>({
@@ -109,12 +100,9 @@ export default defineComponent({
       },
     })
 
-    const {
-      tabIndex,
-      isDisabled,
-    } = useRadioAttrs(props, {
+    const { tabIndex, isDisabled } = useRadioAttrs(props, {
       isGroup,
-      radioGroup: radioGroup,
+      radioGroup,
       elForm,
       model,
     })
@@ -145,5 +133,3 @@ export default defineComponent({
   },
 })
 </script>
-
-

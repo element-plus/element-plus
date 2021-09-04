@@ -1,9 +1,4 @@
-import {
-  getCurrentInstance,
-  reactive,
-  shallowRef,
-  watchEffect,
-} from 'vue'
+import { getCurrentInstance, reactive, shallowRef, watchEffect } from 'vue'
 import { entries } from '@element-plus/utils/util'
 
 interface Params {
@@ -24,17 +19,16 @@ export default (params: Params = {}) => {
   instance.attrs = reactive(instance.attrs)
 
   watchEffect(() => {
-    const res = entries(instance.attrs)
-      .reduce((acm, [key, val]) => {
-        if (
-          !allExcludeKeys.includes(key) &&
-          !(excludeListeners && LISTENER_PREFIX.test(key))
-        ) {
-          acm[key] = val
-        }
+    const res = entries(instance.attrs).reduce((acm, [key, val]) => {
+      if (
+        !allExcludeKeys.includes(key) &&
+        !(excludeListeners && LISTENER_PREFIX.test(key))
+      ) {
+        acm[key] = val
+      }
 
-        return acm
-      }, {})
+      return acm
+    }, {})
 
     attrs.value = res
   })

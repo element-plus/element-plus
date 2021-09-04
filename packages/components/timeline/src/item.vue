@@ -7,17 +7,13 @@
       class="el-timeline-item__node"
       :class="[
         `el-timeline-item__node--${size || ''}`,
-        `el-timeline-item__node--${type || ''}`
+        `el-timeline-item__node--${type || ''}`,
       ]"
       :style="{
-        backgroundColor: color
+        backgroundColor: color,
       }"
     >
-      <i
-        v-if="icon"
-        class="el-timeline-item__icon"
-        :class="icon"
-      ></i>
+      <i v-if="icon" class="el-timeline-item__icon" :class="icon"></i>
     </div>
     <div v-if="$slots.dot" class="el-timeline-item__dot">
       <slot name="dot"></slot>
@@ -45,7 +41,7 @@
   </li>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import { inject, defineComponent } from 'vue'
 
 export default defineComponent({

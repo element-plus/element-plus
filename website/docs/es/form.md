@@ -337,7 +337,7 @@ El componente `form` le permite verificar sus datos, ayudándole a encontrar y c
     },
     methods: {
       submitForm(formName) {
-        this.$refs[formName].validate(valid => {
+        this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!')
           } else {
@@ -446,7 +446,7 @@ Este ejemplo muestra cómo personalizar sus propias reglas de validación para f
     },
     methods: {
       submitForm(formName) {
-        this.$refs[formName].validate(valid => {
+        this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!')
           } else {
@@ -527,7 +527,7 @@ Se debe llamar a la función de validación de llamada de retorno personalizada.
     },
     methods: {
       submitForm(formName) {
-        this.$refs[formName].validate(valid => {
+        this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!')
           } else {
@@ -601,7 +601,7 @@ Se debe llamar a la función de validación de llamada de retorno personalizada.
     },
     methods: {
       submitForm(formName) {
-        this.$refs[formName].validate(valid => {
+        this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!')
           } else {

@@ -337,7 +337,7 @@ Le composant Form vous permet d'effectuer des vérifications, afin de détecter 
     },
     methods: {
       submitForm(formName) {
-        this.$refs[formName].validate(valid => {
+        this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!')
           } else {
@@ -446,7 +446,7 @@ Cet exemple montre comment vous pouvez personnaliser vos règles de validation p
     },
     methods: {
       submitForm(formName) {
-        this.$refs[formName].validate(valid => {
+        this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!')
           } else {
@@ -529,7 +529,7 @@ Les callback de validations personnalisées doivent être appelées. Un usage pl
     },
     methods: {
       submitForm(formName) {
-        this.$refs[formName].validate(valid => {
+        this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!')
           } else {
@@ -605,7 +605,7 @@ Les callback de validations personnalisées doivent être appelées. Un usage pl
     },
     methods: {
       submitForm(formName) {
-        this.$refs[formName].validate(valid => {
+        this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!')
           } else {

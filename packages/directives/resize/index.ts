@@ -1,4 +1,7 @@
-import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
+import {
+  addResizeListener,
+  removeResizeListener,
+} from '@element-plus/utils/resize-event'
 
 import type { ObjectDirective } from 'vue'
 

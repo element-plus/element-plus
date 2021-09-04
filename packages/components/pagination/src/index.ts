@@ -124,8 +124,14 @@ export default defineComponent({
     const { t } = useLocaleInject()
     const vnodeProps = getCurrentInstance().vnode.props || {}
     // we can find @xxx="xxx" props on `vnodeProps` to check if user bind corresponding events
-    const hasCurrentPageListener = 'onUpdate:currentPage' in vnodeProps || 'onUpdate:current-page' in vnodeProps || 'onCurrentChange' in vnodeProps
-    const hasPageSizeListener = 'onUpdate:pageSize' in vnodeProps || 'onUpdate:page-size' in vnodeProps || 'onSizeChange' in vnodeProps
+    const hasCurrentPageListener =
+      'onUpdate:currentPage' in vnodeProps ||
+      'onUpdate:current-page' in vnodeProps ||
+      'onCurrentChange' in vnodeProps
+    const hasPageSizeListener =
+      'onUpdate:pageSize' in vnodeProps ||
+      'onUpdate:page-size' in vnodeProps ||
+      'onSizeChange' in vnodeProps
     const assertValidUsage = computed(() => {
       // Users have to set either one, otherwise count of pages cannot be determined
       if (isAbsent(props.total) && isAbsent(props.pageCount)) return false
@@ -161,8 +167,12 @@ export default defineComponent({
       return true
     })
 
-    const innerPageSize = ref(isAbsent(props.defaultPageSize) ? 10 : props.defaultPageSize)
-    const innerCurrentPage = ref(isAbsent(props.defaultCurrentPage) ? 1 : props.defaultCurrentPage)
+    const innerPageSize = ref(
+      isAbsent(props.defaultPageSize) ? 10 : props.defaultPageSize
+    )
+    const innerCurrentPage = ref(
+      isAbsent(props.defaultCurrentPage) ? 1 : props.defaultCurrentPage
+    )
 
     const pageSizeBridge = computed({
       get() {
@@ -191,7 +201,9 @@ export default defineComponent({
 
     const currentPageBridge = computed<number>({
       get() {
-        return isAbsent(props.currentPage) ? innerCurrentPage.value : props.currentPage
+        return isAbsent(props.currentPage)
+          ? innerCurrentPage.value
+          : props.currentPage
       },
       set(v) {
         let newCurrentPage = v
@@ -210,9 +222,8 @@ export default defineComponent({
       },
     })
 
-    watch(pageCountBridge, val => {
-      if (currentPageBridge.value > val)
-        currentPageBridge.value = val
+    watch(pageCountBridge, (val) => {
+      if (currentPageBridge.value > val) currentPageBridge.value = val
     })
 
     function handleCurrentChange(val: number) {
@@ -256,7 +267,11 @@ export default defineComponent({
       if (props.hideOnSinglePage && pageCountBridge.value <= 1) return null
       const rootChildren = []
       const rightWrapperChildren = []
-      const rightWrapperRoot = h('div', { class: 'el-pagination__rightwrapper' }, rightWrapperChildren)
+      const rightWrapperRoot = h(
+        'div',
+        { class: 'el-pagination__rightwrapper' },
+        rightWrapperChildren
+      )
       const TEMPLATE_MAP = {
         prev: h(Prev, {
           disabled: props.disabled,
@@ -289,7 +304,9 @@ export default defineComponent({
         total: h(Total, { total: isAbsent(props.total) ? 0 : props.total }),
       }
 
-      const components = props.layout.split(',').map((item: string) => item.trim())
+      const components = props.layout
+        .split(',')
+        .map((item: string) => item.trim())
 
       let haveRightWrapper = false
 
@@ -309,17 +326,21 @@ export default defineComponent({
         rootChildren.unshift(rightWrapperRoot)
       }
 
-      return h('div', {
-        role: 'pagination',
-        'aria-label': 'pagination',
-        class: [
-          'el-pagination',
-          {
-            'is-background': props.background,
-            'el-pagination--small': props.small,
-          },
-        ],
-      }, rootChildren)
+      return h(
+        'div',
+        {
+          role: 'pagination',
+          'aria-label': 'pagination',
+          class: [
+            'el-pagination',
+            {
+              'is-background': props.background,
+              'el-pagination--small': props.small,
+            },
+          ],
+        },
+        rootChildren
+      )
     }
   },
 })

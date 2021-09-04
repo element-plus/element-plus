@@ -5,11 +5,11 @@
 - Navegador moderno
 
 | ![IE](https://cdn.jsdelivr.net/npm/@browser-logos/edge/edge_32x32.png) | ![Firefox](https://cdn.jsdelivr.net/npm/@browser-logos/firefox/firefox_32x32.png) | ![Chrome](https://cdn.jsdelivr.net/npm/@browser-logos/chrome/chrome_32x32.png) | ![Safari](https://cdn.jsdelivr.net/npm/@browser-logos/safari/safari_32x32.png) |
-| --- | --- | --- | --- |
-| Edge | last 2 versions | last 2 versions | last 2 versions |
+| ---------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| Edge                                                                   | last 2 versions                                                                   | last 2 versions                                                                | last 2 versions                                                                |
 
 > Dado que Vue3 ya no es compatible con IE11, ElementPlus no es compatible con
-IE11 y versiones anteriores anteriores.
+> IE11 y versiones anteriores anteriores.
 
 ## Última versión actual
 
@@ -47,7 +47,7 @@ También puede utilizar otros proveedores de **CDN**.
 ```html
 <head>
   <!-- Introduce style -->
-  <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css">
+  <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
   <!-- Introduce Vue -->
   <script src="//unpkg.com/vue@next"></script>
   <!-- Introduce component library -->
@@ -60,7 +60,10 @@ También puede utilizar otros proveedores de **CDN**.
 ```html
 <head>
   <!-- Introduce style -->
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/element-plus/dist/index.css">
+  <link
+    rel="stylesheet"
+    href="//cdn.jsdelivr.net/npm/element-plus/dist/index.css"
+  />
   <!-- Introduce Vue -->
   <script src="//cdn.jsdelivr.net/npm/vue@next"></script>
   <!-- Introduce component library -->

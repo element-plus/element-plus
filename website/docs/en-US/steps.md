@@ -21,18 +21,19 @@ Simple step bar.
   export default {
     data() {
       return {
-        active: 0
-      };
+        active: 0,
+      }
     },
 
     methods: {
       next() {
-        if (this.active++ > 2) this.active = 0;
-      }
-    }
+        if (this.active++ > 2) this.active = 0
+      },
+    },
   }
 </script>
 ```
+
 :::
 
 ### Step bar that contains status
@@ -48,6 +49,7 @@ Shows the status of the step for each step.
   <el-step title="Step 3"></el-step>
 </el-steps>
 ```
+
 :::
 
 ### Center
@@ -55,6 +57,7 @@ Shows the status of the step for each step.
 Title and desription can be centered.
 
 :::demo
+
 ```html
 <el-steps :active="2" align-center>
   <el-step title="Step 1" description="Some description"></el-step>
@@ -63,6 +66,7 @@ Title and desription can be centered.
   <el-step title="Step 4" description="Some description"></el-step>
 </el-steps>
 ```
+
 :::
 
 ### Step bar with description
@@ -70,6 +74,7 @@ Title and desription can be centered.
 There is description for each step.
 
 :::demo
+
 ```html
 <el-steps :active="1">
   <el-step title="Step 1" description="Some description"></el-step>
@@ -77,6 +82,7 @@ There is description for each step.
   <el-step title="Step 3" description="Some description"></el-step>
 </el-steps>
 ```
+
 :::
 
 ### Step bar with icon
@@ -92,6 +98,7 @@ A variety of custom icons can be used in the step bar.
   <el-step title="Step 3" icon="el-icon-picture"></el-step>
 </el-steps>
 ```
+
 :::
 
 ### Vertical step bar
@@ -109,14 +116,16 @@ Vertical step bars.
   </el-steps>
 </div>
 ```
+
 :::
 
 ### Simple step bar
+
 Simple step bars, where `align-center`, `description`, `direction` and `space` will be ignored.
 
 :::demo
-```html
 
+```html
 <el-steps :space="200" :active="1" simple>
   <el-step title="Step 1" icon="el-icon-edit"></el-step>
   <el-step title="Step 2" icon="el-icon-upload"></el-step>
@@ -124,37 +133,39 @@ Simple step bars, where `align-center`, `description`, `direction` and `space` w
 </el-steps>
 
 <el-steps :active="1" finish-status="success" simple style="margin-top: 20px">
-  <el-step title="Step 1" ></el-step>
-  <el-step title="Step 2" ></el-step>
-  <el-step title="Step 3" ></el-step>
+  <el-step title="Step 1"></el-step>
+  <el-step title="Step 2"></el-step>
+  <el-step title="Step 3"></el-step>
 </el-steps>
 ```
+
 :::
 
 ### Steps Attributes
 
-| Attribute      | Description          | Type      | Accepted Values       | Default  |
-|---------- |-------- |---------- |-------------  |-------- |
-| space | the spacing of each step, will be responsive if omitted. Supports percentage. | number / string | — | — |
-| direction | display direction | string | vertical/horizontal | horizontal |
-| active | current activation step  | number | — | 0 |
-| process-status | status of current step | string | wait / process / finish / error / success | process |
-| finish-status | status of end step | string | wait / process / finish / error / success | finish |
-| align-center | center title and description | boolean | — | false |
-| simple | whether to apply simple theme | boolean | - | false |
+| Attribute      | Description                                                                   | Type            | Accepted Values                           | Default    |
+| -------------- | ----------------------------------------------------------------------------- | --------------- | ----------------------------------------- | ---------- |
+| space          | the spacing of each step, will be responsive if omitted. Supports percentage. | number / string | —                                         | —          |
+| direction      | display direction                                                             | string          | vertical/horizontal                       | horizontal |
+| active         | current activation step                                                       | number          | —                                         | 0          |
+| process-status | status of current step                                                        | string          | wait / process / finish / error / success | process    |
+| finish-status  | status of end step                                                            | string          | wait / process / finish / error / success | finish     |
+| align-center   | center title and description                                                  | boolean         | —                                         | false      |
+| simple         | whether to apply simple theme                                                 | boolean         | -                                         | false      |
 
 ### Step Attributes
-| Attribute      | Description          | Type      | Accepted Values       | Default  |
-|---------- |-------- |---------- |-------------  |-------- |
-| title | step title | string | — | — |
-| description | step description | string | — | — |
-| icon | step icon's class name. Icons can be passed via named slot as well | string | — | — |
-| status | current status. It will be automatically set by Steps if not configured. | string | wait / process / finish / error / success | — |
+
+| Attribute   | Description                                                              | Type   | Accepted Values                           | Default |
+| ----------- | ------------------------------------------------------------------------ | ------ | ----------------------------------------- | ------- |
+| title       | step title                                                               | string | —                                         | —       |
+| description | step description                                                         | string | —                                         | —       |
+| icon        | step icon's class name. Icons can be passed via named slot as well       | string | —                                         | —       |
+| status      | current status. It will be automatically set by Steps if not configured. | string | wait / process / finish / error / success | —       |
 
 ### Step Slots
-| Name | Description |
-|----|----|
-| icon | custom icon |
-| title | step title |
-| description | step description |
 
+| Name        | Description      |
+| ----------- | ---------------- |
+| icon        | custom icon      |
+| title       | step title       |
+| description | step description |

@@ -121,6 +121,4 @@ describe('Footer', () => {
     const vm = wrapper.vm
     expect(getCssVariable(vm.$el, '--el-footer-height')).toEqual('100px')
   })
-
-
 })

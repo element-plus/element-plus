@@ -98,15 +98,19 @@ textarea {
   h1 {
     margin-top: 8px;
     margin-bottom: 20px;
-    color: rgba(0, 0, 0, .85);
+    color: rgba(0, 0, 0, 0.85);
     font-weight: 500;
     font-size: 30px;
   }
 
-  h2, h3, h4, h5, h6 {
-    margin: 1.6em 0 .6em;
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 1.6em 0 0.6em;
     font-weight: 500;
-    color: rgba(0, 0, 0, .85);
+    color: rgba(0, 0, 0, 0.85);
   }
 
   h2 {
@@ -123,7 +127,6 @@ textarea {
   h3,
   h4,
   h5 {
-
     &:hover a {
       opacity: 0.4;
     }
@@ -203,10 +206,10 @@ textarea {
 
     .lang-mark {
       position: absolute;
-      bottom: .5rem;
+      bottom: 0.5rem;
       color: #909399;
       font-family: inherit;
-      font-size: .7rem;
+      font-size: 0.7rem;
       font-weight: 700;
       right: 1rem;
       text-transform: uppercase;
@@ -216,7 +219,7 @@ textarea {
 
   blockquote {
     margin: 1em 0;
-    padding-left: .8em;
+    padding-left: 0.8em;
     color: #909399;
     font-size: 90%;
     border-left: 4px solid #f0f0f0;
@@ -228,7 +231,6 @@ textarea {
   }
 
   .element-plus__link {
-
     .el-icon {
       vertical-align: text-top;
       line-height: 1.5em;

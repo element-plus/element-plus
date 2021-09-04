@@ -14,7 +14,10 @@ import { removeClass } from '@element-plus/utils/dom'
 
 import type { VNode } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'
-import type { ILoadingCreateComponentParams, ILoadingInstance } from './loading.type'
+import type {
+  ILoadingCreateComponentParams,
+  ILoadingInstance,
+} from './loading.type'
 
 export function createLoadingComponent({
   options,
@@ -90,41 +93,67 @@ export function createLoadingComponent({
       return componentSetupConfig
     },
     render() {
-      const spinner = h('svg', {
-        class: 'circular',
-        viewBox: this.svgViewBox ? this.svgViewBox : '25 25 50 50',
-        ...(this.svg ? { innerHTML: this.svg } : {}),
-      }, [
-        h('circle', { class: 'path', cx: '50', cy: '50', r: '20', fill: 'none' }),
-      ])
+      const spinner = h(
+        'svg',
+        {
+          class: 'circular',
+          viewBox: this.svgViewBox ? this.svgViewBox : '25 25 50 50',
+          ...(this.svg ? { innerHTML: this.svg } : {}),
+        },
+        [
+          h('circle', {
+            class: 'path',
+            cx: '50',
+            cy: '50',
+            r: '20',
+            fill: 'none',
+          }),
+        ]
+      )
 
       const noSpinner = h('i', { class: this.spinner })
 
       const spinnerText = h('p', { class: 'el-loading-text' }, [this.text])
 
-      return h(Transition, {
-        name: 'el-loading-fade',
-        onAfterLeave: this.handleAfterLeave,
-      }, {
-        default: withCtx(() => [withDirectives(createVNode('div', {
-          style: {
-            backgroundColor: this.background || '',
-          },
-          class: [
-            'el-loading-mask',
-            this.customClass,
-            this.fullscreen ? 'is-fullscreen' : '',
-          ],
-        }, [
-          h('div', {
-            class: 'el-loading-spinner',
-          }, [
-            !this.spinner ? spinner : noSpinner,
-            this.text ? spinnerText : null,
+      return h(
+        Transition,
+        {
+          name: 'el-loading-fade',
+          onAfterLeave: this.handleAfterLeave,
+        },
+        {
+          default: withCtx(() => [
+            withDirectives(
+              createVNode(
+                'div',
+                {
+                  style: {
+                    backgroundColor: this.background || '',
+                  },
+                  class: [
+                    'el-loading-mask',
+                    this.customClass,
+                    this.fullscreen ? 'is-fullscreen' : '',
+                  ],
+                },
+                [
+                  h(
+                    'div',
+                    {
+                      class: 'el-loading-spinner',
+                    },
+                    [
+                      !this.spinner ? spinner : noSpinner,
+                      this.text ? spinnerText : null,
+                    ]
+                  ),
+                ]
+              ),
+              [[vShow, this.visible]]
+            ),
           ]),
-        ]),
-        [[vShow, this.visible]])]),
-      })
+        }
+      )
     },
   }
 

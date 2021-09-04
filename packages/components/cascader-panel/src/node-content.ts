@@ -9,7 +9,7 @@ export default defineComponent({
     return h(
       'span',
       { class: 'el-cascader-node__label' },
-      renderLabelFn ? renderLabelFn({ node, data }) : label,
+      renderLabelFn ? renderLabelFn({ node, data }) : label
     )
   },
 })

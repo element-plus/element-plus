@@ -20,7 +20,9 @@
           aria-labelledby="el-drawer__title"
           :aria-label="title"
           :class="['el-drawer', direction, customClass]"
-          :style="isHorizontal ? 'width: ' + drawerSize : 'height: ' + drawerSize"
+          :style="
+            isHorizontal ? 'width: ' + drawerSize : 'height: ' + drawerSize
+          "
           role="dialog"
           @click.stop
         >
@@ -56,13 +58,13 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  computed,
-  ref,
-} from 'vue'
+import { defineComponent, computed, ref } from 'vue'
 import { Overlay } from '@element-plus/components/overlay'
-import { useDialog, useDialogProps, useDialogEmits } from '@element-plus/components/dialog'
+import {
+  useDialog,
+  useDialogProps,
+  useDialogEmits,
+} from '@element-plus/components/dialog'
 import { TrapFocus } from '@element-plus/directives'
 
 import type { PropType, SetupContext } from 'vue'
@@ -107,10 +109,13 @@ export default defineComponent({
     return {
       ...useDialog(props, ctx as SetupContext, drawerRef),
       drawerRef,
-      isHorizontal: computed(() => props.direction === 'rtl' || props.direction === 'ltr'),
-      drawerSize: computed(() => typeof props.size === 'number' ? `${props.size}px` : props.size),
+      isHorizontal: computed(
+        () => props.direction === 'rtl' || props.direction === 'ltr'
+      ),
+      drawerSize: computed(() =>
+        typeof props.size === 'number' ? `${props.size}px` : props.size
+      ),
     }
-
   },
 })
 </script>

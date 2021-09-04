@@ -1,0 +1,4 @@
+dist
+node_modules
+packages/*/es
+packages/*/lib

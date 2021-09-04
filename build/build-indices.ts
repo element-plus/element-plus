@@ -25,13 +25,13 @@ const langs = {
   'fr-FR': 'element-fr',
   jp: 'element-jp',
 }
-;['zh-CN', 'en-US', 'es', 'fr-FR', 'jp'].forEach(lang => {
+;['zh-CN', 'en-US', 'es', 'fr-FR', 'jp'].forEach((lang) => {
   const indexName = langs[lang]
   const index = client.initIndex(indexName)
   index.clearObjects().then(() => {
     const files = fg.sync(`website/docs/${lang}/*.md`)
     let indices: Index[] = []
-    files.forEach(file => {
+    files.forEach((file) => {
       const regExp = new RegExp(`website\/docs\/${lang}\/(.*).md`)
       const pathContent = file.match(regExp)
       const path = pathContent[1]
@@ -43,13 +43,13 @@ const langs = {
         .replace(/:::[\s\S]*?:::/g, '')
         .replace(/```[\s\S]*?```/g, '')
         .match(/#{2,4}[^#]*/g)
-        .map(match =>
+        .map((match) =>
           match
             .replace(/\n+/g, '\n')
             .split('\n')
-            .filter(part => !!part),
+            .filter((part) => !!part)
         )
-        .map(match => {
+        .map((match) => {
           const length = match.length
           if (length > 2) {
             const desc = match.slice(1, length).join('')
@@ -59,7 +59,7 @@ const langs = {
         })
       let i = 0
       indices = indices.concat(
-        matches.map(match => {
+        matches.map((match) => {
           const title = match[0].replace(/#{2,4}/, '').trim()
           const index = { component, title } as Index
           index.anchor = slugify(title)
@@ -67,7 +67,7 @@ const langs = {
           index.path = path
           index.sort = i++
           return index
-        }),
+        })
       )
     })
 

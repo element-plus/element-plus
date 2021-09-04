@@ -1,5 +1,9 @@
 <template>
-  <transition name="el-notification-fade" @before-leave="onClose" @after-leave="$emit('destroy')">
+  <transition
+    name="el-notification-fade"
+    @before-leave="onClose"
+    @after-leave="$emit('destroy')"
+  >
     <div
       v-show="visible"
       :id="id"
@@ -20,7 +24,11 @@
         :class="{ 'is-with-icon': typeClass || iconClass }"
       >
         <h2 class="el-notification__title" v-text="title"></h2>
-        <div v-show="message" class="el-notification__content" :style="!!title ? null : 'margin: 0'">
+        <div
+          v-show="message"
+          class="el-notification__content"
+          :style="!!title ? null : 'margin: 0'"
+        >
           <slot>
             <p v-if="!dangerouslyUseHTMLString">{{ message }}</p>
             <!-- Caution here, message could've been compromized, nerver use user's input as message -->
@@ -69,7 +77,7 @@ export default defineComponent({
     offset: { type: Number, default: 0 },
     onClick: {
       type: Function as PropType<() => void>,
-      default: () => void 0,
+      default: () => undefined,
     },
     onClose: {
       type: Function as PropType<() => void>,
@@ -106,7 +114,7 @@ export default defineComponent({
     const positionStyle = computed(() => {
       return {
         [verticalProperty.value]: `${props.offset}px`,
-        'z-index':  props.zIndex,
+        'z-index': props.zIndex,
       } as CSSProperties
     })
 

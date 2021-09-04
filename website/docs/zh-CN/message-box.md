@@ -1,4 +1,5 @@
 ## MessageBox 弹框
+
 模拟系统的消息提示框而实现的一套模态对话框组件，用于消息提示、确认消息和提交内容。
 
 :::tip
@@ -10,6 +11,7 @@
 当用户进行操作时会被触发，该对话框中断用户操作，直到用户确认知晓后才可关闭。
 
 :::demo 调用`$alert`方法即可打开消息提示，它模拟了系统的 `alert`，无法通过按下 ESC 或点击框外关闭。此例中接收了两个参数，`message`和`title`。值得一提的是，窗口被关闭后，它默认会返回一个`Promise`对象便于进行后续操作的处理。若不确定浏览器是否支持`Promise`，可自行引入第三方 polyfill 或像本例一样使用回调进行后续处理。
+
 ```html
 <template>
   <el-button type="text" @click="open">点击打开 Message Box</el-button>
@@ -21,15 +23,15 @@
       open() {
         this.$alert('这是一段内容', '标题名称', {
           confirmButtonText: '确定',
-          callback: action => {
+          callback: (action) => {
             this.$message({
               type: 'info',
-              message: `action: ${ action }`
-            });
-          }
-        });
-      }
-    }
+              message: `action: ${action}`,
+            })
+          },
+        })
+      },
+    },
   }
 </script>
 <!--
@@ -63,6 +65,7 @@
 </setup>
 -->
 ```
+
 :::
 
 ### 确认消息
@@ -83,20 +86,22 @@
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });
-        });
-      }
-    }
+          type: 'warning',
+        })
+          .then(() => {
+            this.$message({
+              type: 'success',
+              message: '删除成功!',
+            })
+          })
+          .catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除',
+            })
+          })
+      },
+    },
   }
 </script>
 <!--
@@ -138,6 +143,7 @@
 </setup>
 -->
 ```
+
 :::
 
 ### 提交内容
@@ -158,21 +164,24 @@
         this.$prompt('请输入邮箱', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
-          inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
-          inputErrorMessage: '邮箱格式不正确'
-        }).then(({ value }) => {
-          this.$message({
-            type: 'success',
-            message: '你的邮箱是: ' + value
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '取消输入'
-          });
-        });
-      }
-    }
+          inputPattern:
+            /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+          inputErrorMessage: '邮箱格式不正确',
+        })
+          .then(({ value }) => {
+            this.$message({
+              type: 'success',
+              message: '你的邮箱是: ' + value,
+            })
+          })
+          .catch(() => {
+            this.$message({
+              type: 'info',
+              message: '取消输入',
+            })
+          })
+      },
+    },
   }
 </script>
 
@@ -216,6 +225,7 @@
 </setup>
 -->
 ```
+
 :::
 
 ### 自定义
@@ -230,7 +240,7 @@
 </template>
 
 <script>
-  import { h } from 'vue';
+  import { h } from 'vue'
 
   export default {
     methods: {
@@ -239,33 +249,33 @@
           title: '消息',
           message: h('p', null, [
             h('span', null, '内容可以是 '),
-            h('i', { style: 'color: teal' }, 'VNode')
+            h('i', { style: 'color: teal' }, 'VNode'),
           ]),
           showCancelButton: true,
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           beforeClose: (action, instance, done) => {
             if (action === 'confirm') {
-              instance.confirmButtonLoading = true;
-              instance.confirmButtonText = '执行中...';
+              instance.confirmButtonLoading = true
+              instance.confirmButtonText = '执行中...'
               setTimeout(() => {
-                done();
+                done()
                 setTimeout(() => {
-                  instance.confirmButtonLoading = false;
-                }, 300);
-              }, 3000);
+                  instance.confirmButtonLoading = false
+                }, 300)
+              }, 3000)
             } else {
-              done();
+              done()
             }
-          }
-        }).then(action => {
+          },
+        }).then((action) => {
           this.$message({
             type: 'info',
-            message: 'action: ' + action
-          });
-        });
-      }
-    }
+            message: 'action: ' + action,
+          })
+        })
+      },
+    },
   }
 </script>
 
@@ -321,6 +331,7 @@
 </setup>
 -->
 ```
+
 :::
 
 :::tip
@@ -343,10 +354,10 @@
     methods: {
       open() {
         this.$alert('<strong>这是 <i>HTML</i> 片段</strong>', 'HTML 片段', {
-          dangerouslyUseHTMLString: true
-        });
-      }
-    }
+          dangerouslyUseHTMLString: true,
+        })
+      },
+    },
   }
 </script>
 <!--
@@ -373,6 +384,7 @@
 </setup>
 -->
 ```
+
 :::
 
 :::warning
@@ -394,27 +406,30 @@
   export default {
     methods: {
       open() {
-        this.$confirm('检测到未保存的内容，是否在离开页面前保存修改？', '确认信息', {
-          distinguishCancelAndClose: true,
-          confirmButtonText: '保存',
-          cancelButtonText: '放弃修改'
-        })
+        this.$confirm(
+          '检测到未保存的内容，是否在离开页面前保存修改？',
+          '确认信息',
+          {
+            distinguishCancelAndClose: true,
+            confirmButtonText: '保存',
+            cancelButtonText: '放弃修改',
+          }
+        )
           .then(() => {
             this.$message({
               type: 'info',
-              message: '保存修改'
-            });
+              message: '保存修改',
+            })
           })
-          .catch(action => {
+          .catch((action) => {
             this.$message({
               type: 'info',
-              message: action === 'cancel'
-                ? '放弃保存并离开页面'
-                : '停留在当前页面'
+              message:
+                action === 'cancel' ? '放弃保存并离开页面' : '停留在当前页面',
             })
-          });
-      }
-    }
+          })
+      },
+    },
   }
 </script>
 <!--
@@ -458,9 +473,11 @@
 </setup>
 -->
 ```
+
 :::
 
 ### 居中布局
+
 内容支持居中布局
 
 :::demo 将 `center` 设置为 `true` 即可开启居中布局
@@ -478,20 +495,22 @@
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning',
-          center: true
-        }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });
-        });
-      }
-    }
+          center: true,
+        })
+          .then(() => {
+            this.$message({
+              type: 'success',
+              message: '删除成功!',
+            })
+          })
+          .catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除',
+            })
+          })
+      },
+    },
   }
 </script>
 <!--
@@ -532,11 +551,13 @@
 </setup>
 -->
 ```
+
 :::
 
 ### 全局方法
 
 如果你完整引入了 Element，它会为 `app.config.globalProperties` 添加如下全局方法：$msgbox, $alert, $confirm 和 $prompt。因此在 Vue instance 中可以采用本页面中的方式调用 `MessageBox`。调用参数为：
+
 - `$msgbox(options)`
 - `$alert(message, title, options)` 或 `$alert(message, options)`
 - `$confirm(message, title, options)` 或 `$confirm(message, options)`
@@ -547,42 +568,42 @@
 如果单独引入 `MessageBox`：
 
 ```javascript
-import { ElMessageBox } from 'element-plus';
+import { ElMessageBox } from 'element-plus'
 ```
 
 那么对应于上述四个全局方法的调用方法依次为：ElMessageBox, ElMessageBox.alert, ElMessageBox.confirm 和 ElMessageBox.prompt，调用参数与全局方法相同。
 
 ### Options
 
-| 参数      | 说明          | 类型      | 可选值                           | 默认值  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| title | MessageBox 标题 | string | — | — |
-| message | MessageBox 消息正文内容 | string / VNode | — | — |
-| dangerouslyUseHTMLString | 是否将 message 属性作为 HTML 片段处理 | boolean | — | false |
-| type | 消息类型，用于显示图标 | string | success / info / warning / error | — |
-| iconClass | 自定义图标的类名，会覆盖 `type` | string | — | — |
-| customClass | MessageBox 的自定义类名 | string | — | — |
-| callback | 若不使用 Promise，可以使用此参数指定 MessageBox 关闭后的回调 | function(action, instance)，action 的值为'confirm', 'cancel'或'close', instance 为 MessageBox 实例，可以通过它访问实例上的属性和方法 | — | — |
-| showClose | MessageBox 是否显示右上角关闭按钮 | boolean | — | true |
-| beforeClose | MessageBox 关闭前的回调，会暂停实例的关闭 | function(action, instance, done)，action 的值为'confirm', 'cancel'或'close'；instance 为 MessageBox 实例，可以通过它访问实例上的属性和方法；done 用于关闭 MessageBox 实例 | — | — |
-| distinguishCancelAndClose | 是否将取消（点击取消按钮）与关闭（点击关闭按钮或遮罩层、按下 ESC 键）进行区分 | boolean | — | false |
-| lockScroll | 是否在 MessageBox 出现时将 body 滚动锁定 | boolean | — | true |
-| showCancelButton | 是否显示取消按钮 | boolean | — | false（以 confirm 和 prompt 方式调用时为 true） |
-| showConfirmButton | 是否显示确定按钮 | boolean | — | true |
-| cancelButtonText | 取消按钮的文本内容 | string | — | 取消 |
-| confirmButtonText | 确定按钮的文本内容 | string | — | 确定 |
-| cancelButtonClass | 取消按钮的自定义类名 | string | — | — |
-| confirmButtonClass | 确定按钮的自定义类名 | string | — | — |
-| closeOnClickModal | 是否可通过点击遮罩关闭 MessageBox | boolean | — | true（以 alert 方式调用时为 false） |
-| closeOnPressEscape | 是否可通过按下 ESC 键关闭 MessageBox | boolean | — | true（以 alert 方式调用时为 false） |
-| closeOnHashChange | 是否在 hashchange 时关闭 MessageBox | boolean | — | true |
-| showInput | 是否显示输入框 | boolean | — | false（以 prompt 方式调用时为 true）|
-| inputPlaceholder | 输入框的占位符 | string | — | — |
-| inputType | 输入框的类型 | string | — | text |
-| inputValue | 输入框的初始文本 | string | — | — |
-| inputPattern | 输入框的校验表达式 | regexp | — | — |
-| inputValidator | 输入框的校验函数。可以返回布尔值或字符串，若返回一个字符串, 则返回结果会被赋值给 inputErrorMessage | function | — | — |
-| inputErrorMessage | 校验未通过时的提示文本 | string | — | 输入的数据不合法! |
-| center | 是否居中布局 | boolean | — | false |
-| roundButton | 是否使用圆角按钮 | boolean | — | false |
-| buttonSize | 自定义确认按钮及取消按钮的大小 | string | mini / small / medium / large | small |
+| 参数                      | 说明                                                                                               | 类型                                                                                                                                                                      | 可选值                           | 默认值                                          |
+| ------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | ----------------------------------------------- |
+| title                     | MessageBox 标题                                                                                    | string                                                                                                                                                                    | —                                | —                                               |
+| message                   | MessageBox 消息正文内容                                                                            | string / VNode                                                                                                                                                            | —                                | —                                               |
+| dangerouslyUseHTMLString  | 是否将 message 属性作为 HTML 片段处理                                                              | boolean                                                                                                                                                                   | —                                | false                                           |
+| type                      | 消息类型，用于显示图标                                                                             | string                                                                                                                                                                    | success / info / warning / error | —                                               |
+| iconClass                 | 自定义图标的类名，会覆盖 `type`                                                                    | string                                                                                                                                                                    | —                                | —                                               |
+| customClass               | MessageBox 的自定义类名                                                                            | string                                                                                                                                                                    | —                                | —                                               |
+| callback                  | 若不使用 Promise，可以使用此参数指定 MessageBox 关闭后的回调                                       | function(action, instance)，action 的值为'confirm', 'cancel'或'close', instance 为 MessageBox 实例，可以通过它访问实例上的属性和方法                                      | —                                | —                                               |
+| showClose                 | MessageBox 是否显示右上角关闭按钮                                                                  | boolean                                                                                                                                                                   | —                                | true                                            |
+| beforeClose               | MessageBox 关闭前的回调，会暂停实例的关闭                                                          | function(action, instance, done)，action 的值为'confirm', 'cancel'或'close'；instance 为 MessageBox 实例，可以通过它访问实例上的属性和方法；done 用于关闭 MessageBox 实例 | —                                | —                                               |
+| distinguishCancelAndClose | 是否将取消（点击取消按钮）与关闭（点击关闭按钮或遮罩层、按下 ESC 键）进行区分                      | boolean                                                                                                                                                                   | —                                | false                                           |
+| lockScroll                | 是否在 MessageBox 出现时将 body 滚动锁定                                                           | boolean                                                                                                                                                                   | —                                | true                                            |
+| showCancelButton          | 是否显示取消按钮                                                                                   | boolean                                                                                                                                                                   | —                                | false（以 confirm 和 prompt 方式调用时为 true） |
+| showConfirmButton         | 是否显示确定按钮                                                                                   | boolean                                                                                                                                                                   | —                                | true                                            |
+| cancelButtonText          | 取消按钮的文本内容                                                                                 | string                                                                                                                                                                    | —                                | 取消                                            |
+| confirmButtonText         | 确定按钮的文本内容                                                                                 | string                                                                                                                                                                    | —                                | 确定                                            |
+| cancelButtonClass         | 取消按钮的自定义类名                                                                               | string                                                                                                                                                                    | —                                | —                                               |
+| confirmButtonClass        | 确定按钮的自定义类名                                                                               | string                                                                                                                                                                    | —                                | —                                               |
+| closeOnClickModal         | 是否可通过点击遮罩关闭 MessageBox                                                                  | boolean                                                                                                                                                                   | —                                | true（以 alert 方式调用时为 false）             |
+| closeOnPressEscape        | 是否可通过按下 ESC 键关闭 MessageBox                                                               | boolean                                                                                                                                                                   | —                                | true（以 alert 方式调用时为 false）             |
+| closeOnHashChange         | 是否在 hashchange 时关闭 MessageBox                                                                | boolean                                                                                                                                                                   | —                                | true                                            |
+| showInput                 | 是否显示输入框                                                                                     | boolean                                                                                                                                                                   | —                                | false（以 prompt 方式调用时为 true）            |
+| inputPlaceholder          | 输入框的占位符                                                                                     | string                                                                                                                                                                    | —                                | —                                               |
+| inputType                 | 输入框的类型                                                                                       | string                                                                                                                                                                    | —                                | text                                            |
+| inputValue                | 输入框的初始文本                                                                                   | string                                                                                                                                                                    | —                                | —                                               |
+| inputPattern              | 输入框的校验表达式                                                                                 | regexp                                                                                                                                                                    | —                                | —                                               |
+| inputValidator            | 输入框的校验函数。可以返回布尔值或字符串，若返回一个字符串, 则返回结果会被赋值给 inputErrorMessage | function                                                                                                                                                                  | —                                | —                                               |
+| inputErrorMessage         | 校验未通过时的提示文本                                                                             | string                                                                                                                                                                    | —                                | 输入的数据不合法!                               |
+| center                    | 是否居中布局                                                                                       | boolean                                                                                                                                                                   | —                                | false                                           |
+| roundButton               | 是否使用圆角按钮                                                                                   | boolean                                                                                                                                                                   | —                                | false                                           |
+| buttonSize                | 自定义确认按钮及取消按钮的大小                                                                     | string                                                                                                                                                                    | mini / small / medium / large    | small                                           |

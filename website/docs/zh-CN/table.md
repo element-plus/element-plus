@@ -804,7 +804,7 @@
     methods: {
       toggleSelection(rows) {
         if (rows) {
-          rows.forEach(row => {
+          rows.forEach((row) => {
             this.$refs.multipleTable.toggleRowSelection(row)
           })
         } else {
@@ -1474,8 +1474,8 @@
             sums[index] = '总价'
             return
           }
-          const values = data.map(item => Number(item[column.property]))
-          if (!values.every(value => isNaN(value))) {
+          const values = data.map((item) => Number(item[column.property]))
+          if (!values.every((value) => isNaN(value))) {
             sums[index] = values.reduce((prev, curr) => {
               const value = Number(curr)
               if (!isNaN(value)) {

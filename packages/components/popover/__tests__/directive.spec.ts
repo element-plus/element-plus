@@ -6,7 +6,6 @@ import PopoverDirective, { VPopover } from '../src/directive'
 
 import type { ComponentPublicInstance } from 'vue'
 
-
 const AXIOM = 'Rem is the best girl'
 
 const Comp = {
@@ -28,9 +27,7 @@ const Comp = {
 }
 
 const mount = makeMount(Comp, {
-  props: {
-
-  },
+  props: {},
   global: {
     directives: {
       [VPopover]: PopoverDirective,
@@ -39,28 +36,33 @@ const mount = makeMount(Comp, {
 })
 
 describe('v-popover', () => {
-
   test('should render correctly', () => {
     const wrapper = mount()
 
-    expect(document.body.querySelector('.el-popover').innerHTML).toContain(AXIOM)
+    expect(document.body.querySelector('.el-popover').innerHTML).toContain(
+      AXIOM
+    )
     wrapper.unmount()
   })
 
   test('should show popover when reference is mounted', async () => {
     const wrapper = mount()
     const refNode = '#reference-node'
-    expect(wrapper.find(refNode).exists()).toBe(false);
-
-    (wrapper.vm as ComponentPublicInstance<{ visible: boolean; }>).visible = true
+    expect(wrapper.find(refNode).exists()).toBe(false)
+    ;(wrapper.vm as ComponentPublicInstance<{ visible: boolean }>).visible =
+      true
     await nextTick()
 
     expect(wrapper.find(refNode).exists()).toBe(true)
-    expect(document.body.querySelector('.el-popover').getAttribute('style')).toContain('display: none')
+    expect(
+      document.body.querySelector('.el-popover').getAttribute('style')
+    ).toContain('display: none')
     await wrapper.find(refNode).trigger('click')
     await rAF()
     await nextTick()
-    expect(document.body.querySelector('.el-popover').getAttribute('style')).not.toContain('display: none')
+    expect(
+      document.body.querySelector('.el-popover').getAttribute('style')
+    ).not.toContain('display: none')
     wrapper.unmount()
   })
 
@@ -71,8 +73,15 @@ describe('v-popover', () => {
       setup() {
         return () => {
           return h(Fragment, null, [
-            h(Popover, { title: 'title', content: AXIOM, ref: 'popover', tabindex: tabindex.value }),
-            withDirectives(h('div', { ref: 'trigger' }, AXIOM), [[PopoverDirective, 'popover']]),
+            h(Popover, {
+              title: 'title',
+              content: AXIOM,
+              ref: 'popover',
+              tabindex: tabindex.value,
+            }),
+            withDirectives(h('div', { ref: 'trigger' }, AXIOM), [
+              [PopoverDirective, 'popover'],
+            ]),
           ])
         }
       },

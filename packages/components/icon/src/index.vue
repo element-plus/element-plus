@@ -1,14 +1,10 @@
 <template>
-  <i
-    class="el-icon"
-    :style="style"
-    v-bind="$attrs"
-  >
+  <i class="el-icon" :style="style" v-bind="$attrs">
     <slot></slot>
   </i>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import { defineComponent, computed } from 'vue'
 import type { CSSProperties } from 'vue'
 export default defineComponent({

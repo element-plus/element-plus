@@ -30,7 +30,6 @@ import type {
 type PFileHandler<T> = PropType<FileHandler<T>>
 type PFileResultHandler<T = any> = PropType<FileResultHandler<T>>
 
-
 export default defineComponent({
   name: 'ElUpload',
   components: {
@@ -155,11 +154,10 @@ export default defineComponent({
       uploadFiles,
     } = useHandlers(props)
 
-
     provide('uploader', getCurrentInstance())
 
     onBeforeUnmount(() => {
-      uploadFiles.value.forEach(file => {
+      uploadFiles.value.forEach((file) => {
         if (file.url && file.url.indexOf('blob:') === 0) {
           URL.revokeObjectURL(file.url)
         }
@@ -194,13 +192,15 @@ export default defineComponent({
           onRemove: this.handleRemove,
           handlePreview: this.onPreview,
         },
-        this.$slots.file ? {
-          default: (props: { file: UploadFile; }) => {
-            return this.$slots.file({
-              file: props.file,
-            })
-          },
-        } : null,
+        this.$slots.file
+          ? {
+              default: (props: { file: UploadFile }) => {
+                return this.$slots.file({
+                  file: props.file,
+                })
+              },
+            }
+          : null
       )
     } else {
       uploadList = null

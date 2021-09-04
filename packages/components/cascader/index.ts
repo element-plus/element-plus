@@ -10,4 +10,3 @@ const _Cascader = Cascader as SFCWithInstall<typeof Cascader>
 
 export default _Cascader
 export const ElCascader = _Cascader
-

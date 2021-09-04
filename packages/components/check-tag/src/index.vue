@@ -9,7 +9,7 @@
     <slot></slot>
   </span>
 </template>
-<script lang='ts'>
+<script lang="ts">
 import { defineComponent } from 'vue'
 export default defineComponent({
   name: 'ElCheckTag',
@@ -18,7 +18,6 @@ export default defineComponent({
   },
   emits: ['change'],
   setup(props, { emit }) {
-
     const onChange = () => {
       emit('change', !props.checked)
     }

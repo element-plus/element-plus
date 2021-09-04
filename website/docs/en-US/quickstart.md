@@ -30,9 +30,7 @@ functionalities based on ES Module.
 
 ```html
 <template>
-  <el-button>
-    I am ElButton
-  </el-button>
+  <el-button> I am ElButton </el-button>
 </template>
 <script>
   import { defineComponent } from 'vue'
@@ -195,12 +193,12 @@ module.exports = {
       {
         libraryName: 'element-plus',
         // import component
-        customName: name => {
+        customName: (name) => {
           name = name.slice(3)
           return `element-plus/lib/components/${name}`
         },
         // import style
-        customStyleName: name => {
+        customStyleName: (name) => {
           name = name.slice(3)
           // if you need [name].scss source file, you need to uncomment this line
           // return `element-plus/lib/components/${name}/style`

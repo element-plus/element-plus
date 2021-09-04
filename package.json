@@ -4,13 +4,13 @@
     "cz": "npx git-cz",
     "test": "jest",
     "gen": "bash ./scripts/gc.sh",
-    "bootstrap": "yarn --frozen-lockfile && npx lerna bootstrap && yarn gen:version",
     "gen:version": "esno build/gen-version.ts",
+    "update:version": "esno build/update-version.ts",
+    "bootstrap": "yarn --frozen-lockfile && npx lerna bootstrap && yarn gen:version",
     "clean:lib": "rimraf lib && rimraf es && rimraf dist",
     "build:locale-umd": "esno ./build/build-locale.ts",
     "build:helper": "esno build/build-helper.ts",
     "build:indices": "esno build/build-indices.ts",
-    "update:version": "esno build/update-version.ts",
     "build:comps": "rimraf dist/components && esno build/components.ts",
     "build:style": "gulp --cwd ./build",
     "build:prod": "sh scripts/monorepo.sh",
@@ -21,10 +21,9 @@
     "build:utils": "cd packages/utils && yarn clean && yarn build",
     "build:tokens": "cd packages/tokens && yarn clean && yarn build",
     "build:full-bundle": "esno build/full-bundle.ts",
-    "format": "yarn format:scss",
-    "format:scss": "prettier --write **/*.scss",
-    "lint": "eslint ./packages --ext .vue,.js,.ts",
-    "lint-fix": "eslint --fix ./packages --ext .vue,.js,.ts",
+    "format": "prettier --write '**/*.{vue,js,ts,jsx,tsx,scss,json,yaml,md,html}'",
+    "lint": "eslint ./packages --ext .vue,.js,.ts,.jsx,.tsx && prettier --check '**/*.{scss,json,yaml,md,html}'",
+    "lint:fix": "eslint --fix ./packages --ext .vue,.js,.ts,.jsx,.tsx && prettier --write '**/*.{scss,json,yaml,md,html}'",
     "website-build": "rimraf website-dist && cross-env NODE_ENV=production webpack --config ./website/webpack.config.js",
     "website-dev": "webpack-dev-server --config ./website/webpack.config.js",
     "website-dev:play": "cross-env PLAY_ENV=true yarn website-dev"
@@ -68,6 +67,8 @@
     "cz-conventional-changelog": "^3.3.0",
     "esbuild": "^0.12.5",
     "eslint": "^7.7.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^7.0.0-beta.0",
     "esno": "^0.9.1",
     "fast-glob": "^3.2.7",
@@ -89,6 +90,7 @@
     "markdown-it-container": "^3.0.0",
     "mini-css-extract-plugin": "^0.11.2",
     "ora": "^5.4.1",
+    "prettier": "^2.3.2",
     "progress-bar-webpack-plugin": "^2.1.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.28.2",
@@ -133,8 +135,8 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts,vue}": "eslint --fix",
-    "*.{scss}": "prettier --write"
+    "*.{vue,js,ts,jsx,tsx}": "eslint --fix",
+    "*.{scss,json,yaml,md,html}": "prettier --write"
   },
   "workspaces": [
     "packages/*"
