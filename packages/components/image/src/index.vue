@@ -304,7 +304,15 @@ export default defineComponent({
     watch(
       () => props.src,
       () => {
-        loadImage()
+        if (props.lazy) {
+          // reset status
+          loading.value = true
+          hasLoadError.value = false
+          removeLazyLoadListener()
+          nextTick(addLazyLoadListener)
+        } else {
+          loadImage()
+        }
       }
     )
 
