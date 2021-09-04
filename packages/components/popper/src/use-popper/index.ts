@@ -1,4 +1,4 @@
-import { computed, ref, reactive, watch, unref } from 'vue'
+import { computed, shallowRef, ref, reactive, watch, unref } from 'vue'
 import { createPopper } from '@popperjs/core'
 import {
   generateId,
@@ -10,19 +10,14 @@ import {
 import PopupManager from '@element-plus/utils/popup-manager'
 import usePopperOptions from './popper-options'
 
-import type {
-  ComponentPublicInstance,
-  CSSProperties,
-  SetupContext,
-  Ref,
-} from 'vue'
+import type { ComponentPublicInstance, CSSProperties, SetupContext } from 'vue'
 import type { TimeoutHandle, Nullable } from '@element-plus/utils/types'
 import type {
-  IPopperOptions,
+  PopperProps,
   TriggerType,
   PopperInstance,
   RefElement,
-} from './defaults'
+} from './popper.type'
 
 export type ElementType = ComponentPublicInstance | HTMLElement
 export type EmitType =
@@ -42,13 +37,14 @@ export interface PopperEvents {
 
 export const DEFAULT_TRIGGER = ['hover']
 export const UPDATE_VISIBLE_EVENT = 'update:visible'
+
 export default function (
-  props: IPopperOptions,
+  props: PopperProps,
   { emit }: SetupContext<EmitType[]>
 ) {
-  const arrowRef = ref<RefElement>(null)
-  const triggerRef = ref(null) as Ref<ElementType>
-  const popperRef = ref<RefElement>(null)
+  const arrowRef = shallowRef<RefElement>()
+  const triggerRef = shallowRef<ElementType>()
+  const popperRef = shallowRef<RefElement>()
 
   const popperId = `el-popper-${generateId()}`
   let popperInstance: Nullable<PopperInstance> = null
@@ -99,8 +95,8 @@ export default function (
   }
 
   function clearTimers() {
-    clearTimeout(showTimer)
-    clearTimeout(hideTimer)
+    showTimer !== null && clearTimeout(showTimer)
+    hideTimer !== null && clearTimeout(hideTimer)
   }
 
   const show = () => {
@@ -136,7 +132,7 @@ export default function (
   function onPopperMouseEnter() {
     // if trigger is click, user won't be able to close popper when
     // user tries to move the mouse over popper contents
-    if (props.enterable && props.trigger !== 'click') {
+    if (props.enterable && props.trigger !== 'click' && hideTimer !== null) {
       clearTimeout(hideTimer)
     }
   }
@@ -158,17 +154,17 @@ export default function (
   }
 
   function initializePopper() {
-    if (!unref(visibility)) {
+    const unwrappedTrigger = unref(triggerRef)
+    if (!unref(visibility) || !unwrappedTrigger) {
       return
     }
-    const unwrappedTrigger = unref(triggerRef)
     const _trigger = isHTMLElement(unwrappedTrigger)
       ? unwrappedTrigger
-      : (unwrappedTrigger as ComponentPublicInstance).$el
+      : unwrappedTrigger.$el
     popperInstance = createPopper(
       _trigger,
-      unref(popperRef),
-      unref(popperOptions)
+      popperRef.value!,
+      popperOptions.value
     )
 
     popperInstance.update()
@@ -185,7 +181,7 @@ export default function (
     popperInstance = null
   }
 
-  const events = {} as PopperEvents
+  const events: PopperEvents = {}
 
   function update() {
     if (!unref(visibility)) {
@@ -256,7 +252,7 @@ export default function (
     }
 
     const mapEvents = (t: TriggerType) => {
-      triggerEventsMap[t].forEach((event) => {
+      triggerEventsMap[t]?.forEach((event) => {
         events[event] = popperEventsHandler
       })
     }
@@ -264,7 +260,7 @@ export default function (
     if (isArray(props.trigger)) {
       Object.values(props.trigger).forEach(mapEvents)
     } else {
-      mapEvents(props.trigger as TriggerType)
+      mapEvents(props.trigger)
     }
   }
 
@@ -309,4 +305,4 @@ export default function (
   }
 }
 
-export * from './defaults'
+export * from './popper.type'

@@ -16,7 +16,7 @@ import { ClickOutside } from '@element-plus/directives'
 import { throwError } from '@element-plus/utils/error'
 
 import usePopper from './use-popper/index'
-import defaultProps from './use-popper/defaults'
+import { popperProps } from './use-popper/popper.type'
 import { renderPopper, renderTrigger, renderArrow } from './renderers'
 
 const compName = 'ElPopper'
@@ -24,7 +24,8 @@ const UPDATE_VISIBLE_EVENT = 'update:visible'
 
 export default defineComponent({
   name: compName,
-  props: defaultProps,
+
+  props: popperProps,
   emits: [
     UPDATE_VISIBLE_EVENT,
     'after-enter',
@@ -32,6 +33,7 @@ export default defineComponent({
     'before-enter',
     'before-leave',
   ],
+
   setup(props, ctx) {
     if (!ctx.slots.trigger) {
       throwError(compName, 'Trigger must be provided')
@@ -102,7 +104,7 @@ export default defineComponent({
       ]
     )
 
-    const _t = $slots.trigger?.()
+    const _t = $slots.trigger?.()!
 
     const triggerProps = {
       'aria-describedby': popperId,

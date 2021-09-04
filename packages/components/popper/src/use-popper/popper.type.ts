@@ -1,18 +1,19 @@
-import type { PropType } from 'vue'
+import { buildProp } from '@element-plus/utils/props'
+
+import type { ExtractPropTypes } from 'vue'
 import type {
   Placement,
   PositioningStrategy,
   Instance as PopperInstance,
   Options,
 } from '@popperjs/core'
-import type { Nullable } from '@element-plus/utils/types'
 
 export enum Effect {
   DARK = 'dark',
   LIGHT = 'light',
 }
 
-export type RefElement = Nullable<HTMLElement>
+export type RefElement = HTMLElement | undefined
 export type Offset = [number, number] | number
 
 export type { Placement, PositioningStrategy, PopperInstance, Options }
@@ -21,34 +22,11 @@ export type TriggerType = 'click' | 'hover' | 'focus' | 'manual'
 
 export type Trigger = TriggerType | TriggerType[]
 
-export type IPopperOptions = {
-  arrowOffset: number
-  autoClose: number
-  boundariesPadding: number
-  class: string
-  cutoff: boolean
-  disabled: boolean
-  enterable: boolean
-  hideAfter: number
-  manualMode: boolean
-  offset: number
-  placement: Placement
-  popperOptions: Partial<Options>
-  showAfter: number
-  showArrow: boolean
-  strategy: PositioningStrategy
-  trigger: Trigger
-  visible: boolean
-  stopPopperMouseEvent: boolean
-  gpuAcceleration: boolean
-  fallbackPlacements: Array<Placement>
-}
-
 // duplicate export at index.ts
 // export const DEFAULT_TRIGGER = 'hover'
 const DEFAULT_FALLBACK_PLACEMENTS = []
 
-export default {
+export const popperProps = {
   // the arrow size is an equailateral triangle with 10px side length, the 3rd side length ~ 14.1px
   // adding a offset to the ceil of 4.1 should be 5 this resolves the problem of arrow overflowing out of popper.
   arrowOffset: {
@@ -88,10 +66,11 @@ export default {
     type: Boolean,
     default: false,
   },
-  effect: {
-    type: String as PropType<Effect>,
+  effect: buildProp({
+    type: String,
+    values: Object.values(Effect),
     default: Effect.DARK,
-  },
+  }),
   enterable: {
     type: Boolean,
     default: true,
@@ -108,10 +87,10 @@ export default {
     type: Number,
     default: 12,
   },
-  placement: {
-    type: String as PropType<Placement>,
-    default: 'bottom' as Placement,
-  },
+  placement: buildProp<Placement>({
+    type: String,
+    default: 'bottom',
+  }),
   popperClass: {
     type: String,
     default: '',
@@ -121,30 +100,30 @@ export default {
     default: false,
   },
   // Once this option were given, the entire popper is under the users' control, top priority
-  popperOptions: {
-    type: Object as PropType<Partial<Options>>,
-    default: () => null,
-  },
+  popperOptions: buildProp<Partial<Options>>({
+    type: Object,
+    default: () => ({}),
+  }),
   showArrow: {
     type: Boolean,
     default: true,
   },
-  strategy: {
-    type: String as PropType<PositioningStrategy>,
-    default: 'fixed' as PositioningStrategy,
-  },
+  strategy: buildProp<PositioningStrategy>({
+    type: String,
+    default: 'fixed',
+  }),
   transition: {
     type: String,
     default: 'el-fade-in-linear',
   },
-  trigger: {
-    type: [String, Array] as PropType<Trigger>,
+  trigger: buildProp<Trigger>({
+    type: [String, Array],
     default: 'hover',
-  },
-  visible: {
+  }),
+  visible: buildProp<boolean | undefined>({
     type: Boolean,
     default: undefined,
-  },
+  }),
   stopPopperMouseEvent: {
     type: Boolean,
     default: true,
@@ -153,8 +132,9 @@ export default {
     type: Boolean,
     default: true,
   },
-  fallbackPlacements: {
-    type: Array as PropType<Placement[]>,
-    default: DEFAULT_FALLBACK_PLACEMENTS,
-  },
-}
+  fallbackPlacements: buildProp<Placement[]>({
+    type: Array,
+    default: () => DEFAULT_FALLBACK_PLACEMENTS,
+  }),
+} as const
+export type PopperProps = ExtractPropTypes<typeof popperProps>

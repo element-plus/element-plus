@@ -20,5 +20,5 @@ export default function renderTrigger(
   const firstElement = getFirstValidNode(trigger, 1)
   if (!firstElement)
     throwError('renderTrigger', 'trigger expects single rooted node')
-  return cloneVNode(firstElement, extraProps, true)
+  return cloneVNode(firstElement!, extraProps, true)
 }
