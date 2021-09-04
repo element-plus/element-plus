@@ -135,7 +135,10 @@
     }
   },
   "lint-staged": {
-    "*.{vue,js,ts,jsx,tsx}": "eslint --fix",
+    "*.{vue,js,ts,jsx,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
     "*.{scss,css,json,yaml,yml,md,html}": "prettier --write"
   },
   "workspaces": [
