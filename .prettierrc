@@ -2,7 +2,6 @@
   "printWidth": 80,
   "semi": false,
   "singleQuote": true,
-  "endOfLine": "auto",
   "overrides": [
     {
       "files": ".prettierrc",
