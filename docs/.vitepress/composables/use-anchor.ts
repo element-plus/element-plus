@@ -14,7 +14,6 @@ export const useAnchor = () => {
     if (sidebar === false) return []
 
     return resolveAutoSidebar(headers, sidebarDepth)
-
   })
 }
 
@@ -36,7 +35,7 @@ function resolveAutoSidebar(headers: PageData['headers'], depth: number) {
       lastH2 = item
       ret.push(item)
     } else if (lastH2) {
-      (lastH2.children || (lastH2.children = [])).push(item)
+      ;(lastH2.children || (lastH2.children = [])).push(item)
     }
   })
   return ret

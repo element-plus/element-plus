@@ -2,12 +2,15 @@
   <div class="page-changelog">
     <div class="heading">
       <el-button class="fr">
-        <a href="https://github.com/element-plus/element-plus/releases" target="_blank">GitHub Releases</a>
+        <a
+          href="https://github.com/element-plus/element-plus/releases"
+          target="_blank"
+          >GitHub Releases</a
+        >
       </el-button>
       {{ langConfig[1] }}
     </div>
-    <ul ref="timeline" class="timeline">
-    </ul>
+    <ul ref="timeline" class="timeline"></ul>
     <!-- <change-log-cn v-if="lang === 'zh-CN'" ref="changeLog" /> -->
     <!-- <change-log-es v-if="lang === 'es'" ref="changeLog" /> -->
     <change-log-en ref="changeLog" />
@@ -37,7 +40,8 @@ export default {
   },
   computed: {
     langConfig() {
-      return pageLang.filter(config => config.lang === this.lang)[0].pages.changelog
+      return pageLang.filter((config) => config.lang === this.lang)[0].pages
+        .changelog
     },
   },
   mounted() {
@@ -60,8 +64,14 @@ export default {
         fragments += `</li><li><h3><a href="https://github.com/element-plus/element-plus/releases/tag/${release}" target="_blank">${release}</a></h3>`
       }
     }
-    fragments = fragments.replace(/#(\d+)/g, '<a href="https://github.com/element-plus/element-plus/issues/$1" target="_blank">#$1</a>')
-    fragments = fragments.replace(/@([\w-]+)/g, '<a href="https://github.com/$1" target="_blank">@$1</a>')
+    fragments = fragments.replace(
+      /#(\d+)/g,
+      '<a href="https://github.com/element-plus/element-plus/issues/$1" target="_blank">#$1</a>'
+    )
+    fragments = fragments.replace(
+      /@([\w-]+)/g,
+      '<a href="https://github.com/$1" target="_blank">@$1</a>'
+    )
     this.$refs.timeline.innerHTML = `${fragments}</li>`
 
     changeLog.$el.remove()
@@ -69,119 +79,119 @@ export default {
 }
 </script>
 <style lang="scss">
-  .page-changelog {
-    padding-bottom: 100px;
-    .fr {
-      float: right;
-      padding: 0;
-      &.el-button {
-        transform: translateY(-3px);
-      }
-      a {
-        display: block;
-        padding: 10px 15px;
-        color: var(--el-text-color-primary);
-      }
-      &:hover a {
-        color: #409EFF;
-      }
+.page-changelog {
+  padding-bottom: 100px;
+  .fr {
+    float: right;
+    padding: 0;
+    &.el-button {
+      transform: translateY(-3px);
     }
-    .heading {
-      font-size: 24px;
-      margin-bottom: 60px;
+    a {
+      display: block;
+      padding: 10px 15px;
       color: var(--el-text-color-primary);
     }
-    .timeline {
-      padding: 0;
-      padding-bottom: 10px;
+    &:hover a {
+      color: #409eff;
+    }
+  }
+  .heading {
+    font-size: 24px;
+    margin-bottom: 60px;
+    color: var(--el-text-color-primary);
+  }
+  .timeline {
+    padding: 0;
+    padding-bottom: 10px;
+    position: relative;
+    color: #5e6d82;
+    > li {
       position: relative;
-      color: #5e6d82;
-      > li {
-        position: relative;
-        padding-bottom: 15px;
-        list-style: none;
-        line-height: 1.8;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        &:not(:last-child) {
-          margin-bottom: 50px;
-        }
+      padding-bottom: 15px;
+      list-style: none;
+      line-height: 1.8;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      &:not(:last-child) {
+        margin-bottom: 50px;
       }
+    }
+    ul {
+      padding: 30px 30px 15px;
       ul {
-        padding: 30px 30px 15px;
-        ul {
-          padding: 0;
-          padding-top: 5px;
-          padding-left: 27px;
-          li {
-            padding-left: 0;
-            color: #555;
-            word-break: normal;
-          }
-          li::before {
-            content: '';
-            circle: 4px #fff;
-            border: solid 1px var(--el-text-color-primary);
-            margin-right: -12px;
-            display: inline-block;
-            vertical-align: middle;
-          }
+        padding: 0;
+        padding-top: 5px;
+        padding-left: 27px;
+        li {
+          padding-left: 0;
+          color: #555;
+          word-break: normal;
         }
-      }
-      li li {
-        font-size: 16px;
-        list-style: none;
-        padding-left: 20px;
-        padding-bottom: 5px;
-        color: var(--el-text-color-primary);
-        word-break: break-all;
-        &:before {
+        li::before {
           content: '';
-          circle: 6px var(--el-text-color-primary);
-          transform: translateX(-20px);
+          circle: 4px #fff;
+          border: solid 1px var(--el-text-color-primary);
+          margin-right: -12px;
           display: inline-block;
           vertical-align: middle;
         }
       }
-
-      i {
-        padding: 0 20px;
+    }
+    li li {
+      font-size: 16px;
+      list-style: none;
+      padding-left: 20px;
+      padding-bottom: 5px;
+      color: var(--el-text-color-primary);
+      word-break: break-all;
+      &:before {
+        content: '';
+        circle: 6px var(--el-text-color-primary);
+        transform: translateX(-20px);
         display: inline-block;
-      }
-      h3 {
-        margin:0;
-        padding: 15px 30px;
-        border-bottom: 1px solid #ddd;
-        font-size: 20px;
-        color: var(--el-text-color-primary);
-        font-weight: bold;
-        a {
-          opacity: 1;
-          font-size: 20px;
-          float: none;
-          margin-left: 0;
-          color: var(--el-text-color-primary);
-        }
-      }
-      h4 {
-        margin: 0;
-        margin-bottom: -10px;
-        font-size: 18px;
-        padding-left: 54px;
-        padding-top: 30px;
-        font-weight: bold;
-      }
-      p {
-        margin: 0;
-      }
-      em {
-        position: absolute;
-        right: 30px;
-        font-style: normal;
-        top: 23px;
-        font-size: 16px;
-        color: var(--el-text-color-regular);
+        vertical-align: middle;
       }
     }
+
+    i {
+      padding: 0 20px;
+      display: inline-block;
+    }
+    h3 {
+      margin: 0;
+      padding: 15px 30px;
+      border-bottom: 1px solid #ddd;
+      font-size: 20px;
+      color: var(--el-text-color-primary);
+      font-weight: bold;
+      a {
+        opacity: 1;
+        font-size: 20px;
+        float: none;
+        margin-left: 0;
+        color: var(--el-text-color-primary);
+      }
+    }
+    h4 {
+      margin: 0;
+      margin-bottom: -10px;
+      font-size: 18px;
+      padding-left: 54px;
+      padding-top: 30px;
+      font-weight: bold;
+    }
+    p {
+      margin: 0;
+    }
+    em {
+      position: absolute;
+      right: 30px;
+      font-style: normal;
+      top: 23px;
+      font-size: 16px;
+      color: var(--el-text-color-regular);
+    }
   }
+}
 </style>

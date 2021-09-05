@@ -17,7 +17,6 @@ const locale = computed(() => localeData[lang.value])
 const goHome = () => {
   window.location.href = `/${lang.value}/`
 }
-
 </script>
 
 <template>
@@ -27,7 +26,6 @@ const goHome = () => {
     </template>
   </el-result>
 </template>
-
 
 <style scoped>
 .el-result {

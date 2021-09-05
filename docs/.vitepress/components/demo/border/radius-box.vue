@@ -4,11 +4,20 @@
       v-for="(radius, i) in radiusGroup"
       :key="i"
       :span="6"
-      :xs="{span: 12}"
+      :xs="{ span: 12 }"
     >
       <div class="title">{{ radius.name }}</div>
-      <div class="value"><code>border-radius: {{ getValue(radius.type) || '0px' }}</code></div>
-      <div class="radius" :style="{ borderRadius: radius.type ? `var(--el-border-radius-${radius.type})` : '' }"></div>
+      <div class="value">
+        <code>border-radius: {{ getValue(radius.type) || '0px' }}</code>
+      </div>
+      <div
+        class="radius"
+        :style="{
+          borderRadius: radius.type
+            ? `var(--el-border-radius-${radius.type})`
+            : '',
+        }"
+      ></div>
     </el-col>
   </el-row>
 </template>

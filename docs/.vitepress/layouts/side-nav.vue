@@ -13,7 +13,7 @@
             :href="sponsor.url"
             target="_blank"
           >
-            <img :src="sponsor.img" :alt="sponsor.name">
+            <img :src="sponsor.img" :alt="sponsor.name" />
           </a>
         </li>
       </ul>
@@ -46,7 +46,7 @@ type SideNavItem = {
   children: Array<SideNavItem>
 }
 
-defineProps<{ open: boolean; }>()
+defineProps<{ open: boolean }>()
 const emit = defineEmits(['sidebar-change'])
 const isHome = useIsHome()
 const { theme } = useData()
@@ -75,7 +75,7 @@ const sponsors = [
   },
 ]
 
-watch(sidebars, val => {
+watch(sidebars, (val) => {
   emit('sidebar-change', val.length > 0)
 })
 
