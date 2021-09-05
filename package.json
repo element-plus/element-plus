@@ -113,7 +113,7 @@
     "ts-node": "^10.1.0",
     "typescript": "^4.4.2",
     "url-loader": "^4.1.1",
-    "vue": "^3.2.0",
+    "vue": "^3.2.8",
     "vue-jest": "5.0.0-alpha.5",
     "vue-loader": "^16.1.2",
     "vue-router": "^4.0.2",
