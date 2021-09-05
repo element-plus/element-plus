@@ -94,7 +94,7 @@
     "prettier": "^2.3.2",
     "progress-bar-webpack-plugin": "^2.1.0",
     "rimraf": "^3.0.2",
-    "rollup": "^2.28.2",
+    "rollup": "^2.56.3",
     "rollup-plugin-css-only": "^2.1.0",
     "rollup-plugin-esbuild": "^4.2.3",
     "rollup-plugin-filesize": "^9.1.1",
