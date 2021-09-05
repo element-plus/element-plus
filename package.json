@@ -48,7 +48,7 @@
     "@types/jest": "^26.0.10",
     "@types/klaw-sync": "^6.0.1",
     "@types/lodash": "^4.14.161",
-    "@typescript-eslint/eslint-plugin": "^4.29.3",
+    "@typescript-eslint/eslint-plugin": "^4.30.0",
     "@typescript-eslint/parser": "^4.29.3",
     "@vue/babel-plugin-jsx": "^1.0.7",
     "@vue/compiler-sfc": "^3.2.8",
