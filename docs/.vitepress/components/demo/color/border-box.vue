@@ -28,7 +28,7 @@ export default {
     formatType,
     getColorValue(type) {
       return getComputedStyle(document.documentElement).getPropertyValue(
-        `--el-border-color-${type}`,
+        `--el-border-color-${type}`
       )
     },
   },

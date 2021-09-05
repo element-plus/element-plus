@@ -7,14 +7,14 @@
       </div>
     </div>
     <div ref="indexMainImg" class="jumbotron">
-      <img src="../assets/images/theme-index-blue.png" alt="">
+      <img src="../assets/images/theme-index-blue.png" alt="" />
       <div
         class="jumbotron-red"
         :style="{
-          height: mainImgOffset + 'px'
+          height: mainImgOffset + 'px',
         }"
       >
-        <img src="../assets/images/theme-index-red.png" alt="">
+        <img src="../assets/images/theme-index-red.png" alt="" />
       </div>
     </div>
     <div class="sponsors">
@@ -23,7 +23,7 @@
         href="https://bit.dev/?from=element-ui"
         target="_blank"
       >
-        <img width="45" src="../assets/images/bit.svg" alt="bit">
+        <img width="45" src="../assets/images/bit.svg" alt="bit" />
         <div>
           <p>{{ locale.sponsorLabel }} <span class="name">bit</span></p>
           <p>Share Code</p>
@@ -34,9 +34,12 @@
         href="https://www.renren.io/?from=element-ui"
         target="_blank"
       >
-        <img width="45" src="../assets/images/renren.png" alt="bit">
+        <img width="45" src="../assets/images/renren.png" alt="bit" />
         <div>
-          <p>{{ locale.sponsorLabel }} <span class="name">{{ locale.sponsorNameR }}</span></p>
+          <p>
+            {{ locale.sponsorLabel }}
+            <span class="name">{{ locale.sponsorNameR }}</span>
+          </p>
           <p>{{ locale.sponsorIntroR }}</p>
         </div>
       </a>
@@ -45,12 +48,12 @@
       <ul class="container">
         <li>
           <div class="card">
-            <img src="../assets/images/guide.png" alt="">
+            <img src="../assets/images/guide.png" alt="" />
             <h3>{{ homeLocale[3] }}</h3>
             <p>{{ homeLocale[4] }}</p>
             <nav-link
               :item="{
-                link: `/${ lang }/guide/design`,
+                link: `/${lang}/guide/design`,
                 text: homeLocale[5],
               }"
             />
@@ -58,12 +61,12 @@
         </li>
         <li>
           <div class="card">
-            <img src="../assets/images/component.png" alt="">
+            <img src="../assets/images/component.png" alt="" />
             <h3>{{ homeLocale[6] }}</h3>
             <p>{{ homeLocale[7] }}</p>
             <nav-link
               :item="{
-                link: `/${ lang }/component/layout`,
+                link: `/${lang}/component/layout`,
                 text: homeLocale[5],
               }"
             />
@@ -71,12 +74,12 @@
         </li>
         <li>
           <div class="card">
-            <img src="../assets/images/resource.png" alt="">
+            <img src="../assets/images/resource.png" alt="" />
             <h3>{{ homeLocale[8] }}</h3>
             <p>{{ homeLocale[9] }}</p>
             <nav-link
               :item="{
-                link: `/${ lang }/resource`,
+                link: `/${lang}/resource`,
                 text: homeLocale[5],
               }"
             />
@@ -113,12 +116,16 @@ const handleScroll = () => {
 const throttledHandleScroll = throttle(10, true, handleScroll)
 
 onMounted(() => {
-  const dom = document.querySelector('#app .el-scrollbar .el-scrollbar__wrap.el-scrollbar__wrap--hidden-default')
+  const dom = document.querySelector(
+    '#app .el-scrollbar .el-scrollbar__wrap.el-scrollbar__wrap--hidden-default'
+  )
   dom.addEventListener('scroll', throttledHandleScroll)
 })
 
 onBeforeUnmount(() => {
-  const dom = document.querySelector('#app .el-scrollbar .el-scrollbar__wrap.el-scrollbar__wrap--hidden-default')
+  const dom = document.querySelector(
+    '#app .el-scrollbar .el-scrollbar__wrap.el-scrollbar__wrap--hidden-default'
+  )
   dom.removeEventListener('scroll', throttledHandleScroll)
 })
 </script>

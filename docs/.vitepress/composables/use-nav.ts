@@ -5,7 +5,6 @@ import { useLang } from '../utils/routes'
 import { ensureLang } from '../site-utils'
 
 export const useNav = () => {
-
   const { theme } = useData()
   const lang = useLang()
 
