@@ -13,6 +13,7 @@
     "lodash": "^4.17.21",
     "normalize-wheel": "^1.0.1",
     "resize-observer-polyfill": "^1.5.1",
+    "sass": "^1.39.0",
     "typescript": "^4.4.2"
   },
   "devDependencies": {

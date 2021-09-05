@@ -17,6 +17,7 @@
   "dependencies": {
     "@element-plus/utils": "^0.0.5",
     "normalize-wheel": "^1.0.1",
+    "sass": "^1.39.0",
     "typescript": "^4.4.2"
   },
   "devDependencies": {
