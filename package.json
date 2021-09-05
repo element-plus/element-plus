@@ -51,7 +51,7 @@
     "@typescript-eslint/eslint-plugin": "^4.29.3",
     "@typescript-eslint/parser": "^4.29.3",
     "@vue/babel-plugin-jsx": "^1.0.7",
-    "@vue/compiler-sfc": "^3.2.0",
+    "@vue/compiler-sfc": "^3.2.8",
     "@vue/component-compiler-utils": "^3.2.0",
     "algoliasearch": "^4.4.0",
     "babel-jest": "^26.3.0",
