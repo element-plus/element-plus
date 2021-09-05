@@ -19,7 +19,7 @@ type Handler = () => void
 export const useTargetEvents = (
   onShow: Handler,
   onHide: Handler,
-  onToggle: Handler,
+  onToggle: Handler
 ) => {
   const { props } = getCurrentInstance()
 
@@ -58,18 +58,16 @@ export const useTargetEvents = (
     }
   }
 
-  const triggerEventsMap: Partial<Record<
-  TriggerType,
-  (keyof PopperEvents)[]
-  >> = {
-    click: ['onClick'],
-    hover: ['onMouseenter', 'onMouseleave'],
-    focus: ['onFocus', 'onBlur'],
-  }
+  const triggerEventsMap: Partial<Record<TriggerType, (keyof PopperEvents)[]>> =
+    {
+      click: ['onClick'],
+      hover: ['onMouseenter', 'onMouseleave'],
+      focus: ['onFocus', 'onBlur'],
+    }
 
   const mapEvents = (t: TriggerType) => {
     const events = {} as PopperEvents
-    triggerEventsMap[t].forEach(event => {
+    triggerEventsMap[t].forEach((event) => {
       events[event] = popperEventsHandler
     })
 

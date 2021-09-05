@@ -1,4 +1,5 @@
 ## Container
+
 Les composants Container servent à structurer la page:
 
 `<el-container>`: Conteneur de wrapping. Quand il est placé à l'intérieur de `<el-header>` ou `<el-footer>`, tous les éléments enfants seront placés verticalement. Dans le cas contraire ils seront placés horizontalement.
@@ -18,6 +19,7 @@ Ces composants utilisent flexbox, assurez vous que le navigateur supporte cette 
 ### Mises en page habituelles
 
 :::demo
+
 ```html
 <div class="common-layout">
   <el-container>
@@ -74,22 +76,23 @@ Ces composants utilisent flexbox, assurez vous que le navigateur supporte cette 
 </div>
 
 <style>
-  .el-header, .el-footer {
-    background-color: #B3C0D1;
+  .el-header,
+  .el-footer {
+    background-color: #b3c0d1;
     color: var(--el-text-color-primary);
     text-align: center;
     line-height: 60px;
   }
 
   .el-aside {
-    background-color: #D3DCE6;
+    background-color: #d3dce6;
     color: var(--el-text-color-primary);
     text-align: center;
     line-height: 200px;
   }
 
   .el-main {
-    background-color: #E9EEF3;
+    background-color: #e9eef3;
     color: var(--el-text-color-primary);
     text-align: center;
     line-height: 160px;
@@ -109,11 +112,13 @@ Ces composants utilisent flexbox, assurez vous que le navigateur supporte cette 
   }
 </style>
 ```
+
 :::
 
 ### Exemple
 
 :::demo
+
 ```html
 <el-container style="height: 500px; border: 1px solid #eee">
   <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
@@ -149,7 +154,9 @@ Ces composants utilisent flexbox, assurez vous que le navigateur supporte cette 
         </el-sub-menu>
       </el-sub-menu>
       <el-sub-menu index="3">
-        <template #title><i class="el-icon-setting"></i>Navigator Three</template>
+        <template #title
+          ><i class="el-icon-setting"></i>Navigator Three</template
+        >
         <el-menu-item-group>
           <template #title>Group 1</template>
           <el-menu-item index="3-1">Option 1</el-menu-item>
@@ -172,9 +179,9 @@ Ces composants utilisent flexbox, assurez vous que le navigateur supporte cette 
         <i class="el-icon-setting" style="margin-right: 15px"></i>
         <template #dropdown>
           <el-dropdown-menu>
-              <el-dropdown-item>View</el-dropdown-item>
-              <el-dropdown-item>Add</el-dropdown-item>
-              <el-dropdown-item>Delete</el-dropdown-item>
+            <el-dropdown-item>View</el-dropdown-item>
+            <el-dropdown-item>Add</el-dropdown-item>
+            <el-dropdown-item>Delete</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -187,8 +194,7 @@ Ces composants utilisent flexbox, assurez vous que le navigateur supporte cette 
         </el-table-column>
         <el-table-column prop="name" label="Name" width="120">
         </el-table-column>
-        <el-table-column prop="address" label="Address">
-        </el-table-column>
+        <el-table-column prop="address" label="Address"> </el-table-column>
       </el-table>
     </el-main>
   </el-container>
@@ -196,7 +202,7 @@ Ces composants utilisent flexbox, assurez vous que le navigateur supporte cette 
 
 <style>
   .el-header {
-    background-color: #B3C0D1;
+    background-color: #b3c0d1;
     color: var(--el-text-color-primary);
     line-height: 60px;
   }
@@ -212,13 +218,13 @@ Ces composants utilisent flexbox, assurez vous que le navigateur supporte cette 
       const item = {
         date: '2016-05-02',
         name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles'
-      };
-      return {
-        tableData: Array(20).fill(item)
+        address: 'No. 189, Grove St, Los Angeles',
       }
-    }
-  };
+      return {
+        tableData: Array(20).fill(item),
+      }
+    },
+  }
 </script>
 
 <!--
@@ -245,53 +251,59 @@ Ces composants utilisent flexbox, assurez vous que le navigateur supporte cette 
 </setup>
 -->
 ```
+
 :::
 
 ### Attributs de Container
-| Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
+
+| Attribut  | Description                                      | Type   | Valeurs acceptées     | Défaut                                                           |
+| --------- | ------------------------------------------------ | ------ | --------------------- | ---------------------------------------------------------------- |
 | direction | Direction d'affichage pour les éléments enfants. | string | horizontal / vertical | vertical quand dans `el-header` ou `el-footer`; horizontal sinon |
 
 ### Container Slots
-| Name | Description | Subtags |
-| --- | -------- | ----- |
+
+| Name    | Description                 | Subtags                        |
+| ------- | --------------------------- | ------------------------------ |
 | default | customize container content | Header / Aside / Main / Footer |
 
 ### Attributs de Header
-| Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| height | Hauteur du header. | string | — | 60px |
+
+| Attribut | Description        | Type   | Valeurs acceptées | Défaut |
+| -------- | ------------------ | ------ | ----------------- | ------ |
+| height   | Hauteur du header. | string | —                 | 60px   |
 
 ### Header Slots
 
-| Name | Description |
-| --- |  -------- |
+| Name    | Description              |
+| ------- | ------------------------ |
 | default | customize header content |
 
 ### Attributs de Aside
-| Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| width | Largeur de la section. | string | — | 300px |
+
+| Attribut | Description            | Type   | Valeurs acceptées | Défaut |
+| -------- | ---------------------- | ------ | ----------------- | ------ |
+| width    | Largeur de la section. | string | —                 | 300px  |
 
 ### Aside Slots
 
-| Name | Description |
-| ---- | -------- |
+| Name    | Description             |
+| ------- | ----------------------- |
 | default | customize aside content |
 
 ### Main Slots
 
-| Name | Description |
-| ---- | -------- |
+| Name    | Description            |
+| ------- | ---------------------- |
 | default | customize main content |
 
 ### Attributs de Footer
-| Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| height | Hauteur du footer. | string | — | 60px |
+
+| Attribut | Description        | Type   | Valeurs acceptées | Défaut |
+| -------- | ------------------ | ------ | ----------------- | ------ |
+| height   | Hauteur du footer. | string | —                 | 60px   |
 
 ### Footer Slots
 
-| Name | Description |
-| --- | -------- |
+| Name    | Description              |
+| ------- | ------------------------ |
 | default | customize footer content |

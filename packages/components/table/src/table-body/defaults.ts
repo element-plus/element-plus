@@ -1,6 +1,11 @@
 import type { PropType } from 'vue'
 import type { Store } from '../store'
-import type { ColumnCls, ColumnStyle, DefaultRow, Table } from '../table/defaults'
+import type {
+  ColumnCls,
+  ColumnStyle,
+  DefaultRow,
+  Table,
+} from '../table/defaults'
 
 interface TableBodyProps<T> {
   store: Store<T>
@@ -25,10 +30,10 @@ const defaultProps = {
     type: Object as PropType<TableBodyProps<DefaultRow>['context']>,
   },
   rowClassName: [String, Function] as PropType<
-  TableBodyProps<DefaultRow>['rowClassName']
+    TableBodyProps<DefaultRow>['rowClassName']
   >,
   rowStyle: [Object, Function] as PropType<
-  TableBodyProps<DefaultRow>['rowStyle']
+    TableBodyProps<DefaultRow>['rowStyle']
   >,
   fixed: {
     type: String,

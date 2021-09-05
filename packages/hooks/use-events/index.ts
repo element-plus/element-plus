@@ -9,8 +9,7 @@ export type Event = {
 }
 
 export default (el: Ref<HTMLElement>, events: Event[]) => {
-
-  watch(el, val => {
+  watch(el, (val) => {
     if (val) {
       events.forEach(({ name, handler }) => {
         on(el.value, name, handler)

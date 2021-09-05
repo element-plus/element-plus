@@ -47,7 +47,7 @@ export interface ISliderProvider {
 export type Mark = {
   point: number
   position: number
-  mark: { [s: string]: any; }
+  mark: { [s: string]: any }
 }
 
 export type Marks = ComputedRef<Mark[]>

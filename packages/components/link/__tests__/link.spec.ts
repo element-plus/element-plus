@@ -38,7 +38,6 @@ describe('Link.vue', () => {
     expect(wrapper.emitted('click')).toBeUndefined()
   })
 
-
   test('icon slots', () => {
     const linkName = 'test link'
     const wrapper = mount(Link, {
@@ -50,5 +49,4 @@ describe('Link.vue', () => {
     expect(wrapper.text()).toContain(linkName)
     expect(wrapper.text()).toContain(AXIOM)
   })
-
 })

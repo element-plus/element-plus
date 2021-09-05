@@ -20,7 +20,7 @@ export default (trigger: Ref<boolean>) => {
   if (!isRef(trigger)) {
     throwError(
       '[useLockScreen]',
-      'You need to pass a ref param to this function',
+      'You need to pass a ref param to this function'
     )
   }
   let scrollBarWidth = 0
@@ -38,14 +38,14 @@ export default (trigger: Ref<boolean>) => {
       document.body.style.paddingRight = bodyPaddingRight
     }
   }
-  watch(trigger, val => {
+  watch(trigger, (val) => {
     if (val) {
       withoutHiddenClass = !hasClass(document.body, 'el-popup-parent--hidden')
       if (withoutHiddenClass) {
         bodyPaddingRight = document.body.style.paddingRight
         computedBodyPaddingRight = parseInt(
           getStyle(document.body, 'paddingRight'),
-          10,
+          10
         )
       }
       scrollBarWidth = getScrollBarWidth()

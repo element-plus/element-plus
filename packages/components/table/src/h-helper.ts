@@ -10,11 +10,11 @@ export function hGutter() {
 
 export function hColgroup<T>(columns: TableColumnCtx<T>[], hasGutter = false) {
   return h('colgroup', {}, [
-    ...columns.map(column =>
+    ...columns.map((column) =>
       h('col', {
         name: column.id,
         key: column.id,
-      }),
+      })
     ),
     hasGutter && hGutter(),
   ])

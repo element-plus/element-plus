@@ -40,44 +40,44 @@ export default defineComponent({
       // it will not automatically update, thus we simply use h function to manage updating
       return props.mask
         ? createVNode(
-          'div',
-          {
-            class: ['el-overlay', props.overlayClass],
-            style: {
-              zIndex: props.zIndex,
+            'div',
+            {
+              class: ['el-overlay', props.overlayClass],
+              style: {
+                zIndex: props.zIndex,
+              },
+              onClick: onMaskClick,
+              onMousedown: (e: MouseEvent) => {
+                // marking current mousedown target.
+                if (props.mask) {
+                  mousedownTarget = e.target === e.currentTarget
+                }
+              },
+              onMouseup: (e: MouseEvent) => {
+                if (props.mask) {
+                  mouseupTarget = e.target === e.currentTarget
+                }
+              },
             },
-            onClick: onMaskClick,
-            onMousedown: (e: MouseEvent) => {
-              // marking current mousedown target.
-              if (props.mask) {
-                mousedownTarget = e.target === e.currentTarget
-              }
-            },
-            onMouseup: (e: MouseEvent) => {
-              if (props.mask) {
-                mouseupTarget = e.target === e.currentTarget
-              }
-            },
-          },
-          [renderSlot(slots, 'default')],
-          PatchFlags.STYLE | PatchFlags.CLASS | PatchFlags.PROPS,
-          ['onClick', 'onMouseup', 'onMousedown'],
-        )
+            [renderSlot(slots, 'default')],
+            PatchFlags.STYLE | PatchFlags.CLASS | PatchFlags.PROPS,
+            ['onClick', 'onMouseup', 'onMousedown']
+          )
         : h(
-          'div',
-          {
-            class: props.overlayClass,
-            style: {
-              zIndex: props.zIndex,
-              position: 'fixed',
-              top: '0px',
-              right: '0px',
-              bottom: '0px',
-              left: '0px',
+            'div',
+            {
+              class: props.overlayClass,
+              style: {
+                zIndex: props.zIndex,
+                position: 'fixed',
+                top: '0px',
+                right: '0px',
+                bottom: '0px',
+                left: '0px',
+              },
             },
-          },
-          [renderSlot(slots, 'default')],
-        )
+            [renderSlot(slots, 'default')]
+          )
     }
   },
 })

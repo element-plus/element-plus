@@ -9,7 +9,7 @@
     <slot></slot>
   </ul>
 </template>
-<script lang='ts'>
+<script lang="ts">
 import { defineComponent, getCurrentInstance, onMounted } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
 import { useDropdown, initDropdownDomEvent } from './useDropdown'
@@ -37,7 +37,11 @@ export default defineComponent({
 
     onMounted(() => {
       const dropdownMenu = getCurrentInstance()
-      initDropdownDomEvent(dropdownMenu, elDropdown.triggerElm.value, elDropdown.instance)
+      initDropdownDomEvent(
+        dropdownMenu,
+        elDropdown.triggerElm.value,
+        elDropdown.instance
+      )
     })
 
     return {
@@ -50,4 +54,3 @@ export default defineComponent({
   },
 })
 </script>
-

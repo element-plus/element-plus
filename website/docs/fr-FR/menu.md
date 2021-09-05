@@ -7,8 +7,14 @@ Menu qui fournit un système de navigation à votre site.
 La barre du haut peut être utilisée pour différents scénarios.
 
 :::demo Par défaut le menu est vertical, mais vous pouvez le passer en horizontal en réglant l'attribut `mode` sur 'horizontal'. De plus, vous pouvez utiliser le composant sub-menu pour créer un second niveau niveau de menu. Le menu utilises `background-color`, `text-color` et `active-text-color` pour personnaliser les couleurs.
+
 ```html
-<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+<el-menu
+  :default-active="activeIndex"
+  class="el-menu-demo"
+  mode="horizontal"
+  @select="handleSelect"
+>
   <el-menu-item index="1">Centre de traitement</el-menu-item>
   <el-sub-menu index="2">
     <template #title>Lieu de travail</template>
@@ -33,7 +39,8 @@ La barre du haut peut être utilisée pour différents scénarios.
   @select="handleSelect"
   background-color="#545c64"
   text-color="#fff"
-  active-text-color="#ffd04b">
+  active-text-color="#ffd04b"
+>
   <el-menu-item index="1">Centre de traitement</el-menu-item>
   <el-sub-menu index="2">
     <template #title>Lieu de travail</template>
@@ -56,14 +63,14 @@ La barre du haut peut être utilisée pour différents scénarios.
     data() {
       return {
         activeIndex: '1',
-        activeIndex2: '1'
-      };
+        activeIndex2: '1',
+      }
     },
     methods: {
       handleSelect(key, keyPath) {
-        console.log(key, keyPath);
-      }
-    }
+        console.log(key, keyPath)
+      },
+    },
   }
 </script>
 <!--
@@ -89,6 +96,7 @@ La barre du haut peut être utilisée pour différents scénarios.
 </setup>
 -->
 ```
+
 :::
 
 ### Barre latérale
@@ -96,6 +104,7 @@ La barre du haut peut être utilisée pour différents scénarios.
 Menu vertical avec sous-menus.
 
 :::demo Vous pouvez utiliser le composant el-menu-item-group pour créer un groupe dans le menu dont le nom sera déterminé par celui de la propriété title ou d'un slot.
+
 ```html
 <el-row class="tac">
   <el-col :span="12">
@@ -104,7 +113,8 @@ Menu vertical avec sous-menus.
       default-active="2"
       class="el-menu-vertical-demo"
       @open="handleOpen"
-      @close="handleClose">
+      @close="handleClose"
+    >
       <el-sub-menu index="1">
         <template #title>
           <i class="el-icon-location"></i>
@@ -145,7 +155,8 @@ Menu vertical avec sous-menus.
       @close="handleClose"
       background-color="#545c64"
       text-color="#fff"
-      active-text-color="#ffd04b">
+      active-text-color="#ffd04b"
+    >
       <el-sub-menu index="1">
         <template #title>
           <i class="el-icon-location"></i>
@@ -183,12 +194,12 @@ Menu vertical avec sous-menus.
   export default {
     methods: {
       handleOpen(key, keyPath) {
-        console.log(key, keyPath);
+        console.log(key, keyPath)
       },
       handleClose(key, keyPath) {
-        console.log(key, keyPath);
-      }
-    }
+        console.log(key, keyPath)
+      },
+    },
   }
 </script>
 <!--
@@ -214,6 +225,7 @@ Menu vertical avec sous-menus.
 </setup>
 -->
 ```
+
 :::
 
 ### Menu réduit
@@ -221,12 +233,19 @@ Menu vertical avec sous-menus.
 Le menu vertical peut être réduit.
 
 :::demo
+
 ```html
 <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
   <el-radio-button :label="false">Agrandir</el-radio-button>
   <el-radio-button :label="true">Réduire</el-radio-button>
 </el-radio-group>
-<el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
+<el-menu
+  default-active="2"
+  class="el-menu-vertical-demo"
+  @open="handleOpen"
+  @close="handleClose"
+  :collapse="isCollapse"
+>
   <el-sub-menu index="1">
     <template #title>
       <i class="el-icon-location"></i>
@@ -270,17 +289,17 @@ Le menu vertical peut être réduit.
   export default {
     data() {
       return {
-        isCollapse: true
-      };
+        isCollapse: true,
+      }
     },
     methods: {
       handleOpen(key, keyPath) {
-        console.log(key, keyPath);
+        console.log(key, keyPath)
       },
       handleClose(key, keyPath) {
-        console.log(key, keyPath);
-      }
-    }
+        console.log(key, keyPath)
+      },
+    },
   }
 </script>
 <!--
@@ -308,86 +327,91 @@ Le menu vertical peut être réduit.
 </setup>
 -->
 ```
+
 :::
 
 ### Attributs du menu
 
-| Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
-|---------- |-------- |---------- |-------------  |-------- |
-| mode     | Mode d'affichage du menu.   | string  |   horizontal / vertical   | vertical |
-| collapse  | Si le menu peut être réduit, uniquement disponible en mode vertical. | boolean  |   —   | false |
-| background-color  | Couleur de fond du menu (format hexadécimal). | string |   —   | #ffffff |
-| text-color  | Couleur du texte du menu (format hexadécimal) | string |   —   | #303133 |
-| active-text-color  | Couleur du texte de l'item actif (format hexadécimal). | string |   —   | #409EFF |
-| default-active | Index du menu actif. | string    | — | — |
-| default-openeds | Liste contenant les index les sous-menus actifs.  | Array    | — | — |
-| unique-opened  | Si un seul sous-menu peut être actif.  | boolean   | — | false   |
-| menu-trigger | Comment les sous-menu sont déclenchés, uniquement en mode horizontal. | string    | hover / click | hover |
-| router  | Si le mode `vue-router` est activé. Si `true`, l'index sera utilisé comme 'path' pour activer la route. | boolean   | — | false   |
-| collapse-transition  | Si la transition de réduction doit être activée. | boolean   | — | true   |
+| Attribut            | Description                                                                                             | Type    | Valeurs acceptées     | Défaut   |
+| ------------------- | ------------------------------------------------------------------------------------------------------- | ------- | --------------------- | -------- |
+| mode                | Mode d'affichage du menu.                                                                               | string  | horizontal / vertical | vertical |
+| collapse            | Si le menu peut être réduit, uniquement disponible en mode vertical.                                    | boolean | —                     | false    |
+| background-color    | Couleur de fond du menu (format hexadécimal).                                                           | string  | —                     | #ffffff  |
+| text-color          | Couleur du texte du menu (format hexadécimal)                                                           | string  | —                     | #303133  |
+| active-text-color   | Couleur du texte de l'item actif (format hexadécimal).                                                  | string  | —                     | #409EFF  |
+| default-active      | Index du menu actif.                                                                                    | string  | —                     | —        |
+| default-openeds     | Liste contenant les index les sous-menus actifs.                                                        | Array   | —                     | —        |
+| unique-opened       | Si un seul sous-menu peut être actif.                                                                   | boolean | —                     | false    |
+| menu-trigger        | Comment les sous-menu sont déclenchés, uniquement en mode horizontal.                                   | string  | hover / click         | hover    |
+| router              | Si le mode `vue-router` est activé. Si `true`, l'index sera utilisé comme 'path' pour activer la route. | boolean | —                     | false    |
+| collapse-transition | Si la transition de réduction doit être activée.                                                        | boolean | —                     | true     |
 
 ### Méthodes du menu
 
-| Nom | Description | Paramètres |
-|---------- |-------- |---------- |
+| Nom   | Description                    | Paramètres                         |
+| ----- | ------------------------------ | ---------------------------------- |
 | open  | Ouvre un sous-menu spécifique. | index: index du sous-menu à ouvrir |
-| close  | Ferme un sous-menu spécifique. | index: index du sous-menu à fermer |
+| close | Ferme un sous-menu spécifique. | index: index du sous-menu à fermer |
 
 ### Évènements du menu
 
-| Nom | Description | Paramètres |
-|---------- |-------- |---------- |
-| select  | Fonction de callback pour quand le menu est activé. | index: index du menu activé, indexPath: index path du menu activé, item : l'élément de menu sélectionné, routeResult : le résultat retourné par `vue-router` si `router` est activé.  |
-| open  | Fonction de callback pour quand le sous-menu s'agrandit. | index: index of expanded sous-menu, indexPath: index path du sous-menu |
-| close  | Fonction de callback pour quand le sous-menu se réduit. | index: index of collapsed sous-menu, indexPath: index path du sous-menu |
+| Nom    | Description                                              | Paramètres                                                                                                                                                                           |
+| ------ | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| select | Fonction de callback pour quand le menu est activé.      | index: index du menu activé, indexPath: index path du menu activé, item : l'élément de menu sélectionné, routeResult : le résultat retourné par `vue-router` si `router` est activé. |
+| open   | Fonction de callback pour quand le sous-menu s'agrandit. | index: index of expanded sous-menu, indexPath: index path du sous-menu                                                                                                               |
+| close  | Fonction de callback pour quand le sous-menu se réduit.  | index: index of collapsed sous-menu, indexPath: index path du sous-menu                                                                                                              |
 
 ### Menu Slots
-| Name | Description | Subtags |
-| ------ | -------- | ----- |
+
+| Name    | Description               | Subtags                               |
+| ------- | ------------------------- | ------------------------------------- |
 | default | customize default content | Submenu / Menu-Item / Menu-Item-Group |
 
 ### Attributs du sous-menu
 
-| Attributs      | Description          | Type      | Valeurs acceptées       | Défaut  |
-|---------- |-------- |---------- |-------------  |-------- |
-| index     | Identificateur unique. | string  | — | — |
-| popper-class | Classe du menu popup. | string | — | — |
-| show-timeout | Délai avant de montrer un sous-menu. | number | — | 300 |
-| hide-timeout | Délai avant de cacher un sous-menu. | number | — | 300 |
-| disabled | Si le sous-menu est désactivé. | boolean | — | false |
-| popper-append-to-body | S'il faut ajouter un menu popup au body. Si le positionnement du body n'est pas bon, vous pouvez essayer de régler cette propriété. | boolean | - | Sous-menus de niveau 1: true / autres sous-menus: false |
+| Attributs             | Description                                                                                                                         | Type    | Valeurs acceptées | Défaut                                                  |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------- | ----------------- | ------------------------------------------------------- |
+| index                 | Identificateur unique.                                                                                                              | string  | —                 | —                                                       |
+| popper-class          | Classe du menu popup.                                                                                                               | string  | —                 | —                                                       |
+| show-timeout          | Délai avant de montrer un sous-menu.                                                                                                | number  | —                 | 300                                                     |
+| hide-timeout          | Délai avant de cacher un sous-menu.                                                                                                 | number  | —                 | 300                                                     |
+| disabled              | Si le sous-menu est désactivé.                                                                                                      | boolean | —                 | false                                                   |
+| popper-append-to-body | S'il faut ajouter un menu popup au body. Si le positionnement du body n'est pas bon, vous pouvez essayer de régler cette propriété. | boolean | -                 | Sous-menus de niveau 1: true / autres sous-menus: false |
 
 ### Submenu Slots
-| Name | Description | Subtags |
-| ------ | -------- | ----- |
+
+| Name    | Description               | Subtags                               |
+| ------- | ------------------------- | ------------------------------------- |
 | default | customize default content | Submenu / Menu-Item / Menu-Item-Group |
 
 ### Attributs des items du menu
 
-| Attributs      | Description          | Type      | Valeurs acceptées       | Défaut  |
-|---------- |-------- |---------- |-------------  |-------- |
-| index     | Identificateur unique. | string/null  | — | null |
-| route     | Objet Vue Router. | object | — | — |
-| disabled | Si l'item est désactivé. | boolean | — | false |
+| Attributs | Description              | Type        | Valeurs acceptées | Défaut |
+| --------- | ------------------------ | ----------- | ----------------- | ------ |
+| index     | Identificateur unique.   | string/null | —                 | null   |
+| route     | Objet Vue Router.        | object      | —                 | —      |
+| disabled  | Si l'item est désactivé. | boolean     | —                 | false  |
 
 ### Évènements des items du menu
 
-| Nom | Description | Paramètres |
-|---------- |-------- |---------- |
-| click  | Fonction de callback pour quand le menu-item est cliqué. | el: instance du menu-item.  |
+| Nom   | Description                                              | Paramètres                 |
+| ----- | -------------------------------------------------------- | -------------------------- |
+| click | Fonction de callback pour quand le menu-item est cliqué. | el: instance du menu-item. |
 
 ### Menu-Item Slots
-| Name | Description |
-| ------ | -------- |
+
+| Name    | Description               |
+| ------- | ------------------------- |
 | default | customize default content |
 
 ### Attributs des groupes
 
-| Attributs      | Description          | Type      | Valeurs acceptées       | Défaut  |
-|---------- |-------- |---------- |-------------  |-------- |
-| title     | Titre du groupe. | string  | — | — |
+| Attributs | Description      | Type   | Valeurs acceptées | Défaut |
+| --------- | ---------------- | ------ | ----------------- | ------ |
+| title     | Titre du groupe. | string | —                 | —      |
 
 ### Menu-Item-Group Slots
-| Name | Description | Subtags |
-| ------ | -------- | ----- |
+
+| Name    | Description               | Subtags   |
+| ------- | ------------------------- | --------- |
 | default | customize default content | Menu-Item |

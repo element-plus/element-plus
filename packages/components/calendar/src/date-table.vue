@@ -2,7 +2,7 @@
   <table
     :class="{
       'el-calendar-table': true,
-      'is-range': isInRange
+      'is-range': isInRange,
     }"
     cellspacing="0"
     cellpadding="0"
@@ -16,7 +16,7 @@
         :key="index"
         :class="{
           'el-calendar-table__row': true,
-          'el-calendar-table__row--hide-border': index === 0 && hideHeader
+          'el-calendar-table__row--hide-border': index === 0 && hideHeader,
         }"
       >
         <td
@@ -26,10 +26,7 @@
           @click="pickDay(cell)"
         >
           <div class="el-calendar-day">
-            <slot
-              name="dateCell"
-              :data="getSlotData(cell)"
-            >
+            <slot name="dateCell" :data="getSlotData(cell)">
               <span>{{ cell.text }}</span>
             </slot>
           </div>
@@ -40,11 +37,7 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  ref,
-} from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { PropType } from 'vue'
 import dayjs, { Dayjs } from 'dayjs'
 import localeData from 'dayjs/plugin/localeData'
@@ -80,14 +73,16 @@ export default defineComponent({
   emits: ['pick'],
   setup(props, ctx) {
     const { lang } = useLocaleInject()
-    const WEEK_DAYS = ref(dayjs().locale(lang.value).localeData().weekdaysShort())
+    const WEEK_DAYS = ref(
+      dayjs().locale(lang.value).localeData().weekdaysShort()
+    )
 
     const now = dayjs().locale(lang.value)
 
     // todo better way to get Day.js locale object
     const firstDayOfWeek = (now as any).$locale().weekStart || 0
 
-    const toNestedArr = days => {
+    const toNestedArr = (days) => {
       return rangeArr(days.length / 7).map((_, index) => {
         const start = index * 7
         return days.slice(start, start + 7)
@@ -143,12 +138,12 @@ export default defineComponent({
       let days = []
       if (isInRange.value) {
         const [start, end] = props.range
-        const currentMonthRange = rangeArr(
-          end.date() - start.date() + 1,
-        ).map((_, index) => ({
-          text: start.date() + index,
-          type: 'current',
-        }))
+        const currentMonthRange = rangeArr(end.date() - start.date() + 1).map(
+          (_, index) => ({
+            text: start.date() + index,
+            type: 'current',
+          })
+        )
 
         let remaining = currentMonthRange.length % 7
         remaining = remaining === 0 ? 0 : 7 - remaining
@@ -161,12 +156,12 @@ export default defineComponent({
         const firstDay = props.date.startOf('month').day() || 7
         const prevMonthDays = getPrevMonthLastDays(
           props.date,
-          firstDay - firstDayOfWeek,
-        ).map(day => ({
+          firstDay - firstDayOfWeek
+        ).map((day) => ({
           text: day,
           type: 'prev',
         }))
-        const currentMonthDays = getMonthDays(props.date).map(day => ({
+        const currentMonthDays = getMonthDays(props.date).map((day) => ({
           text: day,
           type: 'current',
         }))
@@ -202,5 +197,4 @@ export default defineComponent({
     }
   },
 })
-
 </script>

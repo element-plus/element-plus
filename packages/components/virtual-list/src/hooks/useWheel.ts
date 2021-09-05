@@ -18,12 +18,10 @@ interface IWheelState {
 
 type IWheelHandler = (offset: number) => void
 
-const useWheel = ({
-  atEndEdge,
-  atStartEdge,
-  layout,
-}: IWheelState, onWheelDelta: IWheelHandler) => {
-
+const useWheel = (
+  { atEndEdge, atStartEdge, layout }: IWheelState,
+  onWheelDelta: IWheelHandler
+) => {
   let frameHandle: number | null = null
   let offset = 0
 
@@ -37,14 +35,13 @@ const useWheel = ({
   // }
 
   const hasReachedEdge = (offset: number) => {
-
-    const edgeReached = (offset < 0 && atStartEdge.value) || (offset > 0 && atEndEdge.value)
+    const edgeReached =
+      (offset < 0 && atStartEdge.value) || (offset > 0 && atEndEdge.value)
 
     return edgeReached
   }
 
   const onWheel = (e: WheelEvent) => {
-
     cAF(frameHandle)
 
     const newOffset = e[LayoutKeys[layout.value]]
@@ -67,8 +64,6 @@ const useWheel = ({
     hasReachedEdge,
     onWheel,
   }
-
 }
-
 
 export default useWheel

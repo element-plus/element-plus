@@ -1,10 +1,4 @@
-import {
-  computed,
-  getCurrentInstance,
-  inject,
-  provide,
-  ref,
-} from 'vue'
+import { computed, getCurrentInstance, inject, provide, ref } from 'vue'
 import English from '@element-plus/locale/lang/en'
 
 import type { InjectionKey, PropType, Ref } from 'vue'
@@ -24,7 +18,8 @@ export type LocaleContext = {
   t: Translator
 }
 
-export const LocaleInjectionKey = 'ElLocaleInjection' as unknown as InjectionKey<LocaleContext>
+export const LocaleInjectionKey =
+  'ElLocaleInjection' as unknown as InjectionKey<LocaleContext>
 
 // this is meant to fix global methods like `ElMessage(opts)`, this way we can inject current locale
 // into the component as default injection value.
@@ -80,7 +75,6 @@ export const useLocale = () => {
   provide(LocaleInjectionKey, provides)
 }
 
-
 function template(str: string, option) {
   if (!str || !option) return str
   return str.replace(/\{(\w+)\}/g, (_, key) => {
@@ -101,14 +95,16 @@ export const localeProviderMaker = (locale = English) => {
   }
 }
 
-
 export const useLocaleInject = () => {
-  return inject(LocaleInjectionKey, localeObjCache || {
-    lang: ref(English.name),
-    locale: ref(English),
-    t: (...args) => {
-      const [path, option] = args
-      return translate(path, option, English)
-    },
-  })
+  return inject(
+    LocaleInjectionKey,
+    localeObjCache || {
+      lang: ref(English.name),
+      locale: ref(English),
+      t: (...args) => {
+        const [path, option] = args
+        return translate(path, option, English)
+      },
+    }
+  )
 }

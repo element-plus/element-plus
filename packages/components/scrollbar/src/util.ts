@@ -23,7 +23,7 @@ export const BAR_MAP = {
 
 export function renderThumbStyle({ move, size, bar }) {
   const style = {} as any
-  const translate = `translate${bar.axis}(${ move }%)`
+  const translate = `translate${bar.axis}(${move}%)`
 
   style[bar.size] = size
   style.transform = translate

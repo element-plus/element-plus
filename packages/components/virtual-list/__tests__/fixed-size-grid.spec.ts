@@ -10,7 +10,6 @@ import {
 } from '../src/defaults'
 import { FixedSizeGrid } from '..'
 
-
 import type { GridExposes } from '../src/types'
 
 type GridRef = GridExposes
@@ -41,11 +40,10 @@ const mount = makeMount(
       width: 100,
       onItemRendered,
     },
-  },
+  }
 )
 
 let cleanup: () => void
-
 
 describe('<fixed-size-grid />', () => {
   beforeAll(() => {
@@ -87,7 +85,6 @@ describe('<fixed-size-grid />', () => {
 
       await nextTick()
       expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(0)
-
     })
   })
 
@@ -111,7 +108,7 @@ describe('<fixed-size-grid />', () => {
       expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(35)
     })
 
-    it ('should not scroll at all', async () => {
+    it('should not scroll at all', async () => {
       const wrapper = mount()
       await nextTick()
       expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(24)
@@ -251,8 +248,6 @@ describe('<fixed-size-grid />', () => {
       })
 
       expect(errorHandler).toHaveBeenCalled()
-
     })
   })
-
 })

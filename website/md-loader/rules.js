@@ -1,7 +1,6 @@
-module.exports = md => {
+module.exports = (md) => {
   const rules = {
     link_open: (tokens, idx, options, env, self) => {
-
       const token = tokens[idx]
       token.tag = 'app-link'
 
@@ -18,7 +17,7 @@ module.exports = md => {
       const children = next ? next.children : []
 
       const [, href = ''] = children[2]
-        ? (children[2].attrs && children[2].attrs[1] || [] )
+        ? (children[2].attrs && children[2].attrs[1]) || []
         : []
       const content = children[0].content
 

@@ -76,8 +76,16 @@
     </el-collapse-transition>
   </div>
 </template>
-<script lang='ts'>
-import { defineComponent, getCurrentInstance, ref, watch, nextTick, inject, provide } from 'vue'
+<script lang="ts">
+import {
+  defineComponent,
+  getCurrentInstance,
+  ref,
+  watch,
+  nextTick,
+  inject,
+  provide,
+} from 'vue'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElCheckbox from '@element-plus/components/checkbox'
 import NodeContent from './tree-node-content.vue'
@@ -127,44 +135,59 @@ export default defineComponent({
     const instance = getCurrentInstance()
 
     provide('NodeInstance', instance)
-    if(!tree) {
-      console.warn('Can not find node\'s tree.')
+    if (!tree) {
+      console.warn("Can not find node's tree.")
     }
 
-    if(props.node.expanded) {
+    if (props.node.expanded) {
       expanded.value = true
       childNodeRendered.value = true
     }
 
     const childrenKey = tree.props['children'] || 'children'
-    watch(() => {
-      const children = props.node.data[childrenKey]
-      return children && [...children]
-    }, () => {
-      props.node.updateChildren()
-    })
-
-    watch(() => props.node.indeterminate, val => {
-      handleSelectChange(props.node.checked, val)
-    })
-
-    watch(() => props.node.checked, val => {
-      handleSelectChange(val, props.node.indeterminate)
-    })
-
-    watch(() => props.node.expanded, val => {
-      nextTick(() => expanded.value = val)
-      if(val) {
-        childNodeRendered.value = true
+    watch(
+      () => {
+        const children = props.node.data[childrenKey]
+        return children && [...children]
+      },
+      () => {
+        props.node.updateChildren()
       }
-    })
+    )
+
+    watch(
+      () => props.node.indeterminate,
+      (val) => {
+        handleSelectChange(props.node.checked, val)
+      }
+    )
+
+    watch(
+      () => props.node.checked,
+      (val) => {
+        handleSelectChange(val, props.node.indeterminate)
+      }
+    )
+
+    watch(
+      () => props.node.expanded,
+      (val) => {
+        nextTick(() => (expanded.value = val))
+        if (val) {
+          childNodeRendered.value = true
+        }
+      }
+    )
 
     const getNodeKey = (node: Node): any => {
       return getNodeKeyUtil(tree.props.nodeKey, node.data)
     }
 
     const handleSelectChange = (checked: boolean, indeterminate: boolean) => {
-      if (oldChecked.value !== checked || oldIndeterminate.value !== indeterminate) {
+      if (
+        oldChecked.value !== checked ||
+        oldIndeterminate.value !== indeterminate
+      ) {
         tree.ctx.emit('check-change', props.node.data, checked, indeterminate)
       }
       oldChecked.value = checked
@@ -174,14 +197,18 @@ export default defineComponent({
     const handleClick = () => {
       const store = tree.store.value
       store.setCurrentNode(props.node)
-      tree.ctx.emit('current-change', store.currentNode ? store.currentNode.data : null, store.currentNode)
+      tree.ctx.emit(
+        'current-change',
+        store.currentNode ? store.currentNode.data : null,
+        store.currentNode
+      )
       tree.currentNode.value = props.node
 
-      if(tree.props.expandOnClickNode) {
+      if (tree.props.expandOnClickNode) {
         handleExpandIconClick()
       }
 
-      if(tree.props.checkOnClickNode && !props.node.disabled) {
+      if (tree.props.checkOnClickNode && !props.node.disabled) {
         handleCheckChange(null, {
           target: { checked: !props.node.checked },
         })
@@ -194,7 +221,13 @@ export default defineComponent({
         event.stopPropagation()
         event.preventDefault()
       }
-      tree.ctx.emit('node-contextmenu', event, props.node.data, props.node, instance)
+      tree.ctx.emit(
+        'node-contextmenu',
+        event,
+        props.node.data,
+        props.node,
+        instance
+      )
     }
 
     const handleExpandIconClick = () => {
@@ -221,7 +254,11 @@ export default defineComponent({
       })
     }
 
-    const handleChildNodeExpand = (nodeData: TreeNodeData, node: Node, instance: ComponentInternalInstance) => {
+    const handleChildNodeExpand = (
+      nodeData: TreeNodeData,
+      node: Node,
+      instance: ComponentInternalInstance
+    ) => {
       broadcastExpanded(node)
       tree.ctx.emit('node-expand', nodeData, node, instance)
     }
@@ -233,7 +270,10 @@ export default defineComponent({
 
     const handleDragOver = (event: DragEvent) => {
       if (!tree.props.draggable) return
-      emitter.emit('tree-node-drag-over', { event, treeNode: { $el: node$.value, node: props.node } })
+      emitter.emit('tree-node-drag-over', {
+        event,
+        treeNode: { $el: node$.value, node: props.node },
+      })
       event.preventDefault()
     }
 
@@ -266,7 +306,6 @@ export default defineComponent({
       handleDrop,
       handleDragEnd,
     }
-
   },
 })
 </script>

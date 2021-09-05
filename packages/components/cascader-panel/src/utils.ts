@@ -1,15 +1,19 @@
-
 import type { Nullable } from '@element-plus/utils/types'
 import type { default as CascaderNode } from './node'
 
 export const isLeaf = (el: HTMLElement) => !el.getAttribute('aria-owns')
 
-export const getSibling = (el: HTMLElement, distance: number): Nullable<Element> => {
+export const getSibling = (
+  el: HTMLElement,
+  distance: number
+): Nullable<Element> => {
   const { parentNode } = el
 
   if (!parentNode) return null
 
-  const siblings = parentNode.querySelectorAll('.el-cascader-node[tabindex="-1"]')
+  const siblings = parentNode.querySelectorAll(
+    '.el-cascader-node[tabindex="-1"]'
+  )
   const index = Array.prototype.indexOf.call(siblings, el)
   return siblings[index + distance] || null
 }
@@ -20,13 +24,13 @@ export const getMenuIndex = (el: HTMLElement) => {
   return Number(pieces[pieces.length - 2])
 }
 
-export const focusNode = el => {
+export const focusNode = (el) => {
   if (!el) return
   el.focus()
   !isLeaf(el) && el.click()
 }
 
-export const checkNode = el => {
+export const checkNode = (el) => {
   if (!el) return
 
   const input = el.querySelector('input')
@@ -37,9 +41,12 @@ export const checkNode = el => {
   }
 }
 
-export const sortByOriginalOrder = (oldNodes: CascaderNode[], newNodes: CascaderNode[]) => {
+export const sortByOriginalOrder = (
+  oldNodes: CascaderNode[],
+  newNodes: CascaderNode[]
+) => {
   const newNodesCopy = newNodes.slice(0)
-  const newIds = newNodesCopy.map(node => node.uid)
+  const newIds = newNodesCopy.map((node) => node.uid)
   const res = oldNodes.reduce((acc, item) => {
     const index = newIds.indexOf(item.uid)
     if (index > -1) {

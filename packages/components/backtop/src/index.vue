@@ -3,8 +3,8 @@
     <div
       v-if="visible"
       :style="{
-        'right': styleRight,
-        'bottom': styleBottom
+        right: styleRight,
+        bottom: styleBottom,
       }"
       class="el-backtop"
       @click.stop="handleClick"
@@ -62,7 +62,8 @@ export default defineComponent({
     const scrollToTop = () => {
       const beginTime = Date.now()
       const beginValue = el.value.scrollTop
-      const rAF = window.requestAnimationFrame || (func => setTimeout(func, 16))
+      const rAF =
+        window.requestAnimationFrame || ((func) => setTimeout(func, 16))
       const frameFunc = () => {
         const progress = (Date.now() - beginTime) / 500
         if (progress < 1) {
@@ -77,7 +78,7 @@ export default defineComponent({
     const onScroll = () => {
       visible.value = el.value.scrollTop >= props.visibilityHeight
     }
-    const handleClick = event => {
+    const handleClick = (event) => {
       scrollToTop()
       ctx.emit('click', event)
     }

@@ -26,13 +26,7 @@
         <stop stop-color="#FCFCFD" offset="0%" />
         <stop stop-color="#E9EBEF" offset="100%" />
       </linearGradient>
-      <rect
-        :id="`path-3-${id}`"
-        x="0"
-        y="0"
-        width="17"
-        height="36"
-      />
+      <rect :id="`path-3-${id}`" x="0" y="0" width="17" height="36" />
     </defs>
     <g
       id="Illustrations"
@@ -64,7 +58,11 @@
               transform="translate(11.500000, 5.000000) scale(1, -1) translate(-11.500000, -5.000000) "
               points="2.84078316e-14 3 18 3 23 7 5 7"
             />
-            <polygon id="Rectangle-Copy-11" fill="#EDEEF2" points="-3.69149156e-15 7 38 7 38 43 -3.69149156e-15 43" />
+            <polygon
+              id="Rectangle-Copy-11"
+              fill="#EDEEF2"
+              points="-3.69149156e-15 7 38 7 38 43 -3.69149156e-15 43"
+            />
             <rect
               id="Rectangle-Copy-12"
               :fill="`url(#linearGradient-1-${id})`"

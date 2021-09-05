@@ -807,7 +807,7 @@ You can also select multiple rows.
     methods: {
       toggleSelection(rows) {
         if (rows) {
-          rows.forEach(row => {
+          rows.forEach((row) => {
             this.$refs.multipleTable.toggleRowSelection(row)
           })
         } else {
@@ -1448,8 +1448,8 @@ For table of numbers, you can add an extra row at the table footer displaying ea
             sums[index] = 'Total Cost'
             return
           }
-          const values = data.map(item => Number(item[column.property]))
-          if (!values.every(value => isNaN(value))) {
+          const values = data.map((item) => Number(item[column.property]))
+          if (!values.every((value) => isNaN(value))) {
             sums[index] =
               '$ ' +
               values.reduce((prev, curr) => {
@@ -1735,10 +1735,11 @@ You can customize row index in `type=index` columns.
 | sort               | sort Table manually. Property `prop` is used to set sort column, property `order` is used to set sort order                                                       | prop: string, order: string |
 
 ### Table Slots
-| Name | Description | Subtags |
-|------|--------| ----- |
-| default | customize default content | Table-column |
-| append | Contents to be inserted after the last row. You may need this slot if you want to implement infinite scroll for the table. This slot will be displayed above the summary row if there is one. | — |
+
+| Name    | Description                                                                                                                                                                                   | Subtags      |
+| ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| default | customize default content                                                                                                                                                                     | Table-column |
+| append  | Contents to be inserted after the last row. You may need this slot if you want to implement infinite scroll for the table. This slot will be displayed above the summary row if there is one. | —            |
 
 ### Table-column Attributes
 

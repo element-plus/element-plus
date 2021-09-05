@@ -32,7 +32,6 @@ Because HTML standard has already defined a tag named [menu](https://developer.m
 so you need to use an alias in order to render the icon, if you register `Menu` directly it will not work.
 :::
 
-
 ```html
 <!-- Use el-icon to provide attributes to SVG icon -->
 <el-icon :size="size" :color="color">
@@ -42,45 +41,44 @@ so you need to use an alias in order to render the icon, if you register `Menu` 
 <edit />
 
 <script lang="ts">
-import { Edit } from '@element-plus/icons'
+  import { Edit } from '@element-plus/icons'
 
-export default defineComponent({
-  components: {
-    // or Shorthanded,
-    Edit,
-  },
-})
+  export default defineComponent({
+    components: {
+      // or Shorthanded,
+      Edit,
+    },
+  })
 </script>
 ```
 
 ## Combined with el-icon
 
-:::demo  `el-icon` provides extra attributes for raw SVG icon, for more detail, please read to the end.
+:::demo `el-icon` provides extra attributes for raw SVG icon, for more detail, please read to the end.
 
 ```html
-  <p>
-    with extra class <b>is-loading</b>, your icon is able to rotate 360 deg in 2 seconds, you can also override this
-  </p>
-  <el-icon :size="20">
-    <edit />
+<p>
+  with extra class <b>is-loading</b>, your icon is able to rotate 360 deg in 2
+  seconds, you can also override this
+</p>
+<el-icon :size="20">
+  <edit />
+</el-icon>
+<el-icon color="#409EFC" class="no-inherit">
+  <share />
+</el-icon>
+<el-icon>
+  <delete />
+</el-icon>
+<el-icon class="is-loading">
+  <loading />
+</el-icon>
+<el-button type="primary">
+  <el-icon style="vertical-align: middle;">
+    <search />
   </el-icon>
-  <el-icon color="#409EFC" class="no-inherit">
-    <share />
-  </el-icon>
-  <el-icon>
-    <delete />
-  </el-icon>
-  <el-icon class="is-loading">
-    <loading />
-  </el-icon>
-  <el-button type="primary">
-    <el-icon style="vertical-align: middle;">
-      <search />
-    </el-icon>
-    <span style="vertical-align: middle;">
-      Search
-    </span>
-  </el-button>
+  <span style="vertical-align: middle;"> Search </span>
+</el-button>
 ```
 
 :::
@@ -90,14 +88,14 @@ export default defineComponent({
 :::demo
 
 ```html
-  <div style="font-size: 20px;">
-    <!-- Since svg icons do not carry any attributes by default -->
-    <!-- You need to provide attributes directly -->
-    <edit style="width: 1em; height: 1em; margin-right: 8px;" />
-    <share style="width: 1em; height: 1em; margin-right: 8px;" />
-    <delete style="width: 1em; height: 1em; margin-right: 8px;" />
-    <search style="width: 1em; height: 1em; margin-right: 8px;" />
-  </div>
+<div style="font-size: 20px;">
+  <!-- Since svg icons do not carry any attributes by default -->
+  <!-- You need to provide attributes directly -->
+  <edit style="width: 1em; height: 1em; margin-right: 8px;" />
+  <share style="width: 1em; height: 1em; margin-right: 8px;" />
+  <delete style="width: 1em; height: 1em; margin-right: 8px;" />
+  <search style="width: 1em; height: 1em; margin-right: 8px;" />
+</div>
 ```
 
 :::
@@ -137,7 +135,6 @@ Just assign the class name to `el-icon-iconName`.
 <i class="el-icon-share"></i>
 <i class="el-icon-delete"></i>
 <el-button type="primary" icon="el-icon-search">Search</el-button>
-
 ```
 
 :::
@@ -153,14 +150,15 @@ Just assign the class name to `el-icon-iconName`.
   </li>
 </ul>
 
-
 ### Icon Attributes
-| Attribute      | Description    | Type      | Acceptable Value       | Default   |
-|---------- |-------- |---------- |-------------  |-------- |
-| color    | SVG tag's fill attribute | Pick\<CSSProperties, 'color'\> | - | inherit from color |
-| size | SVG icon size, size x size | number | - | inherit from font size |
+
+| Attribute | Description                | Type                           | Acceptable Value | Default                |
+| --------- | -------------------------- | ------------------------------ | ---------------- | ---------------------- |
+| color     | SVG tag's fill attribute   | Pick\<CSSProperties, 'color'\> | -                | inherit from color     |
+| size      | SVG icon size, size x size | number                         | -                | inherit from font size |
 
 ### Icon Slots
-| Name | Description |
-| ------ | -------- |
+
+| Name    | Description               |
+| ------- | ------------------------- |
 | default | customize default content |

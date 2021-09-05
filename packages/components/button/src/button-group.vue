@@ -19,10 +19,13 @@ export default defineComponent({
       validator: isValidComponentSize,
     },
   },
-  setup(props){
-    provide(elButtonGroupKey, reactive({
-      size: toRef(props,'size'),
-    }))
+  setup(props) {
+    provide(
+      elButtonGroupKey,
+      reactive({
+        size: toRef(props, 'size'),
+      })
+    )
   },
 })
 </script>

@@ -807,7 +807,7 @@ Vous pouvez aussi sélectionner plusieurs lignes.
     methods: {
       toggleSelection(rows) {
         if (rows) {
-          rows.forEach(row => {
+          rows.forEach((row) => {
             this.$refs.multipleTable.toggleRowSelection(row)
           })
         } else {
@@ -1452,8 +1452,8 @@ Pour les tableaux de nombres, vous pouvez ajouter une ligne en plus pour affiche
             sums[index] = 'Coût total'
             return
           }
-          const values = data.map(item => Number(item[column.property]))
-          if (!values.every(value => isNaN(value))) {
+          const values = data.map((item) => Number(item[column.property]))
+          if (!values.every((value) => isNaN(value))) {
             sums[index] =
               '$ ' +
               values.reduce((prev, curr) => {
@@ -1742,19 +1742,19 @@ Vous pouvez personnaliser les indices des colonnes de type `index`.
 
 ### Slots de Table
 
-| Nom | Description | Subtags |
-|------|--------| ----- |
-| default | customize default content | Table-column |
-| append | Contenu à insérer après la dernière ligne. Vous aurez sans doute besoin de ce slot si vous implémentez un scroll infini. Il sera affiché au-dessus de la ligne de somme s'il y en a une. | — |
+| Nom     | Description                                                                                                                                                                              | Subtags      |
+| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| default | customize default content                                                                                                                                                                | Table-column |
+| append  | Contenu à insérer après la dernière ligne. Vous aurez sans doute besoin de ce slot si vous implémentez un scroll infini. Il sera affiché au-dessus de la ligne de somme s'il y en a une. | —            |
 
 ### Attributs de Table-column
 
 | Attribut              | Description                                                                                                                                                                                                     | Type                                    | Valeurs acceptées                                                                                                      | Défaut                            |
-| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | --------------------------------- | --- |
 | type                  | Type de la colonne. Si mis à `selection`, la colonne affichera des checkbox. Si mis à `index`, la colonne affichera l'indice de la ligne (début à 1). Si mis à `expand`, affichera l'icône d'extension.         | string                                  | selection / index / expand                                                                                             | —                                 |
 | index                 | Personnalise les indices de chaque ligne, marche avec les colonnes `type=index`.                                                                                                                                | number / function(index)                | —                                                                                                                      | —                                 |
 | label                 | Label de la colonne.                                                                                                                                                                                            | string                                  | —                                                                                                                      | —                                 |
-| column-key            | La clé de la colonne. Si vous avez besoin d'utiliser l'évènement filter-change, vous aurez besoin de cet attribut pour savoir quelle colonne est filtrée.                                                       | string                                  | string                                                                                                                 | —                                 | — |
+| column-key            | La clé de la colonne. Si vous avez besoin d'utiliser l'évènement filter-change, vous aurez besoin de cet attribut pour savoir quelle colonne est filtrée.                                                       | string                                  | string                                                                                                                 | —                                 | —   |
 | prop                  | Nom du champ de l'objet de données. Alias: `property`.                                                                                                                                                          | string                                  | —                                                                                                                      | —                                 |
 | width                 | Largeur de la colonne.                                                                                                                                                                                          | string / number                         | —                                                                                                                      | —                                 |
 | min-width             | Largeur minimale de la colonne. Les colonnes avec `width` ont une largeur fixe, alors que celles avec `min-width` ont une largeur proportionnellement distribuée.                                               | string / number                         | —                                                                                                                      | —                                 |

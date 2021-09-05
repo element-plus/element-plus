@@ -7,7 +7,10 @@
     {{ item.label }}
   </div>
   <div v-else class="el-select-group__split" :style="style">
-    <span class="el-select-group__split-dash" :style="{ top: `${height / 2}px` }"></span>
+    <span
+      class="el-select-group__split-dash"
+      :style="{ top: `${height / 2}px` }"
+    ></span>
   </div>
 </template>
 
@@ -23,7 +26,5 @@ export default defineComponent({
     style: Object,
     height: Number,
   },
-
 })
-
 </script>

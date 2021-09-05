@@ -8,7 +8,11 @@ interface PopoverInstance {
   tabindex: string | number
 }
 
-const attachEvents = (el: HTMLElement, binding: DirectiveBinding, vnode: VNode) => {
+const attachEvents = (
+  el: HTMLElement,
+  binding: DirectiveBinding,
+  vnode: VNode
+) => {
   const _ref = binding.arg || binding.value
   const popover = vnode.dirs[0].instance.$refs[_ref] as PopoverInstance
   if (popover) {

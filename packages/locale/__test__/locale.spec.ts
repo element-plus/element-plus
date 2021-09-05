@@ -20,7 +20,7 @@ describe('Locale', () => {
 
   test('external i18n function', () => {
     const emptyKey = 'el.popconfirm.confirmButtonText'
-    const translator = jest.fn().mockImplementation(k => {
+    const translator = jest.fn().mockImplementation((k) => {
       if (k === emptyKey) return ''
       return k
     })

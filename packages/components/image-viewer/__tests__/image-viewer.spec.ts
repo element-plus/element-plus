@@ -17,8 +17,7 @@ async function doubleWait() {
 }
 
 describe('<image-viewer />', () => {
-
-  test('big image preview', async() => {
+  test('big image preview', async () => {
     const wrapper = mount()
     await doubleWait()
     const viewer = wrapper.find('.el-image-viewer__wrapper')
@@ -42,7 +41,5 @@ describe('<image-viewer />', () => {
 
     await wrapper.find('.el-image-viewer__mask').trigger('click')
     expect(wrapper.emitted('close')).toBeDefined()
-
   })
-
 })

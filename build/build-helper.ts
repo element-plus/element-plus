@@ -3,13 +3,10 @@ import helper from 'components-helper'
 import path from 'path'
 import { epRoot } from './paths'
 
-const { name, version } = require(path.resolve(
-  epRoot,
-  './package.json',
-))
+const { name, version } = require(path.resolve(epRoot, './package.json'))
 
 import icon from '../website/icon.json'
-const icons = icon.map(item => 'el-icon-' + item).join('/')
+const icons = icon.map((item) => 'el-icon-' + item).join('/')
 const tagVer = process.env.TAG_VERSION
 const _version = tagVer
   ? tagVer.startsWith('v')
@@ -46,12 +43,11 @@ function reComponentName(title) {
 }
 
 function reWebTypesSource(title) {
-  const symbol = (
+  const symbol =
     'EL' +
     title
       .replace(/-/, ' ')
-      .replace(/^\w|\s+\w/g, item => item.trim().toUpperCase())
-  )
+      .replace(/^\w|\s+\w/g, (item) => item.trim().toUpperCase())
   return { symbol }
 }
 
@@ -91,9 +87,9 @@ function reAttribute(value, key, item) {
   } else if (key === 'Subtags') {
     return str
       ? str
-        .split('/')
-        .map(name => reComponentName(name.trim()))
-        .join('/')
+          .split('/')
+          .map((name) => reComponentName(name.trim()))
+          .join('/')
       : str
   } else {
     return str

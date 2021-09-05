@@ -7,6 +7,7 @@ Element Plus 是一套为开发者、设计师和产品经理准备的开源组�
 Element Plus 的成长离不开大家的支持，如果你愿意为 Element Plus 贡献代码或提供建议，请阅读以下内容。
 
 ## Issue 规范
+
 - issue 仅用于提交 Bug 或 Feature 以及设计相关的内容，其它内容可能会被直接关闭。如果你在使用时产生了疑问，请到 Slack 或 [Discord](https://discord.link/ElementPlus) 里咨询。
 
 - 在提交 issue 之前，请搜索相关内容是否已被提出。
@@ -14,6 +15,7 @@ Element Plus 的成长离不开大家的支持，如果你愿意为 Element Plus
 - 请说明 Element Plus 和 Vue 的版本号，并提供操作系统和浏览器信息。推荐使用 [JSFiddle](https://jsfiddle.net/) 生成在线 demo，这能够更直观地重现问题。
 
 ## Pull Request 规范
+
 - 请先 fork 一份到自己的项目下，不要直接在仓库下建分支。
 
 - commit 信息要以`[组件名]: 描述信息` 的形式填写，例如 `Button: fix xxx bug`。

@@ -804,7 +804,7 @@
     methods: {
       toggleSelection(rows) {
         if (rows) {
-          rows.forEach(row => {
+          rows.forEach((row) => {
             this.$refs.multipleTable.toggleRowSelection(row)
           })
         } else {
@@ -1474,8 +1474,8 @@
             sums[index] = '总价'
             return
           }
-          const values = data.map(item => Number(item[column.property]))
-          if (!values.every(value => isNaN(value))) {
+          const values = data.map((item) => Number(item[column.property]))
+          if (!values.every((value) => isNaN(value))) {
             sums[index] = values.reduce((prev, curr) => {
               const value = Number(curr)
               if (!isNaN(value)) {
@@ -1760,10 +1760,11 @@
 | sort               | 手动对 Table 进行排序。参数 `prop` 属性指定排序列，`order` 指定排序顺序。                                               | prop: string, order: string |
 
 ### Table Slot
-| name | 说明 | 子标签 |
-|------|--------| ----- |
-| default | 自定义默认插槽内容 | Table-column |
-| append | 插入至表格最后一行之后的内容，如果需要对表格的内容进行无限滚动操作，可能需要用到这个 slot。若表格有合计行，该 slot 会位于合计行之上。 | — |
+
+| name    | 说明                                                                                                                                  | 子标签       |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| default | 自定义默认插槽内容                                                                                                                    | Table-column |
+| append  | 插入至表格最后一行之后的内容，如果需要对表格的内容进行无限滚动操作，可能需要用到这个 slot。若表格有合计行，该 slot 会位于合计行之上。 | —            |
 
 ### Table-column Attributes
 

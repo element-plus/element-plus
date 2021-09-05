@@ -1,4 +1,13 @@
-import { onMounted, onUnmounted, computed, ref, watchEffect, watch, unref, nextTick } from 'vue'
+import {
+  onMounted,
+  onUnmounted,
+  computed,
+  ref,
+  watchEffect,
+  watch,
+  unref,
+  nextTick,
+} from 'vue'
 import {
   addResizeListener,
   removeResizeListener,
@@ -18,7 +27,7 @@ function useStyle<T>(
   props: TableProps<T>,
   layout: TableLayout<T>,
   store: Store<T>,
-  table: Table<T>,
+  table: Table<T>
 ) {
   const $ELEMENT = useGlobalConfig()
   const isHidden = ref(false)
@@ -39,21 +48,25 @@ function useStyle<T>(
   watchEffect(() => {
     layout.setMaxHeight(props.maxHeight)
   })
-  watch(() => [props.currentRowKey, store.states.rowKey], ([currentRowKey, rowKey]) => {
-    if (!unref(rowKey)) return
-    store.setCurrentRowKey(currentRowKey + '')
-  }, {
-    immediate: true,
-  })
+  watch(
+    () => [props.currentRowKey, store.states.rowKey],
+    ([currentRowKey, rowKey]) => {
+      if (!unref(rowKey)) return
+      store.setCurrentRowKey(currentRowKey + '')
+    },
+    {
+      immediate: true,
+    }
+  )
   watch(
     () => props.data,
-    data => {
+    (data) => {
       table.store.commit('setData', data)
     },
     {
       immediate: true,
       deep: true,
-    },
+    }
   )
   watchEffect(() => {
     if (props.expandRowKeys) {
@@ -116,7 +129,7 @@ function useStyle<T>(
   const setScrollClassByEl = (el: HTMLElement, className: string) => {
     if (!el) return
     const classList = Array.from(el.classList).filter(
-      item => !item.startsWith('is-scrolling-'),
+      (item) => !item.startsWith('is-scrolling-')
     )
     classList.push(layout.scrollX.value ? className : 'is-scrolling-none')
     el.className = classList.join(' ')
@@ -127,12 +140,8 @@ function useStyle<T>(
   }
   const syncPostion = throttle(function () {
     if (!table.refs.bodyWrapper) return
-    const {
-      scrollLeft,
-      scrollTop,
-      offsetWidth,
-      scrollWidth,
-    } = table.refs.bodyWrapper
+    const { scrollLeft, scrollTop, offsetWidth, scrollWidth } =
+      table.refs.bodyWrapper
     const {
       headerWrapper,
       footerWrapper,

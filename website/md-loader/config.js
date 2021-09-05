@@ -11,16 +11,18 @@ const config = new Config()
 
 const highlight = (str, lang) => {
   if (!lang || !hljs.getLanguage(lang)) {
-    return '<pre class="example-code"><code class="hljs">' + str + '</code><span class="lang-mark">' +
-      getLangMark(lang)
-      + '</span></pre>'
+    return (
+      '<pre class="example-code"><code class="hljs">' +
+      str +
+      '</code><span class="lang-mark">' +
+      getLangMark(lang) +
+      '</span></pre>'
+    )
   }
   const html = hljs.highlight(lang, str, true, undefined).value
-  return `<pre class="example-code"><code class="hljs language-${lang}">${
-    html
-  }</code><span class="lang-mark">${
-    getLangMark(lang)
-  }</span></pre>`
+  return `<pre class="example-code"><code class="hljs language-${lang}">${html}</code><span class="lang-mark">${getLangMark(
+    lang
+  )}</span></pre>`
 }
 
 slugify.config({
@@ -38,19 +40,25 @@ slugify.config({
     ['0', 'zero'],
   ],
 })
-config
-  .options.html(true).highlight(highlight).end()
+config.options
+  .html(true)
+  .highlight(highlight)
+  .end()
 
-  .plugin('anchor').use(anchorPlugin, [
+  .plugin('anchor')
+  .use(anchorPlugin, [
     {
       level: 2,
-      slugify: slugify,
+      slugify,
       permalink: true,
       permalinkSymbol: '',
     },
-  ]).end()
+  ])
+  .end()
 
-  .plugin('containers').use(containers).end()
+  .plugin('containers')
+  .use(containers)
+  .end()
 
 function getLangMark(lang) {
   switch (lang.toLowerCase()) {

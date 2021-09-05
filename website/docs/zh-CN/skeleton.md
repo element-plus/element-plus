@@ -145,7 +145,6 @@ ElementPlus 提供的排版模式有时候并不满足要求，当您想要用�
 
 :::demo
 
-
 ```html
 <template>
   <el-space direction="vertical" alignment="flex-start">
@@ -313,9 +312,10 @@ ElementPlus 提供的排版模式有时候并不满足要求，当您想要用�
 | throttle | 延迟占位 DOM 渲染的时间, 单位是毫秒         | number  | 正整数       | 0      |
 
 ### Skeleton Slots
-| 名称 | 说明 | 子标签 |
-| ------ | -------- | ----- |
-| default | 用来展示真实 UI | — |
+
+| 名称     | 说明                 | 子标签        |
+| -------- | -------------------- | ------------- |
+| default  | 用来展示真实 UI      | —             |
 | template | 用来展示自定义占位符 | Skeleton Item |
 
 ### Skeleton Item Attributes

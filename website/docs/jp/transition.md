@@ -1,10 +1,11 @@
 ## ビルトイントランジション
 
-Element Plusにビルトインされているトランジションをダイレクトに使うことができます。利用の前に、[transition docs](https://vuejs.org/v2/api/#transition)を読むことを勧めます。
+Element Plus にビルトインされているトランジションをダイレクトに使うことができます。利用の前に、[transition docs](https://vuejs.org/v2/api/#transition)を読むことを勧めます。
 
 ### フェード
 
-:::demo 2つのフェード効果が提供されています。: `el-fade-in-linear` と `el-fade-in`
+:::demo 2 つのフェード効果が提供されています。: `el-fade-in-linear` と `el-fade-in`
+
 ```html
 <template>
   <div>
@@ -22,10 +23,10 @@ Element Plusにビルトインされているトランジションをダイレ�
 </template>
 
 <script>
-    export default {
+  export default {
     data: () => ({
-      show: true
-    })
+      show: true,
+    }),
   }
 </script>
 
@@ -35,7 +36,7 @@ Element Plusにビルトインされているトランジションをダイレ�
     width: 200px;
     height: 100px;
     border-radius: 4px;
-    background-color: #409EFF;
+    background-color: #409eff;
     text-align: center;
     color: #fff;
     padding: 40px 20px;
@@ -44,11 +45,13 @@ Element Plusにビルトインされているトランジションをダイレ�
   }
 </style>
 ```
+
 :::
 
 ### ズーム
 
 :::demo `el-zoom-in-center`、 `el-zoom-in-top` と `el-zoom-in-bottom` が提供されています。
+
 ```html
 <template>
   <div>
@@ -71,10 +74,10 @@ Element Plusにビルトインされているトランジションをダイレ�
 </template>
 
 <script>
-    export default {
+  export default {
     data: () => ({
-      show2: true
-    })
+      show2: true,
+    }),
   }
 </script>
 
@@ -84,7 +87,7 @@ Element Plusにビルトインされているトランジションをダイレ�
     width: 200px;
     height: 100px;
     border-radius: 4px;
-    background-color: #409EFF;
+    background-color: #409eff;
     text-align: center;
     color: #fff;
     padding: 40px 20px;
@@ -93,14 +96,15 @@ Element Plusにビルトインされているトランジションをダイレ�
   }
 </style>
 ```
-:::
 
+:::
 
 ### コラプス
 
 コラプスの効果を利用するためには、`el-collapse-transition` コンポーネントを用います。
 
 :::demo
+
 ```html
 <template>
   <div>
@@ -118,10 +122,10 @@ Element Plusにビルトインされているトランジションをダイレ�
 </template>
 
 <script>
-    export default {
+  export default {
     data: () => ({
-      show3: true
-    })
+      show3: true,
+    }),
   }
 </script>
 
@@ -131,7 +135,7 @@ Element Plusにビルトインされているトランジションをダイレ�
     width: 200px;
     height: 100px;
     border-radius: 4px;
-    background-color: #409EFF;
+    background-color: #409eff;
     text-align: center;
     color: #fff;
     padding: 40px 20px;
@@ -140,15 +144,16 @@ Element Plusにビルトインされているトランジションをダイレ�
   }
 </style>
 ```
+
 :::
 
 ### オンデマンド
 
 ```js
 // fade/zoom
-import 'element-plus/lib/theme-chalk/base.css';
+import 'element-plus/lib/theme-chalk/base.css'
 // collapse
-import { ElCollapseTransition } from 'element-plus';
+import { ElCollapseTransition } from 'element-plus'
 import Vue from 'vue'
 
 Vue.component(ElCollapseTransition.name, ElCollapseTransition)

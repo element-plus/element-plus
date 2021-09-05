@@ -37,11 +37,7 @@
         @mouseleave="onMouseLeave"
       >
         <template #prefix>
-          <i
-            class="el-input__icon"
-            :class="triggerClass"
-            @click="handleFocus"
-          >
+          <i class="el-input__icon" :class="triggerClass" @click="handleFocus">
           </i>
         </template>
         <template #suffix>
@@ -59,9 +55,9 @@
         class="el-date-editor el-range-editor el-input__inner"
         :class="[
           'el-date-editor--' + type,
-          pickerSize ? `el-range-editor--${ pickerSize }` : '',
+          pickerSize ? `el-range-editor--${pickerSize}` : '',
           pickerDisabled ? 'is-disabled' : '',
-          pickerVisible ? 'is-active' : ''
+          pickerVisible ? 'is-active' : '',
         ]"
         @click="handleFocus"
         @mouseenter="onMouseEnter"
@@ -80,7 +76,7 @@
           @input="handleStartInput"
           @change="handleStartChange"
           @focus="handleFocus"
-        >
+        />
         <slot name="range-separator">
           <span class="el-range-separator">{{ rangeSeparator }}</span>
         </slot>
@@ -95,7 +91,7 @@
           @focus="handleFocus"
           @input="handleEndInput"
           @change="handleEndChange"
-        >
+        />
         <i
           :class="[showClose ? '' + clearIcon : '']"
           class="el-input__icon el-range__close-icon"
@@ -122,7 +118,7 @@
     </template>
   </el-popper>
 </template>
-<script lang='ts'>
+<script lang="ts">
 import {
   defineComponent,
   ref,
@@ -159,7 +155,7 @@ interface PickerOptions {
 }
 
 // Date object and string
-const dateEquals = function(a: Date | any, b: Date | any) {
+const dateEquals = function (a: Date | any, b: Date | any) {
   const aIsDate = a instanceof Date
   const bIsDate = b instanceof Date
   if (aIsDate && bIsDate) {
@@ -171,7 +167,7 @@ const dateEquals = function(a: Date | any, b: Date | any) {
   return false
 }
 
-const valueEquals = function(a: Array<Date> | any, b: Array<Date> | any) {
+const valueEquals = function (a: Array<Date> | any, b: Array<Date> | any) {
   const aIsArray = a instanceof Array
   const bIsArray = b instanceof Array
   if (aIsArray && bIsArray) {
@@ -186,14 +182,18 @@ const valueEquals = function(a: Array<Date> | any, b: Array<Date> | any) {
   return false
 }
 
-const parser = function(date: Date | string, format: string, lang: string): Dayjs {
+const parser = function (
+  date: Date | string,
+  format: string,
+  lang: string
+): Dayjs {
   const day = isEmpty(format)
     ? dayjs(date).locale(lang)
     : dayjs(date, format).locale(lang)
   return day.isValid() ? day : undefined
 }
 
-const formatter = function(date: Date, format: string, lang: string) {
+const formatter = function (date: Date, format: string, lang: string) {
   return isEmpty(format) ? date : dayjs(date).locale(lang).format(format)
 }
 
@@ -219,7 +219,7 @@ export default defineComponent({
     const pickerActualVisible = ref(false)
     const valueOnOpen = ref(null)
 
-    watch(pickerVisible, val => {
+    watch(pickerVisible, (val) => {
       if (!val) {
         userInput.value = null
         nextTick(() => {
@@ -236,15 +236,18 @@ export default defineComponent({
       // determine user real change only
       if (isClear || !valueEquals(val, valueOnOpen.value)) {
         ctx.emit('change', val)
-        props.validateEvent && elFormItem.formItemMitt?.emit('el.form.change', val)
+        props.validateEvent &&
+          elFormItem.formItemMitt?.emit('el.form.change', val)
       }
     }
-    const emitInput = val => {
+    const emitInput = (val) => {
       if (!valueEquals(props.modelValue, val)) {
         let formatValue
         if (Array.isArray(val)) {
-          formatValue = val.map(_ => formatter(_, props.valueFormat, lang.value))
-        } else if(val) {
+          formatValue = val.map((_) =>
+            formatter(_, props.valueFormat, lang.value)
+          )
+        } else if (val) {
           formatValue = formatter(val, props.valueFormat, lang.value)
         }
         ctx.emit('update:modelValue', val ? formatValue : val, lang.value)
@@ -252,7 +255,9 @@ export default defineComponent({
     }
     const refInput = computed(() => {
       if (refPopper.value.triggerRef) {
-        const _r = isRangeInput.value ? refPopper.value.triggerRef : refPopper.value.triggerRef.$el
+        const _r = isRangeInput.value
+          ? refPopper.value.triggerRef
+          : refPopper.value.triggerRef.$el
         return [].slice.call(_r.querySelectorAll('input'))
       }
       return []
@@ -272,7 +277,7 @@ export default defineComponent({
       pickerVisible.value = visible
       let result
       if (Array.isArray(date)) {
-        result = date.map(_ => _.toDate())
+        result = date.map((_) => _.toDate())
       } else {
         // clear btn emit null
         result = date ? date.toDate() : date
@@ -280,7 +285,7 @@ export default defineComponent({
       userInput.value = null
       emitInput(result)
     }
-    const handleFocus = e => {
+    const handleFocus = (e) => {
       if (props.readonly || pickerDisabled.value || pickerVisible.value) return
       pickerVisible.value = true
       ctx.emit('focus', e)
@@ -303,20 +308,27 @@ export default defineComponent({
         }
       } else {
         if (Array.isArray(props.modelValue)) {
-          result = props.modelValue.map(_=> parser(_, props.valueFormat, lang.value))
+          result = props.modelValue.map((_) =>
+            parser(_, props.valueFormat, lang.value)
+          )
         } else {
           result = parser(props.modelValue, props.valueFormat, lang.value)
         }
       }
 
       if (pickerOptions.value.getRangeAvailableTime) {
-        const availableResult = pickerOptions.value.getRangeAvailableTime(result)
+        const availableResult =
+          pickerOptions.value.getRangeAvailableTime(result)
         if (!isEqual(availableResult, result)) {
           result = availableResult
-          emitInput(Array.isArray(result) ? result.map(_=> _.toDate()) : result.toDate())
+          emitInput(
+            Array.isArray(result)
+              ? result.map((_) => _.toDate())
+              : result.toDate()
+          )
         }
       }
-      if (Array.isArray(result) && result.some(_ => !_)) {
+      if (Array.isArray(result) && result.some((_) => !_)) {
         result = []
       }
       return result
@@ -343,17 +355,21 @@ export default defineComponent({
       return ''
     })
 
-    const isTimeLikePicker = computed(() =>props.type.includes('time'))
+    const isTimeLikePicker = computed(() => props.type.includes('time'))
 
     const isTimePicker = computed(() => props.type.startsWith('time'))
 
     const isDatesPicker = computed(() => props.type === 'dates')
 
-    const triggerClass = computed(() => props.prefixIcon || (isTimeLikePicker.value ? 'el-icon-time' : 'el-icon-date'))
+    const triggerClass = computed(
+      () =>
+        props.prefixIcon ||
+        (isTimeLikePicker.value ? 'el-icon-time' : 'el-icon-date')
+    )
 
     const showClose = ref(false)
 
-    const onClearIconClick = event => {
+    const onClearIconClick = (event) => {
       if (props.readonly || pickerDisabled.value) return
       if (showClose.value) {
         event.stopPropagation()
@@ -365,7 +381,10 @@ export default defineComponent({
       }
     }
     const valueIsEmpty = computed(() => {
-      return !props.modelValue || (Array.isArray(props.modelValue) && !props.modelValue.length)
+      return (
+        !props.modelValue ||
+        (Array.isArray(props.modelValue) && !props.modelValue.length)
+      )
     })
     const onMouseEnter = () => {
       if (props.readonly || pickerDisabled.value) return
@@ -400,7 +419,11 @@ export default defineComponent({
         const value = parseUserInputToDayjs(displayValue.value)
         if (value) {
           if (isValidValue(value)) {
-            emitInput(Array.isArray(value) ? value.map(_=> _.toDate()) : value.toDate())
+            emitInput(
+              Array.isArray(value)
+                ? value.map((_) => _.toDate())
+                : value.toDate()
+            )
             userInput.value = null
           }
         }
@@ -413,24 +436,24 @@ export default defineComponent({
     }
 
     const blurInput = () => {
-      refInput.value.forEach(input => input.blur())
+      refInput.value.forEach((input) => input.blur())
     }
 
-    const parseUserInputToDayjs = value => {
+    const parseUserInputToDayjs = (value) => {
       if (!value) return null
       return pickerOptions.value.parseUserInput(value)
     }
 
-    const formatDayjsToString = value => {
+    const formatDayjsToString = (value) => {
       if (!value) return null
       return pickerOptions.value.formatToString(value)
     }
 
-    const isValidValue = value => {
+    const isValidValue = (value) => {
       return pickerOptions.value.isValidValue(value)
     }
 
-    const handleKeydown = event => {
+    const handleKeydown = (event) => {
       const code = event.code
 
       if (code === EVENT_CODE.esc) {
@@ -457,7 +480,10 @@ export default defineComponent({
       }
 
       if (code === EVENT_CODE.enter) {
-        if (userInput.value === '' || isValidValue(parseUserInputToDayjs(displayValue.value))) {
+        if (
+          userInput.value === '' ||
+          isValidValue(parseUserInputToDayjs(displayValue.value))
+        ) {
           handleChange()
           pickerVisible.value = false
         }
@@ -475,11 +501,11 @@ export default defineComponent({
         pickerOptions.value.handleKeydown(event)
       }
     }
-    const onUserInput = e => {
+    const onUserInput = (e) => {
       userInput.value = e
     }
 
-    const handleStartInput = event => {
+    const handleStartInput = (event) => {
       if (userInput.value) {
         userInput.value = [event.target.value, userInput.value[1]]
       } else {
@@ -487,7 +513,7 @@ export default defineComponent({
       }
     }
 
-    const handleEndInput = event => {
+    const handleEndInput = (event) => {
       if (userInput.value) {
         userInput.value = [userInput.value[0], event.target.value]
       } else {
@@ -520,12 +546,14 @@ export default defineComponent({
     }
 
     const pickerOptions = ref<Partial<PickerOptions>>({})
-    const onSetPickerOption = <T extends keyof PickerOptions>(e: [T, PickerOptions[T]]) => {
+    const onSetPickerOption = <T extends keyof PickerOptions>(
+      e: [T, PickerOptions[T]]
+    ) => {
       pickerOptions.value[e[0]] = e[1]
       pickerOptions.value.panelReady = true
     }
 
-    const onCalendarChange = e => {
+    const onCalendarChange = (e) => {
       ctx.emit('calendar-change', e)
     }
 

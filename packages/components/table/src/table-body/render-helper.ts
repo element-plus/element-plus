@@ -33,7 +33,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
   const firstDefaultColumnIndex = computed(() => {
     return arrayFindIndex(
       props.store.states.columns.value,
-      ({ type }) => type === 'default',
+      ({ type }) => type === 'default'
     )
   })
   const getKeyOfRow = (row: T, index: number) => {
@@ -55,17 +55,17 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
     const displayStyle = display
       ? null
       : {
-        display: 'none',
-      }
+          display: 'none',
+        }
     return h(
       'tr',
       {
         style: [displayStyle, getRowStyle(row, $index)],
         class: rowClasses,
         key: getKeyOfRow(row, $index),
-        onDblclick: $event => handleDoubleClick($event, row),
-        onClick: $event => handleClick($event, row),
-        onContextmenu: $event => handleContextMenu($event, row),
+        onDblclick: ($event) => handleDoubleClick($event, row),
+        onClick: ($event) => handleClick($event, row),
+        onContextmenu: ($event) => handleContextMenu($event, row),
         onMouseenter: () => handleMouseEnter($index),
         onMouseleave: handleMouseLeave,
       },
@@ -78,7 +78,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
         columnData.realWidth = getColspanRealWidth(
           columns.value,
           colspan,
-          cellIndex,
+          cellIndex
         )
         const data: RenderRowData<T> = {
           store: props.store,
@@ -113,26 +113,22 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
             key: `${patchKey}${baseKey}`,
             rowspan,
             colspan,
-            onMouseenter: $event =>
+            onMouseenter: ($event) =>
               handleCellMouseEnter($event, { ...row, tooltipEffect }),
             onMouseleave: handleCellMouseLeave,
           },
-          [column.renderCell(data)],
+          [column.renderCell(data)]
         )
-      }),
+      })
     )
   }
   const wrappedRowRender = (row: T, $index: number) => {
     const store = props.store
     const { isRowExpanded, assertRowKey } = store
-    const {
-      treeData,
-      lazyTreeNodeMap,
-      childrenColumnName,
-      rowKey,
-    } = store.states
+    const { treeData, lazyTreeNodeMap, childrenColumnName, rowKey } =
+      store.states
     const hasExpandColumn = store.states.columns.value.some(
-      ({ type }) => type === 'expand',
+      ({ type }) => type === 'expand'
     )
     if (hasExpandColumn && isRowExpanded(row)) {
       const renderExpanded = parent.renderExpanded
@@ -143,25 +139,27 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
       }
       // 使用二维数组，避免修改 $index
       // Use a two dimensional array avoid modifying $index
-      return [[
-        tr,
-        h(
-          'tr',
-          {
-            key: 'expanded-row__' + (tr.key as string),
-          },
-          [
-            h(
-              'td',
-              {
-                colspan: store.states.columns.value.length,
-                class: 'el-table__cell el-table__expanded-cell',
-              },
-              [renderExpanded({ row, $index, store })],
-            ),
-          ],
-        ),
-      ]]
+      return [
+        [
+          tr,
+          h(
+            'tr',
+            {
+              key: 'expanded-row__' + (tr.key as string),
+            },
+            [
+              h(
+                'td',
+                {
+                  colspan: store.states.columns.value.length,
+                  class: 'el-table__cell el-table__expanded-cell',
+                },
+                [renderExpanded({ row, $index, store })]
+              ),
+            ]
+          ),
+        ],
+      ]
     } else if (Object.keys(treeData.value).length) {
       assertRowKey()
       // TreeTable 时，rowKey 必须由用户设定，不使用 getKeyOfRow 计算
@@ -189,7 +187,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
         let i = 0
         const traverse = (children, parent) => {
           if (!(children && children.length && parent)) return
-          children.forEach(node => {
+          children.forEach((node) => {
             // 父节点的 display 状态影响子节点的显示状态
             const innerTreeRowData = {
               display: parent.display && parent.expanded,

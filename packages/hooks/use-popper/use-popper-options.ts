@@ -1,4 +1,3 @@
-
 import type { PropType } from 'vue'
 import type { Options } from '@popperjs/core'
 

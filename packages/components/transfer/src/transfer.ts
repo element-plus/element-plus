@@ -2,9 +2,7 @@ import { CHANGE_EVENT } from '@element-plus/utils/constants'
 
 import type { VNode } from 'vue'
 
-export {
-  CHANGE_EVENT,
-}
+export { CHANGE_EVENT }
 
 export type Key = string | number
 

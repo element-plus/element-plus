@@ -20,12 +20,7 @@
       </component>
     </div>
     <template v-if="!native">
-      <bar
-        :move="moveX"
-        :ratio="ratioX"
-        :size="sizeWidth"
-        :always="always"
-      />
+      <bar :move="moveX" :ratio="ratioX" :size="sizeWidth" :always="always" />
       <bar
         :move="moveY"
         :ratio="ratioY"
@@ -37,9 +32,26 @@
   </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, nextTick, onBeforeUnmount, onMounted, provide, ref } from 'vue'
-import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
-import { addUnit, isArray, isNumber, isString, toObject } from '@element-plus/utils/util'
+import {
+  computed,
+  defineComponent,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  provide,
+  ref,
+} from 'vue'
+import {
+  addResizeListener,
+  removeResizeListener,
+} from '@element-plus/utils/resize-event'
+import {
+  addUnit,
+  isArray,
+  isNumber,
+  isString,
+  toObject,
+} from '@element-plus/utils/util'
 import { warn } from '@element-plus/utils/error'
 import Bar from './bar.vue'
 
@@ -114,8 +126,10 @@ export default defineComponent({
         const offsetHeight = wrap.value.offsetHeight - GAP
         const offsetWidth = wrap.value.offsetWidth - GAP
 
-        moveY.value = (wrap.value.scrollTop * 100) / offsetHeight * ratioY.value
-        moveX.value = (wrap.value.scrollLeft * 100) / offsetWidth * ratioX.value
+        moveY.value =
+          ((wrap.value.scrollTop * 100) / offsetHeight) * ratioY.value
+        moveX.value =
+          ((wrap.value.scrollLeft * 100) / offsetWidth) * ratioX.value
 
         emit('scroll', {
           scrollTop: wrap.value.scrollTop,
@@ -155,8 +169,14 @@ export default defineComponent({
       const height = Math.max(originalHeight, props.minSize)
       const width = Math.max(originalWidth, props.minSize)
 
-      ratioY.value = (originalHeight / (offsetHeight - originalHeight)) / (height / (offsetHeight - height))
-      ratioX.value = (originalWidth / (offsetWidth - originalWidth)) / (width / (offsetWidth - width))
+      ratioY.value =
+        originalHeight /
+        (offsetHeight - originalHeight) /
+        (height / (offsetHeight - height))
+      ratioX.value =
+        originalWidth /
+        (offsetWidth - originalWidth) /
+        (width / (offsetWidth - width))
 
       sizeHeight.value = height + GAP < offsetHeight ? height + 'px' : ''
       sizeWidth.value = width + GAP < offsetWidth ? width + 'px' : ''
@@ -169,8 +189,12 @@ export default defineComponent({
         style.height = addUnit(props.height)
         style.maxHeight = addUnit(props.maxHeight)
       } else if (isString(style)) {
-        style += addUnit(props.height) ? `height: ${addUnit(props.height)};` : ''
-        style += addUnit(props.maxHeight) ? `max-height: ${addUnit(props.maxHeight)};` : ''
+        style += addUnit(props.height)
+          ? `height: ${addUnit(props.height)};`
+          : ''
+        style += addUnit(props.maxHeight)
+          ? `max-height: ${addUnit(props.maxHeight)};`
+          : ''
       }
       return style
     })

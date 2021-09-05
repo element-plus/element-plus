@@ -25,11 +25,20 @@ Incluye todo tipo de entradas, tales como `input`, `select`, `radio` y `checkbox
   </el-form-item>
   <el-form-item label="Activity time">
     <el-col :span="11">
-      <el-date-picker type="date" placeholder="Pick a date" v-model="form.date1" style="width: 100%;"></el-date-picker>
+      <el-date-picker
+        type="date"
+        placeholder="Pick a date"
+        v-model="form.date1"
+        style="width: 100%;"
+      ></el-date-picker>
     </el-col>
     <el-col class="line" :span="2">-</el-col>
     <el-col :span="11">
-      <el-time-picker placeholder="Pick a time" v-model="form.date2" style="width: 100%;"></el-time-picker>
+      <el-time-picker
+        placeholder="Pick a time"
+        v-model="form.date2"
+        style="width: 100%;"
+      ></el-time-picker>
     </el-col>
   </el-form-item>
   <el-form-item label="Instant delivery">
@@ -69,15 +78,15 @@ Incluye todo tipo de entradas, tales como `input`, `select`, `radio` y `checkbox
           delivery: false,
           type: [],
           resource: '',
-          desc: ''
-        }
+          desc: '',
+        },
       }
     },
     methods: {
       onSubmit() {
-        console.log('submit!');
-      }
-    }
+        console.log('submit!')
+      },
+    },
   }
 </script>
 ```
@@ -119,15 +128,15 @@ Cuando el espacio vertical es limitado y la forma es relativamente simple, puede
       return {
         formInline: {
           user: '',
-          region: ''
-        }
+          region: '',
+        },
       }
     },
     methods: {
       onSubmit() {
-        console.log('submit!');
-      }
-    }
+        console.log('submit!')
+      },
+    },
   }
 </script>
 ```
@@ -147,7 +156,11 @@ Dependiendo de su diseño, hay varias maneras diferentes de alinear el elemento 
   <el-radio-button label="top">Top</el-radio-button>
 </el-radio-group>
 <div style="margin: 20px;"></div>
-<el-form :label-position="labelPosition" label-width="100px" :model="formLabelAlign">
+<el-form
+  :label-position="labelPosition"
+  label-width="100px"
+  :model="formLabelAlign"
+>
   <el-form-item label="Name">
     <el-input v-model="formLabelAlign.name"></el-input>
   </el-form-item>
@@ -166,10 +179,10 @@ Dependiendo de su diseño, hay varias maneras diferentes de alinear el elemento 
         formLabelAlign: {
           name: '',
           region: '',
-          type: ''
-        }
-      };
-    }
+          type: '',
+        },
+      }
+    },
   }
 </script>
 ```
@@ -183,7 +196,13 @@ El componente `form` le permite verificar sus datos, ayudándole a encontrar y c
 :::demo Sólo tiene que añadir el atributo `rules` en el componente `Form`, pasar las reglas de validación y establecer el atributo `prop` para `Form-Item` como una clave específica que necesita ser validada. Ver más información en [async-validator](https://github.com/yiminghe/async-validator).
 
 ```html
-<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+<el-form
+  :model="ruleForm"
+  :rules="rules"
+  ref="ruleForm"
+  label-width="120px"
+  class="demo-ruleForm"
+>
   <el-form-item label="Activity name" prop="name">
     <el-input v-model="ruleForm.name"></el-input>
   </el-form-item>
@@ -196,13 +215,22 @@ El componente `form` le permite verificar sus datos, ayudándole a encontrar y c
   <el-form-item label="Activity time" required>
     <el-col :span="11">
       <el-form-item prop="date1">
-        <el-date-picker type="date" placeholder="Pick a date" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
+        <el-date-picker
+          type="date"
+          placeholder="Pick a date"
+          v-model="ruleForm.date1"
+          style="width: 100%;"
+        ></el-date-picker>
       </el-form-item>
     </el-col>
     <el-col class="line" :span="2">-</el-col>
     <el-col :span="11">
       <el-form-item prop="date2">
-        <el-time-picker placeholder="Pick a time" v-model="ruleForm.date2" style="width: 100%;"></el-time-picker>
+        <el-time-picker
+          placeholder="Pick a time"
+          v-model="ruleForm.date2"
+          style="width: 100%;"
+        ></el-time-picker>
       </el-form-item>
     </el-col>
   </el-form-item>
@@ -243,49 +271,85 @@ El componente `form` le permite verificar sus datos, ayudándole a encontrar y c
           delivery: false,
           type: [],
           resource: '',
-          desc: ''
+          desc: '',
         },
         rules: {
           name: [
-            { required: true, message: 'Please input Activity name', trigger: 'blur' },
-            { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' }
+            {
+              required: true,
+              message: 'Please input Activity name',
+              trigger: 'blur',
+            },
+            {
+              min: 3,
+              max: 5,
+              message: 'Length should be 3 to 5',
+              trigger: 'blur',
+            },
           ],
           region: [
-            { required: true, message: 'Please select Activity zone', trigger: 'change' }
+            {
+              required: true,
+              message: 'Please select Activity zone',
+              trigger: 'change',
+            },
           ],
           date1: [
-            { type: 'date', required: true, message: 'Please pick a date', trigger: 'change' }
+            {
+              type: 'date',
+              required: true,
+              message: 'Please pick a date',
+              trigger: 'change',
+            },
           ],
           date2: [
-            { type: 'date', required: true, message: 'Please pick a time', trigger: 'change' }
+            {
+              type: 'date',
+              required: true,
+              message: 'Please pick a time',
+              trigger: 'change',
+            },
           ],
           type: [
-            { type: 'array', required: true, message: 'Please select at least one activity type', trigger: 'change' }
+            {
+              type: 'array',
+              required: true,
+              message: 'Please select at least one activity type',
+              trigger: 'change',
+            },
           ],
           resource: [
-            { required: true, message: 'Please select activity resource', trigger: 'change' }
+            {
+              required: true,
+              message: 'Please select activity resource',
+              trigger: 'change',
+            },
           ],
           desc: [
-            { required: true, message: 'Please input activity form', trigger: 'blur' }
-          ]
-        }
-      };
+            {
+              required: true,
+              message: 'Please input activity form',
+              trigger: 'blur',
+            },
+          ],
+        },
+      }
     },
     methods: {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            alert('submit!')
           } else {
-            console.log('error submit!!');
-            return false;
+            console.log('error submit!!')
+            return false
           }
-        });
+        })
       },
       resetForm(formName) {
-        this.$refs[formName].resetFields();
-      }
-    }
+        this.$refs[formName].resetFields()
+      },
+    },
   }
 </script>
 ```
@@ -299,12 +363,27 @@ Este ejemplo muestra cómo personalizar sus propias reglas de validación para f
 :::demo Aquí utilizamos el `status-icon` para reflejar el resultado de la validación como un icono.
 
 ```html
-<el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+<el-form
+  :model="ruleForm"
+  status-icon
+  :rules="rules"
+  ref="ruleForm"
+  label-width="120px"
+  class="demo-ruleForm"
+>
   <el-form-item label="Password" prop="pass">
-    <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+    <el-input
+      type="password"
+      v-model="ruleForm.pass"
+      autocomplete="off"
+    ></el-input>
   </el-form-item>
   <el-form-item label="Confirm" prop="checkPass">
-    <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+    <el-input
+      type="password"
+      v-model="ruleForm.checkPass"
+      autocomplete="off"
+    ></el-input>
   </el-form-item>
   <el-form-item label="Age" prop="age">
     <el-input v-model.number="ruleForm.age"></el-input>
@@ -319,73 +398,67 @@ Este ejemplo muestra cómo personalizar sus propias reglas de validación para f
     data() {
       var checkAge = (rule, value, callback) => {
         if (!value) {
-          return callback(new Error('Please input the age'));
+          return callback(new Error('Please input the age'))
         }
         setTimeout(() => {
           if (!Number.isInteger(value)) {
-            callback(new Error('Please input digits'));
+            callback(new Error('Please input digits'))
           } else {
             if (value < 18) {
-              callback(new Error('Age must be greater than 18'));
+              callback(new Error('Age must be greater than 18'))
             } else {
-              callback();
+              callback()
             }
           }
-        }, 1000);
-      };
+        }, 1000)
+      }
       var validatePass = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('Please input the password'));
+          callback(new Error('Please input the password'))
         } else {
           if (this.ruleForm.checkPass !== '') {
-            this.$refs.ruleForm.validateField('checkPass');
+            this.$refs.ruleForm.validateField('checkPass')
           }
-          callback();
+          callback()
         }
-      };
+      }
       var validatePass2 = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('Please input the password again'));
+          callback(new Error('Please input the password again'))
         } else if (value !== this.ruleForm.pass) {
-          callback(new Error('Two inputs don\'t match!'));
+          callback(new Error("Two inputs don't match!"))
         } else {
-          callback();
+          callback()
         }
-      };
+      }
       return {
         ruleForm: {
           pass: '',
           checkPass: '',
-          age: ''
+          age: '',
         },
         rules: {
-          pass: [
-            { validator: validatePass, trigger: 'blur' }
-          ],
-          checkPass: [
-            { validator: validatePass2, trigger: 'blur' }
-          ],
-          age: [
-            { validator: checkAge, trigger: 'blur' }
-          ]
-        }
-      };
+          pass: [{ validator: validatePass, trigger: 'blur' }],
+          checkPass: [{ validator: validatePass2, trigger: 'blur' }],
+          age: [{ validator: checkAge, trigger: 'blur' }],
+        },
+      }
     },
     methods: {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            alert('submit!')
           } else {
-            console.log('error submit!!');
-            return false;
+            console.log('error submit!!')
+            return false
           }
-        });
+        })
       },
       resetForm(formName) {
-        this.$refs[formName].resetFields();
-      }
-    }
+        this.$refs[formName].resetFields()
+      },
+    },
   }
 </script>
 ```
@@ -401,7 +474,12 @@ Se debe llamar a la función de validación de llamada de retorno personalizada.
 :::demo Además de pasar todas las reglas de validación al mismo tiempo en el componente `form`, también puede pasar las reglas de validación o borrar reglas en un único campo de formulario de forma dinámica.
 
 ```html
-<el-form :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="120px" class="demo-dynamic">
+<el-form
+  :model="dynamicValidateForm"
+  ref="dynamicValidateForm"
+  label-width="120px"
+  class="demo-dynamic"
+>
   <el-form-item
     prop="email"
     label="Email"
@@ -421,10 +499,13 @@ Se debe llamar a la función de validación de llamada de retorno personalizada.
       required: true, message: 'domain can not be null', trigger: 'blur'
     }"
   >
-    <el-input v-model="domain.value"></el-input><el-button @click.prevent="removeDomain(domain)">Delete</el-button>
+    <el-input v-model="domain.value"></el-input
+    ><el-button @click.prevent="removeDomain(domain)">Delete</el-button>
   </el-form-item>
   <el-form-item>
-    <el-button type="primary" @click="submitForm('dynamicValidateForm')">Submit</el-button>
+    <el-button type="primary" @click="submitForm('dynamicValidateForm')"
+      >Submit</el-button
+    >
     <el-button @click="addDomain">New domain</el-button>
     <el-button @click="resetForm('dynamicValidateForm')">Reset</el-button>
   </el-form-item>
@@ -434,41 +515,43 @@ Se debe llamar a la función de validación de llamada de retorno personalizada.
     data() {
       return {
         dynamicValidateForm: {
-          domains: [{
-            key: 1,
-            value: ''
-          }],
-          email: ''
-        }
-      };
+          domains: [
+            {
+              key: 1,
+              value: '',
+            },
+          ],
+          email: '',
+        },
+      }
     },
     methods: {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            alert('submit!')
           } else {
-            console.log('error submit!!');
-            return false;
+            console.log('error submit!!')
+            return false
           }
-        });
+        })
       },
       resetForm(formName) {
-        this.$refs[formName].resetFields();
+        this.$refs[formName].resetFields()
       },
       removeDomain(item) {
-        var index = this.dynamicValidateForm.domains.indexOf(item);
+        var index = this.dynamicValidateForm.domains.indexOf(item)
         if (index !== -1) {
-          this.dynamicValidateForm.domains.splice(index, 1);
+          this.dynamicValidateForm.domains.splice(index, 1)
         }
       },
       addDomain() {
         this.dynamicValidateForm.domains.push({
           key: Date.now(),
-          value: ''
-        });
-      }
-    }
+          value: '',
+        })
+      },
+    },
   }
 </script>
 ```
@@ -480,7 +563,12 @@ Se debe llamar a la función de validación de llamada de retorno personalizada.
 :::demo La validación numérica necesita un modificador `.number` añadido en el enlace `v-model` de entrada, sirve para transformar el valor de la cadena al número proporcionado por Vuejs.
 
 ```html
-<el-form :model="numberValidateForm" ref="numberValidateForm" label-width="100px" class="demo-ruleForm">
+<el-form
+  :model="numberValidateForm"
+  ref="numberValidateForm"
+  label-width="100px"
+  class="demo-ruleForm"
+>
   <el-form-item
     label="age"
     prop="age"
@@ -489,10 +577,16 @@ Se debe llamar a la función de validación de llamada de retorno personalizada.
       { type: 'number', message: 'age must be a number'}
     ]"
   >
-    <el-input type="age" v-model.number="numberValidateForm.age" autocomplete="off"></el-input>
+    <el-input
+      type="age"
+      v-model.number="numberValidateForm.age"
+      autocomplete="off"
+    ></el-input>
   </el-form-item>
   <el-form-item>
-    <el-button type="primary" @click="submitForm('numberValidateForm')">Submit</el-button>
+    <el-button type="primary" @click="submitForm('numberValidateForm')"
+      >Submit</el-button
+    >
     <el-button @click="resetForm('numberValidateForm')">Reset</el-button>
   </el-form-item>
 </el-form>
@@ -501,25 +595,25 @@ Se debe llamar a la función de validación de llamada de retorno personalizada.
     data() {
       return {
         numberValidateForm: {
-          age: ''
-        }
-      };
+          age: '',
+        },
+      }
     },
     methods: {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            alert('submit!')
           } else {
-            console.log('error submit!!');
-            return false;
+            console.log('error submit!!')
+            return false
           }
-        });
+        })
       },
       resetForm(formName) {
-        this.$refs[formName].resetFields();
-      }
-    }
+        this.$refs[formName].resetFields()
+      },
+    },
   }
 </script>
 ```
@@ -551,17 +645,32 @@ Todos los componentes de un formulario heredan su atributo `size`. De manera sim
   </el-form-item>
   <el-form-item label="Activity time">
     <el-col :span="11">
-      <el-date-picker type="date" placeholder="Pick a date" v-model="sizeForm.date1" style="width: 100%;"></el-date-picker>
+      <el-date-picker
+        type="date"
+        placeholder="Pick a date"
+        v-model="sizeForm.date1"
+        style="width: 100%;"
+      ></el-date-picker>
     </el-col>
     <el-col class="line" :span="2">-</el-col>
     <el-col :span="11">
-      <el-time-picker placeholder="Pick a time" v-model="sizeForm.date2" style="width: 100%;"></el-time-picker>
+      <el-time-picker
+        placeholder="Pick a time"
+        v-model="sizeForm.date2"
+        style="width: 100%;"
+      ></el-time-picker>
     </el-col>
   </el-form-item>
   <el-form-item label="Activity type">
     <el-checkbox-group v-model="sizeForm.type">
-      <el-checkbox-button label="Online activities" name="type"></el-checkbox-button>
-      <el-checkbox-button label="Promotion activities" name="type"></el-checkbox-button>
+      <el-checkbox-button
+        label="Online activities"
+        name="type"
+      ></el-checkbox-button>
+      <el-checkbox-button
+        label="Promotion activities"
+        name="type"
+      ></el-checkbox-button>
     </el-checkbox-group>
   </el-form-item>
   <el-form-item label="Resources">
@@ -588,16 +697,16 @@ Todos los componentes de un formulario heredan su atributo `size`. De manera sim
           delivery: false,
           type: [],
           resource: '',
-          desc: ''
-        }
-      };
+          desc: '',
+        },
+      }
     },
     methods: {
       onSubmit() {
-        console.log('submit!');
-      }
-    }
-  };
+        console.log('submit!')
+      },
+    },
+  }
 </script>
 ```
 
@@ -605,69 +714,71 @@ Todos los componentes de un formulario heredan su atributo `size`. De manera sim
 
 ### Form Atributos
 
-| Atributo                | Descripción                              | Tipo    | Valores aceptados     | Por defecto |
-| ----------------------- | ---------------------------------------- | ------- | --------------------- | ----------- |
-| model                   | Datos del componente                     | object  | —                     | —           |
-| rules                   | Reglas de validación                     | object  | —                     | —           |
-| inline                  | Si el form es inline                     | boolean | —                     | false       |
-| label-position          | Posición de la etiqueta          | string  | left / right / top    | right       |
-| label-width             | anchura de la etiqueta, por ejemplo, "50px". Todos sus elementos de formulario hijo directo heredarán este valor. El valor `auto` está soportado. | string / number | — | — |
-| label-suffix            | sufijo de la etiqueta                    | string  | —                     | —           |
-| hide-required-asterisk       | si los campos obligatorios deben tener un asterisco rojo (estrella) al lado de sus etiquetas | boolean | — | false |
-| show-message            | si mostrar o no el mensaje de error      | boolean | —                     | true        |
-| inline-message          | si desea visualizar el mensaje de error inline con la posición del form item | boolean | —                     | false       |
-| status-icon             | si desea visualizar un icono que indique el resultado de la validación | boolean | —                     | false       |
-| validate-on-rule-change | si se dispara la validación cuando el prop `rules` cambia | boolean | —                     | true        |
-| size                    | el tamaño de los componentes en este form | string  | medium / small / mini | —           |
-| disabled                | si se desactivan todos los componentes del formulario. Si esta en `true` no puede ser cambiado por el prop `disabled` individual de los componentes. | boolean | —                     | false       |
+| Atributo                | Descripción                                                                                                                                          | Tipo            | Valores aceptados     | Por defecto |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- | --------------------- | ----------- |
+| model                   | Datos del componente                                                                                                                                 | object          | —                     | —           |
+| rules                   | Reglas de validación                                                                                                                                 | object          | —                     | —           |
+| inline                  | Si el form es inline                                                                                                                                 | boolean         | —                     | false       |
+| label-position          | Posición de la etiqueta                                                                                                                              | string          | left / right / top    | right       |
+| label-width             | anchura de la etiqueta, por ejemplo, "50px". Todos sus elementos de formulario hijo directo heredarán este valor. El valor `auto` está soportado.    | string / number | —                     | —           |
+| label-suffix            | sufijo de la etiqueta                                                                                                                                | string          | —                     | —           |
+| hide-required-asterisk  | si los campos obligatorios deben tener un asterisco rojo (estrella) al lado de sus etiquetas                                                         | boolean         | —                     | false       |
+| show-message            | si mostrar o no el mensaje de error                                                                                                                  | boolean         | —                     | true        |
+| inline-message          | si desea visualizar el mensaje de error inline con la posición del form item                                                                         | boolean         | —                     | false       |
+| status-icon             | si desea visualizar un icono que indique el resultado de la validación                                                                               | boolean         | —                     | false       |
+| validate-on-rule-change | si se dispara la validación cuando el prop `rules` cambia                                                                                            | boolean         | —                     | true        |
+| size                    | el tamaño de los componentes en este form                                                                                                            | string          | medium / small / mini | —           |
+| disabled                | si se desactivan todos los componentes del formulario. Si esta en `true` no puede ser cambiado por el prop `disabled` individual de los componentes. | boolean         | —                     | false       |
 
 ### Form Metodos
 
-| Metodo        | Descripción                                                  | Parametros                                                   |
-| ------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| validate      | el método para validar todo el formulario. Recibe una llamada como parámetro. Después de la validación, la llamada de retorno se ejecutará con dos parámetros: un booleano que indica si la validación ha pasado, y un objeto que contiene todos los campos que fallaron en la validación. Devuelve una promesa si se omite el return | Function(callback: Function(boolean, object))                |
-| validateField | validar uno o varios elementos de formulario                 | Function(props: string \| array, callback: Function(errorMessage: string)) |
-| resetFields   | restablece todos los campos y elimina el resultado de validación | —                                                            |
-| clearValidate | borra el mensaje de validación para determinados campos. El parámetro es un prop name o un array de props names de los items del formulario cuyos mensajes de validación se eliminarán. Si se omiten, se borrarán todos los mensajes de validación de los campos. | Function(props: string \| array)                             |
-
+| Metodo        | Descripción                                                                                                                                                                                                                                                                                                                           | Parametros                                                                 |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| validate      | el método para validar todo el formulario. Recibe una llamada como parámetro. Después de la validación, la llamada de retorno se ejecutará con dos parámetros: un booleano que indica si la validación ha pasado, y un objeto que contiene todos los campos que fallaron en la validación. Devuelve una promesa si se omite el return | Function(callback: Function(boolean, object))                              |
+| validateField | validar uno o varios elementos de formulario                                                                                                                                                                                                                                                                                          | Function(props: string \| array, callback: Function(errorMessage: string)) |
+| resetFields   | restablece todos los campos y elimina el resultado de validación                                                                                                                                                                                                                                                                      | —                                                                          |
+| scrollToField | Scroll to the specified form field                                                                                                                                                                                                                                                                                                    | Function(prop: string)                                                     |
+| clearValidate | borra el mensaje de validación para determinados campos. El parámetro es un prop name o un array de props names de los items del formulario cuyos mensajes de validación se eliminarán. Si se omiten, se borrarán todos los mensajes de validación de los campos.                                                                     | Function(props: string \| array)                                           |
 
 ### Form Events
 
-| Nombre   | Descripción                                          | Parametros                                                   |
-| -------- | ---------------------------------------------------- | ------------------------------------------------------------ |
+| Nombre   | Descripción                                          | Parametros                                                                                                                              |
+| -------- | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
 | validate | se dispara después de validar un ítem del formulario | la propiedad (`prop name`) nombre del ítem del form que se esta validando, si la validación paso o no, y el mensaje de error si existe. |
 
 ### Form Slots
-| Name | Description | Subtags |
-| ------ | -------- | ----- |
+
+| Name    | Description               | Subtags   |
+| ------- | ------------------------- | --------- |
 | default | customize default content | Form-Item |
 
 ### Form-Item Atributos
 
-| Atributo       | Descripción                                                  | Tipo    | Valores aceptados                           | Por defecto |
-| -------------- | ------------------------------------------------------------ | ------- | ------------------------------------------- | ----------- |
-| prop           | un clave del modelo. En el uso del método `validate` y `resetFields`, el atributo es obligatorio. | string  | Clave del modelo que se ha pasado a  `form` |             |
-| label          | etiqueta                                                     | string  | —                                           | —           |
-| label-width    | ancho de la etiqueta, Ejemplo: '50px'. El valor `auto` esta soportado | string / number  | —                                           | —           |
-| required       | si el campo es obligatorio o no, estará determinado por las reglas de validación si se omite. | boolean | —                                           | false       |
-| rules          | reglas de validación del form, ver más información en [async-validator](https://github.com/yiminghe/async-validator)  | object / array  | —                                           | —           |
-| error          | mensaje de error de campo, establezca su valor y el campo validará el error y mostrará este mensaje inmediatamente. | string  | —                                           | —           |
-| show-message   | si mostrar o no el mensaje de error                          | boolean | —                                           | true        |
-| inline-message | mensaje de validación estilo inline                          | boolean | —                                           | false       |
-| size           | Tamaño de los componentes en este form item                  | string  | medium / small / mini                       | —           |
+| Atributo       | Descripción                                                                                                          | Tipo            | Valores aceptados                          | Por defecto |
+| -------------- | -------------------------------------------------------------------------------------------------------------------- | --------------- | ------------------------------------------ | ----------- |
+| prop           | un clave del modelo. En el uso del método `validate` y `resetFields`, el atributo es obligatorio.                    | string          | Clave del modelo que se ha pasado a `form` |             |
+| label          | etiqueta                                                                                                             | string          | —                                          | —           |
+| label-width    | ancho de la etiqueta, Ejemplo: '50px'. El valor `auto` esta soportado                                                | string / number | —                                          | —           |
+| required       | si el campo es obligatorio o no, estará determinado por las reglas de validación si se omite.                        | boolean         | —                                          | false       |
+| rules          | reglas de validación del form, ver más información en [async-validator](https://github.com/yiminghe/async-validator) | object / array  | —                                          | —           |
+| error          | mensaje de error de campo, establezca su valor y el campo validará el error y mostrará este mensaje inmediatamente.  | string          | —                                          | —           |
+| show-message   | si mostrar o no el mensaje de error                                                                                  | boolean         | —                                          | true        |
+| inline-message | mensaje de validación estilo inline                                                                                  | boolean         | —                                          | false       |
+| size           | Tamaño de los componentes en este form item                                                                          | string          | medium / small / mini                      | —           |
 
 ### Rules
-| Atributo       | Descripción  | Tipo    | Valores aceptados | Por defecto |
-| -------- | ----------------- | ------ | ---- | ---- |
-| trigger    | how the validator is triggered | string | blur / change   | —    |
+
+| Atributo | Descripción                    | Tipo   | Valores aceptados | Por defecto |
+| -------- | ------------------------------ | ------ | ----------------- | ----------- |
+| trigger  | how the validator is triggered | string | blur / change     | —           |
 
 ### Form-Item Slot
 
-| Nombre | Descripción              |
-| ------ | ------------------------ |
-| default | contenido del Form Item  |
-| label | Custom content to display on label. The scope parameter is { label } |
-| error | Contenido personalizado para mostrar el mensaje de validación. El parámetro del scope es { error } |
+| Nombre | Descripción                                                                                        |
+| ------ | -------------------------------------------------------------------------------------------------- |
+| —      | contenido del Form Item                                                                            |
+| label  | Custom content to display on label. The scope parameter is { label }                               |
+| error  | Contenido personalizado para mostrar el mensaje de validación. El parámetro del scope es { error } |
 
 ### Form-Item Metodo
 

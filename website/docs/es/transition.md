@@ -5,6 +5,7 @@ Puede usar directamente las transiciones incorporadas en Element. Antes de hacer
 ### Fade
 
 :::demo Tenemos dos efectos de fading: `el-fade-in-linear` y `el-fade-in`.
+
 ```html
 <template>
   <div>
@@ -22,10 +23,10 @@ Puede usar directamente las transiciones incorporadas en Element. Antes de hacer
 </template>
 
 <script>
-    export default {
+  export default {
     data: () => ({
-      show: true
-    })
+      show: true,
+    }),
   }
 </script>
 
@@ -35,7 +36,7 @@ Puede usar directamente las transiciones incorporadas en Element. Antes de hacer
     width: 200px;
     height: 100px;
     border-radius: 4px;
-    background-color: #409EFF;
+    background-color: #409eff;
     text-align: center;
     color: #fff;
     padding: 40px 20px;
@@ -44,11 +45,13 @@ Puede usar directamente las transiciones incorporadas en Element. Antes de hacer
   }
 </style>
 ```
+
 :::
 
 ### Zoom
 
 :::demo También tenemos zoom: `el-zoom-in-center`, `el-zoom-in-top` y `el-zoom-in-bottom`.
+
 ```html
 <template>
   <div>
@@ -71,10 +74,10 @@ Puede usar directamente las transiciones incorporadas en Element. Antes de hacer
 </template>
 
 <script>
-    export default {
+  export default {
     data: () => ({
-      show2: true
-    })
+      show2: true,
+    }),
   }
 </script>
 
@@ -84,7 +87,7 @@ Puede usar directamente las transiciones incorporadas en Element. Antes de hacer
     width: 200px;
     height: 100px;
     border-radius: 4px;
-    background-color: #409EFF;
+    background-color: #409eff;
     text-align: center;
     color: #fff;
     padding: 40px 20px;
@@ -93,10 +96,11 @@ Puede usar directamente las transiciones incorporadas en Element. Antes de hacer
   }
 </style>
 ```
+
 :::
 
-
 ### Colapsado
+
 Para efectos de colapsado usar el componente `el-collapse-transition`.
 :::demo
 
@@ -117,10 +121,10 @@ Para efectos de colapsado usar el componente `el-collapse-transition`.
 </template>
 
 <script>
-    export default {
+  export default {
     data: () => ({
-      show3: true
-    })
+      show3: true,
+    }),
   }
 </script>
 
@@ -130,7 +134,7 @@ Para efectos de colapsado usar el componente `el-collapse-transition`.
     width: 200px;
     height: 100px;
     border-radius: 4px;
-    background-color: #409EFF;
+    background-color: #409eff;
     text-align: center;
     color: #fff;
     padding: 40px 20px;
@@ -139,15 +143,16 @@ Para efectos de colapsado usar el componente `el-collapse-transition`.
   }
 </style>
 ```
+
 :::
 
 ### Bajo demanda
 
 ```js
 // fade/zoom
-import 'element-plus/lib/theme-chalk/base.css';
+import 'element-plus/lib/theme-chalk/base.css'
 // colapsar
-import { ElCollapseTransition } from 'element-plus';
+import { ElCollapseTransition } from 'element-plus'
 import Vue from 'vue'
 
 Vue.component(ElCollapseTransition.name, ElCollapseTransition)

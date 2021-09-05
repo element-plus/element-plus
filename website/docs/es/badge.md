@@ -41,12 +41,13 @@ Muestra la cantidad de mensajes nuevos.
 </el-dropdown>
 
 <style>
-.item {
-  margin-top: 10px;
-  margin-right: 40px;
-}
+  .item {
+    margin-top: 10px;
+    margin-right: 40px;
+  }
 </style>
 ```
+
 :::
 
 ### Valor máximo
@@ -64,12 +65,13 @@ Se puede personalizar el valor máximo.
 </el-badge>
 
 <style>
-.item {
-  margin-top: 10px;
-  margin-right: 40px;
-}
+  .item {
+    margin-top: 10px;
+    margin-right: 40px;
+  }
 </style>
 ```
+
 :::
 
 ### Personalizaciones
@@ -87,12 +89,13 @@ Mostrar texto en vez de números.
 </el-badge>
 
 <style>
-.item {
-  margin-top: 10px;
-  margin-right: 40px;
-}
+  .item {
+    margin-top: 10px;
+    margin-right: 40px;
+  }
 </style>
 ```
+
 :::
 
 ### Pequeño punto rojo
@@ -104,28 +107,35 @@ Puede utilizar un punto rojo para marcar contenido que debe ser notado.
 ```html
 <el-badge is-dot class="item">query</el-badge>
 <el-badge is-dot class="item">
-  <el-button class="share-button" icon="el-icon-share" type="primary"></el-button>
+  <el-button
+    class="share-button"
+    icon="el-icon-share"
+    type="primary"
+  ></el-button>
 </el-badge>
 
 <style>
-.item {
-  margin-top: 10px;
-  margin-right: 40px;
-}
+  .item {
+    margin-top: 10px;
+    margin-right: 40px;
+  }
 </style>
 ```
+
 :::
 
 ### Atributos
-| Atributo | Descripción                              | Tipo           | Valores aceptados | Por defecto |
-| -------- | ---------------------------------------- | -------------- | ----------------- | ----------- |
-| value    | valor a mostrar                          | string, number | —                 | —           |
-| max      | valor máximo, Muestra '{max}+' cuando se excede. Solo funciona si `value` es un `Number` | number         | —                 | —           |
-| is-dot   | si se debe mostrar un pequeño punto      | boolean        | —                 | false       |
-| hidden   | oculta el badge                    | boolean        | —                 | false       |
-| type     | tipo de botón                            | string         | primary / success / warning / danger / info | — |
+
+| Atributo | Descripción                                                                              | Tipo           | Valores aceptados                           | Por defecto |
+| -------- | ---------------------------------------------------------------------------------------- | -------------- | ------------------------------------------- | ----------- |
+| value    | valor a mostrar                                                                          | string, number | —                                           | —           |
+| max      | valor máximo, Muestra '{max}+' cuando se excede. Solo funciona si `value` es un `Number` | number         | —                                           | —           |
+| is-dot   | si se debe mostrar un pequeño punto                                                      | boolean        | —                                           | false       |
+| hidden   | oculta el badge                                                                          | boolean        | —                                           | false       |
+| type     | tipo de botón                                                                            | string         | primary / success / warning / danger / info | —           |
 
 ### Slots
-| Name | Description |
-| ------ | -------- |
+
+| Name    | Description               |
+| ------- | ------------------------- |
 | default | customize default content |

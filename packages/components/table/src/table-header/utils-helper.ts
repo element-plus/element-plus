@@ -5,10 +5,10 @@ import type { Table } from '../table/defaults'
 import type { TableHeaderProps } from '.'
 
 const getAllColumns = <T>(
-  columns: TableColumnCtx<T>[],
+  columns: TableColumnCtx<T>[]
 ): TableColumnCtx<T>[] => {
   const result = []
-  columns.forEach(column => {
+  columns.forEach((column) => {
     if (column.children) {
       result.push(column)
       // eslint-disable-next-line prefer-spread
@@ -21,7 +21,7 @@ const getAllColumns = <T>(
 }
 
 const convertToRows = <T>(
-  originColumns: TableColumnCtx<T>[],
+  originColumns: TableColumnCtx<T>[]
 ): TableColumnCtx<T>[] => {
   let maxLevel = 1
   const traverse = (column: TableColumnCtx<T>, parent: TableColumnCtx<T>) => {
@@ -33,7 +33,7 @@ const convertToRows = <T>(
     }
     if (column.children) {
       let colSpan = 0
-      column.children.forEach(subColumn => {
+      column.children.forEach((subColumn) => {
         traverse(subColumn, column)
         colSpan += subColumn.colSpan
       })
@@ -43,7 +43,7 @@ const convertToRows = <T>(
     }
   }
 
-  originColumns.forEach(column => {
+  originColumns.forEach((column) => {
     column.level = 1
     traverse(column, undefined)
   })
@@ -55,7 +55,7 @@ const convertToRows = <T>(
 
   const allColumns = getAllColumns(originColumns)
 
-  allColumns.forEach(column => {
+  allColumns.forEach((column) => {
     if (!column.children) {
       column.rowSpan = maxLevel - column.level + 1
     } else {

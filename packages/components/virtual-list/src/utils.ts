@@ -61,13 +61,16 @@ export function getRTLOffsetType(recalculate = false): RTLOffsetType {
   return cachedRTLResult
 }
 
-export const getRelativePos = (e: TouchEvent | MouseEvent, layout: LayoutDirection) => {
+export const getRelativePos = (
+  e: TouchEvent | MouseEvent,
+  layout: LayoutDirection
+) => {
   return 'touches' in e ? e.touches[0][PageKey[layout]] : e[PageKey[layout]]
 }
 
 export function renderThumbStyle({ move, size, bar }, layout: string) {
   const style: CSSProperties = {}
-  const translate = `translate${bar.axis}(${ move }px)`
+  const translate = `translate${bar.axis}(${move}px)`
 
   style[bar.size] = size
   style.transform = translate
@@ -84,4 +87,7 @@ export function renderThumbStyle({ move, size, bar }, layout: string) {
   return style
 }
 
-export const isFF = typeof navigator !== 'undefined' && isObject(navigator) && /Firefox/i.test(navigator.userAgent)
+export const isFF =
+  typeof navigator !== 'undefined' &&
+  isObject(navigator) &&
+  /Firefox/i.test(navigator.userAgent)

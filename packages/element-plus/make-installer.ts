@@ -19,7 +19,7 @@ const makeInstaller = (components: Plugin[] = []) => {
     if (apps.includes(app)) return
     apps.push(app)
 
-    components.forEach(c => {
+    components.forEach((c) => {
       app.use(c)
     })
 

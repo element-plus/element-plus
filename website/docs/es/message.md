@@ -15,23 +15,23 @@ Se muestra en la parte superior de la pagina y desaparece después de 3 segundos
 </template>
 
 <script>
-  import { h } from 'vue';
+  import { h } from 'vue'
 
   export default {
     methods: {
       open() {
-        this.$message('This is a message.');
+        this.$message('This is a message.')
       },
 
       openVn() {
         this.$message({
           message: h('p', null, [
             h('span', null, 'Message can be '),
-            h('i', { style: 'color: teal' }, 'VNode')
-          ])
-        });
-      }
-    }
+            h('i', { style: 'color: teal' }, 'VNode'),
+          ]),
+        })
+      },
+    },
   }
 </script>
 <!--
@@ -66,6 +66,7 @@ Se muestra en la parte superior de la pagina y desaparece después de 3 segundos
 </setup>
 -->
 ```
+
 :::
 
 ### Tipos
@@ -73,6 +74,7 @@ Se muestra en la parte superior de la pagina y desaparece después de 3 segundos
 Utilizados para mostrar retroalimentación de Success, Warning, Message y Error activities.
 
 :::demo Cuando necesite mas personalización, el componente Message también puede tomar un objeto como parámetro. Por ejemplo, estableciendo el valor de `type` puede definir diferentes tipos, el predeterminado es `info`. En tales casos el cuerpo principal se pasa como el valor de `message`. También, hay registrados métodos para los diferentes tipos, así que, puedes llamarlos sin necesidad de pasar un tipo como `open4`.
+
 ```html
 <template>
   <el-button :plain="true" @click="open2">success</el-button>
@@ -85,26 +87,26 @@ Utilizados para mostrar retroalimentación de Success, Warning, Message y Error 
   export default {
     methods: {
       open1() {
-        this.$message('This is a message.');
+        this.$message('This is a message.')
       },
       open2() {
         this.$message({
           message: 'Congrats, this is a success message.',
-          type: 'success'
-        });
+          type: 'success',
+        })
       },
 
       open3() {
         this.$message({
           message: 'Warning, this is a warning message.',
-          type: 'warning'
-        });
+          type: 'warning',
+        })
       },
 
       open4() {
-        this.$message.error('Oops, this is a error message.');
-      }
-    }
+        this.$message.error('Oops, this is a error message.')
+      },
+    },
   }
 </script>
 <!--
@@ -146,6 +148,7 @@ Utilizados para mostrar retroalimentación de Success, Warning, Message y Error 
 </setup>
 -->
 ```
+
 :::
 
 ### Closable
@@ -153,6 +156,7 @@ Utilizados para mostrar retroalimentación de Success, Warning, Message y Error 
 Un botón para cerrar que puede ser agregado.
 
 :::demo Un componente Message predeterminado no se puede cerrar manualmente. Si necesitas un componente message que pueda cerrarse, puedes establecer el campo `showClose`. Ademas, al igual que las notificaciones, message tiene un atributo `duration` que puede ser controlado. Por defecto la duración es de 3000 ms, y no desaparecerá al llegar a `0`.
+
 ```html
 <template>
   <el-button :plain="true" @click="open1">message</el-button>
@@ -167,34 +171,34 @@ Un botón para cerrar que puede ser agregado.
       open1() {
         this.$message({
           showClose: true,
-          message: 'This is a message.'
-        });
+          message: 'This is a message.',
+        })
       },
 
       open2() {
         this.$message({
           showClose: true,
           message: 'Congrats, this is a success message.',
-          type: 'success'
-        });
+          type: 'success',
+        })
       },
 
       open3() {
         this.$message({
           showClose: true,
           message: 'Warning, this is a warning message.',
-          type: 'warning'
-        });
+          type: 'warning',
+        })
       },
 
       open4() {
         this.$message({
           showClose: true,
           message: 'Oops, this is a error message.',
-          type: 'error'
-        });
-      }
-    }
+          type: 'error',
+        })
+      },
+    },
   }
 </script>
 <!--
@@ -245,9 +249,11 @@ Un botón para cerrar que puede ser agregado.
 </setup>
 -->
 ```
+
 :::
 
 ### Texto centrado
+
 Utiliza el atributo `center` para centrar el texto.
 
 :::demo
@@ -263,10 +269,10 @@ Utiliza el atributo `center` para centrar el texto.
       openCenter() {
         this.$message({
           message: 'Centered text',
-          center: true
-        });
-      }
-    }
+          center: true,
+        })
+      },
+    },
   }
 </script>
 <!--
@@ -293,9 +299,11 @@ Utiliza el atributo `center` para centrar el texto.
 </setup>
 -->
 ```
+
 :::
 
 ### Utiliza cadenas HTML
+
 `message` soporta cadenas HTML.
 
 :::demo Establece la propiedad `dangerouslyUseHTMLString` en true y `message` sera tratado como una cadena HTML.
@@ -311,10 +319,10 @@ Utiliza el atributo `center` para centrar el texto.
       openHTML() {
         this.$message({
           dangerouslyUseHTMLString: true,
-          message: '<strong>This is <i>HTML</i> string</strong>'
-        });
-      }
-    }
+          message: '<strong>This is <i>HTML</i> string</strong>',
+        })
+      },
+    },
   }
 </script>
 <!--
@@ -341,6 +349,7 @@ Utiliza el atributo `center` para centrar el texto.
 </setup>
 -->
 ```
+
 :::
 
 :::warning
@@ -354,26 +363,28 @@ Element Plus ha agregado un método global llamado `$message` para `app.config.g
 ### Importación local
 
 ```javascript
-import { ElMessage } from 'element-plus';
+import { ElMessage } from 'element-plus'
 ```
 
 En este caso debería llamar al método `ElMessage(options)`. También se han registrado métodos para los diferentes tipos, e.g. `ElMessage.success(options)`. Puede llamar al método `ElMessage.closeAll()` para cerrar manualmente todas las instancias.
 
 ### Options
-| Atributo                 | Descripcion                              | Tipo           | Valores permitidos         | Por defecto |
-| ------------------------ | ---------------------------------------- | -------------- | -------------------------- | ----------- |
-| message                  | texto del mensaje                        | string / VNode | —                          | —           |
-| type                     | tipo del mensaje                         | string         | success/warning/info/error | info        |
-| iconClass                | clase personalizada para el icono, sobreescribe `type` | string         | —                          | —           |
-| dangerouslyUseHTMLString | utilizado para que `message` sea tratado como cadena HTML | boolean        | —                          | false       |
-| customClass              | nombre de clase personalizado para el componente Message | string         | —                          | —           |
+
+| Atributo                 | Descripcion                                                                                   | Tipo           | Valores permitidos         | Por defecto |
+| ------------------------ | --------------------------------------------------------------------------------------------- | -------------- | -------------------------- | ----------- |
+| message                  | texto del mensaje                                                                             | string / VNode | —                          | —           |
+| type                     | tipo del mensaje                                                                              | string         | success/warning/info/error | info        |
+| iconClass                | clase personalizada para el icono, sobreescribe `type`                                        | string         | —                          | —           |
+| dangerouslyUseHTMLString | utilizado para que `message` sea tratado como cadena HTML                                     | boolean        | —                          | false       |
+| customClass              | nombre de clase personalizado para el componente Message                                      | string         | —                          | —           |
 | duration                 | muestra la duración,en milisegundos. si se establece en 0, este no se apagara automáticamente | number         | —                          | 3000        |
-| showClose                | utilizado para mostrar un botón para cerrar | boolean        | —                          | false       |
-| center                   | utilizado para centrar el texto          | boolean        | —                          | false       |
-| onClose                  | función callback ejecutada cuando se cierra con una instancia de mensaje como parámetro | function       | —                          | —           |
-| offset | La distancia desde la parte superior del  viewport | number | — | 20 |
+| showClose                | utilizado para mostrar un botón para cerrar                                                   | boolean        | —                          | false       |
+| center                   | utilizado para centrar el texto                                                               | boolean        | —                          | false       |
+| onClose                  | función callback ejecutada cuando se cierra con una instancia de mensaje como parámetro       | function       | —                          | —           |
+| offset                   | La distancia desde la parte superior del viewport                                             | number         | —                          | 20          |
 
 ### Métodos
+
 `Message` y `this.$message` regresan una instancia del componente Message. Para cerrar manualmente la instancia, puede llamar al método `close`.
 
 | Método | Descripción                  |

@@ -49,7 +49,7 @@ export default defineComponent({
           ],
           style: style.value,
         },
-        slots.default?.(),
+        slots.default?.()
       )
   },
 })

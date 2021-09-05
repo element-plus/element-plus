@@ -24,16 +24,15 @@ export default defineComponent({
     const instance = getCurrentInstance()
     const parent = instance.parent as Table<DefaultRow>
 
-    const { wrappedRowRender, tooltipContent, tooltipTrigger } = useRender(
-      props,
-    )
+    const { wrappedRowRender, tooltipContent, tooltipTrigger } =
+      useRender(props)
     const { onColumnsChange, onScrollableChange } = useLayoutObserver(parent)
 
     watch(props.store.states.hoverRow, (newVal: any, oldVal: any) => {
       if (!props.store.states.isComplex.value || isServer) return
       let raf = window.requestAnimationFrame
       if (!raf) {
-        raf = fn => window.setTimeout(fn, 16)
+        raf = (fn) => window.setTimeout(fn, 16)
       }
       raf(() => {
         const rows = instance.vnode.el.querySelectorAll('.el-table__row')
@@ -77,15 +76,10 @@ export default defineComponent({
         hColgroup(this.store.states.columns.value),
         h('tbody', {}, [
           data.reduce((acc: VNode[], row) => {
-            return acc.concat(
-              this.wrappedRowRender(
-                row,
-                acc.length,
-              ),
-            )
+            return acc.concat(this.wrappedRowRender(row, acc.length))
           }, []),
         ]),
-      ],
+      ]
     )
   },
 })

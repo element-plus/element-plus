@@ -36,7 +36,6 @@ export default defineComponent({
   },
   emits: ['back'],
   setup(_, { emit }) {
-
     const { t } = useLocaleInject()
 
     function handleClick() {

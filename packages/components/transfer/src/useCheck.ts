@@ -24,9 +24,8 @@ export const useCheckProps = {
 
 export const useCheck = (
   props: ExtractPropTypes<typeof useCheckProps>,
-  panelState: TransferPanelState,
+  panelState: TransferPanelState
 ) => {
-
   const { emit } = getCurrentInstance()
 
   const labelProp = computed(() => props.props.label || 'label')
@@ -36,7 +35,7 @@ export const useCheck = (
   const disabledProp = computed(() => props.props.disabled || 'disabled')
 
   const filteredData = computed(() => {
-    return props.data.filter(item => {
+    return props.data.filter((item) => {
       if (typeof props.filterMethod === 'function') {
         return props.filterMethod(panelState.query, item)
       } else {
@@ -47,7 +46,7 @@ export const useCheck = (
   })
 
   const checkableData = computed(() => {
-    return filteredData.value.filter(item => !item[disabledProp.value])
+    return filteredData.value.filter((item) => !item[disabledProp.value])
   })
 
   const checkedSummary = computed(() => {
@@ -58,11 +57,11 @@ export const useCheck = (
     if (noChecked && hasChecked) {
       return checkedLength > 0
         ? hasChecked
-          .replace(/\${checked}/g, checkedLength.toString())
-          .replace(/\${total}/g, dataLength.toString())
+            .replace(/\${checked}/g, checkedLength.toString())
+            .replace(/\${total}/g, dataLength.toString())
         : noChecked.replace(/\${total}/g, dataLength.toString())
     } else {
-      return `${ checkedLength }/${ dataLength }`
+      return `${checkedLength}/${dataLength}`
     }
   })
 
@@ -71,64 +70,86 @@ export const useCheck = (
     return checkedLength > 0 && checkedLength < checkableData.value.length
   })
 
-
   const updateAllChecked = () => {
-    const checkableDataKeys = checkableData.value.map(item => item[keyProp.value])
-    panelState.allChecked = checkableDataKeys.length > 0 && checkableDataKeys.every(item => panelState.checked.includes(item))
+    const checkableDataKeys = checkableData.value.map(
+      (item) => item[keyProp.value]
+    )
+    panelState.allChecked =
+      checkableDataKeys.length > 0 &&
+      checkableDataKeys.every((item) => panelState.checked.includes(item))
   }
 
   const handleAllCheckedChange = (value: Key[]) => {
-    panelState.checked = value ? checkableData.value.map(item => item[keyProp.value]) : []
+    panelState.checked = value
+      ? checkableData.value.map((item) => item[keyProp.value])
+      : []
   }
 
-  watch(() => panelState.checked, (val, oldVal) => {
-    updateAllChecked()
+  watch(
+    () => panelState.checked,
+    (val, oldVal) => {
+      updateAllChecked()
 
-    if (panelState.checkChangeByUser) {
-      const movedKeys = val
-        .concat(oldVal)
-        .filter(v => !val.includes(v) || !oldVal.includes(v))
-      emit(CHECKED_CHANGE_EVENT, val, movedKeys)
-    } else {
-      emit(CHECKED_CHANGE_EVENT, val)
-      panelState.checkChangeByUser = true
+      if (panelState.checkChangeByUser) {
+        const movedKeys = val
+          .concat(oldVal)
+          .filter((v) => !val.includes(v) || !oldVal.includes(v))
+        emit(CHECKED_CHANGE_EVENT, val, movedKeys)
+      } else {
+        emit(CHECKED_CHANGE_EVENT, val)
+        panelState.checkChangeByUser = true
+      }
     }
-  })
+  )
 
   watch(checkableData, () => {
     updateAllChecked()
   })
 
+  watch(
+    () => props.data,
+    () => {
+      const checked = []
+      const filteredDataKeys = filteredData.value.map(
+        (item) => item[keyProp.value]
+      )
+      panelState.checked.forEach((item) => {
+        if (filteredDataKeys.includes(item)) {
+          checked.push(item)
+        }
+      })
+      panelState.checkChangeByUser = false
+      panelState.checked = checked
+    }
+  )
 
-  watch(() => props.data, () => {
-    const checked = []
-    const filteredDataKeys = filteredData.value.map(item => item[keyProp.value])
-    panelState.checked.forEach(item => {
-      if (filteredDataKeys.includes(item)) {
-        checked.push(item)
-      }
-    })
-    panelState.checkChangeByUser = false
-    panelState.checked = checked
-  })
+  watch(
+    () => props.defaultChecked,
+    (val, oldVal) => {
+      if (
+        oldVal &&
+        val.length === oldVal.length &&
+        val.every((item) => oldVal.includes(item))
+      )
+        return
 
-  watch(() => props.defaultChecked, (val, oldVal) => {
-    if (oldVal && val.length === oldVal.length && val.every(item => oldVal.includes(item))) return
+      const checked = []
+      const checkableDataKeys = checkableData.value.map(
+        (item) => item[keyProp.value]
+      )
 
-    const checked = []
-    const checkableDataKeys = checkableData.value.map(item => item[keyProp.value])
-
-    val.forEach(item => {
-      if (checkableDataKeys.includes(item)) {
-        checked.push(item)
-      }
-    })
-    panelState.checkChangeByUser = false
-    panelState.checked = checked
-  }, {
-    immediate: true,
-  })
-
+      val.forEach((item) => {
+        if (checkableDataKeys.includes(item)) {
+          checked.push(item)
+        }
+      })
+      panelState.checkChangeByUser = false
+      panelState.checked = checked
+    },
+    {
+      immediate: true,
+    }
+  )
 
   return {
     labelProp,

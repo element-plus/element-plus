@@ -15,8 +15,16 @@ Checkbox puede ser usado para alternar entre dos estados.
     <el-checkbox v-model="checked2" label="Option 2"></el-checkbox>
   </div>
   <div>
-    <el-checkbox v-model="checked3" label="Option 1" size="medium"></el-checkbox>
-    <el-checkbox v-model="checked4" label="Option 2" size="medium"></el-checkbox>
+    <el-checkbox
+      v-model="checked3"
+      label="Option 1"
+      size="medium"
+    ></el-checkbox>
+    <el-checkbox
+      v-model="checked4"
+      label="Option 2"
+      size="medium"
+    ></el-checkbox>
   </div>
   <div>
     <el-checkbox v-model="checked5" label="Option 1" size="small"></el-checkbox>
@@ -39,9 +47,9 @@ Checkbox puede ser usado para alternar entre dos estados.
         checked6: false,
         checked7: false,
         checked8: false,
-      };
-    }
-  };
+      }
+    },
+  }
 </script>
 <!--
 <setup>
@@ -74,6 +82,7 @@ Checkbox puede ser usado para alternar entre dos estados.
 </setup>
 -->
 ```
+
 :::
 
 ### Estado Deshabilitado
@@ -92,10 +101,10 @@ Estado deshabilitado para el checkbox.
     data() {
       return {
         checked1: false,
-        checked2: true
-      };
-    }
-  };
+        checked2: true,
+      }
+    },
+  }
 </script>
 <!--
 <setup>
@@ -115,6 +124,7 @@ Estado deshabilitado para el checkbox.
 </setup>
 -->
 ```
+
 :::
 
 ### Grupo de Checkboxes
@@ -136,12 +146,12 @@ Es usado por múltiples checkboxes los cuales están enlazados a un grupo, indic
 
 <script>
   export default {
-    data () {
+    data() {
       return {
-        checkList: ['Seleccionado y deshabilitado','Opción A']
-      };
-    }
-  };
+        checkList: ['Seleccionado y deshabilitado', 'Opción A'],
+      }
+    },
+  }
 </script>
 <!--
 <setup>
@@ -160,6 +170,7 @@ Es usado por múltiples checkboxes los cuales están enlazados a un grupo, indic
 </setup>
 -->
 ```
+
 :::
 
 ### Indeterminado
@@ -170,34 +181,45 @@ La propiedad `indeterminate` puede ser usada para generar el efecto de marcar to
 
 ```html
 <template>
-  <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">Marcar todos</el-checkbox>
-  <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-    <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
+  <el-checkbox
+    :indeterminate="isIndeterminate"
+    v-model="checkAll"
+    @change="handleCheckAllChange"
+    >Marcar todos</el-checkbox
+  >
+  <el-checkbox-group
+    v-model="checkedCities"
+    @change="handleCheckedCitiesChange"
+  >
+    <el-checkbox v-for="city in cities" :label="city" :key="city"
+      >{{city}}</el-checkbox
+    >
   </el-checkbox-group>
 </template>
 <script>
-  const cityOptions = ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen'];
+  const cityOptions = ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen']
   export default {
     data() {
       return {
         checkAll: false,
         checkedCities: ['Shanghai', 'Beijing'],
         cities: cityOptions,
-        isIndeterminate: true
-      };
+        isIndeterminate: true,
+      }
     },
     methods: {
       handleCheckAllChange(val) {
-        this.checkedCities = val ? cityOptions : [];
-        this.isIndeterminate = false;
+        this.checkedCities = val ? cityOptions : []
+        this.isIndeterminate = false
       },
       handleCheckedCitiesChange(value) {
-        let checkedCount = value.length;
-        this.checkAll = checkedCount === this.cities.length;
-        this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
-      }
-    }
-  };
+        let checkedCount = value.length
+        this.checkAll = checkedCount === this.cities.length
+        this.isIndeterminate =
+          checkedCount > 0 && checkedCount < this.cities.length
+      },
+    },
+  }
 </script>
 <!--
 <setup>
@@ -234,6 +256,7 @@ La propiedad `indeterminate` puede ser usada para generar el efecto de marcar to
 </setup>
 -->
 ```
+
 :::
 
 ### Cantidad Mínima / Máxima de elementos seleccionados
@@ -244,23 +267,22 @@ Las propiedades `min` y `max` pueden limitar la cantidad de elementos selecciona
 
 ```html
 <template>
-  <el-checkbox-group
-    v-model="checkedCities"
-    :min="1"
-    :max="2">
-    <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
+  <el-checkbox-group v-model="checkedCities" :min="1" :max="2">
+    <el-checkbox v-for="city in cities" :label="city" :key="city"
+      >{{city}}</el-checkbox
+    >
   </el-checkbox-group>
 </template>
 <script>
-  const cityOptions = ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen'];
+  const cityOptions = ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen']
   export default {
     data() {
       return {
         checkedCities: ['Shanghai', 'Beijing'],
-        cities: cityOptions
-      };
-    }
-  };
+        cities: cityOptions,
+      }
+    },
+  }
 </script>
 <!--
 <setup>
@@ -285,6 +307,7 @@ Las propiedades `min` y `max` pueden limitar la cantidad de elementos selecciona
 </setup>
 -->
 ```
+
 :::
 
 ### Estilo tipo Botón
@@ -292,42 +315,55 @@ Las propiedades `min` y `max` pueden limitar la cantidad de elementos selecciona
 Checkbox con estilo tipo Botón.
 
 :::demo Sólo debe cambiar el elemento `el-checkbox` por el elemento `el-checkbox-button`. También proveemos el atributo `size`.
+
 ```html
 <template>
   <div>
     <el-checkbox-group v-model="checkboxGroup1">
-      <el-checkbox-button v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox-button>
+      <el-checkbox-button v-for="city in cities" :label="city" :key="city"
+        >{{city}}</el-checkbox-button
+      >
     </el-checkbox-group>
   </div>
   <div style="margin-top: 20px">
     <el-checkbox-group v-model="checkboxGroup2" size="medium">
-      <el-checkbox-button v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox-button>
+      <el-checkbox-button v-for="city in cities" :label="city" :key="city"
+        >{{city}}</el-checkbox-button
+      >
     </el-checkbox-group>
   </div>
   <div style="margin-top: 20px">
     <el-checkbox-group v-model="checkboxGroup3" size="small">
-      <el-checkbox-button v-for="city in cities" :label="city" :disabled="city === 'Beijing'" :key="city">{{city}}</el-checkbox-button>
+      <el-checkbox-button
+        v-for="city in cities"
+        :label="city"
+        :disabled="city === 'Beijing'"
+        :key="city"
+        >{{city}}</el-checkbox-button
+      >
     </el-checkbox-group>
   </div>
   <div style="margin-top: 20px">
     <el-checkbox-group v-model="checkboxGroup4" size="mini" disabled>
-      <el-checkbox-button v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox-button>
+      <el-checkbox-button v-for="city in cities" :label="city" :key="city"
+        >{{city}}</el-checkbox-button
+      >
     </el-checkbox-group>
   </div>
 </template>
 <script>
-  const cityOptions = ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen'];
+  const cityOptions = ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen']
 
   export default {
-    data () {
+    data() {
       return {
         checkboxGroup1: ['Shanghai'],
         checkboxGroup2: ['Shanghai'],
         checkboxGroup3: ['Shanghai'],
         checkboxGroup4: ['Shanghai'],
-        cities: cityOptions
-      };
-    }
+        cities: cityOptions,
+      }
+    },
   }
 </script>
 <!--
@@ -356,11 +392,13 @@ export default defineComponent({
 </setup>
 -->
 ```
+
 :::
 
 ### Con bordes
 
 :::demo El atributo `border` agrega un borde a los Checkboxes.
+
 ```html
 <template>
   <div>
@@ -368,8 +406,18 @@ export default defineComponent({
     <el-checkbox v-model="checked2" label="Opción2" border></el-checkbox>
   </div>
   <div style="margin-top: 20px">
-    <el-checkbox v-model="checked3" label="Opción1" border size="medium"></el-checkbox>
-    <el-checkbox v-model="checked4" label="Opción2" border size="medium"></el-checkbox>
+    <el-checkbox
+      v-model="checked3"
+      label="Opción1"
+      border
+      size="medium"
+    ></el-checkbox>
+    <el-checkbox
+      v-model="checked4"
+      label="Opción2"
+      border
+      size="medium"
+    ></el-checkbox>
   </div>
   <div style="margin-top: 20px">
     <el-checkbox-group v-model="checkboxGroup1" size="small">
@@ -387,16 +435,16 @@ export default defineComponent({
 
 <script>
   export default {
-    data () {
+    data() {
       return {
         checked1: true,
         checked2: false,
         checked3: false,
         checked4: true,
         checkboxGroup1: [],
-        checkboxGroup2: []
-      };
-    }
+        checkboxGroup2: [],
+      }
+    },
   }
 </script>
 <!--
@@ -424,64 +472,73 @@ export default defineComponent({
 </setup>
 -->
 ```
+
 :::
 
 ### Atributos de Checkbox
-| Atributo      | Descripción                              | Tipo                      | Valores aceptados     | Por defecto |
-| ------------- | ---------------------------------------- | ------------------------- | --------------------- | ----------- |
-| model-value / v-model | valor enlazado | string / number / boolean | — | — |
-| label         | valor del Checkbox si es usado dentro de un tag `checkbox-group` | string / number / boolean / object | —                     | —           |
-| true-label    | valor del Checkbox si está marcado       | string / number           | —                     | —           |
-| false-label   | valor del Checkbox si no está marcado    | string / number           | —                     | —           |
-| disabled      | especifica si el Checkbox está deshabilitado | boolean                   | —                     | false       |
-| border        | especifica si agrega un borde alrededor del Checkbox | boolean                   | —                     | false       |
-| size          | tamaño del Checkbox | string                    | medium / small / mini | —           |
-| name          | atributo `name` nativo                 | string                    | —                     | —           |
-| checked       | especifica si el Checkbox está marcado   | boolean                   | —                     | false       |
-| indeterminate | similar a `indeterminate` en el checkbox nativo | boolean                   | —                     | false       |
+
+| Atributo              | Descripción                                                      | Tipo                               | Valores aceptados     | Por defecto |
+| --------------------- | ---------------------------------------------------------------- | ---------------------------------- | --------------------- | ----------- |
+| model-value / v-model | valor enlazado                                                   | string / number / boolean          | —                     | —           |
+| label                 | valor del Checkbox si es usado dentro de un tag `checkbox-group` | string / number / boolean / object | —                     | —           |
+| true-label            | valor del Checkbox si está marcado                               | string / number                    | —                     | —           |
+| false-label           | valor del Checkbox si no está marcado                            | string / number                    | —                     | —           |
+| disabled              | especifica si el Checkbox está deshabilitado                     | boolean                            | —                     | false       |
+| border                | especifica si agrega un borde alrededor del Checkbox             | boolean                            | —                     | false       |
+| size                  | tamaño del Checkbox                                              | string                             | medium / small / mini | —           |
+| name                  | atributo `name` nativo                                           | string                             | —                     | —           |
+| checked               | especifica si el Checkbox está marcado                           | boolean                            | —                     | false       |
+| indeterminate         | similar a `indeterminate` en el checkbox nativo                  | boolean                            | —                     | false       |
 
 ### Eventos de Checkbox
-| Nombre | Descripción                              | Parametros           |
-| ------ | ---------------------------------------- | -------------------- |
+
+| Nombre | Descripción                                | Parametros           |
+| ------ | ------------------------------------------ | -------------------- |
 | change | se ejecuta cuando el valor enlazado cambia | el valor actualizado |
 
 ### Checkbox Slots
-| Name | Description |
-| ------ | -------- |
+
+| Name    | Description               |
+| ------- | ------------------------- |
 | default | customize default content |
 
 ### Atributos de Checkbox-group
-| Atributo   | Descripción                              | Tipo    | Valores aceptados     | Por Defecto |
-| ---------- | ---------------------------------------- | ------- | --------------------- | ----------- |
-| model-value / v-model | valor enlazado | array | — | — |
-| size       | size of checkbox | string  | medium / small / mini | —           |
-| disabled   | especifica si los checkboxes anidados están deshabilitados | boolean | —                     | false       |
-| min        | cantidad mínima de checkboxes que deben ser marcados | number  | —                     | —           |
-| max        | cantidad máxima de checkboxes que pueden ser marcados | number  | —                     | —           |
-| text-color | color de fuente cuando el botón está activo | string  | —                     | #ffffff     |
-| fill       | color de border y de fondo cuando el botón está activo | string  | —                     | #409EFF     |
+
+| Atributo              | Descripción                                                | Tipo    | Valores aceptados     | Por Defecto |
+| --------------------- | ---------------------------------------------------------- | ------- | --------------------- | ----------- |
+| model-value / v-model | valor enlazado                                             | array   | —                     | —           |
+| size                  | size of checkbox                                           | string  | medium / small / mini | —           |
+| disabled              | especifica si los checkboxes anidados están deshabilitados | boolean | —                     | false       |
+| min                   | cantidad mínima de checkboxes que deben ser marcados       | number  | —                     | —           |
+| max                   | cantidad máxima de checkboxes que pueden ser marcados      | number  | —                     | —           |
+| text-color            | color de fuente cuando el botón está activo                | string  | —                     | #ffffff     |
+| fill                  | color de border y de fondo cuando el botón está activo     | string  | —                     | #409EFF     |
 
 ### Eventos de Checkbox-group
-| Nombre de Evento | Descripción                              | Parametros           |
-| ---------------- | ---------------------------------------- | -------------------- |
+
+| Nombre de Evento | Descripción                                | Parametros           |
+| ---------------- | ------------------------------------------ | -------------------- |
 | change           | se ejecuta cuando el valor enlazado cambia | el valor actualizado |
 
 ### Checkbox-group Slots
-| Name | Description | Subtags |
-| ------ | -------- | ----- |
+
+| Name    | Description               | Subtags                    |
+| ------- | ------------------------- | -------------------------- |
 | default | customize default content | Checkbox / Checkbox-button |
 
 ### Atributos de Checkbox-button
-| Atributo    | Descripción                              | Tipo                      | Valores aceptados | Por defecto |
-| ----------- | ---------------------------------------- | ------------------------- | ----------------- | ----------- |
+
+| Atributo    | Descripción                                                      | Tipo                               | Valores aceptados | Por defecto |
+| ----------- | ---------------------------------------------------------------- | ---------------------------------- | ----------------- | ----------- |
 | label       | valor del checkbox cuando es usado dentro de un `checkbox-group` | string / number / boolean / object | —                 | —           |
-| true-label  | valor del checkbox si este está marcado  | string / number           | —                 | —           |
-| false-label | valor del checkbox si este no está marcado | string / number           | —                 | —           |
-| disabled    | especifica si el checkbox está deshabilitado | boolean                   | —                 | false       |
-| name        | atributo 'name' del checbox nativo       | string                    | —                 | —           |
-| checked     | si el checkbox está marcado              | boolean                   | —                 | false       |
+| true-label  | valor del checkbox si este está marcado                          | string / number                    | —                 | —           |
+| false-label | valor del checkbox si este no está marcado                       | string / number                    | —                 | —           |
+| disabled    | especifica si el checkbox está deshabilitado                     | boolean                            | —                 | false       |
+| name        | atributo 'name' del checbox nativo                               | string                             | —                 | —           |
+| checked     | si el checkbox está marcado                                      | boolean                            | —                 | false       |
 
 ### Checkbox-button Slots
-| Name | Description |
-| ------ | -------- |
+
+| Name    | Description               |
+| ------- | ------------------------- |
 | default | customize default content |

@@ -5,17 +5,17 @@
 ### 基础用法
 
 :::demo
+
 ```html
-<el-page-header @back="goBack" content="详情页面">
-</el-page-header>
+<el-page-header @back="goBack" content="详情页面"> </el-page-header>
 
 <script>
   export default {
     methods: {
       goBack() {
-        console.log('go back');
-      }
-    }
+        console.log('go back')
+      },
+    },
   }
 </script>
 <!--
@@ -38,32 +38,37 @@
 </setup>
 -->
 ```
+
 :::
 
 ### 自定义图标
 
 :::demo
+
 ```html
 <el-page-header icon="el-icon-arrow-left" content="详情页面"></el-page-header>
 ```
+
 :::
 
 ### Attributes
-| 参数      | 说明          | 类型      | 可选值                           | 默认值  |
-|---------- |-------------- |---------- |------------------------------ | ------ |
-| icon     | 图标           | string    |  —                            | el-icon-back   |
-| title     | 标题           | string    |  —                            | 返回   |
-| content   | 内容           | string    |  —                            | —      |
 
+| 参数    | 说明 | 类型   | 可选值 | 默认值       |
+| ------- | ---- | ------ | ------ | ------------ |
+| icon    | 图标 | string | —      | el-icon-back |
+| title   | 标题 | string | —      | 返回         |
+| content | 内容 | string | —      | —            |
 
 ### Events
-| 事件名称   | 说明           | 回调参数   |
-|---------- |-------------- |---------- |
-| back      | 点击左侧区域触发 | —        |
+
+| 事件名称 | 说明             | 回调参数 |
+| -------- | ---------------- | -------- |
+| back     | 点击左侧区域触发 | —        |
 
 ### Slots
-| 事件名称    | 说明         |
-|---------- |------------- |
-| icon     | 自定义图标      |
-| title     | 标题内容      |
-| content   | 内容         |
+
+| 事件名称 | 说明       |
+| -------- | ---------- |
+| icon     | 自定义图标 |
+| title    | 标题内容   |
+| content  | 内容       |

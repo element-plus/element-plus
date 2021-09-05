@@ -18,7 +18,7 @@ export const i18n = (fn: (...args: any[]) => string) => {
   i18nHandler = fn
 }
 
-export const restoreHandler = () => i18nHandler = defaultTranslator
+export const restoreHandler = () => (i18nHandler = defaultTranslator)
 
 function template(str: string, option) {
   if (!str || !option) return str
@@ -51,7 +51,6 @@ export const t = (...args: any[]): string => {
 }
 
 export const use = (l: Language): void => {
-
   if (process.env.NODE_ENV !== 'production') {
     console.warn(`[deprecation]:
       The previous i18n usage is deprecated please update to

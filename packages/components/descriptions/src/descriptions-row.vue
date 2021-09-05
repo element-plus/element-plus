@@ -17,12 +17,7 @@
         <el-descriptions-cell :cell="cell" tag="td" type="label" />
         <el-descriptions-cell :cell="cell" tag="td" type="content" />
       </template>
-      <el-descriptions-cell
-        v-else
-        :cell="cell"
-        tag="td"
-        type="both"
-      />
+      <el-descriptions-cell v-else :cell="cell" tag="td" type="both" />
     </template>
   </tr>
 </template>

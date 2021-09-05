@@ -19,14 +19,19 @@ import usePopper from './use-popper/index'
 import defaultProps from './use-popper/defaults'
 import { renderPopper, renderTrigger, renderArrow } from './renderers'
 
-
 const compName = 'ElPopper'
 const UPDATE_VISIBLE_EVENT = 'update:visible'
 
 export default defineComponent({
   name: compName,
   props: defaultProps,
-  emits: [UPDATE_VISIBLE_EVENT, 'after-enter', 'after-leave', 'before-enter', 'before-leave'],
+  emits: [
+    UPDATE_VISIBLE_EVENT,
+    'after-enter',
+    'after-leave',
+    'before-enter',
+    'before-leave',
+  ],
   setup(props, ctx) {
     if (!ctx.slots.trigger) {
       throwError(compName, 'Trigger must be provided')
@@ -94,7 +99,7 @@ export default defineComponent({
           return [toDisplayString(this.content)]
         }),
         arrow,
-      ],
+      ]
     )
 
     const _t = $slots.trigger?.()
@@ -119,7 +124,7 @@ export default defineComponent({
           to: 'body',
           disabled: !appendToBody,
         },
-        [popper],
+        [popper]
       ),
     ])
   },

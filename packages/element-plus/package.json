@@ -9,7 +9,7 @@
   "module": "es/index.js",
   "style": "dist/index.css",
   "unpkg": "dist/index.full.js",
-  "jsdevlivr": "dist/index.full.js",
+  "jsdelivr": "dist/index.full.js",
   "sideEffects": [
     "dist/*",
     "theme-chalk/*.css",
@@ -27,10 +27,10 @@
   },
   "dependencies": {
     "@element-plus/icons": "^0.0.11",
-    "@popperjs/core": "^2.4.4",
+    "@popperjs/core": "^2.10.1",
     "async-validator": "^3.4.0",
     "dayjs": "1.x",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "mitt": "^2.1.0",
     "normalize-wheel": "^1.0.1",
     "resize-observer-polyfill": "^1.5.1"

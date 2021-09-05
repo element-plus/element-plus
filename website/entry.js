@@ -32,14 +32,13 @@ import '../packages/theme-chalk/src/display.scss'
 const app = createApp(App)
 
 const svgIcons = []
-for (let i in ElementPlusSvgIcons) {
+for (const i in ElementPlusSvgIcons) {
   const component = ElementPlusSvgIcons[i]
   app.component(component.name, component)
   svgIcons.push(component.name)
 }
 app.config.globalProperties.$svgIcons = svgIcons
 app.config.globalProperties.$icon = icon
-
 
 app.component('DemoBlock', demoBlock)
 app.component('RightNav', RightNav)
@@ -59,33 +58,37 @@ app.use(ElementPlus)
 app.use(router)
 router.isReady().then(() => {
   let lang = location.hash.split('/')[1]
-  let langConfig = compLang.filter(config => config.lang === lang)[0]['demo-block']
+  const langConfig = compLang.filter((config) => config.lang === lang)[0][
+    'demo-block'
+  ]
 
-  app.config.globalProperties.$copySvgIcon = iconName => {
+  app.config.globalProperties.$copySvgIcon = (iconName) => {
     clipboardCopy(
       `<el-icon>
   <${hyphenate(iconName)} />
 </el-icon>
-      `,
-    ).then(() => {
-      app.config.globalProperties.$message({
-        showClose: true,
-        message: langConfig['copy-success'],
-        type: 'success',
+      `
+    )
+      .then(() => {
+        app.config.globalProperties.$message({
+          showClose: true,
+          message: langConfig['copy-success'],
+          type: 'success',
+        })
       })
-    }).catch(() => {
-      app.config.globalProperties.$message({
-        showClose: true,
-        message: langConfig['copy-error'],
-        type: 'error',
+      .catch(() => {
+        app.config.globalProperties.$message({
+          showClose: true,
+          message: langConfig['copy-error'],
+          type: 'error',
+        })
       })
-    })
   }
-  router.afterEach(async route => {
+  router.afterEach(async (route) => {
     await nextTick()
     lang = location.hash.split('/')[1]
     const data = title[route.meta.lang]
-    for (let val in data) {
+    for (const val in data) {
       if (new RegExp('^' + val, 'g').test(route.name)) {
         document.title = data[val]
         return
@@ -94,7 +97,6 @@ router.isReady().then(() => {
     document.title = 'Element'
     ga('send', 'event', 'PageView', route.name)
   })
-
 })
 
 app.mount('#app')

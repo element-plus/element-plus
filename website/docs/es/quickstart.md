@@ -30,20 +30,18 @@ por defecto.
 
 ```html
 <template>
-  <el-button>
-    Soy ElButton
-  </el-button>
+  <el-button> Soy ElButton </el-button>
 </template>
 <script>
-import { defineComponent } from 'vue'
-import { ElButton } from 'element-plus'
+  import { defineComponent } from 'vue'
+  import { ElButton } from 'element-plus'
 
-export default defineComponent({
-  name: 'app'
-  components: {
-    ElButton,
-  },
-})
+  export default defineComponent({
+    name: 'app'
+    components: {
+      ElButton,
+    },
+  })
 </script>
 ```
 
@@ -67,7 +65,7 @@ Introducido a través de las cabeceras HTML
 ```html
 <!-- index.html -->
 <head>
-  <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css">
+  <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
 </head>
 ```
 
@@ -105,24 +103,24 @@ Presentación completa de ElementPlus.
 
 ```js
 import { createApp } from 'vue'
-import ElementPlus from 'element-plus';
-import App from './App.vue';
+import ElementPlus from 'element-plus'
+import App from './App.vue'
 
 const app = createApp(App)
-app.use(ElementPlus, { size: 'small', zIndex: 3000 });
+app.use(ElementPlus, { size: 'small', zIndex: 3000 })
 ```
 
 Presentación de Element on demand.
 
 ```js
 import { createApp } from 'vue'
-import { ElButton } from 'element-plus';
-import App from './App.vue';
+import { ElButton } from 'element-plus'
+import App from './App.vue'
 // import 'element-plus/packages/theme-chalk/src/base.scss'
 
 const app = createApp(App)
 app.config.globalProperties.$ELEMENT = option
-app.use(ElButton);
+app.use(ElButton)
 ```
 
 Con la configuración anterior, todos los componentes del proyecto con la propiedad
@@ -181,7 +179,6 @@ export default defineConfig({
     }),
   ],
 })
-
 ```
 
 #### Carga de estilos bajo demanda con webpack
@@ -203,7 +200,7 @@ A continuación, debe añadir el siguiente código a su archivo `babel.config.js
 module.exports = {
   plugins: [
     [
-      "import",
+      'import',
       {
         libraryName: 'element-plus',
         // import component
@@ -222,6 +219,6 @@ module.exports = {
         },
       },
     ],
-  ]
+  ],
 }
 ```

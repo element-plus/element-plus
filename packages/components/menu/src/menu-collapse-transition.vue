@@ -29,7 +29,7 @@ export default defineComponent({
 
         beforeLeave(el: HTMLElement) {
           if (!el.dataset) {
-            (el as any).dataset = {}
+            ;(el as any).dataset = {}
           }
 
           if (hasClass(el, 'el-menu--collapse')) {

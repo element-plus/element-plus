@@ -34,7 +34,7 @@ export const cellStarts = {
 // 这些选项不应该被覆盖
 export const cellForced = {
   selection: {
-    renderHeader: function<T>({ store }: { store: Store<T>; }) {
+    renderHeader<T>({ store }: { store: Store<T> }) {
       function isDisabled() {
         return store.states.data.value && store.states.data.value.length === 0
       }
@@ -47,7 +47,7 @@ export const cellForced = {
         modelValue: store.states.isAllSelected.value,
       })
     },
-    renderCell: function<T>({
+    renderCell<T>({
       row,
       column,
       store,
@@ -73,10 +73,10 @@ export const cellForced = {
     resizable: false,
   },
   index: {
-    renderHeader: function<T>({ column }: { column: TableColumnCtx<T>; }) {
+    renderHeader<T>({ column }: { column: TableColumnCtx<T> }) {
       return column.label || '#'
     },
-    renderCell: function<T>({
+    renderCell<T>({
       column,
       $index,
     }: {
@@ -96,15 +96,15 @@ export const cellForced = {
     sortable: false,
   },
   expand: {
-    renderHeader: function<T>({ column }: { column: TableColumnCtx<T>; }) {
+    renderHeader<T>({ column }: { column: TableColumnCtx<T> }) {
       return column.label || ''
     },
-    renderCell: function<T>({ row, store }: { row: T; store: Store<T>; }) {
+    renderCell<T>({ row, store }: { row: T; store: Store<T> }) {
       const classes = ['el-table__expand-icon']
       if (store.states.expandRows.value.indexOf(row) > -1) {
         classes.push('el-table__expand-icon--expanded')
       }
-      const callback = function(e: Event) {
+      const callback = function (e: Event) {
         e.stopPropagation()
         store.toggleRowExpansion(row)
       }
@@ -118,7 +118,7 @@ export const cellForced = {
           h('i', {
             class: 'el-icon el-icon-arrow-right',
           }),
-        ],
+        ]
       )
     },
     sortable: false,
@@ -155,7 +155,7 @@ export function treeCellPrefix<T>({
 }) {
   if (!treeNode) return null
   const ele = []
-  const callback = function(e) {
+  const callback = function (e) {
     e.stopPropagation()
     store.loadOrToggle(row)
   }
@@ -164,7 +164,7 @@ export function treeCellPrefix<T>({
       h('span', {
         class: 'el-table__indent',
         style: { 'padding-left': treeNode.indent + 'px' },
-      }),
+      })
     )
   }
   if (typeof treeNode.expanded === 'boolean' && !treeNode.noLazyChildren) {
@@ -188,14 +188,14 @@ export function treeCellPrefix<T>({
           h('i', {
             class: iconClasses,
           }),
-        ],
-      ),
+        ]
+      )
     )
   } else {
     ele.push(
       h('span', {
         class: 'el-table__placeholder',
-      }),
+      })
     )
   }
   return ele
