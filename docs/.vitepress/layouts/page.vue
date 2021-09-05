@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 const showBackToTop = ref(false)
-
-
 </script>
 
 <template>

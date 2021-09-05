@@ -4,7 +4,7 @@ const { ensureLang } = require('./site-utils')
 function getGuideSidebar() {
   const guideSidebars = {}
   Object.entries(guideLocale).forEach(([lang, val]) => {
-    guideSidebars[lang] = Object.values(val).map(item => {
+    guideSidebars[lang] = Object.values(val).map((item) => {
       return mapLangPrefix(item, lang)
     })
   })
@@ -30,12 +30,12 @@ function mapLangPrefix(item, lang) {
       ...item,
       children: item.children.map((child) => {
         return mapLangPrefix(child, lang)
-      })
+      }),
     }
   }
   return {
     ...item,
-    link: `${ensureLang(lang)}${item.link}`
+    link: `${ensureLang(lang)}${item.link}`,
   }
 }
 
