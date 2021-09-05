@@ -1,12 +1,55 @@
 ## Changelog
 
-### 1.1.0-beta.8
+### 1.1.0-beta.9
 
-_2021-08-31_
+*2021-09-05*
 
 #### Breaking changes:
 
 - Please refer to: [Breaking changes made in 1.1.0-beta.1](https://github.com/element-plus/element-plus/discussions/3020)
+
+#### Features
+  
+- Components [el-timeline] add hollow prop (#3229 by @kooriookami)
+
+#### Bug fixes
+  
+- El-image-viewer drag have problem (#3133 by @Alanscut)
+- Components virtualized selector optimize (#3160 by @msidolphin)
+- Theme-chalk fixed the wrong background color of timeline-item (#3165 by @msidolphin)
+- Utils improve element.addEventListener (#3173 by @adaex)
+- Components [el-form-item] dom element null checking (#3172 by @taosher)
+- Utils make width valid with `calc` (#3181 by @cokemine)
+- Components collapse incorrect export statement (#3185 by @msidolphin)
+- Components descriptions cell class (#3195 by @adaex)
+- Components tabs dynamic text (#3174 by @imswk) (#3180)
+- Components [el-input-number] model:value not required (#3190 by @msidolphin)
+- Missing timepicker css var (#3204 by @YunYouJun)
+- [el-form-item] add min-width (#3208 by @sxzz)
+- Chore typo package.json (#3214 by @linrongbin16)
+- Theme-chalk [el-form] no display red asterisk when width is auto (#3222 by @msidolphin)
+- Docs fix typo in README.md (close #3216) (#3230 by @KimYangOfCat)
+- Build agolia indices script (#3234 by @JeremyWuuuuu)
+- Components message verified by el-form is "" validate (#3227 by @imswk) (#3231)
+- Components [el-menu] fix warn & listen item (#3225 by @sxzz)
+- Components lazy image is not work when it changes src (#3189 by @zycoJamie)
+- Allow custom tr background-color (#3166 by @YunYouJun)
+- Perf menu add back arrow-icon and overflow (#3167 by @kooriookami)
+- Style `$--border-color-hover` var reference (#3179 by @adaex)
+- Style fixed style (#3202 by @sunnuan)
+- Perf [el-menu] only vertical mode has transition (#3200 by @kooriookami)
+- Style fix missing import (#3212 by @sunnuan)
+- Style use prettier (#3228 by @sxzz)
+- Style [el-image] format code (#3238 by @sxzz)
+
+#### Refactors
+  
+- Components Improve calendar date range validate (#3156 by @adaex)
+- Upgrade to husky@7 & lint-staged@11 & commitlint@13 (#3239 by @YunYouJun)
+
+### 1.1.0-beta.8
+
+_2021-08-31_
 
 #### Features
 
