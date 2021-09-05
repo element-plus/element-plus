@@ -77,6 +77,7 @@ Link with icon
 | icon      | class name of icon                  | string  | —                                           | -       |
 
 ### Slots
-| Name | Description |
-| ------ | -------- |
+
+| Name    | Description               |
+| ------- | ------------------------- |
 | default | customize default content |

@@ -184,8 +184,9 @@ Besides default size, Button component provides three additional sizes for you t
 | native-type | same as native button's `type`         | string  | button / submit / reset                            | button  |
 
 ### Button Slots
-| Name | Description |
-| ------ | -------- |
+
+| Name    | Description               |
+| ------- | ------------------------- |
 | default | customize default content |
 
 ### Button-Group Attributes

@@ -65,6 +65,6 @@ Configure i18n related properties via Config Provider, to get language switching
 
 ### ConfigProvider Slots
 
-| Name | Description |
-| ------ | -------- |
+| Name    | Description               |
+| ------- | ------------------------- |
 | default | customize default content |

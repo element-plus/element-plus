@@ -77,6 +77,7 @@ Hipervinculo con icono
 | icon      | nombre de clase del icono                            | string  | —                                           | -           |
 
 ### Slots
-| Name | Description |
-| ------ | -------- |
+
+| Name    | Description               |
+| ------- | ------------------------- |
 | default | customize default content |

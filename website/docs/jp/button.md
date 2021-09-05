@@ -184,8 +184,9 @@ Button コンポーネントにはデフォルトサイズの他に、3 つの�
 | native-type | ネイティブ button の `タイプ` と同じ           | string  | button / submit / reset                            | button  |
 
 ### Button Slots
-| Name | Description |
-| ------ | -------- |
+
+| Name    | Description               |
+| ------- | ------------------------- |
 | default | customize default content |
 
 ### Button-Group 属性

@@ -184,8 +184,9 @@ Además del tamaño por defecto, el componente Button provee tres tamaños adici
 | native-type | misma funcionalidad que la nativa `type`      | string  | button / submit / reset                            | button      |
 
 ### Button Slots
-| Name | Description |
-| ------ | -------- |
+
+| Name    | Description               |
+| ------- | ------------------------- |
 | default | customize default content |
 
 ### Button-Group Attributes
