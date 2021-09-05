@@ -2,18 +2,18 @@
 
 ### 1.1.0-beta.9
 
-*2021-09-05*
+_2021-09-05_
 
 #### Breaking changes:
 
 - Please refer to: [Breaking changes made in 1.1.0-beta.1](https://github.com/element-plus/element-plus/discussions/3020)
 
 #### Features
-  
+
 - Components [el-timeline] add hollow prop (#3229 by @kooriookami)
 
 #### Bug fixes
-  
+
 - El-image-viewer drag have problem (#3133 by @Alanscut)
 - Components virtualized selector optimize (#3160 by @msidolphin)
 - Theme-chalk fixed the wrong background color of timeline-item (#3165 by @msidolphin)
@@ -43,7 +43,7 @@
 - Style [el-image] format code (#3238 by @sxzz)
 
 #### Refactors
-  
+
 - Components Improve calendar date range validate (#3156 by @adaex)
 - Upgrade to husky@7 & lint-staged@11 & commitlint@13 (#3239 by @YunYouJun)
 
