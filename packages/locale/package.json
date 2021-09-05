@@ -13,7 +13,8 @@
     "build": "gulp build"
   },
   "dependencies": {
-    "dayjs": "1.x"
+    "dayjs": "1.x",
+    "typescript": "^4.4.2"
   },
   "devDependencies": {
     "@element-plus/test-utils": "^0.0.5",
