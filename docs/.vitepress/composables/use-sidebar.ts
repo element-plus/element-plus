@@ -2,21 +2,7 @@ import { computed } from 'vue'
 import { useRoute, useData } from 'vitepress'
 import { useActiveSidebarLinks } from 'vitepress/dist/client/theme-default/composables/activeSidebarLink'
 import { useLang } from '../utils/routes'
-import { ensureStartingSlash } from '../utils'
-
-type SidebarItem = {
-  text: string
-  link: string
-}
-
-type SidebarConfig = SidebarItem[]
-
-type Sidebar =
-  | {
-      [key: string]: SidebarConfig
-    }
-  | false
-  | 'auto'
+import { getSidebarConfig } from '../utils/sidebar'
 
 export function useSidebar() {
   const route = useRoute()
@@ -31,19 +17,4 @@ export function useSidebar() {
     )
     return sidebars
   })
-}
-
-function getSidebarConfig(sidebar: Sidebar, path: string, lang: string) {
-  if (sidebar === false || Array.isArray(sidebar) || sidebar === 'auto') {
-    return []
-  }
-
-  path = ensureStartingSlash(path)
-  for (const dir in sidebar) {
-    // make sure the multi sidebar key starts with slash too
-    if (path.startsWith(ensureStartingSlash(`${lang}${dir}`))) {
-      return sidebar[dir][lang]
-    }
-  }
-  return []
 }
