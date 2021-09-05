@@ -10,7 +10,7 @@
     "build": "gulp build"
   },
   "dependencies": {
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "normalize-wheel": "^1.0.1",
     "resize-observer-polyfill": "^1.5.1"
   },
