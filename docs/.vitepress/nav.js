@@ -6,10 +6,10 @@ const { ensureLang } = require('./site-utils')
 function getNav() {
   const nav = {}
   Object.entries(navLocale).forEach(([lang, val]) => {
-    nav[lang] = Object.values(val).map(item => {
+    nav[lang] = Object.values(val).map((item) => {
       return {
         ...item,
-        link: `${ensureLang(lang)}${item.link}`
+        link: `${ensureLang(lang)}${item.link}`,
       }
     })
   })

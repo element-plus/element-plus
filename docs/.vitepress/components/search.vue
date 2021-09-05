@@ -7,17 +7,11 @@
       <span class="search-box-placeholder">
         {{ placeholder }}
       </span>
-      <span class="search-box-key">
-        ⌘
-      </span>
-      <span class="search-box-key">
-        K
-      </span>
+      <span class="search-box-key"> ⌘ </span>
+      <span class="search-box-key"> K </span>
     </button>
     <el-dialog v-model="showDialog">
-      <div>
-        I am content
-      </div>
+      <div>I am content</div>
     </el-dialog>
   </div>
 </template>
@@ -45,7 +39,7 @@ const emptyText = computed(() => locale.value.empty || '')
 
 const initIndex = () => {
   const client = algoliasearch('7DCTSU0WBW', '463385cf36ad2e81aff21afea1c0409c')
-  index.value = client.initIndex(`element-${ locale.value.index }`)
+  index.value = client.initIndex(`element-${locale.value.index}`)
 }
 
 const querySearch = async (query: string, cb: (arg: any[]) => void) => {
@@ -54,24 +48,34 @@ const querySearch = async (query: string, cb: (arg: any[]) => void) => {
     const res = await index.value.search(query, { hitsPerPage: 6 })
     if (res.hits.length > 0) {
       isEmpty.value = false
-      cb(res.hits.map((hit: any) => {
-        let content = hit._highlightResult.content.value.replace(/\s+/g, ' ')
-        const highlightStart = content.indexOf('<span class="algolia-highlight">')
-        if (highlightStart > -1) {
-          const startEllipsis = highlightStart - 15 > 0
-          content = (startEllipsis ? '...' : '') +
-              content.slice(Math.max(0, highlightStart - 15), content.length)
-        } else if (content.indexOf('|') > -1) {
-          content = ''
-        }
-        return {
-          anchor: hit.anchor,
-          component: hit.component,
-          highlightedCompo: hit._highlightResult.component.value,
-          title: hit._highlightResult.title.value,
-          content,
-        }
-      }).concat({ img: true } as any))
+      cb(
+        res.hits
+          .map((hit: any) => {
+            let content = hit._highlightResult.content.value.replace(
+              /\s+/g,
+              ' '
+            )
+            const highlightStart = content.indexOf(
+              '<span class="algolia-highlight">'
+            )
+            if (highlightStart > -1) {
+              const startEllipsis = highlightStart - 15 > 0
+              content =
+                (startEllipsis ? '...' : '') +
+                content.slice(Math.max(0, highlightStart - 15), content.length)
+            } else if (content.indexOf('|') > -1) {
+              content = ''
+            }
+            return {
+              anchor: hit.anchor,
+              component: hit.component,
+              highlightedCompo: hit._highlightResult.component.value,
+              title: hit._highlightResult.title.value,
+              content,
+            }
+          })
+          .concat({ img: true } as any)
+      )
     } else {
       isEmpty.value = true
       cb([{ isEmpty: true }])
@@ -85,7 +89,9 @@ const handleSelect = (val: any) => {
   if (val.img || val.isEmpty) return
   const component = val.component || ''
   const anchor = val.anchor
-  router.go(`/${ lang.value }/component/${ component }${ anchor ? `#${ anchor }` : '' }`)
+  router.go(
+    `/${lang.value}/component/${component}${anchor ? `#${anchor}` : ''}`
+  )
 }
 
 const [showDialog, toggleDialog] = useToggle()
