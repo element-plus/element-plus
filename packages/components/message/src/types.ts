@@ -21,9 +21,13 @@ export type IMessageOptions = {
 
 export type MessageType = 'success' | 'warning' | 'info' | 'error' | ''
 
-export type IMessageDispatcher = (options?: IMessageOptions | string) => IMessageHandle
+export type IMessageDispatcher = (
+  options?: IMessageOptions | string
+) => IMessageHandle
 export type MessageParams = IMessageOptions | string
-export type TypedMessageParams<T extends MessageType> = { type: T; } & Omit<IMessageOptions, 'type'> | string
+export type TypedMessageParams<T extends MessageType> =
+  | ({ type: T } & Omit<IMessageOptions, 'type'>)
+  | string
 
 export interface IMessage {
   (options?: MessageParams): IMessageHandle
@@ -33,7 +37,6 @@ export interface IMessage {
   error: (options?: TypedMessageParams<'error'>) => IMessageHandle
   closeAll(): void
 }
-
 
 export type MessageVM = VNode
 

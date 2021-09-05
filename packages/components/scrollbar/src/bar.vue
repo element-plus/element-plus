@@ -17,7 +17,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, onBeforeUnmount, onMounted, ref } from 'vue'
+import {
+  computed,
+  defineComponent,
+  inject,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+} from 'vue'
 import { off, on } from '@element-plus/utils/dom'
 import { BAR_MAP, renderThumbStyle } from './util'
 
@@ -38,7 +45,9 @@ export default defineComponent({
     const thumb = ref(null)
     const scrollbar = inject('scrollbar', {} as Ref<Nullable<HTMLElement>>)
     const wrap = inject('scrollbar-wrap', {} as Ref<Nullable<HTMLElement>>)
-    const bar = computed(() => BAR_MAP[props.vertical ? 'vertical' : 'horizontal'])
+    const bar = computed(
+      () => BAR_MAP[props.vertical ? 'vertical' : 'horizontal']
+    )
     const barStore = ref({})
     const cursorDown = ref(null)
     const cursorLeave = ref(null)
@@ -49,7 +58,12 @@ export default defineComponent({
       // offsetRatioX = original width of thumb / current width of thumb / ratioX
       // offsetRatioY = original height of thumb / current height of thumb / ratioY
       // instance height = wrap height - GAP
-      return instance.value[bar.value.offset] ** 2 / wrap.value[bar.value.scrollSize] / props.ratio / thumb.value[bar.value.offset]
+      return (
+        instance.value[bar.value.offset] ** 2 /
+        wrap.value[bar.value.scrollSize] /
+        props.ratio /
+        thumb.value[bar.value.offset]
+      )
     })
 
     const clickThumbHandler = (e: MouseEvent) => {
@@ -60,15 +74,26 @@ export default defineComponent({
       }
       window.getSelection().removeAllRanges()
       startDrag(e)
-      barStore.value[bar.value.axis] = (e.currentTarget[bar.value.offset] - (e[bar.value.client] - (e.currentTarget as HTMLElement).getBoundingClientRect()[bar.value.direction]))
+      barStore.value[bar.value.axis] =
+        e.currentTarget[bar.value.offset] -
+        (e[bar.value.client] -
+          (e.currentTarget as HTMLElement).getBoundingClientRect()[
+            bar.value.direction
+          ])
     }
 
     const clickTrackHandler = (e: MouseEvent) => {
-      const offset = Math.abs((e.target as HTMLElement).getBoundingClientRect()[bar.value.direction] - e[bar.value.client])
-      const thumbHalf = (thumb.value[bar.value.offset] / 2)
-      const thumbPositionPercentage = ((offset - thumbHalf) * 100 * offsetRatio.value / instance.value[bar.value.offset])
+      const offset = Math.abs(
+        (e.target as HTMLElement).getBoundingClientRect()[bar.value.direction] -
+          e[bar.value.client]
+      )
+      const thumbHalf = thumb.value[bar.value.offset] / 2
+      const thumbPositionPercentage =
+        ((offset - thumbHalf) * 100 * offsetRatio.value) /
+        instance.value[bar.value.offset]
 
-      wrap.value[bar.value.scroll] = (thumbPositionPercentage * wrap.value[bar.value.scrollSize] / 100)
+      wrap.value[bar.value.scroll] =
+        (thumbPositionPercentage * wrap.value[bar.value.scrollSize]) / 100
     }
 
     const startDrag = (e: MouseEvent) => {
@@ -86,10 +111,16 @@ export default defineComponent({
 
       if (!prevPage) return
 
-      const offset = ((instance.value.getBoundingClientRect()[bar.value.direction] - e[bar.value.client]) * -1)
-      const thumbClickPosition = (thumb.value[bar.value.offset] - prevPage)
-      const thumbPositionPercentage = ((offset - thumbClickPosition) * 100 * offsetRatio.value / instance.value[bar.value.offset])
-      wrap.value[bar.value.scroll] = (thumbPositionPercentage * wrap.value[bar.value.scrollSize] / 100)
+      const offset =
+        (instance.value.getBoundingClientRect()[bar.value.direction] -
+          e[bar.value.client]) *
+        -1
+      const thumbClickPosition = thumb.value[bar.value.offset] - prevPage
+      const thumbPositionPercentage =
+        ((offset - thumbClickPosition) * 100 * offsetRatio.value) /
+        instance.value[bar.value.offset]
+      wrap.value[bar.value.scroll] =
+        (thumbPositionPercentage * wrap.value[bar.value.scrollSize]) / 100
     }
 
     const mouseUpDocumentHandler = () => {
@@ -103,11 +134,13 @@ export default defineComponent({
       }
     }
 
-    const thumbStyle = computed(() => renderThumbStyle({
-      size: props.size,
-      move: props.move,
-      bar: bar.value,
-    }))
+    const thumbStyle = computed(() =>
+      renderThumbStyle({
+        size: props.size,
+        move: props.move,
+        bar: bar.value,
+      })
+    )
 
     const mouseMoveScrollbarHandler = () => {
       cursorLeave.value = false
@@ -141,5 +174,4 @@ export default defineComponent({
     }
   },
 })
-
 </script>

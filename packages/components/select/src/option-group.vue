@@ -10,7 +10,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, provide, inject, ref, reactive, toRefs, getCurrentInstance, onMounted } from 'vue'
+import {
+  defineComponent,
+  provide,
+  inject,
+  ref,
+  reactive,
+  toRefs,
+  getCurrentInstance,
+  onMounted,
+} from 'vue'
 import { selectGroupKey, selectKey, selectEvents } from './token'
 
 export default defineComponent({
@@ -33,7 +42,7 @@ export default defineComponent({
       selectGroupKey,
       reactive({
         ...toRefs(props),
-      }),
+      })
     )
 
     const select = inject(selectKey)
@@ -43,10 +52,10 @@ export default defineComponent({
     })
 
     // get all instances of options
-    const flattedChildren = node => {
+    const flattedChildren = (node) => {
       const children = []
       if (Array.isArray(node.children)) {
-        node.children.forEach(child => {
+        node.children.forEach((child) => {
           if (
             child.type &&
             child.type.name === 'ElOption' &&
@@ -63,7 +72,7 @@ export default defineComponent({
     }
 
     const queryChange = () => {
-      visible.value = children.value.some(option => option.visible === true)
+      visible.value = children.value.some((option) => option.visible === true)
     }
     select.selectEmitter.on(selectEvents.groupQueryChange, queryChange)
 

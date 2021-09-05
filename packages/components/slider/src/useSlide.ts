@@ -6,7 +6,11 @@ import type { ButtonRefs, ISliderInitData, ISliderProps } from './slider.type'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 import type { Nullable } from '@element-plus/utils/types'
 
-export const useSlide = (props: ISliderProps, initData: ISliderInitData, emit) => {
+export const useSlide = (
+  props: ISliderProps,
+  initData: ISliderInitData,
+  emit
+) => {
   const elForm = inject(elFormKey, {} as ElFormContext)
   const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
 
@@ -22,7 +26,7 @@ export const useSlide = (props: ISliderProps, initData: ISliderInitData, emit) =
   }
 
   const sliderDisabled = computed(() => {
-    return props.disabled || (elForm.disabled || false)
+    return props.disabled || elForm.disabled || false
   })
 
   const minValue = computed(() => {
@@ -35,55 +39,73 @@ export const useSlide = (props: ISliderProps, initData: ISliderInitData, emit) =
 
   const barSize = computed(() => {
     return props.range
-      ? `${ 100 * (maxValue.value - minValue.value) / (props.max - props.min) }%`
-      : `${ 100 * (initData.firstValue - props.min) / (props.max - props.min) }%`
+      ? `${
+          (100 * (maxValue.value - minValue.value)) / (props.max - props.min)
+        }%`
+      : `${
+          (100 * (initData.firstValue - props.min)) / (props.max - props.min)
+        }%`
   })
 
   const barStart = computed(() => {
     return props.range
-      ? `${ 100 * (minValue.value - props.min) / (props.max - props.min) }%`
+      ? `${(100 * (minValue.value - props.min)) / (props.max - props.min)}%`
       : '0%'
   })
 
   const runwayStyle = computed<CSSProperties>(() => {
-    return (props.vertical ? { height: props.height } : {})
+    return props.vertical ? { height: props.height } : {}
   })
 
   const barStyle = computed<CSSProperties>(() => {
-    return (props.vertical
+    return props.vertical
       ? {
-        height: barSize.value,
-        bottom: barStart.value,
-      } : {
-        width: barSize.value,
-        left: barStart.value,
-      })
+          height: barSize.value,
+          bottom: barStart.value,
+        }
+      : {
+          width: barSize.value,
+          left: barStart.value,
+        }
   })
 
   const resetSize = () => {
     if (slider.value) {
-      initData.sliderSize = slider.value[`client${ props.vertical ? 'Height' : 'Width' }`]
+      initData.sliderSize =
+        slider.value[`client${props.vertical ? 'Height' : 'Width'}`]
     }
   }
 
   const setPosition = (percent: number) => {
-    const targetValue = props.min + percent * (props.max - props.min) / 100
+    const targetValue = props.min + (percent * (props.max - props.min)) / 100
     if (!props.range) {
       firstButton.value.setPosition(percent)
       return
     }
     let buttonRefName: string
-    if (Math.abs(minValue.value - targetValue) < Math.abs(maxValue.value - targetValue)) {
-      buttonRefName = initData.firstValue < initData.secondValue ? 'firstButton' : 'secondButton'
+    if (
+      Math.abs(minValue.value - targetValue) <
+      Math.abs(maxValue.value - targetValue)
+    ) {
+      buttonRefName =
+        initData.firstValue < initData.secondValue
+          ? 'firstButton'
+          : 'secondButton'
     } else {
-      buttonRefName = initData.firstValue > initData.secondValue ? 'firstButton' : 'secondButton'
+      buttonRefName =
+        initData.firstValue > initData.secondValue
+          ? 'firstButton'
+          : 'secondButton'
     }
     buttonRefs[buttonRefName].value.setPosition(percent)
   }
 
   const emitChange = async () => {
     await nextTick()
-    emit(CHANGE_EVENT, props.range ? [minValue.value, maxValue.value] : props.modelValue)
+    emit(
+      CHANGE_EVENT,
+      props.range ? [minValue.value, maxValue.value] : props.modelValue
+    )
   }
 
   const onSliderClick = (event: MouseEvent) => {
@@ -91,10 +113,14 @@ export const useSlide = (props: ISliderProps, initData: ISliderInitData, emit) =
     resetSize()
     if (props.vertical) {
       const sliderOffsetBottom = slider.value.getBoundingClientRect().bottom
-      setPosition((sliderOffsetBottom - event.clientY) / initData.sliderSize * 100)
+      setPosition(
+        ((sliderOffsetBottom - event.clientY) / initData.sliderSize) * 100
+      )
     } else {
       const sliderOffsetLeft = slider.value.getBoundingClientRect().left
-      setPosition((event.clientX - sliderOffsetLeft) / initData.sliderSize * 100)
+      setPosition(
+        ((event.clientX - sliderOffsetLeft) / initData.sliderSize) * 100
+      )
     }
     emitChange()
   }

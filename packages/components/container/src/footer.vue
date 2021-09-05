@@ -18,11 +18,14 @@ export default defineComponent({
   },
   setup(props) {
     return {
-      style: computed(() => (
-        props.height ? {
-          '--el-footer-height': props.height,
-        } : {}
-      ) as CSSProperties),
+      style: computed(
+        () =>
+          (props.height
+            ? {
+                '--el-footer-height': props.height,
+              }
+            : {}) as CSSProperties
+      ),
     }
   },
 })

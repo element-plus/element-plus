@@ -1,7 +1,10 @@
 import { h, ref, Teleport, onUnmounted } from 'vue'
 import { NOOP } from '@vue/shared'
 import isServer from '@element-plus/utils/isServer'
-import { createGlobalNode, removeGlobalNode } from '@element-plus/utils/global-nodes'
+import {
+  createGlobalNode,
+  removeGlobalNode,
+} from '@element-plus/utils/global-nodes'
 
 import type { VNode, Ref } from 'vue'
 
@@ -40,14 +43,8 @@ export default (contentRenderer: () => VNode, appendToBody: Ref<boolean>) => {
     return appendToBody.value !== true
       ? contentRenderer()
       : isTeleportVisible.value
-        ? [
-          h(
-            Teleport,
-            { to:  $el },
-            contentRenderer(),
-          ),
-        ]
-        : void 0
+      ? [h(Teleport, { to: $el }, contentRenderer())]
+      : undefined
   }
 
   onUnmounted(hideTeleport)

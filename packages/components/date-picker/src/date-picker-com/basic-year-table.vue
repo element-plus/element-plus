@@ -44,10 +44,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  computed,
-} from 'vue'
+import { defineComponent, computed } from 'vue'
 import dayjs from 'dayjs'
 import { useLocaleInject } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
@@ -61,7 +58,7 @@ const datesInYear = (year: Dayjs, lang: string) => {
   const firstDay = dayjs(String(year)).locale(lang).startOf('year')
   const lastDay = firstDay.endOf('year')
   const numOfDays = lastDay.dayOfYear()
-  return rangeArr(numOfDays).map(n => firstDay.add(n, 'day').toDate())
+  return rangeArr(numOfDays).map((n) => firstDay.add(n, 'day').toDate())
 }
 
 export default defineComponent({
@@ -84,7 +81,7 @@ export default defineComponent({
     const startYear = computed(() => {
       return Math.floor(props.date.year() / 10) * 10
     })
-    const getCellStyle = year => {
+    const getCellStyle = (year) => {
       const style = {} as any
       const today = dayjs().locale(lang.value)
 
@@ -92,7 +89,10 @@ export default defineComponent({
         ? datesInYear(year, lang.value).every(props.disabledDate)
         : false
 
-      style.current = coerceTruthyValueToArray(props.parsedValue).findIndex(_ => _.year() === year) >= 0
+      style.current =
+        coerceTruthyValueToArray(props.parsedValue).findIndex(
+          (_) => _.year() === year
+        ) >= 0
 
       style.today = today.year() === year
 

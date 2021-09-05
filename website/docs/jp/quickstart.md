@@ -28,9 +28,7 @@ app.mount('#app')
 
 ```html
 <template>
-  <el-button>
-    私はElButtonです
-  </el-button>
+  <el-button> 私はElButtonです </el-button>
 </template>
 <script>
   import { defineComponent } from 'vue'
@@ -186,7 +184,7 @@ module.exports = {
       'import',
       {
         libraryName: 'element-plus',
-        customStyleName: name => {
+        customStyleName: (name) => {
           name = name.slice(3)
           // [name].cssファイルが必要な場合は、次の行を返す必要があります。
           return `element-plus/es/${name}/style/css`
@@ -205,12 +203,12 @@ module.exports = {
       {
         libraryName: 'element-plus',
         // import component
-        customName: name => {
+        customName: (name) => {
           name = name.slice(3)
           return `element-plus/lib/components/${name}`
         },
         // import style
-        customStyleName: name => {
+        customStyleName: (name) => {
           name = name.slice(3)
           // [name].scssファイルが必要な場合は、前の行のコードをコメントアウトし、次の行のコードをアンコメントする必要があります。
           // return `element-plus/lib/components/${name}/style`

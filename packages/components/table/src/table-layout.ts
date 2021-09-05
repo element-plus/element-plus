@@ -122,7 +122,7 @@ class TableLayout<T> {
   getFlattenColumns(): TableColumnCtx<T>[] {
     const flattenColumns = []
     const columns = this.table.store.states.columns.value
-    columns.forEach(column => {
+    columns.forEach((column) => {
       if (column.isColumnGroup) {
         // eslint-disable-next-line prefer-spread
         flattenColumns.push.apply(flattenColumns, column.columns)
@@ -157,7 +157,8 @@ class TableLayout<T> {
     ) {
       return nextTick(() => this.updateElsHeight())
     }
-    const tableHeight = (this.tableHeight.value = this.table.vnode.el.clientHeight)
+    const tableHeight = (this.tableHeight.value =
+      this.table.vnode.el.clientHeight)
     const footerHeight = (this.footerHeight.value = footerWrapper
       ? footerWrapper.offsetHeight
       : 0)
@@ -197,15 +198,15 @@ class TableLayout<T> {
 
     const flattenColumns = this.getFlattenColumns()
     const flexColumns = flattenColumns.filter(
-      column => typeof column.width !== 'number',
+      (column) => typeof column.width !== 'number'
     )
-    flattenColumns.forEach(column => {
+    flattenColumns.forEach((column) => {
       // Clean those columns whose width changed from flex to unflex
       if (typeof column.width === 'number' && column.realWidth)
         column.realWidth = null
     })
     if (flexColumns.length > 0 && fit) {
-      flattenColumns.forEach(column => {
+      flattenColumns.forEach((column) => {
         bodyMinWidth += Number(column.width || column.minWidth || 80)
       })
 
@@ -223,7 +224,7 @@ class TableLayout<T> {
         } else {
           const allColumnsWidth = flexColumns.reduce(
             (prev, column) => prev + Number(column.minWidth || 80),
-            0,
+            0
           )
           const flexWidthPerPixel = totalFlexWidth / allColumnsWidth
           let noneFirstWidth = 0
@@ -231,7 +232,7 @@ class TableLayout<T> {
           flexColumns.forEach((column, index) => {
             if (index === 0) return
             const flexWidth = Math.floor(
-              Number(column.minWidth || 80) * flexWidthPerPixel,
+              Number(column.minWidth || 80) * flexWidthPerPixel
             )
             noneFirstWidth += flexWidth
             column.realWidth = Number(column.minWidth || 80) + flexWidth
@@ -245,7 +246,7 @@ class TableLayout<T> {
       } else {
         // HAVE HORIZONTAL SCROLL BAR
         this.scrollX.value = true
-        flexColumns.forEach(function(column) {
+        flexColumns.forEach(function (column) {
           column.realWidth = Number(column.minWidth)
         })
       }
@@ -253,7 +254,7 @@ class TableLayout<T> {
       this.bodyWidth.value = Math.max(bodyMinWidth, bodyWidth)
       this.table.state.resizeState.value.width = this.bodyWidth.value
     } else {
-      flattenColumns.forEach(column => {
+      flattenColumns.forEach((column) => {
         if (!column.width && !column.minWidth) {
           column.realWidth = 80
         } else {
@@ -270,7 +271,7 @@ class TableLayout<T> {
 
     if (fixedColumns.length > 0) {
       let fixedWidth = 0
-      fixedColumns.forEach(function(column) {
+      fixedColumns.forEach(function (column) {
         fixedWidth += Number(column.realWidth || column.width)
       })
 
@@ -280,7 +281,7 @@ class TableLayout<T> {
     const rightFixedColumns = this.store.states.rightFixedColumns.value
     if (rightFixedColumns.length > 0) {
       let rightFixedWidth = 0
-      rightFixedColumns.forEach(function(column) {
+      rightFixedColumns.forEach(function (column) {
         rightFixedWidth += Number(column.realWidth || column.width)
       })
 
@@ -302,7 +303,7 @@ class TableLayout<T> {
 
   notifyObservers(event: string) {
     const observers = this.observers
-    observers.forEach(observer => {
+    observers.forEach((observer) => {
       switch (event) {
         case 'columns':
           observer.state?.onColumnsChange(this)

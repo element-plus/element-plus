@@ -4,7 +4,7 @@
 
 Similar a un Tooltip, Popover está construido con `Vue-popper`. Así que para atributos duplicados, por favor refiérase a la documentación de Tooltip.
 
-:::demo El atributo `trigger` es usado para definir como el popover se dispara: `hover`, `click`, `focus` o `manual`. En cuanto al elemento desencadenante, puedes escribirlo de dos maneras diferentes: usando el `#reference`[named slot](https://vuejs.org/v2/guide/components.html#Named-Slots), o usando la directiva `v-popover` y poniendo  el `ref` de Popover.
+:::demo El atributo `trigger` es usado para definir como el popover se dispara: `hover`, `click`, `focus` o `manual`. En cuanto al elemento desencadenante, puedes escribirlo de dos maneras diferentes: usando el `#reference`[named slot](https://vuejs.org/v2/guide/components.html#Named-Slots), o usando la directiva `v-popover` y poniendo el `ref` de Popover.
 
 ```html
 <template>
@@ -63,10 +63,10 @@ Similar a un Tooltip, Popover está construido con `Vue-popper`. Así que para a
   export default {
     data() {
       return {
-        visible: false
-      };
-    }
-  };
+        visible: false,
+      }
+    },
+  }
 </script>
 <!--
 <setup>
@@ -84,26 +84,28 @@ Similar a un Tooltip, Popover está construido con `Vue-popper`. Así que para a
 </setup>
 -->
 ```
+
 :::
 
 ### Información anidada
+
 Otros componentes pueden anidarse dentro de popover. A continuación un ejemplo de una tabla anidada.
 
 :::demo Reemplaza el atributo `content` con un `slot`.
 
 ```html
-<el-popover
-  placement="right"
-  :width="400"
-  trigger="click"
->
+<el-popover placement="right" :width="400" trigger="click">
   <template #reference>
     <el-button>Click to activate</el-button>
   </template>
   <el-table :data="gridData">
     <el-table-column width="150" property="date" label="date"></el-table-column>
     <el-table-column width="100" property="name" label="name"></el-table-column>
-    <el-table-column width="300" property="address" label="address"></el-table-column>
+    <el-table-column
+      width="300"
+      property="address"
+      label="address"
+    ></el-table-column>
   </el-table>
 </el-popover>
 
@@ -111,26 +113,31 @@ Otros componentes pueden anidarse dentro de popover. A continuación un ejemplo 
   export default {
     data() {
       return {
-        gridData: [{
-          date: '2016-05-02',
-          name: 'Jack',
-          address: 'New York City'
-        }, {
-          date: '2016-05-04',
-          name: 'Jack',
-          address: 'New York City'
-        }, {
-          date: '2016-05-01',
-          name: 'Jack',
-          address: 'New York City'
-        }, {
-          date: '2016-05-03',
-          name: 'Jack',
-          address: 'New York City'
-        }]
-      };
-    }
-  };
+        gridData: [
+          {
+            date: '2016-05-02',
+            name: 'Jack',
+            address: 'New York City',
+          },
+          {
+            date: '2016-05-04',
+            name: 'Jack',
+            address: 'New York City',
+          },
+          {
+            date: '2016-05-01',
+            name: 'Jack',
+            address: 'New York City',
+          },
+          {
+            date: '2016-05-03',
+            name: 'Jack',
+            address: 'New York City',
+          },
+        ],
+      }
+    },
+  }
 </script>
 <!--
 <setup>
@@ -172,6 +179,7 @@ Otros componentes pueden anidarse dentro de popover. A continuación un ejemplo 
 </setup>
 -->
 ```
+
 :::
 
 ### Operación anidada
@@ -179,16 +187,17 @@ Otros componentes pueden anidarse dentro de popover. A continuación un ejemplo 
 Por supuesto, puedes anidar otras operaciones. Es más ligero que utilizar un `dialog`.
 
 :::demo
+
 ```html
-<el-popover
-  placement="top"
-  :width="160"
-  v-model:visible="visible"
->
+<el-popover placement="top" :width="160" v-model:visible="visible">
   <p>Are you sure to delete this?</p>
   <div style="text-align: right; margin: 0">
-    <el-button size="mini" type="text" @click="visible = false">cancel</el-button>
-    <el-button type="primary" size="mini" @click="visible = false">confirm</el-button>
+    <el-button size="mini" type="text" @click="visible = false"
+      >cancel</el-button
+    >
+    <el-button type="primary" size="mini" @click="visible = false"
+      >confirm</el-button
+    >
   </div>
   <template #reference>
     <el-button @click="visible = true">Delete</el-button>
@@ -199,10 +208,10 @@ Por supuesto, puedes anidar otras operaciones. Es más ligero que utilizar un `d
   export default {
     data() {
       return {
-        visible: false
-      };
-    }
-  };
+        visible: false,
+      }
+    },
+  }
 </script>
 <!--
 <setup>
@@ -220,38 +229,42 @@ Por supuesto, puedes anidar otras operaciones. Es más ligero que utilizar un `d
 </setup>
 -->
 ```
+
 :::
 
 ### Atributos
-| Atributo       | Descripción                              | Tipo           | Valores aceptados                        | Por defecto                              |
-| -------------- | ---------------------------------------- | -------------- | ---------------------------------------- | ---------------------------------------- |
-| trigger        | cómo se dispara el popover               | string         | click/focus/hover/manual                 | click                                    |
-| title          | título del popover                       | string         | —                                        | —                                        |
-| content        | contenido del popover, puede ser sustituido por un `slot` | string         | —                                        | —                                        |
-| width          | ancho del popover                        | string, number | —                                        | Min width 150px                          |
-| placement      | posición del popover en la pantalla      | string         | top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end | bottom                                   |
-| disabled       | si el popover está deshabilitado         | boolean        | —                                        | false                                    |
-| visible / v-model:visible | si el popover está visible               | Boolean        | —                                        | false                                    |
-| offset         | popover offset                           | number         | —                                        | 0                                        |
-| transition     | animación de transición del popover | string         | —                                        | el-fade-in-linear                        |
-| show-arrow  | si una flecha del tooltip es mostrada o no. Para más información, por favor refiérase a [Vue-popper](https://github.com/element-component/vue-popper) | boolean        | —                                        | true                                     |
-| popper-options | parámetros para [popper.js](https://popper.js.org/documentation.html) | object         | por favor, refiérase a [popper.js](https://popper.js.org/documentation.html) | `{ boundariesElement: 'body', gpuAcceleration: false }` |
-| popper-class   | clase propia para popover                | string         | —                                        | —                                        |
-| show-after     | retraso de la apariencia, en milisegundos | number  | —                                        | 0                                        |
-| hide-after     | retraso en el cierre, en milisegundos | number  | —                                        | 0                                        |
-| auto-close     | tiempo a esperar en milisegundos para esconder el Tooltip | number  | —                                        | 0                                        |
-| tabindex       | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) de Popover |   number           |      —      |  —    |
+
+| Atributo                  | Descripción                                                                                                                                           | Tipo           | Valores aceptados                                                                                         | Por defecto                                             |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| trigger                   | cómo se dispara el popover                                                                                                                            | string         | click/focus/hover/manual                                                                                  | click                                                   |
+| title                     | título del popover                                                                                                                                    | string         | —                                                                                                         | —                                                       |
+| content                   | contenido del popover, puede ser sustituido por un `slot`                                                                                             | string         | —                                                                                                         | —                                                       |
+| width                     | ancho del popover                                                                                                                                     | string, number | —                                                                                                         | Min width 150px                                         |
+| placement                 | posición del popover en la pantalla                                                                                                                   | string         | top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end | bottom                                                  |
+| disabled                  | si el popover está deshabilitado                                                                                                                      | boolean        | —                                                                                                         | false                                                   |
+| visible / v-model:visible | si el popover está visible                                                                                                                            | Boolean        | —                                                                                                         | false                                                   |
+| offset                    | popover offset                                                                                                                                        | number         | —                                                                                                         | 0                                                       |
+| transition                | animación de transición del popover                                                                                                                   | string         | —                                                                                                         | el-fade-in-linear                                       |
+| show-arrow                | si una flecha del tooltip es mostrada o no. Para más información, por favor refiérase a [Vue-popper](https://github.com/element-component/vue-popper) | boolean        | —                                                                                                         | true                                                    |
+| popper-options            | parámetros para [popper.js](https://popper.js.org/documentation.html)                                                                                 | object         | por favor, refiérase a [popper.js](https://popper.js.org/documentation.html)                              | `{ boundariesElement: 'body', gpuAcceleration: false }` |
+| popper-class              | clase propia para popover                                                                                                                             | string         | —                                                                                                         | —                                                       |
+| show-after                | retraso de la apariencia, en milisegundos                                                                                                             | number         | —                                                                                                         | 0                                                       |
+| hide-after                | retraso en el cierre, en milisegundos                                                                                                                 | number         | —                                                                                                         | 0                                                       |
+| auto-close                | tiempo a esperar en milisegundos para esconder el Tooltip                                                                                             | number         | —                                                                                                         | 0                                                       |
+| tabindex                  | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) de Popover                                                   | number         | —                                                                                                         | —                                                       |
 
 ### Slot
+
 | Nombre    | Descripción                          |
 | --------- | ------------------------------------ |
 | —         | texto contenido en popover           |
 | reference | elemento HTML que dispara el popover |
 
 ### Eventos
-| Nombre del evento | Descripción                             | Parámetros |
-| ----------------- | --------------------------------------- | ---------- |
-| show              | se dispara cuando se muestra el popover | —          |
-| after-enter       | se dispara cuando la transición de entrada termina | —       |
-| hide              | se dispara cuando se oculta el popover  | —          |
-| after-leave       | se dispara cuando la transición de salida termina | —        |
+
+| Nombre del evento | Descripción                                        | Parámetros |
+| ----------------- | -------------------------------------------------- | ---------- |
+| show              | se dispara cuando se muestra el popover            | —          |
+| after-enter       | se dispara cuando la transición de entrada termina | —          |
+| hide              | se dispara cuando se oculta el popover             | —          |
+| after-leave       | se dispara cuando la transición de salida termina  | —          |

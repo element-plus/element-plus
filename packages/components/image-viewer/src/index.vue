@@ -9,8 +9,7 @@
       <div
         class="el-image-viewer__mask"
         @click.self="hideOnClickModal && hide()"
-      >
-      </div>
+      ></div>
       <!-- CLOSE -->
       <span class="el-image-viewer__btn el-image-viewer__close" @click="hide">
         <i class="el-icon-close"></i>
@@ -40,8 +39,14 @@
           <i class="el-image-viewer__actions__divider"></i>
           <i :class="mode.icon" @click="toggleMode"></i>
           <i class="el-image-viewer__actions__divider"></i>
-          <i class="el-icon-refresh-left" @click="handleActions('anticlocelise')"></i>
-          <i class="el-icon-refresh-right" @click="handleActions('clocelise')"></i>
+          <i
+            class="el-icon-refresh-left"
+            @click="handleActions('anticlocelise')"
+          ></i>
+          <i
+            class="el-icon-refresh-right"
+            @click="handleActions('clocelise')"
+          ></i>
         </div>
       </div>
       <!-- CANVAS -->
@@ -57,14 +62,13 @@
           @load="handleImgLoad"
           @error="handleImgError"
           @mousedown="handleMouseDown"
-        >
+        />
       </div>
     </div>
   </transition>
 </template>
 
-<script lang='ts'>
-
+<script lang="ts">
 import { defineComponent, computed, ref, onMounted, watch, nextTick } from 'vue'
 import { useLocaleInject } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/utils/aria'
@@ -87,7 +91,11 @@ const Mode = {
 const mousewheelEventName = isFirefox() ? 'DOMMouseScroll' : 'mousewheel'
 const CLOSE_EVENT = 'close'
 const SWITCH_EVENT = 'switch'
-export type ImageViewerAction = 'zoomIn' | 'zoomOut' | 'clocelise' | 'anticlocelise'
+export type ImageViewerAction =
+  | 'zoomIn'
+  | 'zoomOut'
+  | 'clocelise'
+  | 'anticlocelise'
 
 export default defineComponent({
   name: 'ElImageViewer',
@@ -128,7 +136,7 @@ export default defineComponent({
     const wrapper = ref(null)
     const img = ref(null)
     const mode = ref(Mode.CONTAIN)
-    let transform = ref({
+    const transform = ref({
       scale: 1,
       deg: 0,
       offsetX: 0,
@@ -202,7 +210,7 @@ export default defineComponent({
         }
       })
 
-      _mouseWheelHandler = rafThrottle(e => {
+      _mouseWheelHandler = rafThrottle((e) => {
         const delta = e.wheelDelta ? e.wheelDelta : -e.detail
         if (delta > 0) {
           handleActions('zoomIn', {
@@ -242,7 +250,13 @@ export default defineComponent({
       const { offsetX, offsetY } = transform.value
       const startX = e.pageX
       const startY = e.pageY
-      _dragHandler = rafThrottle(ev => {
+
+      const divLeft = wrapper.value.clientLeft
+      const divRight = wrapper.value.clientLeft + wrapper.value.clientWidth
+      const divTop = wrapper.value.clientTop
+      const divBottom = wrapper.value.clientTop + wrapper.value.clientHeight
+
+      _dragHandler = rafThrottle((ev) => {
         transform.value = {
           ...transform.value,
           offsetX: offsetX + ev.pageX - startX,
@@ -250,7 +264,17 @@ export default defineComponent({
         }
       })
       on(document, 'mousemove', _dragHandler)
-      on(document, 'mouseup', () => {
+      on(document, 'mouseup', (e: MouseEvent) => {
+        const mouseX = e.pageX
+        const mouseY = e.pageY
+        if (
+          mouseX < divLeft ||
+          mouseX > divRight ||
+          mouseY < divTop ||
+          mouseY > divBottom
+        ) {
+          reset()
+        }
         off(document, 'mousemove', _dragHandler)
       })
 
@@ -273,7 +297,7 @@ export default defineComponent({
       const modeNames = Object.keys(Mode)
       const modeValues = Object.values(Mode)
       const currentMode = mode.value.name
-      const index = modeValues.findIndex(i => i.name === currentMode)
+      const index = modeValues.findIndex((i) => i.name === currentMode)
       const nextIndex = (index + 1) % modeNames.length
       mode.value = Mode[modeNames[nextIndex]]
       reset()
@@ -302,11 +326,15 @@ export default defineComponent({
       switch (action) {
         case 'zoomOut':
           if (transform.value.scale > 0.2) {
-            transform.value.scale = parseFloat((transform.value.scale - zoomRate).toFixed(3))
+            transform.value.scale = parseFloat(
+              (transform.value.scale - zoomRate).toFixed(3)
+            )
           }
           break
         case 'zoomIn':
-          transform.value.scale = parseFloat((transform.value.scale + zoomRate).toFixed(3))
+          transform.value.scale = parseFloat(
+            (transform.value.scale + zoomRate).toFixed(3)
+          )
           break
         case 'clocelise':
           transform.value.deg += rotateDeg
@@ -327,7 +355,7 @@ export default defineComponent({
       })
     })
 
-    watch(index, val => {
+    watch(index, (val) => {
       reset()
       emit(SWITCH_EVENT, val)
     })

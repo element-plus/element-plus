@@ -4,37 +4,37 @@ export default () => {
   const clientWidth = defineGetter(
     HTMLElement.prototype,
     'clientWidth',
-    function() {
+    function () {
       return parseInt(this.style.width, 10) || 0
     },
-    0,
+    0
   )
 
   const clientHeight = defineGetter(
     HTMLElement.prototype,
     'clientHeight',
-    function() {
+    function () {
       return parseInt(this.style.height, 10) || 0
     },
-    0,
+    0
   )
 
   const scrollHeight = defineGetter(
     HTMLElement.prototype,
     'scrollHeight',
-    function() {
+    function () {
       return Number.MAX_SAFE_INTEGER
     },
-    0,
+    0
   )
 
   const scrollWidth = defineGetter(
     HTMLElement.prototype,
     'scrollWidth',
-    function() {
+    function () {
       return Number.MAX_SAFE_INTEGER
     },
-    0,
+    0
   )
 
   // clean up function

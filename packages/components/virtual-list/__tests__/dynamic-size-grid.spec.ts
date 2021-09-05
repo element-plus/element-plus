@@ -1,4 +1,3 @@
-
 import { nextTick } from 'vue'
 import makeMount from '@element-plus/test-utils/make-mount'
 import makeScroll from '@element-plus/test-utils/make-scroll'
@@ -11,7 +10,6 @@ import {
 } from '../src/defaults'
 import { DynamicSizeGrid } from '..'
 
-
 import type { GridExposes } from '../src/types'
 
 type GridRef = GridExposes
@@ -20,11 +18,9 @@ const onItemRendered = jest.fn()
 const WINDOW_KLS = 'window'
 const ITEM_KLS = 'item'
 const ITEM_SELECTOR = `.${ITEM_KLS}`
-const columnWidths = Array.from({ length: 100 })
-  .map((_, i) => 25 + i)
+const columnWidths = Array.from({ length: 100 }).map((_, i) => 25 + i)
 
-const rowHeights = Array.from({ length: 100 })
-  .map((_, i) => 25 + i)
+const rowHeights = Array.from({ length: 100 }).map((_, i) => 25 + i)
 const mount = makeMount(
   {
     template: `<dynamic-size-grid v-bind="$attrs" ref="gridRef">
@@ -47,11 +43,10 @@ const mount = makeMount(
       width: 100,
       onItemRendered,
     },
-  },
+  }
 )
 
 let cleanup: () => void
-
 
 describe('<fixed-size-grid />', () => {
   beforeAll(() => {
@@ -89,7 +84,6 @@ describe('<fixed-size-grid />', () => {
 
       await nextTick()
       expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(0)
-
     })
   })
 
@@ -112,7 +106,7 @@ describe('<fixed-size-grid />', () => {
       expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(64)
     })
 
-    it ('should not scroll at all', async () => {
+    it('should not scroll at all', async () => {
       const wrapper = mount()
       await nextTick()
       expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(36)
@@ -213,7 +207,6 @@ describe('<fixed-size-grid />', () => {
       gridRef.scrollToItem(110, 110)
       await nextTick()
       expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(9)
-
     })
   })
 
@@ -257,7 +250,7 @@ describe('<fixed-size-grid />', () => {
       expect(errorHandler).toHaveBeenCalled()
     })
 
-    it ('should be able to render component type', async () => {
+    it('should be able to render component type', async () => {
       const A = {
         name: 'A',
         template: `<div><slot></slot></div>`,
@@ -287,5 +280,4 @@ describe('<fixed-size-grid />', () => {
       expect(wrapper.findComponent(B).exists()).toBe(true)
     })
   })
-
 })

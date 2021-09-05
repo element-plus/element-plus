@@ -41,12 +41,13 @@ Displays the amount of new messages.
 </el-dropdown>
 
 <style>
-.item {
-  margin-top: 10px;
-  margin-right: 40px;
-}
+  .item {
+    margin-top: 10px;
+    margin-right: 40px;
+  }
 </style>
 ```
+
 :::
 
 ### Max value
@@ -64,12 +65,13 @@ You can customize the max value.
 </el-badge>
 
 <style>
-.item {
-  margin-top: 10px;
-  margin-right: 40px;
-}
+  .item {
+    margin-top: 10px;
+    margin-right: 40px;
+  }
 </style>
 ```
+
 :::
 
 ### Customizations
@@ -87,12 +89,13 @@ Displays text content other than numbers.
 </el-badge>
 
 <style>
-.item {
-  margin-top: 10px;
-  margin-right: 40px;
-}
+  .item {
+    margin-top: 10px;
+    margin-right: 40px;
+  }
 </style>
 ```
+
 :::
 
 ### Little red dot
@@ -104,23 +107,29 @@ Use a red dot to mark content that needs to be noticed.
 ```html
 <el-badge is-dot class="item">query</el-badge>
 <el-badge is-dot class="item">
-  <el-button class="share-button" icon="el-icon-share" type="primary"></el-button>
+  <el-button
+    class="share-button"
+    icon="el-icon-share"
+    type="primary"
+  ></el-button>
 </el-badge>
 
 <style>
-.item {
-  margin-top: 10px;
-  margin-right: 40px;
-}
+  .item {
+    margin-top: 10px;
+    margin-right: 40px;
+  }
 </style>
 ```
+
 :::
 
 ### Attributes
-| Attribute     | Description     | Type            | Accepted Values       | Default |
-|-------------  |---------------- |---------------- |---------------------- |-------- |
-| value         | display value   | string / number  |          —            |    —    |
-| max           |  maximum value, shows '{max}+' when exceeded. Only works if `value` is a `Number`   | number  |         —              |     —    |
-| is-dot        | if a little dot is displayed | boolean   |    —           |  false  |
-| hidden        | hidden badge    | boolean         |          —            |  false  |
-| type          | button type     | string          | primary / success / warning / danger / info |   —  |
+
+| Attribute | Description                                                                      | Type            | Accepted Values                             | Default |
+| --------- | -------------------------------------------------------------------------------- | --------------- | ------------------------------------------- | ------- |
+| value     | display value                                                                    | string / number | —                                           | —       |
+| max       | maximum value, shows '{max}+' when exceeded. Only works if `value` is a `Number` | number          | —                                           | —       |
+| is-dot    | if a little dot is displayed                                                     | boolean         | —                                           | false   |
+| hidden    | hidden badge                                                                     | boolean         | —                                           | false   |
+| type      | button type                                                                      | string          | primary / success / warning / danger / info | —       |

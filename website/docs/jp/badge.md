@@ -41,19 +41,20 @@
 </el-dropdown>
 
 <style>
-.item {
-  margin-top: 10px;
-  margin-right: 40px;
-}
+  .item {
+    margin-top: 10px;
+    margin-right: 40px;
+  }
 </style>
 ```
+
 :::
 
 ### 最大値
 
 最大値をカスタマイズすることができます。
 
-:::demo 最大値はプロパティ `max` で定義され `Number` である。value` が `Number` である場合にのみ動作することに注意すること。
+:::demo 最大値はプロパティ `max` で定義され `Number` である。value`が`Number` である場合にのみ動作することに注意すること。
 
 ```html
 <el-badge :value="200" :max="99" class="item">
@@ -64,12 +65,13 @@
 </el-badge>
 
 <style>
-.item {
-  margin-top: 10px;
-  margin-right: 40px;
-}
+  .item {
+    margin-top: 10px;
+    margin-right: 40px;
+  }
 </style>
 ```
+
 :::
 
 ### カスタマイズ
@@ -87,12 +89,13 @@
 </el-badge>
 
 <style>
-.item {
-  margin-top: 10px;
-  margin-right: 40px;
-}
+  .item {
+    margin-top: 10px;
+    margin-right: 40px;
+  }
 </style>
 ```
+
 :::
 
 ### 小さな赤い点
@@ -104,23 +107,29 @@
 ```html
 <el-badge is-dot class="item">query</el-badge>
 <el-badge is-dot class="item">
-  <el-button class="share-button" icon="el-icon-share" type="primary"></el-button>
+  <el-button
+    class="share-button"
+    icon="el-icon-share"
+    type="primary"
+  ></el-button>
 </el-badge>
 
 <style>
-.item {
-  margin-top: 10px;
-  margin-right: 40px;
-}
+  .item {
+    margin-top: 10px;
+    margin-right: 40px;
+  }
 </style>
 ```
+
 :::
 
 ### 属性
-| Attribute     | Description     | Type            | Accepted Values       | Default |
-|-------------  |---------------- |---------------- |---------------------- |-------- |
-| value         | 表示値   | string, number  |          —            |    —    |
-| max           | 最大値を超えると '{max}+' を表示します。`value` が `Number` の場合にのみ動作します。   | number  |         —              |     —    |
-| is-dot        | 小さな点が表示されている場合 | boolean   |    —           |  false  |
-| hidden        | かくしbadge    | boolean         |          —            |  false  |
-| type          | ボタンタイプ     | string          | primary / success / warning / danger / info |   —  |
+
+| Attribute | Description                                                                          | Type           | Accepted Values                             | Default |
+| --------- | ------------------------------------------------------------------------------------ | -------------- | ------------------------------------------- | ------- |
+| value     | 表示値                                                                               | string, number | —                                           | —       |
+| max       | 最大値を超えると '{max}+' を表示します。`value` が `Number` の場合にのみ動作します。 | number         | —                                           | —       |
+| is-dot    | 小さな点が表示されている場合                                                         | boolean        | —                                           | false   |
+| hidden    | かくし badge                                                                         | boolean        | —                                           | false   |
+| type      | ボタンタイプ                                                                         | string         | primary / success / warning / danger / info | —       |

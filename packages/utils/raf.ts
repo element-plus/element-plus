@@ -8,7 +8,4 @@ if (!isServer) {
   cAF = (handle: number) => window.cancelAnimationFrame(handle)
 }
 
-export {
-  rAF,
-  cAF,
-}
+export { rAF, cAF }

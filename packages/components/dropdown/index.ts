@@ -5,7 +5,6 @@ import DropdownMenu from './src/dropdown-menu.vue'
 import type { App } from 'vue'
 import type { SFCWithInstall } from '@element-plus/utils/types'
 
-
 Dropdown.install = (app: App): void => {
   app.component(Dropdown.name, Dropdown)
   app.component(DropdownItem.name, DropdownItem)

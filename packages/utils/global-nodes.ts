@@ -1,12 +1,12 @@
 import isServer from './isServer'
 
 const globalNodes = []
-let target = isServer ? void 0 : document.body
+let target = isServer ? undefined : document.body
 
 export function createGlobalNode(id?: string) {
   const el = document.createElement('div')
 
-  if (id !== void 0) {
+  if (id !== undefined) {
     el.id = id
   }
 
@@ -25,7 +25,7 @@ export function changeGlobalNodesTarget(el: HTMLElement) {
   if (el !== target) {
     target = el
 
-    globalNodes.forEach(el => {
+    globalNodes.forEach((el) => {
       if (el.contains(target) === false) {
         target.appendChild(el)
       }

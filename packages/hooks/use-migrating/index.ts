@@ -14,7 +14,7 @@ const useMigrating = function () {
       propName = kebabCase(propName) // compatible with camel case
       if (props[propName]) {
         console.warn(
-          `[Element Migrating][${instance.proxy.$options.name}][Attribute]: ${props[propName]}`,
+          `[Element Migrating][${instance.proxy.$options.name}][Attribute]: ${props[propName]}`
         )
       }
     }

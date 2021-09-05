@@ -1,4 +1,3 @@
-
 export type OptionCommon = {
   label: string
 }
@@ -18,7 +17,6 @@ export type OptionGroup<T = any> = OptionCommon & {
 }
 
 export type OptionType<T = any> = Option<T> | OptionGroup<T>
-
 
 // maybe adding T for type restriction is better here, but not sure this is going to work for
 // template rendering

@@ -3,13 +3,10 @@ import helper from 'components-helper'
 import path from 'path'
 import { epRoot } from './paths'
 
-const { name, version } = require(path.resolve(
-  epRoot,
-  './package.json',
-))
+const { name, version } = require(path.resolve(epRoot, './package.json'))
 
 import icon from '../website/icon.json'
-const icons = icon.map(item => 'el-icon-' + item).join('/')
+const icons = icon.map((item) => 'el-icon-' + item).join('/')
 const tagVer = process.env.TAG_VERSION
 const _version = tagVer
   ? tagVer.startsWith('v')

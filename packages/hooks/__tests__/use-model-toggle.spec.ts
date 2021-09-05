@@ -12,7 +12,6 @@ const onHide = jest.fn()
 let flag = true
 const shouldProceed = () => flag
 
-
 const Comp = {
   name: 'comp',
   props: { ...useModelToggleProps, disabled: Boolean },
@@ -28,14 +27,22 @@ const Comp = {
 
     return () => {
       return [
-        h('button', {
-          class: 'show',
-          onClick: show,
-        }, 'show'),
-        h('button', {
-          class: 'hide',
-          onClick: hide,
-        }, 'hide'),
+        h(
+          'button',
+          {
+            class: 'show',
+            onClick: show,
+          },
+          'show'
+        ),
+        h(
+          'button',
+          {
+            class: 'hide',
+            onClick: hide,
+          },
+          'hide'
+        ),
         h('button', {
           class: 'toggle',
           onClick: toggle,
@@ -48,7 +55,6 @@ const Comp = {
 }
 
 describe('use-model-toggle', () => {
-
   let wrapper: ReturnType<typeof mount>
   beforeEach(() => {
     flag = true
@@ -145,7 +151,6 @@ describe('use-model-toggle', () => {
     expect(onHide).toHaveBeenCalledTimes(1)
     expect(wrapper.vm.model).toBe(false)
     expect(wrapper.findComponent(Comp).text()).not.toContain(AXIOM)
-
     ;(wrapper.vm.model as any) = true
     ;(wrapper.vm.disabled as any) = true
     await nextTick()
@@ -183,5 +188,4 @@ describe('use-model-toggle', () => {
     await nextTick()
     expect(onHide).toHaveBeenCalledTimes(1)
   })
-
 })

@@ -21,7 +21,7 @@ function compileCjs() {
     .pipe(
       ts.createProject('tsconfig.json', {
         module: 'commonjs',
-      })(),
+      })()
     )
     .pipe(gulp.dest(cjs))
 }

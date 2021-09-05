@@ -27,10 +27,7 @@
     );
     border: $--border-base;
     border-left: 0;
-    color: var(
-      --el-button-font-color,
-      map.get($--button, 'font-color')
-    );
+    color: var(--el-button-font-color, map.get($--button, 'font-color'));
     -webkit-appearance: none;
     text-align: center;
     box-sizing: border-box;

@@ -1,8 +1,8 @@
 ## Changelog
 
-### 1.1.0-beta.8
+### 1.1.0-beta.9
 
-*2021-08-31*
+*2021-09-05*
 
 #### Breaking changes:
 
@@ -10,6 +10,49 @@
 
 #### Features
   
+- Components [el-timeline] add hollow prop (#3229 by @kooriookami)
+
+#### Bug fixes
+  
+- El-image-viewer drag have problem (#3133 by @Alanscut)
+- Components virtualized selector optimize (#3160 by @msidolphin)
+- Theme-chalk fixed the wrong background color of timeline-item (#3165 by @msidolphin)
+- Utils improve element.addEventListener (#3173 by @adaex)
+- Components [el-form-item] dom element null checking (#3172 by @taosher)
+- Utils make width valid with `calc` (#3181 by @cokemine)
+- Components collapse incorrect export statement (#3185 by @msidolphin)
+- Components descriptions cell class (#3195 by @adaex)
+- Components tabs dynamic text (#3174 by @imswk) (#3180)
+- Components [el-input-number] model:value not required (#3190 by @msidolphin)
+- Missing timepicker css var (#3204 by @YunYouJun)
+- [el-form-item] add min-width (#3208 by @sxzz)
+- Chore typo package.json (#3214 by @linrongbin16)
+- Theme-chalk [el-form] no display red asterisk when width is auto (#3222 by @msidolphin)
+- Docs fix typo in README.md (close #3216) (#3230 by @KimYangOfCat)
+- Build agolia indices script (#3234 by @JeremyWuuuuu)
+- Components message verified by el-form is "" validate (#3227 by @imswk) (#3231)
+- Components [el-menu] fix warn & listen item (#3225 by @sxzz)
+- Components lazy image is not work when it changes src (#3189 by @zycoJamie)
+- Allow custom tr background-color (#3166 by @YunYouJun)
+- Perf menu add back arrow-icon and overflow (#3167 by @kooriookami)
+- Style `$--border-color-hover` var reference (#3179 by @adaex)
+- Style fixed style (#3202 by @sunnuan)
+- Perf [el-menu] only vertical mode has transition (#3200 by @kooriookami)
+- Style fix missing import (#3212 by @sunnuan)
+- Style use prettier (#3228 by @sxzz)
+- Style [el-image] format code (#3238 by @sxzz)
+
+#### Refactors
+  
+- Components Improve calendar date range validate (#3156 by @adaex)
+- Upgrade to husky@7 & lint-staged@11 & commitlint@13 (#3239 by @YunYouJun)
+
+### 1.1.0-beta.8
+
+_2021-08-31_
+
+#### Features
+
 - Components form add scrollToField method (#3110 by @sxzz)
 - Components select-v2 support filter-method & remote-search (#3092 by @msidolphin)
 - Components button-group add size (#3098 by @sxzz)
@@ -18,7 +61,7 @@
 - Menu add ellipsis in horizontal mode (#3083 by @kooriookami)
 
 #### Bug fixes
-  
+
 - Theme-chalk add the missing margin-left to transfer
 - Remove useless and duplicate declaration (#3082 by @BeADre)
 - Components image no emit switch event (close #3132) (#3134 by @imswk)
@@ -36,25 +79,25 @@
 - [image-viewer] two-finger zoom in and out (#3114 by @Alanscut)
 
 #### Refactors
-  
+
 - Enhance type definition (#3062 by @sxzz)
 
 ### 1.1.0-beta.7
 
-*2021-08-26*
+_2021-08-26_
 
 #### Bug fixes
-  
+
 - Components style path error for radio button (#3079 by @JeremyWuuuuu)
 - Input autosize type problem (#3008 by @imswk) (#3012)
 - Build marking side effects for webpack importing styles
 
 ### 1.1.0-beta.6
 
-*2021-08-26*
+_2021-08-26_
 
 #### Bug fixes
-  
+
 - Components [table] avoid table border style conflict (#3064 by @adaex)
 - Eslint ignore bundle file (#3061 by @sxzz)
 - Form el-from/src/token.d.ts file miss (#2979 by @imswk) (#2988)
@@ -63,14 +106,14 @@
 
 ### 1.1.0-beta.5
 
-*2021-08-25*
+_2021-08-25_
 
 #### Features
-  
+
 - Select-v2 support allow-create feature (#3017 by @msidolphin)
 
 #### Bug fixes
-  
+
 - Missing folders and umd locale builds and i18n docs for umd builds (#3053 by @JeremyWuuuuu)
 - Rateuse constant (#3011 by @Notryag)
 - Stop pinning vue peer dependency version (#3051 by @sodatea)
@@ -81,47 +124,46 @@
 
 ### 1.1.0-beta.4
 
-*2021-08-25*
+_2021-08-25_
 
 #### Bug fixes
-  
+
 - Message-box fix type (#3038 by @sxzz)
 - [label-wrap] Fix misspellings (#3030 by @wangbincyzj)
 - Components [descriptions] avoid conflict with el-table (#3005 by @adaex)
 - Build exposing installer function and version for umd build (#3041 by @JeremyWuuuuu)
 
 #### Refactors
-  
+
 - Rename el-submenu to el-sub-menu (#3037 by @sxzz)
 
 ### 1.1.0-beta.3
 
-*2021-08-24*
+_2021-08-24_
 
 #### Bug fixes
-  
+
 - Build fix rollup full bundile issue (#3034 by @JeremyWuuuuu)
 
 ### 1.1.0-beta.2
 
-*2021-08-24*
+_2021-08-24_
 
 #### Bug fixes
-  
+
 - Build upgrade vue to 3.2.x (#3031 by @JeremyWuuuuu)
 - Build: update browserslist (#3027 by @kooriookami)
 
-
 ### 1.1.0-beta.1
 
-*2021-08-24*
+_2021-08-24_
 
 #### Features
 
 - Date-picker custom date-editor width (#2836 by @YunYouJun)
 - Card add var background-color & prepare for dark mode (#2912 by @YunYouJun)
 - Link remove href prototype when empty (#2969 by @adaex)
-- Add ElSkeleton template scoped parameter `key`.  (#2944 by @callmesoul)
+- Add ElSkeleton template scoped parameter `key`. (#2944 by @callmesoul)
 
 #### Bug fixes
 
@@ -143,7 +185,7 @@
 
 ### 1.0.2-beta.71
 
-*2021-08-18*
+_2021-08-18_
 
 #### Features
 
@@ -176,7 +218,7 @@
 
 ### 1.0.2-beta.70
 
-*2021-08-05*
+_2021-08-05_
 
 #### Bug fixes
 
@@ -186,7 +228,7 @@
 
 ### 1.0.2-beta.69
 
-*2021-08-04*
+_2021-08-04_
 
 #### Bug fixes
 
@@ -194,7 +236,8 @@
 
 ### 1.0.2-beta.68
 
-*2021-08-04*
+_2021-08-04_
+
 #### Bug fixes
 
 - Dropdown styles error (#2823 by @tolking)
@@ -203,7 +246,7 @@
 
 ### 1.0.2-beta.67
 
-*2021-08-04*
+_2021-08-04_
 
 #### Bug fixes
 
@@ -215,7 +258,7 @@
 
 ### 1.0.2-beta.66
 
-*2021-08-03*
+_2021-08-03_
 
 #### Features
 
@@ -229,7 +272,7 @@
 - Var map merge default var (#2727 by @YunYouJun)
 - Scrollbar the problem of ScrollbarDirKey being deleted (#2722 by @msidolphin)
 - Input no trigger input event when clear value (#2723 by @msidolphin)
-- Message using iconClass causes "el-message__icon" to be lost (#2709 by @GaliMu)
+- Message using iconClass causes "el-message\_\_icon" to be lost (#2709 by @GaliMu)
 - Locale inject locale for modal like components (#2737 by @JeremyWuuuuu)
 - Tooltip styles error (#2763 by @tolking)
 - Input Improve inputStyle reference (#2780 by @adaex)
@@ -251,7 +294,7 @@
 
 ### 1.0.2-beta.65
 
-*2021-07-28*
+_2021-07-28_
 
 #### Bug fixes
 
@@ -268,20 +311,22 @@
 ### 1.0.2-beta.64
 
 #### Bug fixes
+
 - fix(var): map merge default var (#2727)
 - fix(scrollbar): the problem of ScrollbarDirKey being deleted (#2722)
 - fix(input): no trigger input event when clear value (#2723) …
-- fix(message): using iconClass causes "el-message__icon" to be lost (#… …
+- fix(message): using iconClass causes "el-message\_\_icon" to be lost (#… …
 - fix(typing): fixed Nullable type for RefElement (#2730)
 - fix(locale): inject locale for modal like components (#2737)
 
 #### Refactors
+
 - refactor(backtop): migrate css var (#2711)
 - refactor(var): simplify checkbox var & move transition to root (#2729)
 
 ### 1.0.2-beta.63
 
-*2021-07-27*
+_2021-07-27_
 
 #### Refactor
 
@@ -302,7 +347,7 @@
 
 ### 1.0.2-beta.62
 
-*2021-07-26*
+_2021-07-26_
 
 #### Bug fixes
 
@@ -310,7 +355,7 @@
 
 ### 1.0.2-beta.61
 
-*2021-07-26*
+_2021-07-26_
 
 #### Bug fixes
 
@@ -319,7 +364,7 @@
 
 ### 1.0.2-beta.60
 
-*2021-07-26*
+_2021-07-26_
 
 #### Bug fixes
 
@@ -327,7 +372,7 @@
 
 ### 1.0.2-beta.59
 
-*2021-07-26*
+_2021-07-26_
 
 #### Breaking change
 
@@ -363,7 +408,7 @@
 
 ### 1.0.2-beta.58
 
-*2021-07-24*
+_2021-07-24_
 
 #### Bug fixes
 
@@ -371,7 +416,7 @@
 
 ### 1.0.2-beta.57
 
-*2021-07-23*
+_2021-07-23_
 
 #### Bug fixes
 
@@ -379,7 +424,7 @@
 
 ### 1.0.2-beta.56
 
-*2021-07-23*
+_2021-07-23_
 
 #### Features
 
@@ -449,7 +494,7 @@
 
 ### 1.0.2-beta.55
 
-*2021-07-09*
+_2021-07-09_
 
 #### Bug fixes
 
@@ -475,7 +520,7 @@
 
 ### 1.0.2-beta.54
 
-*2021-07-02*
+_2021-07-02_
 
 #### Bug fixes
 
@@ -484,14 +529,14 @@
 - Fix checkbox label auto convert to bool when label is empty (#2287)
 - Fix update peerDependencies vue version (#2352)
 - Fix virtual-list template string to render function (#2388)
-- Fix  code space (#2376)
+- Fix code space (#2376)
 - Fix cascader arrow position (#2356)
 - Fix carousel not working when using v-show (#2361)
 - Revert fix scrollbar update when slot changed (#2322)
 
 ### 1.0.2-beta.53
 
-*2021-06-25*
+_2021-06-25_
 
 #### Bug fixes
 
@@ -506,7 +551,7 @@
 
 ### 1.0.2-beta.52
 
-*2021-06-24*
+_2021-06-24_
 
 #### Bug fixes
 
@@ -514,7 +559,7 @@
 
 ### 1.0.2-beta.49
 
-*2021-06-23*
+_2021-06-23_
 
 #### Bug fixes
 
@@ -536,7 +581,7 @@
 
 ### 1.0.2-beta.47
 
-*2021-06-11*
+_2021-06-11_
 
 #### Features
 
@@ -580,7 +625,7 @@
 
 ### 1.0.2-beta.46
 
-*2021-06-04*
+_2021-06-04_
 
 #### Features
 
@@ -588,6 +633,7 @@
 - Feat Input: add input-style prop (#2117)
 
 #### Bugfixes
+
 - Fix Col: should hidden when span is zero (#1769)
 - Fix Table: hot reload (#2077) (#2097)
 - Fix Popper: in dialog isn't enough space to position problem (#2102)
@@ -597,17 +643,21 @@
 - Fix Cascader: size issue when filterable and multiple are enabled (#2123)
 
 #### Chore
+
 - Chore Website: update radio VCA doc (#2111)
 - Chore Project: esbuild for single component build (#2112)
 - Chore Website: use built-in throwError function. (#2131)
 
 ### 1.0.2-beta.45
 
-*2021-05-28*
+_2021-05-28_
 
 #### Features
+
 - Feat VClickOutside: Expose mousedown and mouseup event object (#2038)
+
 #### Bugfixes
+
 - Fix Website: 'textContent' of undefined and text wrapping (#1973)
 - Fix DatePicker: attribute 'type' add ts declare (#1979)
 - Fix Table: fix sorting error #1919 (#1983)
@@ -622,7 +672,9 @@
 - Fix Website: algolia search wrong search parameter (#2065)
 - Fix ScrollBar: perf behavior of bar click (#2066)
 - Fix DateTimePicker: allow clearable to control both of the clear button (#2072)
+
 #### Chore
+
 - Chore Tag: add specific type declaration (#1939)
 - Chore Docs: drawer.md add modal-class attribute (#1974)
 - Chore Transfer: remove useless button style (#1975)
@@ -642,26 +694,28 @@
 - Chore Project: bump sass from 1.26.10 to 1.34.0 (#2060)
 - Chore Docs: value -> model-value in vue 3 (#2067)
 
-
 ### 1.0.2-beta.44
 
-*2021-05-11*
+_2021-05-11_
 
 #### Bug fixes
-- Hot fix for #1980 (#1981)
 
+- Hot fix for #1980 (#1981)
 
 ### 1.0.2-beta.43
 
-*2021-05-10*
+_2021-05-10_
 
 #### Bug fixes
+
 - Fix DateTimePicker positioning issue (#1980, #1981)
+
 ### 1.0.2-beta.42
 
-*2021-05-09*
+_2021-05-09_
 
 #### Bug fixes
+
 - Fix Rate: remove the confusing this (#1910)
 - Fix Drawer: add modal false div class (#1932)
 - Fix Button: fix incorrect style rule when hovering disabled plain button (#1937)
@@ -673,6 +727,7 @@
 - Fix Switch: fix switch component onMounted condition error (#1966)
 
 #### Chore
+
 - Chore Notification: Remove magic numbers (#1928)
 - Chore Tag: keep the same with property name (#1940)
 - Chore Pagination: update Pagination documentation with .sync modifier (#1920 #1957)
@@ -680,11 +735,9 @@
 - Chore website: update ad (#1968)
 - Chore ThemeChalk: add missing `!default` modifiers for global variables (#1969)
 
-
-
 ### 1.0.2-beta.41
 
-*2021-04-26*
+_2021-04-26_
 
 #### Features
 
@@ -708,7 +761,7 @@
 
 ### 1.0.2-beta.40
 
-*2021-04-14*
+_2021-04-14_
 
 #### Bug fixes
 
@@ -726,6 +779,7 @@
 - Fix docs footer links error (#1827)
 - Fix table fix table column rerendered whenever table updates
 - Fix time-picker time picker change event bug (#1828)
+
 #### Features
 
 - Result: new componet Result (#1818)
@@ -736,25 +790,26 @@
 
 ### 1.0.2-beta.39
 
-*2021-04-09*
+_2021-04-09_
+
 #### Bug fixes
 
 - Fix `packages/utils` path issue (#1792)
 
 ### 1.0.2-beta.38
 
-*2021-04-08*
+_2021-04-08_
 
 - Fix `packages/utils` build issue caused `setConfig` not working (#1788)
 
 ### 1.0.2-beta.37
 
-*2021-04-08*
+_2021-04-08_
 
 #### Bug fixes
 
 - Fix input prefix-icon-incorrect-height (#1766)
-- Fix select  fix filter method is not called when input first letter (#1711)
+- Fix select fix filter method is not called when input first letter (#1711)
 - Fix picker add focus (#1475)
 - Fix time-select input value not changed with v-model bindings (#1725)
 - Fix tooltip component tabindex prop (#1621)
@@ -762,12 +817,12 @@
 - Fix utils isIE logic (#1757)
 - Refactor card remove needless div tag (#1732)
 - Fix input add keydown event listener for textarea (#1723)
-- Fix time-picker  update oldValue when visible change (#1635)
+- Fix time-picker update oldValue when visible change (#1635)
 - Fix drawer close button outline issue when focusing (#1727)
 
 ### 1.0.2-beta.36
 
-*2021-03-28*
+_2021-03-28_
 
 #### Bug fixes
 
@@ -806,16 +861,16 @@
 
 ### 1.0.2-beta.35
 
-
-*2021-03-15*
+_2021-03-15_
 
 - Fix type generator error
 
 ### 1.0.2-beta.34
 
-*2021-03-12*
+_2021-03-12_
 
 #### Bug fixes
+
 - Fix slider warning of modelValue (#1622)
 - Fix tree auto expand parent on set current key and node (#1502)
 - Fix avatar watch invalid when src is missing from props (#1615)
@@ -839,11 +894,11 @@
 
 ### 1.0.2-beta.33
 
-*2021-03-03*
+_2021-03-03_
 
 #### Bug fixes
 
-- Fix cascader-panel  value can be falsy value (#1533)
+- Fix cascader-panel value can be falsy value (#1533)
 - Fix scss error (#1542)
 - Fix popper error cause by vue version update (#1556)
 - Fix col will always be hidden when responsive span is zero (#1532)
@@ -851,7 +906,7 @@
 - Fix layout gutter bug (#1537)
 - Fix select options watch flush post (#1513)
 - Fix select noMatchText error show (#1523)
-- Fix avatar  need reset hasLoadError to false, if src changed (#1515)
+- Fix avatar need reset hasLoadError to false, if src changed (#1515)
 - Fix input remove invalid attrs after render (#1489)
 - Fix select emit blur event (#1504)
 - Fix table bug of invalid tooltipEffect prop (#1470)
@@ -862,7 +917,7 @@
 
 ### 1.0.2-beta.32
 
-*2021-01-31*
+_2021-01-31_
 
 #### Bug fixes
 
@@ -897,7 +952,7 @@
 
 ### 1.0.2-beta.31
 
-*2021-01-31*
+_2021-01-31_
 
 #### Bug fixes
 
@@ -928,7 +983,7 @@
 
 ### 1.0.2-beta.30
 
-*2021-01-25*
+_2021-01-25_
 
 #### Bug fixes
 
@@ -938,7 +993,7 @@
 
 ### 1.0.2-beta.29
 
-*2021-01-25*
+_2021-01-25_
 
 #### New feature
 
@@ -958,7 +1013,7 @@
 
 ### 1.0.2-beta.28
 
-*2021-01-20*
+_2021-01-20_
 
 #### New feature
 
@@ -980,7 +1035,7 @@
 
 ### 1.0.1-beta.27
 
-*2021-01-15*
+_2021-01-15_
 
 #### Bug fixes
 
@@ -990,7 +1045,7 @@
 
 ### 1.0.1-beta.26
 
-*2021-01-14*
+_2021-01-14_
 
 #### New feature
 
@@ -1007,7 +1062,7 @@
 
 ### 1.0.1-beta.24
 
-*2021-01-11*
+_2021-01-11_
 
 #### Bug fixes
 
@@ -1020,7 +1075,7 @@
 
 ### 1.0.1-beta.23
 
-*2021-01-07*
+_2021-01-07_
 
 #### New feature
 
@@ -1037,7 +1092,7 @@
 
 ### 1.0.1-beta.22
 
-*2021-01-06*
+_2021-01-06_
 
 #### Bug fixes
 
@@ -1050,7 +1105,7 @@
 
 ### 1.0.1-beta.21
 
-*2021-01-05*
+_2021-01-05_
 
 #### Bug fixes
 
@@ -1064,7 +1119,7 @@
 
 ### 1.0.1-beta.19
 
-*2021-01-02*
+_2021-01-02_
 
 #### Bug fixes
 
@@ -1074,7 +1129,7 @@
 
 ### 1.0.1-beta.18
 
-*2020-12-31*
+_2020-12-31_
 
 #### Bug fixes
 
@@ -1087,7 +1142,7 @@
 
 ### 1.0.1-beta.15
 
-*2020-12-27*
+_2020-12-27_
 
 #### Bug fixes
 
@@ -1098,7 +1153,7 @@
 
 ### 1.0.1-beta.14
 
-*2020-12-24*
+_2020-12-24_
 
 #### Bug fixes
 
@@ -1114,7 +1169,7 @@
 
 ### 1.0.1-beta.11
 
-*2020-12-21*
+_2020-12-21_
 
 #### New features
 
@@ -1129,7 +1184,7 @@
 
 ### 1.0.1-beta.10
 
-*2020-12-18*
+_2020-12-18_
 
 #### New features
 
@@ -1142,7 +1197,7 @@
 
 ### 1.0.1-beta.9
 
-*2020-12-16*
+_2020-12-16_
 
 #### Bug fixes
 
@@ -1157,7 +1212,7 @@
 
 ### 1.0.1-beta.8
 
-*2020-12-12*
+_2020-12-12_
 
 #### Bug fixes
 
@@ -1171,7 +1226,7 @@
 
 ### 1.0.1-beta.7
 
-*2020-12-10*
+_2020-12-10_
 
 #### Bug fixes
 
@@ -1185,7 +1240,7 @@
 
 ### 1.0.1-beta.6
 
-*2020-12-09*
+_2020-12-09_
 
 #### Bug fixes
 
@@ -1201,7 +1256,7 @@
 
 ### 1.0.1-beta.5
 
-*2020-12-07*
+_2020-12-07_
 
 #### Bug fixes
 
@@ -1219,7 +1274,7 @@
 
 ### 1.0.1-beta.4
 
-*2020-12-05*
+_2020-12-05_
 
 #### Bug fixes
 
@@ -1236,7 +1291,7 @@
 
 ### 1.0.1-beta.3
 
-*2020-12-03*
+_2020-12-03_
 
 #### Bug fixes
 
@@ -1248,7 +1303,7 @@
 
 ### 1.0.1-beta.2
 
-*2020-12-02*
+_2020-12-02_
 
 #### Bug fixes
 
@@ -1256,7 +1311,7 @@
 
 ### 1.0.1-beta.1
 
-*2020-12-01*
+_2020-12-01_
 
 #### Bug fixes
 

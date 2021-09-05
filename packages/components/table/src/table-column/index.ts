@@ -39,7 +39,7 @@ export default defineComponent({
 
     const { registerNormalWatchers, registerComplexWatchers } = useWatcher(
       owner,
-      props,
+      props
     )
     const {
       columnId,
@@ -52,7 +52,7 @@ export default defineComponent({
       getPropsData,
       getColumnElIndex,
       realAlign,
-    } = useRender((props as unknown) as TableColumnCtx<unknown>, slots, owner)
+    } = useRender(props as unknown as TableColumnCtx<unknown>, slots, owner)
 
     const parent = columnOrTableParent.value
     columnId.value =
@@ -65,7 +65,7 @@ export default defineComponent({
       const defaults = {
         ...cellStarts[type],
         id: columnId.value,
-        type: type,
+        type,
         property: props.prop || props.property,
         align: realAlign,
         headerAlign: realHeaderAlign,
@@ -78,7 +78,7 @@ export default defineComponent({
         isColumnGroup: false,
         filterOpened: false,
         // sort 相关属性
-        sortable: sortable,
+        sortable,
         // index 列
         index: props.index,
         // <el-table-column key="xxx" />
@@ -114,7 +114,7 @@ export default defineComponent({
       const chains = compose(
         setColumnRenders,
         setColumnWidth,
-        setColumnForcedProps,
+        setColumnForcedProps
       )
       column = chains(column)
       columnConfig.value = column
@@ -136,14 +136,14 @@ export default defineComponent({
         owner.value.store.commit(
           'insertColumn',
           columnConfig.value,
-          isSubColumn.value ? parent.columnConfig.value : null,
+          isSubColumn.value ? parent.columnConfig.value : null
         )
     })
     onBeforeUnmount(() => {
       owner.value.store.commit(
         'removeColumn',
         columnConfig.value,
-        isSubColumn.value ? parent.columnConfig.value : null,
+        isSubColumn.value ? parent.columnConfig.value : null
       )
     })
     instance.columnId = columnId.value

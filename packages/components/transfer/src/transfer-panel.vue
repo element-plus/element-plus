@@ -43,12 +43,13 @@
           :label="item[keyProp]"
           :disabled="item[disabledProp]"
         >
-          <option-content
-            :option="optionRender(item)"
-          />
+          <option-content :option="optionRender(item)" />
         </el-checkbox>
       </el-checkbox-group>
-      <p v-show="hasNoMatch || data.length === 0" class="el-transfer-panel__empty">
+      <p
+        v-show="hasNoMatch || data.length === 0"
+        class="el-transfer-panel__empty"
+      >
         {{ hasNoMatch ? t('el.transfer.noMatch') : t('el.transfer.noData') }}
       </p>
     </div>
@@ -118,13 +119,8 @@ export default defineComponent({
       }
     }
 
-    const {
-      checked,
-      allChecked,
-      query,
-      inputHover,
-      checkChangeByUser,
-    } = toRefs(panelState)
+    const { checked, allChecked, query, inputHover, checkChangeByUser } =
+      toRefs(panelState)
 
     return {
       labelProp,

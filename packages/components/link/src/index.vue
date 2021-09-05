@@ -4,7 +4,7 @@
       'el-link',
       type ? `el-link--${type}` : '',
       disabled && 'is-disabled',
-      underline && !disabled && 'is-underline'
+      underline && !disabled && 'is-underline',
     ]"
     :href="disabled || !href ? null : href"
     @click="handleClick"
@@ -18,10 +18,12 @@
     <slot v-if="$slots.icon" name="icon"></slot>
   </a>
 </template>
-<script lang='ts'>
+<script lang="ts">
 import { defineComponent, PropType } from 'vue'
 
-type ILinkType = PropType<'primary' | 'success' | 'warning' | 'info' | 'danger' | 'default'>
+type ILinkType = PropType<
+  'primary' | 'success' | 'warning' | 'info' | 'danger' | 'default'
+>
 
 export default defineComponent({
   name: 'ElLink',
@@ -30,7 +32,14 @@ export default defineComponent({
       type: String as ILinkType,
       default: 'default',
       validator: (val: string) => {
-        return ['default', 'primary', 'success', 'warning', 'info', 'danger'].includes(val)
+        return [
+          'default',
+          'primary',
+          'success',
+          'warning',
+          'info',
+          'danger',
+        ].includes(val)
       },
     },
     underline: {
@@ -43,7 +52,6 @@ export default defineComponent({
   },
   emits: ['click'],
   setup(props, { emit }) {
-
     function handleClick(event: Event) {
       if (!props.disabled) {
         emit('click', event)

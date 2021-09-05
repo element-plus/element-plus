@@ -32,7 +32,7 @@ export function createStore<T>(table: Table<T>, props: TableProps<T>) {
   // fix https://github.com/ElemeFE/element/issues/14075
   // related pr https://github.com/ElemeFE/element/pull/14146
   store.toggleAllSelection = debounce(store._toggleAllSelection, 10)
-  Object.keys(InitialStateMap).forEach(key => {
+  Object.keys(InitialStateMap).forEach((key) => {
     handleValue(getArrKeysValue(props, key), key, store)
   })
   proxyTableProps(store, props)
@@ -40,12 +40,12 @@ export function createStore<T>(table: Table<T>, props: TableProps<T>) {
 }
 
 function proxyTableProps<T>(store: Store<T>, props: TableProps<T>) {
-  Object.keys(InitialStateMap).forEach(key => {
+  Object.keys(InitialStateMap).forEach((key) => {
     watch(
       () => getArrKeysValue(props, key),
-      value => {
+      (value) => {
         handleValue(value, key, store)
-      },
+      }
     )
   })
 }
@@ -64,7 +64,7 @@ function getArrKeysValue<T>(props: TableProps<T>, keys: string) {
   if (keys.includes('.')) {
     const keyList = keys.split('.')
     let value = props
-    keyList.forEach(key => {
+    keyList.forEach((key) => {
       value = value[key]
     })
     return value

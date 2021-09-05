@@ -14,8 +14,8 @@
 
 <p align="center">Element Plus - A Vue.js 3.0 UI library</p>
 
-* 💪 Vue 3.0 Composition API
-* 🔥 Written in TypeScript
+- 💪 Vue 3.0 Composition API
+- 🔥 Written in TypeScript
 
 ## Status: Beta
 
@@ -48,6 +48,7 @@ This project is still under heavy development. Feel free to join us and make you
 ---
 
 ## Documentation
+
 You can find for more details, API, and other docs on [https://element-plus.org](https://element-plus.org/)
 
 国内[加速镜像站点](https://element-plus.gitee.io/)
@@ -59,25 +60,34 @@ Join our [Discord](https://discord.link/ElementPlus) to start communicating with
 You can find the breaking change list here: [Breaking Change List](https://github.com/element-plus/element-plus/issues/162).
 
 ## Bootstrap project
+
 With command
+
 ```bash
 $ yarn bootstrap
 ```
+
 the project will install all dependencies and run `lerna bootstrap` to initialize the project
 
 ## Website preview
+
 With command
+
 ```bash
 $ yarn website-dev
 ```
+
 the project will launch website for you to preview all existing component
 
 You can also use this command to start a blank page to debug
+
 ```bash
 $ yarn website-dev:play
 //source file: ./website/play/index.vue
 ```
+
 ## Component migration process
+
 1. Convert the item in https://github.com/element-plus/element-plus/projects/1 to an issue
 2. Assign yourself to the issue
 3. Author your component by generating new component command below
@@ -85,7 +95,9 @@ $ yarn website-dev:play
 5. Open a new pull request, fill in the component issue link in 1
 
 ## Generate new component
+
 With command
+
 ```bash
 $ yarn gen component-name
 ```
@@ -93,22 +105,24 @@ $ yarn gen component-name
 Note the `component-name` must be in `kebab-case`, combining words by replacing each space with a dash.
 
 ## Commit template
+
 With command
+
 ```bash
 yarn cz
 ```
 
 Example
+
 ```
 [TYPE](SCOPE):DESCRIPTION#[ISSUE]
-# example feat(button):add type 'button' for form usage #1234
+# example feat(components): add type 'button' for form usage #1234
 ```
 
 ## Licence
 
 ElementPlus is open source software licensed as
 [MIT](https://github.com/element-plus/element-plus/blob/master/LICENSE).
-
 
 ## Contributors
 
@@ -117,6 +131,3 @@ This project wouldn't exist without our amazing contributors
 <a href="https://github.com/element-plus/element-plus/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=element-plus/element-plus" />
 </a>
-
-
-

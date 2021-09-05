@@ -252,6 +252,11 @@
     padding: 0 45px;
     min-width: 200px;
   }
+  @include e(hide-arrow) {
+    .#{$namespace}-sub-menu__icon-arrow {
+      display: none !important;
+    }
+  }
   @include e(icon-more) {
     margin-right: 0 !important;
   }

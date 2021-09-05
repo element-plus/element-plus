@@ -14,4 +14,3 @@ describe('useFocus', () => {
     expect(document.activeElement).toBe(inputEl)
   })
 })
-

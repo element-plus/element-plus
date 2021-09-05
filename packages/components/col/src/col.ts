@@ -64,22 +64,24 @@ const ElCol = defineComponent({
     const classList = computed(() => {
       const ret: string[] = []
       const pos = ['span', 'offset', 'pull', 'push'] as const
-      pos.forEach(prop => {
+      pos.forEach((prop) => {
         const size = props[prop]
         if (typeof size === 'number') {
-          if(prop === 'span') ret.push(`el-col-${props[prop]}`)
-          else if(size > 0) ret.push(`el-col-${prop}-${props[prop]}`)
+          if (prop === 'span') ret.push(`el-col-${props[prop]}`)
+          else if (size > 0) ret.push(`el-col-${prop}-${props[prop]}`)
         }
       })
       const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
-      sizes.forEach(size => {
+      sizes.forEach((size) => {
         if (typeof props[size] === 'number') {
           ret.push(`el-col-${size}-${props[size]}`)
         } else if (typeof props[size] === 'object') {
           const sizeProps = props[size]
-          Object.keys(sizeProps).forEach(prop => {
+          Object.keys(sizeProps).forEach((prop) => {
             ret.push(
-              prop !== 'span' ? `el-col-${size}-${prop}-${sizeProps[prop]}` : `el-col-${size}-${sizeProps[prop]}`,
+              prop !== 'span'
+                ? `el-col-${size}-${prop}-${sizeProps[prop]}`
+                : `el-col-${size}-${sizeProps[prop]}`
             )
           })
         }
@@ -92,14 +94,15 @@ const ElCol = defineComponent({
       return ret
     })
 
-    return () => h(
-      props.tag,
-      {
-        class: ['el-col', classList.value],
-        style: style.value,
-      },
-      slots.default?.(),
-    )
+    return () =>
+      h(
+        props.tag,
+        {
+          class: ['el-col', classList.value],
+          style: style.value,
+        },
+        slots.default?.()
+      )
   },
 })
 

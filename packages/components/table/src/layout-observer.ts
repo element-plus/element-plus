@@ -39,7 +39,7 @@ function useLayoutObserver<T>(root: Table<T>) {
     if (!cols.length) return
     const flattenColumns = layout.getFlattenColumns()
     const columnsMap = {}
-    flattenColumns.forEach(column => {
+    flattenColumns.forEach((column) => {
       columnsMap[column.id] = column
     })
     for (let i = 0, j = cols.length; i < j; i++) {

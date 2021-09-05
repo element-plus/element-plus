@@ -4,7 +4,10 @@ import { getNormalizedProps } from '@element-plus/utils/vnode'
 import { elDescriptionsKey } from './token'
 
 import type { VNode } from 'vue'
-import type { IDescriptionsInject, IDescriptionsItemInject } from './descriptions.type'
+import type {
+  IDescriptionsInject,
+  IDescriptionsItemInject,
+} from './descriptions.type'
 
 export default defineComponent({
   name: 'ElDescriptionsCell',
@@ -27,7 +30,9 @@ export default defineComponent({
     }
   },
   render() {
-    const item = getNormalizedProps(this.cell as VNode) as IDescriptionsItemInject
+    const item = getNormalizedProps(
+      this.cell as VNode
+    ) as IDescriptionsItemInject
 
     const label = this.cell?.children?.label?.() || item.label
     const content = this.cell?.children?.default?.()
@@ -43,29 +48,62 @@ export default defineComponent({
 
     switch (this.type) {
       case 'label':
-        return h(this.tag, {
-          style: style,
-          class: ['el-descriptions__cell', 'el-descriptions__label', { 'is-bordered-label': this.descriptions.border }, labelAlign, labelClassName],
-          colSpan: this.descriptions.direction === 'vertical' ? span : 1,
-        }, label)
+        return h(
+          this.tag,
+          {
+            style,
+            class: [
+              'el-descriptions__cell',
+              'el-descriptions__label',
+              { 'is-bordered-label': this.descriptions.border },
+              labelAlign,
+              labelClassName,
+            ],
+            colSpan: this.descriptions.direction === 'vertical' ? span : 1,
+          },
+          label
+        )
       case 'content':
-        return h(this.tag, {
-          style: style,
-          class: ['el-descriptions__cell', 'el-descriptions__content', align, className],
-          colSpan: this.descriptions.direction === 'vertical' ? span : span * 2 - 1,
-        }, content)
+        return h(
+          this.tag,
+          {
+            style,
+            class: [
+              'el-descriptions__cell',
+              'el-descriptions__content',
+              align,
+              className,
+            ],
+            colSpan:
+              this.descriptions.direction === 'vertical' ? span : span * 2 - 1,
+          },
+          content
+        )
       default:
-        return h('td', {
-          style: style,
-          class: [align],
-          colSpan: span,
-        }, [
-          h('span', {
-            class: ['el-descriptions__cell', 'el-descriptions__label', labelClassName],
-          }, label),
-          h('span', {
-            class: ['el-descriptions__cell', 'el-descriptions__content', className],
-          }, content)])
+        return h(
+          'td',
+          {
+            style,
+            class: ['el-descriptions__cell', align],
+            colSpan: span,
+          },
+          [
+            h(
+              'span',
+              {
+                class: ['el-descriptions__label', labelClassName],
+              },
+              label
+            ),
+            h(
+              'span',
+              {
+                class: ['el-descriptions__content', className],
+              },
+              content
+            ),
+          ]
+        )
     }
   },
 })

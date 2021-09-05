@@ -30,7 +30,8 @@ describe('Rate.vue', () => {
       },
     })
     const vm = wrapper.vm
-    const secondStar = wrapper.findAll('.el-rate__item')[1].element as HTMLElement
+    const secondStar = wrapper.findAll('.el-rate__item')[1]
+      .element as HTMLElement
     vm.$refs.rate.setCurrentValue(1, { target: secondStar, offsetX: 0 })
     // expect(vm.$refs.rate.currentValue).toEqual(0.5)
     secondStar.click()
@@ -79,7 +80,8 @@ describe('Rate.vue', () => {
       },
     })
     const vm = wrapper.vm
-    const thirdStar = wrapper.findAll('.el-rate__item')[2].element as HTMLElement
+    const thirdStar = wrapper.findAll('.el-rate__item')[2]
+      .element as HTMLElement
 
     thirdStar.click()
     expect(vm.value1).toEqual(3)
@@ -92,7 +94,7 @@ describe('Rate.vue', () => {
           <el-rate v-model="value" :colors="['#99A9BF', '#F7BA2A', '#FF9900']"></el-rate>
         </div>
       `,
-      props:{},
+      props: {},
       data() {
         return {
           value: 4,
@@ -103,7 +105,9 @@ describe('Rate.vue', () => {
       },
     })
     // const vm = wrapper.vm
-    const thirdStar = (wrapper.findAll('.el-rate__item')[2].element as HTMLElement).querySelector('.el-rate__icon') as any
+    const thirdStar = (
+      wrapper.findAll('.el-rate__item')[2].element as HTMLElement
+    ).querySelector('.el-rate__icon') as any
 
     expect(thirdStar.style.color).toEqual('rgb(255, 153, 0)')
   })
@@ -121,7 +125,7 @@ describe('Rate.vue', () => {
           changeCount: 0,
         }
       },
-      methods:{
+      methods: {
         handleChange() {
           this.changeCount++
         },
@@ -131,11 +135,13 @@ describe('Rate.vue', () => {
       },
     })
     const vm = wrapper.vm
-    const fourthStar = wrapper.findAll('.el-rate__item')[3].element as HTMLElement
+    const fourthStar = wrapper.findAll('.el-rate__item')[3]
+      .element as HTMLElement
     fourthStar.click()
     expect(vm.value).toEqual(4)
     expect(vm.changeCount).toEqual(0)
-    const fifthStar = wrapper.findAll('.el-rate__item')[4].element as HTMLElement
+    const fifthStar = wrapper.findAll('.el-rate__item')[4]
+      .element as HTMLElement
     fifthStar.click()
     expect(vm.value).toEqual(5)
     expect(vm.changeCount).toEqual(1)

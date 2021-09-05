@@ -24,7 +24,10 @@ Desplácese hacia abajo para ver el botón en el lado inferior derecho.
 ```html
 <template>
   Scroll down to see the bottom-right button.
-  <el-backtop target=".page-component__scroll .el-scrollbar__wrap" :bottom="100">
+  <el-backtop
+    target=".page-component__scroll .el-scrollbar__wrap"
+    :bottom="100"
+  >
     <div
       style="{
         height: 100%;
@@ -46,12 +49,12 @@ Desplácese hacia abajo para ver el botón en el lado inferior derecho.
 
 ### Atributos
 
-| Atributos | Descripción                                    | Tipo         | Valores aceptados | Por defecto |
-| ----------------- | ------------------------------------------------------------------- | --------------- | --------------- | ------- |
-| target            | el objetivo para activar el scroll      | string          |                 |         |
-| visibility-height | el botón no se mostrará hasta que la altura de desplazamiento alcance este valor | number |                 | 200     |
-| right             | separación desde la derecha              | number |                 | 40      |
-| bottom            | separación desde abajo                                       | number |                 | 40      |
+| Atributos         | Descripción                                                                      | Tipo   | Valores aceptados | Por defecto |
+| ----------------- | -------------------------------------------------------------------------------- | ------ | ----------------- | ----------- |
+| target            | el objetivo para activar el scroll                                               | string |                   |             |
+| visibility-height | el botón no se mostrará hasta que la altura de desplazamiento alcance este valor | number |                   | 200         |
+| right             | separación desde la derecha                                                      | number |                   | 40          |
+| bottom            | separación desde abajo                                                           | number |                   | 40          |
 
 ### Eventos
 

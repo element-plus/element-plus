@@ -1,12 +1,8 @@
-import type {
-  ComponentInternalInstance,
-  ComputedRef,
-  Ref,
-} from 'vue'
+import type { ComponentInternalInstance, ComputedRef, Ref } from 'vue'
 
 export type BeforeLeave = (
   newTabName: string,
-  oldTabName: string,
+  oldTabName: string
 ) => void | Promise<void> | boolean
 
 export type ITabType = 'card' | 'border-card' | ''

@@ -9,7 +9,7 @@
           isDot ? 'is-dot' : 'el-badge__content--' + type,
           {
             'is-fixed': $slots.default,
-          }
+          },
         ]"
         v-text="content"
       >

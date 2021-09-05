@@ -2,19 +2,23 @@ import { mount } from '@vue/test-utils'
 import Breadcrumb from '../src/index.vue'
 import BreadcrumbItem from '../src/item.vue'
 
-const _mount = (template: string) => mount({
-  components: {
-    'el-breadcrumb': Breadcrumb,
-    'el-breadcrumb-item': BreadcrumbItem,
-  },
-  template,
-}, {
-  global: {
-    provide: {
-      breadcrumb: {},
+const _mount = (template: string) =>
+  mount(
+    {
+      components: {
+        'el-breadcrumb': Breadcrumb,
+        'el-breadcrumb-item': BreadcrumbItem,
+      },
+      template,
     },
-  },
-})
+    {
+      global: {
+        provide: {
+          breadcrumb: {},
+        },
+      },
+    }
+  )
 
 describe('Breadcrumb.vue', () => {
   test('separator', () => {
@@ -33,7 +37,9 @@ describe('Breadcrumb.vue', () => {
       </el-breadcrumb>
     `)
     expect(wrapper.find('.el-breadcrumb__separator').text()).toBe('')
-    expect(wrapper.find('.el-breadcrumb__separator').classes()).toContain('test')
+    expect(wrapper.find('.el-breadcrumb__separator').classes()).toContain(
+      'test'
+    )
   })
 
   test('to', () => {

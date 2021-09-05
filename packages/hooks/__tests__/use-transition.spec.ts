@@ -22,7 +22,7 @@ describe('use-transition', () => {
               style: transitionStyle.value,
               class: 'content',
             },
-            transition.value,
+            transition.value
           ),
           h(
             'button',
@@ -30,7 +30,7 @@ describe('use-transition', () => {
               onClick: toggle,
               class: 'toggle',
             },
-            'toggle',
+            'toggle'
           ),
         ])
       }
@@ -53,38 +53,38 @@ describe('use-transition', () => {
 
   it('should render correctly', async () => {
     expect(wrapper.find('.content').text()).toBe(
-      `el-transition--${transitionHide}`,
+      `el-transition--${transitionHide}`
     )
     expect(
       getCssVariable(
         wrapper.find('.content').element,
-        '--el-transition-duration',
-      ),
+        '--el-transition-duration'
+      )
     ).toBe('0.3s')
   })
 
   it('should be able to update transition class', async () => {
     expect(wrapper.find('.content').text()).toBe(
-      `el-transition--${transitionHide}`,
+      `el-transition--${transitionHide}`
     )
 
     await wrapper.find('.toggle').trigger('click') // this tick indicator gets changed
     await nextTick() // this tick the inner value transitionState gets changed
     await nextTick() // this tick the computed value gets updated
     expect(wrapper.find('.content').text()).toBe(
-      `el-transition--${transitionShow}`,
+      `el-transition--${transitionShow}`
     )
   })
 
   it('should be able to change the transition duration via props', async () => {
     expect(wrapper.find('.content').text()).toBe(
-      `el-transition--${transitionHide}`,
+      `el-transition--${transitionHide}`
     )
     expect(
       getCssVariable(
         wrapper.find('.content').element,
-        '--el-transition-duration',
-      ),
+        '--el-transition-duration'
+      )
     ).toBe('0.3s')
 
     await wrapper.setProps({
@@ -94,8 +94,8 @@ describe('use-transition', () => {
     expect(
       getCssVariable(
         wrapper.find('.content').element,
-        '--el-transition-duration',
-      ),
+        '--el-transition-duration'
+      )
     ).toBe('0.2s')
   })
 })

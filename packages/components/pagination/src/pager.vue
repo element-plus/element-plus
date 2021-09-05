@@ -15,8 +15,7 @@
       :class="[quickprevIconClass, { disabled }]"
       @mouseenter="onMouseenter('left')"
       @mouseleave="quickprevIconClass = 'el-icon-more'"
-    >
-    </li>
+    ></li>
     <li
       v-for="pager in pagers"
       :key="pager"
@@ -33,8 +32,7 @@
       :class="[quicknextIconClass, { disabled }]"
       @mouseenter="onMouseenter('right')"
       @mouseleave="quicknextIconClass = 'el-icon-more'"
-    >
-    </li>
+    ></li>
     <li
       v-if="pageCount > 1"
       :class="{ active: currentPage === pageCount, disabled }"
@@ -47,12 +45,7 @@
   </ul>
 </template>
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  computed,
-  watchEffect,
-} from 'vue'
+import { defineComponent, ref, computed, watchEffect } from 'vue'
 
 export default defineComponent({
   name: 'ElPager',
@@ -133,10 +126,10 @@ export default defineComponent({
     })
 
     watchEffect(() => {
-      if(!showPrevMore.value) quickprevIconClass.value = 'el-icon-more'
+      if (!showPrevMore.value) quickprevIconClass.value = 'el-icon-more'
     })
     watchEffect(() => {
-      if(!showNextMore.value) quicknextIconClass.value = 'el-icon-more'
+      if (!showNextMore.value) quicknextIconClass.value = 'el-icon-more'
     })
 
     function onMouseenter(direction: 'left' | 'right') {
@@ -150,7 +143,10 @@ export default defineComponent({
 
     function onEnter(e: UIEvent) {
       const target = e.target as HTMLElement
-      if (target.tagName.toLowerCase() === 'li' && Array.from(target.classList).includes('number')) {
+      if (
+        target.tagName.toLowerCase() === 'li' &&
+        Array.from(target.classList).includes('number')
+      ) {
         const newPage = Number(target.textContent)
         if (newPage !== props.currentPage) {
           emit('change', newPage)

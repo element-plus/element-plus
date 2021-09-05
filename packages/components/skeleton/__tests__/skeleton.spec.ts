@@ -6,12 +6,11 @@ const AXIOM = 'AXIOM is the best girl'
 jest.useFakeTimers()
 
 describe('Skeleton.vue', () => {
-  const mount = makeMount(Skeleton, { })
+  const mount = makeMount(Skeleton, {})
   test('render test', () => {
     const wrapper = mount()
     expect(wrapper.findAll('.el-skeleton__p')).toHaveLength(4)
     expect(wrapper.classes()).toContain('el-skeleton')
-
   })
 
   test('should render with animation', () => {
@@ -35,7 +34,6 @@ describe('Skeleton.vue', () => {
 
     expect(wrapper.findAll('.el-skeleton__p')).toHaveLength(8)
   })
-
 
   test('should render x rows', () => {
     const wrapper = mount({
@@ -61,7 +59,6 @@ describe('Skeleton.vue', () => {
   })
 
   test('should render templates', () => {
-
     const wrapper = mount({
       slots: {
         template: () => AXIOM,
@@ -70,7 +67,6 @@ describe('Skeleton.vue', () => {
 
     expect(wrapper.text()).toBe(AXIOM)
   })
-
 
   test('should throttle rendering', async () => {
     const wrapper = mount({
@@ -87,5 +83,4 @@ describe('Skeleton.vue', () => {
 
     expect((wrapper.vm as any).uiLoading).toBe(true)
   })
-
 })

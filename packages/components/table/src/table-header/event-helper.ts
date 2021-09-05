@@ -55,10 +55,10 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
       const resizeProxy = table.refs.resizeProxy as HTMLElement
       resizeProxy.style.left = (dragState.value as any).startLeft + 'px'
 
-      document.onselectstart = function() {
+      document.onselectstart = function () {
         return false
       }
-      document.ondragstart = function() {
+      document.ondragstart = function () {
         return false
       }
 
@@ -81,7 +81,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
             column.width,
             startLeft - startColumnLeft,
             column,
-            event,
+            event
           )
           props.store.scheduleLayout(false, true)
 
@@ -97,7 +97,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
         document.onselectstart = null
         document.ondragstart = null
 
-        setTimeout(function() {
+        setTimeout(function () {
           removeClass(columnEl, 'noclick')
         }, 0)
       }
@@ -148,7 +148,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
   const handleSortClick = (
     event: Event,
     column: TableColumnCtx<T>,
-    givenOrder: string | boolean,
+    givenOrder: string | boolean
   ) => {
     event.stopPropagation()
     const order =

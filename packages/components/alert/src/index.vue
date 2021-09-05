@@ -6,9 +6,17 @@
       :class="[typeClass, center ? 'is-center' : '', 'is-' + effect]"
       role="alert"
     >
-      <i v-if="showIcon" class="el-alert__icon" :class="[ iconClass, isBigIcon ]"></i>
+      <i
+        v-if="showIcon"
+        class="el-alert__icon"
+        :class="[iconClass, isBigIcon]"
+      ></i>
       <div class="el-alert__content">
-        <span v-if="title || $slots.title" class="el-alert__title" :class="[ isBoldTitle ]">
+        <span
+          v-if="title || $slots.title"
+          class="el-alert__title"
+          :class="[isBoldTitle]"
+        >
           <slot name="title">{{ title }}</slot>
         </span>
         <p v-if="$slots.default || !!description" class="el-alert__description">
@@ -19,7 +27,10 @@
         <i
           v-if="closable"
           class="el-alert__closebtn"
-          :class="{ 'is-customed': closeText !== '', 'el-icon-close': closeText === '' }"
+          :class="{
+            'is-customed': closeText !== '',
+            'el-icon-close': closeText === '',
+          }"
           @click="close"
         >
           {{ closeText }}
@@ -28,15 +39,15 @@
     </div>
   </transition>
 </template>
-<script lang='ts'>
+<script lang="ts">
 import { defineComponent, computed, ref } from 'vue'
 
 import type { PropType } from 'vue'
 
 const TYPE_CLASSES_MAP = {
-  'success': 'el-icon-success',
-  'warning': 'el-icon-warning',
-  'error': 'el-icon-error',
+  success: 'el-icon-success',
+  warning: 'el-icon-warning',
+  error: 'el-icon-error',
 }
 
 export default defineComponent({
@@ -67,7 +78,8 @@ export default defineComponent({
     effect: {
       type: String,
       default: 'light',
-      validator: (value: string): boolean => ['light', 'dark'].indexOf(value) > -1,
+      validator: (value: string): boolean =>
+        ['light', 'dark'].indexOf(value) > -1,
     },
   },
   emits: ['close'],
@@ -76,13 +88,19 @@ export default defineComponent({
     const visible = ref(true)
 
     // computed
-    const typeClass = computed(() => `el-alert--${ props.type }`)
-    const iconClass = computed(() => TYPE_CLASSES_MAP[props.type] || 'el-icon-info')
-    const isBigIcon = computed(() => props.description || ctx.slots.default ? 'is-big' : '')
-    const isBoldTitle = computed(() => props.description || ctx.slots.default ? 'is-bold' : '')
+    const typeClass = computed(() => `el-alert--${props.type}`)
+    const iconClass = computed(
+      () => TYPE_CLASSES_MAP[props.type] || 'el-icon-info'
+    )
+    const isBigIcon = computed(() =>
+      props.description || ctx.slots.default ? 'is-big' : ''
+    )
+    const isBoldTitle = computed(() =>
+      props.description || ctx.slots.default ? 'is-bold' : ''
+    )
 
     // methods
-    const close = evt => {
+    const close = (evt) => {
       visible.value = false
       ctx.emit('close', evt)
     }

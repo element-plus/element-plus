@@ -1,11 +1,12 @@
 ## Card
+
 Muestra información dentro de un contenedor `card`
 
 ### Uso Básico
 
 `Card` incluye titulo, contenido y operaciones.
 
-:::demo Card se compone de cabecera y cuerpo. La cabecera es opcional y la colocación de su  contenido depende de un slot con nombre.
+:::demo Card se compone de cabecera y cuerpo. La cabecera es opcional y la colocación de su contenido depende de un slot con nombre.
 
 ```html
 <el-card class="box-card">
@@ -15,18 +16,16 @@ Muestra información dentro de un contenedor `card`
       <el-button class="button" type="text">Operation button</el-button>
     </div>
   </template>
-  <div v-for="o in 4" :key="o" class="text item">
-    {{'List item ' + o }}
-  </div>
+  <div v-for="o in 4" :key="o" class="text item">{{'List item ' + o }}</div>
 </el-card>
 
 <style>
   .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
-    
+
   .text {
     font-size: 14px;
   }
@@ -40,6 +39,7 @@ Muestra información dentro de un contenedor `card`
   }
 </style>
 ```
+
 :::
 
 ### Card simple
@@ -47,11 +47,10 @@ Muestra información dentro de un contenedor `card`
 La parte de la cabecera puede omitirse.
 
 :::demo
+
 ```html
 <el-card class="box-card">
-  <div v-for="o in 4" :key="o" class="text item">
-    {{'List item ' + o }}
-  </div>
+  <div v-for="o in 4" :key="o" class="text item">{{'List item ' + o }}</div>
 </el-card>
 
 <style>
@@ -68,19 +67,28 @@ La parte de la cabecera puede omitirse.
   }
 </style>
 ```
+
 :::
 
 ### Con imágenes
 
 Muestre un contenido más rico añadiendo algunas configuraciones.
 
-:::demo El atributo `body-style` define el estilo CSS del `body` personalizado. Este ejemplo también utiliza  `el-col` para el layout.
+:::demo El atributo `body-style` define el estilo CSS del `body` personalizado. Este ejemplo también utiliza `el-col` para el layout.
 
 ```html
 <el-row>
-  <el-col :span="8" v-for="(o, index) in 2" :key="o" :offset="index > 0 ? 2 : 0">
+  <el-col
+    :span="8"
+    v-for="(o, index) in 2"
+    :key="o"
+    :offset="index > 0 ? 2 : 0"
+  >
     <el-card :body-style="{ padding: '0px' }">
-      <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
+      <img
+        src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+        class="image"
+      />
       <div style="padding: 14px;">
         <span>Yummy hamburger</span>
         <div class="bottom">
@@ -97,7 +105,7 @@ Muestre un contenido más rico añadiendo algunas configuraciones.
     font-size: 13px;
     color: #999;
   }
-  
+
   .bottom {
     margin-top: 13px;
     line-height: 12px;
@@ -118,13 +126,13 @@ Muestre un contenido más rico añadiendo algunas configuraciones.
 </style>
 
 <script>
-export default {
-  data() {
-    return {
-      currentDate: new Date()
-    };
+  export default {
+    data() {
+      return {
+        currentDate: new Date(),
+      }
+    },
   }
-}
 </script>
 <!--
 <setup>
@@ -144,6 +152,7 @@ export default {
 </setup>
 -->
 ```
+
 :::
 
 ### Shadow
@@ -155,27 +164,23 @@ Puede definir cuándo mostrar las sombras.
 ```html
 <el-row :gutter="12">
   <el-col :span="8">
-    <el-card shadow="always">
-      Always
-    </el-card>
+    <el-card shadow="always"> Always </el-card>
   </el-col>
   <el-col :span="8">
-    <el-card shadow="hover">
-      Hover
-    </el-card>
+    <el-card shadow="hover"> Hover </el-card>
   </el-col>
   <el-col :span="8">
-    <el-card shadow="never">
-      Never
-    </el-card>
+    <el-card shadow="never"> Never </el-card>
   </el-col>
 </el-row>
 ```
+
 :::
 
 ### Atributos
-| Atributo   | Descripción                              | Tipo   | Valores aceptados  | Por defecto         |
-| ---------- | ---------------------------------------- | ------ | -----------------  | ------------------- |
-| header     | Titulo del card. También acepta DOM pasado por `slot#header` | string  | —                 | —                   |
-| body-style | Estilo CSS del cuerpo                    | object | —                  | { padding: '20px' } |
-| shadow     | cuando mostrar la sombra del Card | string | always / hover / never | always          |
+
+| Atributo   | Descripción                                                  | Tipo   | Valores aceptados      | Por defecto         |
+| ---------- | ------------------------------------------------------------ | ------ | ---------------------- | ------------------- |
+| header     | Titulo del card. También acepta DOM pasado por `slot#header` | string | —                      | —                   |
+| body-style | Estilo CSS del cuerpo                                        | object | —                      | { padding: '20px' } |
+| shadow     | cuando mostrar la sombra del Card                            | string | always / hover / never | always              |

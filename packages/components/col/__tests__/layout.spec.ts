@@ -37,7 +37,7 @@ describe('Col', () => {
     </el-row>`,
       components: {
         'el-col': Col,
-        'el-row':Row,
+        'el-row': Row,
       },
     }
     const wrapper = mount(TestComponent)
@@ -51,15 +51,19 @@ describe('Col', () => {
     const App = {
       setup() {
         return () => {
-          return h(Row, {
-            gutter: outer.value,
-            ref: 'row',
-          }, [
-            h(Col, {
-              span: 12,
-              ref: 'col',
-            }),
-          ])
+          return h(
+            Row,
+            {
+              gutter: outer.value,
+              ref: 'row',
+            },
+            [
+              h(Col, {
+                span: 12,
+                ref: 'col',
+              }),
+            ]
+          )
         }
       },
     }
@@ -88,7 +92,7 @@ describe('Col', () => {
     </el-row>`,
       components: {
         'el-col': Col,
-        'el-row':Row,
+        'el-row': Row,
       },
     }
     const wrapper = mount(TestComponent)
@@ -129,4 +133,3 @@ describe('Row', () => {
     expect(wrapper.classes()).toContain('is-align-bottom')
   })
 })
-

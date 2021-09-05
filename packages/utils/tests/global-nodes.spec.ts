@@ -1,8 +1,10 @@
-import { createGlobalNode, removeGlobalNode, changeGlobalNodesTarget } from '../global-nodes'
-
+import {
+  createGlobalNode,
+  removeGlobalNode,
+  changeGlobalNodesTarget,
+} from '../global-nodes'
 
 describe('global-nodes', () => {
-
   afterEach(() => {
     document.body.innerHTML = ''
   })
@@ -15,9 +17,7 @@ describe('global-nodes', () => {
     expect(document.body.firstChild).toBe(el)
   })
 
-
   it('should remove the recent created element', () => {
-
     const el = createGlobalNode()
 
     expect(document.body.firstElementChild).toBe(el)
@@ -39,8 +39,5 @@ describe('global-nodes', () => {
     changeGlobalNodesTarget(target)
 
     expect(el.parentElement).toBe(target)
-
   })
-
-
 })

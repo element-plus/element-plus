@@ -27,7 +27,7 @@ function useCurrent<T>(watcherData: WatcherPropsData<T>) {
     if (rowKey.value) {
       _currentRow = arrayFind(
         unref(data) || [],
-        item => getRowIdentity(item, rowKey.value) === key,
+        (item) => getRowIdentity(item, rowKey.value) === key
       )
     }
     currentRow.value = _currentRow

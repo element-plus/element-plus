@@ -8,21 +8,22 @@ const gitHead = process.env.GIT_HEAD
 if (!tagVersion || !gitHead) {
   console.log(
     chalk.red(
-      'No tag version or git head were found, make sure that you set the environment variable $TAG_VERSION \n',
-    ),
+      'No tag version or git head were found, make sure that you set the environment variable $TAG_VERSION \n'
+    )
   )
   process.exit(1)
 }
 
 console.log(chalk.cyan('Start updating version'))
 
-console.log(chalk.cyan([
-  'NOTICE:',
-  `$TAG_VERSION: ${tagVersion}`,
-  `$GIT_HEAD: ${gitHead}`,
-].join('\n')))
-
-; (async () => {
+console.log(
+  chalk.cyan(
+    ['NOTICE:', `$TAG_VERSION: ${tagVersion}`, `$GIT_HEAD: ${gitHead}`].join(
+      '\n'
+    )
+  )
+)
+;(async () => {
   console.log(chalk.yellow(`Updating package.json for element-plus`))
 
   const pkgJson = path.resolve(epRoot, './package.json')

@@ -11,12 +11,12 @@ const createInstance = (el: HTMLElement, binding: DirectiveBinding) => {
   const customClassExr = el.getAttribute('element-loading-custom-class')
   const vm = binding.instance
   ;(el as any).instance = Loading({
-    text: vm && vm[textExr] || textExr,
-    svg: vm && vm[svgExr] || svgExr,
-    svgViewBox: vm && vm[svgViewBoxExr] || svgViewBoxExr,
-    spinner: vm && vm[spinnerExr] || spinnerExr,
-    background: vm && vm[backgroundExr] || backgroundExr,
-    customClass: vm && vm[customClassExr] || customClassExr,
+    text: (vm && vm[textExr]) || textExr,
+    svg: (vm && vm[svgExr]) || svgExr,
+    svgViewBox: (vm && vm[svgViewBoxExr]) || svgViewBoxExr,
+    spinner: (vm && vm[spinnerExr]) || spinnerExr,
+    background: (vm && vm[backgroundExr]) || backgroundExr,
+    customClass: (vm && vm[customClassExr]) || customClassExr,
     fullscreen: !!binding.modifiers.fullscreen,
     target: !!binding.modifiers.fullscreen ? null : el,
     body: !!binding.modifiers.body,
@@ -27,14 +27,14 @@ const createInstance = (el: HTMLElement, binding: DirectiveBinding) => {
 
 const vLoading = {
   mounted(el: HTMLElement, binding: DirectiveBinding) {
-    if(!!binding.value){
+    if (!!binding.value) {
       createInstance(el, binding)
     }
   },
   updated(el: HTMLElement, binding: DirectiveBinding) {
     const instance = (el as any).instance
     if (binding.oldValue !== binding.value) {
-      if(binding.value) {
+      if (binding.value) {
         createInstance(el, binding)
       } else {
         instance.close()
@@ -42,7 +42,7 @@ const vLoading = {
     }
   },
   unmounted(el: HTMLElement) {
-    (el as any)?.instance?.close()
+    ;(el as any)?.instance?.close()
   },
 }
 

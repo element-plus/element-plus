@@ -13,7 +13,7 @@ const tsProject = ts.createProject('tsconfig.json', {
 })
 
 const rewriter = () => {
-  return through2.obj(function(file, _, cb) {
+  return through2.obj(function (file, _, cb) {
     const compIdentifier = new RegExp('@element-plus/components', 'g')
     const compReplacer = '../../../components'
     const themeIdentifier = new RegExp('@element-plus/theme-chalk', 'g')
@@ -22,7 +22,7 @@ const rewriter = () => {
       file.contents
         .toString()
         .replace(compIdentifier, compReplacer)
-        .replace(themeIdentifier, themeReplacer),
+        .replace(themeIdentifier, themeReplacer)
     )
     cb(null, file)
   })
@@ -48,7 +48,7 @@ function compileCjs() {
         target: 'ESNEXT',
         skipLibCheck: true,
         module: 'ESNEXT',
-      })(),
+      })()
     )
     .pipe(gulp.dest(path.resolve(output, 'es')))
 }

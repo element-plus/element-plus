@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script lang="ts">
 import { h, defineComponent, inject } from 'vue'
 
 import type { ComponentInternalInstance } from 'vue'
@@ -19,13 +19,11 @@ export default defineComponent({
     return () => {
       const node = props.node
       const { data, store } = node
-      return (
-        props.renderContent
-          ? props.renderContent(h, { _self: nodeInstance, node, data, store })
-          : tree.ctx.slots.default
-            ? tree.ctx.slots.default({ node, data })
-            : h('span', { class: 'el-tree-node__label' }, [node.label])
-      )
+      return props.renderContent
+        ? props.renderContent(h, { _self: nodeInstance, node, data, store })
+        : tree.ctx.slots.default
+        ? tree.ctx.slots.default({ node, data })
+        : h('span', { class: 'el-tree-node__label' }, [node.label])
     }
   },
 })

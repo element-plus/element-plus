@@ -3,9 +3,10 @@
     v-show="visible"
     class="el-select-dropdown__item"
     :class="{
-      'selected': itemSelected,
+      selected: itemSelected,
       'is-disabled': isDisabled,
-      'hover': hover}"
+      hover: hover,
+    }"
     @mouseenter="hoverItem"
     @click.stop="selectOptionClick"
   >
@@ -25,7 +26,6 @@ import {
 } from 'vue'
 import { useOption } from './useOption'
 import { SelectOptionProxy } from './token'
-
 
 export default defineComponent({
   name: 'ElOption',
@@ -53,18 +53,10 @@ export default defineComponent({
       hover: false,
     })
 
-    const {
-      currentLabel,
-      itemSelected,
-      isDisabled,
-      select,
-      hoverItem,
-    } = useOption(props, states)
+    const { currentLabel, itemSelected, isDisabled, select, hoverItem } =
+      useOption(props, states)
 
-    const {
-      visible,
-      hover,
-    } = toRefs(states)
+    const { visible, hover } = toRefs(states)
 
     const vm = getCurrentInstance().proxy
     const key = (vm as unknown as SelectOptionProxy).value
@@ -72,9 +64,9 @@ export default defineComponent({
 
     onBeforeUnmount(() => {
       const { selected } = select
-      let selectedOptions = select.props.multiple ? selected : [selected]
+      const selectedOptions = select.props.multiple ? selected : [selected]
       const doesExist = select.cachedOptions.has(key)
-      const doesSelected = selectedOptions.some(item => {
+      const doesSelected = selectedOptions.some((item) => {
         return item.value === (vm as unknown as SelectOptionProxy).value
       })
       // if option is not selected, remove it from cache
@@ -102,5 +94,4 @@ export default defineComponent({
     }
   },
 })
-
 </script>

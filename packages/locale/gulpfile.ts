@@ -20,7 +20,7 @@ function compileLangCjs() {
     .pipe(
       ts.createProject('tsconfig.json', {
         module: 'commonjs',
-      })(),
+      })()
     )
     .pipe(gulp.dest(path.resolve(cjs, 'lang')))
 }
@@ -38,7 +38,7 @@ function compileEntryCjs() {
     .pipe(
       ts.createProject('tsconfig.json', {
         module: 'commonjs',
-      })(),
+      })()
     )
     .pipe(gulp.dest(cjs))
 }
@@ -66,7 +66,7 @@ export const build = gulp.series(
   compileLangEsm,
   compileLangCjs,
   copyEsm,
-  copyCjs,
+  copyCjs
 )
 
 export default build

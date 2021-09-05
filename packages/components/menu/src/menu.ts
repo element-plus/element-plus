@@ -1,4 +1,3 @@
-<script lang="ts">
 import {
   defineComponent,
   getCurrentInstance,
@@ -21,6 +20,7 @@ import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './submenu.vue'
 import useMenuColor from './useMenuColor'
 
+import type { VNode } from 'vue'
 import type {
   IMenuProps,
   RootMenuProvider,
@@ -30,13 +30,7 @@ import type {
 
 export default defineComponent({
   name: 'ElMenu',
-  directives: {
-    Resize,
-  },
-  components: {
-    ElMenuCollapseTransition,
-    ElSubMenu,
-  },
+
   props: {
     mode: {
       type: String,
@@ -63,12 +57,13 @@ export default defineComponent({
     },
   },
   emits: ['close', 'open', 'select'],
-  setup(props: IMenuProps, { emit, slots }) {
+
+  setup(props: IMenuProps, { emit, slots, expose }) {
     // data
     const openedMenus = ref(
       props.defaultOpeneds && !props.collapse
         ? props.defaultOpeneds.slice(0)
-        : [],
+        : []
     )
     const instance = getCurrentInstance()
     const activeIndex = ref(props.defaultActive)
@@ -78,7 +73,6 @@ export default defineComponent({
     const rootMenuEmitter = mitt()
     const router = instance.appContext.config.globalProperties.$router
     const menu = ref(null)
-    const filteredSlot = ref(slots.default?.())
 
     const hoverBackground = useMenuColor(props)
 
@@ -97,12 +91,12 @@ export default defineComponent({
       const activeItem = items.value[index]
       if (!activeItem || props.mode === 'horizontal' || props.collapse) return
 
-      let indexPath = activeItem.indexPath
+      const indexPath = activeItem.indexPath
 
       // 展开该菜单项的路径上所有子菜单
       // expand all submenus of the menu item
-      indexPath.forEach(index => {
-        let submenu = submenus.value[index]
+      indexPath.forEach((index) => {
+        const submenu = submenus.value[index]
         submenu && openMenu(index, submenu?.indexPath)
       })
     }
@@ -138,25 +132,25 @@ export default defineComponent({
       openedMenus.value.push(index)
     }
 
-    const closeMenu = index => {
+    const closeMenu = (index) => {
       const i = openedMenus.value.indexOf(index)
       if (i !== -1) {
         openedMenus.value.splice(i, 1)
       }
     }
 
-    const open = index => {
+    const open = (index) => {
       const { indexPath } = submenus.value[index.toString()]
-      indexPath.forEach(i => openMenu(i, indexPath))
+      indexPath.forEach((i) => openMenu(i, indexPath))
     }
 
-    const close = index => {
+    const close = (index) => {
       closeMenu(index)
     }
 
-    const handleSubMenuClick = submenu => {
+    const handleSubMenuClick = (submenu) => {
       const { index, indexPath } = submenu
-      let isOpened = openedMenus.value.includes(index)
+      const isOpened = openedMenus.value.includes(index)
 
       if (isOpened) {
         closeMenu(index)
@@ -185,15 +179,13 @@ export default defineComponent({
       }
 
       if (props.router && router) {
-        let route = item.route || item.index
-        const routerResult = router
-          .push(route)
-          .then(navigationResult => {
-            if (!navigationResult) {
-              activeIndex.value = item.index
-            }
-            return navigationResult
-          })
+        const route = item.route || item.index
+        const routerResult = router.push(route).then((navigationResult) => {
+          if (!navigationResult) {
+            activeIndex.value = item.index
+          }
+          return navigationResult
+        })
         emit('select', ...emitParams.concat(routerResult))
       } else {
         activeIndex.value = item.index
@@ -222,61 +214,16 @@ export default defineComponent({
         }
       }
     }
-
-    const updateFilteredSlot = async () => {
-      filteredSlot.value = slots.default?.()
-      await nextTick()
-      if (props.mode === 'horizontal') {
-        const items = Array.from(menu.value.childNodes).filter((item: HTMLElement) => item.nodeName !== '#text' || item.nodeValue) as [HTMLElement]
-        if (items.length === slots.default?.().length) {
-          const moreItemWidth = 64
-          const paddingLeft = parseInt(getComputedStyle(menu.value).paddingLeft)
-          const paddingRight = parseInt(getComputedStyle(menu.value).paddingRight)
-          const menuWidth = menu.value.clientWidth - paddingLeft - paddingRight
-          let calcWidth = 0
-          let sliceIndex = 0
-          items.forEach((item, index) => {
-            calcWidth += item.offsetWidth || 0
-            if (calcWidth <= menuWidth - moreItemWidth) {
-              sliceIndex = index + 1
-            }
-          })
-          const defaultSlot = slots.default?.().slice(0, sliceIndex)
-          const moreSlot = slots.default?.().slice(sliceIndex)
-          if (moreSlot?.length) {
-            filteredSlot.value = [
-              ...defaultSlot,
-              h(ElSubMenu, {
-                index: 'sub-menu-more',
-              }, {
-                title: () => h('i', { class: ['el-icon-more', 'el-sub-menu__icon-more'] }),
-                default: () => moreSlot,
-              }),
-            ]
-          }
-        }
-      }
-    }
-
-    const handleResize = () => {
-      if (props.mode === 'horizontal') {
-        updateFilteredSlot()
-      }
-    }
-
-    // watch
-    watch(() => slots.default?.(), () => {
-      updateFilteredSlot()
-    })
+    const handleResize = () => instance.proxy.$forceUpdate()
 
     watch(
       () => props.defaultActive,
-      currentActive => {
+      (currentActive) => {
         if (!items.value[currentActive]) {
           activeIndex.value = ''
         }
         updateActiveIndex(currentActive)
-      },
+      }
     )
 
     watch(items.value, () => {
@@ -292,9 +239,9 @@ export default defineComponent({
         if (value) openedMenus.value = []
         rootMenuEmitter.emit(
           'rootMenu:toggle-collapse',
-          Boolean(props.collapse),
+          Boolean(props.collapse)
         )
-      },
+      }
     )
 
     // provide
@@ -334,36 +281,95 @@ export default defineComponent({
       }
     })
 
-    return {
-      hoverBackground,
-      isMenuPopup,
-      menu,
-      filteredSlot,
-
-      props,
-
+    expose({
       open,
       close,
-      handleResize,
-    }
-  },
-  render() {
-    const menu = withDirectives(h('ul', {
-      key: String(this.collapse),
-      role: 'menubar',
-      ref: 'menu',
-      style: { backgroundColor: this.backgroundColor || '' },
-      class: {
-        'el-menu': true,
-        'el-menu--horizontal': this.mode === 'horizontal',
-        'el-menu--collapse': this.collapse,
-      },
-    }, [this.filteredSlot]), [[Resize, this.handleResize]])
+      hoverBackground,
+    })
 
-    if (this.collapseTransition) {
-      return h(ElMenuCollapseTransition, () => menu)
+    const useVNodeResize = (vnode: VNode) =>
+      props.mode === 'horizontal'
+        ? withDirectives(vnode, [[Resize, handleResize]])
+        : vnode
+    return () => {
+      let slot = slots.default?.() ?? []
+      const showMore = []
+
+      if (props.mode === 'horizontal') {
+        const items = Array.from(
+          (menu.value as Node | undefined)?.childNodes ?? []
+        ).filter(
+          (item) => item.nodeName !== '#text' || item.nodeValue
+        ) as HTMLElement[]
+        const originalSlot = slot.flat(Infinity)
+        if (items.length === originalSlot.length) {
+          const moreItemWidth = 64
+          const paddingLeft = parseInt(
+            getComputedStyle(menu.value).paddingLeft,
+            10
+          )
+          const paddingRight = parseInt(
+            getComputedStyle(menu.value).paddingRight,
+            10
+          )
+          const menuWidth = menu.value.clientWidth - paddingLeft - paddingRight
+          let calcWidth = 0
+          let sliceIndex = 0
+          items.forEach((item, index) => {
+            calcWidth += item.offsetWidth || 0
+            if (calcWidth <= menuWidth - moreItemWidth) {
+              sliceIndex = index + 1
+            }
+          })
+          const defaultSlot = originalSlot.slice(0, sliceIndex)
+          const moreSlot = originalSlot.slice(sliceIndex)
+          if (moreSlot?.length) {
+            slot = defaultSlot
+            showMore.push(
+              h(
+                ElSubMenu,
+                {
+                  index: 'sub-menu-more',
+                  class: 'el-sub-menu__hide-arrow',
+                },
+                {
+                  title: () =>
+                    h('i', {
+                      class: ['el-icon-more', 'el-sub-menu__icon-more'],
+                    }),
+                  default: () => moreSlot,
+                }
+              )
+            )
+          }
+        } else {
+          nextTick(() => instance.proxy.$forceUpdate())
+        }
+      }
+
+      const vnodeMenu = useVNodeResize(
+        h(
+          'ul',
+          {
+            key: String(props.collapse),
+            role: 'menubar',
+            ref: menu,
+            style: { backgroundColor: props.backgroundColor || '' },
+            class: {
+              'el-menu': true,
+              'el-menu--horizontal': props.mode === 'horizontal',
+              'el-menu--collapse': props.collapse,
+            },
+          },
+          [...slot.map((vnode) => useVNodeResize(vnode)), ...showMore]
+        )
+      )
+
+      if (props.collapseTransition && props.mode === 'vertical') {
+        return h(ElMenuCollapseTransition, () => vnodeMenu)
+      }
+
+      return vnodeMenu
     }
-    return menu
   },
 })
-</script>

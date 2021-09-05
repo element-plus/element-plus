@@ -27,7 +27,7 @@ Affiche le nombre de nouveaux messages.
     Cliquez<i class="el-icon-caret-bottom el-icon--right"></i>
   </span>
   <template #dropdown>
-    <el-dropdown-menu >
+    <el-dropdown-menu>
       <el-dropdown-item class="clearfix">
         Commentaires
         <el-badge class="mark" :value="12" />
@@ -41,12 +41,13 @@ Affiche le nombre de nouveaux messages.
 </el-dropdown>
 
 <style>
-.item {
-  margin-top: 10px;
-  margin-right: 40px;
-}
+  .item {
+    margin-top: 10px;
+    margin-right: 40px;
+  }
 </style>
 ```
+
 :::
 
 ### Valeur maximale
@@ -64,12 +65,13 @@ Vous pouvez configurer la valeur maximale.
 </el-badge>
 
 <style>
-.item {
-  margin-top: 10px;
-  margin-right: 40px;
-}
+  .item {
+    margin-top: 10px;
+    margin-right: 40px;
+  }
 </style>
 ```
+
 :::
 
 ### Configuration
@@ -87,12 +89,13 @@ Affiche du texte autre que des nombres.
 </el-badge>
 
 <style>
-.item {
-  margin-top: 10px;
-  margin-right: 40px;
-}
+  .item {
+    margin-top: 10px;
+    margin-right: 40px;
+  }
 </style>
 ```
+
 :::
 
 ### Point rouge
@@ -104,24 +107,29 @@ Utilisez un point rouge pour signaler du contenu devant être remarqué.
 ```html
 <el-badge is-dot class="item">Requète</el-badge>
 <el-badge is-dot class="item">
-  <el-button class="share-button" icon="el-icon-share" type="primary"></el-button>
+  <el-button
+    class="share-button"
+    icon="el-icon-share"
+    type="primary"
+  ></el-button>
 </el-badge>
 
 <style>
-.item {
-  margin-top: 10px;
-  margin-right: 40px;
-}
+  .item {
+    margin-top: 10px;
+    margin-right: 40px;
+  }
 </style>
 ```
+
 :::
 
 ### Attributs
 
-| Attribut     | Description     | Type            | Valeurs acceptées       | Défaut |
-|-------------  |---------------- |---------------- |---------------------- |-------- |
-| value         | Valeur affichée.   | string, number  |          —            |    —    |
-| max           |  Valeur maximale, affiche '{max}+' quand elle est dépassée. Ne marche que si `value` est un `Number`.   | number  |         —              |     —    |
-| is-dot        | Affiche un point rouge. | boolean   |    —           |  false  |
-| hidden        | Cache le badge.    | boolean         |          —            |  false  |
-| type          | Type du bouton.     | string          | primary / success / warning / danger / info |   —  |
+| Attribut | Description                                                                                          | Type           | Valeurs acceptées                           | Défaut |
+| -------- | ---------------------------------------------------------------------------------------------------- | -------------- | ------------------------------------------- | ------ |
+| value    | Valeur affichée.                                                                                     | string, number | —                                           | —      |
+| max      | Valeur maximale, affiche '{max}+' quand elle est dépassée. Ne marche que si `value` est un `Number`. | number         | —                                           | —      |
+| is-dot   | Affiche un point rouge.                                                                              | boolean        | —                                           | false  |
+| hidden   | Cache le badge.                                                                                      | boolean        | —                                           | false  |
+| type     | Type du bouton.                                                                                      | string         | primary / success / warning / danger / info | —      |

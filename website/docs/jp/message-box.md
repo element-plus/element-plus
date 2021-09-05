@@ -9,7 +9,8 @@
 
 アラートは、ユーザーが確認するまでユーザーの操作を中断します。
 
-:::demo `$alert` メソッドを呼び出してアラートを開きます。これはシステムの `alert` をシミュレートしたものであり、ESCを押したりボックスの外をクリックしたりして閉じることはできません。この例では、`message` と `title` の2つのパラメータを受け取っている。ボックスが閉じられると `Promise` オブジェクトが返され、さらなる処理が行われます。ターゲットブラウザが `Promise` をサポートしているかどうかわからない場合は、この例のようにサードパーティのポリフィルをインポートするか、コールバックを使用してください。
+:::demo `$alert` メソッドを呼び出してアラートを開きます。これはシステムの `alert` をシミュレートしたものであり、ESC を押したりボックスの外をクリックしたりして閉じることはできません。この例では、`message` と `title` の 2 つのパラメータを受け取っている。ボックスが閉じられると `Promise` オブジェクトが返され、さらなる処理が行われます。ターゲットブラウザが `Promise` をサポートしているかどうかわからない場合は、この例のようにサードパーティのポリフィルをインポートするか、コールバックを使用してください。
+
 ```html
 <template>
   <el-button type="text" @click="open">Click to open the Message Box</el-button>
@@ -21,15 +22,15 @@
       open() {
         this.$alert('This is a message', 'Title', {
           confirmButtonText: 'OK',
-          callback: action => {
+          callback: (action) => {
             this.$message({
               type: 'info',
-              message: `action: ${ action }`
-            });
-          }
-        });
-      }
-    }
+              message: `action: ${action}`,
+            })
+          },
+        })
+      },
+    },
   }
 </script>
 <!--
@@ -62,13 +63,14 @@
 </setup>
 -->
 ```
+
 :::
 
 ### 確認
 
 確認は、ユーザーに確認を求めるために使用します。
 
-:::demo `$confirm`メソッドを呼び出すと、システムの `confirm` をシミュレートしてconfirmを開くことができる。また、リテラルオブジェクトである第三の属性 `options` を渡すことで、メッセージボックスを高度にカスタマイズすることができます。属性 `type` はメッセージの種類を示し、その値には `success`, `error`, `info`, `warning` を指定することができる。2番目の属性 `title` は `string` でなければならず、`object` の場合は `options` として扱われることに注意してください。ここでは、さらなる処理を行うために `Promise` を用いる。
+:::demo `$confirm`メソッドを呼び出すと、システムの `confirm` をシミュレートして confirm を開くことができる。また、リテラルオブジェクトである第三の属性 `options` を渡すことで、メッセージボックスを高度にカスタマイズすることができます。属性 `type` はメッセージの種類を示し、その値には `success`, `error`, `info`, `warning` を指定することができる。2 番目の属性 `title` は `string` でなければならず、`object` の場合は `options` として扱われることに注意してください。ここでは、さらなる処理を行うために `Promise` を用いる。
 
 ```html
 <template>
@@ -79,23 +81,29 @@
   export default {
     methods: {
       open() {
-        this.$confirm('This will permanently delete the file. Continue?', 'Warning', {
-          confirmButtonText: 'OK',
-          cancelButtonText: 'Cancel',
-          type: 'warning'
-        }).then(() => {
-          this.$message({
-            type: 'success',
-            message: 'Delete completed'
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: 'Delete canceled'
-          });
-        });
-      }
-    }
+        this.$confirm(
+          'This will permanently delete the file. Continue?',
+          'Warning',
+          {
+            confirmButtonText: 'OK',
+            cancelButtonText: 'Cancel',
+            type: 'warning',
+          }
+        )
+          .then(() => {
+            this.$message({
+              type: 'success',
+              message: 'Delete completed',
+            })
+          })
+          .catch(() => {
+            this.$message({
+              type: 'info',
+              message: 'Delete canceled',
+            })
+          })
+      },
+    },
   }
 </script>
 <!--
@@ -157,21 +165,24 @@ export default defineComponent({
         this.$prompt('Please input your e-mail', 'Tip', {
           confirmButtonText: 'OK',
           cancelButtonText: 'Cancel',
-          inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
-          inputErrorMessage: 'Invalid Email'
-        }).then(({ value }) => {
-          this.$message({
-            type: 'success',
-            message: 'Your email is:' + value
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: 'Input canceled'
-          });
-        });
-      }
-    }
+          inputPattern:
+            /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+          inputErrorMessage: 'Invalid Email',
+        })
+          .then(({ value }) => {
+            this.$message({
+              type: 'success',
+              message: 'Your email is:' + value,
+            })
+          })
+          .catch(() => {
+            this.$message({
+              type: 'info',
+              message: 'Input canceled',
+            })
+          })
+      },
+    },
   }
 </script>
 <!--
@@ -214,13 +225,14 @@ export default defineComponent({
 </setup>
 -->
 ```
+
 :::
 
 ### カスタマイズ
 
 様々なコンテンツを表示するようにカスタマイズ可能
 
-:::demo 上記の3つのメソッドは `$msgbox` メソッドのリパッケージです。この例では、`showCancelButton` 属性を使って `$msgbox` メソッドを直接呼び出しています。また、`cancelButtonClass` を使ってカスタムスタイルを追加したり、`cancelButtonText` を使ってボタンのテキストをカスタマイズしたりすることもできます (確認ボタンにもこれらのフィールドがあります。) この例では `beforeClose` 属性も使用しています。これはメソッドであり、MessageBoxインスタンスが閉じられるときにトリガされ、その実行によってインスタンスの閉じを停止します。このメソッドには3つのパラメータがあります。パラメータは `action`, `instance`, `done` の3つです。これを使うことで、閉じる前にインスタンスを操作することができます。例えば、確認ボタンの `loading` を有効にしたり、`done` メソッドを呼び出して MessageBox インスタンスを閉じたりすることができます (`beforeClose` 内で `done` が呼び出されなかった場合、インスタンスは閉じられません)。
+:::demo 上記の 3 つのメソッドは `$msgbox` メソッドのリパッケージです。この例では、`showCancelButton` 属性を使って `$msgbox` メソッドを直接呼び出しています。また、`cancelButtonClass` を使ってカスタムスタイルを追加したり、`cancelButtonText` を使ってボタンのテキストをカスタマイズしたりすることもできます (確認ボタンにもこれらのフィールドがあります。) この例では `beforeClose` 属性も使用しています。これはメソッドであり、MessageBox インスタンスが閉じられるときにトリガされ、その実行によってインスタンスの閉じを停止します。このメソッドには 3 つのパラメータがあります。パラメータは `action`, `instance`, `done` の 3 つです。これを使うことで、閉じる前にインスタンスを操作することができます。例えば、確認ボタンの `loading` を有効にしたり、`done` メソッドを呼び出して MessageBox インスタンスを閉じたりすることができます (`beforeClose` 内で `done` が呼び出されなかった場合、インスタンスは閉じられません)。
 
 ```html
 <template>
@@ -228,7 +240,7 @@ export default defineComponent({
 </template>
 
 <script>
-  import { h } from 'vue';
+  import { h } from 'vue'
 
   export default {
     methods: {
@@ -237,33 +249,33 @@ export default defineComponent({
           title: 'Message',
           message: h('p', null, [
             h('span', null, 'Message can be '),
-            h('i', { style: 'color: teal' }, 'VNode')
+            h('i', { style: 'color: teal' }, 'VNode'),
           ]),
           showCancelButton: true,
           confirmButtonText: 'OK',
           cancelButtonText: 'Cancel',
           beforeClose: (action, instance, done) => {
             if (action === 'confirm') {
-              instance.confirmButtonLoading = true;
-              instance.confirmButtonText = 'Loading...';
+              instance.confirmButtonLoading = true
+              instance.confirmButtonText = 'Loading...'
               setTimeout(() => {
-                done();
+                done()
                 setTimeout(() => {
-                  instance.confirmButtonLoading = false;
-                }, 300);
-              }, 3000);
+                  instance.confirmButtonLoading = false
+                }, 300)
+              }, 3000)
             } else {
-              done();
+              done()
             }
-          }
-        }).then(action => {
+          },
+        }).then((action) => {
           this.$message({
             type: 'info',
-            message: 'action: ' + action
-          });
-        });
+            message: 'action: ' + action,
+          })
+        })
       },
-    }
+    },
   }
 </script>
 <!--
@@ -317,13 +329,14 @@ export default defineComponent({
 </setup>
 -->
 ```
+
 :::
 
 :::tip
-MessageBoxの内容は `VNode` にすることができ、カスタムコンポーネントを渡すことができます。MessageBoxを開くとき、Vueは新しい `VNode` と古い `VNode` を比較し、UIを効率的に更新する方法を考え出します。この場合、MessageBoxが開くたびに `VNode` に一意のキーを追加することができます。[例](https://jsfiddle.net/zhiyang/ezmhq2ef)。
+MessageBox の内容は `VNode` にすることができ、カスタムコンポーネントを渡すことができます。MessageBox を開くとき、Vue は新しい `VNode` と古い `VNode` を比較し、UI を効率的に更新する方法を考え出します。この場合、MessageBox が開くたびに `VNode` に一意のキーを追加することができます。[例](https://jsfiddle.net/zhiyang/ezmhq2ef)。
 :::
 
-### HTML文字列を使用する
+### HTML 文字列を使用する
 
 `message` は HTML 文字列をサポートしています。
 
@@ -338,11 +351,15 @@ MessageBoxの内容は `VNode` にすることができ、カスタムコンポ�
   export default {
     methods: {
       open() {
-        this.$alert('<strong>This is <i>HTML</i> string</strong>', 'HTML String', {
-          dangerouslyUseHTMLString: true
-        });
-      }
-    }
+        this.$alert(
+          '<strong>This is <i>HTML</i> string</strong>',
+          'HTML String',
+          {
+            dangerouslyUseHTMLString: true,
+          }
+        )
+      },
+    },
   }
 </script>
 <!--
@@ -369,17 +386,18 @@ MessageBoxの内容は `VNode` にすることができ、カスタムコンポ�
 </setup>
 -->
 ```
+
 :::
 
 :::warning
-`message`プロパティはHTML文字列をサポートしていますが、任意のHTMLを動的にレンダリングすると[XSS攻撃](https://en.wikipedia.org/wiki/Cross-site_scripting)につながりやすく、非常に危険です。したがって、`dangerouslyUseHTMLString`がオンの場合は、`message`の内容が信頼できるものであることを確認し、**決して**ユーザが提供したコンテンツに`message`を代入しないようにしてください。
+`message`プロパティは HTML 文字列をサポートしていますが、任意の HTML を動的にレンダリングすると[XSS 攻撃](https://en.wikipedia.org/wiki/Cross-site_scripting)につながりやすく、非常に危険です。したがって、`dangerouslyUseHTMLString`がオンの場合は、`message`の内容が信頼できるものであることを確認し、**決して**ユーザが提供したコンテンツに`message`を代入しないようにしてください。
 :::
 
 ### キャンセルとクローズを区別する
 
 場合によっては、キャンセルボタンをクリックするのと閉じるボタンをクリックするのでは意味が異なる場合があります。
 
-:::demo デフォルトでは、ユーザがメッセージボックスをキャンセル(キャンセルボタンをクリック)して閉じる(閉じるボタンまたはマスクレイヤーをクリック、ESCキーを押す)と、Promiseのリジェクトコールバックと `callback` のパラメータは 'cancel' になります。distinguishCancelAndClose` が true に設定されている場合、上記の二つの操作のパラメータはそれぞれ 'cancel' と 'close' である。
+:::demo デフォルトでは、ユーザがメッセージボックスをキャンセル(キャンセルボタンをクリック)して閉じる(閉じるボタンまたはマスクレイヤーをクリック、ESC キーを押す)と、Promise のリジェクトコールバックと `callback` のパラメータは 'cancel' になります。distinguishCancelAndClose` が true に設定されている場合、上記の二つの操作のパラメータはそれぞれ 'cancel' と 'close' である。
 
 ```html
 <template>
@@ -390,27 +408,32 @@ MessageBoxの内容は `VNode` にすることができ、カスタムコンポ�
   export default {
     methods: {
       open() {
-        this.$confirm('You have unsaved changes, save and proceed?', 'Confirm', {
-          distinguishCancelAndClose: true,
-          confirmButtonText: 'Save',
-          cancelButtonText: 'Discard Changes'
-        })
+        this.$confirm(
+          'You have unsaved changes, save and proceed?',
+          'Confirm',
+          {
+            distinguishCancelAndClose: true,
+            confirmButtonText: 'Save',
+            cancelButtonText: 'Discard Changes',
+          }
+        )
           .then(() => {
             this.$message({
               type: 'info',
-              message: 'Changes saved. Proceeding to a new route.'
-            });
+              message: 'Changes saved. Proceeding to a new route.',
+            })
           })
-          .catch(action => {
+          .catch((action) => {
             this.$message({
               type: 'info',
-              message: action === 'cancel'
-                ? 'Changes discarded. Proceeding to a new route.'
-                : 'Stay in the current route'
+              message:
+                action === 'cancel'
+                  ? 'Changes discarded. Proceeding to a new route.'
+                  : 'Stay in the current route',
             })
-          });
-      }
-    }
+          })
+      },
+    },
   }
 </script>
 <!--
@@ -454,9 +477,11 @@ import { ElMessage } from 'element-plus';
 </setup>
 -->
 ```
+
 :::
 
 ### 中央に配置されたコンテンツ
+
 メッセージボックスの内容を中央揃えにすることができます。
 
 :::demo `center` を `true` に設定すると、コンテンツを中央に配置します。
@@ -470,24 +495,30 @@ import { ElMessage } from 'element-plus';
   export default {
     methods: {
       open() {
-        this.$confirm('This will permanently delete the file. Continue?', 'Warning', {
-          confirmButtonText: 'OK',
-          cancelButtonText: 'Cancel',
-          type: 'warning',
-          center: true
-        }).then(() => {
-          this.$message({
-            type: 'success',
-            message: 'Delete completed'
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: 'Delete canceled'
-          });
-        });
-      }
-    }
+        this.$confirm(
+          'This will permanently delete the file. Continue?',
+          'Warning',
+          {
+            confirmButtonText: 'OK',
+            cancelButtonText: 'Cancel',
+            type: 'warning',
+            center: true,
+          }
+        )
+          .then(() => {
+            this.$message({
+              type: 'success',
+              message: 'Delete completed',
+            })
+          })
+          .catch(() => {
+            this.$message({
+              type: 'info',
+              message: 'Delete canceled',
+            })
+          })
+      },
+    },
   }
 </script>
 <!--
@@ -528,11 +559,13 @@ import { ElMessage } from 'element-plus';
 </setup>
 -->
 ```
+
 :::
 
 ### グローバルメソッド
 
-Element Plusが完全にインポートされている場合、Vue.prototypeに以下のグローバルメソッドが追加されます。Vue.prototypeには、`$msgbox`, `$alert`, `$confirm`, `$prompt` というグローバルメソッドが追加されます。そのため、Vueのインスタンスでは、このページで行ったように `MessageBox` を呼び出すことができます。パラメータは以下の通りです。
+Element Plus が完全にインポートされている場合、Vue.prototype に以下のグローバルメソッドが追加されます。Vue.prototype には、`$msgbox`, `$alert`, `$confirm`, `$prompt` というグローバルメソッドが追加されます。そのため、Vue のインスタンスでは、このページで行ったように `MessageBox` を呼び出すことができます。パラメータは以下の通りです。
+
 - `$msgbox(options)`
 - `$alert(message, title, options)` もしくは `$alert(message, options)`
 - `$confirm(message, title, options)` もしくは `$confirm(message, options)`
@@ -543,42 +576,42 @@ Element Plusが完全にインポートされている場合、Vue.prototypeに�
 オンデマンドで `MessageBox` をインポートしたい場合:
 
 ```javascript
-import { ElMessageBox } from 'element-plus';
+import { ElMessageBox } from 'element-plus'
 ```
 
 対応するメソッドは以下の通り: 対応するメソッドは `ElMessageBox`, `ElMessageBox.alert`, `ElMessageBox.confirm`, `ElMessageBox.prompt` である。パラメータは上記と同じである。
 
 ### オプション
 
-| Attribute      | Description          | Type      | Accepted Values       | Default  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| title | メッセージボックスのタイトル | string | — | — |
-| message | メッセージボックスの内容 | string | — | — |
-| dangerouslyUseHTMLString | `message` を HTML 文字列として扱うかどうか | boolean | — | false |
-| type | アイコン表示に使用されるメッセージタイプ | string | success / info / warning / error | — |
-| iconClass | カスタムアイコンのクラス、 `type` をオーバーライドします。 | string | — | — |
-| customClass | メッセージボックスのカスタムクラス名 | string | — | — |
-| callback | Promise を好まない場合、メッセージボックス を閉じるコールバック | function(action), where action can be 'confirm', 'cancel' or 'close', and `instance` is the MessageBox instance. You can access to that instance's attributes and methods | — | — |
-| showClose | メッセージボックスのクローズアイコンを表示するかどうか | boolean | — | true |
-| beforeClose | コールバックは メッセージボックスコンポーネントを閉じる前に呼び出され、メッセージボックスコンポーネントが閉じるのを防ぎます。 | function(action, instance, done), where `action` can be 'confirm', 'cancel' or 'close'; `instance` is the MessageBox instance, and you can access to that instance's attributes and methods; `done` is for closing the instance | — | — |
-| distinguishCancelAndClose | メッセージボックスのキャンセルと終了を区別するかどうか | boolean | — | false |
-| lockScroll | メッセージボックスがプロンプトを出したときにボディスクロールをロックするかどうか | boolean | — | true |
-| showCancelButton | キャンセルボタンを表示するかどうか | boolean | — | false (true when called with confirm and prompt) |
-| showConfirmButton | 確認ボタンを表示するかどうか | boolean | — | true |
-| cancelButtonText | キャンセルボタンのテキスト内容 | string | — | Cancel |
-| confirmButtonText | 確認ボタンのテキスト内容 | string | — | OK |
-| cancelButtonClass | キャンセルボタンのカスタムクラス名 | string | — | — |
-| confirmButtonClass | 確認ボタンのカスタムクラス名 | string | — | — |
-| closeOnClickModal | マスクをクリックしてメッセージボックスを閉じることができるかどうか | boolean | — | true (false when called with alert) |
-| closeOnPressEscape | ESC を押してメッセージボックスを閉じることができるかどうか | boolean | — | true (false when called with alert) |
-| closeOnHashChange | ハッシュが変更された場合にメッセージボックスを閉じるかどうか | boolean | — | true |
-| showInput | インプットを表示するかどうか | boolean | — | false (true when called with prompt) |
-| inputPlaceholder | インプットのプレースホルダー | string | — | — |
-| inputType | インプットのタイプ | string | — | text |
-| inputValue | インプット初期値 | string | — | — |
-| inputPattern | インプットの正規表現 | regexp | — | — |
-| inputValidator | インプットの検証関数です。ブール値か文字列を返す必要があります。文字列が返された場合、それは inputErrorMessage に代入されます。 | function | — | — |
-| inputErrorMessage | バリデーション失敗時のエラーメッセージ | string | — | Illegal input |
-| center | コンテンツを中央に配置するかどうか | boolean | — | false |
-| roundButton | 丸いボタンを使うかどうか | boolean | — | false |
-| buttonSize | custom size of confirm and cancel buttons | string | mini / small / medium / large | small |
+| Attribute                 | Description                                                                                                                     | Type                                                                                                                                                                                                                            | Accepted Values                  | Default                                          |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | ------------------------------------------------ |
+| title                     | メッセージボックスのタイトル                                                                                                    | string                                                                                                                                                                                                                          | —                                | —                                                |
+| message                   | メッセージボックスの内容                                                                                                        | string                                                                                                                                                                                                                          | —                                | —                                                |
+| dangerouslyUseHTMLString  | `message` を HTML 文字列として扱うかどうか                                                                                      | boolean                                                                                                                                                                                                                         | —                                | false                                            |
+| type                      | アイコン表示に使用されるメッセージタイプ                                                                                        | string                                                                                                                                                                                                                          | success / info / warning / error | —                                                |
+| iconClass                 | カスタムアイコンのクラス、 `type` をオーバーライドします。                                                                      | string                                                                                                                                                                                                                          | —                                | —                                                |
+| customClass               | メッセージボックスのカスタムクラス名                                                                                            | string                                                                                                                                                                                                                          | —                                | —                                                |
+| callback                  | Promise を好まない場合、メッセージボックス を閉じるコールバック                                                                 | function(action), where action can be 'confirm', 'cancel' or 'close', and `instance` is the MessageBox instance. You can access to that instance's attributes and methods                                                       | —                                | —                                                |
+| showClose                 | メッセージボックスのクローズアイコンを表示するかどうか                                                                          | boolean                                                                                                                                                                                                                         | —                                | true                                             |
+| beforeClose               | コールバックは メッセージボックスコンポーネントを閉じる前に呼び出され、メッセージボックスコンポーネントが閉じるのを防ぎます。   | function(action, instance, done), where `action` can be 'confirm', 'cancel' or 'close'; `instance` is the MessageBox instance, and you can access to that instance's attributes and methods; `done` is for closing the instance | —                                | —                                                |
+| distinguishCancelAndClose | メッセージボックスのキャンセルと終了を区別するかどうか                                                                          | boolean                                                                                                                                                                                                                         | —                                | false                                            |
+| lockScroll                | メッセージボックスがプロンプトを出したときにボディスクロールをロックするかどうか                                                | boolean                                                                                                                                                                                                                         | —                                | true                                             |
+| showCancelButton          | キャンセルボタンを表示するかどうか                                                                                              | boolean                                                                                                                                                                                                                         | —                                | false (true when called with confirm and prompt) |
+| showConfirmButton         | 確認ボタンを表示するかどうか                                                                                                    | boolean                                                                                                                                                                                                                         | —                                | true                                             |
+| cancelButtonText          | キャンセルボタンのテキスト内容                                                                                                  | string                                                                                                                                                                                                                          | —                                | Cancel                                           |
+| confirmButtonText         | 確認ボタンのテキスト内容                                                                                                        | string                                                                                                                                                                                                                          | —                                | OK                                               |
+| cancelButtonClass         | キャンセルボタンのカスタムクラス名                                                                                              | string                                                                                                                                                                                                                          | —                                | —                                                |
+| confirmButtonClass        | 確認ボタンのカスタムクラス名                                                                                                    | string                                                                                                                                                                                                                          | —                                | —                                                |
+| closeOnClickModal         | マスクをクリックしてメッセージボックスを閉じることができるかどうか                                                              | boolean                                                                                                                                                                                                                         | —                                | true (false when called with alert)              |
+| closeOnPressEscape        | ESC を押してメッセージボックスを閉じることができるかどうか                                                                      | boolean                                                                                                                                                                                                                         | —                                | true (false when called with alert)              |
+| closeOnHashChange         | ハッシュが変更された場合にメッセージボックスを閉じるかどうか                                                                    | boolean                                                                                                                                                                                                                         | —                                | true                                             |
+| showInput                 | インプットを表示するかどうか                                                                                                    | boolean                                                                                                                                                                                                                         | —                                | false (true when called with prompt)             |
+| inputPlaceholder          | インプットのプレースホルダー                                                                                                    | string                                                                                                                                                                                                                          | —                                | —                                                |
+| inputType                 | インプットのタイプ                                                                                                              | string                                                                                                                                                                                                                          | —                                | text                                             |
+| inputValue                | インプット初期値                                                                                                                | string                                                                                                                                                                                                                          | —                                | —                                                |
+| inputPattern              | インプットの正規表現                                                                                                            | regexp                                                                                                                                                                                                                          | —                                | —                                                |
+| inputValidator            | インプットの検証関数です。ブール値か文字列を返す必要があります。文字列が返された場合、それは inputErrorMessage に代入されます。 | function                                                                                                                                                                                                                        | —                                | —                                                |
+| inputErrorMessage         | バリデーション失敗時のエラーメッセージ                                                                                          | string                                                                                                                                                                                                                          | —                                | Illegal input                                    |
+| center                    | コンテンツを中央に配置するかどうか                                                                                              | boolean                                                                                                                                                                                                                         | —                                | false                                            |
+| roundButton               | 丸いボタンを使うかどうか                                                                                                        | boolean                                                                                                                                                                                                                         | —                                | false                                            |
+| buttonSize                | custom size of confirm and cancel buttons                                                                                       | string                                                                                                                                                                                                                          | mini / small / medium / large    | small                                            |

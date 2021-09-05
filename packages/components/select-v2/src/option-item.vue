@@ -7,7 +7,7 @@
       'is-selected': selected,
       'is-disabled': disabled,
       'is-created': created,
-      'hover': hovering
+      hover: hovering,
     }"
     @mouseenter="hoverItem"
     @click.stop="selectOptionClick"

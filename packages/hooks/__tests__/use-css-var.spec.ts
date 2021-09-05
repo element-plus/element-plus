@@ -20,8 +20,12 @@ describe('usecssvar', () => {
 
     const rootElement = window.document.documentElement
 
-    expect(rootElement.style.getPropertyValue('--el-button-default-background-color')).toBe('#f44336')
-    expect(rootElement.style.getPropertyValue('--el-button-default-font-color')).toBe('#2196f3')
+    expect(
+      rootElement.style.getPropertyValue('--el-button-default-background-color')
+    ).toBe('#f44336')
+    expect(
+      rootElement.style.getPropertyValue('--el-button-default-font-color')
+    ).toBe('#2196f3')
   })
 
   test('Set css var on custom Element', () => {
@@ -46,7 +50,11 @@ describe('usecssvar', () => {
 
     const customElement = wrapper.find('span').element
 
-    expect(customElement.style.getPropertyValue('--el-span-default-background-color')).toBe('#f44336')
-    expect(customElement.style.getPropertyValue('--el-span-default-font-color')).toBe('#2196f3')
+    expect(
+      customElement.style.getPropertyValue('--el-span-default-background-color')
+    ).toBe('#f44336')
+    expect(
+      customElement.style.getPropertyValue('--el-span-default-font-color')
+    ).toBe('#2196f3')
   })
 })

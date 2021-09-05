@@ -23,10 +23,10 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     const keys = Object.keys(lazyTreeNodeMap.value)
     const res = {}
     if (!keys.length) return res
-    keys.forEach(key => {
+    keys.forEach((key) => {
       if (lazyTreeNodeMap.value[key].length) {
         const item = { children: [] }
-        lazyTreeNodeMap.value[key].forEach(row => {
+        lazyTreeNodeMap.value[key].forEach((row) => {
           const currentRowKey = getRowIdentity(row, rowKey)
           item.children.push(currentRowKey)
           if (row[lazyColumnIdentifier.value] && !res[currentRowKey]) {
@@ -39,7 +39,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     return res
   })
 
-  const normalize = data => {
+  const normalize = (data) => {
     const rowKey = watcherData.rowKey.value
     const res = {}
     walkTreeNode(
@@ -48,7 +48,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
         const parentId = getRowIdentity(parent, rowKey)
         if (Array.isArray(children)) {
           res[parentId] = {
-            children: children.map(row => getRowIdentity(row, rowKey)),
+            children: children.map((row) => getRowIdentity(row, rowKey)),
             level,
           }
         } else if (lazy.value) {
@@ -61,7 +61,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
         }
       },
       childrenColumnName.value,
-      lazyColumnIdentifier.value,
+      lazyColumnIdentifier.value
     )
     return res
   }
@@ -82,7 +82,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
         return !!((oldValue && oldValue.expanded) || included)
       }
       // 合并 expanded 与 display，确保数据刷新后，状态不变
-      keys.forEach(key => {
+      keys.forEach((key) => {
         const oldValue = oldTreeData[key]
         const newValue = { ...nested[key] }
         newValue.expanded = getExpanded(oldValue, key)
@@ -97,7 +97,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
       // 根据懒加载数据更新 treeData
       const lazyKeys = Object.keys(normalizedLazyNode_)
       if (lazy.value && lazyKeys.length && rootLazyRowKeys.length) {
-        lazyKeys.forEach(key => {
+        lazyKeys.forEach((key) => {
           const oldValue = oldTreeData[key]
           const lazyNodeChildren = normalizedLazyNode_[key].children
           if (rootLazyRowKeys.indexOf(key) !== -1) {
@@ -149,7 +149,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     }
   }
 
-  const loadOrToggle = row => {
+  const loadOrToggle = (row) => {
     instance.store.assertRowKey()
     const rowKey = watcherData.rowKey.value
     const id = getRowIdentity(row, rowKey)
@@ -162,10 +162,10 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
   }
 
   const loadData = (row: T, key: string, treeNode) => {
-    const { load } = (instance.props as unknown) as TableProps<T>
+    const { load } = instance.props as unknown as TableProps<T>
     if (load && !treeData.value[key].loaded) {
       treeData.value[key].loading = true
-      load(row, treeNode, data => {
+      load(row, treeNode, (data) => {
         if (!Array.isArray(data)) {
           throw new Error('[ElTable] data must be an array')
         }

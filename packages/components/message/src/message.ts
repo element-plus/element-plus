@@ -19,8 +19,8 @@ let seed = 1
 
 // TODO: Since Notify.ts is basically the same like this file. So we could do some encapsulation against them to
 // reduce code duplication.
-const Message: IMessage = function(
-  opts: MessageParams = {} as MessageParams,
+const Message: IMessage = function (
+  opts: MessageParams = {} as MessageParams
 ): IMessageHandle {
   if (isServer) return
 
@@ -59,7 +59,7 @@ const Message: IMessage = function(
   const vm = createVNode(
     MessageConstructor,
     options,
-    isVNode(options.message) ? { default: () => message } : null,
+    isVNode(options.message) ? { default: () => message } : null
   )
 
   // clean message element preventing mem leak
@@ -78,7 +78,10 @@ const Message: IMessage = function(
   return {
     // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
     // for out component, so that all closing steps will not be skipped.
-    close: () => (vm.component.proxy as ComponentPublicInstance<{ visible: boolean; }>).visible = false,
+    close: () =>
+      ((
+        vm.component.proxy as ComponentPublicInstance<{ visible: boolean }>
+      ).visible = false),
   }
 } as any
 
@@ -116,8 +119,8 @@ export function closeAll(): void {
   }
 }
 
-(['success', 'warning', 'info', 'error'] as const).forEach(type => {
-  Message[type] = options => {
+;(['success', 'warning', 'info', 'error'] as const).forEach((type) => {
+  Message[type] = (options) => {
     if (typeof options === 'string') {
       options = {
         message: options,

@@ -18,30 +18,54 @@
       :disabled="switchDisabled"
       @change="handleChange"
       @keydown.enter="switchValue"
-    >
+    />
     <span
       v-if="inactiveIconClass || inactiveText"
-      :class="['el-switch__label', 'el-switch__label--left', !checked ? 'is-active' : '']"
+      :class="[
+        'el-switch__label',
+        'el-switch__label--left',
+        !checked ? 'is-active' : '',
+      ]"
     >
       <i v-if="inactiveIconClass" :class="[inactiveIconClass]"></i>
-      <span v-if="!inactiveIconClass && inactiveText" :aria-hidden="checked">{{ inactiveText }}</span>
+      <span v-if="!inactiveIconClass && inactiveText" :aria-hidden="checked">{{
+        inactiveText
+      }}</span>
     </span>
-    <span ref="core" class="el-switch__core" :style="{ 'width': (width || 40) + 'px' }">
+    <span
+      ref="core"
+      class="el-switch__core"
+      :style="{ width: (width || 40) + 'px' }"
+    >
       <div class="el-switch__action">
         <i v-if="loading" class="el-icon-loading"></i>
       </div>
     </span>
     <span
       v-if="activeIconClass || activeText"
-      :class="['el-switch__label', 'el-switch__label--right', checked ? 'is-active' : '']"
+      :class="[
+        'el-switch__label',
+        'el-switch__label--right',
+        checked ? 'is-active' : '',
+      ]"
     >
       <i v-if="activeIconClass" :class="[activeIconClass]"></i>
-      <span v-if="!activeIconClass && activeText" :aria-hidden="!checked">{{ activeText }}</span>
+      <span v-if="!activeIconClass && activeText" :aria-hidden="!checked">{{
+        activeText
+      }}</span>
     </span>
   </div>
 </template>
-<script lang='ts'>
-import { defineComponent, computed, onMounted, ref, inject, nextTick, watch } from 'vue'
+<script lang="ts">
+import {
+  defineComponent,
+  computed,
+  onMounted,
+  ref,
+  inject,
+  nextTick,
+  watch,
+} from 'vue'
 import { isPromise } from '@vue/shared'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import { isBool } from '@element-plus/utils/util'
@@ -50,8 +74,7 @@ import throwError, { warn } from '@element-plus/utils/error'
 import type { PropType } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 
-
-type ValueType = boolean | string | number;
+type ValueType = boolean | string | number
 
 interface ISwitchProps {
   modelValue: ValueType
@@ -71,7 +94,7 @@ interface ISwitchProps {
   validateEvent: boolean
   id: string
   loading: boolean
-  beforeChange?: () => (Promise<boolean> | boolean)
+  beforeChange?: () => Promise<boolean> | boolean
 }
 
 export default defineComponent({
@@ -138,11 +161,11 @@ export default defineComponent({
       default: true,
     },
     id: String,
-    loading:{
+    loading: {
       type: Boolean,
       default: false,
     },
-    beforeChange: Function as PropType<() => (Promise<boolean> | boolean)>,
+    beforeChange: Function as PropType<() => Promise<boolean> | boolean>,
   },
   emits: ['update:modelValue', 'change', 'input'],
   setup(props: ISwitchProps, ctx) {
@@ -155,13 +178,19 @@ export default defineComponent({
 
     const scope = 'ElSwitch'
 
-    watch(() => props.modelValue, () => {
-      isModelValue.value = true
-    })
+    watch(
+      () => props.modelValue,
+      () => {
+        isModelValue.value = true
+      }
+    )
 
-    watch(() => props.value, () => {
-      isModelValue.value = false
-    })
+    watch(
+      () => props.value,
+      () => {
+        isModelValue.value = false
+      }
+    )
 
     const actualValue = computed((): ValueType => {
       return isModelValue.value ? props.modelValue : props.value
@@ -214,21 +243,28 @@ export default defineComponent({
 
       const shouldChange = beforeChange()
 
-      const isExpectType = [isPromise(shouldChange), isBool(shouldChange)].some(i => i)
+      const isExpectType = [isPromise(shouldChange), isBool(shouldChange)].some(
+        (i) => i
+      )
       if (!isExpectType) {
-        throwError(scope, 'beforeChange must return type `Promise<boolean>` or `boolean`')
+        throwError(
+          scope,
+          'beforeChange must return type `Promise<boolean>` or `boolean`'
+        )
       }
 
       if (isPromise(shouldChange)) {
-        shouldChange.then(result => {
-          if (result) {
-            handleChange()
-          }
-        }).catch(e => {
-          if (process.env.NODE_ENV !== 'production') {
-            warn(scope, `some error occurred: ${e}`)
-          }
-        })
+        shouldChange
+          .then((result) => {
+            if (result) {
+              handleChange()
+            }
+          })
+          .catch((e) => {
+            if (process.env.NODE_ENV !== 'production') {
+              warn(scope, `some error occurred: ${e}`)
+            }
+          })
       } else if (shouldChange) {
         handleChange()
       }

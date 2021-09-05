@@ -72,10 +72,10 @@ Lien avec icône.
 
 ### Attributs
 
-| Attribut  | Description                     | Type    | Options                                     | Défaut  |
-| --------- | ------------------------------- | ------- | ------------------------------------------- | ------- |
-| type      | Type du lien.                   | string  | primary / success / warning / danger / info | défaut  |
-| underline | Si le composant est souligné.   | boolean | —                                           | true    |
-| disabled  | Si le composant est désactivé.  | boolean | —                                           | false   |
-| href      | Identique au `href` natif.      | string  | —                                           | -       |
-| icon      | Nom de classe de l'icône.       | string  | —                                           | -       |
+| Attribut  | Description                    | Type    | Options                                     | Défaut |
+| --------- | ------------------------------ | ------- | ------------------------------------------- | ------ |
+| type      | Type du lien.                  | string  | primary / success / warning / danger / info | défaut |
+| underline | Si le composant est souligné.  | boolean | —                                           | true   |
+| disabled  | Si le composant est désactivé. | boolean | —                                           | false  |
+| href      | Identique au `href` natif.     | string  | —                                           | -      |
+| icon      | Nom de classe de l'icône.      | string  | —                                           | -      |

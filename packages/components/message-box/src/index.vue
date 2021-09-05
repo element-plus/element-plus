@@ -136,7 +136,11 @@ import { isValidComponentSize } from '@element-plus/utils/validators'
 
 import type { ComponentPublicInstance, PropType } from 'vue'
 import type { ComponentSize, Indexable } from '@element-plus/utils/types'
-import type { Action, MessageBoxState, MessageBoxType } from './message-box.type'
+import type {
+  Action,
+  MessageBoxState,
+  MessageBoxType,
+} from './message-box.type'
 
 const TypeMap: Indexable<string> = {
   success: 'success',
@@ -241,39 +245,56 @@ export default defineComponent({
       validateError: false,
       zIndex: PopupManager.nextZIndex(),
     })
-    const icon = computed(() => state.iconClass || (state.type && TypeMap[state.type] ? `el-icon-${TypeMap[state.type]}` : ''))
+    const icon = computed(
+      () =>
+        state.iconClass ||
+        (state.type && TypeMap[state.type]
+          ? `el-icon-${TypeMap[state.type]}`
+          : '')
+    )
     const hasMessage = computed(() => !!state.message)
     const inputRef = ref<ComponentPublicInstance>(null)
     const confirmRef = ref<ComponentPublicInstance>(null)
 
-    const confirmButtonClasses = computed(() => `el-button--primary ${state.confirmButtonClass}`)
+    const confirmButtonClasses = computed(
+      () => `el-button--primary ${state.confirmButtonClass}`
+    )
 
-    watch(() => state.inputValue, async val => {
-      await nextTick()
-      if (props.boxType === 'prompt' && val !== null) {
-        validate()
-      }
-    }, { immediate: true })
-
-    watch(() => visible.value, val => {
-      if (val) {
-        if (props.boxType === 'alert' || props.boxType === 'confirm') {
-          nextTick().then(() => { confirmRef.value?.$el?.focus?.() })
+    watch(
+      () => state.inputValue,
+      async (val) => {
+        await nextTick()
+        if (props.boxType === 'prompt' && val !== null) {
+          validate()
         }
-        state.zIndex = PopupManager.nextZIndex()
-      }
-      if (props.boxType !== 'prompt') return
-      if (val) {
-        nextTick().then(() => {
-          if (inputRef.value && inputRef.value.$el) {
-            getInputElement().focus()
+      },
+      { immediate: true }
+    )
+
+    watch(
+      () => visible.value,
+      (val) => {
+        if (val) {
+          if (props.boxType === 'alert' || props.boxType === 'confirm') {
+            nextTick().then(() => {
+              confirmRef.value?.$el?.focus?.()
+            })
           }
-        })
-      } else {
-        state.editorErrorMessage = ''
-        state.validateError = false
+          state.zIndex = PopupManager.nextZIndex()
+        }
+        if (props.boxType !== 'prompt') return
+        if (val) {
+          nextTick().then(() => {
+            if (inputRef.value && inputRef.value.$el) {
+              getInputElement().focus()
+            }
+          })
+        } else {
+          state.editorErrorMessage = ''
+          state.validateError = false
+        }
       }
-    })
+    )
 
     onMounted(async () => {
       await nextTick()
@@ -326,7 +347,8 @@ export default defineComponent({
       if (props.boxType === 'prompt') {
         const inputPattern = state.inputPattern
         if (inputPattern && !inputPattern.test(state.inputValue || '')) {
-          state.editorErrorMessage = state.inputErrorMessage || t('el.messagebox.error')
+          state.editorErrorMessage =
+            state.inputErrorMessage || t('el.messagebox.error')
           state.validateError = true
           return false
         }
@@ -334,7 +356,8 @@ export default defineComponent({
         if (typeof inputValidator === 'function') {
           const validateResult = inputValidator(state.inputValue)
           if (validateResult === false) {
-            state.editorErrorMessage = state.inputErrorMessage || t('el.messagebox.error')
+            state.editorErrorMessage =
+              state.inputErrorMessage || t('el.messagebox.error')
             state.validateError = true
             return false
           }
@@ -366,11 +389,18 @@ export default defineComponent({
     // for some verification or alerting. then if we allow global event liek this
     // to dispatch, it could callout another message box.
     if (props.closeOnPressEscape) {
-      useModal({
-        handleClose,
-      }, visible)
+      useModal(
+        {
+          handleClose,
+        },
+        visible
+      )
     } else {
-      usePreventGlobal(visible, 'keydown', (e: KeyboardEvent) => e.code === EVENT_CODE.esc)
+      usePreventGlobal(
+        visible,
+        'keydown',
+        (e: KeyboardEvent) => e.code === EVENT_CODE.esc
+      )
     }
 
     // locks the screen to prevent scroll

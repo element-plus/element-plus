@@ -3,15 +3,15 @@ import { mount } from '@vue/test-utils'
 import { sleep, defineGetter } from '@element-plus/test-utils'
 import Input from '../src/index.vue'
 
-const _mount = options => mount({
-  components: {
-    'el-input': Input,
-  },
-  ...options,
-})
+const _mount = (options) =>
+  mount({
+    components: {
+      'el-input': Input,
+    },
+    ...options,
+  })
 
 describe('Input.vue', () => {
-
   test('create', async () => {
     const handleFocus = jest.fn()
     const wrapper = _mount({
@@ -68,7 +68,7 @@ describe('Input.vue', () => {
     expect(inputElm.element.disabled).not.toBeNull()
   })
 
-  describe('test emoji',()=>{
+  describe('test emoji', () => {
     test('el-input should minimize value between emoji length and maxLength', async () => {
       const wrapper = _mount({
         template: `<el-input class="test-exceed" maxlength="4" show-word-limit v-model="inputVal" />`,
@@ -160,7 +160,7 @@ describe('Input.vue', () => {
     expect(wrapper.find('textarea').element.rows).toEqual(3)
   })
 
-  test('resize', async() => {
+  test('resize', async () => {
     const wrapper = _mount({
       template: `
         <div>
@@ -297,7 +297,6 @@ describe('Input.vue', () => {
   })
 
   describe('Input Methods', () => {
-
     test('method:select', async () => {
       const testContent = 'test'
       const wrapper = _mount({
@@ -312,10 +311,10 @@ describe('Input.vue', () => {
       const input = wrapper.find('input').element
       // mock selectionRange behaviour, due to jsdom's reason this case cannot run well, may be fixed later using headlesschrome or puppeteer
       let selected = false
-      defineGetter(input, 'selectionStart', function() {
+      defineGetter(input, 'selectionStart', function () {
         return selected ? 0 : this.value.length
       })
-      defineGetter(input, 'selectionEnd', function() {
+      defineGetter(input, 'selectionEnd', function () {
         return this.value.length
       })
 
@@ -381,7 +380,7 @@ describe('Input.vue', () => {
       expect(handleBlur).toBeCalled()
     })
 
-    test('event:change', async() => {
+    test('event:change', async () => {
       // NOTE: should be same as native's change behavior
       const wrapper = _mount({
         template: `
@@ -420,7 +419,7 @@ describe('Input.vue', () => {
       expect(vm.val).toBe('2')
     })
 
-    test('event:clear', async() => {
+    test('event:clear', async () => {
       const handleClear = jest.fn()
       const handleInput = jest.fn()
       const wrapper = _mount({
@@ -456,7 +455,7 @@ describe('Input.vue', () => {
       expect(handleInput).toBeCalled()
     })
 
-    test('event:input', async() => {
+    test('event:input', async () => {
       const handleInput = jest.fn()
       const wrapper = _mount({
         template: `
@@ -552,5 +551,4 @@ describe('Input.vue', () => {
 
   // TODO: validateEvent & input containes select cases should be added after the rest components finished
   // ...
-
 })

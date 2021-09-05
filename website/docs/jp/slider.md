@@ -40,17 +40,18 @@
         value2: 50,
         value3: 36,
         value4: 48,
-        value5: 42
+        value5: 42,
       }
     },
     methods: {
       formatTooltip(val) {
-        return val / 100;
-      }
-    }
+        return val / 100
+      },
+    },
   }
 </script>
 ```
+
 :::
 
 ### 離散値
@@ -63,18 +64,11 @@
 <template>
   <div class="block">
     <span class="demonstration">Breakpoints not displayed</span>
-    <el-slider
-      v-model="value1"
-      :step="10">
-    </el-slider>
+    <el-slider v-model="value1" :step="10"> </el-slider>
   </div>
   <div class="block">
     <span class="demonstration">Breakpoints displayed</span>
-    <el-slider
-      v-model="value2"
-      :step="10"
-      show-stops>
-    </el-slider>
+    <el-slider v-model="value2" :step="10" show-stops> </el-slider>
   </div>
 </template>
 
@@ -83,12 +77,13 @@
     data() {
       return {
         value1: 0,
-        value2: 0
+        value2: 0,
       }
-    }
+    },
   }
 </script>
 ```
+
 :::
 
 ### インプットボックス付きスライダー
@@ -100,10 +95,7 @@
 ```html
 <template>
   <div class="block">
-    <el-slider
-      v-model="value"
-      show-input>
-    </el-slider>
+    <el-slider v-model="value" show-input> </el-slider>
   </div>
 </template>
 
@@ -111,28 +103,25 @@
   export default {
     data() {
       return {
-        value: 0
+        value: 0,
       }
-    }
+    },
   }
 </script>
 ```
+
 :::
 
 ### 範囲の選択
 
 値の範囲の選択に対応しています。
 
-:::demo `range`属性を設定すると、範囲モードが有効になり、バインディング値は2つの境界値からなる配列となります。
+:::demo `range`属性を設定すると、範囲モードが有効になり、バインディング値は 2 つの境界値からなる配列となります。
+
 ```html
 <template>
   <div class="block">
-    <el-slider
-      v-model="value"
-      range
-      show-stops
-      :max="10">
-    </el-slider>
+    <el-slider v-model="value" range show-stops :max="10"> </el-slider>
   </div>
 </template>
 
@@ -140,25 +129,23 @@
   export default {
     data() {
       return {
-        value: [4, 8]
+        value: [4, 8],
       }
-    }
+    },
   }
 </script>
 ```
+
 :::
 
 ### 垂直モード
 
 :::demo `vertical` 属性を `true` に設定すると、垂直モードが有効になる。垂直モードでは `height` 属性が必要である。
+
 ```html
 <template>
   <div class="block">
-    <el-slider
-      v-model="value"
-      vertical
-      height="200px">
-    </el-slider>
+    <el-slider v-model="value" vertical height="200px"> </el-slider>
   </div>
 </template>
 
@@ -166,25 +153,23 @@
   export default {
     data() {
       return {
-        value: 0
+        value: 0,
       }
-    }
+    },
   }
 </script>
 ```
+
 :::
 
 ### マークを表示
 
 :::demo この `marks` 属性を設定すると、スライダーにマークを表示することができる。
+
 ```html
 <template>
   <div class="block">
-    <el-slider
-      v-model="value"
-      range
-      :marks="marks">
-    </el-slider>
+    <el-slider v-model="value" range :marks="marks"> </el-slider>
   </div>
 </template>
 
@@ -199,42 +184,45 @@
           37: '37°C',
           50: {
             style: {
-              color: '#1989FA'
+              color: '#1989FA',
             },
-            label: '50%'
-          }
-        }
+            label: '50%',
+          },
+        },
       }
-    }
+    },
   }
 </script>
 ```
+
 :::
 
 ## 属性
-| Attribute      | Description          | Type      | Accepted Values       | Default  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| model-value / v-model | バインディング値 | number | — | 0 |
-| min | 最小値 | number | — | 0 |
-| max | 最大値 | number | — | 100 |
-| disabled | スライダーが無効になっているかどうか | boolean | — | false |
-| step | ステップサイズ | number | — | 1 |
-| show-input | whether to display an input box, works when `range` is false | boolean | — | false |
-| show-input-controls | 入力ボックスを表示するかどうか、`range` が false のときに動作します。 | boolean | — | true |
-| input-size | インプットボックスのサイズ | string | large / medium / small / mini | small |
-| show-stops | ブレークポイントを表示するかどうか | boolean | — | false |
-| show-tooltip | ツールチップの値を表示するかどうか | boolean | — | true |
-| format-tooltip | ツールチップの値を表示するためのフォーマット | function(value) | — | — |
-| range | 範囲セレクトするかどうか | boolean | — | false |
-| vertical | 垂直モード | boolean | — | false |
-| height | スライダーの高さ、垂直モードで必要 | string | — | — |
-| label | スクリーンリーダー用ラベル | string | — | — |
-| debounce | タイプ時のデバウンス遅延をミリ秒単位で指定する。`show-input` がtrueのときに動作します。 | number | — | 300 |
-| tooltip-class | ツールチップのカスタムクラス名 | string | — | — |
-| marks |  マークは，キーの種類は数字で，閉じた間隔[min, max]でなければなりません。マークはスタイルをカスタム出来ます。| object | — | — |
+
+| Attribute             | Description                                                                                                  | Type            | Accepted Values               | Default |
+| --------------------- | ------------------------------------------------------------------------------------------------------------ | --------------- | ----------------------------- | ------- |
+| model-value / v-model | バインディング値                                                                                             | number          | —                             | 0       |
+| min                   | 最小値                                                                                                       | number          | —                             | 0       |
+| max                   | 最大値                                                                                                       | number          | —                             | 100     |
+| disabled              | スライダーが無効になっているかどうか                                                                         | boolean         | —                             | false   |
+| step                  | ステップサイズ                                                                                               | number          | —                             | 1       |
+| show-input            | whether to display an input box, works when `range` is false                                                 | boolean         | —                             | false   |
+| show-input-controls   | 入力ボックスを表示するかどうか、`range` が false のときに動作します。                                        | boolean         | —                             | true    |
+| input-size            | インプットボックスのサイズ                                                                                   | string          | large / medium / small / mini | small   |
+| show-stops            | ブレークポイントを表示するかどうか                                                                           | boolean         | —                             | false   |
+| show-tooltip          | ツールチップの値を表示するかどうか                                                                           | boolean         | —                             | true    |
+| format-tooltip        | ツールチップの値を表示するためのフォーマット                                                                 | function(value) | —                             | —       |
+| range                 | 範囲セレクトするかどうか                                                                                     | boolean         | —                             | false   |
+| vertical              | 垂直モード                                                                                                   | boolean         | —                             | false   |
+| height                | スライダーの高さ、垂直モードで必要                                                                           | string          | —                             | —       |
+| label                 | スクリーンリーダー用ラベル                                                                                   | string          | —                             | —       |
+| debounce              | タイプ時のデバウンス遅延をミリ秒単位で指定する。`show-input` が true のときに動作します。                    | number          | —                             | 300     |
+| tooltip-class         | ツールチップのカスタムクラス名                                                                               | string          | —                             | —       |
+| marks                 | マークは，キーの種類は数字で，閉じた間隔[min, max]でなければなりません。マークはスタイルをカスタム出来ます。 | object          | —                             | —       |
 
 ## イベント
-| Event Name | Description | Parameters |
-|---------- |-------- |---------- |
-| change | 値が変更されたときにトリガされます（マウスがドラッグされている場合、このイベントはマウスが離されたときにのみ発生します）。 | value after changing |
-| input | データが変化した時にトリガーする(スライド中にリアルタイムでエミットされる) | value after changing |
+
+| Event Name | Description                                                                                                                | Parameters           |
+| ---------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------- |
+| change     | 値が変更されたときにトリガされます（マウスがドラッグされている場合、このイベントはマウスが離されたときにのみ発生します）。 | value after changing |
+| input      | データが変化した時にトリガーする(スライド中にリアルタイムでエミットされる)                                                 | value after changing |
