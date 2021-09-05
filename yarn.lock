@@ -4958,10 +4958,10 @@ component-emitter@^1.2.1:
   resolved "https://registry.yarnpkg.com/component-emitter/-/component-emitter-1.3.0.tgz#16e4070fba8ae29b679f2215853ee181ab2eabc0"
   integrity sha512-Rd3se6QB+sO1TwqZjscQrurpEPIfO0/yYnSin6Q/rD3mOutHvUrCAhJub3r90uNb+SESBuE0QYoB90YdfatsRg==
 
-components-helper@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/components-helper/-/components-helper-1.0.2.tgz#064e604dde0e81a31b8dc5b6180ae5ba999d0c58"
-  integrity sha512-szHWmB64SomAv454oH/Y0gyn4YvQEhR4XDb8rW+paJpGWpn8bsx9wmqKg38KxIyQRXW9edrhaIdsS/tG+oldIw==
+components-helper@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/components-helper/-/components-helper-1.0.4.tgz#abc79b993acf29c393f09079122c430e325d7be6"
+  integrity sha512-clMIW5PIGIWLAAhYZdV6G+8lSMvxWB5Ow9iIM6Q6aIlXrD2uyZmF/RQ+3ye4UKv2lFJ0I5FRUyAwvR/FyvHHnA==
   dependencies:
     fast-glob "^3.2.5"
 
