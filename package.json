@@ -25,8 +25,8 @@
     "build:tokens": "cd packages/tokens && yarn clean && yarn build",
     "build:full-bundle": "esno build/full-bundle.ts",
     "format": "prettier --write .",
-    "lint": "eslint ./packages --ext .vue,.js,.ts,.jsx,.tsx && prettier --check .",
-    "lint:fix": "eslint --fix ./packages --ext .vue,.js,.ts,.jsx,.tsx && prettier --write .",
+    "lint": "eslint ./packages --ext .vue,.js,.ts,.jsx,.tsx && pretty-quick --check",
+    "lint:fix": "eslint --fix ./packages --ext .vue,.js,.ts,.jsx,.tsx && pretty-quick",
     "website-build": "rimraf website-dist && cross-env NODE_ENV=production webpack --config ./website/webpack.config.js",
     "website-dev": "webpack-dev-server --config ./website/webpack.config.js",
     "website-dev:play": "cross-env PLAY_ENV=true yarn website-dev",
@@ -38,11 +38,7 @@
     }
   },
   "lint-staged": {
-    "*.{vue,js,ts,jsx,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{scss,css,json,yaml,yml,md,html}": "prettier --write"
+    "*.{vue,js,ts,jsx,tsx}": "eslint --fix"
   },
   "browserslist": [
     "> 1%",
@@ -122,6 +118,7 @@
     "mini-css-extract-plugin": "^0.11.2",
     "ora": "^5.4.1",
     "prettier": "^2.3.2",
+    "pretty-quick": "^3.1.1",
     "progress-bar-webpack-plugin": "^2.1.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.56.3",
