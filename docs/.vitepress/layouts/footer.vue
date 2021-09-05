@@ -7,22 +7,26 @@
           href="https://github.com/element-plus/element-plus"
           class="footer-main-link"
           target="_blank"
-        >{{ locale.repo }}</a>
+          >{{ locale.repo }}</a
+        >
         <a
           href="https://github.com/element-plus/element-plus/releases"
           class="footer-main-link"
           target="_blank"
-        >{{ locale.changelog }}</a>
+          >{{ locale.changelog }}</a
+        >
         <a
           href="https://github.com/element-plus/element-plus-starter"
           class="footer-main-link"
           target="_blank"
-        >{{ locale.starter }}</a>
+          >{{ locale.starter }}</a
+        >
         <a
           :href="'/' + lang + '/component/custom-theme'"
           class="footer-main-link"
           target="_blank"
-        >{{ locale.theme }}</a>
+          >{{ locale.theme }}</a
+        >
       </div>
       <div class="footer-main">
         <h4>{{ locale.community }}</h4>
@@ -33,19 +37,20 @@
           href="https://github.com/element-plus/element-plus/issues"
           class="footer-main-link"
           target="_blank"
-        >{{ locale.feedback }}</a>
+          >{{ locale.feedback }}</a
+        >
         <a
-          :href="
-            `https://github.com/element-plus/element-plus/blob/dev/.github/CONTRIBUTING.${lang}.md`
-          "
+          :href="`https://github.com/element-plus/element-plus/blob/dev/.github/CONTRIBUTING.${lang}.md`"
           class="footer-main-link"
           target="_blank"
-        >{{ locale.contribution }}</a>
+          >{{ locale.contribution }}</a
+        >
         <a
           href="https://segmentfault.com/t/element-plus"
           class="footer-main-link"
           target="_blank"
-        >SegmentFault</a>
+          >SegmentFault</a
+        >
       </div>
       <div class="footer-social">
         <p class="footer-social-title">Element Team</p>
@@ -76,13 +81,9 @@ const linkMap = {
 }
 
 const lang = useLang()
-const locale = computed(
-  () => localeData[lang.value],
-)
+const locale = computed(() => localeData[lang.value])
 
 const isHome = useIsHome()
 
-const gitterLink = computed(() =>
-  linkMap[lang.value],
-)
+const gitterLink = computed(() => linkMap[lang.value])
 </script>
