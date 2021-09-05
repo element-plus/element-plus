@@ -73,7 +73,7 @@
     "eslint-plugin-vue": "^7.0.0-beta.0",
     "esno": "^0.9.1",
     "fast-glob": "^3.2.7",
-    "file-loader": "^6.0.0",
+    "file-loader": "^6.2.0",
     "file-save": "^0.2.0",
     "gulp": "^4.0.2",
     "gulp-typescript": "^6.0.0-alpha.1",
