@@ -62,7 +62,7 @@
     "chalk": "^4.1.2",
     "clipboard-copy": "^4.0.1",
     "components-helper": "^1.0.2",
-    "cross-env": "^7.0.2",
+    "cross-env": "^7.0.3",
     "css-loader": "^4.2.2",
     "css-minimizer-webpack-plugin": "^1.1.5",
     "cz-conventional-changelog": "^3.3.0",
