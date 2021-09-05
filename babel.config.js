@@ -15,7 +15,8 @@ module.exports = {
   ],
   plugins: [
     '@vue/babel-plugin-jsx',
-    '@babel/proposal-class-properties',
+    '@babel/plugin-proposal-nullish-coalescing-operator',
+    ['@babel/plugin-proposal-private-methods', { loose: true }],
     '@babel/transform-runtime',
     'lodash',
   ],

@@ -17,6 +17,7 @@ module.exports = {
           [
             '@babel/preset-env',
             {
+              loose: true,
               targets: {
                 node: true,
               },
@@ -26,7 +27,7 @@ module.exports = {
         ],
         plugins: [
           '@vue/babel-plugin-jsx',
-          '@babel/plugin-proposal-class-properties',
+          ['@babel/plugin-proposal-class-properties', { loose: true }],
         ],
       },
     ],
