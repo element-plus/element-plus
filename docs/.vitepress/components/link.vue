@@ -34,7 +34,7 @@ export default {
     isInternal() {
       return (
         this.href.startsWith('/#') ||
-        internalLinks.some(link => this.href.includes(link))
+        internalLinks.some((link) => this.href.includes(link))
       )
     },
     isExternal() {
@@ -58,7 +58,7 @@ export default {
     const children = []
 
     children.push(
-      h('span', { class: 'element-plus__link-text' }, [this.$slots.default()]),
+      h('span', { class: 'element-plus__link-text' }, [this.$slots.default()])
     )
     !this.isSkipped &&
       this.isExternal &&
@@ -74,8 +74,8 @@ export default {
           },
           {
             default: () => [h(ExternalLink)],
-          },
-        ),
+          }
+        )
       )
     const props = {
       class: 'element-plus__link',

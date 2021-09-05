@@ -21,15 +21,17 @@ const lang = useLang()
 const locale = computed(() => localeData[lang.value])
 const rootPath = useRootPath(lang)
 
-const navsData = computed(() => [
-  {
-    path: '/design',
-    name: locale.value[1],
-  },
-  {
-    path: '/nav',
-    name: locale.value[2],
-  },
-] as any)
-
+const navsData = computed(
+  () =>
+    [
+      {
+        path: '/design',
+        name: locale.value[1],
+      },
+      {
+        path: '/nav',
+        name: locale.value[2],
+      },
+    ] as any
+)
 </script>

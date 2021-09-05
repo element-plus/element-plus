@@ -17,7 +17,7 @@
             />
           </a>
         </h1>
-        <div style="flex-grow: 1;"></div>
+        <div style="flex-grow: 1"></div>
         <algolia-search />
         <ul class="nav">
           <li v-for="(navItem, key) in nav" :key="key" class="nav-item">

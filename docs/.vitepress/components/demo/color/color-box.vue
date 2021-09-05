@@ -29,7 +29,7 @@ const colorsType = ['success', 'warning', 'danger', 'info']
 import { tintColor } from '../../../color.js'
 
 export default {
-  data: function() {
+  data: function () {
     return {
       colorsType,
     }
@@ -37,7 +37,7 @@ export default {
   methods: {
     getColorValue(type) {
       return getComputedStyle(document.documentElement).getPropertyValue(
-        `--el-color-${type}`,
+        `--el-color-${type}`
       )
     },
     tintColor,
