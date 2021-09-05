@@ -63,6 +63,7 @@ Size, color, and icons can be customized in node.
       :type="activity.type"
       :color="activity.color"
       :size="activity.size"
+      :hollow="activity.hollow"
       :timestamp="activity.timestamp"
     >
       {{activity.content}}
@@ -91,6 +92,12 @@ Size, color, and icons can be customized in node.
             content: 'Custom size',
             timestamp: '2018-04-03 20:46',
             size: 'large',
+          },
+          {
+            content: 'Custom hollow',
+            timestamp: '2018-04-03 20:46',
+            type: 'primary',
+            hollow: true,
           },
           {
             content: 'Default node',
@@ -148,13 +155,14 @@ Timestamp can be placed on top of content when content is too high.
 
 | Attribute      | Description               | Type    | Accepted Values                             | Default |
 | -------------- | ------------------------- | ------- | ------------------------------------------- | ------- |
-| timestamp      | timestamp content         | string  | -                                           | —       |
+| timestamp      | timestamp content         | string  | —                                           | —       |
 | hide-timestamp | whether to show timestamp | boolean | —                                           | false   |
 | placement      | position of timestamp     | string  | top / bottom                                | bottom  |
-| type           | node type                 | string  | primary / success / warning / danger / info | -       |
-| color          | background color of node  | string  | hsl / hsv / hex / rgb                       | -       |
+| type           | node type                 | string  | primary / success / warning / danger / info | —       |
+| color          | background color of node  | string  | hsl / hsv / hex / rgb                       | —       |
 | size           | node size                 | string  | normal / large                              | normal  |
-| icon           | icon class name           | string  | —                                           | -       |
+| icon           | icon class name           | string  | —                                           | —       |
+| hollow         | icon is hollow            | boolean | —                                           | false   |
 
 ### Timeline-Item Slots
 

@@ -63,6 +63,7 @@
       :type="activity.type"
       :color="activity.color"
       :size="activity.size"
+      :hollow="activity.hollow"
       :timestamp="activity.timestamp"
     >
       {{activity.content}}
@@ -91,6 +92,12 @@
             content: 'Custom size',
             timestamp: '2018-04-03 20:46',
             size: 'large',
+          },
+          {
+            content: 'Custom hollow',
+            timestamp: '2018-04-03 20:46',
+            type: 'primary',
+            hollow: true,
           },
           {
             content: 'Default node',
@@ -142,13 +149,14 @@
 
 | Attribute      | Description                      | Type    | Accepted Values                             | Default |
 | -------------- | -------------------------------- | ------- | ------------------------------------------- | ------- |
-| timestamp      | タイムスタンプコンテンツ         | string  | -                                           | —       |
+| timestamp      | タイムスタンプコンテンツ         | string  | —                                           | —       |
 | hide-timestamp | タイムスタンプを表示するかどうか | boolean | —                                           | false   |
 | placement      | タイムスタンプ位置               | string  | top / bottom                                | bottom  |
-| type           | ノード型                         | string  | primary / success / warning / danger / info | -       |
-| color          | ノードの背景色                   | string  | hsl / hsv / hex / rgb                       | -       |
+| type           | ノード型                         | string  | primary / success / warning / danger / info | —       |
+| color          | ノードの背景色                   | string  | hsl / hsv / hex / rgb                       | —       |
 | size           | ノードサイズ                     | string  | normal / large                              | normal  |
-| icon           | アイコンクラス名                 | string  | —                                           | -       |
+| icon           | アイコンクラス名                 | string  | —                                           | —       |
+| hollow         | icon is hollow                   | boolean | —                                           | false   |
 
 ### タイムラインアイテムスロット
 

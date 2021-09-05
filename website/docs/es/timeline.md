@@ -63,6 +63,7 @@ El tamaño, el color y los iconos se pueden personalizar en el nodo.
       :type="activity.type"
       :color="activity.color"
       :size="activity.size"
+      :hollow="activity.hollow"
       :timestamp="activity.timestamp"
     >
       {{activity.content}}
@@ -91,6 +92,12 @@ El tamaño, el color y los iconos se pueden personalizar en el nodo.
             content: 'Custom size',
             timestamp: '2018-04-03 20:46',
             size: 'large',
+          },
+          {
+            content: 'Custom hollow',
+            timestamp: '2018-04-03 20:46',
+            type: 'primary',
+            hollow: true,
           },
           {
             content: 'Default node',
@@ -142,13 +149,14 @@ Las marcas de tiempo ( timestamp ) puede colocarse encima del contenido cuando �
 
 | Atributo       | Descripción                       | Tipo    | Valores aceptados                           | Por defecto |
 | -------------- | --------------------------------- | ------- | ------------------------------------------- | ----------- |
-| timestamp      | Contenido de las marcas de tiempo | string  | -                                           | —           |
+| timestamp      | Contenido de las marcas de tiempo | string  | —                                           | —           |
 | hide-timestamp | Si se muestra o no timestamp      | boolean | —                                           | false       |
 | placement      | la posición de timestamp          | string  | top / bottom                                | bottom      |
-| type           | tipo de nodo                      | string  | primary / success / warning / danger / info | -           |
-| color          | color de fondo del nodo           | string  | hsl / hsv / hex / rgb                       | -           |
+| type           | tipo de nodo                      | string  | primary / success / warning / danger / info | —           |
+| color          | color de fondo del nodo           | string  | hsl / hsv / hex / rgb                       | —           |
 | size           | tamaño del nodo                   | string  | normal / large                              | normal      |
-| icon           | nombre de la clase del icono      | string  | —                                           | -           |
+| icon           | nombre de la clase del icono      | string  | —                                           | —           |
+| hollow         | icon is hollow                    | boolean | —                                           | false       |
 
 ### Timeline-Item Slot
 
