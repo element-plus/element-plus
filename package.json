@@ -147,7 +147,7 @@
   "license": "MIT",
   "dependencies": {
     "@element-plus/icons": "^0.0.11",
-    "@popperjs/core": "^2.4.4",
+    "@popperjs/core": "^2.10.1",
     "async-validator": "^3.4.0",
     "dayjs": "1.x",
     "lodash": "^4.17.21",
