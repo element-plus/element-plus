@@ -11,7 +11,7 @@
   background-color: var(--bg-color);
   overflow-y: auto;
   transform: translate(0);
-  transition: transform .25s ease;
+  transition: transform 0.25s ease;
 
   .nav.sponsors {
     padding: 2rem 1.5rem 0 1.5rem;
@@ -39,13 +39,12 @@
     }
   }
 
-
   .side-nav {
-    padding: .75rem 0 5rem;
+    padding: 0.75rem 0 5rem;
   }
 
   .nav-links {
-    padding: .75rem 0;
+    padding: 0.75rem 0;
     border-bottom: 1px solid var(--border-color);
   }
 

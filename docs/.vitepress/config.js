@@ -6,13 +6,13 @@ const sponsors = [
   {
     name: 'bit',
     img: '/assets/images/bit.svg',
-    url: 'https://bit.dev/?from=element-ui'
+    url: 'https://bit.dev/?from=element-ui',
   },
   {
     name: 'renren.io',
     img: '/assets/images/renren.png',
-    url: 'https://www.renren.io/?from=element-ui'
-  }
+    url: 'https://www.renren.io/?from=element-ui',
+  },
 ]
 
 module.exports = {

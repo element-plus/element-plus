@@ -4,7 +4,6 @@
   list-style: none;
 
   .sidebar > & {
-
   }
 }
 
@@ -14,7 +13,7 @@
   border: 0;
   border-radius: 4px;
   color: var(--text-color);
-  transition: background-color ease-in .2s;
+  transition: background-color ease-in 0.2s;
 }
 
 a.sidebar-link-item:hover {

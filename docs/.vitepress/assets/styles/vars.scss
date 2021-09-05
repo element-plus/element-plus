@@ -22,15 +22,16 @@
 
   // doc search
 
-  --docsearch-key-gradient: rgba(125,125,125,0.1);
-  --docsearch-key-shadow: rgba(125,125,125,0.3);
+  --docsearch-key-gradient: rgba(125, 125, 125, 0.1);
+  --docsearch-key-shadow: rgba(125, 125, 125, 0.3);
   --docsearch-footer-height: 44px;
   --docsearch-footer-background: #fff;
-  --docsearch-footer-shadow: 0 -1px 0 0 #e0e3e8,0 -3px 6px 0 rgba(69,98,155,.12);
-  --docsearch-searchbox-background: rgba(242,242,242, .5);
+  --docsearch-footer-shadow: 0 -1px 0 0 #e0e3e8,
+    0 -3px 6px 0 rgba(69, 98, 155, 0.12);
+  --docsearch-searchbox-background: rgba(242, 242, 242, 0.5);
   --docsearch-muted-color: var(--el-text-color-secondary);
 }
-  // breakpoints
+// breakpoints
 
 $breakpoint-lg: 1024px !default;
 $breakpoint-md: 768px !default;

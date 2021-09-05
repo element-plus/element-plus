@@ -11,9 +11,12 @@ type SidebarItem = {
 
 type SidebarConfig = SidebarItem[]
 
-type Sidebar = {
-  [key: string]: SidebarConfig
-} | false | 'auto'
+type Sidebar =
+  | {
+      [key: string]: SidebarConfig
+    }
+  | false
+  | 'auto'
 
 export function useSidebar() {
   const route = useRoute()
@@ -21,7 +24,11 @@ export function useSidebar() {
   const lang = useLang()
   useActiveSidebarLinks()
   return computed(() => {
-    const sidebars = getSidebarConfig(site.value.themeConfig.sidebars, route.data.relativePath, lang.value)
+    const sidebars = getSidebarConfig(
+      site.value.themeConfig.sidebars,
+      route.data.relativePath,
+      lang.value
+    )
     return sidebars
   })
 }
