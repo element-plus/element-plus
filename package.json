@@ -107,7 +107,7 @@
     "style-loader": "^1.2.1",
     "throttle-debounce": "2.3.0",
     "through2": "^4.0.2",
-    "transliteration": "^2.1.11",
+    "transliteration": "^2.2.0",
     "ts-loader": "^8.0.3",
     "ts-morph": "^11.0.3",
     "ts-node": "^10.1.0",
