@@ -1,9 +1,9 @@
-import { on } from '@element-plus/utils/dom'
+import { useEventListener } from '@vueuse/core'
 
 import type { DirectiveBinding, VNode, ObjectDirective } from 'vue'
 
 interface PopoverInstance {
-  events: Record<string, EventListenerOrEventListenerObject>
+  events: Record<string, EventListener>
   triggerRef: HTMLElement
   tabindex: string | number
 }
@@ -14,13 +14,13 @@ const attachEvents = (
   vnode: VNode
 ) => {
   const _ref = binding.arg || binding.value
-  const popover = vnode.dirs[0].instance.$refs[_ref] as PopoverInstance
+  const popover = vnode.dirs?.[0].instance?.$refs[_ref] as PopoverInstance
   if (popover) {
     popover.triggerRef = el
     el.setAttribute('tabindex', popover.tabindex as string)
     // because v-popover cannot modify the vnode itself due to it has already been
     Object.entries(popover.events).forEach(([eventName, e]) => {
-      on(el, eventName.toLowerCase().slice(2), e)
+      useEventListener(el, eventName.toLowerCase().slice(2), e)
     })
   }
 }

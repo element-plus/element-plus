@@ -1,4 +1,4 @@
-import Popover from './src/index.vue'
+import Popover from './src'
 import PopoverDirective, { VPopover } from './src/directive'
 
 import type { App } from 'vue'

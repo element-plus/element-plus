@@ -3,28 +3,26 @@ import { isString } from '@element-plus/utils/util'
 import { usePopper } from '@element-plus/components/popper'
 import PopupManager from '@element-plus/utils/popup-manager'
 
-import type { SetupContext } from 'vue'
-import type { IPopperOptions, EmitType } from '@element-plus/components/popper'
-export interface IUsePopover extends IPopperOptions {
-  width: number | string
-}
+import type { SetupContext, CSSProperties } from 'vue'
+import type { EmitType } from '@element-plus/components/popper'
+import type { PopoverProps } from '.'
 
 export const SHOW_EVENT = 'show'
 export const HIDE_EVENT = 'hide'
 
 export default function usePopover(
-  props: IUsePopover,
+  props: PopoverProps,
   ctx: SetupContext<string[]>
 ) {
   const zIndex = ref(PopupManager.nextZIndex())
   const width = computed(() => {
     if (isString(props.width)) {
-      return props.width as string
+      return props.width
     }
     return `${props.width}px`
   })
 
-  const popperStyle = computed(() => {
+  const popperStyle = computed<CSSProperties>(() => {
     return {
       width: width.value,
       zIndex: zIndex.value,
