@@ -72,7 +72,7 @@ describe('Slider', () => {
     })
     const slider = wrapper.vm.$refs.slider as any
     const tooltip = slider.$refs.firstButton.$refs.tooltip
-    expect(tooltip.disabled).toBe(true)
+    expect(tooltip.$props.disabled).toBe(true)
   })
 
   it('format tooltip', async () => {
