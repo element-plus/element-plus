@@ -107,6 +107,7 @@
         tag="ul"
         class="el-cascader__suggestion-panel"
         view-class="el-cascader__suggestion-list"
+        @keydown="handleSuggestionKeyDown"
       >
         <template v-if="suggestions.length">
           <li
@@ -160,7 +161,7 @@ import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import { ClickOutside as Clickoutside } from '@element-plus/directives'
 import { useLocaleInject } from '@element-plus/hooks'
 
-import { EVENT_CODE } from '@element-plus/utils/aria'
+import { EVENT_CODE, focusNode, getSibling } from '@element-plus/utils/aria'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import isServer from '@element-plus/utils/isServer'
 import { useGlobalConfig } from '@element-plus/utils/util'
@@ -534,6 +535,32 @@ export default defineComponent({
       }
     }
 
+    const handleSuggestionKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement
+      const { code } = e
+
+      switch (code) {
+        case EVENT_CODE.up:
+        case EVENT_CODE.down:
+          const distance = code === EVENT_CODE.up ? -1 : 1
+          focusNode(
+            getSibling(
+              target,
+              distance,
+              '.el-cascader__suggestion-item[tabindex="-1"]'
+            )
+          )
+          break
+        case EVENT_CODE.enter:
+          target.click()
+          break
+        case EVENT_CODE.esc:
+        case EVENT_CODE.tab:
+          togglePopperVisible(false)
+          break
+      }
+    }
+
     const handleDelete = () => {
       const tags = presentTags.value
       const lastTag = tags[tags.length - 1]
@@ -630,6 +657,7 @@ export default defineComponent({
       handleKeyDown,
       handleClear,
       handleSuggestionClick,
+      handleSuggestionKeyDown,
       handleDelete,
       handleInput,
     }

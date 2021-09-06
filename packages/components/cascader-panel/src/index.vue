@@ -27,7 +27,7 @@ import {
   watch,
 } from 'vue'
 import isEqual from 'lodash/isEqual'
-import { EVENT_CODE } from '@element-plus/utils/aria'
+import { EVENT_CODE, focusNode, getSibling } from '@element-plus/utils/aria'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import isServer from '@element-plus/utils/isServer'
 import scrollIntoView from '@element-plus/utils/scroll-into-view'
@@ -42,13 +42,7 @@ import ElCascaderMenu from './menu.vue'
 import Store from './store'
 import Node from './node'
 import { CommonProps, useCascaderConfig } from './config'
-import {
-  checkNode,
-  focusNode,
-  getMenuIndex,
-  getSibling,
-  sortByOriginalOrder,
-} from './utils'
+import { checkNode, getMenuIndex, sortByOriginalOrder } from './utils'
 import { default as CascaderNode, ExpandTrigger } from './node'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
@@ -282,7 +276,9 @@ export default defineComponent({
         case EVENT_CODE.up:
         case EVENT_CODE.down:
           const distance = code === EVENT_CODE.up ? -1 : 1
-          focusNode(getSibling(target, distance))
+          focusNode(
+            getSibling(target, distance, '.el-cascader-node[tabindex="-1"]')
+          )
           break
         case EVENT_CODE.left:
           const preMenu = menuList.value[getMenuIndex(target) - 1]
