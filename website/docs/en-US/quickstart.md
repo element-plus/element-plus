@@ -69,7 +69,7 @@ Import via HTML `head` tag.
 ```
 
 If you also want the style to be imported on demand, you need to use co-responding
-plugins based on your bundler, read more: [FAQs](/#/en-US/component/quickstart#faqs)
+plugins based on your bundler, read more: [FAQs](/en-US/guide/quickstart#faqs)
 
 ## Starter templates
 

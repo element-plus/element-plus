@@ -26,7 +26,7 @@ stages:
           - task: NodeTool@0
             displayName: 'Install Node.js'
             inputs:
-              versionSpec: '12.20.0'
+              versionSpec: '16.8.0'
           - task: Cache@2
             inputs:
               key: 'yarn | "$(Agent.OS)" | yarn.lock'
@@ -37,12 +37,14 @@ stages:
             displayName: Cache Yarn packages
           - script: yarn bootstrap
             displayName: 'Project bootstrap'
-          - script: yarn website-build
+          - script: yarn docs:gen-locale
+            displayName: 'Generating locale data'
+          - script: yarn docs:build
             displayName: 'Build website'
           - script: |
               export DEPLOY_DOMAIN=https://preview-${SYSTEM_PULLREQUEST_PULLREQUESTNUMBER}-element-plus.surge.sh
               echo "Deploy to $DEPLOY_DOMAIN"
-              npx surge --project ./website-dist --domain $DEPLOY_DOMAIN
+              npx surge --project ./docs/.vitepress/dist --domain $DEPLOY_DOMAIN
             displayName: 'Deploy Site'
             env:
               SURGE_LOGIN: $(SURGE_LOGIN)
