@@ -55,6 +55,7 @@
   "dependencies": {
     "@element-plus/icons": "^0.0.11",
     "@popperjs/core": "^2.10.1",
+    "@vueuse/core": "^6.2.0",
     "async-validator": "^3.4.0",
     "dayjs": "1.x",
     "lodash": "^4.17.21",
