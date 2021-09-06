@@ -11,7 +11,6 @@ module.exports = (md) => {
     },
     render(tokens, idx) {
       const m = tokens[idx].info.trim().match(/^demo\s*(.*)$/)
-      console.log(m)
       if (tokens[idx].nesting === 1) {
         const description = m && m.length > 1 ? m[1] : ''
         const content =

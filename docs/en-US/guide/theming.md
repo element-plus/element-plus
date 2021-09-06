@@ -172,6 +172,6 @@ is located relative to `.babelrc`. Note that `~` is required:
 }
 ```
 
-If you are unfamiliar with `babel-plugin-component`, please refer to [Quick Start](/en-US/guide/quickstart.html/).
+If you are unfamiliar with `babel-plugin-component`, please refer to [Quick Start](/en-US/guide/quickstart.html).
 For more details, check out the [project repository](https://github.com/ElementUI/element-theme)
 of `element-theme`.
