@@ -9,7 +9,7 @@
     "gen": "bash ./scripts/gc.sh",
     "gen:version": "esno build/gen-version.ts",
     "update:version": "esno build/update-version.ts",
-    "bootstrap": "yarn --frozen-lockfile && npx lerna bootstrap && yarn gen:version",
+    "bootstrap": "yarn --frozen-lockfile && npx lerna bootstrap && yarn gen:version && cd docs && yarn",
     "clean:lib": "rimraf lib && rimraf es && rimraf dist",
     "build": "sh scripts/build.sh",
     "build:helper": "esno build/build-helper.ts",
