@@ -287,6 +287,19 @@ export default defineComponent({
       hoverBackground,
     })
 
+    const flattedChildren = (children) => {
+      const temp = Array.isArray(children) ? children : [children]
+      const res = []
+      temp.forEach((child) => {
+        if (Array.isArray(child.children)) {
+          res.push(...flattedChildren(child.children))
+        } else {
+          res.push(child)
+        }
+      })
+      return res
+    }
+
     const useVNodeResize = (vnode: VNode) =>
       props.mode === 'horizontal'
         ? withDirectives(vnode, [[Resize, handleResize]])
@@ -301,7 +314,7 @@ export default defineComponent({
         ).filter(
           (item) => item.nodeName !== '#text' || item.nodeValue
         ) as HTMLElement[]
-        const originalSlot = slot.flat(Infinity)
+        const originalSlot = flattedChildren(slot)
         if (items.length === originalSlot.length) {
           const moreItemWidth = 64
           const paddingLeft = parseInt(
