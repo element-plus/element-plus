@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import PageFooter from '../components/page-footer.vue'
+import PageNav from '../components/page-nav.vue'
 const showBackToTop = ref(false)
 </script>
 
 <template>
   <main class="page">
-    <div class="content-wrap">
-      <el-scrollbar>
-        <Content class="content" />
-      </el-scrollbar>
+    <div class="content-wrapper">
+      <Content class="content" />
+      <PageFooter />
+      <PageNav />
     </div>
   </main>
   <el-backtop
