@@ -94,4 +94,4 @@ write a Hello world page. [Online Demo](https://codepen.io/iamkun/pen/YzWMaVr)
 
 If you are installing via npm / yarn and want to use it with
 a packaging tool, please read the
-next section: [Quick Start](/#/en-US/component/quickstart).
+next section: [Quick Start](/en-US/guide/quickstart).
