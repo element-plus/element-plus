@@ -1,11 +1,10 @@
 {
-  "hide-text": "Hide",
-  "show-text": "Expand",
+  "view-source": "View source",
+  "edit-on-github": "Edit on Github",
+  "edit-in-codepen": "Edit in Codepen.io",
   "copy-button-text": "Copy",
   "switch-button-option-text": "Switch to Options API",
   "switch-button-setup-text": "Switch to Composition API",
   "copy-success": "Copied！",
-  "copy-error": "This browser does not support automatic copy！",
-  "run-online-button-text": "Try it!",
-  "tooltip-text": "Run this demo on codepen.io"
+  "copy-error": "This browser does not support automatic copy！"
 }

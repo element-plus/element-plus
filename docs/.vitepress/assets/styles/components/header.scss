@@ -148,65 +148,50 @@
       }
     }
   }
-}
 
-.nav-dropdown {
-  margin-bottom: 6px;
-  // padding-left: 18px;
-  width: 100%;
+  .op-icons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-  span {
-    display: block;
-    width: 100%;
-    font-size: 16px;
-    color: #888;
-    line-height: 40px;
-    transition: 0.2s;
-    padding-bottom: 6px;
-    user-select: none;
-
-    &:hover {
+    .el-icon {
+      font-size: 1.25rem;
+      margin: 0 4px;
+      color: var(--text-color-lighter);
       cursor: pointer;
-    }
-  }
-
-  i {
-    transition: 0.2s;
-    font-size: 12px;
-    color: #979797;
-    transform: translateY(-2px);
-  }
-
-  .is-active {
-    span,
-    i {
-      color: var(--el-color-primary);
-    }
-    i {
-      transform: rotateZ(180deg) translateY(3px);
-    }
-  }
-
-  &:hover {
-    span,
-    i {
-      color: var(--el-color-primary);
+      transition: color var(--el-transition-duration);
+      a {
+        color: var(--text-color-lighter);
+        transition: color var(--el-transition-duration);
+      }
+      &:hover {
+        &,
+        a {
+          color: var(--brand-color);
+        }
+      }
     }
   }
 }
 
-.nav-dropdown-list {
-  width: auto;
-}
+.el-popper.el-popover.header-lang-selector {
+  min-width: 100px;
 
-// @media (max-width: 1000px) {
-//   .header {
-//     .nav-theme-switch,
-//     .nav-algolia-search {
-//       display: none;
-//     }
-//   }
-// }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      cursor: pointer;
+      transition: all var(--el-transition-duration);
+      &:hover,
+      &.selected {
+        color: var(--el-color-primary-light-2);
+      }
+    }
+  }
+}
 
 @media screen and (min-width: #{$breakpoint-lg}) {
   .header-container {
@@ -258,30 +243,10 @@
         font-size: 12px;
         vertical-align: top;
       }
-
-      &.lang-item {
-        height: 100%;
-
-        .nav-lang {
-          display: flex;
-          align-items: center;
-
-          span {
-            padding-bottom: 0;
-          }
-        }
-      }
-    }
-
-    .nav-dropdown {
-      padding: 0;
     }
 
     .nav-gap {
       padding: 0 8px;
-    }
-    .nav-versions {
-      display: none;
     }
   }
 }

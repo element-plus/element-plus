@@ -2,6 +2,7 @@
 @import './components/page.scss';
 @import './components/footer.scss';
 @import './components/side-nav.scss';
+@import './code.scss';
 
 *,
 ::before,
@@ -128,7 +129,8 @@ textarea {
 
 a {
   text-decoration: none;
-  color: var(--);
+  color: var(--brand-color);
+  font-weight: 500;
 }
 
 a:hover {
