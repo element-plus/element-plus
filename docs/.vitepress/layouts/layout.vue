@@ -17,7 +17,7 @@ import '../assets/styles/common.scss'
 
 const langMap = {
   'zh-CN': zhCN,
-  'en-US': enUS
+  'en-US': enUS,
 }
 
 const route = useRoute()
@@ -39,7 +39,7 @@ const [hasSidebar, toggleHasSidebar] = useToggle()
         'theme-dark': darkMode,
         'has-sidebar': hasSidebar,
         'sidebar-open': showSidebar,
-        'is-home': isHome
+        'is-home': isHome,
       }"
     >
       <template v-if="isNotFound">
