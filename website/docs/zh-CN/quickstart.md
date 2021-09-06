@@ -145,7 +145,7 @@ import VitePluginElementPlus from 'vite-plugin-element-plus'
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   return {
-     plugins: [
+    plugins: [
       vue(),
       VitePluginElementPlus({
         // 如果你需要使用 [component name].scss 源文件，你需要把下面的注释取消掉。
