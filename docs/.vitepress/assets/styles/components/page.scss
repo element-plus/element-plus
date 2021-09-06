@@ -1,3 +1,13 @@
 .page {
   padding-top: var(--header-height);
+
+  .content-wrapper {
+    padding: 0 2rem 4rem;
+    margin: 0 auto;
+    max-width: 48rem;
+
+    .content {
+      padding-bottom: 1.5rem;
+    }
+  }
 }

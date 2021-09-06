@@ -40,18 +40,6 @@ body {
   }
 }
 
-a {
-  color: var(--anchor-color);
-  text-decoration: none;
-}
-
-code {
-  background-color: #f9fafc;
-  padding: 0 4px;
-  border: 1px solid var(--el-border-color-base);
-  border-radius: 4px;
-}
-
 button,
 input,
 select,
@@ -136,39 +124,34 @@ textarea {
     color: #303133;
     line-height: 1.5em;
   }
+}
 
-  .tip {
-    padding: 8px 16px;
-    background-color: var(--el-color-primary-light-9);
-    border-radius: 4px;
-    border-left: var(--el-color-primary) 5px solid;
-    margin: 20px 0;
+.tip {
+  padding: 8px 16px;
+  background-color: var(--el-color-primary-light-9);
+  border-radius: 4px;
+  border-left: var(--el-color-primary) 5px solid;
+  margin: 20px 0;
+}
 
-    code {
-      background-color: rgba(255, 255, 255, 0.7);
-      color: #445368;
-    }
-  }
+.warning {
+  padding: 8px 16px;
+  background-color: var(--el-color-danger-lighter);
+  border-radius: 4px;
+  border-left: var(--el-color-danger) 5px solid;
+  margin: 20px 0;
 
-  .warning {
-    padding: 8px 16px;
-    background-color: var(--el-color-danger-lighter);
-    border-radius: 4px;
-    border-left: var(--el-color-danger) 5px solid;
-    margin: 20px 0;
-
-    ul {
-      color: #5e6d82;
-    }
-
-    code {
-      background-color: rgba(255, 255, 255, 0.7);
-      color: #445368;
-    }
+  ul {
+    color: #5e6d82;
   }
 }
+
 .demo {
   margin: 20px 0;
+}
+
+.el-icon {
+  color: var(--text-color-lighter);
 }
 @media (max-width: 1140px) {
   .container,
@@ -188,40 +171,13 @@ textarea {
   }
 }
 
-.element-doc {
-  .example-code {
-    position: relative;
+.DocSearch-Button .DocSearch-Search-Icon {
+  color: inherit;
+}
 
-    .lang-mark {
-      position: absolute;
-      bottom: 0.5rem;
-      color: #909399;
-      font-family: inherit;
-      font-size: 0.7rem;
-      font-weight: 700;
-      right: 1rem;
-      text-transform: uppercase;
-      user-select: none;
-    }
-  }
-
-  blockquote {
-    margin: 1em 0;
-    padding-left: 0.8em;
-    color: #909399;
-    font-size: 90%;
-    border-left: 4px solid #f0f0f0;
-
-    p {
-      color: inherit;
-      margin: 0;
-    }
-  }
-
-  .element-plus__link {
-    .el-icon {
-      vertical-align: text-top;
-      line-height: 1.5em;
-    }
+.element-plus__link {
+  .el-icon {
+    vertical-align: text-top;
+    line-height: 1.5em;
   }
 }
