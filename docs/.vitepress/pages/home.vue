@@ -115,17 +115,13 @@ const handleScroll = () => {
 
 const throttledHandleScroll = throttle(10, true, handleScroll)
 
-onMounted(() => {
-  const dom = document.querySelector(
-    '#app .el-scrollbar .el-scrollbar__wrap.el-scrollbar__wrap--hidden-default'
-  )
-  dom.addEventListener('scroll', throttledHandleScroll)
-})
+// onMounted(() => {
+//   const dom = document.querySelector('#app .el-scrollbar .el-scrollbar__wrap.el-scrollbar__wrap--hidden-default')
+//   dom.addEventListener('scroll', throttledHandleScroll)
+// })
 
-onBeforeUnmount(() => {
-  const dom = document.querySelector(
-    '#app .el-scrollbar .el-scrollbar__wrap.el-scrollbar__wrap--hidden-default'
-  )
-  dom.removeEventListener('scroll', throttledHandleScroll)
-})
+// onBeforeUnmount(() => {
+//   const dom = document.querySelector('#app .el-scrollbar .el-scrollbar__wrap.el-scrollbar__wrap--hidden-default')
+//   dom.removeEventListener('scroll', throttledHandleScroll)
+// })
 </script>

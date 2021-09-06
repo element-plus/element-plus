@@ -49,30 +49,17 @@ const langs = {
             .split('\n')
             .filter((part) => !!part)
         )
-        .map((match) => {
-          const length = match.length
-          if (length > 2) {
-            const desc = match.slice(1, length).join('')
-            return [match[0], desc]
-          }
-          return match
-        })
-      let i = 0
-      indices = indices.concat(
-        matches.map((match) => {
-          const title = match[0].replace(/#{2,4}/, '').trim()
-          const index = { component, title } as Index
-          index.anchor = slugify(title)
-          index.content = (match[1] || title).replace(/<[^>]+>/g, '')
-          index.path = path
-          index.sort = i++
-          return index
-        })
-      )
-    })
+      })
 
-    index.saveObjects(indices, {
-      autoGenerateObjectIDIfNotExist: true,
+      index
+        .saveObjects(indices, {
+          autoGenerateObjectIDIfNotExist: true,
+        })
+        .catch((e) => {
+          console.log(e)
+        })
     })
-  })
+    .catch((e) => {
+      console.log(e)
+    })
 })
