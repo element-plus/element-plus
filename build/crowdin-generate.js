@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable */
 import fs from 'fs'
 import path from 'path'
 import chalk from 'chalk'
@@ -27,7 +27,7 @@ async function main() {
 
   // build lang.json for telling `header>language-select` how many languages are there
   await fs.promises.writeFile(
-    path.resolve(localeOutput, 'lang.js'),
+    path.resolve(localeOutput, 'lang.json'),
     JSON.stringify(languages),
     {
       encoding: 'utf-8',
