@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted, onBeforeUnMounted } from 'vue'
 import { useRoute } from 'vitepress'
 import zhCN from 'element-plus/lib/locale/lang/zh-cn'
 import enUS from 'element-plus/lib/locale/lang/en'
@@ -21,7 +21,6 @@ const langMap = {
 }
 
 const route = useRoute()
-// const { site } = useData()
 const lang = useLang()
 const isHome = useIsHome()
 
@@ -49,7 +48,8 @@ const [hasSidebar, toggleHasSidebar] = useToggle()
       <template v-else>
         <ep-header
           @toggle-sidebar="toggleSidebar"
-          @toggle-theme="toggleDarkmode"
+          @toggle-dark="toggleDarkmode"
+          :is-dark="darkMode"
         />
         <ep-side-nav :open="showSidebar" @sidebar-change="toggleHasSidebar">
           <template #sidebar-top></template>

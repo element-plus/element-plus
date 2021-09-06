@@ -1,108 +1,172 @@
 <template>
-  <div id="search-box" class="algolia-search-box">
-    <button @click="open" class="search-box-button">
-      <el-icon class="search-box-icon">
-        <search />
-      </el-icon>
-      <span class="search-box-placeholder">
-        {{ placeholder }}
-      </span>
-      <span class="search-box-key"> ⌘ </span>
-      <span class="search-box-key"> K </span>
-    </button>
-    <el-dialog v-model="showDialog">
-      <div>I am content</div>
-    </el-dialog>
-  </div>
+  <div class="algolia-search-box" id="docsearch" />
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from 'vue'
-import { useRouter } from 'vitepress'
-import algoliasearch from 'algoliasearch'
-import { Search } from '@element-plus/icons'
-import { useToggle } from '../utils'
-import localeData from '../i18n/component/search.json'
+import '@docsearch/css'
+import { ref, computed, watch, onMounted, getCurrentInstance } from 'vue'
+import { useRouter, useRoute } from 'vitepress'
+import docsearch from '@docsearch/js'
 import { useLang } from '../utils/routes'
-import { Language } from '../constants/language'
+// import type { DefaultTheme } from '../config'
+import type { DocSearchHit } from '@docsearch/react/dist/esm/types'
 
-import type { SearchIndex } from 'algoliasearch'
-console.log(localeData)
+// import algoliasearch from 'algoliasearch'
+// import { Search } from '@element-plus/icons'
+// import { useToggle } from '../utils'
+// import localeData from '../i18n/component/search.json'
+// import { Language } from '../constants/language'
+
+// import type { SearchIndex } from 'algoliasearch'
+// const router = useRouter()
+// const lang = useLang()
+// const locale = computed<Record<string, string>>(() => localeData[lang.value])
+// const index = ref<SearchIndex>(null)
+// const query = ref('')
+// const isEmpty = ref(false)
+// const placeholder = computed(() => locale.value.search || '')
+// const emptyText = computed(() => locale.value.empty || '')
+
+const props = defineProps<{
+  options: any
+  multilang?: boolean
+}>()
+
+const vm = getCurrentInstance()
+const route = useRoute()
 const router = useRouter()
-const lang = useLang()
-const locale = computed<Record<string, string>>(() => localeData[lang.value])
-const index = ref<SearchIndex>(null)
-const query = ref('')
-const isEmpty = ref(false)
-const placeholder = computed(() => locale.value.search || '')
-const emptyText = computed(() => locale.value.empty || '')
 
-const initIndex = () => {
-  const client = algoliasearch('7DCTSU0WBW', '463385cf36ad2e81aff21afea1c0409c')
-  index.value = client.initIndex(`element-${locale.value.index}`)
-}
-
-const querySearch = async (query: string, cb: (arg: any[]) => void) => {
-  if (!query) return
-  try {
-    const res = await index.value.search(query, { hitsPerPage: 6 })
-    if (res.hits.length > 0) {
-      isEmpty.value = false
-      cb(
-        res.hits
-          .map((hit: any) => {
-            let content = hit._highlightResult.content.value.replace(
-              /\s+/g,
-              ' '
-            )
-            const highlightStart = content.indexOf(
-              '<span class="algolia-highlight">'
-            )
-            if (highlightStart > -1) {
-              const startEllipsis = highlightStart - 15 > 0
-              content =
-                (startEllipsis ? '...' : '') +
-                content.slice(Math.max(0, highlightStart - 15), content.length)
-            } else if (content.indexOf('|') > -1) {
-              content = ''
-            }
-            return {
-              anchor: hit.anchor,
-              component: hit.component,
-              highlightedCompo: hit._highlightResult.component.value,
-              title: hit._highlightResult.title.value,
-              content,
-            }
-          })
-          .concat({ img: true } as any)
-      )
-    } else {
-      isEmpty.value = true
-      cb([{ isEmpty: true }])
-    }
-  } catch (e) {
-    console.error(e)
+watch(
+  () => props.options,
+  (value) => {
+    update(value)
   }
-}
+)
 
-const handleSelect = (val: any) => {
-  if (val.img || val.isEmpty) return
-  const component = val.component || ''
-  const anchor = val.anchor
-  router.go(
-    `/${lang.value}/component/${component}${anchor ? `#${anchor}` : ''}`
+onMounted(() => {
+  initialize(props.options)
+})
+
+function isSpecialClick(event: MouseEvent) {
+  return (
+    event.button === 1 ||
+    event.altKey ||
+    event.ctrlKey ||
+    event.metaKey ||
+    event.shiftKey
   )
 }
 
-const [showDialog, toggleDialog] = useToggle()
+function getRelativePath(absoluteUrl: string) {
+  const { pathname, hash } = new URL(absoluteUrl)
 
-const open = () => {
-  toggleDialog(true)
+  return pathname + hash
 }
 
-watch(lang, initIndex)
+function update(options: any) {
+  if (vm && vm.vnode.el) {
+    vm.vnode.el.innerHTML =
+      '<div class="algolia-search-box" id="docsearch"></div>'
+    initialize(options)
+  }
+}
 
-onMounted(initIndex)
+const searchIndexMap = {
+  'zh-CN': 'element-zh',
+  'en-US': 'element-en',
+  es: 'element-es',
+  'fr-FR': 'element-fr',
+  jp: 'element-jp',
+}
+
+const lang = useLang()
+
+function initialize(userOptions: any) {
+  // if the user has multiple locales, the search results should be filtered
+  // based on the language
+  const facetFilters = props.multilang ? ['language:' + lang.value] : []
+
+  docsearch(
+    Object.assign({}, userOptions, {
+      container: '#docsearch',
+      indexName: searchIndexMap[lang.value],
+      searchParameters: Object.assign({}, userOptions.searchParameters, {
+        // pass a custom lang facetFilter to allow multiple language search
+        // https://github.com/algolia/docsearch-configs/pull/3942
+        facetFilters: facetFilters.concat(
+          userOptions.searchParameters?.facetFilters || []
+        ),
+      }),
+
+      navigator: {
+        navigate: ({ suggestionUrl }: { suggestionUrl: string }) => {
+          const { pathname: hitPathname } = new URL(
+            window.location.origin + suggestionUrl
+          )
+
+          // Router doesn't handle same-page navigation so we use the native
+          // browser location API for anchor navigation
+          if (route.path === hitPathname) {
+            window.location.assign(window.location.origin + suggestionUrl)
+          } else {
+            router.go(suggestionUrl)
+          }
+        },
+      },
+
+      transformItems: (items: DocSearchHit[]) => {
+        return items.map((item) => {
+          return Object.assign({}, item, {
+            url: getRelativePath(item.url),
+          })
+        })
+      },
+
+      hitComponent: ({
+        hit,
+        children,
+      }: {
+        hit: DocSearchHit
+        children: any
+      }) => {
+        const relativeHit = hit.url.startsWith('http')
+          ? getRelativePath(hit.url as string)
+          : hit.url
+
+        return {
+          type: 'a',
+          ref: undefined,
+          constructor: undefined,
+          key: undefined,
+          props: {
+            href: hit.url,
+            onClick: (event: MouseEvent) => {
+              if (isSpecialClick(event)) {
+                return
+              }
+
+              // we rely on the native link scrolling when user is already on
+              // the right anchor because Router doesn't support duplicated
+              // history entries
+              if (route.path === relativeHit) {
+                return
+              }
+
+              // if the hits goes to another page, we prevent the native link
+              // behavior to leverage the Router loading feature
+              if (route.path !== relativeHit) {
+                event.preventDefault()
+              }
+
+              router.go(relativeHit)
+            },
+            children,
+          },
+        }
+      },
+    })
+  )
+}
 </script>
 
 <style scoped lang="scss">
@@ -165,5 +229,17 @@ onMounted(initIndex)
   padding-bottom: 2px;
   position: relative;
   width: 20px;
+}
+
+.DocSearch {
+  --docsearch-primary-color: var(--brand-color);
+  --docsearch-key-gradient: rgba(125, 125, 125, 0.1);
+  --docsearch-key-shadow: rgba(125, 125, 125, 0.3);
+  --docsearch-footer-height: 44px;
+  --docsearch-footer-background: #fff;
+  --docsearch-footer-shadow: 0 -1px 0 0 #e0e3e8,
+    0 -3px 6px 0 rgba(69, 98, 155, 0.12);
+  --docsearch-searchbox-background: rgba(242, 242, 242, 0.5);
+  --docsearch-muted-color: var(--el-text-color-secondary);
 }
 </style>
