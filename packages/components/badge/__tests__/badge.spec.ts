@@ -24,6 +24,9 @@ describe('Badge', () => {
       slots: { default: AXIOM },
     })
     expect(wrapper.find('.el-badge__content.is-dot').exists()).toBe(true)
+    expect(
+      wrapper.find('.el-badge__content.el-badge__content--danger').exists()
+    ).toBe(true)
   })
 
   test('is dot with type', () => {

@@ -37,9 +37,7 @@ export default defineComponent({
     hidden: Boolean,
     type: {
       type: String,
-      default: (props: any): string => {
-        return props.isDot ? 'danger' : 'primary'
-      },
+      default: 'danger',
       validator: (val: string) => {
         return ['primary', 'success', 'warning', 'info', 'danger'].includes(val)
       },
