@@ -8,7 +8,7 @@ import Example from '../components/example.vue'
 export default {
   NotFound,
   Layout: ElementPlusLayout,
-  logo: '../assets/images/element-plus-logo-small.svg',
+  logo: '/images/element-plus-logo-small.svg',
   enhanceApp: ({ app }) => {
     app.use(ElementPlus)
     app.component('nav-link', NavLink)
