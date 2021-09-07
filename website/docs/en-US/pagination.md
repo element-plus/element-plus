@@ -7,14 +7,16 @@ If you have too much data to display in one page, use pagination.
 :::demo Set `layout` with different pagination elements you wish to display separated with a comma. Pagination elements are: `prev` (a button navigating to the previous page), `next` (a button navigating to the next page), `pager` (page list), `jumper` (a jump-to input), `total` (total item count), `size` (a select to determine page size) and `->`(every element after this symbol will be pulled to the right).
 
 ```html
-<div class="block">
-  <span class="demonstration">When you have few pages</span>
-  <el-pagination layout="prev, pager, next" :total="50"> </el-pagination>
-</div>
-<div class="block">
-  <span class="demonstration">When you have more than 7 pages</span>
-  <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>
-</div>
+<template>
+  <div class="block">
+    <span class="demonstration">When you have few pages</span>
+    <el-pagination layout="prev, pager, next" :total="50"> </el-pagination>
+  </div>
+  <div class="block">
+    <span class="demonstration">When you have more than 7 pages</span>
+    <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>
+  </div>
+</template>
 ```
 
 :::
@@ -24,13 +26,15 @@ If you have too much data to display in one page, use pagination.
 :::demo By default, Pagination collapses extra pager buttons when it has more than 7 pages. This can be configured with the `pager-count` attribute.
 
 ```html
-<el-pagination
-  :page-size="20"
-  :pager-count="11"
-  layout="prev, pager, next"
-  :total="1000"
->
-</el-pagination>
+<template>
+  <el-pagination
+    :page-size="20"
+    :pager-count="11"
+    layout="prev, pager, next"
+    :total="1000"
+  >
+  </el-pagination>
+</template>
 ```
 
 :::
@@ -40,8 +44,10 @@ If you have too much data to display in one page, use pagination.
 :::demo Set the `background` attribute and the buttons will have a background color.
 
 ```html
-<el-pagination background layout="prev, pager, next" :total="1000">
-</el-pagination>
+<template>
+  <el-pagination background layout="prev, pager, next" :total="1000">
+  </el-pagination>
+</template>
 ```
 
 :::
@@ -53,7 +59,9 @@ Use small pagination in the case of limited space.
 :::demo Just set the `small` attribute to `true` and the Pagination becomes smaller.
 
 ```html
-<el-pagination small layout="prev, pager, next" :total="50"> </el-pagination>
+<template>
+  <el-pagination small layout="prev, pager, next" :total="50"> </el-pagination>
+</template>
 ```
 
 :::
@@ -175,15 +183,17 @@ When there is only one page, hide the pagination by setting the `hide-on-single-
 :::demo
 
 ```html
-<div>
-  <el-switch v-model="value"> </el-switch>
-  <el-pagination
-    :hide-on-single-page="value"
-    :total="5"
-    layout="prev, pager, next"
-  >
-  </el-pagination>
-</div>
+<template>
+  <div>
+    <el-switch v-model="value"> </el-switch>
+    <el-pagination
+      :hide-on-single-page="value"
+      :total="5"
+      layout="prev, pager, next"
+    >
+    </el-pagination>
+  </div>
+</template>
 
 <script>
   export default {

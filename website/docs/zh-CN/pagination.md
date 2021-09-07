@@ -7,14 +7,16 @@
 :::demo 设置`layout`，表示需要显示的内容，用逗号分隔，布局元素会依次显示。`prev`表示上一页，`next`为下一页，`pager`表示页码列表，除此以外还提供了`jumper`和`total`，`size`和特殊的布局符号`->`，`->`后的元素会靠右显示，`jumper`表示跳页元素，`total`表示总条目数，`size`用于设置每页显示的页码数量。
 
 ```html
-<div class="block">
-  <span class="demonstration">页数较少时的效果</span>
-  <el-pagination layout="prev, pager, next" :total="50"> </el-pagination>
-</div>
-<div class="block">
-  <span class="demonstration">大于 7 页时的效果</span>
-  <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>
-</div>
+<template>
+  <div class="block">
+    <span class="demonstration">页数较少时的效果</span>
+    <el-pagination layout="prev, pager, next" :total="50"> </el-pagination>
+  </div>
+  <div class="block">
+    <span class="demonstration">大于 7 页时的效果</span>
+    <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>
+  </div>
+</template>
 ```
 
 :::
@@ -24,13 +26,15 @@
 :::demo 默认情况下，当总页数超过 7 页时，Pagination 会折叠多余的页码按钮。通过`pager-count`属性可以设置最大页码按钮数。
 
 ```html
-<el-pagination
-  :page-size="20"
-  :pager-count="11"
-  layout="prev, pager, next"
-  :total="1000"
->
-</el-pagination>
+<template>
+  <el-pagination
+    :page-size="20"
+    :pager-count="11"
+    layout="prev, pager, next"
+    :total="1000"
+  >
+  </el-pagination>
+</template>
 ```
 
 :::
@@ -40,8 +44,10 @@
 :::demo 设置`background`属性可以为分页按钮添加背景色。
 
 ```html
-<el-pagination background layout="prev, pager, next" :total="1000">
-</el-pagination>
+<template>
+  <el-pagination background layout="prev, pager, next" :total="1000">
+  </el-pagination>
+</template>
 ```
 
 :::
@@ -53,7 +59,9 @@
 :::demo 只需要一个`small`属性，它接受一个`Boolean`，默认为`false`，设为`true`即可启用。
 
 ```html
-<el-pagination small layout="prev, pager, next" :total="50"> </el-pagination>
+<template>
+  <el-pagination small layout="prev, pager, next" :total="50"> </el-pagination>
+</template>
 ```
 
 :::
@@ -175,15 +183,17 @@
 :::demo
 
 ```html
-<div>
-  <el-switch v-model="value"> </el-switch>
-  <el-pagination
-    :hide-on-single-page="value"
-    :total="5"
-    layout="prev, pager, next"
-  >
-  </el-pagination>
-</div>
+<template>
+  <div>
+    <el-switch v-model="value"> </el-switch>
+    <el-pagination
+      :hide-on-single-page="value"
+      :total="5"
+      layout="prev, pager, next"
+    >
+    </el-pagination>
+  </div>
+</template>
 
 <script>
   export default {
