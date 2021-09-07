@@ -22,7 +22,7 @@ Muestra la cantidad de mensajes nuevos.
   <el-badge :value="2" class="item" type="warning">
     <el-button size="small">replies</el-button>
   </el-badge>
-  
+
   <el-dropdown trigger="click">
     <span class="el-dropdown-link">
       Click Me<i class="el-icon-caret-bottom el-icon--right"></i>

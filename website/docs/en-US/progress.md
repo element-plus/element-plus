@@ -89,9 +89,12 @@ You can use `color` attr to set the progress bar color. it accepts color string,
 ```html
 <template>
   <el-progress :percentage="percentage" :color="customColor"></el-progress>
-  
-  <el-progress :percentage="percentage" :color="customColorMethod"></el-progress>
-  
+
+  <el-progress
+    :percentage="percentage"
+    :color="customColorMethod"
+  ></el-progress>
+
   <el-progress :percentage="percentage" :color="customColors"></el-progress>
   <el-progress :percentage="percentage2" :color="customColors"></el-progress>
   <div>

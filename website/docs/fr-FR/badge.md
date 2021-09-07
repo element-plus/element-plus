@@ -22,7 +22,7 @@ Affiche le nombre de nouveaux messages.
   <el-badge :value="2" class="item" type="warning">
     <el-button size="small">Réponses</el-button>
   </el-badge>
-  
+
   <el-dropdown trigger="click">
     <span class="el-dropdown-link">
       Cliquez<i class="el-icon-caret-bottom el-icon--right"></i>

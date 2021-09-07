@@ -89,9 +89,12 @@ Vous pouvez utiliser l'attribut `color` pour définir la couleur de la barre de 
 ```html
 <template>
   <el-progress :percentage="percentage" :color="customColor"></el-progress>
-  
-  <el-progress :percentage="percentage" :color="customColorMethod"></el-progress>
-  
+
+  <el-progress
+    :percentage="percentage"
+    :color="customColorMethod"
+  ></el-progress>
+
   <el-progress :percentage="percentage" :color="customColors"></el-progress>
   <el-progress :percentage="percentage2" :color="customColors"></el-progress>
   <div>

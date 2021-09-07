@@ -89,9 +89,12 @@ Puede utilizar el atributo `color` para establecer el color de la barra de progr
 ```html
 <template>
   <el-progress :percentage="percentage" :color="customColor"></el-progress>
-  
-  <el-progress :percentage="percentage" :color="customColorMethod"></el-progress>
-  
+
+  <el-progress
+    :percentage="percentage"
+    :color="customColorMethod"
+  ></el-progress>
+
   <el-progress :percentage="percentage" :color="customColors"></el-progress>
   <el-progress :percentage="percentage2" :color="customColors"></el-progress>
   <div>
@@ -233,7 +236,7 @@ Puede utilizar el atributo `color` para establecer el color de la barra de progr
     :percentage="percentage2"
     :color="colors"
   ></el-progress>
-  
+
   <div>
     <el-button-group>
       <el-button icon="el-icon-minus" @click="decrease"></el-button>
