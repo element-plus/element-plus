@@ -308,7 +308,7 @@ export default defineComponent({
       return rightDate.value.month()
     })
 
-    const hasShortcuts = computed(() => !!shortcuts.length)
+    const hasShortcuts = computed(() => !!shortcuts.value.length)
 
     const minVisibleDate = computed(() => {
       if (dateUserInput.value.min !== null) return dateUserInput.value.min
@@ -671,7 +671,6 @@ export default defineComponent({
 
     const pickerBase = inject('EP_PICKER_BASE') as any
     const {
-      shortcuts,
       disabledDate,
       cellClassName,
       format,
@@ -680,6 +679,16 @@ export default defineComponent({
       arrowControl,
       clearable,
     } = pickerBase.props
+
+    const shortcuts = ref([])
+    shortcuts.value = pickerBase.props
+    watch(
+      () => pickerBase.props.shortcuts,
+      (val) => {
+        shortcuts.value = val
+      },
+      { immediate: true }
+    )
 
     watch(
       () => props.parsedValue,
