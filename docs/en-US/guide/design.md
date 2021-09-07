@@ -37,25 +37,25 @@ lang: en-US
   <div class="el-row cards" style="margin-left: -7px; margin-right: -7px;">
     <div class="el-col el-col-24 el-col-xs-12 el-col-sm-6 is-guttered">
       <div class="card">
-        <img src="/.vitepress/assets/images/consistency.png" alt="Consistency">
+        <img src="/images/consistency.png" alt="Consistency">
         <p>Consistency</p>
       </div>
     </div>
     <div class="el-col el-col-24 el-col-xs-12 el-col-sm-6 is-guttered">
       <div class="card">
-        <img src="/.vitepress/assets/images/feedback.png" alt="Feedback">
+        <img src="/images/feedback.png" alt="Feedback">
         <p>Feedback</p>
       </div>
     </div>
     <div class="el-col el-col-24 el-col-xs-12 el-col-sm-6 is-guttered">
       <div class="card">
-        <img src="/.vitepress/assets/images/efficiency.png" alt="Efficiency">
+        <img src="/images/efficiency.png" alt="Efficiency">
         <p>Efficiency</p>
       </div>
     </div>
     <div class="el-col el-col-24 el-col-xs-12 el-col-sm-6 is-guttered">
       <div class="card">
-        <img src="/.vitepress/assets/images/controllability.png" alt="Controllability">
+        <img src="/images/controllability.png" alt="Controllability">
         <p>Controllability</p>
       </div>
     </div>

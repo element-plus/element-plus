@@ -35,8 +35,6 @@ import { useNav } from '../composables/use-nav'
 import { useLang, useIsHome } from '../utils/routes'
 
 import sponsorsData from '../i18n/component/sponsor.json'
-import bit from '../assets/images/bit.svg'
-import renren from '../assets/images/renren.png'
 
 type SideNavItem = {
   beta: boolean
@@ -65,12 +63,12 @@ const nav = useNav()
 const sponsors = [
   {
     name: 'bit',
-    img: bit,
+    img: '/images/bit.svg',
     url: 'https://bit.dev/?from=element-ui',
   },
   {
     url: 'https://www.renren.io/?from=element-ui',
-    img: renren,
+    img: '/images/renren.png',
     name: sponsorsLocale.value.sponsorNameR,
   },
 ]
