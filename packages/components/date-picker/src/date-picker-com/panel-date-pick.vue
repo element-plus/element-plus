@@ -374,7 +374,7 @@ export default defineComponent({
       { immediate: true }
     )
 
-    const hasShortcuts = computed(() => !!shortcuts.length)
+    const hasShortcuts = computed(() => !!shortcuts.value.length)
 
     const handleMonthPick = (month) => {
       innerDate.value = innerDate.value.startOf('month').month(month)
@@ -617,13 +617,22 @@ export default defineComponent({
 
     const pickerBase = inject('EP_PICKER_BASE') as any
     const {
-      shortcuts,
       disabledDate,
       cellClassName,
       defaultTime,
       defaultValue,
       arrowControl,
     } = pickerBase.props
+
+    const shortcuts = ref([])
+    shortcuts.value = pickerBase.props
+    watch(
+      () => pickerBase.props.shortcuts,
+      (val) => {
+        shortcuts.value = val
+      },
+      { immediate: true }
+    )
 
     watch(
       () => props.parsedValue,

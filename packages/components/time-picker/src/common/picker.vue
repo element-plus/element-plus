@@ -557,8 +557,17 @@ export default defineComponent({
       ctx.emit('calendar-change', e)
     }
 
+    const baseProps: any = ref({ ...props })
+    watch(
+      () => props.shortcuts,
+      (val) => {
+        baseProps.value.shortcuts = val
+      },
+      { immediate: true }
+    )
+
     provide('EP_PICKER_BASE', {
-      props,
+      props: baseProps.value,
     })
 
     return {
