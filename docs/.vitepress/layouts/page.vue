@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import PageFooter from '../components/page-footer.vue'
 import PageNav from '../components/page-nav.vue'
+import TableOfContent from '../components/table-of-content.vue'
 const showBackToTop = ref(false)
 </script>
 
@@ -12,6 +13,7 @@ const showBackToTop = ref(false)
       <PageFooter />
       <PageNav />
     </div>
+    <TableOfContent />
   </main>
   <el-backtop
     v-if="showBackToTop"
