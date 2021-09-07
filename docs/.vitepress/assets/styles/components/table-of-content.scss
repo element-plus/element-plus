@@ -1,0 +1,42 @@
+.toc-wrapper {
+  .toc-content__heading {
+    font-size: 12px;
+    color: var(--text-color-light);
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .toc-content {
+    padding-right: 0.5rem;
+  }
+
+  .toc-items {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+    line-height: 1.2;
+
+    .toc-item {
+      margin-top: 10px;
+      font-size: 11px;
+      color: var(--text-color-lighter);
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      color: inherit;
+
+      .toc-link {
+        position: relative;
+        color: var(--text-color-lighter);
+        transition: color var(--el-transition-duration);
+        &.active {
+          color: var(--brand-color);
+        }
+      }
+
+      &.subitem {
+        padding-left: 1rem;
+      }
+    }
+  }
+}

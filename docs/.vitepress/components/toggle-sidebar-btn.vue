@@ -23,7 +23,7 @@ defineEmits(['toggle'])
 <style>
 .sidebar-button {
   position: absolute;
-  top: 1.25rem;
+  top: 0.5rem;
   left: 1rem;
   display: none;
   padding: 0.6rem;
@@ -37,7 +37,7 @@ defineEmits(['toggle'])
   height: 1.25rem;
 }
 
-@media screen and (max-width: 849px) {
+@media screen and (max-width: 1044px) {
   .sidebar-button {
     display: block;
   }

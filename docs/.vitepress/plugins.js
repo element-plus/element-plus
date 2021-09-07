@@ -3,6 +3,7 @@ const mdContainer = require('markdown-it-container')
 const path = require('path')
 const fs = require('fs')
 const { highlight } = require('vitepress/dist/node/markdown/plugins/highlight')
+const { parse } = require('@vue/compiler-sfc')
 
 module.exports = (md) => {
   md.use(mdContainer, 'demo', {
@@ -28,9 +29,11 @@ module.exports = (md) => {
 
         if (!source) throw new Error(`Incorrect source file: ${sourceFile}`)
 
+        const { html, js, css, cssPreProcessor } =
+          generateCodePenSnippet(source)
         return `<Demo source="${encodeURIComponent(
           highlight(source, 'vue')
-        )}" path="${sourceFile}">
+        )}" path="${sourceFile}" html=${html} js=${js} css=${css} cssPreProcessor=${cssPreProcessor}>
         ${description ? `` : ''}
         <!--element-demo: ${content}:element-demo-->
         `
@@ -39,4 +42,15 @@ module.exports = (md) => {
       return '</Demo>'
     },
   })
+}
+
+function generateCodePenSnippet(source) {
+  const { template, script, styles } = parse(source).descriptor
+  const css = styles.pop()
+  return {
+    html: encodeURIComponent(template.content),
+    js: encodeURIComponent(script.content),
+    css: encodeURIComponent(css.content),
+    cssPreProcessor: css.lang ? css.lang : 'none',
+  }
 }
