@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, onBeforeUnMounted } from 'vue'
+import { computed, onMounted, onBeforeUnMounted, watch } from 'vue'
 import { useRoute } from 'vitepress'
 import zhCN from 'element-plus/lib/locale/lang/zh-cn'
 import enUS from 'element-plus/lib/locale/lang/en'
@@ -29,6 +29,13 @@ const isNotFound = computed(() => route.component === NotFound)
 const [showSidebar, toggleSidebar] = useToggle()
 const [darkMode, toggleDarkmode] = useToggle()
 const [hasSidebar, toggleHasSidebar] = useToggle()
+
+watch(
+  () => route.path,
+  () => {
+    toggleSidebar(false)
+  }
+)
 </script>
 
 <template>

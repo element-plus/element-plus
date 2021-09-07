@@ -29,7 +29,7 @@ a.sidebar-link-item.active {
   padding: 0.75rem 0 5rem;
 }
 
-@media (min-width: 850px) {
+@media (min-width: 1044px) {
   .sidebar > .sidebar-links {
     padding: 1.5rem 0;
   }
@@ -39,7 +39,7 @@ a.sidebar-link-item.active {
   padding-top: 0.5rem;
 }
 
-@media (min-width: 850px) {
+@media (min-width: 1044px) {
   .sidebar > .sidebar-links > .sidebar-link + .sidebar-link {
     padding-top: 1.25rem;
   }
@@ -65,7 +65,7 @@ a.sidebar-link-item.active {
   padding: 0.75rem 1.5rem 0.75rem 2rem;
   line-height: 1.4;
   font-size: 0.9rem;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .sidebar

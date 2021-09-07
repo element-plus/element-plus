@@ -18,31 +18,22 @@
       </div>
     </div>
     <div class="sponsors">
-      <a
-        class="sponsor"
-        href="https://bit.dev/?from=element-ui"
-        target="_blank"
-      >
-        <img width="45" src="../assets/images/bit.svg" alt="bit" />
-        <div>
-          <p>{{ locale.sponsorLabel }} <span class="name">bit</span></p>
-          <p>Share Code</p>
-        </div>
-      </a>
-      <a
-        class="sponsor renren"
-        href="https://www.renren.io/?from=element-ui"
-        target="_blank"
-      >
-        <img width="45" src="../assets/images/renren.png" alt="bit" />
-        <div>
-          <p>
-            {{ locale.sponsorLabel }}
-            <span class="name">{{ locale.sponsorNameR }}</span>
-          </p>
-          <p>{{ locale.sponsorIntroR }}</p>
-        </div>
-      </a>
+      <template v-for="sponsor in sponsors">
+        <a
+          :class="['sponsor', sponsor.className]"
+          :href="sponsor.url"
+          target="_blank"
+        >
+          <img width="45" :src="sponsor.img" :alt="sponsor.name" />
+          <div>
+            <p>
+              {{ locale.sponsoredBy }}
+              <span class="name">{{ sponsor.name }}</span>
+            </p>
+            <p>{{ sponsor.slogan }}</p>
+          </div>
+        </a>
+      </template>
     </div>
     <div class="cards">
       <ul class="container">
@@ -91,17 +82,35 @@
 </template>
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
-import '../assets/styles/pages/home.scss'
+import { withBase } from 'vitepress'
 import sponsorsData from '../i18n/component/sponsor.json'
 import homeData from '../i18n/pages/home.json'
 import { throttle } from 'throttle-debounce'
 import { useLang } from '../utils/routes'
+
+import '../assets/styles/pages/home.scss'
 
 const lang = useLang()
 const mainImgOffset = ref(0)
 const locale = computed(() => sponsorsData[lang.value])
 const homeLocale = computed(() => homeData[lang.value])
 const indexMainImg = ref()
+
+const sponsors = [
+  {
+    name: 'bit',
+    img: withBase('.vitepress/assets/images/bit.svg'),
+    url: 'https://bit.dev/?from=element-ui',
+    slogan: 'Share Code',
+  },
+  {
+    name: 'renren.io',
+    img: withBase('.vitepress/assets/images/renren.png'),
+    url: 'https://www.renren.io/?from=element-ui',
+    slogan: 'Rapid development platform',
+    className: 'renren',
+  },
+]
 
 const handleScroll = () => {
   const ele = indexMainImg.value
