@@ -7,14 +7,14 @@
       </div>
     </div>
     <div ref="indexMainImg" class="jumbotron">
-      <img src="../assets/images/theme-index-blue.png" alt="" />
+      <img src="/images/theme-index-blue.png" alt="" />
       <div
         class="jumbotron-red"
         :style="{
           height: mainImgOffset + 'px',
         }"
       >
-        <img src="../assets/images/theme-index-red.png" alt="" />
+        <img src="/images/theme-index-red.png" alt="" />
       </div>
     </div>
     <div class="sponsors">
@@ -39,7 +39,7 @@
       <ul class="container">
         <li>
           <div class="card">
-            <img src="../assets/images/guide.png" alt="" />
+            <img src="/images/guide.png" alt="" />
             <h3>{{ homeLocale[3] }}</h3>
             <p>{{ homeLocale[4] }}</p>
             <nav-link
@@ -52,7 +52,7 @@
         </li>
         <li>
           <div class="card">
-            <img src="../assets/images/component.png" alt="" />
+            <img src="/images/component.png" alt="" />
             <h3>{{ homeLocale[6] }}</h3>
             <p>{{ homeLocale[7] }}</p>
             <nav-link
@@ -65,7 +65,7 @@
         </li>
         <li>
           <div class="card">
-            <img src="../assets/images/resource.png" alt="" />
+            <img src="/images/resource.png" alt="" />
             <h3>{{ homeLocale[8] }}</h3>
             <p>{{ homeLocale[9] }}</p>
             <nav-link
@@ -99,13 +99,13 @@ const indexMainImg = ref()
 const sponsors = [
   {
     name: 'bit',
-    img: withBase('.vitepress/assets/images/bit.svg'),
+    img: withBase('/images/bit.svg'),
     url: 'https://bit.dev/?from=element-ui',
     slogan: 'Share Code',
   },
   {
     name: 'renren.io',
-    img: withBase('.vitepress/assets/images/renren.png'),
+    img: withBase('/images/renren.png'),
     url: 'https://www.renren.io/?from=element-ui',
     slogan: 'Rapid development platform',
     className: 'renren',
