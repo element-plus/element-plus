@@ -57,7 +57,7 @@ Element's font files.
 
 If you project doesn't use SCSS, you can customize themes with our CLI theme tool:
 
-#### <strong>Install</strong>
+#### Installation
 
 First install the theme generator globally or locally. Local install is
 recommended because in this way, when others clone your project, npm will
@@ -77,7 +77,7 @@ npm i element-theme-chalk -D
 npm i https://github.com/ElementUI/theme-chalk -D
 ```
 
-#### <strong>Initialize variable file</strong>
+#### Initialize variable file
 
 After successfully installing the above packages, a command named `et` i
 available in CLI (if the packages are installed locally, use `node_modules/.bin/et`
@@ -114,7 +114,7 @@ $--color-info: #909399 !default;
 ...
 ```
 
-#### <strong>Modify variables</strong>
+#### Modify variables
 
 Just edit `element-variables.scss`, e.g. changing the theme color to red:
 
@@ -122,7 +122,7 @@ Just edit `element-variables.scss`, e.g. changing the theme color to red:
 $--color-primary: red;
 ```
 
-#### <strong>Build theme</strong>
+#### Build theme
 
 After saving the variable file, use `et` to build your theme. You can activate
 `watch` mode by adding a parameter `-w`. And if you customized the variable
@@ -139,7 +139,9 @@ et
 
 ### Use custom theme
 
-#### <strong>Import custom theme</strong>
+We will cover how to use your customized theme in your project in this section
+
+#### Import custom theme
 
 Importing your own theme is just like importing the default theme, only
 this time you import the file built from "Online Theme Roller" or "CLI tool":
@@ -152,7 +154,7 @@ import ElementPlus from 'element-plus'
 createApp(App).use(ElementPlus)
 ```
 
-#### <strong>Import component theme on demand</strong>
+#### Import component theme on demand
 
 If you are using `babel-plugin-component` for on-demand import, just modify
 `.babelrc` and specify `styleLibraryName` to the path where your custom theme

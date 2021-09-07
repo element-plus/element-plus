@@ -39,11 +39,13 @@
     margin: 0;
 
     a {
-      color: var(--el-text-color-primary);
       text-decoration: none;
+      display: flex;
 
-      img {
-        user-select: none;
+      .logo {
+        font-size: var(--header-item-height);
+        line-height: 24px;
+        color: var(--brand-color);
       }
     }
 
@@ -206,7 +208,7 @@
   }
 }
 
-@media (max-width: 849px) {
+@media (max-width: 1044px) {
   .header {
     .nav-logo {
       display: none;
@@ -233,7 +235,7 @@
   }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 1045px) {
   .header {
     .container {
       padding: 0 12px;

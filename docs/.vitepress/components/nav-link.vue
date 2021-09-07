@@ -54,7 +54,7 @@ const isSkipped = computed(() => skipped.includes(propsRefs.item.value.link))
   color: var(--text-color);
 }
 
-@media (min-width: 850px) {
+@media (min-width: 1044px) {
   .item {
     border-bottom: none;
     padding: 0 1.5rem;

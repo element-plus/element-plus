@@ -21,8 +21,11 @@
   --danger-color: var(--el-color-danger);
 
   // header vars
-  --header-height: 80px;
-  --header-item-height: 36px;
+  --header-height: 56px;
+  --header-item-height: 32px;
+  --sidebar-width: 17rem;
+  --content-min-width: 16rem;
+  --content-max-width: 48rem;
   --header-z-index: 10;
 
   --sidebar-z-index: 6;
@@ -40,6 +43,6 @@
 
 // SCSS variables
 // breakpoints
-$breakpoint-lg: 1024px !default;
+$breakpoint-lg: 1044px !default;
 $breakpoint-md: 768px !default;
 $breakpoint-sm: 480px !default;

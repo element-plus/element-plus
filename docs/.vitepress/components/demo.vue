@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, shallowRef, markRaw, watch, toRef } from 'vue'
+import { computed, shallowRef, markRaw, watch, toRef, ref } from 'vue'
 import { useToggle } from '../utils'
 import { useLang } from '../utils/routes'
 import { useSourceCode } from '../composables/use-sourcecode'
@@ -8,6 +8,7 @@ import SourceCodeIcon from './icons/source-code.vue'
 import CodepenIcon from './icons/codepen.vue'
 import Example from './example.vue'
 import SourceCode from './source-code.vue'
+import Codepen from './codepen.vue'
 import demoBlockLocale from '../i18n/component/demo-block.json'
 
 const props = defineProps({
@@ -17,6 +18,22 @@ const props = defineProps({
     required: true,
   },
   path: {
+    type: String,
+    required: true,
+  },
+  css: {
+    type: String,
+    required: true,
+  },
+  cssPreProcessor: {
+    type: String,
+    required: true,
+  },
+  js: {
+    type: String,
+    required: true,
+  },
+  html: {
     type: String,
     required: true,
   },
@@ -38,24 +55,36 @@ const onDemoLoaded = (content) => {
 }
 
 const demoSourceUrl = useSourceCode(toRef(props, 'path'))
+const codepenRef = ref()
+
+const onCodepenClicked = () => {
+  codepenRef.value.submit?.()
+}
 </script>
 
 <template>
   <div class="example">
+    <Codepen
+      :css="props.css"
+      :css-pre-processor="props.cssPreProcessor"
+      :html="props.html"
+      :js="props.js"
+      ref="codepenRef"
+    />
     <div class="op-btns">
-      <ElTooltip :content="locale['edit-in-codepen']">
+      <ElTooltip :content="locale['edit-in-codepen']" :visible-arrow="false">
         <ElIcon :size="20" class="op-btn">
-          <CodepenIcon />
+          <CodepenIcon @click="onCodepenClicked" />
         </ElIcon>
       </ElTooltip>
-      <ElTooltip :content="locale['edit-on-github']">
+      <ElTooltip :content="locale['edit-on-github']" :visible-arrow="false">
         <ElIcon :size="20" class="op-btn github">
           <a :href="demoSourceUrl" rel="noreferrer noopener" target="_blank">
             <GithubIcon />
           </a>
         </ElIcon>
       </ElTooltip>
-      <ElTooltip :content="locale['view-source']">
+      <ElTooltip :content="locale['view-source']" :visible-arrow="false">
         <ElIcon :size="20" class="op-btn" @click="setSourceVisible">
           <SourceCodeIcon />
         </ElIcon>
