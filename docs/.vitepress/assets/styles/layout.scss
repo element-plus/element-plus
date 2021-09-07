@@ -234,13 +234,13 @@ form {
   }
 }
 
-@media screen and (min-width: 850px) {
+@media screen and (min-width: 1045px) {
   .theme-wrapper.no-sidebar aside {
     display: none;
   }
 
   .theme-wrapper main {
-    margin-left: 16.4rem;
+    margin-left: var(--sidebar-width);
   }
 
   .is-home .sidebar {

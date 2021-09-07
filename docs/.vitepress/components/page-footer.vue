@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import EditLink from './edit-link.vue'
-// import LastUpdated from './LastUpdated.vue'
+import LastUpdatedAt from './last-updated-at.vue'
 </script>
 
 <template>
@@ -8,9 +8,9 @@ import EditLink from './edit-link.vue'
     <div class="edit">
       <EditLink />
     </div>
-    <!-- <div class="updated">
-      <LastUpdated />
-    </div> -->
+    <div class="updated">
+      <LastUpdatedAt />
+    </div>
   </footer>
 </template>
 

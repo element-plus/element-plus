@@ -7,7 +7,7 @@
   left: 0;
   z-index: var(--sidebar-z-index);
   border-right: 1px solid var(--border-color);
-  width: 16.4rem;
+  width: var(--sidebar-width);
   background-color: var(--bg-color);
   overflow-y: auto;
   transform: translate(0);
@@ -52,14 +52,14 @@
     list-style: none;
   }
 
-  @media screen and (max-width: 849px) {
+  @media screen and (max-width: 1044px) {
     transform: translate(-100%);
     &.open {
       transform: translate(0);
     }
   }
 
-  @media screen and (min-width: 850px) {
+  @media screen and (min-width: 1045px) {
     .nav-links {
       display: none;
     }

@@ -1,3 +1,55 @@
+<script lang="ts" setup>
+import { reactive, computed, markRaw } from 'vue'
+import { useRoute, useRouter, useData } from 'vitepress'
+import { version } from 'element-plus'
+import AlgoliaSearch from '../components/search.vue'
+import ElementPlusLogo from '../components/icons/element-plus-logo.vue'
+import ElementPlusTextLogo from '../components/icons/element-plus-text-logo.vue'
+import GithubIcon from '../components/icons/github.vue'
+import ToggleSidebarBtn from '../components/toggle-sidebar-btn.vue'
+import { useNav } from '../composables/use-nav'
+import { Language, defaultLang } from '../constants/language'
+import { useLang, useRootPath } from '../utils/routes'
+import localeData from '../i18n/layouts/header.json'
+import langs from '../i18n/lang.json'
+
+const router = useRouter()
+const route = useRoute()
+const { theme } = useData()
+
+defineProps<{ isDark: boolean }>()
+defineEmits(['toggle-sidebar', 'toggle-dark'])
+
+const state = reactive({
+  active: '',
+  langDropdownVisible: true,
+})
+
+const lang = useLang()
+const locale = computed(() => localeData[lang.value])
+const nav = useNav()
+
+const currentRoot = computed(() => `/${lang.value}/`)
+const languageMap = markRaw({
+  'en-US': 'English',
+  'zh-CN': '中文',
+})
+
+const switchLang = (targetLang: string) => {
+  if (lang.value === targetLang) return
+  localStorage.setItem('ELEMENT_LANGUAGE', targetLang)
+  let go = ''
+  const firstSlash = route.path.indexOf('/', 1)
+
+  go = `/${targetLang}/${route.path.slice(firstSlash + 1)}`
+  router.go(go)
+}
+
+const handleLangDropdownToggle = (visible: boolean) => {
+  state.langDropdownVisible = visible
+}
+</script>
+
 <template>
   <div class="header-wrapper nav-bar">
     <header class="header">
@@ -5,16 +57,10 @@
         <h1>
           <ToggleSidebarBtn @toggle="$emit('toggle-sidebar')" />
           <a :href="currentRoot" class="icon-link">
-            <img
-              src="../assets/images/element-plus-logo.svg"
-              alt="element-logo"
-              class="nav-logo"
-            />
-            <img
-              src="../assets/images/element-plus-logo-small.svg"
-              alt="element-logo"
-              class="nav-logo-small"
-            />
+            <ElIcon class="logo">
+              <ElementPlusTextLogo class="nav-logo" />
+              <ElementPlusLogo class="nav-logo-small" />
+            </ElIcon>
           </a>
         </h1>
         <div style="flex-grow: 1"></div>
@@ -88,52 +134,3 @@
     </header>
   </div>
 </template>
-<script lang="ts" setup>
-import { reactive, computed, markRaw } from 'vue'
-import { useRoute, useRouter, useData } from 'vitepress'
-import { version } from 'element-plus'
-import AlgoliaSearch from '../components/search.vue'
-import ToggleSidebarBtn from '../components/toggle-sidebar-btn.vue'
-import GithubIcon from '../components/icons/github.vue'
-import { useNav } from '../composables/use-nav'
-import { Language, defaultLang } from '../constants/language'
-import { useLang, useRootPath } from '../utils/routes'
-import localeData from '../i18n/layouts/header.json'
-import langs from '../i18n/lang.json'
-
-const router = useRouter()
-const route = useRoute()
-const { theme } = useData()
-
-defineProps<{ isDark: boolean }>()
-defineEmits(['toggle-sidebar', 'toggle-dark'])
-
-const state = reactive({
-  active: '',
-  langDropdownVisible: true,
-})
-
-const lang = useLang()
-const locale = computed(() => localeData[lang.value])
-const nav = useNav()
-
-const currentRoot = computed(() => `/${lang.value}/`)
-const languageMap = markRaw({
-  'en-US': 'English',
-  'zh-CN': '中文',
-})
-
-const switchLang = (targetLang: string) => {
-  if (lang.value === targetLang) return
-  localStorage.setItem('ELEMENT_LANGUAGE', targetLang)
-  let go = ''
-  const firstSlash = route.path.indexOf('/', 1)
-
-  go = `/${targetLang}/${route.path.slice(firstSlash + 1)}`
-  router.go(go)
-}
-
-const handleLangDropdownToggle = (visible: boolean) => {
-  state.langDropdownVisible = visible
-}
-</script>
