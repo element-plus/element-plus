@@ -1,430 +1,200 @@
-## 快速上手
+# 快速上手
 
-本节将介绍如何在项目中使用 Element。
+本节将介绍如何在项目中使用 ElementPlus。
 
-### 使用 vue-cli@4.5
+## 使用组件
 
-我们为新版的 vue-cli 准备了相应的 [Element Plus 插件](https://github.com/element-plus/vue-cli-plugin-element-plus)，你可以用它们快速地搭建一个基于 Element Plus 的项目。
+### 完整引入所有组件
 
-### 使用 Starter Kit
+> main.ts
 
-我们提供了通用的[项目模板](https://github.com/element-plus/element-plus-starter)，你可以直接使用，另外我们还提供了 Vite [模板](https://github.com/element-plus/element-plus-vite-starter)。对于 Laravel 用户，我们也准备了相应的[模板](https://github.com/element-plus/element-plus-in-laravel-starter)，同样可以直接下载使用。
-
-如果不希望使用我们提供的模板，请继续阅读。
-
-### 引入 Element Plus
-
-你可以引入整个 Element Plus，或是根据需要仅引入部分组件。我们先介绍如何引入完整的 Element。
-
-#### 完整引入
-
-在 main.js 中写入以下内容：
-
-```javascript
+```typescript
 import { createApp } from 'vue'
-import ElementPlus from 'element-plus';
-import 'element-plus/lib/theme-chalk/index.css';
-import App from './App.vue';
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+import App from './App.vue'
 
 const app = createApp(App)
+
 app.use(ElementPlus)
 app.mount('#app')
 ```
 
-以上代码便完成了 Element Plus 的引入。需要注意的是，样式文件需要单独引入。
+### 按需引入组件
 
-#### 按需引入
+`ElementPlus`的 JS 代码默认支持基于 ES modules 的 [摇树 tree shaking](https://webpack.js.org/guides/tree-shaking/)。
 
-**Vue CLI**
-  
-借助 [babel-plugin-import](https://github.com/ant-design/babel-plugin-import)，我们可以只引入需要的组件，以达到减小项目体积的目的。
+> App.vue
 
-首先，安装 babel-plugin-import:
+```html
+<template>
+  <el-button> 我是 ElButton </el-button>
+</template>
+<script>
+  import { defineComponent } from 'vue'
+  import { ElButton } from 'element-plus'
 
-```bash
-$ npm install babel-plugin-import -D
+  export default defineComponent({
+    name: 'app'
+    components: {
+      ElButton,
+    },
+  })
+</script>
 ```
 
-或者
+### 样式的引入
 
-```bash
-$ yarn add babel-plugin-import -D
+我们**强烈建议直接引入全部的样式文件**，虽然这看起来会增大整个应用的体积，但这样做可以避免引入额外的打包工具插件（减少负担），你还可以通过 [CDN](https://www.cloudflare.com/learning/cdn/what-is-a-cdn/)
+的方式来加载样式文件，从而使得你的应用加载更快。
+
+通过 JS 的方式引入
+
+```typescript
+import 'element-plus/dist/index.css'
 ```
 
-然后，将 babel.config.js 修改为：
+通过 HTML 的头文件引入
 
-- 引入 `.scss` 样式
+```html
+<!-- index.html -->
+<head>
+  <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
+</head>
+```
 
-:::warning
-请确保已经安装了 `sass` 和 `sass-loader` 依赖并将 `element-plus/packages/theme-chalk/src/base.scss` 文件在入口文件中引入
-:::
+如果你想让样式也按需引入，你可以使用对应工具提供的插件来引用。请看[常见问题](/#/zh-CN/component/quickstart#chang-jian-wen-ti)
+
+## 快捷搭建项目模板
+
+### 使用 vue-cli@4.5
+
+我们为新版的 vue-cli 准备了相应的
+[Element Plus 插件](https://github.com/element-plus/vue-cli-plugin-element-plus)你可以用它们快速地搭建一个基于
+Element Plus 的项目。
+
+### 使用 Starter Kit
+
+我们提供了通用的[项目模板](https://github.com/element-plus/element-plus-starter)，你可以直接使用，另外我们还提供了
+Vite [模板](https://github.com/element-plus/element-plus-vite-starter)。对于
+Laravel 用户，我们也准备了相应的[模板](https://github.com/element-plus/element-plus-in-laravel-starter)，同样可以直接下载使用。
+
+## 全局配置
+
+在引入 Element Plus 时，可以传入一个全局配置对象。该对象目前支持 `size` 与 `zIndex` 字段。`size`
+用于改变组件的默认尺寸，`zIndex` 设置弹框的初始 z-index（默认值：2000）。按需引入 Element Plus 的方式，具体操作如下：
+
+完整引入 ElementPlus：
 
 ```js
-module.exports = {
-  plugins: [
-    [
-      "import",
-      {
-        libraryName: 'element-plus',
-        customStyleName: (name) => {
-          name = name.slice(3)
-          return `element-plus/packages/theme-chalk/src/${name}.scss`;
-        },
-      },
-    ],
-  ],
-};
-```
-
-- 引入 `.css` 样式
-
-```js
-module.exports = {
-  plugins: [
-    [
-      "import",
-      {
-        libraryName: 'element-plus',
-        customStyleName: (name) => {
-          return `element-plus/lib/theme-chalk/${name}.css`;
-        },
-      },
-    ],
-  ],
-};
-```
-  
-**Vite**
-  
-首先，安装 [vite-plugin-style-import](https://github.com/anncwb/vite-plugin-style-import):
-
-```bash
-$ npm install vite-plugin-style-import -D
-```
-
-或者
-
-```bash
-$ yarn add vite-plugin-style-import -D
-```
-
-然后，将 vite.config.js 修改为：
-
-- 引入 `.scss` 样式
-
-:::warning
-请确保已经安装了 `sass` 依赖并将 `element-plus/packages/theme-chalk/src/base.scss` 文件在入口文件中引入
-:::
-
-```js
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import styleImport from 'vite-plugin-style-import'
-
-export default defineConfig({
-  plugins: [
-    vue(),
-    styleImport({
-      libs: [{
-        libraryName: 'element-plus',
-        esModule: true,
-        ensureStyleFile: true,
-        resolveStyle: (name) => {
-          name = name.slice(3)
-          return `element-plus/packages/theme-chalk/src/${name}.scss`;
-        },
-        resolveComponent: (name) => {
-          return `element-plus/lib/${name}`;
-        },
-      }]
-    })
-  ]
-})
-```
-
-- 引入 `.css` 样式
-
-```js
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import styleImport from 'vite-plugin-style-import'
-
-export default defineConfig({
-  plugins: [
-    vue(),
-    styleImport({
-      libs: [
-        {
-          libraryName: 'element-plus',
-          esModule: true,
-          ensureStyleFile: true,
-          resolveStyle: (name) => {
-            return `element-plus/lib/theme-chalk/${name}.css`;
-          },
-          resolveComponent: (name) => {
-            return `element-plus/lib/${name}`;
-          },
-        }
-      ]
-    })
-  ]
-})
-```
-
-接下来，如果你只希望引入部分组件，比如 Button 和 Select，那么需要在 main.js 中写入以下内容：
-
-```javascript
 import { createApp } from 'vue'
-import { ElButton, ElSelect } from 'element-plus';
-import App from './App.vue';
-// 如果要使用.scss样式文件，则需要引入base.scss文件
-// import 'element-plus/packages/theme-chalk/src/base.scss'
+import ElementPlus from 'element-plus'
+import App from './App.vue'
 
 const app = createApp(App)
-app.component(ElButton.name, ElButton);
-app.component(ElSelect.name, ElSelect);
-
-/* or
- * app.use(ElButton)
- * app.use(ElSelect)
- */
-
-app.mount('#app')
+app.use(ElementPlus, { size: 'small', zIndex: 3000 })
 ```
 
-完整组件列表和引入方式（完整组件列表以 [reference](https://github.com/element-plus/element-plus/tree/dev/packages) 为准）
-
-```javascript
-import { createApp } from 'vue'
-import App from './App.vue';
-// 如果要使用.scss样式文件，则需要引入base.scss文件
-// import 'element-plus/packages/theme-chalk/src/base.scss'
-
-import {
-  ElAlert,
-  ElAside,
-  ElAutocomplete,
-  ElAvatar,
-  ElBacktop,
-  ElBadge,
-  ElBreadcrumb,
-  ElBreadcrumbItem,
-  ElButton,
-  ElButtonGroup,
-  ElCalendar,
-  ElCard,
-  ElCarousel,
-  ElCarouselItem,
-  ElCascader,
-  ElCascaderPanel,
-  ElCheckbox,
-  ElCheckboxButton,
-  ElCheckboxGroup,
-  ElCol,
-  ElCollapse,
-  ElCollapseItem,
-  ElCollapseTransition,
-  ElColorPicker,
-  ElContainer,
-  ElDatePicker,
-  ElDialog,
-  ElDivider,
-  ElDrawer,
-  ElDropdown,
-  ElDropdownItem,
-  ElDropdownMenu,
-  ElFooter,
-  ElForm,
-  ElFormItem,
-  ElHeader,
-  ElIcon,
-  ElImage,
-  ElInput,
-  ElInputNumber,
-  ElLink,
-  ElMain,
-  ElMenu,
-  ElMenuItem,
-  ElMenuItemGroup,
-  ElOption,
-  ElOptionGroup,
-  ElPageHeader,
-  ElPagination,
-  ElPopconfirm,
-  ElPopover,
-  ElPopper,
-  ElProgress,
-  ElRadio,
-  ElRadioButton,
-  ElRadioGroup,
-  ElRate,
-  ElRow,
-  ElScrollbar,
-  ElSelect,
-  ElSlider,
-  ElStep,
-  ElSteps,
-  ElSubmenu,
-  ElSwitch,
-  ElTabPane,
-  ElTable,
-  ElTableColumn,
-  ElTabs,
-  ElTag,
-  ElTimePicker,
-  ElTimeSelect,
-  ElTimeline,
-  ElTimelineItem,
-  ElTooltip,
-  ElTransfer,
-  ElTree,
-  ElUpload,
-  ElInfiniteScroll,
-  ElLoading,
-  ElMessage,
-  ElMessageBox,
-  ElNotification,
-} from 'element-plus';
-
-const components = [
-  ElAlert,
-  ElAside,
-  ElAutocomplete,
-  ElAvatar,
-  ElBacktop,
-  ElBadge,
-  ElBreadcrumb,
-  ElBreadcrumbItem,
-  ElButton,
-  ElButtonGroup,
-  ElCalendar,
-  ElCard,
-  ElCarousel,
-  ElCarouselItem,
-  ElCascader,
-  ElCascaderPanel,
-  ElCheckbox,
-  ElCheckboxButton,
-  ElCheckboxGroup,
-  ElCol,
-  ElCollapse,
-  ElCollapseItem,
-  ElCollapseTransition,
-  ElColorPicker,
-  ElContainer,
-  ElDatePicker,
-  ElDialog,
-  ElDivider,
-  ElDrawer,
-  ElDropdown,
-  ElDropdownItem,
-  ElDropdownMenu,
-  ElFooter,
-  ElForm,
-  ElFormItem,
-  ElHeader,
-  ElIcon,
-  ElImage,
-  ElInput,
-  ElInputNumber,
-  ElLink,
-  ElMain,
-  ElMenu,
-  ElMenuItem,
-  ElMenuItemGroup,
-  ElOption,
-  ElOptionGroup,
-  ElPageHeader,
-  ElPagination,
-  ElPopconfirm,
-  ElPopover,
-  ElPopper,
-  ElProgress,
-  ElRadio,
-  ElRadioButton,
-  ElRadioGroup,
-  ElRate,
-  ElRow,
-  ElScrollbar,
-  ElSelect,
-  ElSlider,
-  ElStep,
-  ElSteps,
-  ElSubmenu,
-  ElSwitch,
-  ElTabPane,
-  ElTable,
-  ElTableColumn,
-  ElTabs,
-  ElTag,
-  ElTimePicker,
-  ElTimeSelect,
-  ElTimeline,
-  ElTimelineItem,
-  ElTooltip,
-  ElTransfer,
-  ElTree,
-  ElUpload,
-]
-
-const plugins = [
-  ElInfiniteScroll,
-  ElLoading,
-  ElMessage,
-  ElMessageBox,
-  ElNotification,
-]
-
-const app = createApp(App)
-
-components.forEach(component => {
-  app.component(component.name, component)
-})
-
-plugins.forEach(plugin => {
-  app.use(plugin)
-})
-```
-
-### 全局配置
-
-在引入 Element Plus 时，可以传入一个全局配置对象。该对象目前支持 `size` 与 `zIndex` 字段。`size` 用于改变组件的默认尺寸，`zIndex` 设置弹框的初始 z-index（默认值：2000）。按需引入 Element Plus 的方式，具体操作如下：
-
-完整引入 Element：
+按需引入 ElementPlus：
 
 ```js
 import { createApp } from 'vue'
-import ElementPlus from 'element-plus';
-import App from './App.vue';
-
-const app = createApp(App)
-app.use(ElementPlus, { size: 'small', zIndex: 3000 });
-```
-
-按需引入 Element：
-
-```js
-import { createApp } from 'vue'
-import { ElButton } from 'element-plus';
-import App from './App.vue';
-// 如果要使用.scss样式文件，则需要引入base.scss文件
-// import 'element-plus/packages/theme-chalk/src/base.scss'
+import { ElButton } from 'element-plus'
+import App from './App.vue'
 
 const app = createApp(App)
 app.config.globalProperties.$ELEMENT = option
-app.use(ElButton);
+app.use(ElButton)
 ```
 
 按照以上设置，项目中所有拥有 `size` 属性的组件的默认尺寸均为 'small'，弹框的初始 z-index 为 3000。
 
-### 开始使用
-
-至此，一个基于 Vue 和 Element Plus 的开发环境已经搭建完毕，现在就可以编写代码了。各个组件的使用方法请参阅它们各自的文档。
-
-### 使用 Nuxt.js
+## 使用 Nuxt.js
 
 我们还可以使用 [Nuxt.js](https://nuxtjs.org)：
 
 <div class="glitch-embed-wrap" style="height: 420px; width: 100%;">
   <iframe src="https://glitch.com/embed/#!/embed/nuxt-with-element?path=nuxt.config.js&previewSize=0&attributionHidden=true" alt="nuxt-with-element on glitch" style="height: 100%; width: 100%; border: 0;"></iframe>
 </div>
+
+## 开始使用
+
+至此，一个基于 Vue 和 Element Plus 的开发环境已经搭建完毕，现在就可以编写代码了。各个组件的使用方法请参阅它们各自的文档。
+
+## 常见问题
+
+### 我想同时按需引入组件和样式，我应该怎么做？
+
+#### 使用 vite 按需加载样式
+
+如果你使用 [vite](https://vitejs.dev) 作为构建打包工具，那么你需要先安装 `vite-plugin-element-plus` 来实现按需加载样式
+
+```shell
+yarn add vite-plugin-element-plus -D
+# 或
+npm install vite-plugin-element-plus -D
+```
+
+然后将如下代码添加至 `vite.config.js` 文件中:
+
+```typescript
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import VitePluginElementPlus from 'vite-plugin-element-plus'
+
+// https://vitejs.dev/config/
+export default defineConfig(({ mode }) => {
+  return {
+    plugins: [
+      vue(),
+      VitePluginElementPlus({
+        // 如果你需要使用 [component name].scss 源文件，你需要把下面的注释取消掉。
+        // 对于所有的 API 你可以参考 https://github.com/element-plus/vite-plugin-element-plus
+        // 的文档注释
+        // useSource: true
+        format: mode === 'development' ? 'esm' : 'cjs',
+      }),
+    ],
+  }
+})
+```
+
+#### 使用 webpack 按需加载样式
+
+如果你使用 webpack 作为构建打包工具，那么你需要先安装 `babel-plugin-import` 来实现按需加载样式
+
+```shell
+yarn add babel-plugin-import -D
+# 或
+npm install babel-plugin-import -D
+```
+
+然后你需要将以下代码加入你的 `babel.config.js` 文件中。
+
+> babel.config.js
+
+```javascript
+module.exports = {
+  plugins: [
+    [
+      'import',
+      {
+        libraryName: 'element-plus',
+        // 引入组件
+        customName: (name) => {
+          name = name.slice(3)
+          return `element-plus/lib/components/${name}`
+        },
+        // 引入样式
+        customStyleName: (name) => {
+          name = name.slice(3)
+          // 如果你需要引入 [name].scss 文件，你需要用下面这行
+          // return `element-plus/lib/components/${name}/style`
+          // 引入 [name].css
+          return `element-plus/lib/components/${name}/style/css`
+        },
+      },
+    ],
+  ],
+}
+```

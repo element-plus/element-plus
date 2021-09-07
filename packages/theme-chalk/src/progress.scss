@@ -1,6 +1,6 @@
-@import "mixins/mixins";
-@import "mixins/utils";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'mixins/utils';
+@import 'common/var';
 
 @include b(progress) {
   position: relative;
@@ -10,7 +10,7 @@
 
   @include e(text) {
     font-size: 14px;
-    color: $--color-text-regular;
+    color: var(--el-text-color-regular);
     margin-left: 5px;
     min-width: 50px;
     line-height: 1;
@@ -40,7 +40,6 @@
     }
   }
 
-
   @include m(without-text) {
     .#{$namespace}-progress__text {
       display: none;
@@ -62,34 +61,33 @@
 
   @include when(success) {
     .#{$namespace}-progress-bar__inner {
-      background-color: $--color-success;
+      background-color: var(--el-color-success);
     }
 
     .#{$namespace}-progress__text {
-      color: $--color-success;
+      color: var(--el-color-success);
     }
   }
 
   @include when(warning) {
     .#{$namespace}-progress-bar__inner {
-      background-color: $--color-warning;
+      background-color: var(--el-color-warning);
     }
 
     .#{$namespace}-progress__text {
-      color: $--color-warning;
+      color: var(--el-color-warning);
     }
   }
 
   @include when(exception) {
     .#{$namespace}-progress-bar__inner {
-      background-color: $--color-danger;
+      background-color: var(--el-color-danger);
     }
 
     .#{$namespace}-progress__text {
-      color: $--color-danger;
+      color: var(--el-color-danger);
     }
   }
-
 }
 
 @include b(progress-bar) {
@@ -99,7 +97,7 @@
   @include e(outer) {
     height: 6px;
     border-radius: 100px;
-    background-color: $--border-color-lighter;
+    background-color: var(--el-border-color-lighter);
     overflow: hidden;
     position: relative;
     vertical-align: middle;
@@ -109,7 +107,7 @@
     left: 0;
     top: 0;
     height: 100%;
-    background-color: $--color-primary;
+    background-color: var(--el-color-primary);
     text-align: right;
     border-radius: 100px;
     line-height: 1;

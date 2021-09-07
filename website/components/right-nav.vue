@@ -3,7 +3,15 @@
     ref="navScroll"
     class="right-nav"
     wrap-style="max-height: 300px"
-    style="position: fixed;right: 10px;top: 100px;width: 150px;border-left: 1px solid rgb(220, 223, 230);height: auto;max-height: 300px;"
+    style="
+      position: fixed;
+      right: 10px;
+      top: 100px;
+      width: 150px;
+      border-left: 1px solid rgb(220, 223, 230);
+      height: auto;
+      max-height: 300px;
+    "
   >
     <div v-for="item in anchors" :key="item" style="margin: 3px 0 3px 10px">
       <el-link
@@ -33,7 +41,7 @@ export default defineComponent({
     const active = ref('')
     const navScroll = ref(null)
 
-    const handleAnchorClick = anchor => {
+    const handleAnchorClick = (anchor) => {
       scrollContainer.scrollTop = map.get(anchor)
       active.value = anchor
     }
@@ -43,11 +51,13 @@ export default defineComponent({
     onMounted(async () => {
       // waiting for components render, e.g. table.
       await nextTick()
-      scrollContainer = document.querySelector('.el-scrollbar.page-component__scroll>.el-scrollbar__wrap.el-scrollbar__wrap--hidden-default')
+      scrollContainer = document.querySelector(
+        '.el-scrollbar.page-component__scroll>.el-scrollbar__wrap.el-scrollbar__wrap--hidden-default'
+      )
       const content = document.querySelector('.content.element-doc.content')
       if (!content) return
       const h3 = content.querySelectorAll('h3')
-      anchors.value = Array.from(h3).map(item => {
+      anchors.value = Array.from(h3).map((item) => {
         const text = item.childNodes[1] && item.childNodes[1].textContent.trim()
         map.set(text, item.offsetTop)
         return text
@@ -56,8 +66,9 @@ export default defineComponent({
       let mapValues = Array.from(map.values()).reverse()
       let mapKeys = Array.from(map.keys()).reverse()
       resizeObserver = new ResizeObserver(() => {
-        Array.from(h3).forEach(item => {
-          const text = item.childNodes[1] && item.childNodes[1].textContent.trim()
+        Array.from(h3).forEach((item) => {
+          const text =
+            item.childNodes[1] && item.childNodes[1].textContent.trim()
           map.set(text, item.offsetTop)
         })
         mapValues = Array.from(map.values()).reverse()
@@ -65,10 +76,11 @@ export default defineComponent({
       })
       resizeObserver.observe(scrollContainer.childNodes[0])
 
-
       let cachedIndex = -1
       scrollContainer.addEventListener('scroll', () => {
-        const index = mapValues.findIndex(item => scrollContainer.scrollTop > item - 75)
+        const index = mapValues.findIndex(
+          (item) => scrollContainer.scrollTop > item - 75
+        )
         if (cachedIndex !== index && index !== -1) {
           active.value = mapKeys[index]
           cachedIndex = index

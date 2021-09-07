@@ -13,6 +13,7 @@ Please note that the parent container should avoid using `inline` related styles
 Crea un layout básico usando columnas.
 
 :::demo Con `row` y `col`, puede facilmente manipular el layout usando el atributo `span`.
+
 ```html
 <el-row>
   <el-col :span="24"><div class="grid-content bg-purple-dark"></div></el-col>
@@ -70,6 +71,7 @@ Crea un layout básico usando columnas.
   }
 </style>
 ```
+
 :::
 
 ### Espaciado de columnas
@@ -77,6 +79,7 @@ Crea un layout básico usando columnas.
 El espaciado de columnas está soportado.
 
 :::demo Row provee el atributo `gutter` para especificar el espacio entre columnas y su valor por defecto es 0.
+
 ```html
 <el-row :gutter="20">
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
@@ -114,6 +117,7 @@ El espaciado de columnas está soportado.
   }
 </style>
 ```
+
 :::
 
 ### Layout híbrido
@@ -121,6 +125,7 @@ El espaciado de columnas está soportado.
 Crea un complejo layout híbrido combinando el básico de 1/24 columnas.
 
 :::demo
+
 ```html
 <el-row :gutter="20">
   <el-col :span="16"><div class="grid-content bg-purple"></div></el-col>
@@ -167,6 +172,7 @@ Crea un complejo layout híbrido combinando el básico de 1/24 columnas.
   }
 </style>
 ```
+
 :::
 
 ### Offset de columnas
@@ -178,14 +184,22 @@ Puedes especificar offsets para las columnas.
 ```html
 <el-row :gutter="20">
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-  <el-col :span="6" :offset="6"><div class="grid-content bg-purple"></div></el-col>
+  <el-col :span="6" :offset="6"
+    ><div class="grid-content bg-purple"></div
+  ></el-col>
 </el-row>
 <el-row :gutter="20">
-  <el-col :span="6" :offset="6"><div class="grid-content bg-purple"></div></el-col>
-  <el-col :span="6" :offset="6"><div class="grid-content bg-purple"></div></el-col>
+  <el-col :span="6" :offset="6"
+    ><div class="grid-content bg-purple"></div
+  ></el-col>
+  <el-col :span="6" :offset="6"
+    ><div class="grid-content bg-purple"></div
+  ></el-col>
 </el-row>
 <el-row :gutter="20">
-  <el-col :span="12" :offset="6"><div class="grid-content bg-purple"></div></el-col>
+  <el-col :span="12" :offset="6"
+    ><div class="grid-content bg-purple"></div
+  ></el-col>
 </el-row>
 
 <style>
@@ -217,6 +231,7 @@ Puedes especificar offsets para las columnas.
   }
 </style>
 ```
+
 :::
 
 ### Alineación
@@ -224,6 +239,7 @@ Puedes especificar offsets para las columnas.
 Default use the flex layout to make flexible alignment of columns.
 
 :::demo You can define the layout of child elements by setting `justify` attribute with start, center, end, space-between or space-around.
+
 ```html
 <el-row class="row-bg">
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
@@ -280,6 +296,7 @@ Default use the flex layout to make flexible alignment of columns.
   }
 </style>
 ```
+
 :::
 
 ### Responsive Layout
@@ -287,12 +304,21 @@ Default use the flex layout to make flexible alignment of columns.
 Tomando el ejemplo de Bootstrap responsive design, existen 5 breakpoints: xs, sm, md, lg y xl.
 
 :::demo
+
 ```html
 <el-row :gutter="10">
-  <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1"><div class="grid-content bg-purple"></div></el-col>
-  <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11"><div class="grid-content bg-purple-light"></div></el-col>
-  <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11"><div class="grid-content bg-purple"></div></el-col>
-  <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1"><div class="grid-content bg-purple-light"></div></el-col>
+  <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1"
+    ><div class="grid-content bg-purple"></div
+  ></el-col>
+  <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11"
+    ><div class="grid-content bg-purple-light"></div
+  ></el-col>
+  <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11"
+    ><div class="grid-content bg-purple"></div
+  ></el-col>
+  <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1"
+    ><div class="grid-content bg-purple-light"></div
+  ></el-col>
 </el-row>
 
 <style>
@@ -314,6 +340,7 @@ Tomando el ejemplo de Bootstrap responsive design, existen 5 breakpoints: xs, sm
   }
 </style>
 ```
+
 :::
 
 ### Clases útiles para ocultar elementos
@@ -321,10 +348,11 @@ Tomando el ejemplo de Bootstrap responsive design, existen 5 breakpoints: xs, sm
 Adicionalmente, Element Plus provee una serie de clases para ocultar elementos dadas ciertas condiciones. Estas clases pueden se agregadas a cualquier elemento del DOM o un elemento propio. Necesita importar el siguiente archivo CSS para usar estas clases:
 
 ```js
-import 'element-plus/lib/theme-chalk/display.css';
+import 'element-plus/lib/theme-chalk/display.css'
 ```
 
 Las clases son:
+
 - `hidden-xs-only` - oculto en viewports extra pequeños solamente
 - `hidden-sm-only` - oculto en viewports pequeños solamente
 - `hidden-sm-and-down` - oculto en viewports pequeños y menores
@@ -339,26 +367,24 @@ Las clases son:
 
 ### Atributos Row
 
-| Atributos | Descripción                              | Tipo   | Valores aceptados                        | Valor por defecto |
-| --------- | ---------------------------------------- | ------ | ---------------------------------------- | ----------------- |
-| gutter    | espaciado de la grilla                   | number | —                                        | 0                 |
-| justify   | alineación horizontal del layout flex    | string | start/end/center/space-around/space-between | start             |
-| align     | alineación vertical del layout flex      | string | top/middle/bottom                        | top               |
-| tag       | tag de elemento propio                   | string | *                                        | div               |
+| Atributos | Descripción                           | Tipo   | Valores aceptados                           | Valor por defecto |
+| --------- | ------------------------------------- | ------ | ------------------------------------------- | ----------------- |
+| gutter    | espaciado de la grilla                | number | —                                           | 0                 |
+| justify   | alineación horizontal del layout flex | string | start/end/center/space-around/space-between | start             |
+| align     | alineación vertical del layout flex   | string | top/middle/bottom                           | top               |
+| tag       | tag de elemento propio                | string | \*                                          | div               |
 
 ### Atributos Col
 
-| Atributos | Descripción                              | Tipo                                     | Valores aceptados | Valor por defecto |
-| --------- | ---------------------------------------- | ---------------------------------------- | ----------------- | ----------------- |
-| span      | número de columnas que abarca la cuadrícula | number                                   | —                 | 24                |
-| offset    | especific espacio en el lado izquierdo de la grill | number                                   | —                 | 0                 |
-| push      | número de columnas que la grilla se mueve hacia la derecha | number                                   | —                 | 0                 |
-| pull      | número de columnas que la grilla se mueve hacia la izquierda | number                                   | —                 | 0                 |
-| xs        | `<768px` Columnas responsive u objeto con propiedades de la columna | number/object (e.g. {span: 4, offset: 4}) | —                 | —                 |
-| sm        | `≥768px` Columnas responsive u objeto con propiedades de la columna | number/object (e.g. {span: 4, offset: 4}) | —                 | —                 |
-| md        | `≥992px` Columnas responsive u objeto con propiedades de la columna | number/object (e.g. {span: 4, offset: 4}) | —                 | —                 |
+| Atributos | Descripción                                                          | Tipo                                      | Valores aceptados | Valor por defecto |
+| --------- | -------------------------------------------------------------------- | ----------------------------------------- | ----------------- | ----------------- |
+| span      | número de columnas que abarca la cuadrícula                          | number                                    | —                 | 24                |
+| offset    | especific espacio en el lado izquierdo de la grill                   | number                                    | —                 | 0                 |
+| push      | número de columnas que la grilla se mueve hacia la derecha           | number                                    | —                 | 0                 |
+| pull      | número de columnas que la grilla se mueve hacia la izquierda         | number                                    | —                 | 0                 |
+| xs        | `<768px` Columnas responsive u objeto con propiedades de la columna  | number/object (e.g. {span: 4, offset: 4}) | —                 | —                 |
+| sm        | `≥768px` Columnas responsive u objeto con propiedades de la columna  | number/object (e.g. {span: 4, offset: 4}) | —                 | —                 |
+| md        | `≥992px` Columnas responsive u objeto con propiedades de la columna  | number/object (e.g. {span: 4, offset: 4}) | —                 | —                 |
 | lg        | `≥1200px` Columnas responsive u objeto con propiedades de la columna | number/object (e.g. {span: 4, offset: 4}) | —                 | —                 |
 | xl        | `≥1920px` Columnas responsive u objeto con propiedades de la columna | number/object (e.g. {span: 4, offset: 4}) | —                 | —                 |
-| tag       | tag de elemento propio                   | string                                   | *                 | div               |
-
-
+| tag       | tag de elemento propio                                               | string                                    | \*                | div               |

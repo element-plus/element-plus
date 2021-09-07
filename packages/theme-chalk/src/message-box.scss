@@ -1,20 +1,24 @@
+@use "sass:map";
+
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
 @import 'common/popup';
-@import 'button';
-@import 'input';
-@import 'overlay';
+
+@include b(message-box) {
+  @include set-component-css-var('messagebox', $--messagebox);
+}
 
 @include b(message-box) {
   display: inline-block;
-  width: $--messagebox-width;
+  width: var(--el-messagebox-width);
   padding-bottom: 10px;
   vertical-align: middle;
-  background-color: $--color-white;
-  border-radius: $--messagebox-border-radius;
-  border: 1px solid $--border-color-lighter;
-  font-size: $--messagebox-font-size;
-  box-shadow: $--box-shadow-light;
+  background-color: var(--el-color-white);
+  border-radius: var(--el-messagebox-border-radius);
+  border: 1px solid var(--el-border-color-lighter);
+  font-size: var(--el-messagebox-font-size);
+  box-shadow: var(--el-box-shadow-light);
   text-align: left;
   overflow: hidden;
   backface-visibility: hidden;
@@ -30,48 +34,47 @@
     }
   }
 
-
   @include e(header) {
     position: relative;
-    padding: $--messagebox-padding-primary;
+    padding: var(--el-messagebox-padding-primary);
     padding-bottom: 10px;
   }
 
   @include e(title) {
     padding-left: 0;
     margin-bottom: 0;
-    font-size: $--messagebox-font-size;
+    font-size: var(--el-messagebox-font-size);
     line-height: 1;
-    color: $--messagebox-title-color;
+    color: var(--el-messagebox-title-color);
   }
 
   @include e(headerbtn) {
     position: absolute;
-    top: $--messagebox-padding-primary;
-    right: $--messagebox-padding-primary;
+    top: var(--el-messagebox-padding-primary);
+    right: var(--el-messagebox-padding-primary);
     padding: 0;
     border: none;
     outline: none;
     background: transparent;
-    font-size: $--message-close-size;
+    font-size: var(--el-message-close-size, map.get($--message, 'close-size'));
     cursor: pointer;
 
     .#{$namespace}-message-box__close {
-      color: $--color-info;
+      color: var(--el-color-info);
     }
 
     &:focus,
     &:hover {
       .#{$namespace}-message-box__close {
-        color: $--color-primary;
+        color: var(--el-color-primary);
       }
     }
   }
 
   @include e(content) {
-    padding: 10px $--messagebox-padding-primary;
-    color: $--messagebox-content-color;
-    font-size: $--messagebox-content-font-size;
+    padding: 10px var(--el-messagebox-padding-primary);
+    color: var(--el-messagebox-content-color);
+    font-size: var(--el-messagebox-content-font-size);
   }
 
   @include e(container) {
@@ -82,9 +85,9 @@
     padding-top: 15px;
 
     & div.invalid > input {
-      border-color: $--color-danger;
+      border-color: var(--el-color-error);
       &:focus {
-        border-color: $--color-danger;
+        border-color: var(--el-color-error);
       }
     }
   }
@@ -105,20 +108,11 @@
       padding-right: 12px;
     }
 
-    &.#{$namespace}-icon-success {
-      color: $--messagebox-success-color;
-    }
-
-    &.#{$namespace}-icon-info {
-      color: $--messagebox-info-color;
-    }
-
-    &.#{$namespace}-icon-warning {
-      color: $--messagebox-warning-color;
-    }
-
-    &.#{$namespace}-icon-error {
-      color: $--messagebox-danger-color;
+    @each $type in (success, info, warning, error) {
+      &.#{$namespace}-icon-#{$type} {
+        --el-messagebox-color: var(--el-color-#{$type});
+        color: var(--el-messagebox-color);
+      }
     }
   }
 
@@ -132,8 +126,8 @@
   }
 
   @include e(errormsg) {
-    color: $--color-danger;
-    font-size: $--messagebox-error-font-size;
+    color: var(--el-color-error);
+    font-size: var(--el-messagebox-error-font-size);
     min-height: 18px;
     margin-top: 2px;
   }
@@ -183,7 +177,7 @@
     }
 
     @include e(content) {
-      $padding-horizontal: $--messagebox-padding-primary + 12px;
+      $padding-horizontal: calc(var(--el-messagebox-padding-primary) + 12px);
 
       padding-left: $padding-horizontal;
       padding-right: $padding-horizontal;
@@ -193,13 +187,13 @@
 
 .fade-in-linear-enter-active {
   .#{$namespace}-message-box {
-    animation: msgbox-fade-in 0.3s;
+    animation: msgbox-fade-in var(--el-transition-duration);
   }
 }
 
 .fade-in-linear-leave-active {
   .#{$namespace}-message-box {
-    animation: msgbox-fade-in 0.3s reverse;
+    animation: msgbox-fade-in var(--el-transition-duration) reverse;
   }
 }
 

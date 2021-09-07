@@ -147,7 +147,7 @@
 
       const beforeChange1 = () => {
         status1.loading1 = true
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
           setTimeout(() => {
             status1.loading1 = false
             ElMessage.success('切换成功')
@@ -187,23 +187,24 @@
 
 ### Attributes
 
-| 参数                | 说明                                                                        | 类型                      | 可选值 | 默认值  |
-| ------------------- | --------------------------------------------------------------------------- | ------------------------- | ------ | ------- |
-| model-value / v-model     | 绑定值，必须等于`active-value`或`inactive-value`，默认为`Boolean`类型       | boolean / string / number | —      | —       |
-| disabled            | 是否禁用                                                                    | boolean                   | —      | false   |
-| loading             | 是否显示加载中                                                              | boolean                   | —      | false   |
-| width               | switch 的宽度（像素）                                                       | number                    | —      | 40      |
-| active-icon-class   | switch 打开时所显示图标的类名，设置此项会忽略 `active-text`                 | string                    | —      | —       |
-| inactive-icon-class | switch 关闭时所显示图标的类名，设置此项会忽略 `inactive-text`               | string                    | —      | —       |
-| active-text         | switch 打开时的文字描述                                                     | string                    | —      | —       |
-| inactive-text       | switch 关闭时的文字描述                                                     | string                    | —      | —       |
-| active-value        | switch 打开时的值                                                           | boolean / string / number | —      | true    |
-| inactive-value      | switch 关闭时的值                                                           | boolean / string / number | —      | false   |
-| active-color        | switch 打开时的背景色                                                       | string                    | —      | #409EFF |
-| inactive-color      | switch 关闭时的背景色                                                       | string                    | —      | #C0CCDA |
-| name                | switch 对应的 name 属性                                                     | string                    | —      | —       |
-| validate-event      | 改变 switch 状态时是否触发表单的校验                                        | boolean                   | —      | true    |
-| before-change       | switch 状态改变前的钩子，返回 false 或者返回 Promise 且被 reject 则停止切换 | function                  | —      | —       |
+| 参数                  | 说明                                                                        | 类型                      | 可选值 | 默认值  |
+| --------------------- | --------------------------------------------------------------------------- | ------------------------- | ------ | ------- |
+| model-value / v-model | 绑定值，必须等于`active-value`或`inactive-value`，默认为`Boolean`类型       | boolean / string / number | —      | —       |
+| disabled              | 是否禁用                                                                    | boolean                   | —      | false   |
+| loading               | 是否显示加载中                                                              | boolean                   | —      | false   |
+| width                 | switch 的宽度（像素）                                                       | number                    | —      | 40      |
+| active-icon-class     | switch 打开时所显示图标的类名，设置此项会忽略 `active-text`                 | string                    | —      | —       |
+| inactive-icon-class   | switch 关闭时所显示图标的类名，设置此项会忽略 `inactive-text`               | string                    | —      | —       |
+| active-text           | switch 打开时的文字描述                                                     | string                    | —      | —       |
+| inactive-text         | switch 关闭时的文字描述                                                     | string                    | —      | —       |
+| active-value          | switch 打开时的值                                                           | boolean / string / number | —      | true    |
+| inactive-value        | switch 关闭时的值                                                           | boolean / string / number | —      | false   |
+| active-color          | switch 打开时的背景色                                                       | string                    | —      | #409EFF |
+| inactive-color        | switch 关闭时的背景色                                                       | string                    | —      | #C0CCDA |
+| border-color          | switch 边框颜色                                                             | string                    | —      | —       |
+| name                  | switch 对应的 name 属性                                                     | string                    | —      | —       |
+| validate-event        | 改变 switch 状态时是否触发表单的校验                                        | boolean                   | —      | true    |
+| before-change         | switch 状态改变前的钩子，返回 false 或者返回 Promise 且被 reject 则停止切换 | function                  | —      | —       |
 
 ### Events
 

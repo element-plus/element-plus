@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "declaration": true,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "jsx": "preserve",
+    "noLib": false,
+    "target": "esnext",
+    "lib": ["esnext", "DOM"],
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowJs": true,
+    "emitDeclarationOnly": true,
+    "noEmitOnError": true,
+    "skipLibCheck": true,
+    "rootDir": "packages/element-plus"
+  },
+  "exclude": ["node_modules"]
+}

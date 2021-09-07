@@ -1,38 +1,63 @@
 ## Radio
+
 Selección única entre múltiples opciones.
 
 ### Uso básico
+
 El elemento Radio no debe tener muchas opciones. De otra manera, utilice el componente Select.
 
 :::demo Crear un elemento Radio es fácil, solo necesita enlazar(`bind`) una variable a la directiva `v-model` del Radio. Va a ser igual al valor `label` del Radio seleccionado. El tipo de dato de `label` es `String`, `Number` o `Boolean`.
+
 ```html
 <template>
-  <el-radio v-model="radio" label="1">Option A</el-radio>
-  <el-radio v-model="radio" label="2">Option B</el-radio>
+  <div>
+    <el-radio v-model="radio1" label="1">Option 1</el-radio>
+    <el-radio v-model="radio1" label="2">Option 2</el-radio>
+  </div>
+  <div>
+    <el-radio v-model="radio2" label="1" size="medium">Option 1</el-radio>
+    <el-radio v-model="radio2" label="2" size="medium">Option 2</el-radio>
+  </div>
+  <div>
+    <el-radio v-model="radio3" label="1" size="small">Option 1</el-radio>
+    <el-radio v-model="radio3" label="2" size="small">Option 2</el-radio>
+  </div>
+  <div>
+    <el-radio v-model="radio4" label="1" size="mini">Option 1</el-radio>
+    <el-radio v-model="radio4" label="2" size="mini">Option 2</el-radio>
+  </div>
 </template>
 
 <script>
   export default {
-    data () {
+    data() {
       return {
-        radio: '1'
-      };
-    }
+        radio1: '1',
+        radio2: '1',
+        radio3: '1',
+        radio4: '1',
+      }
+    },
   }
 </script>
 <!--
 <setup>
-  import { ref } from 'vue'
+  import { defineComponent, ref } from 'vue'
 
-  export default {
+  export default defineComponent({
     setup() {
-      const radio = ref('1');
-      return { radio }
+      return {
+        radio1: ref('1'),
+        radio2: ref('1'),
+        radio3: ref('1'),
+        radio4: ref('1'),
+      }
     }
-  }
+  })
 </setup>
 -->
 ```
+
 :::
 
 ### Deshabilitado
@@ -40,37 +65,39 @@ El elemento Radio no debe tener muchas opciones. De otra manera, utilice el comp
 El atributo `disabled` es utilizado para deshabilitar un Radio.
 
 :::demo Solo necesita agregar el atributo `disabled`.
+
 ```html
 <template>
   <el-radio disabled v-model="radio" label="disabled">Option A</el-radio>
-  <el-radio disabled v-model="radio" label="selected and disabled">Option B</el-radio>
+  <el-radio disabled v-model="radio" label="selected and disabled"
+    >Option B</el-radio
+  >
 </template>
 
 <script>
   export default {
-    data () {
+    data() {
       return {
-        radio: 'selected and disabled'
-      };
-    }
+        radio: 'selected and disabled',
+      }
+    },
   }
 </script>
 <!--
 <setup>
-
-  import { defineComponent, ref } from 'vue';
+  import { defineComponent, ref } from 'vue'
 
   export default defineComponent({
     setup() {
       return {
         radio: ref('selected and disabled'),
-      };
-    },
-  });
-
+      }
+    }
+  })
 </setup>
 -->
 ```
+
 :::
 
 ### Grupo de elementos Radio
@@ -88,29 +115,28 @@ Recomendado para seleccionar opciones que se excluyen mutuamente.
 
 <script>
   export default {
-    data () {
+    data() {
       return {
-        radio: 3
-      };
-    }
+        radio: 3,
+      }
+    },
   }
 </script>
 <!--
 <setup>
-
-  import { defineComponent, ref } from 'vue';
+  import { defineComponent, ref } from 'vue'
 
   export default defineComponent({
     setup() {
       return {
         radio: ref(3),
-      };
-    },
-  });
-
+      }
+    }
+  })
 </setup>
 -->
 ```
+
 :::
 
 ### Estilo Button
@@ -118,6 +144,7 @@ Recomendado para seleccionar opciones que se excluyen mutuamente.
 Radio con estilo de botón.
 
 :::demo Solo necesita cambiar el elemento `el-radio` a `el-radio-button`. Se provee el atributo `size`.
+
 ```html
 <template>
   <div>
@@ -130,7 +157,7 @@ Radio con estilo de botón.
   </div>
   <div style="margin-top: 20px">
     <el-radio-group v-model="radio2" size="medium">
-      <el-radio-button label="New York" ></el-radio-button>
+      <el-radio-button label="New York"></el-radio-button>
       <el-radio-button label="Washington"></el-radio-button>
       <el-radio-button label="Los Angeles"></el-radio-button>
       <el-radio-button label="Chicago"></el-radio-button>
@@ -139,7 +166,7 @@ Radio con estilo de botón.
   <div style="margin-top: 20px">
     <el-radio-group v-model="radio3" size="small">
       <el-radio-button label="New York"></el-radio-button>
-      <el-radio-button label="Washington" disabled ></el-radio-button>
+      <el-radio-button label="Washington" disabled></el-radio-button>
       <el-radio-button label="Los Angeles"></el-radio-button>
       <el-radio-button label="Chicago"></el-radio-button>
     </el-radio-group>
@@ -156,20 +183,20 @@ Radio con estilo de botón.
 
 <script>
   export default {
-    data () {
+    data() {
       return {
         radio1: 'New York',
         radio2: 'New York',
         radio3: 'New York',
-        radio4: 'New York'
-      };
-    }
+        radio4: 'New York',
+      }
+    },
   }
 </script>
 <!--
 <setup>
+  import { defineComponent, ref } from 'vue'
 
-  import { defineComponent, ref } from 'vue';
   export default defineComponent({
     setup() {
       return {
@@ -177,18 +204,19 @@ Radio con estilo de botón.
         radio2: ref('New York'),
         radio3: ref('New York'),
         radio4: ref('New York'),
-      };
-    },
-  });
-
+      }
+    }
+  })
 </setup>
 -->
 ```
+
 :::
 
 ### Con bordes
 
 :::demo El atributo `border` agrega un borde al elemento Radio.
+
 ```html
 <template>
   <div>
@@ -196,8 +224,12 @@ Radio con estilo de botón.
     <el-radio v-model="radio1" label="2" border>Option B</el-radio>
   </div>
   <div style="margin-top: 20px">
-    <el-radio v-model="radio2" label="1" border size="medium">Option A</el-radio>
-    <el-radio v-model="radio2" label="2" border size="medium">Option B</el-radio>
+    <el-radio v-model="radio2" label="1" border size="medium"
+      >Option A</el-radio
+    >
+    <el-radio v-model="radio2" label="2" border size="medium"
+      >Option B</el-radio
+    >
   </div>
   <div style="margin-top: 20px">
     <el-radio-group v-model="radio3" size="small">
@@ -215,20 +247,19 @@ Radio con estilo de botón.
 
 <script>
   export default {
-    data () {
+    data() {
       return {
         radio1: '1',
         radio2: '1',
         radio3: '1',
-        radio4: '1'
-      };
-    }
+        radio4: '1',
+      }
+    },
   }
 </script>
 <!--
 <setup>
-
-  import { defineComponent, ref } from 'vue';
+  import { defineComponent, ref } from 'vue'
 
   export default defineComponent({
     setup() {
@@ -237,25 +268,25 @@ Radio con estilo de botón.
         radio2: ref('1'),
         radio3: ref('1'),
         radio4: ref('1'),
-      };
-    },
-  });
-
+      }
+    }
+  })
 </setup>
 -->
 ```
+
 :::
 
 ### Atributos de Radio
 
-| Atributo | Descripción                              | Tipo                      | Valores Aceptado      | Por defecto |
-| -------- | ---------------------------------------- | ------------------------- | --------------------- | ----------- |
-| model-value / v-model | valor enlazado | string / number / boolean | — | — |
-| label    | el valor del Radio                       | string / number / boolean | —                     | —           |
-| disabled | si el Radio está deshabilitado           | boolean                   | —                     | false       |
-| border   | agregar borde alrededor del elemento Radio | boolean                   | —                     | false       |
-| size     | tamaño del elemento Radio, solo funciona si `border` es verdadero | string                    | medium / small / mini | —           |
-| name     | atributo nativo `name`                 | string                    | —                     | —           |
+| Atributo              | Descripción                                | Tipo                      | Valores Aceptado      | Por defecto |
+| --------------------- | ------------------------------------------ | ------------------------- | --------------------- | ----------- |
+| model-value / v-model | valor enlazado                             | string / number / boolean | —                     | —           |
+| label                 | el valor del Radio                         | string / number / boolean | —                     | —           |
+| disabled              | si el Radio está deshabilitado             | boolean                   | —                     | false       |
+| border                | agregar borde alrededor del elemento Radio | boolean                   | —                     | false       |
+| size                  | tamaño del elemento Radio                  | string                    | medium / small / mini | —           |
+| name                  | atributo nativo `name`                     | string                    | —                     | —           |
 
 ### Atributos de Radio-button
 
@@ -267,24 +298,22 @@ Radio con estilo de botón.
 
 ### Atributos de Radio-group
 
-| Atributo   | Descripción                              | Tipo    | Valores Aceptado      | Valores por defecto |
-| ---------- | ---------------------------------------- | ------- | --------------------- | ------------------- |
-| model-value / v-model | valor enlazado | string / number / boolean | — | — |
-| size       | tamaño de los `radio buttons` o `bordered radios` | string  | medium / small / mini | —                   |
-| disabled   | si la anidación de radios está deshabilitada | boolean | —                     | false               |
-| text-color | color de las letras cuando el botón está activo | string  | —                     | #ffffff             |
-| fill       | color del borde y fondo cuando el botón está activo | string  | —                     | #409EFF             |
+| Atributo              | Descripción                                         | Tipo                      | Valores Aceptado      | Valores por defecto |
+| --------------------- | --------------------------------------------------- | ------------------------- | --------------------- | ------------------- |
+| model-value / v-model | valor enlazado                                      | string / number / boolean | —                     | —                   |
+| size                  | the size of radio                                   | string                    | medium / small / mini | —                   |
+| disabled              | si la anidación de radios está deshabilitada        | boolean                   | —                     | false               |
+| text-color            | color de las letras cuando el botón está activo     | string                    | —                     | #ffffff             |
+| fill                  | color del borde y fondo cuando el botón está activo | string                    | —                     | #409EFF             |
 
 ### Eventos de Radio
 
-| Nombre de evento | Descripción                       | Parámetros                               |
-| ---------------- | --------------------------------- | ---------------------------------------- |
+| Nombre de evento | Descripción                       | Parámetros                                  |
+| ---------------- | --------------------------------- | ------------------------------------------- |
 | change           | se dispara cuando el valor cambia | el valor del `label` del Radio seleccionado |
-
 
 ### Eventos de Radio-group
 
-| Nombre de evento | Descripción                       | Parámetros                               |
-| ---------------- | --------------------------------- | ---------------------------------------- |
+| Nombre de evento | Descripción                       | Parámetros                                  |
+| ---------------- | --------------------------------- | ------------------------------------------- |
 | change           | se dispara cuando el valor cambia | el valor del `label` del Radio seleccionado |
-

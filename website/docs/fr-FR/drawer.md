@@ -3,6 +3,7 @@
 Sometimes, `Dialog` does not always satisfy our requirements, let's say you have a massive form, or you need space to display something like `terms & conditions`, `Drawer` has almost identical API with `Dialog`, but it introduces different user experience.
 
 :::tip
+
 #### Translation needed
 
 Since v-model is natively supported for all components, `visible.sync` has been deprecated, use `v-model="visibilityBinding"` to control the visibility of the current drawer.
@@ -28,7 +29,8 @@ Callout a temporary drawer, from multiple direction
   title="I am the title"
   v-model="drawer"
   :direction="direction"
-  :before-close="handleClose">
+  :before-close="handleClose"
+>
   <span>Hi, there!</span>
 </el-drawer>
 
@@ -38,18 +40,18 @@ Callout a temporary drawer, from multiple direction
       return {
         drawer: false,
         direction: 'rtl',
-      };
+      }
     },
     methods: {
       handleClose(done) {
         this.$confirm('Are you sure you want to close this?')
-          .then(_ => {
-            done();
+          .then((_) => {
+            done()
           })
-          .catch(_ => {});
-      }
-    }
-  };
+          .catch((_) => {})
+      },
+    },
+  }
 </script>
 <!--
 <setup>
@@ -59,7 +61,7 @@ Callout a temporary drawer, from multiple direction
 
   export default defineComponent({
     setup() {
-      
+
       const drawer = ref(false);
       const direction = ref('rtl');
       const handleClose = (done) => {
@@ -81,6 +83,7 @@ Callout a temporary drawer, from multiple direction
 </setup>
 -->
 ```
+
 :::
 
 ### No Title
@@ -94,10 +97,7 @@ When you no longer need a title, you can remove title from drawer.
   open
 </el-button>
 
-<el-drawer
-  title="I am the title"
-  v-model="drawer"
-  :with-header="false">
+<el-drawer title="I am the title" v-model="drawer" :with-header="false">
   <span>Hi there!</span>
 </el-drawer>
 
@@ -106,9 +106,9 @@ When you no longer need a title, you can remove title from drawer.
     data() {
       return {
         drawer: false,
-      };
-    }
-  };
+      }
+    },
+  }
 </script>
 <!--
 <setup>
@@ -126,6 +126,7 @@ When you no longer need a title, you can remove title from drawer.
 </setup>
 -->
 ```
+
 :::
 
 ### Customization Content
@@ -135,18 +136,23 @@ Like `Dialog`, `Drawer` can do many diverse interaction as you wanted.
 :::demo
 
 ```html
-<el-button type="text" @click="table = true">Open Drawer with nested table</el-button>
-<el-button type="text" @click="dialog = true">Open Drawer with nested form</el-button>
+<el-button type="text" @click="table = true"
+  >Open Drawer with nested table</el-button
+>
+<el-button type="text" @click="dialog = true"
+  >Open Drawer with nested form</el-button
+>
 <el-drawer
   title="I have a nested table inside!"
   v-model="table"
   direction="rtl"
-  size="50%">
-   <el-table :data="gridData">
-      <el-table-column property="date" label="Date" width="150"></el-table-column>
-      <el-table-column property="name" label="Name" width="200"></el-table-column>
-      <el-table-column property="address" label="Address"></el-table-column>
-    </el-table>
+  size="50%"
+>
+  <el-table :data="gridData">
+    <el-table-column property="date" label="Date" width="150"></el-table-column>
+    <el-table-column property="name" label="Name" width="200"></el-table-column>
+    <el-table-column property="address" label="Address"></el-table-column>
+  </el-table>
 </el-drawer>
 
 <el-drawer
@@ -156,14 +162,17 @@ Like `Dialog`, `Drawer` can do many diverse interaction as you wanted.
   direction="ltr"
   custom-class="demo-drawer"
   ref="drawer"
-  >
+>
   <div class="demo-drawer__content">
     <el-form :model="form">
       <el-form-item label="Name" :label-width="formLabelWidth">
         <el-input v-model="form.name" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="Area" :label-width="formLabelWidth">
-        <el-select v-model="form.region" placeholder="Please select activity area">
+        <el-select
+          v-model="form.region"
+          placeholder="Please select activity area"
+        >
           <el-option label="Area1" value="shanghai"></el-option>
           <el-option label="Area2" value="beijing"></el-option>
         </el-select>
@@ -171,84 +180,94 @@ Like `Dialog`, `Drawer` can do many diverse interaction as you wanted.
     </el-form>
     <div class="demo-drawer__footer">
       <el-button @click="cancelForm">Cancel</el-button>
-      <el-button type="primary" @click="$refs.drawer.closeDrawer()" :loading="loading">{{ loading ? 'Submitting ...' : 'Submit' }}</el-button>
+      <el-button
+        type="primary"
+        @click="$refs.drawer.closeDrawer()"
+        :loading="loading"
+        >{{ loading ? 'Submitting ...' : 'Submit' }}</el-button
+      >
     </div>
   </div>
 </el-drawer>
 
 <script>
-export default {
-  data() {
-    return {
-      table: false,
-      dialog: false,
-      loading: false,
-      gridData: [{
-        date: '2016-05-02',
-        name: 'Peter Parker',
-        address: 'Queens, New York City'
-      }, {
-        date: '2016-05-04',
-        name: 'Peter Parker',
-        address: 'Queens, New York City'
-      }, {
-        date: '2016-05-01',
-        name: 'Peter Parker',
-        address: 'Queens, New York City'
-      }, {
-        date: '2016-05-03',
-        name: 'Peter Parker',
-        address: 'Queens, New York City'
-      }],
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
-      },
-      formLabelWidth: '80px',
-      timer: null,
-    };
-  },
-  methods: {
-    handleClose(done) {
-      if (this.loading) {
-        return;
+  export default {
+    data() {
+      return {
+        table: false,
+        dialog: false,
+        loading: false,
+        gridData: [
+          {
+            date: '2016-05-02',
+            name: 'Peter Parker',
+            address: 'Queens, New York City',
+          },
+          {
+            date: '2016-05-04',
+            name: 'Peter Parker',
+            address: 'Queens, New York City',
+          },
+          {
+            date: '2016-05-01',
+            name: 'Peter Parker',
+            address: 'Queens, New York City',
+          },
+          {
+            date: '2016-05-03',
+            name: 'Peter Parker',
+            address: 'Queens, New York City',
+          },
+        ],
+        form: {
+          name: '',
+          region: '',
+          date1: '',
+          date2: '',
+          delivery: false,
+          type: [],
+          resource: '',
+          desc: '',
+        },
+        formLabelWidth: '80px',
+        timer: null,
       }
-      this.$confirm('Do you want to submit?')
-        .then(_ => {
-          this.loading = true;
-          this.timer = setTimeout(() => {
-            done();
-            // animation takes time
-            setTimeout(() => {
-              this.loading = false;
-            }, 400);
-          }, 2000);
-        })
-        .catch(_ => {});
     },
-    cancelForm() {
-      this.loading = false;
-      this.dialog = false;
-      clearTimeout(this.timer);
-    }
+    methods: {
+      handleClose(done) {
+        if (this.loading) {
+          return
+        }
+        this.$confirm('Do you want to submit?')
+          .then((_) => {
+            this.loading = true
+            this.timer = setTimeout(() => {
+              done()
+              // animation takes time
+              setTimeout(() => {
+                this.loading = false
+              }, 400)
+            }, 2000)
+          })
+          .catch((_) => {})
+      },
+      cancelForm() {
+        this.loading = false
+        this.dialog = false
+        clearTimeout(this.timer)
+      },
+    },
   }
-}
 </script>
 <!--
 <setup>
 
-import {defineComponent, reactive, toRefs } from 'vue'; 
-import { ElMessageBox } from 'element-plus'; 
+import {defineComponent, reactive, toRefs } from 'vue';
+import { ElMessageBox } from 'element-plus';
 
   export default defineComponent({
     setup() {
-      
+
       const state = reactive({
         table: false,
         dialog: false,
@@ -325,6 +344,7 @@ import { ElMessageBox } from 'element-plus';
 </setup>
 -->
 ```
+
 :::
 
 ### Nested Drawer
@@ -333,24 +353,21 @@ You can also have multiple layer of `Drawer` just like `Dialog`.
 :::demo If you need multiple Drawer in different layer, you must set the `append-to-body` attribute to **true**
 
 ```html
-
 <el-button @click="drawer = true" type="primary" style="margin-left: 16px;">
   open
 </el-button>
 
-<el-drawer
-  title="I'm outer Drawer"
-  v-model="drawer"
-  size="50%">
+<el-drawer title="I'm outer Drawer" v-model="drawer" size="50%">
   <div>
-   <el-button @click="innerDrawer = true">Click me!</el-button>
-   <el-drawer
-     title="I'm inner Drawer"
-     :append-to-body="true"
-     :before-close="handleClose"
-     v-model="innerDrawer">
-     <p>_(:зゝ∠)_</p>
-   </el-drawer>
+    <el-button @click="innerDrawer = true">Click me!</el-button>
+    <el-drawer
+      title="I'm inner Drawer"
+      :append-to-body="true"
+      :before-close="handleClose"
+      v-model="innerDrawer"
+    >
+      <p>_(:зゝ∠)_</p>
+    </el-drawer>
   </div>
 </el-drawer>
 
@@ -360,18 +377,18 @@ You can also have multiple layer of `Drawer` just like `Dialog`.
       return {
         drawer: false,
         innerDrawer: false,
-      };
+      }
     },
     methods: {
       handleClose(done) {
         this.$confirm('You still have unsaved data, proceed?')
-          .then(_ => {
-            done();
+          .then((_) => {
+            done()
           })
-          .catch(_ => {});
-      }
-    }
-  };
+          .catch((_) => {})
+      },
+    },
+  }
 </script>
 <!--
 <setup>
@@ -381,7 +398,7 @@ You can also have multiple layer of `Drawer` just like `Dialog`.
 
   export default defineComponent({
     setup() {
-      
+
       const drawer = ref(false);
       const innerDrawer = ref(false);
       const handleClose = (done) => {
@@ -402,8 +419,8 @@ You can also have multiple layer of `Drawer` just like `Dialog`.
 
 </setup>
 -->
-
 ```
+
 :::
 
 :::tip
@@ -418,43 +435,47 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 
 :::
 
-
 ### Drawer Attributes
 
-| Parameter| Description | Type      | Acceptable Values                           | Defaults  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| model-value / v-model | Should Drawer be displayed | boolean | — | false |
-| append-to-body | Controls should Drawer be inserted to DocumentBody Element, nested Drawer must assign this param to **true**| boolean   | — | false |
-| before-close | If set, closing procedure will be halted | function(done), done is function type that accepts a boolean as parameter, calling done with true or without parameter will abort the close procedure | — | — |
-| close-on-press-escape | Indicates whether Drawer can be closed by pressing ESC | boolean | — | true |
-| custom-class | Extra class names for Drawer | string | — | — |
-| destroy-on-close | Indicates whether children should be destroyed after Drawer closed | boolean | - | false |
-| modal | Should show shadowing layer | boolean | — | true |
-| direction | Drawer's opening direction | Direction | rtl / ltr / ttb / btt | rtl |
-| show-close | Should show close button at the top right of Drawer | boolean | — | true |
-| size | Drawer's size, if Drawer is horizontal mode, it effects the width property, otherwise it effects the height property, when size is `number` type, it describes the size by unit of pixels; when size is `string` type, it should be used with `x%` notation, other wise it will be interpreted to pixel unit | number / string | - | '30%' |
-| title | Drawer's title, can also be set by named slot, detailed descriptions can be found in the slot form | string | — | — |
-| withHeader | Flag that controls the header section's existance, default to true, when withHeader set to false, both `title attribute` and `title slot` won't work | boolean | - | true |
-| modal-class | Extra class names for shadowing layer | string | - | -
+| Parameter             | Description                                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                  | Acceptable Values     | Defaults |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | -------- |
+| model-value / v-model | Should Drawer be displayed                                                                                                                                                                                                                                                                                   | boolean                                                                                                                                               | —                     | false    |
+| append-to-body        | Controls should Drawer be inserted to DocumentBody Element, nested Drawer must assign this param to **true**                                                                                                                                                                                                 | boolean                                                                                                                                               | —                     | false    |
+| lock-scroll           | whether scroll of body is disabled while Drawer is displayed                                                                                                                                                                                                                                                 | boolean                                                                                                                                               | —                     | true     |
+| before-close          | If set, closing procedure will be halted                                                                                                                                                                                                                                                                     | function(done), done is function type that accepts a boolean as parameter, calling done with true or without parameter will abort the close procedure | —                     | —        |
+| close-on-click-modal  | whether the Drawer can be closed by clicking the mask                                                                                                                                                                                                                                                        | boolean                                                                                                                                               | —                     | true     |
+| close-on-press-escape | Indicates whether Drawer can be closed by pressing ESC                                                                                                                                                                                                                                                       | boolean                                                                                                                                               | —                     | true     |
+| open-delay            | Time(milliseconds) before open                                                                                                                                                                                                                                                                               | number                                                                                                                                                | —                     | 0        |
+| close-delay           | Time(milliseconds) before close                                                                                                                                                                                                                                                                              | number                                                                                                                                                | —                     | 0        |
+| custom-class          | Extra class names for Drawer                                                                                                                                                                                                                                                                                 | string                                                                                                                                                | —                     | —        |
+| destroy-on-close      | Indicates whether children should be destroyed after Drawer closed                                                                                                                                                                                                                                           | boolean                                                                                                                                               | -                     | false    |
+| modal                 | Should show shadowing layer                                                                                                                                                                                                                                                                                  | boolean                                                                                                                                               | —                     | true     |
+| direction             | Drawer's opening direction                                                                                                                                                                                                                                                                                   | Direction                                                                                                                                             | rtl / ltr / ttb / btt | rtl      |
+| show-close            | Should show close button at the top right of Drawer                                                                                                                                                                                                                                                          | boolean                                                                                                                                               | —                     | true     |
+| size                  | Drawer's size, if Drawer is horizontal mode, it effects the width property, otherwise it effects the height property, when size is `number` type, it describes the size by unit of pixels; when size is `string` type, it should be used with `x%` notation, other wise it will be interpreted to pixel unit | number / string                                                                                                                                       | -                     | '30%'    |
+| title                 | Drawer's title, can also be set by named slot, detailed descriptions can be found in the slot form                                                                                                                                                                                                           | string                                                                                                                                                | —                     | —        |
+| withHeader            | Flag that controls the header section's existance, default to true, when withHeader set to false, both `title attribute` and `title slot` won't work                                                                                                                                                         | boolean                                                                                                                                               | -                     | true     |
+| modal-class           | Extra class names for shadowing layer                                                                                                                                                                                                                                                                        | string                                                                                                                                                | -                     | -        |
+| z-index               | set z-index                                                                                                                                                                                                                                                                                                  | number                                                                                                                                                | -                     | -        |
 
 ### Drawer Slot
 
-| Name | Description |
-|------|--------|
-| — | Drawer's Content |
+| Name  | Description          |
+| ----- | -------------------- |
+| —     | Drawer's Content     |
 | title | Drawer Title Section |
 
 ### Drawer Methods
 
-| Name | Description |
-| ---- | ---  |
+| Name        | Description                                                     |
+| ----------- | --------------------------------------------------------------- |
 | handleClose | In order to close Drawer, this method will call `before-close`. |
 
 ### Drawer Events
 
-| Event Name | Description | Parameter |
-|---------- |-------- |---------- |
-| open  | Triggered before Drawer opening animation begins  | — |
-| opened  | Triggered after Drawer opening animation ended | — |
-| close  | Triggered before Drawer closing animation begins | — |
-| closed | Triggered after Drawer closing animation ended | — |
+| Event Name | Description                                      | Parameter |
+| ---------- | ------------------------------------------------ | --------- |
+| open       | Triggered before Drawer opening animation begins | —         |
+| opened     | Triggered after Drawer opening animation ended   | —         |
+| close      | Triggered before Drawer closing animation begins | —         |
+| closed     | Triggered after Drawer closing animation ended   | —         |

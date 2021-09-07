@@ -154,7 +154,7 @@ Switch est utilisé pour choisir entre deux états opposés.
 
       const beforeChange1 = () => {
         status1.loading1 = true
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
           setTimeout(() => {
             status1.loading1 = false
             ElMessage.success('Basculer avec succès')
@@ -194,23 +194,24 @@ Switch est utilisé pour choisir entre deux états opposés.
 
 ### Attributs
 
-| Attribut            | Description                                                                                                                             | Type                      | Valeurs acceptées | Défaut  |
-| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ----------------- | ------- |
-| model-value / v-model     | Valeur liée. Elle doit être équivalente à `active-value` ou `inactive-value`, par défaut elle est de type `boolean`.                    | boolean / string / number | —                 | —       |
-| disabled            | Si le switch est désactivé.                                                                                                             | boolean                   | —                 | false   |
-| loading             | whether Switch is in loading state                                                                                                      | boolean                   | —                 | false   |
-| width               | Largeur du switch.                                                                                                                      | number                    | —                 | 40      |
-| active-icon-class   | Classe de l'icône de l'état `on`, écrase `active-text`.                                                                                 | string                    | —                 | —       |
-| inactive-icon-class | Classe de l'icône de l'état `off`, écrase `inactive-text`.                                                                              | string                    | —                 | —       |
-| active-text         | Texte affiché dans l'état `on`.                                                                                                         | string                    | —                 | —       |
-| inactive-text       | Texte affiché dans l'état `off`.                                                                                                        | string                    | —                 | —       |
-| active-value        | Valeur du switch dans l'état `on`.                                                                                                      | boolean / string / number | —                 | true    |
-| inactive-value      | Valeur du switch dans l'état `off`.                                                                                                     | boolean / string / number | —                 | false   |
-| active-color        | Couleur de fond de l'état `on`.                                                                                                         | string                    | —                 | #409EFF |
-| inactive-color      | Couleur de fond de l'état `off`.                                                                                                        | string                    | —                 | #C0CCDA |
-| name                | Nom du champ d'input du switch.                                                                                                         | string                    | —                 | —       |
-| validate-event      | Si la validation doit avoir lieu.                                                                                                       | boolean                   | —                 | true    |
-| before-change       | Le hook avant le changement d'état du commutateur. S'il renvoie false ou renvoie une promesse et est rejeté, le commutateur s'arrêtera. | function                  | —                 | —       |
+| Attribut              | Description                                                                                                                             | Type                      | Valeurs acceptées | Défaut  |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ----------------- | ------- |
+| model-value / v-model | Valeur liée. Elle doit être équivalente à `active-value` ou `inactive-value`, par défaut elle est de type `boolean`.                    | boolean / string / number | —                 | —       |
+| disabled              | Si le switch est désactivé.                                                                                                             | boolean                   | —                 | false   |
+| loading               | Si le switch est en chargement.                                                                                                         | boolean                   | —                 | false   |
+| width                 | Largeur du switch.                                                                                                                      | number                    | —                 | 40      |
+| active-icon-class     | Classe de l'icône de l'état `on`, écrase `active-text`.                                                                                 | string                    | —                 | —       |
+| inactive-icon-class   | Classe de l'icône de l'état `off`, écrase `inactive-text`.                                                                              | string                    | —                 | —       |
+| active-text           | Texte affiché dans l'état `on`.                                                                                                         | string                    | —                 | —       |
+| inactive-text         | Texte affiché dans l'état `off`.                                                                                                        | string                    | —                 | —       |
+| active-value          | Valeur du switch dans l'état `on`.                                                                                                      | boolean / string / number | —                 | true    |
+| inactive-value        | Valeur du switch dans l'état `off`.                                                                                                     | boolean / string / number | —                 | false   |
+| active-color          | Couleur de fond de l'état `on`.                                                                                                         | string                    | —                 | #409EFF |
+| inactive-color        | Couleur de fond de l'état `off`.                                                                                                        | string                    | —                 | #C0CCDA |
+| border-color          | Couleur de la bordure du switch.                                                                                                        | string                    | —                 | —       |
+| name                  | Nom du champ d'input du switch.                                                                                                         | string                    | —                 | —       |
+| validate-event        | Si la validation doit avoir lieu.                                                                                                       | boolean                   | —                 | true    |
+| before-change         | Le hook avant le changement d'état du commutateur. S'il renvoie false ou renvoie une promesse et est rejeté, le commutateur s'arrêtera. | function                  | —                 | —       |
 
 ### Évènements
 

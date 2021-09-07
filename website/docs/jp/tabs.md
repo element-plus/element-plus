@@ -21,17 +21,18 @@
   export default {
     data() {
       return {
-        activeName: 'first'
-      };
+        activeName: 'first',
+      }
     },
     methods: {
       handleClick(tab, event) {
-        console.log(tab, event);
-      }
-    }
-  };
+        console.log(tab, event)
+      },
+    },
+  }
 </script>
 ```
+
 :::
 
 ### カードスタイル
@@ -53,17 +54,18 @@
   export default {
     data() {
       return {
-        activeName: 'first'
-      };
+        activeName: 'first',
+      }
     },
     methods: {
       handleClick(tab, event) {
-        console.log(tab, event);
-      }
-    }
-  };
+        console.log(tab, event)
+      },
+    },
+  }
 </script>
 ```
+
 :::
 
 ### ボーダーカード
@@ -109,12 +111,13 @@
   export default {
     data() {
       return {
-        tabPosition: 'left'
-      };
-    }
-  };
+        tabPosition: 'left',
+      }
+    },
+  }
 </script>
 ```
+
 :::
 
 ### カスタムタブ
@@ -122,6 +125,7 @@
 名前付きスロットを使用して、タブラベルの内容をカスタマイズすることができます。
 
 :::demo
+
 ```html
 <el-tabs type="border-card">
   <el-tab-pane>
@@ -135,6 +139,7 @@
   <el-tab-pane label="Task">Task</el-tab-pane>
 </el-tabs>
 ```
+
 :::
 
 ### タブを追加して閉じる
@@ -142,8 +147,14 @@
 カードタイプのタブのみ、追加可能＆クローズ可能に対応しています。
 
 :::demo
+
 ```html
-<el-tabs v-model="editableTabsValue" type="card" editable @edit="handleTabsEdit">
+<el-tabs
+  v-model="editableTabsValue"
+  type="card"
+  editable
+  @edit="handleTabsEdit"
+>
   <el-tab-pane
     v-for="(item, index) in editableTabs"
     :key="item.name"
@@ -158,66 +169,73 @@
     data() {
       return {
         editableTabsValue: '2',
-        editableTabs: [{
-          title: 'Tab 1',
-          name: '1',
-          content: 'Tab 1 content'
-        }, {
-          title: 'Tab 2',
-          name: '2',
-          content: 'Tab 2 content'
-        }],
-        tabIndex: 2
+        editableTabs: [
+          {
+            title: 'Tab 1',
+            name: '1',
+            content: 'Tab 1 content',
+          },
+          {
+            title: 'Tab 2',
+            name: '2',
+            content: 'Tab 2 content',
+          },
+        ],
+        tabIndex: 2,
       }
     },
     methods: {
       handleTabsEdit(targetName, action) {
         if (action === 'add') {
-          let newTabName = ++this.tabIndex + '';
+          let newTabName = ++this.tabIndex + ''
           this.editableTabs.push({
             title: 'New Tab',
             name: newTabName,
-            content: 'New Tab content'
-          });
-          this.editableTabsValue = newTabName;
+            content: 'New Tab content',
+          })
+          this.editableTabsValue = newTabName
         }
         if (action === 'remove') {
-          let tabs = this.editableTabs;
-          let activeName = this.editableTabsValue;
+          let tabs = this.editableTabs
+          let activeName = this.editableTabsValue
           if (activeName === targetName) {
             tabs.forEach((tab, index) => {
               if (tab.name === targetName) {
-                let nextTab = tabs[index + 1] || tabs[index - 1];
+                let nextTab = tabs[index + 1] || tabs[index - 1]
                 if (nextTab) {
-                  activeName = nextTab.name;
+                  activeName = nextTab.name
                 }
               }
-            });
+            })
           }
 
-          this.editableTabsValue = activeName;
-          this.editableTabs = tabs.filter(tab => tab.name !== targetName);
+          this.editableTabsValue = activeName
+          this.editableTabs = tabs.filter((tab) => tab.name !== targetName)
         }
-      }
-    }
+      },
+    },
   }
 </script>
 ```
+
 :::
 
 ### カスタマイズした新規タブのトリガーボタン
 
 :::demo
+
 ```html
 <div style="margin-bottom: 20px;">
-  <el-button
-    size="small"
-    @click="addTab(editableTabsValue)"
-  >
+  <el-button size="small" @click="addTab(editableTabsValue)">
     add tab
   </el-button>
 </div>
-<el-tabs v-model="editableTabsValue" type="card" closable @tab-remove="removeTab">
+<el-tabs
+  v-model="editableTabsValue"
+  type="card"
+  closable
+  @tab-remove="removeTab"
+>
   <el-tab-pane
     v-for="(item, index) in editableTabs"
     :key="item.name"
@@ -232,83 +250,90 @@
     data() {
       return {
         editableTabsValue: '2',
-        editableTabs: [{
-          title: 'Tab 1',
-          name: '1',
-          content: 'Tab 1 content'
-        }, {
-          title: 'Tab 2',
-          name: '2',
-          content: 'Tab 2 content'
-        }],
-        tabIndex: 2
+        editableTabs: [
+          {
+            title: 'Tab 1',
+            name: '1',
+            content: 'Tab 1 content',
+          },
+          {
+            title: 'Tab 2',
+            name: '2',
+            content: 'Tab 2 content',
+          },
+        ],
+        tabIndex: 2,
       }
     },
     methods: {
       addTab(targetName) {
-        let newTabName = ++this.tabIndex + '';
+        let newTabName = ++this.tabIndex + ''
         this.editableTabs.push({
           title: 'New Tab',
           name: newTabName,
-          content: 'New Tab content'
-        });
-        this.editableTabsValue = newTabName;
+          content: 'New Tab content',
+        })
+        this.editableTabsValue = newTabName
       },
       removeTab(targetName) {
-        let tabs = this.editableTabs;
-        let activeName = this.editableTabsValue;
+        let tabs = this.editableTabs
+        let activeName = this.editableTabsValue
         if (activeName === targetName) {
           tabs.forEach((tab, index) => {
             if (tab.name === targetName) {
-              let nextTab = tabs[index + 1] || tabs[index - 1];
+              let nextTab = tabs[index + 1] || tabs[index - 1]
               if (nextTab) {
-                activeName = nextTab.name;
+                activeName = nextTab.name
               }
             }
-          });
+          })
         }
 
-        this.editableTabsValue = activeName;
-        this.editableTabs = tabs.filter(tab => tab.name !== targetName);
-      }
-    }
+        this.editableTabsValue = activeName
+        this.editableTabs = tabs.filter((tab) => tab.name !== targetName)
+      },
+    },
   }
 </script>
 ```
+
 :::
 
 ### タブの属性
-| Attribute      | Description          | Type      | Accepted Values       | Default  |
-|---------- |-------- |---------- |-------------  |-------- |
-| model-value / v-model  | バインディング値、選択されたタブの名前  | string   |  —  |  name of first tab |
-| type     | タブの種類 | string   | card/border-card  |     —    |
-| closable  | タブが閉じられるかどうか | boolean   | — |  false  |
-| addable  | タブの追加が可能かどうか   | boolean   | — |  false  |
-| editable  | タブが追加可能で閉じられるかどうか | boolean   | — |  false  |
-| tab-position  | タブの位置 | string   |  top/right/bottom/left  |  top |
-| stretch  | タブの幅が自動的にコンテナに収まるかどうか | boolean   |  -  |  false |
-| before-leave | フック関数を使ってタブを切り替える。`false` を返すか、`Promise` を返した後に拒否された場合は、タブの切り替えができないようにする。 | Function(activeName, oldActiveName) | — | — |
+
+| Attribute             | Description                                                                                                                        | Type                                | Accepted Values       | Default           |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- | --------------------- | ----------------- |
+| model-value / v-model | バインディング値、選択されたタブの名前                                                                                             | string                              | —                     | name of first tab |
+| type                  | タブの種類                                                                                                                         | string                              | card/border-card      | —                 |
+| closable              | タブが閉じられるかどうか                                                                                                           | boolean                             | —                     | false             |
+| addable               | タブの追加が可能かどうか                                                                                                           | boolean                             | —                     | false             |
+| editable              | タブが追加可能で閉じられるかどうか                                                                                                 | boolean                             | —                     | false             |
+| tab-position          | タブの位置                                                                                                                         | string                              | top/right/bottom/left | top               |
+| stretch               | タブの幅が自動的にコンテナに収まるかどうか                                                                                         | boolean                             | -                     | false             |
+| before-leave          | フック関数を使ってタブを切り替える。`false` を返すか、`Promise` を返した後に拒否された場合は、タブの切り替えができないようにする。 | Function(activeName, oldActiveName) | —                     | —                 |
 
 ### タブイベント
-| Event Name | Description | Parameters |
-|---------- |-------- |---------- |
-| tab-click  | タブがクリックされたときにトリガーされます。 | clicked tab |
-| tab-remove  | タブ削除ボタンがクリックされたときにトリガーされます。 | name of the removed tab |
-| tab-add  |  タブ追加ボタンがクリックされたときにトリガーされます。  | — |
-| edit  | タブ追加ボタンやタブ削除ボタンがクリックされたときにトリガーされます。 | (targetName, action) |
+
+| Event Name | Description                                                            | Parameters              |
+| ---------- | ---------------------------------------------------------------------- | ----------------------- |
+| tab-click  | タブがクリックされたときにトリガーされます。                           | clicked tab             |
+| tab-remove | タブ削除ボタンがクリックされたときにトリガーされます。                 | name of the removed tab |
+| tab-add    | タブ追加ボタンがクリックされたときにトリガーされます。                 | —                       |
+| edit       | タブ追加ボタンやタブ削除ボタンがクリックされたときにトリガーされます。 | (targetName, action)    |
 
 ### タブペインの属性
-| Attribute      | Description          | Type      | Accepted Values       | Default  |
-|---------- |-------- |---------- |-------------  |-------- |
-| label     | タブのタイトル   | string   | — |    —     |
-| disabled | タブが無効になっているかどうか | boolean | — | false |
-| name      | タブの名前に対応する識別子、タブペインのエイリアスを表す | string | — | ordinal number of the tab-pane in the sequence, e.g. the first tab-pane is '1' |
-| closable  | タブが閉じられるかどうか | boolean   | — |  false  |
-| lazy  | タブがレイジーにレンダリングされるかどうか   | boolean   | — |  false  |
+
+| Attribute | Description                                              | Type    | Accepted Values | Default                                                                        |
+| --------- | -------------------------------------------------------- | ------- | --------------- | ------------------------------------------------------------------------------ |
+| label     | タブのタイトル                                           | string  | —               | —                                                                              |
+| disabled  | タブが無効になっているかどうか                           | boolean | —               | false                                                                          |
+| name      | タブの名前に対応する識別子、タブペインのエイリアスを表す | string  | —               | ordinal number of the tab-pane in the sequence, e.g. the first tab-pane is '1' |
+| closable  | タブが閉じられるかどうか                                 | boolean | —               | false                                                                          |
+| lazy      | タブがレイジーにレンダリングされるかどうか               | boolean | —               | false                                                                          |
 
 ### Tab-pane Slots
 
-| Name | Description |
-|------|--------|
-| - | Tab-pane's content |
-| label | Tab-pane's label |
+| Name  | Description        |
+| ----- | ------------------ |
+| -     | Tab-pane's content |
+| label | Tab-pane's label   |

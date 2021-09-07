@@ -3,19 +3,20 @@ import { mount } from '@vue/test-utils'
 import RepeatClick from '../repeat-click'
 
 const handler = jest.fn()
-const _mount = () => mount({
-  template: `
+const _mount = () =>
+  mount({
+    template: `
   <div id="block" v-repeat-click="onClick">TEST</div>
   `,
-  directives: {
-    repeatClick: RepeatClick,
-  },
-  methods: {
-    onClick() {
-      handler()
+    directives: {
+      repeatClick: RepeatClick,
     },
-  },
-})
+    methods: {
+      onClick() {
+        handler()
+      },
+    },
+  })
 
 beforeEach(() => {
   handler.mockClear()

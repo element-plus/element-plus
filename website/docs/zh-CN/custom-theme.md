@@ -14,7 +14,7 @@ Element Plus 的 theme-chalk 使用 SCSS 编写，如果你的项目也使用了
 
 ```html
 /* 改变主题色变量 */ $--color-primary: teal; /* 改变 icon 字体路径变量，必需 */
-$--font-path: '~element-plus/lib/theme-chalk/fonts'; @import
+$--font-path: "~element-plus/theme-chalk/fonts"; @import
 "~element-plus/packages/theme-chalk/src/index";
 ```
 
@@ -38,7 +38,7 @@ app.use(ElementPlus)
 
 如果你的项目没有使用 SCSS，那么可以使用命令行主题工具进行深层次的主题定制：
 
-#### <strong>安装工具</strong>
+#### **安装工具**
 
 首先安装「主题生成工具」，可以全局安装或者安装在当前项目下，推荐安装在项目里，方便别人 clone 项目时能直接安装依赖并启动，这里以全局安装做演示。
 
@@ -56,7 +56,7 @@ npm i element-theme-chalk -D
 npm i https://github.com/ElementUI/theme-chalk -D
 ```
 
-#### <strong>初始化变量文件</strong>
+#### **初始化变量文件**
 
 主题生成工具安装成功后，如果全局安装可以在命令行里通过 `et` 调用工具，如果安装在当前目录下，需要通过 `node_modules/.bin/et` 访问到命令。执行 `-i` 初始化变量文件。默认输出到 `element-variables.scss`，当然你可以传参数指定文件输出目录。
 
@@ -88,7 +88,7 @@ $--color-info: #909399 !default;
 ...
 ```
 
-#### <strong>修改变量</strong>
+#### **修改变量**
 
 直接编辑 `element-variables.scss` 文件，例如修改主题色为红色。
 
@@ -96,7 +96,7 @@ $--color-info: #909399 !default;
 $--color-primary: red;
 ```
 
-#### <strong>编译主题</strong>
+#### **编译主题**
 
 保存文件后，到命令行里执行 `et` 编译主题，如果你想启用 `watch` 模式，实时编译主题，增加 `-w` 参数；如果你在初始化时指定了自定义变量文件，则需要增加 `-c` 参数，并带上你的变量文件名。默认情况下编译的主题目录是放在 `./theme` 下，你可以通过 `-o` 参数指定打包目录。
 
@@ -109,7 +109,7 @@ et
 
 ### 使用自定义主题
 
-#### <strong>引入自定义主题</strong>
+#### **引入自定义主题**
 
 和引入默认主题一样，在代码里直接引用「在线主题编辑器」或「命令行工具」生成的主题的 `theme/index.css` 文件即可。
 
@@ -121,7 +121,7 @@ import ElementPlus from 'element-plus'
 createApp(App).use(ElementPlus)
 ```
 
-#### <strong>搭配插件按需引入组件主题</strong>
+#### **搭配插件按需引入组件主题**
 
 如果是搭配 `babel-plugin-component` 一起使用，只需要修改 `.babelrc` 的配置，指定 `styleLibraryName` 路径为自定义主题相对于 `.babelrc` 的路径，注意要加 `~`。
 

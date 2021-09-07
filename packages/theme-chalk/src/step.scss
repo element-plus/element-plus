@@ -1,5 +1,5 @@
-@import "mixins/mixins";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'common/var';
 
 @include b(step) {
   position: relative;
@@ -27,28 +27,28 @@
     width: 100%;
 
     @include when(process) {
-      color: $--color-text-primary;
-      border-color: $--color-text-primary;
+      color: var(--el-text-color-primary);
+      border-color: var(--el-text-color-primary);
     }
 
     @include when(wait) {
-      color: $--color-text-placeholder;
-      border-color: $--color-text-placeholder;
+      color: var(--el-text-color-placeholder);
+      border-color: var(--el-text-color-placeholder);
     }
 
     @include when(success) {
-      color: $--color-success;
-      border-color: $--color-success;
+      color: var(--el-color-success);
+      border-color: var(--el-color-success);
     }
 
     @include when(error) {
-      color: $--color-danger;
-      border-color: $--color-danger;
+      color: var(--el-color-danger);
+      border-color: var(--el-color-danger);
     }
 
     @include when(finish) {
-      color: $--color-primary;
-      border-color: $--color-primary;
+      color: var(--el-color-primary);
+      border-color: var(--el-color-primary);
     }
   }
 
@@ -63,7 +63,7 @@
     font-size: 14px;
     box-sizing: border-box;
     background: $--color-white;
-    transition: .15s ease-out;
+    transition: 0.15s ease-out;
 
     @include when(text) {
       border-radius: 50%;
@@ -84,7 +84,7 @@
     line-height: 1;
     color: inherit;
 
-    &[class*=#{$namespace}-icon]:not(.is-status) {
+    &[class*='#{$namespace}-icon']:not(.is-status) {
       font-size: 25px;
       font-weight: normal;
     }
@@ -98,7 +98,7 @@
   @include e(line) {
     position: absolute;
     border-color: inherit;
-    background-color: $--color-text-placeholder;
+    background-color: var(--el-text-color-placeholder);
   }
 
   @include e(line-inner) {
@@ -106,7 +106,7 @@
     border-width: 1px;
     border-style: solid;
     border-color: inherit;
-    transition: .15s ease-out;
+    transition: 0.15s ease-out;
     box-sizing: border-box;
     width: 0;
     height: 0;
@@ -123,23 +123,23 @@
 
     @include when(process) {
       font-weight: bold;
-      color: $--color-text-primary;
+      color: var(--el-text-color-primary);
     }
 
     @include when(wait) {
-      color: $--color-text-placeholder;
+      color: var(--el-text-color-placeholder);
     }
 
     @include when(success) {
-      color: $--color-success;
+      color: var(--el-color-success);
     }
 
     @include when(error) {
-      color: $--color-danger;
+      color: var(--el-color-danger);
     }
 
     @include when(finish) {
-      color: $--color-primary;
+      color: var(--el-color-primary);
     }
   }
 
@@ -151,23 +151,23 @@
     font-weight: normal;
 
     @include when(process) {
-      color: $--color-text-primary;
+      color: var(--el-text-color-primary);
     }
 
     @include when(wait) {
-      color: $--color-text-placeholder;
+      color: var(--el-text-color-placeholder);
     }
 
     @include when(success) {
-      color: $--color-success;
+      color: var(--el-color-success);
     }
 
     @include when(error) {
-      color: $--color-danger;
+      color: var(--el-color-danger);
     }
 
     @include when(finish) {
-      color: $--color-primary;
+      color: var(--el-color-primary);
     }
   }
 
@@ -215,7 +215,6 @@
   }
 
   @include when(center) {
-
     @include e(head) {
       text-align: center;
     }
@@ -253,12 +252,12 @@
     }
 
     @include e(icon-inner) {
-      &[class*=#{$namespace}-icon]:not(.is-status) {
+      &[class*='#{$namespace}-icon']:not(.is-status) {
         font-size: 18px;
       }
 
       &.is-status {
-        transform: scale(.8) translateY(1px);
+        transform: scale(0.8) translateY(1px);
       }
     }
 
@@ -294,7 +293,7 @@
         position: absolute;
         height: 15px;
         width: 1px;
-        background: $--color-text-placeholder;
+        background: var(--el-text-color-placeholder);
       }
 
       &::before {

@@ -38,7 +38,6 @@ export const useTransitionFallthroughEmits = [
  * Use this at your need.
  */
 
-
 /**
  * Simple usage
  *

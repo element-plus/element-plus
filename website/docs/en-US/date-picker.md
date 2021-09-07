@@ -1,9 +1,8 @@
-
 ## DatePicker
 
 Use Date Picker for date input.
 
-###  Enter Date
+### Enter Date
 
 Basic date picker measured by 'day'.
 
@@ -13,10 +12,7 @@ Basic date picker measured by 'day'.
 <template>
   <div class="block">
     <span class="demonstration">Default</span>
-    <el-date-picker
-      v-model="value1"
-      type="date"
-      placeholder="Pick a day">
+    <el-date-picker v-model="value1" type="date" placeholder="Pick a day">
     </el-date-picker>
   </div>
   <div class="block">
@@ -39,29 +35,33 @@ Basic date picker measured by 'day'.
         disabledDate(time) {
           return time.getTime() > Date.now()
         },
-        shortcuts: [{
-          text: 'Today',
-          value: new Date(),
-        }, {
-          text: 'Yesterday',
-          value: (() => {
-            const date = new Date()
-            date.setTime(date.getTime() - 3600 * 1000 * 24)
-            return date
-          })(),
-        }, {
-          text: 'A week ago',
-          value: (() => {
-            const date = new Date()
-            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
-            return date
-          })(),
-        }],
+        shortcuts: [
+          {
+            text: 'Today',
+            value: new Date(),
+          },
+          {
+            text: 'Yesterday',
+            value: () => {
+              const date = new Date()
+              date.setTime(date.getTime() - 3600 * 1000 * 24)
+              return date
+            },
+          },
+          {
+            text: 'A week ago',
+            value: () => {
+              const date = new Date()
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
+              return date
+            },
+          },
+        ],
         value1: '',
         value2: '',
-      };
-    }
-  };
+      }
+    },
+  }
 </script>
 <!--
 <setup>
@@ -81,19 +81,19 @@ Basic date picker measured by 'day'.
           },
           {
             text: 'Yesterday',
-            value: (() => {
+            value: () => {
               const date = new Date();
               date.setTime(date.getTime() - 3600 * 1000 * 24);
               return date;
-            })(),
+            },
           },
           {
             text: 'A week ago',
-            value: (() => {
+            value: () => {
               const date = new Date();
               date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
               return date;
-            })(),
+            },
           },
         ],
         value1: '',
@@ -109,6 +109,7 @@ Basic date picker measured by 'day'.
 </setup>
 -->
 ```
+
 :::
 
 ### Other measurements
@@ -125,25 +126,20 @@ You can choose week, month, year or multiple dates by extending the standard dat
       v-model="value1"
       type="week"
       format="[Week] ww"
-      placeholder="Pick a week">
+      placeholder="Pick a week"
+    >
     </el-date-picker>
   </div>
   <div class="block">
     <span class="demonstration">Month</span>
-    <el-date-picker
-      v-model="value2"
-      type="month"
-      placeholder="Pick a month">
+    <el-date-picker v-model="value2" type="month" placeholder="Pick a month">
     </el-date-picker>
   </div>
 </div>
 <div class="container">
   <div class="block">
     <span class="demonstration">Year</span>
-    <el-date-picker
-      v-model="value3"
-      type="year"
-      placeholder="Pick a year">
+    <el-date-picker v-model="value3" type="year" placeholder="Pick a year">
     </el-date-picker>
   </div>
   <div class="block">
@@ -151,7 +147,8 @@ You can choose week, month, year or multiple dates by extending the standard dat
     <el-date-picker
       type="dates"
       v-model="value4"
-      placeholder="Pick one or more dates">
+      placeholder="Pick one or more dates"
+    >
     </el-date-picker>
   </div>
 </div>
@@ -163,10 +160,10 @@ You can choose week, month, year or multiple dates by extending the standard dat
         value1: '',
         value2: '',
         value3: '',
-        value4: ''
-      };
-    }
-  };
+        value4: '',
+      }
+    },
+  }
 </script>
 <!--
 <setup>
@@ -194,7 +191,7 @@ You can choose week, month, year or multiple dates by extending the standard dat
 
 :::
 
-###  Date Range
+### Date Range
 
 Picking a date range is supported.
 
@@ -209,7 +206,8 @@ Picking a date range is supported.
       type="daterange"
       range-separator="To"
       start-placeholder="Start date"
-      end-placeholder="End date">
+      end-placeholder="End date"
+    >
     </el-date-picker>
   </div>
   <div class="block">
@@ -231,36 +229,40 @@ Picking a date range is supported.
   export default {
     data() {
       return {
-        shortcuts: [{
-          text: 'Last week',
-          value: (() => {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-            return [start, end]
-          })(),
-        }, {
-          text: 'Last month',
-          value: (() => {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-            return [start, end]
-          })(),
-        }, {
-          text: 'Last 3 months',
-          value: (() => {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-            return [start, end]
-          })(),
-        }],
+        shortcuts: [
+          {
+            text: 'Last week',
+            value: () => {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+              return [start, end]
+            },
+          },
+          {
+            text: 'Last month',
+            value: () => {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+              return [start, end]
+            },
+          },
+          {
+            text: 'Last 3 months',
+            value: () => {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              return [start, end]
+            },
+          },
+        ],
         value1: '',
-        value2: ''
-      };
-    }
-  };
+        value2: '',
+      }
+    },
+  }
 </script>
 <!--
 <setup>
@@ -273,30 +275,30 @@ Picking a date range is supported.
         shortcuts: [
           {
             text: 'Last week',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
               return [start, end];
-            })(),
+            },
           },
           {
             text: 'Last month',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
               return [start, end];
-            })(),
+            },
           },
           {
             text: 'Last 3 months',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
               return [start, end];
-            })(),
+            },
           },
         ],
         value1: '',
@@ -320,6 +322,7 @@ Picking a date range is supported.
 Picking a month range is supported.
 
 :::demo When in range mode, the left and right panels are linked by default. If you want the two panels to switch current years independently, you can use the `unlink-panels` attribute.
+
 ```html
 <template>
   <div class="block">
@@ -329,7 +332,8 @@ Picking a month range is supported.
       type="monthrange"
       range-separator="To"
       start-placeholder="Start month"
-      end-placeholder="End month">
+      end-placeholder="End month"
+    >
     </el-date-picker>
   </div>
   <div class="block">
@@ -351,30 +355,34 @@ Picking a month range is supported.
   export default {
     data() {
       return {
-        shortcuts: [{
-          text: 'This month',
-          value: [new Date(), new Date()],
-        }, {
-          text: 'This year',
-          value: (() => {
-            const end = new Date()
-            const start = new Date(new Date().getFullYear(), 0)
-            return [start, end]
-          })(),
-        }, {
-          text: 'Last 6 months',
-          value: (() => {
-            const end = new Date()
-            const start = new Date()
-            start.setMonth(start.getMonth() - 6)
-            return [start, end]
-          })(),
-        }],
+        shortcuts: [
+          {
+            text: 'This month',
+            value: [new Date(), new Date()],
+          },
+          {
+            text: 'This year',
+            value: () => {
+              const end = new Date()
+              const start = new Date(new Date().getFullYear(), 0)
+              return [start, end]
+            },
+          },
+          {
+            text: 'Last 6 months',
+            value: () => {
+              const end = new Date()
+              const start = new Date()
+              start.setMonth(start.getMonth() - 6)
+              return [start, end]
+            },
+          },
+        ],
         value1: '',
-        value2: ''
-      };
-    }
-  };
+        value2: '',
+      }
+    },
+  }
 </script>
 <!--
 <setup>
@@ -391,20 +399,20 @@ Picking a month range is supported.
           },
           {
             text: 'This year',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date(new Date().getFullYear(), 0);
               return [start, end];
-            })(),
+            },
           },
           {
             text: 'Last 6 months',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setMonth(start.getMonth() - 6);
               return [start, end];
-            })(),
+            },
           },
         ],
         value1: '',
@@ -420,15 +428,17 @@ Picking a month range is supported.
 </setup>
 -->
 ```
+
 :::
 
-###  Default Value
+### Default Value
 
 If user hasn't picked a date, shows today's calendar by default. You can use `default-value` to set another date. Its value should be parsable by `new Date()`.
 
 If type is `daterange`, `default-value` sets the left side calendar.
 
 :::demo
+
 ```html
 <template>
   <div class="block">
@@ -437,7 +447,8 @@ If type is `daterange`, `default-value` sets the left side calendar.
       v-model="value1"
       type="date"
       placeholder="Pick a date"
-      :default-value="new Date(2010, 9, 1)">
+      :default-value="new Date(2010, 9, 1)"
+    >
     </el-date-picker>
   </div>
   <div class="block">
@@ -447,7 +458,8 @@ If type is `daterange`, `default-value` sets the left side calendar.
       type="daterange"
       start-placeholder="Start Date"
       end-placeholder="End Date"
-      :default-value="[new Date(2010, 9, 1), new Date(2010, 10, 1)]">
+      :default-value="[new Date(2010, 9, 1), new Date(2010, 10, 1)]"
+    >
     </el-date-picker>
   </div>
 </template>
@@ -457,10 +469,10 @@ If type is `daterange`, `default-value` sets the left side calendar.
     data() {
       return {
         value1: '',
-        value2: ''
-      };
-    }
-  };
+        value2: '',
+      }
+    },
+  }
 </script>
 <!--
 <setup>
@@ -482,9 +494,11 @@ If type is `daterange`, `default-value` sets the left side calendar.
 </setup>
 -->
 ```
+
 :::
 
-###  Date Formats
+### Date Formats
+
 Use `format` to control displayed text's format in the input box. Use `value-format` to control binding value's format.
 
 By default, the component accepts and emits a `Date` object.
@@ -496,6 +510,7 @@ Pay attention to capitalization
 :::
 
 :::demo
+
 ```html
 <template>
   <div class="block">
@@ -505,7 +520,8 @@ Pay attention to capitalization
       v-model="value1"
       type="date"
       placeholder="Pick a Date"
-      format="YYYY/MM/DD">
+      format="YYYY/MM/DD"
+    >
     </el-date-picker>
   </div>
   <div class="block">
@@ -516,7 +532,8 @@ Pay attention to capitalization
       type="date"
       placeholder="Pick a Date"
       format="YYYY/MM/DD"
-      value-format="YYYY-MM-DD">
+      value-format="YYYY-MM-DD"
+    >
     </el-date-picker>
   </div>
   <div class="block">
@@ -527,7 +544,8 @@ Pay attention to capitalization
       type="date"
       placeholder="Pick a Date"
       format="YYYY/MM/DD"
-      value-format="x">
+      value-format="x"
+    >
     </el-date-picker>
   </div>
 </template>
@@ -538,10 +556,10 @@ Pay attention to capitalization
       return {
         value1: '',
         value2: '',
-        value3: ''
-      };
-    }
-  };
+        value3: '',
+      }
+    },
+  }
 </script>
 <!--
 <setup>
@@ -565,13 +583,15 @@ Pay attention to capitalization
 </setup>
 -->
 ```
+
 :::
 
-###  Default time for start date and end date
+### Default time for start date and end date
 
 When picking a date range, you can assign the time part for start date and end date.
 
 :::demo By default, the time part of start date and end date are both `00:00:00`. Setting `default-time` can change their time respectively. It accepts an array of up to two Date objects. The first string sets the time for the start date, and the second for the end date.
+
 ```html
 <template>
   <div class="block">
@@ -593,11 +613,11 @@ When picking a date range, you can assign the time part for start date and end d
         value: '',
         defaultTime: [
           new Date(2000, 1, 1, 0, 0, 0),
-          new Date(2000, 2, 1, 23, 59, 59)
-        ] // '00:00:00', '23:59:59'
-      };
-    }
-  };
+          new Date(2000, 2, 1, 23, 59, 59),
+        ], // '00:00:00', '23:59:59'
+      }
+    },
+  }
 </script>
 <!--
 <setup>
@@ -622,6 +642,7 @@ When picking a date range, you can assign the time part for start date and end d
 </setup>
 -->
 ```
+
 :::
 
 ### Localization
@@ -631,45 +652,50 @@ The default locale of is English, if you need to use other languages, please che
 Note, date time locale (month name, first day of the week ...) are also configed in localization.
 
 ### Attributes
-| Attribute      | Description          | Type      | Accepted Values       | Default  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| model-value / v-model | binding value | date(DatePicker) / array(DateRangePicker) | — | — |
-| readonly | whether DatePicker is read only | boolean | — | false |
-| disabled | whether DatePicker is disabled | boolean | — | false |
-| size | size of Input | string | large/medium/small/mini  | large |
-| editable | whether the input is editable | boolean | — | true |
-| clearable | whether to show clear button | boolean | — | true |
-| placeholder | placeholder in non-range mode | string | — | — |
-| start-placeholder | placeholder for the start date in range mode | string | — | — |
-| end-placeholder | placeholder for the end date in range mode | string | — | — |
-| type | type of the picker | string | year/month/date/dates/datetime/ week/datetimerange/daterange/ monthrange | date |
-| format | format of the displayed value in the input box | string | see [date formats](#/en-US/component/date-picker#date-formats) | YYYY-MM-DD |
-| popper-class | custom class name for DatePicker's dropdown | string | — | — |
-| range-separator | range separator | string | — | '-' |
-| default-value | optional, default date of the calendar | Date | anything accepted by `new Date()` | — |
-| default-time | optional, the time value to use when selecting date range | Date[] | Array with length 2, each item is a Date. The first item for the start date and then second item for the end date | — |
-| value-format | optional, format of binding value. If not specified, the binding value will be a Date object | string | see [date formats](#/en-US/component/date-picker#date-formats) | — |
-| name | same as `name` in native input | string | — | — |
-| unlink-panels | unlink two date-panels in range-picker | boolean | — | false |
-| prefix-icon | Custom prefix icon class | string | — | el-icon-date |
-| clear-icon | Custom clear icon class | string | — | el-icon-circle-close |
-| validate-event | whether to trigger form validation | boolean | - | true |
-| disabledDate | a function determining if a date is disabled with that date as its parameter. Should return a Boolean | function | — | — |
-| shortcuts | an object array to set shortcut options | object[{ text: string, value: Date }] | — | — |
+
+| Attribute             | Description                                                                                           | Type                                             | Accepted Values                                                                                                   | Default              |
+| --------------------- | ----------------------------------------------------------------------------------------------------- | ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------- | -------------------- |
+| model-value / v-model | binding value                                                                                         | date(DatePicker) / array(DateRangePicker)        | —                                                                                                                 | —                    |
+| readonly              | whether DatePicker is read only                                                                       | boolean                                          | —                                                                                                                 | false                |
+| disabled              | whether DatePicker is disabled                                                                        | boolean                                          | —                                                                                                                 | false                |
+| size                  | size of Input                                                                                         | string                                           | large/medium/small/mini                                                                                           | large                |
+| editable              | whether the input is editable                                                                         | boolean                                          | —                                                                                                                 | true                 |
+| clearable             | whether to show clear button                                                                          | boolean                                          | —                                                                                                                 | true                 |
+| placeholder           | placeholder in non-range mode                                                                         | string                                           | —                                                                                                                 | —                    |
+| start-placeholder     | placeholder for the start date in range mode                                                          | string                                           | —                                                                                                                 | —                    |
+| end-placeholder       | placeholder for the end date in range mode                                                            | string                                           | —                                                                                                                 | —                    |
+| type                  | type of the picker                                                                                    | string                                           | year/month/date/dates/datetime/ week/datetimerange/daterange/ monthrange                                          | date                 |
+| format                | format of the displayed value in the input box                                                        | string                                           | see [date formats](#/en-US/component/date-picker#date-formats)                                                    | YYYY-MM-DD           |
+| popper-class          | custom class name for DatePicker's dropdown                                                           | string                                           | —                                                                                                                 | —                    |
+| range-separator       | range separator                                                                                       | string                                           | —                                                                                                                 | '-'                  |
+| default-value         | optional, default date of the calendar                                                                | Date                                             | anything accepted by `new Date()`                                                                                 | —                    |
+| default-time          | optional, the time value to use when selecting date range                                             | Date[]                                           | Array with length 2, each item is a Date. The first item for the start date and then second item for the end date | —                    |
+| value-format          | optional, format of binding value. If not specified, the binding value will be a Date object          | string                                           | see [date formats](#/en-US/component/date-picker#date-formats)                                                    | —                    |
+| name                  | same as `name` in native input                                                                        | string                                           | —                                                                                                                 | —                    |
+| unlink-panels         | unlink two date-panels in range-picker                                                                | boolean                                          | —                                                                                                                 | false                |
+| prefix-icon           | Custom prefix icon class                                                                              | string                                           | —                                                                                                                 | el-icon-date         |
+| clear-icon            | Custom clear icon class                                                                               | string                                           | —                                                                                                                 | el-icon-circle-close |
+| validate-event        | whether to trigger form validation                                                                    | boolean                                          | -                                                                                                                 | true                 |
+| disabledDate          | a function determining if a date is disabled with that date as its parameter. Should return a Boolean | function                                         | —                                                                                                                 | —                    |
+| shortcuts             | an object array to set shortcut options                                                               | object[{ text: string, value: date / function }] | —                                                                                                                 | —                    |
 
 ### Events
-| Event Name | Description | Parameters |
-|---------|--------|---------|
-| change | triggers when user confirms the value | component's binding value |
-| blur | triggers when Input blurs | component instance |
-| focus | triggers when Input focuses | component instance |
+
+| Event Name      | Description                                                               | Parameters                |
+| --------------- | ------------------------------------------------------------------------- | ------------------------- |
+| change          | triggers when user confirms the value                                     | component's binding value |
+| blur            | triggers when Input blurs                                                 | component instance        |
+| focus           | triggers when Input focuses                                               | component instance        |
+| calendar-change | triggers when the calendar selected date is changed. Only for `daterange` | [Date, Date]              |
 
 ### Methods
-| Method | Description | Parameters |
-|------|--------|-------|
-| focus | focus the Input component | — |
+
+| Method | Description               | Parameters |
+| ------ | ------------------------- | ---------- |
+| focus  | focus the Input component | —          |
 
 ### Slots
-| Name    | Description |
-|---------|-------------|
-| range-separator  | custom range separator content |
+
+| Name            | Description                    |
+| --------------- | ------------------------------ |
+| range-separator | custom range separator content |

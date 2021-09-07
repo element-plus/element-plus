@@ -7,38 +7,65 @@
 複数のパネルを展開することができます
 
 :::demo
+
 ```html
 <el-collapse v-model="activeNames" @change="handleChange">
   <el-collapse-item title="Consistency" name="1">
-    <div>Consistent with real life: in line with the process and logic of real life, and comply with languages and habits that the users are used to;</div>
-    <div>Consistent within interface: all elements should be consistent, such as: design style, icons and texts, position of elements, etc.</div>
+    <div>
+      Consistent with real life: in line with the process and logic of real
+      life, and comply with languages and habits that the users are used to;
+    </div>
+    <div>
+      Consistent within interface: all elements should be consistent, such as:
+      design style, icons and texts, position of elements, etc.
+    </div>
   </el-collapse-item>
   <el-collapse-item title="Feedback" name="2">
-    <div>Operation feedback: enable the users to clearly perceive their operations by style updates and interactive effects;</div>
-    <div>Visual feedback: reflect current state by updating or rearranging elements of the page.</div>
+    <div>
+      Operation feedback: enable the users to clearly perceive their operations
+      by style updates and interactive effects;
+    </div>
+    <div>
+      Visual feedback: reflect current state by updating or rearranging elements
+      of the page.
+    </div>
   </el-collapse-item>
   <el-collapse-item title="Efficiency" name="3">
-    <div>Simplify the process: keep operating process simple and intuitive;</div>
-    <div>Definite and clear: enunciate your intentions clearly so that the users can quickly understand and make decisions;</div>
-    <div>Easy to identify: the interface should be straightforward, which helps the users to identify and frees them from memorizing and recalling.</div>
+    <div>
+      Simplify the process: keep operating process simple and intuitive;
+    </div>
+    <div>
+      Definite and clear: enunciate your intentions clearly so that the users
+      can quickly understand and make decisions;
+    </div>
+    <div>
+      Easy to identify: the interface should be straightforward, which helps the
+      users to identify and frees them from memorizing and recalling.
+    </div>
   </el-collapse-item>
   <el-collapse-item title="Controllability" name="4">
-    <div>Decision making: giving advices about operations is acceptable, but do not make decisions for the users;</div>
-    <div>Controlled consequences: users should be granted the freedom to operate, including canceling, aborting or terminating current operation.</div>
+    <div>
+      Decision making: giving advices about operations is acceptable, but do not
+      make decisions for the users;
+    </div>
+    <div>
+      Controlled consequences: users should be granted the freedom to operate,
+      including canceling, aborting or terminating current operation.
+    </div>
   </el-collapse-item>
 </el-collapse>
 <script>
   export default {
     data() {
       return {
-        activeNames: ['1']
-      };
+        activeNames: ['1'],
+      }
     },
     methods: {
       handleChange(val) {
-        console.log(val);
-      }
-    }
+        console.log(val)
+      },
+    },
   }
 </script>
 <!--
@@ -62,40 +89,68 @@
 </setup>
 -->
 ```
+
 :::
 
 ### アコーディオン
 
-アコーディオンモードでは、一度に1つのパネルだけを拡大することができます。
+アコーディオンモードでは、一度に 1 つのパネルだけを拡大することができます。
 
 :::demo アコーディオンモードを `accordion` アトリビュートを使って起動します。
+
 ```html
 <el-collapse v-model="activeName" accordion>
   <el-collapse-item title="Consistency" name="1">
-    <div>Consistent with real life: in line with the process and logic of real life, and comply with languages and habits that the users are used to;</div>
-    <div>Consistent within interface: all elements should be consistent, such as: design style, icons and texts, position of elements, etc.</div>
+    <div>
+      Consistent with real life: in line with the process and logic of real
+      life, and comply with languages and habits that the users are used to;
+    </div>
+    <div>
+      Consistent within interface: all elements should be consistent, such as:
+      design style, icons and texts, position of elements, etc.
+    </div>
   </el-collapse-item>
   <el-collapse-item title="Feedback" name="2">
-    <div>Operation feedback: enable the users to clearly perceive their operations by style updates and interactive effects;</div>
-    <div>Visual feedback: reflect current state by updating or rearranging elements of the page.</div>
+    <div>
+      Operation feedback: enable the users to clearly perceive their operations
+      by style updates and interactive effects;
+    </div>
+    <div>
+      Visual feedback: reflect current state by updating or rearranging elements
+      of the page.
+    </div>
   </el-collapse-item>
   <el-collapse-item title="Efficiency" name="3">
-    <div>Simplify the process: keep operating process simple and intuitive;</div>
-    <div>Definite and clear: enunciate your intentions clearly so that the users can quickly understand and make decisions;</div>
-    <div>Easy to identify: the interface should be straightforward, which helps the users to identify and frees them from memorizing and recalling.</div>
+    <div>
+      Simplify the process: keep operating process simple and intuitive;
+    </div>
+    <div>
+      Definite and clear: enunciate your intentions clearly so that the users
+      can quickly understand and make decisions;
+    </div>
+    <div>
+      Easy to identify: the interface should be straightforward, which helps the
+      users to identify and frees them from memorizing and recalling.
+    </div>
   </el-collapse-item>
   <el-collapse-item title="Controllability" name="4">
-    <div>Decision making: giving advices about operations is acceptable, but do not make decisions for the users;</div>
-    <div>Controlled consequences: users should be granted the freedom to operate, including canceling, aborting or terminating current operation.</div>
+    <div>
+      Decision making: giving advices about operations is acceptable, but do not
+      make decisions for the users;
+    </div>
+    <div>
+      Controlled consequences: users should be granted the freedom to operate,
+      including canceling, aborting or terminating current operation.
+    </div>
   </el-collapse-item>
 </el-collapse>
 <script>
   export default {
     data() {
       return {
-        activeName: '1'
-      };
-    }
+        activeName: '1',
+      }
+    },
   }
 </script>
 <!--
@@ -116,6 +171,7 @@
 </setup>
 -->
 ```
+
 :::
 
 ### カスタムタイトル
@@ -123,46 +179,84 @@
 `title`属性を使う以外にも、名前付きスロットを使ってパネルのタイトルをカスタマイズすることができ、アイコンなどのカスタムコンテンツを追加することができます。
 
 :::demo
+
 ```html
 <el-collapse accordion>
   <el-collapse-item name="1">
     <template #title>
       Consistency<i class="header-icon el-icon-info"></i>
     </template>
-    <div>Consistent with real life: in line with the process and logic of real life, and comply with languages and habits that the users are used to;</div>
-    <div>Consistent within interface: all elements should be consistent, such as: design style, icons and texts, position of elements, etc.</div>
+    <div>
+      Consistent with real life: in line with the process and logic of real
+      life, and comply with languages and habits that the users are used to;
+    </div>
+    <div>
+      Consistent within interface: all elements should be consistent, such as:
+      design style, icons and texts, position of elements, etc.
+    </div>
   </el-collapse-item>
   <el-collapse-item title="Feedback" name="2">
-    <div>Operation feedback: enable the users to clearly perceive their operations by style updates and interactive effects;</div>
-    <div>Visual feedback: reflect current state by updating or rearranging elements of the page.</div>
+    <div>
+      Operation feedback: enable the users to clearly perceive their operations
+      by style updates and interactive effects;
+    </div>
+    <div>
+      Visual feedback: reflect current state by updating or rearranging elements
+      of the page.
+    </div>
   </el-collapse-item>
   <el-collapse-item title="Efficiency" name="3">
-    <div>Simplify the process: keep operating process simple and intuitive;</div>
-    <div>Definite and clear: enunciate your intentions clearly so that the users can quickly understand and make decisions;</div>
-    <div>Easy to identify: the interface should be straightforward, which helps the users to identify and frees them from memorizing and recalling.</div>
+    <div>
+      Simplify the process: keep operating process simple and intuitive;
+    </div>
+    <div>
+      Definite and clear: enunciate your intentions clearly so that the users
+      can quickly understand and make decisions;
+    </div>
+    <div>
+      Easy to identify: the interface should be straightforward, which helps the
+      users to identify and frees them from memorizing and recalling.
+    </div>
   </el-collapse-item>
   <el-collapse-item title="Controllability" name="4">
-    <div>Decision making: giving advices about operations is acceptable, but do not make decisions for the users;</div>
-    <div>Controlled consequences: users should be granted the freedom to operate, including canceling, aborting or terminating current operation.</div>
+    <div>
+      Decision making: giving advices about operations is acceptable, but do not
+      make decisions for the users;
+    </div>
+    <div>
+      Controlled consequences: users should be granted the freedom to operate,
+      including canceling, aborting or terminating current operation.
+    </div>
   </el-collapse-item>
 </el-collapse>
 ```
+
 :::
 
-### Collapse属性
-| Attribute      | Description          | Type      | Accepted Values       | Default  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| model-value / v-model | カレントアクティブパネル | string (accordion mode) / array (non-accordion mode) | — | — |
-| accordion | アコーディオンモードにするかどうか | boolean | — | false |
+### Collapse 属性
 
-### Collapseイベント
-| Event Name | Description | Parameters |
-|---------|---------|---------|
-| change | アクティブなパネルが変更されたときにトリガされます。 | (activeNames: array (non-accordion mode) / string (accordion mode)) |
+| Attribute             | Description                        | Type                                                 | Accepted Values | Default |
+| --------------------- | ---------------------------------- | ---------------------------------------------------- | --------------- | ------- |
+| model-value / v-model | カレントアクティブパネル           | string (accordion mode) / array (non-accordion mode) | —               | —       |
+| accordion             | アコーディオンモードにするかどうか | boolean                                              | —               | false   |
 
-### Collapseアイテム属性
-| Attribute      | Description          | Type      | Accepted Values       | Default  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| name      | パネル固有の識別 | string/number | — | — |
-| title     | パネルのタイトル                 | string        | — | — |
-| disabled  | collapseアイテムを無効にする          | boolean       | — | — |
+### Collapse イベント
+
+| Event Name | Description                                          | Parameters                                                          |
+| ---------- | ---------------------------------------------------- | ------------------------------------------------------------------- |
+| change     | アクティブなパネルが変更されたときにトリガされます。 | (activeNames: array (non-accordion mode) / string (accordion mode)) |
+
+### Collapse アイテム属性
+
+| Attribute | Description                   | Type          | Accepted Values | Default |
+| --------- | ----------------------------- | ------------- | --------------- | ------- |
+| name      | パネル固有の識別              | string/number | —               | —       |
+| title     | パネルのタイトル              | string        | —               | —       |
+| disabled  | collapse アイテムを無効にする | boolean       | —               | —       |
+
+### Collapse Item スロット
+
+| Name  | Description                  |
+| ----- | ---------------------------- |
+| —     | Collapse Item の内容         |
+| title | Collapse Item タイトルの内容 |

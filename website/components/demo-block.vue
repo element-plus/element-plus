@@ -1,7 +1,7 @@
 <template>
   <div
     class="demo-block"
-    :class="[blockClass, { 'hover': hovering }]"
+    :class="[blockClass, { hover: hovering }]"
     @mouseenter="hovering = true"
     @mouseleave="hovering = false"
   >
@@ -23,7 +23,7 @@
       @click="isExpanded = !isExpanded"
     >
       <transition name="arrow-slide">
-        <i :class="[iconClass, { 'hovering': hovering }]"></i>
+        <i :class="[iconClass, { hovering: hovering }]"></i>
       </transition>
       <transition name="text-slide">
         <span v-show="hovering">{{ controlText }}</span>
@@ -36,7 +36,11 @@
           class="control-button"
           @click.stop="onSwitchSyntax"
         >
-          {{ showSetup ? langConfig['switch-button-option-text'] : langConfig['switch-button-setup-text'] }}
+          {{
+            showSetup
+              ? langConfig['switch-button-option-text']
+              : langConfig['switch-button-setup-text']
+          }}
         </el-button>
       </div>
       <div class="control-button-container">
@@ -50,13 +54,17 @@
         >
           {{ langConfig['copy-button-text'] }}
         </el-button>
-        <el-tooltip effect="dark" :content="langConfig['tooltip-text']" placement="right">
+        <el-tooltip
+          effect="dark"
+          :content="langConfig['tooltip-text']"
+          placement="right"
+        >
           <transition name="text-slide">
             <el-button
               v-show="isExpanded"
               size="small"
               type="text"
-              class="control-button  run-online-button"
+              class="control-button run-online-button"
               @click.stop="goCodepen"
             >
               {{ langConfig['run-online-button-text'] }}
@@ -72,17 +80,26 @@ import { nextTick } from 'vue'
 import hljs from 'highlight.js'
 import clipboardCopy from 'clipboard-copy'
 import compoLang from '../i18n/component.json'
-import { stripScript, stripStyle, stripTemplate, stripSetup, removeSetup } from '../util'
+import {
+  stripScript,
+  stripStyle,
+  stripTemplate,
+  stripSetup,
+  removeSetup,
+} from '../util'
 const version = '1.0.0' // element version
-const stripTemplateAndRemoveTemplate = code => {
+const stripTemplateAndRemoveTemplate = (code) => {
   const result = removeSetup(stripTemplate(code))
   if (result.indexOf('<template>') === 0) {
-    const html = result.replace(/^<template>/, '').replace(/<\/template>$/,'')
-    return html.replace(/^[\r?\n|\r]/, '').replace(/[\r?\n|\r]$/, '').trim()
+    const html = result.replace(/^<template>/, '').replace(/<\/template>$/, '')
+    return html
+      .replace(/^[\r?\n|\r]/, '')
+      .replace(/[\r?\n|\r]$/, '')
+      .trim()
   }
   return result
 }
-const sanitizeHTML = str => {
+const sanitizeHTML = (str) => {
   const temp = document.createElement('div')
   temp.textContent = str
   return temp.innerHTML
@@ -110,11 +127,15 @@ export default {
     },
 
     langConfig() {
-      return compoLang.filter(config => config.lang === this.lang)[0]['demo-block']
+      return compoLang.filter((config) => config.lang === this.lang)[0][
+        'demo-block'
+      ]
     },
 
     blockClass() {
-      return `demo-${ this.lang } demo-${ this.$router.currentRoute.value.path.split('/').pop() }`
+      return `demo-${this.lang} demo-${this.$router.currentRoute.value.path
+        .split('/')
+        .pop()}`
     },
 
     iconClass() {
@@ -122,14 +143,16 @@ export default {
     },
 
     controlText() {
-      return this.isExpanded ? this.langConfig['hide-text'] : this.langConfig['show-text']
+      return this.isExpanded
+        ? this.langConfig['hide-text']
+        : this.langConfig['show-text']
     },
 
     codeArea() {
       return this.$el.getElementsByClassName('meta')[0]
     },
 
-    displayDemoCode () {
+    displayDemoCode() {
       return this.showSetup ? this.codepen.setup : this.codepen.script
     },
   },
@@ -144,8 +167,11 @@ export default {
         return
       }
       setTimeout(() => {
-        this.scrollParent = document.querySelector('.page-component__scroll > .el-scrollbar__wrap')
-        this.scrollParent && this.scrollParent.addEventListener('scroll', this.scrollHandler)
+        this.scrollParent = document.querySelector(
+          '.page-component__scroll > .el-scrollbar__wrap'
+        )
+        this.scrollParent &&
+          this.scrollParent.addEventListener('scroll', this.scrollHandler)
         this.scrollHandler()
       }, 200)
     },
@@ -156,7 +182,7 @@ export default {
     if (highlight && highlight[0]) {
       let code = ''
       let cur = highlight[0]
-      if (cur.type === 'pre' && (cur.children && cur.children[0])) {
+      if (cur.type === 'pre' && cur.children && cur.children[0]) {
         cur = cur.children[0]
         if (cur.type === 'code') {
           code = cur.children
@@ -178,22 +204,27 @@ export default {
     this.removeScrollHandler()
   },
 
-  mounted () {
+  mounted() {
     this.prettyCode()
   },
 
   methods: {
     getCodeAreaHeight() {
       if (this.$el.getElementsByClassName('description').length > 0) {
-        return this.$el.getElementsByClassName('description')[0].clientHeight +
-            this.$el.getElementsByClassName('highlight')[0].clientHeight + 20
+        return (
+          this.$el.getElementsByClassName('description')[0].clientHeight +
+          this.$el.getElementsByClassName('highlight')[0].clientHeight +
+          20
+        )
       }
       return this.$el.getElementsByClassName('highlight')[0].clientHeight
     },
-    setCodeAreaHeight () {
-      this.codeArea.style.height = this.isExpanded ? `${ this.getCodeAreaHeight() + 1 }px` : '0'
+    setCodeAreaHeight() {
+      this.codeArea.style.height = this.isExpanded
+        ? `${this.getCodeAreaHeight() + 1}px`
+        : '0'
     },
-    prettyCode () {
+    prettyCode() {
       nextTick(() => {
         const highlight = this.$el.querySelector('.highlight')
         const hlcode = highlight.querySelector('pre code')
@@ -201,11 +232,18 @@ export default {
   ${this.displayDemoCode}
 ${'</sc' + 'ript>'}
 `
+        const innerStyle =
+          this.codepen.style && this.codepen.style.trim()
+            ? `<style>
+  ${this.codepen.style}
+</style>
+`
+            : ''
         hlcode.innerHTML = sanitizeHTML(`<template>
   ${this.codepen.html}
 </template>
 
-${this.displayDemoCode ? innerScript : ''}`)
+${this.displayDemoCode ? innerScript : ''}${innerStyle}`)
 
         nextTick(() => {
           if (this.$el.getElementsByClassName('description').length === 0) {
@@ -220,7 +258,7 @@ ${this.displayDemoCode ? innerScript : ''}`)
         })
       })
     },
-    onSwitchSyntax () {
+    onSwitchSyntax() {
       this.showSetup = !this.showSetup
       this.prettyCode()
       this.$nextTick(this.setCodeAreaHeight)
@@ -240,35 +278,58 @@ ${this.codepen.style}
 </style>
 `)
 
-      res.then(() => {
-        this.$message({
-          showClose: true,
-          message: this.langConfig['copy-success'],
-          type: 'success',
+      res
+        .then(() => {
+          this.$message({
+            showClose: true,
+            message: this.langConfig['copy-success'],
+            type: 'success',
+          })
         })
-      }).catch(() => {
-        this.$message({
-          showClose: true,
-          message: this.langConfig['copy-error'],
-          type: 'error',
+        .catch(() => {
+          this.$message({
+            showClose: true,
+            message: this.langConfig['copy-error'],
+            type: 'error',
+          })
         })
-      })
     },
     goCodepen() {
       // since 2.6.2 use code rather than jsfiddle https://blog.codepen.io/documentation/api/prefill/
       const { script, html, style } = this.codepen
-      const resourcesTpl = '<scr' + 'ipt src="//unpkg.com/vue@next"></scr' + 'ipt>' +
-        '\n<scr' + `ipt src="//unpkg.com/element-plus/lib/index.full.js"></scr` + 'ipt>'
+      const resourcesTpl =
+        '<scr' +
+        'ipt src="//unpkg.com/vue@next"></scr' +
+        'ipt>' +
+        '\n<scr' +
+        `ipt src="//unpkg.com/element-plus/dist/index.full.js"></scr` +
+        'ipt>'
       let htmlTpl = `${resourcesTpl}\n<div id="app">\n${html.trim()}\n</div>`
-      let cssTpl = `@import url("//unpkg.com/element-plus/lib/theme-chalk/index.css");\n${(style || '').trim()}\n`
-      let jsTpl = script ? script.replace(/export default/, 'var Main =').trim().replace(/import ({.*}) from 'vue'/g, (s, s1) => `const ${s1} = Vue`).replace(/import ({.*}) from 'element-plus'/g, (s, s1) => `const ${s1} = ElementPlus`) : 'var Main = {}'
-      jsTpl += '\n;const app = Vue.createApp(Main);\napp.use(ElementPlus);\napp.mount("#app")'
+      let cssTpl = `@import url("//unpkg.com/element-plus/dist/index.css");\n${(
+        style || ''
+      ).trim()}\n`
+      let jsTpl = script
+        ? script
+            .replace(/export default/, 'var Main =')
+            .trim()
+            .replace(
+              /import ({.*}) from 'vue'/g,
+              (s, s1) => `const ${s1} = Vue`
+            )
+            .replace(
+              /import ({.*}) from 'element-plus'/g,
+              (s, s1) => `const ${s1} = ElementPlus`
+            )
+        : 'var Main = {}'
+      jsTpl +=
+        '\n;const app = Vue.createApp(Main);\napp.use(ElementPlus);\napp.mount("#app")'
       const data = {
         js: jsTpl,
         css: cssTpl,
         html: htmlTpl,
       }
-      const form = document.getElementById('fiddle-form') || document.createElement('form')
+      const form =
+        document.getElementById('fiddle-form') || document.createElement('form')
       while (form.firstChild) {
         form.removeChild(form.firstChild)
       }
@@ -292,160 +353,163 @@ ${this.codepen.style}
     scrollHandler() {
       const { top, bottom, left } = this.$refs.meta.getBoundingClientRect()
       const controlBarHeight = 44
-      this.fixedControl = bottom + controlBarHeight > document.documentElement.clientHeight &&
-          top <= document.documentElement.clientHeight
-      this.$refs.control.style.left = this.fixedControl ? `${ left }px` : '0'
+      this.fixedControl =
+        bottom + controlBarHeight > document.documentElement.clientHeight &&
+        top <= document.documentElement.clientHeight
+      this.$refs.control.style.left = this.fixedControl ? `${left}px` : '0'
     },
 
     removeScrollHandler() {
-      this.scrollParent && this.scrollParent.removeEventListener('scroll', this.scrollHandler)
+      this.scrollParent &&
+        this.scrollParent.removeEventListener('scroll', this.scrollHandler)
     },
   },
 }
 </script>
-<style lang="scss" scoped>
-  .demo-block {
-    border: solid 1px #ebebeb;
-    border-radius: 3px;
-    transition: .2s;
+<style lang="scss">
+.demo-block {
+  border: solid 1px var(--el-border-color-base);
+  border-radius: 3px;
+  transition: 0.2s;
 
-    &.hover {
-      box-shadow: 0 0 8px 0 rgba(232, 237, 250, .6), 0 2px 4px 0 rgba(232, 237, 250, .5);
+  &.hover {
+    box-shadow: 0 0 8px 0 rgba(232, 237, 250, 0.6),
+      0 2px 4px 0 rgba(232, 237, 250, 0.5);
+  }
+
+  code {
+    font-family: Menlo, Monaco, Consolas, Courier, monospace;
+  }
+
+  .demo-button {
+    float: right;
+  }
+
+  .source {
+    padding: 24px;
+  }
+
+  .meta {
+    background-color: #fafafa;
+    border-top: solid 1px var(--el-border-color-base);
+    overflow: hidden;
+    height: 0;
+    transition: height 0.2s;
+  }
+
+  .description {
+    padding: 20px;
+    box-sizing: border-box;
+    border: solid 1px var(--el-border-color-base);
+    border-radius: 3px;
+    font-size: 14px;
+    line-height: 22px;
+    color: var(--el-text-color-regular);
+    word-break: break-word;
+    margin: 10px;
+    background-color: #fff;
+
+    p {
+      margin: 0;
+      line-height: 26px;
     }
 
     code {
-      font-family: Menlo, Monaco, Consolas, Courier, monospace;
-    }
-
-    .demo-button {
-      float: right;
-    }
-
-    .source {
-      padding: 24px;
-    }
-
-    .meta {
-      background-color: #fafafa;
-      border-top: solid 1px #eaeefb;
-      overflow: hidden;
-      height: 0;
-      transition: height .2s;
-    }
-
-    .description {
-      padding: 20px;
-      box-sizing: border-box;
-      border: solid 1px #ebebeb;
+      color: #5e6d82;
+      background-color: #e6effb;
+      margin: 0 4px;
+      display: inline-block;
+      padding: 1px 5px;
+      font-size: 12px;
       border-radius: 3px;
-      font-size: 14px;
-      line-height: 22px;
-      color: #666;
-      word-break: break-word;
-      margin: 10px;
-      background-color: #fff;
+      height: 18px;
+      line-height: 18px;
+    }
+  }
 
-      p {
-        margin: 0;
-        line-height: 26px;
-      }
-
-      code {
-        color: #5e6d82;
-        background-color: #e6effb;
-        margin: 0 4px;
-        display: inline-block;
-        padding: 1px 5px;
-        font-size: 12px;
-        border-radius: 3px;
-        height: 18px;
-        line-height: 18px;
-      }
+  .highlight {
+    pre {
+      margin: 0;
     }
 
-    .highlight {
-      pre {
-        margin: 0;
-      }
+    code.hljs {
+      margin: 0;
+      border: none;
+      max-height: none;
+      border-radius: 0;
 
-      code.hljs {
-        margin: 0;
-        border: none;
-        max-height: none;
-        border-radius: 0;
-
-        &::before {
-          content: none;
-        }
-      }
-    }
-
-    .demo-block-control {
-      border-top: solid 1px #eaeefb;
-      height: 44px;
-      box-sizing: border-box;
-      background-color: #fff;
-      border-bottom-left-radius: 4px;
-      border-bottom-right-radius: 4px;
-      text-align: center;
-      margin-top: -1px;
-      color: #d3dce6;
-      cursor: pointer;
-      position: relative;
-
-      &.is-fixed {
-        position: sticky;
-        bottom: 0;
-      }
-
-      i {
-        font-size: 16px;
-        line-height: 44px;
-        transition: .3s;
-        &.hovering {
-          transform: translateX(-40px);
-        }
-      }
-
-      > span {
-        position: absolute;
-        transform: translateX(-30px);
-        font-size: 14px;
-        line-height: 44px;
-        transition: .3s;
-        display: inline-block;
-      }
-
-      &:hover {
-        color: #409EFF;
-        background-color: #f9fafc;
-      }
-
-      & .text-slide-enter,
-      & .text-slide-leave-active {
-        opacity: 0;
-        transform: translateX(10px);
-      }
-
-      .control-button-container {
-        line-height: 40px;
-        position: absolute;
-        top: 0;
-        right: 0;
-        padding-left: 5px;
-        padding-right: 25px;
-      }
-
-      .control-button-container-left {
-        left: 0;
-        width: 100px;
-        padding-left: 14px; // 14 + 10 = 24px .hljs code padding left 24
-      }
-
-      .control-button {
-        font-size: 14px;
-        margin: 0 10px;
+      &::before {
+        content: none;
       }
     }
   }
+
+  .demo-block-control {
+    border-top: solid 1px var(--el-border-color-base);
+    height: 44px;
+    box-sizing: border-box;
+    background-color: #fff;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    text-align: center;
+    margin-top: -1px;
+    color: #d3dce6;
+    cursor: pointer;
+    position: relative;
+
+    &.is-fixed {
+      position: sticky;
+      bottom: 0;
+    }
+
+    i {
+      font-size: 16px;
+      line-height: 44px;
+      transition: 0.3s;
+      &.hovering {
+        transform: translateX(-40px);
+      }
+    }
+
+    > span {
+      position: absolute;
+      transform: translateX(-30px);
+      font-size: 14px;
+      line-height: 44px;
+      transition: 0.3s;
+      display: inline-block;
+    }
+
+    &:hover {
+      color: #409eff;
+      background-color: #f9fafc;
+    }
+
+    & .text-slide-enter,
+    & .text-slide-leave-active {
+      opacity: 0;
+      transform: translateX(10px);
+    }
+
+    .control-button-container {
+      line-height: 40px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding-left: 5px;
+      padding-right: 25px;
+    }
+
+    .control-button-container-left {
+      left: 0;
+      width: 100px;
+      padding-left: 14px; // 14 + 10 = 24px .hljs code padding left 24
+    }
+
+    .control-button {
+      font-size: 14px;
+      margin: 0 10px;
+    }
+  }
+}
 </style>

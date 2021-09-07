@@ -19,7 +19,5 @@ describe('useRestoreActive', () => {
     visible.value = false
     await nextTick()
     expect(document.activeElement).toBe(btn1)
-
   })
 })
-

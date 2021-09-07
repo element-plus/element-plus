@@ -1,34 +1,33 @@
+@use "sass:map";
+
 @import 'mixins/mixins';
 @import 'mixins/utils';
 @import 'common/var';
-@import 'select-dropdown-v2';
-@import 'input';
-@import 'tag';
-@import 'option-item';
-@import 'option-group';
-@import 'scrollbar';
+@import './select-dropdown-v2.scss';
+@import './option-item.scss';
+@import './option-group.scss';
 
-$--input-inline-start: 7px !default;
+$--input-inline-start: 15px !default;
+
+@include b(select-v2) {
+  @include set-component-css-var('select', $--select);
+}
 
 @include b(select-v2) {
   display: inline-block;
   position: relative;
-
+  font-size: map.get($--input-font-size, 'default');
   $selector: &;
   @include e(wrapper) {
     box-sizing: border-box;
     cursor: pointer;
-
-    padding-left: 15px;
-    padding-right: 30px;
-    padding-top: 1px;
-    padding-bottom: 1px;
-    border: 1px solid $--border-color-base;
-    border-radius: $--border-radius-base;
-    transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-
+    padding: 5px 30px 5px 0px;
+    border: 1px solid var(--el-border-color-base);
+    border-radius: var(--el-border-radius-base);
+    transition: border-color var(--el-transition-duration-fast)
+      var(--el-ease-in-out-bezier-function);
     &:hover {
-      border-color: $--color-text-placeholder;
+      border-color: var(--el-text-color-placeholder);
     }
 
     @include when(filterable) {
@@ -36,28 +35,28 @@ $--input-inline-start: 7px !default;
     }
 
     @include when(focused) {
-      border-color: $--color-primary;
+      border-color: var(--el-color-primary);
     }
 
     @include when(hovering) {
       &:not(.is-focused) {
-        border-color: $--color-text-placeholder;
+        border-color: var(--el-text-color-placeholder);
       }
     }
 
     @include when(disabled) {
       cursor: not-allowed;
 
-      background-color: $--background-color-base;
-      color: $--color-text-placeholder;
-      border-color: $--select-disabled-border;
+      background-color: var(--el-background-color-base);
+      color: var(--el-text-color-placeholder);
+      border-color: var(--el-select-disabled-border);
 
       &:hover {
-        border-color: $--select-disabled-border;
+        border-color: var(--el-select-disabled-border);
       }
 
       &.is-focus {
-        border-color: $--select-input-focus-border-color;
+        border-color: var(--el-input-focus-border-color);
       }
 
       .is-transparent {
@@ -69,22 +68,19 @@ $--input-inline-start: 7px !default;
     #{$selector}__input-wrapper {
       box-sizing: border-box;
       position: relative;
-      padding-bottom: 2px;
       margin-inline-start: $--input-inline-start;
-      padding-top: 2px;
       max-width: 100%;
       overflow: hidden;
     }
 
     &,
     #{$selector}__input-wrapper {
-      line-height: $--input-height;
-      // height: $--input-height;
+      line-height: map.get($--input-height, 'default');
     }
 
     #{$selector}__input-wrapper input {
-      line-height: $--input-medium-height;
-      height: $--input-medium-height;
+      line-height: map.get($--input-height, 'medium') - 8px;
+      height: map.get($--input-height, 'medium') - 8px;
 
       min-width: 4px;
       width: 100%;
@@ -102,65 +98,82 @@ $--input-inline-start: 7px !default;
     }
   }
 
+  .#{$namespace}-select-v2__tags-text {
+    text-overflow: ellipsis;
+    display: inline-block;
+    overflow-x: hidden;
+    vertical-align: bottom;
+  }
+
   @include e(empty) {
     padding: 10px 0;
     margin: 0;
     text-align: center;
-    color: #999;
+    color: var(--el-text-color-secondary);
     font-size: 14px;
   }
 
   @include e(popper) {
     @include picker-popper(
-      $--select-dropdown-background,
-      $--select-dropdown-border,
-      $--select-dropdown-shadow
+      map.get($--select-dropdown, 'background'),
+      map.get($--select-dropdown, 'border'),
+      map.get($--select-dropdown, 'shadow')
     );
   }
 
-  @include m(mini) {
+  @include m(medium) {
     @include e(wrapper) {
+      padding: 3px 30px 3px 0px;
       &,
       #{$selector}__input-wrapper {
-        // since there were no 24px predefined, we can only hand write here.
-        line-height: $--input-mini-height;
-        // height: $--input-mini-height;
+        line-height: map.get($--input-height, 'medium');
       }
-
-      #{$selector}__input-wrapper input {
-        line-height: 24px;
-        height: 24px;
-      }
+    }
+    @include e(caret) {
+      line-height: map.get($--input-height, 'medium');
+    }
+    @include e(suffix) {
+      height: map.get($--input-height, 'medium');
     }
   }
 
   @include m(small) {
     @include e(wrapper) {
-      &,
+      padding: 3px 30px 3px 0px;
+      line-height: map.get($--input-height, 'small');
       #{$selector}__input-wrapper {
-        line-height: $--input-small-height;
-        // height: $--input-small-height;
+        line-height: map.get($--input-height, 'small') - 8px;
+        input {
+          line-height: map.get($--input-height, 'small') - 8px;
+          height: map.get($--input-height, 'small') - 8px;
+        }
       }
-
-      #{$selector}__input-wrapper input {
-        line-height: $--input-mini-height;
-        height: $--input-mini-height;
-      }
+    }
+    @include e(caret) {
+      line-height: map.get($--input-height, 'small');
+    }
+    @include e(suffix) {
+      height: map.get($--input-height, 'small');
     }
   }
 
-  @include m(medium) {
+  @include m(mini) {
     @include e(wrapper) {
-      &,
+      padding: 1px 30px 1px 0px;
+      line-height: map.get($--input-height, 'mini');
       #{$selector}__input-wrapper {
-        line-height: $--input-medium-height;
-        // height: $--input-medium-height;
+        line-height: map.get($--input-height, 'mini') - 4px;
+        input {
+          line-height: map.get($--input-height, 'mini') - 4px;
+          height: map.get($--input-height, 'mini') - 4px;
+        }
       }
-
-      #{$selector}__input-wrapper input {
-        line-height: $--input-small-height;
-        height: $--input-small-height;
-      }
+    }
+    @include e(caret) {
+      line-height: map.get($--input-height, 'mini');
+    }
+    @include e(suffix) {
+      height: map.get($--input-height, 'mini');
     }
   }
 
@@ -170,7 +183,7 @@ $--input-inline-start: 7px !default;
 
   &:hover {
     #{$selector}__combobox-input {
-      border-color: $--select-border-color-hover;
+      border-color: var(--el-select-border-color-hover);
     }
   }
 
@@ -186,7 +199,7 @@ $--input-inline-start: 7px !default;
     display: block;
 
     &:focus {
-      border-color: $--select-input-focus-border-color;
+      border-color: var(--el-select-input-focus-border-color);
     }
   }
 
@@ -195,8 +208,8 @@ $--input-inline-start: 7px !default;
     outline: none;
     padding: 0;
     margin-left: 15px;
-    color: $--select-multiple-input-color;
-    font-size: $--select-font-size;
+    color: var(--el-select-multiple-input-color);
+    font-size: var(--el-select-font-size);
     appearance: none;
     height: 28px;
 
@@ -209,14 +222,14 @@ $--input-inline-start: 7px !default;
     cursor: pointer;
     position: absolute;
     top: 8px;
-    z-index: $--index-top;
+    z-index: var(--el-index-top);
     right: 25px;
-    color: $--select-input-color;
+    color: var(--el-select-input-color);
     line-height: 18px;
-    font-size: $--select-input-font-size;
+    font-size: var(--el-select-input-font-size);
 
     &:hover {
-      color: $--select-close-hover-color;
+      color: var(--el-select-close-hover-color);
     }
   }
 
@@ -225,13 +238,13 @@ $--input-inline-start: 7px !default;
     right: 5px;
     height: 40px;
     top: 50%;
-    margin-top: -20px;
+    transform: translateY(-50%);
   }
 
   @include e(caret) {
-    color: $--select-input-color;
-    font-size: $--select-input-font-size;
-    transition: transform 0.3s;
+    color: var(--el-select-input-color);
+    font-size: var(--el-select-input-font-size);
+    transition: transform var(--el-transition-duration);
     transform: rotateZ(180deg);
     cursor: pointer;
 
@@ -240,22 +253,22 @@ $--input-inline-start: 7px !default;
     }
 
     @include when(show-close) {
-      font-size: $--select-font-size;
+      font-size: var(--el-select-font-size);
       text-align: center;
       transform: rotateZ(180deg);
-      border-radius: $--border-radius-circle;
-      color: $--select-input-color;
-      transition: $--color-transition-base;
+      border-radius: var(--el-border-radius-circle);
+      color: var(--el-select-input-color);
+      transition: var(--el-transition-color);
 
       &:hover {
-        color: $--select-close-hover-color;
+        color: (--el-select-close-hover-color);
       }
     }
   }
 
   @include e(selection) {
     white-space: normal;
-    z-index: $--index-normal;
+    z-index: var(--el-index-normal);
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -264,9 +277,10 @@ $--input-inline-start: 7px !default;
   @include e(wrapper) {
     background-color: #fff;
     border: 1px solid #d9d9d9;
-    border-radius: $--border-radius-base;
+    border-radius: var(--el-border-radius-base);
     position: relative;
-    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: all var(--el-transition-duration)
+      var(--el-ease-in-out-bezier-function);
   }
 
   @include e(input-calculator) {
@@ -288,11 +302,14 @@ $--input-inline-start: 7px !default;
 
   @include e(placeholder) {
     position: absolute;
-    top: 1px;
+    top: 50%;
+    transform: translateY(-50%);
     margin-inline-start: $--input-inline-start;
     width: calc(100% - 52px);
+    color: var(--el-input-font-color, map.get($--input, 'font-color'));
+    font-size: inherit;
     @include when(transparent) {
-      opacity: 0.3;
+      color: var(--el-text-color-placeholder);
     }
   }
 
@@ -303,13 +320,12 @@ $--input-inline-start: 7px !default;
     background-color: #f0f2f5;
 
     .#{$namespace}-icon-close {
-      background-color: $--color-text-placeholder;
+      background-color: var(--el-text-color-placeholder);
       right: -7px;
-      top: 0;
-      color: $--color-white;
+      color: var(--el-color-white);
 
       &:hover {
-        background-color: $--color-text-secondary;
+        background-color: var(--el-text-color-secondary);
       }
 
       &::before {

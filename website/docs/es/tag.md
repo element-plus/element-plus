@@ -7,12 +7,15 @@ Se utiliza para marcar y seleccionar.
 :::demo Utilice el atributo `type` para definir el tipo de etiqueta. Además, el atributo `color` se puede utilizar para establecer el color de fondo de la etiqueta.
 
 ```html
-<el-tag>Tag 1</el-tag>
-<el-tag type="success">Tag 2</el-tag>
-<el-tag type="info">Tag 3</el-tag>
-<el-tag type="warning">Tag 4</el-tag>
-<el-tag type="danger">Tag 5</el-tag>
+<template>
+  <el-tag>Tag 1</el-tag>
+  <el-tag type="success">Tag 2</el-tag>
+  <el-tag type="info">Tag 3</el-tag>
+  <el-tag type="warning">Tag 4</el-tag>
+  <el-tag type="danger">Tag 5</el-tag>
+</template>
 ```
+
 :::
 
 ### Etiqueta removible
@@ -20,13 +23,11 @@ Se utiliza para marcar y seleccionar.
 :::demo el atributo `closable` puede usarse para definir una etiqueta removible. Acepta un `Boolean`. De forma predeterminada, la eliminación de la etiqueta tiene una animación que se desvanece. Si no quiere usarlo, puede configurar el atributo `disable-transitions` , que acepta `Boolean`, como `true`. Se dispara el evento `close` cuando la etiqueta es removida.
 
 ```html
-<el-tag
-  v-for="tag in tags"
-  :key="tag.name"
-  closable
-  :type="tag.type">
-  {{tag.name}}
-</el-tag>
+<template>
+  <el-tag v-for="tag in tags" :key="tag.name" closable :type="tag.type">
+    {{tag.name}}
+  </el-tag>
+</template>
 
 <script>
   export default {
@@ -37,13 +38,14 @@ Se utiliza para marcar y seleccionar.
           { name: 'Tag 2', type: 'success' },
           { name: 'Tag 3', type: 'info' },
           { name: 'Tag 4', type: 'warning' },
-          { name: 'Tag 5', type: 'danger' }
-        ]
-      };
-    }
+          { name: 'Tag 5', type: 'danger' },
+        ],
+      }
+    },
   }
 </script>
 ```
+
 :::
 
 ### Editar dinámicamente
@@ -51,26 +53,32 @@ Se utiliza para marcar y seleccionar.
 Puede utilizar el evento `close` para añadir y eliminar etiquetas dinámicamente.
 
 :::demo
+
 ```html
-<el-tag
-  :key="tag"
-  v-for="tag in dynamicTags"
-  closable
-  :disable-transitions="false"
-  @close="handleClose(tag)">
-  {{tag}}
-</el-tag>
-<el-input
-  class="input-new-tag"
-  v-if="inputVisible"
-  v-model="inputValue"
-  ref="saveTagInput"
-  size="mini"
-  @keyup.enter="handleInputConfirm"
-  @blur="handleInputConfirm"
->
-</el-input>
-<el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
+<template>
+  <el-tag
+    :key="tag"
+    v-for="tag in dynamicTags"
+    closable
+    :disable-transitions="false"
+    @close="handleClose(tag)"
+  >
+    {{tag}}
+  </el-tag>
+  <el-input
+    class="input-new-tag"
+    v-if="inputVisible"
+    v-model="inputValue"
+    ref="saveTagInput"
+    size="mini"
+    @keyup.enter="handleInputConfirm"
+    @blur="handleInputConfirm"
+  >
+  </el-input>
+  <el-button v-else class="button-new-tag" size="small" @click="showInput"
+    >+ New Tag</el-button
+  >
+</template>
 
 <style>
   .el-tag + .el-tag {
@@ -96,33 +104,34 @@ Puede utilizar el evento `close` para añadir y eliminar etiquetas dinámicament
       return {
         dynamicTags: ['Tag 1', 'Tag 2', 'Tag 3'],
         inputVisible: false,
-        inputValue: ''
-      };
+        inputValue: '',
+      }
     },
     methods: {
       handleClose(tag) {
-        this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+        this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1)
       },
 
       showInput() {
-        this.inputVisible = true;
-        this.$nextTick(_ => {
-          this.$refs.saveTagInput.$refs.input.focus();
-        });
+        this.inputVisible = true
+        this.$nextTick((_) => {
+          this.$refs.saveTagInput.$refs.input.focus()
+        })
       },
 
       handleInputConfirm() {
-        let inputValue = this.inputValue;
+        let inputValue = this.inputValue
         if (inputValue) {
-          this.dynamicTags.push(inputValue);
+          this.dynamicTags.push(inputValue)
         }
-        this.inputVisible = false;
-        this.inputValue = '';
-      }
-    }
+        this.inputVisible = false
+        this.inputValue = ''
+      },
+    },
   }
 </script>
 ```
+
 :::
 
 ### Tamaños
@@ -132,11 +141,14 @@ Además del tamaño predeterminado, el componente Tag proporciona tres tamaños 
 :::demo Utilice el atributo `size` para establecer tamaños adicionales con `medium`, `small` o `mini`.
 
 ```html
-<el-tag>Default</el-tag>
-<el-tag size="medium">Medium</el-tag>
-<el-tag size="small">Small</el-tag>
-<el-tag size="mini">Mini</el-tag>
+<template>
+  <el-tag>Default</el-tag>
+  <el-tag size="medium">Medium</el-tag>
+  <el-tag size="small">Small</el-tag>
+  <el-tag size="mini">Mini</el-tag>
+</template>
 ```
+
 :::
 
 ### Theme
@@ -144,27 +156,32 @@ Además del tamaño predeterminado, el componente Tag proporciona tres tamaños 
 Tag provide three different themes: `dark`、`light` and `plain`
 
 :::demo Using `effect` to change, default is `light`
+
 ```html
-<div class="tag-group">
-  <span class="tag-group__title">Dark</span>
-  <el-tag
-    v-for="item in items"
-    :key="item.label"
-    :type="item.type"
-    effect="dark">
-    {{ item.label }}
-  </el-tag>
-</div>
-<div class="tag-group">
-  <span class="tag-group__title">Plain</span>
-  <el-tag
-    v-for="item in items"
-    :key="item.label"
-    :type="item.type"
-    effect="plain">
-    {{ item.label }}
-  </el-tag>
-</div>
+<template>
+  <div class="tag-group">
+    <span class="tag-group__title">Dark</span>
+    <el-tag
+      v-for="item in items"
+      :key="item.label"
+      :type="item.type"
+      effect="dark"
+    >
+      {{ item.label }}
+    </el-tag>
+  </div>
+  <div class="tag-group">
+    <span class="tag-group__title">Plain</span>
+    <el-tag
+      v-for="item in items"
+      :key="item.label"
+      :type="item.type"
+      effect="plain"
+    >
+      {{ item.label }}
+    </el-tag>
+  </div>
+</template>
 
 <script>
   export default {
@@ -175,13 +192,14 @@ Tag provide three different themes: `dark`、`light` and `plain`
           { type: 'success', label: 'Tag 2' },
           { type: 'info', label: 'Tag 3' },
           { type: 'danger', label: 'Tag 4' },
-          { type: 'warning', label: 'Tag 5' }
-        ]
+          { type: 'warning', label: 'Tag 5' },
+        ],
       }
-    }
+    },
   }
 </script>
 ```
+
 :::
 
 ### Checkable tag
@@ -189,12 +207,14 @@ Tag provide three different themes: `dark`、`light` and `plain`
 Sometimes because of the business needs, we might need checkbox like tag, but **button like checkbox** cannot meet our needs, here comes `check-tag`
 
 :::demo basic check-tag usage, the API is rather simple.
-```html
 
-<div>
-  <el-check-tag checked style="margin-right: 8px;">Checked</el-check-tag>
-  <el-check-tag @change="onChange" :checked="checked">Toggle me</el-check-tag>
-</div>
+```html
+<template>
+  <div>
+    <el-check-tag checked style="margin-right: 8px;">Checked</el-check-tag>
+    <el-check-tag @change="onChange" :checked="checked">Toggle me</el-check-tag>
+  </div>
+</template>
 
 <script>
   export default {
@@ -205,39 +225,42 @@ Sometimes because of the business needs, we might need checkbox like tag, but **
     },
     methods: {
       onChange(checked) {
-        this.checked = checked;
-      }
-    }
+        this.checked = checked
+      },
+    },
   }
 </script>
-
 ```
+
 :::
 
 ### Atributos
-| Atributo            | Descripción                         | Tipo    | Valores aceptados           | Por defecto |
-| ------------------- | ----------------------------------- | ------- | --------------------------- | ----------- |
-| type                | tipo de Tag | string  | success/info/warning/danger | —           |
-| closable            | si el Tag puede ser removido        | boolean | —                           | false       |
-| disable-transitions | si se deshabilitan las animaciones  | boolean | —                           | false       |
-| hit                 | si el  Tag tiene un borde resaltado | boolean | —                           | false       |
-| color               | color de fondo del Tag              | string  | —                           | —           |
-| size                | tamaño del Tag                      | string  | medium / small / mini       | —           |
-| effect | Tema del Tag | string | dark / light / plain | light |
 
+| Atributo            | Descripción                        | Tipo    | Valores aceptados           | Por defecto |
+| ------------------- | ---------------------------------- | ------- | --------------------------- | ----------- |
+| type                | tipo de Tag                        | string  | success/info/warning/danger | —           |
+| closable            | si el Tag puede ser removido       | boolean | —                           | false       |
+| disable-transitions | si se deshabilitan las animaciones | boolean | —                           | false       |
+| hit                 | si el Tag tiene un borde resaltado | boolean | —                           | false       |
+| color               | color de fondo del Tag             | string  | —                           | —           |
+| size                | tamaño del Tag                     | string  | medium / small / mini       | —           |
+| effect              | Tema del Tag                       | string  | dark / light / plain        | light       |
 
 ### Eventos
+
 | Nombre | Descripción                          | Parametros |
 | ------ | ------------------------------------ | ---------- |
 | click  | se dispara cuando el Tag es clic     | —          |
 | close  | se dispara cuando el Tag es removido | —          |
 
 ### CheckTag Atributos
-| Attribute      | Description          | Type      | Accepted                           | Default  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| checked | is checked | boolean | true/false | — |
+
+| Attribute | Description | Type    | Accepted   | Default |
+| --------- | ----------- | ------- | ---------- | ------- |
+| checked   | is checked  | boolean | true/false | —       |
 
 ### CheckTag Eventos
-| Event Name | Description | Parameters |
-|---------- |-------- |---------- |
-| change | triggers when Check Tag is clicked | checked |
+
+| Event Name | Description                        | Parameters |
+| ---------- | ---------------------------------- | ---------- |
+| change     | triggers when Check Tag is clicked | checked    |

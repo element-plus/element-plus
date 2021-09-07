@@ -154,7 +154,7 @@ Switch es utilizado para realizar cambios entre dos estados opuestos.
 
       const beforeChange1 = () => {
         status1.loading1 = true
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
           setTimeout(() => {
             status1.loading1 = false
             ElMessage.success('switch success')
@@ -194,23 +194,24 @@ Switch es utilizado para realizar cambios entre dos estados opuestos.
 
 ### Atributos
 
-| Atributo            | Descripción                                                                                                                                     | Tipo                      | Valores aceptados | Por defecto |
-| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ----------------- | ----------- |
-| model-value / v-model     | valor vinculante, debe ser equivalente al `active-value` o al `inactive-value`. El tipo por defecto es el tipo `boolean`.                       | boolean / string / number | —                 | —           |
-| disabled            | si Switch esta deshabilitado                                                                                                                    | boolean                   | —                 | false       |
-| loading             | whether Switch is in loading state                                                                                                              | boolean                   | —                 | false       |
-| width               | ancho del componente Switch                                                                                                                     | number                    | —                 | 40          |
-| active-icon-class   | nombre de la clase del icono mostrado en el estado `on`, sobrescribe `active-text`                                                              | string                    | —                 | —           |
-| inactive-icon-class | nombre de la clase del icono mostrado en el estado `off`, sobrescribe `inactive-text`                                                           | string                    | —                 | —           |
-| active-text         | texto mostrado en el estado `on`                                                                                                                | string                    | —                 | —           |
-| inactive-text       | texto mostrado en el estado `off`                                                                                                               | string                    | —                 | —           |
-| active-value        | cambia su valor cuando se encuentra en el estado `on`                                                                                           | boolean / string / number | —                 | true        |
-| inactive-value      | cambia su valor cuando se encuentra en el estado `off`                                                                                          | boolean / string / number | —                 | false       |
-| active-color        | color de fondo cuando se encuentra en el estado `on`                                                                                            | string                    | —                 | #409EFF     |
-| inactive-color      | color de fondo cuando se encuentra en el estado `off`                                                                                           | string                    | —                 | #C0CCDA     |
-| name                | nombre de entrada del componente Switch                                                                                                         | string                    | —                 | —           |
-| validate-event      | si se debe lanzar la validación de formulario                                                                                                   | boolean                   | —                 | true        |
-| before-change       | before-change hook before the switch state changes. If `false` is returned or a `Promise` is returned and then is rejected, will stop switching | function                  | —                 | —           |
+| Atributo              | Descripción                                                                                                                                     | Tipo                      | Valores aceptados | Por defecto |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ----------------- | ----------- |
+| model-value / v-model | valor vinculante, debe ser equivalente al `active-value` o al `inactive-value`. El tipo por defecto es el tipo `boolean`.                       | boolean / string / number | —                 | —           |
+| disabled              | si Switch esta deshabilitado                                                                                                                    | boolean                   | —                 | false       |
+| loading               | whether Switch is in loading state                                                                                                              | boolean                   | —                 | false       |
+| width                 | ancho del componente Switch                                                                                                                     | number                    | —                 | 40          |
+| active-icon-class     | nombre de la clase del icono mostrado en el estado `on`, sobrescribe `active-text`                                                              | string                    | —                 | —           |
+| inactive-icon-class   | nombre de la clase del icono mostrado en el estado `off`, sobrescribe `inactive-text`                                                           | string                    | —                 | —           |
+| active-text           | texto mostrado en el estado `on`                                                                                                                | string                    | —                 | —           |
+| inactive-text         | texto mostrado en el estado `off`                                                                                                               | string                    | —                 | —           |
+| active-value          | cambia su valor cuando se encuentra en el estado `on`                                                                                           | boolean / string / number | —                 | true        |
+| inactive-value        | cambia su valor cuando se encuentra en el estado `off`                                                                                          | boolean / string / number | —                 | false       |
+| active-color          | color de fondo cuando se encuentra en el estado `on`                                                                                            | string                    | —                 | #409EFF     |
+| inactive-color        | color de fondo cuando se encuentra en el estado `off`                                                                                           | string                    | —                 | #C0CCDA     |
+| border-color          | color del borde del switch.                                                                                                                     | string                    | —                 | —           |
+| name                  | nombre de entrada del componente Switch                                                                                                         | string                    | —                 | —           |
+| validate-event        | si se debe lanzar la validación de formulario                                                                                                   | boolean                   | —                 | true        |
+| before-change         | before-change hook before the switch state changes. If `false` is returned or a `Promise` is returned and then is rejected, will stop switching | function                  | —                 | —           |
 
 ### Eventos
 

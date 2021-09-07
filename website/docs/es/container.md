@@ -1,4 +1,5 @@
 ## Contenedor
+
 Componentes contenedores para iniciar una estructura básica de un sitio:
 
 `<el-container>`: Contenedor. Cuando este elemento se anida con un `<el-header>` o `<el-footer>`, todos los elementos secundarios se organizan verticalmente.
@@ -19,6 +20,7 @@ Estos componentes utilizan flex para el diseño, así que asegúrese que el nave
 ### Diseños comunes
 
 :::demo
+
 ```html
 <div class="common-layout">
   <el-container>
@@ -66,23 +68,24 @@ Estos componentes utilizan flex para el diseño, así que asegúrese que el nave
 </div>
 
 <style>
-  .el-header, .el-footer {
-    background-color: #B3C0D1;
-    color: #333;
+  .el-header,
+  .el-footer {
+    background-color: #b3c0d1;
+    color: var(--el-text-color-primary);
     text-align: center;
     line-height: 60px;
   }
 
   .el-aside {
-    background-color: #D3DCE6;
-    color: #333;
+    background-color: #d3dce6;
+    color: var(--el-text-color-primary);
     text-align: center;
     line-height: 200px;
   }
 
   .el-main {
-    background-color: #E9EEF3;
-    color: #333;
+    background-color: #e9eef3;
+    color: var(--el-text-color-primary);
     text-align: center;
     line-height: 160px;
   }
@@ -101,11 +104,13 @@ Estos componentes utilizan flex para el diseño, así que asegúrese que el nave
   }
 </style>
 ```
+
 :::
 
 ### Ejemplo
 
 :::demo
+
 ```html
 <el-container style="height: 500px; border: 1px solid #eee">
   <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
@@ -141,7 +146,9 @@ Estos componentes utilizan flex para el diseño, así que asegúrese que el nave
         </el-submenu>
       </el-submenu>
       <el-submenu index="3">
-        <template #title><i class="el-icon-setting"></i>Navigator Three</template>
+        <template #title
+          ><i class="el-icon-setting"></i>Navigator Three</template
+        >
         <el-menu-item-group>
           <template #title>Group 1</template>
           <el-menu-item index="3-1">Option 1</el-menu-item>
@@ -164,9 +171,9 @@ Estos componentes utilizan flex para el diseño, así que asegúrese que el nave
         <i class="el-icon-setting" style="margin-right: 15px"></i>
         <template #dropdown>
           <el-dropdown-menu>
-              <el-dropdown-item>View</el-dropdown-item>
-              <el-dropdown-item>Add</el-dropdown-item>
-              <el-dropdown-item>Delete</el-dropdown-item>
+            <el-dropdown-item>View</el-dropdown-item>
+            <el-dropdown-item>Add</el-dropdown-item>
+            <el-dropdown-item>Delete</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -179,8 +186,7 @@ Estos componentes utilizan flex para el diseño, así que asegúrese que el nave
         </el-table-column>
         <el-table-column prop="name" label="Name" width="120">
         </el-table-column>
-        <el-table-column prop="address" label="Address">
-        </el-table-column>
+        <el-table-column prop="address" label="Address"> </el-table-column>
       </el-table>
     </el-main>
   </el-container>
@@ -188,13 +194,13 @@ Estos componentes utilizan flex para el diseño, así que asegúrese que el nave
 
 <style>
   .el-header {
-    background-color: #B3C0D1;
-    color: #333;
+    background-color: #b3c0d1;
+    color: var(--el-text-color-primary);
     line-height: 60px;
   }
 
   .el-aside {
-    color: #333;
+    color: var(--el-text-color-primary);
   }
 </style>
 
@@ -204,13 +210,13 @@ Estos componentes utilizan flex para el diseño, así que asegúrese que el nave
       const item = {
         date: '2016-05-02',
         name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles'
-      };
-      return {
-        tableData: Array(20).fill(item)
+        address: 'No. 189, Grove St, Los Angeles',
       }
-    }
-  };
+      return {
+        tableData: Array(20).fill(item),
+      }
+    },
+  }
 </script>
 
 <!--
@@ -237,24 +243,29 @@ Estos componentes utilizan flex para el diseño, así que asegúrese que el nave
 </setup>
 -->
 ```
+
 :::
 
 ### Atributos de contenedor
-| Atributo  | Descripción                              | Tipo   | Valores aceptados     | Por defecto                              |
-| --------- | ---------------------------------------- | ------ | --------------------- | ---------------------------------------- |
+
+| Atributo  | Descripción                                    | Tipo   | Valores aceptados     | Por defecto                                                                           |
+| --------- | ---------------------------------------------- | ------ | --------------------- | ------------------------------------------------------------------------------------- |
 | direction | dirección de diseño para elementos secundarios | string | horizontal / vertical | vertical cuando el elemento está anidado con `el-header`, de lo contrario, horizontal |
 
 ### Atributos de cabecera
+
 | Atributo | Descripción           | Tipo   | Valores aceptados | Por defecto |
 | -------- | --------------------- | ------ | ----------------- | ----------- |
 | height   | altura de la cabecera | string | —                 | 60px        |
 
 ### Atributos de barra lateral
+
 | Atributo | Descripción               | Tipo   | Valores aceptados | Por defecto |
 | -------- | ------------------------- | ------ | ----------------- | ----------- |
 | width    | ancho de la barra lateral | string | —                 | 300px       |
 
 ### Atributos de pie de página
+
 | Atributo | Descripción              | Tipo   | Valores aceptados | Por defecto |
 | -------- | ------------------------ | ------ | ----------------- | ----------- |
 | height   | altura del pie de página | string | —                 | 60px        |

@@ -1,427 +1,224 @@
-## Inicio rápido
+# Inicio rápido
 
-Esta sección te guía en el proceso de usar Element Plus con webpack en un proyecto.
+Esta sección describe cómo utilizar ElementPlus en su proyecto.
 
-### Use vue-cli@4.5
+## Uso de componentes
 
-Proporcionamos un [plugin de Element](https://github.com/element-plus/vue-cli-plugin-element-plus) para vue-cli@4.5, que puede utilizar para construir rápidamente un proyecto basado en Element.
+### Introducción completa de todos los componentes
 
-### Usa la plantilla de Kit de inicio
+> main.ts
 
-Proveemos una plantilla general [project template](https://github.com/element-plus/element-plus-starter), and also a Vite [template](https://github.com/element-plus/element-plus-vite-starter). Para los usuarios de Laravel, también tenemos [template](https://github.com/element-plus/element-plus-in-laravel-starter). Puedes descargarlas y agregarlas directamente también.
-
-Si prefiere no utilizarlas, lee las siguientes secciones de este documento.
-
-### Importando Element Plus
-
-Puede importar Element Plus completamente o solamente importar lo que necesite. Comencemos importando todo.
-
-#### Importando todo
-
-En main.js:
-
-```javascript
+```typescript
 import { createApp } from 'vue'
-import ElementPlus from 'element-plus';
-import 'element-plus/lib/theme-chalk/index.css';
-import App from './App.vue';
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+import App from './App.vue'
 
 const app = createApp(App)
+
 app.use(ElementPlus)
 app.mount('#app')
 ```
 
-El código anterior importa Element Plus completamente. Nótese que el archivo CSS necesita ser incluido por separado.
+### Introducción de componentes a la carta
 
-#### En demanda
+El código JS en `ElementPlus` soporta
+[tree shaking](https://webpack.js.org/guides/tree-shaking/) basado en módulos ES
+por defecto.
 
-**Vue CLI**
+> App.vue
 
-Con la ayuda de [babel-plugin-import](https://github.com/ant-design/babel-plugin-import), podemos importar los componentes que necesitamos, haciendo nuestro proyecto más pequeño que de la otra manera.
+```html
+<template>
+  <el-button> Soy ElButton </el-button>
+</template>
+<script>
+  import { defineComponent } from 'vue'
+  import { ElButton } from 'element-plus'
 
-Primero, instale babel-plugin-import:
-
-```bash
-npm install babel-plugin-import -D
+  export default defineComponent({
+    name: 'app'
+    components: {
+      ElButton,
+    },
+  })
+</script>
 ```
 
-Luego edite babel.config.js:
+### Introducción de estilos
 
-- import `.scss` style
+**Recomendamos encarecidamente traer los archivos de estilo completos directamente**,
+aunque pueda parecer que esto aumenta el tamaño de toda la aplicación, al hacerlo
+se evita la introducción de plugins de herramientas de empaquetado adicionales
+(una carga menor) y también se puede utilizar el
+[CDN](https://www.cloudflare.com/learning/cdn/what-is-a-cdn/)
+para cargar los archivos de estilo, haciendo así que su aplicación cargue más rápido.
 
-:::warning
-Please make sure that `sass` and `sass-loader` dependencies have been installed and import `element-plus/packages/theme-chalk/src/base.scss` in the entry file.
-:::
+Introducido por medio de JS
+
+```typescript
+import 'element-plus/dist/index.css'
+```
+
+Introducido a través de las cabeceras HTML
+
+```html
+<!-- index.html -->
+<head>
+  <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
+</head>
+```
+
+Si quiere que los estilos se introduzcan también a la carta, puede utilizar el
+complemento que proporciona la herramienta correspondiente para referenciarlos.
+Ver [FAQ](/#/es/component/quickstart#faqs)
+
+## Plantilla de proyecto de construcción rápida
+
+### Use vue-cli@4.5
+
+Hemos preparado los correspondientes plugins vue-cli para la nueva versión de
+[Element Plus plugins](https://github.com/element-plus/vue-cli-plugin-element-plus)
+que puede utilizar para construir rápidamente un proyecto basado en
+Proyecto Element Plus.
+
+### Use Starter Kit
+
+Proporcionamos [plantillas de proyecto](https://github.com/element-plus/element-plus-starter)
+genéricas que puede utilizar directamente, además de proporcionar
+Vite [plantilla](https://github.com/element-plus/element-plus-vite-starter). Para
+Los usuarios de Laravel, también tenemos una
+[plantilla correspondiente](https://github.com/element-plus/element-plus-in-laravel-starter)
+que también puede descargar y utilizar directamente.
+
+## Configuración global
+
+Al introducir Element Plus, se puede pasar un objeto de configuración global.
+Este objeto soporta actualmente los campos `size` y `zIndex`. "tamaño
+se utiliza para cambiar el tamaño por defecto del componente y `zIndex` establece
+el índice z inicial de la caja emergente (valor por defecto: 2000). El Elemento Plus
+se presenta a la demanda de la siguiente manera.
+
+Presentación completa de ElementPlus.
 
 ```js
-module.exports = {
-  plugins: [
-    [
-      "import",
-      {
-        libraryName: 'element-plus',
-        customStyleName: (name) => {
-          name = name.slice(3)
-          return `element-plus/packages/theme-chalk/src/${name}.scss`;
-        },
-      },
-    ],
-  ],
-};
-```
-
-- import `.css` style
-
-```js
-module.exports = {
-  plugins: [
-    [
-      "import",
-      {
-        libraryName: 'element-plus',
-        customStyleName: (name) => {
-          return `element-plus/lib/theme-chalk/${name}.css`;
-        },
-      },
-    ],
-  ],
-};
-```
- 
-**Vite**
-  
-Firstly，install [vite-plugin-style-import](https://github.com/anncwb/vite-plugin-style-import):
-
-```bash
-$ npm install vite-plugin-style-import -D
-```
-
-or if you use `Yarn` as package manager
-
-```bash
-$ yarn add vite-plugin-style-import -D
-```
-
-Then edit vite.config.js:
-
-- import `.scss` style
-
-
-:::warning
-Please make sure that the `sass` dependency have been installed and import `element-plus/packages/theme-chalk/src/base.scss` in the entry file.
-:::
-
-```js
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import styleImport from 'vite-plugin-style-import'
-
-export default defineConfig({
-  plugins: [
-    vue(),
-    styleImport({
-      libs: [{
-        libraryName: 'element-plus',
-        esModule: true,
-        ensureStyleFile: true,
-        resolveStyle: (name) => {
-          name = name.slice(3)
-          return `element-plus/packages/theme-chalk/src/${name}.scss`;
-        },
-        resolveComponent: (name) => {
-          return `element-plus/lib/${name}`;
-        },
-      }]
-    })
-  ]
-})
-```
-
-- import `.css` style
-
-```js
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import styleImport from 'vite-plugin-style-import'
-
-export default defineConfig({
-  plugins: [
-    vue(),
-    styleImport({
-      libs: [
-        {
-          libraryName: 'element-plus',
-          esModule: true,
-          ensureStyleFile: true,
-          resolveStyle: (name) => {
-            return `element-plus/lib/theme-chalk/${name}.css`;
-          },
-          resolveComponent: (name) => {
-            return `element-plus/lib/${name}`;
-          },
-        }
-      ]
-    })
-  ]
-})
-```
-
-Luego, si necesita Button y Select, edite main.js:
-
-```javascript
 import { createApp } from 'vue'
-import { ElButton, ElSelect } from 'element-plus';
-import App from './App.vue';
-// If you want to use the .scss style file, you need to import the base.scss file
-// import 'element-plus/packages/theme-chalk/src/base.scss'
+import ElementPlus from 'element-plus'
+import App from './App.vue'
 
 const app = createApp(App)
-app.component(ElButton.name, ElButton);
-app.component(ElSelect.name, ElSelect);
-
-/* or
- * app.use(ElButton)
- * app.use(ElSelect)
- */
-
-app.mount('#app')
+app.use(ElementPlus, { size: 'small', zIndex: 3000 })
 ```
 
-Ejemplo completo (Referencia completa de componentes [reference](https://github.com/element-plus/element-plus/tree/dev/packages))
-
-```javascript
-import { createApp } from 'vue'
-import App from './App.vue';
-// If you want to use the .scss style file, you need to import the base.scss file
-// import 'element-plus/packages/theme-chalk/src/base.scss'
-
-import {
-  ElAlert,
-  ElAside,
-  ElAutocomplete,
-  ElAvatar,
-  ElBacktop,
-  ElBadge,
-  ElBreadcrumb,
-  ElBreadcrumbItem,
-  ElButton,
-  ElButtonGroup,
-  ElCalendar,
-  ElCard,
-  ElCarousel,
-  ElCarouselItem,
-  ElCascader,
-  ElCascaderPanel,
-  ElCheckbox,
-  ElCheckboxButton,
-  ElCheckboxGroup,
-  ElCol,
-  ElCollapse,
-  ElCollapseItem,
-  ElCollapseTransition,
-  ElColorPicker,
-  ElContainer,
-  ElDatePicker,
-  ElDialog,
-  ElDivider,
-  ElDrawer,
-  ElDropdown,
-  ElDropdownItem,
-  ElDropdownMenu,
-  ElFooter,
-  ElForm,
-  ElFormItem,
-  ElHeader,
-  ElIcon,
-  ElImage,
-  ElInput,
-  ElInputNumber,
-  ElLink,
-  ElMain,
-  ElMenu,
-  ElMenuItem,
-  ElMenuItemGroup,
-  ElOption,
-  ElOptionGroup,
-  ElPageHeader,
-  ElPagination,
-  ElPopconfirm,
-  ElPopover,
-  ElPopper,
-  ElProgress,
-  ElRadio,
-  ElRadioButton,
-  ElRadioGroup,
-  ElRate,
-  ElRow,
-  ElScrollbar,
-  ElSelect,
-  ElSlider,
-  ElStep,
-  ElSteps,
-  ElSubmenu,
-  ElSwitch,
-  ElTabPane,
-  ElTable,
-  ElTableColumn,
-  ElTabs,
-  ElTag,
-  ElTimePicker,
-  ElTimeSelect,
-  ElTimeline,
-  ElTimelineItem,
-  ElTooltip,
-  ElTransfer,
-  ElTree,
-  ElUpload,
-  ElInfiniteScroll,
-  ElLoading,
-  ElMessage,
-  ElMessageBox,
-  ElNotification,
-} from 'element-plus';
-
-const components = [
-  ElAlert,
-  ElAside,
-  ElAutocomplete,
-  ElAvatar,
-  ElBacktop,
-  ElBadge,
-  ElBreadcrumb,
-  ElBreadcrumbItem,
-  ElButton,
-  ElButtonGroup,
-  ElCalendar,
-  ElCard,
-  ElCarousel,
-  ElCarouselItem,
-  ElCascader,
-  ElCascaderPanel,
-  ElCheckbox,
-  ElCheckboxButton,
-  ElCheckboxGroup,
-  ElCol,
-  ElCollapse,
-  ElCollapseItem,
-  ElCollapseTransition,
-  ElColorPicker,
-  ElContainer,
-  ElDatePicker,
-  ElDialog,
-  ElDivider,
-  ElDrawer,
-  ElDropdown,
-  ElDropdownItem,
-  ElDropdownMenu,
-  ElFooter,
-  ElForm,
-  ElFormItem,
-  ElHeader,
-  ElIcon,
-  ElImage,
-  ElInput,
-  ElInputNumber,
-  ElLink,
-  ElMain,
-  ElMenu,
-  ElMenuItem,
-  ElMenuItemGroup,
-  ElOption,
-  ElOptionGroup,
-  ElPageHeader,
-  ElPagination,
-  ElPopconfirm,
-  ElPopover,
-  ElPopper,
-  ElProgress,
-  ElRadio,
-  ElRadioButton,
-  ElRadioGroup,
-  ElRate,
-  ElRow,
-  ElScrollbar,
-  ElSelect,
-  ElSlider,
-  ElStep,
-  ElSteps,
-  ElSubmenu,
-  ElSwitch,
-  ElTabPane,
-  ElTable,
-  ElTableColumn,
-  ElTabs,
-  ElTag,
-  ElTimePicker,
-  ElTimeSelect,
-  ElTimeline,
-  ElTimelineItem,
-  ElTooltip,
-  ElTransfer,
-  ElTree,
-  ElUpload,
-]
-
-const plugins = [
-  ElInfiniteScroll,
-  ElLoading,
-  ElMessage,
-  ElMessageBox,
-  ElNotification,
-]
-
-const app = createApp(App)
-
-components.forEach(component => {
-  app.component(component.name, component)
-})
-
-plugins.forEach(plugin => {
-  app.use(plugin)
-})
-```
-
-### Configuración global
-
-Cuando importa Element, puede definir un objeto global de configuración. Por ahora este elemento solo contiene dos propiedades: `size`, `zIndex`. `size` define el tamaño por defecto de todos los componentes.
-
-La propiedad `zIndex` indica el z-index inicial (por defecto: 2000) para los modal:
-
-Importando Element Plus completamente：
+Presentación de Element on demand.
 
 ```js
 import { createApp } from 'vue'
-import ElementPlus from 'element-plus';
-import App from './App.vue';
-
-const app = createApp(App)
-app.use(ElementPlus, { size: 'small', zIndex: 3000 });
-```
-
-Importando Element Plus parcialmente：
-
-```js
-import { createApp } from 'vue'
-import { ElButton } from 'element-plus';
-import App from './App.vue';
-// If you want to use the .scss style file, you need to import the base.scss file
+import { ElButton } from 'element-plus'
+import App from './App.vue'
 // import 'element-plus/packages/theme-chalk/src/base.scss'
 
 const app = createApp(App)
 app.config.globalProperties.$ELEMENT = option
-app.use(ElButton);
+app.use(ElButton)
 ```
 
-Con la anterior configuración, el tamaño por defecto de todos los componentes que tienen el atributo `size` será `small`. El valor inicial de z-index para los modals se ha establecido a 3000.
+Con la configuración anterior, todos los componentes del proyecto con la propiedad
+`size` tendrán un tamaño por defecto de `pequeño` y el índice z inicial de la
+caja emergente será de 3000.
 
-### Empiece ya!
+## Cómo empezar
 
-Ahora ha incorporado Vue y Element Plus a su proyecto y es el momento para comenzar a programar. Por favor, refiérase a la documentación de cada componente para aprender cómo usarlos.
+Ahora que se ha configurado un entorno de desarrollo basado en Vue y Element Plus,
+es el momento de escribir el código. Consulte la documentación de cada componente
+para saber cómo utilizarlos。
 
 ### Use Nuxt.js
 
-También podemos comenzar un proyecto usando [Nuxt.js](nuxtjs.org):
+También podemos utilizar [Nuxt.js](https://nuxtjs.org)：
 
 <div class="glitch-embed-wrap" style="height: 420px; width: 100%;">
   <iframe src="https://glitch.com/embed/#!/embed/nuxt-with-element?path=nuxt.config.js&previewSize=0&attributionHidden=true" alt="nuxt-with-element on glitch" style="height: 100%; width: 100%; border: 0;"></iframe>
 </div>
+
+## FAQs
+
+### Quiero introducir tanto componentes como estilos a la carta, ¿qué debo hacer?
+
+Puede conseguirlo en función del bundler que esté utilizando actualmente, con
+Plugins compatibles con ElementPlus.
+
+#### Carga de estilos a la carta con vite
+
+Si utiliza [vite](https://vitejs.dev) como herramienta de compilación, deberá instalar
+primero `vite-plugin-element-plus` para cargar los estilos bajo demanda.
+
+```shell
+yarn add vite-plugin-element-plus -D
+# o
+npm install vite-plugin-element-plus -D
+```
+
+A continuación, añada el siguiente código al archivo `vite.config.js`:
+
+```typescript
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import VitePluginElementPlus from 'vite-plugin-element-plus'
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [
+    vue(),
+    VitePluginElementPlus({
+      // Si necesita utilizar el archivo fuente [nombre del componente].scss,
+      // deberá descomentar el mismo a continuación.
+      // Para todas las APIs puede consultar la documentación en https://github.com/element-plus/vite-plugin-element-plus
+      // para los comentarios de la documentación
+      // useSource: true
+    }),
+  ],
+})
+```
+
+#### Carga de estilos bajo demanda con webpack
+
+Si estás usando webpack como herramienta de empaquetado, entonces necesitas instalar
+primero `babel-plugin-import` para cargar los estilos bajo demanda
+
+```shell
+yarn add babel-plugin-import -D
+# o
+npm install babel-plugin-import -D
+```
+
+A continuación, debe añadir el siguiente código a su archivo `babel.config.js`.
+
+> babel.config.js
+
+```javascript
+module.exports = {
+  plugins: [
+    [
+      'import',
+      {
+        libraryName: 'element-plus',
+        // import component
+        customName: (name) => {
+          name = name.slice(3)
+          return `element-plus/lib/components/${name}`
+        },
+        // import style
+        customStyleName: (name) => {
+          name = name.slice(3)
+          // Si necesitas el archivo [nombre].scss, entonces necesitas comentar
+          // la línea de código anterior y descomentar la siguiente línea de código
+          // return `element-plus/lib/components/${name}/style`
+          // Si necesita el archivo [nombre].css, debe devolver la siguiente línea
+          return `element-plus/lib/components/${name}/style/css`
+        },
+      },
+    ],
+  ],
+}
+```

@@ -1,5 +1,5 @@
-@import "mixins/mixins";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'common/var';
 
 @include b(page-header) {
   display: flex;
@@ -12,14 +12,14 @@
     position: relative;
 
     &::after {
-      content: "";
+      content: '';
       position: absolute;
       width: 1px;
       height: 16px;
       right: -20px;
       top: 50%;
       transform: translateY(-50%);
-      background-color: $--border-color-base;
+      background-color: var(--el-border-color-base);
     }
 
     @include e(icon) {
@@ -37,6 +37,6 @@
 
   @include e(content) {
     font-size: 18px;
-    color: $--color-text-primary;
+    color: var(--el-text-color-primary);
   }
 }

@@ -1,12 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const {
-  stripScript,
-  stripTemplate,
-  genInlineComponentText,
-} = require('./util')
+const { stripScript, stripTemplate, genInlineComponentText } = require('./util')
 const md = require('./config')
 
-module.exports = function(source) {
+module.exports = function (source) {
   const content = md.render(source)
 
   const startTag = '<!--element-demo:'
@@ -14,7 +10,7 @@ module.exports = function(source) {
   const endTag = ':element-demo-->'
   const endTagLen = endTag.length
 
-  let componenetsString = ''
+  let componentsString = ''
   let id = 0 // demo 的 id
   let output = [] // 输出的内容
   let start = 0 // 字符串开始位置
@@ -30,7 +26,9 @@ module.exports = function(source) {
     let demoComponentContent = genInlineComponentText(html, script)
     const demoComponentName = `element-demo${id}`
     output.push(`<template #source><${demoComponentName} /></template>`)
-    componenetsString += `${JSON.stringify(demoComponentName)}: ${demoComponentContent},`
+    componentsString += `${JSON.stringify(
+      demoComponentName
+    )}: ${demoComponentContent},`
 
     // 重新计算下一次的位置
     id++
@@ -43,17 +41,18 @@ module.exports = function(source) {
   // todo: 优化这段逻辑
 
   let pageScript = ''
-  if (componenetsString) {
+  if (componentsString) {
     pageScript = `<script lang="ts">
       import * as Vue from 'vue';
       export default {
         name: 'component-doc',
         components: {
-          ${componenetsString}
+          ${componentsString}
         }
       }
     </script>`
-  } else if (content.indexOf('<script>') === 0) { // 硬编码，有待改善
+  } else if (content.indexOf('<script>') === 0) {
+    // 硬编码，有待改善
     start = content.indexOf('</script>') + '</script>'.length
     pageScript = content.slice(0, start)
   }

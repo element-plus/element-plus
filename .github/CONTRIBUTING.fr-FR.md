@@ -31,4 +31,3 @@ Nous sommes ravis que vous souhaitiez contribuer à Element Plus. Avant de soume
 - Si votre PR corrige un bug, veuillez fournir une description du bug en question.
 
 - La fusion d'un PR nécessite deux responsables: l'un approuve les modifications après révision, puis l'autre les révise et les fusionne.
-

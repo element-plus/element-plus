@@ -1,9 +1,7 @@
-@import "mixins/mixins";
-@import "common/var";
-@import "./scrollbar.scss";
+@import 'mixins/mixins';
+@import 'common/var';
 
 @include b(vl) {
-
   @include e(wrapper) {
     position: relative;
   }

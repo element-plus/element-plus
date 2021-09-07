@@ -29,6 +29,7 @@ You can configure the row numbers yourself, for more precise rendering effect, t
 :::
 
 ### Animation
+
 We have provided a switch flag indicating whether showing the loading animation, called `animated` when this is true, all children of `el-skeleton` will show animation
 
 :::demo
@@ -40,6 +41,7 @@ We have provided a switch flag indicating whether showing the loading animation,
 :::
 
 ### Customized Template
+
 ElementPlus only provides the most common template, sometimes that could be a problem, so you have a slot named `template` to do that work.
 
 Also we have provided different types skeleton unit that you can choose, for more detailed info, please scroll down to the bottom of this page to see the API description. Also, when building your own customized skeleton structure, you should be structuring them as closer to the real DOM as possible, which avoiding the DOM bouncing caused by the height difference.
@@ -116,28 +118,26 @@ When `Loading` ends, we always need to show the real UI with data to our end use
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+  import { defineComponent } from 'vue'
 
-const dayjs = require('dayjs')
+  const dayjs = require('dayjs')
 
-export default defineComponent({
-  data() {
-    return {
-      loading: true,
-      currentDate: dayjs().format('YYYY-MM-DD'),
-    }
-  },
-})
+  export default defineComponent({
+    data() {
+      return {
+        loading: true,
+        currentDate: dayjs().format('YYYY-MM-DD'),
+      }
+    },
+  })
 </script>
 ```
 
 :::
 
-
 ### Rendering a list of data
 
 Most of the time, skeleton is used as indicators of rendering a list of data which haven't been fetched from server yet, then we need to create a list of skeleton out of no where to make it look like it is loading, with `count` attribute, you can control how many these templates you need to render to the browser.
-
 
 :::tip
 We do not recommend rendering lots of fake UI to the browser, it will still cause the performance issue, it also costs longer to destroy the skeleton. Keep `count` as small as it can be to make better user experience.
@@ -231,8 +231,8 @@ We do not recommend rendering lots of fake UI to the browser, it will still caus
 :::
 
 ### Avoiding rendering bouncing.
-Sometimes API responds very quickly, when that happens, the skeleton just gets rendered to the DOM then it needs to switch back to real DOM, that causes the sudden flashy. To avoid such thing, you can use the `throttle` attribute.
 
+Sometimes API responds very quickly, when that happens, the skeleton just gets rendered to the DOM then it needs to switch back to real DOM, that causes the sudden flashy. To avoid such thing, you can use the `throttle` attribute.
 
 :::demo
 
@@ -243,7 +243,12 @@ Sometimes API responds very quickly, when that happens, the skeleton just gets r
       <label style="margin-right: 16px;">Switch Loading</label>
       <el-switch v-model="loading" />
     </div>
-    <el-skeleton style="width: 240px" :loading="loading" animated :throttle="500">
+    <el-skeleton
+      style="width: 240px"
+      :loading="loading"
+      animated
+      :throttle="500"
+    >
       <template #template>
         <el-skeleton-item
           variant="image"
@@ -279,42 +284,42 @@ Sometimes API responds very quickly, when that happens, the skeleton just gets r
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+  import { defineComponent } from 'vue'
 
-const dayjs = require('dayjs')
+  const dayjs = require('dayjs')
 
-export default defineComponent({
-  data() {
-    return {
-      loading: false,
-      currentDate: dayjs().format('YYYY-MM-DD'),
-    }
-  },
-})
+  export default defineComponent({
+    data() {
+      return {
+        loading: false,
+        currentDate: dayjs().format('YYYY-MM-DD'),
+      }
+    },
+  })
 </script>
 ```
+
 :::
 
 ### Skeleton Attributes
 
-| Attribute    | Description  | Type    | Acceptable Value | Default |
-| ------- | ---------------- | ------- | ------------ | ------ |
-| animated | whether showing the animation | boolean | true / false | false |
-| count   | how many fake items to render to the DOM | number | integer | 1 |
-| loading | whether showing the real DOM | boolean | true / false | false  |
-| rows    | numbers of the row, only useful when no template slot were given | number  | integer  | 3      |
-| throttle | Rendering delay in millseconds | number | integer | 0 |
-
+| Attribute | Description                                                      | Type    | Acceptable Value | Default |
+| --------- | ---------------------------------------------------------------- | ------- | ---------------- | ------- |
+| animated  | whether showing the animation                                    | boolean | true / false     | false   |
+| count     | how many fake items to render to the DOM                         | number  | integer          | 1       |
+| loading   | whether showing the real DOM                                     | boolean | true / false     | false   |
+| rows      | numbers of the row, only useful when no template slot were given | number  | integer          | 3       |
+| throttle  | Rendering delay in millseconds                                   | number  | integer          | 0       |
 
 ### Skeleton Item Attributes
-| Attribute    | Description             | Type    | Acceptable Value       | Default  |
-| ------- | ---------------- | ------- | ------------ | ------ |
-| variant | The current rendering skeleton type | Enum(string) | p / text / h1 / h3 / text / caption / button / image / circle / rect | text |
 
+| Attribute | Description                         | Type         | Acceptable Value                                                     | Default |
+| --------- | ----------------------------------- | ------------ | -------------------------------------------------------------------- | ------- |
+| variant   | The current rendering skeleton type | Enum(string) | p / text / h1 / h3 / text / caption / button / image / circle / rect | text    |
 
 ### Skeleton Slots
 
-| Name | Description |
-| ---- | ----------- |
-| default | Real rendering DOM |
+| Name     | Description                        |
+| -------- | ---------------------------------- |
+| default  | Real rendering DOM                 |
 | template | Custom rendering skeleton template |

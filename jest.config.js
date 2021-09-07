@@ -11,11 +11,13 @@ module.exports = {
   transform: {
     '^.+\\.vue$': 'vue-jest',
     '^.+\\.(t|j)sx?$': [
-      'babel-jest', {
+      'babel-jest',
+      {
         presets: [
           [
             '@babel/preset-env',
             {
+              loose: true,
               targets: {
                 node: true,
               },
@@ -25,7 +27,7 @@ module.exports = {
         ],
         plugins: [
           '@vue/babel-plugin-jsx',
-          '@babel/plugin-proposal-class-properties',
+          ['@babel/plugin-proposal-class-properties', { loose: true }],
         ],
       },
     ],

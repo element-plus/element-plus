@@ -154,7 +154,7 @@
 
       const beforeChange1 = () => {
         status1.loading1 = true
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
           setTimeout(() => {
             status1.loading1 = false
             ElMessage.success('正常に切り替えます')
@@ -194,23 +194,24 @@
 
 ### 属性
 
-| Attribute           | Description                                                                                                        | Type                      | Accepted Values | Default |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------ | ------------------------- | --------------- | ------- |
-| model-value / v-model     | バインド値は、"active-value "または "inactive-value "と等しくなければなりません。デフォルトの型は "boolean "です。 | boolean / string / number | —               | —       |
-| disabled            | スイッチが無効になっているかどうか                                                                                 | boolean                   | —               | false   |
-| loading             | スイッチがロード中になっているかどうか                                                                             | boolean                   | —               | false   |
-| width               | スイッチの幅                                                                                                       | number                    | —               | 40      |
-| active-icon-class   | `on` 状態のときに表示されるアイコンのクラス名で、`active-text` を上書きします。                                    | string                    | —               | —       |
-| inactive-icon-class | `off` 状態のときに表示されるアイコンのクラス名で、`inactive-text` を上書きします。                                 | string                    | —               | —       |
-| active-text         | `on` 状態のときに表示されるテキスト                                                                                | string                    | —               | —       |
-| inactive-text       | `off` 状態のときに表示されるテキスト                                                                               | string                    | —               | —       |
-| active-value        | `on` 状態のときのスイッチの値                                                                                      | boolean / string / number | —               | true    |
-| inactive-value      | `off` 状態のときのスイッチの値                                                                                     | boolean / string / number | —               | false   |
-| active-color        | `on` 状態のときの背景色                                                                                            | string                    | —               | #409EFF |
-| inactive-color      | `off` 状態のときの背景色                                                                                           | string                    | —               | #C0CCDA |
-| name                | スイッチのインプット名                                                                                             | string                    | —               | —       |
-| validate-event      | フォームバリデーションをトリガするかどうか                                                                         | boolean                   | —               | true    |
-| before-change       | スイッチの状態が変化する前のフックは、false を返すか、Promise を返し、切り替えを停止するために拒否されます         | function                  | —               | —       |
+| Attribute             | Description                                                                                                        | Type                      | Accepted Values | Default |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------ | ------------------------- | --------------- | ------- |
+| model-value / v-model | バインド値は、"active-value "または "inactive-value "と等しくなければなりません。デフォルトの型は "boolean "です。 | boolean / string / number | —               | —       |
+| disabled              | スイッチが無効になっているかどうか                                                                                 | boolean                   | —               | false   |
+| loading               | スイッチがロード中になっているかどうか                                                                             | boolean                   | —               | false   |
+| width                 | スイッチの幅                                                                                                       | number                    | —               | 40      |
+| active-icon-class     | `on` 状態のときに表示されるアイコンのクラス名で、`active-text` を上書きします。                                    | string                    | —               | —       |
+| inactive-icon-class   | `off` 状態のときに表示されるアイコンのクラス名で、`inactive-text` を上書きします。                                 | string                    | —               | —       |
+| active-text           | `on` 状態のときに表示されるテキスト                                                                                | string                    | —               | —       |
+| inactive-text         | `off` 状態のときに表示されるテキスト                                                                               | string                    | —               | —       |
+| active-value          | `on` 状態のときのスイッチの値                                                                                      | boolean / string / number | —               | true    |
+| inactive-value        | `off` 状態のときのスイッチの値                                                                                     | boolean / string / number | —               | false   |
+| active-color          | `on` 状態のときの背景色                                                                                            | string                    | —               | #409EFF |
+| inactive-color        | `off` 状態のときの背景色                                                                                           | string                    | —               | #C0CCDA |
+| border-color          | スイッチの境界線の色                                                                                               | string                    | —               | —       |
+| name                  | スイッチのインプット名                                                                                             | string                    | —               | —       |
+| validate-event        | フォームバリデーションをトリガするかどうか                                                                         | boolean                   | —               | true    |
+| before-change         | スイッチの状態が変化する前のフックは、false を返すか、Promise を返し、切り替えを停止するために拒否されます         | function                  | —               | —       |
 
 ### イベント
 

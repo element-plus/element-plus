@@ -1,8 +1,11 @@
-@import "mixins/mixins";
-@import "mixins/utils";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'mixins/utils';
+@import 'mixins/var';
+@import 'common/var';
 
 @include b(form) {
+  @include set-component-css-var('form', $--form);
+
   @include m(label-left) {
     & .#{$namespace}-form-item__label {
       text-align: left;
@@ -84,11 +87,17 @@
     }
   }
 
+  @include e(label-wrap) {
+    .#{$namespace}-form-item__label {
+      display: inline-block;
+    }
+  }
+
   @include e(label) {
     flex: 0 0 auto;
     text-align: right;
-    font-size: $--form-label-font-size;
-    color: $--color-text-regular;
+    font-size: var(--el-form-label-font-size);
+    color: var(--el-text-color-regular);
     line-height: 40px;
     padding: 0 12px 0 0;
     box-sizing: border-box;
@@ -98,13 +107,14 @@
     line-height: 40px;
     position: relative;
     font-size: 14px;
+    min-width: 0;
 
     .#{$namespace}-input-group {
       vertical-align: top;
     }
   }
   @include e(error) {
-    color: $--color-danger;
+    color: var(--el-color-danger);
     font-size: 12px;
     line-height: 1;
     padding-top: 4px;
@@ -123,9 +133,12 @@
 
   @include when(required) {
     @include pseudo('not(.is-no-asterisk)') {
-      & > .#{$namespace}-form-item__label:before {
+      & > .#{$namespace}-form-item__label:before,
+      &
+        > .#{$namespace}-form-item__label-wrap
+        > .#{$namespace}-form-item__label:before {
         content: '*';
-        color: $--color-danger;
+        color: var(--el-color-danger);
         margin-right: 4px;
       }
     }
@@ -134,8 +147,9 @@
   @include when(error) {
     & .#{$namespace}-input__inner,
     & .#{$namespace}-textarea__inner {
-      &, &:focus {
-        border-color: $--color-danger;
+      &,
+      &:focus {
+        border-color: var(--el-color-danger);
       }
     }
     & .#{$namespace}-input-group__append,
@@ -145,7 +159,7 @@
       }
     }
     .#{$namespace}-input__validateIcon {
-      color: $--color-danger;
+      color: var(--el-color-danger);
     }
   }
 

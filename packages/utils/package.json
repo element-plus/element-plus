@@ -1,14 +1,27 @@
 {
   "name": "@element-plus/utils",
-  "version": "0.0.0",
+  "version": "0.0.5",
   "license": "MIT",
+  "peerDependencies": {
+    "vue": "^3.2.0"
+  },
+  "scripts": {
+    "clean": "rm -rf lib es",
+    "build": "gulp build"
+  },
   "dependencies": {
+    "lodash": "^4.17.21",
+    "normalize-wheel": "^1.0.1",
     "resize-observer-polyfill": "^1.5.1"
   },
-  "peerDependencies": {
-    "vue": "3.1.1"
-  },
   "devDependencies": {
-    "@vue/test-utils": "^2.0.0-beta.3"
-  }
+    "@vue/test-utils": "^2.0.0-beta.3",
+    "chalk": "^4.1.2",
+    "gulp": "^4.0.2",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "sass": "^1.39.0",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.4.2"
+  },
+  "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
 }

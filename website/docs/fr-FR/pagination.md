@@ -7,21 +7,18 @@ Si vous avez beaucoup de données à afficher sur une seule page, il est préfé
 :::demo Configurez `layout` avec les différent éléments de pagination que vous souhaitez, séparés par des virgules. Les éléments possibles sont: `prev` (pour aller vers la page précédente), `next` (pour aller vers la page suivante), `pager` (liste des pages), `jumper` (un champ pour aller directement à une page précise), `total` (Le nombre total d'entrées), `size` (un sélecteur qui détermine la taille de la page) et `->`(chaque élément après celui-ci sera poussé vers la droite).
 
 ```html
-<div class="block">
-  <span class="demonstration">Quand vous avez quelques pages</span>
-  <el-pagination
-    layout="prev, pager, next"
-    :total="50">
-  </el-pagination>
-</div>
-<div class="block">
-  <span class="demonstration">Quand vous avez plus que 7 pages</span>
-  <el-pagination
-    layout="prev, pager, next"
-    :total="1000">
-  </el-pagination>
-</div>
+<template>
+  <div class="block">
+    <span class="demonstration">Quand vous avez quelques pages</span>
+    <el-pagination layout="prev, pager, next" :total="50"> </el-pagination>
+  </div>
+  <div class="block">
+    <span class="demonstration">Quand vous avez plus que 7 pages</span>
+    <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>
+  </div>
+</template>
 ```
+
 :::
 
 ### Nombre de pages
@@ -29,13 +26,17 @@ Si vous avez beaucoup de données à afficher sur une seule page, il est préfé
 :::demo Par défaut, Pagination réduit les boutons lorsqu'il y a plus de 7 pages. Ce nombre est configurable avec l'attribut `pager-count`.
 
 ```html
-<el-pagination
-  :page-size="20"
-  :pager-count="11"
-  layout="prev, pager, next"
-  :total="1000">
-</el-pagination>
+<template>
+  <el-pagination
+    :page-size="20"
+    :pager-count="11"
+    layout="prev, pager, next"
+    :total="1000"
+  >
+  </el-pagination>
+</template>
 ```
+
 :::
 
 ### Boutons avec couleur de fond
@@ -43,12 +44,12 @@ Si vous avez beaucoup de données à afficher sur une seule page, il est préfé
 :::demo Réglez l'attribut `background` pour change la couleur de fond des boutons.
 
 ```html
-<el-pagination
-  background
-  layout="prev, pager, next"
-  :total="1000">
-</el-pagination>
+<template>
+  <el-pagination background layout="prev, pager, next" :total="1000">
+  </el-pagination>
+</template>
 ```
+
 :::
 
 ### Petite pagination
@@ -58,12 +59,11 @@ Utilisez une pagination de taille réduite si vous manquez d'espace.
 :::demo Ajoutez simplement l'attribut `small` et la pagination sera de taille réduite.
 
 ```html
-<el-pagination
-  small
-  layout="prev, pager, next"
-  :total="50">
-</el-pagination>
+<template>
+  <el-pagination small layout="prev, pager, next" :total="50"> </el-pagination>
+</template>
 ```
+
 :::
 
 ### Plus d'éléments
@@ -82,7 +82,8 @@ Vous pouvez ajouter plus de modules suivant vos besoins.
       v-model:currentPage="currentPage1"
       :page-size="100"
       layout="total, prev, pager, next"
-      :total="1000">
+      :total="1000"
+    >
     </el-pagination>
   </div>
   <div class="block">
@@ -94,7 +95,8 @@ Vous pouvez ajouter plus de modules suivant vos besoins.
       :page-sizes="[100, 200, 300, 400]"
       :page-size="100"
       layout="sizes, prev, pager, next"
-      :total="1000">
+      :total="1000"
+    >
     </el-pagination>
   </div>
   <div class="block">
@@ -105,7 +107,8 @@ Vous pouvez ajouter plus de modules suivant vos besoins.
       v-model:currentPage="currentPage3"
       :page-size="100"
       layout="prev, pager, next, jumper"
-      :total="1000">
+      :total="1000"
+    >
     </el-pagination>
   </div>
   <div class="block">
@@ -117,7 +120,8 @@ Vous pouvez ajouter plus de modules suivant vos besoins.
       :page-sizes="[100, 200, 300, 400]"
       :page-size="100"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="400">
+      :total="400"
+    >
     </el-pagination>
   </div>
 </template>
@@ -125,20 +129,20 @@ Vous pouvez ajouter plus de modules suivant vos besoins.
   export default {
     methods: {
       handleSizeChange(val) {
-        console.log(`${val} items per page`);
+        console.log(`${val} items per page`)
       },
       handleCurrentChange(val) {
-        console.log(`current page: ${val}`);
-      }
+        console.log(`current page: ${val}`)
+      },
     },
     data() {
       return {
         currentPage1: 5,
         currentPage2: 5,
         currentPage3: 5,
-        currentPage4: 4
-      };
-    }
+        currentPage4: 4,
+      }
+    },
   }
 </script>
 <!--
@@ -169,6 +173,7 @@ Vous pouvez ajouter plus de modules suivant vos besoins.
 </setup>
 -->
 ```
+
 :::
 
 ### Cacher la pagination s'il n'y a qu'une seule page
@@ -176,24 +181,27 @@ Vous pouvez ajouter plus de modules suivant vos besoins.
 Lorsqu'il n'y a qu'une seule page, il est possible de cacher la pagination avec l'attribut `hide-on-single-page`.
 
 :::demo
+
 ```html
-<div>
- <el-switch v-model="value">
- </el-switch>
- <el-pagination
-  :hide-on-single-page="value"
-  :total="5"
-  layout="prev, pager, next">
-</el-pagination>
-</div>
+<template>
+  <div>
+    <el-switch v-model="value"> </el-switch>
+    <el-pagination
+      :hide-on-single-page="value"
+      :total="5"
+      layout="prev, pager, next"
+    >
+    </el-pagination>
+  </div>
+</template>
 
 <script>
   export default {
     data() {
       return {
-        value: false
+        value: false,
       }
-    }
+    },
   }
 </script>
 <!--
@@ -212,38 +220,39 @@ Lorsqu'il n'y a qu'une seule page, il est possible de cacher la pagination avec 
 </setup>
 -->
 ```
+
 :::
 
 ### Attributs
 
-| Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
-|--------------------|----------------------------------------------------------|-------------------|-------------|--------|
-| small | Si la pagination doit être petite. | boolean |      —       | false |
-| background | Si les boutons doivent avoir une couleur de fond. | boolean | — | false |
-| page-size | Nombre d'entrées sur chaque page, supporte v-model two-way binding. | number |      —       | 10 |
-| total | Nombre total d'entrées. | number | — | — |
-| page-count | Nombre de pages. Réglez `total` ou `page-count` et le nombre de pages sera affiché; si vous avez besoin de `page-sizes`, `total` est requis. | number | — | — |
-| pager-count | Nombre de sélecteurs de pages. Pagination se réduit lorsque le nombre de pages dépasse cette valeur. | number | Nombre impair entre 5 et 21. | 7 |
-| current-page | Le numéro de page courant, supporte v-model two-way binding. | number | — | 1 |
-| layout | L'ensemble des éléments de la pagination, séparés par des virgules. | string | `sizes`, `prev`, `pager`, `next`, `jumper`, `->`, `total`, `slot` | 'prev, pager, next, jumper, ->, total'  |
-| page-sizes | Options pour la taille des pages. | number[] | — |  [10, 20, 30, 40, 50, 100] |
-| popper-class | Classe du menu de sélection de la taille des pages. | string | — | — |
-| prev-text | Texte du bouton prev. | string | — | — |
-| next-text | Texte du bouton next. | string | — | — |
-| disabled | Si la pagination est désactivée. | boolean | — | false |
-| hide-on-single-page | Si la pagination doit être cachée quand il n'y a qu'une seule page. | boolean | — | - |
+| Attribut            | Description                                                                                                                                  | Type     | Valeurs acceptées                                                 | Défaut                                 |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ----------------------------------------------------------------- | -------------------------------------- |
+| small               | Si la pagination doit être petite.                                                                                                           | boolean  | —                                                                 | false                                  |
+| background          | Si les boutons doivent avoir une couleur de fond.                                                                                            | boolean  | —                                                                 | false                                  |
+| page-size           | Nombre d'entrées sur chaque page, supporte v-model two-way binding.                                                                          | number   | —                                                                 | 10                                     |
+| total               | Nombre total d'entrées.                                                                                                                      | number   | —                                                                 | —                                      |
+| page-count          | Nombre de pages. Réglez `total` ou `page-count` et le nombre de pages sera affiché; si vous avez besoin de `page-sizes`, `total` est requis. | number   | —                                                                 | —                                      |
+| pager-count         | Nombre de sélecteurs de pages. Pagination se réduit lorsque le nombre de pages dépasse cette valeur.                                         | number   | Nombre impair entre 5 et 21.                                      | 7                                      |
+| current-page        | Le numéro de page courant, supporte v-model two-way binding.                                                                                 | number   | —                                                                 | 1                                      |
+| layout              | L'ensemble des éléments de la pagination, séparés par des virgules.                                                                          | string   | `sizes`, `prev`, `pager`, `next`, `jumper`, `->`, `total`, `slot` | 'prev, pager, next, jumper, ->, total' |
+| page-sizes          | Options pour la taille des pages.                                                                                                            | number[] | —                                                                 | [10, 20, 30, 40, 50, 100]              |
+| popper-class        | Classe du menu de sélection de la taille des pages.                                                                                          | string   | —                                                                 | —                                      |
+| prev-text           | Texte du bouton prev.                                                                                                                        | string   | —                                                                 | —                                      |
+| next-text           | Texte du bouton next.                                                                                                                        | string   | —                                                                 | —                                      |
+| disabled            | Si la pagination est désactivée.                                                                                                             | boolean  | —                                                                 | false                                  |
+| hide-on-single-page | Si la pagination doit être cachée quand il n'y a qu'une seule page.                                                                          | boolean  | —                                                                 | -                                      |
 
 ### Évènements
 
-| Nom | Description | Paramètres |
-|---------|--------|---------|
-| size-change | Se déclenche quand `page-size` change. | La nouvelle taille. |
-| current-change | Se déclenche quand `current-page` change. | La nouvelle page courante |
-| prev-click | Se déclenche quand le bouton prev est cliqué et que la page courante change. | La nouvelle page courante. |
-| next-click | Se déclenche quand le bouton next est cliqué et que la page courante change. | La nouvelle page courante. |
+| Nom            | Description                                                                  | Paramètres                 |
+| -------------- | ---------------------------------------------------------------------------- | -------------------------- |
+| size-change    | Se déclenche quand `page-size` change.                                       | La nouvelle taille.        |
+| current-change | Se déclenche quand `current-page` change.                                    | La nouvelle page courante  |
+| prev-click     | Se déclenche quand le bouton prev est cliqué et que la page courante change. | La nouvelle page courante. |
+| next-click     | Se déclenche quand le bouton next est cliqué et que la page courante change. | La nouvelle page courante. |
 
 ### Slot
 
-| Name | Description |
-| --- | --- |
-| — | Contenu personnalisé. Pour l'utiliser vous devez déclarer `slot` dans `layout`. |
+| Name | Description                                                                     |
+| ---- | ------------------------------------------------------------------------------- |
+| —    | Contenu personnalisé. Pour l'utiliser vous devez déclarer `slot` dans `layout`. |

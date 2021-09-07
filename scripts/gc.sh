@@ -11,13 +11,14 @@ if [ "$#" -ne 1 ] || [[ $NAME =~ $re ]] || [ "$NAME" == "" ]; then
   exit 1
 fi
 
-DIRNAME="$FILE_PATH/$NAME"
+DIRNAME="$FILE_PATH/components/$NAME"
 INPUT_NAME=$NAME
 
 if [ -d "$DIRNAME" ]; then
   echo "$NAME component already exists, please change it"
   exit 1
 fi
+
 NORMALIZED_NAME=""
 for i in $(echo $NAME | sed 's/[_|-]\([a-z]\)/\ \1/;s/^\([a-z]\)/\ \1/'); do
   C=$(echo "${i:0:1}" | tr "[:lower:]" "[:upper:]")
@@ -58,21 +59,6 @@ ${NAME}.install = (app: App): void => {
 }
 
 export default ${NAME}
-EOF
-
-cat > $DIRNAME/package.json <<EOF
-{
-  "name": "@element-plus/$INPUT_NAME",
-  "version": "0.0.0",
-  "main": "dist/index.js",
-  "license": "MIT",
-  "peerDependencies": {
-    "vue": "3.1.1"
-  },
-  "devDependencies": {
-    "@vue/test-utils": "^2.0.0-beta.3"
-  }
-}
 EOF
 
 cat > $DIRNAME/__tests__/$INPUT_NAME.spec.ts <<EOF

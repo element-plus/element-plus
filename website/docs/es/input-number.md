@@ -1,6 +1,6 @@
 ## InputNumber
 
-Input de  valores numéricos con un rango personalizable.
+Input de valores numéricos con un rango personalizable.
 
 ### Uso básico
 
@@ -8,21 +8,26 @@ Input de  valores numéricos con un rango personalizable.
 
 ```html
 <template>
-  <el-input-number v-model="num" @change="handleChange" :min="1" :max="10"></el-input-number>
+  <el-input-number
+    v-model="num"
+    @change="handleChange"
+    :min="1"
+    :max="10"
+  ></el-input-number>
 </template>
 <script>
   export default {
     data() {
       return {
-        num: 1
-      };
+        num: 1,
+      }
     },
     methods: {
       handleChange(value) {
-        console.log(value);
-      }
-    }
-  };
+        console.log(value)
+      },
+    },
+  }
 </script>
 <!--
 <setup>
@@ -45,6 +50,7 @@ Input de  valores numéricos con un rango personalizable.
 </setup>
 -->
 ```
+
 :::
 
 ### Disabled
@@ -59,10 +65,10 @@ Input de  valores numéricos con un rango personalizable.
   export default {
     data() {
       return {
-        num: 1
+        num: 1,
       }
-    }
-  };
+    },
+  }
 </script>
 <!--
 <setup>
@@ -81,6 +87,7 @@ Input de  valores numéricos con un rango personalizable.
 </setup>
 -->
 ```
+
 :::
 
 ### Steps
@@ -97,10 +104,10 @@ Le permite definir el nivel de incremento de los saltos.
   export default {
     data() {
       return {
-        num: 5
+        num: 5,
       }
-    }
-  };
+    },
+  }
 </script>
 <!--
 <setup>
@@ -119,6 +126,7 @@ Le permite definir el nivel de incremento de los saltos.
 </setup>
 -->
 ```
+
 :::
 
 ### Step estrictamente
@@ -133,10 +141,10 @@ Le permite definir el nivel de incremento de los saltos.
   export default {
     data() {
       return {
-        num: 2
+        num: 2,
       }
-    }
-  };
+    },
+  }
 </script>
 <!--
 <setup>
@@ -155,6 +163,7 @@ Le permite definir el nivel de incremento de los saltos.
 </setup>
 -->
 ```
+
 :::
 
 ### Precisión
@@ -163,16 +172,21 @@ Le permite definir el nivel de incremento de los saltos.
 
 ```html
 <template>
-  <el-input-number v-model="num" :precision="2" :step="0.1" :max="10"></el-input-number>
+  <el-input-number
+    v-model="num"
+    :precision="2"
+    :step="0.1"
+    :max="10"
+  ></el-input-number>
 </template>
 <script>
   export default {
     data() {
       return {
-        num: 1
+        num: 1,
       }
-    }
-  };
+    },
+  }
 </script>
 <!--
 <setup>
@@ -208,9 +222,9 @@ Utilice el atributo `size` para establecer tamaños adicionales con `medium`, `s
 ```html
 <template>
   <el-input-number v-model="num1"></el-input-number>
-    <el-input-number size="medium" v-model="num2"></el-input-number>
-    <el-input-number size="small" v-model="num3"></el-input-number>
-    <el-input-number size="mini" v-model="num4"></el-input-number>
+  <el-input-number size="medium" v-model="num2"></el-input-number>
+  <el-input-number size="small" v-model="num3"></el-input-number>
+  <el-input-number size="mini" v-model="num4"></el-input-number>
 </template>
 <script>
   export default {
@@ -219,10 +233,10 @@ Utilice el atributo `size` para establecer tamaños adicionales con `medium`, `s
         num1: 1,
         num2: 1,
         num3: 1,
-        num4: 1
+        num4: 1,
       }
-    }
-  };
+    },
+  }
 </script>
 <!--
 <setup>
@@ -247,6 +261,7 @@ Utilice el atributo `size` para establecer tamaños adicionales con `medium`, `s
 </setup>
 -->
 ```
+
 :::
 
 ### Posición de los controles
@@ -255,21 +270,27 @@ Utilice el atributo `size` para establecer tamaños adicionales con `medium`, `s
 
 ```html
 <template>
-  <el-input-number v-model="num" controls-position="right" @change="handleChange" :min="1" :max="10"></el-input-number>
+  <el-input-number
+    v-model="num"
+    controls-position="right"
+    @change="handleChange"
+    :min="1"
+    :max="10"
+  ></el-input-number>
 </template>
 <script>
   export default {
     data() {
       return {
-        num: 1
-      };
+        num: 1,
+      }
     },
     methods: {
       handleChange(value) {
-        console.log(value);
-      }
-    }
-  };
+        console.log(value)
+      },
+    },
+  }
 </script>
 <!--
 <setup>
@@ -292,37 +313,38 @@ Utilice el atributo `size` para establecer tamaños adicionales con `medium`, `s
 </setup>
 -->
 ```
+
 :::
 
 ### Atributos
 
-| Atributo          | Descripción                              | Tipo    | Valores aceptados | Por defecto |
-| ----------------- | ---------------------------------------- | ------- | ----------------- | ----------- |
-| model-value / v-model | valor vinculado                          | number / undefined  | —                 | 0           |
-| min               | el valor mínimo permitido                | number  | —                 | `-Infinity`  |
-| max               | el valor maximo permitido                | number  | —                 | `Infinity`  |
-| step              | incremento (salto)                       | number  | —                 | 1           |
-| step-strictly  | si el valor del input puede ser solo un multiplo de step | boolean  | —                 | false       |
-| precision         | precisión del valor del input | number  | —                 | —           |
-| size              | tamaño del componente                    | string  | large/medium/small/mini | large      |
-| disabled          | si el componente esta deshabilitado      | boolean | —                 | false       |
-| controls          | si se activan los botones de control     | boolean | —                 | true        |
-| controls-position | posición de los botones de control       | string  | right             | -           |
-| name              | lo mismo que `name` en un input nativo   | string  | —                 | —           |
-| label             | texto de la etiqueta                     | string  | —                 | —           |
-| placeholder | placeholder in input | string | - | - |
+| Atributo              | Descripción                                              | Tipo               | Valores aceptados       | Por defecto |
+| --------------------- | -------------------------------------------------------- | ------------------ | ----------------------- | ----------- |
+| model-value / v-model | valor vinculado                                          | number / undefined | —                       | 0           |
+| min                   | el valor mínimo permitido                                | number             | —                       | `-Infinity` |
+| max                   | el valor maximo permitido                                | number             | —                       | `Infinity`  |
+| step                  | incremento (salto)                                       | number             | —                       | 1           |
+| step-strictly         | si el valor del input puede ser solo un multiplo de step | boolean            | —                       | false       |
+| precision             | precisión del valor del input                            | number             | —                       | —           |
+| size                  | tamaño del componente                                    | string             | large/medium/small/mini | large       |
+| disabled              | si el componente esta deshabilitado                      | boolean            | —                       | false       |
+| controls              | si se activan los botones de control                     | boolean            | —                       | true        |
+| controls-position     | posición de los botones de control                       | string             | right                   | -           |
+| name                  | lo mismo que `name` en un input nativo                   | string             | —                       | —           |
+| label                 | texto de la etiqueta                                     | string             | —                       | —           |
+| placeholder           | placeholder in input                                     | string             | -                       | -           |
 
 ### Eventos
 
-| Nombre | Descripción                              | Parámetros         |
-| ------ | ---------------------------------------- | ------------------ |
-| change | se produce cuando el valor cambia        | currentValue, oldValue |
-| blur   | se produce cuando el componente pierde el foco | (event: Event)     |
-| focus  | se produce cuando el componente obtiene el foco | (event: Event)     |
+| Nombre | Descripción                                     | Parámetros             |
+| ------ | ----------------------------------------------- | ---------------------- |
+| change | se produce cuando el valor cambia               | currentValue, oldValue |
+| blur   | se produce cuando el componente pierde el foco  | (event: Event)         |
+| focus  | se produce cuando el componente obtiene el foco | (event: Event)         |
 
 ### Métodos
+
 | Método | Descripción                          | Parámetro |
 | ------ | ------------------------------------ | --------- |
 | focus  | coloca el foco en el elemento actual | -         |
-| select | selecciona el contenido del input        | -          |
-
+| select | selecciona el contenido del input    | -         |

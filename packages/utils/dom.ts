@@ -1,42 +1,45 @@
+import { CSSProperties } from 'vue'
 import isServer from './isServer'
 import { camelize, isObject } from './util'
 
+import type { Nullable } from './types'
+
 /* istanbul ignore next */
-const trim = function(s: string) {
+const trim = function (s: string) {
   return (s || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '')
 }
 
 /* istanbul ignore next */
-export const on = function(
+export const on = function (
   element: HTMLElement | Document | Window,
   event: string,
   handler: EventListenerOrEventListenerObject,
-  useCapture = false,
+  useCapture = false
 ): void {
   if (element && event && handler) {
-    element.addEventListener(event, handler, useCapture)
+    element?.addEventListener(event, handler, useCapture)
   }
 }
 
 /* istanbul ignore next */
-export const off = function(
+export const off = function (
   element: HTMLElement | Document | Window,
   event: string,
   handler: EventListenerOrEventListenerObject,
-  useCapture = false,
+  useCapture = false
 ): void {
   if (element && event && handler) {
-    element.removeEventListener(event, handler, useCapture)
+    element?.removeEventListener(event, handler, useCapture)
   }
 }
 
 /* istanbul ignore next */
-export const once = function(
+export const once = function (
   el: HTMLElement,
   event: string,
-  fn: EventListener,
+  fn: EventListener
 ): void {
-  const listener = function(...args: unknown[]) {
+  const listener = function (...args: unknown[]) {
     if (fn) {
       fn.apply(this, args)
     }
@@ -100,13 +103,13 @@ export function removeClass(el: HTMLElement, cls: string): void {
 }
 
 /* istanbul ignore next */
-// Here I want to use the type CSSStyleDeclaration, but the definition for CSSStyleDeclaration
+// Here I want to use the type CSSProperties, but the definition for CSSProperties
 // has { [index: number]: string } in its type annotation, which does not satisfy the method
 // camelize(s: string)
 // Same as the return type
-export const getStyle = function(
+export const getStyle = function (
   element: HTMLElement,
-  styleName: string,
+  styleName: string
 ): string {
   if (isServer) return
   if (!element || !styleName) return null
@@ -127,13 +130,13 @@ export const getStyle = function(
 /* istanbul ignore next */
 export function setStyle(
   element: HTMLElement,
-  styleName: CSSStyleDeclaration | string,
-  value?: string,
+  styleName: CSSProperties | string,
+  value?: string
 ): void {
   if (!element || !styleName) return
 
   if (isObject(styleName)) {
-    Object.keys(styleName).forEach(prop => {
+    Object.keys(styleName).forEach((prop) => {
       setStyle(element, prop, styleName[prop])
     })
   } else {
@@ -142,11 +145,14 @@ export function setStyle(
   }
 }
 
-export function removeStyle(element: HTMLElement, style: CSSStyleDeclaration | string) {
+export function removeStyle(
+  element: HTMLElement,
+  style: CSSProperties | string
+) {
   if (!element || !style) return
 
   if (isObject(style)) {
-    Object.keys(style).forEach(prop => {
+    Object.keys(style).forEach((prop) => {
       setStyle(element, prop, '')
     })
   } else {
@@ -156,22 +162,22 @@ export function removeStyle(element: HTMLElement, style: CSSStyleDeclaration | s
 
 export const isScroll = (
   el: HTMLElement,
-  isVertical?: Nullable<boolean>,
+  isVertical?: Nullable<boolean>
 ): RegExpMatchArray => {
   if (isServer) return
   const determinedDirection = isVertical === null || isVertical === undefined
   const overflow = determinedDirection
     ? getStyle(el, 'overflow')
     : isVertical
-      ? getStyle(el, 'overflow-y')
-      : getStyle(el, 'overflow-x')
+    ? getStyle(el, 'overflow-y')
+    : getStyle(el, 'overflow-x')
 
   return overflow.match(/(scroll|auto|overlay)/)
 }
 
 export const getScrollContainer = (
   el: HTMLElement,
-  isVertical?: Nullable<boolean>,
+  isVertical?: Nullable<boolean>
 ): Window | HTMLElement => {
   if (isServer) return
 
@@ -190,7 +196,7 @@ export const getScrollContainer = (
 
 export const isInContainer = (
   el: HTMLElement,
-  container: HTMLElement,
+  container: HTMLElement
 ): boolean => {
   if (isServer || !el || !container) return false
 
@@ -199,7 +205,7 @@ export const isInContainer = (
 
   if (
     [window, document, document.documentElement, null, undefined].includes(
-      container,
+      container
     )
   ) {
     containerRect = {
@@ -231,7 +237,10 @@ export const getOffsetTop = (el: HTMLElement) => {
   return offset
 }
 
-export const getOffsetTopDistance = (el: HTMLElement, containerEl: HTMLElement) => {
+export const getOffsetTopDistance = (
+  el: HTMLElement,
+  containerEl: HTMLElement
+) => {
   return Math.abs(getOffsetTop(el) - getOffsetTop(containerEl))
 }
 

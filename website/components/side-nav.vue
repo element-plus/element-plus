@@ -14,8 +14,19 @@
               class="sponsor"
               href="https://bit.dev/?from=element-ui"
               target="_blank"
+              title="bit"
             >
-              <img src="~examples/assets/images/bit.svg" alt="bit">
+              <img src="~examples/assets/images/bit.svg" />
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="sponsor"
+              href="https://www.renren.io/?from=element-ui"
+              target="_blank"
+              :title="sponsorIntroR"
+            >
+              <img src="~examples/assets/images/renren.png" />
             </a>
           </li>
         </ul>
@@ -90,6 +101,7 @@
 <script lang="ts">
 import {
   computed,
+  CSSProperties,
   defineComponent,
   nextTick,
   onBeforeUnmount,
@@ -131,7 +143,7 @@ export default defineComponent({
     })
 
     const navStyle = computed(() => {
-      const style = {}
+      const style: CSSProperties = {}
       if (isSmallScreen.value) {
         style.paddingBottom = '60px'
       }
@@ -144,17 +156,23 @@ export default defineComponent({
     })
 
     const langConfig = computed(() => {
-      return compoLang.filter(config => config.lang === lang.value)[0]['nav']
+      return compoLang.filter((config) => config.lang === lang.value)[0]['nav']
+    })
+
+    const sponsorIntroR = computed(() => {
+      return lang.value === 'zh-CN'
+        ? '企业级的快速开发平台'
+        : 'Enterprise-class rapid development platform'
     })
 
     watch(
       () => route.path,
       () => {
         handlePathChange()
-      },
+      }
     )
 
-    watch(isFade, val => {
+    watch(isFade, (val) => {
       bus.$emit('nav-fade', val)
     })
 
@@ -172,25 +190,25 @@ export default defineComponent({
       hideAllMenu()
       let activeAnchor = document.querySelector('a.active')
       let ul = activeAnchor.parentNode
-      while (ul.tagName !== 'UL') {
+      while (ul.nodeName !== 'UL') {
         ul = ul.parentNode
       }
-      ul.style.height = 'auto'
+      ;(ul as HTMLUListElement).style.height = 'auto'
     }
 
     const hideAllMenu = () => {
-      [].forEach.call(document.querySelectorAll('.pure-menu-list'), ul => {
+      ;[].forEach.call(document.querySelectorAll('.pure-menu-list'), (ul) => {
         ul.style.height = '0'
       })
     }
 
     const expandAllMenu = () => {
-      [].forEach.call(document.querySelectorAll('.pure-menu-list'), ul => {
+      ;[].forEach.call(document.querySelectorAll('.pure-menu-list'), (ul) => {
         ul.style.height = 'auto'
       })
     }
 
-    const expandMenu = event => {
+    const expandMenu = (event) => {
       if (!isSmallScreen.value) return
       let target = event.currentTarget
       if (
@@ -203,6 +221,7 @@ export default defineComponent({
     }
 
     return {
+      sponsorIntroR,
       isFade,
       navStyle,
       lang,
@@ -243,7 +262,7 @@ export default defineComponent({
   .nav-item {
     a {
       font-size: 16px;
-      color: #333;
+      color: var(--el-text-color-primary);
       line-height: 40px;
       height: 40px;
       margin: 0;
@@ -300,7 +319,7 @@ export default defineComponent({
           height: auto;
           display: inline-block;
           vertical-align: middle;
-          margin: 8px 20px 4px 0;
+          margin: 8px 10px 4px 0;
 
           img {
             width: 36px;
@@ -312,7 +331,7 @@ export default defineComponent({
 
   .nav-group__title {
     font-size: 12px;
-    color: #999;
+    color: var(--el-text-color-secondary);
     line-height: 26px;
     margin-top: 15px;
   }

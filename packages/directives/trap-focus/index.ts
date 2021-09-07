@@ -1,6 +1,9 @@
 import { nextTick } from 'vue'
 import { on, off } from '@element-plus/utils/dom'
-import { obtainAllFocusableElements, EVENT_CODE } from '@element-plus/utils/aria'
+import {
+  obtainAllFocusableElements,
+  EVENT_CODE,
+} from '@element-plus/utils/aria'
 
 import type { ObjectDirective } from 'vue'
 
@@ -17,7 +20,8 @@ const FOCUS_STACK = []
 const FOCUS_HANDLER = (e: KeyboardEvent) => {
   // Getting the top layer.
   if (FOCUS_STACK.length === 0) return
-  const focusableElement = FOCUS_STACK[FOCUS_STACK.length - 1][FOCUSABLE_CHILDREN]
+  const focusableElement =
+    FOCUS_STACK[FOCUS_STACK.length - 1][FOCUSABLE_CHILDREN]
   if (focusableElement.length > 0 && e.code === EVENT_CODE.tab) {
     if (focusableElement.length === 1) {
       e.preventDefault()
@@ -41,8 +45,9 @@ const FOCUS_HANDLER = (e: KeyboardEvent) => {
     // the is critical since jsdom did not implement user actions, you can only mock it
     // DELETE ME: when testing env switches to puppeteer
     if (process.env.NODE_ENV === 'test') {
-
-      const index = focusableElement.findIndex((element: Element) => element === e.target)
+      const index = focusableElement.findIndex(
+        (element: Element) => element === e.target
+      )
       if (index !== -1) {
         focusableElement[goingBackward ? index - 1 : index + 1]?.focus()
       }

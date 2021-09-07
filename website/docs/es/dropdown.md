@@ -1,7 +1,9 @@
 ## Dropdown
+
 Menú conmutable para visualizar listas de enlaces y acciones.
 
 ### Uso básico
+
 Pase el ratón por el menú desplegable para desplegarlo y obtener más acciones.
 
 :::demo El elemento desencadenante se representa con el slot predeterminado, y la parte desplegable se representa con el slot llamado dropdown. Por defecto, la lista desplegable se muestra cuando se pasa el ratón por encima del elemento desencadenante sin necesidad de hacer clic en él.
@@ -25,13 +27,12 @@ Pase el ratón por el menú desplegable para desplegarlo y obtener más acciones
 <style>
   .el-dropdown-link {
     cursor: pointer;
-    color: #409EFF;
+    color: #409eff;
   }
   .el-icon-arrow-down {
     font-size: 12px;
   }
 </style>
-
 ```
 
 :::
@@ -86,9 +87,9 @@ Utilizando un botón para activar la lista desplegable.
   export default {
     methods: {
       handleClick() {
-        alert('button click');
-      }
-    }
+        alert('button click')
+      },
+    },
   }
 </script>
 <!--
@@ -110,6 +111,7 @@ Utilizando un botón para activar la lista desplegable.
 </setup>
 -->
 ```
+
 :::
 
 ### Cómo detonar el evento
@@ -129,10 +131,16 @@ Haga clic en el elemento detonante o sobre él.
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item icon="el-icon-plus">Action 1</el-dropdown-item>
-          <el-dropdown-item icon="el-icon-circle-plus">Action 2</el-dropdown-item>
-          <el-dropdown-item icon="el-icon-circle-plus-outline">Action 3</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-circle-plus"
+            >Action 2</el-dropdown-item
+          >
+          <el-dropdown-item icon="el-icon-circle-plus-outline"
+            >Action 3</el-dropdown-item
+          >
           <el-dropdown-item icon="el-icon-check">Action 4</el-dropdown-item>
-          <el-dropdown-item icon="el-icon-circle-check">Action 5</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-circle-check"
+            >Action 5</el-dropdown-item
+          >
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -146,10 +154,16 @@ Haga clic en el elemento detonante o sobre él.
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item icon="el-icon-plus">Action 1</el-dropdown-item>
-          <el-dropdown-item icon="el-icon-circle-plus">Action 2</el-dropdown-item>
-          <el-dropdown-item icon="el-icon-circle-plus-outline">Action 3</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-circle-plus"
+            >Action 2</el-dropdown-item
+          >
+          <el-dropdown-item icon="el-icon-circle-plus-outline"
+            >Action 3</el-dropdown-item
+          >
           <el-dropdown-item icon="el-icon-check">Action 4</el-dropdown-item>
-          <el-dropdown-item icon="el-icon-circle-check">Action 5</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-circle-check"
+            >Action 5</el-dropdown-item
+          >
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -163,10 +177,16 @@ Haga clic en el elemento detonante o sobre él.
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item icon="el-icon-plus">Action 1</el-dropdown-item>
-          <el-dropdown-item icon="el-icon-circle-plus">Action 2</el-dropdown-item>
-          <el-dropdown-item icon="el-icon-circle-plus-outline">Action 3</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-circle-plus"
+            >Action 2</el-dropdown-item
+          >
+          <el-dropdown-item icon="el-icon-circle-plus-outline"
+            >Action 3</el-dropdown-item
+          >
           <el-dropdown-item icon="el-icon-check">Action 4</el-dropdown-item>
-          <el-dropdown-item icon="el-icon-circle-check">Action 5</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-circle-check"
+            >Action 5</el-dropdown-item
+          >
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -176,19 +196,20 @@ Haga clic en el elemento detonante o sobre él.
 <style>
   .el-dropdown-link {
     cursor: pointer;
-    color: #409EFF;
+    color: #409eff;
   }
   .el-icon-arrow-down {
     font-size: 12px;
   }
   .demonstration {
     display: block;
-    color: #8492a6;
+    color: var(--el-text-color-secondary);
     font-size: 14px;
     margin-bottom: 20px;
   }
 </style>
 ```
+
 :::
 
 ### Ocultamiento del menú
@@ -216,13 +237,14 @@ Use `hide-on-click` para definir si el menú se cierra al hacer clic.
 <style>
   .el-dropdown-link {
     cursor: pointer;
-    color: #409EFF;
+    color: #409eff;
   }
   .el-icon-arrow-down {
     font-size: 12px;
   }
 </style>
 ```
+
 :::
 
 ### Evento command
@@ -230,6 +252,7 @@ Use `hide-on-click` para definir si el menú se cierra al hacer clic.
 Al hacer clic en cada elemento desplegable se detona un evento cuyo parámetro es asignado por cada elemento.
 
 :::demo
+
 ```html
 <el-dropdown @command="handleCommand">
   <span class="el-dropdown-link">
@@ -249,7 +272,7 @@ Al hacer clic en cada elemento desplegable se detona un evento cuyo parámetro e
 <style>
   .el-dropdown-link {
     cursor: pointer;
-    color: #409EFF;
+    color: #409eff;
   }
   .el-icon-arrow-down {
     font-size: 12px;
@@ -260,9 +283,9 @@ Al hacer clic en cada elemento desplegable se detona un evento cuyo parámetro e
   export default {
     methods: {
       handleCommand(command) {
-        this.$message('click on item ' + command);
-      }
-    }
+        this.$message('click on item ' + command)
+      },
+    },
   }
 </script>
 <!--
@@ -286,6 +309,7 @@ Al hacer clic en cada elemento desplegable se detona un evento cuyo parámetro e
 </setup>
 -->
 ```
+
 :::
 
 ### Tamaños
@@ -322,13 +346,13 @@ Además del tamaño predeterminado, el componente Dropdown proporciona tres tama
 <el-dropdown size="small" split-button type="primary">
   Small
   <template #dropdown>
-<el-dropdown-menu>
-   <el-dropdown-item>Action 1</el-dropdown-item>
-   <el-dropdown-item>Action 2</el-dropdown-item>
-   <el-dropdown-item>Action 3</el-dropdown-item>
-   <el-dropdown-item>Action 4</el-dropdown-item>
-  </el-dropdown-menu>
-</template>
+    <el-dropdown-menu>
+      <el-dropdown-item>Action 1</el-dropdown-item>
+      <el-dropdown-item>Action 2</el-dropdown-item>
+      <el-dropdown-item>Action 3</el-dropdown-item>
+      <el-dropdown-item>Action 4</el-dropdown-item>
+    </el-dropdown-menu>
+  </template>
 </el-dropdown>
 
 <el-dropdown size="mini" split-button type="primary">
@@ -343,41 +367,45 @@ Además del tamaño predeterminado, el componente Dropdown proporciona tres tama
   </template>
 </el-dropdown>
 ```
+
 :::
 
 ### Dropdown atributos
-| Atributo      | Descripción                              | Tipo    | Valores aceptados                        | Por defecto |
-| ------------- | ---------------------------------------- | ------- | ---------------------------------------- | ----------- |
-| type          | tipo de botón de menú, consulte Componente`Button`, sólo funciona cuando `split-button` es true. | string  | —                                        | —           |
-| size          | tamaño del menú, también funciona en `split-button` | string  | medium / small / mini                    | —           |
-| max-height    | the max height of menu  | string / number  |     —    |    —     |
-| split-button  | si se visualiza un grupo de botones      | boolean | —                                        | false       |
-| disabled      | Ya sea para deshabilitar | boolean | — | false |
-| placement     | colocación del menú                      | string  | top/top-start/top-end/bottom/bottom-start/bottom-end | bottom  |
-| trigger       | cómo detonar                             | string  | hover/click/contextmenu                              | hover       |
-| hide-on-click | si se oculta el menú después de hacer clic en el elemento | boolean | —                                        | true        |
-| show-timeout  | Tiempo de retardo antes de mostrar un dropdown (solamente trabaja cuando se dispara `hover`) | number  | —                                        | 250         |
-| hide-timeout  | Tiempo de retardo antes de ocultar un dropdown (solamente trabaja cuando se dispara `hover`) | number  | —                                        | 150         |
-| tabindex      | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) de Dropdown | number              |          —         | 0           |
+
+| Atributo      | Descripción                                                                                          | Tipo            | Valores aceptados                                    | Por defecto |
+| ------------- | ---------------------------------------------------------------------------------------------------- | --------------- | ---------------------------------------------------- | ----------- |
+| type          | tipo de botón de menú, consulte Componente`Button`, sólo funciona cuando `split-button` es true.     | string          | —                                                    | —           |
+| size          | tamaño del menú, también funciona en `split-button`                                                  | string          | medium / small / mini                                | —           |
+| max-height    | the max height of menu                                                                               | string / number | —                                                    | —           |
+| split-button  | si se visualiza un grupo de botones                                                                  | boolean         | —                                                    | false       |
+| disabled      | Ya sea para deshabilitar                                                                             | boolean         | —                                                    | false       |
+| placement     | colocación del menú                                                                                  | string          | top/top-start/top-end/bottom/bottom-start/bottom-end | bottom      |
+| trigger       | cómo detonar                                                                                         | string          | hover/click/contextmenu                              | hover       |
+| hide-on-click | si se oculta el menú después de hacer clic en el elemento                                            | boolean         | —                                                    | true        |
+| show-timeout  | Tiempo de retardo antes de mostrar un dropdown (solamente trabaja cuando se dispara `hover`)         | number          | —                                                    | 250         |
+| hide-timeout  | Tiempo de retardo antes de ocultar un dropdown (solamente trabaja cuando se dispara `hover`)         | number          | —                                                    | 150         |
+| tabindex      | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) de Dropdown | number          | —                                                    | 0           |
 
 ### Dropdown Slots
 
-| Nombre | Descripción |
-|------|--------|
-| — | contenido del Dropdown. Aviso: Debe ser un elemento html dom válido (ej. `<span>, <button>` etc.) o `el-component`, para adjuntar el listener trigger |
-| dropdown | contenido del menu Dropdown, normalmente es un elemento `<el-dropdown-menu>` |
+| Nombre   | Descripción                                                                                                                                           |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| —        | contenido del Dropdown. Aviso: Debe ser un elemento html dom válido (ej. `<span>, <button>` etc.) o `el-component`, para adjuntar el listener trigger |
+| dropdown | contenido del menu Dropdown, normalmente es un elemento `<el-dropdown-menu>`                                                                          |
 
 ### Dropdown Eventos
-| Nombre         | Descripción                              | Parametros                               |
-| -------------- | ---------------------------------------- | ---------------------------------------- |
-| click          | si `split-button` es `true`, se activa al hacer clic en el botón izquierdo | —                                        |
-| command        | activa cuando se hace clic en un elemento desplegable | el comando enviado desde el elemento desplegable |
-| visible-change | se activa cuando aparece/desaparece el desplegable | true cuando aparece, y false de otro modo |
+
+| Nombre         | Descripción                                                                | Parametros                                       |
+| -------------- | -------------------------------------------------------------------------- | ------------------------------------------------ |
+| click          | si `split-button` es `true`, se activa al hacer clic en el botón izquierdo | —                                                |
+| command        | activa cuando se hace clic en un elemento desplegable                      | el comando enviado desde el elemento desplegable |
+| visible-change | se activa cuando aparece/desaparece el desplegable                         | true cuando aparece, y false de otro modo        |
 
 ### Dropdown Menu Item Atributos
-| Atributo | Descripción                              | Tipo                 | Valores aceptados | Por defecto |
-| -------- | ---------------------------------------- | -------------------- | ----------------- | ----------- |
+
+| Atributo | Descripción                                                  | Tipo                 | Valores aceptados | Por defecto |
+| -------- | ------------------------------------------------------------ | -------------------- | ----------------- | ----------- |
 | command  | un comando que se enviará al `command` callback del Dropdown | string/number/object | —                 | —           |
-| disabled | si el elemento está desactivado          | boolean              | —                 | false       |
-| divided  | si se visualiza un divisor               | boolean              | —                 | false       |
-| icon     | nombre de la clase del icono             | string               | —                 | —           |
+| disabled | si el elemento está desactivado                              | boolean              | —                 | false       |
+| divided  | si se visualiza un divisor                                   | boolean              | —                 | false       |
+| icon     | nombre de la clase del icono                                 | string               | —                 | —           |

@@ -145,7 +145,6 @@ ElementPlus 提供的排版模式有时候并不满足要求，当您想要用�
 
 :::demo
 
-
 ```html
 <template>
   <el-space direction="vertical" alignment="flex-start">
@@ -322,5 +321,5 @@ ElementPlus 提供的排版模式有时候并不满足要求，当您想要用�
 
 | name     | description          |
 | -------- | -------------------- |
-| default  |  用来展示真实 UI     |
+| default  | 用来展示真实 UI      |
 | template | 用来展示自定义占位符 |

@@ -7,23 +7,31 @@ The dividing line that separates the content.
 Divide the text of different paragraphs.
 
 :::demo
+
 ```html
 <template>
   <div>
-    <span>I sit at my window this morning where the world like a passer-by stops for a moment, nods to me and goes.</span>
+    <span
+      >I sit at my window this morning where the world like a passer-by stops
+      for a moment, nods to me and goes.</span
+    >
     <el-divider></el-divider>
-    <span>There little thoughts are the rustle of leaves; they have their whisper of joy in my mind.</span>
+    <span
+      >There little thoughts are the rustle of leaves; they have their whisper
+      of joy in my mind.</span
+    >
   </div>
 </template>
 ```
+
 :::
 
 ### Custom content
 
 You can customize the content on the divider line.
 
-
 :::demo
+
 ```html
 <template>
   <div>
@@ -31,16 +39,21 @@ You can customize the content on the divider line.
     <el-divider content-position="left">Rabindranath Tagore</el-divider>
     <span>I cannot choose the best. The best chooses me.</span>
     <el-divider><i class="el-icon-star-on"></i></el-divider>
-    <span>My wishes are fools, they shout across thy song, my Master. Let me but listen.</span>
+    <span
+      >My wishes are fools, they shout across thy song, my Master. Let me but
+      listen.</span
+    >
     <el-divider content-position="right">Rabindranath Tagore</el-divider>
   </div>
 </template>
 ```
+
 :::
 
 ### Vertical divider
 
 :::demo
+
 ```html
 <template>
   <div>
@@ -52,10 +65,12 @@ You can customize the content on the divider line.
   </div>
 </template>
 ```
+
 :::
 
 ### Divider Attributes
-| Attribute      | Description          | Type      | Accepted Values       | Default  |
-|-------------  |---------------- |---------------- |---------------------- |-------- |
-| direction      | Set divider's direction  | string  |          horizontal / vertical           |    horizontal     |
-| content-position      | customize the content on the divider line | String  |  left / right / center  |  center |
+
+| Attribute        | Description                               | Type   | Accepted Values       | Default    |
+| ---------------- | ----------------------------------------- | ------ | --------------------- | ---------- |
+| direction        | Set divider's direction                   | string | horizontal / vertical | horizontal |
+| content-position | customize the content on the divider line | String | left / right / center | center     |

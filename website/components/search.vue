@@ -2,7 +2,7 @@
   <el-autocomplete
     v-model="query"
     size="small"
-    :popper-class="`algolia-search${ isEmpty ? ' is-empty' : '' }`"
+    :popper-class="`algolia-search${isEmpty ? ' is-empty' : ''}`"
     :fetch-suggestions="querySearch"
     :placeholder="placeholder"
     :trigger-on-focus="false"
@@ -30,12 +30,9 @@
           class="algolia-search-logo"
           src="../assets/images/search-by-algolia.svg"
           alt="algolia-logo"
-        >
+        />
       </a>
-      <p
-        v-if="props && props.item.isEmpty"
-        class="algolia-search-empty"
-      >
+      <p v-if="props && props.item.isEmpty" class="algolia-search-empty">
         {{ emptyText }}
       </p>
     </template>
@@ -108,130 +105,153 @@ export default {
 
   methods: {
     initIndex() {
-      const client = algoliasearch('7DCTSU0WBW', '463385cf36ad2e81aff21afea1c0409c')
-      this.index = client.initIndex(`element-${ this.lang ? this.langs[this.lang].index : 'zh' }`)
+      const client = algoliasearch(
+        '7DCTSU0WBW',
+        '463385cf36ad2e81aff21afea1c0409c'
+      )
+      this.index = client.initIndex(
+        `element-${this.lang ? this.langs[this.lang].index : 'zh'}`
+      )
     },
 
     querySearch(query, cb) {
       if (!query) return
-      this.index.search(query, { hitsPerPage: 6 }).then(res => {
-        if (res.hits.length > 0) {
-          this.isEmpty = false
-          cb(res.hits.map(hit => {
-            let content = hit._highlightResult.content.value.replace(/\s+/g, ' ')
-            const highlightStart = content.indexOf('<span class="algolia-highlight">')
-            if (highlightStart > -1) {
-              const startEllipsis = highlightStart - 15 > 0
-              content = (startEllipsis ? '...' : '') +
-                  content.slice(Math.max(0, highlightStart - 15), content.length)
-            } else if (content.indexOf('|') > -1) {
-              content = ''
-            }
-            return {
-              anchor: hit.anchor,
-              component: hit.component,
-              highlightedCompo: hit._highlightResult.component.value,
-              title: hit._highlightResult.title.value,
-              content,
-            }
-          }).concat({ img: true }))
-        } else {
-          this.isEmpty = true
-          cb([{ isEmpty: true }])
-        }
-      }).catch(err => {
-        console.error(err)
-        return
-      })
+      this.index
+        .search(query, { hitsPerPage: 6 })
+        .then((res) => {
+          if (res.hits.length > 0) {
+            this.isEmpty = false
+            cb(
+              res.hits
+                .map((hit) => {
+                  let content = hit._highlightResult.content.value.replace(
+                    /\s+/g,
+                    ' '
+                  )
+                  const highlightStart = content.indexOf(
+                    '<span class="algolia-highlight">'
+                  )
+                  if (highlightStart > -1) {
+                    const startEllipsis = highlightStart - 15 > 0
+                    content =
+                      (startEllipsis ? '...' : '') +
+                      content.slice(
+                        Math.max(0, highlightStart - 15),
+                        content.length
+                      )
+                  } else if (content.indexOf('|') > -1) {
+                    content = ''
+                  }
+                  return {
+                    anchor: hit.anchor,
+                    component: hit.component,
+                    highlightedCompo: hit._highlightResult.component.value,
+                    title: hit._highlightResult.title.value,
+                    content,
+                  }
+                })
+                .concat({ img: true })
+            )
+          } else {
+            this.isEmpty = true
+            cb([{ isEmpty: true }])
+          }
+        })
+        .catch((err) => {
+          console.error(err)
+          return
+        })
     },
 
     handleSelect(val) {
       if (val.img || val.isEmpty) return
       const component = val.component || ''
       const anchor = val.anchor
-      this.$router.push(`/${ this.lang }/component/${ component }${ anchor ? `#${ anchor }` : '' }`)
+      this.$router.push(
+        `/${this.lang}/component/${component}${anchor ? `#${anchor}` : ''}`
+      )
     },
   },
 }
 </script>
 <style lang="scss">
-  .algolia-search {
+.algolia-search {
+  width: 450px !important;
+
+  .el-autocomplete-suggestion {
     width: 450px !important;
+  }
 
-    .el-autocomplete-suggestion {
-      width: 450px !important;
-    }
-
-    &.is-empty {
-      .el-autocomplete-suggestion__list {
-        padding-bottom: 0;
-      }
-    }
-
+  &.is-empty {
     .el-autocomplete-suggestion__list {
-      position: static !important;
-      padding-bottom: 28px;
-    }
-
-    li {
-      border-bottom: solid 1px #ebebeb;
-
-      &:last-child {
-         border-bottom: none;
-       }
-    }
-
-    .algolia-highlight {
-      color: #409EFF;
-      font-weight: bold;
-    }
-
-    .algolia-search-title {
-      font-size: 14px;
-      margin: 6px 0;
-      line-height: 1.8;
-    }
-
-    .algolia-search-separator {
-      padding: 0 6px;
-    }
-
-    .algolia-search-content {
-      font-size: 12px;
-      margin: 6px 0;
-      line-height: 2.4;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .algolia-search-link {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      padding-right: 20px;
-      background-color: #e4e7ed;
-      border-bottom-left-radius: 4px;
-      border-bottom-right-radius: 4px;
-      box-sizing: border-box;
-      text-align: right;
-
-      &:hover {
-         background-color: #e4e7ed;
-       }
-
-      img {
-        display: inline-block;
-        height: 17px;
-        margin-top: 10px;
-      }
-    }
-
-    .algolia-search-empty {
-      margin: 5px 0;
-      text-align: center;
-      color: #999;
+      padding-bottom: 0;
     }
   }
+
+  .el-autocomplete-suggestion__list {
+    position: static !important;
+    padding-bottom: 28px;
+  }
+
+  li {
+    border-bottom: solid 1px var(--el-border-color-base);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .algolia-highlight {
+    color: #409eff;
+    font-weight: bold;
+  }
+
+  .algolia-search-title {
+    font-size: 14px;
+    margin: 6px 0;
+    line-height: 1.8;
+  }
+
+  .algolia-search-separator {
+    padding: 0 6px;
+  }
+
+  .algolia-search-content {
+    font-size: 12px;
+    margin: 6px 0;
+    line-height: 2.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .algolia-search-link {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding-right: 20px;
+    background-color: #e4e7ed;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    box-sizing: border-box;
+    text-align: right;
+
+    &:hover {
+      background-color: #e4e7ed;
+    }
+
+    img {
+      display: inline-block;
+      height: 17px;
+      margin-top: 10px;
+    }
+  }
+
+  .algolia-search-empty {
+    margin: 5px 0;
+    text-align: center;
+    color: var(--el-text-color-secondary);
+  }
+}
 </style>

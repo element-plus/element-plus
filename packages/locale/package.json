@@ -1,12 +1,30 @@
 {
   "name": "@element-plus/locale",
-  "version": "0.0.0",
-  "main": "dist/index.js",
+  "description": "Element Plus locale",
+  "version": "0.0.5",
+  "main": "index.js",
+  "module": "index.js",
+  "unpkg": "index.js",
+  "jsdelivr": "index.js",
+  "types": "index.d.ts",
   "license": "MIT",
-  "peerDependencies": {
-    "vue": "3.1.1"
+  "scripts": {
+    "clean": "rm -rf lib es",
+    "build": "gulp build"
+  },
+  "dependencies": {
+    "dayjs": "1.x"
   },
   "devDependencies": {
-    "@vue/test-utils": "^2.0.0-beta.3"
-  }
+    "@element-plus/test-utils": "^0.0.5",
+    "@types/gulp": "^4.0.9",
+    "@vue/test-utils": "^2.0.0-beta.3",
+    "chalk": "^4.1.2",
+    "gulp": "^4.0.2",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "sass": "^1.39.0",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.4.2"
+  },
+  "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
 }

@@ -4,12 +4,14 @@ Presenta una serie de imágenes o textos en un espacio limitado
 
 ### Uso básico
 
-:::demo Combine `el-carousel`  con `el-carousel-item`, para conseguir el carrusel. El contenido de cada diapositiva es completamente personalizable, y sólo tiene que colocarla dentro de la etiqueta  `el-carousel-item` . Por defecto, el carrusel cambia cuando el ratón pasa por encima de un indicador. Fije  `trigger`  para  `click`, si lo que se desea es que el carrusel cambie sólo cuando se haga clic en un indicador.
+:::demo Combine `el-carousel` con `el-carousel-item`, para conseguir el carrusel. El contenido de cada diapositiva es completamente personalizable, y sólo tiene que colocarla dentro de la etiqueta `el-carousel-item` . Por defecto, el carrusel cambia cuando el ratón pasa por encima de un indicador. Fije `trigger` para `click`, si lo que se desea es que el carrusel cambie sólo cuando se haga clic en un indicador.
 
 ```html
 <template>
   <div class="block">
-    <span class="demonstration">Switch when indicator is hovered (default)</span>
+    <span class="demonstration"
+      >Switch when indicator is hovered (default)</span
+    >
     <el-carousel height="150px">
       <el-carousel-item v-for="item in 4" :key="item">
         <h3 class="small">{{ item }}</h3>
@@ -39,18 +41,19 @@ Presenta una serie de imágenes o textos en un espacio limitado
     background-color: #99a9bf;
   }
 
-  .el-carousel__item:nth-child(2n+1) {
+  .el-carousel__item:nth-child(2n + 1) {
     background-color: #d3dce6;
   }
 </style>
 ```
+
 :::
 
 ### Indicadores
 
 Los indicadores de paginación pueden mostrarse fuera del carrusel
 
-:::demo El atributo  `indicator-position`  determina dónde se encuentran los indicadores de paginación. Por defecto están dentro del carrusel, y el ajuste de `indicator-position`  a `outside`  los mueve hacia fuera; en cambio `indicator-position`  a `none`  los oculta.
+:::demo El atributo `indicator-position` determina dónde se encuentran los indicadores de paginación. Por defecto están dentro del carrusel, y el ajuste de `indicator-position` a `outside` los mueve hacia fuera; en cambio `indicator-position` a `none` los oculta.
 
 ```html
 <template>
@@ -74,11 +77,12 @@ Los indicadores de paginación pueden mostrarse fuera del carrusel
     background-color: #99a9bf;
   }
 
-  .el-carousel__item:nth-child(2n+1) {
+  .el-carousel__item:nth-child(2n + 1) {
     background-color: #d3dce6;
   }
 </style>
 ```
+
 :::
 
 ### Flechas
@@ -109,11 +113,12 @@ Puede definir cuando se visualizan las flechas
     background-color: #99a9bf;
   }
 
-  .el-carousel__item:nth-child(2n+1) {
+  .el-carousel__item:nth-child(2n + 1) {
     background-color: #d3dce6;
   }
 </style>
 ```
+
 :::
 
 ### Modo Card
@@ -144,16 +149,18 @@ Cuando una página es suficientemente ancha pero tiene una altura limitada, pued
     background-color: #99a9bf;
   }
 
-  .el-carousel__item:nth-child(2n+1) {
+  .el-carousel__item:nth-child(2n + 1) {
     background-color: #d3dce6;
   }
 </style>
 ```
+
 :::
 
 Por defecto, `direction` es `horizontal`. El carousel puede ser mostrado de forma vertical cambiando `direction` a `vertical`.
 
 :::demo
+
 ```html
 <template>
   <el-carousel height="200px" direction="vertical" :autoplay="false">
@@ -176,14 +183,16 @@ Por defecto, `direction` es `horizontal`. El carousel puede ser mostrado de form
     background-color: #99a9bf;
   }
 
-  .el-carousel__item:nth-child(2n+1) {
+  .el-carousel__item:nth-child(2n + 1) {
     background-color: #d3dce6;
   }
 </style>
 ```
+
 :::
 
 ### Atributos de Carousel
+
 | Atributo           | Descripción                                        | Tipo    | Valores aceptados   | Por defecto |
 | ------------------ | -------------------------------------------------- | ------- | ------------------- | ----------- |
 | height             | Alto del carrusel                                  | string  | —                   | —           |
@@ -196,23 +205,25 @@ Por defecto, `direction` es `horizontal`. El carousel puede ser mostrado de form
 | type               | Tipo de carrusel                                   | string  | card                | —           |
 | loop               | Si se muestra cíclicamente                         | boolean | —                   | true        |
 | direction          | direccion en la que se muestra el contenido        | string  | horizontal/vertical | horizontal  |
-| pause-on-hover | pause autoplay when hover | boolean | - | true |
+| pause-on-hover     | pause autoplay when hover                          | boolean | -                   | true        |
 
 ### Eventos de Carousel
-| Nombre evento | Descripción                               | Parámetros                                                   |
-| ------------- | ----------------------------------------- | ------------------------------------------------------------ |
+
+| Nombre evento | Descripción                               | Parámetros                                                         |
+| ------------- | ----------------------------------------- | ------------------------------------------------------------------ |
 | change        | Se dispara cuando el slider activo cambia | Indice del nuevo slider activo, indice del anterior slider activo. |
 
 ### Metodos de Carousel
-| Metodos       | Descripción                | Parámetros                                                   |
-| ------------- | -------------------------- | ------------------------------------------------------------ |
+
+| Metodos       | Descripción                | Parámetros                                                                                                    |
+| ------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------- |
 | setActiveItem | Cambio manual de slider    | indice del slider al que se va a cambiar, empezando por 0; o el `name` del `el-carousel-item` correspondiente |
-| prev          | Cambia al slider anterior  | —                                                            |
-| next          | Cambia al slider siguiente | —                                                            |
+| prev          | Cambia al slider anterior  | —                                                                                                             |
+| next          | Cambia al slider siguiente | —                                                                                                             |
 
 ### Atributos de Carousel-Item
-| Atributo | Descripción                              | Tipo   | Valores aceptados | Por defecto |
-| -------- | ---------------------------------------- | ------ | ----------------- | ----------- |
-| name     | Nombre del item que puede ser usado en `setActiveItem` | string | —                 | —           |
-| label    | Texto que se mostrara en el indicador de paginacion correspondiente | string | —                 | —           |
 
+| Atributo | Descripción                                                         | Tipo   | Valores aceptados | Por defecto |
+| -------- | ------------------------------------------------------------------- | ------ | ----------------- | ----------- |
+| name     | Nombre del item que puede ser usado en `setActiveItem`              | string | —                 | —           |
+| label    | Texto que se mostrara en el indicador de paginacion correspondiente | string | —                 | —           |
