@@ -1,20 +1,8 @@
 /* eslint-disable */
+const dynamicImportVars = require('@rollup/plugin-dynamic-import-vars')
 const sidebars = require('./sidebars')
 const nav = require('./nav')
 const mdPlugin = require('./plugins')
-
-const sponsors = [
-  {
-    name: 'bit',
-    img: '/assets/images/bit.svg',
-    url: 'https://bit.dev/?from=element-ui',
-  },
-  {
-    name: 'renren.io',
-    img: '/assets/images/renren.png',
-    url: 'https://www.renren.io/?from=element-ui',
-  },
-]
 
 module.exports = {
   title: 'ElementPlus',
@@ -43,11 +31,10 @@ module.exports = {
     editLinkText: 'Edit this page on GitHub',
     lastUpdated: 'Last Updated',
 
-    logo: '../assets/images/element-plus-logo.svg',
-    logoSmall: '../assets/images/element-plus-logo-small.svg',
+    logo: '/images/element-plus-logo.svg',
+    logoSmall: '/images/element-plus-logo-small.svg',
     sidebars,
     nav,
-    sponsors,
     agolia: {
       apiKey: 'e32c681af38f324039e81d81834e70b8',
       appId: '7DCTSU0WBW',
@@ -58,5 +45,15 @@ module.exports = {
     config: (md) => {
       mdPlugin(md)
     },
+  },
+
+  vite: {
+    // build: {
+    //   rollupOptions: {
+    //     plugins: [
+    //       dynamicImportVars.default()
+    //     ]
+    //   }
+    // }
   },
 }

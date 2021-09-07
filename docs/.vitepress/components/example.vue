@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { withBase } from 'vitepress'
-import { shallowRef } from 'vue'
+import { shallowRef, onMounted } from 'vue'
 
 const props = defineProps({
   file: {
@@ -12,20 +12,21 @@ const props = defineProps({
 const emit = defineEmits(['loaded', 'error'])
 
 const component = shallowRef()
-
+const modules = import.meta.glob('../../examples/**/*.vue')
 const load = async () => {
   let c = {}
   try {
-    c = await import(`../../examples/${props.file}.vue`)
+    c = await modules[`../../examples/${props.file}.vue`]()
     emit('loaded', c.default)
   } catch (err) {
+    console.log(err)
     c = await import('./example-not-found.vue')
     emit('error', err)
   }
   component.value = c.default
 }
 
-load()
+onMounted(load)
 </script>
 
 <template>

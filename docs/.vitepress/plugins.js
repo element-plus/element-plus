@@ -31,6 +31,7 @@ module.exports = (md) => {
 
         const { html, js, css, cssPreProcessor } =
           generateCodePenSnippet(source)
+
         return `<Demo source="${encodeURIComponent(
           highlight(source, 'vue')
         )}" path="${sourceFile}" html=${html} js=${js} css=${css} cssPreProcessor=${cssPreProcessor}>

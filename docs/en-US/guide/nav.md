@@ -35,7 +35,7 @@ for background management or utility websites.
 Suitable for simply structured sites with only one level of pages. No breadcrumb is needed.
 
 <div class="image-wrapper">
-<img src="/.vitepress/assets/images/navbar_1.png" alt="level 1">
+<img src="/images/navbar_1.png" alt="level 1">
 </div>
 
 ### Level 2 categories
@@ -45,7 +45,7 @@ combination of second level navigation, making it easier for the users to locate
 and navigate.
 
 <div class="image-wrapper">
-<img src="/.vitepress/assets/images/navbar_2.png" alt="level 2">
+<img src="/images/navbar_2.png" alt="level 2">
 </div>
 
 ### Level 3 categories
@@ -55,7 +55,7 @@ navigation, and the middle column displays second level navigation or other util
 options.
 
 <div class="image-wrapper">
-<img src="/.vitepress/assets/images/navbar_3.png" alt="level 3">
+<img src="/images/navbar_3.png" alt="level 3">
 </div>
 
 ## Top Navigation
@@ -66,5 +66,5 @@ natural. The navigation amount and text length are limited to the width of the t
 Suitable for sites with few navigation and large chunks.
 
 <div class="image-wrapper">
-<img src="/.vitepress/assets/images/navbar_0.png" alt="Top Navigation">
+<img src="/images/navbar_0.png" alt="Top Navigation">
 </div>
