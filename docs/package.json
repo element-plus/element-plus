@@ -11,7 +11,8 @@
     "throttle-debounce": "^3.0.1"
   },
   "devDependencies": {
-    "vitepress": "^0.16.1",
-    "@crowdin/cli": "^3.6.5"
+    "@crowdin/cli": "^3.6.5",
+    "@rollup/plugin-dynamic-import-vars": "^1.4.0",
+    "vitepress": "^0.16.1"
   }
 }
