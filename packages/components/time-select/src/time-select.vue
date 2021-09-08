@@ -9,10 +9,10 @@
     :placeholder="placeholder"
     default-first-option
     :filterable="editable"
-    @update:model-value="event => $emit('update:modelValue', event)"
-    @change="event => $emit('change', event)"
-    @blur="event => $emit('blur', event)"
-    @focus="event => $emit('focus', event)"
+    @update:model-value="(event) => $emit('update:modelValue', event)"
+    @change="(event) => $emit('change', event)"
+    @blur="(event) => $emit('blur', event)"
+    @focus="(event) => $emit('focus', event)"
   >
     <el-option
       v-for="item in items"

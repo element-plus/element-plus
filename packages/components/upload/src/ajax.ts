@@ -5,7 +5,11 @@ import type {
   ElUploadAjaxError,
 } from './upload.type'
 
-function getError(action: string, option: ElUploadRequestOptions, xhr: XMLHttpRequest) {
+function getError(
+  action: string,
+  option: ElUploadRequestOptions,
+  xhr: XMLHttpRequest
+) {
   let msg: string
   if (xhr.response) {
     msg = `${xhr.response.error || xhr.response}`
@@ -46,7 +50,7 @@ export default function upload(option: ElUploadRequestOptions) {
   if (xhr.upload) {
     xhr.upload.onprogress = function progress(e) {
       if (e.total > 0) {
-        (e as ElUploadProgressEvent).percent = e.loaded / e.total * 100
+        ;(e as ElUploadProgressEvent).percent = (e.loaded / e.total) * 100
       }
       option.onProgress(e)
     }
@@ -55,7 +59,7 @@ export default function upload(option: ElUploadRequestOptions) {
   const formData = new FormData()
 
   if (option.data) {
-    Object.keys(option.data).forEach(key => {
+    Object.keys(option.data).forEach((key) => {
       formData.append(key, option.data[key])
     })
   }

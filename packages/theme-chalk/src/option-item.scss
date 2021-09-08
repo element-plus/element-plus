@@ -38,7 +38,10 @@
     }
 
     &.hover {
-      background-color: map.get($--select-option, 'hover-background') !important;
+      background-color: map.get(
+        $--select-option,
+        'hover-background'
+      ) !important;
     }
 
     &:hover {

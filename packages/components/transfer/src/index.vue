@@ -55,8 +55,14 @@
 
 <script lang="ts">
 import {
-  computed, defineComponent, inject, h,
-  reactive, ref, toRefs, watch,
+  computed,
+  defineComponent,
+  inject,
+  h,
+  reactive,
+  ref,
+  toRefs,
+  watch,
 } from 'vue'
 import ElButton from '@element-plus/components/button'
 import { elFormItemKey } from '@element-plus/tokens'
@@ -68,15 +74,14 @@ import { useCheckedChange } from './useCheckedChange'
 import { useMove } from './useMove'
 import { CHANGE_EVENT } from './transfer'
 
-import { LEFT_CHECK_CHANGE_EVENT, RIGHT_CHECK_CHANGE_EVENT } from './useCheckedChange'
+import {
+  LEFT_CHECK_CHANGE_EVENT,
+  RIGHT_CHECK_CHANGE_EVENT,
+} from './useCheckedChange'
 
 import type { PropType, VNode } from 'vue'
 import type { ElFormItemContext } from '@element-plus/tokens'
-import type {
-  DataItem, Format, Key,
-  Props, TargetOrder,
-} from './transfer'
-
+import type { DataItem, Format, Key, Props, TargetOrder } from './transfer'
 
 export default defineComponent({
   name: 'ElTransfer',
@@ -103,7 +108,9 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    filterMethod: Function as PropType<(query: string, item: DataItem) => boolean>,
+    filterMethod: Function as PropType<
+      (query: string, item: DataItem) => boolean
+    >,
     leftDefaultChecked: {
       type: Array as PropType<Key[]>,
       default: () => [],
@@ -158,21 +165,19 @@ export default defineComponent({
       rightChecked: [],
     })
 
-    const {
+    const { propsKey, sourceData, targetData } = useComputedData(props)
+
+    const { onSourceCheckedChange, onTargetCheckedChange } = useCheckedChange(
+      checkedState,
+      emit
+    )
+
+    const { addToLeft, addToRight } = useMove(
+      props,
+      checkedState,
       propsKey,
-      sourceData,
-      targetData,
-    } = useComputedData(props)
-
-    const {
-      onSourceCheckedChange,
-      onTargetCheckedChange,
-    } = useCheckedChange(checkedState, emit)
-
-    const {
-      addToLeft,
-      addToRight,
-    } = useMove(props, checkedState, propsKey, emit)
+      emit
+    )
 
     const leftPanel = ref(null)
     const rightPanel = ref(null)
@@ -187,17 +192,26 @@ export default defineComponent({
 
     const hasButtonTexts = computed(() => props.buttonTexts.length === 2)
 
-    const leftPanelTitle = computed(() => props.titles[0] || t('el.transfer.titles.0'))
+    const leftPanelTitle = computed(
+      () => props.titles[0] || t('el.transfer.titles.0')
+    )
 
-    const rightPanelTitle = computed(() => props.titles[1] || t('el.transfer.titles.1'))
+    const rightPanelTitle = computed(
+      () => props.titles[1] || t('el.transfer.titles.1')
+    )
 
-    const panelFilterPlaceholder = computed(() => props.filterPlaceholder || t('el.transfer.filterPlaceholder'))
+    const panelFilterPlaceholder = computed(
+      () => props.filterPlaceholder || t('el.transfer.filterPlaceholder')
+    )
 
-    watch(() => props.modelValue, val => {
-      elFormItem.formItemMitt?.emit('el.form.change', val)
-    })
+    watch(
+      () => props.modelValue,
+      (val) => {
+        elFormItem.formItemMitt?.emit('el.form.change', val)
+      }
+    )
 
-    const optionRender = computed(() => option => {
+    const optionRender = computed(() => (option) => {
       if (props.renderContent) return props.renderContent(h, option)
 
       if (slots.default) return slots.default({ option })

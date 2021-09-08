@@ -1,6 +1,5 @@
 import chalk from 'chalk'
 
-
 export default async function reporter(opt, outputOptions, info) {
   const values = [
     // ...(outputOptions.file || outputOptions.dest
@@ -10,9 +9,7 @@ export default async function reporter(opt, outputOptions, info) {
     //     )}`,
     //   ]
     // :
-    info.fileName
-      ? [`${outputOptions.file.split('packages/').pop()}`]
-      : [],
+    info.fileName ? [`${outputOptions.file.split('packages/').pop()}`] : [],
     // )
     // ...(info.bundleSizeBefore
     //   ? [
@@ -27,18 +24,17 @@ export default async function reporter(opt, outputOptions, info) {
     [`${info.bundleSize}`],
     // ),
     ...(info.minSize
-      ?
-      // info.minSizeBefore
-      //   ? [
-      //     `${title('Minified Size: ')} ${value(info.minSize)} (was ${value(
-      //       info.minSizeBefore,
-      //     )}${info.lastVersion
-      //       ? ` in version ${info.lastVersion}`
-      //       : ' in last build'
-      //     })`,
-      //   ]
-      //   :
-      [`${info.minSize}`]
+      ? // info.minSizeBefore
+        //   ? [
+        //     `${title('Minified Size: ')} ${value(info.minSize)} (was ${value(
+        //       info.minSizeBefore,
+        //     )}${info.lastVersion
+        //       ? ` in version ${info.lastVersion}`
+        //       : ' in last build'
+        //     })`,
+        //   ]
+        //   :
+        [`${info.minSize}`]
       : []),
     // ...(info.gzipSize
     //   ? info.gzipSizeBefore
@@ -66,12 +62,7 @@ export default async function reporter(opt, outputOptions, info) {
     //   : []),
   ]
 
-  return `${
-    chalk.cyan(chalk.bold(values[0]))
-  }: bundle size ${
-    chalk.yellow(values[1])
-  } -> minified ${
-    chalk.green(values[2])
-  }`
+  return `${chalk.cyan(chalk.bold(values[0]))}: bundle size ${chalk.yellow(
+    values[1]
+  )} -> minified ${chalk.green(values[2])}`
 }
-

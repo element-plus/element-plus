@@ -11,8 +11,8 @@ export default function entryPlugin(): Plugin {
             /@element-plus\//g,
             `${path.relative(
               path.dirname(id),
-              path.resolve(__dirname, '../packages'),
-            )}/`,
+              path.resolve(__dirname, '../packages')
+            )}/`
           ),
           map: null,
         }

@@ -107,6 +107,7 @@
     line-height: 40px;
     position: relative;
     font-size: 14px;
+    min-width: 0;
 
     .#{$namespace}-input-group {
       vertical-align: top;
@@ -132,7 +133,10 @@
 
   @include when(required) {
     @include pseudo('not(.is-no-asterisk)') {
-      & > .#{$namespace}-form-item__label:before {
+      & > .#{$namespace}-form-item__label:before,
+      &
+        > .#{$namespace}-form-item__label-wrap
+        > .#{$namespace}-form-item__label:before {
         content: '*';
         color: var(--el-color-danger);
         margin-right: 4px;

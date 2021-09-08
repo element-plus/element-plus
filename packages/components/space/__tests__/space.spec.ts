@@ -19,16 +19,19 @@ describe('Space.vue', () => {
     })
 
     expect(wrapper.find('.el-space--vertical').exists()).toBe(true)
-    expect(wrapper.find('.el-space').attributes('style')).toContain('flex-wrap: wrap')
+    expect(wrapper.find('.el-space').attributes('style')).toContain(
+      'flex-wrap: wrap'
+    )
   })
 
   test('sizes', async () => {
     const warnHandler = jest.fn()
     const wrapper = mount(Space, {
       slots: {
-        default: () => Array.from({ length: 2 }).map((_, idx) => {
-          return `test${idx}`
-        }),
+        default: () =>
+          Array.from({ length: 2 }).map((_, idx) => {
+            return `test${idx}`
+          }),
       },
       props: {
         size: 'large',
@@ -41,38 +44,48 @@ describe('Space.vue', () => {
     })
 
     await nextTick()
-    expect(wrapper.find('.el-space__item').attributes('style')).toContain('margin-right: 16px')
+    expect(wrapper.find('.el-space__item').attributes('style')).toContain(
+      'margin-right: 16px'
+    )
 
     await wrapper.setProps({
       size: 30,
     })
 
     await nextTick()
-    expect(wrapper.find('.el-space__item').attributes('style')).toContain('margin-right: 30px')
+    expect(wrapper.find('.el-space__item').attributes('style')).toContain(
+      'margin-right: 30px'
+    )
 
     await wrapper.setProps({
       size: [10, 20],
     })
 
-    expect(wrapper.find('.el-space__item').attributes('style')).toContain('margin-right: 10px')
-    expect(wrapper.find('.el-space__item').attributes('style')).toContain('padding-bottom: 20px')
+    expect(wrapper.find('.el-space__item').attributes('style')).toContain(
+      'margin-right: 10px'
+    )
+    expect(wrapper.find('.el-space__item').attributes('style')).toContain(
+      'padding-bottom: 20px'
+    )
     await wrapper.setProps({
       size: 'unknown',
     })
 
     expect(warnHandler).toHaveBeenCalledTimes(1)
 
-    expect(wrapper.find('.el-space__item').attributes('style')).toContain('margin-right: 8px')
+    expect(wrapper.find('.el-space__item').attributes('style')).toContain(
+      'margin-right: 8px'
+    )
   })
-
 
   test('should render with spacer', async () => {
     const stringSpacer = '|'
     const wrapper = mount(Space, {
       slots: {
-        default: () => Array.from({ length: 2 }).map((_, idx) => {
-          return `test${idx}`
-        }),
+        default: () =>
+          Array.from({ length: 2 }).map((_, idx) => {
+            return `test${idx}`
+          }),
       },
       props: {
         size: 'large',
@@ -113,13 +126,13 @@ describe('Space.vue', () => {
 
     await nextTick()
     expect(wrapper.find('.el-space').attributes('style')).toContain(
-      'flex-wrap: wrap',
+      'flex-wrap: wrap'
     )
     expect(wrapper.find('.el-space__item').attributes('style')).toContain(
-      'flex-grow: 1',
+      'flex-grow: 1'
     )
     expect(wrapper.find('.el-space__item').attributes('style')).toContain(
-      'min-width: 100%',
+      'min-width: 100%'
     )
 
     // custom fill ratio
@@ -129,7 +142,7 @@ describe('Space.vue', () => {
 
     await nextTick()
     expect(wrapper.find('.el-space__item').attributes('style')).toContain(
-      'min-width: 50%',
+      'min-width: 50%'
     )
   })
 })

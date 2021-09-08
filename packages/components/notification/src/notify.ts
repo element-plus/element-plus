@@ -30,10 +30,9 @@ const Notification: INotification = function (options = {}) {
   const position = options.position || 'top-right'
 
   let verticalOffset = options.offset || 0
-  notifications[position]
-    .forEach(({ vm }) => {
-      verticalOffset += (vm.el.offsetHeight || 0) + GAP_SIZE
-    })
+  notifications[position].forEach(({ vm }) => {
+    verticalOffset += (vm.el.offsetHeight || 0) + GAP_SIZE
+  })
   verticalOffset += GAP_SIZE
 
   const id = 'notification_' + seed++
@@ -56,9 +55,9 @@ const Notification: INotification = function (options = {}) {
     options,
     isVNode(options.message)
       ? {
-        default: () => options.message,
-      }
-      : null,
+          default: () => options.message,
+        }
+      : null
   )
 
   // clean notification element preventing mem leak
@@ -75,12 +74,14 @@ const Notification: INotification = function (options = {}) {
     // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
     // for out component, so that all closing steps will not be skipped.
     close: () => {
-      (vm.component.proxy as ComponentPublicInstance<{ visible: boolean; }>).visible = false
+      ;(
+        vm.component.proxy as ComponentPublicInstance<{ visible: boolean }>
+      ).visible = false
     },
   }
 }
 
-  ; (['success', 'warning', 'info', 'error'] as const).forEach(type => {
+;(['success', 'warning', 'info', 'error'] as const).forEach((type) => {
   Object.assign(Notification, {
     [type]: (options: NotificationVM | INotificationOptions | string = {}) => {
       if (typeof options === 'string' || isVNode(options)) {
@@ -105,11 +106,13 @@ const Notification: INotification = function (options = {}) {
 export function close(
   id: string,
   position: Position,
-  userOnClose?: (vm: NotificationVM) => void,
+  userOnClose?: (vm: NotificationVM) => void
 ): void {
   // maybe we can store the index when inserting the vm to notification list.
   const orientedNotifications = notifications[position]
-  const idx = orientedNotifications.findIndex(({ vm }) => vm.component.props.id === id)
+  const idx = orientedNotifications.findIndex(
+    ({ vm }) => vm.component.props.id === id
+  )
   if (idx === -1) return
   const { vm } = orientedNotifications[idx]
   if (!vm) return
@@ -137,7 +140,9 @@ export function closeAll(): void {
     const orientedNotifications = notifications[key as Position]
     orientedNotifications.forEach(({ vm }) => {
       // same as the previous close method, we'd like to make sure lifecycle gets handle properly.
-      (vm.component.proxy as ComponentPublicInstance<{ visible: boolean; }>).visible = false
+      ;(
+        vm.component.proxy as ComponentPublicInstance<{ visible: boolean }>
+      ).visible = false
     })
   }
 }

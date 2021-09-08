@@ -7,7 +7,6 @@ import type { INotificationHandle } from '../src/notification.type'
 const selector = '.el-notification'
 
 describe('Notification on command', () => {
-
   afterEach(() => {
     closeAll()
   })
@@ -21,7 +20,9 @@ describe('Notification on command', () => {
     await rAF()
     await nextTick()
     expect(document.querySelector(selector)).toBeNull()
-    expect(document.querySelector('[class^="container_notification"]')).toBeNull()
+    expect(
+      document.querySelector('[class^="container_notification"]')
+    ).toBeNull()
   })
 
   test('it should be able to render vnode', async () => {
@@ -35,7 +36,6 @@ describe('Notification on command', () => {
     expect(document.querySelector(`.${testClassName}`)).toBeDefined()
     close()
   })
-
 
   test('it should be able to close notification by manually close', async () => {
     const { close } = Notification({
@@ -56,10 +56,12 @@ describe('Notification on command', () => {
     const notifications: INotificationHandle[] = []
     const onClose = jest.fn()
     for (let i = 0; i < 4; i++) {
-      notifications.push(Notification({
-        onClose,
-        duration: 0,
-      }))
+      notifications.push(
+        Notification({
+          onClose,
+          duration: 0,
+        })
+      )
     }
     // jest.runAllTicks()
     await rAF()

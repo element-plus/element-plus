@@ -18,7 +18,7 @@ const _mount = (template: string, data, otherObj?) =>
     },
     {
       attachTo: 'body',
-    },
+    }
   )
 
 afterEach(() => {
@@ -31,7 +31,7 @@ describe('TimeSelect', () => {
       `<el-time-select :style="{color:'red'}" class="customClass" />`,
       () => ({
         readonly: true,
-      }),
+      })
     )
     const outerInput = wrapper.find('.el-select')
     expect(outerInput.classes()).toContain('customClass')
@@ -102,7 +102,7 @@ describe('TimeSelect', () => {
 
     const option = wrapper
       .findAllComponents(Option)
-      .filter(w => w.text().trim() === '11:00')[0]
+      .filter((w) => w.text().trim() === '11:00')[0]
 
     expect(option.exists()).toBe(true)
     option.trigger('click')
@@ -117,7 +117,7 @@ describe('TimeSelect', () => {
       () => ({
         value: '10:00',
         disabled: false,
-      }),
+      })
     )
     const vm = wrapper.vm as any
     const select = wrapper.findComponent({ name: 'ElSelect' })
@@ -134,7 +134,7 @@ describe('TimeSelect', () => {
       () => ({
         value: '10:00',
         editable: false,
-      }),
+      })
     )
     const vm = wrapper.vm as any
     const select = wrapper.findComponent({ name: 'ElSelect' })

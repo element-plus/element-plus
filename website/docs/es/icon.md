@@ -7,18 +7,23 @@ Element Plus team is replacing all **Font Icon** in the previously built compone
 :::
 
 ### SvgIcon Usage
+
 - If you want to **use directly** like the example, you need to [globally register](https://v3.vuejs.org/guide/component-registration.html#global-registration) the components before using it.
 
 - If you want to see all available SVG icons please check [@element-plus/icons](https://unpkg.com/browse/@element-plus/icons@latest/lib/) and the source [Github/ElementPlus/icons](https://github.com/element-plus/element-plus-icons) out or [SVG icons](/#/en-US/component/icon#svg-tu-biao-ji-he)
 
 ### Installation
+
 The current icon is only targeted to [Vue3](https://v3.vuejs.org).
+
 #### Using yarn
+
 ```shell
 $ yarn add @element-plus/icons
 ```
 
 #### Using npm
+
 ```shell
 $ npm install @element-plus/icons
 ```
@@ -34,63 +39,69 @@ $ npm install @element-plus/icons
 <edit />
 
 <script lang="ts">
-import { Edit } from '@element-plus/icons'
+  import { Edit } from '@element-plus/icons'
 
-export default defineComponent({
-  components: {
-    // Full name
-    [Edit.name]: Edit,
-    // or Shorthanded,
-    Edit,
-  },
-})
+  export default defineComponent({
+    components: {
+      // Full name
+      [Edit.name]: Edit,
+      // or Shorthanded,
+      Edit,
+    },
+  })
 </script>
 ```
+
 #### Combined with `el-icon`
-:::demo  `el-icon` provides extra attributes for raw SVG icon, for more detail, please read to the end.
+
+:::demo `el-icon` provides extra attributes for raw SVG icon, for more detail, please read to the end.
+
 ```html
-  <p>
-    with extra class <b>is-loading</b>, your icon is able to rotate 360 deg in 2 seconds, you can also override this
-  </p>
-  <el-icon :size="20">
-    <edit />
+<p>
+  with extra class <b>is-loading</b>, your icon is able to rotate 360 deg in 2
+  seconds, you can also override this
+</p>
+<el-icon :size="20">
+  <edit />
+</el-icon>
+<el-icon color="#409EFC" class="no-inherit">
+  <share />
+</el-icon>
+<el-icon>
+  <delete />
+</el-icon>
+<el-icon class="is-loading">
+  <loading />
+</el-icon>
+<el-button type="primary">
+  <el-icon style="vertical-align: middle;">
+    <search />
   </el-icon>
-  <el-icon color="#409EFC" class="no-inherit">
-    <share />
-  </el-icon>
-  <el-icon>
-    <delete />
-  </el-icon>
-  <el-icon class="is-loading">
-    <loading />
-  </el-icon>
-  <el-button type="primary">
-    <el-icon style="vertical-align: middle;">
-      <search />
-    </el-icon>
-    <span style="vertical-align: middle;">
-      Search
-    </span>
-  </el-button>
+  <span style="vertical-align: middle;"> Search </span>
+</el-button>
 ```
+
 :::
 
 #### Using SVG icon directly
 
 :::demo
+
 ```html
-  <div style="font-size: 20px;">
-    <!-- Since svg icons do not carry any attributes by default -->
-    <!-- You need to provide attributes directly -->
-    <edit style="width: 1em; height: 1em; margin-right: 8px;" />
-    <share style="width: 1em; height: 1em; margin-right: 8px;" />
-    <delete style="width: 1em; height: 1em; margin-right: 8px;" />
-    <search style="width: 1em; height: 1em; margin-right: 8px;" />
-  </div>
+<div style="font-size: 20px;">
+  <!-- Since svg icons do not carry any attributes by default -->
+  <!-- You need to provide attributes directly -->
+  <edit style="width: 1em; height: 1em; margin-right: 8px;" />
+  <share style="width: 1em; height: 1em; margin-right: 8px;" />
+  <delete style="width: 1em; height: 1em; margin-right: 8px;" />
+  <search style="width: 1em; height: 1em; margin-right: 8px;" />
+</div>
 ```
+
 :::
 
 ### SVG Icons collection
+
 :::tip
 This collection is updated after ElementPlus@1.0.2-beta.66(included), you can only use `el-icon` to wrap it after ElementPlus@1.0.2-beta.66(included), or directly use it without version constrains
 
@@ -124,8 +135,8 @@ Simplemente asigna el nombre de la clase a `el-icon-iconName`.
 <i class="el-icon-share"></i>
 <i class="el-icon-delete"></i>
 <el-button type="primary" icon="el-icon-search">Search</el-button>
-
 ```
+
 :::
 
 ### Font Iconos
@@ -139,9 +150,9 @@ Simplemente asigna el nombre de la clase a `el-icon-iconName`.
   </li>
 </ul>
 
-
 ### SVG Icon Atributos
-| Attribute      | Description    | Type      | Acceptable Value       | Default   |
-|---------- |-------- |---------- |-------------  |-------- |
-| color    | SVG tag's fill attribute | Pick\<CSSProperties, 'color'\> | - | inherit from color |
-| size | SVG icon size, size x size | number | - | inherit from font size |
+
+| Attribute | Description                | Type                           | Acceptable Value | Default                |
+| --------- | -------------------------- | ------------------------------ | ---------------- | ---------------------- |
+| color     | SVG tag's fill attribute   | Pick\<CSSProperties, 'color'\> | -                | inherit from color     |
+| size      | SVG icon size, size x size | number                         | -                | inherit from font size |

@@ -97,22 +97,22 @@ const RADIO = '.el-radio__input'
 
 let id = 0
 
-const _mount: typeof mount = options => mount({
-  components: {
-    CascaderPanel,
-  },
-  ...options,
-})
+const _mount: typeof mount = (options) =>
+  mount({
+    components: {
+      CascaderPanel,
+    },
+    ...options,
+  })
 
 const lazyLoad = (node, resolve) => {
   const { level } = node
   setTimeout(() => {
-    const nodes = Array.from({ length: level + 1 })
-      .map(() => ({
-        value: ++id,
-        label: `option${id}`,
-        leaf: level >= 1,
-      }))
+    const nodes = Array.from({ length: level + 1 }).map(() => ({
+      value: ++id,
+      label: `option${id}`,
+      leaf: level >= 1,
+    }))
     resolve(nodes)
   }, 1000)
 }
@@ -380,7 +380,10 @@ describe('CascaderPanel.vue', () => {
 
     await nbCheckbox.find('input').trigger('click')
     expect(zjCheckbox.classes('is-checked')).toBe(true)
-    expect(wrapper.vm.value).toEqual([['zhejiang', 'hangzhou'], ['zhejiang', 'ningbo']])
+    expect(wrapper.vm.value).toEqual([
+      ['zhejiang', 'hangzhou'],
+      ['zhejiang', 'ningbo'],
+    ])
 
     await zjCheckbox.find('input').trigger('click')
     expect(zjCheckbox.classes('is-checked')).toBe(false)
@@ -586,12 +589,11 @@ describe('CascaderPanel.vue', () => {
           lazyLoad(node, resolve) {
             const { level } = node
             setTimeout(() => {
-              const nodes = Array.from({ length: level + 1 })
-                .map(() => ({
-                  value: { id: ++id },
-                  label: `option${id}`,
-                  leaf: level >= 1,
-                }))
+              const nodes = Array.from({ length: level + 1 }).map(() => ({
+                value: { id: ++id },
+                label: `option${id}`,
+                leaf: level >= 1,
+              }))
               resolve(nodes)
             }, 1000)
           },
@@ -619,18 +621,17 @@ describe('CascaderPanel.vue', () => {
           props: {
             multiple: true,
             lazy: true,
-            lazyLoad (node, resolve) {
+            lazyLoad(node, resolve) {
               const { level } = node
               setTimeout(() => {
-                const nodes = Array.from({ length: level + 1 })
-                  .map(() => {
-                    ++id
-                    return {
-                      value: id,
-                      label: `option${id}`,
-                      leaf: id === 3,
-                    }
-                  })
+                const nodes = Array.from({ length: level + 1 }).map(() => {
+                  ++id
+                  return {
+                    value: id,
+                    label: `option${id}`,
+                    leaf: id === 3,
+                  }
+                })
                 resolve(nodes)
               }, 1000)
             },
@@ -653,9 +654,13 @@ describe('CascaderPanel.vue', () => {
     expect(firstMenu.find(CHECKBOX).classes('is-checked')).toBe(false)
     expect(firstMenu.find(CHECKBOX).classes('is-indeterminate')).toBe(true)
     expect(secondMenu.findAll(CHECKBOX)[0].classes('is-checked')).toBe(false)
-    expect(secondMenu.findAll(CHECKBOX)[0].classes('is-indeterminate')).toBe(false)
+    expect(secondMenu.findAll(CHECKBOX)[0].classes('is-indeterminate')).toBe(
+      false
+    )
     expect(secondMenu.findAll(CHECKBOX)[1].classes('is-checked')).toBe(true)
-    expect(secondMenu.findAll(CHECKBOX)[1].classes('is-indeterminate')).toBe(false)
+    expect(secondMenu.findAll(CHECKBOX)[1].classes('is-indeterminate')).toBe(
+      false
+    )
   })
 
   test('getCheckedNodes and clearCheckedNodes', () => {

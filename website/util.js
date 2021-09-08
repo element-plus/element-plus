@@ -37,7 +37,7 @@ export function stripSetup(content) {
 export function formatType(type) {
   return type
     .split('-')
-    .map(item => item.charAt(0).toUpperCase() + item.slice(1))
+    .map((item) => item.charAt(0).toUpperCase() + item.slice(1))
     .join(' ')
 }
 
@@ -49,7 +49,7 @@ export function formatType(type) {
  */
 export function getCssVarValue(namespace, type) {
   return getComputedStyle(document.documentElement).getPropertyValue(
-    `--el-${namespace}-${type}`,
+    `--el-${namespace}-${type}`
   )
 }
 

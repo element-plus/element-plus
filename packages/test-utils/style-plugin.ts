@@ -10,4 +10,3 @@ export default function install() {
   config.plugins.DOMWrapper.install(stylePlugin)
   config.plugins.VueWrapper.install(stylePlugin)
 }
-

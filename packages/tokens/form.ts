@@ -1,7 +1,5 @@
 import type { InjectionKey } from 'vue'
-import type {
-  FieldErrorList,
-} from 'async-validator'
+import type { FieldErrorList } from 'async-validator'
 import type { Emitter } from 'mitt'
 import type { ComponentSize } from '@element-plus/utils/types'
 
@@ -46,7 +44,8 @@ export interface ElFormItemContext {
 // TODO: change it to symbol
 export const elFormKey: InjectionKey<ElFormContext> = 'elForm' as any
 
-export const elFormItemKey: InjectionKey<ElFormItemContext> = 'elFormItem' as any
+export const elFormItemKey: InjectionKey<ElFormItemContext> =
+  'elFormItem' as any
 
 export const elFormEvents = {
   addField: 'el.form.addField',

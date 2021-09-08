@@ -5,8 +5,8 @@
 - 现代浏览器
 
 | ![IE](https://cdn.jsdelivr.net/npm/@browser-logos/edge/edge_32x32.png) | ![Firefox](https://cdn.jsdelivr.net/npm/@browser-logos/firefox/firefox_32x32.png) | ![Chrome](https://cdn.jsdelivr.net/npm/@browser-logos/chrome/chrome_32x32.png) | ![Safari](https://cdn.jsdelivr.net/npm/@browser-logos/safari/safari_32x32.png) |
-| --- | --- | --- | --- |
-| Edge | last 2 versions | last 2 versions | last 2 versions |
+| ---------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| Edge                                                                   | last 2 versions                                                                   | last 2 versions                                                                | last 2 versions                                                                |
 
 > 由于 Vue3 不再支持 IE11，故而 ElementPlus 也不支持 IE11 及之前版本。
 
@@ -44,7 +44,7 @@ $ yarn add element-plus
 ```html
 <head>
   <!-- 引入样式 -->
-  <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css">
+  <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
   <!-- 引入 Vue -->
   <script src="//unpkg.com/vue@next"></script>
   <!-- 引入组件库 -->
@@ -57,7 +57,10 @@ $ yarn add element-plus
 ```html
 <head>
   <!-- 引入样式 -->
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/element-plus/dist/index.css">
+  <link
+    rel="stylesheet"
+    href="//cdn.jsdelivr.net/npm/element-plus/dist/index.css"
+  />
   <!-- 引入 Vue -->
   <script src="//cdn.jsdelivr.net/npm/vue@next"></script>
   <!-- 引入组件库 -->

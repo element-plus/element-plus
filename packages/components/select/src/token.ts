@@ -15,11 +15,11 @@ export interface SelectContext {
     remote?: boolean
   }
   selectWrapper: HTMLElement
-  cachedOptions: Map<any,any>
+  cachedOptions: Map<any, any>
   hoverIndex: number
   optionsCount: number
   filteredOptionsCount: number
-  options: Map<any,any>
+  options: Map<any, any>
   optionsArray: any[]
   selected: any | any[]
   selectEmitter: Emitter
@@ -30,7 +30,8 @@ export interface SelectContext {
 }
 
 // For individual build sharing injection key, we had to make `Symbol` to string
-export const selectGroupKey = 'ElSelectGroup' as unknown as InjectionKey<SelectGroupContext>
+export const selectGroupKey =
+  'ElSelectGroup' as unknown as InjectionKey<SelectGroupContext>
 
 export const selectKey = 'ElSelect' as unknown as InjectionKey<SelectContext>
 

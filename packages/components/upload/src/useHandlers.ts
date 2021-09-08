@@ -3,14 +3,20 @@ import { NOOP } from '@vue/shared'
 import cloneDeep from 'lodash/cloneDeep'
 
 // Inline types
-import type { ListType, UploadFile, ElFile, ElUploadProgressEvent, IUseHandlersProps } from './upload.type'
+import type {
+  ListType,
+  UploadFile,
+  ElFile,
+  ElUploadProgressEvent,
+  IUseHandlersProps,
+} from './upload.type'
 type UploadRef = {
   abort: (file: UploadFile) => void
   upload: (file: ElFile) => void
 }
 // helpers
 function getFile(rawFile: ElFile, uploadFiles: UploadFile[]) {
-  return uploadFiles.find(file => file.uid === rawFile.uid)
+  return uploadFiles.find((file) => file.uid === rawFile.uid)
 }
 
 function genUid(seed: number) {
@@ -18,7 +24,6 @@ function genUid(seed: number) {
 }
 
 export default (props: IUseHandlersProps) => {
-
   const uploadFiles = ref<UploadFile[]>([])
   const uploadRef = ref<UploadRef>(null)
 
@@ -101,9 +106,11 @@ export default (props: IUseHandlersProps) => {
     } else if (typeof props.beforeRemove === 'function') {
       const before = props.beforeRemove(file, uploadFiles.value)
       if (before instanceof Promise) {
-        before.then(() => {
-          doRemove()
-        }).catch(NOOP)
+        before
+          .then(() => {
+            doRemove()
+          })
+          .catch(NOOP)
       } else if (before !== false) {
         doRemove()
       }
@@ -112,40 +119,47 @@ export default (props: IUseHandlersProps) => {
 
   function submit() {
     uploadFiles.value
-      .filter(file => file.status === 'ready')
-      .forEach(file => {
+      .filter((file) => file.status === 'ready')
+      .forEach((file) => {
         uploadRef.value.upload(file.raw)
       })
   }
 
-  watch(() => props.listType, (val: ListType) => {
-    if (val === 'picture-card' || val === 'picture') {
-      uploadFiles.value = uploadFiles.value.map(file => {
-        if (!file.url && file.raw) {
-          try {
-            file.url = URL.createObjectURL(file.raw)
-          } catch (err) {
-            props.onError(err, file, uploadFiles.value)
+  watch(
+    () => props.listType,
+    (val: ListType) => {
+      if (val === 'picture-card' || val === 'picture') {
+        uploadFiles.value = uploadFiles.value.map((file) => {
+          if (!file.url && file.raw) {
+            try {
+              file.url = URL.createObjectURL(file.raw)
+            } catch (err) {
+              props.onError(err, file, uploadFiles.value)
+            }
           }
-        }
-        return file
-      })
-    }
-  })
-
-  watch(() => props.fileList, (fileList: UploadFile[]) => {
-    uploadFiles.value = fileList.map(file => {
-      const cloneFile = cloneDeep(file)
-      return {
-        ...cloneFile,
-        uid: file.uid || genUid(tempIndex++),
-        status: file.status || 'success',
+          return file
+        })
       }
-    })
-  }, {
-    immediate: true,
-    deep: true,
-  })
+    }
+  )
+
+  watch(
+    () => props.fileList,
+    (fileList: UploadFile[]) => {
+      uploadFiles.value = fileList.map((file) => {
+        const cloneFile = cloneDeep(file)
+        return {
+          ...cloneFile,
+          uid: file.uid || genUid(tempIndex++),
+          status: file.status || 'success',
+        }
+      })
+    },
+    {
+      immediate: true,
+      deep: true,
+    }
+  )
 
   return {
     abort,
@@ -160,4 +174,3 @@ export default (props: IUseHandlersProps) => {
     uploadRef,
   }
 }
-

@@ -29,9 +29,7 @@ basé sur les modules ES.
 
 ```html
 <template>
-  <el-button>
-    Je suis ElButton
-  </el-button>
+  <el-button> Je suis ElButton </el-button>
 </template>
 <script>
   import { defineComponent } from 'vue'

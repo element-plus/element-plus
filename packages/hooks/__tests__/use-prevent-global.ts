@@ -31,7 +31,6 @@ describe('usePreventGlobal', () => {
     // clean up
   })
 
-
   it('should not prevent global event from happening', () => {
     const visible = ref(true)
     const evt2Trigger = jest.fn().mockReturnValue(false)
@@ -44,5 +43,4 @@ describe('usePreventGlobal', () => {
 
     visible.value = false
   })
-
 })

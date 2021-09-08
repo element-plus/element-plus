@@ -5,7 +5,7 @@
       'el-step',
       isSimple ? 'is-simple' : `is-${parent.props.direction}`,
       isLast && !space && !isCenter && 'is-flex',
-      isCenter && !isVertical && !isSimple && 'is-center'
+      isCenter && !isVertical && !isSimple && 'is-center',
     ]"
   >
     <!-- icon & line -->
@@ -20,11 +20,17 @@
           name="icon"
         >
           <i v-if="icon" :class="['el-step__icon-inner', icon]"></i>
-          <div v-if="!icon && !isSimple" class="el-step__icon-inner">{{ index + 1 }}</div>
+          <div v-if="!icon && !isSimple" class="el-step__icon-inner">
+            {{ index + 1 }}
+          </div>
         </slot>
         <i
           v-else
-          :class="['el-step__icon-inner', 'is-status', `el-icon-${currentStatus === 'success' ? 'check' : 'close'}`]"
+          :class="[
+            'el-step__icon-inner',
+            'is-status',
+            `el-icon-${currentStatus === 'success' ? 'check' : 'close'}`,
+          ]"
         >
         </i>
       </div>
@@ -97,7 +103,8 @@ export default defineComponent({
     status: {
       type: String,
       default: '',
-      validator: (val: string): boolean => ['', 'wait', 'process', 'finish', 'error', 'success'].includes(val),
+      validator: (val: string): boolean =>
+        ['', 'wait', 'process', 'finish', 'error', 'success'].includes(val),
     },
   },
   setup(props) {
@@ -108,13 +115,23 @@ export default defineComponent({
     const currentInstance = getCurrentInstance()
 
     onMounted(() => {
-      watch([() => parent.props.active, () => parent.props.processStatus, () => parent.props.finishStatus], ([active]) => {
-        updateStatus(active)
-      }, { immediate: true })
+      watch(
+        [
+          () => parent.props.active,
+          () => parent.props.processStatus,
+          () => parent.props.finishStatus,
+        ],
+        ([active]) => {
+          updateStatus(active)
+        },
+        { immediate: true }
+      )
     })
 
     onBeforeUnmount(() => {
-      parent.steps.value = parent.steps.value.filter(instance => instance.uid !== currentInstance.uid)
+      parent.steps.value = parent.steps.value.filter(
+        (instance) => instance.uid !== currentInstance.uid
+      )
     })
 
     const currentStatus = computed(() => {
@@ -137,18 +154,21 @@ export default defineComponent({
       return parent.steps.value.length
     })
     const isLast = computed(() => {
-      return parent.steps.value[stepsCount.value - 1]?.uid === currentInstance.uid
+      return (
+        parent.steps.value[stepsCount.value - 1]?.uid === currentInstance.uid
+      )
     })
     const space = computed(() => {
       return isSimple.value ? '' : parent.props.space
     })
     const style = computed(() => {
       const style: Record<string, unknown> = {
-        flexBasis: (typeof space.value === 'number'
-          ? `${space.value}px`
-          : space.value
+        flexBasis:
+          typeof space.value === 'number'
+            ? `${space.value}px`
+            : space.value
             ? space.value
-            : 100 / (stepsCount.value - (isCenter.value ? 0 : 1)) + '%'),
+            : 100 / (stepsCount.value - (isCenter.value ? 0 : 1)) + '%',
       }
       if (isVertical.value) return style
       if (isLast.value) {
@@ -157,10 +177,10 @@ export default defineComponent({
       return style
     })
 
-    const setIndex = val => {
+    const setIndex = (val) => {
       index.value = val
     }
-    const calcProgress = status => {
+    const calcProgress = (status) => {
       let step = 100
       const style: Record<string, unknown> = {}
 
@@ -169,13 +189,15 @@ export default defineComponent({
         step = 0
       } else if (status === 'wait') {
         step = 0
-        style.transitionDelay = (-150 * index.value) + 'ms'
+        style.transitionDelay = -150 * index.value + 'ms'
       }
       style.borderWidth = step && !isSimple.value ? '1px' : 0
-      style[parent.props.direction === 'vertical' ? 'height' : 'width'] = `${step}%`
+      style[
+        parent.props.direction === 'vertical' ? 'height' : 'width'
+      ] = `${step}%`
       lineStyle.value = style
     }
-    const updateStatus = activeIndex => {
+    const updateStatus = (activeIndex) => {
       if (activeIndex > index.value) {
         internalStatus.value = parent.props.finishStatus
       } else if (activeIndex === index.value && prevStatus.value !== 'error') {

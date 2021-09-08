@@ -7,7 +7,7 @@
       :srcset="srcSet"
       :style="fitStyle"
       @error="handleError"
-    >
+    />
     <i v-else-if="icon" :class="icon"></i>
     <slot v-else></slot>
   </span>
@@ -56,7 +56,7 @@ export default defineComponent({
 
     const src = toRef(props, 'src')
     // need reset hasLoadError to false if src changed
-    watch(src,()=>{
+    watch(src, () => {
       hasLoadError.value = false
     })
 
@@ -77,23 +77,31 @@ export default defineComponent({
 
     const sizeStyle = computed(() => {
       const { size } = props
-      return typeof size === 'number' ? {
-        height: `${size}px`,
-        width: `${size}px`,
-        lineHeight: `${size}px`,
-      } : {}
+      return typeof size === 'number'
+        ? {
+            height: `${size}px`,
+            width: `${size}px`,
+            lineHeight: `${size}px`,
+          }
+        : {}
     })
 
-    const fitStyle = computed(() => ({
-      objectFit: props.fit,
-    }) as CSSProperties)
+    const fitStyle = computed(
+      () =>
+        ({
+          objectFit: props.fit,
+        } as CSSProperties)
+    )
 
     function handleError(e: Event) {
       hasLoadError.value = true
       emit(ERROR_EVENT, e)
     }
     return {
-      hasLoadError, avatarClass, sizeStyle, handleError,
+      hasLoadError,
+      avatarClass,
+      sizeStyle,
+      handleError,
       fitStyle,
     }
   },

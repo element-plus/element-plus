@@ -74,7 +74,6 @@ describe('Button.vue', () => {
     })
     await wrapper.trigger('click')
     expect(wrapper.emitted()).toBeDefined()
-
   })
 
   test('handle click inside', async () => {
@@ -106,7 +105,6 @@ describe('Button.vue', () => {
     await wrapper.trigger('click')
     expect(wrapper.emitted('click')).toBeUndefined()
   })
-
 })
 describe('Button Group', () => {
   it('create', () => {
@@ -127,22 +125,31 @@ describe('Button Group', () => {
   it('button group reactive size', async () => {
     const size = ref('small')
     const wrapper = mount({
-      setup(){
-        return () => h(ButtonGroup, { size: size.value }, () => [
-          h(Button, { type: 'primary' }, () => 'Prev'),
-          h(Button, { type: 'primary' }, () => 'Next'),
-          h(Button, { type: 'primary', size :'mini' }, () => 'Mini'),
-        ])
+      setup() {
+        return () =>
+          h(ButtonGroup, { size: size.value }, () => [
+            h(Button, { type: 'primary' }, () => 'Prev'),
+            h(Button, { type: 'primary' }, () => 'Next'),
+            h(Button, { type: 'primary', size: 'mini' }, () => 'Mini'),
+          ])
       },
     })
     expect(wrapper.classes()).toContain('el-button-group')
-    expect(wrapper.findAll('.el-button-group button.el-button--small').length).toBe(2)
-    expect(wrapper.findAll('.el-button-group button.el-button--mini').length).toBe(1)
+    expect(
+      wrapper.findAll('.el-button-group button.el-button--small').length
+    ).toBe(2)
+    expect(
+      wrapper.findAll('.el-button-group button.el-button--mini').length
+    ).toBe(1)
 
     size.value = 'medium'
     await nextTick()
 
-    expect(wrapper.findAll('.el-button-group button.el-button--medium').length).toBe(2)
-    expect(wrapper.findAll('.el-button-group button.el-button--mini').length).toBe(1)
+    expect(
+      wrapper.findAll('.el-button-group button.el-button--medium').length
+    ).toBe(2)
+    expect(
+      wrapper.findAll('.el-button-group button.el-button--mini').length
+    ).toBe(1)
   })
 })

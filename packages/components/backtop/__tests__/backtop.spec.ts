@@ -1,12 +1,16 @@
 import { mount } from '@vue/test-utils'
 import Backtop from '../src/index.vue'
 
-const _mount = (template: string) => mount({
-  components: {
-    'el-backtop': Backtop,
-  },
-  template,
-}, { attachTo: document.body })
+const _mount = (template: string) =>
+  mount(
+    {
+      components: {
+        'el-backtop': Backtop,
+      },
+      template,
+    },
+    { attachTo: document.body }
+  )
 
 describe('Backtop.vue', () => {
   test('render', async () => {
@@ -22,7 +26,9 @@ describe('Backtop.vue', () => {
     await wrapper.trigger('scroll')
     expect(wrapper.find('.el-backtop').exists()).toBe(true)
 
-    expect(wrapper.find('.el-backtop').attributes('style')).toBe('right: 100px; bottom: 200px;')
+    expect(wrapper.find('.el-backtop').attributes('style')).toBe(
+      'right: 100px; bottom: 200px;'
+    )
     expect(wrapper.find('.el-icon-caret-top').exists()).toBe(true)
 
     await wrapper.trigger('click')

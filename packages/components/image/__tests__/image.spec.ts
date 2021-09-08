@@ -2,7 +2,11 @@ import { mount } from '@vue/test-utils'
 import Image from '../src/index.vue'
 import { nextTick } from 'vue'
 
-import { IMAGE_SUCCESS, IMAGE_FAIL, mockImageEvent } from '@element-plus/test-utils/mock'
+import {
+  IMAGE_SUCCESS,
+  IMAGE_FAIL,
+  mockImageEvent,
+} from '@element-plus/test-utils/mock'
 
 // firstly wait for image event
 // secondly wait for vue render
@@ -55,7 +59,9 @@ describe('Image.vue', () => {
         props: { fit, src: IMAGE_SUCCESS },
       })
       await doubleWait()
-      expect(wrapper.find('img').attributes('style')).toContain(`object-fit: ${fit};`)
+      expect(wrapper.find('img').attributes('style')).toContain(
+        `object-fit: ${fit};`
+      )
     }
   })
 
@@ -71,7 +77,6 @@ describe('Image.vue', () => {
     expect(wrapper.find('img').classes()).toContain('el-image__preview')
   })
 
-
   test('$attrs', async () => {
     const alt = 'this ia alt'
     const wrapper = mount(Image, {
@@ -86,12 +91,12 @@ describe('Image.vue', () => {
     expect(wrapper.find('img').attributes('referrerpolicy')).toBe('origin')
   })
 
-  test('pass event listeners', async() => {
+  test('pass event listeners', async () => {
     let result = false
     const wrapper = mount(Image, {
       props: {
         src: IMAGE_SUCCESS,
-        onClick: () => result = true,
+        onClick: () => (result = true),
       },
     })
     await doubleWait()

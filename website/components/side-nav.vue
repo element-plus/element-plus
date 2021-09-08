@@ -16,7 +16,7 @@
               target="_blank"
               title="bit"
             >
-              <img src="~examples/assets/images/bit.svg">
+              <img src="~examples/assets/images/bit.svg" />
             </a>
           </li>
           <li class="nav-item">
@@ -26,7 +26,7 @@
               target="_blank"
               :title="sponsorIntroR"
             >
-              <img src="~examples/assets/images/renren.png">
+              <img src="~examples/assets/images/renren.png" />
             </a>
           </li>
         </ul>
@@ -156,21 +156,23 @@ export default defineComponent({
     })
 
     const langConfig = computed(() => {
-      return compoLang.filter(config => config.lang === lang.value)[0]['nav']
+      return compoLang.filter((config) => config.lang === lang.value)[0]['nav']
     })
 
     const sponsorIntroR = computed(() => {
-      return lang.value === 'zh-CN' ? '企业级的快速开发平台' : 'Enterprise-class rapid development platform'
+      return lang.value === 'zh-CN'
+        ? '企业级的快速开发平台'
+        : 'Enterprise-class rapid development platform'
     })
 
     watch(
       () => route.path,
       () => {
         handlePathChange()
-      },
+      }
     )
 
-    watch(isFade, val => {
+    watch(isFade, (val) => {
       bus.$emit('nav-fade', val)
     })
 
@@ -191,22 +193,22 @@ export default defineComponent({
       while (ul.nodeName !== 'UL') {
         ul = ul.parentNode
       }
-      (ul as HTMLUListElement).style.height = 'auto'
+      ;(ul as HTMLUListElement).style.height = 'auto'
     }
 
     const hideAllMenu = () => {
-      [].forEach.call(document.querySelectorAll('.pure-menu-list'), ul => {
+      ;[].forEach.call(document.querySelectorAll('.pure-menu-list'), (ul) => {
         ul.style.height = '0'
       })
     }
 
     const expandAllMenu = () => {
-      [].forEach.call(document.querySelectorAll('.pure-menu-list'), ul => {
+      ;[].forEach.call(document.querySelectorAll('.pure-menu-list'), (ul) => {
         ul.style.height = 'auto'
       })
     }
 
-    const expandMenu = event => {
+    const expandMenu = (event) => {
       if (!isSmallScreen.value) return
       let target = event.currentTarget
       if (

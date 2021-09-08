@@ -15,7 +15,7 @@ const _mount = (invoker: () => void) => {
     },
     {
       attachTo: 'body',
-    },
+    }
   )
 }
 
@@ -36,11 +36,11 @@ describe('MessageBox', () => {
     expect(msgbox).toBeDefined()
     await rAF()
     expect(
-      msgbox.querySelector('.el-message-box__title span').textContent,
+      msgbox.querySelector('.el-message-box__title span').textContent
     ).toEqual('消息')
     expect(
       msgbox.querySelector('.el-message-box__message').querySelector('p')
-        .textContent,
+        .textContent
     ).toEqual('这是一段内容')
     MessageBox.close()
     await rAF()
@@ -82,7 +82,7 @@ describe('MessageBox', () => {
         title: '消息',
         message: '这是一段内容',
         distinguishCancelAndClose: true,
-        callback: action => {
+        callback: (action) => {
           msgAction = action
         },
       })
@@ -92,7 +92,7 @@ describe('MessageBox', () => {
     await rAF()
 
     const btn = document.querySelector(
-      '.el-message-box__close',
+      '.el-message-box__close'
     ) as HTMLButtonElement
     btn.click()
     await rAF()
@@ -162,13 +162,13 @@ describe('MessageBox', () => {
     MessageBox({
       title: '消息',
       message: '这是一段内容',
-      callback: action => {
+      callback: (action) => {
         msgAction = action
       },
     })
     await rAF()
     const closeBtn = document.querySelector(
-      '.el-message-box__close',
+      '.el-message-box__close'
     ) as HTMLButtonElement
     closeBtn.click()
     await rAF()
@@ -178,7 +178,7 @@ describe('MessageBox', () => {
   test('beforeClose', async () => {
     let msgAction = ''
     MessageBox({
-      callback: action => {
+      callback: (action) => {
         msgAction = action
       },
       title: '消息',
@@ -188,9 +188,11 @@ describe('MessageBox', () => {
       },
     })
     await rAF()
-    ;(document.querySelector(
-      '.el-message-box__btns .el-button--primary',
-    ) as HTMLButtonElement).click()
+    ;(
+      document.querySelector(
+        '.el-message-box__btns .el-button--primary'
+      ) as HTMLButtonElement
+    ).click()
     await rAF()
     expect(msgAction).toEqual('confirm')
   })
@@ -199,13 +201,13 @@ describe('MessageBox', () => {
     test('resolve', async () => {
       let msgAction = ''
       MessageBox.confirm('此操作将永久删除该文件, 是否继续?', '提示').then(
-        action => {
+        (action) => {
           msgAction = action
-        },
+        }
       )
       await rAF()
       const btn = document.querySelector(
-        '.el-message-box__btns .el-button--primary',
+        '.el-message-box__btns .el-button--primary'
       ) as HTMLButtonElement
       btn.click()
       await rAF()
@@ -215,14 +217,12 @@ describe('MessageBox', () => {
     test('reject', async () => {
       let msgAction = ''
       MessageBox.confirm('此操作将永久删除该文件, 是否继续?', '提示').catch(
-        action => {
+        (action) => {
           msgAction = action
-        },
+        }
       )
       await rAF()
-      const btn = document.querySelector(
-        '.el-message-box__btns .el-button',
-      )
+      const btn = document.querySelector('.el-message-box__btns .el-button')
       ;(btn as HTMLButtonElement).click()
       await rAF()
       expect(msgAction).toEqual('cancel')

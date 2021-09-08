@@ -13,7 +13,7 @@ const handleClick = jest.fn()
 const genComp = (
   inheritAttrs = true,
   excludeListeners = false,
-  excludeKeys: string[] = [],
+  excludeKeys: string[] = []
 ) => {
   return {
     template: `
@@ -70,7 +70,7 @@ describe('useAttrs', () => {
     expect(handleClick).toBeCalledTimes(2)
   })
 
-  test('child node\'s attributes should update when prop change', async () => {
+  test("child node's attributes should update when prop change", async () => {
     const wrapper = _mount(genComp())
     const span = wrapper.find('span')
 

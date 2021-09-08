@@ -13,11 +13,9 @@ Element Plus 默认提供一套主题，CSS 命名采用 BEM 的风格，方便�
 Element Plus 的 theme-chalk 使用 SCSS 编写，如果你的项目也使用了 SCSS，那么可以直接在项目中改变 Element Plus 的样式变量。新建一个样式文件，例如 `element-variables.scss`，写入以下内容：
 
 ```html
-/* 改变主题色变量 */ 
-$--color-primary: teal; 
-/* 改变 icon 字体路径变量，必需 */
-$--font-path: "~element-plus/theme-chalk/fonts"; 
-@import "~element-plus/packages/theme-chalk/src/index";
+/* 改变主题色变量 */ $--color-primary: teal; /* 改变 icon 字体路径变量，必需 */
+$--font-path: "~element-plus/theme-chalk/fonts"; @import
+"~element-plus/packages/theme-chalk/src/index";
 ```
 
 之后，在项目的入口文件中，直接引入以上样式文件即可（无需引入 Element Plus 编译好的 CSS 文件）：

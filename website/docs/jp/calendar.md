@@ -5,17 +5,17 @@
 ### 基本的なこと
 
 :::demo 現在表示されている月を指定するために `value` を設定する。`value` が指定されない場合は現在の月を表示する。`value` は双方向のバインディングをサポートする。
+
 ```html
-<el-calendar v-model="value">
-</el-calendar>
+<el-calendar v-model="value"> </el-calendar>
 
 <script>
   export default {
     data() {
       return {
-        value: new Date()
+        value: new Date(),
       }
-    }
+    },
   }
 </script>
 <!--
@@ -36,34 +36,39 @@
 </setup>
 -->
 ```
+
 :::
 
 ### カスタムコンテンツ
 
-:::demo `scoped-slot` に `dateCell` という名前を設定することで、calendarセルに表示する内容をカスタマイズすることができる。`scoped-slot`では、日付(現在のセルの日付)とデータ(type, isSelected, day属性を含む)を取得することができます。詳細は以下のAPIドキュメントを参照のこと。
+:::demo `scoped-slot` に `dateCell` という名前を設定することで、calendar セルに表示する内容をカスタマイズすることができる。`scoped-slot`では、日付(現在のセルの日付)とデータ(type, isSelected, day 属性を含む)を取得することができます。詳細は以下の API ドキュメントを参照のこと。
+
 ```html
 <el-calendar>
   <template #dateCell="{data}">
     <p :class="data.isSelected ? 'is-selected' : ''">
-      {{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' : ''}}
+      {{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' :
+      ''}}
     </p>
   </template>
 </el-calendar>
 <style>
   .is-selected {
-    color: #1989FA;
+    color: #1989fa;
   }
 </style>
 ```
+
 :::
 
 ### レンジ
 
-:::demo calendarの表示範囲を指定するために `range` 属性を設定する。開始時刻は月曜日、終了時刻は日曜日でなければならず、期間は2ヶ月を超えてはならない。
+:::demo calendar の表示範囲を指定するために `range` 属性を設定する。開始時刻は月曜日、終了時刻は日曜日でなければならず、期間は 2 ヶ月を超えてはならない。
+
 ```html
-<el-calendar :range="['2019-03-04', '2019-03-24']">
-</el-calendar>
+<el-calendar :range="['2019-03-04', '2019-03-24']"> </el-calendar>
 ```
+
 :::
 
 ### Localization
@@ -73,13 +78,15 @@ The default locale of is English, if you need to use other languages, please che
 Note, date time locale (month name, first day of the week ...) are also configed in localization.
 
 ### 属性
-| Attribute       | Description        | Type      | Accepted Values       | Default  |
-|-----------------|------------------- |---------- |---------------------- |--------- |
-| model-value / v-model | バインディング値      | Date/string/number | —            | —        |
-| range           | 開始時刻と終了時刻を含む時間範囲。開始時間は週の開始日、終了時間は週の終了日でなければならず、時間幅は2ヶ月を超えることはできません。 | Array  | —  | —  |
-| first-day-of-week | 週の最初の日| Number    | 1 to 7                |  1       |
+
+| Attribute             | Description                                                                                                                             | Type               | Accepted Values | Default |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | --------------- | ------- |
+| model-value / v-model | バインディング値                                                                                                                        | Date/string/number | —               | —       |
+| range                 | 開始時刻と終了時刻を含む時間範囲。開始時間は週の開始日、終了時間は週の終了日でなければならず、時間幅は 2 ヶ月を超えることはできません。 | Array              | —               | —       |
+| first-day-of-week     | 週の最初の日                                                                                                                            | Number             | 1 to 7          | 1       |
 
 ### デートセルスコープスロット
-| Attribute       | Description   | Type      | Accepted Values       | Default  |
-|-----------------|-------------- |---------- |---------------------- |--------- |
-| data            | { type, isSelected, day, date }.  `type` は日付が属する月を示し、オプションの値は前月、現在の月、次の月です。`isSelected` は日付が選択されているかどうかを示す。`day`はyyyy-MM-dd形式でフォーマットされた日付です。`date` はセルが表す日付    | Object      | —           | —      |
+
+| Attribute | Description                                                                                                                                                                                                                                 | Type   | Accepted Values | Default |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | --------------- | ------- |
+| data      | { type, isSelected, day, date }. `type` は日付が属する月を示し、オプションの値は前月、現在の月、次の月です。`isSelected` は日付が選択されているかどうかを示す。`day`は yyyy-MM-dd 形式でフォーマットされた日付です。`date` はセルが表す日付 | Object | —               | —       |

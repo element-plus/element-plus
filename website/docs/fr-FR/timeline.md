@@ -7,13 +7,15 @@ Affiche une suite d'évènements dans un ordre chronologique.
 La timeline peut être divisée en plusieurs activités. Les timestamps sont des caractéristiques importantes qui les distinguent des autres composants. Notez la différence avec Steps.
 
 :::demo
+
 ```html
 <div class="block">
   <el-timeline>
     <el-timeline-item
       v-for="(activity, index) in activities"
       :key="index"
-      :timestamp="activity.timestamp">
+      :timestamp="activity.timestamp"
+    >
       {{activity.content}}
     </el-timeline-item>
   </el-timeline>
@@ -23,21 +25,26 @@ La timeline peut être divisée en plusieurs activités. Les timestamps sont des
   export default {
     data() {
       return {
-        activities: [{
-          content: 'Début de l\'évènement',
-          timestamp: '2018-04-15'
-        }, {
-          content: 'Approuvé',
-          timestamp: '2018-04-13'
-        }, {
-          content: 'Succès',
-          timestamp: '2018-04-11'
-        }]
-      };
-    }
-  };
+        activities: [
+          {
+            content: "Début de l'évènement",
+            timestamp: '2018-04-15',
+          },
+          {
+            content: 'Approuvé',
+            timestamp: '2018-04-13',
+          },
+          {
+            content: 'Succès',
+            timestamp: '2018-04-11',
+          },
+        ],
+      }
+    },
+  }
 </script>
 ```
+
 :::
 
 ### Noeud personnalisé
@@ -45,6 +52,7 @@ La timeline peut être divisée en plusieurs activités. Les timestamps sont des
 Vous pouvez personnaliser la taille, la couleur et les icônes de chaque Noeud.
 
 :::demo
+
 ```html
 <div class="block">
   <el-timeline>
@@ -55,7 +63,9 @@ Vous pouvez personnaliser la taille, la couleur et les icônes de chaque Noeud.
       :type="activity.type"
       :color="activity.color"
       :size="activity.size"
-      :timestamp="activity.timestamp">
+      :hollow="activity.hollow"
+      :timestamp="activity.timestamp"
+    >
       {{activity.content}}
     </el-timeline-item>
   </el-timeline>
@@ -65,29 +75,41 @@ Vous pouvez personnaliser la taille, la couleur et les icônes de chaque Noeud.
   export default {
     data() {
       return {
-        activities: [{
-          content: 'Icône',
-          timestamp: '2018-04-12 20:46',
-          size: 'large',
-          type: 'primary',
-          icon: 'el-icon-more'
-        }, {
-          content: 'Couleur',
-          timestamp: '2018-04-03 20:46',
-          color: '#0bbd87'
-        }, {
-          content: 'Taille',
-          timestamp: '2018-04-03 20:46',
-          size: 'large'
-        }, {
-          content: 'Défaut',
-          timestamp: '2018-04-03 20:46'
-        }]
-      };
-    }
-  };
+        activities: [
+          {
+            content: 'Icône',
+            timestamp: '2018-04-12 20:46',
+            size: 'large',
+            type: 'primary',
+            icon: 'el-icon-more',
+          },
+          {
+            content: 'Couleur',
+            timestamp: '2018-04-03 20:46',
+            color: '#0bbd87',
+          },
+          {
+            content: 'Taille',
+            timestamp: '2018-04-03 20:46',
+            size: 'large',
+          },
+          {
+            content: 'Custom hollow',
+            timestamp: '2018-04-03 20:46',
+            type: 'primary',
+            hollow: true,
+          },
+          {
+            content: 'Défaut',
+            timestamp: '2018-04-03 20:46',
+          },
+        ],
+      }
+    },
+  }
 </script>
 ```
+
 :::
 
 ### Timestamp personnalisé
@@ -95,6 +117,7 @@ Vous pouvez personnaliser la taille, la couleur et les icônes de chaque Noeud.
 Le timestamp peut être placé au-dessus du contenu lorsque celui-ci est trop haut.
 
 :::demo
+
 ```html
 <div class="block">
   <el-timeline>
@@ -119,23 +142,25 @@ Le timestamp peut être placé au-dessus du contenu lorsque celui-ci est trop ha
   </el-timeline>
 </div>
 ```
+
 :::
 
 ### Attribut de Timeline-item
 
-| Attribut      | Description    | Type      | Valeurs acceptées | Défaut   |
-|---------- |-------- |---------- |-------------  |-------- |
-| timestamp     | Le contenu du timestamp. | string  | - | — |
-| hide-timestamp  | Si le timestamp doit être affiché. | boolean | — | false |
-| placement | La position du timestamp. | string | top / bottom | bottom |
-| type | Le type de noeud. | string | primary / success / warning / danger / info | - |
-| color | La couleur de fond du noeud. | string | hsl / hsv / hex / rgb | - |
-| size | La taille du noeud | string | normal / large | normal |
-| icon | Le nom de classe de l'icône. | string | — | - |
+| Attribut       | Description                        | Type    | Valeurs acceptées                           | Défaut |
+| -------------- | ---------------------------------- | ------- | ------------------------------------------- | ------ |
+| timestamp      | Le contenu du timestamp.           | string  | —                                           | —      |
+| hide-timestamp | Si le timestamp doit être affiché. | boolean | —                                           | false  |
+| placement      | La position du timestamp.          | string  | top / bottom                                | bottom |
+| type           | Le type de noeud.                  | string  | primary / success / warning / danger / info | —      |
+| color          | La couleur de fond du noeud.       | string  | hsl / hsv / hex / rgb                       | —      |
+| size           | La taille du noeud                 | string  | normal / large                              | normal |
+| icon           | Le nom de classe de l'icône.       | string  | —                                           | —      |
+| hollow         | icon is hollow                     | boolean | —                                           | false  |
 
 ### Slots de Timeline-Item
 
-| Nom | Description |
-|------|--------|
-| — | Contenu personnalisé pour le timeline-item. |
-| dot | Noeud personnalisé. |
+| Nom | Description                                 |
+| --- | ------------------------------------------- |
+| —   | Contenu personnalisé pour le timeline-item. |
+| dot | Noeud personnalisé.                         |

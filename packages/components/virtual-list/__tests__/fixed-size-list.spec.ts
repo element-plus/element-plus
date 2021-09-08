@@ -41,13 +41,12 @@ const mount = makeMount(
       width: 50,
       onItemRendered,
     },
-  },
+  }
 )
 
 let cleanup: () => void
 
 describe('<fixed-size-list />', () => {
-
   beforeAll(() => {
     cleanup = setupMock()
   })
@@ -76,7 +75,7 @@ describe('<fixed-size-list />', () => {
     expect(
       wrapper
         .find(WINDOW_SELECTOR)
-        .element.firstElementChild.getAttribute('style'),
+        .element.firstElementChild.getAttribute('style')
     ).toBe('height: 2500px; width: 100%;')
     expect(onItemRendered).toHaveBeenCalledTimes(1)
   })
@@ -101,7 +100,7 @@ describe('<fixed-size-list />', () => {
     await makeScroll(
       (wrapper.vm.$refs.listRef as ListRef).windowRef,
       'scrollTop',
-      0,
+      0
     )
     expect(wrapper.find(ITEM_SELECTOR).text()).toContain(0)
 
@@ -112,7 +111,7 @@ describe('<fixed-size-list />', () => {
     await makeScroll(
       (wrapper.vm.$refs.listRef as ListRef).windowRef,
       'scrollLeft',
-      0,
+      0
     )
 
     expect(wrapper.find(ITEM_SELECTOR).text()).toContain(0)
@@ -163,7 +162,7 @@ describe('<fixed-size-list />', () => {
     expect(
       wrapper
         .find(WINDOW_SELECTOR)
-        .element.firstElementChild.getAttribute('style'),
+        .element.firstElementChild.getAttribute('style')
     ).toBe('height: 100%; width: 2500px;')
   })
 
@@ -196,7 +195,7 @@ describe('<fixed-size-list />', () => {
       wrapper
         .find(WINDOW_SELECTOR)
         .element.getAttribute('style')
-        .includes(`direction: ${RTL}`),
+        .includes(`direction: ${RTL}`)
     ).toBe(true)
     const style = wrapper.find(ITEM_SELECTOR).element.getAttribute('style')
     expect(style).toContain('right')

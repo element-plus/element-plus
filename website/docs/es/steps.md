@@ -21,18 +21,19 @@ Barra de pasos simple.
   export default {
     data() {
       return {
-        active: 0
-      };
+        active: 0,
+      }
     },
 
     methods: {
       next() {
-        if (this.active++ > 2) this.active = 0;
-      }
-    }
+        if (this.active++ > 2) this.active = 0
+      },
+    },
   }
 </script>
 ```
+
 :::
 
 ### Step bar con el estatus
@@ -48,6 +49,7 @@ Muestra el estado del step para cada paso.
   <el-step title="Step 3"></el-step>
 </el-steps>
 ```
+
 :::
 
 ### Centrado
@@ -55,6 +57,7 @@ Muestra el estado del step para cada paso.
 El título y la descripción pueden estar centrados.
 
 :::demo
+
 ```html
 <el-steps :active="2" align-center>
   <el-step title="Step 1" description="Some description"></el-step>
@@ -63,6 +66,7 @@ El título y la descripción pueden estar centrados.
   <el-step title="Step 4" description="Some description"></el-step>
 </el-steps>
 ```
+
 :::
 
 ### Step bar con descripción
@@ -70,6 +74,7 @@ El título y la descripción pueden estar centrados.
 Puede poner una descripción para cada paso.
 
 :::demo
+
 ```html
 <el-steps :active="1">
   <el-step title="Step 1" description="Some description"></el-step>
@@ -77,6 +82,7 @@ Puede poner una descripción para cada paso.
   <el-step title="Step 3" description="Some description"></el-step>
 </el-steps>
 ```
+
 :::
 
 ### Step bar con icono
@@ -92,13 +98,14 @@ En la barra de pasos se pueden utilizar diversos iconos personalizados.
   <el-step title="Step 3" icon="el-icon-picture"></el-step>
 </el-steps>
 ```
+
 :::
 
 ### Step bar vertical
 
 Step bar vertical.
 
-:::demo Sólo tiene que fijar el atributo `direction`  a ` vertical` en el elemento `el-steps`.
+:::demo Sólo tiene que fijar el atributo `direction` a ` vertical` en el elemento `el-steps`.
 
 ```html
 <div style="height: 300px;">
@@ -109,14 +116,16 @@ Step bar vertical.
   </el-steps>
 </div>
 ```
+
 :::
 
 ### Step bar simple
+
 Step bar simple, donde se ignorará `align-center`, `description`, `direction` y `space`.
 
 :::demo
-```html
 
+```html
 <el-steps :space="200" :active="1" simple>
   <el-step title="Step 1" icon="el-icon-edit"></el-step>
   <el-step title="Step 2" icon="el-icon-upload"></el-step>
@@ -124,37 +133,39 @@ Step bar simple, donde se ignorará `align-center`, `description`, `direction` y
 </el-steps>
 
 <el-steps :active="1" finish-status="success" simple style="margin-top: 20px">
-  <el-step title="Step 1" ></el-step>
-  <el-step title="Step 2" ></el-step>
-  <el-step title="Step 3" ></el-step>
+  <el-step title="Step 1"></el-step>
+  <el-step title="Step 2"></el-step>
+  <el-step title="Step 3"></el-step>
 </el-steps>
 ```
+
 :::
 
 ### Steps atributos
 
-| Atributo       | Descripción                                                  | Tipo            | Valores aceptados                         | Por defecto |
-| -------------- | ------------------------------------------------------------ | --------------- | ----------------------------------------- | ----------- |
+| Atributo       | Descripción                                                                 | Tipo            | Valores aceptados                         | Por defecto |
+| -------------- | --------------------------------------------------------------------------- | --------------- | ----------------------------------------- | ----------- |
 | space          | el espaciado de cada paso, será responsivo si se omite. Soporta porcentaje. | number / string | —                                         | —           |
-| direction      | dirección de visualización                                   | string          | vertical/horizontal                       | horizontal  |
-| active         | actual paso de activación                                    | number          | —                                         | 0           |
-| process-status | estatus del paso actual                                      | string          | wait / process / finish / error / success | process     |
-| finish-status  | estatus del paso final                                       | string          | wait / process / finish / error / success | finish      |
-| align-center   | centrado de título y descripción                             | boolean         | —                                         | false       |
-| simple         | si aplicar un tema simple                                    | boolean         | -                                         | false       |
+| direction      | dirección de visualización                                                  | string          | vertical/horizontal                       | horizontal  |
+| active         | actual paso de activación                                                   | number          | —                                         | 0           |
+| process-status | estatus del paso actual                                                     | string          | wait / process / finish / error / success | process     |
+| finish-status  | estatus del paso final                                                      | string          | wait / process / finish / error / success | finish      |
+| align-center   | centrado de título y descripción                                            | boolean         | —                                         | false       |
+| simple         | si aplicar un tema simple                                                   | boolean         | -                                         | false       |
 
 ### Step atributos
-| Atributo    | Descripción                              | Tipo                                     | Valores aceptados | Por defecto |
-| ----------- | ---------------------------------------- | ---------------------------------------- | ----------------- | ----------- |
-| title       | titulo del paso                          | string                                   | —                 | —           |
-| description | descripción del paso                     | string                                   | —                 | —           |
-| icon        | icono del paso                           | nombre de la clase del icono del paso. Los iconos también se pueden pasar a través del slot con nombre | string            | —           |
-| status      | estado actual. Se configurará automáticamente mediante Steps si no está configurado. | wait / process / finish / error / success | -                 |             |
+
+| Atributo    | Descripción                                                                          | Tipo                                                                                                   | Valores aceptados | Por defecto |
+| ----------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ | ----------------- | ----------- |
+| title       | titulo del paso                                                                      | string                                                                                                 | —                 | —           |
+| description | descripción del paso                                                                 | string                                                                                                 | —                 | —           |
+| icon        | icono del paso                                                                       | nombre de la clase del icono del paso. Los iconos también se pueden pasar a través del slot con nombre | string            | —           |
+| status      | estado actual. Se configurará automáticamente mediante Steps si no está configurado. | wait / process / finish / error / success                                                              | -                 |             |
 
 ### Step Slot
+
 | Name        | Description          |
 | ----------- | -------------------- |
 | icon        | Icono personalizado  |
 | title       | Titulo del paso      |
 | description | Descripción del paso |
-

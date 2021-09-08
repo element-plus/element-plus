@@ -45,19 +45,17 @@ function calculateNodeStyling(targetElement: Element): NodeStyle {
 
   const boxSizing = style.getPropertyValue('box-sizing')
 
-  const paddingSize = (
+  const paddingSize =
     parseFloat(style.getPropertyValue('padding-bottom')) +
     parseFloat(style.getPropertyValue('padding-top'))
-  )
 
-  const borderSize = (
+  const borderSize =
     parseFloat(style.getPropertyValue('border-bottom-width')) +
     parseFloat(style.getPropertyValue('border-top-width'))
-  )
 
-  const contextStyle = CONTEXT_STYLE
-    .map(name => `${name}:${style.getPropertyValue(name)}`)
-    .join(';')
+  const contextStyle = CONTEXT_STYLE.map(
+    (name) => `${name}:${style.getPropertyValue(name)}`
+  ).join(';')
 
   return { contextStyle, paddingSize, borderSize, boxSizing }
 }
@@ -65,19 +63,15 @@ function calculateNodeStyling(targetElement: Element): NodeStyle {
 export default function calcTextareaHeight(
   targetElement: HTMLInputElement,
   minRows = 1,
-  maxRows = null,
+  maxRows = null
 ): TextAreaHeight {
   if (!hiddenTextarea) {
     hiddenTextarea = document.createElement('textarea')
     document.body.appendChild(hiddenTextarea)
   }
 
-  const {
-    paddingSize,
-    borderSize,
-    boxSizing,
-    contextStyle,
-  } = calculateNodeStyling(targetElement)
+  const { paddingSize, borderSize, boxSizing, contextStyle } =
+    calculateNodeStyling(targetElement)
 
   hiddenTextarea.setAttribute('style', `${contextStyle};${HIDDEN_STYLE}`)
   hiddenTextarea.value = targetElement.value || targetElement.placeholder || ''
@@ -100,7 +94,7 @@ export default function calcTextareaHeight(
       minHeight = minHeight + paddingSize + borderSize
     }
     height = Math.max(minHeight, height)
-    result.minHeight = `${ minHeight }px`
+    result.minHeight = `${minHeight}px`
   }
   if (maxRows !== null) {
     let maxHeight = singleRowHeight * maxRows
@@ -109,7 +103,7 @@ export default function calcTextareaHeight(
     }
     height = Math.min(maxHeight, height)
   }
-  result.height = `${ height }px`
+  result.height = `${height}px`
   hiddenTextarea.parentNode?.removeChild(hiddenTextarea)
   hiddenTextarea = null
 

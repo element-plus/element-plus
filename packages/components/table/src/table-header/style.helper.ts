@@ -10,7 +10,7 @@ function useStyle<T>(props: TableHeaderProps<T>) {
   const storeData = parent.store.states
   const isCellHidden = (
     index: number,
-    columns: TableColumnCtx<T>[],
+    columns: TableColumnCtx<T>[]
   ): boolean => {
     let start = 0
     for (let i = 0; i < index; i++) {
@@ -59,7 +59,7 @@ function useStyle<T>(props: TableHeaderProps<T>) {
     rowIndex: number,
     columnIndex: number,
     row: T,
-    column: TableColumnCtx<T>,
+    column: TableColumnCtx<T>
   ) => {
     const headerCellStyle = parent.props.headerCellStyle
     if (typeof headerCellStyle === 'function') {
@@ -77,7 +77,7 @@ function useStyle<T>(props: TableHeaderProps<T>) {
     rowIndex: number,
     columnIndex: number,
     row: T,
-    column: TableColumnCtx<T>,
+    column: TableColumnCtx<T>
   ) => {
     const classes = [
       column.id,
@@ -88,7 +88,7 @@ function useStyle<T>(props: TableHeaderProps<T>) {
     ]
     if (
       rowIndex === 0 &&
-      isCellHidden(columnIndex, (row as unknown) as TableColumnCtx<T>[])
+      isCellHidden(columnIndex, row as unknown as TableColumnCtx<T>[])
     ) {
       classes.push('is-hidden')
     }
@@ -111,7 +111,7 @@ function useStyle<T>(props: TableHeaderProps<T>) {
           columnIndex,
           row,
           column,
-        }),
+        })
       )
     }
 

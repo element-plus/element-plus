@@ -21,18 +21,19 @@ Voici une barre d'étapes basique.
   export default {
     data() {
       return {
-        active: 0
-      };
+        active: 0,
+      }
     },
 
     methods: {
       next() {
-        if (this.active++ > 2) this.active = 0;
-      }
-    }
+        if (this.active++ > 2) this.active = 0
+      },
+    },
   }
 </script>
 ```
+
 :::
 
 ### Barre avec statut
@@ -48,6 +49,7 @@ Vous pouvez afficher le statut de chaque étape.
   <el-step title="Étape 3"></el-step>
 </el-steps>
 ```
+
 :::
 
 ### Barre avec description
@@ -55,6 +57,7 @@ Vous pouvez afficher le statut de chaque étape.
 Vous pouvez ajouter une description pour chaque étape.
 
 :::demo
+
 ```html
 <el-steps :active="1">
   <el-step title="Étape 1" description="Une description"></el-step>
@@ -62,6 +65,7 @@ Vous pouvez ajouter une description pour chaque étape.
   <el-step title="Étape 3" description="Une description"></el-step>
 </el-steps>
 ```
+
 :::
 
 ### Centrer
@@ -69,6 +73,7 @@ Vous pouvez ajouter une description pour chaque étape.
 Le titre et la description peuvent être centrés.
 
 :::demo
+
 ```html
 <el-steps :active="2" align-center>
   <el-step title="Étape 1" description="Une description"></el-step>
@@ -77,6 +82,7 @@ Le titre et la description peuvent être centrés.
   <el-step title="Étape 4" description="Une description"></el-step>
 </el-steps>
 ```
+
 :::
 
 ### Barre avec icône
@@ -92,6 +98,7 @@ Une grande variété d'icônes peut être utilisée dans la barre d'étapes.
   <el-step title="Étape 3" icon="el-icon-picture"></el-step>
 </el-steps>
 ```
+
 :::
 
 ### Barre verticale
@@ -109,6 +116,7 @@ La barre d'étape peut être affichée de manière verticale.
   </el-steps>
 </div>
 ```
+
 :::
 
 ### Barre d'étapes simple
@@ -116,8 +124,8 @@ La barre d'étape peut être affichée de manière verticale.
 La barre peut être simplifiée de manière à ce que `align-center`, `description`, `direction` et `space` soient ignorées.
 
 :::demo
-```html
 
+```html
 <el-steps :space="200" :active="1" simple>
   <el-step title="Étape 1" icon="el-icon-edit"></el-step>
   <el-step title="Étape 2" icon="el-icon-upload"></el-step>
@@ -125,38 +133,39 @@ La barre peut être simplifiée de manière à ce que `align-center`, `descripti
 </el-steps>
 
 <el-steps :active="1" finish-status="success" simple style="margin-top: 20px">
-  <el-step title="Étape 1" ></el-step>
-  <el-step title="Étape 2" ></el-step>
-  <el-step title="Étape 3" ></el-step>
+  <el-step title="Étape 1"></el-step>
+  <el-step title="Étape 2"></el-step>
+  <el-step title="Étape 3"></el-step>
 </el-steps>
 ```
+
 :::
 
 ### Attributs de la barre
 
-| Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
-|---------- |-------- |---------- |-------------  |-------- |
-| space | L'espace entre chaque étape, sera responsive si omis. Supporte les pourcentages. | number / string | — | — |
-| direction | L'orientation de la barre. | string | vertical/horizontal | horizontal |
-| active | L'index de l'étape courante.  | number | — | 0 |
-| process-status | Le statut de l'étape courante. | string | wait / process / finish / error / success | process |
-| finish-status | Le statut de la dernière étape. | string | wait / process / finish / error / success | finish |
-| align-center | Si le titre et la description doivent être centrés. | boolean | — | false |
-| simple | Si un thème simple doit être appliqué. | boolean | - | false |
+| Attribut       | Description                                                                      | Type            | Valeurs acceptées                         | Défaut     |
+| -------------- | -------------------------------------------------------------------------------- | --------------- | ----------------------------------------- | ---------- |
+| space          | L'espace entre chaque étape, sera responsive si omis. Supporte les pourcentages. | number / string | —                                         | —          |
+| direction      | L'orientation de la barre.                                                       | string          | vertical/horizontal                       | horizontal |
+| active         | L'index de l'étape courante.                                                     | number          | —                                         | 0          |
+| process-status | Le statut de l'étape courante.                                                   | string          | wait / process / finish / error / success | process    |
+| finish-status  | Le statut de la dernière étape.                                                  | string          | wait / process / finish / error / success | finish     |
+| align-center   | Si le titre et la description doivent être centrés.                              | boolean         | —                                         | false      |
+| simple         | Si un thème simple doit être appliqué.                                           | boolean         | -                                         | false      |
 
 ### Attributs des étapes
 
-| Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
-|---------- |-------- |---------- |-------------  |-------- |
-| title | Titre de l'étape. | string | — | — |
-| description | Description de l'étape. | string | — | — |
-| icon | step icon | Classe de l'icône d'étape. Les icônes peuvent aussi être passées via des slots. | string | — |
-| status | Le statut actuel. Sera déterminé par la barre d'étapes si omis. | wait / process / finish / error / success | - |
+| Attribut    | Description                                                     | Type                                                                            | Valeurs acceptées | Défaut |
+| ----------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------- | ----------------- | ------ |
+| title       | Titre de l'étape.                                               | string                                                                          | —                 | —      |
+| description | Description de l'étape.                                         | string                                                                          | —                 | —      |
+| icon        | step icon                                                       | Classe de l'icône d'étape. Les icônes peuvent aussi être passées via des slots. | string            | —      |
+| status      | Le statut actuel. Sera déterminé par la barre d'étapes si omis. | wait / process / finish / error / success                                       | -                 |
 
 ### Slots des étapes
 
-| Nom | Description |
-|----|----|
-| icon | L'icône de l'étape. |
-| title | Le titre de l'étape. |
+| Nom         | Description                |
+| ----------- | -------------------------- |
+| icon        | L'icône de l'étape.        |
+| title       | Le titre de l'étape.       |
 | description | La description de l'étape. |

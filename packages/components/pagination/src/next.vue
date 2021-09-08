@@ -31,9 +31,11 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const internalDisabled = computed(() => props.disabled
-      || props.currentPage === props.pageCount
-      || props.pageCount === 0,
+    const internalDisabled = computed(
+      () =>
+        props.disabled ||
+        props.currentPage === props.pageCount ||
+        props.pageCount === 0
     )
 
     return {

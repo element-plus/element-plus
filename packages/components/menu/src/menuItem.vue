@@ -17,8 +17,8 @@
     <el-tooltip
       v-if="
         parentMenu.type.name === 'ElMenu' &&
-          rootMenu.props.collapse &&
-          slots.title
+        rootMenu.props.collapse &&
+        slots.title
       "
       :effect="Effect.DARK"
       placement="right"
@@ -27,7 +27,16 @@
         <slot name="title"></slot>
       </template>
       <div
-        style="position: absolute;left: 0;top: 0;height: 100%;width: 100%;display: inline-block;box-sizing: border-box;padding: 0 20px;"
+        style="
+          position: absolute;
+          left: 0;
+          top: 0;
+          height: 100%;
+          width: 100%;
+          display: inline-block;
+          box-sizing: border-box;
+          padding: 0 20px;
+        "
       >
         <slot></slot>
       </div>
@@ -74,10 +83,10 @@ export default defineComponent({
     const rootMenu = inject<RootMenuProvider>('rootMenu')
     const { parentMenu, paddingStyle, indexPath } = useMenu(
       instance,
-      computed(() => props.index),
+      computed(() => props.index)
     )
     const { addSubMenu, removeSubMenu } = inject<SubMenuProvider>(
-      `subMenu:${parentMenu.value.uid}`,
+      `subMenu:${parentMenu.value.uid}`
     )
 
     const active = computed(() => {

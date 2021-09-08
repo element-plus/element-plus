@@ -7,6 +7,7 @@ Single selection among multiple options.
 Radio should not have too many options. Otherwise, use the Select component instead.
 
 :::demo Creating a radio component is easy, you just need to bind a variable to Radio's `v-model`. It equals to the value of `label` of the chosen radio. The type of `label` is `String`, `Number` or `Boolean`.
+
 ```html
 <template>
   <div>
@@ -29,14 +30,14 @@ Radio should not have too many options. Otherwise, use the Select component inst
 
 <script>
   export default {
-    data () {
+    data() {
       return {
         radio1: '1',
         radio2: '1',
         radio3: '1',
         radio4: '1',
-      };
-    }
+      }
+    },
   }
 </script>
 <!--
@@ -56,6 +57,7 @@ Radio should not have too many options. Otherwise, use the Select component inst
 </setup>
 -->
 ```
+
 :::
 
 ### Disabled
@@ -63,19 +65,22 @@ Radio should not have too many options. Otherwise, use the Select component inst
 `disabled` attribute is used to disable the radio.
 
 :::demo You just need to add the `disabled` attribute.
+
 ```html
 <template>
   <el-radio disabled v-model="radio" label="disabled">Option A</el-radio>
-  <el-radio disabled v-model="radio" label="selected and disabled">Option B</el-radio>
+  <el-radio disabled v-model="radio" label="selected and disabled"
+    >Option B</el-radio
+  >
 </template>
 
 <script>
   export default {
-    data () {
+    data() {
       return {
-        radio: 'selected and disabled'
-      };
-    }
+        radio: 'selected and disabled',
+      }
+    },
   }
 </script>
 <!--
@@ -92,6 +97,7 @@ Radio should not have too many options. Otherwise, use the Select component inst
 </setup>
 -->
 ```
+
 :::
 
 ### Radio button group
@@ -109,11 +115,11 @@ Suitable for choosing from some mutually exclusive options.
 
 <script>
   export default {
-    data () {
+    data() {
       return {
-        radio: 3
-      };
-    }
+        radio: 3,
+      }
+    },
   }
 </script>
 <!--
@@ -130,6 +136,7 @@ Suitable for choosing from some mutually exclusive options.
 </setup>
 -->
 ```
+
 :::
 
 ### Button style
@@ -137,6 +144,7 @@ Suitable for choosing from some mutually exclusive options.
 Radio with button styles.
 
 :::demo You just need to change `el-radio` element into `el-radio-button` element. We also provide `size` attribute.
+
 ```html
 <template>
   <div>
@@ -149,7 +157,7 @@ Radio with button styles.
   </div>
   <div style="margin-top: 20px">
     <el-radio-group v-model="radio2" size="medium">
-      <el-radio-button label="New York" ></el-radio-button>
+      <el-radio-button label="New York"></el-radio-button>
       <el-radio-button label="Washington"></el-radio-button>
       <el-radio-button label="Los Angeles"></el-radio-button>
       <el-radio-button label="Chicago"></el-radio-button>
@@ -158,7 +166,7 @@ Radio with button styles.
   <div style="margin-top: 20px">
     <el-radio-group v-model="radio3" size="small">
       <el-radio-button label="New York"></el-radio-button>
-      <el-radio-button label="Washington" disabled ></el-radio-button>
+      <el-radio-button label="Washington" disabled></el-radio-button>
       <el-radio-button label="Los Angeles"></el-radio-button>
       <el-radio-button label="Chicago"></el-radio-button>
     </el-radio-group>
@@ -175,14 +183,14 @@ Radio with button styles.
 
 <script>
   export default {
-    data () {
+    data() {
       return {
         radio1: 'New York',
         radio2: 'New York',
         radio3: 'New York',
-        radio4: 'New York'
-      };
-    }
+        radio4: 'New York',
+      }
+    },
   }
 </script>
 <!--
@@ -202,11 +210,13 @@ Radio with button styles.
 </setup>
 -->
 ```
+
 :::
 
 ### With borders
 
 :::demo The `border` attribute adds a border to Radios.
+
 ```html
 <template>
   <div>
@@ -214,8 +224,12 @@ Radio with button styles.
     <el-radio v-model="radio1" label="2" border>Option B</el-radio>
   </div>
   <div style="margin-top: 20px">
-    <el-radio v-model="radio2" label="1" border size="medium">Option A</el-radio>
-    <el-radio v-model="radio2" label="2" border size="medium">Option B</el-radio>
+    <el-radio v-model="radio2" label="1" border size="medium"
+      >Option A</el-radio
+    >
+    <el-radio v-model="radio2" label="2" border size="medium"
+      >Option B</el-radio
+    >
   </div>
   <div style="margin-top: 20px">
     <el-radio-group v-model="radio3" size="small">
@@ -233,14 +247,14 @@ Radio with button styles.
 
 <script>
   export default {
-    data () {
+    data() {
       return {
         radio1: '1',
         radio2: '1',
         radio3: '1',
-        radio4: '1'
-      };
-    }
+        radio4: '1',
+      }
+    },
   }
 </script>
 <!--
@@ -260,45 +274,46 @@ Radio with button styles.
 </setup>
 -->
 ```
+
 :::
 
 ### Radio Attributes
 
- Attribute      | Description          | Type      | Accepted Values       | Default
----- | ---- | ---- | ---- | ----
-model-value / v-model | binding value | string / number / boolean | — | —
-label | the value of Radio | string / number / boolean | — | —
-disabled | whether Radio is disabled | boolean | — | false
-border  | whether to add a border around Radio  | boolean   | — | false
-size  | size of the Radio  | string  | medium / small / mini | —
-name | native 'name' attribute | string    |      —         |     —
+| Attribute             | Description                          | Type                      | Accepted Values       | Default |
+| --------------------- | ------------------------------------ | ------------------------- | --------------------- | ------- |
+| model-value / v-model | binding value                        | string / number / boolean | —                     | —       |
+| label                 | the value of Radio                   | string / number / boolean | —                     | —       |
+| disabled              | whether Radio is disabled            | boolean                   | —                     | false   |
+| border                | whether to add a border around Radio | boolean                   | —                     | false   |
+| size                  | size of the Radio                    | string                    | medium / small / mini | —       |
+| name                  | native 'name' attribute              | string                    | —                     | —       |
 
 ### Radio Events
 
-| Event Name | Description | Parameters |
-| --- | --- | --- |
-| change | triggers when the bound value changes | the label value of the chosen radio |
+| Event Name | Description                           | Parameters                          |
+| ---------- | ------------------------------------- | ----------------------------------- |
+| change     | triggers when the bound value changes | the label value of the chosen radio |
 
 ### Radio-group Attributes
 
- Attribute      | Description          | Type      | Accepted Values       | Default
----- | ---- | ---- | ---- | ----
-model-value / v-model | binding value | string / number / boolean | — | —
-size | the size of radio | string | medium / small / mini | —
-disabled  | whether the nesting radios are disabled | boolean   | — | false
-text-color | font color when button is active | string   | — | #ffffff   |
-fill  | border and background color when button is active | string   | — | #409EFF   |
+| Attribute             | Description                                       | Type                      | Accepted Values       | Default |
+| --------------------- | ------------------------------------------------- | ------------------------- | --------------------- | ------- |
+| model-value / v-model | binding value                                     | string / number / boolean | —                     | —       |
+| size                  | the size of radio                                 | string                    | medium / small / mini | —       |
+| disabled              | whether the nesting radios are disabled           | boolean                   | —                     | false   |
+| text-color            | font color when button is active                  | string                    | —                     | #ffffff |
+| fill                  | border and background color when button is active | string                    | —                     | #409EFF |
 
 ### Radio-group Events
 
-| Event Name | Description | Parameters |
-| --- | --- | --- |
-| change | triggers when the bound value changes | the label value of the chosen radio |
+| Event Name | Description                           | Parameters                          |
+| ---------- | ------------------------------------- | ----------------------------------- |
+| change     | triggers when the bound value changes | the label value of the chosen radio |
 
 ### Radio-button Attributes
 
- Attribute      | Description          | Type      | Accepted Values       | Default
----- | ---- | ---- | ---- | ----
-label | the value of radio | string / number | — | —
-disabled | whether radio is disabled | boolean | — | false
-name | native 'name' attribute | string    |      —         |     —
+| Attribute | Description               | Type            | Accepted Values | Default |
+| --------- | ------------------------- | --------------- | --------------- | ------- |
+| label     | the value of radio        | string / number | —               | —       |
+| disabled  | whether radio is disabled | boolean         | —               | false   |
+| name      | native 'name' attribute   | string          | —               | —       |

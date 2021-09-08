@@ -7,12 +7,15 @@ Used for marking and selection.
 :::demo Use the `type` attribute to define Tag's type. In addition, the `color` attribute can be used to set the background color of the Tag.
 
 ```html
-<el-tag>Tag 1</el-tag>
-<el-tag type="success">Tag 2</el-tag>
-<el-tag type="info">Tag 3</el-tag>
-<el-tag type="warning">Tag 4</el-tag>
-<el-tag type="danger">Tag 5</el-tag>
+<template>
+  <el-tag>Tag 1</el-tag>
+  <el-tag type="success">Tag 2</el-tag>
+  <el-tag type="info">Tag 3</el-tag>
+  <el-tag type="warning">Tag 4</el-tag>
+  <el-tag type="danger">Tag 5</el-tag>
+</template>
 ```
+
 :::
 
 ### Removable Tag
@@ -20,13 +23,11 @@ Used for marking and selection.
 :::demo `closable` attribute can be used to define a removable tag. It accepts a `Boolean`. By default the removal of Tag has a fading animation. If you don't want to use it, you can set the `disable-transitions` attribute, which accepts a `Boolean`, to `true`. `close` event triggers when Tag is removed.
 
 ```html
-<el-tag
-  v-for="tag in tags"
-  :key="tag.name"
-  closable
-  :type="tag.type">
-  {{tag.name}}
-</el-tag>
+<template>
+  <el-tag v-for="tag in tags" :key="tag.name" closable :type="tag.type">
+    {{tag.name}}
+  </el-tag>
+</template>
 
 <script>
   export default {
@@ -37,13 +38,14 @@ Used for marking and selection.
           { name: 'Tag 2', type: 'success' },
           { name: 'Tag 3', type: 'info' },
           { name: 'Tag 4', type: 'warning' },
-          { name: 'Tag 5', type: 'danger' }
-        ]
-      };
-    }
+          { name: 'Tag 5', type: 'danger' },
+        ],
+      }
+    },
   }
 </script>
 ```
+
 :::
 
 ### Edit Dynamically
@@ -51,26 +53,32 @@ Used for marking and selection.
 You can use the `close` event to add and remove tag dynamically.
 
 :::demo
+
 ```html
-<el-tag
-  :key="tag"
-  v-for="tag in dynamicTags"
-  closable
-  :disable-transitions="false"
-  @close="handleClose(tag)">
-  {{tag}}
-</el-tag>
-<el-input
-  class="input-new-tag"
-  v-if="inputVisible"
-  v-model="inputValue"
-  ref="saveTagInput"
-  size="mini"
-  @keyup.enter="handleInputConfirm"
-  @blur="handleInputConfirm"
->
-</el-input>
-<el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
+<template>
+  <el-tag
+    :key="tag"
+    v-for="tag in dynamicTags"
+    closable
+    :disable-transitions="false"
+    @close="handleClose(tag)"
+  >
+    {{tag}}
+  </el-tag>
+  <el-input
+    class="input-new-tag"
+    v-if="inputVisible"
+    v-model="inputValue"
+    ref="saveTagInput"
+    size="mini"
+    @keyup.enter="handleInputConfirm"
+    @blur="handleInputConfirm"
+  >
+  </el-input>
+  <el-button v-else class="button-new-tag" size="small" @click="showInput"
+    >+ New Tag</el-button
+  >
+</template>
 
 <style>
   .el-tag + .el-tag {
@@ -96,33 +104,34 @@ You can use the `close` event to add and remove tag dynamically.
       return {
         dynamicTags: ['Tag 1', 'Tag 2', 'Tag 3'],
         inputVisible: false,
-        inputValue: ''
-      };
+        inputValue: '',
+      }
     },
     methods: {
       handleClose(tag) {
-        this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+        this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1)
       },
 
       showInput() {
-        this.inputVisible = true;
-        this.$nextTick(_ => {
-          this.$refs.saveTagInput.$refs.input.focus();
-        });
+        this.inputVisible = true
+        this.$nextTick((_) => {
+          this.$refs.saveTagInput.$refs.input.focus()
+        })
       },
 
       handleInputConfirm() {
-        let inputValue = this.inputValue;
+        let inputValue = this.inputValue
         if (inputValue) {
-          this.dynamicTags.push(inputValue);
+          this.dynamicTags.push(inputValue)
         }
-        this.inputVisible = false;
-        this.inputValue = '';
-      }
-    }
+        this.inputVisible = false
+        this.inputValue = ''
+      },
+    },
   }
 </script>
 ```
+
 :::
 
 ### Sizes
@@ -132,40 +141,47 @@ Besides default size, Tag component provides three additional sizes for you to c
 :::demo Use attribute `size` to set additional sizes with `medium`, `small` or `mini`.
 
 ```html
-<el-tag>Default</el-tag>
-<el-tag size="medium">Medium</el-tag>
-<el-tag size="small">Small</el-tag>
-<el-tag size="mini">Mini</el-tag>
+<template>
+  <el-tag>Default</el-tag>
+  <el-tag size="medium">Medium</el-tag>
+  <el-tag size="small">Small</el-tag>
+  <el-tag size="mini">Mini</el-tag>
+</template>
 ```
-:::
 
+:::
 
 ### Theme
 
 Tag provide three different themes: `dark`、`light` and `plain`
 
 :::demo Using `effect` to change, default is `light`
+
 ```html
-<div class="tag-group">
-  <span class="tag-group__title">Dark</span>
-  <el-tag
-    v-for="item in items"
-    :key="item.label"
-    :type="item.type"
-    effect="dark">
-    {{ item.label }}
-  </el-tag>
-</div>
-<div class="tag-group">
-  <span class="tag-group__title">Plain</span>
-  <el-tag
-    v-for="item in items"
-    :key="item.label"
-    :type="item.type"
-    effect="plain">
-    {{ item.label }}
-  </el-tag>
-</div>
+<template>
+  <div class="tag-group">
+    <span class="tag-group__title">Dark</span>
+    <el-tag
+      v-for="item in items"
+      :key="item.label"
+      :type="item.type"
+      effect="dark"
+    >
+      {{ item.label }}
+    </el-tag>
+  </div>
+  <div class="tag-group">
+    <span class="tag-group__title">Plain</span>
+    <el-tag
+      v-for="item in items"
+      :key="item.label"
+      :type="item.type"
+      effect="plain"
+    >
+      {{ item.label }}
+    </el-tag>
+  </div>
+</template>
 
 <script>
   export default {
@@ -176,13 +192,14 @@ Tag provide three different themes: `dark`、`light` and `plain`
           { type: 'success', label: 'Tag 2' },
           { type: 'info', label: 'Tag 3' },
           { type: 'danger', label: 'Tag 4' },
-          { type: 'warning', label: 'Tag 5' }
-        ]
+          { type: 'warning', label: 'Tag 5' },
+        ],
       }
-    }
+    },
   }
 </script>
 ```
+
 :::
 
 ### Checkable tag
@@ -190,12 +207,14 @@ Tag provide three different themes: `dark`、`light` and `plain`
 Sometimes because of the business needs, we might need checkbox like tag, but **button like checkbox** cannot meet our needs, here comes `check-tag`
 
 :::demo basic check-tag usage, the API is rather simple.
-```html
 
-<div>
-  <el-check-tag checked style="margin-right: 8px;">Checked</el-check-tag>
-  <el-check-tag @change="onChange" :checked="checked">Toggle me</el-check-tag>
-</div>
+```html
+<template>
+  <div>
+    <el-check-tag checked style="margin-right: 8px;">Checked</el-check-tag>
+    <el-check-tag @change="onChange" :checked="checked">Toggle me</el-check-tag>
+  </div>
+</template>
 
 <script>
   export default {
@@ -206,39 +225,42 @@ Sometimes because of the business needs, we might need checkbox like tag, but **
     },
     methods: {
       onChange(checked) {
-        this.checked = checked;
-      }
-    }
+        this.checked = checked
+      },
+    },
   }
 </script>
-
 ```
+
 :::
 
 ### Attributes
-| Attribute      | Description          | Type      | Accepted Values       | Default  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| type | component type | string | success/info/warning/danger | — |
-| closable | whether Tag can be removed | boolean | — | false |
-| disable-transitions | whether to disable animations | boolean | — | false |
-| hit | whether Tag has a highlighted border | boolean | — | false |
-| color | background color of the Tag | string | — | — |
-| size | tag size | string | medium / small / mini | — |
-| effect | component theme | string | dark / light / plain | light |
 
+| Attribute           | Description                          | Type    | Accepted Values             | Default |
+| ------------------- | ------------------------------------ | ------- | --------------------------- | ------- |
+| type                | component type                       | string  | success/info/warning/danger | —       |
+| closable            | whether Tag can be removed           | boolean | —                           | false   |
+| disable-transitions | whether to disable animations        | boolean | —                           | false   |
+| hit                 | whether Tag has a highlighted border | boolean | —                           | false   |
+| color               | background color of the Tag          | string  | —                           | —       |
+| size                | tag size                             | string  | medium / small / mini       | —       |
+| effect              | component theme                      | string  | dark / light / plain        | light   |
 
 ### Events
-| Event Name | Description | Parameters |
-|---------- |-------- |---------- |
-| click | triggers when Tag is clicked | — |
-| close | triggers when Tag is removed | — |
+
+| Event Name | Description                  | Parameters |
+| ---------- | ---------------------------- | ---------- |
+| click      | triggers when Tag is clicked | —          |
+| close      | triggers when Tag is removed | —          |
 
 ### CheckTag Attributes
-| Attribute      | Description          | Type      | Accepted Values   | Default  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| checked | is checked | boolean | true/false | — |
+
+| Attribute | Description | Type    | Accepted Values | Default |
+| --------- | ----------- | ------- | --------------- | ------- |
+| checked   | is checked  | boolean | true/false      | —       |
 
 ### CheckTag Events
-| Event Name | Description | Parameters |
-|---------- |-------- |---------- |
-| change | triggers when Check Tag is clicked | checked |
+
+| Event Name | Description                        | Parameters |
+| ---------- | ---------------------------------- | ---------- |
+| change     | triggers when Check Tag is clicked | checked    |

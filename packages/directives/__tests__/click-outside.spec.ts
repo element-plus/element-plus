@@ -28,21 +28,54 @@ const Component = {
   },
 }
 
-const _mount = () => mount(Component, {
-  global: {
-    directives: {
-      ClickOutside,
+const _mount = () =>
+  mount(Component, {
+    global: {
+      directives: {
+        ClickOutside,
+      },
     },
-  },
-})
+  })
 
 const triggerDocumentClickEvent = () => {
   const mousedown = document.createEvent('MouseEvents')
-  mousedown.initMouseEvent('mousedown', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
+  mousedown.initMouseEvent(
+    'mousedown',
+    true,
+    true,
+    window,
+    0,
+    0,
+    0,
+    0,
+    0,
+    false,
+    false,
+    false,
+    false,
+    0,
+    null
+  )
   document.dispatchEvent(mousedown)
 
   const mouseup = document.createEvent('MouseEvents')
-  mouseup.initMouseEvent('mouseup', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
+  mouseup.initMouseEvent(
+    'mouseup',
+    true,
+    true,
+    window,
+    0,
+    0,
+    0,
+    0,
+    0,
+    false,
+    false,
+    false,
+    false,
+    0,
+    null
+  )
   document.dispatchEvent(mouseup)
 }
 
@@ -90,12 +123,13 @@ describe('Multiple click-outside directives', () => {
   const OuterComponent = {
     setup() {
       return () => {
-        const triggerNode = withDirectives(h(InnerComponent), [[ClickOutside, secondHandler]])
+        const triggerNode = withDirectives(h(InnerComponent), [
+          [ClickOutside, secondHandler],
+        ])
         return h('div', { class: OTHER_CLASS }, triggerNode)
       }
     },
   }
-
 
   it('should support for multiple directives', async () => {
     const wrapper = mount(OuterComponent, {

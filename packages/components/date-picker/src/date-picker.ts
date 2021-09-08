@@ -21,7 +21,6 @@ import MonthRangePickPanel from './date-picker-com/panel-month-range.vue'
 import type { PropType } from 'vue'
 import type { IDatePickerType } from './date-picker.type'
 
-
 dayjs.extend(localeData)
 dayjs.extend(advancedFormat)
 dayjs.extend(customParseFormat)
@@ -64,17 +63,23 @@ export default defineComponent({
     return () => {
       // since props always have all defined keys on it, {format, ...props} will always overwrite format
       // pick props.format or provide default value here before spreading
-      const format = props.format ?? (DEFAULT_FORMATS_DATEPICKER[props.type] || DEFAULT_FORMATS_DATE)
-      return h(CommonPicker, {
-        ...props,
-        format,
-        type: props.type,
-        ref: commonPicker,
-        'onUpdate:modelValue': value => ctx.emit('update:modelValue', value),
-      },
-      {
-        default: scopedProps => h(getPanel(props.type), scopedProps),
-      })
+      const format =
+        props.format ??
+        (DEFAULT_FORMATS_DATEPICKER[props.type] || DEFAULT_FORMATS_DATE)
+      return h(
+        CommonPicker,
+        {
+          ...props,
+          format,
+          type: props.type,
+          ref: commonPicker,
+          'onUpdate:modelValue': (value) =>
+            ctx.emit('update:modelValue', value),
+        },
+        {
+          default: (scopedProps) => h(getPanel(props.type), scopedProps),
+        }
+      )
     }
   },
 })

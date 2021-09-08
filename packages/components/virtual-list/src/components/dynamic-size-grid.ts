@@ -37,9 +37,8 @@ const getItemFromCache = (
   props: Props,
   index: number,
   gridCache: GridCache,
-  type: CacheItemType,
+  type: CacheItemType
 ) => {
-
   const [cachedItems, sizer, lastVisited] = [
     gridCache[type],
     props[ACCESS_SIZER_KEY_MAP[type]],
@@ -76,7 +75,7 @@ const bs = (
   low: number,
   high: number,
   offset: number,
-  type: CacheItemType,
+  type: CacheItemType
 ) => {
   while (low <= high) {
     const mid = low + floor((high - low) / 2)
@@ -99,13 +98,14 @@ const es = (
   gridCache: GridCache,
   idx: number,
   offset: number,
-  type: CacheItemType,
+  type: CacheItemType
 ) => {
   const total = type === 'column' ? props.totalColumn : props.totalRow
   let exponent = 1
 
   while (
-    idx < total && getItemFromCache(props, idx, gridCache, type).offset < offset
+    idx < total &&
+    getItemFromCache(props, idx, gridCache, type).offset < offset
   ) {
     idx += exponent
     exponent *= 2
@@ -118,41 +118,27 @@ const findItem = (
   props: Props,
   gridCache: GridCache,
   offset: number,
-  type: CacheItemType,
+  type: CacheItemType
 ) => {
-
   const [cache, lastVisitedIndex] = [
     gridCache[type],
     gridCache[ACCESS_LAST_VISITED_KEY_MAP[type]],
   ] as [Record<string, ListItem>, number]
 
-  const lastVisitedItemOffset = lastVisitedIndex > 0 ? cache[lastVisitedIndex].offset : 0
+  const lastVisitedItemOffset =
+    lastVisitedIndex > 0 ? cache[lastVisitedIndex].offset : 0
 
   if (lastVisitedItemOffset >= offset) {
-    return bs(
-      props,
-      gridCache,
-      0,
-      lastVisitedIndex,
-      offset,
-      type,
-    )
+    return bs(props, gridCache, 0, lastVisitedIndex, offset, type)
   }
 
-  return es(
-    props,
-    gridCache,
-    max(0, lastVisitedIndex),
-    offset,
-    type,
-  )
+  return es(props, gridCache, max(0, lastVisitedIndex), offset, type)
 }
 
-const getEstimatedTotalHeight = ({ totalRow }: Props, {
-  estimatedRowHeight,
-  lastVisitedRowIndex,
-  row,
-}: GridCache) => {
+const getEstimatedTotalHeight = (
+  { totalRow }: Props,
+  { estimatedRowHeight, lastVisitedRowIndex, row }: GridCache
+) => {
   let sizeOfVisitedRows = 0
 
   if (lastVisitedRowIndex >= totalRow) {
@@ -170,14 +156,9 @@ const getEstimatedTotalHeight = ({ totalRow }: Props, {
   return sizeOfVisitedRows + sizeOfUnvisitedItems
 }
 const getEstimatedTotalWidth = (
-  {
-    totalColumn,
-  }: Props,
-  {
-    column,
-    estimatedColumnWidth,
-    lastVisitedColumnIndex,
-  }: GridCache) => {
+  { totalColumn }: Props,
+  { column, estimatedColumnWidth, lastVisitedColumnIndex }: GridCache
+) => {
   let sizeOfVisitedColumns = 0
 
   if (lastVisitedColumnIndex > totalColumn) {
@@ -193,7 +174,6 @@ const getEstimatedTotalWidth = (
   const sizeOfUnvisitedItems = unvisitedItems * estimatedColumnWidth
 
   return sizeOfVisitedColumns + sizeOfUnvisitedItems
-
 }
 
 const ACCESS_ESTIMATED_SIZE_KEY_MAP = {
@@ -208,12 +188,9 @@ const getOffset = (
   scrollOffset: number,
   cache: GridCache,
   type: CacheItemType,
-  scrollBarWidth: number,
+  scrollBarWidth: number
 ) => {
-  const [
-    size,
-    estimatedSizeAssociates,
-  ] = [
+  const [size, estimatedSizeAssociates] = [
     type === 'row' ? props.height : props.width,
     ACCESS_ESTIMATED_SIZE_KEY_MAP[type],
   ] as [number, (props: Props, cache: GridCache) => number]
@@ -275,8 +252,17 @@ const FixedSizeGrid = createGrid({
     alignment,
     scrollLeft,
     cache,
-    scrollBarWidth,
-  ) => getOffset(props, columnIndex, alignment, scrollLeft, cache, 'column', scrollBarWidth),
+    scrollBarWidth
+  ) =>
+    getOffset(
+      props,
+      columnIndex,
+      alignment,
+      scrollLeft,
+      cache,
+      'column',
+      scrollBarWidth
+    ),
 
   getRowOffset: (
     props,
@@ -284,21 +270,22 @@ const FixedSizeGrid = createGrid({
     alignment,
     scrollTop,
     cache,
-    scrollBarWidth: number,
-  ) => getOffset(props, rowIndex, alignment, scrollTop, cache, 'row', scrollBarWidth),
+    scrollBarWidth: number
+  ) =>
+    getOffset(
+      props,
+      rowIndex,
+      alignment,
+      scrollTop,
+      cache,
+      'row',
+      scrollBarWidth
+    ),
 
-  getColumnStartIndexForOffset: (
-    props,
-    scrollLeft,
-    cache,
-  ) => findItem(props, cache, scrollLeft, 'column'),
+  getColumnStartIndexForOffset: (props, scrollLeft, cache) =>
+    findItem(props, cache, scrollLeft, 'column'),
 
-  getColumnStopIndexForStartIndex: (
-    props,
-    startIndex,
-    scrollLeft,
-    cache,
-  ) => {
+  getColumnStopIndexForStartIndex: (props, startIndex, scrollLeft, cache) => {
     const item = getItemFromCache(props, startIndex, cache, 'column')
 
     const maxOffset = scrollLeft + (props.width as number)
@@ -306,7 +293,7 @@ const FixedSizeGrid = createGrid({
     let offset = item.offset + item.size
     let stopIndex = startIndex
     while (stopIndex < props.totalColumn - 1 && offset < maxOffset) {
-      stopIndex ++
+      stopIndex++
       offset += getItemFromCache(props, startIndex, cache, 'column').size
     }
     return stopIndex
@@ -315,18 +302,10 @@ const FixedSizeGrid = createGrid({
   getEstimatedTotalHeight,
   getEstimatedTotalWidth,
 
-  getRowStartIndexForOffset: (
-    props,
-    scrollTop,
-    cache,
-  ) => findItem(props, cache, scrollTop, 'row'),
+  getRowStartIndexForOffset: (props, scrollTop, cache) =>
+    findItem(props, cache, scrollTop, 'row'),
 
-  getRowStopIndexForStartIndex: (
-    props,
-    startIndex,
-    scrollTop,
-    cache,
-  ) => {
+  getRowStopIndexForStartIndex: (props, startIndex, scrollTop, cache) => {
     const { totalRow, height } = props
     const item = getItemFromCache(props, startIndex, cache, 'row')
     const maxOffset = scrollTop + (height as number)
@@ -335,7 +314,7 @@ const FixedSizeGrid = createGrid({
     let stopIndex = startIndex
 
     while (stopIndex < totalRow - 1 && offset < maxOffset) {
-      stopIndex ++
+      stopIndex++
       offset += getItemFromCache(props, stopIndex, cache, 'row').size
     }
 
@@ -364,17 +343,23 @@ const FixedSizeGrid = createGrid({
   validateProps: ({ columnWidth, rowHeight }) => {
     if (process.env.NODE_ENV !== 'production') {
       if (!isFunction(columnWidth)) {
-        throwError(SCOPE, `
+        throwError(
+          SCOPE,
+          `
           "columnWidth" must be passed as function,
             instead ${typeof columnWidth} was given.
-        `)
+        `
+        )
       }
 
       if (!isFunction(rowHeight)) {
-        throwError(SCOPE, `
+        throwError(
+          SCOPE,
+          `
           "columnWidth" must be passed as function,
             instead ${typeof rowHeight} was given.
-        `)
+        `
+        )
       }
     }
   },

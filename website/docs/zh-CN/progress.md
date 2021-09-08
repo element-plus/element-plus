@@ -7,20 +7,22 @@
 :::demo Progress 组件设置`percentage`属性即可，表示进度条对应的百分比，**必填**，必须在 0-100。通过 `format` 属性来指定进度条文字内容。
 
 ```html
-<el-progress :percentage="50"></el-progress>
-<el-progress :percentage="100" :format="format"></el-progress>
-<el-progress :percentage="100" status="success"></el-progress>
-<el-progress :percentage="100" status="warning"></el-progress>
-<el-progress :percentage="50" status="exception"></el-progress>
+<template>
+  <el-progress :percentage="50"></el-progress>
+  <el-progress :percentage="100" :format="format"></el-progress>
+  <el-progress :percentage="100" status="success"></el-progress>
+  <el-progress :percentage="100" status="warning"></el-progress>
+  <el-progress :percentage="50" status="exception"></el-progress>
+</template>
 
 <script>
   export default {
     methods: {
       format(percentage) {
-        return percentage === 100 ? '满' : `${percentage}%`;
-      }
-    }
-  };
+        return percentage === 100 ? '满' : `${percentage}%`
+      },
+    },
+  }
 </script>
 <!--
 <setup>
@@ -49,10 +51,31 @@
 :::demo Progress 组件可通过 `stroke-width` 属性更改进度条的高度，并可通过 `text-inside` 属性来将进度条描述置于进度条内部。
 
 ```html
-<el-progress :text-inside="true" :stroke-width="26" :percentage="70"></el-progress>
-<el-progress :text-inside="true" :stroke-width="24" :percentage="100" status="success"></el-progress>
-<el-progress :text-inside="true" :stroke-width="22" :percentage="80" status="warning"></el-progress>
-<el-progress :text-inside="true" :stroke-width="20" :percentage="50" status="exception"></el-progress>
+<template>
+  <el-progress
+    :text-inside="true"
+    :stroke-width="26"
+    :percentage="70"
+  ></el-progress>
+  <el-progress
+    :text-inside="true"
+    :stroke-width="24"
+    :percentage="100"
+    status="success"
+  ></el-progress>
+  <el-progress
+    :text-inside="true"
+    :stroke-width="22"
+    :percentage="80"
+    status="warning"
+  ></el-progress>
+  <el-progress
+    :text-inside="true"
+    :stroke-width="20"
+    :percentage="50"
+    status="exception"
+  ></el-progress>
+</template>
 ```
 
 :::
@@ -64,19 +87,24 @@
 :::demo
 
 ```html
-<el-progress :percentage="percentage" :color="customColor"></el-progress>
+<template>
+  <el-progress :percentage="percentage" :color="customColor"></el-progress>
 
-<el-progress :percentage="percentage" :color="customColorMethod"></el-progress>
+  <el-progress
+    :percentage="percentage"
+    :color="customColorMethod"
+  ></el-progress>
 
-<el-progress :percentage="percentage" :color="customColors"></el-progress>
+  <el-progress :percentage="percentage" :color="customColors"></el-progress>
 
-<el-progress :percentage="percentage2" :color="customColors"></el-progress>
-<div>
-  <el-button-group>
-    <el-button icon="el-icon-minus" @click="decrease"></el-button>
-    <el-button icon="el-icon-plus" @click="increase"></el-button>
-  </el-button-group>
-</div>
+  <el-progress :percentage="percentage2" :color="customColors"></el-progress>
+  <div>
+    <el-button-group>
+      <el-button icon="el-icon-minus" @click="decrease"></el-button>
+      <el-button icon="el-icon-plus" @click="increase"></el-button>
+    </el-button-group>
+  </div>
+</template>
 
 <script>
   export default {
@@ -86,42 +114,42 @@
         percentage2: 0,
         customColor: '#409eff',
         customColors: [
-          {color: '#f56c6c', percentage: 20},
-          {color: '#e6a23c', percentage: 40},
-          {color: '#5cb87a', percentage: 60},
-          {color: '#1989fa', percentage: 80},
-          {color: '#6f7ad3', percentage: 100}
-        ]
-      };
+          { color: '#f56c6c', percentage: 20 },
+          { color: '#e6a23c', percentage: 40 },
+          { color: '#5cb87a', percentage: 60 },
+          { color: '#1989fa', percentage: 80 },
+          { color: '#6f7ad3', percentage: 100 },
+        ],
+      }
     },
     methods: {
       customColorMethod(percentage) {
         if (percentage < 30) {
-          return '#909399';
+          return '#909399'
         } else if (percentage < 70) {
-          return '#e6a23c';
+          return '#e6a23c'
         } else {
-          return '#67c23a';
+          return '#67c23a'
         }
       },
       increase() {
-        this.percentage += 10;
+        this.percentage += 10
         if (this.percentage > 100) {
-          this.percentage = 100;
+          this.percentage = 100
         }
       },
       decrease() {
-        this.percentage -= 10;
+        this.percentage -= 10
         if (this.percentage < 0) {
-          this.percentage = 0;
+          this.percentage = 0
         }
-      }
+      },
     },
     mounted() {
       setInterval(() => {
         this.percentage2 = (this.percentage2 % 100) + 10
       }, 500)
-    }
+    },
   }
 </script>
 <!--
@@ -184,11 +212,13 @@ Progress 组件可通过 `type` 属性来指定使用环形进度条，在环形
 :::demo
 
 ```html
-<el-progress type="circle" :percentage="0"></el-progress>
-<el-progress type="circle" :percentage="25"></el-progress>
-<el-progress type="circle" :percentage="100" status="success"></el-progress>
-<el-progress type="circle" :percentage="70" status="warning"></el-progress>
-<el-progress type="circle" :percentage="50" status="exception"></el-progress>
+<template>
+  <el-progress type="circle" :percentage="0"></el-progress>
+  <el-progress type="circle" :percentage="25"></el-progress>
+  <el-progress type="circle" :percentage="100" status="success"></el-progress>
+  <el-progress type="circle" :percentage="70" status="warning"></el-progress>
+  <el-progress type="circle" :percentage="50" status="exception"></el-progress>
+</template>
 ```
 
 :::
@@ -198,14 +228,24 @@ Progress 组件可通过 `type` 属性来指定使用环形进度条，在环形
 :::demo 通过 `type` 属性来指定使用仪表盘形进度条。
 
 ```html
-<el-progress type="dashboard" :percentage="percentage" :color="colors"></el-progress>
-<el-progress type="dashboard" :percentage="percentage2" :color="colors"></el-progress>
-<div>
-  <el-button-group>
-    <el-button icon="el-icon-minus" @click="decrease"></el-button>
-    <el-button icon="el-icon-plus" @click="increase"></el-button>
-  </el-button-group>
-</div>
+<template>
+  <el-progress
+    type="dashboard"
+    :percentage="percentage"
+    :color="colors"
+  ></el-progress>
+  <el-progress
+    type="dashboard"
+    :percentage="percentage2"
+    :color="colors"
+  ></el-progress>
+  <div>
+    <el-button-group>
+      <el-button icon="el-icon-minus" @click="decrease"></el-button>
+      <el-button icon="el-icon-plus" @click="increase"></el-button>
+    </el-button-group>
+  </div>
+</template>
 
 <script>
   export default {
@@ -214,33 +254,33 @@ Progress 组件可通过 `type` 属性来指定使用环形进度条，在环形
         percentage: 10,
         percentage2: 0,
         colors: [
-          {color: '#f56c6c', percentage: 20},
-          {color: '#e6a23c', percentage: 40},
-          {color: '#5cb87a', percentage: 60},
-          {color: '#1989fa', percentage: 80},
-          {color: '#6f7ad3', percentage: 100}
-        ]
-      };
+          { color: '#f56c6c', percentage: 20 },
+          { color: '#e6a23c', percentage: 40 },
+          { color: '#5cb87a', percentage: 60 },
+          { color: '#1989fa', percentage: 80 },
+          { color: '#6f7ad3', percentage: 100 },
+        ],
+      }
     },
     methods: {
       increase() {
-        this.percentage += 10;
+        this.percentage += 10
         if (this.percentage > 100) {
-          this.percentage = 100;
+          this.percentage = 100
         }
       },
       decrease() {
-        this.percentage -= 10;
+        this.percentage -= 10
         if (this.percentage < 0) {
-          this.percentage = 0;
+          this.percentage = 0
         }
-      }
+      },
     },
     mounted() {
       setInterval(() => {
         this.percentage2 = (this.percentage2 % 100) + 10
       }, 500)
-    }
+    },
   }
 </script>
 <!--
@@ -297,21 +337,28 @@ Progress 组件可通过 `type` 属性来指定使用环形进度条，在环形
 :::demo 通过默认插槽添加自定义内容。
 
 ```html
-<el-progress :percentage="50">
-  <el-button type="text">自定义内容</el-button>
-</el-progress>
-<el-progress :text-inside="true" :stroke-width="20" :percentage="50" status="exception">
-  <span>自定义内容</span>
-</el-progress>
-<el-progress type="circle" :percentage="100" status="success">
-  <el-button type="success" icon="el-icon-check" circle></el-button>
-</el-progress>
-<el-progress type="dashboard" :percentage="80">
-  <template #default="{ percentage }">
-    <span class="percentage-value">{{ percentage }}%</span>
-    <span class="percentage-label">当前进度</span>
-  </template>
-</el-progress>
+<template>
+  <el-progress :percentage="50">
+    <el-button type="text">自定义内容</el-button>
+  </el-progress>
+  <el-progress
+    :text-inside="true"
+    :stroke-width="20"
+    :percentage="50"
+    status="exception"
+  >
+    <span>自定义内容</span>
+  </el-progress>
+  <el-progress type="circle" :percentage="100" status="success">
+    <el-button type="success" icon="el-icon-check" circle></el-button>
+  </el-progress>
+  <el-progress type="dashboard" :percentage="80">
+    <template #default="{ percentage }">
+      <span class="percentage-value">{{ percentage }}%</span>
+      <span class="percentage-label">当前进度</span>
+    </template>
+  </el-progress>
+</template>
 ```
 
 :::
@@ -321,20 +368,40 @@ Progress 组件可通过 `type` 属性来指定使用环形进度条，在环形
 :::demo Progress 组件设置 `indeterminate` 属性控制进度条运动。通过设置 `duration` 属性可以控制运动速度。
 
 ```html
-<el-progress :percentage="50" :indeterminate="true"></el-progress>
-<el-progress :percentage="100" :format="format" :indeterminate="true"></el-progress>
-<el-progress :percentage="100" status="success" :indeterminate="true" :duration="5"></el-progress>
-<el-progress :percentage="100" status="warning" :indeterminate="true" :duration="1"></el-progress>
-<el-progress :percentage="50" status="exception" :indeterminate="true"></el-progress>
+<template>
+  <el-progress :percentage="50" :indeterminate="true"></el-progress>
+  <el-progress
+    :percentage="100"
+    :format="format"
+    :indeterminate="true"
+  ></el-progress>
+  <el-progress
+    :percentage="100"
+    status="success"
+    :indeterminate="true"
+    :duration="5"
+  ></el-progress>
+  <el-progress
+    :percentage="100"
+    status="warning"
+    :indeterminate="true"
+    :duration="1"
+  ></el-progress>
+  <el-progress
+    :percentage="50"
+    status="exception"
+    :indeterminate="true"
+  ></el-progress>
+</template>
 
 <script>
   export default {
     methods: {
       format(percentage) {
-        return percentage === 100 ? '满' : `${percentage}%`;
-      }
-    }
-  };
+        return percentage === 100 ? '满' : `${percentage}%`
+      },
+    },
+  }
 </script>
 <!--
 <setup>

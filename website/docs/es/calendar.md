@@ -5,17 +5,17 @@ Muestra fechas.
 ### Básico
 
 :::demo Configure el valor para especificar el mes que se muestra actualmente. Si no se especifica el valor, se muestra el mes actual. el valor soporta la vinculación bidireccional.
+
 ```html
-<el-calendar v-model="value">
-</el-calendar>
+<el-calendar v-model="value"> </el-calendar>
 
 <script>
   export default {
     data() {
       return {
-        value: new Date()
+        value: new Date(),
       }
-    }
+    },
   }
 </script>
 <!--
@@ -36,6 +36,7 @@ Muestra fechas.
 </setup>
 -->
 ```
+
 :::
 
 ### Contenido personalizado
@@ -46,25 +47,29 @@ Muestra fechas.
 <el-calendar>
   <template #dateCell="{data}">
     <p :class="data.isSelected ? 'is-selected' : ''">
-      {{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' : '' }}
+      {{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' :
+      '' }}
     </p>
   </template>
 </el-calendar>
 <style>
   .is-selected {
-    color: #1989FA;
+    color: #1989fa;
   }
 </style>
 ```
+
 :::
 
 ### Rango
 
 :::demo Defina el atributo `range` para especificar el rango de visualización del calendario. El tiempo de inicio debe ser el lunes, el tiempo de finalización debe ser el domingo y el período no puede exceder los dos meses.
+
 ```html
 <el-calendar :range="[new Date(2019, 2, 4), new Date(2019, 2, 24)]">
 </el-calendar>
 ```
+
 :::
 
 ### Localization
@@ -74,13 +79,14 @@ The default locale of is English, if you need to use other languages, please che
 Note, date time locale (month name, first day of the week ...) are also configed in localization.
 
 ### Atributos
-| Atributo        | Descripción        | Tipo      | Valores aceptados     | Por defecto |
-|-----------------|------------------- |---------- |---------------------- |------------ |
-| model-value / v-model | valor vinculante   | Date | —            | —           |
-| range           | rango de tiempo, incluyendo el tiempo de inicio y el tiempo final. Start time must be start day of week, end time must be end day of week, the time span cannot exceed two months | [Date]Array     | —           | —      |
+
+| Atributo              | Descripción                                                                                                                                                                       | Tipo        | Valores aceptados | Por defecto |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ----------------- | ----------- |
+| model-value / v-model | valor vinculante                                                                                                                                                                  | Date        | —                 | —           |
+| range                 | rango de tiempo, incluyendo el tiempo de inicio y el tiempo final. Start time must be start day of week, end time must be end day of week, the time span cannot exceed two months | [Date]Array | —                 | —           |
 
 ### dateCell scoped slot
-| Atributo      | Descripción | Tipo   | Valores aceptados | Por defecto |
-|-----------------|-------------- |---------- |---------------------- |--------- |
-| data            | { type, isSelected, day, date}. `type` indica el mes al que pertenece la fecha, los valores opcionales son mes anterior, mes actual, mes siguiente; `isSelected` indica si la fecha está seleccionada; `day` es la fecha formateada en el formato yyyy-MM-dd; `date` es la fecha que la celda representa | Object      | —           | —      |
 
+| Atributo | Descripción                                                                                                                                                                                                                                                                                              | Tipo   | Valores aceptados | Por defecto |
+| -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ----------------- | ----------- |
+| data     | { type, isSelected, day, date}. `type` indica el mes al que pertenece la fecha, los valores opcionales son mes anterior, mes actual, mes siguiente; `isSelected` indica si la fecha está seleccionada; `day` es la fecha formateada en el formato yyyy-MM-dd; `date` es la fecha que la celda representa | Object | —                 | —           |

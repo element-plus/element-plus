@@ -20,7 +20,6 @@ const _mount = (cb: () => void) => {
 jest.useFakeTimers()
 
 describe('use-timeout', () => {
-
   let wrapper
   const cb = jest.fn()
   beforeEach(() => {
@@ -36,7 +35,6 @@ describe('use-timeout', () => {
   })
 
   it('should cancel the timeout correctly', async () => {
-
     wrapper.vm.cancelTimeout()
 
     jest.runOnlyPendingTimers()

@@ -21,17 +21,18 @@ Basic and concise tabs.
   export default {
     data() {
       return {
-        activeName: 'first'
-      };
+        activeName: 'first',
+      }
     },
     methods: {
       handleClick(tab, event) {
-        console.log(tab, event);
-      }
-    }
-  };
+        console.log(tab, event)
+      },
+    },
+  }
 </script>
 ```
+
 :::
 
 ### Card Style
@@ -53,17 +54,18 @@ Tabs styled as cards.
   export default {
     data() {
       return {
-        activeName: 'first'
-      };
+        activeName: 'first',
+      }
     },
     methods: {
       handleClick(tab, event) {
-        console.log(tab, event);
-      }
-    }
-  };
+        console.log(tab, event)
+      },
+    },
+  }
 </script>
 ```
+
 :::
 
 ### Border card
@@ -109,12 +111,13 @@ You can use `tab-position` attribute to set the tab's position.
   export default {
     data() {
       return {
-        tabPosition: 'left'
-      };
-    }
-  };
+        tabPosition: 'left',
+      }
+    },
+  }
 </script>
 ```
+
 :::
 
 ### Custom Tab
@@ -122,6 +125,7 @@ You can use `tab-position` attribute to set the tab's position.
 You can use named slot to customize the tab label content.
 
 :::demo
+
 ```html
 <el-tabs type="border-card">
   <el-tab-pane>
@@ -135,6 +139,7 @@ You can use named slot to customize the tab label content.
   <el-tab-pane label="Task">Task</el-tab-pane>
 </el-tabs>
 ```
+
 :::
 
 ### Add & close tab
@@ -142,8 +147,14 @@ You can use named slot to customize the tab label content.
 Only card type Tabs support addable & closeable.
 
 :::demo
+
 ```html
-<el-tabs v-model="editableTabsValue" type="card" editable @edit="handleTabsEdit">
+<el-tabs
+  v-model="editableTabsValue"
+  type="card"
+  editable
+  @edit="handleTabsEdit"
+>
   <el-tab-pane
     v-for="(item, index) in editableTabs"
     :key="item.name"
@@ -158,66 +169,73 @@ Only card type Tabs support addable & closeable.
     data() {
       return {
         editableTabsValue: '2',
-        editableTabs: [{
-          title: 'Tab 1',
-          name: '1',
-          content: 'Tab 1 content'
-        }, {
-          title: 'Tab 2',
-          name: '2',
-          content: 'Tab 2 content'
-        }],
-        tabIndex: 2
+        editableTabs: [
+          {
+            title: 'Tab 1',
+            name: '1',
+            content: 'Tab 1 content',
+          },
+          {
+            title: 'Tab 2',
+            name: '2',
+            content: 'Tab 2 content',
+          },
+        ],
+        tabIndex: 2,
       }
     },
     methods: {
       handleTabsEdit(targetName, action) {
         if (action === 'add') {
-          let newTabName = ++this.tabIndex + '';
+          let newTabName = ++this.tabIndex + ''
           this.editableTabs.push({
             title: 'New Tab',
             name: newTabName,
-            content: 'New Tab content'
-          });
-          this.editableTabsValue = newTabName;
+            content: 'New Tab content',
+          })
+          this.editableTabsValue = newTabName
         }
         if (action === 'remove') {
-          let tabs = this.editableTabs;
-          let activeName = this.editableTabsValue;
+          let tabs = this.editableTabs
+          let activeName = this.editableTabsValue
           if (activeName === targetName) {
             tabs.forEach((tab, index) => {
               if (tab.name === targetName) {
-                let nextTab = tabs[index + 1] || tabs[index - 1];
+                let nextTab = tabs[index + 1] || tabs[index - 1]
                 if (nextTab) {
-                  activeName = nextTab.name;
+                  activeName = nextTab.name
                 }
               }
-            });
+            })
           }
 
-          this.editableTabsValue = activeName;
-          this.editableTabs = tabs.filter(tab => tab.name !== targetName);
+          this.editableTabsValue = activeName
+          this.editableTabs = tabs.filter((tab) => tab.name !== targetName)
         }
-      }
-    }
+      },
+    },
   }
 </script>
 ```
+
 :::
 
 ### Customized trigger button of new tab
 
 :::demo
+
 ```html
 <div style="margin-bottom: 20px;">
-  <el-button
-    size="small"
-    @click="addTab(editableTabsValue)"
-  >
+  <el-button size="small" @click="addTab(editableTabsValue)">
     add tab
   </el-button>
 </div>
-<el-tabs v-model="editableTabsValue" type="card" closable @tab-remove="removeTab">
+<el-tabs
+  v-model="editableTabsValue"
+  type="card"
+  closable
+  @tab-remove="removeTab"
+>
   <el-tab-pane
     v-for="(item, index) in editableTabs"
     :key="item.name"
@@ -232,83 +250,90 @@ Only card type Tabs support addable & closeable.
     data() {
       return {
         editableTabsValue: '2',
-        editableTabs: [{
-          title: 'Tab 1',
-          name: '1',
-          content: 'Tab 1 content'
-        }, {
-          title: 'Tab 2',
-          name: '2',
-          content: 'Tab 2 content'
-        }],
-        tabIndex: 2
+        editableTabs: [
+          {
+            title: 'Tab 1',
+            name: '1',
+            content: 'Tab 1 content',
+          },
+          {
+            title: 'Tab 2',
+            name: '2',
+            content: 'Tab 2 content',
+          },
+        ],
+        tabIndex: 2,
       }
     },
     methods: {
       addTab(targetName) {
-        let newTabName = ++this.tabIndex + '';
+        let newTabName = ++this.tabIndex + ''
         this.editableTabs.push({
           title: 'New Tab',
           name: newTabName,
-          content: 'New Tab content'
-        });
-        this.editableTabsValue = newTabName;
+          content: 'New Tab content',
+        })
+        this.editableTabsValue = newTabName
       },
       removeTab(targetName) {
-        let tabs = this.editableTabs;
-        let activeName = this.editableTabsValue;
+        let tabs = this.editableTabs
+        let activeName = this.editableTabsValue
         if (activeName === targetName) {
           tabs.forEach((tab, index) => {
             if (tab.name === targetName) {
-              let nextTab = tabs[index + 1] || tabs[index - 1];
+              let nextTab = tabs[index + 1] || tabs[index - 1]
               if (nextTab) {
-                activeName = nextTab.name;
+                activeName = nextTab.name
               }
             }
-          });
+          })
         }
 
-        this.editableTabsValue = activeName;
-        this.editableTabs = tabs.filter(tab => tab.name !== targetName);
-      }
-    }
+        this.editableTabsValue = activeName
+        this.editableTabs = tabs.filter((tab) => tab.name !== targetName)
+      },
+    },
   }
 </script>
 ```
+
 :::
 
 ### Tabs Attributes
-| Attribute      | Description          | Type      | Accepted Values       | Default  |
-|---------- |-------- |---------- |-------------  |-------- |
-| model-value / v-model  | binding value, name of the selected tab  | string   |  —  |  name of first tab |
-| type     | type of Tab | string   | card/border-card  |     —    |
-| closable  | whether Tab is closable | boolean   | — |  false  |
-| addable  | whether Tab is addable   | boolean   | — |  false  |
-| editable  | whether Tab is addable and closable | boolean   | — |  false  |
-| tab-position  | position of tabs | string   |  top/right/bottom/left  |  top |
-| stretch  | whether width of tab automatically fits its container | boolean   |  -  |  false |
-| before-leave | hook function before switching tab. If `false` is returned or a `Promise` is returned and then is rejected, switching will be prevented | Function(activeName, oldActiveName) | — | — |
+
+| Attribute             | Description                                                                                                                             | Type                                | Accepted Values       | Default           |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- | --------------------- | ----------------- |
+| model-value / v-model | binding value, name of the selected tab                                                                                                 | string                              | —                     | name of first tab |
+| type                  | type of Tab                                                                                                                             | string                              | card/border-card      | —                 |
+| closable              | whether Tab is closable                                                                                                                 | boolean                             | —                     | false             |
+| addable               | whether Tab is addable                                                                                                                  | boolean                             | —                     | false             |
+| editable              | whether Tab is addable and closable                                                                                                     | boolean                             | —                     | false             |
+| tab-position          | position of tabs                                                                                                                        | string                              | top/right/bottom/left | top               |
+| stretch               | whether width of tab automatically fits its container                                                                                   | boolean                             | -                     | false             |
+| before-leave          | hook function before switching tab. If `false` is returned or a `Promise` is returned and then is rejected, switching will be prevented | Function(activeName, oldActiveName) | —                     | —                 |
 
 ### Tabs Events
-| Event Name | Description | Parameters |
-|---------- |-------- |---------- |
-| tab-click  | triggers when a tab is clicked | clicked tab |
-| tab-remove  | triggers when tab-remove button is clicked | name of the removed tab |
-| tab-add  | triggers when tab-add button is clicked  | — |
-| edit  | triggers when tab-add button or tab-remove is clicked | (targetName, action) |
+
+| Event Name | Description                                           | Parameters              |
+| ---------- | ----------------------------------------------------- | ----------------------- |
+| tab-click  | triggers when a tab is clicked                        | clicked tab             |
+| tab-remove | triggers when tab-remove button is clicked            | name of the removed tab |
+| tab-add    | triggers when tab-add button is clicked               | —                       |
+| edit       | triggers when tab-add button or tab-remove is clicked | (targetName, action)    |
 
 ### Tab-pane Attributes
-| Attribute      | Description          | Type      | Accepted Values       | Default  |
-|---------- |-------- |---------- |-------------  |-------- |
-| label     | title of the tab   | string   | — |    —     |
-| disabled | whether Tab is disabled | boolean | — | false |
-| name      | identifier corresponding to the name of Tabs, representing the alias of the tab-pane | string | — | ordinal number of the tab-pane in the sequence, e.g. the first tab-pane is '1' |
-| closable  | whether Tab is closable | boolean   | — |  false  |
-| lazy  | whether Tab is lazily rendered   | boolean   | — |  false  |
+
+| Attribute | Description                                                                          | Type    | Accepted Values | Default                                                                        |
+| --------- | ------------------------------------------------------------------------------------ | ------- | --------------- | ------------------------------------------------------------------------------ |
+| label     | title of the tab                                                                     | string  | —               | —                                                                              |
+| disabled  | whether Tab is disabled                                                              | boolean | —               | false                                                                          |
+| name      | identifier corresponding to the name of Tabs, representing the alias of the tab-pane | string  | —               | ordinal number of the tab-pane in the sequence, e.g. the first tab-pane is '1' |
+| closable  | whether Tab is closable                                                              | boolean | —               | false                                                                          |
+| lazy      | whether Tab is lazily rendered                                                       | boolean | —               | false                                                                          |
 
 ### Tab-pane Slots
 
-| Name | Description |
-|------|--------|
-| - | Tab-pane's content |
-| label | Tab-pane's label |
+| Name  | Description        |
+| ----- | ------------------ |
+| -     | Tab-pane's content |
+| label | Tab-pane's label   |

@@ -28,9 +28,7 @@ app.mount('#app')
 
 ```html
 <template>
-  <el-button>
-    我是 ElButton
-  </el-button>
+  <el-button> 我是 ElButton </el-button>
 </template>
 <script>
   import { defineComponent } from 'vue'
@@ -146,16 +144,18 @@ import VitePluginElementPlus from 'vite-plugin-element-plus'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  plugins: [
-    vue(),
-    VitePluginElementPlus({
-      // 如果你需要使用 [component name].scss 源文件，你需要把下面的注释取消掉。
-      // 对于所有的 API 你可以参考 https://github.com/element-plus/vite-plugin-element-plus
-      // 的文档注释
-      // useSource: true
-      format: mode === 'development' ? 'esm' : 'cjs',
-    }),
-  ],
+  return {
+    plugins: [
+      vue(),
+      VitePluginElementPlus({
+        // 如果你需要使用 [component name].scss 源文件，你需要把下面的注释取消掉。
+        // 对于所有的 API 你可以参考 https://github.com/element-plus/vite-plugin-element-plus
+        // 的文档注释
+        // useSource: true
+        format: mode === 'development' ? 'esm' : 'cjs',
+      }),
+    ],
+  }
 })
 ```
 
@@ -181,12 +181,12 @@ module.exports = {
       {
         libraryName: 'element-plus',
         // 引入组件
-        customName: name => {
+        customName: (name) => {
           name = name.slice(3)
           return `element-plus/lib/components/${name}`
         },
         // 引入样式
-        customStyleName: name => {
+        customStyleName: (name) => {
           name = name.slice(3)
           // 如果你需要引入 [name].scss 文件，你需要用下面这行
           // return `element-plus/lib/components/${name}/style`

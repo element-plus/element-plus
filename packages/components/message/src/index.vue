@@ -1,5 +1,9 @@
 <template>
-  <transition name="el-message-fade" @before-leave="onClose" @after-leave="$emit('destroy')">
+  <transition
+    name="el-message-fade"
+    @before-leave="onClose"
+    @after-leave="$emit('destroy')"
+  >
     <div
       v-show="visible"
       :id="id"
@@ -15,14 +19,23 @@
       @mouseenter="clearTimer"
       @mouseleave="startTimer"
     >
-      <i v-if="type || iconClass" :class="['el-message__icon', typeClass, iconClass]"></i>
+      <i
+        v-if="type || iconClass"
+        :class="['el-message__icon', typeClass, iconClass]"
+      ></i>
       <slot>
-        <p v-if="!dangerouslyUseHTMLString" class="el-message__content">{{ message }}</p>
+        <p v-if="!dangerouslyUseHTMLString" class="el-message__content">
+          {{ message }}
+        </p>
         <!-- Caution here, message could've been compromised, never use user's input as message -->
         <!--  eslint-disable-next-line -->
         <p v-else class="el-message__content" v-html="message"></p>
       </slot>
-      <div v-if="showClose" class="el-message__closeBtn el-icon-close" @click.stop="close"></div>
+      <div
+        v-if="showClose"
+        class="el-message__closeBtn el-icon-close"
+        @click.stop="close"
+      ></div>
     </div>
   </transition>
 </template>
@@ -67,9 +80,7 @@ export default defineComponent({
   setup(props) {
     const typeClass = computed(() => {
       const type = !props.iconClass && props.type
-      return type && TypeMap[type]
-        ? `el-icon-${TypeMap[type]}`
-        : ''
+      return type && TypeMap[type] ? `el-icon-${TypeMap[type]}` : ''
     })
     const customStyle = computed(() => {
       return {

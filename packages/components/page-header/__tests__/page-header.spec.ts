@@ -14,7 +14,7 @@ describe('PageHeader.vue', () => {
   test('should render icon props', () => {
     const icon = 'el-icon-arrow-left'
     const wrapper = mount(PageHeader, {
-      props: { icon: icon },
+      props: { icon },
     })
     expect(wrapper.find('.el-page-header__icon i').classes()).toContain(icon)
   })

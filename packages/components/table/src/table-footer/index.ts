@@ -27,7 +27,7 @@ export default defineComponent({
       type: Object as PropType<TableFooter<DefaultRow>['store']>,
     },
     summaryMethod: Function as PropType<
-    TableFooter<DefaultRow>['summaryMethod']
+      TableFooter<DefaultRow>['summaryMethod']
     >,
     sumText: String,
     border: Boolean,
@@ -43,7 +43,7 @@ export default defineComponent({
   },
   setup(props) {
     const { hasGutter, getRowClasses, columns } = useStyle(
-      props as TableFooter<DefaultRow>,
+      props as TableFooter<DefaultRow>
     )
     return {
       getRowClasses,
@@ -64,12 +64,12 @@ export default defineComponent({
           sums[index] = this.sumText
           return
         }
-        const values = this.store.states.data.value.map(item =>
-          Number(item[column.property]),
+        const values = this.store.states.data.value.map((item) =>
+          Number(item[column.property])
         )
         const precisions = []
         let notNumber = true
-        values.forEach(value => {
+        values.forEach((value) => {
           if (!isNaN(value)) {
             notNumber = false
             const decimal = ('' + value).split('.')[1]
@@ -115,7 +115,10 @@ export default defineComponent({
                     key: cellIndex,
                     colspan: column.colSpan,
                     rowspan: column.rowSpan,
-                    class: [...this.getRowClasses(column, cellIndex), 'el-table__cell'],
+                    class: [
+                      ...this.getRowClasses(column, cellIndex),
+                      'el-table__cell',
+                    ],
                   },
                   [
                     h(
@@ -123,16 +126,16 @@ export default defineComponent({
                       {
                         class: ['cell', column.labelClassName],
                       },
-                      [sums[cellIndex]],
+                      [sums[cellIndex]]
                     ),
-                  ],
-                ),
+                  ]
+                )
               ),
               this.hasGutter && hGutter(),
             ]),
-          ],
+          ]
         ),
-      ],
+      ]
     )
   },
 })

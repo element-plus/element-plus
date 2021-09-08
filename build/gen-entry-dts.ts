@@ -26,16 +26,15 @@ const gen = async () => {
     skipAddingFilesFromTsConfig: true,
   })
   const sourceFiles = []
-  files.map(f => {
+  files.map((f) => {
     const sourceFile = project.addSourceFileAtPath(f)
     sourceFiles.push(sourceFile)
   })
 
   for (const sourceFile of sourceFiles) {
-
-    console.log(chalk.yellow(
-      `Emitting file: ${chalk.bold(sourceFile.getFilePath())}`,
-    ))
+    console.log(
+      chalk.yellow(`Emitting file: ${chalk.bold(sourceFile.getFilePath())}`)
+    )
     await sourceFile.emit()
     const emitOutput = sourceFile.getEmitOutput()
     for (const outputFile of emitOutput.getOutputFiles()) {
@@ -44,24 +43,21 @@ const gen = async () => {
       await fs.promises.mkdir(path.dirname(filepath), {
         recursive: true,
       })
-      await fs.promises.writeFile(filepath,
-        outputFile
-          .getText()
-          .replace(new RegExp('@element-plus', 'g'), '.'),
+      await fs.promises.writeFile(
+        filepath,
+        outputFile.getText().replace(new RegExp('@element-plus', 'g'), '.'),
         // .replaceAll('@element-plus/theme-chalk', 'element-plus/theme-chalk'),
-        'utf8')
+        'utf8'
+      )
       console.log(
         chalk.green(
           'Definition for file: ' +
-          chalk.bold(
-            sourceFile.getBaseName(),
-          ) +
-          ' generated',
-        ),
+            chalk.bold(sourceFile.getBaseName()) +
+            ' generated'
+        )
       )
     }
   }
-
 }
 
 export default gen

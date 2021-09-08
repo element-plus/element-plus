@@ -1,5 +1,7 @@
 @use "sass:map";
 
+@import '../common/var';
+
 @mixin set-css-color-type-light($type, $i) {
   --el-color-#{$type}-light-#{$i}: #{map.get($--colors, $type, 'light-#{$i}')};
 }

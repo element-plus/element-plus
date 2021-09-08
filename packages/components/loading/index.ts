@@ -15,9 +15,7 @@ const ElLoading = {
 
 export default ElLoading
 
-export {
-  ElLoading,
-}
+export { ElLoading }
 
 export const ElLoadingDirective = vLoading
 export const ElLoadingService = Loading

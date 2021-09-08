@@ -8,15 +8,12 @@ interface ModifierProps {
   fallbackPlacements?: Array<Placement>
 }
 
-export default function buildModifier(props: ModifierProps, externalModifiers: StrictModifiers[] = []) {
-
-  const {
-    arrow,
-    arrowOffset,
-    offset,
-    gpuAcceleration,
-    fallbackPlacements,
-  } = props
+export default function buildModifier(
+  props: ModifierProps,
+  externalModifiers: StrictModifiers[] = []
+) {
+  const { arrow, arrowOffset, offset, gpuAcceleration, fallbackPlacements } =
+    props
 
   const modifiers: Array<StrictModifiers> = [
     {
@@ -65,6 +62,6 @@ export default function buildModifier(props: ModifierProps, externalModifiers: S
     })
   }
 
-  modifiers.push(...(externalModifiers))
+  modifiers.push(...externalModifiers)
   return modifiers
 }

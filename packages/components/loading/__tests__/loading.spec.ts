@@ -6,11 +6,11 @@ import vLoading from '../src/directive'
 import { nextTick } from 'vue'
 
 function destroyLoadingInstance(loadingInstance) {
-  if(!loadingInstance) return
+  if (!loadingInstance) return
   loadingInstance.close()
   loadingInstance.$el &&
-  loadingInstance.$el.parentNode &&
-  loadingInstance.$el.parentNode.removeChild(loadingInstance.$el)
+    loadingInstance.$el.parentNode &&
+    loadingInstance.$el.parentNode.removeChild(loadingInstance.$el)
 }
 
 describe('Loading', () => {
@@ -140,7 +140,9 @@ describe('Loading', () => {
     })
     const vm = wrapper.vm
     await nextTick()
-    expect(document.body.classList.contains('el-loading-parent--hidden')).toBeTruthy()
+    expect(
+      document.body.classList.contains('el-loading-parent--hidden')
+    ).toBeTruthy()
     vm.loading = false
     document.body.removeChild(document.querySelector('.el-loading-mask'))
   })
@@ -206,7 +208,6 @@ describe('Loading', () => {
   })
 
   test('target service', async () => {
-
     const container = document.createElement('div')
     container.className = 'loading-container'
     document.body.appendChild(container)
@@ -216,10 +217,14 @@ describe('Loading', () => {
     expect(mask).toBeTruthy()
     expect(mask.parentNode).toEqual(container)
 
-    expect(container.classList.contains('el-loading-parent--relative')).toBeTruthy()
+    expect(
+      container.classList.contains('el-loading-parent--relative')
+    ).toBeTruthy()
     loadingInstance.close()
     await sleep(500)
-    expect(container.classList.contains('el-loading-parent--relative')).toBeFalsy()
+    expect(
+      container.classList.contains('el-loading-parent--relative')
+    ).toBeFalsy()
   })
 
   test('body service', async () => {
@@ -255,7 +260,9 @@ describe('Loading', () => {
 
   test('lock service', async () => {
     loadingInstance = Loading({ lock: true })
-    expect(document.body.classList.contains('el-loading-parent--hidden')).toBeTruthy()
+    expect(
+      document.body.classList.contains('el-loading-parent--hidden')
+    ).toBeTruthy()
   })
 
   test('text service', async () => {
@@ -271,7 +278,7 @@ describe('Loading', () => {
     expect(customClass).toBeTruthy()
   })
 
-  test('parent\'s display is not block', async () => {
+  test("parent's display is not block", async () => {
     const wrapper = mount({
       directives: {
         loading: vLoading,
@@ -287,8 +294,9 @@ describe('Loading', () => {
     })
     await nextTick()
     await nextTick()
-    const maskDisplay = getComputedStyle(wrapper.find('.el-loading-mask').element).display
+    const maskDisplay = getComputedStyle(
+      wrapper.find('.el-loading-mask').element
+    ).display
     expect(maskDisplay).toBe('block')
   })
-
 })

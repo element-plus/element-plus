@@ -5,7 +5,7 @@ import type { RootMenuProvider } from './menu.type'
 
 export default function useMenu(
   instance: ComponentInternalInstance,
-  currentIndex: ComputedRef<string>,
+  currentIndex: ComputedRef<string>
 ) {
   const rootMenu = inject<RootMenuProvider>('rootMenu')
 

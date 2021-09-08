@@ -28,7 +28,7 @@
   </transition>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import { computed, defineComponent } from 'vue'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
@@ -62,7 +62,7 @@ export default defineComponent({
       },
     },
   },
-  emits: ['close','click'],
+  emits: ['close', 'click'],
   setup(props, ctx) {
     const ELEMENT = useGlobalConfig()
 
@@ -81,12 +81,12 @@ export default defineComponent({
     })
 
     // methods
-    const handleClose = event => {
+    const handleClose = (event) => {
       event.stopPropagation()
       ctx.emit('close', event)
     }
 
-    const handleClick = event => {
+    const handleClick = (event) => {
       ctx.emit('click', event)
     }
 

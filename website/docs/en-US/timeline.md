@@ -7,13 +7,15 @@ Visually display timeline.
 Timeline can be split into multiple activities. Timestamps are important features that distinguish them from other components. Note the difference with Steps.
 
 :::demo
+
 ```html
 <div class="block">
   <el-timeline>
     <el-timeline-item
       v-for="(activity, index) in activities"
       :key="index"
-      :timestamp="activity.timestamp">
+      :timestamp="activity.timestamp"
+    >
       {{activity.content}}
     </el-timeline-item>
   </el-timeline>
@@ -23,21 +25,26 @@ Timeline can be split into multiple activities. Timestamps are important feature
   export default {
     data() {
       return {
-        activities: [{
-          content: 'Event start',
-          timestamp: '2018-04-15'
-        }, {
-          content: 'Approved',
-          timestamp: '2018-04-13'
-        }, {
-          content: 'Success',
-          timestamp: '2018-04-11'
-        }]
-      };
-    }
-  };
+        activities: [
+          {
+            content: 'Event start',
+            timestamp: '2018-04-15',
+          },
+          {
+            content: 'Approved',
+            timestamp: '2018-04-13',
+          },
+          {
+            content: 'Success',
+            timestamp: '2018-04-11',
+          },
+        ],
+      }
+    },
+  }
 </script>
 ```
+
 :::
 
 ### Custom node
@@ -45,6 +52,7 @@ Timeline can be split into multiple activities. Timestamps are important feature
 Size, color, and icons can be customized in node.
 
 :::demo
+
 ```html
 <div class="block">
   <el-timeline>
@@ -55,7 +63,9 @@ Size, color, and icons can be customized in node.
       :type="activity.type"
       :color="activity.color"
       :size="activity.size"
-      :timestamp="activity.timestamp">
+      :hollow="activity.hollow"
+      :timestamp="activity.timestamp"
+    >
       {{activity.content}}
     </el-timeline-item>
   </el-timeline>
@@ -65,29 +75,41 @@ Size, color, and icons can be customized in node.
   export default {
     data() {
       return {
-        activities: [{
-          content: 'Custom icon',
-          timestamp: '2018-04-12 20:46',
-          size: 'large',
-          type: 'primary',
-          icon: 'el-icon-more'
-        }, {
-          content: 'Custom color',
-          timestamp: '2018-04-03 20:46',
-          color: '#0bbd87'
-        }, {
-          content: 'Custom size',
-          timestamp: '2018-04-03 20:46',
-          size: 'large'
-        }, {
-          content: 'Default node',
-          timestamp: '2018-04-03 20:46'
-        }]
-      };
-    }
-  };
+        activities: [
+          {
+            content: 'Custom icon',
+            timestamp: '2018-04-12 20:46',
+            size: 'large',
+            type: 'primary',
+            icon: 'el-icon-more',
+          },
+          {
+            content: 'Custom color',
+            timestamp: '2018-04-03 20:46',
+            color: '#0bbd87',
+          },
+          {
+            content: 'Custom size',
+            timestamp: '2018-04-03 20:46',
+            size: 'large',
+          },
+          {
+            content: 'Custom hollow',
+            timestamp: '2018-04-03 20:46',
+            type: 'primary',
+            hollow: true,
+          },
+          {
+            content: 'Default node',
+            timestamp: '2018-04-03 20:46',
+          },
+        ],
+      }
+    },
+  }
 </script>
 ```
+
 :::
 
 ### Custom timestamp
@@ -95,6 +117,7 @@ Size, color, and icons can be customized in node.
 Timestamp can be placed on top of content when content is too high.
 
 :::demo
+
 ```html
 <div class="block">
   <el-timeline>
@@ -119,26 +142,31 @@ Timestamp can be placed on top of content when content is too high.
   </el-timeline>
 </div>
 ```
+
 :::
 
 ### Timeline Slots
-| Name | Description |
-|------|--------|
-| — | Custom content for timeline |
+
+| Name | Description                 |
+| ---- | --------------------------- |
+| —    | Custom content for timeline |
 
 ### Timeline-Item Attributes
-| Attribute      | Description    | Type      | Accepted Values | Default   |
-|---------- |-------- |---------- |-------------  |-------- |
-| timestamp     | timestamp content | string  | - | — |
-| hide-timestamp  | whether to show timestamp | boolean | — | false |
-| placement | position of timestamp | string | top / bottom | bottom |
-| type | node type | string | primary / success / warning / danger / info | - |
-| color | background color of node | string | hsl / hsv / hex / rgb | - |
-| size | node size | string | normal / large | normal |
-| icon | icon class name | string | — | - |
+
+| Attribute      | Description               | Type    | Accepted Values                             | Default |
+| -------------- | ------------------------- | ------- | ------------------------------------------- | ------- |
+| timestamp      | timestamp content         | string  | —                                           | —       |
+| hide-timestamp | whether to show timestamp | boolean | —                                           | false   |
+| placement      | position of timestamp     | string  | top / bottom                                | bottom  |
+| type           | node type                 | string  | primary / success / warning / danger / info | —       |
+| color          | background color of node  | string  | hsl / hsv / hex / rgb                       | —       |
+| size           | node size                 | string  | normal / large                              | normal  |
+| icon           | icon class name           | string  | —                                           | —       |
+| hollow         | icon is hollow            | boolean | —                                           | false   |
 
 ### Timeline-Item Slots
-| Name | Description |
-|------|--------|
-| — | Custom content for timeline item |
-| dot | Custom defined node |
+
+| Name | Description                      |
+| ---- | -------------------------------- |
+| —    | Custom content for timeline item |
+| dot  | Custom defined node              |
