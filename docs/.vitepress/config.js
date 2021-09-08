@@ -46,14 +46,4 @@ module.exports = {
       mdPlugin(md)
     },
   },
-
-  vite: {
-    // build: {
-    //   rollupOptions: {
-    //     plugins: [
-    //       dynamicImportVars.default()
-    //     ]
-    //   }
-    // }
-  },
 }
