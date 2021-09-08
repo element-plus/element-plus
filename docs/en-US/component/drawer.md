@@ -7,7 +7,7 @@ Sometimes, `Dialog` does not always satisfy our requirements, let's say you have
 Since v-model is natively supported for all components, `visible.sync` has been deprecated, use `v-model="visibilityBinding"` to control the visibility of the current drawer.
 :::
 
-<style lang="scss">
+<style lang="scss" scoped>
 .example-showcase {
   &__content {
     display: flex;

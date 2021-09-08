@@ -2,7 +2,7 @@
 
 Informs users while preserving the current page state.
 
-<style lang="scss">
+<style lang="scss" scoped>
 .example-showcase {
   .dialog-footer button:first-child {
     margin-right: 10px;

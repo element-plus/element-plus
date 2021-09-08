@@ -2,7 +2,7 @@
 
 Toggleable menu for displaying lists of links and actions.
 
-<style lang="scss">
+<style lang="scss" scoped>
 
 .example-showcase {
   .el-dropdown {

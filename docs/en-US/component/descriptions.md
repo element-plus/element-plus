@@ -2,7 +2,7 @@
 
 Display multiple fields in list form.
 
-<style lang="scss">
+<style lang="scss" scoped>
 .example-showcase {
   .margin-top {
     margin-top: 20px;

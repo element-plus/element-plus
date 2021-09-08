@@ -6,7 +6,7 @@ Form consists of `input`, `radio`, `select`, `checkbox` and so on. With form, yo
 The component has been upgraded with a flex layout to replace the old float layout.
 :::
 
-<style lang="scss">
+<style lang="scss" scoped>
 .example-showcase {
   .el-select .el-input {
     width: 380px;
