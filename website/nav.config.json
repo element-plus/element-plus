@@ -214,6 +214,10 @@
             {
               "path": "/result",
               "title": "Result 结果"
+            },
+            {
+              "path": "/virtual-list",
+              "title": "Virtual 虚拟列表"
             }
           ]
         },
