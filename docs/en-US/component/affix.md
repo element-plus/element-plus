@@ -1,52 +1,32 @@
-## Affix
+# Affix
 
 Fix the element to a specific visible area.
 
-### Basic usage
+## Basic usage
 
 Affix is fixed at the top of the page by default.
 
 :::demo You can set `offset` attribute to change the offset top，the default value is 0。
-
-```html
-<el-affix :offset="120">
-  <el-button type="primary">Offset top 120px</el-button>
-</el-affix>
-```
-
+affix/basic
 :::
 
-### Target container
+## Target container
 
 You can set `target` attribute to keep the affix in the container at all times. It will be hidden if out of range.
 
 :::demo Please notice that the container avoid having scrollbar.
-
-```html
-<div class="affix-container">
-  <el-affix target=".affix-container" :offset="80">
-    <el-button type="primary">Target container</el-button>
-  </el-affix>
-</div>
-```
-
+affix/target
 :::
 
-### Fixed position
+## Fixed position
 
 The affix component provides two fixed positions: `top` and `bottom`.
 
 :::demo You can set `position` attribute to change the fixed position, the default value is `top`.
-
-```html
-<el-affix position="bottom" :offset="20">
-  <el-button type="primary">Offset bottom 20px</el-button>
-</el-affix>
-```
-
+affix/fixed
 :::
 
-### Attributes
+## Attributes
 
 | Attribute | Description                     | Type   | Accepted Values | Default |
 | --------- | ------------------------------- | ------ | --------------- | ------- |
@@ -55,15 +35,26 @@ The affix component provides two fixed positions: `top` and `bottom`.
 | target    | target container (CSS selector) | string | —               | —       |
 | z-index   | z-index of affix                | number | —               | 100     |
 
-### Events
+## Events
 
 | Event Name | Description                       | Parameters                 |
 | ---------- | --------------------------------- | -------------------------- |
 | change     | triggers when fixed state changed | (value: boolean)           |
 | scroll     | triggers when scrolling           | scroll top and fixed state |
 
-### Methods
+## Methods
 
 | Method | Description                 | Parameters |
 | ------ | --------------------------- | ---------- |
 | update | update affix state manually | —          |
+
+<style lang="scss">
+.example-showcase {
+  .affix-container {
+    text-align: center;
+    height: 400px;
+    border-radius: 4px;
+    background: var(--el-color-primary-light-9);
+  }
+}
+</style>
