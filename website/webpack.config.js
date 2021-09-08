@@ -94,6 +94,7 @@ const config = {
     publicPath: '/',
     contentBase: __dirname,
     overlay: true,
+    host: '0.0.0.0',
   },
   optimization: {
     minimize: true,
