@@ -1,157 +1,44 @@
-## Timeline
+# Timeline
 
 Visually display timeline.
 
-### Basic usage
+## Basic usage
 
 Timeline can be split into multiple activities. Timestamps are important features that distinguish them from other components. Note the difference with Steps.
 
 :::demo
 
-```html
-<div class="block">
-  <el-timeline>
-    <el-timeline-item
-      v-for="(activity, index) in activities"
-      :key="index"
-      :timestamp="activity.timestamp"
-    >
-      {{activity.content}}
-    </el-timeline-item>
-  </el-timeline>
-</div>
-
-<script>
-  export default {
-    data() {
-      return {
-        activities: [
-          {
-            content: 'Event start',
-            timestamp: '2018-04-15',
-          },
-          {
-            content: 'Approved',
-            timestamp: '2018-04-13',
-          },
-          {
-            content: 'Success',
-            timestamp: '2018-04-11',
-          },
-        ],
-      }
-    },
-  }
-</script>
-```
+timeline/basic
 
 :::
 
-### Custom node
+## Custom node
 
 Size, color, and icons can be customized in node.
 
 :::demo
 
-```html
-<div class="block">
-  <el-timeline>
-    <el-timeline-item
-      v-for="(activity, index) in activities"
-      :key="index"
-      :icon="activity.icon"
-      :type="activity.type"
-      :color="activity.color"
-      :size="activity.size"
-      :hollow="activity.hollow"
-      :timestamp="activity.timestamp"
-    >
-      {{activity.content}}
-    </el-timeline-item>
-  </el-timeline>
-</div>
-
-<script>
-  export default {
-    data() {
-      return {
-        activities: [
-          {
-            content: 'Custom icon',
-            timestamp: '2018-04-12 20:46',
-            size: 'large',
-            type: 'primary',
-            icon: 'el-icon-more',
-          },
-          {
-            content: 'Custom color',
-            timestamp: '2018-04-03 20:46',
-            color: '#0bbd87',
-          },
-          {
-            content: 'Custom size',
-            timestamp: '2018-04-03 20:46',
-            size: 'large',
-          },
-          {
-            content: 'Custom hollow',
-            timestamp: '2018-04-03 20:46',
-            type: 'primary',
-            hollow: true,
-          },
-          {
-            content: 'Default node',
-            timestamp: '2018-04-03 20:46',
-          },
-        ],
-      }
-    },
-  }
-</script>
-```
+timeline/custom-node
 
 :::
 
-### Custom timestamp
+## Custom timestamp
 
 Timestamp can be placed on top of content when content is too high.
 
 :::demo
 
-```html
-<div class="block">
-  <el-timeline>
-    <el-timeline-item timestamp="2018/4/12" placement="top">
-      <el-card>
-        <h4>Update Github template</h4>
-        <p>Tom committed 2018/4/12 20:46</p>
-      </el-card>
-    </el-timeline-item>
-    <el-timeline-item timestamp="2018/4/3" placement="top">
-      <el-card>
-        <h4>Update Github template</h4>
-        <p>Tom committed 2018/4/3 20:46</p>
-      </el-card>
-    </el-timeline-item>
-    <el-timeline-item timestamp="2018/4/2" placement="top">
-      <el-card>
-        <h4>Update Github template</h4>
-        <p>Tom committed 2018/4/2 20:46</p>
-      </el-card>
-    </el-timeline-item>
-  </el-timeline>
-</div>
-```
+timeline/custom-timestamp
 
 :::
 
-### Timeline Slots
+## Timeline Slots
 
 | Name | Description                 |
 | ---- | --------------------------- |
 | —    | Custom content for timeline |
 
-### Timeline-Item Attributes
+## Timeline-Item Attributes
 
 | Attribute      | Description               | Type    | Accepted Values                             | Default |
 | -------------- | ------------------------- | ------- | ------------------------------------------- | ------- |
@@ -164,7 +51,7 @@ Timestamp can be placed on top of content when content is too high.
 | icon           | icon class name           | string  | —                                           | —       |
 | hollow         | icon is hollow            | boolean | —                                           | false   |
 
-### Timeline-Item Slots
+## Timeline-Item Slots
 
 | Name | Description                      |
 | ---- | -------------------------------- |

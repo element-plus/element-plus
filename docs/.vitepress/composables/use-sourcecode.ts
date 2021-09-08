@@ -14,7 +14,7 @@ export const useSourceCode = (path: Ref<string>) => {
     const {
       repo,
       docsDir = '',
-      docsBranch = 'master',
+      docsBranch = 'dev',
       docsRepo = repo,
     } = theme.value
 

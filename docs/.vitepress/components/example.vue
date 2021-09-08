@@ -38,8 +38,7 @@ onMounted(load)
 <style lang="scss" scoped>
 .example-showcase {
   padding: 1rem;
-
-  background-color: rgb(255, 255, 255);
+  margin: 0.5px;
   background-image: linear-gradient(
       45deg,
       rgb(249, 249, 250) 25%,
