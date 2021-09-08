@@ -2,17 +2,6 @@
 
 Fix the element to a specific visible area.
 
-<style lang="scss">
-.example-showcase {
-  .affix-container {
-    text-align: center;
-    height: 400px;
-    border-radius: 4px;
-    background: var(--el-color-primary-light-9);
-  }
-}
-</style>
-
 ## Basic usage
 
 Affix is fixed at the top of the page by default.
@@ -58,3 +47,14 @@ affix/fixed
 | Method | Description                 | Parameters |
 | ------ | --------------------------- | ---------- |
 | update | update affix state manually | —          |
+
+<style lang="scss">
+.example-showcase {
+  .affix-container {
+    text-align: center;
+    height: 400px;
+    border-radius: 4px;
+    background: var(--el-color-primary-light-9);
+  }
+}
+</style>

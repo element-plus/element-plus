@@ -2,17 +2,6 @@
 
 Displays important alert messages.
 
-<style lang="scss">
-.example-showcase {
-  .el-alert {
-    margin: 20px 0 0;
-    &:first-child {
-      margin: 0
-    }
-  }
-}
-</style>
-
 ## Basic usage
 
 Alert components are non-overlay elements in the page that does not disappear automatically.
@@ -92,3 +81,14 @@ alert/icon-description
 | Event Name | Description                | Parameters |
 | ---------- | -------------------------- | ---------- |
 | close      | fires when alert is closed | —          |
+
+<style lang="scss">
+.example-showcase {
+  .el-alert {
+    margin: 20px 0 0;
+    &:first-child {
+      margin: 0
+    }
+  }
+}
+</style>
