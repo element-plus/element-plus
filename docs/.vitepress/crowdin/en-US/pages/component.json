@@ -294,6 +294,10 @@
       {
         "link": "/backtop",
         "text": "Backtop"
+      },
+      {
+        "link": "/divider",
+        "text": "Divider"
       }
     ]
   }

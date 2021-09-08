@@ -1,201 +1,56 @@
-## Descriptions
+# Descriptions
 
 Display multiple fields in list form.
 
-### Basic usage
-
-:::demo
-
-```html
-<el-descriptions title="User Info">
-  <el-descriptions-item label="Username">kooriookami</el-descriptions-item>
-  <el-descriptions-item label="Telephone">18100000000</el-descriptions-item>
-  <el-descriptions-item label="Place">Suzhou</el-descriptions-item>
-  <el-descriptions-item label="Remarks">
-    <el-tag size="small">School</el-tag>
-  </el-descriptions-item>
-  <el-descriptions-item label="Address"
-    >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu
-    Province</el-descriptions-item
-  >
-</el-descriptions>
-```
-
-:::
-
-### Sizes
-
-:::demo
-
-```html
-<template>
-  <el-radio-group v-model="size">
-    <el-radio label="">Default</el-radio>
-    <el-radio label="medium">Medium</el-radio>
-    <el-radio label="small">Small</el-radio>
-    <el-radio label="mini">Mini</el-radio>
-  </el-radio-group>
-
-  <el-descriptions
-    class="margin-top"
-    title="With border"
-    :column="3"
-    :size="size"
-    border
-  >
-    <template #extra>
-      <el-button type="primary" size="small">Operation</el-button>
-    </template>
-    <el-descriptions-item>
-      <template #label>
-        <i class="el-icon-user"></i>
-        Username
-      </template>
-      kooriookami
-    </el-descriptions-item>
-    <el-descriptions-item>
-      <template #label>
-        <i class="el-icon-mobile-phone"></i>
-        Telephone
-      </template>
-      18100000000
-    </el-descriptions-item>
-    <el-descriptions-item>
-      <template #label>
-        <i class="el-icon-location-outline"></i>
-        Place
-      </template>
-      Suzhou
-    </el-descriptions-item>
-    <el-descriptions-item>
-      <template #label>
-        <i class="el-icon-tickets"></i>
-        Remarks
-      </template>
-      <el-tag size="small">School</el-tag>
-    </el-descriptions-item>
-    <el-descriptions-item>
-      <template #label>
-        <i class="el-icon-office-building"></i>
-        Address
-      </template>
-      No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
-    </el-descriptions-item>
-  </el-descriptions>
-
-  <el-descriptions
-    class="margin-top"
-    title="Without border"
-    :column="3"
-    :size="size"
-  >
-    <template #extra>
-      <el-button type="primary" size="small">Operation</el-button>
-    </template>
-    <el-descriptions-item label="Username">kooriookami</el-descriptions-item>
-    <el-descriptions-item label="Telephone">18100000000</el-descriptions-item>
-    <el-descriptions-item label="Place">Suzhou</el-descriptions-item>
-    <el-descriptions-item label="Remarks">
-      <el-tag size="small">School</el-tag>
-    </el-descriptions-item>
-    <el-descriptions-item label="Address"
-      >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu
-      Province</el-descriptions-item
-    >
-  </el-descriptions>
-</template>
-
-<script>
-  export default {
-    data() {
-      return {
-        size: '',
-      }
-    },
+<style lang="scss" scoped>
+.example-showcase {
+  .margin-top {
+    margin-top: 20px;
   }
-</script>
-```
 
-:::
+  .my-label {
+    background: var(--el-color-success-lighter);
+  }
 
-### Vertical List
+  .my-content {
+    background: var(--el-color-danger-lighter);
+  }
+}
+</style>
 
-:::demo
-
-```html
-<el-descriptions
-  title="Vertical list with border"
-  direction="vertical"
-  :column="4"
-  border
->
-  <el-descriptions-item label="Username">kooriookami</el-descriptions-item>
-  <el-descriptions-item label="Telephone">18100000000</el-descriptions-item>
-  <el-descriptions-item label="Place" :span="2">Suzhou</el-descriptions-item>
-  <el-descriptions-item label="Remarks">
-    <el-tag size="small">School</el-tag>
-  </el-descriptions-item>
-  <el-descriptions-item label="Address"
-    >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu
-    Province</el-descriptions-item
-  >
-</el-descriptions>
-
-<el-descriptions
-  class="margin-top"
-  title="Vertical list without border"
-  :column="4"
-  direction="vertical"
->
-  <el-descriptions-item label="Username">kooriookami</el-descriptions-item>
-  <el-descriptions-item label="Telephone">18100000000</el-descriptions-item>
-  <el-descriptions-item label="Place" :span="2">Suzhou</el-descriptions-item>
-  <el-descriptions-item label="Remarks">
-    <el-tag size="small">School</el-tag>
-  </el-descriptions-item>
-  <el-descriptions-item label="Address"
-    >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu
-    Province</el-descriptions-item
-  >
-</el-descriptions>
-```
-
-:::
-
-### Customized Style
+## Basic usage
 
 :::demo
 
-```html
-<el-descriptions title="Customized style list" :column="3" border>
-  <el-descriptions-item
-    label="Username"
-    label-align="right"
-    align="center"
-    label-class-name="my-label"
-    class-name="my-content"
-    width="150px"
-    >kooriookami</el-descriptions-item
-  >
-  <el-descriptions-item label="Telephone" label-align="right" align="center"
-    >18100000000</el-descriptions-item
-  >
-  <el-descriptions-item label="Place" label-align="right" align="center"
-    >Suzhou</el-descriptions-item
-  >
-  <el-descriptions-item label="Remarks" label-align="right" align="center">
-    <el-tag size="small">School</el-tag>
-  </el-descriptions-item>
-  <el-descriptions-item label="Address" label-align="right" align="center"
-    >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu
-    Province</el-descriptions-item
-  >
-</el-descriptions>
-```
+descriptions/basic-usage
 
 :::
 
-### Descriptions Attributes
+## Sizes
+
+:::demo
+
+descriptions/sizes
+
+:::
+
+## Vertical List
+
+:::demo
+
+descriptions/vertical-list
+
+:::
+
+## Customized Style
+
+:::demo
+
+descriptions/customized-style
+
+:::
+
+## Descriptions Attributes
 
 | Attribute | Description                                | Type    | Accepted Values       | Default    |
 | --------- | ------------------------------------------ | ------- | --------------------- | ---------- |
@@ -206,14 +61,14 @@ Display multiple fields in list form.
 | title     | title text, display on the top left        | string  | —                     | —          |
 | extra     | extra text, display on the top right       | string  | —                     | —          |
 
-### Descriptions Slots
+## Descriptions Slots
 
 | Name  | Description                                 |
 | ----- | ------------------------------------------- |
 | title | custom title, display on the top left       |
 | extra | custom extra area, display on the top right |
 
-### Descriptions Item Attributes
+## Descriptions Item Attributes
 
 | Attribute        | Description                                                                                                                                                                                  | Type            | Accepted Values       | Default |
 | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- | --------------------- | ------- |
@@ -226,7 +81,7 @@ Display multiple fields in list form.
 | class-name       | column content custom class name                                                                                                                                                             | string          | —                     | —       |
 | label-class-name | column label custom class name                                                                                                                                                               | string          | —                     | —       |
 
-### Descriptions Item Slots
+## Descriptions Item Slots
 
 | Name  | Description  |
 | ----- | ------------ |

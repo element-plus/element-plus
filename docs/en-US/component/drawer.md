@@ -1,4 +1,4 @@
-## Drawer
+# Drawer
 
 Sometimes, `Dialog` does not always satisfy our requirements, let's say you have a massive form, or you need space to display something like `terms & conditions`, `Drawer` has almost identical API with `Dialog`, but it introduces different user experience.
 
@@ -7,419 +7,67 @@ Sometimes, `Dialog` does not always satisfy our requirements, let's say you have
 Since v-model is natively supported for all components, `visible.sync` has been deprecated, use `v-model="visibilityBinding"` to control the visibility of the current drawer.
 :::
 
-### Basic Usage
+<style lang="scss" scoped>
+.example-showcase {
+  &__content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    form {
+      flex: 1;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    button {
+      flex: 1;
+    }
+  }
+}
+
+.el-drawer__body {
+  padding: 20px;
+}
+
+</style>
+
+## Basic Usage
 
 Callout a temporary drawer, from multiple direction
 
 :::demo You must set `model-value` for `Drawer` like `Dialog` does to control the visibility of `Drawer` itself, it's `boolean` type. `Drawer` has to parts: `title` & `body`, the `title` is a named slot, you can also set the title through attribute named `title`, default to an empty string, the `body` part is the main area of `Drawer`, which contains user defined content. When opening, `Drawer` expand itself from the **right corner to left** which size is **30%** of the browser window by default. You can change that default behavior by setting `direction` and `size` attribute. This show case also demonstrated how to use the `before-close` API, check the Attribute section for more detail
 
-```html
-<el-radio-group v-model="direction">
-  <el-radio label="ltr">left to right</el-radio>
-  <el-radio label="rtl">right to left</el-radio>
-  <el-radio label="ttb">top to bottom</el-radio>
-  <el-radio label="btt">bottom to top</el-radio>
-</el-radio-group>
-
-<el-button @click="drawer = true" type="primary" style="margin-left: 16px;">
-  open
-</el-button>
-
-<el-drawer
-  title="I am the title"
-  v-model="drawer"
-  :direction="direction"
-  :before-close="handleClose"
->
-  <span>Hi, there!</span>
-</el-drawer>
-
-<script>
-  export default {
-    data() {
-      return {
-        drawer: false,
-        direction: 'rtl',
-      }
-    },
-    methods: {
-      handleClose(done) {
-        this.$confirm('Are you sure you want to close this?')
-          .then((_) => {
-            done()
-          })
-          .catch((_) => {})
-      },
-    },
-  }
-</script>
-<!--
-<setup>
-
-  import { defineComponent, ref } from 'vue';
-  import { ElMessageBox } from 'element-plus';
-
-  export default defineComponent({
-    setup() {
-
-      const drawer = ref(false);
-      const direction = ref('rtl');
-      const handleClose = (done) => {
-        ElMessageBox
-          .confirm('Are you sure you want to close this?')
-          .then((_) => {
-            done();
-          })
-          .catch((_) => {});
-      };
-      return {
-        drawer,
-        direction,
-        handleClose,
-      };
-    },
-  });
-
-</setup>
--->
-```
+drawer/basic-usage
 
 :::
 
-### No Title
+## No Title
 
 When you no longer need a title, you can remove title from drawer.
 
 :::demo Set the `withHeader` attribute to **false**, you can remove the title from drawer, thus your drawer can have more space on screen. If you want to be accessible, make sure to set the `title` attribute.
 
-```html
-<el-button @click="drawer = true" type="primary" style="margin-left: 16px;">
-  open
-</el-button>
-
-<el-drawer title="I am the title" v-model="drawer" :with-header="false">
-  <span>Hi there!</span>
-</el-drawer>
-
-<script>
-  export default {
-    data() {
-      return {
-        drawer: false,
-      }
-    },
-  }
-</script>
-<!--
-<setup>
-
-  import { defineComponent, ref } from 'vue';
-
-  export default defineComponent({
-    setup() {
-      return {
-        drawer: ref(false),
-      };
-    },
-  });
-
-</setup>
--->
-```
+drawer/no-title
 
 :::
 
-### Customization Content
+## Customization Content
 
 Like `Dialog`, `Drawer` can do many diverse interaction as you wanted.
 
 :::demo
 
-```html
-<el-button type="text" @click="table = true"
-  >Open Drawer with nested table</el-button
->
-<el-button type="text" @click="dialog = true"
-  >Open Drawer with nested form</el-button
->
-<el-drawer
-  title="I have a nested table inside!"
-  v-model="table"
-  direction="rtl"
-  size="50%"
->
-  <el-table :data="gridData">
-    <el-table-column property="date" label="Date" width="150"></el-table-column>
-    <el-table-column property="name" label="Name" width="200"></el-table-column>
-    <el-table-column property="address" label="Address"></el-table-column>
-  </el-table>
-</el-drawer>
-
-<el-drawer
-  title="I have a nested form inside!"
-  :before-close="handleClose"
-  v-model="dialog"
-  direction="ltr"
-  custom-class="demo-drawer"
-  ref="drawer"
->
-  <div class="demo-drawer__content">
-    <el-form :model="form">
-      <el-form-item label="Name" :label-width="formLabelWidth">
-        <el-input v-model="form.name" autocomplete="off"></el-input>
-      </el-form-item>
-      <el-form-item label="Area" :label-width="formLabelWidth">
-        <el-select
-          v-model="form.region"
-          placeholder="Please select activity area"
-        >
-          <el-option label="Area1" value="shanghai"></el-option>
-          <el-option label="Area2" value="beijing"></el-option>
-        </el-select>
-      </el-form-item>
-    </el-form>
-    <div class="demo-drawer__footer">
-      <el-button @click="cancelForm">Cancel</el-button>
-      <el-button
-        type="primary"
-        @click="$refs.drawer.closeDrawer()"
-        :loading="loading"
-        >{{ loading ? 'Submitting ...' : 'Submit' }}</el-button
-      >
-    </div>
-  </div>
-</el-drawer>
-
-<script>
-  export default {
-    data() {
-      return {
-        table: false,
-        dialog: false,
-        loading: false,
-        gridData: [
-          {
-            date: '2016-05-02',
-            name: 'Peter Parker',
-            address: 'Queens, New York City',
-          },
-          {
-            date: '2016-05-04',
-            name: 'Peter Parker',
-            address: 'Queens, New York City',
-          },
-          {
-            date: '2016-05-01',
-            name: 'Peter Parker',
-            address: 'Queens, New York City',
-          },
-          {
-            date: '2016-05-03',
-            name: 'Peter Parker',
-            address: 'Queens, New York City',
-          },
-        ],
-        form: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: '',
-        },
-        formLabelWidth: '80px',
-        timer: null,
-      }
-    },
-    methods: {
-      handleClose(done) {
-        if (this.loading) {
-          return
-        }
-        this.$confirm('Do you want to submit?')
-          .then((_) => {
-            this.loading = true
-            this.timer = setTimeout(() => {
-              done()
-              // animation takes time
-              setTimeout(() => {
-                this.loading = false
-              }, 400)
-            }, 2000)
-          })
-          .catch((_) => {})
-      },
-      cancelForm() {
-        this.loading = false
-        this.dialog = false
-        clearTimeout(this.timer)
-      },
-    },
-  }
-</script>
-<!--
-<setup>
-
-import {defineComponent, reactive, toRefs } from 'vue';
-import { ElMessageBox } from 'element-plus';
-
-  export default defineComponent({
-    setup() {
-
-      const state = reactive({
-        table: false,
-        dialog: false,
-        loading: false,
-        gridData: [
-          {
-            date: '2016-05-02',
-            name: 'Peter Parker',
-            address: 'Queens, New York City',
-          },
-          {
-            date: '2016-05-04',
-            name: 'Peter Parker',
-            address: 'Queens, New York City',
-          },
-          {
-            date: '2016-05-01',
-            name: 'Peter Parker',
-            address: 'Queens, New York City',
-          },
-          {
-            date: '2016-05-03',
-            name: 'Peter Parker',
-            address: 'Queens, New York City',
-          },
-        ],
-        form: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: '',
-        },
-        formLabelWidth: '80px',
-        timer: null,
-      });
-
-      const handleClose = (done) => {
-        if (state.loading) {
-          return;
-        }
-        ElMessageBox
-          .confirm('Do you want to submit?')
-          .then((_) => {
-            state.loading = true;
-            state.timer = setTimeout(() => {
-              done();
-              // 动画关闭需要一定的时间
-              setTimeout(() => {
-                state.loading = false;
-              }, 400);
-            }, 2000);
-          })
-          .catch((_) => {});
-      };
-
-      const cancelForm = () => {
-        state.loading = false;
-        state.dialog = false;
-        clearTimeout(state.timer);
-      };
-
-      return {
-        ...toRefs(state),
-        handleClose,
-        cancelForm,
-      };
-    },
-  });
-
-</setup>
--->
-```
+drawer/customization-content
 
 :::
 
-### Nested Drawer
+## Nested Drawer
 
 You can also have multiple layer of `Drawer` just like `Dialog`.
 :::demo If you need multiple Drawer in different layer, you must set the `append-to-body` attribute to **true**
 
-```html
-<el-button @click="drawer = true" type="primary" style="margin-left: 16px;">
-  open
-</el-button>
-
-<el-drawer title="I'm outer Drawer" v-model="drawer" size="50%">
-  <div>
-    <el-button @click="innerDrawer = true">Click me!</el-button>
-    <el-drawer
-      title="I'm inner Drawer"
-      :append-to-body="true"
-      :before-close="handleClose"
-      v-model="innerDrawer"
-    >
-      <p>_(:зゝ∠)_</p>
-    </el-drawer>
-  </div>
-</el-drawer>
-
-<script>
-  export default {
-    data() {
-      return {
-        drawer: false,
-        innerDrawer: false,
-      }
-    },
-    methods: {
-      handleClose(done) {
-        this.$confirm('You still have unsaved data, proceed?')
-          .then((_) => {
-            done()
-          })
-          .catch((_) => {})
-      },
-    },
-  }
-</script>
-<!--
-<setup>
-
-  import { defineComponent, ref } from 'vue';
-  import { ElMessageBox } from 'element-plus';
-
-  export default defineComponent({
-    setup() {
-
-      const drawer = ref(false);
-      const innerDrawer = ref(false);
-      const handleClose = (done) => {
-        ElMessageBox
-          .confirm('You still have unsaved data, proceed?')
-          .then((_) => {
-            done();
-          })
-          .catch((_) => {});
-      };
-      return {
-        drawer,
-        innerDrawer,
-        handleClose,
-      };
-    },
-  });
-
-</setup>
--->
-```
+drawer/nested-drawer
 
 :::
 
@@ -435,7 +83,7 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 
 :::
 
-### Drawer Attributes
+## Drawer Attributes
 
 | Attribute             | Description                                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                   | Acceptable Values     | Default |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------- | ------- |
@@ -458,20 +106,20 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 | modal-class           | Extra class names for shadowing layer                                                                                                                                                                                                                                                                        | string                                                                                                                                                 | -                     | -       |
 | z-index               | set z-index                                                                                                                                                                                                                                                                                                  | number                                                                                                                                                 | -                     | -       |
 
-### Drawer Slots
+## Drawer Slots
 
 | Name  | Description          |
 | ----- | -------------------- |
 | —     | Drawer's Content     |
 | title | Drawer Title Section |
 
-### Drawer Methods
+## Drawer Methods
 
 | Name        | Description                                                     |
 | ----------- | --------------------------------------------------------------- |
 | handleClose | In order to close Drawer, this method will call `before-close`. |
 
-### Drawer Events
+## Drawer Events
 
 | Event Name | Description                                      | Parameter |
 | ---------- | ------------------------------------------------ | --------- |
