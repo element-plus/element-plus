@@ -18,6 +18,7 @@ const isVueProd = process.env.VUE_BUNDLE === 'production' || isProd
 const vueBundle = isVueProd ? 'vue.esm-browser.prod.js' : 'vue.esm-browser.js'
 const isPlay = !!process.env.PLAY_ENV
 
+/** @type { import('webpack').Configuration } */
 const config = {
   mode: isProd ? 'production' : 'development',
   devtool: !isProd && 'cheap-module-eval-source-map',
