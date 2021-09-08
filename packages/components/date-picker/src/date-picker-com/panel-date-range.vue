@@ -308,7 +308,7 @@ export default defineComponent({
       return rightDate.value.month()
     })
 
-    const hasShortcuts = computed(() => !!shortcuts.value.length)
+    const hasShortcuts = computed(() => shortcuts.value.length > 0)
 
     const minVisibleDate = computed(() => {
       if (dateUserInput.value.min !== null) return dateUserInput.value.min
@@ -680,15 +680,7 @@ export default defineComponent({
       clearable,
     } = pickerBase.props
 
-    const shortcuts = ref([])
-    shortcuts.value = pickerBase.props
-    watch(
-      () => pickerBase.props.shortcuts,
-      (val) => {
-        shortcuts.value = val
-      },
-      { immediate: true }
-    )
+    const shortcuts = computed(() => pickerBase.props.shortcuts)
 
     watch(
       () => props.parsedValue,

@@ -118,7 +118,7 @@ export default defineComponent({
     const leftDate = ref(dayjs().locale(lang.value))
     const rightDate = ref(dayjs().locale(lang.value).add(1, 'year'))
 
-    const hasShortcuts = computed(() => !!shortcuts.value.length)
+    const hasShortcuts = computed(() => shortcuts.value.length > 0)
 
     const handleShortcutClick = (shortcut) => {
       const shortcutValues =
@@ -257,15 +257,7 @@ export default defineComponent({
     const pickerBase = inject('EP_PICKER_BASE') as any
     const { disabledDate, format, defaultValue } = pickerBase.props
 
-    const shortcuts = ref([])
-    shortcuts.value = pickerBase.props
-    watch(
-      () => pickerBase.props.shortcuts,
-      (val) => {
-        shortcuts.value = val
-      },
-      { immediate: true }
-    )
+    const shortcuts = computed(() => pickerBase.props.shortcuts)
 
     watch(
       () => props.parsedValue,

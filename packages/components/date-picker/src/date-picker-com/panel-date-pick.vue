@@ -374,7 +374,7 @@ export default defineComponent({
       { immediate: true }
     )
 
-    const hasShortcuts = computed(() => !!shortcuts.value.length)
+    const hasShortcuts = computed(() => shortcuts.value.length > 0)
 
     const handleMonthPick = (month) => {
       innerDate.value = innerDate.value.startOf('month').month(month)
@@ -623,16 +623,7 @@ export default defineComponent({
       defaultValue,
       arrowControl,
     } = pickerBase.props
-
-    const shortcuts = ref([])
-    shortcuts.value = pickerBase.props
-    watch(
-      () => pickerBase.props.shortcuts,
-      (val) => {
-        shortcuts.value = val
-      },
-      { immediate: true }
-    )
+    const shortcuts = computed(() => pickerBase.props.shortcuts)
 
     watch(
       () => props.parsedValue,
