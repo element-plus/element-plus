@@ -5,7 +5,7 @@ class ElementPlusError extends Error {
   }
 }
 
-export default (scope: string, m: string) => {
+export function throwError(scope: string, m: string): never {
   throw new ElementPlusError(`[${scope}] ${m}`)
 }
 
@@ -15,3 +15,5 @@ export function debugWarn(scope: string, message: string): void {
     console.warn(new ElementPlusError(`[${scope}] ${message}`))
   }
 }
+
+export default throwError
