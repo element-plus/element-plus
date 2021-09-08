@@ -32,7 +32,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'warn',
     'no-redeclare': 'off',
     '@typescript-eslint/no-redeclare': 'error',
-    'no-console': ['warn', { allow: ['warn', 'error'] }],
+    'no-console': ['warn', { allow: ['error'] }],
     'no-restricted-syntax': ['error', 'LabeledStatement', 'WithStatement'],
     camelcase: ['error', { properties: 'never' }],
 
