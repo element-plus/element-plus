@@ -1,226 +1,79 @@
-## Rate
+# Rate
 
 Used for rating
 
-### Basic usage
+<style lang="scss">
+.example-showcase {
+  .demo-rate-block {
+    padding: 30px 0;
+    text-align: center;
+    border-right: solid 1px var(--el-border-color-base);
+    display: inline-block;
+    width: 49%;
+    box-sizing: border-box;
+    &:last-child {
+        border-right: none;
+    }
+    .demonstration {
+      display: block;
+      color: var(--el-text-color-secondary);
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+  }
+}
+
+
+
+</style>
+
+## Basic usage
 
 :::demo Rate divides rating scores into several levels and these levels can be distinguished by using different background colors. By default background colors are the same, but you can assign them an array with three element to reflect three levels using the `colors` attribute, and their two thresholds can be defined by `low-threshold` and `high-threshold`, or you can assign them with a object which key is the threshold between two levels and value is the corresponding color.
 
-```html
-<div class="block">
-  <span class="demonstration">Default</span>
-  <el-rate v-model="value1"></el-rate>
-</div>
-<div class="block">
-  <span class="demonstration">Color for different levels</span>
-  <el-rate v-model="value2" :colors="colors"> </el-rate>
-</div>
-
-<script>
-  export default {
-    data() {
-      return {
-        value1: null,
-        value2: null,
-        colors: ['#99A9BF', '#F7BA2A', '#FF9900'], // same as { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
-      }
-    },
-  }
-</script>
-<!--
-<setup>
-
-  import { defineComponent, ref } from 'vue';
-
-  export default defineComponent({
-    setup() {
-      return {
-        value1: ref(null),
-        value2: ref(null),
-        colors: ref(['#99A9BF', '#F7BA2A', '#FF9900']), // same as { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
-      };
-    },
-  });
-
-</setup>
--->
-```
+rate/basic-usage
 
 :::
 
-### With allow-half
+## With allow-half
 
 :::demo Add attribute `allow-half` Half star allowed
 
-```html
-<div class="block">
-  <el-rate v-model="value" allow-half />
-</div>
-
-<script>
-  export default {
-    data() {
-      return {
-        value: null,
-      }
-    },
-  }
-</script>
-<!--
-<setup>
-
-  import { defineComponent, ref } from 'vue';
-
-  export default defineComponent({
-    setup() {
-      return {
-        value: ref(null),
-      };
-    },
-  });
-
-</setup>
--->
-```
+rate/allow-half
 
 :::
 
-### With text
+## With text
 
 Using text to indicate rating score
 
 :::demo Add attribute `show-text` to display text at the right of Rate. You can assign texts for different scores using `texts`. `texts` is an array whose length should be equal to the max score `max`.
 
-```html
-<el-rate
-  v-model="value"
-  :texts="['oops', 'disappointed', 'normal', 'good', 'great']"
-  show-text
->
-</el-rate>
-
-<script>
-  export default {
-    data() {
-      return {
-        value: null,
-      }
-    },
-  }
-</script>
-<!--
-<setup>
-
-  import { defineComponent, ref } from 'vue';
-
-  export default defineComponent({
-    setup() {
-      return {
-        value: ref(null),
-      };
-    },
-  });
-
-</setup>
--->
-```
+rate/text
 
 :::
 
-### More icons
+## More icons
 
 You can use different icons to distinguish different rate components.
 
 :::demo You can customize icons by passing `icon-classes` an array with three elements or a object which key is the threshold between two levels and value is the corresponding icon class. In this example, we also use `void-icon-class` to set the icon if it is unselected.
 
-```html
-<el-rate
-  v-model="value"
-  :icon-classes="iconClasses"
-  void-icon-class="icon-rate-face-off"
-  :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
->
-</el-rate>
-
-<script>
-  export default {
-    data() {
-      return {
-        value: null,
-        iconClasses: [
-          'icon-rate-face-1',
-          'icon-rate-face-2',
-          'icon-rate-face-3',
-        ], // same as { 2: 'icon-rate-face-1', 4: { value: 'icon-rate-face-2', excluded: true }, 5: 'icon-rate-face-3' }
-      }
-    },
-  }
-</script>
-<!--
-<setup>
-
-  import { defineComponent, ref } from 'vue';
-
-  export default defineComponent({
-    setup() {
-      return {
-        value: ref(null),
-        iconClasses: ref(['icon-rate-face-1', 'icon-rate-face-2', 'icon-rate-face-3']) // same as { 2: 'icon-rate-face-1', 4: { value: 'icon-rate-face-2', excluded: true }, 5: 'icon-rate-face-3' }
-      };
-    },
-  });
-
-</setup>
--->
-```
+rate/more-icons
 
 :::
 
-### Read-only
+## Read-only
 
 Read-only Rate is for displaying rating score. Half star is supported.
 
 :::demo Use attribute `disabled` to make the component read-only. Add `show-score` to display the rating score at the right side. Additionally, you can use attribute `score-template` to provide a score template. It must contain `{value}`, and `{value}` will be replaced with the rating score.
 
-```html
-<el-rate
-  v-model="value"
-  disabled
-  show-score
-  text-color="#ff9900"
-  score-template="{value} points"
->
-</el-rate>
-
-<script>
-  export default {
-    data() {
-      return {
-        value: 3.7,
-      }
-    },
-  }
-</script>
-<!--
-<setup>
-
-  import { defineComponent, ref } from 'vue';
-
-  export default defineComponent({
-    setup() {
-      return {
-        value: ref(3.7),
-      };
-    },
-  });
-
-</setup>
--->
-```
+rate/readonly
 
 :::
 
-### Attributes
+## Attributes
 
 | Attribute                | Description                                                                                                                                                                                                                     | Type         | Accepted Values | Default                                                        |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | -------------------------------------------------------------- |
@@ -242,7 +95,7 @@ Read-only Rate is for displaying rating score. Half star is supported.
 | texts                    | text array                                                                                                                                                                                                                      | array        | —               | ['Extremely bad','Disappointed','Fair','Satisfied','Surprise'] |
 | score-template           | score template                                                                                                                                                                                                                  | string       | —               | {value}                                                        |
 
-### Events
+## Events
 
 | Event Name | Description                         | Parameters           |
 | ---------- | ----------------------------------- | -------------------- |

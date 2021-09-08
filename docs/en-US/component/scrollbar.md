@@ -1,119 +1,82 @@
-## Scrollbar
+# Scrollbar
 
 Used to replace the browser's native scrollbar.
 
-### Basic usage
+<style lang="scss">
+.example-showcase {
+  .el-scrollbar {
+    .scrollbar-demo-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 50px;
+      margin: 10px;
+      text-align: center;
+      border-radius: 4px;
+      background: var(--el-color-primary-light-9);
+      color: var(--el-color-primary);
+    }
+
+    .flex-content {
+      display: flex;
+
+      .scrollbar-demo-item {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100px;
+        height: 50px;
+        margin: 10px;
+        text-align: center;
+        border-radius: 4px;
+        background: var(--el-color-danger-lighter);
+        color: var(--el-color-danger);
+      }
+    }
+  }
+  .el-button {
+    margin-bottom: 20px;
+  }
+  .el-slider {
+    margin-top: 20px;
+  }
+}
+</style>
+
+## Basic usage
 
 :::demo Use `height` property to set the height of the scrollbar, or if not set, it adapts according to the parent container height.
 
-```html
-<template>
-  <el-scrollbar height="400px">
-    <p class="item" v-for="item in 20">{{ item }}</p>
-  </el-scrollbar>
-</template>
-```
+scrollbar/basic-usage
 
 :::
 
-### Horizontal scroll
+## Horizontal scroll
 
 :::demo When the element width is greater than the scrollbar width, the horizontal scrollbar is displayed.
 
-```html
-<template>
-  <el-scrollbar>
-    <div class="flex-content">
-      <p class="item" v-for="item in 50">{{ item }}</p>
-    </div>
-  </el-scrollbar>
-</template>
-```
+scrollbar/horizontal-scroll
 
 :::
 
-### Max height
+## Max height
 
 :::demo The scrollbar is displayed only when the element height exceeds the max height.
 
-```html
-<template>
-  <el-button @click="add">Add Item</el-button>
-  <el-button @click="delete">Delete Item</el-button>
-  <el-scrollbar max-height="400px">
-    <p class="item" v-for="item in count">{{ item }}</p>
-  </el-scrollbar>
-</template>
-
-<script>
-  export default {
-    data() {
-      return {
-        count: 3,
-      }
-    },
-    methods: {
-      add() {
-        this.count++
-      },
-      delete() {
-        if (this.count > 0) {
-          this.count--
-        }
-      },
-    },
-  }
-</script>
-```
+scrollbar/max-height
 
 :::
 
-### Manual scroll
+## Manual scroll
 
 :::demo Use `setScrollTop` and `setScrollLeft` methods can control scrollbar manually.
 
-```html
-<template>
-  <el-scrollbar ref="scrollbar" height="400px" always>
-    <div ref="inner">
-      <p class="item" v-for="item in 20">{{ item }}</p>
-    </div>
-  </el-scrollbar>
-
-  <el-slider
-    v-model="value"
-    @input="inputSlider"
-    :max="max"
-    :format-tooltip="formatTooltip"
-  ></el-slider>
-</template>
-
-<script>
-  export default {
-    data() {
-      return {
-        max: 0,
-        value: 0,
-      }
-    },
-    mounted() {
-      this.max = this.$refs.inner.clientHeight - 380
-    },
-    methods: {
-      inputSlider(value) {
-        this.$refs.scrollbar.setScrollTop(value)
-      },
-      formatTooltip(value) {
-        return `${value} px`
-      },
-    },
-  }
-</script>
-```
+scrollbar/manual-scroll
 
 :::
 
-### Scrollbar Attributes
+## Scrollbar Attributes
 
 | Attribute  | Description                                                                                                                     | Type            | Accepted Values | Default |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------- | --------------- | --------------- | ------- |
@@ -129,13 +92,13 @@ Used to replace the browser's native scrollbar.
 | always     | always show scrollbar                                                                                                           | boolean         | —               | false   |
 | min-size   | minimum size of scrollbar                                                                                                       | number          | —               | 20      |
 
-### Scrollbar Events
+## Scrollbar Events
 
 | Event Name | Description             | Parameters                                      |
 | ---------- | ----------------------- | ----------------------------------------------- |
 | scroll     | triggers when scrolling | distance of scrolling { scrollLeft, scrollTop } |
 
-### Scrollbar Methods
+## Scrollbar Methods
 
 | Method        | Description                     | Parameters           |
 | ------------- | ------------------------------- | -------------------- |
