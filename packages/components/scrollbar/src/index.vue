@@ -52,7 +52,7 @@ import {
   isString,
   toObject,
 } from '@element-plus/utils/util'
-import { warn } from '@element-plus/utils/error'
+import { debugWarn } from '@element-plus/utils/error'
 import Bar from './bar.vue'
 
 import type { CSSProperties, PropType } from 'vue'
@@ -141,7 +141,7 @@ export default defineComponent({
     const setScrollTop = (value: number) => {
       if (!isNumber(value)) {
         if (process.env.NODE_ENV !== 'production') {
-          warn(SCOPE, 'value must be a number')
+          debugWarn(SCOPE, 'value must be a number')
         }
         return
       }
@@ -151,7 +151,7 @@ export default defineComponent({
     const setScrollLeft = (value: number) => {
       if (!isNumber(value)) {
         if (process.env.NODE_ENV !== 'production') {
-          warn(SCOPE, 'value must be a number')
+          debugWarn(SCOPE, 'value must be a number')
         }
         return
       }

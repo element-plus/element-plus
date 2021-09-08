@@ -19,7 +19,7 @@ import {
   renderPopper,
   renderTrigger,
 } from '@element-plus/components/popper'
-import { warn } from '@element-plus/utils/error'
+import { debugWarn } from '@element-plus/utils/error'
 import { renderIf, PatchFlags } from '@element-plus/utils/vnode'
 import usePopover, { SHOW_EVENT, HIDE_EVENT } from './usePopover'
 
@@ -75,7 +75,7 @@ export default defineComponent({
       props.visible &&
       !ctx.slots.reference
     ) {
-      warn(
+      debugWarn(
         NAME,
         `
         You cannot init popover without given reference
