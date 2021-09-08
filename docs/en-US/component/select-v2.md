@@ -1,484 +1,108 @@
-## Select V2 virtualized selector
+# Select V2 virtualized selector
 
 :::tip
 This component is still under testing, if you found any bug or issue please report it at [Github](https://github.com/element-plus/element-plus/issues) for us to fix.
 :::
 
-### Background
+## Background
 
 Now days, with tons of data came from the backend server through the internet, one single selector could have ended up loading tens of thousands of data from the backend, but rendering
 that much data into the DOM could be a burden to the browser which could crash the browser. For better user experience and developer experience, we decided to add this component.
 
-### Basic usage
+## Basic usage
 
 The simplest selector
 :::demo
 
-```html
-<template>
-  <el-select-v2
-    v-model="value"
-    :options="options"
-    placeholder="Please select"
-    style="width: 240px;"
-  />
-</template>
-
-<script>
-  const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-  export default {
-    data() {
-      return {
-        options: Array.from({ length: 1000 }).map((_, idx) => ({
-          value: `Option ${idx + 1}`,
-          label: `${initials[idx % 10]}${idx}`,
-        })),
-        value: '',
-      }
-    },
-  }
-</script>
-```
+select-v2/basic-usage
 
 :::
 
-### Multi select
+## Multi select
 
 The basic multi-select selector with tags
 :::demo
 
-```html
-<template>
-  <el-select-v2
-    v-model="value"
-    :options="options"
-    placeholder="Please select"
-    style="width: 240px;"
-    multiple
-  />
-</template>
-
-<script>
-  const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-  export default {
-    data() {
-      return {
-        options: Array.from({ length: 1000 }).map((_, idx) => ({
-          value: `Option ${idx + 1}`,
-          label: `${initials[idx % 10]}${idx}`,
-        })),
-        value: [],
-      }
-    },
-  }
-</script>
-```
+select-v2/multiple
 
 :::
 
-### Hide extra tags when the selected items are too many.
+## Hide extra tags when the selected items are too many.
 
 :::demo
 
-```html
-<template>
-  <el-select-v2
-    v-model="value"
-    :options="options"
-    placeholder="Please select"
-    style="width: 240px;"
-    multiple
-    collapse-tags
-  />
-</template>
-
-<script>
-  const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-  export default {
-    data() {
-      return {
-        options: Array.from({ length: 1000 }).map((_, idx) => ({
-          value: `Option ${idx + 1}`,
-          label: `${initials[idx % 10]}${idx}`,
-        })),
-        value: [],
-      }
-    },
-  }
-</script>
-```
+select-v2/hide-extra-tags
 
 :::
 
-### Filterable multi-select
+## Filterable multi-select
 
 When the options are overwhelmingly too many, you can use `filterable` option to enable filter feature for finding out the desired option
 :::demo
 
-```html
-<template>
-  <el-select-v2
-    v-model="value"
-    filterable
-    :options="options"
-    placeholder="Please select"
-    style="width: 240px;"
-    multiple
-  />
-</template>
-
-<script>
-  const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-  export default {
-    data() {
-      return {
-        options: Array.from({ length: 1000 }).map((_, idx) => ({
-          value: `Option${idx + 1}`,
-          label: `${initials[idx % 10]}${idx}`,
-        })),
-        value: [],
-      }
-    },
-  }
-</script>
-```
+select-v2/filterable
 
 :::
 
-### Disabled selector and select options
+## Disabled selector and select options
 
 You can choose to disable selector itself or the option.
 :::demo
 
-```html
-<template>
-  <el-select-v2
-    v-model="value"
-    filterable
-    :options="options"
-    placeholder="Please select"
-    style="width: 240px; margin-right: 16px; vertical-align: middle;"
-    multiple
-  />
-  <el-select-v2
-    disabled
-    v-model="value"
-    filterable
-    :options="options"
-    placeholder="Please select"
-    style="width: 240px; vertical-align: middle;"
-    multiple
-  />
-</template>
-
-<script>
-  const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-  export default {
-    data() {
-      return {
-        options: Array.from({ length: 1000 }).map((_, idx) => ({
-          value: `Option${idx + 1}`,
-          label: `${initials[idx % 10]}${idx}`,
-          disabled: idx % 10 === 0,
-        })),
-        value: [],
-      }
-    },
-  }
-</script>
-```
+select-v2/disabled
 
 :::
 
-### Option Grouping
+## Option Grouping
 
 We can group option as we wanted, as long as the data satisfies the pattern.
 
 :::demo
 
-```html
-<template>
-  <el-select-v2
-    v-model="value"
-    filterable
-    :options="options"
-    placeholder="Please select"
-    style="width: 240px;"
-    multiple
-  />
-</template>
-
-<script>
-  const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-  export default {
-    data() {
-      return {
-        options: Array.from({ length: 10 }).map((_, idx) => {
-          const label = idx + 1
-          return {
-            value: `Group ${label}`,
-            label: `Group ${label}`,
-            options: Array.from({ length: 10 }).map((_, idx) => ({
-              value: `Option ${idx + 1 + 10 * label}`,
-              label: `${initials[idx % 10]}${idx + 1 + 10 * label}`,
-            })),
-          }
-        }),
-        value: [],
-      }
-    },
-  }
-</script>
-```
+select-v2/grouping
 
 :::
 
-### Customized option renderer
+## Customized option renderer
 
 We can define our own template for rendering the option in the popup.
 
 :::demo
 
-```html
-<template>
-  <el-select-v2
-    v-model="value"
-    filterable
-    :options="options"
-    placeholder="Please select"
-    style="width: 240px;"
-    multiple
-  >
-    <template #default="{item}">
-      <span style="margin-right: 8px;">{{ item.label }}</span>
-      <span style="color: var(--el-text-color-secondary); font-size: 13px">
-        {{ item.value }}
-      </span>
-    </template>
-  </el-select-v2>
-</template>
-
-<script>
-  const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-  export default {
-    data() {
-      return {
-        options: Array.from({ length: 1000 }).map((_, idx) => ({
-          value: `Option${idx + 1}`,
-          label: `${initials[idx % 10]}${idx}`,
-        })),
-        value: [],
-      }
-    },
-  }
-</script>
-```
+select-v2/customized-option
 
 :::
 
-### Clearable selector
+## Clearable selector
 
 We can clear all the selected options at once, also applicable for single select.
 
 :::demo
 
-```html
-<template>
-  <el-select-v2
-    v-model="value1"
-    :options="options"
-    placeholder="Please select"
-    style="width: 240px; margin-right: 16px; vertical-align: middle;"
-    multiple
-    clearable
-  />
-  <el-select-v2
-    v-model="value2"
-    :options="options"
-    placeholder="Please select"
-    style="width: 240px; vertical-align: middle;"
-    clearable
-  />
-</template>
-
-<script>
-  const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-  export default {
-    data() {
-      return {
-        options: Array.from({ length: 1000 }).map((_, idx) => ({
-          value: `Option ${idx + 1}`,
-          label: `${initials[idx % 10]}${idx}`,
-        })),
-        value1: [],
-        value2: '',
-      }
-    },
-  }
-</script>
-```
+select-v2/clearable
 
 :::
 
-### Create Option
+## Create Option
 
 Create and select new items that are not included in select options
 :::demo By using the `allow-create` attribute, users can create new items by typing in the input box. Note that for `allow-create` to work, `filterable` must be `true`.
 
-```html
-<template>
-  <el-select-v2
-    v-model="value1"
-    :options="options"
-    placeholder="Please select"
-    style="width: 240px; margin-right: 16px; vertical-align: middle;"
-    allow-create
-    filterable
-    multiple
-    clearable
-  />
-  <el-select-v2
-    v-model="value2"
-    :options="options"
-    placeholder="Please select"
-    style="width: 240px; vertical-align: middle;"
-    allow-create
-    filterable
-    clearable
-  />
-</template>
-
-<script>
-  const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-  export default {
-    data() {
-      return {
-        options: Array.from({ length: 1000 }).map((_, idx) => ({
-          value: `Option ${idx + 1}`,
-          label: `${initials[idx % 10]}${idx}`,
-        })),
-        value1: [],
-        value2: '',
-      }
-    },
-  }
-</script>
-```
+select-v2/allow-create
 
 :::
 
-### Remote search
+## Remote search
 
 Enter keywords and search data from server.
 
 :::demo Set the value of `filterable` and `remote` with `true` to enable remote search, and you should pass the `remote-method`. `remote-method` is a `Function` that gets called when the input value changes, and its parameter is the current input value.
 
-```html
-<template>
-  <el-select-v2
-    v-model="value"
-    style="width: 240px"
-    multiple
-    size="medium"
-    filterable
-    remote
-    :remote-method="remoteMethod"
-    clearable
-    :options="options"
-    :loading="loading"
-    placeholder="Please enter a keyword"
-  />
-</template>
-
-<script>
-  export default {
-    created() {
-      this.list = this.states.map((item) => {
-        return { value: `value:${item}`, label: `label:${item}` }
-      })
-    },
-    methods: {
-      remoteMethod(query) {
-        if (query !== '') {
-          this.loading = true
-          setTimeout(() => {
-            this.loading = false
-            this.options = this.list.filter((item) => {
-              return item.label.toLowerCase().indexOf(query.toLowerCase()) > -1
-            })
-          }, 200)
-        } else {
-          this.options = []
-        }
-      },
-    },
-    data() {
-      return {
-        list: [],
-        loading: false,
-        states: [
-          'Alabama',
-          'Alaska',
-          'Arizona',
-          'Arkansas',
-          'California',
-          'Colorado',
-          'Connecticut',
-          'Delaware',
-          'Florida',
-          'Georgia',
-          'Hawaii',
-          'Idaho',
-          'Illinois',
-          'Indiana',
-          'Iowa',
-          'Kansas',
-          'Kentucky',
-          'Louisiana',
-          'Maine',
-          'Maryland',
-          'Massachusetts',
-          'Michigan',
-          'Minnesota',
-          'Mississippi',
-          'Missouri',
-          'Montana',
-          'Nebraska',
-          'Nevada',
-          'New Hampshire',
-          'New Jersey',
-          'New Mexico',
-          'New York',
-          'North Carolina',
-          'North Dakota',
-          'Ohio',
-          'Oklahoma',
-          'Oregon',
-          'Pennsylvania',
-          'Rhode Island',
-          'South Carolina',
-          'South Dakota',
-          'Tennessee',
-          'Texas',
-          'Utah',
-          'Vermont',
-          'Virginia',
-          'Washington',
-          'West Virginia',
-          'Wisconsin',
-          'Wyoming',
-        ],
-        options: [],
-        value: [],
-      }
-    },
-  }
-</script>
-```
+select-v2/remote-search
 
 :::
 
-### SelectV2 Attributes
+## SelectV2 Attributes
 
 | Param                 | Description                                                                                                                 | Type                               | Accepted Values   | Default              |
 | --------------------- | --------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | ----------------- | -------------------- |
@@ -516,7 +140,7 @@ Enter keywords and search data from server.
 | loading-text | 远程加载时显示的文字 | string | — | 加载中 | -->
 </span>
 
-### SelectV2 Events
+## SelectV2 Events
 
 | Event Name     | Description                                                   | Params                                    |
 | -------------- | ------------------------------------------------------------- | ----------------------------------------- |
@@ -527,7 +151,7 @@ Enter keywords and search data from server.
 | blur           | triggers when Input blurs                                     | (event: Event)                            |
 | focus          | triggers when Input focuses                                   | (event: Event)                            |
 
-### SelectV2 Slots
+## SelectV2 Slots
 
 |   name  | 说明               |
 | ------- | ------------------ |

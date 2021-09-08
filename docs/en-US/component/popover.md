@@ -1,238 +1,36 @@
-## Popover
+# Popover
 
-### Basic usage
+## Basic usage
 
 Similar to Tooltip, Popover is also built with `Vue-popper`. So for some duplicated attributes, please refer to the documentation of Tooltip.
 
 :::demo The `trigger` attribute is used to define how popover is triggered: `hover`, `click`, `focus` or `manual`. As for the triggering element, you can write it in two different ways: use the `#reference` named slot, or use the `v-popover` directive and set it to Popover's `ref`.
 
-```html
-<template>
-  <el-popover
-    placement="top-start"
-    title="Title"
-    :width="200"
-    trigger="hover"
-    content="this is content, this is content, this is content"
-  >
-    <template #reference>
-      <el-button>Hover to activate</el-button>
-    </template>
-  </el-popover>
-
-  <el-popover
-    placement="bottom"
-    title="Title"
-    :width="200"
-    trigger="click"
-    content="this is content, this is content, this is content"
-  >
-    <template #reference>
-      <el-button>Click to activate</el-button>
-    </template>
-  </el-popover>
-
-  <el-popover
-    ref="popover"
-    placement="right"
-    title="Title"
-    :width="200"
-    trigger="focus"
-    content="this is content, this is content, this is content"
-  >
-    <template #reference>
-      <el-button>Focus to activate</el-button>
-    </template>
-  </el-popover>
-
-  <el-popover
-    placement="bottom"
-    title="Title"
-    :width="200"
-    trigger="manual"
-    content="this is content, this is content, this is content"
-    v-model:visible="visible"
-  >
-    <template #reference>
-      <el-button @click="visible = !visible">Manual to activate</el-button>
-    </template>
-  </el-popover>
-</template>
-
-<script>
-  export default {
-    data() {
-      return {
-        visible: false,
-      }
-    },
-  }
-</script>
-<!--
-<setup>
-
-  import { defineComponent, ref } from 'vue';
-
-  export default defineComponent({
-    setup() {
-      return {
-        visible: ref(false),
-      };
-    },
-  });
-
-</setup>
--->
-```
+popover/basic-usage
 
 :::
 
-### Nested information
+## Nested information
 
 Other components can be nested in popover. Following is an example of nested table.
 
 :::demo replace the `content` attribute with a default `slot`.
 
-```html
-<el-popover placement="right" :width="400" trigger="click">
-  <template #reference>
-    <el-button>Click to activate</el-button>
-  </template>
-  <el-table :data="gridData">
-    <el-table-column width="150" property="date" label="date"></el-table-column>
-    <el-table-column width="100" property="name" label="name"></el-table-column>
-    <el-table-column
-      width="300"
-      property="address"
-      label="address"
-    ></el-table-column>
-  </el-table>
-</el-popover>
-
-<script>
-  export default {
-    data() {
-      return {
-        gridData: [
-          {
-            date: '2016-05-02',
-            name: 'Jack',
-            address: 'New York City',
-          },
-          {
-            date: '2016-05-04',
-            name: 'Jack',
-            address: 'New York City',
-          },
-          {
-            date: '2016-05-01',
-            name: 'Jack',
-            address: 'New York City',
-          },
-          {
-            date: '2016-05-03',
-            name: 'Jack',
-            address: 'New York City',
-          },
-        ],
-      }
-    },
-  }
-</script>
-<!--
-<setup>
-
-  import { defineComponent, reactive, toRefs } from 'vue';
-
-  export default defineComponent({
-    setup() {
-      const state = reactive({
-        gridData: [
-          {
-            date: '2016-05-02',
-            name: 'Jack',
-            address: 'New York City',
-          },
-          {
-            date: '2016-05-04',
-            name: 'Jack',
-            address: 'New York City',
-          },
-          {
-            date: '2016-05-01',
-            name: 'Jack',
-            address: 'New York City',
-          },
-          {
-            date: '2016-05-03',
-            name: 'Jack',
-            address: 'New York City',
-          },
-        ],
-      });
-      return {
-        ...toRefs(state),
-      };
-    },
-  });
-
-</setup>
--->
-```
+popover/nested-information
 
 :::
 
-### Nested operation
+## Nested operation
 
 Of course, you can nest other operations. It's more light-weight than using a dialog.
 
 :::demo
 
-```html
-<el-popover placement="top" :width="160" v-model:visible="visible">
-  <p>Are you sure to delete this?</p>
-  <div style="text-align: right; margin: 0">
-    <el-button size="mini" type="text" @click="visible = false"
-      >cancel</el-button
-    >
-    <el-button type="primary" size="mini" @click="visible = false"
-      >confirm</el-button
-    >
-  </div>
-  <template #reference>
-    <el-button @click="visible = true">Delete</el-button>
-  </template>
-</el-popover>
-
-<script>
-  export default {
-    data() {
-      return {
-        visible: false,
-      }
-    },
-  }
-</script>
-<!--
-<setup>
-
-  import { defineComponent, ref } from 'vue';
-
-  export default defineComponent({
-    setup() {
-      return {
-        visible: ref(false),
-      };
-    },
-  });
-
-</setup>
--->
-```
+popover/nested-operation
 
 :::
 
-### Attributes
+## Attributes
 
 | Attribute                 | Description                                                                                                                               | Type            | Accepted Values                                                                                           | Default                                                 |
 | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | --------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
@@ -253,14 +51,14 @@ Of course, you can nest other operations. It's more light-weight than using a di
 | auto-close                | timeout in milliseconds to hide tooltip                                                                                                   | number          | —                                                                                                         | 0                                                       |
 | tabindex                  | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Popover                                       | number          | —                                                                                                         | —                                                       |
 
-### Slots
+## Slots
 
 | Name      | Description                        |
 | --------- | ---------------------------------- |
 | —         | text content of popover            |
 | reference | HTML element that triggers popover |
 
-### Events
+## Events
 
 | Event Name  | Description                                | Parameters |
 | ----------- | ------------------------------------------ | ---------- |
