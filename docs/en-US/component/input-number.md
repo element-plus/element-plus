@@ -1,210 +1,46 @@
-## InputNumber
+# Input Number
 
 Input numerical values with a customizable range.
 
-### Basic usage
+## Basic usage
 
 :::demo Bind a variable to `v-model` in `<el-input-number>` element and you are set.
 
-```html
-<template>
-  <el-input-number
-    v-model="num"
-    @change="handleChange"
-    :min="1"
-    :max="10"
-  ></el-input-number>
-</template>
-<script>
-  export default {
-    data() {
-      return {
-        num: 1,
-      }
-    },
-    methods: {
-      handleChange(value) {
-        console.log(value)
-      },
-    },
-  }
-</script>
-<!--
-<setup>
-
-  import { defineComponent, ref } from 'vue';
-
-  export default defineComponent({
-    setup() {
-      const num = ref(1);
-      const handleChange = (value) => {
-        console.log(value);
-      };
-      return {
-        num,
-        handleChange,
-      };
-    },
-  });
-
-</setup>
--->
-```
+input-number/basic
 
 :::
 
-### Disabled
+## Disabled
 
 :::demo The `disabled` attribute accepts a `boolean`, and if the value is `true`, the component is disabled. If you just need to control the value within a range, you can add `min` attribute to set the minimum value and `max` to set the maximum value. By default, the minimum value is `0`.
 
-```html
-<template>
-  <el-input-number v-model="num" :disabled="true"></el-input-number>
-</template>
-<script>
-  export default {
-    data() {
-      return {
-        num: 1,
-      }
-    },
-  }
-</script>
-<!--
-<setup>
-
-  import { defineComponent, ref } from 'vue';
-
-  export default defineComponent({
-    setup() {
-      const num = ref(1);
-      return {
-        num,
-      };
-    },
-  });
-
-</setup>
--->
-```
+input-number/disabled
 
 :::
 
-### Steps
+## Steps
 
 Allows you to define incremental steps.
 
 :::demo Add `step` attribute to set the step.
 
-```html
-<template>
-  <el-input-number v-model="num" :step="2"></el-input-number>
-</template>
-<script>
-  export default {
-    data() {
-      return {
-        num: 5,
-      }
-    },
-  }
-</script>
-<!--
-<setup>
-
-  import { defineComponent, ref } from 'vue';
-
-  export default defineComponent({
-    setup() {
-      const num = ref(5);
-      return {
-        num,
-      };
-    },
-  });
-
-</setup>
--->
-```
+input-number/steps
 
 :::
 
-### Step strictly
+## Step strictly
 
 :::demo The `step-strictly` attribute accepts a `boolean`. if this attribute is `true`, input value can only be multiple of step.
 
-```html
-<template>
-  <el-input-number v-model="num" :step="2" step-strictly></el-input-number>
-</template>
-<script>
-  export default {
-    data() {
-      return {
-        num: 2,
-      }
-    },
-  }
-</script>
-<!--
-<setup>
-
-  import { defineComponent, ref } from 'vue';
-
-  export default defineComponent({
-    setup() {
-      const num = ref(2);
-      return {
-        num,
-      };
-    },
-  });
-
-</setup>
--->
-```
+input-number/step-strictly
 
 :::
 
-### Precision
+## Precision
 
 :::demo Add `precision` attribute to set the precision of input value.
 
-```html
-<template>
-  <el-input-number
-    v-model="num"
-    :precision="2"
-    :step="0.1"
-    :max="10"
-  ></el-input-number>
-</template>
-<script>
-  export default {
-    data() {
-      return {
-        num: 1,
-      }
-    },
-  }
-</script>
-<!--
-<setup>
-
-  import { defineComponent, ref } from 'vue';
-
-  export default defineComponent({
-    setup() {
-      const num = ref(1);
-      return {
-        num,
-      };
-    },
-  });
-
-</setup>
--->
-```
+input-number/precision
 
 :::
 
@@ -212,110 +48,25 @@ Allows you to define incremental steps.
 The value of `precision` must be a non negative integer and should not be less than the decimal places of `step`.
 :::
 
-### Size
+## Size
 
 Use attribute `size` to set additional sizes with `medium`, `small` or `mini`.
 
 :::demo
 
-```html
-<template>
-  <el-input-number v-model="num1"></el-input-number>
-  <el-input-number size="medium" v-model="num2"></el-input-number>
-  <el-input-number size="small" v-model="num3"></el-input-number>
-  <el-input-number size="mini" v-model="num4"></el-input-number>
-</template>
-<script>
-  export default {
-    data() {
-      return {
-        num1: 1,
-        num2: 1,
-        num3: 1,
-        num4: 1,
-      }
-    },
-  }
-</script>
-<!--
-<setup>
-
-  import { defineComponent, ref } from 'vue';
-
-  export default defineComponent({
-    setup() {
-      const num1 = ref(1);
-      const num2 = ref(2);
-      const num3 = ref(3);
-      const num4 = ref(4);
-      return {
-        num1,
-        num2,
-        num3,
-        num4,
-      };
-    },
-  });
-
-</setup>
--->
-```
+input-number/size
 
 :::
 
-### Controls Position
+## Controls Position
 
 :::demo Set `controls-position` to decide the position of control buttons.
 
-```html
-<template>
-  <el-input-number
-    v-model="num"
-    controls-position="right"
-    @change="handleChange"
-    :min="1"
-    :max="10"
-  ></el-input-number>
-</template>
-<script>
-  export default {
-    data() {
-      return {
-        num: 1,
-      }
-    },
-    methods: {
-      handleChange(value) {
-        console.log(value)
-      },
-    },
-  }
-</script>
-<!--
-<setup>
-
-  import { defineComponent, ref } from 'vue';
-
-  export default defineComponent({
-    setup() {
-      const num = ref(1);
-      const handleChange = (value) => {
-        console.log(value);
-      };
-      return {
-        num,
-        handleChange,
-      };
-    },
-  });
-
-</setup>
--->
-```
+input-number/controlled
 
 :::
 
-### Attributes
+## Attributes
 
 | Attribute             | Description                                      | Type               | Accepted Values         | Default     |
 | --------------------- | ------------------------------------------------ | ------------------ | ----------------------- | ----------- |
@@ -333,7 +84,7 @@ Use attribute `size` to set additional sizes with `medium`, `small` or `mini`.
 | label                 | label text                                       | string             | —                       | —           |
 | placeholder           | placeholder in input                             | string             | -                       | -           |
 
-### Events
+## Events
 
 | Event Name | Description                     | Parameters             |
 | ---------- | ------------------------------- | ---------------------- |
@@ -341,7 +92,7 @@ Use attribute `size` to set additional sizes with `medium`, `small` or `mini`.
 | blur       | triggers when Input blurs       | (event: Event)         |
 | focus      | triggers when Input focuses     | (event: Event)         |
 
-### Methods
+## Methods
 
 | Method | Description                      | Parameters |
 | ------ | -------------------------------- | ---------- |

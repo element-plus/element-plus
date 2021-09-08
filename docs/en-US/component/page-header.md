@@ -1,57 +1,24 @@
-## PageHeader
+# Page Header
 
 If path of the page is simple, it is recommended to use PageHeader instead of the Breadcrumb.
 
-### Basic usage
+## Basic usage
 
 :::demo
 
-```html
-<el-page-header @back="goBack" content="detail"> </el-page-header>
-
-<script>
-  export default {
-    methods: {
-      goBack() {
-        console.log('go back')
-      },
-    },
-  }
-</script>
-<!--
-<setup>
-
-  import { defineComponent } from 'vue';
-
-  export default defineComponent({
-    setup() {
-      const goBack = () => {
-        console.log('go back');
-      };
-
-      return {
-        goBack,
-      };
-    },
-  });
-
-</setup>
--->
-```
+page-header/basic
 
 :::
 
-### Custom icon
+## Custom icon
 
 :::demo
 
-```html
-<el-page-header icon="el-icon-arrow-left" content="detail"></el-page-header>
-```
+page-header/custom-icon
 
 :::
 
-### Attributes
+## Attributes
 
 | Attribute | Description | Type   | Accepted Values | Default      |
 | --------- | ----------- | ------ | --------------- | ------------ |
@@ -59,13 +26,13 @@ If path of the page is simple, it is recommended to use PageHeader instead of th
 | title     | main title  | string | —               | Back         |
 | content   | content     | string | —               | —            |
 
-### Events
+## Events
 
 | Event Name | Description                         | Parameters |
 | ---------- | ----------------------------------- | ---------- |
 | back       | triggers when right side is clicked | —          |
 
-### Slots
+## Slots
 
 | Name    | Description   |
 | ------- | ------------- |

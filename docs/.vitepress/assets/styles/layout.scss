@@ -130,6 +130,10 @@ a {
   text-decoration: none;
   color: var(--brand-color);
   font-weight: 500;
+
+  &.el-link:hover {
+    text-decoration: none;
+  }
 }
 
 a:hover {

@@ -49,7 +49,7 @@
     "children": [
       {
         "link": "/config-provider",
-        "text": "ConfigProvider"
+        "text": "Config Provider"
       }
     ]
   },
@@ -70,7 +70,7 @@
       },
       {
         "link": "/input-number",
-        "text": "InputNumber"
+        "text": "Input Number"
       },
       {
         "link": "/select",
@@ -95,19 +95,19 @@
       },
       {
         "link": "/time-picker",
-        "text": "TimePicker"
+        "text": "Time Picker"
       },
       {
         "link": "/time-select",
-        "text": "TimeSelect"
+        "text": "Time Select"
       },
       {
         "link": "/date-picker",
-        "text": "DatePicker"
+        "text": "Date Picker"
       },
       {
         "link": "/datetime-picker",
-        "text": "DateTimePicker"
+        "text": "DateTime Picker"
       },
       {
         "link": "/upload",
@@ -119,7 +119,7 @@
       },
       {
         "link": "/color-picker",
-        "text": "ColorPicker"
+        "text": "Color Picker"
       },
       {
         "link": "/transfer",
@@ -200,8 +200,8 @@
         "text": "Image"
       },
       {
-        "link": "/infiniteScroll",
-        "text": "InfiniteScroll"
+        "link": "/infinite-scroll",
+        "text": "Infinite Scroll"
       },
       {
         "link": "/avatar",
@@ -230,7 +230,7 @@
       },
       {
         "link": "/page-header",
-        "text": "PageHeader"
+        "text": "Page Header"
       },
       {
         "link": "/dropdown",
@@ -267,7 +267,7 @@
       },
       {
         "link": "/message-box",
-        "text": "MessageBox"
+        "text": "Message Box"
       },
       {
         "link": "/notification",
@@ -284,7 +284,7 @@
       },
       {
         "link": "/popconfirm",
-        "text": "Popconfirm"
+        "text": "Pop Confirm"
       }
     ]
   },
