@@ -7,11 +7,13 @@ Les tags sont utiles sont marquer certaines données afin d'ajouter des informat
 :::demo Utilisez l'attribut `type` pour définir le type de tag. De plus, l'attribut `color` détermine la couleur de fond.
 
 ```html
-<el-tag>Tag 1</el-tag>
-<el-tag type="success">Tag 2</el-tag>
-<el-tag type="info">Tag 3</el-tag>
-<el-tag type="warning">Tag 4</el-tag>
-<el-tag type="danger">Tag 5</el-tag>
+<template>
+  <el-tag>Tag 1</el-tag>
+  <el-tag type="success">Tag 2</el-tag>
+  <el-tag type="info">Tag 3</el-tag>
+  <el-tag type="warning">Tag 4</el-tag>
+  <el-tag type="danger">Tag 5</el-tag>
+</template>
 ```
 
 :::
@@ -21,9 +23,11 @@ Les tags sont utiles sont marquer certaines données afin d'ajouter des informat
 :::demo L'attribut `closable` détermine si un tag est supprimable grâce à un `Boolean`. Par défaut la suppression bénéficie d'un animation de fading. Utilisez `disable-transitions` si vous ne souhaitez pas d'animations en utilisant un `Boolean` à `true`. L'évènement `close` se déclenche quand un tag est supprimé.
 
 ```html
-<el-tag v-for="tag in tags" :key="tag.name" closable :type="tag.type">
-  {{tag.name}}
-</el-tag>
+<template>
+  <el-tag v-for="tag in tags" :key="tag.name" closable :type="tag.type">
+    {{tag.name}}
+  </el-tag>
+</template>
 
 <script>
   export default {
@@ -51,28 +55,30 @@ Vous pouvez utiliser l'évènement `close` pour ajouter et supprimer des tags dy
 :::demo
 
 ```html
-<el-tag
-  :key="tag"
-  v-for="tag in dynamicTags"
-  closable
-  :disable-transitions="false"
-  @close="handleClose(tag)"
->
-  {{tag}}
-</el-tag>
-<el-input
-  class="input-new-tag"
-  v-if="inputVisible"
-  v-model="inputValue"
-  ref="saveTagInput"
-  size="mini"
-  @keyup.enter="handleInputConfirm"
-  @blur="handleInputConfirm"
->
-</el-input>
-<el-button v-else class="button-new-tag" size="small" @click="showInput"
-  >+ Nouveau Tag</el-button
->
+<template>
+  <el-tag
+    :key="tag"
+    v-for="tag in dynamicTags"
+    closable
+    :disable-transitions="false"
+    @close="handleClose(tag)"
+  >
+    {{tag}}
+  </el-tag>
+  <el-input
+    class="input-new-tag"
+    v-if="inputVisible"
+    v-model="inputValue"
+    ref="saveTagInput"
+    size="mini"
+    @keyup.enter="handleInputConfirm"
+    @blur="handleInputConfirm"
+  >
+  </el-input>
+  <el-button v-else class="button-new-tag" size="small" @click="showInput"
+    >+ Nouveau Tag</el-button
+  >
+</template>
 
 <style>
   .el-tag + .el-tag {
@@ -135,10 +141,12 @@ En plus de la taille par défaut, Tag fournit d'autres tailles pour vos composan
 :::demo Utilisez `size` pour choisir une autre taille parmi `medium`, `small` ou `mini`.
 
 ```html
-<el-tag>Défaut</el-tag>
-<el-tag size="medium">Medium</el-tag>
-<el-tag size="small">Small</el-tag>
-<el-tag size="mini">Mini</el-tag>
+<template>
+  <el-tag>Défaut</el-tag>
+  <el-tag size="medium">Medium</el-tag>
+  <el-tag size="small">Small</el-tag>
+  <el-tag size="mini">Mini</el-tag>
+</template>
 ```
 
 :::
@@ -150,28 +158,30 @@ Les balises utilisent trois thèmes différents: `dark`, `light` et `plain`
 :::demo Utilisez `effect` pour changer. La valeur par défaut est `light`
 
 ```html
-<div class="tag-group">
-  <span class="tag-group__title">Dark</span>
-  <el-tag
-    v-for="item in items"
-    :key="item.label"
-    :type="item.type"
-    effect="dark"
-  >
-    {{ item.label }}
-  </el-tag>
-</div>
-<div class="tag-group">
-  <span class="tag-group__title">Plain</span>
-  <el-tag
-    v-for="item in items"
-    :key="item.label"
-    :type="item.type"
-    effect="plain"
-  >
-    {{ item.label }}
-  </el-tag>
-</div>
+<template>
+  <div class="tag-group">
+    <span class="tag-group__title">Dark</span>
+    <el-tag
+      v-for="item in items"
+      :key="item.label"
+      :type="item.type"
+      effect="dark"
+    >
+      {{ item.label }}
+    </el-tag>
+  </div>
+  <div class="tag-group">
+    <span class="tag-group__title">Plain</span>
+    <el-tag
+      v-for="item in items"
+      :key="item.label"
+      :type="item.type"
+      effect="plain"
+    >
+      {{ item.label }}
+    </el-tag>
+  </div>
+</template>
 
 <script>
   export default {
@@ -199,10 +209,12 @@ Sometimes because of the business needs, we might need checkbox like tag, but **
 :::demo basic check-tag usage, the API is rather simple.
 
 ```html
-<div>
-  <el-check-tag checked style="margin-right: 8px;">Checked</el-check-tag>
-  <el-check-tag @change="onChange" :checked="checked">Toggle me</el-check-tag>
-</div>
+<template>
+  <div>
+    <el-check-tag checked style="margin-right: 8px;">Checked</el-check-tag>
+    <el-check-tag @change="onChange" :checked="checked">Toggle me</el-check-tag>
+  </div>
+</template>
 
 <script>
   export default {

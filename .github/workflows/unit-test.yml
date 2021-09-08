@@ -4,11 +4,16 @@ on: pull_request
 
 jobs:
   build:
-    name: Unit Test
+    name: Unit Test (${{ matrix.node-name }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ['14', '16']
+        node-version: ['14', '16.8']
+        include:
+          - node-version: '14'
+            node-name: 'LTS'
+          - node-version: '16.8'
+            node-name: 'Latest'
     steps:
       - uses: actions/checkout@v2
       - name: Setup node
