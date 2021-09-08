@@ -2,65 +2,45 @@
 
 Placeholder hints for empty states.
 
-### Basic usage
+## Basic usage
 
 :::demo
 
-```html
-<template>
-  <el-empty description="description"></el-empty>
-</template>
-```
+empty/basic-usage
 
 :::
 
-### Custom image
+## Custom image
 
 Use `image` prop to set image URL.
 
 :::demo
 
-```html
-<template>
-  <el-empty
-    image="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-  ></el-empty>
-</template>
-```
+empty/custom-image
 
 :::
 
-### Image size
+## Image size
 
 Use `image-size` prop to control image size.
 
 :::demo
 
-```html
-<template>
-  <el-empty :image-size="200"></el-empty>
-</template>
-```
+empty/image-size
 
 :::
 
-### Bottom content
+## Bottom content
 
 Use the default slot to insert content at the bottom.
 
 :::demo
 
-```html
-<template>
-  <el-empty>
-    <el-button type="primary">Button</el-button>
-  </el-empty>
-</template>
-```
+empty/bottom-content
 
 :::
 
-### Empty Attributes
+## Empty Attributes
 
 | Attribute   | Description        | Type   | Acceptable Value | Default |
 | ----------- | ------------------ | ------ | ---------------- | ------- |
@@ -68,7 +48,7 @@ Use the default slot to insert content at the bottom.
 | image-size  | image size (width) | number | —                | —       |
 | description | description        | string | —                | —       |
 
-### Empty Slots
+## Empty Slots
 
 | Name        | Description           |
 | ----------- | --------------------- |
