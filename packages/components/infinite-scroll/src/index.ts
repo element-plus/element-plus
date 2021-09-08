@@ -6,7 +6,6 @@ import {
   getOffsetTopDistance,
 } from '@element-plus/utils/dom'
 import { throwError } from '@element-plus/utils/error'
-import { entries } from '@element-plus/utils/util'
 
 import type { ObjectDirective, ComponentPublicInstance } from 'vue'
 
@@ -54,7 +53,7 @@ const getScrollOptions = (
   el: HTMLElement,
   instance: ComponentPublicInstance
 ): ScrollOptions => {
-  return entries(attributes).reduce((acm, [name, option]) => {
+  return Object.entries(attributes).reduce((acm, [name, option]) => {
     const { type, default: defaultValue } = option
     const attrVal = el.getAttribute(`infinite-scroll-${name}`)
     let value = instance[attrVal] ?? attrVal ?? defaultValue

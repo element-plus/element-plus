@@ -1,5 +1,4 @@
 import { nextTick, getCurrentInstance, unref } from 'vue'
-import { arrayFind } from '@element-plus/utils/util'
 import useWatcher from './watcher'
 
 import type { Ref } from 'vue'
@@ -126,8 +125,7 @@ function useStore<T>() {
     sort(states: StoreStates, options: Sort) {
       const { prop, order, init } = options
       if (prop) {
-        const column = arrayFind(
-          unref(states.columns),
+        const column = unref(states.columns).find(
           (column) => column.property === prop
         )
         if (column) {

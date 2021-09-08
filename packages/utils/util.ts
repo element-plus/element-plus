@@ -19,13 +19,6 @@ import { debugWarn } from './error'
 import type { ComponentPublicInstance, CSSProperties, Ref } from 'vue'
 import type { AnyFunction, TimeoutHandle, Hash, Nullable } from './types'
 
-// type polyfill for compat isIE method
-declare global {
-  interface Document {
-    documentMode?: any
-  }
-}
-
 export const SCOPE = 'Util'
 
 export function toObject<T>(arr: Array<T>): Record<string, T> {
@@ -103,13 +96,9 @@ export const coerceTruthyValueToArray = (arr) => {
   return Array.isArray(arr) ? arr : [arr]
 }
 
-export const isIE = function (): boolean {
-  return !isServer && !isNaN(Number(document.documentMode))
-}
-
-export const isEdge = function (): boolean {
-  return !isServer && navigator.userAgent.indexOf('Edge') > -1
-}
+// drop IE and (Edge < 79) support
+// export const isIE
+// export const isEdge
 
 export const isFirefox = function (): boolean {
   return !isServer && !!window.navigator.userAgent.match(/firefox/i)
@@ -177,10 +166,6 @@ export function getRandomInt(max: number) {
   return Math.floor(Math.random() * Math.floor(max))
 }
 
-export function entries<T>(obj: Hash<T>): [string, T][] {
-  return Object.keys(obj).map((key: string) => [key, obj[key]])
-}
-
 export function isUndefined(val: any): val is undefined {
   return val === undefined
 }
@@ -191,20 +176,6 @@ export function useGlobalConfig() {
     return vm.proxy.$ELEMENT
   }
   return {}
-}
-
-export const arrayFindIndex = function <T = any>(
-  arr: Array<T>,
-  pred: (args: T) => boolean
-): number {
-  return arr.findIndex(pred)
-}
-
-export const arrayFind = function <T>(
-  arr: Array<T>,
-  pred: (args: T) => boolean
-): T {
-  return arr.find(pred)
 }
 
 export function isEmpty(val: unknown) {
