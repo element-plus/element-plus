@@ -12,3 +12,9 @@ export default (scope: string, m: string) => {
 export function warn(scope: string, m: string) {
   console.warn(new ElementPlusError(`[${scope}] ${m}`))
 }
+
+export function debugWarn(scope: string, m: string): void {
+  if (process.env.NODE_ENV === 'development') {
+    console.warn(new ElementPlusError(`[${scope}] ${m}`))
+  }
+}
