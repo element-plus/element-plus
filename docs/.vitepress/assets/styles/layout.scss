@@ -168,25 +168,25 @@ li > ol {
   margin: 0;
 }
 
-table {
+table:not([class^='el-table']) {
   display: block;
   border-collapse: collapse;
   margin: 1rem 0;
   overflow-x: auto;
-}
 
-tr {
-  border-top: 1px solid #dfe2e5;
-}
+  tr {
+    border-top: 1px solid #dfe2e5;
+  }
 
-tr:nth-child(2n) {
-  background-color: #f6f8fa;
-}
+  tr:nth-child(2n) {
+    background-color: #f6f8fa;
+  }
 
-th,
-td {
-  border: 1px solid #dfe2e5;
-  padding: 0.6em 1em;
+  th,
+  td {
+    border: 1px solid #dfe2e5;
+    padding: 0.6em 1em;
+  }
 }
 
 blockquote {

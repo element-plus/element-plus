@@ -1,305 +1,93 @@
-## Tabs
+# Tabs
 
 Divide data collections which are related yet belong to different types.
 
-### Basic usage
+<style lang="scss">
+
+:not(.el-tabs--border-card) > .el-tabs__content {
+  padding: 32px;
+  background-color: #F4F5F7;
+  color: #6B778C;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.el-tabs--right, .el-tabs--left {
+  .el-tabs__content {
+    height: 100%;
+  }
+}
+</style>
+
+## Basic usage
 
 Basic and concise tabs.
 
 :::demo Tabs provide a selective card functionality. By default the first tab is selected as active, and you can activate any tab by setting the `value` attribute.
 
-```html
-<template>
-  <el-tabs v-model="activeName" @tab-click="handleClick">
-    <el-tab-pane label="User" name="first">User</el-tab-pane>
-    <el-tab-pane label="Config" name="second">Config</el-tab-pane>
-    <el-tab-pane label="Role" name="third">Role</el-tab-pane>
-    <el-tab-pane label="Task" name="fourth">Task</el-tab-pane>
-  </el-tabs>
-</template>
-<script>
-  export default {
-    data() {
-      return {
-        activeName: 'first',
-      }
-    },
-    methods: {
-      handleClick(tab, event) {
-        console.log(tab, event)
-      },
-    },
-  }
-</script>
-```
+tabs/basic
 
 :::
 
-### Card Style
+## Card Style
 
 Tabs styled as cards.
 
 :::demo Set `type` to `card` can get a card-styled tab.
 
-```html
-<template>
-  <el-tabs type="card" @tab-click="handleClick">
-    <el-tab-pane label="User">User</el-tab-pane>
-    <el-tab-pane label="Config">Config</el-tab-pane>
-    <el-tab-pane label="Role">Role</el-tab-pane>
-    <el-tab-pane label="Task">Task</el-tab-pane>
-  </el-tabs>
-</template>
-<script>
-  export default {
-    data() {
-      return {
-        activeName: 'first',
-      }
-    },
-    methods: {
-      handleClick(tab, event) {
-        console.log(tab, event)
-      },
-    },
-  }
-</script>
-```
+tabs/card-style
 
 :::
 
-### Border card
+## Border card
 
 Border card tabs.
 
 :::demo Set `type` to `border-card`.
 
-```html
-<el-tabs type="border-card">
-  <el-tab-pane label="User">User</el-tab-pane>
-  <el-tab-pane label="Config">Config</el-tab-pane>
-  <el-tab-pane label="Role">Role</el-tab-pane>
-  <el-tab-pane label="Task">Task</el-tab-pane>
-</el-tabs>
-```
+tabs/border-card
 
 :::
 
-### Tab position
+## Tab position
 
 You can use `tab-position` attribute to set the tab's position.
 
 :::demo You can choose from four directions: `tabPosition="left|right|top|bottom"`
 
-```html
-<template>
-  <el-radio-group v-model="tabPosition" style="margin-bottom: 30px;">
-    <el-radio-button label="top">top</el-radio-button>
-    <el-radio-button label="right">right</el-radio-button>
-    <el-radio-button label="bottom">bottom</el-radio-button>
-    <el-radio-button label="left">left</el-radio-button>
-  </el-radio-group>
-
-  <el-tabs :tab-position="tabPosition" style="height: 200px;">
-    <el-tab-pane label="User">User</el-tab-pane>
-    <el-tab-pane label="Config">Config</el-tab-pane>
-    <el-tab-pane label="Role">Role</el-tab-pane>
-    <el-tab-pane label="Task">Task</el-tab-pane>
-  </el-tabs>
-</template>
-<script>
-  export default {
-    data() {
-      return {
-        tabPosition: 'left',
-      }
-    },
-  }
-</script>
-```
+tabs/tab-position
 
 :::
 
-### Custom Tab
+## Custom Tab
 
 You can use named slot to customize the tab label content.
 
 :::demo
 
-```html
-<el-tabs type="border-card">
-  <el-tab-pane>
-    <template #label>
-      <span><i class="el-icon-date"></i> Route</span>
-    </template>
-    Route
-  </el-tab-pane>
-  <el-tab-pane label="Config">Config</el-tab-pane>
-  <el-tab-pane label="Role">Role</el-tab-pane>
-  <el-tab-pane label="Task">Task</el-tab-pane>
-</el-tabs>
-```
+tabs/custom-tab
 
 :::
 
-### Add & close tab
+## Add & close tab
 
 Only card type Tabs support addable & closeable.
 
 :::demo
 
-```html
-<el-tabs
-  v-model="editableTabsValue"
-  type="card"
-  editable
-  @edit="handleTabsEdit"
->
-  <el-tab-pane
-    v-for="(item, index) in editableTabs"
-    :key="item.name"
-    :label="item.title"
-    :name="item.name"
-  >
-    {{item.content}}
-  </el-tab-pane>
-</el-tabs>
-<script>
-  export default {
-    data() {
-      return {
-        editableTabsValue: '2',
-        editableTabs: [
-          {
-            title: 'Tab 1',
-            name: '1',
-            content: 'Tab 1 content',
-          },
-          {
-            title: 'Tab 2',
-            name: '2',
-            content: 'Tab 2 content',
-          },
-        ],
-        tabIndex: 2,
-      }
-    },
-    methods: {
-      handleTabsEdit(targetName, action) {
-        if (action === 'add') {
-          let newTabName = ++this.tabIndex + ''
-          this.editableTabs.push({
-            title: 'New Tab',
-            name: newTabName,
-            content: 'New Tab content',
-          })
-          this.editableTabsValue = newTabName
-        }
-        if (action === 'remove') {
-          let tabs = this.editableTabs
-          let activeName = this.editableTabsValue
-          if (activeName === targetName) {
-            tabs.forEach((tab, index) => {
-              if (tab.name === targetName) {
-                let nextTab = tabs[index + 1] || tabs[index - 1]
-                if (nextTab) {
-                  activeName = nextTab.name
-                }
-              }
-            })
-          }
-
-          this.editableTabsValue = activeName
-          this.editableTabs = tabs.filter((tab) => tab.name !== targetName)
-        }
-      },
-    },
-  }
-</script>
-```
+tabs/dynamic-tabs
 
 :::
 
-### Customized trigger button of new tab
+## Customized trigger button of new tab
 
 :::demo
 
-```html
-<div style="margin-bottom: 20px;">
-  <el-button size="small" @click="addTab(editableTabsValue)">
-    add tab
-  </el-button>
-</div>
-<el-tabs
-  v-model="editableTabsValue"
-  type="card"
-  closable
-  @tab-remove="removeTab"
->
-  <el-tab-pane
-    v-for="(item, index) in editableTabs"
-    :key="item.name"
-    :label="item.title"
-    :name="item.name"
-  >
-    {{item.content}}
-  </el-tab-pane>
-</el-tabs>
-<script>
-  export default {
-    data() {
-      return {
-        editableTabsValue: '2',
-        editableTabs: [
-          {
-            title: 'Tab 1',
-            name: '1',
-            content: 'Tab 1 content',
-          },
-          {
-            title: 'Tab 2',
-            name: '2',
-            content: 'Tab 2 content',
-          },
-        ],
-        tabIndex: 2,
-      }
-    },
-    methods: {
-      addTab(targetName) {
-        let newTabName = ++this.tabIndex + ''
-        this.editableTabs.push({
-          title: 'New Tab',
-          name: newTabName,
-          content: 'New Tab content',
-        })
-        this.editableTabsValue = newTabName
-      },
-      removeTab(targetName) {
-        let tabs = this.editableTabs
-        let activeName = this.editableTabsValue
-        if (activeName === targetName) {
-          tabs.forEach((tab, index) => {
-            if (tab.name === targetName) {
-              let nextTab = tabs[index + 1] || tabs[index - 1]
-              if (nextTab) {
-                activeName = nextTab.name
-              }
-            }
-          })
-        }
-
-        this.editableTabsValue = activeName
-        this.editableTabs = tabs.filter((tab) => tab.name !== targetName)
-      },
-    },
-  }
-</script>
-```
+tabs/customized-trigger
 
 :::
 
-### Tabs Attributes
+## Tabs Attributes
 
 | Attribute             | Description                                                                                                                             | Type                                | Accepted Values       | Default           |
 | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- | --------------------- | ----------------- |
@@ -312,7 +100,7 @@ Only card type Tabs support addable & closeable.
 | stretch               | whether width of tab automatically fits its container                                                                                   | boolean                             | -                     | false             |
 | before-leave          | hook function before switching tab. If `false` is returned or a `Promise` is returned and then is rejected, switching will be prevented | Function(activeName, oldActiveName) | —                     | —                 |
 
-### Tabs Events
+## Tabs Events
 
 | Event Name | Description                                           | Parameters              |
 | ---------- | ----------------------------------------------------- | ----------------------- |
@@ -321,7 +109,7 @@ Only card type Tabs support addable & closeable.
 | tab-add    | triggers when tab-add button is clicked               | —                       |
 | edit       | triggers when tab-add button or tab-remove is clicked | (targetName, action)    |
 
-### Tab-pane Attributes
+## Tab-pane Attributes
 
 | Attribute | Description                                                                          | Type    | Accepted Values | Default                                                                        |
 | --------- | ------------------------------------------------------------------------------------ | ------- | --------------- | ------------------------------------------------------------------------------ |
@@ -331,7 +119,7 @@ Only card type Tabs support addable & closeable.
 | closable  | whether Tab is closable                                                              | boolean | —               | false                                                                          |
 | lazy      | whether Tab is lazily rendered                                                       | boolean | —               | false                                                                          |
 
-### Tab-pane Slots
+## Tab-pane Slots
 
 | Name  | Description        |
 | ----- | ------------------ |

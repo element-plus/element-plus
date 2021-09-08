@@ -1,967 +1,102 @@
-## Tree
+# Tree
 
 Display a set of data with hierarchies.
 
-### Basic usage
+## Basic usage
 
 Basic tree structure.
 
 :::demo
 
-```html
-<el-tree
-  :data="data"
-  :props="defaultProps"
-  @node-click="handleNodeClick"
-></el-tree>
+tree/basic
 
-<script>
-  export default {
-    data() {
-      return {
-        data: [
-          {
-            label: 'Level one 1',
-            children: [
-              {
-                label: 'Level two 1-1',
-                children: [
-                  {
-                    label: 'Level three 1-1-1',
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            label: 'Level one 2',
-            children: [
-              {
-                label: 'Level two 2-1',
-                children: [
-                  {
-                    label: 'Level three 2-1-1',
-                  },
-                ],
-              },
-              {
-                label: 'Level two 2-2',
-                children: [
-                  {
-                    label: 'Level three 2-2-1',
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            label: 'Level one 3',
-            children: [
-              {
-                label: 'Level two 3-1',
-                children: [
-                  {
-                    label: 'Level three 3-1-1',
-                  },
-                ],
-              },
-              {
-                label: 'Level two 3-2',
-                children: [
-                  {
-                    label: 'Level three 3-2-1',
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-        defaultProps: {
-          children: 'children',
-          label: 'label',
-        },
-      }
-    },
-    methods: {
-      handleNodeClick(data) {
-        console.log(data)
-      },
-    },
-  }
-</script>
-```
-
-:::
-
-### Selectable
+## Selectable
 
 Used for node selection.
 
 :::demo This example also shows how to load node data asynchronously.
 
-```html
-<el-tree
-  :props="props"
-  :load="loadNode"
-  lazy
-  show-checkbox
-  @check-change="handleCheckChange"
->
-</el-tree>
-
-<script>
-  export default {
-    data() {
-      return {
-        props: {
-          label: 'name',
-          children: 'zones',
-        },
-        count: 1,
-      }
-    },
-    methods: {
-      handleCheckChange(data, checked, indeterminate) {
-        console.log(data, checked, indeterminate)
-      },
-      handleNodeClick(data) {
-        console.log(data)
-      },
-      loadNode(node, resolve) {
-        if (node.level === 0) {
-          return resolve([{ name: 'Root1' }, { name: 'Root2' }])
-        }
-        if (node.level > 3) return resolve([])
-
-        var hasChild
-        if (node.data.name === 'region1') {
-          hasChild = true
-        } else if (node.data.name === 'region2') {
-          hasChild = false
-        } else {
-          hasChild = Math.random() > 0.5
-        }
-
-        setTimeout(() => {
-          var data
-          if (hasChild) {
-            data = [
-              {
-                name: 'zone' + this.count++,
-              },
-              {
-                name: 'zone' + this.count++,
-              },
-            ]
-          } else {
-            data = []
-          }
-
-          resolve(data)
-        }, 500)
-      },
-    },
-  }
-</script>
-```
+tree/selectable
 
 :::
 
-### Custom leaf node in lazy mode
+## Custom leaf node in lazy mode
 
 :::demo A node's data is not fetched until it is clicked, so the Tree cannot predict whether a node is a leaf node. That's why a drop-down button is added to each node, and if it is a leaf node, the drop-down button will disappear when clicked. That being said, you can also tell the Tree in advance whether the node is a leaf node, avoiding the render of the drop-down button before a leaf node.
 
-```html
-<el-tree :props="props" :load="loadNode" lazy show-checkbox> </el-tree>
-
-<script>
-  export default {
-    data() {
-      return {
-        props: {
-          label: 'name',
-          children: 'zones',
-          isLeaf: 'leaf',
-        },
-      }
-    },
-    methods: {
-      loadNode(node, resolve) {
-        if (node.level === 0) {
-          return resolve([{ name: 'region' }])
-        }
-        if (node.level > 1) return resolve([])
-
-        setTimeout(() => {
-          const data = [
-            {
-              name: 'leaf',
-              leaf: true,
-            },
-            {
-              name: 'zone',
-            },
-          ]
-
-          resolve(data)
-        }, 500)
-      },
-    },
-  }
-</script>
-```
+tree/custom-leaf
 
 :::
 
-### Disabled checkbox
+## Disabled checkbox
 
 The checkbox of a node can be set as disabled.
 
 :::demo In the example, 'disabled' property is declared in defaultProps, and some nodes are set as 'disabled:true'. The corresponding checkboxes are disabled and can't be clicked.
 
-```html
-<el-tree :data="data" :props="defaultProps" show-checkbox> </el-tree>
-
-<script>
-  export default {
-    data() {
-      return {
-        data: [
-          {
-            id: 1,
-            label: 'Level one 1',
-            children: [
-              {
-                id: 3,
-                label: 'Level two 2-1',
-                children: [
-                  {
-                    id: 4,
-                    label: 'Level three 3-1-1',
-                  },
-                  {
-                    id: 5,
-                    label: 'Level three 3-1-2',
-                    disabled: true,
-                  },
-                ],
-              },
-              {
-                id: 2,
-                label: 'Level two 2-2',
-                disabled: true,
-                children: [
-                  {
-                    id: 6,
-                    label: 'Level three 3-2-1',
-                  },
-                  {
-                    id: 7,
-                    label: 'Level three 3-2-2',
-                    disabled: true,
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-        defaultProps: {
-          children: 'children',
-          label: 'label',
-          disabled: 'disabled',
-        },
-      }
-    },
-  }
-</script>
-```
+tree/disabled
 
 :::
 
-### Default expanded and default checked
+## Default expanded and default checked
 
 Tree nodes can be initially expanded or checked
 
 :::demo Use `default-expanded-keys` and `default-checked-keys` to set initially expanded and initially checked nodes respectively. Note that for them to work, `node-key` is required. Its value is the name of a key in the data object, and the value of that key should be unique across the whole tree.
 
-```html
-<el-tree
-  :data="data"
-  show-checkbox
-  node-key="id"
-  :default-expanded-keys="[2, 3]"
-  :default-checked-keys="[5]"
-  :props="defaultProps"
->
-</el-tree>
-
-<script>
-  export default {
-    data() {
-      return {
-        data: [
-          {
-            id: 1,
-            label: 'Level one 1',
-            children: [
-              {
-                id: 4,
-                label: 'Level two 1-1',
-                children: [
-                  {
-                    id: 9,
-                    label: 'Level three 1-1-1',
-                  },
-                  {
-                    id: 10,
-                    label: 'Level three 1-1-2',
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            id: 2,
-            label: 'Level one 2',
-            children: [
-              {
-                id: 5,
-                label: 'Level two 2-1',
-              },
-              {
-                id: 6,
-                label: 'Level two 2-2',
-              },
-            ],
-          },
-          {
-            id: 3,
-            label: 'Level one 3',
-            children: [
-              {
-                id: 7,
-                label: 'Level two 3-1',
-              },
-              {
-                id: 8,
-                label: 'Level two 3-2',
-              },
-            ],
-          },
-        ],
-        defaultProps: {
-          children: 'children',
-          label: 'label',
-        },
-      }
-    },
-  }
-</script>
-```
+tree/default-state
 
 :::
 
-### Checking tree nodes
+## Checking tree nodes
 
 :::demo This example shows how to get and set checked nodes. They both can be done in two approaches: node and key. If you are taking the key approach, `node-key` is required.
 
-```html
-<el-tree
-  :data="data"
-  show-checkbox
-  default-expand-all
-  node-key="id"
-  ref="tree"
-  highlight-current
-  :props="defaultProps"
->
-</el-tree>
-
-<div class="buttons">
-  <el-button @click="getCheckedNodes">get by node</el-button>
-  <el-button @click="getCheckedKeys">get by key</el-button>
-  <el-button @click="setCheckedNodes">set by node</el-button>
-  <el-button @click="setCheckedKeys">set by key</el-button>
-  <el-button @click="resetChecked">reset</el-button>
-</div>
-
-<script>
-  export default {
-    methods: {
-      getCheckedNodes() {
-        console.log(this.$refs.tree.getCheckedNodes())
-      },
-      getCheckedKeys() {
-        console.log(this.$refs.tree.getCheckedKeys())
-      },
-      setCheckedNodes() {
-        this.$refs.tree.setCheckedNodes([
-          {
-            id: 5,
-            label: 'Level two 2-1',
-          },
-          {
-            id: 9,
-            label: 'Level three 1-1-1',
-          },
-        ])
-      },
-      setCheckedKeys() {
-        this.$refs.tree.setCheckedKeys([3])
-      },
-      resetChecked() {
-        this.$refs.tree.setCheckedKeys([])
-      },
-    },
-
-    data() {
-      return {
-        data: [
-          {
-            id: 1,
-            label: 'Level one 1',
-            children: [
-              {
-                id: 4,
-                label: 'Level two 1-1',
-                children: [
-                  {
-                    id: 9,
-                    label: 'Level three 1-1-1',
-                  },
-                  {
-                    id: 10,
-                    label: 'Level three 1-1-2',
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            id: 2,
-            label: 'Level one 2',
-            children: [
-              {
-                id: 5,
-                label: 'Level two 2-1',
-              },
-              {
-                id: 6,
-                label: 'Level two 2-2',
-              },
-            ],
-          },
-          {
-            id: 3,
-            label: 'Level one 3',
-            children: [
-              {
-                id: 7,
-                label: 'Level two 3-1',
-              },
-              {
-                id: 8,
-                label: 'Level two 3-2',
-              },
-            ],
-          },
-        ],
-        defaultProps: {
-          children: 'children',
-          label: 'label',
-        },
-      }
-    },
-  }
-</script>
-```
+tree/checking-tree
 
 :::
 
-### Custom node content
+## Custom node content
 
 The content of tree nodes can be customized, so you can add icons or buttons as you will
 
 :::demo There are two ways to customize template for tree nodes: `render-content` and scoped slot. Use `render-content` to assign a render function that returns the content of tree nodes. See Vue's documentation for a detailed introduction of render functions. If you prefer scoped slot, you'll have access to `node` and `data` in the scope, standing for the TreeNode object and node data of the current node respectively. Note that the `render-content` demo can't run in jsfiddle because it doesn't support JSX syntax. In a real project, `render-content` will work if relevant dependencies are correctly configured.
 
-```html
-<div class="custom-tree-container">
-  <div class="block">
-    <p>Using render-content</p>
-    <el-tree
-      :data="data"
-      show-checkbox
-      node-key="id"
-      default-expand-all
-      :expand-on-click-node="false"
-      :render-content="renderContent"
-    >
-    </el-tree>
-  </div>
-  <div class="block">
-    <p>Using scoped slot</p>
-    <el-tree
-      :data="data"
-      show-checkbox
-      node-key="id"
-      default-expand-all
-      :expand-on-click-node="false"
-    >
-      <template #default="{ node, data }">
-        <span class="custom-tree-node">
-          <span>{{ node.label }}</span>
-          <span>
-            <a @click="append(data)"> Append </a>
-            <a @click="remove(node, data)"> Delete </a>
-          </span>
-        </span>
-      </template>
-    </el-tree>
-  </div>
-</div>
-
-<script>
-  let id = 1000
-
-  export default {
-    data() {
-      const data = [
-        {
-          id: 1,
-          label: 'Level one 1',
-          children: [
-            {
-              id: 4,
-              label: 'Level two 1-1',
-              children: [
-                {
-                  id: 9,
-                  label: 'Level three 1-1-1',
-                },
-                {
-                  id: 10,
-                  label: 'Level three 1-1-2',
-                },
-              ],
-            },
-          ],
-        },
-        {
-          id: 2,
-          label: 'Level one 2',
-          children: [
-            {
-              id: 5,
-              label: 'Level two 2-1',
-            },
-            {
-              id: 6,
-              label: 'Level two 2-2',
-            },
-          ],
-        },
-        {
-          id: 3,
-          label: 'Level one 3',
-          children: [
-            {
-              id: 7,
-              label: 'Level two 3-1',
-            },
-            {
-              id: 8,
-              label: 'Level two 3-2',
-            },
-          ],
-        },
-      ]
-      return {
-        data: JSON.parse(JSON.stringify(data)),
-      }
-    },
-
-    methods: {
-      append(data) {
-        const newChild = { id: id++, label: 'testtest', children: [] }
-        if (!data.children) {
-          data.children = []
-        }
-        data.children.push(newChild)
-        this.data = [...this.data]
-      },
-
-      remove(node, data) {
-        const parent = node.parent
-        const children = parent.data.children || parent.data
-        const index = children.findIndex((d) => d.id === data.id)
-        children.splice(index, 1)
-        this.data = [...this.data]
-      },
-
-      renderContent(h, { node, data, store }) {
-        return h(
-          'span',
-          {
-            class: 'custom-tree-node',
-          },
-          h('span', null, node.label),
-          h(
-            'span',
-            null,
-            h(
-              'a',
-              {
-                onClick: () => this.append(data),
-              },
-              'Append '
-            ),
-            h(
-              'a',
-              {
-                onClick: () => this.remove(node, data),
-              },
-              'Delete'
-            )
-          )
-        )
-      },
-    },
-  }
-</script>
-
-<style>
-  .custom-tree-node {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 14px;
-    padding-right: 8px;
-  }
-</style>
-```
+tree/customized-node
 
 :::
 
-### Tree node filtering
+## Tree node filtering
 
 Tree nodes can be filtered
 
 :::demo Invoke the `filter` method of the Tree instance to filter tree nodes. Its parameter is the filtering keyword. Note that for it to work, `filter-node-method` is required, and its value is the filtering method.
 
-```html
-<el-input placeholder="Filter keyword" v-model="filterText"> </el-input>
-
-<el-tree
-  class="filter-tree"
-  :data="data"
-  :props="defaultProps"
-  default-expand-all
-  :filter-node-method="filterNode"
-  ref="tree"
->
-</el-tree>
-
-<script>
-  export default {
-    watch: {
-      filterText(val) {
-        this.$refs.tree.filter(val)
-      },
-    },
-
-    methods: {
-      filterNode(value, data) {
-        if (!value) return true
-        return data.label.indexOf(value) !== -1
-      },
-    },
-
-    data() {
-      return {
-        filterText: '',
-        data: [
-          {
-            id: 1,
-            label: 'Level one 1',
-            children: [
-              {
-                id: 4,
-                label: 'Level two 1-1',
-                children: [
-                  {
-                    id: 9,
-                    label: 'Level three 1-1-1',
-                  },
-                  {
-                    id: 10,
-                    label: 'Level three 1-1-2',
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            id: 2,
-            label: 'Level one 2',
-            children: [
-              {
-                id: 5,
-                label: 'Level two 2-1',
-              },
-              {
-                id: 6,
-                label: 'Level two 2-2',
-              },
-            ],
-          },
-          {
-            id: 3,
-            label: 'Level one 3',
-            children: [
-              {
-                id: 7,
-                label: 'Level two 3-1',
-              },
-              {
-                id: 8,
-                label: 'Level two 3-2',
-              },
-            ],
-          },
-        ],
-        defaultProps: {
-          children: 'children',
-          label: 'label',
-        },
-      }
-    },
-  }
-</script>
-```
+tree/filtering
 
 :::
 
-### Accordion
+## Accordion
 
 Only one node among the same level can be expanded at one time.
 
 :::demo
 
-```html
-<el-tree
-  :data="data"
-  :props="defaultProps"
-  accordion
-  @node-click="handleNodeClick"
->
-</el-tree>
-
-<script>
-  export default {
-    data() {
-      return {
-        data: [
-          {
-            label: 'Level one 1',
-            children: [
-              {
-                label: 'Level two 1-1',
-                children: [
-                  {
-                    label: 'Level three 1-1-1',
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            label: 'Level one 2',
-            children: [
-              {
-                label: 'Level two 2-1',
-                children: [
-                  {
-                    label: 'Level three 2-1-1',
-                  },
-                ],
-              },
-              {
-                label: 'Level two 2-2',
-                children: [
-                  {
-                    label: 'Level three 2-2-1',
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            label: 'Level one 3',
-            children: [
-              {
-                label: 'Level two 3-1',
-                children: [
-                  {
-                    label: 'Level three 3-1-1',
-                  },
-                ],
-              },
-              {
-                label: 'Level two 3-2',
-                children: [
-                  {
-                    label: 'Level three 3-2-1',
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-        defaultProps: {
-          children: 'children',
-          label: 'label',
-        },
-      }
-    },
-    methods: {
-      handleNodeClick(data) {
-        console.log(data)
-      },
-    },
-  }
-</script>
-```
+tree/accordion
 
 :::
 
-### Draggable
+## Draggable
 
 You can drag and drop Tree nodes by adding a `draggable` attribute.
 
 :::demo
 
-```html
-<el-tree
-  :data="data"
-  node-key="id"
-  default-expand-all
-  @node-drag-start="handleDragStart"
-  @node-drag-enter="handleDragEnter"
-  @node-drag-leave="handleDragLeave"
-  @node-drag-over="handleDragOver"
-  @node-drag-end="handleDragEnd"
-  @node-drop="handleDrop"
-  draggable
-  :allow-drop="allowDrop"
-  :allow-drag="allowDrag"
->
-</el-tree>
-
-<script>
-  export default {
-    data() {
-      return {
-        data: [
-          {
-            label: 'Level one 1',
-            children: [
-              {
-                label: 'Level two 1-1',
-                children: [
-                  {
-                    label: 'Level three 1-1-1',
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            label: 'Level one 2',
-            children: [
-              {
-                label: 'Level two 2-1',
-                children: [
-                  {
-                    label: 'Level three 2-1-1',
-                  },
-                ],
-              },
-              {
-                label: 'Level two 2-2',
-                children: [
-                  {
-                    label: 'Level three 2-2-1',
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            label: 'Level one 3',
-            children: [
-              {
-                label: 'Level two 3-1',
-                children: [
-                  {
-                    label: 'Level three 3-1-1',
-                  },
-                ],
-              },
-              {
-                label: 'Level two 3-2',
-                children: [
-                  {
-                    label: 'Level three 3-2-1',
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-        defaultProps: {
-          children: 'children',
-          label: 'label',
-        },
-      }
-    },
-    methods: {
-      handleDragStart(node, ev) {
-        console.log('drag start', node)
-      },
-      handleDragEnter(draggingNode, dropNode, ev) {
-        console.log('tree drag enter: ', dropNode.label)
-      },
-      handleDragLeave(draggingNode, dropNode, ev) {
-        console.log('tree drag leave: ', dropNode.label)
-      },
-      handleDragOver(draggingNode, dropNode, ev) {
-        console.log('tree drag over: ', dropNode.label)
-      },
-      handleDragEnd(draggingNode, dropNode, dropType, ev) {
-        console.log('tree drag end: ', dropNode && dropNode.label, dropType)
-      },
-      handleDrop(draggingNode, dropNode, dropType, ev) {
-        console.log('tree drop: ', dropNode.label, dropType)
-      },
-      allowDrop(draggingNode, dropNode, type) {
-        if (dropNode.data.label === 'Level two 3-1') {
-          return type !== 'inner'
-        } else {
-          return true
-        }
-      },
-      allowDrag(draggingNode) {
-        return draggingNode.data.label.indexOf('Level three 3-1-1') === -1
-      },
-    },
-  }
-</script>
-```
+tree/draggable
 
 :::
 
-### Attributes
+## Attributes
 
 | Attribute             | Description                                                                                                                                                                                                                                                                                                                                                                 | Type                                   | Accepted Values | Default |
 | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | --------------- | ------- |
@@ -991,7 +126,7 @@ You can drag and drop Tree nodes by adding a `draggable` attribute.
 | allow-drag            | this function will be executed before dragging a node. If `false` is returned, the node can not be dragged                                                                                                                                                                                                                                                                  | Function(node)                         | —               | —       |
 | allow-drop            | this function will be executed before the dragging node is dropped. If `false` is returned, the dragging node can not be dropped at the target node. `type` has three possible values: 'prev' (inserting the dragging node before the target node), 'inner' (inserting the dragging node to the target node) and 'next' (inserting the dragging node after the target node) | Function(draggingNode, dropNode, type) | —               | —       |
 
-### props
+## props
 
 | Attribute | Description                                                                   | Type                          | Accepted Values | Default |
 | --------- | ----------------------------------------------------------------------------- | ----------------------------- | --------------- | ------- |
@@ -1000,7 +135,7 @@ You can drag and drop Tree nodes by adding a `draggable` attribute.
 | disabled  | specify which key of node object represents if node's checkbox is disabled    | boolean, function(data, node) | —               | —       |
 | isLeaf    | specify whether the node is a leaf node, only works when lazy load is enabled | boolean, function(data, node) | —               | —       |
 
-### Method
+## Method
 
 `Tree` has the following method, which returns the currently selected array of nodes.
 | Method | Description | Parameters |
@@ -1024,7 +159,7 @@ You can drag and drop Tree nodes by adding a `draggable` attribute.
 | insertBefore | insert a node before a given node in the tree | (data, refNode) 1. node's data to be inserted 2. reference node's data, key or node |
 | insertAfter | insert a node after a given node in the tree | (data, refNode) 1. node's data to be inserted 2. reference node's data, key or node |
 
-### Events
+## Events
 
 | Event Name       | Description                                               | Parameters                                                                                                                                                                                       |
 | ---------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -1042,7 +177,7 @@ You can drag and drop Tree nodes by adding a `draggable` attribute.
 | node-drag-end    | triggers when dragging ends                               | four parameters: node object corresponding to the dragging node, node object corresponding to the dragging end node (may be `undefined`), node drop type (before / after / inner), event.        |
 | node-drop        | triggers after the dragging node is dropped               | four parameters: node object corresponding to the dragging node, node object corresponding to the dropped node, node drop type (before / after / inner), event.                                  |
 
-### Slots
+## Slots
 
 | Name | Description                                                          |
 | ---- | -------------------------------------------------------------------- |

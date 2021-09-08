@@ -1,1665 +1,198 @@
-## Table
+# Table
 
 Display multiple data with similar format. You can sort, filter, compare your data in a table.
 
-### Basic table
+## Basic table
 
 Basic table is just for data display.
 
 :::demo After setting attribute `data` of `el-table` with an object array, you can use `prop` (corresponding to a key of the object in `data` array) in `el-table-column` to insert data to table columns, and set the attribute `label` to define the column name. You can also use the attribute `width` to define the width of columns.
 
-```html
-<template>
-  <el-table :data="tableData" style="width: 100%">
-    <el-table-column prop="date" label="Date" width="180"> </el-table-column>
-    <el-table-column prop="name" label="Name" width="180"> </el-table-column>
-    <el-table-column prop="address" label="Address"> </el-table-column>
-  </el-table>
-</template>
-
-<script>
-  export default {
-    data() {
-      return {
-        tableData: [
-          {
-            date: '2016-05-03',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-02',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-04',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-01',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-        ],
-      }
-    },
-  }
-</script>
-```
+table/basic
 
 :::
 
-### Striped Table
+## Striped Table
 
 Striped table makes it easier to distinguish different rows.
 
 :::demo Attribute `stripe` accepts a `Boolean`. If `true`, table will be striped.
 
-```html
-<template>
-  <el-table :data="tableData" stripe style="width: 100%">
-    <el-table-column prop="date" label="Date" width="180"> </el-table-column>
-    <el-table-column prop="name" label="Name" width="180"> </el-table-column>
-    <el-table-column prop="address" label="Address"> </el-table-column>
-  </el-table>
-</template>
-
-<script>
-  export default {
-    data() {
-      return {
-        tableData: [
-          {
-            date: '2016-05-03',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-02',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-04',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-01',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-        ],
-      }
-    },
-  }
-</script>
-```
+table/striped
 
 :::
 
-### Table with border
+## Table with border
 
 :::demo By default, Table has no vertical border. If you need it, you can set attribute `border` to `true`.
 
-```html
-<template>
-  <el-table :data="tableData" border style="width: 100%">
-    <el-table-column prop="date" label="Date" width="180"> </el-table-column>
-    <el-table-column prop="name" label="Name" width="180"> </el-table-column>
-    <el-table-column prop="address" label="Address"> </el-table-column>
-  </el-table>
-</template>
-
-<script>
-  export default {
-    data() {
-      return {
-        tableData: [
-          {
-            date: '2016-05-03',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-02',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-04',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-01',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-        ],
-      }
-    },
-  }
-</script>
-```
+table/with-border
 
 :::
 
-### Table with status
+## Table with status
 
 You can highlight your table content to distinguish between "success, information, warning, danger" and other states.
 
 :::demo Use `row-class-name` in `el-table` to add custom classes to a certain row. Then you can style it with custom classes.
 
-```html
-<template>
-  <el-table
-    :data="tableData"
-    style="width: 100%"
-    :row-class-name="tableRowClassName"
-  >
-    <el-table-column prop="date" label="Date" width="180"> </el-table-column>
-    <el-table-column prop="name" label="Name" width="180"> </el-table-column>
-    <el-table-column prop="address" label="Address"> </el-table-column>
-  </el-table>
-</template>
-
-<style>
-  .el-table .warning-row {
-    --el-table-tr-background-color: var(--el-color-warning-lighter);
-  }
-  .el-table .success-row {
-    --el-table-tr-background-color: var(--el-color-success-lighter);
-  }
-</style>
-
-<script>
-  export default {
-    methods: {
-      tableRowClassName({ row, rowIndex }) {
-        if (rowIndex === 1) {
-          return 'warning-row'
-        } else if (rowIndex === 3) {
-          return 'success-row'
-        }
-        return ''
-      },
-    },
-    data() {
-      return {
-        tableData: [
-          {
-            date: '2016-05-03',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-02',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-04',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-01',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-        ],
-      }
-    },
-  }
-</script>
-```
+table/with-status
 
 :::
 
-### Table with fixed header
+## Table with fixed header
 
 When there are too many rows, you can use a fixed header.
 
 :::demo By setting the attribute `height` of `el-table`, you can fix the table header without any other codes.
 
-```html
-<template>
-  <el-table :data="tableData" height="250" style="width: 100%">
-    <el-table-column prop="date" label="Date" width="180"> </el-table-column>
-    <el-table-column prop="name" label="Name" width="180"> </el-table-column>
-    <el-table-column prop="address" label="Address"> </el-table-column>
-  </el-table>
-</template>
-
-<script>
-  export default {
-    data() {
-      return {
-        tableData: [
-          {
-            date: '2016-05-03',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-02',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-04',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-01',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-08',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-06',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-07',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-        ],
-      }
-    },
-  }
-</script>
-```
+table/fixed-header
 
 :::
 
-### Table with fixed column
+## Table with fixed column
 
 When there are too many columns, you can fix some of them.
 
 :::demo Attribute `fixed` is used in `el-table-column`, it accepts a `Boolean`. If `true`, the column will be fixed at left. It also accepts two string literals: 'left' and 'right', both indicating that the column will be fixed at corresponding direction.
 
-```html
-<template>
-  <el-table :data="tableData" style="width: 100%">
-    <el-table-column fixed prop="date" label="Date" width="150">
-    </el-table-column>
-    <el-table-column prop="name" label="Name" width="120"> </el-table-column>
-    <el-table-column prop="state" label="State" width="120"> </el-table-column>
-    <el-table-column prop="city" label="City" width="120"> </el-table-column>
-    <el-table-column prop="address" label="Address" width="600">
-    </el-table-column>
-    <el-table-column prop="zip" label="Zip" width="120"> </el-table-column>
-    <el-table-column fixed="right" label="Operations" width="120">
-      <template #default="scope">
-        <el-button @click="handleClick" type="text" size="small"
-          >Detail</el-button
-        >
-        <el-button type="text" size="small">Edit</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
-</template>
-
-<script>
-  export default {
-    methods: {
-      handleClick() {
-        console.log('click')
-      },
-    },
-    data() {
-      return {
-        tableData: [
-          {
-            date: '2016-05-03',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-            tag: 'Home',
-          },
-          {
-            date: '2016-05-02',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-            tag: 'Office',
-          },
-          {
-            date: '2016-05-04',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-            tag: 'Home',
-          },
-          {
-            date: '2016-05-01',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-            tag: 'Office',
-          },
-        ],
-      }
-    },
-  }
-</script>
-```
+table/fixed-column
 
 :::
 
-### Table with fixed columns and header
+## Table with fixed columns and header
 
 When you have huge chunks of data to put in a table, you can fix the header and columns at the same time.
 
 :::demo Fix columns and header at the same time by combining the above two examples.
 
-```html
-<template>
-  <el-table :data="tableData" style="width: 100%" height="250">
-    <el-table-column fixed prop="date" label="Date" width="150">
-    </el-table-column>
-    <el-table-column prop="name" label="Name" width="120"> </el-table-column>
-    <el-table-column prop="state" label="State" width="120"> </el-table-column>
-    <el-table-column prop="city" label="City" width="320"> </el-table-column>
-    <el-table-column prop="address" label="Address" width="600">
-    </el-table-column>
-    <el-table-column prop="zip" label="Zip" width="120"> </el-table-column>
-  </el-table>
-</template>
-
-<script>
-  export default {
-    data() {
-      return {
-        tableData: [
-          {
-            date: '2016-05-03',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-          },
-          {
-            date: '2016-05-02',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-          },
-          {
-            date: '2016-05-04',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-          },
-          {
-            date: '2016-05-01',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-          },
-          {
-            date: '2016-05-08',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-          },
-          {
-            date: '2016-05-06',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-          },
-          {
-            date: '2016-05-07',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-          },
-        ],
-      }
-    },
-  }
-</script>
-```
+table/fixed-column-and-header
 
 :::
 
-### Fluid-height Table with fixed header (and columns)
+## Fluid-height Table with fixed header (and columns)
 
 When the the data is dynamically changed, you might want the table to have a maximum height rather than a fixed height and to show the scroll bar if needed.
 
 :::demo By setting the attribute `max-height` of `el-table`, you can fix the table header. The table body scrolls only if the height of the rows exceeds the max height value.
 
-```html
-<template>
-  <el-table :data="tableData" style="width: 100%" max-height="250">
-    <el-table-column fixed prop="date" label="Date" width="150">
-    </el-table-column>
-    <el-table-column prop="name" label="Name" width="120"> </el-table-column>
-    <el-table-column prop="state" label="State" width="120"> </el-table-column>
-    <el-table-column prop="city" label="City" width="120"> </el-table-column>
-    <el-table-column prop="address" label="Address" width="600">
-    </el-table-column>
-    <el-table-column prop="zip" label="Zip" width="120"> </el-table-column>
-    <el-table-column fixed="right" label="Operations" width="120">
-      <template #default="scope">
-        <el-button
-          @click.prevent="deleteRow(scope.$index, tableData)"
-          type="text"
-          size="small"
-        >
-          Remove
-        </el-button>
-      </template>
-    </el-table-column>
-  </el-table>
-</template>
-
-<script>
-  export default {
-    methods: {
-      deleteRow(index, rows) {
-        rows.splice(index, 1)
-      },
-    },
-    data() {
-      return {
-        tableData: [
-          {
-            date: '2016-05-03',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-          },
-          {
-            date: '2016-05-02',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-          },
-          {
-            date: '2016-05-04',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-          },
-          {
-            date: '2016-05-01',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-          },
-          {
-            date: '2016-05-08',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-          },
-          {
-            date: '2016-05-06',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-          },
-          {
-            date: '2016-05-07',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-          },
-        ],
-      }
-    },
-  }
-</script>
-```
+table/fixed-header-with-fluid-header
 
 :::
 
-### Grouping table head
+## Grouping table head
 
 When the data structure is complex, you can use group header to show the data hierarchy.
 
 :::demo Only need to place el-table-column inside a el-table-column, you can achieve group header.
 
-```html
-<template>
-  <el-table :data="tableData" style="width: 100%">
-    <el-table-column prop="date" label="Date" width="150"> </el-table-column>
-    <el-table-column label="Delivery Info">
-      <el-table-column prop="name" label="Name" width="120"> </el-table-column>
-      <el-table-column label="Address Info">
-        <el-table-column prop="state" label="State" width="120">
-        </el-table-column>
-        <el-table-column prop="city" label="City" width="120">
-        </el-table-column>
-        <el-table-column prop="address" label="Address"> </el-table-column>
-        <el-table-column prop="zip" label="Zip" width="120"> </el-table-column>
-      </el-table-column>
-    </el-table-column>
-  </el-table>
-</template>
-
-<script>
-  export default {
-    data() {
-      return {
-        tableData: [
-          {
-            date: '2016-05-03',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-          },
-          {
-            date: '2016-05-02',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-          },
-          {
-            date: '2016-05-04',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-          },
-          {
-            date: '2016-05-01',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-          },
-          {
-            date: '2016-05-08',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-          },
-          {
-            date: '2016-05-06',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-          },
-          {
-            date: '2016-05-07',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-          },
-        ],
-      }
-    },
-  }
-</script>
-```
+table/grouping-header
 
 :::
 
-### Single select
+## Single select
 
 Single row selection is supported.
 
 :::demo Table supports single row selection. You can activate it by adding the `highlight-current-row` attribute. An event called `current-change` will be triggered when row selection changes, and its parameters are the rows after and before this change: `currentRow` and `oldCurrentRow`. If you need to display row index, you can add a new `el-table-column` with its `type` attribute assigned to `index`, and you will see the index starting from 1.
 
-```html
-<template>
-  <el-table
-    ref="singleTable"
-    :data="tableData"
-    highlight-current-row
-    @current-change="handleCurrentChange"
-    style="width: 100%"
-  >
-    <el-table-column type="index" width="50"> </el-table-column>
-    <el-table-column property="date" label="Date" width="120">
-    </el-table-column>
-    <el-table-column property="name" label="Name" width="120">
-    </el-table-column>
-    <el-table-column property="address" label="Address"> </el-table-column>
-  </el-table>
-  <div style="margin-top: 20px">
-    <el-button @click="setCurrent(tableData[1])">Select second row</el-button>
-    <el-button @click="setCurrent()">Clear selection</el-button>
-  </div>
-</template>
-
-<script>
-  export default {
-    data() {
-      return {
-        tableData: [
-          {
-            date: '2016-05-03',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-02',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-04',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-01',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-        ],
-        currentRow: null,
-      }
-    },
-
-    methods: {
-      setCurrent(row) {
-        this.$refs.singleTable.setCurrentRow(row)
-      },
-      handleCurrentChange(val) {
-        this.currentRow = val
-      },
-    },
-  }
-</script>
-```
+table/single-select
 
 :::
 
-### Multiple select
+## Multiple select
 
 You can also select multiple rows.
 
 :::demo Activating multiple selection is easy: simply add an `el-table-column` with its `type` set to `selection`. Apart from multiple selection, this example also uses `show-overflow-tooltip`: by default, if the content is too long, it will break into multiple lines. If you want to keep it in one line, use attribute `show-overflow-tooltip`, which accepts a `Boolean` value. When set `true`, the extra content will show in tooltip when hover on the cell.
 
-```html
-<template>
-  <el-table
-    ref="multipleTable"
-    :data="tableData"
-    style="width: 100%"
-    @selection-change="handleSelectionChange"
-  >
-    <el-table-column type="selection" width="55"> </el-table-column>
-    <el-table-column label="Date" width="120">
-      <template #default="scope">{{ scope.row.date }}</template>
-    </el-table-column>
-    <el-table-column property="name" label="Name" width="120">
-    </el-table-column>
-    <el-table-column property="address" label="Address" show-overflow-tooltip>
-    </el-table-column>
-  </el-table>
-  <div style="margin-top: 20px">
-    <el-button @click="toggleSelection([tableData[1], tableData[2]])"
-      >Toggle selection status of second and third rows</el-button
-    >
-    <el-button @click="toggleSelection()">Clear selection</el-button>
-  </div>
-</template>
-
-<script>
-  export default {
-    data() {
-      return {
-        tableData: [
-          {
-            date: '2016-05-03',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-02',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-04',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-01',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-08',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-06',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-07',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-        ],
-        multipleSelection: [],
-      }
-    },
-
-    methods: {
-      toggleSelection(rows) {
-        if (rows) {
-          rows.forEach((row) => {
-            this.$refs.multipleTable.toggleRowSelection(row)
-          })
-        } else {
-          this.$refs.multipleTable.clearSelection()
-        }
-      },
-      handleSelectionChange(val) {
-        this.multipleSelection = val
-      },
-    },
-  }
-</script>
-```
+table/multi-select
 
 :::
 
-### Sorting
+## Sorting
 
 Sort the data to find or compare data quickly.
 
 :::demo Set attribute `sortable` in a certain column to sort the data based on this column. It accepts `Boolean` with a default value `false`. Set table attribute `default-sort` to determine default sort column and order. To apply your own sorting rules, use `sort-method` or `sort-by`. If you need remote sorting from backend, set `sortable` to `custom`, and listen to the `sort-change` event on Table. In the event handler, you have access to the sorting column and sorting order so that you can fetch sorted table data from API. In this example we use another attribute named `formatter` to format the value of certain columns. It accepts a function which has two parameters: `row` and `column`. You can handle it according to your own needs.
 
-```html
-<template>
-  <el-table
-    :data="tableData"
-    :default-sort="{prop: 'date', order: 'descending'}"
-    style="width: 100%"
-  >
-    <el-table-column prop="date" label="Date" sortable width="180">
-    </el-table-column>
-    <el-table-column prop="name" label="Name" width="180"> </el-table-column>
-    <el-table-column prop="address" label="Address" :formatter="formatter">
-    </el-table-column>
-  </el-table>
-</template>
-
-<script>
-  export default {
-    data() {
-      return {
-        tableData: [
-          {
-            date: '2016-05-03',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-02',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-04',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-01',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-        ],
-      }
-    },
-    methods: {
-      formatter(row, column) {
-        return row.address
-      },
-    },
-  }
-</script>
-```
+table/sort
 
 :::
 
-### Filter
+## Filter
 
 Filter the table to find desired data.
 
 :::demo Set attribute `filters` and `filter-method` in `el-table-column` makes this column filterable. `filters` is an array, and `filter-method` is a function deciding which rows are displayed. It has three parameters: `value`, `row` and `column`.
 
-```html
-<template>
-  <el-button @click="resetDateFilter">reset date filter</el-button>
-  <el-button @click="clearFilter">reset all filters</el-button>
-  <el-table
-    row-key="date"
-    ref="filterTable"
-    :data="tableData"
-    style="width: 100%"
-  >
-    <el-table-column
-      prop="date"
-      label="Date"
-      sortable
-      width="180"
-      column-key="date"
-      :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]"
-      :filter-method="filterHandler"
-    >
-    </el-table-column>
-    <el-table-column prop="name" label="Name" width="180"> </el-table-column>
-    <el-table-column prop="address" label="Address" :formatter="formatter">
-    </el-table-column>
-    <el-table-column
-      prop="tag"
-      label="Tag"
-      width="100"
-      :filters="[{ text: 'Home', value: 'Home' }, { text: 'Office', value: 'Office' }]"
-      :filter-method="filterTag"
-      filter-placement="bottom-end"
-    >
-      <template #default="scope">
-        <el-tag
-          :type="scope.row.tag === 'Home' ? 'primary' : 'success'"
-          disable-transitions
-          >{{scope.row.tag}}</el-tag
-        >
-      </template>
-    </el-table-column>
-  </el-table>
-</template>
-
-<script>
-  export default {
-    data() {
-      return {
-        tableData: [
-          {
-            date: '2016-05-03',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-            tag: 'Home',
-          },
-          {
-            date: '2016-05-02',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-            tag: 'Office',
-          },
-          {
-            date: '2016-05-04',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-            tag: 'Home',
-          },
-          {
-            date: '2016-05-01',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-            tag: 'Office',
-          },
-        ],
-      }
-    },
-    methods: {
-      resetDateFilter() {
-        this.$refs.filterTable.clearFilter('date')
-      },
-      clearFilter() {
-        this.$refs.filterTable.clearFilter()
-      },
-      formatter(row, column) {
-        return row.address
-      },
-      filterTag(value, row) {
-        return row.tag === value
-      },
-      filterHandler(value, row, column) {
-        const property = column['property']
-        return row[property] === value
-      },
-    },
-  }
-</script>
-```
+table/filter
 
 :::
 
-### Custom column template
+## Custom column template
 
 Customize table column so it can be integrated with other components.
 :::demo You have access to the following data: row, column, \$index and store (state management of Table) by [slot](https://v3.vuejs.org/guide/component-slots.html).
 
-```html
-<template>
-  <el-table :data="tableData" style="width: 100%">
-    <el-table-column label="Date" width="180">
-      <template #default="scope">
-        <i class="el-icon-time"></i>
-        <span style="margin-left: 10px">{{ scope.row.date }}</span>
-      </template>
-    </el-table-column>
-    <el-table-column label="Name" width="180">
-      <template #default="scope">
-        <el-popover effect="light" trigger="hover" placement="top">
-          <template #default>
-            <p>姓名: {{ scope.row.name }}</p>
-            <p>住址: {{ scope.row.address }}</p>
-          </template>
-          <template #reference>
-            <div class="name-wrapper">
-              <el-tag size="medium">{{ scope.row.name }}</el-tag>
-            </div>
-          </template>
-        </el-popover>
-      </template>
-    </el-table-column>
-    <el-table-column label="Operations">
-      <template #default="scope">
-        <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
-          >Edit</el-button
-        >
-        <el-button
-          size="mini"
-          type="danger"
-          @click="handleDelete(scope.$index, scope.row)"
-          >Delete</el-button
-        >
-      </template>
-    </el-table-column>
-  </el-table>
-</template>
-
-<script>
-  export default {
-    data() {
-      return {
-        tableData: [
-          {
-            date: '2016-05-03',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-02',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-04',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-01',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-        ],
-      }
-    },
-    methods: {
-      handleEdit(index, row) {
-        console.log(index, row)
-      },
-      handleDelete(index, row) {
-        console.log(index, row)
-      },
-    },
-  }
-</script>
-```
+table/custom-column
 
 :::
 
-### Table with custom header
+## Table with custom header
 
 Customize table header so it can be even more customized.
 :::demo You can customize how the header looks by header [slots](https://v3.vuejs.org/guide/component-slots.html).
 
-```html
-<template>
-  <el-table
-    :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
-    style="width: 100%"
-  >
-    <el-table-column label="Date" prop="date"> </el-table-column>
-    <el-table-column label="Name" prop="name"> </el-table-column>
-    <el-table-column align="right">
-      <template #header>
-        <el-input v-model="search" size="mini" placeholder="Type to search" />
-      </template>
-      <template #default="scope">
-        <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
-          >Edit</el-button
-        >
-        <el-button
-          size="mini"
-          type="danger"
-          @click="handleDelete(scope.$index, scope.row)"
-          >Delete</el-button
-        >
-      </template>
-    </el-table-column>
-  </el-table>
-</template>
-
-<script>
-  export default {
-    data() {
-      return {
-        tableData: [
-          {
-            date: '2016-05-03',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-02',
-            name: 'John',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-04',
-            name: 'Morgan',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-          {
-            date: '2016-05-01',
-            name: 'Jessy',
-            address: 'No. 189, Grove St, Los Angeles',
-          },
-        ],
-        search: '',
-      }
-    },
-    methods: {
-      handleEdit(index, row) {
-        console.log(index, row)
-      },
-      handleDelete(index, row) {
-        console.log(index, row)
-      },
-    },
-  }
-</script>
-```
+table/custom-header
 
 :::
 
-### Expandable row
+## Expandable row
 
 When the row content is too long and you do not want to display the horizontal scroll bar, you can use the expandable row feature.
 :::demo Activate expandable row by adding type="expand" and slot. The template for el-table-column will be rendered as the contents of the expanded row, and you can access the same attributes as when you are using `slot` in custom column templates.
 
-```html
-<template>
-  <el-table :data="tableData" style="width: 100%">
-    <el-table-column type="expand">
-      <template #default="props">
-        <p>State: {{ props.row.state }}</p>
-        <p>City: {{ props.row.city }}</p>
-        <p>Address: {{ props.row.address }}</p>
-        <p>Zip: {{ props.row.zip }}</p>
-      </template>
-    </el-table-column>
-    <el-table-column label="Date" prop="date"> </el-table-column>
-    <el-table-column label="Name" prop="name"> </el-table-column>
-  </el-table>
-</template>
-
-<script>
-  export default {
-    data() {
-      return {
-        tableData: [
-          {
-            date: '2016-05-03',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-          },
-          {
-            date: '2016-05-02',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-          },
-          {
-            date: '2016-05-04',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-          },
-          {
-            date: '2016-05-01',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-          },
-          {
-            date: '2016-05-08',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-          },
-          {
-            date: '2016-05-06',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-          },
-          {
-            date: '2016-05-07',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-          },
-        ],
-      }
-    },
-  }
-</script>
-```
+table/expandable-row
 
 :::
 
-### Tree data and lazy mode
+## Tree data and lazy mode
 
 :::demo You can display tree structure data. When row contains the `children` field, it is treated as nested data. For rendering nested data, the prop `row-key` is required。Also, child row data can be loaded asynchronously. Set `lazy` property of Table to true and the function `load`. Specify `hasChildren` attribute in row to determine which row contains children. Both `children` and `hasChildren` can be configured via `tree-props`.
 
-```html
-<template>
-  <div>
-    <el-table
-      :data="tableData"
-      style="width: 100%;margin-bottom: 20px;"
-      row-key="id"
-      border
-      default-expand-all
-    >
-      <el-table-column prop="date" label="date" sortable width="180">
-      </el-table-column>
-      <el-table-column prop="name" label="Name" sortable width="180">
-      </el-table-column>
-    </el-table>
-
-    <el-table
-      :data="tableData1"
-      style="width: 100%"
-      row-key="id"
-      border
-      lazy
-      :load="load"
-      :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
-    >
-      <el-table-column prop="date" label="Date" width="180"> </el-table-column>
-      <el-table-column prop="name" label="Name" width="180"> </el-table-column>
-    </el-table>
-  </div>
-</template>
-<script>
-  export default {
-    data() {
-      return {
-        tableData: [
-          {
-            id: 1,
-            date: '2016-05-02',
-            name: 'wangxiaohu',
-          },
-          {
-            id: 2,
-            date: '2016-05-04',
-            name: 'wangxiaohu',
-          },
-          {
-            id: 3,
-            date: '2016-05-01',
-            name: 'wangxiaohu',
-            children: [
-              {
-                id: 31,
-                date: '2016-05-01',
-                name: 'wangxiaohu',
-              },
-              {
-                id: 32,
-                date: '2016-05-01',
-                name: 'wangxiaohu',
-              },
-            ],
-          },
-          {
-            id: 4,
-            date: '2016-05-03',
-            name: 'wangxiaohu',
-          },
-        ],
-        tableData1: [
-          {
-            id: 1,
-            date: '2016-05-02',
-            name: 'wangxiaohu',
-          },
-          {
-            id: 2,
-            date: '2016-05-04',
-            name: 'wangxiaohu',
-          },
-          {
-            id: 3,
-            date: '2016-05-01',
-            name: 'wangxiaohu',
-            hasChildren: true,
-          },
-          {
-            id: 4,
-            date: '2016-05-03',
-            name: 'wangxiaohu',
-          },
-        ],
-      }
-    },
-    methods: {
-      load(tree, treeNode, resolve) {
-        setTimeout(() => {
-          resolve([
-            {
-              id: 31,
-              date: '2016-05-01',
-              name: 'wangxiaohu',
-            },
-            {
-              id: 32,
-              date: '2016-05-01',
-              name: 'wangxiaohu',
-            },
-          ])
-        }, 1000)
-      },
-    },
-  }
-</script>
-```
+table/tree-and-lazy
 
 :::
 
-### Summary row
+## Summary row
 
 For table of numbers, you can add an extra row at the table footer displaying each column's sum.
 :::demo You can add the summary row by setting `show-summary` to `true`. By default, for the summary row, the first column does not sum anything up but always displays 'Sum' (you can configure the displayed text using `sum-text`), while other columns sum every number in that column up and display them. You can of course define your own sum behaviour. To do so, pass a method to `summary-method`, which returns an array, and each element of the returned array will be displayed in the columns of the summary row. The second table of this example is a detailed demo.
 
-```html
-<template>
-  <el-table :data="tableData" border show-summary style="width: 100%">
-    <el-table-column prop="id" label="ID" width="180"> </el-table-column>
-    <el-table-column prop="name" label="Name"> </el-table-column>
-    <el-table-column prop="amount1" sortable label="Amount 1">
-    </el-table-column>
-    <el-table-column prop="amount2" sortable label="Amount 2">
-    </el-table-column>
-    <el-table-column prop="amount3" sortable label="Amount 3">
-    </el-table-column>
-  </el-table>
-
-  <el-table
-    :data="tableData"
-    border
-    height="200"
-    :summary-method="getSummaries"
-    show-summary
-    style="width: 100%; margin-top: 20px"
-  >
-    <el-table-column prop="id" label="ID" width="180"> </el-table-column>
-    <el-table-column prop="name" label="Name"> </el-table-column>
-    <el-table-column prop="amount1" label="Cost 1 ($)"> </el-table-column>
-    <el-table-column prop="amount2" label="Cost 2 ($)"> </el-table-column>
-    <el-table-column prop="amount3" label="Cost 3 ($)"> </el-table-column>
-  </el-table>
-</template>
-
-<script>
-  export default {
-    data() {
-      return {
-        tableData: [
-          {
-            id: '12987122',
-            name: 'Tom',
-            amount1: '234',
-            amount2: '3.2',
-            amount3: 10,
-          },
-          {
-            id: '12987123',
-            name: 'Tom',
-            amount1: '165',
-            amount2: '4.43',
-            amount3: 12,
-          },
-          {
-            id: '12987124',
-            name: 'Tom',
-            amount1: '324',
-            amount2: '1.9',
-            amount3: 9,
-          },
-          {
-            id: '12987125',
-            name: 'Tom',
-            amount1: '621',
-            amount2: '2.2',
-            amount3: 17,
-          },
-          {
-            id: '12987126',
-            name: 'Tom',
-            amount1: '539',
-            amount2: '4.1',
-            amount3: 15,
-          },
-        ],
-      }
-    },
-    methods: {
-      getSummaries(param) {
-        const { columns, data } = param
-        const sums = []
-        columns.forEach((column, index) => {
-          if (index === 0) {
-            sums[index] = 'Total Cost'
-            return
-          }
-          const values = data.map((item) => Number(item[column.property]))
-          if (!values.every((value) => isNaN(value))) {
-            sums[index] =
-              '$ ' +
-              values.reduce((prev, curr) => {
-                const value = Number(curr)
-                if (!isNaN(value)) {
-                  return prev + curr
-                } else {
-                  return prev
-                }
-              }, 0)
-          } else {
-            sums[index] = 'N/A'
-          }
-        })
-
-        return sums
-      },
-    },
-  }
-</script>
-```
+table/summary
 
 :::
 
-### Rowspan and colspan
+## Rowspan and colspan
 
 Configuring rowspan and colspan allows you to merge cells
 :::demo Use the `span-method` attribute to configure rowspan and colspan. It accepts a method, and passes an object to that method including current row `row`, current column `column`, current row index `rowIndex` and current column index `columnIndex`. The method should return an array of two numbers, the first number being `rowspan` and second `colspan`. It can also return an object with `rowspan` and `colspan` props.
 
-```html
-<template>
-  <div>
-    <el-table
-      :data="tableData"
-      :span-method="arraySpanMethod"
-      border
-      style="width: 100%"
-    >
-      <el-table-column prop="id" label="ID" width="180"> </el-table-column>
-      <el-table-column prop="name" label="Name"> </el-table-column>
-      <el-table-column prop="amount1" sortable label="Amount 1">
-      </el-table-column>
-      <el-table-column prop="amount2" sortable label="Amount 2">
-      </el-table-column>
-      <el-table-column prop="amount3" sortable label="Amount 3">
-      </el-table-column>
-    </el-table>
-
-    <el-table
-      :data="tableData"
-      :span-method="objectSpanMethod"
-      border
-      style="width: 100%; margin-top: 20px"
-    >
-      <el-table-column prop="id" label="ID" width="180"> </el-table-column>
-      <el-table-column prop="name" label="Name"> </el-table-column>
-      <el-table-column prop="amount1" label="Amount 1"> </el-table-column>
-      <el-table-column prop="amount2" label="Amount 2"> </el-table-column>
-      <el-table-column prop="amount3" label="Amount 3"> </el-table-column>
-    </el-table>
-  </div>
-</template>
-
-<script>
-  export default {
-    data() {
-      return {
-        tableData: [
-          {
-            id: '12987122',
-            name: 'Tom',
-            amount1: '234',
-            amount2: '3.2',
-            amount3: 10,
-          },
-          {
-            id: '12987123',
-            name: 'Tom',
-            amount1: '165',
-            amount2: '4.43',
-            amount3: 12,
-          },
-          {
-            id: '12987124',
-            name: 'Tom',
-            amount1: '324',
-            amount2: '1.9',
-            amount3: 9,
-          },
-          {
-            id: '12987125',
-            name: 'Tom',
-            amount1: '621',
-            amount2: '2.2',
-            amount3: 17,
-          },
-          {
-            id: '12987126',
-            name: 'Tom',
-            amount1: '539',
-            amount2: '4.1',
-            amount3: 15,
-          },
-        ],
-      }
-    },
-    methods: {
-      arraySpanMethod({ row, column, rowIndex, columnIndex }) {
-        if (rowIndex % 2 === 0) {
-          if (columnIndex === 0) {
-            return [1, 2]
-          } else if (columnIndex === 1) {
-            return [0, 0]
-          }
-        }
-      },
-
-      objectSpanMethod({ row, column, rowIndex, columnIndex }) {
-        if (columnIndex === 0) {
-          if (rowIndex % 2 === 0) {
-            return {
-              rowspan: 2,
-              colspan: 1,
-            }
-          } else {
-            return {
-              rowspan: 0,
-              colspan: 0,
-            }
-          }
-        }
-      },
-    },
-  }
-</script>
-```
+table/rowspan-and-colspan
 
 :::
 
-### Custom index
+## Custom index
 
 You can customize row index in `type=index` columns.
 :::demo To customize row indices, use `index` attribute on `el-table-column` with `type=index`. If it is assigned to a number, all indices will have an offset of that number. It also accepts a method with each index (starting from `0`) as parameter, and the returned value will be displayed as index.
 
-```html
-<template>
-  <el-table :data="tableData" style="width: 100%">
-    <el-table-column type="index" :index="indexMethod"> </el-table-column>
-    <el-table-column prop="date" label="Date" width="180"> </el-table-column>
-    <el-table-column prop="name" label="Name" width="180"> </el-table-column>
-    <el-table-column prop="address" label="Address"> </el-table-column>
-  </el-table>
-</template>
-
-<script>
-  export default {
-    data() {
-      return {
-        tableData: [
-          {
-            date: '2016-05-03',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-            tag: 'Home',
-          },
-          {
-            date: '2016-05-02',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-            tag: 'Office',
-          },
-          {
-            date: '2016-05-04',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-            tag: 'Home',
-          },
-          {
-            date: '2016-05-01',
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036',
-            tag: 'Office',
-          },
-        ],
-      }
-    },
-    methods: {
-      indexMethod(index) {
-        return index * 2
-      },
-    },
-  }
-</script>
-```
+table/custom-index
 
 :::
 
-### Table Attributes
+## Table Attributes
 
 | Attribute               | Description                                                                                                                                                                                                                                                                 | Type                                                      | Accepted Values                 | Default                                                                        |
 | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- | ------------------------------- | ------------------------------------------------------------------------------ |
@@ -1697,7 +230,7 @@ You can customize row index in `type=index` columns.
 | load                    | method for loading child row data, only works when `lazy` is true                                                                                                                                                                                                           | function(row, treeNode, resolve)                          | —                               | —                                                                              |
 | tree-props              | configuration for rendering nested data                                                                                                                                                                                                                                     | object                                                    | —                               | { hasChildren: 'hasChildren', children: 'children' }                           |
 
-### Table Events
+## Table Events
 
 | Event Name         | Description                                                                                                                                  | Parameters                        |
 | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
@@ -1720,7 +253,7 @@ You can customize row index in `type=index` columns.
 | header-dragend     | triggers after changing a column's width by dragging the column header's border                                                              | newWidth, oldWidth, column, event |
 | expand-change      | triggers when user expands or collapses a row (for expandable table, second param is expandedRows; for tree Table, second param is expanded) | row, (expandedRows \| expanded)   |
 
-### Table Methods
+## Table Methods
 
 | Method             | Description                                                                                                                                                       | Parameters                  |
 | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
@@ -1734,13 +267,13 @@ You can customize row index in `type=index` columns.
 | doLayout           | refresh the layout of Table. When the visibility of Table changes, you may need to call this method to get a correct layout                                       | —                           |
 | sort               | sort Table manually. Property `prop` is used to set sort column, property `order` is used to set sort order                                                       | prop: string, order: string |
 
-### Table Slots
+## Table Slots
 
 | Name   | Description                                                                                                                                                                                   |
 | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | append | Contents to be inserted after the last row. You may need this slot if you want to implement infinite scroll for the table. This slot will be displayed above the summary row if there is one. |
 
-### Table-column Attributes
+## Table-column Attributes
 
 | Attribute             | Description                                                                                                                                                                                                         | Type                                    | Accepted Values                                                                                                                  | Default                           |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
@@ -1772,7 +305,7 @@ You can customize row index in `type=index` columns.
 | filter-method         | data filtering method. If `filter-multiple` is on, this method will be called multiple times for each row, and a row will display if one of the calls returns `true`                                                | function(value, row, column)            | —                                                                                                                                | —                                 |
 | filtered-value        | filter value for selected data, might be useful when table header is rendered with `render-header`                                                                                                                  | array                                   | —                                                                                                                                | —                                 |
 
-### Table-column Slots
+## Table-column Slots
 
 | Name   | Description                                                                       |
 | ------ | --------------------------------------------------------------------------------- |
