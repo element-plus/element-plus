@@ -1,6 +1,6 @@
 # DatePicker
 
-Use Date Picker for date input
+Use Date Picker for date input.
 
 <style lang="scss">
 
