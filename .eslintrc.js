@@ -25,6 +25,13 @@ module.exports = {
         'no-undef': 'off',
       },
     },
+    {
+      // not tested
+      files: ['**/__tests__/**'],
+      rules: {
+        'no-console': 'off',
+      },
+    },
   ],
   rules: {
     // js/ts
