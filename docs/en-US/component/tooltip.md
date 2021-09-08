@@ -1,196 +1,38 @@
-## Tooltip
+# Tooltip
 
 Display prompt information for mouse hover.
 
-### Basic usage
+## Basic usage
 
 Tooltip has 9 placements.
 
 :::demo Use attribute `content` to set the display content when hover. The attribute `placement` determines the position of the tooltip. Its value is `[orientation]-[alignment]` with four orientations `top`, `left`, `right`, `bottom` and three alignments `start`, `end`, `null`, and the default alignment is null. Take `placement="left-end"` for example, Tooltip will display on the left of the element which you are hovering and the bottom of the tooltip aligns with the bottom of the element.
 
-```html
-<div class="box">
-  <div class="top">
-    <el-tooltip
-      class="item"
-      effect="dark"
-      content="Top Left prompts info"
-      placement="top-start"
-    >
-      <el-button>top-start</el-button>
-    </el-tooltip>
-    <el-tooltip
-      class="item"
-      effect="dark"
-      content="Top Center prompts info"
-      placement="top"
-    >
-      <el-button>top</el-button>
-    </el-tooltip>
-    <el-tooltip
-      class="item"
-      effect="dark"
-      content="Top Right prompts info"
-      placement="top-end"
-    >
-      <el-button>top-end</el-button>
-    </el-tooltip>
-  </div>
-  <div class="left">
-    <el-tooltip
-      class="item"
-      effect="dark"
-      content="Left Top prompts info"
-      placement="left-start"
-    >
-      <el-button>left-start</el-button>
-    </el-tooltip>
-    <el-tooltip
-      class="item"
-      effect="dark"
-      content="Left Center prompts info"
-      placement="left"
-    >
-      <el-button>left</el-button>
-    </el-tooltip>
-    <el-tooltip
-      class="item"
-      effect="dark"
-      content="Left Bottom prompts info"
-      placement="left-end"
-    >
-      <el-button>left-end</el-button>
-    </el-tooltip>
-  </div>
-
-  <div class="right">
-    <el-tooltip
-      class="item"
-      effect="dark"
-      content="Right Top prompts info"
-      placement="right-start"
-    >
-      <el-button>right-start</el-button>
-    </el-tooltip>
-    <el-tooltip
-      class="item"
-      effect="dark"
-      content="Right Center prompts info"
-      placement="right"
-    >
-      <el-button>right</el-button>
-    </el-tooltip>
-    <el-tooltip
-      class="item"
-      effect="dark"
-      content="Right Bottom prompts info"
-      placement="right-end"
-    >
-      <el-button>right-end</el-button>
-    </el-tooltip>
-  </div>
-  <div class="bottom">
-    <el-tooltip
-      class="item"
-      effect="dark"
-      content="Bottom Left prompts info"
-      placement="bottom-start"
-    >
-      <el-button>bottom-start</el-button>
-    </el-tooltip>
-    <el-tooltip
-      class="item"
-      effect="dark"
-      content="Bottom Center prompts info"
-      placement="bottom"
-    >
-      <el-button>bottom</el-button>
-    </el-tooltip>
-    <el-tooltip
-      class="item"
-      effect="dark"
-      content="Bottom Right prompts info"
-      placement="bottom-end"
-    >
-      <el-button>bottom-end</el-button>
-    </el-tooltip>
-  </div>
-</div>
-
-<style>
-  .box {
-    width: 400px;
-
-    .top {
-      text-align: center;
-    }
-
-    .left {
-      float: left;
-      width: 110px;
-    }
-
-    .right {
-      float: right;
-      width: 110px;
-    }
-
-    .bottom {
-      clear: both;
-      text-align: center;
-    }
-
-    .item {
-      margin: 4px;
-    }
-
-    .left .el-tooltip__popper,
-    .right .el-tooltip__popper {
-      padding: 8px 10px;
-    }
-
-    .el-button {
-      width: 110px;
-    }
-  }
-</style>
-```
+tooltip/basic
 
 :::
 
-### Theme
+## Theme
 
 Tooltip has two themes: `dark` and `light`。
 
 :::demo Set `effect` to modify theme, and the default value is `dark`.
 
-```html
-<el-tooltip content="Top center" placement="top">
-  <el-button>Dark</el-button>
-</el-tooltip>
-<el-tooltip content="Bottom center" placement="bottom" effect="light">
-  <el-button>Light</el-button>
-</el-tooltip>
-```
+tooltip/theme
 
 :::
 
-### More Content
+## More Content
 
 Display multiple lines of text and set their format.
 
 :::demo Override attribute `content` of `el-tooltip` by adding a slot named `content`.
 
-```html
-<el-tooltip placement="top">
-  <template #content> multiple lines<br />second line </template>
-  <el-button>Top center</el-button>
-</el-tooltip>
-```
+tooltip/rich-content
 
 :::
 
-### Advanced usage
+## Advanced usage
 
 In addition to basic usages, there are some attributes that allow you to customize your own:
 
@@ -202,44 +44,7 @@ In fact, Tooltip is an extension based on [Vue-popper](https://github.com/elemen
 
 :::demo
 
-```html
-<template>
-  <el-tooltip
-    :disabled="disabled"
-    content="click to close tooltip function"
-    placement="bottom"
-    effect="light"
-  >
-    <el-button @click="disabled = !disabled"
-      >click to {{disabled ? 'active' : 'close'}} tooltip function</el-button
-    >
-  </el-tooltip>
-</template>
-
-<script>
-  export default {
-    data() {
-      return {
-        disabled: false,
-      }
-    },
-  }
-</script>
-
-<style>
-  .slide-fade-enter-active {
-    transition: all 0.3s ease;
-  }
-  .slide-fade-leave-active {
-    transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
-  }
-  .slide-fade-enter,
-  .expand-fade-leave-active {
-    margin-left: 20px;
-    opacity: 0;
-  }
-</style>
-```
+tooltip/advanced-usage
 
 :::
 
@@ -249,7 +54,7 @@ The `router-link` component is not supported in tooltip, please use `vm.$router.
 Disabled form elements are not supported for Tooltip, more information can be found at [MDN](https://developer.mozilla.org/en-US/docs/Web/Events/mouseenter). You need to wrap the disabled form element with a container element for Tooltip to work.
 :::
 
-### Attributes
+## Attributes
 
 | Attribute             | Description                                                                                                                   | Type    | Accepted Values                                                                                           | Default                                                 |
 | --------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
