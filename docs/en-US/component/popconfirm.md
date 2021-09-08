@@ -1,88 +1,37 @@
-## Popconfirm
+# Popconfirm
 
 A simple confirmation dialog of an element click action.
 
-### Basic usage
+## Basic usage
 
 Popconfirm is similar to Popover. So for some duplicated attributes, please refer to the documentation of Popover.
 
 :::demo Only `title` attribute is avaliable in Popconfirm, `content` will be ignored.
 
-```html
-<template>
-  <el-popconfirm title="Are you sure to delete this?">
-    <template #reference>
-      <el-button>Delete</el-button>
-    </template>
-  </el-popconfirm>
-</template>
-```
+popconfirm/basic-usage
 
 :::
 
-### Customise
+## Customize
 
-You can customise Popconfirm like:
+You can customize Popconfirm like:
 :::demo
 
-```html
-<template>
-  <el-popconfirm
-    confirmButtonText="OK"
-    cancelButtonText="No, Thanks"
-    icon="el-icon-info"
-    iconColor="red"
-    title="Are you sure to delete this?"
-  >
-    <template #reference>
-      <el-button>Delete</el-button>
-    </template>
-  </el-popconfirm>
-</template>
-```
+popconfirm/customize
 
 :::
 
-### Trigger event
+## Trigger event
 
 Click the button to trigger the event
 
 :::demo
 
-```html
-<template>
-  <el-popconfirm
-    confirmButtonText="Yes"
-    cancelButtonText="No"
-    icon="el-icon-info"
-    iconColor="red"
-    title="Are you sure to delete this?"
-    @confirm="confirmEvent"
-    @cancel="cancelEvent"
-  >
-    <template #reference>
-      <el-button>Delete</el-button>
-    </template>
-  </el-popconfirm>
-</template>
-
-<script>
-  export default {
-    methods: {
-      confirmEvent() {
-        console.log('confirm!')
-      },
-      cancelEvent() {
-        console.log('cancel!')
-      },
-    },
-  }
-</script>
-```
+popconfirm/trigger-event
 
 :::
 
-### Attributes
+## Attributes
 
 | Attribute         | Description         | Type    | Accepted Values | Default          |
 | ----------------- | ------------------- | ------- | --------------- | ---------------- |
@@ -95,13 +44,13 @@ Click the button to trigger the event
 | iconColor         | Icon color          | String  | —               | #f90             |
 | hideIcon          | is hide Icon        | Boolean | —               | false            |
 
-### Slots
+## Slots
 
 | Name      | Description                           |
 | --------- | ------------------------------------- |
 | reference | HTML element that triggers Popconfirm |
 
-### Events
+## Events
 
 | Event Name | Description                        | Parameters |
 | ---------- | ---------------------------------- | ---------- |
