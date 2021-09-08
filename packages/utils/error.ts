@@ -15,5 +15,3 @@ export function debugWarn(scope: string, message: string): void {
     console.warn(new ElementPlusError(`[${scope}] ${message}`))
   }
 }
-
-export default throwError
