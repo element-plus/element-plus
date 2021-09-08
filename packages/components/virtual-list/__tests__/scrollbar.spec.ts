@@ -38,10 +38,6 @@ describe('virtual scrollbar', () => {
   })
 
   it('click track', async () => {
-    // layout: vertical; width: auto; height: 100px; scrollHeight: 400px;
-    // thumb ratio: (100 / 400) * 100 -> 25   // (clientHeight / scrollHeight) * 100
-    // thumbSize: 33   // scrollbar.ts computed thumbSize
-    // thumb translateY: (0 / (400 - 100)) * (100 - 25) -> 0  // (scrollTop / (scrollHeight - clientHeight)) * (clientHeight - thumbSize)
     const wrapper = mount({
       template: `
         <div
@@ -72,6 +68,10 @@ describe('virtual scrollbar', () => {
     const scrollbar = wrapper.findComponent(Scrollbar)
     const el = scrollbar.vm.$el
 
+    // layout: vertical; width: auto; height: 100px; scrollHeight: 400px;
+    // thumb ratio: (100 / 400) * 100 -> 25   // (clientHeight / scrollHeight) * 100
+    // thumbSize: 33   // scrollbar.ts computed thumbSize
+    // thumb translateY: (0 / (400 - 100)) * (100 - 25) -> 0  // (scrollTop / (scrollHeight - clientHeight)) * (clientHeight - thumbSize)
     const initializeStyle =
       'height: 33px; transform: translateY(0px); webkit-transform: translateY(0px); width: 100%;'
 
