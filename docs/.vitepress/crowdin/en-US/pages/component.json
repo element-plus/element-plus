@@ -1,0 +1,300 @@
+{
+  "basic": {
+    "text": "Basic",
+    "children": [
+      {
+        "link": "/layout",
+        "text": "Layout"
+      },
+      {
+        "link": "/container",
+        "text": "Layout Container"
+      },
+      {
+        "link": "/color",
+        "text": "Color"
+      },
+      {
+        "link": "/typography",
+        "text": "Typography"
+      },
+      {
+        "link": "/border",
+        "text": "Border"
+      },
+      {
+        "link": "/icon",
+        "text": "Icon"
+      },
+      {
+        "link": "/button",
+        "text": "Button"
+      },
+      {
+        "link": "/link",
+        "text": "Link"
+      },
+      {
+        "link": "/space",
+        "text": "Space"
+      },
+      {
+        "link": "/scrollbar",
+        "text": "Scrollbar"
+      }
+    ]
+  },
+  "configuration": {
+    "text": "Configuration",
+    "children": [
+      {
+        "link": "/config-provider",
+        "text": "ConfigProvider"
+      }
+    ]
+  },
+  "form": {
+    "text": "Form",
+    "children": [
+      {
+        "link": "/radio",
+        "text": "Radio"
+      },
+      {
+        "link": "/checkbox",
+        "text": "Checkbox"
+      },
+      {
+        "link": "/input",
+        "text": "Input"
+      },
+      {
+        "link": "/input-number",
+        "text": "InputNumber"
+      },
+      {
+        "link": "/select",
+        "text": "Select"
+      },
+      {
+        "link": "/select-v2",
+        "text": "Virtualized Select",
+        "beta": true
+      },
+      {
+        "link": "/cascader",
+        "text": "Cascader"
+      },
+      {
+        "link": "/switch",
+        "text": "Switch"
+      },
+      {
+        "link": "/slider",
+        "text": "Slider"
+      },
+      {
+        "link": "/time-picker",
+        "text": "TimePicker"
+      },
+      {
+        "link": "/time-select",
+        "text": "TimeSelect"
+      },
+      {
+        "link": "/date-picker",
+        "text": "DatePicker"
+      },
+      {
+        "link": "/datetime-picker",
+        "text": "DateTimePicker"
+      },
+      {
+        "link": "/upload",
+        "text": "Upload"
+      },
+      {
+        "link": "/rate",
+        "text": "Rate"
+      },
+      {
+        "link": "/color-picker",
+        "text": "ColorPicker"
+      },
+      {
+        "link": "/transfer",
+        "text": "Transfer"
+      },
+      {
+        "link": "/form",
+        "text": "Form"
+      }
+    ]
+  },
+
+  "data": {
+    "text": "Data",
+    "children": [
+      {
+        "link": "/table",
+        "text": "Table"
+      },
+      {
+        "link": "/tag",
+        "text": "Tag"
+      },
+      {
+        "link": "/progress",
+        "text": "Progress"
+      },
+      {
+        "link": "/tree",
+        "text": "Tree"
+      },
+      {
+        "link": "/pagination",
+        "text": "Pagination"
+      },
+      {
+        "link": "/badge",
+        "text": "Badge"
+      },
+      {
+        "link": "/skeleton",
+        "text": "Skeleton"
+      },
+      {
+        "link": "/empty",
+        "text": "Empty"
+      },
+      {
+        "link": "/descriptions",
+        "text": "Descriptions"
+      },
+      {
+        "link": "/result",
+        "text": "Result"
+      },
+      {
+        "link": "/card",
+        "text": "Card"
+      },
+      {
+        "link": "/carousel",
+        "text": "Carousel"
+      },
+      {
+        "link": "/collapse",
+        "text": "Collapse"
+      },
+      {
+        "link": "/timeline",
+        "text": "Timeline"
+      },
+      {
+        "link": "/calendar",
+        "text": "Calendar"
+      },
+      {
+        "link": "/image",
+        "text": "Image"
+      },
+      {
+        "link": "/infiniteScroll",
+        "text": "InfiniteScroll"
+      },
+      {
+        "link": "/avatar",
+        "text": "Avatar"
+      }
+    ]
+  },
+  "navigation": {
+    "text": "Navigation",
+    "children": [
+      {
+        "link": "/affix",
+        "text": "Affix"
+      },
+      {
+        "link": "/menu",
+        "text": "NavMenu"
+      },
+      {
+        "link": "/tabs",
+        "text": "Tabs"
+      },
+      {
+        "link": "/breadcrumb",
+        "text": "Breadcrumb"
+      },
+      {
+        "link": "/page-header",
+        "text": "PageHeader"
+      },
+      {
+        "link": "/dropdown",
+        "text": "Dropdown"
+      },
+      {
+        "link": "/steps",
+        "text": "Steps"
+      }
+    ]
+  },
+  "feedback": {
+    "text": "Feedback",
+    "children": [
+      {
+        "link": "/alert",
+        "text": "Alert"
+      },
+      {
+        "link": "/drawer",
+        "text": "Drawer"
+      },
+      {
+        "link": "/dialog",
+        "text": "Dialog"
+      },
+      {
+        "link": "/loading",
+        "text": "Loading"
+      },
+      {
+        "link": "/message",
+        "text": "Message"
+      },
+      {
+        "link": "/message-box",
+        "text": "MessageBox"
+      },
+      {
+        "link": "/notification",
+        "text": "Notification"
+      },
+
+      {
+        "link": "/tooltip",
+        "text": "Tooltip"
+      },
+      {
+        "link": "/popover",
+        "text": "Popover"
+      },
+      {
+        "link": "/popconfirm",
+        "text": "Popconfirm"
+      }
+    ]
+  },
+  "others": {
+    "text": "Others",
+    "children": [
+      {
+        "link": "/backtop",
+        "text": "Backtop"
+      }
+    ]
+  }
+}

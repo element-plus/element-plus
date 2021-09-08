@@ -34,7 +34,7 @@ module.exports = (md) => {
 
         return `<Demo source="${encodeURIComponent(
           highlight(source, 'vue')
-        )}" path="${sourceFile}" html=${html} js=${js} css=${css} cssPreProcessor=${cssPreProcessor}>
+        )}" path="${sourceFile}" html="${html}" js="${js}" css="${css}" cssPreProcessor="${cssPreProcessor}">
         ${description ? `` : ''}
         <!--element-demo: ${content}:element-demo-->
         `
@@ -47,11 +47,11 @@ module.exports = (md) => {
 
 function generateCodePenSnippet(source) {
   const { template, script, styles } = parse(source).descriptor
-  const css = styles.pop()
+  const css = (styles || [{ content: '' }]).pop()
   return {
     html: encodeURIComponent(template.content),
-    js: encodeURIComponent(script.content),
-    css: encodeURIComponent(css.content),
-    cssPreProcessor: css.lang ? css.lang : 'none',
+    js: encodeURIComponent((script || { content: '' }).content),
+    css: encodeURIComponent(css?.content || ''),
+    cssPreProcessor: css?.lang || 'none',
   }
 }
