@@ -47,11 +47,13 @@ const ScrollBar = defineComponent({
 
     const bar = computed(() => BAR_MAP[props.layout])
 
+    const trackSize = computed(() => props.clientSize - 4)
+
     const trackStyle = computed<CSSProperties>(() => ({
       display: props.visible ? null : 'none',
       position: 'absolute',
-      width: HORIZONTAL === props.layout ? '100%' : '6px',
-      height: HORIZONTAL === props.layout ? '6px' : 'auto',
+      width: HORIZONTAL === props.layout ? trackSize.value + 'px' : '6px',
+      height: HORIZONTAL === props.layout ? '6px' : trackSize.value + 'px',
       [ScrollbarDirKey[props.layout]]: '2px',
       right: '2px',
       bottom: '2px',
@@ -193,7 +195,7 @@ const ScrollBar = defineComponent({
       // scroll offset to scrollTo
       frameHandle = rAF(() => {
         state.traveled = Math.max(
-          2,
+          0,
           Math.min(
             distance,
             totalSteps.value // 2 is the top value
@@ -212,7 +214,7 @@ const ScrollBar = defineComponent({
       const distance = offset - thumbHalf
 
       state.traveled = Math.max(
-        2,
+        0,
         Math.min(
           distance,
           totalSteps.value // 2 is the top value
@@ -228,9 +230,7 @@ const ScrollBar = defineComponent({
       (v) => {
         // this is simply mapping the current scrollbar offset
         if (state.isDragging) return
-        state.traveled = Math.ceil(
-          (v * props.clientSize) / (props.clientSize / totalSteps.value)
-        )
+        state.traveled = Math.ceil(v * totalSteps.value)
       }
     )
 
