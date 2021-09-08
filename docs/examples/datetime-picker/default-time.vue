@@ -40,9 +40,7 @@ export default defineComponent({
       ], // '12:00:00', '08:00:00'
     })
 
-    return {
-      ...toRefs(state),
-    }
+    return toRefs(state)
   },
 })
 </script>

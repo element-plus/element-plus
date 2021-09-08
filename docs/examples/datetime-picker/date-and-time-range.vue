@@ -63,9 +63,7 @@ export default defineComponent({
       value2: '',
     })
 
-    return {
-      ...toRefs(state),
-    }
+    return toRefs(state)
   },
 })
 </script>

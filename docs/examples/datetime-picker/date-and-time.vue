@@ -64,9 +64,7 @@ export default defineComponent({
       defaultTime: new Date(2000, 1, 1, 12, 0, 0), // '12:00:00'
     })
 
-    return {
-      ...toRefs(state),
-    }
+    return toRefs(state)
   },
 })
 </script>

@@ -35,7 +35,7 @@ export default defineComponent({
           done()
         })
         .catch(() => {
-          // do something
+          // catch error
         })
     }
     return {
