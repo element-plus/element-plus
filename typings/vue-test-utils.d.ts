@@ -1,11 +1,11 @@
-import { ComponentPublicInstance } from 'vue'
+import { ComponentPublicInstance, CSSProperties } from 'vue'
 
 declare module '@vue/test-utils' {
   interface DOMWrapper<ElementType> {
-    style: CSSStyleDeclaration
+    style: CSSProperties
   }
 
   interface VueWrapper<T extends ComponentPublicInstance> {
-    style: CSSStyleDeclaration
+    style: CSSProperties
   }
 }

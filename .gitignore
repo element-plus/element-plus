@@ -4,7 +4,6 @@ node_modules
 .DS_Store
 dist
 *.local
-yarn-error.log
 lerna-debug.json
 lerna-debug.log
 yarn-error.log
@@ -12,6 +11,6 @@ storybook-static
 coverage/
 website-dist
 lib
-website/play/index.vue
 packages/element-plus/version.ts
 /es/
+es

@@ -1,4 +1,4 @@
-import { watch, isRef } from 'vue'
+import { watch, isRef, onUnmounted } from 'vue'
 
 import getScrollBarWidth from '@element-plus/utils/scrollbar-width'
 import throwError from '@element-plus/utils/error'
@@ -20,21 +20,32 @@ export default (trigger: Ref<boolean>) => {
   if (!isRef(trigger)) {
     throwError(
       '[useLockScreen]',
-      'You need to pass a ref param to this function',
+      'You need to pass a ref param to this function'
     )
   }
   let scrollBarWidth = 0
   let withoutHiddenClass = false
   let bodyPaddingRight = '0'
   let computedBodyPaddingRight = 0
-  watch(trigger, val => {
+
+  onUnmounted(() => {
+    cleanup()
+  })
+
+  const cleanup = () => {
+    removeClass(document.body, 'el-popup-parent--hidden')
+    if (withoutHiddenClass) {
+      document.body.style.paddingRight = bodyPaddingRight
+    }
+  }
+  watch(trigger, (val) => {
     if (val) {
       withoutHiddenClass = !hasClass(document.body, 'el-popup-parent--hidden')
       if (withoutHiddenClass) {
         bodyPaddingRight = document.body.style.paddingRight
         computedBodyPaddingRight = parseInt(
           getStyle(document.body, 'paddingRight'),
-          10,
+          10
         )
       }
       scrollBarWidth = getScrollBarWidth()
@@ -51,11 +62,7 @@ export default (trigger: Ref<boolean>) => {
       }
       addClass(document.body, 'el-popup-parent--hidden')
     } else {
-      if (withoutHiddenClass) {
-        document.body.style.paddingRight = bodyPaddingRight
-        removeClass(document.body, 'el-popup-parent--hidden')
-      }
-      withoutHiddenClass = true
+      cleanup()
     }
   })
 }

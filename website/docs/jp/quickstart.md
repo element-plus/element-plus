@@ -1,315 +1,222 @@
-## クイックスタート
+# すぐに始められる
 
-このパートでは、webpackプロジェクトでElement Plusを用いた開発プロセスを説明します。
+ここでは、プロジェクトで ElementPlus を使用する方法について説明します。
 
-### vue-cli@4.5を使う
+## コンポーネントの使用
 
-私達はvue-cli@4.5のために [Element Plus plugin](https://github.com/element-plus/vue-cli-plugin-element-plus) 提供しており, 簡単に Element Plusベースのプロジェクトを構築出来ます。
+### すべてのコンポーネントの完全導入
 
-### スターターキットを使う
+> main.ts
 
-私達は一般的なツール[project template](https://github.com/element-plus/element-plus-starter) があります。 直接ダウンロードして使うことが出来ます。
-
-これらのツールを使いたくない場合は、以下の記事を御覧ください。
-
-### Element Plusをインポートする
-
-Element Plusを完全にインポートすることも、必要なものだけをインポートすることもできます。完全なインポートから始めましょう。
-
-#### 完全にインポートした場合
-
-main.js:
-
-```javascript
+```typescript
 import { createApp } from 'vue'
-import ElementPlus from 'element-plus';
-import 'element-plus/lib/theme-chalk/index.css';
-import App from './App.vue';
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+import App from './App.vue'
 
 const app = createApp(App)
+
 app.use(ElementPlus)
 app.mount('#app')
 ```
 
-上記のコードは完全にElement Plusをインポートします。CSSファイルは個別にインポートする必要があることを注意してください。
+### オンデマンドでコンポーネントを導入
 
-#### オンデマンド
+`ElementPlus`的な JS 代弁者认为支持基于 ES モジュール的[树揺](https://webpack.js.org/guides/tree-shaking/)。
 
-[babel-plugin-import](https://github.com/ant-design/babel-plugin-import) を用いて、 必要な分のコンポーネントをインポートし、プロジェクトをより小さくすることが出来ます。
+> App.vue
 
-はじめに、babel-plugin-importをインストール:
+```html
+<template>
+  <el-button> 私はElButtonです </el-button>
+</template>
+<script>
+  import { defineComponent } from 'vue'
+  import { ElButton } from 'element-plus'
 
-```bash
-npm install babel-plugin-import -D
+  export default defineComponent({
+    name: 'app'
+    components: {
+      ElButton,
+    },
+  })
+</script>
 ```
 
-つぎに babel.config.js を編集します:
+### スタイルの紹介
 
-```js
-module.exports = {
-  plugins: [
-    [
-      "import",
-      {
-        libraryName: 'element-plus',
-        customStyleName: (name) => {
-          // `customStyleName` が存在するため、`style: true` は有効になりません。
-          // そのため、`.scss` のソースファイルを使いたい場合は、拡張子を `.css` から `.scss` に置き換えるだけです。
-          return `element-plus/lib/theme-chalk/${name}.css`;
-        },
-      },
-    ],
-  ],
-};
+スタイルの導入は、**完全なスタイルファイルを直接導入することを強くお勧めします**。アプリケーション全体のサイズが大きくなるように見えるかもしれませんが、
+これによりパッケージングツールのプラグインを追加で導入する必要がなくなります（負担が少なくなります）。また、
+[CDN](https://www.cloudflare.com/learning/cdn/what-is-)を使用することもできます。 a-cdn/)
+を使ってスタイルファイルを読み込むことで、アプリケーションの読み込みが速くなります。
+
+JS の方法で紹介されました
+
+```typescript
+import 'element-plus/dist/index.css'
 ```
 
-次に、ボタンとセレクトが必要な場合、main.jsを編集します:
+HTML ヘッダで紹介
 
-```javascript
-import { createApp } from 'vue'
-import { ElButton, ElSelect } from 'element-plus';
-import App from './App.vue';
-
-const app = createApp(App)
-app.component(ElButton.name, ElButton);
-app.component(ElSelect.name, ElSelect);
-
-/* or
- * app.use(ElButton)
- * app.use(ElSelect)
- */
-
-app.mount('#app')
+```html
+<!-- index.html -->
+<head>
+  <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
+</head>
 ```
 
-全ての例 (コンポーネントリストのリファレンスは [reference](https://github.com/element-plus/element-plus/tree/dev/packages) を御覧ください)
+スタイルもオンデマンドで導入したい場合は、対応するツールが提供するプラグインを使って参照することができます。 [よくあるご質問](/#/zh-cn/component/quickstart#yokuarugo-zhi-wen)をご覧ください。
 
-```javascript
-import { createApp } from 'vue'
-import App from './App.vue';
-import {
-  ElAlert,
-  ElAside,
-  ElAutocomplete,
-  ElAvatar,
-  ElBacktop,
-  ElBadge,
-  ElBreadcrumb,
-  ElBreadcrumbItem,
-  ElButton,
-  ElButtonGroup,
-  ElCalendar,
-  ElCard,
-  ElCarousel,
-  ElCarouselItem,
-  ElCascader,
-  ElCascaderPanel,
-  ElCheckbox,
-  ElCheckboxButton,
-  ElCheckboxGroup,
-  ElCol,
-  ElCollapse,
-  ElCollapseItem,
-  ElCollapseTransition,
-  ElColorPicker,
-  ElContainer,
-  ElDatePicker,
-  ElDialog,
-  ElDivider,
-  ElDrawer,
-  ElDropdown,
-  ElDropdownItem,
-  ElDropdownMenu,
-  ElFooter,
-  ElForm,
-  ElFormItem,
-  ElHeader,
-  ElIcon,
-  ElImage,
-  ElInput,
-  ElInputNumber,
-  ElLink,
-  ElMain,
-  ElMenu,
-  ElMenuItem,
-  ElMenuItemGroup,
-  ElOption,
-  ElOptionGroup,
-  ElPageHeader,
-  ElPagination,
-  ElPopconfirm,
-  ElPopover,
-  ElPopper,
-  ElProgress,
-  ElRadio,
-  ElRadioButton,
-  ElRadioGroup,
-  ElRate,
-  ElRow,
-  ElScrollbar,
-  ElSelect,
-  ElSlider,
-  ElStep,
-  ElSteps,
-  ElSubmenu,
-  ElSwitch,
-  ElTabPane,
-  ElTable,
-  ElTableColumn,
-  ElTabs,
-  ElTag,
-  ElTimePicker,
-  ElTimeSelect,
-  ElTimeline,
-  ElTimelineItem,
-  ElTooltip,
-  ElTransfer,
-  ElTree,
-  ElUpload,
-  ElInfiniteScroll,
-  ElLoading,
-  ElMessage,
-  ElMessageBox,
-  ElNotification,
-} from 'element-plus';
+## クイックビルドプロジェクトテンプレート
 
-const components = [
-  ElAlert,
-  ElAside,
-  ElAutocomplete,
-  ElAvatar,
-  ElBacktop,
-  ElBadge,
-  ElBreadcrumb,
-  ElBreadcrumbItem,
-  ElButton,
-  ElButtonGroup,
-  ElCalendar,
-  ElCard,
-  ElCarousel,
-  ElCarouselItem,
-  ElCascader,
-  ElCascaderPanel,
-  ElCheckbox,
-  ElCheckboxButton,
-  ElCheckboxGroup,
-  ElCol,
-  ElCollapse,
-  ElCollapseItem,
-  ElCollapseTransition,
-  ElColorPicker,
-  ElContainer,
-  ElDatePicker,
-  ElDialog,
-  ElDivider,
-  ElDrawer,
-  ElDropdown,
-  ElDropdownItem,
-  ElDropdownMenu,
-  ElFooter,
-  ElForm,
-  ElFormItem,
-  ElHeader,
-  ElIcon,
-  ElImage,
-  ElInput,
-  ElInputNumber,
-  ElLink,
-  ElMain,
-  ElMenu,
-  ElMenuItem,
-  ElMenuItemGroup,
-  ElOption,
-  ElOptionGroup,
-  ElPageHeader,
-  ElPagination,
-  ElPopconfirm,
-  ElPopover,
-  ElPopper,
-  ElProgress,
-  ElRadio,
-  ElRadioButton,
-  ElRadioGroup,
-  ElRate,
-  ElRow,
-  ElScrollbar,
-  ElSelect,
-  ElSlider,
-  ElStep,
-  ElSteps,
-  ElSubmenu,
-  ElSwitch,
-  ElTabPane,
-  ElTable,
-  ElTableColumn,
-  ElTabs,
-  ElTag,
-  ElTimePicker,
-  ElTimeSelect,
-  ElTimeline,
-  ElTimelineItem,
-  ElTooltip,
-  ElTransfer,
-  ElTree,
-  ElUpload,
-]
+### vue-cli@4.5 をご利用ください。
 
-const plugins = [
-  ElInfiniteScroll,
-  ElLoading,
-  ElMessage,
-  ElMessageBox,
-  ElNotification,
-]
+の新バージョンに対応した vue-cli プラグインを用意しました。
+をベースにしたプロジェクトを素早く構築するために使用できる[Element Plus plugins](https://github.com/element-plus/vue-cli-plugin-element-plus)を提供します。
+Element Plus プロジェクト。
 
-const app = createApp(App)
+### スターターキットの使い方
 
-components.forEach(component => {
-  app.component(component.name, component)
-})
+そのまま使える汎用的な[プロジェクトテンプレート](https://github.com/element-plus/element-plus-starter)を提供し、さらには
+Vite[テンプレート](https://github.com/element-plus/element-plus-vite-starter)を使用しています。
+のために
+Laravel をお使いの方は、対応する[テンプレート](https://github.com/element-plus/element-plus-in-laravel-starter)も用意していますので、そのままダウンロードしてお使いいただけます。
 
-plugins.forEach(plugin => {
-  app.use(plugin)
-})
-```
+## グローバルコンフィギュレーション
 
-### グローバルコンフィグ
+Element Plus を導入する際に、グローバルコンフィギュレーションオブジェクトを渡すことができます。 このオブジェクトは現在、`size` と `zIndex`
+フィールドをサポートしています。 サイズ
+は、コンポーネントのデフォルトサイズを変更するために使用され、`zIndex`は、ポップアップボックスの初期 z-index を設定します（デフォルト値：2000）。
+要求に応じて「エレメント・プラス」を以下のように導入します。
 
-Elenentをインポートする際、グローバルコンフィグオブジェクトを定義出来ます。現時点では2つのプロパティ: `size` と `zIndex` があります。 プロパティ `size` はすべてのコンポーネントのデフォルトサイズ、プロパティ `zIndex` はモーダルボックスの初期の z-index (デフォルト: 2000) を設定します。
-
-Element Plusを完全にインポート：
+ElementPlus を完全紹介。
 
 ```js
 import { createApp } from 'vue'
-import ElementPlus from 'element-plus';
-import App from './App.vue';
+import ElementPlus from 'element-plus'
+import App from './App.vue'
 
 const app = createApp(App)
-app.use(ElementPlus, { size: 'small', zIndex: 3000 });
+app.use(ElementPlus, { size: 'small', zIndex: 3000 })
 ```
 
-Element Plusを部分的にインポート：
+ElementPlus のオンデマンド導入。
 
 ```js
 import { createApp } from 'vue'
-import { ElButton } from 'element-plus';
-import App from './App.vue';
+import { ElButton } from 'element-plus'
+import App from './App.vue'
 
 const app = createApp(App)
 app.config.globalProperties.$ELEMENT = option
-app.use(ElButton);
+app.use(ElButton)
 ```
 
-上記の設定では、size属性を持つすべてのコンポーネントのデフォルトのサイズは `small`、モーダルボックスのデフォルト値 `z-index` は3000となります。
+上記の設定により、プロジェクト内で`size`プロパティを持つすべてのコンポーネントのデフォルトサイズは「small」となり、ポップアップボックスの初期 z-index は 3000 となります。
 
-### コーディングを始めましょう
+## Nuxt.js を使う
 
-プロジェクトに Vue と Element Plus を実装したので、いよいよコードを書く時が来ました。使用方法については、各コンポーネントのドキュメントを参照してください。
-
-### Nuxt.jsを使う
-
-[Nuxt.js](https://nuxtjs.org/) を使ってプロジェクトを立ち上げることも出来ます:
+また、[Nuxt.js](https://nuxtjs.org)を使って
 
 <div class="glitch-embed-wrap" style="height: 420px; width: 100%;">
   <iframe src="https://glitch.com/embed/#!/embed/nuxt-with-element?path=nuxt.config.js&previewSize=0&attributionHidden=true" alt="nuxt-with-element on glitch" style="height: 100%; width: 100%; border: 0;"></iframe>
 </div>
+
+## スタートアップ
+
+Vue と Element Plus をベースにした開発環境が整ったところで、いよいよコードを書いてみましょう。 各コンポーネントの使用方法については、各コンポーネントのドキュメントを参照してください。
+
+## よくあるご質問
+
+### コンポーネントとスタイルを同時にオンデマンドで導入したいのですが、どのようにすればよいでしょうか？
+
+#### vite でオンデマンドのローディングスタイル
+
+ビルドパッケージングツールとして[vite](https://vitejs.dev)を使用している場合は、オンデマンドでスタイルを読み込むために、まず `vite-plugin-element-plus`
+をインストールする必要があります。
+
+```shell
+yarn add vite-plugin-element-plus -D
+# または
+npm install vite-plugin-element-plus -D
+```
+
+次に、`vite.config.js`ファイルに以下のコードを追加します。
+
+```typescript
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import VitePluginElementPlus from 'vite-plugin-element-plus'
+
+// https://vitejs.dev/config/
+export default defineConfig(({ mode }) => {
+  plugins: [
+    vue(),
+    VitePluginElementPlus({
+      // コンポーネント名].scssのソースファイルを使用する必要がある場合は、以下のようにコメントアウトを解除する必要があります。
+      // useSource: true
+      // すべてのAPIについては、https://github.com/element-plus/vite-plugin-element-plus のドキュメントノートを参照してください。
+      format: mode === 'development' ? 'esm' : 'cjs',
+    }),
+  ],
+})
+```
+
+#### webpack によるオンデマンドでのスタイルの読み込み
+
+ビルドパッケージングツールとして webpack を使用している場合は、必要に応じてスタイルを読み込むために、まず`babel-plugin-import`をインストールする必要があります。
+
+```shell
+yarn add babel-plugin-import -D
+# または
+npm install babel-plugin-import -D
+```
+
+次に、以下のコードを `babel.config.js` ファイルに追加してください。
+
+> babel.config.js
+
+```javascript
+module.exports = {
+  plugins: [
+    // ...others
+    [
+      'import',
+      {
+        libraryName: 'element-plus',
+        customStyleName: (name) => {
+          name = name.slice(3)
+          // [name].cssファイルが必要な場合は、次の行を返す必要があります。
+          return `element-plus/es/${name}/style/css`
+          // [name].scssファイルが必要な場合は、前の行のコードをコメントアウトし、次の行のコードをアンコメントする必要があります。
+          // return `element-plus/es/${name}/style`;
+        },
+      },
+    ],
+  ],
+}
+
+module.exports = {
+  plugins: [
+    [
+      'import',
+      {
+        libraryName: 'element-plus',
+        // import component
+        customName: (name) => {
+          name = name.slice(3)
+          return `element-plus/lib/components/${name}`
+        },
+        // import style
+        customStyleName: (name) => {
+          name = name.slice(3)
+          // [name].scssファイルが必要な場合は、前の行のコードをコメントアウトし、次の行のコードをアンコメントする必要があります。
+          // return `element-plus/lib/components/${name}/style`
+          // [name].cssファイルが必要な場合は、次の行を返す必要があります。
+          return `element-plus/lib/components/${name}/style/css`
+        },
+      },
+    ],
+  ],
+}
+```

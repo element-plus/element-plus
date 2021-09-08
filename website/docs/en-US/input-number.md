@@ -8,23 +8,49 @@ Input numerical values with a customizable range.
 
 ```html
 <template>
-  <el-input-number v-model="num" @change="handleChange" :min="1" :max="10"></el-input-number>
+  <el-input-number
+    v-model="num"
+    @change="handleChange"
+    :min="1"
+    :max="10"
+  ></el-input-number>
 </template>
 <script>
   export default {
     data() {
       return {
-        num: 1
-      };
+        num: 1,
+      }
     },
     methods: {
       handleChange(value) {
         console.log(value)
-      }
-    }
-  };
+      },
+    },
+  }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const num = ref(1);
+      const handleChange = (value) => {
+        console.log(value);
+      };
+      return {
+        num,
+        handleChange,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
+
 :::
 
 ### Disabled
@@ -39,12 +65,29 @@ Input numerical values with a customizable range.
   export default {
     data() {
       return {
-        num: 1
+        num: 1,
       }
-    }
-  };
+    },
+  }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const num = ref(1);
+      return {
+        num,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
+
 :::
 
 ### Steps
@@ -61,12 +104,29 @@ Allows you to define incremental steps.
   export default {
     data() {
       return {
-        num: 5
+        num: 5,
       }
-    }
-  };
+    },
+  }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const num = ref(5);
+      return {
+        num,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
+
 :::
 
 ### Step strictly
@@ -81,12 +141,29 @@ Allows you to define incremental steps.
   export default {
     data() {
       return {
-        num: 2
+        num: 2,
       }
-    }
-  };
+    },
+  }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const num = ref(2);
+      return {
+        num,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
+
 :::
 
 ### Precision
@@ -95,17 +172,38 @@ Allows you to define incremental steps.
 
 ```html
 <template>
-  <el-input-number v-model="num" :precision="2" :step="0.1" :max="10"></el-input-number>
+  <el-input-number
+    v-model="num"
+    :precision="2"
+    :step="0.1"
+    :max="10"
+  ></el-input-number>
 </template>
 <script>
   export default {
     data() {
       return {
-        num: 1
+        num: 1,
       }
-    }
-  };
+    },
+  }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const num = ref(1);
+      return {
+        num,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 
 :::
@@ -123,9 +221,9 @@ Use attribute `size` to set additional sizes with `medium`, `small` or `mini`.
 ```html
 <template>
   <el-input-number v-model="num1"></el-input-number>
-    <el-input-number size="medium" v-model="num2"></el-input-number>
-    <el-input-number size="small" v-model="num3"></el-input-number>
-    <el-input-number size="mini" v-model="num4"></el-input-number>
+  <el-input-number size="medium" v-model="num2"></el-input-number>
+  <el-input-number size="small" v-model="num3"></el-input-number>
+  <el-input-number size="mini" v-model="num4"></el-input-number>
 </template>
 <script>
   export default {
@@ -134,67 +232,118 @@ Use attribute `size` to set additional sizes with `medium`, `small` or `mini`.
         num1: 1,
         num2: 1,
         num3: 1,
-        num4: 1
+        num4: 1,
       }
-    }
-  };
+    },
+  }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const num1 = ref(1);
+      const num2 = ref(2);
+      const num3 = ref(3);
+      const num4 = ref(4);
+      return {
+        num1,
+        num2,
+        num3,
+        num4,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
+
 :::
 
 ### Controls Position
 
 :::demo Set `controls-position` to decide the position of control buttons.
+
 ```html
 <template>
-  <el-input-number v-model="num" controls-position="right" @change="handleChange" :min="1" :max="10"></el-input-number>
+  <el-input-number
+    v-model="num"
+    controls-position="right"
+    @change="handleChange"
+    :min="1"
+    :max="10"
+  ></el-input-number>
 </template>
 <script>
   export default {
     data() {
       return {
-        num: 1
-      };
+        num: 1,
+      }
     },
     methods: {
       handleChange(value) {
-        console.log(value);
-      }
-    }
-  };
+        console.log(value)
+      },
+    },
+  }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const num = ref(1);
+      const handleChange = (value) => {
+        console.log(value);
+      };
+      return {
+        num,
+        handleChange,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
+
 :::
 
 ### Attributes
 
-| Attribute      | Description          | Type      | Accepted Values       | Default  |
-|----| ----| ---| ----| -----|
-|modelValue / v-model | binding value| number / undefined | — | 0 |
-|min | the minimum allowed value | number | — | `-Infinity` |
-|max | the maximum allowed value | number | — | `Infinity` |
-|step | incremental step | number | — | 1 |
-|step-strictly | whether input value can only be multiple of step | boolean | — | false |
-|precision | precision of input value | number | — | — |
-|size | size of the component | string | large/medium/small/mini  | large |
-|disabled| whether the component is disabled | boolean | — | false |
-|controls| whether to enable the control buttons | boolean | — | true |
-|controls-position | position of the control buttons | string | right | - |
-|name | same as `name` in native input | string | — | — |
-|label | label text | string | — | — |
-|placeholder | placeholder in input | string | - | - |
+| Attribute             | Description                                      | Type               | Accepted Values         | Default     |
+| --------------------- | ------------------------------------------------ | ------------------ | ----------------------- | ----------- |
+| model-value / v-model | binding value                                    | number / undefined | —                       | 0           |
+| min                   | the minimum allowed value                        | number             | —                       | `-Infinity` |
+| max                   | the maximum allowed value                        | number             | —                       | `Infinity`  |
+| step                  | incremental step                                 | number             | —                       | 1           |
+| step-strictly         | whether input value can only be multiple of step | boolean            | —                       | false       |
+| precision             | precision of input value                         | number             | —                       | —           |
+| size                  | size of the component                            | string             | large/medium/small/mini | large       |
+| disabled              | whether the component is disabled                | boolean            | —                       | false       |
+| controls              | whether to enable the control buttons            | boolean            | —                       | true        |
+| controls-position     | position of the control buttons                  | string             | right                   | -           |
+| name                  | same as `name` in native input                   | string             | —                       | —           |
+| label                 | label text                                       | string             | —                       | —           |
+| placeholder           | placeholder in input                             | string             | -                       | -           |
 
 ### Events
 
-| Event Name | Description | Parameters |
-|----| ---- | -----|
-|change | triggers when the value changes | currentValue, oldValue |
-| blur | triggers when Input blurs | (event: Event) |
-| focus | triggers when Input focuses | (event: Event) |
+| Event Name | Description                     | Parameters             |
+| ---------- | ------------------------------- | ---------------------- |
+| change     | triggers when the value changes | currentValue, oldValue |
+| blur       | triggers when Input blurs       | (event: Event)         |
+| focus      | triggers when Input focuses     | (event: Event)         |
 
 ### Methods
-| Method | Description | Parameters |
-|------|--------|-------|
-| focus | focus the Input component | - |
-| select | select the text in input element | — |
 
+| Method | Description                      | Parameters |
+| ------ | -------------------------------- | ---------- |
+| focus  | focus the Input component        | -          |
+| select | select the text in input element | —          |

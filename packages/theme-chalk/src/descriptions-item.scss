@@ -1,0 +1,19 @@
+@import 'mixins/mixins';
+@import 'common/var';
+
+@include b(descriptions) {
+  @include e(label) {
+    &.#{$namespace}-descriptions__cell.is-bordered-label {
+      font-weight: bold;
+      color: var(--el-text-color-secondary);
+      background: var(--el-descriptions-item-bordered-label-background);
+    }
+
+    &:not(.is-bordered-label) {
+      margin-right: 10px;
+    }
+  }
+
+  @include e(content) {
+  }
+}

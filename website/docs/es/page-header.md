@@ -1,39 +1,74 @@
 ## PageHeader
 
-Si la ruta de la página es simple, se recomienda utilizar  PageHeader en lugar de Breadcrumb.
+If path of the page is simple, it is recommended to use PageHeader instead of the Breadcrumb.
 
-### Básico
+### Basic usage
 
 :::demo
+
 ```html
-<el-page-header @back="goBack" content="detail">
-</el-page-header>
+<el-page-header @back="goBack" content="detail"> </el-page-header>
 
 <script>
   export default {
     methods: {
       goBack() {
-        console.log('go back');
-      }
-    }
+        console.log('go back')
+      },
+    },
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const goBack = () => {
+        console.log('go back');
+      };
+
+      return {
+        goBack,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
+
 :::
 
-### Atributos
-| Atributos | Descripción | Tipo   | Valores aceptados | Por defecto |
-|---------- |-------------- |---------- |------------------------------ | ------ |
-| title     | titulo principal | string    |  —                            | Back   |
-| content   | contenido   | string    |  —                            | —      |
+### Custom icon
 
-### Eventos
-| Nombre evento | Descripción | Parámetros |
-|----------- |-------------- |----------- |
-| back       | se activa cuando se hace clic en el lado derecho | — |
+:::demo
+
+```html
+<el-page-header icon="el-icon-arrow-left" content="detail"></el-page-header>
+```
+
+:::
+
+### Attributes
+
+| Attribute | Description | Type   | Accepted Values | Default      |
+| --------- | ----------- | ------ | --------------- | ------------ |
+| icon      | icon        | string | —               | el-icon-back |
+| title     | main title  | string | —               | Back         |
+| content   | content     | string | —               | —            |
+
+### Events
+
+| Event Name | Description                         | Parameters |
+| ---------- | ----------------------------------- | ---------- |
+| back       | triggers when right side is clicked | —          |
 
 ### Slots
-| Nombre del slot | Descripción |
-| --------------- | ----------- |
-| title           | titulo      |
-| content         | contenido   |
+
+| Name    | Description   |
+| ------- | ------------- |
+| icon    | custom icon   |
+| title   | title content |
+| content | content       |

@@ -1,20 +1,22 @@
-@import "mixins/mixins";
-@import "common/var";
-@import "input";
+@use "sass:math";
+@use "sass:map";
+
+@import 'mixins/mixins';
+@import 'common/var';
 
 @include b(input-number) {
   position: relative;
   display: inline-block;
   width: 180px;
-  line-height: #{$--input-height - 2};
+  line-height: #{map.get($--input-height, 'default') - 2};
 
   .#{$namespace}-input {
     display: block;
 
     &__inner {
       -webkit-appearance: none;
-      padding-left: #{$--input-height + 10};
-      padding-right: #{$--input-height + 10};
+      padding-left: #{map.get($--input-height, 'default') + 10};
+      padding-right: #{map.get($--input-height, 'default') + 10};
       text-align: center;
     }
   }
@@ -23,102 +25,85 @@
     position: absolute;
     z-index: 1;
     top: 1px;
-    width: $--input-height;
+    width: map.get($--input-height, 'default');
     height: auto;
     text-align: center;
     background: $--background-color-base;
-    color: $--color-text-regular;
+    color: var(--el-text-color-regular);
     cursor: pointer;
     font-size: 13px;
 
     &:hover {
-      color: $--color-primary;
+      color: var(--el-color-primary);
 
-      &:not(.is-disabled) ~ .#{$namespace}-input .#{$namespace}-input__inner:not(.is-disabled) {
-        border-color: $--input-focus-border;
+      & ~ .#{$namespace}-input:not(.is-disabled) .#{$namespace}-input__inner {
+        border-color: var(
+          --el-input-focus-border,
+          map.get($--input, 'focus-border')
+        );
       }
     }
 
     &.is-disabled {
-      color: $--disabled-color-base;
+      color: var(--el-disabled-color-base);
       cursor: not-allowed;
     }
   }
 
   @include e(increase) {
     right: 1px;
-    border-radius: 0 $--border-radius-base $--border-radius-base 0;
-    border-left: $--border-base;
+    border-radius: 0 var(--el-border-radius-base) var(--el-border-radius-base) 0;
+    border-left: var(--el-border-base);
   }
 
   @include e(decrease) {
     left: 1px;
-    border-radius: $--border-radius-base 0 0 $--border-radius-base;
-    border-right: $--border-base;
+    border-radius: var(--el-border-radius-base) 0 0 var(--el-border-radius-base);
+    border-right: var(--el-border-base);
   }
 
   @include when(disabled) {
     @include e((increase, decrease)) {
-      border-color: $--disabled-border-base;
-      color: $--disabled-border-base;
+      border-color: var(--el-disabled-border-base);
+      color: var(--el-disabled-border-base);
 
       &:hover {
-        color: $--disabled-border-base;
+        color: var(--el-disabled-border-base);
         cursor: not-allowed;
       }
     }
   }
 
-  @include m(medium) {
-    width: 200px;
-    line-height: #{$--input-medium-height - 2};
+  @each $size in (medium, small, mini) {
+    @include m($size) {
+      width: map.get($--input-number-width, $size);
+      line-height: #{map.get($--input-height, $size) - 2};
 
-    @include e((increase, decrease)) {
-      width: $--input-medium-height;
-      font-size: $--input-medium-font-size;
-    }
+      @include e((increase, decrease)) {
+        width: map.get($--input-height, $size);
+        font-size: map.get($--input-font-size, $size);
+      }
 
-    .#{$namespace}-input__inner {
-      padding-left: #{$--input-medium-height + 7};
-      padding-right: #{$--input-medium-height + 7};
+      .#{$namespace}-input__inner {
+        padding-left: #{map.get($--input-height, $size) + 7};
+        padding-right: #{map.get($--input-height, $size) + 7};
+      }
     }
   }
 
   @include m(small) {
-    width: 130px;
-    line-height: #{$--input-small-height - 2};
-
     @include e((increase, decrease)) {
-      width: $--input-small-height;
-      font-size: $--input-small-font-size;
-
-      [class*=#{$namespace}-icon] {
-        transform: scale(.9);
+      [class*='#{$namespace}-icon'] {
+        transform: scale(0.9);
       }
-    }
-
-    .#{$namespace}-input__inner {
-      padding-left: #{$--input-small-height + 7};
-      padding-right: #{$--input-small-height + 7};
     }
   }
 
   @include m(mini) {
-    width: 130px;
-    line-height: #{$--input-mini-height - 2};
-
     @include e((increase, decrease)) {
-      width: $--input-mini-height;
-      font-size: $--input-mini-font-size;
-
-      [class*=#{$namespace}-icon] {
-        transform: scale(.8);
+      [class*='#{$namespace}-icon'] {
+        transform: scale(0.8);
       }
-    }
-
-    .#{$namespace}-input__inner {
-      padding-left: #{$--input-mini-height + 7};
-      padding-right: #{$--input-mini-height + 7};
     }
   }
 
@@ -132,21 +117,21 @@
   @include when(controls-right) {
     .#{$namespace}-input__inner {
       padding-left: 15px;
-      padding-right: #{$--input-height + 10};
+      padding-right: #{map.get($--input-height, 'default') + 10};
     }
 
     @include e((increase, decrease)) {
       height: auto;
-      line-height: #{($--input-height - 2) / 2};
+      line-height: #{math.div(map.get($--input-height, 'default') - 2, 2)};
 
-      [class*=#{$namespace}-icon] {
-        transform: scale(.8);
+      [class*='#{$namespace}-icon'] {
+        transform: scale(0.8);
       }
     }
 
     @include e(increase) {
-      border-radius: 0 $--border-radius-base 0 0;
-      border-bottom: $--border-base;
+      border-radius: 0 var(--el-border-radius-base) 0 0;
+      border-bottom: var(--el-border-base);
     }
 
     @include e(decrease) {
@@ -155,25 +140,16 @@
       top: auto;
       left: auto;
       border-right: none;
-      border-left: $--border-base;
-      border-radius: 0 0 $--border-radius-base 0;
+      border-left: var(--el-border-base);
+      border-radius: 0 0 var(--el-border-radius-base) 0;
     }
 
-    &[class*=medium] {
-      [class*=increase], [class*=decrease] {
-        line-height: #{($--input-medium-height - 2) / 2};
-      }
-    }
-
-    &[class*=small] {
-      [class*=increase], [class*=decrease] {
-        line-height: #{($--input-small-height - 2) / 2};
-      }
-    }
-
-    &[class*=mini] {
-      [class*=increase], [class*=decrease] {
-        line-height: #{($--input-mini-height - 2) / 2};
+    @each $size in (medium, small, mini) {
+      &[class*='#{$size}'] {
+        [class*='increase'],
+        [class*='decrease'] {
+          line-height: #{math.div(map.get($--input-height, $size) - 2, 2)};
+        }
       }
     }
   }

@@ -26,8 +26,14 @@ export default {
       const originalCluster = this.getThemeCluster(oldVal.replace('#', ''))
       const getHandler = (variable, id) => {
         return () => {
-          const originalCluster = this.getThemeCluster(ORIGINAL_THEME.replace('#', ''))
-          let newStyle = this.updateStyle(this[variable], originalCluster, themeCluster)
+          const originalCluster = this.getThemeCluster(
+            ORIGINAL_THEME.replace('#', '')
+          )
+          let newStyle = this.updateStyle(
+            this[variable],
+            originalCluster,
+            themeCluster
+          )
 
           let styleTag = document.getElementById(id)
           if (!styleTag) {
@@ -43,30 +49,40 @@ export default {
       const docsHandler = getHandler('docs', 'docs-style')
 
       if (!this.chalk) {
-        const url = `https://unpkg.com/element-ui@${ version }/lib/theme-chalk/index.css`
+        const url = `https://unpkg.com/element-ui@${version}/lib/theme-chalk/index.css`
         this.getCSSString(url, chalkHandler, 'chalk')
       } else {
         chalkHandler()
       }
 
       if (!this.docs) {
-        const links = [].filter.call(document.querySelectorAll('link'), link => {
-          return /docs\..+\.css/.test(link.href || '')
-        })
+        const links = [].filter.call(
+          document.querySelectorAll('link'),
+          (link) => {
+            return /docs\..+\.css/.test(link.href || '')
+          }
+        )
         links[0] && this.getCSSString(links[0].href, docsHandler, 'docs')
       } else {
         docsHandler()
       }
 
-      const styles = [].slice.call(document.querySelectorAll('style'))
-        .filter(style => {
+      const styles = [].slice
+        .call(document.querySelectorAll('style'))
+        .filter((style) => {
           const text = style.innerText
-          return new RegExp(oldVal, 'i').test(text) && !/Chalk Variables/.test(text)
+          return (
+            new RegExp(oldVal, 'i').test(text) && !/Chalk Variables/.test(text)
+          )
         })
-      styles.forEach(style => {
+      styles.forEach((style) => {
         const { innerText } = style
         if (typeof innerText !== 'string') return
-        style.innerText = this.updateStyle(innerText, originalCluster, themeCluster)
+        style.innerText = this.updateStyle(
+          innerText,
+          originalCluster,
+          themeCluster
+        )
       })
     },
   },
@@ -98,7 +114,8 @@ export default {
         let green = parseInt(color.slice(2, 4), 16)
         let blue = parseInt(color.slice(4, 6), 16)
 
-        if (tint === 0) { // when primary color is in its rgb space
+        if (tint === 0) {
+          // when primary color is in its rgb space
           return [red, green, blue].join(',')
         } else {
           red += Math.round(tint * (255 - red))
@@ -109,7 +126,7 @@ export default {
           green = green.toString(16)
           blue = blue.toString(16)
 
-          return `#${ red }${ green }${ blue }`
+          return `#${red}${green}${blue}`
         }
       }
 
@@ -126,7 +143,7 @@ export default {
         green = green.toString(16)
         blue = blue.toString(16)
 
-        return `#${ red }${ green }${ blue }`
+        return `#${red}${green}${blue}`
       }
 
       const clusters = [theme]
@@ -140,17 +157,17 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  .theme-picker {
-    height: 80px;
-    display: inline-block;
-    // @utils-vertical-center;
-  }
+.theme-picker {
+  height: 80px;
+  display: inline-block;
+  // @utils-vertical-center;
+}
 
-  .theme-picker .el-color-picker__trigger {
-    vertical-align: middle;
-  }
+.theme-picker .el-color-picker__trigger {
+  vertical-align: middle;
+}
 
-  .theme-picker-dropdown .el-color-dropdown__link-btn {
-    display: none;
-  }
+.theme-picker-dropdown .el-color-dropdown__link-btn {
+  display: none;
+}
 </style>

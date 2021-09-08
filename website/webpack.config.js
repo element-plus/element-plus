@@ -5,10 +5,17 @@ const { VueLoaderPlugin } = require('vue-loader')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const isProd = process.env.NODE_ENV === 'production'
+
+/*
+ * 是否使用生产环境的 vue
+ */
+const isVueProd = process.env.VUE_BUNDLE === 'production' || isProd
+const vueBundle = isVueProd ? 'vue.esm-browser.prod.js' : 'vue.esm-browser.js'
 const isPlay = !!process.env.PLAY_ENV
 
 const config = {
@@ -63,7 +70,7 @@ const config = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.vue', '.json'],
     alias: {
-      vue: 'vue/dist/vue.esm-browser.js',
+      vue: `vue/dist/${vueBundle}`,
       examples: path.resolve(__dirname),
     },
   },
@@ -75,10 +82,13 @@ const config = {
       favicon: './website/favicon.ico',
     }),
     // new BundleAnalyzerPlugin(),
+    new ProgressBarPlugin(),
   ],
   devServer: {
     inline: true,
-    hot: true,
+    // 如果使用 vue 的生产环境构建包，无法启用 hmr
+    // 因为生产环境下 vue 没有注入 hmr 必须的 __VUE_HMR_RUNTIME__ api
+    hot: !isVueProd,
     stats: 'minimal',
     publicPath: '/',
     contentBase: __dirname,
@@ -86,9 +96,7 @@ const config = {
   },
   optimization: {
     minimize: true,
-    minimizer: [
-      new CssMinimizerPlugin(),
-    ],
+    minimizer: [new CssMinimizerPlugin()],
   },
 }
 
@@ -114,7 +122,7 @@ config.plugins.push(
   new webpack.DefinePlugin({
     __VUE_OPTIONS_API__: JSON.stringify(true),
     __VUE_PROD_DEVTOOLS__: JSON.stringify(false),
-  }),
+  })
 )
 cssRule.use.unshift(MiniCssExtractPlugin.loader)
 // } else {

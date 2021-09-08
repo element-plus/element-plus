@@ -1,21 +1,27 @@
-@import "mixins/mixins";
-@import "common/var";
-@import "button";
+@use "sass:map";
+
+@import 'mixins/mixins';
+@import 'mixins/var';
+@import 'common/var';
 
 @include b(dropdown) {
+  @include set-component-css-var('dropdown', $--dropdown);
+
   display: inline-block;
   position: relative;
-  color: $--color-text-regular;
-  font-size: $--font-size-base;
+  color: var(--el-text-color-regular);
+  font-size: var(--el-font-size-base);
   line-height: 1;
 
   @include e(popper) {
+    @include set-component-css-var('dropdown', $--dropdown);
+
     // using attributes selector to override
 
     @include picker-popper(
-        $--color-white,
-        1px solid $--border-color-light,
-        $--dropdown-menu-box-shadow,
+      $--color-white,
+      1px solid var(--el-border-color-light),
+      var(--el-dropdown-menu-box-shadow)
     );
 
     .#{$namespace}-dropdown-menu {
@@ -27,7 +33,7 @@
     }
 
     @include b(scrollbar__bar) {
-      z-index: #{$--dropdown-menu-index + 1};
+      z-index: calc(var(--el-dropdown-menu-index) + 1);
     }
 
     @include b(dropdown__list) {
@@ -66,7 +72,8 @@
     }
 
     &.#{$namespace}-button--default::before {
-      background: mix($--button-default-border-color, transparent, 50%);
+      background: var(--el-default-border-color);
+      opacity: 0.5;
     }
 
     &:hover {
@@ -85,7 +92,8 @@
     margin: 0 3px;
   }
 
-  .#{$namespace}-dropdown-selfdefine { // 自定义
+  .#{$namespace}-dropdown-selfdefine {
+    // 自定义
     outline: none;
   }
 }
@@ -94,12 +102,12 @@
   position: relative;
   top: 0;
   left: 0;
-  z-index: $--dropdown-menu-index;
+  z-index: var(--el-dropdown-menu-index);
   padding: 10px 0;
   margin: 0;
   background-color: $--color-white;
   border: none;
-  border-radius: $--border-radius-base;
+  border-radius: var(--el-border-radius-base);
   box-shadow: none;
 
   @include e(item) {
@@ -107,13 +115,14 @@
     line-height: 36px;
     padding: 0 20px;
     margin: 0;
-    font-size: $--font-size-base;
-    color: $--color-text-regular;
+    font-size: var(--el-font-size-base);
+    color: var(--el-text-color-regular);
     cursor: pointer;
     outline: none;
-    &:not(.is-disabled):hover, &:focus {
-      background-color: $--dropdown-menuItem-hover-fill;
-      color: $--dropdown-menuItem-hover-color;
+    &:not(.is-disabled):hover,
+    &:focus {
+      background-color: var(--el-dropdown-menuItem-hover-fill);
+      color: var(--el-dropdown-menuItem-hover-color);
     }
 
     i {
@@ -125,7 +134,7 @@
 
       position: relative;
       margin-top: $divided-offset;
-      border-top: 1px solid $--border-color-lighter;
+      border-top: 1px solid var(--el-border-color-lighter);
 
       &:before {
         content: '';
@@ -137,9 +146,8 @@
     }
 
     @include when(disabled) {
-      cursor: default;
-      color: $--font-color-disabled-base;
-      pointer-events: none;
+      cursor: not-allowed;
+      color: var(--el-font-color-disabled-base);
     }
   }
 

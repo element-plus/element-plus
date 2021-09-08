@@ -1,0 +1,28 @@
+@use "sass:map";
+
+@import 'mixins/mixins';
+@import 'common/var';
+
+@include b(check-tag) {
+  background-color: $--background-color-base;
+  border-radius: var(--el-border-radius-base);
+  color: var(--el-color-info);
+  cursor: pointer;
+  display: inline-block;
+  font-size: var(--el-font-size-base);
+  line-height: var(--el-font-size-base);
+  padding: 7px 15px;
+  transition: var(--el-transition-all);
+  font-weight: bold;
+  &:hover {
+    background-color: rgb(220, 223, 230);
+  }
+
+  @include when(checked) {
+    background-color: #deedfc;
+    color: map.get($--colors, 'primary', 'light-1');
+    &:hover {
+      background-color: map.get($--colors, 'primary', 'light-7');
+    }
+  }
+}

@@ -1,0 +1,59 @@
+@import 'mixins/mixins';
+@import 'mixins/var';
+@import 'common/var';
+
+$types: success, warning, danger, info, error;
+
+@include b(result) {
+  @include set-component-css-var('result', $--result);
+}
+
+@include b(result) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  box-sizing: border-box;
+  padding: var(--el-result-padding);
+
+  @include e(icon) {
+    svg {
+      width: var(--el-result-icon-font-size);
+      height: var(--el-result-icon-font-size);
+    }
+  }
+
+  @include e(title) {
+    margin-top: var(--el-result-title-margin-top);
+
+    p {
+      margin: 0;
+      font-size: var(--el-result-title-font-size);
+      color: var(--el-text-color-primary);
+      line-height: 1.3;
+    }
+  }
+
+  @include e(subtitle) {
+    margin-top: var(--el-result-subtitle-margin-top);
+
+    p {
+      margin: 0;
+      font-size: var(--el-font-size-base);
+      color: var(--el-text-color-regular);
+      line-height: 1.3;
+    }
+  }
+
+  @include e(extra) {
+    margin-top: var(--el-result-extra-margin-top);
+  }
+
+  @each $type in $types {
+    .icon-#{$type} {
+      --el-result-color: var(--el-color-#{$type});
+      fill: var(--el-result-color);
+    }
+  }
+}

@@ -2,7 +2,7 @@
   <el-scrollbar ref="componentScrollBar" class="page-component__scroll">
     <div class="page-container page-component">
       <el-scrollbar class="page-component__nav">
-        <side-nav :data="navsData[lang]" :base="`/${ lang }/component`" />
+        <side-nav :data="navsData[lang]" :base="`/${lang}/component`" />
       </el-scrollbar>
       <div class="page-component__content">
         <div class="content-wrap">
@@ -19,7 +19,7 @@
     </div>
   </el-scrollbar>
 </template>
-<script>
+<script lang="ts">
 import bus from '../bus'
 import navsData from '../nav.config.json'
 import { throttle } from 'throttle-debounce'
@@ -48,48 +48,61 @@ export default {
         this.componentScrollBar.update()
       })
     },
+    '$route.hash'() {
+      this.$nextTick(() => {
+        this.goAnchor()
+      })
+    },
   },
   created() {
-    bus.$on('nav-fade', val => {
+    bus.$on('nav-fade', (val) => {
       this.navFaded = val
     })
   },
   mounted() {
     this.componentScrollBar = this.$refs.componentScrollBar
-    this.componentScrollBox = this.componentScrollBar.$el.querySelector('.el-scrollbar__wrap')
+    this.componentScrollBox = this.componentScrollBar.$el.querySelector(
+      '.el-scrollbar__wrap'
+    )
     this.throttledScrollHandler = throttle(300, this.handleScroll)
-    this.componentScrollBox.addEventListener('scroll', this.throttledScrollHandler)
+    this.componentScrollBox.addEventListener(
+      'scroll',
+      this.throttledScrollHandler
+    )
     document.body.classList.add('is-component')
     this.addContentObserver()
+    this.goAnchor()
   },
   unmounted() {
     document.body.classList.remove('is-component')
   },
   beforeUnmount() {
-    this.componentScrollBox.removeEventListener('scroll', this.throttledScrollHandler)
+    this.componentScrollBox.removeEventListener(
+      'scroll',
+      this.throttledScrollHandler
+    )
     this.observer.disconnect()
   },
   methods: {
     addContentObserver() {
-      this.observer = new MutationObserver((mutationsList, observer) => {
-        for(const mutation of mutationsList) {
+      this.observer = new MutationObserver((mutationsList) => {
+        for (const mutation of mutationsList) {
           if (mutation.type === 'childList') {
             this.renderAnchorHref()
             this.goAnchor()
           }
         }
       })
-      this.observer.observe(
-        document.querySelector('.content-wrap'),
-        { childList: true },
-      )
+      this.observer.observe(document.querySelector('.content-wrap'), {
+        childList: true,
+      })
     },
     renderAnchorHref() {
       if (/changelog/g.test(location.href)) return
       const anchors = document.querySelectorAll('h2 a,h3 a,h4 a,h5 a')
-      const basePath = location.href.split('#').splice(0, 2).join('#');
+      const basePath = location.href.split('#').splice(0, 2).join('#')
 
-      [].slice.call(anchors).forEach(a => {
+      ;[].slice.call(anchors).forEach((a) => {
         const href = a.getAttribute('href')
         if (href.indexOf('#') === 0) {
           a.href = basePath + href
@@ -105,7 +118,7 @@ export default {
         if (!elm) return
 
         setTimeout(() => {
-          this.componentScrollBox.scrollTop = elm.offsetTop
+          this.componentScrollBox.scrollTop = (elm as HTMLElement).offsetTop
         }, 50)
       }
     },
@@ -130,7 +143,7 @@ export default {
 .page-component__scroll {
   height: 100%;
 
-  ::v-deep( > .el-scrollbar__wrap) {
+  ::v-deep(> .el-scrollbar__wrap) {
     overflow-x: auto;
   }
 }
@@ -148,9 +161,9 @@ export default {
     position: absolute;
     top: 0;
     bottom: 0;
-    transition: padding-top .3s;
+    transition: padding-top 0.3s;
 
-    ::v-deep( > .el-scrollbar__wrap) {
+    ::v-deep(> .el-scrollbar__wrap) {
       height: 100%;
       overflow-x: auto;
     }
@@ -181,12 +194,7 @@ export default {
   }
 
   .content {
-
     ::v-deep(>) {
-      h3 {
-        margin: 55px 0 20px;
-      }
-
       table {
         border-collapse: collapse;
         width: 100%;
@@ -199,7 +207,8 @@ export default {
           font-weight: normal;
         }
 
-        td, th {
+        td,
+        th {
           border-bottom: 1px solid #dcdfe6;
           padding: 15px;
           max-width: 250px;
@@ -208,15 +217,16 @@ export default {
         th {
           text-align: left;
           white-space: nowrap;
-          color: #909399;
+          color: var(--el-text-color-secondary);
           font-weight: normal;
         }
 
         td {
-          color: #606266;
+          color: var(--el-text-color-regular);
         }
 
-        th:first-child, td:first-child {
+        th:first-child,
+        td:first-child {
           padding-left: 10px;
         }
       }
@@ -232,9 +242,9 @@ export default {
   }
 }
 
-@media (max-width: 1000px){
-  .page-component{
-    .page-component__content{
+@media (max-width: 1000px) {
+  .page-component {
+    .page-component__content {
       margin-right: 0;
     }
   }

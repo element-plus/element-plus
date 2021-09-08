@@ -12,7 +12,7 @@ describe('useModal', () => {
       {
         handleClose,
       },
-      visible,
+      visible
     )
 
     expect(handleClose).not.toHaveBeenCalled()
