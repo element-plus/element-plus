@@ -5,14 +5,18 @@ import {
 
 import type { ObjectDirective, DirectiveBinding } from 'vue'
 
+declare interface ResizeEl {
+  _handleResize: () => void
+}
+
 const Resize: ObjectDirective = {
-  beforeMount(el: HTMLElement | any, binding: DirectiveBinding) {
+  beforeMount(el: ResizeEl, binding: DirectiveBinding) {
     el._handleResize = () => {
       el && binding.value?.(el)
     }
     addResizeListener(el, el._handleResize)
   },
-  beforeUnmount(el: HTMLElement | any) {
+  beforeUnmount(el: ResizeEl) {
     removeResizeListener(el, el._handleResize)
   },
 }
