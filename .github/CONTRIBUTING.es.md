@@ -18,7 +18,13 @@ Estamos orgullosos de que usted esta interesado en contribuir al proyecto `Eleme
 
 - Crea una bifurcación (“fork”) del repositorio a su propia cuenta en github.com. Por favor no crea ramas nuevas aquí.
 
-- Cuando cometa su cambio, formatea en esta forma: `[Nombre de componente]: Datos sobre el “commit”.` (por ejemplo. `Button: Reparación de xxx error`)
+- El formato de la información de envío debe ser `type(scope): info about commit`. (por ejemplo, `fix(components): [el-scrollbar] fix xxx bug`)
+
+  1. Tipo: el tipo debe ser uno de [build, chore, ci, docs, feat, fix, perf, refactor, revert, release, style, test, improvement].
+
+  2. Ámbito de aplicación: el ámbito de aplicación debe ser uno de [components, directives, element-plus, hooks, locale, test-utils, theme-chalk, tokens, utils, project, core, style, docs, ci, dev, build, deploy, other, typography, color, border, var].
+
+  3. Título: el título no debe exceder de 72 caracteres.
 
 - **DE NINGUNA MANERA** incluya archivos dentro del directorio `lib`.
 
