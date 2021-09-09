@@ -1,6 +1,5 @@
-import { computed, CSSProperties } from 'vue'
-
-import { ComputedRef } from 'vue'
+import { debugWarn } from '@element-plus/utils/error'
+import { computed, ComputedRef, CSSProperties } from 'vue'
 import type { ISliderInitData, ISliderProps, Stops } from './slider.type'
 
 export const useStops = (
@@ -12,8 +11,7 @@ export const useStops = (
   const stops = computed(() => {
     if (!props.showStops || props.min > props.max) return []
     if (props.step === 0) {
-      process.env.NODE_ENV !== 'production' &&
-        console.warn('[Element Warn][Slider]step should not be 0.')
+      debugWarn('Slider', 'step should not be 0.')
       return []
     }
 

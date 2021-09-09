@@ -14,7 +14,7 @@ import {
 } from '@vue/shared'
 import isEqualWith from 'lodash/isEqualWith'
 import isServer from './isServer'
-import { warn } from './error'
+import { debugWarn } from './error'
 
 import type { ComponentPublicInstance, CSSProperties, Ref } from 'vue'
 import type { AnyFunction, TimeoutHandle, Hash, Nullable } from './types'
@@ -132,6 +132,7 @@ export const autoprefixer = function (style: CSSProperties): CSSProperties {
 export const kebabCase = hyphenate
 
 // reexport from lodash & vue shared
+export { isVNode } from 'vue'
 export {
   hasOwn,
   // isEmpty,
@@ -183,8 +184,6 @@ export function entries<T>(obj: Hash<T>): [string, T][] {
 export function isUndefined(val: any): val is undefined {
   return val === undefined
 }
-
-export { isVNode } from 'vue'
 
 export function useGlobalConfig() {
   const vm: any = getCurrentInstance()
@@ -244,9 +243,7 @@ export function addUnit(value: string | number) {
   } else if (isNumber(value)) {
     return value + 'px'
   }
-  if (process.env.NODE_ENV === 'development') {
-    warn(SCOPE, 'binding value must be a string or number')
-  }
+  debugWarn(SCOPE, 'binding value must be a string or number')
   return ''
 }
 
