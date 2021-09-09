@@ -5,8 +5,8 @@ import {
 
 import type { ObjectDirective, DirectiveBinding } from 'vue'
 
-declare interface ResizeEl {
-  _handleResize: () => void
+declare interface ResizeEl extends HTMLElement {
+  _handleResize?: () => void
 }
 
 const Resize: ObjectDirective = {
