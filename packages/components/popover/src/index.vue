@@ -70,11 +70,7 @@ export default defineComponent({
   },
   emits,
   setup(props, ctx) {
-    if (
-      process.env.NODE_ENV !== 'production' &&
-      props.visible &&
-      !ctx.slots.reference
-    ) {
+    if (props.visible && !ctx.slots.reference) {
       debugWarn(
         NAME,
         `

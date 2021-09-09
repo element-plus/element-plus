@@ -11,8 +11,7 @@ export const useStops = (
   const stops = computed(() => {
     if (!props.showStops || props.min > props.max) return []
     if (props.step === 0) {
-      process.env.NODE_ENV !== 'production' &&
-        debugWarn('Slider', 'step should not be 0.')
+      debugWarn('Slider', 'step should not be 0.')
       return []
     }
 

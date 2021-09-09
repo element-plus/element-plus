@@ -261,9 +261,7 @@ export default defineComponent({
             }
           })
           .catch((e) => {
-            if (process.env.NODE_ENV !== 'production') {
-              debugWarn(scope, `some error occurred: ${e}`)
-            }
+            debugWarn(scope, `some error occurred: ${e}`)
           })
       } else if (shouldChange) {
         handleChange()

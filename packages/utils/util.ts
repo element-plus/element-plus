@@ -243,9 +243,7 @@ export function addUnit(value: string | number) {
   } else if (isNumber(value)) {
     return value + 'px'
   }
-  if (process.env.NODE_ENV === 'development') {
-    debugWarn(SCOPE, 'binding value must be a string or number')
-  }
+  debugWarn(SCOPE, 'binding value must be a string or number')
   return ''
 }
 
