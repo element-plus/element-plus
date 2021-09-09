@@ -210,10 +210,11 @@ Tag 组件提供了三个不同的主题：`dark`、`light` 和 `plain`
 
 ```html
 <template>
-  <div>
-    <el-check-tag checked style="margin-right: 8px;">选中</el-check-tag>
+  <el-space>
+    <el-check-tag checked>选中</el-check-tag>
     <el-check-tag @change="onChange" :checked="checked">点我切换</el-check-tag>
-  </div>
+    <el-check-tag v-model:checked="checked">通过 v-model</el-check-tag>
+  </el-space>
 </template>
 
 <script>
@@ -255,12 +256,13 @@ Tag 组件提供了三个不同的主题：`dark`、`light` 和 `plain`
 
 ### CheckTag Attributes
 
-| 参数    | 说明     | 类型    | 可选值     | 默认值 |
-| ------- | -------- | ------- | ---------- | ------ |
-| checked | 是否选中 | boolean | true/false | —      |
+| 参数                      | 说明     | 类型    | 可选值     | 默认值 |
+| ------------------------- | -------- | ------- | ---------- | ------ |
+| v-model:checked / checked | 是否选中 | boolean | true/false | —      |
 
 ### CheckTag Events
 
-| 事件名称 | 说明                        | 回调参数 |
-| -------- | --------------------------- | -------- |
-| change   | 点击 Check Tag 时触发的事件 | checked  |
+| 事件名称       | 说明                        | 回调参数 |
+| -------------- | --------------------------- | -------- |
+| change         | 点击 Check Tag 时触发的事件 | checked  |
+| update:checked | 点击 Check Tag 时触发的事件 | checked  |
