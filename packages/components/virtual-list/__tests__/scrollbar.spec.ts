@@ -18,8 +18,8 @@ describe('virtual scrollbar', () => {
     Object.entries({
       display: 'block',
       position: 'absolute',
-      width: 'vertical' !== layout ? '100%' : '6px',
-      height: 'vertical' !== layout ? '6px' : 'auto',
+      // width: 'vertical' !== layout ? '100%' : '6px',
+      // height: 'vertical' !== layout ? '6px' : 'auto',
       [ScrollbarDirKey[layout]]: '2px',
       right: '2px',
       bottom: '2px',
