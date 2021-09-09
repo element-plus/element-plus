@@ -9,7 +9,6 @@ import {
   h,
   withModifiers,
 } from 'vue'
-import { NOOP } from '@vue/shared'
 import { BAR_MAP } from '@element-plus/components/scrollbar'
 import { on, off } from '@element-plus/utils/dom'
 import { rAF, cAF } from '@element-plus/utils/raf'
@@ -204,6 +203,18 @@ const ScrollBar = defineComponent({
       })
     }
 
+    const clickTrackHandler = (e: MouseEvent) => {
+      const offset = Math.abs(
+        (e.target as HTMLElement).getBoundingClientRect()[bar.value.direction] -
+          e[bar.value.client]
+      )
+      const thumbHalf = thumbRef.value[bar.value.offset] / 2
+      const distance = offset - thumbHalf
+
+      state.traveled = Math.max(0, Math.min(distance, totalSteps.value))
+      emit('scroll', distance, totalSteps.value)
+    }
+
     const onScrollbarTouchStart = (e: Event) => e.preventDefault()
 
     watch(
@@ -237,7 +248,7 @@ const ScrollBar = defineComponent({
           ref: trackRef,
           class: 'el-virtual-scrollbar',
           style: trackStyle.value,
-          onMousedown: withModifiers(NOOP, ['stop', 'prevent']),
+          onMousedown: withModifiers(clickTrackHandler, ['stop', 'prevent']),
         },
         h(
           'div',
