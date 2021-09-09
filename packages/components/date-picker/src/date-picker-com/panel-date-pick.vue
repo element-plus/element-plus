@@ -623,6 +623,7 @@ export default defineComponent({
       defaultValue,
       arrowControl,
     } = pickerBase.props
+
     const shortcuts = computed(() => pickerBase.props.shortcuts)
 
     watch(
