@@ -7,12 +7,7 @@ import isServer from '@element-plus/utils/isServer'
 import scrollIntoView from '@element-plus/utils/scroll-into-view'
 import lodashDebounce from 'lodash/debounce'
 import { isKorean } from '@element-plus/utils/isDef'
-import {
-  getValueByPath,
-  isIE,
-  isEdge,
-  useGlobalConfig,
-} from '@element-plus/utils/util'
+import { getValueByPath, useGlobalConfig } from '@element-plus/utils/util'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import isEqual from 'lodash/isEqual'
 import { isObject, toRawType } from '@vue/shared'
@@ -72,10 +67,7 @@ export const useSelect = (props, states: States, ctx) => {
   const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
 
   const readonly = computed(
-    () =>
-      !props.filterable ||
-      props.multiple ||
-      (!isIE() && !isEdge() && !states.visible)
+    () => !props.filterable || props.multiple || !states.visible
   )
 
   const selectDisabled = computed(() => props.disabled || elForm.disabled)

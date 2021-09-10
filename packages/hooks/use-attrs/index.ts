@@ -1,5 +1,5 @@
 import { getCurrentInstance, computed } from 'vue'
-import { warn } from '@element-plus/utils/error'
+import { debugWarn } from '@element-plus/utils/error'
 
 import type { ComputedRef } from 'vue'
 
@@ -17,7 +17,7 @@ export default (params: Params = {}): ComputedRef<Record<string, unknown>> => {
 
   const instance = getCurrentInstance()
   if (!instance) {
-    warn(
+    debugWarn(
       'use-attrs',
       'getCurrentInstance() returned null. useAttrs() must be called at the top of a setup function'
     )
