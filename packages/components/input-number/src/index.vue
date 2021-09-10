@@ -54,6 +54,7 @@ import {
   defineComponent,
   reactive,
   ref,
+  nextTick,
   watch,
   inject,
   onMounted,
@@ -249,6 +250,17 @@ export default defineComponent({
       }
       data.userInput = null
     }
+
+    const focus = () => {
+      nextTick(() => {
+        input.value.focus()
+      })
+    }
+
+    const blur = () => {
+      input.value.blur()
+    }
+
     watch(
       () => props.modelValue,
       (value) => {
@@ -309,6 +321,8 @@ export default defineComponent({
       inputNumberDisabled,
       maxDisabled,
       minDisabled,
+      focus,
+      blur,
     }
   },
 })
