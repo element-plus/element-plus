@@ -73,17 +73,13 @@ const useModel = (props: IUseCheckboxProps) => {
 
     set(val: unknown) {
       if (isGroup.value && Array.isArray(val)) {
-        isLimitExceeded.value = false
-
-        if (
+        isLimitExceeded.value =
           checkboxGroup.max !== undefined &&
           val.length > checkboxGroup.max.value
-        ) {
-          isLimitExceeded.value === false && checkboxGroup?.changeEvent?.(val)
-        } else {
-          emit(UPDATE_MODEL_EVENT, val)
-          selfModel.value = val as boolean
-        }
+        isLimitExceeded.value === false && checkboxGroup?.changeEvent?.(val)
+      } else {
+        emit(UPDATE_MODEL_EVENT, val)
+        selfModel.value = val as boolean
       }
     },
   })
