@@ -44,7 +44,7 @@ watch(
       :class="{
         'theme-wrapper': true,
         'theme-dark': darkMode,
-        'has-sidebar': hasSidebar,
+        'no-sidebar': !hasSidebar,
         'sidebar-open': showSidebar,
         'is-home': isHome,
       }"
@@ -57,13 +57,20 @@ watch(
           @toggle-sidebar="toggleSidebar"
           @toggle-dark="toggleDarkmode"
           :is-dark="darkMode"
+          :has-sidebar="hasSidebar"
         />
 
         <ep-side-nav :open="showSidebar" @sidebar-change="toggleHasSidebar">
           <template #sidebar-top></template>
           <template #sidebar-bottom></template>
         </ep-side-nav>
-        <div class="sidebar-overlay" @click="toggleSidebar(false)"></div>
+        <transition name="el-fade-in-linear">
+          <div
+            v-if="showSidebar"
+            class="sidebar-overlay"
+            @click="toggleSidebar(false)"
+          ></div>
+        </transition>
         <template v-if="isHome">
           <Home />
         </template>

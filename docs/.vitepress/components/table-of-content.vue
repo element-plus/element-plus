@@ -8,7 +8,7 @@ import '../assets/styles/components/table-of-content.scss'
 
 const headers = useToc()
 
-useActiveSidebarLinks()
+const markerStyle = useActiveSidebarLinks()
 </script>
 
 <template>
@@ -18,6 +18,7 @@ useActiveSidebarLinks()
       <ul class="toc-items">
         <TocItem v-for="item in headers" :key="item.name" v-bind="item" />
       </ul>
+      <div class="toc-marker" :style="markerStyle"></div>
     </nav>
   </aside>
 </template>

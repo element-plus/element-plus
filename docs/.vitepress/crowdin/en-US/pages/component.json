@@ -3,44 +3,44 @@
     "text": "Basic",
     "children": [
       {
-        "link": "/layout",
-        "text": "Layout"
-      },
-      {
-        "link": "/container",
-        "text": "Layout Container"
-      },
-      {
-        "link": "/color",
-        "text": "Color"
-      },
-      {
-        "link": "/typography",
-        "text": "Typography"
-      },
-      {
         "link": "/border",
         "text": "Border"
-      },
-      {
-        "link": "/icon",
-        "text": "Icon"
       },
       {
         "link": "/button",
         "text": "Button"
       },
       {
+        "link": "/color",
+        "text": "Color"
+      },
+      {
+        "link": "/container",
+        "text": "Layout Container"
+      },
+      {
+        "link": "/icon",
+        "text": "Icon"
+      },
+      {
+        "link": "/layout",
+        "text": "Layout"
+      },
+      {
         "link": "/link",
         "text": "Link"
+      },
+      {
+        "link": "/scrollbar",
+        "text": "Scrollbar"
       },
       {
         "link": "/space",
         "text": "Space"
       },
       {
-        "link": "/scrollbar",
-        "text": "Scrollbar"
+        "link": "/typography",
+        "text": "Typography"
       }
     ]
   },
@@ -57,49 +57,16 @@
     "text": "Form",
     "children": [
       {
-        "link": "/radio",
-        "text": "Radio"
+        "link": "/cascader",
+        "text": "Cascader"
       },
       {
         "link": "/checkbox",
         "text": "Checkbox"
       },
       {
-        "link": "/input",
-        "text": "Input"
-      },
-      {
-        "link": "/input-number",
-        "text": "Input Number"
-      },
-      {
-        "link": "/select",
-        "text": "Select"
-      },
-      {
-        "link": "/select-v2",
-        "text": "Virtualized Select",
-        "beta": true
-      },
-      {
-        "link": "/cascader",
-        "text": "Cascader"
-      },
-      {
-        "link": "/switch",
-        "text": "Switch"
-      },
-      {
-        "link": "/slider",
-        "text": "Slider"
-      },
-      {
-        "link": "/time-picker",
-        "text": "Time Picker"
-      },
-      {
-        "link": "/time-select",
-        "text": "Time Select"
+        "link": "/color-picker",
+        "text": "Color Picker"
       },
       {
         "link": "/date-picker",
@@ -110,24 +77,56 @@
         "text": "DateTime Picker"
       },
       {
-        "link": "/upload",
-        "text": "Upload"
+        "link": "/form",
+        "text": "Form"
+      },
+      {
+        "link": "/input",
+        "text": "Input"
+      },
+      {
+        "link": "/input-number",
+        "text": "Input Number"
+      },
+      {
+        "link": "/radio",
+        "text": "Radio"
       },
       {
         "link": "/rate",
         "text": "Rate"
       },
       {
-        "link": "/color-picker",
-        "text": "Color Picker"
+        "link": "/select",
+        "text": "Select"
+      },
+      {
+        "link": "/select-v2",
+        "text": "Virtualized Select"
+      },
+      {
+        "link": "/slider",
+        "text": "Slider"
+      },
+      {
+        "link": "/switch",
+        "text": "Switch"
+      },
+      {
+        "link": "/time-picker",
+        "text": "Time Picker"
+      },
+      {
+        "link": "/time-select",
+        "text": "Time Select"
       },
       {
         "link": "/transfer",
         "text": "Transfer"
       },
       {
-        "link": "/form",
-        "text": "Form"
+        "link": "/upload",
+        "text": "Upload"
       }
     ]
   },
@@ -136,44 +135,16 @@
     "text": "Data",
     "children": [
       {
-        "link": "/table",
-        "text": "Table"
-      },
-      {
-        "link": "/tag",
-        "text": "Tag"
-      },
-      {
-        "link": "/progress",
-        "text": "Progress"
-      },
-      {
-        "link": "/tree",
-        "text": "Tree"
-      },
-      {
-        "link": "/pagination",
-        "text": "Pagination"
+        "link": "/avatar",
+        "text": "Avatar"
       },
       {
         "link": "/badge",
         "text": "Badge"
       },
       {
-        "link": "/skeleton",
-        "text": "Skeleton"
-      },
-      {
-        "link": "/empty",
-        "text": "Empty"
-      },
-      {
-        "link": "/descriptions",
-        "text": "Descriptions"
-      },
-      {
-        "link": "/result",
-        "text": "Result"
+        "link": "/calendar",
+        "text": "Calendar"
       },
       {
         "link": "/card",
@@ -188,12 +159,12 @@
         "text": "Collapse"
       },
       {
-        "link": "/timeline",
-        "text": "Timeline"
+        "link": "/descriptions",
+        "text": "Descriptions"
       },
       {
-        "link": "/calendar",
-        "text": "Calendar"
+        "link": "/empty",
+        "text": "Empty"
       },
       {
         "link": "/image",
@@ -204,8 +175,36 @@
         "text": "Infinite Scroll"
       },
       {
-        "link": "/avatar",
-        "text": "Avatar"
+        "link": "/pagination",
+        "text": "Pagination"
+      },
+      {
+        "link": "/progress",
+        "text": "Progress"
+      },
+      {
+        "link": "/result",
+        "text": "Result"
+      },
+      {
+        "link": "/skeleton",
+        "text": "Skeleton"
+      },
+      {
+        "link": "/table",
+        "text": "Table"
+      },
+      {
+        "link": "/tag",
+        "text": "Tag"
+      },
+      {
+        "link": "/timeline",
+        "text": "Timeline"
+      },
+      {
+        "link": "/tree",
+        "text": "Tree"
       }
     ]
   },
@@ -217,28 +216,28 @@
         "text": "Affix"
       },
       {
-        "link": "/menu",
-        "text": "NavMenu"
-      },
-      {
-        "link": "/tabs",
-        "text": "Tabs"
-      },
-      {
         "link": "/breadcrumb",
         "text": "Breadcrumb"
-      },
-      {
-        "link": "/page-header",
-        "text": "Page Header"
       },
       {
         "link": "/dropdown",
         "text": "Dropdown"
       },
       {
+        "link": "/menu",
+        "text": "NavMenu"
+      },
+      {
+        "link": "/page-header",
+        "text": "Page Header"
+      },
+      {
         "link": "/steps",
         "text": "Steps"
+      },
+      {
+        "link": "/tabs",
+        "text": "Tabs"
       }
     ]
   },
@@ -250,12 +249,12 @@
         "text": "Alert"
       },
       {
-        "link": "/drawer",
-        "text": "Drawer"
-      },
-      {
         "link": "/dialog",
         "text": "Dialog"
+      },
+      {
+        "link": "/drawer",
+        "text": "Drawer"
       },
       {
         "link": "/loading",
@@ -273,18 +272,17 @@
         "link": "/notification",
         "text": "Notification"
       },
-
       {
-        "link": "/tooltip",
-        "text": "Tooltip"
+        "link": "/popconfirm",
+        "text": "Pop Confirm"
       },
       {
         "link": "/popover",
         "text": "Popover"
       },
       {
-        "link": "/popconfirm",
-        "text": "Pop Confirm"
+        "link": "/tooltip",
+        "text": "Tooltip"
       }
     ]
   },

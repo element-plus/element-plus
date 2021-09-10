@@ -1,5 +1,5 @@
 .page {
-  --toc-width: 144px;
+  --toc-width: 244px;
   padding-top: var(--header-height);
   position: relative;
   display: flex;
@@ -14,38 +14,26 @@
     }
   }
 
-  .toc-wrapper {
-    flex: 1;
-  }
-
   .toc-content {
     position: sticky;
     top: calc(var(--header-height) + 32px);
-    border-left: 1px solid var(--border-color);
     margin-top: 32px;
     padding-top: 4px;
     padding-bottom: 4px;
     padding-left: 12px;
     margin-bottom: 32px;
-    max-width: var(--toc-width);
+    width: var(--toc-width);
 
     &__heading {
       margin-top: 0;
     }
   }
 
-  @media screen and (max-width: 800px) {
-    display: block;
-    .toc-wrapper {
-      display: none;
-    }
-  }
-
-  // for screen size bigger than 272(sidebar) + 768(main content) + 144(TOC), we should
+  // for screen size bigger than 272(sidebar) + 768(main content) + 244(TOC), we should
   // allow the toc size to grow
-  @media screen and (min-width: 1184px) {
-    .toc-content {
-      max-width: calc(100vw - var(--sidebar-width) - var(--content-max-width));
-    }
-  }
+  // @media screen and (min-width: 1284px) {
+  //   .toc-content {
+  //     max-width: calc(100vw - var(--sidebar-width) - var(--content-max-width));
+  //   }
+  // }
 }

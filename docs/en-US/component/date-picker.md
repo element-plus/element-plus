@@ -125,9 +125,9 @@ date-picker/default-time
 
 ## Localization
 
-The default locale of is English, if you need to use other languages, please check [Internationalization](/en-US/component/i18n)
+The default locale of is English, if you need to use other languages, please check [Internationalization](/en-US/guide/i18n)
 
-Note, date time locale (month name, first day of the week ...) are also configed in localization.
+Note, date time locale (month name, first day of the week ...) are also configured in localization.
 
 ## Attributes
 

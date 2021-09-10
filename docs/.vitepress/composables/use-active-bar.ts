@@ -1,8 +1,19 @@
-import { onMounted, onUnmounted, onUpdated } from 'vue'
+import {
+  computed,
+  shallowRef,
+  onMounted,
+  onUnmounted,
+  onUpdated,
+  watch,
+} from 'vue'
+import { throttleAndDebounce } from '../utils'
+
+const BOUNDING_OFFSET = 100 // 56 the header height + margin-top 32
+
 export function useActiveSidebarLinks() {
-  let rootActiveLink = null
-  let activeLink: HTMLAnchorElement | null = null
-  const onScroll = throttleAndDebounce(setActiveLink, 300)
+  const rootActiveLink = shallowRef<HTMLElement | null>()
+  const activeLink = shallowRef<HTMLAnchorElement | null>()
+  const onScroll = throttleAndDebounce(setActiveLink, 150)
   function setActiveLink() {
     const sidebarLinks = getSidebarLinks()
     const anchors = getAnchors(sidebarLinks)
@@ -22,24 +33,27 @@ export function useActiveSidebarLinks() {
     }
   }
   function activateLink(hash: string) {
-    deactiveLink(activeLink)
-    deactiveLink(rootActiveLink)
-    activeLink = document.querySelector(
+    deactiveLink(activeLink.value)
+    deactiveLink(rootActiveLink.value)
+    activeLink.value = document.querySelector(
       `.toc-item a[href="${hash}"]`
     ) as HTMLAnchorElement
-    if (!activeLink) {
+    const $activeLink = activeLink.value
+
+    if (!$activeLink) {
       return
     }
-    activeLink.classList.add('active')
+    $activeLink.classList.add('active')
     // also add active class to parent h2 anchors
-    const rootLi = activeLink.closest('.toc-items > ul > li')
-    if (rootLi && rootLi !== activeLink.parentElement) {
-      rootActiveLink = rootLi.querySelector('a')
-      rootActiveLink && rootActiveLink.classList.add('active')
+    const rootLi = $activeLink.closest('.toc-items > ul > li')
+    if (rootLi && rootLi !== $activeLink.parentElement) {
+      rootActiveLink.value = rootLi.querySelector('a')
+      rootActiveLink.value && rootActiveLink.value.classList.add('active')
     } else {
-      rootActiveLink = null
+      rootActiveLink.value = null
     }
   }
+
   function deactiveLink(link: HTMLElement) {
     link && link.classList.remove('active')
   }
@@ -53,6 +67,23 @@ export function useActiveSidebarLinks() {
   })
   onUnmounted(() => {
     window.removeEventListener('scroll', onScroll)
+  })
+
+  watch(activeLink, (val) => {
+    if (val) {
+      console.log()
+    }
+  })
+
+  return computed(() => {
+    return activeLink.value
+      ? {
+          top: `${
+            activeLink.value.getBoundingClientRect().y - BOUNDING_OFFSET + 12
+          }px`,
+          opacity: 1,
+        }
+      : {}
   })
 }
 function getSidebarLinks() {
@@ -92,22 +123,4 @@ function isAnchorActive(
     return [true, decodeURIComponent(anchor.hash)]
   }
   return [false, null]
-}
-function throttleAndDebounce(fn: () => any, delay: number) {
-  let timeout: ReturnType<typeof setTimeout>
-  let called = false
-  return () => {
-    if (timeout) {
-      clearTimeout(timeout)
-    }
-    if (!called) {
-      fn()
-      called = true
-      setTimeout(() => {
-        called = false
-      }, delay)
-    } else {
-      timeout = setTimeout(fn, delay)
-    }
-  }
 }

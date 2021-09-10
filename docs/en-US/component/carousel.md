@@ -1,197 +1,56 @@
-## Carousel
+# Carousel
 
 Loop a series of images or texts in a limited space
 
-### Basic usage
+## Basic usage
 
 :::demo Combine `el-carousel` with `el-carousel-item`, and you'll get a carousel. Content of each slide is completely customizable, and you just need to place it inside `el-carousel-item` tag. By default the carousel switches when mouse hovers over an indicator. Set `trigger` to `click`, and the carousel switches only when an indicator is clicked.
 
-```html
-<template>
-  <div class="block">
-    <span class="demonstration"
-      >Switch when indicator is hovered (default)</span
-    >
-    <el-carousel height="150px">
-      <el-carousel-item v-for="item in 4" :key="item">
-        <h3 class="small">{{ item }}</h3>
-      </el-carousel-item>
-    </el-carousel>
-  </div>
-  <div class="block">
-    <span class="demonstration">Switch when indicator is clicked</span>
-    <el-carousel trigger="click" height="150px">
-      <el-carousel-item v-for="item in 4" :key="item">
-        <h3 class="small">{{ item }}</h3>
-      </el-carousel-item>
-    </el-carousel>
-  </div>
-</template>
-
-<style>
-  .el-carousel__item h3 {
-    color: #475669;
-    font-size: 14px;
-    opacity: 0.75;
-    line-height: 150px;
-    margin: 0;
-  }
-
-  .el-carousel__item:nth-child(2n) {
-    background-color: #99a9bf;
-  }
-
-  .el-carousel__item:nth-child(2n + 1) {
-    background-color: #d3dce6;
-  }
-</style>
-```
+carousel/basic
 
 :::
 
-### Indicators
+## Indicators
 
 Indicators can be displayed outside the carousel
 
 :::demo The `indicator-position` attribute determines where the indicators are located. By default they are inside the carousel, and setting `indicator-position` to `outside` moves them outside; setting `indicator-position` to `none` hides the indicators.
 
-```html
-<template>
-  <el-carousel indicator-position="outside">
-    <el-carousel-item v-for="item in 4" :key="item">
-      <h3>{{ item }}</h3>
-    </el-carousel-item>
-  </el-carousel>
-</template>
-
-<style>
-  .el-carousel__item h3 {
-    color: #475669;
-    font-size: 18px;
-    opacity: 0.75;
-    line-height: 300px;
-    margin: 0;
-  }
-
-  .el-carousel__item:nth-child(2n) {
-    background-color: #99a9bf;
-  }
-
-  .el-carousel__item:nth-child(2n + 1) {
-    background-color: #d3dce6;
-  }
-</style>
-```
+carousel/indicator
 
 :::
 
-### Arrows
+## Arrows
 
 You can define when arrows are displayed
 
 :::demo The `arrow` attribute determines when arrows are displayed. By default they appear when mouse hovers over the carousel. Setting `arrow` to `always` or `never` shows/hides the arrows permanently.
 
-```html
-<template>
-  <el-carousel :interval="5000" arrow="always">
-    <el-carousel-item v-for="item in 4" :key="item">
-      <h3>{{ item }}</h3>
-    </el-carousel-item>
-  </el-carousel>
-</template>
-
-<style>
-  .el-carousel__item h3 {
-    color: #475669;
-    font-size: 18px;
-    opacity: 0.75;
-    line-height: 300px;
-    margin: 0;
-  }
-
-  .el-carousel__item:nth-child(2n) {
-    background-color: #99a9bf;
-  }
-
-  .el-carousel__item:nth-child(2n + 1) {
-    background-color: #d3dce6;
-  }
-</style>
-```
+carousel/arrows
 
 :::
 
-### Card mode
+## Card mode
 
 When a page is wide enough but has limited height, you can activate card mode for carousels
 
 :::demo Setting `type` to `card` activates the card mode. Apart from the appearance, the biggest difference between card mode and common mode is that clicking the slides at both sides directly switches the carousel in card mode.
 
-```html
-<template>
-  <el-carousel :interval="4000" type="card" height="200px">
-    <el-carousel-item v-for="item in 6" :key="item">
-      <h3 class="medium">{{ item }}</h3>
-    </el-carousel-item>
-  </el-carousel>
-</template>
-
-<style>
-  .el-carousel__item h3 {
-    color: #475669;
-    font-size: 14px;
-    opacity: 0.75;
-    line-height: 200px;
-    margin: 0;
-  }
-
-  .el-carousel__item:nth-child(2n) {
-    background-color: #99a9bf;
-  }
-
-  .el-carousel__item:nth-child(2n + 1) {
-    background-color: #d3dce6;
-  }
-</style>
-```
+carousel/card
 
 :::
+
+## Vertical
 
 By default, `direction` is `horizontal`. Let carousel be displayed in the vertical direction by setting `direction` to `vertical`.
 
 :::demo
 
-```html
-<template>
-  <el-carousel height="200px" direction="vertical" :autoplay="false">
-    <el-carousel-item v-for="item in 4" :key="item">
-      <h3 class="medium">{{ item }}</h3>
-    </el-carousel-item>
-  </el-carousel>
-</template>
-
-<style>
-  .el-carousel__item h3 {
-    color: #475669;
-    font-size: 14px;
-    opacity: 0.75;
-    line-height: 200px;
-    margin: 0;
-  }
-
-  .el-carousel__item:nth-child(2n) {
-    background-color: #99a9bf;
-  }
-
-  .el-carousel__item:nth-child(2n + 1) {
-    background-color: #d3dce6;
-  }
-</style>
-```
+carousel/vertical
 
 :::
 
-### Carousel Attributes
+## Carousel Attributes
 
 | Attribute          | Description                                           | Type    | Accepted Values     | Default    |
 | ------------------ | ----------------------------------------------------- | ------- | ------------------- | ---------- |
@@ -207,13 +66,13 @@ By default, `direction` is `horizontal`. Let carousel be displayed in the vertic
 | direction          | display direction                                     | string  | horizontal/vertical | horizontal |
 | pause-on-hover     | pause autoplay when hover                             | boolean | -                   | true       |
 
-### Carousel Events
+## Carousel Events
 
 | Event Name | Description                             | Parameters                                                   |
 | ---------- | --------------------------------------- | ------------------------------------------------------------ |
 | change     | triggers when the active slide switches | index of the new active slide, index of the old active slide |
 
-### Carousel Methods
+## Carousel Methods
 
 | Method        | Description                  | Parameters                                                                                               |
 | ------------- | ---------------------------- | -------------------------------------------------------------------------------------------------------- |
@@ -221,7 +80,7 @@ By default, `direction` is `horizontal`. Let carousel be displayed in the vertic
 | prev          | switch to the previous slide | —                                                                                                        |
 | next          | switch to the next slide     | —                                                                                                        |
 
-### Carousel-Item Attributes
+## Carousel-Item Attributes
 
 | Attribute | Description                                      | Type   | Accepted Values | Default |
 | --------- | ------------------------------------------------ | ------ | --------------- | ------- |

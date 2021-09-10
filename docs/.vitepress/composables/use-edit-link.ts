@@ -11,7 +11,7 @@ export function useEditLink() {
     const {
       repo,
       docsDir = '',
-      docsBranch = 'master',
+      docsBranch = 'dev',
       docsRepo = repo,
       editLinks,
     } = theme.value

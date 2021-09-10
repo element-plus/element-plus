@@ -27,8 +27,10 @@
   --content-min-width: 16rem;
   --content-max-width: 48rem;
   --header-z-index: 10;
-
-  --sidebar-z-index: 6;
+  --sub-nav-z-index: 10;
+  --sidebar-z-index: 20;
+  --overlay-z-index: 18;
+  --dropdown-z-index: 22;
 
   // doc search vars
   --docsearch-primary-color: var(--brand-color);
@@ -43,6 +45,7 @@
 
 // SCSS variables
 // breakpoints
-$breakpoint-lg: 1044px !default;
+$breakpoint-xlg: 1280px !default;
+$breakpoint-lg: 960px !default;
 $breakpoint-md: 768px !default;
 $breakpoint-sm: 480px !default;

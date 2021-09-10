@@ -1,8 +1,9 @@
+@import '../mixins.scss';
 @import './sidebar-link.scss';
 
 .sidebar {
   position: fixed;
-  top: var(--header-height);
+  top: 0;
   bottom: 0;
   left: 0;
   z-index: var(--sidebar-z-index);
@@ -10,8 +11,13 @@
   width: var(--sidebar-width);
   background-color: var(--bg-color);
   overflow-y: auto;
-  transform: translate(0);
-  transition: transform 0.25s ease;
+  transform: translate(-100%);
+  transition: background-color 0.5s, opacity 0.25s,
+    transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+
+  &.open {
+    transform: translate(0);
+  }
 
   .nav.sponsors {
     padding: 2rem 1.5rem 0 1.5rem;
@@ -52,11 +58,12 @@
     list-style: none;
   }
 
+  @include respond-to('lg') {
+    top: var(--header-height);
+    transform: translate(0);
+  }
+
   @media screen and (max-width: 1044px) {
-    transform: translate(-100%);
-    &.open {
-      transform: translate(0);
-    }
   }
 
   @media screen and (min-width: 1045px) {

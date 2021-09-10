@@ -1,3 +1,4 @@
+@import './mixins.scss';
 @import './components/header.scss';
 @import './components/page.scss';
 @import './components/footer.scss';
@@ -79,7 +80,7 @@ h1 {
   font-size: 1.9rem;
 }
 
-@media screen and (min-width: 420px) {
+@include respond-to('sm') {
   h1 {
     font-size: 2.2rem;
   }
@@ -172,7 +173,7 @@ li > ol {
   margin: 0;
 }
 
-table:not([class^='el-table']) {
+table:not([class^='el-']) {
   display: block;
   border-collapse: collapse;
   margin: 1rem 0;
@@ -237,9 +238,19 @@ form {
   }
 }
 
-@media screen and (min-width: 1045px) {
-  .theme-wrapper.no-sidebar aside {
-    display: none;
+.theme-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+@include respond-to('lg') {
+  .theme-wrapper.no-sidebar {
+    .sidebar {
+      display: none;
+    }
+    main {
+      margin-left: 0;
+    }
   }
 
   .theme-wrapper main {
@@ -253,13 +264,12 @@ form {
 
 .sidebar-overlay {
   position: fixed;
-  z-index: 2;
-  display: none;
+  z-index: var(--overlay-z-index);
   width: 100vw;
   height: 100vh;
-  .theme-wrapper.sidebar-open & {
-    display: block;
-  }
+  background-color: rgba(0, 0, 0, 0.5);
+
+  transition: opacity var(--el-transition-duration);
 }
 
 .sidebar-mask {

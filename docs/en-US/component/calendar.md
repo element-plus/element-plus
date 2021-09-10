@@ -1,91 +1,45 @@
-## Calendar
+# Calendar
 
 Display date.
 
-### Basic
+## Basic
 
 :::demo Set `value` to specify the currently displayed month. If `value` is not specified, current month is displayed. `value` supports two-way binding.
 
-```html
-<el-calendar v-model="value"> </el-calendar>
-
-<script>
-  export default {
-    data() {
-      return {
-        value: new Date(),
-      }
-    },
-  }
-</script>
-<!--
-<setup>
-
-  import { defineComponent, ref } from 'vue';
-
-  export default defineComponent({
-    setup() {
-      const value = ref(new Date());
-
-      return {
-        value,
-      };
-    },
-  });
-
-</setup>
--->
-```
+calendar/basic
 
 :::
 
-### Custom Content
+## Custom Content
 
 :::demo Customize what is displayed in the calendar cell by setting `scoped-slot` named `dateCell`. In `scoped-slot` you can get the date (the date of the current cell), data (including the type, isSelected, day attribute). For details, please refer to the API documentation below.
 
-```html
-<el-calendar>
-  <template #dateCell="{data}">
-    <p :class="data.isSelected ? 'is-selected' : ''">
-      {{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' :
-      '' }}
-    </p>
-  </template>
-</el-calendar>
-<style>
-  .is-selected {
-    color: #1989fa;
-  }
-</style>
-```
+calendar/customize
 
 :::
 
-### Range
+## Range
 
 :::demo Set the `range` attribute to specify the display range of the calendar. Start time must be Monday, end time must be Sunday, and the time span cannot exceed two months.
 
-```html
-<el-calendar :range="[new Date(2019, 2, 4), new Date(2019, 2, 24)]">
-</el-calendar>
-```
+calendar/range
 
 :::
 
-### Localization
+## Localization
 
-The default locale of is English, if you need to use other languages, please check [Internationalization](#/en-US/component/i18n)
+The default locale of is English, if you need to use other languages, please check [Internationalization](/en-US/guide/i18n)
 
-Note, date time locale (month name, first day of the week ...) are also configed in localization.
+Note, date time locale (month name, first day of the week ...) are also configured in localization.
 
-### Attributes
+## Attributes
 
 | Attribute             | Description                                                                                                                                                    | Type        | Accepted Values | Default |
 | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | --------------- | ------- |
 | model-value / v-model | binding value                                                                                                                                                  | Date        | —               | —       |
 | range                 | time range, including start time and end time. Start time must be start day of week, end time must be end day of week, the time span cannot exceed two months. | [Date]Array | —               | —       |
 
-### dateCell scoped slot 参数
+## dateCell scoped slot
 
 | Attribute | Description                                                                                                                                                                                                                                                                              | Type   | Accepted Values | Default |
 | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | --------------- | ------- |

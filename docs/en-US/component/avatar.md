@@ -76,6 +76,10 @@ avatar/fit
         border-right: 1px solid var(--el-border-color-base);
       }
     }
+
+    .el-col:not(:last-child) {
+      border-right: 1px solid var(--el-border-color-base);
+    }
   }
 
   .sub-title {
@@ -84,9 +88,7 @@ avatar/fit
     color: var(--el-text-color-secondary);
   }
 
-  .el-col:not(:last-child) {
-    border-right: 1px solid var(--el-border-color-base);
-  }
+
 
   .demo-type {
     display: flex;

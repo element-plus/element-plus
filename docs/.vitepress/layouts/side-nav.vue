@@ -18,16 +18,16 @@
         </li>
       </ul>
     </div>
-    <nav class="nav-links nav">
+    <!-- <nav class="nav-links nav">
       <nav-link v-for="(item, key) in nav" :key="key" :item="item" />
-    </nav>
+    </nav> -->
     <ul class="sidebar-links">
       <sidebar-link v-for="(item, key) of sidebars" :key="key" :item="item" />
     </ul>
   </aside>
 </template>
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue'
+import { computed, ref, markRaw, watch } from 'vue'
 import { useRoute, withBase, useData } from 'vitepress'
 import { SidebarLink } from '../components/sidebar-link'
 import { useSidebar } from '../composables/use-sidebar'
@@ -46,21 +46,18 @@ type SideNavItem = {
 
 defineProps<{ open: boolean }>()
 const emit = defineEmits(['sidebar-change'])
+
 const isHome = useIsHome()
 const { theme } = useData()
-
-const isSmallScreen = ref(false)
-const isFade = ref(false)
 const route = useRoute()
-
 const lang = useLang()
-const sponsorsLocale = computed(() => sponsorsData[lang.value])
-
 const sidebars = useSidebar()
 const nav = useNav()
 
+const sponsorsLocale = computed(() => sponsorsData[lang.value])
+
 // TODO: make this configuable.
-const sponsors = [
+const sponsors = markRaw([
   {
     name: 'bit',
     img: '/images/bit.svg',
@@ -71,11 +68,15 @@ const sponsors = [
     img: '/images/renren.png',
     name: sponsorsLocale.value.sponsorNameR,
   },
-]
+])
 
-watch(sidebars, (val) => {
-  emit('sidebar-change', val.length > 0)
-})
-
-const shouldShowSideNav = computed(() => sidebars.value.length > 0)
+watch(
+  sidebars,
+  (val) => {
+    emit('sidebar-change', val.length > 0)
+  },
+  {
+    immediate: true,
+  }
+)
 </script>

@@ -1,8 +1,34 @@
 /* eslint-disable */
-const dynamicImportVars = require('@rollup/plugin-dynamic-import-vars')
+const vue = require('@vitejs/plugin-vue')
 const sidebars = require('./sidebars')
 const nav = require('./nav')
 const mdPlugin = require('./plugins')
+
+const transformer = () => {
+  return {
+    props: [],
+    needRuntime: true,
+  }
+}
+
+const buildTransformers = () => {
+  const transformers = {}
+  const directives = [
+    'infinite-scroll',
+    'loading',
+    'popover',
+    'click-outside',
+    'repeat-click',
+    'trap-focus',
+    'mousewheel',
+    'resize',
+  ]
+  directives.forEach((k) => {
+    transformers[k] = transformer
+  })
+
+  return transformers
+}
 
 module.exports = {
   title: 'ElementPlus',
@@ -44,6 +70,14 @@ module.exports = {
   markdown: {
     config: (md) => {
       mdPlugin(md)
+    },
+  },
+  vue: {
+    template: {
+      ssr: true,
+      compilerOptions: {
+        directiveTransforms: buildTransformers(),
+      },
     },
   },
 }

@@ -18,35 +18,50 @@ const isSkipped = computed(() => skipped.includes(propsRefs.item.value.link))
 </script>
 
 <template>
-  <div class="nav-link">
-    <a class="item" v-bind="linkProps">
-      {{ item.text }}
-      <el-icon
-        v-if="!isSkipped && isExternal"
-        style="font-size: 14px; margin-left: 4px"
-        color="inherit"
-      >
-        <ExternalIcon />
-      </el-icon>
-    </a>
-  </div>
+  <a class="nav-link" v-bind="linkProps">
+    {{ item.text }}
+    <el-icon
+      v-if="!isSkipped && isExternal"
+      style="font-size: 14px; margin-left: 4px"
+      color="inherit"
+    >
+      <ExternalIcon />
+    </el-icon>
+  </a>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+.nav-link {
+  color: var(--el-text-color-light);
+  font-size: 13px;
+  padding: 0 12px;
+  position: relative;
+  transition: color var(--el-transition-duration);
+
+  &:hover {
+    text-decoration: none;
+    color: var(--brand-color);
+  }
+  &.active::after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    bottom: 0;
+    left: calc(50% - 15px);
+    width: 30px;
+    height: 2px;
+    background: var(--el-color-primary);
+  }
+}
+
 .item {
   display: block;
   padding: 0 1.5rem;
   line-height: 36px;
   font-size: 1rem;
-  font-weight: 500;
-  color: var(--text-color);
+  font-weight: normal;
   white-space: nowrap;
-}
-
-.item:hover,
-.item.active {
-  text-decoration: none;
-  color: var(--brand-color);
+  color: var(--text-color-light);
 }
 
 .item.external:hover {
@@ -60,11 +75,10 @@ const isSkipped = computed(() => skipped.includes(propsRefs.item.value.link))
     padding: 0 1.5rem;
     line-height: var(--header-item-height);
     font-size: 1rem;
-    font-weight: 500;
+    color: var(--text-color-light);
   }
 
-  .item:hover,
-  .item.active {
+  .item:hover {
     color: var(--brand-color);
   }
 }

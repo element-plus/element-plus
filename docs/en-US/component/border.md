@@ -2,7 +2,7 @@
 
 We standardize the borders that can be used in buttons, cards, pop-ups and other components.
 
-## Border
+## Border style
 
 There are few border styles to choose.
 
