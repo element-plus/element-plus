@@ -252,9 +252,7 @@ export default defineComponent({
     }
 
     const focus = () => {
-      nextTick(() => {
-        input.value.focus()
-      })
+      input.value.focus()
     }
 
     const blur = () => {
