@@ -1,9 +1,7 @@
 <template>
   <div class="el-calendar">
     <div class="el-calendar__header">
-      <template v-if="$slots.header">
-        <slot name="header" :date="i18nDate"></slot>
-      </template>
+      <slot v-if="$slots.header" name="header" :date="i18nDate"></slot>
       <template v-else>
         <div class="el-calendar__title">{{ i18nDate }}</div>
         <div
