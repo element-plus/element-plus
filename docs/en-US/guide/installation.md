@@ -3,88 +3,93 @@ title: Installation
 lang: en-US
 ---
 
-# Installing ElementPlus
+# Installation
 
-## Environment
+## Compatibility
 
-- Modern browser
+Element Plus can run on browsers that supports [ES2018](https://caniuse.com/?feats=mdn-javascript_builtins_regexp_dotall,mdn-javascript_builtins_regexp_lookbehind_assertion,mdn-javascript_builtins_regexp_named_capture_groups,mdn-javascript_builtins_regexp_property_escapes,mdn-javascript_builtins_symbol_asynciterator,mdn-javascript_functions_method_definitions_async_generator_methods,mdn-javascript_grammar_template_literals_template_literal_revision,mdn-javascript_operators_destructuring_rest_in_objects,mdn-javascript_operators_spread_spread_in_destructuring,promise-finally) and [ResizeObserver](https://caniuse.com/resizeobserver).
+If you need to support outdated browsers, please add `Babel` and `Polyfill` yourself.
+
+Since Vue 3 no longer supports IE11, Element Plus does not support IE either.
 
 | ![IE](https://cdn.jsdelivr.net/npm/@browser-logos/edge/edge_32x32.png) | ![Firefox](https://cdn.jsdelivr.net/npm/@browser-logos/firefox/firefox_32x32.png) | ![Chrome](https://cdn.jsdelivr.net/npm/@browser-logos/chrome/chrome_32x32.png) | ![Safari](https://cdn.jsdelivr.net/npm/@browser-logos/safari/safari_32x32.png) |
 | ---------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| Edge                                                                   | last 2 versions                                                                   | last 2 versions                                                                | last 2 versions                                                                |
+| Edge ≥ 79                                                              | Firefox ≥ 78                                                                      | Chrome ≥ 64                                                                    | Safari ≥ 12                                                                    |
 
-> Since Vue3 no longer supports IE11, ElementPlus does not support IE11 and previous
-> versions.
+### Version
 
-## Current latest version
-
-ElementPlus is currently in a rapid development iteration:
+Element Plus is currently in a rapid development iteration.
 
 [![ElementPlus version badge](https://img.shields.io/npm/v/element-plus.svg?style=flat-square)](https://www.npmjs.org/package/element-plus)
 
-## Install via npm or yarn
+## Using package manager
 
-**We recommend using the package manager to install ElementPlus**,
-so that you can utilize bundlers like [vite](https://vitejs.dev) and
+**We recommend using the package manager (NPM, [Yarn](https://classic.yarnpkg.com/lang/en/), [pnpm](https://pnpm.io/)) to install Element Plus**,
+so that you can utilize bundlers like [Vite](https://vitejs.dev) and
 [webpack](https://webpack.js.org/).
 
 ```shell
+# Choose a package manager you like.
+
+# NPM
 $ npm install element-plus --save
-```
 
-```shell
+# Yarn
 $ yarn add element-plus
+
+# pnpm
+$ pnpm install element-plus
 ```
 
-If your network environment is not good, it is recommended to use a mirror registry
+If your network environment is not good, it is recommended to use a mirror registry [cnpm](https://github.com/cnpm/cnpm) or [Alibaba](https://registry.npm.taobao.org).
 
-## Browser direct introducing
+## Import in Browser
 
-Directly import ElementPlus through browser HTML tags, and use `ElementPlus` globally.
-Introduce `ElementPlus` in full through **CDN**. According to different **CDN**
-providers, there are different introduction methods. Here we use
-[unpkg](https://unpkg.com) and [jsdelivr](https://jsdelivr.com) For example,
-You can also use other **CDN** providers.
+Import ElementPlus through browser HTML tags directly, and use global variable `ElementPlus`.
 
-## Use unpkg
+According to different CDN providers, there are different introduction methods.
+Here we use [unpkg](https://unpkg.com) and [jsDelivr](https://jsdelivr.com) as example.
+You can also use other CDN providers.
+
+### unpkg
 
 ```html
 <head>
-  <!-- Introduce style -->
+  <!-- Import style -->
   <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
-  <!-- Introduce Vue -->
+  <!-- Import Vue 3 -->
   <script src="//unpkg.com/vue@next"></script>
-  <!-- Introduce component library -->
+  <!-- Import component library -->
   <script src="//unpkg.com/element-plus"></script>
 </head>
 ```
 
-## Use jsDelivr
+### jsDelivr
 
 ```html
 <head>
-  <!-- Introduce style -->
+  <!-- Import style -->
   <link
     rel="stylesheet"
     href="//cdn.jsdelivr.net/npm/element-plus/dist/index.css"
   />
-  <!-- Introduce Vue -->
+  <!-- Import Vue 3 -->
   <script src="//cdn.jsdelivr.net/npm/vue@next"></script>
-  <!-- Introduce component library -->
+  <!-- Import component library -->
   <script src="//cdn.jsdelivr.net/npm/element-plus"></script>
 </head>
 ```
 
 :::tip
-We recommend using **CDN** to introduce `ElementPlus` users to lock the version
-on the link address, so as not to be affected by incompatible updates when `ElementPlus`
+We recommend using CDN to import Element Plus users to lock the version
+on the link address, so as not to be affected by incompatible updates when Element Plus
 is upgraded in the future. Please check [unpkg.com](https://unpkg.com) for
 the method to lock the version.
 :::
 
 ## Hello world
 
-With **CDN**, we can easily use `ElementPlus` to
+With CDN, we can easily use Element Plus to
 write a Hello world page. [Online Demo](https://codepen.io/iamkun/pen/YzWMaVr)
 
 <iframe height="469" style="width: 100%;" scrolling="no" title="YzWMaVr" src="https://codepen.io/iamkun/embed/YzWMaVr?height=469&theme-id=light&default -tab=html,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
@@ -92,6 +97,6 @@ write a Hello world page. [Online Demo](https://codepen.io/iamkun/pen/YzWMaVr)
   (<a href='https://codepen.io/iamkun'>@iamkun</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
-If you are installing via npm / yarn and want to use it with
+If you are installing via package manager and want to use it with
 a packaging tool, please read the
 next section: [Quick Start](/en-US/guide/quickstart).
