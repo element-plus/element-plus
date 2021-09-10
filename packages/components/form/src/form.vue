@@ -184,7 +184,6 @@ export default defineComponent({
         callback(true)
       }
       let valid = true
-      let count = 0
       let invalidFields = {}
       let firstInvalidFields
       for (const field of fields) {
@@ -194,11 +193,10 @@ export default defineComponent({
             firstInvalidFields || (firstInvalidFields = field)
           }
           invalidFields = { ...invalidFields, ...field }
-          if (++count === fields.length) {
-            callback(valid, invalidFields)
-          }
         })
       }
+      callback(valid, invalidFields)
+
       if (!valid && props.scrollToError) {
         scrollToField(Object.keys(firstInvalidFields)[0])
       }
