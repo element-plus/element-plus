@@ -5,12 +5,17 @@ const fs = require('fs')
 const { highlight } = require('vitepress/dist/node/markdown/plugins/highlight')
 const { parse } = require('@vue/compiler-sfc')
 
+const scriptSetupRE = /<\s*script[^>]*\bsetup\b[^>]*/
+
 module.exports = (md) => {
   md.use(mdContainer, 'demo', {
     validate(params) {
       return params.trim().match(/^demo\s*(.*)$/)
     },
     render(tokens, idx) {
+      const data = md.__data
+      const hoistedTags = data.hoistedTags || (data.hoistedTags = [])
+
       const m = tokens[idx].info.trim().match(/^demo\s*(.*)$/)
       if (tokens[idx].nesting === 1) {
         const description = m && m.length > 1 ? m[1] : ''
@@ -25,6 +30,18 @@ module.exports = (md) => {
             path.resolve(__dirname, '../examples', `${sourceFile}.vue`),
             'utf-8'
           )
+
+          const existingScriptIndex = hoistedTags.findIndex((tag) => {
+            return scriptSetupRE.test(tag)
+          })
+
+          if (existingScriptIndex === -1) {
+            hoistedTags.push(`
+<script setup>
+const demos = import.meta.globEager('../../examples/${sourceFile.split('/')[0]}/*.vue')
+</script>
+            `)
+          }
         }
 
         if (!source) throw new Error(`Incorrect source file: ${sourceFile}`)
@@ -32,7 +49,7 @@ module.exports = (md) => {
         const { html, js, css, cssPreProcessor } =
           generateCodePenSnippet(source)
 
-        return `<Demo source="${encodeURIComponent(
+        return `<Demo :demos="demos" source="${encodeURIComponent(
           highlight(source, 'vue')
         )}" path="${sourceFile}" html="${html}" js="${js}" css="${css}" cssPreProcessor="${cssPreProcessor}">
         ${description ? `` : ''}

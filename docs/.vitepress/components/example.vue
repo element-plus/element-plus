@@ -7,31 +7,16 @@ const props = defineProps({
     type: String,
     required: true,
   },
-})
-
-const emit = defineEmits(['loaded', 'error'])
-
-const component = shallowRef()
-const modules = import.meta.glob('../../examples/**/*.vue')
-const load = async () => {
-  let c = {}
-  try {
-    c = await modules[`../../examples/${props.file}.vue`]()
-    emit('loaded', c.default)
-  } catch (err) {
-    console.log(err)
-    c = await import('./example-not-found.vue')
-    emit('error', err)
+  demo: {
+    type: Object,
+    required: true,
   }
-  component.value = c.default
-}
-
-onMounted(load)
+})
 </script>
 
 <template>
   <div class="example-showcase">
-    <component v-if="component" :is="component" v-bind="$attrs" />
+    <component v-if="demo" :is="demo" v-bind="$attrs" />
   </div>
 </template>
 

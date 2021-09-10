@@ -37,6 +37,20 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  demos: {
+    type: Object,
+    required: true,
+  }
+})
+
+const formatPathDemos = computed(() => {
+  const demos = {}
+
+  Object.keys(props.demos).forEach(key => {
+    demos[key.replace('../../examples/', '').replace('.vue', '')] = props.demos[key].default
+  })
+
+  return demos
 })
 
 const loaded = shallowRef(false)
@@ -91,7 +105,7 @@ const onCodepenClicked = () => {
       </ElTooltip>
     </div>
     <ElDivider />
-    <Example :file="path" />
+    <Example :file="path" :demo="formatPathDemos[path]" />
     <ElDivider v-if="sourceVisible" />
     <el-collapse-transition>
       <SourceCode v-show="sourceVisible" :source="source" />
