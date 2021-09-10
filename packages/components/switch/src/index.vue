@@ -69,7 +69,7 @@ import {
 import { isPromise } from '@vue/shared'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import { isBool } from '@element-plus/utils/util'
-import throwError, { debugWarn } from '@element-plus/utils/error'
+import { throwError, debugWarn } from '@element-plus/utils/error'
 
 import type { PropType } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'

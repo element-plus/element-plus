@@ -17,7 +17,7 @@ import {
   ResizableElement,
 } from '@element-plus/utils/resize-event'
 import { on, off } from '@element-plus/utils/dom'
-import throwError from '@element-plus/utils/error'
+import { throwError } from '@element-plus/utils/error'
 import TabBar from './tab-bar.vue'
 
 import type { PropType } from 'vue'

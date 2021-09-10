@@ -21,7 +21,7 @@ import { defineComponent, ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import throttle from 'lodash/throttle'
 import { on, off } from '@element-plus/utils/dom'
 import { easeInOutCubic } from '@element-plus/utils/animation'
-import throwError from '@element-plus/utils/error'
+import { throwError } from '@element-plus/utils/error'
 
 interface IElBacktopProps {
   visibilityHeight: number
