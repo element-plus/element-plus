@@ -65,6 +65,7 @@ import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import ElInput from '@element-plus/components/input'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
+import { debugWarn } from '@element-plus/utils/error'
 
 import type { PropType } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
@@ -149,8 +150,9 @@ export default defineComponent({
       const stepPrecision = getPrecision(props.step)
       if (props.precision !== undefined) {
         if (stepPrecision > props.precision) {
-          console.warn(
-            '[ElementPlus Warn][InputNumber] precision should not be less than the decimal places of step'
+          debugWarn(
+            'InputNumber',
+            'precision should not be less than the decimal places of step'
           )
         }
         return props.precision

@@ -24,7 +24,7 @@ import {
 import { getFirstValidNode } from '@element-plus/utils/vnode'
 import { stop } from '@element-plus/utils/dom'
 import PopupManager from '@element-plus/utils/popup-manager'
-import throwError from '@element-plus/utils/error'
+import { throwError } from '@element-plus/utils/error'
 
 import useTeleport from '../use-teleport'
 import useTimeout from '../use-timeout'

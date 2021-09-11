@@ -6,9 +6,10 @@
         v-show="!hidden && (content || content === 0 || isDot)"
         class="el-badge__content"
         :class="[
-          isDot ? 'is-dot' : 'el-badge__content--' + type,
+          'el-badge__content--' + type,
           {
             'is-fixed': $slots.default,
+            'is-dot': isDot,
           },
         ]"
         v-text="content"
@@ -36,7 +37,7 @@ export default defineComponent({
     hidden: Boolean,
     type: {
       type: String,
-      default: 'primary',
+      default: 'danger',
       validator: (val: string) => {
         return ['primary', 'success', 'warning', 'info', 'danger'].includes(val)
       },

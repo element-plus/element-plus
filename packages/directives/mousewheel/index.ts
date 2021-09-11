@@ -1,6 +1,6 @@
 import normalizeWheel from 'normalize-wheel'
 
-import type { ObjectDirective } from 'vue'
+import type { ObjectDirective, DirectiveBinding } from 'vue'
 
 const isFirefox =
   typeof navigator !== 'undefined' &&
@@ -21,7 +21,7 @@ const mousewheel = function (element, callback) {
 }
 
 const Mousewheel: ObjectDirective = {
-  beforeMount(el, binding) {
+  beforeMount(el: HTMLElement, binding: DirectiveBinding) {
     mousewheel(el, binding.value)
   },
 }
