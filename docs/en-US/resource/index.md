@@ -1,3 +1,7 @@
+---
+page: true
+---
+
 <script setup lang="ts">
 
 </script>
@@ -131,4 +135,41 @@ p {
 }
 </style>
 
-# Resources
+<div class="page-container page-resource">
+  <h1>Resources</h1>
+  <p>More resources will be developed</p>
+  <div class="cards">
+    <ul class="container">
+      <li>
+        <div class="card">
+          <img src="/images/Axure-Components.svg" alt="axure" />
+          <h3>Axure Components</h3>
+          <p>By importing Element UI in Axure, you can easily apply all the components we provide during interaction design.</p>
+          <a
+            onclick="ga('send', 'event', 'ResourceDownload', 'Download', 'Axure');"
+            href="https://github.com/ElementUI/Resources/raw/master/Element_Components_v2.1.0.rplib"
+            >Download</a
+          >
+        </div>
+      </li>
+      <li>
+        <div class="card">
+          <img src="/images/Sketch-Template.svg" alt="Sketch" />
+          <h3>Sketch Template</h3>
+          <p>Apply components from Element template, so you can improve design efficiency while keeping a unified visual style.</p>
+          <a
+            onclick="ga('send', 'event', 'ResourceDownload', 'Download', 'Sketch');"
+            href="https://github.com/ElementUI/Resources/raw/master/Element%20UI%20Kit_v2.0.sketch"
+            >Download</a
+          >
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<style scoped>
+.page-resource {
+  padding: 55px 40px 0;
+}
+</style>

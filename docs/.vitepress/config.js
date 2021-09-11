@@ -80,4 +80,7 @@ module.exports = {
       },
     },
   },
+  vite: {
+    sourcemap: true,
+  },
 }
