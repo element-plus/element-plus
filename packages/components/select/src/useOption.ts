@@ -3,10 +3,12 @@ import {
   computed,
   getCurrentInstance,
   watch,
-  onBeforeUnmount,
+  Ref,
+  toRaw,
+  unref,
 } from 'vue'
 import { getValueByPath, escapeRegexpString } from '@element-plus/utils/util'
-import { selectKey, selectGroupKey, selectEvents } from './token'
+import { selectKey, selectGroupKey, QueryChangeCtx } from './token'
 
 export function useOption(props, states) {
   // inject
@@ -87,14 +89,6 @@ export function useOption(props, states) {
     }
   }
 
-  const queryChange = (query: string) => {
-    const regexp = new RegExp(escapeRegexpString(query), 'i')
-    states.visible = regexp.test(currentLabel.value) || props.created
-    if (!states.visible) {
-      select.filteredOptionsCount--
-    }
-  }
-
   watch(
     () => currentLabel.value,
     () => {
@@ -128,11 +122,15 @@ export function useOption(props, states) {
     { immediate: true }
   )
 
-  // Emitter
-  select.selectEmitter.on(selectEvents.queryChange, queryChange)
+  const { queryChange } = toRaw(select)
+  watch(queryChange, (changes: Ref<QueryChangeCtx>) => {
+    const { query } = unref(changes)
 
-  onBeforeUnmount(() => {
-    select.selectEmitter.off(selectEvents.queryChange, queryChange)
+    const regexp = new RegExp(escapeRegexpString(query), 'i')
+    states.visible = regexp.test(currentLabel.value) || props.created
+    if (!states.visible) {
+      select.filteredOptionsCount--
+    }
   })
 
   return {
