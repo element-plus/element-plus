@@ -1,10 +1,20 @@
-import type { App, DefineComponent } from 'vue'
+import type { App } from 'vue'
 import type { SFCWithInstall } from './types'
 
-/* istanbul ignore next */
-export default <T extends DefineComponent<any, any, any>>(component: T) => {
-  ;(component as any).install = (app: App): void => {
-    app.component(component.name, component)
+export const withInstall = <T, E extends Record<string, any>>(
+  main: T,
+  extra?: E
+) => {
+  ;(main as SFCWithInstall<T>).install = (app: App): void => {
+    for (const comp of [main, ...Object.values(extra ?? {})]) {
+      app.component(comp.name, comp)
+    }
   }
-  return component as SFCWithInstall<T>
+
+  if (extra) {
+    for (const [key, comp] of Object.entries(extra)) {
+      ;(main as any)[key] = comp
+    }
+  }
+  return main as SFCWithInstall<T> & E
 }
