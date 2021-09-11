@@ -12,8 +12,7 @@
     "@popperjs/core": "^2.10.1",
     "async-validator": "^3.4.0",
     "dayjs": "1.x",
-    "lodash": "^4.17.21",
-    "mitt": "^2.1.0"
+    "lodash": "^4.17.21"
   },
   "peerDependencies": {
     "vue": "^3.2.0"
