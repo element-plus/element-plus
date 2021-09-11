@@ -33,7 +33,7 @@
           @close="closeViewer"
           @switch="switchViewer"
         >
-          <slot />
+          <slot name="viewer" />
         </image-viewer>
       </template>
     </teleport>
