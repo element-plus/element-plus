@@ -8,7 +8,7 @@ lang: en-US
 ## Compatibility
 
 Element Plus can run on browsers that supports [ES2018](https://caniuse.com/?feats=mdn-javascript_builtins_regexp_dotall,mdn-javascript_builtins_regexp_lookbehind_assertion,mdn-javascript_builtins_regexp_named_capture_groups,mdn-javascript_builtins_regexp_property_escapes,mdn-javascript_builtins_symbol_asynciterator,mdn-javascript_functions_method_definitions_async_generator_methods,mdn-javascript_grammar_template_literals_template_literal_revision,mdn-javascript_operators_destructuring_rest_in_objects,mdn-javascript_operators_spread_spread_in_destructuring,promise-finally) and [ResizeObserver](https://caniuse.com/resizeobserver).
-If you need to support outdated browsers, please add `Babel` and `Polyfill` yourself.
+If you really need to support outdated browsers, please add [Babel](https://babeljs.io/) and Polyfill yourself.
 
 Since Vue 3 no longer supports IE11, Element Plus does not support IE either.
 
@@ -22,7 +22,7 @@ Element Plus is currently in a rapid development iteration.
 
 [![ElementPlus version badge](https://img.shields.io/npm/v/element-plus.svg?style=flat-square)](https://www.npmjs.org/package/element-plus)
 
-## Using package manager
+## Using Package Manager
 
 **We recommend using the package manager (NPM, [Yarn](https://classic.yarnpkg.com/lang/en/), [pnpm](https://pnpm.io/)) to install Element Plus**,
 so that you can utilize bundlers like [Vite](https://vitejs.dev) and
@@ -87,7 +87,7 @@ is upgraded in the future. Please check [unpkg.com](https://unpkg.com) for
 the method to lock the version.
 :::
 
-## Hello world
+## Hello World
 
 With CDN, we can easily use Element Plus to
 write a Hello world page. [Online Demo](https://codepen.io/iamkun/pen/YzWMaVr)

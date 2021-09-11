@@ -9,9 +9,9 @@ This section describes how to use Element Plus in your project.
 
 ## Usage
 
-### Full import
+### Full Import
 
-> main.ts
+If you don’t care about the bundle size so much, it’s more convenient to use full import.
 
 ```typescript
 // main.ts
@@ -26,19 +26,63 @@ app.use(ElementPlus)
 app.mount('#app')
 ```
 
-Or we can import via HTML `head` tag.
+### On-demand Import
 
-```html
-<!-- index.html -->
-<head>
-  <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
-</head>
+You need to use an additional plugin to import components you used.
+
+#### Auto import <el-tag type="primary" style="vertical-align: middle;" effect="dark" size="small">Recommend</el-tag>
+
+First you need install `unplugin-vue-components`.
+
+```shell
+npm install unplugin-vue-components
 ```
 
-### On-demand import
+Then add the code below into your `Vite` or `webpack` config file.
+
+##### Vite
+
+```ts
+// vite.config.ts
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+
+export default {
+  plugins: [
+    // ...
+    Components({
+      resolvers: [ElementPlusResolver()],
+    }),
+  ],
+}
+```
+
+##### Webpack
+
+```ts
+// webpack.config.js
+const Components = require('unplugin-vue-components/webpack')
+const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
+
+module.exports = {
+  // ...
+  plugins: [
+    Components({
+      resolvers: [ElementPlusResolver()],
+    }),
+  ],
+}
+```
+
+For more bundlers ([Rollup](https://rollupjs.org/), [Vue CLI](https://cli.vuejs.org/)) and configs please reference [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components#readme).
+
+#### Manually import
 
 Element Plus provides out of box [Tree Shaking](https://webpack.js.org/guides/tree-shaking/)
 functionalities based on ES Module.
+
+But you need install [unplugin-element-plus](https://github.com/element-plus/unplugin-element-plus) for style import.
+And refer to the [docs](https://github.com/element-plus/unplugin-element-plus#readme) for how to configure it.
 
 > App.vue
 
@@ -54,65 +98,16 @@ functionalities based on ES Module.
 </script>
 ```
 
-#### Stylesheets
+```ts
+// vite.config.ts
+import ElementPlus from 'unplugin-element-plus/vite'
 
-You can achieve that based on the bundler you are currently using, with
-Element Plus supported plugins.
-
-##### Using vite
-
-If you are using [Vite](https://vitejs.dev) as your bundler, then you need to install
-`vite-plugin-element-plus` in order to get it work.
-
-```shell
-yarn add vite-plugin-element-plus -D
-# or
-npm install vite-plugin-element-plus -D
-```
-
-Then you need to add the code below into your `vite.config.[t]js` file.
-
-```typescript
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import VitePluginElementPlus from 'vite-plugin-element-plus'
-
-// https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
-  return {
-    plugins: [
-      vue(),
-      VitePluginElementPlus({
-        // if you need to use the *.scss source file, you need to uncomment this comment
-        // useSource: true
-        format: mode === 'development' ? 'esm' : 'cjs',
-      }),
-    ],
-  }
-})
-```
-
-For all public API, you can refer to [vite-plugin-element-plus](https://github.com/element-plus/vite-plugin-element-plus)
-
-##### Using webpack
-
-You need to add the code below into your webpack config file.
-
-```javascript
-module.exports = {
-  plugins: [
-    [
-      // TODO
-    ],
-  ],
+export default {
+  plugins: [ElementPlus()],
 }
 ```
 
-##### Rollup
-
-TODO: Rollup
-
-## Starter templates
+## Starter Template
 
 ### Vue CLI
 
@@ -126,15 +121,15 @@ We provide a general [Project Template](https://github.com/element-plus/element-
 also a [Vite Template](https://github.com/element-plus/element-plus-vite-starter).
 For Laravel users we have a [Laravel Template](https://github.com/element-plus/element-plus-in-laravel-starter).
 
-## Global configuration
+## Global Configuration
 
 When registering Element Plus, you can pass a global config object with `size` and
 `zIndex` to set the default `size` for form components, and `zIndex` for
-popup components, the default value for `zIndex` is **2000**.
+popup components, the default value for `zIndex` is `2000`.
 
 Full import:
 
-```js
+```ts
 import { createApp } from 'vue'
 import ElementPlus from 'element-plus'
 import App from './App.vue'
@@ -145,13 +140,15 @@ app.use(ElementPlus, { size: 'small', zIndex: 3000 })
 
 On-demand:
 
-```js
+```ts
 import { createApp } from 'vue'
 import { ElButton } from 'element-plus'
 import App from './App.vue'
 
 const app = createApp(App)
-app.config.globalProperties.$ELEMENT = option
+app.config.globalProperties.$ELEMENT = {
+  // options
+}
 app.use(ElButton)
 ```
 
@@ -163,7 +160,7 @@ We can also use [Nuxt.js](https://nuxtjs.org)：
   <iframe src="https://glitch.com/embed/#!/embed/nuxt-with-element?path=nuxt.config.js&previewSize=0&attributionHidden=true" alt="nuxt-with-element on glitch" style="height: 100%; width: 100%; border: 0;"></iframe>
 </div>
 
-## Let's get started
+## Let's Get Started
 
 You can bootstrap your project from now on, for each components usage, please
 refer to individual component documentation.
