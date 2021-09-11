@@ -1,10 +1,11 @@
 import { mount } from '@vue/test-utils'
-import Anchor from '../src/index.vue'
+import { describe, expect, it } from 'vitest'
+import Anchor from '../src/anchor.vue'
 
 const AXIOM = 'Rem is the best girl'
 
 describe('Anchor.vue', () => {
-  test('render test', () => {
+  it('render test', () => {
     const wrapper = mount(Anchor, {
       slots: {
         default: AXIOM,

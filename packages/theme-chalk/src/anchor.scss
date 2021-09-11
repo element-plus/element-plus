@@ -1,31 +1,59 @@
+@use 'mixins/mixins' as *;
+@use 'mixins/utils' as *;
+@use 'common/var' as *;
+
 @import 'affix';
-@import "mixins/mixins";
 
 @include b(anchor) {
   position: relative;
-  @include e(link) {
-    display: inline-flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    vertical-align: middle;
-    position: relative;
-    text-decoration: none;
-    outline: none;
-    cursor: pointer;
-    padding: 0;
-    font-size: var(--el-link-font-size);
-    font-weight: var(--el-link-font-weight);
-    color: var(--el-link-default-font-color);
 
-    &:hover {
-      color: var(--el-link-default-active-colo)r
+  @include set-css-var-value('anchor-link-height', '28px');
+
+  @include e(slider) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 2px;
+    background-color: getCssVar('border-color-lighter');
+  }
+
+  @include e(slider-bar) {
+    position: absolute;
+    height: 28px;
+    width: 2px;
+    background-color: getCssVar('color-primary');
+    left: 0;
+    top: 0;
+    transition: opacity getCssVar('transition-duration-fast') ease-in-out,
+      top getCssVar('transition-duration-fast') ease-in-out;
+  }
+
+  @include e(link) {
+    margin-left: 12px;
+    font-size: 14px;
+    line-height: 22px;
+
+    & .#{$namespace}-anchor__link {
+      margin-left: 10px;
     }
-    &:after {
-      border-color: var(--el-link-default-active-colo)r
+  }
+
+  @include e(link-title) {
+    cursor: pointer;
+    color: getCssVar('text-color-secondary');
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 3px 0;
+
+    &:hover,
+    &:focus {
+      color: getCssVar('text-color-regular');
     }
-    &.is-active {
-      color: var(--el-link-default-active-color);
+
+    @include when(active) {
+      color: getCssVar('color-primary');
     }
   }
 }

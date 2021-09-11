@@ -1,65 +1,79 @@
 <template>
-  <div>
-    <a :href="href" :class="{'el-anchor__link': true, 'is-active': active}" @click.prevent="handleClick">
-      <template v-if="title || $slots.title">
-        <slot name="title">
-          {{ title }}
-        </slot>
-      </template>
-    </a>
+  <div
+    ref="anchorLink$"
+    role="link"
+    tabindex="-1"
+    :class="[ns.e('link'), ns.is('active', active)]"
+    :title="title"
+    @click.stop="handleClick"
+  >
+    <div
+      v-if="title || $slots.title"
+      :class="[ns.e('link-title')]"
+      tabindex="0"
+    >
+      <slot name="title">{{ title }}</slot>
+    </div>
+
+    <slot />
   </div>
 </template>
-<script lang='ts'>
-import { defineComponent, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { useInjectAnchor } from './context'
-export default defineComponent({
+
+<script lang="ts" setup>
+import {
+  computed,
+  getCurrentInstance,
+  inject,
+  onMounted,
+  onUnmounted,
+  shallowRef,
+  watch,
+} from 'vue'
+import { anchorContextKey } from '@element-plus/tokens'
+import { throwError } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
+import { anchorLinkProps } from './anchor-link'
+
+const COMPONENT_NAME = 'ElAnchorLink'
+defineOptions({
   name: 'ElAnchorLink',
-  props: {
-    href: {
-      type: String,
-      default: '',
-    },
-    title: {
-      type: String,
-      default: '',
-    },
-  },
-  setup(props) {
-    const active = ref(false)
-    const {
-      handleClick: contextHandleClick,
-      scrollTo,
-      unregisterLink,
-      registerLink,
-      activeLink,
-    } = useInjectAnchor()
-    const handleClick = (e: Event) => {
-      const { href } = props
-      contextHandleClick(e, { href })
-      scrollTo(href)
-    }
-    watch(activeLink, val => {
-      active.value = val === props.href
-    })
-    watch(
-      () => props.href,
-      (val, oldVal) => {
-        nextTick(() => {
-          unregisterLink(oldVal)
-          registerLink(val)
-        })
-      },
-    )
-    onMounted(() => {
-      registerLink(props.href)
-    })
-    onBeforeUnmount(() => {
-      unregisterLink(props.href)
-    })
-    return {
-      active,
-      handleClick,
-    }
-  },
+})
+
+const props = defineProps(anchorLinkProps)
+
+const vm = getCurrentInstance()!
+const ns = useNamespace('anchor')
+
+const anchorContext = inject(anchorContextKey)
+if (!anchorContext)
+  throwError(COMPONENT_NAME, '<el-anchor><el-anchor-link /></el-anchor>')
+
+const anchorLink$ = shallowRef<HTMLDivElement>()
+const active = computed(() => anchorContext.activeLink.value === vm.uid)
+
+const handleClick = (evt: MouseEvent) => {
+  const { href } = props
+  anchorContext.onAnchorLinkClick(href, evt)
+  anchorContext.scrollTo(href)
+}
+
+const register = () =>
+  anchorContext.registerLink({
+    uid: vm.uid,
+    element: anchorLink$,
+    props,
+  })
+
+watch(
+  () => props.href,
+  () => register()
+)
+
+onMounted(() => {
+  register()
+})
+
+onUnmounted(() => {
+  anchorContext.unregisterLink(vm.uid)
 })
 </script>
