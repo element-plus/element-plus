@@ -183,6 +183,7 @@ import {
 } from '@element-plus/components/time-picker'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { isValidDatePickType } from '@element-plus/utils/validators'
+import { modifyTime, modifyWithTimeString } from '@element-plus/components/time-picker/src/common/date-utils'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
@@ -252,15 +253,10 @@ export default defineComponent({
         : true
     }
     const formatEmit = (emitDayjs: Dayjs) => {
-      if (defaultTime) {
-        const defaultTimeD = dayjs(defaultTime).locale(lang.value)
-        return defaultTimeD
-          .year(emitDayjs.year())
-          .month(emitDayjs.month())
-          .date(emitDayjs.date())
+      if (showTime.value) {
+        return emitDayjs.millisecond(0)
       }
-      if (showTime.value) return emitDayjs.millisecond(0)
-      return emitDayjs.startOf('day')
+      return emitDayjs
     }
     const emit = (value, ...args) => {
       if (!value) {
@@ -281,7 +277,7 @@ export default defineComponent({
               .year(value.year())
               .month(value.month())
               .date(value.date())
-          : value
+          : modifyWithTimeString(value, defaultTime)
         // change default time while out of selectableRange
         if (!checkDateWithinRange(newDate)) {
           newDate = (selectableRange.value[0][0] as Dayjs)
@@ -478,11 +474,8 @@ export default defineComponent({
 
     const handleTimePick = (value, visible, first) => {
       const newDate = props.parsedValue
-        ? (props.parsedValue as Dayjs)
-            .hour(value.hour())
-            .minute(value.minute())
-            .second(value.second())
-        : value
+        ? modifyTime((props.parsedValue as Dayjs), value.hour(), value.minute(), value.second())
+        : modifyWithTimeString(value, defaultTime)
       innerDate.value = newDate
       emit(innerDate.value, true)
       if (!first) {

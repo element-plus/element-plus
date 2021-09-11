@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, inject } from 'vue'
+import { defineComponent, ref, computed, inject, nextTick, watch } from 'vue'
 import dayjs from 'dayjs'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { useLocaleInject } from '@element-plus/hooks'
@@ -77,6 +77,7 @@ export default defineComponent({
   emits: ['pick', 'select-range', 'set-picker-option'],
 
   setup(props, ctx) {
+    const spinner = ref(null)
     const { t, lang } = useLocaleInject()
     // data
     const selectionRange = ref([0, 2])
@@ -220,6 +221,18 @@ export default defineComponent({
     const { getAvailableHours, getAvailableMinutes, getAvailableSeconds } =
       getAvailableArrs(disabledHours, disabledMinutes, disabledSeconds)
 
+    const adjustSpinners = () => {
+      return spinner.value.adjustSpinners()
+    }
+
+    watch(
+      () => props.parsedValue,
+      () => {
+        if (props.visible) {
+          nextTick(_ => adjustSpinners())
+        }
+      }
+    )
     return {
       transitionName,
       arrowControl,

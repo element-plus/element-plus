@@ -414,6 +414,7 @@ export default defineComponent({
       timePartsMap,
       arrowListMap,
       listMap,
+      adjustSpinners,
     }
   },
 })
