@@ -101,3 +101,42 @@ export function scrollIntoView(
     container.scrollTop = bottom - container.clientHeight
   }
 }
+
+export const getElementOffset = (
+  element: HTMLElement,
+  container: HTMLElement | Window,
+  type: 'top' | 'left'
+): number => {
+  if (!element.getClientRects().length) return 0
+
+  const rect = element.getBoundingClientRect()
+  if (rect.width || rect.height) {
+    if (container instanceof Window) {
+      container = element.ownerDocument?.documentElement
+      return rect[type] - container[type === 'top' ? 'clientTop' : 'clientLeft']
+    }
+    return rect[type] - container.getBoundingClientRect()[type]
+  }
+  return rect[type]
+}
+
+export function getScrollOffset(
+  target: HTMLElement | Window | Document | null,
+  type: 'top' | 'left'
+): number {
+  if (!isClient) return 0
+
+  const method = `scroll${type === 'top' ? 'Top' : 'Left'}`
+  let result = 0
+  if (target instanceof Window) {
+    result = target[type === 'top' ? 'pageYOffset' : 'pageXOffset']
+  } else if (target instanceof Document) {
+    result = target.documentElement[method]
+  } else if (target) {
+    result = (target as HTMLElement)[method]
+  }
+  if (target && !(target instanceof Window) && typeof result !== 'number') {
+    result = (target.ownerDocument || target).documentElement?.[method]
+  }
+  return result
+}

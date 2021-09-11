@@ -1,10 +1,13 @@
-import { App } from 'vue'
+import { withInstall, withNoopInstall } from '@element-plus/utils'
+
 import Anchor from './src/anchor.vue'
 import AnchorLink from './src/anchor-link.vue'
 
-Anchor.install = (app: App): void => {
-  app.component(Anchor.name, Anchor)
-  app.component(AnchorLink.name, AnchorLink)
-}
+export const ElAnchor = withInstall(Anchor, {
+  AnchorLink,
+})
+export const ElAnchorLink = withNoopInstall(AnchorLink)
+export default ElAnchor
 
-export default Anchor
+export * from './src/anchor'
+export * from './src/anchor-link'

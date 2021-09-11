@@ -234,6 +234,11 @@
         "text": "Affix"
       },
       {
+        "link": "/anchor",
+        "text": "Anchor",
+        "promotion": "2.2.0"
+      },
+      {
         "link": "/backtop",
         "text": "Backtop"
       },

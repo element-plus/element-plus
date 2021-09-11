@@ -1,35 +1,52 @@
-## anchor 锚点
+---
+title: Anchor
+lang: en-US
+---
 
-用于跳转到页面指定位置。
+# Anchor
 
-### 基本用法
+Anchor is used to jump to the specified location on the page.
 
-固钉默认固定在页面顶部。
+## Basic Usage
 
-:::demo 通过设置 `offset` 属性来改变吸顶距离，默认值为 0。
-```html
-<el-anchor target=".page-component__scroll .el-scrollbar__wrap" :affix="true" :offset="120">
-  <el-anchor-link title="Attributes" href="#attributes"/>
-  <el-anchor-link title="Events" href="#events"/>
-</el-anchor>
-<div id="block" :style="{
-    marginTop: '1000px'
-}">
-</div>
-```
+:::demo
+
+anchor/basic
+
 :::
 
-### Attributes
-| 参数      | 说明          | 类型      | 可选值                           | 默认值  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| offset     | 偏移距离           | number | — | 0 |
-| target | 指定容器（CSS 选择器） | string | — | — |
-| bounds | 锚点区域边界	 | number | — | 5 |
-| targetOffset     | 锚点滚动偏移量,默认与 offsetTop 相同           | number | — | offset |
+## Ellipsis Title
 
-### Events
-| 事件名称 | 说明 | 回调参数 |
-|---------- |-------- |---------- |
-| click | click 事件的 handler | (e: Event, info: {href: string}) |
-| change | 监听锚点链接改变	 | （currentActiveLink: string） |
+:::demo
 
+anchor/ellipsis
+
+:::
+
+## Offset Top
+
+:::demo when there is a fixed element on the top of the page, `offset-top` can be used to fix offsets.
+
+anchor/offset-top
+
+:::
+
+## Anchor API
+
+### Anchor Attributes
+
+| Name          | Description                      | Type                | Default    | Required |
+| ------------- | -------------------------------- | ------------------- | ---------- | -------- |
+| `container`   | Scroll container. (CSS selector) | `string`            | -          | No       |
+| `offset-top`  | Anchor scroll offset top.        | `number`            | `0`        | No       |
+| `offset-left` | Anchor scroll offset left.       | `number`            | `0`        | No       |
+| `boundary`    | Anchor area boundary.            | `number`            | `5`        | No       |
+| `behavior`    | Scroll behavior.                 | `'auto' \| 'smooth` | `'smooth'` | No       |
+| `hash`        | Whether to change location hash. | `boolean`           | `false`    | No       |
+
+### Anchor Events
+
+| Name     | Description                    | Type                                      |
+| -------- | ------------------------------ | ----------------------------------------- |
+| `select` | triggers when link be clicked. | `(link: string, evt: MouseEvent) => void` |
+| `change` | triggers when link changed.    | `(link: string) => void`                  |

@@ -1,5 +1,6 @@
 import { ElAffix } from '@element-plus/components/affix'
 import { ElAlert } from '@element-plus/components/alert'
+import { ElAnchor } from '@element-plus/components/anchor'
 import { ElAutocomplete } from '@element-plus/components/autocomplete'
 import { ElAvatar } from '@element-plus/components/avatar'
 import { ElBacktop } from '@element-plus/components/backtop'
@@ -103,6 +104,7 @@ import type { Plugin } from 'vue'
 export default [
   ElAffix,
   ElAlert,
+  ElAnchor,
   ElAutocomplete,
   ElAutoResizer,
   ElAvatar,
