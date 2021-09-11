@@ -188,7 +188,7 @@ export const useSelect = (props, states: States, ctx) => {
         states.inputLength = 20
       }
       if (!isEqual(val, oldVal)) {
-        elFormItem.formItemMitt?.emit('el.form.change', val)
+        elFormItem.validate?.('change')
       }
     },
     {

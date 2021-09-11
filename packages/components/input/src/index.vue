@@ -426,7 +426,7 @@ export default defineComponent({
       focused.value = false
       ctx.emit('blur', event)
       if (props.validateEvent) {
-        elFormItem.formItemMitt?.emit('el.form.blur', [props.modelValue])
+        elFormItem.validate?.('blur')
       }
     }
 
@@ -476,10 +476,10 @@ export default defineComponent({
 
     watch(
       () => props.modelValue,
-      (val) => {
+      () => {
         nextTick(resizeTextarea)
         if (props.validateEvent) {
-          elFormItem.formItemMitt?.emit('el.form.change', [val])
+          elFormItem.validate?.('change')
         }
       }
     )
