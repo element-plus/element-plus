@@ -1,15 +1,26 @@
 import { computed, shallowRef, onMounted, onUnmounted, onUpdated } from 'vue'
 import { throttleAndDebounce } from '../utils'
 
+import type { Ref } from 'vue'
+
 const BOUNDING_OFFSET = 100 // 56 the header height + margin-top 32
 
-export function useActiveSidebarLinks() {
-  const rootActiveLink = shallowRef<HTMLElement | null>()
-  const activeLink = shallowRef<HTMLAnchorElement | null>()
+export function useActiveSidebarLinks(
+  container: Ref<HTMLElement>,
+  marker: Ref<HTMLElement>
+) {
   const onScroll = throttleAndDebounce(setActiveLink, 150)
   function setActiveLink() {
     const sidebarLinks = getSidebarLinks()
     const anchors = getAnchors(sidebarLinks)
+
+    if (
+      anchors.length &&
+      window.scrollY + window.innerHeight === document.body.offsetHeight
+    ) {
+      activateLink(anchors[anchors.length - 1].hash)
+      return
+    }
     for (let i = 0; i < anchors.length; i++) {
       const anchor = anchors[i]
       const nextAnchor = anchors[i + 1]
@@ -25,18 +36,26 @@ export function useActiveSidebarLinks() {
       }
     }
   }
+
+  let prevActiveLink: HTMLAnchorElement | null = null
+
   function activateLink(hash: string) {
-    deactiveLink(activeLink.value)
-    activeLink.value = document.querySelector(
-      `.toc-item a[href="${decodeURIComponent(hash)}"]`
-    ) as HTMLAnchorElement
+    deactiveLink(prevActiveLink)
 
-    const $activeLink = activeLink.value
-
-    if (!$activeLink) {
-      return
+    const activeLink = (prevActiveLink =
+      hash == null
+        ? null
+        : (container.value.querySelector(
+            `.toc-item a[href="${decodeURIComponent(hash)}"]`
+          ) as HTMLAnchorElement))
+    if (activeLink) {
+      activeLink.classList.add('active')
+      marker.value.style.opacity = '1'
+      marker.value.style.top = activeLink.offsetTop + 'px'
+    } else {
+      marker.value.style.opacity = '0'
+      marker.value.style.top = '33px'
     }
-    $activeLink.classList.add('active')
   }
 
   function deactiveLink(link: HTMLElement) {
@@ -55,17 +74,6 @@ export function useActiveSidebarLinks() {
   onUnmounted(() => {
     window.removeEventListener('scroll', onScroll)
   })
-
-  return computed(() => {
-    return activeLink.value
-      ? {
-          top: `${
-            activeLink.value.getBoundingClientRect().y - BOUNDING_OFFSET + 12
-          }px`,
-          opacity: 1,
-        }
-      : {}
-  })
 }
 function getSidebarLinks() {
   return Array.from(
@@ -75,7 +83,7 @@ function getSidebarLinks() {
 function getAnchors(sidebarLinks: HTMLAnchorElement[]) {
   return (
     Array.from(
-      document.querySelectorAll('.header-anchor')
+      document.querySelectorAll('.doc-content .header-anchor')
     ) as HTMLAnchorElement[]
   ).filter((anchor) =>
     sidebarLinks.some((sidebarLink) => sidebarLink.hash === anchor.hash)

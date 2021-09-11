@@ -5,12 +5,13 @@ import { useToc } from '../../composables/use-toc'
 import { useActiveSidebarLinks } from '../../composables/active-bar'
 
 const headers = useToc()
-
-const markerStyle = useActiveSidebarLinks()
+const marker = ref()
+const container = ref()
+useActiveSidebarLinks(container, marker)
 </script>
 
 <template>
-  <aside class="toc-wrapper">
+  <aside ref="container" class="toc-wrapper">
     <nav class="toc-content">
       <h3 class="toc-content__heading">Contents</h3>
       <ul class="toc-items">
@@ -23,7 +24,7 @@ const markerStyle = useActiveSidebarLinks()
           </ul>
         </li>
       </ul>
-      <div class="toc-marker" :style="markerStyle"></div>
+      <div ref="marker" class="toc-marker"></div>
     </nav>
   </aside>
 </template>

@@ -203,3 +203,19 @@ blockquote > p {
 form {
   margin: 0;
 }
+
+.tip {
+  padding: 8px 16px;
+  background-color: var(--el-color-primary-light-9);
+  border-radius: 4px;
+  border-left: 5px solid var(--el-color-primary);
+  margin: 20px 0;
+}
+
+.warning {
+  padding: 8px 16px;
+  background-color: var(--el-color-danger-lighter);
+  border-radius: 4px;
+  border-left: 5px solid var(--el-color-danger);
+  margin: 20px 0;
+}

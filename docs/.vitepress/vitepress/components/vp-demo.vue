@@ -81,40 +81,42 @@ const onCodepenClicked = () => {
 </script>
 
 <template>
-  <div class="example">
-    <Codepen
-      :css="props.css"
-      :css-pre-processor="props.cssPreProcessor"
-      :html="props.html"
-      :js="props.js"
-      ref="codepenRef"
-    />
-    <div class="op-btns">
-      <ElTooltip :content="locale['edit-in-codepen']" :visible-arrow="false">
-        <ElIcon :size="20" class="op-btn">
-          <CodepenIcon @click="onCodepenClicked" />
-        </ElIcon>
-      </ElTooltip>
-      <ElTooltip :content="locale['edit-on-github']" :visible-arrow="false">
-        <ElIcon :size="20" class="op-btn github">
-          <a :href="demoSourceUrl" rel="noreferrer noopener" target="_blank">
-            <GithubIcon />
-          </a>
-        </ElIcon>
-      </ElTooltip>
-      <ElTooltip :content="locale['view-source']" :visible-arrow="false">
-        <ElIcon :size="20" class="op-btn" @click="setSourceVisible">
-          <SourceCodeIcon />
-        </ElIcon>
-      </ElTooltip>
+  <ClientOnly>
+    <div class="example">
+      <Codepen
+        :css="props.css"
+        :css-pre-processor="props.cssPreProcessor"
+        :html="props.html"
+        :js="props.js"
+        ref="codepenRef"
+      />
+      <div class="op-btns">
+        <ElTooltip :content="locale['edit-in-codepen']" :visible-arrow="false">
+          <ElIcon :size="20" class="op-btn">
+            <CodepenIcon @click="onCodepenClicked" />
+          </ElIcon>
+        </ElTooltip>
+        <ElTooltip :content="locale['edit-on-github']" :visible-arrow="false">
+          <ElIcon :size="20" class="op-btn github">
+            <a :href="demoSourceUrl" rel="noreferrer noopener" target="_blank">
+              <GithubIcon />
+            </a>
+          </ElIcon>
+        </ElTooltip>
+        <ElTooltip :content="locale['view-source']" :visible-arrow="false">
+          <ElIcon :size="20" class="op-btn" @click="setSourceVisible">
+            <SourceCodeIcon />
+          </ElIcon>
+        </ElTooltip>
+      </div>
+      <ElDivider />
+      <Example :file="path" :demo="formatPathDemos[path]" />
+      <ElDivider v-if="sourceVisible" />
+      <el-collapse-transition>
+        <SourceCode v-show="sourceVisible" :source="source" />
+      </el-collapse-transition>
     </div>
-    <ElDivider />
-    <Example :file="path" :demo="formatPathDemos[path]" />
-    <ElDivider v-if="sourceVisible" />
-    <el-collapse-transition>
-      <SourceCode v-show="sourceVisible" :source="source" />
-    </el-collapse-transition>
-  </div>
+  </ClientOnly>
 </template>
 
 <style scoped lang="scss">
