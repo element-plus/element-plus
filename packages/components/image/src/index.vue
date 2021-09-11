@@ -32,7 +32,9 @@
           :hide-on-click-modal="hideOnClickModal"
           @close="closeViewer"
           @switch="switchViewer"
-        />
+        >
+          <slot />
+        </image-viewer>
       </template>
     </teleport>
   </div>
