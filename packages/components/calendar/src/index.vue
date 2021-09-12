@@ -1,8 +1,7 @@
 <template>
   <div class="el-calendar">
     <div class="el-calendar__header">
-      <slot v-if="$slots.header" name="header" :date="i18nDate"></slot>
-      <template v-else>
+      <slot name="header" :date="i18nDate">
         <div class="el-calendar__title">{{ i18nDate }}</div>
         <div
           v-if="validatedRange.length === 0"
@@ -20,7 +19,7 @@
             </el-button>
           </el-button-group>
         </div>
-      </template>
+      </slot>
     </div>
     <div v-if="validatedRange.length === 0" class="el-calendar__body">
       <date-table :date="date" :selected-day="realSelectedDay" @pick="pickDay">
