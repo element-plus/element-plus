@@ -53,7 +53,12 @@ import DateTable from './date-table.vue'
 
 import type { Dayjs } from 'dayjs'
 
-type DateType = 'prev-month' | 'today' | 'next-month'
+type DateType =
+  | 'prev-month'
+  | 'next-month'
+  | 'prev-year'
+  | 'next-year'
+  | 'today'
 
 const { ButtonGroup: ElButtonGroup } = ElButton
 export default defineComponent({
@@ -97,6 +102,14 @@ export default defineComponent({
 
     const nextMonthDayjs = computed(() => {
       return date.value.add(1, 'month')
+    })
+
+    const prevYearDayjs = computed(() => {
+      return date.value.subtract(1, 'year')
+    })
+
+    const nextYearDayjs = computed(() => {
+      return date.value.add(1, 'year')
     })
 
     const i18nDate = computed(() => {
@@ -237,6 +250,10 @@ export default defineComponent({
         day = prevMonthDayjs.value
       } else if (type === 'next-month') {
         day = nextMonthDayjs.value
+      } else if (type === 'prev-year') {
+        day = prevYearDayjs.value
+      } else if (type === 'next-year') {
+        day = nextYearDayjs.value
       } else {
         day = now
       }
