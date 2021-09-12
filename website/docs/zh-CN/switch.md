@@ -127,12 +127,12 @@
 
 ### 阻止切换
 
-:::demo 设置`beforeChange`属性，若返回 false 或者返回 Promise 且被 reject，则停止切换。
+:::demo 设置`before-change`属性，若返回 false 或者返回 Promise 且被 reject，则停止切换。
 
 ```html
-<el-switch v-model="value1" :loading="loading1" :beforeChange="beforeChange1">
+<el-switch v-model="value1" :loading="loading1" :before-change="beforeChange1">
 </el-switch>
-<el-switch v-model="value2" :loading="loading2" :beforeChange="beforeChange2">
+<el-switch v-model="value2" :loading="loading2" :before-change="beforeChange2">
 </el-switch>
 <script>
   import { reactive, toRefs } from 'vue'
