@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "rootDir": ".",
+    "declaration": true,
+    "lib": ["ES2020", "DOM"],
+    "skipLibCheck": true,
+    "target": "es6",
+    "moduleResolution": "node",
+    "strict": true
+  }
+}

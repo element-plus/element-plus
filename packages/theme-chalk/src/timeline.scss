@@ -1,13 +1,18 @@
-@import "mixins/mixins";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'mixins/var';
+@import 'common/var';
+
+@include b(timeline) {
+  @include set-component-css-var('timeline', $--timeline);
+}
 
 @include b(timeline) {
   margin: 0;
-  font-size: $--font-size-base;
+  font-size: var(--el-font-size-base);
   list-style: none;
 
-  & .el-timeline-item:last-child {
-    & .el-timeline-item__tail {
+  & .#{$namespace}-timeline-item:last-child {
+    & .#{$namespace}-timeline-item__tail {
       display: none;
     }
   }

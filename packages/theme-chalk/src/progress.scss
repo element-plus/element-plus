@@ -1,17 +1,18 @@
-@import "mixins/mixins";
-@import "mixins/utils";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'mixins/utils';
+@import 'common/var';
 
 @include b(progress) {
   position: relative;
   line-height: 1;
+  display: flex;
+  align-items: center;
 
   @include e(text) {
-    font-size:14px;
-    color: $--color-text-regular;
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: 10px;
+    font-size: 14px;
+    color: var(--el-text-color-regular);
+    margin-left: 5px;
+    min-width: 50px;
     line-height: 1;
 
     i {
@@ -20,10 +21,10 @@
     }
   }
 
-  @include m((circle,dashboard)) {
+  @include m((circle, dashboard)) {
     display: inline-block;
 
-    .el-progress__text {
+    .#{$namespace}-progress__text {
       position: absolute;
       top: 50%;
       left: 0;
@@ -39,13 +40,12 @@
     }
   }
 
-
   @include m(without-text) {
-    .el-progress__text {
+    .#{$namespace}-progress__text {
       display: none;
     }
 
-    .el-progress-bar {
+    .#{$namespace}-progress-bar {
       padding-right: 0;
       margin-right: 0;
       display: block;
@@ -53,55 +53,51 @@
   }
 
   @include m(text-inside) {
-    .el-progress-bar {
+    .#{$namespace}-progress-bar {
       padding-right: 0;
       margin-right: 0;
     }
   }
 
   @include when(success) {
-    .el-progress-bar__inner {
-      background-color: $--color-success;
+    .#{$namespace}-progress-bar__inner {
+      background-color: var(--el-color-success);
     }
 
-    .el-progress__text {
-      color: $--color-success;
+    .#{$namespace}-progress__text {
+      color: var(--el-color-success);
     }
   }
 
   @include when(warning) {
-    .el-progress-bar__inner {
-      background-color: $--color-warning;
+    .#{$namespace}-progress-bar__inner {
+      background-color: var(--el-color-warning);
     }
 
-    .el-progress__text {
-      color: $--color-warning;
+    .#{$namespace}-progress__text {
+      color: var(--el-color-warning);
     }
   }
 
   @include when(exception) {
-    .el-progress-bar__inner {
-      background-color: $--color-danger;
+    .#{$namespace}-progress-bar__inner {
+      background-color: var(--el-color-danger);
     }
 
-    .el-progress__text {
-      color: $--color-danger;
+    .#{$namespace}-progress__text {
+      color: var(--el-color-danger);
     }
   }
 }
 
 @include b(progress-bar) {
-  padding-right: 50px;
-  display: inline-block;
-  vertical-align: middle;
-  width: 100%;
-  margin-right: -55px;
+  flex-grow: 1;
   box-sizing: border-box;
 
   @include e(outer) {
     height: 6px;
     border-radius: 100px;
-    background-color: $--border-color-lighter;
+    background-color: var(--el-border-color-lighter);
     overflow: hidden;
     position: relative;
     vertical-align: middle;
@@ -111,7 +107,7 @@
     left: 0;
     top: 0;
     height: 100%;
-    background-color: $--color-primary;
+    background-color: var(--el-color-primary);
     text-align: right;
     border-radius: 100px;
     line-height: 1;
@@ -119,6 +115,11 @@
     transition: width 0.6s ease;
 
     @include utils-vertical-center;
+
+    @include m(indeterminate) {
+      transform: translateZ(0);
+      animation: indeterminate 3s infinite;
+    }
   }
 
   @include e(innerText) {
@@ -137,5 +138,15 @@
 
   100% {
     background-position: 32px 0;
+  }
+}
+
+@keyframes indeterminate {
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 100%;
   }
 }

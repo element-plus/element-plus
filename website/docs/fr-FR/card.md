@@ -7,20 +7,25 @@ Conteneur intégrant des informations.
 Le composant Card comprend un titre, un contenu et des opérations.
 
 :::demo Card est composé d'un `header` et d'un `body`. `header` est optionnel et son contenu nécessite l'utilisation d'un slot.
+
 ```html
 <el-card class="box-card">
   <template #header>
-    <div class="clearfix">
+    <div class="card-header">
       <span>Card name</span>
-      <el-button style="float: right; padding: 3px 0" type="text">Bouton</el-button>
+      <el-button class="button" type="text">Bouton</el-button>
     </div>
   </template>
-  <div v-for="o in 4" :key="o" class="text item">
-    {{'List item ' + o }}
-  </div>
+  <div v-for="o in 4" :key="o" class="text item">{{'List item ' + o }}</div>
 </el-card>
 
 <style>
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   .text {
     font-size: 14px;
   }
@@ -29,20 +34,12 @@ Le composant Card comprend un titre, un contenu et des opérations.
     margin-bottom: 18px;
   }
 
-  .clearfix:before,
-  .clearfix:after {
-    display: table;
-    content: "";
-  }
-  .clearfix:after {
-    clear: both
-  }
-
   .box-card {
     width: 480px;
   }
 </style>
 ```
+
 :::
 
 ### Card simple
@@ -50,11 +47,10 @@ Le composant Card comprend un titre, un contenu et des opérations.
 Le header peut être omis.
 
 :::demo
+
 ```html
 <el-card class="box-card">
-  <div v-for="o in 4" :key="o" class="text item">
-    {{'List item ' + o }}
-  </div>
+  <div v-for="o in 4" :key="o" class="text item">{{'List item ' + o }}</div>
 </el-card>
 
 <style>
@@ -71,6 +67,7 @@ Le header peut être omis.
   }
 </style>
 ```
+
 :::
 
 ### Images
@@ -78,14 +75,23 @@ Le header peut être omis.
 Affichez un contenu plus riche grâce à la configuration.
 
 :::demo L'attribut `body-style` définit le style CSS du `body`. Cet exemple utilise aussi `el-col` pour la mise en page.
+
 ```html
 <el-row>
-  <el-col :span="8" v-for="(o, index) in 2" :key="o" :offset="index > 0 ? 2 : 0">
+  <el-col
+    :span="8"
+    v-for="(o, index) in 2"
+    :key="o"
+    :offset="index > 0 ? 2 : 0"
+  >
     <el-card :body-style="{ padding: '0px' }">
-      <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
+      <img
+        src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+        class="image"
+      />
       <div style="padding: 14px;">
         <span>Yummy hamburger</span>
-        <div class="bottom clearfix">
+        <div class="bottom">
           <time class="time">{{ currentDate }}</time>
           <el-button type="text" class="button">Operating</el-button>
         </div>
@@ -103,39 +109,50 @@ Affichez un contenu plus riche grâce à la configuration.
   .bottom {
     margin-top: 13px;
     line-height: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .button {
     padding: 0;
-    float: right;
+    min-height: auto;
   }
 
   .image {
     width: 100%;
     display: block;
   }
-
-  .clearfix:before,
-  .clearfix:after {
-      display: table;
-      content: "";
-  }
-
-  .clearfix:after {
-      clear: both
-  }
 </style>
 
 <script>
-export default {
-  data() {
-    return {
-      currentDate: new Date()
-    };
+  export default {
+    data() {
+      return {
+        currentDate: new Date(),
+      }
+    },
   }
-}
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const currentDate = ref(new Date());
+
+      return {
+        currentDate,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
+
 :::
 
 ### Ombres
@@ -143,30 +160,27 @@ export default {
 Vous pouvez définir quand l'ombre des Cards doivent apparaître.
 
 :::demo L'attribut `shadow` détermine quand l'ombre doit apparaître. Les valeurs possibles sont `always`, `hover` ou `never`.
+
 ```html
 <el-row :gutter="12">
   <el-col :span="8">
-    <el-card shadow="always">
-      Always
-    </el-card>
+    <el-card shadow="always"> Always </el-card>
   </el-col>
   <el-col :span="8">
-    <el-card shadow="hover">
-      Hover
-    </el-card>
+    <el-card shadow="hover"> Hover </el-card>
   </el-col>
   <el-col :span="8">
-    <el-card shadow="never">
-      Never
-    </el-card>
+    <el-card shadow="never"> Never </el-card>
   </el-col>
 </el-row>
 ```
+
 :::
 
 ### Attributs
-| Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
-|---------- |-------- |---------- |-------------  |-------- |
-| header | Titre de la Card. Accepte aussi un template DOM passé via `slot#header`. | string| — | — |
-| body-style | Style CSS du body. | object| — | { padding: '20px' } |
-| shadow | Quand l'ombre doit apparaître | string | always / hover / never | always |
+
+| Attribut   | Description                                                              | Type   | Valeurs acceptées      | Défaut              |
+| ---------- | ------------------------------------------------------------------------ | ------ | ---------------------- | ------------------- |
+| header     | Titre de la Card. Accepte aussi un template DOM passé via `slot#header`. | string | —                      | —                   |
+| body-style | Style CSS du body.                                                       | object | —                      | { padding: '20px' } |
+| shadow     | Quand l'ombre doit apparaître                                            | string | always / hover / never | always              |

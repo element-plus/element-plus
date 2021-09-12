@@ -13,10 +13,7 @@ Used for rating
 </div>
 <div class="block">
   <span class="demonstration">Color for different levels</span>
-  <el-rate
-    v-model="value2"
-    :colors="colors">
-  </el-rate>
+  <el-rate v-model="value2" :colors="colors"> </el-rate>
 </div>
 
 <script>
@@ -25,34 +22,67 @@ Used for rating
       return {
         value1: null,
         value2: null,
-        colors: ['#99A9BF', '#F7BA2A', '#FF9900'] // same as { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
+        colors: ['#99A9BF', '#F7BA2A', '#FF9900'], // same as { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
       }
-    }
+    },
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        value1: ref(null),
+        value2: ref(null),
+        colors: ref(['#99A9BF', '#F7BA2A', '#FF9900']), // same as { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
+      };
+    },
+  });
+
+</setup>
+-->
 ```
+
 :::
 
 ### With allow-half
-:::demo Add attribute `allow-half` Half star allowed
-```html
 
+:::demo Add attribute `allow-half` Half star allowed
+
+```html
 <div class="block">
-  <el-rate  v-model="value"  allow-half />
+  <el-rate v-model="value" allow-half />
 </div>
 
-
 <script>
-import { defineComponent, ref } from 'vue'
   export default {
-    setup() {
+    data() {
       return {
-        value: ref(null)
+        value: null,
       }
-    }
+    },
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        value: ref(null),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
+
 :::
 
 ### With text
@@ -65,19 +95,36 @@ Using text to indicate rating score
 <el-rate
   v-model="value"
   :texts="['oops', 'disappointed', 'normal', 'good', 'great']"
-  show-text>
+  show-text
+>
 </el-rate>
 
 <script>
   export default {
     data() {
       return {
-        value: null
+        value: null,
       }
-    }
+    },
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        value: ref(null),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
+
 :::
 
 ### More icons
@@ -91,7 +138,8 @@ You can use different icons to distinguish different rate components.
   v-model="value"
   :icon-classes="iconClasses"
   void-icon-class="icon-rate-face-off"
-  :colors="['#99A9BF', '#F7BA2A', '#FF9900']">
+  :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
+>
 </el-rate>
 
 <script>
@@ -99,12 +147,33 @@ You can use different icons to distinguish different rate components.
     data() {
       return {
         value: null,
-        iconClasses: ['icon-rate-face-1', 'icon-rate-face-2', 'icon-rate-face-3'] // same as { 2: 'icon-rate-face-1', 4: { value: 'icon-rate-face-2', excluded: true }, 5: 'icon-rate-face-3' }
+        iconClasses: [
+          'icon-rate-face-1',
+          'icon-rate-face-2',
+          'icon-rate-face-3',
+        ], // same as { 2: 'icon-rate-face-1', 4: { value: 'icon-rate-face-2', excluded: true }, 5: 'icon-rate-face-3' }
       }
-    }
+    },
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        value: ref(null),
+        iconClasses: ref(['icon-rate-face-1', 'icon-rate-face-2', 'icon-rate-face-3']) // same as { 2: 'icon-rate-face-1', 4: { value: 'icon-rate-face-2', excluded: true }, 5: 'icon-rate-face-3' }
+      };
+    },
+  });
+
+</setup>
+-->
 ```
+
 :::
 
 ### Read-only
@@ -119,43 +188,62 @@ Read-only Rate is for displaying rating score. Half star is supported.
   disabled
   show-score
   text-color="#ff9900"
-  score-template="{value} points">
+  score-template="{value} points"
+>
 </el-rate>
 
 <script>
   export default {
     data() {
       return {
-        value: 3.7
+        value: 3.7,
       }
-    }
+    },
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        value: ref(3.7),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
+
 :::
 
 ### Attributes
-| Attribute      | Description          | Type      | Accepted Values       | Default  |
-|---------- |-------- |---------- |-------------  |-------- |
-| value / v-model | binding value | number | — | 0 |
-| max | max rating score | number | — | 5 |
-| disabled | whether Rate is read-only | boolean | — | false |
-| allow-half | whether picking half start is allowed | boolean | — | false |
-| low-threshold | threshold value between low and medium level. The value itself will be included in low level | number | — | 2 |
-| high-threshold | threshold value between medium and high level. The value itself will be included in high level | number | — | 4 |
-| colors | colors for icons. If array, it should have 3 elements, each of which corresponds with a score level, else if object, the key should be threshold value between two levels, and the value should be corresponding color | array/object | — | ['#F7BA2A', '#F7BA2A', '#F7BA2A'] |
-| void-color | color of unselected icons | string | — | #C6D1DE |
-| disabled-void-color | color of unselected read-only icons | string | — | #EFF2F7 |
-| icon-classes | class names of icons. If array, ot should have 3 elements, each of which corresponds with a score level, else if object, the key should be threshold value between two levels, and the value should be corresponding icon class | array/object | — | ['el-icon-star-on', 'el-icon-star-on','el-icon-star-on'] |
-| void-icon-class | class name of unselected icons | string | — | el-icon-star-off |
-| disabled-void-icon-class | class name of unselected read-only icons | string | — | el-icon-star-on |
-| show-text | whether to display texts | boolean | — | false |
-| show-score | whether to display current score. show-score and show-text cannot be true at the same time | boolean | — | false |
-| text-color | color of texts | string | — | #1F2D3D |
-| texts | text array | array | — | ['极差', '失望', '一般', '满意', '惊喜'] |
-| score-template | score template | string | — | {value} |
+
+| Attribute                | Description                                                                                                                                                                                                                     | Type         | Accepted Values | Default                                                        |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | -------------------------------------------------------------- |
+| model-value / v-model    | binding value                                                                                                                                                                                                                   | number       | —               | 0                                                              |
+| max                      | max rating score                                                                                                                                                                                                                | number       | —               | 5                                                              |
+| disabled                 | whether Rate is read-only                                                                                                                                                                                                       | boolean      | —               | false                                                          |
+| allow-half               | whether picking half start is allowed                                                                                                                                                                                           | boolean      | —               | false                                                          |
+| low-threshold            | threshold value between low and medium level. The value itself will be included in low level                                                                                                                                    | number       | —               | 2                                                              |
+| high-threshold           | threshold value between medium and high level. The value itself will be included in high level                                                                                                                                  | number       | —               | 4                                                              |
+| colors                   | colors for icons. If array, it should have 3 elements, each of which corresponds with a score level, else if object, the key should be threshold value between two levels, and the value should be corresponding color          | array/object | —               | ['#F7BA2A', '#F7BA2A', '#F7BA2A']                              |
+| void-color               | color of unselected icons                                                                                                                                                                                                       | string       | —               | #C6D1DE                                                        |
+| disabled-void-color      | color of unselected read-only icons                                                                                                                                                                                             | string       | —               | #EFF2F7                                                        |
+| icon-classes             | class names of icons. If array, ot should have 3 elements, each of which corresponds with a score level, else if object, the key should be threshold value between two levels, and the value should be corresponding icon class | array/object | —               | ['el-icon-star-on', 'el-icon-star-on','el-icon-star-on']       |
+| void-icon-class          | class name of unselected icons                                                                                                                                                                                                  | string       | —               | el-icon-star-off                                               |
+| disabled-void-icon-class | class name of unselected read-only icons                                                                                                                                                                                        | string       | —               | el-icon-star-on                                                |
+| show-text                | whether to display texts                                                                                                                                                                                                        | boolean      | —               | false                                                          |
+| show-score               | whether to display current score. show-score and show-text cannot be true at the same time                                                                                                                                      | boolean      | —               | false                                                          |
+| text-color               | color of texts                                                                                                                                                                                                                  | string       | —               | #1F2D3D                                                        |
+| texts                    | text array                                                                                                                                                                                                                      | array        | —               | ['Extremely bad','Disappointed','Fair','Satisfied','Surprise'] |
+| score-template           | score template                                                                                                                                                                                                                  | string       | —               | {value}                                                        |
 
 ### Events
-| Event Name | Description | Parameters |
-|---------- |-------- |---------- |
-| change | Triggers when rate value is changed | value after changing |
+
+| Event Name | Description                         | Parameters           |
+| ---------- | ----------------------------------- | -------------------- |
+| change     | Triggers when rate value is changed | value after changing |

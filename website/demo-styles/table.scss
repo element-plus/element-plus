@@ -1,9 +1,9 @@
-.el-table .warning-row {
-  background: oldlace;
+.#{$namespace}-table .warning-row {
+  --el-table-tr-background-color: var(--el-color-warning-lighter);
 }
 
-.el-table .success-row {
-  background: #f0f9eb;
+.#{$namespace}-table .success-row {
+  --el-table-tr-background-color: var(--el-color-success-lighter);
 }
 
 .demo-table .name-wrapper {
@@ -13,9 +13,9 @@
 .demo-table .demo-table-expand {
   label {
     width: 90px;
-    color: #99a9bf;
+    color: var(--el-text-color-secondary);
   }
-  .el-form-item {
+  .#{$namespace}-form-item {
     margin-right: 0;
     margin-bottom: 0;
     width: 50%;

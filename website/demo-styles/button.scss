@@ -1,5 +1,5 @@
 .demo-block.demo-button {
-  .el-row {
+  .#{$namespace}-row {
     margin-bottom: 20px;
     align-items: baseline;
 
@@ -7,15 +7,15 @@
       margin-bottom: 0;
     }
   }
-  .el-button + .el-button {
+  .#{$namespace}-button + .#{$namespace}-button {
     margin-left: 10px;
   }
-  .el-button-group {
-    .el-button + .el-button {
+  .#{$namespace}-button-group {
+    .#{$namespace}-button + .#{$namespace}-button {
       margin-left: 0;
     }
 
-    & + .el-button-group {
+    & + .#{$namespace}-button-group {
       margin-left: 10px;
     }
   }

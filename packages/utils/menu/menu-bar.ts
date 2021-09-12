@@ -1,5 +1,6 @@
 import MenuItem from './menu-item'
-import { RendererNode } from 'vue'
+
+import type { RendererNode } from 'vue'
 
 class Menu {
   constructor(public domNode: RendererNode) {
@@ -7,11 +8,12 @@ class Menu {
   }
   init(): void {
     const menuChildren = this.domNode.childNodes
-    ;[].filter
-      .call(menuChildren, (child: Node) => child.nodeType === 1)
-      .forEach((child: Node) => {
+    Array.from(menuChildren, (child: Node) => {
+      if (child.nodeType === 1) {
         new MenuItem(child as HTMLElement)
-      })
+      }
+    })
   }
 }
+
 export default Menu

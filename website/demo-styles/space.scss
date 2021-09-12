@@ -1,0 +1,12 @@
+.demo-block.demo-space {
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .button {
+    padding: 0;
+    min-height: auto;
+  }
+}

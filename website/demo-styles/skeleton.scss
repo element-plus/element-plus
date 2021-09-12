@@ -1,12 +1,17 @@
 .demo-block.demo-skeleton {
-
-  .el-card {
+  .#{$namespace}-card {
     margin-bottom: 16px;
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .time {
     font-size: 13px;
-    color: #999;
+    color: var(--el-text-color-secondary);
   }
 
   .bottom {
@@ -16,14 +21,15 @@
 
   .button {
     padding: 0;
-    float: right;
+    min-height: auto;
   }
 
   .image {
     &.multi-content {
       width: 400px;
-      height: 267px; 
+      height: 267px;
     }
+
     width: 100%;
     display: block;
   }

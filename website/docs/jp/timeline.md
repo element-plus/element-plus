@@ -7,13 +7,15 @@
 タイムラインは、昇順または降順で複数のアクティビティに分割することができます。タイムスタンプは他のコンポーネントと区別するための重要な機能です。ステップとの違いに注意してください。
 
 :::demo
+
 ```html
 <div class="block">
   <el-timeline>
     <el-timeline-item
       v-for="(activity, index) in activities"
       :key="index"
-      :timestamp="activity.timestamp">
+      :timestamp="activity.timestamp"
+    >
       {{activity.content}}
     </el-timeline-item>
   </el-timeline>
@@ -23,21 +25,26 @@
   export default {
     data() {
       return {
-        activities: [{
-          content: 'Event start',
-          timestamp: '2018-04-15'
-        }, {
-          content: 'Approved',
-          timestamp: '2018-04-13'
-        }, {
-          content: 'Success',
-          timestamp: '2018-04-11'
-        }]
-      };
-    }
-  };
+        activities: [
+          {
+            content: 'Event start',
+            timestamp: '2018-04-15',
+          },
+          {
+            content: 'Approved',
+            timestamp: '2018-04-13',
+          },
+          {
+            content: 'Success',
+            timestamp: '2018-04-11',
+          },
+        ],
+      }
+    },
+  }
 </script>
 ```
+
 :::
 
 ### カスタムノード
@@ -45,6 +52,7 @@
 サイズ、色、アイコンはノード内でカスタマイズ可能です。
 
 :::demo
+
 ```html
 <div class="block">
   <el-timeline>
@@ -55,7 +63,9 @@
       :type="activity.type"
       :color="activity.color"
       :size="activity.size"
-      :timestamp="activity.timestamp">
+      :hollow="activity.hollow"
+      :timestamp="activity.timestamp"
+    >
       {{activity.content}}
     </el-timeline-item>
   </el-timeline>
@@ -65,29 +75,41 @@
   export default {
     data() {
       return {
-        activities: [{
-          content: 'Custom icon',
-          timestamp: '2018-04-12 20:46',
-          size: 'large',
-          type: 'primary',
-          icon: 'el-icon-more'
-        }, {
-          content: 'Custom color',
-          timestamp: '2018-04-03 20:46',
-          color: '#0bbd87'
-        }, {
-          content: 'Custom size',
-          timestamp: '2018-04-03 20:46',
-          size: 'large'
-        }, {
-          content: 'Default node',
-          timestamp: '2018-04-03 20:46'
-        }]
-      };
-    }
-  };
+        activities: [
+          {
+            content: 'Custom icon',
+            timestamp: '2018-04-12 20:46',
+            size: 'large',
+            type: 'primary',
+            icon: 'el-icon-more',
+          },
+          {
+            content: 'Custom color',
+            timestamp: '2018-04-03 20:46',
+            color: '#0bbd87',
+          },
+          {
+            content: 'Custom size',
+            timestamp: '2018-04-03 20:46',
+            size: 'large',
+          },
+          {
+            content: 'Custom hollow',
+            timestamp: '2018-04-03 20:46',
+            type: 'primary',
+            hollow: true,
+          },
+          {
+            content: 'Default node',
+            timestamp: '2018-04-03 20:46',
+          },
+        ],
+      }
+    },
+  }
 </script>
 ```
+
 :::
 
 ### カスタムタイムスタンプ
@@ -95,6 +117,7 @@
 タイムスタンプは、コンテンツが大きい場合にコンテンツの上部に配置することができます。
 
 :::demo
+
 ```html
 <div class="block">
   <el-timeline>
@@ -119,21 +142,25 @@
   </el-timeline>
 </div>
 ```
+
 :::
 
 ### タイムライン-アイテム属性
-| Attribute      | Description    | Type      | Accepted Values | Default   |
-|---------- |-------- |---------- |-------------  |-------- |
-| timestamp     | タイムスタンプコンテンツ | string  | - | — |
-| hide-timestamp  | タイムスタンプを表示するかどうか | boolean | — | false |
-| placement | タイムスタンプ位置 | string | top / bottom | bottom |
-| type | ノード型 | string | primary / success / warning / danger / info | - |
-| color | ノードの背景色 | string | hsl / hsv / hex / rgb | - |
-| size | ノードサイズ | string | normal / large | normal |
-| icon | アイコンクラス名 | string | — | - |
+
+| Attribute      | Description                      | Type    | Accepted Values                             | Default |
+| -------------- | -------------------------------- | ------- | ------------------------------------------- | ------- |
+| timestamp      | タイムスタンプコンテンツ         | string  | —                                           | —       |
+| hide-timestamp | タイムスタンプを表示するかどうか | boolean | —                                           | false   |
+| placement      | タイムスタンプ位置               | string  | top / bottom                                | bottom  |
+| type           | ノード型                         | string  | primary / success / warning / danger / info | —       |
+| color          | ノードの背景色                   | string  | hsl / hsv / hex / rgb                       | —       |
+| size           | ノードサイズ                     | string  | normal / large                              | normal  |
+| icon           | アイコンクラス名                 | string  | —                                           | —       |
+| hollow         | icon is hollow                   | boolean | —                                           | false   |
 
 ### タイムラインアイテムスロット
-| name | Description |
-|------|--------|
-| — | タイムライン項目のカスタムコンテンツ |
-| dot | カスタム定義ノード |
+
+| name | Description                          |
+| ---- | ------------------------------------ |
+| —    | タイムライン項目のカスタムコンテンツ |
+| dot  | カスタム定義ノード                   |

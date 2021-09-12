@@ -14,13 +14,13 @@ describe('Aria Utils', () => {
   })
 
   describe('isFocusable', () => {
-    it('should be focusable when element has tabindex attr, and it\'s value is greater than 0', () => {
+    it("should be focusable when element has tabindex attr, and it's value is greater than 0", () => {
       const $el = CE('div')
       $el.tabIndex = 1
       expect(isFocusable($el)).toBe(true)
     })
 
-    it('should not be focusable when element has tabindex attr, and it\'s value is smaller than 0', () => {
+    it("should not be focusable when element has tabindex attr, and it's value is smaller than 0", () => {
       const $el = CE('div')
       $el.tabIndex = -1
       expect(isFocusable($el)).toBe(false)

@@ -1,10 +1,23 @@
-import { Fragment, Text, Comment, createBlock, openBlock, createCommentVNode } from 'vue'
+import {
+  Fragment,
+  Text,
+  Comment,
+  createBlock,
+  openBlock,
+  createCommentVNode,
+  isVNode,
+  camelize,
+} from 'vue'
 
 import type { VNode, VNodeTypes, VNodeChild } from 'vue'
+import { hasOwn } from '@vue/shared'
+import { debugWarn } from './error'
 
 type Children = VNodeTypes[] | VNodeTypes
 
 const TEMPLATE = 'template'
+
+export const SCOPE = 'VNode'
 
 export enum PatchFlags {
   TEXT = 1,
@@ -22,13 +35,15 @@ export enum PatchFlags {
   BAIL = -2,
 }
 
-export const isFragment = (node: VNodeChild) => (node as VNode).type === Fragment
+export const isFragment = (node: VNodeChild) =>
+  (node as VNode).type === Fragment
 
 export const isText = (node: VNodeChild) => (node as VNode).type === Text
 
 export const isComment = (node: VNodeChild) => (node as VNode).type === Comment
 
-export const isTemplate = (node: VNodeChild) => (node as VNode).type === TEMPLATE
+export const isTemplate = (node: VNodeChild) =>
+  (node as VNode).type === TEMPLATE
 
 /**
  * get a valid child node (not fragment nor comment)
@@ -54,7 +69,7 @@ export const isValidElementNode = (node: VNodeChild) =>
 
 export const getFirstValidNode = (
   nodes: VNodeChild,
-  maxDepth = 3,
+  maxDepth = 3
 ): ReturnType<typeof getChildren> => {
   if (Array.isArray(nodes)) {
     return getChildren(nodes[0] as VNode, maxDepth)
@@ -69,13 +84,11 @@ export function renderIf(
   props: any,
   children?: Children,
   patchFlag?: number,
-  patchProps?: string[],
+  patchProps?: string[]
 ) {
-  return (
-    condition
-      ? renderBlock(node, props, children, patchFlag, patchProps)
-      : createCommentVNode('v-if', true)
-  )
+  return condition
+    ? renderBlock(node, props, children, patchFlag, patchProps)
+    : createCommentVNode('v-if', true)
 }
 
 export function renderBlock(
@@ -83,7 +96,34 @@ export function renderBlock(
   props: any,
   children?: Children,
   patchFlag?: number,
-  patchProps?: string[],
+  patchProps?: string[]
 ) {
-  return (openBlock(), createBlock(node, props, children, patchFlag, patchProps))
+  return openBlock(), createBlock(node, props, children, patchFlag, patchProps)
+}
+
+/**
+ * todo
+ * get normalized props from VNode
+ * @param node
+ */
+export const getNormalizedProps = (node: VNode) => {
+  if (!isVNode(node)) {
+    debugWarn(SCOPE, 'value must be a VNode')
+    return
+  }
+  const raw = node.props || {}
+  const type = (node.type as any).props || {}
+  const props = {}
+
+  Object.keys(type).forEach((key) => {
+    if (hasOwn(type[key], 'default')) {
+      props[key] = type[key].default
+    }
+  })
+
+  Object.keys(raw).forEach((key) => {
+    props[camelize(key)] = raw[key]
+  })
+
+  return props
 }

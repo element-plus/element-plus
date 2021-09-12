@@ -2,7 +2,7 @@ import isServer from './isServer'
 
 let scrollBarWidth: number
 
-export default function(): number {
+export default function (): number {
   if (isServer) return 0
   if (scrollBarWidth !== undefined) return scrollBarWidth
 

@@ -1,9 +1,9 @@
-@import "mixins/mixins";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'common/var';
 
 @include b(overlay) {
   #{& + '-root'} {
-      height: 0;
+    height: 0;
   }
   position: fixed;
   top: 0;
@@ -12,15 +12,6 @@
   left: 0;
   z-index: 2000;
   height: 100%;
-  text-align: center;
   background-color: rgba(0, 0, 0, 0.5);
   overflow: auto;
-
-  &::after {
-    content: "";
-    display: inline-block;
-    height: 100%;
-    width: 0;
-    vertical-align: middle;
-  }
 }

@@ -1,5 +1,5 @@
 .demo-block {
-  .el-date-editor + .el-date-editor {
+  .#{$namespace}-date-editor + .#{$namespace}-date-editor {
     margin-left: 10px;
   }
 }

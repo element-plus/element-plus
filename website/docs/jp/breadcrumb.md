@@ -4,7 +4,6 @@
 
 ### 基本的な使い方
 
-
 :::demo `el-breadcrumb` では、`el-breadcrumb-item` はホームページから始まる各レベルを表すタグである。このコンポーネントは `String` 属性 `separator` を持ち、セパレータを決定する。デフォルト値は'/'である。
 
 ```html
@@ -15,6 +14,7 @@
   <el-breadcrumb-item>promotion detail</el-breadcrumb-item>
 </el-breadcrumb>
 ```
+
 :::
 
 ### アイコンセパレータ
@@ -29,21 +29,19 @@
   <el-breadcrumb-item>promotion detail</el-breadcrumb-item>
 </el-breadcrumb>
 ```
+
 :::
 
 ### Breadcrumb(パンくず)属性
-| Attribute      | Description          | Type      | Accepted Values            | Default|
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| separator | セパレータ文字 | string | — | / |
-| separator-class | アイコンセパレータのクラス名 | string | — | - |
+
+| Attribute       | Description                  | Type   | Accepted Values | Default |
+| --------------- | ---------------------------- | ------ | --------------- | ------- |
+| separator       | セパレータ文字               | string | —               | /       |
+| separator-class | アイコンセパレータのクラス名 | string | —               | -       |
 
 ### Breadcrumb(パンくず)項目属性
-| Attribute      | Description          | Type      | Accepted Values            | Default|
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| to | リンクのターゲットルート、`vue-router` の `to` と同じ | string/object | — | — |
-| replace | `true` の場合、ナビゲーションは履歴を残しません。 | boolean | — | false |
 
-
-
-
-
+| Attribute | Description                                           | Type          | Accepted Values | Default |
+| --------- | ----------------------------------------------------- | ------------- | --------------- | ------- |
+| to        | リンクのターゲットルート、`vue-router` の `to` と同じ | string/object | —               | —       |
+| replace   | `true` の場合、ナビゲーションは履歴を残しません。     | boolean       | —               | false   |

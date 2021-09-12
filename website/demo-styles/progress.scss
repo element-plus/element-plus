@@ -1,9 +1,22 @@
 .demo-block.demo-progress {
-  .el-progress--line {
+  .#{$namespace}-progress--line {
     margin-bottom: 15px;
     width: 350px;
   }
-  .el-progress--circle {
+
+  .#{$namespace}-progress--circle {
     margin-right: 15px;
+  }
+
+  .percentage-value {
+    display: block;
+    margin-top: 10px;
+    font-size: 28px;
+  }
+
+  .percentage-label {
+    display: block;
+    margin-top: 10px;
+    font-size: 12px;
   }
 }

@@ -1,8 +1,8 @@
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
-@import './overlay.scss';
 
-@keyframes el-drawer-fade-in {
+@keyframes #{$namespace}-drawer-fade-in {
   0% {
     opacity: 0;
   }
@@ -53,13 +53,14 @@
 
 @mixin animation-in($direction) {
   &.#{$direction} {
-    animation: #{$direction}-drawer-animation 0.3s linear reverse;
+    animation: #{$direction}-drawer-animation var(--el-transition-duration) linear
+      reverse;
   }
 }
 
 @mixin animation-out($direction) {
   &.#{$direction} {
-    animation: #{$direction}-drawer-animation 0.3s linear;
+    animation: #{$direction}-drawer-animation var(--el-transition-duration) linear;
   }
 }
 
@@ -71,9 +72,13 @@
 $directions: rtl, ltr, ttb, btt;
 
 @include b(drawer) {
+  @include set-component-css-var('drawer', $--drawer);
+}
+
+@include b(drawer) {
   position: absolute;
   box-sizing: border-box;
-  background-color: $--dialog-background-color;
+  background-color: var(--el-drawer-background-color);
   display: flex;
   flex-direction: column;
   box-shadow: 0 8px 10px -5px rgba(0, 0, 0, 0.2),
@@ -81,11 +86,11 @@ $directions: rtl, ltr, ttb, btt;
   overflow: hidden;
 
   @each $direction in $directions {
-    .el-drawer-fade-enter-active & {
+    .#{$namespace}-drawer-fade-enter-active & {
       @include animation-in($direction);
     }
 
-    .el-drawer-fade-leave-active & {
+    .#{$namespace}-drawer-fade-leave-active & {
       @include animation-out($direction);
     }
   }
@@ -95,7 +100,7 @@ $directions: rtl, ltr, ttb, btt;
     color: rgb(114, 118, 123);
     display: flex;
     margin-bottom: 32px;
-    padding: $--dialog-padding-primary;
+    padding: var(--el-drawer-padding-primary);
     padding-bottom: 0;
     & > :first-child {
       flex: 1;
@@ -112,9 +117,15 @@ $directions: rtl, ltr, ttb, btt;
   &__close-btn {
     border: none;
     cursor: pointer;
-    font-size: $--font-size-extra-large;
+    font-size: var(--el-font-size-extra-large);
     color: inherit;
     background-color: transparent;
+    outline: none;
+    &:hover {
+      i {
+        color: var(--el-color-primary);
+      }
+    }
   }
 
   &__body {
@@ -155,12 +166,12 @@ $directions: rtl, ltr, ttb, btt;
   }
 }
 
-.el-drawer-fade-enter-active {
-  animation: el-drawer-fade-in 0.3s;
+.#{$namespace}-drawer-fade-enter-active {
+  animation: #{$namespace}-drawer-fade-in var(--el-transition-duration);
   overflow: hidden !important;
 }
 
-.el-drawer-fade-leave-active {
+.#{$namespace}-drawer-fade-leave-active {
   overflow: hidden !important;
-  animation: el-drawer-fade-in 0.3s reverse;
+  animation: #{$namespace}-drawer-fade-in var(--el-transition-duration) reverse;
 }

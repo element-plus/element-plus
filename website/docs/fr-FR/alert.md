@@ -10,24 +10,13 @@ Les Alertes sont des composants non superposés qui ne disparaissent pas automat
 
 ```html
 <template>
-  <el-alert
-    title="succès"
-    type="success">
-  </el-alert>
-  <el-alert
-    title="information"
-    type="info">
-  </el-alert>
-  <el-alert
-    title="avertissement"
-    type="warning">
-  </el-alert>
-  <el-alert
-    title="erreur"
-    type="error">
-  </el-alert>
+  <el-alert title="succès" type="success"> </el-alert>
+  <el-alert title="information" type="info"> </el-alert>
+  <el-alert title="avertissement" type="warning"> </el-alert>
+  <el-alert title="erreur" type="error"> </el-alert>
 </template>
 ```
+
 :::
 
 ### Thème
@@ -35,30 +24,16 @@ Les Alertes sont des composants non superposés qui ne disparaissent pas automat
 Alert fournit deux thèmes différents, `light` et `dark`.
 
 :::demo Réglez `effect` pour changer le thème, le défaut étant `light`.
+
 ```html
 <template>
-  <el-alert
-    title="succès"
-    type="success"
-    effect="dark">
-  </el-alert>
-  <el-alert
-    title="info"
-    type="info"
-    effect="dark">
-  </el-alert>
-  <el-alert
-    title="avertissement"
-    type="warning"
-    effect="dark">
-  </el-alert>
-  <el-alert
-    title="erreur"
-    type="error"
-    effect="dark">
-  </el-alert>
+  <el-alert title="succès" type="success" effect="dark"> </el-alert>
+  <el-alert title="info" type="info" effect="dark"> </el-alert>
+  <el-alert title="avertissement" type="warning" effect="dark"> </el-alert>
+  <el-alert title="erreur" type="error" effect="dark"> </el-alert>
 </template>
 ```
+
 :::
 
 ### Bouton personnalisable
@@ -69,20 +44,15 @@ Personnalisez le bouton de fermeture avec du texte ou des symboles.
 
 ```html
 <template>
-  <el-alert
-    title="alerte non fermable"
-    type="success"
-    :closable="false">
+  <el-alert title="alerte non fermable" type="success" :closable="false">
   </el-alert>
   <el-alert
     title="texte de fermeture personnalisé"
     type="info"
-    close-text="Gotcha">
+    close-text="Gotcha"
+  >
   </el-alert>
-  <el-alert
-    title="alerte avec callback"
-    type="warning"
-    @close="hello">
+  <el-alert title="alerte avec callback" type="warning" @close="hello">
   </el-alert>
 </template>
 
@@ -91,15 +61,16 @@ Personnalisez le bouton de fermeture avec du texte ou des symboles.
   export default defineComponent({
     setup() {
       const hello = () => {
-        alert('Hello World!');
+        alert('Hello World!')
       }
       return {
-        hello
+        hello,
       }
-    }
+    },
   })
 </script>
 ```
+
 :::
 
 ### Avec icône
@@ -110,28 +81,13 @@ Afficher une icône améliore la lisibilité.
 
 ```html
 <template>
-  <el-alert
-    title="succès"
-    type="success"
-    show-icon>
-  </el-alert>
-  <el-alert
-    title="information"
-    type="info"
-    show-icon>
-  </el-alert>
-  <el-alert
-    title="avertissement"
-    type="warning"
-    show-icon>
-  </el-alert>
-  <el-alert
-    title="erreur"
-    type="error"
-    show-icon>
-  </el-alert>
+  <el-alert title="succès" type="success" show-icon> </el-alert>
+  <el-alert title="information" type="info" show-icon> </el-alert>
+  <el-alert title="avertissement" type="warning" show-icon> </el-alert>
+  <el-alert title="erreur" type="error" show-icon> </el-alert>
 </template>
 ```
+
 :::
 
 ## Texte centré
@@ -142,32 +98,13 @@ Utilisez l'attribut `center` pour centrer le texte.
 
 ```html
 <template>
-  <el-alert
-    title="succès"
-    type="success"
-    center
-    show-icon>
-  </el-alert>
-  <el-alert
-    title="information"
-    type="info"
-    center
-    show-icon>
-  </el-alert>
-  <el-alert
-    title="avertissement"
-    type="warning"
-    center
-    show-icon>
-  </el-alert>
-  <el-alert
-    title="erreur"
-    type="error"
-    center
-    show-icon>
-  </el-alert>
+  <el-alert title="succès" type="success" center show-icon> </el-alert>
+  <el-alert title="information" type="info" center show-icon> </el-alert>
+  <el-alert title="avertissement" type="warning" center show-icon> </el-alert>
+  <el-alert title="erreur" type="error" center show-icon> </el-alert>
 </template>
 ```
+
 :::
 
 ### Description
@@ -178,13 +115,11 @@ Contient un message avec plus d'informations.
 
 ```html
 <template>
-  <el-alert
-    title="Titre"
-    type="success"
-    description="Ceci est la description.">
+  <el-alert title="Titre" type="success" description="Ceci est la description.">
   </el-alert>
 </template>
 ```
+
 :::
 
 ### Icône et description
@@ -197,50 +132,57 @@ Contient un message avec plus d'informations.
     title="succès"
     type="success"
     description="Plus de texte pour décrire."
-    show-icon>
+    show-icon
+  >
   </el-alert>
   <el-alert
     title="information"
     type="info"
     description="Plus de texte pour décrire."
-    show-icon>
+    show-icon
+  >
   </el-alert>
   <el-alert
     title="avertissement"
     type="warning"
     description="Plus de texte pour décrire."
-    show-icon>
+    show-icon
+  >
   </el-alert>
   <el-alert
     title="erreur"
     type="error"
     description="Plus de texte pour décrire."
-    show-icon>
+    show-icon
+  >
   </el-alert>
 </template>
 ```
+
 :::
 
 ### Attributs
-| Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| title     | Titre.         | string | — | — |
-| type | Type du composant. | string | success/warning/info/error | info |
-| description | Texte de description. Peut aussi être passé via le slot par défaut | string | — | — |
-| closable | Si peut être fermé ou non. | boolean | — | true |
-| center | Si le texte doit être centré ou non. | boolean | — | false |
-| close-text | Texte personnalisé pour le bouton de fermeture. | string | — | — |
-| show-icon | Si une icône s'affiche ou non. | boolean | — | false |
-| effect | Détermine le thème.  | string | light/dark | light |
+
+| Attribut    | Description                                                        | Type    | Valeurs acceptées          | Défaut |
+| ----------- | ------------------------------------------------------------------ | ------- | -------------------------- | ------ |
+| title       | Titre.                                                             | string  | —                          | —      |
+| type        | Type du composant.                                                 | string  | success/warning/info/error | info   |
+| description | Texte de description. Peut aussi être passé via le slot par défaut | string  | —                          | —      |
+| closable    | Si peut être fermé ou non.                                         | boolean | —                          | true   |
+| center      | Si le texte doit être centré ou non.                               | boolean | —                          | false  |
+| close-text  | Texte personnalisé pour le bouton de fermeture.                    | string  | —                          | —      |
+| show-icon   | Si une icône s'affiche ou non.                                     | boolean | —                          | false  |
+| effect      | Détermine le thème.                                                | string  | light/dark                 | light  |
 
 ### Slot
 
-| Nom | Description |
-|------|--------|
-| — | la description |
+| Nom   | Description          |
+| ----- | -------------------- |
+| —     | la description       |
 | title | Le contenu du titre. |
 
 ### Évènements
-| Nom | Description | Paramètres |
-|---------- |-------- |---------- |
-| close | Se déclenche lorsque l'alerte est fermée. | — |
+
+| Nom   | Description                               | Paramètres |
+| ----- | ----------------------------------------- | ---------- |
+| close | Se déclenche lorsque l'alerte est fermée. | —          |

@@ -1,25 +1,25 @@
 .demo-block.demo-menu {
-  .el-menu-demo {
+  .#{$namespace}-menu-demo {
     padding-left: 55px;
   }
-  .el-menu-vertical-demo:not(.el-menu--collapse) {
+  .#{$namespace}-menu-vertical-demo:not(.#{$namespace}-menu--collapse) {
     width: 240px;
     min-height: 400px;
   }
   .line {
     height: 1px;
-    background-color: #e0e6ed;
+    background-color: var(--el-border-color-base);
     margin: 35px -24px;
   }
   h5 {
     font-size: 14px;
-    color: #8492a6;
+    color: var(--el-text-color-secondary);
     margin-top: 10px;
   }
   .tac {
     text-align: center;
 
-    .el-menu-vertical-demo {
+    .#{$namespace}-menu-vertical-demo {
       display: inline-block;
       text-align: left;
     }

@@ -15,26 +15,58 @@ S'affiche en haut de la page et disparaît après trois secondes.
 </template>
 
 <script>
-  import { h } from 'vue';
+  import { h } from 'vue'
 
   export default {
     methods: {
       open() {
-        this.$message('Ceci est un message.');
+        this.$message('Ceci est un message.')
       },
 
       openVn() {
         this.$message({
           message: h('p', null, [
             h('span', null, 'Message peut être '),
-            h('i', { style: 'color: teal' }, 'VNode')
-          ])
-        });
-      }
-    }
+            h('i', { style: 'color: teal' }, 'VNode'),
+          ]),
+        })
+      },
+    },
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, h } from 'vue';
+  import { ElMessage } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const open = () => {
+        ElMessage('Ceci est un message.');
+      };
+
+      const openVn = () => {
+        ElMessage({
+          message: h('p', null, [
+            h('span', null, 'Message peut être '),
+            h('i', { style: 'color: teal' }, 'VNode'),
+          ]),
+        });
+      };
+
+      return {
+        open,
+        openVn,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
+
 :::
 
 ### Types
@@ -42,6 +74,7 @@ S'affiche en haut de la page et disparaît après trois secondes.
 Utilisé pour montrer un retour d'activités Success, Warning, Message ou Error.
 
 :::demo Lorsque vous avez besoin de plus de personnalisation, Message peut aussi accepter un objet en paramètre. Par exemple, le paramètre `type` définit différents types, son défaut étant `info`. Dans ce cas le body est passé comme valeur de `message`. De plus, il existe des méthodes pour chaque type, afin que vous puissiez vous passer de la propriété `type` comme dans `open4`.
+
 ```html
 <template>
   <el-button :plain="true" @click="open2">success</el-button>
@@ -54,29 +87,70 @@ Utilisé pour montrer un retour d'activités Success, Warning, Message ou Error.
   export default {
     methods: {
       open1() {
-        this.$message('Ceci est un message.');
+        this.$message('Ceci est un message.')
       },
       open2() {
         this.$message({
           message: 'Félicitations, ceci est un message de succès.',
-          type: 'success'
-        });
+          type: 'success',
+        })
       },
 
       open3() {
         this.$message({
           message: 'Attention, ceci est un avertissement.',
-          type: 'warning'
-        });
+          type: 'warning',
+        })
       },
 
       open4() {
-        this.$message.error('Ouups, ceci est une erreur.');
-      }
-    }
+        this.$message.error('Ouups, ceci est une erreur.')
+      },
+    },
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElMessage } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const open1 = () => {
+        ElMessage('Ceci est un message.');
+      };
+
+      const open2 = () => {
+        ElMessage({
+          message: 'Félicitations, ceci est un message de succès.',
+          type: 'success',
+        });
+      };
+      const open3 = () => {
+        ElMessage({
+          message: 'Attention, ceci est un avertissement.',
+          type: 'warning',
+        });
+      };
+      const open4 = () => {
+        ElMessage.error('Ouups, ceci est une erreur.');
+      };
+
+      return {
+        open1,
+        open2,
+        open3,
+        open4,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
+
 :::
 
 ### Fermeture
@@ -84,6 +158,7 @@ Utilisé pour montrer un retour d'activités Success, Warning, Message ou Error.
 Un bouton de fermeture peut être ajouté.
 
 :::demo Un Message ne peut être fermé par défaut. Utiliséez `showClose` si vous avez besoin de pouvoir le fermer. De plus, tout comme Notification, Message possède une `duration` réglable. La durée par défaut est de 3000 ms, et infinie si à `0`.
+
 ```html
 <template>
   <el-button :plain="true" @click="open1">message</el-button>
@@ -98,37 +173,87 @@ Un bouton de fermeture peut être ajouté.
       open1() {
         this.$message({
           showClose: true,
-          message: 'Ceci est un message.'
-        });
+          message: 'Ceci est un message.',
+        })
       },
 
       open2() {
         this.$message({
           showClose: true,
           message: 'Félicitations, ceci est un message de succès.',
-          type: 'success'
-        });
+          type: 'success',
+        })
       },
 
       open3() {
         this.$message({
           showClose: true,
           message: 'Attention, ceci est un avertissement.',
-          type: 'warning'
-        });
+          type: 'warning',
+        })
       },
 
       open4() {
         this.$message({
           showClose: true,
           message: 'Ouups, ceci est une erreur.',
-          type: 'error'
-        });
-      }
-    }
+          type: 'error',
+        })
+      },
+    },
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElMessage } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const open1 = () => {
+        ElMessage({
+          showClose: true,
+          message: 'Ceci est un message.',
+        });
+      };
+
+      const open2 = () => {
+        ElMessage({
+          showClose: true,
+          message: 'Félicitations, ceci est un message de succès.',
+          type: 'success',
+        });
+      };
+      const open3 = () => {
+        ElMessage({
+          showClose: true,
+          message: 'Attention, ceci est un avertissement.',
+          type: 'warning',
+        });
+      };
+      const open4 = () => {
+        ElMessage({
+          showClose: true,
+          message: 'Ouups, ceci est une erreur.',
+          type: 'error',
+        });
+      };
+
+      return {
+        open1,
+        open2,
+        open3,
+        open4,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
+
 :::
 
 ### Texte centré
@@ -148,13 +273,38 @@ Utilisez l'attribut `center` pour centrer le texte.
       openCenter() {
         this.$message({
           message: 'Texte centré',
-          center: true
-        });
-      }
-    }
+          center: true,
+        })
+      },
+    },
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElMessage } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const openCenter = () => {
+        ElMessage({
+          message: 'Texte centré',
+          center: true,
+        });
+      };
+
+      return {
+        openCenter,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
+
 :::
 
 ### Utiliser du HTML
@@ -174,13 +324,38 @@ Utilisez l'attribut `center` pour centrer le texte.
       openHTML() {
         this.$message({
           dangerouslyUseHTMLString: true,
-          message: '<strong>Ceci est du <i>HTML</i></strong>'
-        });
-      }
-    }
+          message: '<strong>Ceci est du <i>HTML</i></strong>',
+        })
+      },
+    },
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElMessage } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const openHTML = () => {
+        ElMessage({
+          dangerouslyUseHTMLString: true,
+          message: '<strong>Ceci est du <i>HTML</i></strong>',
+        });
+      };
+
+      return {
+        openHTML,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
+
 :::
 
 :::warning
@@ -194,30 +369,30 @@ Element Plus ajoute une méthode `$message` à `app.config.globalProperties`. Vo
 ### Import à la demande
 
 ```javascript
-import { ElMessage } from 'element-plus';
+import { ElMessage } from 'element-plus'
 ```
 
 Dans ce cas il faudra appeler `ElMessage(options)`. Les méthodes des différents types sont aussi ajoutées, e.g. `ElMessage.success(options)`. Vous pouvez appeler `ElMessage.closeAll()` pour fermer manuellement toutes les instances.
 
 ### Options
 
-| Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| message | Texte du message. | string / VNode | — | — |
-| type | Type du message. | string | success/warning/info/error | info |
-| iconClass | Classe de l'icône, écrase `type`. | string | — | — |
-| dangerouslyUseHTMLString | Si `message` doit être traité comme du HTML. | boolean | — | false |
-| customClass | Nom de classe pour Message. | string | — | — |
-| duration | La durée d'affichage, en millisecondes. Si 0, la durée est infinie. | number | — | 3000 |
-| showClose | Si un bouton de fermeture doit être affiché. | boolean | — | false |
-| center | Si le texte doit être centré. | boolean | — | false |
-| onClose | Callback de fermeture avec en paramètre l'instance de Message. | function | — | — |
-| offset | set the distance to the top of viewport | number | — | 20 |
+| Attribut                 | Description                                                         | Type           | Valeurs acceptées          | Défaut |
+| ------------------------ | ------------------------------------------------------------------- | -------------- | -------------------------- | ------ |
+| message                  | Texte du message.                                                   | string / VNode | —                          | —      |
+| type                     | Type du message.                                                    | string         | success/warning/info/error | info   |
+| iconClass                | Classe de l'icône, écrase `type`.                                   | string         | —                          | —      |
+| dangerouslyUseHTMLString | Si `message` doit être traité comme du HTML.                        | boolean        | —                          | false  |
+| customClass              | Nom de classe pour Message.                                         | string         | —                          | —      |
+| duration                 | La durée d'affichage, en millisecondes. Si 0, la durée est infinie. | number         | —                          | 3000   |
+| showClose                | Si un bouton de fermeture doit être affiché.                        | boolean        | —                          | false  |
+| center                   | Si le texte doit être centré.                                       | boolean        | —                          | false  |
+| onClose                  | Callback de fermeture avec en paramètre l'instance de Message.      | function       | —                          | —      |
+| offset                   | set the distance to the top of viewport                             | number         | —                          | 20     |
 
 ### Méthodes
 
 `Message` et `this.$message` retourne l'instance actuelle. Pour fermer manuellement cette instance, appelez sa méthode `close`.
 
-| Méthode | Description |
-| ---- | ---- |
-| close | Ferme l'instance de Message. |
+| Méthode | Description                  |
+| ------- | ---------------------------- |
+| close   | Ferme l'instance de Message. |

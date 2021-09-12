@@ -1,8 +1,10 @@
-@import "mixins/mixins";
-@import "checkbox";
-@import "tag";
-@import "tooltip";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'mixins/var';
+@import 'common/var';
+
+@include b(table) {
+  @include set-component-css-var('table', $--table);
+}
 
 @include b(table) {
   position: relative;
@@ -11,9 +13,9 @@
   height: fit-content;
   width: 100%;
   max-width: 100%;
-  background-color: $--color-white;
+  background-color: var(--el-table-background-color);
   font-size: 14px;
-  color: $--table-font-color;
+  color: var(--el-table-font-color);
 
   // 数据为空
   @include e(empty-block) {
@@ -30,7 +32,7 @@
     // set empty text line height up to contrainer min-height as workaround.
     line-height: 60px;
     width: 50%;
-    color: $--color-text-secondary;
+    color: var(--el-text-color-secondary);
   }
 
   // 展开行
@@ -44,16 +46,16 @@
   @include e(expand-icon) {
     position: relative;
     cursor: pointer;
-    color: #666;
+    color: var(--el-text-color-regular);
     font-size: 12px;
-    transition: transform 0.2s ease-in-out;
+    transition: transform var(--el-transition-duration-fast) ease-in-out;
     height: 20px;
 
     @include m(expanded) {
       transform: rotate(90deg);
     }
 
-    > .el-icon {
+    > .#{$namespace}-icon {
       position: absolute;
       left: 50%;
       top: 50%;
@@ -63,10 +65,10 @@
   }
 
   @include e(expanded-cell) {
-    background-color: $--color-white;
+    background-color: var(--el-table-expanded-cell-background-color);
 
     // 纯属为了增加权重
-    &[class*=cell] {
+    &[class*='cell'] {
       padding: 20px 50px;
     }
 
@@ -89,35 +91,35 @@
     border-right: 0;
     border-bottom: 0;
 
-    th.gutter, td.gutter {
+    .#{$namespace}-table__cell.gutter {
       border-right-width: 1px;
     }
   }
 
   @include m(scrollable-x) {
-    .el-table__body-wrapper {
+    .#{$namespace}-table__body-wrapper {
       overflow-x: auto;
     }
   }
 
   @include m(scrollable-y) {
-    .el-table__body-wrapper {
+    .#{$namespace}-table__body-wrapper {
       overflow-y: auto;
     }
   }
 
   thead {
-    color: $--table-header-font-color;
+    color: var(--el-table-header-font-color);
     font-weight: 500;
 
     &.is-group {
-      th {
-        background: $--background-color-base;
+      th.#{$namespace}-table__cell {
+        background: var(--el-background-color-base);
       }
     }
   }
 
-  th, td {
+  .#{$namespace}-table__cell {
     padding: 12px 0;
     min-width: 0;
     box-sizing: border-box;
@@ -149,63 +151,62 @@
   }
 
   @include m(medium) {
-    th, td {
+    .#{$namespace}-table__cell {
       padding: 10px 0;
     }
   }
 
   @include m(small) {
     font-size: 12px;
-    th, td {
+    .#{$namespace}-table__cell {
       padding: 8px 0;
     }
   }
 
   @include m(mini) {
     font-size: 12px;
-    th, td {
+    .#{$namespace}-table__cell {
       padding: 6px 0;
     }
   }
 
   tr {
-    background-color: $--color-white;
+    background-color: var(--el-table-tr-background-color);
 
-    input[type="checkbox"] {
+    input[type='checkbox'] {
       margin: 0;
     }
   }
 
-  th.is-leaf, td {
-    border-bottom: $--table-border;
+  th.#{$namespace}-table__cell.is-leaf,
+  td.#{$namespace}-table__cell {
+    border-bottom: var(--el-table-border);
   }
 
-  th.is-sortable {
+  th.#{$namespace}-table__cell.is-sortable {
     cursor: pointer;
   }
 
-  th {
+  th.#{$namespace}-table__cell {
     overflow: hidden;
     user-select: none;
-    background-color: $--table-header-background-color;
+    background-color: var(--el-table-header-background-color);
 
     > .cell {
       display: inline-block;
       box-sizing: border-box;
       position: relative;
       vertical-align: middle;
-      padding-left: 10px;
-      padding-right: 10px;
       width: 100%;
 
       &.highlight {
-        color: $--color-primary;
+        color: var(--el-color-primary);
       }
     }
 
     &.required > div::before {
       display: inline-block;
-      content: "";
+      content: '';
       width: 8px;
       height: 8px;
       border-radius: 50%;
@@ -215,7 +216,7 @@
     }
   }
 
-  td {
+  td.#{$namespace}-table__cell {
     div {
       box-sizing: border-box;
     }
@@ -235,7 +236,7 @@
     padding-left: 10px;
     padding-right: 10px;
 
-    &.el-tooltip {
+    &.#{$namespace}-tooltip {
       white-space: nowrap;
       min-width: 50px;
     }
@@ -243,12 +244,12 @@
 
   // 拥有多级表头
   @include m((group, border)) {
-    border: $--table-border;
+    border: var(--el-table-border);
 
     @include share-rule(border-pseudo) {
       content: '';
       position: absolute;
-      background-color: $--table-border-color;
+      background-color: var(--el-table-border-color);
       z-index: 1;
     }
 
@@ -277,25 +278,25 @@
     border-bottom: none;
 
     // fix: #1013
-    // &.el-loading-parent--relative {
+    // &.#{$namespace}-loading-parent--relative {
     //   border-color: transparent;
     // }
 
-    th, td {
-      border-right: $--table-border;
+    .#{$namespace}-table__cell {
+      border-right: var(--el-table-border);
 
       &:first-child .cell {
         padding-left: 10px;
       }
     }
 
-    th.gutter:last-of-type {
-      border-bottom: $--table-border;
+    th.#{$namespace}-table__cell.gutter:last-of-type {
+      border-bottom: var(--el-table-border);
       border-bottom-width: 1px;
     }
 
-    & th {
-      border-bottom: $--table-border;
+    & th.#{$namespace}-table__cell {
+      border-bottom: var(--el-table-border);
     }
   }
 
@@ -309,7 +310,7 @@
     left: 0;
     overflow-x: hidden;
     overflow-y: hidden;
-    box-shadow: $--table-fixed-box-shadow;
+    box-shadow: var(--el-table-fixed-box-shadow);
 
     &::before {
       content: '';
@@ -318,7 +319,7 @@
       bottom: 0;
       width: 100%;
       height: 1px;
-      background-color: $--border-color-lighter;
+      background-color: var(--el-border-color-lighter);
       z-index: 4;
     }
   }
@@ -327,8 +328,8 @@
     position: absolute;
     top: -1px;
     right: 0;
-    background-color: $--color-white;
-    border-bottom: $--table-border;
+    background-color: var(--el-table-header-background-color);
+    border-bottom: var(--el-table-border);
   }
 
   @include e(fixed-right) {
@@ -336,9 +337,9 @@
     left: auto;
     right: 0;
 
-    .el-table__fixed-header-wrapper,
-    .el-table__fixed-body-wrapper,
-    .el-table__fixed-footer-wrapper {
+    .#{$namespace}-table__fixed-header-wrapper,
+    .#{$namespace}-table__fixed-body-wrapper,
+    .#{$namespace}-table__fixed-footer-wrapper {
       left: auto;
       right: 0;
     }
@@ -357,10 +358,10 @@
     bottom: 0;
     z-index: 3;
 
-    & tbody td {
-      border-top: $--table-border;
-      background-color: $--table-row-hover-background-color;
-      color: $--table-font-color;
+    & tbody td.#{$namespace}-table__cell {
+      border-top: var(--el-table-border);
+      background-color: var(--el-table-row-hover-background-color);
+      color: var(--el-table-font-color);
     }
   }
 
@@ -378,8 +379,8 @@
 
   @include e(footer-wrapper) {
     margin-top: -1px;
-    td {
-      border-top: $--table-border;
+    td.#{$namespace}-table__cell {
+      border-top: var(--el-table-border);
     }
   }
 
@@ -391,9 +392,9 @@
   @include e((header-wrapper, footer-wrapper)) {
     overflow: hidden;
 
-    & tbody td {
-      background-color: $--table-row-hover-background-color;
-      color: $--table-font-color;
+    & tbody td.#{$namespace}-table__cell {
+      background-color: var(--el-table-row-hover-background-color);
+      color: var(--el-table-font-color);
     }
   }
 
@@ -402,34 +403,34 @@
     position: relative;
 
     @include when(scrolling-none) {
-      ~ .el-table__fixed,
-      ~ .el-table__fixed-right {
+      ~ .#{$namespace}-table__fixed,
+      ~ .#{$namespace}-table__fixed-right {
         box-shadow: none;
       }
     }
 
     @include when(scrolling-left) {
-      ~ .el-table__fixed {
+      ~ .#{$namespace}-table__fixed {
         box-shadow: none;
       }
     }
 
     @include when(scrolling-right) {
-      ~ .el-table__fixed-right {
+      ~ .#{$namespace}-table__fixed-right {
         box-shadow: none;
       }
     }
 
-    .el-table--border {
+    .#{$namespace}-table--border {
       @include when(scrolling-right) {
-        ~ .el-table__fixed-right {
-          border-left: $--table-border;
+        ~ .#{$namespace}-table__fixed-right {
+          border-left: var(--el-table-border);
         }
       }
 
       @include when(scrolling-left) {
-        ~ .el-table__fixed {
-          border-right: $--table-border;
+        ~ .#{$namespace}-table__fixed {
+          border-right: var(--el-table-border);
         }
       }
     }
@@ -455,22 +456,22 @@
     left: 7px;
 
     &.ascending {
-      border-bottom-color: $--color-text-placeholder;
+      border-bottom-color: var(--el-text-color-placeholder);
       top: -5px;
     }
 
     &.descending {
-      border-top-color: $--color-text-placeholder;
+      border-top-color: var(--el-text-color-placeholder);
       bottom: -3px;
     }
   }
 
   .ascending .sort-caret.ascending {
-    border-bottom-color: $--color-primary;
+    border-bottom-color: var(--el-color-primary);
   }
 
   .descending .sort-caret.descending {
-    border-top-color: $--color-primary;
+    border-top-color: var(--el-color-primary);
   }
 
   .hidden-columns {
@@ -480,14 +481,14 @@
   }
 
   @include m(striped) {
-    & .el-table__body {
-      & tr.el-table__row--striped {
-        td {
-          background: #FAFAFA;
+    & .#{$namespace}-table__body {
+      & tr.#{$namespace}-table__row--striped {
+        td.#{$namespace}-table__cell {
+          background: #fafafa;
         }
 
-        &.current-row td {
-          background-color: $--table-current-row-background-color;
+        &.current-row td.#{$namespace}-table__cell {
+          background-color: var(--el-table-current-row-background-color);
         }
       }
     }
@@ -495,17 +496,19 @@
 
   @include e(body) {
     tr.hover-row {
-      &, &.el-table__row--striped {
-        &, &.current-row {
-          > td {
-            background-color: $--table-row-hover-background-color;
+      &,
+      &.#{$namespace}-table__row--striped {
+        &,
+        &.current-row {
+          > td.#{$namespace}-table__cell {
+            background-color: var(--el-table-row-hover-background-color);
           }
         }
       }
     }
 
-    tr.current-row > td {
-      background-color: $--table-current-row-background-color;
+    tr.current-row > td.#{$namespace}-table__cell {
+      background-color: var(--el-table-current-row-background-color);
     }
   }
 
@@ -515,7 +518,7 @@
     top: 0;
     bottom: 0;
     width: 0;
-    border-left: $--table-border;
+    border-left: var(--el-table-border);
     z-index: 10;
   }
 
@@ -524,35 +527,35 @@
     cursor: pointer;
 
     & i {
-      color: $--color-info;
+      color: var(--el-color-info);
       font-size: 12px;
       vertical-align: middle;
-      transform: scale(.75);
+      transform: scale(0.75);
     }
   }
 
   @include m(enable-row-transition) {
-    .el-table__body td {
-      transition: background-color .25s ease;
+    .#{$namespace}-table__body td.#{$namespace}-table__cell {
+      transition: background-color 0.25s ease;
     }
   }
 
   @include m(enable-row-hover) {
-    .el-table__body tr:hover > td {
-      background-color: $--table-row-hover-background-color;
+    .#{$namespace}-table__body tr:hover > td.#{$namespace}-table__cell {
+      background-color: var(--el-table-row-hover-background-color);
     }
   }
 
   @include m(fluid-height) {
-    .el-table__fixed,
-    .el-table__fixed-right {
+    .#{$namespace}-table__fixed,
+    .#{$namespace}-table__fixed-right {
       bottom: 0;
       overflow: hidden;
     }
   }
 
-  [class*=el-table__row--level] {
-    .el-table__expand-icon {
+  [class*='#{$namespace}-table__row--level'] {
+    .#{$namespace}-table__expand-icon {
       display: inline-block;
       width: 20px;
       line-height: 20px;

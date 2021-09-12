@@ -1,19 +1,29 @@
-@import "mixins/mixins";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'mixins/var';
+@import 'common/var';
+
+@include b(notification) {
+  @include set-component-css-var('notification', $--notification);
+}
 
 @include b(notification) {
   display: flex;
-  width: $--notification-width;
-  padding: $--notification-padding;
-  border-radius: $--notification-radius;
+  width: var(--el-notification-width);
+  padding: var(--el-notification-padding);
+  border-radius: var(--el-notification-radius);
   box-sizing: border-box;
-  border: 1px solid $--notification-border-color;
+  border: 1px solid var(--el-notification-border-color);
   position: fixed;
-  background-color: $--color-white;
-  box-shadow: $--notification-shadow;
-  transition: opacity .3s, transform .3s, left .3s, right .3s, top 0.4s, bottom .3s;
+  background-color: var(--el-color-white);
+  box-shadow: var(--el-notification-shadow);
+  transition: opacity var(--el-transition-duration),
+    transform var(--el-transition-duration), left var(--el-transition-duration),
+    right var(--el-transition-duration), top 0.4s,
+    bottom var(--el-transition-duration);
+  overflow-wrap: anywhere;
   overflow: hidden;
   z-index: 9999;
+
   &.right {
     right: 16px;
   }
@@ -23,23 +33,23 @@
   }
 
   @include e(group) {
-    margin-left: $--notification-group-margin-left;
-    margin-right: $--notification-group-margin-right;
+    margin-left: var(--el-notification-group-margin-left);
+    margin-right: var(--el-notification-group-margin-right);
   }
 
   @include e(title) {
     font-weight: bold;
-    font-size: $--notification-title-font-size;
-    line-height: $--notification-icon-size;
-    color: $--notification-title-color;
+    font-size: var(--el-notification-title-font-size);
+    line-height: var(--el-notification-icon-size);
+    color: var(--el-notification-title-color);
     margin: 0;
   }
 
   @include e(content) {
-    font-size: $--notification-content-font-size;
-    line-height: 21px;
+    font-size: var(--el-notification-content-font-size);
+    line-height: 24px;
     margin: 6px 0 0 0;
-    color: $--notification-content-color;
+    color: var(--el-notification-content-color);
     text-align: justify;
 
     p {
@@ -48,9 +58,9 @@
   }
 
   @include e(icon) {
-    height: $--notification-icon-size;
-    width: $--notification-icon-size;
-    font-size: $--notification-icon-size;
+    height: var(--el-notification-icon-size);
+    width: var(--el-notification-icon-size);
+    font-size: var(--el-notification-icon-size);
   }
 
   @include e(closeBtn) {
@@ -58,32 +68,23 @@
     top: 18px;
     right: 15px;
     cursor: pointer;
-    color: $--notification-close-color;
-    font-size: $--notification-close-font-size;
+    color: var(--el-notification-close-color);
+    font-size: var(--el-notification-close-font-size);
 
     &:hover {
-      color: $--notification-close-hover-color;
+      color: var(--el-notification-close-hover-color);
     }
   }
 
-  .el-icon-success {
-    color: $--notification-success-icon-color;
-  }
-
-  .el-icon-error {
-    color: $--notification-danger-icon-color;
-  }
-
-  .el-icon-info {
-    color: $--notification-info-icon-color;
-  }
-
-  .el-icon-warning {
-    color: $--notification-warning-icon-color;
+  @each $type in (success, info, warning, error) {
+    .#{$namespace}-icon-#{$type} {
+      --el-notification-icon-color: var(--el-color-#{$type});
+      color: var(--el-notification-icon-color);
+    }
   }
 }
 
-.el-notification-fade-enter-from {
+.#{$namespace}-notification-fade-enter-from {
   &.right {
     right: 0;
     transform: translateX(100%);
@@ -95,6 +96,6 @@
   }
 }
 
-.el-notification-fade-leave-to {
+.#{$namespace}-notification-fade-leave-to {
   opacity: 0;
 }

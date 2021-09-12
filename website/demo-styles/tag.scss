@@ -1,5 +1,5 @@
 .demo-block.demo-tag {
-  .el-tag + .el-tag {
+  .#{$namespace}-tag + .#{$namespace}-tag {
     margin-left: 10px;
   }
 
@@ -24,10 +24,10 @@
     &__title {
       width: 45px;
       font-size: 14px;
-      color: #606266;
+      color: var(--el-text-color-regular);
     }
 
-    &+.tag-group  {
+    & + .tag-group {
       margin-top: 10px;
     }
   }

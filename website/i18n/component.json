@@ -4,7 +4,12 @@
     "demo-block": {
       "hide-text": "隐藏代码",
       "show-text": "显示代码",
-      "button-text": "在线运行",
+      "copy-button-text": "复制代码片段",
+      "switch-button-option-text": "切换成 Options API",
+      "switch-button-setup-text": "切换成 Composition API",
+      "copy-success": "已复制！",
+      "copy-error": "该浏览器不支持自动复制！",
+      "run-online-button-text": "在线运行",
       "tooltip-text": "前往 codepen.io 运行此示例"
     },
     "footer": {
@@ -35,7 +40,12 @@
     "demo-block": {
       "hide-text": "Hide",
       "show-text": "Expand",
-      "button-text": "Try it!",
+      "copy-button-text": "Copy",
+      "switch-button-option-text": "Switch to Options API",
+      "switch-button-setup-text": "Switch to Composition API",
+      "copy-success": "Copied！",
+      "copy-error": "This browser does not support automatic copy！",
+      "run-online-button-text": "Try it!",
       "tooltip-text": "Run this demo on codepen.io"
     },
     "footer": {
@@ -66,7 +76,12 @@
     "demo-block": {
       "hide-text": "Ocultar",
       "show-text": "Mostrar",
-      "button-text": "Probar",
+      "copy-button-text": "Copiar",
+      "switch-button-option-text": "Cambiar a Options API",
+      "switch-button-setup-text": "Cambiar a Composition API",
+      "copy-success": "Copiar correctamente!",
+      "copy-error": "Este navegador no admite copia automática!",
+      "run-online-button-text": "Probar",
       "tooltip-text": "Prueba este ejemplo en codepen.io"
     },
     "footer": {
@@ -97,7 +112,12 @@
     "demo-block": {
       "hide-text": "Réduire",
       "show-text": "Agrandir",
-      "button-text": "Essayez!",
+      "copy-button-text": "Copie",
+      "switch-button-option-text": "Passer au Options API",
+      "switch-button-setup-text": "Passer au Composition API",
+      "copy-success": "Copier avec succès!",
+      "copy-error": "Ce navigateur ne prend pas en charge la copie automatique!",
+      "run-online-button-text": "Essayez!",
       "tooltip-text": "Essayer cette démo sur codepen.io"
     },
     "footer": {
@@ -128,7 +148,12 @@
     "demo-block": {
       "hide-text": "隠す",
       "show-text": "展開する",
-      "button-text": "試してみる!",
+      "copy-button-text": "コピー",
+      "switch-button-option-text": "Options API に切り替える",
+      "switch-button-setup-text": "Composition API に切り替える",
+      "copy-success": "正常にコピー!",
+      "copy-error": "このブラウザは自動コピーをサポートしていません!",
+      "run-online-button-text": "試してみる!",
       "tooltip-text": "codepen.ioでこのデモを実行します。"
     },
     "footer": {

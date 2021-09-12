@@ -1,56 +1,68 @@
+@use "sass:map";
+
 @import 'mixins/mixins';
 @import 'mixins/utils';
+@import 'mixins/var';
 @import 'common/var';
-@import 'select-dropdown';
-@import 'input';
-@import 'tag';
-@import 'option';
-@import 'option-group';
-@import 'scrollbar';
+@import './select-dropdown.scss';
+
+@include b(select) {
+  @include set-component-css-var('select', $--select);
+}
 
 @include b(select) {
   display: inline-block;
   position: relative;
+  line-height: map.get($--input-height, 'default');
 
   @include e(popper) {
     @include picker-popper(
-      $--select-dropdown-background,
-      $--select-dropdown-border,
-      $--select-dropdown-shadow,
+      map.get($--select-dropdown, 'background'),
+      map.get($--select-dropdown, 'border'),
+      map.get($--select-dropdown, 'shadow')
     );
   }
 
-  .el-select__tags > span {
+  @each $size in (medium, small, mini) {
+    @include m($size) {
+      line-height: map.get($--input-height, $size);
+    }
+  }
+
+  .#{$namespace}-select__tags > span {
     display: inline-block;
   }
 
   &:hover {
-    .el-input__inner {
-      border-color: $--select-border-color-hover;
+    .#{$namespace}-input__inner {
+      border-color: var(--el-select-border-color-hover);
     }
   }
 
-  .el-select__tags-text {
+  .#{$namespace}-select__tags-text {
     text-overflow: ellipsis;
     display: inline-block;
     overflow-x: hidden;
     vertical-align: bottom;
   }
 
-  .el-input__inner {
+  .#{$namespace}-input__inner {
     cursor: pointer;
     padding-right: 35px;
+    display: block;
 
     &:focus {
-      border-color: $--select-input-focus-border-color;
+      border-color: var(--el-select-input-focus-border-color);
     }
   }
 
-  .el-input {
-    & .el-select__caret {
-      color: $--select-input-color;
-      font-size: $--select-input-font-size;
-      transition: transform 0.3s;
+  .#{$namespace}-input {
+    display: block;
+
+    & .#{$namespace}-select__caret {
+      color: var(--el-select-input-color);
+      font-size: var(--el-select-input-font-size);
+      transition: transform var(--el-transition-duration);
       transform: rotateZ(180deg);
       cursor: pointer;
 
@@ -59,36 +71,32 @@
       }
 
       @include when(show-close) {
-        font-size: $--select-font-size;
+        font-size: var(--el-select-font-size);
         text-align: center;
         transform: rotateZ(180deg);
-        border-radius: $--border-radius-circle;
-        color: $--select-input-color;
-        transition: $--color-transition-base;
+        border-radius: var(--el-border-radius-circle);
+        color: var(--el-select-input-color);
+        transition: var(--el-transition-color);
 
         &:hover {
-          color: $--select-close-hover-color;
+          color: var(--el-select-close-hover-color);
         }
       }
     }
 
     &.is-disabled {
-      & .el-input__inner {
+      & .#{$namespace}-input__inner {
         cursor: not-allowed;
 
         &:hover {
-          border-color: $--select-disabled-border;
+          border-color: var(--el-select-disabled-border);
         }
       }
     }
 
-    &.is-focus .el-input__inner {
-      border-color: $--select-input-focus-border-color;
+    &.is-focus .#{$namespace}-input__inner {
+      border-color: var(--el-select-input-focus-border-color);
     }
-  }
-
-  > .el-input {
-    display: block;
   }
 
   @include e(input) {
@@ -96,8 +104,8 @@
     outline: none;
     padding: 0;
     margin-left: 15px;
-    color: $--select-multiple-input-color;
-    font-size: $--select-font-size;
+    color: var(--el-select-multiple-input-color);
+    font-size: var(--el-select-font-size);
     appearance: none;
     height: 28px;
     background-color: transparent;
@@ -110,14 +118,14 @@
     cursor: pointer;
     position: absolute;
     top: 8px;
-    z-index: $--index-top;
+    z-index: var(--el-index-top);
     right: 25px;
-    color: $--select-input-color;
+    color: var(--el-select-input-color);
     line-height: 18px;
-    font-size: $--select-input-font-size;
+    font-size: var(--el-select-input-font-size);
 
     &:hover {
-      color: $--select-close-hover-color;
+      color: var(--el-select-close-hover-color);
     }
   }
 
@@ -125,7 +133,7 @@
     position: absolute;
     line-height: normal;
     white-space: normal;
-    z-index: $--index-normal;
+    z-index: var(--el-index-normal);
     top: 50%;
     transform: translateY(-50%);
     display: flex;
@@ -133,24 +141,24 @@
     flex-wrap: wrap;
   }
 
-  .el-tag__close {
+  .#{$namespace}-tag__close {
     margin-top: -2px;
   }
 
-  .el-select__tags .el-tag {
+  .#{$namespace}-select__tags .#{$namespace}-tag {
     box-sizing: border-box;
     border-color: transparent;
     margin: 2px 0 2px 6px;
     background-color: #f0f2f5;
 
-    .el-icon-close {
-      background-color: $--color-text-placeholder;
+    .#{$namespace}-icon-close {
+      background-color: var(--el-text-color-placeholder);
       right: -7px;
       top: 0;
       color: $--color-white;
 
       &:hover {
-        background-color: $--color-text-secondary;
+        background-color: var(--el-text-color-secondary);
       }
 
       &::before {

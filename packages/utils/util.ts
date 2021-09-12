@@ -1,25 +1,25 @@
 import { getCurrentInstance } from 'vue'
-
 import {
-  isObject,
-  isArray,
-  isString,
-  capitalize,
-  hyphenate,
-  looseEqual,
-  extend,
   camelize,
+  capitalize,
+  extend,
   hasOwn,
+  hyphenate,
+  isArray,
+  isObject,
+  isString,
+  isFunction,
+  looseEqual,
   toRawType,
 } from '@vue/shared'
-
+import isEqualWith from 'lodash/isEqualWith'
 import isServer from './isServer'
-import type { AnyFunction } from './types'
-import type { Ref } from 'vue'
+import { debugWarn } from './error'
 
-export type PartialCSSStyleDeclaration = Partial<
-  Pick<CSSStyleDeclaration, 'transform' | 'transition' | 'animation'>
->
+import type { ComponentPublicInstance, CSSProperties, Ref } from 'vue'
+import type { AnyFunction, TimeoutHandle, Nullable } from './types'
+
+export const SCOPE = 'Util'
 
 export function toObject<T>(arr: Array<T>): Record<string, T> {
   const res = {}
@@ -31,15 +31,19 @@ export function toObject<T>(arr: Array<T>): Record<string, T> {
   return res
 }
 
-export const getValueByPath = (obj: any, paths = ''): unknown => {
+export const getValueByPath = (obj, paths = ''): unknown => {
   let ret: unknown = obj
-  paths.split('.').map(path => {
+  paths.split('.').map((path) => {
     ret = ret?.[path]
   })
   return ret
 }
 
-export function getPropByPath(obj: any, path: string, strict: boolean): {
+export function getPropByPath(
+  obj: any,
+  path: string,
+  strict: boolean
+): {
   o: unknown
   k: string
   v: Nullable<unknown>
@@ -94,32 +98,28 @@ export const escapeRegexpString = (value = ''): string =>
 // Use native Array.find, Array.findIndex instead
 
 // coerce truthy value to array
-export const coerceTruthyValueToArray = arr => {
-  if (!arr && arr !== 0) { return [] }
+export const coerceTruthyValueToArray = (arr) => {
+  if (!arr && arr !== 0) {
+    return []
+  }
   return Array.isArray(arr) ? arr : [arr]
 }
 
-export const isIE = function(): boolean {
-  return !isServer && !isNaN(Number(document.DOCUMENT_NODE))
-}
+// drop IE and (Edge < 79) support
+// export const isIE
+// export const isEdge
 
-export const isEdge = function(): boolean {
-  return !isServer && navigator.userAgent.indexOf('Edge') > -1
-}
-
-export const isFirefox = function(): boolean {
+export const isFirefox = function (): boolean {
   return !isServer && !!window.navigator.userAgent.match(/firefox/i)
 }
 
-export const autoprefixer = function(
-  style: PartialCSSStyleDeclaration,
-): PartialCSSStyleDeclaration {
+export const autoprefixer = function (style: CSSProperties): CSSProperties {
   const rules = ['transform', 'transition', 'animation']
   const prefixes = ['ms-', 'webkit-']
-  rules.forEach(rule => {
+  rules.forEach((rule) => {
     const value = style[rule]
     if (rule && value) {
-      prefixes.forEach(prefix => {
+      prefixes.forEach((prefix) => {
         style[prefix + rule] = value
       })
     }
@@ -130,6 +130,7 @@ export const autoprefixer = function(
 export const kebabCase = hyphenate
 
 // reexport from lodash & vue shared
+export { isVNode } from 'vue'
 export {
   hasOwn,
   // isEmpty,
@@ -147,9 +148,11 @@ export const isBool = (val: unknown) => typeof val === 'boolean'
 export const isNumber = (val: unknown) => typeof val === 'number'
 export const isHTMLElement = (val: unknown) => toRawType(val).startsWith('HTML')
 
-export function rafThrottle<T extends AnyFunction<any>>(fn: T): AnyFunction<void> {
+export function rafThrottle<T extends AnyFunction<any>>(
+  fn: T
+): AnyFunction<void> {
   let locked = false
-  return function(...args: any[]) {
+  return function (...args: any[]) {
     if (locked) return
     locked = true
     window.requestAnimationFrame(() => {
@@ -172,17 +175,9 @@ export function getRandomInt(max: number) {
   return Math.floor(Math.random() * Math.floor(max))
 }
 
-export function entries<T>(obj: Hash<T>): [string, T][] {
-  return Object
-    .keys(obj)
-    .map((key: string) => ([key, obj[key]]))
-}
-
 export function isUndefined(val: any): val is undefined {
-  return val === void 0
+  return val === undefined
 }
-
-export { isVNode } from 'vue'
 
 export function useGlobalConfig() {
   const vm: any = getCurrentInstance()
@@ -191,26 +186,14 @@ export function useGlobalConfig() {
   }
   return {}
 }
-export const arrayFindIndex = function<T = any> (
-  arr: Array<T>,
-  pred: (args: T) => boolean,
-): number {
-  return arr.findIndex(pred)
-}
-
-export const arrayFind = function<T = any> (
-  arr: Array<T>,
-  pred: (args: T) => boolean,
-): any {
-  return arr.find(pred)
-}
 
 export function isEmpty(val: unknown) {
   if (
-    !val && val !== 0 ||
-    isArray(val) && !val.length ||
-    isObject(val) && !Object.keys(val).length
-  ) return true
+    (!val && val !== 0) ||
+    (isArray(val) && !val.length) ||
+    (isObject(val) && !Object.keys(val).length)
+  )
+    return true
 
   return false
 }
@@ -230,6 +213,47 @@ export function deduplicate<T>(arr: T[]) {
  * Unwraps refed value
  * @param ref Refed value
  */
-export function $<T>(ref: Ref<T>)  {
+export function $<T>(ref: Ref<T>) {
   return ref.value
+}
+
+export function addUnit(value: string | number) {
+  if (isString(value)) {
+    return value
+  } else if (isNumber(value)) {
+    return value + 'px'
+  }
+  debugWarn(SCOPE, 'binding value must be a string or number')
+  return ''
+}
+
+/**
+ * Enhance `lodash.isEqual` for it always return false even two functions have completely same statements.
+ * @param obj The value to compare
+ * @param other The other value to compare
+ * @returns Returns `true` if the values are equivalent, else `false`.
+ * @example
+ *  lodash.isEqual(() => 1, () => 1)      // false
+ *  isEqualWith(() => 1, () => 1)         // true
+ */
+export function isEqualWithFunction(obj: any, other: any) {
+  return isEqualWith(obj, other, (objVal, otherVal) => {
+    return isFunction(objVal) && isFunction(otherVal)
+      ? `${objVal}` === `${otherVal}`
+      : undefined
+  })
+}
+
+/**
+ * Generate function for attach ref for the h renderer
+ * @param ref Ref<HTMLElement | ComponentPublicInstance>
+ * @returns (val: T) => void
+ */
+
+export const refAttacher = <T extends HTMLElement | ComponentPublicInstance>(
+  ref: Ref<T>
+) => {
+  return (val: T) => {
+    ref.value = val
+  }
 }
