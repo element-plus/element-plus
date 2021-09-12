@@ -21,7 +21,7 @@ function getError(
 
   const err = new Error(msg) as ElUploadAjaxError
   err.status = xhr.status
-  err.method = 'post'
+  err.method = option.method
   err.url = action
   return err
 }
