@@ -251,11 +251,11 @@ export default defineComponent({
     }
 
     const focus = () => {
-      input.value.focus()
+      input.value.focus?.()
     }
 
     const blur = () => {
-      input.value.blur()
+      input.value.blur?.()
     }
 
     watch(
