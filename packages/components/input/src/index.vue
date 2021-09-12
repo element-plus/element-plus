@@ -418,8 +418,10 @@ export default defineComponent({
     }
 
     const handleFocus = (event) => {
-      focused.value = true
-      ctx.emit('focus', event)
+      if (event?.sourceCapabilities) {
+        focused.value = true
+        ctx.emit('focus', event)
+      }
     }
 
     const handleBlur = (event) => {
