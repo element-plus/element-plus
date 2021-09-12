@@ -78,7 +78,7 @@ export default function upload(option: ElUploadRequestOptions) {
     option.onSuccess(getBody(xhr))
   }
 
-  xhr.open('post', action, true)
+  xhr.open(option.method, action, true)
 
   if (option.withCredentials && 'withCredentials' in xhr) {
     xhr.withCredentials = true
