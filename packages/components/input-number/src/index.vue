@@ -249,6 +249,15 @@ export default defineComponent({
       }
       data.userInput = null
     }
+
+    const focus = () => {
+      input.value.focus?.()
+    }
+
+    const blur = () => {
+      input.value.blur?.()
+    }
+
     watch(
       () => props.modelValue,
       (value) => {
@@ -309,6 +318,8 @@ export default defineComponent({
       inputNumberDisabled,
       maxDisabled,
       minDisabled,
+      focus,
+      blur,
     }
   },
 })
