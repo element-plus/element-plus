@@ -72,6 +72,42 @@
 
 :::
 
+### 自定义头部
+
+:::demo 通过设置名为 `header` 的 `scoped-slot` 来自定义日历头部显示的内容。在 `scoped-slot` 可以获取到 date（当前单元格的日期）。详情解释参考下方的 API 文档。
+
+```html
+<el-calendar ref="calendar">
+  <template #header="{date}">
+    <span>自定义头部内容</span>
+    <span>{{ date }}</span>
+    <el-button-group>
+      <el-button size="mini" @click="selectDate('prev-year')">上一年</el-button>
+      <el-button size="mini" @click="selectDate('prev-month')"
+        >上个月</el-button
+      >
+      <el-button size="mini" @click="selectDate('today')">今天</el-button>
+      <el-button size="mini" @click="selectDate('next-month')"
+        >下个月</el-button
+      >
+      <el-button size="mini" @click="selectDate('next-year')">下一年</el-button>
+    </el-button-group>
+  </template>
+</el-calendar>
+
+<script>
+  export default {
+    methods: {
+      selectDate(value) {
+        this.$refs.calendar.selectDate(value)
+      },
+    },
+  }
+</script>
+```
+
+:::
+
 ### 国际化
 
 默认语言是英语 (English), 如需使用其他语言, 请参考 [国际化](#/zh-CN/component/i18n)
@@ -90,3 +126,9 @@
 | 参数 | 说明                                                                                                                                                                                                            | 类型   | 可选值 | 默认值 |
 | ---- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ------ | ------ |
 | data | { type, isSelected, day, date }，`type` 表示该日期的所属月份，可选值有 prev-month，current-month，next-month；`isSelected` 标明该日期是否被选中；`day` 是格式化的日期，格式为 yyyy-MM-dd；`date` 是单元格的日期 | Object | —      | —      |
+
+### Methods
+
+| 方法名     | 说明     | 参数                                                    |
+| ---------- | -------- | ------------------------------------------------------- |
+| selectDate | 切换日期 | today / prev-month / next-month / prev-year / next-year |
