@@ -1,5 +1,4 @@
 /* eslint-disable */
-const vue = require('@vitejs/plugin-vue')
 const sidebars = require('./sidebars')
 const nav = require('./nav')
 const mdPlugin = require('./plugins')
@@ -47,6 +46,14 @@ module.exports = {
         rel: 'stylesheet',
         href: '//fonts.loli.net/css?family=Inter:300,400,500,600|Open+Sans:400,600;display=swap',
       },
+    ],
+    [
+      'script',
+      {},
+      require('fs').readFileSync(
+        require('path').resolve(__dirname, './darkmode.js'),
+        'utf-8'
+      ),
     ],
   ],
   themeConfig: {

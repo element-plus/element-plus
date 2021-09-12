@@ -7,6 +7,12 @@ export const useSidebar = () => {
   const route = useRoute()
   const { site, page } = useData()
   const lang = useLang()
+  if (!page.value) {
+    return {
+      sidebars: computed(() => []),
+      hasSidebar: computed(() => false),
+    }
+  }
   const sidebars = computed(() => {
     if (page.value.frontmatter.sidebar === false) return []
     const sidebars = getSidebarConfig(

@@ -15,6 +15,10 @@
   transition: border-color var(--el-transition-duration),
     background-color var(--el-transition-duration);
 
+  &:hover {
+    border-color: var(--border-color-light);
+  }
+
   &__action {
     position: absolute;
     top: 1px;

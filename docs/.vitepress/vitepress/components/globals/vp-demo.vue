@@ -141,6 +141,7 @@ const onCodepenClicked = () => {
   }
   .el-divider {
     margin: 0;
+    background-color: var(--border-color);
   }
 }
 </style>

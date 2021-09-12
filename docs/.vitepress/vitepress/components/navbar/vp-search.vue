@@ -153,78 +153,53 @@ function initialize(userOptions: any) {
   <div class="algolia-search-box" id="docsearch" />
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import '../../styles/mixins';
 .algolia-search-box {
-  display: flex;
-  align-items: center;
-  line-height: var(--header-height);
-  padding-left: 0.5rem;
-  padding-top: 1px;
-  margin-right: 12px;
-  .search-box-placeholder,
-  .search-box-key {
-    display: flex;
-  }
+  // display: flex;
+  // align-items: center;
+  // line-height: var(--header-height);
+  // padding-left: 0.5rem;
+  // padding-top: 1px;
+  // margin-right: 12px;
+  // .search-box-placeholder,
+  // .search-box-key {
+  //   display: flex;
+  // }
 
   @include respond-to('md') {
     min-width: 176.3px;
   }
 }
 
-.search-box-icon {
-  font-size: 20px;
-}
-
-.search-box-placeholder {
-  display: none;
-  margin: 0 4px;
-  line-height: var(--header-item-height);
-}
-.search-box-button {
-  align-items: center;
-  background: var(--docsearch-searchbox-background);
-  border: 0;
-  border-radius: 40px;
-  color: var(--docsearch-muted-color);
-  cursor: pointer;
-  display: flex;
-  font-weight: 500;
-  height: var(--header-item-height);
-  margin: 0 0 0 16px;
-  padding: 0 8px;
-  user-select: none;
-
-  &:focus {
-    outline: none;
-    box-shadow: inset 0 0 0 2px var(--brand-color);
-  }
-}
-
-.search-box-key {
-  align-items: center;
-  background: var(--docsearch-key-gradient);
-  border-radius: 3px;
-  box-shadow: var(--docsearch-key-shadow);
-  color: var(--docsearch-muted-color);
-  display: none;
-  height: 18px;
-  justify-content: center;
-  margin-right: 0.4em;
-  padding-bottom: 2px;
-  position: relative;
-  width: 20px;
-}
-
 .DocSearch {
   --docsearch-primary-color: var(--brand-color);
   --docsearch-key-gradient: rgba(125, 125, 125, 0.1);
-  --docsearch-key-shadow: rgba(125, 125, 125, 0.3);
+  // --docsearch-key-shadow: rgba(125, 125, 125, 0.3);
   --docsearch-footer-height: 44px;
-  --docsearch-footer-background: #fff;
+  --docsearch-footer-background: var(--bg-color);
   --docsearch-footer-shadow: 0 -1px 0 0 #e0e3e8,
     0 -3px 6px 0 rgba(69, 98, 155, 0.12);
-  --docsearch-searchbox-background: rgba(242, 242, 242, 0.5);
-  --docsearch-muted-color: var(--el-text-color-secondary);
+  --docsearch-searchbox-background: var(--bg-color-soft);
+  --docsearch-searchbox-focus-background: var(--bg-color-mute);
+  --docsearch-muted-color: var(--text-color-lighter);
+  --docsearch-text-color: var(--text-color-light);
+  --docsearch-modal-background: var(--bg-color-soft);
+
+  .dark & {
+    --docsearch-text-color: var(--text-color-light);
+    // --docsearch-searchbox-focus-background: var(--bg-color-mute);
+    .DocSearch-Button {
+      .DocSearch-Button-Key {
+        box-shadow: unset;
+      }
+    }
+  }
+
+  background-color: transparent;
+
+  @include respond-to('md') {
+    background-color: var(--docsearch-searchbox-background);
+  }
 }
 </style>

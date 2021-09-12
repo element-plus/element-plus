@@ -14,6 +14,6 @@ watch(isFullScreen, (val) => console.log(val))
 <template>
   <header :class="{ navbar: true, 'has-sidebar': hasSidebar }">
     <VpNavbar :full-screen="isFullScreen" @toggle="toggleFullScreen" />
-    <VpNavFull :full-screen="isFullScreen" @close="close" />
+    <VpNavFull :full-screen="isFullScreen" @close="close" class="full-screen" />
   </header>
 </template>

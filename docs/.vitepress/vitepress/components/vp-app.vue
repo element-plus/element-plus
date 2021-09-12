@@ -5,8 +5,10 @@ import VPSubNav from './vp-subnav.vue'
 import VPSidebar from './vp-sidebar.vue'
 import VPContent from './vp-content.vue'
 import { useToggle } from '../composables/toggle'
+import { useSidebar } from '../composables/sidebar'
 
 const [isSidebarOpen, toggleSidebar] = useToggle(false)
+const { hasSidebar } = useSidebar()
 </script>
 
 <template>
@@ -17,7 +19,7 @@ const [isSidebarOpen, toggleSidebar] = useToggle(false)
       @click="toggleSidebar(false)"
     />
     <VPNav />
-    <VPSubNav @open-menu="toggleSidebar(true)" />
+    <VPSubNav v-if="hasSidebar" @open-menu="toggleSidebar(true)" />
     <VPSidebar :open="isSidebarOpen" @close="toggleSidebar(false)">
       <template #top>
         <slot name="sidebar-top" />

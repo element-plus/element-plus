@@ -5,7 +5,7 @@ code {
   font-family: var(--code-font-family);
   font-size: 0.85em;
   color: var(--code-text-color);
-  background-color: var(--code-bg-color);
+  // background-color: var(--code-bg-color);
 }
 
 code .token.deleted {
@@ -21,6 +21,10 @@ div[class*='language-'] {
   margin: 1rem -1.5rem;
   background-color: var(--code-bg-color);
   overflow-x: auto;
+
+  .dark & {
+    background-color: var(--bg-color-soft);
+  }
 }
 
 li > div[class*='language-'] {
@@ -263,7 +267,7 @@ div[class~='language-vue']:before {
 .token.atrule,
 .token.keyword,
 .token.builtin {
-  color: #b92dbc;
+  color: #c792ea;
 }
 
 .token.string,

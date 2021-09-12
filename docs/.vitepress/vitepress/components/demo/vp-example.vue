@@ -36,5 +36,10 @@ const props = defineProps({
     linear-gradient(135deg, transparent 75%, rgb(249, 249, 250) 75%);
   background-size: 20px 20px;
   background-position: 0px 0px, 10px 0px, 10px -10px, 0px 10px;
+
+  @at-root .dark .example-showcase {
+    background-image: unset;
+    background-color: var(--bg-color-soft);
+  }
 }
 </style>

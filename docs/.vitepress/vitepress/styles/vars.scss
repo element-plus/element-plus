@@ -11,6 +11,7 @@
   --bg-color-soft: #fafafa;
   --bg-color-mute: #f2f2f2;
   --border-color: var(--el-border-color-base);
+  --border-color-light: var(--el-border-color-lighter);
 
   --font-family: Inter, Roboto, Oxygen, Fira Sans, Helvetica Neue, sans-serif;
 
@@ -50,6 +51,19 @@
 
 :root {
   --app-max-width: 1376px;
+}
+
+.dark {
+  --text-color: #e0e0e0;
+  --text-color-light: #a0a0a0;
+  --text-color-lighter: #6c6c6c;
+
+  --border-color: #434343;
+  --border-color-light: #979797;
+
+  --bg-color: #121212;
+  --bg-color-soft: #383838;
+  --bg-color-mute: #2c2c2c;
 }
 
 // SCSS variables

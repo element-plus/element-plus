@@ -168,7 +168,24 @@ p {
   </div>
 </div>
 
-<style scoped>
+<style scoped lang="scss">
+h1 {
+  color: var(--text-color);
+
+  + p {
+    color: var(--text-color-light);
+  }
+
+}
+
+.card {
+  background-color: var(--bg-color-soft);
+  border-color: var(--border-color);
+
+  h3 {
+    color: var(--text-color);
+  }
+}
 .page-resource {
   padding: 55px 40px 0;
 }

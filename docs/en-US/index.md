@@ -172,13 +172,13 @@ const sponsors = [
       font-size: 34px;
       margin: 0;
       line-height: 48px;
-      color: #555;
+      color: var(--text-color);
     }
 
     p {
       font-size: 18px;
       line-height: 28px;
-      color: #888;
+      color: var(--text-color-light);
       margin: 20px 0 5px;
     }
   }
@@ -198,7 +198,7 @@ const sponsors = [
 
     .name {
       font-weight: bold;
-      color: var(--el-text-color-regular);
+      color: var(--text-color);
     }
 
     img {
@@ -214,7 +214,7 @@ const sponsors = [
     p {
       margin: 0;
       line-height: 1.8;
-      color: var(--el-text-color-secondary);
+      color: var(--text-color-light);
       font-size: 14px;
     }
   }
@@ -268,8 +268,8 @@ const sponsors = [
   .card {
     height: 430px;
     width: 100%;
-    background: #ffffff;
-    border: 1px solid var(--el-border-color-base);
+    background: var(--bg-color-mute);
+    border: 1px solid var(--border-color);
     border-radius: 5px;
     box-sizing: border-box;
     text-align: center;
@@ -296,17 +296,17 @@ const sponsors = [
       height: 53px;
       line-height: 52px;
       font-size: 14px;
-      color: var(--el-color-primary);
+      color: var(--brand-color);
       text-align: center;
       border: 0;
-      border-top: 1px solid var(--el-border-color-base);
+      border-top: 1px solid var(--border-color);
       padding: 0;
       cursor: pointer;
       width: 100%;
       position: absolute;
       bottom: 0;
       left: 0;
-      background-color: #fff;
+      background-color: var(--bg-color-mute);
       border-radius: 0 0 5px 5px;
       transition: all 0.3s;
       text-decoration: none;
@@ -314,7 +314,7 @@ const sponsors = [
 
       &:hover {
         color: #fff;
-        background: var(--el-color-primary);
+        background: var(--brand-color);
       }
     }
     &:hover {
@@ -454,7 +454,7 @@ const sponsors = [
   }
 }
 .footer {
-  background-color: #f7fbfd;
+  background-color: var(--bg-color);
   width: 100%;
   padding: 40px 150px;
   box-sizing: border-box;
@@ -473,7 +473,6 @@ const sponsors = [
 
     h4 {
       font-size: 18px;
-      color: var(--el-text-color-primary);
       line-height: 1;
       margin: 0 0 15px 0;
     }
@@ -483,10 +482,10 @@ const sponsors = [
       margin: 0;
       line-height: 2;
       font-size: 14px;
-      color: var(--el-text-color-regular);
+      color: var(--text-color-light);
 
       &:hover {
-        color: var(--el-text-color-primary);
+        color: var(--text-color);
       }
     }
   }
@@ -496,7 +495,7 @@ const sponsors = [
     text-align: right;
 
     .footer-social-title {
-      color: var(--el-text-color-regular);
+      color: var(--text-color-light);
       font-size: 18px;
       line-height: 1;
       margin: 0 0 20px 0;
@@ -526,26 +525,6 @@ const sponsors = [
   }
 }
 
-.el-popover.footer-popover {
-  padding: 0;
-  min-width: 120px;
-  line-height: normal;
-  box-shadow: 0 0 11px 0 rgba(174, 187, 211, 0.24);
-
-  .footer-popover-title {
-    border-bottom: solid 1px var(--el-border-color-base);
-    height: 30px;
-    line-height: 30px;
-    text-align: center;
-    color: #99a9bf;
-    background-color: #f8f9fe;
-  }
-
-  img {
-    size: 100px;
-    margin: 10px;
-  }
-}
 @media (max-width: 1140px) {
   .footer {
     height: auto;

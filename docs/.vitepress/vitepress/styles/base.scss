@@ -174,26 +174,26 @@ table:not([class^='el-']) {
   overflow-x: auto;
 
   tr {
-    border-top: 1px solid #dfe2e5;
+    border-top: 1px solid var(--border-color);
   }
 
   tr:nth-child(2n) {
-    background-color: #f6f8fa;
+    background-color: var(--bg-color-mute);
   }
 
   th,
   td {
-    border: 1px solid #dfe2e5;
+    border: 1px solid var(--border-color);
     padding: 0.6em 1em;
   }
 }
 
 blockquote {
   margin: 1rem 0;
-  border-left: 0.2rem solid #dfe2e5;
+  border-left: 0.2rem solid var(--border-color-light);
   padding: 0.25rem 0 0.25rem 1rem;
   font-size: 1rem;
-  color: #999;
+  color: var(--text-color-lighter);
 }
 
 blockquote > p {
@@ -218,4 +218,15 @@ form {
   border-radius: 4px;
   border-left: 5px solid var(--el-color-danger);
   margin: 20px 0;
+}
+
+.el-popover.is-light.translation-popup {
+  background-color: var(--bg-color-soft) !important;
+  border-color: var(--border-color);
+}
+
+.dark {
+  .example .el-divider {
+    background-color: var(--border-color-light);
+  }
 }
