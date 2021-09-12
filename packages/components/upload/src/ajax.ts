@@ -16,7 +16,7 @@ function getError(
   } else if (xhr.responseText) {
     msg = `${xhr.responseText}`
   } else {
-    msg = `fail to post ${action} ${xhr.status}`
+    msg = `fail to ${option.method} ${action} ${xhr.status}`
   }
 
   const err = new Error(msg) as ElUploadAjaxError
