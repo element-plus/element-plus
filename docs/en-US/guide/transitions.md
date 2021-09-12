@@ -1,14 +1,14 @@
 ---
-title: Built-in transitions
+title: Built-in Transitions
 lang: en-US
 ---
 
-# Built-in transition
+# Built-in Transition
 
 You can use Element's built-in transitions directly.
 Before that, please read the [transition docs](https://vuejs.org/v2/api/#transition).
 
-## fade
+## Fade
 
 :::demo We have two fading effects: `el-fade-in-linear` and `el-fade-in`.
 
@@ -16,7 +16,7 @@ transition/fade
 
 :::
 
-## zoom
+## Zoom
 
 :::demo `el-zoom-in-center`, `el-zoom-in-top` and `el-zoom-in-bottom` are provided.
 
@@ -24,7 +24,7 @@ transition/zoom
 
 :::
 
-## collapse
+## Collapse
 
 For collapse effect, use the `el-collapse-transition` component.
 
@@ -34,14 +34,15 @@ transition/collapse
 
 :::
 
-## On demand
+## On-demand import
 
 ```ts
-// fade/zoom
-import 'element-plus/lib/theme-chalk/base.css'
 // collapse
 import { ElCollapseTransition } from 'element-plus'
-import Vue from 'vue'
+// fade/zoom
+import 'element-plus/lib/theme-chalk/base.css'
+import App from './App.vue'
 
-Vue.component(ElCollapseTransition.name, ElCollapseTransition)
+const app = createApp(App)
+app.component(ElCollapseTransition.name, ElCollapseTransition)
 ```
