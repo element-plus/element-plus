@@ -8,11 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ['14', '16.8']
+        node-version: ['14', '16']
         include:
           - node-version: '14'
             node-name: 'LTS'
-          - node-version: '16.8'
+          - node-version: '16'
             node-name: 'Latest'
     steps:
       - uses: actions/checkout@v2
