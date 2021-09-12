@@ -45,6 +45,10 @@ export default defineComponent({
       type: Object as PropType<Headers>,
       default: () => ({}),
     },
+    method: {
+      type: String,
+      default: 'post',
+    },
     data: {
       type: Object,
       default: () => ({}),
@@ -214,6 +218,7 @@ export default defineComponent({
       'before-upload': this.beforeUpload,
       'with-credentials': this.withCredentials,
       headers: this.headers,
+      method: this.method,
       name: this.name,
       data: this.data,
       accept: this.accept,

@@ -5,7 +5,7 @@ class ElementPlusError extends Error {
   }
 }
 
-export default (scope: string, m: string) => {
+export function throwError(scope: string, m: string): never {
   throw new ElementPlusError(`[${scope}] ${m}`)
 }
 

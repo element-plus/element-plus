@@ -19,7 +19,7 @@
         >
           <slot name="title">{{ title }}</slot>
         </span>
-        <p v-if="$slots.default || !!description" class="el-alert__description">
+        <p v-if="$slots.default || description" class="el-alert__description">
           <slot>
             {{ description }}
           </slot>

@@ -95,7 +95,7 @@ import {
   INPUT_EVENT,
 } from '@element-plus/utils/constants'
 import { off, on } from '@element-plus/utils/dom'
-import throwError from '@element-plus/utils/error'
+import { throwError } from '@element-plus/utils/error'
 import SliderButton from './button.vue'
 import SliderMarker from './marker.vue'
 import { useMarks } from './useMarks'

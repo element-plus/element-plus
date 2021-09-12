@@ -1,20 +1,25 @@
 <template>
   <div class="el-calendar">
     <div class="el-calendar__header">
-      <div class="el-calendar__title">{{ i18nDate }}</div>
-      <div v-if="validatedRange.length === 0" class="el-calendar__button-group">
-        <el-button-group>
-          <el-button size="mini" @click="selectDate('prev-month')">
-            {{ t('el.datepicker.prevMonth') }}
-          </el-button>
-          <el-button size="mini" @click="selectDate('today')">
-            {{ t('el.datepicker.today') }}
-          </el-button>
-          <el-button size="mini" @click="selectDate('next-month')">
-            {{ t('el.datepicker.nextMonth') }}
-          </el-button>
-        </el-button-group>
-      </div>
+      <slot name="header" :date="i18nDate">
+        <div class="el-calendar__title">{{ i18nDate }}</div>
+        <div
+          v-if="validatedRange.length === 0"
+          class="el-calendar__button-group"
+        >
+          <el-button-group>
+            <el-button size="mini" @click="selectDate('prev-month')">
+              {{ t('el.datepicker.prevMonth') }}
+            </el-button>
+            <el-button size="mini" @click="selectDate('today')">
+              {{ t('el.datepicker.today') }}
+            </el-button>
+            <el-button size="mini" @click="selectDate('next-month')">
+              {{ t('el.datepicker.nextMonth') }}
+            </el-button>
+          </el-button-group>
+        </div>
+      </slot>
     </div>
     <div v-if="validatedRange.length === 0" class="el-calendar__body">
       <date-table :date="date" :selected-day="realSelectedDay" @pick="pickDay">
@@ -53,7 +58,12 @@ import DateTable from './date-table.vue'
 
 import type { Dayjs } from 'dayjs'
 
-type DateType = 'prev-month' | 'today' | 'next-month'
+type DateType =
+  | 'prev-month'
+  | 'next-month'
+  | 'prev-year'
+  | 'next-year'
+  | 'today'
 
 const { ButtonGroup: ElButtonGroup } = ElButton
 export default defineComponent({
@@ -97,6 +107,14 @@ export default defineComponent({
 
     const nextMonthDayjs = computed(() => {
       return date.value.add(1, 'month')
+    })
+
+    const prevYearDayjs = computed(() => {
+      return date.value.subtract(1, 'year')
+    })
+
+    const nextYearDayjs = computed(() => {
+      return date.value.add(1, 'year')
     })
 
     const i18nDate = computed(() => {
@@ -237,6 +255,10 @@ export default defineComponent({
         day = prevMonthDayjs.value
       } else if (type === 'next-month') {
         day = nextMonthDayjs.value
+      } else if (type === 'prev-year') {
+        day = prevYearDayjs.value
+      } else if (type === 'next-year') {
+        day = nextYearDayjs.value
       } else {
         day = now
       }
