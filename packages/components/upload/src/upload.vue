@@ -68,6 +68,10 @@ export default defineComponent({
       type: Object as PropType<Nullable<Partial<Headers>>>,
       default: () => null,
     },
+    method: {
+      type: String,
+      default: 'post',
+    },
     withCredentials: {
       type: Boolean,
       default: false,
@@ -228,6 +232,7 @@ export default defineComponent({
         withCredentials: props.withCredentials,
         file: rawFile,
         data: props.data,
+        method: props.method,
         filename: props.name,
         action: props.action,
         onProgress: (e) => {
