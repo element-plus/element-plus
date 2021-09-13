@@ -2,5 +2,6 @@
   "guide": "Guide",
   "components": "Component",
   "theme": "Theme",
-  "resource": "Resource"
+  "resource": "Resource",
+  "backToTop": "Back to top"
 }

@@ -7,7 +7,7 @@
   {
     "text": "Component",
     "link": "/component/layout",
-    "activeMatch": "^/component/"
+    "activeMatch": "/component/"
   },
   {
     "text": "Resource",

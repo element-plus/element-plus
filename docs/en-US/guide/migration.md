@@ -3,7 +3,9 @@ title: Migration
 lang: en-US
 ---
 
-# Migration from Element 2.x
+# Migration
+
+## From Element UI 2.x
 
 This document will help you upgrade from Element 2.x to Element Plus.
 

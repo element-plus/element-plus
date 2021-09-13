@@ -9,8 +9,8 @@
     "clean": "rm -rf lib",
     "build": "gulp build"
   },
-  "main": "index.js",
-  "module": "index.js",
+  "main": "index.ts",
+  "module": "index.ts",
   "types": "index.d.js",
   "unpkg": "index.js",
   "jsdelivr": "index.js",

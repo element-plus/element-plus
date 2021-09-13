@@ -1,18 +1,26 @@
 const guideLocale = require('./i18n/pages/guide.json')
+const componentLocale = require('./i18n/pages/component.json')
 const { ensureLang } = require('./site-utils')
 
 function getGuideSidebar() {
   const guideSidebars = {}
   Object.entries(guideLocale).forEach(([lang, val]) => {
     guideSidebars[lang] = Object.values(val).map((item) => {
-      return mapLangPrefix(item, lang)
+      return mapPrefix(item, lang)
     })
   })
   return guideSidebars
 }
 
 function getComponentsSideBar() {
-  return {}
+  const componentSidebar = {}
+  Object.entries(componentLocale).forEach(([lang, val]) => {
+    componentSidebar[lang] = Object.values(val).map((item) => {
+      return mapPrefix(item, lang, '/component')
+    })
+  })
+
+  return componentSidebar
 }
 
 // return sidebar with language configs.
@@ -24,18 +32,18 @@ const getSidebars = () => {
   }
 }
 
-function mapLangPrefix(item, lang) {
+function mapPrefix(item, lang, prefix = '') {
   if (item.children && item.children.length > 0) {
     return {
       ...item,
       children: item.children.map((child) => {
-        return mapLangPrefix(child, lang)
+        return mapPrefix(child, lang, prefix)
       }),
     }
   }
   return {
     ...item,
-    link: `${ensureLang(lang)}${item.link}`,
+    link: `${ensureLang(lang)}${prefix}${item.link}`,
   }
 }
 
