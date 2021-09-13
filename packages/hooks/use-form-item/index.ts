@@ -16,7 +16,7 @@ export const useFormItemProps = {
   disabled: Boolean,
 } as const
 
-export type IUseFormItemProps = ExtractPropTypes<typeof useFormItemProps>
+export type UseFormItemProps = ExtractPropTypes<typeof useFormItemProps>
 
 export type LocalFallbacks = {
   size?: Ref<IUseFormItemProps['size']>
