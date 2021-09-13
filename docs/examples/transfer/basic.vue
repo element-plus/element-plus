@@ -66,7 +66,7 @@
 }
 </style>
 
-<script>
+<script lang="ts">
 export default {
   data() {
     const generateData = (_) => {

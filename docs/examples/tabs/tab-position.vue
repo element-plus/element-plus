@@ -13,7 +13,7 @@
     <el-tab-pane label="Task">Task</el-tab-pane>
   </el-tabs>
 </template>
-<script>
+<script lang="ts">
 export default {
   data() {
     return {

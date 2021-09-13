@@ -2,7 +2,7 @@
   <el-tree :props="props" :load="loadNode" lazy show-checkbox />
 </template>
 
-<script>
+<script lang="ts">
 export default {
   data() {
     return {

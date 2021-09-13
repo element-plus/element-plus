@@ -7,12 +7,15 @@ import VPNavbarThemeToggler from './navbar/vp-theme-toggler.vue'
 import VPNavbarTranslation from './navbar/vp-translation.vue'
 import VPNavbarSocialLinks from './navbar/vp-social-links.vue'
 import VPNavbarHamburger from './navbar/vp-hamburger.vue'
+import { useFeatureFlag } from '../composables/feature-flag'
 
 defineProps<{
   fullScreen: boolean
 }>()
 
 defineEmits(['toggle'])
+const themeEnabled = useFeatureFlag('theme')
+
 const { theme } = useData()
 </script>
 
@@ -31,7 +34,7 @@ const { theme } = useData()
       <div class="content">
         <VPNavbarSearch class="search" :options="theme.agolia" />
         <VPNavbarMenu class="menu" />
-        <VPNavbarThemeToggler class="theme-toggler" />
+        <VPNavbarThemeToggler v-if="themeEnabled" class="theme-toggler" />
         <VPNavbarTranslation class="translation" />
         <VPNavbarSocialLinks class="social-links" />
         <VPNavbarHamburger

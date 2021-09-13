@@ -36,6 +36,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  jsPreProcessor: {
+    type: String,
+    required: true,
+  },
   html: {
     type: String,
     required: true,
@@ -84,11 +88,12 @@ const onCodepenClicked = () => {
   <ClientOnly>
     <div class="example">
       <Codepen
+        ref="codepenRef"
         :css="props.css"
         :css-pre-processor="props.cssPreProcessor"
         :html="props.html"
         :js="props.js"
-        ref="codepenRef"
+        :js-pre-processor="props.jsPreProcessor"
       />
       <div class="op-btns">
         <ElTooltip :content="locale['edit-in-codepen']" :visible-arrow="false">

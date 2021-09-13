@@ -8,7 +8,7 @@
   <el-button style="margin-top: 12px" @click="next">Next step</el-button>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   data() {
     return {

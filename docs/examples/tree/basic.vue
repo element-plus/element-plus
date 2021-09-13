@@ -2,7 +2,7 @@
   <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick" />
 </template>
 
-<script>
+<script lang="ts">
 export default {
   data() {
     return {

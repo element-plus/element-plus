@@ -2,6 +2,7 @@
 const sidebars = require('./sidebars')
 const nav = require('./nav')
 const mdPlugin = require('./plugins')
+const features = require('./features')
 
 const transformer = () => {
   return {
@@ -54,14 +55,16 @@ module.exports = {
         href: 'https://unpkg.com/element-plus/dist/index.css',
       },
     ],
-    [
-      'script',
-      {},
-      require('fs').readFileSync(
-        require('path').resolve(__dirname, './darkmode.js'),
-        'utf-8'
-      ),
-    ],
+    features.theme
+      ? [
+          'script',
+          {},
+          require('fs').readFileSync(
+            require('path').resolve(__dirname, './darkmode.js'),
+            'utf-8'
+          ),
+        ]
+      : [],
   ],
   themeConfig: {
     repo: 'element-plus/element-plus',
@@ -79,6 +82,7 @@ module.exports = {
       apiKey: 'e32c681af38f324039e81d81834e70b8',
       appId: '7DCTSU0WBW',
     },
+    features,
   },
 
   markdown: {
@@ -96,29 +100,38 @@ module.exports = {
   },
   vite: {
     sourcemap: true,
-    ...(process.env.NODE_ENV !== 'production' ? {
-      resolve: {
-        alias: [
-          {
-            find: /^element-plus$/,
-            replacement: require('path').resolve(__dirname, '../../packages/element-plus/index')
+    ...(process.env.NODE_ENV !== 'production'
+      ? {
+          resolve: {
+            alias: [
+              {
+                find: /^element-plus$/,
+                replacement: require('path').resolve(
+                  __dirname,
+                  '../../packages/element-plus/index'
+                ),
+              },
+              {
+                find: '@element-plus/icons',
+                replacement: '@element-plus/icons',
+              },
+              {
+                find: /^element-plus\/lib\/utils\/(.*)/,
+                replacement: require('path').resolve(
+                  __dirname,
+                  '../../packages/utils/$1'
+                ),
+              },
+              {
+                find: /^@element-plus\/(.*)/,
+                replacement: require('path').resolve(
+                  __dirname,
+                  '../../packages/$1'
+                ),
+              },
+            ],
           },
-          {
-            find: '@element-plus/icons',
-            replacement: '@element-plus/icons'
-          },
-          {
-            find: /^element-plus\/lib\/utils\/(.*)/,
-            replacement: require('path').resolve(__dirname, '../../packages/utils/$1')
-          },
-          {
-            find: /^@element-plus\/(.*)/,
-            replacement: require('path').resolve(__dirname, '../../packages/$1')
-          }
-        ],
-      },
-    } : {
-
-    })
+        }
+      : {}),
   },
 }
