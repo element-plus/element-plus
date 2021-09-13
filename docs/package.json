@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "vitepress dev .",
-    "build": "vitepress build .",
-    "serve": "vitepress serve ."
+    "build": "NODE_ENV=production && vitepress build .",
+    "serve": "NODE_ENV=production && vitepress serve ."
   },
   "dependencies": {
     "element-plus": "^1.1.0-beta.9",

@@ -18,8 +18,8 @@
   "peerDependencies": {
     "vue": "^3.2.0"
   },
-  "main": "index.js",
-  "module": "index.js",
+  "main": "index.ts",
+  "module": "index.ts",
   "types": "index.d.ts",
   "unpkg": "index.js",
   "jsdelivr": "index.js",

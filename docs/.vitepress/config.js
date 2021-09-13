@@ -48,6 +48,13 @@ module.exports = {
       },
     ],
     [
+      'link',
+      {
+        rel: 'stylesheet',
+        href: 'https://unpkg.com/element-plus/dist/index.css',
+      },
+    ],
+    [
       'script',
       {},
       require('fs').readFileSync(
@@ -89,5 +96,29 @@ module.exports = {
   },
   vite: {
     sourcemap: true,
+    ...(process.env.NODE_ENV !== 'production' ? {
+      resolve: {
+        alias: [
+          {
+            find: /^element-plus$/,
+            replacement: require('path').resolve(__dirname, '../../packages/element-plus/index')
+          },
+          {
+            find: '@element-plus/icons',
+            replacement: '@element-plus/icons'
+          },
+          {
+            find: /^element-plus\/lib\/utils\/(.*)/,
+            replacement: require('path').resolve(__dirname, '../../packages/utils/$1')
+          },
+          {
+            find: /^@element-plus\/(.*)/,
+            replacement: require('path').resolve(__dirname, '../../packages/$1')
+          }
+        ],
+      },
+    } : {
+
+    })
   },
 }
