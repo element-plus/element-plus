@@ -28,8 +28,9 @@ import { computed, inject, defineComponent } from 'vue'
 import { useFormItem } from '@element-plus/hooks'
 import { elButtonGroupKey } from '@element-plus/tokens'
 
-import type { ComponentSize } from '@element-plus/utils/types'
 import { buttonEmits, buttonProps } from './button'
+
+import type { ComponentSize } from '@element-plus/utils/types'
 
 export default defineComponent({
   name: 'ElButton',
