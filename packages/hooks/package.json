@@ -19,7 +19,8 @@
     "@element-plus/directives": "^0.0.5",
     "@element-plus/locale": "^0.0.5",
     "@element-plus/utils": "^0.0.5",
-    "@popperjs/core": "^2.10.1"
+    "@popperjs/core": "^2.10.1",
+    "@vueuse/core": "^6.2.0"
   },
   "devDependencies": {
     "@element-plus/test-utils": "^0.0.5",
