@@ -81,10 +81,10 @@ export const dialogProps = {
 export type DialogProps = ExtractPropTypes<typeof dialogProps>
 
 export const dialogEmits = {
-  open: () => undefined,
-  opened: () => undefined,
-  close: () => undefined,
-  closed: () => undefined,
+  open: () => true,
+  opened: () => true,
+  close: () => true,
+  closed: () => true,
   [UPDATE_MODEL_EVENT]: (value: boolean) => typeof value === 'boolean',
 }
 export type DialogEmits = typeof dialogEmits
