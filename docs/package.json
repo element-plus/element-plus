@@ -3,16 +3,17 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "vitepress dev .",
-    "build": "vitepress build .",
-    "serve": "vitepress serve ."
+    "build": "NODE_ENV=production && vitepress build .",
+    "serve": "NODE_ENV=production && vitepress serve ."
   },
   "dependencies": {
-    "element-plus": "^1.1.0-beta.7",
+    "element-plus": "^1.1.0-beta.9",
+    "normalize.css": "^8.0.1",
     "throttle-debounce": "^3.0.1"
   },
   "devDependencies": {
     "@crowdin/cli": "^3.6.5",
     "@rollup/plugin-dynamic-import-vars": "^1.4.0",
-    "vitepress": "^0.16.1"
+    "vitepress": "^0.17.2"
   }
 }
