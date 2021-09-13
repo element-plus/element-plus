@@ -1,12 +1,8 @@
-import { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
-import Card from './src/index.vue'
+import { withInstall } from '@element-plus/utils/with-install'
 
-Card.install = (app: App): void => {
-  app.component(Card.name, Card)
-}
+import Card from './src/card.vue'
 
-const _Card = Card as SFCWithInstall<typeof Card>
+export const ElCard = withInstall(Card)
+export default ElCard
 
-export default _Card
-export const ElCard = _Card
+export * from './src/card'

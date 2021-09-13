@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import Card from '../src/index.vue'
+import Card from '../src/card.vue'
 
 const AXIOM = 'Rem is the best girl'
 
