@@ -11,15 +11,29 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
+
+import type { ExtractPropTypes } from 'vue'
+
+export const checkTagProps = {
+  checked: {
+    type: Boolean,
+    default: false,
+  },
+} as const
+
+export type CheckTagProps = ExtractPropTypes<typeof checkTagProps>
+
 export default defineComponent({
   name: 'ElCheckTag',
-  props: {
-    checked: Boolean,
-  },
-  emits: ['change'],
+
+  props: checkTagProps,
+  emits: ['change', 'update:checked'],
+
   setup(props, { emit }) {
     const onChange = () => {
-      emit('change', !props.checked)
+      const checked = !props.checked
+      emit('change', checked)
+      emit('update:checked', checked)
     }
 
     return {

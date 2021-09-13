@@ -12,6 +12,6 @@ export const ConfigProvider = defineComponent({
   setup(_, { slots }) {
     useLocale()
 
-    return () => slots.default()
+    return () => slots.default?.()
   },
 })

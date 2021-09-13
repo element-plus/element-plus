@@ -8,11 +8,12 @@ class Menu {
   }
   init(): void {
     const menuChildren = this.domNode.childNodes
-    ;[].filter
-      .call(menuChildren, (child: Node) => child.nodeType === 1)
-      .forEach((child: Node) => {
+    Array.from(menuChildren, (child: Node) => {
+      if (child.nodeType === 1) {
         new MenuItem(child as HTMLElement)
-      })
+      }
+    })
   }
 }
+
 export default Menu

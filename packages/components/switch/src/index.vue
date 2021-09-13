@@ -69,7 +69,7 @@ import {
 import { isPromise } from '@vue/shared'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import { isBool } from '@element-plus/utils/util'
-import throwError, { warn } from '@element-plus/utils/error'
+import { throwError, debugWarn } from '@element-plus/utils/error'
 
 import type { PropType } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
@@ -261,9 +261,7 @@ export default defineComponent({
             }
           })
           .catch((e) => {
-            if (process.env.NODE_ENV !== 'production') {
-              warn(scope, `some error occurred: ${e}`)
-            }
+            debugWarn(scope, `some error occurred: ${e}`)
           })
       } else if (shouldChange) {
         handleChange()

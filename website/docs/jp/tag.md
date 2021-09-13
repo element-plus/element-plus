@@ -7,11 +7,13 @@
 :::demo タグの型を定義するには `type` 属性を用いる。さらに、`color` 属性を用いてタグの背景色を設定することもできる。
 
 ```html
-<el-tag>Tag 1</el-tag>
-<el-tag type="success">Tag 2</el-tag>
-<el-tag type="info">Tag 3</el-tag>
-<el-tag type="warning">Tag 4</el-tag>
-<el-tag type="danger">Tag 5</el-tag>
+<template>
+  <el-tag>Tag 1</el-tag>
+  <el-tag type="success">Tag 2</el-tag>
+  <el-tag type="info">Tag 3</el-tag>
+  <el-tag type="warning">Tag 4</el-tag>
+  <el-tag type="danger">Tag 5</el-tag>
+</template>
 ```
 
 :::
@@ -21,9 +23,11 @@
 :::demo `closable` 属性は取り外し可能なタグを定義するために用いることができる。これは `Boolean` を受け付けます。デフォルトでは、タグの削除にはフェージングアニメーションが付きます。アニメーションを使いたくない場合は、`disable-transitions` 属性に `Boolean` を指定して `true` に設定すればよい。`close` イベントはタグが削除されたときに発生する。
 
 ```html
-<el-tag v-for="tag in tags" :key="tag.name" closable :type="tag.type">
-  {{tag.name}}
-</el-tag>
+<template>
+  <el-tag v-for="tag in tags" :key="tag.name" closable :type="tag.type">
+    {{tag.name}}
+  </el-tag>
+</template>
 
 <script>
   export default {
@@ -51,28 +55,30 @@
 :::demo
 
 ```html
-<el-tag
-  :key="tag"
-  v-for="tag in dynamicTags"
-  closable
-  :disable-transitions="false"
-  @close="handleClose(tag)"
->
-  {{tag}}
-</el-tag>
-<el-input
-  class="input-new-tag"
-  v-if="inputVisible"
-  v-model="inputValue"
-  ref="saveTagInput"
-  size="mini"
-  @keyup.enter="handleInputConfirm"
-  @blur="handleInputConfirm"
->
-</el-input>
-<el-button v-else class="button-new-tag" size="small" @click="showInput"
-  >+ New Tag</el-button
->
+<template>
+  <el-tag
+    :key="tag"
+    v-for="tag in dynamicTags"
+    closable
+    :disable-transitions="false"
+    @close="handleClose(tag)"
+  >
+    {{tag}}
+  </el-tag>
+  <el-input
+    class="input-new-tag"
+    v-if="inputVisible"
+    v-model="inputValue"
+    ref="saveTagInput"
+    size="mini"
+    @keyup.enter="handleInputConfirm"
+    @blur="handleInputConfirm"
+  >
+  </el-input>
+  <el-button v-else class="button-new-tag" size="small" @click="showInput"
+    >+ New Tag</el-button
+  >
+</template>
 
 <style>
   .el-tag + .el-tag {
@@ -135,10 +141,12 @@
 :::demo 追加のサイズを `medium`, `small`, `mini` で設定するには、属性 `size` を使用します。
 
 ```html
-<el-tag>Default</el-tag>
-<el-tag size="medium">Medium</el-tag>
-<el-tag size="small">Small</el-tag>
-<el-tag size="mini">Mini</el-tag>
+<template>
+  <el-tag>Default</el-tag>
+  <el-tag size="medium">Medium</el-tag>
+  <el-tag size="small">Small</el-tag>
+  <el-tag size="mini">Mini</el-tag>
+</template>
 ```
 
 :::
@@ -150,28 +158,30 @@
 :::demo `effect` を使って変更する場合、デフォルトは `light` です。
 
 ```html
-<div class="tag-group">
-  <span class="tag-group__title">Dark</span>
-  <el-tag
-    v-for="item in items"
-    :key="item.label"
-    :type="item.type"
-    effect="dark"
-  >
-    {{ item.label }}
-  </el-tag>
-</div>
-<div class="tag-group">
-  <span class="tag-group__title">Plain</span>
-  <el-tag
-    v-for="item in items"
-    :key="item.label"
-    :type="item.type"
-    effect="plain"
-  >
-    {{ item.label }}
-  </el-tag>
-</div>
+<template>
+  <div class="tag-group">
+    <span class="tag-group__title">Dark</span>
+    <el-tag
+      v-for="item in items"
+      :key="item.label"
+      :type="item.type"
+      effect="dark"
+    >
+      {{ item.label }}
+    </el-tag>
+  </div>
+  <div class="tag-group">
+    <span class="tag-group__title">Plain</span>
+    <el-tag
+      v-for="item in items"
+      :key="item.label"
+      :type="item.type"
+      effect="plain"
+    >
+      {{ item.label }}
+    </el-tag>
+  </div>
+</template>
 
 <script>
   export default {
@@ -199,10 +209,12 @@ Sometimes because of the business needs, we might need checkbox like tag, but **
 :::demo basic check-tag usage, the API is rather simple.
 
 ```html
-<div>
-  <el-check-tag checked style="margin-right: 8px;">Checked</el-check-tag>
-  <el-check-tag @change="onChange" :checked="checked">Toggle me</el-check-tag>
-</div>
+<template>
+  <div>
+    <el-check-tag checked style="margin-right: 8px;">Checked</el-check-tag>
+    <el-check-tag @change="onChange" :checked="checked">Toggle me</el-check-tag>
+  </div>
+</template>
 
 <script>
   export default {

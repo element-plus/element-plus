@@ -62,8 +62,8 @@ import { defineComponent, computed, ref } from 'vue'
 import { Overlay } from '@element-plus/components/overlay'
 import {
   useDialog,
-  useDialogProps,
-  useDialogEmits,
+  dialogProps,
+  dialogEmits,
 } from '@element-plus/components/dialog'
 import { TrapFocus } from '@element-plus/directives'
 
@@ -80,7 +80,7 @@ export default defineComponent({
     TrapFocus,
   },
   props: {
-    ...useDialogProps,
+    ...dialogProps,
     direction: {
       type: String as PropType<DrawerDirection>,
       default: 'rtl',
@@ -102,7 +102,7 @@ export default defineComponent({
     },
   },
 
-  emits: useDialogEmits,
+  emits: dialogEmits,
 
   setup(props, ctx) {
     const drawerRef = ref<HTMLElement>(null)

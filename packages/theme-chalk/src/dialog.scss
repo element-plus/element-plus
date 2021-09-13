@@ -99,16 +99,24 @@
   }
 }
 
+.#{$namespace}-overlay-dialog {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
 .dialog-fade-enter-active {
-  animation: modal-fade-in var(--el-transition-duration) !important;
-  .#{$namespace}-dialog {
+  animation: modal-fade-in var(--el-transition-duration);
+  .#{$namespace}-overlay-dialog {
     animation: dialog-fade-in var(--el-transition-duration);
   }
 }
 
 .dialog-fade-leave-active {
   animation: modal-fade-out var(--el-transition-duration);
-  .#{$namespace}-dialog {
+  .#{$namespace}-overlay-dialog {
     animation: dialog-fade-out var(--el-transition-duration);
   }
 }
@@ -140,7 +148,6 @@
     opacity: 0;
   }
   100% {
-    transform: translate3d(0, 0, 0);
     opacity: 1;
   }
 }

@@ -16,12 +16,12 @@ function getError(
   } else if (xhr.responseText) {
     msg = `${xhr.responseText}`
   } else {
-    msg = `fail to post ${action} ${xhr.status}`
+    msg = `fail to ${option.method} ${action} ${xhr.status}`
   }
 
   const err = new Error(msg) as ElUploadAjaxError
   err.status = xhr.status
-  err.method = 'post'
+  err.method = option.method
   err.url = action
   return err
 }
@@ -78,7 +78,7 @@ export default function upload(option: ElUploadRequestOptions) {
     option.onSuccess(getBody(xhr))
   }
 
-  xhr.open('post', action, true)
+  xhr.open(option.method, action, true)
 
   if (option.withCredentials && 'withCredentials' in xhr) {
     xhr.withCredentials = true

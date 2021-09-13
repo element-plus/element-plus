@@ -25,6 +25,13 @@ module.exports = {
         'no-undef': 'off',
       },
     },
+    {
+      // not tested
+      files: ['**/__tests__/**'],
+      rules: {
+        'no-console': 'off',
+      },
+    },
   ],
   rules: {
     // js/ts
@@ -32,7 +39,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'warn',
     'no-redeclare': 'off',
     '@typescript-eslint/no-redeclare': 'error',
-    'no-console': ['warn', { allow: ['warn', 'error'] }],
+    'no-console': ['warn', { allow: ['error'] }],
     'no-restricted-syntax': ['error', 'LabeledStatement', 'WithStatement'],
     camelcase: ['error', { properties: 'never' }],
 
@@ -53,10 +60,13 @@ module.exports = {
 
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
+    '@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
 
     // vue
     'vue/no-v-html': 'off',
     'vue/require-default-prop': 'off',
+    'vue/require-explicit-emits': 'off',
 
     'prettier/prettier': 'warn',
   },
