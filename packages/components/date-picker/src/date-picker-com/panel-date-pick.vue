@@ -259,7 +259,7 @@ export default defineComponent({
       if (showTime.value) {
         return emitDayjs.millisecond(0)
       }
-      return emitDayjs
+      return emitDayjs.startOf('day')
     }
     const emit = (value, ...args) => {
       if (!value) {

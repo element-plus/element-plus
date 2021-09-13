@@ -222,14 +222,14 @@ export default defineComponent({
       getAvailableArrs(disabledHours, disabledMinutes, disabledSeconds)
 
     const adjustSpinners = () => {
-      return spinner.value.adjustSpinners()
+      return spinner.value?.adjustSpinners()
     }
 
     watch(
       () => props.parsedValue,
       () => {
         if (props.visible) {
-          nextTick((_) => adjustSpinners())
+          nextTick(() => adjustSpinners())
         }
       }
     )
