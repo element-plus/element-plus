@@ -108,14 +108,14 @@ export default {
       hasCheckedFormat: '{checked}/{total} seçildi',
     },
     image: {
-      error: 'BAŞARISIZ OLDU', 
+      error: 'BAŞARISIZ OLDU',
     },
     pageHeader: {
       title: 'Geri',
     },
     popconfirm: {
-      confirmButtonText: 'Evet', 
-      cancelButtonText: 'Hayır', 
+      confirmButtonText: 'Evet',
+      cancelButtonText: 'Hayır',
     },
   },
 }
