@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import Alert from '../src/index.vue'
+import Alert from '../src/alert.vue'
 
 const AXIOM = 'Rem is the best girl'
 
