@@ -7,7 +7,7 @@ import {
   getCurrentInstance,
   watch,
 } from 'vue'
-import { warn } from '@element-plus/utils/error'
+import { debugWarn } from '@element-plus/utils/error'
 import { useLocaleInject } from '@element-plus/hooks'
 
 import Prev from './prev.vue'
@@ -260,7 +260,7 @@ export default defineComponent({
 
     return () => {
       if (!assertValidUsage.value) {
-        warn(componentName, t('el.pagination.deprecationWarning'))
+        debugWarn(componentName, t('el.pagination.deprecationWarning'))
         return null
       }
       if (!props.layout) return null

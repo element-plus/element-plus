@@ -13,46 +13,48 @@
         :z-index="zIndex"
         @click="onModalClick"
       >
-        <div
-          ref="dialogRef"
-          v-trap-focus
-          :class="[
-            'el-dialog',
-            {
-              'is-fullscreen': fullscreen,
-              'el-dialog--center': center,
-            },
-            customClass,
-          ]"
-          aria-modal="true"
-          role="dialog"
-          :aria-label="title || 'dialog'"
-          :style="style"
-          @click.stop=""
-        >
-          <div class="el-dialog__header">
-            <slot name="title">
-              <span class="el-dialog__title">
-                {{ title }}
-              </span>
-            </slot>
-            <button
-              v-if="showClose"
-              aria-label="close"
-              class="el-dialog__headerbtn"
-              type="button"
-              @click="handleClose"
-            >
-              <i class="el-dialog__close el-icon el-icon-close"></i>
-            </button>
-          </div>
-          <template v-if="rendered">
-            <div class="el-dialog__body">
-              <slot></slot>
+        <div class="el-overlay-dialog">
+          <div
+            ref="dialogRef"
+            v-trap-focus
+            :class="[
+              'el-dialog',
+              {
+                'is-fullscreen': fullscreen,
+                'el-dialog--center': center,
+              },
+              customClass,
+            ]"
+            aria-modal="true"
+            role="dialog"
+            :aria-label="title || 'dialog'"
+            :style="style"
+            @click.stop=""
+          >
+            <div class="el-dialog__header">
+              <slot name="title">
+                <span class="el-dialog__title">
+                  {{ title }}
+                </span>
+              </slot>
+              <button
+                v-if="showClose"
+                aria-label="close"
+                class="el-dialog__headerbtn"
+                type="button"
+                @click="handleClose"
+              >
+                <i class="el-dialog__close el-icon el-icon-close"></i>
+              </button>
             </div>
-          </template>
-          <div v-if="$slots.footer" class="el-dialog__footer">
-            <slot name="footer"></slot>
+            <template v-if="rendered">
+              <div class="el-dialog__body">
+                <slot></slot>
+              </div>
+            </template>
+            <div v-if="$slots.footer" class="el-dialog__footer">
+              <slot name="footer"></slot>
+            </div>
           </div>
         </div>
       </el-overlay>

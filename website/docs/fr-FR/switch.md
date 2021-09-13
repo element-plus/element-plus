@@ -134,12 +134,12 @@ Switch est utilisé pour choisir entre deux états opposés.
 
 ### Empêcher la commutation
 
-:::demo Définissez la propriété `beforeChange`. Si elle renvoie false ou renvoie une promesse et est rejetée, le commutateur s'arrêtera.
+:::demo Définissez la propriété `before-change`. Si elle renvoie false ou renvoie une promesse et est rejetée, le commutateur s'arrêtera.
 
 ```html
-<el-switch v-model="value1" :loading="loading1" :beforeChange="beforeChange1">
+<el-switch v-model="value1" :loading="loading1" :before-change="beforeChange1">
 </el-switch>
-<el-switch v-model="value2" :loading="loading2" :beforeChange="beforeChange2">
+<el-switch v-model="value2" :loading="loading2" :before-change="beforeChange2">
 </el-switch>
 <script>
   import { reactive, toRefs } from 'vue'

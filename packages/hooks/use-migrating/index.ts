@@ -1,5 +1,6 @@
-import { onMounted, getCurrentInstance } from 'vue'
+import { debugWarn } from '@element-plus/utils/error'
 import { kebabCase } from '@element-plus/utils/util'
+import { getCurrentInstance, onMounted } from 'vue'
 
 const useMigrating = function () {
   onMounted(() => {
@@ -13,8 +14,9 @@ const useMigrating = function () {
     for (let propName in definedProps as any) {
       propName = kebabCase(propName) // compatible with camel case
       if (props[propName]) {
-        console.warn(
-          `[Element Migrating][${instance.proxy.$options.name}][Attribute]: ${props[propName]}`
+        debugWarn(
+          'Element Migrating',
+          `[${instance.proxy.$options.name}][Attribute]: ${props[propName]}`
         )
       }
     }

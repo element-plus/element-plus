@@ -36,4 +36,74 @@ describe('virtual scrollbar', () => {
   it('horizontal inline style', () => {
     testInlineStyle('horizontal')
   })
+
+  it('click track', async () => {
+    const wrapper = mount({
+      template: `
+        <div
+          style="
+            height: 100px;
+            position: relative;
+            border: 1px solid red;
+          "
+        >
+          <scrollbar
+            layout="vertical"
+            :total="100"
+            :ratio="25"
+            :client-size="100"
+            :scroll-from="0 / 300"
+            :visible="true"
+            ref="scrollbar"
+          />
+        </div>
+      `,
+      components: {
+        Scrollbar,
+      },
+    })
+
+    await nextTick()
+
+    const scrollbar = wrapper.findComponent(Scrollbar)
+    const el = scrollbar.vm.$el
+
+    // layout: vertical; width: auto; height: 100px; scrollHeight: 400px;
+    // thumb ratio: (100 / 400) * 100 -> 25   // (clientHeight / scrollHeight) * 100
+    // thumbSize: 33   // scrollbar.ts computed thumbSize
+    // thumb translateY: (0 / (400 - 100)) * (100 - 25) -> 0  // (scrollTop / (scrollHeight - clientHeight)) * (clientHeight - thumbSize)
+    const initializeStyle =
+      'height: 33px; transform: translateY(0px); webkit-transform: translateY(0px); width: 100%;'
+
+    expect(wrapper.find('.el-scrollbar__thumb').attributes('style')).toContain(
+      initializeStyle
+    )
+
+    const e = document.createEvent('MouseEvents')
+    const clientY = 20
+    e.initMouseEvent(
+      'mousedown',
+      false,
+      false,
+      null,
+      0,
+      0,
+      0,
+      0,
+      clientY,
+      false,
+      false,
+      false,
+      false,
+      0,
+      null
+    )
+    el.dispatchEvent(e)
+
+    await nextTick()
+
+    expect(
+      wrapper.find('.el-scrollbar__thumb').attributes('style')
+    ).not.toContain(initializeStyle)
+  })
 })
