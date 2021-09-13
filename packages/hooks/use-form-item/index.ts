@@ -19,8 +19,8 @@ export const useFormItemProps = {
 export type UseFormItemProps = ExtractPropTypes<typeof useFormItemProps>
 
 export type LocalFallbacks = {
-  size?: Ref<IUseFormItemProps['size']>
-  disabled?: Ref<IUseFormItemProps['disabled']>
+  size?: Ref<UseFormItemProps['size'] | undefined>
+  disabled?: Ref<UseFormItemProps['disabled'] | undefined>
 }
 
 export const useFormItem = ({ size, disabled }: LocalFallbacks) => {
@@ -28,7 +28,7 @@ export const useFormItem = ({ size, disabled }: LocalFallbacks) => {
   const $ELEMENT = useGlobalConfig()
 
   // vm.props is not reactive so we use the reactive one here.
-  const props = vm.proxy.$props as IUseFormItemProps
+  const props = vm.proxy.$props as UseFormItemProps
   const form = inject(elFormKey, undefined)
   const formItem = inject(elFormItemKey, undefined)
 

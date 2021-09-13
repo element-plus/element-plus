@@ -30,8 +30,6 @@ import { elButtonGroupKey } from '@element-plus/tokens'
 
 import { buttonEmits, buttonProps } from './button'
 
-import type { ComponentSize } from '@element-plus/utils/types'
-
 export default defineComponent({
   name: 'ElButton',
 
@@ -41,7 +39,7 @@ export default defineComponent({
   setup(_, { emit }) {
     const elBtnGroup = inject(elButtonGroupKey, undefined)
     const { size: buttonSize, disabled: buttonDisabled } = useFormItem({
-      size: computed(() => elBtnGroup?.size as ComponentSize),
+      size: computed(() => elBtnGroup?.size),
     })
 
     const handleClick = (evt: MouseEvent) => emit('click', evt)
