@@ -1,8 +1,33 @@
 /* eslint-disable */
-const dynamicImportVars = require('@rollup/plugin-dynamic-import-vars')
 const sidebars = require('./sidebars')
 const nav = require('./nav')
 const mdPlugin = require('./plugins')
+
+const transformer = () => {
+  return {
+    props: [],
+    needRuntime: true,
+  }
+}
+
+const buildTransformers = () => {
+  const transformers = {}
+  const directives = [
+    'infinite-scroll',
+    'loading',
+    'popover',
+    'click-outside',
+    'repeat-click',
+    'trap-focus',
+    'mousewheel',
+    'resize',
+  ]
+  directives.forEach((k) => {
+    transformers[k] = transformer
+  })
+
+  return transformers
+}
 
 module.exports = {
   title: 'ElementPlus',
@@ -21,6 +46,21 @@ module.exports = {
         rel: 'stylesheet',
         href: '//fonts.loli.net/css?family=Inter:300,400,500,600|Open+Sans:400,600;display=swap',
       },
+    ],
+    [
+      'link',
+      {
+        rel: 'stylesheet',
+        href: 'https://unpkg.com/element-plus/dist/index.css',
+      },
+    ],
+    [
+      'script',
+      {},
+      require('fs').readFileSync(
+        require('path').resolve(__dirname, './darkmode.js'),
+        'utf-8'
+      ),
     ],
   ],
   themeConfig: {
@@ -46,14 +86,39 @@ module.exports = {
       mdPlugin(md)
     },
   },
-
+  vue: {
+    template: {
+      ssr: true,
+      compilerOptions: {
+        directiveTransforms: buildTransformers(),
+      },
+    },
+  },
   vite: {
-    // build: {
-    //   rollupOptions: {
-    //     plugins: [
-    //       dynamicImportVars.default()
-    //     ]
-    //   }
-    // }
+    sourcemap: true,
+    ...(process.env.NODE_ENV !== 'production' ? {
+      resolve: {
+        alias: [
+          {
+            find: /^element-plus$/,
+            replacement: require('path').resolve(__dirname, '../../packages/element-plus/index')
+          },
+          {
+            find: '@element-plus/icons',
+            replacement: '@element-plus/icons'
+          },
+          {
+            find: /^element-plus\/lib\/utils\/(.*)/,
+            replacement: require('path').resolve(__dirname, '../../packages/utils/$1')
+          },
+          {
+            find: /^@element-plus\/(.*)/,
+            replacement: require('path').resolve(__dirname, '../../packages/$1')
+          }
+        ],
+      },
+    } : {
+
+    })
   },
 }

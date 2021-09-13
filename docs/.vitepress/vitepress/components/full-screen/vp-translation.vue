@@ -1,0 +1,71 @@
+<script setup lang="ts">
+import { useTranslation } from '../../composables/translation'
+import { useToggle } from '../../composables/toggle'
+import ExpandIcon from '../icons/expand.vue'
+
+const { languageMap, langs, lang, switchLang } = useTranslation()
+
+const [show, toggle] = useToggle()
+</script>
+
+<template>
+  <div class="full-screen-translation">
+    <ElButton
+      type="text"
+      @click="toggle"
+      style="width: 100%; color: var(--text-color)"
+    >
+      <div class="translation-toggler">
+        <span> Translations </span>
+        <ElIcon :size="14">
+          <ExpandIcon class="toggle-icon" :class="{ expanded: show }" />
+        </ElIcon>
+      </div>
+    </ElButton>
+    <div v-show="show" class="translation-items">
+      <p
+        v-for="l in langs"
+        class="translation-item"
+        :class="{ active: l === lang }"
+        @click="switchLang(lang)"
+      >
+        {{ languageMap[l] }}
+      </p>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.full-screen-translation {
+  border-bottom: 1px solid var(--border-color);
+}
+.translation-toggler {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  line-height: 24px;
+  .toggle-icon {
+    transition: transform var(--el-transition-duration);
+    transform: rotate(180deg);
+
+    &.expanded {
+      transform: rotate(0deg);
+    }
+  }
+}
+
+.translation-items {
+  padding-bottom: 12px;
+  .translation-item {
+    cursor: pointer;
+    margin: 0;
+    font-size: 14px;
+    line-height: 32px;
+
+    &.active {
+      font-weight: 600;
+    }
+  }
+}
+</style>

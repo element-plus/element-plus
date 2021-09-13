@@ -31,7 +31,7 @@
     "website-dev": "webpack-dev-server --config ./website/webpack.config.js",
     "website-dev:play": "cross-env PLAY_ENV=true yarn website-dev",
     "prepare": "husky install",
-    "docs:dev": "cd docs && yarn dev",
+    "docs:dev": "yarn  docs:gen-locale && cd docs && yarn dev",
     "docs:build": "cd docs && yarn build",
     "docs:serve": "cd docs && yarn serve",
     "init:crowdin": "esno build/crowdin-credentials.js",

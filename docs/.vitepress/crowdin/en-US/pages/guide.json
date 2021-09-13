@@ -9,7 +9,7 @@
         "link": "/guide/installation"
       },
       {
-        "text": "Quick start",
+        "text": "Quick Start",
         "link": "/guide/quickstart"
       }
     ]
@@ -18,9 +18,9 @@
     "text": "Advanced",
     "children": [
       { "text": "i18n", "link": "/guide/i18n" },
-      { "text": "Migrate from ElementUI 2.x", "link": "/guide/migration" },
+      { "text": "Migration", "link": "/guide/migration" },
       { "text": "Theming", "link": "/guide/theming" },
-      { "text": "Built-in transitions", "link": "/guide/transitions" }
+      { "text": "Built-in Transitions", "link": "/guide/transitions" }
     ]
   }
 }
