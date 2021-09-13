@@ -31,6 +31,8 @@ const ScrollBar = defineComponent({
   props: DefaultScrollBarProps,
   emits: ['scroll', 'start-move', 'stop-move'],
   setup(props, { emit }) {
+    const GAP = 4 // top 2 + bottom 2 | left 2 + right 2
+
     // DOM refs
     const trackRef = ref(null)
     const thumbRef = ref(null)
@@ -47,11 +49,13 @@ const ScrollBar = defineComponent({
 
     const bar = computed(() => BAR_MAP[props.layout])
 
+    const trackSize = computed(() => props.clientSize - GAP)
+
     const trackStyle = computed<CSSProperties>(() => ({
       display: props.visible ? null : 'none',
       position: 'absolute',
-      width: HORIZONTAL === props.layout ? '100%' : '6px',
-      height: HORIZONTAL === props.layout ? '6px' : 'auto',
+      width: HORIZONTAL === props.layout ? trackSize.value + 'px' : '6px',
+      height: HORIZONTAL === props.layout ? '6px' : trackSize.value + 'px',
       [ScrollbarDirKey[props.layout]]: '2px',
       right: '2px',
       bottom: '2px',
@@ -100,7 +104,7 @@ const ScrollBar = defineComponent({
     })
 
     const totalSteps = computed(() =>
-      Math.floor(props.clientSize - thumbSize.value - 4)
+      Math.floor(props.clientSize - thumbSize.value - GAP)
     )
 
     const attachEvents = () => {
@@ -193,7 +197,7 @@ const ScrollBar = defineComponent({
       // scroll offset to scrollTo
       frameHandle = rAF(() => {
         state.traveled = Math.max(
-          2,
+          0,
           Math.min(
             distance,
             totalSteps.value // 2 is the top value
@@ -220,11 +224,18 @@ const ScrollBar = defineComponent({
     watch(
       () => props.scrollFrom,
       (v) => {
-        // this is simply mapping the current scrollbar offset
         if (state.isDragging) return
-        state.traveled = Math.ceil(
-          (v * props.clientSize) / (props.clientSize / totalSteps.value)
-        )
+        /**
+         *  this is simply mapping the current scrollbar offset
+         *
+         *  formula 1:
+         *    v = scrollOffset / (estimatedTotalSize - clientSize)
+         *    traveled = v * (clientSize - thumbSize - GAP) --> v * totalSteps
+         *
+         *  formula 2:
+         *    traveled = (v * clientSize) / (clientSize / totalSteps) --> (v * clientSize) * (totalSteps / clientSize) --> v * totalSteps
+         */
+        state.traveled = Math.ceil(v * totalSteps.value)
       }
     )
 
