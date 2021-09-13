@@ -6,7 +6,7 @@ const { VueLoaderPlugin } = require('vue-loader')
 
 const libMode = process.env.LIBMODE
 const isFullMode = libMode === 'full'
-let externals = [
+const externals = [
   {
     vue: {
       root: 'Vue',
@@ -30,6 +30,7 @@ if (!isFullMode) {
       mitt: 'mitt',
       'normalize-wheel': 'normalize-wheel',
       'resize-observer-polyfill': 'resize-observer-polyfill',
+      '@vueuse/core': '@vueuse/core',
     },
     /^dayjs.*/,
     /^lodash.*/
