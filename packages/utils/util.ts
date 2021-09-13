@@ -50,6 +50,7 @@ export function getPropByPath(
 } {
   let tempObj = obj
   let key, value
+  let keyArr = []
 
   if (obj && hasOwn(obj, path)) {
     key = path
@@ -58,7 +59,13 @@ export function getPropByPath(
     path = path.replace(/\[(\w+)\]/g, '.$1')
     path = path.replace(/^\./, '')
 
-    const keyArr = path.split('.')
+    if (path.includes('[') && path.includes(']')) {
+      let endStr = path.split('[')[1]
+      endStr = endStr.slice(0, endStr.length - 1).replace(/\'/g, '')
+      keyArr = [path.split('[')[0], endStr]
+    } else {
+      keyArr = path.split('.')
+    }
     let i = 0
     for (i; i < keyArr.length - 1; i++) {
       if (!tempObj && !strict) break
