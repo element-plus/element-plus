@@ -1,6 +1,8 @@
 name: Website Preview
 
-on: pull_request_target
+on:
+  pull_request_target:
+  pull_request:
 
 jobs:
   deploy:
