@@ -10,7 +10,7 @@ jobs:
       PULL_REQUEST_NUMBER: ${{ github.event.number }}
     steps:
       - name: Checkout
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
 
       - name: Setup node
         uses: actions/setup-node@v2
