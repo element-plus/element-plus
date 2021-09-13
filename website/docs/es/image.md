@@ -278,3 +278,9 @@ Además de las características nativas de img, soporte de carga perezosa, marca
 | ---------- | ---------------------------------------------------------------------------------------------- | -------------------------------------- |
 | close      | Emitted when clicking on `X` button or when `hide-on-click-modal` enabled clicking on backdrop | None                                   |
 | switch     | When switching images                                                                          | `(val: number)` switching target index |
+
+### ImageViewer Slots
+
+| Nombre del slot | Descripción                        |
+| --------------- | ---------------------------------- |
+| viewer          | Contenido del área de vista previa |

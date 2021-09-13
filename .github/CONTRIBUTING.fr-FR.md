@@ -18,7 +18,13 @@ Nous sommes ravis que vous souhaitiez contribuer à Element Plus. Avant de soume
 
 - Faites un fork de ce dépôt vers votre compte. Ne créez pas de branches ici.
 
-- Les informations de validation doivent être formatées en tant que `[Nom du composant] : Info à propos de ce commit` (par exemple `Button : Fix xxx bug`)
+- les informations soumises doivent être présentées sous la forme `type(scope): info about commit`.(par exemple, `fix(components): [el-scrollbar] fix xxx bug`)
+
+  1. Type: le type doit être l'un des [build, chore, ci, docs, feat, fix, perf, refactor, revert, release, style, test, improvement].
+
+  2. Scope: scope doit être l'un des [components, directives, element-plus, hooks, locale, test-utils, theme-chalk, tokens, utils, project, core, style, docs, ci, dev, build, deploy, other, typography, color, border, var].
+
+  3. Titre: le titre ne doit pas dépasser 72 caractères.
 
 - **NE PAS** inclure de fichiers dans le répertoire `lib`.
 

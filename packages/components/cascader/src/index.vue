@@ -510,7 +510,7 @@ export default defineComponent({
         case EVENT_CODE.down:
           togglePopperVisible(true)
           nextTick(focusFirstNode)
-          event.preventDefault()
+          e.preventDefault()
           break
         case EVENT_CODE.esc:
         case EVENT_CODE.tab:

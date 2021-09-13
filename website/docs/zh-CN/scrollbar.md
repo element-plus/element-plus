@@ -74,7 +74,7 @@
 
 ```html
 <template>
-  <el-scrollbar ref="scrollbar" height="400px" always>
+  <el-scrollbar ref="scrollbar" height="400px" always @scroll="scroll">
     <div ref="inner">
       <p class="item" v-for="item in 20">{{ item }}</p>
     </div>
@@ -102,6 +102,9 @@
     methods: {
       inputSlider(value) {
         this.$refs.scrollbar.setScrollTop(value)
+      },
+      scroll({ scrollTop }) {
+        this.value = scrollTop
       },
       formatTooltip(value) {
         return `${value} px`

@@ -6,6 +6,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import type {
   ListType,
   UploadFile,
+  UploadStatus,
   ElFile,
   ElUploadProgressEvent,
   IUseHandlersProps,
@@ -33,8 +34,10 @@ export default (props: IUseHandlersProps) => {
     uploadRef.value.abort(file)
   }
 
-  function clearFiles() {
-    uploadFiles.value = []
+  function clearFiles(status: UploadStatus[] = ['success', 'fail']) {
+    uploadFiles.value = uploadFiles.value.filter((row) => {
+      return status.indexOf(row.status) === -1
+    })
   }
 
   function handleError(err: Error, rawFile: ElFile) {

@@ -11,7 +11,7 @@ import {
 
 import type { VNode, VNodeTypes, VNodeChild } from 'vue'
 import { hasOwn } from '@vue/shared'
-import { warn } from './error'
+import { debugWarn } from './error'
 
 type Children = VNodeTypes[] | VNodeTypes
 
@@ -108,7 +108,7 @@ export function renderBlock(
  */
 export const getNormalizedProps = (node: VNode) => {
   if (!isVNode(node)) {
-    warn(SCOPE, 'value must be a VNode')
+    debugWarn(SCOPE, 'value must be a VNode')
     return
   }
   const raw = node.props || {}

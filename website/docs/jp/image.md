@@ -278,3 +278,9 @@ img のネイティブ機能の他に、遅延ロード、カスタムプレー�
 | ---------- | ---------------------------------------------------------------------------------------------- | -------------------------------------- |
 | close      | Emitted when clicking on `X` button or when `hide-on-click-modal` enabled clicking on backdrop | None                                   |
 | switch     | When switching images                                                                          | `(val: number)` switching target index |
+
+### ImageViewer スロット
+
+| Slot Name | Description            |
+| --------- | ---------------------- |
+| viewer    | プレビューエリアの内容 |

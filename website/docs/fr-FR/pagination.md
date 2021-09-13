@@ -7,14 +7,16 @@ Si vous avez beaucoup de données à afficher sur une seule page, il est préfé
 :::demo Configurez `layout` avec les différent éléments de pagination que vous souhaitez, séparés par des virgules. Les éléments possibles sont: `prev` (pour aller vers la page précédente), `next` (pour aller vers la page suivante), `pager` (liste des pages), `jumper` (un champ pour aller directement à une page précise), `total` (Le nombre total d'entrées), `size` (un sélecteur qui détermine la taille de la page) et `->`(chaque élément après celui-ci sera poussé vers la droite).
 
 ```html
-<div class="block">
-  <span class="demonstration">Quand vous avez quelques pages</span>
-  <el-pagination layout="prev, pager, next" :total="50"> </el-pagination>
-</div>
-<div class="block">
-  <span class="demonstration">Quand vous avez plus que 7 pages</span>
-  <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>
-</div>
+<template>
+  <div class="block">
+    <span class="demonstration">Quand vous avez quelques pages</span>
+    <el-pagination layout="prev, pager, next" :total="50"> </el-pagination>
+  </div>
+  <div class="block">
+    <span class="demonstration">Quand vous avez plus que 7 pages</span>
+    <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>
+  </div>
+</template>
 ```
 
 :::
@@ -24,13 +26,15 @@ Si vous avez beaucoup de données à afficher sur une seule page, il est préfé
 :::demo Par défaut, Pagination réduit les boutons lorsqu'il y a plus de 7 pages. Ce nombre est configurable avec l'attribut `pager-count`.
 
 ```html
-<el-pagination
-  :page-size="20"
-  :pager-count="11"
-  layout="prev, pager, next"
-  :total="1000"
->
-</el-pagination>
+<template>
+  <el-pagination
+    :page-size="20"
+    :pager-count="11"
+    layout="prev, pager, next"
+    :total="1000"
+  >
+  </el-pagination>
+</template>
 ```
 
 :::
@@ -40,8 +44,10 @@ Si vous avez beaucoup de données à afficher sur une seule page, il est préfé
 :::demo Réglez l'attribut `background` pour change la couleur de fond des boutons.
 
 ```html
-<el-pagination background layout="prev, pager, next" :total="1000">
-</el-pagination>
+<template>
+  <el-pagination background layout="prev, pager, next" :total="1000">
+  </el-pagination>
+</template>
 ```
 
 :::
@@ -53,7 +59,9 @@ Utilisez une pagination de taille réduite si vous manquez d'espace.
 :::demo Ajoutez simplement l'attribut `small` et la pagination sera de taille réduite.
 
 ```html
-<el-pagination small layout="prev, pager, next" :total="50"> </el-pagination>
+<template>
+  <el-pagination small layout="prev, pager, next" :total="50"> </el-pagination>
+</template>
 ```
 
 :::
@@ -175,15 +183,17 @@ Lorsqu'il n'y a qu'une seule page, il est possible de cacher la pagination avec 
 :::demo
 
 ```html
-<div>
-  <el-switch v-model="value"> </el-switch>
-  <el-pagination
-    :hide-on-single-page="value"
-    :total="5"
-    layout="prev, pager, next"
-  >
-  </el-pagination>
-</div>
+<template>
+  <div>
+    <el-switch v-model="value"> </el-switch>
+    <el-pagination
+      :hide-on-single-page="value"
+      :total="5"
+      layout="prev, pager, next"
+    >
+    </el-pagination>
+  </div>
+</template>
 
 <script>
   export default {
