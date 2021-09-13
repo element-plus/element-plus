@@ -18,8 +18,8 @@ describe('virtual scrollbar', () => {
     Object.entries({
       display: 'block',
       position: 'absolute',
-      width: 'vertical' !== layout ? '100%' : '6px',
-      height: 'vertical' !== layout ? '6px' : 'auto',
+      // width: 'vertical' !== layout ? '100%' : '6px',
+      // height: 'vertical' !== layout ? '6px' : 'auto',
       [ScrollbarDirKey[layout]]: '2px',
       right: '2px',
       bottom: '2px',
@@ -68,10 +68,12 @@ describe('virtual scrollbar', () => {
     const scrollbar = wrapper.findComponent(Scrollbar)
     const el = scrollbar.vm.$el
 
-    // layout: vertical; width: auto; height: 100px; scrollHeight: 400px;
-    // thumb ratio: (100 / 400) * 100 -> 25   // (clientHeight / scrollHeight) * 100
-    // thumbSize: 33   // scrollbar.ts computed thumbSize
-    // thumb translateY: (0 / (400 - 100)) * (100 - 25) -> 0  // (scrollTop / (scrollHeight - clientHeight)) * (clientHeight - thumbSize)
+    /**
+     *  layout: vertical; width: auto; height: 100px; scrollHeight: 400px;
+     *  thumb ratio: (100 / 400) * 100 -> 25   // (clientHeight / scrollHeight) * 100
+     *  thumbSize: 33   // scrollbar.ts computed thumbSize
+     *  thumb translateY: (0 / (400 - 100)) * (100 - 25) -> 0  // (scrollTop / (scrollHeight - clientHeight)) * (clientHeight - thumbSize)
+     */
     const initializeStyle =
       'height: 33px; transform: translateY(0px); webkit-transform: translateY(0px); width: 100%;'
 
@@ -105,5 +107,73 @@ describe('virtual scrollbar', () => {
     expect(
       wrapper.find('.el-scrollbar__thumb').attributes('style')
     ).not.toContain(initializeStyle)
+  })
+
+  it('horizontal track height/width', async () => {
+    const wrapper = mount({
+      template: `
+        <div
+          style="
+            width: 200px;
+            height: 100px;
+            position: relative;
+            border: 1px solid red;
+          "
+        >
+          <scrollbar
+            layout="horizontal"
+            :total="100"
+            :ratio="25"
+            :client-size="200"
+            :scroll-from="0 / 300"
+            :visible="true"
+          />
+        </div>
+      `,
+      components: {
+        Scrollbar,
+      },
+    })
+
+    await nextTick()
+
+    expect(
+      (wrapper.find('.el-virtual-scrollbar').element as HTMLElement).style.width
+    ).toContain('196px') // clientSize - 4 = 200 - 4 = 196
+
+    expect(
+      (wrapper.find('.el-virtual-scrollbar').element as HTMLElement).style
+        .height
+    ).toContain('6px') // fixed 6
+  })
+
+  it('vertical track height/width', async () => {
+    const wrapper = mount({
+      template: `
+      <div style="height: 100px; position: relative; border: 1px solid red">
+        <scrollbar
+          :total="100"
+          :ratio="25"
+          :client-size="100"
+          :scroll-from="0 / 300"
+          :visible="true"
+        />
+      </div>
+    `,
+      components: {
+        Scrollbar,
+      },
+    })
+
+    await nextTick()
+
+    expect(
+      (wrapper.find('.el-virtual-scrollbar').element as HTMLElement).style
+        .height
+    ).toContain('96px') // clientSize - 4 = 100 - 4 = 96
+
+    expect(
+      (wrapper.find('.el-virtual-scrollbar').element as HTMLElement).style.width
+    ).toContain('6px') // fixed 6
   })
 })
