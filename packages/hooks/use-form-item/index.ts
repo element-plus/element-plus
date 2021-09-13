@@ -1,9 +1,10 @@
-import { inject, computed, getCurrentInstance } from 'vue'
+import { inject, computed, getCurrentInstance, unref } from 'vue'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import { buildProp } from '@element-plus/utils/props'
 import { useGlobalConfig } from '@element-plus/utils/util'
 
-import type { ExtractPropTypes, Ref } from 'vue'
+import type { ExtractPropTypes } from 'vue'
+import type { MaybeRef } from '@vueuse/shared'
 
 const sizes = ['', 'large', 'medium', 'small', 'mini'] as const
 
@@ -19,8 +20,8 @@ export const useFormItemProps = {
 export type UseFormItemProps = ExtractPropTypes<typeof useFormItemProps>
 
 export type LocalFallbacks = {
-  size?: Ref<UseFormItemProps['size'] | undefined>
-  disabled?: Ref<UseFormItemProps['disabled'] | undefined>
+  size?: MaybeRef<UseFormItemProps['size'] | undefined>
+  disabled?: MaybeRef<UseFormItemProps['disabled'] | undefined>
 }
 
 export const useFormItem = ({ size, disabled }: LocalFallbacks) => {
@@ -37,7 +38,7 @@ export const useFormItem = ({ size, disabled }: LocalFallbacks) => {
       // TODO, fallback to default size like 'medium/large' instead of empty string
       return (
         props.size ||
-        size?.value ||
+        unref(size) ||
         formItem?.size ||
         form?.size ||
         $ELEMENT.size ||
@@ -46,7 +47,7 @@ export const useFormItem = ({ size, disabled }: LocalFallbacks) => {
     }),
     disabled: computed(() => {
       return (
-        props.disabled === true || disabled?.value || form?.disabled || false
+        props.disabled === true || unref(disabled) || form?.disabled || false
       )
     }),
   }
