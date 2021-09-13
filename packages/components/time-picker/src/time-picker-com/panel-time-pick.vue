@@ -229,7 +229,7 @@ export default defineComponent({
       () => props.parsedValue,
       () => {
         if (props.visible) {
-          nextTick(_ => adjustSpinners())
+          nextTick((_) => adjustSpinners())
         }
       }
     )

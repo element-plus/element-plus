@@ -17,12 +17,32 @@ export const extractTimeFormat = (format: string) => {
     .trim()
 }
 
-export const modifyDate = function(date, y, m, d) {
-  return dayjs(new Date(y, m, d, date.hour(), date.minute(), date.second(), date.millisecond()))
+export const modifyDate = function (date, y, m, d) {
+  return dayjs(
+    new Date(
+      y,
+      m,
+      d,
+      date.hour(),
+      date.minute(),
+      date.second(),
+      date.millisecond()
+    )
+  )
 }
 
-export const modifyTime = function(date, h, m, s) {
-  return dayjs(new Date(date.year(), date.month(), date.date(), h, m, s, date.millisecond()))
+export const modifyTime = function (date, h, m, s) {
+  return dayjs(
+    new Date(
+      date.year(),
+      date.month(),
+      date.date(),
+      h,
+      m,
+      s,
+      date.millisecond()
+    )
+  )
 }
 
 export const modifyWithTimeString = (date, time) => {

@@ -183,7 +183,10 @@ import {
 } from '@element-plus/components/time-picker'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { isValidDatePickType } from '@element-plus/utils/validators'
-import { modifyTime, modifyWithTimeString } from '@element-plus/components/time-picker/src/common/date-utils'
+import {
+  modifyTime,
+  modifyWithTimeString,
+} from '@element-plus/components/time-picker/src/common/date-utils'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
@@ -474,7 +477,12 @@ export default defineComponent({
 
     const handleTimePick = (value, visible, first) => {
       const newDate = props.parsedValue
-        ? modifyTime((props.parsedValue as Dayjs), value.hour(), value.minute(), value.second())
+        ? modifyTime(
+            props.parsedValue as Dayjs,
+            value.hour(),
+            value.minute(),
+            value.second()
+          )
         : modifyWithTimeString(value, defaultTime)
       innerDate.value = newDate
       emit(innerDate.value, true)
