@@ -2,7 +2,7 @@
   <el-tree :data="data" :props="defaultProps" show-checkbox />
 </template>
 
-<script>
+<script lang="ts">
 export default {
   data() {
     return {

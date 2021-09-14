@@ -19,7 +19,7 @@
   </el-select>
 </template>
 
-<script>
+<script lang="ts">
 import { ref, defineComponent, onMounted } from 'vue'
 
 export default defineComponent({

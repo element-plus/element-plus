@@ -18,7 +18,7 @@
   </el-drawer>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { ElMessageBox } from 'element-plus'
 

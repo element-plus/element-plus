@@ -15,7 +15,7 @@
   </el-dropdown>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from 'vue'
 import { ElMessage } from 'element-plus'
 

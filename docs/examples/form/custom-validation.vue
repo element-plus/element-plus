@@ -33,7 +33,7 @@
   </el-form>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   data() {
     const checkAge = (rule, value, callback) => {

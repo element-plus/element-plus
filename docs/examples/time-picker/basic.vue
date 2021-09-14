@@ -20,7 +20,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 const makeRange = (start, end) => {
   const result = []
   for (let i = start; i <= end; i++) {

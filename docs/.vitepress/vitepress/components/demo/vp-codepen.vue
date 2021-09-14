@@ -16,22 +16,42 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  jsPreProcessor: {
+    type: String,
+    required: true,
+  },
   html: {
     type: String,
     required: true,
   },
 })
 
+const globalMapper = {
+  "'vue'": 'Vue',
+  "'element-plus'": 'ElementPlus',
+}
+
 const js = computed(() => {
+  const decodedJs = decodeURIComponent(props.js || '')
   const imports = /(import*) ([^'\n]*) from ([^\n]*)/g
-  let component = /export default {([\s\S]*)}/g.exec(
-    decodeURIComponent(props.js || '')
-  )
+  const globals = []
+  let match
+  while ((match = imports.exec(decodedJs))) {
+    const [_, __, members, target] = match
+
+    globals.push(`const ${members} = ${globalMapper[target]};`)
+  }
+  const componentRegex = decodedJs.includes('export default defineComponent')
+    ? /export default defineComponent\({([\s\S]*)}\)/g
+    : /export default {([\s\S]*)}/g
+
+  let component = componentRegex.exec(decodedJs)
   component = ((component && component[1]) || '')
     .replace(/\n {2}/g, '\n')
     .trim()
 
-  return `var Main = {
+  return `${globals.join('\n')}
+var Main = {
   ${component}
 };
 
@@ -54,6 +74,8 @@ ${decodeURIComponent(props.css).trim()}
 `,
     js: js.value,
     css_pre_processor: props.cssPreProcessor,
+    js_pre_processor:
+      props.jsPreProcessor === 'ts' ? ' typescript' : props.jsPreProcessor,
   })
 })
 
@@ -62,6 +84,7 @@ const formRef = ref(null)
 const submit = () => {
   formRef.value.submit?.()
 }
+console.log(data.value)
 
 defineExpose({
   submit,

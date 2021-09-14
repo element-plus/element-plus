@@ -22,7 +22,7 @@
   </el-row>
 </template>
 
-<script>
+<script lang="ts">
 const getCssVarValue = () => ''
 export default {
   data() {

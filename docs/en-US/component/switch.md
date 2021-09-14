@@ -44,7 +44,7 @@ switch/loading
 
 ## prevent switching
 
-:::demo set the `beforeChange` property, If `false` is returned or a `Promise` is returned and then is rejected, will stop switching.
+:::demo set the `before-change` property, If `false` is returned or a `Promise` is returned and then is rejected, will stop switching.
 
 switch/prevent-switching
 

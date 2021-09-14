@@ -6,7 +6,7 @@
   <el-progress :percentage="50" status="exception"></el-progress>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from 'vue'
 
 export default defineComponent({
