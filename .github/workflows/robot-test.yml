@@ -1,0 +1,34 @@
+name: Website Preview
+
+on:
+  pull_request_target:
+  pull_request:
+
+jobs:
+  deploy:
+    name: Depoly
+    runs-on: ubuntu-latest
+    env:
+      PULL_REQUEST_NUMBER: ${{ github.event.number }}
+    steps:
+      - name: Show Deploy
+        run: |
+          export DEPLOY_DOMAIN=https://preview-${PULL_REQUEST_NUMBER}-element-plus.surge.sh
+          echo $DEPLOY_DOMAIN
+          echo '{"botAction":"Preview", "pr":"${PULL_REQUEST_NUMBER}", "url":"${DEPLOY_DOMAIN}"}'
+        env:
+          BOT_URL: ${{ secrets.BOT_URL }}
+
+      - name: Deploy has succeeded
+        run: |
+          export DEPLOY_DOMAIN=https://preview-${PULL_REQUEST_NUMBER}-element-plus.surge.sh
+          curl -X POST ${BOT_URL} -H 'Content-Type:application/json' --data-raw '{"botAction":"Preview", "pr":"${PULL_REQUEST_NUMBER}", "url":"${DEPLOY_DOMAIN}"}'
+        env:
+          BOT_URL: ${{ secrets.BOT_URL }}
+
+      - name: Deploy has succeeded2
+        run: |
+          export DEPLOY_DOMAIN=https://preview-${PULL_REQUEST_NUMBER}-element-plus.surge.sh
+          curl -X POST ${BOT_URL} -H 'Content-Type:application/json' --data-raw '{"botAction":"Preview", "pr":"${PULL_REQUEST_NUMBER}", "url":"'${DEPLOY_DOMAIN}'"}'
+        env:
+          BOT_URL: ${{ secrets.BOT_URL }}
