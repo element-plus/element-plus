@@ -2,7 +2,6 @@
 
 set -e
 
-yarn bootstrap
 yarn clean:lib
 yarn gen:version
 
