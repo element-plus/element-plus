@@ -9,6 +9,7 @@
     <meta name="description" content="Element Plus, a Vue 3 based component library for developers, designers and product managers" />
   </head>
   <body>
+    [Preview !!😄]
     <div id="app"></div>
   </body>
   <% if (process.env.NODE_ENV === 'production') { %><script>
