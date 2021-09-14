@@ -64,6 +64,7 @@
           @mousedown="handleMouseDown"
         />
       </div>
+      <slot />
     </div>
   </transition>
 </template>

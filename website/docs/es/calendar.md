@@ -72,6 +72,46 @@ Muestra fechas.
 
 :::
 
+### Cabeza personalizada
+
+:::demostración configurando el nombre `header` de `scoped-slot` Personaliza el contenido que se muestra en el encabezado del calendario. existe `scoped-slot` Puede obtener la fecha (la fecha de la celda actual). Para obtener más información, consulte la documentación de la API a continuación.
+
+```html
+<el-calendar ref="calendar">
+  <template #header="{date}">
+    <span>Contenido de encabezado personalizado</span>
+    <span>{{ date }}</span>
+    <el-button-group>
+      <el-button size="mini" @click="selectDate('prev-year')"
+        >el año pasado</el-button
+      >
+      <el-button size="mini" @click="selectDate('prev-month')"
+        >el mes pasado</el-button
+      >
+      <el-button size="mini" @click="selectDate('today')">Hoy en día</el-button>
+      <el-button size="mini" @click="selectDate('next-month')"
+        >próximo mes</el-button
+      >
+      <el-button size="mini" @click="selectDate('next-year')"
+        >el próximo año</el-button
+      >
+    </el-button-group>
+  </template>
+</el-calendar>
+
+<script>
+  export default {
+    methods: {
+      selectDate(value) {
+        this.$refs.calendar.selectDate(value)
+      },
+    },
+  }
+</script>
+```
+
+:::
+
 ### Localization
 
 The default locale of is English, if you need to use other languages, please check [Internationalization](#/es/component/i18n)
@@ -90,3 +130,9 @@ Note, date time locale (month name, first day of the week ...) are also configed
 | Name     | Description                                                                                                                                                                                                                                                                              | Attribute |
 | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
 | dateCell | { type, isSelected, day, date }. `type` indicates which month the date belongs, optional values are prev-month, current-month, next-month; `isSelected` indicates whether the date is selected; `day` is the formatted date in the format YYYY-MM-DD; `date` is date the cell represents | data      |
+
+### Methods
+
+| Method     | Description   | Parameters                                              |
+| ---------- | ------------- | ------------------------------------------------------- |
+| selectDate | Cambiar fecha | today / prev-month / next-month / prev-year / next-year |

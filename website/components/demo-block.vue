@@ -270,7 +270,7 @@ ${this.codepen.html}
 </template>
 
 <script>
-${'  ' + this.codepen.script}
+${'  ' + this.displayDemoCode}
 \<\/script>
 
 <style>

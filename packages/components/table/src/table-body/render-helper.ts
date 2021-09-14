@@ -1,5 +1,4 @@
 import { h, getCurrentInstance, computed } from 'vue'
-import { arrayFindIndex } from '@element-plus/utils/util'
 import useEvents from './events-helper'
 import useStyles from './styles-helper'
 import { getRowIdentity } from '../util'
@@ -31,8 +30,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
     getColspanRealWidth,
   } = useStyles(props)
   const firstDefaultColumnIndex = computed(() => {
-    return arrayFindIndex(
-      props.store.states.columns.value,
+    return props.store.states.columns.value.findIndex(
       ({ type }) => type === 'default'
     )
   })

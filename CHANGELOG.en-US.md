@@ -1,12 +1,105 @@
 ## Changelog
 
+### 1.1.0-beta.10
+
+_2021-09-13_
+
+#### Features
+
+- Components [el-badge] support color of type when is-dot (#3279 by @adaex)
+- Components [el-virtual-scroll-bar] handle click event (#3308 by @SorrowX)
+- Components image-viewer component support slot (#3345 by @xiaoxian521)
+- Components calendar component header support slot (#3316 by @xiaoxian521)
+- Components [el-calendar] add prev-year and next-year (#3360 by @xiaoxian521)
+- Components [el-input-number] add focus & blur methods (#3337 by @adaex)
+- Components [el-upload] support put method (#3358 by @xiaoxian521)
+- Components [el-upload] `clearFiles` support filter status (#1501 by @gaoyia)
+- Utils getPropByPath function adjust (#1276 by @jectychen)
+- Hooks extracting size injection for form items (#3383 by @JeremyWuuuuu)
+
+#### Bug fixes
+
+- Components [el-menu] fix the infinite loop (#3263 by @BeADre)
+- Components [el-alert] change the border-radius variable (#3271 by @btea)
+- Components [el-dialog] avoid custom class style conflict (#3267 by @adaex)
+- Components [el-form]: ensure form validation always triggers callback (#3294 by @digitalkaoz)
+- Hooks warn renamed to debugWarn (#3329 by @sxzz)
+- Project typo (#3340 by @sxzz)
+- Components [el-cascader] event renamed to e (#3344 by @btea)
+- Components [el-textarea] show different font family (#3349 by @Alanscut)
+- [el-table] default-expand-all doesn't work (#3321 by @Alanscut)
+- Components rename loading directive instance name (#3336 by @sxzz)
+- Add @vueuse/core as dependency (#3374 by @sxzz)
+- Components [el-dialog] fix emits (#3375 by @sxzz)
+- Components [el-badge] add export type (#3376 by @sxzz)
+- Components [el-virtual-scrollbar] fix move bug (#3379 by @SorrowX)
+
+#### Refactors
+
+- Utils improve debug warn (#3302 by @adaex)
+- Hooks refactor useAttrs (#3300 by @sxzz)
+- Utils refactor `throwError` (#3301 by @sxzz)
+- Components refactor check-tag (#3311 by @sxzz)
+- Utils drop ie support (#3304 by @sxzz)
+- Utils refactor menu-bar (#3343 by @btea)
+- Utils refactor with-install (#3355 by @sxzz)
+- Components refactor button (#3341 by @sxzz)
+- Components [el-alert] improve judgment (#1985 by @cbbfcd)
+- Components refactor avatar (#3364 by @sxzz)
+- Components refactor alert (#3365 by @sxzz)
+- Components refactor badge (#3366 by @sxzz)
+- Components refactor card (#3367 by @sxzz)
+- Components refactor dialog (#3369 by @sxzz)
+- Components refactor affix (#3368 by @sxzz)
+- Add type declaration (#3310 by @xiaoxian521)
+- Revert "fix(components): [el-form]: ensure form validation always triggers callback (#3294 by @HerringtonDarkholme)" (#3324)
+
+### 1.1.0-beta.9
+
+_2021-09-05_
+
+#### Features
+
+- Components [el-timeline] add hollow prop (#3229 by @kooriookami)
+
+#### Bug fixes
+
+- El-image-viewer drag have problem (#3133 by @Alanscut)
+- Components virtualized selector optimize (#3160 by @msidolphin)
+- Theme-chalk fixed the wrong background color of timeline-item (#3165 by @msidolphin)
+- Utils improve element.addEventListener (#3173 by @adaex)
+- Components [el-form-item] dom element null checking (#3172 by @taosher)
+- Utils make width valid with `calc` (#3181 by @cokemine)
+- Components collapse incorrect export statement (#3185 by @msidolphin)
+- Components descriptions cell class (#3195 by @adaex)
+- Components tabs dynamic text (#3174 by @imswk) (#3180)
+- Components [el-input-number] model:value not required (#3190 by @msidolphin)
+- Missing timepicker css var (#3204 by @YunYouJun)
+- [el-form-item] add min-width (#3208 by @sxzz)
+- Chore typo package.json (#3214 by @linrongbin16)
+- Theme-chalk [el-form] no display red asterisk when width is auto (#3222 by @msidolphin)
+- Docs fix typo in README.md (close #3216) (#3230 by @KimYangOfCat)
+- Build agolia indices script (#3234 by @JeremyWuuuuu)
+- Components message verified by el-form is "" validate (#3227 by @imswk) (#3231)
+- Components [el-menu] fix warn & listen item (#3225 by @sxzz)
+- Components lazy image is not work when it changes src (#3189 by @zycoJamie)
+- Allow custom tr background-color (#3166 by @YunYouJun)
+- Perf menu add back arrow-icon and overflow (#3167 by @kooriookami)
+- Style `$--border-color-hover` var reference (#3179 by @adaex)
+- Style fixed style (#3202 by @sunnuan)
+- Perf [el-menu] only vertical mode has transition (#3200 by @kooriookami)
+- Style fix missing import (#3212 by @sunnuan)
+- Style use prettier (#3228 by @sxzz)
+- Style [el-image] format code (#3238 by @sxzz)
+
+#### Refactors
+
+- Components Improve calendar date range validate (#3156 by @adaex)
+- Upgrade to husky@7 & lint-staged@11 & commitlint@13 (#3239 by @YunYouJun)
+
 ### 1.1.0-beta.8
 
 _2021-08-31_
-
-#### Breaking changes:
-
-- Please refer to: [Breaking changes made in 1.1.0-beta.1](https://github.com/element-plus/element-plus/discussions/3020)
 
 #### Features
 
@@ -114,6 +207,10 @@ _2021-08-24_
 ### 1.1.0-beta.1
 
 _2021-08-24_
+
+#### Breaking changes:
+
+- Please refer to: [Breaking changes made in 1.1.0-beta.1](https://github.com/element-plus/element-plus/discussions/3020)
 
 #### Features
 

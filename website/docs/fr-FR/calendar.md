@@ -72,6 +72,48 @@ Affiche un calendrier.
 
 :::
 
+### Tête personnalisée
+
+:::demo Intervalle en définissant le nom `header` de `scoped-slot` Personnalisez le contenu affiché dans l'en-tête du calendrier. exister `scoped-slot` Vous pouvez obtenir la date (la date de la cellule actuelle). Pour plus de détails, veuillez vous référer à la documentation de l'API ci-dessous.
+
+```html
+<el-calendar ref="calendar">
+  <template #header="{date}">
+    <span>Contenu d'en-tête personnalisé</span>
+    <span>{{ date }}</span>
+    <el-button-group>
+      <el-button size="mini" @click="selectDate('prev-year')"
+        >l'année dernière</el-button
+      >
+      <el-button size="mini" @click="selectDate('prev-month')"
+        >le mois dernier</el-button
+      >
+      <el-button size="mini" @click="selectDate('today')"
+        >De nos jours</el-button
+      >
+      <el-button size="mini" @click="selectDate('next-month')"
+        >le mois prochain</el-button
+      >
+      <el-button size="mini" @click="selectDate('next-year')"
+        >L'année prochaine</el-button
+      >
+    </el-button-group>
+  </template>
+</el-calendar>
+
+<script>
+  export default {
+    methods: {
+      selectDate(value) {
+        this.$refs.calendar.selectDate(value)
+      },
+    },
+  }
+</script>
+```
+
+:::
+
 ### Localization
 
 The default locale of is English, if you need to use other languages, please check [Internationalization](#/fr-FR/component/i18n)
@@ -90,3 +132,9 @@ Note, date time locale (month name, first day of the week ...) are also configed
 | Attribut | Description                                                                                                                                                                                                                                                                                      | Type   | Valeurs acceptées | Défaut |
 | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------ | ----------------- | ------ |
 | data     | { type, isSelected, day, date }. `type` indique le mois de la date courante, les valeurs prev-month, current-month et next-month pouvant être utilisées; `isSelected` indique si la date est sélectionnée; `day` est la date formattée en YYYY-MM-DD; `date` est la date de la cellule courante. | Object | —                 | —      |
+
+### Methods
+
+| Event Name | Description     | Attribute                                               |
+| ---------- | --------------- | ------------------------------------------------------- |
+| selectDate | Changer de date | today / prev-month / next-month / prev-year / next-year |

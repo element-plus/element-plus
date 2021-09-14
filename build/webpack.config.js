@@ -30,6 +30,7 @@ if (!isFullMode) {
       mitt: 'mitt',
       'normalize-wheel': 'normalize-wheel',
       'resize-observer-polyfill': 'resize-observer-polyfill',
+      '@vueuse/core': '@vueuse/core',
     },
     /^dayjs.*/,
     /^lodash.*/

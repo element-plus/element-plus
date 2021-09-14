@@ -7,11 +7,13 @@ Progreso es usado para mostrar el estado de la operación actual e informar al u
 :::demo Usa el atributo `percentage` para asignar el porcentaje. Este es **requerido** y tiene que ser un valor entre `0-100`. Puede personalizar el formato de texto estableciendo `format`.
 
 ```html
-<el-progress :percentage="50"></el-progress>
-<el-progress :percentage="100" :format="format"></el-progress>
-<el-progress :percentage="100" status="success"></el-progress>
-<el-progress :percentage="100" status="warning"></el-progress>
-<el-progress :percentage="50" status="exception"></el-progress>
+<template>
+  <el-progress :percentage="50"></el-progress>
+  <el-progress :percentage="100" :format="format"></el-progress>
+  <el-progress :percentage="100" status="success"></el-progress>
+  <el-progress :percentage="100" status="warning"></el-progress>
+  <el-progress :percentage="50" status="exception"></el-progress>
+</template>
 
 <script>
   export default {
@@ -49,29 +51,31 @@ En este caso el porcentaje no toma espacio adicional.
 :::demo El atributo `stroke-width` decide el ancho de la barra de progreso, y usa el atributo `text-inside` para poner la descripción dentro de la misma.
 
 ```html
-<el-progress
-  :text-inside="true"
-  :stroke-width="26"
-  :percentage="70"
-></el-progress>
-<el-progress
-  :text-inside="true"
-  :stroke-width="24"
-  :percentage="100"
-  status="success"
-></el-progress>
-<el-progress
-  :text-inside="true"
-  :stroke-width="22"
-  :percentage="80"
-  status="warning"
-></el-progress>
-<el-progress
-  :text-inside="true"
-  :stroke-width="20"
-  :percentage="50"
-  status="exception"
-></el-progress>
+<template>
+  <el-progress
+    :text-inside="true"
+    :stroke-width="26"
+    :percentage="70"
+  ></el-progress>
+  <el-progress
+    :text-inside="true"
+    :stroke-width="24"
+    :percentage="100"
+    status="success"
+  ></el-progress>
+  <el-progress
+    :text-inside="true"
+    :stroke-width="22"
+    :percentage="80"
+    status="warning"
+  ></el-progress>
+  <el-progress
+    :text-inside="true"
+    :stroke-width="20"
+    :percentage="50"
+    status="exception"
+  ></el-progress>
+</template>
 ```
 
 :::
@@ -83,18 +87,23 @@ Puede utilizar el atributo `color` para establecer el color de la barra de progr
 :::demo
 
 ```html
-<el-progress :percentage="percentage" :color="customColor"></el-progress>
+<template>
+  <el-progress :percentage="percentage" :color="customColor"></el-progress>
 
-<el-progress :percentage="percentage" :color="customColorMethod"></el-progress>
+  <el-progress
+    :percentage="percentage"
+    :color="customColorMethod"
+  ></el-progress>
 
-<el-progress :percentage="percentage" :color="customColors"></el-progress>
-<el-progress :percentage="percentage2" :color="customColors"></el-progress>
-<div>
-  <el-button-group>
-    <el-button icon="el-icon-minus" @click="decrease"></el-button>
-    <el-button icon="el-icon-plus" @click="increase"></el-button>
-  </el-button-group>
-</div>
+  <el-progress :percentage="percentage" :color="customColors"></el-progress>
+  <el-progress :percentage="percentage2" :color="customColors"></el-progress>
+  <div>
+    <el-button-group>
+      <el-button icon="el-icon-minus" @click="decrease"></el-button>
+      <el-button icon="el-icon-plus" @click="increase"></el-button>
+    </el-button-group>
+  </div>
+</template>
 
 <script>
   export default {
@@ -200,11 +209,13 @@ Puede utilizar el atributo `color` para establecer el color de la barra de progr
 :::demo Puede asignar el atributo `type` como `circle` para usar la barra circular de progreso, y usar el atributo `width` para cambiar el tamaño del círculo.
 
 ```html
-<el-progress type="circle" :percentage="0"></el-progress>
-<el-progress type="circle" :percentage="25"></el-progress>
-<el-progress type="circle" :percentage="100" status="success"></el-progress>
-<el-progress type="circle" :percentage="70" status="warning"></el-progress>
-<el-progress type="circle" :percentage="50" status="exception"></el-progress>
+<template>
+  <el-progress type="circle" :percentage="0"></el-progress>
+  <el-progress type="circle" :percentage="25"></el-progress>
+  <el-progress type="circle" :percentage="100" status="success"></el-progress>
+  <el-progress type="circle" :percentage="70" status="warning"></el-progress>
+  <el-progress type="circle" :percentage="50" status="exception"></el-progress>
+</template>
 ```
 
 :::
@@ -214,23 +225,25 @@ Puede utilizar el atributo `color` para establecer el color de la barra de progr
 :::demo También puede especificar el atributo `type` a `dashboard` para usar la barra de progreso del panel de control.
 
 ```html
-<el-progress
-  type="dashboard"
-  :percentage="percentage"
-  :color="colors"
-></el-progress>
-<el-progress
-  type="dashboard"
-  :percentage="percentage2"
-  :color="colors"
-></el-progress>
+<template>
+  <el-progress
+    type="dashboard"
+    :percentage="percentage"
+    :color="colors"
+  ></el-progress>
+  <el-progress
+    type="dashboard"
+    :percentage="percentage2"
+    :color="colors"
+  ></el-progress>
 
-<div>
-  <el-button-group>
-    <el-button icon="el-icon-minus" @click="decrease"></el-button>
-    <el-button icon="el-icon-plus" @click="increase"></el-button>
-  </el-button-group>
-</div>
+  <div>
+    <el-button-group>
+      <el-button icon="el-icon-minus" @click="decrease"></el-button>
+      <el-button icon="el-icon-plus" @click="increase"></el-button>
+    </el-button-group>
+  </div>
+</template>
 
 <script>
   export default {
@@ -322,26 +335,28 @@ Puede utilizar el atributo `color` para establecer el color de la barra de progr
 :::demo Use default slot to add customized content.
 
 ```html
-<el-progress :percentage="50">
-  <el-button type="text">Content</el-button>
-</el-progress>
-<el-progress
-  :text-inside="true"
-  :stroke-width="20"
-  :percentage="50"
-  status="exception"
->
-  <span>Content</span>
-</el-progress>
-<el-progress type="circle" :percentage="100" status="success">
-  <el-button type="success" icon="el-icon-check" circle></el-button>
-</el-progress>
-<el-progress type="dashboard" :percentage="80">
-  <template #default="{ percentage }">
-    <span class="percentage-value">{{ percentage }}%</span>
-    <span class="percentage-label">Progressing</span>
-  </template>
-</el-progress>
+<template>
+  <el-progress :percentage="50">
+    <el-button type="text">Content</el-button>
+  </el-progress>
+  <el-progress
+    :text-inside="true"
+    :stroke-width="20"
+    :percentage="50"
+    status="exception"
+  >
+    <span>Content</span>
+  </el-progress>
+  <el-progress type="circle" :percentage="100" status="success">
+    <el-button type="success" icon="el-icon-check" circle></el-button>
+  </el-progress>
+  <el-progress type="dashboard" :percentage="80">
+    <template #default="{ percentage }">
+      <span class="percentage-value">{{ percentage }}%</span>
+      <span class="percentage-label">Progressing</span>
+    </template>
+  </el-progress>
+</template>
 ```
 
 :::
@@ -351,29 +366,31 @@ Puede utilizar el atributo `color` para establecer el color de la barra de progr
 :::demo Use `indeterminate` attribute to set indeterminate progress, with `duration` to control the animation duration.
 
 ```html
-<el-progress :percentage="50" :indeterminate="true"></el-progress>
-<el-progress
-  :percentage="100"
-  :format="format"
-  :indeterminate="true"
-></el-progress>
-<el-progress
-  :percentage="100"
-  status="success"
-  :indeterminate="true"
-  :duration="5"
-></el-progress>
-<el-progress
-  :percentage="100"
-  status="warning"
-  :indeterminate="true"
-  :duration="1"
-></el-progress>
-<el-progress
-  :percentage="50"
-  status="exception"
-  :indeterminate="true"
-></el-progress>
+<template>
+  <el-progress :percentage="50" :indeterminate="true"></el-progress>
+  <el-progress
+    :percentage="100"
+    :format="format"
+    :indeterminate="true"
+  ></el-progress>
+  <el-progress
+    :percentage="100"
+    status="success"
+    :indeterminate="true"
+    :duration="5"
+  ></el-progress>
+  <el-progress
+    :percentage="100"
+    status="warning"
+    :indeterminate="true"
+    :duration="1"
+  ></el-progress>
+  <el-progress
+    :percentage="50"
+    status="exception"
+    :indeterminate="true"
+  ></el-progress>
+</template>
 
 <script>
   export default {

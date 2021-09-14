@@ -1,5 +1,8 @@
 {
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "cz": "npx git-cz",
     "test": "jest",
@@ -29,8 +32,36 @@
     "website-dev:play": "cross-env PLAY_ENV=true yarn website-dev",
     "prepare": "husky install"
   },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "lint-staged": {
+    "*.{vue,js,ts,jsx,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{scss,css,json,yaml,yml,md,html}": "prettier --write"
+  },
+  "browserslist": [
+    "> 1%",
+    "not ie 11",
+    "not op_mini all"
+  ],
   "peerDependencies": {
     "vue": "^3.2.0"
+  },
+  "dependencies": {
+    "@element-plus/icons": "^0.0.11",
+    "@popperjs/core": "^2.10.1",
+    "@vueuse/core": "^6.2.0",
+    "async-validator": "^3.4.0",
+    "dayjs": "1.x",
+    "lodash": "^4.17.21",
+    "mitt": "^2.1.0",
+    "normalize-wheel": "^1.0.1",
+    "resize-observer-polyfill": "^1.5.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.15.4",
@@ -48,6 +79,7 @@
     "@types/jest": "^26.0.10",
     "@types/klaw-sync": "^6.0.1",
     "@types/lodash": "^4.14.161",
+    "@types/webpack-dev-server": "^4.1.0",
     "@typescript-eslint/eslint-plugin": "^4.30.0",
     "@typescript-eslint/parser": "^4.30.0",
     "@vue/babel-plugin-jsx": "^1.0.7",
@@ -122,57 +154,5 @@
     "webpack-bundle-analyzer": "^3.9.0",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
-  },
-  "lint-staged": {
-    "*.{vue,js,ts,jsx,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{scss,css,json,yaml,yml,md,html}": "prettier --write"
-  },
-  "workspaces": [
-    "packages/*"
-  ],
-  "description": "A Component Library for Vue3.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/element-plus/element-plus.git"
-  },
-  "homepage": "https://element-plus.org",
-  "license": "MIT",
-  "dependencies": {
-    "@element-plus/icons": "^0.0.11",
-    "@popperjs/core": "^2.10.1",
-    "async-validator": "^3.4.0",
-    "dayjs": "1.x",
-    "lodash": "^4.17.21",
-    "mitt": "^2.1.0",
-    "normalize-wheel": "^1.0.1",
-    "resize-observer-polyfill": "^1.5.1"
-  },
-  "files": [
-    "lib",
-    "es",
-    "packages"
-  ],
-  "main": "lib/index.js",
-  "module": "es/index.js",
-  "typings": "lib/index.d.ts",
-  "unpkg": "lib/index.js",
-  "style": "lib/theme-chalk/index.css",
-  "vetur": {
-    "tags": "lib/tags.json",
-    "attributes": "lib/attributes.json"
-  },
-  "web-types": "lib/web-types.json",
-  "browserslist": [
-    "> 1%",
-    "not ie 11",
-    "not op_mini all"
-  ]
+  }
 }

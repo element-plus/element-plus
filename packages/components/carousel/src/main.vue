@@ -81,6 +81,7 @@ import type {
   CarouselItem,
   InjectCarouselScope,
 } from './carousel'
+import { debugWarn } from '@element-plus/utils/error'
 
 export default defineComponent({
   name: 'ElCarousel',
@@ -220,7 +221,7 @@ export default defineComponent({
       }
       index = Number(index)
       if (isNaN(index) || index !== Math.floor(index)) {
-        console.warn('[Element Warn][Carousel]index must be an integer.')
+        debugWarn('Carousel', 'index must be an integer.')
         return
       }
       const length = items.value.length

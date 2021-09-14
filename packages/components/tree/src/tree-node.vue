@@ -97,6 +97,7 @@ import Node from './model/node'
 import type { ComponentInternalInstance, PropType } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'
 import type { TreeOptionProps, TreeNodeData, RootTreeType } from './tree.type'
+import { debugWarn } from '@element-plus/utils/error'
 
 export default defineComponent({
   name: 'ElTreeNode',
@@ -136,7 +137,7 @@ export default defineComponent({
 
     provide('NodeInstance', instance)
     if (!tree) {
-      console.warn("Can not find node's tree.")
+      debugWarn('Tree', "Can not find node's tree.")
     }
 
     if (props.node.expanded) {
