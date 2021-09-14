@@ -4,15 +4,14 @@ name: Website Preview Deploy
 on:
   workflow_run:
     workflows: ['Website Preview']
-    types:
-      - completed
+    types: [completed]
 
 jobs:
   # Build successfully, start deployment
-  deploy:
-    name: Deploy
+  on-success:
+    name: Build successfully
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.conclusion == 'success'
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Download pr number
         uses: dawidd6/action-download-artifact@v2
@@ -58,10 +57,10 @@ jobs:
           PULL_REQUEST_NUMBER: ${{ steps.pr.outputs.id }}
 
   # Build failed, update comment
-  build-failed:
+  on-failure:
     name: Build failed
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.conclusion == 'failure'
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
     steps:
       - name: Download pr number
         uses: dawidd6/action-download-artifact@v2
