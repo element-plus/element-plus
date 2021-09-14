@@ -149,6 +149,15 @@ export const useDialog = (
     }
   )
 
+  watch(
+    () => visible.value,
+    () => {
+      if (!visible.value) {
+        rendered.value = false
+      }
+    }
+  )
+
   onMounted(() => {
     if (props.modelValue) {
       visible.value = true
