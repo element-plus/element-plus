@@ -9,7 +9,7 @@
   />
 </template>
 
-<script>
+<script lang="ts">
 import { ref, defineComponent } from 'vue'
 
 const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']

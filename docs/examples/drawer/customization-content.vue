@@ -62,7 +62,7 @@
   </el-drawer>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, reactive, toRefs } from 'vue'
 import { ElMessageBox } from 'element-plus'
 

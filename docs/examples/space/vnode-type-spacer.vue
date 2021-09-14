@@ -6,7 +6,7 @@
   </el-space>
 </template>
 
-<script>
+<script lang="ts">
 import { h, resolveComponent } from 'vue'
 import { ElDivider } from 'element-plus'
 export default {

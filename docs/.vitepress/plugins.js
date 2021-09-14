@@ -48,12 +48,12 @@ const demos = import.meta.globEager('../../examples/${
 
         if (!source) throw new Error(`Incorrect source file: ${sourceFile}`)
 
-        const { html, js, css, cssPreProcessor } =
+        const { html, js, css, cssPreProcessor, jsPreProcessor } =
           generateCodePenSnippet(source)
 
         return `<Demo :demos="demos" source="${encodeURIComponent(
           highlight(source, 'vue')
-        )}" path="${sourceFile}" html="${html}" js="${js}" css="${css}" cssPreProcessor="${cssPreProcessor}">
+        )}" path="${sourceFile}" html="${html}" js="${js}" css="${css}" css-pre-processor="${cssPreProcessor}" js-pre-processor="${jsPreProcessor}">
         ${description ? `` : ''}
         <!--element-demo: ${content}:element-demo-->
         `
@@ -72,5 +72,6 @@ function generateCodePenSnippet(source) {
     js: encodeURIComponent((script || { content: '' }).content),
     css: encodeURIComponent(css?.content || ''),
     cssPreProcessor: css?.lang || 'none',
+    jsPreProcessor: script?.lang || 'none',
   }
 }

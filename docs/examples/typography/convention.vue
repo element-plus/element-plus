@@ -19,7 +19,7 @@
   </table>
 </template>
 
-<script>
+<script lang="ts">
 const fontSizes = [
   {
     level: 'Supplementary text',

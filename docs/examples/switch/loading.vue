@@ -3,7 +3,7 @@
   <el-switch v-model="value2" loading />
 </template>
 
-<script>
+<script lang="ts">
 export default {
   data() {
     return {

@@ -1,5 +1,5 @@
 <template>
-  <el-scrollbar ref="scrollbar" height="400px" always>
+  <el-scrollbar ref="scrollbar" height="400px" always @scroll="scroll">
     <div ref="inner">
       <p v-for="item in 20" :key="item" class="scrollbar-demo-item">
         {{ item }}
@@ -15,7 +15,7 @@
   ></el-slider>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   data() {
     return {
@@ -29,6 +29,9 @@ export default {
   methods: {
     inputSlider(value) {
       this.$refs.scrollbar.setScrollTop(value)
+    },
+    scroll({ scrollTop }) {
+      this.value = scrollTop
     },
     formatTooltip(value) {
       return `${value} px`

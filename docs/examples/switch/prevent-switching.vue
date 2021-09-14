@@ -10,7 +10,7 @@
     :before-change="beforeChange2"
   />
 </template>
-<script>
+<script lang="ts">
 import { reactive, toRefs } from 'vue'
 import { ElMessage } from 'element-plus'
 
@@ -39,7 +39,7 @@ export default {
 
     const beforeChange2 = () => {
       status2.loading2 = true
-      return new Promise((resolve, reject) => {
+      return new Promise((_, reject) => {
         setTimeout(() => {
           status2.loading2 = false
           ElMessage.error('switch failed')
