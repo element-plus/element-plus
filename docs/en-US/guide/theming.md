@@ -1,6 +1,5 @@
 ---
 title: Theming
-lang: en-US
 ---
 
 # Custom theme <el-tag type="error" style="vertical-align: middle;">Deprecated since 1.1.0-beta.1</el-tag>
@@ -49,8 +48,10 @@ app.use(ElementPlus)
 ```
 
 :::tip
+
 Note that it is required to override icon font path to the relative path of
 Element's font files.
+
 :::
 
 ### CLI theme tool

@@ -84,7 +84,6 @@ const formRef = ref(null)
 const submit = () => {
   formRef.value.submit?.()
 }
-console.log(data.value)
 
 defineExpose({
   submit,

@@ -1,6 +1,5 @@
 ---
 title: Built-in Transitions
-lang: en-US
 ---
 
 # Built-in Transition

@@ -3,7 +3,9 @@
 Select date and time in one picker.
 
 :::tip
+
 DateTimePicker is derived from DatePicker and TimePicker. For a more detailed explanation on attributes, you can refer to DatePicker and TimePicker.
+
 :::
 
 <style lang="scss" scoped>

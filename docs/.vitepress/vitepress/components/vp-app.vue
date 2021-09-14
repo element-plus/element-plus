@@ -45,5 +45,6 @@ const { hasSidebar } = useSidebar()
         <slot name="aside-bottom" />
       </template>
     </VPContent>
+    <Debug />
   </div>
 </template>

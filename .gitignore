@@ -19,6 +19,10 @@ es
 
 docs/.vitepress/i18n
 docs/temp
+docs/zh-CN
+docs/fr-FR
+docs/es-ES
+docs/ja-JP
 
 docs/.vitepress/crowdin/*
 

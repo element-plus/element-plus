@@ -1,7 +1,9 @@
 # <ElBadge value="beta">Select V2 virtualized selector</ElBadge>
 
 :::tip
+
 This component is still under testing, if you found any bug or issue please report it at [Github](https://github.com/element-plus/element-plus/issues) for us to fix.
+
 :::
 
 ## Background

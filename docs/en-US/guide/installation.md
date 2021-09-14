@@ -1,6 +1,5 @@
 ---
 title: Installation
-lang: en-US
 ---
 
 # Installation
@@ -81,10 +80,12 @@ You can also use other CDN providers.
 ```
 
 :::tip
+
 We recommend using CDN to import Element Plus users to lock the version
 on the link address, so as not to be affected by incompatible updates when Element Plus
 is upgraded in the future. Please check [unpkg.com](https://unpkg.com) for
 the method to lock the version.
+
 :::
 
 ## Hello World

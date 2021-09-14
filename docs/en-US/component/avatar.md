@@ -7,7 +7,9 @@ Avatars can be used to represent people or objects. It supports images, Icons, o
 use `shape` and `size` prop to set avatar's shape and size
 
 :::demo
+
 avatar/basic
+
 :::
 
 ## Types
@@ -15,7 +17,9 @@ avatar/basic
 It supports images, Icons, or characters
 
 :::demo
+
 avatar/types
+
 :::
 
 ## Fallback when image load error
@@ -23,7 +27,9 @@ avatar/types
 fallback when image load error
 
 :::demo
+
 avatar/fallback
+
 :::
 
 ## How the image fit its container
@@ -31,7 +37,9 @@ avatar/fallback
 Set how the image fit its container for an image avatar, same as [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit).
 
 :::demo
+
 avatar/fit
+
 :::
 
 ## Attributes

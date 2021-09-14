@@ -27,7 +27,7 @@ const [show, toggle] = useToggle()
         v-for="l in langs"
         class="translation-item"
         :class="{ active: l === lang }"
-        @click="switchLang(lang)"
+        @click="switchLang(l)"
       >
         {{ languageMap[l] }}
       </p>

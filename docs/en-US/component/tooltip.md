@@ -49,9 +49,11 @@ tooltip/advanced-usage
 :::
 
 :::tip
+
 The `router-link` component is not supported in tooltip, please use `vm.$router.push`.
 
 Disabled form elements are not supported for Tooltip, more information can be found at [MDN](https://developer.mozilla.org/en-US/docs/Web/Events/mouseenter). You need to wrap the disabled form element with a container element for Tooltip to work.
+
 :::
 
 ## Attributes

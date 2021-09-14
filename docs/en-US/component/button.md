@@ -5,7 +5,9 @@ Commonly used button.
 ## Basic usage
 
 :::demo Use `type`, `plain`, `round` and `circle` to define Button's style.
+
 button/basic
+
 :::
 
 ## Disabled Button
@@ -13,7 +15,9 @@ button/basic
 The `disabled` attribute determines if the button is disabled.
 
 :::demo Use `disabled` attribute to determine whether a button is disabled. It accepts a `Boolean` value.
+
 button/disabled
+
 :::
 
 ## Text Button
@@ -23,6 +27,7 @@ Buttons without border and background.
 :::demo
 
 button/text
+
 :::
 
 ## Icon Button
@@ -30,7 +35,9 @@ button/text
 Use icons to add more meaning to Button. You can use icon alone to save some space, or use it with text.
 
 :::demo Use the `icon` attribute to add icon. You can find the icon list in Element Plus icon component. Adding icons to the right side of the text is achievable with an `<i>` tag. Custom icons can be used as well.
+
 button/icon
+
 :::
 
 ## Button Group
@@ -38,7 +45,9 @@ button/icon
 Displayed as a button group, can be used to group a series of similar operations.
 
 :::demo Use tag `<el-button-group>` to group your buttons.
+
 button/group
+
 :::
 
 ## Loading Button
@@ -46,7 +55,9 @@ button/group
 Click the button to load data, then the button displays a loading state.
 
 :::demo Set `loading` attribute to `true` to display loading state.
+
 button/loading
+
 :::
 
 ## Sizes
@@ -54,7 +65,9 @@ button/loading
 Besides default size, Button component provides three additional sizes for you to choose among different scenarios.
 
 :::demo Use attribute `size` to set additional sizes with `medium`, `small` or `mini`.
+
 button/size
+
 :::
 
 ## Button Attributes

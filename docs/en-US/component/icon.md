@@ -3,7 +3,9 @@
 Element Plus provides a set of common icons.
 
 :::warning
+
 Element Plus team is replacing all **Font Icon** in the previously built components to **SVG Icon**, please keep you eyes on [ChangeLog](/#/en-US/component/changelog), for getting latest updates, **Font Icon** will be deprecated after the first stable release.
+
 :::
 
 <script setup>
@@ -34,6 +36,7 @@ $ npm install @element-plus/icons
 
 Because HTML standard has already defined a tag named [menu](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/menu),
 so you need to use an alias in order to render the icon, if you register `Menu` directly it will not work.
+
 :::
 
 ```vue
@@ -149,6 +152,7 @@ so you need to use an alias in order to render the icon, if you register `Menu` 
 **You can use SVG icon in any version** as long as you install it
 
 **You can click the icon to copy it**
+
 :::
 
 <IconList />

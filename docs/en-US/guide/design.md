@@ -1,6 +1,5 @@
 ---
 title: Design
-lang: en-US
 ---
 
 <style scoped lang="scss">

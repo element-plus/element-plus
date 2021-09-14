@@ -7,7 +7,9 @@ A number or status mark on buttons and icons.
 Displays the amount of new messages.
 
 :::demo The amount is defined with `value` which accepts `Number` or `String`.
+
 badge/basic
+
 :::
 
 ## Max value
@@ -15,7 +17,9 @@ badge/basic
 You can customize the max value.
 
 :::demo The max value is defined by property `max` which is a `Number`. Note that it only works when `value` is also a `Number`.
+
 badge/max
+
 :::
 
 ## Customizations
@@ -23,7 +27,9 @@ badge/max
 Displays text content other than numbers.
 
 :::demo When `value` is a `String`, it can display customized text.
+
 badge/customize
+
 :::
 
 ## Little red dot
@@ -31,7 +37,9 @@ badge/customize
 Use a red dot to mark content that needs to be noticed.
 
 :::demo Use the attribute `is-dot`. It is a `Boolean`.
+
 badge/dot
+
 :::
 
 ## Attributes

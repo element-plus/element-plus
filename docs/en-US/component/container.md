@@ -13,19 +13,25 @@ Container components for scaffolding basic structure of the page:
 `<el-footer>`: container for footers.
 
 :::tip
+
 These components use flex for layout, so please make sure your browser supports it. Besides, `<el-container>`'s direct child elements have to be one or more of the latter four components. And father element of the latter four components must be a `<el-container>`.
+
 :::
 
 ## Common layouts
 
 :::demo
+
 container/basic
+
 :::
 
 ## Example
 
 :::demo
+
 container/example
+
 :::
 
 ## Container Attributes

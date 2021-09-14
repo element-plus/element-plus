@@ -12,16 +12,19 @@ export const useTranslation = () => {
   const languageMap = {
     'en-US': 'English',
     'zh-CN': '中文',
+    'es-ES': 'Español',
+    'fr-FR': 'Français',
+    'ja-JP': '日本語',
   }
 
   const switchLang = (targetLang: string) => {
-    debugger
     if (lang.value === targetLang) return
     localStorage.setItem(PREFERRED_LANG_KEY, targetLang)
     const firstSlash = route.path.indexOf('/', 1)
 
     const goTo = `/${targetLang}/${route.path.slice(firstSlash + 1)}`
 
+    // location.href = goTo
     router.go(goTo)
   }
 

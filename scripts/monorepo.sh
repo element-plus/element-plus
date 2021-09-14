@@ -2,10 +2,30 @@
 
 set -e
 
+while test $# -gt 0; do
+  case "$1" in
+    -d|--dry-run)
+      IS_DRY=true
+      shift
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+
+if [ "$IS_DRY" ]; then
+echo "Running build in dry mode"
+fi
+
 yarn bootstrap
 yarn clean:lib
+
+if [ ! "$IS_DRY" ]; then
 yarn update:version
 yarn gen:version
+echo "not dry"
+fi
 
 # build all packages in case of error
 
@@ -44,8 +64,10 @@ cp packages/element-plus/package.json dist/element-plus/package.json
 echo "copying README"
 cp README.md dist/element-plus
 
+if [ ! "$IS_DRY" ]; then
 cd dist/element-plus
 npm publish --access public
 cd -
+fi
 
 echo "Publish completed"

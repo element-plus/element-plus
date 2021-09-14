@@ -78,12 +78,14 @@ pagination/more-elements
 | hide-on-single-page  | whether to hide when there's only one page                                                                                      | boolean  | —                                                                        | -                                      |
 
 :::warning
+
 We'll detect some deprecated usages, if your pagination don't appeared or worked as expected, please check rules below:
 
 - You have to define one of `total` and `page-count`, otherwise we can't determine count of total pages.When both defined, `page-count` taken as priority.
 - If `current-page` is defined, you have to listen `current-page` change, by also define `@update:current-page`, otherwise pagination didn't work.
 - If `page-size` is defined while page size selector displayed(`sizes` included in `layout`), you have to listen `page-size` change as well, by define `@update:page-size`, otherwise change of page size didn't work.
-  :::
+
+:::
 
 ## Events
 
@@ -95,7 +97,9 @@ We'll detect some deprecated usages, if your pagination don't appeared or worked
 | next-click     | triggers when the next button is clicked and current page changes | the new current page |
 
 :::warning
+
 Events above are not recommended(but are still supported for compatible reason), better chioce is to use the two-way data binding by `v-model`.
+
 :::
 
 ## Slots

@@ -104,7 +104,9 @@ By default, the component accepts and emits a `Date` object.
 Check the list [here](https://day.js.org/docs/en/display/format#list-of-all-available-formats) of all available formats of Day.js.
 
 :::warning
+
 Pay attention to capitalization
+
 :::
 
 :::demo

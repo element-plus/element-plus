@@ -3,10 +3,12 @@
 Quickly and easily create layouts with the basic 24-column.
 
 :::tip
+
 The component uses flex layout by default, no need to set `type="flex"` manually.
 
 Please note that the parent container should avoid using `inline` related styles,
 which will cause the component to not fill up its width.
+
 :::
 
 ## Basic layout
