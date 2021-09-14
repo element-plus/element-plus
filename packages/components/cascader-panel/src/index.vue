@@ -87,8 +87,6 @@ export default defineComponent({
     let manualChecked = false
 
     const config = useCascaderConfig(props)
-    let configCheck
-    let optionsCheck
 
     const store: Ref<Store> = ref(null)
     const menuList = ref([])
@@ -102,16 +100,18 @@ export default defineComponent({
     )
     const renderLabelFn = computed(() => props.renderLabel || slots.default)
 
+    let oldConfig: typeof config
+    let oldOptions: CascaderOption[]
     const initStore = () => {
       const { options } = props
       const cfg = config.value
 
-      const configTemp = Object.assign(config)
+      const configTemp = config
       if (
-        optionsCheck === undefined ||
-        optionsCheck !== options ||
-        configCheck === undefined ||
-        !Object.is(configTemp, configCheck)
+        oldOptions === undefined ||
+        oldOptions !== options ||
+        oldConfig === undefined ||
+        configTemp !== oldConfig
       ) {
         manualChecked = false
         store.value = new Store(options, cfg)
@@ -127,8 +127,9 @@ export default defineComponent({
           syncCheckedValue(false, true)
         }
       }
-      configCheck = Object.assign(configTemp)
-      optionsCheck = options
+
+      oldConfig = configTemp
+      oldOptions = options
     }
 
     const lazyLoad: ElCascaderPanelContext['lazyLoad'] = (node, cb) => {
@@ -334,7 +335,7 @@ export default defineComponent({
       })
     )
 
-    watch([config, () => props.options], initStore, {
+    watch([config, () => props.options], () => initStore(), {
       deep: true,
       immediate: true,
     })
