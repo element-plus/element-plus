@@ -277,6 +277,7 @@ export default defineComponent({
     noMatchText: String,
     noDataText: String,
     remoteMethod: Function,
+    remoteAutoLoad: Boolean,
     filterMethod: Function,
     multiple: Boolean,
     multipleLimit: {

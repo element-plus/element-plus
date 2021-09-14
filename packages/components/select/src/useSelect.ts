@@ -346,7 +346,8 @@ export const useSelect = (props, states: States, ctx) => {
     if (
       states.previousQuery === null &&
       (typeof props.filterMethod === 'function' ||
-        typeof props.remoteMethod === 'function')
+        typeof props.remoteMethod === 'function') &&
+      !props.remoteAutoLoad
     ) {
       states.previousQuery = val
       return
