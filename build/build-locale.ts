@@ -3,12 +3,19 @@ import fs from 'fs'
 import save from 'file-save'
 import { resolve, basename } from 'path'
 import { buildOutput } from './paths'
+import babel from '@babel/core'
+
+import type { FileResultCallback } from '@babel/core'
 
 const localePath = resolve(__dirname, '../packages/locale/lang')
 const fileList = fs.readdirSync(localePath)
 
-const transform = function (filename, name, cb) {
-  require('@babel/core').transformFile(
+const transform = function (
+  filename: string,
+  name: string,
+  cb: FileResultCallback
+) {
+  babel.transformFile(
     resolve(localePath, filename),
     {
       plugins: ['@babel/plugin-transform-modules-umd'],
@@ -29,7 +36,7 @@ fileList
       if (err) {
         console.error(err)
       } else {
-        const code = result.code
+        const code = result!.code!
         const transformedCode = code
           .replace('define("', 'define("element/locale/')
           .replace(
