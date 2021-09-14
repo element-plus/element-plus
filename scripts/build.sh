@@ -22,7 +22,6 @@ yarn build:hooks
 yarn build:directives
 yarn build:tokens
 yarn build:full-bundle
-yarn build:locale-umd
 
 rsync -a dist/entry/types/ dist/element-plus/es/
 rsync -a dist/entry/types/ dist/element-plus/lib/
