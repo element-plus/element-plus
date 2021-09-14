@@ -1,9 +1,9 @@
 import path from 'path'
 import os from 'os'
 import { getPackagesSync } from '@lerna/project'
+import chalk from 'chalk'
 
 import { compRoot } from './paths'
-import chalk from 'chalk'
 
 export const getDeps = (pkgPath: string): string[] => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
