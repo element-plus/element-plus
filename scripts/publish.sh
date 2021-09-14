@@ -2,6 +2,7 @@
 
 set -e
 
+yarn bootstrap
 yarn update:version
 
 sh scripts/build.sh
