@@ -14,21 +14,16 @@ jobs:
       - name: Show Deploy
         run: |
           export DEPLOY_DOMAIN=https://preview-${PULL_REQUEST_NUMBER}-element-plus.surge.sh
+          export BOT_DATA_RAW={"botAction":"Preview", "pr":"${PULL_REQUEST_NUMBER}", "url":"${DEPLOY_DOMAIN}"}
           echo $DEPLOY_DOMAIN
-          echo '{"botAction":"Preview", "pr":"${PULL_REQUEST_NUMBER}", "url":"${DEPLOY_DOMAIN}"}'
+          echo $BOT_DATA_RAW
         env:
           BOT_URL: ${{ secrets.BOT_URL }}
 
       - name: Deploy has succeeded
         run: |
           export DEPLOY_DOMAIN=https://preview-${PULL_REQUEST_NUMBER}-element-plus.surge.sh
-          curl -X POST ${BOT_URL} -H 'Content-Type:application/json' --data-raw '{"botAction":"Preview", "pr":"${PULL_REQUEST_NUMBER}", "url":"${DEPLOY_DOMAIN}"}'
-        env:
-          BOT_URL: ${{ secrets.BOT_URL }}
-
-      - name: Deploy has succeeded2
-        run: |
-          export DEPLOY_DOMAIN=https://preview-${PULL_REQUEST_NUMBER}-element-plus.surge.sh
-          curl -X POST ${BOT_URL} -H 'Content-Type:application/json' --data-raw '{"botAction":"Preview", "pr":"${PULL_REQUEST_NUMBER}", "url":"'${DEPLOY_DOMAIN}'"}'
+          export BOT_DATA_RAW={"botAction":"Preview", "pr":"${PULL_REQUEST_NUMBER}", "url":"${DEPLOY_DOMAIN}"}
+          curl -X POST ${BOT_URL} -H 'Content-Type:application/json' --data-raw "${BOT_DATA_RAW}"
         env:
           BOT_URL: ${{ secrets.BOT_URL }}
