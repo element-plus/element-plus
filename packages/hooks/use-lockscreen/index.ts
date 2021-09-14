@@ -1,7 +1,7 @@
 import { watch, isRef, onUnmounted } from 'vue'
 
 import getScrollBarWidth from '@element-plus/utils/scrollbar-width'
-import throwError from '@element-plus/utils/error'
+import { throwError } from '@element-plus/utils/error'
 import {
   addClass,
   removeClass,

@@ -7,11 +7,13 @@
 :::demo 由`type`属性来选择 tag 的类型，也可以通过`color`属性来自定义背景色。
 
 ```html
-<el-tag>标签一</el-tag>
-<el-tag type="success">标签二</el-tag>
-<el-tag type="info">标签三</el-tag>
-<el-tag type="warning">标签四</el-tag>
-<el-tag type="danger">标签五</el-tag>
+<template>
+  <el-tag>标签一</el-tag>
+  <el-tag type="success">标签二</el-tag>
+  <el-tag type="info">标签三</el-tag>
+  <el-tag type="warning">标签四</el-tag>
+  <el-tag type="danger">标签五</el-tag>
+</template>
 ```
 
 :::
@@ -21,9 +23,11 @@
 :::demo 设置`closable`属性可以定义一个标签是否可移除。默认的标签移除时会附带渐变动画，如果不想使用，可以设置`disable-transitions`属性，它接受一个`Boolean`，true 为关闭。
 
 ```html
-<el-tag v-for="tag in tags" :key="tag.name" closable :type="tag.type">
-  {{tag.name}}
-</el-tag>
+<template>
+  <el-tag v-for="tag in tags" :key="tag.name" closable :type="tag.type">
+    {{tag.name}}
+  </el-tag>
+</template>
 
 <script>
   export default {
@@ -51,28 +55,30 @@
 :::demo
 
 ```html
-<el-tag
-  :key="tag"
-  v-for="tag in dynamicTags"
-  closable
-  :disable-transitions="false"
-  @close="handleClose(tag)"
->
-  {{tag}}
-</el-tag>
-<el-input
-  class="input-new-tag"
-  v-if="inputVisible"
-  v-model="inputValue"
-  ref="saveTagInput"
-  size="small"
-  @keyup.enter="handleInputConfirm"
-  @blur="handleInputConfirm"
->
-</el-input>
-<el-button v-else class="button-new-tag" size="small" @click="showInput"
-  >+ New Tag</el-button
->
+<template>
+  <el-tag
+    :key="tag"
+    v-for="tag in dynamicTags"
+    closable
+    :disable-transitions="false"
+    @close="handleClose(tag)"
+  >
+    {{tag}}
+  </el-tag>
+  <el-input
+    class="input-new-tag"
+    v-if="inputVisible"
+    v-model="inputValue"
+    ref="saveTagInput"
+    size="small"
+    @keyup.enter="handleInputConfirm"
+    @blur="handleInputConfirm"
+  >
+  </el-input>
+  <el-button v-else class="button-new-tag" size="small" @click="showInput"
+    >+ New Tag</el-button
+  >
+</template>
 
 <style>
   .el-tag + .el-tag {
@@ -135,10 +141,12 @@ Tag 组件提供除了默认值以外的三种尺寸，可以在不同场景下�
 :::demo 额外的尺寸：`medium`、`small`、`mini`，通过设置`size`属性来配置它们。
 
 ```html
-<el-tag closable>默认标签</el-tag>
-<el-tag size="medium" closable>中等标签</el-tag>
-<el-tag size="small" closable>小型标签</el-tag>
-<el-tag size="mini" closable>超小标签</el-tag>
+<template>
+  <el-tag closable>默认标签</el-tag>
+  <el-tag size="medium" closable>中等标签</el-tag>
+  <el-tag size="small" closable>小型标签</el-tag>
+  <el-tag size="mini" closable>超小标签</el-tag>
+</template>
 ```
 
 :::
@@ -150,28 +158,30 @@ Tag 组件提供了三个不同的主题：`dark`、`light` 和 `plain`
 :::demo 通过设置`effect`属性来改变主题，默认为 `light`
 
 ```html
-<div class="tag-group">
-  <span class="tag-group__title">Dark</span>
-  <el-tag
-    v-for="item in items"
-    :key="item.label"
-    :type="item.type"
-    effect="dark"
-  >
-    {{ item.label }}
-  </el-tag>
-</div>
-<div class="tag-group">
-  <span class="tag-group__title">Plain</span>
-  <el-tag
-    v-for="item in items"
-    :key="item.label"
-    :type="item.type"
-    effect="plain"
-  >
-    {{ item.label }}
-  </el-tag>
-</div>
+<template>
+  <div class="tag-group">
+    <span class="tag-group__title">Dark</span>
+    <el-tag
+      v-for="item in items"
+      :key="item.label"
+      :type="item.type"
+      effect="dark"
+    >
+      {{ item.label }}
+    </el-tag>
+  </div>
+  <div class="tag-group">
+    <span class="tag-group__title">Plain</span>
+    <el-tag
+      v-for="item in items"
+      :key="item.label"
+      :type="item.type"
+      effect="plain"
+    >
+      {{ item.label }}
+    </el-tag>
+  </div>
+</template>
 
 <script>
   export default {
@@ -199,10 +209,13 @@ Tag 组件提供了三个不同的主题：`dark`、`light` 和 `plain`
 :::demo check-tag 的基础使用方法，check-tag 提供的 API 非常简单
 
 ```html
-<div>
-  <el-check-tag checked style="margin-right: 8px;">选中</el-check-tag>
-  <el-check-tag @change="onChange" :checked="checked">点我切换</el-check-tag>
-</div>
+<template>
+  <el-space>
+    <el-check-tag checked>选中</el-check-tag>
+    <el-check-tag @change="onChange" :checked="checked">点我切换</el-check-tag>
+    <el-check-tag v-model:checked="checked">通过 v-model</el-check-tag>
+  </el-space>
+</template>
 
 <script>
   export default {
@@ -243,12 +256,13 @@ Tag 组件提供了三个不同的主题：`dark`、`light` 和 `plain`
 
 ### CheckTag Attributes
 
-| 参数    | 说明     | 类型    | 可选值     | 默认值 |
-| ------- | -------- | ------- | ---------- | ------ |
-| checked | 是否选中 | boolean | true/false | —      |
+| 参数                      | 说明     | 类型    | 可选值     | 默认值 |
+| ------------------------- | -------- | ------- | ---------- | ------ |
+| v-model:checked / checked | 是否选中 | boolean | true/false | —      |
 
 ### CheckTag Events
 
-| 事件名称 | 说明                        | 回调参数 |
-| -------- | --------------------------- | -------- |
-| change   | 点击 Check Tag 时触发的事件 | checked  |
+| 事件名称       | 说明                        | 回调参数 |
+| -------------- | --------------------------- | -------- |
+| change         | 点击 Check Tag 时触发的事件 | checked  |
+| update:checked | 点击 Check Tag 时触发的事件 | checked  |

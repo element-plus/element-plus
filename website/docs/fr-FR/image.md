@@ -278,3 +278,9 @@ En plus des propriétés natives de img, ce composant supporte le lazy loading, 
 | ---------- | ---------------------------------------------------------------------------------------------- | -------------------------------------- |
 | close      | Emitted when clicking on `X` button or when `hide-on-click-modal` enabled clicking on backdrop | None                                   |
 | switch     | When switching images                                                                          | `(val: number)` switching target index |
+
+### ImageViewer Slots
+
+| Nom    | Description                 |
+| ------ | --------------------------- |
+| viewer | Contenu de la zone d'aperçu |

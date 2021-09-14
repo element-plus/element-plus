@@ -1,6 +1,7 @@
 import { getCurrentInstance, h, ref, computed, watchEffect } from 'vue'
 import { cellForced, defaultRenderCell, treeCellPrefix } from '../config'
 import { parseWidth, parseMinWidth } from '../util'
+import { debugWarn } from '@element-plus/utils/error'
 
 import type { ComputedRef } from 'vue'
 import type { TableColumnCtx, TableColumn } from './defaults'
@@ -78,8 +79,9 @@ function useRender<T>(
   const setColumnRenders = (column: TableColumnCtx<T>) => {
     // renderHeader 属性不推荐使用。
     if (props.renderHeader) {
-      console.warn(
-        '[Element Warn][TableColumn]Comparing to render-header, scoped-slot header is easier to use. We recommend users to use scoped-slot header.'
+      debugWarn(
+        'TableColumn',
+        'Comparing to render-header, scoped-slot header is easier to use. We recommend users to use scoped-slot header.'
       )
     } else if (column.type !== 'selection') {
       column.renderHeader = (scope) => {

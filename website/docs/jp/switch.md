@@ -134,12 +134,12 @@
 
 ### 切り替えを防ぐ
 
-:::demo `beforeChange`プロパティを設定します。false を返すか、Promise を返し、拒否された場合は、切り替えを停止します。
+:::demo `before-change`プロパティを設定します。false を返すか、Promise を返し、拒否された場合は、切り替えを停止します。
 
 ```html
-<el-switch v-model="value1" :loading="loading1" :beforeChange="beforeChange1">
+<el-switch v-model="value1" :loading="loading1" :before-change="beforeChange1">
 </el-switch>
-<el-switch v-model="value2" :loading="loading2" :beforeChange="beforeChange2">
+<el-switch v-model="value2" :loading="loading2" :before-change="beforeChange2">
 </el-switch>
 <script>
   import { reactive, toRefs } from 'vue'

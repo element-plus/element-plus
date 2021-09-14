@@ -34,6 +34,7 @@ import {
 import { autoprefixer } from '@element-plus/utils/util'
 import type { CSSProperties } from 'vue'
 import type { InjectCarouselScope, ICarouselItemProps } from './carousel'
+import { debugWarn } from '@element-plus/utils/error'
 
 const CARD_SCALE = 0.83
 export default defineComponent({
@@ -132,8 +133,9 @@ export default defineComponent({
       }
       if (parentType === 'card') {
         if (parentDirection.value === 'vertical') {
-          console.warn(
-            '[Element Warn][Carousel]vertical direction is not supported in card mode'
+          debugWarn(
+            'Carousel',
+            'vertical direction is not supported in card mode'
           )
         }
         data.inStage = Math.round(Math.abs(index - activeIndex)) <= 1

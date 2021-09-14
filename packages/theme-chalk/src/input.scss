@@ -23,6 +23,7 @@
     box-sizing: border-box;
     width: 100%;
     font-size: inherit;
+    font-family: inherit;
     color: var(--el-input-font-color, map.get($--input, 'font-color'));
     background-color: var(
       --el-input-background-color,

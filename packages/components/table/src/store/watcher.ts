@@ -430,6 +430,7 @@ function useWatcher<T>() {
   const {
     updateTreeExpandKeys,
     toggleTreeExpansion,
+    updateTreeData,
     loadOrToggle,
     states: treeStates,
   } = useTree({
@@ -490,6 +491,7 @@ function useWatcher<T>() {
     updateExpandRows,
     updateCurrentRowData,
     loadOrToggle,
+    updateTreeData,
     states: {
       rowKey,
       data,

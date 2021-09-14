@@ -6,6 +6,7 @@
     "lib": ["ES2020", "DOM"],
     "skipLibCheck": true,
     "target": "es6",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "strict": true
   }
 }

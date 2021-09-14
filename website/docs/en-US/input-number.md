@@ -345,5 +345,5 @@ Use attribute `size` to set additional sizes with `medium`, `small` or `mini`.
 
 | Method | Description                      | Parameters |
 | ------ | -------------------------------- | ---------- |
-| focus  | focus the Input component        | -          |
-| select | select the text in input element | —          |
+| focus  | get focus the input component    | -          |
+| blur   | remove focus the input component | —          |

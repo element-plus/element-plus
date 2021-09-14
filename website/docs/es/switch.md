@@ -134,12 +134,12 @@ Switch es utilizado para realizar cambios entre dos estados opuestos.
 
 ### prevent switching
 
-:::demo set the `beforeChange` property, If `false` is returned or a `Promise` is returned and then is rejected, will stop switching.
+:::demo set the `before-change` property, If `false` is returned or a `Promise` is returned and then is rejected, will stop switching.
 
 ```html
-<el-switch v-model="value1" :loading="loading1" :beforeChange="beforeChange1">
+<el-switch v-model="value1" :loading="loading1" :before-change="beforeChange1">
 </el-switch>
-<el-switch v-model="value2" :loading="loading2" :beforeChange="beforeChange2">
+<el-switch v-model="value2" :loading="loading2" :before-change="beforeChange2">
 </el-switch>
 <script>
   import { reactive, toRefs } from 'vue'
