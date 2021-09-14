@@ -9,7 +9,6 @@ import type {
   TreeOptionProps,
   TreeKey,
 } from '../src/tree.type'
-import { wrap } from 'lodash'
 
 jest.useFakeTimers()
 
