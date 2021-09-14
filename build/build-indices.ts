@@ -15,7 +15,7 @@ interface Index {
   path: string
 }
 
-const algoliaKey = process.env.ALGOLIA_KEY
+const algoliaKey = process.env.ALGOLIA_KEY!
 
 const client = algoliasearch('7DCTSU0WBW', algoliaKey)
 const langs = {
@@ -33,7 +33,7 @@ const langs = {
     let indices: Index[] = []
     files.forEach((file) => {
       const regExp = new RegExp(`website\/docs\/${lang}\/(.*).md`)
-      const pathContent = file.match(regExp)
+      const pathContent = file.match(regExp)!
       const path = pathContent[1]
       const index = path.lastIndexOf('/')
       const names = index !== -1 ? path.split('/') : []
@@ -42,7 +42,7 @@ const langs = {
       const matches = content
         .replace(/:::[\s\S]*?:::/g, '')
         .replace(/```[\s\S]*?```/g, '')
-        .match(/#{2,4}[^#]*/g)
+        .match(/#{2,4}[^#]*/g)!
         .map((match) =>
           match
             .replace(/\n+/g, '\n')
