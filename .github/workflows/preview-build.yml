@@ -18,12 +18,6 @@ jobs:
           node-version: '16'
           registry-url: https://registry.npmjs.com/
 
-      - name: Cache
-        uses: actions/cache@v2
-        with:
-          path: node_modules
-          key: node_modules-${{ hashFiles('**/yarn.lock') }}
-
       - name: Install dependencies
         run: yarn bootstrap
 
