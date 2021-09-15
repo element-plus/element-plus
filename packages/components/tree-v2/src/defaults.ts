@@ -1,5 +1,10 @@
 import type { PropType } from 'vue'
-import type { TreeNode, TreeKey, TreeOptionProps } from './tree.type'
+import type {
+  TreeNode,
+  TreeKey,
+  TreeOptionProps,
+  FilterMethod,
+} from './tree.type'
 
 export const treeProps = {
   data: {
@@ -64,6 +69,9 @@ export const treeProps = {
     type: Boolean,
     default: false,
   },
+  filterMethod: {
+    type: Function as PropType<FilterMethod>,
+  },
 }
 
 export const treeNodeProps = {
@@ -92,6 +100,10 @@ export const treeNodeProps = {
     default: false,
   },
   current: {
+    type: Boolean,
+    default: false,
+  },
+  hiddenExpandIcon: {
     type: Boolean,
     default: false,
   },

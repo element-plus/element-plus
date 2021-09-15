@@ -20,6 +20,7 @@
         :class="[
           {
             'is-leaf': node.isLeaf,
+            'is-hidden': hiddenExpandIcon,
             expanded: !node.isLeaf && expanded,
           },
           'el-tree-node__expand-icon',

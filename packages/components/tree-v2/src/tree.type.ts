@@ -40,3 +40,5 @@ export interface Tree {
   treeNodes: TreeNode[]
   maxLevel: number
 }
+
+export type FilterMethod = (query: string, node: TreeNodeData) => boolean

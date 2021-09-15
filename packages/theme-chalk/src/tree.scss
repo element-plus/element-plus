@@ -101,6 +101,9 @@
       color: transparent;
       cursor: default;
     }
+    &.is-hidden {
+      visibility: hidden;
+    }
   }
 
   @include e(label) {

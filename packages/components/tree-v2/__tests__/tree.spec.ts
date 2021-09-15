@@ -8,6 +8,7 @@ import type {
   TreeNode,
   TreeOptionProps,
   TreeKey,
+  FilterMethod,
 } from '../src/tree.type'
 
 jest.useFakeTimers()
@@ -68,6 +69,7 @@ interface TreeProps {
   expandOnClickNode?: boolean
   checkOnClickNode?: boolean
   currentNodeKey?: TreeKey
+  filterMethod?: FilterMethod
 }
 
 interface TreeEvents {
@@ -107,6 +109,7 @@ const createTree = (
         :expand-on-click-node="expandOnClickNode"
         :check-on-click-node="checkOnClickNode"
         :current-node-key="currentNodeKey"
+        :filter-method="filterMethod"
         @node-click="onNodeClick"
         @node-expand="onNodeExpand"
       >${defaultSlot}</el-tree>
@@ -133,6 +136,7 @@ const createTree = (
           expandOnClickNode: true,
           checkOnClickNode: false,
           currentNodeKey: undefined,
+          filterMethod: undefined,
           ...(options.data && options.data()),
         }
       },
@@ -716,5 +720,65 @@ describe('Virtual Tree', () => {
     })
     await nextTick()
     expect(wrapper.find('.custom-tree-node-content').text()).toBe('cc node-1')
+  })
+
+  test('filter', async () => {
+    const { treeRef, wrapper } = createTree({
+      data() {
+        return {
+          currentNodeKey: '2',
+          data: [
+            {
+              id: '1',
+              label: 'node-1',
+              children: [
+                {
+                  id: '1-1',
+                  label: 'node-1-1',
+                  children: [
+                    {
+                      id: '1-1-1',
+                      label: 'node-1-1-1',
+                    },
+                    {
+                      id: '1-1-2',
+                      label: 'node-1-1-2',
+                    },
+                  ],
+                },
+                {
+                  id: '1-2',
+                  label: 'node-1-2',
+                  children: [
+                    {
+                      id: '1-2-1',
+                      label: 'node-1-2-1',
+                    },
+                  ],
+                },
+                {
+                  id: '1-3',
+                  label: 'node-1-3',
+                },
+              ],
+            },
+            {
+              id: '2',
+              label: 'node-2',
+            },
+          ],
+          filterMethod(query: string, node: TreeNode) {
+            return node.label.indexOf(query) !== -1
+          },
+        }
+      },
+    })
+    await nextTick()
+    treeRef.filter('node-1-1-1')
+    await nextTick()
+    const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    expect(nodes.map((node) => node.text()).toString()).toBe(
+      ['node-1', 'node-1-1', 'node-1-1-1'].toString()
+    )
   })
 })

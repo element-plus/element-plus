@@ -1,5 +1,6 @@
 import { computed, nextTick, ref, shallowRef, watch } from 'vue'
 import { useCheck } from './useCheck'
+import { useFilter } from './useFilter'
 import {
   NODE_CLICK,
   NODE_COLLAPSE,
@@ -39,6 +40,67 @@ export function useTree(props: ITreeProps, emit) {
       immediate: true,
     }
   )
+
+  const {
+    isIndeterminate,
+    isChecked,
+    toggleCheckbox,
+    getCheckedKeys,
+    getHalfCheckedKeys,
+  } = useCheck(props, tree, emit)
+
+  const { doFilter, hiddenNodeKeySet, isForceHiddenExpandIcon } = useFilter(
+    props,
+    tree
+  )
+
+  const valueKey = computed(() => {
+    return (props.props && props.props.value) || 'id'
+  })
+  const childrenKey = computed(() => {
+    return (props.props && props.props.children) || 'children'
+  })
+  const disabledKey = computed(() => {
+    return (props.props && props.props.disabled) || 'disabled'
+  })
+  const labelKey = computed(() => {
+    return (props.props && props.props.label) || 'label'
+  })
+
+  const flattenTree = computed(() => {
+    const expandedKeys = expandedKeySet.value
+    const hiddenKeys = hiddenNodeKeySet.value
+    const flattenNodes: TreeNode[] = []
+    const nodes = (tree.value && tree.value.treeNodes) || []
+    function traverse() {
+      const stack: TreeNode[] = []
+      for (let i = nodes.length - 1; i >= 0; --i) {
+        stack.push(nodes[i])
+      }
+      while (stack.length) {
+        const node = stack.pop()
+        if (!hiddenKeys.has(node.key)) {
+          flattenNodes.push(node)
+        }
+        // Only "visible" nodes will be rendered
+        if (expandedKeys.has(node.key)) {
+          const children = node.children
+          if (children) {
+            const length = children.length
+            for (let i = length - 1; i >= 0; --i) {
+              stack.push(children[i])
+            }
+          }
+        }
+      }
+    }
+    traverse()
+    return flattenNodes
+  })
+
+  const isNotEmpty = computed(() => {
+    return flattenTree.value.length > 0
+  })
 
   function createTree(data: TreeData): Tree {
     const treeNodeMap: Map<TreeKey, TreeNode> = new Map()
@@ -86,58 +148,12 @@ export function useTree(props: ITreeProps, emit) {
     }
   }
 
-  const valueKey = computed(() => {
-    return (props.props && props.props.value) || 'id'
-  })
-  const childrenKey = computed(() => {
-    return (props.props && props.props.children) || 'children'
-  })
-  const disabledKey = computed(() => {
-    return (props.props && props.props.disabled) || 'disabled'
-  })
-  const labelKey = computed(() => {
-    return (props.props && props.props.label) || 'label'
-  })
-
-  const flattenTree = computed(() => {
-    const expandedKeys = expandedKeySet.value
-    const flattenNodes: TreeNode[] = []
-    const nodes = (tree.value && tree.value.treeNodes) || []
-    function traverse() {
-      const stack: TreeNode[] = []
-      for (let i = nodes.length - 1; i >= 0; --i) {
-        stack.push(nodes[i])
-      }
-      while (stack.length) {
-        const node = stack.pop()
-        flattenNodes.push(node)
-        // Only "visible" nodes will be rendered
-        if (expandedKeys.has(node.key)) {
-          const children = node.children
-          if (children) {
-            const length = children.length
-            for (let i = length - 1; i >= 0; --i) {
-              stack.push(children[i])
-            }
-          }
-        }
-      }
+  function filter(query: string) {
+    const keys = doFilter(query)
+    if (keys) {
+      expandedKeySet.value = keys
     }
-    traverse()
-    return flattenNodes
-  })
-
-  const isNotEmpty = computed(() => {
-    return flattenTree.value.length > 0
-  })
-
-  const {
-    isIndeterminate,
-    isChecked,
-    toggleCheckbox,
-    getCheckedKeys,
-    getHalfCheckedKeys,
-  } = useCheck(props, tree, emit)
+  }
 
   function getChildren(node: TreeNodeData): TreeNodeData[] {
     return node[childrenKey.value]
@@ -235,10 +251,12 @@ export function useTree(props: ITreeProps, emit) {
     isIndeterminate,
     isDisabled,
     isCurrent,
+    isForceHiddenExpandIcon,
     handleNodeClick,
     handleNodeCheck,
     // expose
     getCheckedKeys,
     getHalfCheckedKeys,
+    filter,
   }
 }

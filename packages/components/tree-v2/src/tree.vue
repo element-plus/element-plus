@@ -27,6 +27,7 @@
           :indeterminate="isIndeterminate(data[index])"
           :disabled="isDisabled(data[index])"
           :current="isCurrent(data[index])"
+          :hidden-expand-icon="isForceHiddenExpandIcon(data[index])"
           @click="handleNodeClick"
           @toggle="toggleExpand"
           @check="handleNodeCheck"
@@ -75,17 +76,20 @@ export default defineComponent({
       isChecked,
       isDisabled,
       isCurrent,
+      isForceHiddenExpandIcon,
       toggleCheckbox,
       handleNodeClick,
       handleNodeCheck,
       // expose
       getCheckedKeys,
       getHalfCheckedKeys,
+      filter,
     } = useTree(props, ctx.emit)
 
     ctx.expose({
       getCheckedKeys,
       getHalfCheckedKeys,
+      filter,
     })
 
     return {
@@ -99,6 +103,7 @@ export default defineComponent({
       isChecked,
       isDisabled,
       isCurrent,
+      isForceHiddenExpandIcon,
       handleNodeClick,
       handleNodeCheck,
     }
