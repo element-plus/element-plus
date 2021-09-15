@@ -1,4 +1,4 @@
-import { computed, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { useCheck } from './useCheck'
 import {
   NODE_CLICK,
@@ -18,6 +18,7 @@ import type {
 export function useTree(props: ITreeProps, emit) {
   const expandedKeySet = ref<Set<TreeKey>>(new Set(props.defaultExpandedKeys))
   const currentKey = ref<TreeKey>(null)
+  const tree = ref<Tree>(null)
 
   watch(
     () => props.currentNodeKey,
@@ -29,12 +30,20 @@ export function useTree(props: ITreeProps, emit) {
     }
   )
 
-  const tree = computed<Tree>(() => {
-    const rawNodes = props.data
+  watch(
+    () => props.data,
+    (data) => {
+      return nextTick(() => (tree.value = createTree(data)))
+    },
+    {
+      immediate: true,
+    }
+  )
+
+  function createTree(data: TreeData): Tree {
     const treeNodeMap: Map<TreeKey, TreeNode> = new Map()
     const levelTreeNodeMap: Map<number, TreeNode[]> = new Map()
     let maxLevel = 1
-    // TODO using stack optimization?
     function traverse(
       nodes: TreeData,
       level = 1,
@@ -68,14 +77,14 @@ export function useTree(props: ITreeProps, emit) {
       }
       return siblings
     }
-    const treeNodes: TreeNode[] = traverse(rawNodes)
+    const treeNodes: TreeNode[] = traverse(data)
     return {
       treeNodeMap,
       levelTreeNodeMap,
       treeNodes,
       maxLevel,
     }
-  })
+  }
 
   const valueKey = computed(() => {
     return (props.props && props.props.value) || 'id'
@@ -93,7 +102,7 @@ export function useTree(props: ITreeProps, emit) {
   const flattenTree = computed(() => {
     const expandedKeys = expandedKeySet.value
     const flattenNodes: TreeNode[] = []
-    const nodes = tree.value.treeNodes || []
+    const nodes = (tree.value && tree.value.treeNodes) || []
     function traverse() {
       const stack: TreeNode[] = []
       for (let i = nodes.length - 1; i >= 0; --i) {

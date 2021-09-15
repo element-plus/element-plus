@@ -14,7 +14,7 @@ jest.useFakeTimers()
 
 let id = 1
 
-const NODE_NUMBER = 10
+const NODE_NUMBER = 5
 const TREE_NODE_CLASS_NAME = '.el-tree-node'
 const TREE_NODE_CONTENT_CLASS_NAME = '.el-tree-node__content'
 const TREE_NODE_EXPAND_ICON_CLASS_NAME = '.el-tree-node__expand-icon'
@@ -357,6 +357,21 @@ describe('Virtual Tree', () => {
     await nodes[3].find('.el-checkbox').trigger('click')
     expect(wrapper.findAll('.el-checkbox.is-checked').length).toBe(3)
     expect(wrapper.findAll('.el-checkbox .is-indeterminate').length).toBe(1)
+    await nodes[3].find('.el-checkbox').trigger('click')
+    await nodes[2].find('.el-checkbox').trigger('click')
+    // test one leaf node
+    // When node-1-2-1 is checked, node-1-2 should be checked
+    await nodes[5].find('.el-checkbox').trigger('click')
+    expect(
+      wrapper
+        .findAll(`${TREE_NODE_CLASS_NAME}.is-checked`)
+        .map((el) => el.text())
+        .toString()
+    ).toBe(['node-1-2', 'node-1-2-1'].toString())
+    // cancel node-1-2-1, node-1-2 should not be checked
+    await nodes[5].find('.el-checkbox').trigger('click')
+    expect(wrapper.findAll('.el-checkbox.is-checked').length).toBe(0)
+    expect(wrapper.findAll('.el-checkbox .is-indeterminate').length).toBe(0)
   })
 
   test('defaultCheckedKeys', async () => {

@@ -46,6 +46,9 @@ export function useCheck(props: ITreeProps, treeRef: Ref<Tree>, emit) {
           } else if (hasChecked) {
             indeterminateKeySet.add(node.key)
             checkedKeySet.delete(node.key)
+          } else {
+            checkedKeySet.delete(node.key)
+            indeterminateKeySet.delete(node.key)
           }
         }
       })
