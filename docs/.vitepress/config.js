@@ -48,13 +48,6 @@ module.exports = {
         href: '//fonts.loli.net/css?family=Inter:300,400,500,600|Open+Sans:400,600;display=swap',
       },
     ],
-    [
-      'link',
-      {
-        rel: 'stylesheet',
-        href: 'https://unpkg.com/element-plus/dist/index.css',
-      },
-    ],
     features.theme
       ? [
           'script',

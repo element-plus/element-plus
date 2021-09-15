@@ -7,13 +7,6 @@ import { PREFERRED_LANG_KEY, defaultLang } from '../../constant'
 import TranslationIcon from '../icons/translation-icon.vue'
 
 const { switchLang, languageMap, langs, lang, helpTranslate } = useTranslation()
-
-onMounted(() => {
-  const preferredLang = localStorage.getItem(PREFERRED_LANG_KEY) || defaultLang
-  if (lang.value !== preferredLang) {
-    switchLang(preferredLang)
-  }
-})
 </script>
 
 <template>

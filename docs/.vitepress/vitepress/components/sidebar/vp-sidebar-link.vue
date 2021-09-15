@@ -29,7 +29,8 @@ const route = useRoute()
   padding: 0.75rem 2rem 0.75rem 2.5rem;
   line-height: 1.4;
   font-size: 0.9rem;
-  /* font-weight: 500; */
+  margin: 0 8px;
+  border-radius: 8px;
 
   .link-text {
     margin: 0;

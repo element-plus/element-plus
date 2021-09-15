@@ -1,4 +1,5 @@
 import 'normalize.css'
+import 'element-plus/dist/index.css'
 import './styles/app.scss'
 
 import VPApp from './components/vp-app.vue'

@@ -14,7 +14,6 @@
 </template>
 
 <script lang="ts">
-const getCssVarValue = () => ''
 export default {
   data() {
     return {
@@ -32,6 +31,10 @@ export default {
   },
   methods: {
     getValue(type) {
+      const getCssVarValue = (prefix, type) =>
+        getComputedStyle(document.documentElement).getPropertyValue(
+          `--el-${prefix}-${type}`
+        )
       return getCssVarValue('box-shadow', type)
     },
   },
