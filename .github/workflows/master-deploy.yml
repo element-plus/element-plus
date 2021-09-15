@@ -15,13 +15,30 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v2
         with:
-          node-version: '12'
+          node-version: '16'
 
       - name: Install dependencies
         run: yarn bootstrap
 
-      - name: Build Website
-        run: yarn website-build
+      - name: Init docs
+        run: cd docs && yarn
+
+      - name: Fetch Crowdin token for pulling languages
+        run: yarn init:crowdin
+        env:
+          CROWDIN_TOKEN: ${{secrets.CROWDIN_TOKEN}}
+
+      - name: Upload translate strings
+        run: cd docs && yarn crowdin upload source
+
+      - name: Pull Crowdin translations
+        run: cd docs && yarn crowdin download
+
+      - name: generate common locale
+        run: yarn docs:gen-locale
+
+      - name: Build website
+        run: yarn docs:build
 
       - name: Build Indices
         run: yarn build:indices
@@ -33,7 +50,7 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
-          FOLDER: website-dist
+          FOLDER: docs/.vitepress/dist
           GIT_CONFIG_NAME: ElementPlusBot
           GIT_CONFIG_EMAIL: hello@element-plus.org
           COMMIT_MESSAGE: website deploy

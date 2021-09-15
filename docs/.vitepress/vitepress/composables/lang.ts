@@ -7,7 +7,6 @@ export const useLang = () => {
   return computed(() => {
     // the first part of the first slash
     const path = route.data?.relativePath
-    console.log(path)
     let lang: string
 
     if (path?.includes('/')) {
