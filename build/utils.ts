@@ -18,12 +18,12 @@ export const getCpuCount = () => os.cpus().length
 export const getPkgs = (): { name: string }[] => getPackagesSync()
 
 export const getExternals = (options: { full: boolean }) => (id: string) => {
-  const packages: string[] = ['vue', '@vue']
+  const packages: string[] = ['vue']
   if (!options.full) {
     const compPkg = path.resolve(compRoot, './package.json')
     const monoPackages = getPkgs().map((pkg) => pkg.name)
     const depPackages = getDeps(compPkg)
-    packages.push(...monoPackages, ...depPackages)
+    packages.push('@vue', ...monoPackages, ...depPackages)
   }
 
   return [...new Set(packages)].some(

@@ -12,7 +12,6 @@
     "bootstrap": "yarn --frozen-lockfile && npx lerna bootstrap && yarn gen:version",
     "clean:lib": "rimraf lib && rimraf es && rimraf dist",
     "build": "sh scripts/build.sh",
-    "build:locale-umd": "esno ./build/build-locale.ts",
     "build:helper": "esno build/build-helper.ts",
     "build:indices": "esno build/build-indices.ts",
     "build:comps": "rimraf dist/components && esno build/components.ts",
