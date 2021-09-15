@@ -1,18 +1,18 @@
-#! /usr/bin/bash
+#!/bin/sh
 
 set -e
 
-yarn bootstrap
 yarn clean:lib
-yarn update:version
 yarn gen:version
 
 # build all packages in case of error
 
+# build components
 yarn build:comps
 rsync -a dist/types/components/ dist/element-plus/es/components/
 rsync -a dist/types/components/ dist/element-plus/lib/components/
 
+# build style
 yarn build:style
 
 yarn build:theme
@@ -22,7 +22,6 @@ yarn build:hooks
 yarn build:directives
 yarn build:tokens
 yarn build:full-bundle
-yarn build:locale-umd
 
 rsync -a dist/entry/types/ dist/element-plus/es/
 rsync -a dist/entry/types/ dist/element-plus/lib/
@@ -43,9 +42,3 @@ cp packages/element-plus/package.json dist/element-plus/package.json
 
 echo "copying README"
 cp README.md dist/element-plus
-
-cd dist/element-plus
-npm publish --access public
-cd -
-
-echo "Publish completed"

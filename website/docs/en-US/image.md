@@ -278,3 +278,9 @@ Besides the native features of img, support lazy load, custom placeholder and lo
 | ---------- | ---------------------------------------------------------------------------------------------- | -------------------------------------- |
 | close      | Emitted when clicking on `X` button or when `hide-on-click-modal` enabled clicking on backdrop | None                                   |
 | switch     | When switching images                                                                          | `(val: number)` switching target index |
+
+### ImageViewer Slots
+
+| Name   | Description                  |
+| ------ | ---------------------------- |
+| viewer | Contents of the preview area |

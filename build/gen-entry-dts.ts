@@ -2,7 +2,7 @@ import path from 'path'
 import fs from 'fs'
 import chalk from 'chalk'
 import glob from 'fast-glob'
-import { Project } from 'ts-morph'
+import { Project, SourceFile } from 'ts-morph'
 import { epRoot, buildOutput } from './paths'
 const TSCONFIG_PATH = path.resolve(__dirname, '../tsconfig.dts.json')
 
@@ -25,7 +25,7 @@ const gen = async () => {
     tsConfigFilePath: TSCONFIG_PATH,
     skipAddingFilesFromTsConfig: true,
   })
-  const sourceFiles = []
+  const sourceFiles: SourceFile[] = []
   files.map((f) => {
     const sourceFile = project.addSourceFileAtPath(f)
     sourceFiles.push(sourceFile)

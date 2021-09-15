@@ -4,7 +4,7 @@ import {
   popperDefaultProps,
 } from '@element-plus/components/popper'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import throwError from '@element-plus/utils/error'
+import { throwError } from '@element-plus/utils/error'
 import { getFirstValidNode } from '@element-plus/utils/vnode'
 
 /**

@@ -343,7 +343,7 @@ Utilisez l'attribut `size` pour régler la taille avec `medium`, `small` ou `min
 
 ### Méthodes
 
-| Méthode | Description                         | Paramètres |
-| ------- | ----------------------------------- | ---------- |
-| focus   | Met le focus sur le composant.      | -          |
-| select  | Sélectionne le texte dans le champ. | —          |
+| Méthode | Description                                      | Paramètres |
+| ------- | ------------------------------------------------ | ---------- |
+| focus   | Obtenez concentrer le composant d'entrée         | -          |
+| blur    | Supprimer la mise au point du composant d'entrée | —          |

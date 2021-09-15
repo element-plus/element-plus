@@ -210,10 +210,11 @@ Sometimes because of the business needs, we might need checkbox like tag, but **
 
 ```html
 <template>
-  <div>
-    <el-check-tag checked style="margin-right: 8px;">Checked</el-check-tag>
+  <el-space>
+    <el-check-tag checked>Checked</el-check-tag>
     <el-check-tag @change="onChange" :checked="checked">Toggle me</el-check-tag>
-  </div>
+    <el-check-tag v-model:checked="checked">via v-model</el-check-tag>
+  </el-space>
 </template>
 
 <script>
@@ -255,12 +256,13 @@ Sometimes because of the business needs, we might need checkbox like tag, but **
 
 ### CheckTag Attributes
 
-| Attribute | Description | Type    | Accepted Values | Default |
-| --------- | ----------- | ------- | --------------- | ------- |
-| checked   | is checked  | boolean | true/false      | —       |
+| Attribute                 | Description | Type    | Accepted Values | Default |
+| ------------------------- | ----------- | ------- | --------------- | ------- |
+| v-model:checked / checked | is checked  | boolean | true/false      | —       |
 
 ### CheckTag Events
 
-| Event Name | Description                        | Parameters |
-| ---------- | ---------------------------------- | ---------- |
-| change     | triggers when Check Tag is clicked | checked    |
+| Event Name     | Description                        | Parameters |
+| -------------- | ---------------------------------- | ---------- |
+| change         | triggers when Check Tag is clicked | checked    |
+| update:checked | triggers when Check Tag is clicked | checked    |

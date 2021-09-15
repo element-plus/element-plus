@@ -270,7 +270,7 @@ ${this.codepen.html}
 </template>
 
 <script>
-${'  ' + this.codepen.script}
+${'  ' + this.displayDemoCode}
 \<\/script>
 
 <style>
@@ -304,8 +304,8 @@ ${this.codepen.style}
         '\n<scr' +
         `ipt src="//unpkg.com/element-plus/dist/index.full.js"></scr` +
         'ipt>'
-      let htmlTpl = `${resourcesTpl}\n<div id="app">\n${html.trim()}\n</div>`
-      let cssTpl = `@import url("//unpkg.com/element-plus/dist/index.css");\n${(
+      const htmlTpl = `${resourcesTpl}\n<div id="app">\n${html.trim()}\n</div>`
+      const cssTpl = `@import url("//unpkg.com/element-plus/dist/index.css");\n${(
         style || ''
       ).trim()}\n`
       let jsTpl = script
