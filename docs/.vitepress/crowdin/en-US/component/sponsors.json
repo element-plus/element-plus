@@ -1,0 +1,12 @@
+[
+  {
+    "name": "bit",
+    "img": "/images/bit.svg",
+    "url": "https://bit.dev/?from=element-ui"
+  },
+  {
+    "name": "renren.io",
+    "img": "/images/renren.png",
+    "url": "https://www.renren.io/?from=element-ui"
+  }
+]

@@ -25,3 +25,14 @@ const isExternal = computed(() => props.href && /^[a-z]+:/i.test(props.href))
     </ElIcon>
   </component>
 </template>
+
+<style scoped>
+.link-item {
+  display: flex;
+  align-items: center;
+}
+
+.el-icon {
+  margin-left: 4px;
+}
+</style>

@@ -15,7 +15,7 @@ const CREDENTIAL = process.env.CROWDIN_TOKEN
     })
     await fs.promises.writeFile(
       configPath,
-      file.replace(credentialPlaceholder, CREDENTIAL)
+      file.replace(credentialPlaceholder, CREDENTIAL!)
     )
     console.info(chalk.green('Crowdin credential update successfully'))
   } catch (e) {

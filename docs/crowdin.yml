@@ -124,4 +124,8 @@ files: [
       #
       # "scheme" : "",
     },
+    {
+      'source': 'en-US/**/*.md',
+      'translation': '%locale%/**/%original_file_name%',
+    },
   ]

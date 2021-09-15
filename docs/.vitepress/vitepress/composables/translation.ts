@@ -1,8 +1,10 @@
+import { computed } from 'vue'
 import { useRouter, useRoute } from 'vitepress'
 import { useLang } from './lang'
 import { PREFERRED_LANG_KEY } from '../constant'
 
 import langs from '../../i18n/lang.json'
+import translationLocale from '../../i18n/component/translation.json'
 
 export const useTranslation = () => {
   const route = useRoute()
@@ -17,6 +19,8 @@ export const useTranslation = () => {
     'ja-JP': '日本語',
   }
 
+  const helpTranslate = computed(() => translationLocale[lang.value].help)
+
   const switchLang = (targetLang: string) => {
     if (lang.value === targetLang) return
     localStorage.setItem(PREFERRED_LANG_KEY, targetLang)
@@ -24,14 +28,14 @@ export const useTranslation = () => {
 
     const goTo = `/${targetLang}/${route.path.slice(firstSlash + 1)}`
 
-    // location.href = goTo
     router.go(goTo)
   }
 
   return {
+    helpTranslate,
     languageMap,
-    switchLang,
     langs,
     lang,
+    switchLang,
   }
 }

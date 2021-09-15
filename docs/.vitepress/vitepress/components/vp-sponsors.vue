@@ -1,16 +1,38 @@
 <script setup lang="ts">
-const sponsors = [
-  {
-    name: 'bit',
-    img: '/images/bit.svg',
-    url: 'https://bit.dev/?from=element-ui',
-  },
-  {
-    url: 'https://www.renren.io/?from=element-ui',
-    img: '/images/renren.png',
-    name: sponsorsLocale.value.sponsorNameR,
-  },
-]
+import { computed } from 'vue'
+import VPSponsor from './vp-sponsor.vue'
+import sponsorsLocale from '../../i18n/component/sponsors.json'
+import sponsorLocale from '../../i18n/component/sponsor.json'
+import { useLang } from '../composables/lang'
+import { defaultLang } from '../constant'
+
+const lang = useLang()
+const sponsors = computed(() => sponsorsLocale[lang.value])
+
+const sponsor = computed(() => sponsorLocale[lang.value])
 </script>
 
-<template></template>
+<template>
+  <div class="sponsors">
+    <p class="sponsors-title">{{ sponsor.sponsoredBy }}</p>
+    <div class="container">
+      <VPSponsor v-for="sponsor in sponsors" :item="sponsor" />
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.sponsors {
+  padding: 0.35rem 1.5rem 0.35rem 1.25rem;
+  .sponsors-title {
+    color: var(--text-color-lighter);
+    font-weight: 300;
+    font-size: 14px;
+  }
+
+  .container {
+    display: flex;
+    align-items: center;
+  }
+}
+</style>

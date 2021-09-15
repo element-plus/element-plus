@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
+import VPLink from '../common/vp-link.vue'
 import { useTranslation } from '../../composables/translation'
 import { PREFERRED_LANG_KEY, defaultLang } from '../../constant'
 
 import TranslationIcon from '../icons/translation-icon.vue'
 
-const { switchLang, languageMap, langs, lang } = useTranslation()
+const { switchLang, languageMap, langs, lang, helpTranslate } = useTranslation()
 
 onMounted(() => {
   const preferredLang = localStorage.getItem(PREFERRED_LANG_KEY) || defaultLang
@@ -36,6 +37,11 @@ onMounted(() => {
         >
           {{ languageMap[l] }}
         </div>
+        <div class="language">
+          <VPLink href="https://crowdin.com/project/element-plus">
+            {{ helpTranslate }}
+          </VPLink>
+        </div>
       </ElPopover>
     </ClientOnly>
   </div>
@@ -57,8 +63,14 @@ onMounted(() => {
 
     .language {
       cursor: pointer;
+      padding: 0 16px;
+      line-height: 28px;
       &.selected {
         color: var(--brand-color);
+      }
+
+      .link-item {
+        font-weight: 500;
       }
     }
   }
