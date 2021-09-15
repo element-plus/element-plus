@@ -27,7 +27,7 @@ jobs:
       - name: Fetch Crowdin token
         run: yarn init:crowdin
         env:
-          CROWDIN_TOKEN: ${{env.CROWDIN_TOKEN}}
+          CROWDIN_TOKEN: ${{secrets.CROWDIN_TOKEN}}
 
       - name: Init docs
         run: cd docs && yarn
