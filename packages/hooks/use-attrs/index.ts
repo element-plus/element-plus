@@ -1,5 +1,6 @@
 import { getCurrentInstance, computed } from 'vue'
 import { debugWarn } from '@element-plus/utils/error'
+import fromPairs from 'lodash/fromPairs'
 
 import type { ComputedRef } from 'vue'
 
@@ -25,7 +26,7 @@ export default (params: Params = {}): ComputedRef<Record<string, unknown>> => {
   }
 
   return computed(() =>
-    Object.fromEntries(
+    fromPairs(
       Object.entries(instance.proxy?.$attrs).filter(
         ([key]) =>
           !allExcludeKeys.includes(key) &&
