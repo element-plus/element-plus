@@ -564,10 +564,10 @@ describe('Datetimerange', () => {
     triggerEvent(leftDateInput, 'change', true)
     await nextTick()
     expect(btn.getAttribute('disabled')).not.toBeUndefined()
-    btn.click()
+    btn.click() // btn is disabled
     await nextTick()
-    expect(rangePanel.getAttribute('visible')).toBe('false') // popper dismiss
-    expect(vm.value).not.toBe('')
+    expect(rangePanel.getAttribute('visible')).toBe('true') // popper still open
+    expect(vm.value).toBe('')
   })
 
   it('selectableRange', async () => {
