@@ -1,9 +1,10 @@
-name: Dev Website Preview
+name: Staging Preview
 
 on:
   push:
     branches:
       - 'dev'
+      - 'epic/website-refactor'
 
 jobs:
   build:
@@ -15,6 +16,8 @@ jobs:
 
       - name: Setup node
         uses: actions/setup-node@v2
+        with:
+          node-version: '16'
 
       - name: Install dependencies
         run: yarn bootstrap
@@ -22,7 +25,15 @@ jobs:
       - name: Init docs
         run: cd docs && yarn
 
-      - name: Generate common locale
+      - name: Init Crowdin token
+        run: yarn init:crowdin
+        env:
+          CROWDIN_TOKEN: ${{secrets.CROWDIN_TOKEN}}
+
+      - name: Pull Crowdin translations
+        run: cd docs && yarn crowdin download
+
+      - name: generate common locale
         run: yarn docs:gen-locale
 
       - name: Build website
@@ -30,7 +41,7 @@ jobs:
 
       - name: Deploy Site
         run: |
-          export DEPLOY_DOMAIN=https://preview-dev-element-plus.surge.sh
+          export DEPLOY_DOMAIN=https://staging-preview-element-plus.surge.sh
           echo "Deploy to $DEPLOY_DOMAIN"
           npx surge --project ./docs/.vitepress/dist/ --domain $DEPLOY_DOMAIN --token $SURGE_TOKEN
         env:
