@@ -31,11 +31,11 @@
     "website-dev": "webpack-dev-server --config ./website/webpack.config.js",
     "website-dev:play": "cross-env PLAY_ENV=true yarn website-dev",
     "prepare": "husky install",
-    "docs:dev": "if [ ! -d \"dist/element-plus\" ]; then yarn build:prod -d; fi && yarn docs:gen-locale && cd docs && yarn dev",
+    "docs:dev": "if [ ! -d \"dist/element-plus\" ]; then sh scripts/build.sh; fi && yarn docs:gen-locale && cd docs && yarn dev",
     "docs:build": "cd docs && yarn build",
     "docs:serve": "cd docs && yarn serve",
-    "init:crowdin": "esno build/crowdin-credentials.js",
-    "docs:gen-locale": "rm -rf docs/.vitepress/i18n && esno build/crowdin-generate.js"
+    "init:crowdin": "esno build/crowdin-credentials.ts",
+    "docs:gen-locale": "rm -rf docs/.vitepress/i18n && esno build/crowdin-generate.ts"
   },
   "config": {
     "commitizen": {

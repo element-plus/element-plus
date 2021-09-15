@@ -17,7 +17,7 @@ es
 
 .vitepress/*.js
 
-docs/.vitepress/i18n
+docs/.vitepress/i18n/*
 docs/temp
 docs/zh-CN
 docs/fr-FR

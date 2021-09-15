@@ -24,15 +24,26 @@ jobs:
       - name: Install dependencies
         run: yarn bootstrap
 
+      - name: Fetch Crowdin token
+        run: yarn init-crowdin
+        env:
+          CROWDIN_TOKEN: ${{env.CROWDIN_TOKEN}}
+
+      - name: Init docs
+        run: cd docs && yarn
+
+      - name: Fetch Crowdin translations
+        run: cd docs && yarn crowdin download
+
       - name: Build website
-        run: yarn website-build
+        run: yarn docs:build
 
       # share website dist
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: website
-          path: website-dist/
+          name: docs
+          path: docs/.vitepress/dist/
           retention-days: 1
 
       # write pr.txt for share
