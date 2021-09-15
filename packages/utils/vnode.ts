@@ -111,6 +111,7 @@ export const getNormalizedProps = (node: VNode) => {
     debugWarn(SCOPE, 'value must be a VNode')
     return
   }
+
   const raw = node.props || {}
   const type = (node.type as any).props || {}
   const props = {} as any
