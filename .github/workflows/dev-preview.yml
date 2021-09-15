@@ -1,0 +1,37 @@
+name: Dev Website Preview
+
+on:
+  push:
+    branches:
+      - 'dev'
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+
+      - name: Install dependencies
+        run: yarn bootstrap
+
+      - name: Init docs
+        run: cd docs && yarn
+
+      - name: Generate common locale
+        run: yarn docs:gen-locale
+
+      - name: Build website
+        run: yarn docs:build
+
+      - name: Deploy Site
+        run: |
+          export DEPLOY_DOMAIN=https://preview-dev-element-plus.surge.sh
+          echo "Deploy to $DEPLOY_DOMAIN"
+          npx surge --project ./docs/.vitepress/dist/ --domain $DEPLOY_DOMAIN --token $SURGE_TOKEN
+        env:
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
