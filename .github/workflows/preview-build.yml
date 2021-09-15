@@ -35,6 +35,9 @@ jobs:
       - name: Fetch Crowdin translations
         run: cd docs && yarn crowdin download
 
+      - name: generate common locale
+        run: yarn docs:gen-locale
+
       - name: Build website
         run: yarn docs:build
 
