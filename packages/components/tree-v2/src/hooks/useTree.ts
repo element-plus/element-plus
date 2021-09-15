@@ -1,4 +1,4 @@
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, nextTick, ref, shallowRef, watch } from 'vue'
 import { useCheck } from './useCheck'
 import {
   NODE_CLICK,
@@ -18,7 +18,7 @@ import type {
 export function useTree(props: ITreeProps, emit) {
   const expandedKeySet = ref<Set<TreeKey>>(new Set(props.defaultExpandedKeys))
   const currentKey = ref<TreeKey>(null)
-  const tree = ref<Tree>(null)
+  const tree = shallowRef<Tree>(null)
 
   watch(
     () => props.currentNodeKey,
@@ -81,8 +81,8 @@ export function useTree(props: ITreeProps, emit) {
     return {
       treeNodeMap,
       levelTreeNodeMap,
-      treeNodes,
       maxLevel,
+      treeNodes,
     }
   }
 

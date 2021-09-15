@@ -1,11 +1,12 @@
-import { Ref, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { NODE_CLICK, NODE_CHECK_CHANGE } from '../emits'
+import type { Ref } from 'vue'
 import type { ITreeProps, TreeKey, TreeNode, Tree } from '../tree.type'
 
 const DELETE = 'delete'
 const ADD = 'add'
 
-export function useCheck(props: ITreeProps, treeRef: Ref<Tree>, emit) {
+export function useCheck(props: ITreeProps, tree: Ref<Tree>, emit) {
   const checkedKeys = ref<Set<TreeKey>>(new Set())
   const indeterminateKeys = ref<Set<TreeKey>>(new Set())
 
@@ -13,7 +14,7 @@ export function useCheck(props: ITreeProps, treeRef: Ref<Tree>, emit) {
     if (!props.showCheckbox || props.checkStrictly) {
       return
     }
-    const { levelTreeNodeMap, maxLevel } = treeRef.value
+    const { levelTreeNodeMap, maxLevel } = tree.value
     const checkedKeySet = checkedKeys.value
     const indeterminateKeySet = new Set<TreeKey>()
     // It is easier to determine the indeterminate state by
@@ -87,7 +88,7 @@ export function useCheck(props: ITreeProps, treeRef: Ref<Tree>, emit) {
 
   function getCheckedKeys(leafOnly = false): TreeKey[] {
     if (props.showCheckbox) {
-      const { treeNodeMap } = treeRef.value
+      const { treeNodeMap } = tree.value
       const allCheckedKeys = Array.from(checkedKeys.value)
       const keys = []
       allCheckedKeys.forEach((key) => {
@@ -109,7 +110,7 @@ export function useCheck(props: ITreeProps, treeRef: Ref<Tree>, emit) {
   }
 
   const afterNodeCheck = (node: TreeNode, checked: boolean) => {
-    const { treeNodeMap } = treeRef.value
+    const { treeNodeMap } = tree.value
     const halfCheckedNodes = new Array<TreeNode>()
     const checkedNodes = new Array<TreeNode>()
     const allCheckedKeys = Array.from(checkedKeys.value)
@@ -136,7 +137,7 @@ export function useCheck(props: ITreeProps, treeRef: Ref<Tree>, emit) {
   }
 
   watch(
-    () => treeRef.value,
+    () => tree.value,
     (tree) => {
       if (props.showCheckbox && tree) {
         const { treeNodeMap } = tree
