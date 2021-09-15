@@ -47,15 +47,14 @@ export default defineComponent({
                 zIndex: props.zIndex,
               },
               onClick: onMaskClick,
-              onMousedown: (e: MouseEvent) => {
-                // marking current mousedown target.
+              onMousedown: () => {
                 if (props.mask) {
-                  mousedownTarget = e.target === e.currentTarget
+                  mousedownTarget = props.mask
                 }
               },
-              onMouseup: (e: MouseEvent) => {
+              onMouseup: () => {
                 if (props.mask) {
-                  mouseupTarget = e.target === e.currentTarget
+                  mouseupTarget = props.mask
                 }
               },
             },
