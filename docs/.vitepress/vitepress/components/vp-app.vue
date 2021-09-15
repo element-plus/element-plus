@@ -4,11 +4,20 @@ import VPNav from './vp-nav.vue'
 import VPSubNav from './vp-subnav.vue'
 import VPSidebar from './vp-sidebar.vue'
 import VPContent from './vp-content.vue'
+import VPSponsors from './vp-sponsors.vue'
 import { useToggle } from '../composables/toggle'
 import { useSidebar } from '../composables/sidebar'
+import { useToggleWidgets } from '../composables/toggle-widgets'
+import { breakpoints } from '../constant'
 
 const [isSidebarOpen, toggleSidebar] = useToggle(false)
 const { hasSidebar } = useSidebar()
+
+useToggleWidgets(isSidebarOpen, () => {
+  if (window.outerWidth >= breakpoints.lg) {
+    toggleSidebar(false)
+  }
+})
 </script>
 
 <template>
@@ -22,7 +31,7 @@ const { hasSidebar } = useSidebar()
     <VPSubNav v-if="hasSidebar" @open-menu="toggleSidebar(true)" />
     <VPSidebar :open="isSidebarOpen" @close="toggleSidebar(false)">
       <template #top>
-        <slot name="sidebar-top" />
+        <VPSponsors />
       </template>
       <template #bottom>
         <slot name="sidebar-bottom" />
@@ -45,5 +54,6 @@ const { hasSidebar } = useSidebar()
         <slot name="aside-bottom" />
       </template>
     </VPContent>
+    <Debug />
   </div>
 </template>

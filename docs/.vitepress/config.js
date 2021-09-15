@@ -108,25 +108,14 @@ module.exports = {
                 find: /^element-plus$/,
                 replacement: require('path').resolve(
                   __dirname,
-                  '../../packages/element-plus/index'
+                  '../../dist/element-plus/es/index'
                 ),
-              },
-              {
-                find: '@element-plus/icons',
-                replacement: '@element-plus/icons',
               },
               {
                 find: /^element-plus\/lib\/utils\/(.*)/,
                 replacement: require('path').resolve(
                   __dirname,
-                  '../../packages/utils/$1'
-                ),
-              },
-              {
-                find: /^@element-plus\/(.*)/,
-                replacement: require('path').resolve(
-                  __dirname,
-                  '../../packages/$1'
+                  '../../dist/element-plus/es/utils/$1'
                 ),
               },
             ],

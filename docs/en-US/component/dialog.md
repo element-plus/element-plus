@@ -36,7 +36,9 @@ dialog/basic-usage
 :::
 
 :::tip
+
 `before-close` only works when user clicks the close icon or the backdrop. If you have buttons that close the Dialog in the `footer` named slot, you can add what you would do with `before-close` in the buttons' click event handler.
+
 :::
 
 ## Customizations
@@ -69,7 +71,9 @@ dialog/centered-content
 :::
 
 :::tip
+
 The content of Dialog is lazily rendered, which means the default slot is not rendered onto the DOM until it is firstly opened. Therefore, if you need to perform a DOM manipulation or access a component using `ref`, do it in the `open` event callback.
+
 :::
 
 ## Destroy on Close
@@ -81,7 +85,9 @@ When this is feature is enabled, the content under default slot will be destroye
 dialog/destroy-on-close
 
 :::tip
+
 When using `modal` = false, please make sure that `append-to-body` was set to **true**, because `Dialog` was positioned by `position: relative`, when `modal` gets removed, `Dialog` will position itself based on the current position in the DOM, instead of `Document.Body`, thus the style will be messed up.
+
 :::
 
 ## Attributes

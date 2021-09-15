@@ -7,7 +7,9 @@ Fix the element to a specific visible area.
 Affix is fixed at the top of the page by default.
 
 :::demo You can set `offset` attribute to change the offset top，the default value is 0。
+
 affix/basic
+
 :::
 
 ## Target container
@@ -15,7 +17,9 @@ affix/basic
 You can set `target` attribute to keep the affix in the container at all times. It will be hidden if out of range.
 
 :::demo Please notice that the container avoid having scrollbar.
+
 affix/target
+
 :::
 
 ## Fixed position
@@ -23,7 +27,9 @@ affix/target
 The affix component provides two fixed positions: `top` and `bottom`.
 
 :::demo You can set `position` attribute to change the fixed position, the default value is `top`.
+
 affix/fixed
+
 :::
 
 ## Attributes

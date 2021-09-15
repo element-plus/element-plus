@@ -1,8 +1,11 @@
 # Message Box
 
 A set of modal boxes simulating system message box, mainly for alerting information, confirm operations and prompting messages.
+
 :::tip
+
 By design MessageBox provides simulations of system's `alert`, `confirm` and `prompt`，so it's content should be simple. For more complicated contents, please use Dialog.
+
 :::
 
 ## Alert
@@ -46,7 +49,9 @@ message-box/customization
 :::
 
 :::tip
+
 The content of MessageBox can be `VNode`, allowing us to pass custom components. When opening the MessageBox, Vue compares new `VNode` with old `VNode`, then figures out how to efficiently update the UI, so the components may not be completely re-rendered ([#8931](https://github.com/ElemeFE/element/issues/8931)). In this case, you can add a unique key to `VNode` each time MessageBox opens: [example](https://jsfiddle.net/zhiyang/ezmhq2ef).
+
 :::
 
 ## Use HTML String
@@ -60,7 +65,9 @@ message-box/use-html
 :::
 
 :::warning
+
 Although `message` property supports HTML strings, dynamically rendering arbitrary HTML on your website can be very dangerous because it can easily lead to [XSS attacks](https://en.wikipedia.org/wiki/Cross-site_scripting). So when `dangerouslyUseHTMLString` is on, please make sure the content of `message` is trusted, and **never** assign `message` to user-provided content.
+
 :::
 
 ## Distinguishing cancel and close

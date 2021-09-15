@@ -104,7 +104,9 @@ select/allow-create
 :::
 
 :::tip
+
 If the binding value of Select is an object, make sure to assign `value-key` as its unique identity key name.
+
 :::
 
 ## Select Attributes

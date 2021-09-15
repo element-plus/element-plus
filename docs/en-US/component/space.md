@@ -47,7 +47,9 @@ space/customized-size
 :::
 
 :::tip
+
 Do not use `ElSpace` with components that depend on ancestor width (height), e.g. `ElSlider`, in this case when you drag the trigger button the bar will grow which causes misplacement between cursor and trigger button.
+
 :::
 
 ## Auto wrapping

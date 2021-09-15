@@ -5,15 +5,21 @@ A button to back to top
 ## Basic usage
 
 Scroll down to see the bottom-right button.
+
 :::demo
+
 backtop/basic
+
 :::
 
 ## Customizations
 
 Display area is 40px \* 40px.
+
 :::demo
+
 backtop/custom
+
 :::
 
 ## Attributes

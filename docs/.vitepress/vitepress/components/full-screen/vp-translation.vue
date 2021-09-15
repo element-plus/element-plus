@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import VPLink from '../common/vp-link.vue'
 import { useTranslation } from '../../composables/translation'
 import { useToggle } from '../../composables/toggle'
 import ExpandIcon from '../icons/expand.vue'
 
-const { languageMap, langs, lang, switchLang } = useTranslation()
+const { languageMap, langs, lang, switchLang, helpTranslate } = useTranslation()
 
 const [show, toggle] = useToggle()
 </script>
@@ -27,9 +28,14 @@ const [show, toggle] = useToggle()
         v-for="l in langs"
         class="translation-item"
         :class="{ active: l === lang }"
-        @click="switchLang(lang)"
+        @click="switchLang(l)"
       >
         {{ languageMap[l] }}
+      </p>
+      <p class="translation-item">
+        <VPLink href="https://crowdin.com/project/element-plus">
+          {{ helpTranslate }}
+        </VPLink>
       </p>
     </div>
   </div>
@@ -64,7 +70,12 @@ const [show, toggle] = useToggle()
     line-height: 32px;
 
     &.active {
-      font-weight: 600;
+      font-weight: 500;
+      color: var(--brand-color);
+    }
+
+    .link-item {
+      font-weight: 500;
     }
   }
 }

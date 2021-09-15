@@ -3,7 +3,9 @@
 Form consists of `input`, `radio`, `select`, `checkbox` and so on. With form, you can collect, verify and submit data.
 
 :::tip
+
 The component has been upgraded with a flex layout to replace the old float layout.
+
 :::
 
 <style lang="scss" scoped>
@@ -93,11 +95,13 @@ form/basic-form
 :::
 
 :::tip
+
 [W3C](https://www.w3.org/MarkUp/html-spec/html-spec_8.html#SEC8.2) regulates that
 
 > <i>When there is only one single-line text input field in a form, the user agent should accept Enter in that field as a request to submit the form.</i>
 
 To prevent this behavior, you can add `@submit.prevent` on `<el-form>`.
+
 :::
 
 ## Inline form
@@ -141,7 +145,9 @@ form/custom-validation
 :::
 
 :::tip
+
 Custom validate callback function must be called. See more advanced usage at [async-validator](https://github.com/yiminghe/async-validator).
+
 :::
 
 ## Delete or add form items dynamically
@@ -161,7 +167,9 @@ form/number-validate
 :::
 
 :::tip
+
 When an `el-form-item` is nested in another `el-form-item`, its label width will be `0`. You can set `label-width` on that `el-form-item` if needed.
+
 :::
 
 ## Size control
