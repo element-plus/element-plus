@@ -59,7 +59,7 @@ const distBundle = path.resolve(buildOutput, './element-plus/theme-chalk')
  * copy from packages/theme-chalk/lib to dist/theme-chalk
  */
 function copyToLib() {
-  return gulp.src(distFolder + '/**').pipe(gulp.dest(distBundle))
+  return gulp.src(`${distFolder}/**`).pipe(gulp.dest(distBundle))
 }
 
 /**

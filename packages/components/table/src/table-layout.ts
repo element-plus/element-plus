@@ -107,7 +107,7 @@ class TableLayout<T> {
       return nextTick(() => this.setHeight(value, prop))
 
     if (typeof value === 'number') {
-      el.style[prop] = value + 'px'
+      el.style[prop] = `${value}px`
       this.updateElsHeight()
     } else if (typeof value === 'string') {
       el.style[prop] = value

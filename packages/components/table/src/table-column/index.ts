@@ -55,8 +55,9 @@ export default defineComponent({
     } = useRender(props as unknown as TableColumnCtx<unknown>, slots, owner)
 
     const parent = columnOrTableParent.value
-    columnId.value =
-      (parent.tableId || parent.columnId) + '_column_' + columnIdSeed++
+    columnId.value = `${
+      parent.tableId || parent.columnId
+    }_column_${columnIdSeed++}`
     onBeforeMount(() => {
       isSubColumn.value = owner.value !== parent
 

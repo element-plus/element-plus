@@ -225,7 +225,7 @@ export default defineComponent({
 
     const precision = computed(() => {
       const precisions = [props.min, props.max, props.step].map((item) => {
-        const decimal = ('' + item).split('.')[1]
+        const decimal = `${item}`.split('.')[1]
         return decimal ? decimal.length : 0
       })
       return Math.max.apply(null, precisions)

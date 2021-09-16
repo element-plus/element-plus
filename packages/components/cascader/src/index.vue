@@ -478,14 +478,14 @@ export default defineComponent({
         const suggestionList = suggestionPanelEl.querySelector(
           '.el-cascader__suggestion-list'
         )
-        suggestionList.style.minWidth = inputInner.offsetWidth + 'px'
+        suggestionList.style.minWidth = `${inputInner.offsetWidth}px`
       }
 
       if (tagWrapperEl) {
         const { offsetHeight } = tagWrapperEl
         const height =
           presentTags.value.length > 0
-            ? Math.max(offsetHeight + 6, inputInitialHeight) + 'px'
+            ? `${Math.max(offsetHeight + 6, inputInitialHeight)}px`
             : `${inputInitialHeight}px`
         inputInner.style.height = height
         updatePopperPosition()

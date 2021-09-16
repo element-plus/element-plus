@@ -62,11 +62,9 @@ const compareTime = (time1: string, time2: string): number => {
   return minutes1 > minutes2 ? 1 : -1
 }
 const formatTime = (time: Time): string => {
-  return (
-    (time.hours < 10 ? '0' + time.hours : time.hours) +
-    ':' +
-    (time.minutes < 10 ? '0' + time.minutes : time.minutes)
-  )
+  return `${time.hours < 10 ? `0${time.hours}` : time.hours}:${
+    time.minutes < 10 ? `0${time.minutes}` : time.minutes
+  }`
 }
 const nextTime = (time: string, step: string): string => {
   const timeValue = parseTime(time)

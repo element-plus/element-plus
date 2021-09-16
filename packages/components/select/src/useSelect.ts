@@ -326,13 +326,13 @@ export const useSelect = (props, states: States, ctx) => {
       const sizeInMap = states.initialInputHeight || 40
       input.style.height =
         states.selected.length === 0
-          ? sizeInMap + 'px'
-          : Math.max(
+          ? `${sizeInMap}px`
+          : `${Math.max(
               _tags
                 ? _tags.clientHeight + (_tags.clientHeight > sizeInMap ? 6 : 0)
                 : 0,
               sizeInMap
-            ) + 'px'
+            )}px`
 
       states.tagInMultiLine = parseFloat(input.style.height) > sizeInMap
 

@@ -52,7 +52,7 @@ function useStyle<T>(
     () => [props.currentRowKey, store.states.rowKey],
     ([currentRowKey, rowKey]) => {
       if (!unref(rowKey)) return
-      store.setCurrentRowKey(currentRowKey + '')
+      store.setCurrentRowKey(`${currentRowKey}`)
     },
     {
       immediate: true,
@@ -213,7 +213,7 @@ function useStyle<T>(
   const bodyWidth = computed(() => {
     const { bodyWidth: bodyWidth_, scrollY, gutterWidth } = layout
     return bodyWidth_.value
-      ? (bodyWidth_.value as number) - (scrollY.value ? gutterWidth : 0) + 'px'
+      ? `${(bodyWidth_.value as number) - (scrollY.value ? gutterWidth : 0)}px`
       : ''
   })
   const bodyHeight = computed(() => {
@@ -222,17 +222,15 @@ function useStyle<T>(
     const footerHeight = layout.footerHeight.value || 0
     if (props.height) {
       return {
-        height: bodyHeight ? bodyHeight + 'px' : '',
+        height: bodyHeight ? `${bodyHeight}px` : '',
       }
     } else if (props.maxHeight) {
       const maxHeight = parseHeight(props.maxHeight)
       if (typeof maxHeight === 'number') {
         return {
-          'max-height':
-            maxHeight -
-            footerHeight -
-            (props.showHeader ? headerHeight : 0) +
-            'px',
+          'max-height': `${
+            maxHeight - footerHeight - (props.showHeader ? headerHeight : 0)
+          }px`,
         }
       }
     }
@@ -280,20 +278,20 @@ function useStyle<T>(
       return {
         bottom:
           layout.scrollX.value && props.data.length
-            ? layout.gutterWidth + 'px'
+            ? `${layout.gutterWidth}px`
             : '',
       }
     } else {
       if (props.showSummary) {
         return {
           height: layout.tableHeight.value
-            ? layout.tableHeight.value + 'px'
+            ? `${layout.tableHeight.value}px`
             : '',
         }
       }
       return {
         height: layout.viewportHeight.value
-          ? layout.viewportHeight.value + 'px'
+          ? `${layout.viewportHeight.value}px`
           : '',
       }
     }
@@ -302,7 +300,7 @@ function useStyle<T>(
     if (props.height) {
       return {
         height: layout.fixedBodyHeight.value
-          ? layout.fixedBodyHeight.value + 'px'
+          ? `${layout.fixedBodyHeight.value}px`
           : '',
       }
     } else if (props.maxHeight) {
@@ -316,7 +314,7 @@ function useStyle<T>(
         }
         maxHeight -= layout.footerHeight.value
         return {
-          'max-height': maxHeight + 'px',
+          'max-height': `${maxHeight}px`,
         }
       }
     }

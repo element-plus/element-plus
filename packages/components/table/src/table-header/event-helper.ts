@@ -53,7 +53,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
         tableLeft,
       }
       const resizeProxy = table.refs.resizeProxy as HTMLElement
-      resizeProxy.style.left = (dragState.value as any).startLeft + 'px'
+      resizeProxy.style.left = `${(dragState.value as any).startLeft}px`
 
       document.onselectstart = function () {
         return false
@@ -67,7 +67,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
           event.clientX - (dragState.value as any).startMouseLeft
         const proxyLeft = (dragState.value as any).startLeft + deltaLeft
 
-        resizeProxy.style.left = Math.max(minLeft, proxyLeft) + 'px'
+        resizeProxy.style.left = `${Math.max(minLeft, proxyLeft)}px`
       }
 
       const handleMouseUp = () => {
