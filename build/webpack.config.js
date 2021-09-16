@@ -27,6 +27,7 @@ if (!isFullMode) {
     {
       '@popperjs/core': '@popperjs/core',
       'async-validator': 'async-validator',
+      mitt: 'mitt',
       'normalize-wheel': 'normalize-wheel',
       'resize-observer-polyfill': 'resize-observer-polyfill',
     },
