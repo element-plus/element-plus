@@ -34,7 +34,7 @@ const route = useRoute()
   display: block;
   padding: 0 12px;
   line-height: calc(var(--nav-height) - 3px);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--text-color);
   transition: color var(--el-transition-duration);

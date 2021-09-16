@@ -26,8 +26,8 @@ const route = useRoute()
 <style scoped lang="scss">
 .link {
   display: block;
-  padding: 0.75rem 2rem 0.75rem 2.5rem;
-  line-height: 1.4;
+  padding: 0.625rem 2rem 0.625rem 1.5rem;
+  line-height: 1.5;
   font-size: 0.9rem;
   margin: 0 8px;
   border-radius: 8px;

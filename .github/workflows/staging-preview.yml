@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - 'dev'
-      - 'epic/website-refactor'
 
 jobs:
   build:
