@@ -22,6 +22,9 @@ jobs:
       - name: Install dependencies
         run: yarn bootstrap
 
+      - name: Compile Element Plus
+        run: sh scripts/build.sh
+
       - name: Init docs
         run: cd docs && yarn
 
@@ -29,6 +32,9 @@ jobs:
         run: yarn init:crowdin
         env:
           CROWDIN_TOKEN: ${{secrets.CROWDIN_TOKEN}}
+
+      - name: Upload source files
+        run: cd docs && yarn crowdin upload source
 
       - name: Pull Crowdin translations
         run: cd docs && yarn crowdin download
