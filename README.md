@@ -82,6 +82,16 @@ $ yarn bootstrap
 
 the project will install all dependencies and run `lerna bootstrap` to initialize the project
 
+## Website preview
+
+With command
+
+```bash
+$ yarn docs:serve
+```
+
+the project will launch website for you to preview all existing component
+
 ## Component migration process
 
 1. Convert the item in https://github.com/element-plus/element-plus/projects/1 to an issue
