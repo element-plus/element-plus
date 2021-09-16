@@ -1087,5 +1087,69 @@ describe('Virtual Tree', () => {
       expect(checkedKeys.toString()).toBe(['1-1', '1-1-1', '1-1-2'].toString())
       expect(halfCheckedKeys.toString()).toBe(['1'].toString())
     })
+
+    test('getCurrent', async () => {
+      const { treeRef, wrapper } = createTree({
+        data() {
+          return {
+            defaultExpandedKeys: ['1', '1-1'],
+            data: [
+              {
+                id: '1',
+                label: 'node-1',
+                children: [
+                  {
+                    id: '1-1',
+                    label: 'node-1-1',
+                    children: [
+                      {
+                        id: '1-1-1',
+                        label: 'node-1-1-1',
+                      },
+                      {
+                        id: '1-1-2',
+                        label: 'node-1-1-2',
+                      },
+                    ],
+                  },
+                  {
+                    id: '1-2',
+                    label: 'node-1-2',
+                    children: [
+                      {
+                        id: '1-2-1',
+                        label: 'node-1-2-1',
+                      },
+                    ],
+                  },
+                  {
+                    id: '1-3',
+                    label: 'node-1-3',
+                  },
+                ],
+              },
+              {
+                id: '2',
+                label: 'node-2',
+              },
+            ],
+          }
+        },
+      })
+      await nextTick()
+      const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+      await nodes[2].trigger('click')
+      expect(treeRef.getCurrentNode()).toMatchObject({
+        id: '1-1-1',
+        label: 'node-1-1-1',
+      })
+      expect(treeRef.getCurrentKey()).toBe('1-1-1')
+      treeRef.setCurrentKey('1-1-2')
+      expect(treeRef.getCurrentNode()).toMatchObject({
+        id: '1-1-2',
+        label: 'node-1-1-2',
+      })
+      expect(treeRef.getCurrentKey()).toBe('1-1-2')
+    })
   })
 })

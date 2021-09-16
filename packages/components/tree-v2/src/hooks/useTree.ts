@@ -242,6 +242,18 @@ export function useTree(props: ITreeProps, emit) {
     return !!current && current === node.key
   }
 
+  function getCurrentNode(): TreeNodeData {
+    return tree?.value.treeNodeMap.get(currentKey.value)?.data
+  }
+
+  function getCurrentKey(): TreeKey {
+    return currentKey.value
+  }
+
+  function setCurrentKey(key: TreeKey): boolean {
+    currentKey.value = key
+  }
+
   return {
     tree,
     flattenTree,
@@ -259,6 +271,9 @@ export function useTree(props: ITreeProps, emit) {
     handleNodeClick,
     handleNodeCheck,
     // expose
+    getCurrentNode,
+    getCurrentKey,
+    setCurrentKey,
     getCheckedKeys,
     getCheckedNodes,
     getHalfCheckedKeys,
