@@ -111,9 +111,10 @@ export const getNormalizedProps = (node: VNode) => {
     debugWarn(SCOPE, 'value must be a VNode')
     return
   }
+
   const raw = node.props || {}
   const type = (node.type as any).props || {}
-  const props = {}
+  const props = {} as any
 
   Object.keys(type).forEach((key) => {
     if (hasOwn(type[key], 'default')) {

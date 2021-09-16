@@ -32,6 +32,11 @@ const config = {
   },
   module: {
     rules: [
+      // {
+      //   test: /\.mjs$/,
+      //   include: /node_modules/,
+      //   type: 'javascript/auto',
+      // },
       {
         test: /\.vue$/,
         use: 'vue-loader',

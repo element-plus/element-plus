@@ -71,6 +71,38 @@
 
 :::
 
+### カスタムヘッド
+
+:::demo という名前を設定することで `header` に `scoped-slot` カレンダーヘッダーに表示されるコンテンツをカスタマイズします。 存在 `scoped-slot` 日付（現在のセルの日付）を取得できます。 詳細については、以下の API ドキュメントを参照してください。
+
+```html
+<el-calendar ref="calendar">
+  <template #header="{date}">
+    <span>カスタムヘッダーコンテンツ</span>
+    <span>{{ date }}</span>
+    <el-button-group>
+      <el-button size="mini" @click="selectDate('prev-year')">上一年</el-button>
+      <el-button size="mini" @click="selectDate('prev-month')">先月</el-button>
+      <el-button size="mini" @click="selectDate('today')">現在</el-button>
+      <el-button size="mini" @click="selectDate('next-month')">来月</el-button>
+      <el-button size="mini" @click="selectDate('next-year')">来年</el-button>
+    </el-button-group>
+  </template>
+</el-calendar>
+
+<script>
+  export default {
+    methods: {
+      selectDate(value) {
+        this.$refs.calendar.selectDate(value)
+      },
+    },
+  }
+</script>
+```
+
+:::
+
 ### Localization
 
 The default locale of is English, if you need to use other languages, please check [Internationalization](#/jp/component/i18n)
@@ -90,3 +122,9 @@ Note, date time locale (month name, first day of the week ...) are also configed
 | Attribute | Description                                                                                                                                                                                                                                 | Type   | Accepted Values | Default |
 | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | --------------- | ------- |
 | data      | { type, isSelected, day, date }. `type` は日付が属する月を示し、オプションの値は前月、現在の月、次の月です。`isSelected` は日付が選択されているかどうかを示す。`day`は yyyy-MM-dd 形式でフォーマットされた日付です。`date` はセルが表す日付 | Object | —               | —       |
+
+### メソッド
+
+| Event Name | Description    | Attribute                                               |
+| ---------- | -------------- | ------------------------------------------------------- |
+| selectDate | 日付の切り替え | today / prev-month / next-month / prev-year / next-year |

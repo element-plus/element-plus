@@ -48,6 +48,9 @@ function useStore<T>() {
       // 没有使用 computed，而是手动更新部分数据 https://github.com/vuejs/vue/issues/6660#issuecomment-331417140
       instance.store.updateCurrentRowData()
       instance.store.updateExpandRows()
+      instance.store.updateTreeData(
+        instance.store.states.defaultExpandAll.value
+      )
       if (unref(states.reserveSelection)) {
         instance.store.assertRowKey()
         instance.store.updateSelectionByRowKey()

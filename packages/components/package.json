@@ -10,6 +10,7 @@
     "@element-plus/tokens": "^0.0.5",
     "@element-plus/utils": "^0.0.5",
     "@popperjs/core": "^2.10.1",
+    "@vueuse/core": "~6.1.0",
     "async-validator": "^3.4.0",
     "dayjs": "1.x",
     "lodash": "^4.17.21"
