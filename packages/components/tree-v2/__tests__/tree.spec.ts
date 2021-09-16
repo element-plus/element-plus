@@ -85,6 +85,11 @@ interface TreeEvents {
     }
   ) => void
   onCurrentChange?: (nodeData?: TreeNodeData, node?: TreeNode) => void
+  onNodeContextMenu?: (
+    e?: Event,
+    nodeData?: TreeNodeData,
+    node?: TreeNode
+  ) => void
 }
 
 const createTree = (
@@ -124,6 +129,7 @@ const createTree = (
         @node-expand="onNodeExpand"
         @check="onNodeCheck"
         @current-change="onCurrentChange"
+        @node-contextmenu="onNodeContextMenu"
       >${defaultSlot}</el-tree>
     `,
     {
@@ -157,6 +163,7 @@ const createTree = (
         onNodeExpand: NOOP,
         onNodeCheck: NOOP,
         onCurrentChange: NOOP,
+        onNodeContextMenu: NOOP,
         ...options.methods,
       },
     }
@@ -907,6 +914,17 @@ describe('Virtual Tree', () => {
           ],
         }
       )
+    })
+    test('context-menu', async () => {
+      const onNodeContextMenu = jest.fn()
+      const { wrapper } = createTree({
+        methods: {
+          onNodeContextMenu,
+        },
+      })
+      await nextTick()
+      await wrapper.find(TREE_NODE_CLASS_NAME).trigger('contextmenu')
+      expect(onNodeContextMenu).toHaveBeenCalledTimes(1)
     })
   })
 

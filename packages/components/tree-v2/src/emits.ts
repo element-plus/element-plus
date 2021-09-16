@@ -4,6 +4,7 @@ export const NODE_COLLAPSE = 'node-collapse'
 export const CURRENT_CHANGE = 'current-change'
 export const NODE_CHECK = 'check'
 export const NODE_CHECK_CHANGE = 'check-change'
+export const NODE_CONTEXTMENU = 'node-contextmenu'
 
 export const TREE_EMITS = [
   NODE_CLICK,
@@ -12,4 +13,5 @@ export const TREE_EMITS = [
   CURRENT_CHANGE,
   NODE_CHECK,
   NODE_CHECK_CHANGE,
+  NODE_CONTEXTMENU,
 ]

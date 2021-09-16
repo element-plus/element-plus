@@ -10,7 +10,12 @@
     }"
     role="treeitem"
     tabindex="-1"
+    :aria-expanded="expanded"
+    :aria-disabled="disabled"
+    :aria-checked="checked"
+    :data-key="node.key"
     @click.stop="handleClick"
+    @contextmenu="handleContextMenu"
   >
     <div
       class="el-tree-node__content"
@@ -79,6 +84,13 @@ export default defineComponent({
     const handleCheckChange = (value: boolean) => {
       emit('check', props.node, value)
     }
+    const handleContextMenu = (event: Event) => {
+      if (tree.instance.vnode.props['onNodeContextmenu']) {
+        event.stopPropagation()
+        event.preventDefault()
+      }
+      tree.ctx.emit('node-contextmenu', event, props.node.data, props.node)
+    }
 
     return {
       indent,
@@ -86,6 +98,7 @@ export default defineComponent({
       handleClick,
       handleExpandIconClick,
       handleCheckChange,
+      handleContextMenu,
     }
   },
 })
