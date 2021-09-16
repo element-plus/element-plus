@@ -50,10 +50,10 @@ jobs:
       - name: Deploy staging website
         uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: docs/.vitepress/dist
-          REPOSITORY_NAME: element-plus/staging
-          GIT_CONFIG_NAME: ElementPlusBot
-          GIT_CONFIG_EMAIL: hello@element-plus.org
-          COMMIT_MESSAGE: website deploy
+          token: ${{ secrets.BOT_TOKEN }}
+          branch: gh-pages
+          folder: docs/.vitepress/dist
+          repository-name: element-plus/staging
+          git-config-name: ElementPlusBot
+          git-config-email: hello@element-plus.org
+          commit-message: website deploy
