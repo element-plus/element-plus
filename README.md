@@ -12,10 +12,18 @@
   <br>
 </p>
 
-<p align="center">Element Plus - A Vue.js 3.0 UI library</p>
+<p align="center">Element Plus - A Vue.js 3 UI library</p>
 
-- 💪 Vue 3.0 Composition API
+- 💪 Vue 3 Composition API
 - 🔥 Written in TypeScript
+
+## Archived website
+
+If you are looking for previous version website, here is the link.
+
+[Element Plus Documentation Archived](https://github.com/element-plus/doc-archive)
+
+The new website is launched at 17th Sep 2021.
 
 ## Status: Beta
 
@@ -46,6 +54,11 @@ This project is still under heavy development. Feel free to join us and make you
 </table>
 
 ---
+
+## Translations
+
+Element Plus is translated to multiple languages, you can click the badge to help up update the translation or apply to become
+a proofreader [![Crowdin](https://badges.crowdin.net/element-plus/localized.svg)](https://crowdin.com/project/element-plus)
 
 ## Documentation
 

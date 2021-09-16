@@ -3,7 +3,6 @@
 set -e
 
 yarn clean:lib
-yarn gen:version
 
 # build all packages in case of error
 

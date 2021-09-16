@@ -1,0 +1,17 @@
+{
+  "name": "@element-plus/docs",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "vitepress dev .",
+    "build": "NODE_ENV=production && vitepress build .",
+    "serve": "NODE_ENV=production && vitepress serve ."
+  },
+  "dependencies": {
+    "element-plus": "latest",
+    "normalize.css": "^8.0.1"
+  },
+  "devDependencies": {
+    "@crowdin/cli": "^3.6.5",
+    "vitepress": "^0.17.2"
+  }
+}
