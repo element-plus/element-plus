@@ -115,13 +115,13 @@ yarn cz
 Example
 
 ```
-[TYPE](SCOPE):DESCRIPTION#[ISSUE]
-# example feat(components): add type 'button' for form usage #1234
+# [TYPE](SCOPE): [el-component-name] DESCRIPTION#[ISSUE]
+# example: feat(components): [el-button] add type for form usage #1234
 ```
 
 ## Licence
 
-ElementPlus is open source software licensed as
+Element Plus is open source software licensed as
 [MIT](https://github.com/element-plus/element-plus/blob/master/LICENSE).
 
 ## Contributors
