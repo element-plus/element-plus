@@ -162,7 +162,10 @@ export default defineComponent({
       })
       if (renderDefault instanceof Array) {
         for (const childNode of renderDefault) {
-          if (childNode.type?.name === 'ElTableColumn') {
+          if (
+            childNode.type?.name === 'ElTableColumn' ||
+            childNode.shapeFlag & 2
+          ) {
             children.push(childNode)
           } else if (
             childNode.type === Fragment &&
