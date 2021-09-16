@@ -44,7 +44,7 @@ If your network environment is not good, it is recommended to use a mirror regis
 
 ## Import in Browser
 
-Import ElementPlus through browser HTML tags directly, and use global variable `ElementPlus`.
+Import Element Plus through browser HTML tags directly, and use global variable `ElementPlus`.
 
 According to different CDN providers, there are different introduction methods.
 Here we use [unpkg](https://unpkg.com) and [jsDelivr](https://jsdelivr.com) as example.
