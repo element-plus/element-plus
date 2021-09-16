@@ -24,9 +24,8 @@ describe('Alert.vue', () => {
       },
     })
     expect(wrapper.find('.el-alert').classes()).toContain('el-alert--success')
-    expect(wrapper.find('.el-alert__icon').classes()).toContain(
-      'el-icon-success'
-    )
+    expect(wrapper.find('.el-alert__icon').classes()).toContain('el-icon')
+    expect(wrapper.find('.el-alert__icon svg').exists()).toBe(true)
   })
 
   test('description', () => {

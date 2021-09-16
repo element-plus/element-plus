@@ -3,11 +3,11 @@ import { buildProp, keyOf } from '@element-plus/utils/props'
 
 export type AlertEffect = 'light' | 'dark'
 
-export const ALERT_TYPE_CLASSES_MAP = {
-  success: 'el-icon-success',
-  warning: 'el-icon-warning',
-  error: 'el-icon-error',
-  info: 'el-icon-info',
+export const ALERT_TYPE_COMPONENTS_MAP = {
+  success: 'SuccessFilled',
+  warning: 'WarningFilled',
+  error: 'CircleCloseFilled',
+  info: 'InfoFilled',
 } as const
 
 export const alertProps = {
@@ -21,7 +21,7 @@ export const alertProps = {
   },
   type: buildProp({
     type: String,
-    values: keyOf(ALERT_TYPE_CLASSES_MAP),
+    values: keyOf(ALERT_TYPE_COMPONENTS_MAP),
     default: 'info',
   }),
   closable: {
