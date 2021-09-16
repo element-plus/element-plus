@@ -14,16 +14,3 @@ lib
 packages/element-plus/version.ts
 /es/
 es
-
-.vitepress/*.js
-
-docs/.vitepress/i18n/*
-docs/temp
-docs/zh-CN
-docs/fr-FR
-docs/es-ES
-docs/ja-JP
-
-docs/.vitepress/crowdin/*
-
-!docs/.vitepress/crowdin/en-US

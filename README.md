@@ -23,7 +23,7 @@ If you are looking for previous version website, here is the link.
 
 [Element Plus Documentation Archived](https://github.com/element-plus/doc-archive)
 
-The new website is launched at 15th Sep 2021.
+The new website is launched at 17th Sep 2021.
 
 ## Status: Beta
 
