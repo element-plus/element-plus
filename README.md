@@ -87,7 +87,7 @@ the project will install all dependencies and run `lerna bootstrap` to initializ
 With command
 
 ```bash
-$ yarn docs:serve
+$ yarn docs:dev
 ```
 
 the project will launch website for you to preview all existing component
