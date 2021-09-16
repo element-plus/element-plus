@@ -12,7 +12,7 @@ module.exports = {
     browser: true,
     node: true,
   },
-  plugins: ['@typescript-eslint', 'prettier'],
+  plugins: ['@typescript-eslint', 'prettier', 'import'],
   extends: [
     'plugin:@typescript-eslint/recommended',
     'plugin:vue/vue3-recommended',
@@ -63,12 +63,53 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
+    '@typescript-eslint/consistent-type-imports': [
+      'error',
+      { disallowTypeAnnotations: false },
+    ],
 
     // vue
     'vue/no-v-html': 'off',
     'vue/require-default-prop': 'off',
     'vue/require-explicit-emits': 'off',
 
-    'prettier/prettier': 'warn',
+    'prettier/prettier': 'error',
+
+    // import
+    'import/first': 'error',
+    'import/no-duplicates': 'error',
+    'import/order': [
+      'error',
+      {
+        groups: [
+          'builtin',
+          'external',
+          'internal',
+          'parent',
+          'sibling',
+          'index',
+          'object',
+          'type',
+        ],
+
+        pathGroups: [
+          {
+            pattern: 'vue',
+            group: 'external',
+            position: 'before',
+          },
+          {
+            pattern: '@vue/**',
+            group: 'external',
+            position: 'before',
+          },
+          {
+            pattern: '@element-plus/**',
+            group: 'internal',
+          },
+        ],
+        pathGroupsExcludedImportTypes: ['type'],
+      },
+    ],
   },
 }
