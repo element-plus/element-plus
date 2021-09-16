@@ -1,15 +1,23 @@
+# Editor directories and files
 .vscode
 .idea
+
+# Package Manager
 node_modules
-.DS_Store
-dist
-*.local
 lerna-debug.json
 lerna-debug.log
-yarn-error.log
-storybook-static
-coverage/
-lib
+yarn-debug.log*
+yarn-error.log*
+
+# System
+.DS_Store
+
+# Bundle
+dist
+coverage
+packages/*/es
+packages/*/lib
 packages/element-plus/version.ts
-/es/
-es
+
+# local env files
+*.local
