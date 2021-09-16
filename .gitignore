@@ -9,7 +9,6 @@ lerna-debug.log
 yarn-error.log
 storybook-static
 coverage/
-website-dist
 lib
 packages/element-plus/version.ts
 /es/
