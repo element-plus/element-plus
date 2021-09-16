@@ -82,13 +82,21 @@ export default defineComponent({
       handleNodeCheck,
       // expose
       getCheckedKeys,
+      getCheckedNodes,
       getHalfCheckedKeys,
+      getHalfCheckedNodes,
+      setChecked,
+      setCheckedKeys,
       filter,
     } = useTree(props, ctx.emit)
 
     ctx.expose({
       getCheckedKeys,
+      getCheckedNodes,
       getHalfCheckedKeys,
+      getHalfCheckedNodes,
+      setChecked,
+      setCheckedKeys,
       filter,
     })
 

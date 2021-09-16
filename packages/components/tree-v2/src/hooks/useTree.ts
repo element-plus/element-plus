@@ -46,7 +46,11 @@ export function useTree(props: ITreeProps, emit) {
     isChecked,
     toggleCheckbox,
     getCheckedKeys,
+    getCheckedNodes,
     getHalfCheckedKeys,
+    getHalfCheckedNodes,
+    setChecked,
+    setCheckedKeys,
   } = useCheck(props, tree, emit)
 
   const { doFilter, hiddenNodeKeySet, isForceHiddenExpandIcon } = useFilter(
@@ -256,7 +260,11 @@ export function useTree(props: ITreeProps, emit) {
     handleNodeCheck,
     // expose
     getCheckedKeys,
+    getCheckedNodes,
     getHalfCheckedKeys,
+    getHalfCheckedNodes,
+    setChecked,
+    setCheckedKeys,
     filter,
   }
 }

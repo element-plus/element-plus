@@ -75,6 +75,16 @@ interface TreeProps {
 interface TreeEvents {
   onNodeClick?: (nodeData?: TreeNodeData, node?: TreeNode) => void
   onNodeExpand?: (nodeData?: TreeNodeData, node?: TreeNode) => void
+  onNodeCheck?: (
+    nodeData?: TreeNodeData,
+    checked?: {
+      checkedKeys: TreeKey[]
+      checkedNodes: TreeNodeData[]
+      halfCheckedKeys: TreeKey[]
+      halfCheckedNodes: TreeNodeData[]
+    }
+  ) => void
+  onCurrentChange?: (nodeData?: TreeNodeData, node?: TreeNode) => void
 }
 
 const createTree = (
@@ -112,6 +122,8 @@ const createTree = (
         :filter-method="filterMethod"
         @node-click="onNodeClick"
         @node-expand="onNodeExpand"
+        @check="onNodeCheck"
+        @current-change="onCurrentChange"
       >${defaultSlot}</el-tree>
     `,
     {
@@ -143,6 +155,8 @@ const createTree = (
       methods: {
         onNodeClick: NOOP,
         onNodeExpand: NOOP,
+        onNodeCheck: NOOP,
+        onCurrentChange: NOOP,
         ...options.methods,
       },
     }
@@ -780,5 +794,298 @@ describe('Virtual Tree', () => {
     expect(nodes.map((node) => node.text()).toString()).toBe(
       ['node-1', 'node-1-1', 'node-1-1-1'].toString()
     )
+  })
+
+  describe('events', () => {
+    test('current-change', async () => {
+      const onCurrentChange = jest.fn()
+      const { wrapper, vm, treeVm } = createTree({
+        methods: {
+          onCurrentChange,
+        },
+      })
+      await nextTick()
+      await wrapper.find(TREE_NODE_CLASS_NAME).trigger('click')
+      expect(onCurrentChange).toHaveBeenCalledTimes(1)
+      expect(onCurrentChange).toHaveBeenCalledWith(
+        vm.data[0],
+        treeVm.flattenTree[0]
+      )
+    })
+    test('check', async () => {
+      const onNodeCheck = jest.fn()
+      const { wrapper } = createTree({
+        data() {
+          return {
+            showCheckbox: true,
+            defaultExpandedKeys: ['1-1', '1'],
+            data: [
+              {
+                id: '1',
+                label: 'node-1',
+                children: [
+                  {
+                    id: '1-1',
+                    label: 'node-1-1',
+                    children: [
+                      {
+                        id: '1-1-1',
+                        label: 'node-1-1-1',
+                      },
+                      {
+                        id: '1-1-2',
+                        label: 'node-1-1-2',
+                      },
+                    ],
+                  },
+                  {
+                    id: '1-2',
+                    label: 'node-1-2',
+                    children: [
+                      {
+                        id: '1-2-1',
+                        label: 'node-1-2-1',
+                      },
+                    ],
+                  },
+                  {
+                    id: '1-3',
+                    label: 'node-1-3',
+                  },
+                ],
+              },
+              {
+                id: '2',
+                label: 'node-2',
+              },
+            ],
+          }
+        },
+        methods: {
+          onNodeCheck,
+        },
+      })
+      await nextTick()
+      const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+      await nodes[2].find('.el-checkbox').trigger('click')
+      expect(onNodeCheck).toHaveBeenCalledTimes(1)
+      expect(onNodeCheck).toHaveBeenCalledWith(
+        { id: '1-1-1', label: 'node-1-1-1' },
+        {
+          checkedKeys: ['1-1-1'],
+          checkedNodes: [{ id: '1-1-1', label: 'node-1-1-1' }],
+          halfCheckedKeys: ['1-1', '1'],
+          halfCheckedNodes: [
+            {
+              children: [
+                { id: '1-1-1', label: 'node-1-1-1' },
+                { id: '1-1-2', label: 'node-1-1-2' },
+              ],
+              id: '1-1',
+              label: 'node-1-1',
+            },
+            {
+              children: [
+                {
+                  children: [
+                    { id: '1-1-1', label: 'node-1-1-1' },
+                    { id: '1-1-2', label: 'node-1-1-2' },
+                  ],
+                  id: '1-1',
+                  label: 'node-1-1',
+                },
+                {
+                  children: [{ id: '1-2-1', label: 'node-1-2-1' }],
+                  id: '1-2',
+                  label: 'node-1-2',
+                },
+                { id: '1-3', label: 'node-1-3' },
+              ],
+              id: '1',
+              label: 'node-1',
+            },
+          ],
+        }
+      )
+    })
+  })
+
+  describe('methods', () => {
+    test('getChecked', async () => {
+      const { treeRef } = createTree({
+        data() {
+          return {
+            showCheckbox: true,
+            defaultCheckedKeys: ['1-1-2'],
+            data: [
+              {
+                id: '1',
+                label: 'node-1',
+                children: [
+                  {
+                    id: '1-1',
+                    label: 'node-1-1',
+                    children: [
+                      {
+                        id: '1-1-1',
+                        label: 'node-1-1-1',
+                      },
+                      {
+                        id: '1-1-2',
+                        label: 'node-1-1-2',
+                      },
+                    ],
+                  },
+                  {
+                    id: '1-2',
+                    label: 'node-1-2',
+                    children: [
+                      {
+                        id: '1-2-1',
+                        label: 'node-1-2-1',
+                      },
+                    ],
+                  },
+                  {
+                    id: '1-3',
+                    label: 'node-1-3',
+                  },
+                ],
+              },
+              {
+                id: '2',
+                label: 'node-2',
+              },
+            ],
+          }
+        },
+      })
+      await nextTick()
+      const checkedKeys = treeRef.getCheckedKeys()
+      const checkedNodes = treeRef.getCheckedNodes()
+      const halfCheckedKeys = treeRef.getHalfCheckedKeys()
+      const halfCheckedNodes = treeRef.getHalfCheckedNodes()
+      expect(checkedKeys.toString()).toBe(['1-1-2'].toString())
+      expect(checkedNodes.map((node) => node.id).toString()).toBe(
+        ['1-1-2'].toString()
+      )
+      expect(halfCheckedKeys.toString()).toBe(['1-1', '1'].toString())
+      expect(halfCheckedNodes.map((node) => node.id).toString()).toBe(
+        ['1-1', '1'].toString()
+      )
+    })
+
+    test('setCheckedKeys', async () => {
+      const { treeRef } = createTree({
+        data() {
+          return {
+            showCheckbox: true,
+            data: [
+              {
+                id: '1',
+                label: 'node-1',
+                children: [
+                  {
+                    id: '1-1',
+                    label: 'node-1-1',
+                    children: [
+                      {
+                        id: '1-1-1',
+                        label: 'node-1-1-1',
+                      },
+                      {
+                        id: '1-1-2',
+                        label: 'node-1-1-2',
+                      },
+                    ],
+                  },
+                  {
+                    id: '1-2',
+                    label: 'node-1-2',
+                    children: [
+                      {
+                        id: '1-2-1',
+                        label: 'node-1-2-1',
+                      },
+                    ],
+                  },
+                  {
+                    id: '1-3',
+                    label: 'node-1-3',
+                  },
+                ],
+              },
+              {
+                id: '2',
+                label: 'node-2',
+              },
+            ],
+          }
+        },
+      })
+      await nextTick()
+      treeRef.setCheckedKeys(['1-1'])
+      await nextTick()
+      const checkedKeys = treeRef.getCheckedKeys()
+      const halfCheckedKeys = treeRef.getHalfCheckedKeys()
+      expect(checkedKeys.toString()).toBe(['1-1', '1-1-1', '1-1-2'].toString())
+      expect(halfCheckedKeys.toString()).toBe(['1'].toString())
+    })
+
+    test('setChecked', async () => {
+      const { treeRef } = createTree({
+        data() {
+          return {
+            showCheckbox: true,
+            data: [
+              {
+                id: '1',
+                label: 'node-1',
+                children: [
+                  {
+                    id: '1-1',
+                    label: 'node-1-1',
+                    children: [
+                      {
+                        id: '1-1-1',
+                        label: 'node-1-1-1',
+                      },
+                      {
+                        id: '1-1-2',
+                        label: 'node-1-1-2',
+                      },
+                    ],
+                  },
+                  {
+                    id: '1-2',
+                    label: 'node-1-2',
+                    children: [
+                      {
+                        id: '1-2-1',
+                        label: 'node-1-2-1',
+                      },
+                    ],
+                  },
+                  {
+                    id: '1-3',
+                    label: 'node-1-3',
+                  },
+                ],
+              },
+              {
+                id: '2',
+                label: 'node-2',
+              },
+            ],
+          }
+        },
+      })
+      await nextTick()
+      treeRef.setChecked('1-1', true)
+      const checkedKeys = treeRef.getCheckedKeys()
+      const halfCheckedKeys = treeRef.getHalfCheckedKeys()
+      expect(checkedKeys.toString()).toBe(['1-1', '1-1-1', '1-1-2'].toString())
+      expect(halfCheckedKeys.toString()).toBe(['1'].toString())
+    })
   })
 })
