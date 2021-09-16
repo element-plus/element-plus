@@ -24,6 +24,7 @@
 </template>
 
 <script lang="ts">
+import isEmpty from 'lodash/isEmpty'
 import { computed, inject, defineComponent } from 'vue'
 import { useFormItem } from '@element-plus/hooks'
 import { elButtonGroupKey, elFormKey } from '@element-plus/tokens'
@@ -37,7 +38,7 @@ export default defineComponent({
   props: buttonProps,
   emits: buttonEmits,
 
-  setup(_, { emit }) {
+  setup(props, { emit }) {
     const elBtnGroup = inject(elButtonGroupKey, undefined)
     const { size: buttonSize, disabled: buttonDisabled } = useFormItem({
       size: computed(() => elBtnGroup?.size),
@@ -46,8 +47,8 @@ export default defineComponent({
     const elForm = inject(elFormKey, {} as ElFormContext)
 
     const handleClick = (evt: MouseEvent) => {
-      if (_.nativeType === 'reset') {
-        elForm.resetFields()
+      if (props.nativeType === 'reset' && !isEmpty(elForm)) {
+        elForm?.resetFields()
       }
       emit('click', evt)
     }
