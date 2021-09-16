@@ -9,6 +9,7 @@ import { defineComponent, computed } from 'vue'
 import type { CSSProperties } from 'vue'
 export default defineComponent({
   name: 'ElIcon',
+  inheritAttrs: false,
   props: {
     size: {
       type: Number,
