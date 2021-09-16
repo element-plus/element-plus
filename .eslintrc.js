@@ -12,8 +12,12 @@ module.exports = {
     browser: true,
     node: true,
   },
+  globals: {
+    jest: 'readonly',
+  },
   plugins: ['@typescript-eslint', 'prettier', 'import'],
   extends: [
+    'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:vue/vue3-recommended',
     'prettier',
@@ -26,7 +30,6 @@ module.exports = {
       },
     },
     {
-      // not tested
       files: ['**/__tests__/**'],
       rules: {
         'no-console': 'off',
@@ -44,6 +47,9 @@ module.exports = {
     camelcase: ['error', { properties: 'never' }],
 
     'no-var': 'error',
+    'no-empty': ['error', { allowEmptyCatch: true }],
+    'no-with': 'error',
+    'no-void': 'error',
     'prefer-const': [
       'warn',
       { destructuring: 'all', ignoreReadBeforeAssign: true },
@@ -55,9 +61,7 @@ module.exports = {
       { ignoreConstructors: false, avoidQuotes: true },
     ],
     'block-scoped-var': 'error',
-    complexity: ['off', 11],
-    'no-with': 'error',
-    'no-void': 'error',
+    'no-constant-condition': ['error', { checkLoops: false }],
 
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
