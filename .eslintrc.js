@@ -48,6 +48,7 @@ module.exports = {
       'warn',
       { destructuring: 'all', ignoreReadBeforeAssign: true },
     ],
+    'prefer-template': 'error',
     'object-shorthand': [
       'error',
       'always',
