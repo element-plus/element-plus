@@ -29,6 +29,7 @@ const buildTransformers = () => {
 
   return transformers
 }
+console.log(process.env.DOC_ENV)
 
 module.exports = {
   title: 'ElementPlus',
@@ -93,8 +94,9 @@ module.exports = {
   },
   vite: {
     sourcemap: true,
-    ...(process.env.NODE_ENV !== 'production'
-      ? {
+    ...(process.env.DOC_ENV === 'production'
+      ? {}
+      : {
           resolve: {
             alias: [
               {
@@ -113,7 +115,6 @@ module.exports = {
               },
             ],
           },
-        }
-      : {}),
+        }),
   },
 }

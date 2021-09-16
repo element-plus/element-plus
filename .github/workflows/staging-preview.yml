@@ -44,6 +44,8 @@ jobs:
 
       - name: Build website
         run: yarn docs:build
+        env:
+          DOC_ENV: staging
 
       - name: Deploy Site
         run: |

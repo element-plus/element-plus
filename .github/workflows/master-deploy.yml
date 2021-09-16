@@ -28,17 +28,16 @@ jobs:
         env:
           CROWDIN_TOKEN: ${{secrets.CROWDIN_TOKEN}}
 
-      - name: Upload translate strings
-        run: cd docs && yarn crowdin upload source
-
       - name: Pull Crowdin translations
         run: cd docs && yarn crowdin download
 
-      - name: generate common locale
+      - name: Generate common locale
         run: yarn docs:gen-locale
 
       - name: Build website
         run: yarn docs:build
+        env:
+          DOC_ENV: production
 
       - name: Build Indices
         run: yarn build:indices

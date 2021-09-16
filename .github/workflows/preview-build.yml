@@ -29,6 +29,8 @@ jobs:
 
       - name: Build website
         run: yarn docs:build
+        env:
+          DOC_ENV: preview
 
       # share website dist
       - name: Upload artifact
