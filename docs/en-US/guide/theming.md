@@ -80,7 +80,7 @@ npm i https://github.com/ElementUI/theme-chalk -D
 
 #### Initialize variable file
 
-After successfully installing the above packages, a command named `et` i
+After successfully installing the above packages, a command named `et` is
 available in CLI (if the packages are installed locally, use `node_modules/.bin/et`
 instead).
 Run `-i` to initialize the variable file which outputs to `element-variables.scss`

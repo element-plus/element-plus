@@ -2,10 +2,10 @@
 @import './table-of-content';
 
 .doc-content-wrapper {
-  --toc-width: 244px;
+  --toc-width: 144px;
   padding: 32px 24px 96px;
   .doc-content-container {
-    max-width: 43rem;
+    // max-width: 43rem;
     margin: 0 auto;
   }
 
