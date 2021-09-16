@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'dev'
+      - 'chore/staging'
 
 jobs:
   build:
@@ -46,10 +47,13 @@ jobs:
         env:
           DOC_ENV: staging
 
-      - name: Deploy Site
-        run: |
-          export DEPLOY_DOMAIN=https://staging-preview-element-plus.surge.sh
-          echo "Deploy to $DEPLOY_DOMAIN"
-          npx surge --project ./docs/.vitepress/dist/ --domain $DEPLOY_DOMAIN --token $SURGE_TOKEN
-        env:
-          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+      - name: Deploy staging website
+        uses: JamesIves/github-pages-deploy-action@4.1.5
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: docs/.vitepress/dist
+          REPOSITORY_NAME: element-plus/staging
+          GIT_CONFIG_NAME: ElementPlusBot
+          GIT_CONFIG_EMAIL: hello@element-plus.org
+          COMMIT_MESSAGE: website deploy
