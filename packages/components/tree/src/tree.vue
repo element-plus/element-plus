@@ -49,7 +49,7 @@ import ElTreeNode from './tree-node.vue'
 import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast'
 import { useDragNodeHandler } from './model/useDragNode'
 import { useKeydown } from './model/useKeydown'
-import Node from './model/node'
+import type Node from './model/node'
 
 import type { ComponentInternalInstance, PropType } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'

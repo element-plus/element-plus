@@ -1,6 +1,7 @@
-import { provide, ref, InjectionKey } from 'vue'
+import { provide, ref } from 'vue'
 import { addClass, removeClass } from '@element-plus/utils/dom'
-import Node from './node'
+import type { InjectionKey } from 'vue'
+import type Node from './node'
 
 interface TreeNode {
   node: Node

@@ -32,9 +32,9 @@ import {
   onUnmounted,
 } from 'vue'
 import { autoprefixer } from '@element-plus/utils/util'
+import { debugWarn } from '@element-plus/utils/error'
 import type { CSSProperties } from 'vue'
 import type { InjectCarouselScope, ICarouselItemProps } from './carousel'
-import { debugWarn } from '@element-plus/utils/error'
 
 const CARD_SCALE = 0.83
 export default defineComponent({

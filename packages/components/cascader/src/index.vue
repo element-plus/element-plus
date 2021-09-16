@@ -141,7 +141,6 @@ import {
   nextTick,
   onMounted,
   onBeforeUnmount,
-  Ref,
   ref,
   watch,
 } from 'vue'
@@ -152,7 +151,7 @@ import ElCascaderPanel, {
   CommonProps,
 } from '@element-plus/components/cascader-panel'
 import ElInput from '@element-plus/components/input'
-import ElPopper from '@element-plus/components/popper'
+import ElPopper, { Effect } from '@element-plus/components/popper'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
@@ -169,9 +168,9 @@ import {
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import { Effect, Options } from '@element-plus/components/popper'
+import type { Options } from '@element-plus/components/popper'
 
-import type { ComputedRef, PropType } from 'vue'
+import type { ComputedRef, PropType, Ref } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 import type {
   CascaderValue,

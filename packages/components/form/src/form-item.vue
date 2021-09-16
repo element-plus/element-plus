@@ -50,16 +50,16 @@ import {
   toRefs,
   watch,
 } from 'vue'
-import AsyncValidator from 'async-validator'
 import { NOOP } from '@vue/shared'
+import AsyncValidator from 'async-validator'
 import {
   addUnit,
   getPropByPath,
   useGlobalConfig,
 } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import LabelWrap from './label-wrap'
 import { elFormItemKey, elFormKey } from '@element-plus/tokens'
+import LabelWrap from './label-wrap'
 
 import type { PropType, CSSProperties } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'

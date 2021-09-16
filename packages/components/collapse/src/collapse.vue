@@ -6,9 +6,9 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch, provide } from 'vue'
+import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import type { PropType } from 'vue'
 import type { CollapseProvider } from './collapse.type'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 
 export default defineComponent({
   name: 'ElCollapse',

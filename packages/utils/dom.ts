@@ -1,6 +1,6 @@
-import { CSSProperties } from 'vue'
 import isServer from './isServer'
 import { camelize, isObject } from './util'
+import type { CSSProperties } from 'vue'
 
 import type { Nullable } from './types'
 

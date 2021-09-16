@@ -76,12 +76,12 @@ import {
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
 
+import { debugWarn } from '@element-plus/utils/error'
 import type {
   ICarouselProps,
   CarouselItem,
   InjectCarouselScope,
 } from './carousel'
-import { debugWarn } from '@element-plus/utils/error'
 
 export default defineComponent({
   name: 'ElCarousel',

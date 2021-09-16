@@ -1,6 +1,6 @@
+import path from 'path'
 import gulp from 'gulp'
 import ts from 'gulp-typescript'
-import path from 'path'
 import { buildOutput } from '../../build/paths'
 import rewriter from '../../build/gulp-rewriter'
 

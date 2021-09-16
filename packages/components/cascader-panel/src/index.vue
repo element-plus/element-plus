@@ -22,7 +22,6 @@ import {
   onMounted,
   provide,
   reactive,
-  Ref,
   ref,
   watch,
 } from 'vue'
@@ -40,7 +39,7 @@ import {
 
 import ElCascaderMenu from './menu.vue'
 import Store from './store'
-import Node from './node'
+import Node, { ExpandTrigger } from './node'
 import { CommonProps, useCascaderConfig } from './config'
 import {
   checkNode,
@@ -49,19 +48,19 @@ import {
   getSibling,
   sortByOriginalOrder,
 } from './utils'
-import { default as CascaderNode, ExpandTrigger } from './node'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
-import type { PropType } from 'vue'
+import type { PropType, Ref } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'
 import type {
   CascaderValue,
   CascaderNodeValue,
   CascaderOption,
   RenderLabel,
+  default as CascaderNode,
 } from './node'
 
-import { ElCascaderPanelContext } from './types'
+import type { ElCascaderPanelContext } from './types'
 
 export default defineComponent({
   name: 'ElCascaderPanel',

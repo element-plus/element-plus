@@ -20,9 +20,9 @@ import {
 import {
   addResizeListener,
   removeResizeListener,
-  ResizableElement,
 } from '@element-plus/utils/resize-event'
 import { selectKey } from './token'
+import type { ResizableElement } from '@element-plus/utils/resize-event'
 
 export default defineComponent({
   name: 'ElSelectDropdown',

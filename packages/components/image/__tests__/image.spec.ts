@@ -1,12 +1,11 @@
-import { mount } from '@vue/test-utils'
-import Image from '../src/index.vue'
 import { nextTick } from 'vue'
-
+import { mount } from '@vue/test-utils'
 import {
   IMAGE_SUCCESS,
   IMAGE_FAIL,
   mockImageEvent,
 } from '@element-plus/test-utils/mock'
+import Image from '../src/index.vue'
 
 // firstly wait for image event
 // secondly wait for vue render

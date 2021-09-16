@@ -8,14 +8,14 @@ import {
   unref,
   nextTick,
 } from 'vue'
+import throttle from 'lodash/throttle'
 import {
   addResizeListener,
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
-import throttle from 'lodash/throttle'
-import { parseHeight } from '../util'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { on, off } from '@element-plus/utils/dom'
+import { parseHeight } from '../util'
 
 import type { ResizableElement } from '@element-plus/utils/resize-event'
 import type { Table, TableProps } from './defaults'

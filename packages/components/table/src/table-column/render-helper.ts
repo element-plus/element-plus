@@ -1,7 +1,7 @@
 import { getCurrentInstance, h, ref, computed, watchEffect } from 'vue'
+import { debugWarn } from '@element-plus/utils/error'
 import { cellForced, defaultRenderCell, treeCellPrefix } from '../config'
 import { parseWidth, parseMinWidth } from '../util'
-import { debugWarn } from '@element-plus/utils/error'
 
 import type { ComputedRef } from 'vue'
 import type { TableColumnCtx, TableColumn } from './defaults'

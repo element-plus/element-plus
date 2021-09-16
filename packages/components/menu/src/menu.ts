@@ -5,9 +5,7 @@ import {
   computed,
   ref,
   provide,
-  Ref,
   onMounted,
-  ComputedRef,
   isRef,
   h,
   withDirectives,
@@ -19,7 +17,7 @@ import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './submenu.vue'
 import useMenuColor from './useMenuColor'
 
-import type { VNode } from 'vue'
+import type { VNode, Ref, ComputedRef } from 'vue'
 import type {
   IMenuProps,
   RootMenuProvider,

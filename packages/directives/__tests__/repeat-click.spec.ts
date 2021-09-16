@@ -1,5 +1,5 @@
-import { sleep } from '@element-plus/test-utils'
 import { mount } from '@vue/test-utils'
+import { sleep } from '@element-plus/test-utils'
 import RepeatClick from '../repeat-click'
 
 const handler = jest.fn()

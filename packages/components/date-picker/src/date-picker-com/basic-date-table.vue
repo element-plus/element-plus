@@ -41,8 +41,8 @@ import { defineComponent, computed, ref } from 'vue'
 import dayjs from 'dayjs'
 import { useLocaleInject } from '@element-plus/hooks'
 import { coerceTruthyValueToArray } from '@element-plus/utils/util'
+import type { PropType } from 'vue'
 
-import { PropType } from 'vue'
 import type { Dayjs } from 'dayjs'
 
 export default defineComponent({

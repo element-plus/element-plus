@@ -1,5 +1,6 @@
+import { computed } from 'vue'
 import { debugWarn } from '@element-plus/utils/error'
-import { computed, ComputedRef, CSSProperties } from 'vue'
+import type { ComputedRef, CSSProperties } from 'vue'
 import type { ISliderInitData, ISliderProps, Stops } from './slider.type'
 
 export const useStops = (

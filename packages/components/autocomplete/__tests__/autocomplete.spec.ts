@@ -1,10 +1,10 @@
 import { mount } from '@vue/test-utils'
-import { sleep } from '@element-plus/test-utils'
 import { NOOP } from '@vue/shared'
-
-jest.unmock('lodash/debounce')
+import { sleep } from '@element-plus/test-utils'
 
 import Autocomplete from '../src/index.vue'
+
+jest.unmock('lodash/debounce')
 
 const _mount = (payload = {}) =>
   mount({

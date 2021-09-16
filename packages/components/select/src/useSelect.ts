@@ -8,21 +8,20 @@ import {
   shallowRef,
   triggerRef,
 } from 'vue'
+import { isObject, toRawType } from '@vue/shared'
+import lodashDebounce from 'lodash/debounce'
+import isEqual from 'lodash/isEqual'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { useLocaleInject } from '@element-plus/hooks'
 import isServer from '@element-plus/utils/isServer'
 import scrollIntoView from '@element-plus/utils/scroll-into-view'
-import lodashDebounce from 'lodash/debounce'
 import { isKorean } from '@element-plus/utils/isDef'
 import { getValueByPath, useGlobalConfig } from '@element-plus/utils/util'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
-import { QueryChangeCtx } from './token'
-import isEqual from 'lodash/isEqual'
-import { isObject, toRawType } from '@vue/shared'
+import type { QueryChangeCtx, SelectOptionProxy } from './token'
 
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
-import { SelectOptionProxy } from './token'
 
 export function useSelectStates(props) {
   const { t } = useLocaleInject()

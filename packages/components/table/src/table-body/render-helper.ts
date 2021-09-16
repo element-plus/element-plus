@@ -1,11 +1,15 @@
 import { h, getCurrentInstance, computed } from 'vue'
+import { getRowIdentity } from '../util'
 import useEvents from './events-helper'
 import useStyles from './styles-helper'
-import { getRowIdentity } from '../util'
 
 import type { TableBodyProps } from './defaults'
-import type { RenderRowData, Table, TreeNode } from '../table/defaults'
-import type { TableProps } from '../table/defaults'
+import type {
+  RenderRowData,
+  Table,
+  TreeNode,
+  TableProps,
+} from '../table/defaults'
 
 function useRender<T>(props: Partial<TableBodyProps<T>>) {
   const instance = getCurrentInstance()

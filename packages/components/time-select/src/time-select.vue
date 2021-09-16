@@ -28,9 +28,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, PropType } from 'vue'
+import { defineComponent, computed, ref } from 'vue'
 import ElSelect from '@element-plus/components/select'
-import { ComponentSize } from '@element-plus/utils/types'
+import type { PropType } from 'vue'
+import type { ComponentSize } from '@element-plus/utils/types'
 
 const { Option: ElOption } = ElSelect
 
