@@ -92,6 +92,33 @@ $ yarn docs:dev
 
 the project will launch website for you to preview all existing component
 
+## Local development
+
+1. With command
+
+```shell
+$ yarn dev
+```
+
+will start the local development environment
+
+2. Add your component into `play/play.vue`
+
+> play.vue
+
+```vue
+<template>
+  <ComponentYouAreDeveloping />
+</template>
+
+<script setup lang="ts">
+// make sure this component is registered in @element-plus/components
+import { ComponentYouAreDeveloping } from '@element-plus/components'
+</script>
+```
+
+Modify `play.vue` file per your needs to get things work.
+
 ## Component migration process
 
 1. Convert the item in https://github.com/element-plus/element-plus/projects/1 to an issue

@@ -6,6 +6,7 @@
   "scripts": {
     "cz": "npx git-cz",
     "test": "jest",
+    "dev": "cd play && vite",
     "gen": "bash ./scripts/gc.sh",
     "gen:version": "esno build/gen-version.ts",
     "update:version": "esno build/update-version.ts",
@@ -83,6 +84,7 @@
     "@types/through2": "^2.0.36",
     "@typescript-eslint/eslint-plugin": "^4.30.0",
     "@typescript-eslint/parser": "^4.30.0",
+    "@vitejs/plugin-vue": "^1.6.2",
     "@vue/babel-plugin-jsx": "^1.0.7",
     "@vue/compiler-sfc": "^3.2.8",
     "@vue/component-compiler-utils": "^3.2.2",
@@ -128,6 +130,7 @@
     "ts-morph": "^11.0.3",
     "ts-node": "^10.1.0",
     "typescript": "^4.4.2",
+    "vite": "^2.5.8",
     "vue": "^3.2.0",
     "vue-jest": "5.0.0-alpha.5",
     "vue-router": "^4.0.2",

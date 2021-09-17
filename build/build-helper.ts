@@ -15,8 +15,7 @@ const _version = tagVer
 helper({
   name,
   version: _version,
-  entry:
-    'docs/en-US/!(custom-theme|datetime-picker|i18n|installation|message-box|message|migration-from-2.x|notification|quickstart|transition|typography).md',
+  entry: 'docs/en-US/component/!(datetime-picker|message-box|message).md',
   outDir: 'dist/element-plus',
   reComponentName,
   reDocUrl,
