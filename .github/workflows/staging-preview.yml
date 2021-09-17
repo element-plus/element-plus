@@ -50,7 +50,7 @@ jobs:
       - name: Deploy staging website
         uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
-          token: ${{ secrets.BOT_TOKEN }}
+          token: ${{ secrets.EP_BOT_TOKEN }}
           branch: main
           folder: docs/.vitepress/dist
           repository-name: element-plus/staging
