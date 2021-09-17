@@ -22,9 +22,7 @@ $directions: rtl, ltr, ttb, btt;
 
   @each $direction in $directions {
     .#{$direction} {
-      &.open {
-        transform: translate(0, 0);
-      }
+      transform: translate(0, 0);
     }
   }
 
@@ -103,7 +101,7 @@ $directions: rtl, ltr, ttb, btt;
 .#{$namespace}-drawer-fade {
   &-enter-active,
   &-leave-active {
-    transition: opacity var(--el-transition-duration) ease;
+    transition: all var(--el-transition-duration);
   }
 
   &-enter-from,
@@ -125,9 +123,10 @@ $directions: rtl, ltr, ttb, btt;
     opacity: 1;
   }
 
-  &-enter-from {
+  &-enter-from,
+  &-leave-to {
     @each $direction in $directions {
-      .#{$direction}.open {
+      .#{$direction} {
         @if $direction == ltr {
           transform: translateX(-100%);
         }
