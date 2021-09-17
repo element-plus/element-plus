@@ -33,7 +33,7 @@
     "docs:build": "cd docs && yarn build",
     "docs:serve": "cd docs && yarn serve",
     "init:crowdin": "esno build/crowdin-credentials.ts",
-    "docs:gen-locale": "rm -rf docs/.vitepress/i18n && esno build/crowdin-generate.ts"
+    "docs:gen-locale": "rimraf docs/.vitepress/i18n && esno build/crowdin-generate.ts"
   },
   "config": {
     "commitizen": {
