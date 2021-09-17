@@ -41,7 +41,6 @@ module.exports = {
         href: '/favicon.ico',
       },
     ],
-
     [
       'link',
       {
@@ -49,6 +48,14 @@ module.exports = {
         href: '//fonts.loli.net/css?family=Inter:300,400,500,600|Open+Sans:400,600;display=swap',
       },
     ],
+    [
+      'link',
+      {
+        rel: 'stylesheet',
+        href: '//unpkg.com/nprogress@0.2.0/nprogress.css',
+      },
+    ],
+
     features.theme
       ? [
           'script',

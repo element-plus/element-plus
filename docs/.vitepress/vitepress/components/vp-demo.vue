@@ -126,7 +126,7 @@ const onCodepenClicked = () => {
 
 <style scoped lang="scss">
 .example {
-  border: 1px solid var(--border-color-light);
+  border: 1px solid var(--border-color);
   border-radius: var(--el-border-radius-base);
 
   .op-btns {

@@ -39,7 +39,14 @@ export const isActiveLink = (
   return regex.test(normalize(`/${route.data.relativePath}`))
 }
 
-export function createGitHubUrl(docsRepo, docsDir, docsBranch, path) {
+export function createGitHubUrl(
+  docsRepo: string,
+  docsDir: string,
+  docsBranch: string,
+  path: string,
+  folder = 'examples/',
+  ext = '.vue'
+) {
   const base = isExternal(docsRepo)
     ? docsRepo
     : `https://github.com/${docsRepo}`
@@ -48,9 +55,9 @@ export function createGitHubUrl(docsRepo, docsDir, docsBranch, path) {
     `/edit` +
     `/${docsBranch}/` +
     (docsDir ? docsDir.replace(endingSlashRE, '') + '/' : '') +
-    'examples/' +
+    `${folder ? folder : ''}` +
     path +
-    '.vue'
+    `${ext ? ext : ''}`
   )
 }
 

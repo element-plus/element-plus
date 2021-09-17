@@ -1,4 +1,6 @@
-<script setup>
+<script setup lang="ts">
+import { onMounted } from 'vue'
+import nprogress from 'nprogress'
 import VPOverlay from './vp-overlay.vue'
 import VPNav from './vp-nav.vue'
 import VPSubNav from './vp-subnav.vue'
@@ -17,6 +19,37 @@ useToggleWidgets(isSidebarOpen, () => {
   if (window.outerWidth >= breakpoints.lg) {
     toggleSidebar(false)
   }
+})
+
+onMounted(() => {
+  window.addEventListener(
+    'click',
+    (e) => {
+      const link = e.target.closest('a')
+      if (!link) return
+
+      const { href, protocol, hostname, pathname, hash, target } = link
+      const currentUrl = window.location
+      const extMatch = pathname.match(/\.\w+$/)
+      // only intercept inbound links
+      if (
+        !e.ctrlKey &&
+        !e.shiftKey &&
+        !e.altKey &&
+        !e.metaKey &&
+        target !== `_blank` &&
+        protocol === currentUrl.protocol &&
+        hostname === currentUrl.hostname &&
+        !(extMatch && extMatch[0] !== '.html')
+      ) {
+        e.preventDefault()
+        if (pathname !== currentUrl.pathname) {
+          nprogress.start()
+        }
+      }
+    },
+    { capture: true }
+  )
 })
 </script>
 
@@ -37,7 +70,7 @@ useToggleWidgets(isSidebarOpen, () => {
         <slot name="sidebar-bottom" />
       </template>
     </VPSidebar>
-    <VPContent>
+    <VPContent :is-sidebar-open="isSidebarOpen">
       <template #content-top>
         <slot name="content-top" />
       </template>

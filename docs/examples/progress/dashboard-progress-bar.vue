@@ -1,19 +1,13 @@
 <template>
-  <el-progress
-    type="dashboard"
-    :percentage="percentage"
-    :color="colors"
-  ></el-progress>
-  <el-progress
-    type="dashboard"
-    :percentage="percentage2"
-    :color="colors"
-  ></el-progress>
-  <div>
-    <el-button-group>
-      <el-button icon="el-icon-minus" @click="decrease"></el-button>
-      <el-button icon="el-icon-plus" @click="increase"></el-button>
-    </el-button-group>
+  <div class="demo-progress">
+    <el-progress type="dashboard" :percentage="percentage" :color="colors" />
+    <el-progress type="dashboard" :percentage="percentage2" :color="colors" />
+    <div>
+      <el-button-group>
+        <el-button icon="el-icon-minus" @click="decrease" />
+        <el-button icon="el-icon-plus" @click="increase" />
+      </el-button-group>
+    </div>
   </div>
 </template>
 

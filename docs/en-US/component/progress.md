@@ -4,7 +4,7 @@ Progress is used to show the progress of current operation, and inform the user 
 
 <style lang="scss">
 $namespace: el;
-.example-showcase.demo-progress {
+.example-showcase .demo-progress {
   .#{$namespace}-progress--line {
     margin-bottom: 15px;
     width: 350px;
@@ -94,7 +94,7 @@ progress/indeterminate-progress
 
 | Attribute      | Description                                                                           | Type                  | Accepted Values           | Default |
 | -------------- | ------------------------------------------------------------------------------------- | --------------------- | ------------------------- | ------- |
-| **percentage** | percentage, **required**                                                              | number                | 0-100                     | 0       |
+| percentage     | percentage, **required**                                                              | number                | 0-100                     | 0       |
 | type           | the type of progress bar                                                              | string                | line/circle/dashboard     | line    |
 | stroke-width   | the width of progress bar                                                             | number                | —                         | 6       |
 | text-inside    | whether to place the percentage inside progress bar, only works when `type` is 'line' | boolean               | —                         | false   |

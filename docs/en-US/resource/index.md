@@ -68,7 +68,7 @@ p {
   color: #5e6d82;
 }
 .card {
-  height: 394px;
+  padding-bottom: 16px;
   width: 100%;
   background: #ffffff;
   border: 1px solid var(--el-border-color-base);

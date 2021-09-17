@@ -20,7 +20,7 @@ export function useEditLink() {
     if (!showEditLink || !relativePath || !repo) {
       return null
     }
-    return createGitHubUrl(docsRepo, docsDir, docsBranch, relativePath)
+    return createGitHubUrl(docsRepo, docsDir, docsBranch, relativePath, '', '')
   })
   const text = computed(() => {
     return theme.value.editLinkText || 'Edit this page'

@@ -1,18 +1,17 @@
 <template>
-  <el-progress :percentage="percentage" :color="customColor"></el-progress>
+  <div class="demo-progress">
+    <el-progress :percentage="percentage" :color="customColor" />
 
-  <el-progress
-    :percentage="percentage"
-    :color="customColorMethod"
-  ></el-progress>
+    <el-progress :percentage="percentage" :color="customColorMethod" />
 
-  <el-progress :percentage="percentage" :color="customColors"></el-progress>
-  <el-progress :percentage="percentage2" :color="customColors"></el-progress>
-  <div>
-    <el-button-group>
-      <el-button icon="el-icon-minus" @click="decrease"></el-button>
-      <el-button icon="el-icon-plus" @click="increase"></el-button>
-    </el-button-group>
+    <el-progress :percentage="percentage" :color="customColors" />
+    <el-progress :percentage="percentage" :color="customColors" />
+    <div>
+      <el-button-group>
+        <el-button icon="el-icon-minus" @click="decrease" />
+        <el-button icon="el-icon-plus" @click="increase" />
+      </el-button-group>
+    </div>
   </div>
 </template>
 

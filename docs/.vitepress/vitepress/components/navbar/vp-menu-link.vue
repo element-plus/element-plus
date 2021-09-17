@@ -38,9 +38,10 @@ const route = useRoute()
   font-weight: 500;
   color: var(--text-color);
   transition: color var(--el-transition-duration);
+  border-bottom: 2px solid transparent;
 
   &.active {
-    border-bottom: 2px solid var(--brand-color);
+    border-bottom-color: var(--brand-color);
   }
 
   &:hover {
