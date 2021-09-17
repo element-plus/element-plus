@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'dev'
+      - 'chore/staging'
 
 jobs:
   build:
@@ -50,7 +51,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
           token: ${{ secrets.BOT_TOKEN }}
-          branch: gh-pages
+          branch: main
           folder: docs/.vitepress/dist
           repository-name: element-plus/staging
           git-config-name: ElementPlusBot
