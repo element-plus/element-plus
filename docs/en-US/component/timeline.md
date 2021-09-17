@@ -32,6 +32,16 @@ timeline/custom-timestamp
 
 :::
 
+## Vertically centered
+
+Timeline-Item is centered vertically.
+
+:::demo
+
+timeline/center
+
+:::
+
 ## Timeline Slots
 
 | Name | Description                 |
@@ -40,16 +50,17 @@ timeline/custom-timestamp
 
 ## Timeline-Item Attributes
 
-| Attribute      | Description               | Type    | Accepted Values                             | Default |
-| -------------- | ------------------------- | ------- | ------------------------------------------- | ------- |
-| timestamp      | timestamp content         | string  | —                                           | —       |
-| hide-timestamp | whether to show timestamp | boolean | —                                           | false   |
-| placement      | position of timestamp     | string  | top / bottom                                | bottom  |
-| type           | node type                 | string  | primary / success / warning / danger / info | —       |
-| color          | background color of node  | string  | hsl / hsv / hex / rgb                       | —       |
-| size           | node size                 | string  | normal / large                              | normal  |
-| icon           | icon class name           | string  | —                                           | —       |
-| hollow         | icon is hollow            | boolean | —                                           | false   |
+| Attribute      | Description                 | Type    | Accepted Values                             | Default |
+| -------------- | --------------------------- | ------- | ------------------------------------------- | ------- |
+| timestamp      | timestamp content           | string  | —                                           | —       |
+| hide-timestamp | whether to show timestamp   | boolean | —                                           | false   |
+| center         | Whether vertically centered | boolean | —                                           | false   |
+| placement      | position of timestamp       | string  | top / bottom                                | bottom  |
+| type           | node type                   | string  | primary / success / warning / danger / info | —       |
+| color          | background color of node    | string  | hsl / hsv / hex / rgb                       | —       |
+| size           | node size                   | string  | normal / large                              | normal  |
+| icon           | icon class name             | string  | —                                           | —       |
+| hollow         | icon is hollow              | boolean | —                                           | false   |
 
 ## Timeline-Item Slots
 
