@@ -14,6 +14,7 @@ that much data into the DOM could be a burden to the browser which could crash t
 ## Basic usage
 
 The simplest selector
+
 :::demo
 
 select-v2/basic-usage
@@ -23,6 +24,7 @@ select-v2/basic-usage
 ## Multi select
 
 The basic multi-select selector with tags
+
 :::demo
 
 select-v2/multiple
@@ -40,6 +42,7 @@ select-v2/hide-extra-tags
 ## Filterable multi-select
 
 When the options are overwhelmingly too many, you can use `filterable` option to enable filter feature for finding out the desired option
+
 :::demo
 
 select-v2/filterable
@@ -49,6 +52,7 @@ select-v2/filterable
 ## Disabled selector and select options
 
 You can choose to disable selector itself or the option.
+
 :::demo
 
 select-v2/disabled
@@ -88,6 +92,7 @@ select-v2/clearable
 ## Create Option
 
 Create and select new items that are not included in select options
+
 :::demo By using the `allow-create` attribute, users can create new items by typing in the input box. Note that for `allow-create` to work, `filterable` must be `true`.
 
 select-v2/allow-create

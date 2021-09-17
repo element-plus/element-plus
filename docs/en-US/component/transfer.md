@@ -13,6 +13,7 @@ transfer/basic
 ## Prop aliases
 
 By default, Transfer looks for `key`, `label` and `disabled` in a data item. If your data items have different key names, you can use the `props` attribute to define aliases.
+
 :::demo The data items in this example do not have `key`s or `label`s, instead they have `value`s and `desc`s. So you need to set aliases for `key` and `label`.
 
 transfer/prop-alias
