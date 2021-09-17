@@ -1,6 +1,6 @@
+import { getCurrentInstance, onMounted } from 'vue'
 import { debugWarn } from '@element-plus/utils/error'
 import { kebabCase } from '@element-plus/utils/util'
-import { getCurrentInstance, onMounted } from 'vue'
 
 const useMigrating = function () {
   onMounted(() => {

@@ -2,12 +2,13 @@ import path from 'path'
 import fs from 'fs'
 import chalk from 'chalk'
 import glob from 'fast-glob'
-import { Project, SourceFile } from 'ts-morph'
+import { Project } from 'ts-morph'
 import { epRoot, buildOutput } from './paths'
+import type { SourceFile } from 'ts-morph'
 const TSCONFIG_PATH = path.resolve(__dirname, '../tsconfig.dts.json')
 
 const gen = async () => {
-  const files = await glob(epRoot + '/*.ts')
+  const files = await glob(`${epRoot}/*.ts`)
   const project = new Project({
     compilerOptions: {
       allowJs: true,
@@ -51,9 +52,9 @@ const gen = async () => {
       )
       console.log(
         chalk.green(
-          'Definition for file: ' +
-            chalk.bold(sourceFile.getBaseName()) +
-            ' generated'
+          `Definition for file: ${chalk.bold(
+            sourceFile.getBaseName()
+          )} generated`
         )
       )
     }

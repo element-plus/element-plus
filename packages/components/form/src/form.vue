@@ -20,8 +20,9 @@ import {
   toRefs,
   watch,
 } from 'vue'
-import { FieldErrorList } from 'async-validator'
 import { elFormKey } from '@element-plus/tokens'
+import { debugWarn } from '@element-plus/utils/error'
+import type { FieldErrorList } from 'async-validator'
 
 import type { PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'

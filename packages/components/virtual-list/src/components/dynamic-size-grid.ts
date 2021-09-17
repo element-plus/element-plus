@@ -5,12 +5,12 @@ import createGrid from '../builders/buildGrid'
 import {
   AUTO_ALIGNMENT,
   CENTERED_ALIGNMENT,
-  DefaultGridProps,
   DEFAULT_DYNAMIC_LIST_ITEM_SIZE,
   END_ALIGNMENT,
   SMART_ALIGNMENT,
   START_ALIGNMENT,
 } from '../defaults'
+import type { DefaultGridProps } from '../defaults'
 
 import type { ExtractPropTypes } from 'vue'
 import type { Alignment, GridCache, ListItem, ItemSize } from '../types'

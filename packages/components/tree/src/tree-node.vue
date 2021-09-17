@@ -88,6 +88,7 @@ import {
 } from 'vue'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElCheckbox from '@element-plus/components/checkbox'
+import { debugWarn } from '@element-plus/utils/error'
 import NodeContent from './tree-node-content.vue'
 import { getNodeKey as getNodeKeyUtil } from './model/util'
 import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast'
@@ -97,7 +98,6 @@ import Node from './model/node'
 import type { ComponentInternalInstance, PropType } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'
 import type { TreeOptionProps, TreeNodeData, RootTreeType } from './tree.type'
-import { debugWarn } from '@element-plus/utils/error'
 
 export default defineComponent({
   name: 'ElTreeNode',

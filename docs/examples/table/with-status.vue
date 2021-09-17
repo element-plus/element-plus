@@ -10,15 +10,6 @@
   </el-table>
 </template>
 
-<style>
-.el-table .warning-row {
-  --el-table-tr-background-color: var(--el-color-warning-lighter);
-}
-.el-table .success-row {
-  --el-table-tr-background-color: var(--el-color-success-lighter);
-}
-</style>
-
 <script lang="ts">
 export default {
   data() {
@@ -59,3 +50,12 @@ export default {
   },
 }
 </script>
+
+<style>
+.el-table .warning-row {
+  --el-table-tr-background-color: var(--el-color-warning-lighter);
+}
+.el-table .success-row {
+  --el-table-tr-background-color: var(--el-color-success-lighter);
+}
+</style>

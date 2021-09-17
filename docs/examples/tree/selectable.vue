@@ -46,10 +46,10 @@ export default {
         if (hasChild) {
           data = [
             {
-              name: 'zone' + this.count++,
+              name: `zone${this.count++}`,
             },
             {
-              name: 'zone' + this.count++,
+              name: `zone${this.count++}`,
             },
           ]
         } else {

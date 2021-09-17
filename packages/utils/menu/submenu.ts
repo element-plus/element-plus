@@ -1,5 +1,5 @@
 import { EVENT_CODE, triggerEvent } from '../aria'
-import MenuItem from './menu-item'
+import type MenuItem from './menu-item'
 
 class SubMenu {
   public subMenuItems: NodeList

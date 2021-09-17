@@ -14,7 +14,8 @@ import { cellStarts } from '../config'
 import { mergeOptions, compose } from '../util'
 import useWatcher from './watcher-helper'
 import useRender from './render-helper'
-import defaultProps, { TableColumn, TableColumnCtx } from './defaults'
+import defaultProps from './defaults'
+import type { TableColumn, TableColumnCtx } from './defaults'
 
 import type { DefaultRow } from '../table/defaults'
 

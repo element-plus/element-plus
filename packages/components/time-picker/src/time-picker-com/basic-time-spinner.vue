@@ -68,21 +68,13 @@
   </div>
 </template>
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  nextTick,
-  computed,
-  onMounted,
-  Ref,
-  watch,
-} from 'vue'
+import { defineComponent, ref, nextTick, computed, onMounted, watch } from 'vue'
 import debounce from 'lodash/debounce'
 import { RepeatClick } from '@element-plus/directives'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import { getTimeLists } from './useTimePicker'
 
-import type { PropType } from 'vue'
+import type { PropType, Ref } from 'vue'
 import type { Dayjs } from 'dayjs'
 import type { Nullable } from '@element-plus/utils/types'
 

@@ -27,7 +27,7 @@ export const getExternals = (options: { full: boolean }) => (id: string) => {
   }
 
   return [...new Set(packages)].some(
-    (pkg) => id === pkg || id.startsWith(`${pkg}\/`)
+    (pkg) => id === pkg || id.startsWith(`${pkg}/`)
   )
 }
 

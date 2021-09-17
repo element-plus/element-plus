@@ -48,13 +48,13 @@
 
 <script lang="ts">
 import { ref, computed, defineComponent } from 'vue'
-import type { PropType, ComputedRef } from 'vue'
 import dayjs from 'dayjs'
 
 import ElButton from '@element-plus/components/button'
 import { useLocaleInject } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils/error'
 import DateTable from './date-table.vue'
+import type { PropType, ComputedRef } from 'vue'
 
 import type { Dayjs } from 'dayjs'
 

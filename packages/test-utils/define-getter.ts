@@ -21,7 +21,7 @@ const defineGetter = (
       oldValue = obj[prop]
     } catch {
       throw Error(
-        `TypeError: Illegal invocation. Cannot read ${prop} of \'${obj}\', \'${obj}\' might be a prototype,  please specify default value instead.`
+        `TypeError: Illegal invocation. Cannot read ${prop} of '${obj}', '${obj}' might be a prototype,  please specify default value instead.`
       )
     }
   }

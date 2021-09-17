@@ -1,7 +1,7 @@
 import { defineComponent, h } from 'vue'
 import { hGutter, hColgroup } from '../h-helper'
-import { Store } from '../store'
 import useStyle from './style-helper'
+import type { Store } from '../store'
 
 import type { PropType } from 'vue'
 import type { DefaultRow, Sort, SummaryMethod } from '../table/defaults'

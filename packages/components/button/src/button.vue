@@ -24,8 +24,8 @@
 </template>
 
 <script lang="ts">
-import isEmpty from 'lodash/isEmpty'
 import { computed, inject, defineComponent } from 'vue'
+import isEmpty from 'lodash/isEmpty'
 import { useFormItem } from '@element-plus/hooks'
 import { elButtonGroupKey, elFormKey } from '@element-plus/tokens'
 

@@ -59,13 +59,6 @@
   </div>
 </template>
 
-<style>
-.transfer-footer {
-  margin-left: 20px;
-  padding: 6px 5px;
-}
-</style>
-
 <script lang="ts">
 export default {
   data() {
@@ -97,3 +90,10 @@ export default {
   },
 }
 </script>
+
+<style>
+.transfer-footer {
+  margin-left: 20px;
+  padding: 6px 5px;
+}
+</style>
