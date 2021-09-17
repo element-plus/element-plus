@@ -1,4 +1,3 @@
-import { getCurrentInstance } from 'vue'
 import { NOOP } from '@vue/shared'
 
 export const useSameTarget = (handleClick?: (e: MouseEvent) => void) => {
