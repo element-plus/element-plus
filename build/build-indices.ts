@@ -3,7 +3,6 @@
 
 import fs from 'fs'
 import algoliasearch from 'algoliasearch'
-import { slugify } from 'transliteration'
 import fg from 'fast-glob'
 
 interface Index {

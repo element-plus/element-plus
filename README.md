@@ -87,17 +87,10 @@ the project will install all dependencies and run `lerna bootstrap` to initializ
 With command
 
 ```bash
-$ yarn website-dev
+$ yarn docs:dev
 ```
 
 the project will launch website for you to preview all existing component
-
-You can also use this command to start a blank page to debug
-
-```bash
-$ yarn website-dev:play
-//source file: ./website/play/index.vue
-```
 
 ## Component migration process
 
