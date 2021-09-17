@@ -26,25 +26,25 @@ onMounted(() => {
     'click',
     (e) => {
       const link = e.target.closest('a')
-      if (link) {
-        const { href, protocol, hostname, pathname, hash, target } = link
-        const currentUrl = window.location
-        const extMatch = pathname.match(/\.\w+$/)
-        // only intercept inbound links
-        if (
-          !e.ctrlKey &&
-          !e.shiftKey &&
-          !e.altKey &&
-          !e.metaKey &&
-          target !== `_blank` &&
-          protocol === currentUrl.protocol &&
-          hostname === currentUrl.hostname &&
-          !(extMatch && extMatch[0] !== '.html')
-        ) {
-          e.preventDefault()
-          if (pathname !== currentUrl.pathname) {
-            nprogress.start()
-          }
+      if (!link) return
+
+      const { href, protocol, hostname, pathname, hash, target } = link
+      const currentUrl = window.location
+      const extMatch = pathname.match(/\.\w+$/)
+      // only intercept inbound links
+      if (
+        !e.ctrlKey &&
+        !e.shiftKey &&
+        !e.altKey &&
+        !e.metaKey &&
+        target !== `_blank` &&
+        protocol === currentUrl.protocol &&
+        hostname === currentUrl.hostname &&
+        !(extMatch && extMatch[0] !== '.html')
+      ) {
+        e.preventDefault()
+        if (pathname !== currentUrl.pathname) {
+          nprogress.start()
         }
       }
     },
