@@ -133,6 +133,7 @@ table/filter
 ## Custom column template
 
 Customize table column so it can be integrated with other components.
+
 :::demo You have access to the following data: row, column, \$index and store (state management of Table) by [slot](https://v3.vuejs.org/guide/component-slots.html).
 
 table/custom-column
@@ -142,6 +143,7 @@ table/custom-column
 ## Table with custom header
 
 Customize table header so it can be even more customized.
+
 :::demo You can customize how the header looks by header [slots](https://v3.vuejs.org/guide/component-slots.html).
 
 table/custom-header
@@ -151,6 +153,7 @@ table/custom-header
 ## Expandable row
 
 When the row content is too long and you do not want to display the horizontal scroll bar, you can use the expandable row feature.
+
 :::demo Activate expandable row by adding type="expand" and slot. The template for el-table-column will be rendered as the contents of the expanded row, and you can access the same attributes as when you are using `slot` in custom column templates.
 
 table/expandable-row
@@ -168,6 +171,7 @@ table/tree-and-lazy
 ## Summary row
 
 For table of numbers, you can add an extra row at the table footer displaying each column's sum.
+
 :::demo You can add the summary row by setting `show-summary` to `true`. By default, for the summary row, the first column does not sum anything up but always displays 'Sum' (you can configure the displayed text using `sum-text`), while other columns sum every number in that column up and display them. You can of course define your own sum behaviour. To do so, pass a method to `summary-method`, which returns an array, and each element of the returned array will be displayed in the columns of the summary row. The second table of this example is a detailed demo.
 
 table/summary
@@ -177,6 +181,7 @@ table/summary
 ## Rowspan and colspan
 
 Configuring rowspan and colspan allows you to merge cells
+
 :::demo Use the `span-method` attribute to configure rowspan and colspan. It accepts a method, and passes an object to that method including current row `row`, current column `column`, current row index `rowIndex` and current column index `columnIndex`. The method should return an array of two numbers, the first number being `rowspan` and second `colspan`. It can also return an object with `rowspan` and `colspan` props.
 
 table/rowspan-and-colspan
@@ -186,6 +191,7 @@ table/rowspan-and-colspan
 ## Custom index
 
 You can customize row index in `type=index` columns.
+
 :::demo To customize row indices, use `index` attribute on `el-table-column` with `type=index`. If it is assigned to a number, all indices will have an offset of that number. It also accepts a method with each index (starting from `0`) as parameter, and the returned value will be displayed as index.
 
 table/custom-index
