@@ -9,11 +9,16 @@
       <el-overlay
         v-show="visible"
         :mask="modal"
+        :custom-mask-event="true"
         :overlay-class="modalClass"
         :z-index="zIndex"
-        @click="onModalClick"
       >
-        <div class="el-overlay-dialog">
+        <div
+          class="el-overlay-dialog"
+          @click="overlayEvent.onClick"
+          @mousedown="overlayEvent.onMousedown"
+          @mouseup="overlayEvent.onMouseup"
+        >
           <div
             ref="dialogRef"
             v-trap-focus
@@ -66,7 +71,7 @@
 import { defineComponent, ref } from 'vue'
 import { TrapFocus } from '@element-plus/directives'
 import { Overlay } from '@element-plus/components/overlay'
-
+import { useSameTarget } from '@element-plus/hooks'
 import { dialogProps, dialogEmits } from './dialog'
 import { useDialog } from './use-dialog'
 
@@ -85,9 +90,11 @@ export default defineComponent({
   setup(props, ctx) {
     const dialogRef = ref<HTMLElement>()
     const dialog = useDialog(props, ctx, dialogRef)
+    const overlayEvent = useSameTarget(dialog.onModalClick)
 
     return {
       dialogRef,
+      overlayEvent,
       ...dialog,
     }
   },
