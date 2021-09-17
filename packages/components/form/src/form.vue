@@ -21,6 +21,7 @@ import {
   watch,
 } from 'vue'
 import { elFormKey } from '@element-plus/tokens'
+import { debugWarn } from '@element-plus/utils/error'
 import type { FieldErrorList } from 'async-validator'
 
 import type { PropType } from 'vue'

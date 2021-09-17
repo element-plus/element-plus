@@ -1,6 +1,7 @@
 import path from 'path'
 import fs from 'fs'
 import chalk from 'chalk'
+import { errorAndExit } from './utils'
 
 const credentialPlaceholder = 'API_TOKEN_PLACEHOLDER'
 
@@ -18,7 +19,7 @@ const CREDENTIAL = process.env.CROWDIN_TOKEN
       file.replace(credentialPlaceholder, CREDENTIAL!)
     )
     console.info(chalk.green('Crowdin credential update successfully'))
-  } catch (e) {
-    throw e
+  } catch (e: any) {
+    errorAndExit(e)
   }
 })()

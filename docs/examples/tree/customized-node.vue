@@ -3,7 +3,7 @@
     <div class="block">
       <p>Using render-content</p>
       <el-tree
-        :data="data"
+        :data="dataSource"
         show-checkbox
         node-key="id"
         default-expand-all
@@ -14,7 +14,7 @@
     <div class="block">
       <p>Using scoped slot</p>
       <el-tree
-        :data="data"
+        :data="dataSource"
         show-checkbox
         node-key="id"
         default-expand-all
@@ -90,7 +90,7 @@ export default {
       },
     ]
     return {
-      data: JSON.parse(JSON.stringify(data)),
+      dataSource: JSON.parse(JSON.stringify(data)),
     }
   },
 
@@ -101,7 +101,7 @@ export default {
         data.children = []
       }
       data.children.push(newChild)
-      this.data = [...this.data]
+      this.dataSource = [...this.dataSource]
     },
 
     remove(node, data) {
@@ -109,7 +109,7 @@ export default {
       const children = parent.data.children || parent.data
       const index = children.findIndex((d) => d.id === data.id)
       children.splice(index, 1)
-      this.data = [...this.data]
+      this.dataSource = [...this.dataSource]
     },
 
     renderContent(h, { node, data, store }) {

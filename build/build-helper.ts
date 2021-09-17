@@ -44,7 +44,7 @@ function reDocUrl(fileName, header) {
   return docs + fileName + (_header ? `#${_header}` : '')
 }
 
-function reAttribute(value, key, item) {
+function reAttribute(value, key /* , item */) {
   const _value = value.match(/^\*\*(.*)\*\*$/)
   const str = _value ? _value[1] : value
 
