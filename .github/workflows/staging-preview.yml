@@ -38,7 +38,7 @@ jobs:
       - name: Pull Crowdin translations
         run: cd docs && yarn crowdin download
 
-      - name: generate common locale
+      - name: Generate common locale
         run: yarn docs:gen-locale
 
       - name: Build website
@@ -46,10 +46,12 @@ jobs:
         env:
           DOC_ENV: staging
 
-      - name: Deploy Site
-        run: |
-          export DEPLOY_DOMAIN=https://staging-preview-element-plus.surge.sh
-          echo "Deploy to $DEPLOY_DOMAIN"
-          npx surge --project ./docs/.vitepress/dist/ --domain $DEPLOY_DOMAIN --token $SURGE_TOKEN
-        env:
-          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+      - name: Deploy staging website
+        uses: JamesIves/github-pages-deploy-action@4.1.5
+        with:
+          token: ${{ secrets.EP_BOT_TOKEN }}
+          branch: main
+          folder: docs/.vitepress/dist
+          repository-name: element-plus/staging
+          git-config-name: ElementPlusBot
+          git-config-email: hello@element-plus.org
