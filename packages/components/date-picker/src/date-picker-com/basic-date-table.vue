@@ -370,7 +370,7 @@ export default defineComponent({
         ctx.emit('pick', newDate)
       } else if (props.selectionMode === 'week') {
         const weekNumber = newDate.week()
-        const value = newDate.year() + 'w' + weekNumber
+        const value = `${newDate.year()}w${weekNumber}`
         ctx.emit('pick', {
           year: newDate.year(),
           week: weekNumber,

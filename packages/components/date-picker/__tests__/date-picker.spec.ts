@@ -281,9 +281,7 @@ describe('DatePicker', () => {
       await nextTick()
       expect(vm.value).toBe(
         dayjs(
-          `[Element-Plus] 01/${('0' + (day.month() + 1)).slice(
-            -2
-          )} ${day.year()}`,
+          `[Element-Plus] 01/${`0${day.month() + 1}`.slice(-2)} ${day.year()}`,
           valueFormat
         ).format(valueFormat)
       )

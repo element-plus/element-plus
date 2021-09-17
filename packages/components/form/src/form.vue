@@ -42,7 +42,7 @@ function useFormLabelWidth() {
   function getLabelWidthIndex(width: number) {
     const index = potentialLabelWidthArr.value.indexOf(width)
     if (index === -1) {
-      debugWarn('Form', 'unexpected width ' + width)
+      debugWarn('Form', `unexpected width ${width}`)
     }
     return index
   }

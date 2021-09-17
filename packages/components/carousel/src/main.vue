@@ -158,7 +158,7 @@ export default defineComponent({
     })
 
     const carouselClasses = computed(() => {
-      const classes = ['el-carousel', 'el-carousel--' + props.direction]
+      const classes = ['el-carousel', `el-carousel--${props.direction}`]
       if (props.type === 'card') {
         classes.push('el-carousel--card')
       }
@@ -168,7 +168,7 @@ export default defineComponent({
     const indicatorsClasses = computed(() => {
       const classes = [
         'el-carousel__indicators',
-        'el-carousel__indicators--' + props.direction,
+        `el-carousel__indicators--${props.direction}`,
       ]
       if (hasLabel.value) {
         classes.push('el-carousel__indicators--labels')

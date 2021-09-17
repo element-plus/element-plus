@@ -72,7 +72,7 @@ export default defineComponent({
         values.forEach((value) => {
           if (!isNaN(value)) {
             notNumber = false
-            const decimal = ('' + value).split('.')[1]
+            const decimal = `${value}`.split('.')[1]
             precisions.push(decimal ? decimal.length : 0)
           }
         })

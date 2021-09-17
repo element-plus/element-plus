@@ -129,8 +129,8 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
     } else if (dropType === 'after') {
       indicatorTop = iconPosition.bottom - treePosition.top
     }
-    dropIndicator.style.top = indicatorTop + 'px'
-    dropIndicator.style.left = iconPosition.right - treePosition.left + 'px'
+    dropIndicator.style.top = `${indicatorTop}px`
+    dropIndicator.style.left = `${iconPosition.right - treePosition.left}px`
 
     if (dropType === 'inner') {
       addClass(dropNode.$el, 'is-drop-inner')

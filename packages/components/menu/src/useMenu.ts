@@ -44,7 +44,7 @@ export default function useMenu(
         parent = parent.parent
       }
     }
-    return { paddingLeft: padding + 'px' }
+    return { paddingLeft: `${padding}px` }
   })
   return { parentMenu, paddingStyle, indexPath }
 }

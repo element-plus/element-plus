@@ -47,7 +47,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
     const rowClasses = getRowClass(row, $index)
     let display = true
     if (treeRowData) {
-      rowClasses.push('el-table__row--level-' + treeRowData.level)
+      rowClasses.push(`el-table__row--level-${treeRowData.level}`)
       display = treeRowData.display
     }
     const displayStyle = display
@@ -143,7 +143,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
           h(
             'tr',
             {
-              key: 'expanded-row__' + (tr.key as string),
+              key: `expanded-row__${tr.key as string}`,
             },
             [
               h(

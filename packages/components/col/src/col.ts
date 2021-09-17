@@ -55,8 +55,8 @@ const ElCol = defineComponent({
     const style = computed(() => {
       if (gutter.value) {
         return {
-          paddingLeft: gutter.value / 2 + 'px',
-          paddingRight: gutter.value / 2 + 'px',
+          paddingLeft: `${gutter.value / 2}px`,
+          paddingRight: `${gutter.value / 2}px`,
         }
       }
       return {}

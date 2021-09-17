@@ -40,7 +40,7 @@ export const useStops = (
 
   const getStopStyle = (position: number) => {
     return (
-      props.vertical ? { bottom: position + '%' } : { left: position + '%' }
+      props.vertical ? { bottom: `${position}%` } : { left: `${position}%` }
     ) as CSSProperties
   }
 

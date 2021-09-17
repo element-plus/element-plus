@@ -17,13 +17,13 @@ function useRender<T>(
   const realAlign = ref<string>()
   const realHeaderAlign = ref<string>()
   watchEffect(() => {
-    realAlign.value = !!props.align ? 'is-' + props.align : null
+    realAlign.value = !!props.align ? `is-${props.align}` : null
     // nextline help render
     realAlign.value
   })
   watchEffect(() => {
     realHeaderAlign.value = !!props.headerAlign
-      ? 'is-' + props.headerAlign
+      ? `is-${props.headerAlign}`
       : realAlign.value
     // nextline help render
     realHeaderAlign.value
@@ -125,8 +125,9 @@ function useRender<T>(
         if (column.showOverflowTooltip) {
           props.class += ' el-tooltip'
           props.style = {
-            width:
-              (data.column.realWidth || Number(data.column.width)) - 1 + 'px',
+            width: `${
+              (data.column.realWidth || Number(data.column.width)) - 1
+            }px`,
           }
         }
         checkSubColumn(children)

@@ -168,11 +168,11 @@ export default defineComponent({
             ? `${space.value}px`
             : space.value
             ? space.value
-            : 100 / (stepsCount.value - (isCenter.value ? 0 : 1)) + '%',
+            : `${100 / (stepsCount.value - (isCenter.value ? 0 : 1))}%`,
       }
       if (isVertical.value) return style
       if (isLast.value) {
-        style.maxWidth = 100 / stepsCount.value + '%'
+        style.maxWidth = `${100 / stepsCount.value}%`
       }
       return style
     })
@@ -184,12 +184,12 @@ export default defineComponent({
       let step = 100
       const style: Record<string, unknown> = {}
 
-      style.transitionDelay = 150 * index.value + 'ms'
+      style.transitionDelay = `${150 * index.value}ms`
       if (status === parent.props.processStatus) {
         step = 0
       } else if (status === 'wait') {
         step = 0
-        style.transitionDelay = -150 * index.value + 'ms'
+        style.transitionDelay = `${-150 * index.value}ms`
       }
       style.borderWidth = step && !isSimple.value ? '1px' : 0
       style[
