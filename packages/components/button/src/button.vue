@@ -30,8 +30,6 @@ import { useFormItem } from '@element-plus/hooks'
 import { elButtonGroupKey, elFormKey } from '@element-plus/tokens'
 
 import { buttonEmits, buttonProps } from './button'
-
-import type { ElFormContext } from '@element-plus/tokens'
 export default defineComponent({
   name: 'ElButton',
 
@@ -44,7 +42,7 @@ export default defineComponent({
       size: computed(() => elBtnGroup?.size),
     })
 
-    const elForm = inject(elFormKey, {} as ElFormContext)
+    const elForm = inject(elFormKey, undefined)
 
     const handleClick = (evt: MouseEvent) => {
       if (props.nativeType === 'reset' && !isEmpty(elForm)) {
