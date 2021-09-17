@@ -31,7 +31,7 @@ const langs = {
     .clearObjects()
     .then(() => {
       const files = fg.sync(`website/docs/${lang}/*.md`)
-      let indices: Index[] = []
+      const indices: Index[] = []
       files.forEach((file) => {
         const regExp = new RegExp(`website\/docs\/${lang}\/(.*).md`)
         const pathContent = file.match(regExp)!

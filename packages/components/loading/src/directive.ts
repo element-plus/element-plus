@@ -25,7 +25,7 @@ const createInstance = (el: ElementLoading, binding: DirectiveBinding) => {
     background: (vm && vm[backgroundExr]) || backgroundExr,
     customClass: (vm && vm[customClassExr]) || customClassExr,
     fullscreen: !!binding.modifiers.fullscreen,
-    target: !!binding.modifiers.fullscreen ? null : el,
+    target: binding.modifiers.fullscreen ? null : el,
     body: !!binding.modifiers.body,
     visible: true,
     lock: !!binding.modifiers.lock,
@@ -34,7 +34,7 @@ const createInstance = (el: ElementLoading, binding: DirectiveBinding) => {
 
 const vLoading = {
   mounted(el: ElementLoading, binding: DirectiveBinding) {
-    if (!!binding.value) {
+    if (binding.value) {
       createInstance(el, binding)
     }
   },

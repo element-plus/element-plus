@@ -1,6 +1,6 @@
+import path from 'path'
 import gulp from 'gulp'
 import ts from 'gulp-typescript'
-import path from 'path'
 import through2 from 'through2'
 
 const output = path.resolve(__dirname, '../dist/styles')

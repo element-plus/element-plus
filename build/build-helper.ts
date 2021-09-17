@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import helper from 'components-helper'
 import path from 'path'
+import helper from 'components-helper'
 import { epRoot } from './paths'
 
 const { name, version } = require(path.resolve(epRoot, './package.json'))
@@ -30,13 +30,10 @@ helper({
 })
 
 function reComponentName(title) {
-  return (
-    'el-' +
-    title
-      .replace(/\B([A-Z])/g, '-$1')
-      .replace(/[ ]+/g, '-')
-      .toLowerCase()
-  )
+  return `el-${title
+    .replace(/\B([A-Z])/g, '-$1')
+    .replace(/[ ]+/g, '-')
+    .toLowerCase()}`
 }
 
 function reDocUrl(fileName, header) {
@@ -44,7 +41,7 @@ function reDocUrl(fileName, header) {
   const _header = header
     ? header.replace(/[ ]+/g, '-').toLowerCase()
     : undefined
-  return docs + fileName + (_header ? '#' + _header : '')
+  return docs + fileName + (_header ? `#${_header}` : '')
 }
 
 function reAttribute(value, key, item) {

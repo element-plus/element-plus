@@ -17,12 +17,12 @@ function useRender<T>(
   const realAlign = ref<string>()
   const realHeaderAlign = ref<string>()
   watchEffect(() => {
-    realAlign.value = !!props.align ? `is-${props.align}` : null
+    realAlign.value = props.align ? `is-${props.align}` : null
     // nextline help render
     realAlign.value
   })
   watchEffect(() => {
-    realHeaderAlign.value = !!props.headerAlign
+    realHeaderAlign.value = props.headerAlign
       ? `is-${props.headerAlign}`
       : realAlign.value
     // nextline help render

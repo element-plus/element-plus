@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     addTab(targetName) {
-      const newTabName = ++this.tabIndex + ''
+      const newTabName = `${++this.tabIndex}`
       this.editableTabs.push({
         title: 'New Tab',
         name: newTabName,
