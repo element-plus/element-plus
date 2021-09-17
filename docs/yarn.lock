@@ -338,6 +338,14 @@
   resolved "https://registry.npmjs.org/@vue/shared/-/shared-3.2.11.tgz#01899f54949caf1ac241de397bd17069632574de"
   integrity sha512-ovfXAsSsCvV9JVceWjkqC/7OF5HbgLOtCWjCIosmPGG8lxbPuavhIxRH1dTx4Dg9xLgRTNLvI3pVxG4ItQZekg==
 
+"@vueuse/core@^6.4.0":
+  version "6.4.0"
+  resolved "https://registry.npmjs.org/@vueuse/core/-/core-6.4.0.tgz#59a61fc300f09ce5fd15fc000414e8fa2c0a72ea"
+  integrity sha512-TKf9pEOLWwOhgHjnl7E8WcA7LyP7+xYAJveSZDPeMJ1tbLFV/Chzr1wAmIDu7fFSnFoSlksitdJiIHuS4HJL+g==
+  dependencies:
+    "@vueuse/shared" "6.4.0"
+    vue-demi "*"
+
 "@vueuse/core@~6.1.0":
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/@vueuse/core/-/core-6.1.0.tgz#8137c291cf49b11c2deda4d5079096e55b36fc28"
@@ -350,6 +358,13 @@
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/@vueuse/shared/-/shared-6.1.0.tgz#1375fd41acefe52f9a1842f3c6a8a348786535ba"
   integrity sha512-teW0TUQryGnEprHeOI6oH8NPVJBirknxksEiNCtdEjIi8W7JSTg8JPO+e1XlGI6ly24NDlDXUDYaHJayiaXjuw==
+  dependencies:
+    vue-demi "*"
+
+"@vueuse/shared@6.4.0":
+  version "6.4.0"
+  resolved "https://registry.npmjs.org/@vueuse/shared/-/shared-6.4.0.tgz#9889713e0551a4d0fcbfc04e7819c6763f2a2547"
+  integrity sha512-O1cpjY8wx9xnMkpX4tkXBN2/zj42ZAxWiP1sEMl+sYnoSXYfZj17N2stSkwO8yQ7wi3Y8XyJPpG2A3yXT5yp3w==
   dependencies:
     vue-demi "*"
 
@@ -1062,6 +1077,11 @@ normalize.css@^8.0.1:
   version "8.0.1"
   resolved "https://registry.npmjs.org/normalize.css/-/normalize.css-8.0.1.tgz#9b98a208738b9cc2634caacbc42d131c97487bf3"
   integrity sha512-qizSNPO93t1YUuUhP22btGOo3chcvDFqFaj2TRybP0DMxkHOCTYwp3n34fel4a31ORXy4m1Xq0Gyqpb5m33qIg==
+
+nprogress@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.npmjs.org/nprogress/-/nprogress-0.2.0.tgz#cb8f34c53213d895723fcbab907e9422adbcafb1"
+  integrity sha1-y480xTIT2JVyP8urkH6UIq28r7E=
 
 on-headers@~1.0.2:
   version "1.0.2"

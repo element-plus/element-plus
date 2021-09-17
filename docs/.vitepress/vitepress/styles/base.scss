@@ -128,7 +128,7 @@ textarea {
 
 a {
   text-decoration: inherit;
-  color: inherit;
+  color: var(--brand-color);
 
   &.header-anchor {
     color: var(--brand-color);
@@ -173,9 +173,17 @@ li > ol {
     border-collapse: collapse;
     margin: 1rem 0;
     overflow-x: auto;
+    font-family: var(--font-family-mono);
+    font-size: 14px;
 
     tr {
       border-top: 1px solid var(--border-color);
+
+      td:nth-child(2) {
+        font-family: var(--font-family);
+        white-space: pre-wrap;
+        min-width: 30%;
+      }
     }
 
     tr:nth-child(2n) {
@@ -184,8 +192,11 @@ li > ol {
 
     th,
     td {
-      border: 1px solid var(--border-color);
+      white-space: nowrap;
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
       padding: 0.6em 1em;
+      text-align: left;
     }
   }
 }
@@ -206,22 +217,6 @@ form {
   margin: 0;
 }
 
-.tip {
-  padding: 8px 16px;
-  background-color: var(--el-color-primary-light-9);
-  border-radius: 4px;
-  border-left: 5px solid var(--el-color-primary);
-  margin: 20px 0;
-}
-
-.warning {
-  padding: 8px 16px;
-  background-color: var(--el-color-danger-lighter);
-  border-radius: 4px;
-  border-left: 5px solid var(--el-color-danger);
-  margin: 20px 0;
-}
-
 .el-popover.is-light.translation-popup {
   background-color: var(--bg-color) !important;
   border-color: var(--border-color);
@@ -230,6 +225,35 @@ form {
   min-width: 192px;
   border: 1px solid transparent;
   transition: background-color 0.5s;
+}
+
+#nprogress .bar {
+  background: var(--brand-color) !important;
+}
+
+.custom-block {
+  .custom-block-title {
+    font-weight: 700;
+  }
+
+  p:not(.custom-block-title) {
+    font-size: 0.9rem;
+  }
+  &.tip {
+    padding: 8px 16px;
+    background-color: var(--el-color-primary-light-9);
+    border-radius: 4px;
+    border-left: 5px solid var(--el-color-primary);
+    margin: 20px 0;
+  }
+
+  &.warning {
+    padding: 8px 16px;
+    background-color: var(--el-color-danger-lighter);
+    border-radius: 4px;
+    border-left: 5px solid var(--el-color-danger);
+    margin: 20px 0;
+  }
 }
 
 .dark {

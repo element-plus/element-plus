@@ -7,8 +7,10 @@
     "serve": "NODE_ENV=production && vitepress serve ."
   },
   "dependencies": {
+    "@vueuse/core": "^6.4.0",
     "element-plus": "latest",
-    "normalize.css": "^8.0.1"
+    "normalize.css": "^8.0.1",
+    "nprogress": "^0.2.0"
   },
   "devDependencies": {
     "@crowdin/cli": "^3.6.5",
