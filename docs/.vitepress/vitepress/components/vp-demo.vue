@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import { computed, shallowRef, watch, toRef, ref } from 'vue'
+import {
+  computed,
+  shallowRef,
+  watch,
+  toRef,
+  ref,
+  getCurrentInstance,
+} from 'vue'
+import { useClipboard } from '@vueuse/core'
 import { useToggle } from '../composables/toggle'
 import { useLang } from '../composables/lang'
 import { useSourceCode } from '../composables/source-code'
@@ -7,6 +15,7 @@ import { useSourceCode } from '../composables/source-code'
 import GithubIcon from './icons/github.vue'
 import SourceCodeIcon from './icons/source-code.vue'
 import CodepenIcon from './icons/codepen.vue'
+import CopyIcon from './icons/copy-icon.vue'
 
 import Example from './demo/vp-example.vue'
 import SourceCode from './demo/vp-source-code.vue'
@@ -48,7 +57,25 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  rawSource: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+  },
 })
+
+const vm = getCurrentInstance()
+
+const { copy, copied, isSupported } = useClipboard({
+  source: decodeURIComponent(props.rawSource),
+  read: false,
+})
+
+const [sourceVisible, setSourceVisible] = useToggle()
+const lang = useLang()
+const demoSourceUrl = useSourceCode(toRef(props, 'path'))
 
 const formatPathDemos = computed(() => {
   const demos = {}
@@ -61,31 +88,32 @@ const formatPathDemos = computed(() => {
   return demos
 })
 
-const loaded = shallowRef(false)
-const hasError = shallowRef(false)
-const dataOpt = shallowRef('')
-const setupScript = shallowRef('')
-const template = shallowRef('')
-const [sourceVisible, setSourceVisible] = useToggle()
-const hasSetup = computed(() => loaded.value && setupScript.value !== '')
-const lang = useLang()
-
-const locale = computed(() => demoBlockLocale[lang.value])
-
-const onDemoLoaded = (content) => {
-  loaded.value = true
-}
-
-const demoSourceUrl = useSourceCode(toRef(props, 'path'))
 const codepenRef = ref()
+const locale = computed(() => demoBlockLocale[lang.value])
+const decodedDescription = computed(() => decodeURIComponent(props.description))
 
 const onCodepenClicked = () => {
   codepenRef.value.submit?.()
+}
+
+const copyCode = async () => {
+  const { $message } = vm.appContext.config.globalProperties
+  if (!isSupported) {
+    $message.error(locale.value['copy-error'])
+  }
+  try {
+    await copy()
+    $message.success(locale.value['copy-success'])
+  } catch (e: Error) {
+    $message.error(e.message)
+  }
 }
 </script>
 
 <template>
   <ClientOnly>
+    <!-- danger here DO NOT USE INLINE SCRIPT TAG -->
+    <p v-html="decodedDescription" class="example-description" />
     <div class="example">
       <Codepen
         ref="codepenRef"
@@ -108,6 +136,11 @@ const onCodepenClicked = () => {
             </a>
           </ElIcon>
         </ElTooltip>
+        <ElTooltip :content="locale['copy-code']" :visible-arrow="false">
+          <ElIcon :size="20" class="op-btn" @click="copyCode">
+            <CopyIcon />
+          </ElIcon>
+        </ElTooltip>
         <ElTooltip :content="locale['view-source']" :visible-arrow="false">
           <ElIcon :size="20" class="op-btn" @click="setSourceVisible">
             <SourceCodeIcon />
@@ -125,6 +158,9 @@ const onCodepenClicked = () => {
 </template>
 
 <style scoped lang="scss">
+.example-description {
+  font-size: 14px;
+}
 .example {
   border: 1px solid var(--border-color);
   border-radius: var(--el-border-radius-base);
