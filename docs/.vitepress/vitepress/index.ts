@@ -1,5 +1,7 @@
 import 'normalize.css'
-import 'element-plus/dist/index.css'
+// import 'element-plus/dist/index.css'
+// for dev
+import '../../../packages/theme-chalk/src/index.scss'
 import './styles/app.scss'
 
 import VPApp from './components/vp-app.vue'
