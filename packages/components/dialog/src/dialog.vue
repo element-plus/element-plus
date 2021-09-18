@@ -8,8 +8,8 @@
     >
       <el-overlay
         v-show="visible"
+        custom-mask-event
         :mask="modal"
-        :custom-mask-event="true"
         :overlay-class="modalClass"
         :z-index="zIndex"
       >
