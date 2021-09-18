@@ -28,7 +28,7 @@ const sponsors = [
   <div class="banner">
     <div class="banner-desc">
       <h1>A Desktop UI Library</h1>
-      <p>Element Plus, a Vue 3.0 based component library for developers, designers and product managers</p>
+      <p>Element Plus, a Vue 3 based component library for developers, designers and product managers</p>
     </div>
   </div>
   <div class="jumbotron">
