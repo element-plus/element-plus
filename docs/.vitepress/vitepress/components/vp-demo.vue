@@ -73,6 +73,7 @@ const { copy, copied, isSupported } = useClipboard({
 })
 const [sourceVisible, setSourceVisible] = useToggle()
 const lang = useLang()
+const demoSourceUrl = useSourceCode(toRef(props, 'path'))
 
 const formatPathDemos = computed(() => {
   const demos = {}
@@ -85,10 +86,9 @@ const formatPathDemos = computed(() => {
   return demos
 })
 
-const locale = computed(() => demoBlockLocale[lang.value])
-
-const demoSourceUrl = useSourceCode(toRef(props, 'path'))
 const codepenRef = ref()
+const locale = computed(() => demoBlockLocale[lang.value])
+const decodedDescription = computed(() => decodeURIComponent(props.description))
 
 const onCodepenClicked = () => {
   codepenRef.value.submit?.()
@@ -111,7 +111,7 @@ const copyCode = async () => {
 <template>
   <ClientOnly>
     <!-- danger here DO NOT USE INLINE SCRIPT TAG -->
-    <p v-html="description" class="example-description" />
+    <p v-html="decodedDescription" class="example-description" />
     <div class="example">
       <Codepen
         ref="codepenRef"

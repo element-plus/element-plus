@@ -52,7 +52,7 @@ const demos = import.meta.globEager('../../examples/${
           highlight(source, 'vue')
         )}" path="${sourceFile}" html="${html}" js="${js}" css="${css}" css-pre-processor="${cssPreProcessor}" js-pre-processor="${jsPreProcessor}" raw-source="${encodeURIComponent(
           source
-        )}" description="${localMd.render(description)}">`
+        )}" description="${encodeURIComponent(localMd.render(description))}">`
       }
 
       return '</Demo>'
