@@ -51,7 +51,7 @@ export function createGitHubUrl(
     ? docsRepo
     : `https://github.com/${docsRepo}`
   return `${base.replace(endingSlashRE, '')}/edit/${docsBranch}/${
-    docsDir ? docsDir.replace(endingSlashRE, '') + '/' : ''
+    docsDir ? `${docsDir.replace(endingSlashRE, '')}/` : ''
   }${folder ? folder : ''}${path}${ext ? ext : ''}`
 }
 
