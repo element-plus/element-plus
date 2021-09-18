@@ -18,23 +18,14 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { useLocaleInject } from '@element-plus/hooks'
+import { pageHeaderEmits, pageHeaderProps } from './page-header'
 
 export default defineComponent({
   name: 'ElPageHeader',
-  props: {
-    icon: {
-      type: String,
-      default: 'el-icon-back',
-    },
-    title: {
-      type: String,
-    },
-    content: {
-      type: String,
-      default: '',
-    },
-  },
-  emits: ['back'],
+
+  props: pageHeaderProps,
+  emits: pageHeaderEmits,
+
   setup(_, { emit }) {
     const { t } = useLocaleInject()
 
