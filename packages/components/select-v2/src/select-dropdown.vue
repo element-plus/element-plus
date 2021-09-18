@@ -20,7 +20,6 @@ import GroupItem from './group-item.vue'
 import OptionItem from './option-item.vue'
 
 import { selectV2InjectionKey } from './token'
-import type { SelectV2Context } from './token'
 
 import type { ItemProps } from '@element-plus/components/virtual-list'
 import type { OptionItemProps, Option } from './select.types'
@@ -34,7 +33,7 @@ export default defineComponent({
     width: Number,
   },
   setup(props) {
-    const select = inject(selectV2InjectionKey) as SelectV2Context
+    const select = inject(selectV2InjectionKey) as any
     const cachedHeights = ref<Array<number>>([])
 
     const listRef = ref(null)
