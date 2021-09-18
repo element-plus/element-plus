@@ -2,14 +2,150 @@
 title: Theming
 ---
 
-# Custom theme <el-tag type="error" style="vertical-align: middle;">Deprecated since 1.1.0-beta.1</el-tag>
+# Custom theme
 
 Element Plus uses BEM-styled CSS so that you can override styles easily. But if
 you need to replace styles at a large scale, e.g. change the theme color from
 blue to orange or green, maybe overriding them one by one is not a good idea. We
 provide four ways to change the style variables.
 
-## Changing theme color
+## Change theme color <el-tag type="success" style="vertical-align: middle;">since 1.1.0-beta.1</el-tag>
+
+### By SCSS variables
+
+`theme-chalk` is written in SCSS.
+You can find SCSS variables in [`packages/theme-chalk/src/common/var.scss`](https://github.com/element-plus/element-plus/blob/dev/packages/theme-chalk/src/common/var.scss).
+
+::: warning
+We use [`sass:map`](https://sass-lang.com/documentation/values/maps) refactor all SCSS variables.
+
+For example, We use `$--colors` as a map to record various types of colors.
+
+`$--notification` is a map of all variables of the `notification` compoennt.
+
+In the future, we will write documentation for variables that can be customized for each component. You can also directly view the [var.scss](https://github.com/element-plus/element-plus/blob/dev/packages/theme-chalk/src/common/var.scss).
+:::
+
+```scss
+$--colors: () !default;
+$--colors: map.deep-merge(
+  (
+    'white': #ffffff,
+    'black': #000000,
+    'primary': (
+      'base': #409eff,
+    ),
+    'success': (
+      'base': #67c23a,
+    ),
+    'warning': (
+      'base': #e6a23c,
+    ),
+    'danger': (
+      'base': #f56c6c,
+    ),
+    'error': (
+      'base': #f56c6c,
+    ),
+    'info': (
+      'base': #909399,
+    ),
+  ),
+  $--colors
+);
+```
+
+How to override it?
+
+If your project also uses SCSS, you can directly
+change Element Plus style variables. Create a new style file, e.g. `element-variables.scss`:
+
+```scss
+/* just override what you need */
+$--colors: (
+  'primary': (
+    'base': green,
+  ),
+);
+```
+
+Then in the entry file of your project, import this style file instead of Element's
+built CSS:
+
+```JS
+import Vue from 'vue'
+// import it before element-plus scss
+import './element-variables.scss'
+import 'element-plus/theme-chalk/src/index.scss'
+import ElementPlus from 'element-plus'
+import App from './App.vue';
+
+const app = createApp(App)
+app.use(ElementPlus)
+```
+
+::: tip
+Import `element-variables.scss` before scss of element-plus to avoid the problem of sass mixed variables, because we need generate light-x by your custom variables.
+:::
+
+### By CSS Variable
+
+CSS Variables is a very useful feature, already supported by almost all browsers. (IE: Wait?)
+
+> Learn more from [Using CSS custom properties (variables) | MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties)
+
+We have used css variables to reconstruct the style system of almost all components. (Since `1.0.2-beta-70` [#2242](https://github.com/element-plus/element-plus/issues/2242))
+
+::: tip
+It is compatible with the SCSS variable system. We use the function of SCSS to automatically generate css variables for use.
+:::
+
+This means you can dynamically change individual variables inside the component to better customize it without having to modify scss and recompile it.
+
+> In the future, the css variable names and role documentation for each component will be written to each component.
+
+Like this:
+
+```css
+:root {
+  --el-color-primary: green;
+}
+```
+
+If you just want to customize a particular component, just add inline styles for certain components individually.
+
+```html
+<el-tag style="--el-tag-background-color: red">Tag</el-tag>
+```
+
+For performance reasons, it is more recommended to custom css variables under a class rather than the global `:root`.
+
+```css
+.custom-class {
+  --el-tag-background-color: red;
+}
+```
+
+If you want to control css var by script, try this:
+
+```js
+// document.documentElement is global
+const el = document.documentElement
+// const el = document.getElementById('xxx')
+
+// get css var
+getComputedStyle(el).getPropertyValue(`--el-color-primary`)
+
+// set css var
+el.style['--el-color-primary'] = 'red'
+```
+
+> If you want a more elegant way, check this out.
+> [useCssVar | VueUse](https://vueuse.org/core/usecssvar/)
+
+Now that you've tried element-plus, which means you're someone who's used to trying new things, don't read the old guide below!
+
+## Change theme color <el-tag type="error" style="vertical-align: middle;">Deprecated since 1.1.0-beta.1</el-tag>
 
 If you just want to change the theme color of Element Plus, the
 [theme preview website](https://element-plus.github.io/theme-chalk-preview/#/en-US)
