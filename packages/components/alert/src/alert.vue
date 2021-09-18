@@ -40,7 +40,6 @@
 </template>
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue'
-import { alertProps, alertEmits, ALERT_TYPE_COMPONENTS_MAP } from './alert'
 import ElIcon from '@element-plus/components/icon'
 import {
   SuccessFilled,
@@ -49,6 +48,7 @@ import {
   CircleCloseFilled,
   Close,
 } from '@element-plus/icons'
+import { alertProps, alertEmits, ALERT_TYPE_COMPONENTS_MAP } from './alert'
 
 export default defineComponent({
   name: 'ElAlert',
