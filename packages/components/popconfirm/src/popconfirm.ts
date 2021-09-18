@@ -1,4 +1,4 @@
-import { buttonProps } from '@element-plus/components/button/src/button'
+import { buttonProps } from '@element-plus/components/button'
 
 import type { ExtractPropTypes } from 'vue'
 
