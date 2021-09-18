@@ -24,7 +24,7 @@ jobs:
         run: cd docs && yarn
 
       - name: Fetch Crowdin token for pulling languages
-        run: yarn init:crowdin
+        run: yarn docs:crowdin
         env:
           CROWDIN_TOKEN: ${{secrets.CROWDIN_TOKEN}}
 
