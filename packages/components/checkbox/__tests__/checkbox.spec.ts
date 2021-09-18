@@ -1,5 +1,5 @@
-import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
+import { mount } from '@vue/test-utils'
 import Checkbox from '../src/checkbox.vue'
 import CheckboxButton from '../src/checkbox-button.vue'
 import CheckboxGroup from '../src/checkbox-group.vue'

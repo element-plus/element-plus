@@ -1,9 +1,10 @@
 import path from 'path'
 import fs from 'fs'
-import { Project, SourceFile } from 'ts-morph'
 import vueCompiler from '@vue/compiler-sfc'
+import { Project } from 'ts-morph'
 import { sync as globSync } from 'fast-glob'
 import chalk from 'chalk'
+import type { SourceFile } from 'ts-morph'
 
 const TSCONFIG_PATH = path.resolve(__dirname, '../tsconfig.json')
 
@@ -130,9 +131,9 @@ const genVueTypes = async (
       )
       console.log(
         chalk.green(
-          'Definition for file: ' +
-            chalk.bold(sourceFile.getBaseName()) +
-            ' generated'
+          `Definition for file: ${chalk.bold(
+            sourceFile.getBaseName()
+          )} generated`
         )
       )
     }

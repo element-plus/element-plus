@@ -1,8 +1,11 @@
-import type { InjectionKey } from 'vue'
-import type { Emitter } from 'mitt'
+import type { InjectionKey, Ref } from 'vue'
 
 interface SelectGroupContext {
   disabled: boolean
+}
+
+export interface QueryChangeCtx {
+  query: string
 }
 
 export interface SelectContext {
@@ -14,6 +17,8 @@ export interface SelectContext {
     popperClass?: string
     remote?: boolean
   }
+  queryChange: Ref<QueryChangeCtx>
+  groupQueryChange: Ref<string>
   selectWrapper: HTMLElement
   cachedOptions: Map<any, any>
   hoverIndex: number
@@ -22,7 +27,6 @@ export interface SelectContext {
   options: Map<any, any>
   optionsArray: any[]
   selected: any | any[]
-  selectEmitter: Emitter
   setSelected(): void
   onOptionCreate(vm: SelectOptionProxy): void
   onOptionDestroy(key: number | string | Record<string, any>): void
@@ -34,11 +38,6 @@ export const selectGroupKey =
   'ElSelectGroup' as unknown as InjectionKey<SelectGroupContext>
 
 export const selectKey = 'ElSelect' as unknown as InjectionKey<SelectContext>
-
-export const selectEvents = {
-  queryChange: 'elOptionQueryChange',
-  groupQueryChange: 'elOptionGroupQueryChange',
-}
 
 export interface SelectOptionProxy {
   value: string | number | Record<string, string>

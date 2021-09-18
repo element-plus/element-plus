@@ -1,8 +1,8 @@
+import path from 'path'
 import vue from 'rollup-plugin-vue'
 import css from 'rollup-plugin-css-only'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import esbuild from 'rollup-plugin-esbuild'
-import path from 'path'
 import { getPackagesSync } from '@lerna/project'
 import pkg from '../package.json'
 
@@ -61,7 +61,7 @@ export default inputs.map((name: string) => ({
     return (
       /^vue/.test(id) ||
       /^@element-plus/.test(id) ||
-      deps.some((k) => new RegExp('^' + k).test(id))
+      deps.some((k) => new RegExp(`^${k}`).test(id))
     )
   },
 }))

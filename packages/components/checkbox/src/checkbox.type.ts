@@ -1,5 +1,5 @@
-import { ComputedRef } from 'vue'
-import { AnyFunction } from '@element-plus/utils/types'
+import type { ComputedRef } from 'vue'
+import type { AnyFunction } from '@element-plus/utils/types'
 export interface ICheckboxGroupInstance {
   name?: string
   modelValue?: ComputedRef

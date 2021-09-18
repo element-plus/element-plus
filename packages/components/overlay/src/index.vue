@@ -1,6 +1,7 @@
 <script lang="ts">
 import { createVNode, defineComponent, renderSlot, h } from 'vue'
 import { PatchFlags } from '@element-plus/utils/vnode'
+import { useSameTarget } from '@element-plus/hooks'
 
 export default defineComponent({
   name: 'ElOverlay',
@@ -8,6 +9,10 @@ export default defineComponent({
     mask: {
       type: Boolean,
       default: true,
+    },
+    customMaskEvent: {
+      type: Boolean,
+      default: false,
     },
     overlayClass: {
       type: [String, Array, Object],
@@ -17,22 +22,15 @@ export default defineComponent({
     },
   },
   emits: ['click'],
+
   setup(props, { slots, emit }) {
-    let mousedownTarget = false
-    let mouseupTarget = false
-    // refer to this https://javascript.info/mouse-events-basics
-    // events fired in the order: mousedown -> mouseup -> click
-    // we need to set the mousedown handle to false after click
-    // fired.
     const onMaskClick = (e: MouseEvent) => {
-      // due to these two value were set only when props.mask is true
-      // so there is no need to do any extra judgment here.
-      // if and only if
-      if (mousedownTarget && mouseupTarget) {
-        emit('click', e)
-      }
-      mousedownTarget = mouseupTarget = false
+      emit('click', e)
     }
+
+    const { onClick, onMousedown, onMouseup } = useSameTarget(
+      props.customMaskEvent ? undefined : onMaskClick
+    )
 
     // init here
     return () => {
@@ -46,18 +44,9 @@ export default defineComponent({
               style: {
                 zIndex: props.zIndex,
               },
-              onClick: onMaskClick,
-              onMousedown: (e: MouseEvent) => {
-                // marking current mousedown target.
-                if (props.mask) {
-                  mousedownTarget = e.target === e.currentTarget
-                }
-              },
-              onMouseup: (e: MouseEvent) => {
-                if (props.mask) {
-                  mouseupTarget = e.target === e.currentTarget
-                }
-              },
+              onClick,
+              onMousedown,
+              onMouseup,
             },
             [renderSlot(slots, 'default')],
             PatchFlags.STYLE | PatchFlags.CLASS | PatchFlags.PROPS,

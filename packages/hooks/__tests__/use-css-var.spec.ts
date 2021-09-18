@@ -1,5 +1,5 @@
-import { mount } from '@vue/test-utils'
 import { ref } from 'vue'
+import { mount } from '@vue/test-utils'
 import { useCssVar } from '..'
 
 describe('usecssvar', () => {

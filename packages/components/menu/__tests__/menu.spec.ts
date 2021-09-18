@@ -1,5 +1,5 @@
-import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
+import { mount } from '@vue/test-utils'
 import { sleep } from '@element-plus/test-utils'
 import { rAF } from '@element-plus/test-utils/tick'
 

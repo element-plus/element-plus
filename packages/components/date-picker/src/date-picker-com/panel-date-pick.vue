@@ -328,19 +328,13 @@ export default defineComponent({
       if (currentView.value === 'year') {
         const startYear = Math.floor(year.value / 10) * 10
         if (yearTranslation) {
-          return (
-            startYear +
-            ' ' +
-            yearTranslation +
-            ' - ' +
-            (startYear + 9) +
-            ' ' +
-            yearTranslation
-          )
+          return `${startYear} ${yearTranslation} - ${
+            startYear + 9
+          } ${yearTranslation}`
         }
-        return startYear + ' - ' + (startYear + 9)
+        return `${startYear} - ${startYear + 9}`
       }
-      return year.value + ' ' + yearTranslation
+      return `${year.value} ${yearTranslation}`
     })
 
     const handleShortcutClick = (shortcut) => {

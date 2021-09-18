@@ -68,7 +68,7 @@ const FixedSizeGrid = createGrid({
         return maxOffset
       case END_ALIGNMENT:
         return minOffset
-      case CENTERED_ALIGNMENT:
+      case CENTERED_ALIGNMENT: {
         const middleOffset = Math.round(minOffset + (maxOffset - minOffset) / 2)
         if (middleOffset < Math.ceil(width / 2)) {
           return 0
@@ -77,6 +77,7 @@ const FixedSizeGrid = createGrid({
         } else {
           return middleOffset
         }
+      }
       case AUTO_ALIGNMENT:
       default:
         if (scrollLeft >= minOffset && scrollLeft <= maxOffset) {
@@ -123,7 +124,7 @@ const FixedSizeGrid = createGrid({
         return maxOffset
       case END_ALIGNMENT:
         return minOffset
-      case CENTERED_ALIGNMENT:
+      case CENTERED_ALIGNMENT: {
         const middleOffset = Math.round(minOffset + (maxOffset - minOffset) / 2)
         if (middleOffset < Math.ceil(height / 2)) {
           return 0
@@ -132,6 +133,7 @@ const FixedSizeGrid = createGrid({
         } else {
           return middleOffset
         }
+      }
       case AUTO_ALIGNMENT:
       default:
         if (scrollTop >= minOffset && scrollTop <= maxOffset) {

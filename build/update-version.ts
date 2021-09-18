@@ -1,6 +1,6 @@
-import chalk from 'chalk'
 import path from 'path'
 import fs from 'fs'
+import chalk from 'chalk'
 import { epRoot } from './paths'
 
 const tagVersion = process.env.TAG_VERSION

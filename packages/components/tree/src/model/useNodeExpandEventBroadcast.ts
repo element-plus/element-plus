@@ -1,5 +1,5 @@
 import { inject, provide } from 'vue'
-import Node from '../model/node'
+import type Node from '../model/node'
 
 interface NodeMap {
   treeNodeExpand(node: Node): void

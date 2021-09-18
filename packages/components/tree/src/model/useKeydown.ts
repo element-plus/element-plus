@@ -1,7 +1,7 @@
 import { onMounted, onUpdated, onBeforeUnmount, watch, shallowRef } from 'vue'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { on, off } from '@element-plus/utils/dom'
-import TreeStore from './tree-store'
+import type TreeStore from './tree-store'
 
 import type { Ref } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'

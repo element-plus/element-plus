@@ -1,0 +1,9 @@
+@import '../mixins';
+
+.navbar-menu {
+  display: none;
+
+  @include respond-to('md') {
+    display: flex;
+  }
+}

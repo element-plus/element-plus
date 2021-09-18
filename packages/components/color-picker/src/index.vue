@@ -263,7 +263,7 @@ export default defineComponent({
       const value = color.value
       emit(UPDATE_MODEL_EVENT, value)
       emit('change', value)
-      elFormItem.formItemMitt?.emit('el.form.change', value)
+      elFormItem.validate?.('change')
       debounceSetShowPicker(false)
       // check if modelValue change, if not change, then reset color.
       nextTick(() => {
@@ -283,7 +283,7 @@ export default defineComponent({
       emit(UPDATE_MODEL_EVENT, null)
       emit('change', null)
       if (props.modelValue !== null) {
-        elFormItem.formItemMitt?.emit('el.form.change', null)
+        elFormItem.validate?.('change')
       }
       resetColor()
     }

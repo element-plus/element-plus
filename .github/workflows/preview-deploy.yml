@@ -28,7 +28,7 @@ jobs:
         with:
           workflow: ${{ github.event.workflow_run.workflow_id }}
           workflow_conclusion: success
-          name: website
+          name: docs
 
       - name: Deploy Site
         run: |

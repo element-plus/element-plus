@@ -1,7 +1,7 @@
+import { nextTick } from 'vue'
+import { mount } from '@vue/test-utils'
 import dayjs from 'dayjs'
 import { triggerEvent } from '@element-plus/test-utils'
-import { mount } from '@vue/test-utils'
-import { nextTick } from 'vue'
 import DatePicker from '../src/date-picker'
 
 const formatStr = 'YYYY-MM-DD HH:mm:ss'

@@ -174,8 +174,8 @@ export default defineComponent({
         (offsetWidth - originalWidth) /
         (width / (offsetWidth - width))
 
-      sizeHeight.value = height + GAP < offsetHeight ? height + 'px' : ''
-      sizeWidth.value = width + GAP < offsetWidth ? width + 'px' : ''
+      sizeHeight.value = height + GAP < offsetHeight ? `${height}px` : ''
+      sizeWidth.value = width + GAP < offsetWidth ? `${width}px` : ''
     }
 
     const style = computed(() => {

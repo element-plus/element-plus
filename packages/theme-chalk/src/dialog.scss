@@ -10,16 +10,16 @@
   @include set-component-css-var('dialog', $--dialog);
 
   position: relative;
-  margin: 0 auto 50px;
+  margin: var(--el-dialog-margin-top, 15vh) auto 50px;
   background: var(--el-dialog-background-color);
   border-radius: var(--el-border-radius-small);
   box-shadow: var(--el-dialog-box-shadow);
   box-sizing: border-box;
-  width: 50%;
+  width: var(--el-dialog-width, 50%);
 
   @include when(fullscreen) {
-    width: 100%;
-    margin-top: 0;
+    --el-dialog-width: 100%;
+    --el-dialog-margin-top: 0;
     margin-bottom: 0;
     height: 100%;
     overflow: auto;

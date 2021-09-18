@@ -65,7 +65,7 @@ export default defineComponent({
       cursorLeft.value = (saturation * width) / 100
       cursorTop.value = ((100 - value) * height) / 100
 
-      background.value = 'hsl(' + props.color.get('hue') + ', 100%, 50%)'
+      background.value = `hsl(${props.color.get('hue')}, 100%, 50%)`
     }
 
     function handleDrag(event) {

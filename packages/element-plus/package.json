@@ -39,7 +39,6 @@
     "async-validator": "^3.4.0",
     "dayjs": "1.x",
     "lodash": "^4.17.21",
-    "mitt": "^2.1.0",
     "normalize-wheel": "^1.0.1",
     "resize-observer-polyfill": "^1.5.1"
   },

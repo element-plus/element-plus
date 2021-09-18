@@ -1,0 +1,58 @@
+name: Staging Preview
+
+on:
+  push:
+    branches:
+      - 'dev'
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    if: ${{ github.repository_owner == 'element-plus' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: yarn bootstrap
+
+      - name: Compile Element Plus
+        run: sh scripts/build.sh
+
+      - name: Init docs
+        run: cd docs && yarn
+
+      - name: Init Crowdin token
+        run: yarn init:crowdin
+        env:
+          CROWDIN_TOKEN: ${{secrets.CROWDIN_TOKEN}}
+
+      - name: Upload source files
+        run: cd docs && yarn crowdin upload sources
+
+      - name: Pull Crowdin translations
+        run: cd docs && yarn crowdin download
+
+      - name: Generate common locale
+        run: yarn docs:gen-locale
+
+      - name: Build website
+        run: yarn docs:build
+        env:
+          DOC_ENV: staging
+
+      - name: Deploy staging website
+        uses: JamesIves/github-pages-deploy-action@4.1.5
+        with:
+          token: ${{ secrets.EP_BOT_TOKEN }}
+          branch: main
+          folder: docs/.vitepress/dist
+          repository-name: element-plus/staging
+          git-config-name: ElementPlusBot
+          git-config-email: hello@element-plus.org

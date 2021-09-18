@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 
+import path from 'path'
 import chalk from 'chalk'
 import gulp from 'gulp'
 import gulpSass from 'gulp-sass'
@@ -8,8 +9,6 @@ import autoprefixer from 'gulp-autoprefixer'
 import cleanCSS from 'gulp-clean-css'
 import rename from 'gulp-rename'
 import { buildOutput } from '../../build/paths'
-
-import path from 'path'
 
 const noElPrefixFile = /(index|base|display)/
 
@@ -59,7 +58,7 @@ const distBundle = path.resolve(buildOutput, './element-plus/theme-chalk')
  * copy from packages/theme-chalk/lib to dist/theme-chalk
  */
 function copyToLib() {
-  return gulp.src(distFolder + '/**').pipe(gulp.dest(distBundle))
+  return gulp.src(`${distFolder}/**`).pipe(gulp.dest(distBundle))
 }
 
 /**

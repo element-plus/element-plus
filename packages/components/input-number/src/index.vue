@@ -125,7 +125,7 @@ export default defineComponent({
     placeholder: String,
     precision: {
       type: Number,
-      validator: (val: number) => val >= 0 && val === parseInt(val + '', 10),
+      validator: (val: number) => val >= 0 && val === parseInt(`${val}`, 10),
     },
   },
   emits: ['update:modelValue', 'change', 'input', 'blur', 'focus'],
@@ -184,7 +184,7 @@ export default defineComponent({
     const toPrecision = (num, pre?) => {
       if (pre === undefined) pre = numPrecision.value
       return parseFloat(
-        Math.round(num * Math.pow(10, pre)) / Math.pow(10, pre) + ''
+        `${Math.round(num * Math.pow(10, pre)) / Math.pow(10, pre)}`
       )
     }
     const getPrecision = (value) => {

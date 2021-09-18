@@ -1,6 +1,6 @@
+import path from 'path'
 import gulp from 'gulp'
 import ts from 'gulp-typescript'
-import path from 'path'
 import { buildOutput } from '../../build/paths'
 
 export const esm = './es'
@@ -50,13 +50,13 @@ const distBundle = path.resolve(buildOutput, './element-plus')
  */
 function copyEsm() {
   return gulp
-    .src(cjs + '/**/*')
+    .src(`${cjs}/**/*`)
     .pipe(gulp.dest(path.resolve(distBundle, './lib/locale')))
 }
 
 function copyCjs() {
   return gulp
-    .src(esm + '/**/*')
+    .src(`${esm}/**/*`)
     .pipe(gulp.dest(path.resolve(distBundle, './es/locale')))
 }
 

@@ -23,13 +23,13 @@ import { Effect } from '@element-plus/components/popper'
 
 import { useAllowCreate } from './useAllowCreate'
 
-import { SelectProps } from './defaults'
 import { flattenOptions } from './util'
 
+import { useInput } from './useInput'
+import type { SelectProps } from './defaults'
 import type { ExtractPropTypes, CSSProperties } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 import type { OptionType, Option } from './select.types'
-import { useInput } from './useInput'
 
 const DEFAULT_INPUT_PLACEHOLDER = ''
 const MINIMUM_INPUT_WIDTH = 11

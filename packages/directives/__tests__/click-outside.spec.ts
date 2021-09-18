@@ -1,5 +1,5 @@
-import { mount } from '@vue/test-utils'
 import { withDirectives, h } from 'vue'
+import { mount } from '@vue/test-utils'
 import ClickOutside from '../click-outside'
 
 const AXIOM = 'Rem is the best girl'

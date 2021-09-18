@@ -45,7 +45,7 @@ export default function renderPopper(
     onBeforeLeave,
   } = props
 
-  const kls = [popperClass, 'el-popper', 'is-' + effect, pure ? 'is-pure' : '']
+  const kls = [popperClass, 'el-popper', `is-${effect}`, pure ? 'is-pure' : '']
   /**
    * Equivalent to
    * <transition :name="name">

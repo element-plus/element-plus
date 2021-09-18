@@ -38,7 +38,7 @@ const Message: IMessage = function (
   })
   verticalOffset += 16
 
-  const id = 'message_' + seed++
+  const id = `message_${seed++}`
   const userOnClose = options.onClose
 
   options = {
