@@ -52,7 +52,7 @@ export function createGitHubUrl(
     : `https://github.com/${docsRepo}`
   return `${base.replace(endingSlashRE, '')}/edit/${docsBranch}/${
     docsDir ? `${docsDir.replace(endingSlashRE, '')}/` : ''
-  }${folder ? folder : ''}${path}${ext ? ext : ''}`
+  }${folder || ''}${path}${ext || ''}`
 }
 
 export const isServer = typeof window === 'undefined'

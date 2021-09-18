@@ -69,8 +69,10 @@ const props = defineProps({
 const vm = getCurrentInstance()
 
 const { copy, copied, isSupported } = useClipboard({
-  source: ref(decodeURIComponent(props.rawSource)),
+  source: decodeURIComponent(props.rawSource),
+  read: false,
 })
+
 const [sourceVisible, setSourceVisible] = useToggle()
 const lang = useLang()
 const demoSourceUrl = useSourceCode(toRef(props, 'path'))
