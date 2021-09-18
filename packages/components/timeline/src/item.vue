@@ -1,5 +1,5 @@
 <template>
-  <li class="el-timeline-item">
+  <li class="el-timeline-item" :class="{ 'el-timeline-item__center': center }">
     <div class="el-timeline-item__tail"></div>
 
     <div
@@ -53,6 +53,10 @@ export default defineComponent({
       default: '',
     },
     hideTimestamp: {
+      type: Boolean,
+      default: false,
+    },
+    center: {
       type: Boolean,
       default: false,
     },
