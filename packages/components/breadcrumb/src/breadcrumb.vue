@@ -11,27 +11,21 @@
 
 <script lang="ts">
 import { defineComponent, provide, ref, onMounted } from 'vue'
-import type { IBreadcrumbProps } from './breadcrumb'
+import { elBreadcrumbKey } from '@element-plus/tokens'
+
+import { breadcurmbProps } from './breadcrumb'
 
 export default defineComponent({
   name: 'ElBreadcrumb',
-  props: {
-    separator: {
-      type: String,
-      default: '/',
-    },
-    separatorClass: {
-      type: String,
-      default: '',
-    },
-  },
-  setup(props) {
-    const breadcrumb = ref(null)
+  props: breadcurmbProps,
 
-    provide<IBreadcrumbProps>('breadcrumb', props)
+  setup(props) {
+    const breadcrumb = ref<HTMLDivElement>()
+
+    provide(elBreadcrumbKey, props)
 
     onMounted(() => {
-      const items = breadcrumb.value.querySelectorAll('.el-breadcrumb__item')
+      const items = breadcrumb.value!.querySelectorAll('.el-breadcrumb__item')
       if (items.length) {
         items[items.length - 1].setAttribute('aria-current', 'page')
       }
