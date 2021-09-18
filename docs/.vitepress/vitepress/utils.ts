@@ -50,15 +50,9 @@ export function createGitHubUrl(
   const base = isExternal(docsRepo)
     ? docsRepo
     : `https://github.com/${docsRepo}`
-  return (
-    base.replace(endingSlashRE, '') +
-    `/edit` +
-    `/${docsBranch}/` +
-    (docsDir ? docsDir.replace(endingSlashRE, '') + '/' : '') +
-    `${folder ? folder : ''}` +
-    path +
-    `${ext ? ext : ''}`
-  )
+  return `${base.replace(endingSlashRE, '')}/edit/${docsBranch}/${
+    docsDir ? docsDir.replace(endingSlashRE, '') + '/' : ''
+  }${folder ? folder : ''}${path}${ext ? ext : ''}`
 }
 
 export const isServer = typeof window === 'undefined'

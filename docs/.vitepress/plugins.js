@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+const localMd = require('markdown-it')()
 const mdContainer = require('markdown-it-container')
 const path = require('path')
 const fs = require('fs')
@@ -19,8 +20,6 @@ module.exports = (md) => {
       const m = tokens[idx].info.trim().match(/^demo\s*(.*)$/)
       if (tokens[idx].nesting === 1) {
         const description = m && m.length > 1 ? m[1] : ''
-        const content =
-          tokens[idx + 1].type === 'fence' ? tokens[idx + 1].content : ''
 
         const sourceFileToken = tokens[idx + 2]
         let source = ''
@@ -47,16 +46,13 @@ const demos = import.meta.globEager('../../examples/${
         }
 
         if (!source) throw new Error(`Incorrect source file: ${sourceFile}`)
-
         const { html, js, css, cssPreProcessor, jsPreProcessor } =
           generateCodePenSnippet(source)
-
         return `<Demo :demos="demos" source="${encodeURIComponent(
           highlight(source, 'vue')
-        )}" path="${sourceFile}" html="${html}" js="${js}" css="${css}" css-pre-processor="${cssPreProcessor}" js-pre-processor="${jsPreProcessor}">
-        ${description ? `` : ''}
-        <!--element-demo: ${content}:element-demo-->
-        `
+        )}" path="${sourceFile}" html="${html}" js="${js}" css="${css}" css-pre-processor="${cssPreProcessor}" js-pre-processor="${jsPreProcessor}" raw-source="${encodeURIComponent(
+          source
+        )}" description="${localMd.render(description)}">`
       }
 
       return '</Demo>'
