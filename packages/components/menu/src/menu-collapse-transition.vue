@@ -44,13 +44,13 @@ export default defineComponent({
             removeClass(el, 'el-menu--collapse')
           }
 
-          el.style.width = el.scrollWidth + 'px'
+          el.style.width = `${el.scrollWidth}px`
           el.style.overflow = 'hidden'
         },
 
         leave(el: HTMLElement) {
           addClass(el, 'horizontal-collapse-transition')
-          el.style.width = el.dataset.scrollWidth + 'px'
+          el.style.width = `${el.dataset.scrollWidth}px`
         },
       },
     }

@@ -3,13 +3,13 @@ import { throwError } from '@element-plus/utils/error'
 import buildList from '../builders/buildList'
 import { isHorizontal } from '../utils'
 import {
-  DefaultListProps,
   SMART_ALIGNMENT,
   AUTO_ALIGNMENT,
   START_ALIGNMENT,
   END_ALIGNMENT,
   CENTERED_ALIGNMENT,
 } from '../defaults'
+import type { DefaultListProps } from '../defaults'
 
 import type { ExtractPropTypes } from 'vue'
 

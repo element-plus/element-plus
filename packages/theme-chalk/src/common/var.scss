@@ -643,6 +643,8 @@ $--switch: map.merge(
 $--dialog: () !default;
 $--dialog: map.merge(
   (
+    'width': 50%,
+    'margin-top': 15vh,
     'background-color': var(--el-color-white),
     'box-shadow': 0 1px 3px rgba(0, 0, 0, 0.3),
     'title-font-size': var(--el-font-size-large),

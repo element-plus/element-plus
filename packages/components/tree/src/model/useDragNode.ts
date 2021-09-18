@@ -1,7 +1,7 @@
-import { inject, provide, ref } from 'vue'
-import mitt, { Emitter } from 'mitt'
+import { provide, ref } from 'vue'
 import { addClass, removeClass } from '@element-plus/utils/dom'
-import Node from './node'
+import type { InjectionKey } from 'vue'
+import type Node from './node'
 
 interface TreeNode {
   node: Node
@@ -13,10 +13,15 @@ interface DragOptions {
   treeNode: TreeNode
 }
 
-export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
-  const emitter = mitt()
-  provide('DragNodeEmitter', emitter)
+export interface DragEvents {
+  treeNodeDragStart: (options: DragOptions) => void
+  treeNodeDragOver: (options: DragOptions) => void
+  treeNodeDragEnd: (event: DragEvent) => void
+}
 
+export const dragEventsKey: InjectionKey<DragEvents> = Symbol('dragEvents')
+
+export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
   const dragState = ref({
     showDropIndicator: false,
     draggingNode: null,
@@ -25,7 +30,7 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
     dropType: null,
   })
 
-  emitter.on('tree-node-drag-start', ({ event, treeNode }: DragOptions) => {
+  const treeNodeDragStart = ({ event, treeNode }: DragOptions) => {
     if (
       typeof props.allowDrag === 'function' &&
       !props.allowDrag(treeNode.node)
@@ -43,9 +48,9 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
     } catch (e) {}
     dragState.value.draggingNode = treeNode
     ctx.emit('node-drag-start', treeNode.node, event)
-  })
+  }
 
-  emitter.on('tree-node-drag-over', ({ event, treeNode }: DragOptions) => {
+  const treeNodeDragOver = ({ event, treeNode }: DragOptions) => {
     const dropNode = treeNode
     const oldDropNode = dragState.value.dropNode
     if (oldDropNode && oldDropNode !== dropNode) {
@@ -125,8 +130,8 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
     } else if (dropType === 'after') {
       indicatorTop = iconPosition.bottom - treePosition.top
     }
-    dropIndicator.style.top = indicatorTop + 'px'
-    dropIndicator.style.left = iconPosition.right - treePosition.left + 'px'
+    dropIndicator.style.top = `${indicatorTop}px`
+    dropIndicator.style.left = `${iconPosition.right - treePosition.left}px`
 
     if (dropType === 'inner') {
       addClass(dropNode.$el, 'is-drop-inner')
@@ -140,9 +145,9 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
       dragState.value.showDropIndicator || userAllowDropInner
     dragState.value.dropType = dropType
     ctx.emit('node-drag-over', draggingNode.node, dropNode.node, event)
-  })
+  }
 
-  emitter.on('tree-node-drag-end', (event: DragEvent) => {
+  const treeNodeDragEnd = (event: DragEvent) => {
     const { draggingNode, dropType, dropNode } = dragState.value
     event.preventDefault()
     event.dataTransfer.dropEffect = 'move'
@@ -184,19 +189,15 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
     dragState.value.draggingNode = null
     dragState.value.dropNode = null
     dragState.value.allowDrop = true
+  }
+
+  provide(dragEventsKey, {
+    treeNodeDragStart,
+    treeNodeDragOver,
+    treeNodeDragEnd,
   })
 
   return {
     dragState,
-  }
-}
-
-interface DragNodeEmitter {
-  emitter: Emitter
-}
-export function useDragNodeEmitter(): DragNodeEmitter {
-  const emitter = inject<Emitter>('DragNodeEmitter')
-  return {
-    emitter,
   }
 }

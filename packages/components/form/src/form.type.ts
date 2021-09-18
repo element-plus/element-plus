@@ -1,4 +1,4 @@
-import { RuleItem } from 'async-validator'
+import type { RuleItem } from 'async-validator'
 
 export declare interface FormItemRule extends RuleItem {
   trigger?: string

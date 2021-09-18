@@ -1,5 +1,4 @@
 <script lang="ts">
-import mitt from 'mitt'
 import {
   defineComponent,
   computed,
@@ -8,8 +7,8 @@ import {
   inject,
   getCurrentInstance,
   reactive,
+  watch,
   onMounted,
-  onBeforeMount,
   onBeforeUnmount,
   withDirectives,
   Fragment,
@@ -76,8 +75,6 @@ export default defineComponent({
       methods: rootMethods,
       props: rootProps,
       methods: { closeMenu },
-      rootMenuOn,
-      rootMenuEmit,
     } = inject<RootMenuProvider>('rootMenu')
 
     const {
@@ -184,9 +181,6 @@ export default defineComponent({
       }
     })
 
-    // emitter
-    const subMenuEmitter = mitt()
-
     const doDestroy = () => {
       popperVnode.value?.doDestroy()
     }
@@ -222,7 +216,7 @@ export default defineComponent({
       ) {
         return
       }
-      rootMenuEmit('submenu:submenu-click', { index: props.index, indexPath })
+      rootMethods.handleSubMenuClick({ index: props.index, indexPath })
     }
     const handleMouseenter = (event, showTimeout = props.showTimeout) => {
       if (
@@ -241,7 +235,7 @@ export default defineComponent({
       ) {
         return
       }
-      subMenuEmitter.emit('submenu:mouse-enter-child')
+      data.mouseInChild = true
       clearTimeout(data.timeout)
       data.timeout = setTimeout(() => {
         rootMethods.openMenu(props.index, indexPath)
@@ -259,7 +253,7 @@ export default defineComponent({
       ) {
         return
       }
-      subMenuEmitter.emit('submenu:mouse-leave-child')
+      data.mouseInChild = false
       clearTimeout(data.timeout)
       data.timeout = setTimeout(() => {
         !data.mouseInChild && closeMenu(props.index)
@@ -288,6 +282,13 @@ export default defineComponent({
           : 'right-start'
     }
 
+    watch(
+      () => rootProps.collapse,
+      (value) => {
+        handleCollapseToggle(Boolean(value))
+      }
+    )
+
     // provide
     provide<SubMenuProvider>(`subMenu:${instance.uid}`, {
       addSubMenu,
@@ -296,20 +297,6 @@ export default defineComponent({
     })
 
     // lifecycle
-    onBeforeMount(() => {
-      rootMenuOn('rootMenu:toggle-collapse', (val: boolean) => {
-        handleCollapseToggle(val)
-      })
-      subMenuEmitter.on('submenu:mouse-enter-child', () => {
-        data.mouseInChild = true
-        clearTimeout(data.timeout)
-      })
-      subMenuEmitter.on('submenu:mouse-leave-child', () => {
-        data.mouseInChild = false
-        clearTimeout(data.timeout)
-      })
-    })
-
     onMounted(() => {
       rootMethods.addSubMenu({
         index: props.index,

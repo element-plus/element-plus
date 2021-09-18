@@ -14,25 +14,33 @@ jobs:
 
       - name: Setup node
         uses: actions/setup-node@v2
-
-      - name: Cache
-        uses: actions/cache@v2
         with:
-          path: node_modules
-          key: node_modules-${{ hashFiles('**/yarn.lock') }}
+          node-version: '16'
+          registry-url: https://registry.npmjs.com/
 
       - name: Install dependencies
         run: yarn bootstrap
 
+      - name: Init docs
+        run: cd docs && yarn
+
+      - name: Generate common locale
+        run: yarn docs:gen-locale
+
+      - name: Build Element Plus
+        run: sh scripts/build.sh
+
       - name: Build website
-        run: yarn website-build
+        run: yarn docs:build
+        env:
+          DOC_ENV: preview
 
       # share website dist
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: website
-          path: website-dist/
+          name: docs
+          path: docs/.vitepress/dist/
           retention-days: 1
 
       # write pr.txt for share

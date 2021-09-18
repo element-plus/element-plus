@@ -26,23 +26,29 @@
 <script lang="ts">
 import { computed, inject, defineComponent } from 'vue'
 import { useFormItem } from '@element-plus/hooks'
-import { elButtonGroupKey } from '@element-plus/tokens'
+import { elButtonGroupKey, elFormKey } from '@element-plus/tokens'
 
 import { buttonEmits, buttonProps } from './button'
-
 export default defineComponent({
   name: 'ElButton',
 
   props: buttonProps,
   emits: buttonEmits,
 
-  setup(_, { emit }) {
+  setup(props, { emit }) {
     const elBtnGroup = inject(elButtonGroupKey, undefined)
     const { size: buttonSize, disabled: buttonDisabled } = useFormItem({
       size: computed(() => elBtnGroup?.size),
     })
 
-    const handleClick = (evt: MouseEvent) => emit('click', evt)
+    const elForm = inject(elFormKey, undefined)
+
+    const handleClick = (evt: MouseEvent) => {
+      if (props.nativeType === 'reset') {
+        elForm?.resetFields()
+      }
+      emit('click', evt)
+    }
 
     return {
       buttonSize,

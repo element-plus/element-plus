@@ -22,7 +22,6 @@ import {
   onMounted,
   provide,
   reactive,
-  Ref,
   ref,
   watch,
 } from 'vue'
@@ -40,7 +39,7 @@ import {
 
 import ElCascaderMenu from './menu.vue'
 import Store from './store'
-import Node from './node'
+import Node, { ExpandTrigger } from './node'
 import { CommonProps, useCascaderConfig } from './config'
 import {
   checkNode,
@@ -49,19 +48,19 @@ import {
   getSibling,
   sortByOriginalOrder,
 } from './utils'
-import { default as CascaderNode, ExpandTrigger } from './node'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
-import type { PropType } from 'vue'
+import type { PropType, Ref } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'
 import type {
   CascaderValue,
   CascaderNodeValue,
   CascaderOption,
   RenderLabel,
+  default as CascaderNode,
 } from './node'
 
-import { ElCascaderPanelContext } from './types'
+import type { ElCascaderPanelContext } from './types'
 
 export default defineComponent({
   name: 'ElCascaderPanel',
@@ -293,24 +292,27 @@ export default defineComponent({
 
       switch (code) {
         case EVENT_CODE.up:
-        case EVENT_CODE.down:
+        case EVENT_CODE.down: {
           const distance = code === EVENT_CODE.up ? -1 : 1
           focusNode(getSibling(target, distance))
           break
-        case EVENT_CODE.left:
+        }
+        case EVENT_CODE.left: {
           const preMenu = menuList.value[getMenuIndex(target) - 1]
           const expandedNode = preMenu?.$el.querySelector(
             '.el-cascader-node[aria-expanded="true"]'
           )
           focusNode(expandedNode)
           break
-        case EVENT_CODE.right:
+        }
+        case EVENT_CODE.right: {
           const nextMenu = menuList.value[getMenuIndex(target) + 1]
           const firstNode = nextMenu?.$el.querySelector(
             '.el-cascader-node[tabindex="-1"]'
           )
           focusNode(firstNode)
           break
+        }
         case EVENT_CODE.enter:
           checkNode(target)
           break

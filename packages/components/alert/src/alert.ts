@@ -1,5 +1,5 @@
-import type { ExtractPropTypes } from 'vue'
 import { buildProp, keyOf } from '@element-plus/utils/props'
+import type { ExtractPropTypes } from 'vue'
 
 export type AlertEffect = 'light' | 'dark'
 

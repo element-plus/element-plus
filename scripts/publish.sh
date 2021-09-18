@@ -4,6 +4,7 @@ set -e
 
 yarn bootstrap
 yarn update:version
+yarn gen:version
 
 sh scripts/build.sh
 

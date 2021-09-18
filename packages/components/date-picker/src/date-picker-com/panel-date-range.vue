@@ -273,23 +273,15 @@ export default defineComponent({
     })
 
     const leftLabel = computed(() => {
-      return (
-        leftDate.value.year() +
-        ' ' +
-        t('el.datepicker.year') +
-        ' ' +
-        t(`el.datepicker.month${leftDate.value.month() + 1}`)
-      )
+      return `${leftDate.value.year()} ${t('el.datepicker.year')} ${t(
+        `el.datepicker.month${leftDate.value.month() + 1}`
+      )}`
     })
 
     const rightLabel = computed(() => {
-      return (
-        rightDate.value.year() +
-        ' ' +
-        t('el.datepicker.year') +
-        ' ' +
-        t(`el.datepicker.month${rightDate.value.month() + 1}`)
-      )
+      return `${rightDate.value.year()} ${t('el.datepicker.year')} ${t(
+        `el.datepicker.month${rightDate.value.month() + 1}`
+      )}`
     })
 
     const leftYear = computed(() => {
