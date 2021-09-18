@@ -10,7 +10,7 @@
     "gen": "bash ./scripts/gc.sh",
     "gen:version": "esno build/gen-version.ts",
     "update:version": "esno build/update-version.ts",
-    "bootstrap": "yarn --frozen-lockfile && npx lerna bootstrap && yarn gen:version && cd docs && yarn",
+    "bootstrap": "yarn --frozen-lockfile && npx lerna bootstrap && cd docs && yarn",
     "clean:lib": "rimraf lib && rimraf es && rimraf dist",
     "build": "sh scripts/build.sh",
     "build:helper": "esno build/build-helper.ts",
@@ -28,12 +28,13 @@
     "format": "prettier --write .",
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx && prettier --check .",
     "lint:fix": "eslint --fix . --ext .vue,.js,.ts,.jsx,.tsx && prettier --write .",
-    "prepare": "husky install",
     "docs:dev": "if [ ! -d \"dist/element-plus\" ]; then sh scripts/build.sh; fi && yarn docs:gen-locale && cd docs && yarn dev",
     "docs:build": "cd docs && yarn build",
     "docs:serve": "cd docs && yarn serve",
-    "init:crowdin": "esno build/crowdin-credentials.ts",
-    "docs:gen-locale": "rimraf docs/.vitepress/i18n && esno build/crowdin-generate.ts"
+    "docs:gen-locale": "rimraf docs/.vitepress/i18n && esno build/crowdin-generate.ts",
+    "docs:crowdin": "esno build/crowdin-credentials.ts",
+    "prepare": "husky install",
+    "postinstall": "yarn gen:version"
   },
   "config": {
     "commitizen": {
