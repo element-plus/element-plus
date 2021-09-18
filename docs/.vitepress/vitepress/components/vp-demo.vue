@@ -134,14 +134,14 @@ const copyCode = async () => {
             </a>
           </ElIcon>
         </ElTooltip>
-        <ElTooltip :content="locale['view-source']" :visible-arrow="false">
-          <ElIcon :size="20" class="op-btn" @click="setSourceVisible">
-            <SourceCodeIcon />
-          </ElIcon>
-        </ElTooltip>
         <ElTooltip :content="locale['copy-code']" :visible-arrow="false">
           <ElIcon :size="20" class="op-btn" @click="copyCode">
             <CopyIcon />
+          </ElIcon>
+        </ElTooltip>
+        <ElTooltip :content="locale['view-source']" :visible-arrow="false">
+          <ElIcon :size="20" class="op-btn" @click="setSourceVisible">
+            <SourceCodeIcon />
           </ElIcon>
         </ElTooltip>
       </div>
