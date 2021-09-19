@@ -18,11 +18,11 @@ import type { PropType } from 'vue'
     values: ['small', 'medium'],
     validator: (val: unknown): val is number => typeof val === 'number',
   } as const)
-  @link for more explanation: https://github.com/element-plus/element-plus/pull/3341
+  @link read more: https://github.com/element-plus/element-plus/pull/3341
  */
 export function buildProp<
   T = any,
-  R extends boolean = boolean,
+  R extends boolean = false,
   D extends T = T,
   C = never
 >({
@@ -42,25 +42,32 @@ export function buildProp<
   type?: any
   validator?: ((val: any) => val is C) | ((val: any) => boolean)
 } = {}) {
+  type DefaultType = typeof defaultValue
+  type HasDefaultValue = Exclude<T, D> extends never ? false : true
+
   return {
     type: type as PropType<T | C>,
-    required: !!required,
-    default: defaultValue,
+    required: !!required as R,
+
+    default: defaultValue as R extends true
+      ? never
+      : HasDefaultValue extends true
+      ? Exclude<DefaultType, undefined>
+      : undefined,
+
     validator:
       values || validator
         ? (val: unknown) => {
-            let vaild = false
+            let valid = false
             if (values)
-              vaild ||= ([...values, defaultValue] as unknown[]).includes(val)
-            if (validator) vaild ||= validator(val)
-            return vaild
+              valid ||= ([...values, defaultValue] as unknown[]).includes(val)
+            if (validator) valid ||= validator(val)
+            return valid
           }
         : undefined,
   } as const
 }
 
-export function keyOf<T>(arr: T) {
-  return Object.keys(arr) as Array<keyof T>
-}
+export const keyOf = <T>(arr: T) => Object.keys(arr) as Array<keyof T>
 
 export const componentSize = ['large', 'medium', 'small', 'mini'] as const

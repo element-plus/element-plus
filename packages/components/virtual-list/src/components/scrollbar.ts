@@ -54,8 +54,8 @@ const ScrollBar = defineComponent({
     const trackStyle = computed<CSSProperties>(() => ({
       display: props.visible ? null : 'none',
       position: 'absolute',
-      width: HORIZONTAL === props.layout ? trackSize.value + 'px' : '6px',
-      height: HORIZONTAL === props.layout ? '6px' : trackSize.value + 'px',
+      width: HORIZONTAL === props.layout ? `${trackSize.value}px` : '6px',
+      height: HORIZONTAL === props.layout ? '6px' : `${trackSize.value}px`,
       [ScrollbarDirKey[props.layout]]: '2px',
       right: '2px',
       bottom: '2px',

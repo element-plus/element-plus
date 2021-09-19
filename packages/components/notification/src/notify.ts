@@ -35,7 +35,7 @@ const Notification: INotification = function (options = {}) {
   })
   verticalOffset += GAP_SIZE
 
-  const id = 'notification_' + seed++
+  const id = `notification_${seed++}`
   const userOnClose = options.onClose
   options = {
     // default options end

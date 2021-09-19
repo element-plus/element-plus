@@ -136,7 +136,7 @@ export default defineComponent({
     }
     const handleClick = () => {
       if (!props.disabled) {
-        rootMenu.rootMenuEmit('menuItem:item-click', {
+        rootMenu.methods.handleMenuItemClick({
           index: props.index,
           indexPath,
           route: props.route,

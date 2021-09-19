@@ -57,8 +57,9 @@ export default (trigger: Ref<boolean>) => {
         (bodyHasOverflow || bodyOverflowY === 'scroll') &&
         withoutHiddenClass
       ) {
-        document.body.style.paddingRight =
-          computedBodyPaddingRight + scrollBarWidth + 'px'
+        document.body.style.paddingRight = `${
+          computedBodyPaddingRight + scrollBarWidth
+        }px`
       }
       addClass(document.body, 'el-popup-parent--hidden')
     } else {

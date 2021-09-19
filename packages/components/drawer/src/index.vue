@@ -19,7 +19,7 @@
           aria-modal="true"
           aria-labelledby="el-drawer__title"
           :aria-label="title"
-          :class="['el-drawer', direction, customClass]"
+          :class="['el-drawer', direction, visible && 'open', customClass]"
           :style="
             isHorizontal ? 'width: ' + drawerSize : 'height: ' + drawerSize
           "

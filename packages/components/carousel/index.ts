@@ -1,7 +1,7 @@
-import { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
 import Carousel from './src/main.vue'
 import CarouselItem from './src/item.vue'
+import type { App } from 'vue'
+import type { SFCWithInstall } from '@element-plus/utils/types'
 
 Carousel.install = (app: App): void => {
   app.component(Carousel.name, Carousel)

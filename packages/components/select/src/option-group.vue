@@ -19,8 +19,10 @@ import {
   toRefs,
   getCurrentInstance,
   onMounted,
+  watch,
+  toRaw,
 } from 'vue'
-import { selectGroupKey, selectKey, selectEvents } from './token'
+import { selectGroupKey, selectKey } from './token'
 
 export default defineComponent({
   name: 'ElOptionGroup',
@@ -71,10 +73,10 @@ export default defineComponent({
       return children
     }
 
-    const queryChange = () => {
+    const { groupQueryChange } = toRaw(select)
+    watch(groupQueryChange, () => {
       visible.value = children.value.some((option) => option.visible === true)
-    }
-    select.selectEmitter.on(selectEvents.groupQueryChange, queryChange)
+    })
 
     return {
       visible,

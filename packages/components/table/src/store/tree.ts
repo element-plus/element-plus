@@ -1,5 +1,5 @@
-import { walkTreeNode, getRowIdentity } from '../util'
 import { ref, computed, watch, getCurrentInstance, unref } from 'vue'
+import { walkTreeNode, getRowIdentity } from '../util'
 
 import type { WatcherPropsData } from '.'
 import type { Table, TableProps } from '../table/defaults'

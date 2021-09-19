@@ -12,10 +12,18 @@
   <br>
 </p>
 
-<p align="center">Element Plus - A Vue.js 3.0 UI library</p>
+<p align="center">Element Plus - A Vue.js 3 UI library</p>
 
-- 💪 Vue 3.0 Composition API
+- 💪 Vue 3 Composition API
 - 🔥 Written in TypeScript
+
+## Archived website
+
+If you are looking for previous version website, here is the link.
+
+[Element Plus Documentation Archived](https://github.com/element-plus/doc-archive)
+
+The new website is launched at 17th Sep 2021.
 
 ## Status: Beta
 
@@ -47,6 +55,11 @@ This project is still under heavy development. Feel free to join us and make you
 
 ---
 
+## Translations
+
+Element Plus is translated to multiple languages, you can click the badge to help up update the translation or apply to become
+a proofreader [![Crowdin](https://badges.crowdin.net/element-plus/localized.svg)](https://crowdin.com/project/element-plus)
+
 ## Documentation
 
 You can find for more details, API, and other docs on [https://element-plus.org](https://element-plus.org/)
@@ -74,17 +87,37 @@ the project will install all dependencies and run `lerna bootstrap` to initializ
 With command
 
 ```bash
-$ yarn website-dev
+$ yarn docs:dev
 ```
 
 the project will launch website for you to preview all existing component
 
-You can also use this command to start a blank page to debug
+## Local development
 
-```bash
-$ yarn website-dev:play
-//source file: ./website/play/index.vue
+1. With command
+
+```shell
+$ yarn dev
 ```
+
+will start the local development environment
+
+2. Add your component into `play/play.vue`
+
+> play.vue
+
+```vue
+<template>
+  <ComponentYouAreDeveloping />
+</template>
+
+<script setup lang="ts">
+// make sure this component is registered in @element-plus/components
+import { ComponentYouAreDeveloping } from '@element-plus/components'
+</script>
+```
+
+Modify `play.vue` file per your needs to get things work.
 
 ## Component migration process
 
@@ -115,13 +148,13 @@ yarn cz
 Example
 
 ```
-[TYPE](SCOPE):DESCRIPTION#[ISSUE]
-# example feat(components): add type 'button' for form usage #1234
+# [TYPE](SCOPE): [el-component-name] DESCRIPTION#[ISSUE]
+# example: feat(components): [el-button] add type for form usage #1234
 ```
 
 ## Licence
 
-ElementPlus is open source software licensed as
+Element Plus is open source software licensed as
 [MIT](https://github.com/element-plus/element-plus/blob/master/LICENSE).
 
 ## Contributors

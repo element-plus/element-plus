@@ -2,8 +2,8 @@
   "name": "@element-plus/hooks",
   "description": "Element Plus composables",
   "version": "0.0.5",
-  "main": "index.js",
-  "module": "index.js",
+  "main": "index.ts",
+  "module": "index.ts",
   "unpkg": "index.js",
   "jsdelivr": "index.js",
   "types": "index.d.ts",
@@ -20,7 +20,7 @@
     "@element-plus/locale": "^0.0.5",
     "@element-plus/utils": "^0.0.5",
     "@popperjs/core": "^2.10.1",
-    "@vueuse/core": "^6.2.0"
+    "@vueuse/core": "~6.1.0"
   },
   "devDependencies": {
     "@element-plus/test-utils": "^0.0.5",

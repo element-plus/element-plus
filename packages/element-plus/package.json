@@ -35,11 +35,10 @@
   "dependencies": {
     "@element-plus/icons": "^0.0.11",
     "@popperjs/core": "^2.10.1",
-    "@vueuse/core": "^6.2.0",
+    "@vueuse/core": "~6.1.0",
     "async-validator": "^3.4.0",
     "dayjs": "1.x",
     "lodash": "^4.17.21",
-    "mitt": "^2.1.0",
     "normalize-wheel": "^1.0.1",
     "resize-observer-polyfill": "^1.5.1"
   },

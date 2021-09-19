@@ -3,8 +3,8 @@ import { hasOwn } from '@vue/shared'
 import scrollbarWidth from '@element-plus/utils/scrollbar-width'
 import isServer from '@element-plus/utils/isServer'
 import { parseHeight } from './util'
+import type { Ref } from 'vue'
 
-import { Ref } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { TableHeader } from './table-header'
 import type { Table } from './table/defaults'
@@ -107,7 +107,7 @@ class TableLayout<T> {
       return nextTick(() => this.setHeight(value, prop))
 
     if (typeof value === 'number') {
-      el.style[prop] = value + 'px'
+      el.style[prop] = `${value}px`
       this.updateElsHeight()
     } else if (typeof value === 'string') {
       el.style[prop] = value

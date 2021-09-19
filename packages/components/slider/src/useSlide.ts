@@ -1,6 +1,7 @@
-import { computed, CSSProperties, inject, nextTick, ref, shallowRef } from 'vue'
+import { computed, inject, nextTick, ref, shallowRef } from 'vue'
 import { CHANGE_EVENT } from '@element-plus/utils/constants'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
+import type { CSSProperties } from 'vue'
 import type { ButtonRefs, ISliderInitData, ISliderProps } from './slider.type'
 
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'

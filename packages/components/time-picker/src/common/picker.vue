@@ -227,7 +227,7 @@ export default defineComponent({
         })
         ctx.emit('blur')
         blurInput()
-        props.validateEvent && elFormItem.formItemMitt?.emit('el.form.blur')
+        props.validateEvent && elFormItem.validate?.('blur')
       } else {
         valueOnOpen.value = props.modelValue
       }
@@ -236,8 +236,7 @@ export default defineComponent({
       // determine user real change only
       if (isClear || !valueEquals(val, valueOnOpen.value)) {
         ctx.emit('change', val)
-        props.validateEvent &&
-          elFormItem.formItemMitt?.emit('el.form.change', val)
+        props.validateEvent && elFormItem.validate?.('change', val)
       }
     }
     const emitInput = (val) => {

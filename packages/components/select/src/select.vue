@@ -359,6 +359,8 @@ export default defineComponent({
       tags,
       selectWrapper,
       scrollbar,
+      queryChange,
+      groupQueryChange,
     } = useSelect(props, states, ctx)
 
     const { focus } = useFocus(reference)
@@ -396,12 +398,13 @@ export default defineComponent({
         filteredOptionsCount,
         hoverIndex,
         handleOptionSelect,
-        selectEmitter: states.selectEmitter,
         onOptionCreate,
         onOptionDestroy,
         selectWrapper,
         selected,
         setSelected,
+        queryChange,
+        groupQueryChange,
       }) as unknown as SelectContext
     )
 

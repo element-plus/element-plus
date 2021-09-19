@@ -1,5 +1,14 @@
 ## Changelog
 
+### 1.1.0-beta.11
+
+_2021-09-14_
+
+#### Bug fixes
+
+- Core downgrade vueuse version (#3405 by @sxzz)
+- Build fix exclude dependency (#3404 by @sxzz)
+
 ### 1.1.0-beta.10
 
 _2021-09-13_
