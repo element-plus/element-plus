@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import PageHeader from '../src/index.vue'
+import PageHeader from '../src/page-header.vue'
 
 const AXIOM = 'Rem is the best girl'
 

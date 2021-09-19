@@ -1,0 +1,8 @@
+{
+  "cSpell.words": ["Element Plus", "element-plus"],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "volar.tsPlugin": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}
