@@ -100,6 +100,9 @@ module.exports = {
     },
   },
   vite: {
+    server: {
+      host: true,
+    },
     sourcemap: true,
     ...(process.env.DOC_ENV === 'production'
       ? {}
