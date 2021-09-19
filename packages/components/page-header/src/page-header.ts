@@ -5,9 +5,7 @@ export const pageHeaderProps = {
     type: String,
     default: 'el-icon-back',
   },
-  title: {
-    type: String,
-  },
+  title: String,
   content: {
     type: String,
     default: '',
