@@ -17,13 +17,13 @@ provide four ways to change the style variables.
 You can find SCSS variables in [`packages/theme-chalk/src/common/var.scss`](https://github.com/element-plus/element-plus/blob/dev/packages/theme-chalk/src/common/var.scss).
 
 ::: warning
-We use [`sass:map`](https://sass-lang.com/documentation/values/maps) refactor all SCSS variables.
+We use [`sass:map`](https://sass-lang.com/documentation/values/maps) to refactor all SCSS variables.
 
-For example, We use `$--colors` as a map to record various types of colors.
+For example, We use `$--colors` as a map to preserve different types of colors.
 
-`$--notification` is a map of all variables of the `notification` compoennt.
+`$--notification` is a map where all variables of the `notification` component at.
 
-In the future, we will write documentation for variables that can be customized for each component. You can also directly view the [var.scss](https://github.com/element-plus/element-plus/blob/dev/packages/theme-chalk/src/common/var.scss).
+In the future, we will write documentation for variables that can be customized for each component. You can also directly checkout the source [var.scss](https://github.com/element-plus/element-plus/blob/dev/packages/theme-chalk/src/common/var.scss).
 :::
 
 ```scss
@@ -72,13 +72,13 @@ $--colors: (
 Then in the entry file of your project, import this style file instead of Element's
 built CSS:
 
-```JS
+```ts
 import Vue from 'vue'
 // import it before element-plus scss
 import './element-variables.scss'
 import 'element-plus/theme-chalk/src/index.scss'
 import ElementPlus from 'element-plus'
-import App from './App.vue';
+import App from './App.vue'
 
 const app = createApp(App)
 app.use(ElementPlus)
@@ -128,7 +128,7 @@ For performance reasons, it is more recommended to custom css variables under a 
 
 If you want to control css var by script, try this:
 
-```js
+```ts
 // document.documentElement is global
 const el = document.documentElement
 // const el = document.getElementById('xxx')
@@ -140,10 +140,8 @@ getComputedStyle(el).getPropertyValue(`--el-color-primary`)
 el.style['--el-color-primary'] = 'red'
 ```
 
-> If you want a more elegant way, check this out.
-> [useCssVar | VueUse](https://vueuse.org/core/usecssvar/)
-
-Now that you've tried element-plus, which means you're someone who's used to trying new things, don't read the old guide below!
+If you want a more elegant way, check this out.
+[useCssVar | VueUse](https://vueuse.org/core/usecssvar/)
 
 ## Change theme color <el-tag type="error" style="vertical-align: middle;">Deprecated since 1.1.0-beta.1</el-tag>
 
@@ -173,11 +171,11 @@ $--font-path: '~element-plus/lib/theme-chalk/fonts';
 Then in the entry file of your project, import this style file instead of Element's
 built CSS:
 
-```JS
+```ts
 import Vue from 'vue'
 import ElementPlus from 'element-plus'
 import './element-variables.scss'
-import App from './App.vue';
+import App from './App.vue'
 
 const app = createApp(App)
 app.use(ElementPlus)
