@@ -56,12 +56,12 @@ describe('MessageBox', () => {
   test('custom icon', async () => {
     MessageBox({
       type: 'warning',
-      iconClass: 'el-icon-question',
+      iconClass: 'question-filled',
       message: '这是一段内容',
     })
     await rAF()
     const icon = document.querySelector('.el-message-box__status')
-    expect(icon.classList.contains('el-icon-question')).toBe(true)
+    expect(icon.classList.contains('el-icon')).toBe(true)
   })
 
   test('html string', async () => {

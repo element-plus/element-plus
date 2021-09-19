@@ -4,8 +4,14 @@ import makeMount from '@element-plus/test-utils/make-mount'
 import { rAF } from '@element-plus/test-utils/tick'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import Message from '../src/index.vue'
-
 import type { ComponentPublicInstance, CSSProperties } from 'vue'
+
+export const TYPE_COMPONENTS_MAP = {
+  success: 'SuccessFilled',
+  warning: 'WarningFilled',
+  error: 'CircleCloseFilled',
+  info: 'InfoFilled',
+}
 
 const AXIOM = 'Rem is the best girl'
 
@@ -37,7 +43,7 @@ describe('Message.vue', () => {
 
       expect(wrapper.text()).toEqual(AXIOM)
       expect(vm.visible).toBe(true)
-      expect(vm.typeClass).toBe('el-icon-info')
+      expect(vm.typeClass).toBe(TYPE_COMPONENTS_MAP['info'])
       expect(vm.customStyle).toEqual({ top: '20px', zIndex: 0 })
     })
 
@@ -95,7 +101,7 @@ describe('Message.vue', () => {
         const wrapper = _mount({ props: { type } })
 
         const renderedClasses = wrapper.find('.el-message__icon').classes()
-        expect(renderedClasses).toContain(`el-icon-${type}`)
+        expect(renderedClasses).toContain(`el-icon`)
       }
     })
 
