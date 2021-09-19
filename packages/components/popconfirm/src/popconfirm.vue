@@ -19,7 +19,7 @@
       </p>
       <div class="el-popconfirm__action">
         <el-button size="mini" :type="cancelButtonType" @click="cancel">
-          {{ _cancelButtonTextFinal }}
+          {{ _cancelButtonText }}
         </el-button>
         <el-button size="mini" :type="confirmButtonType" @click="confirm">
           {{ _confirmButtonText }}
@@ -64,7 +64,7 @@ export default defineComponent({
     const _confirmButtonText = computed(
       () => props.confirmButtonText || t('el.popconfirm.confirmButtonText')
     )
-    const _cancelButtonTextFinal = computed(
+    const _cancelButtonText = computed(
       () => props.cancelButtonText || t('el.popconfirm.cancelButtonText')
     )
 
@@ -72,7 +72,7 @@ export default defineComponent({
       Effect,
       visible,
       _confirmButtonText,
-      _cancelButtonTextFinal,
+      _cancelButtonText,
 
       confirm,
       cancel,
