@@ -19,10 +19,9 @@
       @mouseenter="clearTimer"
       @mouseleave="startTimer"
     >
-      <i
-        v-if="type || iconClass"
-        :class="['el-message__icon', typeClass, iconClass]"
-      ></i>
+      <el-icon v-if="type || iconClass" class="message__icon">
+        <component :is="typeClass || iconClass" />
+      </el-icon>
       <slot>
         <p v-if="!dangerouslyUseHTMLString" class="el-message__content">
           {{ message }}
@@ -31,11 +30,13 @@
         <!--  eslint-disable-next-line -->
         <p v-else class="el-message__content" v-html="message"></p>
       </slot>
-      <div
+      <el-icon
         v-if="showClose"
-        class="el-message__closeBtn el-icon-close"
+        class="el-message__closeBtn"
         @click.stop="close"
-      ></div>
+      >
+        <close />
+      </el-icon>
     </div>
   </transition>
 </template>
@@ -43,19 +44,35 @@
 import { defineComponent, computed, ref, onMounted, onBeforeUnmount } from 'vue'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { on, off } from '@element-plus/utils/dom'
+import { ElIcon } from '@element-plus/components/icon'
+import {
+  Close,
+  SuccessFilled,
+  WarningFilled,
+  CircleCloseFilled,
+  InfoFilled,
+} from '@element-plus/icons'
 
 // MessageVM is an alias of vue.VNode
 import type { PropType } from 'vue'
-import type { Indexable } from '@element-plus/utils/types'
 import type { MessageVM } from './types'
-const TypeMap: Indexable<string> = {
-  success: 'success',
-  info: 'info',
-  warning: 'warning',
-  error: 'error',
+
+export const TYPE_COMPONENTS_MAP = {
+  success: 'SuccessFilled',
+  warning: 'WarningFilled',
+  error: 'CircleCloseFilled',
+  info: 'InfoFilled',
 }
 export default defineComponent({
   name: 'ElMessage',
+  components: {
+    ElIcon,
+    Close,
+    SuccessFilled,
+    WarningFilled,
+    CircleCloseFilled,
+    InfoFilled,
+  },
   props: {
     customClass: { type: String, default: '' },
     center: { type: Boolean, default: false },
@@ -80,7 +97,7 @@ export default defineComponent({
   setup(props) {
     const typeClass = computed(() => {
       const type = !props.iconClass && props.type
-      return type && TypeMap[type] ? `el-icon-${TypeMap[type]}` : ''
+      return type && TYPE_COMPONENTS_MAP[type] ? TYPE_COMPONENTS_MAP[type] : ''
     })
     const customStyle = computed(() => {
       return {
