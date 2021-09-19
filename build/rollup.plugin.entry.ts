@@ -8,11 +8,11 @@ export default function entryPlugin(): Plugin {
       if (id.includes('packages')) {
         return {
           code: code.replace(
-            /@element-plus\//g,
+            /@element-plus\/(components|directives|utils|hooks|tokens|locale)/g,
             `${path.relative(
               path.dirname(id),
               path.resolve(__dirname, '../packages')
-            )}/`
+            )}/$1`
           ),
           map: null,
         }
