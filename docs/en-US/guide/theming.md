@@ -17,13 +17,15 @@ provide four ways to change the style variables.
 You can find SCSS variables in [`packages/theme-chalk/src/common/var.scss`](https://github.com/element-plus/element-plus/blob/dev/packages/theme-chalk/src/common/var.scss).
 
 ::: warning
-We use [`sass:map`](https://sass-lang.com/documentation/values/maps) to refactor all SCSS variables.
+
+We use [sass:map](https://sass-lang.com/documentation/values/maps) to refactor all SCSS variables.
 
 For example, We use `$--colors` as a map to preserve different types of colors.
 
 `$--notification` is a map where all variables of the `notification` component at.
 
 In the future, we will write documentation for variables that can be customized for each component. You can also directly checkout the source [var.scss](https://github.com/element-plus/element-plus/blob/dev/packages/theme-chalk/src/common/var.scss).
+
 :::
 
 ```scss
@@ -55,10 +57,12 @@ $--colors: map.deep-merge(
 );
 ```
 
-How to override it?
+### How to override it?
 
 If your project also uses SCSS, you can directly
 change Element Plus style variables. Create a new style file, e.g. `element-variables.scss`:
+
+> element-variables.scss
 
 ```scss
 /* just override what you need */
@@ -72,6 +76,12 @@ $--colors: (
 Then in the entry file of your project, import this style file instead of Element's
 built CSS:
 
+::: tip
+
+Import `element-variables.scss` before scss of element-plus to avoid the problem of sass mixed variables, because we need generate light-x by your custom variables.
+
+:::
+
 ```ts
 import Vue from 'vue'
 // import it before element-plus scss
@@ -84,10 +94,6 @@ const app = createApp(App)
 app.use(ElementPlus)
 ```
 
-::: tip
-Import `element-variables.scss` before scss of element-plus to avoid the problem of sass mixed variables, because we need generate light-x by your custom variables.
-:::
-
 ### By CSS Variable
 
 CSS Variables is a very useful feature, already supported by almost all browsers. (IE: Wait?)
@@ -97,7 +103,9 @@ CSS Variables is a very useful feature, already supported by almost all browsers
 We have used css variables to reconstruct the style system of almost all components. (Since `1.0.2-beta-70` [#2242](https://github.com/element-plus/element-plus/issues/2242))
 
 ::: tip
+
 It is compatible with the SCSS variable system. We use the function of SCSS to automatically generate css variables for use.
+
 :::
 
 This means you can dynamically change individual variables inside the component to better customize it without having to modify scss and recompile it.
