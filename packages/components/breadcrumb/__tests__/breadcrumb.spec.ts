@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
-import Breadcrumb from '../src/index.vue'
-import BreadcrumbItem from '../src/item.vue'
+import Breadcrumb from '../src/breadcrumb.vue'
+import BreadcrumbItem from '../src/breadcrumb-item.vue'
 
 const _mount = (template: string) =>
   mount(
