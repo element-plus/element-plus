@@ -23,10 +23,9 @@
           class="el-message-box__header"
         >
           <div class="el-message-box__title">
-            <div
-              v-if="icon && center"
-              :class="['el-message-box__status', icon]"
-            ></div>
+            <el-icon v-if="icon && center" class="el-message-box__status">
+              <component :is="icon" />
+            </el-icon>
             <span>{{ title }}</span>
           </div>
           <button
@@ -41,15 +40,17 @@
               handleAction(distinguishCancelAndClose ? 'close' : 'cancel')
             "
           >
-            <i class="el-message-box__close el-icon-close"></i>
+            <el-icon class="el-message-box__close"><close /></el-icon>
           </button>
         </div>
         <div class="el-message-box__content">
           <div class="el-message-box__container">
-            <div
+            <el-icon
               v-if="icon && !center && hasMessage"
-              :class="['el-message-box__status', icon]"
-            ></div>
+              class="el-message-box__status"
+            >
+              <component :is="icon" />
+            </el-icon>
             <div v-if="hasMessage" class="el-message-box__message">
               <slot>
                 <p v-if="!dangerouslyUseHTMLString">{{ message }}</p>
@@ -133,20 +134,28 @@ import PopupManager from '@element-plus/utils/popup-manager'
 import { on, off } from '@element-plus/utils/dom'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { isValidComponentSize } from '@element-plus/utils/validators'
+import { ElIcon } from '@element-plus/components/icon'
+import {
+  Close,
+  SuccessFilled,
+  WarningFilled,
+  CircleCloseFilled,
+  InfoFilled,
+} from '@element-plus/icons'
 
 import type { ComponentPublicInstance, PropType } from 'vue'
-import type { ComponentSize, Indexable } from '@element-plus/utils/types'
+import type { ComponentSize } from '@element-plus/utils/types'
 import type {
   Action,
   MessageBoxState,
   MessageBoxType,
 } from './message-box.type'
 
-const TypeMap: Indexable<string> = {
-  success: 'success',
-  info: 'info',
-  warning: 'warning',
-  error: 'error',
+export const TYPE_COMPONENTS_MAP = {
+  success: 'SuccessFilled',
+  warning: 'WarningFilled',
+  error: 'CircleCloseFilled',
+  info: 'InfoFilled',
 }
 
 export default defineComponent({
@@ -158,6 +167,12 @@ export default defineComponent({
     ElButton,
     ElInput,
     ElOverlay,
+    ElIcon,
+    Close,
+    SuccessFilled,
+    WarningFilled,
+    CircleCloseFilled,
+    InfoFilled,
   },
   inheritAttrs: false,
   props: {
@@ -248,8 +263,8 @@ export default defineComponent({
     const icon = computed(
       () =>
         state.iconClass ||
-        (state.type && TypeMap[state.type]
-          ? `el-icon-${TypeMap[state.type]}`
+        (state.type && TYPE_COMPONENTS_MAP[state.type]
+          ? TYPE_COMPONENTS_MAP[state.type]
           : '')
     )
     const hasMessage = computed(() => !!state.message)

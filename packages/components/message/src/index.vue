@@ -19,7 +19,7 @@
       @mouseenter="clearTimer"
       @mouseleave="startTimer"
     >
-      <el-icon v-if="type || iconClass" class="message__icon">
+      <el-icon v-if="type || iconClass" class="el-message__icon">
         <component :is="typeClass || iconClass" />
       </el-icon>
       <slot>
