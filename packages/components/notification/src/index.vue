@@ -14,15 +14,10 @@
       @mouseleave="startTimer"
       @click="onClick"
     >
-      <i
-        v-if="type || iconClass"
-        class="el-notification__icon"
-        :class="[typeClass, iconClass]"
-      ></i>
-      <div
-        class="el-notification__group"
-        :class="{ 'is-with-icon': typeClass || iconClass }"
-      >
+      <el-icon v-if="icon" class="el-notification__icon">
+        <component :is="icon" />
+      </el-icon>
+      <div class="el-notification__group" :class="{ 'is-with-icon': icon }">
         <h2 class="el-notification__title" v-text="title"></h2>
         <div
           v-show="message"
@@ -36,11 +31,13 @@
             <p v-else v-html="message"></p>
           </slot>
         </div>
-        <div
+        <el-icon
           v-if="showClose"
-          class="el-notification__closeBtn el-icon-close"
+          class="el-notification__closeBtn"
           @click.stop="close"
-        ></div>
+        >
+          <close />
+        </el-icon>
       </div>
     </div>
   </transition>
@@ -50,20 +47,35 @@ import { defineComponent, computed, ref, onMounted, onBeforeUnmount } from 'vue'
 // notificationVM is an alias of vue.VNode
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { on, off } from '@element-plus/utils/dom'
+import { ElIcon } from '@element-plus/components/icon'
+import {
+  Close,
+  SuccessFilled,
+  WarningFilled,
+  CircleCloseFilled,
+  InfoFilled,
+} from '@element-plus/icons'
 
 import type { CSSProperties, PropType } from 'vue'
-import type { Indexable } from '@element-plus/utils/types'
 import type { NotificationVM, Position } from './notification.type'
 
-const TypeMap: Indexable<string> = {
-  success: 'success',
-  info: 'info',
-  warning: 'warning',
-  error: 'error',
+export const TYPE_COMPONENTS_MAP = {
+  success: 'SuccessFilled',
+  warning: 'WarningFilled',
+  error: 'CircleCloseFilled',
+  info: 'InfoFilled',
 }
 
 export default defineComponent({
   name: 'ElNotification',
+  components: {
+    ElIcon,
+    Close,
+    SuccessFilled,
+    WarningFilled,
+    CircleCloseFilled,
+    InfoFilled,
+  },
   props: {
     customClass: { type: String, default: '' },
     dangerouslyUseHTMLString: { type: Boolean, default: false },
@@ -98,9 +110,8 @@ export default defineComponent({
     const visible = ref(false)
     let timer = null
 
-    const typeClass = computed(() => {
-      const type = props.type
-      return type && TypeMap[type] ? `el-icon-${TypeMap[type]}` : ''
+    const icon = computed(() => {
+      return props.iconClass || TYPE_COMPONENTS_MAP[props.type] || ''
     })
 
     const horizontalClass = computed(() => {
@@ -163,7 +174,7 @@ export default defineComponent({
 
     return {
       horizontalClass,
-      typeClass,
+      icon,
       positionStyle,
       visible,
 
