@@ -18,7 +18,7 @@ You can find SCSS variables in [`packages/theme-chalk/src/common/var.scss`](http
 
 ::: warning
 
-We use [`sass:map`](https://sass-lang.com/documentation/values/maps) to refactor all SCSS variables.
+We use [sass:map](https://sass-lang.com/documentation/values/maps) to refactor all SCSS variables.
 
 For example, We use `$--colors` as a map to preserve different types of colors.
 
@@ -57,10 +57,12 @@ $--colors: map.deep-merge(
 );
 ```
 
-How to override it?
+### How to override it?
 
 If your project also uses SCSS, you can directly
 change Element Plus style variables. Create a new style file, e.g. `element-variables.scss`:
+
+> element-variables.scss
 
 ```scss
 /* just override what you need */
@@ -74,6 +76,12 @@ $--colors: (
 Then in the entry file of your project, import this style file instead of Element's
 built CSS:
 
+::: tip
+
+Import `element-variables.scss` before scss of element-plus to avoid the problem of sass mixed variables, because we need generate light-x by your custom variables.
+
+:::
+
 ```ts
 import Vue from 'vue'
 // import it before element-plus scss
@@ -85,12 +93,6 @@ import App from './App.vue'
 const app = createApp(App)
 app.use(ElementPlus)
 ```
-
-::: tip
-
-Import `element-variables.scss` before scss of element-plus to avoid the problem of sass mixed variables, because we need generate light-x by your custom variables.
-
-:::
 
 ### By CSS Variable
 
