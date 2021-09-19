@@ -70,7 +70,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { TrapFocus } from '@element-plus/directives'
-import { Overlay } from '@element-plus/components/overlay'
+import { ElOverlay } from '@element-plus/components/overlay'
 import { useSameTarget } from '@element-plus/hooks'
 import { dialogProps, dialogEmits } from './dialog'
 import { useDialog } from './use-dialog'
@@ -78,7 +78,7 @@ import { useDialog } from './use-dialog'
 export default defineComponent({
   name: 'ElDialog',
   components: {
-    ElOverlay: Overlay,
+    ElOverlay,
   },
   directives: {
     TrapFocus,
