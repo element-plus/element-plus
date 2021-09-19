@@ -34,7 +34,7 @@
     "docs:gen-locale": "rimraf docs/.vitepress/i18n && esno build/crowdin-generate.ts",
     "docs:crowdin": "esno build/crowdin-credentials.ts",
     "prepare": "husky install",
-    "postinstall": "yarn gen:version"
+    "postinstall": "yarn gen:version && git update-index --assume-unchanged play/play.vue"
   },
   "config": {
     "commitizen": {
