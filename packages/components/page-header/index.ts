@@ -1,13 +1,8 @@
-import PageHeader from './src/index.vue'
+import { withInstall } from '@element-plus/utils/with-install'
 
-import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
+import PageHeader from './src/page-header.vue'
 
-PageHeader.install = (app: App): void => {
-  app.component(PageHeader.name, PageHeader)
-}
+export const ElPageHeader = withInstall(PageHeader)
+export default ElPageHeader
 
-const _PageHeader = PageHeader as SFCWithInstall<typeof PageHeader>
-
-export default _PageHeader
-export const ElPageHeader = _PageHeader
+export * from './src/page-header'
