@@ -6,11 +6,9 @@
       :class="[typeClass, center ? 'is-center' : '', 'is-' + effect]"
       role="alert"
     >
-      <i
-        v-if="showIcon"
-        class="el-alert__icon"
-        :class="[iconClass, isBigIcon]"
-      ></i>
+      <el-icon v-if="showIcon" class="el-alert__icon" :class="isBigIcon">
+        <component :is="iconComponent" />
+      </el-icon>
       <div class="el-alert__content">
         <span
           v-if="title || $slots.title"
@@ -24,27 +22,33 @@
             {{ description }}
           </slot>
         </p>
-        <i
-          v-if="closable"
-          class="el-alert__closebtn"
-          :class="{
-            'is-customed': closeText !== '',
-            'el-icon-close': closeText === '',
-          }"
-          @click="close"
-        >
-          {{ closeText }}
-        </i>
+        <template v-if="closable">
+          <div
+            v-if="closeText"
+            class="el-alert__closebtn is-customed"
+            @click="close"
+          >
+            {{ closeText }}
+          </div>
+          <el-icon v-else class="el-alert__closebtn" @click="close">
+            <close />
+          </el-icon>
+        </template>
       </div>
     </div>
   </transition>
 </template>
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue'
-import { alertProps, alertEmits, ALERT_TYPE_CLASSES_MAP } from './alert'
+import { TypeComponents, TYPE_MAP } from '@element-plus/utils/icon'
+import { alertProps, alertEmits } from './alert'
 
 export default defineComponent({
   name: 'ElAlert',
+
+  components: {
+    ...TypeComponents,
+  },
 
   props: alertProps,
   emits: alertEmits,
@@ -55,8 +59,8 @@ export default defineComponent({
 
     // computed
     const typeClass = computed(() => `el-alert--${props.type}`)
-    const iconClass = computed(
-      () => ALERT_TYPE_CLASSES_MAP[props.type] || ALERT_TYPE_CLASSES_MAP['info']
+    const iconComponent = computed(
+      () => TYPE_MAP[props.type] || TYPE_MAP['info']
     )
     const isBigIcon = computed(() =>
       props.description || slots.default ? 'is-big' : ''
@@ -74,7 +78,7 @@ export default defineComponent({
     return {
       visible,
       typeClass,
-      iconClass,
+      iconComponent,
       isBigIcon,
       isBoldTitle,
       close,
