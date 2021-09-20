@@ -52,7 +52,7 @@ import { EVENT_CODE } from '@element-plus/utils/aria'
 import { notificationProps, notificationEmits } from './notification'
 
 import type { CSSProperties } from 'vue'
-import type { NotificationProps } from 'element-plus'
+import type { NotificationProps } from './notification'
 
 export const typeMap: Record<NotificationProps['type'], string> = {
   '': '',
