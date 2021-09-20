@@ -53,19 +53,19 @@
   padding-left: 0;
   background-color: var(--el-menu-background-color);
   box-sizing: border-box;
-  @include utils-clearfix;
-  &.#{$namespace}-menu--horizontal {
+
+  @include m(horizontal) {
     display: flex;
     flex-wrap: nowrap;
     border-bottom: solid 1px var(--el-menu-border-color);
-  }
-
-  @include m(horizontal) {
     border-right: none;
+
     & > .#{$namespace}-menu-item {
-      float: left;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+
       height: 60px;
-      line-height: 60px;
       margin: 0;
       border-bottom: 2px solid transparent;
       color: var(--el-text-color-secondary);
@@ -81,8 +81,6 @@
       }
     }
     & > .#{$namespace}-sub-menu {
-      float: left;
-
       &:focus,
       &:hover {
         outline: none;
@@ -123,9 +121,9 @@
       & .#{$namespace}-menu-item,
       & .#{$namespace}-sub-menu__title {
         background-color: $--color-white;
-        float: none;
+        display: flex;
+        align-items: center;
         height: 36px;
-        line-height: 36px;
         padding: 0 10px;
         color: var(--el-text-color-secondary);
       }
