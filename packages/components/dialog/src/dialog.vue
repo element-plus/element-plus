@@ -71,8 +71,7 @@
 import { defineComponent, ref } from 'vue'
 import { TrapFocus } from '@element-plus/directives'
 import { ElOverlay } from '@element-plus/components/overlay'
-import { ElIcon } from '@element-plus/components/icon'
-import { Close } from '@element-plus/icons'
+import { CloseComponents } from '@element-plus/utils/icon'
 import { useSameTarget } from '@element-plus/hooks'
 import { dialogProps, dialogEmits } from './dialog'
 import { useDialog } from './use-dialog'
@@ -81,8 +80,7 @@ export default defineComponent({
   name: 'ElDialog',
   components: {
     ElOverlay,
-    ElIcon,
-    Close,
+    ...CloseComponents,
   },
   directives: {
     TrapFocus,
