@@ -32,6 +32,10 @@ let seed = 1
 const notify: NotifyPartial = function (options = {}) {
   if (isServer) return { close: () => undefined }
 
+  if (typeof options === 'string' || isVNode(options)) {
+    options = { message: options }
+  }
+
   const position = options.position || 'top-right'
 
   let verticalOffset = options.offset || 0
@@ -41,6 +45,7 @@ const notify: NotifyPartial = function (options = {}) {
   verticalOffset += GAP_SIZE
 
   const id = `notification_${seed++}`
+  const userOnClose = options.onClose
   const props: Partial<NotificationProps> = {
     // default options end
     zIndex: PopupManager.nextZIndex(),
@@ -48,7 +53,7 @@ const notify: NotifyPartial = function (options = {}) {
     ...options,
     id,
     onClose: () => {
-      close(id, position, options.onClose)
+      close(id, position, userOnClose)
     },
   }
 
@@ -87,7 +92,9 @@ const notify: NotifyPartial = function (options = {}) {
 notificationTypes.forEach((type) => {
   notify[type] = (options = {}) => {
     if (typeof options === 'string' || isVNode(options)) {
-      options = { message: options }
+      options = {
+        message: options,
+      }
     }
     return notify({
       ...options,

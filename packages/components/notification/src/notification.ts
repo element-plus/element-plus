@@ -83,17 +83,20 @@ export interface NotificationHandle {
   close: () => void
 }
 
-export type NotifyFnTyped = (
-  options: Partial<NotificationOptionsTyped> | string | VNode
-) => NotificationHandle
+export type NotificationParams = Partial<NotificationOptions> | string | VNode
+export type NotificationParamsTyped =
+  | Partial<NotificationOptionsTyped>
+  | string
+  | VNode
+
 export interface NotifyPartial {
-  (options?: Partial<NotificationOptions>): NotificationHandle
+  (options?: NotificationParams): NotificationHandle
   closeAll: () => void
 
-  success?: NotifyFnTyped
-  warning?: NotifyFnTyped
-  error?: NotifyFnTyped
-  info?: NotifyFnTyped
+  success?: (options: NotificationParamsTyped) => NotificationHandle
+  warning?: (options: NotificationParamsTyped) => NotificationHandle
+  error?: (options: NotificationParamsTyped) => NotificationHandle
+  info?: (options: NotificationParamsTyped) => NotificationHandle
 }
 export type Notify = Required<NotifyPartial>
 
