@@ -31,7 +31,7 @@
             {{ closeText }}
           </div>
           <el-icon v-else class="el-alert__closebtn" @click="close">
-            <Close />
+            <close />
           </el-icon>
         </template>
       </div>
@@ -40,26 +40,14 @@
 </template>
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue'
-import ElIcon from '@element-plus/components/icon'
-import {
-  SuccessFilled,
-  InfoFilled,
-  WarningFilled,
-  CircleCloseFilled,
-  Close,
-} from '@element-plus/icons'
-import { alertProps, alertEmits, ALERT_TYPE_COMPONENTS_MAP } from './alert'
+import { TypeComponents, TYPE_MAP } from '@element-plus/utils/icon'
+import { alertProps, alertEmits } from './alert'
 
 export default defineComponent({
   name: 'ElAlert',
 
   components: {
-    ElIcon,
-    SuccessFilled,
-    InfoFilled,
-    WarningFilled,
-    CircleCloseFilled,
-    Close,
+    ...TypeComponents,
   },
 
   props: alertProps,
@@ -72,9 +60,7 @@ export default defineComponent({
     // computed
     const typeClass = computed(() => `el-alert--${props.type}`)
     const iconComponent = computed(
-      () =>
-        ALERT_TYPE_COMPONENTS_MAP[props.type] ||
-        ALERT_TYPE_COMPONENTS_MAP['info']
+      () => TYPE_MAP[props.type] || TYPE_MAP['info']
     )
     const isBigIcon = computed(() =>
       props.description || slots.default ? 'is-big' : ''
