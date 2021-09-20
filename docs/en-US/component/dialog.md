@@ -54,6 +54,7 @@ dialog/customizations
 ## Nested Dialog
 
 If a Dialog is nested in another Dialog, `append-to-body` is required.
+
 :::demo Normally we do not recommend using nested Dialog. If you need multiple Dialogs rendered on the page, you can simply flat them so that they're siblings to each other. If you must nest a Dialog inside another Dialog, set `append-to-body` of the nested Dialog to true, and it will append to body instead of its parent node, so both Dialogs can be correctly rendered.
 
 dialog/nested-dialog
@@ -83,6 +84,8 @@ When this is feature is enabled, the content under default slot will be destroye
 :::demo Note that by enabling this feature, the content will not be rendered before `transition.beforeEnter` dispatched, there will only be `overlay` `header(if any)` `footer(if any)`.
 
 dialog/destroy-on-close
+
+:::
 
 :::tip
 
