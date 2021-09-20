@@ -23,8 +23,11 @@
           class="el-message-box__header"
         >
           <div class="el-message-box__title">
-            <el-icon v-if="icon && center" class="el-message-box__status">
-              <component :is="icon" />
+            <el-icon
+              v-if="iconComponent && center"
+              class="el-message-box__status"
+            >
+              <component :is="iconComponent" />
             </el-icon>
             <span>{{ title }}</span>
           </div>
@@ -46,10 +49,10 @@
         <div class="el-message-box__content">
           <div class="el-message-box__container">
             <el-icon
-              v-if="icon && !center && hasMessage"
+              v-if="iconComponent && !center && hasMessage"
               class="el-message-box__status"
             >
-              <component :is="icon" />
+              <component :is="iconComponent" />
             </el-icon>
             <div v-if="hasMessage" class="el-message-box__message">
               <slot>
@@ -135,13 +138,7 @@ import { on, off } from '@element-plus/utils/dom'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 import { ElIcon } from '@element-plus/components/icon'
-import {
-  Close,
-  SuccessFilled,
-  WarningFilled,
-  CircleCloseFilled,
-  InfoFilled,
-} from '@element-plus/icons'
+import { TypeComponents, TypeComponentsMap } from '@element-plus/utils/icon'
 
 import type { ComponentPublicInstance, PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'
@@ -150,13 +147,6 @@ import type {
   MessageBoxState,
   MessageBoxType,
 } from './message-box.type'
-
-export const TYPE_COMPONENTS_MAP = {
-  success: 'SuccessFilled',
-  warning: 'WarningFilled',
-  error: 'CircleCloseFilled',
-  info: 'InfoFilled',
-}
 
 export default defineComponent({
   name: 'ElMessageBox',
@@ -168,11 +158,7 @@ export default defineComponent({
     ElInput,
     ElOverlay,
     ElIcon,
-    Close,
-    SuccessFilled,
-    WarningFilled,
-    CircleCloseFilled,
-    InfoFilled,
+    ...TypeComponents,
   },
   inheritAttrs: false,
   props: {
@@ -234,7 +220,7 @@ export default defineComponent({
       customClass: '',
       dangerouslyUseHTMLString: false,
       distinguishCancelAndClose: false,
-      iconClass: '',
+      icon: '',
       inputPattern: null,
       inputPlaceholder: '',
       inputType: 'text',
@@ -260,12 +246,8 @@ export default defineComponent({
       validateError: false,
       zIndex: PopupManager.nextZIndex(),
     })
-    const icon = computed(
-      () =>
-        state.iconClass ||
-        (state.type && TYPE_COMPONENTS_MAP[state.type]
-          ? TYPE_COMPONENTS_MAP[state.type]
-          : '')
+    const iconComponent = computed(
+      () => state.icon || TypeComponentsMap[state.type] || ''
     )
     const hasMessage = computed(() => !!state.message)
     const inputRef = ref<ComponentPublicInstance>(null)
@@ -430,7 +412,7 @@ export default defineComponent({
       ...toRefs(state),
       visible,
       hasMessage,
-      icon,
+      iconComponent,
       confirmButtonClasses,
       inputRef,
       confirmRef,

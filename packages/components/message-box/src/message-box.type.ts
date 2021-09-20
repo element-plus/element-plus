@@ -18,7 +18,7 @@ export declare interface MessageBoxState {
   title: string
   message: string
   type: MessageType
-  iconClass: string
+  icon: string
   customClass: string
   showInput: boolean
   inputValue: string
@@ -100,8 +100,8 @@ export interface ElMessageBoxOptions {
   /** Message box type */
   boxType?: MessageBoxType
 
-  /** Custom icon's class */
-  iconClass?: string
+  /** Custom icon component */
+  icon?: string
 
   /** Whether message is treated as HTML string */
   dangerouslyUseHTMLString?: boolean

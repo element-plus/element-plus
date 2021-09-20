@@ -9,7 +9,7 @@
       :id="id"
       :class="[
         'el-message',
-        type && !iconClass ? `el-message--${type}` : '',
+        type && !icon ? `el-message--${type}` : '',
         center ? 'is-center' : '',
         showClose ? 'is-closable' : '',
         customClass,
@@ -19,8 +19,8 @@
       @mouseenter="clearTimer"
       @mouseleave="startTimer"
     >
-      <el-icon v-if="type || iconClass" class="el-message__icon">
-        <component :is="typeClass || iconClass" />
+      <el-icon v-if="iconComponent" class="el-message__icon">
+        <component :is="iconComponent" />
       </el-icon>
       <slot>
         <p v-if="!dangerouslyUseHTMLString" class="el-message__content">
@@ -45,40 +45,27 @@ import { defineComponent, computed, ref, onMounted, onBeforeUnmount } from 'vue'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { on, off } from '@element-plus/utils/dom'
 import { ElIcon } from '@element-plus/components/icon'
-import {
-  Close,
-  SuccessFilled,
-  WarningFilled,
-  CircleCloseFilled,
-  InfoFilled,
-} from '@element-plus/icons'
+import { TypeComponents, TypeComponentsMap } from '@element-plus/utils/icon'
 
 // MessageVM is an alias of vue.VNode
-import type { PropType } from 'vue'
+import type { PropType, Component } from 'vue'
 import type { MessageVM } from './types'
 
-export const TYPE_COMPONENTS_MAP = {
-  success: 'SuccessFilled',
-  warning: 'WarningFilled',
-  error: 'CircleCloseFilled',
-  info: 'InfoFilled',
-}
 export default defineComponent({
   name: 'ElMessage',
   components: {
     ElIcon,
-    Close,
-    SuccessFilled,
-    WarningFilled,
-    CircleCloseFilled,
-    InfoFilled,
+    ...TypeComponents,
   },
   props: {
     customClass: { type: String, default: '' },
     center: { type: Boolean, default: false },
     dangerouslyUseHTMLString: { type: Boolean, default: false },
     duration: { type: Number, default: 3000 },
-    iconClass: { type: String, default: '' },
+    icon: {
+      type: [String, Object] as PropType<string | Component>,
+      default: '',
+    },
     id: { type: String, default: '' },
     message: {
       type: [String, Object] as PropType<string | MessageVM>,
@@ -95,9 +82,8 @@ export default defineComponent({
   },
   emits: ['destroy'],
   setup(props) {
-    const typeClass = computed(() => {
-      const type = !props.iconClass && props.type
-      return type && TYPE_COMPONENTS_MAP[type] ? TYPE_COMPONENTS_MAP[type] : ''
+    const iconComponent = computed(() => {
+      return props.icon || TypeComponentsMap[props.type] || ''
     })
     const customStyle = computed(() => {
       return {
@@ -150,7 +136,7 @@ export default defineComponent({
     })
 
     return {
-      typeClass,
+      iconComponent,
       customStyle,
       visible,
 
