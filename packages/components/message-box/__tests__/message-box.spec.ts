@@ -2,7 +2,6 @@ import { mount } from '@vue/test-utils'
 import { rAF } from '@element-plus/test-utils/tick'
 import { triggerNativeCompositeClick } from '@element-plus/test-utils/composite-click'
 import { QuestionFilled } from '@element-plus/icons'
-import { TypeComponentsMap } from '@element-plus/utils/icon'
 import MessageBox from '../src/messageBox'
 
 const selector = '.el-overlay'
