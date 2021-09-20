@@ -14,7 +14,11 @@
       @mouseleave="startTimer"
       @click="onClick"
     >
-      <el-icon v-if="iconComponent" class="el-notification__icon">
+      <el-icon
+        v-if="iconComponent"
+        class="el-notification__icon"
+        :class="typeClass"
+      >
         <component :is="iconComponent" />
       </el-icon>
       <div
@@ -99,6 +103,13 @@ export default defineComponent({
     const visible = ref(false)
     let timer = null
 
+    const typeClass = computed(() => {
+      const type = props.type
+      return type && TypeComponentsMap[props.type]
+        ? `el-notification--${type}`
+        : ''
+    })
+
     const iconComponent = computed(() => {
       return props.icon || TypeComponentsMap[props.type] || ''
     })
@@ -163,6 +174,7 @@ export default defineComponent({
 
     return {
       horizontalClass,
+      typeClass,
       iconComponent,
       positionStyle,
       visible,
