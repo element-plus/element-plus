@@ -1,4 +1,3 @@
-import ElIcon from '@element-plus/components/icon'
 import {
   SuccessFilled,
   InfoFilled,
@@ -8,12 +7,10 @@ import {
 } from '@element-plus/icons'
 
 export const CloseComponents = {
-  ElIcon,
   Close,
 }
 
 export const TypeComponents = {
-  ElIcon,
   Close,
   SuccessFilled,
   InfoFilled,
