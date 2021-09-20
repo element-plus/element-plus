@@ -14,19 +14,24 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 
-export default defineComponent({
-  name: 'Prev',
-  props: {
-    disabled: Boolean,
-    currentPage: {
-      type: Number,
-      default: 1,
-    },
-    prevText: {
-      type: String,
-      default: '',
-    },
+const paginationPrevProps = {
+  disabled: Boolean,
+  currentPage: {
+    type: Number,
+    default: 1,
   },
+  prevText: {
+    type: String,
+    default: '',
+  },
+} as const
+
+export default defineComponent({
+  name: 'ElPaginationPrev',
+
+  props: paginationPrevProps,
+  emits: ['click'],
+
   setup(props) {
     const internalDisabled = computed(
       () => props.disabled || props.currentPage <= 1

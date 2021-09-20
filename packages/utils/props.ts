@@ -37,8 +37,11 @@ export function buildProp<
   default?: R extends true
     ? never
     : D extends Record<string, unknown> | Array<any>
-    ? () => D
+    ? D extends Array<infer A>
+      ? () => readonly A[]
+      : () => D
     : D
+
   type?: any
   validator?: ((val: any) => val is C) | ((val: any) => boolean)
 } = {}) {

@@ -47,28 +47,34 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watchEffect } from 'vue'
 
-export default defineComponent({
-  name: 'ElPager',
-  props: {
-    currentPage: {
-      type: Number,
-      default: 1,
-    },
-    pageCount: {
-      type: Number,
-    },
-    pagerCount: {
-      type: Number,
-      default: 7,
-    },
-    disabled: Boolean,
+const paginationPagerProps = {
+  currentPage: {
+    type: Number,
+    default: 1,
   },
+  pageCount: {
+    type: Number,
+    required: true,
+  },
+  pagerCount: {
+    type: Number,
+    default: 7,
+  },
+  disabled: Boolean,
+} as const
+
+export default defineComponent({
+  name: 'ElPaginationPager',
+
+  props: paginationPagerProps,
   emits: ['change'],
+
   setup(props, { emit }) {
     const showPrevMore = ref(false)
     const showNextMore = ref(false)
     const quicknextIconClass = ref('el-icon-more')
     const quickprevIconClass = ref('el-icon-more')
+
     const pagers = computed(() => {
       const pagerCount = props.pagerCount
       const halfPagerCount = (pagerCount - 1) / 2
@@ -85,7 +91,7 @@ export default defineComponent({
           showNextMore = true
         }
       }
-      const array = []
+      const array: number[] = []
       if (showPrevMore && !showNextMore) {
         const startPage = pageCount - (pagerCount - 2)
         for (let i = startPage; i < pageCount; i++) {
@@ -190,6 +196,7 @@ export default defineComponent({
       quicknextIconClass,
       quickprevIconClass,
       pagers,
+
       onMouseenter,
       onPagerClick,
       onEnter,

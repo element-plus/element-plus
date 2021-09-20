@@ -13,23 +13,29 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-export default defineComponent({
-  name: 'Next',
-  props: {
-    disabled: Boolean,
-    currentPage: {
-      type: Number,
-      default: 1,
-    },
-    pageCount: {
-      type: Number,
-      default: 50,
-    },
-    nextText: {
-      type: String,
-      default: '',
-    },
+
+const paginationNextProps = {
+  disabled: Boolean,
+  currentPage: {
+    type: Number,
+    default: 1,
   },
+  pageCount: {
+    type: Number,
+    default: 50,
+  },
+  nextText: {
+    type: String,
+    default: '',
+  },
+} as const
+
+export default defineComponent({
+  name: 'ElPaginationNext',
+
+  props: paginationNextProps,
+  emits: ['click'],
+
   setup(props) {
     const internalDisabled = computed(
       () =>
