@@ -40,7 +40,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue'
-import { TypeComponents, TYPE_MAP } from '@element-plus/utils/icon'
+import { TypeComponents, TypeComponentsMap } from '@element-plus/utils/icon'
 import { alertProps, alertEmits } from './alert'
 
 export default defineComponent({
@@ -60,7 +60,7 @@ export default defineComponent({
     // computed
     const typeClass = computed(() => `el-alert--${props.type}`)
     const iconComponent = computed(
-      () => TYPE_MAP[props.type] || TYPE_MAP['info']
+      () => TypeComponentsMap[props.type] || TypeComponentsMap['info']
     )
     const isBigIcon = computed(() =>
       props.description || slots.default ? 'is-big' : ''
