@@ -14,8 +14,8 @@
       @mouseleave="startTimer"
       @click="onClick"
     >
-      <el-icon v-if="icon" class="el-notification__icon">
-        <component :is="icon" />
+      <el-icon v-if="iconComponent" class="el-notification__icon">
+        <component :is="iconComponent" />
       </el-icon>
       <div class="el-notification__group" :class="{ 'is-with-icon': icon }">
         <h2 class="el-notification__title" v-text="title"></h2>
@@ -48,39 +48,25 @@ import { defineComponent, computed, ref, onMounted, onBeforeUnmount } from 'vue'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { on, off } from '@element-plus/utils/dom'
 import { ElIcon } from '@element-plus/components/icon'
-import {
-  Close,
-  SuccessFilled,
-  WarningFilled,
-  CircleCloseFilled,
-  InfoFilled,
-} from '@element-plus/icons'
+import { TypeComponents, TypeComponentsMap } from '@element-plus/utils/icon'
 
-import type { CSSProperties, PropType } from 'vue'
+import type { CSSProperties, PropType, Component } from 'vue'
 import type { NotificationVM, Position } from './notification.type'
-
-export const TYPE_COMPONENTS_MAP = {
-  success: 'SuccessFilled',
-  warning: 'WarningFilled',
-  error: 'CircleCloseFilled',
-  info: 'InfoFilled',
-}
 
 export default defineComponent({
   name: 'ElNotification',
   components: {
     ElIcon,
-    Close,
-    SuccessFilled,
-    WarningFilled,
-    CircleCloseFilled,
-    InfoFilled,
+    ...TypeComponents,
   },
   props: {
     customClass: { type: String, default: '' },
     dangerouslyUseHTMLString: { type: Boolean, default: false },
     duration: { type: Number, default: 4500 },
-    iconClass: { type: String, default: '' },
+    icon: {
+      type: [String, Object] as PropType<string | Component>,
+      default: '',
+    },
     id: { type: String, default: '' },
     message: {
       type: [String, Object] as PropType<string | NotificationVM>,
@@ -110,8 +96,8 @@ export default defineComponent({
     const visible = ref(false)
     let timer = null
 
-    const icon = computed(() => {
-      return props.iconClass || TYPE_COMPONENTS_MAP[props.type] || ''
+    const iconComponent = computed(() => {
+      return props.icon || TypeComponentsMap[props.type] || ''
     })
 
     const horizontalClass = computed(() => {
@@ -174,7 +160,7 @@ export default defineComponent({
 
     return {
       horizontalClass,
-      icon,
+      iconComponent,
       positionStyle,
       visible,
 
