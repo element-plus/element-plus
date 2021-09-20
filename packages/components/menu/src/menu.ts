@@ -345,8 +345,6 @@ export default defineComponent({
               )
             )
           }
-        } else {
-          nextTick(() => instance.proxy.$forceUpdate())
         }
       }
 
