@@ -1,14 +1,8 @@
+import { TypeComponentsMap } from '@element-plus/utils/icon'
 import { buildProp, keyOf } from '@element-plus/utils/props'
 import type { ExtractPropTypes } from 'vue'
 
 export type AlertEffect = 'light' | 'dark'
-
-export const ALERT_TYPE_COMPONENTS_MAP = {
-  success: 'SuccessFilled',
-  warning: 'WarningFilled',
-  error: 'CircleCloseFilled',
-  info: 'InfoFilled',
-} as const
 
 export const alertProps = {
   title: {
@@ -21,7 +15,7 @@ export const alertProps = {
   },
   type: buildProp({
     type: String,
-    values: keyOf(ALERT_TYPE_COMPONENTS_MAP),
+    values: keyOf(TypeComponentsMap),
     default: 'info',
   }),
   closable: {

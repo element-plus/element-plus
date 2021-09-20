@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils'
+import { TypeComponentsMap } from '@element-plus/utils/icon'
 import Alert from '../src/alert.vue'
 
 const AXIOM = 'Rem is the best girl'
@@ -25,7 +26,7 @@ describe('Alert.vue', () => {
     })
     expect(wrapper.find('.el-alert').classes()).toContain('el-alert--success')
     expect(wrapper.find('.el-alert__icon').classes()).toContain('el-icon')
-    expect(wrapper.find('.el-alert__icon svg').exists()).toBe(true)
+    expect(wrapper.findComponent(TypeComponentsMap.success).exists()).toBe(true)
   })
 
   test('description', () => {
