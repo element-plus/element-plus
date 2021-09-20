@@ -4,7 +4,7 @@
     class="btn-prev"
     :disabled="internalDisabled"
     :aria-disabled="internalDisabled"
-    @click.self.prevent
+    @click="$emit('click', $event)"
   >
     <span v-if="prevText">{{ prevText }}</span>
     <i v-else class="el-icon el-icon-arrow-left"></i>
