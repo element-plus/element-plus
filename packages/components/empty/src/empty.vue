@@ -20,33 +20,26 @@
 import { computed, defineComponent } from 'vue'
 import { useLocaleInject } from '@element-plus/hooks'
 import ImgEmpty from './img-empty.vue'
+import { emptyProps } from './empty'
+
+import type { CSSProperties } from 'vue'
 
 export default defineComponent({
   name: 'ElEmpty',
   components: {
-    [ImgEmpty.name]: ImgEmpty,
+    ImgEmpty,
   },
-  props: {
-    image: {
-      type: String,
-      default: '',
-    },
-    imageSize: Number,
-    description: {
-      type: String,
-      default: '',
-    },
-  },
+
+  props: emptyProps,
+
   setup(props) {
     const { t } = useLocaleInject()
     const emptyDescription = computed(
       () => props.description || t('el.table.emptyText')
     )
-    const imageStyle = computed(() => {
-      return {
-        width: props.imageSize ? `${props.imageSize}px` : '',
-      }
-    })
+    const imageStyle = computed<CSSProperties>(() => ({
+      width: props.imageSize ? `${props.imageSize}px` : '',
+    }))
 
     return {
       emptyDescription,
