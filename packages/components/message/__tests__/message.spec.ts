@@ -3,15 +3,9 @@ import * as domExports from '@element-plus/utils/dom'
 import makeMount from '@element-plus/test-utils/make-mount'
 import { rAF } from '@element-plus/test-utils/tick'
 import { EVENT_CODE } from '@element-plus/utils/aria'
+import { TypeComponentsMap } from '@element-plus/utils/icon'
 import Message from '../src/index.vue'
-import type { ComponentPublicInstance, CSSProperties } from 'vue'
-
-export const TYPE_COMPONENTS_MAP = {
-  success: 'SuccessFilled',
-  warning: 'WarningFilled',
-  error: 'CircleCloseFilled',
-  info: 'InfoFilled',
-}
+import type { ComponentPublicInstance, CSSProperties, Component } from 'vue'
 
 const AXIOM = 'Rem is the best girl'
 
@@ -19,7 +13,7 @@ jest.useFakeTimers()
 
 type MessageInstance = ComponentPublicInstance<{
   visible: boolean
-  typeClass: string
+  iconComponent: string | Component
   customStyle: CSSProperties
 }>
 
@@ -43,7 +37,7 @@ describe('Message.vue', () => {
 
       expect(wrapper.text()).toEqual(AXIOM)
       expect(vm.visible).toBe(true)
-      expect(vm.typeClass).toBe(TYPE_COMPONENTS_MAP['info'])
+      expect(vm.iconComponent).toBe(TypeComponentsMap['info'])
       expect(vm.customStyle).toEqual({ top: '20px', zIndex: 0 })
     })
 
@@ -100,8 +94,9 @@ describe('Message.vue', () => {
       for (const type of ['success', 'warning', 'info', 'error'] as const) {
         const wrapper = _mount({ props: { type } })
 
-        const renderedClasses = wrapper.find('.el-message__icon').classes()
-        expect(renderedClasses).toContain(`el-icon`)
+        expect(wrapper.findComponent(TypeComponentsMap[type]).exists()).toBe(
+          true
+        )
       }
     })
 

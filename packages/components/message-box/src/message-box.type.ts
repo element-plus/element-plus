@@ -1,4 +1,4 @@
-import type { VNode } from 'vue'
+import type { Component, VNode } from 'vue'
 
 type MessageType = '' | 'success' | 'warning' | 'info' | 'error'
 
@@ -101,7 +101,7 @@ export interface ElMessageBoxOptions {
   boxType?: MessageBoxType
 
   /** Custom icon component */
-  icon?: string
+  icon?: string | Component
 
   /** Whether message is treated as HTML string */
   dangerouslyUseHTMLString?: boolean
