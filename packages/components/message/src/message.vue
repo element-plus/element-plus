@@ -28,7 +28,6 @@
           {{ message }}
         </p>
         <!-- Caution here, message could've been compromised, never use user's input as message -->
-        <!--  eslint-disable-next-line -->
         <p v-else class="el-message__content" v-html="message"></p>
       </slot>
       <div
@@ -40,71 +39,49 @@
   </transition>
 </template>
 <script lang="ts">
-import { defineComponent, computed, ref, onMounted, onBeforeUnmount } from 'vue'
+import { defineComponent, computed, ref, onMounted } from 'vue'
+import { useEventListener, useTimeoutFn } from '@vueuse/core'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { on, off } from '@element-plus/utils/dom'
+import { messageEmits, messageProps } from './message'
 
-// MessageVM is an alias of vue.VNode
-import type { PropType } from 'vue'
-import type { Indexable } from '@element-plus/utils/types'
-import type { MessageVM } from './types'
-const TypeMap: Indexable<string> = {
-  success: 'success',
-  info: 'info',
-  warning: 'warning',
-  error: 'error',
+import type { CSSProperties } from 'vue'
+import type { MessageProps } from './message'
+
+const typeMap: Record<MessageProps['type'], string> = {
+  success: 'el-icon-success',
+  info: 'el-icon-info',
+  warning: 'el-icon-warning',
+  error: 'el-icon-error',
 }
+
 export default defineComponent({
   name: 'ElMessage',
-  props: {
-    customClass: { type: String, default: '' },
-    center: { type: Boolean, default: false },
-    dangerouslyUseHTMLString: { type: Boolean, default: false },
-    duration: { type: Number, default: 3000 },
-    iconClass: { type: String, default: '' },
-    id: { type: String, default: '' },
-    message: {
-      type: [String, Object] as PropType<string | MessageVM>,
-      default: '',
-    },
-    onClose: {
-      type: Function as PropType<() => void>,
-      required: true,
-    },
-    showClose: { type: Boolean, default: false },
-    type: { type: String, default: 'info' },
-    offset: { type: Number, default: 20 },
-    zIndex: { type: Number, default: 0 },
-  },
-  emits: ['destroy'],
-  setup(props) {
-    const typeClass = computed(() => {
-      const type = !props.iconClass && props.type
-      return type && TypeMap[type] ? `el-icon-${TypeMap[type]}` : ''
-    })
-    const customStyle = computed(() => {
-      return {
-        top: `${props.offset}px`,
-        zIndex: props.zIndex,
-      }
-    })
 
+  props: messageProps,
+  emits: messageEmits,
+
+  setup(props) {
     const visible = ref(false)
-    let timer = null
+    let timer: (() => void) | undefined = undefined
+
+    const typeClass = computed(() =>
+      props.iconClass ? props.iconClass : typeMap[props.type] ?? ''
+    )
+    const customStyle = computed<CSSProperties>(() => ({
+      top: `${props.offset}px`,
+      zIndex: props.zIndex,
+    }))
 
     function startTimer() {
       if (props.duration > 0) {
-        timer = setTimeout(() => {
-          if (visible.value) {
-            close()
-          }
-        }, props.duration)
+        ;({ stop: timer } = useTimeoutFn(() => {
+          if (visible.value) close()
+        }, props.duration))
       }
     }
 
     function clearTimer() {
-      clearTimeout(timer)
-      timer = null
+      timer?.()
     }
 
     function close() {
@@ -125,12 +102,9 @@ export default defineComponent({
     onMounted(() => {
       startTimer()
       visible.value = true
-      on(document, 'keydown', keydown)
     })
 
-    onBeforeUnmount(() => {
-      off(document, 'keydown', keydown)
-    })
+    useEventListener(document, 'keydown', keydown)
 
     return {
       typeClass,
