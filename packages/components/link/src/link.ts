@@ -5,16 +5,9 @@ import type { ExtractPropTypes } from 'vue'
 export const linkProps = {
   type: buildProp({
     type: String,
-    values: [
-      'primary',
-      'success',
-      'warning',
-      'info',
-      'danger',
-      'default',
-    ] as const,
+    values: ['primary', 'success', 'warning', 'info', 'danger', 'default'],
     default: 'default',
-  }),
+  } as const),
   underline: {
     type: Boolean,
     default: true,
