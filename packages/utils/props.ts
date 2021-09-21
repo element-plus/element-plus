@@ -1,3 +1,4 @@
+import type { Mutable } from './types'
 import type { PropType } from 'vue'
 
 /**
@@ -37,11 +38,8 @@ export function buildProp<
   default?: R extends true
     ? never
     : D extends Record<string, unknown> | Array<any>
-    ? D extends Array<infer A>
-      ? () => readonly A[]
-      : () => D
+    ? () => D
     : D
-
   type?: any
   validator?: ((val: any) => val is C) | ((val: any) => boolean)
 } = {}) {
@@ -72,5 +70,7 @@ export function buildProp<
 }
 
 export const keyOf = <T>(arr: T) => Object.keys(arr) as Array<keyof T>
+export const mutable = <T extends readonly any[]>(val: T) =>
+  val as Mutable<typeof val>
 
 export const componentSize = ['large', 'medium', 'small', 'mini'] as const

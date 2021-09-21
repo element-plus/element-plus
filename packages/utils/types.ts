@@ -50,4 +50,4 @@ export type ComponentSize = 'large' | 'medium' | 'small' | 'mini'
 
 export type StyleValue = string | CSSProperties | Array<StyleValue>
 
-export type Writeable<T> = { -readonly [P in keyof T]: T[P] }
+export type Mutable<T> = { -readonly [P in keyof T]: T[P] }
