@@ -64,22 +64,16 @@
           <button
             type="button"
             :aria-label="t(`el.datepicker.prevYear`)"
-            class="
-              el-picker-panel__icon-btn
-              el-date-picker__prev-btn
-              el-icon-d-arrow-left
-            "
+            class="el-picker-panel__icon-btn el-date-picker__prev-btn"
+            :icon="DArrowLeft"
             @click="prevYear_"
           ></button>
           <button
             v-show="currentView === 'date'"
             type="button"
             :aria-label="t(`el.datepicker.prevMonth`)"
-            class="
-              el-picker-panel__icon-btn
-              el-date-picker__prev-btn
-              el-icon-arrow-left
-            "
+            class="el-picker-panel__icon-btn el-date-picker__prev-btn"
+            :icon="ArrowLeft"
             @click="prevMonth_"
           ></button>
           <span
@@ -99,22 +93,16 @@
           <button
             type="button"
             :aria-label="t(`el.datepicker.nextYear`)"
-            class="
-              el-picker-panel__icon-btn
-              el-date-picker__next-btn
-              el-icon-d-arrow-right
-            "
+            class="el-picker-panel__icon-btn el-date-picker__next-btn"
+            :icon="DArrowRight"
             @click="nextYear_"
           ></button>
           <button
             v-show="currentView === 'date'"
             type="button"
             :aria-label="t(`el.datepicker.nextMonth`)"
-            class="
-              el-picker-panel__icon-btn
-              el-date-picker__next-btn
-              el-icon-arrow-right
-            "
+            class="el-picker-panel__icon-btn el-date-picker__next-btn"
+            :icon="ArrowRight"
             @click="nextMonth_"
           ></button>
         </div>
@@ -183,6 +171,12 @@ import {
 } from '@element-plus/components/time-picker'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { isValidDatePickType } from '@element-plus/utils/validators'
+import {
+  DArrowLeft,
+  ArrowLeft,
+  DArrowRight,
+  ArrowRight,
+} from '@element-plus/icons'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
@@ -670,6 +664,10 @@ export default defineComponent({
       timeFormat,
       userInputTime,
       userInputDate,
+      DArrowLeft,
+      ArrowLeft,
+      DArrowRight,
+      ArrowRight,
     }
   },
 })

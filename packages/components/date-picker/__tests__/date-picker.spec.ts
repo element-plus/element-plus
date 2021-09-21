@@ -459,12 +459,12 @@ describe('YearPicker', () => {
     ).toBe('')
     expect(document.querySelector('.el-month-table')).toBeNull()
 
-    const leftBtn = document.querySelector(
-      '.el-icon-d-arrow-left'
-    ) as HTMLElement
-    const rightBtn = document.querySelector(
-      '.el-icon-d-arrow-right'
-    ) as HTMLElement
+    const buttons = document.querySelectorAll<HTMLElement>(
+      '.el-picker-panel__icon-btn'
+    )
+
+    const leftBtn = buttons[0]
+    const rightBtn = buttons[3]
     let count = 2
 
     while (--count) {
@@ -551,14 +551,18 @@ describe('WeekPicker', () => {
     input.trigger('focus')
     await nextTick()
     expect(numberOfHighlightRows()).toBe(1)
+
+    const buttons = document.querySelectorAll<HTMLElement>(
+      '.el-picker-panel__icon-btn'
+    )
     // test: next month should not have highlight
-    ;(document.querySelector('.el-icon-arrow-right') as HTMLElement).click()
+    buttons[2].click() // arrow-right
     await nextTick()
     expect(numberOfHighlightRows()).toBe(0)
     // test: next year should not have highlight
-    ;(document.querySelector('.el-icon-arrow-left') as HTMLElement).click()
+    buttons[1].click() // arrow-left
     await nextTick()
-    ;(document.querySelector('.el-icon-d-arrow-right') as HTMLElement).click()
+    buttons[3].click() // d-arrow-right
     await nextTick()
     expect(numberOfHighlightRows()).toBe(0)
   })
@@ -821,9 +825,14 @@ describe('DateRangePicker', () => {
     )
     expect(left.textContent).toBe('2000  October')
     expect(right.textContent).toBe('2000  December')
-    ;(panels[1].querySelector('.el-icon-d-arrow-right') as HTMLElement).click()
+
+    const buttons = panels[1].querySelectorAll<HTMLElement>(
+      '.el-picker-panel__icon-btn'
+    )
+
+    buttons[3].click()
     await nextTick()
-    ;(panels[1].querySelector('.el-icon-arrow-right') as HTMLElement).click()
+    buttons[2].click()
     await nextTick()
     expect(left.textContent).toBe('2000  October')
     expect(right.textContent).toBe('2002  January')
@@ -994,7 +1003,11 @@ describe('MonthRange', () => {
     )
     expect(left.textContent).toContain(2000)
     expect(right.textContent).toContain(2002)
-    ;(panels[1].querySelector('.el-icon-d-arrow-right') as HTMLElement).click()
+
+    panels[1]
+      .querySelectorAll<HTMLElement>('.el-picker-panel__icon-btn')[1]
+      .click()
+
     await nextTick()
     expect(left.textContent).toContain(2000)
     expect(right.textContent).toContain(2003)
