@@ -26,7 +26,7 @@
     "build:tokens": "cd packages/tokens && yarn clean && yarn build",
     "build:full-bundle": "esno build/full-bundle.ts",
     "format": "prettier --write .",
-    "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx && prettier --check .",
+    "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --max-warnings 0 && prettier --check .",
     "lint:fix": "eslint --fix . --ext .vue,.js,.ts,.jsx,.tsx && prettier --write .",
     "docs:dev": "if [ ! -d \"dist/element-plus\" ]; then sh scripts/build.sh; fi && yarn docs:gen-locale && cd docs && yarn dev",
     "docs:build": "cd docs && yarn build",
