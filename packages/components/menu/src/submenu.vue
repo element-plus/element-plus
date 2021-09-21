@@ -19,6 +19,7 @@ import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElPopper from '@element-plus/components/popper'
 import useMenu from './useMenu'
 
+import { useMenuCssVar } from './useMenuCssVar'
 import type {
   ISubMenuProps,
   RootMenuProvider,
@@ -365,9 +366,9 @@ export default defineComponent({
         null
       ),
     ]
-    const ulStyle = {
-      backgroundColor: this.rootProps.backgroundColor || '',
-    }
+
+    const ulStyle = useMenuCssVar(this.rootProps)
+
     // this render function is only used for bypass `Vue`'s compiler caused patching issue.
     // temporaryly mark ElPopper as any due to type inconsistency.
     // TODO: correct popper's type.
