@@ -38,11 +38,15 @@ describe('menu', () => {
     expect(item2.classes()).toContain('is-active')
   })
   test('background-color', async () => {
+    const backgroundColor = '#f00'
+    const textColor = '#000'
+    const activeTextColor = '#0f0'
+
     const wrapper = _mount(
       `<el-menu default-active="2"
-        background-color="#f00"
-        text-color="#000"
-        active-text-color="#0f0">
+        background-color="${backgroundColor}"
+        text-color="${textColor}"
+        active-text-color="${activeTextColor}">
         <el-menu-item index="1" ref="item1">处理中心</el-menu-item>
         <el-menu-item index="2" ref="item2">订单管理</el-menu-item>
       </el-menu>`
@@ -51,10 +55,10 @@ describe('menu', () => {
     const item1 = await wrapper.findComponent({ ref: 'item1' })
     const item2 = await wrapper.findComponent({ ref: 'item2' })
 
-    expect(instance.style.backgroundColor).toEqual('rgb(255, 0, 0)')
-    expect(item1.vm.$el.style.backgroundColor).toEqual('rgb(255, 0, 0)')
-    expect(item1.vm.$el.style.color).toEqual('rgb(0, 0, 0)')
-    expect(item2.vm.$el.style.color).toEqual('rgb(0, 255, 0)')
+    expect(instance.style.backgroundColor).toEqual(backgroundColor)
+    expect(item1.vm.$el.style.backgroundColor).toEqual(backgroundColor)
+    expect(item1.vm.$el.style.color).toEqual(textColor)
+    expect(item2.vm.$el.style.color).toEqual(activeTextColor)
     await item1.trigger('mouseenter')
     await nextTick()
     expect(item1.vm.$el.style.backgroundColor).toEqual('rgb(204, 0, 0)')

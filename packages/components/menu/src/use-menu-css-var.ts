@@ -1,4 +1,4 @@
-import useMenuColor from './useMenuColor'
+import useMenuColor from './use-menu-color'
 
 export const useMenuCssVar = (props) => {
   return {

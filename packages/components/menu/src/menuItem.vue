@@ -3,7 +3,7 @@
     class="el-menu-item"
     role="menuitem"
     tabindex="-1"
-    :style="[paddingStyle]"
+    :style="paddingStyle"
     :class="{
       'is-active': active,
       'is-disabled': disabled,
@@ -54,7 +54,7 @@ import {
 } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
 import { Effect } from '@element-plus/components/popper'
-import useMenu from './useMenu'
+import useMenu from './use-menu'
 
 import type { RootMenuProvider, SubMenuProvider } from './menu.type'
 
@@ -87,12 +87,6 @@ export default defineComponent({
 
     const active = computed(() => {
       return props.index === rootMenu.activeIndex.value
-    })
-    const mode = computed(() => {
-      return rootMenu.props.mode
-    })
-    const isNested = computed(() => {
-      return parentMenu.value.type.name !== 'ElMenu'
     })
 
     const handleClick = () => {
