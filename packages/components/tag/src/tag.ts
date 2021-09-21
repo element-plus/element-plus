@@ -6,9 +6,9 @@ export const tagProps = {
   closable: Boolean,
   type: buildProp({
     type: String,
-    values: ['success', 'info', 'warning', 'danger', ''] as const,
+    values: ['success', 'info', 'warning', 'danger', ''],
     default: '',
-  }),
+  } as const),
   hit: Boolean,
   disableTransitions: Boolean,
   color: {
@@ -21,9 +21,9 @@ export const tagProps = {
   } as const),
   effect: buildProp({
     type: String,
-    values: ['dark', 'light', 'plain'] as const,
+    values: ['dark', 'light', 'plain'],
     default: 'light',
-  }),
+  } as const),
 } as const
 export type TagProps = ExtractPropTypes<typeof tagProps>
 
