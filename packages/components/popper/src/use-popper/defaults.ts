@@ -143,7 +143,7 @@ export default {
   },
   visible: {
     type: Boolean,
-    default: undefined,
+    default: false,
   },
   stopPopperMouseEvent: {
     type: Boolean,
