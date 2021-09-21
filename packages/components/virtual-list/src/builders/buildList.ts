@@ -10,7 +10,7 @@ import {
   h,
 } from 'vue'
 import { hasOwn } from '@vue/shared'
-import memo from 'lodash/memoize'
+import memo from 'memoize-one'
 
 import { isNumber, isString, $ } from '@element-plus/utils/util'
 import isServer from '@element-plus/utils/isServer'

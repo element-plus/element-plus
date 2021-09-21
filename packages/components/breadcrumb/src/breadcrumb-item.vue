@@ -11,10 +11,10 @@
       v-if="separatorClass"
       class="el-breadcrumb__separator"
       :class="separatorClass"
-    ></i>
-    <span v-else class="el-breadcrumb__separator" role="presentation">{{
-      separator
-    }}</span>
+    />
+    <span v-else class="el-breadcrumb__separator" role="presentation">
+      {{ separator }}
+    </span>
   </span>
 </template>
 
@@ -26,30 +26,28 @@ import {
   onMounted,
   getCurrentInstance,
 } from 'vue'
-import type { PropType } from 'vue'
-import type { IBreadcrumbProps } from './breadcrumb'
+import { elBreadcrumbKey } from '@element-plus/tokens'
+import { breadcrumbItemProps } from './breadcrumb-item'
+
+import type { Router } from 'vue-router'
+
+const COMPONENT_NAME = 'ElBreadcrumbItem'
 
 export default defineComponent({
-  name: 'ElBreadcrumbItem',
-  props: {
-    to: {
-      type: [String, Object] as PropType<string | Record<string, unknown>>,
-      default: '',
-    },
-    replace: {
-      type: Boolean,
-      default: false,
-    },
-  },
+  name: COMPONENT_NAME,
+
+  props: breadcrumbItemProps,
+
   setup(props) {
-    const link = ref(null)
-    const parent = inject<IBreadcrumbProps>('breadcrumb')
-    const instance = getCurrentInstance()
-    const router = instance.appContext.config.globalProperties.$router
+    const instance = getCurrentInstance()!
+    const router = instance.appContext.config.globalProperties.$router as Router
+    const parent = inject(elBreadcrumbKey, undefined)
+
+    const link = ref<HTMLSpanElement>()
 
     onMounted(() => {
-      link.value.setAttribute('role', 'link')
-      link.value.addEventListener('click', () => {
+      link.value!.setAttribute('role', 'link')
+      link.value!.addEventListener('click', () => {
         if (!props.to || !router) return
         props.replace ? router.replace(props.to) : router.push(props.to)
       })

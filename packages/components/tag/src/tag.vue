@@ -31,44 +31,19 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
 import { useGlobalConfig } from '@element-plus/utils/util'
-import { isValidComponentSize } from '@element-plus/utils/validators'
 
-import type { PropType } from 'vue'
-import type { ComponentSize } from '@element-plus/utils/types'
+import { tagProps, tagEmits } from './tag'
 
 export default defineComponent({
   name: 'ElTag',
-  props: {
-    closable: Boolean,
-    type: {
-      type: String as PropType<'success' | 'info' | 'warning' | 'danger' | ''>,
-      default: '',
-    },
-    hit: Boolean,
-    disableTransitions: Boolean,
-    color: {
-      type: String,
-      default: '',
-    },
-    size: {
-      type: String as PropType<ComponentSize>,
-      validator: isValidComponentSize,
-    },
-    effect: {
-      type: String,
-      default: 'light',
-      validator: (val: string): boolean => {
-        return ['dark', 'light', 'plain'].indexOf(val) !== -1
-      },
-    },
-  },
-  emits: ['close', 'click'],
-  setup(props, ctx) {
+
+  props: tagProps,
+  emits: tagEmits,
+
+  setup(props, { emit }) {
     const ELEMENT = useGlobalConfig()
 
-    const tagSize = computed(() => {
-      return props.size || ELEMENT.size
-    })
+    const tagSize = computed(() => props.size || ELEMENT.size)
     const classes = computed(() => {
       const { type, hit, effect } = props
       return [
@@ -81,17 +56,16 @@ export default defineComponent({
     })
 
     // methods
-    const handleClose = (event) => {
+    const handleClose = (event: MouseEvent) => {
       event.stopPropagation()
-      ctx.emit('close', event)
+      emit('close', event)
     }
 
-    const handleClick = (event) => {
-      ctx.emit('click', event)
+    const handleClick = (event: MouseEvent) => {
+      emit('click', event)
     }
 
     return {
-      tagSize,
       classes,
       handleClose,
       handleClick,

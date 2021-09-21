@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import Tag from '../src/index.vue'
+import Tag from '../src/tag.vue'
 
 const AXIOM = 'Rem is the best girl'
 

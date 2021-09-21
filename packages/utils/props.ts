@@ -18,7 +18,7 @@ import type { PropType } from 'vue'
     values: ['small', 'medium'],
     validator: (val: unknown): val is number => typeof val === 'number',
   } as const)
-  @link read more: https://github.com/element-plus/element-plus/pull/3341
+  @link see more: https://github.com/element-plus/element-plus/pull/3341
  */
 export function buildProp<
   T = any,
