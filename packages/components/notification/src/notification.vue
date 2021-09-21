@@ -72,7 +72,7 @@ export default defineComponent({
     const visible = ref(false)
     let timer: (() => void) | undefined = undefined
 
-    const typeClass = computed(() => typeMap[props.type] ?? '')
+    const typeClass = computed(() => typeMap[props.type])
 
     const horizontalClass = computed(() =>
       props.position.endsWith('right') ? 'right' : 'left'
