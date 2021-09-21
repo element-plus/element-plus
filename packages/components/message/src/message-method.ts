@@ -5,12 +5,7 @@ import isServer from '@element-plus/utils/isServer'
 import MessageConstructor from './message.vue'
 import { messageTypes } from './message'
 
-import type {
-  Message,
-  MessagePartial,
-  MessageQueue,
-  MessageProps,
-} from './message'
+import type { MessagePartial, MessageQueue, MessageProps } from './message'
 import type { ComponentPublicInstance, VNode } from 'vue'
 
 const instances: MessageQueue = []
