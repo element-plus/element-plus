@@ -1,7 +1,7 @@
 import { useFormItemProps } from '@element-plus/hooks'
 import { buildProp } from '@element-plus/utils/props'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, Component } from 'vue'
 
 export const buttonType = [
   'default',
@@ -22,10 +22,10 @@ export const buttonProps = {
     values: buttonType,
     default: 'default',
   } as const),
-  icon: {
-    type: String,
+  icon: buildProp({
+    type: [String, Object as Component],
     default: '',
-  },
+  } as const),
   nativeType: buildProp({
     type: String,
     values: buttonNativeType,
