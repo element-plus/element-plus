@@ -9,7 +9,7 @@
     :href="disabled || !href ? null : href"
     @click="handleClick"
   >
-    <i v-if="icon" :class="icon"></i>
+    <el-icon v-if="icon"><component :is="icon" /></el-icon>
 
     <span v-if="$slots.default" class="el-link--inner">
       <slot></slot>
@@ -20,6 +20,8 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { ElIcon } from '@element-plus/components/icon'
+
 import type { PropType } from 'vue'
 
 type ILinkType = PropType<
@@ -28,6 +30,9 @@ type ILinkType = PropType<
 
 export default defineComponent({
   name: 'ElLink',
+  components: {
+    ElIcon,
+  },
   props: {
     type: {
       type: String as ILinkType,
