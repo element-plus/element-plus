@@ -784,6 +784,7 @@ export const useSelect = (props, states: States, ctx) => {
       return
     }
     if (states.options.size === 0 || states.filteredOptionsCount === 0) return
+    if (states.isOnComposition) return
 
     if (!optionsAllDisabled.value) {
       if (direction === 'next') {
