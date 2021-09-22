@@ -1,4 +1,4 @@
-name: Publish to NPM registry
+name: Publish
 
 on:
   release:
@@ -43,14 +43,13 @@ jobs:
           GIT_HEAD: ${{env.GIT_HEAD}}
           REGISTRY: https://registry.npmjs.com/
 
-  website-deploy:
+  deploy-website:
     needs: publish-npm
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          persist-credentials: false
+
       - name: Setup node
         uses: actions/setup-node@v2
         with:
@@ -62,10 +61,13 @@ jobs:
       - name: Init docs
         run: cd docs && yarn
 
-      - name: Fetch Crowdin token for pulling languages
+      - name: Init Crowdin token
         run: yarn docs:crowdin
         env:
           CROWDIN_TOKEN: ${{secrets.CROWDIN_TOKEN}}
+
+      - name: Upload source files
+        run: cd docs && yarn crowdin upload sources
 
       - name: Pull Crowdin translations
         run: cd docs && yarn crowdin download
