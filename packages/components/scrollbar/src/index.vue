@@ -12,7 +12,6 @@
     >
       <component
         :is="tag"
-        :key="id"
         ref="resize"
         :class="['el-scrollbar__view', viewClass]"
         :style="viewStyle"
@@ -102,10 +101,6 @@ export default defineComponent({
     minSize: {
       type: Number,
       default: 20,
-    },
-    id: {
-      type: [String, Array],
-      default: '',
     },
   },
   emits: ['scroll'],
