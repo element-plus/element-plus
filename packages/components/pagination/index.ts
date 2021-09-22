@@ -1,15 +1,8 @@
-import Pagination from './src'
+import { withInstall } from '@element-plus/utils/with-install'
 
-import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
+import Pagination from './src/pagination'
 
-const _Pagination = Pagination as SFCWithInstall<typeof Pagination>
-
-_Pagination.install = (app: App) => {
-  app.component(_Pagination.name, _Pagination)
-}
-
-export default _Pagination
-export const ElPagination = _Pagination
+export const ElPagination = withInstall(Pagination)
+export default ElPagination
 
 export * from './src/pagination'

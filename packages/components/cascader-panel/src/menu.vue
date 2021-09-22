@@ -1,6 +1,6 @@
 <template>
   <el-scrollbar
-    :id="menuId"
+    :key="menuId"
     tag="ul"
     role="menu"
     class="el-cascader-menu"

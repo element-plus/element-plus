@@ -1,13 +1,8 @@
-import Icon from './src/index.vue'
+import { withInstall } from '@element-plus/utils/with-install'
 
-import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
+import Icon from './src/icon.vue'
 
-Icon.install = (app: App): void => {
-  app.component(Icon.name, Icon)
-}
+export const ElIcon = withInstall(Icon)
+export default ElIcon
 
-const _Icon = Icon as SFCWithInstall<typeof Icon>
-
-export default _Icon
-export const ElIcon = _Icon
+export * from './src/icon'

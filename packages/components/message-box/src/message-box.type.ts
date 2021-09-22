@@ -1,4 +1,4 @@
-import type { VNode } from 'vue'
+import type { CSSProperties, VNode } from 'vue'
 
 type MessageType = '' | 'success' | 'warning' | 'info' | 'error'
 
@@ -20,6 +20,7 @@ export declare interface MessageBoxState {
   type: MessageType
   iconClass: string
   customClass: string
+  customStyle: CSSProperties
   showInput: boolean
   inputValue: string
   inputPlaceholder: string
@@ -69,6 +70,9 @@ export interface ElMessageBoxOptions {
 
   /** Custom class name for MessageBox */
   customClass?: string
+
+  /** Custom inline style for MessageBox */
+  customStyle?: CSSProperties
 
   /** MessageBox closing callback if you don't prefer Promise */
   callback?: Callback

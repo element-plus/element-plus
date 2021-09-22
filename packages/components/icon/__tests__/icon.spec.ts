@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import Icon from '../src/index.vue'
+import Icon from '../src/icon.vue'
 
 describe('Icon.vue', () => {
   test('render', () => {

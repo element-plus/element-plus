@@ -1,13 +1,8 @@
-import Empty from './src/index.vue'
+import { withInstall } from '@element-plus/utils/with-install'
 
-import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
+import Empty from './src/empty.vue'
 
-Empty.install = (app: App): void => {
-  app.component(Empty.name, Empty)
-}
+export const ElEmpty = withInstall(Empty)
+export default ElEmpty
 
-const _Empty = Empty as SFCWithInstall<typeof Empty>
-
-export default _Empty
-export const ElEmpty = _Empty
+export * from './src/empty'

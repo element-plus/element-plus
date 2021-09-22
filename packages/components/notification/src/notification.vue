@@ -26,7 +26,7 @@
         <div
           v-show="message"
           class="el-notification__content"
-          :style="!!title ? null : 'margin: 0'"
+          :style="!!title ? undefined : { margin: 0 }"
         >
           <slot>
             <p v-if="!dangerouslyUseHTMLString">{{ message }}</p>
@@ -47,58 +47,29 @@
   </transition>
 </template>
 <script lang="ts">
-import { defineComponent, computed, ref, onMounted, onBeforeUnmount } from 'vue'
-// notificationVM is an alias of vue.VNode
+import { defineComponent, computed, ref, onMounted } from 'vue'
+import { useEventListener, useTimeoutFn } from '@vueuse/core'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { on, off } from '@element-plus/utils/dom'
 import { ElIcon } from '@element-plus/components/icon'
 import { TypeComponents, TypeComponentsMap } from '@element-plus/utils/icon'
+import { notificationProps, notificationEmits } from './notification'
 
-import type { CSSProperties, PropType, Component } from 'vue'
-import type { NotificationVM, Position } from './notification.type'
+import type { CSSProperties } from 'vue'
 
 export default defineComponent({
   name: 'ElNotification',
+
   components: {
     ElIcon,
     ...TypeComponents,
   },
-  props: {
-    customClass: { type: String, default: '' },
-    dangerouslyUseHTMLString: { type: Boolean, default: false },
-    duration: { type: Number, default: 4500 },
-    icon: {
-      type: [String, Object] as PropType<string | Component>,
-      default: '',
-    },
-    id: { type: String, default: '' },
-    message: {
-      type: [String, Object] as PropType<string | NotificationVM>,
-      default: '',
-    },
-    offset: { type: Number, default: 0 },
-    onClick: {
-      type: Function as PropType<() => void>,
-      default: () => undefined,
-    },
-    onClose: {
-      type: Function as PropType<() => void>,
-      required: true,
-    },
-    position: {
-      type: String as PropType<Position>,
-      default: 'top-right',
-    },
-    showClose: { type: Boolean, default: true },
-    title: { type: String, default: '' },
-    type: { type: String, default: '' },
-    zIndex: { type: Number, default: 0 },
-  },
-  emits: ['destroy'],
+
+  props: notificationProps,
+  emits: notificationEmits,
 
   setup(props) {
     const visible = ref(false)
-    let timer = null
+    let timer: (() => void) | undefined = undefined
 
     const typeClass = computed(() => {
       const type = props.type
@@ -111,34 +82,31 @@ export default defineComponent({
       return TypeComponentsMap[props.type] || props.icon || ''
     })
 
-    const horizontalClass = computed(() => {
-      return props.position.indexOf('right') > 1 ? 'right' : 'left'
-    })
+    const horizontalClass = computed(() =>
+      props.position.endsWith('right') ? 'right' : 'left'
+    )
 
-    const verticalProperty = computed(() => {
-      return props.position.startsWith('top') ? 'top' : 'bottom'
-    })
+    const verticalProperty = computed(() =>
+      props.position.startsWith('top') ? 'top' : 'bottom'
+    )
 
-    const positionStyle = computed(() => {
+    const positionStyle = computed<CSSProperties>(() => {
       return {
         [verticalProperty.value]: `${props.offset}px`,
-        'z-index': props.zIndex,
-      } as CSSProperties
+        zIndex: props.zIndex,
+      }
     })
 
     function startTimer() {
       if (props.duration > 0) {
-        timer = setTimeout(() => {
-          if (visible.value) {
-            close()
-          }
-        }, props.duration)
+        ;({ stop: timer } = useTimeoutFn(() => {
+          if (visible.value) close()
+        }, props.duration))
       }
     }
 
     function clearTimer() {
-      clearTimeout(timer)
-      timer = null
+      timer?.()
     }
 
     function close() {
@@ -162,12 +130,9 @@ export default defineComponent({
     onMounted(() => {
       startTimer()
       visible.value = true
-      on(document, 'keydown', onKeydown)
     })
 
-    onBeforeUnmount(() => {
-      off(document, 'keydown', onKeydown)
-    })
+    useEventListener(document, 'keydown', onKeydown)
 
     return {
       horizontalClass,

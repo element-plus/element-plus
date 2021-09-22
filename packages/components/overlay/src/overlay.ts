@@ -1,9 +1,10 @@
 import { createVNode, defineComponent, renderSlot, h } from 'vue'
 import { PatchFlags } from '@element-plus/utils/vnode'
 import { useSameTarget } from '@element-plus/hooks'
-import { buildProp } from '@element-plus/utils/props'
+import { buildProp, definePropType } from '@element-plus/utils/props'
 
 import type { ExtractPropTypes, CSSProperties } from 'vue'
+import type { ZIndexProperty } from 'csstype'
 
 export const overlayProps = {
   mask: {
@@ -14,11 +15,15 @@ export const overlayProps = {
     type: Boolean,
     default: false,
   },
-  overlayClass: buildProp<string | string[] | Record<string, boolean>>({
-    type: [String, Array, Object],
+  overlayClass: buildProp({
+    type: definePropType<string | string[] | Record<string, boolean>>([
+      String,
+      Array,
+      Object,
+    ]),
   }),
-  zIndex: buildProp<CSSProperties['zIndex']>({
-    type: [String, Number],
+  zIndex: buildProp({
+    type: definePropType<ZIndexProperty>([String, Number]),
   }),
 } as const
 export type OverlayProps = ExtractPropTypes<typeof overlayProps>
