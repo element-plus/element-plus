@@ -54,7 +54,7 @@ describe('menu', () => {
     )
     const instance = wrapper.vm.$el
     const item1 = await wrapper.findComponent({ ref: 'item1' })
-    const item2 = await wrapper.findComponent({ ref: 'item2' })
+    // const item2 = await wrapper.findComponent({ ref: 'item2' })
 
     expect(
       window.getComputedStyle(instance)._values['--el-menu-background-color']
