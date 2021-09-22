@@ -106,6 +106,25 @@ export default {
 }
 ```
 
+#### Import sub components
+
+When you try to import sub components for example: `ElFormItem`, `ElTabPane` along with `unplugin-element-plus`.
+
+**Don't do:**
+
+```ts
+import { ElTabPane } from 'element-plus'
+```
+
+**Do:**
+
+```ts
+import { ElTabs } from 'element-plus'
+const { ElTabPane } = ElTabs
+```
+
+All sub components is loaded when you import the main component, find the list of full sub components here [Why introducing breaking changes in 1.1.0-beta.1](https://github.com/element-plus/element-plus/discussions/3020)
+
 ## Starter Template
 
 ### Vue CLI
