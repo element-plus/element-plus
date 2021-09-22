@@ -66,9 +66,6 @@ jobs:
         env:
           CROWDIN_TOKEN: ${{secrets.CROWDIN_TOKEN}}
 
-      - name: Upload source files
-        run: cd docs && yarn crowdin upload sources
-
       - name: Pull Crowdin translations
         run: cd docs && yarn crowdin download
 
