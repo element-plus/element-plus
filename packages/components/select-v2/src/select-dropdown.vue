@@ -33,7 +33,7 @@ export default defineComponent({
     width: Number,
   },
   setup(props) {
-    const select = inject(selectV2InjectionKey)
+    const select = inject(selectV2InjectionKey) as any
     const cachedHeights = ref<Array<number>>([])
 
     const listRef = ref(null)
@@ -54,7 +54,7 @@ export default defineComponent({
       }
     })
 
-    const contains = (arr = [], target: any) => {
+    const contains = (arr: Array<any> = [], target: any) => {
       const {
         props: { valueKey },
       } = select
@@ -105,16 +105,16 @@ export default defineComponent({
     const isItemHovering = (target: number) => props.hoveringIndex === target
 
     const scrollToItem = (index: number) => {
-      const list = listRef.value
+      const list = listRef.value as any
       if (list) {
-        listRef.value.scrollToItem(index)
+        list.scrollToItem(index)
       }
     }
 
     const resetScrollTop = () => {
-      const list = listRef.value
+      const list = listRef.value as any
       if (list) {
-        listRef.value.resetScrollTop()
+        list.resetScrollTop()
       }
     }
 
