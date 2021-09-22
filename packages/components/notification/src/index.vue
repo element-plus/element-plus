@@ -108,7 +108,7 @@ export default defineComponent({
     })
 
     const iconComponent = computed(() => {
-      return props.icon || TypeComponentsMap[props.type] || ''
+      return TypeComponentsMap[props.type] || props.icon || ''
     })
 
     const horizontalClass = computed(() => {
