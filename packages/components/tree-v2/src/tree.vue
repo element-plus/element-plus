@@ -46,11 +46,10 @@
 import { defineComponent, getCurrentInstance, provide } from 'vue'
 import { useLocaleInject } from '@element-plus/hooks'
 import { FixedSizeList } from '@element-plus/components/virtual-list'
-import { useTree } from './hooks/useTree'
+import { useTree } from './composables/useTree'
 import ElTreeNode from './tree-node.vue'
-import { treeProps } from './defaults'
-import { TREE_EMITS } from './emits'
-import type { ITreeProps } from './tree.type'
+import { ROOT_TREE_INJECTION_KEY, TREE_EMITS, treeProps } from './virtual-tree'
+import type { TreeProps } from './tree.type'
 
 export default defineComponent({
   name: 'ElTreeV2',
@@ -60,8 +59,8 @@ export default defineComponent({
   },
   props: treeProps,
   emits: TREE_EMITS,
-  setup(props: ITreeProps, ctx) {
-    provide('RootTree', {
+  setup(props: TreeProps, ctx) {
+    provide(ROOT_TREE_INJECTION_KEY, {
       ctx,
       props,
       instance: getCurrentInstance(),

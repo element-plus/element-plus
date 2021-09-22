@@ -1,11 +1,12 @@
-import { computed, Ref, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { isFunction } from '@vue/shared'
-import type { ITreeProps, TreeKey, TreeNode, Tree } from '../tree.type'
+import type { Ref } from 'vue'
+import type { TreeProps, TreeKey, TreeNode, Tree } from '../tree.type'
 
 // When the data volume is very large using filter will cause lag
 // I haven't found a better way to optimize it for now
 // Maybe this problem should be left to the server side
-export function useFilter(props: ITreeProps, tree: Ref<Tree>) {
+export function useFilter(props: TreeProps, tree: Ref<Tree | null>) {
   const hiddenNodeKeySet = ref<Set<TreeKey>>(new Set([]))
   const hiddenExpandIconKeySet = ref<Set<TreeKey>>(new Set([]))
 
@@ -21,13 +22,13 @@ export function useFilter(props: ITreeProps, tree: Ref<Tree>) {
     const hiddenExpandIconKeys = hiddenExpandIconKeySet.value
     const hiddenKeys = hiddenNodeKeySet.value
     const family: TreeNode[] = []
-    const nodes = (tree.value && tree.value.treeNodes) || []
+    const nodes = tree.value?.treeNodes || []
     const filter = props.filterMethod
     hiddenKeys.clear()
     function traverse(nodes: TreeNode[]) {
       nodes.forEach((node) => {
         family.push(node)
-        if (filter(query, node.data)) {
+        if (filter?.(query, node.data)) {
           family.forEach((member) => {
             expandKeySet.add(member.key)
           })

@@ -2,13 +2,31 @@ import type { PropType } from 'vue'
 import type {
   TreeNode,
   TreeKey,
+  TreeData,
   TreeOptionProps,
   FilterMethod,
 } from './tree.type'
 
+// constants
+export const ROOT_TREE_INJECTION_KEY = 'RootTree'
+
+// enums
+export enum TreeOptionsEnum {
+  KEY = 'id',
+  LABEL = 'label',
+  CHILDREN = 'children',
+  DISABLED = 'disabled',
+}
+
+export const enum SetOperationEnum {
+  ADD = 'add',
+  DELETE = 'delete',
+}
+
+// props
 export const treeProps = {
   data: {
-    type: Array,
+    type: Array as PropType<TreeData>,
     default: () => [],
   },
   emptyText: {
@@ -21,10 +39,10 @@ export const treeProps = {
   props: {
     type: Object as PropType<TreeOptionProps>,
     default: () => ({
-      children: 'children',
-      label: 'label',
-      disabled: 'disabled',
-      value: 'id',
+      children: TreeOptionsEnum.CHILDREN,
+      label: TreeOptionsEnum.LABEL,
+      disabled: TreeOptionsEnum.DISABLED,
+      value: TreeOptionsEnum.KEY,
     }),
   },
   highlightCurrent: Boolean,
@@ -111,7 +129,26 @@ export const treeNodeProps = {
 
 export const treeNodeContentProps = {
   node: {
-    type: Object,
+    type: Object as PropType<TreeNode>,
     required: true,
   },
 }
+
+// emits
+export const NODE_CLICK = 'node-click'
+export const NODE_EXPAND = 'node-expand'
+export const NODE_COLLAPSE = 'node-collapse'
+export const CURRENT_CHANGE = 'current-change'
+export const NODE_CHECK = 'check'
+export const NODE_CHECK_CHANGE = 'check-change'
+export const NODE_CONTEXTMENU = 'node-contextmenu'
+
+export const TREE_EMITS = [
+  NODE_CLICK,
+  NODE_EXPAND,
+  NODE_COLLAPSE,
+  CURRENT_CHANGE,
+  NODE_CHECK,
+  NODE_CHECK_CHANGE,
+  NODE_CONTEXTMENU,
+]

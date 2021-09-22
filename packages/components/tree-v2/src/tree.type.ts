@@ -1,5 +1,9 @@
-import { ComponentInternalInstance, SetupContext, ExtractPropTypes } from 'vue'
-import { treeProps } from './defaults'
+import type {
+  ComponentInternalInstance,
+  SetupContext,
+  ExtractPropTypes,
+} from 'vue'
+import type { treeProps } from './virtual-tree'
 
 export declare interface TreeNodeData {
   [key: string]: any
@@ -15,14 +19,14 @@ export declare interface TreeOptionProps {
   disabled?: string
 }
 
-export declare type ITreeProps = ExtractPropTypes<typeof treeProps>
+export declare type TreeProps = ExtractPropTypes<typeof treeProps>
 
 export interface TreeNode {
-  key?: TreeKey
-  level?: number
-  parent?: TreeNode
+  key: TreeKey
+  level: number
+  parent?: TreeNode | null
   children?: TreeNode[]
-  data?: TreeNodeData
+  data: TreeNodeData
   disabled?: boolean
   label?: string
   isLeaf?: boolean
@@ -31,7 +35,7 @@ export interface TreeNode {
 export interface RootTreeType {
   ctx: SetupContext<any>
   instance: ComponentInternalInstance
-  props: ITreeProps
+  props: TreeProps
 }
 
 export interface Tree {

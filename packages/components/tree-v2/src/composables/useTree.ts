@@ -1,14 +1,15 @@
 import { computed, nextTick, ref, shallowRef, watch } from 'vue'
-import { useCheck } from './useCheck'
-import { useFilter } from './useFilter'
 import {
   NODE_CLICK,
   NODE_COLLAPSE,
   NODE_EXPAND,
   CURRENT_CHANGE,
-} from '../emits'
+  TreeOptionsEnum,
+} from '../virtual-tree'
+import { useCheck } from './useCheck'
+import { useFilter } from './useFilter'
 import type {
-  ITreeProps,
+  TreeProps,
   TreeNodeData,
   TreeKey,
   TreeNode,
@@ -16,10 +17,10 @@ import type {
   Tree,
 } from '../tree.type'
 
-export function useTree(props: ITreeProps, emit) {
+export function useTree(props: TreeProps, emit) {
   const expandedKeySet = ref<Set<TreeKey>>(new Set(props.defaultExpandedKeys))
-  const currentKey = ref<TreeKey>(null)
-  const tree = shallowRef<Tree>(null)
+  const currentKey = ref<TreeKey | undefined>(undefined)
+  const tree = shallowRef<Tree | null>(null)
 
   watch(
     () => props.currentNodeKey,
@@ -33,7 +34,7 @@ export function useTree(props: ITreeProps, emit) {
 
   watch(
     () => props.data,
-    (data) => {
+    (data: TreeData) => {
       return nextTick(() => (tree.value = createTree(data)))
     },
     {
@@ -51,7 +52,7 @@ export function useTree(props: ITreeProps, emit) {
     getHalfCheckedNodes,
     setChecked,
     setCheckedKeys,
-  } = useCheck(props, tree, emit)
+  } = useCheck(props, tree)
 
   const { doFilter, hiddenNodeKeySet, isForceHiddenExpandIcon } = useFilter(
     props,
@@ -59,16 +60,16 @@ export function useTree(props: ITreeProps, emit) {
   )
 
   const valueKey = computed(() => {
-    return (props.props && props.props.value) || 'id'
+    return props.props?.value || TreeOptionsEnum.KEY
   })
   const childrenKey = computed(() => {
-    return (props.props && props.props.children) || 'children'
+    return props.props?.children || TreeOptionsEnum.CHILDREN
   })
   const disabledKey = computed(() => {
-    return (props.props && props.props.disabled) || 'disabled'
+    return props.props?.disabled || TreeOptionsEnum.DISABLED
   })
   const labelKey = computed(() => {
-    return (props.props && props.props.label) || 'label'
+    return props.props?.label || TreeOptionsEnum.LABEL
   })
 
   const flattenTree = computed(() => {
@@ -83,6 +84,7 @@ export function useTree(props: ITreeProps, emit) {
       }
       while (stack.length) {
         const node = stack.pop()
+        if (!node) continue
         if (!hiddenKeys.has(node.key)) {
           flattenNodes.push(node)
         }
@@ -118,13 +120,14 @@ export function useTree(props: ITreeProps, emit) {
       const siblings: TreeNode[] = []
       for (let index = 0; index < nodes.length; ++index) {
         const rawNode = nodes[index]
-        const node: TreeNode = {}
-        node.label = getLabel(rawNode)
-        node.level = level
-        node.parent = parent
-        node.data = rawNode
         const value = getKey(rawNode)
-        node.key = value
+        const node: TreeNode = {
+          level,
+          key: value,
+          data: rawNode,
+        }
+        node.label = getLabel(rawNode)
+        node.parent = parent
         const children = getChildren(rawNode)
         node.disabled = getDisabled(rawNode)
         node.isLeaf = !children || children.length === 0
@@ -136,7 +139,7 @@ export function useTree(props: ITreeProps, emit) {
         if (!levelTreeNodeMap.has(level)) {
           levelTreeNodeMap.set(level, [])
         }
-        levelTreeNodeMap.get(level).push(node)
+        levelTreeNodeMap.get(level)?.push(node)
       }
       if (level > maxLevel) {
         maxLevel = level
@@ -165,7 +168,7 @@ export function useTree(props: ITreeProps, emit) {
 
   function getKey(node: TreeNodeData): TreeKey {
     if (!node) {
-      return
+      return ''
     }
     return node[valueKey.value]
   }
@@ -211,11 +214,12 @@ export function useTree(props: ITreeProps, emit) {
 
   function expand(node: TreeNode) {
     const keySet = expandedKeySet.value
-    if (props.accordion) {
+    if (tree?.value && props.accordion) {
       // whether only one node among the same level can be expanded at one time
       const { treeNodeMap } = tree.value
       keySet.forEach((key) => {
-        if (treeNodeMap.get(key).level === node.level) {
+        const node = treeNodeMap.get(key)
+        if (node && node.level === node.level) {
           keySet.delete(key)
         }
       })
@@ -234,7 +238,7 @@ export function useTree(props: ITreeProps, emit) {
   }
 
   function isDisabled(node: TreeNode): boolean {
-    return node.disabled
+    return !!node.disabled
   }
 
   function isCurrent(node: TreeNode): boolean {
@@ -242,15 +246,16 @@ export function useTree(props: ITreeProps, emit) {
     return !!current && current === node.key
   }
 
-  function getCurrentNode(): TreeNodeData {
-    return tree?.value.treeNodeMap.get(currentKey.value)?.data
+  function getCurrentNode(): TreeNodeData | undefined {
+    if (!currentKey.value) return undefined
+    return tree?.value?.treeNodeMap.get(currentKey.value)?.data
   }
 
-  function getCurrentKey(): TreeKey {
+  function getCurrentKey(): TreeKey | undefined {
     return currentKey.value
   }
 
-  function setCurrentKey(key: TreeKey): boolean {
+  function setCurrentKey(key: TreeKey): void {
     currentKey.value = key
   }
 

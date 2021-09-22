@@ -19,7 +19,7 @@
   >
     <div
       class="el-tree-node__content"
-      :style="{ paddingLeft: (node.level - 1) * indent + 'px' }"
+      :style="{ paddingLeft: `${(node.level - 1) * indent}px` }"
     >
       <span
         :class="[
@@ -51,8 +51,8 @@
 import { computed, defineComponent, inject } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import ElNodeContent from './tree-node-content.vue'
-import { treeNodeProps } from './defaults'
-import { RootTreeType } from './tree.type'
+import { ROOT_TREE_INJECTION_KEY, treeNodeProps } from './virtual-tree'
+import type { RootTreeType } from './tree.type'
 
 const DEFAULT_ICON = 'el-icon-caret-right'
 
@@ -65,14 +65,14 @@ export default defineComponent({
   props: treeNodeProps,
   emits: ['click', 'toggle', 'check'],
   setup(props, { emit }) {
-    const tree = inject<RootTreeType>('RootTree')
+    const tree = inject<RootTreeType>(ROOT_TREE_INJECTION_KEY)
 
     const indent = computed(() => {
-      return tree.props.indent
+      return tree?.props.indent || 16
     })
 
     const icon = computed(() => {
-      return tree.props.iconClass ? tree.props.iconClass : DEFAULT_ICON
+      return tree?.props.iconClass ? tree.props.iconClass : DEFAULT_ICON
     })
 
     const handleClick = () => {
@@ -85,11 +85,11 @@ export default defineComponent({
       emit('check', props.node, value)
     }
     const handleContextMenu = (event: Event) => {
-      if (tree.instance.vnode.props['onNodeContextmenu']) {
+      if (tree?.instance?.vnode?.props?.['onNodeContextmenu']) {
         event.stopPropagation()
         event.preventDefault()
       }
-      tree.ctx.emit('node-contextmenu', event, props.node.data, props.node)
+      tree?.ctx.emit('node-contextmenu', event, props.node.data, props.node)
     }
 
     return {
