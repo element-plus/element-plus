@@ -1,4 +1,6 @@
 /* eslint-disable */
+const fs = require('fs')
+const path = require('path')
 const sidebars = require('./sidebars')
 const nav = require('./nav')
 const mdPlugin = require('./plugins')
@@ -30,6 +32,8 @@ const buildTransformers = () => {
   return transformers
 }
 console.log(process.env.DOC_ENV)
+
+const languages = fs.readdirSync(path.resolve(__dirname, './crowdin'))
 
 module.exports = {
   title: 'ElementPlus',
@@ -84,6 +88,7 @@ module.exports = {
       appId: '7DCTSU0WBW',
     },
     features,
+    langs: languages,
   },
 
   markdown: {
