@@ -19,7 +19,7 @@
       @mouseenter="clearTimer"
       @mouseleave="startTimer"
     >
-      <el-icon v-if="iconComponent" class="el-message__icon">
+      <el-icon v-if="iconComponent" class="el-message__icon" :class="typeClass">
         <component :is="iconComponent" />
       </el-icon>
       <slot>
@@ -82,6 +82,11 @@ export default defineComponent({
   },
   emits: ['destroy'],
   setup(props) {
+    const typeClass = computed(() => {
+      const type = props.type
+      return type && TypeComponentsMap[type] ? `el-message-icon--${type}` : ''
+    })
+
     const iconComponent = computed(() => {
       return props.icon || TypeComponentsMap[props.type] || ''
     })
@@ -136,6 +141,7 @@ export default defineComponent({
     })
 
     return {
+      typeClass,
       iconComponent,
       customStyle,
       visible,

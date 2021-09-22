@@ -26,6 +26,7 @@
             <el-icon
               v-if="iconComponent && center"
               class="el-message-box__status"
+              :class="typeClass"
             >
               <component :is="iconComponent" />
             </el-icon>
@@ -51,6 +52,7 @@
             <el-icon
               v-if="iconComponent && !center && hasMessage"
               class="el-message-box__status"
+              :class="typeClass"
             >
               <component :is="iconComponent" />
             </el-icon>
@@ -246,6 +248,12 @@ export default defineComponent({
       validateError: false,
       zIndex: PopupManager.nextZIndex(),
     })
+
+    const typeClass = computed(() => {
+      const type = props.type
+      return type && TypeComponentsMap[type] ? `el-message-icon--${type}` : ''
+    })
+
     const iconComponent = computed(
       () => state.icon || TypeComponentsMap[state.type] || ''
     )
@@ -412,6 +420,7 @@ export default defineComponent({
       ...toRefs(state),
       visible,
       hasMessage,
+      typeClass,
       iconComponent,
       confirmButtonClasses,
       inputRef,
