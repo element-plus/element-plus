@@ -28,7 +28,7 @@
     "format": "prettier --write .",
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --max-warnings 0 && prettier --check .",
     "lint:fix": "eslint --fix . --ext .vue,.js,.ts,.jsx,.tsx && prettier --write .",
-    "docs:dev": "if [ ! -d \"dist/element-plus\" ]; then sh scripts/build.sh; fi && yarn docs:gen-locale && cd docs && yarn dev",
+    "docs:dev": "sh ./scripts/ifBuild.sh && yarn docs:gen-locale && cd docs && yarn dev",
     "docs:build": "cd docs && yarn build",
     "docs:serve": "cd docs && yarn serve",
     "docs:gen-locale": "rimraf docs/.vitepress/i18n && esno build/crowdin-generate.ts",
