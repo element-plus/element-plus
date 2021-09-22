@@ -4,6 +4,9 @@ import {
   WarningFilled,
   CircleCloseFilled,
   Close,
+  Loading,
+  CircleCheck,
+  CircleClose,
 } from '@element-plus/icons'
 
 export const CloseComponents = {
@@ -23,4 +26,10 @@ export const TypeComponentsMap = {
   warning: WarningFilled,
   error: CircleCloseFilled,
   info: InfoFilled,
+}
+
+export const ValidateComponentsMap = {
+  validating: Loading,
+  success: CircleCheck,
+  error: CircleClose,
 }

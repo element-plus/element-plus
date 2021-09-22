@@ -50,36 +50,46 @@
       <!-- 前置内容 -->
       <span v-if="$slots.prefix || prefixIcon" class="el-input__prefix">
         <slot name="prefix"></slot>
-        <i v-if="prefixIcon" :class="['el-input__icon', prefixIcon]"></i>
+        <el-icon v-if="prefixIcon" class="el-input__icon">
+          <component :is="prefixIcon" />
+        </el-icon>
       </span>
       <!-- 后置内容 -->
       <span v-if="getSuffixVisible()" class="el-input__suffix">
         <span class="el-input__suffix-inner">
           <template v-if="!showClear || !showPwdVisible || !isWordLimitVisible">
             <slot name="suffix"></slot>
-            <i v-if="suffixIcon" :class="['el-input__icon', suffixIcon]"></i>
+            <el-icon v-if="suffixIcon" class="el-input__icon">
+              <component :is="suffixIcon" />
+            </el-icon>
           </template>
-          <i
+          <el-icon
             v-if="showClear"
-            class="el-input__icon el-icon-circle-close el-input__clear"
+            class="el-input__icon el-input__clear"
             @mousedown.prevent
             @click="clear"
-          ></i>
-          <i
+          >
+            <circle-close />
+          </el-icon>
+          <el-icon
             v-if="showPwdVisible"
-            class="el-input__icon el-icon-view el-input__clear"
+            class="el-input__icon el-input__clear"
             @click="handlePasswordVisible"
-          ></i>
+          >
+            <view />
+          </el-icon>
           <span v-if="isWordLimitVisible" class="el-input__count">
             <span class="el-input__count-inner">
               {{ textLength }}/{{ maxlength }}
             </span>
           </span>
         </span>
-        <i
+        <el-icon
           v-if="validateState"
-          :class="['el-input__icon', 'el-input__validateIcon', validateIcon]"
-        ></i>
+          class="el-input__icon el-input__validateIcon"
+        >
+          <component :is="validateIcon" />
+        </el-icon>
       </span>
       <!-- 后置元素 -->
       <div v-if="$slots.append" class="el-input-group__append">
@@ -129,19 +139,19 @@ import {
   onMounted,
   onUpdated,
 } from 'vue'
+import { ElIcon } from '@element-plus/components/icon'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import { useAttrs } from '@element-plus/hooks'
-import {
-  UPDATE_MODEL_EVENT,
-  VALIDATE_STATE_MAP,
-} from '@element-plus/utils/constants'
+import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { isObject, useGlobalConfig } from '@element-plus/utils/util'
 import isServer from '@element-plus/utils/isServer'
 import { isKorean } from '@element-plus/utils/isDef'
 import { isValidComponentSize } from '@element-plus/utils/validators'
+import { CircleClose, View } from '@element-plus/icons'
+import { ValidateComponentsMap } from '@element-plus/utils/icon'
 import calcTextareaHeight from './calcTextareaHeight'
 
-import type { PropType } from 'vue'
+import type { PropType, Component } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 import type { ComponentSize } from '@element-plus/utils/types'
 
@@ -159,6 +169,12 @@ const PENDANT_MAP = {
 
 export default defineComponent({
   name: 'ElInput',
+
+  components: {
+    ElIcon,
+    CircleClose,
+    View,
+  },
 
   inheritAttrs: false,
 
@@ -220,7 +236,7 @@ export default defineComponent({
       default: '',
     },
     prefixIcon: {
-      type: String,
+      type: [String, Object] as PropType<string | Component>,
       default: '',
     },
     label: {
@@ -276,7 +292,9 @@ export default defineComponent({
     )
     const needStatusIcon = computed(() => elForm.statusIcon)
     const validateState = computed(() => elFormItem.validateState || '')
-    const validateIcon = computed(() => VALIDATE_STATE_MAP[validateState.value])
+    const validateIcon = computed(
+      () => ValidateComponentsMap[validateState.value]
+    )
     const computedTextareaStyle = computed(() => ({
       ...props.inputStyle,
       ..._textareaCalcStyle.value,
