@@ -44,10 +44,12 @@ function reWebTypesSource(title) {
   return { symbol }
 }
 
-function reDocUrl(fileName) {
-  const docs = 'https://element-plus.org/#/en-US/component/'
-
-  return docs + fileName
+function reDocUrl(fileName, header) {
+  const docs = 'https://element-plus.org/en-US/component/'
+  const _header = header
+    ? header.replace(/[ ]+/g, '-').toLowerCase()
+    : undefined
+  return `${docs}${fileName}.html${_header ? '#' : ''}${_header}`
 }
 
 function reAttribute(value, key) {
