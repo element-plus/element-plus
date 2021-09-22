@@ -345,6 +345,8 @@ export default defineComponent({
         }
       }
 
+      const ulStyle = useMenuCssVar(props)
+
       const vnodeMenu = useVNodeResize(
         h(
           'ul',
@@ -352,7 +354,7 @@ export default defineComponent({
             key: String(props.collapse),
             role: 'menubar',
             ref: menu,
-            style: useMenuCssVar(props),
+            style: ulStyle.value,
             class: {
               'el-menu': true,
               'el-menu--horizontal': props.mode === 'horizontal',

@@ -448,7 +448,7 @@ export default defineComponent({
                     {
                       role: 'menu',
                       class: 'el-menu el-menu--inline',
-                      style: ulStyle,
+                      style: ulStyle.value,
                     },
                     [this.$slots.default?.()]
                   ),
