@@ -1,4 +1,4 @@
-import { buildProp } from '@element-plus/utils/props'
+import { buildProp, definePropType } from '@element-plus/utils/props'
 
 import type { VNode, ExtractPropTypes } from 'vue'
 
@@ -30,20 +30,20 @@ export const notificationProps = {
     type: String,
     default: '',
   },
-  message: buildProp<string | VNode>({
-    type: [String, Object],
+  message: buildProp({
+    type: definePropType<string | VNode>([String, Object]),
     default: '',
   }),
   offset: {
     type: Number,
     default: 0,
   },
-  onClick: buildProp<() => void>({
-    type: Function,
+  onClick: buildProp({
+    type: definePropType<() => void>(Function),
     default: () => undefined,
   }),
-  onClose: buildProp<() => void, boolean>({
-    type: Function,
+  onClose: buildProp({
+    type: definePropType<() => void>(Function),
     required: true,
   }),
   position: buildProp({

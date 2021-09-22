@@ -22,20 +22,19 @@ import { defineComponent, watch, computed, ref } from 'vue'
 import isEqual from 'lodash/isEqual'
 import { ElSelect, ElOption } from '@element-plus/components/select'
 import { useLocaleInject } from '@element-plus/hooks'
-import { buildProp, mutable } from '@element-plus/utils/props'
+import { buildProp, definePropType, mutable } from '@element-plus/utils/props'
 import { usePagination } from '../usePagination'
 
 import type { Nullable } from '@element-plus/utils/types'
 
-const defaultPageSizes = mutable([10, 20, 30, 40, 50, 100] as const)
 const paginationSizesProps = {
   pageSize: {
     type: Number,
     required: true,
   },
-  pageSizes: buildProp<number[], false, typeof defaultPageSizes>({
-    type: Array,
-    default: () => defaultPageSizes,
+  pageSizes: buildProp({
+    type: definePropType<number[]>(Array),
+    default: () => mutable([10, 20, 30, 40, 50, 100] as const),
   } as const),
   popperClass: {
     type: String,

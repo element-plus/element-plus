@@ -106,6 +106,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^7.0.0-beta.0",
     "esno": "^0.9.1",
+    "expect-type": "^0.12.0",
     "fast-glob": "^3.2.7",
     "file-save": "^0.2.0",
     "gulp": "^4.0.2",

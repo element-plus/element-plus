@@ -6219,6 +6219,11 @@ expand-tilde@^2.0.0, expand-tilde@^2.0.2:
   dependencies:
     homedir-polyfill "^1.0.1"
 
+expect-type@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/expect-type/-/expect-type-0.12.0.tgz#133534b5e2561158c371e74af63fd8f18a9f3d42"
+  integrity sha512-IHwziEOjpjXqxQhtOAD5zMiQpGztaEKM4Q8wnwoRN9NIFlnyNHNjRxKWv+18UqRfsqi6vVnZIYFU16ePf+HaqA==
+
 expect@^26.6.2:
   version "26.6.2"
   resolved "https://registry.yarnpkg.com/expect/-/expect-26.6.2.tgz#c6b996bf26bf3fe18b67b2d0f51fc981ba934417"

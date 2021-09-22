@@ -1,5 +1,6 @@
-import { buildProp } from '@element-plus/utils/props'
-import type { CSSProperties, ExtractPropTypes } from 'vue'
+import { buildProp, definePropType } from '@element-plus/utils/props'
+import type { ExtractPropTypes } from 'vue'
+import type { ObjectFitProperty } from 'csstype'
 
 export const avatarProps = {
   size: buildProp({
@@ -22,8 +23,8 @@ export const avatarProps = {
   },
   alt: String,
   srcSet: String,
-  fit: buildProp<CSSProperties['objectFit']>({
-    type: String,
+  fit: buildProp({
+    type: definePropType<ObjectFitProperty>(String),
     default: 'cover',
   } as const),
 } as const
