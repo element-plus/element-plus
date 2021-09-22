@@ -1,10 +1,9 @@
 import { h, nextTick } from 'vue'
-import * as domExports from '@element-plus/utils/dom'
 import makeMount from '@element-plus/test-utils/make-mount'
 import { rAF } from '@element-plus/test-utils/tick'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { TypeComponentsMap } from '@element-plus/utils/icon'
-import Message from '../src/index.vue'
+import Message from '../src/message.vue'
 import type { ComponentPublicInstance, CSSProperties, Component } from 'vue'
 
 const AXIOM = 'Rem is the best girl'
@@ -73,19 +72,6 @@ describe('Message.vue', () => {
       })
 
       expect(wrapper.find(`.${tagClass}`).exists()).toBe(false)
-    })
-  })
-
-  describe('lifecycle', () => {
-    test('should add keydown event lister on mount', () => {
-      jest.spyOn(domExports, 'on')
-      jest.spyOn(domExports, 'off')
-      const wrapper = _mount({
-        slots: { default: AXIOM },
-      })
-      expect(domExports.on).toHaveBeenCalled()
-      wrapper.unmount()
-      expect(domExports.off).toHaveBeenCalled()
     })
   })
 

@@ -13,11 +13,11 @@
 import { defineComponent, provide, ref, onMounted } from 'vue'
 import { elBreadcrumbKey } from '@element-plus/tokens'
 
-import { breadcurmbProps } from './breadcrumb'
+import { breadcrumbProps } from './breadcrumb'
 
 export default defineComponent({
   name: 'ElBreadcrumb',
-  props: breadcurmbProps,
+  props: breadcrumbProps,
 
   setup(props) {
     const breadcrumb = ref<HTMLDivElement>()

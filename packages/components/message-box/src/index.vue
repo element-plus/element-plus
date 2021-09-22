@@ -17,6 +17,7 @@
           customClass,
           { 'el-message-box--center': center },
         ]"
+        :style="customStyle"
       >
         <div
           v-if="title !== null && title !== undefined"
@@ -220,6 +221,7 @@ export default defineComponent({
       confirmButtonText: '',
       confirmButtonClass: '',
       customClass: '',
+      customStyle: {},
       dangerouslyUseHTMLString: false,
       distinguishCancelAndClose: false,
       icon: '',

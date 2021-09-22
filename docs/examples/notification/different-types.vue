@@ -31,6 +31,7 @@ export default defineComponent({
       ElNotification({
         title: 'Info',
         message: 'This is an info message',
+        type: 'info',
       })
     }
 
@@ -38,6 +39,7 @@ export default defineComponent({
       ElNotification({
         title: 'Error',
         message: 'This is an error message',
+        type: 'error',
       })
     }
     return {

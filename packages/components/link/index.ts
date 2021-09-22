@@ -1,13 +1,8 @@
-import Link from './src/index.vue'
+import { withInstall } from '@element-plus/utils/with-install'
 
-import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
+import Link from './src/link.vue'
 
-Link.install = (app: App): void => {
-  app.component(Link.name, Link)
-}
+export const ElLink = withInstall(Link)
+export default ElLink
 
-const _Link = Link as SFCWithInstall<typeof Link>
-
-export default _Link
-export const ElLink = _Link
+export * from './src/link'

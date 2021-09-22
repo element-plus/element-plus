@@ -1,6 +1,6 @@
 import { nextTick, ref, h } from 'vue'
 import { mount } from '@vue/test-utils'
-import Pagination from '../src/index'
+import Pagination from '../src/pagination'
 import type { VueWrapper } from '@vue/test-utils'
 
 const assertElementsExistence = (

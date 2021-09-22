@@ -20,37 +20,37 @@
 import { computed, defineComponent, ref } from 'vue'
 import { useLocaleInject } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
-import { usePagination } from './usePagination'
-
-import type { Nullable } from '@element-plus/utils/types'
+import { usePagination } from '../usePagination'
 
 export default defineComponent({
+  name: 'ElPaginationJumper',
   components: {
     ElInput,
   },
+
   setup() {
     const { t } = useLocaleInject()
-    const { pagination, pageCount, disabled, currentPage } = usePagination()
-    const userInput = ref<Nullable<number>>(null)
-    const innerValue = computed(() => userInput.value ?? currentPage.value)
+    const { pageCount, disabled, currentPage, changeEvent } = usePagination()
+    const userInput = ref<number>()
+    const innerValue = computed(() => userInput.value ?? currentPage?.value)
 
     function handleInput(val: number | string) {
-      userInput.value = Number(val)
+      userInput.value = +val
     }
 
     function handleChange(val: number | string) {
-      pagination?.changeEvent(Number(val))
-      userInput.value = null
+      changeEvent?.(+val)
+      userInput.value = undefined
     }
 
     return {
-      t,
-      userInput,
       pageCount,
       disabled,
+      innerValue,
+
+      t,
       handleInput,
       handleChange,
-      innerValue,
     }
   },
 })
