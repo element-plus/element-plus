@@ -80,7 +80,7 @@ With command
 $ pnpm bootstrap
 ```
 
-the project will install all dependencies and run `lerna bootstrap` to initialize the project
+the project will install all dependencies
 
 ## Website preview
 

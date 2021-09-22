@@ -19,6 +19,9 @@ jobs:
         with:
           node-version: '16'
 
+      - name: Setup pnpm
+        run: npm i -g pnpm
+
       - name: Install dependencies
         run: pnpm bootstrap
 

@@ -18,6 +18,9 @@ jobs:
           node-version: '16'
           registry-url: https://registry.npmjs.com/
 
+      - name: Setup pnpm
+        run: npm i -g pnpm
+
       - name: Install dependencies
         run: pnpm bootstrap
 

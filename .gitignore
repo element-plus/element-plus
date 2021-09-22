@@ -3,8 +3,6 @@
 
 # Package Manager
 node_modules
-lerna-debug.json
-lerna-debug.log
 .pnpm-debug.log*
 
 # System

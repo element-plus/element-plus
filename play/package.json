@@ -5,7 +5,6 @@
   },
   "dependencies": {
     "@element-plus/components": "workspace:*",
-    "@element-plus/theme-chalk": "workspace:*",
-    "@element-plus/tokens": "workspace:*"
+    "@element-plus/theme-chalk": "workspace:*"
   }
 }
