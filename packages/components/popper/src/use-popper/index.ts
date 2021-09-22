@@ -74,17 +74,23 @@ export default function (
     get() {
       if (props.disabled) {
         return false
-      } else {
-        return isBool(props.visible) ? props.visible : state.visible
       }
+      return state.visible
     },
     set(val) {
       if (isManualMode()) return
-      isBool(props.visible)
-        ? emit(UPDATE_VISIBLE_EVENT, val)
-        : (state.visible = val)
+      if (isBool(props.visible)) {
+        emit(UPDATE_VISIBLE_EVENT, val)
+      }
+      state.visible = val
     },
   })
+  watch(
+    () => props.visible,
+    (newVal) => {
+      state.visible = newVal
+    }
+  )
 
   function _show() {
     if (props.autoClose > 0) {
