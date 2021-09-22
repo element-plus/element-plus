@@ -46,9 +46,8 @@ function reWebTypesSource(title) {
 
 function reDocUrl(fileName, header) {
   const docs = 'https://element-plus.org/en-US/component/'
-  const _header = header
-    ? header.replace(/[ ]+/g, '-').toLowerCase()
-    : undefined
+  const _header = header ? header.replace(/[ ]+/g, '-').toLowerCase() : ''
+
   return `${docs}${fileName}.html${_header ? '#' : ''}${_header}`
 }
 
