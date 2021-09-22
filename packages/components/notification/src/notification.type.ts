@@ -1,4 +1,4 @@
-import type { VNode } from 'vue'
+import type { VNode, Component } from 'vue'
 
 export type Position = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
 export type NotificationType = 'success' | 'warning' | 'info' | 'error' | ''
@@ -23,7 +23,7 @@ export type INotificationOptions = {
   customClass?: string
   dangerouslyUseHTMLString?: boolean // default false
   duration?: number // default 4500
-  iconClass?: string
+  icon?: string | Component
   id?: string
   message?: string | VNode
   zIndex?: number
