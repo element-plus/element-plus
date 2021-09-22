@@ -76,7 +76,7 @@ export function buildProp<
   >
 
   return {
-    type: ((type as any)?.wrapper || type) as unknown as Type,
+    type: ((type as any)?.[wrapperKey] || type) as unknown as Type,
     required: !!required as R,
 
     default: defaultValue as unknown as R extends true
