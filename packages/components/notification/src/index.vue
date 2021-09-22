@@ -14,15 +14,14 @@
       @mouseleave="startTimer"
       @click="onClick"
     >
-      <i
-        v-if="type || iconClass"
+      <el-icon
+        v-if="iconComponent"
         class="el-notification__icon"
-        :class="[typeClass, iconClass]"
-      ></i>
-      <div
-        class="el-notification__group"
-        :class="{ 'is-with-icon': typeClass || iconClass }"
+        :class="typeClass"
       >
+        <component :is="iconComponent" />
+      </el-icon>
+      <div class="el-notification__group">
         <h2 class="el-notification__title" v-text="title"></h2>
         <div
           v-show="message"
@@ -36,11 +35,13 @@
             <p v-else v-html="message"></p>
           </slot>
         </div>
-        <div
+        <el-icon
           v-if="showClose"
-          class="el-notification__closeBtn el-icon-close"
+          class="el-notification__closeBtn"
           @click.stop="close"
-        ></div>
+        >
+          <close />
+        </el-icon>
       </div>
     </div>
   </transition>
@@ -50,25 +51,26 @@ import { defineComponent, computed, ref, onMounted, onBeforeUnmount } from 'vue'
 // notificationVM is an alias of vue.VNode
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { on, off } from '@element-plus/utils/dom'
+import { ElIcon } from '@element-plus/components/icon'
+import { TypeComponents, TypeComponentsMap } from '@element-plus/utils/icon'
 
-import type { CSSProperties, PropType } from 'vue'
-import type { Indexable } from '@element-plus/utils/types'
+import type { CSSProperties, PropType, Component } from 'vue'
 import type { NotificationVM, Position } from './notification.type'
-
-const TypeMap: Indexable<string> = {
-  success: 'success',
-  info: 'info',
-  warning: 'warning',
-  error: 'error',
-}
 
 export default defineComponent({
   name: 'ElNotification',
+  components: {
+    ElIcon,
+    ...TypeComponents,
+  },
   props: {
     customClass: { type: String, default: '' },
     dangerouslyUseHTMLString: { type: Boolean, default: false },
     duration: { type: Number, default: 4500 },
-    iconClass: { type: String, default: '' },
+    icon: {
+      type: [String, Object] as PropType<string | Component>,
+      default: '',
+    },
     id: { type: String, default: '' },
     message: {
       type: [String, Object] as PropType<string | NotificationVM>,
@@ -100,7 +102,13 @@ export default defineComponent({
 
     const typeClass = computed(() => {
       const type = props.type
-      return type && TypeMap[type] ? `el-icon-${TypeMap[type]}` : ''
+      return type && TypeComponentsMap[props.type]
+        ? `el-notification--${type}`
+        : ''
+    })
+
+    const iconComponent = computed(() => {
+      return TypeComponentsMap[props.type] || props.icon || ''
     })
 
     const horizontalClass = computed(() => {
@@ -164,6 +172,7 @@ export default defineComponent({
     return {
       horizontalClass,
       typeClass,
+      iconComponent,
       positionStyle,
       visible,
 
