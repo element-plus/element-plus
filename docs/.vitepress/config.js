@@ -38,7 +38,7 @@ module.exports = {
       'link',
       {
         rel: 'icon',
-        href: '/favicon.ico',
+        href: '/images/element-plus-logo-small.svg',
       },
     ],
     [
