@@ -12,11 +12,12 @@
     >
       <component
         :is="tag"
+        :key="id"
         ref="resize"
         :class="['el-scrollbar__view', viewClass]"
         :style="viewStyle"
       >
-        <slot></slot>
+        <slot />
       </component>
     </div>
     <template v-if="!native">
@@ -102,6 +103,10 @@ export default defineComponent({
       type: Number,
       default: 20,
     },
+    id: {
+      type: [String, Array],
+      default: '',
+    },
   },
   emits: ['scroll'],
   setup(props, { emit }) {
@@ -114,7 +119,6 @@ export default defineComponent({
     const resize = ref(null)
     const ratioY = ref(1)
     const ratioX = ref(1)
-
     const SCOPE = 'ElScrollbar'
     const GAP = 4 // top 2 + bottom 2 of bar instance
 
