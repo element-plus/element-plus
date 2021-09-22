@@ -629,20 +629,6 @@ describe('Virtual Tree', () => {
     expect(node.style.paddingLeft).toBe('20px')
   })
 
-  test('iconClass', async () => {
-    const { wrapper } = createTree({
-      data() {
-        return {
-          iconClass: 'custom-icon',
-        }
-      },
-    })
-    await nextTick()
-    expect(wrapper.find(TREE_NODE_EXPAND_ICON_CLASS_NAME).classes()).toContain(
-      'custom-icon'
-    )
-  })
-
   test('expandOnClickNode', async () => {
     const onNodeExpand = jest.fn()
     const { wrapper } = createTree({

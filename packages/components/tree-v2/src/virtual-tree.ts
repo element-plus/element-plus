@@ -68,7 +68,7 @@ export const treeProps = {
     type: Number,
     default: 16,
   },
-  iconClass: {
+  icon: {
     type: String,
   },
   expandOnClickNode: {

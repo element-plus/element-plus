@@ -21,7 +21,7 @@
       class="el-tree-node__content"
       :style="{ paddingLeft: `${(node.level - 1) * indent}px` }"
     >
-      <span
+      <el-icon
         :class="[
           {
             'is-leaf': node.isLeaf,
@@ -29,11 +29,11 @@
             expanded: !node.isLeaf && expanded,
           },
           'el-tree-node__expand-icon',
-          icon,
         ]"
         @click.stop="handleExpandIconClick"
       >
-      </span>
+        <component :is="icon" />
+      </el-icon>
       <el-checkbox
         v-if="showCheckbox"
         :model-value="checked"
@@ -49,16 +49,20 @@
 
 <script lang="ts">
 import { computed, defineComponent, inject } from 'vue'
+import { CaretRight } from '@element-plus/icons'
+import ElIcon from '@element-plus/components/icon'
 import ElCheckbox from '@element-plus/components/checkbox'
 import ElNodeContent from './tree-node-content.vue'
 import { ROOT_TREE_INJECTION_KEY, treeNodeProps } from './virtual-tree'
 import type { RootTreeType } from './tree.type'
 
-const DEFAULT_ICON = 'el-icon-caret-right'
+const DEFAULT_ICON = 'caret-right'
 
 export default defineComponent({
   name: 'ElTreeNode',
   components: {
+    ElIcon,
+    CaretRight,
     ElCheckbox,
     ElNodeContent,
   },
@@ -72,7 +76,7 @@ export default defineComponent({
     })
 
     const icon = computed(() => {
-      return tree?.props.iconClass ? tree.props.iconClass : DEFAULT_ICON
+      return tree?.props.icon ? tree.props.icon : DEFAULT_ICON
     })
 
     const handleClick = () => {
