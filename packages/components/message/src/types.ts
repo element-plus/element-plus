@@ -1,4 +1,4 @@
-import type { VNode } from 'vue'
+import type { VNode, Component } from 'vue'
 
 export interface IMessageHandle {
   close: () => void
@@ -9,7 +9,7 @@ export type IMessageOptions = {
   center?: boolean
   dangerouslyUseHTMLString?: boolean // default false
   duration?: number // default 3000
-  iconClass?: string
+  icon?: string | Component
   id?: string
   message?: string | VNode
   offset?: number // defaults 20
