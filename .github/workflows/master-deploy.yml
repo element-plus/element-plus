@@ -18,29 +18,26 @@ jobs:
           node-version: '16'
 
       - name: Install dependencies
-        run: yarn bootstrap
-
-      - name: Init docs
-        run: cd docs && yarn
+        run: pnpm bootstrap
 
       - name: Fetch Crowdin token for pulling languages
-        run: yarn docs:crowdin
+        run: pnpm docs:crowdin
         env:
           CROWDIN_TOKEN: ${{secrets.CROWDIN_TOKEN}}
 
       - name: Pull Crowdin translations
-        run: cd docs && yarn crowdin download
+        run: cd docs && pnpx crowdin download
 
       - name: Generate common locale
-        run: yarn docs:gen-locale
+        run: pnpm docs:gen-locale
 
       - name: Build website
-        run: yarn docs:build
+        run: pnpm docs:build
         env:
           DOC_ENV: production
 
       # - name: Build Indices
-      #   run: yarn build:indices
+      #   run: pnpm build:indices
       #   env:
       #     ALGOLIA_KEY: ${{secrets.ALGOLIA_KEY}}
 

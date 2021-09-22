@@ -19,19 +19,16 @@ jobs:
           registry-url: https://registry.npmjs.com/
 
       - name: Install dependencies
-        run: yarn bootstrap
-
-      - name: Init docs
-        run: cd docs && yarn
+        run: pnpm bootstrap
 
       - name: Generate common locale
-        run: yarn docs:gen-locale
+        run: pnpm docs:gen-locale
 
       - name: Build Element Plus
         run: sh scripts/build.sh
 
       - name: Build website
-        run: yarn docs:build
+        run: pnpm docs:build
         env:
           DOC_ENV: preview
 

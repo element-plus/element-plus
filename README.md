@@ -77,7 +77,7 @@ You can find the breaking change list here: [Breaking Change List](https://githu
 With command
 
 ```bash
-$ yarn bootstrap
+$ pnpm bootstrap
 ```
 
 the project will install all dependencies and run `lerna bootstrap` to initialize the project
@@ -87,7 +87,7 @@ the project will install all dependencies and run `lerna bootstrap` to initializ
 With command
 
 ```bash
-$ yarn docs:dev
+$ pnpm docs:dev
 ```
 
 the project will launch website for you to preview all existing component
@@ -97,7 +97,7 @@ the project will launch website for you to preview all existing component
 1. With command
 
 ```shell
-$ yarn dev
+$ pnpm dev
 ```
 
 will start the local development environment
@@ -132,7 +132,7 @@ Modify `play.vue` file per your needs to get things work.
 With command
 
 ```bash
-$ yarn gen component-name
+$ pnpm gen component-name
 ```
 
 Note the `component-name` must be in `kebab-case`, combining words by replacing each space with a dash.
@@ -142,7 +142,7 @@ Note the `component-name` must be in `kebab-case`, combining words by replacing 
 With command
 
 ```bash
-yarn cz
+pnpm cz
 ```
 
 Example

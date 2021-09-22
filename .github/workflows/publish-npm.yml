@@ -14,11 +14,11 @@ jobs:
         with:
           node-version: '14'
       - name: Install dependencies
-        run: yarn bootstrap
+        run: pnpm bootstrap
       - name: Lint
-        run: yarn lint
+        run: pnpm lint
       - name: Test
-        run: yarn test
+        run: pnpm test
 
   publish:
     needs: test

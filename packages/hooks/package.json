@@ -16,9 +16,10 @@
     "build": "gulp build"
   },
   "dependencies": {
-    "@element-plus/directives": "^0.0.5",
-    "@element-plus/locale": "^0.0.5",
-    "@element-plus/utils": "^0.0.5",
+    "@element-plus/directives": "workspace:*",
+    "@element-plus/locale": "workspace:*",
+    "@element-plus/tokens": "workspace:*",
+    "@element-plus/utils": "workspace:*",
     "@popperjs/core": "^2.10.1",
     "@vueuse/core": "~6.1.0"
   },
