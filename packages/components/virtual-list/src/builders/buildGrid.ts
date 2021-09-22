@@ -279,8 +279,6 @@ const createGrid = ({
         emitEvents()
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-
       const scrollTo = ({ scrollLeft, scrollTop }) => {
         scrollLeft = Math.max(scrollLeft, 0)
         scrollTop = Math.max(scrollTop, 0)

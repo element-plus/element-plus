@@ -270,8 +270,6 @@ const createList = ({
         )
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-
       const scrollTo = (offset: number) => {
         offset = Math.max(offset, 0)
 

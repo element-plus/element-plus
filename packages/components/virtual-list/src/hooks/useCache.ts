@@ -10,6 +10,7 @@ export const useCache = () => {
   const props = vm.proxy!.$props as VirtualizedProps
 
   return computed(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const _getItemStyleCache = (_: any, __: any, ___: any) => ({})
     return props.perfMode
       ? memo(_getItemStyleCache)
