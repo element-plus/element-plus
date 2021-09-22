@@ -92,19 +92,22 @@ export function buildProp<
       values || validator
         ? (val: unknown) => {
             let valid = false
+            let allowedValues: unknown[] = []
+
             if (values) {
-              const allowValues: unknown[] = [...values, defaultValue]
-              valid ||= allowValues.includes(val)
-              if (!valid) {
-                debugWarn(
-                  `Vue warn`,
-                  `Invalid prop: Expected one of (${allowValues.join(
-                    ', '
-                  )}), got value ${val}`
-                )
-              }
+              allowedValues = [...values, defaultValue]
+              valid ||= allowedValues.includes(val)
             }
             if (validator) valid ||= validator(val)
+
+            if (!valid && allowedValues.length > 0) {
+              debugWarn(
+                `Vue warn`,
+                `Invalid prop: Expected one of (${allowedValues.join(
+                  ', '
+                )}), got value ${val}`
+              )
+            }
             return valid
           }
         : undefined,
