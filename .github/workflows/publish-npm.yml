@@ -14,7 +14,9 @@ jobs:
         with:
           node-version: '14'
       - name: Setup pnpm
-        run: npm i -g pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 6.15.1
       - name: Install dependencies
         run: pnpm bootstrap
       - name: Lint
@@ -32,7 +34,9 @@ jobs:
           node-version: '14'
           registry-url: https://registry.npmjs.com/
       - name: Setup pnpm
-        run: npm i -g pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 6.15.1
       - name: Get version
         run: echo "TAG_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - name: Get git head

@@ -19,7 +19,9 @@ jobs:
           registry-url: https://registry.npmjs.com/
 
       - name: Setup pnpm
-        run: npm i -g pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 6.15.1
 
       - name: Install dependencies
         run: pnpm bootstrap

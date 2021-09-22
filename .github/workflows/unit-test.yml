@@ -16,13 +16,15 @@ jobs:
             node-name: 'Latest'
     steps:
       - uses: actions/checkout@v2
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 6.15.1
       - name: Setup node
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
-      - name: Setup pnpm
-        run: npm i -g pnpm
       - name: Install dependencies
         run: pnpm bootstrap
       - name: Lint
