@@ -4,10 +4,12 @@ import type { PropType } from 'vue'
 import type { Direction, LayoutDirection, ItemSize } from './types'
 import type { StyleValue } from '@element-plus/utils/types'
 
-export const DEFAULT_DYNAMIC_LIST_ITEM_SIZE = 50
+export {
+  V_LIST_ITEM_RENDER_EVT as ITEM_RENDER_EVT,
+  V_LIST_SCROLL_EVT as SCROLL_EVT,
+} from '@element-plus/tokens'
 
-export const ITEM_RENDER_EVT = 'item-rendered'
-export const SCROLL_EVT = 'scroll'
+export const DEFAULT_DYNAMIC_LIST_ITEM_SIZE = 50
 
 export const FORWARD = 'forward'
 export const BACKWARD = 'backward'

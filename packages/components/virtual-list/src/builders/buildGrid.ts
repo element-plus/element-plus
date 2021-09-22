@@ -30,7 +30,8 @@ import {
   RTL_OFFSET_POS_ASC,
 } from '../defaults'
 
-import type { VNode, CSSProperties } from 'vue'
+import type { VNode, VNodeChild, CSSProperties } from 'vue'
+import type { StyleValue } from '@element-plus/utils/types'
 import type { GridConstructorProps, Alignment } from '../types'
 
 const createGrid = ({
@@ -56,15 +57,15 @@ const createGrid = ({
     emits: [ITEM_RENDER_EVT, SCROLL_EVT],
     setup(props, { emit, expose }) {
       validateProps(props)
-      const instance = getCurrentInstance()
+      const instance = getCurrentInstance()!
       const cache = ref(initCache(props, instance))
       // refs
       // here windowRef and innerRef can be type of HTMLElement
       // or user defined component type, depends on the type passed
       // by user
-      const windowRef = ref<HTMLElement>(null)
+      const windowRef = ref<HTMLElement>()
       // innerRef is the actual container element which contains all the elements
-      const innerRef = ref(null)
+      const innerRef = ref()
       const states = ref({
         isScrolling: false,
         scrollLeft: isNumber(props.initScrollLeft) ? props.initScrollLeft : 0,
@@ -106,7 +107,7 @@ const createGrid = ({
 
         return [
           Math.max(0, startIndex - cacheBackward),
-          Math.max(0, Math.min(totalColumn - 1, stopIndex + cacheForward)),
+          Math.max(0, Math.min(totalColumn! - 1, stopIndex + cacheForward)),
           startIndex,
           stopIndex,
         ]
@@ -137,7 +138,7 @@ const createGrid = ({
 
         return [
           Math.max(0, startIndex - cacheBackward),
-          Math.max(0, Math.min(totalRow - 1, stopIndex + cacheForward)),
+          Math.max(0, Math.min(totalRow! - 1, stopIndex + cacheForward)),
           startIndex,
           stopIndex,
         ]
@@ -150,20 +151,25 @@ const createGrid = ({
         getEstimatedTotalWidth(props, $(cache))
       )
 
-      const windowStyle = computed(() => [
-        {
-          position: 'relative',
-          overflow: 'auto',
-          WebkitOverflowScrolling: 'touch',
-          willChange: 'transform',
-        },
-        {
-          direction: props.direction,
-          height: isNumber(props.height) ? `${props.height}px` : props.height,
-          width: isNumber(props.width) ? `${props.width}px` : props.width,
-          ...props.style,
-        },
-      ])
+      const windowStyle = computed(
+        () =>
+          [
+            {
+              position: 'relative',
+              overflow: 'auto',
+              WebkitOverflowScrolling: 'touch',
+              willChange: 'transform',
+            },
+            {
+              direction: props.direction,
+              height: isNumber(props.height)
+                ? `${props.height}px`
+                : props.height,
+              width: isNumber(props.width) ? `${props.width}px` : props.width,
+            },
+            props.style,
+          ] as StyleValue
+      )
 
       const innerStyle = computed(() => {
         const width = `${$(estimatedTotalWidth)}px`
@@ -180,7 +186,7 @@ const createGrid = ({
       const emitEvents = () => {
         const { totalColumn, totalRow } = props
 
-        if (totalColumn > 0 && totalRow > 0) {
+        if (totalColumn! > 0 && totalRow! > 0) {
           const [
             columnCacheStart,
             columnCacheEnd,
@@ -192,8 +198,7 @@ const createGrid = ({
           // emit the render item event with
           // [xAxisInvisibleStart, xAxisInvisibleEnd, xAxisVisibleStart, xAxisVisibleEnd]
           // [yAxisInvisibleStart, yAxisInvisibleEnd, yAxisVisibleStart, yAxisVisibleEnd]
-          emit(
-            ITEM_RENDER_EVT,
+          emit(ITEM_RENDER_EVT, {
             columnCacheStart,
             columnCacheEnd,
             rowCacheStart,
@@ -201,8 +206,8 @@ const createGrid = ({
             columnVisibleStart,
             columnVisibleEnd,
             rowVisibleStart,
-            rowVisibleEnd
-          )
+            rowVisibleEnd,
+          })
         }
 
         const {
@@ -212,14 +217,13 @@ const createGrid = ({
           xAxisScrollDir,
           yAxisScrollDir,
         } = $(states)
-        emit(
-          SCROLL_EVT,
+        emit(SCROLL_EVT, {
           xAxisScrollDir,
           scrollLeft,
           yAxisScrollDir,
           scrollTop,
-          updateRequested
-        )
+          updateRequested,
+        })
       }
 
       const onScroll = (e: Event) => {
@@ -303,8 +307,8 @@ const createGrid = ({
         alignment: Alignment = AUTO_ALIGNMENT
       ) => {
         const _states = $(states)
-        columnIdx = Math.max(0, Math.min(columnIdx, props.totalColumn - 1))
-        rowIndex = Math.max(0, Math.min(rowIndex, props.totalRow - 1))
+        columnIdx = Math.max(0, Math.min(columnIdx, props.totalColumn! - 1))
+        rowIndex = Math.max(0, Math.min(rowIndex, props.totalRow! - 1))
         const scrollBarWidth = getScrollBarWidth()
 
         const _cache = $(cache)
@@ -318,7 +322,7 @@ const createGrid = ({
             alignment,
             _states.scrollLeft,
             _cache,
-            estimatedWidth > props.width ? scrollBarWidth : 0
+            estimatedWidth > props.width! ? scrollBarWidth : 0
           ),
           scrollTop: getRowOffset(
             props,
@@ -326,7 +330,7 @@ const createGrid = ({
             alignment,
             _states.scrollTop,
             _cache,
-            estimatedHeight > props.height ? scrollBarWidth : 0
+            estimatedHeight > props.height! ? scrollBarWidth : 0
           ),
         })
       }
@@ -386,7 +390,7 @@ const createGrid = ({
         if (isServer) return
         const { initScrollLeft, initScrollTop } = props
         const windowElement = $(windowRef)
-        if (windowElement !== null) {
+        if (windowElement) {
           if (isNumber(initScrollLeft)) {
             windowElement.scrollLeft = initScrollLeft
           }
@@ -403,7 +407,7 @@ const createGrid = ({
 
         if (updateRequested && $(windowRef) !== null) {
           const windowElement = $(windowRef)
-
+          if (!windowElement) return
           if (direction === RTL) {
             switch (getRTLOffsetType()) {
               case RTL_OFFSET_NAG: {
@@ -480,19 +484,20 @@ const createGrid = ({
       const Container = resolveDynamicComponent(containerElement)
       const Inner = resolveDynamicComponent(innerElement)
 
-      const children = []
+      const children = [] as VNodeChild[]
       if (totalRow > 0 && totalColumn > 0) {
         for (let row = rowStart; row <= rowEnd; row++) {
           for (let column = columnStart; column <= columnEnd; column++) {
+            const cellRenderProps = {
+              data,
+              columnIndex: column,
+              rowIndex: row,
+              isScrolling: useIsScrolling ? states.isScrolling : undefined,
+              style: getItemStyle(row, column),
+              key: genKey(row, column),
+            }
             children.push(
-              $slots.default?.({
-                columnIndex: column,
-                data,
-                key: column,
-                isScrolling: useIsScrolling ? states.isScrolling : undefined,
-                style: getItemStyle(row, column),
-                rowIndex: row,
-              })
+              $slots.default?.(cellRenderProps) as any as VNodeChild
             )
           }
         }
@@ -526,4 +531,9 @@ const createGrid = ({
     },
   })
 }
+
+function genKey(row: number, column: number) {
+  return `${row},${column}`
+}
+
 export default createGrid
