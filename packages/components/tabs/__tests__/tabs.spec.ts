@@ -228,7 +228,7 @@ describe('Tabs.vue', () => {
       methods: {
         handleTabsEdit(targetName, action) {
           if (action === 'add') {
-            const newTabName = ++this.tabIndex + ''
+            const newTabName = `${++this.tabIndex}`
             this.editableTabs.push({
               title: 'New Tab',
               name: newTabName,
@@ -332,7 +332,7 @@ describe('Tabs.vue', () => {
       },
       methods: {
         addTab() {
-          const newTabName = ++this.tabIndex + ''
+          const newTabName = `${++this.tabIndex}`
           this.editableTabs.push({
             title: 'New Tab',
             name: newTabName,

@@ -11,8 +11,7 @@ import {
   h,
 } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
-import ElPopper from '@element-plus/components/popper'
-import {
+import ElPopper, {
   popperDefaultProps,
   Effect,
   renderArrow,

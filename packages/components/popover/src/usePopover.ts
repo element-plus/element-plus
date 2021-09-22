@@ -21,7 +21,7 @@ export default function usePopover(
     if (isString(props.width)) {
       return props.width as string
     }
-    return props.width + 'px'
+    return `${props.width}px`
   })
 
   const popperStyle = computed(() => {

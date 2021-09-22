@@ -2,11 +2,12 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import * as Aria from '@element-plus/utils/aria'
 
+import TrapFocus, { FOCUSABLE_CHILDREN } from '../trap-focus'
+import type { ITrapFocusElement } from '../trap-focus'
+
 const isVisibleMock = jest
   .spyOn(Aria, 'isVisible')
   .mockImplementation(() => true)
-
-import TrapFocus, { ITrapFocusElement, FOCUSABLE_CHILDREN } from '../trap-focus'
 
 let wrapper
 const _mount = (template: string) =>

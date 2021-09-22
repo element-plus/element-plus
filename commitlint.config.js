@@ -1,12 +1,15 @@
-// eslint-disable-next-line
-const importFrom = require('import-from')
+/* eslint-disable @typescript-eslint/no-var-requires */
+const path = require('path')
+const { createRequire } = require('module')
 
 function getPackages(context) {
   return Promise.resolve()
     .then(() => {
       const ctx = context || {}
       const cwd = ctx.cwd || process.cwd()
-      const Project = importFrom(cwd, '@lerna/project')
+      const Project = createRequire(path.resolve(cwd, 'noop.js'))(
+        '@lerna/project'
+      )
       const project = new Project(cwd)
       return project.getPackages()
     })

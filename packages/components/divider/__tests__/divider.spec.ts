@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import Divider from '../src/index.vue'
+import Divider from '../src/divider.vue'
 
 const AXIOM = 'Rem is the best girl'
 

@@ -62,7 +62,6 @@ export const dialogProps = {
   },
   top: {
     type: String,
-    default: '15vh',
   },
   modelValue: {
     type: Boolean,
@@ -71,7 +70,6 @@ export const dialogProps = {
   modalClass: String,
   width: buildProp<string | number>({
     type: [String, Number],
-    default: '50%',
     validator: isValidWidthUnit,
   }),
   zIndex: {

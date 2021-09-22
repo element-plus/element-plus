@@ -7,11 +7,11 @@ import {
   AUTO_ALIGNMENT,
   CENTERED_ALIGNMENT,
   DEFAULT_DYNAMIC_LIST_ITEM_SIZE,
-  DefaultListProps,
   END_ALIGNMENT,
   SMART_ALIGNMENT,
   START_ALIGNMENT,
 } from '../defaults'
+import type { DefaultListProps } from '../defaults'
 
 import type { ListCache, ListItem, ItemSize } from '../types'
 import type { ExtractPropTypes } from 'vue'

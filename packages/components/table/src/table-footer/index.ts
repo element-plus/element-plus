@@ -1,7 +1,7 @@
 import { defineComponent, h } from 'vue'
 import { hGutter, hColgroup } from '../h-helper'
-import { Store } from '../store'
 import useStyle from './style-helper'
+import type { Store } from '../store'
 
 import type { PropType } from 'vue'
 import type { DefaultRow, Sort, SummaryMethod } from '../table/defaults'
@@ -72,7 +72,7 @@ export default defineComponent({
         values.forEach((value) => {
           if (!isNaN(value)) {
             notNumber = false
-            const decimal = ('' + value).split('.')[1]
+            const decimal = `${value}`.split('.')[1]
             precisions.push(decimal ? decimal.length : 0)
           }
         })

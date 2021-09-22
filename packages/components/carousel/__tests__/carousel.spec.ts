@@ -1,5 +1,5 @@
-import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
+import { mount } from '@vue/test-utils'
 import Carousel from '../src/main.vue'
 import CarouselItem from '../src/item.vue'
 

@@ -91,7 +91,7 @@ describe('Slider', () => {
       },
       methods: {
         formatTooltip(val) {
-          return '$' + val
+          return `$${val}`
         },
       },
     })

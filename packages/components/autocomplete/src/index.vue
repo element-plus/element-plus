@@ -107,7 +107,8 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { throwError } from '@element-plus/utils/error'
 import ElInput from '@element-plus/components/input'
 import ElScrollbar from '@element-plus/components/scrollbar'
-import ElPopper, { Effect, Placement } from '@element-plus/components/popper'
+import ElPopper, { Effect } from '@element-plus/components/popper'
+import type { Placement } from '@element-plus/components/popper'
 
 import type { PropType } from 'vue'
 

@@ -5,22 +5,19 @@ import {
   computed,
   ref,
   provide,
-  Ref,
   onMounted,
-  ComputedRef,
   isRef,
   h,
   withDirectives,
   nextTick,
 } from 'vue'
-import mitt from 'mitt'
 import { Resize } from '@element-plus/directives'
 import Menubar from '@element-plus/utils/menu/menu-bar'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './submenu.vue'
 import useMenuColor from './useMenuColor'
 
-import type { VNode } from 'vue'
+import type { VNode, Ref, ComputedRef } from 'vue'
 import type {
   IMenuProps,
   RootMenuProvider,
@@ -70,7 +67,6 @@ export default defineComponent({
     const items = ref({})
     const submenus = ref({})
     const alteredCollapse = ref(false)
-    const rootMenuEmitter = mitt()
     const router = instance.appContext.config.globalProperties.$router
     const menu = ref(null)
 
@@ -161,7 +157,7 @@ export default defineComponent({
       }
     }
 
-    const handleItemClick = (item: {
+    const handleMenuItemClick = (item: {
       index: string
       indexPath: ComputedRef<string[]>
       route?: any
@@ -237,10 +233,6 @@ export default defineComponent({
           alteredCollapse.value = true
         }
         if (value) openedMenus.value = []
-        rootMenuEmitter.emit(
-          'rootMenu:toggle-collapse',
-          Boolean(props.collapse)
-        )
       }
     )
 
@@ -261,9 +253,9 @@ export default defineComponent({
         removeSubMenu,
         openMenu,
         closeMenu,
+        handleMenuItemClick,
+        handleSubMenuClick,
       },
-      rootMenuEmit: rootMenuEmitter.emit,
-      rootMenuOn: rootMenuEmitter.on,
     })
     provide<SubMenuProvider>(`subMenu:${instance.uid}`, {
       addSubMenu,
@@ -274,8 +266,6 @@ export default defineComponent({
 
     onMounted(() => {
       initializeMenu()
-      rootMenuEmitter.on('menuItem:item-click', handleItemClick)
-      rootMenuEmitter.on('submenu:submenu-click', handleSubMenuClick)
       if (props.mode === 'horizontal') {
         new Menubar(instance.vnode.el)
       }

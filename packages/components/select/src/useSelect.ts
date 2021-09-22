@@ -1,23 +1,30 @@
-import { inject, nextTick, computed, watch, ref, reactive } from 'vue'
-import mitt from 'mitt'
+import {
+  inject,
+  nextTick,
+  computed,
+  watch,
+  ref,
+  reactive,
+  shallowRef,
+  triggerRef,
+} from 'vue'
+import { isObject, toRawType } from '@vue/shared'
+import lodashDebounce from 'lodash/debounce'
+import isEqual from 'lodash/isEqual'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { useLocaleInject } from '@element-plus/hooks'
 import isServer from '@element-plus/utils/isServer'
 import scrollIntoView from '@element-plus/utils/scroll-into-view'
-import lodashDebounce from 'lodash/debounce'
 import { isKorean } from '@element-plus/utils/isDef'
 import { getValueByPath, useGlobalConfig } from '@element-plus/utils/util'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
-import isEqual from 'lodash/isEqual'
-import { isObject, toRawType } from '@vue/shared'
+import type { QueryChangeCtx, SelectOptionProxy } from './token'
 
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
-import { SelectOptionProxy } from './token'
 
 export function useSelectStates(props) {
   const { t } = useLocaleInject()
-  const selectEmitter = mitt()
   return reactive({
     options: new Map(),
     cachedOptions: new Map(),
@@ -41,7 +48,6 @@ export function useSelectStates(props) {
     menuVisibleOnFocus: false,
     isOnComposition: false,
     isSilentBlur: false,
-    selectEmitter,
     prefixWidth: null,
     tagInMultiLine: false,
   })
@@ -61,6 +67,8 @@ export const useSelect = (props, states: States, ctx) => {
   const selectWrapper = ref<HTMLElement | null>(null)
   const scrollbar = ref(null)
   const hoverOption = ref(-1)
+  const queryChange = shallowRef<QueryChangeCtx>({ query: '' })
+  const groupQueryChange = shallowRef('')
 
   // inject
   const elForm = inject(elFormKey, {} as ElFormContext)
@@ -188,7 +196,7 @@ export const useSelect = (props, states: States, ctx) => {
         states.inputLength = 20
       }
       if (!isEqual(val, oldVal)) {
-        elFormItem.formItemMitt?.emit('el.form.change', val)
+        elFormItem.validate?.('change')
       }
     },
     {
@@ -253,8 +261,10 @@ export const useSelect = (props, states: States, ctx) => {
           }
           handleQueryChange(states.query)
           if (!props.multiple && !props.remote) {
-            states.selectEmitter.emit('elOptionQueryChange', '')
-            states.selectEmitter.emit('elOptionGroupQueryChange')
+            queryChange.value.query = ''
+
+            triggerRef(queryChange)
+            triggerRef(groupQueryChange)
           }
         }
       }
@@ -315,13 +325,13 @@ export const useSelect = (props, states: States, ctx) => {
       const sizeInMap = states.initialInputHeight || 40
       input.style.height =
         states.selected.length === 0
-          ? sizeInMap + 'px'
-          : Math.max(
+          ? `${sizeInMap}px`
+          : `${Math.max(
               _tags
                 ? _tags.clientHeight + (_tags.clientHeight > sizeInMap ? 6 : 0)
                 : 0,
               sizeInMap
-            ) + 'px'
+            )}px`
 
       states.tagInMultiLine = parseFloat(input.style.height) > sizeInMap
 
@@ -359,11 +369,13 @@ export const useSelect = (props, states: States, ctx) => {
       props.remoteMethod(val)
     } else if (typeof props.filterMethod === 'function') {
       props.filterMethod(val)
-      states.selectEmitter.emit('elOptionGroupQueryChange')
+      triggerRef(groupQueryChange)
     } else {
       states.filteredOptionsCount = states.optionsCount
-      states.selectEmitter.emit('elOptionQueryChange', val)
-      states.selectEmitter.emit('elOptionGroupQueryChange')
+      queryChange.value.query = val
+
+      triggerRef(queryChange)
+      triggerRef(groupQueryChange)
     }
     if (
       props.defaultFirstOption &&
@@ -834,6 +846,8 @@ export const useSelect = (props, states: States, ctx) => {
     getValueKey,
     navigateOptions,
     dropMenuVisible,
+    queryChange,
+    groupQueryChange,
 
     // DOM ref
     reference,

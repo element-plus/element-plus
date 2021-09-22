@@ -50,16 +50,17 @@ const addStyle = async (
     await nextTick()
     ;['top', 'left'].forEach((property) => {
       const scroll = property === 'top' ? 'scrollTop' : 'scrollLeft'
-      maskStyle[property] =
+      maskStyle[property] = `${
         (options.target as HTMLElement).getBoundingClientRect()[property] +
         document.body[scroll] +
         document.documentElement[scroll] -
-        parseInt(getStyle(document.body, `margin-${property}`), 10) +
-        'px'
+        parseInt(getStyle(document.body, `margin-${property}`), 10)
+      }px`
     })
     ;['height', 'width'].forEach((property) => {
-      maskStyle[property] =
-        (options.target as HTMLElement).getBoundingClientRect()[property] + 'px'
+      maskStyle[property] = `${
+        (options.target as HTMLElement).getBoundingClientRect()[property]
+      }px`
     })
   } else {
     instance.originalPosition.value = getStyle(parent, 'position')

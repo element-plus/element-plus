@@ -2,8 +2,8 @@
   "name": "@element-plus/directives",
   "description": "Element Plus directives",
   "version": "0.0.5",
-  "main": "index.js",
-  "module": "index.js",
+  "main": "index.ts",
+  "module": "index.ts",
   "unpkg": "index.js",
   "jsdelivr": "index.js",
   "license": "MIT",
@@ -24,9 +24,9 @@
     "chalk": "^4.1.2",
     "gulp": "^4.0.2",
     "gulp-typescript": "^6.0.0-alpha.1",
-    "sass": "^1.39.0",
+    "sass": "^1.41.1",
     "ts-node": "^10.1.0",
-    "typescript": "^4.4.2"
+    "typescript": "^4.4.3"
   },
   "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
 }

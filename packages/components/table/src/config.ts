@@ -163,7 +163,7 @@ export function treeCellPrefix<T>({
     ele.push(
       h('span', {
         class: 'el-table__indent',
-        style: { 'padding-left': treeNode.indent + 'px' },
+        style: { 'padding-left': `${treeNode.indent}px` },
       })
     )
   }

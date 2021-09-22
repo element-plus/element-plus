@@ -1,6 +1,6 @@
-import { computed, ComputedRef, inject } from 'vue'
+import { computed, inject } from 'vue'
 
-import type { ComponentInternalInstance } from 'vue'
+import type { ComponentInternalInstance, ComputedRef } from 'vue'
 import type { RootMenuProvider } from './menu.type'
 
 export default function useMenu(
@@ -44,7 +44,7 @@ export default function useMenu(
         parent = parent.parent
       }
     }
-    return { paddingLeft: padding + 'px' }
+    return { paddingLeft: `${padding}px` }
   })
   return { parentMenu, paddingStyle, indexPath }
 }

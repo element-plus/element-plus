@@ -237,4 +237,41 @@ describe('TimeLine.vue', () => {
     expect(dotWrapper.text()).toEqual('dot')
     expect(wrapper.find('.el-timeline-item__node').exists()).toBe(false)
   })
+
+  test('center', () => {
+    const wrapper = mount({
+      ...Component,
+      template: `
+        <el-timeline>
+          <el-timeline-item
+            v-for="(activity, index) in activities"
+            :key="index"
+            :center="index === 1"
+          >
+            {{activity.content}}
+          </el-timeline-item>
+        </el-timeline>
+      `,
+      data() {
+        return {
+          activities: [
+            {
+              content: 'Step 1: xxxxxx',
+              timestamp: '2018-04-11',
+            },
+            {
+              content: 'Step 2: xxxxxx',
+              timestamp: '2018-04-13',
+            },
+            {
+              content: 'Step 3: xxxxxx',
+              timestamp: '2018-04-15',
+            },
+          ],
+        }
+      },
+    })
+    const timestampWrappers = wrapper.findAll('.el-timeline-item')
+    expect(timestampWrappers[1].classes()).toContain('el-timeline-item__center')
+  })
 })

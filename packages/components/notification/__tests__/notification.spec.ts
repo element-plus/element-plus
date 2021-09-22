@@ -1,10 +1,10 @@
-import { h, ComponentPublicInstance, nextTick } from 'vue'
+import { h, nextTick } from 'vue'
 import { rAF } from '@element-plus/test-utils/tick'
 import makeMount from '@element-plus/test-utils/make-mount'
-import * as domExports from '@element-plus/utils/dom'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import PopupManager from '@element-plus/utils/popup-manager'
-import Notification from '../src/index.vue'
+import Notification from '../src/notification.vue'
+import type { ComponentPublicInstance } from 'vue'
 
 import type { VueWrapper } from '@vue/test-utils'
 
@@ -40,7 +40,10 @@ describe('Notification.vue', () => {
       expect(vm.visible).toBe(true)
       expect(vm.typeClass).toBe('')
       expect(vm.horizontalClass).toBe('right')
-      expect(vm.positionStyle).toEqual({ top: '0px', 'z-index': 0 })
+      expect(vm.positionStyle).toEqual({
+        top: '0px',
+        zIndex: 0,
+      } as CSSProperties)
     })
 
     test('should be able to render VNode', () => {
@@ -95,34 +98,10 @@ describe('Notification.vue', () => {
         positionStyle: Record<string, string>
       }>
 
-      expect(vm.positionStyle).toEqual({ top: '0px', 'z-index': zIndex })
-    })
-  })
-
-  describe('lifecycle', () => {
-    let onMock
-    let offMock
-    beforeEach(() => {
-      onMock = jest.spyOn(domExports, 'on').mockReset()
-      offMock = jest.spyOn(domExports, 'off').mockReset()
-    })
-
-    afterEach(() => {
-      onMock.mockRestore()
-      offMock.mockRestore()
-    })
-
-    test('should add event listener to target element when init', () => {
-      jest.spyOn(domExports, 'on')
-      jest.spyOn(domExports, 'off')
-      const wrapper = _mount({
-        slots: {
-          default: AXIOM,
-        },
-      })
-      expect(domExports.on).toHaveBeenCalled()
-      wrapper.unmount()
-      expect(domExports.off).toHaveBeenCalled()
+      expect(vm.positionStyle).toEqual({
+        top: '0px',
+        zIndex,
+      } as CSSProperties)
     })
   })
 

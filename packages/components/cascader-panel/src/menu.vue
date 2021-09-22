@@ -1,6 +1,6 @@
 <template>
   <el-scrollbar
-    :id="menuId"
+    :key="menuId"
     tag="ul"
     role="menu"
     class="el-cascader-menu"
@@ -33,8 +33,8 @@ import ElScrollbar from '@element-plus/components/scrollbar'
 import { useLocaleInject } from '@element-plus/hooks'
 import { generateId } from '@element-plus/utils/util'
 import ElCascaderNode from './node.vue'
-import { default as CascaderNode } from './node'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
+import type { default as CascaderNode } from './node'
 
 import type { PropType } from 'vue'
 import type { TimeoutHandle, Nullable } from '@element-plus/utils/types'

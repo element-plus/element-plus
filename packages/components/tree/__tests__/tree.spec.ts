@@ -1,7 +1,7 @@
-import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
-import Tree from '../src/tree.vue'
+import { mount } from '@vue/test-utils'
 import { sleep, defineGetter } from '@element-plus/test-utils'
+import Tree from '../src/tree.vue'
 
 const ALL_NODE_COUNT = 9
 
@@ -831,10 +831,10 @@ describe('Tree.vue', () => {
             setTimeout(() => {
               resolve([
                 {
-                  label: 'zone' + this.count++,
+                  label: `zone${this.count++}`,
                 },
                 {
-                  label: 'zone' + this.count++,
+                  label: `zone${this.count++}`,
                 },
               ])
             }, 50)
@@ -868,11 +868,11 @@ describe('Tree.vue', () => {
             setTimeout(() => {
               resolve([
                 {
-                  label: 'zone' + this.count,
+                  label: `zone${this.count}`,
                   id: this.count++,
                 },
                 {
-                  label: 'zone' + this.count,
+                  label: `zone${this.count}`,
                   id: this.count++,
                 },
               ])
@@ -912,11 +912,11 @@ describe('Tree.vue', () => {
             setTimeout(() => {
               resolve([
                 {
-                  label: 'zone' + this.count,
+                  label: `zone${this.count}`,
                   id: this.count++,
                 },
                 {
-                  label: 'zone' + this.count,
+                  label: `zone${this.count}`,
                   id: this.count++,
                 },
               ])
@@ -950,11 +950,11 @@ describe('Tree.vue', () => {
             setTimeout(() => {
               resolve([
                 {
-                  label: 'zone' + this.count,
+                  label: `zone${this.count}`,
                   id: this.count++,
                 },
                 {
-                  label: 'zone' + this.count,
+                  label: `zone${this.count}`,
                   id: this.count++,
                 },
               ])
@@ -1003,10 +1003,10 @@ describe('Tree.vue', () => {
             nextTick(() => {
               resolve([
                 {
-                  label: 'zone' + this.count++,
+                  label: `zone${this.count++}`,
                 },
                 {
-                  label: 'zone' + this.count++,
+                  label: `zone${this.count++}`,
                 },
               ])
             })
@@ -1299,10 +1299,10 @@ describe('Tree.vue', () => {
           if (hasChild) {
             data = [
               {
-                name: 'zone' + this.count++,
+                name: `zone${this.count++}`,
               },
               {
-                name: 'zone' + this.count++,
+                name: `zone${this.count++}`,
               },
             ]
           } else {

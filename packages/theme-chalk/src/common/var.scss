@@ -1,6 +1,6 @@
 /* Element Chalk Variables */
-@use "sass:math";
-@use "sass:map";
+@use 'sass:math';
+@use 'sass:map';
 
 @import '../mixins/config';
 
@@ -220,6 +220,7 @@ $--radio: map.merge(
     'input-background-color': var(--el-color-white),
     'input-border': var(--el-border-base),
     'input-border-color': var(--el-border-color-base),
+    'input-border-color-hover': var(--el-color-primary),
   ),
   $--radio
 );
@@ -268,8 +269,6 @@ $--radio-checked: map.merge(
   ),
   $--radio-checked
 );
-
-$--radio-input-border-color-hover: var(--el-color-primary) !default;
 
 $--radio-bordered-padding: () !default;
 $--radio-bordered-padding: map.merge(
@@ -643,6 +642,8 @@ $--switch: map.merge(
 $--dialog: () !default;
 $--dialog: map.merge(
   (
+    'width': 50%,
+    'margin-top': 15vh,
     'background-color': var(--el-color-white),
     'box-shadow': 0 1px 3px rgba(0, 0, 0, 0.3),
     'title-font-size': var(--el-font-size-large),

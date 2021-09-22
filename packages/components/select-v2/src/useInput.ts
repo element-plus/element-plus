@@ -1,6 +1,6 @@
 import { ref } from 'vue'
-import { isKorean } from '@element-plus/utils/isDef'
 import { isFunction } from '@vue/shared'
+import { isKorean } from '@element-plus/utils/isDef'
 
 export function useInput(handleInput: (event: InputEvent) => void) {
   const isComposing = ref(false)
