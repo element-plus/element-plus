@@ -21,10 +21,7 @@
       >
         <component :is="iconComponent" />
       </el-icon>
-      <div
-        class="el-notification__group"
-        :class="{ 'is-with-icon': iconComponent }"
-      >
+      <div class="el-notification__group">
         <h2 class="el-notification__title" v-text="title"></h2>
         <div
           v-show="message"
