@@ -1,5 +1,21 @@
+import { debugWarn } from './error'
+import type { ExtractPropTypes, PropType } from '@vue/runtime-core'
 import type { Mutable } from './types'
-import type { PropType } from 'vue'
+
+const wrapperKey = Symbol()
+export type PropWrapper<T> = { [wrapperKey]: T }
+
+type ResolveProp<T> = ExtractPropTypes<{
+  key: { type: T; required: true }
+}>['key']
+type ResolvePropType<T> = ResolveProp<T> extends { type: infer V }
+  ? V
+  : ResolveProp<T>
+type ResolvePropTypeWithReadonly<T> = Readonly<T> extends Readonly<
+  Array<infer A>
+>
+  ? ResolvePropType<A[]>
+  : ResolvePropType<T>
 
 /**
  * @description Build prop. It can better optimize prop types
@@ -22,9 +38,14 @@ import type { PropType } from 'vue'
   @link see more: https://github.com/element-plus/element-plus/pull/3341
  */
 export function buildProp<
-  T = any,
+  T = never,
+  D extends
+    | (T extends PropWrapper<any>
+        ? T[typeof wrapperKey]
+        : ResolvePropTypeWithReadonly<T>)
+    | V = never,
   R extends boolean = false,
-  D extends T = T,
+  V = never,
   C = never
 >({
   values,
@@ -33,44 +54,72 @@ export function buildProp<
   type,
   validator,
 }: {
-  values?: readonly T[]
+  type?: T
+  values?: readonly V[]
   required?: R
   default?: R extends true
     ? never
     : D extends Record<string, unknown> | Array<any>
     ? () => D
     : D
-  type?: any
   validator?: ((val: any) => val is C) | ((val: any) => boolean)
 } = {}) {
-  type DefaultType = typeof defaultValue
-  type HasDefaultValue = Exclude<T, D> extends never ? false : true
+  type HasDefaultValue = Exclude<D, undefined> extends never ? false : true
+  type Type = PropType<
+    | (T extends PropWrapper<unknown>
+        ? T[typeof wrapperKey]
+        : [V] extends [never]
+        ? ResolvePropTypeWithReadonly<T>
+        : never)
+    | V
+    | C
+  >
 
   return {
-    type: type as PropType<T | C>,
+    type: ((type as any)?.[wrapperKey] || type) as unknown as Type,
     required: !!required as R,
 
-    default: defaultValue as R extends true
+    default: defaultValue as unknown as R extends true
       ? never
       : HasDefaultValue extends true
-      ? Exclude<DefaultType, undefined>
+      ? Exclude<
+          D extends Record<string, unknown> | Array<any> ? () => D : D,
+          undefined
+        >
       : undefined,
 
     validator:
       values || validator
         ? (val: unknown) => {
             let valid = false
-            if (values)
-              valid ||= ([...values, defaultValue] as unknown[]).includes(val)
+            let allowedValues: unknown[] = []
+
+            if (values) {
+              allowedValues = [...values, defaultValue]
+              valid ||= allowedValues.includes(val)
+            }
             if (validator) valid ||= validator(val)
+
+            if (!valid && allowedValues.length > 0) {
+              debugWarn(
+                `Vue warn`,
+                `Invalid prop: Expected one of (${allowedValues.join(
+                  ', '
+                )}), got value ${val}`
+              )
+            }
             return valid
           }
         : undefined,
   } as const
 }
 
+export const definePropType = <T>(val: any) =>
+  ({ [wrapperKey]: val } as PropWrapper<T>)
+
 export const keyOf = <T>(arr: T) => Object.keys(arr) as Array<keyof T>
-export const mutable = <T extends readonly any[]>(val: T) =>
-  val as Mutable<typeof val>
+export const mutable = <T extends readonly any[] | Record<string, unknown>>(
+  val: T
+) => val as Mutable<typeof val>
 
 export const componentSize = ['large', 'medium', 'small', 'mini'] as const

@@ -1,4 +1,4 @@
-import { buildProp } from '@element-plus/utils/props'
+import { buildProp, definePropType } from '@element-plus/utils/props'
 
 import type { VNode, ExtractPropTypes } from 'vue'
 
@@ -29,12 +29,12 @@ export const messageProps = {
     type: String,
     default: '',
   },
-  message: buildProp<string | VNode>({
-    type: [String, Object],
+  message: buildProp({
+    type: definePropType<string | VNode>([String, Object]),
     default: '',
-  }),
-  onClose: buildProp<() => void>({
-    type: Function,
+  } as const),
+  onClose: buildProp({
+    type: definePropType<() => void>(Function),
     required: false,
   }),
   showClose: {

@@ -3,10 +3,10 @@ import { buildProp } from '@element-plus/utils/props'
 import type { ExtractPropTypes } from 'vue'
 
 export const badgeProps = {
-  value: buildProp<string | number>({
+  value: buildProp({
     type: [String, Number],
     default: '',
-  }),
+  } as const),
   max: {
     type: Number,
     default: 99,

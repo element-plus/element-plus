@@ -17,8 +17,9 @@ import {
 } from 'vue'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElPopper from '@element-plus/components/popper'
-import useMenu from './useMenu'
+import useMenu from './use-menu'
 
+import { useMenuCssVar } from './use-menu-css-var'
 import type {
   ISubMenuProps,
   RootMenuProvider,
@@ -71,7 +72,6 @@ export default defineComponent({
     const {
       openedMenus,
       isMenuPopup,
-      hoverBackground: rootHoverBackground,
       methods: rootMethods,
       props: rootProps,
       methods: { closeMenu },
@@ -265,16 +265,7 @@ export default defineComponent({
         }
       }
     }
-    const handleTitleMouseenter = () => {
-      if (mode.value === 'horizontal' && !rootProps.backgroundColor) return
-      const title = popperVnode.value?.triggerRef || verticalTitleRef.value
-      title && (title.style.backgroundColor = rootHoverBackground.value)
-    }
-    const handleTitleMouseleave = () => {
-      if (mode.value === 'horizontal' && !rootProps.backgroundColor) return
-      const title = popperVnode.value?.triggerRef || verticalTitleRef.value
-      title && (title.style.backgroundColor = rootProps.backgroundColor || '')
-    }
+
     const updatePlacement = () => {
       data.currentPlacement =
         mode.value === 'horizontal' && isFirstLevel.value
@@ -342,8 +333,6 @@ export default defineComponent({
       handleClick,
       handleMouseenter,
       handleMouseleave,
-      handleTitleMouseenter,
-      handleTitleMouseleave,
 
       addItem,
       removeItem,
@@ -365,9 +354,9 @@ export default defineComponent({
         null
       ),
     ]
-    const ulStyle = {
-      backgroundColor: this.rootProps.backgroundColor || '',
-    }
+
+    const ulStyle = useMenuCssVar(this.rootProps)
+
     // this render function is only used for bypass `Vue`'s compiler caused patching issue.
     // temporaryly mark ElPopper as any due to type inconsistency.
     // TODO: correct popper's type.
@@ -428,8 +417,6 @@ export default defineComponent({
                     { backgroundColor: this.backgroundColor },
                   ],
                   onClick: this.handleClick,
-                  onMouseenter: this.handleTitleMouseenter,
-                  onMouseleave: this.handleTitleMouseleave,
                 },
                 titleTag
               ),
@@ -447,8 +434,6 @@ export default defineComponent({
               ],
               ref: 'verticalTitleRef',
               onClick: this.handleClick,
-              onMouseenter: this.handleTitleMouseenter,
-              onMouseleave: this.handleTitleMouseleave,
             },
             titleTag
           ),
@@ -463,7 +448,7 @@ export default defineComponent({
                     {
                       role: 'menu',
                       class: 'el-menu el-menu--inline',
-                      style: ulStyle,
+                      style: ulStyle.value,
                     },
                     [this.$slots.default?.()]
                   ),

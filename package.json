@@ -28,7 +28,7 @@
     "format": "prettier --write .",
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --max-warnings 0 && prettier --check .",
     "lint:fix": "eslint --fix . --ext .vue,.js,.ts,.jsx,.tsx && prettier --write .",
-    "docs:dev": "if [ ! -d \"dist/element-plus\" ]; then sh scripts/build.sh; fi && yarn docs:gen-locale && cd docs && yarn dev",
+    "docs:dev": "sh ./scripts/ifBuild.sh && yarn docs:gen-locale && cd docs && yarn dev",
     "docs:build": "cd docs && yarn build",
     "docs:serve": "cd docs && yarn serve",
     "docs:gen-locale": "rimraf docs/.vitepress/i18n && esno build/crowdin-generate.ts",
@@ -64,7 +64,8 @@
     "dayjs": "1.x",
     "lodash": "^4.17.21",
     "normalize-wheel": "^1.0.1",
-    "resize-observer-polyfill": "^1.5.1"
+    "resize-observer-polyfill": "^1.5.1",
+    "memoize-one": "^5.2.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.15.4",
@@ -105,6 +106,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^7.0.0-beta.0",
     "esno": "^0.9.1",
+    "expect-type": "^0.12.0",
     "fast-glob": "^3.2.7",
     "file-save": "^0.2.0",
     "gulp": "^4.0.2",

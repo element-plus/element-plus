@@ -1,4 +1,6 @@
 /* eslint-disable */
+const fs = require('fs')
+const path = require('path')
 const sidebars = require('./sidebars')
 const nav = require('./nav')
 const mdPlugin = require('./plugins')
@@ -31,6 +33,8 @@ const buildTransformers = () => {
 }
 console.log(process.env.DOC_ENV)
 
+const languages = fs.readdirSync(path.resolve(__dirname, './crowdin'))
+
 module.exports = {
   title: 'ElementPlus',
   head: [
@@ -38,7 +42,7 @@ module.exports = {
       'link',
       {
         rel: 'icon',
-        href: '/favicon.ico',
+        href: '/images/element-plus-logo-small.svg',
       },
     ],
     [
@@ -84,6 +88,7 @@ module.exports = {
       appId: '7DCTSU0WBW',
     },
     features,
+    langs: languages,
   },
 
   markdown: {
