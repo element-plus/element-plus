@@ -57,7 +57,15 @@
     "vue": "^3.2.0"
   },
   "dependencies": {
+    "@element-plus/components": "workspace:*",
+    "@element-plus/directives": "workspace:*",
+    "@element-plus/hooks": "workspace:*",
     "@element-plus/icons": "^0.0.11",
+    "@element-plus/locale": "workspace:*",
+    "@element-plus/test-utils": "workspace:*",
+    "@element-plus/theme-chalk": "workspace:*",
+    "@element-plus/tokens": "workspace:*",
+    "@element-plus/utils": "workspace:*",
     "@popperjs/core": "^2.10.1",
     "@vueuse/core": "~6.1.0",
     "async-validator": "^3.4.0",
@@ -91,6 +99,7 @@
     "@vue/babel-plugin-jsx": "^1.0.7",
     "@vue/compiler-sfc": "^3.2.8",
     "@vue/component-compiler-utils": "^3.2.2",
+    "@vue/test-utils": "2.0.0-beta.4",
     "algoliasearch": "^4.10.5",
     "babel-jest": "^26.3.0",
     "babel-plugin-lodash": "^3.3.4",

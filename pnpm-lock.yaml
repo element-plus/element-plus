@@ -12,7 +12,15 @@ importers:
       '@babel/preset-typescript': ^7.15.0
       '@commitlint/cli': ^13.1.0
       '@commitlint/config-conventional': ^13.1.0
+      '@element-plus/components': workspace:*
+      '@element-plus/directives': workspace:*
+      '@element-plus/hooks': workspace:*
       '@element-plus/icons': ^0.0.11
+      '@element-plus/locale': workspace:*
+      '@element-plus/test-utils': workspace:*
+      '@element-plus/theme-chalk': workspace:*
+      '@element-plus/tokens': workspace:*
+      '@element-plus/utils': workspace:*
       '@pnpm/find-workspace-packages': ^3.1.13
       '@pnpm/logger': ^4.0.0
       '@popperjs/core': ^2.10.1
@@ -29,6 +37,7 @@ importers:
       '@vue/babel-plugin-jsx': ^1.0.7
       '@vue/compiler-sfc': ^3.2.8
       '@vue/component-compiler-utils': ^3.2.2
+      '@vue/test-utils': 2.0.0-beta.4
       '@vueuse/core': ~6.1.0
       algoliasearch: ^4.10.5
       async-validator: ^3.4.0
@@ -83,7 +92,15 @@ importers:
       vue-router: ^4.0.2
       vue-tsc: ^0.3.0
     dependencies:
+      '@element-plus/components': link:packages/components
+      '@element-plus/directives': link:packages/directives
+      '@element-plus/hooks': link:packages/hooks
       '@element-plus/icons': 0.0.11
+      '@element-plus/locale': link:packages/locale
+      '@element-plus/test-utils': link:packages/test-utils
+      '@element-plus/theme-chalk': link:packages/theme-chalk
+      '@element-plus/tokens': link:packages/tokens
+      '@element-plus/utils': link:packages/utils
       '@popperjs/core': 2.10.1
       '@vueuse/core': 6.1.0_vue@3.2.6
       async-validator: 3.4.0
@@ -116,6 +133,7 @@ importers:
       '@vue/babel-plugin-jsx': 1.0.7_@babel+core@7.15.5
       '@vue/compiler-sfc': 3.2.8
       '@vue/component-compiler-utils': 3.2.2
+      '@vue/test-utils': 2.0.0-beta.4_vue@3.2.6
       algoliasearch: 4.10.5
       babel-jest: 26.6.3_@babel+core@7.15.5
       babel-plugin-lodash: 3.3.4
@@ -182,13 +200,7 @@ importers:
 
   packages/components:
     specifiers:
-      '@element-plus/components': .
-      '@element-plus/directives': workspace:*
-      '@element-plus/hooks': workspace:*
       '@element-plus/icons': ^0.0.11
-      '@element-plus/theme-chalk': workspace:*
-      '@element-plus/tokens': workspace:*
-      '@element-plus/utils': workspace:*
       '@popperjs/core': ^2.10.1
       '@vueuse/core': ~6.1.0
       async-validator: ^3.4.0
@@ -196,13 +208,7 @@ importers:
       lodash: ^4.17.21
       memoize-one: ^5.2.1
     dependencies:
-      '@element-plus/components': 'link:'
-      '@element-plus/directives': link:../directives
-      '@element-plus/hooks': link:../hooks
       '@element-plus/icons': 0.0.11
-      '@element-plus/theme-chalk': link:../theme-chalk
-      '@element-plus/tokens': link:../tokens
-      '@element-plus/utils': link:../utils
       '@popperjs/core': 2.10.1
       '@vueuse/core': 6.1.0_vue@3.2.6
       async-validator: 3.4.0
@@ -212,9 +218,6 @@ importers:
 
   packages/directives:
     specifiers:
-      '@element-plus/test-utils': ^0.0.5
-      '@element-plus/utils': ^0.0.5
-      '@vue/test-utils': ^2.0.0-beta.3
       chalk: ^4.1.2
       gulp: ^4.0.2
       gulp-typescript: ^6.0.0-alpha.1
@@ -223,11 +226,8 @@ importers:
       ts-node: ^10.1.0
       typescript: ^4.4.3
     dependencies:
-      '@element-plus/utils': link:../utils
       normalize-wheel: 1.0.1
     devDependencies:
-      '@element-plus/test-utils': link:../test-utils
-      '@vue/test-utils': 2.0.0-rc.14_vue@3.2.6
       chalk: 4.1.2
       gulp: 4.0.2
       gulp-typescript: 6.0.0-alpha.1_typescript@4.4.3
@@ -237,8 +237,6 @@ importers:
 
   packages/element-plus:
     specifiers:
-      '@element-plus/icons': ^0.0.11
-      '@element-plus/test-utils': ^0.0.5
       '@popperjs/core': ^2.10.1
       '@vueuse/core': ~6.1.0
       async-validator: ^3.4.0
@@ -247,7 +245,6 @@ importers:
       normalize-wheel: ^1.0.1
       resize-observer-polyfill: ^1.5.1
     dependencies:
-      '@element-plus/icons': 0.0.11
       '@popperjs/core': 2.10.1
       '@vueuse/core': 6.1.0_vue@3.2.6
       async-validator: 3.4.0
@@ -255,18 +252,10 @@ importers:
       lodash: 4.17.21
       normalize-wheel: 1.0.1
       resize-observer-polyfill: 1.5.1
-    devDependencies:
-      '@element-plus/test-utils': link:../test-utils
 
   packages/hooks:
     specifiers:
-      '@element-plus/directives': workspace:*
-      '@element-plus/locale': workspace:*
-      '@element-plus/test-utils': ^0.0.5
-      '@element-plus/tokens': workspace:*
-      '@element-plus/utils': workspace:*
       '@popperjs/core': ^2.10.1
-      '@vue/test-utils': ^2.0.0-beta.3
       '@vueuse/core': ~6.1.0
       chalk: ^4.1.2
       gulp: ^4.0.2
@@ -275,15 +264,9 @@ importers:
       ts-node: ^10.1.0
       typescript: ^4.4.3
     dependencies:
-      '@element-plus/directives': link:../directives
-      '@element-plus/locale': link:../locale
-      '@element-plus/tokens': link:../tokens
-      '@element-plus/utils': link:../utils
       '@popperjs/core': 2.10.1
       '@vueuse/core': 6.1.0_vue@3.2.6
     devDependencies:
-      '@element-plus/test-utils': link:../test-utils
-      '@vue/test-utils': 2.0.0-rc.14_vue@3.2.6
       chalk: 4.1.2
       gulp: 4.0.2
       gulp-typescript: 6.0.0-alpha.1_typescript@4.4.3
@@ -293,9 +276,7 @@ importers:
 
   packages/locale:
     specifiers:
-      '@element-plus/test-utils': ^0.0.5
       '@types/gulp': ^4.0.9
-      '@vue/test-utils': ^2.0.0-beta.3
       chalk: ^4.1.2
       dayjs: 1.x
       gulp: ^4.0.2
@@ -306,9 +287,7 @@ importers:
     dependencies:
       dayjs: 1.10.6
     devDependencies:
-      '@element-plus/test-utils': link:../test-utils
       '@types/gulp': 4.0.9
-      '@vue/test-utils': 2.0.0-rc.14_vue@3.2.6
       chalk: 4.1.2
       gulp: 4.0.2
       gulp-typescript: 6.0.0-alpha.1_typescript@4.4.3
@@ -318,13 +297,9 @@ importers:
 
   packages/test-utils:
     specifiers:
-      '@vue/test-utils': ^2.0.0-beta.3
       lodash: ^4.17.21
-      vue: ^3.2.0
     dependencies:
-      '@vue/test-utils': 2.0.0-rc.14_vue@3.2.6
       lodash: 4.17.21
-      vue: 3.2.6
 
   packages/theme-chalk:
     specifiers:
@@ -362,7 +337,6 @@ importers:
 
   packages/tokens:
     specifiers:
-      '@vue/test-utils': ^2.0.0-beta.3
       async-validator: ^3.4.0
       chalk: ^4.1.2
       gulp: ^4.0.2
@@ -379,7 +353,6 @@ importers:
       normalize-wheel: 1.0.1
       resize-observer-polyfill: 1.5.1
     devDependencies:
-      '@vue/test-utils': 2.0.0-rc.14_vue@3.2.6
       chalk: 4.1.2
       gulp: 4.0.2
       gulp-typescript: 6.0.0-alpha.1_typescript@4.4.3
@@ -389,7 +362,6 @@ importers:
 
   packages/utils:
     specifiers:
-      '@vue/test-utils': ^2.0.0-beta.3
       chalk: ^4.1.2
       gulp: ^4.0.2
       gulp-typescript: ^6.0.0-alpha.1
@@ -404,7 +376,6 @@ importers:
       normalize-wheel: 1.0.1
       resize-observer-polyfill: 1.5.1
     devDependencies:
-      '@vue/test-utils': 2.0.0-rc.14_vue@3.2.6
       chalk: 4.1.2
       gulp: 4.0.2
       gulp-typescript: 6.0.0-alpha.1_typescript@4.4.3
@@ -413,12 +384,7 @@ importers:
       typescript: 4.4.3
 
   play:
-    specifiers:
-      '@element-plus/components': workspace:*
-      '@element-plus/theme-chalk': workspace:*
-    dependencies:
-      '@element-plus/components': link:../packages/components
-      '@element-plus/theme-chalk': link:../packages/theme-chalk
+    specifiers: {}
 
 packages:
 
@@ -780,6 +746,7 @@ packages:
   /@babel/helper-validator-identifier/7.14.9:
     resolution: {integrity: sha512-pQYxPY0UP6IHISRitNe8bsijHex4TWZXi2HwKVsjPiltzlhse2znVcm9Ace510VT1kxIHjGJCZZQBX2gJDbo0g==}
     engines: {node: '>=6.9.0'}
+    dev: true
 
   /@babel/helper-validator-option/7.14.5:
     resolution: {integrity: sha512-OX8D5eeX4XwcroVW45NMvoYaIuFI+GQpA2a8Gi+X/U/cDUIRsV37qQfF905F0htTRCREQIB4KqPeaveRJUl3Ow==}
@@ -822,6 +789,7 @@ packages:
     resolution: {integrity: sha512-2hQstc6I7T6tQsWzlboMh3SgMRPaS4H6H7cPQsJkdzTzEGqQrpLDsE2BGASU5sBPoEQyHzeqU6C8uKbFeEk6sg==}
     engines: {node: '>=6.0.0'}
     hasBin: true
+    dev: true
 
   /@babel/plugin-bugfix-v8-spread-parameters-in-optional-chaining/7.15.4_@babel+core@7.15.5:
     resolution: {integrity: sha512-eBnpsl9tlhPhpI10kU06JHnrYXwg3+V6CaP2idsCXNef0aeslpqyITXQ74Vfk5uHgY7IG7XP0yIH8b42KSzHog==}
@@ -1724,6 +1692,7 @@ packages:
     dependencies:
       '@babel/helper-validator-identifier': 7.14.9
       to-fast-properties: 2.0.0
+    dev: true
 
   /@bcoe/v8-coverage/0.2.3:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
@@ -3042,6 +3011,7 @@ packages:
       '@vue/shared': 3.2.6
       estree-walker: 2.0.2
       source-map: 0.6.1
+    dev: true
 
   /@vue/compiler-core/3.2.8:
     resolution: {integrity: sha512-Sx8qJ030+QM/NakUrkQuUGCeDEb+0d0AgFOl5W4qRvR6e+YgLnW2ew0jREf4T1hak9Fdk8Edl67StECHrhEuew==}
@@ -3065,6 +3035,7 @@ packages:
     dependencies:
       '@vue/compiler-core': 3.2.6
       '@vue/shared': 3.2.6
+    dev: true
 
   /@vue/compiler-dom/3.2.8:
     resolution: {integrity: sha512-nxBW6k8FMWQ74294CRbqR+iEJRO5vIjx85I3YCOyZFD6FsDHyFL60g76TcJzucp+F2XXIDaYz+A+F4gQlDatjw==}
@@ -3150,6 +3121,7 @@ packages:
     resolution: {integrity: sha512-8vIDD2wpCnYisNNZjmcIj+Rixn0uhZNY3G1vzlgdVdLygeRSuFjkmnZk6WwvGzUWpKfnG0e/NUySM3mVi59hAA==}
     dependencies:
       '@vue/shared': 3.2.6
+    dev: true
 
   /@vue/ref-transform/3.2.13:
     resolution: {integrity: sha512-q6GXHZFzXjpx1K3UFRF8fa+xSmD9xV/FjhGzTNnfrryBr8tBUNYgP2f0s5K5N+21Ay7+MlQ1XXMUp8McGvsryQ==}
@@ -3183,6 +3155,7 @@ packages:
     dependencies:
       '@vue/reactivity': 3.2.6
       '@vue/shared': 3.2.6
+    dev: true
 
   /@vue/runtime-dom/3.2.13:
     resolution: {integrity: sha512-DVG+ItkrnCOEa9HSrmGBTLwv/gBVYCO8wkm/yv+d5ChoTnyIILxP0oCiZEPJsgWZfUSRPNi5rXozwo7F99MiwQ==}
@@ -3198,6 +3171,7 @@ packages:
       '@vue/runtime-core': 3.2.6
       '@vue/shared': 3.2.6
       csstype: 2.6.13
+    dev: true
 
   /@vue/server-renderer/3.2.13_vue@3.2.13:
     resolution: {integrity: sha512-KI+JFV+vRb95+Jb6IwRRm4Vhvj8wrJTNs+OlATfqwwIRpBGAyxn/4knDJYzlnUf/mrKAkrbw751mHhi+pEwILQ==}
@@ -3215,17 +3189,19 @@ packages:
 
   /@vue/shared/3.2.6:
     resolution: {integrity: sha512-uwX0Qs2e6kdF+WmxwuxJxOnKs/wEkMArtYpHSm7W+VY/23Tl8syMRyjnzEeXrNCAP0/8HZxEGkHJsjPEDNRuHw==}
+    dev: true
 
   /@vue/shared/3.2.8:
     resolution: {integrity: sha512-E2DQQnG7Qr4GwTs3GlfPPlHliGVADoufTnhpwfoViw7JlyLMmYtjfnTwM6nXAwvSJWiF7D+7AxpnWBBT3VWo6Q==}
     dev: true
 
-  /@vue/test-utils/2.0.0-rc.14_vue@3.2.6:
-    resolution: {integrity: sha512-gmaeKqRCCMfxUtWN2L9fb9mYW5YocNc9KPj6F5uwlyXevlKELi40Oaz0PICYjzHI+7+dC4bV5Dg6Vjnf51VjvQ==}
+  /@vue/test-utils/2.0.0-beta.4_vue@3.2.6:
+    resolution: {integrity: sha512-uW3GdeEEQFTdRoYmBxxHs0ENpbt8jB6OeQ8JCiTuPQecP51dI8IcGXDJhzv7bjWG6Ej+KjaTxKEmEikCyhLWtQ==}
     peerDependencies:
-      vue: ^3.0.1
+      vue: ^3.0.0-rc.10
     dependencies:
       vue: 3.2.6
+    dev: true
 
   /@vueuse/core/6.1.0_vue@3.2.6:
     resolution: {integrity: sha512-6KienU5QOWKuDqvHytep14274IGKyLlACzXjifOrgDQMkqvWZIUnDhpckT/1+O8n8DN59d5wzzICZI/2sfGCyg==}
@@ -4814,6 +4790,7 @@ packages:
 
   /csstype/2.6.13:
     resolution: {integrity: sha512-ul26pfSQTZW8dcOnD2iiJssfXw0gdNVX9IJDH/X3K5DGPfj+fUYe3kB+swUY6BF3oZDxaID3AJt+9/ojSAE05A==}
+    dev: true
 
   /cz-conventional-changelog/3.2.0:
     resolution: {integrity: sha512-yAYxeGpVi27hqIilG1nh4A9Bnx4J3Ov+eXy4koL3drrR+IO9GaWPsKjik20ht608Asqi8TQPf0mczhEeyAtMzg==}
@@ -5579,6 +5556,7 @@ packages:
 
   /estree-walker/2.0.2:
     resolution: {integrity: sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==}
+    dev: true
 
   /esutils/2.0.3:
     resolution: {integrity: sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==}
@@ -10526,6 +10504,7 @@ packages:
   /source-map/0.6.1:
     resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
     engines: {node: '>=0.10.0'}
+    dev: true
 
   /source-map/0.7.3:
     resolution: {integrity: sha512-CkCj6giN3S+n9qrYiBTX5gystlENnRW5jZeNLHpe6aue+SrHcG5VYwujhW9s4dY31mEGsxBDrHR6oI69fTXsaQ==}
@@ -10989,6 +10968,7 @@ packages:
   /to-fast-properties/2.0.0:
     resolution: {integrity: sha1-3F5pjL0HkmW8c+A3doGk5Og/YW4=}
     engines: {node: '>=4'}
+    dev: true
 
   /to-object-path/0.3.0:
     resolution: {integrity: sha1-KXWIt7Dn4KwI4E5nL4XB9JmeF68=}
@@ -11790,6 +11770,7 @@ packages:
       '@vue/compiler-dom': 3.2.6
       '@vue/runtime-dom': 3.2.6
       '@vue/shared': 3.2.6
+    dev: true
 
   /w3c-hr-time/1.0.2:
     resolution: {integrity: sha512-z8P5DvDNjKDoFIHK7q8r8lackT6l+jo/Ye3HOle7l9nICP9lf1Ci25fy9vHd0JOWewkIFzXIEig3TdKT7JQ5fQ==}

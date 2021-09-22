@@ -16,16 +16,10 @@
     "build": "gulp build"
   },
   "dependencies": {
-    "@element-plus/directives": "workspace:*",
-    "@element-plus/locale": "workspace:*",
-    "@element-plus/tokens": "workspace:*",
-    "@element-plus/utils": "workspace:*",
     "@popperjs/core": "^2.10.1",
     "@vueuse/core": "~6.1.0"
   },
   "devDependencies": {
-    "@element-plus/test-utils": "^0.0.5",
-    "@vue/test-utils": "^2.0.0-beta.3",
     "chalk": "^4.1.2",
     "gulp": "^4.0.2",
     "gulp-typescript": "^6.0.0-alpha.1",

@@ -3,8 +3,5 @@
   "scripts": {
     "dev": "vite"
   },
-  "dependencies": {
-    "@element-plus/components": "workspace:*",
-    "@element-plus/theme-chalk": "workspace:*"
-  }
+  "dependencies": {}
 }
