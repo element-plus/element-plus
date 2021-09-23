@@ -35,58 +35,60 @@ console.log(process.env.DOC_ENV)
 
 const languages = fs.readdirSync(path.resolve(__dirname, './crowdin'))
 
-module.exports = {
-  title: 'ElementPlus',
-  head: [
-    [
-      'link',
-      {
-        rel: 'icon',
-        href: '/images/element-plus-logo-small.svg',
-      },
-    ],
-    [
-      'link',
-      {
-        rel: 'stylesheet',
-        href: '//fonts.loli.net/css?family=Inter:300,400,500,600|Open+Sans:400,600;display=swap',
-      },
-    ],
-    [
-      'link',
-      {
-        rel: 'stylesheet',
-        href: '//unpkg.com/nprogress@0.2.0/nprogress.css',
-      },
-    ],
-    [
-      'script',
-      {},
-      `;(() => {
-        window.supportedLangs = ${JSON.stringify(languages)}
-      })()`,
-    ],
-
-    [
-      'script',
-      {},
-      require('fs').readFileSync(
-        require('path').resolve(__dirname, './lang.js'),
-        'utf-8'
-      ),
-    ],
-
-    features.theme
-      ? [
-          'script',
-          {},
-          require('fs').readFileSync(
-            require('path').resolve(__dirname, './darkmode.js'),
-            'utf-8'
-          ),
-        ]
-      : [],
+const head = [
+  [
+    'link',
+    {
+      rel: 'icon',
+      href: '/images/element-plus-logo-small.svg',
+    },
   ],
+  [
+    'link',
+    {
+      rel: 'stylesheet',
+      href: '//fonts.loli.net/css?family=Inter:300,400,500,600|Open+Sans:400,600;display=swap',
+    },
+  ],
+  [
+    'link',
+    {
+      rel: 'stylesheet',
+      href: '//unpkg.com/nprogress@0.2.0/nprogress.css',
+    },
+  ],
+  [
+    'script',
+    {},
+    `;(() => {
+      window.supportedLangs = ${JSON.stringify(languages)}
+    })()`,
+  ],
+
+  [
+    'script',
+    {},
+    require('fs').readFileSync(
+      require('path').resolve(__dirname, './lang.js'),
+      'utf-8'
+    ),
+  ],
+]
+
+if (features.theme) {
+  head.push([
+    'script',
+    {},
+    require('fs').readFileSync(
+      require('path').resolve(__dirname, './darkmode.js'),
+      'utf-8'
+    ),
+  ])
+}
+
+module.exports = {
+  title: 'Element Plus',
+  head,
   themeConfig: {
     repo: 'element-plus/element-plus',
     docsDir: 'docs',
