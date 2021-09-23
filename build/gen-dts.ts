@@ -45,6 +45,7 @@ const genVueTypes = async (
     'tests',
     'css',
     '.DS_Store',
+    'node_modules',
   ]
   const filePaths = globSync('**/*', {
     cwd: root,

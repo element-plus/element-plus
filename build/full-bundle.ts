@@ -30,7 +30,7 @@ import { getExternals } from './utils'
         'process.env.NODE_ENV': JSON.stringify('production'),
       }),
     ],
-    external: getExternals({ full: true }),
+    external: await getExternals({ full: true }),
   }
 
   console.log(chalk.cyan('Start generating full bundle'))

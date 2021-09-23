@@ -7,6 +7,7 @@ module.exports = {
       },
     },
   },
+  testPathIgnorePatterns: ['/node_modules/', 'dist'],
   testEnvironment: 'jsdom',
   transform: {
     '^.+\\.vue$': 'vue-jest',
