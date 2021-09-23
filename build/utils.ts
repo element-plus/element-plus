@@ -10,7 +10,7 @@ export const getDeps = (pkgPath: string): string[] => {
   const pkgJson = require(pkgPath)
 
   const { dependencies } = pkgJson
-  return Object.keys(dependencies)
+  return Object.keys(dependencies ?? {})
 }
 
 export const getCpuCount = () => os.cpus().length
@@ -49,6 +49,6 @@ export function red(str: string) {
 }
 
 export function errorAndExit(e: Error) {
-  red(e.message)
+  red(e.stack ?? e.message)
   process.exit(1)
 }
