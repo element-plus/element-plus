@@ -19,31 +19,33 @@ jobs:
         with:
           node-version: '16'
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 6.15.1
+
       - name: Install dependencies
-        run: yarn bootstrap
+        run: pnpm bootstrap
 
       - name: Compile Element Plus
         run: sh scripts/build.sh
 
-      - name: Init docs
-        run: cd docs && yarn
-
       - name: Init Crowdin token
-        run: yarn docs:crowdin
+        run: pnpm docs:crowdin
         env:
           CROWDIN_TOKEN: ${{secrets.CROWDIN_TOKEN}}
 
       - name: Upload source files
-        run: cd docs && yarn crowdin upload sources
+        run: cd docs && pnpx crowdin upload sources
 
       - name: Pull Crowdin translations
-        run: cd docs && yarn crowdin download
+        run: cd docs && pnpx crowdin download
 
       - name: Generate common locale
-        run: yarn docs:gen-locale
+        run: pnpm docs:gen-locale
 
       - name: Build website
-        run: yarn docs:build
+        run: pnpm docs:build
         env:
           DOC_ENV: staging
 
