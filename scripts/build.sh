@@ -2,30 +2,30 @@
 
 set -e
 
-yarn clean:lib
+pnpm clean:lib
 
 # build all packages in case of error
 
 # build components
-yarn build:comps
+pnpm build:comps
 rsync -a dist/types/components/ dist/element-plus/es/components/
 rsync -a dist/types/components/ dist/element-plus/lib/components/
 
 # build style
-yarn build:style
+pnpm build:style
 
-yarn build:theme
-yarn build:locale
-yarn build:utils
-yarn build:hooks
-yarn build:directives
-yarn build:tokens
-yarn build:full-bundle
+pnpm build:theme
+pnpm build:locale
+pnpm build:utils
+pnpm build:hooks
+pnpm build:directives
+pnpm build:tokens
+pnpm build:full-bundle
 
 rsync -a dist/entry/types/ dist/element-plus/es/
 rsync -a dist/entry/types/ dist/element-plus/lib/
 
-yarn build:helper
+pnpm build:helper
 
 echo "copy index.css"
 cp dist/element-plus/theme-chalk/index.css dist/element-plus/dist/index.css
