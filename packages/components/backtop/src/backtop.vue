@@ -10,7 +10,7 @@
       @click.stop="handleClick"
     >
       <slot>
-        <el-icon><caret-top /></el-icon>
+        <el-icon class="el-backtop__icon"><caret-top /></el-icon>
       </slot>
     </div>
   </transition>
