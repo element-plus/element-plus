@@ -14,7 +14,8 @@ const changelog = useLocale(changelogLocale)
 const lang = useLang()
 
 const onVersionChange = (val) => {
-  currentRelease.value = releases.value[val]
+  const _releases = releases.value
+  currentRelease.value = _releases[_releases.findIndex((r) => r.name === val)]
 }
 
 onMounted(async () => {
@@ -41,15 +42,15 @@ onMounted(async () => {
         <div class="changelog-versions">
           <p>{{ changelog['select-version'] }}:</p>
           <ElSelect
-            style="width: 200px"
             :model-value="currentRelease.name"
             :placeholder="changelog['select-version']"
+            style="min-width: 200px"
             @change="onVersionChange"
           >
             <ElOption
-              v-for="(release, idx) in releases"
+              v-for="release in releases"
               :key="release.id"
-              :value="idx"
+              :value="release.name"
             >
               {{ release.name }}
             </ElOption>

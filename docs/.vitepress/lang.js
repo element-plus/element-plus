@@ -1,15 +1,24 @@
 ;(() => {
   const supportedLangs = window.supportedLangs
+  let userPreferredLang = localStorage.getItem('preferred_lang')
 
-  const userPreferredLang =
-    localStorage.getItem('preferred_lang') || navigator.language
+  if (!userPreferredLang) {
+    const systemLang = navigator.language
+    localStorage.setItem('preferred_lang', systemLang)
+    userPreferredLang = systemLang
+  }
 
   if (
     supportedLangs.includes(userPreferredLang) &&
     !location.pathname.startsWith(`/${userPreferredLang}`)
   ) {
-    location.pathname = [`/${userPreferredLang}`]
+    const toPath = [`/${userPreferredLang}`]
       .concat(location.pathname.split('/').slice(2))
       .join('/')
+    location.pathname = toPath.endsWith('.html')
+      ? toPath
+      : toPath.endsWith('/')
+      ? toPath
+      : toPath.concat('/')
   }
 })()
