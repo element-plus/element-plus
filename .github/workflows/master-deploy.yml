@@ -31,10 +31,13 @@ jobs:
           CROWDIN_TOKEN: ${{secrets.CROWDIN_TOKEN}}
 
       - name: Pull Crowdin translations
-        run: cd docs && pnpx crowdin download
+        run: cd docs && pnpm exec crowdin download
 
       - name: Generate common locale
         run: pnpm docs:gen-locale
+
+      - name: Install latest Element Plus
+        run: cd docs && pnpm i element-plus@latest
 
       - name: Build website
         run: pnpm docs:build
