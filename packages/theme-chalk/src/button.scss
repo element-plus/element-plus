@@ -71,9 +71,15 @@
     border: 0;
   }
 
-  & [class*='#{$namespace}-icon-'] {
+  & [class*='#{$namespace}-icon'] {
     & + span {
       margin-left: 5px;
+    }
+  }
+
+  .#{$namespace}-icon {
+    svg {
+      vertical-align: bottom;
     }
   }
 

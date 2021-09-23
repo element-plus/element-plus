@@ -1,8 +1,8 @@
 <template>
   <el-button-group>
-    <el-button type="primary" :icon="ArrowLeft"> Previous Page</el-button>
+    <el-button type="primary" :icon="ArrowLeft">Previous Page</el-button>
     <el-button type="primary">
-      Next Page<el-icon><arrow-right /></el-icon>
+      Next Page<el-icon class="el-icon--right"><ArrowRight /></el-icon>
     </el-button>
   </el-button-group>
 
@@ -12,19 +12,21 @@
     <el-button type="primary" :icon="Delete"></el-button>
   </el-button-group>
 </template>
-
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { Share, Edit, Delete, ArrowLeft, ArrowRight } from '@element-plus/icons'
-export default defineComponent({
-  components: { ArrowRight },
-  setup() {
+import { ElIcon } from '@element-plus/components/icon'
+import { ArrowLeft, Edit, Share, Delete, ArrowRight } from '@element-plus/icons'
+export default {
+  components: {
+    ElIcon,
+    ArrowRight,
+  },
+  data() {
     return {
-      Share,
-      Edit,
-      Delete,
       ArrowLeft,
+      Edit,
+      Share,
+      Delete,
     }
   },
-})
+}
 </script>

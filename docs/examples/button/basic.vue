@@ -35,12 +35,10 @@
     <el-button type="danger" :icon="Delete" circle></el-button>
   </el-row>
 </template>
-
 <script lang="ts">
-import { defineComponent } from 'vue'
 import { Search, Edit, Check, Message, Star, Delete } from '@element-plus/icons'
-export default defineComponent({
-  setup() {
+export default {
+  data() {
     return {
       Search,
       Edit,
@@ -50,5 +48,5 @@ export default defineComponent({
       Delete,
     }
   },
-})
+}
 </script>

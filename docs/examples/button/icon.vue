@@ -4,22 +4,24 @@
   <el-button type="primary" :icon="Delete"></el-button>
   <el-button type="primary" :icon="Search">Search</el-button>
   <el-button type="primary">
-    Upload<el-icon><upload /></el-icon>
+    Upload<el-icon class="el-icon--right"><Upload /></el-icon>
   </el-button>
 </template>
-
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { Share, Search, Edit, Delete, Upload } from '@element-plus/icons'
-export default defineComponent({
-  components: { Upload },
-  setup() {
+import { ElIcon } from '@element-plus/components/icon'
+import { Edit, Share, Delete, Search, Upload } from '@element-plus/icons'
+export default {
+  components: {
+    ElIcon,
+    Upload,
+  },
+  data() {
     return {
-      Share,
-      Search,
       Edit,
+      Share,
       Delete,
+      Search,
     }
   },
-})
+}
 </script>

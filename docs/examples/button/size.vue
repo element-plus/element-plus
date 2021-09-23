@@ -18,15 +18,13 @@
     <el-button :icon="Search" size="mini" circle></el-button>
   </el-row>
 </template>
-
 <script lang="ts">
-import { defineComponent } from 'vue'
 import { Search } from '@element-plus/icons'
-export default defineComponent({
-  setup() {
+export default {
+  data() {
     return {
       Search,
     }
   },
-})
+}
 </script>
