@@ -13,12 +13,6 @@
           <AlgoliaSearch :options="theme.agolia" />
           <nav class="nav-menu">
             <slot name="header-nav"></slot>
-            <!-- <nav-link
-              v-for="(navItem, key) in nav"
-              :key="key"
-              :item="navItem"
-              class="nav-item"
-            /> -->
           </nav>
           <div :class="{ 'theme-switcher': true, 'is-dark': isDark }">
             <ElIcon class="header-icon" @click="$emit('toggle-dark')">
@@ -44,7 +38,8 @@
                 </div>
               </ElIcon>
             </div>
-            <div v-if class="header-socials"></div>
+            <!-- Since we only have github icon for now so that we need to comment this line -->
+            <!-- <div v-if class="header-socials"></div> -->
             <ElIcon class="header-icon social-icon">
               <a
                 href="https://github.com/element-plus/element-plus"

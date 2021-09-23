@@ -14,13 +14,14 @@ const { sidebars, hasSidebar } = useSidebar()
   <aside v-if="hasSidebar" :class="{ sidebar: true, open }">
     <slot name="top" />
     <div class="sidebar-groups">
-      <section v-for="(item, key) of sidebars" class="sidebar-group">
+      <section v-for="(item, key) of sidebars" :key="key" class="sidebar-group">
         <p class="sidebar-group__title">
           {{ item.text }}
         </p>
         <VPSidebarLink
-          v-for="item in item.children"
-          :item="item"
+          v-for="(child, childKey) in item.children"
+          :key="childKey"
+          :item="child"
           @close="$emit('close')"
         />
       </section>

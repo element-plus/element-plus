@@ -15,7 +15,7 @@ const sponsor = computed(() => sponsorLocale[lang.value])
   <div class="sponsors">
     <p class="sponsors-title">{{ sponsor.sponsoredBy }}</p>
     <div class="container">
-      <VPSponsor v-for="sponsor in sponsors" :item="sponsor" />
+      <VPSponsor v-for="(s, key) in sponsors" :key="key" :item="s" />
     </div>
   </div>
 </template>
