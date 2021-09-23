@@ -252,8 +252,10 @@ export default defineComponent({
     })
 
     const typeClass = computed(() => {
-      const type = props.type
-      return type && TypeComponentsMap[type] ? `el-message-icon--${type}` : ''
+      const type = state.type
+      return type && TypeComponentsMap[type]
+        ? `el-message-box-icon--${type}`
+        : ''
     })
 
     const iconComponent = computed(
