@@ -63,6 +63,7 @@ function pathsRewriter(id: string) {
 
 async function buildComponents() {
   const componentPaths = await getComponents()
+  const external = await getExternals({ full: false })
 
   const builds = componentPaths.map(
     async ({ path: p, name: componentName }) => {
@@ -72,7 +73,7 @@ async function buildComponents() {
       const rollupConfig = {
         input: entry,
         plugins,
-        external: getExternals({ full: false }),
+        external,
       }
       const bundle = await rollup.rollup(rollupConfig)
 

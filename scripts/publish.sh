@@ -2,9 +2,8 @@
 
 set -e
 
-yarn bootstrap
-yarn update:version
-yarn gen:version
+pnpm bootstrap
+pnpm update:version
 
 sh scripts/build.sh
 
