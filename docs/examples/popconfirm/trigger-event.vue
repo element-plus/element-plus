@@ -2,7 +2,7 @@
   <el-popconfirm
     confirm-button-text="Yes"
     cancel-button-text="No"
-    icon="el-icon-info"
+    :icon="InfoFilled"
     icon-color="red"
     title="Are you sure to delete this?"
     @confirm="confirmEvent"
@@ -15,7 +15,14 @@
 </template>
 
 <script lang="ts">
+import { InfoFilled } from '@element-plus/icons'
+
 export default {
+  data() {
+    return {
+      InfoFilled,
+    }
+  },
   methods: {
     confirmEvent() {
       console.log('confirm!')
