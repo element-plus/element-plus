@@ -1,4 +1,4 @@
-import { buildProp, definePropType } from '@element-plus/utils/props'
+import { buildProp, definePropType, mutable } from '@element-plus/utils/props'
 import type {
   TreeNode,
   TreeKey,
@@ -13,7 +13,7 @@ const EMPTY_NODE = {
   key: -1,
   level: -1,
   data: {},
-}
+} as const
 
 // enums
 export enum TreeOptionsEnum {
@@ -32,7 +32,7 @@ export const enum SetOperationEnum {
 export const treeProps = {
   data: buildProp({
     type: definePropType<TreeData>(Array),
-    default: () => [],
+    default: () => mutable([] as const),
   } as const),
   emptyText: {
     type: String,
@@ -43,12 +43,13 @@ export const treeProps = {
   },
   props: buildProp({
     type: definePropType<TreeOptionProps>(Object),
-    default: () => ({
-      children: TreeOptionsEnum.CHILDREN,
-      label: TreeOptionsEnum.LABEL,
-      disabled: TreeOptionsEnum.DISABLED,
-      value: TreeOptionsEnum.KEY,
-    }),
+    default: () =>
+      mutable({
+        children: TreeOptionsEnum.CHILDREN,
+        label: TreeOptionsEnum.LABEL,
+        disabled: TreeOptionsEnum.DISABLED,
+        value: TreeOptionsEnum.KEY,
+      } as const),
   } as const),
   highlightCurrent: Boolean,
   showCheckbox: {
@@ -57,7 +58,7 @@ export const treeProps = {
   },
   defaultCheckedKeys: buildProp({
     type: definePropType<TreeKey[]>(Array),
-    default: () => [],
+    default: () => mutable([] as const),
   } as const),
   // Whether checked state of a node not affects its father and
   // child nodes when show-checkbox is true
@@ -67,7 +68,7 @@ export const treeProps = {
   },
   defaultExpandedKeys: buildProp({
     type: definePropType<TreeKey[]>(Array),
-    default: () => [],
+    default: () => mutable([] as const),
   } as const),
   indent: {
     type: Number,
@@ -105,7 +106,7 @@ export const treeProps = {
 export const treeNodeProps = {
   node: buildProp({
     type: definePropType<TreeNode>(Object),
-    default: () => EMPTY_NODE,
+    default: () => mutable(EMPTY_NODE),
   } as const),
   expanded: {
     type: Boolean,
