@@ -8,7 +8,9 @@
   },
   "dependencies": {
     "@vueuse/core": "^6.4.0",
+    "axios": "^0.21.4",
     "element-plus": "npm:element-plus@latest",
+    "marked": "^3.0.4",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0"
   },

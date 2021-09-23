@@ -4,6 +4,7 @@ import {
   endingSlashRE,
   isExternal,
 } from 'vitepress/dist/client/theme-default/utils'
+
 import type { Route } from 'vitepress'
 
 export * from 'vitepress/dist/client/theme-default/utils'
@@ -56,3 +57,15 @@ export function createGitHubUrl(
 }
 
 export const isServer = typeof window === 'undefined'
+
+export function createCrowdinUrl(targetLang: string) {
+  let translateLang = ''
+  // for zh-CN zh-HK zh-TW, maybe later we will have cases like Chinese lang
+  // for now we just keep it as simple as possible.
+  if (targetLang.startsWith('zh-')) {
+    translateLang = targetLang.split('-').join('').toLocaleLowerCase()
+  } else {
+    translateLang = targetLang.split('-').shift().toLocaleLowerCase()
+  }
+  return `https://crowdin.com/translate/element-plus/all/en-${translateLang}`
+}
