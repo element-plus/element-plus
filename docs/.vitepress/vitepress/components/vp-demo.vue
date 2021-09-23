@@ -1,12 +1,5 @@
 <script setup lang="ts">
-import {
-  computed,
-  shallowRef,
-  watch,
-  toRef,
-  ref,
-  getCurrentInstance,
-} from 'vue'
+import { computed, toRef, ref, getCurrentInstance } from 'vue'
 import { useClipboard } from '@vueuse/core'
 import { useToggle } from '../composables/toggle'
 import { useLang } from '../composables/lang'
@@ -67,7 +60,7 @@ const props = defineProps({
 
 const vm = getCurrentInstance()
 
-const { copy, copied, isSupported } = useClipboard({
+const { copy, isSupported } = useClipboard({
   source: decodeURIComponent(props.rawSource),
   read: false,
 })

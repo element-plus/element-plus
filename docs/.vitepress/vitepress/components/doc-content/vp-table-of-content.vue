@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { useRoute, useData } from 'vitepress'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { useToc } from '../../composables/use-toc'
 import { useActiveSidebarLinks } from '../../composables/active-bar'
 

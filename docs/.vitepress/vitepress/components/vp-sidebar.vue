@@ -1,27 +1,12 @@
 <script lang="ts" setup>
-import { computed, ref, markRaw, watch } from 'vue'
-import { useRoute, withBase, useData } from 'vitepress'
-import VPSidebarLink from './sidebar/vp-sidebar-link.vue'
 import { useSidebar } from '../composables/sidebar'
-import { useLang } from '../composables/lang'
 
-import sponsorsData from '../../i18n/component/sponsor.json'
-
-type SideNavItem = {
-  beta: boolean
-  text: string
-  link: string
-  activeMatch: string
-  children: Array<SideNavItem>
-}
+import VPSidebarLink from './sidebar/vp-sidebar-link.vue'
 
 defineProps<{ open: boolean }>()
 defineEmits(['close'])
 
 // const isHome = useIsHome()
-const { theme } = useData()
-const route = useRoute()
-const lang = useLang()
 const { sidebars, hasSidebar } = useSidebar()
 </script>
 

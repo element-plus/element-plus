@@ -35,8 +35,8 @@
                     <li
                       v-for="l in langs"
                       :key="l"
-                      @click="switchLang(l)"
                       :class="{ language: true, selected: l === lang }"
+                      @click="switchLang(l)"
                     >
                       {{ languageMap[l] }}
                     </li>
@@ -44,7 +44,7 @@
                 </div>
               </ElIcon>
             </div>
-            <div class="header-socials" v-if></div>
+            <div v-if class="header-socials"></div>
             <ElIcon class="header-icon social-icon">
               <a
                 href="https://github.com/element-plus/element-plus"

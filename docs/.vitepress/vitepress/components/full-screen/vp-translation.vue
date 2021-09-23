@@ -13,8 +13,8 @@ const [show, toggle] = useToggle()
   <div class="full-screen-translation">
     <ElButton
       type="text"
-      @click="toggle"
       style="width: 100%; color: var(--text-color)"
+      @click="toggle"
     >
       <div class="translation-toggler">
         <span> Translations </span>

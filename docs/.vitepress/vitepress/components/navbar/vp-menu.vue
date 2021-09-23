@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import VPMenuLink from './vp-menu-link.vue'
 import { useNav } from '../../composables/nav'
+import VPMenuLink from './vp-menu-link.vue'
 
 const navs = useNav()
 </script>
