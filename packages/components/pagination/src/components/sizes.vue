@@ -20,39 +20,43 @@
 <script lang="ts">
 import { defineComponent, watch, computed, ref } from 'vue'
 import isEqual from 'lodash/isEqual'
-import ElSelect from '@element-plus/components/select'
+import { ElSelect, ElOption } from '@element-plus/components/select'
 import { useLocaleInject } from '@element-plus/hooks'
-import { usePagination } from './usePagination'
+import { buildProp, definePropType, mutable } from '@element-plus/utils/props'
+import { usePagination } from '../usePagination'
 
-import type { PropType } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'
 
-const { Option: ElOption } = ElSelect
+const paginationSizesProps = {
+  pageSize: {
+    type: Number,
+    required: true,
+  },
+  pageSizes: buildProp({
+    type: definePropType<number[]>(Array),
+    default: () => mutable([10, 20, 30, 40, 50, 100] as const),
+  } as const),
+  popperClass: {
+    type: String,
+    default: '',
+  },
+  disabled: Boolean,
+} as const
 
 export default defineComponent({
-  name: 'Sizes',
+  name: 'ElPaginationSizes',
+
   components: {
     ElSelect,
     ElOption,
   },
-  props: {
-    pageSize: Number,
-    pageSizes: {
-      type: Array as PropType<Array<number>>,
-      default: () => {
-        return [10, 20, 30, 40, 50, 100]
-      },
-    },
-    popperClass: {
-      type: String,
-      default: '',
-    },
-    disabled: Boolean,
-  },
+
+  props: paginationSizesProps,
   emits: ['page-size-change'],
+
   setup(props, { emit }) {
     const { t } = useLocaleInject()
-    const { pagination } = usePagination()
+    const pagination = usePagination()
     const innerPageSize = ref<Nullable<number>>(props.pageSize)
 
     watch(
@@ -81,14 +85,15 @@ export default defineComponent({
     function handleChange(val: number) {
       if (val !== innerPageSize.value) {
         innerPageSize.value = val
-        pagination?.handleSizeChange(Number(val))
+        pagination.handleSizeChange?.(Number(val))
       }
     }
 
     return {
-      t,
       innerPagesizes,
       innerPageSize,
+
+      t,
       handleChange,
     }
   },

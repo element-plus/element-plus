@@ -3,16 +3,12 @@
     class="el-menu-item"
     role="menuitem"
     tabindex="-1"
-    :style="[paddingStyle, itemStyle, { backgroundColor }]"
+    :style="paddingStyle"
     :class="{
       'is-active': active,
       'is-disabled': disabled,
     }"
     @click="handleClick"
-    @mouseenter="onMouseEnter"
-    @focus="onMouseEnter"
-    @blur="onMouseLeave"
-    @mouseleave="onMouseLeave"
   >
     <el-tooltip
       v-if="
@@ -58,7 +54,7 @@ import {
 } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
 import { Effect } from '@element-plus/components/popper'
-import useMenu from './useMenu'
+import useMenu from './use-menu'
 
 import type { RootMenuProvider, SubMenuProvider } from './menu.type'
 
@@ -92,48 +88,7 @@ export default defineComponent({
     const active = computed(() => {
       return props.index === rootMenu.activeIndex.value
     })
-    const hoverBackground = computed(() => {
-      return rootMenu.hoverBackground.value
-    })
-    const backgroundColor = computed(() => {
-      return rootMenu.props.backgroundColor || ''
-    })
-    const activeTextColor = computed(() => {
-      return rootMenu.props.activeTextColor || ''
-    })
-    const textColor = computed(() => {
-      return rootMenu.props.textColor || ''
-    })
-    const mode = computed(() => {
-      return rootMenu.props.mode
-    })
-    const isNested = computed(() => {
-      return parentMenu.value.type.name !== 'ElMenu'
-    })
 
-    const itemStyle = computed(() => {
-      const style = {
-        color: active.value ? activeTextColor.value : textColor.value,
-        borderBottomColor: '',
-      }
-      if (mode.value === 'horizontal' && !isNested.value) {
-        style.borderBottomColor = active.value
-          ? rootMenu.props.activeTextColor
-            ? activeTextColor.value
-            : ''
-          : 'transparent'
-      }
-      return style
-    })
-
-    const onMouseEnter = () => {
-      if (mode.value === 'horizontal' && !rootMenu.props.backgroundColor) return
-      instance.vnode.el.style.backgroundColor = hoverBackground.value
-    }
-    const onMouseLeave = () => {
-      if (mode.value === 'horizontal' && !rootMenu.props.backgroundColor) return
-      instance.vnode.el.style.backgroundColor = backgroundColor.value
-    }
     const handleClick = () => {
       if (!props.disabled) {
         rootMenu.methods.handleMenuItemClick({
@@ -165,12 +120,8 @@ export default defineComponent({
       slots,
 
       paddingStyle,
-      itemStyle,
-      backgroundColor,
       active,
       handleClick,
-      onMouseEnter,
-      onMouseLeave,
     }
   },
 })

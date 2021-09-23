@@ -1,6 +1,6 @@
 import { buttonProps } from '@element-plus/components/button'
-
-import type { ExtractPropTypes } from 'vue'
+import { QuestionFilled } from '@element-plus/icons'
+import type { Component, ExtractPropTypes, PropType } from 'vue'
 
 export const popconfirmProps = {
   title: {
@@ -21,8 +21,8 @@ export const popconfirmProps = {
     default: 'text',
   },
   icon: {
-    type: String,
-    default: 'el-icon-question',
+    type: [String, Object] as PropType<string | Component>,
+    default: QuestionFilled,
   },
   iconColor: {
     type: String,

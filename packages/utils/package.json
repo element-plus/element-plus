@@ -15,7 +15,6 @@
     "resize-observer-polyfill": "^1.5.1"
   },
   "devDependencies": {
-    "@vue/test-utils": "^2.0.0-beta.3",
     "chalk": "^4.1.2",
     "gulp": "^4.0.2",
     "gulp-typescript": "^6.0.0-alpha.1",

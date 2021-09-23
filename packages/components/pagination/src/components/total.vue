@@ -12,14 +12,21 @@
 import { defineComponent } from 'vue'
 import { useLocaleInject } from '@element-plus/hooks'
 
-export default defineComponent({
-  name: 'Total',
-  props: {
-    total: {
-      type: Number,
-      default: 1000,
-    },
+import type { ExtractPropTypes } from 'vue'
+
+const paginationTotalProps = {
+  total: {
+    type: Number,
+    default: 1000,
   },
+} as const
+export type PaginationTotalProps = ExtractPropTypes<typeof paginationTotalProps>
+
+export default defineComponent({
+  name: 'ElPaginationTotal',
+
+  props: paginationTotalProps,
+
   setup() {
     const { t } = useLocaleInject()
     return {

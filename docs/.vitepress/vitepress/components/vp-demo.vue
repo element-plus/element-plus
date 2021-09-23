@@ -1,17 +1,11 @@
 <script setup lang="ts">
-import {
-  computed,
-  shallowRef,
-  watch,
-  toRef,
-  ref,
-  getCurrentInstance,
-} from 'vue'
+import { computed, toRef, ref, getCurrentInstance } from 'vue'
 import { useClipboard } from '@vueuse/core'
 import { useToggle } from '../composables/toggle'
 import { useLang } from '../composables/lang'
 import { useSourceCode } from '../composables/source-code'
 
+import demoBlockLocale from '../../i18n/component/demo-block.json'
 import GithubIcon from './icons/github.vue'
 import SourceCodeIcon from './icons/source-code.vue'
 import CodepenIcon from './icons/codepen.vue'
@@ -20,8 +14,6 @@ import CopyIcon from './icons/copy-icon.vue'
 import Example from './demo/vp-example.vue'
 import SourceCode from './demo/vp-source-code.vue'
 import Codepen from './demo/vp-codepen.vue'
-
-import demoBlockLocale from '../../i18n/component/demo-block.json'
 
 const props = defineProps({
   // source is encoded via encodeURIComponent
@@ -68,7 +60,7 @@ const props = defineProps({
 
 const vm = getCurrentInstance()
 
-const { copy, copied, isSupported } = useClipboard({
+const { copy, isSupported } = useClipboard({
   source: decodeURIComponent(props.rawSource),
   read: false,
 })
@@ -113,7 +105,7 @@ const copyCode = async () => {
 <template>
   <ClientOnly>
     <!-- danger here DO NOT USE INLINE SCRIPT TAG -->
-    <p v-html="decodedDescription" class="example-description" />
+    <p class="example-description" v-html="decodedDescription" />
     <div class="example">
       <Codepen
         ref="codepenRef"
@@ -164,6 +156,7 @@ const copyCode = async () => {
 .example {
   border: 1px solid var(--border-color);
   border-radius: var(--el-border-radius-base);
+  overflow: hidden;
 
   .op-btns {
     padding: 0.5rem;
