@@ -39,7 +39,8 @@
     "dayjs": "1.x",
     "lodash": "^4.17.21",
     "normalize-wheel": "^1.0.1",
-    "resize-observer-polyfill": "^1.5.1"
+    "resize-observer-polyfill": "^1.5.1",
+    "memoize-one": "^5.2.1"
   },
   "devDependencies": {},
   "vetur": {
