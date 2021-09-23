@@ -22,7 +22,7 @@ useActiveSidebarLinks(container, marker)
           <a class="toc-link" :href="link">{{ text }}</a>
           <ul v-if="children">
             <li
-              v-for="{ childLink, childText } in children"
+              v-for="{ link: childLink, text: childText } in children"
               :key="childLink"
               class="toc-item"
             >
