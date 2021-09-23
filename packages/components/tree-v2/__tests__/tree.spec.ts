@@ -774,7 +774,7 @@ describe('Virtual Tree', () => {
               label: 'node-2',
             },
           ],
-          filterMethod(query: string, node: TreeNode) {
+          filterMethod(query: string, node: TreeNodeData) {
             return node.label.indexOf(query) !== -1
           },
         }

@@ -14,7 +14,8 @@
       :total="flattenTree.length"
       width="100%"
       :height="height"
-      :item-size="26"
+      :item-size="itemSize"
+      :perf-mode="perfMode"
     >
       <template #default="{ data, index, style }">
         <el-tree-node
@@ -90,6 +91,7 @@ export default defineComponent({
       setChecked,
       setCheckedKeys,
       filter,
+      setData,
     } = useTree(props, ctx.emit)
 
     ctx.expose({
@@ -103,11 +105,13 @@ export default defineComponent({
       setChecked,
       setCheckedKeys,
       filter,
+      setData,
     })
 
     return {
       t,
       flattenTree,
+      itemSize: 26,
       isNotEmpty,
       toggleExpand,
       toggleCheckbox,

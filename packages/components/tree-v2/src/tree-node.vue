@@ -13,7 +13,7 @@
     :aria-expanded="expanded"
     :aria-disabled="disabled"
     :aria-checked="checked"
-    :data-key="node.key"
+    :data-key="node?.key"
     @click.stop="handleClick"
     @contextmenu="handleContextMenu"
   >
@@ -24,9 +24,9 @@
       <el-icon
         :class="[
           {
-            'is-leaf': node.isLeaf,
+            'is-leaf': node?.isLeaf,
             'is-hidden': hiddenExpandIcon,
-            expanded: !node.isLeaf && expanded,
+            expanded: !node?.isLeaf && expanded,
           },
           'el-tree-node__expand-icon',
         ]"
@@ -93,7 +93,7 @@ export default defineComponent({
         event.stopPropagation()
         event.preventDefault()
       }
-      tree?.ctx.emit('node-contextmenu', event, props.node.data, props.node)
+      tree?.ctx.emit('node-contextmenu', event, props.node?.data, props.node)
     }
 
     return {

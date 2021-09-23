@@ -35,7 +35,7 @@ export function useTree(props: TreeProps, emit) {
   watch(
     () => props.data,
     (data: TreeData) => {
-      return nextTick(() => (tree.value = createTree(data)))
+      setData(data)
     },
     {
       immediate: true,
@@ -259,6 +259,10 @@ export function useTree(props: TreeProps, emit) {
     currentKey.value = key
   }
 
+  function setData(data: TreeData) {
+    nextTick(() => (tree.value = createTree(data)))
+  }
+
   return {
     tree,
     flattenTree,
@@ -286,5 +290,6 @@ export function useTree(props: TreeProps, emit) {
     setChecked,
     setCheckedKeys,
     filter,
+    setData,
   }
 }
