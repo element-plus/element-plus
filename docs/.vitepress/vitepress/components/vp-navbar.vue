@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { useData, inBrowser } from 'vitepress'
 import { computed } from 'vue'
+import { useData, inBrowser } from 'vitepress'
 
+import { useFeatureFlag } from '../composables/feature-flag'
 import VPNavbarSearch from './navbar/vp-search.vue'
 import VPNavbarMenu from './navbar/vp-menu.vue'
 import VPNavbarThemeToggler from './navbar/vp-theme-toggler.vue'
 import VPNavbarTranslation from './navbar/vp-translation.vue'
 import VPNavbarSocialLinks from './navbar/vp-social-links.vue'
 import VPNavbarHamburger from './navbar/vp-hamburger.vue'
-import { useFeatureFlag } from '../composables/feature-flag'
 
 defineProps<{
   fullScreen: boolean

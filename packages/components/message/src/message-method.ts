@@ -5,7 +5,12 @@ import isServer from '@element-plus/utils/isServer'
 import MessageConstructor from './message.vue'
 import { messageTypes } from './message'
 
-import type { MessagePartial, MessageQueue, MessageProps } from './message'
+import type {
+  MessagePartial,
+  Message,
+  MessageQueue,
+  MessageProps,
+} from './message'
 import type { ComponentPublicInstance, VNode } from 'vue'
 
 const instances: MessageQueue = []
@@ -110,11 +115,11 @@ export function close(id: string, userOnClose?: (vm: VNode) => void): void {
 
 export function closeAll(): void {
   for (let i = instances.length - 1; i >= 0; i--) {
-    const instance = instances[i].vm.component as any
-    instance.ctx.close()
+    const instance = instances[i].vm.component
+    ;(instance?.proxy as any)?.close()
   }
 }
 
 message.closeAll = closeAll
 
-export default message
+export default message as Message

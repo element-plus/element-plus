@@ -59,6 +59,22 @@ module.exports = {
         href: '//unpkg.com/nprogress@0.2.0/nprogress.css',
       },
     ],
+    [
+      'script',
+      {},
+      `;(() => {
+        window.supportedLangs = ${JSON.stringify(languages)}
+      })()`,
+    ],
+
+    [
+      'script',
+      {},
+      require('fs').readFileSync(
+        require('path').resolve(__dirname, './lang.js'),
+        'utf-8'
+      ),
+    ],
 
     features.theme
       ? [

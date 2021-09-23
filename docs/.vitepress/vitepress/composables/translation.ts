@@ -1,10 +1,10 @@
 import { computed } from 'vue'
 import { useRouter, useRoute } from 'vitepress'
-import { useLang } from './lang'
 import { PREFERRED_LANG_KEY } from '../constant'
 
 import langs from '../../i18n/lang.json'
 import translationLocale from '../../i18n/component/translation.json'
+import { useLang } from './lang'
 
 export const useTranslation = () => {
   const route = useRoute()

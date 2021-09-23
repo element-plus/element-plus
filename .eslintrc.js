@@ -1,4 +1,5 @@
 module.exports = {
+  root: true,
   parser: 'vue-eslint-parser',
   parserOptions: {
     parser: '@typescript-eslint/parser',
@@ -24,7 +25,7 @@ module.exports = {
   ],
   overrides: [
     {
-      files: ['*.ts'],
+      files: ['*.ts', '*.vue'],
       rules: {
         'no-undef': 'off',
       },
