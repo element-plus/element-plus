@@ -205,6 +205,7 @@ export default defineComponent({
       callback: ValidateFieldCallback = NOOP
     ) => {
       if (!isValidationEnabled.value) {
+        callback()
         return
       }
       const rules = getFilteredRule(trigger)
