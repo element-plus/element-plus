@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, getCurrentInstance } from 'vue'
-
-const vm = getCurrentInstance()
+import { computed, ref } from 'vue'
 
 const props = defineProps({
   css: {
@@ -37,7 +35,7 @@ const js = computed(() => {
   const globals = []
   let match
   while ((match = imports.exec(decodedJs))) {
-    const [_, __, members, target] = match
+    const [, , members, target] = match
 
     globals.push(`const ${members} = ${globalMapper[target]};`)
   }

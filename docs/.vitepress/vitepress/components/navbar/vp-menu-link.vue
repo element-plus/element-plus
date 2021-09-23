@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useData, useRoute } from 'vitepress'
+import { useRoute } from 'vitepress'
 import VPLink from '../common/vp-link.vue'
 import { isActiveLink } from '../../utils'
 

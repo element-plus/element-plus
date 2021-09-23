@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
 import VPLink from '../common/vp-link.vue'
 import { useTranslation } from '../../composables/translation'
-import { PREFERRED_LANG_KEY, defaultLang } from '../../constant'
 
 import TranslationIcon from '../icons/translation-icon.vue'
 
@@ -25,8 +23,8 @@ const { switchLang, languageMap, langs, lang, helpTranslate } = useTranslation()
         <div
           v-for="l in langs"
           :key="l"
-          @click="switchLang(l)"
           :class="{ language: true, selected: l === lang }"
+          @click="switchLang(l)"
         >
           {{ languageMap[l] }}
         </div>

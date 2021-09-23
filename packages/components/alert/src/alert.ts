@@ -17,7 +17,7 @@ export const alertProps = {
     type: String,
     values: keyOf(TypeComponentsMap),
     default: 'info',
-  }),
+  } as const),
   closable: {
     type: Boolean,
     default: true,
@@ -30,9 +30,9 @@ export const alertProps = {
   center: Boolean,
   effect: buildProp({
     type: String,
-    values: ['light', 'dark'] as const,
+    values: ['light', 'dark'],
     default: 'light',
-  }),
+  } as const),
 } as const
 export type AlertProps = ExtractPropTypes<typeof alertProps>
 

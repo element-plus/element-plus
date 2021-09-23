@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import VPSponsor from './vp-sponsor.vue'
 import sponsorsLocale from '../../i18n/component/sponsors.json'
 import sponsorLocale from '../../i18n/component/sponsor.json'
 import { useLang } from '../composables/lang'
-import { defaultLang } from '../constant'
+import VPSponsor from './vp-sponsor.vue'
 
 const lang = useLang()
 const sponsors = computed(() => sponsorsLocale[lang.value])
@@ -16,7 +15,7 @@ const sponsor = computed(() => sponsorLocale[lang.value])
   <div class="sponsors">
     <p class="sponsors-title">{{ sponsor.sponsoredBy }}</p>
     <div class="container">
-      <VPSponsor v-for="sponsor in sponsors" :item="sponsor" />
+      <VPSponsor v-for="(s, key) in sponsors" :key="key" :item="s" />
     </div>
   </div>
 </template>

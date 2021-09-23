@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onUpdated, onBeforeUpdate, watch, ref, nextTick } from 'vue'
+import { computed, onUpdated, watch, ref, nextTick } from 'vue'
 import nprogress from 'nprogress'
 import { useData, useRoute } from 'vitepress'
 import { useSidebar } from '../composables/sidebar'

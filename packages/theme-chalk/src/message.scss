@@ -92,7 +92,7 @@
   }
 
   @each $type in (success, info, warning, error) {
-    & .#{$namespace}-icon-#{$type} {
+    & .#{$namespace}-message-icon--#{$type} {
       --el-message-font-color: var(--el-color-#{$type});
       color: var(--el-message-font-color);
     }

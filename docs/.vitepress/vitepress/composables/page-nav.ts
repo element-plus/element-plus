@@ -38,12 +38,17 @@ export function usePageNav() {
     ) {
       return candidates.value[index.value + 1]
     }
+
+    return null
   })
+
   const prev = computed(() => {
     if (theme.value.prevLinks !== false && index.value > 0) {
       return candidates.value[index.value - 1]
     }
+    return null
   })
+
   const hasLinks = computed(() => !!next.value || !!prev.value)
   return {
     next,

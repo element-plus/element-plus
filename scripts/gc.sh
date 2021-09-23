@@ -7,7 +7,7 @@ FILE_PATH=$(cd "$(dirname "${BASH_SOURCE[0]}")/../packages" && pwd)
 re="[[:space:]]+"
 
 if [ "$#" -ne 1 ] || [[ $NAME =~ $re ]] || [ "$NAME" == "" ]; then
-  echo "Usage: yarn gc \${name} with no space"
+  echo "Usage: pnpm gc \${name} with no space"
   exit 1
 fi
 

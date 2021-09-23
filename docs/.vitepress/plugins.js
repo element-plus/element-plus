@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const localMd = require('markdown-it')()
-const mdContainer = require('markdown-it-container')
 const path = require('path')
 const fs = require('fs')
-const { highlight } = require('vitepress/dist/node/markdown/plugins/highlight')
 const { parse } = require('@vue/compiler-sfc')
+const localMd = require('markdown-it')()
+const mdContainer = require('markdown-it-container')
+const { highlight } = require('vitepress/dist/node/markdown/plugins/highlight')
 
 const scriptSetupRE = /<\s*script[^>]*\bsetup\b[^>]*/
 

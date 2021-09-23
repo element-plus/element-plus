@@ -1,12 +1,12 @@
 import { h, nextTick } from 'vue'
 import { rAF } from '@element-plus/test-utils/tick'
 import makeMount from '@element-plus/test-utils/make-mount'
-import * as domExports from '@element-plus/utils/dom'
 import { EVENT_CODE } from '@element-plus/utils/aria'
+import { TypeComponentsMap } from '@element-plus/utils/icon'
 import PopupManager from '@element-plus/utils/popup-manager'
-import Notification from '../src/index.vue'
-import type { ComponentPublicInstance } from 'vue'
+import Notification from '../src/notification.vue'
 
+import type { ComponentPublicInstance, Component } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
 
 const AXIOM = 'Rem is the best girl'
@@ -32,16 +32,19 @@ describe('Notification.vue', () => {
 
       const vm = wrapper.vm as ComponentPublicInstance<{
         visible: boolean
-        typeClass: string
+        iconComponent: Component
         horizontalClass: string
         positionStyle: Record<string, string>
       }>
 
       expect(wrapper.text()).toEqual(AXIOM)
       expect(vm.visible).toBe(true)
-      expect(vm.typeClass).toBe('')
+      expect(vm.iconComponent).toBe('')
       expect(vm.horizontalClass).toBe('right')
-      expect(vm.positionStyle).toEqual({ top: '0px', 'z-index': 0 })
+      expect(vm.positionStyle).toEqual({
+        top: '0px',
+        zIndex: 0,
+      } as CSSProperties)
     })
 
     test('should be able to render VNode', () => {
@@ -96,34 +99,10 @@ describe('Notification.vue', () => {
         positionStyle: Record<string, string>
       }>
 
-      expect(vm.positionStyle).toEqual({ top: '0px', 'z-index': zIndex })
-    })
-  })
-
-  describe('lifecycle', () => {
-    let onMock
-    let offMock
-    beforeEach(() => {
-      onMock = jest.spyOn(domExports, 'on').mockReset()
-      offMock = jest.spyOn(domExports, 'off').mockReset()
-    })
-
-    afterEach(() => {
-      onMock.mockRestore()
-      offMock.mockRestore()
-    })
-
-    test('should add event listener to target element when init', () => {
-      jest.spyOn(domExports, 'on')
-      jest.spyOn(domExports, 'off')
-      const wrapper = _mount({
-        slots: {
-          default: AXIOM,
-        },
-      })
-      expect(domExports.on).toHaveBeenCalled()
-      wrapper.unmount()
-      expect(domExports.off).toHaveBeenCalled()
+      expect(vm.positionStyle).toEqual({
+        top: '0px',
+        zIndex,
+      } as CSSProperties)
     })
   })
 
@@ -137,8 +116,8 @@ describe('Notification.vue', () => {
             type,
           },
         })
-        expect(wrapper.find('.el-notification__icon').classes()).toContain(
-          `el-icon-${type}`
+        expect(wrapper.findComponent(TypeComponentsMap[type]).exists()).toBe(
+          true
         )
       }
     })
@@ -151,9 +130,7 @@ describe('Notification.vue', () => {
         },
       })
 
-      expect(wrapper.find('.el-notification__icon').classes()).not.toContain(
-        `el-icon-${type}`
-      )
+      expect(wrapper.find('.el-notification__icon').exists()).toBe(false)
     })
   })
 
