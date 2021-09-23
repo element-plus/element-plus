@@ -6,21 +6,19 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
+import { iconProps } from './icon'
+
 import type { CSSProperties } from 'vue'
+
 export default defineComponent({
   name: 'ElIcon',
   inheritAttrs: false,
-  props: {
-    size: {
-      type: Number,
-    },
-    color: {
-      type: String,
-    },
-  },
+
+  props: iconProps,
+
   setup(props) {
     return {
-      style: computed(() => {
+      style: computed<CSSProperties>(() => {
         if (!props.size && !props.color) {
           return {}
         }

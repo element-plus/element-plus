@@ -2,7 +2,7 @@ import { nextTick, h } from 'vue'
 import { rAF } from '@element-plus/test-utils/tick'
 import Notification, { closeAll } from '../src/notify'
 
-import type { INotificationHandle } from '../src/notification.type'
+import type { NotificationHandle } from '../src/notification'
 
 const selector = '.el-notification'
 
@@ -53,7 +53,7 @@ describe('Notification on command', () => {
   })
 
   test('it should close all notifications', async () => {
-    const notifications: INotificationHandle[] = []
+    const notifications: NotificationHandle[] = []
     const onClose = jest.fn()
     for (let i = 0; i < 4; i++) {
       notifications.push(

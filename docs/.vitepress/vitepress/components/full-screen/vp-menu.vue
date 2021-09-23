@@ -9,7 +9,7 @@ defineEmits(['close'])
 
 <template>
   <nav v-if="navs" class="full-screen-menu">
-    <div v-for="item in navs" class="full-screen-menu__item">
+    <div v-for="(item, key) in navs" :key="key" class="full-screen-menu__item">
       <VPMenuLink :item="item" @click="$emit('close')" />
     </div>
   </nav>

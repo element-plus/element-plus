@@ -53,6 +53,7 @@
 
     .#{$namespace}-dialog__close {
       color: var(--el-color-info);
+      font-size: inherit;
     }
 
     &:focus,

@@ -15,8 +15,7 @@ import { Resize } from '@element-plus/directives'
 import Menubar from '@element-plus/utils/menu/menu-bar'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './submenu.vue'
-import useMenuColor from './useMenuColor'
-
+import { useMenuCssVar } from './use-menu-css-var'
 import type { VNode, Ref, ComputedRef } from 'vue'
 import type {
   IMenuProps,
@@ -69,8 +68,6 @@ export default defineComponent({
     const alteredCollapse = ref(false)
     const router = instance.appContext.config.globalProperties.$router
     const menu = ref(null)
-
-    const hoverBackground = useMenuColor(props)
 
     // computed
     const isMenuPopup = computed(() => {
@@ -242,7 +239,6 @@ export default defineComponent({
       openedMenus,
       items,
       submenus,
-      hoverBackground,
       activeIndex,
       isMenuPopup,
 
@@ -274,7 +270,6 @@ export default defineComponent({
     expose({
       open,
       close,
-      hoverBackground,
     })
 
     const flattedChildren = (children) => {
@@ -350,6 +345,8 @@ export default defineComponent({
         }
       }
 
+      const ulStyle = useMenuCssVar(props)
+
       const vnodeMenu = useVNodeResize(
         h(
           'ul',
@@ -357,7 +354,7 @@ export default defineComponent({
             key: String(props.collapse),
             role: 'menubar',
             ref: menu,
-            style: { backgroundColor: props.backgroundColor || '' },
+            style: ulStyle.value,
             class: {
               'el-menu': true,
               'el-menu--horizontal': props.mode === 'horizontal',

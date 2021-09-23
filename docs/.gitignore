@@ -1,5 +1,3 @@
-.vitepress/*.js
-
 .vitepress/i18n/*
 temp
 zh-CN

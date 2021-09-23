@@ -16,9 +16,7 @@
     "dayjs": "1.x"
   },
   "devDependencies": {
-    "@element-plus/test-utils": "^0.0.5",
     "@types/gulp": "^4.0.9",
-    "@vue/test-utils": "^2.0.0-beta.3",
     "chalk": "^4.1.2",
     "gulp": "^4.0.2",
     "gulp-typescript": "^6.0.0-alpha.1",

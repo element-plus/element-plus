@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { watch } from 'vue'
 import { useSidebar } from '../composables/sidebar'
 import { useFullScreen } from '../composables/fullscreen'
 import { useToggleWidgets } from '../composables/toggle-widgets'
@@ -21,6 +20,6 @@ useToggleWidgets(isFullScreen, () => {
 <template>
   <header :class="{ navbar: true, 'has-sidebar': hasSidebar }">
     <VpNavbar :full-screen="isFullScreen" @toggle="toggleFullScreen" />
-    <VpNavFull :full-screen="isFullScreen" @close="close" class="full-screen" />
+    <VpNavFull :full-screen="isFullScreen" class="full-screen" @close="close" />
   </header>
 </template>
