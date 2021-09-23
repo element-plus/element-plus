@@ -41,6 +41,7 @@ onMounted(async () => {
         <div class="changelog-versions">
           <p>{{ changelog['select-version'] }}:</p>
           <ElSelect
+            style="min-width: 200px"
             :model-value="currentRelease.name"
             :placeholder="changelog['select-version']"
             @change="onVersionChange"
