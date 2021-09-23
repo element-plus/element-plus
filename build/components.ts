@@ -13,9 +13,11 @@ import { compRoot, buildOutput } from './paths'
 import { errorAndExit, getExternals, yellow, green } from './utils'
 import genDefs from './gen-dts'
 import reporter from './size-reporter'
-import { EP_PREFIX } from './constants'
+import { EP_PREFIX, excludes } from './constants'
 
-const outputDir = path.resolve(buildOutput, './element-plus')
+import type { RollupBuild, OutputOptions } from 'rollup'
+
+const outputDir = path.resolve(buildOutput, 'element-plus')
 
 const plugins = [
   css(),
@@ -46,7 +48,10 @@ const plugins = [
 })().catch((e: Error) => errorAndExit(e))
 
 async function getComponents() {
-  const files = globSync('*', { cwd: compRoot, onlyDirectories: true })
+  const files = globSync('*', {
+    cwd: compRoot,
+    onlyDirectories: true,
+  })
   return files.map((file) => ({
     path: path.resolve(compRoot, file),
     name: file,
@@ -54,12 +59,26 @@ async function getComponents() {
 }
 
 function pathsRewriter(id: string) {
-  const excludes = ['icons']
   if (id.startsWith(`${EP_PREFIX}/components`))
     return id.replace(`${EP_PREFIX}/components`, '..')
   if (id.startsWith(EP_PREFIX) && excludes.every((e) => !id.endsWith(e)))
     return id.replace(EP_PREFIX, '../..')
   return id
+}
+
+function buildWriters(bundle: RollupBuild, options: OutputOptions[]) {
+  return Promise.all(
+    options.map((option) =>
+      bundle.write({
+        ...option,
+        plugins: [
+          filesize({
+            reporter,
+          }),
+        ],
+      })
+    )
+  )
 }
 
 async function buildComponents() {
@@ -68,7 +87,7 @@ async function buildComponents() {
 
   const builds = componentPaths.map(
     async ({ path: p, name: componentName }) => {
-      const entry = path.resolve(p, './index.ts')
+      const entry = path.resolve(p, 'index.ts')
       if (!fs.existsSync(entry)) return
 
       const rollupConfig = {
@@ -78,30 +97,19 @@ async function buildComponents() {
       }
       const bundle = await rollup.rollup(rollupConfig)
 
-      // ESM
-      await bundle.write({
-        format: 'es',
-        file: `${outputDir}/es/components/${componentName}/index.js`,
-        plugins: [
-          filesize({
-            reporter,
-          }),
-        ],
-        paths: pathsRewriter,
-      })
-
-      // CJS
-      await bundle.write({
-        format: 'cjs',
-        file: `${outputDir}/lib/components/${componentName}/index.js`,
-        exports: 'named',
-        plugins: [
-          filesize({
-            reporter,
-          }),
-        ],
-        paths: pathsRewriter,
-      })
+      await buildWriters(bundle, [
+        {
+          format: 'es',
+          file: `${outputDir}/es/components/${componentName}/index.js`,
+          paths: pathsRewriter,
+        },
+        {
+          format: 'cjs',
+          file: `${outputDir}/lib/components/${componentName}/index.js`,
+          exports: 'named',
+          paths: pathsRewriter,
+        },
+      ])
     }
   )
   try {
@@ -121,25 +129,16 @@ async function buildEntry() {
 
   try {
     const bundle = await rollup.rollup(config)
-    await bundle.write({
-      format: 'es',
-      file: `${outputDir}/es/components/index.js`,
-      plugins: [
-        filesize({
-          reporter,
-        }),
-      ],
-    })
-
-    await bundle.write({
-      format: 'cjs',
-      file: `${outputDir}/lib/components/index.js`,
-      plugins: [
-        filesize({
-          reporter,
-        }),
-      ],
-    })
+    await buildWriters(bundle, [
+      {
+        format: 'es',
+        file: `${outputDir}/es/components/index.js`,
+      },
+      {
+        format: 'cjs',
+        file: `${outputDir}/lib/components/index.js`,
+      },
+    ])
   } catch (e: any) {
     errorAndExit(e)
   }

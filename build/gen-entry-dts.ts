@@ -1,14 +1,20 @@
 import path from 'path'
 import fs from 'fs'
-import chalk from 'chalk'
+import { bold } from 'chalk'
 import glob from 'fast-glob'
-import { Project } from 'ts-morph'
-import { epRoot, buildOutput } from './paths'
-import type { SourceFile } from 'ts-morph'
-const TSCONFIG_PATH = path.resolve(__dirname, '../tsconfig.dts.json')
+import { Project, ScriptTarget } from 'ts-morph'
+import { epRoot, buildOutput, projRoot } from './paths'
+import { yellow, green } from './utils'
 
-const gen = async () => {
-  const files = await glob(`${epRoot}/*.ts`)
+import type { SourceFile } from 'ts-morph'
+
+const TSCONFIG_PATH = path.resolve(projRoot, 'tsconfig.dts.json')
+
+export const genEntryTypes = async () => {
+  const files = await glob('*.ts', {
+    cwd: epRoot,
+    absolute: true,
+  })
   const project = new Project({
     compilerOptions: {
       allowJs: true,
@@ -18,7 +24,7 @@ const gen = async () => {
       outDir: path.resolve(buildOutput, 'entry/types'),
       skipLibCheck: true,
       esModuleInterop: true,
-      target: 99, // ESNext
+      target: ScriptTarget.ESNext,
       downlevelIteration: true,
       // types: ["./typings", "esnext", "dom"],
     },
@@ -32,10 +38,8 @@ const gen = async () => {
     sourceFiles.push(sourceFile)
   })
 
-  for (const sourceFile of sourceFiles) {
-    console.log(
-      chalk.yellow(`Emitting file: ${chalk.bold(sourceFile.getFilePath())}`)
-    )
+  const tasks = sourceFiles.map(async (sourceFile) => {
+    yellow(`Emitting file: ${bold(sourceFile.getFilePath())}`)
     await sourceFile.emit()
     const emitOutput = sourceFile.getEmitOutput()
     for (const outputFile of emitOutput.getOutputFiles()) {
@@ -50,15 +54,10 @@ const gen = async () => {
         // .replaceAll('@element-plus/theme-chalk', 'element-plus/theme-chalk'),
         'utf8'
       )
-      console.log(
-        chalk.green(
-          `Definition for file: ${chalk.bold(
-            sourceFile.getBaseName()
-          )} generated`
-        )
-      )
+      green(`Definition for file: ${bold(sourceFile.getBaseName())} generated`)
     }
-  }
+  })
+  await Promise.all(tasks)
 }
 
-export default gen
+export default genEntryTypes

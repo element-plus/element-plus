@@ -1,5 +1,6 @@
 import path from 'path'
 import gulp from 'gulp'
+import { ScriptTarget, ModuleKind } from 'typescript'
 import ts from 'gulp-typescript'
 import through2 from 'through2'
 
@@ -7,9 +8,9 @@ const output = path.resolve(__dirname, '../dist/styles')
 
 const tsProject = ts.createProject('tsconfig.json', {
   declaration: true,
-  target: 'ESNEXT',
+  target: ScriptTarget.ESNext,
   skipLibCheck: true,
-  module: 'commonjs',
+  module: ModuleKind.CommonJS,
 })
 
 const rewriter = () => {
@@ -53,6 +54,6 @@ function compileCjs() {
     .pipe(gulp.dest(path.resolve(output, 'es')))
 }
 
-export const build = gulp.series(compileEsm, compileCjs)
+export const build = gulp.parallel(compileEsm, compileCjs)
 
 export default build

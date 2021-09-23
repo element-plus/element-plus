@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import path from 'path'
 import helper from 'components-helper'
 import { epRoot } from './paths'
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { name, version } = require(path.resolve(epRoot, './package.json'))
 
 const tagVer = process.env.TAG_VERSION

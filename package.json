@@ -17,7 +17,6 @@
     "clean:lib": "rimraf lib && rimraf es && rimraf dist",
     "build": "sh scripts/build.sh",
     "build:helper": "esno build/build-helper.ts",
-    "build:indices": "esno build/build-indices.ts",
     "build:comps": "rimraf dist/components && esno build/components.ts",
     "build:style": "gulp --cwd ./build",
     "build:prod": "sh scripts/publish.sh",

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import fs from 'fs'
 import path from 'path'
 import chalk from 'chalk'
@@ -70,6 +69,7 @@ async function traverseDir(dir, paths, targetPath) {
           path.resolve(targetPath, c.name)
         )
       } else if (c.isFile()) {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         const content = require(path.resolve(dir, c.name))
 
         const contentToWrite = {
@@ -78,6 +78,7 @@ async function traverseDir(dir, paths, targetPath) {
 
         await Promise.all(
           paths.map(async (p) => {
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
             const content = require(path.resolve(p.pathname, c.name))
 
             contentToWrite[p.name] = content

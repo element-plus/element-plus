@@ -2,19 +2,19 @@ import path from 'path'
 import fs from 'fs'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import rollup from 'rollup'
-import chalk from 'chalk'
+import { bold } from 'chalk'
 import commonjs from '@rollup/plugin-commonjs'
 import vue from 'rollup-plugin-vue'
 import esbuild from 'rollup-plugin-esbuild'
 import replace from 'rollup-plugin-replace'
 import genDts from './gen-entry-dts'
-import RollupResolveEntryPlugin from './rollup.plugin.entry'
+import { RollupResolveEntryPlugin } from './rollup.plugin.entry'
 import { epRoot, buildOutput } from './paths'
 import { EP_PREFIX, excludes } from './constants'
-import { getExternals } from './utils'
+import { getExternals, cyan, yellow, green } from './utils'
 ;(async () => {
   const config = {
-    input: path.resolve(epRoot, './index.ts'),
+    input: path.resolve(epRoot, 'index.ts'),
     plugins: [
       nodeResolve(),
       vue({
@@ -33,24 +33,9 @@ import { getExternals } from './utils'
     external: await getExternals({ full: true }),
   }
 
-  console.log(chalk.cyan('Start generating full bundle'))
+  cyan('Start generating full bundle')
 
-  const umd = {
-    format: 'umd',
-    file: path.resolve(buildOutput, 'element-plus/dist/index.js'),
-    exports: 'named',
-    name: 'ElementPlus',
-    globals: {
-      vue: 'Vue',
-    },
-  }
-
-  const umdMinified = {
-    ...umd,
-    file: path.resolve(buildOutput, 'element-plus/dist/index.full.js'),
-  }
-
-  console.log(chalk.bold(chalk.yellow('Building bundle')))
+  yellow(bold('Building bundle'))
 
   // Full bundle generation
   const bundle = await rollup.rollup({
@@ -58,13 +43,21 @@ import { getExternals } from './utils'
     plugins: [...config.plugins, RollupResolveEntryPlugin()],
   })
 
-  console.log(chalk.yellow('Generating index.full.js'))
+  yellow('Generating index.full.js')
 
-  await bundle.write(umdMinified as any)
+  await bundle.write({
+    format: 'umd',
+    file: path.resolve(buildOutput, 'element-plus/dist/index.full.js'),
+    exports: 'named',
+    name: 'ElementPlus',
+    globals: {
+      vue: 'Vue',
+    },
+  })
 
-  console.log(chalk.green('index.full.js generated'))
+  green('index.full.js generated')
 
-  console.log(chalk.yellow('Generating entry files without dependencies'))
+  yellow('Generating entry files without dependencies')
 
   // Entry bundle generation
 
@@ -72,26 +65,24 @@ import { getExternals } from './utils'
 
   const entryPoints = entryFiles
     .filter((f) => f.isFile())
-    .filter((f) => {
-      return f.name !== 'package.json' && f.name !== 'README.md'
-    })
+    .filter((f) => !['package.json', 'README.md'].includes(f.name))
     .map((f) => path.resolve(epRoot, f.name))
 
   const entryBundle = await rollup.rollup({
     ...config,
     input: entryPoints,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    external: (_) => true,
+    external: () => true,
   })
 
-  const rewriter = (id) => {
+  const rewriter = (id: string) => {
     if (id.startsWith(`${EP_PREFIX}/components`))
       return id.replace(`${EP_PREFIX}/components`, './components')
-    if (id.startsWith(EP_PREFIX) && excludes.every((e) => !id.endsWith(e)))
+    else if (id.startsWith(EP_PREFIX) && excludes.every((e) => !id.endsWith(e)))
       return id.replace(EP_PREFIX, '.')
+    else return ''
   }
 
-  console.log(chalk.yellow('Generating cjs entry'))
+  yellow('Generating cjs entry')
 
   await entryBundle.write({
     format: 'cjs',
@@ -100,9 +91,9 @@ import { getExternals } from './utils'
     paths: rewriter,
   })
 
-  console.log(chalk.green('cjs entry generated'))
+  green('cjs entry generated')
 
-  console.log(chalk.yellow('Generating esm entry'))
+  yellow('Generating esm entry')
 
   await entryBundle.write({
     format: 'esm',
@@ -110,13 +101,13 @@ import { getExternals } from './utils'
     paths: rewriter,
   })
 
-  console.log(chalk.green('esm entry generated'))
+  green('esm entry generated')
 
-  console.log(chalk.bold(chalk.green('Full bundle generated')))
+  green(bold('Full bundle generated'))
 
-  console.log(chalk.yellow('Generate entry file definitions'))
+  yellow('Generate entry file definitions')
 
   await genDts()
 
-  console.log(chalk.green('Entry file definitions generated'))
+  green('Entry file definitions generated')
 })()

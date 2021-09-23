@@ -68,10 +68,7 @@ const head = [
   [
     'script',
     {},
-    require('fs').readFileSync(
-      require('path').resolve(__dirname, './lang.js'),
-      'utf-8'
-    ),
+    require('fs').readFileSync(path.resolve(__dirname, './lang.js'), 'utf-8'),
   ],
 ]
 
@@ -80,7 +77,7 @@ if (features.theme) {
     'script',
     {},
     require('fs').readFileSync(
-      require('path').resolve(__dirname, './darkmode.js'),
+      path.resolve(__dirname, './darkmode.js'),
       'utf-8'
     ),
   ])
@@ -134,14 +131,14 @@ module.exports = {
             alias: [
               {
                 find: /^element-plus$/,
-                replacement: require('path').resolve(
+                replacement: path.resolve(
                   __dirname,
                   '../../dist/element-plus/es/index'
                 ),
               },
               {
                 find: /^element-plus\/lib\/utils\/(.*)/,
-                replacement: require('path').resolve(
+                replacement: path.resolve(
                   __dirname,
                   '../../dist/element-plus/es/utils/$1'
                 ),

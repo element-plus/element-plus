@@ -36,8 +36,11 @@ export const getExternals = async (options: { full: boolean }) => {
   }
 }
 
-export function yellow(str: string) {
+export function cyan(str: string) {
   console.log(chalk.cyan(str))
+}
+export function yellow(str: string) {
+  console.log(chalk.yellow(str))
 }
 
 export function green(str: string) {
@@ -48,7 +51,7 @@ export function red(str: string) {
   console.error(chalk.red(str))
 }
 
-export function errorAndExit(e: Error) {
+export function errorAndExit(e: Error): never {
   red(e.stack ?? e.message)
   process.exit(1)
 }

@@ -3,7 +3,10 @@ import fs from 'fs'
 import vueCompiler from '@vue/compiler-sfc'
 import { Project } from 'ts-morph'
 import { sync as globSync } from 'fast-glob'
-import chalk from 'chalk'
+import { bold } from 'chalk'
+
+import { green, yellow } from './utils'
+
 import type { SourceFile } from 'ts-morph'
 
 const TSCONFIG_PATH = path.resolve(__dirname, '../tsconfig.json')
@@ -11,7 +14,7 @@ const TSCONFIG_PATH = path.resolve(__dirname, '../tsconfig.json')
 /**
  * fork = require( https://github.com/egoist/vue-dts-gen/blob/main/src/index.ts
  */
-const genVueTypes = async (
+export const genTypes = async (
   root: string,
   outDir = path.resolve(__dirname, '../dist/types')
 ) => {
@@ -99,13 +102,9 @@ const genVueTypes = async (
     emitOnlyDtsFiles: true,
   })
 
-  for (const sourceFile of sourceFiles) {
+  const tasks = sourceFiles.map(async (sourceFile) => {
     const relativePath = path.relative(root, sourceFile.getFilePath())
-    console.log(
-      chalk.yellow(
-        `Generating definition for file: ${chalk.bold(relativePath)}`
-      )
-    )
+    yellow(`Generating definition for file: ${bold(relativePath)}`)
 
     const emitOutput = sourceFile.getEmitOutput()
     for (const outputFile of emitOutput.getOutputFiles()) {
@@ -130,15 +129,11 @@ const genVueTypes = async (
           .replace(new RegExp('@element-plus', 'g'), 'element-plus/es'),
         'utf8'
       )
-      console.log(
-        chalk.green(
-          `Definition for file: ${chalk.bold(
-            sourceFile.getBaseName()
-          )} generated`
-        )
-      )
+      green(`Definition for file: ${bold(relativePath)} generated`)
     }
-  }
+  })
+
+  await Promise.all(tasks)
 }
 
-export default genVueTypes
+export default genTypes

@@ -1,6 +1,6 @@
 import through2 from 'through2'
 
-const rewriter = (rewriteTo = '../..') => {
+export const gulpRewriter = (rewriteTo = '../..') => {
   return through2.obj(function (file, _, cb) {
     const compIdentifier = new RegExp('@element-plus', 'g')
 
@@ -11,4 +11,4 @@ const rewriter = (rewriteTo = '../..') => {
   })
 }
 
-export default rewriter
+export default gulpRewriter

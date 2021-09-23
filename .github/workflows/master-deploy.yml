@@ -44,11 +44,6 @@ jobs:
         env:
           DOC_ENV: production
 
-      # - name: Build Indices
-      #   run: pnpm build:indices
-      #   env:
-      #     ALGOLIA_KEY: ${{secrets.ALGOLIA_KEY}}
-
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
