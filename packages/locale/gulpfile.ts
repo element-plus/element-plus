@@ -1,7 +1,7 @@
 import path from 'path'
 import gulp from 'gulp'
 import ts from 'gulp-typescript'
-import { buildOutput } from '../../build/paths'
+import { buildOutput } from '../../build/utils/paths'
 
 export const esm = './es'
 export const cjs = './lib'

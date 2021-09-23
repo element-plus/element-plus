@@ -1,11 +1,11 @@
 import path from 'path'
 import fs from 'fs'
-import vueCompiler from '@vue/compiler-sfc'
+import * as vueCompiler from '@vue/compiler-sfc'
 import { Project } from 'ts-morph'
 import { sync as globSync } from 'fast-glob'
 import { bold } from 'chalk'
 
-import { green, yellow } from './utils'
+import { green, yellow } from './utils/log'
 
 import type { SourceFile } from 'ts-morph'
 
@@ -18,6 +18,8 @@ export const genTypes = async (
   root: string,
   outDir = path.resolve(__dirname, '../dist/types')
 ) => {
+  yellow('Start building types for individual components')
+
   const project = new Project({
     compilerOptions: {
       allowJs: true,
@@ -134,6 +136,6 @@ export const genTypes = async (
   })
 
   await Promise.all(tasks)
-}
 
-export default genTypes
+  green('Typing generated successfully')
+}

@@ -9,9 +9,10 @@ import esbuild from 'rollup-plugin-esbuild'
 import replace from 'rollup-plugin-replace'
 import genDts from './gen-entry-dts'
 import { RollupResolveEntryPlugin } from './rollup.plugin.entry'
-import { epRoot, buildOutput } from './paths'
+import { epRoot, buildOutput } from './utils/paths'
 import { EP_PREFIX, excludes } from './constants'
-import { getExternals, cyan, yellow, green } from './utils'
+import { cyan, yellow, green } from './utils/log'
+import { generateExternal } from './utils/rollup'
 ;(async () => {
   const config = {
     input: path.resolve(epRoot, 'index.ts'),
@@ -30,7 +31,7 @@ import { getExternals, cyan, yellow, green } from './utils'
         'process.env.NODE_ENV': JSON.stringify('production'),
       }),
     ],
-    external: await getExternals({ full: true }),
+    external: await generateExternal({ full: true }),
   }
 
   cyan('Start generating full bundle')

@@ -23,6 +23,7 @@ importers:
       '@element-plus/utils': workspace:*
       '@pnpm/find-workspace-packages': ^3.1.13
       '@pnpm/logger': ^4.0.0
+      '@pnpm/types': ^7.4.0
       '@popperjs/core': ^2.10.1
       '@rollup/plugin-alias': ^3.1.5
       '@rollup/plugin-commonjs': ^15.1.0
@@ -121,6 +122,7 @@ importers:
       '@commitlint/config-conventional': 13.1.0
       '@pnpm/find-workspace-packages': 3.1.13_@pnpm+logger@4.0.0
       '@pnpm/logger': 4.0.0
+      '@pnpm/types': 7.4.0
       '@rollup/plugin-alias': 3.1.5_rollup@2.56.3
       '@rollup/plugin-commonjs': 15.1.0_rollup@2.56.3
       '@rollup/plugin-node-resolve': 9.0.0_rollup@2.56.3

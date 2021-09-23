@@ -1,21 +1,19 @@
 import fs from 'fs'
 import path from 'path'
-import rollup from 'rollup'
+import { rollup } from 'rollup'
 import vue from 'rollup-plugin-vue'
 import css from 'rollup-plugin-css-only'
-import filesize from 'rollup-plugin-filesize'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import esbuild from 'rollup-plugin-esbuild'
 import { sync as globSync } from 'fast-glob'
 
-import { compRoot, buildOutput } from './paths'
-import { errorAndExit, getExternals, yellow, green } from './utils'
-import genDefs from './gen-dts'
-import reporter from './size-reporter'
+import { compRoot, buildOutput } from './utils/paths'
+import { generateExternal, writeBundles } from './utils/rollup'
+import { yellow, green, errorAndExit } from './utils/log'
 import { EP_PREFIX, excludes } from './constants'
 
-import type { RollupBuild, OutputOptions } from 'rollup'
+import { genTypes } from './gen-dts'
 
 const outputDir = path.resolve(buildOutput, 'element-plus')
 
@@ -30,22 +28,14 @@ const plugins = [
   esbuild(),
 ]
 
-;(async () => {
-  // run type diagnoses first
-  yellow('Start building types for individual components')
-  await genDefs(compRoot)
-  green('Typing generated successfully')
-
-  yellow('Start building individual components')
-  await buildComponents()
-  green('Components built successfully')
-
-  yellow('Start building entry file')
-  await buildEntry()
-  green('Entry built successfully')
-
-  green('Individual component build finished')
-})().catch((e: Error) => errorAndExit(e))
+export const buildComponents = async () => {
+  try {
+    await Promise.all([genTypes(compRoot), buildEachComponent(), buildEntry()])
+    green('Individual component build finished')
+  } catch (err: any) {
+    errorAndExit(err)
+  }
+}
 
 async function getComponents() {
   const files = globSync('*', {
@@ -63,27 +53,14 @@ function pathsRewriter(id: string) {
     return id.replace(`${EP_PREFIX}/components`, '..')
   if (id.startsWith(EP_PREFIX) && excludes.every((e) => !id.endsWith(e)))
     return id.replace(EP_PREFIX, '../..')
-  return id
+  return ''
 }
 
-function buildWriters(bundle: RollupBuild, options: OutputOptions[]) {
-  return Promise.all(
-    options.map((option) =>
-      bundle.write({
-        ...option,
-        plugins: [
-          filesize({
-            reporter,
-          }),
-        ],
-      })
-    )
-  )
-}
+async function buildEachComponent() {
+  yellow('Start building individual components')
 
-async function buildComponents() {
   const componentPaths = await getComponents()
-  const external = await getExternals({ full: false })
+  const external = await generateExternal({ full: false })
 
   const builds = componentPaths.map(
     async ({ path: p, name: componentName }) => {
@@ -95,9 +72,9 @@ async function buildComponents() {
         plugins,
         external,
       }
-      const bundle = await rollup.rollup(rollupConfig)
+      const bundle = await rollup(rollupConfig)
 
-      await buildWriters(bundle, [
+      await writeBundles(bundle, [
         {
           format: 'es',
           file: `${outputDir}/es/components/${componentName}/index.js`,
@@ -112,14 +89,14 @@ async function buildComponents() {
       ])
     }
   )
-  try {
-    await Promise.all(builds)
-  } catch (e: any) {
-    errorAndExit(e)
-  }
+  await Promise.all(builds)
+
+  green('Components built successfully')
 }
 
 async function buildEntry() {
+  yellow('Start building entry file')
+
   const entry = path.resolve(compRoot, 'index.ts')
   const config = {
     input: entry,
@@ -127,19 +104,17 @@ async function buildEntry() {
     external: () => true,
   }
 
-  try {
-    const bundle = await rollup.rollup(config)
-    await buildWriters(bundle, [
-      {
-        format: 'es',
-        file: `${outputDir}/es/components/index.js`,
-      },
-      {
-        format: 'cjs',
-        file: `${outputDir}/lib/components/index.js`,
-      },
-    ])
-  } catch (e: any) {
-    errorAndExit(e)
-  }
+  const bundle = await rollup(config)
+  await writeBundles(bundle, [
+    {
+      format: 'es',
+      file: `${outputDir}/es/components/index.js`,
+    },
+    {
+      format: 'cjs',
+      file: `${outputDir}/lib/components/index.js`,
+    },
+  ])
+
+  green('Entry built successfully')
 }

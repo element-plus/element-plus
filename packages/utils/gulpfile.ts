@@ -1,7 +1,7 @@
 import path from 'path'
 import gulp from 'gulp'
 import ts from 'gulp-typescript'
-import { buildOutput } from '../../build/paths'
+import { buildOutput } from '../../build/utils/paths'
 
 import type { Settings } from 'gulp-typescript'
 

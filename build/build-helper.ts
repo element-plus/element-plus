@@ -1,19 +1,18 @@
-import path from 'path'
 import helper from 'components-helper'
-import { epRoot } from './paths'
+import { epPackage } from './utils/paths'
+import { getPackageManifest } from './utils/pkg'
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { name, version } = require(path.resolve(epRoot, './package.json'))
+const { name, version } = getPackageManifest(epPackage)
 
 const tagVer = process.env.TAG_VERSION
 const _version = tagVer
   ? tagVer.startsWith('v')
     ? tagVer.slice(1)
     : tagVer
-  : version
+  : version!
 
 helper({
-  name,
+  name: name!,
   version: _version,
   entry: 'docs/en-US/component/!(datetime-picker|message-box|message).md',
   outDir: 'dist/element-plus',

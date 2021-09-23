@@ -3,8 +3,8 @@ import fs from 'fs'
 import { bold } from 'chalk'
 import glob from 'fast-glob'
 import { Project, ScriptTarget } from 'ts-morph'
-import { epRoot, buildOutput, projRoot } from './paths'
-import { yellow, green } from './utils'
+import { epRoot, buildOutput, projRoot } from './utils/paths'
+import { yellow, green } from './utils/log'
 
 import type { SourceFile } from 'ts-morph'
 
