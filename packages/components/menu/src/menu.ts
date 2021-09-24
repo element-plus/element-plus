@@ -300,7 +300,7 @@ export default defineComponent({
           (item) => item.nodeName !== '#text' || item.nodeValue
         ) as HTMLElement[]
         const originalSlot = flattedChildren(slot)
-        if (items.length === originalSlot.length) {
+        if (menu.value) {
           const moreItemWidth = 64
           const paddingLeft = parseInt(
             getComputedStyle(menu.value).paddingLeft,
@@ -340,8 +340,6 @@ export default defineComponent({
               )
             )
           }
-        } else {
-          nextTick(() => instance.proxy.$forceUpdate())
         }
       }
 
