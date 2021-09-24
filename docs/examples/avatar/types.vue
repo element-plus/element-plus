@@ -1,7 +1,7 @@
 <template>
   <div class="demo-type">
     <div>
-      <el-avatar icon="el-icon-user-solid"></el-avatar>
+      <el-avatar :icon="User"></el-avatar>
     </div>
     <div>
       <el-avatar
@@ -13,3 +13,15 @@
     </div>
   </div>
 </template>
+<script lang="ts">
+import { defineComponent, reactive, toRefs } from 'vue'
+import { User } from '@element-plus/icons'
+
+export default defineComponent({
+  setup() {
+    return {
+      User,
+    }
+  },
+})
+</script>
