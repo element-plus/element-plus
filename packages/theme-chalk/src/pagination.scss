@@ -265,10 +265,6 @@
   padding: 0;
   margin: 0;
 
-  .more::before {
-    line-height: 30px;
-  }
-
   li {
     padding: 0 4px;
     background: var(--el-pagination-background-color);
@@ -285,11 +281,15 @@
 
     &.btn-quicknext,
     &.btn-quickprev {
-      line-height: 28px;
+      line-height: 32px;
       color: var(--el-pagination-button-color);
 
       &.disabled {
         color: var(--el-text-color-placeholder);
+      }
+
+      svg {
+        pointer-events: none;
       }
     }
 

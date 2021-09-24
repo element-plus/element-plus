@@ -12,10 +12,13 @@
     <li
       v-if="showPrevMore"
       class="el-icon more btn-quickprev"
-      :class="[quickprevIconClass, { disabled }]"
+      :class="{ disabled }"
       @mouseenter="onMouseenter('left')"
-      @mouseleave="quickprevIconClass = 'el-icon-more'"
-    ></li>
+      @mouseleave="quickPrevHover = false"
+    >
+      <d-arrow-left v-if="quickPrevHover" />
+      <more-filled v-else />
+    </li>
     <li
       v-for="pager in pagers"
       :key="pager"
@@ -29,10 +32,13 @@
     <li
       v-if="showNextMore"
       class="el-icon more btn-quicknext"
-      :class="[quicknextIconClass, { disabled }]"
+      :class="{ disabled }"
       @mouseenter="onMouseenter('right')"
-      @mouseleave="quicknextIconClass = 'el-icon-more'"
-    ></li>
+      @mouseleave="quickNextHover = false"
+    >
+      <d-arrow-right v-if="quickNextHover" />
+      <more-filled v-else />
+    </li>
     <li
       v-if="pageCount > 1"
       :class="{ active: currentPage === pageCount, disabled }"
@@ -46,6 +52,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref, computed, watchEffect } from 'vue'
+import { MoreFilled, DArrowLeft, DArrowRight } from '@element-plus/icons'
 
 const paginationPagerProps = {
   currentPage: {
@@ -66,14 +73,19 @@ const paginationPagerProps = {
 export default defineComponent({
   name: 'ElPaginationPager',
 
+  components: {
+    DArrowLeft,
+    DArrowRight,
+    MoreFilled,
+  },
   props: paginationPagerProps,
   emits: ['change'],
 
   setup(props, { emit }) {
     const showPrevMore = ref(false)
     const showNextMore = ref(false)
-    const quicknextIconClass = ref('el-icon-more')
-    const quickprevIconClass = ref('el-icon-more')
+    const quickPrevHover = ref(false)
+    const quickNextHover = ref(false)
 
     const pagers = computed(() => {
       const pagerCount = props.pagerCount
@@ -131,19 +143,12 @@ export default defineComponent({
       }
     })
 
-    watchEffect(() => {
-      if (!showPrevMore.value) quickprevIconClass.value = 'el-icon-more'
-    })
-    watchEffect(() => {
-      if (!showNextMore.value) quicknextIconClass.value = 'el-icon-more'
-    })
-
     function onMouseenter(direction: 'left' | 'right') {
       if (props.disabled) return
       if (direction === 'left') {
-        quickprevIconClass.value = 'el-icon-d-arrow-left'
+        quickPrevHover.value = true
       } else {
-        quicknextIconClass.value = 'el-icon-d-arrow-right'
+        quickNextHover.value = true
       }
     }
 
@@ -193,8 +198,8 @@ export default defineComponent({
     return {
       showPrevMore,
       showNextMore,
-      quicknextIconClass,
-      quickprevIconClass,
+      quickPrevHover,
+      quickNextHover,
       pagers,
 
       onMouseenter,
