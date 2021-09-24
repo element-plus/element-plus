@@ -137,10 +137,10 @@ module.exports = {
                 ),
               },
               {
-                find: /^element-plus\/lib\/utils\/(.*)/,
+                find: /^element-plus\/(es|lib)\/utils\/(.*)/,
                 replacement: path.resolve(
                   __dirname,
-                  '../../dist/element-plus/es/utils/$1'
+                  '../../dist/element-plus/es/utils/$2'
                 ),
               },
             ],
