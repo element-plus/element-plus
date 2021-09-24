@@ -2,19 +2,7 @@
 
 set -e
 
-pnpm clean:lib
-
-# build all packages in case of error
-
-# build components
-# pnpm build:comps
 pnpm build:new
-
-rsync -a dist/types/components/ dist/element-plus/es/components/
-rsync -a dist/types/components/ dist/element-plus/lib/components/
-
-# build style
-pnpm build:style
 
 pnpm build:theme
 pnpm build:locale

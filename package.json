@@ -16,7 +16,7 @@
     "bootstrap": "pnpm i",
     "clean:lib": "rimraf lib && rimraf es && rimraf dist",
     "build": "sh scripts/build.sh",
-    "build:new": "gulp -f build/gulpfile.ts build",
+    "build:new": "gulp -f build/gulpfile.ts",
     "build:helper": "esno build/build-helper.ts",
     "build:comps": "rimraf dist/components && esno build/components.ts",
     "build:style": "gulp -f build/style/gulpfile.ts",

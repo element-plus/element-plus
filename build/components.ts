@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import { series, parallel } from 'gulp'
 import { rollup } from 'rollup'
 import vue from 'rollup-plugin-vue'
 import css from 'rollup-plugin-css-only'
@@ -10,13 +11,12 @@ import { sync as globSync } from 'fast-glob'
 
 import { compRoot, buildOutput } from './utils/paths'
 import { generateExternal, writeBundles } from './utils/rollup'
-import { yellow, green, errorAndExit } from './utils/log'
 import { EP_PREFIX, excludes } from './constants'
 
 import { genTypes } from './gen-dts'
+import { run } from './utils/process'
 
 const outputDir = path.resolve(buildOutput, 'element-plus')
-
 const plugins = [
   css(),
   vue({
@@ -28,13 +28,21 @@ const plugins = [
   esbuild(),
 ]
 
-export const buildComponents = async () => {
-  try {
-    await Promise.all([genTypes(compRoot), buildEachComponent(), buildEntry()])
-    green('Individual component build finished')
-  } catch (err: any) {
-    errorAndExit(err)
-  }
+export const buildComponents = series(
+  parallel(
+    genTypes.bind(undefined, compRoot, undefined),
+    buildEachComponent,
+    buildEntry
+  ),
+  copyTypes()
+)
+
+function pathsRewriter(id: string) {
+  if (id.startsWith(`${EP_PREFIX}/components`))
+    return id.replace(`${EP_PREFIX}/components`, '..')
+  if (id.startsWith(EP_PREFIX) && excludes.every((e) => !id.endsWith(e)))
+    return id.replace(EP_PREFIX, '../..')
+  return ''
 }
 
 async function getComponents() {
@@ -48,17 +56,7 @@ async function getComponents() {
   }))
 }
 
-function pathsRewriter(id: string) {
-  if (id.startsWith(`${EP_PREFIX}/components`))
-    return id.replace(`${EP_PREFIX}/components`, '..')
-  if (id.startsWith(EP_PREFIX) && excludes.every((e) => !id.endsWith(e)))
-    return id.replace(EP_PREFIX, '../..')
-  return ''
-}
-
 async function buildEachComponent() {
-  yellow('Start building individual components')
-
   const componentPaths = await getComponents()
   const external = await generateExternal({ full: false })
 
@@ -90,13 +88,9 @@ async function buildEachComponent() {
     }
   )
   await Promise.all(builds)
-
-  green('Components built successfully')
 }
 
 async function buildEntry() {
-  yellow('Start building entry file')
-
   const entry = path.resolve(compRoot, 'index.ts')
   const config = {
     input: entry,
@@ -115,6 +109,18 @@ async function buildEntry() {
       file: `${outputDir}/lib/components/index.js`,
     },
   ])
+}
 
-  green('Entry built successfully')
+function copyTypes() {
+  const src = `${buildOutput}/types/components/`
+
+  // rsync -a dist/types/components/ dist/element-plus/es/components/
+  const copyTypesToESM = () =>
+    run(`rsync -a ${src} ${outputDir}/es/components/`)
+
+  // rsync -a dist/types/components/ dist/element-plus/lib/components/
+  const copyTypesToCJS = () =>
+    run(`rsync -a ${src} ${outputDir}/es/components/`)
+
+  return parallel([copyTypesToESM, copyTypesToCJS])
 }

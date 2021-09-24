@@ -1,8 +1,8 @@
 import path from 'path'
-import fs from 'fs'
+import fs from 'fs/promises'
 import * as vueCompiler from '@vue/compiler-sfc'
 import { Project } from 'ts-morph'
-import { sync as globSync } from 'fast-glob'
+import glob from 'fast-glob'
 import { bold } from 'chalk'
 
 import { green, yellow } from './utils/log'
@@ -18,8 +18,6 @@ export const genTypes = async (
   root: string,
   outDir = path.resolve(__dirname, '../dist/types')
 ) => {
-  yellow('Start building types for individual components')
-
   const project = new Project({
     compilerOptions: {
       allowJs: true,
@@ -52,11 +50,13 @@ export const genTypes = async (
     '.DS_Store',
     'node_modules',
   ]
-  const filePaths = globSync('**/*', {
-    cwd: root,
-    onlyFiles: true,
-    absolute: true,
-  }).filter(
+  const filePaths = (
+    await glob('**/*', {
+      cwd: root,
+      onlyFiles: true,
+      absolute: true,
+    })
+  ).filter(
     (path) =>
       !excludedFiles.some((f) =>
         f instanceof RegExp ? f.test(path) : path.includes(f)
@@ -66,7 +66,7 @@ export const genTypes = async (
   await Promise.all(
     filePaths.map(async (file) => {
       if (file.endsWith('.vue')) {
-        const content = await fs.promises.readFile(file, 'utf-8')
+        const content = await fs.readFile(file, 'utf-8')
         const sfc = vueCompiler.parse(content)
         const { script, scriptSetup } = sfc.descriptor
         if (script || scriptSetup) {
@@ -112,11 +112,11 @@ export const genTypes = async (
     for (const outputFile of emitOutput.getOutputFiles()) {
       const filepath = outputFile.getFilePath()
 
-      await fs.promises.mkdir(path.dirname(filepath), {
+      await fs.mkdir(path.dirname(filepath), {
         recursive: true,
       })
 
-      await fs.promises.writeFile(
+      await fs.writeFile(
         filepath,
         outputFile
           .getText()
@@ -136,6 +136,4 @@ export const genTypes = async (
   })
 
   await Promise.all(tasks)
-
-  green('Typing generated successfully')
 }
