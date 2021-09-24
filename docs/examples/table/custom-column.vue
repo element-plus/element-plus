@@ -2,7 +2,7 @@
   <el-table :data="tableData" style="width: 100%">
     <el-table-column label="Date" width="180">
       <template #default="scope">
-        <i class="el-icon-time"></i>
+        <el-icon><timer /></el-icon>
         <span style="margin-left: 10px">{{ scope.row.date }}</span>
       </template>
     </el-table-column>
@@ -38,7 +38,12 @@
 </template>
 
 <script lang="ts">
+import { Timer } from '@element-plus/icons'
+
 export default {
+  components: {
+    Timer,
+  },
   data() {
     return {
       tableData: [
