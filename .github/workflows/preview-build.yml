@@ -30,7 +30,7 @@ jobs:
         run: pnpm docs:gen-locale
 
       - name: Build Element Plus
-        run: sh scripts/build.sh
+        run: pnpm build
 
       - name: Build website
         run: pnpm docs:build

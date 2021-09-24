@@ -28,7 +28,7 @@ jobs:
         run: pnpm i
 
       - name: Compile Element Plus
-        run: sh scripts/build.sh
+        run: pnpm build
 
       - name: Init Crowdin token
         run: pnpm docs:crowdin
