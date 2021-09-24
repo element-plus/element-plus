@@ -1,4 +1,3 @@
-/* eslint-disable */
 import fs from 'fs'
 import path from 'path'
 import rollup from 'rollup'
@@ -6,6 +5,7 @@ import vue from 'rollup-plugin-vue'
 import css from 'rollup-plugin-css-only'
 import filesize from 'rollup-plugin-filesize'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
+import commonjs from '@rollup/plugin-commonjs'
 import esbuild from 'rollup-plugin-esbuild'
 import { sync as globSync } from 'fast-glob'
 
@@ -24,6 +24,7 @@ const plugins = [
     // css: false,
   }),
   nodeResolve(),
+  commonjs(),
   esbuild(),
 ]
 
