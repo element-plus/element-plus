@@ -18,6 +18,6 @@
     "@crowdin/cli": "^3.6.5",
     "markdown-it": "^12.2.0",
     "markdown-it-container": "^3.0.0",
-    "vitepress": "^0.19.1"
+    "vitepress": "~0.18.1"
   }
 }
