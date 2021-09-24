@@ -4,15 +4,15 @@ import { copyStyle } from './style'
 import { copyEntryTypes } from './entry-types'
 import { run } from './utils/process'
 import { withTaskName } from './utils/gulp'
-import { buildEp, buildOutput, epPackage } from './utils/paths'
+import { epOutput, buildOutput, epPackage } from './utils/paths'
 import { copyFullStyle } from './full-bundle'
 
 const runTask = (name: string) =>
   withTaskName(name, () => run(`pnpm run build ${name}`))
 
 const copySourceCode = () => async () => {
-  await run(`cp -R packages ${buildEp}`)
-  await run(`cp ${epPackage} ${buildEp}/package.json`)
+  await run(`cp -R packages ${epOutput}`)
+  await run(`cp ${epPackage} ${epOutput}/package.json`)
 }
 
 const copyREADME = () => async () => {

@@ -34,7 +34,7 @@
   },
   "lint-staged": {
     "*.{vue,js,ts,jsx,tsx}": [
-      "eslint --fix",
+      "eslint --max-warnings 0 --fix",
       "prettier --write"
     ],
     "*.{scss,css,json,yaml,yml,md,html}": "prettier --write"

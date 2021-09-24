@@ -1,5 +1,5 @@
 import { spawn } from 'child_process'
-import { green, red } from './log'
+import { green } from './log'
 import { projRoot } from './paths'
 
 export const run = async (command: string, cwd: string = projRoot) =>

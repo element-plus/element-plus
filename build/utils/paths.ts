@@ -14,7 +14,7 @@ export const docRoot = resolve(projRoot, 'docs')
 /** dist */
 export const buildOutput = resolve(projRoot, 'dist')
 /** dist/element-plus */
-export const buildEp = resolve(buildOutput, 'element-plus')
+export const epOutput = resolve(buildOutput, 'element-plus')
 
 export const projPackage = resolve(projRoot, 'package.json')
 export const compPackage = resolve(compRoot, 'package.json')

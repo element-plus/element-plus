@@ -1,5 +1,5 @@
 import path from 'path'
-import { buildEp } from './utils/paths'
+import { epOutput } from './utils/paths'
 import type { ModuleFormat } from 'rollup'
 
 export const modules = ['esm', 'cjs'] as const
@@ -26,7 +26,7 @@ export const buildConfig: Record<Module, BuildInfo> = {
     format: 'esm',
     output: {
       name: 'es',
-      path: path.resolve(buildEp, 'es'),
+      path: path.resolve(epOutput, 'es'),
     },
     bundle: {
       path: 'element-plus/es',
@@ -37,7 +37,7 @@ export const buildConfig: Record<Module, BuildInfo> = {
     format: 'cjs',
     output: {
       name: 'lib',
-      path: path.resolve(buildEp, 'lib'),
+      path: path.resolve(epOutput, 'lib'),
     },
     bundle: {
       path: 'element-plus/lib',

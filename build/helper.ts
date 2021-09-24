@@ -1,5 +1,5 @@
 import helper from 'components-helper'
-import { epPackage } from './utils/paths'
+import { epPackage, epOutput } from './utils/paths'
 import { getPackageManifest } from './utils/pkg'
 import type { TaskFunction } from 'gulp'
 import type { InstallOptions } from 'components-helper/lib/type'
@@ -62,7 +62,7 @@ export const buildHelper: TaskFunction = (done) => {
     name: name!,
     version: _version,
     entry: 'docs/en-US/component/!(datetime-picker|message-box|message).md',
-    outDir: 'dist/element-plus',
+    outDir: epOutput,
     reComponentName,
     reDocUrl,
     reAttribute,

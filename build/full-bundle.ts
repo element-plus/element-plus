@@ -9,7 +9,7 @@ import replace from '@rollup/plugin-replace'
 import { parallel, series } from 'gulp'
 import { genEntryTypes } from './entry-types'
 import { RollupResolveEntryPlugin } from './rollup.plugin.entry'
-import { epRoot, buildOutput, buildEp } from './utils/paths'
+import { epRoot, buildOutput, epOutput } from './utils/paths'
 import { EP_PREFIX, excludes } from './constants'
 import { yellow, green } from './utils/log'
 import { generateExternal, writeBundles } from './utils/rollup'
@@ -104,8 +104,8 @@ export const buildEntry = async () => {
 
 export const copyFullStyle = () =>
   Promise.all([
-    run(`cp ${buildEp}/theme-chalk/index.css ${buildEp}/dist/index.css`),
-    run(`cp -R ${buildEp}/theme-chalk/fonts ${buildEp}/dist/fonts`),
+    run(`cp ${epOutput}/theme-chalk/index.css ${epOutput}/dist/index.css`),
+    run(`cp -R ${epOutput}/theme-chalk/fonts ${epOutput}/dist/fonts`),
   ])
 
 export const buildFullBundle = series(
