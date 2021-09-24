@@ -1,20 +1,26 @@
 import path from 'path'
 import fs from 'fs'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
-import rollup from 'rollup'
-import { bold } from 'chalk'
+import { rollup } from 'rollup'
 import commonjs from '@rollup/plugin-commonjs'
 import vue from 'rollup-plugin-vue'
 import esbuild from 'rollup-plugin-esbuild'
 import replace from 'rollup-plugin-replace'
-import genDts from './gen-entry-dts'
+import { parallel, series } from 'gulp'
+import { genEntryTypes } from './entry-types'
 import { RollupResolveEntryPlugin } from './rollup.plugin.entry'
 import { epRoot, buildOutput } from './utils/paths'
 import { EP_PREFIX, excludes } from './constants'
-import { cyan, yellow, green } from './utils/log'
-import { generateExternal } from './utils/rollup'
-;(async () => {
-  const config = {
+import { yellow, green } from './utils/log'
+import { generateExternal, writeBundles } from './utils/rollup'
+import { buildConfig } from './info'
+
+import type { RollupOptions, OutputOptions } from 'rollup'
+
+let config: RollupOptions
+
+const init = async () =>
+  (config = {
     input: path.resolve(epRoot, 'index.ts'),
     plugins: [
       nodeResolve(),
@@ -24,28 +30,24 @@ import { generateExternal } from './utils/rollup'
         exposeFilename: false,
       }),
       commonjs(),
-      esbuild({
-        minify: false,
-      }),
+      esbuild({ minify: false }),
       replace({
         'process.env.NODE_ENV': JSON.stringify('production'),
       }),
     ],
     external: await generateExternal({ full: true }),
-  }
+  })
 
-  cyan('Start generating full bundle')
-
-  yellow(bold('Building bundle'))
+export const buildFull = async () => {
+  yellow('Building bundle')
 
   // Full bundle generation
-  const bundle = await rollup.rollup({
+  const bundle = await rollup({
     ...config,
-    plugins: [...config.plugins, RollupResolveEntryPlugin()],
+    plugins: [...config.plugins!, RollupResolveEntryPlugin()],
   })
 
   yellow('Generating index.full.js')
-
   await bundle.write({
     format: 'umd',
     file: path.resolve(buildOutput, 'element-plus/dist/index.full.js'),
@@ -55,21 +57,22 @@ import { generateExternal } from './utils/rollup'
       vue: 'Vue',
     },
   })
-
   green('index.full.js generated')
+}
 
+export const buildEntry = async () => {
   yellow('Generating entry files without dependencies')
 
-  // Entry bundle generation
-
-  const entryFiles = await fs.promises.readdir(epRoot, { withFileTypes: true })
+  const entryFiles = await fs.promises.readdir(epRoot, {
+    withFileTypes: true,
+  })
 
   const entryPoints = entryFiles
     .filter((f) => f.isFile())
     .filter((f) => !['package.json', 'README.md'].includes(f.name))
     .map((f) => path.resolve(epRoot, f.name))
 
-  const entryBundle = await rollup.rollup({
+  const bundle = await rollup({
     ...config,
     input: entryPoints,
     external: () => true,
@@ -83,32 +86,22 @@ import { generateExternal } from './utils/rollup'
     else return ''
   }
 
-  yellow('Generating cjs entry')
+  yellow('Generating entries')
+  writeBundles(
+    bundle,
+    Object.values(buildConfig).map(
+      (config): OutputOptions => ({
+        format: config.format,
+        dir: config.output.path,
+        exports: config.format === 'cjs' ? 'named' : undefined,
+        paths: rewriter,
+      })
+    )
+  )
+  green('entries generated')
+}
 
-  await entryBundle.write({
-    format: 'cjs',
-    dir: path.resolve(buildOutput, 'element-plus/lib'),
-    exports: 'named',
-    paths: rewriter,
-  })
-
-  green('cjs entry generated')
-
-  yellow('Generating esm entry')
-
-  await entryBundle.write({
-    format: 'esm',
-    dir: path.resolve(buildOutput, 'element-plus/es'),
-    paths: rewriter,
-  })
-
-  green('esm entry generated')
-
-  green(bold('Full bundle generated'))
-
-  yellow('Generate entry file definitions')
-
-  await genDts()
-
-  green('Entry file definitions generated')
-})()
+export const buildFullBundle = series(
+  init,
+  parallel(buildFull, buildEntry, genEntryTypes)
+)

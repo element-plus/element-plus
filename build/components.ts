@@ -8,16 +8,18 @@ import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import esbuild from 'rollup-plugin-esbuild'
 import { sync as globSync } from 'fast-glob'
+import filesize from 'rollup-plugin-filesize'
 
 import { compRoot, buildOutput } from './utils/paths'
 import { generateExternal, writeBundles } from './utils/rollup'
-import { EP_PREFIX } from './constants'
-
-import { genComponentTypes } from './component-types'
 import { run } from './utils/process'
-import { buildConfig } from './info'
 import { withTaskName } from './utils/gulp'
 import { getWorkspaceNames } from './utils/pkg'
+
+import { genComponentTypes } from './component-types'
+import { buildConfig } from './info'
+import reporter from './size-reporter'
+import { EP_PREFIX } from './constants'
 
 import type { OutputOptions } from 'rollup'
 import type { Module, BuildInfo } from './info'
@@ -83,6 +85,7 @@ async function buildEachComponent() {
           ),
           exports: module === 'cjs' ? 'named' : undefined,
           paths: pathsRewriter(module),
+          plugins: [filesize({ reporter })],
         })
       )
 
@@ -104,6 +107,7 @@ async function buildComponentEntry() {
     (config): OutputOptions => ({
       format: config.format,
       file: path.resolve(config.output.path, 'components/index.js'),
+      plugins: [filesize({ reporter })],
     })
   )
 

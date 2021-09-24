@@ -1,40 +1,16 @@
 import helper from 'components-helper'
 import { epPackage } from './utils/paths'
 import { getPackageManifest } from './utils/pkg'
+import type { TaskFunction } from 'gulp'
+import type { InstallOptions } from 'components-helper/lib/type'
 
-const { name, version } = getPackageManifest(epPackage)
-
-const tagVer = process.env.TAG_VERSION
-const _version = tagVer
-  ? tagVer.startsWith('v')
-    ? tagVer.slice(1)
-    : tagVer
-  : version!
-
-helper({
-  name: name!,
-  version: _version,
-  entry: 'docs/en-US/component/!(datetime-picker|message-box|message).md',
-  outDir: 'dist/element-plus',
-  reComponentName,
-  reDocUrl,
-  reAttribute,
-  props: 'Attributes',
-  propsName: 'Attribute',
-  propsOptions: 'Accepted Values',
-  eventsName: 'Event Name',
-  tableRegExp:
-    '#+\\s+(.*\\s*Attributes|.*\\s*Events|.*\\s*Slots|.*\\s*Directives)\\s*\\n+(\\|?.+\\|.+)\\n\\|?\\s*:?-+:?\\s*\\|.+((\\n\\|?.+\\|.+)+)',
-})
-
-function reComponentName(title) {
-  return `el-${title
+const reComponentName: InstallOptions['reComponentName'] = (title: string) =>
+  `el-${title
     .replace(/\B([A-Z])/g, '-$1')
     .replace(/[ ]+/g, '-')
     .toLowerCase()}`
-}
 
-function reDocUrl(fileName, header) {
+const reDocUrl: InstallOptions['reDocUrl'] = (fileName, header) => {
   const docs = 'https://element-plus.org/#/en-US/component/'
   const _header = header
     ? header.replace(/[ ]+/g, '-').toLowerCase()
@@ -42,7 +18,7 @@ function reDocUrl(fileName, header) {
   return docs + fileName + (_header ? `#${_header}` : '')
 }
 
-function reAttribute(value, key /* , item */) {
+const reAttribute: InstallOptions['reAttribute'] = (value, key) => {
   const _value = value.match(/^\*\*(.*)\*\*$/)
   const str = _value ? _value[1] : value
 
@@ -70,4 +46,33 @@ function reAttribute(value, key /* , item */) {
   } else {
     return str
   }
+}
+
+export const buildHelper: TaskFunction = (done) => {
+  const { name, version } = getPackageManifest(epPackage)
+
+  const tagVer = process.env.TAG_VERSION
+  const _version = tagVer
+    ? tagVer.startsWith('v')
+      ? tagVer.slice(1)
+      : tagVer
+    : version!
+
+  helper({
+    name: name!,
+    version: _version,
+    entry: 'docs/en-US/component/!(datetime-picker|message-box|message).md',
+    outDir: 'dist/element-plus',
+    reComponentName,
+    reDocUrl,
+    reAttribute,
+    props: 'Attributes',
+    propsName: 'Attribute',
+    propsOptions: 'Accepted Values',
+    eventsName: 'Event Name',
+    tableRegExp:
+      '#+\\s+(.*\\s*Attributes|.*\\s*Events|.*\\s*Slots|.*\\s*Directives)\\s*\\n+(\\|?.+\\|.+)\\n\\|?\\s*:?-+:?\\s*\\|.+((\\n\\|?.+\\|.+)+)',
+  })
+
+  done()
 }

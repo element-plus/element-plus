@@ -1,5 +1,5 @@
 import path from 'path'
-import fs from 'fs'
+import fs from 'fs/promises'
 import { bold } from 'chalk'
 import glob from 'fast-glob'
 import { Project, ScriptTarget } from 'ts-morph'
@@ -45,19 +45,17 @@ export const genEntryTypes = async () => {
     for (const outputFile of emitOutput.getOutputFiles()) {
       const filepath = outputFile.getFilePath()
 
-      await fs.promises.mkdir(path.dirname(filepath), {
+      await fs.mkdir(path.dirname(filepath), {
         recursive: true,
       })
-      await fs.promises.writeFile(
+      await fs.writeFile(
         filepath,
-        outputFile.getText().replace(new RegExp('@element-plus', 'g'), '.'),
-        // .replaceAll('@element-plus/theme-chalk', 'element-plus/theme-chalk'),
+        outputFile.getText().replaceAll('@element-plus', '.'),
         'utf8'
       )
       green(`Definition for file: ${bold(sourceFile.getBaseName())} generated`)
     }
   })
+
   await Promise.all(tasks)
 }
-
-export default genEntryTypes
