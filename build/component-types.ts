@@ -6,18 +6,17 @@ import glob from 'fast-glob'
 import { bold } from 'chalk'
 
 import { green, yellow } from './utils/log'
+import { buildOutput, compRoot, projRoot } from './utils/paths'
 
 import type { SourceFile } from 'ts-morph'
 
-const TSCONFIG_PATH = path.resolve(__dirname, '../tsconfig.json')
+const TSCONFIG_PATH = path.resolve(projRoot, 'tsconfig.json')
+const outDir = path.resolve(buildOutput, 'types')
 
 /**
  * fork = require( https://github.com/egoist/vue-dts-gen/blob/main/src/index.ts
  */
-export const genTypes = async (
-  root: string,
-  outDir = path.resolve(__dirname, '../dist/types')
-) => {
+export const genComponentTypes = async () => {
   const project = new Project({
     compilerOptions: {
       allowJs: true,
@@ -25,7 +24,7 @@ export const genTypes = async (
       emitDeclarationOnly: true,
       noEmitOnError: true,
       outDir,
-      baseUrl: path.resolve(__dirname, '../'),
+      baseUrl: projRoot,
       paths: {
         '@element-plus/*': ['packages/*'],
       },
@@ -35,8 +34,6 @@ export const genTypes = async (
     tsConfigFilePath: TSCONFIG_PATH,
     skipAddingFilesFromTsConfig: true,
   })
-
-  const sourceFiles: SourceFile[] = []
 
   const excludedFiles = [
     /\/demo\/\w+\.vue$/,
@@ -52,7 +49,7 @@ export const genTypes = async (
   ]
   const filePaths = (
     await glob('**/*', {
-      cwd: root,
+      cwd: compRoot,
       onlyFiles: true,
       absolute: true,
     })
@@ -63,6 +60,7 @@ export const genTypes = async (
       )
   )
 
+  const sourceFiles: SourceFile[] = []
   await Promise.all(
     filePaths.map(async (file) => {
       if (file.endsWith('.vue')) {
@@ -105,13 +103,12 @@ export const genTypes = async (
   })
 
   const tasks = sourceFiles.map(async (sourceFile) => {
-    const relativePath = path.relative(root, sourceFile.getFilePath())
+    const relativePath = path.relative(compRoot, sourceFile.getFilePath())
     yellow(`Generating definition for file: ${bold(relativePath)}`)
 
     const emitOutput = sourceFile.getEmitOutput()
-    for (const outputFile of emitOutput.getOutputFiles()) {
+    const tasks = emitOutput.getOutputFiles().map(async (outputFile) => {
       const filepath = outputFile.getFilePath()
-
       await fs.mkdir(path.dirname(filepath), {
         recursive: true,
       })
@@ -120,19 +117,15 @@ export const genTypes = async (
         filepath,
         outputFile
           .getText()
-          .replace(
-            new RegExp('@element-plus/components', 'g'),
-            'element-plus/es'
-          )
-          .replace(
-            new RegExp('@element-plus/theme-chalk', 'g'),
-            'element-plus/theme-chalk'
-          )
-          .replace(new RegExp('@element-plus', 'g'), 'element-plus/es'),
+          .replaceAll('@element-plus/components', 'element-plus/es')
+          .replaceAll('@element-plus/theme-chalk', 'element-plus/theme-chalk')
+          .replaceAll('@element-plus', 'element-plus/es'),
         'utf8'
       )
+
       green(`Definition for file: ${bold(relativePath)} generated`)
-    }
+    })
+    await Promise.all(tasks)
   })
 
   await Promise.all(tasks)

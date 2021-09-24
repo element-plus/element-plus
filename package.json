@@ -18,8 +18,6 @@
     "build": "sh scripts/build.sh",
     "build:new": "gulp -f build/gulpfile.ts",
     "build:helper": "esno build/build-helper.ts",
-    "build:comps": "rimraf dist/components && esno build/components.ts",
-    "build:style": "gulp -f build/style/gulpfile.ts",
     "build:prod": "sh scripts/publish.sh",
     "build:directives": "cd packages/directives && pnpm clean && pnpm build",
     "build:hooks": "cd packages/hooks && pnpm clean && pnpm build",

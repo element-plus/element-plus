@@ -3,6 +3,12 @@ import { projRoot } from './paths'
 import type { ProjectManifest } from '@pnpm/types'
 
 export const getWorkspacePackages = () => findWorkspacePackages(projRoot)
+export const getWorkspaceNames = async () => {
+  const pkgs = await findWorkspacePackages(projRoot)
+  return pkgs
+    .map((pkg) => pkg.manifest.name)
+    .filter((name): name is string => !!name)
+}
 export const getWorkspacePackageManifest = async (
   name: string
 ): Promise<ProjectManifest> => {

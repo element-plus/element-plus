@@ -11,12 +11,18 @@ import { sync as globSync } from 'fast-glob'
 
 import { compRoot, buildOutput } from './utils/paths'
 import { generateExternal, writeBundles } from './utils/rollup'
-import { EP_PREFIX, excludes } from './constants'
+import { EP_PREFIX } from './constants'
 
-import { genTypes } from './gen-dts'
+import { genComponentTypes } from './component-types'
 import { run } from './utils/process'
+import { buildConfig } from './info'
+import { withTaskName } from './utils/gulp'
+import { getWorkspaceNames } from './utils/pkg'
 
-const outputDir = path.resolve(buildOutput, 'element-plus')
+import type { OutputOptions } from 'rollup'
+import type { Module, BuildInfo } from './info'
+
+let workspacePkgs: string[] = []
 const plugins = [
   css(),
   vue({
@@ -28,21 +34,17 @@ const plugins = [
   esbuild(),
 ]
 
-export const buildComponents = series(
-  parallel(
-    genTypes.bind(undefined, compRoot, undefined),
-    buildEachComponent,
-    buildEntry
-  ),
-  copyTypes()
-)
+const pathsRewriter = (module: Module) => (id: string) => {
+  const config = buildConfig[module]
+  if (workspacePkgs.some((pkg) => id.startsWith(pkg)))
+    return id.replace(EP_PREFIX, config.bundle.path)
+  else return ''
+}
 
-function pathsRewriter(id: string) {
-  if (id.startsWith(`${EP_PREFIX}/components`))
-    return id.replace(`${EP_PREFIX}/components`, '..')
-  if (id.startsWith(EP_PREFIX) && excludes.every((e) => !id.endsWith(e)))
-    return id.replace(EP_PREFIX, '../..')
-  return ''
+const init = async () => {
+  workspacePkgs = (await getWorkspaceNames()).filter((pkg) =>
+    pkg.startsWith(EP_PREFIX)
+  )
 }
 
 async function getComponents() {
@@ -70,57 +72,58 @@ async function buildEachComponent() {
         plugins,
         external,
       }
-      const bundle = await rollup(rollupConfig)
+      const opts = (Object.entries(buildConfig) as [Module, BuildInfo][]).map(
+        ([module, config]): OutputOptions => ({
+          format: config.format,
+          file: path.resolve(
+            config.output.path,
+            'components',
+            componentName,
+            'index.js'
+          ),
+          exports: module === 'cjs' ? 'named' : undefined,
+          paths: pathsRewriter(module),
+        })
+      )
 
-      await writeBundles(bundle, [
-        {
-          format: 'es',
-          file: `${outputDir}/es/components/${componentName}/index.js`,
-          paths: pathsRewriter,
-        },
-        {
-          format: 'cjs',
-          file: `${outputDir}/lib/components/${componentName}/index.js`,
-          exports: 'named',
-          paths: pathsRewriter,
-        },
-      ])
+      const bundle = await rollup(rollupConfig)
+      await writeBundles(bundle, opts)
     }
   )
   await Promise.all(builds)
 }
 
-async function buildEntry() {
+async function buildComponentEntry() {
   const entry = path.resolve(compRoot, 'index.ts')
   const config = {
     input: entry,
     plugins,
     external: () => true,
   }
+  const opts = Object.values(buildConfig).map(
+    (config): OutputOptions => ({
+      format: config.format,
+      file: path.resolve(config.output.path, 'components/index.js'),
+    })
+  )
 
   const bundle = await rollup(config)
-  await writeBundles(bundle, [
-    {
-      format: 'es',
-      file: `${outputDir}/es/components/index.js`,
-    },
-    {
-      format: 'cjs',
-      file: `${outputDir}/lib/components/index.js`,
-    },
-  ])
+  await writeBundles(bundle, opts)
 }
 
 function copyTypes() {
   const src = `${buildOutput}/types/components/`
+  const copy = (module: Module) =>
+    withTaskName(`copyTypes:${module}`, () =>
+      run(`rsync -a ${src} ${buildConfig[module].output.path}/components/`)
+    )
 
-  // rsync -a dist/types/components/ dist/element-plus/es/components/
-  const copyTypesToESM = () =>
-    run(`rsync -a ${src} ${outputDir}/es/components/`)
-
-  // rsync -a dist/types/components/ dist/element-plus/lib/components/
-  const copyTypesToCJS = () =>
-    run(`rsync -a ${src} ${outputDir}/es/components/`)
-
-  return parallel([copyTypesToESM, copyTypesToCJS])
+  return parallel(copy('esm'), copy('cjs'))
 }
+
+export const buildComponents = series(
+  init,
+  parallel(genComponentTypes, buildEachComponent, buildComponentEntry),
+  copyTypes()
+)
+export { genComponentTypes, buildEachComponent, buildComponentEntry }

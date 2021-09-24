@@ -1,6 +1,7 @@
 import fs from 'fs'
 import { epPackage } from './utils/paths'
 import { cyan, red, yellow, green } from './utils/log'
+import { getPackageManifest } from './utils/pkg'
 
 const tagVersion = process.env.TAG_VERSION
 const gitHead = process.env.GIT_HEAD
@@ -19,8 +20,7 @@ cyan(
 ;(async () => {
   yellow(`Updating package.json for element-plus`)
 
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const json = require(epPackage)
+  const json: Record<string, any> = getPackageManifest(epPackage)
 
   json.version = tagVersion
   json.gitHead = gitHead

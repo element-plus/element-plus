@@ -10,7 +10,10 @@ export const directiveRoot = resolve(pkgRoot, 'directives')
 export const epRoot = resolve(pkgRoot, 'element-plus')
 export const utilRoot = resolve(pkgRoot, 'utils')
 export const docRoot = resolve(projRoot, 'docs')
+
+/** dist */
 export const buildOutput = resolve(projRoot, 'dist')
+export const buildEp = resolve(buildOutput, 'element-plus')
 
 export const projPackage = resolve(projRoot, 'package.json')
 export const compPackage = resolve(compRoot, 'package.json')

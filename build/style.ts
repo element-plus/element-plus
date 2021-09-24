@@ -1,56 +1,61 @@
 import path from 'path'
-import gulp from 'gulp'
+import { parallel, dest, src } from 'gulp'
 import ts from 'gulp-typescript'
 import through2 from 'through2'
 import { buildOutput, compRoot } from './utils/paths'
+import { buildConfig } from './info'
+import { withTaskName } from './utils/gulp'
+import { run } from './utils/process'
+import { EP_PREFIX } from './constants'
 
+import type { Module } from './info'
+
+const inputs = path.resolve(compRoot, '**/style/*.ts')
 const output = path.resolve(buildOutput, 'styles')
 
-const rewriter = () => {
+const tsProject = (module: Module) =>
+  ts.createProject('tsconfig.json', {
+    declaration: true,
+    target: 'ESNext',
+    skipLibCheck: true,
+    module: buildConfig[module].module,
+  })()
+
+const rewriter = (module: Module) => {
+  const config = buildConfig[module]
   return through2.obj(function (file, _, cb) {
-    const compIdentifier = new RegExp('@element-plus/components', 'g')
-    const compReplacer = '../../../components'
-    const themeIdentifier = new RegExp('@element-plus/theme-chalk', 'g')
-    const themeReplacer = '../../../../theme-chalk'
     file.contents = Buffer.from(
-      file.contents
-        .toString()
-        .replace(compIdentifier, compReplacer)
-        .replace(themeIdentifier, themeReplacer)
+      (file.contents.toString() as string)
+        .replaceAll(
+          `${EP_PREFIX}/components`,
+          `${config.bundle.path}/components`
+        )
+        .replace(`${EP_PREFIX}/theme-chalk`, 'element-plus/theme-chalk')
     )
     cb(null, file)
   })
 }
 
-const inputs = path.resolve(compRoot, '**/style/*.ts')
-function buildStyleESM() {
-  return gulp
-    .src(inputs)
-    .pipe(rewriter())
-    .pipe(
-      ts.createProject('tsconfig.json', {
-        declaration: true,
-        target: 'ESNext',
-        skipLibCheck: true,
-        module: 'CommonJS',
-      })()
-    )
-    .pipe(gulp.dest(path.resolve(output, 'lib')))
-}
+const build = (module: Module) =>
+  withTaskName(`buildStyle:${module}`, () =>
+    src(inputs)
+      .pipe(rewriter(module))
+      .pipe(tsProject(module))
+      .pipe(dest(path.resolve(output, buildConfig[module].output.name)))
+  )
 
-function buildStyleCJS() {
-  return gulp
-    .src(inputs)
-    .pipe(rewriter())
-    .pipe(
-      ts.createProject('tsconfig.json', {
-        declaration: true,
-        target: 'ESNext',
-        skipLibCheck: true,
-        module: 'ESNext',
-      })()
-    )
-    .pipe(gulp.dest(path.resolve(output, 'es')))
-}
+export const buildStyle = parallel(build('esm'), build('cjs'))
 
-export const buildStyle = gulp.parallel(buildStyleESM, buildStyleCJS)
+export const copyStyle = () => {
+  const copy = (module: Module) => {
+    const config = buildConfig[module]
+    const src = path.resolve(buildOutput, 'styles', config.output.name)
+    const dst = path.resolve(config.output.path, 'components')
+
+    return withTaskName(`copyStyle:${module}`, () =>
+      run(`rsync -a ${src}/ ${dst}/`)
+    )
+  }
+
+  return parallel(copy('esm'), copy('cjs'))
+}
