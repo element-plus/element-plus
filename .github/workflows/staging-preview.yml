@@ -25,7 +25,7 @@ jobs:
           version: 6.15.1
 
       - name: Install dependencies
-        run: pnpm bootstrap
+        run: pnpm i
 
       - name: Compile Element Plus
         run: sh scripts/build.sh

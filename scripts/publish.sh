@@ -2,7 +2,7 @@
 
 set -e
 
-pnpm bootstrap
+pnpm i
 pnpm update:version
 
 sh scripts/build.sh

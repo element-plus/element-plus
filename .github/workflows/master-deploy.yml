@@ -23,7 +23,7 @@ jobs:
           version: 6.15.1
 
       - name: Install dependencies
-        run: pnpm bootstrap
+        run: pnpm i
 
       - name: Fetch Crowdin token for pulling languages
         run: pnpm docs:crowdin

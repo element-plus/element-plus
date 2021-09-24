@@ -77,7 +77,7 @@ You can find the breaking change list here: [Breaking Change List](https://githu
 With command
 
 ```bash
-$ pnpm bootstrap
+$ pnpm i
 ```
 
 the project will install all dependencies

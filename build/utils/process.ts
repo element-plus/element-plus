@@ -1,5 +1,5 @@
 import { spawn } from 'child_process'
-import { green } from './log'
+import { green, red } from './log'
 import { projRoot } from './paths'
 
 export const run = async (command: string, cwd: string = projRoot) =>
@@ -14,6 +14,10 @@ export const run = async (command: string, cwd: string = projRoot) =>
     })
     app.on('close', (code) => {
       if (code === 0) resolve()
-      else reject(new Error(`Command failed. Code: ${code}`))
+      else
+        reject(
+          new Error(`Command failed. \n Command: ${command} \n Code: ${code}`)
+        )
     })
+    process.on('exit', () => app.kill('SIGHUP'))
   })

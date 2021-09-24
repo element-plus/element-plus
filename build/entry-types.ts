@@ -3,8 +3,13 @@ import fs from 'fs/promises'
 import { bold } from 'chalk'
 import glob from 'fast-glob'
 import { Project, ScriptTarget } from 'ts-morph'
+import { parallel } from 'gulp'
 import { epRoot, buildOutput, projRoot } from './utils/paths'
 import { yellow, green } from './utils/log'
+import { buildConfig } from './info'
+import { withTaskName } from './utils/gulp'
+import { run } from './utils/process'
+import type { Module } from './info'
 
 import type { SourceFile } from 'ts-morph'
 
@@ -58,4 +63,14 @@ export const genEntryTypes = async () => {
   })
 
   await Promise.all(tasks)
+}
+
+export function copyEntryTypes() {
+  const src = path.resolve(buildOutput, 'entry', 'types')
+  const copy = (module: Module) =>
+    withTaskName(`copyEntryTypes:${module}`, () =>
+      run(`rsync -a ${src}/ ${buildConfig[module].output.path}/`)
+    )
+
+  return parallel(copy('esm'), copy('cjs'))
 }
