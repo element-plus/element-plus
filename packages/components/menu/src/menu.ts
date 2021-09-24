@@ -9,7 +9,6 @@ import {
   isRef,
   h,
   withDirectives,
-  nextTick,
 } from 'vue'
 import { Resize } from '@element-plus/directives'
 import Menubar from '@element-plus/utils/menu/menu-bar'
