@@ -86,7 +86,7 @@ export default defineComponent({
     const trigger = $slots.reference ? $slots.reference() : null
 
     const title = renderIf(
-      this.title,
+      !!this.title,
       'div',
       _hoist,
       toDisplayString(this.title),
