@@ -44,7 +44,7 @@ cascader/last-level
 
 ## Multiple Selection
 
-Set `props.multiple = true` to use multiple selection.
+Add`:props="props"`in tag and set `props : { multiple = true }` to use multiple selection.
 
 :::demo When using multiple selection, all selected tags will display by default, You can set `collapse-tags = true` to fold selected tags.
 
