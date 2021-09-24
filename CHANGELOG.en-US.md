@@ -1,5 +1,28 @@
 ## Changelog
 
+### 1.1.0-beta.16
+
+_2021-09-24_
+
+#### Features
+
+- Docs document website enhancement (#3580 by @JeremyWuuuuu)
+- Docs document add changelog page (#3596 by @JeremyWuuuuu)
+
+#### Bug fixes
+
+- Build release script error (#3576 by @JeremyWuuuuu)
+- Components fix message closeAll (#3583 by @sxzz)
+- Components [el-form] fix the methods validate callback invalid (#3589 by @btea)
+- Components [el-popover] fix the title renderIf type error (#3552 by @btea)
+- Components sub components no install issue (#3615 by @JeremyWuuuuu)
+- [el-menu] using v-for causing render loop (#3617 by @xiaoxian521)
+- Components [el-popconfirm] fix vue warning (#3618 by @sxzz)
+
+#### Refactors
+
+- Improve buildProp (#3592 by @sxzz)
+
 ### 1.1.0-beta.15
 
 _2021-09-23_
