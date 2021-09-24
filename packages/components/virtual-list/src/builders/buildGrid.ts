@@ -16,6 +16,8 @@ import { isNumber, isString } from '@element-plus/utils/util'
 import isServer from '@element-plus/utils/isServer'
 import getScrollBarWidth from '@element-plus/utils/scrollbar-width'
 
+import Scrollbar from '../components/scrollbar'
+import { useGridWheel } from '../hooks/useGridWheel'
 import { useCache } from '../hooks/useCache'
 import { virtualizedGridProps } from '../props'
 import { getScrollDir, getRTLOffsetType, isRTL } from '../utils'
@@ -34,6 +36,10 @@ import {
 import type { CSSProperties, Slot, VNode, VNodeChild } from 'vue'
 import type { GridConstructorProps, Alignment } from '../types'
 import type { VirtualizedGridProps } from '../props'
+
+type ScrollbarExpose = {
+  onMouseUp: () => void
+}
 
 const createGrid = ({
   name,
@@ -65,6 +71,8 @@ const createGrid = ({
       // or user defined component type, depends on the type passed
       // by user
       const windowRef = ref<HTMLElement>()
+      const hScrollbar = ref<ScrollbarExpose>()
+      const vScrollbar = ref<ScrollbarExpose>()
       // innerRef is the actual container element which contains all the elements
       const innerRef = ref(null)
       const states = ref({
@@ -161,7 +169,7 @@ const createGrid = ({
       const windowStyle = computed(() => [
         {
           position: 'relative',
-          overflow: 'auto',
+          overflow: 'hidden',
           WebkitOverflowScrolling: 'touch',
           willChange: 'transform',
         },
@@ -279,7 +287,57 @@ const createGrid = ({
         emitEvents()
       }
 
-      const scrollTo = ({ scrollLeft, scrollTop }) => {
+      const onVerticalScroll = (distance: number, totalSteps: number) => {
+        const height = parseInt(props.height as string, 10)
+        const offset =
+          ((estimatedTotalHeight.value - height) / totalSteps) * distance
+        scrollTo({
+          scrollTop: Math.min(estimatedTotalHeight.value - height, offset),
+        })
+      }
+
+      const onHorizontalScroll = (distance: number, totalSteps: number) => {
+        const width = parseInt(props.width as string, 10)
+        const offset =
+          ((estimatedTotalWidth.value - width) / totalSteps) * distance
+        scrollTo({
+          scrollLeft: Math.min(estimatedTotalWidth.value - width, offset),
+        })
+      }
+
+      const { onWheel } = useGridWheel(
+        {
+          atXStartEdge: computed(() => states.value.scrollLeft <= 0),
+          atXEndEdge: computed(
+            () => states.value.scrollLeft >= estimatedTotalWidth.value
+          ),
+          atYStartEdge: computed(() => states.value.scrollTop <= 0),
+          atYEndEdge: computed(
+            () => states.value.scrollTop >= estimatedTotalHeight.value
+          ),
+        },
+        (x: number, y: number) => {
+          hScrollbar.value?.onMouseUp?.()
+          hScrollbar.value?.onMouseUp?.()
+          const width = parseInt(props.width as string, 10)
+          const height = parseInt(props.height as string, 10)
+          scrollTo({
+            scrollLeft: Math.min(
+              states.value.scrollLeft + x,
+              estimatedTotalWidth.value - width
+            ),
+            scrollTop: Math.min(
+              states.value.scrollTop + y,
+              estimatedTotalHeight.value - height
+            ),
+          })
+        }
+      )
+
+      const scrollTo = ({
+        scrollLeft = states.value.scrollLeft,
+        scrollTop = states.value.scrollTop,
+      }) => {
         scrollLeft = Math.max(scrollLeft, 0)
         scrollTop = Math.max(scrollTop, 0)
         const _states = unref(states)
@@ -435,8 +493,12 @@ const createGrid = ({
       })
 
       const api = {
+        estimatedTotalWidth,
+        estimatedTotalHeight,
         windowStyle,
         windowRef,
+        hScrollbar,
+        vScrollbar,
         columnsToRender,
         innerRef,
         innerStyle,
@@ -444,6 +506,9 @@ const createGrid = ({
         rowsToRender,
         getItemStyle,
         onScroll,
+        onHorizontalScroll,
+        onVerticalScroll,
+        onWheel,
         scrollTo,
         scrollToItem,
       }
@@ -466,15 +531,22 @@ const createGrid = ({
         className,
         containerElement,
         columnsToRender,
+        estimatedTotalHeight,
+        estimatedTotalWidth,
         data,
         getItemStyle,
+        height,
         innerElement,
         innerStyle,
         rowsToRender,
         onScroll,
+        onHorizontalScroll,
+        onVerticalScroll,
+        onWheel,
         states,
         useIsScrolling,
         windowStyle,
+        width,
         totalColumn,
         totalRow,
       } = ctx
@@ -503,6 +575,30 @@ const createGrid = ({
         }
       }
 
+      // horizontal
+      const hScrollbar = h(Scrollbar, {
+        ref: 'hScrollbar',
+        clientSize: width,
+        layout: 'horizontal',
+        onScroll: onHorizontalScroll,
+        ratio: (width * 100) / estimatedTotalWidth,
+        scrollFrom: states.scrollLeft / (estimatedTotalWidth - width),
+        total: totalRow,
+        visible: true,
+      })
+
+      // vertical
+      const vScrollbar = h(Scrollbar, {
+        ref: 'vScrollbar',
+        clientSize: height,
+        layout: 'vertical',
+        onScroll: onVerticalScroll,
+        ratio: (height * 100) / estimatedTotalHeight,
+        scrollFrom: states.scrollTop / (estimatedTotalHeight - height),
+        total: totalColumn,
+        visible: true,
+      })
+
       const InnerNode = [
         h(
           Inner as VNode,
@@ -519,14 +615,26 @@ const createGrid = ({
       ]
 
       return h(
-        Container as VNode,
+        'div',
         {
-          class: className,
-          style: windowStyle,
-          onScroll,
-          ref: 'windowRef',
+          key: 0,
+          class: 'el-vg__wrapper',
         },
-        !isString(Container) ? { default: () => InnerNode } : InnerNode
+        [
+          h(
+            Container as VNode,
+            {
+              class: className,
+              style: windowStyle,
+              onScroll,
+              onWheel,
+              ref: 'windowRef',
+            },
+            !isString(Container) ? { default: () => InnerNode } : InnerNode
+          ),
+          hScrollbar,
+          vScrollbar,
+        ]
       )
     },
   })
