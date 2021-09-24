@@ -292,53 +292,51 @@ export default defineComponent({
       let slot = slots.default?.() ?? []
       const showMore = []
 
-      if (props.mode === 'horizontal') {
+      if (props.mode === 'horizontal' && menu.value) {
         const items = Array.from(
           (menu.value as Node | undefined)?.childNodes ?? []
         ).filter(
           (item) => item.nodeName !== '#text' || item.nodeValue
         ) as HTMLElement[]
         const originalSlot = flattedChildren(slot)
-        if (menu.value) {
-          const moreItemWidth = 64
-          const paddingLeft = parseInt(
-            getComputedStyle(menu.value).paddingLeft,
-            10
-          )
-          const paddingRight = parseInt(
-            getComputedStyle(menu.value).paddingRight,
-            10
-          )
-          const menuWidth = menu.value.clientWidth - paddingLeft - paddingRight
-          let calcWidth = 0
-          let sliceIndex = 0
-          items.forEach((item, index) => {
-            calcWidth += item.offsetWidth || 0
-            if (calcWidth <= menuWidth - moreItemWidth) {
-              sliceIndex = index + 1
-            }
-          })
-          const defaultSlot = originalSlot.slice(0, sliceIndex)
-          const moreSlot = originalSlot.slice(sliceIndex)
-          if (moreSlot?.length) {
-            slot = defaultSlot
-            showMore.push(
-              h(
-                ElSubMenu,
-                {
-                  index: 'sub-menu-more',
-                  class: 'el-sub-menu__hide-arrow',
-                },
-                {
-                  title: () =>
-                    h('i', {
-                      class: ['el-icon-more', 'el-sub-menu__icon-more'],
-                    }),
-                  default: () => moreSlot,
-                }
-              )
-            )
+        const moreItemWidth = 64
+        const paddingLeft = parseInt(
+          getComputedStyle(menu.value).paddingLeft,
+          10
+        )
+        const paddingRight = parseInt(
+          getComputedStyle(menu.value).paddingRight,
+          10
+        )
+        const menuWidth = menu.value.clientWidth - paddingLeft - paddingRight
+        let calcWidth = 0
+        let sliceIndex = 0
+        items.forEach((item, index) => {
+          calcWidth += item.offsetWidth || 0
+          if (calcWidth <= menuWidth - moreItemWidth) {
+            sliceIndex = index + 1
           }
+        })
+        const defaultSlot = originalSlot.slice(0, sliceIndex)
+        const moreSlot = originalSlot.slice(sliceIndex)
+        if (moreSlot?.length) {
+          slot = defaultSlot
+          showMore.push(
+            h(
+              ElSubMenu,
+              {
+                index: 'sub-menu-more',
+                class: 'el-sub-menu__hide-arrow',
+              },
+              {
+                title: () =>
+                  h('i', {
+                    class: ['el-icon-more', 'el-sub-menu__icon-more'],
+                  }),
+                default: () => moreSlot,
+              }
+            )
+          )
         }
       }
 
