@@ -64,6 +64,30 @@ export function buildProp<
     : D
   validator?: ((val: any) => val is C) | ((val: any) => boolean)
 } = {}) {
+  const _validator =
+    values || validator
+      ? (val: unknown) => {
+          let valid = false
+          let allowedValues: unknown[] = []
+
+          if (values) {
+            allowedValues = [...values, defaultValue]
+            valid ||= allowedValues.includes(val)
+          }
+          if (validator) valid ||= validator(val)
+
+          if (!valid && allowedValues.length > 0) {
+            debugWarn(
+              `Vue warn`,
+              `Invalid prop: Expected one of (${allowedValues.join(
+                ', '
+              )}), got value ${val}`
+            )
+          }
+          return valid
+        }
+      : undefined
+
   type HasDefaultValue = Exclude<D, undefined> extends never ? false : true
   type Type = PropType<
     | (T extends PropWrapper<unknown>
@@ -76,42 +100,24 @@ export function buildProp<
   >
 
   return {
-    type: ((type as any)?.[wrapperKey] || type) as unknown as Type,
-    required: !!required as R,
-
-    default: defaultValue as unknown as R extends true
-      ? never
-      : HasDefaultValue extends true
-      ? Exclude<
-          D extends Record<string, unknown> | Array<any> ? () => D : D,
-          undefined
-        >
-      : undefined,
-
-    validator:
-      values || validator
-        ? (val: unknown) => {
-            let valid = false
-            let allowedValues: unknown[] = []
-
-            if (values) {
-              allowedValues = [...values, defaultValue]
-              valid ||= allowedValues.includes(val)
-            }
-            if (validator) valid ||= validator(val)
-
-            if (!valid && allowedValues.length > 0) {
-              debugWarn(
-                `Vue warn`,
-                `Invalid prop: Expected one of (${allowedValues.join(
-                  ', '
-                )}), got value ${val}`
-              )
-            }
-            return valid
-          }
-        : undefined,
-  } as const
+    type: (type as any)?.[wrapperKey] || type,
+    required: !!required,
+    default: defaultValue,
+    validator: _validator,
+  } as unknown as {
+    readonly type: Type
+    readonly required: R
+    readonly validator: typeof _validator
+  } & (R extends true
+    ? { readonly default?: undefined }
+    : {
+        readonly default: HasDefaultValue extends true
+          ? Exclude<
+              D extends Record<string, unknown> | Array<any> ? () => D : D,
+              undefined
+            >
+          : undefined
+      })
 }
 
 export const definePropType = <T>(val: any) =>

@@ -36,13 +36,12 @@
     "@popperjs/core": "^2.10.1",
     "@vueuse/core": "~6.1.0",
     "async-validator": "^3.4.0",
-    "dayjs": "1.x",
+    "dayjs": "^1.10.7",
     "lodash": "^4.17.21",
+    "memoize-one": "^5.2.1",
     "normalize-wheel": "^1.0.1",
-    "resize-observer-polyfill": "^1.5.1",
-    "memoize-one": "^5.2.1"
+    "resize-observer-polyfill": "^1.5.1"
   },
-  "devDependencies": {},
   "vetur": {
     "tags": "tags.json",
     "attributes": "attributes.json"

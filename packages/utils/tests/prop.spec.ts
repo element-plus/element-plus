@@ -1,7 +1,7 @@
 import { expectTypeOf } from 'expect-type'
 import { buildProp, definePropType, mutable, keyOf } from '../props'
 
-import type { PropType } from 'vue'
+import type { PropType, ExtractPropTypes } from 'vue'
 
 describe('buildProp', () => {
   it('Only type', () => {
@@ -67,7 +67,7 @@ describe('buildProp', () => {
     ).toEqualTypeOf<{
       readonly type: PropType<'a' | 'b' | 'c'>
       readonly required: true
-      readonly default: never
+      readonly default?: undefined
       readonly validator: ((val: unknown) => boolean) | undefined
     }>()
   })
@@ -147,7 +147,7 @@ describe('buildProp', () => {
     ).toEqualTypeOf<{
       readonly type: PropType<number | 'a' | 'b' | 'c'>
       readonly required: true
-      readonly default: never
+      readonly default?: undefined
       readonly validator: ((val: unknown) => boolean) | undefined
     }>()
   })
@@ -197,7 +197,7 @@ describe('buildProp', () => {
     ).toEqualTypeOf<{
       readonly type: PropType<string>
       readonly required: true
-      readonly default: never
+      readonly default?: undefined
       readonly validator: ((val: unknown) => boolean) | undefined
     }>()
   })
@@ -241,6 +241,25 @@ describe('buildProp', () => {
       readonly required: false
       readonly default: ''
       readonly validator: ((val: unknown) => boolean) | undefined
+    }>()
+  })
+
+  it('extract', () => {
+    const props = {
+      key1: buildProp({
+        type: String,
+        required: true,
+      }),
+      key2: buildProp({
+        type: [String, Number],
+        required: true,
+      }),
+    } as const
+    type Extracted = ExtractPropTypes<typeof props>
+
+    expectTypeOf<Extracted>().toEqualTypeOf<{
+      readonly key1: string
+      readonly key2: string | number
     }>()
   })
 })

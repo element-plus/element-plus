@@ -1,5 +1,74 @@
 ## Changelog
 
+### 1.1.0-beta.16
+
+_2021-09-24_
+
+#### Features
+
+- Docs document website enhancement (#3580 by @JeremyWuuuuu)
+- Docs document add changelog page (#3596 by @JeremyWuuuuu)
+
+#### Bug fixes
+
+- Build release script error (#3576 by @JeremyWuuuuu)
+- Components fix message closeAll (#3583 by @sxzz)
+- Components [el-form] fix the methods validate callback invalid (#3589 by @btea)
+- Components [el-popover] fix the title renderIf type error (#3552 by @btea)
+- Components sub components no install issue (#3615 by @JeremyWuuuuu)
+- [el-menu] using v-for causing render loop (#3617 by @xiaoxian521)
+- Components [el-popconfirm] fix vue warning (#3618 by @sxzz)
+
+#### Refactors
+
+- Improve buildProp (#3592 by @sxzz)
+
+### 1.1.0-beta.15
+
+_2021-09-23_
+
+#### Features
+
+- Build update pnpm lock for meoize one (#3575 by @JeremyWuuuuu)
+
+#### Bug fixes
+
+- Components [el-selectv2] add type remove ts error (#3480 by @btea)
+
+#### Refactors
+
+- Replace yarn with pnpm (#3571 by @sxzz)
+
+#### Other
+
+- Added missing 'memoize-one' to the publish package (#3572 by @kaiyum2012)
+
+### 1.1.0-beta.14
+
+_2021-09-22_
+
+#### Features
+
+- Components [el-virtualized-list] enable virtual list perf mode (#3547 by @JeremyWuuuuu)
+- Components exposing sub components (#3563 by @JeremyWuuuuu)
+
+#### Bug fixes
+
+- Build memoize-one not found issue (#3556 by @JeremyWuuuuu)
+- Components fix typo (#3561 by @sxzz)
+- Docs doc-content table min-width modify (#3557 by @imswk)
+- Components [el-select] fix composition bug #3532 (#3533 by @bchen1029)
+
+#### Refactors
+
+- Components use css var to set menu global style (#3539 by @YunYouJun)
+- Improve buildProp (#3558 by @sxzz)
+
+#### Other
+
+- Chore(project): compatible windows the shell command (#3550 by @btea)
+- Perf: improve jump link for home page (#3551 by @zouhangwithsweet)
+
 ### 1.1.0-beta.13
 
 _2021-09-22_

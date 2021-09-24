@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import nprogress from 'nprogress'
+import { useToggle } from '../composables/toggle'
+import { useSidebar } from '../composables/sidebar'
+import { useToggleWidgets } from '../composables/toggle-widgets'
+import { breakpoints } from '../constant'
 import VPOverlay from './vp-overlay.vue'
 import VPNav from './vp-nav.vue'
 import VPSubNav from './vp-subnav.vue'
 import VPSidebar from './vp-sidebar.vue'
 import VPContent from './vp-content.vue'
 import VPSponsors from './vp-sponsors.vue'
-import { useToggle } from '../composables/toggle'
-import { useSidebar } from '../composables/sidebar'
-import { useToggleWidgets } from '../composables/toggle-widgets'
-import { breakpoints } from '../constant'
 
 const [isSidebarOpen, toggleSidebar] = useToggle(false)
 const { hasSidebar } = useSidebar()
@@ -28,7 +28,7 @@ onMounted(() => {
       const link = e.target.closest('a')
       if (!link) return
 
-      const { href, protocol, hostname, pathname, hash, target } = link
+      const { protocol, hostname, pathname, target } = link
       const currentUrl = window.location
       const extMatch = pathname.match(/\.\w+$/)
       // only intercept inbound links

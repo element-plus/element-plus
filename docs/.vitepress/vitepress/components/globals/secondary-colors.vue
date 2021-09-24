@@ -1,11 +1,6 @@
 <template>
   <el-row :gutter="12">
-    <el-col
-      v-for="(type, i) in colorsType"
-      :key="type"
-      :span="6"
-      :xs="{ span: 12 }"
-    >
+    <el-col v-for="type in colorsType" :key="type" :span="6" :xs="{ span: 12 }">
       <div class="demo-color-box" :style="{ background: getColorValue(type) }">
         {{ type.charAt(0).toUpperCase() + type.slice(1) }}
         <div class="value">{{ getColorValue(type).toUpperCase() }}</div>
