@@ -12,7 +12,6 @@
       class-name="el-tree-virtual-list"
       :data="flattenTree"
       :total="flattenTree.length"
-      width="100%"
       :height="height"
       :item-size="itemSize"
       :perf-mode="perfMode"
