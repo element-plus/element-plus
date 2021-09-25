@@ -10,7 +10,7 @@ export interface BuildInfo {
   output: {
     /** e.g: `es` */
     name: string
-    /** e.g: `xxx/dist/element-plus/es` */
+    /** e.g: `dist/element-plus/es` */
     path: string
   }
 

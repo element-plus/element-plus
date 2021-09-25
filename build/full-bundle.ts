@@ -8,8 +8,8 @@ import esbuild from 'rollup-plugin-esbuild'
 import replace from '@rollup/plugin-replace'
 import { parallel, series } from 'gulp'
 import { genEntryTypes } from './entry-types'
-import { RollupResolveEntryPlugin } from './rollup.plugin.entry'
-import { epRoot, buildOutput, epOutput } from './utils/paths'
+import { RollupResolveEntryPlugin } from './rollup-plugin-entry'
+import { epRoot, epOutput } from './utils/paths'
 import { EP_PREFIX, excludes } from './constants'
 import { yellow, green } from './utils/log'
 import { generateExternal, writeBundles } from './utils/rollup'
@@ -51,7 +51,7 @@ export const buildFull = async () => {
   yellow('Generating index.full.js')
   await bundle.write({
     format: 'umd',
-    file: path.resolve(buildOutput, 'element-plus/dist/index.full.js'),
+    file: path.resolve(epOutput, 'dist/index.full.js'),
     exports: 'named',
     name: 'ElementPlus',
     globals: {

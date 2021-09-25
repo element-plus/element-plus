@@ -30,7 +30,7 @@ const rewriter = (module: Module) => {
           `${EP_PREFIX}/components`,
           `${config.bundle.path}/components`
         )
-        .replace(`${EP_PREFIX}/theme-chalk`, 'element-plus/theme-chalk')
+        .replaceAll(`${EP_PREFIX}/theme-chalk`, 'element-plus/theme-chalk')
     )
     cb(null, file)
   })
