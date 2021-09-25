@@ -1,7 +1,7 @@
 import { computed } from 'vue'
 import useMenuColor from './use-menu-color'
 
-import type { IMenuProps } from './menu.type'
+import type { IMenuProps } from './types'
 
 export const useMenuCssVar = (props: IMenuProps) => {
   return computed(() => {

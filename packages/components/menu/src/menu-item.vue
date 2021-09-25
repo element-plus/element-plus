@@ -56,7 +56,7 @@ import ElTooltip from '@element-plus/components/tooltip'
 import { Effect } from '@element-plus/components/popper'
 import useMenu from './use-menu'
 
-import type { MenuProvider, SubMenuProvider } from './menu.type'
+import type { MenuProvider, SubMenuProvider } from './types'
 
 export default defineComponent({
   name: 'ElMenuItem',

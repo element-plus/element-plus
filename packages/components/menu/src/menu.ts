@@ -21,7 +21,7 @@ import type {
   MenuProvider,
   RegisterMenuItem,
   SubMenuProvider,
-} from './menu.type'
+} from './types'
 
 export default defineComponent({
   name: 'ElMenu',

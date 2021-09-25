@@ -15,4 +15,4 @@ export const ElMenuItem = withNoopInstall(MenuItem)
 export const ElMenuItemGroup = withNoopInstall(MenuItemGroup)
 export const ElSubMenu = withNoopInstall(SubMenu)
 
-export * from './src/menu.type'
+export * from './src/types'
