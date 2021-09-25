@@ -20,19 +20,8 @@ import ElSubMenu from './sub-menu'
 import { useMenuCssVar } from './use-menu-css-var'
 
 import type { NavigationFailure, RouteLocationRaw, Router } from 'vue-router'
-import type {
-  VNode,
-  Ref,
-  ComputedRef,
-  ExtractPropTypes,
-  VNodeNormalizedChildren,
-} from 'vue'
-import type {
-  MenuProvider,
-  MenuProviderRaw,
-  MenuItemRegistered,
-  SubMenuProvider,
-} from './types'
+import type { VNode, ExtractPropTypes, VNodeNormalizedChildren } from 'vue'
+import type { MenuProvider, MenuProviderRaw, SubMenuProvider } from './types'
 
 export const menuProps = {
   mode: buildProp({
@@ -206,7 +195,7 @@ export default defineComponent({
       const itemsInData = items.value
       const item =
         itemsInData[val] ||
-        itemsInData[activeIndex.value] ||
+        (activeIndex.value && itemsInData[activeIndex.value]) ||
         itemsInData[props.defaultActive]
 
       if (item) {
@@ -217,13 +206,13 @@ export default defineComponent({
         // and activeIndex shouldn't be changed when 'collapse' was changed.
         // Then reset 'alteredCollapse' immediately.
         if (!alteredCollapse.value) {
-          activeIndex.value = null
+          activeIndex.value = undefined
         } else {
           alteredCollapse.value = false
         }
       }
     }
-    const handleResize = () => instance.proxy.$forceUpdate()
+    const handleResize = () => instance.proxy!.$forceUpdate()
 
     watch(
       () => props.defaultActive,
@@ -235,9 +224,7 @@ export default defineComponent({
       }
     )
 
-    watch(items.value, () => {
-      initMenu()
-    })
+    watch(items.value, () => initMenu())
 
     watch(
       () => props.collapse,
@@ -296,7 +283,7 @@ export default defineComponent({
     onMounted(() => {
       initMenu()
       if (props.mode === 'horizontal') {
-        new Menubar(instance.vnode.el)
+        new Menubar(instance.vnode.el!)
       }
     })
 
