@@ -12,48 +12,82 @@ import {
 } from 'vue'
 import { Resize } from '@element-plus/directives'
 import Menubar from '@element-plus/utils/menu/menu-bar'
+import { buildProp, definePropType, mutable } from '@element-plus/utils/props'
+import { isString, isObject } from '@element-plus/utils/util'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu.vue'
 import { useMenuCssVar } from './use-menu-css-var'
-import type { VNode, Ref, ComputedRef } from 'vue'
-import type {
-  IMenuProps,
-  MenuProvider,
-  RegisterMenuItem,
-  SubMenuProvider,
-} from './types'
+
+import type { NavigationFailure } from 'vue-router'
+import type { VNode, Ref, ComputedRef, ExtractPropTypes } from 'vue'
+import type { MenuProvider, RegisterMenuItem, SubMenuProvider } from './types'
+
+export const menuProps = {
+  mode: buildProp({
+    type: String,
+    values: ['horizontal', 'vertical'],
+    default: 'vertical',
+  } as const),
+  defaultActive: buildProp({
+    type: String,
+    default: '',
+  } as const),
+  defaultOpeneds: buildProp({
+    type: definePropType<string[]>(Array),
+    default: () => mutable([] as const),
+  }),
+  uniqueOpened: Boolean,
+  router: Boolean,
+  menuTrigger: buildProp({
+    type: String,
+    values: ['hover', 'click'],
+    default: 'hover',
+  } as const),
+  collapse: Boolean,
+  backgroundColor: String,
+  textColor: String,
+  activeTextColor: String,
+  collapseTransition: buildProp({
+    type: Boolean,
+    default: true,
+  } as const),
+} as const
+export type MenuProps = ExtractPropTypes<typeof menuProps>
+
+const checkIndexPath = (indexPath: unknown): indexPath is string[] =>
+  Array.isArray(indexPath) && indexPath.every((path) => isString(path))
+
+export const menuEmits = {
+  close: (index: string, indexPath: string[]) =>
+    isString(index) && checkIndexPath(indexPath),
+
+  open: (index: string, indexPath: string[]) =>
+    isString(index) && checkIndexPath(indexPath),
+
+  select: (
+    index: string,
+    indexPath: string[],
+    item: {
+      index: string
+      indexPath: ComputedRef<string[]>
+      route?: any
+    },
+    routerResult?: Promise<void | NavigationFailure>
+  ) =>
+    isString(index) &&
+    checkIndexPath(indexPath) &&
+    isObject(item) &&
+    (routerResult === undefined || routerResult instanceof Promise),
+}
+export type MenuEmits = typeof menuEmits
 
 export default defineComponent({
   name: 'ElMenu',
 
-  props: {
-    mode: {
-      type: String,
-      default: 'vertical',
-    },
-    defaultActive: {
-      type: String,
-      default: '',
-    },
-    defaultOpeneds: Array,
-    uniqueOpened: Boolean,
-    router: Boolean,
-    menuTrigger: {
-      type: String,
-      default: 'hover',
-    },
-    collapse: Boolean,
-    backgroundColor: { type: String },
-    textColor: { type: String },
-    activeTextColor: { type: String },
-    collapseTransition: {
-      type: Boolean,
-      default: true,
-    },
-  },
-  emits: ['close', 'open', 'select'],
+  props: menuProps,
+  emits: menuEmits,
 
-  setup(props: IMenuProps, { emit, slots, expose }) {
+  setup(props, { emit, slots, expose }) {
     // data
     const openedMenus = ref(
       props.defaultOpeneds && !props.collapse

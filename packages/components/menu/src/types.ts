@@ -48,21 +48,6 @@ export interface SubMenuProvider {
   handleMouseleave?: (deepDispatch: boolean) => void
 }
 
-// root menu
-export interface IMenuProps {
-  mode?: string | 'vertical' | 'horizontal'
-  defaultActive?: string
-  defaultOpeneds?: unknown[]
-  uniqueOpened?: boolean
-  router?: boolean
-  menuTrigger?: string | 'hover' | 'click'
-  collapse?: boolean
-  backgroundColor?: string
-  textColor?: string
-  activeTextColor?: string
-  collapseTransition?: boolean
-}
-
 export interface RootMenuProps {
   mode: string
   defaultActive: string
