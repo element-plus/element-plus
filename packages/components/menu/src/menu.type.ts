@@ -14,7 +14,7 @@ export interface RootMenuData {
   isMenuPopup: boolean
 }
 
-export interface RootMenuProvider {
+export interface MenuProvider {
   openedMenus: Ref<RootMenuData['openedMenus']>
   items: Ref<RootMenuData['items']>
   submenus: Ref<RootMenuData['submenus']>

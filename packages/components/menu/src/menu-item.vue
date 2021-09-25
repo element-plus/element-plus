@@ -56,7 +56,7 @@ import ElTooltip from '@element-plus/components/tooltip'
 import { Effect } from '@element-plus/components/popper'
 import useMenu from './use-menu'
 
-import type { RootMenuProvider, SubMenuProvider } from './menu.type'
+import type { MenuProvider, SubMenuProvider } from './menu.type'
 
 export default defineComponent({
   name: 'ElMenuItem',
@@ -76,7 +76,7 @@ export default defineComponent({
   emits: ['click'],
   setup(props, { emit, slots }) {
     const instance = getCurrentInstance()
-    const rootMenu = inject<RootMenuProvider>('rootMenu')
+    const rootMenu = inject<MenuProvider>('rootMenu')
     const { parentMenu, paddingStyle, indexPath } = useMenu(
       instance,
       computed(() => props.index)

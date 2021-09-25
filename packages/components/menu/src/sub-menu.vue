@@ -22,7 +22,7 @@ import useMenu from './use-menu'
 import { useMenuCssVar } from './use-menu-css-var'
 import type {
   ISubMenuProps,
-  RootMenuProvider,
+  MenuProvider,
   SubMenuProvider,
 } from './menu.type'
 
@@ -75,7 +75,7 @@ export default defineComponent({
       methods: rootMethods,
       props: rootProps,
       methods: { closeMenu },
-    } = inject<RootMenuProvider>('rootMenu')
+    } = inject<MenuProvider>('rootMenu')
 
     const {
       addSubMenu: parentAddSubMenu,

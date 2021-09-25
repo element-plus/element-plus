@@ -1,13 +1,13 @@
 import { computed, inject } from 'vue'
 
 import type { ComponentInternalInstance, ComputedRef } from 'vue'
-import type { RootMenuProvider } from './menu.type'
+import type { MenuProvider } from './menu.type'
 
 export default function useMenu(
   instance: ComponentInternalInstance,
   currentIndex: ComputedRef<string>
 ) {
-  const rootMenu = inject<RootMenuProvider>('rootMenu')
+  const rootMenu = inject<MenuProvider>('rootMenu')
 
   const indexPath = computed(() => {
     let parent = instance.parent

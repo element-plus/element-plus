@@ -22,7 +22,7 @@ import {
   reactive,
 } from 'vue'
 
-import type { IMenuGroupProps, RootMenuProvider } from './menu.type'
+import type { IMenuGroupProps, MenuProvider } from './menu.type'
 
 export default defineComponent({
   name: 'ElMenuItemGroup',
@@ -54,7 +54,7 @@ export default defineComponent({
     })
 
     // inject
-    const { props: rootProps } = inject<RootMenuProvider>('rootMenu')
+    const { props: rootProps } = inject<MenuProvider>('rootMenu')
 
     return {
       data,

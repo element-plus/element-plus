@@ -18,7 +18,7 @@ import { useMenuCssVar } from './use-menu-css-var'
 import type { VNode, Ref, ComputedRef } from 'vue'
 import type {
   IMenuProps,
-  RootMenuProvider,
+  MenuProvider,
   RegisterMenuItem,
   SubMenuProvider,
 } from './menu.type'
@@ -233,7 +233,7 @@ export default defineComponent({
     )
 
     // provide
-    provide<RootMenuProvider>('rootMenu', {
+    provide<MenuProvider>('rootMenu', {
       props,
       openedMenus,
       items,
