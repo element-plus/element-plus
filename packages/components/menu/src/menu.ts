@@ -278,16 +278,14 @@ export default defineComponent({
         activeIndex,
         isMenuPopup,
 
-        methods: {
-          addMenuItem,
-          removeMenuItem,
-          addSubMenu,
-          removeSubMenu,
-          openMenu,
-          closeMenu,
-          handleMenuItemClick,
-          handleSubMenuClick,
-        },
+        addMenuItem,
+        removeMenuItem,
+        addSubMenu,
+        removeSubMenu,
+        openMenu,
+        closeMenu,
+        handleMenuItemClick,
+        handleSubMenuClick,
       })
     )
     provide<SubMenuProvider>(`subMenu:${instance.uid}`, {

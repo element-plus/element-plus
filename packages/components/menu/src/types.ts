@@ -14,23 +14,21 @@ export interface MenuProviderRaw {
   isMenuPopup: boolean
   props: Readonly<Partial<RootMenuProps>>
 
-  methods: {
-    addMenuItem: (item: MenuItemRegistered) => void
-    removeMenuItem: (item: MenuItemRegistered) => void
-    addSubMenu: (item: MenuItemRegistered) => void
-    removeSubMenu: (item: MenuItemRegistered) => void
-    openMenu: (index: string, indexPath: Ref<string[]>) => void
-    closeMenu: (index: string) => void
-    handleMenuItemClick: (item: {
-      index: string
-      indexPath: ComputedRef<string[]>
-      route?: any
-    }) => void
-    handleSubMenuClick: (submenu: {
-      index: string
-      indexPath: ComputedRef<string[]>
-    }) => void
-  }
+  addMenuItem: (item: MenuItemRegistered) => void
+  removeMenuItem: (item: MenuItemRegistered) => void
+  addSubMenu: (item: MenuItemRegistered) => void
+  removeSubMenu: (item: MenuItemRegistered) => void
+  openMenu: (index: string, indexPath: Ref<string[]>) => void
+  closeMenu: (index: string) => void
+  handleMenuItemClick: (item: {
+    index: string
+    indexPath: ComputedRef<string[]>
+    route?: any
+  }) => void
+  handleSubMenuClick: (submenu: {
+    index: string
+    indexPath: ComputedRef<string[]>
+  }) => void
 }
 export type MenuProvider = UnwrapRef<MenuProviderRaw>
 

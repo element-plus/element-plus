@@ -85,7 +85,7 @@ export default defineComponent({
 
     const handleClick = () => {
       if (!props.disabled) {
-        rootMenu.methods.handleMenuItemClick({
+        rootMenu.handleMenuItemClick({
           index: props.index,
           indexPath,
           route: props.route,
@@ -99,12 +99,12 @@ export default defineComponent({
 
     onMounted(() => {
       addSubMenu({ index: props.index, indexPath, active })
-      rootMenu.methods.addMenuItem({ index: props.index, indexPath, active })
+      rootMenu.addMenuItem({ index: props.index, indexPath, active })
     })
 
     onBeforeUnmount(() => {
       removeSubMenu({ index: props.index, indexPath, active })
-      rootMenu.methods.removeMenuItem({ index: props.index, indexPath, active })
+      rootMenu.removeMenuItem({ index: props.index, indexPath, active })
     })
 
     return {

@@ -72,11 +72,11 @@ export default defineComponent({
 
     // inject
     const {
-      methods: rootMethods,
-      methods: { closeMenu },
+      closeMenu,
+      props: rootProps,
       ...rootMenu
-    } = inject<MenuProvider>('rootMenu')! /* TODO REMOVED */
-    const { isMenuPopup, props: rootProps } = toRefs(rootMenu)
+    } = inject<MenuProvider>('rootMenu')! /* TODO TO BE REMOVED */
+    const { isMenuPopup } = toRefs(rootMenu)
 
     const {
       addSubMenu: parentAddSubMenu,
@@ -217,7 +217,7 @@ export default defineComponent({
       ) {
         return
       }
-      rootMethods.handleSubMenuClick({ index: props.index, indexPath })
+      rootMenu.handleSubMenuClick({ index: props.index, indexPath })
     }
     const handleMouseenter = (event, showTimeout = props.showTimeout) => {
       if (
@@ -239,7 +239,7 @@ export default defineComponent({
       data.mouseInChild = true
       clearTimeout(data.timeout)
       data.timeout = setTimeout(() => {
-        rootMethods.openMenu(props.index, indexPath)
+        rootMenu.openMenu(props.index, indexPath)
       }, showTimeout)
 
       if (appendToBody.value) {
@@ -290,7 +290,7 @@ export default defineComponent({
 
     // lifecycle
     onMounted(() => {
-      rootMethods.addSubMenu({
+      rootMenu.addSubMenu({
         index: props.index,
         indexPath,
         active,
@@ -308,7 +308,7 @@ export default defineComponent({
         indexPath,
         active,
       })
-      rootMethods.removeSubMenu({
+      rootMenu.removeSubMenu({
         index: props.index,
         indexPath,
         active,
