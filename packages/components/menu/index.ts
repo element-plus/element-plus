@@ -16,5 +16,6 @@ export const ElMenuItemGroup = withNoopInstall(MenuItemGroup)
 export const ElSubMenu = withNoopInstall(SubMenu)
 
 export * from './src/menu'
+export * from './src/menu-item'
 export * from './src/menu-item-group'
 export * from './src/types'

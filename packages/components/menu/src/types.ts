@@ -72,11 +72,3 @@ export interface ISubMenuProps {
   disabled?: boolean
   popperAppendToBody?: boolean
 }
-
-// menuItem
-
-export interface IMenuItemProps {
-  index: string
-  route: string | Record<string, unknown>
-  disabled: boolean
-}
