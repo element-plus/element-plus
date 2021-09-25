@@ -112,8 +112,7 @@ export default defineComponent({
     })
 
     // methods
-
-    const initializeMenu = () => {
+    const initMenu = () => {
       const index = activeIndex.value
       const activeItem = items.value[index]
       if (!activeItem || props.mode === 'horizontal' || props.collapse) return
@@ -126,22 +125,6 @@ export default defineComponent({
         const subMenu = subMenus.value[index]
         subMenu && openMenu(index, subMenu?.indexPath)
       })
-    }
-
-    const addSubMenu: MenuProvider['addSubMenu'] = (item) => {
-      subMenus.value[item.index] = item
-    }
-
-    const removeSubMenu: MenuProvider['removeSubMenu'] = (item) => {
-      delete subMenus.value[item.index]
-    }
-
-    const addMenuItem: MenuProvider['addMenuItem'] = (item) => {
-      items.value[item.index] = item
-    }
-
-    const removeMenuItem: MenuProvider['removeMenuItem'] = (item) => {
-      delete items.value[item.index]
     }
 
     const openMenu: MenuProvider['openMenu'] = (index, indexPath) => {
@@ -227,7 +210,7 @@ export default defineComponent({
 
       if (item) {
         activeIndex.value = item.index
-        initializeMenu()
+        initMenu()
       } else {
         // Can't find item when collapsing
         // and activeIndex shouldn't be changed when 'collapse' was changed.
@@ -252,7 +235,7 @@ export default defineComponent({
     )
 
     watch(items.value, () => {
-      initializeMenu()
+      initMenu()
     })
 
     watch(
@@ -266,35 +249,52 @@ export default defineComponent({
     )
 
     // provide
-    provide<MenuProvider>(
-      'rootMenu',
-      reactive({
-        props,
-        openedMenus,
-        items,
-        subMenus,
-        activeIndex,
-        isMenuPopup,
+    {
+      const addSubMenu: MenuProvider['addSubMenu'] = (item) => {
+        subMenus.value[item.index] = item
+      }
 
-        addMenuItem,
-        removeMenuItem,
+      const removeSubMenu: MenuProvider['removeSubMenu'] = (item) => {
+        delete subMenus.value[item.index]
+      }
+
+      const addMenuItem: MenuProvider['addMenuItem'] = (item) => {
+        items.value[item.index] = item
+      }
+
+      const removeMenuItem: MenuProvider['removeMenuItem'] = (item) => {
+        delete items.value[item.index]
+      }
+      provide<MenuProvider>(
+        'rootMenu',
+        reactive({
+          props,
+          openedMenus,
+          items,
+          subMenus,
+          activeIndex,
+          isMenuPopup,
+
+          addMenuItem,
+          removeMenuItem,
+          addSubMenu,
+          removeSubMenu,
+          openMenu,
+          closeMenu,
+          handleMenuItemClick,
+          handleSubMenuClick,
+        })
+      )
+      provide<SubMenuProvider>(`subMenu:${instance.uid}`, {
         addSubMenu,
         removeSubMenu,
-        openMenu,
-        closeMenu,
-        handleMenuItemClick,
-        handleSubMenuClick,
       })
-    )
-    provide<SubMenuProvider>(`subMenu:${instance.uid}`, {
-      addSubMenu,
-      removeSubMenu,
-    })
+    }
 
     // lifecycle
 
     onMounted(() => {
-      initializeMenu()
+      initMenu()
       if (props.mode === 'horizontal') {
         new Menubar(instance.vnode.el)
       }
