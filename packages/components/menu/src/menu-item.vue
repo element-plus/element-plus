@@ -87,7 +87,7 @@ export default defineComponent({
       if (!props.disabled) {
         rootMenu.handleMenuItemClick({
           index: props.index,
-          indexPath,
+          indexPath: indexPath.value,
           route: props.route,
         })
         emit('click', {

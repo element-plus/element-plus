@@ -217,7 +217,10 @@ export default defineComponent({
       ) {
         return
       }
-      rootMenu.handleSubMenuClick({ index: props.index, indexPath })
+      rootMenu.handleSubMenuClick({
+        index: props.index,
+        indexPath: indexPath.value,
+      })
     }
     const handleMouseenter = (event, showTimeout = props.showTimeout) => {
       if (

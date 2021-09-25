@@ -1,5 +1,7 @@
+import type { RouteLocationRaw } from 'vue-router'
+import type { MaybeRef } from '@vueuse/core'
 import type { MenuProps } from './menu'
-import type { Ref, ComputedRef, UnwrapRef } from 'vue'
+import type { ComputedRef, UnwrapRef } from 'vue'
 
 export interface MenuItemRegistered {
   index: string
@@ -8,7 +10,7 @@ export interface MenuItemRegistered {
 }
 
 export interface MenuProviderRaw {
-  openedMenus: unknown[]
+  openedMenus: string[]
   items: any
   subMenus: any
   activeIndex: string
@@ -19,17 +21,14 @@ export interface MenuProviderRaw {
   removeMenuItem: (item: MenuItemRegistered) => void
   addSubMenu: (item: MenuItemRegistered) => void
   removeSubMenu: (item: MenuItemRegistered) => void
-  openMenu: (index: string, indexPath: Ref<string[]>) => void
+  openMenu: (index: string, indexPath: MaybeRef<string[]>) => void
   closeMenu: (index: string) => void
   handleMenuItemClick: (item: {
-    index: string
-    indexPath: ComputedRef<string[]>
-    route?: any
+    index?: string
+    indexPath?: string[]
+    route?: RouteLocationRaw
   }) => void
-  handleSubMenuClick: (subMenu: {
-    index: string
-    indexPath?: ComputedRef<string[]>
-  }) => void
+  handleSubMenuClick: (subMenu: { index: string; indexPath: string[] }) => void
 }
 export type MenuProvider = UnwrapRef<MenuProviderRaw>
 

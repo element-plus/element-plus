@@ -6,7 +6,7 @@ import {
   ref,
   provide,
   onMounted,
-  isRef,
+  unref,
   h,
   withDirectives,
   reactive,
@@ -19,7 +19,7 @@ import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu'
 import { useMenuCssVar } from './use-menu-css-var'
 
-import type { NavigationFailure } from 'vue-router'
+import type { NavigationFailure, RouteLocationRaw, Router } from 'vue-router'
 import type {
   VNode,
   Ref,
@@ -27,7 +27,12 @@ import type {
   ExtractPropTypes,
   VNodeNormalizedChildren,
 } from 'vue'
-import type { MenuProvider, MenuItemRegistered, SubMenuProvider } from './types'
+import type {
+  MenuProvider,
+  MenuProviderRaw,
+  MenuItemRegistered,
+  SubMenuProvider,
+} from './types'
 
 export const menuProps = {
   mode: buildProp({
@@ -76,8 +81,8 @@ export const menuEmits = {
     indexPath: string[],
     item: {
       index: string
-      indexPath: ComputedRef<string[]>
-      route?: any
+      indexPath: string[]
+      route?: RouteLocationRaw
     },
     routerResult?: Promise<void | NavigationFailure>
   ) =>
@@ -95,22 +100,24 @@ export default defineComponent({
   emits: menuEmits,
 
   setup(props, { emit, slots, expose }) {
+    const instance = getCurrentInstance()!
+    const router = instance.appContext.config.globalProperties.$router as Router
+    const menu = ref<HTMLUListElement>()
+
     // data
-    const openedMenus = ref(
+    const openedMenus = ref<MenuProviderRaw['openedMenus']>(
       props.defaultOpeneds && !props.collapse
         ? props.defaultOpeneds.slice(0)
         : []
     )
-    const instance = getCurrentInstance()
-    const activeIndex = ref(props.defaultActive)
-    const items = ref({})
-    const subMenus = ref({})
+    const activeIndex = ref<MenuProviderRaw['activeIndex']>(props.defaultActive)
+    const items = ref<MenuProviderRaw['items']>({})
+    const subMenus = ref<MenuProviderRaw['subMenus']>({})
+
     const alteredCollapse = ref(false)
-    const router = instance.appContext.config.globalProperties.$router
-    const menu = ref<HTMLUListElement>()
 
     // computed
-    const isMenuPopup = computed(() => {
+    const isMenuPopup = computed<MenuProviderRaw['isMenuPopup']>(() => {
       return (
         props.mode === 'horizontal' ||
         (props.mode === 'vertical' && props.collapse)
@@ -119,8 +126,7 @@ export default defineComponent({
 
     // methods
     const initMenu = () => {
-      const index = activeIndex.value
-      const activeItem = items.value[index]
+      const activeItem = activeIndex.value && items.value[activeIndex.value]
       if (!activeItem || props.mode === 'horizontal' || props.collapse) return
 
       const indexPath = activeItem.indexPath
@@ -129,72 +135,70 @@ export default defineComponent({
       // expand all subMenus of the menu item
       indexPath.forEach((index) => {
         const subMenu = subMenus.value[index]
-        subMenu && openMenu(index, subMenu?.indexPath)
+        subMenu && openMenu(index, subMenu.indexPath)
       })
     }
 
-    const openMenu: MenuProvider['openMenu'] = (index, indexPath) => {
+    const openMenu: MenuProviderRaw['openMenu'] = (index, indexPath) => {
       if (openedMenus.value.includes(index)) return
       // 将不在该菜单路径下的其余菜单收起
       // collapse all menu that are not under current menu item
       if (props.uniqueOpened) {
-        openedMenus.value = openedMenus.value.filter((index: string) => {
-          return (
-            (isRef(indexPath) ? indexPath.value : indexPath).indexOf(index) !==
-            -1
-          )
-        })
+        openedMenus.value = openedMenus.value.filter((index: string) =>
+          unref(indexPath).includes(index)
+        )
       }
       openedMenus.value.push(index)
     }
 
-    const closeMenu: MenuProvider['closeMenu'] = (index) => {
+    const closeMenu: MenuProviderRaw['closeMenu'] = (index) => {
       const i = openedMenus.value.indexOf(index)
       if (i !== -1) {
         openedMenus.value.splice(i, 1)
       }
     }
 
-    const handleSubMenuClick: MenuProvider['handleSubMenuClick'] = (
-      subMenu
-    ) => {
-      const { index, indexPath } = subMenu
+    const handleSubMenuClick: MenuProviderRaw['handleSubMenuClick'] = ({
+      index,
+      indexPath,
+    }) => {
       const isOpened = openedMenus.value.includes(index)
 
       if (isOpened) {
         closeMenu(index)
-        emit('close', index, indexPath.value)
+        emit('close', index, indexPath)
       } else {
         openMenu(index, indexPath)
-        emit('open', index, indexPath.value)
+        emit('open', index, indexPath)
       }
     }
 
-    const handleMenuItemClick: MenuProvider['handleMenuItemClick'] = (item) => {
-      const { index, indexPath } = item
-      const hasIndex = item.index !== null
-      const emitParams = [index, indexPath.value, item]
-
+    const handleMenuItemClick: MenuProviderRaw['handleMenuItemClick'] = (
+      menuItem
+    ) => {
       if (props.mode === 'horizontal' || props.collapse) {
         openedMenus.value = []
       }
 
-      if (!hasIndex) {
-        return
-      }
+      const { index, indexPath } = menuItem
+      if (index === undefined || indexPath === undefined) return
 
       if (props.router && router) {
-        const route = item.route || item.index
-        const routerResult = router.push(route).then((navigationResult) => {
-          if (!navigationResult) {
-            activeIndex.value = item.index
-          }
-          return navigationResult
+        const route = menuItem.route || index
+        const routerResult = router.push(route).then((res) => {
+          if (!res) activeIndex.value = index
+          return res
         })
-        emit('select', ...emitParams.concat(routerResult))
+        emit(
+          'select',
+          index,
+          indexPath,
+          { index, indexPath, route },
+          routerResult
+        )
       } else {
-        activeIndex.value = item.index
-        emit('select', ...emitParams)
+        activeIndex.value = index
+        emit('select', index, indexPath, { index, indexPath })
       }
     }
 
@@ -247,19 +251,19 @@ export default defineComponent({
 
     // provide
     {
-      const addSubMenu: MenuProvider['addSubMenu'] = (item) => {
+      const addSubMenu: MenuProviderRaw['addSubMenu'] = (item) => {
         subMenus.value[item.index] = item
       }
 
-      const removeSubMenu: MenuProvider['removeSubMenu'] = (item) => {
+      const removeSubMenu: MenuProviderRaw['removeSubMenu'] = (item) => {
         delete subMenus.value[item.index]
       }
 
-      const addMenuItem: MenuProvider['addMenuItem'] = (item) => {
+      const addMenuItem: MenuProviderRaw['addMenuItem'] = (item) => {
         items.value[item.index] = item
       }
 
-      const removeMenuItem: MenuProvider['removeMenuItem'] = (item) => {
+      const removeMenuItem: MenuProviderRaw['removeMenuItem'] = (item) => {
         delete items.value[item.index]
       }
       provide<MenuProvider>(
