@@ -5,7 +5,10 @@ import type { ExtractPropTypes } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 
 export const menuItemProps = {
-  index: String,
+  index: {
+    type: String,
+    default: null,
+  },
   route: buildProp({
     type: definePropType<RouteLocationRaw>([String, Object]),
   }),

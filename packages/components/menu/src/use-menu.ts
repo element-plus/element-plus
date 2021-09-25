@@ -1,11 +1,11 @@
 import { computed, inject } from 'vue'
 
-import type { ComponentInternalInstance, ComputedRef } from 'vue'
+import type { ComponentInternalInstance, Ref } from 'vue'
 import type { MenuProvider } from './types'
 
 export default function useMenu(
   instance: ComponentInternalInstance,
-  currentIndex: ComputedRef<string>
+  currentIndex: Ref<string>
 ) {
   const rootMenu = inject<MenuProvider>('rootMenu')
 

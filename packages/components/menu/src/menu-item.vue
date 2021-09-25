@@ -23,18 +23,18 @@
         <slot name="title"></slot>
       </template>
       <div
-        style="
-          position: absolute;
-          left: 0;
-          top: 0;
-          height: 100%;
-          width: 100%;
-          display: inline-block;
-          box-sizing: border-box;
-          padding: 0 20px;
-        "
+        :style="{
+          position: 'absolute',
+          left: 0,
+          top: 0,
+          height: '100%',
+          width: '100%',
+          display: 'inline-block',
+          boxSizing: 'border-box',
+          padding: '0 20px',
+        }"
       >
-        <slot></slot>
+        <slot />
       </div>
     </el-tooltip>
     <template v-else>
@@ -51,16 +51,20 @@ import {
   onBeforeUnmount,
   inject,
   getCurrentInstance,
+  toRef,
+  reactive,
 } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
 import { Effect } from '@element-plus/components/popper'
+import { throwError } from '@element-plus/utils/error'
 import useMenu from './use-menu'
 import { menuItemEmits, menuItemProps } from './menu-item'
 
 import type { MenuProvider, SubMenuProvider } from './types'
 
+const COMPONENT_NAME = 'ElMenuItem'
 export default defineComponent({
-  name: 'ElMenuItem',
+  name: COMPONENT_NAME,
   components: {
     ElTooltip,
   },
@@ -69,19 +73,19 @@ export default defineComponent({
   emits: menuItemEmits,
 
   setup(props, { emit, slots }) {
-    const instance = getCurrentInstance()
+    const instance = getCurrentInstance()!
     const rootMenu = inject<MenuProvider>('rootMenu')
+    if (!rootMenu) throwError(COMPONENT_NAME, 'can not inject root menu')
+
     const { parentMenu, paddingStyle, indexPath } = useMenu(
       instance,
-      computed(() => props.index)
+      toRef(props, 'index')
     )
     const { addSubMenu, removeSubMenu } = inject<SubMenuProvider>(
       `subMenu:${parentMenu.value.uid}`
     )
 
-    const active = computed(() => {
-      return props.index === rootMenu.activeIndex
-    })
+    const active = computed(() => props.index === rootMenu.activeIndex)
 
     const handleClick = () => {
       if (!props.disabled) {
@@ -99,12 +103,14 @@ export default defineComponent({
 
     onMounted(() => {
       addSubMenu({ index: props.index, indexPath, active })
-      rootMenu.addMenuItem({ index: props.index, indexPath, active })
+      rootMenu.addMenuItem(reactive({ index: props.index, indexPath, active }))
     })
 
     onBeforeUnmount(() => {
       removeSubMenu({ index: props.index, indexPath, active })
-      rootMenu.removeMenuItem({ index: props.index, indexPath, active })
+      rootMenu.removeMenuItem(
+        reactive({ index: props.index, indexPath, active })
+      )
     })
 
     return {
