@@ -16,34 +16,40 @@ import {
 } from 'vue'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElPopper from '@element-plus/components/popper'
+import { buildProp } from '@element-plus/utils/props'
 import useMenu from './use-menu'
-
 import { useMenuCssVar } from './use-menu-css-var'
-import type { ISubMenuProps, MenuProvider, SubMenuProvider } from './types'
+
+import type { ExtractPropTypes } from 'vue'
+import type { MenuProvider, SubMenuProvider } from './types'
+
+export const subMenuProps = {
+  index: {
+    type: String,
+    required: true,
+  },
+  showTimeout: buildProp({
+    type: Number,
+    default: 300,
+  } as const),
+  hideTimeout: buildProp({
+    type: Number,
+    default: 300,
+  } as const),
+  popperClass: String,
+  disabled: Boolean,
+  popperAppendToBody: {
+    type: Boolean,
+    default: undefined,
+  },
+} as const
+export type SubMenuProps = ExtractPropTypes<typeof subMenuProps>
 
 export default defineComponent({
   name: 'ElSubMenu',
-  props: {
-    index: {
-      type: String,
-      required: true,
-    },
-    showTimeout: {
-      type: Number,
-      default: 300,
-    },
-    hideTimeout: {
-      type: Number,
-      default: 300,
-    },
-    popperClass: String,
-    disabled: Boolean,
-    popperAppendToBody: {
-      type: Boolean,
-      default: undefined,
-    },
-  },
-  setup(props: ISubMenuProps) {
+  props: subMenuProps,
+
+  setup(props) {
     const data = reactive({
       popperJS: null,
       timeout: null,

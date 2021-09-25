@@ -61,14 +61,3 @@ export interface RootMenuProps {
   activeTextColor: string
   collapseTransition: boolean
 }
-
-// submenu
-
-export interface ISubMenuProps {
-  index: string
-  showTimeout?: number
-  hideTimeout?: number
-  popperClass?: string
-  disabled?: boolean
-  popperAppendToBody?: boolean
-}
