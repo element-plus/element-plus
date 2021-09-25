@@ -1,6 +1,6 @@
 import type { Ref, ComputedRef } from 'vue'
 
-export interface RegisterMenuItem {
+export interface MenuItemRegistered {
   index: string
   indexPath: ComputedRef<string[]>
   active: ComputedRef<boolean>
@@ -24,10 +24,10 @@ export interface MenuProvider {
 
   props: Readonly<Partial<RootMenuProps>>
   methods: {
-    addMenuItem: (item: RegisterMenuItem) => void
-    removeMenuItem: (item: RegisterMenuItem) => void
-    addSubMenu: (item: RegisterMenuItem) => void
-    removeSubMenu: (item: RegisterMenuItem) => void
+    addMenuItem: (item: MenuItemRegistered) => void
+    removeMenuItem: (item: MenuItemRegistered) => void
+    addSubMenu: (item: MenuItemRegistered) => void
+    removeSubMenu: (item: MenuItemRegistered) => void
     openMenu: (index: string, indexPath: Ref<string[]>) => void
     closeMenu: (index: string) => void
     handleMenuItemClick: (item: {
@@ -43,8 +43,8 @@ export interface MenuProvider {
 }
 
 export interface SubMenuProvider {
-  addSubMenu: (item: RegisterMenuItem) => void
-  removeSubMenu: (item: RegisterMenuItem) => void
+  addSubMenu: (item: MenuItemRegistered) => void
+  removeSubMenu: (item: MenuItemRegistered) => void
   handleMouseleave?: (deepDispatch: boolean) => void
 }
 

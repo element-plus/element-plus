@@ -20,7 +20,7 @@ import { useMenuCssVar } from './use-menu-css-var'
 
 import type { NavigationFailure } from 'vue-router'
 import type { VNode, Ref, ComputedRef, ExtractPropTypes } from 'vue'
-import type { MenuProvider, RegisterMenuItem, SubMenuProvider } from './types'
+import type { MenuProvider, MenuItemRegistered, SubMenuProvider } from './types'
 
 export const menuProps = {
   mode: buildProp({
@@ -127,19 +127,19 @@ export default defineComponent({
       })
     }
 
-    const addSubMenu = (item: RegisterMenuItem) => {
+    const addSubMenu = (item: MenuItemRegistered) => {
       submenus.value[item.index] = item
     }
 
-    const removeSubMenu = (item: RegisterMenuItem) => {
+    const removeSubMenu = (item: MenuItemRegistered) => {
       delete submenus.value[item.index]
     }
 
-    const addMenuItem = (item: RegisterMenuItem) => {
+    const addMenuItem = (item: MenuItemRegistered) => {
       items.value[item.index] = item
     }
 
-    const removeMenuItem = (item: RegisterMenuItem) => {
+    const removeMenuItem = (item: MenuItemRegistered) => {
       delete items.value[item.index]
     }
 
