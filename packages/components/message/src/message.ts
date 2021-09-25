@@ -72,16 +72,15 @@ export interface MessageHandle {
 export type MessageParams = Partial<MessageOptions> | string | VNode
 export type MessageParamsTyped = Partial<MessageOptionsTyped> | string | VNode
 
-export interface MessagePartial {
-  (options?: MessageParams): MessageHandle
+export type MessageFn = ((options?: MessageParams) => MessageHandle) & {
   closeAll(): void
-
-  success?: (options?: MessageParamsTyped) => MessageHandle
-  warning?: (options?: MessageParamsTyped) => MessageHandle
-  info?: (options?: MessageParamsTyped) => MessageHandle
-  error?: (options?: MessageParamsTyped) => MessageHandle
 }
-export type Message = Required<MessagePartial>
+export interface Message extends MessageFn {
+  success: (options?: MessageParamsTyped) => MessageHandle
+  warning: (options?: MessageParamsTyped) => MessageHandle
+  info: (options?: MessageParamsTyped) => MessageHandle
+  error: (options?: MessageParamsTyped) => MessageHandle
+}
 
 type MessageQueueItem = {
   vm: VNode

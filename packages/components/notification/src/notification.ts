@@ -89,16 +89,15 @@ export type NotificationParamsTyped =
   | string
   | VNode
 
-export interface NotifyPartial {
-  (options?: NotificationParams): NotificationHandle
-  closeAll: () => void
-
-  success?: (options: NotificationParamsTyped) => NotificationHandle
-  warning?: (options: NotificationParamsTyped) => NotificationHandle
-  error?: (options: NotificationParamsTyped) => NotificationHandle
-  info?: (options: NotificationParamsTyped) => NotificationHandle
+export type NotifyFn = ((
+  options?: NotificationParams
+) => NotificationHandle) & { closeAll: () => void }
+export interface Notify extends NotifyFn {
+  success: (options?: NotificationParamsTyped) => NotificationHandle
+  warning: (options?: NotificationParamsTyped) => NotificationHandle
+  error: (options?: NotificationParamsTyped) => NotificationHandle
+  info: (options?: NotificationParamsTyped) => NotificationHandle
 }
-export type Notify = Required<NotifyPartial>
 
 export interface NotificationQueueItem {
   vm: VNode
