@@ -1,8 +1,8 @@
+import path from 'path'
+import fs from 'fs'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import rollup from 'rollup'
 import chalk from 'chalk'
-import path from 'path'
-import fs from 'fs'
 import commonjs from '@rollup/plugin-commonjs'
 import vue from 'rollup-plugin-vue'
 import esbuild from 'rollup-plugin-esbuild'
@@ -11,6 +11,7 @@ import genDts from './gen-entry-dts'
 import RollupResolveEntryPlugin from './rollup.plugin.entry'
 import { epRoot, buildOutput } from './paths'
 import { EP_PREFIX, excludes } from './constants'
+import { getExternals } from './utils'
 ;(async () => {
   const config = {
     input: path.resolve(epRoot, './index.ts'),
@@ -29,9 +30,7 @@ import { EP_PREFIX, excludes } from './constants'
         'process.env.NODE_ENV': JSON.stringify('production'),
       }),
     ],
-    external(id) {
-      return /^vue/.test(id)
-    },
+    external: await getExternals({ full: true }),
   }
 
   console.log(chalk.cyan('Start generating full bundle'))

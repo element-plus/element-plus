@@ -76,6 +76,7 @@ import {
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
 
+import { debugWarn } from '@element-plus/utils/error'
 import type {
   ICarouselProps,
   CarouselItem,
@@ -157,7 +158,7 @@ export default defineComponent({
     })
 
     const carouselClasses = computed(() => {
-      const classes = ['el-carousel', 'el-carousel--' + props.direction]
+      const classes = ['el-carousel', `el-carousel--${props.direction}`]
       if (props.type === 'card') {
         classes.push('el-carousel--card')
       }
@@ -167,7 +168,7 @@ export default defineComponent({
     const indicatorsClasses = computed(() => {
       const classes = [
         'el-carousel__indicators',
-        'el-carousel__indicators--' + props.direction,
+        `el-carousel__indicators--${props.direction}`,
       ]
       if (hasLabel.value) {
         classes.push('el-carousel__indicators--labels')
@@ -220,7 +221,7 @@ export default defineComponent({
       }
       index = Number(index)
       if (isNaN(index) || index !== Math.floor(index)) {
-        console.warn('[Element Warn][Carousel]index must be an integer.')
+        debugWarn('Carousel', 'index must be an integer.')
         return
       }
       const length = items.value.length

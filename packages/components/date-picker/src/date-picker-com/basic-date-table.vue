@@ -41,8 +41,8 @@ import { defineComponent, computed, ref } from 'vue'
 import dayjs from 'dayjs'
 import { useLocaleInject } from '@element-plus/hooks'
 import { coerceTruthyValueToArray } from '@element-plus/utils/util'
+import type { PropType } from 'vue'
 
-import { PropType } from 'vue'
 import type { Dayjs } from 'dayjs'
 
 export default defineComponent({
@@ -370,7 +370,7 @@ export default defineComponent({
         ctx.emit('pick', newDate)
       } else if (props.selectionMode === 'week') {
         const weekNumber = newDate.week()
-        const value = newDate.year() + 'w' + weekNumber
+        const value = `${newDate.year()}w${weekNumber}`
         ctx.emit('pick', {
           year: newDate.year(),
           week: weekNumber,

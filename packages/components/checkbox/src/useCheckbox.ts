@@ -203,8 +203,8 @@ const useEvent = (
 
   watch(
     () => props.modelValue,
-    (val) => {
-      elFormItem.formItemMitt?.emit('el.form.change', [val])
+    () => {
+      elFormItem.validate?.('change')
     }
   )
 

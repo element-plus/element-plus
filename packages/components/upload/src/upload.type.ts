@@ -29,6 +29,7 @@ export interface ElUploadAjaxError extends Error {
 
 export interface ElUploadRequestOptions {
   action: string
+  method: string
   data: Record<string, string | Blob>
   filename: string
   file: File

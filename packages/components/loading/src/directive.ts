@@ -1,8 +1,15 @@
 import Loading from './index'
 
 import type { DirectiveBinding } from 'vue'
+import type { ILoadingInstance } from './loading.type'
 
-const createInstance = (el: HTMLElement, binding: DirectiveBinding) => {
+const INSTANCE_NAME = 'ElLoading'
+
+export interface ElementLoading extends HTMLElement {
+  [INSTANCE_NAME]?: ILoadingInstance
+}
+
+const createInstance = (el: ElementLoading, binding: DirectiveBinding) => {
   const textExr = el.getAttribute('element-loading-text')
   const spinnerExr = el.getAttribute('element-loading-spinner')
   const svgExr = el.getAttribute('element-loading-svg')
@@ -10,7 +17,7 @@ const createInstance = (el: HTMLElement, binding: DirectiveBinding) => {
   const backgroundExr = el.getAttribute('element-loading-background')
   const customClassExr = el.getAttribute('element-loading-custom-class')
   const vm = binding.instance
-  ;(el as any).instance = Loading({
+  el[INSTANCE_NAME] = Loading({
     text: (vm && vm[textExr]) || textExr,
     svg: (vm && vm[svgExr]) || svgExr,
     svgViewBox: (vm && vm[svgViewBoxExr]) || svgViewBoxExr,
@@ -18,7 +25,7 @@ const createInstance = (el: HTMLElement, binding: DirectiveBinding) => {
     background: (vm && vm[backgroundExr]) || backgroundExr,
     customClass: (vm && vm[customClassExr]) || customClassExr,
     fullscreen: !!binding.modifiers.fullscreen,
-    target: !!binding.modifiers.fullscreen ? null : el,
+    target: binding.modifiers.fullscreen ? null : el,
     body: !!binding.modifiers.body,
     visible: true,
     lock: !!binding.modifiers.lock,
@@ -26,23 +33,23 @@ const createInstance = (el: HTMLElement, binding: DirectiveBinding) => {
 }
 
 const vLoading = {
-  mounted(el: HTMLElement, binding: DirectiveBinding) {
-    if (!!binding.value) {
+  mounted(el: ElementLoading, binding: DirectiveBinding) {
+    if (binding.value) {
       createInstance(el, binding)
     }
   },
-  updated(el: HTMLElement, binding: DirectiveBinding) {
-    const instance = (el as any).instance
+  updated(el: ElementLoading, binding: DirectiveBinding) {
+    const instance = el[INSTANCE_NAME]
     if (binding.oldValue !== binding.value) {
       if (binding.value) {
         createInstance(el, binding)
       } else {
-        instance.close()
+        instance?.close()
       }
     }
   },
-  unmounted(el: HTMLElement) {
-    ;(el as any)?.instance?.close()
+  unmounted(el: ElementLoading) {
+    el[INSTANCE_NAME]?.close()
   },
 }
 

@@ -16,7 +16,7 @@
         :class="['el-scrollbar__view', viewClass]"
         :style="viewStyle"
       >
-        <slot></slot>
+        <slot />
       </component>
     </div>
     <template v-if="!native">
@@ -52,7 +52,7 @@ import {
   isString,
   toObject,
 } from '@element-plus/utils/util'
-import { warn } from '@element-plus/utils/error'
+import { debugWarn } from '@element-plus/utils/error'
 import Bar from './bar.vue'
 
 import type { CSSProperties, PropType } from 'vue'
@@ -114,7 +114,6 @@ export default defineComponent({
     const resize = ref(null)
     const ratioY = ref(1)
     const ratioX = ref(1)
-
     const SCOPE = 'ElScrollbar'
     const GAP = 4 // top 2 + bottom 2 of bar instance
 
@@ -140,9 +139,7 @@ export default defineComponent({
 
     const setScrollTop = (value: number) => {
       if (!isNumber(value)) {
-        if (process.env.NODE_ENV !== 'production') {
-          warn(SCOPE, 'value must be a number')
-        }
+        debugWarn(SCOPE, 'value must be a number')
         return
       }
       wrap.value.scrollTop = value
@@ -150,9 +147,7 @@ export default defineComponent({
 
     const setScrollLeft = (value: number) => {
       if (!isNumber(value)) {
-        if (process.env.NODE_ENV !== 'production') {
-          warn(SCOPE, 'value must be a number')
-        }
+        debugWarn(SCOPE, 'value must be a number')
         return
       }
       wrap.value.scrollLeft = value
@@ -178,8 +173,8 @@ export default defineComponent({
         (offsetWidth - originalWidth) /
         (width / (offsetWidth - width))
 
-      sizeHeight.value = height + GAP < offsetHeight ? height + 'px' : ''
-      sizeWidth.value = width + GAP < offsetWidth ? width + 'px' : ''
+      sizeHeight.value = height + GAP < offsetHeight ? `${height}px` : ''
+      sizeWidth.value = width + GAP < offsetWidth ? `${width}px` : ''
     }
 
     const style = computed(() => {

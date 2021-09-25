@@ -1,12 +1,15 @@
 import { h, getCurrentInstance, computed } from 'vue'
-import { arrayFindIndex } from '@element-plus/utils/util'
+import { getRowIdentity } from '../util'
 import useEvents from './events-helper'
 import useStyles from './styles-helper'
-import { getRowIdentity } from '../util'
 
 import type { TableBodyProps } from './defaults'
-import type { RenderRowData, Table, TreeNode } from '../table/defaults'
-import type { TableProps } from '../table/defaults'
+import type {
+  RenderRowData,
+  Table,
+  TreeNode,
+  TableProps,
+} from '../table/defaults'
 
 function useRender<T>(props: Partial<TableBodyProps<T>>) {
   const instance = getCurrentInstance()
@@ -31,8 +34,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
     getColspanRealWidth,
   } = useStyles(props)
   const firstDefaultColumnIndex = computed(() => {
-    return arrayFindIndex(
-      props.store.states.columns.value,
+    return props.store.states.columns.value.findIndex(
       ({ type }) => type === 'default'
     )
   })
@@ -49,7 +51,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
     const rowClasses = getRowClass(row, $index)
     let display = true
     if (treeRowData) {
-      rowClasses.push('el-table__row--level-' + treeRowData.level)
+      rowClasses.push(`el-table__row--level-${treeRowData.level}`)
       display = treeRowData.display
     }
     const displayStyle = display
@@ -145,7 +147,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
           h(
             'tr',
             {
-              key: 'expanded-row__' + (tr.key as string),
+              key: `expanded-row__${tr.key as string}`,
             },
             [
               h(

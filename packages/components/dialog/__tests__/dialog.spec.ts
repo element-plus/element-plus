@@ -150,8 +150,9 @@ describe('Dialog.vue', () => {
       })
       await nextTick()
       expect(wrapper.find('.el-overlay').exists()).toBe(true)
+      expect(wrapper.find('.el-overlay-dialog').exists()).toBe(true)
 
-      await triggerCompositeClick(wrapper.find('.el-overlay'))
+      await triggerCompositeClick(wrapper.find('.el-overlay-dialog'))
       expect(wrapper.vm.visible).toBe(false)
     })
   })
@@ -250,7 +251,7 @@ describe('Dialog.vue', () => {
       await rAF()
       await nextTick()
 
-      await triggerCompositeClick(wrapper.find('.el-overlay'))
+      await triggerCompositeClick(wrapper.find('.el-overlay-dialog'))
       await nextTick()
       await rAF()
       await nextTick()

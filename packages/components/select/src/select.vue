@@ -136,6 +136,9 @@
             @blur="handleBlur"
             @input="debouncedOnInputChange"
             @paste="debouncedOnInputChange"
+            @compositionstart="handleComposition"
+            @compositionupdate="handleComposition"
+            @compositionend="handleComposition"
             @keydown.down.stop.prevent="navigateOptions('next')"
             @keydown.up.stop.prevent="navigateOptions('prev')"
             @keydown.enter.stop.prevent="selectOption"
@@ -359,6 +362,8 @@ export default defineComponent({
       tags,
       selectWrapper,
       scrollbar,
+      queryChange,
+      groupQueryChange,
     } = useSelect(props, states, ctx)
 
     const { focus } = useFocus(reference)
@@ -396,12 +401,13 @@ export default defineComponent({
         filteredOptionsCount,
         hoverIndex,
         handleOptionSelect,
-        selectEmitter: states.selectEmitter,
         onOptionCreate,
         onOptionDestroy,
         selectWrapper,
         selected,
         setSelected,
+        queryChange,
+        groupQueryChange,
       }) as unknown as SelectContext
     )
 

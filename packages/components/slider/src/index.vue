@@ -84,7 +84,6 @@ import {
   provide,
   reactive,
   ref,
-  Ref,
   toRefs,
   watch,
 } from 'vue'
@@ -95,14 +94,14 @@ import {
   INPUT_EVENT,
 } from '@element-plus/utils/constants'
 import { off, on } from '@element-plus/utils/dom'
-import throwError from '@element-plus/utils/error'
+import { throwError } from '@element-plus/utils/error'
 import SliderButton from './button.vue'
 import SliderMarker from './marker.vue'
 import { useMarks } from './useMarks'
 import { useSlide } from './useSlide'
 import { useStops } from './useStops'
 
-import type { PropType } from 'vue'
+import type { PropType, Ref } from 'vue'
 import type { ComponentSize, Nullable } from '@element-plus/utils/types'
 
 export default defineComponent({
@@ -225,7 +224,7 @@ export default defineComponent({
 
     const precision = computed(() => {
       const precisions = [props.min, props.max, props.step].map((item) => {
-        const decimal = ('' + item).split('.')[1]
+        const decimal = `${item}`.split('.')[1]
         return decimal ? decimal.length : 0
       })
       return Math.max.apply(null, precisions)
@@ -310,10 +309,7 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
         initData.firstValue = val[0]
         initData.secondValue = val[1]
         if (valueChanged()) {
-          elFormItem.formItemMitt?.emit('el.form.change', [
-            minValue.value,
-            maxValue.value,
-          ])
+          elFormItem.validate?.('change')
           initData.oldValue = val.slice()
         }
       }
@@ -325,7 +321,7 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
       } else {
         initData.firstValue = val
         if (valueChanged()) {
-          elFormItem.formItemMitt?.emit('el.form.change', val)
+          elFormItem.validate?.('change')
           initData.oldValue = val
         }
       }

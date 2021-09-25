@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
-import MessageBox from '../src/messageBox'
 import { rAF } from '@element-plus/test-utils/tick'
 import { triggerNativeCompositeClick } from '@element-plus/test-utils/composite-click'
+import MessageBox from '../src/messageBox'
 
 const selector = '.el-overlay'
 
@@ -30,6 +30,9 @@ describe('MessageBox', () => {
       type: 'success',
       title: '消息',
       message: '这是一段内容',
+      customStyle: {
+        width: '100px',
+      },
     })
     const msgbox: HTMLElement = document.querySelector(selector)
 
@@ -42,6 +45,10 @@ describe('MessageBox', () => {
       msgbox.querySelector('.el-message-box__message').querySelector('p')
         .textContent
     ).toEqual('这是一段内容')
+    /** custom inline style */
+    expect(
+      (msgbox.querySelector('.el-message-box') as HTMLElement).style.width
+    ).toEqual('100px')
     MessageBox.close()
     await rAF()
     expect(msgbox.style.display).toEqual('none')

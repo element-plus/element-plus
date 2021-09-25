@@ -1,4 +1,3 @@
-/* eslint-disable */
 import fs from 'fs'
 import path from 'path'
 import rollup from 'rollup'
@@ -6,25 +5,17 @@ import vue from 'rollup-plugin-vue'
 import css from 'rollup-plugin-css-only'
 import filesize from 'rollup-plugin-filesize'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
+import commonjs from '@rollup/plugin-commonjs'
 import esbuild from 'rollup-plugin-esbuild'
-import chalk from 'chalk'
+import { sync as globSync } from 'fast-glob'
 
 import { compRoot, buildOutput } from './paths'
-import getDeps from './get-deps'
+import { errorAndExit, getExternals, yellow, green } from './utils'
 import genDefs from './gen-dts'
 import reporter from './size-reporter'
+import { EP_PREFIX } from './constants'
 
 const outputDir = path.resolve(buildOutput, './element-plus')
-const pathToPkgJson = path.resolve(compRoot, './package.json')
-
-async function getComponents() {
-  const raw = await fs.promises.readdir(compRoot)
-  // filter out package.json since under packages/components we only got this file
-  //
-  return raw
-    .filter((f) => f !== 'package.json' && f !== 'index.ts')
-    .map((f) => ({ path: path.resolve(compRoot, f), name: f }))
-}
 
 const plugins = [
   css(),
@@ -33,22 +24,9 @@ const plugins = [
     // css: false,
   }),
   nodeResolve(),
+  commonjs(),
   esbuild(),
 ]
-const EP_PREFIX = '@element-plus'
-const VUE_REGEX = 'vue'
-const VUE_MONO = '@vue'
-const externals = getDeps(pathToPkgJson)
-
-const excludes = ['icons']
-
-const pathsRewriter = (id) => {
-  if (id.startsWith(`${EP_PREFIX}/components`))
-    return id.replace(`${EP_PREFIX}/components`, '..')
-  if (id.startsWith(EP_PREFIX) && excludes.every((e) => !id.endsWith(e)))
-    return id.replace(EP_PREFIX, '../..')
-  return id
-}
 
 ;(async () => {
   // run type diagnoses first
@@ -63,33 +41,45 @@ const pathsRewriter = (id) => {
   yellow('Start building entry file')
   await buildEntry()
   green('Entry built successfully')
-})()
-  .then(() => {
-    console.log('Individual component build finished')
-    process.exit(0)
-  })
-  .catch((e) => {
-    console.error(e.message)
-    process.exit(1)
-  })
+
+  green('Individual component build finished')
+})().catch((e: Error) => errorAndExit(e))
+
+async function getComponents() {
+  const files = globSync('*', { cwd: compRoot, onlyDirectories: true })
+  return files.map((file) => ({
+    path: path.resolve(compRoot, file),
+    name: file,
+  }))
+}
+
+function pathsRewriter(id: string) {
+  const excludes = ['icons']
+  if (id.startsWith(`${EP_PREFIX}/components`))
+    return id.replace(`${EP_PREFIX}/components`, '..')
+  if (id.startsWith(EP_PREFIX) && excludes.every((e) => !id.endsWith(e)))
+    return id.replace(EP_PREFIX, '../..')
+  return id
+}
 
 async function buildComponents() {
   const componentPaths = await getComponents()
+  const external = await getExternals({ full: false })
 
   const builds = componentPaths.map(
     async ({ path: p, name: componentName }) => {
       const entry = path.resolve(p, './index.ts')
       if (!fs.existsSync(entry)) return
 
-      const external = (id) => {
-        return (
-          id.startsWith(VUE_REGEX) ||
-          id.startsWith(VUE_MONO) ||
-          id.startsWith(EP_PREFIX) ||
-          externals.some((i) => id.startsWith(i))
-        )
+      const rollupConfig = {
+        input: entry,
+        plugins,
+        external,
       }
-      const esm = {
+      const bundle = await rollup.rollup(rollupConfig)
+
+      // ESM
+      await bundle.write({
         format: 'es',
         file: `${outputDir}/es/components/${componentName}/index.js`,
         plugins: [
@@ -98,9 +88,10 @@ async function buildComponents() {
           }),
         ],
         paths: pathsRewriter,
-      }
+      })
 
-      const cjs = {
+      // CJS
+      await bundle.write({
         format: 'cjs',
         file: `${outputDir}/lib/components/${componentName}/index.js`,
         exports: 'named',
@@ -110,21 +101,13 @@ async function buildComponents() {
           }),
         ],
         paths: pathsRewriter,
-      }
-      const rollupConfig = {
-        input: entry,
-        plugins,
-        external,
-      }
-      const bundle = await rollup.rollup(rollupConfig)
-      await bundle.write(esm as any)
-      await bundle.write(cjs as any)
+      })
     }
   )
   try {
     await Promise.all(builds)
-  } catch (e) {
-    logAndShutdown(e)
+  } catch (e: any) {
+    errorAndExit(e)
   }
 }
 
@@ -133,7 +116,7 @@ async function buildEntry() {
   const config = {
     input: entry,
     plugins,
-    external: (_) => true,
+    external: () => true,
   }
 
   try {
@@ -157,24 +140,7 @@ async function buildEntry() {
         }),
       ],
     })
-  } catch (e) {
-    logAndShutdown(e)
+  } catch (e: any) {
+    errorAndExit(e)
   }
-}
-
-function yellow(str) {
-  console.log(chalk.cyan(str))
-}
-
-function green(str) {
-  console.log(chalk.green(str))
-}
-
-function red(str) {
-  console.error(chalk.red(str))
-}
-
-function logAndShutdown(e) {
-  red(e.message)
-  process.exit(1)
 }

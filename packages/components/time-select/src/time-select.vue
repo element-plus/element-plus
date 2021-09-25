@@ -28,9 +28,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, PropType } from 'vue'
+import { defineComponent, computed, ref } from 'vue'
 import ElSelect from '@element-plus/components/select'
-import { ComponentSize } from '@element-plus/utils/types'
+import type { PropType } from 'vue'
+import type { ComponentSize } from '@element-plus/utils/types'
 
 const { Option: ElOption } = ElSelect
 
@@ -62,11 +63,9 @@ const compareTime = (time1: string, time2: string): number => {
   return minutes1 > minutes2 ? 1 : -1
 }
 const formatTime = (time: Time): string => {
-  return (
-    (time.hours < 10 ? '0' + time.hours : time.hours) +
-    ':' +
-    (time.minutes < 10 ? '0' + time.minutes : time.minutes)
-  )
+  return `${time.hours < 10 ? `0${time.hours}` : time.hours}:${
+    time.minutes < 10 ? `0${time.minutes}` : time.minutes
+  }`
 }
 const nextTime = (time: string, step: string): string => {
   const timeValue = parseTime(time)

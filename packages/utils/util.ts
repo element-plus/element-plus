@@ -14,17 +14,10 @@ import {
 } from '@vue/shared'
 import isEqualWith from 'lodash/isEqualWith'
 import isServer from './isServer'
-import { warn } from './error'
+import { debugWarn } from './error'
 
 import type { ComponentPublicInstance, CSSProperties, Ref } from 'vue'
-import type { AnyFunction, TimeoutHandle, Hash, Nullable } from './types'
-
-// type polyfill for compat isIE method
-declare global {
-  interface Document {
-    documentMode?: any
-  }
-}
+import type { AnyFunction, TimeoutHandle, Nullable } from './types'
 
 export const SCOPE = 'Util'
 
@@ -56,28 +49,37 @@ export function getPropByPath(
   v: Nullable<unknown>
 } {
   let tempObj = obj
-  path = path.replace(/\[(\w+)\]/g, '.$1')
-  path = path.replace(/^\./, '')
+  let key, value
 
-  const keyArr = path.split('.')
-  let i = 0
-  for (i; i < keyArr.length - 1; i++) {
-    if (!tempObj && !strict) break
-    const key = keyArr[i]
+  if (obj && hasOwn(obj, path)) {
+    key = path
+    value = tempObj?.[path]
+  } else {
+    path = path.replace(/\[(\w+)\]/g, '.$1')
+    path = path.replace(/^\./, '')
 
-    if (key in tempObj) {
-      tempObj = tempObj[key]
-    } else {
-      if (strict) {
-        throw new Error('please transfer a valid prop path to form item!')
+    const keyArr = path.split('.')
+    let i = 0
+    for (i; i < keyArr.length - 1; i++) {
+      if (!tempObj && !strict) break
+      const key = keyArr[i]
+
+      if (key in tempObj) {
+        tempObj = tempObj[key]
+      } else {
+        if (strict) {
+          throw new Error('please transfer a valid prop path to form item!')
+        }
+        break
       }
-      break
     }
+    key = keyArr[i]
+    value = tempObj?.[keyArr[i]]
   }
   return {
     o: tempObj,
-    k: keyArr[i],
-    v: tempObj?.[keyArr[i]],
+    k: key,
+    v: value,
   }
 }
 
@@ -103,13 +105,9 @@ export const coerceTruthyValueToArray = (arr) => {
   return Array.isArray(arr) ? arr : [arr]
 }
 
-export const isIE = function (): boolean {
-  return !isServer && !isNaN(Number(document.documentMode))
-}
-
-export const isEdge = function (): boolean {
-  return !isServer && navigator.userAgent.indexOf('Edge') > -1
-}
+// drop IE and (Edge < 79) support
+// export const isIE
+// export const isEdge
 
 export const isFirefox = function (): boolean {
   return !isServer && !!window.navigator.userAgent.match(/firefox/i)
@@ -132,6 +130,7 @@ export const autoprefixer = function (style: CSSProperties): CSSProperties {
 export const kebabCase = hyphenate
 
 // reexport from lodash & vue shared
+export { isVNode } from 'vue'
 export {
   hasOwn,
   // isEmpty,
@@ -176,15 +175,9 @@ export function getRandomInt(max: number) {
   return Math.floor(Math.random() * Math.floor(max))
 }
 
-export function entries<T>(obj: Hash<T>): [string, T][] {
-  return Object.keys(obj).map((key: string) => [key, obj[key]])
-}
-
 export function isUndefined(val: any): val is undefined {
   return val === undefined
 }
-
-export { isVNode } from 'vue'
 
 export function useGlobalConfig() {
   const vm: any = getCurrentInstance()
@@ -192,20 +185,6 @@ export function useGlobalConfig() {
     return vm.proxy.$ELEMENT
   }
   return {}
-}
-
-export const arrayFindIndex = function <T = any>(
-  arr: Array<T>,
-  pred: (args: T) => boolean
-): number {
-  return arr.findIndex(pred)
-}
-
-export const arrayFind = function <T>(
-  arr: Array<T>,
-  pred: (args: T) => boolean
-): T {
-  return arr.find(pred)
 }
 
 export function isEmpty(val: unknown) {
@@ -242,11 +221,9 @@ export function addUnit(value: string | number) {
   if (isString(value)) {
     return value
   } else if (isNumber(value)) {
-    return value + 'px'
+    return `${value}px`
   }
-  if (process.env.NODE_ENV === 'development') {
-    warn(SCOPE, 'binding value must be a string or number')
-  }
+  debugWarn(SCOPE, 'binding value must be a string or number')
   return ''
 }
 

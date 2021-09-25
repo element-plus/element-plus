@@ -1,4 +1,5 @@
 import { getCurrentInstance, h, ref, computed, watchEffect } from 'vue'
+import { debugWarn } from '@element-plus/utils/error'
 import { cellForced, defaultRenderCell, treeCellPrefix } from '../config'
 import { parseWidth, parseMinWidth } from '../util'
 
@@ -16,13 +17,13 @@ function useRender<T>(
   const realAlign = ref<string>()
   const realHeaderAlign = ref<string>()
   watchEffect(() => {
-    realAlign.value = !!props.align ? 'is-' + props.align : null
+    realAlign.value = props.align ? `is-${props.align}` : null
     // nextline help render
     realAlign.value
   })
   watchEffect(() => {
-    realHeaderAlign.value = !!props.headerAlign
-      ? 'is-' + props.headerAlign
+    realHeaderAlign.value = props.headerAlign
+      ? `is-${props.headerAlign}`
       : realAlign.value
     // nextline help render
     realHeaderAlign.value
@@ -78,8 +79,9 @@ function useRender<T>(
   const setColumnRenders = (column: TableColumnCtx<T>) => {
     // renderHeader 属性不推荐使用。
     if (props.renderHeader) {
-      console.warn(
-        '[Element Warn][TableColumn]Comparing to render-header, scoped-slot header is easier to use. We recommend users to use scoped-slot header.'
+      debugWarn(
+        'TableColumn',
+        'Comparing to render-header, scoped-slot header is easier to use. We recommend users to use scoped-slot header.'
       )
     } else if (column.type !== 'selection') {
       column.renderHeader = (scope) => {
@@ -123,8 +125,9 @@ function useRender<T>(
         if (column.showOverflowTooltip) {
           props.class += ' el-tooltip'
           props.style = {
-            width:
-              (data.column.realWidth || Number(data.column.width)) - 1 + 'px',
+            width: `${
+              (data.column.realWidth || Number(data.column.width)) - 1
+            }px`,
           }
         }
         checkSubColumn(children)

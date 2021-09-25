@@ -25,7 +25,7 @@ import {
   reactive,
 } from 'vue'
 import { useOption } from './useOption'
-import { SelectOptionProxy } from './token'
+import type { SelectOptionProxy } from './token'
 
 export default defineComponent({
   name: 'ElOption',

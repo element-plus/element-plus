@@ -141,7 +141,6 @@ import {
   nextTick,
   onMounted,
   onBeforeUnmount,
-  Ref,
   ref,
   watch,
 } from 'vue'
@@ -152,7 +151,7 @@ import ElCascaderPanel, {
   CommonProps,
 } from '@element-plus/components/cascader-panel'
 import ElInput from '@element-plus/components/input'
-import ElPopper from '@element-plus/components/popper'
+import ElPopper, { Effect } from '@element-plus/components/popper'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
@@ -169,9 +168,9 @@ import {
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import { Effect, Options } from '@element-plus/components/popper'
+import type { Options } from '@element-plus/components/popper'
 
-import type { ComputedRef, PropType } from 'vue'
+import type { ComputedRef, PropType, Ref } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 import type {
   CascaderValue,
@@ -343,7 +342,7 @@ export default defineComponent({
       set(val) {
         emit(UPDATE_MODEL_EVENT, val)
         emit(CHANGE_EVENT, val)
-        elFormItem.formItemMitt?.emit('el.form.change', [val])
+        elFormItem.validate?.('change')
       },
     })
 
@@ -478,14 +477,14 @@ export default defineComponent({
         const suggestionList = suggestionPanelEl.querySelector(
           '.el-cascader__suggestion-list'
         )
-        suggestionList.style.minWidth = inputInner.offsetWidth + 'px'
+        suggestionList.style.minWidth = `${inputInner.offsetWidth}px`
       }
 
       if (tagWrapperEl) {
         const { offsetHeight } = tagWrapperEl
         const height =
           presentTags.value.length > 0
-            ? Math.max(offsetHeight + 6, inputInitialHeight) + 'px'
+            ? `${Math.max(offsetHeight + 6, inputInitialHeight)}px`
             : `${inputInitialHeight}px`
         inputInner.style.height = height
         updatePopperPosition()
@@ -509,7 +508,7 @@ export default defineComponent({
         case EVENT_CODE.down:
           togglePopperVisible(true)
           nextTick(focusFirstNode)
-          event.preventDefault()
+          e.preventDefault()
           break
         case EVENT_CODE.esc:
         case EVENT_CODE.tab:

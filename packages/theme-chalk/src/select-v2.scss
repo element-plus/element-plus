@@ -1,4 +1,4 @@
-@use "sass:map";
+@use 'sass:map';
 
 @import 'mixins/mixins';
 @import 'mixins/utils';
@@ -306,6 +306,7 @@ $--input-inline-start: 15px !default;
     transform: translateY(-50%);
     margin-inline-start: $--input-inline-start;
     width: calc(100% - 52px);
+    @include utils-ellipsis;
     color: var(--el-input-font-color, map.get($--input, 'font-color'));
     font-size: inherit;
     @include when(transparent) {

@@ -1,12 +1,12 @@
+import { nextTick } from 'vue'
+import { mount } from '@vue/test-utils'
+import dayjs from 'dayjs'
 import ConfigProvider from '@element-plus/components/config-provider'
 import { CommonPicker } from '@element-plus/components/time-picker'
 import Input from '@element-plus/components/input'
-import { mount } from '@vue/test-utils'
 import zhCn from '@element-plus/locale/lang/zh-cn'
 import enUs from '@element-plus/locale/lang/en'
-import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
-import { nextTick } from 'vue'
 import DatePicker from '../src/date-picker'
 
 const _mount = (template: string, data = () => ({}), otherObj?) =>
@@ -281,9 +281,7 @@ describe('DatePicker', () => {
       await nextTick()
       expect(vm.value).toBe(
         dayjs(
-          `[Element-Plus] 01/${('0' + (day.month() + 1)).slice(
-            -2
-          )} ${day.year()}`,
+          `[Element-Plus] 01/${`0${day.month() + 1}`.slice(-2)} ${day.year()}`,
           valueFormat
         ).format(valueFormat)
       )

@@ -1,7 +1,7 @@
 import { watch, isRef, onUnmounted } from 'vue'
 
 import getScrollBarWidth from '@element-plus/utils/scrollbar-width'
-import throwError from '@element-plus/utils/error'
+import { throwError } from '@element-plus/utils/error'
 import {
   addClass,
   removeClass,
@@ -57,8 +57,9 @@ export default (trigger: Ref<boolean>) => {
         (bodyHasOverflow || bodyOverflowY === 'scroll') &&
         withoutHiddenClass
       ) {
-        document.body.style.paddingRight =
-          computedBodyPaddingRight + scrollBarWidth + 'px'
+        document.body.style.paddingRight = `${
+          computedBodyPaddingRight + scrollBarWidth
+        }px`
       }
       addClass(document.body, 'el-popup-parent--hidden')
     } else {

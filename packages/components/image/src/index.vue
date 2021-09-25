@@ -32,7 +32,11 @@
           :hide-on-click-modal="hideOnClickModal"
           @close="closeViewer"
           @switch="switchViewer"
-        />
+        >
+          <div v-if="$slots.viewer">
+            <slot name="viewer" />
+          </div>
+        </image-viewer>
       </template>
     </teleport>
   </div>

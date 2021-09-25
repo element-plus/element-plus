@@ -252,6 +252,9 @@ export default defineComponent({
     'mouseleave',
     'mouseenter',
     'keydown',
+    'compositionstart',
+    'compositionupdate',
+    'compositionend',
   ],
 
   setup(props, ctx) {
@@ -426,7 +429,7 @@ export default defineComponent({
       focused.value = false
       ctx.emit('blur', event)
       if (props.validateEvent) {
-        elFormItem.formItemMitt?.emit('el.form.blur', [props.modelValue])
+        elFormItem.validate?.('blur')
       }
     }
 
@@ -434,17 +437,20 @@ export default defineComponent({
       inputOrTextarea.value.select()
     }
 
-    const handleCompositionStart = () => {
+    const handleCompositionStart = (event: CompositionEvent) => {
+      ctx.emit('compositionstart', event)
       isComposing.value = true
     }
 
-    const handleCompositionUpdate = (event) => {
-      const text = event.target.value
+    const handleCompositionUpdate = (event: CompositionEvent) => {
+      ctx.emit('compositionupdate', event)
+      const text = (event.target as HTMLInputElement)?.value
       const lastCharacter = text[text.length - 1] || ''
       isComposing.value = !isKorean(lastCharacter)
     }
 
-    const handleCompositionEnd = (event) => {
+    const handleCompositionEnd = (event: CompositionEvent) => {
+      ctx.emit('compositionend', event)
       if (isComposing.value) {
         isComposing.value = false
         handleInput(event)
@@ -476,10 +482,10 @@ export default defineComponent({
 
     watch(
       () => props.modelValue,
-      (val) => {
+      () => {
         nextTick(resizeTextarea)
         if (props.validateEvent) {
-          elFormItem.formItemMitt?.emit('el.form.change', [val])
+          elFormItem.validate?.('change')
         }
       }
     )

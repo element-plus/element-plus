@@ -88,10 +88,11 @@ import {
 } from 'vue'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElCheckbox from '@element-plus/components/checkbox'
+import { debugWarn } from '@element-plus/utils/error'
 import NodeContent from './tree-node-content.vue'
 import { getNodeKey as getNodeKeyUtil } from './model/util'
 import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast'
-import { useDragNodeEmitter } from './model/useDragNode'
+import { dragEventsKey } from './model/useDragNode'
 import Node from './model/node'
 
 import type { ComponentInternalInstance, PropType } from 'vue'
@@ -131,12 +132,12 @@ export default defineComponent({
     const oldChecked = ref<boolean>(null)
     const oldIndeterminate = ref<boolean>(null)
     const node$ = ref<Nullable<HTMLElement>>(null)
-    const { emitter } = useDragNodeEmitter()
+    const dragEvents = inject(dragEventsKey)
     const instance = getCurrentInstance()
 
     provide('NodeInstance', instance)
     if (!tree) {
-      console.warn("Can not find node's tree.")
+      debugWarn('Tree', "Can not find node's tree.")
     }
 
     if (props.node.expanded) {
@@ -265,12 +266,12 @@ export default defineComponent({
 
     const handleDragStart = (event: DragEvent) => {
       if (!tree.props.draggable) return
-      emitter.emit('tree-node-drag-start', { event, treeNode: props })
+      dragEvents.treeNodeDragStart({ event, treeNode: props })
     }
 
     const handleDragOver = (event: DragEvent) => {
       if (!tree.props.draggable) return
-      emitter.emit('tree-node-drag-over', {
+      dragEvents.treeNodeDragOver({
         event,
         treeNode: { $el: node$.value, node: props.node },
       })
@@ -283,7 +284,7 @@ export default defineComponent({
 
     const handleDragEnd = (event: DragEvent) => {
       if (!tree.props.draggable) return
-      emitter.emit('tree-node-drag-end', event)
+      dragEvents.treeNodeDragEnd(event)
     }
 
     return {
@@ -293,7 +294,6 @@ export default defineComponent({
       childNodeRendered,
       oldChecked,
       oldIndeterminate,
-      emitter,
       getNodeKey,
       handleSelectChange,
       handleClick,

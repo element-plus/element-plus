@@ -38,11 +38,12 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
-import { PropType } from 'vue'
-import dayjs, { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 import localeData from 'dayjs/plugin/localeData'
 import { useLocaleInject } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
+import type { Dayjs } from 'dayjs'
+import type { PropType } from 'vue'
 dayjs.extend(localeData)
 
 export const getPrevMonthLastDays = (date: Dayjs, amount) => {

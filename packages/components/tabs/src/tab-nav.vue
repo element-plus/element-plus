@@ -14,11 +14,11 @@ import { EVENT_CODE } from '@element-plus/utils/aria'
 import {
   addResizeListener,
   removeResizeListener,
-  ResizableElement,
 } from '@element-plus/utils/resize-event'
 import { on, off } from '@element-plus/utils/dom'
-import throwError from '@element-plus/utils/error'
+import { throwError } from '@element-plus/utils/error'
 import TabBar from './tab-bar.vue'
+import type { ResizableElement } from '@element-plus/utils/resize-event'
 
 import type { PropType } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'

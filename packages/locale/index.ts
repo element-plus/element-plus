@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import { debugWarn } from '@element-plus/utils/error'
 import defaultLang from './lang/en'
 
 export type TranslatePair = {
@@ -51,13 +52,14 @@ export const t = (...args: any[]): string => {
 }
 
 export const use = (l: Language): void => {
-  if (process.env.NODE_ENV !== 'production') {
-    console.warn(`[deprecation]:
+  debugWarn(
+    'deprecation',
+    `:
       The previous i18n usage is deprecated please update to
       the new one to get reactive i18n translations, refer to:
       https://element-plus.org/#/en-US/component/i18n
-    `)
-  }
+    `
+  )
 
   lang = l || lang
   if (lang.name) {

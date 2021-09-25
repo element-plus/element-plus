@@ -65,6 +65,7 @@ import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import ElInput from '@element-plus/components/input'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
+import { debugWarn } from '@element-plus/utils/error'
 
 import type { PropType } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
@@ -124,7 +125,7 @@ export default defineComponent({
     placeholder: String,
     precision: {
       type: Number,
-      validator: (val: number) => val >= 0 && val === parseInt(val + '', 10),
+      validator: (val: number) => val >= 0 && val === parseInt(`${val}`, 10),
     },
   },
   emits: ['update:modelValue', 'change', 'input', 'blur', 'focus'],
@@ -149,8 +150,9 @@ export default defineComponent({
       const stepPrecision = getPrecision(props.step)
       if (props.precision !== undefined) {
         if (stepPrecision > props.precision) {
-          console.warn(
-            '[ElementPlus Warn][InputNumber] precision should not be less than the decimal places of step'
+          debugWarn(
+            'InputNumber',
+            'precision should not be less than the decimal places of step'
           )
         }
         return props.precision
@@ -182,7 +184,7 @@ export default defineComponent({
     const toPrecision = (num, pre?) => {
       if (pre === undefined) pre = numPrecision.value
       return parseFloat(
-        Math.round(num * Math.pow(10, pre)) / Math.pow(10, pre) + ''
+        `${Math.round(num * Math.pow(10, pre)) / Math.pow(10, pre)}`
       )
     }
     const getPrecision = (value) => {
@@ -247,6 +249,15 @@ export default defineComponent({
       }
       data.userInput = null
     }
+
+    const focus = () => {
+      input.value.focus?.()
+    }
+
+    const blur = () => {
+      input.value.blur?.()
+    }
+
     watch(
       () => props.modelValue,
       (value) => {
@@ -307,6 +318,8 @@ export default defineComponent({
       inputNumberDisabled,
       maxDisabled,
       minDisabled,
+      focus,
+      blur,
     }
   },
 })

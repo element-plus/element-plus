@@ -27,7 +27,7 @@ export default defineComponent({
         enter(el) {
           el.dataset.oldOverflow = el.style.overflow
           if (el.scrollHeight !== 0) {
-            el.style.height = el.scrollHeight + 'px'
+            el.style.height = `${el.scrollHeight}px`
             el.style.paddingTop = el.dataset.oldPaddingTop
             el.style.paddingBottom = el.dataset.oldPaddingBottom
           } else {
@@ -52,7 +52,7 @@ export default defineComponent({
           el.dataset.oldPaddingBottom = el.style.paddingBottom
           el.dataset.oldOverflow = el.style.overflow
 
-          el.style.height = el.scrollHeight + 'px'
+          el.style.height = `${el.scrollHeight}px`
           el.style.overflow = 'hidden'
         },
 

@@ -1,4 +1,4 @@
-@use "sass:map";
+@use 'sass:map';
 
 @import 'mixins/mixins';
 @import 'mixins/var';
@@ -23,6 +23,7 @@
     box-sizing: border-box;
     width: 100%;
     font-size: inherit;
+    font-family: inherit;
     color: var(--el-input-font-color, map.get($--input, 'font-color'));
     background-color: var(
       --el-input-background-color,
@@ -46,7 +47,7 @@
     &:hover {
       border-color: var(
         --el-input-hover-border,
-        map.get($--input, 'hover-color')
+        map.get($--input, 'hover-border')
       );
     }
 
@@ -54,7 +55,7 @@
       outline: none;
       border-color: var(
         --el-input-focus-border,
-        map.get($--input, 'focus-color')
+        map.get($--input, 'focus-border')
       );
     }
   }

@@ -19,7 +19,7 @@
           aria-modal="true"
           aria-labelledby="el-drawer__title"
           :aria-label="title"
-          :class="['el-drawer', direction, customClass]"
+          :class="['el-drawer', direction, visible && 'open', customClass]"
           :style="
             isHorizontal ? 'width: ' + drawerSize : 'height: ' + drawerSize
           "
@@ -59,11 +59,11 @@
 
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue'
-import { Overlay } from '@element-plus/components/overlay'
+import { ElOverlay } from '@element-plus/components/overlay'
 import {
   useDialog,
-  useDialogProps,
-  useDialogEmits,
+  dialogProps,
+  dialogEmits,
 } from '@element-plus/components/dialog'
 import { TrapFocus } from '@element-plus/directives'
 
@@ -74,13 +74,13 @@ type DrawerDirection = 'ltr' | 'rtl' | 'ttb' | 'btt'
 export default defineComponent({
   name: 'ElDrawer',
   components: {
-    [Overlay.name]: Overlay,
+    ElOverlay,
   },
   directives: {
     TrapFocus,
   },
   props: {
-    ...useDialogProps,
+    ...dialogProps,
     direction: {
       type: String as PropType<DrawerDirection>,
       default: 'rtl',
@@ -102,7 +102,7 @@ export default defineComponent({
     },
   },
 
-  emits: useDialogEmits,
+  emits: dialogEmits,
 
   setup(props, ctx) {
     const drawerRef = ref<HTMLElement>(null)

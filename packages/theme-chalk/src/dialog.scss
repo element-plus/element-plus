@@ -1,4 +1,4 @@
-@use "sass:map";
+@use 'sass:map';
 
 @import 'mixins/mixins';
 @import 'mixins/utils';
@@ -10,16 +10,16 @@
   @include set-component-css-var('dialog', $--dialog);
 
   position: relative;
-  margin: 0 auto 50px;
+  margin: var(--el-dialog-margin-top, 15vh) auto 50px;
   background: var(--el-dialog-background-color);
   border-radius: var(--el-border-radius-small);
   box-shadow: var(--el-dialog-box-shadow);
   box-sizing: border-box;
-  width: 50%;
+  width: var(--el-dialog-width, 50%);
 
   @include when(fullscreen) {
-    width: 100%;
-    margin-top: 0;
+    --el-dialog-width: 100%;
+    --el-dialog-margin-top: 0;
     margin-bottom: 0;
     height: 100%;
     overflow: auto;
@@ -99,16 +99,25 @@
   }
 }
 
+.#{$namespace}-overlay-dialog {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: auto;
+}
+
 .dialog-fade-enter-active {
-  animation: modal-fade-in var(--el-transition-duration) !important;
-  .#{$namespace}-dialog {
+  animation: modal-fade-in var(--el-transition-duration);
+  .#{$namespace}-overlay-dialog {
     animation: dialog-fade-in var(--el-transition-duration);
   }
 }
 
 .dialog-fade-leave-active {
   animation: modal-fade-out var(--el-transition-duration);
-  .#{$namespace}-dialog {
+  .#{$namespace}-overlay-dialog {
     animation: dialog-fade-out var(--el-transition-duration);
   }
 }
@@ -140,7 +149,6 @@
     opacity: 0;
   }
   100% {
-    transform: translate3d(0, 0, 0);
     opacity: 1;
   }
 }

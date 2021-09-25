@@ -17,6 +17,7 @@
           customClass,
           { 'el-message-box--center': center },
         ]"
+        :style="customStyle"
       >
         <div
           v-if="title !== null && title !== undefined"
@@ -128,7 +129,7 @@ import {
   usePreventGlobal,
 } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
-import { Overlay as ElOverlay } from '@element-plus/components/overlay'
+import { ElOverlay } from '@element-plus/components/overlay'
 import PopupManager from '@element-plus/utils/popup-manager'
 import { on, off } from '@element-plus/utils/dom'
 import { EVENT_CODE } from '@element-plus/utils/aria'
@@ -217,6 +218,7 @@ export default defineComponent({
       confirmButtonText: '',
       confirmButtonClass: '',
       customClass: '',
+      customStyle: {},
       dangerouslyUseHTMLString: false,
       distinguishCancelAndClose: false,
       iconClass: '',
