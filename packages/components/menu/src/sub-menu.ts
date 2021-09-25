@@ -55,7 +55,7 @@ export default defineComponent({
       popperJS: null,
       timeout: null,
       items: {},
-      submenus: {},
+      subMenus: {},
       currentPlacement: '',
       mouseInChild: false,
       opened: false,
@@ -136,7 +136,7 @@ export default defineComponent({
     })
     const active = computed(() => {
       let isActive = false
-      const submenus = data.submenus
+      const subMenus = data.subMenus
       const items = data.items
 
       Object.keys(items).forEach((index) => {
@@ -145,8 +145,8 @@ export default defineComponent({
         }
       })
 
-      Object.keys(submenus).forEach((index) => {
-        if (submenus[index].active) {
+      Object.keys(subMenus).forEach((index) => {
+        if (subMenus[index].active) {
           isActive = true
         }
       })
@@ -202,10 +202,10 @@ export default defineComponent({
       delete data.items[item.index]
     }
     const addSubMenu = (item) => {
-      data.submenus[item.index] = item
+      data.subMenus[item.index] = item
     }
     const removeSubMenu = (item) => {
-      delete data.submenus[item.index]
+      delete data.subMenus[item.index]
     }
     const handleClick = () => {
       const disabled = props.disabled

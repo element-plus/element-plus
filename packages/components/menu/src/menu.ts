@@ -98,7 +98,7 @@ export default defineComponent({
     const instance = getCurrentInstance()
     const activeIndex = ref(props.defaultActive)
     const items = ref({})
-    const submenus = ref({})
+    const subMenus = ref({})
     const alteredCollapse = ref(false)
     const router = instance.appContext.config.globalProperties.$router
     const menu = ref(null)
@@ -121,19 +121,19 @@ export default defineComponent({
       const indexPath = activeItem.indexPath
 
       // 展开该菜单项的路径上所有子菜单
-      // expand all submenus of the menu item
+      // expand all subMenus of the menu item
       indexPath.forEach((index) => {
-        const submenu = submenus.value[index]
+        const submenu = subMenus.value[index]
         submenu && openMenu(index, submenu?.indexPath)
       })
     }
 
     const addSubMenu = (item: MenuItemRegistered) => {
-      submenus.value[item.index] = item
+      subMenus.value[item.index] = item
     }
 
     const removeSubMenu = (item: MenuItemRegistered) => {
-      delete submenus.value[item.index]
+      delete subMenus.value[item.index]
     }
 
     const addMenuItem = (item: MenuItemRegistered) => {
@@ -167,7 +167,7 @@ export default defineComponent({
     }
 
     const open = (index) => {
-      const { indexPath } = submenus.value[index.toString()]
+      const { indexPath } = subMenus.value[index.toString()]
       indexPath.forEach((i) => openMenu(i, indexPath))
     }
 
@@ -274,7 +274,7 @@ export default defineComponent({
         props,
         openedMenus,
         items,
-        submenus,
+        subMenus,
         activeIndex,
         isMenuPopup,
 

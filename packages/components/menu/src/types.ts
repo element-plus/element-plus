@@ -9,7 +9,7 @@ export interface MenuItemRegistered {
 export interface MenuProviderRaw {
   openedMenus: unknown[]
   items: any
-  submenus: any
+  subMenus: any
   activeIndex: string
   isMenuPopup: boolean
   props: Readonly<Partial<RootMenuProps>>
