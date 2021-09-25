@@ -1,3 +1,4 @@
+import type { MenuProps } from './menu'
 import type { Ref, ComputedRef, UnwrapRef } from 'vue'
 
 export interface MenuItemRegistered {
@@ -12,7 +13,7 @@ export interface MenuProviderRaw {
   subMenus: any
   activeIndex: string
   isMenuPopup: boolean
-  props: Readonly<Partial<RootMenuProps>>
+  props: MenuProps
 
   addMenuItem: (item: MenuItemRegistered) => void
   removeMenuItem: (item: MenuItemRegistered) => void
@@ -36,18 +37,4 @@ export interface SubMenuProvider {
   addSubMenu: (item: MenuItemRegistered) => void
   removeSubMenu: (item: MenuItemRegistered) => void
   handleMouseleave?: (deepDispatch: boolean) => void
-}
-
-export interface RootMenuProps {
-  mode: string
-  defaultActive: string
-  defaultOpeneds: unknown[]
-  uniqueOpened: boolean
-  router: boolean
-  menuTrigger: string
-  collapse: boolean
-  backgroundColor: string
-  textColor: string
-  activeTextColor: string
-  collapseTransition: boolean
 }
