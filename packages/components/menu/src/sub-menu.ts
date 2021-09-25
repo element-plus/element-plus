@@ -1,4 +1,3 @@
-<script lang="ts">
 import {
   defineComponent,
   computed,
@@ -20,11 +19,7 @@ import ElPopper from '@element-plus/components/popper'
 import useMenu from './use-menu'
 
 import { useMenuCssVar } from './use-menu-css-var'
-import type {
-  ISubMenuProps,
-  MenuProvider,
-  SubMenuProvider,
-} from './types'
+import type { ISubMenuProps, MenuProvider, SubMenuProvider } from './types'
 
 export default defineComponent({
   name: 'ElSubMenu',
@@ -480,4 +475,3 @@ export default defineComponent({
     )
   },
 })
-</script>

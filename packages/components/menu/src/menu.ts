@@ -15,7 +15,7 @@ import Menubar from '@element-plus/utils/menu/menu-bar'
 import { buildProp, definePropType, mutable } from '@element-plus/utils/props'
 import { isString, isObject } from '@element-plus/utils/util'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
-import ElSubMenu from './sub-menu.vue'
+import ElSubMenu from './sub-menu'
 import { useMenuCssVar } from './use-menu-css-var'
 
 import type { NavigationFailure } from 'vue-router'

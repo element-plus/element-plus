@@ -6,7 +6,7 @@ import { rAF } from '@element-plus/test-utils/tick'
 import Menu from '../src/menu'
 import MenuGroup from '../src/menu-item-group.vue'
 import MenuItem from '../src/menu-item.vue'
-import SubMenu from '../src/sub-menu.vue'
+import SubMenu from '../src/sub-menu'
 
 const _mount = (template: string, options = {}) =>
   mount({
