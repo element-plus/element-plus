@@ -149,15 +149,6 @@ export default defineComponent({
       }
     }
 
-    const open = (index) => {
-      const { indexPath } = subMenus.value[index.toString()]
-      indexPath.forEach((i) => openMenu(i, indexPath))
-    }
-
-    const close = (index) => {
-      closeMenu(index)
-    }
-
     const handleSubMenuClick: MenuProvider['handleSubMenuClick'] = (
       subMenu
     ) => {
@@ -292,7 +283,6 @@ export default defineComponent({
     }
 
     // lifecycle
-
     onMounted(() => {
       initMenu()
       if (props.mode === 'horizontal') {
@@ -300,10 +290,16 @@ export default defineComponent({
       }
     })
 
-    expose({
-      open,
-      close,
-    })
+    {
+      const open = (index: string) => {
+        const { indexPath } = subMenus.value[index]
+        indexPath.forEach((i) => openMenu(i, indexPath))
+      }
+      expose({
+        open,
+        close: closeMenu,
+      })
+    }
 
     const flattedChildren = (children) => {
       const temp = Array.isArray(children) ? children : [children]
