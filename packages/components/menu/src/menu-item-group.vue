@@ -21,19 +21,17 @@ import {
   inject,
   reactive,
 } from 'vue'
+import { menuItemGroupProps } from './menu-item-group'
 
-import type { IMenuGroupProps, MenuProvider } from './types'
+import type { MenuProvider } from './types'
 
 export default defineComponent({
   name: 'ElMenuItemGroup',
   componentName: 'ElMenuItemGroup',
 
-  props: {
-    title: {
-      type: String,
-    },
-  },
-  setup(props: IMenuGroupProps, { slots }) {
+  props: menuItemGroupProps,
+
+  setup(props, { slots }) {
     // data
     const data = reactive({
       paddingLeft: 20,

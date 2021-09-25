@@ -80,9 +80,3 @@ export interface IMenuItemProps {
   route: string | Record<string, unknown>
   disabled: boolean
 }
-
-// menuGroup
-
-export interface IMenuGroupProps {
-  title: string
-}
