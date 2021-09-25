@@ -20,7 +20,13 @@ import ElSubMenu from './sub-menu'
 import { useMenuCssVar } from './use-menu-css-var'
 
 import type { NavigationFailure } from 'vue-router'
-import type { VNode, Ref, ComputedRef, ExtractPropTypes } from 'vue'
+import type {
+  VNode,
+  Ref,
+  ComputedRef,
+  ExtractPropTypes,
+  VNodeNormalizedChildren,
+} from 'vue'
 import type { MenuProvider, MenuItemRegistered, SubMenuProvider } from './types'
 
 export const menuProps = {
@@ -101,7 +107,7 @@ export default defineComponent({
     const subMenus = ref({})
     const alteredCollapse = ref(false)
     const router = instance.appContext.config.globalProperties.$router
-    const menu = ref(null)
+    const menu = ref<HTMLUListElement>()
 
     // computed
     const isMenuPopup = computed(() => {
@@ -301,17 +307,17 @@ export default defineComponent({
       })
     }
 
-    const flattedChildren = (children) => {
-      const temp = Array.isArray(children) ? children : [children]
-      const res = []
-      temp.forEach((child) => {
+    const flattedChildren = (children: VNodeNormalizedChildren) => {
+      const vnodes = Array.isArray(children) ? children : [children]
+      const result: any[] = []
+      vnodes.forEach((child) => {
         if (Array.isArray(child.children)) {
-          res.push(...flattedChildren(child.children))
+          result.push(...flattedChildren(child.children))
         } else {
-          res.push(child)
+          result.push(child)
         }
       })
-      return res
+      return result
     }
 
     const useVNodeResize = (vnode: VNode) =>
@@ -320,12 +326,10 @@ export default defineComponent({
         : vnode
     return () => {
       let slot = slots.default?.() ?? []
-      const showMore = []
+      const vShowMore: VNode[] = []
 
       if (props.mode === 'horizontal' && menu.value) {
-        const items = Array.from(
-          (menu.value as Node | undefined)?.childNodes ?? []
-        ).filter(
+        const items = Array.from(menu.value?.childNodes ?? []).filter(
           (item) => item.nodeName !== '#text' || item.nodeValue
         ) as HTMLElement[]
         const originalSlot = flattedChildren(slot)
@@ -347,11 +351,11 @@ export default defineComponent({
             sliceIndex = index + 1
           }
         })
-        const defaultSlot = originalSlot.slice(0, sliceIndex)
-        const moreSlot = originalSlot.slice(sliceIndex)
-        if (moreSlot?.length) {
-          slot = defaultSlot
-          showMore.push(
+        const slotDefault = originalSlot.slice(0, sliceIndex)
+        const slotMore = originalSlot.slice(sliceIndex)
+        if (slotMore?.length) {
+          slot = slotDefault
+          vShowMore.push(
             h(
               ElSubMenu,
               {
@@ -363,7 +367,7 @@ export default defineComponent({
                   h('i', {
                     class: ['el-icon-more', 'el-sub-menu__icon-more'],
                   }),
-                default: () => moreSlot,
+                default: () => slotMore,
               }
             )
           )
@@ -372,7 +376,7 @@ export default defineComponent({
 
       const ulStyle = useMenuCssVar(props)
 
-      const vnodeMenu = useVNodeResize(
+      const vMenu = useVNodeResize(
         h(
           'ul',
           {
@@ -386,15 +390,15 @@ export default defineComponent({
               'el-menu--collapse': props.collapse,
             },
           },
-          [...slot.map((vnode) => useVNodeResize(vnode)), ...showMore]
+          [...slot.map((vnode) => useVNodeResize(vnode)), ...vShowMore]
         )
       )
 
       if (props.collapseTransition && props.mode === 'vertical') {
-        return h(ElMenuCollapseTransition, () => vnodeMenu)
+        return h(ElMenuCollapseTransition, () => vMenu)
       }
 
-      return vnodeMenu
+      return vMenu
     }
   },
 })
