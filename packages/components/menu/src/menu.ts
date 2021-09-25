@@ -9,6 +9,7 @@ import {
   isRef,
   h,
   withDirectives,
+  reactive,
 } from 'vue'
 import { Resize } from '@element-plus/directives'
 import Menubar from '@element-plus/utils/menu/menu-bar'
@@ -267,25 +268,28 @@ export default defineComponent({
     )
 
     // provide
-    provide<MenuProvider>('rootMenu', {
-      props,
-      openedMenus,
-      items,
-      submenus,
-      activeIndex,
-      isMenuPopup,
+    provide<MenuProvider>(
+      'rootMenu',
+      reactive({
+        props,
+        openedMenus,
+        items,
+        submenus,
+        activeIndex,
+        isMenuPopup,
 
-      methods: {
-        addMenuItem,
-        removeMenuItem,
-        addSubMenu,
-        removeSubMenu,
-        openMenu,
-        closeMenu,
-        handleMenuItemClick,
-        handleSubMenuClick,
-      },
-    })
+        methods: {
+          addMenuItem,
+          removeMenuItem,
+          addSubMenu,
+          removeSubMenu,
+          openMenu,
+          closeMenu,
+          handleMenuItemClick,
+          handleSubMenuClick,
+        },
+      })
+    )
     provide<SubMenuProvider>(`subMenu:${instance.uid}`, {
       addSubMenu,
       removeSubMenu,

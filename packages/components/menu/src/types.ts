@@ -1,4 +1,4 @@
-import type { Ref, ComputedRef } from 'vue'
+import type { Ref, ComputedRef, UnwrapRef } from 'vue'
 
 export interface MenuItemRegistered {
   index: string
@@ -6,23 +6,14 @@ export interface MenuItemRegistered {
   active: ComputedRef<boolean>
 }
 
-export interface RootMenuData {
-  activeIndex: string
+export interface MenuProviderRaw {
   openedMenus: unknown[]
   items: any
   submenus: any
+  activeIndex: string
   isMenuPopup: boolean
-}
-
-export interface MenuProvider {
-  openedMenus: Ref<RootMenuData['openedMenus']>
-  items: Ref<RootMenuData['items']>
-  submenus: Ref<RootMenuData['submenus']>
-  activeIndex: Ref<RootMenuData['activeIndex']>
-  hoverBackground: Ref<string>
-  isMenuPopup: Ref<RootMenuData['isMenuPopup']>
-
   props: Readonly<Partial<RootMenuProps>>
+
   methods: {
     addMenuItem: (item: MenuItemRegistered) => void
     removeMenuItem: (item: MenuItemRegistered) => void
@@ -41,6 +32,7 @@ export interface MenuProvider {
     }) => void
   }
 }
+export type MenuProvider = UnwrapRef<MenuProviderRaw>
 
 export interface SubMenuProvider {
   addSubMenu: (item: MenuItemRegistered) => void

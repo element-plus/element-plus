@@ -13,6 +13,7 @@ import {
   Fragment,
   vShow,
   h,
+  toRefs,
 } from 'vue'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElPopper from '@element-plus/components/popper'
@@ -71,12 +72,11 @@ export default defineComponent({
 
     // inject
     const {
-      openedMenus,
-      isMenuPopup,
       methods: rootMethods,
-      props: rootProps,
       methods: { closeMenu },
-    } = inject<MenuProvider>('rootMenu')
+      ...rootMenu
+    } = inject<MenuProvider>('rootMenu')! /* TODO REMOVED */
+    const { isMenuPopup, props: rootProps } = toRefs(rootMenu)
 
     const {
       addSubMenu: parentAddSubMenu,
@@ -132,7 +132,7 @@ export default defineComponent({
           ]
     )
     const opened = computed(() => {
-      return openedMenus.value.includes(props.index)
+      return rootMenu.openedMenus.includes(props.index)
     })
     const active = computed(() => {
       let isActive = false

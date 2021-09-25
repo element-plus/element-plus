@@ -80,7 +80,7 @@ export default defineComponent({
     )
 
     const active = computed(() => {
-      return props.index === rootMenu.activeIndex.value
+      return props.index === rootMenu.activeIndex
     })
 
     const handleClick = () => {
