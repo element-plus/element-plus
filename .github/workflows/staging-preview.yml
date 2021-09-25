@@ -25,10 +25,10 @@ jobs:
           version: 6.15.1
 
       - name: Install dependencies
-        run: pnpm bootstrap
+        run: pnpm i
 
       - name: Compile Element Plus
-        run: sh scripts/build.sh
+        run: pnpm build
 
       - name: Init Crowdin token
         run: pnpm docs:crowdin

@@ -23,7 +23,7 @@ jobs:
           version: 6.15.1
 
       - name: Install dependencies
-        run: pnpm bootstrap
+        run: pnpm i
 
       - name: Fetch Crowdin token for pulling languages
         run: pnpm docs:crowdin
@@ -43,11 +43,6 @@ jobs:
         run: pnpm docs:build
         env:
           DOC_ENV: production
-
-      # - name: Build Indices
-      #   run: pnpm build:indices
-      #   env:
-      #     ALGOLIA_KEY: ${{secrets.ALGOLIA_KEY}}
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@3.7.1
