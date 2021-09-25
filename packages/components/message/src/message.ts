@@ -75,11 +75,13 @@ export type MessageParamsTyped = Partial<MessageOptionsTyped> | string | VNode
 export type MessageFn = ((options?: MessageParams) => MessageHandle) & {
   closeAll(): void
 }
+export type MessageTypedFn = (options?: MessageParamsTyped) => MessageHandle
+
 export interface Message extends MessageFn {
-  success: (options?: MessageParamsTyped) => MessageHandle
-  warning: (options?: MessageParamsTyped) => MessageHandle
-  info: (options?: MessageParamsTyped) => MessageHandle
-  error: (options?: MessageParamsTyped) => MessageHandle
+  success: MessageTypedFn
+  warning: MessageTypedFn
+  info: MessageTypedFn
+  error: MessageTypedFn
 }
 
 type MessageQueueItem = {

@@ -92,11 +92,16 @@ export type NotificationParamsTyped =
 export type NotifyFn = ((
   options?: NotificationParams
 ) => NotificationHandle) & { closeAll: () => void }
+
+export type NotifyTypedFn = (
+  options?: NotificationParamsTyped
+) => NotificationHandle
+
 export interface Notify extends NotifyFn {
-  success: (options?: NotificationParamsTyped) => NotificationHandle
-  warning: (options?: NotificationParamsTyped) => NotificationHandle
-  error: (options?: NotificationParamsTyped) => NotificationHandle
-  info: (options?: NotificationParamsTyped) => NotificationHandle
+  success: NotifyTypedFn
+  warning: NotifyTypedFn
+  error: NotifyTypedFn
+  info: NotifyTypedFn
 }
 
 export interface NotificationQueueItem {
