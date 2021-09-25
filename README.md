@@ -137,6 +137,8 @@ $ pnpm gen component-name
 
 Note the `component-name` must be in `kebab-case`, combining words by replacing each space with a dash.
 
+And component type must be added to `packages/element-plus/global.d.ts`.
+
 ## Commit template
 
 With command
