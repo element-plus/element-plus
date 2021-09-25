@@ -4,44 +4,38 @@
       class="el-menu-item-group__title"
       :style="{ paddingLeft: levelPadding + 'px' }"
     >
-      <template v-if="!slots.title">{{ title }}</template>
+      <template v-if="!$slots.title">{{ title }}</template>
       <slot v-else name="title"></slot>
     </div>
     <ul>
-      <slot></slot>
+      <slot />
     </ul>
   </li>
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  computed,
-  getCurrentInstance,
-  inject,
-  reactive,
-} from 'vue'
+import { defineComponent, computed, getCurrentInstance, inject } from 'vue'
+import { throwError } from '@element-plus/utils/error'
 import { menuItemGroupProps } from './menu-item-group'
 
 import type { MenuProvider } from './types'
 
+const COMPONENT_NAME = 'ElMenuItemGroup'
+
 export default defineComponent({
-  name: 'ElMenuItemGroup',
-  componentName: 'ElMenuItemGroup',
+  name: COMPONENT_NAME,
 
   props: menuItemGroupProps,
 
-  setup(props, { slots }) {
-    // data
-    const data = reactive({
-      paddingLeft: 20,
-    })
-    const instance = getCurrentInstance()
-    // computed
+  setup() {
+    const instance = getCurrentInstance()!
+    const menu = inject<MenuProvider>('rootMenu')
+    if (!menu) throwError(COMPONENT_NAME, 'can not inject root menu')
+
     const levelPadding = computed(() => {
+      if (menu.props.collapse) return 20
       let padding = 20
       let parent = instance.parent
-      if (rootProps.collapse) return 20
       while (parent && parent.type.name !== 'ElMenu') {
         if (parent.type.name === 'ElSubMenu') {
           padding += 20
@@ -51,14 +45,8 @@ export default defineComponent({
       return padding
     })
 
-    // inject
-    const { props: rootProps } = inject<MenuProvider>('rootMenu')
-
     return {
-      data,
       levelPadding,
-      props,
-      slots,
     }
   },
 })
