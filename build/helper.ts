@@ -11,7 +11,7 @@ const reComponentName: InstallOptions['reComponentName'] = (title: string) =>
     .toLowerCase()}`
 
 const reDocUrl: InstallOptions['reDocUrl'] = (fileName, header) => {
-  const docs = 'https://element-plus.org/#/en-US/component/'
+  const docs = 'https://element-plus.org/en-US/component/'
   const _header = header
     ? header.replace(/[ ]+/g, '-').toLowerCase()
     : undefined
