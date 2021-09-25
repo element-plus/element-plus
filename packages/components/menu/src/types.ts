@@ -26,9 +26,9 @@ export interface MenuProviderRaw {
     indexPath: ComputedRef<string[]>
     route?: any
   }) => void
-  handleSubMenuClick: (submenu: {
+  handleSubMenuClick: (subMenu: {
     index: string
-    indexPath: ComputedRef<string[]>
+    indexPath?: ComputedRef<string[]>
   }) => void
 }
 export type MenuProvider = UnwrapRef<MenuProviderRaw>

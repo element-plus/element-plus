@@ -85,7 +85,7 @@ export default defineComponent({
     } = inject<SubMenuProvider>(`subMenu:${parentMenu.value.uid}`)
 
     // computed
-    const submenuTitleIcon = computed(() => {
+    const subMenuTitleIcon = computed(() => {
       return (mode.value === 'horizontal' && isFirstLevel.value) ||
         (mode.value === 'vertical' && !rootProps.collapse)
         ? 'el-icon-arrow-down'
@@ -328,7 +328,7 @@ export default defineComponent({
       rootProps,
       menuTransitionName,
       fallbackPlacements,
-      submenuTitleIcon,
+      subMenuTitleIcon,
       appendToBody,
 
       handleClick,
@@ -350,7 +350,7 @@ export default defineComponent({
       h(
         'i',
         {
-          class: ['el-sub-menu__icon-arrow', this.submenuTitleIcon],
+          class: ['el-sub-menu__icon-arrow', this.subMenuTitleIcon],
         },
         null
       ),

@@ -123,28 +123,28 @@ export default defineComponent({
       // 展开该菜单项的路径上所有子菜单
       // expand all subMenus of the menu item
       indexPath.forEach((index) => {
-        const submenu = subMenus.value[index]
-        submenu && openMenu(index, submenu?.indexPath)
+        const subMenu = subMenus.value[index]
+        subMenu && openMenu(index, subMenu?.indexPath)
       })
     }
 
-    const addSubMenu = (item: MenuItemRegistered) => {
+    const addSubMenu: MenuProvider['addSubMenu'] = (item) => {
       subMenus.value[item.index] = item
     }
 
-    const removeSubMenu = (item: MenuItemRegistered) => {
+    const removeSubMenu: MenuProvider['removeSubMenu'] = (item) => {
       delete subMenus.value[item.index]
     }
 
-    const addMenuItem = (item: MenuItemRegistered) => {
+    const addMenuItem: MenuProvider['addMenuItem'] = (item) => {
       items.value[item.index] = item
     }
 
-    const removeMenuItem = (item: MenuItemRegistered) => {
+    const removeMenuItem: MenuProvider['removeMenuItem'] = (item) => {
       delete items.value[item.index]
     }
 
-    const openMenu = (index: string, indexPath?: Ref<string[]> | string[]) => {
+    const openMenu: MenuProvider['openMenu'] = (index, indexPath) => {
       if (openedMenus.value.includes(index)) return
       // 将不在该菜单路径下的其余菜单收起
       // collapse all menu that are not under current menu item
@@ -159,7 +159,7 @@ export default defineComponent({
       openedMenus.value.push(index)
     }
 
-    const closeMenu = (index) => {
+    const closeMenu: MenuProvider['closeMenu'] = (index) => {
       const i = openedMenus.value.indexOf(index)
       if (i !== -1) {
         openedMenus.value.splice(i, 1)
@@ -175,8 +175,10 @@ export default defineComponent({
       closeMenu(index)
     }
 
-    const handleSubMenuClick = (submenu) => {
-      const { index, indexPath } = submenu
+    const handleSubMenuClick: MenuProvider['handleSubMenuClick'] = (
+      subMenu
+    ) => {
+      const { index, indexPath } = subMenu
       const isOpened = openedMenus.value.includes(index)
 
       if (isOpened) {
@@ -188,11 +190,7 @@ export default defineComponent({
       }
     }
 
-    const handleMenuItemClick = (item: {
-      index: string
-      indexPath: ComputedRef<string[]>
-      route?: any
-    }) => {
+    const handleMenuItemClick: MenuProvider['handleMenuItemClick'] = (item) => {
       const { index, indexPath } = item
       const hasIndex = item.index !== null
       const emitParams = [index, indexPath.value, item]
