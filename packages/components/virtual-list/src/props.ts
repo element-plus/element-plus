@@ -1,5 +1,4 @@
 import { buildProp } from '@element-plus/utils/props'
-import { isNumber } from '@element-plus/utils/util'
 import { LTR, RTL, VERTICAL } from './defaults'
 
 import type { ExtractPropTypes, PropType } from 'vue'

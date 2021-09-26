@@ -33,7 +33,7 @@ import {
   RTL_OFFSET_POS_ASC,
 } from '../defaults'
 
-import type { CSSProperties, Slot, VNode, VNodeChild } from 'vue'
+import type { CSSProperties, VNode, VNodeChild } from 'vue'
 import type { StyleValue } from '@element-plus/utils/types'
 import type { GridConstructorProps, Alignment, ScrollbarExpose } from '../types'
 import type { VirtualizedGridProps } from '../props'
