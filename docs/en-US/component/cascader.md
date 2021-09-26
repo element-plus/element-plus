@@ -44,7 +44,36 @@ cascader/last-level
 
 ## Multiple Selection
 
-Add`:props="props"`in tag and set `props : { multiple = true }` to use multiple selection.
+Add`:props="props"`in tag and set data `props : { multiple = true }` to use multiple selection.<br/>
+Example:<br/>
+You have to use it like this:
+
+```html
+<template>
+  <el-cascader :props="props" />
+</template>
+<script lang="ts">
+  export default {
+    setup() {
+      return {
+        props: {
+          // props.
+          multiple: true,
+        },
+      }
+    },
+  }
+</script>
+```
+
+Please don‘t use it like this:
+
+```html
+<template>
+  <!--  Object literal binging here is invalid syntax for cascader  -->
+  <el-cascader :props="{ multiple: true}" />
+</template>
+```
 
 :::demo When using multiple selection, all selected tags will display by default, You can set `collapse-tags = true` to fold selected tags.
 
