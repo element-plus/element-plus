@@ -12,7 +12,7 @@ import {
 
 import type { VirtualizedListProps } from '../props'
 
-type IProps = VirtualizedListProps
+type Props = VirtualizedListProps
 
 const FixedSizeList = buildList({
   name: 'ElFixedSizeList',
@@ -91,7 +91,7 @@ const FixedSizeList = buildList({
     Math.max(0, Math.min(total - 1, Math.floor(offset / (itemSize as number)))),
 
   getStopIndexForStartIndex: (
-    { height, total, itemSize, layout, width }: IProps,
+    { height, total, itemSize, layout, width }: Props,
     startIndex: number,
     scrollOffset: number
   ) => {
