@@ -46,8 +46,7 @@ cascader/last-level
 
 Add`:props="props"`in tag and set data `props: { multiple = true }` to use multiple selection.
 
-Example:<br/>
-You have to use it like this:
+Do:
 
 ```html
 <template>
@@ -67,7 +66,7 @@ You have to use it like this:
 </script>
 ```
 
-Please don‘t use it like this:
+Don't do:
 
 ```html
 <template>
