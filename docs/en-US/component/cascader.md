@@ -44,7 +44,7 @@ cascader/last-level
 
 ## Multiple Selection
 
-Add`:props="props"`in tag and set data `props: { multiple = true }` to use multiple selection.
+Add `:props="props"` in tag and set data `props: { multiple = true }` to use multiple selection.
 
 Do:
 
@@ -71,7 +71,7 @@ Don't do:
 ```html
 <template>
   <!--  Object literal binging here is invalid syntax for cascader  -->
-<el-cascader :props="{ multiple: true }" />
+  <el-cascader :props="{ multiple: true }" />
 </template>
 ```
 
