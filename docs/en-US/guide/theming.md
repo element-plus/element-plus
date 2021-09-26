@@ -11,6 +11,8 @@ provide four ways to change the style variables.
 
 ## Change theme color <el-tag type="success" style="vertical-align: middle;">since 1.1.0-beta.1</el-tag>
 
+> A custom theme primary color can be found in [element-plus-vite-starter](https://github.com/element-plus/element-plus-vite-starter).
+
 ### By SCSS variables
 
 `theme-chalk` is written in SCSS.
@@ -60,9 +62,9 @@ $--colors: map.deep-merge(
 ### How to override it?
 
 If your project also uses SCSS, you can directly
-change Element Plus style variables. Create a new style file, e.g. `element-variables.scss`:
+change Element Plus style variables. Create a new style file, e.g. `element/var.scss`:
 
-> element-variables.scss
+> element/var.scss
 
 ```scss
 /* just override what you need */
@@ -78,15 +80,25 @@ built CSS:
 
 ::: tip
 
-Import `element-variables.scss` before scss of element-plus to avoid the problem of sass mixed variables, because we need generate light-x by your custom variables.
+Import `element/var.scss` before scss of element-plus to avoid the problem of sass mixed variables, because we need generate light-x by your custom variables.
 
 :::
 
+Create a `element/index.scss` to combine your variables and variables of element-plus. (If you import them in ts, they will not be combined.)
+
+> In addition, you should distinguish your scss from the element variable scss.
+> If they are mixed together, each hot update of `element-plus` needs to compile a large number of scss files, resulting in slow speed.
+
+```scss
+// styles/element/index.scss
+// import it before element-plus scss
+@import './var.scss';
+@import 'element-plus/theme-chalk/src/index.scss';
+```
+
 ```ts
 import Vue from 'vue'
-// import it before element-plus scss
-import './element-variables.scss'
-import 'element-plus/theme-chalk/src/index.scss'
+import './styles/element/index.scss'
 import ElementPlus from 'element-plus'
 import App from './App.vue'
 
