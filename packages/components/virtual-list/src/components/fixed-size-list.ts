@@ -1,6 +1,6 @@
 import { isString } from '@element-plus/utils/util'
 import { throwError } from '@element-plus/utils/error'
-import buildList from '../builders/buildList'
+import buildList from '../builders/build-list'
 import { isHorizontal } from '../utils'
 import {
   SMART_ALIGNMENT,
@@ -9,11 +9,10 @@ import {
   END_ALIGNMENT,
   CENTERED_ALIGNMENT,
 } from '../defaults'
-import type { DefaultListProps } from '../defaults'
 
-import type { ExtractPropTypes } from 'vue'
+import type { VirtualizedListProps } from '../props'
 
-type IProps = ExtractPropTypes<typeof DefaultListProps>
+type IProps = VirtualizedListProps
 
 const FixedSizeList = buildList({
   name: 'ElFixedSizeList',
@@ -112,8 +111,12 @@ const FixedSizeList = buildList({
     )
   },
 
+  /**
+   * Fixed size list does not need this cache
+   * Using any to bypass it, TODO: Using type inference to fix this.
+   */
   initCache() {
-    return undefined
+    return undefined as any
   },
 
   clearCache: true,

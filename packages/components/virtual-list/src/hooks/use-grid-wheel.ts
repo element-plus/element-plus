@@ -3,18 +3,18 @@ import { isFF } from '../utils'
 
 import type { ComputedRef } from 'vue'
 
-interface IWheelState {
+interface GridWheelState {
   atXStartEdge: ComputedRef<boolean>
   atXEndEdge: ComputedRef<boolean>
   atYStartEdge: ComputedRef<boolean>
   atYEndEdge: ComputedRef<boolean>
 }
 
-type IWheelHandler = (x: number, y: number) => void
+type GridWheelHandler = (x: number, y: number) => void
 
 export const useGridWheel = (
-  { atXEndEdge, atXStartEdge, atYEndEdge, atYStartEdge }: IWheelState,
-  onWheelDelta: IWheelHandler
+  { atXEndEdge, atXStartEdge, atYEndEdge, atYStartEdge }: GridWheelState,
+  onWheelDelta: GridWheelHandler
 ) => {
   let frameHandle: number | null = null
   let xOffset = 0

@@ -1,6 +1,6 @@
 import { isNumber } from '@element-plus/utils/util'
 import { throwError } from '@element-plus/utils/error'
-import createGrid from '../builders/buildGrid'
+import createGrid from '../builders/build-grid'
 
 import {
   AUTO_ALIGNMENT,
@@ -198,8 +198,11 @@ const FixedSizeGrid = createGrid({
       )
     )
   },
-
-  initCache: () => undefined,
+  /**
+   * Fixed size grid does not need this cache
+   * Using any to bypass it, TODO: Using type inference to fix this.
+   */
+  initCache: () => undefined as any,
 
   clearCache: true,
 

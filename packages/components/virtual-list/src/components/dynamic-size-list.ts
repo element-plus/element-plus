@@ -1,6 +1,6 @@
 import { throwError } from '@element-plus/utils/error'
 
-import createList from '../builders/buildList'
+import createList from '../builders/build-list'
 
 import { isHorizontal } from '../utils'
 import {
@@ -228,10 +228,10 @@ const DynamicSizeList = createList({
 
     cache.clearCacheAfterIndex = (index: number, forceUpdate = true) => {
       cache.lastVisitedIndex = Math.min(cache.lastVisitedIndex, index - 1)
-      instance.exposed.getItemStyleCache(-1)
+      instance.exposed?.getItemStyleCache(-1)
 
       if (forceUpdate) {
-        instance.proxy.$forceUpdate()
+        instance.proxy?.$forceUpdate()
       }
     }
 

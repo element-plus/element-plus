@@ -17,8 +17,8 @@ import isServer from '@element-plus/utils/isServer'
 import getScrollBarWidth from '@element-plus/utils/scrollbar-width'
 
 import Scrollbar from '../components/scrollbar'
-import { useGridWheel } from '../hooks/useGridWheel'
-import { useCache } from '../hooks/useCache'
+import { useGridWheel } from '../hooks/use-grid-wheel'
+import { useCache } from '../hooks/use-cache'
 import { virtualizedGridProps } from '../props'
 import { getScrollDir, getRTLOffsetType, isRTL } from '../utils'
 import {
@@ -34,12 +34,9 @@ import {
 } from '../defaults'
 
 import type { CSSProperties, Slot, VNode, VNodeChild } from 'vue'
-import type { GridConstructorProps, Alignment } from '../types'
+import type { StyleValue } from '@element-plus/utils/types'
+import type { GridConstructorProps, Alignment, ScrollbarExpose } from '../types'
 import type { VirtualizedGridProps } from '../props'
-
-type ScrollbarExpose = {
-  onMouseUp: () => void
-}
 
 const createGrid = ({
   name,
@@ -166,7 +163,7 @@ const createGrid = ({
         getEstimatedTotalWidth(props, unref(cache))
       )
 
-      const windowStyle = computed(() => [
+      const windowStyle = computed<StyleValue>(() => [
         {
           position: 'relative',
           overflow: 'hidden',
@@ -178,7 +175,7 @@ const createGrid = ({
           height: isNumber(props.height) ? `${props.height}px` : props.height,
           width: isNumber(props.width) ? `${props.width}px` : props.width,
         },
-        props.style,
+        props.style ?? {},
       ])
 
       const innerStyle = computed(() => {
@@ -288,7 +285,7 @@ const createGrid = ({
       }
 
       const onVerticalScroll = (distance: number, totalSteps: number) => {
-        const height = parseInt(props.height as string, 10)
+        const height = parseInt(`${props.height}`, 10)
         const offset =
           ((estimatedTotalHeight.value - height) / totalSteps) * distance
         scrollTo({
@@ -297,7 +294,7 @@ const createGrid = ({
       }
 
       const onHorizontalScroll = (distance: number, totalSteps: number) => {
-        const width = parseInt(props.width as string, 10)
+        const width = parseInt(`${props.width}`, 10)
         const offset =
           ((estimatedTotalWidth.value - width) / totalSteps) * distance
         scrollTo({
@@ -319,8 +316,8 @@ const createGrid = ({
         (x: number, y: number) => {
           hScrollbar.value?.onMouseUp?.()
           hScrollbar.value?.onMouseUp?.()
-          const width = parseInt(props.width as string, 10)
-          const height = parseInt(props.height as string, 10)
+          const width = parseInt(`${props.width}`, 10)
+          const height = parseInt(`${props.height}`, 10)
           scrollTo({
             scrollLeft: Math.min(
               states.value.scrollLeft + x,
@@ -546,6 +543,9 @@ const createGrid = ({
         states,
         useIsScrolling,
         windowStyle,
+        windowRef,
+        hScrollbar,
+        vScrollbar,
         width,
         totalColumn,
         totalRow,
@@ -554,8 +554,8 @@ const createGrid = ({
       const [columnStart, columnEnd] = columnsToRender
       const [rowStart, rowEnd] = rowsToRender
 
-      const Container = resolveDynamicComponent(containerElement)
-      const Inner = resolveDynamicComponent(innerElement)
+      const Container = resolveDynamicComponent(containerElement) as VNode
+      const Inner = resolveDynamicComponent(innerElement) as VNode
 
       const children: VNodeChild[] = []
       if (totalRow > 0 && totalColumn > 0) {
@@ -575,9 +575,8 @@ const createGrid = ({
         }
       }
 
-      // horizontal
-      const hScrollbar = h(Scrollbar, {
-        ref: 'hScrollbar',
+      const horizontalScrollbar = h(Scrollbar, {
+        ref: hScrollbar,
         clientSize: width,
         layout: 'horizontal',
         onScroll: onHorizontalScroll,
@@ -587,9 +586,8 @@ const createGrid = ({
         visible: true,
       })
 
-      // vertical
-      const vScrollbar = h(Scrollbar, {
-        ref: 'vScrollbar',
+      const verticalScrollbar = h(Scrollbar, {
+        ref: vScrollbar,
         clientSize: height,
         layout: 'vertical',
         onScroll: onVerticalScroll,
@@ -601,7 +599,7 @@ const createGrid = ({
 
       const InnerNode = [
         h(
-          Inner as VNode,
+          Inner,
           {
             style: innerStyle,
             ref: 'innerRef',
@@ -622,18 +620,18 @@ const createGrid = ({
         },
         [
           h(
-            Container as VNode,
+            Container,
             {
               class: className,
               style: windowStyle,
               onScroll,
               onWheel,
-              ref: 'windowRef',
+              ref: windowRef,
             },
             !isString(Container) ? { default: () => InnerNode } : InnerNode
           ),
-          hScrollbar,
-          vScrollbar,
+          horizontalScrollbar,
+          verticalScrollbar,
         ]
       )
     },

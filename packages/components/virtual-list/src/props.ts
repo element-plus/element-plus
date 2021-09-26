@@ -1,3 +1,4 @@
+import { buildProp } from '@element-plus/utils/props'
 import { isNumber } from '@element-plus/utils/util'
 import { LTR, RTL, VERTICAL } from './defaults'
 
@@ -32,10 +33,10 @@ const initScrollOffset = {
   default: 0,
 }
 
-const total = {
-  type: Number as PropType<number>,
+const total = buildProp({
+  type: Number,
   required: true,
-}
+})
 
 const layout = {
   type: String as PropType<LayoutDirection>,
