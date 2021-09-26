@@ -44,7 +44,8 @@ cascader/last-level
 
 ## Multiple Selection
 
-Add`:props="props"`in tag and set data `props : { multiple = true }` to use multiple selection.<br/>
+Add`:props="props"`in tag and set data `props: { multiple = true }` to use multiple selection.
+
 Example:<br/>
 You have to use it like this:
 
