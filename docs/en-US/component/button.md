@@ -76,7 +76,7 @@ You can custom button color.
 
 We will calculate hover color & active color automatically.
 
-:::
+:::demo
 
 button/custom
 
