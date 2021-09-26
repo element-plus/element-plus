@@ -91,13 +91,9 @@ export default defineComponent({
     const lastColumn = ref(null)
     const tableRows = ref([[], [], [], [], [], []])
 
-    const propsDate = computed(() => dayjs(props.date))
-    const propsMinDate = computed(() => dayjs(props.minDate))
-    const propsMaxDate = computed(() => dayjs(props.maxDate))
-
     // todo better way to get Day.js locale object
-    const firstDayOfWeek = (propsDate.value as any).$locale().weekStart || 7
-    const WEEKS_CONSTANT = propsDate.value
+    const firstDayOfWeek = (props.date as any).$locale().weekStart || 7
+    const WEEKS_CONSTANT = props.date
       .locale('en')
       .localeData()
       .weekdaysShort()
@@ -109,7 +105,7 @@ export default defineComponent({
     })
 
     const startDate = computed(() => {
-      const startDayOfMonth = propsDate.value.startOf('month')
+      const startDayOfMonth = props.date.startOf('month')
       return startDayOfMonth.subtract(startDayOfMonth.day() || 7, 'day')
     })
 
@@ -122,7 +118,7 @@ export default defineComponent({
 
     const rows = computed(() => {
       // TODO: refactory rows / getCellClasses
-      const startOfMonth = propsDate.value.startOf('month')
+      const startOfMonth = props.date.startOf('month')
       const startOfMonthDay = startOfMonth.day() || 7 // day of first day
       const dateCountOfMonth = startOfMonth.daysInMonth()
       const dateCountOfLastMonth = startOfMonth
@@ -170,26 +166,24 @@ export default defineComponent({
 
           const calEndDate =
             props.rangeState.endDate ||
-            propsMaxDate.value ||
-            (props.rangeState.selecting && propsMinDate.value)
+            props.maxDate ||
+            (props.rangeState.selecting && props.minDate)
 
           cell.inRange =
-            (propsMinDate.value &&
-              calTime.isSameOrAfter(propsMinDate.value, 'day') &&
+            (props.minDate &&
+              calTime.isSameOrAfter(props.minDate, 'day') &&
               calEndDate &&
               calTime.isSameOrBefore(calEndDate, 'day')) ||
-            (propsMinDate.value &&
-              calTime.isSameOrBefore(propsMinDate.value, 'day') &&
+            (props.minDate &&
+              calTime.isSameOrBefore(props.minDate, 'day') &&
               calEndDate &&
               calTime.isSameOrAfter(calEndDate, 'day'))
 
-          if (propsMinDate.value?.isSameOrAfter(calEndDate)) {
+          if (props.minDate?.isSameOrAfter(calEndDate)) {
             cell.start = calEndDate && calTime.isSame(calEndDate, 'day')
-            cell.end =
-              propsMinDate.value && calTime.isSame(propsMinDate.value, 'day')
+            cell.end = props.minDate && calTime.isSame(props.minDate, 'day')
           } else {
-            cell.start =
-              propsMinDate.value && calTime.isSame(propsMinDate.value, 'day')
+            cell.start = props.minDate && calTime.isSame(props.minDate, 'day')
             cell.end = calEndDate && calTime.isSame(calEndDate, 'day')
           }
 
@@ -251,7 +245,7 @@ export default defineComponent({
       if (!date) return false
       return dayjs(date)
         .locale(lang.value)
-        .isSame(propsDate.value.date(Number(cell.text)), 'day')
+        .isSame(props.date.date(Number(cell.text)), 'day')
     }
 
     const getCellClasses = (cell) => {
@@ -365,10 +359,10 @@ export default defineComponent({
           ctx.emit('pick', { minDate: newDate, maxDate: null })
           ctx.emit('select', true)
         } else {
-          if (newDate >= propsMinDate.value) {
-            ctx.emit('pick', { minDate: propsMinDate.value, maxDate: newDate })
+          if (newDate >= props.minDate) {
+            ctx.emit('pick', { minDate: props.minDate, maxDate: newDate })
           } else {
-            ctx.emit('pick', { minDate: newDate, maxDate: propsMinDate.value })
+            ctx.emit('pick', { minDate: newDate, maxDate: props.minDate })
           }
           ctx.emit('select', false)
         }
@@ -395,7 +389,7 @@ export default defineComponent({
 
     const isWeekActive = (cell) => {
       if (props.selectionMode !== 'week') return false
-      let newDate = propsDate.value.startOf('day')
+      let newDate = props.date.startOf('day')
 
       if (cell.type === 'prev-month') {
         newDate = newDate.subtract(1, 'month')
