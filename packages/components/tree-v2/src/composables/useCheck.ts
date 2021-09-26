@@ -5,15 +5,9 @@ import {
   SetOperationEnum,
 } from '../virtual-tree'
 import type { Ref } from 'vue'
-import type {
-  TreeProps,
-  TreeKey,
-  TreeNode,
-  Tree,
-  TreeNodeData,
-} from '../tree.type'
+import type { TreeProps, TreeKey, TreeNode, Tree, TreeNodeData } from '../types'
 
-export function useCheck(props: TreeProps, tree: Ref<Tree | null>) {
+export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
   const checkedKeys = ref<Set<TreeKey>>(new Set())
   const indeterminateKeys = ref<Set<TreeKey>>(new Set())
   const { emit } = getCurrentInstance()!

@@ -3,28 +3,27 @@ import type {
   SetupContext,
   ExtractPropTypes,
 } from 'vue'
-import type { treeProps } from './virtual-tree'
+import type { treeProps, treeEmits } from './virtual-tree'
 
-export declare interface TreeNodeData {
-  [key: string]: any
-}
-export declare type TreeData = TreeNodeData[]
+export type TreeNodeData = Record<string, any>
 
-export declare type TreeKey = string | number
+export type TreeData = TreeNodeData[]
 
-export declare interface TreeOptionProps {
+export type TreeKey = string | number
+
+export interface TreeOptionProps {
   children?: string
   label?: string
   value?: string
   disabled?: string
 }
 
-export declare type TreeProps = ExtractPropTypes<typeof treeProps>
+export type TreeProps = ExtractPropTypes<typeof treeProps>
 
 export interface TreeNode {
   key: TreeKey
   level: number
-  parent?: TreeNode | null
+  parent?: TreeNode
   children?: TreeNode[]
   data: TreeNodeData
   disabled?: boolean
@@ -32,8 +31,8 @@ export interface TreeNode {
   isLeaf?: boolean
 }
 
-export interface RootTreeType {
-  ctx: SetupContext<any>
+export interface TreeContext {
+  ctx: SetupContext<typeof treeEmits>
   instance: ComponentInternalInstance
   props: TreeProps
 }
@@ -46,3 +45,10 @@ export interface Tree {
 }
 
 export type FilterMethod = (query: string, node: TreeNodeData) => boolean
+
+export interface CheckedInfo {
+  checkedKeys: TreeKey[]
+  checkedNodes: TreeData
+  halfCheckedKeys: TreeKey[]
+  halfCheckedNodes: TreeData
+}

@@ -52,9 +52,13 @@ import { computed, defineComponent, inject } from 'vue'
 import { CaretRight } from '@element-plus/icons'
 import ElIcon from '@element-plus/components/icon'
 import ElCheckbox from '@element-plus/components/checkbox'
-import ElNodeContent from './tree-node-content.vue'
-import { ROOT_TREE_INJECTION_KEY, treeNodeProps } from './virtual-tree'
-import type { RootTreeType } from './tree.type'
+import ElNodeContent from './tree-node-content'
+import {
+  ROOT_TREE_INJECTION_KEY,
+  NODE_CONTEXTMENU,
+  treeNodeEmits,
+  treeNodeProps,
+} from './virtual-tree'
 
 const DEFAULT_ICON = 'caret-right'
 
@@ -67,9 +71,9 @@ export default defineComponent({
     ElNodeContent,
   },
   props: treeNodeProps,
-  emits: ['click', 'toggle', 'check'],
+  emits: treeNodeEmits,
   setup(props, { emit }) {
-    const tree = inject<RootTreeType>(ROOT_TREE_INJECTION_KEY)
+    const tree = inject(ROOT_TREE_INJECTION_KEY)
 
     const indent = computed(() => {
       return tree?.props.indent || 16
@@ -93,7 +97,7 @@ export default defineComponent({
         event.stopPropagation()
         event.preventDefault()
       }
-      tree?.ctx.emit('node-contextmenu', event, props.node?.data, props.node)
+      tree?.ctx.emit(NODE_CONTEXTMENU, event, props.node?.data, props.node)
     }
 
     return {

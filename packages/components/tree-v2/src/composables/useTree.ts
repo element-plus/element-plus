@@ -15,12 +15,12 @@ import type {
   TreeNode,
   TreeData,
   Tree,
-} from '../tree.type'
+} from '../types'
 
 export function useTree(props: TreeProps, emit) {
   const expandedKeySet = ref<Set<TreeKey>>(new Set(props.defaultExpandedKeys))
-  const currentKey = ref<TreeKey | undefined>(undefined)
-  const tree = shallowRef<Tree | null>(null)
+  const currentKey = ref<TreeKey | undefined>()
+  const tree = shallowRef<Tree | undefined>()
 
   watch(
     () => props.currentNodeKey,
@@ -115,7 +115,7 @@ export function useTree(props: TreeProps, emit) {
     function traverse(
       nodes: TreeData,
       level = 1,
-      parent: TreeNode | null = null
+      parent: TreeNode | undefined = undefined
     ) {
       const siblings: TreeNode[] = []
       for (let index = 0; index < nodes.length; ++index) {

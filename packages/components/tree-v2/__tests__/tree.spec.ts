@@ -9,7 +9,7 @@ import type {
   TreeOptionProps,
   TreeKey,
   FilterMethod,
-} from '../src/tree.type'
+} from '../src/types'
 
 jest.useFakeTimers()
 

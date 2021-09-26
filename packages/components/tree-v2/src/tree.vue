@@ -1,6 +1,5 @@
 <template>
   <div
-    ref="el$"
     class="el-tree"
     :class="{
       'el-tree--highlight-current': highlightCurrent,
@@ -48,8 +47,8 @@ import { useLocaleInject } from '@element-plus/hooks'
 import { FixedSizeList } from '@element-plus/components/virtual-list'
 import { useTree } from './composables/useTree'
 import ElTreeNode from './tree-node.vue'
-import { ROOT_TREE_INJECTION_KEY, TREE_EMITS, treeProps } from './virtual-tree'
-import type { TreeProps } from './tree.type'
+import { ROOT_TREE_INJECTION_KEY, treeEmits, treeProps } from './virtual-tree'
+import type { TreeProps } from './types'
 
 export default defineComponent({
   name: 'ElTreeV2',
@@ -58,7 +57,7 @@ export default defineComponent({
     FixedSizeList,
   },
   props: treeProps,
-  emits: TREE_EMITS,
+  emits: treeEmits,
   setup(props: TreeProps, ctx) {
     provide(ROOT_TREE_INJECTION_KEY, {
       ctx,
