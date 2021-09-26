@@ -1,4 +1,4 @@
-import type { CSSProperties, ComponentInternalInstance } from 'vue'
+import type { CSSProperties, ComponentInternalInstance, Ref } from 'vue'
 
 export type Instance = ComponentInternalInstance
 
@@ -103,8 +103,8 @@ export type ExposesStates = {
 }
 
 export type SharedExposes = {
-  windowRef: HTMLElement
-  innerRef: HTMLElement
+  windowRef: Ref<HTMLElement>
+  innerRef: Ref<HTMLElement>
   getItemStyleCache: (_: any, __: any, ___: any) => CSSProperties
 }
 

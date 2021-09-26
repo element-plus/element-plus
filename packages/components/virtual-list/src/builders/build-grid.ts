@@ -59,7 +59,7 @@ const createGrid = ({
     name: name ?? 'ElVirtualList',
     props: virtualizedGridProps,
     emits: [ITEM_RENDER_EVT, SCROLL_EVT],
-    setup(props, { emit, expose }) {
+    setup(props, { emit, expose, slots }) {
       validateProps(props)
       const instance = getCurrentInstance()!
       const cache = ref(initCache(props, instance))
@@ -84,6 +84,8 @@ const createGrid = ({
       const getItemStyleCache = useCache()
 
       // computed
+      const parsedHeight = computed(() => parseInt(`${props.height}`, 10))
+      const parsedWidth = computed(() => parseInt(`${props.width}`, 10))
       const columnsToRender = computed(() => {
         const { totalColumn, totalRow, columnCache } = props
         const { isScrolling, xAxisScrollDir, scrollLeft } = unref(states)
@@ -285,7 +287,7 @@ const createGrid = ({
       }
 
       const onVerticalScroll = (distance: number, totalSteps: number) => {
-        const height = parseInt(`${props.height}`, 10)
+        const height = unref(parsedHeight)
         const offset =
           ((estimatedTotalHeight.value - height) / totalSteps) * distance
         scrollTo({
@@ -294,7 +296,7 @@ const createGrid = ({
       }
 
       const onHorizontalScroll = (distance: number, totalSteps: number) => {
-        const width = parseInt(`${props.width}`, 10)
+        const width = unref(parsedWidth)
         const offset =
           ((estimatedTotalWidth.value - width) / totalSteps) * distance
         scrollTo({
@@ -316,8 +318,8 @@ const createGrid = ({
         (x: number, y: number) => {
           hScrollbar.value?.onMouseUp?.()
           hScrollbar.value?.onMouseUp?.()
-          const width = parseInt(`${props.width}`, 10)
-          const height = parseInt(`${props.height}`, 10)
+          const width = unref(parsedWidth)
+          const height = unref(parsedHeight)
           scrollTo({
             scrollLeft: Math.min(
               states.value.scrollLeft + x,
@@ -489,27 +491,6 @@ const createGrid = ({
         }
       })
 
-      const api = {
-        estimatedTotalWidth,
-        estimatedTotalHeight,
-        windowStyle,
-        windowRef,
-        hScrollbar,
-        vScrollbar,
-        columnsToRender,
-        innerRef,
-        innerStyle,
-        states,
-        rowsToRender,
-        getItemStyle,
-        onScroll,
-        onHorizontalScroll,
-        onVerticalScroll,
-        onWheel,
-        scrollTo,
-        scrollToItem,
-      }
-
       expose({
         windowRef,
         innerRef,
@@ -519,121 +500,121 @@ const createGrid = ({
         states,
       })
 
-      return api
-    },
+      // rendering part
 
-    render(ctx: any) {
-      const {
-        $slots,
-        className,
-        containerElement,
-        columnsToRender,
-        estimatedTotalHeight,
-        estimatedTotalWidth,
-        data,
-        getItemStyle,
-        height,
-        innerElement,
-        innerStyle,
-        rowsToRender,
-        onScroll,
-        onHorizontalScroll,
-        onVerticalScroll,
-        onWheel,
-        states,
-        useIsScrolling,
-        windowStyle,
-        windowRef,
-        hScrollbar,
-        vScrollbar,
-        width,
-        totalColumn,
-        totalRow,
-      } = ctx
+      const renderScrollbars = () => {
+        const { totalColumn, totalRow } = props
 
-      const [columnStart, columnEnd] = columnsToRender
-      const [rowStart, rowEnd] = rowsToRender
+        const width = unref(parsedWidth)
+        const height = unref(parsedHeight)
+        const estimatedWidth = unref(estimatedTotalWidth)
+        const estimatedHeight = unref(estimatedTotalHeight)
+        const { scrollLeft, scrollTop } = unref(states)
+        const horizontalScrollbar = h(Scrollbar, {
+          ref: hScrollbar,
+          clientSize: width,
+          layout: 'horizontal',
+          onScroll: onHorizontalScroll,
+          ratio: (width * 100) / estimatedWidth,
+          scrollFrom: scrollLeft / (estimatedWidth - width),
+          total: totalRow,
+          visible: true,
+        })
 
-      const Container = resolveDynamicComponent(containerElement) as VNode
-      const Inner = resolveDynamicComponent(innerElement) as VNode
+        const verticalScrollbar = h(Scrollbar, {
+          ref: vScrollbar,
+          clientSize: height,
+          layout: 'vertical',
+          onScroll: onVerticalScroll,
+          ratio: (height * 100) / estimatedHeight,
+          scrollFrom: scrollTop / (estimatedHeight - height),
+          total: totalColumn,
+          visible: true,
+        })
 
-      const children: VNodeChild[] = []
-      if (totalRow > 0 && totalColumn > 0) {
-        for (let row = rowStart; row <= rowEnd; row++) {
-          for (let column = columnStart; column <= columnEnd; column++) {
-            children.push(
-              ($slots.default as Slot)?.({
-                columnIndex: column,
-                data,
-                key: column,
-                isScrolling: useIsScrolling ? states.isScrolling : undefined,
-                style: getItemStyle(row, column),
-                rowIndex: row,
-              })
-            )
-          }
+        return {
+          horizontalScrollbar,
+          verticalScrollbar,
         }
       }
 
-      const horizontalScrollbar = h(Scrollbar, {
-        ref: hScrollbar,
-        clientSize: width,
-        layout: 'horizontal',
-        onScroll: onHorizontalScroll,
-        ratio: (width * 100) / estimatedTotalWidth,
-        scrollFrom: states.scrollLeft / (estimatedTotalWidth - width),
-        total: totalRow,
-        visible: true,
-      })
+      const renderItems = () => {
+        const [columnStart, columnEnd] = unref(columnsToRender)
+        const [rowStart, rowEnd] = unref(rowsToRender)
+        const { data, totalColumn, totalRow, useIsScrolling } = props
+        const children: VNodeChild[] = []
+        if (totalRow > 0 && totalColumn > 0) {
+          for (let row = rowStart; row <= rowEnd; row++) {
+            for (let column = columnStart; column <= columnEnd; column++) {
+              children.push(
+                slots.default?.({
+                  columnIndex: column,
+                  data,
+                  key: column,
+                  isScrolling: useIsScrolling
+                    ? unref(states).isScrolling
+                    : undefined,
+                  style: getItemStyle(row, column),
+                  rowIndex: row,
+                })
+              )
+            }
+          }
+        }
+        return children
+      }
 
-      const verticalScrollbar = h(Scrollbar, {
-        ref: vScrollbar,
-        clientSize: height,
-        layout: 'vertical',
-        onScroll: onVerticalScroll,
-        ratio: (height * 100) / estimatedTotalHeight,
-        scrollFrom: states.scrollTop / (estimatedTotalHeight - height),
-        total: totalColumn,
-        visible: true,
-      })
-
-      const InnerNode = [
-        h(
-          Inner,
-          {
-            style: innerStyle,
-            ref: 'innerRef',
-          },
-          !isString(Inner)
-            ? {
-                default: () => children,
-              }
-            : children
-        ),
-      ]
-
-      return h(
-        'div',
-        {
-          key: 0,
-          class: 'el-vg__wrapper',
-        },
-        [
+      const renderInner = () => {
+        const Inner = resolveDynamicComponent(props.innerElement) as VNode
+        const children = renderItems()
+        return [
           h(
-            Container,
+            Inner,
             {
-              class: className,
-              style: windowStyle,
-              onScroll,
-              onWheel,
-              ref: windowRef,
+              style: unref(innerStyle),
+              ref: innerRef,
             },
-            !isString(Container) ? { default: () => InnerNode } : InnerNode
+            !isString(Inner)
+              ? {
+                  default: () => children,
+                }
+              : children
           ),
-          horizontalScrollbar,
-          verticalScrollbar,
         ]
-      )
+      }
+
+      const renderWindow = () => {
+        const Container = resolveDynamicComponent(
+          props.containerElement
+        ) as VNode
+        const { horizontalScrollbar, verticalScrollbar } = renderScrollbars()
+        const Inner = renderInner()
+
+        return h(
+          'div',
+          {
+            key: 0,
+            class: 'el-vg__wrapper',
+          },
+          [
+            h(
+              Container,
+              {
+                class: props.className,
+                style: unref(windowStyle),
+                onScroll,
+                onWheel,
+                ref: windowRef,
+              },
+              !isString(Container) ? { default: () => Inner } : Inner
+            ),
+            horizontalScrollbar,
+            verticalScrollbar,
+          ]
+        )
+      }
+
+      return renderWindow
     },
   })
 }

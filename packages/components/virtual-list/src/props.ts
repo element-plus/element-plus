@@ -64,11 +64,10 @@ export const virtualizedProps = {
    */
   direction,
 
-  height: {
-    type: [String, Number] as PropType<string | number>,
+  height: buildProp({
+    type: [String, Number],
     required: true,
-    validator: isNumber,
-  },
+  }),
 
   innerElement: {
     type: [String, Object],
@@ -84,11 +83,10 @@ export const virtualizedProps = {
     default: false,
   },
 
-  width: {
-    type: [Number, String] as PropType<string | number>,
+  width: buildProp({
+    type: [Number, String],
     required: true,
-    validator: isNumber,
-  },
+  }),
   perfMode: {
     type: Boolean,
     default: true,
