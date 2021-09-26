@@ -1,24 +1,28 @@
 ;(() => {
   const supportedLangs = window.supportedLangs
-  let userPreferredLang = localStorage.getItem('preferred_lang')
-
-  if (!userPreferredLang) {
-    const systemLang = navigator.language
-    localStorage.setItem('preferred_lang', systemLang)
-    userPreferredLang = systemLang
+  const cacheKey = 'preferred_lang'
+  const defaultLang = 'en-US'
+  // docs supported languages
+  const langAlias = {
+    en: 'en-US',
+    fr: 'fr-FR',
+    es: 'es-ES',
   }
-
-  if (
-    supportedLangs.includes(userPreferredLang) &&
-    !location.pathname.startsWith(`/${userPreferredLang}`)
-  ) {
+  let userPreferredLang = localStorage.getItem(cacheKey) || navigator.language
+  const language =
+    langAlias[userPreferredLang] ||
+    (supportedLangs.includes(userPreferredLang)
+      ? userPreferredLang
+      : defaultLang)
+  localStorage.setItem(cacheKey, language)
+  userPreferredLang = language
+  if (!location.pathname.startsWith(`/${userPreferredLang}`)) {
     const toPath = [`/${userPreferredLang}`]
       .concat(location.pathname.split('/').slice(2))
       .join('/')
-    location.pathname = toPath.endsWith('.html')
-      ? toPath
-      : toPath.endsWith('/')
-      ? toPath
-      : toPath.concat('/')
+    location.pathname =
+      toPath.endsWith('.html') || toPath.endsWith('/')
+        ? toPath
+        : toPath.concat('/')
   }
 })()
