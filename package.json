@@ -65,7 +65,7 @@
     "dayjs": "^1.10.7",
     "lodash": "^4.17.21",
     "memoize-one": "^5.2.1",
-    "normalize-wheel": "^1.0.1",
+    "normalize-wheel-es": "^1.1.0",
     "resize-observer-polyfill": "^1.5.1"
   },
   "devDependencies": {
