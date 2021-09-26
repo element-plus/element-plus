@@ -71,7 +71,7 @@ Don't do:
 ```html
 <template>
   <!--  Object literal binging here is invalid syntax for cascader  -->
-  <el-cascader :props="{ multiple: true}" />
+<el-cascader :props="{ multiple: true }" />
 </template>
 ```
 
