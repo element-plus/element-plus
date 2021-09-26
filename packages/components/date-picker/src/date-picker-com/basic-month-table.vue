@@ -69,8 +69,13 @@ export default defineComponent({
 
   setup(props, ctx) {
     const { t, lang } = useLocaleInject()
+
+    const propsDate = computed(() => dayjs(props.date))
+    const propsMinDate = computed(() => dayjs(props.minDate))
+    const propsMaxDate = computed(() => dayjs(props.maxDate))
+
     const months = ref(
-      props.date
+      propsDate.value
         .locale('en')
         .localeData()
         .monthsShort()
@@ -102,28 +107,30 @@ export default defineComponent({
           cell.type = 'normal'
 
           const index = i * 4 + j
-          const calTime = props.date.startOf('year').month(index)
+          const calTime = propsDate.value.startOf('year').month(index)
 
           const calEndDate =
             props.rangeState.endDate ||
-            props.maxDate ||
-            (props.rangeState.selecting && props.minDate)
+            propsMaxDate.value ||
+            (props.rangeState.selecting && propsMinDate.value)
 
           cell.inRange =
-            (props.minDate &&
-              calTime.isSameOrAfter(props.minDate, 'month') &&
+            (propsMinDate.value &&
+              calTime.isSameOrAfter(propsMinDate.value, 'month') &&
               calEndDate &&
               calTime.isSameOrBefore(calEndDate, 'month')) ||
-            (props.minDate &&
-              calTime.isSameOrBefore(props.minDate, 'month') &&
+            (propsMinDate.value &&
+              calTime.isSameOrBefore(propsMinDate.value, 'month') &&
               calEndDate &&
               calTime.isSameOrAfter(calEndDate, 'month'))
 
-          if (props.minDate?.isSameOrAfter(calEndDate)) {
+          if (propsMinDate.value?.isSameOrAfter(calEndDate)) {
             cell.start = calEndDate && calTime.isSame(calEndDate, 'month')
-            cell.end = props.minDate && calTime.isSame(props.minDate, 'month')
+            cell.end =
+              propsMinDate.value && calTime.isSame(propsMinDate.value, 'month')
           } else {
-            cell.start = props.minDate && calTime.isSame(props.minDate, 'month')
+            cell.start =
+              propsMinDate.value && calTime.isSame(propsMinDate.value, 'month')
             cell.end = calEndDate && calTime.isSame(calEndDate, 'month')
           }
 
@@ -142,7 +149,7 @@ export default defineComponent({
     })
     const getCellStyle = (cell) => {
       const style = {} as any
-      const year = props.date.year()
+      const year = propsDate.value.year()
       const today = new Date()
       const month = cell.text
 
@@ -193,7 +200,7 @@ export default defineComponent({
         lastColumn.value = column
         ctx.emit('changerange', {
           selecting: true,
-          endDate: props.date.startOf('year').month(row * 4 + column),
+          endDate: propsDate.value.startOf('year').month(row * 4 + column),
         })
       }
     }
@@ -210,16 +217,16 @@ export default defineComponent({
       const column = target.cellIndex
       const row = target.parentNode.rowIndex
       const month = row * 4 + column
-      const newDate = props.date.startOf('year').month(month)
+      const newDate = propsDate.value.startOf('year').month(month)
       if (props.selectionMode === 'range') {
         if (!props.rangeState.selecting) {
           ctx.emit('pick', { minDate: newDate, maxDate: null })
           ctx.emit('select', true)
         } else {
-          if (newDate >= props.minDate) {
-            ctx.emit('pick', { minDate: props.minDate, maxDate: newDate })
+          if (newDate >= propsMinDate.value) {
+            ctx.emit('pick', { minDate: propsMinDate.value, maxDate: newDate })
           } else {
-            ctx.emit('pick', { minDate: newDate, maxDate: props.minDate })
+            ctx.emit('pick', { minDate: newDate, maxDate: propsMinDate.value })
           }
           ctx.emit('select', false)
         }
