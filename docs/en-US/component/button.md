@@ -70,6 +70,18 @@ button/size
 
 :::
 
+## Custom Color `beta`
+
+You can custom button color.
+
+We will calculate hover color & active color automatically.
+
+:::
+
+button/custom
+
+:::
+
 ## Button Attributes
 
 | Attribute   | Description                            | Type    | Accepted Values                                    | Default |

@@ -1,5 +1,6 @@
 <template>
   <button
+    ref="elButtonRef"
     :class="[
       'el-button',
       type ? 'el-button--' + type : '',
@@ -15,6 +16,7 @@
     :disabled="buttonDisabled || loading"
     :autofocus="autofocus"
     :type="nativeType"
+    :style="buttonStyle"
     @click="handleClick"
   >
     <i v-if="loading" class="el-icon-loading"></i>
@@ -24,9 +26,11 @@
 </template>
 
 <script lang="ts">
-import { computed, inject, defineComponent } from 'vue'
+import { computed, inject, defineComponent, ref } from 'vue'
+import { useCssVar } from '@vueuse/core'
 import { useFormItem } from '@element-plus/hooks'
 import { elButtonGroupKey, elFormKey } from '@element-plus/tokens'
+import { lighten, darken } from '@element-plus/utils/color'
 
 import { buttonEmits, buttonProps } from './button'
 export default defineComponent({
@@ -36,9 +40,41 @@ export default defineComponent({
   emits: buttonEmits,
 
   setup(props, { emit }) {
+    const elButtonRef = ref(null)
+
     const elBtnGroup = inject(elButtonGroupKey, undefined)
     const { size: buttonSize, disabled: buttonDisabled } = useFormItem({
       size: computed(() => elBtnGroup?.size),
+    })
+
+    // calculate hover & active color by color
+    const buttonStyle = computed(() => {
+      let styles = {}
+
+      if (props.color) {
+        const typeColor = useCssVar(`--el-color-${props.type}`)
+        const buttonBgColor = useCssVar(`--el-button-bg-color`, elButtonRef)
+        const bgColor = props.color || buttonBgColor.value || typeColor.value
+        if (props.plain) {
+          styles = {
+            '--el-button-bg-color': lighten(bgColor, 0.9),
+            '--el-button-text-color': bgColor,
+            '--el-button-hover-text-color': 'var(--el-color-white)',
+            '--el-button-hover-bg-color': bgColor,
+            '--el-button-hover-border-color': bgColor,
+            '--el-button-active-bg-color': darken(bgColor, 0.1),
+            '--el-button-active-text-color': 'var(--el-color-white)',
+          }
+        } else {
+          styles = {
+            '--el-button-bg-color': bgColor,
+            '--el-button-hover-bg-color': lighten(bgColor),
+            '--el-button-active-bg-color': darken(bgColor, 0.1),
+          }
+        }
+      }
+
+      return styles
     })
 
     const elForm = inject(elFormKey, undefined)
@@ -51,6 +87,9 @@ export default defineComponent({
     }
 
     return {
+      elButtonRef,
+      buttonStyle,
+
       buttonSize,
       buttonDisabled,
       handleClick,

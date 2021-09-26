@@ -16,16 +16,13 @@
   min-height: map.get($--input-height, 'default');
   white-space: nowrap;
   cursor: pointer;
-  background: var(
-    --el-button-background-color,
-    map.get($--button, 'background-color')
-  );
+  background: var(--el-button-bg-color);
   border: var(--el-border-base);
   border-color: var(
     --el-button-border-color,
     map.get($--button, 'border-color')
   );
-  color: var(--el-button-font-color, map.get($--button, 'font-color'));
+  color: var(--el-button-text-color, map.get($--button, 'text-color'));
   -webkit-appearance: none;
   text-align: center;
   box-sizing: border-box;
@@ -47,23 +44,22 @@
 
   &:hover,
   &:focus {
-    color: var(--el-color-primary);
-    border-color: var(--el-color-primary-light-7);
-    background-color: var(--el-color-primary-light-9);
+    color: var(--el-button-hover-text-color);
+    border-color: var(
+      --el-button-hover-border-color,
+      --el-button-hover-bg-color
+    );
+    background-color: var(--el-button-hover-bg-color);
     outline: none;
   }
 
   &:active {
-    color: mix(
-      $--color-black,
-      $--color-primary,
-      $--button-active-shade-percent
+    color: var(--el-button-active-text-color);
+    border-color: var(
+      --el-button-active-border-color,
+      --el-button-active-bg-color
     );
-    border-color: mix(
-      $--color-black,
-      $--color-primary,
-      $--button-active-shade-percent
-    );
+    background-color: var(--el-button-active-bg-color);
     outline: none;
   }
 
@@ -78,50 +74,40 @@
   }
 
   @include when(plain) {
-    &:hover,
-    &:focus {
-      background: var(--el-color-white);
-      border-color: var(--el-color-primary);
-      color: var(--el-color-primary);
-    }
+    --el-button-active-text-color: #{mix(
+        $--color-black,
+        $--color-primary,
+        $--button-active-shade-percent
+      )};
+    --el-button-active-border-color: #{mix(
+        $--color-black,
+        $--color-primary,
+        $--button-active-shade-percent
+      )};
 
-    &:active {
-      background: var(--el-color-white);
-      border-color: mix(
-        $--color-black,
-        $--color-primary,
-        $--button-active-shade-percent
-      );
-      color: mix(
-        $--color-black,
-        $--color-primary,
-        $--button-active-shade-percent
-      );
-      outline: none;
-    }
+    --el-button-hover-text-color: var(--el-color-primary);
+    --el-button-hover-bg-color: var(--el-color-white);
+    --el-button-hover-border-color: var(--el-color-primary);
   }
 
   @include when(active) {
-    color: mix(
-      $--color-black,
-      $--color-primary,
-      $--button-active-shade-percent
+    color: var(--el-button-active-text-color);
+    border-color: var(
+      --el-button-active-border-color,
+      --el-button-active-bg-color
     );
-    border-color: mix(
-      $--color-black,
-      $--color-primary,
-      $--button-active-shade-percent
-    );
+    background-color: var(--el-button-active-bg-color);
+    outline: none;
   }
 
   @include when(disabled) {
     &,
     &:hover,
     &:focus {
-      color: var(--el-button-disabled-font-color);
+      color: var(--el-button-disabled-text-color);
       cursor: not-allowed;
       background-image: none;
-      background-color: var(--el-button-disabled-background-color);
+      background-color: var(--el-button-disabled-bg-color);
       border-color: var(--el-button-disabled-border-color);
     }
 
@@ -135,7 +121,7 @@
       &:focus {
         background-color: var(--el-color-white);
         border-color: var(--el-button-disabled-border-color);
-        color: var(--el-button-disabled-font-color);
+        color: var(--el-button-disabled-text-color);
       }
     }
   }
@@ -165,18 +151,24 @@
     padding: map.get($--button-padding-vertical, 'default');
   }
 
+  @include m(default) {
+    --el-button-hover-text-color: var(--el-color-primary);
+  }
+
   @each $type in (primary, success, warning, danger, info) {
     @include m($type) {
-      --el-button-font-color: #{map.get($--button-font-color, $type)};
-      --el-button-background-color: #{map.get($--button-background-color, $type)};
+      --el-button-text-color: #{map.get($--button-text-color, $type)};
+      --el-button-bg-color: #{map.get($--button-bg-color, $type)};
       --el-button-border-color: #{map.get($--button-border-color, $type)};
+      --el-button-hover-bg-color: #{map.get($--colors, $type, 'light-2')};
+      --el-button-hover-border-color: #{map.get($--colors, $type, 'light-2')};
       --el-button-hover-color: #{map.get($--colors, $type, 'light-2')};
-      --el-button-active-font-color: #{darken(
-          map.get($--button-font-color, $type),
+      --el-button-active-text-color: #{darken(
+          map.get($--button-text-color, $type),
           $--button-active-shade-percent
         )};
-      --el-button-active-background-color: #{darken(
-          map.get($--button-background-color, $type),
+      --el-button-active-bg-color: #{darken(
+          map.get($--button-bg-color, $type),
           $--button-active-shade-percent
         )};
       --el-button-active-border-color: #{darken(

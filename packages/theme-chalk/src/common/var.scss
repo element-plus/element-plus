@@ -534,12 +534,17 @@ $--button: map.merge(
   (
     'font-weight': var(--el-font-weight-primary),
     'border-color': var(--el-border-color-base),
-    'background-color': var(--el-color-white),
-    'font-color': var(--el-text-color-regular),
-    'disabled-font-color': var(--el-text-color-placeholder),
-    'disabled-background-color': var(--el-color-white),
+    'bg-color': var(--el-color-white),
+    'text-color': var(--el-text-color-regular),
+    'disabled-text-color': var(--el-text-color-placeholder),
+    'disabled-bg-color': var(--el-color-white),
     'disabled-border-color': var(--el-border-color-light),
     'divide-border-color': rgba($--color-white, 0.5),
+    'hover-text-color': var(--el-color-white),
+    'hover-bg-color': var(--el-color-primary-light-9),
+    'hover-border-color': var(--el-color-primary-light-7),
+    'active-text-color': var(--el-color-primary),
+    'active-border-color': var(--el-color-primary),
   ),
   $--button
 );
@@ -549,8 +554,8 @@ $--button-hover-tint-percent: 20%;
 $--button-active-shade-percent: 10%;
 
 $--button-border-color: () !default;
-$--button-background-color: () !default;
-$--button-font-color: () !default;
+$--button-bg-color: () !default;
+$--button-text-color: () !default;
 
 @each $type in $--types {
   $--button-border-color: map.merge(
@@ -560,18 +565,18 @@ $--button-font-color: () !default;
     $--button-border-color
   ) !global;
 
-  $--button-background-color: map.merge(
+  $--button-bg-color: map.merge(
     (
       $type: map.get($--colors, $type, 'base'),
     ),
-    $--button-background-color
+    $--button-bg-color
   ) !global;
 
-  $--button-font-color: map.merge(
+  $--button-text-color: map.merge(
     (
       $type: map.get($--colors, 'white'),
     ),
-    $--button-font-color
+    $--button-text-color
   ) !global;
 }
 

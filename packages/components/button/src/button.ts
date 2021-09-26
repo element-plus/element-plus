@@ -36,6 +36,7 @@ export const buttonProps = {
   autofocus: Boolean,
   round: Boolean,
   circle: Boolean,
+  color: String,
 } as const
 
 export const buttonEmits = {
