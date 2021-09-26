@@ -1,5 +1,6 @@
+import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import Backtop from '../src/index.vue'
+import Backtop from '../src/backtop.vue'
 
 const _mount = (template: string) =>
   mount(
@@ -21,6 +22,8 @@ describe('Backtop.vue', () => {
         </div>
       </div>
     `)
+    await nextTick()
+
     expect(wrapper.find('.el-backtop').exists()).toBe(false)
     wrapper.element.scrollTop = 2000
     await wrapper.trigger('scroll')

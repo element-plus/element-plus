@@ -13,12 +13,16 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14'
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 6.15.1
       - name: Install dependencies
-        run: yarn bootstrap
+        run: pnpm i
       - name: Lint
-        run: yarn lint
+        run: pnpm lint
       - name: Test
-        run: yarn test
+        run: pnpm test
 
   publish:
     needs: test
@@ -29,12 +33,16 @@ jobs:
         with:
           node-version: '14'
           registry-url: https://registry.npmjs.com/
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 6.15.1
       - name: Get version
         run: echo "TAG_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - name: Get git head
         run: echo "GIT_HEAD=${GITHUB_SHA}" >> $GITHUB_ENV
       - name: Gen npmrc
-        run: echo "//registry.npmjs.com/:_authToken=${{ secrets.NPM_PUBLISH_TOKEN }}" > ./.npmrc
+        run: echo "//registry.npmjs.com/:_authToken=${{ secrets.NPM_PUBLISH_TOKEN }}" >> ./.npmrc
       - name: Build&publish
         run: sh ./scripts/publish.sh
         env:

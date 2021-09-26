@@ -1,13 +1,8 @@
-import Divider from './src/index.vue'
+import { withInstall } from '@element-plus/utils/with-install'
 
-import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
+import Divider from './src/divider.vue'
 
-Divider.install = (app: App): void => {
-  app.component(Divider.name, Divider)
-}
+export const ElDivider = withInstall(Divider)
+export default ElDivider
 
-const _Divider = Divider as SFCWithInstall<typeof Divider>
-
-export default _Divider
-export const ElDivider = _Divider
+export * from './src/divider'

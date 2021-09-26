@@ -8,18 +8,19 @@ import {
   onUpdated,
   resolveDynamicComponent,
   h,
+  unref,
 } from 'vue'
 import { hasOwn } from '@vue/shared'
-import memo from 'lodash/memoize'
 
-import { isNumber, isString, $ } from '@element-plus/utils/util'
+import { isNumber, isString } from '@element-plus/utils/util'
 import isServer from '@element-plus/utils/isServer'
 
+import { useCache } from '../hooks/useCache'
 import useWheel from '../hooks/useWheel'
 import Scrollbar from '../components/scrollbar'
 import { getScrollDir, isHorizontal, getRTLOffsetType } from '../utils'
+import { virtualizedListProps } from '../props'
 import {
-  DefaultListProps,
   AUTO_ALIGNMENT,
   BACKWARD,
   FORWARD,
@@ -31,8 +32,9 @@ import {
   RTL_OFFSET_POS_DESC,
 } from '../defaults'
 
-import type { VNode, CSSProperties } from 'vue'
+import type { VNode, CSSProperties, Slot, VNodeChild } from 'vue'
 import type { ListConstructorProps, Alignment } from '../types'
+import type { VirtualizedListProps } from '../props'
 
 const createList = ({
   name,
@@ -45,21 +47,23 @@ const createList = ({
   initCache,
   clearCache,
   validateProps,
-}: ListConstructorProps<typeof DefaultListProps>) => {
+}: ListConstructorProps<VirtualizedListProps>) => {
   return defineComponent({
     name: name ?? 'ElVirtualList',
-    props: DefaultListProps,
+    props: virtualizedListProps,
     emits: [ITEM_RENDER_EVT, SCROLL_EVT],
     setup(props, { emit, expose }) {
       validateProps(props)
-      const instance = getCurrentInstance()
+      const instance = getCurrentInstance()!
       const dynamicSizeCache = ref(initCache(props, instance))
+
+      const getItemStyleCache = useCache()
       // refs
       // here windowRef and innerRef can be type of HTMLElement
       // or user defined component type, depends on the type passed
       // by user
-      const windowRef = ref<HTMLElement>(null)
-      const innerRef = ref<HTMLElement>(null)
+      const windowRef = ref<HTMLElement>()
+      const innerRef = ref<HTMLElement>()
       const scrollbarRef = ref(null)
 
       const states = ref({
@@ -75,7 +79,7 @@ const createList = ({
       // computed
       const itemsToRender = computed(() => {
         const { total, cache } = props
-        const { isScrolling, scrollDir, scrollOffset } = $(states)
+        const { isScrolling, scrollDir, scrollOffset } = unref(states)
 
         if (total === 0) {
           return [0, 0, 0, 0]
@@ -84,13 +88,13 @@ const createList = ({
         const startIndex = getStartIndexForOffset(
           props,
           scrollOffset,
-          $(dynamicSizeCache)
+          unref(dynamicSizeCache)
         )
         const stopIndex = getStopIndexForStartIndex(
           props,
           startIndex,
           scrollOffset,
-          $(dynamicSizeCache)
+          unref(dynamicSizeCache)
         )
 
         const cacheBackward =
@@ -100,14 +104,14 @@ const createList = ({
 
         return [
           Math.max(0, startIndex - cacheBackward),
-          Math.max(0, Math.min(total - 1, stopIndex + cacheForward)),
+          Math.max(0, Math.min(total! - 1, stopIndex + cacheForward)),
           startIndex,
           stopIndex,
         ]
       })
 
       const estimatedTotalSize = computed(() =>
-        getEstimatedTotalSize(props, $(dynamicSizeCache))
+        getEstimatedTotalSize(props, unref(dynamicSizeCache))
       )
 
       const _isHorizontal = computed(() => isHorizontal(props.layout))
@@ -123,16 +127,16 @@ const createList = ({
           direction: props.direction,
           height: isNumber(props.height) ? `${props.height}px` : props.height,
           width: isNumber(props.width) ? `${props.width}px` : props.width,
-          ...props.style,
         },
+        props.style,
       ])
 
       const innerStyle = computed(() => {
-        const size = $(estimatedTotalSize)
-        const horizontal = $(_isHorizontal)
+        const size = unref(estimatedTotalSize)
+        const horizontal = unref(_isHorizontal)
         return {
           height: horizontal ? '100%' : `${size}px`,
-          pointerEvents: $(states).isScrolling ? 'none' : undefined,
+          pointerEvents: unref(states).isScrolling ? 'none' : undefined,
           width: horizontal ? `${size}px` : '100%',
         }
       })
@@ -151,7 +155,11 @@ const createList = ({
           layout: computed(() => props.layout),
         },
         (offset) => {
-          scrollbarRef.value.onMouseUp?.()
+          ;(
+            scrollbarRef.value as any as {
+              onMouseUp: () => void
+            }
+          ).onMouseUp?.()
           scrollTo(
             Math.min(
               states.value.scrollOffset + offset,
@@ -164,20 +172,20 @@ const createList = ({
       const emitEvents = () => {
         const { total } = props
 
-        if (total > 0) {
+        if (total! > 0) {
           const [cacheStart, cacheEnd, visibleStart, visibleEnd] =
-            $(itemsToRender)
+            unref(itemsToRender)
           emit(ITEM_RENDER_EVT, cacheStart, cacheEnd, visibleStart, visibleEnd)
         }
 
-        const { scrollDir, scrollOffset, updateRequested } = $(states)
+        const { scrollDir, scrollOffset, updateRequested } = unref(states)
         emit(SCROLL_EVT, scrollDir, scrollOffset, updateRequested)
       }
 
       const scrollVertically = (e: Event) => {
         const { clientHeight, scrollHeight, scrollTop } =
           e.currentTarget as HTMLElement
-        const _states = $(states)
+        const _states = unref(states)
         if (_states.scrollOffset === scrollTop) {
           return
         }
@@ -201,7 +209,7 @@ const createList = ({
       const scrollHorizontally = (e: Event) => {
         const { clientWidth, scrollLeft, scrollWidth } =
           e.currentTarget as HTMLElement
-        const _states = $(states)
+        const _states = unref(states)
 
         if (_states.scrollOffset === scrollLeft) {
           return
@@ -245,7 +253,7 @@ const createList = ({
       }
 
       const onScroll = (e: Event) => {
-        $(_isHorizontal) ? scrollHorizontally(e) : scrollVertically(e)
+        unref(_isHorizontal) ? scrollHorizontally(e) : scrollVertically(e)
         emitEvents()
       }
 
@@ -262,20 +270,17 @@ const createList = ({
         )
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const getItemStyleCache = memo((_: any, __: any, ___: any) => ({}))
-
       const scrollTo = (offset: number) => {
         offset = Math.max(offset, 0)
 
-        if (offset === $(states).scrollOffset) {
+        if (offset === unref(states).scrollOffset) {
           return
         }
 
         states.value = {
-          ...$(states),
+          ...unref(states),
           scrollOffset: offset,
-          scrollDir: getScrollDir($(states).scrollOffset, offset),
+          scrollDir: getScrollDir(unref(states).scrollOffset, offset),
           updateRequested: true,
         }
 
@@ -286,18 +291,24 @@ const createList = ({
         idx: number,
         alignment: Alignment = AUTO_ALIGNMENT
       ) => {
-        const { scrollOffset } = $(states)
+        const { scrollOffset } = unref(states)
 
-        idx = Math.max(0, Math.min(idx, props.total - 1))
+        idx = Math.max(0, Math.min(idx, props.total! - 1))
         scrollTo(
-          getOffset(props, idx, alignment, scrollOffset, $(dynamicSizeCache))
+          getOffset(
+            props,
+            idx,
+            alignment,
+            scrollOffset,
+            unref(dynamicSizeCache)
+          )
         )
       }
 
       const getItemStyle = (idx: number) => {
         const { direction, itemSize, layout } = props
 
-        const itemStyleCache = getItemStyleCache(
+        const itemStyleCache = getItemStyleCache.value(
           clearCache && itemSize,
           clearCache && layout,
           clearCache && direction
@@ -307,9 +318,9 @@ const createList = ({
         if (hasOwn(itemStyleCache, String(idx))) {
           style = itemStyleCache[idx]
         } else {
-          const offset = getItemOffset(props, idx, $(dynamicSizeCache))
-          const size = getItemSize(props, idx, $(dynamicSizeCache))
-          const horizontal = $(_isHorizontal)
+          const offset = getItemOffset(props, idx, unref(dynamicSizeCache))
+          const size = getItemSize(props, idx, unref(dynamicSizeCache))
+          const horizontal = unref(_isHorizontal)
 
           const isRtl = direction === RTL
           const offsetHorizontal = horizontal ? offset : 0
@@ -334,7 +345,7 @@ const createList = ({
 
         states.value.isScrolling = false
         nextTick(() => {
-          getItemStyleCache(-1, null, null)
+          getItemStyleCache.value(-1, null, null)
         })
       }
 
@@ -349,9 +360,9 @@ const createList = ({
       onMounted(() => {
         if (isServer) return
         const { initScrollOffset } = props
-        const windowElement = $(windowRef)
-        if (isNumber(initScrollOffset) && windowElement !== null) {
-          if ($(_isHorizontal)) {
+        const windowElement = unref(windowRef)
+        if (isNumber(initScrollOffset) && windowElement) {
+          if (unref(_isHorizontal)) {
             windowElement.scrollLeft = initScrollOffset
           } else {
             windowElement.scrollTop = initScrollOffset
@@ -363,11 +374,10 @@ const createList = ({
 
       onUpdated(() => {
         const { direction, layout } = props
-        const { scrollOffset, updateRequested } = $(states)
+        const { scrollOffset, updateRequested } = unref(states)
+        const windowElement = unref(windowRef)
 
-        if (updateRequested && $(windowRef) !== null) {
-          const windowElement = $(windowRef)
-
+        if (updateRequested && windowElement) {
           if (layout === HORIZONTAL) {
             if (direction === RTL) {
               // TRICKY According to the spec, scrollLeft should be negative for RTL aligned elements.
@@ -456,12 +466,12 @@ const createList = ({
       const Container = resolveDynamicComponent(containerElement)
       const Inner = resolveDynamicComponent(innerElement)
 
-      const children = []
+      const children = [] as VNodeChild[]
 
       if (total > 0) {
         for (let i = start; i <= end; i++) {
           children.push(
-            $slots.default?.({
+            ($slots.default as Slot)?.({
               data,
               key: i,
               index: i,

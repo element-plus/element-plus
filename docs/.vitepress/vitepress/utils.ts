@@ -4,6 +4,7 @@ import {
   endingSlashRE,
   isExternal,
 } from 'vitepress/dist/client/theme-default/utils'
+
 import type { Route } from 'vitepress'
 
 export * from 'vitepress/dist/client/theme-default/utils'
@@ -50,15 +51,21 @@ export function createGitHubUrl(
   const base = isExternal(docsRepo)
     ? docsRepo
     : `https://github.com/${docsRepo}`
-  return (
-    base.replace(endingSlashRE, '') +
-    `/edit` +
-    `/${docsBranch}/` +
-    (docsDir ? docsDir.replace(endingSlashRE, '') + '/' : '') +
-    `${folder ? folder : ''}` +
-    path +
-    `${ext ? ext : ''}`
-  )
+  return `${base.replace(endingSlashRE, '')}/edit/${docsBranch}/${
+    docsDir ? `${docsDir.replace(endingSlashRE, '')}/` : ''
+  }${folder || ''}${path}${ext || ''}`
 }
 
 export const isServer = typeof window === 'undefined'
+
+export function createCrowdinUrl(targetLang: string) {
+  let translateLang = ''
+  // for zh-CN zh-HK zh-TW, maybe later we will have cases like Chinese lang
+  // for now we just keep it as simple as possible.
+  if (targetLang.startsWith('zh-')) {
+    translateLang = targetLang.split('-').join('').toLocaleLowerCase()
+  } else {
+    translateLang = targetLang.split('-').shift().toLocaleLowerCase()
+  }
+  return `https://crowdin.com/translate/element-plus/all/en-${translateLang}`
+}

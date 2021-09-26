@@ -1,3 +1,6 @@
-import Overlay from './src/index.vue'
+import Overlay from './src/overlay'
 
-export { Overlay }
+export const ElOverlay = Overlay
+export default ElOverlay
+
+export * from './src/overlay'

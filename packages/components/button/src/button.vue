@@ -25,7 +25,6 @@
 
 <script lang="ts">
 import { computed, inject, defineComponent } from 'vue'
-import isEmpty from 'lodash/isEmpty'
 import { useFormItem } from '@element-plus/hooks'
 import { elButtonGroupKey, elFormKey } from '@element-plus/tokens'
 
@@ -45,7 +44,7 @@ export default defineComponent({
     const elForm = inject(elFormKey, undefined)
 
     const handleClick = (evt: MouseEvent) => {
-      if (props.nativeType === 'reset' && !isEmpty(elForm)) {
+      if (props.nativeType === 'reset') {
         elForm?.resetFields()
       }
       emit('click', evt)

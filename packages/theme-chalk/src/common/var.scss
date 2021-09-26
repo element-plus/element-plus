@@ -1,6 +1,6 @@
 /* Element Chalk Variables */
-@use "sass:math";
-@use "sass:map";
+@use 'sass:math';
+@use 'sass:map';
 
 @import '../mixins/config';
 
@@ -220,6 +220,7 @@ $--radio: map.merge(
     'input-background-color': var(--el-color-white),
     'input-border': var(--el-border-base),
     'input-border-color': var(--el-border-color-base),
+    'input-border-color-hover': var(--el-color-primary),
   ),
   $--radio
 );
@@ -268,8 +269,6 @@ $--radio-checked: map.merge(
   ),
   $--radio-checked
 );
-
-$--radio-input-border-color-hover: var(--el-color-primary) !default;
 
 $--radio-bordered-padding: () !default;
 $--radio-bordered-padding: map.merge(
@@ -897,10 +896,13 @@ $--slider: map.merge(
 $--menu: () !default;
 $--menu: map.merge(
   (
-    'item-font-size': var(--el-font-size-base),
-    'item-font-color': var(--el-text-color-primary),
-    'item-hover-fill': var(--el-color-primary-light-9),
+    'active-color': var(--el-color-primary),
+    'text-color': var(--el-text-color-primary),
+    'hover-text-color': var(--el-text-color-primary),
     'background-color': var(--el-color-white),
+    'hover-background-color': var(--el-color-primary-light-9),
+    'item-font-size': var(--el-font-size-base),
+    'item-hover-fill': var(--el-color-primary-light-9),
     'border-color': #e6e6e6,
   ),
   $--menu

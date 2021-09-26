@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import '@docsearch/css'
-import { ref, computed, watch, onMounted, getCurrentInstance } from 'vue'
+import { watch, onMounted, getCurrentInstance } from 'vue'
 import { useRouter, useRoute } from 'vitepress'
 import docsearch from '@docsearch/js'
 import { useLang } from '../../composables/lang'
@@ -64,7 +64,7 @@ const lang = useLang()
 function initialize(userOptions: any) {
   // if the user has multiple locales, the search results should be filtered
   // based on the language
-  const facetFilters = props.multilang ? ['language:' + lang.value] : []
+  const facetFilters = props.multilang ? [`language:${lang.value}`] : []
 
   docsearch(
     Object.assign({}, userOptions, {
@@ -150,7 +150,7 @@ function initialize(userOptions: any) {
 </script>
 
 <template>
-  <div class="algolia-search-box" id="docsearch" />
+  <div id="docsearch" class="algolia-search-box" />
 </template>
 
 <style lang="scss">

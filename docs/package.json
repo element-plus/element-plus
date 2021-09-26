@@ -8,12 +8,16 @@
   },
   "dependencies": {
     "@vueuse/core": "^6.4.0",
-    "element-plus": "latest",
+    "axios": "^0.21.4",
+    "element-plus": "npm:element-plus@latest",
+    "marked": "^3.0.4",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0"
   },
   "devDependencies": {
     "@crowdin/cli": "^3.6.5",
-    "vitepress": "^0.17.2"
+    "markdown-it": "^12.2.0",
+    "markdown-it-container": "^3.0.0",
+    "vitepress": "~0.18.1"
   }
 }

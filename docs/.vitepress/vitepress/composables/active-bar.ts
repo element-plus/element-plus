@@ -1,9 +1,7 @@
-import { computed, shallowRef, onMounted, onUnmounted, onUpdated } from 'vue'
+import { onMounted, onUnmounted, onUpdated } from 'vue'
 import { throttleAndDebounce } from '../utils'
 
 import type { Ref } from 'vue'
-
-const BOUNDING_OFFSET = 100 // 56 the header height + margin-top 32
 
 export function useActiveSidebarLinks(
   container: Ref<HTMLElement>,
@@ -51,7 +49,7 @@ export function useActiveSidebarLinks(
     if (activeLink) {
       activeLink.classList.add('active')
       marker.value.style.opacity = '1'
-      marker.value.style.top = activeLink.offsetTop + 'px'
+      marker.value.style.top = `${activeLink.offsetTop}px`
     } else {
       marker.value.style.opacity = '0'
       marker.value.style.top = '33px'

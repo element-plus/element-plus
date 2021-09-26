@@ -1,9 +1,12 @@
 import 'normalize.css'
-import 'element-plus/dist/index.css'
+// import 'element-plus/dist/index.css'
+// for dev
+import '../../../packages/theme-chalk/src/index.scss'
 import './styles/app.scss'
 
 import VPApp from './components/vp-app.vue'
 import VPDemo from './components/vp-demo.vue'
+import Changelog from './components/globals/vp-changelog.vue'
 import MainColor from './components/globals/main-color.vue'
 import NeutralColor from './components/globals/neutral-color.vue'
 import SecondaryColors from './components/globals/secondary-colors.vue'
@@ -17,4 +20,5 @@ export const globals = [
   ['NeutralColor', NeutralColor],
   ['SecondaryColors', SecondaryColors],
   ['IconList', IconList],
+  ['Changelog', Changelog],
 ]

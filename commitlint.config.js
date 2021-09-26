@@ -1,20 +1,16 @@
-// eslint-disable-next-line
-const importFrom = require('import-from')
+/* eslint-disable @typescript-eslint/no-var-requires */
+const {
+  default: getWorkspacePackages,
+} = require('@pnpm/find-workspace-packages')
 
-function getPackages(context) {
-  return Promise.resolve()
-    .then(() => {
-      const ctx = context || {}
-      const cwd = ctx.cwd || process.cwd()
-      const Project = importFrom(cwd, '@lerna/project')
-      const project = new Project(cwd)
-      return project.getPackages()
-    })
-    .then((packages) => {
-      return packages
-        .map((pkg) => pkg.name)
-        .map((name) => (name.charAt(0) === '@' ? name.split('/')[1] : name))
-    })
+async function getPackages(context) {
+  const ctx = context || {}
+  const cwd = ctx.cwd || process.cwd()
+  const packages = await getWorkspacePackages(cwd)
+  return packages
+    .map((pkg) => pkg.manifest.name)
+    .filter((name) => !!name)
+    .map((name) => (name.charAt(0) === '@' ? name.split('/')[1] : name))
 }
 
 const scopes = [

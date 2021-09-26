@@ -1,13 +1,9 @@
 # Editor directories and files
-.vscode
 .idea
 
 # Package Manager
 node_modules
-lerna-debug.json
-lerna-debug.log
-yarn-debug.log*
-yarn-error.log*
+.pnpm-debug.log*
 
 # System
 .DS_Store

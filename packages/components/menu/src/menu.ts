@@ -9,14 +9,12 @@ import {
   isRef,
   h,
   withDirectives,
-  nextTick,
 } from 'vue'
 import { Resize } from '@element-plus/directives'
 import Menubar from '@element-plus/utils/menu/menu-bar'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './submenu.vue'
-import useMenuColor from './useMenuColor'
-
+import { useMenuCssVar } from './use-menu-css-var'
 import type { VNode, Ref, ComputedRef } from 'vue'
 import type {
   IMenuProps,
@@ -69,8 +67,6 @@ export default defineComponent({
     const alteredCollapse = ref(false)
     const router = instance.appContext.config.globalProperties.$router
     const menu = ref(null)
-
-    const hoverBackground = useMenuColor(props)
 
     // computed
     const isMenuPopup = computed(() => {
@@ -242,7 +238,6 @@ export default defineComponent({
       openedMenus,
       items,
       submenus,
-      hoverBackground,
       activeIndex,
       isMenuPopup,
 
@@ -274,7 +269,6 @@ export default defineComponent({
     expose({
       open,
       close,
-      hoverBackground,
     })
 
     const flattedChildren = (children) => {
@@ -298,57 +292,55 @@ export default defineComponent({
       let slot = slots.default?.() ?? []
       const showMore = []
 
-      if (props.mode === 'horizontal') {
+      if (props.mode === 'horizontal' && menu.value) {
         const items = Array.from(
           (menu.value as Node | undefined)?.childNodes ?? []
         ).filter(
           (item) => item.nodeName !== '#text' || item.nodeValue
         ) as HTMLElement[]
         const originalSlot = flattedChildren(slot)
-        if (items.length === originalSlot.length) {
-          const moreItemWidth = 64
-          const paddingLeft = parseInt(
-            getComputedStyle(menu.value).paddingLeft,
-            10
-          )
-          const paddingRight = parseInt(
-            getComputedStyle(menu.value).paddingRight,
-            10
-          )
-          const menuWidth = menu.value.clientWidth - paddingLeft - paddingRight
-          let calcWidth = 0
-          let sliceIndex = 0
-          items.forEach((item, index) => {
-            calcWidth += item.offsetWidth || 0
-            if (calcWidth <= menuWidth - moreItemWidth) {
-              sliceIndex = index + 1
-            }
-          })
-          const defaultSlot = originalSlot.slice(0, sliceIndex)
-          const moreSlot = originalSlot.slice(sliceIndex)
-          if (moreSlot?.length) {
-            slot = defaultSlot
-            showMore.push(
-              h(
-                ElSubMenu,
-                {
-                  index: 'sub-menu-more',
-                  class: 'el-sub-menu__hide-arrow',
-                },
-                {
-                  title: () =>
-                    h('i', {
-                      class: ['el-icon-more', 'el-sub-menu__icon-more'],
-                    }),
-                  default: () => moreSlot,
-                }
-              )
-            )
+        const moreItemWidth = 64
+        const paddingLeft = parseInt(
+          getComputedStyle(menu.value).paddingLeft,
+          10
+        )
+        const paddingRight = parseInt(
+          getComputedStyle(menu.value).paddingRight,
+          10
+        )
+        const menuWidth = menu.value.clientWidth - paddingLeft - paddingRight
+        let calcWidth = 0
+        let sliceIndex = 0
+        items.forEach((item, index) => {
+          calcWidth += item.offsetWidth || 0
+          if (calcWidth <= menuWidth - moreItemWidth) {
+            sliceIndex = index + 1
           }
-        } else {
-          nextTick(() => instance.proxy.$forceUpdate())
+        })
+        const defaultSlot = originalSlot.slice(0, sliceIndex)
+        const moreSlot = originalSlot.slice(sliceIndex)
+        if (moreSlot?.length) {
+          slot = defaultSlot
+          showMore.push(
+            h(
+              ElSubMenu,
+              {
+                index: 'sub-menu-more',
+                class: 'el-sub-menu__hide-arrow',
+              },
+              {
+                title: () =>
+                  h('i', {
+                    class: ['el-icon-more', 'el-sub-menu__icon-more'],
+                  }),
+                default: () => moreSlot,
+              }
+            )
+          )
         }
       }
+
+      const ulStyle = useMenuCssVar(props)
 
       const vnodeMenu = useVNodeResize(
         h(
@@ -357,7 +349,7 @@ export default defineComponent({
             key: String(props.collapse),
             role: 'menubar',
             ref: menu,
-            style: { backgroundColor: props.backgroundColor || '' },
+            style: ulStyle.value,
             class: {
               'el-menu': true,
               'el-menu--horizontal': props.mode === 'horizontal',

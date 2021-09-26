@@ -11,12 +11,11 @@ import {
   SMART_ALIGNMENT,
   START_ALIGNMENT,
 } from '../defaults'
-import type { DefaultListProps } from '../defaults'
+import type { VirtualizedListProps } from '../props'
 
 import type { ListCache, ListItem, ItemSize } from '../types'
-import type { ExtractPropTypes } from 'vue'
 
-type Props = ExtractPropTypes<typeof DefaultListProps>
+type Props = VirtualizedListProps
 
 const SCOPE = 'ElDynamicSizeList'
 const getItemFromCache = (

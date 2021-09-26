@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useLockScreen } from '../composables/lock-screen'
+import { useFeatureFlag } from '../composables/feature-flag'
 import VPFullScreenMenu from './full-screen/vp-menu.vue'
 import VPFullScreenTranslation from './full-screen/vp-translation.vue'
 import VPFullScreenThemeToggler from './full-screen/vp-theme-toggler.vue'
-import { useLockScreen } from '../composables/lock-screen'
-import { useFeatureFlag } from '../composables/feature-flag'
 
 defineProps<{
   fullScreen: boolean
