@@ -1,4 +1,4 @@
-# Nav Menu
+# Menu
 
 Menu that provides navigation for your website.
 
