@@ -192,7 +192,7 @@ importers:
     specifiers:
       '@popperjs/core': ^2.10.1
       '@vueuse/core': ~6.1.0
-      async-validator: ^3.4.0
+      async-validator: ^4.0.3
       dayjs: ^1.10.7
       lodash: ^4.17.21
       memoize-one: ^5.2.1
@@ -201,7 +201,7 @@ importers:
     dependencies:
       '@popperjs/core': 2.10.1
       '@vueuse/core': 6.1.0_vue@3.2.18
-      async-validator: 3.4.0
+      async-validator: 4.0.3
       dayjs: 1.10.7
       lodash: 4.17.21
       memoize-one: 5.2.1
@@ -2538,10 +2538,6 @@ packages:
     dependencies:
       async-done: 1.3.2
     dev: true
-
-  /async-validator/3.4.0:
-    resolution: {integrity: sha512-VrFk4eYiJAWKskEz115iiuCf9O0ftnMMPXrOFMqyzGH2KxO7YwncKyn/FgOOP+0MDHMfXL7gLExagCutaZGigA==}
-    dev: false
 
   /async-validator/3.5.2:
     resolution: {integrity: sha512-8eLCg00W9pIRZSB781UUX/H6Oskmm8xloZfr09lz5bikRpBVDlJ3hRVuxxP1SxcwsEYfJ4IU8Q19Y8/893r3rQ==}
