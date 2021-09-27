@@ -16,8 +16,11 @@ pnpm build
 cd dist/element-plus
 # set cur element-plus to global `node_modules`
 pnpm link --global
+# for esm we also need link element-plus for dist
+pnpm link --global element-plus
 
 # go to your project, link to `element-plus`
+cd your-project
 pnpm link --global element-plus
 ```
 
