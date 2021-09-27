@@ -18,4 +18,14 @@
       }
     }
   }
+
+  .doc-content a {
+    display: inline-flex;
+    align-items: center;
+    .link-icon {
+      margin-left: 0.25rem;
+      height: 1em;
+      width: 1em;
+    }
+  }
 }
