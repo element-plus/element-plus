@@ -77,11 +77,10 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
       const oldTreeData = unref(treeData)
       const rootLazyRowKeys = []
       const getExpanded = (oldValue, key) => {
-        if (expandRowKeys.value) {
-          return ifExpandAll || expandRowKeys.value.includes(key)
-        } else {
-          return !!(ifExpandAll || oldValue?.expanded)
-        }
+        const included =
+          ifExpandAll ||
+          (expandRowKeys.value && expandRowKeys.value.indexOf(key) !== -1)
+        return !!((oldValue && oldValue.expanded) || included)
       }
       // 合并 expanded 与 display，确保数据刷新后，状态不变
       keys.forEach((key) => {
