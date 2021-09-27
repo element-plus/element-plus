@@ -86,8 +86,12 @@ Import `element/var.scss` before scss of element-plus to avoid the problem of sa
 
 Create a `element/index.scss` to combine your variables and variables of element-plus. (If you import them in ts, they will not be combined.)
 
-> In addition, you should distinguish your scss from the element variable scss.
-> If they are mixed together, each hot update of `element-plus` needs to compile a large number of scss files, resulting in slow speed.
+::: tip
+
+In addition, you should distinguish your scss from the element variable scss.
+If they are mixed together, each hot update of `element-plus` needs to compile a large number of scss files, resulting in slow speed.
+
+:::
 
 ```scss
 // styles/element/index.scss
