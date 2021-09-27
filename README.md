@@ -29,9 +29,16 @@ The new website is launched at 17th Sep 2021.
 
 This project is still under heavy development. Feel free to join us and make your first pull request.
 
-[![Edit element-plus](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/element-plus-ncxnt?fontsize=14&hidenavigation=1&theme=dark)
+### Playground
 
-<br/>
+#### Try it with code sandbox
+
+[![Edit element-plus](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/element-plus-demo-dxtcr)
+
+#### Try it with our built-in playground
+
+[Playground](https://play.element-plus.org/)
+
 <p align="center">
   <b>Special thanks to the generous sponsorship by:</b>
 </p>
