@@ -17,7 +17,7 @@ export const menuItemProps = {
 export type MenuItemProps = ExtractPropTypes<typeof menuItemProps>
 
 export const menuItemEmits = {
-  click: (ctx: { index: string; indexPath: string[] }) =>
-    isString(ctx.index) && Array.isArray(ctx.indexPath),
+  click: (item: { index: string; indexPath: string[] }) =>
+    isString(item.index) && Array.isArray(item.indexPath),
 }
 export type MenuItemEmits = typeof menuItemEmits
