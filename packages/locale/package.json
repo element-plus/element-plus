@@ -9,7 +9,7 @@
   "types": "index.d.ts",
   "license": "MIT",
   "scripts": {
-    "clean": "rm -rf lib es",
+    "clean": "rimraf lib es",
     "build": "gulp build"
   },
   "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
