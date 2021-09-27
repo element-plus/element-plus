@@ -1,6 +1,6 @@
-@import './var.scss';
-@import '../mixins/mixins';
-@import '../mixins/var';
+@use './var.scss';
+@use '../mixins/mixins';
+@use '../mixins/var';
 
 :root {
   @include set-component-css-var('popup', $--popup);

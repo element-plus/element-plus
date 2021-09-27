@@ -1,8 +1,12 @@
 @use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/config' as *;
+@use 'mixins/mixins' as *;
+// @use 'mixins/var' as *;
+@use 'common/var' as *;
+
+// $--alert: ();
+@debug $--alert;
 
 @include b(alert) {
   @include set-component-css-var('alert', $--alert);

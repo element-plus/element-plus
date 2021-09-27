@@ -1,11 +1,11 @@
 @use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'mixins/utils';
-@import 'common/var';
-@import './select-dropdown-v2.scss';
-@import './option-item.scss';
-@import './option-group.scss';
+@use 'mixins/mixins' as *;
+@use 'mixins/utils';
+@use 'common/var' as *;
+@use './select-dropdown-v2.scss';
+@use './option-item.scss';
+@use './option-group.scss';
 
 $--input-inline-start: 15px !default;
 

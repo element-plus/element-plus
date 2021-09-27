@@ -1,10 +1,10 @@
 @use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'mixins/utils';
-@import 'mixins/var';
-@import 'mixins/button';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/utils';
+@use 'mixins/var' as *;
+@use 'mixins/button';
+@use 'common/var' as *;
 
 @include b(radio) {
   @include set-component-css-var('radio', $--radio);

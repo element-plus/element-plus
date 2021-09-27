@@ -1,6 +1,6 @@
 @use 'sass:map';
 
-@import './vars';
+@use './vars';
 
 @mixin with-bg {
   background-color: var(--bg-color);

@@ -2,7 +2,7 @@
 @use 'sass:math';
 @use 'sass:map';
 
-@import '../mixins/config';
+@use '../mixins/config' as *;
 
 // Special comment for theme configurator
 // type|skipAutoTranslation|Category|Order
@@ -11,8 +11,7 @@
 // types
 $--types: primary, success, warning, danger, error, info;
 
-/* Color
--------------------------- */
+// Color
 $--colors: () !default;
 $--colors: map.deep-merge(
   (
@@ -109,8 +108,7 @@ $--border-color: map.merge(
 /// color|1|Background Color|4
 $--background-color-base: #f5f7fa !default;
 
-/* Border
--------------------------- */
+// Border
 $--border-width-base: 1px !default;
 $--border-style-base: solid !default;
 $--border-color-hover: var(--el-text-color-placeholder) !default;
@@ -142,8 +140,7 @@ $--box-shadow: map.merge(
   $--box-shadow
 );
 
-/* Typography
--------------------------- */
+// Typography
 $--font-path: 'fonts' !default;
 $--font-display: 'auto' !default;
 
@@ -160,14 +157,12 @@ $--font-size: map.merge(
   $--font-size
 );
 
-/* Disable base
--------------------------- */
+// Disable base
 $--disabled-fill-base: var(--el-background-color-base) !default;
 $--disabled-color-base: var(--el-text-color-placeholder) !default;
 $--disabled-border-base: var(--el-border-color-light) !default;
 
-/* Checkbox
--------------------------- */
+// Checkbox
 // css3 var in packages/theme-chalk/src/checkbox.scss
 $--checkbox: () !default;
 $--checkbox: map.merge(
@@ -205,8 +200,7 @@ $--checkbox-button: map.merge(
   $--checkbox-button
 );
 
-/* Radio
--------------------------- */
+// Radio
 /// fontSize||Font|1
 $--radio: () !default;
 $--radio: map.merge(
@@ -301,8 +295,7 @@ $--radio-bordered-input-width: map.merge(
   $--radio-bordered-input-width
 );
 
-/* Select
--------------------------- */
+// Select
 $--select: () !default;
 $--select: map.merge(
   (
@@ -354,8 +347,7 @@ $--select-dropdown: map.merge(
   $--select-dropdown
 );
 
-/* Alert
--------------------------- */
+// Alert
 // css3 var in packages/theme-chalk/src/alert.scss
 $--alert: () !default;
 $--alert: map.merge(
@@ -372,8 +364,7 @@ $--alert: map.merge(
   $--alert
 );
 
-/* MessageBox
--------------------------- */
+// MessageBox
 // css3 var in packages/theme-chalk/src/message-box.scss
 $--messagebox: () !default;
 $--messagebox: map.merge(
@@ -390,8 +381,7 @@ $--messagebox: map.merge(
   $--messagebox
 );
 
-/* Message
--------------------------- */
+// Message
 // css3 var in packages/theme-chalk/src/message.scss
 $--message: () !default;
 $--message: map.merge(
@@ -406,8 +396,7 @@ $--message: map.merge(
   $--message
 );
 
-/* Notification
--------------------------- */
+// Notification
 // css3 var in packages/theme-chalk/src/notification.scss
 $--notification: () !default;
 $--notification: map.merge(
@@ -432,8 +421,7 @@ $--notification: map.merge(
   $--notification
 );
 
-/* Input
--------------------------- */
+// Input
 // css3 var in packages/theme-chalk/src/input.scss
 $--input: () !default;
 $--input: map.merge(
@@ -505,8 +493,7 @@ $--input-number-width: map.merge(
   $--input-number-width
 );
 
-/* Cascader
--------------------------- */
+// Cascader
 // css3 var in packages/theme-chalk/src/cascader.scss
 $--cascader: () !default;
 $--cascader: map.merge(
@@ -526,8 +513,7 @@ $--cascader: map.merge(
   $--cascader
 );
 
-/* Button
--------------------------- */
+// Button
 // css3 var in packages/theme-chalk/src/button.scss
 $--button: () !default;
 $--button: map.merge(
@@ -619,8 +605,7 @@ $--button-padding-horizontal: map.merge(
   $--button-padding-horizontal
 );
 
-/* Switch
--------------------------- */
+// Switch
 // css3 var in packages/theme-chalk/src/switch.scss
 $--switch: () !default;
 $--switch: map.merge(
@@ -636,8 +621,7 @@ $--switch: map.merge(
   $--switch
 );
 
-/* Dialog
--------------------------- */
+// Dialog
 // css3 var in packages/theme-chalk/src/dialog.scss
 $--dialog: () !default;
 $--dialog: map.merge(
@@ -654,8 +638,7 @@ $--dialog: map.merge(
   $--dialog
 );
 
-/* Table
--------------------------- */
+// Table
 // css3 var in packages/theme-chalk/src/table.scss
 $--table: () !default;
 $--table: map.merge(
@@ -675,8 +658,7 @@ $--table: map.merge(
   $--table
 );
 
-/* Pagination
--------------------------- */
+// Pagination
 // css3 var in packages/theme-chalk/src/pagination.scss
 $--pagination: () !default;
 $--pagination: map.merge(
@@ -697,8 +679,7 @@ $--pagination: map.merge(
   $--pagination
 );
 
-/* Popup
--------------------------- */
+// Popup
 // css3 var in packages/theme-chalk/src/popup.scss
 $--popup: () !default;
 $--popup: map.merge(
@@ -709,8 +690,7 @@ $--popup: map.merge(
   $--popup
 );
 
-/* Popover
--------------------------- */
+// Popover
 // css3 var in packages/theme-chalk/src/popover.scss
 $--popover: () !default;
 $--popover: map.merge(
@@ -746,8 +726,7 @@ $--skeleton: map.merge(
   $--skeleton
 );
 
-/* Tooltip
--------------------------- */
+// Tooltip
 // css3 var in packages/theme-chalk/src/tooltip.scss
 $--tooltip: () !default;
 $--tooltip: map.merge(
@@ -762,8 +741,7 @@ $--tooltip: map.merge(
   $--tooltip
 );
 
-/* Tag
--------------------------- */
+// Tag
 // css3 var in packages/theme-chalk/src/tag.scss
 $--tag: () !default;
 $--tag: map.merge(
@@ -797,8 +775,7 @@ $--tag-height: map.merge(
   ) !global;
 }
 
-/* Tree
--------------------------- */
+// Tree
 // css3 var in packages/theme-chalk/src/tree.scss
 $--tree: () !default;
 $--tree: map.merge(
@@ -810,8 +787,8 @@ $--tree: map.merge(
   $--tree
 );
 
-/* Dropdown
--------------------------- */
+// Dropdown
+
 $--dropdown: () !default;
 $--dropdown: map.merge(
   (
@@ -833,8 +810,7 @@ $--drawer: map.merge(
   $--drawer
 );
 
-/* Badge
--------------------------- */
+// Badge
 // css3 var in packages/theme-chalk/src/badge.scss
 $--badge: () !default;
 $--badge: map.merge(
@@ -848,8 +824,7 @@ $--badge: map.merge(
   $--badge
 );
 
-/* Card
---------------------------*/
+// Card
 $--card: () !default;
 $--card: map.merge(
   (
@@ -870,8 +845,7 @@ $--dark-card: map.merge(
   $--dark-card
 );
 
-/* Slider
---------------------------*/
+// Slider
 // css3 var in packages/theme-chalk/src/slider.scss
 $--slider: () !default;
 $--slider: map.merge(
@@ -890,8 +864,7 @@ $--slider: map.merge(
   $--slider
 );
 
-/* Menu
---------------------------*/
+// Menu
 // css3 var in packages/theme-chalk/src/menu.scss
 $--menu: () !default;
 $--menu: map.merge(
@@ -908,8 +881,7 @@ $--menu: map.merge(
   $--menu
 );
 
-/* Rate
---------------------------*/
+// Rate
 $--rate: () !default;
 $--rate: map.merge(
   (
@@ -922,8 +894,7 @@ $--rate: map.merge(
   $--rate
 );
 
-/* DatePicker
---------------------------*/
+// DatePicker
 // css3 var packages/theme-chalk/src/date-picker/var.scss
 $--datepicker: () !default;
 $--datepicker: map.merge(
@@ -953,8 +924,7 @@ $--date-editor: map.merge(
   $--date-editor
 );
 
-/* Loading
---------------------------*/
+// Loading
 // css3 var in packages/theme-chalk/src/loading.scss
 $--loading: () !default;
 $--loading: map.merge(
@@ -965,8 +935,7 @@ $--loading: map.merge(
   $--loading
 );
 
-/* Scrollbar
---------------------------*/
+// Scrollbar
 // css3 var in packages/theme-chalk/src/scrollbar.scss
 $--scrollbar: () !default;
 $--scrollbar: map.merge(
@@ -979,8 +948,7 @@ $--scrollbar: map.merge(
   $--scrollbar
 );
 
-/* Carousel
---------------------------*/
+// Carousel
 // css3 var in packages/theme-chalk/src/carousel.scss
 $--carousel: () !default;
 $--carousel: map.merge(
@@ -998,8 +966,7 @@ $--carousel: map.merge(
   $--carousel
 );
 
-/* Collapse
---------------------------*/
+// Collapse
 // css3 var in packages/theme-chalk/src/collapse.scss
 $--collapse: () !default;
 $--collapse: map.merge(
@@ -1016,8 +983,7 @@ $--collapse: map.merge(
   $--collapse
 );
 
-/* Transfer
---------------------------*/
+// Transfer
 // css3 var in packages/theme-chalk/src/transfer.scss
 $--transfer: () !default;
 $--transfer: map.merge(
@@ -1035,8 +1001,7 @@ $--transfer: map.merge(
   $--transfer
 );
 
-/* Timeline
---------------------------*/
+// Timeline
 // css3 var in packages/theme-chalk/src/timeline-item.scss
 $--timeline: () !default;
 $--timeline: map.merge(
@@ -1048,8 +1013,7 @@ $--timeline: map.merge(
   $--timeline
 );
 
-/* Backtop
---------------------------*/
+// Backtop
 // css3 var in packages/theme-chalk/src/backtop.scss
 $--backtop: () !default;
 $--backtop: map.merge(
@@ -1061,8 +1025,7 @@ $--backtop: map.merge(
   $--backtop
 );
 
-/* Link
---------------------------*/
+// Link
 // css3 var in packages/theme-chalk/src/link.scss
 $--link: () !default;
 $--link: map.merge(
@@ -1087,8 +1050,7 @@ $--link-font-color: () !default;
   ) !global;
 }
 
-/* Calendar
---------------------------*/
+// Calendar
 // css3 var in packages/theme-chalk/src/calendar.scss
 $--calendar: () !default;
 $--calendar: map.merge(
@@ -1101,8 +1063,8 @@ $--calendar: map.merge(
   $--calendar
 );
 
-/* Form
--------------------------- */
+// Form
+
 // css3 var in packages/theme-chalk/src/form.scss
 $--form: () !default;
 $--form: map.merge(
@@ -1112,8 +1074,7 @@ $--form: map.merge(
   $--form
 );
 
-/* Avatar
---------------------------*/
+// Avatar
 // css3 var in packages/theme-chalk/src/avatar.scss
 $--avatar: () !default;
 $--avatar: map.merge(
@@ -1130,8 +1091,8 @@ $--avatar: map.merge(
   $--avatar
 );
 
-/* Empty
--------------------------- */
+// Empty
+
 // css3 var in packages/theme-chalk/src/empty.scss
 $--empty: () !default;
 $--empty: map.merge(
@@ -1144,8 +1105,8 @@ $--empty: map.merge(
   $--empty
 );
 
-/* Descriptions
--------------------------- */
+// Descriptions
+
 // css3 var in packages/theme-chalk/src/descriptions.scss
 $--descriptions: () !default;
 $--descriptions: map.merge(
@@ -1158,8 +1119,8 @@ $--descriptions: map.merge(
   $--descriptions
 );
 
-/* Result
--------------------------- */
+// Result
+
 // css3 var in packages/theme-chalk/src/result.scss
 $--result: () !default;
 $--result: map.merge(
@@ -1242,8 +1203,7 @@ $--footer: map.merge(
   $--footer
 );
 
-/* Break-point
---------------------------*/
+// Break-point
 $--sm: 768px !default;
 $--md: 992px !default;
 $--lg: 1200px !default;

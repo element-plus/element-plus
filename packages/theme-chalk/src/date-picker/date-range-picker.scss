@@ -1,5 +1,5 @@
-@import '../common/var';
-@import '../mixins/var';
+@use '../common/var';
+@use '../mixins/var';
 
 @include b(date-range-picker) {
   @include set-component-css-var('datepicker', $--datepicker);

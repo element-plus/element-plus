@@ -173,7 +173,7 @@ change Element Plus style variables. Create a new style file, e.g. `element-vari
 /* theme color */
 $--color-primary: teal; /* icon font path, required */
 $--font-path: '~element-plus/lib/theme-chalk/fonts';
-@import '~element-plus/packages/theme-chalk/src/index';
+@use '~element-plus/packages/theme-chalk/src/index';
 ```
 
 Then in the entry file of your project, import this style file instead of Element's

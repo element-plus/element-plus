@@ -25,7 +25,7 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-@import '../../styles/mixins';
+@use '../../styles/mixins';
 
 .last-updated {
   display: inline-block;

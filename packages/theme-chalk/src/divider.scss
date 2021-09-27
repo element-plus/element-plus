@@ -1,5 +1,5 @@
-@import 'common/var';
-@import 'mixins/mixins';
+@use 'common/var' as *;
+@use 'mixins/mixins' as *;
 
 @include b(divider) {
   background-color: var(--el-border-color-base);

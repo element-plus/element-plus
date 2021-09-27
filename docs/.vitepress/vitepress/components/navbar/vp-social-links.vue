@@ -12,7 +12,7 @@ const links = useSocialLinks()
 </template>
 
 <style scoped lang="scss">
-@import '../../styles/mixins';
+@use '../../styles/mixins';
 
 .social-links {
   height: 20px;

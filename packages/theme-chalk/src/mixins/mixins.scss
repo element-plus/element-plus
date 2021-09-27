@@ -1,5 +1,6 @@
-@import 'function';
-@import '../common/var';
+@use 'function' as *;
+@use '../common/var' as *;
+@use 'config' as *;
 
 /* Break-points
  -------------------------- */

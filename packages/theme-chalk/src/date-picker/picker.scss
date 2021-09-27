@@ -1,9 +1,9 @@
 @use 'sass:map';
 
-@import '../mixins/mixins';
-@import '../mixins/var';
-@import '../common/var';
-@import '../common/transition';
+@use '../mixins/mixins';
+@use '../mixins/var';
+@use '../common/var';
+@use '../common/transition';
 
 @include b(picker) {
   @include e(popper) {

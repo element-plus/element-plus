@@ -1,4 +1,4 @@
-@import '../common/var';
+@use '../common/var';
 
 @include b(picker-panel) {
   color: var(--el-text-color-regular);

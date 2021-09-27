@@ -1,8 +1,8 @@
 @use 'sass:math';
 
-@import './common/var.scss';
-@import './mixins/mixins.scss';
-@import './mixins/_col.scss';
+@use './common/var.scss';
+@use './mixins/mixins.scss';
+@use './mixins/_col.scss';
 
 [class*='#{$namespace}-col-'] {
   float: left;

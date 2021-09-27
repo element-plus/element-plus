@@ -1,6 +1,6 @@
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(notification) {
   @include set-component-css-var('notification', $--notification);

@@ -1,7 +1,7 @@
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
-@import 'common/transition';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+@use 'common/transition';
 
 @include b(tree) {
   @include set-component-css-var('tree', $--tree);

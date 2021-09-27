@@ -1,8 +1,8 @@
 @use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(select-dropdown) {
   z-index: calc(var(--el-index-top) + 1);

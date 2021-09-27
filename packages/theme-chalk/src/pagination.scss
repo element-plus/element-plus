@@ -1,9 +1,9 @@
 @use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'mixins/utils';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/utils';
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(pagination) {
   @include set-component-css-var('pagination', $--pagination);

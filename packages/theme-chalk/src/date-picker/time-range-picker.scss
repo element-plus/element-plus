@@ -1,4 +1,4 @@
-@import '../common/var';
+@use '../common/var';
 
 @include b(time-range-picker) {
   width: 354px;

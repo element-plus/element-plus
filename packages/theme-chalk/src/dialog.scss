@@ -1,10 +1,10 @@
 @use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'mixins/utils';
-@import 'mixins/var';
-@import 'common/var';
-@import 'common/popup';
+@use 'mixins/mixins' as *;
+@use 'mixins/utils';
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+@use 'common/popup';
 
 @include b(dialog) {
   @include set-component-css-var('dialog', $--dialog);

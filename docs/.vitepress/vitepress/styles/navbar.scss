@@ -1,8 +1,8 @@
-@import './mixins';
+@use './mixins';
 
 // import components
 
-@import './nav/menu';
+@use './nav/menu';
 
 .navbar-wrapper {
   @include with-bg;

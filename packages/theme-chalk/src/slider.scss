@@ -1,8 +1,8 @@
 @use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'mixins/utils';
-@import 'mixins/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/utils';
+@use 'mixins/var' as *;
 
 @include b(slider) {
   @include set-component-css-var('slider', $--slider);

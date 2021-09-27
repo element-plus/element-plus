@@ -1,7 +1,7 @@
 @use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'common/var' as *;
 
 @include b(select-dropdown) {
   @include e(item) {

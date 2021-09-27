@@ -1,8 +1,8 @@
 @use 'sass:map';
 
 // CSS3 var
-@import 'common/var';
-@import 'mixins/var';
+@use 'common/var' as *;
+@use 'mixins/var' as *;
 
 // for better performance do not dynamically change the root variable if you really
 // do not need that, since this could introduce recalculation overhead for rendering.

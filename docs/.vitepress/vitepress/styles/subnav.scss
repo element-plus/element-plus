@@ -1,4 +1,4 @@
-@import './mixins';
+@use './mixins';
 
 .sub-nav {
   @include with-border;
