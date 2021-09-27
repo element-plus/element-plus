@@ -6,8 +6,11 @@
     "play",
     "docs"
   ],
+  "engines": {
+    "node": ">= 16"
+  },
   "scripts": {
-    "cz": "pnpm exec git-cz",
+    "cz": "git-cz",
     "test": "jest",
     "dev": "pnpm -C play dev",
     "gen": "bash ./scripts/gc.sh",
