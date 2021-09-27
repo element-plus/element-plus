@@ -43,7 +43,7 @@ importers:
       '@vue/test-utils': 2.0.0-beta.4
       '@vueuse/core': ~6.1.0
       algoliasearch: ^4.10.5
-      async-validator: ^3.4.0
+      async-validator: ^4.0.3
       babel-jest: ^26.3.0
       babel-plugin-lodash: ^3.3.4
       babel-plugin-module-resolver: ^4.1.0
@@ -103,7 +103,7 @@ importers:
       '@types/gulp': 4.0.9
       '@types/sass': 1.16.1
       '@vueuse/core': 6.1.0_vue@3.2.18
-      async-validator: 3.4.0
+      async-validator: 4.0.3
       dayjs: 1.10.7
       lodash: 4.17.21
       memoize-one: 5.2.1
@@ -3443,6 +3443,10 @@ packages:
 
   /async-validator/3.5.2:
     resolution: {integrity: sha512-8eLCg00W9pIRZSB781UUX/H6Oskmm8xloZfr09lz5bikRpBVDlJ3hRVuxxP1SxcwsEYfJ4IU8Q19Y8/893r3rQ==}
+    dev: false
+
+  /async-validator/4.0.3:
+    resolution: {integrity: sha512-LVoIbJNHPKsO7FMLamo88uxdrvayGkF3vLTMTeiN3CqAbP3qSafLRc6yx3Sq9lHkiEOLNpoA2jwwnfGDdu1SMQ==}
     dev: false
 
   /asynckit/0.4.0:
