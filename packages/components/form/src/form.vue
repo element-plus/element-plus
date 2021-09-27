@@ -22,7 +22,7 @@ import {
 } from 'vue'
 import { elFormKey } from '@element-plus/tokens'
 import { debugWarn } from '@element-plus/utils/error'
-import type { FieldErrorList } from 'async-validator'
+import type { ValidateFieldsError } from 'async-validator'
 
 import type { PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'
@@ -70,7 +70,7 @@ function useFormLabelWidth() {
 }
 
 export interface Callback {
-  (isValid?: boolean, invalidFields?: FieldErrorList): void
+  (isValid?: boolean, invalidFields?: ValidateFieldsError): void
 }
 
 export default defineComponent({

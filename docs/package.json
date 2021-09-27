@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "vitepress dev .",
-    "build": "NODE_ENV=production && vitepress build .",
-    "serve": "NODE_ENV=production && vitepress serve ."
+    "build": "cross-env NODE_ENV=production && vitepress build .",
+    "serve": "cross-env NODE_ENV=production && vitepress serve ."
   },
   "dependencies": {
     "@vueuse/core": "^6.4.0",

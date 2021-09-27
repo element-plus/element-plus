@@ -15,8 +15,8 @@ import { hasOwn } from '@vue/shared'
 import { isNumber, isString } from '@element-plus/utils/util'
 import isServer from '@element-plus/utils/isServer'
 
-import { useCache } from '../hooks/useCache'
-import useWheel from '../hooks/useWheel'
+import { useCache } from '../hooks/use-cache'
+import useWheel from '../hooks/use-wheel'
 import Scrollbar from '../components/scrollbar'
 import { getScrollDir, isHorizontal, getRTLOffsetType } from '../utils'
 import { virtualizedListProps } from '../props'
@@ -64,7 +64,7 @@ const createList = ({
       // by user
       const windowRef = ref<HTMLElement>()
       const innerRef = ref<HTMLElement>()
-      const scrollbarRef = ref(null)
+      const scrollbarRef = ref()
 
       const states = ref({
         isScrolling: false,

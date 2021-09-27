@@ -1,4 +1,4 @@
-import { compPackage } from './paths'
+import { epPackage } from './paths'
 import { getWorkspacePackages, getPackageDependencies } from './pkg'
 
 import type { OutputOptions, RollupBuild } from 'rollup'
@@ -12,7 +12,7 @@ export const generateExternal = async (options: { full: boolean }) => {
   return (id: string) => {
     const packages: string[] = ['vue']
     if (!options.full) {
-      const depPackages = getPackageDependencies(compPackage)
+      const depPackages = getPackageDependencies(epPackage)
       packages.push('@vue', ...monoPackages, ...depPackages)
     }
 
