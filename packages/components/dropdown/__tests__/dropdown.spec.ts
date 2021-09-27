@@ -25,31 +25,25 @@ const _mount = (template: string, data, otherObj?) =>
 
 describe('Dropdown', () => {
   test('create', async () => {
-    const wrapper = mount({
-      setup() {
-        return () => (
-          <Dropdown
-            ref="b"
-            placement="right"
-            v-slots={{
-              dropdown: () => (
-                <DropdownMenu>
-                  <DropdownItem>Apple</DropdownItem>
-                  <DropdownItem>Orange</DropdownItem>
-                  <DropdownItem>Cherry</DropdownItem>
-                  <DropdownItem disabled>Peach</DropdownItem>
-                  <DropdownItem divided>Pear</DropdownItem>
-                </DropdownMenu>
-              ),
-            }}
-          >
-            <span class="el-dropdown-link" ref="a">
-              dropdown<i class="el-icon-arrow-down el-icon--right"></i>
-            </span>
-          </Dropdown>
-        )
-      },
-    })
+    const wrapper = _mount(
+      `
+        <el-dropdown ref="b" placement="right">
+          <span class="el-dropdown-link" ref="a">
+            dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>Apple</el-dropdown-item>
+              <el-dropdown-item>Orange</el-dropdown-item>
+              <el-dropdown-item>Cherry</el-dropdown-item>
+              <el-dropdown-item disabled>Peach</el-dropdown-item>
+              <el-dropdown-item divided>Pear</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      `,
+      () => ({})
+    )
     const content = wrapper.findComponent({ ref: 'b' }).vm as any
     const triggerElm = wrapper.find('.el-dropdown-link')
     expect(content.visible).toBe(false)
