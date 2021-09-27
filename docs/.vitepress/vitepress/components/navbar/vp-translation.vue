@@ -39,7 +39,7 @@ const { switchLang, languageMap, langs, lang, helpTranslate } = useTranslation()
 </template>
 
 <style lang="scss" scoped>
-@use '../../styles/mixins';
+@use '../../styles/mixins' as *;
 .translation-container {
   display: none;
   height: 20px;

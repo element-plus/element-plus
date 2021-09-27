@@ -12,8 +12,6 @@ const links = useSocialLinks()
 </template>
 
 <style scoped lang="scss">
-@use '../../styles/mixins';
-
 .social-links {
   height: 20px;
   padding: 0 8px;
