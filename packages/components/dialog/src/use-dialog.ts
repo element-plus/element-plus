@@ -29,13 +29,12 @@ export const useDialog = (
 
   const style = computed<CSSProperties>(() => {
     const style: CSSProperties = {}
-    const varPrefix = `--el-dialog`
     if (!props.fullscreen) {
       if (props.top) {
-        style[`${varPrefix}-margin-top`] = props.top
+        style['margin-top'] = props.top
       }
       if (props.width) {
-        style[`${varPrefix}-width`] = normalizeWidth.value
+        style['width'] = normalizeWidth.value
       }
     }
     return style
