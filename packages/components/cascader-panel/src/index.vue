@@ -145,7 +145,11 @@ export default defineComponent({
         cb && cb(dataList)
       }
 
-      cfg.lazyLoad(node, resolve)
+      cfg.lazyLoad(node, resolve, () => {
+        if (!node.root) {
+          node.loading = false
+        }
+      })
     }
 
     const expandNode: ElCascaderPanelContext['expandNode'] = (node, silent) => {
@@ -372,6 +376,7 @@ export default defineComponent({
       clearCheckedNodes,
       calculateCheckedValue,
       scrollToExpandingNode,
+      initLazyLoad,
     }
   },
 })
