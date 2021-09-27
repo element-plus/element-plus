@@ -162,11 +162,10 @@ export default defineComponent({
       }
     })
 
+    // methods
     const doDestroy = () => {
       vPopper.value?.doDestroy()
     }
-
-    // methods
 
     const handleCollapseToggle = (value: boolean) => {
       if (value) {
@@ -182,15 +181,18 @@ export default defineComponent({
           rootMenu.props.mode === 'horizontal') ||
         (rootMenu.props.collapse && rootMenu.props.mode === 'vertical') ||
         props.disabled
-      ) {
+      )
         return
-      }
+
       rootMenu.handleSubMenuClick({
         index: props.index,
         indexPath: indexPath.value,
       })
     }
-    const handleMouseenter = (event, showTimeout = props.showTimeout) => {
+    const handleMouseenter = (
+      event: MouseEvent | FocusEvent,
+      showTimeout = props.showTimeout
+    ) => {
       if (event.type === 'focus' && !event.relatedTarget) {
         return
       }
@@ -212,6 +214,7 @@ export default defineComponent({
         parentMenu.value.vnode.el?.dispatchEvent(new MouseEvent('mouseenter'))
       }
     }
+
     const handleMouseleave = (deepDispatch = false) => {
       if (
         (rootMenu.props.menuTrigger === 'click' &&
@@ -221,7 +224,7 @@ export default defineComponent({
         return
       }
       mouseInChild.value = false
-      clearTimeout(timeout.value)
+      window.clearTimeout(timeout.value)
       timeout.value = window.setTimeout(() => {
         !mouseInChild.value && rootMenu.closeMenu(props.index)
       }, props.hideTimeout)
@@ -316,12 +319,11 @@ export default defineComponent({
                 h(
                   'div',
                   {
-                    ref: 'menu',
                     class: [`el-menu--${mode.value}`, props.popperClass],
-                    onMouseenter: ($event: Event) =>
-                      handleMouseenter($event, 100),
+                    onMouseenter: (evt: MouseEvent) =>
+                      handleMouseenter(evt, 100),
                     onMouseleave: () => handleMouseleave(true),
-                    onFocus: ($event: Event) => handleMouseenter($event, 100),
+                    onFocus: (evt: FocusEvent) => handleMouseenter(evt, 100),
                   },
                   [
                     h(
