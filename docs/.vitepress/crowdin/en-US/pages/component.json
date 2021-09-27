@@ -205,6 +205,10 @@
       {
         "link": "/tree",
         "text": "Tree"
+      },
+      {
+        "link": "/tree-v2",
+        "text": "Virtualized Tree"
       }
     ]
   },

@@ -81,6 +81,7 @@ declare module 'vue' {
     ElTooltip: typeof import('element-plus')['ElTooltip']
     ElTransfer: typeof import('element-plus')['ElTransfer']
     ElTree: typeof import('element-plus')['ElTree']
+    ElTreeV2: typeof import('element-plus')['ElTreeV2']
     ElUpload: typeof import('element-plus')['ElUpload']
     ElSpace: typeof import('element-plus')['ElSpace']
     ElSkeleton: typeof import('element-plus')['ElSkeleton']
