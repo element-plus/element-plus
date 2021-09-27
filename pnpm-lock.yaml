@@ -70,7 +70,7 @@ importers:
       lint-staged: ^11.1.2
       lodash: ^4.17.21
       memoize-one: ^5.2.1
-      normalize-wheel: ^1.0.1
+      normalize-wheel-es: ^1.1.0
       prettier: ^2.4.1
       resize-observer-polyfill: ^1.5.1
       rimraf: ^3.0.2
@@ -107,7 +107,7 @@ importers:
       dayjs: 1.10.7
       lodash: 4.17.21
       memoize-one: 5.2.1
-      normalize-wheel: 1.0.1
+      normalize-wheel-es: 1.1.0
       resize-observer-polyfill: 1.5.1
     devDependencies:
       '@babel/cli': 7.15.7_@babel+core@7.15.5
@@ -216,7 +216,7 @@ importers:
       dayjs: ^1.10.7
       lodash: ^4.17.21
       memoize-one: ^5.2.1
-      normalize-wheel: ^1.0.1
+      normalize-wheel-es: ^1.1.0
       resize-observer-polyfill: ^1.5.1
     dependencies:
       '@popperjs/core': 2.10.1
@@ -225,7 +225,7 @@ importers:
       dayjs: 1.10.7
       lodash: 4.17.21
       memoize-one: 5.2.1
-      normalize-wheel: 1.0.1
+      normalize-wheel-es: 1.1.0
       resize-observer-polyfill: 1.5.1
 
   packages/hooks:
@@ -8431,6 +8431,10 @@ packages:
     resolution: {integrity: sha1-LRDAa9/TEuqXd2laTShDlFa3WUI=}
     engines: {node: '>=0.10.0'}
     dev: true
+
+  /normalize-wheel-es/1.1.0:
+    resolution: {integrity: sha512-gkcE5xzp8WkSGgu2HItXePGyh3qDOetgPYg0RnjclOIaWTCMB75NTrk0t6KVlbm6ShSikV3ykBFZMiR9GDkvkA==}
+    dev: false
 
   /normalize-wheel/1.0.1:
     resolution: {integrity: sha1-rsiGr/2wRQcNhWRH32Ls+GFG7EU=}
