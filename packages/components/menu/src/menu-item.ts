@@ -1,6 +1,7 @@
 import { buildProp, definePropType } from '@element-plus/utils/props'
 import { isString } from '@element-plus/utils/util'
 
+import type { MenuItemRegistered } from './types'
 import type { ExtractPropTypes } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 
@@ -17,7 +18,7 @@ export const menuItemProps = {
 export type MenuItemProps = ExtractPropTypes<typeof menuItemProps>
 
 export const menuItemEmits = {
-  click: (item: { index: string; indexPath: string[] }) =>
+  click: (item: MenuItemRegistered) =>
     isString(item.index) && Array.isArray(item.indexPath),
 }
 export type MenuItemEmits = typeof menuItemEmits

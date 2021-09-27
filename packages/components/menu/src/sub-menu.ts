@@ -14,6 +14,7 @@ import {
   h,
   reactive,
 } from 'vue'
+import { useTimeoutFn } from '@vueuse/core'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElPopper from '@element-plus/components/popper'
 import { buildProp } from '@element-plus/utils/props'
@@ -66,12 +67,12 @@ export default defineComponent({
     const subMenu = inject<SubMenuProvider>(`subMenu:${parentMenu.value!.uid}`)
     if (!subMenu) throwError(COMPONENT_NAME, 'can not inject sub menu')
 
-    const timeout = ref<number>()
     const items = ref<MenuProvider['items']>({})
     const subMenus = ref<MenuProvider['subMenus']>({})
+
+    let timeout: (() => void) | undefined
     const currentPlacement = ref<Placement | ''>('')
     const mouseInChild = ref(false)
-
     const verticalTitleRef = ref<HTMLDivElement>()
     const vPopper = ref()
 
@@ -145,6 +146,11 @@ export default defineComponent({
     const activeTextColor = computed(() => rootMenu.props.activeTextColor || '')
     const textColor = computed(() => rootMenu.props.textColor || '')
     const mode = computed(() => rootMenu.props.mode)
+    const item = reactive({
+      index: props.index,
+      indexPath,
+      active,
+    })
 
     const titleStyle = computed<CSSProperties>(() => {
       if (mode.value !== 'horizontal') {
@@ -163,9 +169,7 @@ export default defineComponent({
     })
 
     // methods
-    const doDestroy = () => {
-      vPopper.value?.doDestroy()
-    }
+    const doDestroy = () => vPopper.value?.doDestroy()
 
     const handleCollapseToggle = (value: boolean) => {
       if (value) {
@@ -187,8 +191,10 @@ export default defineComponent({
       rootMenu.handleSubMenuClick({
         index: props.index,
         indexPath: indexPath.value,
+        active: active.value,
       })
     }
+
     const handleMouseenter = (
       event: MouseEvent | FocusEvent,
       showTimeout = props.showTimeout
@@ -205,10 +211,12 @@ export default defineComponent({
         return
       }
       mouseInChild.value = true
-      window.clearTimeout(timeout.value)
-      timeout.value = window.setTimeout(() => {
-        rootMenu.openMenu(props.index, indexPath)
-      }, showTimeout)
+
+      timeout?.()
+      ;({ stop: timeout } = useTimeoutFn(
+        () => rootMenu.openMenu(props.index, indexPath.value),
+        showTimeout
+      ))
 
       if (appendToBody.value) {
         parentMenu.value.vnode.el?.dispatchEvent(new MouseEvent('mouseenter'))
@@ -224,10 +232,11 @@ export default defineComponent({
         return
       }
       mouseInChild.value = false
-      window.clearTimeout(timeout.value)
-      timeout.value = window.setTimeout(() => {
-        !mouseInChild.value && rootMenu.closeMenu(props.index)
-      }, props.hideTimeout)
+      timeout?.()
+      ;({ stop: timeout } = useTimeoutFn(
+        () => !mouseInChild.value && rootMenu.closeMenu(props.index),
+        props.hideTimeout
+      ))
 
       if (appendToBody.value && deepDispatch) {
         if (instance.parent?.type.name === 'ElSubMenu') {
@@ -245,9 +254,7 @@ export default defineComponent({
 
     watch(
       () => rootMenu.props.collapse,
-      (value) => {
-        handleCollapseToggle(Boolean(value))
-      }
+      (value) => handleCollapseToggle(Boolean(value))
     )
 
     // provide
@@ -272,14 +279,12 @@ export default defineComponent({
 
     // lifecycle
     onMounted(() => {
-      const item = reactive({ index: props.index, indexPath, active })
       rootMenu.addSubMenu(item)
       subMenu.addSubMenu(item)
       updatePlacement()
     })
 
     onBeforeUnmount(() => {
-      const item = reactive({ index: props.index, indexPath, active })
       subMenu.removeSubMenu(item)
       rootMenu.removeSubMenu(item)
     })
@@ -298,7 +303,8 @@ export default defineComponent({
       // temporarily mark ElPopper as any due to type inconsistency.
       const child = rootMenu.isMenuPopup
         ? h(
-            ElPopper as any, // TODO: correct popper's type.
+            // TODO: correct popper's type.
+            ElPopper as any,
             {
               ref: vPopper,
               manualMode: true,

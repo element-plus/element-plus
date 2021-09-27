@@ -14,13 +14,13 @@
       v-if="
         parentMenu.type.name === 'ElMenu' &&
         rootMenu.props.collapse &&
-        slots.title
+        $slots.title
       "
       :effect="Effect.DARK"
       placement="right"
     >
       <template #content>
-        <slot name="title"></slot>
+        <slot name="title" />
       </template>
       <div
         :style="{
@@ -38,11 +38,12 @@
       </div>
     </el-tooltip>
     <template v-else>
-      <slot></slot>
-      <slot name="title"></slot>
+      <slot />
+      <slot name="title" />
     </template>
   </li>
 </template>
+
 <script lang="ts">
 import {
   defineComponent,
@@ -60,7 +61,7 @@ import { throwError } from '@element-plus/utils/error'
 import useMenu from './use-menu'
 import { menuItemEmits, menuItemProps } from './menu-item'
 
-import type { MenuProvider, SubMenuProvider } from './types'
+import type { MenuItemRegistered, MenuProvider, SubMenuProvider } from './types'
 
 const COMPONENT_NAME = 'ElMenuItem'
 export default defineComponent({
@@ -72,7 +73,7 @@ export default defineComponent({
   props: menuItemProps,
   emits: menuItemEmits,
 
-  setup(props, { emit, slots }) {
+  setup(props, { emit }) {
     const instance = getCurrentInstance()!
     const rootMenu = inject<MenuProvider>('rootMenu')
     if (!rootMenu) throwError(COMPONENT_NAME, 'can not inject root menu')
@@ -81,46 +82,43 @@ export default defineComponent({
       instance,
       toRef(props, 'index')
     )
-    const { addSubMenu, removeSubMenu } = inject<SubMenuProvider>(
-      `subMenu:${parentMenu.value.uid}`
-    )
+
+    const subMenu = inject<SubMenuProvider>(`subMenu:${parentMenu.value.uid}`)
+    if (!subMenu) throwError(COMPONENT_NAME, 'can not inject sub menu')
 
     const active = computed(() => props.index === rootMenu.activeIndex)
+    const item: MenuItemRegistered = reactive({
+      index: props.index,
+      indexPath,
+      active,
+    })
 
     const handleClick = () => {
       if (!props.disabled) {
-        rootMenu.handleMenuItemClick({
-          index: props.index,
-          indexPath: indexPath.value,
-          route: props.route,
-        })
-        emit('click', {
-          index: props.index,
-          indexPath: indexPath.value,
-        })
+        rootMenu.handleMenuItemClick(
+          reactive({ index: props.index, indexPath, route: props.route })
+        )
+        emit('click', item)
       }
     }
 
     onMounted(() => {
-      addSubMenu({ index: props.index, indexPath, active })
-      rootMenu.addMenuItem(reactive({ index: props.index, indexPath, active }))
+      subMenu.addSubMenu(item)
+      rootMenu.addMenuItem(item)
     })
 
     onBeforeUnmount(() => {
-      removeSubMenu({ index: props.index, indexPath, active })
-      rootMenu.removeMenuItem(
-        reactive({ index: props.index, indexPath, active })
-      )
+      subMenu.removeSubMenu(item)
+      rootMenu.removeMenuItem(item)
     })
 
     return {
       Effect,
       parentMenu,
       rootMenu,
-      slots,
-
       paddingStyle,
       active,
+
       handleClick,
     }
   },
