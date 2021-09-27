@@ -6,7 +6,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import vue from 'rollup-plugin-vue'
 import esbuild from 'rollup-plugin-esbuild'
 import replace from '@rollup/plugin-replace'
-import { parallel, series } from 'gulp'
+import { parallel } from 'gulp'
 import { genEntryTypes } from './entry-types'
 import { RollupResolveEntryPlugin } from './rollup-plugin-entry'
 import { epRoot, epOutput } from './utils/paths'
@@ -14,56 +14,70 @@ import { EP_PREFIX, excludes } from './constants'
 import { yellow, green } from './utils/log'
 import { generateExternal, writeBundles } from './utils/rollup'
 import { buildConfig } from './info'
-
 import { run } from './utils/process'
-import type { RollupOptions, OutputOptions } from 'rollup'
+import { withTaskName } from './utils/gulp'
 
-let config: RollupOptions
+import type { RollupOptions, OutputOptions, InputOptions } from 'rollup'
 
-const init = async () =>
-  (config = {
-    input: path.resolve(epRoot, 'index.ts'),
-    plugins: [
-      nodeResolve(),
-      vue({
-        target: 'browser',
-        // css: false,
-        exposeFilename: false,
-      }),
-      commonjs(),
-      esbuild({ minify: false }),
-      replace({
-        'process.env.NODE_ENV': JSON.stringify('production'),
-      }),
-    ],
-    external: await generateExternal({ full: true }),
-  })
+const getConfig = async (
+  opt: {
+    minify?: boolean
+    sourceMap?: boolean
+    plugins?: InputOptions['plugins']
+  } = {}
+): Promise<RollupOptions> => ({
+  input: path.resolve(epRoot, 'index.ts'),
+  plugins: [
+    nodeResolve(),
+    vue({
+      target: 'browser',
+      // css: false,
+      exposeFilename: false,
+    }),
+    commonjs(),
+    esbuild({
+      minify: opt.minify,
+      sourceMap: opt.sourceMap,
+    }),
+    replace({
+      'process.env.NODE_ENV': JSON.stringify('production'),
+    }),
+    ...(opt.plugins ?? []),
+  ],
+  external: await generateExternal({ full: true }),
+})
 
-export const buildFull = async () => {
-  yellow('Building bundle')
-
-  // Full bundle generation
-  const bundle = await rollup({
-    ...config,
-    plugins: [...config.plugins!, RollupResolveEntryPlugin()],
-  })
-
-  yellow('Generating index.full.js')
-  await bundle.write({
-    format: 'umd',
-    file: path.resolve(epOutput, 'dist/index.full.js'),
-    exports: 'named',
-    name: 'ElementPlus',
-    globals: {
-      vue: 'Vue',
+export const buildFull = (minify: boolean) => async () => {
+  const bundle = await rollup(
+    await getConfig({
+      plugins: [RollupResolveEntryPlugin()],
+      minify,
+      sourceMap: minify,
+    })
+  )
+  await writeBundles(bundle, [
+    {
+      format: 'umd',
+      file: path.resolve(epOutput, `dist/index.full${minify ? '.min' : ''}.js`),
+      exports: 'named',
+      name: 'ElementPlus',
+      globals: {
+        vue: 'Vue',
+      },
+      sourcemap: minify,
     },
-  })
-  green('index.full.js generated')
+    {
+      format: 'esm',
+      file: path.resolve(
+        epOutput,
+        `dist/index.full${minify ? '.min' : ''}.mjs`
+      ),
+      sourcemap: minify,
+    },
+  ])
 }
 
 export const buildEntry = async () => {
-  yellow('Generating entry files without dependencies')
-
   const entryFiles = await fs.promises.readdir(epRoot, {
     withFileTypes: true,
   })
@@ -74,7 +88,7 @@ export const buildEntry = async () => {
     .map((f) => path.resolve(epRoot, f.name))
 
   const bundle = await rollup({
-    ...config,
+    ...(await getConfig()),
     input: entryPoints,
     external: () => true,
   })
@@ -108,7 +122,9 @@ export const copyFullStyle = () =>
     run(`cp -R ${epOutput}/theme-chalk/fonts ${epOutput}/dist/fonts`),
   ])
 
-export const buildFullBundle = series(
-  init,
-  parallel(buildFull, buildEntry, genEntryTypes)
+export const buildFullBundle = parallel(
+  withTaskName('buildFullMinified', buildFull(true)),
+  withTaskName('buildFull', buildFull(false)),
+  buildEntry,
+  genEntryTypes
 )
