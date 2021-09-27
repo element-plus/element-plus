@@ -5,7 +5,7 @@
 @use 'common/var' as *;
 
 :root {
-  @include set-component-css-var('loading', $--loading);
+  @include set-component-css-var('loading', $loading);
 }
 
 @include b(loading-parent) {

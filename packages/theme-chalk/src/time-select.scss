@@ -1,3 +1,4 @@
+@use 'mixins/config' as *;
 @use 'common/var' as *;
 @use './date-picker/picker.scss';
 @use './date-picker/date-picker.scss';
@@ -22,7 +23,7 @@
     }
 
     &:hover {
-      background-color: $--background-color-base;
+      background-color: $background-color-base;
       font-weight: bold;
       cursor: pointer;
     }

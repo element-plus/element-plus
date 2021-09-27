@@ -1,8 +1,9 @@
-@use '../common/var';
-@use '../mixins/var';
+@use '../mixins/mixins' as *;
+@use '../common/var' as *;
+@use '../mixins/var' as *;
 
 @include b(date-range-picker) {
-  @include set-component-css-var('datepicker', $--datepicker);
+  @include set-component-css-var('datepicker', $datepicker);
 }
 
 @include b(date-range-picker) {
@@ -99,7 +100,7 @@
       top: 13px;
       right: 0;
       z-index: 1;
-      background: $--color-white;
+      background: $color-white;
     }
     .#{$namespace}-time-panel {
       position: absolute;

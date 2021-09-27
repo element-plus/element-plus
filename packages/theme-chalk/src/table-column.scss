@@ -15,8 +15,8 @@
 @include b(table-filter) {
   border: solid 1px var(--el-border-color-lighter);
   border-radius: 2px;
-  background-color: $--color-white;
-  box-shadow: map.get($--dropdown, 'menu-box-shadow');
+  background-color: $color-white;
+  box-shadow: map.get($dropdown, 'menu-box-shadow');
   box-sizing: border-box;
   margin: 2px 0;
 
@@ -35,13 +35,13 @@
     font-size: var(--el-font-size-base);
 
     &:hover {
-      background-color: map.get($--dropdown, 'menuItem-hover-fill');
-      color: map.get($--dropdown, 'menuItem-hover-color');
+      background-color: map.get($dropdown, 'menuItem-hover-fill');
+      color: map.get($dropdown, 'menuItem-hover-color');
     }
 
     @include when(active) {
       background-color: var(--el-color-primary);
-      color: $--color-white;
+      color: $color-white;
     }
   }
 
@@ -70,7 +70,7 @@
       }
 
       &.is-disabled {
-        color: $--disabled-color-base;
+        color: $disabled-color-base;
         cursor: not-allowed;
       }
     }

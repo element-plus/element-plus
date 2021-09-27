@@ -1,5 +1,5 @@
-@use '../common/var';
-@use '../mixins/mixins';
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
 
 @include b(date-table) {
   font-size: 12px;
@@ -72,7 +72,7 @@
       }
       &.start-date span,
       &.end-date span {
-        color: $--color-white;
+        color: $color-white;
       }
     }
 
@@ -88,12 +88,12 @@
     }
 
     &.current:not(.disabled) span {
-      color: $--color-white;
+      color: $color-white;
       background-color: var(--el-datepicker-active-color);
     }
     &.start-date div,
     &.end-date div {
-      color: $--color-white;
+      color: $color-white;
     }
 
     &.start-date span,
@@ -114,7 +114,7 @@
     }
 
     &.disabled div {
-      background-color: $--background-color-base;
+      background-color: $background-color-base;
       opacity: 1;
       cursor: not-allowed;
       color: var(--el-text-color-placeholder);
@@ -132,7 +132,7 @@
 
     &.selected span {
       background-color: var(--el-datepicker-active-color);
-      color: $--color-white;
+      color: $color-white;
       border-radius: 15px;
     }
 

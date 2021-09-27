@@ -3,7 +3,7 @@
 @use 'common/var' as *;
 
 @include b(calendar) {
-  @include set-component-css-var('calendar', $--calendar);
+  @include set-component-css-var('calendar', $calendar);
 
   background-color: #fff;
 

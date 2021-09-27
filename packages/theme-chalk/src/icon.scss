@@ -5,11 +5,11 @@
 
 @font-face {
   font-family: 'element-icons';
-  src: url('#{$--font-path}/element-icons.woff') format('woff'),
-    /* chrome, firefox */ url('#{$--font-path}/element-icons.ttf')
+  src: url('#{$font-path}/element-icons.woff') format('woff'),
+    /* chrome, firefox */ url('#{$font-path}/element-icons.ttf')
       format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
   font-weight: normal;
-  font-display: $--font-display;
+  font-display: $font-display;
   font-style: normal;
 }
 
@@ -1173,7 +1173,7 @@
 
 @include b(icon) {
   --color: inherit;
-  --font-size: #{map.get($--font-size, 'base')};
+  --font-size: #{map.get($font-size, 'base')};
   height: 1em;
   width: 1em;
   line-height: 1em;

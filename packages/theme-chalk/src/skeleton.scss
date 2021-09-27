@@ -3,7 +3,7 @@
 @use 'common/var' as *;
 
 @include b(skeleton) {
-  @include set-component-css-var('skeleton', $--skeleton);
+  @include set-component-css-var('skeleton', $skeleton);
 }
 
 @mixin skeleton-color() {

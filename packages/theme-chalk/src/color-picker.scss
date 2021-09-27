@@ -219,7 +219,7 @@
     float: left;
     line-height: 26px;
     font-size: 12px;
-    color: $--color-black;
+    color: $color-black;
     width: 160px;
   }
 }
@@ -352,7 +352,7 @@
     top: 50%;
     left: 50%;
     transform: translate3d(-50%, -50%, 0);
-    color: $--color-white;
+    color: $color-white;
     text-align: center;
     font-size: 12px;
   }
@@ -362,9 +362,9 @@
     z-index: 10;
     padding: 6px;
     box-sizing: content-box;
-    background-color: $--color-white;
+    background-color: $color-white;
     border-radius: var(--el-border-radius-base);
-    box-shadow: map.get($--dropdown, 'menu-box-shadow');
+    box-shadow: map.get($dropdown, 'menu-box-shadow');
     &.#{$namespace}-popper {
       border: 1px solid var(--el-border-color-lighter);
     }

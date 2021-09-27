@@ -23,7 +23,7 @@
 
   @include e(text) {
     position: absolute;
-    background-color: $--color-white;
+    background-color: $color-white;
     padding: 0 20px;
     font-weight: 500;
     color: var(--el-text-color-primary);

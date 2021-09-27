@@ -3,7 +3,7 @@
 @use 'common/var' as *;
 
 @include b(avatar) {
-  @include set-component-css-var('avatar', $--avatar);
+  @include set-component-css-var('avatar', $avatar);
 
   display: inline-block;
   box-sizing: border-box;

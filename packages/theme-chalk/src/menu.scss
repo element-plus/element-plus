@@ -1,6 +1,6 @@
 @use 'mixins/mixins' as *;
 @use 'mixins/var' as *;
-@use 'mixins/utils';
+@use 'mixins/utils' as *;
 @use 'common/var' as *;
 @use 'common/transition';
 
@@ -44,7 +44,7 @@
 }
 
 @include b(menu) {
-  @include set-component-css-var('menu', $--menu);
+  @include set-component-css-var('menu', $menu);
 
   border-right: solid 1px var(--el-menu-border-color);
   list-style: none;

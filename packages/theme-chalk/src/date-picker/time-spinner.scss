@@ -1,4 +1,5 @@
-@use '../common/var';
+@use '../mixins/mixins' as *;
+@use '../common/var' as *;
 
 @include b(time-spinner) {
   &.has-seconds {
@@ -30,7 +31,7 @@
       }
 
       .#{$namespace}-time-spinner__item:hover:not(.disabled):not(.active) {
-        background: $--color-white;
+        background: $color-white;
         cursor: default;
       }
     }
@@ -94,7 +95,7 @@
     color: var(--el-text-color-regular);
 
     &:hover:not(.disabled):not(.active) {
-      background: $--background-color-base;
+      background: $background-color-base;
       cursor: pointer;
     }
 

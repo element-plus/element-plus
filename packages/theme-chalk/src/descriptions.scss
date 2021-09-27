@@ -3,7 +3,7 @@
 @use 'common/var' as *;
 
 @include b(descriptions) {
-  @include set-component-css-var('descriptions', $--descriptions);
+  @include set-component-css-var('descriptions', $descriptions);
 
   box-sizing: border-box;
   font-size: var(--el-font-size-base);
@@ -23,7 +23,7 @@
 
   @include e(body) {
     color: var(--el-text-color-regular);
-    background-color: $--color-white;
+    background-color: $color-white;
 
     .#{$namespace}-descriptions__table {
       border-collapse: collapse;

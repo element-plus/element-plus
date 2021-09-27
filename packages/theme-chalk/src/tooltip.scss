@@ -14,7 +14,7 @@ $positionMap: (
 );
 
 @include b(tooltip) {
-  @include set-component-css-var('tooltip', $--tooltip);
+  @include set-component-css-var('tooltip', $tooltip);
 }
 
 @include b(tooltip) {

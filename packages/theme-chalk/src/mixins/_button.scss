@@ -4,8 +4,8 @@
 
 @mixin button-plain($color, $type) {
   color: $color;
-  background-color: map.get($--colors, $type, 'light-9');
-  border-color: map.get($--colors, $type, 'light-6');
+  background-color: map.get($colors, $type, 'light-9');
+  border-color: map.get($colors, $type, 'light-6');
 
   &:hover,
   &:focus {
@@ -26,9 +26,9 @@
     &:hover,
     &:focus,
     &:active {
-      color: map.get($--colors, $type, 'light-4');
-      background-color: map.get($--colors, $type, 'light-9');
-      border-color: map.get($--colors, $type, 'light-8');
+      color: map.get($colors, $type, 'light-4');
+      background-color: map.get($colors, $type, 'light-9');
+      border-color: map.get($colors, $type, 'light-8');
     }
   }
 }
@@ -59,9 +59,9 @@
     &:hover,
     &:focus,
     &:active {
-      color: $--color-white;
-      background-color: map.get($--colors, $type, 'light-5');
-      border-color: map.get($--colors, $type, 'light-5');
+      color: $color-white;
+      background-color: map.get($colors, $type, 'light-5');
+      border-color: map.get($colors, $type, 'light-5');
     }
   }
 

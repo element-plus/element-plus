@@ -3,10 +3,10 @@
 @use 'mixins/mixins' as *;
 @use 'mixins/var' as *;
 @use 'common/var' as *;
-@use 'common/popup';
+@use 'common/popup' as *;
 
 @include b(message-box) {
-  @include set-component-css-var('messagebox', $--messagebox);
+  @include set-component-css-var('messagebox', $messagebox);
 }
 
 @include b(message-box) {
@@ -56,7 +56,7 @@
     border: none;
     outline: none;
     background: transparent;
-    font-size: var(--el-message-close-size, map.get($--message, 'close-size'));
+    font-size: var(--el-message-close-size, map.get($message, 'close-size'));
     cursor: pointer;
 
     .#{$namespace}-message-box__close {

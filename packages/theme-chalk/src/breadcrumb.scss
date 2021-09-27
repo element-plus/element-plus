@@ -1,5 +1,5 @@
 @use 'mixins/mixins' as *;
-@use 'mixins/utils';
+@use 'mixins/utils' as *;
 @use 'common/var' as *;
 
 @include b(breadcrumb) {

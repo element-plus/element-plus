@@ -1,7 +1,7 @@
 @use 'sass:map';
 
 @use 'mixins/mixins' as *;
-@use 'mixins/utils';
+@use 'mixins/utils' as *;
 @use 'common/var' as *;
 
 @include b(autocomplete) {
@@ -10,7 +10,7 @@
 
   @include e(popper) {
     @include picker-popper(
-      $--color-white,
+      $color-white,
       1px solid var(--el-border-color-light),
       var(--el-box-shadow-light)
     );
@@ -46,11 +46,11 @@
     text-overflow: ellipsis;
 
     &:hover {
-      background-color: map.get($--select-option, 'hover-background');
+      background-color: map.get($select-option, 'hover-background');
     }
 
     &.highlighted {
-      background-color: map.get($--select-option, 'hover-background');
+      background-color: map.get($select-option, 'hover-background');
     }
 
     &.divider {

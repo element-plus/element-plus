@@ -2,12 +2,12 @@
 @use 'sass:map';
 
 @use 'mixins/mixins' as *;
-@use 'mixins/utils';
+@use 'mixins/utils' as *;
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
 @include b(transfer) {
-  @include set-component-css-var('transfer', $--transfer);
+  @include set-component-css-var('transfer', $transfer);
 }
 
 @include b(transfer) {

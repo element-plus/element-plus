@@ -3,7 +3,7 @@
 @use 'common/var' as *;
 
 @include b(backtop) {
-  @include set-component-css-var('backtop', $--backtop);
+  @include set-component-css-var('backtop', $backtop);
 
   position: fixed;
   background-color: var(--el-backtop-background-color);

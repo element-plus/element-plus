@@ -1,31 +1,31 @@
 @use 'sass:map';
 
 @use 'mixins/mixins' as *;
-@use 'mixins/utils';
+@use 'mixins/utils' as *;
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 @use './select-dropdown.scss';
 
 @include b(select) {
-  @include set-component-css-var('select', $--select);
+  @include set-component-css-var('select', $select);
 }
 
 @include b(select) {
   display: inline-block;
   position: relative;
-  line-height: map.get($--input-height, 'default');
+  line-height: map.get($input-height, 'default');
 
   @include e(popper) {
     @include picker-popper(
-      map.get($--select-dropdown, 'background'),
-      map.get($--select-dropdown, 'border'),
-      map.get($--select-dropdown, 'shadow')
+      map.get($select-dropdown, 'background'),
+      map.get($select-dropdown, 'border'),
+      map.get($select-dropdown, 'shadow')
     );
   }
 
   @each $size in (medium, small, mini) {
     @include m($size) {
-      line-height: map.get($--input-height, $size);
+      line-height: map.get($input-height, $size);
     }
   }
 
@@ -155,7 +155,7 @@
       background-color: var(--el-text-color-placeholder);
       right: -7px;
       top: 0;
-      color: $--color-white;
+      color: $color-white;
 
       &:hover {
         background-color: var(--el-text-color-secondary);

@@ -5,7 +5,7 @@
 $types: success, warning, danger, info, error;
 
 @include b(result) {
-  @include set-component-css-var('result', $--result);
+  @include set-component-css-var('result', $result);
 }
 
 @include b(result) {

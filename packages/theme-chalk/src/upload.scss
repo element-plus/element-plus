@@ -1,5 +1,5 @@
 @use 'mixins/mixins' as *;
-@use 'mixins/utils';
+@use 'mixins/utils' as *;
 @use 'common/var' as *;
 
 @include b(upload) {
@@ -82,7 +82,7 @@
   }
 
   ~ .#{$namespace}-upload__files {
-    border-top: $--border-base;
+    border-top: $border-base;
     margin-top: 7px;
     padding-top: 5px;
   }
@@ -176,7 +176,7 @@
     }
 
     &:hover {
-      background-color: $--background-color-base;
+      background-color: $background-color-base;
 
       .#{$namespace}-icon-close {
         display: inline-block;
@@ -287,7 +287,7 @@
 
       .#{$namespace}-icon-check,
       .#{$namespace}-icon-circle-check {
-        color: $--color-white;
+        color: $color-white;
       }
 
       .#{$namespace}-icon-close {
@@ -401,7 +401,7 @@
 
       .#{$namespace}-icon-check,
       .#{$namespace}-icon-circle-check {
-        color: $--color-white;
+        color: $color-white;
       }
 
       &:hover {
@@ -437,7 +437,7 @@
       position: relative;
       z-index: 1;
       margin-left: -80px;
-      background-color: $--color-white;
+      background-color: $color-white;
     }
 
     .#{$namespace}-upload-list__item-name {
@@ -544,7 +544,7 @@
 
     .btn {
       display: inline-block;
-      color: $--color-white;
+      color: $color-white;
       font-size: 14px;
       cursor: pointer;
       vertical-align: middle;
@@ -573,7 +573,7 @@
       }
 
       i {
-        color: $--color-white;
+        color: $color-white;
         display: block;
         font-size: 24px;
         line-height: inherit;
@@ -586,7 +586,7 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    background-color: $--color-white;
+    background-color: $color-white;
     height: 36px;
     width: 100%;
     overflow: hidden;

@@ -3,7 +3,7 @@
 @use 'common/var' as *;
 
 @include b(empty) {
-  @include set-component-css-var('empty', $--empty);
+  @include set-component-css-var('empty', $empty);
 
   display: flex;
   justify-content: center;

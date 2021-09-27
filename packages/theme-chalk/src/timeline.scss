@@ -3,7 +3,7 @@
 @use 'common/var' as *;
 
 @include b(timeline) {
-  @include set-component-css-var('timeline', $--timeline);
+  @include set-component-css-var('timeline', $timeline);
 }
 
 @include b(timeline) {

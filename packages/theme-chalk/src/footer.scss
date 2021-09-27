@@ -3,7 +3,7 @@
 @use 'common/var' as *;
 
 @include b(footer) {
-  @include set-component-css-var('footer', $--footer);
+  @include set-component-css-var('footer', $footer);
 
   padding: var(--el-footer-padding);
   box-sizing: border-box;

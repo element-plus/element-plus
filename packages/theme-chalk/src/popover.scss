@@ -3,7 +3,7 @@
 @use 'common/var' as *;
 
 @include b(popover) {
-  @include set-component-css-var('popover', $--popover);
+  @include set-component-css-var('popover', $popover);
 
   &.#{$namespace}-popper {
     background: var(--el-popover-background-color);

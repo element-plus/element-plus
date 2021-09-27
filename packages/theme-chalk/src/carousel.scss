@@ -5,7 +5,7 @@
 @use 'common/var' as *;
 
 @include b(carousel) {
-  @include set-component-css-var('carousel', $--carousel);
+  @include set-component-css-var('carousel', $carousel);
 
   position: relative;
 
@@ -33,7 +33,7 @@
     transition: var(--el-transition-duration);
     border-radius: 50%;
     background-color: var(--el-carousel-arrow-background);
-    color: $--color-white;
+    color: $color-white;
     position: absolute;
     top: 50%;
     z-index: 10;
@@ -148,7 +148,7 @@
     opacity: 0.48;
     width: var(--el-carousel-indicator-width);
     height: var(--el-carousel-indicator-height);
-    background-color: $--color-white;
+    background-color: $color-white;
     border: none;
     outline: none;
     padding: 0;

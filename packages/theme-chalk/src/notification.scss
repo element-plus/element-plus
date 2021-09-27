@@ -3,7 +3,7 @@
 @use 'common/var' as *;
 
 @include b(notification) {
-  @include set-component-css-var('notification', $--notification);
+  @include set-component-css-var('notification', $notification);
 }
 
 @include b(notification) {

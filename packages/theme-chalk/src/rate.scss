@@ -5,7 +5,7 @@
 @use 'common/var' as *;
 
 @include b(rate) {
-  @include set-component-css-var('rate', $--rate);
+  @include set-component-css-var('rate', $rate);
 }
 
 @include b(rate) {

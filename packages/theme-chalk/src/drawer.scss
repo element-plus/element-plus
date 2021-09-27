@@ -5,7 +5,7 @@
 $directions: rtl, ltr, ttb, btt;
 
 @include b(drawer) {
-  @include set-component-css-var('drawer', $--drawer);
+  @include set-component-css-var('drawer', $drawer);
 }
 
 @include b(drawer) {

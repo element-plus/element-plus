@@ -3,11 +3,11 @@
 @use 'common/var' as *;
 
 @include b(card) {
-  @include set-component-css-var('card', $--card);
+  @include set-component-css-var('card', $card);
 }
 
 @include dark(card) {
-  @include set-component-css-var('card', $--dark-card);
+  @include set-component-css-var('card', $dark-card);
 }
 
 @include b(card) {
