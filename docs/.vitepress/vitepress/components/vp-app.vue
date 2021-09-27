@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
+import { ElMessageBox } from 'element-plus'
 import nprogress from 'nprogress'
 import { useToggle } from '../composables/toggle'
 import { useSidebar } from '../composables/sidebar'
 import { useToggleWidgets } from '../composables/toggle-widgets'
+import { useLang } from '../composables/lang'
 import { breakpoints } from '../constant'
 import VPOverlay from './vp-overlay.vue'
 import VPNav from './vp-nav.vue'
@@ -14,6 +16,7 @@ import VPSponsors from './vp-sponsors.vue'
 
 const [isSidebarOpen, toggleSidebar] = useToggle(false)
 const { hasSidebar } = useSidebar()
+const lang = useLang()
 
 useToggleWidgets(isSidebarOpen, () => {
   if (window.outerWidth >= breakpoints.lg) {
@@ -21,7 +24,7 @@ useToggleWidgets(isSidebarOpen, () => {
   }
 })
 
-onMounted(() => {
+onMounted(async () => {
   window.addEventListener(
     'click',
     (e) => {
@@ -50,6 +53,25 @@ onMounted(() => {
     },
     { capture: true }
   )
+
+  if (lang.value === 'zh-CN') {
+    try {
+      await ElMessageBox.confirm(
+        '建议大陆用户访问部署在国内的站点，是否跳转？',
+        '提示',
+        {
+          confirmButtonText: '跳转',
+          cancelButtonText: '取消',
+        }
+      )
+      const toLang = '/zh-CN/'
+      location.href = `https://element-plus.gitee.io${toLang}${location.pathname.slice(
+        toLang.length
+      )}`
+    } catch (e) {
+      // do nothing
+    }
+  }
 })
 </script>
 
