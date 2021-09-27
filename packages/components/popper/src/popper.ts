@@ -1,4 +1,3 @@
-<script lang="ts">
 import {
   defineComponent,
   Fragment,
@@ -129,4 +128,3 @@ export default defineComponent({
     ])
   },
 })
-</script>

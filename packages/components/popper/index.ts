@@ -1,4 +1,4 @@
-import Popper from './src/index.vue'
+import Popper from './src/popper'
 
 import type { App } from 'vue'
 import type { SFCWithInstall } from '@element-plus/utils/types'
