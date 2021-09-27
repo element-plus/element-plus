@@ -70,7 +70,7 @@ export const buildFull = (minify: boolean) => async () => {
       format: 'esm',
       file: path.resolve(
         epOutput,
-        `dist/index.full${minify ? '.min' : ''}.cjs`
+        `dist/index.full${minify ? '.min' : ''}.mjs`
       ),
       sourcemap: minify,
     },
