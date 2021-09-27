@@ -37,5 +37,5 @@ export type MenuProvider = UnwrapRef<MenuProviderRaw>
 export interface SubMenuProvider {
   addSubMenu: (item: UnwrapRef<MenuItemRegistered>) => void
   removeSubMenu: (item: UnwrapRef<MenuItemRegistered>) => void
-  handleMouseleave?: (deepDispatch: boolean) => void
+  handleMouseleave: (deepDispatch: boolean) => void
 }
