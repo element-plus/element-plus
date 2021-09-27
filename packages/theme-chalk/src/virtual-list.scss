@@ -6,3 +6,9 @@
     position: relative;
   }
 }
+
+@include b(vg) {
+  @include e(wrapper) {
+    position: relative;
+  }
+}

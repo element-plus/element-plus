@@ -1,5 +1,28 @@
 ## Changelog
 
+### 1.1.0-beta.17
+
+_2021-09-27_
+
+#### Features
+
+- Dev add global component types for volar (#3624 by @sxzz)
+- Utils extract color to utils & fix submenu color (#3638 by @YunYouJun)
+- Components [el-virtualized-grid] fulfillment (#3612 by @JeremyWuuuuu)
+- Project upgrade async-validator to 4.0.3 (#3667 by @sxzz)
+- Components add virtual tree (#3398 by @msidolphin)
+
+#### Bug fixes
+
+- Components [el-date-picker] validate callback (#3649 by @msidolphin)
+- Components [el-date-picker] dayjs props not extended (#3662 by @adaex)
+- Build fix dependencies packaging (#3665 by @sxzz)
+- Components trigger update:modelValue by itself (#3660 by @spx443812507)
+
+#### Refactors
+
+- Components [el-message][el-notification] improve type (#3636 by @sxzz)
+
 ### 1.1.0-beta.16
 
 _2021-09-24_

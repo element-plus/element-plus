@@ -12,7 +12,7 @@
     <el-input-number
       v-if="showInput && !range"
       ref="input"
-      v-model="firstValue"
+      :model-value="firstValue"
       class="el-slider__input"
       :step="step"
       :disabled="sliderDisabled"
@@ -21,6 +21,7 @@
       :max="max"
       :debounce="debounce"
       :size="inputSize"
+      @update:modelValue="setFirstValue"
       @change="emitChange"
     />
     <div
@@ -33,16 +34,18 @@
       <div class="el-slider__bar" :style="barStyle"></div>
       <slider-button
         ref="firstButton"
-        v-model="firstValue"
+        :model-value="firstValue"
         :vertical="vertical"
         :tooltip-class="tooltipClass"
+        @update:modelValue="setFirstValue"
       />
       <slider-button
         v-if="range"
         ref="secondButton"
-        v-model="secondValue"
+        :model-value="secondValue"
         :vertical="vertical"
         :tooltip-class="tooltipClass"
+        @update:modelValue="setSecondValue"
       />
       <div v-if="showStops">
         <div
@@ -209,6 +212,8 @@ export default defineComponent({
       resetSize,
       emitChange,
       onSliderClick,
+      setFirstValue,
+      setSecondValue,
     } = useSlide(props, initData, emit)
 
     const { stops, getStopStyle } = useStops(
@@ -265,6 +270,8 @@ export default defineComponent({
       emitChange,
       onSliderClick,
       getStopStyle,
+      setFirstValue,
+      setSecondValue,
 
       stops,
       markList,
@@ -335,26 +342,6 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
     (val) => {
       if (!val) {
         setValues()
-      }
-    }
-  )
-
-  watch(
-    () => initData.firstValue,
-    (val) => {
-      if (props.range) {
-        _emit([minValue.value, maxValue.value])
-      } else {
-        _emit(val)
-      }
-    }
-  )
-
-  watch(
-    () => initData.secondValue,
-    () => {
-      if (props.range) {
-        _emit([minValue.value, maxValue.value])
       }
     }
   )

@@ -1,7 +1,7 @@
 import path from 'path'
 import type { Plugin } from 'rollup'
 
-export default function entryPlugin(): Plugin {
+export function RollupResolveEntryPlugin(): Plugin {
   return {
     name: 'element-plus-entry-plugin',
     transform(code, id) {

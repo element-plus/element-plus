@@ -400,7 +400,7 @@ export default defineComponent({
                         'el-menu el-menu--popup',
                         `el-menu--popup-${this.data.currentPlacement}`,
                       ],
-                      style: ulStyle,
+                      style: ulStyle.value,
                     },
                     [this.$slots.default?.()]
                   ),

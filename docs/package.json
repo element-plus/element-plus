@@ -16,6 +16,8 @@
   },
   "devDependencies": {
     "@crowdin/cli": "^3.6.5",
-    "vitepress": "^0.17.2"
+    "markdown-it": "^12.2.0",
+    "markdown-it-container": "^3.0.0",
+    "vitepress": "~0.18.1"
   }
 }

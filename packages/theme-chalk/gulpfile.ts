@@ -8,7 +8,7 @@ import dartSass from 'sass'
 import autoprefixer from 'gulp-autoprefixer'
 import cleanCSS from 'gulp-clean-css'
 import rename from 'gulp-rename'
-import { buildOutput } from '../../build/paths'
+import { buildOutput } from '../../build/utils/paths'
 
 const noElPrefixFile = /(index|base|display)/
 

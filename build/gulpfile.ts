@@ -1,58 +1,47 @@
-import path from 'path'
-import gulp from 'gulp'
-import ts from 'gulp-typescript'
-import through2 from 'through2'
+import { series, parallel } from 'gulp'
 
-const output = path.resolve(__dirname, '../dist/styles')
+import { copyStyle } from './style'
+import { copyEntryTypes } from './entry-types'
+import { run } from './utils/process'
+import { withTaskName } from './utils/gulp'
+import { epOutput, buildOutput, epPackage } from './utils/paths'
+import { copyFullStyle } from './full-bundle'
 
-const tsProject = ts.createProject('tsconfig.json', {
-  declaration: true,
-  target: 'ESNEXT',
-  skipLibCheck: true,
-  module: 'commonjs',
-})
+const runTask = (name: string) =>
+  withTaskName(name, () => run(`pnpm run build ${name}`))
 
-const rewriter = () => {
-  return through2.obj(function (file, _, cb) {
-    const compIdentifier = new RegExp('@element-plus/components', 'g')
-    const compReplacer = '../../../components'
-    const themeIdentifier = new RegExp('@element-plus/theme-chalk', 'g')
-    const themeReplacer = '../../../../theme-chalk'
-    file.contents = Buffer.from(
-      file.contents
-        .toString()
-        .replace(compIdentifier, compReplacer)
-        .replace(themeIdentifier, themeReplacer)
+const copySourceCode = () => async () => {
+  await run(`cp -R packages ${epOutput}`)
+  await run(`cp ${epPackage} ${epOutput}/package.json`)
+}
+
+const copyREADME = () => async () => {
+  await run(`cp README.md ${buildOutput}/element-plus`)
+}
+
+export default series(
+  withTaskName('clean', () => run('pnpm run clean')),
+
+  parallel(
+    runTask('buildComponents'),
+    runTask('buildStyle'),
+    runTask('buildFullBundle'),
+    runTask('buildHelper'),
+    withTaskName('buildEachPackages', () =>
+      run('pnpm run --filter ./packages --parallel --stream build')
     )
-    cb(null, file)
-  })
-}
+  ),
 
-const inputs = '../packages/components/**/style/*.ts'
+  parallel(
+    copyStyle(),
+    copyFullStyle,
+    copyEntryTypes(),
+    copySourceCode(),
+    copyREADME()
+  )
+)
 
-function compileEsm() {
-  return gulp
-    .src(inputs)
-    .pipe(rewriter())
-    .pipe(tsProject())
-    .pipe(gulp.dest(path.resolve(output, 'lib')))
-}
-
-function compileCjs() {
-  return gulp
-    .src(inputs)
-    .pipe(rewriter())
-    .pipe(
-      ts.createProject('tsconfig.json', {
-        declaration: true,
-        target: 'ESNEXT',
-        skipLibCheck: true,
-        module: 'ESNEXT',
-      })()
-    )
-    .pipe(gulp.dest(path.resolve(output, 'es')))
-}
-
-export const build = gulp.series(compileEsm, compileCjs)
-
-export default build
+export * from './components'
+export * from './style'
+export * from './full-bundle'
+export * from './helper'

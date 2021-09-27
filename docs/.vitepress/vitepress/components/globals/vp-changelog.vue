@@ -90,7 +90,7 @@ onMounted(async () => {
 .changelog-versions {
   display: flex;
   align-items: center;
-  justfy-content: space-between;
+  justify-content: space-between;
   margin-bottom: 1rem;
 
   p {
@@ -100,7 +100,7 @@ onMounted(async () => {
 .changelog-header {
   display: flex;
   align-items: flex-start;
-  justfy-content: space-between;
+  justify-content: space-between;
 
   .changelog-meta {
     display: flex;

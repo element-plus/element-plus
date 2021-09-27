@@ -18,7 +18,7 @@ jobs:
         with:
           version: 6.15.1
       - name: Install dependencies
-        run: pnpm bootstrap
+        run: pnpm i
       - name: Lint
         run: pnpm lint
       - name: Test

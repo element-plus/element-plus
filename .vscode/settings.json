@@ -4,7 +4,7 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-
+  "npm.packageManager": "pnpm",
   "eslint.probe": [
     "javascript",
     "javascriptreact",
