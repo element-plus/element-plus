@@ -7,8 +7,8 @@
   "jsdelivr": "index.css",
   "style": "index.css",
   "scripts": {
-    "clean": "rimraf lib",
-    "build": "gulp build"
+    "clean": "rimraf dist",
+    "build": "gulp"
   },
   "repository": {
     "type": "git",
