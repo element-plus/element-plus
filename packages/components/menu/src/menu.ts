@@ -10,10 +10,11 @@ import {
   withDirectives,
   reactive,
 } from 'vue'
+import split from 'lodash/split'
 import { Resize } from '@element-plus/directives'
 import Menubar from '@element-plus/utils/menu/menu-bar'
 import { buildProp, definePropType, mutable } from '@element-plus/utils/props'
-import { isString, isObject } from '@element-plus/utils/util'
+import { isString, isObject, createLink } from '@element-plus/utils/util'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu'
 import { useMenuCssVar } from './use-menu-css-var'
@@ -166,6 +167,11 @@ export default defineComponent({
 
       const { index, indexPath } = menuItem
       if (index === undefined || indexPath === undefined) return
+
+      if (index.includes('http')) {
+        createLink(`http${split(index, 'http')[1]}`)
+        return
+      }
 
       if (props.router && router) {
         const route = menuItem.route || index

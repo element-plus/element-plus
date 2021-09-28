@@ -257,3 +257,14 @@ export const refAttacher = <T extends HTMLElement | ComponentPublicInstance>(
     ref.value = val
   }
 }
+
+export function createLink(link: string) {
+  const href: HTMLElement = document.createElement('a')
+  const dom: HTMLElement | null = document.getElementById('el-external')
+  href.setAttribute('href', link)
+  href.setAttribute('target', '_blank')
+  href.setAttribute('id', 'el-external')
+  dom && document.body.removeChild(dom)
+  document.body.appendChild(href)
+  href.click()
+}
