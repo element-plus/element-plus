@@ -112,6 +112,12 @@ If you are using vite, and you want to custom theme when importing on demand.
 Use `scss.additionalData` to compile variables with scss of every compoent.
 
 ```ts
+import path from 'path'
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+
+import ElementPlus from 'unplugin-element-plus/vite'
+
 // vite.config.ts
 export default defineConfig({
   resolve: {
