@@ -1,5 +1,28 @@
 ## Changelog
 
+### 1.1.0-beta.18
+
+_2021-09-28_
+
+#### Features
+
+- Build support esm and minified full bundle (#3677 by @sxzz)
+- Docs enable mirror site redirection (#3683 by @JeremyWuuuuu)
+- Theme-chalk use @use instead of @import & remove /**/ comment (#3696 by @YunYouJun)
+- Components [el-button-group] add type prop (#3702 by @sxzz)
+
+#### Bug fixes
+
+- Components [el-affix] get scrollContainer of vertical (#3424 by @SorrowX)
+- Docs quote to tip
+- Components [el-form] fix async-validator version (#3697 by @sxzz)
+
+#### Refactors
+
+- Dev drop babel (#3678 by @sxzz)
+- Components refactor menu (#3639 by @sxzz)
+- Play play start-up show network (#3707 by @btea)
+
 ### 1.1.0-beta.17
 
 _2021-09-27_

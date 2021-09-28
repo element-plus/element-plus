@@ -1,7 +1,7 @@
 @use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'common/var' as *;
 
 @include b(select-dropdown) {
   z-index: calc(var(--el-index-top) + 1);
@@ -10,11 +10,11 @@
 
   @include when(multiple) {
     & .#{$namespace}-select-dropdown__item.selected {
-      color: map.get($--select-option, 'selected-font-color');
-      background-color: map.get($--select-dropdown, 'background');
+      color: map.get($select-option, 'selected-font-color');
+      background-color: map.get($select-dropdown, 'background');
 
       &.hover {
-        background-color: map.get($--select-option, 'hover-background');
+        background-color: map.get($select-option, 'hover-background');
       }
 
       &::after {
@@ -36,20 +36,20 @@
 }
 
 @include b(select-dropdown__empty) {
-  padding: map.get($--select-dropdown, 'empty-padding');
+  padding: map.get($select-dropdown, 'empty-padding');
   margin: 0;
   text-align: center;
-  color: map.get($--select-dropdown, 'empty-color');
+  color: map.get($select-dropdown, 'empty-color');
   font-size: var(--el-select-font-size);
 }
 
 @include b(select-dropdown__wrap) {
-  max-height: map.get($--select-dropdown, 'max-height');
+  max-height: map.get($select-dropdown, 'max-height');
 }
 
 @include b(select-dropdown__list) {
   list-style: none;
-  padding: map.get($--select-dropdown, 'padding');
+  padding: map.get($select-dropdown, 'padding');
   margin: 0;
   box-sizing: border-box;
 }

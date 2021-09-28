@@ -1,6 +1,4 @@
 dist
 node_modules
-packages/*/es
-packages/*/lib
 coverage
 pnpm-lock.yaml

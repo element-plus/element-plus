@@ -8,6 +8,7 @@ import { bold } from 'chalk'
 import { green, yellow } from './utils/log'
 import { buildOutput, compRoot, projRoot } from './utils/paths'
 
+import { pathRewriter } from './utils/pkg'
 import type { SourceFile } from 'ts-morph'
 
 const TSCONFIG_PATH = path.resolve(projRoot, 'tsconfig.json')
@@ -115,11 +116,7 @@ export const genComponentTypes = async () => {
 
       await fs.writeFile(
         filepath,
-        outputFile
-          .getText()
-          .replaceAll('@element-plus/components', 'element-plus/es')
-          .replaceAll('@element-plus/theme-chalk', 'element-plus/theme-chalk')
-          .replaceAll('@element-plus', 'element-plus/es'),
+        pathRewriter('esm', true)(outputFile.getText()),
         'utf8'
       )
 

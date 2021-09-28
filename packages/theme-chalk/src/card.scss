@@ -1,13 +1,13 @@
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(card) {
-  @include set-component-css-var('card', $--card);
+  @include set-component-css-var('card', $card);
 }
 
 @include dark(card) {
-  @include set-component-css-var('card', $--dark-card);
+  @include set-component-css-var('card', $dark-card);
 }
 
 @include b(card) {

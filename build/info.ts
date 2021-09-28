@@ -45,3 +45,4 @@ export const buildConfig: Record<Module, BuildInfo> = {
   },
 }
 export type BuildConfig = typeof buildConfig
+export type BuildConfigEntries = [Module, BuildInfo][]

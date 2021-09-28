@@ -1,10 +1,10 @@
 @use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'common/var' as *;
 
 @include b(check-tag) {
-  background-color: $--background-color-base;
+  background-color: $background-color-base;
   border-radius: var(--el-border-radius-base);
   color: var(--el-color-info);
   cursor: pointer;
@@ -20,9 +20,9 @@
 
   @include when(checked) {
     background-color: #deedfc;
-    color: map.get($--colors, 'primary', 'light-1');
+    color: map.get($colors, 'primary', 'light-1');
     &:hover {
-      background-color: map.get($--colors, 'primary', 'light-7');
+      background-color: map.get($colors, 'primary', 'light-7');
     }
   }
 }
