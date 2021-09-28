@@ -10,12 +10,16 @@ import { parallel } from 'gulp'
 import { genEntryTypes } from './entry-types'
 import { RollupResolveEntryPlugin } from './rollup-plugin-entry'
 import { epRoot, epOutput } from './utils/paths'
-import { EP_PREFIX, excludes } from './constants'
 import { yellow, green } from './utils/log'
-import { generateExternal, writeBundles } from './utils/rollup'
+import {
+  generateExternal,
+  rollupPathRewriter,
+  writeBundles,
+} from './utils/rollup'
 import { buildConfig } from './info'
 import { run } from './utils/process'
 import { withTaskName } from './utils/gulp'
+import type { BuildConfigEntries } from './info'
 
 import type { RollupOptions, OutputOptions, InputOptions } from 'rollup'
 
@@ -93,23 +97,16 @@ export const buildEntry = async () => {
     external: () => true,
   })
 
-  const rewriter = (id: string) => {
-    if (id.startsWith(`${EP_PREFIX}/components`))
-      return id.replace(`${EP_PREFIX}/components`, './components')
-    else if (id.startsWith(EP_PREFIX) && excludes.every((e) => !id.endsWith(e)))
-      return id.replace(EP_PREFIX, '.')
-    else return ''
-  }
-
   yellow('Generating entries')
+  const rewriter = await rollupPathRewriter()
   writeBundles(
     bundle,
-    Object.values(buildConfig).map(
-      (config): OutputOptions => ({
+    (Object.entries(buildConfig) as BuildConfigEntries).map(
+      ([module, config]): OutputOptions => ({
         format: config.format,
         dir: config.output.path,
         exports: config.format === 'cjs' ? 'named' : undefined,
-        paths: rewriter,
+        paths: rewriter(module),
       })
     )
   )
