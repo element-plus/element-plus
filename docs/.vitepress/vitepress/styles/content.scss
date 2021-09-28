@@ -1,6 +1,6 @@
-@import './mixins';
-@import './content/doc-content';
-@import './content/hero-content';
+@use './mixins' as *;
+@use './content/doc-content';
+@use './content/hero-content';
 
 .page-content {
   @include respond-to('lg') {

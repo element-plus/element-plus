@@ -91,7 +91,6 @@ importers:
       '@element-plus/utils': link:packages/utils
       '@popperjs/core': 2.10.1
       '@types/gulp': 4.0.9
-      '@types/sass': 1.16.1
       '@vueuse/core': 6.1.0_vue@3.2.18
       async-validator: 4.0.3
       dayjs: 1.10.7
@@ -113,6 +112,7 @@ importers:
       '@sucrase/jest-plugin': 2.1.1
       '@types/jest': 26.0.24
       '@types/lodash': 4.14.173
+      '@types/sass': 1.16.1
       '@types/through2': 2.0.36
       '@typescript-eslint/eslint-plugin': 4.31.2_3815fab247b4312be6d1f55eb1f81298
       '@typescript-eslint/parser': 4.31.2_eslint@7.32.0+typescript@4.4.3
@@ -227,6 +227,7 @@ importers:
       gulp-clean-css: ^4.3.0
       gulp-rename: ^2.0.0
       gulp-sass: ^5.0.0
+      sass: ^1.42.1
     devDependencies:
       '@types/gulp-autoprefixer': 0.0.33
       '@types/gulp-clean-css': 4.3.0
@@ -236,6 +237,7 @@ importers:
       gulp-clean-css: 4.3.0
       gulp-rename: 2.0.0
       gulp-sass: 5.0.0
+      sass: 1.42.1
 
   packages/tokens:
     specifiers: {}
@@ -1741,7 +1743,7 @@ packages:
     resolution: {integrity: sha512-iZUcRrGuz/Tbg3loODpW7vrQJkUtpY2fFSf4ELqqkApcS2TkZ1msk7ie8iZPB86lDOP8QOTTmuvWjc5S0R9OjQ==}
     dependencies:
       '@types/node': 14.11.10
-    dev: false
+    dev: true
 
   /@types/stack-utils/2.0.0:
     resolution: {integrity: sha512-RJJrrySY7A8havqpGObOB4W92QXKJo63/jFLLgpvOtsGUqbQZ9Sbgl35KMm1DjC6j7AvmmU2bIno+3IyEaemaw==}

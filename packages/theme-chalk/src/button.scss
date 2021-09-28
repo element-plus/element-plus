@@ -1,31 +1,28 @@
 @use 'sass:map';
 
-@import 'common/var';
-@import 'mixins/button';
-@import 'mixins/mixins';
-@import 'mixins/utils';
-@import 'mixins/var';
+@use 'common/var' as *;
+@use 'mixins/button' as *;
+@use 'mixins/mixins' as *;
+@use 'mixins/utils' as *;
+@use 'mixins/var' as *;
 
 @include b(button) {
-  @include set-component-css-var('button', $--button);
+  @include set-component-css-var('button', $button);
 }
 
 @include b(button) {
   display: inline-block;
   line-height: 1;
-  min-height: map.get($--input-height, 'default');
+  min-height: map.get($input-height, 'default');
   white-space: nowrap;
   cursor: pointer;
   background: var(
     --el-button-background-color,
-    map.get($--button, 'background-color')
+    map.get($button, 'background-color')
   );
   border: var(--el-border-base);
-  border-color: var(
-    --el-button-border-color,
-    map.get($--button, 'border-color')
-  );
-  color: var(--el-button-font-color, map.get($--button, 'font-color'));
+  border-color: var(--el-button-border-color, map.get($button, 'border-color'));
+  color: var(--el-button-font-color, map.get($button, 'font-color'));
   -webkit-appearance: none;
   text-align: center;
   box-sizing: border-box;
@@ -39,10 +36,10 @@
   }
 
   @include button-size(
-    map.get($--button-padding-vertical, 'default'),
-    map.get($--button-padding-horizontal, 'default'),
-    map.get($--button-font-size, 'default'),
-    map.get($--button-border-radius, 'default')
+    map.get($button-padding-vertical, 'default'),
+    map.get($button-padding-horizontal, 'default'),
+    map.get($button-font-size, 'default'),
+    map.get($button-border-radius, 'default')
   );
 
   &:hover,
@@ -54,15 +51,11 @@
   }
 
   &:active {
-    color: mix(
-      $--color-black,
-      $--color-primary,
-      $--button-active-shade-percent
-    );
+    color: mix($color-black, $color-primary, $button-active-shade-percent);
     border-color: mix(
-      $--color-black,
-      $--color-primary,
-      $--button-active-shade-percent
+      $color-black,
+      $color-primary,
+      $button-active-shade-percent
     );
     outline: none;
   }
@@ -88,29 +81,21 @@
     &:active {
       background: var(--el-color-white);
       border-color: mix(
-        $--color-black,
-        $--color-primary,
-        $--button-active-shade-percent
+        $color-black,
+        $color-primary,
+        $button-active-shade-percent
       );
-      color: mix(
-        $--color-black,
-        $--color-primary,
-        $--button-active-shade-percent
-      );
+      color: mix($color-black, $color-primary, $button-active-shade-percent);
       outline: none;
     }
   }
 
   @include when(active) {
-    color: mix(
-      $--color-black,
-      $--color-primary,
-      $--button-active-shade-percent
-    );
+    color: mix($color-black, $color-primary, $button-active-shade-percent);
     border-color: mix(
-      $--color-black,
-      $--color-primary,
-      $--button-active-shade-percent
+      $color-black,
+      $color-primary,
+      $button-active-shade-percent
     );
   }
 
@@ -162,26 +147,26 @@
   }
   @include when(circle) {
     border-radius: 50%;
-    padding: map.get($--button-padding-vertical, 'default');
+    padding: map.get($button-padding-vertical, 'default');
   }
 
   @each $type in (primary, success, warning, danger, info) {
     @include m($type) {
-      --el-button-font-color: #{map.get($--button-font-color, $type)};
-      --el-button-background-color: #{map.get($--button-background-color, $type)};
-      --el-button-border-color: #{map.get($--button-border-color, $type)};
-      --el-button-hover-color: #{map.get($--colors, $type, 'light-2')};
+      --el-button-font-color: #{map.get($button-font-color, $type)};
+      --el-button-background-color: #{map.get($button-background-color, $type)};
+      --el-button-border-color: #{map.get($button-border-color, $type)};
+      --el-button-hover-color: #{map.get($colors, $type, 'light-2')};
       --el-button-active-font-color: #{darken(
-          map.get($--button-font-color, $type),
-          $--button-active-shade-percent
+          map.get($button-font-color, $type),
+          $button-active-shade-percent
         )};
       --el-button-active-background-color: #{darken(
-          map.get($--button-background-color, $type),
-          $--button-active-shade-percent
+          map.get($button-background-color, $type),
+          $button-active-shade-percent
         )};
       --el-button-active-border-color: #{darken(
-          map.get($--button-border-color, $type),
-          $--button-active-shade-percent
+          map.get($button-border-color, $type),
+          $button-active-shade-percent
         )};
 
       @include button-variant($type);
@@ -190,17 +175,17 @@
 
   @each $size in (medium, small, mini) {
     @include m($size) {
-      min-height: map.get($--input-height, $size);
+      min-height: map.get($input-height, $size);
 
       @include button-size(
-        map.get($--button-padding-vertical, $size),
-        map.get($--button-padding-horizontal, $size),
-        map.get($--button-font-size, $size),
-        map.get($--button-border-radius, $size)
+        map.get($button-padding-vertical, $size),
+        map.get($button-padding-horizontal, $size),
+        map.get($button-font-size, $size),
+        map.get($button-border-radius, $size)
       );
 
       @include when(circle) {
-        padding: map.get($--button-padding-vertical, $size);
+        padding: map.get($button-padding-vertical, $size);
       }
     }
   }
@@ -219,11 +204,7 @@
       background-color: transparent;
     }
     &:active {
-      color: mix(
-        $--color-black,
-        $--color-primary,
-        $--button-active-shade-percent
-      );
+      color: mix($color-black, $color-primary, $button-active-shade-percent);
       border-color: transparent;
       background-color: transparent;
     }

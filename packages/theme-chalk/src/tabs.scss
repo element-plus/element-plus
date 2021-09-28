@@ -1,5 +1,5 @@
-@import 'mixins/mixins';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'common/var' as *;
 
 @include b(tabs) {
   @include e(header) {
@@ -123,7 +123,7 @@
 
       &:hover {
         background-color: var(--el-text-color-placeholder);
-        color: $--color-white;
+        color: $color-white;
       }
     }
 
@@ -137,7 +137,7 @@
     }
 
     @include when(disabled) {
-      color: $--disabled-color-base;
+      color: $disabled-color-base;
       cursor: default;
     }
   }
@@ -196,7 +196,7 @@
         }
       }
       &.is-active {
-        border-bottom-color: $--color-white;
+        border-bottom-color: $color-white;
 
         &.is-closable {
           padding-left: 20px;
@@ -210,7 +210,7 @@
     }
   }
   @include m(border-card) {
-    background: $--color-white;
+    background: $color-white;
     border: 1px solid var(--el-border-color-base);
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);
 
@@ -218,7 +218,7 @@
       padding: 15px;
     }
     > .#{$namespace}-tabs__header {
-      background-color: $--background-color-base;
+      background-color: $background-color-base;
       border-bottom: 1px solid var(--el-border-color-light);
       margin: 0;
     }
@@ -242,7 +242,7 @@
 
       &.is-active {
         color: var(--el-color-primary);
-        background-color: $--color-white;
+        background-color: $color-white;
         border-right-color: var(--el-border-color-base);
         border-left-color: var(--el-border-color-base);
       }
@@ -250,7 +250,7 @@
         color: var(--el-color-primary);
       }
       &.is-disabled {
-        color: $--disabled-color-base;
+        color: $disabled-color-base;
       }
     }
 

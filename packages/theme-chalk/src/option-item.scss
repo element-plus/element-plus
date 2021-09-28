@@ -1,8 +1,8 @@
 @use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(select-dropdown) {
   @include e(option-item) {
@@ -13,14 +13,14 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: map.get($--select-option, 'color');
-    height: map.get($--select-option, 'height');
-    line-height: map.get($--select-option, 'height');
+    color: map.get($select-option, 'color');
+    height: map.get($select-option, 'height');
+    line-height: map.get($select-option, 'height');
     box-sizing: border-box;
     cursor: pointer;
 
     @include when(disabled) {
-      color: map.get($--select-option, 'disabled-color');
+      color: map.get($select-option, 'disabled-color');
       cursor: not-allowed;
 
       &:hover {
@@ -29,31 +29,28 @@
     }
 
     @include when(selected) {
-      background-color: map.get($--select-option, 'hover-background');
+      background-color: map.get($select-option, 'hover-background');
       font-weight: 700;
 
       &:not(.is-multiple) {
-        color: map.get($--select-option, 'selected-font-color');
+        color: map.get($select-option, 'selected-font-color');
       }
     }
 
     &.hover {
-      background-color: map.get(
-        $--select-option,
-        'hover-background'
-      ) !important;
+      background-color: map.get($select-option, 'hover-background') !important;
     }
 
     &:hover {
-      background-color: map.get($--select-option, 'hover-background');
+      background-color: map.get($select-option, 'hover-background');
     }
   }
 
   @include when(multiple) {
     .el-select-dropdown__option-item {
       &.is-selected {
-        color: map.get($--select-option, 'selected-font-color');
-        background-color: map.get($--select-dropdown, 'background');
+        color: map.get($select-option, 'selected-font-color');
+        background-color: map.get($select-dropdown, 'background');
         font-weight: bold;
         &::after {
           position: absolute;

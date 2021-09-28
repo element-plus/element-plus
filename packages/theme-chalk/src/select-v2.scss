@@ -1,22 +1,23 @@
 @use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'mixins/utils';
-@import 'common/var';
-@import './select-dropdown-v2.scss';
-@import './option-item.scss';
-@import './option-group.scss';
+@use 'mixins/mixins' as *;
+@use 'mixins/utils' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+@use './select-dropdown-v2.scss';
+@use './option-item.scss';
+@use './option-group.scss';
 
-$--input-inline-start: 15px !default;
+$input-inline-start: 15px !default;
 
 @include b(select-v2) {
-  @include set-component-css-var('select', $--select);
+  @include set-component-css-var('select', $select);
 }
 
 @include b(select-v2) {
   display: inline-block;
   position: relative;
-  font-size: map.get($--input-font-size, 'default');
+  font-size: map.get($input-font-size, 'default');
   $selector: &;
   @include e(wrapper) {
     box-sizing: border-box;
@@ -68,19 +69,19 @@ $--input-inline-start: 15px !default;
     #{$selector}__input-wrapper {
       box-sizing: border-box;
       position: relative;
-      margin-inline-start: $--input-inline-start;
+      margin-inline-start: $input-inline-start;
       max-width: 100%;
       overflow: hidden;
     }
 
     &,
     #{$selector}__input-wrapper {
-      line-height: map.get($--input-height, 'default');
+      line-height: map.get($input-height, 'default');
     }
 
     #{$selector}__input-wrapper input {
-      line-height: map.get($--input-height, 'medium') - 8px;
-      height: map.get($--input-height, 'medium') - 8px;
+      line-height: map.get($input-height, 'medium') - 8px;
+      height: map.get($input-height, 'medium') - 8px;
 
       min-width: 4px;
       width: 100%;
@@ -115,9 +116,9 @@ $--input-inline-start: 15px !default;
 
   @include e(popper) {
     @include picker-popper(
-      map.get($--select-dropdown, 'background'),
-      map.get($--select-dropdown, 'border'),
-      map.get($--select-dropdown, 'shadow')
+      map.get($select-dropdown, 'background'),
+      map.get($select-dropdown, 'border'),
+      map.get($select-dropdown, 'shadow')
     );
   }
 
@@ -126,54 +127,54 @@ $--input-inline-start: 15px !default;
       padding: 3px 30px 3px 0px;
       &,
       #{$selector}__input-wrapper {
-        line-height: map.get($--input-height, 'medium');
+        line-height: map.get($input-height, 'medium');
       }
     }
     @include e(caret) {
-      line-height: map.get($--input-height, 'medium');
+      line-height: map.get($input-height, 'medium');
     }
     @include e(suffix) {
-      height: map.get($--input-height, 'medium');
+      height: map.get($input-height, 'medium');
     }
   }
 
   @include m(small) {
     @include e(wrapper) {
       padding: 3px 30px 3px 0px;
-      line-height: map.get($--input-height, 'small');
+      line-height: map.get($input-height, 'small');
       #{$selector}__input-wrapper {
-        line-height: map.get($--input-height, 'small') - 8px;
+        line-height: map.get($input-height, 'small') - 8px;
         input {
-          line-height: map.get($--input-height, 'small') - 8px;
-          height: map.get($--input-height, 'small') - 8px;
+          line-height: map.get($input-height, 'small') - 8px;
+          height: map.get($input-height, 'small') - 8px;
         }
       }
     }
     @include e(caret) {
-      line-height: map.get($--input-height, 'small');
+      line-height: map.get($input-height, 'small');
     }
     @include e(suffix) {
-      height: map.get($--input-height, 'small');
+      height: map.get($input-height, 'small');
     }
   }
 
   @include m(mini) {
     @include e(wrapper) {
       padding: 1px 30px 1px 0px;
-      line-height: map.get($--input-height, 'mini');
+      line-height: map.get($input-height, 'mini');
       #{$selector}__input-wrapper {
-        line-height: map.get($--input-height, 'mini') - 4px;
+        line-height: map.get($input-height, 'mini') - 4px;
         input {
-          line-height: map.get($--input-height, 'mini') - 4px;
-          height: map.get($--input-height, 'mini') - 4px;
+          line-height: map.get($input-height, 'mini') - 4px;
+          height: map.get($input-height, 'mini') - 4px;
         }
       }
     }
     @include e(caret) {
-      line-height: map.get($--input-height, 'mini');
+      line-height: map.get($input-height, 'mini');
     }
     @include e(suffix) {
-      height: map.get($--input-height, 'mini');
+      height: map.get($input-height, 'mini');
     }
   }
 
@@ -304,10 +305,10 @@ $--input-inline-start: 15px !default;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    margin-inline-start: $--input-inline-start;
+    margin-inline-start: $input-inline-start;
     width: calc(100% - 52px);
     @include utils-ellipsis;
-    color: var(--el-input-font-color, map.get($--input, 'font-color'));
+    color: var(--el-input-font-color, map.get($input, 'font-color'));
     font-size: inherit;
     @include when(transparent) {
       color: var(--el-text-color-placeholder);
