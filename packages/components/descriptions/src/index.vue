@@ -34,8 +34,8 @@
 import { computed, defineComponent, provide } from 'vue'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
+import { elDescriptionsKey } from '@element-plus/tokens'
 import DescriptionsRow from './descriptions-row.vue'
-import { elDescriptionsKey } from './token'
 
 import type { PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'

@@ -20,7 +20,7 @@ import {
   getCurrentInstance,
   watch,
 } from 'vue'
-import type { RootTabs, UpdatePaneStateCallback } from './token'
+import type { RootTabs, UpdatePaneStateCallback } from './tabs.type'
 
 export default defineComponent({
   name: 'ElTabPane',

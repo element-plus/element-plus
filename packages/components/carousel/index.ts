@@ -9,3 +9,5 @@ export const ElCarousel = withInstall(Carousel, {
 export default ElCarousel
 
 export const ElCarouselItem = withNoopInstall(CarouselItem)
+
+export * from './src/carousel'

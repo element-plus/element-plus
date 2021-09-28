@@ -9,3 +9,5 @@ export const ElForm = withInstall(Form, {
 export default ElForm
 
 export const ElFormItem = withNoopInstall(FormItem)
+
+export * from './src/form.type'

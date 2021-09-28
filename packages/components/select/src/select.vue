@@ -232,14 +232,14 @@ import {
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
 import { isValidComponentSize } from '@element-plus/utils/validators'
+import { selectKey } from '@element-plus/tokens'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
 import { useSelect, useSelectStates } from './useSelect'
-import { selectKey } from './token'
 
 import type { PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'
-import type { SelectContext } from './token'
+import type { SelectContext } from '@element-plus/tokens'
 
 export default defineComponent({
   name: 'ElSelect',

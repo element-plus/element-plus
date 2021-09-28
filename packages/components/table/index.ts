@@ -7,3 +7,5 @@ export const ElTable = withInstall(Table, {
 })
 export default ElTable
 export const ElTableColumn = withNoopInstall(TableColumn)
+
+export * from './src/table/defaults'

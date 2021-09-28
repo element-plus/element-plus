@@ -9,3 +9,5 @@ export const ElDescriptions = withInstall(Descriptions, {
 export default ElDescriptions
 
 export const ElDescriptionsItem = withNoopInstall(DescriptionsItem)
+
+export * from './src/descriptions.type'

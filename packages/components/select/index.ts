@@ -11,5 +11,3 @@ export const ElSelect = withInstall(Select, {
 export default ElSelect
 export const ElOption = withNoopInstall(Option)
 export const ElOptionGroup = withNoopInstall(OptionGroup)
-
-export * from './src/token'

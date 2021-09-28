@@ -11,5 +11,3 @@ export const ElRadio = withInstall(Radio, {
 export default ElRadio
 export const ElRadioGroup = withNoopInstall(RadioGroup)
 export const ElRadioButton = withNoopInstall(RadioButton)
-
-export * from './src/token'

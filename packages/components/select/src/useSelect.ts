@@ -19,9 +19,13 @@ import scrollIntoView from '@element-plus/utils/scroll-into-view'
 import { isKorean } from '@element-plus/utils/isDef'
 import { getValueByPath, useGlobalConfig } from '@element-plus/utils/util'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
-import type { QueryChangeCtx, SelectOptionProxy } from './token'
 
-import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
+import type {
+  ElFormContext,
+  ElFormItemContext,
+  QueryChangeCtx,
+  SelectOptionProxy,
+} from '@element-plus/tokens'
 
 export function useSelectStates(props) {
   const { t } = useLocaleInject()

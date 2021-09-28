@@ -16,10 +16,9 @@ import {
   FixedSizeList,
   DynamicSizeList,
 } from '@element-plus/components/virtual-list'
+import { selectV2InjectionKey } from '@element-plus/tokens'
 import GroupItem from './group-item.vue'
 import OptionItem from './option-item.vue'
-
-import { selectV2InjectionKey } from './token'
 
 import type { ItemProps } from '@element-plus/components/virtual-list'
 import type { OptionItemProps, Option } from './select.types'

@@ -23,7 +23,7 @@ import type {
   Pane,
   RootTabs,
   UpdatePaneStateCallback,
-} from './token'
+} from './tabs.type'
 
 export default defineComponent({
   name: 'ElTabs',

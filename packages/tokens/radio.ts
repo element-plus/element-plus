@@ -14,6 +14,5 @@ export interface RadioGroupContext {
   changeEvent: (val: IModelType) => void
 }
 
-const radioGroupKey: InjectionKey<RadioGroupContext> = 'RadioGroup' as any
-
-export default radioGroupKey
+export const radioGroupKey: InjectionKey<RadioGroupContext> =
+  Symbol('RadioGroup')

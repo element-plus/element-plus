@@ -12,4 +12,5 @@ const _Select = Select as SFCWithInstall<typeof Select>
 export default _Select
 export const ElSelectV2 = _Select
 
-export * from './src/token'
+export * from './src/defaults'
+export * from './src/select.types'

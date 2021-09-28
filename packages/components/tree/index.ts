@@ -11,3 +11,5 @@ const _Tree = Tree as SFCWithInstall<typeof Tree>
 
 export default _Tree
 export const ElTree = _Tree
+
+export * from './src/tree.type'

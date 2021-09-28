@@ -16,7 +16,7 @@ import {
 } from 'vue'
 import { capitalize } from '@vue/shared'
 import { Resize } from '@element-plus/directives'
-import type { Pane, RootTabs } from './token'
+import type { Pane, RootTabs } from './tabs.type'
 
 import type { CSSProperties, PropType } from 'vue'
 

@@ -22,7 +22,7 @@ import type { ResizableElement } from '@element-plus/utils/resize-event'
 
 import type { PropType } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'
-import type { RootTabs, Pane, ITabType } from './token'
+import type { RootTabs, Pane, ITabType } from './tabs.type'
 
 type RefElement = Nullable<HTMLElement>
 

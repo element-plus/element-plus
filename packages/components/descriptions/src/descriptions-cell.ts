@@ -1,7 +1,7 @@
 import { defineComponent, h, inject } from 'vue'
 import { addUnit } from '@element-plus/utils/util'
 import { getNormalizedProps } from '@element-plus/utils/vnode'
-import { elDescriptionsKey } from './token'
+import { elDescriptionsKey } from '@element-plus/tokens'
 
 import type { VNode } from 'vue'
 import type {

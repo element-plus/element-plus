@@ -25,8 +25,7 @@ import {
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import { elFormItemKey } from '@element-plus/tokens'
-import radioGroupKey from './token'
+import { elFormItemKey, radioGroupKey } from '@element-plus/tokens'
 
 import type { PropType } from 'vue'
 import type { ElFormItemContext } from '@element-plus/tokens'

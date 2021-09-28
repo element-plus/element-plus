@@ -1,9 +1,9 @@
 import { inject, computed, getCurrentInstance, watch, toRaw, unref } from 'vue'
 import { getValueByPath, escapeRegexpString } from '@element-plus/utils/util'
-import { selectKey, selectGroupKey } from './token'
+import { selectKey, selectGroupKey } from '@element-plus/tokens'
 
 import type { Ref } from 'vue'
-import type { QueryChangeCtx } from './token'
+import type { QueryChangeCtx } from '@element-plus/tokens'
 
 export function useOption(props, states) {
   // inject

@@ -249,10 +249,11 @@ import { ClickOutside } from '@element-plus/directives'
 import ElPopper from '@element-plus/components/popper'
 import ElTag from '@element-plus/components/tag'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
+import { selectV2InjectionKey } from '@element-plus/tokens'
 import ElSelectMenu from './select-dropdown.vue'
 import useSelect from './useSelect'
-import { selectV2InjectionKey } from './token'
 import { SelectProps } from './defaults'
+
 export default defineComponent({
   name: 'ElSelectV2',
   components: {

@@ -22,7 +22,7 @@ import {
   watch,
   toRaw,
 } from 'vue'
-import { selectGroupKey, selectKey } from './token'
+import { selectGroupKey, selectKey } from '@element-plus/tokens'
 
 export default defineComponent({
   name: 'ElOptionGroup',

@@ -21,7 +21,7 @@ import {
   addResizeListener,
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
-import { selectKey } from './token'
+import { selectKey } from '@element-plus/tokens'
 import type { ResizableElement } from '@element-plus/utils/resize-event'
 
 export default defineComponent({
