@@ -1,9 +1,9 @@
 import { computed } from 'vue'
 import { darken } from '@element-plus/utils/color'
 
-import type { IMenuProps } from './menu.type'
+import type { MenuProps } from './menu'
 
-export default function useMenuColor(props: IMenuProps) {
+export default function useMenuColor(props: MenuProps) {
   const menuBarColor = computed(() => {
     const color = props.backgroundColor
     if (!color) {

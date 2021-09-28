@@ -4,9 +4,9 @@ import { sleep } from '@element-plus/test-utils'
 import { rAF } from '@element-plus/test-utils/tick'
 
 import Menu from '../src/menu'
-import MenuGroup from '../src/menuItemGroup.vue'
-import MenuItem from '../src/menuItem.vue'
-import SubMenu from '../src/submenu.vue'
+import MenuGroup from '../src/menu-item-group.vue'
+import MenuItem from '../src/menu-item.vue'
+import SubMenu from '../src/sub-menu'
 
 const _mount = (template: string, options = {}) =>
   mount({
@@ -119,7 +119,7 @@ describe('menu', () => {
             default-active="2"
             class="el-menu-vertical-demo"
           >
-            <el-sub-menu index="1">
+            <el-sub-menu index="1" ref="subMenu">
               <template #title>
                 <i class="el-icon-location"></i>
                 <span>导航一</span>
@@ -153,11 +153,13 @@ describe('menu', () => {
         },
       }
     )
-    const elSubMenu = wrapper.findComponent({ name: 'ElSubMenu' })
+    const elSubMenu = wrapper.findComponent({ ref: 'subMenu' })
+    const instance: any = elSubMenu.vm
+
     const button = wrapper.find('button')
     button.trigger('click')
+
     await nextTick()
-    const instance = elSubMenu.vm as any
     expect(instance.opened).toBeTruthy()
   })
 
