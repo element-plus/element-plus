@@ -1,9 +1,9 @@
 import { buildProp, definePropType } from '@element-plus/utils/props'
 import { isString } from '@element-plus/utils/util'
 
-import type { MenuItemRegistered } from './types'
 import type { ExtractPropTypes } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
+import type { MenuItemRegistered } from './types'
 
 export const menuItemProps = {
   index: {
