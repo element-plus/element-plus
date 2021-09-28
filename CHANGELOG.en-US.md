@@ -8,7 +8,7 @@ _2021-09-28_
 
 - Build support esm and minified full bundle (#3677 by @sxzz)
 - Docs enable mirror site redirection (#3683 by @JeremyWuuuuu)
-- Theme-chalk use @use instead of @import & remove /**/ comment (#3696 by @YunYouJun)
+- Theme-chalk use @use instead of @import & remove /\*\*/ comment (#3696 by @YunYouJun)
 - Components [el-button-group] add type prop (#3702 by @sxzz)
 
 #### Bug fixes
