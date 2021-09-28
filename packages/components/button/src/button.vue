@@ -1,6 +1,6 @@
 <template>
   <button
-    ref="elButtonRef"
+    ref="buttonRef"
     :class="[
       'el-button',
       type ? 'el-button--' + type : '',
@@ -40,7 +40,7 @@ export default defineComponent({
   emits: buttonEmits,
 
   setup(props, { emit }) {
-    const elButtonRef = ref(null)
+    const buttonRef = ref(null)
 
     const elBtnGroup = inject(elButtonGroupKey, undefined)
     const { size: buttonSize, disabled: buttonDisabled } = useFormItem({
@@ -53,7 +53,7 @@ export default defineComponent({
 
       if (props.color) {
         const typeColor = useCssVar(`--el-color-${props.type}`)
-        const buttonBgColor = useCssVar(`--el-button-bg-color`, elButtonRef)
+        const buttonBgColor = useCssVar(`--el-button-bg-color`, buttonRef)
         const bgColor = props.color || buttonBgColor.value || typeColor.value
         if (props.plain) {
           styles = {
@@ -87,7 +87,7 @@ export default defineComponent({
     }
 
     return {
-      elButtonRef,
+      buttonRef,
       buttonStyle,
 
       buttonSize,

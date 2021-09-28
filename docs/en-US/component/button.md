@@ -70,7 +70,7 @@ button/size
 
 :::
 
-## Custom Color `beta`
+## Custom Color <el-tag>beta</el-tag>
 
 You can custom button color.
 
