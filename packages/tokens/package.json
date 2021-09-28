@@ -7,7 +7,7 @@
   },
   "scripts": {
     "clean": "rimraf lib",
-    "build": "gulp build"
+    "build": "gulp"
   },
   "main": "index.ts",
   "module": "index.ts",

@@ -1,57 +1,46 @@
 import path from 'path'
-import gulp from 'gulp'
+import { src, dest, parallel, series } from 'gulp'
 import ts from 'gulp-typescript'
-import { buildOutput } from '../../build/utils/paths'
+import { epOutput, projRoot } from '../../build/utils/paths'
 import rewriter from '../../build/gulp-rewriter'
+import { buildConfig } from '../../build/info'
+import { withTaskName } from '../../build/utils/gulp'
 
-export const esm = './es'
-export const cjs = './lib'
-const tsProject = ts.createProject('tsconfig.json')
+import type { Module } from '../../build/info'
 
-const inputs = [
-  './*.ts',
-  '!./node_modules',
-  '!./gulpfile.ts',
-  '!./__tests__/*.ts',
-]
-
-function compileEsm() {
-  return gulp
-    .src(inputs)
-    .pipe(tsProject())
-    .pipe(rewriter('..'))
-    .pipe(gulp.dest(esm))
+export const buildTokens = (module: Module) => {
+  const tsConfig = path.resolve(projRoot, 'tsconfig.json')
+  const inputs = [
+    './*.ts',
+    '!./node_modules',
+    '!./gulpfile.ts',
+    '!./__tests__/*.ts',
+    path.resolve(projRoot, 'typings', 'vue-shim.d.ts'),
+  ]
+  const config = buildConfig[module]
+  return withTaskName(`buildTokens:${module}`, () =>
+    src(inputs)
+      .pipe(
+        ts.createProject(tsConfig, {
+          module: config.module,
+          strict: false,
+        })()
+      )
+      .pipe(rewriter('..'))
+      .pipe(dest(path.resolve(__dirname, config.output.name)))
+  )
 }
 
-function compileCjs() {
-  return gulp
-    .src(inputs)
-    .pipe(
-      ts.createProject('tsconfig.json', {
-        module: 'commonjs',
-      })()
+const copyTokens = (module: Module) => {
+  const config = buildConfig[module]
+  return withTaskName(`copyTokens:${module}`, () => {
+    return src(`${path.resolve(__dirname, config.output.name)}/**`).pipe(
+      dest(path.resolve(epOutput, config.output.name, 'tokens'))
     )
-    .pipe(rewriter('..'))
-    .pipe(gulp.dest(cjs))
+  })
 }
 
-const distBundle = path.resolve(buildOutput, './element-plus')
-
-/**
- * copy from packages/hooks/lib to dist/hooks
- */
-function copyEsm() {
-  return gulp
-    .src(`${esm}/**`)
-    .pipe(gulp.dest(path.resolve(distBundle, './es/tokens')))
-}
-
-function copyCjs() {
-  return gulp
-    .src(`${cjs}/**`)
-    .pipe(gulp.dest(path.resolve(distBundle, './lib/tokens')))
-}
-
-export const build = gulp.series(compileEsm, compileCjs, copyEsm, copyCjs)
-
-export default build
+export default parallel(
+  series(buildTokens('cjs'), copyTokens('cjs')),
+  series(buildTokens('esm'), copyTokens('esm'))
+)

@@ -15,7 +15,8 @@
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "strict": true
+    "strict": true,
+    "skipLibCheck": true
   },
   "exclude": [
     "node_modules",
