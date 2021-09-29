@@ -1,5 +1,5 @@
 import { expectTypeOf } from 'expect-type'
-import { buildProp, definePropType, mutable, keyOf } from '../props'
+import { buildProp, definePropType, mutable, keyOf, buildProps } from '../props'
 
 import type { PropType, ExtractPropTypes } from 'vue'
 
@@ -260,6 +260,34 @@ describe('buildProp', () => {
     expectTypeOf<Extracted>().toEqualTypeOf<{
       readonly key1: string
       readonly key2: string | number
+    }>()
+  })
+})
+
+describe('buildProps', () => {
+  it('test buildProps', () => {
+    expectTypeOf(
+      buildProps({
+        key1: {
+          type: definePropType<'a' | 'b'>(String),
+        },
+        key2: {
+          values: [1, 2, 3, 4],
+        },
+      } as const)
+    ).toEqualTypeOf<{
+      readonly key1: {
+        readonly type: PropType<'a' | 'b'>
+        readonly required: false
+        readonly default: undefined
+        readonly validator: ((val: unknown) => boolean) | undefined
+      }
+      readonly key2: {
+        readonly type: PropType<1 | 2 | 3 | 4>
+        readonly required: false
+        readonly default: undefined
+        readonly validator: ((val: unknown) => boolean) | undefined
+      }
     }>()
   })
 })
