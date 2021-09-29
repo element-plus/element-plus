@@ -78,7 +78,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
       const rootLazyRowKeys = []
       const getExpanded = (oldValue, key) => {
         if (expandRowKeys.value) {
-          return ifExpandAll || expandRowKeys.value.indexOf(key) !== -1
+          return ifExpandAll || expandRowKeys.value.includes(key)
         } else {
           return !!(ifExpandAll || oldValue?.expanded)
         }
