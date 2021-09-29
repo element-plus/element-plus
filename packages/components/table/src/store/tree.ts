@@ -80,7 +80,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
         if (expandRowKeys.value) {
           return ifExpandAll || expandRowKeys.value.indexOf(key) !== -1
         } else {
-          return !!(ifExpandAll || (oldValue && oldValue.expanded))
+          return !!(ifExpandAll || oldValue?.expanded)
         }
       }
       // 合并 expanded 与 display，确保数据刷新后，状态不变
