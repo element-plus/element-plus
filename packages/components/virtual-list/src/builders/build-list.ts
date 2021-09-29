@@ -9,6 +9,7 @@ import {
   resolveDynamicComponent,
   h,
   unref,
+  inject,
 } from 'vue'
 import { hasOwn } from '@vue/shared'
 
@@ -31,6 +32,7 @@ import {
   RTL_OFFSET_NAG,
   RTL_OFFSET_POS_DESC,
 } from '../defaults'
+import { selectV2InjectionKey } from '../../../select-v2/src/token'
 
 import type { VNode, CSSProperties, Slot, VNodeChild } from 'vue'
 import type { ListConstructorProps, Alignment } from '../types'
@@ -65,7 +67,7 @@ const createList = ({
       const windowRef = ref<HTMLElement>()
       const innerRef = ref<HTMLElement>()
       const scrollbarRef = ref()
-
+      const selectv2Prop = inject(selectV2InjectionKey)
       const states = ref({
         isScrolling: false,
         scrollDir: 'forward',
@@ -74,7 +76,7 @@ const createList = ({
           : 0,
         updateRequested: false,
         isScrollbarDragging: false,
-        visible: false,
+        alwaysOn: selectv2Prop?.props.alwaysOn,
       })
 
       // computed
@@ -507,7 +509,6 @@ const createList = ({
         scrollFrom:
           states.scrollOffset / (this.estimatedTotalSize - clientSize),
         total,
-        visible: states.visible,
       })
 
       const listContainer = h(
@@ -527,13 +528,7 @@ const createList = ({
         'div',
         {
           key: 0,
-          class: 'el-vl__wrapper',
-          onMouseenter: () => {
-            states.visible = true
-          },
-          onMouseleave: () => {
-            states.visible = false
-          },
+          class: ['el-vl__wrapper', states.alwaysOn ? 'always-on' : ''],
         },
         [listContainer, scrollbar]
       )

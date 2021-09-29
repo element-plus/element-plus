@@ -79,6 +79,10 @@ export const SelectProps = {
     type: String,
     default: 'value',
   },
+  alwaysOn: {
+    type: Boolean,
+    default: true,
+  },
 }
 
 export const OptionProps = {
