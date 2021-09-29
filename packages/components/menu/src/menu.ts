@@ -9,6 +9,7 @@ import {
   h,
   withDirectives,
   reactive,
+  nextTick,
 } from 'vue'
 import { Resize } from '@element-plus/directives'
 import Menubar from '@element-plus/utils/menu/menu-bar'
@@ -207,7 +208,10 @@ export default defineComponent({
         }
       }
     }
-    const handleResize = () => instance.proxy!.$forceUpdate()
+    const handleResize = () =>
+      nextTick(() => {
+        instance.proxy!.$forceUpdate()
+      })
 
     watch(
       () => props.defaultActive,
@@ -290,6 +294,7 @@ export default defineComponent({
       expose({
         open,
         close: closeMenu,
+        handleResize,
       })
     }
 
