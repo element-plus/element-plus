@@ -74,6 +74,7 @@ const createList = ({
           : 0,
         updateRequested: false,
         isScrollbarDragging: false,
+        visible: false,
       })
 
       // computed
@@ -506,7 +507,7 @@ const createList = ({
         scrollFrom:
           states.scrollOffset / (this.estimatedTotalSize - clientSize),
         total,
-        visible: true,
+        visible: states.visible,
       })
 
       const listContainer = h(
@@ -527,6 +528,12 @@ const createList = ({
         {
           key: 0,
           class: 'el-vl__wrapper',
+          onMouseenter: () => {
+            states.visible = true
+          },
+          onMouseleave: () => {
+            states.visible = false
+          },
         },
         [listContainer, scrollbar]
       )
