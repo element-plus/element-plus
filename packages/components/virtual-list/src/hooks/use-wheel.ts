@@ -10,19 +10,19 @@ const LayoutKeys = {
   [VERTICAL]: 'deltaY',
 }
 
-interface IWheelState {
+interface ListWheelState {
   atStartEdge: ComputedRef<boolean> // exclusive to reachEnd
   atEndEdge: ComputedRef<boolean>
   layout: ComputedRef<LayoutDirection>
 }
 
-type IWheelHandler = (offset: number) => void
+type ListWheelHandler = (offset: number) => void
 
 const useWheel = (
-  { atEndEdge, atStartEdge, layout }: IWheelState,
-  onWheelDelta: IWheelHandler
+  { atEndEdge, atStartEdge, layout }: ListWheelState,
+  onWheelDelta: ListWheelHandler
 ) => {
-  let frameHandle: number | null = null
+  let frameHandle: number
   let offset = 0
 
   // let scrollLock = false

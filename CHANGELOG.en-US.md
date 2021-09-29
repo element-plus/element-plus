@@ -1,5 +1,51 @@
 ## Changelog
 
+### 1.1.0-beta.18
+
+_2021-09-28_
+
+#### Features
+
+- Build support esm and minified full bundle (#3677 by @sxzz)
+- Docs enable mirror site redirection (#3683 by @JeremyWuuuuu)
+- Theme-chalk use @use instead of @import & remove /\*\*/ comment (#3696 by @YunYouJun)
+- Components [el-button-group] add type prop (#3702 by @sxzz)
+
+#### Bug fixes
+
+- Components [el-affix] get scrollContainer of vertical (#3424 by @SorrowX)
+- Docs quote to tip
+- Components [el-form] fix async-validator version (#3697 by @sxzz)
+
+#### Refactors
+
+- Dev drop babel (#3678 by @sxzz)
+- Components refactor menu (#3639 by @sxzz)
+- Play play start-up show network (#3707 by @btea)
+
+### 1.1.0-beta.17
+
+_2021-09-27_
+
+#### Features
+
+- Dev add global component types for volar (#3624 by @sxzz)
+- Utils extract color to utils & fix submenu color (#3638 by @YunYouJun)
+- Components [el-virtualized-grid] fulfillment (#3612 by @JeremyWuuuuu)
+- Project upgrade async-validator to 4.0.3 (#3667 by @sxzz)
+- Components add virtual tree (#3398 by @msidolphin)
+
+#### Bug fixes
+
+- Components [el-date-picker] validate callback (#3649 by @msidolphin)
+- Components [el-date-picker] dayjs props not extended (#3662 by @adaex)
+- Build fix dependencies packaging (#3665 by @sxzz)
+- Components trigger update:modelValue by itself (#3660 by @spx443812507)
+
+#### Refactors
+
+- Components [el-message][el-notification] improve type (#3636 by @sxzz)
+
 ### 1.1.0-beta.16
 
 _2021-09-24_

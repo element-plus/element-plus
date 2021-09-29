@@ -2,7 +2,7 @@ import path from 'path'
 import fs from 'fs/promises'
 import { bold } from 'chalk'
 import glob from 'fast-glob'
-import { Project, ScriptTarget } from 'ts-morph'
+import { Project, ScriptTarget, ModuleKind } from 'ts-morph'
 import { parallel } from 'gulp'
 import { epRoot, buildOutput, projRoot } from './utils/paths'
 import { yellow, green } from './utils/log'
@@ -13,25 +13,24 @@ import type { Module } from './info'
 
 import type { SourceFile } from 'ts-morph'
 
-const TSCONFIG_PATH = path.resolve(projRoot, 'tsconfig.dts.json')
+const TSCONFIG_PATH = path.resolve(projRoot, 'tsconfig.json')
 
 export const genEntryTypes = async () => {
   const files = await glob('*.ts', {
     cwd: epRoot,
     absolute: true,
+    onlyFiles: true,
   })
   const project = new Project({
     compilerOptions: {
+      module: ModuleKind.ESNext,
       allowJs: true,
-      declaration: true,
       emitDeclarationOnly: true,
       noEmitOnError: false,
       outDir: path.resolve(buildOutput, 'entry/types'),
-      skipLibCheck: true,
-      esModuleInterop: true,
       target: ScriptTarget.ESNext,
-      downlevelIteration: true,
-      // types: ["./typings", "esnext", "dom"],
+      rootDir: epRoot,
+      strict: false,
     },
     skipFileDependencyResolution: true,
     tsConfigFilePath: TSCONFIG_PATH,
@@ -42,17 +41,24 @@ export const genEntryTypes = async () => {
     const sourceFile = project.addSourceFileAtPath(f)
     sourceFiles.push(sourceFile)
   })
+  project.addSourceFilesAtPaths(path.resolve(projRoot, 'typings', '*.d.ts'))
+
+  const diagnostics = project.getPreEmitDiagnostics()
+
+  console.log(project.formatDiagnosticsWithColorAndContext(diagnostics))
+
+  await project.emit({
+    emitOnlyDtsFiles: true,
+  })
 
   const tasks = sourceFiles.map(async (sourceFile) => {
     yellow(`Emitting file: ${bold(sourceFile.getFilePath())}`)
-    await sourceFile.emit()
+
     const emitOutput = sourceFile.getEmitOutput()
     for (const outputFile of emitOutput.getOutputFiles()) {
       const filepath = outputFile.getFilePath()
 
-      await fs.mkdir(path.dirname(filepath), {
-        recursive: true,
-      })
+      await fs.mkdir(path.dirname(filepath), { recursive: true })
       await fs.writeFile(
         filepath,
         outputFile.getText().replaceAll('@element-plus', '.'),
@@ -65,12 +71,24 @@ export const genEntryTypes = async () => {
   await Promise.all(tasks)
 }
 
-export function copyEntryTypes() {
-  const src = path.resolve(buildOutput, 'entry', 'types')
+export const copyEntryTypes = (() => {
+  const src = path.resolve(buildOutput, 'entry/types')
   const copy = (module: Module) =>
-    withTaskName(`copyEntryTypes:${module}`, () =>
-      run(`rsync -a ${src}/ ${buildConfig[module].output.path}/`)
+    parallel(
+      withTaskName(`copyEntryTypes:${module}`, () =>
+        run(`rsync -a ${src}/ ${buildConfig[module].output.path}/`)
+      ),
+      withTaskName('copyEntryDefinitions', async () => {
+        const files = await glob('*.d.ts', {
+          cwd: epRoot,
+          absolute: true,
+          onlyFiles: true,
+        })
+        await run(
+          `rsync -a ${files.join(' ')} ${buildConfig[module].output.path}/`
+        )
+      })
     )
 
   return parallel(copy('esm'), copy('cjs'))
-}
+})()

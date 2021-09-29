@@ -1,4 +1,4 @@
-import { nextTick } from 'vue'
+import { nextTick, unref } from 'vue'
 import makeMount from '@element-plus/test-utils/make-mount'
 import makeScroll from '@element-plus/test-utils/make-scroll'
 import setupMock from '../setup-mock'
@@ -96,12 +96,12 @@ describe('<fixed-size-grid />', () => {
       expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(36)
       const gridRef = wrapper.vm.$refs.gridRef as GridRef
 
-      makeScroll(gridRef.windowRef, 'scrollTop', 100)
+      makeScroll(unref(gridRef.windowRef), 'scrollTop', 100)
       await nextTick()
       // 8 x 5 grid
       expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(40)
 
-      makeScroll(gridRef.windowRef, 'scrollLeft', 100)
+      makeScroll(unref(gridRef.windowRef), 'scrollLeft', 100)
       await nextTick()
       expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(64)
     })
@@ -112,11 +112,11 @@ describe('<fixed-size-grid />', () => {
       expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(36)
 
       const gridRef = wrapper.vm.$refs.gridRef as GridRef
-      makeScroll(gridRef.windowRef, 'scrollTop', 0)
+      makeScroll(unref(gridRef.windowRef), 'scrollTop', 0)
       await nextTick()
       expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(36)
 
-      makeScroll(gridRef.windowRef, 'scrollLeft', 0)
+      makeScroll(unref(gridRef.windowRef), 'scrollLeft', 0)
       await nextTick()
       expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(36)
     })

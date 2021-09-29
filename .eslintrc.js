@@ -31,7 +31,7 @@ module.exports = {
       },
     },
     {
-      files: ['**/__tests__/**'],
+      files: ['**/__tests__/**', '**/gulpfile.ts'],
       rules: {
         'no-console': 'off',
       },

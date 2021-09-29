@@ -23,7 +23,7 @@ export default series(
   withTaskName('clean', () => run('pnpm run clean')),
 
   parallel(
-    runTask('buildComponents'),
+    runTask('buildComponent'),
     runTask('buildStyle'),
     runTask('buildFullBundle'),
     runTask('buildHelper'),
@@ -35,13 +35,14 @@ export default series(
   parallel(
     copyStyle(),
     copyFullStyle,
-    copyEntryTypes(),
+    copyEntryTypes,
     copySourceCode(),
     copyREADME()
   )
 )
 
-export * from './components'
+export * from './component'
 export * from './style'
 export * from './full-bundle'
+export * from './entry-types'
 export * from './helper'

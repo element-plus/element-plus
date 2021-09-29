@@ -126,7 +126,7 @@ export default defineComponent({
       } else {
         target.value = document.documentElement
       }
-      scrollContainer.value = getScrollContainer(root.value!)
+      scrollContainer.value = getScrollContainer(root.value!, true)
     })
 
     useEventListener(scrollContainer, 'scroll', onScroll)
