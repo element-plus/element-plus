@@ -55,7 +55,7 @@ onMounted(async () => {
   )
 
   if (lang.value === 'zh-CN') {
-    if (location.href.startsWith('https://element-plus.gitee.io')) return
+    if (location.host === 'element-plus.gitee.io') return
     try {
       await ElMessageBox.confirm(
         '建议大陆用户访问部署在国内的站点，是否跳转？',
