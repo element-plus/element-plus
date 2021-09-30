@@ -160,6 +160,7 @@ importers:
   docs:
     specifiers:
       '@crowdin/cli': ^3.6.5
+      '@types/markdown-it': ^12.2.1
       '@vueuse/core': ^6.4.0
       axios: ^0.21.4
       element-plus: npm:element-plus@latest
@@ -170,14 +171,15 @@ importers:
       nprogress: ^0.2.0
       vitepress: ~0.18.1
     dependencies:
-      '@vueuse/core': 6.4.1_vue@3.2.18
+      '@vueuse/core': 6.4.1
       axios: 0.21.4
-      element-plus: 1.1.0-beta.17_vue@3.2.18
+      element-plus: 1.1.0-beta.18
       marked: 3.0.4
       normalize.css: 8.0.1
       nprogress: 0.2.0
     devDependencies:
       '@crowdin/cli': 3.7.0
+      '@types/markdown-it': 12.2.1
       markdown-it: 12.2.0
       markdown-it-container: 3.0.0
       vitepress: 0.18.1
@@ -2062,6 +2064,21 @@ packages:
       vue: 3.2.18
     dev: true
 
+  /@vueuse/core/6.1.0:
+    resolution: {integrity: sha512-6KienU5QOWKuDqvHytep14274IGKyLlACzXjifOrgDQMkqvWZIUnDhpckT/1+O8n8DN59d5wzzICZI/2sfGCyg==}
+    peerDependencies:
+      '@vue/composition-api': ^1.1.0
+      vue: ^2.6.0 || ^3.2.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      vue:
+        optional: true
+    dependencies:
+      '@vueuse/shared': 6.1.0
+      vue-demi: 0.11.4
+    dev: false
+
   /@vueuse/core/6.1.0_vue@3.2.18:
     resolution: {integrity: sha512-6KienU5QOWKuDqvHytep14274IGKyLlACzXjifOrgDQMkqvWZIUnDhpckT/1+O8n8DN59d5wzzICZI/2sfGCyg==}
     peerDependencies:
@@ -2078,7 +2095,7 @@ packages:
       vue-demi: 0.11.4_vue@3.2.18
     dev: false
 
-  /@vueuse/core/6.4.1_vue@3.2.18:
+  /@vueuse/core/6.4.1:
     resolution: {integrity: sha512-FRFeEPVq77gcMZP0mCloJY+lyHJaUQmUMaPp5fBds3fs/BbkAt7HTMMizFKHWDVjbmA20vBOjmC9tTnfD+DdEA==}
     peerDependencies:
       '@vue/composition-api': ^1.1.0
@@ -2089,9 +2106,22 @@ packages:
       vue:
         optional: true
     dependencies:
-      '@vueuse/shared': 6.4.1_vue@3.2.18
-      vue: 3.2.18
-      vue-demi: 0.11.4_vue@3.2.18
+      '@vueuse/shared': 6.4.1
+      vue-demi: 0.11.4
+    dev: false
+
+  /@vueuse/shared/6.1.0:
+    resolution: {integrity: sha512-teW0TUQryGnEprHeOI6oH8NPVJBirknxksEiNCtdEjIi8W7JSTg8JPO+e1XlGI6ly24NDlDXUDYaHJayiaXjuw==}
+    peerDependencies:
+      '@vue/composition-api': ^1.1.0
+      vue: ^2.6.0 || ^3.2.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      vue:
+        optional: true
+    dependencies:
+      vue-demi: 0.11.4
     dev: false
 
   /@vueuse/shared/6.1.0_vue@3.2.18:
@@ -2109,7 +2139,7 @@ packages:
       vue-demi: 0.11.4_vue@3.2.18
     dev: false
 
-  /@vueuse/shared/6.4.1_vue@3.2.18:
+  /@vueuse/shared/6.4.1:
     resolution: {integrity: sha512-zsaYxxZwACQbMmGg+UBjPUVemi325sDdnnB0mn+PNizE0fVC57B+vbLgdj45NBmr6P4nw6a0Y2rMupebwDWsdw==}
     peerDependencies:
       '@vue/composition-api': ^1.1.0
@@ -2120,8 +2150,7 @@ packages:
       vue:
         optional: true
     dependencies:
-      vue: 3.2.18
-      vue-demi: 0.11.4_vue@3.2.18
+      vue-demi: 0.11.4
     dev: false
 
   /@zkochan/npm-conf/2.0.2:
@@ -2540,10 +2569,6 @@ packages:
     dependencies:
       async-done: 1.3.2
     dev: true
-
-  /async-validator/3.5.2:
-    resolution: {integrity: sha512-8eLCg00W9pIRZSB781UUX/H6Oskmm8xloZfr09lz5bikRpBVDlJ3hRVuxxP1SxcwsEYfJ4IU8Q19Y8/893r3rQ==}
-    dev: false
 
   /async-validator/4.0.3:
     resolution: {integrity: sha512-LVoIbJNHPKsO7FMLamo88uxdrvayGkF3vLTMTeiN3CqAbP3qSafLRc6yx3Sq9lHkiEOLNpoA2jwwnfGDdu1SMQ==}
@@ -3828,20 +3853,19 @@ packages:
     resolution: {integrity: sha512-2jtSwgyiRzybHRxrc2nKI+39wH3AwQgn+sogQ+q814gv8hIFwrcZbV07Ea9f8AmK0ufPVZUvvAG1uZJ+obV4Jw==}
     dev: true
 
-  /element-plus/1.1.0-beta.17_vue@3.2.18:
-    resolution: {integrity: sha512-xUJME+lWYqujGmu8dIcyo4FT5SxqLI8WmqBLL1EdvH/QiFHI8UXx7StB4bFpq8+ooIEHU3a0CccVzMSPEF3obQ==}
+  /element-plus/1.1.0-beta.18:
+    resolution: {integrity: sha512-Q2cscYlpcbq/enuU/vlPLBP5K4bHkPakF6IkCiDrSgOkAr7XQYMem6QUOCRZ/8PFV0UnJRMyPJ7Xt0PKTFi8mg==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
       '@popperjs/core': 2.10.1
-      '@vueuse/core': 6.1.0_vue@3.2.18
-      async-validator: 3.5.2
+      '@vueuse/core': 6.1.0
+      async-validator: 4.0.3
       dayjs: 1.10.7
       lodash: 4.17.21
       memoize-one: 5.2.1
       normalize-wheel-es: 1.1.0
       resize-observer-polyfill: 1.5.1
-      vue: 3.2.18
     transitivePeerDependencies:
       - '@vue/composition-api'
     dev: false
@@ -10182,6 +10206,19 @@ packages:
       vscode-pug-languageservice: 0.27.24
       vscode-typescript-languageservice: 0.27.24
     dev: true
+
+  /vue-demi/0.11.4:
+    resolution: {integrity: sha512-/3xFwzSykLW2HiiLie43a+FFgNOcokbBJ+fzvFXd0r2T8MYohqvphUyDQ8lbAwzQ3Dlcrb1c9ykifGkhSIAk6A==}
+    engines: {node: '>=12'}
+    hasBin: true
+    requiresBuild: true
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^3.0.0-0 || ^2.6.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+    dev: false
 
   /vue-demi/0.11.4_vue@3.2.18:
     resolution: {integrity: sha512-/3xFwzSykLW2HiiLie43a+FFgNOcokbBJ+fzvFXd0r2T8MYohqvphUyDQ8lbAwzQ3Dlcrb1c9ykifGkhSIAk6A==}

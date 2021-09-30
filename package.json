@@ -22,10 +22,10 @@
     "format": "prettier --write .",
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --max-warnings 0 && prettier --check .",
     "lint:fix": "eslint --fix . --ext .vue,.js,.ts,.jsx,.tsx && prettier --write .",
-    "docs:dev": "sh ./scripts/if-build.sh && pnpm docs:gen-locale && pnpm -C docs dev",
+    "docs:dev": "sh ./scripts/if-build.sh && pnpm -C docs dev",
     "docs:build": "pnpm -C docs build",
     "docs:serve": "pnpm -C docs serve",
-    "docs:gen-locale": "rimraf docs/.vitepress/i18n && sucrase-node build/crowdin-generate.ts",
+    "docs:gen-locale": "pnpm -C docs gen-locale",
     "docs:crowdin": "sucrase-node build/crowdin-credentials.ts",
     "prepare": "husky install",
     "postinstall": "pnpm gen:version"
