@@ -19,6 +19,16 @@ const reDocUrl: InstallOptions['reDocUrl'] = (fileName, header) => {
   return docs + fileName + (_header ? `#${_header}` : '')
 }
 
+const reWebTypesSource: InstallOptions['reWebTypesSource'] = (title) => {
+  const symbol = `El${title
+    .replaceAll(/-/g, ' ')
+    .replaceAll(/^\w|\s+\w/g, (item) => {
+      return item.trim().toUpperCase()
+    })}`
+
+  return { symbol }
+}
+
 const reAttribute: InstallOptions['reAttribute'] = (value, key) => {
   const _value = value.match(/^\*\*(.*)\*\*$/)
   const str = _value ? _value[1] : value
@@ -69,6 +79,7 @@ export const buildHelper: TaskFunction = (done) => {
     outDir: epOutput,
     reComponentName,
     reDocUrl,
+    reWebTypesSource,
     reAttribute,
     props: 'Attributes',
     propsName: 'Attribute',
