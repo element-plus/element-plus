@@ -1,6 +1,5 @@
 ## Changelog
 
-
 ### 1.1.0-beta.19
 
 _2021-09-30_
@@ -23,6 +22,7 @@ _2021-09-30_
 #### Refactors
 
 - Utils refactor aria color (#3742 by @btea)
+
 ### 1.1.0-beta.18
 
 _2021-09-28_
