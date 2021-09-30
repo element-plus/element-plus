@@ -1,16 +1,9 @@
+import { withInstall } from '@element-plus/utils/with-install'
+
 import Popper from './src/popper'
 
-import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
-
-Popper.install = (app: App): void => {
-  app.component(Popper.name, Popper)
-}
-
-const _Popper = Popper as SFCWithInstall<typeof Popper>
-
-export default _Popper
-export const ElPopper = _Popper
+export const ElPopper = withInstall(Popper)
+export default ElPopper
 
 export {
   default as popperDefaultProps,
