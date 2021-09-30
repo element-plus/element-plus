@@ -16,7 +16,6 @@ import { ClickOutside } from '@element-plus/directives'
 import { throwError } from '@element-plus/utils/error'
 
 import usePopper from './use-popper/index'
-import defaultProps from './use-popper/defaults'
 import { renderPopper, renderTrigger, renderArrow } from './renderers'
 
 import type { ExtractPropTypes } from 'vue'
@@ -154,18 +153,16 @@ export const popperEmits = {
 }
 export type PopperEmits = typeof popperEmits
 
-const compName = 'ElPopper'
-const UPDATE_VISIBLE_EVENT = 'update:visible'
-
+const COMPONENT_NAME = 'ElPopper'
 export default defineComponent({
-  name: compName,
+  name: COMPONENT_NAME,
 
   props: popperProps,
   emits: popperEmits,
 
   setup(props, ctx) {
     if (!ctx.slots.trigger) {
-      throwError(compName, 'Trigger must be provided')
+      throwError(COMPONENT_NAME, 'Trigger must be provided')
     }
     // this is a reference that we need to pass down to child component
     // to obtain the child instance
