@@ -4,7 +4,7 @@ import { bold } from 'chalk'
 import glob from 'fast-glob'
 import { Project, ScriptTarget, ModuleKind } from 'ts-morph'
 import { parallel } from 'gulp'
-import { epRoot, buildOutput, projRoot } from './utils/paths'
+import { epRoot, buildOutput, projRoot, epOutput } from './utils/paths'
 import { yellow, green } from './utils/log'
 import { buildConfig } from './info'
 import { withTaskName } from './utils/gulp'
@@ -74,20 +74,8 @@ export const genEntryTypes = async () => {
 export const copyEntryTypes = (() => {
   const src = path.resolve(buildOutput, 'entry/types')
   const copy = (module: Module) =>
-    parallel(
-      withTaskName(`copyEntryTypes:${module}`, () =>
-        run(`rsync -a ${src}/ ${buildConfig[module].output.path}/`)
-      ),
-      withTaskName('copyEntryDefinitions', async () => {
-        const files = await glob('*.d.ts', {
-          cwd: epRoot,
-          absolute: true,
-          onlyFiles: true,
-        })
-        await run(
-          `rsync -a ${files.join(' ')} ${buildConfig[module].output.path}/`
-        )
-      })
+    withTaskName(`copyEntryTypes:${module}`, () =>
+      run(`rsync -a ${src}/ ${buildConfig[module].output.path}/`)
     )
 
   return parallel(copy('esm'), copy('cjs'))
