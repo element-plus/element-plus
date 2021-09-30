@@ -20,9 +20,11 @@ const reDocUrl: InstallOptions['reDocUrl'] = (fileName, header) => {
 }
 
 const reWebTypesSource: InstallOptions['reWebTypesSource'] = (title) => {
-  const symbol = `El${title.replace(/-/g, ' ').replace(/^\w|\s+\w/g, (item) => {
-    return item.trim().toUpperCase()
-  })}`
+  const symbol = `El${title
+    .replaceAll(/-/g, ' ')
+    .replaceAll(/^\w|\s+\w/g, (item) => {
+      return item.trim().toUpperCase()
+    })}`
 
   return { symbol }
 }
