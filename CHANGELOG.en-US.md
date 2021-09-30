@@ -1,5 +1,28 @@
 ## Changelog
 
+### 1.1.0-beta.19
+
+_2021-09-30_
+
+#### Features
+
+- Utils add buildProps (#3718 by @sxzz)
+- Components [el-menu] expose handleResize (#3723 by @xiaoxian521)
+
+#### Bug fixes
+
+- Components [el-autocomplete] popover auto width (#3674 by @Alanscut)
+- Table Attributes expand-row-keys has changed, but fold not work (#3675 by @Alanscut)
+- Style(components): optimize the addable style (#3726 by @xiaoxian521)
+- Build: fix build helper (#3727 by @sxzz)
+- Chore: fix the source value error in web-types (#3736 by @tolking)
+- Build: fix url error of docs in code prompt file (#3735 by @tolking)
+- Build: fix sideEffects at package.json (#3721 by @HelloJunWei)
+
+#### Refactors
+
+- Utils refactor aria color (#3742 by @btea)
+
 ### 1.1.0-beta.18
 
 _2021-09-28_
