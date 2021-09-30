@@ -1,13 +1,10 @@
-import path from 'path'
 import { languages } from '../utils/lang'
-import { projRoot } from '../utils/paths'
 import { head } from './head'
 import { sidebars } from './sidebars'
 import { nav } from './nav'
 import { mdPlugin } from './plugins'
 import { features } from './features'
 import type { UserConfig } from 'vitepress'
-import type { Alias } from 'vite'
 
 const buildTransformers = () => {
   const transformer = () => {
@@ -34,19 +31,6 @@ const buildTransformers = () => {
 
   return transformers
 }
-
-const alias: Alias[] = []
-if (process.env.DOC_ENV === 'production')
-  alias.push(
-    {
-      find: /^element-plus$/,
-      replacement: path.resolve(projRoot, 'dist/element-plus/es/index'),
-    },
-    {
-      find: /^element-plus\/(es|lib)\/utils\/(.*)/,
-      replacement: path.resolve(projRoot, 'dist/element-plus/es/utils/$2'),
-    }
-  )
 
 console.log(`DOC_ENV: ${process.env.DOC_ENV}`)
 
@@ -76,23 +60,13 @@ export const config: UserConfig = {
   markdown: {
     config: (md) => mdPlugin(md),
   },
+
   vue: {
     template: {
       ssr: true,
       compilerOptions: {
         directiveTransforms: buildTransformers(),
       },
-    },
-  },
-  vite: {
-    server: {
-      host: true,
-    },
-    build: {
-      sourcemap: true,
-    },
-    resolve: {
-      alias,
     },
   },
 }
