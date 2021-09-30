@@ -31,7 +31,7 @@ export default function usePopover(
     }
   })
 
-  const popperProps = usePopper(props, ctx as SetupContext<EmitType[]>)
+  const popperProps = usePopper(props, ctx.emit)
 
   watch(popperProps.visibility, (val) => {
     if (val) {

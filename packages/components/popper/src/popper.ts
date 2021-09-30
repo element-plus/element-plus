@@ -15,7 +15,7 @@ import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
 import { ClickOutside } from '@element-plus/directives'
 import { throwError } from '@element-plus/utils/error'
 
-import usePopper from './use-popper/index'
+import { usePopper } from './use-popper/index'
 import { renderPopper, renderTrigger, renderArrow } from './renderers'
 
 import type { ExtractPropTypes } from 'vue'
@@ -168,7 +168,7 @@ export default defineComponent({
     // to obtain the child instance
 
     // return usePopper(props as IPopperOptions, ctx as SetupContext)
-    const popperStates = usePopper(props, ctx)
+    const popperStates = usePopper(props, ctx.emit)
 
     const forceDestroy = () => popperStates.doDestroy(true)
     onMounted(popperStates.initializePopper)
