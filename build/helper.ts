@@ -1,5 +1,6 @@
+import path from 'path'
 import helper from 'components-helper'
-import { epPackage, epOutput } from './utils/paths'
+import { epPackage, epOutput, projRoot } from './utils/paths'
 import { getPackageManifest } from './utils/pkg'
 import type { TaskFunction } from 'gulp'
 import type { InstallOptions } from 'components-helper/lib/type'
@@ -61,7 +62,10 @@ export const buildHelper: TaskFunction = (done) => {
   helper({
     name: name!,
     version: _version,
-    entry: 'docs/en-US/component/!(datetime-picker|message-box|message).md',
+    entry: `${path.resolve(
+      projRoot,
+      'docs/en-US/component'
+    )}/!(datetime-picker|message-box|message).md`,
     outDir: epOutput,
     reComponentName,
     reDocUrl,
