@@ -609,6 +609,45 @@ describe('CascaderPanel.vue', () => {
     expect(wrapper.find(`.is-active`).text()).toBe('option2')
   })
 
+  test('lazy load reject', async () => {
+    const wrapper = mount(CascaderPanel, {
+      props: {
+        props: {
+          lazy: true,
+          lazyLoad(node, resolve, reject) {
+            const { level } = node
+            try {
+              if (level < 1) {
+                resolve([
+                  {
+                    value: 0,
+                    label: 'test',
+                    leaf: false,
+                  },
+                ])
+              } else throw Error()
+            } catch (_) {
+              setTimeout(reject, 100)
+            }
+          },
+        },
+      },
+    })
+
+    expect(wrapper.findAll(MENU).length).toBe(1)
+
+    const firstOption = wrapper.find(NODE)
+    expect(firstOption.exists()).toBe(true)
+
+    await firstOption.trigger('click')
+    expect(firstOption.find('.el-icon-loading').exists()).toBe(true)
+
+    jest.runAllTimers()
+    await nextTick()
+
+    expect(firstOption.find('.el-icon-loading').exists()).toBe(false)
+  })
+
   test('no loaded nodes should not be checked', async () => {
     const wrapper = _mount({
       template: `
