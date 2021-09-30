@@ -19,9 +19,6 @@ if (process.env.DOC_ENV !== 'production') {
 }
 
 export default defineConfig({
-  build: {
-    sourcemap: true,
-  },
   server: {
     host: true,
     fs: {
