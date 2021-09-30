@@ -1,4 +1,4 @@
-import { buildProp } from '@element-plus/utils/props'
+import { buildProp, definePropType } from '@element-plus/utils/props'
 
 import type { VNode, ExtractPropTypes } from 'vue'
 
@@ -30,20 +30,20 @@ export const notificationProps = {
     type: String,
     default: '',
   },
-  message: buildProp<string | VNode>({
-    type: [String, Object],
+  message: buildProp({
+    type: definePropType<string | VNode>([String, Object]),
     default: '',
   }),
   offset: {
     type: Number,
     default: 0,
   },
-  onClick: buildProp<() => void>({
-    type: Function,
+  onClick: buildProp({
+    type: definePropType<() => void>(Function),
     default: () => undefined,
   }),
-  onClose: buildProp<() => void, boolean>({
-    type: Function,
+  onClose: buildProp({
+    type: definePropType<() => void>(Function),
     required: true,
   }),
   position: buildProp({
@@ -89,16 +89,20 @@ export type NotificationParamsTyped =
   | string
   | VNode
 
-export interface NotifyPartial {
-  (options?: NotificationParams): NotificationHandle
-  closeAll: () => void
+export type NotifyFn = ((
+  options?: NotificationParams
+) => NotificationHandle) & { closeAll: () => void }
 
-  success?: (options: NotificationParamsTyped) => NotificationHandle
-  warning?: (options: NotificationParamsTyped) => NotificationHandle
-  error?: (options: NotificationParamsTyped) => NotificationHandle
-  info?: (options: NotificationParamsTyped) => NotificationHandle
+export type NotifyTypedFn = (
+  options?: NotificationParamsTyped
+) => NotificationHandle
+
+export interface Notify extends NotifyFn {
+  success: NotifyTypedFn
+  warning: NotifyTypedFn
+  error: NotifyTypedFn
+  info: NotifyTypedFn
 }
-export type Notify = Required<NotifyPartial>
 
 export interface NotificationQueueItem {
   vm: VNode

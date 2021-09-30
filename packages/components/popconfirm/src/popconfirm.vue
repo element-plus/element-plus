@@ -19,10 +19,10 @@
       </p>
       <div class="el-popconfirm__action">
         <el-button size="mini" :type="cancelButtonType" @click="cancel">
-          {{ _cancelButtonText }}
+          {{ finalCancelButtonText }}
         </el-button>
         <el-button size="mini" :type="confirmButtonType" @click="confirm">
-          {{ _confirmButtonText }}
+          {{ finalConfirmButtonText }}
         </el-button>
       </div>
     </div>
@@ -61,18 +61,19 @@ export default defineComponent({
       visible.value = false
       emit('cancel')
     }
-    const _confirmButtonText = computed(
+    const finalConfirmButtonText = computed(
       () => props.confirmButtonText || t('el.popconfirm.confirmButtonText')
     )
-    const _cancelButtonText = computed(
+    const finalCancelButtonText = computed(
       () => props.cancelButtonText || t('el.popconfirm.cancelButtonText')
     )
 
     return {
       Effect,
       visible,
-      _confirmButtonText,
-      _cancelButtonText,
+
+      finalConfirmButtonText,
+      finalCancelButtonText,
 
       confirm,
       cancel,

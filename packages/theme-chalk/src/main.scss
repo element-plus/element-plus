@@ -1,9 +1,9 @@
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(main) {
-  @include set-component-css-var('main', $--main);
+  @include set-component-css-var('main', $main);
 
   // IE11 supports the <main> element partially https://caniuse.com/#search=main
   display: block;

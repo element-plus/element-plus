@@ -1,5 +1,120 @@
 ## Changelog
 
+### 1.1.0-beta.18
+
+_2021-09-28_
+
+#### Features
+
+- Build support esm and minified full bundle (#3677 by @sxzz)
+- Docs enable mirror site redirection (#3683 by @JeremyWuuuuu)
+- Theme-chalk use @use instead of @import & remove /\*\*/ comment (#3696 by @YunYouJun)
+- Components [el-button-group] add type prop (#3702 by @sxzz)
+
+#### Bug fixes
+
+- Components [el-affix] get scrollContainer of vertical (#3424 by @SorrowX)
+- Docs quote to tip
+- Components [el-form] fix async-validator version (#3697 by @sxzz)
+
+#### Refactors
+
+- Dev drop babel (#3678 by @sxzz)
+- Components refactor menu (#3639 by @sxzz)
+- Play play start-up show network (#3707 by @btea)
+
+### 1.1.0-beta.17
+
+_2021-09-27_
+
+#### Features
+
+- Dev add global component types for volar (#3624 by @sxzz)
+- Utils extract color to utils & fix submenu color (#3638 by @YunYouJun)
+- Components [el-virtualized-grid] fulfillment (#3612 by @JeremyWuuuuu)
+- Project upgrade async-validator to 4.0.3 (#3667 by @sxzz)
+- Components add virtual tree (#3398 by @msidolphin)
+
+#### Bug fixes
+
+- Components [el-date-picker] validate callback (#3649 by @msidolphin)
+- Components [el-date-picker] dayjs props not extended (#3662 by @adaex)
+- Build fix dependencies packaging (#3665 by @sxzz)
+- Components trigger update:modelValue by itself (#3660 by @spx443812507)
+
+#### Refactors
+
+- Components [el-message][el-notification] improve type (#3636 by @sxzz)
+
+### 1.1.0-beta.16
+
+_2021-09-24_
+
+#### Features
+
+- Docs document website enhancement (#3580 by @JeremyWuuuuu)
+- Docs document add changelog page (#3596 by @JeremyWuuuuu)
+
+#### Bug fixes
+
+- Build release script error (#3576 by @JeremyWuuuuu)
+- Components fix message closeAll (#3583 by @sxzz)
+- Components [el-form] fix the methods validate callback invalid (#3589 by @btea)
+- Components [el-popover] fix the title renderIf type error (#3552 by @btea)
+- Components sub components no install issue (#3615 by @JeremyWuuuuu)
+- [el-menu] using v-for causing render loop (#3617 by @xiaoxian521)
+- Components [el-popconfirm] fix vue warning (#3618 by @sxzz)
+
+#### Refactors
+
+- Improve buildProp (#3592 by @sxzz)
+
+### 1.1.0-beta.15
+
+_2021-09-23_
+
+#### Features
+
+- Build update pnpm lock for meoize one (#3575 by @JeremyWuuuuu)
+
+#### Bug fixes
+
+- Components [el-selectv2] add type remove ts error (#3480 by @btea)
+
+#### Refactors
+
+- Replace yarn with pnpm (#3571 by @sxzz)
+
+#### Other
+
+- Added missing 'memoize-one' to the publish package (#3572 by @kaiyum2012)
+
+### 1.1.0-beta.14
+
+_2021-09-22_
+
+#### Features
+
+- Components [el-virtualized-list] enable virtual list perf mode (#3547 by @JeremyWuuuuu)
+- Components exposing sub components (#3563 by @JeremyWuuuuu)
+
+#### Bug fixes
+
+- Build memoize-one not found issue (#3556 by @JeremyWuuuuu)
+- Components fix typo (#3561 by @sxzz)
+- Docs doc-content table min-width modify (#3557 by @imswk)
+- Components [el-select] fix composition bug #3532 (#3533 by @bchen1029)
+
+#### Refactors
+
+- Components use css var to set menu global style (#3539 by @YunYouJun)
+- Improve buildProp (#3558 by @sxzz)
+
+#### Other
+
+- Chore(project): compatible windows the shell command (#3550 by @btea)
+- Perf: improve jump link for home page (#3551 by @zouhangwithsweet)
+
 ### 1.1.0-beta.13
 
 _2021-09-22_

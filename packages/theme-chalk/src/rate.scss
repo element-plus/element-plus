@@ -1,11 +1,11 @@
 @use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(rate) {
-  @include set-component-css-var('rate', $--rate);
+  @include set-component-css-var('rate', $rate);
 }
 
 @include b(rate) {

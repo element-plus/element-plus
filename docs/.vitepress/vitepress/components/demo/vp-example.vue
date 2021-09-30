@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import { withBase } from 'vitepress'
-import { shallowRef, onMounted } from 'vue'
-
-const props = defineProps({
+defineProps({
   file: {
     type: String,
     required: true,
@@ -17,7 +14,7 @@ const props = defineProps({
 <template>
   <div class="example-showcase">
     <ClientOnly>
-      <component v-if="demo" :is="demo" v-bind="$attrs" />
+      <component :is="demo" v-if="demo" v-bind="$attrs" />
     </ClientOnly>
   </div>
 </template>

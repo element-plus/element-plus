@@ -15,7 +15,7 @@ import VPLastUpdatedAt from './vp-last-updated-at.vue'
 </template>
 
 <style scoped lang="scss">
-@import '../../styles/mixins';
+@use '../../styles/mixins' as *;
 .page-footer {
   padding-top: 1rem;
   padding-bottom: 1rem;

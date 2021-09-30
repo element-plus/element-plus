@@ -1,4 +1,6 @@
 /* eslint-disable */
+const fs = require('fs')
+const path = require('path')
 const sidebars = require('./sidebars')
 const nav = require('./nav')
 const mdPlugin = require('./plugins')
@@ -31,42 +33,59 @@ const buildTransformers = () => {
 }
 console.log(process.env.DOC_ENV)
 
-module.exports = {
-  title: 'ElementPlus',
-  head: [
-    [
-      'link',
-      {
-        rel: 'icon',
-        href: '/favicon.ico',
-      },
-    ],
-    [
-      'link',
-      {
-        rel: 'stylesheet',
-        href: '//fonts.loli.net/css?family=Inter:300,400,500,600|Open+Sans:400,600;display=swap',
-      },
-    ],
-    [
-      'link',
-      {
-        rel: 'stylesheet',
-        href: '//unpkg.com/nprogress@0.2.0/nprogress.css',
-      },
-    ],
+const languages = fs.readdirSync(path.resolve(__dirname, './crowdin'))
 
-    features.theme
-      ? [
-          'script',
-          {},
-          require('fs').readFileSync(
-            require('path').resolve(__dirname, './darkmode.js'),
-            'utf-8'
-          ),
-        ]
-      : [],
+const head = [
+  [
+    'link',
+    {
+      rel: 'icon',
+      href: '/images/element-plus-logo-small.svg',
+    },
   ],
+  [
+    'link',
+    {
+      rel: 'stylesheet',
+      href: '//fonts.loli.net/css?family=Inter:300,400,500,600|Open+Sans:400,600;display=swap',
+    },
+  ],
+  [
+    'link',
+    {
+      rel: 'stylesheet',
+      href: '//unpkg.com/nprogress@0.2.0/nprogress.css',
+    },
+  ],
+  [
+    'script',
+    {},
+    `;(() => {
+      window.supportedLangs = ${JSON.stringify(languages)}
+    })()`,
+  ],
+
+  [
+    'script',
+    {},
+    require('fs').readFileSync(path.resolve(__dirname, './lang.js'), 'utf-8'),
+  ],
+]
+
+if (features.theme) {
+  head.push([
+    'script',
+    {},
+    require('fs').readFileSync(
+      path.resolve(__dirname, './darkmode.js'),
+      'utf-8'
+    ),
+  ])
+}
+
+module.exports = {
+  title: 'Element Plus',
+  head,
   themeConfig: {
     repo: 'element-plus/element-plus',
     docsDir: 'docs',
@@ -84,6 +103,7 @@ module.exports = {
       appId: '7DCTSU0WBW',
     },
     features,
+    langs: languages,
   },
 
   markdown: {
@@ -111,16 +131,16 @@ module.exports = {
             alias: [
               {
                 find: /^element-plus$/,
-                replacement: require('path').resolve(
+                replacement: path.resolve(
                   __dirname,
                   '../../dist/element-plus/es/index'
                 ),
               },
               {
-                find: /^element-plus\/lib\/utils\/(.*)/,
-                replacement: require('path').resolve(
+                find: /^element-plus\/(es|lib)\/utils\/(.*)/,
+                replacement: path.resolve(
                   __dirname,
-                  '../../dist/element-plus/es/utils/$1'
+                  '../../dist/element-plus/es/utils/$2'
                 ),
               },
             ],

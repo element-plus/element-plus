@@ -1,10 +1,10 @@
-# Nav Menu
+# Menu
 
 Menu that provides navigation for your website.
 
 ## Top bar
 
-Top bar NavMenu can be used in a variety of scenarios.
+Top bar Menu can be used in a variety of scenarios.
 
 :::demo By default Menu is vertical, but you can change it to horizontal by setting the mode prop to 'horizontal'. In addition, you can use the sub-menu component to create a second level menu. Menu provides `background-color`, `text-color` and `active-text-color` to customize the colors.
 
@@ -14,7 +14,7 @@ menu/basic
 
 ## Side bar
 
-Vertical NavMenu with sub-menus.
+Vertical Menu with sub-menus.
 
 :::demo You can use the el-menu-item-group component to create a menu group, and the name of the group is determined by the title prop or a named slot.
 
@@ -24,7 +24,7 @@ menu/vertical
 
 ## Collapse
 
-Vertical NavMenu could be collapsed.
+Vertical Menu could be collapsed.
 
 :::demo
 

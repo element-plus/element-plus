@@ -58,7 +58,7 @@
           'el-autocomplete-suggestion',
           suggestionLoading && 'is-loading',
         ]"
-        :style="{ width: dropdownWidth, outline: 'none' }"
+        :style="{ minWidth: dropdownWidth, outline: 'none' }"
         role="region"
       >
         <el-scrollbar

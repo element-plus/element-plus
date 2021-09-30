@@ -1,13 +1,13 @@
-import { buildProp } from '@element-plus/utils/props'
+import { buildProp, definePropType } from '@element-plus/utils/props'
 
 import type { ExtractPropTypes } from 'vue'
 import type { ZIndexProperty } from 'csstype'
 
 export const affixProps = {
-  zIndex: buildProp<ZIndexProperty>({
-    type: [Number, String],
+  zIndex: buildProp({
+    type: definePropType<ZIndexProperty>([Number, String]),
     default: 100,
-  }),
+  } as const),
   target: {
     type: String,
     default: '',

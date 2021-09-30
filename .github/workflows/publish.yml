@@ -55,32 +55,32 @@ jobs:
         with:
           node-version: '16'
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 6.15.1
+
       - name: Install dependencies
-        run: yarn bootstrap
+        run: pnpm i
 
-      - name: Init docs
-        run: cd docs && yarn
-
-      - name: Init Crowdin token
-        run: yarn docs:crowdin
+      - name: Fetch Crowdin token for pulling languages
+        run: pnpm docs:crowdin
         env:
           CROWDIN_TOKEN: ${{secrets.CROWDIN_TOKEN}}
 
       - name: Pull Crowdin translations
-        run: cd docs && yarn crowdin download
+        run: cd docs && pnpm exec crowdin download
 
       - name: Generate common locale
-        run: yarn docs:gen-locale
+        run: pnpm docs:gen-locale
+
+      - name: Install latest Element Plus
+        run: cd docs && pnpm i element-plus@latest
 
       - name: Build website
-        run: yarn docs:build
+        run: pnpm docs:build
         env:
           DOC_ENV: production
-
-      # - name: Build Indices
-      #   run: yarn build:indices
-      #   env:
-      #     ALGOLIA_KEY: ${{secrets.ALGOLIA_KEY}}
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@3.7.1

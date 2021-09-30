@@ -1,4 +1,5 @@
 module.exports = {
+  root: true,
   parser: 'vue-eslint-parser',
   parserOptions: {
     parser: '@typescript-eslint/parser',
@@ -24,13 +25,13 @@ module.exports = {
   ],
   overrides: [
     {
-      files: ['*.ts'],
+      files: ['*.ts', '*.vue'],
       rules: {
         'no-undef': 'off',
       },
     },
     {
-      files: ['**/__tests__/**'],
+      files: ['**/__tests__/**', '**/gulpfile.ts'],
       rules: {
         'no-console': 'off',
       },
