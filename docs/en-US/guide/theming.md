@@ -11,7 +11,10 @@ provide four ways to change the style variables.
 
 ## Change theme color <el-tag type="success" style="vertical-align: middle;">since 1.1.0-beta.1</el-tag>
 
-> A custom theme primary color can be found in [element-plus-vite-starter](https://github.com/element-plus/element-plus-vite-starter).
+These are examples about custom theme.
+
+- Full import: [element-plus-vite-starter](https://github.com/element-plus/element-plus-vite-starter)
+- On demand: [unplugin-element-plus/examples/vite](https://github.com/element-plus/unplugin-element-plus)
 
 ### By SCSS variables
 

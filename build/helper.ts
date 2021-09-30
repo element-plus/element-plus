@@ -1,5 +1,6 @@
+import path from 'path'
 import helper from 'components-helper'
-import { epPackage, epOutput } from './utils/paths'
+import { epPackage, epOutput, projRoot } from './utils/paths'
 import { getPackageManifest } from './utils/pkg'
 import type { TaskFunction } from 'gulp'
 import type { InstallOptions } from 'components-helper/lib/type'
@@ -12,10 +13,19 @@ const reComponentName: InstallOptions['reComponentName'] = (title: string) =>
 
 const reDocUrl: InstallOptions['reDocUrl'] = (fileName, header) => {
   const docs = 'https://element-plus.org/en-US/component/'
-  const _header = header
-    ? header.replace(/[ ]+/g, '-').toLowerCase()
-    : undefined
-  return docs + fileName + (_header ? `#${_header}` : '')
+  const _header = header ? header.replaceAll(/\s+/g, '-').toLowerCase() : ''
+
+  return `${docs}${fileName}.html${_header ? '#' : ''}${_header}`
+}
+
+const reWebTypesSource: InstallOptions['reWebTypesSource'] = (title) => {
+  const symbol = `El${title
+    .replaceAll(/-/g, ' ')
+    .replaceAll(/^\w|\s+\w/g, (item) => {
+      return item.trim().toUpperCase()
+    })}`
+
+  return { symbol }
 }
 
 const reAttribute: InstallOptions['reAttribute'] = (value, key) => {
@@ -61,10 +71,14 @@ export const buildHelper: TaskFunction = (done) => {
   helper({
     name: name!,
     version: _version,
-    entry: 'docs/en-US/component/!(datetime-picker|message-box|message).md',
+    entry: `${path.resolve(
+      projRoot,
+      'docs/en-US/component'
+    )}/!(datetime-picker|message-box|message).md`,
     outDir: epOutput,
     reComponentName,
     reDocUrl,
+    reWebTypesSource,
     reAttribute,
     props: 'Attributes',
     propsName: 'Attribute',

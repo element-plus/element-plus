@@ -24,4 +24,4 @@ cd your-project
 pnpm link --global element-plus
 ```
 
-> More info see [link | pnpm](https://pnpm.io/zh/cli/link).
+> More info see [pnpm link](https://pnpm.io/cli/link).
