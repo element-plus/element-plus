@@ -62,6 +62,7 @@ importers:
       memoize-one: ^5.2.1
       normalize-wheel-es: ^1.1.0
       prettier: ^2.4.1
+      pretty-quick: ^3.1.1
       resize-observer-polyfill: ^1.5.1
       rimraf: ^3.0.2
       rollup: ^2.57.0
@@ -140,6 +141,7 @@ importers:
       jest: 26.6.3
       lint-staged: 11.1.2
       prettier: 2.4.1
+      pretty-quick: 3.1.1_prettier@2.4.1
       rimraf: 3.0.2
       rollup: 2.57.0
       rollup-plugin-css-only: 3.1.0_rollup@2.57.0
@@ -1710,7 +1712,6 @@ packages:
 
   /@types/minimatch/3.0.3:
     resolution: {integrity: sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==}
-    dev: false
 
   /@types/minimist/1.2.0:
     resolution: {integrity: sha1-aaI6OtKcrwCX8G7aWbNh7i8GOfY=}
@@ -2417,6 +2418,11 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
+  /array-differ/3.0.0:
+    resolution: {integrity: sha512-THtfYS6KtME/yIAhKjZ2ul7XI96lQGHRputJQHO80LAWQnuGP4iCIN8vdMRboGbIEYBwU33q8Tch1os2+X0kMg==}
+    engines: {node: '>=8'}
+    dev: true
+
   /array-each/1.0.1:
     resolution: {integrity: sha1-p5SvDAWrF1KEbudTofIRoFugxE8=}
     engines: {node: '>=0.10.0'}
@@ -2488,6 +2494,11 @@ packages:
   /arrify/1.0.1:
     resolution: {integrity: sha1-iYUI2iIm84DfkEcoRWhJwVAaSw0=}
     engines: {node: '>=0.10.0'}
+    dev: true
+
+  /arrify/2.0.1:
+    resolution: {integrity: sha512-3duEwti880xqi4eAMN8AyR4a0ByT90zoYdLlevfrvU43vb0YZwZVfxOgxWrLXXXpyugL0hNZc9G6BiB5B3nUug==}
+    engines: {node: '>=8'}
     dev: true
 
   /as-table/1.0.55:
@@ -2999,6 +3010,14 @@ packages:
       ansi-styles: 3.2.1
       escape-string-regexp: 1.0.5
       supports-color: 5.5.0
+    dev: true
+
+  /chalk/3.0.0:
+    resolution: {integrity: sha512-4D3B6Wf41KOYRFdszmDqMCGq5VV/uMAB273JILmO+3jAlh8X4qDtdtgCR3fxtbLEMzSx22QdhnDcJvu2u1fVwg==}
+    engines: {node: '>=8'}
+    dependencies:
+      ansi-styles: 4.3.0
+      supports-color: 7.2.0
     dev: true
 
   /chalk/4.1.2:
@@ -7194,6 +7213,11 @@ packages:
     hasBin: true
     dev: true
 
+  /mri/1.2.0:
+    resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
+    engines: {node: '>=4'}
+    dev: true
+
   /ms/2.0.0:
     resolution: {integrity: sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g=}
     dev: true
@@ -7204,6 +7228,17 @@ packages:
 
   /ms/2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
+    dev: true
+
+  /multimatch/4.0.0:
+    resolution: {integrity: sha512-lDmx79y1z6i7RNx0ZGCPq1bzJ6ZoDDKbvh7jxr9SJcWLkShMzXrHbYVpTdnhNM5MXpDUxCQ4DgqVttVXlBgiBQ==}
+    engines: {node: '>=8'}
+    dependencies:
+      '@types/minimatch': 3.0.3
+      array-differ: 3.0.0
+      array-union: 2.1.0
+      arrify: 2.0.1
+      minimatch: 3.0.4
     dev: true
 
   /mute-stdout/1.0.1:
@@ -8096,6 +8131,22 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       parse-ms: 2.1.0
+    dev: true
+
+  /pretty-quick/3.1.1_prettier@2.4.1:
+    resolution: {integrity: sha512-ZYLGiMoV2jcaas3vTJrLvKAYsxDoXQBUn8OSTxkl67Fyov9lyXivJTl0+2WVh+y6EovGcw7Lm5ThYpH+Sh3XxQ==}
+    engines: {node: '>=10.13'}
+    hasBin: true
+    peerDependencies:
+      prettier: '>=2.0.0'
+    dependencies:
+      chalk: 3.0.0
+      execa: 4.0.3
+      find-up: 4.1.0
+      ignore: 5.1.8
+      mri: 1.2.0
+      multimatch: 4.0.0
+      prettier: 2.4.1
     dev: true
 
   /printable-characters/1.0.42:
