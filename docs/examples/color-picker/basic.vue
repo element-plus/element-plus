@@ -32,9 +32,5 @@ export default defineComponent({
   .demonstration {
     margin-right: 16px;
   }
-
-  .el-color-picker {
-    flex: 1;
-  }
 }
 </style>
