@@ -251,17 +251,18 @@ export default defineComponent({
       validateState.value = ''
       validateMessage.value = ''
       const model = elForm.model
-      const value = fieldValue.value
+      // const value = fieldValue.value
       let path = props.prop
       if (path.indexOf(':') !== -1) {
         path = path.replace(/:/, '.')
       }
       const prop = getPropByPath(model, path, true)
-      if (Array.isArray(value)) {
-        prop.o[prop.k] = [].concat(initialValue)
-      } else {
-        prop.o[prop.k] = initialValue
-      }
+      // if (Array.isArray(value)) {
+      //   prop.o[prop.k] = [].concat(initialValue)
+      // } else {
+      //   prop.o[prop.k] = initialValue
+      // }
+      prop.o[prop.k] = initialValue
     }
 
     const getRules = () => {
@@ -315,8 +316,8 @@ export default defineComponent({
         elForm?.addField(elFormItem)
 
         const value = fieldValue.value
-        initialValue = Array.isArray(value) ? [...value] : value
-
+        // initialValue = Array.isArray(value) ? [...value] : value
+        initialValue = value
         evaluateValidationEnabled()
       }
     })

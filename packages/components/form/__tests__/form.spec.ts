@@ -310,7 +310,7 @@ describe('Form', () => {
         setValue() {
           this.form.name = 'jack'
           this.form.address = 'aaaa'
-          this.form.type.push('type1')
+          this.form.type = ['type1']
         },
       },
     })
@@ -322,6 +322,49 @@ describe('Form', () => {
     expect(vm.form.name).toBe('')
     expect(vm.form.address).toBe('')
     expect(vm.form.type.length).toBe(0)
+  })
+
+  test('reset rule type is array validate will be not ok ', async () => {
+    const wrapper = mountForm({
+      template: `
+        <el-form ref="form" :model="form" :rules="rules">
+          <el-form-item label="type" prop="type" ref="type">
+            <el-checkbox-group v-model="form.type">
+              <el-checkbox label="type1" name="type"></el-checkbox>
+              <el-checkbox label="type2" name="type"></el-checkbox>
+              <el-checkbox label="type3" name="type"></el-checkbox>
+              <el-checkbox label="type4" name="type"></el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+        </el-form>
+      `,
+      data() {
+        return {
+          form: {
+            type: [],
+          },
+          rules: {
+            type: [
+              {
+                type: 'array',
+                required: true,
+                message: 'Please input type',
+                trigger: 'change',
+              },
+            ],
+          },
+        }
+      },
+      methods: {},
+    })
+    const form: any = wrapper.findComponent({ ref: 'form' }).vm
+    const typeField: any = wrapper.findComponent({ ref: 'type' }).vm
+    await form.validate().catch(() => undefined)
+    await nextTick()
+    expect(typeField.validateMessage).toBe('Please input type')
+    form.resetFields()
+    await nextTick()
+    expect(typeField.validateMessage).toBe('')
   })
 
   test('clear validate', async () => {
