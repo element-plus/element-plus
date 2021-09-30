@@ -32,7 +32,7 @@ type BuildPropOption<T, D, R, V, C> = {
 
 type IfUnknown<T, V> = [unknown] extends T ? V : T
 
-type BuildPropType<T, V, C> =
+export type BuildPropType<T, V, C> =
   | (T extends PropWrapper<unknown>
       ? T[typeof wrapperKey]
       : [V] extends [never]

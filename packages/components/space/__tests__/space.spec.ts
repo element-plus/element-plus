@@ -1,6 +1,6 @@
 import { nextTick, h } from 'vue'
 import { mount } from '@vue/test-utils'
-import Space from '../src/index'
+import Space from '../src/space'
 
 const AXIOM = 'Rem is the best girl'
 
