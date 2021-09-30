@@ -1,17 +1,21 @@
-name: Deploy Doc Website
+name: Deploy Docs Website
+
 on:
-  push:
-    branches:
-      - master
+  workflow_run:
+    workflows: ['Publish to NPM registry']
+    types: [completed]
 
 jobs:
-  master-deploy:
+  deploy-docs:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
+          ref: ${{ github.event.workflow_run.head_sha }}
           persist-credentials: false
+
       - name: Setup node
         uses: actions/setup-node@v2
         with:
