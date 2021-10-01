@@ -49,6 +49,7 @@ import {
   ref,
   toRefs,
   watch,
+  nextTick,
 } from 'vue'
 import { NOOP } from '@vue/shared'
 import AsyncValidator from 'async-validator'
@@ -248,8 +249,6 @@ export default defineComponent({
       validateMessage.value = ''
     }
     const resetField = () => {
-      validateState.value = ''
-      validateMessage.value = ''
       const model = elForm.model
       const value = fieldValue.value
       let path = props.prop
@@ -262,6 +261,9 @@ export default defineComponent({
       } else {
         prop.o[prop.k] = initialValue
       }
+      nextTick(() => {
+        clearValidate()
+      })
     }
 
     const getRules = () => {
