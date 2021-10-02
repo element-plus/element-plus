@@ -1,11 +1,11 @@
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 $types: success, warning, danger, info, error;
 
 @include b(result) {
-  @include set-component-css-var('result', $--result);
+  @include set-component-css-var('result', $result);
 }
 
 @include b(result) {

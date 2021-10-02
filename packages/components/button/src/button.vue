@@ -2,7 +2,7 @@
   <button
     :class="[
       'el-button',
-      type ? 'el-button--' + type : '',
+      buttonType ? 'el-button--' + buttonType : '',
       buttonSize ? 'el-button--' + buttonSize : '',
       {
         'is-disabled': buttonDisabled,
@@ -49,6 +49,9 @@ export default defineComponent({
     const { size: buttonSize, disabled: buttonDisabled } = useFormItem({
       size: computed(() => elBtnGroup?.size),
     })
+    const buttonType = computed(
+      () => props.type || elBtnGroup?.type || 'default'
+    )
 
     const elForm = inject(elFormKey, undefined)
 
@@ -61,7 +64,9 @@ export default defineComponent({
 
     return {
       buttonSize,
+      buttonType,
       buttonDisabled,
+
       handleClick,
     }
   },

@@ -5,12 +5,7 @@ import isServer from '@element-plus/utils/isServer'
 import MessageConstructor from './message.vue'
 import { messageTypes } from './message'
 
-import type {
-  MessagePartial,
-  Message,
-  MessageQueue,
-  MessageProps,
-} from './message'
+import type { Message, MessageFn, MessageQueue, MessageProps } from './message'
 import type { ComponentPublicInstance, VNode } from 'vue'
 
 const instances: MessageQueue = []
@@ -18,7 +13,7 @@ let seed = 1
 
 // TODO: Since Notify.ts is basically the same like this file. So we could do some encapsulation against them to reduce code duplication.
 
-const message: MessagePartial = function (options = {}) {
+const message: MessageFn & Partial<Message> = function (options = {}) {
   if (isServer) return { close: () => undefined }
 
   if (typeof options === 'string' || isVNode(options)) {

@@ -1,7 +1,6 @@
-@import 'config';
+@use 'config';
 
-/* BEM support Func
- -------------------------- */
+// BEM support Func
 @function selectorToString($selector) {
   $selector: inspect($selector);
   $selector: str-slice($selector, 2, -2);
@@ -11,7 +10,7 @@
 @function containsModifier($selector) {
   $selector: selectorToString($selector);
 
-  @if str-index($selector, $modifier-separator) {
+  @if str-index($selector, config.$modifier-separator) {
     @return true;
   } @else {
     @return false;
@@ -21,7 +20,7 @@
 @function containWhenFlag($selector) {
   $selector: selectorToString($selector);
 
-  @if str-index($selector, '.' + $state-prefix) {
+  @if str-index($selector, '.' + config.$state-prefix) {
     @return true;
   } @else {
     @return false;

@@ -1,7 +1,11 @@
 {
+  "name": "@element-plus/play",
   "private": true,
   "scripts": {
     "dev": "vite"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@vitejs/plugin-vue": "^1.9.2",
+    "vite": "^2.5.10"
+  }
 }

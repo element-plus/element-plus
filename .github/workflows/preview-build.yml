@@ -24,13 +24,13 @@ jobs:
           version: 6.15.1
 
       - name: Install dependencies
-        run: pnpm bootstrap
+        run: pnpm i
 
       - name: Generate common locale
         run: pnpm docs:gen-locale
 
       - name: Build Element Plus
-        run: sh scripts/build.sh
+        run: pnpm build
 
       - name: Build website
         run: pnpm docs:build
