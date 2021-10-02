@@ -30,7 +30,6 @@ export const genComponentTypes = async () => {
         '@element-plus/*': ['packages/*'],
       },
       skipLibCheck: true,
-      strict: false,
     },
     tsConfigFilePath: TSCONFIG_PATH,
     skipAddingFilesFromTsConfig: true,
@@ -38,12 +37,10 @@ export const genComponentTypes = async () => {
 
   const excludedFiles = [
     /\/demo\/\w+\.vue$/,
-    /__test__|__tests__/,
     'mock',
     'package.json',
     'spec',
     'test',
-    'tests',
     'css',
     '.DS_Store',
     'node_modules',
