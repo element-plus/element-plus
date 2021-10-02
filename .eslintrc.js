@@ -1,4 +1,7 @@
-module.exports = {
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { defineConfig } = require('eslint-define-config')
+
+module.exports = defineConfig({
   root: true,
   parser: 'vue-eslint-parser',
   parserOptions: {
@@ -117,4 +120,4 @@ module.exports = {
       },
     ],
   },
-}
+})
