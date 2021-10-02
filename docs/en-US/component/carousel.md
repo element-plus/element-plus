@@ -80,9 +80,21 @@ carousel/vertical
 | prev          | switch to the previous slide | —                                                                                                        |
 | next          | switch to the next slide     | —                                                                                                        |
 
+## Carousel Slots
+
+| Name | Description               | Subtags       |
+| ---- | ------------------------- | ------------- |
+| -    | customize default content | Carousel-Item |
+
 ## Carousel-Item Attributes
 
 | Attribute | Description                                      | Type   | Accepted Values | Default |
 | --------- | ------------------------------------------------ | ------ | --------------- | ------- |
 | name      | name of the item, can be used in `setActiveItem` | string | —               | —       |
 | label     | text content for the corresponding indicator     | string | —               | —       |
+
+## Carousel-Item Slots
+
+| Name | Description               |
+| ---- | ------------------------- |
+| —    | customize default content |

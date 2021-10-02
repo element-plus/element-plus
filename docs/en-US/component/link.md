@@ -61,3 +61,9 @@ link/with-icon
 | disabled  | whether the component is disabled   | boolean | —                                           | false   |
 | href      | same as native hyperlink's `href`   | string  | —                                           | -       |
 | icon      | class name of icon                  | string  | —                                           | -       |
+
+## Slots
+
+| Name | Description               |
+| ---- | ------------------------- |
+| —    | customize default content |

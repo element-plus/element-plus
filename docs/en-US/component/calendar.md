@@ -47,8 +47,8 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | model-value / v-model | binding value                                                                                                                                                  | Date        | —               | —       |
 | range                 | time range, including start time and end time. Start time must be start day of week, end time must be end day of week, the time span cannot exceed two months. | [Date]Array | —               | —       |
 
-## dateCell scoped slot
+## Slots
 
-| Attribute | Description                                                                                                                                                                                                                                                                              | Type   | Accepted Values | Default |
-| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | --------------- | ------- |
-| data      | { type, isSelected, day, date }. `type` indicates which month the date belongs, optional values are prev-month, current-month, next-month; `isSelected` indicates whether the date is selected; `day` is the formatted date in the format YYYY-MM-DD; `date` is date the cell represents | Object | —               | —       |
+| Name     | Description                                                                                                                                                                                                                                                                              | Attribute |
+| -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
+| dateCell | { type, isSelected, day, date }. `type` indicates which month the date belongs, optional values are prev-month, current-month, next-month; `isSelected` indicates whether the date is selected; `day` is the formatted date in the format YYYY-MM-DD; `date` is date the cell represents | data      |
