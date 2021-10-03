@@ -513,6 +513,7 @@ export default defineComponent({
     }
 
     const isValidValue = (date_) => {
+      if (!date_) return false
       return (
         date_.isValid() && (disabledDate ? !disabledDate(date_.toDate()) : true)
       )
