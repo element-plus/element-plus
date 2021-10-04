@@ -512,10 +512,11 @@ export default defineComponent({
       }
     }
 
-    const isValidValue = (date_) => {
-      if (!date_) return false
+    const isValidValue = (date: unknown) => {
+      if (!(date instanceof dayjs)) return false
+      const _date = date as Dayjs
       return (
-        date_.isValid() && (disabledDate ? !disabledDate(date_.toDate()) : true)
+        _date.isValid() && (disabledDate ? !disabledDate(_date.toDate()) : true)
       )
     }
 
