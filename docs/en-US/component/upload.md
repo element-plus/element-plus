@@ -110,6 +110,7 @@ upload/manual
 
 | Name    | Description                        |
 | ------- | ---------------------------------- |
+| —       | customize default content          |
 | trigger | content which triggers file dialog |
 | tip     | content of tips                    |
 

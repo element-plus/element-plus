@@ -54,6 +54,12 @@ affix/fixed
 | ------ | --------------------------- | ---------- |
 | update | update affix state manually | —          |
 
+## Slots
+
+| Name | Description               |
+| ---- | ------------------------- |
+| —    | customize default content |
+
 <style lang="scss">
 .example-showcase {
   .affix-container {
