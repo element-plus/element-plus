@@ -1,7 +1,6 @@
-import { defineComponent } from 'vue'
 import { expectTypeOf } from 'expect-type'
 import { buildProp, definePropType, mutable, keyOf, buildProps } from '../props'
-import type { propKey, BuildPropReturn } from '../props'
+import type { propKey } from '../props'
 
 import type { PropType, ExtractPropTypes } from 'vue'
 
