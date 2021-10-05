@@ -42,17 +42,12 @@ module.exports = defineConfig({
   ],
   rules: {
     // js/ts
-    'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': 'warn',
-    'no-redeclare': 'off',
-    '@typescript-eslint/no-redeclare': 'error',
     'no-console': ['warn', { allow: ['error'] }],
     'no-restricted-syntax': ['error', 'LabeledStatement', 'WithStatement'],
     camelcase: ['error', { properties: 'never' }],
 
     'no-var': 'error',
     'no-empty': ['error', { allowEmptyCatch: true }],
-    'no-with': 'error',
     'no-void': 'error',
     'prefer-const': [
       'warn',
@@ -81,6 +76,7 @@ module.exports = defineConfig({
     'vue/require-default-prop': 'off',
     'vue/require-explicit-emits': 'off',
 
+    // prettier
     'prettier/prettier': 'error',
 
     // import
