@@ -1,5 +1,6 @@
 import { expectTypeOf } from 'expect-type'
 import { buildProp, definePropType, mutable, keyOf, buildProps } from '../props'
+import type { BuildPropReturn, PropWrapper, BuildPropType } from '../props'
 
 import type { PropType, ExtractPropTypes } from 'vue'
 
@@ -266,6 +267,22 @@ describe('buildProp', () => {
 
 describe('buildProps', () => {
   it('test buildProps', () => {
+    const props = buildProps({
+      key1: {
+        type: definePropType<'a' | 'b'>(String),
+      },
+      key2: {
+        values: [1, 2, 3, 4],
+      },
+      key3: {
+        values: [1, 2, 3, 4],
+        default: 2,
+      },
+    } as const)
+
+    props.key1
+    props.key3
+
     expectTypeOf(
       buildProps({
         key1: {
@@ -274,18 +291,28 @@ describe('buildProps', () => {
         key2: {
           values: [1, 2, 3, 4],
         },
+        key3: {
+          values: [1, 2, 3, 4],
+          default: 2,
+        },
       } as const)
     ).toEqualTypeOf<{
       readonly key1: {
         readonly type: PropType<'a' | 'b'>
         readonly required: false
-        readonly default: undefined
         readonly validator: ((val: unknown) => boolean) | undefined
+        readonly default: undefined
       }
       readonly key2: {
         readonly type: PropType<1 | 2 | 3 | 4>
         readonly required: false
         readonly default: undefined
+        readonly validator: ((val: unknown) => boolean) | undefined
+      }
+      readonly key3: {
+        readonly type: PropType<1 | 2 | 3 | 4>
+        readonly required: false
+        readonly default: 2
         readonly validator: ((val: unknown) => boolean) | undefined
       }
     }>()

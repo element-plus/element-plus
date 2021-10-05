@@ -17,8 +17,9 @@ type ResolvePropTypeWithReadonly<T> = Readonly<T> extends Readonly<
 >
   ? ResolvePropType<A[]>
   : ResolvePropType<T>
+type IfUnknown<T, V> = [unknown] extends T ? V : T
 
-type BuildPropOption<T, D, R, V, C> = {
+export type BuildPropOption<T, D extends BuildPropType<T, V, C>, R, V, C> = {
   type?: T
   values?: readonly V[]
   required?: R
@@ -30,9 +31,7 @@ type BuildPropOption<T, D, R, V, C> = {
   validator?: ((val: any) => val is C) | ((val: any) => boolean)
 }
 
-type IfUnknown<T, V> = [unknown] extends T ? V : T
-
-export type BuildPropType<T, V, C> =
+type _BuildPropType<T, V, C> =
   | (T extends PropWrapper<unknown>
       ? T[typeof wrapperKey]
       : [V] extends [never]
@@ -40,8 +39,13 @@ export type BuildPropType<T, V, C> =
       : never)
   | V
   | C
+export type BuildPropType<T, V, C> = _BuildPropType<
+  IfUnknown<T, never>,
+  IfUnknown<V, never>,
+  IfUnknown<C, never>
+>
 
-type BuildPropDefault<D, R> = R extends true
+export type BuildPropDefault<D, R> = R extends true
   ? { readonly default?: undefined }
   : {
       readonly default: Exclude<D, undefined> extends never
@@ -51,10 +55,8 @@ type BuildPropDefault<D, R> = R extends true
             undefined
           >
     }
-type BuildPropReturn<T, D, R, V, C> = {
-  readonly type: PropType<
-    BuildPropType<IfUnknown<T, never>, IfUnknown<V, never>, IfUnknown<C, never>>
-  >
+export type BuildPropReturn<T, D, R, V, C> = {
+  readonly type: PropType<BuildPropType<T, V, C>>
   readonly required: IfUnknown<R, false>
   readonly validator: ((val: unknown) => boolean) | undefined
 } & BuildPropDefault<IfUnknown<D, never>, IfUnknown<R, false>>
@@ -81,11 +83,7 @@ type BuildPropReturn<T, D, R, V, C> = {
  */
 export function buildProp<
   T = never,
-  D extends
-    | (T extends PropWrapper<any>
-        ? T[typeof wrapperKey]
-        : ResolvePropTypeWithReadonly<T>)
-    | V = never,
+  D extends BuildPropType<T, V, C> = never,
   R extends boolean = false,
   V = never,
   C = never
@@ -125,11 +123,7 @@ export function buildProp<
 }
 
 export const buildProps = <
-  O extends Record<string, BuildPropOption<any, any, any, any, any>>
->(
-  options: O
-) =>
-  mapValues(options, (option) => buildProp(option)) as unknown as {
+  O extends {
     [K in keyof O]: O[K] extends BuildPropOption<
       infer T,
       infer D,
@@ -137,7 +131,24 @@ export const buildProps = <
       infer V,
       infer C
     >
-      ? BuildPropReturn<T, D, R, V, C>
+      ? D extends BuildPropType<T, V, C>
+        ? BuildPropOption<T, D, R, V, C>
+        : never
+      : never
+  }
+>(
+  options: O
+) =>
+  mapValues(options, (option) => buildProp(option as any)) as unknown as {
+    [K in keyof O]: O[K] extends BuildPropOption<
+      infer T,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      infer _D,
+      infer R,
+      infer V,
+      infer C
+    >
+      ? BuildPropReturn<T, O[K]['default'], R, V, C>
       : never
   }
 
