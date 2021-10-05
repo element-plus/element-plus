@@ -1,3 +1,4 @@
+import { isObject } from '@vue/shared'
 import mapValues from 'lodash/mapValues'
 import { debugWarn } from './error'
 import type { ExtractPropTypes, PropType } from '@vue/runtime-core'
@@ -5,6 +6,8 @@ import type { Mutable } from './types'
 
 const wrapperKey = Symbol()
 export type PropWrapper<T> = { [wrapperKey]: T }
+
+export const propKey = Symbol()
 
 type ResolveProp<T> = ExtractPropTypes<{
   key: { type: T; required: true }
@@ -59,6 +62,7 @@ export type BuildPropReturn<T, D, R, V, C> = {
   readonly type: PropType<BuildPropType<T, V, C>>
   readonly required: IfUnknown<R, false>
   readonly validator: ((val: unknown) => boolean) | undefined
+  [propKey]: true
 } & BuildPropDefault<IfUnknown<D, never>, IfUnknown<R, false>>
 
 /**
@@ -87,7 +91,10 @@ export function buildProp<
   R extends boolean = false,
   V = never,
   C = never
->(option: BuildPropOption<T, D, R, V, C> = {}) {
+>(option: BuildPropOption<T, D, R, V, C>): BuildPropReturn<T, D, R, V, C> {
+  // filter native prop type and nested prop, e.g `null`, `undefined` (from `buildProps`)
+  if (!isObject(option) || !!option[propKey]) return option as any
+
   const { values, required, default: defaultValue, type, validator } = option
 
   const _validator =
@@ -119,18 +126,27 @@ export function buildProp<
     required: !!required,
     default: defaultValue,
     validator: _validator,
+    [propKey]: true,
   } as unknown as BuildPropReturn<T, D, R, V, C>
 }
 
+type NativePropType = [
+  ((...args: any) => any) | { new (...args: any): any } | undefined | null
+]
+
 export const buildProps = <
   O extends {
-    [K in keyof O]: O[K] extends BuildPropOption<
-      infer T,
-      infer D,
-      infer R,
-      infer V,
-      infer C
-    >
+    [K in keyof O]: O[K] extends BuildPropReturn<any, any, any, any, any>
+      ? O[K]
+      : [O[K]] extends NativePropType
+      ? O[K]
+      : O[K] extends BuildPropOption<
+          infer T,
+          infer D,
+          infer R,
+          infer V,
+          infer C
+        >
       ? D extends BuildPropType<T, V, C>
         ? BuildPropOption<T, D, R, V, C>
         : never
@@ -139,15 +155,19 @@ export const buildProps = <
 >(
   options: O
 ) =>
-  mapValues(options, (option) => buildProp(option as any)) as unknown as {
-    [K in keyof O]: O[K] extends BuildPropOption<
-      infer T,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      infer _D,
-      infer R,
-      infer V,
-      infer C
-    >
+  mapValues(options, (option) => buildProp(option)) as unknown as {
+    [K in keyof O]: O[K] extends { [propKey]: boolean }
+      ? O[K]
+      : [O[K]] extends NativePropType
+      ? O[K]
+      : O[K] extends BuildPropOption<
+          infer T,
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          infer _D,
+          infer R,
+          infer V,
+          infer C
+        >
       ? BuildPropReturn<T, O[K]['default'], R, V, C>
       : never
   }

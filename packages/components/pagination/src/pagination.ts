@@ -9,7 +9,7 @@ import {
 } from 'vue'
 import { useLocaleInject } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils/error'
-import { buildProp, definePropType, mutable } from '@element-plus/utils/props'
+import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
 import { elPaginationKey } from '@element-plus/tokens'
 
 import Prev from './components/prev.vue'
@@ -38,7 +38,7 @@ type LayoutKey =
   | 'sizes'
   | 'slot'
 
-export const paginationProps = {
+export const paginationProps = buildProps({
   total: Number,
   pageSize: Number,
   defaultPageSize: Number,
@@ -64,10 +64,10 @@ export const paginationProps = {
       ['prev', 'pager', 'next', 'jumper', '->', 'total'] as LayoutKey[]
     ).join(', '),
   },
-  pageSizes: buildProp({
+  pageSizes: {
     type: definePropType<number[]>(Array),
     default: () => mutable([10, 20, 30, 40, 50, 100] as const),
-  }),
+  },
   popperClass: {
     type: String,
     default: '',
@@ -84,7 +84,7 @@ export const paginationProps = {
   background: Boolean,
   disabled: Boolean,
   hideOnSinglePage: Boolean,
-} as const
+} as const)
 export type PaginationProps = ExtractPropTypes<typeof paginationProps>
 
 export const paginationEmits = {

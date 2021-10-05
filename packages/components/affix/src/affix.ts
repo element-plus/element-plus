@@ -19,10 +19,9 @@ export const affixProps = buildProps({
   position: {
     type: String,
     values: ['top', 'bottom'],
-    // default: 'top',
+    default: 'top',
   },
 } as const)
-affixProps.position.default
 export type AffixProps = ExtractPropTypes<typeof affixProps>
 
 export const affixEmits = {
