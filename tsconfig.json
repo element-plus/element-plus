@@ -16,8 +16,7 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "strict": true,
-    "skipLibCheck": true,
-    "noErrorTruncation": true
+    "skipLibCheck": true
   },
   "exclude": ["node_modules", "**/__tests__", "dist/**"]
 }
