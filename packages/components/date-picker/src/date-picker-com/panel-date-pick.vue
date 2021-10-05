@@ -171,7 +171,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, inject, ref, watch } from 'vue'
-import dayjs from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import ElButton from '@element-plus/components/button'
 import { ClickOutside } from '@element-plus/directives'
 import { useLocaleInject } from '@element-plus/hooks'
@@ -188,7 +188,7 @@ import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
 
 import type { PropType } from 'vue'
-import type { Dayjs, ConfigType } from 'dayjs'
+import type { ConfigType } from 'dayjs'
 import type { IDatePickerType } from '../date-picker.type'
 
 // todo
@@ -512,10 +512,11 @@ export default defineComponent({
       }
     }
 
-    const isValidValue = (date: Dayjs) => {
-      if (!(date instanceof dayjs)) return false
+    const isValidValue = (date: unknown) => {
       return (
-        date.isValid() && (disabledDate ? !disabledDate(date.toDate()) : true)
+        date instanceof Dayjs &&
+        date.isValid() &&
+        (disabledDate ? !disabledDate(date.toDate()) : true)
       )
     }
 
