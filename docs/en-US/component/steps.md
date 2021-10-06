@@ -84,6 +84,12 @@ steps/simple
 | align-center   | center title and description                                                  | boolean         | —                                         | false      |
 | simple         | whether to apply simple theme                                                 | boolean         | -                                         | false      |
 
+## Steps Slots
+
+| Name | Description               | Subtags |
+| ---- | ------------------------- | ------- |
+| -    | customize default content | Step    |
+
 ## Step Attributes
 
 | Attribute   | Description                                                              | Type   | Accepted Values                           | Default |

@@ -216,6 +216,12 @@ form/size-control
 | ---------- | --------------------------------------- | ----------------------------------------------------------------------------------------------------- |
 | validate   | triggers after a form item is validated | prop name of the form item being validated, whether validation is passed and the error message if not |
 
+## Form Slots
+
+| Name | Description                | Subtags   |
+| ---- | -------------------------- | --------- |
+| —    | customize of Dropdown Item | Form-Item |
+
 ## Form-Item Attributes
 
 | Attribute      | Description                                                                                                                              | Type            | Accepted Values                     | Default |

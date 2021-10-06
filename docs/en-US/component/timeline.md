@@ -44,9 +44,9 @@ timeline/center
 
 ## Timeline Slots
 
-| Name | Description                 |
-| ---- | --------------------------- |
-| —    | Custom content for timeline |
+| Name | Description                 | Subtags       |
+| ---- | --------------------------- | ------------- |
+| —    | Custom content for timeline | Timeline-Item |
 
 ## Timeline-Item Attributes
 

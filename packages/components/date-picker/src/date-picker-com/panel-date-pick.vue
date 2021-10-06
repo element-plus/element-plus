@@ -188,7 +188,7 @@ import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
 
 import type { PropType } from 'vue'
-import type { Dayjs, ConfigType } from 'dayjs'
+import type { ConfigType, Dayjs } from 'dayjs'
 import type { IDatePickerType } from '../date-picker.type'
 
 // todo
@@ -512,9 +512,11 @@ export default defineComponent({
       }
     }
 
-    const isValidValue = (date_) => {
+    const isValidValue = (date: unknown) => {
       return (
-        date_.isValid() && (disabledDate ? !disabledDate(date_.toDate()) : true)
+        dayjs.isDayjs(date) &&
+        date.isValid() &&
+        (disabledDate ? !disabledDate(date.toDate()) : true)
       )
     }
 
