@@ -2,6 +2,7 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { sleep } from '@element-plus/test-utils'
 import { EVENT_CODE } from '@element-plus/utils/aria'
+import { CircleClose } from '@element-plus/icons'
 import Select from '../src/select.vue'
 import Group from '../src/option-group.vue'
 import Option from '../src/option.vue'
@@ -526,7 +527,7 @@ describe('Select', () => {
     await vm.$nextTick()
     selectVm.inputHovering = true
     await selectVm.$nextTick()
-    const iconClear = wrapper.find('.el-input__icon.el-icon-circle-close')
+    const iconClear = wrapper.findComponent(CircleClose)
     expect(iconClear.exists()).toBe(true)
     await iconClear.trigger('click')
     expect(vm.value).toBe('')
@@ -1258,7 +1259,7 @@ describe('Select', () => {
     await vm.$nextTick()
     selectVm.inputHovering = true
     await selectVm.$nextTick()
-    const iconClear = wrapper.find('.el-input__icon.el-icon-circle-close')
+    const iconClear = wrapper.findComponent(CircleClose)
     expect(wrapper.findAll('.el-tag').length).toBe(3)
     await iconClear.trigger('click')
     expect(wrapper.findAll('.el-tag').length).toBe(2)
