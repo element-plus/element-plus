@@ -265,6 +265,10 @@ $input-inline-start: 15px !default;
         color: (--el-select-close-hover-color);
       }
     }
+
+    &.#{$namespace}-icon {
+      height: inherit;
+    }
   }
 
   @include e(selection) {

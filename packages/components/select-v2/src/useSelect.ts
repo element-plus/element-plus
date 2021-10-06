@@ -21,6 +21,7 @@ import {
 import { getValueByPath, useGlobalConfig } from '@element-plus/utils/util'
 import { Effect } from '@element-plus/components/popper'
 
+import { ArrowUp } from '@element-plus/icons'
 import { useAllowCreate } from './useAllowCreate'
 
 import { flattenOptions } from './util'
@@ -109,12 +110,12 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     return criteria
   })
 
-  const iconClass = computed(() =>
-    props.remote && props.filterable
-      ? ''
-      : expanded.value
-      ? 'arrow-up is-reverse'
-      : 'arrow-up'
+  const iconComponent = computed(() =>
+    props.remote && props.filterable ? '' : ArrowUp
+  )
+
+  const iconReverse = computed(() =>
+    iconComponent.value && expanded.value ? 'is-reverse' : ''
   )
 
   const debounce = computed(() => (props.remote ? 300 : 0))
@@ -738,7 +739,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     popupHeight,
     debounce,
     filteredOptions,
-    iconClass,
+    iconComponent,
+    iconReverse,
     inputWrapperStyle,
     popperSize,
     dropdownMenuVisible,
