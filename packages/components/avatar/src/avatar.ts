@@ -1,20 +1,20 @@
-import { buildProp, definePropType } from '@element-plus/utils/props'
+import { buildProps, definePropType } from '@element-plus/utils/props'
 import type { ExtractPropTypes } from 'vue'
 import type { ObjectFitProperty } from 'csstype'
 
-export const avatarProps = {
-  size: buildProp({
+export const avatarProps = buildProps({
+  size: {
     type: [Number, String],
     values: ['large', 'medium', 'small'],
     default: 'large',
-    validator: (val): val is number => typeof val === 'number',
-  } as const),
+    validator: (val: unknown): val is number => typeof val === 'number',
+  },
 
-  shape: buildProp({
+  shape: {
     type: String,
     values: ['circle', 'square'],
     default: 'circle',
-  } as const),
+  },
 
   icon: String,
   src: {
@@ -23,11 +23,11 @@ export const avatarProps = {
   },
   alt: String,
   srcSet: String,
-  fit: buildProp({
+  fit: {
     type: definePropType<ObjectFitProperty>(String),
     default: 'cover',
-  } as const),
-} as const
+  },
+} as const)
 export type AvatarProps = ExtractPropTypes<typeof avatarProps>
 
 export const avatarEmits = {
