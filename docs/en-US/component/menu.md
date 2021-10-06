@@ -1,10 +1,10 @@
-# Nav Menu
+# Menu
 
 Menu that provides navigation for your website.
 
 ## Top bar
 
-Top bar NavMenu can be used in a variety of scenarios.
+Top bar Menu can be used in a variety of scenarios.
 
 :::demo By default Menu is vertical, but you can change it to horizontal by setting the mode prop to 'horizontal'. In addition, you can use the sub-menu component to create a second level menu. Menu provides `background-color`, `text-color` and `active-text-color` to customize the colors.
 
@@ -14,7 +14,7 @@ menu/basic
 
 ## Side bar
 
-Vertical NavMenu with sub-menus.
+Vertical Menu with sub-menus.
 
 :::demo You can use the el-menu-item-group component to create a menu group, and the name of the group is determined by the title prop or a named slot.
 
@@ -24,7 +24,7 @@ menu/vertical
 
 ## Collapse
 
-Vertical NavMenu could be collapsed.
+Vertical Menu could be collapsed.
 
 :::demo
 
@@ -63,11 +63,11 @@ menu/collapse
 | open       | callback function when sub-menu expands   | index: index of expanded sub-menu, indexPath: index path of expanded sub-menu                                                                                              |
 | close      | callback function when sub-menu collapses | index: index of collapsed sub-menu, indexPath: index path of collapsed sub-menu                                                                                            |
 
-## Menu-Item Events
+## Menu Slots
 
-| Event Name | Description                                 | Parameters             |
-| ---------- | ------------------------------------------- | ---------------------- |
-| click      | callback function when menu-item is clicked | el: menu-item instance |
+| Name | Description               | Subtags                               |
+| ---- | ------------------------- | ------------------------------------- |
+| —    | customize default content | SubMenu / Menu-Item / Menu-Item-Group |
 
 ## SubMenu Attributes
 
@@ -80,6 +80,12 @@ menu/collapse
 | disabled              | whether the sub-menu is disabled                                                                                 | boolean | —               | false                                           |
 | popper-append-to-body | whether to append the popup menu to body. If the positioning of the menu is wrong, you can try setting this prop | boolean | -               | level one SubMenu: true / other SubMenus: false |
 
+## SubMenu Slots
+
+| Name | Description               | Subtags                               |
+| ---- | ------------------------- | ------------------------------------- |
+| —    | customize default content | SubMenu / Menu-Item / Menu-Item-Group |
+
 ## Menu-Item Attributes
 
 | Attribute | Description           | Type        | Accepted Values | Default |
@@ -88,8 +94,26 @@ menu/collapse
 | route     | Vue Router object     | object      | —               | —       |
 | disabled  | whether disabled      | boolean     | —               | false   |
 
+## Menu-Item Events
+
+| Event Name | Description                                 | Parameters             |
+| ---------- | ------------------------------------------- | ---------------------- |
+| click      | callback function when menu-item is clicked | el: menu-item instance |
+
+## Menu-Item Slots
+
+| Name | Description               |
+| ---- | ------------------------- |
+| —    | customize default content |
+
 ## Menu-Item-Group Attributes
 
 | Attribute | Description | Type   | Accepted Values | Default |
 | --------- | ----------- | ------ | --------------- | ------- |
 | title     | group title | string | —               | —       |
+
+## Menu-Item-Group Slots
+
+| Name | Description               | Subtags   |
+| ---- | ------------------------- | --------- |
+| —    | customize default content | Menu-Item |

@@ -18,20 +18,22 @@ jobs:
           node-version: '16'
           registry-url: https://registry.npmjs.com/
 
-      - name: Install dependencies
-        run: yarn bootstrap
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 6.15.1
 
-      - name: Init docs
-        run: cd docs && yarn
+      - name: Install dependencies
+        run: pnpm i
 
       - name: Generate common locale
-        run: yarn docs:gen-locale
+        run: pnpm docs:gen-locale
 
       - name: Build Element Plus
-        run: sh scripts/build.sh
+        run: pnpm build
 
       - name: Build website
-        run: yarn docs:build
+        run: pnpm docs:build
         env:
           DOC_ENV: preview
 

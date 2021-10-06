@@ -37,6 +37,9 @@
           :validate-event="false"
           :size="realSize"
           :class="{ 'is-focus': popperVisible }"
+          @compositionstart="handleComposition"
+          @compositionupdate="handleComposition"
+          @compositionend="handleComposition"
           @focus="(e) => $emit('focus', e)"
           @blur="(e) => $emit('blur', e)"
           @input="handleInput"
@@ -83,6 +86,9 @@
             @input="(e) => handleInput(searchInputValue, e)"
             @click.stop="togglePopperVisible(true)"
             @keydown.delete="handleDelete"
+            @compositionstart="handleComposition"
+            @compositionupdate="handleComposition"
+            @compositionend="handleComposition"
           />
         </div>
       </div>
@@ -168,6 +174,7 @@ import {
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
 import { isValidComponentSize } from '@element-plus/utils/validators'
+import { isKorean } from '@element-plus/utils/isDef'
 import type { Options } from '@element-plus/components/popper'
 
 import type { ComputedRef, PropType, Ref } from 'vue'
@@ -295,6 +302,7 @@ export default defineComponent({
     const searchInputValue = ref('')
     const presentTags: Ref<Tag[]> = ref([])
     const suggestions: Ref<CascaderNode[]> = ref([])
+    const isOnComposition = ref(false)
 
     const isDisabled = computed(() => props.disabled || elForm.disabled)
     const inputPlaceholder = computed(
@@ -500,7 +508,20 @@ export default defineComponent({
       emit('expand-change', value)
     }
 
+    const handleComposition = (event: CompositionEvent) => {
+      const text = (event.target as HTMLInputElement)?.value
+      if (event.type === 'compositionend') {
+        isOnComposition.value = false
+        nextTick(() => handleInput(text))
+      } else {
+        const lastCharacter = text[text.length - 1] || ''
+        isOnComposition.value = !isKorean(lastCharacter)
+      }
+    }
+
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (isOnComposition.value) return
+
       switch (e.code) {
         case EVENT_CODE.enter:
           togglePopperVisible()
@@ -565,7 +586,7 @@ export default defineComponent({
       }
     }, props.debounce)
 
-    const handleInput = (val: string, e: KeyboardEvent) => {
+    const handleInput = (val: string, e?: KeyboardEvent) => {
       !popperVisible.value && togglePopperVisible(true)
 
       if (e?.isComposing) return
@@ -614,6 +635,7 @@ export default defineComponent({
       presentTags,
       suggestions,
       isDisabled,
+      isOnComposition,
       realSize,
       tagSize,
       multiple,
@@ -627,6 +649,7 @@ export default defineComponent({
       getCheckedNodes,
       handleExpandChange,
       handleKeyDown,
+      handleComposition,
       handleClear,
       handleSuggestionClick,
       handleDelete,

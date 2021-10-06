@@ -154,11 +154,11 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 
 ## Select Slots
 
-| Name   | Description                      |
-| ------ | -------------------------------- |
-| —      | Option component list            |
-| prefix | content as Select prefix         |
-| empty  | content when there is no options |
+| Name   | Description                      | Subtags               |
+| ------ | -------------------------------- | --------------------- |
+| —      | Option component list            | Option Group / Option |
+| prefix | content as Select prefix         | —                     |
+| empty  | content when there is no options | —                     |
 
 ## Option Group Attributes
 
@@ -167,6 +167,12 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 | label     | name of the group                            | string  | —               | —       |
 | disabled  | whether to disable all options in this group | boolean | —               | false   |
 
+## Option Group Slots
+
+| Name | Description               | Subtags |
+| ---- | ------------------------- | ------- |
+| -    | customize default content | Option  |
+
 ## Option Attributes
 
 | Attribute | Description                                 | Type                               | Accepted Values | Default |
@@ -174,6 +180,12 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 | value     | value of option                             | string / number / boolean / object | —               | —       |
 | label     | label of option, same as `value` if omitted | string/number                      | —               | —       |
 | disabled  | whether option is disabled                  | boolean                            | —               | false   |
+
+## Option Slots
+
+| Name | Description               |
+| ---- | ------------------------- |
+| —    | customize default content |
 
 ## Methods
 

@@ -1,4 +1,4 @@
-import { withInstall } from '@element-plus/utils/with-install'
+import { withInstall, withNoopInstall } from '@element-plus/utils/with-install'
 
 import Breadcrumb from './src/breadcrumb.vue'
 import BreadcrumbItem from './src/breadcrumb-item.vue'
@@ -6,7 +6,7 @@ import BreadcrumbItem from './src/breadcrumb-item.vue'
 export const ElBreadcrumb = withInstall(Breadcrumb, {
   BreadcrumbItem,
 })
-export const ElBreadcrumbItem = BreadcrumbItem
+export const ElBreadcrumbItem = withNoopInstall(BreadcrumbItem)
 export default ElBreadcrumb
 
 export * from './src/breadcrumb'

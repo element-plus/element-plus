@@ -1,5 +1,203 @@
 ## Changelog
 
+### 1.1.0-beta.19
+
+_2021-09-30_
+
+#### Features
+
+- Utils add buildProps (#3718 by @sxzz)
+- Components [el-menu] expose handleResize (#3723 by @xiaoxian521)
+
+#### Bug fixes
+
+- Components [el-autocomplete] popover auto width (#3674 by @Alanscut)
+- Table Attributes expand-row-keys has changed, but fold not work (#3675 by @Alanscut)
+- Style(components): optimize the addable style (#3726 by @xiaoxian521)
+- Build: fix build helper (#3727 by @sxzz)
+- Chore: fix the source value error in web-types (#3736 by @tolking)
+- Build: fix url error of docs in code prompt file (#3735 by @tolking)
+- Build: fix sideEffects at package.json (#3721 by @HelloJunWei)
+
+#### Refactors
+
+- Utils refactor aria color (#3742 by @btea)
+
+### 1.1.0-beta.18
+
+_2021-09-28_
+
+#### Features
+
+- Build support esm and minified full bundle (#3677 by @sxzz)
+- Docs enable mirror site redirection (#3683 by @JeremyWuuuuu)
+- Theme-chalk use @use instead of @import & remove /\*\*/ comment (#3696 by @YunYouJun)
+- Components [el-button-group] add type prop (#3702 by @sxzz)
+
+#### Bug fixes
+
+- Components [el-affix] get scrollContainer of vertical (#3424 by @SorrowX)
+- Docs quote to tip
+- Components [el-form] fix async-validator version (#3697 by @sxzz)
+
+#### Refactors
+
+- Dev drop babel (#3678 by @sxzz)
+- Components refactor menu (#3639 by @sxzz)
+- Play play start-up show network (#3707 by @btea)
+
+### 1.1.0-beta.17
+
+_2021-09-27_
+
+#### Features
+
+- Dev add global component types for volar (#3624 by @sxzz)
+- Utils extract color to utils & fix submenu color (#3638 by @YunYouJun)
+- Components [el-virtualized-grid] fulfillment (#3612 by @JeremyWuuuuu)
+- Project upgrade async-validator to 4.0.3 (#3667 by @sxzz)
+- Components add virtual tree (#3398 by @msidolphin)
+
+#### Bug fixes
+
+- Components [el-date-picker] validate callback (#3649 by @msidolphin)
+- Components [el-date-picker] dayjs props not extended (#3662 by @adaex)
+- Build fix dependencies packaging (#3665 by @sxzz)
+- Components trigger update:modelValue by itself (#3660 by @spx443812507)
+
+#### Refactors
+
+- Components [el-message][el-notification] improve type (#3636 by @sxzz)
+
+### 1.1.0-beta.16
+
+_2021-09-24_
+
+#### Features
+
+- Docs document website enhancement (#3580 by @JeremyWuuuuu)
+- Docs document add changelog page (#3596 by @JeremyWuuuuu)
+
+#### Bug fixes
+
+- Build release script error (#3576 by @JeremyWuuuuu)
+- Components fix message closeAll (#3583 by @sxzz)
+- Components [el-form] fix the methods validate callback invalid (#3589 by @btea)
+- Components [el-popover] fix the title renderIf type error (#3552 by @btea)
+- Components sub components no install issue (#3615 by @JeremyWuuuuu)
+- [el-menu] using v-for causing render loop (#3617 by @xiaoxian521)
+- Components [el-popconfirm] fix vue warning (#3618 by @sxzz)
+
+#### Refactors
+
+- Improve buildProp (#3592 by @sxzz)
+
+### 1.1.0-beta.15
+
+_2021-09-23_
+
+#### Features
+
+- Build update pnpm lock for meoize one (#3575 by @JeremyWuuuuu)
+
+#### Bug fixes
+
+- Components [el-selectv2] add type remove ts error (#3480 by @btea)
+
+#### Refactors
+
+- Replace yarn with pnpm (#3571 by @sxzz)
+
+#### Other
+
+- Added missing 'memoize-one' to the publish package (#3572 by @kaiyum2012)
+
+### 1.1.0-beta.14
+
+_2021-09-22_
+
+#### Features
+
+- Components [el-virtualized-list] enable virtual list perf mode (#3547 by @JeremyWuuuuu)
+- Components exposing sub components (#3563 by @JeremyWuuuuu)
+
+#### Bug fixes
+
+- Build memoize-one not found issue (#3556 by @JeremyWuuuuu)
+- Components fix typo (#3561 by @sxzz)
+- Docs doc-content table min-width modify (#3557 by @imswk)
+- Components [el-select] fix composition bug #3532 (#3533 by @bchen1029)
+
+#### Refactors
+
+- Components use css var to set menu global style (#3539 by @YunYouJun)
+- Improve buildProp (#3558 by @sxzz)
+
+#### Other
+
+- Chore(project): compatible windows the shell command (#3550 by @btea)
+- Perf: improve jump link for home page (#3551 by @zouhangwithsweet)
+
+### 1.1.0-beta.13
+
+_2021-09-22_
+
+#### Features
+
+- Dev improve typings (#3457 by @sxzz)
+- Project local dev environment (#3463 by @JeremyWuuuuu)
+- Hooks add same target support (#3473 by @adaex)
+- Components [el-timeline] add center prop (#3436 by @BeADre)
+- Components [el-message-box] add inline style prop (#3537 by @yuzhang9804)
+
+#### Bug fixes
+
+- Release scirpt (#3410 by @JeremyWuuuuu)
+- Release scirpt (#3412 by @JeremyWuuuuu)
+- [el-cascader] multiple search with v-model can't work (#3350 by @Alanscut)
+- Utils add type remove the ts error (#3406 by @btea)
+- Use fromPairs replace Object.fromEntries (#3422 by @xiaoxian521)
+- Theme-chalk [el-input] textarea focus & hover border color (#3403 by @adaex)
+- Components el-icon root element receives attributes twice (#3442 by @JeremyWuuuuu)
+- Docs document wrong line error (#3453 by @JeremyWuuuuu)
+- [el-form] button type is reset and reset form (#3445 by @xiaoxian521)
+- [el-table] an extra 0 after the total line at safari (#3471 by @xiaoxian521)
+- Components [el-dialog] content scrolling behavior (#3484 by @adaex)
+- Theme-chalk [el-radio] input border hover color (#3493 by @adaex)
+- Build full bundle transform error (#3504 by @JeremyWuuuuu)
+- Components [el-virtual-list] potential mem issue (#3510 by @JeremyWuuuuu)
+- Docs theme documentation issue (#3511 by @JeremyWuuuuu)
+- Docs dialog documentation syntax error (#3515 by @JeremyWuuuuu)
+- Docs notification documentation with types demo icon missing (#3521 by @imswk)
+- Style use flex replace float & fix vertical center (#3523 by @YunYouJun)
+- Components [el-select-v2] fix style problem when select-v2 option too long (#3534 by @Dreamcreative)
+- [el-scrollbar] cascade selector of cascader is stuck after clicking (#3546 by @xiaoxian521)
+- Build external packages (#3415 by @sxzz)
+- Remove mitt (#3356 by @purepear)
+- Style add css var width & margin-top for dialog (#3431 by @YunYouJun)
+- Remove mitt (#3474 by @sxzz)
+- [el-button] delete isEmpty (#3479 by @xiaoxian521)
+- Remove import-from (#3503 by @YunYouJun)
+- Support latest volar (#3508 by @sxzz)
+
+#### Refactors
+
+- Components drawer animation use transition replace keyframe (#3447 by @YunYouJun)
+- Components refactor backtop (#3486 by @sxzz)
+- Components refactor divider (#3488 by @sxzz)
+- Components refactor overlay (#3496 by @sxzz)
+- Components refactor breadcrumb (#3487 by @sxzz)
+- Components refactor popconfirm (#3490 by @sxzz)
+- Components refactor tag (#3489 by @sxzz)
+- Components refactor page-header (#3491 by @sxzz)
+- Fix buildProp (#3529 by @sxzz)
+- Components refactor icon (#3528 by @sxzz)
+- Components refactor link (#3527 by @sxzz)
+- Components refactor pagination (#3526 by @sxzz)
+- Components refactor notification (#3495 by @sxzz)
+- Components refactor message (#3524 by @sxzz)
+- Components refactor empty (#3522 by @sxzz)
+
 ### 1.1.0-beta.11
 
 _2021-09-14_

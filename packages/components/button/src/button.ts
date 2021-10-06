@@ -1,5 +1,5 @@
 import { useFormItemProps } from '@element-plus/hooks'
-import { buildProp } from '@element-plus/utils/props'
+import { buildProp, definePropType } from '@element-plus/utils/props'
 
 import type { ExtractPropTypes, Component } from 'vue'
 
@@ -11,6 +11,7 @@ export const buttonType = [
   'info',
   'danger',
   'text',
+  '',
 ] as const
 export const buttonSize = ['', 'large', 'medium', 'small', 'mini'] as const
 export const buttonNativeType = ['button', 'submit', 'reset'] as const
@@ -20,10 +21,10 @@ export const buttonProps = {
   type: buildProp({
     type: String,
     values: buttonType,
-    default: 'default',
+    default: '',
   } as const),
   icon: buildProp({
-    type: [String, Object as Component],
+    type: definePropType<string | Component>([String, Object]),
     default: '',
   } as const),
   nativeType: buildProp({

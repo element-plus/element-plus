@@ -1,11 +1,11 @@
 @use 'sass:math';
 
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 :root {
-  @include set-component-css-var('loading', $--loading);
+  @include set-component-css-var('loading', $loading);
 }
 
 @include b(loading-parent) {

@@ -4,6 +4,7 @@ import type {
   Ref,
   SetupContext,
   VNode,
+  Component,
 } from 'vue'
 import type Node from './model/node'
 import type TreeStore from './model/tree-store'
@@ -117,5 +118,5 @@ export declare interface TreeComponentProps {
   filterNodeMethod: FilterNodeMethodFunction
   accordion: boolean
   indent: number
-  iconClass: string
+  icon: string | Component
 }

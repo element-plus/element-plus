@@ -6,7 +6,7 @@ import { ScrollbarDirKey } from '../src/defaults'
 describe('virtual scrollbar', () => {
   async function testInlineStyle(layout = 'vertical') {
     const wrapper = mount({
-      template: `<scrollbar visible layout="${layout}"></scrollbar>`,
+      template: `<scrollbar visible layout="${layout}" :total="100" :ratio="25" :client-size="100" :scroll-from="20"></scrollbar>`,
       components: {
         Scrollbar,
       },

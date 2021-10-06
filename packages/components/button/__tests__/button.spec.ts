@@ -153,4 +153,23 @@ describe('Button Group', () => {
       wrapper.findAll('.el-button-group button.el-button--mini').length
     ).toBe(1)
   })
+
+  it('button group type', async () => {
+    const wrapper = mount({
+      setup() {
+        return () =>
+          h(ButtonGroup, { type: 'warning' }, () => [
+            h(Button, { type: 'primary' }, () => 'Prev'),
+            h(Button, {}, () => 'Next'),
+          ])
+      },
+    })
+    expect(wrapper.classes()).toContain('el-button-group')
+    expect(
+      wrapper.findAll('.el-button-group button.el-button--primary').length
+    ).toBe(1)
+    expect(
+      wrapper.findAll('.el-button-group button.el-button--warning').length
+    ).toBe(1)
+  })
 })

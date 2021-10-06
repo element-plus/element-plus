@@ -1,4 +1,4 @@
-@import './mixins';
+@use './mixins' as *;
 
 *,
 ::before,
@@ -182,7 +182,7 @@ li > ol {
       td:nth-child(2) {
         font-family: var(--font-family);
         white-space: pre-wrap;
-        min-width: 30%;
+        min-width: 11.62rem;
       }
     }
 

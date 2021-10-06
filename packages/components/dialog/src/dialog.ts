@@ -1,5 +1,5 @@
 import { isValidWidthUnit } from '@element-plus/utils/validators'
-import { buildProp } from '@element-plus/utils/props'
+import { buildProp, definePropType } from '@element-plus/utils/props'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 
 import type { ExtractPropTypes } from 'vue'
@@ -9,8 +9,8 @@ export const dialogProps = {
     type: Boolean,
     default: false,
   },
-  beforeClose: buildProp<(...args: any[]) => void>({
-    type: Function,
+  beforeClose: buildProp({
+    type: definePropType<(...args: any[]) => void>(Function),
   }),
   destroyOnClose: {
     type: Boolean,
@@ -68,7 +68,7 @@ export const dialogProps = {
     required: true,
   },
   modalClass: String,
-  width: buildProp<string | number>({
+  width: buildProp({
     type: [String, Number],
     validator: isValidWidthUnit,
   }),
