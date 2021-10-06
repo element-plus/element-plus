@@ -83,9 +83,7 @@ export default defineComponent({
     let stopScrollListener: () => void
     let stopWheelListener: () => void
 
-    const containerStyle = computed<StyleValue>(
-      () => rawAttrs.style as StyleValue
-    )
+    const containerStyle = computed(() => rawAttrs.style as StyleValue)
 
     const imageStyle = computed<CSSProperties>(() => {
       const { fit } = props
