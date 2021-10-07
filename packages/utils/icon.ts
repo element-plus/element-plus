@@ -5,6 +5,10 @@ import {
   CircleCloseFilled,
   Close,
 } from '@element-plus/icons'
+import { definePropType } from './props'
+import type { Component } from 'vue'
+
+export const iconPropType = definePropType<string | Component>([String, Object])
 
 export const CloseComponents = {
   Close,
