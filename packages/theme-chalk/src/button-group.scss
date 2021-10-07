@@ -1,8 +1,8 @@
 @use 'sass:map';
 
-@import 'common/var';
-@import 'mixins/mixins';
-@import 'mixins/utils';
+@use 'common/var' as *;
+@use 'mixins/mixins' as *;
+@use 'mixins/utils' as *;
 
 @include b(button-group) {
   @include utils-clearfix;
@@ -24,10 +24,10 @@
       border-bottom-left-radius: 0;
     }
     &:first-child:last-child {
-      border-top-right-radius: map.get($--button-border-radius, 'default');
-      border-bottom-right-radius: map.get($--button-border-radius, 'default');
-      border-top-left-radius: map.get($--button-border-radius, 'default');
-      border-bottom-left-radius: map.get($--button-border-radius, 'default');
+      border-top-right-radius: map.get($button-border-radius, 'default');
+      border-bottom-right-radius: map.get($button-border-radius, 'default');
+      border-top-left-radius: map.get($button-border-radius, 'default');
+      border-bottom-left-radius: map.get($button-border-radius, 'default');
 
       &.is-round {
         border-radius: var(--el-border-radius-round);

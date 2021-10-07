@@ -109,6 +109,12 @@ tabs/customized-trigger
 | tab-add    | triggers when tab-add button is clicked               | —                       |
 | edit       | triggers when tab-add button or tab-remove is clicked | (targetName, action)    |
 
+## Tabs Slots
+
+| Name | Description               | Subtags  |
+| ---- | ------------------------- | -------- |
+| -    | customize default content | Tab-pane |
+
 ## Tab-pane Attributes
 
 | Attribute | Description                                                                          | Type    | Accepted Values | Default                                                                        |

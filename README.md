@@ -29,9 +29,16 @@ The new website is launched at 17th Sep 2021.
 
 This project is still under heavy development. Feel free to join us and make your first pull request.
 
-[![Edit element-plus](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/element-plus-ncxnt?fontsize=14&hidenavigation=1&theme=dark)
+### Playground
 
-<br/>
+#### Try it with code sandbox
+
+[![Edit element-plus](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/element-plus-demo-dxtcr)
+
+#### Try it with our built-in playground
+
+[Playground](https://play.element-plus.org/)
+
 <p align="center">
   <b>Special thanks to the generous sponsorship by:</b>
 </p>
@@ -77,17 +84,17 @@ You can find the breaking change list here: [Breaking Change List](https://githu
 With command
 
 ```bash
-$ yarn bootstrap
+$ pnpm i
 ```
 
-the project will install all dependencies and run `lerna bootstrap` to initialize the project
+the project will install all dependencies
 
 ## Website preview
 
 With command
 
 ```bash
-$ yarn docs:dev
+$ pnpm docs:dev
 ```
 
 the project will launch website for you to preview all existing component
@@ -97,7 +104,7 @@ the project will launch website for you to preview all existing component
 1. With command
 
 ```shell
-$ yarn dev
+$ pnpm dev
 ```
 
 will start the local development environment
@@ -132,17 +139,19 @@ Modify `play.vue` file per your needs to get things work.
 With command
 
 ```bash
-$ yarn gen component-name
+$ pnpm gen component-name
 ```
 
 Note the `component-name` must be in `kebab-case`, combining words by replacing each space with a dash.
+
+And component type must be added to `typings/global.d.ts`.
 
 ## Commit template
 
 With command
 
 ```bash
-yarn cz
+pnpm cz
 ```
 
 Example

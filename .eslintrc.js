@@ -1,4 +1,8 @@
-module.exports = {
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { defineConfig } = require('eslint-define-config')
+
+module.exports = defineConfig({
+  root: true,
   parser: 'vue-eslint-parser',
   parserOptions: {
     parser: '@typescript-eslint/parser',
@@ -24,13 +28,13 @@ module.exports = {
   ],
   overrides: [
     {
-      files: ['*.ts'],
+      files: ['*.ts', '*.vue'],
       rules: {
         'no-undef': 'off',
       },
     },
     {
-      files: ['**/__tests__/**'],
+      files: ['**/__tests__/**', '**/gulpfile.ts'],
       rules: {
         'no-console': 'off',
       },
@@ -38,17 +42,12 @@ module.exports = {
   ],
   rules: {
     // js/ts
-    'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': 'warn',
-    'no-redeclare': 'off',
-    '@typescript-eslint/no-redeclare': 'error',
     'no-console': ['warn', { allow: ['error'] }],
     'no-restricted-syntax': ['error', 'LabeledStatement', 'WithStatement'],
     camelcase: ['error', { properties: 'never' }],
 
     'no-var': 'error',
     'no-empty': ['error', { allowEmptyCatch: true }],
-    'no-with': 'error',
     'no-void': 'error',
     'prefer-const': [
       'warn',
@@ -77,6 +76,7 @@ module.exports = {
     'vue/require-default-prop': 'off',
     'vue/require-explicit-emits': 'off',
 
+    // prettier
     'prettier/prettier': 'error',
 
     // import
@@ -116,4 +116,4 @@ module.exports = {
       },
     ],
   },
-}
+})

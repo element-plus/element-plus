@@ -61,6 +61,7 @@ export * from './timeline'
 export * from './tooltip'
 export * from './transfer'
 export * from './tree'
+export * from './tree-v2'
 export * from './upload'
 export * from './virtual-list'
 // plugins

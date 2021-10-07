@@ -1,6 +1,7 @@
 import { nextTick, ref, h } from 'vue'
 import { mount } from '@vue/test-utils'
-import Pagination from '../src/index'
+import Pagination from '../src/pagination'
+import selectDropdownVue from '../../select/src/select-dropdown.vue'
 import type { VueWrapper } from '@vue/test-utils'
 
 const assertElementsExistence = (
@@ -332,7 +333,7 @@ describe('Pagination', () => {
       expect(currentPageWatcher).toHaveBeenCalled()
       await wrapper.find('.el-select').trigger('click')
       await wrapper
-        .getComponent('.el-select-dropdown')
+        .getComponent(selectDropdownVue)
         .find('li:nth-child(2)')
         .trigger('click')
       expect(pageSizeWatcher).toHaveBeenCalled()

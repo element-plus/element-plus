@@ -108,7 +108,7 @@
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .box {
   width: 400px;
 

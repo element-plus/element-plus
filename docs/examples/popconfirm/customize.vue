@@ -2,7 +2,7 @@
   <el-popconfirm
     confirm-button-text="OK"
     cancel-button-text="No, Thanks"
-    icon="el-icon-info"
+    :icon="InfoFilled"
     icon-color="red"
     title="Are you sure to delete this?"
   >
@@ -11,3 +11,14 @@
     </template>
   </el-popconfirm>
 </template>
+
+<script lang="ts">
+import { defineComponent } from 'vue'
+import { InfoFilled } from '@element-plus/icons'
+
+export default defineComponent({
+  setup() {
+    return { InfoFilled }
+  },
+})
+</script>

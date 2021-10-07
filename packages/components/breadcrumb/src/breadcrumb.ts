@@ -1,6 +1,6 @@
 import type { ExtractPropTypes } from 'vue'
 
-export const breadcurmbProps = {
+export const breadcrumbProps = {
   separator: {
     type: String,
     default: '/',
@@ -10,4 +10,4 @@ export const breadcurmbProps = {
     default: '',
   },
 } as const
-export type BreadcrumbProps = ExtractPropTypes<typeof breadcurmbProps>
+export type BreadcrumbProps = ExtractPropTypes<typeof breadcrumbProps>

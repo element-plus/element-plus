@@ -4,7 +4,7 @@ import { useData } from 'vitepress'
 import { useLang } from '../../composables/lang'
 import localeData from '../../../i18n/component/last-update-at.json'
 
-const { theme, page } = useData()
+const { page } = useData()
 const lang = useLang()
 
 const prefix = computed(() => {
@@ -25,7 +25,7 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-@import '../../styles/mixins';
+@use '../../styles/mixins' as *;
 
 .last-updated {
   display: inline-block;
