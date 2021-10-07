@@ -1,4 +1,4 @@
-import Input from './src/index.vue'
+import Input from './src/input.vue'
 
 import type { App } from 'vue'
 import type { SFCWithInstall } from '@element-plus/utils/types'

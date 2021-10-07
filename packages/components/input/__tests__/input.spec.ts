@@ -1,7 +1,7 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { sleep, defineGetter } from '@element-plus/test-utils'
-import Input from '../src/index.vue'
+import Input from '../src/input.vue'
 
 const _mount = (options) =>
   mount({
