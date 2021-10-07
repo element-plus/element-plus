@@ -6,3 +6,6 @@
     </el-link>
   </div>
 </template>
+<script setup lang="ts">
+import { Edit, View } from '@element-plus/icons'
+</script>
