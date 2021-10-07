@@ -20,7 +20,8 @@ type ResolvePropTypeWithReadonly<T> = Readonly<T> extends Readonly<
 >
   ? ResolvePropType<A[]>
   : ResolvePropType<T>
-type IfUnknown<T, V> = [unknown] extends T ? V : T
+
+type IfUnknown<T, V> = [unknown] extends [T] ? V : T
 
 export type BuildPropOption<T, D extends BuildPropType<T, V, C>, R, V, C> = {
   type?: T
@@ -30,7 +31,7 @@ export type BuildPropOption<T, D extends BuildPropType<T, V, C>, R, V, C> = {
     ? never
     : D extends Record<string, unknown> | Array<any>
     ? () => D
-    : D
+    : (() => D) | D
   validator?: ((val: any) => val is C) | ((val: any) => boolean)
 }
 
@@ -48,22 +49,32 @@ export type BuildPropType<T, V, C> = _BuildPropType<
   IfUnknown<C, never>
 >
 
-export type BuildPropDefault<D, R> = R extends true
+type _BuildPropDefault<T, D> = [T] extends [
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  Record<string, unknown> | Array<any> | Function
+]
+  ? D
+  : D extends () => T
+  ? ReturnType<D>
+  : D
+
+export type BuildPropDefault<T, D, R> = R extends true
   ? { readonly default?: undefined }
   : {
       readonly default: Exclude<D, undefined> extends never
         ? undefined
-        : Exclude<
-            D extends Record<string, unknown> | Array<any> ? () => D : D,
-            undefined
-          >
+        : Exclude<_BuildPropDefault<T, D>, undefined>
     }
 export type BuildPropReturn<T, D, R, V, C> = {
   readonly type: PropType<BuildPropType<T, V, C>>
   readonly required: IfUnknown<R, false>
   readonly validator: ((val: unknown) => boolean) | undefined
   [propKey]: true
-} & BuildPropDefault<IfUnknown<D, never>, IfUnknown<R, false>>
+} & BuildPropDefault<
+  BuildPropType<T, V, C>,
+  IfUnknown<D, never>,
+  IfUnknown<R, false>
+>
 
 /**
  * @description Build prop. It can better optimize prop types
