@@ -79,7 +79,7 @@ certain conditions. These classes can be added to any DOM elements or custom com
 You need to import the following CSS file to use these classes:
 
 ```js
-import 'element-plus/lib/theme-chalk/display.css'
+import 'element-plus/theme-chalk/display.css'
 ```
 
 The classes are:
