@@ -1,4 +1,4 @@
-@import '../mixins';
+@use '../mixins' as *;
 
 .menu-hamburger {
   width: 20px;

@@ -1,11 +1,11 @@
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 $directions: rtl, ltr, ttb, btt;
 
 @include b(drawer) {
-  @include set-component-css-var('drawer', $--drawer);
+  @include set-component-css-var('drawer', $drawer);
 }
 
 @include b(drawer) {

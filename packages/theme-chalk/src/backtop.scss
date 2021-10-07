@@ -1,9 +1,9 @@
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(backtop) {
-  @include set-component-css-var('backtop', $--backtop);
+  @include set-component-css-var('backtop', $backtop);
 
   position: fixed;
   background-color: var(--el-backtop-background-color);
@@ -21,5 +21,9 @@
 
   &:hover {
     background-color: var(--el-backtop-hover-background-color);
+  }
+
+  @include e(icon) {
+    font-size: 20px;
   }
 }

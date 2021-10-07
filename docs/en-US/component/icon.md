@@ -171,9 +171,15 @@ so you need to use an alias in order to render the icon, if you register `Menu` 
   </li>
 </ul> -->
 
-### SVG Icon Attributes
+### Icon Attributes
 
 | Attribute | Description                | Type                           | Acceptable Value | Default                |
 | --------- | -------------------------- | ------------------------------ | ---------------- | ---------------------- |
 | color     | SVG tag's fill attribute   | Pick\<CSSProperties, 'color'\> | -                | inherit from color     |
 | size      | SVG icon size, size x size | number                         | -                | inherit from font size |
+
+## Icon Slots
+
+| Name | Description               |
+| ---- | ------------------------- |
+| —    | customize default content |

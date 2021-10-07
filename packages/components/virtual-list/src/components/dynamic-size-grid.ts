@@ -1,6 +1,6 @@
 import { isFunction } from '@vue/shared'
 import { throwError } from '@element-plus/utils/error'
-import createGrid from '../builders/buildGrid'
+import createGrid from '../builders/build-grid'
 
 import {
   AUTO_ALIGNMENT,
@@ -10,15 +10,14 @@ import {
   SMART_ALIGNMENT,
   START_ALIGNMENT,
 } from '../defaults'
-import type { DefaultGridProps } from '../defaults'
+import type { VirtualizedGridProps } from '../props'
 
-import type { ExtractPropTypes } from 'vue'
 import type { Alignment, GridCache, ListItem, ItemSize } from '../types'
 
 const { max, min, floor } = Math
 const SCOPE = 'ElDynamicSizeGrid'
 
-type Props = ExtractPropTypes<typeof DefaultGridProps>
+type Props = VirtualizedGridProps
 type CacheItemType = 'column' | 'row'
 
 // generates props access key via type

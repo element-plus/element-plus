@@ -1,12 +1,12 @@
 @use 'sass:math';
 @use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(badge) {
-  @include set-component-css-var('badge', $--badge);
+  @include set-component-css-var('badge', $badge);
 
   position: relative;
   vertical-align: middle;

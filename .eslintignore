@@ -1,6 +1,4 @@
 node_modules
 dist
-packages/*/es
-packages/*/lib
 pnpm-lock.yaml
 !.*

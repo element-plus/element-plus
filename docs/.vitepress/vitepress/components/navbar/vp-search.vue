@@ -154,7 +154,7 @@ function initialize(userOptions: any) {
 </template>
 
 <style lang="scss">
-@import '../../styles/mixins';
+@use '../../styles/mixins' as *;
 .algolia-search-box {
   // display: flex;
   // align-items: center;

@@ -11,8 +11,6 @@ node_modules
 # Bundle
 dist
 coverage
-packages/*/es
-packages/*/lib
 packages/element-plus/version.ts
 
 # local env files

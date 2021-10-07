@@ -1,7 +1,7 @@
 import path from 'path'
 import fs from 'fs'
 import chalk from 'chalk'
-import { errorAndExit } from './utils'
+import { errorAndExit } from './utils/log'
 
 const credentialPlaceholder = 'API_TOKEN_PLACEHOLDER'
 

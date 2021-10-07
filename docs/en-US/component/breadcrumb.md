@@ -25,9 +25,21 @@ breadcrumb/icon
 | separator       | separator character          | string | —               | /       |
 | separator-class | class name of icon separator | string | —               | -       |
 
+## Breadcrumb Slots
+
+| Name | Description               | Subtags         |
+| ---- | ------------------------- | --------------- |
+| -    | customize default content | Breadcrumb Item |
+
 ## Breadcrumb Item Attributes
 
 | Attribute | Description                                               | Type          | Accepted Values | Default |
 | --------- | --------------------------------------------------------- | ------------- | --------------- | ------- |
 | to        | target route of the link, same as `to` of `vue-router`    | string/object | —               | —       |
 | replace   | if `true`, the navigation will not leave a history record | boolean       | —               | false   |
+
+## Breadcrumb Item Slots
+
+| Name | Description               |
+| ---- | ------------------------- |
+| —    | customize default content |
