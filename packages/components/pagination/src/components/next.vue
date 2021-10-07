@@ -7,12 +7,14 @@
     @click="$emit('click', $event)"
   >
     <span v-if="nextText">{{ nextText }}</span>
-    <i v-else class="el-icon el-icon-arrow-right"></i>
+    <el-icon v-else><arrow-right /></el-icon>
   </button>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
+import { ElIcon } from '@element-plus/components/icon'
+import { ArrowRight } from '@element-plus/icons'
 
 const paginationNextProps = {
   disabled: Boolean,
@@ -33,6 +35,10 @@ const paginationNextProps = {
 export default defineComponent({
   name: 'ElPaginationNext',
 
+  components: {
+    ElIcon,
+    ArrowRight,
+  },
   props: paginationNextProps,
   emits: ['click'],
 

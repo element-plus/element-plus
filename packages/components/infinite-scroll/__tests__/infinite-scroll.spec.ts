@@ -76,7 +76,7 @@ afterAll(() => {
 })
 
 afterEach(() => {
-  const app = document.querySelector('#app')
+  const app = document.querySelector('[data-v-app]')
   document.body.removeChild(app)
 })
 

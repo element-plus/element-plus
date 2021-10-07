@@ -13,7 +13,7 @@ import {
 } from 'vue'
 import { Resize } from '@element-plus/directives'
 import Menubar from '@element-plus/utils/menu/menu-bar'
-import { buildProp, definePropType, mutable } from '@element-plus/utils/props'
+import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
 import { isString, isObject } from '@element-plus/utils/util'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu'
@@ -23,36 +23,36 @@ import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
 import type { VNode, ExtractPropTypes, VNodeNormalizedChildren } from 'vue'
 
-export const menuProps = {
-  mode: buildProp({
+export const menuProps = buildProps({
+  mode: {
     type: String,
     values: ['horizontal', 'vertical'],
     default: 'vertical',
-  } as const),
-  defaultActive: buildProp({
+  },
+  defaultActive: {
     type: String,
     default: '',
-  } as const),
-  defaultOpeneds: buildProp({
+  },
+  defaultOpeneds: {
     type: definePropType<string[]>(Array),
     default: () => mutable([] as const),
-  }),
+  },
   uniqueOpened: Boolean,
   router: Boolean,
-  menuTrigger: buildProp({
+  menuTrigger: {
     type: String,
     values: ['hover', 'click'],
     default: 'hover',
-  } as const),
+  },
   collapse: Boolean,
   backgroundColor: String,
   textColor: String,
   activeTextColor: String,
-  collapseTransition: buildProp({
+  collapseTransition: {
     type: Boolean,
     default: true,
-  } as const),
-} as const
+  },
+} as const)
 export type MenuProps = ExtractPropTypes<typeof menuProps>
 
 const checkIndexPath = (indexPath: unknown): indexPath is string[] =>
