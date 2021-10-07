@@ -22,10 +22,10 @@ export const notificationProps = buildProps({
     type: Number,
     default: 4500,
   },
-  icon: buildProp({
+  icon: {
     type: definePropType<string | Comment>([String, Object]),
     default: '',
-  }),
+  },
   id: {
     type: String,
     default: '',

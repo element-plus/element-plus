@@ -21,10 +21,10 @@ export const messageProps = buildProps({
     type: Number,
     default: 3000,
   },
-  icon: buildProp({
+  icon: {
     type: definePropType<string | Component>([String, Object]),
     default: '',
-  } as const),
+  },
   id: {
     type: String,
     default: '',
