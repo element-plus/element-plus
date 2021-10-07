@@ -139,7 +139,7 @@ import { isObject, useGlobalConfig } from '@element-plus/utils/util'
 import isServer from '@element-plus/utils/isServer'
 import { isKorean } from '@element-plus/utils/isDef'
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import calcTextareaHeight from './calcTextareaHeight'
+import calcTextareaHeight from './calc-textarea-height'
 
 import type { PropType } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
