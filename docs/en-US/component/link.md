@@ -46,6 +46,12 @@ link/underline
 
 Link with icon
 
+:::tip
+
+Use the `icon` attribute to add icon. You can pass either string for the component name (registered in advance) or the component itself which is a SVG Vue component. Element Plus has provided a set of icon that you can find at [icon](/en-US/component/icon)
+
+:::
+
 :::demo
 
 link/with-icon
