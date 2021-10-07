@@ -5,7 +5,7 @@ import { Project } from 'ts-morph'
 import glob from 'fast-glob'
 import { bold } from 'chalk'
 
-import { green, yellow } from './utils/log'
+import { green, red, yellow } from './utils/log'
 import { buildOutput, compRoot, projRoot } from './utils/paths'
 
 import { pathRewriter } from './utils/pkg'
@@ -23,7 +23,7 @@ export const genComponentTypes = async () => {
       allowJs: true,
       declaration: true,
       emitDeclarationOnly: true,
-      noEmitOnError: true,
+      noEmitOnError: false,
       outDir,
       baseUrl: projRoot,
       paths: {
@@ -105,7 +105,13 @@ export const genComponentTypes = async () => {
     yellow(`Generating definition for file: ${bold(relativePath)}`)
 
     const emitOutput = sourceFile.getEmitOutput()
-    const tasks = emitOutput.getOutputFiles().map(async (outputFile) => {
+    const emitFiles = emitOutput.getOutputFiles()
+    if (emitFiles.length === 0) {
+      red(`Emit no file: ${bold(relativePath)}`)
+      return
+    }
+
+    const tasks = emitFiles.map(async (outputFile) => {
       const filepath = outputFile.getFilePath()
       await fs.mkdir(path.dirname(filepath), {
         recursive: true,

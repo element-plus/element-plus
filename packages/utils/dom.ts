@@ -195,27 +195,23 @@ export const getScrollContainer = (
 }
 
 export const isInContainer = (
-  el: HTMLElement,
-  container: HTMLElement
+  el: Element | undefined,
+  container: Element | Window | undefined
 ): boolean => {
   if (isServer || !el || !container) return false
 
   const elRect = el.getBoundingClientRect()
-  let containerRect: Partial<DOMRect>
 
-  if (
-    [window, document, document.documentElement, null, undefined].includes(
-      container
-    )
-  ) {
+  let containerRect: Pick<DOMRect, 'top' | 'bottom' | 'left' | 'right'>
+  if (container instanceof Element) {
+    containerRect = container.getBoundingClientRect()
+  } else {
     containerRect = {
       top: 0,
       right: window.innerWidth,
       bottom: window.innerHeight,
       left: 0,
     }
-  } else {
-    containerRect = container.getBoundingClientRect()
   }
   return (
     elRect.top < containerRect.bottom &&
