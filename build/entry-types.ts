@@ -74,20 +74,8 @@ export const genEntryTypes = async () => {
 export const copyEntryTypes = (() => {
   const src = path.resolve(buildOutput, 'entry/types')
   const copy = (module: Module) =>
-    parallel(
-      withTaskName(`copyEntryTypes:${module}`, () =>
-        run(`rsync -a ${src}/ ${buildConfig[module].output.path}/`)
-      ),
-      withTaskName('copyEntryDefinitions', async () => {
-        const files = await glob('*.d.ts', {
-          cwd: epRoot,
-          absolute: true,
-          onlyFiles: true,
-        })
-        await run(
-          `rsync -a ${files.join(' ')} ${buildConfig[module].output.path}/`
-        )
-      })
+    withTaskName(`copyEntryTypes:${module}`, () =>
+      run(`rsync -a ${src}/ ${buildConfig[module].output.path}/`)
     )
 
   return parallel(copy('esm'), copy('cjs'))
