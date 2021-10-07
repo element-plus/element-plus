@@ -84,17 +84,17 @@ describe('Input.vue', () => {
 
       const elCount = wrapper.find('.el-input__count-inner')
       expect(elCount.exists()).toBe(true)
-      expect(elCount.text()).toBe('3/4')
+      expect(elCount.text()).toBe('3 / 4')
 
       vm.inputVal = '1👌3😄'
       await sleep()
       expect(nativeInput.value).toBe('1👌3😄')
-      expect(elCount.text()).toBe('4/4')
+      expect(elCount.text()).toBe('4 / 4')
 
       vm.inputVal = '哈哈1👌3😄'
       await sleep()
       expect(nativeInput.value).toBe('哈哈1👌3😄')
-      expect(elCount.text()).toBe('6/4')
+      expect(elCount.text()).toBe('6 / 4')
       expect(vm.$el.classList.contains('is-exceed')).toBe(true)
     })
 
@@ -113,12 +113,12 @@ describe('Input.vue', () => {
 
       const elCount = wrapper.find('.el-input__count')
       expect(elCount.exists()).toBe(true)
-      expect(elCount.text()).toBe('3/4')
+      expect(elCount.text()).toBe('3 / 4')
 
       vm.inputVal = '哈哈1👌3😄'
       await sleep()
       expect(nativeInput.value).toBe('哈哈1👌3😄')
-      expect(elCount.text()).toBe('6/4')
+      expect(elCount.text()).toBe('6 / 4')
       expect(vm.$el.classList.contains('is-exceed')).toBe(true)
     })
   })
@@ -343,7 +343,7 @@ describe('Input.vue', () => {
       ref.autosize.minRows = 5
       ref.resizeTextarea()
       // Atfer this textarea min-height (style)  will change
-      const nowMinHeight = ref.computedTextareaStyle.minHeight
+      const nowMinHeight = ref.computedTextareaStyle[1].minHeight
       expect(originMinHeight).not.toEqual(nowMinHeight)
     })
   })

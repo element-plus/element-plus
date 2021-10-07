@@ -1,4 +1,4 @@
-let hiddenTextarea: HTMLTextAreaElement
+let hiddenTextarea: HTMLTextAreaElement | undefined = undefined
 
 const HIDDEN_STYLE = `
   height:0 !important;
@@ -61,9 +61,9 @@ function calculateNodeStyling(targetElement: Element): NodeStyle {
 }
 
 export default function calcTextareaHeight(
-  targetElement: HTMLInputElement,
-  minRows = 1,
-  maxRows = null
+  targetElement: HTMLTextAreaElement,
+  minRows: number | undefined | null = 1,
+  maxRows: number | undefined | null = undefined
 ): TextAreaHeight {
   if (!hiddenTextarea) {
     hiddenTextarea = document.createElement('textarea')
@@ -88,7 +88,7 @@ export default function calcTextareaHeight(
   hiddenTextarea.value = ''
   const singleRowHeight = hiddenTextarea.scrollHeight - paddingSize
 
-  if (minRows !== null) {
+  if (typeof minRows === 'number') {
     let minHeight = singleRowHeight * minRows
     if (boxSizing === 'border-box') {
       minHeight = minHeight + paddingSize + borderSize
@@ -96,7 +96,7 @@ export default function calcTextareaHeight(
     height = Math.max(minHeight, height)
     result.minHeight = `${minHeight}px`
   }
-  if (maxRows !== null) {
+  if (typeof maxRows === 'number') {
     let maxHeight = singleRowHeight * maxRows
     if (boxSizing === 'border-box') {
       maxHeight = maxHeight + paddingSize + borderSize
@@ -105,7 +105,7 @@ export default function calcTextareaHeight(
   }
   result.height = `${height}px`
   hiddenTextarea.parentNode?.removeChild(hiddenTextarea)
-  hiddenTextarea = null
+  hiddenTextarea = undefined
 
   return result
 }
