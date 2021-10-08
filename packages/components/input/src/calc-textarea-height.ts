@@ -60,7 +60,7 @@ function calculateNodeStyling(targetElement: Element): NodeStyle {
   return { contextStyle, paddingSize, borderSize, boxSizing }
 }
 
-export default function calcTextareaHeight(
+export function calcTextareaHeight(
   targetElement: HTMLTextAreaElement,
   minRows: number | undefined | null = 1,
   maxRows: number | undefined | null = undefined

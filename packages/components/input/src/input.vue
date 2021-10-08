@@ -145,7 +145,7 @@ import {
 import { isObject } from '@element-plus/utils/util'
 import isServer from '@element-plus/utils/isServer'
 import { isKorean } from '@element-plus/utils/isDef'
-import calcTextareaHeight from './calc-textarea-height'
+import { calcTextareaHeight } from './calc-textarea-height'
 import { inputProps, inputEmits } from './input'
 
 import type { StyleValue } from '@element-plus/utils/types'
@@ -155,7 +155,7 @@ type TargetElement = HTMLInputElement | HTMLTextAreaElement
 const PENDANT_MAP = {
   suffix: 'append',
   prefix: 'prepend',
-}
+} as const
 
 export default defineComponent({
   name: 'ElInput',
