@@ -88,7 +88,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
           const included =
             ifExpandAll ||
             (expandRowKeys.value && expandRowKeys.value.includes(key))
-          return !!((oldValue && oldValue.expanded) || included)
+          return !!(oldValue?.expanded || included)
         }
       }
       // 合并 expanded 与 display，确保数据刷新后，状态不变
