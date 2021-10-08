@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-types */
+
 import { expectTypeOf } from 'expect-type'
 import { buildProp, definePropType, mutable, keyOf, buildProps } from '../props'
 import type { propKey } from '../props'
@@ -122,7 +124,7 @@ describe('buildProp', () => {
     ).toEqualTypeOf<{
       readonly type: PropType<Options>
       readonly required: false
-      readonly default: () => { key: 'value' }
+      readonly default: { key: 'value' }
       readonly validator: ((val: unknown) => boolean) | undefined
       [propKey]: true
     }>()
@@ -141,7 +143,7 @@ describe('buildProp', () => {
     ).toEqualTypeOf<{
       readonly type: PropType<string | Options>
       readonly required: false
-      readonly default: () => { key: string }
+      readonly default: { key: string }
       readonly validator: ((val: unknown) => boolean) | undefined
       [propKey]: true
     }>()
@@ -241,7 +243,7 @@ describe('buildProp', () => {
     ).toEqualTypeOf<{
       readonly type: PropType<{ key: 'a' | 'b' | 'c' } | undefined>
       readonly required: false
-      readonly default: () => { key: 'a' }
+      readonly default: { key: 'a' }
       readonly validator: ((val: unknown) => boolean) | undefined
       [propKey]: true
     }>()
@@ -318,6 +320,24 @@ describe('buildProps', () => {
       key12: buildProp({
         type: String,
       } as const),
+
+      // default generator
+      key13: {
+        type: [String, Number, Function],
+        default: () => '123' as const,
+      } as const,
+      key14: {
+        type: Function,
+        default: () => '123' as const,
+      } as const,
+      key15: {
+        type: Function,
+        default: () => () => '123' as const,
+      } as const,
+      key16: {
+        type: String,
+        default: () => '123' as const,
+      } as const,
     } as const)
 
     expectTypeOf(props).toEqualTypeOf<{
@@ -368,6 +388,34 @@ describe('buildProps', () => {
         readonly type: PropType<string>
         readonly required: false
         readonly default: undefined
+        readonly validator: ((val: unknown) => boolean) | undefined
+        [propKey]: true
+      }
+      readonly key13: {
+        readonly type: PropType<string | number | Function>
+        readonly required: false
+        readonly default: '123'
+        readonly validator: ((val: unknown) => boolean) | undefined
+        [propKey]: true
+      }
+      readonly key14: {
+        readonly type: PropType<Function>
+        readonly required: false
+        readonly default: () => '123'
+        readonly validator: ((val: unknown) => boolean) | undefined
+        [propKey]: true
+      }
+      readonly key15: {
+        readonly type: PropType<Function>
+        readonly required: false
+        readonly default: () => () => '123'
+        readonly validator: ((val: unknown) => boolean) | undefined
+        [propKey]: true
+      }
+      readonly key16: {
+        readonly type: PropType<string>
+        readonly required: false
+        readonly default: '123'
         readonly validator: ((val: unknown) => boolean) | undefined
         [propKey]: true
       }
