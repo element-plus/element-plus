@@ -17,7 +17,7 @@ import isServer from './isServer'
 import { debugWarn } from './error'
 
 import type { ComponentPublicInstance, CSSProperties, Ref } from 'vue'
-import type { AnyFunction, TimeoutHandle, Nullable } from './types'
+import type { TimeoutHandle, Nullable } from './types'
 
 export const SCOPE = 'Util'
 
