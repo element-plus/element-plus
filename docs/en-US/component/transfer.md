@@ -40,16 +40,11 @@ transfer/prop-alias
 
 ## Slots
 
-| Name         | Description                  |
-| ------------ | ---------------------------- |
-| left-footer  | content of left list footer  |
-| right-footer | content of right list footer |
-
-## Scoped Slot
-
-| Name | Description                                                      |
-| ---- | ---------------------------------------------------------------- |
-| —    | Custom content for data items. The scope parameter is { option } |
+| Name         | Description                                                      |
+| ------------ | ---------------------------------------------------------------- |
+| —            | Custom content for data items. The scope parameter is { option } |
+| left-footer  | content of left list footer                                      |
+| right-footer | content of right list footer                                     |
 
 ## Methods
 

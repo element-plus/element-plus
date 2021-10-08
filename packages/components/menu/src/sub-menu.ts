@@ -17,7 +17,7 @@ import {
 import { useTimeoutFn } from '@vueuse/core'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElPopper from '@element-plus/components/popper'
-import { buildProp } from '@element-plus/utils/props'
+import { buildProps } from '@element-plus/utils/props'
 import { throwError } from '@element-plus/utils/error'
 import useMenu from './use-menu'
 import { useMenuCssVar } from './use-menu-css-var'
@@ -26,26 +26,26 @@ import type { Placement } from '@element-plus/components/popper'
 import type { ExtractPropTypes, VNodeArrayChildren, CSSProperties } from 'vue'
 import type { MenuProvider, SubMenuProvider } from './types'
 
-export const subMenuProps = {
+export const subMenuProps = buildProps({
   index: {
     type: String,
     required: true,
   },
-  showTimeout: buildProp({
+  showTimeout: {
     type: Number,
     default: 300,
-  } as const),
-  hideTimeout: buildProp({
+  },
+  hideTimeout: {
     type: Number,
     default: 300,
-  } as const),
+  },
   popperClass: String,
   disabled: Boolean,
-  popperAppendToBody: buildProp({
+  popperAppendToBody: {
     type: Boolean,
     default: undefined,
-  } as const),
-} as const
+  },
+} as const)
 export type SubMenuProps = ExtractPropTypes<typeof subMenuProps>
 
 const COMPONENT_NAME = 'ElSubMenu'
