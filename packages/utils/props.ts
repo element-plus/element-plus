@@ -20,7 +20,8 @@ type ResolvePropTypeWithReadonly<T> = Readonly<T> extends Readonly<
 >
   ? ResolvePropType<A[]>
   : ResolvePropType<T>
-type IfUnknown<T, V> = [unknown] extends T ? V : T
+
+type IfUnknown<T, V> = [unknown] extends [T] ? V : T
 
 export type BuildPropOption<T, D extends BuildPropType<T, V, C>, R, V, C> = {
   type?: T
@@ -48,13 +49,10 @@ export type BuildPropType<T, V, C> = _BuildPropType<
   IfUnknown<C, never>
 >
 
-type _BuildPropDefault<T, D> = Exclude<
-  T,
-  Record<string, unknown> | Array<any>
-> extends never
-  ? () => D
-  : // eslint-disable-next-line @typescript-eslint/ban-types
-  [T] extends [Function]
+type _BuildPropDefault<T, D> = [T] extends [
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  Record<string, unknown> | Array<any> | Function
+]
   ? D
   : D extends () => T
   ? ReturnType<D>

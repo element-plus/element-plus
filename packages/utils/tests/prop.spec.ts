@@ -105,7 +105,7 @@ describe('buildProp', () => {
     ).toEqualTypeOf<{
       readonly type: PropType<string[]>
       readonly required: false
-      readonly default: () => ['a', 'b']
+      readonly default: ['a', 'b']
       readonly validator: ((val: unknown) => boolean) | undefined
       [propKey]: true
     }>()
@@ -259,6 +259,21 @@ describe('buildProp', () => {
       readonly type: PropType<string | number>
       readonly required: false
       readonly default: ''
+      readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
+    }>()
+  })
+
+  it('default value is empty object', () => {
+    expectTypeOf(
+      buildProp({
+        type: Object,
+        default: () => mutable({} as const),
+      } as const)
+    ).toEqualTypeOf<{
+      readonly type: PropType<Record<string, any>>
+      readonly required: false
+      readonly default: {}
       readonly validator: ((val: unknown) => boolean) | undefined
       [propKey]: true
     }>()
