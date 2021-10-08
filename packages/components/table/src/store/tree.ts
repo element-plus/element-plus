@@ -87,7 +87,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
         } else {
           const included =
             ifExpandAll ||
-            (expandRowKeys.value && expandRowKeys.value.indexOf(key) !== -1)
+            (expandRowKeys.value && expandRowKeys.value.includes(key))
           return !!((oldValue && oldValue.expanded) || included)
         }
       }
