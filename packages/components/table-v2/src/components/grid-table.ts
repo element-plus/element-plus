@@ -5,11 +5,11 @@ import {
 } from '@element-plus/components/virtual-list'
 import { gridTableProps } from '../props/grid-table'
 import { prefix } from '../constants'
-import TableHeader from './table-header'
+import TableHeader from './header'
 
 const GridTable = defineComponent({
   props: gridTableProps,
-  setup(props, { attrs, emit, slots }) {
+  setup(props, { attrs, slots }) {
     const gridRef = ref()
     const headerRef = ref()
 
@@ -40,29 +40,34 @@ const GridTable = defineComponent({
       if (totalHeaderHeight <= 0) return null
 
       const {
+        columns,
         data,
         fixedData,
         height,
         headerWidth,
         rowHeight,
         width,
-        headerRenderer,
-        rowRenderer,
       } = props
 
-      return h(TableHeader as any, {
-        class: `${prefix}__header`,
-        ref: headerRef,
-        data,
-        fixedData,
-        height: Math.min(totalHeaderHeight, height),
-        headerHeight: unref(headerHeightRef),
-        width,
-        rowWidth: headerWidth,
-        rowHeight,
-        headerRenderer,
-        rowRenderer,
-      })
+      return h(
+        TableHeader as any,
+        {
+          class: `${prefix}__header`,
+          columns,
+          ref: headerRef,
+          data,
+          fixedData,
+          height: Math.min(totalHeaderHeight, height),
+          headerHeight: unref(headerHeightRef),
+          width,
+          rowWidth: headerWidth,
+          rowHeight,
+        },
+        {
+          header: slots.header,
+          row: slots.row,
+        }
+      )
     }
 
     function renderTable() {

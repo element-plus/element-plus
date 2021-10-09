@@ -8,11 +8,10 @@ const { data } = virtualizedGridProps
 
 const size = buildProp({
   type: Number,
-  required: true,
+  default: 50,
 } as const)
 
 export const tableV2HeaderProps = {
-  ...tableV2ColumnRendererProps,
   columns: buildProp({
     type: definePropType<any[]>(Array),
     required: true,
@@ -25,7 +24,7 @@ export const tableV2HeaderProps = {
   height: size,
   headerHeight: buildProp({
     type: definePropType<number | number[]>([Number, Array]),
-    required: true,
+    default: 50,
   } as const),
   rowHeight: size,
   rowWidth: size,

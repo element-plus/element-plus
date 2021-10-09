@@ -6,7 +6,17 @@ import {
 
 import type { CSSProperties, ExtractPropTypes, VNodeChild } from 'vue'
 
-const headerRenderer = buildProp({
+export type ColumnFixStats = 'left' | 'right' | boolean
+
+// Consider build up this with browser direction.
+export const FixedDir = {
+  LEFT: 'left',
+  RIGHT: 'right',
+  DEFAULT: true,
+  NONE: false,
+}
+
+export const headerRenderer = buildProp({
   type: definePropType<
     (props: {
       style: CSSProperties
@@ -14,10 +24,9 @@ const headerRenderer = buildProp({
       index: number
     }) => VNodeChild
   >(Function),
-  required: true,
 } as const)
 
-const rowRenderer = buildProp({
+export const cellRenderer = buildProp({
   type: definePropType<
     (props: {
       style: CSSProperties
@@ -26,12 +35,11 @@ const rowRenderer = buildProp({
       index: number
     }) => VNodeChild
   >(Function),
-  required: true,
 } as const)
 
 export const tableV2ColumnRendererProps = {
   headerRenderer,
-  rowRenderer,
+  cellRenderer,
 }
 
 export const tableV2ColumnProps = {
@@ -66,6 +74,10 @@ export const tableV2ColumnProps = {
       type: Number,
       default: 0,
     },
+    fixed: {
+      type: definePropType<ColumnFixStats>([Boolean, String]),
+      values: ['left', 'right', true, false],
+    },
 
     width: {
       type: Number,
@@ -80,7 +92,6 @@ export const tableV2ColumnProps = {
    */
   dataKey: String,
 
-  fixed: Boolean,
   headerClassName: String,
   hidden: Boolean,
 
@@ -89,6 +100,7 @@ export const tableV2ColumnProps = {
 
   maxWidth: Number,
   minWidth: Number,
-} as const
+}
 
 export type TableV2ColumnProps = ExtractPropTypes<typeof tableV2ColumnProps>
+export type FixedDirection = typeof FixedDir

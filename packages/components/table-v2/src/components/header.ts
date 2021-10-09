@@ -5,7 +5,7 @@ import type { CSSProperties } from 'vue'
 
 export default defineComponent({
   props: tableV2HeaderProps,
-  setup(props, { attrs }) {
+  setup(props, { attrs, slots }) {
     const containerStyle = computed<CSSProperties>(() => {
       const { height, width } = props
       return {
@@ -22,9 +22,9 @@ export default defineComponent({
     }))
 
     const renderFixedRow = (data: any[], index: number) => {
-      const { columns, rowHeight, rowRenderer } = props
+      const { columns, rowHeight } = props
 
-      return rowRenderer({
+      return slots.header?.({
         style: {
           width: '100%',
           height: rowHeight,
@@ -38,9 +38,9 @@ export default defineComponent({
     const renderHeaderRow = (height: number, index: number) => {
       if (height <= 0) return null
 
-      const { columns, headerRenderer } = props
+      const { columns } = props
 
-      return headerRenderer({
+      return slots.row?.({
         style: {
           width: '100%',
           height,

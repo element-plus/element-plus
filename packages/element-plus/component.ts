@@ -85,6 +85,7 @@ import { ElSpace } from '@element-plus/components/space'
 import { ElSteps, ElStep } from '@element-plus/components/steps'
 import { ElSwitch } from '@element-plus/components/switch'
 import { ElTable, ElTableColumn } from '@element-plus/components/table'
+import { ElTableV2, ElColumnV2 } from '@element-plus/components/table-v2'
 import { ElTabs, ElTabPane } from '@element-plus/components/tabs'
 import { ElTag } from '@element-plus/components/tag'
 import { ElTimePicker } from '@element-plus/components/time-picker'
@@ -175,6 +176,8 @@ export default [
   ElSwitch,
   ElTable,
   ElTableColumn,
+  ElTableV2,
+  ElColumnV2,
   ElTabs,
   ElTabPane,
   ElTag,
