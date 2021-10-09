@@ -61,6 +61,9 @@ Besides the native features of img, support lazy load, custom placeholder and lo
 .demo-image__error {
   .image-slot {
     font-size: 30px;
+    .el-icon {
+      font-size: 30px;
+    }
   }
   .el-image {
     width: 100%;
