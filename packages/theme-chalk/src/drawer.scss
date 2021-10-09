@@ -57,6 +57,9 @@ $directions: rtl, ltr, ttb, btt;
         color: var(--el-color-primary);
       }
     }
+    .#{$namespace}-icon {
+      font-size: inherit;
+    }
   }
 
   &__body {
