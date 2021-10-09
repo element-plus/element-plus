@@ -123,11 +123,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
     )
   }
   const cellChildren = (cellIndex, column, data) => {
-    if (!isColumnHidden(cellIndex)) {
-      return column.renderCell(data)
-    } else {
-      return
-    }
+    return isColumnHidden(cellIndex) ? null : column.renderCell(data)
   }
   const wrappedRowRender = (row: T, $index: number) => {
     const store = props.store
