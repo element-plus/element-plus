@@ -7,6 +7,7 @@ module.exports = {
       },
     },
   },
+  setupFiles: ['./jest.setup.js'],
   testPathIgnorePatterns: ['/node_modules/', 'dist'],
   modulePathIgnorePatterns: ['/node_modules/', 'dist'],
   testEnvironment: 'jsdom',

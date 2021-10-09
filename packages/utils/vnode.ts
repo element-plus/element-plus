@@ -35,8 +35,8 @@ export enum PatchFlags {
   BAIL = -2,
 }
 
-export const isFragment = (node: VNodeChild) =>
-  (node as VNode).type === Fragment
+export const isFragment = (node: unknown): node is VNode =>
+  isVNode(node) && node.type === Fragment
 
 export const isText = (node: VNodeChild) => (node as VNode).type === Text
 
@@ -64,8 +64,8 @@ function getChildren(node: VNode, depth: number): undefined | VNode {
  * determine if the element is a valid element type rather than fragments and comment e.g. <template> v-if
  * @param node {VNode} node to be tested
  */
-export const isValidElementNode = (node: VNodeChild) =>
-  !(isFragment(node) || isComment(node))
+export const isValidElementNode = (node: unknown): node is VNode =>
+  isVNode(node) && !isFragment(node) && !isComment(node)
 
 export const getFirstValidNode = (
   nodes: VNodeChild,

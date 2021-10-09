@@ -22,26 +22,26 @@ import { defineComponent, watch, computed, ref } from 'vue'
 import isEqual from 'lodash/isEqual'
 import { ElSelect, ElOption } from '@element-plus/components/select'
 import { useLocaleInject } from '@element-plus/hooks'
-import { buildProp, definePropType, mutable } from '@element-plus/utils/props'
+import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
 import { usePagination } from '../usePagination'
 
 import type { Nullable } from '@element-plus/utils/types'
 
-const paginationSizesProps = {
+const paginationSizesProps = buildProps({
   pageSize: {
     type: Number,
     required: true,
   },
-  pageSizes: buildProp({
+  pageSizes: {
     type: definePropType<number[]>(Array),
     default: () => mutable([10, 20, 30, 40, 50, 100] as const),
-  } as const),
+  },
   popperClass: {
     type: String,
     default: '',
   },
   disabled: Boolean,
-} as const
+} as const)
 
 export default defineComponent({
   name: 'ElPaginationSizes',
