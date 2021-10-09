@@ -96,10 +96,10 @@ function useStyle<T>(
   })
 
   const doLayout = () => {
+    layout.updateColumnsWidth()
     if (shouldUpdateHeight.value) {
       layout.updateElsHeight()
     }
-    layout.updateColumnsWidth()
     syncPostion()
   }
   onMounted(async () => {
