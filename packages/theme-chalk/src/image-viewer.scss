@@ -30,6 +30,10 @@
     cursor: pointer;
     box-sizing: border-box;
     user-select: none;
+
+    .#{$namespace}-icon {
+      font-size: inherit;
+    }
   }
 
   @include e(close) {
