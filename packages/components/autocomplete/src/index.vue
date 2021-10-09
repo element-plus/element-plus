@@ -110,9 +110,8 @@ import ElScrollbar from '@element-plus/components/scrollbar'
 import ElPopper, { Effect } from '@element-plus/components/popper'
 import ElIcon from '@element-plus/components/icon'
 import { Loading } from '@element-plus/icons'
-
 import type { Placement } from '@element-plus/components/popper'
-import type { PropType } from 'vue'
+import type { PropType, Ref, RendererNode } from 'vue'
 
 export default defineComponent({
   name: 'ElAutocomplete',
@@ -196,15 +195,15 @@ export default defineComponent({
   ],
   setup(props, ctx) {
     const attrs = useAttrs()
-    const suggestions = ref([])
     const highlightedIndex = ref(-1)
     const dropdownWidth = ref('')
     const activated = ref(false)
     const suggestionDisabled = ref(false)
     const loading = ref(false)
-    const inputRef = ref(null)
-    const regionRef = ref(null)
-    const popper = ref(null)
+    const suggestions: Ref<Array<any>> = ref([])
+    const inputRef: Ref<RendererNode | null> = ref(null)
+    const regionRef: Ref<HTMLDivElement | null> = ref(null)
+    const popper: Ref<RendererNode | null> = ref(null)
 
     const id = computed(() => {
       return `el-autocomplete-${generateId()}`
@@ -219,26 +218,26 @@ export default defineComponent({
     })
 
     const updatePopperPosition = () => {
-      nextTick(popper.value.update)
+      nextTick((popper.value as RendererNode).update)
     }
 
     watch(suggestionVisible, () => {
-      dropdownWidth.value = `${inputRef.value.$el.offsetWidth}px`
+      dropdownWidth.value = `${inputRef.value?.$el.offsetWidth}px`
     })
 
     onMounted(() => {
-      inputRef.value.inputOrTextarea.setAttribute('role', 'textbox')
-      inputRef.value.inputOrTextarea.setAttribute('aria-autocomplete', 'list')
-      inputRef.value.inputOrTextarea.setAttribute('aria-controls', 'id')
-      inputRef.value.inputOrTextarea.setAttribute(
+      inputRef.value?.inputOrTextarea.setAttribute('role', 'textbox')
+      inputRef.value?.inputOrTextarea.setAttribute('aria-autocomplete', 'list')
+      inputRef.value?.inputOrTextarea.setAttribute('aria-controls', 'id')
+      inputRef.value?.inputOrTextarea.setAttribute(
         'aria-activedescendant',
         `${id.value}-item-${highlightedIndex.value}`
       )
-      const $ul = regionRef.value.querySelector(
+      const $ul = (regionRef.value as HTMLDivElement).querySelector(
         '.el-autocomplete-suggestion__list'
       )
-      $ul.setAttribute('role', 'listbox')
-      $ul.setAttribute('id', id.value)
+      $ul?.setAttribute('role', 'listbox')
+      $ul?.setAttribute('id', id.value)
     })
 
     onUpdated(updatePopperPosition)
@@ -314,7 +313,7 @@ export default defineComponent({
       activated.value = false
     }
     const focus = () => {
-      inputRef.value.focus()
+      inputRef.value?.focus()
     }
     const select = (item) => {
       ctx.emit('input', item[props.valueKey])
@@ -336,15 +335,15 @@ export default defineComponent({
       if (index >= suggestions.value.length) {
         index = suggestions.value.length - 1
       }
-      const suggestion = regionRef.value.querySelector(
+      const suggestion = (regionRef.value as HTMLDivElement).querySelector(
         '.el-autocomplete-suggestion__wrap'
-      )
+      ) as HTMLUListElement
       const suggestionList = suggestion.querySelectorAll(
         '.el-autocomplete-suggestion__list li'
       )
       const highlightItem = suggestionList[index]
       const scrollTop = suggestion.scrollTop
-      const { offsetTop, scrollHeight } = highlightItem
+      const { offsetTop, scrollHeight } = highlightItem as HTMLLIElement
 
       if (offsetTop + scrollHeight > scrollTop + suggestion.clientHeight) {
         suggestion.scrollTop += scrollHeight
@@ -353,7 +352,7 @@ export default defineComponent({
         suggestion.scrollTop -= scrollHeight
       }
       highlightedIndex.value = index
-      inputRef.value.inputOrTextarea.setAttribute(
+      inputRef.value?.inputOrTextarea.setAttribute(
         'aria-activedescendant',
         `${id.value}-item-${highlightedIndex.value}`
       )
