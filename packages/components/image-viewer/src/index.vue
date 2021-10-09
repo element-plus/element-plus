@@ -47,8 +47,8 @@
             <refresh-left />
           </el-icon>
           <el-icon @click="handleActions('clocelise')">
-            <refresh-right
-          /></el-icon>
+            <refresh-right />
+          </el-icon>
         </div>
       </div>
       <!-- CANVAS -->
