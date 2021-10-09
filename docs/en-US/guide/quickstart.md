@@ -32,7 +32,7 @@ If you use volar, please add the global component type definition to `include` i
 ```json
 // tsconfig.json
 {
-  "include": ["node_modules/element-plus/es/global.d.ts"]
+  "include": ["node_modules/element-plus/global.d.ts"]
 }
 ```
 
