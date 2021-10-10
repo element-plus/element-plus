@@ -1,6 +1,6 @@
 import { inject, computed, getCurrentInstance, unref } from 'vue'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
-import { buildProp } from '@element-plus/utils/props'
+import { buildProps } from '@element-plus/utils/props'
 import { useGlobalConfig } from '@element-plus/utils/util'
 
 import type { ExtractPropTypes } from 'vue'
@@ -8,14 +8,14 @@ import type { MaybeRef } from '@vueuse/shared'
 
 const sizes = ['', 'large', 'medium', 'small', 'mini'] as const
 
-export const useFormItemProps = {
-  size: buildProp({
+export const useFormItemProps = buildProps({
+  size: {
     type: String,
     values: sizes,
     default: '',
-  } as const),
+  },
   disabled: Boolean,
-} as const
+} as const)
 
 export type UseFormItemProps = ExtractPropTypes<typeof useFormItemProps>
 

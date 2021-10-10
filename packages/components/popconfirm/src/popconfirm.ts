@@ -1,8 +1,10 @@
-import { buttonProps } from '@element-plus/components/button'
+import { buttonType } from '@element-plus/components/button'
 import { QuestionFilled } from '@element-plus/icons'
-import type { Component, ExtractPropTypes, PropType } from 'vue'
+import { buildProps, definePropType } from '@element-plus/utils/props'
 
-export const popconfirmProps = {
+import type { Component, ExtractPropTypes } from 'vue'
+
+export const popconfirmProps = buildProps({
   title: {
     type: String,
   },
@@ -13,16 +15,18 @@ export const popconfirmProps = {
     type: String,
   },
   confirmButtonType: {
-    ...buttonProps.type,
+    type: String,
+    values: buttonType,
     default: 'primary',
   },
   cancelButtonType: {
-    ...buttonProps.type,
+    type: String,
+    values: buttonType,
     default: 'text',
   },
   icon: {
-    type: [String, Object] as PropType<string | Component>,
-    default: QuestionFilled,
+    type: definePropType<string | Component>([String, Object]),
+    default: QuestionFilled as any,
   },
   iconColor: {
     type: String,
@@ -32,7 +36,7 @@ export const popconfirmProps = {
     type: Boolean,
     default: false,
   },
-} as const
+} as const)
 export type PopconfirmProps = ExtractPropTypes<typeof popconfirmProps>
 
 export const popconfirmEmits = {
