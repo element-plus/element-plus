@@ -7,7 +7,9 @@
     @select="handleSelect"
   >
     <template #suffix>
-      <i class="el-icon-edit el-input__icon" @click="handleIconClick"></i>
+      <el-icon class="el-input__icon" @click="handleIconClick">
+        <Edit />
+      </el-icon>
     </template>
     <template #default="{ item }">
       <div class="value">{{ item.value }}</div>
@@ -18,7 +20,11 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue'
+import { Edit } from '@element-plus/icons'
 export default defineComponent({
+  components: {
+    Edit,
+  },
   setup() {
     const links = ref([])
 

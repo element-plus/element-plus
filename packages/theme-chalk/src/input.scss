@@ -205,7 +205,7 @@
     width: 25px;
     text-align: center;
     transition: all var(--el-transition-duration);
-    line-height: map.get($input-height, 'default');
+    vertical-align: text-bottom;
 
     &:after {
       content: '';
