@@ -2,7 +2,7 @@
 
 Used to replace the browser's native scrollbar.
 
-<style lang="scss">
+<style lang="scss" scoped>
 .example-showcase {
   .el-scrollbar {
     .scrollbar-demo-item {
