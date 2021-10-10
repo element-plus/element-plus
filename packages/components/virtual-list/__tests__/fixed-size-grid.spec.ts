@@ -153,7 +153,7 @@ describe('<fixed-size-grid />', () => {
 
       await nextTick()
       expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(48)
-      expect(wrapper.find(ITEM_SELECTOR)).toEqual(prevFirstItem)
+      expect(wrapper.find(ITEM_SELECTOR).element).toEqual(prevFirstItem.element)
     })
 
     it('should scrollToItem with correct alignment', async () => {

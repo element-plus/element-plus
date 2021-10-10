@@ -131,7 +131,7 @@ const layer0 = computed(() => ({
               Download relevant design resources for shaping page prototype or
               visual draft, increasing design efficiency.
             </p>
-            <a href="/en-US/guide/resource.html"> View Detail </a>
+            <a href="/en-US/resource/index.html"> View Detail </a>
           </div>
         </li>
       </ul>

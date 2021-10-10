@@ -183,15 +183,15 @@ export default defineComponent({
       // Three consecutive months (compatible: 2021-01-30 to 2021-02-28)
       else if (firstMonth + 2 === lastMonth) {
         const firstMonthLastDay = firstDay.endOf('month')
-        const secondMonthFisrtDay = firstDay.add(1, 'month').startOf('month')
+        const secondMonthFirstDay = firstDay.add(1, 'month').startOf('month')
 
         // Whether the last day of the first month and the second month is in the same week
         const secondMonthStartDay = firstMonthLastDay.isSame(
-          secondMonthFisrtDay,
+          secondMonthFirstDay,
           'week'
         )
-          ? secondMonthFisrtDay.add(1, 'week')
-          : secondMonthFisrtDay
+          ? secondMonthFirstDay.add(1, 'week')
+          : secondMonthFirstDay
 
         const secondMonthLastDay = secondMonthStartDay.endOf('month')
         const lastMonthFirstDay = lastDay.startOf('month')

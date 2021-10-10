@@ -1,22 +1,27 @@
+import path from 'path'
 import { series, parallel } from 'gulp'
-
 import { copyStyle } from './style'
 import { copyEntryTypes } from './entry-types'
 import { run } from './utils/process'
 import { withTaskName } from './utils/gulp'
-import { epOutput, buildOutput, epPackage } from './utils/paths'
+import { epOutput, epPackage, projRoot } from './utils/paths'
 import { copyFullStyle } from './full-bundle'
 
 const runTask = (name: string) =>
   withTaskName(name, () => run(`pnpm run build ${name}`))
 
-const copySourceCode = () => async () => {
+export const copySourceCode = async () => {
   await run(`cp -R packages ${epOutput}`)
   await run(`cp ${epPackage} ${epOutput}/package.json`)
 }
 
-const copyREADME = () => async () => {
-  await run(`cp README.md ${buildOutput}/element-plus`)
+export const copyREADME = async () => {
+  await run(`cp README.md ${epOutput}`)
+}
+
+export const copyDefinitions = async () => {
+  const files = [path.resolve(projRoot, 'typings', 'global.d.ts')]
+  await run(`cp ${files.join(' ')} ${epOutput}`)
 }
 
 export default series(
@@ -36,8 +41,9 @@ export default series(
     copyStyle(),
     copyFullStyle,
     copyEntryTypes,
-    copySourceCode(),
-    copyREADME()
+    copySourceCode,
+    copyREADME,
+    copyDefinitions
   )
 )
 
