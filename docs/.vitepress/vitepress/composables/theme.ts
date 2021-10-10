@@ -1,6 +1,6 @@
 import { NOOP } from '@vue/shared'
-import { useFeatureFlag } from './feature-flag'
 import { isServer } from '../utils'
+import { useFeatureFlag } from './feature-flag'
 
 const THEME_KEY = 'preferred_theme'
 const PREFER_SYSTEM = 'system'

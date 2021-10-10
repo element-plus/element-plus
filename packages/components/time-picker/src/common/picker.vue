@@ -236,7 +236,7 @@ export default defineComponent({
       // determine user real change only
       if (isClear || !valueEquals(val, valueOnOpen.value)) {
         ctx.emit('change', val)
-        props.validateEvent && elFormItem.validate?.('change', val)
+        props.validateEvent && elFormItem.validate?.('change')
       }
     }
     const emitInput = (val) => {

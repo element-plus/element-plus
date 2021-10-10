@@ -3,10 +3,7 @@
 
 # Package Manager
 node_modules
-lerna-debug.json
-lerna-debug.log
-yarn-debug.log*
-yarn-error.log*
+.pnpm-debug.log*
 
 # System
 .DS_Store
@@ -14,8 +11,6 @@ yarn-error.log*
 # Bundle
 dist
 coverage
-packages/*/es
-packages/*/lib
 packages/element-plus/version.ts
 
 # local env files

@@ -1,11 +1,11 @@
 @use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(link) {
-  @include set-component-css-var('link', $--link);
+  @include set-component-css-var('link', $link);
 }
 
 @include b(link) {
@@ -60,13 +60,13 @@
     }
   }
 
-  @each $type in $--types {
+  @each $type in $types {
     &.#{$namespace}-link--#{$type} {
       --el-link-font-color: var(--el-color-#{$type});
       color: var(--el-link-font-color);
 
       &:hover {
-        color: mix(map.get($--link-font-color, $type), $--color-white, 80%);
+        color: mix(map.get($link-font-color, $type), $color-white, 80%);
       }
 
       &:after {
@@ -74,7 +74,7 @@
       }
 
       @include when(disabled) {
-        color: mix(map.get($--link-font-color, $type), $--color-white, 50%);
+        color: mix(map.get($link-font-color, $type), $color-white, 50%);
       }
       @include when(underline) {
         &:hover:after {

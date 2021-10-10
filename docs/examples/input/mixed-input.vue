@@ -16,7 +16,7 @@
       class="input-with-select"
     >
       <template #prepend>
-        <el-select v-model="select" placeholder="Select">
+        <el-select v-model="select" placeholder="Select" style="width: 110px">
           <el-option label="Restaurant" value="1"></el-option>
           <el-option label="Order No." value="2"></el-option>
           <el-option label="Tel" value="3"></el-option>
@@ -44,9 +44,6 @@ export default defineComponent({
 </script>
 
 <style>
-.el-select .el-input {
-  width: 110px;
-}
 .input-with-select .el-input-group__prepend {
   background-color: #fff;
 }

@@ -144,8 +144,8 @@ export {
   extend,
 }
 
-export const isBool = (val: unknown) => typeof val === 'boolean'
-export const isNumber = (val: unknown) => typeof val === 'number'
+export const isBool = (val: unknown): val is boolean => typeof val === 'boolean'
+export const isNumber = (val: unknown): val is number => typeof val === 'number'
 export const isHTMLElement = (val: unknown) => toRawType(val).startsWith('HTML')
 
 export function rafThrottle<T extends AnyFunction<any>>(

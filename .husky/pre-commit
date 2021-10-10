@@ -1,4 +1,5 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npx lint-staged
+pnpm exec lint-staged
+pnpm exec pretty-quick --staged

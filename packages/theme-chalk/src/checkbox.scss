@@ -1,51 +1,51 @@
 @use 'sass:map';
 
-@import 'common/var';
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'mixins/_button';
-@import 'mixins/utils';
+@use 'common/var' as *;
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'mixins/_button';
+@use 'mixins/utils' as *;
 
-$--checkbox-height: () !default;
-$--checkbox-height: map.merge(
+$checkbox-height: () !default;
+$checkbox-height: map.merge(
   (
     'default': 40px,
     'medium': 36px,
     'small': 32px,
     'mini': 28px,
   ),
-  $--checkbox-height
+  $checkbox-height
 );
 
-$--checkbox-bordered-padding: () !default;
-$--checkbox-bordered-padding: map.merge(
+$checkbox-bordered-padding: () !default;
+$checkbox-bordered-padding: map.merge(
   (
     'default': 0 20px 0 10px,
     'medium': 0 20px 0 10px,
     'small': 0 15px 0 10px,
     'mini': 0 15px 0 10px,
   ),
-  $--checkbox-bordered-padding
+  $checkbox-bordered-padding
 );
 
-$--checkbox-bordered-input-height: () !default;
-$--checkbox-bordered-input-height: map.merge(
+$checkbox-bordered-input-height: () !default;
+$checkbox-bordered-input-height: map.merge(
   (
     'medium': 14px,
     'small': 12px,
     'mini': 12px,
   ),
-  $--checkbox-bordered-input-height
+  $checkbox-bordered-input-height
 );
 
-$--checkbox-bordered-input-width: () !default;
-$--checkbox-bordered-input-width: map.merge(
-  $--checkbox-bordered-input-height,
-  $--checkbox-bordered-input-width
+$checkbox-bordered-input-width: () !default;
+$checkbox-bordered-input-width: map.merge(
+  $checkbox-bordered-input-height,
+  $checkbox-bordered-input-width
 );
 
 @include b(checkbox) {
-  @include set-component-css-var('checkbox', $--checkbox);
+  @include set-component-css-var('checkbox', $checkbox);
 }
 
 @include b(checkbox) {
@@ -59,16 +59,16 @@ $--checkbox-bordered-input-width: map.merge(
   white-space: nowrap;
   user-select: none;
   margin-right: 30px;
-  height: map.get($--checkbox-height, 'default');
+  height: map.get($checkbox-height, 'default');
 
   @each $size in (medium, small, mini) {
     &.#{$namespace}-checkbox--#{$size} {
-      height: map.get($--checkbox-height, $size);
+      height: map.get($checkbox-height, $size);
     }
   }
 
   @include when(bordered) {
-    padding: map.get($--checkbox-bordered-padding, 'default');
+    padding: map.get($checkbox-bordered-padding, 'default');
     border-radius: var(--el-border-radius-base);
     border: var(--el-border-base);
     box-sizing: border-box;
@@ -88,16 +88,16 @@ $--checkbox-bordered-input-width: map.merge(
 
     @each $size in (medium, small, mini) {
       &.#{$namespace}-checkbox--#{$size} {
-        padding: map.get($--checkbox-bordered-padding, $size);
-        border-radius: map.get($--button-border-radius, $size);
+        padding: map.get($checkbox-bordered-padding, $size);
+        border-radius: map.get($button-border-radius, $size);
 
         .#{$namespace}-checkbox__label {
-          font-size: map.get($--button-font-size, $size);
+          font-size: map.get($button-font-size, $size);
         }
 
         .#{$namespace}-checkbox__inner {
-          height: map.get($--checkbox-bordered-input-height, $size);
-          width: map.get($--checkbox-bordered-input-width, $size);
+          height: map.get($checkbox-bordered-input-height, $size);
+          width: map.get($checkbox-bordered-input-width, $size);
         }
       }
     }
@@ -160,7 +160,7 @@ $--checkbox-bordered-input-width: map.merge(
       }
 
       & + span.#{$namespace}-checkbox__label {
-        color: $--disabled-color-base;
+        color: $disabled-color-base;
         cursor: not-allowed;
       }
     }

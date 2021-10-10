@@ -119,10 +119,10 @@ dropdown/sizes
 
 ## Dropdown Slots
 
-| Name     | Description                                                                                                                                   |
-| -------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| —        | content of Dropdown. Notice: Must be a valid html dom element (ex. `<span>, <button> etc.`) or `el-component`, to attach the trigger listener |
-| dropdown | content of the Dropdown Menu, usually a `<el-dropdown-menu>` element                                                                          |
+| Name     | Description                                                                                                                                   | Subtags       |
+| -------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| —        | content of Dropdown. Notice: Must be a valid html dom element (ex. `<span>, <button> etc.`) or `el-component`, to attach the trigger listener | —             |
+| dropdown | content of the Dropdown Menu, usually a `<el-dropdown-menu>` element                                                                          | Dropdown-Menu |
 
 ## Dropdown Events
 
@@ -134,9 +134,9 @@ dropdown/sizes
 
 ## Dropdown-Menu Slots
 
-| Name | Description              |
-| ---- | ------------------------ |
-| —    | content of Dropdown Menu |
+| Name | Description              | Subtags       |
+| ---- | ------------------------ | ------------- |
+| —    | content of Dropdown Menu | Dropdown-Item |
 
 ## Dropdown-Item Attributes
 
@@ -146,3 +146,9 @@ dropdown/sizes
 | disabled  | whether the item is disabled                                | boolean              | —               | false   |
 | divided   | whether a divider is displayed                              | boolean              | —               | false   |
 | icon      | icon class name                                             | string               | —               | —       |
+
+## Dropdown-Item Slots
+
+| Name | Description                |
+| ---- | -------------------------- |
+| —    | customize of Dropdown Item |

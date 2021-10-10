@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { useRoute, useData } from 'vitepress'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { useToc } from '../../composables/use-toc'
 import { useActiveSidebarLinks } from '../../composables/active-bar'
 
@@ -15,11 +14,19 @@ useActiveSidebarLinks(container, marker)
     <nav class="toc-content">
       <h3 class="toc-content__heading">Contents</h3>
       <ul class="toc-items">
-        <li v-for="{ link, text, children } in headers" class="toc-item">
+        <li
+          v-for="{ link, text, children } in headers"
+          :key="link"
+          class="toc-item"
+        >
           <a class="toc-link" :href="link">{{ text }}</a>
           <ul v-if="children">
-            <li v-for="{ link, text } in children" class="toc-item">
-              <a class="toc-link subitem" :href="link">{{ text }}</a>
+            <li
+              v-for="{ link: childLink, text: childText } in children"
+              :key="childLink"
+              class="toc-item"
+            >
+              <a class="toc-link subitem" :href="childLink">{{ childText }}</a>
             </li>
           </ul>
         </li>

@@ -1,5 +1,5 @@
 dist
 node_modules
-packages/*/es
-packages/*/lib
 coverage
+CHANGELOG.en-US.md
+pnpm-lock.yaml

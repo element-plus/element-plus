@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import VPSwitch from './vp-switch.vue'
 import DarkIcon from '../icons/dark.vue'
 import LightIcon from '../icons/light.vue'
+import VPSwitch from './vp-switch.vue'
 </script>
 
 <template>

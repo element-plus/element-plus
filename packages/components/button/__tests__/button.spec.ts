@@ -1,5 +1,6 @@
 import { ref, h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
+import { Loading, Search } from '@element-plus/icons'
 import Button from '../src/button.vue'
 import ButtonGroup from '../src/button-group.vue'
 
@@ -15,9 +16,9 @@ describe('Button.vue', () => {
 
   it('icon', () => {
     const wrapper = mount(Button, {
-      props: { icon: 'el-icon-search' },
+      props: { icon: Search },
     })
-    expect(wrapper.find('.el-icon-search').exists()).toBeTruthy()
+    expect(wrapper.findComponent(Search).exists()).toBeTruthy()
   })
   it('nativeType', () => {
     const wrapper = mount(Button, {
@@ -30,7 +31,7 @@ describe('Button.vue', () => {
       props: { loading: true },
     })
     expect(wrapper.classes()).toContain('is-loading')
-    expect(wrapper.find('.el-icon-loading').exists()).toBeTruthy()
+    expect(wrapper.findComponent(Loading).exists()).toBeTruthy()
   })
   it('size', () => {
     const wrapper = mount(Button, {
@@ -150,6 +151,25 @@ describe('Button Group', () => {
     ).toBe(2)
     expect(
       wrapper.findAll('.el-button-group button.el-button--mini').length
+    ).toBe(1)
+  })
+
+  it('button group type', async () => {
+    const wrapper = mount({
+      setup() {
+        return () =>
+          h(ButtonGroup, { type: 'warning' }, () => [
+            h(Button, { type: 'primary' }, () => 'Prev'),
+            h(Button, {}, () => 'Next'),
+          ])
+      },
+    })
+    expect(wrapper.classes()).toContain('el-button-group')
+    expect(
+      wrapper.findAll('.el-button-group button.el-button--primary').length
+    ).toBe(1)
+    expect(
+      wrapper.findAll('.el-button-group button.el-button--warning').length
     ).toBe(1)
   })
 })

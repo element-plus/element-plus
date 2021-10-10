@@ -5,7 +5,7 @@ import isServer from '@element-plus/utils/isServer'
 import MessageConstructor from './message.vue'
 import { messageTypes } from './message'
 
-import type { MessagePartial, MessageQueue, MessageProps } from './message'
+import type { Message, MessageFn, MessageQueue, MessageProps } from './message'
 import type { ComponentPublicInstance, VNode } from 'vue'
 
 const instances: MessageQueue = []
@@ -13,7 +13,7 @@ let seed = 1
 
 // TODO: Since Notify.ts is basically the same like this file. So we could do some encapsulation against them to reduce code duplication.
 
-const message: MessagePartial = function (options = {}) {
+const message: MessageFn & Partial<Message> = function (options = {}) {
   if (isServer) return { close: () => undefined }
 
   if (typeof options === 'string' || isVNode(options)) {
@@ -110,11 +110,11 @@ export function close(id: string, userOnClose?: (vm: VNode) => void): void {
 
 export function closeAll(): void {
   for (let i = instances.length - 1; i >= 0; i--) {
-    const instance = instances[i].vm.component as any
-    instance.ctx.close()
+    const instance = instances[i].vm.component
+    ;(instance?.proxy as any)?.close()
   }
 }
 
 message.closeAll = closeAll
 
-export default message
+export default message as Message
