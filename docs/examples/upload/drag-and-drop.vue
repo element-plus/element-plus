@@ -5,7 +5,7 @@
     action="https://jsonplaceholder.typicode.com/posts/"
     multiple
   >
-    <el-icon class="el-icon--upload"><upload /></el-icon>
+    <el-icon class="el-icon--upload"><upload-filled /></el-icon>
     <div class="el-upload__text">
       Drop file here or <em>click to upload</em>
     </div>
@@ -18,5 +18,5 @@
 </template>
 
 <script setup lang="ts">
-import { Upload } from '@element-plus/icons'
+import { UploadFilled } from '@element-plus/icons'
 </script>
