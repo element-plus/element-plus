@@ -64,7 +64,6 @@
     margin-left: -5px;
     color: var(--el-text-color-placeholder);
     float: left;
-    line-height: 32px;
   }
 
   .#{$namespace}-range-input {
@@ -103,7 +102,6 @@
     width: 25px;
     display: inline-block;
     float: right;
-    line-height: 32px;
   }
 }
 
@@ -141,11 +139,6 @@
 
       .#{$namespace}-range-input {
         font-size: map.get($input-font-size, $size);
-      }
-
-      .#{$namespace}-range__icon,
-      .#{$namespace}-range__close-icon {
-        line-height: map.get($input-line-height, $size);
       }
     }
   }

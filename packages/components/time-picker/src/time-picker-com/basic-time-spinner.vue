@@ -39,13 +39,13 @@
       >
         <el-icon
           v-repeat-click="onDecreaseClick"
-          class="el-time-spinner__arrow"
+          class="el-time-spinner__arrow arrow-up"
         >
           <arrow-up />
         </el-icon>
         <el-icon
           v-repeat-click="onIncreaseClick"
-          class="el-time-spinner__arrow"
+          class="el-time-spinner__arrow arrow-down"
         >
           <arrow-down />
         </el-icon>
