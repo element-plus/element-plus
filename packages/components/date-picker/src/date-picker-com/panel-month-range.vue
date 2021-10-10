@@ -27,7 +27,7 @@
           <div class="el-date-range-picker__header">
             <button
               type="button"
-              class="el-picker-panel__icon-btn arrow-left"
+              class="el-picker-panel__icon-btn d-arrow-left"
               @click="leftPrevYear"
             >
               <el-icon><d-arrow-left /></el-icon>
@@ -37,7 +37,7 @@
               type="button"
               :disabled="!enableYearArrow"
               :class="{ 'is-disabled': !enableYearArrow }"
-              class="el-picker-panel__icon-btn arrow-right"
+              class="el-picker-panel__icon-btn d-arrow-right"
               @click="leftNextYear"
             >
               <el-icon><d-arrow-right /></el-icon>
@@ -69,14 +69,14 @@
               type="button"
               :disabled="!enableYearArrow"
               :class="{ 'is-disabled': !enableYearArrow }"
-              class="el-picker-panel__icon-btn arrow-left"
+              class="el-picker-panel__icon-btn d-arrow-left"
               @click="rightPrevYear"
             >
               <el-icon><d-arrow-left /></el-icon>
             </button>
             <button
               type="button"
-              class="el-picker-panel__icon-btn arrow-right"
+              class="el-picker-panel__icon-btn d-arrow-right"
               @click="rightNextYear"
             >
               <el-icon><d-arrow-right /></el-icon>
