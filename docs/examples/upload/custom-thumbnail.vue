@@ -1,7 +1,7 @@
 <template>
   <el-upload action="#" list-type="picture-card" :auto-upload="false">
     <template #default>
-      <i class="el-icon-plus"></i>
+      <el-icon><Plus /></el-icon>
     </template>
     <template #file="{ file }">
       <div>
@@ -11,21 +11,21 @@
             class="el-upload-list__item-preview"
             @click="handlePictureCardPreview(file)"
           >
-            <i class="el-icon-zoom-in"></i>
+            <el-icon><ZoomIn /></el-icon>
           </span>
           <span
             v-if="!disabled"
             class="el-upload-list__item-delete"
             @click="handleDownload(file)"
           >
-            <i class="el-icon-download"></i>
+            <el-icon><Download /></el-icon>
           </span>
           <span
             v-if="!disabled"
             class="el-upload-list__item-delete"
             @click="handleRemove(file)"
           >
-            <i class="el-icon-delete"></i>
+            <el-icon><Delete /></el-icon>
           </span>
         </span>
       </div>
@@ -36,7 +36,14 @@
   </el-dialog>
 </template>
 <script lang="ts">
+import { Plus, ZoomIn, Download, Delete } from '@element-plus/icons'
 export default {
+  components: {
+    Plus,
+    ZoomIn,
+    Download,
+    Delete,
+  },
   data() {
     return {
       dialogImageUrl: '',

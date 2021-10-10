@@ -7,12 +7,16 @@
     :before-upload="beforeAvatarUpload"
   >
     <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+    <el-icon v-else class="avatar-uploader-icon"><plus /></el-icon>
   </el-upload>
 </template>
 
 <script lang="ts">
+import { Plus } from '@element-plus/icons'
 export default {
+  components: {
+    Plus,
+  },
   data() {
     return {
       imageUrl: '',
