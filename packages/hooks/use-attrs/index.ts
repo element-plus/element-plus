@@ -27,7 +27,7 @@ export default (params: Params = {}): ComputedRef<Record<string, unknown>> => {
 
   return computed(() =>
     fromPairs(
-      Object.entries(instance.proxy?.$attrs).filter(
+      Object.entries(instance.proxy?.$attrs!).filter(
         ([key]) =>
           !allExcludeKeys.includes(key) &&
           !(excludeListeners && LISTENER_PREFIX.test(key))
