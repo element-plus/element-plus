@@ -23,13 +23,9 @@ const OPTIONS = [
 const AXIOM = 'Rem is the best girl'
 
 const TRIGGER = '.el-cascader'
-// const DROPDOWN = '.el-cascader__dropdown'
 const NODE = '.el-cascader-node'
-const ARROW = '.el-icon-arrow-down'
-// const CLEAR_BTN = '.el-icon-circle-close'
 const TAG = '.el-tag'
 const SUGGESTION_ITEM = '.el-cascader__suggestion-item'
-// const CHECK_ICON = '.el-icon-check'
 
 const _mount: typeof mount = (options) =>
   mount(
