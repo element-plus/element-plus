@@ -1,9 +1,9 @@
-@import './var.scss';
-@import '../mixins/mixins';
-@import '../mixins/var';
+@use './var' as *;
+@use '../mixins/mixins' as *;
+@use '../mixins/var' as *;
 
 :root {
-  @include set-component-css-var('popup', $--popup);
+  @include set-component-css-var('popup', $popup);
 }
 
 .v-modal-enter {

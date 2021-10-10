@@ -2,7 +2,7 @@
   "name": "element-plus",
   "version": "0.0.0-dev.1",
   "description": "A Component Library for Vue 3",
-  "homepage": "https://github.com/element-plus/element-plus#readme",
+  "homepage": "https://element-plus.org/",
   "keywords": [
     "element-plus",
     "element",
@@ -20,7 +20,9 @@
   "sideEffects": [
     "dist/*",
     "theme-chalk/*.css",
-    "theme-chalk/src/*.scss"
+    "theme-chalk/src/*.scss",
+    "es/components/*/style/*",
+    "lib/components/*/style/*"
   ],
   "repository": {
     "type": "git",
@@ -33,17 +35,14 @@
     "vue": "^3.2.0"
   },
   "dependencies": {
-    "@element-plus/icons": "^0.0.11",
     "@popperjs/core": "^2.10.1",
     "@vueuse/core": "~6.1.0",
-    "async-validator": "^3.4.0",
-    "dayjs": "1.x",
+    "async-validator": "^4.0.3",
+    "dayjs": "^1.10.7",
     "lodash": "^4.17.21",
-    "normalize-wheel": "^1.0.1",
+    "memoize-one": "^5.2.1",
+    "normalize-wheel-es": "^1.1.0",
     "resize-observer-polyfill": "^1.5.1"
-  },
-  "devDependencies": {
-    "@element-plus/test-utils": "^0.0.5"
   },
   "vetur": {
     "tags": "tags.json",

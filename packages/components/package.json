@@ -2,20 +2,6 @@
   "name": "@element-plus/components",
   "version": "0.0.5",
   "description": "all components are settled here",
-  "dependencies": {
-    "@element-plus/directives": "^0.0.5",
-    "@element-plus/hooks": "^0.0.5",
-    "@element-plus/icons": "^0.0.11",
-    "@element-plus/theme-chalk": "^0.0.5",
-    "@element-plus/tokens": "^0.0.5",
-    "@element-plus/utils": "^0.0.5",
-    "@popperjs/core": "^2.10.1",
-    "@vueuse/core": "~6.1.0",
-    "async-validator": "^3.4.0",
-    "dayjs": "1.x",
-    "lodash": "^4.17.21",
-    "memoize-one": "^5.2.1"
-  },
   "peerDependencies": {
     "vue": "^3.2.0"
   },

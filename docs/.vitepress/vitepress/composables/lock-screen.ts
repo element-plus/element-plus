@@ -1,4 +1,4 @@
-import { watch, onUnmounted } from 'vue'
+import { onUnmounted } from 'vue'
 import {
   addClass,
   hasClass,
@@ -45,8 +45,9 @@ export const useLockScreen = () => {
       (bodyHasOverflow || bodyOverflowY === 'scroll') &&
       withoutHiddenClass
     ) {
-      document.body.style.paddingRight =
-        computedBodyPaddingRight + scrollBarWidth + 'px'
+      document.body.style.paddingRight = `${
+        computedBodyPaddingRight + scrollBarWidth
+      }px`
     }
     addClass(document.body, 'el-popup-parent--hidden')
   }

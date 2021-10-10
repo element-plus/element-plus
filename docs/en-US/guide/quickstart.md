@@ -25,6 +25,20 @@ app.use(ElementPlus)
 app.mount('#app')
 ```
 
+#### Volar support
+
+If you use volar, please add the global component type definition to `compilerOptions.types` in `tsconfig.json`.
+
+```json
+// tsconfig.json
+{
+  "compilerOptions": {
+    // ...
+    "types": ["element-plus/global"]
+  }
+}
+```
+
 ### On-demand Import
 
 You need to use an additional plugin to import components you used.

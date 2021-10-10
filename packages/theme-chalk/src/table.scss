@@ -1,9 +1,9 @@
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(table) {
-  @include set-component-css-var('table', $--table);
+  @include set-component-css-var('table', $table);
 }
 
 @include b(table) {
@@ -56,11 +56,7 @@
     }
 
     > .#{$namespace}-icon {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      margin-left: -5px;
-      margin-top: -5px;
+      font-size: 12px;
     }
   }
 
@@ -557,11 +553,11 @@
   [class*='#{$namespace}-table__row--level'] {
     .#{$namespace}-table__expand-icon {
       display: inline-block;
-      width: 20px;
-      line-height: 20px;
-      height: 20px;
+      width: 12px;
+      line-height: 12px;
+      height: 12px;
       text-align: center;
-      margin-right: 3px;
+      margin-right: 8px;
     }
   }
 }

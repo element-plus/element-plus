@@ -1,11 +1,11 @@
 @use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(textarea) {
-  @include set-component-css-var('input', $--input);
+  @include set-component-css-var('input', $input);
 }
 
 @include b(textarea) {
@@ -24,30 +24,30 @@
     width: 100%;
     font-size: inherit;
     font-family: inherit;
-    color: var(--el-input-font-color, map.get($--input, 'font-color'));
+    color: var(--el-input-font-color, map.get($input, 'font-color'));
     background-color: var(
       --el-input-background-color,
-      map.get($--input, 'background-color')
+      map.get($input, 'background-color')
     );
     background-image: none;
-    border: var(--el-input-border, map.get($--input, 'border'));
+    border: var(--el-input-border, map.get($input, 'border'));
     border-radius: var(
       --el-input-border-radius,
-      map.get($--input, 'border-radius')
+      map.get($input, 'border-radius')
     );
     transition: var(--el-transition-border);
 
     &::placeholder {
       color: var(
         --el-input-placeholder-color,
-        map.get($--input, 'placeholder-color')
+        map.get($input, 'placeholder-color')
       );
     }
 
     &:hover {
       border-color: var(
         --el-input-hover-border,
-        map.get($--input, 'hover-border')
+        map.get($input, 'hover-border')
       );
     }
 
@@ -55,7 +55,7 @@
       outline: none;
       border-color: var(
         --el-input-focus-border,
-        map.get($--input, 'focus-border')
+        map.get($input, 'focus-border')
       );
     }
   }
@@ -72,13 +72,13 @@
 
   @include when(disabled) {
     .#{$namespace}-textarea__inner {
-      background-color: map.get($--input-disabled, 'fill');
-      border-color: map.get($--input-disabled, 'border');
-      color: map.get($--input-disabled, 'color');
+      background-color: map.get($input-disabled, 'fill');
+      border-color: map.get($input-disabled, 'border');
+      color: map.get($input-disabled, 'color');
       cursor: not-allowed;
 
       &::placeholder {
-        color: map.get($--input-disabled, 'placeholder-color');
+        color: map.get($input-disabled, 'placeholder-color');
       }
     }
   }
@@ -95,18 +95,18 @@
 }
 
 @include b(input) {
-  @include set-component-css-var('input', $--input);
+  @include set-component-css-var('input', $input);
 
   position: relative;
   font-size: var(--el-font-size-base);
   display: inline-block;
   width: 100%;
-  line-height: map.get($--input-height, 'default');
+  line-height: map.get($input-height, 'default');
   @include scroll-bar;
 
   & .#{$namespace}-input__clear {
     color: var(--el-input-icon-color);
-    font-size: map.get($--input-font-size, 'default');
+    font-size: map.get($input-font-size, 'default');
     cursor: pointer;
     transition: var(--el-transition-color);
 
@@ -123,7 +123,7 @@
     font-size: 12px;
 
     .#{$namespace}-input__count-inner {
-      background: $--color-white;
+      background: $color-white;
       line-height: initial;
       display: inline-block;
       padding: 0 5px;
@@ -134,20 +134,20 @@
     -webkit-appearance: none;
     background-color: var(
       --el-input-background-color,
-      map.get($--input, 'background-color')
+      map.get($input, 'background-color')
     );
     background-image: none;
     border-radius: var(
       --el-input-border-radius,
-      map.get($--input, 'border-radius')
+      map.get($input, 'border-radius')
     );
-    border: var(--el-input-border, map.get($--input, 'border'));
+    border: var(--el-input-border, map.get($input, 'border'));
     box-sizing: border-box;
-    color: var(--el-input-font-color, map.get($--input, 'font-color'));
+    color: var(--el-input-font-color, map.get($input, 'font-color'));
     display: inline-block;
     font-size: inherit;
-    height: map.get($--input-height, 'default');
-    line-height: map.get($--input-height, 'default');
+    height: map.get($input-height, 'default');
+    line-height: map.get($input-height, 'default');
     outline: none;
     padding: 0 15px;
     transition: var(--el-transition-border);
@@ -156,14 +156,14 @@
     &::placeholder {
       color: var(
         --el-input-placeholder-color,
-        map.get($--input, 'placeholder-color')
+        map.get($input, 'placeholder-color')
       );
     }
 
     &:hover {
       border-color: var(
         --el-input-hover-border,
-        map.get($--input, 'hover-border')
+        map.get($input, 'hover-border')
       );
     }
 
@@ -171,7 +171,7 @@
       outline: none;
       border-color: var(
         --el-input-focus-border,
-        map.get($--input, 'focus-border')
+        map.get($input, 'focus-border')
       );
     }
   }
@@ -182,7 +182,7 @@
     right: 5px;
     top: 0;
     text-align: center;
-    color: var(--el-input-icon-color, map.get($--input, 'icon-color'));
+    color: var(--el-input-icon-color, map.get($input, 'icon-color'));
     transition: all var(--el-transition-duration);
     pointer-events: none;
   }
@@ -197,7 +197,7 @@
     left: 5px;
     top: 0;
     text-align: center;
-    color: var(--el-input-icon-color, map.get($--input, 'icon-color'));
+    color: var(--el-input-icon-color, map.get($input, 'icon-color'));
     transition: all var(--el-transition-duration);
   }
 
@@ -205,7 +205,7 @@
     width: 25px;
     text-align: center;
     transition: all var(--el-transition-duration);
-    line-height: map.get($--input-height, 'default');
+    line-height: map.get($input-height, 'default');
 
     &:after {
       content: '';
@@ -225,20 +225,20 @@
       outline: none;
       border-color: var(
         --el-input-focus-border,
-        map.get($--input, 'focus-color')
+        map.get($input, 'focus-color')
       );
     }
   }
 
   @include when(disabled) {
     .#{$namespace}-input__inner {
-      background-color: map.get($--input-disabled, 'fill');
-      border-color: map.get($--input-disabled, 'border');
-      color: map.get($--input-disabled, 'color');
+      background-color: map.get($input-disabled, 'fill');
+      border-color: map.get($input-disabled, 'border');
+      color: map.get($input-disabled, 'color');
       cursor: not-allowed;
 
       &::placeholder {
-        color: map.get($--input-disabled, 'placeholder-color');
+        color: map.get($input-disabled, 'placeholder-color');
       }
     }
 
@@ -279,16 +279,16 @@
 
   @each $size in (medium, small, mini) {
     @include m($size) {
-      font-size: map.get($--input-font-size, $size);
-      line-height: map.get($--input-height, $size);
+      font-size: map.get($input-font-size, $size);
+      line-height: map.get($input-height, $size);
 
       @include e(inner) {
-        height: map.get($--input-height, $size);
-        line-height: map.get($--input-height, $size);
+        height: map.get($input-height, $size);
+        line-height: map.get($input-height, $size);
       }
 
       .#{$namespace}-input__icon {
-        line-height: map.get($--input-height, $size);
+        line-height: map.get($input-height, $size);
       }
     }
   }
@@ -312,7 +312,7 @@
     vertical-align: middle;
     display: table-cell;
     position: relative;
-    border: $--border-base;
+    border: $border-base;
     border-radius: var(--el-input-border-radius);
     padding: 0 20px;
     width: 1px;

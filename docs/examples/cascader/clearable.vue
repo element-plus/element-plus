@@ -204,7 +204,7 @@ export default defineComponent({
               children: [
                 {
                   value: 'menu',
-                  label: 'NavMenu',
+                  label: 'Menu',
                 },
                 {
                   value: 'tabs',

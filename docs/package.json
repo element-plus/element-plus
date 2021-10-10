@@ -2,18 +2,25 @@
   "name": "@element-plus/docs",
   "version": "0.0.1",
   "scripts": {
-    "dev": "vitepress dev .",
-    "build": "NODE_ENV=production && vitepress build .",
-    "serve": "NODE_ENV=production && vitepress serve ."
+    "dev": "pnpm gen-locale && vitepress dev .",
+    "build": "cross-env NODE_ENV=production && vitepress build .",
+    "serve": "cross-env NODE_ENV=production && vitepress serve .",
+    "gen-locale": "rimraf .vitepress/i18n && sucrase-node .vitepress/build/crowdin-generate.ts"
   },
   "dependencies": {
     "@vueuse/core": "^6.4.0",
-    "element-plus": "latest",
+    "axios": "^0.21.4",
+    "element-plus": "npm:element-plus@latest",
+    "marked": "^3.0.4",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0"
   },
   "devDependencies": {
     "@crowdin/cli": "^3.6.5",
-    "vitepress": "^0.17.2"
+    "@types/markdown-it": "^12.2.1",
+    "markdown-it": "^12.2.0",
+    "markdown-it-container": "^3.0.0",
+    "vite-plugin-inspect": "^0.3.7",
+    "vitepress": "~0.18.1"
   }
 }

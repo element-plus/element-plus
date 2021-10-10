@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import ToggleSidebarBtn from './subnav/toggle-sidebar-btn.vue'
 import { useSidebar } from '../composables/sidebar'
 import { useBackTop } from '../composables/back-top'
+import ToggleSidebarBtn from './subnav/toggle-sidebar-btn.vue'
 defineEmits(['open-menu'])
 
 const { hasSidebar } = useSidebar()
