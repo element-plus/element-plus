@@ -588,7 +588,7 @@ export default defineComponent({
       onMouseEnter,
       onClearIconClick,
       showClose,
-      triggerClass,
+      triggerIcon,
       onPick,
       handleFocus,
       handleBlur,
