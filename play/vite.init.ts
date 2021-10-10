@@ -1,8 +1,8 @@
 import { existsSync, writeFileSync, readFileSync } from 'fs'
 
-const play = 'play.vue'
-const example = 'play.example'
+const app = 'src/App.vue'
+const example = 'app.example'
 
-if (!existsSync(play)) {
-  writeFileSync(play, readFileSync(example))
+if (!existsSync(app)) {
+  writeFileSync(app, readFileSync(example))
 }

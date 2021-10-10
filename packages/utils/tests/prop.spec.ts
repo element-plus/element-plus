@@ -1,5 +1,8 @@
+/* eslint-disable @typescript-eslint/ban-types */
+
 import { expectTypeOf } from 'expect-type'
 import { buildProp, definePropType, mutable, keyOf, buildProps } from '../props'
+import type { propKey } from '../props'
 
 import type { PropType, ExtractPropTypes } from 'vue'
 
@@ -14,6 +17,7 @@ describe('buildProp', () => {
       readonly required: false
       readonly default: undefined
       readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
     }>()
   })
 
@@ -27,6 +31,7 @@ describe('buildProp', () => {
       readonly required: false
       readonly default: undefined
       readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
     }>()
   })
 
@@ -41,6 +46,7 @@ describe('buildProp', () => {
       readonly required: false
       readonly default: undefined
       readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
     }>()
   })
 
@@ -55,6 +61,7 @@ describe('buildProp', () => {
       readonly required: false
       readonly default: undefined
       readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
     }>()
   })
 
@@ -69,6 +76,7 @@ describe('buildProp', () => {
       readonly required: true
       readonly default?: undefined
       readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
     }>()
   })
 
@@ -84,6 +92,7 @@ describe('buildProp', () => {
       readonly required: false
       readonly default: 'b'
       readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
     }>()
   })
 
@@ -96,8 +105,9 @@ describe('buildProp', () => {
     ).toEqualTypeOf<{
       readonly type: PropType<string[]>
       readonly required: false
-      readonly default: () => ['a', 'b']
+      readonly default: ['a', 'b']
       readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
     }>()
   })
 
@@ -114,8 +124,9 @@ describe('buildProp', () => {
     ).toEqualTypeOf<{
       readonly type: PropType<Options>
       readonly required: false
-      readonly default: () => { key: 'value' }
+      readonly default: { key: 'value' }
       readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
     }>()
   })
 
@@ -132,8 +143,9 @@ describe('buildProp', () => {
     ).toEqualTypeOf<{
       readonly type: PropType<string | Options>
       readonly required: false
-      readonly default: () => { key: string }
+      readonly default: { key: string }
       readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
     }>()
   })
 
@@ -149,6 +161,7 @@ describe('buildProp', () => {
       readonly required: true
       readonly default?: undefined
       readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
     }>()
   })
 
@@ -162,6 +175,7 @@ describe('buildProp', () => {
       readonly required: false
       readonly default: undefined
       readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
     }>()
   })
 
@@ -171,6 +185,7 @@ describe('buildProp', () => {
       readonly required: false
       readonly default: undefined
       readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
     }>()
   })
 
@@ -185,6 +200,7 @@ describe('buildProp', () => {
       readonly required: false
       readonly default: undefined
       readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
     }>()
   })
 
@@ -199,6 +215,7 @@ describe('buildProp', () => {
       readonly required: true
       readonly default?: undefined
       readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
     }>()
   })
 
@@ -213,6 +230,7 @@ describe('buildProp', () => {
       readonly required: false
       readonly default: 'a'
       readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
     }>()
   })
 
@@ -225,8 +243,9 @@ describe('buildProp', () => {
     ).toEqualTypeOf<{
       readonly type: PropType<{ key: 'a' | 'b' | 'c' } | undefined>
       readonly required: false
-      readonly default: () => { key: 'a' }
+      readonly default: { key: 'a' }
       readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
     }>()
   })
 
@@ -241,6 +260,22 @@ describe('buildProp', () => {
       readonly required: false
       readonly default: ''
       readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
+    }>()
+  })
+
+  it('default value is empty object', () => {
+    expectTypeOf(
+      buildProp({
+        type: Object,
+        default: () => mutable({} as const),
+      } as const)
+    ).toEqualTypeOf<{
+      readonly type: PropType<Record<string, any>>
+      readonly required: false
+      readonly default: {}
+      readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
     }>()
   })
 
@@ -266,27 +301,138 @@ describe('buildProp', () => {
 
 describe('buildProps', () => {
   it('test buildProps', () => {
-    expectTypeOf(
-      buildProps({
-        key1: {
-          type: definePropType<'a' | 'b'>(String),
-        },
-        key2: {
-          values: [1, 2, 3, 4],
-        },
-      } as const)
-    ).toEqualTypeOf<{
+    const propsCommon = buildProps({
+      type: {
+        type: String,
+        default: 'hello',
+      },
+    } as const)
+
+    const props = buildProps({
+      ...propsCommon,
+      key1: {
+        type: definePropType<'a' | 'b'>(String),
+      },
+      key2: {
+        values: [1, 2, 3, 4],
+      },
+      key3: {
+        values: [1, 2, 3, 4],
+        default: 2,
+      },
+      key4: {
+        values: keyOf({ a: 'a', b: 'b' }),
+        default: 'a',
+      },
+      key5: Boolean,
+      key6: String,
+      key7: null,
+      key8: Object,
+      key9: Date,
+      key10: Set,
+      key11: undefined,
+      // nested
+      key12: buildProp({
+        type: String,
+      } as const),
+
+      // default generator
+      key13: {
+        type: [String, Number, Function],
+        default: () => '123' as const,
+      } as const,
+      key14: {
+        type: Function,
+        default: () => '123' as const,
+      } as const,
+      key15: {
+        type: Function,
+        default: () => () => '123' as const,
+      } as const,
+      key16: {
+        type: String,
+        default: () => '123' as const,
+      } as const,
+    } as const)
+
+    expectTypeOf(props).toEqualTypeOf<{
+      readonly type: {
+        readonly type: PropType<string>
+        readonly required: false
+        readonly default: 'hello'
+        readonly validator: ((val: unknown) => boolean) | undefined
+        [propKey]: true
+      }
+
       readonly key1: {
         readonly type: PropType<'a' | 'b'>
         readonly required: false
-        readonly default: undefined
         readonly validator: ((val: unknown) => boolean) | undefined
+        [propKey]: true
+        readonly default: undefined
       }
       readonly key2: {
         readonly type: PropType<1 | 2 | 3 | 4>
         readonly required: false
         readonly default: undefined
         readonly validator: ((val: unknown) => boolean) | undefined
+        [propKey]: true
+      }
+      readonly key3: {
+        readonly type: PropType<1 | 2 | 3 | 4>
+        readonly required: false
+        readonly default: 2
+        readonly validator: ((val: unknown) => boolean) | undefined
+        [propKey]: true
+      }
+      readonly key4: {
+        readonly type: PropType<'a' | 'b'>
+        readonly required: false
+        readonly default: 'a'
+        readonly validator: ((val: unknown) => boolean) | undefined
+        [propKey]: true
+      }
+      readonly key5: BooleanConstructor
+      readonly key6: StringConstructor
+      readonly key7: null
+      readonly key8: ObjectConstructor
+      readonly key9: DateConstructor
+      readonly key10: SetConstructor
+      readonly key11: undefined
+      readonly key12: {
+        readonly type: PropType<string>
+        readonly required: false
+        readonly default: undefined
+        readonly validator: ((val: unknown) => boolean) | undefined
+        [propKey]: true
+      }
+      readonly key13: {
+        readonly type: PropType<string | number | Function>
+        readonly required: false
+        readonly default: '123'
+        readonly validator: ((val: unknown) => boolean) | undefined
+        [propKey]: true
+      }
+      readonly key14: {
+        readonly type: PropType<Function>
+        readonly required: false
+        readonly default: () => '123'
+        readonly validator: ((val: unknown) => boolean) | undefined
+        [propKey]: true
+      }
+      readonly key15: {
+        readonly type: PropType<Function>
+        readonly required: false
+        readonly default: () => () => '123'
+        readonly validator: ((val: unknown) => boolean) | undefined
+        [propKey]: true
+      }
+      readonly key16: {
+        readonly type: PropType<string>
+        readonly required: false
+        readonly default: '123'
+        readonly validator: ((val: unknown) => boolean) | undefined
+        [propKey]: true
       }
     }>()
   })

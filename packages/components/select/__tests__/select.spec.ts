@@ -1343,6 +1343,11 @@ describe('Select', () => {
     selectInputEl.value = 'a'
     selectInput.trigger('input')
     await vm.$nextTick()
+
+    const timer = sleep(300)
+    jest.runAllTimers()
+    await timer
+
     expect(innerInputEl.placeholder).toBe('')
 
     selectInput.trigger('keydown', {
