@@ -27,19 +27,21 @@
           <div class="el-date-range-picker__header">
             <button
               type="button"
-              class="el-picker-panel__icon-btn"
-              :icon="DArrowLeft"
+              class="el-picker-panel__icon-btn arrow-left"
               @click="leftPrevYear"
-            ></button>
+            >
+              <el-icon><d-arrow-left /></el-icon>
+            </button>
             <button
               v-if="unlinkPanels"
               type="button"
               :disabled="!enableYearArrow"
               :class="{ 'is-disabled': !enableYearArrow }"
-              class="el-picker-panel__icon-btn"
-              :icon="DArrowRight"
+              class="el-picker-panel__icon-btn arrow-right"
               @click="leftNextYear"
-            ></button>
+            >
+              <el-icon><d-arrow-right /></el-icon>
+            </button>
             <div>{{ leftLabel }}</div>
           </div>
           <month-table
@@ -67,16 +69,18 @@
               type="button"
               :disabled="!enableYearArrow"
               :class="{ 'is-disabled': !enableYearArrow }"
-              class="el-picker-panel__icon-btn"
-              :icon="DArrowLeft"
+              class="el-picker-panel__icon-btn arrow-left"
               @click="rightPrevYear"
-            ></button>
+            >
+              <el-icon><d-arrow-left /></el-icon>
+            </button>
             <button
               type="button"
-              class="el-picker-panel__icon-btn"
-              :icon="DArrowRight"
+              class="el-picker-panel__icon-btn arrow-right"
               @click="rightNextYear"
-            ></button>
+            >
+              <el-icon><d-arrow-right /></el-icon>
+            </button>
             <div>{{ rightLabel }}</div>
           </div>
           <month-table
@@ -100,19 +104,14 @@
 import { defineComponent, computed, ref, watch, inject } from 'vue'
 import dayjs from 'dayjs'
 import { useLocaleInject } from '@element-plus/hooks'
-import {
-  DArrowLeft,
-  ArrowLeft,
-  DArrowRight,
-  ArrowRight,
-} from '@element-plus/icons'
+import { DArrowLeft, DArrowRight } from '@element-plus/icons'
 import MonthTable from './basic-month-table.vue'
 
 import type { PropType } from 'vue'
 import type { Dayjs } from 'dayjs'
 
 export default defineComponent({
-  components: { MonthTable },
+  components: { MonthTable, DArrowLeft, DArrowRight },
 
   props: {
     unlinkPanels: Boolean,
@@ -314,10 +313,6 @@ export default defineComponent({
       rightDate,
       hasShortcuts,
       handleShortcutClick,
-      DArrowLeft,
-      ArrowLeft,
-      DArrowRight,
-      ArrowRight,
     }
   },
 })

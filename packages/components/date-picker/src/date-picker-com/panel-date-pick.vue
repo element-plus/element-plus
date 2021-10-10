@@ -65,17 +65,19 @@
             type="button"
             :aria-label="t(`el.datepicker.prevYear`)"
             class="el-picker-panel__icon-btn el-date-picker__prev-btn"
-            :icon="DArrowLeft"
             @click="prevYear_"
-          ></button>
+          >
+            <el-icon><d-arrow-left /></el-icon>
+          </button>
           <button
             v-show="currentView === 'date'"
             type="button"
             :aria-label="t(`el.datepicker.prevMonth`)"
             class="el-picker-panel__icon-btn el-date-picker__prev-btn"
-            :icon="ArrowLeft"
             @click="prevMonth_"
-          ></button>
+          >
+            <el-icon><arrow-left /></el-icon>
+          </button>
           <span
             role="button"
             class="el-date-picker__header-label"
@@ -94,17 +96,19 @@
             type="button"
             :aria-label="t(`el.datepicker.nextYear`)"
             class="el-picker-panel__icon-btn el-date-picker__next-btn"
-            :icon="DArrowRight"
             @click="nextYear_"
-          ></button>
+          >
+            <el-icon><d-arrow-right /></el-icon>
+          </button>
           <button
             v-show="currentView === 'date'"
             type="button"
             :aria-label="t(`el.datepicker.nextMonth`)"
             class="el-picker-panel__icon-btn el-date-picker__next-btn"
-            :icon="ArrowRight"
             @click="nextMonth_"
-          ></button>
+          >
+            <el-icon><arrow-right /></el-icon>
+          </button>
         </div>
         <div class="el-picker-panel__content">
           <date-table
@@ -197,6 +201,10 @@ export default defineComponent({
     TimePickPanel,
     MonthTable,
     YearTable,
+    DArrowLeft,
+    ArrowLeft,
+    DArrowRight,
+    ArrowRight,
   },
 
   directives: { clickoutside: ClickOutside },
@@ -666,10 +674,6 @@ export default defineComponent({
       timeFormat,
       userInputTime,
       userInputDate,
-      DArrowLeft,
-      ArrowLeft,
-      DArrowRight,
-      ArrowRight,
     }
   },
 })
