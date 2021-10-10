@@ -1,4 +1,4 @@
-import normalizeWheel from 'normalize-wheel'
+import normalizeWheel from 'normalize-wheel-es'
 
 import type { ObjectDirective, DirectiveBinding } from 'vue'
 

@@ -1,11 +1,11 @@
 @use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(message) {
-  @include set-component-css-var('message', $--message);
+  @include set-component-css-var('message', $message);
 }
 
 @include b(message) {
@@ -50,8 +50,8 @@
 
   @each $type in (success, info, warning, error) {
     @include m($type) {
-      background-color: map.get($--colors, $type, 'light-9');
-      border-color: map.get($--colors, $type, 'light-8');
+      background-color: map.get($colors, $type, 'light-9');
+      border-color: map.get($colors, $type, 'light-8');
 
       --el-message-font-color: var(--el-color-#{$type});
 
@@ -81,7 +81,7 @@
     transform: translateY(-50%);
     cursor: pointer;
     color: var(--el-message-close-icon-color);
-    font-size: var(--el-message-close-size, map.get($--message, 'close-size'));
+    font-size: var(--el-message-close-size, map.get($message, 'close-size'));
 
     &:focus {
       outline-width: 0;

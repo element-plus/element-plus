@@ -257,8 +257,13 @@ describe('Cascader.vue', () => {
 
     const input = wrapper.find('input')
     const dropdown = document.querySelector(DROPDOWN)
-    input.element.value = 'Ha'
+    input.element.value = 'Ni'
+    await input.trigger('compositionstart')
     await input.trigger('input')
+    input.element.value = 'Ha'
+    await input.trigger('compositionupdate')
+    await input.trigger('input')
+    await input.trigger('compositionend')
     const suggestions = dropdown.querySelectorAll(
       SUGGESTION_ITEM
     ) as NodeListOf<HTMLElement>

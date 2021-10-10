@@ -9,7 +9,7 @@ import type { ComponentPublicInstance, VNode } from 'vue'
 import type {
   NotificationOptions,
   Notify,
-  NotifyPartial,
+  NotifyFn,
   NotificationQueue,
   NotificationProps,
 } from './notification'
@@ -29,7 +29,7 @@ const notifications: Record<
 const GAP_SIZE = 16
 let seed = 1
 
-const notify: NotifyPartial = function (options = {}) {
+const notify: NotifyFn & Partial<Notify> = function (options = {}) {
   if (isServer) return { close: () => undefined }
 
   if (typeof options === 'string' || isVNode(options)) {

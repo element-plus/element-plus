@@ -276,7 +276,7 @@ describe('Tabs.vue', () => {
     expect(panesWrapper.length).toEqual(2)
 
     // add one tab, check panes length and current tab
-    await navWrapper.find('.el-tabs__new-tab').trigger('click')
+    await wrapper.find('.el-tabs__new-tab').trigger('click')
 
     panesWrapper = wrapper.findAllComponents(TabPane)
     navItemsWrapper = navWrapper.findAll('.el-tabs__item')
@@ -362,7 +362,7 @@ describe('Tabs.vue', () => {
     const navWrapper = wrapper.findComponent(TabNav)
     await nextTick()
 
-    await navWrapper.find('.el-tabs__new-tab').trigger('click')
+    await wrapper.find('.el-tabs__new-tab').trigger('click')
 
     let navItemsWrapper = navWrapper.findAll('.el-tabs__item')
     let panesWrapper = wrapper.findAllComponents(TabPane)
