@@ -5,7 +5,7 @@
     action="https://jsonplaceholder.typicode.com/posts/"
     multiple
   >
-    <el-icon><Upload /></el-icon>
+    <el-icon class="el-icon--upload"><upload /></el-icon>
     <div class="el-upload__text">
       Drop file here or <em>click to upload</em>
     </div>

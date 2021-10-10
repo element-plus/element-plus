@@ -1,7 +1,7 @@
 <template>
   <el-upload action="#" list-type="picture-card" :auto-upload="false">
     <template #default>
-      <el-icon><Plus /></el-icon>
+      <el-icon><plus /></el-icon>
     </template>
     <template #file="{ file }">
       <div>
@@ -11,21 +11,21 @@
             class="el-upload-list__item-preview"
             @click="handlePictureCardPreview(file)"
           >
-            <el-icon><ZoomIn /></el-icon>
+            <el-icon><zoom-in /></el-icon>
           </span>
           <span
             v-if="!disabled"
             class="el-upload-list__item-delete"
             @click="handleDownload(file)"
           >
-            <el-icon><Download /></el-icon>
+            <el-icon><download /></el-icon>
           </span>
           <span
             v-if="!disabled"
             class="el-upload-list__item-delete"
             @click="handleRemove(file)"
           >
-            <el-icon><Delete /></el-icon>
+            <el-icon><delete /></el-icon>
           </span>
         </span>
       </div>

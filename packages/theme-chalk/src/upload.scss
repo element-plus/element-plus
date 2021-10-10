@@ -285,8 +285,8 @@
       margin: 0 8px 8px 0;
       display: inline-block;
 
-      .#{$namespace}-icon-check,
-      .#{$namespace}-icon-circle-check {
+      .#{$namespace}-icon--check,
+      .#{$namespace}-icon--circle-check {
         color: $color-white;
       }
 
