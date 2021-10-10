@@ -1,7 +1,8 @@
 import { createApp } from 'vue'
-import Play from './play.vue'
+import App from './src/App.vue'
+
 import '@element-plus/theme-chalk/src/index.scss'
 
-const app = createApp(Play)
+const app = createApp(App)
 
 app.mount('#play')
