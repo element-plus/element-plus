@@ -7,12 +7,6 @@ import Input from '@element-plus/components/input'
 import zhCn from '@element-plus/locale/lang/zh-cn'
 import enUs from '@element-plus/locale/lang/en'
 import 'dayjs/locale/zh-cn'
-import {
-  DArrowLeft,
-  ArrowLeft,
-  DArrowRight,
-  ArrowRight,
-} from '@element-plus/icons'
 import DatePicker from '../src/date-picker'
 
 const _mount = (template: string, data = () => ({}), otherObj?) =>
