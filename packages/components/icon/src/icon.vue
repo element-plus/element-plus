@@ -23,7 +23,7 @@ export default defineComponent({
         if (!props.size && !props.color) {
           return {}
         }
-        let size = props.size as string | number
+        let size = props.size
         if (isNumber(size) || (isString(size) && !size.endsWith('px'))) {
           size = `${size}px`
         }
