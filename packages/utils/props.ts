@@ -1,6 +1,6 @@
+import { warn } from 'vue'
 import { isObject } from '@vue/shared'
-import mapValues from 'lodash/mapValues'
-import { debugWarn } from './error'
+import fromPairs from 'lodash/fromPairs'
 import type { ExtractPropTypes, PropType } from '@vue/runtime-core'
 import type { Mutable } from './types'
 
@@ -33,6 +33,8 @@ export type BuildPropOption<T, D extends BuildPropType<T, V, C>, R, V, C> = {
     ? () => D
     : (() => D) | D
   validator?: ((val: any) => val is C) | ((val: any) => boolean)
+
+  key?: string
 }
 
 type _BuildPropType<T, V, C> =
@@ -121,11 +123,15 @@ export function buildProp<
           if (validator) valid ||= validator(val)
 
           if (!valid && allowedValues.length > 0) {
-            debugWarn(
-              `Vue warn`,
-              `Invalid prop: Expected one of (${allowedValues.join(
-                ', '
-              )}), got value ${val}`
+            const allowValuesText = [...new Set(allowedValues)]
+              .map((value) => JSON.stringify(value))
+              .join(', ')
+            warn(
+              `Invalid prop: value validate failed${
+                option.key ? ` for prop "${option.key}"` : ''
+              }. Expected one of [${allowValuesText}], got value ${JSON.stringify(
+                val
+              )}.`
             )
           }
           return valid
@@ -164,9 +170,17 @@ export const buildProps = <
       : never
   }
 >(
-  options: O
+  props: O
 ) =>
-  mapValues(options, (option) => buildProp(option)) as unknown as {
+  fromPairs(
+    Object.entries(props).map(([key, option]) => [
+      key,
+      buildProp({
+        ...(option as any),
+        key,
+      }),
+    ])
+  ) as unknown as {
     [K in keyof O]: O[K] extends { [propKey]: boolean }
       ? O[K]
       : [O[K]] extends NativePropType
