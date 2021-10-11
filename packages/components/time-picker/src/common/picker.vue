@@ -44,7 +44,7 @@
         <template #suffix>
           <el-icon
             v-if="showClose"
-            class="el-input__icon"
+            class="el-input__icon clear-icon"
             @click="onClearIconClick"
           >
             <component :is="clearIcon" />

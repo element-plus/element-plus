@@ -7,6 +7,7 @@ import Input from '@element-plus/components/input'
 import zhCn from '@element-plus/locale/lang/zh-cn'
 import enUs from '@element-plus/locale/lang/en'
 import 'dayjs/locale/zh-cn'
+import { CircleClose } from '@element-plus/icons'
 import DatePicker from '../src/date-picker'
 
 const _mount = (template: string, data = () => ({}), otherObj?) =>
@@ -124,7 +125,7 @@ describe('DatePicker', () => {
     const picker = wrapper.findComponent(CommonPicker)
     ;(picker.vm as any).showClose = true
     await nextTick()
-    ;(document.querySelector('.el-icon-circle-close') as HTMLElement).click()
+    ;(document.querySelector('.clear-icon') as HTMLElement).click()
     expect(vm.value).toBeNull()
   })
 
