@@ -5,10 +5,14 @@ import { getValueByPath } from '@element-plus/utils/util'
 import { off, on } from '@element-plus/utils/dom'
 
 import type {
+  TimeoutHandle,
+  Indexable,
+  Nullable,
+} from '@element-plus/utils/types'
+import type {
   PopperInstance,
   IPopperOptions,
 } from '@element-plus/components/popper'
-import type { Indexable, Nullable } from '@element-plus/utils/types'
 import type { TableColumnCtx } from './table-column/defaults'
 
 export const getCell = function (event: Event): HTMLElement {
@@ -318,6 +322,8 @@ export function createTablePopper(
   popperOptions: Partial<IPopperOptions>,
   tooltipEffect: string
 ) {
+  let hideTimer: Nullable<TimeoutHandle> = null
+  let popperEl: HTMLElement
   function renderContent(): HTMLDivElement {
     const isLight = tooltipEffect === 'light'
     const content = document.createElement('div')
@@ -336,13 +342,21 @@ export function createTablePopper(
   function showPopper() {
     popperInstance && popperInstance.update()
   }
+  function keepPopperShow() {
+    clearTimeout(hideTimer)
+  }
   removePopper = function removePopper() {
-    try {
-      popperInstance && popperInstance.destroy()
-      content && document.body.removeChild(content)
-      off(trigger, 'mouseenter', showPopper)
-      off(trigger, 'mouseleave', removePopper)
-    } catch {}
+    hideTimer = setTimeout(() => {
+      try {
+        popperInstance && popperInstance.destroy()
+        content && document.body.removeChild(content)
+        clearTimeout(hideTimer)
+        off(trigger, 'mouseenter', showPopper)
+        off(trigger, 'mouseleave', removePopper)
+        off(popperEl, 'mouseenter', keepPopperShow)
+        off(popperEl, 'mouseleave', removePopper)
+      } catch {}
+    }, 100)
   }
   let popperInstance: Nullable<PopperInstance> = null
   const content = renderContent()
@@ -367,7 +381,10 @@ export function createTablePopper(
     ],
     ...popperOptions,
   })
+  popperEl = popperInstance.state.elements.popper
   on(trigger, 'mouseenter', showPopper)
   on(trigger, 'mouseleave', removePopper)
+  on(popperEl, 'mouseenter', keepPopperShow)
+  on(popperEl, 'mouseleave', removePopper)
   return popperInstance
 }
