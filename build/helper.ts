@@ -53,6 +53,14 @@ const reAttribute: InstallOptions['reAttribute'] = (value, key) => {
     return /\[.+\]\(.+\)/.test(str) || /^\*$/.test(str)
       ? undefined
       : str.replace(/`/g, '')
+  } else if (key === 'Subtags') {
+    return str
+      ? `el-${str
+          .replaceAll(/\s*\/\s*/g, '/el-')
+          .replaceAll(/\B([A-Z])/g, '-$1')
+          .replaceAll(/\s+/g, '-')
+          .toLowerCase()}`
+      : undefined
   } else {
     return str
   }

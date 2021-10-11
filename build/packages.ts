@@ -23,6 +23,7 @@ export const buildPackage = (pkgPath: string) => {
           '!node_modules',
           '!gulpfile.ts',
           '!__test?(s)__/*',
+          '!test?(s)/*',
           path.resolve(projRoot, 'typings', '*.d.ts'),
         ]
         return withTaskName(`build:${pkgName}:${module}`, () =>

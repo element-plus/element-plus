@@ -105,3 +105,9 @@ scrollbar/manual-scroll
 | setScrollTop  | Set distance to scroll top      | (scrollTop: number)  |
 | setScrollLeft | Set distance to scroll left     | (scrollLeft: number) |
 | update        | update scrollbar state manually | —                    |
+
+## Scrollbar Slots
+
+| Name | Description               |
+| ---- | ------------------------- |
+| —    | customize default content |

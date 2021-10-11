@@ -1,13 +1,8 @@
-import Image from './src/index.vue'
+import { withInstall } from '@element-plus/utils/with-install'
 
-import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
+import Image from './src/image.vue'
 
-Image.install = (app: App): void => {
-  app.component(Image.name, Image)
-}
+export const ElImage = withInstall(Image)
+export default ElImage
 
-const _Image = Image as SFCWithInstall<typeof Image>
-
-export default _Image
-export const ElImage = _Image
+export * from './src/image'

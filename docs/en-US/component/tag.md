@@ -77,6 +77,12 @@ tag/checkable
 | click      | triggers when Tag is clicked | —          |
 | close      | triggers when Tag is removed | —          |
 
+## Slots
+
+| Name | Description               |
+| ---- | ------------------------- |
+| —    | customize default content |
+
 ## CheckTag Attributes
 
 | Attribute | Description | Type    | Accepted Values | Default |
@@ -88,3 +94,9 @@ tag/checkable
 | Event Name | Description                        | Parameters |
 | ---------- | ---------------------------------- | ---------- |
 | change     | triggers when Check Tag is clicked | checked    |
+
+## CheckTag Slots
+
+| Name | Description               |
+| ---- | ------------------------- |
+| —    | customize default content |

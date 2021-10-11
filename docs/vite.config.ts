@@ -30,4 +30,7 @@ export default defineConfig({
     alias,
   },
   plugins: [Inspect()],
+  optimizeDeps: {
+    include: ['@vueuse/core', 'dayjs'],
+  },
 })

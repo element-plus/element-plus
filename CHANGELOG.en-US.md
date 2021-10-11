@@ -1,5 +1,26 @@
 ## Changelog
 
+
+### 1.1.0-beta.20
+
+_2021-10-11_
+
+#### Bug fixes
+
+- Components fix composition event bug (#3659 by @bchen1029)
+- Build fix generate component type (#3766 by @sxzz)
+- Components [el-date-picker] panel not select value enter error (#3768 by @btea)
+- Build: add default slot to generate better code hint files (#3763 by @tolking)
+
+#### Refactors
+
+- Components refactor space (#3757 by @sxzz)
+- Utils refactor buildProps & replace buildProp (#3775 by @sxzz)
+- Components refactor image (#3770 by @sxzz)
+- Components refactor col (#3804 by @sxzz)
+- Build: refactor copyDefinitions (#3756 by @sxzz)
+- Utils improve defineProps (#3811 by @sxzz)
+
 ### 1.1.0-beta.19
 
 _2021-09-30_
