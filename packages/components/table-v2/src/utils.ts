@@ -50,5 +50,5 @@ function deriveRenderer(vnode: VNode) {
 }
 
 export function tryCall(val: ((...args: any) => any) | any, ...args: any[]) {
-  return typeof val === 'function' ? val(...args) : args
+  return typeof val === 'function' ? val(...args) : val
 }

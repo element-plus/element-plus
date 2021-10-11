@@ -98,12 +98,13 @@ export default defineComponent({
     }
 
     return () => {
-      const { variant, class: kls } = props
-      h(
+      const { variant, class: kls, style } = props
+      return h(
         variant as VNode,
         {
           ref: rowRef,
           class: kls,
+          style,
         },
         [row()]
       )

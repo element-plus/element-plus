@@ -111,7 +111,7 @@ export default defineComponent({
       }
 
       const { dataKey, dataGetter, cellRenderer } = column
-      return h('div', 'cell')
+      return h('div', { style: 'flex: 1' }, 'cell')
     }
 
     function renderExpandIcon() {
@@ -138,6 +138,7 @@ export default defineComponent({
         data,
         rowIndex,
       })
+      console.log(extraProps)
       const rowKey: string = data[props.rowKey]
       const depth = cachedDepth[rowKey] || 0
       const hasExpandColumnKey = !!expandColumnKey

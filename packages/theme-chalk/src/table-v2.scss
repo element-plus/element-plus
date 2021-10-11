@@ -1,0 +1,14 @@
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+
+@include b(table-v2) {
+  display: flex;
+
+  &__row {
+    display: flex;
+    align-items: center;
+    border-bottom: var(--el-border-color-base);
+    box-sizing: border-box;
+  }
+}
