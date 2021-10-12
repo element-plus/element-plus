@@ -73,8 +73,8 @@ export function addClass(el: HTMLElement, cls: string): void {
 /* istanbul ignore next */
 export function removeClass(el: HTMLElement, cls: string): void {
   if (!el || !cls) return
-  const classes = cls.split(' ')
-  let curClass = ` ${el.className} `
+  const classes = cls.split(' ').map((item) => item.trim())
+  let curClass = el.className
 
   if (el.classList) {
     el.classList.remove(...classes)
