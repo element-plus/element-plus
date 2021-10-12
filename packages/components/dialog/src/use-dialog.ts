@@ -154,6 +154,16 @@ export const useDialog = (
     }
   )
 
+  watch(visible, (val) => {
+    if (val) {
+      document.activeElement.blur()
+      setTimeout(() => {
+        const autoFocusElemnt = targetRef.value.querySelector('[autofocus]')
+        autoFocusElemnt.focus()
+      })
+    }
+  })
+
   onMounted(() => {
     if (props.modelValue) {
       visible.value = true
