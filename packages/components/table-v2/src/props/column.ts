@@ -5,8 +5,19 @@ import {
 } from '@element-plus/utils/props'
 
 import type { CSSProperties, ExtractPropTypes, VNodeChild } from 'vue'
+import type { StyleValue } from '@element-plus/utils/types'
 
 export type ColumnFixStats = 'left' | 'right' | boolean
+
+// NOTE: T should extend MappedColumn from `helpers/column` but this would cause file circular import
+type CellClassGetterParams<T = any> = {
+  cellData: any
+  rowData: any
+  columns: T[]
+  column: T
+  columnIndex: number
+  rowIndex: number
+}
 
 // Consider build up this with browser direction.
 export const FixedDir = {
@@ -14,6 +25,12 @@ export const FixedDir = {
   RIGHT: 'right',
   DEFAULT: true,
   NONE: false,
+}
+
+export const Alignment = {
+  LEFT: 'left',
+  RIGHT: 'right',
+  CENTER: 'center',
 }
 
 export const headerRenderer = buildProp({
@@ -47,8 +64,19 @@ export const tableV2ColumnProps = {
   ...buildProps({
     align: {
       type: String,
-      values: ['left', 'center', 'right'],
+      values: Object.values(Alignment),
       default: 'left',
+    },
+
+    class: {
+      type: definePropType<string | ((args: CellClassGetterParams) => string)>([
+        String,
+        Function,
+      ]),
+    },
+
+    style: {
+      type: definePropType<StyleValue>([String, Object, Array]),
     },
 
     /**
@@ -60,7 +88,7 @@ export const tableV2ColumnProps = {
           columns: any[]
           column: any
           columnIndex: number
-          rowData: any
+          data: any
           rowIndex: number
         }) => any
       >(Function),

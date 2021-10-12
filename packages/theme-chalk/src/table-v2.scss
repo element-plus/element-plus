@@ -8,7 +8,16 @@
   &__row {
     display: flex;
     align-items: center;
-    border-bottom: var(--el-border-color-base);
     box-sizing: border-box;
+    border-bottom: 1px solid var(--el-border-color-base);
+
+  }
+
+  &__cell {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    min-width: 0;
+    height: 100%;
   }
 }

@@ -9,7 +9,7 @@ import type { MappedColumn } from './helpers/column'
 export const normalizeColumns = (children: VNodeArrayChildren) => {
   const columns: MappedColumn[] = []
   for (let i = 0; i < children.length; i++) {
-    const c = children[i]
+    const c = children[i] as unknown as VNode
     if (Array.isArray(c)) {
       debugWarn(tableV2Name, `Resolving error, columns cannot be nested.`)
       return []
@@ -18,21 +18,21 @@ export const normalizeColumns = (children: VNodeArrayChildren) => {
     // only loop for one depth further.
     // for v-if || v-for
     if (isFragment(c)) {
-      const nestedChildren = ((c as VNode).children as VNodeArrayChildren) || []
+      const nestedChildren = (c.children as VNodeArrayChildren) || []
       for (let j = 0; j < nestedChildren.length; j++) {
         const inner = nestedChildren[j] as VNode
         if (isColumnNode(inner)) {
           columns.push(deriveRenderer(inner))
         }
       }
-    } else if (isColumnNode(c as VNode)) {
-      columns.push(deriveRenderer(c as VNode))
+    } else if (isColumnNode(c)) {
+      columns.push(deriveRenderer(c))
     }
   }
   return columns
 }
 
-function isColumnNode(c: VNode) {
+function isColumnNode(c: any): c is VNode {
   return c?.type === Column
 }
 

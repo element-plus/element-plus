@@ -1,11 +1,15 @@
 import { computed, defineComponent, h, reactive, unref } from 'vue'
+import lodashGet from 'lodash/get'
 import { isUndefined } from '@element-plus/utils/util'
+import { debugWarn } from '@element-plus/utils/error'
 import GridTable from './components/grid-table'
 import TableRow from './components/row'
 import CellPlaceholder from './components/cell-placeholder.vue'
 import { tableV2Props } from './props/table'
+import { Alignment } from './props/column'
 import { normalizeColumns, tryCall } from './utils'
 import { groupColumns } from './helpers/column'
+import { prefix } from './constants'
 
 import type { CSSProperties, VNode } from 'vue'
 import type { FixedDirection } from './props/column'
@@ -89,7 +93,7 @@ export default defineComponent({
       columns,
       column,
       columnIndex,
-      rowData,
+      data,
       rowIndex,
       expandIcon,
     }: {
@@ -97,21 +101,56 @@ export default defineComponent({
       columns: MappedColumn[]
       column: MappedColumn
       columnIndex: number
-      rowData: any
+      data: any
       rowIndex: number
       expandIcon: VNode
     }) {
       const { rowKey } = props
+      const commonKey = `row-${data[rowKey]}.column-${column.key}.`
       if (column.isPlaceholder) {
         return h(CellPlaceholder, {
-          key: `row-${rowKey}.${column.key}.placeholder`,
+          key: `${commonKey}placeholder`,
           class: calcKls(`cell-placeholder`),
           style: calcColumnStyle(column.key || ''),
         })
       }
 
       const { dataKey, dataGetter, cellRenderer } = column
-      return h('div', { style: 'flex: 1' }, 'cell')
+
+      if (!dataGetter && !dataKey) {
+        debugWarn(prefix, 'You must provide either dataGetter or dataKey for retrieving data for rendering cells')
+        return ''
+      }
+
+      const cellData = dataGetter ? dataGetter({
+        columns,
+        column,
+        columnIndex,
+        data,
+        rowIndex,
+      }) : lodashGet(data, dataKey!, {})
+
+      const cellKey = `${commonKey}cell`
+
+      const cellKls = [
+        calcKls('cell'),
+        tryCall(column.class, { cellData,  }),
+        {
+          'is-centered': column.align === Alignment.CENTER,
+          'is-right': column.align === Alignment.RIGHT,
+        },
+      ]
+
+      return h(
+        'div',
+        {
+          class: cellKls,
+          role: 'gridcell',
+          key: cellKey,
+          style: 'flex: 1',
+        },
+        `cell row ${rowIndex} column ${columnIndex}`
+      )
     }
 
     function renderExpandIcon() {
@@ -138,7 +177,7 @@ export default defineComponent({
         data,
         rowIndex,
       })
-      console.log(extraProps)
+
       const rowKey: string = data[props.rowKey]
       const depth = cachedDepth[rowKey] || 0
       const hasExpandColumnKey = !!expandColumnKey
