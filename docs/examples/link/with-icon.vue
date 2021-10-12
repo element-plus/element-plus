@@ -2,7 +2,7 @@
   <div>
     <el-link :icon="Edit">Edit</el-link>
     <el-link>
-      Check<el-icon class="el-icon--right"><View /></el-icon>
+      Check<el-icon class="el-icon--right"><view /></el-icon>
     </el-link>
   </div>
 </template>
