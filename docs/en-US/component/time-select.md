@@ -33,7 +33,7 @@ time-select/time-range
 | size                  | size of Input                                            | string             | medium / small / mini | —           |
 | placeholder           | placeholder in non-range mode                            | string             | —                     | —           |
 | name                  | same as `name` in native input                           | string             | —                     | —           |
-| prefix-icon           | Custom prefix icon component                             | string / Component | —                     | Timer       |
+| prefix-icon           | Custom prefix icon component                             | string / Component | —                     | Clock       |
 | clear-icon            | Custom clear icon component                              | string / Component | —                     | CircleClose |
 | start                 | start time                                               | string             | —                     | 09:00       |
 | end                   | end time                                                 | string             | —                     | 18:00       |

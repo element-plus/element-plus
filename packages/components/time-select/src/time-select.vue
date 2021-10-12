@@ -33,7 +33,7 @@
 import { defineComponent, computed, ref } from 'vue'
 import ElSelect from '@element-plus/components/select'
 import ElIcon from '@element-plus/components/icon'
-import { CircleClose, Timer } from '@element-plus/icons'
+import { CircleClose, Clock } from '@element-plus/icons'
 
 import type { PropType, Component } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'
@@ -143,7 +143,7 @@ export default defineComponent({
     },
     prefixIcon: {
       type: [String, Object] as PropType<string | Component>,
-      default: Timer,
+      default: Clock,
     },
     clearIcon: {
       type: [String, Object] as PropType<string | Component>,
