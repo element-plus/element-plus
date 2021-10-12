@@ -4,7 +4,7 @@
       <el-collapse-item name="1">
         <template #title>
           Consistency<el-icon class="header-icon">
-            <InfoFilled />
+            <info-filled />
           </el-icon>
         </template>
         <div>
