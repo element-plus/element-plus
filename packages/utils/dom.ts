@@ -39,7 +39,7 @@ export const once = function (
   event: string,
   fn: EventListener
 ): void {
-  const listener = function (...args: unknown[]) {
+  const listener = function (this: any, ...args: any) {
     if (fn) {
       fn.apply(this, args)
     }
