@@ -5,6 +5,11 @@ import type { CSSProperties } from 'vue'
 import type { Nullable } from './types'
 
 /* istanbul ignore next */
+const trimArr = function (s: string) {
+  return (s || '').split(' ').map((item) => item.trim())
+}
+
+/* istanbul ignore next */
 export const on = function (
   element: HTMLElement | Document | Window,
   event: string,
@@ -58,7 +63,7 @@ export function hasClass(el: HTMLElement, cls: string): boolean {
 /* istanbul ignore next */
 export function addClass(el: HTMLElement, cls: string): void {
   if (!el) return
-  const curClass = el.className
+  const curClass = trimArr(el.className)
   const classes = (cls || '')
     .split(' ')
     .filter((item) => !curClass.includes(item) && !!item.trim())
@@ -73,20 +78,18 @@ export function addClass(el: HTMLElement, cls: string): void {
 /* istanbul ignore next */
 export function removeClass(el: HTMLElement, cls: string): void {
   if (!el || !cls) return
-  const classes = cls.split(' ').map((item) => item.trim())
-  let curClass = el.className
+  const classes = trimArr(cls)
+  let curClass = ` ${el.className} `
 
   if (el.classList) {
     el.classList.remove(...classes)
     return
   }
   classes.forEach((item) => {
-    curClass = curClass.replace(item, '')
+    curClass = curClass.replace(` ${item} `, ' ')
   })
-  el.className = curClass
-    .split(' ')
+  el.className = trimArr(curClass)
     .filter((item) => !!item)
-    .map((item) => item.trim())
     .join(' ')
 }
 
