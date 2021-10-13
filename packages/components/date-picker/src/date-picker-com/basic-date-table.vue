@@ -41,6 +41,7 @@ import { defineComponent, computed, ref } from 'vue'
 import dayjs from 'dayjs'
 import { useLocaleInject } from '@element-plus/hooks'
 import { coerceTruthyValueToArray } from '@element-plus/utils/util'
+import type { rowType } from '../date-picker.type'
 import type { PropType } from 'vue'
 
 import type { Dayjs } from 'dayjs'
@@ -89,12 +90,13 @@ export default defineComponent({
     // data
     const lastRow = ref(null)
     const lastColumn = ref(null)
-    const tableRows = ref([[], [], [], [], [], []])
+
+    const tableRows = ref<Array<Array<rowType>>>([[], [], [], [], [], []])
 
     // todo better way to get Day.js locale object
     const firstDayOfWeek = (props.date as any).$locale().weekStart || 7
     const WEEKS_CONSTANT = props.date
-      .locale('en')
+      ?.locale('en')
       .localeData()
       .weekdaysShort()
       .map((_) => _.toLowerCase())
@@ -105,12 +107,12 @@ export default defineComponent({
     })
 
     const startDate = computed(() => {
-      const startDayOfMonth = props.date.startOf('month')
+      const startDayOfMonth = props.date?.startOf('month')!
       return startDayOfMonth.subtract(startDayOfMonth.day() || 7, 'day')
     })
 
     const WEEKS = computed(() => {
-      return WEEKS_CONSTANT.concat(WEEKS_CONSTANT).slice(
+      return WEEKS_CONSTANT?.concat(WEEKS_CONSTANT).slice(
         firstDayOfWeek,
         firstDayOfWeek + 7
       )
@@ -118,7 +120,7 @@ export default defineComponent({
 
     const rows = computed(() => {
       // TODO: refactory rows / getCellClasses
-      const startOfMonth = props.date.startOf('month')
+      const startOfMonth = props.date?.startOf('month')!
       const startOfMonthDay = startOfMonth.day() || 7 // day of first day
       const dateCountOfMonth = startOfMonth.daysInMonth()
       const dateCountOfLastMonth = startOfMonth
@@ -245,56 +247,38 @@ export default defineComponent({
       if (!date) return false
       return dayjs(date)
         .locale(lang.value)
-        .isSame(props.date.date(Number(cell.text)), 'day')
+        .isSame(props.date?.date(Number(cell.text)), 'day')
     }
 
     const getCellClasses = (cell) => {
-      const classes = []
-      if ((cell.type === 'normal' || cell.type === 'today') && !cell.disabled) {
+      const classes: string[] = []
+      const { selectionMode } = props
+      const { type, disabled, inRange, selected, customClass, start, end } =
+        cell
+      const isNormalOrToday = type === 'normal' || type === 'today'
+      if (isNormalOrToday && !disabled) {
         classes.push('available')
-        if (cell.type === 'today') {
-          classes.push('today')
-        }
+        type === 'today' && classes.push('today')
       } else {
-        classes.push(cell.type)
+        classes.push(type)
       }
 
       if (
-        props.selectionMode === 'day' &&
-        (cell.type === 'normal' || cell.type === 'today') &&
+        selectionMode === 'day' &&
+        isNormalOrToday &&
         cellMatchesDate(cell, props.parsedValue)
       ) {
         classes.push('current')
       }
 
-      if (
-        cell.inRange &&
-        (cell.type === 'normal' ||
-          cell.type === 'today' ||
-          props.selectionMode === 'week')
-      ) {
+      if (inRange && (isNormalOrToday || selectionMode === 'week')) {
         classes.push('in-range')
-
-        if (cell.start) {
-          classes.push('start-date')
-        }
-
-        if (cell.end) {
-          classes.push('end-date')
-        }
+        start && classes.push('start-date')
+        end && classes.push('end-date')
       }
-
-      if (cell.disabled) {
-        classes.push('disabled')
-      }
-
-      if (cell.selected) {
-        classes.push('selected')
-      }
-
-      if (cell.customClass) {
-        classes.push(cell.customClass)
-      }
+      disabled && classes.push('disabled')
+      selected && classes.push('selected')
+      customClass && classes.push(customClass)
 
       return classes.join(' ')
     }
@@ -317,7 +301,7 @@ export default defineComponent({
       }
       if (target.tagName !== 'TD') return
 
-      const row = target.parentNode.rowIndex - 1
+      const row = (target.parentNode.rowIndex - 1) as any
       const column = target.cellIndex
 
       // can not select disabled date
@@ -359,7 +343,7 @@ export default defineComponent({
           ctx.emit('pick', { minDate: newDate, maxDate: null })
           ctx.emit('select', true)
         } else {
-          if (newDate >= props.minDate) {
+          if (newDate >= props.minDate!) {
             ctx.emit('pick', { minDate: props.minDate, maxDate: newDate })
           } else {
             ctx.emit('pick', { minDate: newDate, maxDate: props.minDate })
@@ -389,7 +373,7 @@ export default defineComponent({
 
     const isWeekActive = (cell) => {
       if (props.selectionMode !== 'week') return false
-      let newDate = props.date.startOf('day')
+      let newDate = props.date?.startOf('day')!
 
       if (cell.type === 'prev-month') {
         newDate = newDate.subtract(1, 'month')
