@@ -76,7 +76,7 @@ export default defineComponent({
     const tree = inject(ROOT_TREE_INJECTION_KEY)
 
     const indent = computed(() => {
-      return tree?.props.indent || 16
+      return tree?.props.indent === undefined ? 16 : tree.props.indent
     })
 
     const icon = computed(() => {
