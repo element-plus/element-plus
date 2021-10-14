@@ -12,6 +12,13 @@
     "vue"
   ],
   "license": "MIT",
+  "exports": {
+    ".": {
+      "require": "./lib/index.js",
+      "import": "./es/index.js"
+    },
+    "./*": "./*"
+  },
   "main": "lib/index.js",
   "module": "es/index.js",
   "style": "dist/index.css",
