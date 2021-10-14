@@ -480,10 +480,7 @@ export const useSelect = (props, states: States, ctx) => {
       const valueKey = props.valueKey
       if (!props.multiple) {
         states.hoverIndex = optionsArray.value.findIndex((item) => {
-          return (
-            getValueByPath(item, valueKey) ===
-            getValueByPath(states.selected, valueKey)
-          )
+          return getValueKey(item) === getValueKey(states.selected)
         })
       } else {
         if (states.selected.length > 0) {
