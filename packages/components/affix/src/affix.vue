@@ -121,7 +121,7 @@ export default defineComponent({
         target.value =
           document.querySelector<HTMLElement>(props.target) ?? undefined
         if (!target.value) {
-          throw new Error(`target is not existed: ${props.target}`)
+          throw new Error(`Target is not existed: ${props.target}`)
         }
       } else {
         target.value = document.documentElement
