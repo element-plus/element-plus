@@ -52,6 +52,10 @@ export const menuProps = buildProps({
     type: Boolean,
     default: true,
   },
+  ellipsis: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 export type MenuProps = ExtractPropTypes<typeof menuProps>
 
@@ -344,7 +348,7 @@ export default defineComponent({
         })
         const slotDefault = originalSlot.slice(0, sliceIndex)
         const slotMore = originalSlot.slice(sliceIndex)
-        if (slotMore?.length) {
+        if (slotMore?.length && props.ellipsis) {
           slot = slotDefault
           vShowMore.push(
             h(
@@ -367,7 +371,10 @@ export default defineComponent({
 
       const ulStyle = useMenuCssVar(props)
 
-      const vMenu = useVNodeResize(
+      const resizeMenu = (vNode: VNode) =>
+        props.ellipsis ? useVNodeResize(vNode) : vNode
+
+      const vMenu = resizeMenu(
         h(
           'ul',
           {
@@ -381,7 +388,7 @@ export default defineComponent({
               'el-menu--collapse': props.collapse,
             },
           },
-          [...slot.map((vnode) => useVNodeResize(vnode)), ...vShowMore]
+          [...slot.map((vnode) => resizeMenu(vnode)), ...vShowMore]
         )
       )
 
