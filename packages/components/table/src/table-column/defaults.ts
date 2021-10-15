@@ -62,6 +62,12 @@ interface TableColumnCtx<T> {
   getColumnIndex: () => number
   no: number
   filterOpened?: boolean
+
+  // 表头显示辅助信息
+  showHelper: boolean
+  helperMessage: string
+  helperIconClass: string
+  helperIconColor: string
 }
 
 interface TableColumn<T> extends ComponentInternalInstance {
@@ -139,4 +145,15 @@ export default {
       )
     },
   },
+  // 表头显示辅助信息
+  showHelper: {
+    type: Boolean,
+    default: false,
+  },
+  helperMessage: String,
+  helperIconClass: {
+    type: String,
+    default: 'el-icon-question',
+  },
+  helperIconColor: String,
 }

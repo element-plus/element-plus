@@ -97,6 +97,10 @@ export default defineComponent({
         'formatter',
         'fixed',
         'resizable',
+        'showHelper',
+        'helperMessage',
+        'helperIconClass',
+        'helperIconColor',
       ]
       const sortProps = ['sortMethod', 'sortBy', 'sortOrders']
       const selectProps = ['selectable', 'reserveSelection']

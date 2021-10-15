@@ -8,6 +8,8 @@ import {
   h,
 } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
+import ElTooltip from '@element-plus/components/tooltip'
+
 import FilterPanel from '../filter-panel.vue'
 import useLayoutObserver from '../layout-observer'
 import { hColgroup } from '../h-helper'
@@ -36,6 +38,7 @@ export default defineComponent({
   name: 'ElTableHeader',
   components: {
     ElCheckbox,
+    ElTooltip,
   },
   props: {
     fixed: {
@@ -196,6 +199,20 @@ export default defineComponent({
                               _self: this.$parent,
                             })
                           : column.label,
+                        column.showHelper &&
+                          h(
+                            ElTooltip,
+                            {
+                              content: column.helperMessage,
+                              placement: 'top-start',
+                            },
+                            h('i', {
+                              class: `${column.helperIconClass} helper-icon`,
+                              style: {
+                                color: column.helperIconColor || '',
+                              },
+                            })
+                          ),
                         column.sortable &&
                           h(
                             'span',

@@ -144,7 +144,7 @@ table/custom-column
 
 Customize table header so it can be even more customized.
 
-:::demo You can customize how the header looks by header [slots](https://v3.vuejs.org/guide/component-slots.html).
+:::demo You can customize how the header looks by header [slots](https://v3.vuejs.org/guide/component-slots.html) or set `show-helper` to add auxiliary text to the header
 
 table/custom-header
 
@@ -311,6 +311,10 @@ table/custom-index
 | filter-multiple       | whether data filtering supports multiple options                                                                                                                                                                    | boolean                                 | —                                                                                                                                | true                              |
 | filter-method         | data filtering method. If `filter-multiple` is on, this method will be called multiple times for each row, and a row will display if one of the calls returns `true`                                                | function(value, row, column)            | —                                                                                                                                | —                                 |
 | filtered-value        | filter value for selected data, might be useful when table header is rendered with `render-header`                                                                                                                  | array                                   | —                                                                                                                                | —                                 |
+| show-helper           | Whether to display auxiliary information                                                                                                                                                                            | boolean                                 | —                                                                                                                                | false                             |
+| helper-message        | Auxiliary content. `show-helper` is valid if it is true                                                                                                                                                             | string                                  | —                                                                                                                                | —                                 |
+| helper-icon-class     | icon for auxiliary information. `show-helper` is valid if it is true                                                                                                                                                | string                                  | —                                                                                                                                | el-icon-question                  |
+| helper-icon-color     | icon color                                                                                                                                                                                                          | string                                  | —                                                                                                                                | \#E6A23C                          |
 
 ## Table-column Slots
 

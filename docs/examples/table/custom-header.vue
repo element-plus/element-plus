@@ -8,7 +8,13 @@
     "
     style="width: 100%"
   >
-    <el-table-column label="Date" prop="date" />
+    <el-table-column
+      label="Date"
+      prop="date"
+      show-helper
+      helper-message="This can be a very, very long paragraph of text"
+      helper-icon-color="#ff9900"
+    />
     <el-table-column label="Name" prop="name" />
     <el-table-column align="right">
       <template #header>
