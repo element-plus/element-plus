@@ -1,6 +1,6 @@
 import path from 'path'
 import { pkgRoot } from './utils/paths'
-import { EP_PREFIX } from './constants'
+import { EP_PREFIX } from './utils/constants'
 import type { Plugin } from 'rollup'
 
 export function RollupResolveEntryPlugin(): Plugin {

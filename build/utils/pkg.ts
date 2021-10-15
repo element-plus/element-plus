@@ -1,6 +1,6 @@
 import findWorkspacePackages from '@pnpm/find-workspace-packages'
 import { buildConfig } from '../info'
-import { EP_PREFIX } from '../constants'
+import { EP_PREFIX } from './constants'
 import { projRoot } from './paths'
 import type { Module } from '../info'
 import type { ProjectManifest } from '@pnpm/types'

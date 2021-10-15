@@ -17,7 +17,7 @@ const outDir = path.resolve(buildOutput, 'types')
 /**
  * fork = require( https://github.com/egoist/vue-dts-gen/blob/main/src/index.ts
  */
-export const genComponentTypes = async () => {
+export const generateTypesDefinitions = async () => {
   const project = new Project({
     compilerOptions: {
       allowJs: true,
