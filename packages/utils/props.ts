@@ -33,8 +33,6 @@ export type BuildPropOption<T, D extends BuildPropType<T, V, C>, R, V, C> = {
     ? () => D
     : (() => D) | D
   validator?: ((val: any) => val is C) | ((val: any) => boolean)
-
-  key?: string
 }
 
 type _BuildPropType<T, V, C> =
@@ -104,7 +102,10 @@ export function buildProp<
   R extends boolean = false,
   V = never,
   C = never
->(option: BuildPropOption<T, D, R, V, C>): BuildPropReturn<T, D, R, V, C> {
+>(
+  option: BuildPropOption<T, D, R, V, C>,
+  key?: string
+): BuildPropReturn<T, D, R, V, C> {
   // filter native prop type and nested prop, e.g `null`, `undefined` (from `buildProps`)
   if (!isObject(option) || !!option[propKey]) return option as any
 
@@ -128,7 +129,7 @@ export function buildProp<
               .join(', ')
             warn(
               `Invalid prop: validation failed${
-                option.key ? ` for prop "${option.key}"` : ''
+                key ? ` for prop "${key}"` : ''
               }. Expected one of [${allowValuesText}], got value ${JSON.stringify(
                 val
               )}.`
@@ -175,10 +176,7 @@ export const buildProps = <
   fromPairs(
     Object.entries(props).map(([key, option]) => [
       key,
-      buildProp({
-        ...(option as any),
-        key,
-      }),
+      buildProp(option as any, key),
     ])
   ) as unknown as {
     [K in keyof O]: O[K] extends { [propKey]: boolean }
