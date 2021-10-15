@@ -31,13 +31,12 @@ export const getPackageDependencies = (pkgPath: string): string[] => {
   return Object.keys(dependencies ?? {})
 }
 
-export const pathRewriter = (module: Module, replaceAll: boolean) => {
-  const replaceName = replaceAll ? 'replaceAll' : 'replace'
+export const pathRewriter = (module: Module) => {
   const config = buildConfig[module]
 
   return (id: string) => {
-    id = id[replaceName](`${EP_PREFIX}/theme-chalk`, 'element-plus/theme-chalk')
-    id = id[replaceName](`${EP_PREFIX}/`, `${config.bundle.path}/`)
+    id = id.replaceAll(`${EP_PREFIX}/theme-chalk`, 'element-plus/theme-chalk')
+    id = id.replaceAll(`${EP_PREFIX}/`, `${config.bundle.path}/`)
     return id
   }
 }

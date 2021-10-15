@@ -6,7 +6,7 @@ import glob from 'fast-glob'
 import { bold } from 'chalk'
 
 import { green, red, yellow } from './utils/log'
-import { buildOutput, compRoot, projRoot } from './utils/paths'
+import { buildOutput, compRoot, pkgRoot, projRoot } from './utils/paths'
 
 import { pathRewriter } from './utils/pkg'
 import type { SourceFile } from 'ts-morph'
@@ -35,28 +35,14 @@ export const genComponentTypes = async () => {
     skipAddingFilesFromTsConfig: true,
   })
 
-  const excludedFiles = [
-    /\/demo\/\w+\.vue$/,
-    'mock',
-    'package.json',
-    'spec',
-    'test',
-    'css',
-    '.DS_Store',
-    'node_modules',
-  ]
+  const excludes = ['node_modules', 'test', 'mocks', 'gulpfile']
   const filePaths = (
-    await glob('**/*', {
-      cwd: compRoot,
-      onlyFiles: true,
+    await glob('**/*.{js,ts,vue}', {
+      cwd: pkgRoot,
       absolute: true,
+      onlyFiles: true,
     })
-  ).filter(
-    (path) =>
-      !excludedFiles.some((f) =>
-        f instanceof RegExp ? f.test(path) : path.includes(f)
-      )
-  )
+  ).filter((path) => !excludes.some((exclude) => path.includes(exclude)))
 
   const sourceFiles: SourceFile[] = []
   await Promise.all(
@@ -119,7 +105,7 @@ export const genComponentTypes = async () => {
 
       await fs.writeFile(
         filepath,
-        pathRewriter('esm', true)(outputFile.getText()),
+        pathRewriter('esm')(outputFile.getText()),
         'utf8'
       )
 

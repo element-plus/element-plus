@@ -1,54 +1,52 @@
 import path from 'path'
 import { series, parallel } from 'gulp'
-import { copyStyle } from './style'
-import { copyEntryTypes } from './entry-types'
 import { run } from './utils/process'
 import { withTaskName } from './utils/gulp'
-import { epOutput, epPackage, projRoot } from './utils/paths'
+import { buildOutput, epOutput, epPackage, projRoot } from './utils/paths'
 import { copyFullStyle } from './full-bundle'
+import { buildConfig } from './info'
+import type { Module } from './info'
 
 const runTask = (name: string) =>
   withTaskName(name, () => run(`pnpm run build ${name}`))
-
-export const copySourceCode = async () => {
-  await run(`cp -R packages ${epOutput}`)
-  await run(`cp ${epPackage} ${epOutput}/package.json`)
-}
-
-export const copyREADME = async () => {
-  await run(`cp README.md ${epOutput}`)
-}
 
 export const copyDefinitions = async () => {
   const files = [path.resolve(projRoot, 'typings', 'global.d.ts')]
   await run(`cp ${files.join(' ')} ${epOutput}`)
 }
 
+export const copyFiles = async () => {
+  await run(`cp ${epPackage} ${path.join(epOutput, 'package.json')}`)
+  await run(`cp README.md ${epOutput}`)
+}
+
+function copyTypes() {
+  const src = `${buildOutput}/types/`
+  const copy = (module: Module) =>
+    withTaskName(`copyTypes:${module}`, () =>
+      run(`rsync -a ${src} ${buildConfig[module].output.path}/`)
+    )
+
+  return parallel(copy('esm'), copy('cjs'))
+}
+
 export default series(
   withTaskName('clean', () => run('pnpm run clean')),
 
   parallel(
-    runTask('buildComponent'),
-    runTask('buildStyle'),
+    runTask('buildModules'),
     runTask('buildFullBundle'),
+    runTask('genComponentTypes'),
     runTask('buildHelper'),
-    withTaskName('buildEachPackages', () =>
-      run('pnpm run --filter ./packages --parallel --stream build')
+    withTaskName('buildThemeChalk', () =>
+      run('pnpm run -C packages/theme-chalk build')
     )
   ),
 
-  parallel(
-    copyStyle(),
-    copyFullStyle,
-    copyEntryTypes,
-    copySourceCode,
-    copyREADME,
-    copyDefinitions
-  )
+  parallel(copyFullStyle, copyDefinitions, copyTypes(), copyFiles)
 )
 
-export * from './component'
-export * from './style'
+export * from './component-types'
+export * from './modules'
 export * from './full-bundle'
-export * from './entry-types'
 export * from './helper'
