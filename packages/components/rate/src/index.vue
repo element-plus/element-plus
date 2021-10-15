@@ -18,19 +18,20 @@
       @mouseleave="resetCurrentValue"
       @click="selectValue(item)"
     >
-      <i
-        :class="[classes[item - 1], { hover: hoverIndex === item }]"
+      <el-icon
+        :class="[{ hover: hoverIndex === item }]"
         class="el-rate__icon"
         :style="getIconStyle(item)"
       >
-        <i
+        <component :is="classes[item - 1]" />
+        <el-icon
           v-if="showDecimalIcon(item)"
-          :class="decimalIconClass"
           :style="decimalStyle"
-          class="el-rate__decimal"
+          class="el-rate__icon el-rate__decimal"
         >
-        </i>
-      </i>
+          <component :is="decimalIconClass" />
+        </el-icon>
+      </el-icon>
     </span>
     <span
       v-if="showText || showScore"
@@ -48,11 +49,14 @@ import { hasClass } from '@element-plus/utils/dom'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import type { PropType } from 'vue'
+import { ElIcon } from '@element-plus/components/icon'
+import { StarFilled, Star } from '@element-plus/icons'
+import type { PropType, Component } from 'vue'
 import type { ElFormContext } from '@element-plus/tokens'
 
 export default defineComponent({
   name: 'ElRate',
+  components: { ElIcon, StarFilled, Star },
   props: {
     modelValue: {
       type: Number,
@@ -82,17 +86,17 @@ export default defineComponent({
       type: String,
       default: '#EFF2F7',
     },
-    iconClasses: {
-      type: [Array, Object],
-      default: () => ['el-icon-star-on', 'el-icon-star-on', 'el-icon-star-on'],
+    icons: {
+      type: [Array, Object] as PropType<string[] | Component>,
+      default: () => [StarFilled, StarFilled, StarFilled],
     },
-    voidIconClass: {
-      type: String,
-      default: 'el-icon-star-off',
+    voidIcon: {
+      type: [String, Object] as PropType<string | Component>,
+      default: Star,
     },
-    disabledVoidIconClass: {
-      type: String,
-      default: 'el-icon-star-on',
+    disabledvoidIcon: {
+      type: [String, Object] as PropType<string | Component>,
+      default: StarFilled,
     },
     disabled: {
       type: Boolean,
@@ -159,7 +163,9 @@ export default defineComponent({
         })
         .sort((a: never, b: never) => a - b)
       const matchedValue = map[matchedKeys[0]]
-      return isObject(matchedValue) ? matchedValue.value : matchedValue || ''
+      return isObject(matchedValue)
+        ? matchedValue.value || matchedValue
+        : matchedValue || ''
     }
 
     const valueDecimal = computed(
@@ -191,22 +197,22 @@ export default defineComponent({
     })
 
     const classMap = computed(() =>
-      isArray(props.iconClasses)
+      isArray(props.icons)
         ? {
-            [props.lowThreshold]: props.iconClasses[0],
+            [props.lowThreshold]: props.icons[0],
             [props.highThreshold]: {
-              value: props.iconClasses[1],
+              value: props.icons[1],
               excluded: true,
             },
-            [props.max]: props.iconClasses[2],
+            [props.max]: props.icons[2],
           }
-        : props.iconClasses
+        : props.icons
     )
     const decimalIconClass = computed(() =>
       getValueFromMap(props.modelValue, classMap.value)
     )
     const voidClass = computed(() =>
-      rateDisabled.value ? props.disabledVoidIconClass : props.voidIconClass
+      rateDisabled.value ? props.disabledvoidIcon : props.voidIcon
     )
     const activeClass = computed(() =>
       getValueFromMap(currentValue.value, classMap.value)
@@ -312,6 +318,7 @@ export default defineComponent({
       /* istanbul ignore if */
       if (props.allowHalf) {
         let target = event.target as HTMLElement
+        if (target.clientWidth === 0) return
         if (hasClass(target, 'el-rate__item')) {
           target = target.querySelector('.el-rate__icon')
         }
