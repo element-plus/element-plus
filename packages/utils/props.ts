@@ -127,7 +127,7 @@ export function buildProp<
               .map((value) => JSON.stringify(value))
               .join(', ')
             warn(
-              `Invalid prop: value validate failed${
+              `Invalid prop: validation failed${
                 option.key ? ` for prop "${option.key}"` : ''
               }. Expected one of [${allowValuesText}], got value ${JSON.stringify(
                 val
