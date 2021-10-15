@@ -380,10 +380,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const onSelect = (option: Option, idx: number, byClick = true) => {
+    const valueKey = props.valueKey
     if (props.multiple) {
       let selectedOptions = (props.modelValue as any[]).slice()
 
-      const index = getValueIndex(selectedOptions, option.value)
+      const index = getValueIndex(selectedOptions, getValueKey(option))
       if (index > -1) {
         selectedOptions = [
           ...selectedOptions.slice(0, index),
@@ -395,7 +396,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         props.multipleLimit <= 0 ||
         selectedOptions.length < props.multipleLimit
       ) {
-        selectedOptions = [...selectedOptions, option.value]
+        selectedOptions = [...selectedOptions, getValueKey(option)]
         states.cachedOptions.push(option)
         selectNewOption(option)
         updateHoveringIndex(idx)
@@ -419,7 +420,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     } else {
       selectedIndex.value = idx
       states.selectedLabel = option.label
-      update(option.value)
+      update(getValueKey(option))
       expanded.value = false
       states.isComposing = false
       states.isSilentBlur = byClick
@@ -642,7 +643,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         states.cachedOptions.length = 0
         ;(props.modelValue as Array<any>).map((selected) => {
           const itemIndex = filteredOptions.value.findIndex(
-            (option) => option.value === selected
+            (option) => getValueKey(option) === selected
           )
           if (~itemIndex) {
             states.cachedOptions.push(
@@ -661,7 +662,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       if (props.modelValue) {
         const options = filteredOptions.value
         const selectedItemIndex = options.findIndex(
-          (o) => o.value === props.modelValue
+          (option) => getValueKey(option) === props.modelValue
         )
         if (~selectedItemIndex) {
           states.selectedLabel = options[selectedItemIndex].label
