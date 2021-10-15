@@ -111,7 +111,7 @@ import ElPopper, { Effect } from '@element-plus/components/popper'
 import ElIcon from '@element-plus/components/icon'
 import { Loading } from '@element-plus/icons'
 import type { Placement } from '@element-plus/components/popper'
-import type { PropType, Ref, RendererNode } from 'vue'
+import type { PropType, RendererNode } from 'vue'
 
 export default defineComponent({
   name: 'ElAutocomplete',
@@ -200,10 +200,10 @@ export default defineComponent({
     const activated = ref(false)
     const suggestionDisabled = ref(false)
     const loading = ref(false)
-    const suggestions: Ref<Array<any>> = ref([])
-    const inputRef: Ref<RendererNode | null> = ref(null)
-    const regionRef: Ref<HTMLDivElement | null> = ref(null)
-    const popper: Ref<RendererNode | null> = ref(null)
+    const suggestions = ref<Array<any>>([])
+    const inputRef = ref<RendererNode | null>(null)
+    const regionRef = ref<HTMLDivElement | null>(null)
+    const popper = ref<RendererNode | null>(null)
 
     const id = computed(() => {
       return `el-autocomplete-${generateId()}`
@@ -218,7 +218,7 @@ export default defineComponent({
     })
 
     const updatePopperPosition = () => {
-      nextTick((popper.value as RendererNode).update)
+      nextTick(popper.value?.update)
     }
 
     watch(suggestionVisible, () => {
@@ -226,18 +226,18 @@ export default defineComponent({
     })
 
     onMounted(() => {
-      inputRef.value?.inputOrTextarea.setAttribute('role', 'textbox')
-      inputRef.value?.inputOrTextarea.setAttribute('aria-autocomplete', 'list')
-      inputRef.value?.inputOrTextarea.setAttribute('aria-controls', 'id')
-      inputRef.value?.inputOrTextarea.setAttribute(
+      inputRef.value!.inputOrTextarea.setAttribute('role', 'textbox')
+      inputRef.value!.inputOrTextarea.setAttribute('aria-autocomplete', 'list')
+      inputRef.value!.inputOrTextarea.setAttribute('aria-controls', 'id')
+      inputRef.value!.inputOrTextarea.setAttribute(
         'aria-activedescendant',
         `${id.value}-item-${highlightedIndex.value}`
       )
-      const $ul = (regionRef.value as HTMLDivElement).querySelector(
+      const $ul = regionRef.value!.querySelector(
         '.el-autocomplete-suggestion__list'
       )
-      $ul?.setAttribute('role', 'listbox')
-      $ul?.setAttribute('id', id.value)
+      $ul!.setAttribute('role', 'listbox')
+      $ul!.setAttribute('id', id.value)
     })
 
     onUpdated(updatePopperPosition)
@@ -335,15 +335,15 @@ export default defineComponent({
       if (index >= suggestions.value.length) {
         index = suggestions.value.length - 1
       }
-      const suggestion = (regionRef.value as HTMLDivElement).querySelector(
+      const suggestion = regionRef.value?.querySelector<HTMLUListElement>(
         '.el-autocomplete-suggestion__wrap'
       ) as HTMLUListElement
-      const suggestionList = suggestion.querySelectorAll(
+      const suggestionList = suggestion.querySelectorAll<HTMLLIElement>(
         '.el-autocomplete-suggestion__list li'
       )
       const highlightItem = suggestionList[index]
       const scrollTop = suggestion.scrollTop
-      const { offsetTop, scrollHeight } = highlightItem as HTMLLIElement
+      const { offsetTop, scrollHeight } = highlightItem
 
       if (offsetTop + scrollHeight > scrollTop + suggestion.clientHeight) {
         suggestion.scrollTop += scrollHeight
@@ -352,7 +352,7 @@ export default defineComponent({
         suggestion.scrollTop -= scrollHeight
       }
       highlightedIndex.value = index
-      inputRef.value?.inputOrTextarea.setAttribute(
+      inputRef.value!.inputOrTextarea.setAttribute(
         'aria-activedescendant',
         `${id.value}-item-${highlightedIndex.value}`
       )
