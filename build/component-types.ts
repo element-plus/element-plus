@@ -5,9 +5,10 @@ import { Project } from 'ts-morph'
 import glob from 'fast-glob'
 import { bold } from 'chalk'
 
-import { green, yellow } from './utils/log'
+import { green, red, yellow } from './utils/log'
 import { buildOutput, compRoot, projRoot } from './utils/paths'
 
+import { pathRewriter } from './utils/pkg'
 import type { SourceFile } from 'ts-morph'
 
 const TSCONFIG_PATH = path.resolve(projRoot, 'tsconfig.json')
@@ -22,14 +23,13 @@ export const genComponentTypes = async () => {
       allowJs: true,
       declaration: true,
       emitDeclarationOnly: true,
-      noEmitOnError: true,
+      noEmitOnError: false,
       outDir,
       baseUrl: projRoot,
       paths: {
         '@element-plus/*': ['packages/*'],
       },
       skipLibCheck: true,
-      strict: false,
     },
     tsConfigFilePath: TSCONFIG_PATH,
     skipAddingFilesFromTsConfig: true,
@@ -37,12 +37,10 @@ export const genComponentTypes = async () => {
 
   const excludedFiles = [
     /\/demo\/\w+\.vue$/,
-    /__test__|__tests__/,
     'mock',
     'package.json',
     'spec',
     'test',
-    'tests',
     'css',
     '.DS_Store',
     'node_modules',
@@ -107,7 +105,13 @@ export const genComponentTypes = async () => {
     yellow(`Generating definition for file: ${bold(relativePath)}`)
 
     const emitOutput = sourceFile.getEmitOutput()
-    const tasks = emitOutput.getOutputFiles().map(async (outputFile) => {
+    const emitFiles = emitOutput.getOutputFiles()
+    if (emitFiles.length === 0) {
+      red(`Emit no file: ${bold(relativePath)}`)
+      return
+    }
+
+    const tasks = emitFiles.map(async (outputFile) => {
       const filepath = outputFile.getFilePath()
       await fs.mkdir(path.dirname(filepath), {
         recursive: true,
@@ -115,11 +119,7 @@ export const genComponentTypes = async () => {
 
       await fs.writeFile(
         filepath,
-        outputFile
-          .getText()
-          .replaceAll('@element-plus/components', 'element-plus/es')
-          .replaceAll('@element-plus/theme-chalk', 'element-plus/theme-chalk')
-          .replaceAll('@element-plus', 'element-plus/es'),
+        pathRewriter('esm', true)(outputFile.getText()),
         'utf8'
       )
 

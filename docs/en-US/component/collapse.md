@@ -54,6 +54,12 @@ collapse/customization
 | ---------- | ---------------------------------- | ------------------------------------------------------------------- |
 | change     | triggers when active panels change | (activeNames: array (non-accordion mode) / string (accordion mode)) |
 
+## Collapse Slots
+
+| Name | Description               | Subtags       |
+| ---- | ------------------------- | ------------- |
+| -    | customize default content | Collapse Item |
+
 ## Collapse Item Attributes
 
 | Attribute | Description                        | Type          | Accepted Values | Default |

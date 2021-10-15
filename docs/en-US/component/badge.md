@@ -51,3 +51,9 @@ badge/dot
 | is-dot    | if a little dot is displayed                                                     | boolean         | —                                           | false   |
 | hidden    | hidden badge                                                                     | boolean         | —                                           | false   |
 | type      | button type                                                                      | string          | primary / success / warning / danger / info | —       |
+
+## Slots
+
+| Name | Description               |
+| ---- | ------------------------- |
+| —    | customize default content |

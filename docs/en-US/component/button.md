@@ -85,6 +85,12 @@ button/size
 | autofocus   | same as native button's `autofocus`    | boolean | —                                                  | false   |
 | native-type | same as native button's `type`         | string  | button / submit / reset                            | button  |
 
+## Button Slots
+
+| Name | Description               |
+| ---- | ------------------------- |
+| —    | customize default content |
+
 ## Button-Group Attributes
 
 | Attribute | Description                                      | Type   | Accepted Values       | Default |
@@ -93,9 +99,9 @@ button/size
 
 ## Button-Group Slots
 
-| Name    | Description                    |
-| ------- | ------------------------------ |
-| default | customize button group content |
+| Name | Description                    | Subtags |
+| ---- | ------------------------------ | ------- |
+| -    | customize button group content | Button  |
 
 <style lang="scss">
 .example-showcase {

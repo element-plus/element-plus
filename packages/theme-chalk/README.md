@@ -13,7 +13,7 @@ npm i element-plus
 Use Sass import
 
 ```css
-@import 'element-plus/lib/theme-chalk/index.scss';
+@use 'element-plus/lib/theme-chalk/index.scss';
 ```
 
 Or Use vite/webpack

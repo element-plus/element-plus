@@ -1,8 +1,8 @@
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'mixins/utils';
-@import 'common/var';
-@import 'common/transition';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'mixins/utils' as *;
+@use 'common/var' as *;
+@use 'common/transition';
 
 @mixin menu-item {
   height: 56px;
@@ -44,7 +44,7 @@
 }
 
 @include b(menu) {
-  @include set-component-css-var('menu', $--menu);
+  @include set-component-css-var('menu', $menu);
 
   border-right: solid 1px var(--el-menu-border-color);
   list-style: none;

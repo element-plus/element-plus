@@ -1,5 +1,72 @@
 ## Changelog
 
+
+### 1.1.0-beta.20
+
+_2021-10-11_
+
+#### Bug fixes
+
+- Components fix composition event bug (#3659 by @bchen1029)
+- Build fix generate component type (#3766 by @sxzz)
+- Components [el-date-picker] panel not select value enter error (#3768 by @btea)
+- Build: add default slot to generate better code hint files (#3763 by @tolking)
+
+#### Refactors
+
+- Components refactor space (#3757 by @sxzz)
+- Utils refactor buildProps & replace buildProp (#3775 by @sxzz)
+- Components refactor image (#3770 by @sxzz)
+- Components refactor col (#3804 by @sxzz)
+- Build: refactor copyDefinitions (#3756 by @sxzz)
+- Utils improve defineProps (#3811 by @sxzz)
+
+### 1.1.0-beta.19
+
+_2021-09-30_
+
+#### Features
+
+- Utils add buildProps (#3718 by @sxzz)
+- Components [el-menu] expose handleResize (#3723 by @xiaoxian521)
+
+#### Bug fixes
+
+- Components [el-autocomplete] popover auto width (#3674 by @Alanscut)
+- Table Attributes expand-row-keys has changed, but fold not work (#3675 by @Alanscut)
+- Style(components): optimize the addable style (#3726 by @xiaoxian521)
+- Build: fix build helper (#3727 by @sxzz)
+- Chore: fix the source value error in web-types (#3736 by @tolking)
+- Build: fix url error of docs in code prompt file (#3735 by @tolking)
+- Build: fix sideEffects at package.json (#3721 by @HelloJunWei)
+
+#### Refactors
+
+- Utils refactor aria color (#3742 by @btea)
+
+### 1.1.0-beta.18
+
+_2021-09-28_
+
+#### Features
+
+- Build support esm and minified full bundle (#3677 by @sxzz)
+- Docs enable mirror site redirection (#3683 by @JeremyWuuuuu)
+- Theme-chalk use @use instead of @import & remove /\*\*/ comment (#3696 by @YunYouJun)
+- Components [el-button-group] add type prop (#3702 by @sxzz)
+
+#### Bug fixes
+
+- Components [el-affix] get scrollContainer of vertical (#3424 by @SorrowX)
+- Docs quote to tip
+- Components [el-form] fix async-validator version (#3697 by @sxzz)
+
+#### Refactors
+
+- Dev drop babel (#3678 by @sxzz)
+- Components refactor menu (#3639 by @sxzz)
+- Play play start-up show network (#3707 by @btea)
+
 ### 1.1.0-beta.17
 
 _2021-09-27_

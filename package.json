@@ -20,12 +20,12 @@
     "clean:lib": "rimraf dist",
     "build": "gulp -f build/gulpfile.ts",
     "format": "prettier --write .",
-    "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --max-warnings 0 && prettier --check .",
-    "lint:fix": "eslint --fix . --ext .vue,.js,.ts,.jsx,.tsx && prettier --write .",
-    "docs:dev": "sh ./scripts/if-build.sh && pnpm docs:gen-locale && pnpm -C docs dev",
+    "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --max-warnings 0 && pretty-quick --check --branch dev",
+    "lint:fix": "eslint --fix . --ext .vue,.js,.ts,.jsx,.tsx && pretty-quick --branch dev",
+    "docs:dev": "pnpm -C docs dev",
     "docs:build": "pnpm -C docs build",
     "docs:serve": "pnpm -C docs serve",
-    "docs:gen-locale": "rimraf docs/.vitepress/i18n && sucrase-node build/crowdin-generate.ts",
+    "docs:gen-locale": "pnpm -C docs gen-locale",
     "docs:crowdin": "sucrase-node build/crowdin-credentials.ts",
     "prepare": "husky install",
     "postinstall": "pnpm gen:version"
@@ -36,11 +36,7 @@
     }
   },
   "lint-staged": {
-    "*.{vue,js,ts,jsx,tsx}": [
-      "eslint --max-warnings 0 --fix",
-      "prettier --write"
-    ],
-    "*.{scss,css,json,yaml,yml,md,html}": "prettier --write"
+    "*.{vue,js,ts,jsx,tsx}": "eslint --fix"
   },
   "browserslist": [
     "> 1%",
@@ -62,7 +58,6 @@
     "@element-plus/utils": "workspace:*",
     "@popperjs/core": "^2.10.1",
     "@types/gulp": "^4.0.9",
-    "@types/sass": "^1.16.1",
     "@vueuse/core": "~6.1.0",
     "async-validator": "^4.0.3",
     "dayjs": "^1.10.7",
@@ -85,12 +80,13 @@
     "@sucrase/jest-plugin": "^2.1.1",
     "@types/jest": "^26.0.24",
     "@types/lodash": "^4.14.173",
+    "@types/sass": "^1.16.1",
     "@types/through2": "^2.0.36",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
     "@typescript-eslint/parser": "^4.31.2",
     "@vue/compiler-sfc": "^3.2.18",
     "@vue/component-compiler-utils": "^3.2.2",
-    "@vue/test-utils": "2.0.0-beta.4",
+    "@vue/test-utils": "2.0.0-rc.15",
     "algoliasearch": "^4.10.5",
     "chalk": "^4.1.2",
     "clipboard-copy": "^4.0.1",
@@ -100,6 +96,7 @@
     "esbuild": "~0.13.2",
     "eslint": "^7.7.0",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-define-config": "^1.1.1",
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^7.18.0",
@@ -112,6 +109,7 @@
     "jest": "^26.6.3",
     "lint-staged": "^11.1.2",
     "prettier": "^2.4.1",
+    "pretty-quick": "^3.1.1",
     "rimraf": "^3.0.2",
     "rollup": "^2.57.0",
     "rollup-plugin-css-only": "^3.1.0",
@@ -122,10 +120,11 @@
     "sass": "^1.42.1",
     "sucrase": "^3.20.1",
     "through2": "^4.0.2",
+    "ts-jest": "^26.5.6",
     "ts-morph": "^12.0.0",
     "typescript": "^4.4.3",
     "vue": "^3.2.18",
-    "vue-jest": "5.0.0-alpha.5",
+    "vue-jest": "5.0.0-alpha.10",
     "vue-router": "^4.0.11",
     "vue-tsc": "^0.3.0"
   }

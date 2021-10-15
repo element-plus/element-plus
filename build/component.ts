@@ -11,20 +11,21 @@ import { sync as globSync } from 'fast-glob'
 import filesize from 'rollup-plugin-filesize'
 
 import { compRoot, buildOutput } from './utils/paths'
-import { generateExternal, writeBundles } from './utils/rollup'
+import {
+  generateExternal,
+  rollupPathRewriter,
+  writeBundles,
+} from './utils/rollup'
 import { run } from './utils/process'
 import { withTaskName } from './utils/gulp'
-import { getWorkspaceNames } from './utils/pkg'
 
 import { genComponentTypes } from './component-types'
 import { buildConfig } from './info'
 import reporter from './size-reporter'
-import { EP_PREFIX } from './constants'
 
 import type { OutputOptions } from 'rollup'
-import type { Module, BuildInfo } from './info'
+import type { Module, BuildConfigEntries } from './info'
 
-let workspacePkgs: string[] = []
 const plugins = [
   css(),
   vue({
@@ -35,19 +36,6 @@ const plugins = [
   commonjs(),
   esbuild(),
 ]
-
-const pathsRewriter = (module: Module) => (id: string) => {
-  const config = buildConfig[module]
-  if (workspacePkgs.some((pkg) => id.startsWith(pkg)))
-    return id.replace(EP_PREFIX, config.bundle.path)
-  else return ''
-}
-
-const init = async () => {
-  workspacePkgs = (await getWorkspaceNames()).filter((pkg) =>
-    pkg.startsWith(EP_PREFIX)
-  )
-}
 
 async function getComponents() {
   const files = globSync('*', {
@@ -60,9 +48,10 @@ async function getComponents() {
   }))
 }
 
-async function buildEachComponent() {
+export async function buildEachComponent() {
   const componentPaths = await getComponents()
   const external = await generateExternal({ full: false })
+  const pathRewriter = await rollupPathRewriter()
 
   const builds = componentPaths.map(
     async ({ path: p, name: componentName }) => {
@@ -74,7 +63,7 @@ async function buildEachComponent() {
         plugins,
         external,
       }
-      const opts = (Object.entries(buildConfig) as [Module, BuildInfo][]).map(
+      const opts = (Object.entries(buildConfig) as BuildConfigEntries).map(
         ([module, config]): OutputOptions => ({
           format: config.format,
           file: path.resolve(
@@ -84,7 +73,7 @@ async function buildEachComponent() {
             'index.js'
           ),
           exports: module === 'cjs' ? 'named' : undefined,
-          paths: pathsRewriter(module),
+          paths: pathRewriter(module),
           plugins: [filesize({ reporter })],
         })
       )
@@ -96,7 +85,7 @@ async function buildEachComponent() {
   await Promise.all(builds)
 }
 
-async function buildComponentEntry() {
+export async function buildComponentEntry() {
   const entry = path.resolve(compRoot, 'index.ts')
   const config = {
     input: entry,
@@ -125,9 +114,9 @@ function copyTypes() {
   return parallel(copy('esm'), copy('cjs'))
 }
 
-export const buildComponents = series(
-  init,
+export const buildComponent = series(
   parallel(genComponentTypes, buildEachComponent, buildComponentEntry),
   copyTypes()
 )
-export { genComponentTypes, buildEachComponent, buildComponentEntry }
+
+export { genComponentTypes }
