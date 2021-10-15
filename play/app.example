@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import ElButton from '@element-plus/components'
+import ElButton from '@element-plus/components/button'
 </script>
 
 <style lang="scss">
