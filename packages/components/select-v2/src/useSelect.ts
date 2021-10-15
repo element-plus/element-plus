@@ -380,7 +380,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const onSelect = (option: Option, idx: number, byClick = true) => {
-    const valueKey = props.valueKey
     if (props.multiple) {
       let selectedOptions = (props.modelValue as any[]).slice()
 
