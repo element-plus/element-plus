@@ -32,7 +32,10 @@ describe('Rate.vue', () => {
     const vm = wrapper.vm
     const secondStar = wrapper.findAll('.el-rate__item')[1]
       .element as HTMLElement
-    vm.$refs.rate.setCurrentValue(1, { target: secondStar, offsetX: 0 })
+    vm.$refs.rate.setCurrentValue(1, {
+      target: { ...secondStar, clientWidth: 1 },
+      offsetX: 0,
+    })
     // expect(vm.$refs.rate.currentValue).toEqual(0.5)
     secondStar.click()
     vm.$refs.rate.resetCurrentValue()
