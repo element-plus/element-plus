@@ -11,6 +11,15 @@
         :style="labelStyle"
       >
         <slot name="label" :label="label + elForm.labelSuffix">
+          <template v-if="showHelper">
+            <ElTooltip :content="helperMessage" placement="top-start">
+              <i
+                class="helper-icon"
+                :class="helperIconClass"
+                :style="{ color: helperIconColor }"
+              />
+            </ElTooltip>
+          </template>
           {{ label + elForm.labelSuffix }}
         </slot>
       </label>
@@ -59,6 +68,7 @@ import {
 } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 import { elFormItemKey, elFormKey } from '@element-plus/tokens'
+import ElTooltip from '@element-plus/components/tooltip'
 import LabelWrap from './label-wrap'
 
 import type { PropType, CSSProperties } from 'vue'
@@ -71,6 +81,7 @@ export default defineComponent({
   componentName: 'ElFormItem',
   components: {
     LabelWrap,
+    ElTooltip,
   },
   props: {
     label: String,
@@ -99,6 +110,19 @@ export default defineComponent({
       type: String as PropType<ComponentSize>,
       validator: isValidComponentSize,
     },
+    showHelper: {
+      type: Boolean,
+      default: false,
+    },
+    helperMessage: {
+      type: String,
+      default: '',
+    },
+    helperIconClass: {
+      type: String,
+      default: 'el-icon-question',
+    },
+    helperIconColor: String,
   },
   setup(props, { slots }) {
     const $ELEMENT = useGlobalConfig()

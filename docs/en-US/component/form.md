@@ -38,14 +38,14 @@ The component has been upgraded with a flex layout to replace the old float layo
       font-size: 0;
       height: 0;
     }
-
+    
     .el-checkbox {
       float: left;
       width: 160px;
       padding-right: 20px;
       margin: 0;
       padding: 0;
-
+    
       + .el-checkbox {
         margin-left: 0;
       }
@@ -88,7 +88,7 @@ The component has been upgraded with a flex layout to replace the old float layo
 
 It includes all kinds of input items, such as `input`, `select`, `radio` and `checkbox`.
 
-:::demo In each `form` component, you need a `form-item` field to be the container of your input item.
+:::demo In each `form` component, you need a `form-item` field to be the container of your input item. you can also add the `show-helper` attribute for each item to show more auxiliary information
 
 form/basic-form
 
@@ -224,17 +224,21 @@ form/size-control
 
 ## Form-Item Attributes
 
-| Attribute      | Description                                                                                                                              | Type            | Accepted Values                     | Default |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | --------------- | ----------------------------------- | ------- |
-| prop           | a key of `model`. In the use of validate and resetFields method, the attribute is required                                               | string          | keys of model that passed to `form` |
-| label          | label                                                                                                                                    | string          | —                                   | —       |
-| label-width    | width of label, e.g. '50px'. Width `auto` is supported.                                                                                  | string / number | —                                   | —       |
-| required       | whether the field is required or not, will be determined by validation rules if omitted                                                  | boolean         | —                                   | false   |
-| rules          | validation rules of form, see the following table, more advanced usage at [async-validator](https://github.com/yiminghe/async-validator) | object / array  | —                                   | —       |
-| error          | field error message, set its value and the field will validate error and show this message immediately                                   | string          | —                                   | —       |
-| show-message   | whether to show the error message                                                                                                        | boolean         | —                                   | true    |
-| inline-message | inline style validate message                                                                                                            | boolean         | —                                   | false   |
-| size           | control the size of components in this form-item                                                                                         | string          | medium / small / mini               | —       |
+| Attribute         | Description                                                                                                                              | Type            | Accepted Values                     | Default          |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | --------------- | ----------------------------------- | ---------------- |
+| prop              | a key of `model`. In the use of validate and resetFields method, the attribute is required                                               | string          | keys of model that passed to `form` |                  |
+| label             | label                                                                                                                                    | string          | —                                   | —                |
+| label-width       | width of label, e.g. '50px'. Width `auto` is supported.                                                                                  | string / number | —                                   | —                |
+| required          | whether the field is required or not, will be determined by validation rules if omitted                                                  | boolean         | —                                   | false            |
+| rules             | validation rules of form, see the following table, more advanced usage at [async-validator](https://github.com/yiminghe/async-validator) | object / array  | —                                   | —                |
+| error             | field error message, set its value and the field will validate error and show this message immediately                                   | string          | —                                   | —                |
+| show-message      | whether to show the error message                                                                                                        | boolean         | —                                   | true             |
+| inline-message    | inline style validate message                                                                                                            | boolean         | —                                   | false            |
+| size              | control the size of components in this form-item                                                                                         | string          | medium / small / mini               | —                |
+| show-helper       | Whether to display auxiliary information                                                                                                 | boolean         | —                                   | false            |
+| helper-message    | Auxiliary content.`show-helper` is valid if it is true                                                                                   | string          | —                                   | —                |
+| helper-icon-class | icon for auxiliary information.`show-helper` is valid if it is true                                                                      | string          | —                                   | el-icon-question |
+| helper-icon-color | icon color. `show-helper` is valid if it is true                                                                                         | string          | —                                   | \#E6A23C         |
 
 ## Rules
 

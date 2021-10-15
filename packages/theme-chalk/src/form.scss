@@ -50,6 +50,11 @@
     display: none;
   }
 
+  .helper-icon {
+    color: var(--el-color-warning);
+    cursor: pointer;
+  }
+
   @include m(medium) {
     .#{$namespace}-form-item__label {
       line-height: 36px;
