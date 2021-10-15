@@ -150,7 +150,7 @@ export const isHTMLElement = (val: unknown) => toRawType(val).startsWith('HTML')
 
 export function rafThrottle<T extends (...args: any) => any>(fn: T): T {
   let locked = false
-  return function (this: any, ...args: any[]) {
+  return function (this: ThisParameterType<T>, ...args: any[]) {
     if (locked) return
     locked = true
 
