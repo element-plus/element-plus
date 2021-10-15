@@ -68,7 +68,7 @@ export function getPropByPath(
         tempObj = tempObj[key]
       } else {
         if (strict) {
-          throw new Error('please transfer a valid prop path to form item!')
+          throw new Error('Please transfer a valid prop path to form item!')
         }
         break
       }

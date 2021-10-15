@@ -260,7 +260,7 @@ describe('Switch.vue', () => {
               this.loading = false
               return this.asyncResult == 'success'
                 ? resolve(true)
-                : reject(new Error('error'))
+                : reject(new Error('Error'))
             }, 1000)
           })
         },

@@ -251,7 +251,7 @@ class Node {
   }
 
   insertChild(child?: FakeNode | Node, index?: number, batch?: boolean): void {
-    if (!child) throw new Error('insertChild error: child is required.')
+    if (!child) throw new Error('InsertChild error: child is required.')
 
     if (!(child instanceof Node)) {
       if (!batch) {
