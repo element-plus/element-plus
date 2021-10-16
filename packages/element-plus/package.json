@@ -17,6 +17,8 @@
       "require": "./lib/index.js",
       "import": "./es/index.mjs"
     },
+    "./es": "./es/index.mjs",
+    "./lib": "./lib/index.js",
     "./*": "./*"
   },
   "main": "lib/index.js",
