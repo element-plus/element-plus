@@ -5,6 +5,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import vue from 'rollup-plugin-vue'
 import esbuild from 'rollup-plugin-esbuild'
 import replace from '@rollup/plugin-replace'
+import filesize from 'rollup-plugin-filesize'
 import { parallel } from 'gulp'
 import { RollupResolveEntryPlugin } from './plugins/rollup-plugin-entry'
 import { epRoot, epOutput } from './utils/paths'
@@ -27,6 +28,7 @@ export const buildFull = (minify: boolean) => async () => {
         'process.env.NODE_ENV': JSON.stringify('production'),
       }),
       RollupResolveEntryPlugin(),
+      filesize(),
     ],
     external: await generateExternal({ full: true }),
   }
