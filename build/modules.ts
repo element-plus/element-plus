@@ -48,6 +48,7 @@ export const buildModules = async () => {
         preserveModules: true,
         preserveModulesRoot: epRoot,
         sourcemap: true,
+        entryFileNames: `[name].${config.ext}`,
       }
     })
   )

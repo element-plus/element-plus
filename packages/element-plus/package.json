@@ -15,12 +15,12 @@
   "exports": {
     ".": {
       "require": "./lib/index.js",
-      "import": "./es/index.js"
+      "import": "./es/index.mjs"
     },
     "./*": "./*"
   },
   "main": "lib/index.js",
-  "module": "es/index.js",
+  "module": "es/index.mjs",
   "style": "dist/index.css",
   "unpkg": "dist/index.full.js",
   "jsdelivr": "dist/index.full.js",
