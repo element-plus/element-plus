@@ -32,6 +32,7 @@ export const buildModules = async () => {
       esbuild(),
     ],
     external: await generateExternal({ full: false }),
+    treeshake: false,
   })
   await writeBundles(bundle, [
     {
