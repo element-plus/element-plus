@@ -23,13 +23,13 @@
         class="el-rate__icon"
         :style="getIconStyle(item)"
       >
-        <component :is="classes[item - 1]" />
+        <component :is="iconComponents[item - 1]" />
         <el-icon
           v-if="showDecimalIcon(item)"
           :style="decimalStyle"
           class="el-rate__icon el-rate__decimal"
         >
-          <component :is="decimalIconClass" />
+          <component :is="decimalIconComponent" />
         </el-icon>
       </el-icon>
     </span>
@@ -196,7 +196,7 @@ export default defineComponent({
       }
     })
 
-    const classMap = computed(() =>
+    const componentMap = computed(() =>
       isArray(props.icons)
         ? {
             [props.lowThreshold]: props.icons[0],
@@ -208,23 +208,23 @@ export default defineComponent({
           }
         : props.icons
     )
-    const decimalIconClass = computed(() =>
-      getValueFromMap(props.modelValue, classMap.value)
+    const decimalIconComponent = computed(() =>
+      getValueFromMap(props.modelValue, componentMap.value)
     )
-    const voidClass = computed(() =>
+    const voidComponent = computed(() =>
       rateDisabled.value ? props.disabledvoidIcon : props.voidIcon
     )
-    const activeClass = computed(() =>
-      getValueFromMap(currentValue.value, classMap.value)
+    const activeComponent = computed(() =>
+      getValueFromMap(currentValue.value, componentMap.value)
     )
-    const classes = computed(() => {
+    const iconComponents = computed(() => {
       const result = Array(props.max)
       const threshold = currentValue.value
       // if (props.allowHalf && currentValue.value !== Math.floor(currentValue.value)) {
       //   threshold--
       // }
-      result.fill(activeClass.value, 0, threshold)
-      result.fill(voidClass.value, threshold, props.max)
+      result.fill(activeComponent.value, 0, threshold)
+      result.fill(voidComponent.value, threshold, props.max)
       return result
     })
 
@@ -355,8 +355,8 @@ export default defineComponent({
       rateDisabled,
       text,
       decimalStyle,
-      decimalIconClass,
-      classes,
+      decimalIconComponent,
+      iconComponents,
 
       showDecimalIcon,
       getIconStyle,
