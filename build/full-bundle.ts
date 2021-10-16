@@ -6,10 +6,10 @@ import vue from 'rollup-plugin-vue'
 import esbuild from 'rollup-plugin-esbuild'
 import replace from '@rollup/plugin-replace'
 import { parallel } from 'gulp'
-import { RollupResolveEntryPlugin } from './rollup-plugin-entry'
+import { RollupResolveEntryPlugin } from './plugins/rollup-plugin-entry'
 import { epRoot, epOutput } from './utils/paths'
 import { generateExternal, writeBundles } from './utils/rollup'
-import { run } from './utils/process'
+
 import { withTaskName } from './utils/gulp'
 
 export const buildFull = (minify: boolean) => async () => {
@@ -53,12 +53,6 @@ export const buildFull = (minify: boolean) => async () => {
     },
   ])
 }
-
-export const copyFullStyle = () =>
-  Promise.all([
-    run(`cp ${epOutput}/theme-chalk/index.css ${epOutput}/dist/index.css`),
-    run(`cp -R ${epOutput}/theme-chalk/fonts ${epOutput}/dist/fonts`),
-  ])
 
 export const buildFullBundle = parallel(
   withTaskName('buildFullMinified', buildFull(true)),

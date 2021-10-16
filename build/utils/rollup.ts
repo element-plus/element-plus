@@ -1,19 +1,15 @@
 import { epPackage } from './paths'
-import { getWorkspacePackages, getPackageDependencies } from './pkg'
+import { getPackageDependencies } from './pkg'
 
 import type { OutputOptions, RollupBuild } from 'rollup'
 
 export const generateExternal = async (options: { full: boolean }) => {
-  const monoPackages = (await getWorkspacePackages())
-    .map((pkg) => pkg.manifest.name)
-    // filter root package
-    .filter((name): name is string => !!name)
-
   return (id: string) => {
     const packages: string[] = ['vue']
     if (!options.full) {
-      const depPackages = getPackageDependencies(epPackage)
-      packages.push('@vue', ...monoPackages, ...depPackages)
+      packages.push('element-plus/theme-chalk')
+      // dependencies
+      packages.push('@vue', ...getPackageDependencies(epPackage))
     }
 
     return [...new Set(packages)].some(

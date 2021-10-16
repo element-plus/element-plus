@@ -1,5 +1,5 @@
 import { spawn } from 'child_process'
-import { green } from './log'
+import { green } from 'chalk'
 import { projRoot } from './paths'
 
 export const run = async (command: string, cwd: string = projRoot) =>
@@ -7,7 +7,7 @@ export const run = async (command: string, cwd: string = projRoot) =>
     const args = command.split(' ')
     const cmd = args.shift()!
 
-    green(`run: ${cmd} ${args.join(' ')}`)
+    console.log(`run: ${green(`${cmd} ${args.join(' ')}`)}`)
     const app = spawn(cmd, args, {
       cwd,
       stdio: 'inherit',

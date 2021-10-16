@@ -1,6 +1,6 @@
 import path from 'path'
-import { pkgRoot } from './utils/paths'
-import { EP_PREFIX } from './utils/constants'
+import { pkgRoot } from '../utils/paths'
+import { EP_PREFIX } from '../utils/constants'
 import type { Plugin } from 'rollup'
 
 export function RollupResolveEntryPlugin(): Plugin {
@@ -17,7 +17,10 @@ export function RollupResolveEntryPlugin(): Plugin {
           /@element-plus\/(components|directives|utils|hooks|tokens|locale)/g,
           `${path.relative(path.dirname(id), path.resolve(pkgRoot))}/$1`
         )
-        return code
+        return {
+          code,
+          map: null,
+        }
       }
     },
   }

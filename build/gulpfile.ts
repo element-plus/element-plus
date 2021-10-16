@@ -3,31 +3,42 @@ import { series, parallel } from 'gulp'
 import { run } from './utils/process'
 import { withTaskName } from './utils/gulp'
 import { buildOutput, epOutput, epPackage, projRoot } from './utils/paths'
-import { copyFullStyle } from './full-bundle'
 import { buildConfig } from './info'
+import type { TaskFunction } from 'gulp'
 import type { Module } from './info'
 
 const runTask = (name: string) =>
   withTaskName(name, () => run(`pnpm run build ${name}`))
 
-export const copyDefinitions = async () => {
-  const files = [path.resolve(projRoot, 'typings', 'global.d.ts')]
-  await run(`cp ${files.join(' ')} ${epOutput}`)
+export const copyFiles = () => {
+  const copyTypings = async () => {
+    const src = path.resolve(projRoot, 'typings', 'global.d.ts')
+    await run(`cp ${src} ${epOutput}`)
+  }
+
+  return Promise.all([
+    run(`cp ${epPackage} ${path.join(epOutput, 'package.json')}`),
+    run(`cp README.md ${epOutput}`),
+    copyTypings(),
+  ])
 }
 
-export const copyFiles = async () => {
-  await run(`cp ${epPackage} ${path.join(epOutput, 'package.json')}`)
-  await run(`cp README.md ${epOutput}`)
-}
-
-function copyTypes() {
+export const copyTypesDefinitions: TaskFunction = (done) => {
   const src = `${buildOutput}/types/`
   const copy = (module: Module) =>
     withTaskName(`copyTypes:${module}`, () =>
       run(`rsync -a ${src} ${buildConfig[module].output.path}/`)
     )
 
-  return parallel(copy('esm'), copy('cjs'))
+  return parallel(copy('esm'), copy('cjs'))(done)
+}
+
+export const copyFullStyle = async () => {
+  await run(`mkdir -p ${epOutput}/dist/fonts`)
+  await Promise.all([
+    run(`cp ${epOutput}/theme-chalk/index.css ${epOutput}/dist/index.css`),
+    run(`cp -R ${epOutput}/theme-chalk/fonts ${epOutput}/dist/fonts`),
+  ])
 }
 
 export default series(
@@ -36,14 +47,17 @@ export default series(
   parallel(
     runTask('buildModules'),
     runTask('buildFullBundle'),
-    runTask('genComponentTypes'),
+    runTask('generateTypesDefinitions'),
     runTask('buildHelper'),
-    withTaskName('buildThemeChalk', () =>
-      run('pnpm run -C packages/theme-chalk build')
+    series(
+      withTaskName('buildThemeChalk', () =>
+        run('pnpm run -C packages/theme-chalk build')
+      ),
+      copyFullStyle
     )
   ),
 
-  parallel(copyFullStyle, copyDefinitions, copyTypes(), copyFiles)
+  parallel(copyTypesDefinitions, copyFiles)
 )
 
 export * from './component-types'

@@ -2,7 +2,7 @@ import { cyan, bold, yellow, green } from 'chalk'
 
 import type { FileSizeReporter } from 'rollup-plugin-filesize'
 
-const reporter: FileSizeReporter = (opt, outputOptions, info) => {
+export const reporter: FileSizeReporter = (opt, outputOptions, info) => {
   const values = [
     info.fileName ? [`${outputOptions.file?.split('packages/').pop()}`] : [],
 
@@ -14,5 +14,3 @@ const reporter: FileSizeReporter = (opt, outputOptions, info) => {
     values[1]
   )} -> minified ${green(values[2])}`
 }
-
-export default reporter

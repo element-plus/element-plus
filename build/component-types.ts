@@ -6,9 +6,10 @@ import glob from 'fast-glob'
 import { bold } from 'chalk'
 
 import { green, red, yellow } from './utils/log'
-import { buildOutput, compRoot, pkgRoot, projRoot } from './utils/paths'
+import { buildOutput, pkgRoot, projRoot } from './utils/paths'
 
-import { pathRewriter } from './utils/pkg'
+import { excludeFiles, pathRewriter } from './utils/pkg'
+import { run } from './utils/process'
 import type { SourceFile } from 'ts-morph'
 
 const TSCONFIG_PATH = path.resolve(projRoot, 'tsconfig.json')
@@ -35,14 +36,13 @@ export const generateTypesDefinitions = async () => {
     skipAddingFilesFromTsConfig: true,
   })
 
-  const excludes = ['node_modules', 'test', 'mocks', 'gulpfile']
-  const filePaths = (
+  const filePaths = excludeFiles(
     await glob('**/*.{js,ts,vue}', {
       cwd: pkgRoot,
       absolute: true,
       onlyFiles: true,
     })
-  ).filter((path) => !excludes.some((exclude) => path.includes(exclude)))
+  )
 
   const sourceFiles: SourceFile[] = []
   await Promise.all(
@@ -87,7 +87,7 @@ export const generateTypesDefinitions = async () => {
   })
 
   const tasks = sourceFiles.map(async (sourceFile) => {
-    const relativePath = path.relative(compRoot, sourceFile.getFilePath())
+    const relativePath = path.relative(pkgRoot, sourceFile.getFilePath())
     yellow(`Generating definition for file: ${bold(relativePath)}`)
 
     const emitOutput = sourceFile.getEmitOutput()
@@ -111,8 +111,16 @@ export const generateTypesDefinitions = async () => {
 
       green(`Definition for file: ${bold(relativePath)} generated`)
     })
+
     await Promise.all(tasks)
   })
 
   await Promise.all(tasks)
+
+  const epFiles = await glob('**/*', {
+    cwd: path.resolve(outDir, 'element-plus'),
+    absolute: true,
+  })
+  await run(`mv ${epFiles.join(' ')} ${outDir}`)
+  await run(`rmdir ${path.resolve(outDir, 'element-plus')}`)
 }
