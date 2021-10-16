@@ -240,6 +240,16 @@ export default defineComponent({
     maxlength: {
       type: [Number, String],
     },
+    // 输入字母是否小写转大写
+    uppercase: {
+      type: Boolean,
+      default: false,
+    },
+    // 去空格， 可以选start/end/all
+    trimType: {
+      type: String as PropType<'start' | 'end' | 'both' | 'all'>,
+      validator: (val: string) => ['start', 'end', 'both', 'all'].includes(val),
+    },
   },
 
   emits: [
@@ -395,6 +405,30 @@ export default defineComponent({
           : props.maxlength
         //  Convert value to an array for get a right lenght
         value = Array.from(value).slice(0, Number(sliceIndex)).join('')
+      }
+
+      if (value) {
+        if (props.uppercase) {
+          value = value.toUpperCase()
+        }
+
+        if (props.trimType) {
+          switch (props.trimType) {
+            case 'start':
+              value = value.trimStart()
+              break
+            case 'end':
+              value = value.trimEnd()
+              break
+            case 'both':
+              // 左右两边
+              value = value.replace(/(^\s*)|(\s*$)/g, '')
+              break
+            case 'all':
+              value = value.replace(/\s/g, '')
+              break
+          }
+        }
       }
 
       ctx.emit(UPDATE_MODEL_EVENT, value)
