@@ -14,7 +14,7 @@ import { generateExternal, writeBundles } from './utils/rollup'
 import { withTaskName } from './utils/gulp'
 
 export const buildFull = (minify: boolean) => async () => {
-  const config = {
+  const bundle = await rollup({
     input: path.resolve(epRoot, 'index.ts'),
     plugins: [
       nodeResolve(),
@@ -31,9 +31,7 @@ export const buildFull = (minify: boolean) => async () => {
       filesize(),
     ],
     external: await generateExternal({ full: true }),
-  }
-
-  const bundle = await rollup(config)
+  })
   await writeBundles(bundle, [
     {
       format: 'umd',
