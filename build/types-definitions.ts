@@ -79,7 +79,6 @@ export const generateTypesDefinitions = async () => {
   )
 
   const diagnostics = project.getPreEmitDiagnostics()
-
   console.log(project.formatDiagnosticsWithColorAndContext(diagnostics))
 
   await project.emit({

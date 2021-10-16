@@ -60,7 +60,7 @@ export default series(
   parallel(copyTypesDefinitions, copyFiles)
 )
 
-export * from './component-types'
+export * from './types-definitions'
 export * from './modules'
 export * from './full-bundle'
 export * from './helper'
