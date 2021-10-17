@@ -66,6 +66,16 @@ tree/customized-node
 
 :::
 
+## Custom node class
+
+The class of tree nodes can be customized
+
+:::demo. Use `props.class` to build class name of nodes.
+
+tree/custom-node-class
+
+:::
+
 ## Tree node filtering
 
 Tree nodes can be filtered
@@ -134,6 +144,7 @@ tree/draggable
 | children  | specify which node object is used as the node's subtree                       | string                        | —               | —       |
 | disabled  | specify which key of node object represents if node's checkbox is disabled    | boolean, function(data, node) | —               | —       |
 | isLeaf    | specify whether the node is a leaf node, only works when lazy load is enabled | boolean, function(data, node) | —               | —       |
+| class     | custom node class name                                                        | string, function(data, node)  | —               | —       |
 
 ## Method
 

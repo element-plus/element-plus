@@ -789,6 +789,18 @@ describe('Tree.vue', () => {
     expect(buttonWrapper.text()).toEqual('一级 1')
   })
 
+  test('custom-node-class', async () => {
+    const { wrapper } = getTreeVm(
+      `:props="{class:(data)=>{return data.id===11?'is-test':null}}" default-expand-all highlight-current node-key="id" :current-node-key="11"`
+    )
+
+    const currentNodeLabelWrapper = wrapper.find(
+      '.is-test .el-tree-node__label'
+    )
+
+    expect(currentNodeLabelWrapper.text()).toEqual('二级 1-1')
+  })
+
   test('scoped slot', async () => {
     const { wrapper } = getTreeVm('', {
       template: `
