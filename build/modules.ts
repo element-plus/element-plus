@@ -11,8 +11,7 @@ import { RollupResolveEntryPlugin } from './plugins/rollup-plugin-entry'
 import { generateExternal, writeBundles } from './utils/rollup'
 import { excludeFiles } from './utils/pkg'
 import { reporter } from './plugins/size-reporter'
-import { buildConfig } from './info'
-import type { BuildConfigEntries } from './info'
+import { buildConfigEntries } from './build-info'
 import type { OutputOptions } from 'rollup'
 
 export const buildModules = async () => {
@@ -26,29 +25,30 @@ export const buildModules = async () => {
   const bundle = await rollup({
     input,
     plugins: [
-      RollupResolveEntryPlugin(),
+      await RollupResolveEntryPlugin(),
       css(),
       vue({ target: 'browser' }),
       nodeResolve(),
       commonjs(),
-      esbuild(),
+      esbuild({
+        sourceMap: true,
+      }),
+      filesize({ reporter }),
     ],
     external: await generateExternal({ full: false }),
     treeshake: false,
   })
   await writeBundles(
     bundle,
-    (Object.entries(buildConfig) as BuildConfigEntries).map(
-      ([module, config]): OutputOptions => {
-        return {
-          format: config.format,
-          dir: config.output.path,
-          exports: module === 'cjs' ? 'named' : undefined,
-          preserveModules: true,
-          preserveModulesRoot: epRoot,
-          plugins: [filesize({ reporter })],
-        }
+    buildConfigEntries.map(([module, config]): OutputOptions => {
+      return {
+        format: config.format,
+        dir: config.output.path,
+        exports: module === 'cjs' ? 'named' : undefined,
+        preserveModules: true,
+        preserveModulesRoot: epRoot,
+        sourcemap: true,
       }
-    )
+    })
   )
 }

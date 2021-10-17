@@ -1,7 +1,18 @@
-import { buildConfig } from '../info'
+import findWorkspacePackages from '@pnpm/find-workspace-packages'
+import { buildConfig } from '../build-info'
 import { EP_PREFIX } from './constants'
-import type { Module } from '../info'
+import { projRoot } from './paths'
+import type { Module } from '../build-info'
 import type { ProjectManifest } from '@pnpm/types'
+
+export const getWorkspacePackages = () => findWorkspacePackages(projRoot)
+export const getWorkspaceNames = async (dir: string = projRoot) => {
+  const pkgs = await findWorkspacePackages(projRoot)
+  return pkgs
+    .filter((pkg) => pkg.dir.startsWith(dir))
+    .map((pkg) => pkg.manifest.name)
+    .filter((name): name is string => !!name)
+}
 
 export const getPackageManifest = (pkgPath: string) => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires

@@ -27,7 +27,7 @@ export const buildFull = (minify: boolean) => async () => {
       replace({
         'process.env.NODE_ENV': JSON.stringify('production'),
       }),
-      RollupResolveEntryPlugin(),
+      await RollupResolveEntryPlugin(),
       filesize(),
     ],
     external: await generateExternal({ full: true }),

@@ -3,9 +3,9 @@ import { series, parallel } from 'gulp'
 import { run } from './utils/process'
 import { withTaskName } from './utils/gulp'
 import { buildOutput, epOutput, epPackage, projRoot } from './utils/paths'
-import { buildConfig } from './info'
+import { buildConfig } from './build-info'
 import type { TaskFunction } from 'gulp'
-import type { Module } from './info'
+import type { Module } from './build-info'
 
 const runTask = (name: string) =>
   withTaskName(name, () => run(`pnpm run build ${name}`))
