@@ -7,6 +7,7 @@ import esbuild from 'rollup-plugin-esbuild'
 import replace from '@rollup/plugin-replace'
 import filesize from 'rollup-plugin-filesize'
 import { parallel } from 'gulp'
+import { version } from '../packages/element-plus/version'
 import { RollupResolveEntryPlugin } from './plugins/rollup-plugin-entry'
 import { epRoot, epOutput } from './utils/paths'
 import { generateExternal, writeBundles } from './utils/rollup'
@@ -32,6 +33,7 @@ export const buildFull = (minify: boolean) => async () => {
     ],
     external: await generateExternal({ full: true }),
   })
+  const banner = `/*! Element Plus v${version} */\n`
   await writeBundles(bundle, [
     {
       format: 'umd',
@@ -42,6 +44,7 @@ export const buildFull = (minify: boolean) => async () => {
         vue: 'Vue',
       },
       sourcemap: minify,
+      banner,
     },
     {
       format: 'esm',
@@ -50,6 +53,7 @@ export const buildFull = (minify: boolean) => async () => {
         `dist/index.full${minify ? '.min' : ''}.mjs`
       ),
       sourcemap: minify,
+      banner,
     },
   ])
 }
