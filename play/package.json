@@ -5,7 +5,7 @@
     "dev": "vite"
   },
   "dependencies": {
-    "@vitejs/plugin-vue": "^1.9.2",
-    "vite": "^2.5.10"
+    "@vitejs/plugin-vue": "^1.9.3",
+    "vite": "^2.6.7"
   }
 }

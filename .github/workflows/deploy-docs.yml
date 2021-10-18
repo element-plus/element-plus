@@ -24,13 +24,13 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 6.15.1
+          version: latest
 
       - name: Install dependencies
-        run: pnpm i
+        run: pnpm i --frozen-lockfile
 
-      - name: Fetch Crowdin token for pulling languages
-        run: pnpm docs:crowdin
+      - name: Init Crowdin token
+        run: pnpm run docs:crowdin-credentials
         env:
           CROWDIN_TOKEN: ${{secrets.CROWDIN_TOKEN}}
 

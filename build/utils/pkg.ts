@@ -1,23 +1,17 @@
 import findWorkspacePackages from '@pnpm/find-workspace-packages'
-import { buildConfig } from '../info'
-import { EP_PREFIX } from '../constants'
+import { buildConfig } from '../build-info'
+import { EP_PREFIX } from './constants'
 import { projRoot } from './paths'
-import type { Module } from '../info'
+import type { Module } from '../build-info'
 import type { ProjectManifest } from '@pnpm/types'
 
 export const getWorkspacePackages = () => findWorkspacePackages(projRoot)
-export const getWorkspaceNames = async () => {
+export const getWorkspaceNames = async (dir = projRoot) => {
   const pkgs = await findWorkspacePackages(projRoot)
   return pkgs
+    .filter((pkg) => pkg.dir.startsWith(dir))
     .map((pkg) => pkg.manifest.name)
     .filter((name): name is string => !!name)
-}
-export const getWorkspacePackageManifest = async (
-  name: string
-): Promise<ProjectManifest> => {
-  const packages = await getWorkspacePackages()
-  const { manifest } = packages.find((pkg) => pkg.manifest.name === name)!
-  return manifest
 }
 
 export const getPackageManifest = (pkgPath: string) => {
@@ -31,13 +25,19 @@ export const getPackageDependencies = (pkgPath: string): string[] => {
   return Object.keys(dependencies ?? {})
 }
 
-export const pathRewriter = (module: Module, replaceAll: boolean) => {
-  const replaceName = replaceAll ? 'replaceAll' : 'replace'
+export const pathRewriter = (module: Module) => {
   const config = buildConfig[module]
 
   return (id: string) => {
-    id = id[replaceName](`${EP_PREFIX}/theme-chalk`, 'element-plus/theme-chalk')
-    id = id[replaceName](`${EP_PREFIX}/`, `${config.bundle.path}/`)
+    id = id.replaceAll(`${EP_PREFIX}/theme-chalk`, 'element-plus/theme-chalk')
+    id = id.replaceAll(`${EP_PREFIX}/`, `${config.bundle.path}/`)
     return id
   }
+}
+
+export const excludeFiles = (files: string[]) => {
+  const excludes = ['node_modules', 'test', 'mock', 'gulpfile', 'dist']
+  return files.filter(
+    (path) => !excludes.some((exclude) => path.includes(exclude))
+  )
 }

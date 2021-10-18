@@ -12,8 +12,17 @@
     "vue"
   ],
   "license": "MIT",
+  "exports": {
+    ".": {
+      "require": "./lib/index.js",
+      "import": "./es/index.mjs"
+    },
+    "./es": "./es/index.mjs",
+    "./lib": "./lib/index.js",
+    "./*": "./*"
+  },
   "main": "lib/index.js",
-  "module": "es/index.js",
+  "module": "es/index.mjs",
   "style": "dist/index.css",
   "unpkg": "dist/index.full.js",
   "jsdelivr": "dist/index.full.js",
@@ -35,6 +44,7 @@
     "vue": "^3.2.0"
   },
   "dependencies": {
+    "@element-plus/icons": "^0.0.11",
     "@popperjs/core": "^2.10.1",
     "@vueuse/core": "~6.1.0",
     "async-validator": "^4.0.3",

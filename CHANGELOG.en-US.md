@@ -1,5 +1,52 @@
 ## Changelog
 
+
+### 1.1.0-beta.21
+
+_2021-10-18_
+
+#### Features
+
+- Components [el-menu] add ellipsis prop (#3870 by @xiaoxian521)
+- Build!: improve esm exports (#3871 by @sxzz)
+
+#### Bug fixes
+
+- About custom extension of table column (#3437 by @Alanscut)
+- [ElSelectV2] set value to an empty array after selection error (#3875 by @Alanscut)
+- Table lazy rows can't expand at the first time (#3731 by @Alanscut)
+- Capitalize the first letter of the error message (#3882 by @deepthan)
+- Components [el-form-item] calc the label-width. (#3914 by @cbbfcd)
+- Style(components): [el-message-box] string does not wrap (#3856 by @zhazhanitian) (#3867)
+
+#### Refactors
+
+- Utils improve props validator warning (#3847 by @sxzz)
+- Components refactor input (#3805 by @sxzz)
+- Components refactor image-viewer (#3810 by @sxzz)
+- Utils use built-in throwError function (#3916 by @cbbfcd)
+- Utils addClass and removeClass (#3858 by @btea)
+
+### 1.1.0-beta.20
+
+_2021-10-11_
+
+#### Bug fixes
+
+- Components fix composition event bug (#3659 by @bchen1029)
+- Build fix generate component type (#3766 by @sxzz)
+- Components [el-date-picker] panel not select value enter error (#3768 by @btea)
+- Build: add default slot to generate better code hint files (#3763 by @tolking)
+
+#### Refactors
+
+- Components refactor space (#3757 by @sxzz)
+- Utils refactor buildProps & replace buildProp (#3775 by @sxzz)
+- Components refactor image (#3770 by @sxzz)
+- Components refactor col (#3804 by @sxzz)
+- Build: refactor copyDefinitions (#3756 by @sxzz)
+- Utils improve defineProps (#3811 by @sxzz)
+
 ### 1.1.0-beta.19
 
 _2021-09-30_

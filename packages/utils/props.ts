@@ -1,6 +1,6 @@
+import { warn } from 'vue'
 import { isObject } from '@vue/shared'
-import mapValues from 'lodash/mapValues'
-import { debugWarn } from './error'
+import fromPairs from 'lodash/fromPairs'
 import type { ExtractPropTypes, PropType } from '@vue/runtime-core'
 import type { Mutable } from './types'
 
@@ -20,7 +20,8 @@ type ResolvePropTypeWithReadonly<T> = Readonly<T> extends Readonly<
 >
   ? ResolvePropType<A[]>
   : ResolvePropType<T>
-type IfUnknown<T, V> = [unknown] extends T ? V : T
+
+type IfUnknown<T, V> = [unknown] extends [T] ? V : T
 
 export type BuildPropOption<T, D extends BuildPropType<T, V, C>, R, V, C> = {
   type?: T
@@ -30,7 +31,7 @@ export type BuildPropOption<T, D extends BuildPropType<T, V, C>, R, V, C> = {
     ? never
     : D extends Record<string, unknown> | Array<any>
     ? () => D
-    : D
+    : (() => D) | D
   validator?: ((val: any) => val is C) | ((val: any) => boolean)
 }
 
@@ -48,22 +49,32 @@ export type BuildPropType<T, V, C> = _BuildPropType<
   IfUnknown<C, never>
 >
 
-export type BuildPropDefault<D, R> = R extends true
+type _BuildPropDefault<T, D> = [T] extends [
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  Record<string, unknown> | Array<any> | Function
+]
+  ? D
+  : D extends () => T
+  ? ReturnType<D>
+  : D
+
+export type BuildPropDefault<T, D, R> = R extends true
   ? { readonly default?: undefined }
   : {
       readonly default: Exclude<D, undefined> extends never
         ? undefined
-        : Exclude<
-            D extends Record<string, unknown> | Array<any> ? () => D : D,
-            undefined
-          >
+        : Exclude<_BuildPropDefault<T, D>, undefined>
     }
 export type BuildPropReturn<T, D, R, V, C> = {
   readonly type: PropType<BuildPropType<T, V, C>>
   readonly required: IfUnknown<R, false>
   readonly validator: ((val: unknown) => boolean) | undefined
   [propKey]: true
-} & BuildPropDefault<IfUnknown<D, never>, IfUnknown<R, false>>
+} & BuildPropDefault<
+  BuildPropType<T, V, C>,
+  IfUnknown<D, never>,
+  IfUnknown<R, false>
+>
 
 /**
  * @description Build prop. It can better optimize prop types
@@ -91,7 +102,10 @@ export function buildProp<
   R extends boolean = false,
   V = never,
   C = never
->(option: BuildPropOption<T, D, R, V, C>): BuildPropReturn<T, D, R, V, C> {
+>(
+  option: BuildPropOption<T, D, R, V, C>,
+  key?: string
+): BuildPropReturn<T, D, R, V, C> {
   // filter native prop type and nested prop, e.g `null`, `undefined` (from `buildProps`)
   if (!isObject(option) || !!option[propKey]) return option as any
 
@@ -110,11 +124,15 @@ export function buildProp<
           if (validator) valid ||= validator(val)
 
           if (!valid && allowedValues.length > 0) {
-            debugWarn(
-              `Vue warn`,
-              `Invalid prop: Expected one of (${allowedValues.join(
-                ', '
-              )}), got value ${val}`
+            const allowValuesText = [...new Set(allowedValues)]
+              .map((value) => JSON.stringify(value))
+              .join(', ')
+            warn(
+              `Invalid prop: validation failed${
+                key ? ` for prop "${key}"` : ''
+              }. Expected one of [${allowValuesText}], got value ${JSON.stringify(
+                val
+              )}.`
             )
           }
           return valid
@@ -122,7 +140,11 @@ export function buildProp<
       : undefined
 
   return {
-    type: (type as any)?.[wrapperKey] || type,
+    type:
+      typeof type === 'object' &&
+      Object.getOwnPropertySymbols(type).includes(wrapperKey)
+        ? type[wrapperKey]
+        : type,
     required: !!required,
     default: defaultValue,
     validator: _validator,
@@ -153,9 +175,14 @@ export const buildProps = <
       : never
   }
 >(
-  options: O
+  props: O
 ) =>
-  mapValues(options, (option) => buildProp(option)) as unknown as {
+  fromPairs(
+    Object.entries(props).map(([key, option]) => [
+      key,
+      buildProp(option as any, key),
+    ])
+  ) as unknown as {
     [K in keyof O]: O[K] extends { [propKey]: boolean }
       ? O[K]
       : [O[K]] extends NativePropType
