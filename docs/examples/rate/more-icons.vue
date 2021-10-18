@@ -3,7 +3,7 @@
     v-model="value"
     :icons="icons"
     :void-icon="ChatRound"
-    :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
+    :colors="['#409eff', '#67c23a', '#FF9900']"
   >
   </el-rate>
 </template>
