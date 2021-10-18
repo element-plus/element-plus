@@ -188,7 +188,8 @@ importers:
 
   packages/element-plus:
     specifiers:
-      '@popperjs/core': ^2.10.2
+      '@element-plus/icons': ^0.0.11
+      '@popperjs/core': ^2.10.1
       '@vueuse/core': ~6.1.0
       async-validator: ^4.0.3
       dayjs: ^1.10.7
@@ -197,6 +198,7 @@ importers:
       normalize-wheel-es: ^1.1.0
       resize-observer-polyfill: ^1.5.1
     dependencies:
+      '@element-plus/icons': 0.0.11
       '@popperjs/core': 2.10.2
       '@vueuse/core': 6.1.0_vue@3.2.20
       async-validator: 4.0.3

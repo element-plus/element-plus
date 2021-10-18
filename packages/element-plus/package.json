@@ -35,7 +35,8 @@
     "vue": "^3.2.0"
   },
   "dependencies": {
-    "@popperjs/core": "^2.10.2",
+    "@element-plus/icons": "^0.0.11",
+    "@popperjs/core": "^2.10.1",
     "@vueuse/core": "~6.1.0",
     "async-validator": "^4.0.3",
     "dayjs": "^1.10.7",
