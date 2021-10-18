@@ -6,7 +6,7 @@ import type { Module } from '../build-info'
 import type { ProjectManifest } from '@pnpm/types'
 
 export const getWorkspacePackages = () => findWorkspacePackages(projRoot)
-export const getWorkspaceNames = async (dir: string = projRoot) => {
+export const getWorkspaceNames = async (dir = projRoot) => {
   const pkgs = await findWorkspacePackages(projRoot)
   return pkgs
     .filter((pkg) => pkg.dir.startsWith(dir))
