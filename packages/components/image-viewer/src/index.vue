@@ -133,7 +133,7 @@ export default defineComponent({
     let _dragHandler = null
 
     const loading = ref(true)
-    const index = ref(props.initialIndex)
+    const index = computed(() => props.initialIndex)
     const wrapper = ref(null)
     const img = ref(null)
     const mode = ref(Mode.CONTAIN)
