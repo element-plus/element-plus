@@ -654,6 +654,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
             initHovering = true
           }
         })
+      } else {
+        states.cachedOptions = []
       }
     } else {
       if (props.modelValue) {

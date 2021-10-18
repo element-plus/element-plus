@@ -1,6 +1,6 @@
+import { warn } from 'vue'
 import { isObject } from '@vue/shared'
-import mapValues from 'lodash/mapValues'
-import { debugWarn } from './error'
+import fromPairs from 'lodash/fromPairs'
 import type { ExtractPropTypes, PropType } from '@vue/runtime-core'
 import type { Mutable } from './types'
 
@@ -102,7 +102,10 @@ export function buildProp<
   R extends boolean = false,
   V = never,
   C = never
->(option: BuildPropOption<T, D, R, V, C>): BuildPropReturn<T, D, R, V, C> {
+>(
+  option: BuildPropOption<T, D, R, V, C>,
+  key?: string
+): BuildPropReturn<T, D, R, V, C> {
   // filter native prop type and nested prop, e.g `null`, `undefined` (from `buildProps`)
   if (!isObject(option) || !!option[propKey]) return option as any
 
@@ -121,11 +124,15 @@ export function buildProp<
           if (validator) valid ||= validator(val)
 
           if (!valid && allowedValues.length > 0) {
-            debugWarn(
-              `Vue warn`,
-              `Invalid prop: Expected one of (${allowedValues.join(
-                ', '
-              )}), got value ${val}`
+            const allowValuesText = [...new Set(allowedValues)]
+              .map((value) => JSON.stringify(value))
+              .join(', ')
+            warn(
+              `Invalid prop: validation failed${
+                key ? ` for prop "${key}"` : ''
+              }. Expected one of [${allowValuesText}], got value ${JSON.stringify(
+                val
+              )}.`
             )
           }
           return valid
@@ -133,7 +140,11 @@ export function buildProp<
       : undefined
 
   return {
-    type: (type as any)?.[wrapperKey] || type,
+    type:
+      typeof type === 'object' &&
+      Object.getOwnPropertySymbols(type).includes(wrapperKey)
+        ? type[wrapperKey]
+        : type,
     required: !!required,
     default: defaultValue,
     validator: _validator,
@@ -164,9 +175,14 @@ export const buildProps = <
       : never
   }
 >(
-  options: O
+  props: O
 ) =>
-  mapValues(options, (option) => buildProp(option)) as unknown as {
+  fromPairs(
+    Object.entries(props).map(([key, option]) => [
+      key,
+      buildProp(option as any, key),
+    ])
+  ) as unknown as {
     [K in keyof O]: O[K] extends { [propKey]: boolean }
       ? O[K]
       : [O[K]] extends NativePropType
