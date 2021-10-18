@@ -140,7 +140,11 @@ export function buildProp<
       : undefined
 
   return {
-    type: (type as any)?.[wrapperKey] || type,
+    type:
+      typeof type === 'object' &&
+      Object.getOwnPropertySymbols(type).includes(wrapperKey)
+        ? type[wrapperKey]
+        : type,
     required: !!required,
     default: defaultValue,
     validator: _validator,
