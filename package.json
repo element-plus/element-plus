@@ -58,7 +58,7 @@
     "@element-plus/utils": "workspace:*",
     "@popperjs/core": "^2.10.2",
     "@vueuse/core": "~6.1.0",
-    "async-validator": "^4.0.3",
+    "async-validator": "4.0.3",
     "dayjs": "^1.10.7",
     "lodash": "^4.17.21",
     "memoize-one": "^5.2.1",
