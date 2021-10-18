@@ -147,7 +147,7 @@ export default defineComponent({
     const labelStyle = computed(() => {
       const ret: CSSProperties = {}
       if (elForm.labelPosition === 'top') return ret
-      const labelWidth = addUnit(props.labelWidth) || addUnit(elForm.labelWidth)
+      const labelWidth = addUnit(props.labelWidth || elForm.labelWidth)
       if (labelWidth) {
         ret.width = labelWidth
       }
@@ -161,7 +161,7 @@ export default defineComponent({
       if (!props.label && !props.labelWidth && isNested.value) {
         return ret
       }
-      const labelWidth = addUnit(props.labelWidth) || addUnit(elForm.labelWidth)
+      const labelWidth = addUnit(props.labelWidth || elForm.labelWidth)
       if (!props.label && !slots.label) {
         ret.marginLeft = labelWidth
       }
