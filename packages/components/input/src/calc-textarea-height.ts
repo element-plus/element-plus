@@ -65,7 +65,7 @@ function calculateNodeStyling(targetElement: Element): NodeStyle {
 export function calcTextareaHeight(
   targetElement: HTMLTextAreaElement,
   minRows = 1,
-  maxRows: number | undefined = undefined
+  maxRows?: number
 ): TextAreaHeight {
   if (!hiddenTextarea) {
     hiddenTextarea = document.createElement('textarea')
