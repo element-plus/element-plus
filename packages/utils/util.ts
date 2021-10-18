@@ -14,7 +14,7 @@ import {
 } from '@vue/shared'
 import isEqualWith from 'lodash/isEqualWith'
 import isServer from './isServer'
-import { debugWarn } from './error'
+import { debugWarn, throwError } from './error'
 
 import type { ComponentPublicInstance, CSSProperties, Ref } from 'vue'
 import type { AnyFunction, TimeoutHandle, Nullable } from './types'
@@ -68,7 +68,7 @@ export function getPropByPath(
         tempObj = tempObj[key]
       } else {
         if (strict) {
-          throw new Error('Please transfer a valid prop path to form item!')
+          throwError(SCOPE, 'Please transfer a valid prop path to form item!')
         }
         break
       }
