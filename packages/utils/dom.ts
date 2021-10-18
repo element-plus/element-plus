@@ -5,7 +5,14 @@ import type { CSSProperties } from 'vue'
 import type { Nullable } from './types'
 
 /* istanbul ignore next */
-const trimArr = function (s: string) {
+const trimArr = function (s: string | SVGAnimatedString) {
+  if (typeof s !== 'string') {
+    if (s.baseVal) {
+      return s.baseVal.split(' ').map((item) => item.trim())
+    } else {
+      return []
+    }
+  }
   return (s || '').split(' ').map((item) => item.trim())
 }
 
@@ -71,7 +78,15 @@ export function addClass(el: HTMLElement, cls: string): void {
   if (el.classList) {
     el.classList.add(...classes)
   } else {
-    el.className += ` ${classes.join(' ')}`
+    let className = el.className
+    if (typeof className === 'string') {
+      className += ` ${classes.join(' ')}`
+    } else {
+      className = `${(className as SVGAnimatedString).baseVal} ${classes.join(
+        ' '
+      )}`
+    }
+    el.setAttribute('class', className)
   }
 }
 
@@ -79,18 +94,24 @@ export function addClass(el: HTMLElement, cls: string): void {
 export function removeClass(el: HTMLElement, cls: string): void {
   if (!el || !cls) return
   const classes = trimArr(cls)
-  let curClass = ` ${el.className} `
+  let curClass = el.className as string | SVGAnimatedString
+  if (typeof curClass === 'string') {
+    curClass = ` ${curClass} `
+  } else {
+    curClass = ` ${curClass.baseVal} `
+  }
 
   if (el.classList) {
     el.classList.remove(...classes)
     return
   }
   classes.forEach((item) => {
-    curClass = curClass.replace(` ${item} `, ' ')
+    curClass = (curClass as string).replace(` ${item} `, ' ')
   })
-  el.className = trimArr(curClass)
+  const className = trimArr(curClass)
     .filter((item) => !!item)
     .join(' ')
+  el.setAttribute('class', className)
 }
 
 /* istanbul ignore next */
