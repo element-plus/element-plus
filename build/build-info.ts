@@ -8,6 +8,7 @@ export type Module = typeof modules[number]
 export interface BuildInfo {
   module: 'ESNext' | 'CommonJS'
   format: ModuleFormat
+  ext: 'mjs' | 'cjs' | 'js'
   output: {
     /** e.g: `es` */
     name: string
@@ -25,6 +26,7 @@ export const buildConfig: Record<Module, BuildInfo> = {
   esm: {
     module: 'ESNext',
     format: 'esm',
+    ext: 'mjs',
     output: {
       name: 'es',
       path: path.resolve(epOutput, 'es'),
@@ -36,6 +38,7 @@ export const buildConfig: Record<Module, BuildInfo> = {
   cjs: {
     module: 'CommonJS',
     format: 'cjs',
+    ext: 'js',
     output: {
       name: 'lib',
       path: path.resolve(epOutput, 'lib'),
