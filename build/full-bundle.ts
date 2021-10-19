@@ -1,39 +1,64 @@
 import path from 'path'
+import fs from 'fs'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import { rollup } from 'rollup'
 import commonjs from '@rollup/plugin-commonjs'
 import vue from 'rollup-plugin-vue'
 import esbuild from 'rollup-plugin-esbuild'
 import replace from '@rollup/plugin-replace'
-import filesize from 'rollup-plugin-filesize'
 import { parallel } from 'gulp'
-import { version } from '../packages/element-plus/version'
-import { RollupResolveEntryPlugin } from './plugins/rollup-plugin-entry'
+import { genEntryTypes } from './entry-types'
+import { RollupResolveEntryPlugin } from './rollup-plugin-entry'
 import { epRoot, epOutput } from './utils/paths'
-import { generateExternal, writeBundles } from './utils/rollup'
-
+import { yellow, green } from './utils/log'
+import {
+  generateExternal,
+  rollupPathRewriter,
+  writeBundles,
+} from './utils/rollup'
+import { buildConfig } from './info'
+import { run } from './utils/process'
 import { withTaskName } from './utils/gulp'
+import type { BuildConfigEntries } from './info'
+
+import type { RollupOptions, OutputOptions, InputOptions } from 'rollup'
+
+const getConfig = async (
+  opt: {
+    minify?: boolean
+    sourceMap?: boolean
+    plugins?: InputOptions['plugins']
+  } = {}
+): Promise<RollupOptions> => ({
+  input: path.resolve(epRoot, 'index.ts'),
+  plugins: [
+    nodeResolve(),
+    vue({
+      target: 'browser',
+      // css: false,
+      exposeFilename: false,
+    }),
+    commonjs(),
+    esbuild({
+      minify: opt.minify,
+      sourceMap: opt.sourceMap,
+    }),
+    replace({
+      'process.env.NODE_ENV': JSON.stringify('production'),
+    }),
+    ...(opt.plugins ?? []),
+  ],
+  external: await generateExternal({ full: true }),
+})
 
 export const buildFull = (minify: boolean) => async () => {
-  const bundle = await rollup({
-    input: path.resolve(epRoot, 'index.ts'),
-    plugins: [
-      nodeResolve(),
-      vue({
-        target: 'browser',
-        exposeFilename: false,
-      }),
-      commonjs(),
-      esbuild({ minify, sourceMap: minify }),
-      replace({
-        'process.env.NODE_ENV': JSON.stringify('production'),
-      }),
-      await RollupResolveEntryPlugin(),
-      filesize(),
-    ],
-    external: await generateExternal({ full: true }),
-  })
-  const banner = `/*! Element Plus v${version} */\n`
+  const bundle = await rollup(
+    await getConfig({
+      plugins: [RollupResolveEntryPlugin()],
+      minify,
+      sourceMap: minify,
+    })
+  )
   await writeBundles(bundle, [
     {
       format: 'umd',
@@ -44,7 +69,6 @@ export const buildFull = (minify: boolean) => async () => {
         vue: 'Vue',
       },
       sourcemap: minify,
-      banner,
     },
     {
       format: 'esm',
@@ -53,12 +77,51 @@ export const buildFull = (minify: boolean) => async () => {
         `dist/index.full${minify ? '.min' : ''}.mjs`
       ),
       sourcemap: minify,
-      banner,
     },
   ])
 }
 
+export const buildEntry = async () => {
+  const entryFiles = await fs.promises.readdir(epRoot, {
+    withFileTypes: true,
+  })
+
+  const entryPoints = entryFiles
+    .filter((f) => f.isFile())
+    .filter((f) => !['package.json', 'README.md'].includes(f.name))
+    .map((f) => path.resolve(epRoot, f.name))
+
+  const bundle = await rollup({
+    ...(await getConfig()),
+    input: entryPoints,
+    external: () => true,
+  })
+
+  yellow('Generating entries')
+  const rewriter = await rollupPathRewriter()
+  writeBundles(
+    bundle,
+    (Object.entries(buildConfig) as BuildConfigEntries).map(
+      ([module, config]): OutputOptions => ({
+        format: config.format,
+        dir: config.output.path,
+        exports: config.format === 'cjs' ? 'named' : undefined,
+        paths: rewriter(module),
+      })
+    )
+  )
+  green('entries generated')
+}
+
+export const copyFullStyle = () =>
+  Promise.all([
+    run(`cp ${epOutput}/theme-chalk/index.css ${epOutput}/dist/index.css`),
+    run(`cp -R ${epOutput}/theme-chalk/fonts ${epOutput}/dist/fonts`),
+  ])
+
 export const buildFullBundle = parallel(
   withTaskName('buildFullMinified', buildFull(true)),
-  withTaskName('buildFull', buildFull(false))
+  withTaskName('buildFull', buildFull(false)),
+  buildEntry,
+  genEntryTypes
 )

@@ -1,3 +1,4 @@
+import { isBoolean } from '@vueuse/shared'
 import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
 import { isNumber } from '@element-plus/utils/util'
 

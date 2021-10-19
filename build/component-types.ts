@@ -6,10 +6,9 @@ import glob from 'fast-glob'
 import { bold } from 'chalk'
 
 import { green, red, yellow } from './utils/log'
-import { buildOutput, pkgRoot, projRoot } from './utils/paths'
+import { buildOutput, compRoot, projRoot } from './utils/paths'
 
-import { excludeFiles, pathRewriter } from './utils/pkg'
-import { run } from './utils/process'
+import { pathRewriter } from './utils/pkg'
 import type { SourceFile } from 'ts-morph'
 
 const TSCONFIG_PATH = path.resolve(projRoot, 'tsconfig.json')
@@ -18,7 +17,7 @@ const outDir = path.resolve(buildOutput, 'types')
 /**
  * fork = require( https://github.com/egoist/vue-dts-gen/blob/main/src/index.ts
  */
-export const generateTypesDefinitions = async () => {
+export const genComponentTypes = async () => {
   const project = new Project({
     compilerOptions: {
       allowJs: true,
@@ -36,12 +35,27 @@ export const generateTypesDefinitions = async () => {
     skipAddingFilesFromTsConfig: true,
   })
 
-  const filePaths = excludeFiles(
-    await glob('**/*.{js,ts,vue}', {
-      cwd: pkgRoot,
-      absolute: true,
+  const excludedFiles = [
+    /\/demo\/\w+\.vue$/,
+    'mock',
+    'package.json',
+    'spec',
+    'test',
+    'css',
+    '.DS_Store',
+    'node_modules',
+  ]
+  const filePaths = (
+    await glob('**/*', {
+      cwd: compRoot,
       onlyFiles: true,
+      absolute: true,
     })
+  ).filter(
+    (path) =>
+      !excludedFiles.some((f) =>
+        f instanceof RegExp ? f.test(path) : path.includes(f)
+      )
   )
 
   const sourceFiles: SourceFile[] = []
@@ -79,6 +93,7 @@ export const generateTypesDefinitions = async () => {
   )
 
   const diagnostics = project.getPreEmitDiagnostics()
+
   console.log(project.formatDiagnosticsWithColorAndContext(diagnostics))
 
   await project.emit({
@@ -86,7 +101,7 @@ export const generateTypesDefinitions = async () => {
   })
 
   const tasks = sourceFiles.map(async (sourceFile) => {
-    const relativePath = path.relative(pkgRoot, sourceFile.getFilePath())
+    const relativePath = path.relative(compRoot, sourceFile.getFilePath())
     yellow(`Generating definition for file: ${bold(relativePath)}`)
 
     const emitOutput = sourceFile.getEmitOutput()
@@ -104,22 +119,14 @@ export const generateTypesDefinitions = async () => {
 
       await fs.writeFile(
         filepath,
-        pathRewriter('esm')(outputFile.getText()),
+        pathRewriter('esm', true)(outputFile.getText()),
         'utf8'
       )
 
       green(`Definition for file: ${bold(relativePath)} generated`)
     })
-
     await Promise.all(tasks)
   })
 
   await Promise.all(tasks)
-
-  const epFiles = await glob('**/*', {
-    cwd: path.resolve(outDir, 'element-plus'),
-    absolute: true,
-  })
-  await run(`mv ${epFiles.join(' ')} ${outDir}`)
-  await run(`rmdir ${path.resolve(outDir, 'element-plus')}`)
 }

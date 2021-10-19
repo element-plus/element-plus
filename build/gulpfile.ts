@@ -1,66 +1,54 @@
 import path from 'path'
 import { series, parallel } from 'gulp'
+import { copyStyle } from './style'
+import { copyEntryTypes } from './entry-types'
 import { run } from './utils/process'
 import { withTaskName } from './utils/gulp'
-import { buildOutput, epOutput, epPackage, projRoot } from './utils/paths'
-import { buildConfig } from './build-info'
-import type { TaskFunction } from 'gulp'
-import type { Module } from './build-info'
+import { epOutput, epPackage, projRoot } from './utils/paths'
+import { copyFullStyle } from './full-bundle'
 
 const runTask = (name: string) =>
   withTaskName(name, () => run(`pnpm run build ${name}`))
 
-export const copyFiles = () => {
-  const copyTypings = async () => {
-    const src = path.resolve(projRoot, 'typings', 'global.d.ts')
-    await run(`cp ${src} ${epOutput}`)
-  }
-
-  return Promise.all([
-    run(`cp ${epPackage} ${path.join(epOutput, 'package.json')}`),
-    run(`cp README.md ${epOutput}`),
-    copyTypings(),
-  ])
+export const copySourceCode = async () => {
+  await run(`cp -R packages ${epOutput}`)
+  await run(`cp ${epPackage} ${epOutput}/package.json`)
 }
 
-export const copyTypesDefinitions: TaskFunction = (done) => {
-  const src = `${buildOutput}/types/`
-  const copy = (module: Module) =>
-    withTaskName(`copyTypes:${module}`, () =>
-      run(`rsync -a ${src} ${buildConfig[module].output.path}/`)
-    )
-
-  return parallel(copy('esm'), copy('cjs'))(done)
+export const copyREADME = async () => {
+  await run(`cp README.md ${epOutput}`)
 }
 
-export const copyFullStyle = async () => {
-  await run(`mkdir -p ${epOutput}/dist/fonts`)
-  await Promise.all([
-    run(`cp ${epOutput}/theme-chalk/index.css ${epOutput}/dist/index.css`),
-    run(`cp -R ${epOutput}/theme-chalk/fonts ${epOutput}/dist/fonts`),
-  ])
+export const copyDefinitions = async () => {
+  const files = [path.resolve(projRoot, 'typings', 'global.d.ts')]
+  await run(`cp ${files.join(' ')} ${epOutput}`)
 }
 
 export default series(
   withTaskName('clean', () => run('pnpm run clean')),
 
   parallel(
-    runTask('buildModules'),
+    runTask('buildComponent'),
+    runTask('buildStyle'),
     runTask('buildFullBundle'),
-    runTask('generateTypesDefinitions'),
     runTask('buildHelper'),
-    series(
-      withTaskName('buildThemeChalk', () =>
-        run('pnpm run -C packages/theme-chalk build')
-      ),
-      copyFullStyle
+    withTaskName('buildEachPackages', () =>
+      run('pnpm run --filter ./packages --parallel --stream build')
     )
   ),
 
-  parallel(copyTypesDefinitions, copyFiles)
+  parallel(
+    copyStyle(),
+    copyFullStyle,
+    copyEntryTypes,
+    copySourceCode,
+    copyREADME,
+    copyDefinitions
+  )
 )
 
-export * from './types-definitions'
-export * from './modules'
+export * from './component'
+export * from './style'
 export * from './full-bundle'
+export * from './entry-types'
 export * from './helper'
