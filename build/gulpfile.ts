@@ -37,7 +37,7 @@ export const copyFullStyle = async () => {
   await run(`mkdir -p ${epOutput}/dist/fonts`)
   await Promise.all([
     run(`cp ${epOutput}/theme-chalk/index.css ${epOutput}/dist/index.css`),
-    run(`cp -R ${epOutput}/theme-chalk/fonts ${epOutput}/dist`),
+    run(`cp -R ${epOutput}/theme-chalk/fonts ${epOutput}/dist/fonts`),
   ])
 }
 
