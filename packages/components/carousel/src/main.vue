@@ -344,6 +344,14 @@ export default defineComponent({
         setActiveItem(data.activeIndex)
       }
     )
+    watch(
+      () => items.value && items.value.length,
+      (value) => {
+        if (value && value > 0) {
+          setActiveItem(0)
+        }
+      }
+    )
 
     // lifecycle
     onMounted(() => {
