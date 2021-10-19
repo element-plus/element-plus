@@ -5,14 +5,7 @@ import type { CSSProperties } from 'vue'
 import type { Nullable } from './types'
 
 /* istanbul ignore next */
-const trimArr = function (s: string | SVGAnimatedString) {
-  if (typeof s !== 'string') {
-    if (s.baseVal) {
-      return s.baseVal.split(' ').map((item) => item.trim())
-    } else {
-      return []
-    }
-  }
+const trimArr = function (s: string) {
   return (s || '').split(' ').map((item) => item.trim())
 }
 
@@ -56,21 +49,23 @@ export const once = function (
 }
 
 /* istanbul ignore next */
-export function hasClass(el: HTMLElement, cls: string): boolean {
+export function hasClass(el: HTMLElement | Element, cls: string): boolean {
   if (!el || !cls) return false
   if (cls.indexOf(' ') !== -1)
     throw new Error('className should not contain space.')
   if (el.classList) {
     return el.classList.contains(cls)
   } else {
-    return ` ${el.className} `.indexOf(` ${cls} `) > -1
+    const className = el.getAttribute('class') || ''
+    return ` ${className} `.indexOf(` ${cls} `) > -1
   }
 }
 
 /* istanbul ignore next */
-export function addClass(el: HTMLElement, cls: string): void {
+export function addClass(el: HTMLElement | Element, cls: string): void {
   if (!el) return
-  const curClass = trimArr(el.className)
+  let className = el.getAttribute('class') || ''
+  const curClass = trimArr(className)
   const classes = (cls || '')
     .split(' ')
     .filter((item) => !curClass.includes(item) && !!item.trim())
@@ -78,35 +73,23 @@ export function addClass(el: HTMLElement, cls: string): void {
   if (el.classList) {
     el.classList.add(...classes)
   } else {
-    let className = el.className
-    if (typeof className === 'string') {
-      className += ` ${classes.join(' ')}`
-    } else {
-      className = `${(className as SVGAnimatedString).baseVal} ${classes.join(
-        ' '
-      )}`
-    }
+    className += ` ${classes.join(' ')}`
     el.setAttribute('class', className)
   }
 }
 
 /* istanbul ignore next */
-export function removeClass(el: HTMLElement, cls: string): void {
+export function removeClass(el: HTMLElement | Element, cls: string): void {
   if (!el || !cls) return
   const classes = trimArr(cls)
-  let curClass = el.className as string | SVGAnimatedString
-  if (typeof curClass === 'string') {
-    curClass = ` ${curClass} `
-  } else {
-    curClass = ` ${curClass.baseVal} `
-  }
+  let curClass = el.getAttribute('class') || ''
 
   if (el.classList) {
     el.classList.remove(...classes)
     return
   }
   classes.forEach((item) => {
-    curClass = (curClass as string).replace(` ${item} `, ' ')
+    curClass = curClass.replace(` ${item} `, ' ')
   })
   const className = trimArr(curClass)
     .filter((item) => !!item)
