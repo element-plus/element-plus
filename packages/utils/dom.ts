@@ -5,8 +5,15 @@ import type { CSSProperties } from 'vue'
 import type { Nullable } from './types'
 
 /* istanbul ignore next */
-const trim = function (s: string) {
-  return (s || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '')
+const trimArr = function (s: string | SVGAnimatedString) {
+  if (typeof s !== 'string') {
+    if (s.baseVal) {
+      return s.baseVal.split(' ').map((item) => item.trim())
+    } else {
+      return []
+    }
+  }
+  return (s || '').split(' ').map((item) => item.trim())
 }
 
 /* istanbul ignore next */
@@ -39,7 +46,7 @@ export const once = function (
   event: string,
   fn: EventListener
 ): void {
-  const listener = function (...args: unknown[]) {
+  const listener = function (this: any, ...args: any) {
     if (fn) {
       fn.apply(this, args)
     }
@@ -63,43 +70,48 @@ export function hasClass(el: HTMLElement, cls: string): boolean {
 /* istanbul ignore next */
 export function addClass(el: HTMLElement, cls: string): void {
   if (!el) return
-  let curClass = el.className
-  const classes = (cls || '').split(' ')
+  const curClass = trimArr(el.className)
+  const classes = (cls || '')
+    .split(' ')
+    .filter((item) => !curClass.includes(item) && !!item.trim())
 
-  for (let i = 0, j = classes.length; i < j; i++) {
-    const clsName = classes[i]
-    if (!clsName) continue
-
-    if (el.classList) {
-      el.classList.add(clsName)
-    } else if (!hasClass(el, clsName)) {
-      curClass += ` ${clsName}`
+  if (el.classList) {
+    el.classList.add(...classes)
+  } else {
+    let className = el.className
+    if (typeof className === 'string') {
+      className += ` ${classes.join(' ')}`
+    } else {
+      className = `${(className as SVGAnimatedString).baseVal} ${classes.join(
+        ' '
+      )}`
     }
-  }
-  if (!el.classList) {
-    el.className = curClass
+    el.setAttribute('class', className)
   }
 }
 
 /* istanbul ignore next */
 export function removeClass(el: HTMLElement, cls: string): void {
   if (!el || !cls) return
-  const classes = cls.split(' ')
-  let curClass = ` ${el.className} `
-
-  for (let i = 0, j = classes.length; i < j; i++) {
-    const clsName = classes[i]
-    if (!clsName) continue
-
-    if (el.classList) {
-      el.classList.remove(clsName)
-    } else if (hasClass(el, clsName)) {
-      curClass = curClass.replace(` ${clsName} `, ' ')
-    }
+  const classes = trimArr(cls)
+  let curClass = el.className as string | SVGAnimatedString
+  if (typeof curClass === 'string') {
+    curClass = ` ${curClass} `
+  } else {
+    curClass = ` ${curClass.baseVal} `
   }
-  if (!el.classList) {
-    el.className = trim(curClass)
+
+  if (el.classList) {
+    el.classList.remove(...classes)
+    return
   }
+  classes.forEach((item) => {
+    curClass = (curClass as string).replace(` ${item} `, ' ')
+  })
+  const className = trimArr(curClass)
+    .filter((item) => !!item)
+    .join(' ')
+  el.setAttribute('class', className)
 }
 
 /* istanbul ignore next */
@@ -111,8 +123,8 @@ export const getStyle = function (
   element: HTMLElement,
   styleName: string
 ): string {
-  if (isServer) return
-  if (!element || !styleName) return null
+  if (isServer) return ''
+  if (!element || !styleName) return ''
   styleName = camelize(styleName)
   if (styleName === 'float') {
     styleName = 'cssFloat'
@@ -120,7 +132,7 @@ export const getStyle = function (
   try {
     const style = element.style[styleName]
     if (style) return style
-    const computed = document.defaultView.getComputedStyle(element, '')
+    const computed = document.defaultView?.getComputedStyle(element, '')
     return computed ? computed[styleName] : ''
   } catch (e) {
     return element.style[styleName]
@@ -163,8 +175,8 @@ export function removeStyle(
 export const isScroll = (
   el: HTMLElement,
   isVertical?: Nullable<boolean>
-): RegExpMatchArray => {
-  if (isServer) return
+): RegExpMatchArray | null => {
+  if (isServer) return null
   const determinedDirection = isVertical === null || isVertical === undefined
   const overflow = determinedDirection
     ? getStyle(el, 'overflow')
@@ -178,7 +190,7 @@ export const isScroll = (
 export const getScrollContainer = (
   el: HTMLElement,
   isVertical?: Nullable<boolean>
-): Window | HTMLElement => {
+): Window | HTMLElement | undefined => {
   if (isServer) return
 
   let parent: HTMLElement = el
