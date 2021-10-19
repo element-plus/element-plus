@@ -85,7 +85,7 @@ describe('Tag.vue', () => {
     expect(el.className.indexOf('el-tag--light') > -1).toEqual(false)
     expect(el.className.indexOf('el-tag--plain') > -1).toEqual(false)
   })
-  
+
   test('size', () => {
     const wrapper = mount(Tag, {
       props: {
