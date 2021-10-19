@@ -155,7 +155,7 @@ importers:
       axios: ^0.21.4
       clipboard-copy: ^4.0.1
       cross-env: ^7.0.3
-      element-plus: npm:element-plus@latest
+      element-plus: npm:element-plus@1.1.0-beta.20
       markdown-it: ^12.2.0
       markdown-it-container: ^3.0.0
       marked: ^3.0.7
@@ -167,7 +167,7 @@ importers:
       '@vueuse/core': 6.5.3_vue@3.2.20
       axios: 0.21.4
       clipboard-copy: 4.0.1
-      element-plus: 1.1.0-beta.21_vue@3.2.20
+      element-plus: 1.1.0-beta.20_vue@3.2.20
       marked: 3.0.7
       normalize.css: 8.0.1
       nprogress: 0.2.0
@@ -4007,12 +4007,11 @@ packages:
     resolution: {integrity: sha512-2jtSwgyiRzybHRxrc2nKI+39wH3AwQgn+sogQ+q814gv8hIFwrcZbV07Ea9f8AmK0ufPVZUvvAG1uZJ+obV4Jw==}
     dev: true
 
-  /element-plus/1.1.0-beta.21_vue@3.2.20:
-    resolution: {integrity: sha512-QaAX909KgFufXkIKAwXrdHRmv1e+jIyc1SlN90mg9HBE09MnInGUXy0qdYZhVoMgBFyStMkiSIz7XLG8m0ac8A==}
+  /element-plus/1.1.0-beta.20_vue@3.2.20:
+    resolution: {integrity: sha512-5rBrLzfKGz4urSxqKi1tihylyotSswMCKdXpCAJAfRggMjtS1NfqVtrCYEPdjphmP2JHsj8TisDvbRTScRKF0Q==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
-      '@element-plus/icons': 0.0.11
       '@popperjs/core': 2.10.2
       '@vueuse/core': 6.1.0_vue@3.2.20
       async-validator: 4.0.5
