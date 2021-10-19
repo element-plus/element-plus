@@ -344,6 +344,17 @@ export default defineComponent({
         setActiveItem(data.activeIndex)
       }
     )
+    watch(
+      () => items.value.length,
+      () => {
+        if (
+          props.initialIndex < items.value.length &&
+          props.initialIndex >= 0
+        ) {
+          data.activeIndex = props.initialIndex
+        }
+      }
+    )
 
     // lifecycle
     onMounted(() => {
