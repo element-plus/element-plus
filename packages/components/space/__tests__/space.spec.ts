@@ -71,7 +71,7 @@ describe('Space.vue', () => {
       size: 'unknown',
     })
 
-    expect(warnHandler).toHaveBeenCalledTimes(1)
+    expect(warnHandler).toHaveBeenCalled()
 
     expect(wrapper.find('.el-space__item').attributes('style')).toContain(
       'margin-right: 8px'

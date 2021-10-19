@@ -4,6 +4,7 @@ import chalk from 'chalk'
 export function cyan(str: string) {
   console.log(chalk.cyan(str))
 }
+
 export function yellow(str: string) {
   console.log(chalk.yellow(str))
 }

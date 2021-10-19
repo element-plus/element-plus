@@ -1,5 +1,5 @@
-import { isBoolean } from '@vueuse/shared'
 import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
+import { isNumber } from '@element-plus/utils/util'
 
 import type { ExtractPropTypes } from 'vue'
 
@@ -41,7 +41,7 @@ export type ImageProps = ExtractPropTypes<typeof imageProps>
 
 export const imageEmits = {
   error: (evt: Event) => evt instanceof Event,
-  switch: (val: boolean) => isBoolean(val),
+  switch: (val: number) => isNumber(val),
   close: () => true,
 }
 export type ImageEmits = typeof imageEmits
