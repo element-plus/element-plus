@@ -6,7 +6,7 @@ import type { Nullable } from './types'
 
 /* istanbul ignore next */
 const trimArr = function (s: string) {
-  return (s || '').split(' ').map((item) => item.trim())
+  return (s || '').split(' ').filter((item) => !!item.trim())
 }
 
 /* istanbul ignore next */
@@ -91,9 +91,7 @@ export function removeClass(el: HTMLElement | Element, cls: string): void {
   classes.forEach((item) => {
     curClass = curClass.replace(` ${item} `, ' ')
   })
-  const className = trimArr(curClass)
-    .filter((item) => !!item)
-    .join(' ')
+  const className = trimArr(curClass).join(' ')
   el.setAttribute('class', className)
 }
 
