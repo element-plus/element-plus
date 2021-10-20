@@ -55,15 +55,20 @@
     }
   }
 
-  .#{$namespace}-icon-circle-close {
+  .close-icon {
     cursor: pointer;
   }
 
   .#{$namespace}-range__icon {
+    height: inherit;
     font-size: 14px;
     margin-left: -5px;
     color: var(--el-text-color-placeholder);
     float: left;
+
+    svg {
+      vertical-align: middle;
+    }
   }
 
   .#{$namespace}-range-input {
@@ -99,9 +104,14 @@
   .#{$namespace}-range__close-icon {
     font-size: 14px;
     color: var(--el-text-color-placeholder);
+    height: inherit;
     width: 25px;
     display: inline-block;
     float: right;
+
+    svg {
+      vertical-align: middle;
+    }
   }
 }
 
