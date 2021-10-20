@@ -51,17 +51,18 @@
       &.is-selected {
         color: map.get($select-option, 'selected-font-color');
         background-color: map.get($select-dropdown, 'background');
-        font-weight: bold;
-        &::after {
+
+        & .el-icon {
           position: absolute;
           right: 20px;
           top: 0;
-          font-family: 'element-icons';
-          content: '\e6da';
+          height: inherit;
           font-size: 12px;
-          font-weight: bold;
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
+
+          svg {
+            height: inherit;
+            vertical-align: middle;
+          }
         }
       }
     }
