@@ -9,7 +9,7 @@ _2021-10-20_
 
 - Utils svg classname deal (#3926 by @btea)
 - Components [el-rate] decimal icon display problem (#3921 by @Alanscut)
-- Components elProgress 修复不必要的 props required 定义,减少单测错误 (#3954 by @Otto-J)
+- Components ElProgress remove unnecessary required props to prevent form error (#3954 by @Otto-J)
 
 #### Refactors
 
