@@ -1,6 +1,14 @@
 ## Changelog
 
 
+### 1.1.0-beta.23
+
+_2021-10-20_
+
+#### Bug fixes
+
+- Build fix package entry field (#3962 by @JeremyWuuuuu)
+
 ### 1.1.0-beta.22
 
 _2021-10-20_
