@@ -40,6 +40,7 @@ export const cellForced = {
       }
       return h(ElCheckbox, {
         disabled: isDisabled(),
+        size: store.states.tableSize.value,
         indeterminate:
           store.states.selection.value.length > 0 &&
           !store.states.isAllSelected.value,
@@ -62,6 +63,7 @@ export const cellForced = {
         disabled: column.selectable
           ? !column.selectable.call(null, row, $index)
           : false,
+        size: store.states.tableSize.value,
         onChange: () => {
           store.commit('rowSelectedChanged', row)
         },
