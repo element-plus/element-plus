@@ -57,7 +57,7 @@ export function hasClass(el: HTMLElement | Element, cls: string): boolean {
     return el.classList.contains(cls)
   } else {
     const className = el.getAttribute('class') || ''
-    return ` ${className} `.includes(` ${cls} `)
+    return className.split(' ').includes(cls)
   }
 }
 
