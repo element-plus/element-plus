@@ -1,5 +1,6 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
+import { Checked, CircleClose } from '@element-plus/icons'
 import Switch from '../src/index.vue'
 
 jest.useFakeTimers()
@@ -26,13 +27,12 @@ describe('Switch.vue', () => {
   test('switch with icons', () => {
     const wrapper = mount(Switch, {
       props: {
-        activeIconClass: 'el-icon-check',
-        inactiveIconClass: 'el-icon-close',
+        activeIcon: Checked,
+        inactiveIcon: CircleClose,
       },
     })
 
-    const iconWrapper = wrapper.find('.el-switch__label--left i')
-    expect(iconWrapper.classes('el-icon-close')).toBe(true)
+    expect(wrapper.findComponent(Checked).exists()).toBe(true)
   })
 
   test('value correctly update', async () => {
