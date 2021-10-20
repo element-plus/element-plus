@@ -35,10 +35,10 @@
     width: 148px;
     height: 148px;
     cursor: pointer;
-    line-height: 146px;
     vertical-align: top;
 
     i {
+      margin-top: 59px; /* (148px - 28px) / 2 - 1px */
       font-size: 28px;
       color: #8c939d;
     }
@@ -240,11 +240,14 @@
     transition: color var(--el-transition-duration);
     white-space: nowrap;
 
-    [class^='#{$namespace}-icon'] {
-      height: 100%;
+    & .#{$namespace}-icon {
       margin-right: 7px;
       color: var(--el-text-color-secondary);
       line-height: inherit;
+
+      svg {
+        vertical-align: text-bottom;
+      }
     }
   }
 

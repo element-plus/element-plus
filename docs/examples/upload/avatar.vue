@@ -58,8 +58,10 @@ export default {
   color: #8c939d;
   width: 178px;
   height: 178px;
-  line-height: 178px;
   text-align: center;
+}
+.avatar-uploader-icon svg {
+  margin-top: 74px; /* (178px - 28px) / 2 - 1px */
 }
 .avatar {
   width: 178px;
