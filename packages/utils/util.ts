@@ -208,14 +208,6 @@ export function deduplicate<T>(arr: T[]) {
   return Array.from(new Set(arr))
 }
 
-/**
- * Unwraps refed value
- * @param ref Refed value
- */
-export function $<T>(ref: Ref<T>) {
-  return ref.value
-}
-
 export function addUnit(value: string | number) {
   if (isString(value)) {
     return value
