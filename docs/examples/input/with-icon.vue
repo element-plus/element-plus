@@ -21,7 +21,7 @@
     <el-row :gutter="20">
       <el-input v-model="input3" placeholder="Pick a date">
         <template #suffix>
-          <el-icon class="el-input__icon e"><calendar /></el-icon>
+          <el-icon class="el-input__icon"><calendar /></el-icon>
         </template>
       </el-input>
     </el-row>
@@ -29,7 +29,7 @@
     <el-row :gutter="20">
       <el-input v-model="input4" placeholder="Type something">
         <template #prefix>
-          <el-icon class="el-input__icon e"><search /></el-icon>
+          <el-icon class="el-input__icon"><search /></el-icon>
         </template>
       </el-input>
     </el-row>

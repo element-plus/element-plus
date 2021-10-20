@@ -8,7 +8,7 @@
   >
     <template #suffix>
       <el-icon class="el-input__icon" @click="handleIconClick">
-        <Edit />
+        <edit />
       </el-icon>
     </template>
     <template #default="{ item }">

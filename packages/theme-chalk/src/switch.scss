@@ -48,6 +48,9 @@
       font-size: var(--el-switch-font-size);
       display: inline-block;
     }
+    .#{$namespace}-icon {
+      vertical-align: text-bottom;
+    }
   }
 
   @include e(input) {
