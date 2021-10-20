@@ -3,7 +3,6 @@ import path from 'path'
 import chalk from 'chalk'
 
 import { docRoot } from '../utils/paths'
-import { errorAndExit } from '../../../build/utils/log'
 
 // NB: this file is only for generating files that enables developers to develop the website.
 const componentLocaleRoot = path.resolve(docRoot, '.vitepress/crowdin')
@@ -102,10 +101,11 @@ main()
   .then(() => {
     console.log(chalk.green('Locale for website development generated'))
   })
-  .catch((err) => {
-    if (err.message === exists) {
+  .catch((e) => {
+    if (e.message === exists) {
       // do nothing
     } else {
-      errorAndExit(err)
+      console.log(chalk.red(e.message))
+      throw e
     }
   })
