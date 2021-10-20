@@ -82,6 +82,10 @@
           color: var(--el-select-close-hover-color);
         }
       }
+
+      &.#{$namespace}-icon {
+        height: inherit;
+      }
     }
 
     &.is-disabled {
