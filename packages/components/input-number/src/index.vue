@@ -17,7 +17,10 @@
       :class="{ 'is-disabled': minDisabled }"
       @keydown.enter="decrease"
     >
-      <i :class="`el-icon-${controlsAtRight ? 'arrow-down' : 'minus'}`"></i>
+      <el-icon>
+        <arrow-down v-if="controlsAtRight" />
+        <minus v-else />
+      </el-icon>
     </span>
     <span
       v-if="controls"
@@ -27,7 +30,10 @@
       :class="{ 'is-disabled': maxDisabled }"
       @keydown.enter="increase"
     >
-      <i :class="`el-icon-${controlsAtRight ? 'arrow-up' : 'plus'}`"></i>
+      <el-icon>
+        <arrow-up v-if="controlsAtRight" />
+        <plus v-else />
+      </el-icon>
     </span>
     <el-input
       ref="input"
@@ -60,12 +66,14 @@ import {
   onUpdated,
 } from 'vue'
 import { toRawType } from '@vue/shared'
+import { ElIcon } from '@element-plus/components/icon'
 import { RepeatClick } from '@element-plus/directives'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import ElInput from '@element-plus/components/input'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 import { debugWarn } from '@element-plus/utils/error'
+import { ArrowUp, ArrowDown, Plus, Minus } from '@element-plus/icons'
 
 import type { PropType } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
@@ -80,6 +88,11 @@ export default defineComponent({
   name: 'ElInputNumber',
   components: {
     ElInput,
+    ElIcon,
+    ArrowUp,
+    ArrowDown,
+    Plus,
+    Minus,
   },
   directives: {
     RepeatClick,

@@ -14,14 +14,6 @@
   @include e(inner) {
     @extend %size;
     vertical-align: top;
-
-    @include m(center) {
-      position: relative;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      display: block;
-    }
   }
 
   @include e(placeholder) {
