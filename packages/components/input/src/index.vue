@@ -49,10 +49,12 @@
       />
       <!-- 前置内容 -->
       <span v-if="$slots.prefix || prefixIcon" class="el-input__prefix">
-        <slot name="prefix"></slot>
-        <el-icon v-if="prefixIcon" class="el-input__icon">
-          <component :is="prefixIcon" />
-        </el-icon>
+        <span class="el-input__prefix-inner">
+          <slot name="prefix"></slot>
+          <el-icon v-if="prefixIcon" class="el-input__icon">
+            <component :is="prefixIcon" />
+          </el-icon>
+        </span>
       </span>
       <!-- 后置内容 -->
       <span v-if="getSuffixVisible()" class="el-input__suffix">
