@@ -48,7 +48,7 @@
             <el-icon
               v-if="clearBtnVisible"
               key="clear"
-              class="el-input__icon"
+              class="el-input__icon icon-circle-close"
               @click.stop="handleClear"
             >
               <circle-close />
@@ -56,7 +56,11 @@
             <el-icon
               v-else
               key="arrow-down"
-              :class="['el-input__icon', popperVisible && 'is-reverse']"
+              :class="[
+                'el-input__icon',
+                'icon-arrow-down',
+                popperVisible && 'is-reverse',
+              ]"
               @click.stop="togglePopperVisible()"
             >
               <arrow-down />
