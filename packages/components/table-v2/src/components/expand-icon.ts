@@ -1,6 +1,7 @@
 import { computed, defineComponent, h } from 'vue'
 import ElIcon from '@element-plus/components/icon'
 import { Expand } from '@element-plus/icons'
+import { prefix } from '../constants'
 
 import type { CSSProperties } from 'vue'
 
@@ -37,6 +38,7 @@ export default defineComponent({
       h(
         ElIcon,
         {
+          class: `${prefix}__expand-icon`,
           size: 16,
           onClick: handleClick,
         },

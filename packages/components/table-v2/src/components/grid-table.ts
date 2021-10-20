@@ -116,6 +116,7 @@ const GridTable = defineComponent({
     }
 
     return () => {
+      console.log(renderHeader())
       return h(
         'div',
         {

@@ -29,6 +29,7 @@ export const tableV2Props = buildProps({
   components: {
     type: definePropType<Partial<CustomizableComponent>>(Object),
   },
+
   columns: {
     type: definePropType<MappedColumn[]>(Array),
   },
@@ -57,6 +58,18 @@ export const tableV2Props = buildProps({
     type: String,
   },
 
+  headerClassName: {
+    type: String,
+  },
+
+  headerProps: {
+    type: Object,
+  },
+
+  headerRenderer: {
+    type: Function,
+  },
+
   rowProps: {
     type: definePropType<any>(Object),
   },
@@ -79,19 +92,19 @@ export const tableV2Props = buildProps({
     type: definePropType<Record<string, RowHandler>>(Object),
   },
 
-  // Full width for the entire table
-  width: {
-    type: Number,
-    required: true,
-  },
+  rowRenderer: { type: Function },
 
-  // Full height for the entire table
+  // Full height for the table body
   height: {
     type: Number,
     required: true,
   },
 
-  rowRenderer: { type: Function },
+  // Full width for the entire table
+  width: {
+    type: Number,
+    required: true,
+  },
 } as const)
 
 export const tableV2Emits = {
