@@ -6,7 +6,7 @@ import type { Nullable } from './types'
 
 /* istanbul ignore next */
 const trimArr = function (s: string) {
-  return (s || '').split(' ').map((item) => item.trim())
+  return (s || '').split(' ').filter((item) => !!item.trim())
 }
 
 /* istanbul ignore next */
@@ -49,21 +49,23 @@ export const once = function (
 }
 
 /* istanbul ignore next */
-export function hasClass(el: HTMLElement, cls: string): boolean {
+export function hasClass(el: HTMLElement | Element, cls: string): boolean {
   if (!el || !cls) return false
   if (cls.indexOf(' ') !== -1)
     throw new Error('className should not contain space.')
   if (el.classList) {
     return el.classList.contains(cls)
   } else {
-    return ` ${el.className} `.indexOf(` ${cls} `) > -1
+    const className = el.getAttribute('class') || ''
+    return className.split(' ').includes(cls)
   }
 }
 
 /* istanbul ignore next */
-export function addClass(el: HTMLElement, cls: string): void {
+export function addClass(el: HTMLElement | Element, cls: string): void {
   if (!el) return
-  const curClass = trimArr(el.className)
+  let className = el.getAttribute('class') || ''
+  const curClass = trimArr(className)
   const classes = (cls || '')
     .split(' ')
     .filter((item) => !curClass.includes(item) && !!item.trim())
@@ -71,15 +73,16 @@ export function addClass(el: HTMLElement, cls: string): void {
   if (el.classList) {
     el.classList.add(...classes)
   } else {
-    el.className += ` ${classes.join(' ')}`
+    className += ` ${classes.join(' ')}`
+    el.setAttribute('class', className)
   }
 }
 
 /* istanbul ignore next */
-export function removeClass(el: HTMLElement, cls: string): void {
+export function removeClass(el: HTMLElement | Element, cls: string): void {
   if (!el || !cls) return
   const classes = trimArr(cls)
-  let curClass = ` ${el.className} `
+  let curClass = el.getAttribute('class') || ''
 
   if (el.classList) {
     el.classList.remove(...classes)
@@ -88,9 +91,8 @@ export function removeClass(el: HTMLElement, cls: string): void {
   classes.forEach((item) => {
     curClass = curClass.replace(` ${item} `, ' ')
   })
-  el.className = trimArr(curClass)
-    .filter((item) => !!item)
-    .join(' ')
+  const className = trimArr(curClass).join(' ')
+  el.setAttribute('class', className)
 }
 
 /* istanbul ignore next */

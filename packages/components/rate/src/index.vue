@@ -203,7 +203,7 @@ export default defineComponent({
         : props.iconClasses
     )
     const decimalIconClass = computed(() =>
-      getValueFromMap(props.modelValue, classMap.value)
+      getValueFromMap(currentValue.value, classMap.value)
     )
     const voidClass = computed(() =>
       rateDisabled.value ? props.disabledVoidIconClass : props.voidIconClass

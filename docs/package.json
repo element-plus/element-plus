@@ -5,14 +5,13 @@
     "dev": "pnpm gen-locale && vitepress dev .",
     "build": "cross-env NODE_ENV=production && vitepress build .",
     "serve": "cross-env NODE_ENV=production && vitepress serve .",
-    "gen-locale": "rimraf .vitepress/i18n && sucrase-node .vitepress/build/crowdin-generate.ts",
-    "crowdin-credentials": "sucrase-node .vitepress/build/crowdin-credentials.ts"
+    "gen-locale": "rimraf .vitepress/i18n && sucrase-node .vitepress/build/crowdin-generate.ts"
   },
   "dependencies": {
     "@vueuse/core": "^6.5.3",
     "axios": "^0.21.4",
     "clipboard-copy": "^4.0.1",
-    "element-plus": "npm:element-plus@latest",
+    "element-plus": "npm:element-plus@1.1.0-beta.20",
     "marked": "^3.0.7",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0"
