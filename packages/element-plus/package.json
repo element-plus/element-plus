@@ -15,14 +15,14 @@
   "exports": {
     ".": {
       "require": "./lib/index.js",
-      "import": "./es/index.mjs"
+      "import": "./es/index.js"
     },
-    "./es": "./es/index.mjs",
+    "./es": "./es/index.js",
     "./lib": "./lib/index.js",
     "./*": "./*"
   },
   "main": "lib/index.js",
-  "module": "es/index.mjs",
+  "module": "es/index.js",
   "style": "dist/index.css",
   "unpkg": "dist/index.full.js",
   "jsdelivr": "dist/index.full.js",
