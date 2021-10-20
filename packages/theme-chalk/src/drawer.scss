@@ -59,6 +59,7 @@ $directions: rtl, ltr, ttb, btt;
     }
     .#{$namespace}-icon {
       font-size: inherit;
+      vertical-align: text-bottom;
     }
   }
 
