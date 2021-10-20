@@ -345,9 +345,9 @@ export default defineComponent({
       }
     )
     watch(
-      () => items.value && items.value.length,
+      () => items.value.length,
       (value) => {
-        if (value && value > 0) {
+        if (value > 0) {
           setActiveItem(0)
         }
       }
