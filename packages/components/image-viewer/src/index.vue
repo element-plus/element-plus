@@ -41,7 +41,9 @@
             <zoom-in />
           </el-icon>
           <i class="el-image-viewer__actions__divider"></i>
-          <i :class="mode.icon" @click="toggleMode"></i>
+          <el-icon @click="toggleMode">
+            <component :is="mode.icon" />
+          </el-icon>
           <i class="el-image-viewer__actions__divider"></i>
           <el-icon @click="handleActions('anticlocelise')">
             <refresh-left />
@@ -86,6 +88,8 @@ import {
   ZoomIn,
   RefreshLeft,
   RefreshRight,
+  FullScreen,
+  ScaleToOriginal,
 } from '@element-plus/icons'
 
 import type { PropType, CSSProperties } from 'vue'
@@ -93,11 +97,11 @@ import type { PropType, CSSProperties } from 'vue'
 const Mode = {
   CONTAIN: {
     name: 'contain',
-    icon: 'el-icon-full-screen',
+    icon: FullScreen,
   },
   ORIGINAL: {
     name: 'original',
-    icon: 'el-icon-c-scale-to-original',
+    icon: ScaleToOriginal,
   },
 }
 
