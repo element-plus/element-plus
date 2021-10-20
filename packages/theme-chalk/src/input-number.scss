@@ -21,6 +21,10 @@
     }
   }
 
+  .#{$namespace}-icon {
+    vertical-align: text-bottom;
+  }
+
   @include e((increase, decrease)) {
     position: absolute;
     z-index: 1;
