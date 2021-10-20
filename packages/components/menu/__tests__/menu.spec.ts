@@ -121,7 +121,6 @@ describe('menu', () => {
           >
             <el-sub-menu index="1" ref="subMenu">
               <template #title>
-                <i class="el-icon-location"></i>
                 <span>导航一</span>
               </template>
               <el-menu-item-group>
@@ -138,7 +137,6 @@ describe('menu', () => {
               </el-sub-menu>
             </el-sub-menu>
             <el-menu-item index="2">
-              <i class="el-icon-menu"></i>
               <template #title>导航二</template>
             </el-menu-item>
           </el-menu>
@@ -415,8 +413,8 @@ describe('other', () => {
     const wrapper = _mount(
       `<el-menu mode="vertical" default-active="1">
         <el-menu-item-group title="分组一" ref="group1">
-          <el-menu-item index="1"><i class="el-icon-message"></i>导航一</el-menu-item>
-          <el-menu-item index="2"><i class="el-icon-message"></i>导航二</el-menu-item>
+          <el-menu-item index="1">导航一</el-menu-item>
+          <el-menu-item index="2">导航二</el-menu-item>
         </el-menu-item-group>
         <el-sub-menu index="5">
           <template slot="title">导航五</template>
