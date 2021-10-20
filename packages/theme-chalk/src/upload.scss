@@ -35,10 +35,10 @@
     width: 148px;
     height: 148px;
     cursor: pointer;
-    line-height: 146px;
     vertical-align: top;
 
     i {
+      margin-top: 59px; /* (148px - 28px) / 2 - 1px */
       font-size: 28px;
       color: #8c939d;
     }
@@ -70,7 +70,7 @@
   position: relative;
   overflow: hidden;
 
-  .#{$namespace}-icon-upload {
+  .#{$namespace}-icon--upload {
     font-size: 67px;
     color: var(--el-text-color-placeholder);
     margin: 40px 0 16px;
@@ -145,11 +145,11 @@
       margin-top: 10px;
     }
 
-    & .#{$namespace}-icon-upload-success {
+    & .#{$namespace}-icon--upload-success {
       color: var(--el-color-success);
     }
 
-    .#{$namespace}-icon-close {
+    .#{$namespace}-icon--close {
       display: none;
       position: absolute;
       top: 5px;
@@ -164,7 +164,7 @@
       }
     }
 
-    & .#{$namespace}-icon-close-tip {
+    & .#{$namespace}-icon--close-tip {
       display: none;
       position: absolute;
       top: 5px;
@@ -178,7 +178,7 @@
     &:hover {
       background-color: $background-color-base;
 
-      .#{$namespace}-icon-close {
+      .#{$namespace}-icon--close {
         display: inline-block;
       }
 
@@ -209,7 +209,7 @@
       &:active {
         /* click时 */
         outline-width: 0;
-        .#{$namespace}-icon-close-tip {
+        .#{$namespace}-icon--close-tip {
           display: none;
         }
       }
@@ -240,11 +240,13 @@
     transition: color var(--el-transition-duration);
     white-space: nowrap;
 
-    [class^='#{$namespace}-icon'] {
-      height: 100%;
+    & .#{$namespace}-icon {
       margin-right: 7px;
       color: var(--el-text-color-secondary);
-      line-height: inherit;
+
+      svg {
+        vertical-align: text-bottom;
+      }
     }
   }
 
@@ -285,12 +287,12 @@
       margin: 0 8px 8px 0;
       display: inline-block;
 
-      .#{$namespace}-icon-check,
-      .#{$namespace}-icon-circle-check {
+      .#{$namespace}-icon--check,
+      .#{$namespace}-icon--circle-check {
         color: $color-white;
       }
 
-      .#{$namespace}-icon-close {
+      .#{$namespace}-icon--close {
         display: none;
       }
       &:hover {
@@ -399,8 +401,8 @@
       padding: 10px 10px 10px 90px;
       height: 92px;
 
-      .#{$namespace}-icon-check,
-      .#{$namespace}-icon-circle-check {
+      .#{$namespace}-icon--check,
+      .#{$namespace}-icon--circle-check {
         color: $color-white;
       }
 
