@@ -78,7 +78,7 @@
 
           <span v-if="isWordLimitVisible" class="el-input__count">
             <span class="el-input__count-inner">
-              {{ textLength }} / {{ maxlength }}
+              {{ textLength }} / {{ attrs.maxlength }}
             </span>
           </span>
         </span>
@@ -117,7 +117,7 @@
         @keydown="handleKeydown"
       />
       <span v-if="isWordLimitVisible" class="el-input__count">
-        {{ textLength }} / {{ maxlength }}
+        {{ textLength }} / {{ attrs.maxlength }}
       </span>
     </template>
   </div>
@@ -214,7 +214,7 @@ export default defineComponent({
     const isWordLimitVisible = computed(
       () =>
         props.showWordLimit &&
-        !!props.maxlength &&
+        !!attrs.value.maxlength &&
         (props.type === 'text' || props.type === 'textarea') &&
         !inputDisabled.value &&
         !props.readonly &&
@@ -224,7 +224,8 @@ export default defineComponent({
     const inputExceed = computed(
       () =>
         // show exceed style if length of initial value greater then maxlength
-        !!isWordLimitVisible.value && textLength.value > Number(props.maxlength)
+        !!isWordLimitVisible.value &&
+        textLength.value > Number(attrs.value.maxlength)
     )
 
     const resizeTextarea = () => {
@@ -278,7 +279,7 @@ export default defineComponent({
     }
 
     const handleInput = (event: Event) => {
-      let { value } = event.target as TargetElement
+      const { value } = event.target as TargetElement
 
       // should not emit input during composition
       // see: https://github.com/ElemeFE/element/issues/10516
@@ -287,15 +288,6 @@ export default defineComponent({
       // hack for https://github.com/ElemeFE/element/issues/8548
       // should remove the following line when we don't support IE
       if (value === nativeInputValue.value) return
-
-      // if set maxlength
-      if (props.maxlength) {
-        const sliceIndex = inputExceed.value
-          ? textLength.value
-          : props.maxlength
-        //  Convert value to an array for get a right lenght
-        value = Array.from(value).slice(0, Number(sliceIndex)).join('')
-      }
 
       emit(UPDATE_MODEL_EVENT, value)
       emit('input', value)
