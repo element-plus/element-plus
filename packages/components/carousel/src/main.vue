@@ -348,7 +348,7 @@ export default defineComponent({
       () => items.value.length,
       (value) => {
         if (value > 0) {
-          setActiveItem(0)
+          setActiveItem(props.initialIndex)
         }
       }
     )
