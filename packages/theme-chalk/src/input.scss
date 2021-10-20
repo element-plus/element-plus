@@ -203,9 +203,10 @@
 
   @include e(icon) {
     width: 25px;
+    height: inherit;
     text-align: center;
     transition: all var(--el-transition-duration);
-    line-height: map.get($input-height, 'default');
+    vertical-align: middle;
 
     &:after {
       content: '';
