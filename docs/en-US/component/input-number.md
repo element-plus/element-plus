@@ -94,11 +94,11 @@ input-number/controlled
 
 ## Events
 
-| Event Name | Description                     | Parameters             |
-| ---------- | ------------------------------- | ---------------------- |
+| Event Name | Description                     | Parameters                                             |
+| ---------- | ------------------------------- | ------------------------------------------------------ |
 | change     | triggers when the value changes | (currentValue: number \| NaN, oldValue: number \| NaN) |
-| blur       | triggers when Input blurs       | (event: Event)         |
-| focus      | triggers when Input focuses     | (event: Event)         |
+| blur       | triggers when Input blurs       | (event: Event)                                         |
+| focus      | triggers when Input focuses     | (event: Event)                                         |
 
 ## Methods
 
