@@ -146,6 +146,7 @@ import {
   onUpdated,
 } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
+import { CircleClose } from '@element-plus/icons'
 import { ValidateComponentsMap } from '@element-plus/utils/icon'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import { useAttrs, useFormItem } from '@element-plus/hooks'
@@ -167,7 +168,9 @@ const PENDANT_MAP = {
 
 export default defineComponent({
   name: 'ElInput',
-  components: { ElIcon },
+
+  components: { ElIcon, CircleClose },
+
   inheritAttrs: false,
 
   props: inputProps,
