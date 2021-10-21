@@ -54,6 +54,14 @@ export const messageProps = buildProps({
     type: Number,
     default: 0,
   },
+  polymerization: {
+    type: Boolean,
+    default: false,
+  },
+  repeatNum: {
+    type: Number,
+    default: 1,
+  },
 } as const)
 export type MessageProps = ExtractPropTypes<typeof messageProps>
 

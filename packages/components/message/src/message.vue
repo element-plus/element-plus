@@ -19,6 +19,13 @@
       @mouseenter="clearTimer"
       @mouseleave="startTimer"
     >
+      <el-badge
+        v-if="repeatNum > 1"
+        :value="repeatNum"
+        :type="type ?? 'info'"
+        class="el-message__badge"
+      >
+      </el-badge>
       <i
         v-if="type || iconClass"
         :class="['el-message__icon', typeClass, iconClass]"
@@ -39,9 +46,10 @@
   </transition>
 </template>
 <script lang="ts">
-import { defineComponent, computed, ref, onMounted } from 'vue'
+import { defineComponent, computed, ref, onMounted, watch } from 'vue'
 import { useEventListener, useTimeoutFn } from '@vueuse/core'
 import { EVENT_CODE } from '@element-plus/utils/aria'
+import ElBadge from '@element-plus/components/badge'
 import { messageEmits, messageProps } from './message'
 
 import type { CSSProperties } from 'vue'
@@ -56,6 +64,8 @@ const typeMap: Record<MessageProps['type'], string> = {
 
 export default defineComponent({
   name: 'ElMessage',
+
+  components: { ElBadge },
 
   props: messageProps,
   emits: messageEmits,
@@ -103,6 +113,14 @@ export default defineComponent({
       startTimer()
       visible.value = true
     })
+
+    watch(
+      () => props.repeatNum,
+      () => {
+        clearTimer()
+        startTimer()
+      }
+    )
 
     useEventListener(document, 'keydown', keydown)
 

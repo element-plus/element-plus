@@ -16,6 +16,30 @@ let seed = 1
 const message: MessageFn & Partial<Message> = function (options = {}) {
   if (isServer) return { close: () => undefined }
 
+  if (
+    !isVNode(options) &&
+    typeof options === 'object' &&
+    options.polymerization &&
+    !isVNode(options.message) &&
+    instances.length
+  ) {
+    const tempVm: any = instances.find(
+      (item) =>
+        `${item.vm.props?.message ?? ''}` ===
+        `${(options as any).message ?? ''}`
+    )
+    if (tempVm) {
+      tempVm.vm.component!.props.repeatNum += 1
+      tempVm.vm.component!.props.type = options?.type
+      return {
+        close: () =>
+          ((
+            vm.component!.proxy as ComponentPublicInstance<{ visible: boolean }>
+          ).visible = false),
+      }
+    }
+  }
+
   if (typeof options === 'string' || isVNode(options)) {
     options = { message: options }
   }
