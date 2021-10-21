@@ -318,11 +318,10 @@ export default defineComponent({
       /* istanbul ignore if */
       if (props.allowHalf) {
         let target = event.target as HTMLElement
-        if (target.clientWidth === 0) return
         if (hasClass(target, 'el-rate__item')) {
           target = target.querySelector('.el-rate__icon')
         }
-        if (hasClass(target, 'el-rate__decimal')) {
+        if (target.clientWidth === 0 || hasClass(target, 'el-rate__decimal')) {
           target = target.parentNode as HTMLElement
         }
         pointerAtLeftHalf.value = event.offsetX * 2 <= target.clientWidth
