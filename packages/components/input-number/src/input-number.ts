@@ -1,5 +1,8 @@
-import { buildProps, definePropType } from '@element-plus/utils/props'
-import { isValidComponentSize } from '@element-plus/utils/validators'
+import {
+  buildProps,
+  componentSize,
+  definePropType,
+} from '@element-plus/utils/props'
 
 import type { ComponentSize } from '@element-plus/utils/types'
 
@@ -29,7 +32,7 @@ export const inputNumberProps = buildProps({
   },
   size: {
     type: definePropType<ComponentSize>(String),
-    validator: isValidComponentSize,
+    values: componentSize,
   },
   controls: {
     type: Boolean,
@@ -46,10 +49,10 @@ export const inputNumberProps = buildProps({
     type: Number,
     validator: (val: number) => val >= 0 && val === parseInt(`${val}`, 10),
   },
-})
+} as const)
 
 export const inputNumberEmits = {
-  change: (prev: number, cur: number) => prev !== cur,
+  change: (prev: number | undefined, cur: number | undefined) => prev !== cur,
   blur: (e: Event) => e instanceof Event,
   focus: (e: Event) => e instanceof Event,
   input: (val: number) => typeof val === 'number',

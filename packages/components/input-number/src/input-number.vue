@@ -62,14 +62,18 @@ import {
 import { RepeatClick } from '@element-plus/directives'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import ElInput from '@element-plus/components/input'
-import { useGlobalConfig, isNumber } from '@element-plus/utils/util'
+import {
+  useGlobalConfig,
+  isNumber,
+  isUndefined,
+} from '@element-plus/utils/util'
 import { debugWarn } from '@element-plus/utils/error'
 import { inputNumberProps, inputNumberEmits } from './input-number'
 
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 
 interface IData {
-  currentValue: number
+  currentValue: number | undefined
   userInput: null | number | string
 }
 
@@ -95,11 +99,14 @@ export default defineComponent({
     })
 
     const minDisabled = computed(() => {
-      return _decrease(props.modelValue) < props.min
+      const decreasedNum = _decrease(props.modelValue)
+      return (isUndefined(decreasedNum) ? NaN : decreasedNum) < props.min
     })
     const maxDisabled = computed(() => {
-      return _increase(props.modelValue) > props.max
+      const increasedNum = _increase(props.modelValue)
+      return (isUndefined(increasedNum) ? NaN : increasedNum) > props.max
     })
+
     const numPrecision = computed(() => {
       const stepPrecision = getPrecision(props.step)
       if (props.precision !== undefined) {
@@ -127,8 +134,9 @@ export default defineComponent({
       if (data.userInput !== null) {
         return data.userInput
       }
-      let currentValue: number | string = data.currentValue
-      if (typeof currentValue === 'number') {
+      let currentValue: number | string | undefined = data.currentValue
+      if (isNumber(currentValue)) {
+        if (Number.isNaN(currentValue)) return ''
         if (props.precision !== undefined) {
           currentValue = currentValue.toFixed(props.precision)
         }
@@ -141,7 +149,7 @@ export default defineComponent({
         `${Math.round(num * Math.pow(10, pre)) / Math.pow(10, pre)}`
       )
     }
-    const getPrecision = (value: number) => {
+    const getPrecision = (value: number | undefined) => {
       if (value === undefined) return 0
       const valueString = value.toString()
       const dotPosition = valueString.indexOf('.')
@@ -151,18 +159,20 @@ export default defineComponent({
       }
       return precision
     }
-    const _increase = (val: number) => {
-      if (typeof val !== 'number' && val !== undefined) return data.currentValue
+    const _increase = (val: number | undefined) => {
+      if (!isNumber(val) && val !== undefined) return data.currentValue
       const precisionFactor = Math.pow(10, numPrecision.value)
       // Solve the accuracy problem of JS decimal calculation by converting the value to integer.
+      val = isNumber(val) ? val : NaN
       return toPrecision(
         (precisionFactor * val + precisionFactor * props.step) / precisionFactor
       )
     }
-    const _decrease = (val: number) => {
-      if (typeof val !== 'number' && val !== undefined) return data.currentValue
+    const _decrease = (val: number | undefined) => {
+      if (!isNumber(val) && val !== undefined) return data.currentValue
       const precisionFactor = Math.pow(10, numPrecision.value)
       // Solve the accuracy problem of JS decimal calculation by converting the value to integer.
+      val = isNumber(val) ? val : NaN
       return toPrecision(
         (precisionFactor * val - precisionFactor * props.step) / precisionFactor
       )
@@ -201,7 +211,7 @@ export default defineComponent({
     }
     const handleInputChange = (value: string) => {
       const newVal = value === '' ? undefined : Number(value)
-      if ((isNumber(newVal) && !isNaN(newVal)) || value === '') {
+      if ((isNumber(newVal) && !Number.isNaN(+newVal)) || value === '') {
         setCurrentValue(newVal)
       }
       data.userInput = null
