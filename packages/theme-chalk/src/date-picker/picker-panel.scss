@@ -97,6 +97,7 @@
       }
     }
     & .#{$namespace}-icon {
+      cursor: pointer;
       font-size: inherit;
     }
   }

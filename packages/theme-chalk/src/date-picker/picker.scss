@@ -59,6 +59,14 @@
     cursor: pointer;
   }
 
+  .clear-icon {
+    cursor: pointer;
+
+    &:hover {
+      color: var(--el-text-color-secondary);
+    }
+  }
+
   .#{$namespace}-range__icon {
     height: inherit;
     font-size: 14px;
@@ -97,7 +105,6 @@
     text-align: center;
     line-height: 32px;
     font-size: 14px;
-    width: 5%;
     color: var(--el-text-color-primary);
   }
 
@@ -105,9 +112,13 @@
     font-size: 14px;
     color: var(--el-text-color-placeholder);
     height: inherit;
-    width: 25px;
+    width: unset;
     display: inline-block;
-    float: right;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--el-text-color-secondary);
+    }
 
     svg {
       vertical-align: middle;
