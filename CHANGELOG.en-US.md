@@ -1,6 +1,59 @@
 ## Changelog
 
 
+### 1.1.0-beta.24
+
+_2021-10-20_
+
+
+### 1.1.0-beta.23
+
+_2021-10-20_
+
+#### Bug fixes
+
+- Build fix package entry field (#3962 by @JeremyWuuuuu)
+
+### 1.1.0-beta.22
+
+_2021-10-20_
+
+#### Bug fixes
+
+- Utils svg classname deal (#3926 by @btea)
+- Components [el-rate] decimal icon display problem (#3921 by @Alanscut)
+- Components ElProgress remove unnecessary required props to prevent form error (#3954 by @Otto-J)
+
+#### Refactors
+
+- Utils dom and add test (#3950 by @btea)
+
+### 1.1.0-beta.21
+
+_2021-10-18_
+
+#### Features
+
+- Components [el-menu] add ellipsis prop (#3870 by @xiaoxian521)
+- Build!: improve esm exports (#3871 by @sxzz)
+
+#### Bug fixes
+
+- About custom extension of table column (#3437 by @Alanscut)
+- [ElSelectV2] set value to an empty array after selection error (#3875 by @Alanscut)
+- Table lazy rows can't expand at the first time (#3731 by @Alanscut)
+- Capitalize the first letter of the error message (#3882 by @deepthan)
+- Components [el-form-item] calc the label-width. (#3914 by @cbbfcd)
+- Style(components): [el-message-box] string does not wrap (#3856 by @zhazhanitian) (#3867)
+
+#### Refactors
+
+- Utils improve props validator warning (#3847 by @sxzz)
+- Components refactor input (#3805 by @sxzz)
+- Components refactor image-viewer (#3810 by @sxzz)
+- Utils use built-in throwError function (#3916 by @cbbfcd)
+- Utils addClass and removeClass (#3858 by @btea)
+
 ### 1.1.0-beta.20
 
 _2021-10-11_

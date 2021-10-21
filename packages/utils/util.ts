@@ -14,10 +14,10 @@ import {
 } from '@vue/shared'
 import isEqualWith from 'lodash/isEqualWith'
 import isServer from './isServer'
-import { debugWarn } from './error'
+import { debugWarn, throwError } from './error'
 
 import type { ComponentPublicInstance, CSSProperties, Ref } from 'vue'
-import type { AnyFunction, TimeoutHandle, Nullable } from './types'
+import type { TimeoutHandle, Nullable } from './types'
 
 export const SCOPE = 'Util'
 
@@ -68,7 +68,7 @@ export function getPropByPath(
         tempObj = tempObj[key]
       } else {
         if (strict) {
-          throw new Error('please transfer a valid prop path to form item!')
+          throwError(SCOPE, 'Please transfer a valid prop path to form item!')
         }
         break
       }
@@ -148,18 +148,17 @@ export const isBool = (val: unknown): val is boolean => typeof val === 'boolean'
 export const isNumber = (val: unknown): val is number => typeof val === 'number'
 export const isHTMLElement = (val: unknown) => toRawType(val).startsWith('HTML')
 
-export function rafThrottle<T extends AnyFunction<any>>(
-  fn: T
-): AnyFunction<void> {
+export function rafThrottle<T extends (...args: any) => any>(fn: T): T {
   let locked = false
-  return function (...args: any[]) {
+  return function (this: ThisParameterType<T>, ...args: any[]) {
     if (locked) return
     locked = true
+
     window.requestAnimationFrame(() => {
-      fn.apply(this, args)
+      Reflect.apply(fn, this, args)
       locked = false
     })
-  }
+  } as T
 }
 
 export const clearTimer = (timer: Ref<TimeoutHandle>) => {
@@ -207,14 +206,6 @@ export function arrayFlat(arr: unknown[]) {
 
 export function deduplicate<T>(arr: T[]) {
   return Array.from(new Set(arr))
-}
-
-/**
- * Unwraps refed value
- * @param ref Refed value
- */
-export function $<T>(ref: Ref<T>) {
-  return ref.value
 }
 
 export function addUnit(value: string | number) {

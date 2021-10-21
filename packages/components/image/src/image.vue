@@ -215,7 +215,7 @@ export default defineComponent({
       emit('close')
     }
 
-    function switchViewer(val: boolean) {
+    function switchViewer(val: number) {
       emit('switch', val)
     }
 

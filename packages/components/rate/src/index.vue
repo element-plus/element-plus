@@ -208,6 +208,7 @@ export default defineComponent({
           }
         : props.icons
     )
+
     const decimalIconComponent = computed(() =>
       getValueFromMap(props.modelValue, componentMap.value)
     )

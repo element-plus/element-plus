@@ -22,10 +22,10 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 6.15.1
+          version: latest
 
       - name: Install dependencies
-        run: pnpm i
+        run: pnpm i --frozen-lockfile
 
       - name: Compile Element Plus
         run: pnpm build

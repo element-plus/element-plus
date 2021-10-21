@@ -9,11 +9,13 @@
       <div
         class="el-image-viewer__mask"
         @click.self="hideOnClickModal && hide()"
-      ></div>
+      />
+
       <!-- CLOSE -->
       <span class="el-image-viewer__btn el-image-viewer__close" @click="hide">
         <el-icon><close /></el-icon>
       </span>
+
       <!-- ARROW -->
       <template v-if="!isSingle">
         <span
@@ -74,11 +76,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, onMounted, watch, nextTick } from 'vue'
+import {
+  defineComponent,
+  computed,
+  ref,
+  onMounted,
+  watch,
+  nextTick,
+  effectScope,
+} from 'vue'
+import { useEventListener } from '@vueuse/core'
 import ElIcon from '@element-plus/components/icon'
 import { useLocaleInject } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { on, off } from '@element-plus/utils/dom'
 import { rafThrottle, isFirefox } from '@element-plus/utils/util'
 import {
   Close,
@@ -91,8 +101,9 @@ import {
   FullScreen,
   ScaleToOriginal,
 } from '@element-plus/icons'
+import { imageViewerProps, imageViewerEmits } from './image-viewer'
 
-import type { PropType, CSSProperties } from 'vue'
+import type { CSSProperties } from 'vue'
 
 const Mode = {
   CONTAIN: {
@@ -106,8 +117,6 @@ const Mode = {
 }
 
 const mousewheelEventName = isFirefox() ? 'DOMMouseScroll' : 'mousewheel'
-const CLOSE_EVENT = 'close'
-const SWITCH_EVENT = 'switch'
 export type ImageViewerAction =
   | 'zoomIn'
   | 'zoomOut'
@@ -126,42 +135,18 @@ export default defineComponent({
     RefreshLeft,
     RefreshRight,
   },
-  props: {
-    urlList: {
-      type: Array as PropType<string[]>,
-      default: () => [],
-    },
-    zIndex: {
-      type: Number,
-      default: 2000,
-    },
-    initialIndex: {
-      type: Number,
-      default: 0,
-    },
-    infinite: {
-      type: Boolean,
-      default: true,
-    },
-    hideOnClickModal: {
-      type: Boolean,
-      default: false,
-    },
-  },
-
-  emits: [CLOSE_EVENT, SWITCH_EVENT],
+  props: imageViewerProps,
+  emits: imageViewerEmits,
 
   setup(props, { emit }) {
     const { t } = useLocaleInject()
+    const wrapper = ref<HTMLDivElement>()
+    const img = ref<HTMLImageElement>()
 
-    let _keyDownHandler = null
-    let _mouseWheelHandler = null
-    let _dragHandler = null
+    const scopeEventListener = effectScope()
 
     const loading = ref(true)
     const index = ref(props.initialIndex)
-    const wrapper = ref(null)
-    const img = ref(null)
     const mode = ref(Mode.CONTAIN)
     const transform = ref({
       scale: 1,
@@ -190,12 +175,12 @@ export default defineComponent({
 
     const imgStyle = computed(() => {
       const { scale, deg, offsetX, offsetY, enableTransition } = transform.value
-      const style = {
+      const style: CSSProperties = {
         transform: `scale(${scale}) rotate(${deg}deg)`,
         transition: enableTransition ? 'transform .3s' : '',
         marginLeft: `${offsetX}px`,
         marginTop: `${offsetY}px`,
-      } as CSSProperties
+      }
       if (mode.value.name === Mode.CONTAIN.name) {
         style.maxWidth = style.maxHeight = '100%'
       }
@@ -203,12 +188,12 @@ export default defineComponent({
     })
 
     function hide() {
-      deviceSupportUninstall()
-      emit(CLOSE_EVENT)
+      unregisterEventListener()
+      emit('close')
     }
 
-    function deviceSupportInstall() {
-      _keyDownHandler = rafThrottle((e: KeyboardEvent) => {
+    function registerEventListener() {
+      const keydownHandler = rafThrottle((e: KeyboardEvent) => {
         switch (e.code) {
           // ESC
           case EVENT_CODE.esc:
@@ -236,43 +221,44 @@ export default defineComponent({
             break
         }
       })
-
-      _mouseWheelHandler = rafThrottle((e) => {
-        const delta = e.wheelDelta ? e.wheelDelta : -e.detail
-        if (delta > 0) {
-          handleActions('zoomIn', {
-            zoomRate: 0.015,
-            enableTransition: false,
-          })
-        } else {
-          handleActions('zoomOut', {
-            zoomRate: 0.015,
-            enableTransition: false,
-          })
+      const mousewheelHandler = rafThrottle(
+        (e: WheelEvent | any /* TODO: wheelDelta is deprecated */) => {
+          const delta = e.wheelDelta ? e.wheelDelta : -e.detail
+          if (delta > 0) {
+            handleActions('zoomIn', {
+              zoomRate: 0.015,
+              enableTransition: false,
+            })
+          } else {
+            handleActions('zoomOut', {
+              zoomRate: 0.015,
+              enableTransition: false,
+            })
+          }
         }
+      )
+
+      scopeEventListener.run(() => {
+        useEventListener(document, 'keydown', keydownHandler)
+        useEventListener(document, mousewheelEventName, mousewheelHandler)
       })
-      on(document, 'keydown', _keyDownHandler)
-      on(document, mousewheelEventName, _mouseWheelHandler)
     }
 
-    function deviceSupportUninstall() {
-      off(document, 'keydown', _keyDownHandler)
-      off(document, mousewheelEventName, _mouseWheelHandler)
-      _keyDownHandler = null
-      _mouseWheelHandler = null
+    function unregisterEventListener() {
+      scopeEventListener.stop()
     }
 
     function handleImgLoad() {
       loading.value = false
     }
 
-    function handleImgError(e) {
+    function handleImgError(e: Event) {
       loading.value = false
-      e.target.alt = t('el.image.error')
+      ;(e.target as HTMLImageElement).alt = t('el.image.error')
     }
 
     function handleMouseDown(e: MouseEvent) {
-      if (loading.value || e.button !== 0) return
+      if (loading.value || e.button !== 0 || !wrapper.value) return
 
       const { offsetX, offsetY } = transform.value
       const startX = e.pageX
@@ -283,17 +269,21 @@ export default defineComponent({
       const divTop = wrapper.value.clientTop
       const divBottom = wrapper.value.clientTop + wrapper.value.clientHeight
 
-      _dragHandler = rafThrottle((ev) => {
+      const dragHandler = rafThrottle((ev: MouseEvent) => {
         transform.value = {
           ...transform.value,
           offsetX: offsetX + ev.pageX - startX,
           offsetY: offsetY + ev.pageY - startY,
         }
       })
-      on(document, 'mousemove', _dragHandler)
-      on(document, 'mouseup', (e: MouseEvent) => {
-        const mouseX = e.pageX
-        const mouseY = e.pageY
+      const removeMousemove = useEventListener(
+        document,
+        'mousemove',
+        dragHandler
+      )
+      useEventListener(document, 'mouseup', (evt) => {
+        const mouseX = evt.pageX
+        const mouseY = evt.pageY
         if (
           mouseX < divLeft ||
           mouseX > divRight ||
@@ -302,7 +292,7 @@ export default defineComponent({
         ) {
           reset()
         }
-        off(document, 'mousemove', _dragHandler)
+        removeMousemove()
       })
 
       e.preventDefault()
@@ -376,7 +366,7 @@ export default defineComponent({
     watch(currentImg, () => {
       nextTick(() => {
         const $img = img.value
-        if (!$img.complete) {
+        if (!$img?.complete) {
           loading.value = true
         }
       })
@@ -384,11 +374,11 @@ export default defineComponent({
 
     watch(index, (val) => {
       reset()
-      emit(SWITCH_EVENT, val)
+      emit('switch', val)
     })
 
     onMounted(() => {
-      deviceSupportInstall()
+      registerEventListener()
       // add tabindex then wrapper can be focusable via Javascript
       // focus wrapper so arrow key can't cause inner scroll behavior underneath
       wrapper.value?.focus?.()

@@ -62,10 +62,10 @@ class TableLayout<T> {
       }
     }
     if (!this.table) {
-      throw new Error('table is required for Table Layout')
+      throw new Error('Table is required for Table Layout')
     }
     if (!this.store) {
-      throw new Error('store is required for Table Layout')
+      throw new Error('Store is required for Table Layout')
     }
   }
 

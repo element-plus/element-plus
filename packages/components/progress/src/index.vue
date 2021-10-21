@@ -128,7 +128,6 @@ export default defineComponent({
     percentage: {
       type: Number,
       default: 0,
-      required: true,
       validator: (val: number): boolean => val >= 0 && val <= 100,
     },
     status: {
