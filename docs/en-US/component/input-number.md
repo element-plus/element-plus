@@ -96,7 +96,7 @@ input-number/controlled
 
 | Event Name | Description                     | Parameters             |
 | ---------- | ------------------------------- | ---------------------- |
-| change     | triggers when the value changes | (currentValue: number | NaN, oldValue: number | NaN) |
+| change     | triggers when the value changes | (currentValue: number \| NaN, oldValue: number \| NaN) |
 | blur       | triggers when Input blurs       | (event: Event)         |
 | focus      | triggers when Input focuses     | (event: Event)         |
 
