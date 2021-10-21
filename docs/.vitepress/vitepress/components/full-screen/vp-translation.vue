@@ -25,7 +25,7 @@ const [show, toggle] = useToggle()
     </ElButton>
     <div v-show="show" class="translation-items">
       <p
-        v-for="l in langs"
+        v-for="l in langs.reverse()"
         :key="l"
         :class="{ active: l === lang }"
         class="translation-item"
