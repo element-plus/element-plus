@@ -19,7 +19,7 @@
   >
     <i v-if="loading" class="el-icon-loading"></i>
     <i v-if="icon && !loading" :class="icon"></i>
-    <span v-if="$slots.default"><slot></slot></span>
+    <span v-if="buttonContent">{{ buttonContent }}</span>
   </button>
 </template>
 
@@ -35,8 +35,19 @@ export default defineComponent({
   props: buttonProps,
   emits: buttonEmits,
 
-  setup(props, { emit }) {
+  setup(props, { emit, slots }) {
     const elBtnGroup = inject(elButtonGroupKey, undefined)
+    // add space between two characters in Chinese
+    const buttonContent = computed(() => {
+      let slot = slots.default?.()?.[0]?.children
+      if (
+        typeof slot === 'string' &&
+        /^\p{Unified_Ideograph}{2}$/u.test(slot)
+      ) {
+        slot = `${slot[0]} ${slot[1]}`
+      }
+      return slot
+    })
     const { size: buttonSize, disabled: buttonDisabled } = useFormItem({
       size: computed(() => elBtnGroup?.size),
     })
@@ -57,6 +68,7 @@ export default defineComponent({
       buttonSize,
       buttonType,
       buttonDisabled,
+      buttonContent,
 
       handleClick,
     }
