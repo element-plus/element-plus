@@ -34,7 +34,7 @@ export const useTranslation = () => {
   return {
     helpTranslate,
     languageMap,
-    langs,
+    langs: langs.reverse(),
     lang,
     switchLang,
   }
