@@ -22,17 +22,12 @@ export const useTranslation = () => {
   const helpTranslate = computed(() => translationLocale[lang.value].help)
   const langsRef = computed(() => {
     const currentLang = lang.value
-    const whereIsZhCN = langs.indexOf('zh-CN')
 
     // When there is no zh-CN in the list, meaning this is the PR preview
     // so we simply return the current list which contains only en-US
-    if (whereIsZhCN === -1) return []
+    if (langs.indexOf('zh-CN')) return []
     const langsCopy = langs.slice(0)
-    langsCopy.splice(whereIsZhCN, 1)
-
-    if (currentLang !== 'zh-CN') {
-      langsCopy.splice(langsCopy.indexOf(currentLang), 1)
-    }
+    langsCopy.splice(langsCopy.indexOf(currentLang), 1)
 
     return currentLang === 'zh-CN' ? langsCopy : ['zh-CN'].concat(langsCopy)
   })
