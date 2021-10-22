@@ -179,6 +179,9 @@ describe('Button Group', () => {
         default: '中文',
       },
     })
-    expect(wrapper.find('.el-button span').text()).toBe('中 文')
+    expect(wrapper.find('.el-button span').text()).toBe('中文')
+    expect(wrapper.find('.el-button span').classes()).toContain(
+      'el-button__text--expand'
+    )
   })
 })

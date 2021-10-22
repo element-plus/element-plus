@@ -19,8 +19,12 @@
   >
     <i v-if="loading" class="el-icon-loading"></i>
     <i v-if="icon && !loading" :class="icon"></i>
-    <span v-if="buttonContent">{{ buttonContent }}</span>
-    <span v-else-if="$slots.default"><slot></slot></span>
+    <span
+      v-else-if="$slots.default"
+      :class="{ 'el-button__text--expand': shouldAddSpace }"
+    >
+      <slot></slot>
+    </span>
   </button>
 </template>
 
@@ -40,7 +44,7 @@ export default defineComponent({
   setup(props, { emit, slots }) {
     const elBtnGroup = inject(elButtonGroupKey, undefined)
     // add space between two characters in Chinese
-    const buttonContent = computed(() => {
+    const shouldAddSpace = computed(() => {
       if (slots.default?.()?.length === 1) {
         const slot = slots.default?.()?.[0]
         if (
@@ -48,12 +52,10 @@ export default defineComponent({
           slot.type.description === 'Text'
         ) {
           const text = slot.children
-          if (/^\p{Unified_Ideograph}{2}$/u.test(text))
-            return `${text[0]} ${text[1]}`
-          else return text
+          return /^\p{Unified_Ideograph}{2}$/u.test(text as string)
         }
       }
-      return ''
+      return false
     })
     const { size: buttonSize, disabled: buttonDisabled } = useFormItem({
       size: computed(() => elBtnGroup?.size),
@@ -75,7 +77,8 @@ export default defineComponent({
       buttonSize,
       buttonType,
       buttonDisabled,
-      buttonContent,
+
+      shouldAddSpace,
 
       handleClick,
     }
