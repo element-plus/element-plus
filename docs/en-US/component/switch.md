@@ -1,3 +1,7 @@
+---
+lang: en-US
+---
+
 # Switch
 
 Switch is used for switching between two opposing states.

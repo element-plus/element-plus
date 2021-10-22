@@ -1,3 +1,7 @@
+---
+lang: en-US
+---
+
 # Input Number
 
 Input numerical values with a customizable range.

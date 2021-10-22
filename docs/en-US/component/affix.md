@@ -1,3 +1,7 @@
+---
+lang: en-US
+---
+
 # Affix
 
 Fix the element to a specific visible area.

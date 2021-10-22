@@ -1,3 +1,7 @@
+---
+lang: en-US
+---
+
 # Cascader
 
 If the options have a clear hierarchical structure, Cascader can be used to view and select them.

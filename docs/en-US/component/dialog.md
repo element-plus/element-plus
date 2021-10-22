@@ -1,3 +1,7 @@
+---
+lang: en-US
+---
+
 # Dialog
 
 Informs users while preserving the current page state.

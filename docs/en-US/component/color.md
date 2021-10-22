@@ -1,3 +1,7 @@
+---
+lang: en-US
+---
+
 # Color
 
 Element Plus uses a specific set of palettes to specify colors to provide a consistent look and feel for the products you build.

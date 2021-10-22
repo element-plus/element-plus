@@ -1,3 +1,7 @@
+---
+lang: en-US
+---
+
 # Layout
 
 Quickly and easily create layouts with the basic 24-column.

@@ -1,3 +1,7 @@
+---
+lang: en-US
+---
+
 # Rate
 
 Used for rating

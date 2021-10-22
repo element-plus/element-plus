@@ -1,3 +1,7 @@
+---
+lang: en-US
+---
+
 # Calendar
 
 Display date.

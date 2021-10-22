@@ -1,3 +1,7 @@
+---
+lang: en-US
+---
+
 # Checkbox
 
 A group of options for multiple choices.

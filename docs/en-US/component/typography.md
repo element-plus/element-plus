@@ -1,4 +1,8 @@
-## Typography
+---
+lang: en-US
+---
+
+# Typography
 
 We create a font convention to ensure the best presentation across different platforms.
 

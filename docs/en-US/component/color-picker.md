@@ -1,3 +1,7 @@
+---
+lang: en-US
+---
+
 # ColorPicker
 
 ColorPicker is a color selector supporting multiple color formats.

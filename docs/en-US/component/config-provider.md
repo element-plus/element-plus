@@ -1,6 +1,6 @@
 ---
 title: Config Provider
-locale: en-US
+lang: en-US
 ---
 
 # Config Provider

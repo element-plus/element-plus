@@ -1,3 +1,7 @@
+---
+lang: en-US
+---
+
 # Icon
 
 Element Plus provides a set of common icons.

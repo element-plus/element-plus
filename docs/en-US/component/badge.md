@@ -1,3 +1,7 @@
+---
+lang: en-US
+---
+
 # Badge
 
 A number or status mark on buttons and icons.

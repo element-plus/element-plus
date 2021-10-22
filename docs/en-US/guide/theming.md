@@ -1,5 +1,6 @@
 ---
 title: Theming
+lang: en-US
 ---
 
 # Custom theme

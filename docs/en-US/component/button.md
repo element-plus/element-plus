@@ -1,3 +1,7 @@
+---
+lang: en-US
+---
+
 # Button
 
 Commonly used button.

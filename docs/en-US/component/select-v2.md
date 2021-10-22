@@ -1,3 +1,7 @@
+---
+lang: en-US
+---
+
 # <ElBadge value="beta">Select V2 virtualized selector</ElBadge>
 
 :::tip
