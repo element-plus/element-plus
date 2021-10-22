@@ -51,14 +51,6 @@ function update(options: any) {
   }
 }
 
-const searchIndexMap = {
-  'zh-CN': 'element-zh',
-  'en-US': 'element-en',
-  es: 'element-es',
-  'fr-FR': 'element-fr',
-  jp: 'element-jp',
-}
-
 const lang = useLang()
 
 function initialize(userOptions: any) {
