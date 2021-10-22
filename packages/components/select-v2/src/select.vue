@@ -45,7 +45,7 @@
               <div class="el-select-v2__selected-item">
                 <el-tag
                   :closable="
-                    !selectDisabled && !states.cachedOptions[0].disable
+                    !selectDisabled && !states.cachedOptions[0]?.disable
                   "
                   :size="collapseTagSize"
                   type="info"
@@ -57,7 +57,7 @@
                     :style="{
                       maxWidth: `${tagMaxWidth}px`,
                     }"
-                    >{{ states.cachedOptions[0].label }}</span
+                    >{{ states.cachedOptions[0]?.label }}</span
                   >
                 </el-tag>
                 <el-tag
