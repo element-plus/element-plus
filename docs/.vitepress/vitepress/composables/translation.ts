@@ -25,7 +25,7 @@ export const useTranslation = () => {
 
     // When there is no zh-CN in the list, meaning this is the PR preview
     // so we simply return the current list which contains only en-US
-    if (langs.indexOf('zh-CN')) return []
+    if (!langs.includes('zh-CN')) return []
     const langsCopy = langs.slice(0)
     langsCopy.splice(langsCopy.indexOf(currentLang), 1)
 
