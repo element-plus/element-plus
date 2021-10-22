@@ -1,11 +1,12 @@
 <template>
   <div class="play-container">
-    <ElButton> test </ElButton>
+    <ElButton>test</ElButton>
+    <div v-loading="true"></div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ElButton } from '@element-plus/components'
+// code here
 </script>
 
 <style lang="scss">
