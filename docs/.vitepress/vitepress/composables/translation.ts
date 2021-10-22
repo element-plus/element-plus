@@ -29,6 +29,11 @@ export const useTranslation = () => {
     const langsCopy = langs.slice(0)
     langsCopy.splice(langsCopy.indexOf(currentLang), 1)
 
+    // if current language is not zh-CN, then zh-CN needs to be moved to the head.
+    if (currentLang !== 'zh-CN') {
+      langsCopy.splice(langsCopy.indexOf('zh-CN'), 1)
+    }
+
     return currentLang === 'zh-CN' ? langsCopy : ['zh-CN'].concat(langsCopy)
   })
 
