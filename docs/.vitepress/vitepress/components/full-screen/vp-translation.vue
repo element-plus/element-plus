@@ -4,9 +4,16 @@ import { useTranslation } from '../../composables/translation'
 import { useToggle } from '../../composables/toggle'
 import ExpandIcon from '../icons/expand.vue'
 
+const emit = defineEmits(['close'])
+
 const { languageMap, langs, lang, switchLang, helpTranslate } = useTranslation()
 
 const [show, toggle] = useToggle()
+
+const onSwitchLang = (lang: string) => {
+  switchLang(lang)
+  emit('close')
+}
 </script>
 
 <template>
@@ -25,11 +32,11 @@ const [show, toggle] = useToggle()
     </ElButton>
     <div v-show="show" class="translation-items">
       <p
-        v-for="l in langs.reverse()"
+        v-for="l in langs"
         :key="l"
         :class="{ active: l === lang }"
         class="translation-item"
-        @click="switchLang(l)"
+        @click="onSwitchLang(l)"
       >
         {{ languageMap[l] }}
       </p>
