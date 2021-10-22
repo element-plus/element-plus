@@ -50,7 +50,6 @@ export default defineComponent({
   emits: alertEmits,
 
   setup(props, { emit, slots }) {
-    // state
     const visible = ref(true)
 
     // computed
