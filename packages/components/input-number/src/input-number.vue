@@ -55,22 +55,17 @@ import {
   reactive,
   ref,
   watch,
-  inject,
   onMounted,
   onUpdated,
 } from 'vue'
 import { RepeatClick } from '@element-plus/directives'
-import { elFormKey, elFormItemKey } from '@element-plus/tokens'
+import { useFormItem } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
-import {
-  useGlobalConfig,
-  isNumber,
-  isUndefined,
-} from '@element-plus/utils/util'
+import { isNumber, isUndefined } from '@element-plus/utils/util'
 import { debugWarn } from '@element-plus/utils/error'
 import { inputNumberProps, inputNumberEmits } from './input-number'
 
-import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
+import type { ComponentPublicInstance } from 'vue'
 
 interface IData {
   currentValue: number | undefined
@@ -88,11 +83,7 @@ export default defineComponent({
   props: inputNumberProps,
   emits: inputNumberEmits,
   setup(props, { emit }) {
-    const ELEMENT = useGlobalConfig()
-    const elForm = inject(elFormKey, {} as ElFormContext)
-    const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
-
-    const input = ref<typeof ElInput>()
+    const input = ref<ComponentPublicInstance<typeof ElInput>>()
     const data = reactive<IData>({
       currentValue: props.modelValue,
       userInput: null,
@@ -124,12 +115,10 @@ export default defineComponent({
     const controlsAtRight = computed(() => {
       return props.controls && props.controlsPosition === 'right'
     })
-    const inputNumberSize = computed(() => {
-      return props.size || elFormItem.size || ELEMENT.size
-    })
-    const inputNumberDisabled = computed(() => {
-      return props.disabled || elForm.disabled
-    })
+
+    const { size: inputNumberSize, disabled: inputNumberDisabled } =
+      useFormItem({})
+
     const displayValue = computed(() => {
       if (data.userInput !== null) {
         return data.userInput

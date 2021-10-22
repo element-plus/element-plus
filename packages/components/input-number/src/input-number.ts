@@ -3,6 +3,7 @@ import {
   componentSize,
   definePropType,
 } from '@element-plus/utils/props'
+import { isNumber } from '@element-plus/utils/util'
 
 import type { ComponentSize } from '@element-plus/utils/types'
 
@@ -41,6 +42,7 @@ export const inputNumberProps = buildProps({
   controlsPosition: {
     type: String,
     default: '',
+    values: ['', 'right'] as const,
   },
   name: String,
   label: String,
@@ -53,8 +55,8 @@ export const inputNumberProps = buildProps({
 
 export const inputNumberEmits = {
   change: (prev: number | undefined, cur: number | undefined) => prev !== cur,
-  blur: (e: Event) => e instanceof Event,
-  focus: (e: Event) => e instanceof Event,
+  blur: (e: FocusEvent) => e instanceof Event,
+  focus: (e: FocusEvent) => e instanceof Event,
   input: (val: number) => typeof val === 'number',
-  'update:modelValue': (val: number | undefined) => typeof val !== undefined,
+  'update:modelValue': (val: number | undefined) => isNumber(val),
 }
