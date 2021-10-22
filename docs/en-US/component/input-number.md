@@ -14,6 +14,12 @@ input-number/basic
 
 :::
 
+:::tip
+
+When inputting invalid string to the input box, input value will emit `NaN` to the upper layer as result of error
+
+:::
+
 ## Disabled
 
 :::demo The `disabled` attribute accepts a `boolean`, and if the value is `true`, the component is disabled. If you just need to control the value within a range, you can add `min` attribute to set the minimum value and `max` to set the maximum value. By default, the minimum value is `0`.
@@ -92,11 +98,11 @@ input-number/controlled
 
 ## Events
 
-| Event Name | Description                     | Parameters             |
-| ---------- | ------------------------------- | ---------------------- |
-| change     | triggers when the value changes | currentValue, oldValue |
-| blur       | triggers when Input blurs       | (event: Event)         |
-| focus      | triggers when Input focuses     | (event: Event)         |
+| Event Name | Description                     | Parameters                                             |
+| ---------- | ------------------------------- | ------------------------------------------------------ |
+| change     | triggers when the value changes | (currentValue: number \| NaN, oldValue: number \| NaN) |
+| blur       | triggers when Input blurs       | (event: Event)                                         |
+| focus      | triggers when Input focuses     | (event: Event)                                         |
 
 ## Methods
 
