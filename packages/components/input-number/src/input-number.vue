@@ -68,7 +68,7 @@ import { inputNumberProps, inputNumberEmits } from './input-number'
 import type { ComponentPublicInstance } from 'vue'
 
 interface IData {
-  currentValue: number | undefined
+  currentValue: number
   userInput: null | number | string
 }
 
@@ -89,14 +89,8 @@ export default defineComponent({
       userInput: null,
     })
 
-    const minDisabled = computed(() => {
-      const decreasedNum = _decrease(props.modelValue)
-      return (isUndefined(decreasedNum) ? NaN : decreasedNum) < props.min
-    })
-    const maxDisabled = computed(() => {
-      const increasedNum = _increase(props.modelValue)
-      return (isUndefined(increasedNum) ? NaN : increasedNum) > props.max
-    })
+    const minDisabled = computed(() => _decrease(props.modelValue) < props.min)
+    const maxDisabled = computed(() => _increase(props.modelValue) > props.max)
 
     const numPrecision = computed(() => {
       const stepPrecision = getPrecision(props.step)
@@ -123,7 +117,7 @@ export default defineComponent({
       if (data.userInput !== null) {
         return data.userInput
       }
-      let currentValue: number | string | undefined = data.currentValue
+      let currentValue: number | string = data.currentValue
       if (isNumber(currentValue)) {
         if (Number.isNaN(currentValue)) return ''
         if (props.precision !== undefined) {
@@ -148,8 +142,8 @@ export default defineComponent({
       }
       return precision
     }
-    const _increase = (val: number | undefined) => {
-      if (!isNumber(val) && val !== undefined) return data.currentValue
+    const _increase = (val: number) => {
+      if (!isNumber(val)) return data.currentValue
       const precisionFactor = Math.pow(10, numPrecision.value)
       // Solve the accuracy problem of JS decimal calculation by converting the value to integer.
       val = isNumber(val) ? val : NaN
@@ -157,8 +151,8 @@ export default defineComponent({
         (precisionFactor * val + precisionFactor * props.step) / precisionFactor
       )
     }
-    const _decrease = (val: number | undefined) => {
-      if (!isNumber(val) && val !== undefined) return data.currentValue
+    const _decrease = (val: number) => {
+      if (!isNumber(val)) return data.currentValue
       const precisionFactor = Math.pow(10, numPrecision.value)
       // Solve the accuracy problem of JS decimal calculation by converting the value to integer.
       val = isNumber(val) ? val : NaN
@@ -178,7 +172,7 @@ export default defineComponent({
       const newVal = _decrease(value)
       setCurrentValue(newVal)
     }
-    const setCurrentValue = (newVal: number | undefined) => {
+    const setCurrentValue = (newVal: number) => {
       const oldVal = data.currentValue
       if (typeof newVal === 'number' && props.precision !== undefined) {
         newVal = toPrecision(newVal, props.precision)
@@ -199,8 +193,8 @@ export default defineComponent({
       return (data.userInput = value)
     }
     const handleInputChange = (value: string) => {
-      const newVal = value === '' ? undefined : Number(value)
-      if ((isNumber(newVal) && !Number.isNaN(+newVal)) || value === '') {
+      const newVal = Number(value)
+      if ((isNumber(newVal) && !Number.isNaN(newVal)) || value === '') {
         setCurrentValue(newVal)
       }
       data.userInput = null
@@ -217,7 +211,7 @@ export default defineComponent({
     watch(
       () => props.modelValue,
       (value) => {
-        let newVal = value === undefined ? value : Number(value)
+        let newVal = Number(value)
         if (newVal !== undefined) {
           if (isNaN(newVal)) return
           if (props.stepStrictly) {
@@ -254,8 +248,8 @@ export default defineComponent({
         'aria-disabled',
         String(inputNumberDisabled.value)
       )
-      if (!isNumber(props.modelValue) && props.modelValue !== undefined) {
-        emit('update:modelValue', undefined)
+      if (!isNumber(props.modelValue)) {
+        emit('update:modelValue', Number(props.modelValue))
       }
     })
     onUpdated(() => {
