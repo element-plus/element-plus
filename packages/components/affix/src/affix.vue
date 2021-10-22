@@ -137,6 +137,7 @@ export default defineComponent({
       state,
       rootStyle,
       affixStyle,
+      update,
     }
   },
 })
