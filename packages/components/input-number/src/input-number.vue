@@ -61,7 +61,7 @@ import {
 import { RepeatClick } from '@element-plus/directives'
 import { useFormItem } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
-import { isNumber, isUndefined } from '@element-plus/utils/util'
+import { isNumber } from '@element-plus/utils/util'
 import { debugWarn } from '@element-plus/utils/error'
 import { inputNumberProps, inputNumberEmits } from './input-number'
 
