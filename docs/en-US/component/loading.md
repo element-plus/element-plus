@@ -1,3 +1,7 @@
+---
+lang: en-US
+---
+
 # Loading
 
 Show animation while loading data.

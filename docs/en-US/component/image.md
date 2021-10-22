@@ -1,3 +1,7 @@
+---
+lang: en-US
+---
+
 # Image
 
 Besides the native features of img, support lazy load, custom placeholder and load failure, etc.

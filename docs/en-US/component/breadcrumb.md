@@ -1,3 +1,7 @@
+---
+lang: en-US
+---
+
 # Breadcrumb
 
 Displays the location of the current page, making it easier to browser back.

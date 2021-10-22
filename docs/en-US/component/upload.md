@@ -1,3 +1,7 @@
+---
+lang: en-US
+---
+
 # Upload
 
 Upload files by clicking or drag-and-drop

@@ -1,3 +1,7 @@
+---
+lang: en-US
+---
+
 # Notification
 
 Displays a global notification message at a corner of the page.

@@ -1,3 +1,7 @@
+---
+lang: en-US
+---
+
 # Popconfirm
 
 A simple confirmation dialog of an element click action.

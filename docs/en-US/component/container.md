@@ -1,3 +1,7 @@
+---
+lang: en-US
+---
+
 # Container
 
 Container components for scaffolding basic structure of the page:

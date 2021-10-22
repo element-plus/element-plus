@@ -1,3 +1,7 @@
+---
+lang: en-US
+---
+
 # Steps
 
 Guide the user to complete tasks in accordance with the process. Its steps can be set according to the actual application scenario and the number of the steps can't be less than 2.

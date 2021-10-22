@@ -1,3 +1,7 @@
+---
+lang: en-US
+---
+
 # Popover
 
 ## Basic usage

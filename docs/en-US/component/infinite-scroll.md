@@ -1,3 +1,7 @@
+---
+lang: en-US
+---
+
 # Infinite Scroll
 
 Load more data while reach bottom of the page

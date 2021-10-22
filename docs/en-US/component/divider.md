@@ -1,3 +1,7 @@
+---
+lang: en-US
+---
+
 # Divider
 
 The dividing line that separates the content.
