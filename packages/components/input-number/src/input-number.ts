@@ -1,7 +1,6 @@
 import {
   buildProps,
   componentSize,
-  definePropType,
 } from '@element-plus/utils/props'
 import { isNumber } from '@element-plus/utils/util'
 
@@ -31,7 +30,7 @@ export const inputNumberProps = buildProps({
     default: false,
   },
   size: {
-    type: definePropType(String),
+    type: String,
     values: componentSize,
   },
   controls: {
@@ -41,7 +40,7 @@ export const inputNumberProps = buildProps({
   controlsPosition: {
     type: String,
     default: '',
-    values: ['', 'right'] as const,
+    values: ['', 'right'],
   },
   name: String,
   label: String,
