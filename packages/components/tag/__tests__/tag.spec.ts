@@ -86,6 +86,7 @@ describe('Tag.vue', () => {
     expect(el.className.includes('el-tag--plain')).toEqual(false)
   })
 
+  // should also support large size
   test('size', () => {
     const wrapper = mount(Tag, {
       props: {
