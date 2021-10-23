@@ -1,4 +1,4 @@
-import { createVNode, render } from 'vue'
+import { createVNode, render, warn } from 'vue'
 import isServer from '@element-plus/utils/isServer'
 import PopupManager from '@element-plus/utils/popup-manager'
 import { isVNode } from '@element-plus/utils/util'
@@ -57,6 +57,21 @@ const notify: NotifyFn & Partial<Notify> = function (options = {}) {
     },
   }
 
+  let appendTo: HTMLElement | null = document.body
+  if (options.appendTo instanceof HTMLElement) {
+    appendTo = options.appendTo
+  } else if (typeof options.appendTo === 'string') {
+    appendTo = document.querySelector(options.appendTo)
+  }
+
+  // should fallback to default value with a warning
+  if (!(appendTo instanceof HTMLElement)) {
+    warn(
+      `[el-notification] the appendTo option is not an HTMLElement. Falling back to document.body.`
+    )
+    appendTo = document.body
+  }
+
   const container = document.createElement('div')
 
   const vm = createVNode(
@@ -77,7 +92,7 @@ const notify: NotifyFn & Partial<Notify> = function (options = {}) {
   // instances will remove this item when close function gets called. So we do not need to worry about it.
   render(vm, container)
   notifications[position].push({ vm })
-  document.body.appendChild(container.firstElementChild!)
+  appendTo.appendChild(container.firstElementChild!)
 
   return {
     // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
