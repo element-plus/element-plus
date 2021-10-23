@@ -54,7 +54,7 @@ const addStyle = async (
         (options.target as HTMLElement).getBoundingClientRect()[property] +
         document.body[scroll] +
         document.documentElement[scroll] -
-        parseInt(getStyle(document.body, `margin-${property}`), 10)
+        Number.parseInt(getStyle(document.body, `margin-${property}`), 10)
       }px`
     })
     ;['height', 'width'].forEach((property) => {

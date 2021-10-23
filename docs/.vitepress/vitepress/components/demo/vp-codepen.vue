@@ -31,7 +31,7 @@ const globalMapper = {
 
 const js = computed(() => {
   const decodedJs = decodeURIComponent(props.js || '')
-  const imports = /(import*) ([^'\n]*) from ([^\n]*)/g
+  const imports = /(import*) ([^\n']*) from ([^\n]*)/g
   const globals = []
   let match
   while ((match = imports.exec(decodedJs))) {
@@ -40,8 +40,8 @@ const js = computed(() => {
     globals.push(`const ${members} = ${globalMapper[target]};`)
   }
   const componentRegex = decodedJs.includes('export default defineComponent')
-    ? /export default defineComponent\({([\s\S]*)}\)/g
-    : /export default {([\s\S]*)}/g
+    ? /export default defineComponent\({([\S\s]*)}\)/g
+    : /export default {([\S\s]*)}/g
 
   let component = componentRegex.exec(decodedJs)
   component = ((component && component[1]) || '')

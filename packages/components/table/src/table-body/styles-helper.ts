@@ -60,7 +60,7 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
       )
     }
 
-    if (props.store.states.expandRows.value.indexOf(row) > -1) {
+    if (props.store.states.expandRows.value.includes(row)) {
       classes.push('expanded')
     }
 

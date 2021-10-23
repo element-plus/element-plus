@@ -36,7 +36,7 @@ export default (props: IUseHandlersProps) => {
 
   function clearFiles(status: UploadStatus[] = ['success', 'fail']) {
     uploadFiles.value = uploadFiles.value.filter((row) => {
-      return status.indexOf(row.status) === -1
+      return !status.includes(row.status)
     })
   }
 

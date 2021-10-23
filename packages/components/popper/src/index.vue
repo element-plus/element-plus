@@ -15,7 +15,7 @@ import {
 import { ClickOutside } from '@element-plus/directives'
 import { throwError } from '@element-plus/utils/error'
 
-import usePopper from './use-popper/index'
+import usePopper from './use-popper'
 import defaultProps from './use-popper/defaults'
 import { renderPopper, renderTrigger, renderArrow } from './renderers'
 

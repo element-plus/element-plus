@@ -8,7 +8,7 @@ class Menu {
   }
   init(): void {
     const menuChildren = this.domNode.childNodes
-    Array.from(menuChildren, (child: Node) => {
+    Array.from<Node>(menuChildren).forEach((child) => {
       if (child.nodeType === 1) {
         new MenuItem(child as HTMLElement)
       }

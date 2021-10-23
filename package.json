@@ -93,6 +93,7 @@
     "eslint-define-config": "^1.1.1",
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-unicorn": "^37.0.1",
     "eslint-plugin-vue": "^7.20.0",
     "expect-type": "^0.13.0",
     "fast-glob": "^3.2.7",

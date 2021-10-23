@@ -188,7 +188,7 @@ export default defineComponent({
       let currentIndex, tabList
 
       const { up, down, left, right } = EVENT_CODE
-      if ([up, down, left, right].indexOf(code) !== -1) {
+      if ([up, down, left, right].includes(code)) {
         // 左右上下键更换tab
         tabList = e.currentTarget.querySelectorAll('[role=tab]')
         currentIndex = Array.prototype.indexOf.call(tabList, e.target)

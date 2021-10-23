@@ -23,28 +23,30 @@ const createData = (
   key = 'node'
 ) => {
   let id = 0
-  return new Array(minNodesNumber).fill(deep).map(() => {
-    const childrenNumber =
-      deep === maxDeep ? 0 : Math.round(Math.random() * maxChildren)
-    const nodeKey = getKey(key, ++id)
-    return {
-      id: nodeKey,
-      label: nodeKey,
-      children: childrenNumber
-        ? createData(maxDeep, maxChildren, childrenNumber, deep + 1, nodeKey)
-        : undefined,
-    }
-  })
+  return Array.from({ length: minNodesNumber })
+    .fill(deep)
+    .map(() => {
+      const childrenNumber =
+        deep === maxDeep ? 0 : Math.round(Math.random() * maxChildren)
+      const nodeKey = getKey(key, ++id)
+      return {
+        id: nodeKey,
+        label: nodeKey,
+        children: childrenNumber
+          ? createData(maxDeep, maxChildren, childrenNumber, deep + 1, nodeKey)
+          : undefined,
+      }
+    })
 }
 export default defineComponent({
   setup() {
     const data = createData(4, 30, 40)
     const checkedKeys: any[] = []
     const expanedKeys: any[] = []
-    for (let i = 0; i < data.length; ++i) {
-      const children = data[i].children
+    for (const datum of data) {
+      const children = datum.children
       if (children) {
-        expanedKeys.push(data[i].id)
+        expanedKeys.push(datum.id)
         checkedKeys.push(children[0].id)
         break
       }

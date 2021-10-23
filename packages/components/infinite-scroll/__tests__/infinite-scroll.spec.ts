@@ -1,7 +1,7 @@
 import { ref, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { tick, defineGetter, makeScroll } from '@element-plus/test-utils'
-import InfiniteScroll, { SCOPE, DEFAULT_DELAY } from '../src/index'
+import InfiniteScroll, { SCOPE, DEFAULT_DELAY } from '../src'
 
 const CONTAINER_HEIGHT = 200
 const ITEM_HEIGHT = 100
@@ -60,9 +60,9 @@ beforeAll(() => {
   scrollHeightRestore = defineGetter(
     window.HTMLElement.prototype,
     'scrollHeight',
-    function () {
+    function (this: HTMLElement) {
       return (
-        Array.from(this.getElementsByClassName(LIST_ITEM_CLASS)).length *
+        Array.from(this.querySelectorAll(`.${LIST_ITEM_CLASS}`)).length *
         ITEM_HEIGHT
       )
     },

@@ -77,7 +77,7 @@ export const useLocale = () => {
 
 function template(str: string, option) {
   if (!str || !option) return str
-  return str.replace(/\{(\w+)\}/g, (_, key) => {
+  return str.replace(/{(\w+)}/g, (_, key) => {
     return option[key]
   })
 }

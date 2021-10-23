@@ -81,7 +81,7 @@ describe('Card.vue', () => {
       },
     })
     expect(
-      wrapper.find('.el-card__body').attributes('style').replace(/[ ]/g, '')
+      wrapper.find('.el-card__body').attributes('style').replace(/ /g, '')
     ).toBe('font-size:14px;color:blue;')
   })
 

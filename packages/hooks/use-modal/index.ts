@@ -30,10 +30,7 @@ export default (
       if (val) {
         modalStack.push(instance)
       } else {
-        modalStack.splice(
-          modalStack.findIndex((modal) => modal === instance),
-          1
-        )
+        modalStack.splice(modalStack.indexOf(instance), 1)
       }
     }
   )

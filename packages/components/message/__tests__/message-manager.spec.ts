@@ -67,7 +67,7 @@ describe('Message on command', () => {
     expect(elements.length).toBe(3)
 
     const getTopValue = (elm: Element): number =>
-      parseInt(getStyle(elm as HTMLElement, 'top'), 10)
+      Number.parseInt(getStyle(elm as HTMLElement, 'top'), 10)
 
     const topValues = []
     elements.forEach((e) => {

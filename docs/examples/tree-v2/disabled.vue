@@ -21,19 +21,21 @@ const createData = (
   key = 'node'
 ) => {
   let id = 0
-  return new Array(minNodesNumber).fill(deep).map(() => {
-    const childrenNumber =
-      deep === maxDeep ? 0 : Math.round(Math.random() * maxChildren)
-    const nodeKey = getKey(key, ++id)
-    return {
-      id: nodeKey,
-      label: nodeKey,
-      disabled: Math.random() > 0.6,
-      children: childrenNumber
-        ? createData(maxDeep, maxChildren, childrenNumber, deep + 1, nodeKey)
-        : undefined,
-    }
-  })
+  return Array.from({ length: minNodesNumber })
+    .fill(deep)
+    .map(() => {
+      const childrenNumber =
+        deep === maxDeep ? 0 : Math.round(Math.random() * maxChildren)
+      const nodeKey = getKey(key, ++id)
+      return {
+        id: nodeKey,
+        label: nodeKey,
+        disabled: Math.random() > 0.6,
+        children: childrenNumber
+          ? createData(maxDeep, maxChildren, childrenNumber, deep + 1, nodeKey)
+          : undefined,
+      }
+    })
 }
 export default defineComponent({
   setup() {

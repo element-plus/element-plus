@@ -6,9 +6,9 @@ describe('SSR', () => {
   test('require', () => {
     try {
       process.env.VUE_ENV = 'server'
-      require('../index')
+      require('..')
     } catch (e) {
-      throw Error(e)
+      throw new Error(e)
     }
     expect('pass').toBe('pass')
   })

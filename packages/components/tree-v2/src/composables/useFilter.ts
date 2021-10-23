@@ -45,8 +45,7 @@ export function useFilter(props: TreeProps, tree: Ref<Tree | undefined>) {
           } else if (children) {
             // If all child nodes are hidden, then the expand icon will be hidden
             let allHidden = true
-            for (let i = 0; i < children.length; ++i) {
-              const childNode = children[i]
+            for (const childNode of children) {
               if (!hiddenKeys.has(childNode.key)) {
                 allHidden = false
                 break

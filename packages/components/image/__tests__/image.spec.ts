@@ -69,7 +69,7 @@ describe('Image.vue', () => {
       props: {
         fit: 'cover',
         src: IMAGE_SUCCESS,
-        previewSrcList: new Array(3).fill(IMAGE_SUCCESS),
+        previewSrcList: Array.from({ length: 3 }).fill(IMAGE_SUCCESS),
       },
     })
     await doubleWait()

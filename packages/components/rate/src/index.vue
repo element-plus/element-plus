@@ -141,7 +141,7 @@ export default defineComponent({
       let result = ''
       if (props.showScore) {
         result = props.scoreTemplate.replace(
-          /\{\s*value\s*\}/,
+          /{\s*value\s*}/,
           rateDisabled.value ? `${props.modelValue}` : `${currentValue.value}`
         )
       } else if (props.showText) {
@@ -212,7 +212,7 @@ export default defineComponent({
       getValueFromMap(currentValue.value, classMap.value)
     )
     const classes = computed(() => {
-      const result = Array(props.max)
+      const result = Array.from({ length: props.max })
       const threshold = currentValue.value
       // if (props.allowHalf && currentValue.value !== Math.floor(currentValue.value)) {
       //   threshold--

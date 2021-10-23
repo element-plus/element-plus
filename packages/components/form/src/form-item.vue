@@ -174,7 +174,7 @@ export default defineComponent({
       }
 
       let path = props.prop
-      if (path.indexOf(':') !== -1) {
+      if (path.includes(':')) {
         path = path.replace(/:/, '.')
       }
 
@@ -253,7 +253,7 @@ export default defineComponent({
       const model = elForm.model
       const value = fieldValue.value
       let path = props.prop
-      if (path.indexOf(':') !== -1) {
+      if (path.includes(':')) {
         path = path.replace(/:/, '.')
       }
       const prop = getPropByPath(model, path, true)
@@ -282,7 +282,7 @@ export default defineComponent({
         .filter((rule) => {
           if (!rule.trigger || trigger === '') return true
           if (Array.isArray(rule.trigger)) {
-            return rule.trigger.indexOf(trigger) > -1
+            return rule.trigger.includes(trigger)
           } else {
             return rule.trigger === trigger
           }

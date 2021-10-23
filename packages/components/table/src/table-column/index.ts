@@ -162,7 +162,7 @@ export default defineComponent({
         column: {},
         $index: -1,
       })
-      if (renderDefault instanceof Array) {
+      if (Array.isArray(renderDefault)) {
         for (const childNode of renderDefault) {
           if (
             childNode.type?.name === 'ElTableColumn' ||
@@ -171,7 +171,7 @@ export default defineComponent({
             children.push(childNode)
           } else if (
             childNode.type === Fragment &&
-            childNode.children instanceof Array
+            Array.isArray(childNode.children)
           ) {
             children.push(...childNode.children)
           }

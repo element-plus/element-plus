@@ -84,8 +84,10 @@ const createGrid = ({
       const getItemStyleCache = useCache()
 
       // computed
-      const parsedHeight = computed(() => parseInt(`${props.height}`, 10))
-      const parsedWidth = computed(() => parseInt(`${props.width}`, 10))
+      const parsedHeight = computed(() =>
+        Number.parseInt(`${props.height}`, 10)
+      )
+      const parsedWidth = computed(() => Number.parseInt(`${props.width}`, 10))
       const columnsToRender = computed(() => {
         const { totalColumn, totalRow, columnCache } = props
         const { isScrolling, xAxisScrollDir, scrollLeft } = unref(states)

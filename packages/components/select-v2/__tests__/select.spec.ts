@@ -176,8 +176,8 @@ describe('Select', () => {
     const wrapper = createSelect()
     await nextTick()
     const vm = wrapper.vm as any
-    const options = document.getElementsByClassName(OPTION_ITEM_CLASS_NAME)
-    const result = [].every.call(options, (option, index) => {
+    const options = document.querySelectorAll(`.${OPTION_ITEM_CLASS_NAME}`)
+    const result = Array.from(options).every((option, index) => {
       const text = option.textContent
       return text === vm.options[index].label
     })
@@ -1150,10 +1150,10 @@ describe('Select', () => {
     options[2].click()
     await nextTick()
     const tagWrappers = wrapper.findAll('.el-select-v2__tags-text')
-    for (let i = 0; i < tagWrappers.length; i++) {
-      const tagWrapperDom = tagWrappers[i].element
+    for (const tagWrapper of tagWrappers) {
+      const tagWrapperDom = tagWrapper.element
       expect(
-        parseInt(tagWrapperDom.style.maxWidth) === selectRect.width - 42
+        Number.parseInt(tagWrapperDom.style.maxWidth) === selectRect.width - 42
       ).toBe(true)
     }
     mockSelectWidth.mockRestore()

@@ -149,7 +149,7 @@ export default defineComponent({
       const fds = props.length
         ? typeof props === 'string'
           ? fields.filter((field) => props === field.prop)
-          : fields.filter((field) => props.indexOf(field.prop) > -1)
+          : fields.filter((field) => props.includes(field.prop))
         : fields
       fds.forEach((field) => {
         field.clearValidate()
@@ -206,7 +206,7 @@ export default defineComponent({
       cb: ValidateFieldCallback
     ) => {
       props = [].concat(props)
-      const fds = fields.filter((field) => props.indexOf(field.prop) !== -1)
+      const fds = fields.filter((field) => props.includes(field.prop))
       if (!fields.length) {
         debugWarn('Form', 'please pass correct props!')
         return

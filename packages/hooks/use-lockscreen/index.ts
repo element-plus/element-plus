@@ -43,7 +43,7 @@ export default (trigger: Ref<boolean>) => {
       withoutHiddenClass = !hasClass(document.body, 'el-popup-parent--hidden')
       if (withoutHiddenClass) {
         bodyPaddingRight = document.body.style.paddingRight
-        computedBodyPaddingRight = parseInt(
+        computedBodyPaddingRight = Number.parseInt(
           getStyle(document.body, 'paddingRight'),
           10
         )

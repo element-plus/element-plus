@@ -1,4 +1,4 @@
-import Tooltip from './src/index'
+import Tooltip from './src'
 
 import type { App } from 'vue'
 import type { SFCWithInstall } from '@element-plus/utils/types'

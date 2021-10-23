@@ -1,4 +1,4 @@
-import { t, use, i18n, restoreHandler } from '../index'
+import { t, use, i18n, restoreHandler } from '..'
 import zhCn from '../lang/zh-cn'
 import en from '../lang/en'
 

@@ -51,8 +51,7 @@ export const once = function (
 /* istanbul ignore next */
 export function hasClass(el: HTMLElement | Element, cls: string): boolean {
   if (!el || !cls) return false
-  if (cls.indexOf(' ') !== -1)
-    throw new Error('className should not contain space.')
+  if (cls.includes(' ')) throw new Error('className should not contain space.')
   if (el.classList) {
     return el.classList.contains(cls)
   } else {
@@ -115,7 +114,7 @@ export const getStyle = function (
     if (style) return style
     const computed = document.defaultView?.getComputedStyle(element, '')
     return computed ? computed[styleName] : ''
-  } catch (e) {
+  } catch {
     return element.style[styleName]
   }
 }

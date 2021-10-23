@@ -316,12 +316,12 @@ describe('Datetime Picker', () => {
     await nextTick()
     const list = document.querySelectorAll('.el-time-spinner__list')
     const hoursEl = list[0]
-    const disabledHours = [].slice
+    const disabledHours = Array.prototype.slice
       .call(hoursEl.querySelectorAll('.disabled'))
       .map((node) => Number(node.textContent))
     expect(disabledHours).toStrictEqual(disabledHoursArr)
     const minutesEl = list[1]
-    const disabledMinutes = [].slice
+    const disabledMinutes = Array.prototype.slice
       .call(minutesEl.querySelectorAll('.disabled'))
       .map((node) => Number(node.textContent))
     expect(disabledMinutes.length).toBe(19)
@@ -615,7 +615,7 @@ describe('Datetimerange', () => {
       '.el-date-range-picker__editors-wrap .el-time-spinner__list'
     )
     const hoursEl = listleft[0]
-    const disabledHours = [].slice
+    const disabledHours = Array.prototype.slice
       .call(hoursEl.querySelectorAll('.disabled'))
       .map((node) => Number(node.textContent))
     expect(disabledHours).toStrictEqual(disabledHoursArr)
@@ -631,7 +631,7 @@ describe('Datetimerange', () => {
       '.el-date-range-picker__editors-wrap.is-right .el-time-spinner__list'
     )
     const hoursEl2 = listright[0]
-    const disabledHours2 = [].slice
+    const disabledHours2 = Array.prototype.slice
       .call(hoursEl2.querySelectorAll('.disabled'))
       .map((node) => Number(node.textContent))
     expect(disabledHours2).toStrictEqual(disabledHoursRightArr)

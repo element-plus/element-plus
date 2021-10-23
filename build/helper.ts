@@ -8,7 +8,7 @@ import type { InstallOptions } from 'components-helper/lib/type'
 const reComponentName: InstallOptions['reComponentName'] = (title: string) =>
   `el-${title
     .replace(/\B([A-Z])/g, '-$1')
-    .replace(/[ ]+/g, '-')
+    .replace(/ +/g, '-')
     .toLowerCase()}`
 
 const reDocUrl: InstallOptions['reDocUrl'] = (fileName, header) => {
@@ -50,7 +50,7 @@ const reAttribute: InstallOptions['reAttribute'] = (value, key) => {
       .replace(/\(.*\)/g, '')
       .toLowerCase()
   } else if (key === 'Accepted Values') {
-    return /\[.+\]\(.+\)/.test(str) || /^\*$/.test(str)
+    return /\[.+]\(.+\)/.test(str) || /^\*$/.test(str)
       ? undefined
       : str.replace(/`/g, '')
   } else if (key === 'Subtags') {

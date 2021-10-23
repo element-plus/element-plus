@@ -13,7 +13,7 @@ export default defineComponent({
         confirmButtonText: 'OK',
         cancelButtonText: 'Cancel',
         inputPattern:
-          /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+          /[\w!#$%&'*+/=?^`{|}~-]+(?:\.[\w!#$%&'*+/=?^`{|}~-]+)*@(?:\w(?:[\w-]*\w)?\.)+\w(?:[\w-]*\w)?/,
         inputErrorMessage: 'Invalid Email',
       })
         .then(({ value }) => {

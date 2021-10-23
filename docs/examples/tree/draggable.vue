@@ -87,19 +87,19 @@ export default {
       console.log('drag start', node)
     },
     handleDragEnter(draggingNode, dropNode, ev) {
-      console.log('tree drag enter: ', dropNode.label)
+      console.log('tree drag enter:', dropNode.label)
     },
     handleDragLeave(draggingNode, dropNode, ev) {
-      console.log('tree drag leave: ', dropNode.label)
+      console.log('tree drag leave:', dropNode.label)
     },
     handleDragOver(draggingNode, dropNode, ev) {
-      console.log('tree drag over: ', dropNode.label)
+      console.log('tree drag over:', dropNode.label)
     },
     handleDragEnd(draggingNode, dropNode, dropType, ev) {
-      console.log('tree drag end: ', dropNode && dropNode.label, dropType)
+      console.log('tree drag end:', dropNode && dropNode.label, dropType)
     },
     handleDrop(draggingNode, dropNode, dropType, ev) {
-      console.log('tree drop: ', dropNode.label, dropType)
+      console.log('tree drop:', dropNode.label, dropType)
     },
     allowDrop(draggingNode, dropNode, type) {
       if (dropNode.data.label === 'Level two 3-1') {
@@ -109,7 +109,7 @@ export default {
       }
     },
     allowDrag(draggingNode) {
-      return draggingNode.data.label.indexOf('Level three 3-1-1') === -1
+      return !draggingNode.data.label.includes('Level three 3-1-1')
     },
   },
 }

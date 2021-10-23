@@ -1,14 +1,14 @@
 export function calcColorChannels(c: string) {
   let rawColor = c.replace('#', '')
-  if (/^[0-9a-fA-F]{3}$/.test(rawColor)) {
+  if (/^[\dA-Fa-f]{3}$/.test(rawColor)) {
     rawColor =
       rawColor[0].repeat(2) + rawColor[1].repeat(2) + rawColor[2].repeat(2)
   }
-  if (/^[0-9a-fA-F]{6}$/.test(rawColor)) {
+  if (/^[\dA-Fa-f]{6}$/.test(rawColor)) {
     return {
-      red: parseInt(rawColor.slice(0, 2), 16),
-      green: parseInt(rawColor.slice(2, 4), 16),
-      blue: parseInt(rawColor.slice(4, 6), 16),
+      red: Number.parseInt(rawColor.slice(0, 2), 16),
+      green: Number.parseInt(rawColor.slice(2, 4), 16),
+      blue: Number.parseInt(rawColor.slice(4, 6), 16),
     }
   }
   return {

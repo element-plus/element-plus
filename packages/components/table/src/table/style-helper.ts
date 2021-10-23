@@ -138,7 +138,7 @@ function useStyle<T>(
     const { bodyWrapper } = table.refs
     setScrollClassByEl(bodyWrapper, className)
   }
-  const syncPostion = throttle(function () {
+  const syncPostion = throttle(() => {
     if (!table.refs.bodyWrapper) return
     const { scrollLeft, scrollTop, offsetWidth, scrollWidth } =
       table.refs.bodyWrapper

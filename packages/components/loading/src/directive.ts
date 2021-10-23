@@ -1,4 +1,4 @@
-import Loading from './index'
+import Loading from '.'
 
 import type { DirectiveBinding } from 'vue'
 import type { ILoadingInstance } from './loading.type'

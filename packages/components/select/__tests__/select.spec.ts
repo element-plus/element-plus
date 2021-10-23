@@ -295,7 +295,7 @@ describe('Select', () => {
     const options = wrapper.element.querySelectorAll(
       '.el-select-dropdown__item'
     )
-    const result = [].every.call(options, (option, index) => {
+    const result = Array.prototype.every.call(options, (option, index) => {
       const text = option.querySelector('span').textContent
       const vm = wrapper.vm as any
       return text === vm.options[index].label
@@ -594,8 +594,8 @@ describe('Select', () => {
     selectVm.debouncedOnInputChange()
     await nextTick()
     const options = [...getOptions()]
-    const target = options.filter((option) => option.textContent === 'new')
-    target[0].click()
+    const target = options.find((option) => option.textContent === 'new')
+    target.click()
     expect((wrapper.vm as any).value).toBe('new')
   })
 
@@ -610,9 +610,7 @@ describe('Select', () => {
     await nextTick()
     options[3].click()
     await nextTick()
-    expect(
-      vm.value.indexOf('选项2') > -1 && vm.value.indexOf('选项4') > -1
-    ).toBe(true)
+    expect(vm.value.includes('选项2') && vm.value.includes('选项4')).toBe(true)
     const tagCloseIcons = wrapper.findAll('.el-tag__close')
     await tagCloseIcons[0].trigger('click')
     expect(vm.value.indexOf('选项1')).toBe(-1)
@@ -677,10 +675,10 @@ describe('Select', () => {
     options[2].click()
     await nextTick()
     const tagWrappers = wrapper.findAll('.el-select__tags-text')
-    for (let i = 0; i < tagWrappers.length; i++) {
-      const tagWrapperDom = tagWrappers[i].element
+    for (const tagWrapper of tagWrappers) {
+      const tagWrapperDom = tagWrapper.element
       expect(
-        parseInt(tagWrapperDom.style.maxWidth) === inputRect.width - 75
+        Number.parseInt(tagWrapperDom.style.maxWidth) === inputRect.width - 75
       ).toBe(true)
     }
     mockInputWidth.mockRestore()
@@ -747,7 +745,7 @@ describe('Select', () => {
     const tagWrappers = wrapper.findAll('.el-select__tags-text')
     const tagWrapperDom = tagWrappers[0].element
     expect(
-      parseInt(tagWrapperDom.style.maxWidth) === inputRect.width - 123
+      Number.parseInt(tagWrapperDom.style.maxWidth) === inputRect.width - 123
     ).toBe(true)
     mockInputWidth.mockRestore()
   })
@@ -816,7 +814,7 @@ describe('Select', () => {
     const options = getOptions()
     options[1].click()
     await nextTick()
-    expect(vm.value.indexOf('选项2') > -1).toBe(true)
+    expect(vm.value.includes('选项2')).toBe(true)
     options[3].click()
     await nextTick()
     expect(vm.value.indexOf('选项4')).toBe(-1)
@@ -1117,9 +1115,7 @@ describe('Select', () => {
             setTimeout(() => {
               this.loading = false
               this.options = this.list.filter((item) => {
-                return (
-                  item.label.toLowerCase().indexOf(query.toLowerCase()) > -1
-                )
+                return item.label.toLowerCase().includes(query.toLowerCase())
               })
             }, 200)
           } else {

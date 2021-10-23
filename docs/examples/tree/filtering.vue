@@ -81,7 +81,7 @@ export default {
   methods: {
     filterNode(value, data) {
       if (!value) return true
-      return data.label.indexOf(value) !== -1
+      return data.label.includes(value)
     },
   },
 }

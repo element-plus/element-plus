@@ -216,7 +216,7 @@ const getTopPopup = function () {
 
 if (!isServer) {
   // handle `esc` key when the popup is shown
-  on(window, 'keydown', function (event: KeyboardEvent) {
+  on(window, 'keydown', (event: KeyboardEvent) => {
     if (event.code === EVENT_CODE.esc) {
       const topPopup = getTopPopup()
 

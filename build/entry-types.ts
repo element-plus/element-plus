@@ -37,7 +37,7 @@ export const genEntryTypes = async () => {
     skipAddingFilesFromTsConfig: true,
   })
   const sourceFiles: SourceFile[] = []
-  files.map((f) => {
+  files.forEach((f) => {
     const sourceFile = project.addSourceFileAtPath(f)
     sourceFiles.push(sourceFile)
   })

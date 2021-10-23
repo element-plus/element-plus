@@ -106,7 +106,7 @@ export default defineComponent({
       type: String,
       default: 'line',
       validator: (val: string): boolean =>
-        ['line', 'circle', 'dashboard'].indexOf(val) > -1,
+        ['line', 'circle', 'dashboard'].includes(val),
     },
     percentage: {
       type: Number,
@@ -117,7 +117,7 @@ export default defineComponent({
       type: String,
       default: '',
       validator: (val: string): boolean =>
-        ['', 'success', 'exception', 'warning'].indexOf(val) > -1,
+        ['', 'success', 'exception', 'warning'].includes(val),
     },
     indeterminate: {
       type: Boolean,
@@ -171,7 +171,10 @@ export default defineComponent({
 
     const radius = computed(() => {
       if (props.type === 'circle' || props.type === 'dashboard') {
-        return parseInt(`${50 - parseFloat(relativeStrokeWidth.value) / 2}`, 10)
+        return Number.parseInt(
+          `${50 - Number.parseFloat(relativeStrokeWidth.value) / 2}`,
+          10
+        )
       } else {
         return 0
       }
@@ -286,9 +289,9 @@ export default defineComponent({
           (a, b) => a.percentage - b.percentage
         )
 
-        for (let i = 0; i < colorArray.length; i++) {
-          if (colorArray[i].percentage > percentage) {
-            return colorArray[i].color
+        for (const element of colorArray) {
+          if (element.percentage > percentage) {
+            return element.color
           }
         }
         return colorArray[colorArray.length - 1]?.color

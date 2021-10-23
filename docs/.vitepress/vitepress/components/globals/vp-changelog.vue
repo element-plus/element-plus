@@ -30,7 +30,7 @@ onMounted(async () => {
     )
     releases.value = data
     currentRelease.value = data[0]
-  } catch (e) {
+  } catch {
     releases.value = []
     currentRelease.value = undefined
     // do something

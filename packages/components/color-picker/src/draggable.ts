@@ -27,7 +27,7 @@ export default function (element: HTMLElement, options: IOptions) {
     options.end?.(event)
   }
 
-  on(element, 'mousedown', function (event) {
+  on(element, 'mousedown', (event) => {
     if (isDragging) return
     document.onselectstart = () => false
     document.ondragstart = () => false

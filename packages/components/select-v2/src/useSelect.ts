@@ -180,17 +180,17 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   )
 
   const collapseTagSize = computed(() =>
-    ['small', 'mini'].indexOf(selectSize.value) > -1 ? 'mini' : 'small'
+    ['small', 'mini'].includes(selectSize.value) ? 'mini' : 'small'
   )
 
   const tagMaxWidth = computed(() => {
     const select = selectionRef.value
     const size = collapseTagSize.value
     const paddingLeft = select
-      ? parseInt(getComputedStyle(select).paddingLeft)
+      ? Number.parseInt(getComputedStyle(select).paddingLeft)
       : 0
     const paddingRight = select
-      ? parseInt(getComputedStyle(select).paddingRight)
+      ? Number.parseInt(getComputedStyle(select).paddingRight)
       : 0
     return (
       states.selectWidth - paddingRight - paddingLeft - TAG_BASE_WIDTH[size]
@@ -640,7 +640,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       if ((props.modelValue as Array<any>).length > 0) {
         let initHovering = false
         states.cachedOptions.length = 0
-        ;(props.modelValue as Array<any>).map((selected) => {
+        ;(props.modelValue as Array<any>).forEach((selected) => {
           const itemIndex = filteredOptions.value.findIndex(
             (option) => getValueKey(option) === selected
           )

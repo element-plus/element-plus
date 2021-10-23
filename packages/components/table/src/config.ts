@@ -101,7 +101,7 @@ export const cellForced = {
     },
     renderCell<T>({ row, store }: { row: T; store: Store<T> }) {
       const classes = ['el-table__expand-icon']
-      if (store.states.expandRows.value.indexOf(row) > -1) {
+      if (store.states.expandRows.value.includes(row)) {
         classes.push('el-table__expand-icon--expanded')
       }
       const callback = function (e: Event) {

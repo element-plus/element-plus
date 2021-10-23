@@ -4,7 +4,7 @@ import type { Option, OptionGroup } from './select.types'
 
 export const flattenOptions = (options: Array<Option | OptionGroup>) => {
   const flattened = []
-  options.map((option) => {
+  options.forEach((option) => {
     if (isArray(option.options)) {
       flattened.push({
         label: option.label,

@@ -128,9 +128,7 @@ export default defineComponent({
     })
     const toPrecision = (num: number, pre?: number) => {
       if (pre === undefined) pre = numPrecision.value
-      return parseFloat(
-        `${Math.round(num * Math.pow(10, pre)) / Math.pow(10, pre)}`
-      )
+      return Number.parseFloat(`${Math.round(num * 10 ** pre) / 10 ** pre}`)
     }
     const getPrecision = (value: number | undefined) => {
       if (value === undefined) return 0
@@ -144,18 +142,18 @@ export default defineComponent({
     }
     const _increase = (val: number) => {
       if (!isNumber(val)) return data.currentValue
-      const precisionFactor = Math.pow(10, numPrecision.value)
+      const precisionFactor = 10 ** numPrecision.value
       // Solve the accuracy problem of JS decimal calculation by converting the value to integer.
-      val = isNumber(val) ? val : NaN
+      val = isNumber(val) ? val : Number.NaN
       return toPrecision(
         (precisionFactor * val + precisionFactor * props.step) / precisionFactor
       )
     }
     const _decrease = (val: number) => {
       if (!isNumber(val)) return data.currentValue
-      const precisionFactor = Math.pow(10, numPrecision.value)
+      const precisionFactor = 10 ** numPrecision.value
       // Solve the accuracy problem of JS decimal calculation by converting the value to integer.
-      val = isNumber(val) ? val : NaN
+      val = isNumber(val) ? val : Number.NaN
       return toPrecision(
         (precisionFactor * val - precisionFactor * props.step) / precisionFactor
       )
@@ -181,7 +179,7 @@ export default defineComponent({
       if (newVal !== undefined && newVal <= props.min) newVal = props.min
       if (oldVal === newVal) return
       if (!isNumber(newVal)) {
-        newVal = NaN
+        newVal = Number.NaN
       }
       data.userInput = null
       emit('update:modelValue', newVal)
@@ -213,10 +211,10 @@ export default defineComponent({
       (value) => {
         let newVal = Number(value)
         if (newVal !== undefined) {
-          if (isNaN(newVal)) return
+          if (Number.isNaN(newVal)) return
           if (props.stepStrictly) {
             const stepPrecision = getPrecision(props.step)
-            const precisionFactor = Math.pow(10, stepPrecision)
+            const precisionFactor = 10 ** stepPrecision
             newVal =
               (Math.round(newVal / props.step) * precisionFactor * props.step) /
               precisionFactor

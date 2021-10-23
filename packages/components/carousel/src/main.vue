@@ -219,8 +219,8 @@ export default defineComponent({
           index = items.value.indexOf(filteredItems[0])
         }
       }
-      index = Number(index)
-      if (isNaN(index) || index !== Math.floor(index)) {
+      index = +index
+      if (Number.isNaN(index) || index !== Math.floor(index)) {
         debugWarn('Carousel', 'index must be an integer.')
         return
       }

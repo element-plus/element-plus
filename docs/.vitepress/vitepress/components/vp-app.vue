@@ -69,7 +69,7 @@ onMounted(async () => {
       location.href = `https://element-plus.gitee.io${toLang}${location.pathname.slice(
         toLang.length
       )}`
-    } catch (e) {
+    } catch {
       // do nothing
     }
   }

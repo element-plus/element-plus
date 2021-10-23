@@ -93,7 +93,7 @@ export default defineComponent({
       address: 'No. 189, Grove St, Los Angeles',
     }
 
-    const tableData = ref(Array(20).fill(item))
+    const tableData = ref(Array.from({ length: 20 }).fill(item))
 
     return {
       tableData,

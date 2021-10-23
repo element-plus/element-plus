@@ -4,13 +4,13 @@ import type { ObjectDirective, DirectiveBinding } from 'vue'
 
 const isFirefox =
   typeof navigator !== 'undefined' &&
-  navigator.userAgent.toLowerCase().indexOf('firefox') > -1
+  navigator.userAgent.toLowerCase().includes('firefox')
 
 const mousewheel = function (element, callback) {
   if (element && element.addEventListener) {
     const fn = function (event) {
       const normalized = normalizeWheel(event)
-      callback && callback.apply(this, [event, normalized])
+      callback && Reflect.apply(callback, this, [event, normalized])
     }
     if (isFirefox) {
       element.addEventListener('DOMMouseScroll', fn)

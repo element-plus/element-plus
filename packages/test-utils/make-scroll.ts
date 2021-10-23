@@ -16,7 +16,7 @@ const makeScroll = async (
   })
   eventTarget.dispatchEvent(evt)
   // must use setTimeout instead of nextTick to wait dom change
-  return await sleep()
+  await sleep()
 }
 
 export default makeScroll

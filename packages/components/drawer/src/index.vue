@@ -85,7 +85,7 @@ export default defineComponent({
       type: String as PropType<DrawerDirection>,
       default: 'rtl',
       validator: (val: DrawerDirection) => {
-        return ['ltr', 'rtl', 'ttb', 'btt'].indexOf(val) !== -1
+        return ['ltr', 'rtl', 'ttb', 'btt'].includes(val)
       },
     },
     size: {

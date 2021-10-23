@@ -23,9 +23,9 @@ export const SCOPE = 'Util'
 
 export function toObject<T>(arr: Array<T>): Record<string, T> {
   const res = {}
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i]) {
-      extend(res, arr[i])
+  for (const element of arr) {
+    if (element) {
+      extend(res, element)
     }
   }
   return res
@@ -33,7 +33,7 @@ export function toObject<T>(arr: Array<T>): Record<string, T> {
 
 export const getValueByPath = (obj, paths = ''): unknown => {
   let ret: unknown = obj
-  paths.split('.').map((path) => {
+  paths.split('.').forEach((path) => {
     ret = ret?.[path]
   })
   return ret
@@ -55,7 +55,7 @@ export function getPropByPath(
     key = path
     value = tempObj?.[path]
   } else {
-    path = path.replace(/\[(\w+)\]/g, '.$1')
+    path = path.replace(/\[(\w+)]/g, '.$1')
     path = path.replace(/^\./, '')
 
     const keyArr = path.split('.')
@@ -93,7 +93,7 @@ export const generateId = (): number => Math.floor(Math.random() * 10000)
 // export const valueEquals
 
 export const escapeRegexpString = (value = ''): string =>
-  String(value).replace(/[|\\{}()[\]^$+*?.]/g, '\\$&')
+  String(value).replace(/[$()*+.?[\\\]^{|}]/g, '\\$&')
 
 // Use native Array.find, Array.findIndex instead
 

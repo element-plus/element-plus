@@ -152,7 +152,7 @@ export const useSelect = (props, states: States, ctx) => {
   )
 
   const collapseTagSize = computed(() =>
-    ['small', 'mini'].indexOf(selectSize.value) > -1 ? 'mini' : 'small'
+    ['small', 'mini'].includes(selectSize.value) ? 'mini' : 'small'
   )
 
   const dropMenuVisible = computed(
@@ -283,7 +283,7 @@ export const useSelect = (props, states: States, ctx) => {
         resetInputHeight()
       }
       const inputs = selectWrapper.value?.querySelectorAll('input') || []
-      if ([].indexOf.call(inputs, document.activeElement) === -1) {
+      if (Array.prototype.indexOf.call(inputs, document.activeElement) === -1) {
         setSelected()
       }
       if (
@@ -317,7 +317,7 @@ export const useSelect = (props, states: States, ctx) => {
     nextTick(() => {
       if (!reference.value) return
       const inputChildNodes = reference.value.$el.childNodes
-      const input = [].filter.call(
+      const input = Array.prototype.filter.call(
         inputChildNodes,
         (item) => item.tagName === 'INPUT'
       )[0]
@@ -333,7 +333,7 @@ export const useSelect = (props, states: States, ctx) => {
               sizeInMap
             )}px`
 
-      states.tagInMultiLine = parseFloat(input.style.height) > sizeInMap
+      states.tagInMultiLine = Number.parseFloat(input.style.height) > sizeInMap
 
       if (states.visible && emptyText.value !== false) {
         popper.value?.update?.()
@@ -408,7 +408,7 @@ export const useSelect = (props, states: States, ctx) => {
     const optionsInDropdown = optionsArray.value.filter(
       (n) => n.visible && !n.disabled && !n.groupDisabled
     )
-    const userCreatedOption = optionsInDropdown.filter((n) => n.created)[0]
+    const userCreatedOption = optionsInDropdown.find((n) => n.created)
     const firstOriginOption = optionsInDropdown[0]
     states.hoverIndex = getValueIndex(
       optionsArray.value,

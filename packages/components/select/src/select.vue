@@ -441,7 +441,7 @@ export default defineComponent({
         }
         if (ctx.slots.prefix) {
           const inputChildNodes = reference.value.$el.childNodes
-          const input = [].filter.call(
+          const input = Array.prototype.filter.call(
             inputChildNodes,
             (item) => item.tagName === 'INPUT'
           )[0]

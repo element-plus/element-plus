@@ -94,7 +94,7 @@ export default defineComponent({
         setTimeout(() => {
           loading.value = false
           options.value = list.value.filter((item) => {
-            return item.label.toLowerCase().indexOf(query.toLowerCase()) > -1
+            return item.label.toLowerCase().includes(query.toLowerCase())
           })
         }, 200)
       } else {

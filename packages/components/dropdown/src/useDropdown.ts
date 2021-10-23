@@ -105,7 +105,7 @@ export const initDropdownDomEvent = (
     menuItems.value = dropdownElm.value.querySelectorAll(
       "[tabindex='-1']"
     ) as unknown as HTMLButtonElement[]
-    menuItemsArray.value = [].slice.call(menuItems.value)
+    menuItemsArray.value = Array.prototype.slice.call(menuItems.value)
 
     initEvent()
     initAria()

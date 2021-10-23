@@ -23,7 +23,7 @@ const copySvgIcon = async (svg) => {
       message: locale.value['copy-success'],
       type: 'success',
     })
-  } catch (e) {
+  } catch {
     ElMessage({
       showClose: true,
       message: locale.value['copy-error'],
