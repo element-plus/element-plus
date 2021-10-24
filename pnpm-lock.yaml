@@ -20,7 +20,7 @@ importers:
       '@pnpm/types': ^7.4.0
       '@popperjs/core': ^2.10.2
       '@rollup/plugin-commonjs': ^15.1.0
-      '@rollup/plugin-node-resolve': ^9.0.0
+      '@rollup/plugin-node-resolve': ^13.0.6
       '@rollup/plugin-replace': ^3.0.0
       '@sucrase/jest-plugin': ^2.1.1
       '@types/gulp': ^4.0.9
@@ -99,7 +99,7 @@ importers:
       '@pnpm/logger': 4.0.0
       '@pnpm/types': 7.4.0
       '@rollup/plugin-commonjs': 15.1.0_rollup@2.58.0
-      '@rollup/plugin-node-resolve': 9.0.0_rollup@2.58.0
+      '@rollup/plugin-node-resolve': 13.0.6_rollup@2.58.0
       '@rollup/plugin-replace': 3.0.0_rollup@2.58.0
       '@sucrase/jest-plugin': 2.1.1
       '@types/gulp': 4.0.9
@@ -1529,15 +1529,15 @@ packages:
       rollup: 2.58.0
     dev: true
 
-  /@rollup/plugin-node-resolve/9.0.0_rollup@2.58.0:
-    resolution: {integrity: sha512-gPz+utFHLRrd41WMP13Jq5mqqzHL3OXrfj3/MkSyB6UBIcuNt9j60GCbarzMzdf1VHFpOxfQh/ez7wyadLMqkg==}
+  /@rollup/plugin-node-resolve/13.0.6_rollup@2.58.0:
+    resolution: {integrity: sha512-sFsPDMPd4gMqnh2gS0uIxELnoRUp5kBl5knxD2EO0778G1oOJv4G1vyT2cpWz75OU2jDVcXhjVUuTAczGyFNKA==}
     engines: {node: '>= 10.0.0'}
     peerDependencies:
-      rollup: ^1.20.0||^2.0.0
+      rollup: ^2.42.0
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.58.0
       '@types/resolve': 1.17.1
-      builtin-modules: 3.1.0
+      builtin-modules: 3.2.0
       deepmerge: 4.2.2
       is-module: 1.0.0
       resolve: 1.20.0
@@ -1785,6 +1785,10 @@ packages:
     resolution: {integrity: sha512-yV1nWZPlMFpoXyoknm4S56y2nlTAuFYaJuQtYRAOU7xA/FJ9RY0Xm7QOkaYMMmr8ESdHIuUb6oQgR/0+2NqlyA==}
     dev: true
 
+  /@types/node/16.11.4:
+    resolution: {integrity: sha512-TMgXmy0v2xWyuCSCJM6NCna2snndD8yvQF67J29ipdzMcsPa9u+o0tjF5+EQNdhcuZplYuouYqpc4zcd5I6amQ==}
+    dev: true
+
   /@types/normalize-package-data/2.4.0:
     resolution: {integrity: sha512-f5j5b/Gf71L+dbqxIpQ4Z2WlmI/mPJ0fOkGGmFgtb6sAu97EPczzbS3/tJKxmcYDj55OX6ssqwDAWOHIYDRDGA==}
     dev: true
@@ -1800,7 +1804,7 @@ packages:
   /@types/resolve/1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
     dependencies:
-      '@types/node': 14.11.10
+      '@types/node': 16.11.4
     dev: true
 
   /@types/sass/1.16.1:
@@ -3029,8 +3033,8 @@ packages:
       ieee754: 1.2.1
     dev: true
 
-  /builtin-modules/3.1.0:
-    resolution: {integrity: sha512-k0KL0aWZuBt2lrxrcASWDfwOLMnodeQjodT/1SxEQAXsHANgo6ZC/VEaSEHCXt7aSTZ4/4H5LKa+tBXmW7Vtvw==}
+  /builtin-modules/3.2.0:
+    resolution: {integrity: sha512-lGzLKcioL90C7wMczpkY0n/oART3MbBa8R9OFGE1rJxoVI86u4WAGfEk8Wjv10eKSyTHVGkSo3bvBylCEtk7LA==}
     engines: {node: '>=6'}
     dev: true
 

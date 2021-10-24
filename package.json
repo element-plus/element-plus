@@ -72,7 +72,7 @@
     "@pnpm/logger": "^4.0.0",
     "@pnpm/types": "^7.4.0",
     "@rollup/plugin-commonjs": "^15.1.0",
-    "@rollup/plugin-node-resolve": "^9.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.6",
     "@rollup/plugin-replace": "^3.0.0",
     "@sucrase/jest-plugin": "^2.1.1",
     "@types/gulp": "^4.0.9",
