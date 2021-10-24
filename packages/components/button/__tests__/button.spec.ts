@@ -109,10 +109,11 @@ describe('Button.vue', () => {
 describe('Button Group', () => {
   it('create', () => {
     const wrapper = mount({
-      template: `<el-button-group>
+      template: `
+        <el-button-group>
         <el-button type="primary">Prev</el-button>
         <el-button type="primary">Next</el-button>
-      </el-button-group>`,
+        </el-button-group>`,
       components: {
         'el-button-group': ButtonGroup,
         'el-button': Button,
@@ -170,5 +171,17 @@ describe('Button Group', () => {
     expect(
       wrapper.findAll('.el-button-group button.el-button--warning').length
     ).toBe(1)
+  })
+
+  it('add space in two Chinese characters', async () => {
+    const wrapper = mount(Button, {
+      slots: {
+        default: '中文',
+      },
+    })
+    expect(wrapper.find('.el-button span').text()).toBe('中文')
+    expect(wrapper.find('.el-button span').classes()).toContain(
+      'el-button__text--expand'
+    )
   })
 })
