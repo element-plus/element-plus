@@ -31,7 +31,9 @@
     "theme-chalk/*.css",
     "theme-chalk/src/*.scss",
     "es/components/*/style/*",
-    "lib/components/*/style/*"
+    "lib/components/*/style/*",
+    "lib/components/*/src/**",
+    "es/components/*/src/**"
   ],
   "repository": {
     "type": "git",
