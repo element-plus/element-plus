@@ -45,8 +45,9 @@ export default defineComponent({
     const elBtnGroup = inject(elButtonGroupKey, undefined)
     // add space between two characters in Chinese
     const shouldAddSpace = computed(() => {
-      if (slots.default?.()?.length === 1) {
-        const slot = slots.default?.()?.[0]
+      const defaultSlot = slots.default?.()
+      if (defaultSlot?.length === 1) {
+        const slot = defaultSlot[0]
         if (
           typeof slot?.type === 'symbol' &&
           slot.type.description === 'Text'
