@@ -57,7 +57,7 @@
     "@element-plus/tokens": "workspace:*",
     "@element-plus/utils": "workspace:*",
     "@popperjs/core": "^2.10.2",
-    "@vueuse/core": "~6.1.0",
+    "@vueuse/core": "^6.7.3",
     "async-validator": "^4.0.7",
     "dayjs": "^1.10.7",
     "lodash": "^4.17.21",
@@ -68,7 +68,7 @@
   "devDependencies": {
     "@commitlint/cli": "^13.2.1",
     "@commitlint/config-conventional": "^13.2.0",
-    "@pnpm/find-workspace-packages": "^3.1.19",
+    "@pnpm/find-workspace-packages": "^3.1.20",
     "@pnpm/logger": "^4.0.0",
     "@pnpm/types": "^7.4.0",
     "@rollup/plugin-commonjs": "^15.1.0",
@@ -87,7 +87,7 @@
     "chalk": "^4.1.2",
     "components-helper": "^1.0.4",
     "cz-conventional-changelog": "^3.3.0",
-    "esbuild": "~0.13.8",
+    "esbuild": "~0.13.9",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-define-config": "^1.1.1",
@@ -118,6 +118,6 @@
     "vue": "^3.2.20",
     "vue-jest": "5.0.0-alpha.10",
     "vue-router": "^4.0.12",
-    "vue-tsc": "^0.28.7"
+    "vue-tsc": "^0.28.8"
   }
 }
