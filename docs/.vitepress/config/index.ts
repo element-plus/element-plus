@@ -34,6 +34,14 @@ const buildTransformers = () => {
 
 console.log(`DOC_ENV: ${process.env.DOC_ENV}`)
 
+const locales = {}
+languages.forEach((lang) => {
+  locales[`/${lang}`] = {
+    label: lang,
+    lang,
+  }
+})
+
 export const config: UserConfig = {
   title: 'Element Plus',
   head,
@@ -56,6 +64,8 @@ export const config: UserConfig = {
     features,
     langs: languages,
   },
+
+  locales,
 
   markdown: {
     config: (md) => mdPlugin(md),
