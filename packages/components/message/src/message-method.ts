@@ -19,7 +19,7 @@ const message: MessageFn & Partial<Message> = function (options = {}) {
   if (
     !isVNode(options) &&
     typeof options === 'object' &&
-    options.polymerization &&
+    options.grouping &&
     !isVNode(options.message) &&
     instances.length
   ) {

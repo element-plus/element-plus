@@ -54,7 +54,7 @@ export const messageProps = buildProps({
     type: Number,
     default: 0,
   },
-  polymerization: {
+  grouping: {
     type: Boolean,
     default: false,
   },
