@@ -4,7 +4,7 @@ import { buildProps } from '@element-plus/utils/props'
 import { useGlobalConfig } from '@element-plus/utils/util'
 
 import type { ExtractPropTypes } from 'vue'
-import type { MaybeRef } from '@vueuse/shared'
+import type { MaybeRef } from '@vueuse/core'
 
 const sizes = ['', 'large', 'medium', 'small', 'mini'] as const
 
