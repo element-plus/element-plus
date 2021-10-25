@@ -1,5 +1,6 @@
 ---
 lang: en-US
+type: component
 ---
 
 # <ElBadge value="beta">Select V2 virtualized selector</ElBadge>

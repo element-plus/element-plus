@@ -1,5 +1,6 @@
 ---
 lang: en-US
+type: component
 ---
 
 # Pagination
