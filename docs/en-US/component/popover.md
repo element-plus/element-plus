@@ -1,6 +1,6 @@
 ---
+title: Popover
 lang: en-US
-type: component
 ---
 
 # Popover

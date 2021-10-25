@@ -1,6 +1,6 @@
 ---
+title: Menu
 lang: en-US
-type: component
 ---
 
 # Menu

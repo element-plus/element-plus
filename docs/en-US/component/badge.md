@@ -1,6 +1,6 @@
 ---
+title: Badge
 lang: en-US
-type: component
 ---
 
 # Badge

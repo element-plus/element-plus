@@ -1,6 +1,6 @@
 ---
+title: Avatar
 lang: en-US
-type: component
 ---
 
 # Avatar

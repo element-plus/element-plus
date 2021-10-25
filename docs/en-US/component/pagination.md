@@ -1,6 +1,6 @@
 ---
+title: Pagination
 lang: en-US
-type: component
 ---
 
 # Pagination

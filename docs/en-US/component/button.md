@@ -1,6 +1,6 @@
 ---
+title: Button
 lang: en-US
-type: component
 ---
 
 # Button

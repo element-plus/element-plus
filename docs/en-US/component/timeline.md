@@ -1,6 +1,6 @@
 ---
+title: Timeline
 lang: en-US
-type: component
 ---
 
 # Timeline

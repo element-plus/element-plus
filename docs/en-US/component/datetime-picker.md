@@ -1,6 +1,6 @@
 ---
+title: DateTimePicker
 lang: en-US
-type: component
 ---
 
 # DateTimePicker

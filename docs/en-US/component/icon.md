@@ -1,6 +1,6 @@
 ---
+title: Icon
 lang: en-US
-type: component
 ---
 
 # Icon

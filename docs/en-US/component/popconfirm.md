@@ -1,6 +1,6 @@
 ---
+title: Popconfirm
 lang: en-US
-type: component
 ---
 
 # Popconfirm

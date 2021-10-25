@@ -1,6 +1,6 @@
 ---
+title: Tag
 lang: en-US
-type: component
 ---
 
 # Tag

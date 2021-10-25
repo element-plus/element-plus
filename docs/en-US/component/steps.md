@@ -1,6 +1,6 @@
 ---
+title: Steps
 lang: en-US
-type: component
 ---
 
 # Steps

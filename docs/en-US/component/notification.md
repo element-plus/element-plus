@@ -1,6 +1,6 @@
 ---
+title: Notification
 lang: en-US
-type: component
 ---
 
 # Notification

@@ -1,6 +1,6 @@
 ---
+title: Dropdown
 lang: en-US
-type: component
 ---
 
 # Dropdown

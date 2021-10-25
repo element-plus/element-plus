@@ -1,6 +1,6 @@
 ---
+title: Container
 lang: en-US
-type: component
 ---
 
 # Container

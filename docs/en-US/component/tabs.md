@@ -1,6 +1,6 @@
 ---
+title: Tabs
 lang: en-US
-type: component
 ---
 
 # Tabs

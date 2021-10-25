@@ -1,6 +1,6 @@
 ---
+title: Cascader
 lang: en-US
-type: component
 ---
 
 # Cascader

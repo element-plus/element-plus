@@ -1,6 +1,6 @@
 ---
+title: Typography
 lang: en-US
-type: component
 ---
 
 # Typography

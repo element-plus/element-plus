@@ -1,6 +1,6 @@
 ---
+title: Dialog
 lang: en-US
-type: component
 ---
 
 # Dialog

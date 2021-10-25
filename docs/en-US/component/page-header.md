@@ -1,6 +1,6 @@
 ---
+title: Page
 lang: en-US
-type: component
 ---
 
 # Page Header

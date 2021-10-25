@@ -1,6 +1,6 @@
 ---
+title: Result
 lang: en-US
-type: component
 ---
 
 # Result

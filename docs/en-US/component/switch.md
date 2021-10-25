@@ -1,6 +1,6 @@
 ---
+title: Switch
 lang: en-US
-type: component
 ---
 
 # Switch

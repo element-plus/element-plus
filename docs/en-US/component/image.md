@@ -1,6 +1,6 @@
 ---
+title: Image
 lang: en-US
-type: component
 ---
 
 # Image

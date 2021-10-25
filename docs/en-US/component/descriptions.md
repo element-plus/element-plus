@@ -1,6 +1,6 @@
 ---
+title: Descriptions
 lang: en-US
-type: component
 ---
 
 # Descriptions

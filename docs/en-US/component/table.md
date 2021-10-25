@@ -1,6 +1,6 @@
 ---
+title: Table
 lang: en-US
-type: component
 ---
 
 # Table

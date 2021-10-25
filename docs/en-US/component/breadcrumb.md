@@ -1,6 +1,6 @@
 ---
+title: Breadcrumb
 lang: en-US
-type: component
 ---
 
 # Breadcrumb

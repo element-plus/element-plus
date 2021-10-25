@@ -1,6 +1,6 @@
 ---
+title: Tooltip
 lang: en-US
-type: component
 ---
 
 # Tooltip

@@ -1,6 +1,6 @@
 ---
+title: Backtop
 lang: en-US
-type: component
 ---
 
 # Backtop

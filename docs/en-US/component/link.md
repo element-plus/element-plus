@@ -1,6 +1,6 @@
 ---
+title: Link
 lang: en-US
-type: component
 ---
 
 # Link

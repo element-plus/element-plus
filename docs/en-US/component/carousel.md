@@ -1,6 +1,6 @@
 ---
+title: Carousel
 lang: en-US
-type: component
 ---
 
 # Carousel

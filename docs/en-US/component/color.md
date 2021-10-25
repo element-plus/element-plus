@@ -1,6 +1,6 @@
 ---
+title: Color
 lang: en-US
-type: component
 ---
 
 # Color

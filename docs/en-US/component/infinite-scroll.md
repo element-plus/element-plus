@@ -1,6 +1,6 @@
 ---
+title: Infinite
 lang: en-US
-type: component
 ---
 
 # Infinite Scroll

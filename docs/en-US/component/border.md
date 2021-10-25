@@ -1,6 +1,6 @@
 ---
+title: Border
 lang: en-US
-type: component
 ---
 
 # Border
