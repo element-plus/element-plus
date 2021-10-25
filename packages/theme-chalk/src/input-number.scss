@@ -15,6 +15,12 @@
 
     &__inner {
       -webkit-appearance: none;
+      -moz-appearance: textfield;
+      &::-webkit-inner-spin-button,
+      &::-webkit-outer-spin-button {
+        margin: 0;
+        -webkit-appearance: none;
+      }
       padding-left: #{map.get($input-height, 'default') + 10};
       padding-right: #{map.get($input-height, 'default') + 10};
       text-align: center;
