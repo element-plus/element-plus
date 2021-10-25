@@ -18,9 +18,9 @@
     @click="handleClick"
   >
     <i v-if="loading" class="el-icon-loading"></i>
-    <i v-if="icon && !loading" :class="icon"></i>
+    <i v-else-if="icon" :class="icon"></i>
     <span
-      v-else-if="$slots.default"
+      v-if="$slots.default"
       :class="{ 'el-button__text--expand': shouldAddSpace }"
     >
       <slot></slot>
