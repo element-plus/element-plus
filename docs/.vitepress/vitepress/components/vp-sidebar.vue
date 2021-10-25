@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
+import { computed } from 'vue'
+import { useWindowSize } from '@vueuse/core'
 import { useSidebar } from '../composables/sidebar'
 
 import VPSidebarLink from './sidebar/vp-sidebar-link.vue'
@@ -10,25 +11,13 @@ defineEmits(['close'])
 // const isHome = useIsHome()
 const { sidebars, hasSidebar } = useSidebar()
 
-const clientWidth = ref(document.documentElement.clientWidth)
+const { width } = useWindowSize()
 const appMaxWidth = 1376 // --app-max-width: 1376px;
 const wrapStyle = computed(() =>
-  clientWidth.value >= appMaxWidth
-    ? `padding: 24px 32px 24px ${(clientWidth.value - appMaxWidth) / 2}px;`
+  width.value >= appMaxWidth
+    ? `padding: 24px 32px 24px ${(width.value - appMaxWidth) / 2}px;`
     : ''
 )
-
-const update = () => {
-  clientWidth.value = document.documentElement.clientWidth
-}
-
-onMounted(() => {
-  addEventListener('resize', update)
-})
-
-onBeforeUnmount(() => {
-  removeEventListener('resize', update)
-})
 </script>
 
 <template>

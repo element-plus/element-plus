@@ -1,15 +1,8 @@
 <script setup lang="ts">
-import {
-  computed,
-  onUpdated,
-  watch,
-  ref,
-  nextTick,
-  onMounted,
-  onBeforeUnmount,
-} from 'vue'
+import { computed, onUpdated, watch, ref, nextTick } from 'vue'
 import nprogress from 'nprogress'
 import { useData, useRoute } from 'vitepress'
+import { useWindowSize } from '@vueuse/core'
 import { useSidebar } from '../composables/sidebar'
 import VPHeroContent from './vp-hero-content.vue'
 import VPDocContent from './vp-doc-content.vue'
@@ -25,16 +18,12 @@ const props = defineProps<{ isSidebarOpen: boolean }>()
 
 const shouldUpdateProgress = ref(true)
 
-const clientWidth = ref(document.documentElement.clientWidth)
-const update = () => {
-  clientWidth.value = document.documentElement.clientWidth
-}
-const screenMinWidth = 960 // less than 960px .sub-nav element display, so need subtract .sub-nav element height
+const { width } = useWindowSize()
+// less than 960px .sub-nav element display, so need subtract .sub-nav element height
 // .sub-nav element height 41px; .navbar element height 55px
+const screenMinWidth = 960
 const maxHeight = computed(() =>
-  clientWidth.value < screenMinWidth
-    ? `calc(100vh - 96px)`
-    : 'calc(100vh - 55px)'
+  width.value < screenMinWidth ? `calc(100vh - 96px)` : 'calc(100vh - 55px)'
 )
 
 watch(
@@ -51,14 +40,6 @@ onUpdated(() => {
   if (shouldUpdateProgress.value) {
     nprogress.done()
   }
-})
-
-onMounted(() => {
-  addEventListener('resize', update)
-})
-
-onBeforeUnmount(() => {
-  removeEventListener('resize', update)
 })
 </script>
 
