@@ -1,6 +1,6 @@
 ---
+title: Upload
 lang: en-US
-type: component
 ---
 
 # Upload

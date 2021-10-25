@@ -1,6 +1,6 @@
 ---
+title: TimeSelect
 lang: en-US
-type: component
 ---
 
 # TimeSelect

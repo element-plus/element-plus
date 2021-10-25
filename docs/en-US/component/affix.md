@@ -1,6 +1,6 @@
 ---
+title: Affix
 lang: en-US
-type: component
 ---
 
 # Affix

@@ -1,6 +1,6 @@
 ---
+title: Transfer
 lang: en-US
-type: component
 ---
 
 # Transfer

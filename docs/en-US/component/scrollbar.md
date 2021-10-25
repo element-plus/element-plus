@@ -1,6 +1,6 @@
 ---
+title: Scrollbar
 lang: en-US
-type: component
 ---
 
 # Scrollbar

@@ -1,6 +1,6 @@
 ---
+title: Card
 lang: en-US
-type: component
 ---
 
 # Card

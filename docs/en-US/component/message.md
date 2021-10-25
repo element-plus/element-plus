@@ -1,6 +1,6 @@
 ---
+title: Message
 lang: en-US
-type: component
 ---
 
 # Message

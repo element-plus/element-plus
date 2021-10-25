@@ -1,6 +1,6 @@
 ---
+title: Empty
 lang: en-US
-type: component
 ---
 
 # Empty

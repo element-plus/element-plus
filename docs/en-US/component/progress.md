@@ -1,6 +1,6 @@
 ---
+title: Progress
 lang: en-US
-type: component
 ---
 
 # Progress

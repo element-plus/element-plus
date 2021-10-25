@@ -1,6 +1,6 @@
 ---
+title: Form
 lang: en-US
-type: component
 ---
 
 # Form

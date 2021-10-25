@@ -1,6 +1,6 @@
 ---
+title: Alert
 lang: en-US
-type: component
 ---
 
 # Alert

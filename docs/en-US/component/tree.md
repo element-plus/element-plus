@@ -1,6 +1,6 @@
 ---
+title: Tree
 lang: en-US
-type: component
 ---
 
 # Tree

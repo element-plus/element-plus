@@ -1,6 +1,6 @@
 ---
+title: Rate
 lang: en-US
-type: component
 ---
 
 # Rate

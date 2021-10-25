@@ -1,6 +1,6 @@
 ---
+title: Radio
 lang: en-US
-type: component
 ---
 
 # Radio

@@ -1,6 +1,6 @@
 ---
+title: Skeleton
 lang: en-US
-type: component
 ---
 
 # Skeleton

@@ -1,6 +1,6 @@
 ---
+title: Slider
 lang: en-US
-type: component
 ---
 
 # Slider

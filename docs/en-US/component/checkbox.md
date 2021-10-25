@@ -1,6 +1,6 @@
 ---
+title: Checkbox
 lang: en-US
-type: component
 ---
 
 # Checkbox

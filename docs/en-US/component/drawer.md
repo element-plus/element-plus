@@ -1,6 +1,6 @@
 ---
+title: Drawer
 lang: en-US
-type: component
 ---
 
 # Drawer

@@ -1,6 +1,6 @@
 ---
+title: Space
 lang: en-US
-type: component
 ---
 
 # Space

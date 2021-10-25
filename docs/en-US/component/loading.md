@@ -1,6 +1,6 @@
 ---
+title: Loading
 lang: en-US
-type: component
 ---
 
 # Loading

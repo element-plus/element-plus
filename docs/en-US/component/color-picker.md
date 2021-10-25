@@ -1,6 +1,6 @@
 ---
+title: ColorPicker
 lang: en-US
-type: component
 ---
 
 # ColorPicker

@@ -1,6 +1,6 @@
 ---
+title: TimePicker
 lang: en-US
-type: component
 ---
 
 # TimePicker

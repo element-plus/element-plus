@@ -1,6 +1,6 @@
 ---
+title: Collapse
 lang: en-US
-type: component
 ---
 
 # Collapse

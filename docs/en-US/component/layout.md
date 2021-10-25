@@ -1,6 +1,6 @@
 ---
+title: Layout
 lang: en-US
-type: component
 ---
 
 # Layout

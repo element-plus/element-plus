@@ -1,6 +1,6 @@
 ﻿---
+title: Input
 lang: en-US
-type: component
 ---
 
 # Input

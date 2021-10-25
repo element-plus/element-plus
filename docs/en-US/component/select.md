@@ -1,6 +1,6 @@
 ---
+title: Select
 lang: en-US
-type: component
 ---
 
 # Select

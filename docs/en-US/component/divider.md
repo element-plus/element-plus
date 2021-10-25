@@ -1,6 +1,6 @@
 ---
+title: Divider
 lang: en-US
-type: component
 ---
 
 # Divider

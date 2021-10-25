@@ -1,6 +1,6 @@
 ---
+title: Calendar
 lang: en-US
-type: component
 ---
 
 # Calendar
