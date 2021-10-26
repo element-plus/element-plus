@@ -1,3 +1,8 @@
+---
+lang: en-US
+type: component
+---
+
 # <ElBadge value="beta">Tree V2 virtualized tree</ElBadge>
 
 Tree view with blazing fast scrolling performance for any amount of data

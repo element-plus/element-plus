@@ -1,3 +1,8 @@
+---
+title: Result
+lang: en-US
+---
+
 # Result
 
 Used to give feedback on the result of user's operation or access exception.

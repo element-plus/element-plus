@@ -8,7 +8,7 @@
     :fallback-placements="['bottom', 'top', 'right', 'left']"
   >
     <div class="el-popconfirm">
-      <p class="el-popconfirm__main">
+      <div class="el-popconfirm__main">
         <i
           v-if="!hideIcon"
           :class="icon"
@@ -16,7 +16,7 @@
           :style="{ color: iconColor }"
         ></i>
         {{ title }}
-      </p>
+      </div>
       <div class="el-popconfirm__action">
         <el-button size="mini" :type="cancelButtonType" @click="cancel">
           {{ finalCancelButtonText }}

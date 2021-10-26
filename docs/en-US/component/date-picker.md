@@ -1,3 +1,8 @@
+---
+title: DatePicker
+lang: en-US
+---
+
 # DatePicker
 
 Use Date Picker for date input.

@@ -20,6 +20,22 @@ export const useTranslation = () => {
   }
 
   const helpTranslate = computed(() => translationLocale[lang.value].help)
+  const langsRef = computed(() => {
+    const currentLang = lang.value
+
+    // When there is no zh-CN in the list, meaning this is the PR preview
+    // so we simply return the current list which contains only en-US
+    if (!langs.includes('zh-CN')) return []
+    const langsCopy = langs.slice(0)
+    langsCopy.splice(langsCopy.indexOf(currentLang), 1)
+
+    // if current language is not zh-CN, then zh-CN needs to be moved to the head.
+    if (currentLang !== 'zh-CN') {
+      langsCopy.splice(langsCopy.indexOf('zh-CN'), 1)
+    }
+
+    return currentLang === 'zh-CN' ? langsCopy : ['zh-CN'].concat(langsCopy)
+  })
 
   const switchLang = (targetLang: string) => {
     if (lang.value === targetLang) return
@@ -34,7 +50,7 @@ export const useTranslation = () => {
   return {
     helpTranslate,
     languageMap,
-    langs,
+    langs: langsRef,
     lang,
     switchLang,
   }

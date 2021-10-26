@@ -1,3 +1,8 @@
+---
+title: TimeSelect
+lang: en-US
+---
+
 # TimeSelect
 
 Use Time Select for time input.

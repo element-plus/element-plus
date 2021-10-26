@@ -1,4 +1,9 @@
-﻿# Input
+﻿---
+title: Input
+lang: en-US
+---
+
+# Input
 
 Input data using mouse or keyboard.
 

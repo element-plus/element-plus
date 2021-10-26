@@ -1,3 +1,8 @@
+---
+title: Table
+lang: en-US
+---
+
 # Table
 
 Display multiple data with similar format. You can sort, filter, compare your data in a table.

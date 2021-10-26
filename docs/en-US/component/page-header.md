@@ -1,3 +1,8 @@
+---
+title: Page
+lang: en-US
+---
+
 # Page Header
 
 If path of the page is simple, it is recommended to use PageHeader instead of the Breadcrumb.

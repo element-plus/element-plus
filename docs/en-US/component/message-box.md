@@ -1,3 +1,8 @@
+---
+title: Message
+lang: en-US
+---
+
 # Message Box
 
 A set of modal boxes simulating system message box, mainly for alerting information, confirm operations and prompting messages.

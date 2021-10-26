@@ -1,3 +1,8 @@
+---
+title: Card
+lang: en-US
+---
+
 # Card
 
 Integrate information in a card container.
