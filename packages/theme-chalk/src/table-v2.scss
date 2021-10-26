@@ -10,7 +10,6 @@
     align-items: center;
     box-sizing: border-box;
     border-bottom: 1px solid var(--el-border-color-base);
-
   }
 
   &__cell {
@@ -19,5 +18,20 @@
     box-sizing: border-box;
     min-width: 0;
     height: 100%;
+  }
+
+  &__sort-icon {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    height: 14px;
+    width: 24px;
+    vertical-align: middle;
+    overflow: initial;
+    position: relative;
+
+    .#{namespace}-icon {
+      cursor: pointer;
+    }
   }
 }

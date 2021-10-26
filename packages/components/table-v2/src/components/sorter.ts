@@ -1,8 +1,8 @@
-import { defineComponent, h, computed } from 'vue'
+import { defineComponent, h } from 'vue'
 import ElIcon from '@element-plus/components/icon'
-import { Bottom } from '@element-plus/icons'
+import { SortUp, SortDown } from '@element-plus/icons'
 import { prefix, sortOrder } from '../constants'
-import type { CSSProperties, PropType } from 'vue'
+import type { PropType } from 'vue'
 
 export default defineComponent({
   name: 'TableV2Sorter',
@@ -13,21 +13,33 @@ export default defineComponent({
     },
   },
   setup(props, { attrs }) {
-    const style = computed<CSSProperties>(() => {
-      return {
-        transform: `rotate(${props.order === sortOrder.ASC ? -90 : 0}deg)`,
-      }
-    })
-    return h(
-      ElIcon,
-      {
-        style: style.value,
-        class: `${prefix}__sort-icon`,
-        ...attrs,
-      },
-      {
-        default: () => Bottom,
-      }
-    )
+    return () =>
+      h(
+        'span',
+        {
+          class: `${prefix}__sort-icon`,
+          ...attrs,
+        },
+        [
+          h(
+            ElIcon,
+            {
+              class: {
+                'is-active': props.order === sortOrder.ASC,
+              },
+            },
+            [h(SortUp)]
+          ),
+          h(
+            ElIcon,
+            {
+              class: {
+                'is-active': props.order === sortOrder.DESC,
+              },
+            },
+            [h(SortDown)]
+          ),
+        ]
+      )
   },
 })
