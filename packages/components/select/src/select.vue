@@ -256,7 +256,10 @@ export default defineComponent({
   props: {
     name: String,
     id: String,
-    modelValue: [Array, String, Number, Boolean, Object],
+    modelValue: {
+      type: [Array, String, Number, Boolean, Object],
+      default: undefined,
+    },
     autocomplete: {
       type: String,
       default: 'off',
