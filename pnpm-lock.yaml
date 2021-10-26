@@ -245,10 +245,12 @@ importers:
 
   play:
     specifiers:
+      '@element-plus/icons': ^0.0.11
       '@vitejs/plugin-vue': ^1.9.3
       unplugin-vue-components: ^0.16.0
       vite: ^2.6.10
     dependencies:
+      '@element-plus/icons': 0.0.11
       '@vitejs/plugin-vue': 1.9.3_vite@2.6.10
       vite: 2.6.10_sass@1.43.3
     devDependencies:
