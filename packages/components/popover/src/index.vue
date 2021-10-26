@@ -148,7 +148,9 @@ export default defineComponent({
 
     return h(Fragment, null, [
       this.trigger === 'click'
-        ? withDirectives(_trigger, [[ClickOutside, this.hide]])
+        ? withDirectives(_trigger, [
+            [ClickOutside, this.hide, popover as unknown as string],
+          ])
         : _trigger,
       h(
         Teleport as any,
