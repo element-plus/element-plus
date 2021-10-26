@@ -8,7 +8,7 @@
   "style": "index.css",
   "scripts": {
     "clean": "rimraf dist",
-    "build": "gulp"
+    "build": "gulp --require sucrase/register/ts"
   },
   "repository": {
     "type": "git",

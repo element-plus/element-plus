@@ -62,7 +62,7 @@ export default defineComponent({
 
   setup(props) {
     const visible = ref(false)
-    let timer: (() => void) | undefined = undefined
+    let stopTimer: (() => void) | undefined = undefined
 
     const typeClass = computed(() =>
       props.iconClass ? props.iconClass : typeMap[props.type] ?? ''
@@ -74,14 +74,14 @@ export default defineComponent({
 
     function startTimer() {
       if (props.duration > 0) {
-        ;({ stop: timer } = useTimeoutFn(() => {
+        ;({ stop: stopTimer } = useTimeoutFn(() => {
           if (visible.value) close()
         }, props.duration))
       }
     }
 
     function clearTimer() {
-      timer?.()
+      stopTimer?.()
     }
 
     function close() {
