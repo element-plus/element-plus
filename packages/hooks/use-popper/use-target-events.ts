@@ -1,6 +1,5 @@
 import { computed, getCurrentInstance } from 'vue'
 import { isArray } from '@element-plus/utils/util'
-import type { ComponentInternalInstance } from 'vue'
 
 export type TriggerType = 'click' | 'hover' | 'focus' | 'manual'
 export type Trigger = TriggerType | TriggerType[]
@@ -22,7 +21,7 @@ export const useTargetEvents = (
   onHide: Handler,
   onToggle: Handler
 ) => {
-  const { props } = getCurrentInstance() as ComponentInternalInstance
+  const { props } = getCurrentInstance()!
 
   let triggerFocused = false
 
