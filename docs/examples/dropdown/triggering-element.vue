@@ -53,7 +53,4 @@ export default defineComponent({
 .el-dropdown + .el-dropdown {
   margin-left: 15px;
 }
-.el-icon {
-  font-size: 12px;
-}
 </style>

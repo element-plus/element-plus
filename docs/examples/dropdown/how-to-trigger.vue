@@ -76,9 +76,6 @@ import {
   cursor: pointer;
   color: #409eff;
 }
-.el-icon {
-  font-size: 12px;
-}
 .demonstration {
   display: block;
   color: var(--el-text-color-secondary);

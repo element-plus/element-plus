@@ -26,7 +26,4 @@ import { ArrowDown } from '@element-plus/icons'
   cursor: pointer;
   color: #409eff;
 }
-.el-icon {
-  font-size: 12px;
-}
 </style>
