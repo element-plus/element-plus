@@ -19,7 +19,7 @@ Toggleable menu for displaying lists of links and actions.
     cursor: pointer;
     color: var(--el-color-primary);
   }
-  .el-icon-arrow-down {
+  .el-icon {
     font-size: 12px;
   }
 }

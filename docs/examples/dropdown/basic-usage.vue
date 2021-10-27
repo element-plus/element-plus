@@ -1,7 +1,9 @@
 <template>
   <el-dropdown>
     <span class="el-dropdown-link">
-      Dropdown List<i class="el-icon-arrow-down el-icon--right"></i>
+      Dropdown List<el-icon class="el-icon--right">
+        <arrow-down />
+      </el-icon>
     </span>
     <template #dropdown>
       <el-dropdown-menu>
@@ -15,12 +17,16 @@
   </el-dropdown>
 </template>
 
-<style>
+<script lang="ts" setup>
+import { ArrowDown } from '@element-plus/icons'
+</script>
+
+<style scoped>
 .el-dropdown-link {
   cursor: pointer;
   color: #409eff;
 }
-.el-icon-arrow-down {
+.el-icon {
   font-size: 12px;
 }
 </style>

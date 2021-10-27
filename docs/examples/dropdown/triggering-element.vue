@@ -1,7 +1,7 @@
 <template>
   <el-dropdown>
     <el-button type="primary">
-      Dropdown List<i class="el-icon-arrow-down el-icon--right"></i>
+      Dropdown List<el-icon class="el-icon--right"><arrow-down /></el-icon>
     </el-button>
     <template #dropdown>
       <el-dropdown-menu>
@@ -29,8 +29,12 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { ArrowDown } from '@element-plus/icons'
 
 export default defineComponent({
+  components: {
+    ArrowDown,
+  },
   setup() {
     const handleClick = () => {
       alert('button click')
@@ -49,7 +53,7 @@ export default defineComponent({
 .el-dropdown + .el-dropdown {
   margin-left: 15px;
 }
-.el-icon-arrow-down {
+.el-icon {
   font-size: 12px;
 }
 </style>

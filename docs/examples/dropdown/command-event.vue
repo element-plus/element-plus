@@ -1,7 +1,7 @@
 <template>
   <el-dropdown @command="handleCommand">
     <span class="el-dropdown-link">
-      Dropdown List<i class="el-icon-arrow-down el-icon--right"></i>
+      Dropdown List<el-icon class="el-icon--right"><arrow-down /></el-icon>
     </span>
     <template #dropdown>
       <el-dropdown-menu>
@@ -18,8 +18,12 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { ElMessage } from 'element-plus'
+import { ArrowDown } from '@element-plus/icons'
 
 export default defineComponent({
+  components: {
+    ArrowDown,
+  },
   setup() {
     const handleCommand = (command) => {
       ElMessage(`click on item ${command}`)
@@ -36,7 +40,7 @@ export default defineComponent({
   cursor: pointer;
   color: #409eff;
 }
-.el-icon-arrow-down {
+.el-icon {
   font-size: 12px;
 }
 </style>

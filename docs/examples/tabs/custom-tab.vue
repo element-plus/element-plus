@@ -2,7 +2,9 @@
   <el-tabs type="border-card">
     <el-tab-pane>
       <template #label>
-        <span><i class="el-icon-date"></i> Route</span>
+        <span>
+          <el-icon><calendar /></el-icon>Route
+        </span>
       </template>
       Route
     </el-tab-pane>
@@ -11,3 +13,7 @@
     <el-tab-pane label="Task">Task</el-tab-pane>
   </el-tabs>
 </template>
+
+<script lang="ts" setup>
+import { Calendar } from '@element-plus/icons'
+</script>
