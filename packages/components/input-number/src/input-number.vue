@@ -37,6 +37,7 @@
     </span>
     <el-input
       ref="input"
+      type="number"
       :model-value="displayValue"
       :placeholder="placeholder"
       :disabled="inputNumberDisabled"
