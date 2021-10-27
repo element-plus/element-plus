@@ -5,14 +5,18 @@
     :on-preview="handlePictureCardPreview"
     :on-remove="handleRemove"
   >
-    <i class="el-icon-plus"></i>
+    <el-icon><plus /></el-icon>
   </el-upload>
   <el-dialog v-model="dialogVisible">
     <img width="100%" :src="dialogImageUrl" alt="" />
   </el-dialog>
 </template>
 <script lang="ts">
+import { Plus } from '@element-plus/icons'
 export default {
+  components: {
+    Plus,
+  },
   data() {
     return {
       dialogImageUrl: '',

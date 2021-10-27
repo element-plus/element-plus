@@ -1,6 +1,5 @@
-import { buildProps } from '@element-plus/utils/props'
-
-import type { ExtractPropTypes } from 'vue'
+import { buildProps, definePropType } from '@element-plus/utils/props'
+import type { Component, ExtractPropTypes } from 'vue'
 
 export const linkProps = buildProps({
   type: {
@@ -14,7 +13,10 @@ export const linkProps = buildProps({
   },
   disabled: { type: Boolean, default: false },
   href: { type: String, default: '' },
-  icon: { type: String, default: '' },
+  icon: {
+    type: definePropType<string | Component>([String, Object]),
+    default: '',
+  },
 } as const)
 export type LinkProps = ExtractPropTypes<typeof linkProps>
 

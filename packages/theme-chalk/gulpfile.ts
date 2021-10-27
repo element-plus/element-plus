@@ -42,16 +42,6 @@ function buildThemeChalk() {
 }
 
 /**
- * copy font to lib/fonts
- * @returns
- */
-export function copyFont() {
-  return src(path.resolve(__dirname, 'src/fonts/**')).pipe(
-    dest(path.resolve(distFolder, 'fonts'))
-  )
-}
-
-/**
  * copy from packages/theme-chalk/lib to dist/theme-chalk
  */
 export function copyThemeChalkBundle() {
@@ -69,7 +59,6 @@ export function copyThemeChalkSource() {
 }
 
 export const build = parallel(
-  copyFont,
   copyThemeChalkSource,
   series(buildThemeChalk, copyThemeChalkBundle)
 )

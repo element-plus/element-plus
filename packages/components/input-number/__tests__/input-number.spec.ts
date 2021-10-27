@@ -1,5 +1,6 @@
 import { ref, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
+import { ArrowUp, ArrowDown } from '@element-plus/icons'
 import InputNumber from '../src/input-number.vue'
 
 const mouseup = new Event('mouseup')
@@ -165,8 +166,8 @@ describe('InputNumber.vue', () => {
         }
       },
     })
-    expect(wrapper.find('.el-icon-arrow-down').exists()).toBe(true)
-    expect(wrapper.find('.el-icon-arrow-up').exists()).toBe(true)
+    expect(wrapper.findComponent(ArrowDown).exists()).toBe(true)
+    expect(wrapper.findComponent(ArrowUp).exists()).toBe(true)
   })
   test('change-event', async () => {
     const wrapper = _mount({

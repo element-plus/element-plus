@@ -7,12 +7,16 @@
     :before-upload="beforeAvatarUpload"
   >
     <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+    <el-icon v-else class="avatar-uploader-icon"><plus /></el-icon>
   </el-upload>
 </template>
 
 <script lang="ts">
+import { Plus } from '@element-plus/icons'
 export default {
+  components: {
+    Plus,
+  },
   data() {
     return {
       imageUrl: '',
@@ -54,8 +58,10 @@ export default {
   color: #8c939d;
   width: 178px;
   height: 178px;
-  line-height: 178px;
   text-align: center;
+}
+.avatar-uploader-icon svg {
+  margin-top: 74px; /* (178px - 28px) / 2 - 1px */
 }
 .avatar {
   width: 178px;

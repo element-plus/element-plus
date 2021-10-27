@@ -17,8 +17,10 @@
     :type="nativeType"
     @click="handleClick"
   >
-    <i v-if="loading" class="el-icon-loading"></i>
-    <i v-else-if="icon" :class="icon"></i>
+    <el-icon v-if="loading" class="is-loading"><loading /></el-icon>
+    <el-icon v-else-if="icon">
+      <component :is="icon" />
+    </el-icon>
     <span
       v-if="$slots.default"
       :class="{ 'el-button__text--expand': shouldAddSpace }"
@@ -30,13 +32,20 @@
 
 <script lang="ts">
 import { computed, inject, defineComponent } from 'vue'
+import { ElIcon } from '@element-plus/components/icon'
 import { useFormItem } from '@element-plus/hooks'
 import { elButtonGroupKey, elFormKey } from '@element-plus/tokens'
+import { Loading } from '@element-plus/icons'
 
 import { buttonEmits, buttonProps } from './button'
 
 export default defineComponent({
   name: 'ElButton',
+
+  components: {
+    ElIcon,
+    Loading,
+  },
 
   props: buttonProps,
   emits: buttonEmits,

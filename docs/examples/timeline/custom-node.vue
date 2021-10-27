@@ -18,6 +18,8 @@
 </template>
 
 <script lang="ts">
+import { MoreFilled } from '@element-plus/icons'
+
 export default {
   data() {
     return {
@@ -27,7 +29,7 @@ export default {
           timestamp: '2018-04-12 20:46',
           size: 'large',
           type: 'primary',
-          icon: 'el-icon-more',
+          icon: MoreFilled,
         },
         {
           content: 'Custom color',

@@ -55,16 +55,28 @@
     }
   }
 
-  .#{$namespace}-icon-circle-close {
+  .close-icon {
     cursor: pointer;
   }
 
+  .clear-icon {
+    cursor: pointer;
+
+    &:hover {
+      color: var(--el-text-color-secondary);
+    }
+  }
+
   .#{$namespace}-range__icon {
+    height: inherit;
     font-size: 14px;
     margin-left: -5px;
     color: var(--el-text-color-placeholder);
     float: left;
-    line-height: 32px;
+
+    svg {
+      vertical-align: middle;
+    }
   }
 
   .#{$namespace}-range-input {
@@ -101,10 +113,18 @@
   .#{$namespace}-range__close-icon {
     font-size: 14px;
     color: var(--el-text-color-placeholder);
-    width: 25px;
+    height: inherit;
+    width: unset;
     display: inline-block;
-    float: right;
-    line-height: 32px;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--el-text-color-secondary);
+    }
+
+    svg {
+      vertical-align: middle;
+    }
   }
 }
 
@@ -142,11 +162,6 @@
 
       .#{$namespace}-range-input {
         font-size: map.get($input-font-size, $size);
-      }
-
-      .#{$namespace}-range__icon,
-      .#{$namespace}-range__close-icon {
-        line-height: map.get($input-line-height, $size);
       }
     }
   }
