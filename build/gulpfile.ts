@@ -34,6 +34,7 @@ export const copyTypesDefinitions: TaskFunction = (done) => {
 }
 
 export const copyFullStyle = async () => {
+  await run(`mkdir -p ${epOutput}/dist`)
   await run(`cp ${epOutput}/theme-chalk/index.css ${epOutput}/dist/index.css`)
 }
 
