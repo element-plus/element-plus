@@ -153,6 +153,13 @@
     padding: map.get($button-padding-vertical, 'default');
   }
 
+  @include e(text) {
+    @include m(expand) {
+      letter-spacing: 0.3em;
+      margin-right: -0.3em;
+    }
+  }
+
   @each $type in (primary, success, warning, danger, info) {
     @include m($type) {
       --el-button-font-color: #{map.get($button-font-color, $type)};

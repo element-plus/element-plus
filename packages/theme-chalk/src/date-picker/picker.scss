@@ -98,6 +98,7 @@
   }
 
   .#{$namespace}-range-separator {
+    flex: 1;
     display: inline-block;
     height: 100%;
     padding: 0 5px;
@@ -105,6 +106,7 @@
     text-align: center;
     line-height: 32px;
     font-size: 14px;
+    word-break: keep-all;
     color: var(--el-text-color-primary);
   }
 

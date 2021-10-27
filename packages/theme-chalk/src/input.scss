@@ -330,6 +330,7 @@
     }
 
     button.#{$namespace}-button,
+    button.#{$namespace}-button:hover,
     div.#{$namespace}-select .#{$namespace}-input__inner,
     div.#{$namespace}-select:hover .#{$namespace}-input__inner {
       border-color: transparent;

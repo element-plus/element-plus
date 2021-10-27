@@ -1,3 +1,8 @@
+---
+title: Tooltip
+lang: en-US
+---
+
 # Tooltip
 
 Display prompt information for mouse hover.

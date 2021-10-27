@@ -1,5 +1,6 @@
 ---
 title: Navigation
+lang: en-US
 ---
 
 <style scoped lang="scss">

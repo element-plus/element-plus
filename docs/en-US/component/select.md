@@ -1,3 +1,8 @@
+---
+title: Select
+lang: en-US
+---
+
 # Select
 
 When there are plenty of options, use a drop-down menu to display and select desired ones.

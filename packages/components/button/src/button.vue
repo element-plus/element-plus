@@ -21,7 +21,12 @@
     <el-icon v-else-if="icon">
       <component :is="icon" />
     </el-icon>
-    <span v-if="$slots.default"><slot></slot></span>
+    <span
+      v-if="$slots.default"
+      :class="{ 'el-button__text--expand': shouldAddSpace }"
+    >
+      <slot></slot>
+    </span>
   </button>
 </template>
 
@@ -33,6 +38,7 @@ import { elButtonGroupKey, elFormKey } from '@element-plus/tokens'
 import { Loading } from '@element-plus/icons'
 
 import { buttonEmits, buttonProps } from './button'
+
 export default defineComponent({
   name: 'ElButton',
 
@@ -44,8 +50,23 @@ export default defineComponent({
   props: buttonProps,
   emits: buttonEmits,
 
-  setup(props, { emit }) {
+  setup(props, { emit, slots }) {
     const elBtnGroup = inject(elButtonGroupKey, undefined)
+    // add space between two characters in Chinese
+    const shouldAddSpace = computed(() => {
+      const defaultSlot = slots.default?.()
+      if (defaultSlot?.length === 1) {
+        const slot = defaultSlot[0]
+        if (
+          typeof slot?.type === 'symbol' &&
+          slot.type.description === 'Text'
+        ) {
+          const text = slot.children
+          return /^\p{Unified_Ideograph}{2}$/u.test(text as string)
+        }
+      }
+      return false
+    })
     const { size: buttonSize, disabled: buttonDisabled } = useFormItem({
       size: computed(() => elBtnGroup?.size),
     })
@@ -66,6 +87,8 @@ export default defineComponent({
       buttonSize,
       buttonType,
       buttonDisabled,
+
+      shouldAddSpace,
 
       handleClick,
     }

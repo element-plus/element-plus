@@ -5,7 +5,11 @@
     "dev": "vite"
   },
   "dependencies": {
+    "@element-plus/icons": "^0.0.11",
     "@vitejs/plugin-vue": "^1.9.3",
-    "vite": "^2.6.7"
+    "vite": "^2.6.10"
+  },
+  "devDependencies": {
+    "unplugin-vue-components": "^0.16.0"
   }
 }

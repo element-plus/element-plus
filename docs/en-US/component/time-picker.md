@@ -1,3 +1,8 @@
+---
+title: TimePicker
+lang: en-US
+---
+
 # TimePicker
 
 Use Time Picker for time input.

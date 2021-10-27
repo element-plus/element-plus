@@ -17,7 +17,7 @@ export const tagProps = buildProps({
   },
   size: {
     type: String,
-    values: ['medium', 'small', 'mini'],
+    values: ['large', 'medium', 'small', 'mini'],
   },
   effect: {
     type: String,
