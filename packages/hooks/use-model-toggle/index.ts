@@ -4,7 +4,11 @@ import { isBool } from '@element-plus/utils/util'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import isServer from '@element-plus/utils/isServer'
 
-import type { Ref, ComponentPublicInstance } from 'vue'
+import type {
+  Ref,
+  ComponentPublicInstance,
+  ComponentInternalInstance,
+} from 'vue'
 
 export const useModelToggleProps = {
   modelValue: {
@@ -32,7 +36,8 @@ export const useModelToggle = ({
   onShow,
   onHide,
 }: ModelToggleParams) => {
-  const { appContext, props, proxy, emit } = getCurrentInstance()
+  const { appContext, props, proxy, emit } =
+    getCurrentInstance() as ComponentInternalInstance
 
   const hasUpdateHandler = computed(() =>
     isFunction(props['onUpdate:modelValue'])
@@ -120,7 +125,7 @@ export const useModelToggle = ({
     }
   }
 
-  watch(() => props.modelValue, onChange)
+  watch(() => props.modelValue, onChange as any)
 
   if (
     shouldHideWhenRouteChanges &&

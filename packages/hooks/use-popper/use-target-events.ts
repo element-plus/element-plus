@@ -1,5 +1,6 @@
 import { computed, getCurrentInstance } from 'vue'
 import { isArray } from '@element-plus/utils/util'
+import type { ComponentInternalInstance } from 'vue'
 
 export type TriggerType = 'click' | 'hover' | 'focus' | 'manual'
 export type Trigger = TriggerType | TriggerType[]
@@ -21,7 +22,7 @@ export const useTargetEvents = (
   onHide: Handler,
   onToggle: Handler
 ) => {
-  const { props } = getCurrentInstance()
+  const { props } = getCurrentInstance() as ComponentInternalInstance
 
   let triggerFocused = false
 
@@ -67,7 +68,7 @@ export const useTargetEvents = (
 
   const mapEvents = (t: TriggerType) => {
     const events = {} as PopperEvents
-    triggerEventsMap[t].forEach((event) => {
+    triggerEventsMap[t]?.forEach((event) => {
       events[event] = popperEventsHandler
     })
 

@@ -1,7 +1,12 @@
 import { computed, getCurrentInstance, inject, provide, ref } from 'vue'
 import English from '@element-plus/locale/lang/en'
 
-import type { InjectionKey, PropType, Ref } from 'vue'
+import type {
+  InjectionKey,
+  PropType,
+  Ref,
+  ComponentInternalInstance,
+} from 'vue'
 import type { Language } from '@element-plus/locale'
 
 export const useLocaleProps = {
@@ -39,7 +44,7 @@ function translate(path, option, current) {
 }
 
 export const useLocale = () => {
-  const vm = getCurrentInstance()
+  const vm = getCurrentInstance() as ComponentInternalInstance
   const props = vm.props as {
     locale: Language
   }
@@ -60,7 +65,7 @@ export const useLocale = () => {
     locale,
     lang,
     t,
-  }
+  } as LocaleContext
 
   // this could be broken if someone tries to do following:
 
