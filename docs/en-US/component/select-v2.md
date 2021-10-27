@@ -143,7 +143,7 @@ select-v2/remote-search
 <!-- | no-match-text | 搜索条件无匹配时显示的文字，也可以使用`#empty`设置 | string | — | 无匹配数据 | -->
 <!-- | reserve-keyword | 多选且可搜索时，是否在选中一个Option后保留当前的搜索关键词 | boolean | — | false |
 | default-first-option | 在输入框按下回车，选择第一个匹配项。需配合 `filterable` 或 `remote` 使用 | boolean | - | false |
-| clear-icon | 自定义清空图标的类名 | string | — | el-icon-circle-close |
+| clear-icon | 自定义清空图标的类名 | string / component | — | CircleClose |
 | allow-create | 是否允许用户创建新条目，需配合 `filterable` 使用 | boolean | — | false |
 | filter-method | 自定义搜索方法 | function | — | — |
 | remote | 是否为远程搜索 | boolean | — | false |

@@ -12,7 +12,7 @@
       <span>Content</span>
     </el-progress>
     <el-progress type="circle" :percentage="100" status="success">
-      <el-button type="success" icon="el-icon-check" circle></el-button>
+      <el-button type="success" :icon="Check" circle></el-button>
     </el-progress>
     <el-progress type="dashboard" :percentage="80">
       <template #default="{ percentage }">
@@ -22,6 +22,10 @@
     </el-progress>
   </div>
 </template>
+
+<script lang="ts" setup>
+import { Check } from '@element-plus/icons'
+</script>
 
 <style lang="scss" scoped>
 .percentage-value {

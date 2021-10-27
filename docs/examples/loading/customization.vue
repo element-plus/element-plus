@@ -2,7 +2,7 @@
   <el-table
     v-loading="loading"
     element-loading-text="Loading..."
-    element-loading-spinner="el-icon-loading"
+    :element-loading-spinner="Loading"
     element-loading-background="rgba(0, 0, 0, 0.8)"
     :data="tableData"
     style="width: 100%"
@@ -27,10 +27,12 @@
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from 'vue'
+import { Loading } from '@element-plus/icons'
 
 export default defineComponent({
   setup() {
     const state = reactive({
+      Loading,
       tableData: [
         {
           date: '2016-05-02',
