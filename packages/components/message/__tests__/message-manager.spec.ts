@@ -104,7 +104,7 @@ describe('Message on command', () => {
   test('it should appendTo specified selector', async () => {
     const htmlElement = document.createElement('div')
     htmlElement.classList.add('message-manager')
-    document.appendChild(htmlElement)
+    document.body.appendChild(htmlElement)
     const handle = Message({
       appendTo: '.message-manager',
     })

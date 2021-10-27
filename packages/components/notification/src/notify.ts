@@ -1,7 +1,8 @@
-import { createVNode, render, warn } from 'vue'
+import { createVNode, render } from 'vue'
 import isServer from '@element-plus/utils/isServer'
 import PopupManager from '@element-plus/utils/popup-manager'
 import { isVNode } from '@element-plus/utils/util'
+import { debugWarn } from '@element-plus/utils/error'
 import NotificationConstructor from './notification.vue'
 import { notificationTypes } from './notification'
 
@@ -66,8 +67,9 @@ const notify: NotifyFn & Partial<Notify> = function (options = {}) {
 
   // should fallback to default value with a warning
   if (!(appendTo instanceof HTMLElement)) {
-    warn(
-      `[el-notification] the appendTo option is not an HTMLElement. Falling back to document.body.`
+    debugWarn(
+      'ElNotification',
+      'the appendTo option is not an HTMLElement. Falling back to document.body.'
     )
     appendTo = document.body
   }

@@ -1,7 +1,8 @@
-import { createVNode, render, warn } from 'vue'
+import { createVNode, render } from 'vue'
 import { isVNode } from '@element-plus/utils/util'
 import PopupManager from '@element-plus/utils/popup-manager'
 import isServer from '@element-plus/utils/isServer'
+import { debugWarn } from '@element-plus/utils/error'
 import MessageConstructor from './message.vue'
 import { messageTypes } from './message'
 
@@ -46,8 +47,9 @@ const message: MessageFn & Partial<Message> = function (options = {}) {
   }
   // should fallback to default value with a warning
   if (!(appendTo instanceof HTMLElement)) {
-    warn(
-      `[el-message] the appendTo option is not an HTMLElement. Falling back to document.body.`
+    debugWarn(
+      'ElMessage',
+      'the appendTo option is not an HTMLElement. Falling back to document.body.'
     )
     appendTo = document.body
   }

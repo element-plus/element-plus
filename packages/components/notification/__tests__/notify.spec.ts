@@ -98,7 +98,7 @@ describe('Notification on command', () => {
   test('it should appendTo specified selector', async () => {
     const htmlElement = document.createElement('div')
     htmlElement.classList.add('notification-manager')
-    document.appendChild(htmlElement)
+    document.body.appendChild(htmlElement)
     const handle = Notification({
       appendTo: '.notification-manager',
     })
