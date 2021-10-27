@@ -1,6 +1,6 @@
 ---
+title: Virtualized Tree
 lang: en-US
-type: component
 ---
 
 # <ElBadge value="beta">Tree V2 virtualized tree</ElBadge>
