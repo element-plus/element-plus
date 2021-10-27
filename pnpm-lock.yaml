@@ -91,7 +91,6 @@ importers:
       lodash: 4.17.21
       memoize-one: 6.0.0
       normalize-wheel-es: 1.1.0
-      resize-observer-polyfill: 1.5.1
     devDependencies:
       '@commitlint/cli': 13.2.1
       '@commitlint/config-conventional': 13.2.0
@@ -130,6 +129,7 @@ importers:
       lint-staged: 11.2.6
       prettier: 2.4.1
       pretty-quick: 3.1.1_prettier@2.4.1
+      resize-observer-polyfill: 1.5.1
       rimraf: 3.0.2
       rollup: 2.58.3
       rollup-plugin-css-only: 3.1.0_rollup@2.58.3
@@ -8594,7 +8594,6 @@ packages:
 
   /resize-observer-polyfill/1.5.1:
     resolution: {integrity: sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==}
-    dev: false
 
   /resolve-cwd/3.0.0:
     resolution: {integrity: sha512-OrZaX2Mb+rJCpH/6CpSqt9xFVpN++x01XnN2ie9g6P5/3xelLAkXWVADpdz1IHD/KFfEXyE6V0U01OQ3UO2rEg==}
