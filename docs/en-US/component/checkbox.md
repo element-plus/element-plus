@@ -1,4 +1,5 @@
 ---
+title: Checkbox
 lang: en-US
 ---
 

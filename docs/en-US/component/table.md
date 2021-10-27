@@ -1,4 +1,5 @@
 ---
+title: Table
 lang: en-US
 ---
 

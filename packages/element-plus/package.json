@@ -12,8 +12,17 @@
     "vue"
   ],
   "license": "MIT",
+  "exports": {
+    ".": {
+      "require": "./lib/index.js",
+      "import": "./es/index.mjs"
+    },
+    "./es": "./es/index.mjs",
+    "./lib": "./lib/index.js",
+    "./*": "./*"
+  },
   "main": "lib/index.js",
-  "module": "es/index.js",
+  "module": "es/index.mjs",
   "style": "dist/index.css",
   "unpkg": "dist/index.full.js",
   "jsdelivr": "dist/index.full.js",
@@ -22,7 +31,9 @@
     "theme-chalk/*.css",
     "theme-chalk/src/*.scss",
     "es/components/*/style/*",
-    "lib/components/*/style/*"
+    "lib/components/*/style/*",
+    "lib/components/*/src/**",
+    "es/components/*/src/**"
   ],
   "repository": {
     "type": "git",
@@ -37,7 +48,7 @@
   "dependencies": {
     "@element-plus/icons": "^0.0.11",
     "@popperjs/core": "^2.10.2",
-    "@vueuse/core": "~6.1.0",
+    "@vueuse/core": "^6.7.3",
     "async-validator": "^4.0.7",
     "dayjs": "^1.10.7",
     "lodash": "^4.17.21",

@@ -1,4 +1,5 @@
 ---
+title: Skeleton
 lang: en-US
 ---
 

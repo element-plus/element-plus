@@ -12,9 +12,19 @@
     <el-button size="mini" round>Mini</el-button>
   </el-row>
   <el-row>
-    <el-button icon="el-icon-search" circle></el-button>
-    <el-button icon="el-icon-search" size="medium" circle></el-button>
-    <el-button icon="el-icon-search" size="small" circle></el-button>
-    <el-button icon="el-icon-search" size="mini" circle></el-button>
+    <el-button :icon="Search" circle></el-button>
+    <el-button :icon="Search" size="medium" circle></el-button>
+    <el-button :icon="Search" size="small" circle></el-button>
+    <el-button :icon="Search" size="mini" circle></el-button>
   </el-row>
 </template>
+<script lang="ts">
+import { Search } from '@element-plus/icons'
+export default {
+  data() {
+    return {
+      Search,
+    }
+  },
+}
+</script>

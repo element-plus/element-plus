@@ -1,4 +1,5 @@
 ---
+title: Tabs
 lang: en-US
 ---
 

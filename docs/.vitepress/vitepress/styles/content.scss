@@ -22,6 +22,10 @@
   .doc-content a {
     display: inline-flex;
     align-items: center;
+    &.vp-link {
+      white-space: nowrap;
+      word-break: keep-all;
+    }
     .link-icon {
       margin-left: 0.25rem;
       height: 1em;

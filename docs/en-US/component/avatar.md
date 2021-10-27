@@ -1,4 +1,5 @@
 ---
+title: Avatar
 lang: en-US
 ---
 
@@ -48,15 +49,15 @@ avatar/fit
 
 ## Attributes
 
-| Attribute | Description                                                                                                            | Type          | Accepted Values                            | Default |
-| --------- | ---------------------------------------------------------------------------------------------------------------------- | ------------- | ------------------------------------------ | ------- |
-| icon      | set representation type to Icon, more info on Icon Component                                                           | string        |                                            |         |
-| size      | set avatar size                                                                                                        | number/string | number / large / medium / small            | large   |
-| shape     | set avatar shape                                                                                                       | string        | circle / square                            | circle  |
-| src       | the address of the image for an image avatar                                                                           | string        |                                            |         |
-| srcSet    | A list of one or more strings separated by commas indicating a set of possible image sources for the user agent to use | string        |                                            |         |
-| alt       | This attribute defines an alternative text description of the image                                                    | string        |                                            |         |
-| fit       | set how the image fit its container for an image avatar                                                                | string        | fill / contain / cover / none / scale-down | cover   |
+| Attribute | Description                                                                                                            | Type               | Accepted Values                            | Default |
+| --------- | ---------------------------------------------------------------------------------------------------------------------- | ------------------ | ------------------------------------------ | ------- |
+| icon      | set representation type to Icon, more info on Icon Component                                                           | string / Component |                                            |         |
+| size      | set avatar size                                                                                                        | number / string    | number / large / medium / small            | large   |
+| shape     | set avatar shape                                                                                                       | string             | circle / square                            | circle  |
+| src       | the address of the image for an image avatar                                                                           | string             |                                            |         |
+| srcSet    | A list of one or more strings separated by commas indicating a set of possible image sources for the user agent to use | string             |                                            |         |
+| alt       | This attribute defines an alternative text description of the image                                                    | string             |                                            |         |
+| fit       | set how the image fit its container for an image avatar                                                                | string             | fill / contain / cover / none / scale-down | cover   |
 
 ## Events
 

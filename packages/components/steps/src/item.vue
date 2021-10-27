@@ -19,20 +19,17 @@
           v-if="currentStatus !== 'success' && currentStatus !== 'error'"
           name="icon"
         >
-          <i v-if="icon" :class="['el-step__icon-inner', icon]"></i>
+          <el-icon v-if="icon" class="el-step__icon-inner">
+            <component :is="icon" />
+          </el-icon>
           <div v-if="!icon && !isSimple" class="el-step__icon-inner">
             {{ index + 1 }}
           </div>
         </slot>
-        <i
-          v-else
-          :class="[
-            'el-step__icon-inner',
-            'is-status',
-            `el-icon-${currentStatus === 'success' ? 'check' : 'close'}`,
-          ]"
-        >
-        </i>
+        <el-icon v-else class="el-step__icon-inner is-status">
+          <check v-if="currentStatus === 'success'" />
+          <close v-else />
+        </el-icon>
       </div>
     </div>
     <!-- title & description -->
@@ -60,8 +57,10 @@ import {
   reactive,
   watch,
 } from 'vue'
+import { ElIcon } from '@element-plus/components/icon'
+import { Close, Check } from '@element-plus/icons'
 
-import type { Ref } from 'vue'
+import type { Ref, PropType, Component } from 'vue'
 
 export interface IStepsProps {
   space: number | string
@@ -87,13 +86,18 @@ export interface IStepsInject {
 
 export default defineComponent({
   name: 'ElStep',
+  components: {
+    ElIcon,
+    Close,
+    Check,
+  },
   props: {
     title: {
       type: String,
       default: '',
     },
     icon: {
-      type: String,
+      type: [String, Object] as PropType<string | Component>,
       default: '',
     },
     description: {

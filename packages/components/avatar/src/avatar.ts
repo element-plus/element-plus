@@ -1,5 +1,5 @@
 import { buildProps, definePropType } from '@element-plus/utils/props'
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, Component } from 'vue'
 import type { ObjectFitProperty } from 'csstype'
 
 export const avatarProps = buildProps({
@@ -9,14 +9,14 @@ export const avatarProps = buildProps({
     default: 'large',
     validator: (val: unknown): val is number => typeof val === 'number',
   },
-
   shape: {
     type: String,
     values: ['circle', 'square'],
     default: 'circle',
   },
-
-  icon: String,
+  icon: {
+    type: definePropType<string | Component>([String, Object]),
+  },
   src: {
     type: String,
     default: '',

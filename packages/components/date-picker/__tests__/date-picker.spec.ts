@@ -74,15 +74,15 @@ describe('DatePicker', () => {
     await nextTick()
     const spans = document.querySelectorAll('.el-date-picker__header-label')
     const arrowLeftElm = document.querySelector(
-      '.el-date-picker__prev-btn.el-icon-arrow-left'
+      '.el-date-picker__prev-btn.arrow-left'
     ) as HTMLElement
     const arrowRightElm = document.querySelector(
-      '.el-date-picker__next-btn.el-icon-arrow-right'
+      '.el-date-picker__next-btn.arrow-right'
     ) as HTMLElement
     expect(spans[0].textContent).toContain(date.year())
     expect(spans[1].textContent).toContain(date.format('MMMM'))
     const arrowLeftYeayElm = document.querySelector(
-      '.el-date-picker__prev-btn.el-icon-d-arrow-left'
+      '.el-date-picker__prev-btn.d-arrow-left'
     ) as HTMLElement
     arrowLeftYeayElm.click()
     let count = 20
@@ -124,7 +124,7 @@ describe('DatePicker', () => {
     const picker = wrapper.findComponent(CommonPicker)
     ;(picker.vm as any).showClose = true
     await nextTick()
-    ;(document.querySelector('.el-icon-circle-close') as HTMLElement).click()
+    ;(document.querySelector('.clear-icon') as HTMLElement).click()
     expect(vm.value).toBeNull()
   })
 
@@ -307,10 +307,10 @@ describe('DatePicker Navigation', () => {
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    prevMonth = document.querySelector('button.el-icon-arrow-left')
-    prevYear = document.querySelector('button.el-icon-d-arrow-left')
-    nextMonth = document.querySelector('button.el-icon-arrow-right')
-    nextYear = document.querySelector('button.el-icon-d-arrow-right')
+    prevMonth = document.querySelector('button.arrow-left')
+    prevYear = document.querySelector('button.d-arrow-left')
+    nextMonth = document.querySelector('button.arrow-right')
+    nextYear = document.querySelector('button.d-arrow-right')
     getYearLabel = () =>
       document.querySelectorAll('.el-date-picker__header-label')[0].textContent
     getMonthLabel = () =>
@@ -459,12 +459,8 @@ describe('YearPicker', () => {
     ).toBe('')
     expect(document.querySelector('.el-month-table')).toBeNull()
 
-    const leftBtn = document.querySelector(
-      '.el-icon-d-arrow-left'
-    ) as HTMLElement
-    const rightBtn = document.querySelector(
-      '.el-icon-d-arrow-right'
-    ) as HTMLElement
+    const leftBtn = document.querySelector('.d-arrow-left') as HTMLElement
+    const rightBtn = document.querySelector('.d-arrow-right') as HTMLElement
     let count = 2
 
     while (--count) {
@@ -552,13 +548,13 @@ describe('WeekPicker', () => {
     await nextTick()
     expect(numberOfHighlightRows()).toBe(1)
     // test: next month should not have highlight
-    ;(document.querySelector('.el-icon-arrow-right') as HTMLElement).click()
+    ;(document.querySelector('.arrow-right') as HTMLElement).click()
     await nextTick()
     expect(numberOfHighlightRows()).toBe(0)
     // test: next year should not have highlight
-    ;(document.querySelector('.el-icon-arrow-left') as HTMLElement).click()
+    ;(document.querySelector('.arrow-left') as HTMLElement).click()
     await nextTick()
-    ;(document.querySelector('.el-icon-d-arrow-right') as HTMLElement).click()
+    ;(document.querySelector('.d-arrow-right') as HTMLElement).click()
     await nextTick()
     expect(numberOfHighlightRows()).toBe(0)
   })
@@ -821,9 +817,9 @@ describe('DateRangePicker', () => {
     )
     expect(left.textContent).toBe('2000  October')
     expect(right.textContent).toBe('2000  December')
-    ;(panels[1].querySelector('.el-icon-d-arrow-right') as HTMLElement).click()
+    ;(panels[1].querySelector('.d-arrow-right') as HTMLElement).click()
     await nextTick()
-    ;(panels[1].querySelector('.el-icon-arrow-right') as HTMLElement).click()
+    ;(panels[1].querySelector('.arrow-right') as HTMLElement).click()
     await nextTick()
     expect(left.textContent).toBe('2000  October')
     expect(right.textContent).toBe('2002  January')
@@ -994,7 +990,7 @@ describe('MonthRange', () => {
     )
     expect(left.textContent).toContain(2000)
     expect(right.textContent).toContain(2002)
-    ;(panels[1].querySelector('.el-icon-d-arrow-right') as HTMLElement).click()
+    ;(panels[1].querySelector('.d-arrow-right') as HTMLElement).click()
     await nextTick()
     expect(left.textContent).toContain(2000)
     expect(right.textContent).toContain(2003)

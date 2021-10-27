@@ -1,4 +1,5 @@
 ---
+title: ColorPicker
 lang: en-US
 ---
 

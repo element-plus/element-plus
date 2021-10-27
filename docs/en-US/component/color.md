@@ -1,4 +1,5 @@
 ---
+title: Color
 lang: en-US
 ---
 

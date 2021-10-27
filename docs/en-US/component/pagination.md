@@ -1,4 +1,5 @@
 ---
+title: Pagination
 lang: en-US
 ---
 

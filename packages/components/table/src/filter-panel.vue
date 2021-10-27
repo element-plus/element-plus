@@ -72,12 +72,10 @@
         class="el-table__column-filter-trigger el-none-outline"
         @click="showFilterPanel"
       >
-        <i
-          :class="[
-            'el-icon-arrow-down',
-            column.filterOpened ? 'el-icon-arrow-up' : '',
-          ]"
-        ></i>
+        <el-icon>
+          <arrow-up v-if="column.filterOpened" />
+          <arrow-down v-else />
+        </el-icon>
       </span>
     </template>
   </el-popper>
@@ -86,6 +84,8 @@
 <script lang="ts">
 import { defineComponent, ref, computed, getCurrentInstance, watch } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
+import { ElIcon } from '@element-plus/components/icon'
+import { ArrowDown, ArrowUp } from '@element-plus/icons'
 import { ClickOutside } from '@element-plus/directives'
 import { useLocaleInject } from '@element-plus/hooks'
 import ElPopper, { Effect } from '@element-plus/components/popper'
@@ -106,6 +106,9 @@ export default defineComponent({
     ElCheckboxGroup,
     ElScrollbar,
     ElPopper,
+    ElIcon,
+    ArrowDown,
+    ArrowUp,
   },
   directives: { ClickOutside },
   props: {

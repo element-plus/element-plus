@@ -1,4 +1,5 @@
 ---
+title: Badge
 lang: en-US
 ---
 

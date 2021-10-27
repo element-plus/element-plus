@@ -1,4 +1,5 @@
 ---
+title: Collapse
 lang: en-US
 ---
 

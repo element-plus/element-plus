@@ -1,4 +1,5 @@
 ---
+title: Slider
 lang: en-US
 ---
 
