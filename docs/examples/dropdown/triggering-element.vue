@@ -46,7 +46,7 @@ export default defineComponent({
 })
 </script>
 
-<style>
+<style scoped>
 .el-dropdown {
   vertical-align: top;
 }

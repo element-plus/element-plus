@@ -19,7 +19,7 @@
 import { ArrowDown } from '@element-plus/icons'
 </script>
 
-<style>
+<style scoped>
 .el-dropdown-link {
   cursor: pointer;
   color: #409eff;
