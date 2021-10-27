@@ -18,10 +18,3 @@
 <script lang="ts" setup>
 import { ArrowDown } from '@element-plus/icons'
 </script>
-
-<style scoped>
-.el-dropdown-link {
-  cursor: pointer;
-  color: #409eff;
-}
-</style>

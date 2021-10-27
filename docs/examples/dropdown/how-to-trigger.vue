@@ -70,16 +70,3 @@ import {
   Plus,
 } from '@element-plus/icons'
 </script>
-
-<style scoped>
-.el-dropdown-link {
-  cursor: pointer;
-  color: #409eff;
-}
-.demonstration {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-</style>

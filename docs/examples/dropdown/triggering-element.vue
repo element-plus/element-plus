@@ -45,12 +45,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style scoped>
-.el-dropdown {
-  vertical-align: top;
-}
-.el-dropdown + .el-dropdown {
-  margin-left: 15px;
-}
-</style>
