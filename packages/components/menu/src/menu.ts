@@ -12,6 +12,8 @@ import {
   nextTick,
 } from 'vue'
 import { Resize } from '@element-plus/directives'
+import ElIcon from '@element-plus/components/icon'
+import { More } from '@element-plus/icons'
 import Menubar from '@element-plus/utils/menu/menu-bar'
 import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
 import { isString, isObject } from '@element-plus/utils/util'
@@ -359,9 +361,13 @@ export default defineComponent({
               },
               {
                 title: () =>
-                  h('i', {
-                    class: ['el-icon-more', 'el-sub-menu__icon-more'],
-                  }),
+                  h(
+                    ElIcon,
+                    {
+                      class: ['is-icon-more', 'el-sub-menu__icon-more'],
+                    },
+                    () => [h(More)]
+                  ),
                 default: () => slotMore,
               }
             )

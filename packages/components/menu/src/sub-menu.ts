@@ -19,10 +19,12 @@ import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElPopper from '@element-plus/components/popper'
 import { buildProps } from '@element-plus/utils/props'
 import { throwError } from '@element-plus/utils/error'
+import { ArrowDown, ArrowRight } from '@element-plus/icons'
+import { ElIcon } from '@element-plus/components/icon'
 import useMenu from './use-menu'
 import { useMenuCssVar } from './use-menu-css-var'
-import type { Placement } from '@element-plus/components/popper'
 
+import type { Placement } from '@element-plus/components/popper'
 import type { ExtractPropTypes, VNodeArrayChildren, CSSProperties } from 'vue'
 import type { MenuProvider, SubMenuProvider } from './types'
 
@@ -80,8 +82,8 @@ export default defineComponent({
     const subMenuTitleIcon = computed(() => {
       return (mode.value === 'horizontal' && isFirstLevel.value) ||
         (mode.value === 'vertical' && !rootMenu.props.collapse)
-        ? 'el-icon-arrow-down'
-        : 'el-icon-arrow-right'
+        ? ArrowDown
+        : ArrowRight
     })
     const isFirstLevel = computed(() => {
       let isFirstLevel = true
@@ -292,9 +294,13 @@ export default defineComponent({
     return () => {
       const titleTag: VNodeArrayChildren = [
         slots.title?.(),
-        h('i', {
-          class: ['el-sub-menu__icon-arrow', subMenuTitleIcon.value],
-        }),
+        h(
+          ElIcon,
+          {
+            class: ['el-sub-menu__icon-arrow'],
+          },
+          () => [subMenuTitleIcon.value]
+        ),
       ]
 
       const ulStyle = useMenuCssVar(rootMenu.props)
