@@ -75,15 +75,19 @@
                 backgroundColor: displayedColor,
               }"
             ></span>
-            <span
+            <el-icon
               v-if="!modelValue && !showPanelColor"
-              class="el-color-picker__empty el-icon-close"
-            ></span>
+              class="el-color-picker__empty is-icon-close"
+            >
+              <close />
+            </el-icon>
           </span>
-          <span
+          <el-icon
             v-show="modelValue || showPanelColor"
-            class="el-color-picker__icon el-icon-arrow-down"
-          ></span>
+            class="el-color-picker__icon is-icon-arrow-down"
+          >
+            <arrow-down />
+          </el-icon>
         </div>
       </div>
     </template>
@@ -104,6 +108,7 @@ import {
 } from 'vue'
 import debounce from 'lodash/debounce'
 import ElButton from '@element-plus/components/button'
+import ElIcon from '@element-plus/components/icon'
 import { ClickOutside } from '@element-plus/directives'
 import { elFormItemKey, elFormKey } from '@element-plus/tokens'
 import { useLocaleInject } from '@element-plus/hooks'
@@ -112,6 +117,7 @@ import ElInput from '@element-plus/components/input'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
+import { Close, ArrowDown } from '@element-plus/icons'
 import AlphaSlider from './components/alpha-slider.vue'
 import HueSlider from './components/hue-slider.vue'
 import Predefine from './components/predefine.vue'
@@ -130,6 +136,9 @@ export default defineComponent({
     ElButton,
     ElPopper,
     ElInput,
+    ElIcon,
+    Close,
+    ArrowDown,
     SvPanel,
     HueSlider,
     AlphaSlider,
