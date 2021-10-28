@@ -196,7 +196,6 @@ importers:
       lodash: ^4.17.21
       memoize-one: ^6.0.0
       normalize-wheel-es: ^1.1.0
-      resize-observer-polyfill: ^1.5.1
     dependencies:
       '@element-plus/icons': 0.0.11
       '@popperjs/core': 2.10.2
@@ -206,7 +205,6 @@ importers:
       lodash: 4.17.21
       memoize-one: 6.0.0
       normalize-wheel-es: 1.1.0
-      resize-observer-polyfill: 1.5.1
 
   packages/hooks:
     specifiers: {}
