@@ -206,7 +206,6 @@ export default defineComponent({
           default: withCtx((props: OptionItemProps) => {
             return renderSlot($slots, 'default', props, () => [
               h('span', item.label),
-              selected && h(ElIcon, {}, () => [h(Select)]),
             ])
           }),
         }
