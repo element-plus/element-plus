@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { computed, inject, defineComponent } from 'vue'
+import { computed, inject, defineComponent, Text } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { useFormItem } from '@element-plus/hooks'
 import { elButtonGroupKey, elFormKey } from '@element-plus/tokens'
@@ -57,10 +57,7 @@ export default defineComponent({
       const defaultSlot = slots.default?.()
       if (defaultSlot?.length === 1) {
         const slot = defaultSlot[0]
-        if (
-          typeof slot?.type === 'symbol' &&
-          slot.type.description === 'Text'
-        ) {
+        if (slot?.type === Text) {
           const text = slot.children
           return /^\p{Unified_Ideograph}{2}$/u.test(text as string)
         }
