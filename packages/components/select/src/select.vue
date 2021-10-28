@@ -364,6 +364,7 @@ export default defineComponent({
       scrollbar,
       queryChange,
       groupQueryChange,
+      validate,
     } = useSelect(props, states, ctx)
 
     const { focus } = useFocus(reference)
@@ -463,9 +464,11 @@ export default defineComponent({
     })
 
     if (props.multiple && !Array.isArray(props.modelValue)) {
+      validate.value = false
       ctx.emit(UPDATE_MODEL_EVENT, [])
     }
     if (!props.multiple && Array.isArray(props.modelValue)) {
+      validate.value = false
       ctx.emit(UPDATE_MODEL_EVENT, '')
     }
 

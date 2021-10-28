@@ -67,6 +67,7 @@ export const useSelect = (props, states: States, ctx) => {
   const selectWrapper = ref<HTMLElement | null>(null)
   const scrollbar = ref(null)
   const hoverOption = ref(-1)
+  const validate = ref(true)
   const queryChange = shallowRef<QueryChangeCtx>({ query: '' })
   const groupQueryChange = shallowRef('')
 
@@ -195,9 +196,10 @@ export const useSelect = (props, states: States, ctx) => {
       if (props.filterable && !props.multiple) {
         states.inputLength = 20
       }
-      if (!isEqual(val, oldVal)) {
+      if (!isEqual(val, oldVal) && validate.value) {
         elFormItem.validate?.('change')
       }
+      validate.value = true
     },
     {
       flush: 'post',
@@ -857,5 +859,6 @@ export const useSelect = (props, states: States, ctx) => {
     tags,
     selectWrapper,
     scrollbar,
+    validate,
   }
 }
