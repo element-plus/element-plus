@@ -94,9 +94,9 @@ If Element Plus is imported entirely, a globally method `$loading` will be regis
 
 ## Directives
 
-| Name                       | Description                                  | Type                |
-| -------------------------- | -------------------------------------------- | ------------------- |
-| v-loading                  | show animation while loading data            | boolean             |
-| element-loading-text       | loading text that displays under the spinner | string              |
-| element-loading-spinner    | icon compontent of the custom spinner        | string / Components |
-| element-loading-background | background color of the mask                 | string              |
+| Name                       | Description                                  | Type               |
+| -------------------------- | -------------------------------------------- | ------------------ |
+| v-loading                  | show animation while loading data            | boolean            |
+| element-loading-text       | loading text that displays under the spinner | string             |
+| element-loading-spinner    | icon compontent of the custom spinner        | string / Component |
+| element-loading-background | background color of the mask                 | string             |
