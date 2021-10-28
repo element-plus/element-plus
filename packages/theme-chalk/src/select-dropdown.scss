@@ -17,15 +17,17 @@
         background-color: map.get($select-option, 'hover-background');
       }
 
-      &::after {
+      & .el-icon {
         position: absolute;
         right: 20px;
-        font-family: 'element-icons';
-        content: '\e6da';
+        top: 0;
+        height: inherit;
         font-size: 12px;
-        font-weight: bold;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
+
+        svg {
+          height: inherit;
+          vertical-align: middle;
+        }
       }
     }
   }

@@ -12,8 +12,6 @@ import {
 } from 'vue'
 import { getValueByPath, isUndefined, isObject } from '@element-plus/utils/util'
 // import { addResizeListener, removeResizeListener, ResizableElement } from '@element-plus/utils/resize-event'
-import { ElIcon } from '@element-plus/components/icon'
-import { Select } from '@element-plus/icons'
 import {
   FixedSizeList,
   DynamicSizeList,
@@ -206,7 +204,6 @@ export default defineComponent({
           default: withCtx((props: OptionItemProps) => {
             return renderSlot($slots, 'default', props, () => [
               h('span', item.label),
-              selected && h(ElIcon, {}, () => [h(Select)]),
             ])
           }),
         }
