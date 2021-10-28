@@ -12,6 +12,8 @@ import {
 } from 'vue'
 import { isPromise } from '@vue/shared'
 import { EVENT_CODE } from '@element-plus/utils/aria'
+import ElIcon from '@element-plus/components/icon'
+import { Plus } from '@element-plus/icons'
 import TabNav from './tab-nav.vue'
 
 import type { Component, ComponentInternalInstance, PropType, VNode } from 'vue'
@@ -241,7 +243,7 @@ export default defineComponent({
                 }
               },
             },
-            [h('i', { class: 'el-icon-plus' })]
+            [h(ElIcon, { class: 'is-icon-plus' }, () => [Plus])]
           )
         : null
 

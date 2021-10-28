@@ -21,7 +21,7 @@ loading/basic
 
 You can customize loading text, loading spinner and background color.
 
-:::demo Add attribute `element-loading-text` to the element on which `v-loading` is bound, and its value will be displayed under the spinner. Similarly, the `element-loading-spinner`, `element-loading-background`, and `element-loading-svg` attributes are used to set the icon class name, background color value, and loading icon, respectively.
+:::demo Add attribute `element-loading-text` to the element on which `v-loading` is bound, and its value will be displayed under the spinner. Similarly, the `element-loading-spinner`, `element-loading-background`, and `element-loading-svg` attributes are used to set the icon component, background color value, and loading icon, respectively.
 
 loading/customization
 
@@ -94,9 +94,9 @@ If Element Plus is imported entirely, a globally method `$loading` will be regis
 
 ## Directives
 
-| Name                       | Description                                  | Type    |
-| -------------------------- | -------------------------------------------- | ------- |
-| v-loading                  | show animation while loading data            | boolean |
-| element-loading-text       | loading text that displays under the spinner | string  |
-| element-loading-spinner    | class name of the custom spinner             | string  |
-| element-loading-background | background color of the mask                 | string  |
+| Name                       | Description                                  | Type               |
+| -------------------------- | -------------------------------------------- | ------------------ |
+| v-loading                  | show animation while loading data            | boolean            |
+| element-loading-text       | loading text that displays under the spinner | string             |
+| element-loading-spinner    | icon compontent of the custom spinner        | string / Component |
+| element-loading-background | background color of the mask                 | string             |
