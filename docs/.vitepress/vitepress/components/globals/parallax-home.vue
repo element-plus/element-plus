@@ -473,7 +473,6 @@ const layer0 = computed(() => ({
       top: 50%;
       left: 50%;
       position: fixed;
-      -webkit-transform: translate(-50%, -50%);
       transform: translate(-50%, -50%);
       box-sizing: border-box;
       text-align: center;
