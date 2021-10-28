@@ -1,13 +1,15 @@
-import type { ExtractPropTypes } from 'vue'
+import { buildProps, definePropType } from '@element-plus/utils/props'
 
-export const breadcrumbProps = {
+import type { ExtractPropTypes, Component } from 'vue'
+
+export const breadcrumbProps = buildProps({
   separator: {
     type: String,
     default: '/',
   },
-  separatorClass: {
-    type: String,
+  separatorIcon: {
+    type: definePropType<string | Component>([String, Object]),
     default: '',
   },
-} as const
+} as const)
 export type BreadcrumbProps = ExtractPropTypes<typeof breadcrumbProps>
