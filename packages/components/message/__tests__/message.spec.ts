@@ -90,7 +90,17 @@ describe('Message.vue', () => {
       const type = 'some-type'
       const wrapper = _mount({ props: { type } })
 
-      expect(wrapper.find(`el-icon-${type}`).exists()).toBe(false)
+      for (const key in TypeComponentsMap) {
+        if (key === type) {
+          expect(wrapper.findComponent(TypeComponentsMap[key]).exists()).toBe(
+            true
+          )
+        } else {
+          expect(wrapper.findComponent(TypeComponentsMap[key]).exists()).toBe(
+            false
+          )
+        }
+      }
     })
   })
 
