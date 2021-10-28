@@ -75,7 +75,7 @@ describe('virtual scrollbar', () => {
      *  thumb translateY: (0 / (400 - 100)) * (100 - 25) -> 0  // (scrollTop / (scrollHeight - clientHeight)) * (clientHeight - thumbSize)
      */
     const initializeStyle =
-      'height: 33px; transform: translateY(0px); width: 100%;'
+      'height: 33px; transform: translateY(0px); webkit-transform: translateY(0px); width: 100%;'
 
     expect(wrapper.find('.el-scrollbar__thumb').attributes('style')).toContain(
       initializeStyle
