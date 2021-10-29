@@ -95,6 +95,7 @@
       .is-text {
         transition: opacity var(--el-transition-duration);
         position: absolute;
+        user-select: none;
 
         &.is-show {
           opacity: 1;
@@ -106,7 +107,7 @@
       }
 
       .is-text {
-        transform: scale(0.75);
+        font-size: 12px;
       }
     }
   }
