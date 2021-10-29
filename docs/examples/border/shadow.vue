@@ -44,7 +44,6 @@ export default {
 .demo-shadow {
   height: 100px;
   width: 50%;
-  border: 1px solid var(--el-border-color-base);
 }
 .demo-shadow-text {
   line-height: 50px;
