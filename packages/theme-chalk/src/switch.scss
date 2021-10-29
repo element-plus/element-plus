@@ -49,7 +49,10 @@
       display: inline-block;
     }
     .#{$namespace}-icon {
-      vertical-align: text-bottom;
+      height: inherit;
+      svg {
+        vertical-align: middle;
+      }
     }
   }
 

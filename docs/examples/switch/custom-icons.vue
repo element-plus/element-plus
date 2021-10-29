@@ -1,4 +1,12 @@
 <template>
+  <el-switch
+    v-model="value"
+    inline-prompt
+    :active-icon="active"
+    :inactive-icon="inactive"
+  >
+  </el-switch>
+  <br />
   <el-switch v-model="value" :active-icon="active" :inactive-icon="inactive">
   </el-switch>
 </template>

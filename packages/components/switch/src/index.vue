@@ -20,13 +20,26 @@
       @keydown.enter="switchValue"
     />
     <span
+      v-if="!inlinePrompt && (inactiveIcon || inactiveText)"
+      :class="[
+        'el-switch__label',
+        'el-switch__label--left',
+        !checked ? 'is-active' : '',
+      ]"
+    >
+      <el-icon v-if="inactiveIcon"><component :is="inactiveIcon" /></el-icon>
+      <span v-if="!inactiveIcon && inactiveText" :aria-hidden="checked">{{
+        inactiveText
+      }}</span>
+    </span>
+    <span
       ref="core"
       class="el-switch__core"
       :style="{ width: (width || 40) + 'px' }"
     >
       <div class="el-switch__action">
         <el-icon v-if="loading" class="is-loading"><loading /></el-icon>
-        <template v-else-if="activeIcon">
+        <template v-else-if="inlinePrompt && activeIcon">
           <el-icon class="is-icon" :class="checked ? 'is-show' : 'is-hide'">
             <component :is="activeIcon" />
           </el-icon>
@@ -34,7 +47,7 @@
             <component :is="inactiveIcon" />
           </el-icon>
         </template>
-        <template v-else-if="activeText">
+        <template v-else-if="inlinePrompt && activeText">
           <span
             class="is-text"
             :class="checked ? 'is-show' : 'is-hide'"
@@ -52,8 +65,22 @@
         </template>
       </div>
     </span>
+    <span
+      v-if="!inlinePrompt && (activeIcon || activeText)"
+      :class="[
+        'el-switch__label',
+        'el-switch__label--right',
+        checked ? 'is-active' : '',
+      ]"
+    >
+      <el-icon v-if="activeIcon"><component :is="activeIcon" /></el-icon>
+      <span v-if="!activeIcon && activeText" :aria-hidden="!checked">{{
+        activeText
+      }}</span>
+    </span>
   </div>
 </template>
+
 <script lang="ts">
 import {
   defineComponent,
@@ -116,6 +143,10 @@ export default defineComponent({
     width: {
       type: Number,
       default: 40,
+    },
+    inlinePrompt: {
+      type: Boolean,
+      default: false,
     },
     activeIcon: {
       type: [String, Object] as PropType<string | Component>,
