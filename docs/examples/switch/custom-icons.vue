@@ -4,13 +4,13 @@
 </template>
 
 <script lang="ts">
-import { CircleCheckFilled, CircleCloseFilled } from '@element-plus/icons'
+import { Check, Close } from '@element-plus/icons'
 export default {
   data() {
     return {
       value: true,
-      active: CircleCheckFilled,
-      inactive: CircleCloseFilled,
+      active: Check,
+      inactive: Close,
     }
   },
 }

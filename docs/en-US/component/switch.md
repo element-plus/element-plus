@@ -17,7 +17,7 @@ switch/basic
 
 ## Text description
 
-:::demo You can add `active-text` and `inactive-text` attribute to show texts.
+:::demo You can add `active-text` and `inactive-text` attribute to show texts. Only the first character is displayed.
 
 switch/text-description
 
