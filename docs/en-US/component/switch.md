@@ -25,7 +25,9 @@ switch/basic
 
 ## Text description
 
-:::demo You can add `active-text` and `inactive-text` attribute to show texts. Only the first character is displayed.
+You can add `active-text` and `inactive-text` attribute to show texts. use `inline-prompt` attribute to control text is displayed inside dot.
+
+:::demo You can add `active-text` and `inactive-text` attribute to show texts.
 
 switch/text-description
 
@@ -39,7 +41,7 @@ Use the `active-icon` and `active-icon` attribute to add icon. You can pass eith
 
 :::
 
-:::demo You can add `active-icon` and `active-icon` attribute to show icons.
+:::demo You can add `active-icon` and `inactive-icon` attribute to show icons. use `inline-prompt` attribute to control icon is displayed inside dot.
 
 switch/custom-icons
 
