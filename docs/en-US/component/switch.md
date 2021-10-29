@@ -7,6 +7,14 @@ lang: en-US
 
 Switch is used for switching between two opposing states.
 
+<style lang="scss">
+.example-showcase {
+  .el-switch + .el-switch {
+    margin-left: 10px;
+  }
+}
+</style>
+
 ## Basic usage
 
 :::demo Bind `v-model` to a `Boolean` typed variable. The `active-color` and `inactive-color` attribute decides the background color in two states.
