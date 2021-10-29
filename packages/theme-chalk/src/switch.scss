@@ -91,25 +91,22 @@
       align-items: center;
       color: var(--el-switch-off-color);
 
-      .is-icon {
-        transition: opacity var(--el-transition-duration);
-        position: absolute;
-        top: 1px;
-        left: 1px;
-      }
-
+      .is-icon,
       .is-text {
         transition: opacity var(--el-transition-duration);
         position: absolute;
+
+        &.is-show {
+          opacity: 1;
+        }
+
+        &.is-hide {
+          opacity: 0;
+        }
+      }
+
+      .is-text {
         transform: scale(0.75);
-      }
-
-      .is-show {
-        opacity: 1;
-      }
-
-      .is-hide {
-        opacity: 0;
       }
     }
   }

@@ -20,8 +20,8 @@ describe('Switch.vue', () => {
     const coreEl = vm.$el.querySelector('.el-switch__core')
     expect(coreEl.style.backgroundColor).toEqual('rgb(255, 0, 0)')
     expect(coreEl.style.width).toEqual('100px')
-    const leftLabelWrapper = wrapper.find('.el-switch__label--left span')
-    expect(leftLabelWrapper.text()).toEqual('off')
+    const leftLabelWrapper = wrapper.find('.el-switch__action span')
+    expect(leftLabelWrapper.text()).toEqual('o')
   })
 
   test('switch with icons', () => {
