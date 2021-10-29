@@ -2,11 +2,13 @@
 import { ref, reactive, computed } from 'vue'
 import { withBase } from 'vitepress'
 
-import { useParallax } from '@vueuse/core'
+import { useParallax, useThrottleFn, useEventListener } from '@vueuse/core'
 import type { CSSProperties } from 'vue'
 
 const target = ref<HTMLElement | null>(null)
 const parallax = reactive(useParallax(target))
+const jumbotronRedOffset = ref(0)
+const jumbotronRef = ref<HTMLElement | null>(null)
 
 const sponsors = [
   {
@@ -59,6 +61,24 @@ const layer0 = computed(() => ({
     parallax.roll * 10
   }px) scale(1)`,
 }))
+
+const jumbotronRedStyle = computed(() => ({
+  height: `${jumbotronRedOffset.value}px`,
+}))
+
+const handleScroll = useThrottleFn(() => {
+  const ele = jumbotronRef.value
+  if (ele) {
+    const rect = ele.getBoundingClientRect()
+    const eleHeight = ele.clientHeight + 55
+    let calHeight = (180 - rect.top) * 2
+    if (calHeight < 0) calHeight = 0
+    if (calHeight > eleHeight) calHeight = eleHeight
+    jumbotronRedOffset.value = calHeight
+  }
+}, 10)
+
+useEventListener(window, 'scroll', handleScroll)
 </script>
 
 <template>
@@ -72,11 +92,14 @@ const layer0 = computed(() => ({
         </p>
       </div>
     </div>
-    <div class="jumbotron">
+    <div ref="jumbotronRef" class="jumbotron">
       <div :style="containerStyle">
         <div :style="cardStyle">
           <div class="banner" :style="layer0">
             <img src="/images/theme-index-blue.png" alt="banner" />
+            <div class="jumbotron-red" :style="jumbotronRedStyle">
+              <img src="/images/theme-index-red.png" alt="" />
+            </div>
           </div>
         </div>
       </div>
