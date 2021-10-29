@@ -87,8 +87,8 @@ export default defineComponent({
 
     const config = useCascaderConfig(props)
 
-    const store: Ref<Store> = ref(null)
-    const menuList = ref([])
+    const store: Ref<Nullable<Store>> = ref(null)
+    const menuList: Ref<any[]> = ref([])
     const checkedValue: Ref<Nullable<CascaderValue>> = ref(null)
     const menus: Ref<CascaderNode[][]> = ref([])
     const expandingNode: Ref<Nullable<CascaderNode>> = ref(null)
@@ -118,7 +118,7 @@ export default defineComponent({
 
         if (cfg.lazy && isEmpty(props.options)) {
           initialLoaded = false
-          lazyLoad(null, () => {
+          lazyLoad(undefined, () => {
             initialLoaded = true
             syncCheckedValue(false, true)
           })
@@ -133,19 +133,20 @@ export default defineComponent({
 
     const lazyLoad: ElCascaderPanelContext['lazyLoad'] = (node, cb) => {
       const cfg = config.value
-      node = node || new Node({}, cfg, null, true)
+      node! = node || new Node({}, cfg, undefined, true)
       node.loading = true
 
       const resolve = (dataList: CascaderOption[]) => {
-        const parent = node.root ? null : node
-        dataList && store.value.appendNodes(dataList, parent)
-        node.loading = false
-        node.loaded = true
-        node.childrenData = node.childrenData || []
+        const _node = node as Node
+        const parent = _node.root ? null : _node
+        dataList && store.value?.appendNodes(dataList, parent as any)
+        _node.loading = false
+        _node.loaded = true
+        _node.childrenData = _node.childrenData || []
         cb && cb(dataList)
       }
 
-      cfg.lazyLoad(node, resolve)
+      cfg.lazyLoad(node, resolve as any)
     }
 
     const expandNode: ElCascaderPanelContext['expandNode'] = (node, silent) => {
@@ -180,14 +181,22 @@ export default defineComponent({
       node.doCheck(checked)
       calculateCheckedValue()
       emitClose && !multiple && !checkStrictly && emit('close')
+      !emitClose && !multiple && !checkStrictly && expandParentNode(node)
+    }
+
+    const expandParentNode = (node) => {
+      if (!node) return
+      node = node.parent
+      expandParentNode(node)
+      node && expandNode(node)
     }
 
     const getFlattedNodes = (leafOnly: boolean) => {
-      return store.value.getFlattedNodes(leafOnly)
+      return store.value?.getFlattedNodes(leafOnly)
     }
 
     const getCheckedNodes = (leafOnly: boolean) => {
-      return getFlattedNodes(leafOnly).filter((node) => node.checked !== false)
+      return getFlattedNodes(leafOnly)?.filter((node) => node.checked !== false)
     }
 
     const clearCheckedNodes = () => {
@@ -198,7 +207,7 @@ export default defineComponent({
     const calculateCheckedValue = () => {
       const { checkStrictly, multiple } = config.value
       const oldNodes = checkedNodes.value
-      const newNodes = getCheckedNodes(!checkStrictly)
+      const newNodes = getCheckedNodes(!checkStrictly)!
       // ensure the original order
       const nodes = sortByOriginalOrder(oldNodes, newNodes)
       const values = nodes.map((node) => node.valueByOption)
@@ -223,8 +232,8 @@ export default defineComponent({
           arrayFlat(coerceTruthyValueToArray(modelValue))
         )
         const nodes = values
-          .map((val) => store.value.getNodeByValue(val))
-          .filter((node) => !!node && !node.loaded && !node.loading)
+          .map((val) => store.value?.getNodeByValue(val))
+          .filter((node) => !!node && !node.loaded && !node.loading) as Node[]
 
         if (nodes.length) {
           nodes.forEach((node) => {
@@ -238,10 +247,10 @@ export default defineComponent({
           ? coerceTruthyValueToArray(modelValue)
           : [modelValue]
         const nodes = deduplicate(
-          values.map((val) => store.value.getNodeByValue(val, leafOnly))
-        )
+          values.map((val) => store.value?.getNodeByValue(val, leafOnly))
+        ) as Node[]
         syncMenuState(nodes, false)
-        checkedValue.value = modelValue
+        checkedValue.value = modelValue!
       }
     }
 
@@ -254,7 +263,7 @@ export default defineComponent({
       const newNodes = newCheckedNodes.filter(
         (node) => !!node && (checkStrictly || node.isLeaf)
       )
-      const oldExpandingNode = store.value.getSameNode(expandingNode.value)
+      const oldExpandingNode = store.value?.getSameNode(expandingNode.value!)
       const newExpandingNode =
         (reserveExpandingState && oldExpandingNode) || newNodes[0]
 
