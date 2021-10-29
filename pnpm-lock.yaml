@@ -249,12 +249,14 @@ importers:
       '@vitejs/plugin-vue': ^1.9.3
       unplugin-vue-components: ^0.16.0
       vite: ^2.6.10
+      vite-plugin-inspect: ^0.3.9
     dependencies:
       '@element-plus/icons': 0.0.11
       '@vitejs/plugin-vue': 1.9.3_vite@2.6.10
       vite: 2.6.10_sass@1.43.3
     devDependencies:
       unplugin-vue-components: 0.16.0_5526dbcc4fc39ff4d6a8525c3fd94908
+      vite-plugin-inspect: 0.3.9_vite@2.6.10
 
 packages:
 
@@ -2889,6 +2891,7 @@ packages:
 
   /bindings/1.5.0:
     resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
+    requiresBuild: true
     dependencies:
       file-uri-to-path: 1.0.0
     dev: true
@@ -5012,6 +5015,7 @@ packages:
 
   /file-uri-to-path/1.0.0:
     resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==}
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -7606,6 +7610,7 @@ packages:
 
   /nan/2.14.2:
     resolution: {integrity: sha512-M2ufzIiINKCuDfBSAUr1vWQ+vuVcA9kqx8JJUsbQi6yf1uGRyb7HfpdfUr5qLXf3B/t8dPvcjhKMmlfnP47EzQ==}
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -10481,6 +10486,19 @@ packages:
       debug: 4.3.2
       sirv: 1.0.17
       ufo: 0.7.9
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /vite-plugin-inspect/0.3.9_vite@2.6.10:
+    resolution: {integrity: sha512-iM4PQA76LHHKhePdsy/WjPczC+WNJedAm/ADUWv68sMJg+QOkgWzQiS+QkvfoulzDB7wmNPhKBP2lza1GubvMQ==}
+    peerDependencies:
+      vite: ^2.0.0
+    dependencies:
+      debug: 4.3.2
+      sirv: 1.0.17
+      ufo: 0.7.9
+      vite: 2.6.10_sass@1.43.3
     transitivePeerDependencies:
       - supports-color
     dev: true
