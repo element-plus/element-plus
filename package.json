@@ -19,6 +19,7 @@
     "clean": "pnpm run clean:lib && pnpm run clean -r --stream",
     "clean:lib": "rimraf dist",
     "build": "gulp --require sucrase/register/ts -f build/gulpfile.ts",
+    "build:theme": "pnpm run build -C packages/theme-chalk",
     "format": "prettier --write .",
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --max-warnings 0 && pretty-quick --check --branch dev",
     "lint:fix": "eslint --fix . --ext .vue,.js,.ts,.jsx,.tsx && pretty-quick --branch dev",

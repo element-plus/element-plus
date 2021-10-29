@@ -30,7 +30,8 @@
   margin: 0;
   transition: 0.1s;
   font-weight: var(--el-button-font-weight);
-  @include utils-user-select(none);
+  user-select: none;
+
   & + & {
     margin-left: 10px;
   }
