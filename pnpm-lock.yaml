@@ -31,7 +31,7 @@ importers:
       '@typescript-eslint/eslint-plugin': ^5.1.0
       '@typescript-eslint/parser': ^5.1.0
       '@vue/compiler-sfc': ^3.2.20
-      '@vue/test-utils': 2.0.0-rc.15
+      '@vue/test-utils': 2.0.0-rc.16
       '@vueuse/core': ^6.7.3
       async-validator: ^4.0.7
       chalk: ^4.1.2
@@ -110,7 +110,7 @@ importers:
       '@typescript-eslint/eslint-plugin': 5.1.0_5c3e9dad3ab5199adbc8541e4d2d5a4f
       '@typescript-eslint/parser': 5.1.0_eslint@8.0.1+typescript@4.4.4
       '@vue/compiler-sfc': 3.2.20
-      '@vue/test-utils': 2.0.0-rc.15_vue@3.2.20
+      '@vue/test-utils': 2.0.0-rc.16_vue@3.2.20
       chalk: 4.1.2
       components-helper: 1.0.4
       cz-conventional-changelog: 3.3.0
@@ -2172,8 +2172,8 @@ packages:
     resolution: {integrity: sha512-FbpX+hD5BvXCQerEYO7jtAGHlhAkhTQ4KIV73kmLWNlawWhTiVuQxizgVb0BOkX5oG9cIRZ42EG++d/k/Efp0w==}
     dev: true
 
-  /@vue/test-utils/2.0.0-rc.15_vue@3.2.20:
-    resolution: {integrity: sha512-cb+Ri4PDRhtGCJuaLyl1HO9jXcwEj6AFwcNXace8FhhwelDzOdjyIgOb25xtDiUojzWjPuzGLKZQr/5WB7MLew==}
+  /@vue/test-utils/2.0.0-rc.16_vue@3.2.20:
+    resolution: {integrity: sha512-TubikDVkI2LuRKRPSLv3lYpbpvvucT2DIcGqfBVpvYs4W19u0EBTJEdmfwmSuLY7H1TyAr9Stur3PI1sWWvTGQ==}
     peerDependencies:
       vue: ^3.0.1
     dependencies:
