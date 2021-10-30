@@ -9,13 +9,13 @@
     "crowdin-credentials": "sucrase-node .vitepress/build/crowdin-credentials.ts"
   },
   "dependencies": {
-    "@vueuse/core": "^6.7.3",
-    "axios": "^0.24.0",
-    "clipboard-copy": "^4.0.1",
+    "@vueuse/core": "6.7.4",
+    "axios": "0.24.0",
+    "clipboard-copy": "4.0.1",
     "element-plus": "npm:element-plus@latest",
-    "marked": "^3.0.7",
-    "normalize.css": "^8.0.1",
-    "nprogress": "^0.2.0"
+    "marked": "3.0.8",
+    "normalize.css": "8.0.1",
+    "nprogress": "0.2.0"
   },
   "devDependencies": {
     "@crowdin/cli": "3.7.1",

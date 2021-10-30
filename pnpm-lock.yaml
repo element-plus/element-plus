@@ -151,24 +151,24 @@ importers:
     specifiers:
       '@crowdin/cli': 3.7.1
       '@types/markdown-it': 12.2.3
-      '@vueuse/core': ^6.7.3
-      axios: ^0.24.0
-      clipboard-copy: ^4.0.1
+      '@vueuse/core': 6.7.4
+      axios: 0.24.0
+      clipboard-copy: 4.0.1
       cross-env: 7.0.3
       element-plus: npm:element-plus@latest
       markdown-it: 12.2.0
       markdown-it-container: 3.0.0
-      marked: ^3.0.7
-      normalize.css: ^8.0.1
-      nprogress: ^0.2.0
+      marked: 3.0.8
+      normalize.css: 8.0.1
+      nprogress: 0.2.0
       vite-plugin-inspect: 0.3.9
       vitepress: 0.18.1
     dependencies:
-      '@vueuse/core': 6.7.3_vue@3.2.20
+      '@vueuse/core': 6.7.4_vue@3.2.20
       axios: 0.24.0
       clipboard-copy: 4.0.1
       element-plus: 1.1.0-beta.24_vue@3.2.20
-      marked: 3.0.7
+      marked: 3.0.8
       normalize.css: 8.0.1
       nprogress: 0.2.0
     devDependencies:
@@ -2151,6 +2151,22 @@ packages:
       vue-demi: 0.11.4_vue@3.2.20
     dev: false
 
+  /@vueuse/core/6.7.4_vue@3.2.20:
+    resolution: {integrity: sha512-y39SD+pxDkv7/Fe369c02FQpr/148otQr64ScPDTpw4fGnspc8ONXCNU3gTrvDFRuiylirdPBpXgmt/GDQO7RA==}
+    peerDependencies:
+      '@vue/composition-api': ^1.1.0
+      vue: ^2.6.0 || ^3.2.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      vue:
+        optional: true
+    dependencies:
+      '@vueuse/shared': 6.7.4_vue@3.2.20
+      vue: 3.2.20
+      vue-demi: 0.11.4_vue@3.2.20
+    dev: false
+
   /@vueuse/shared/6.1.0_vue@3.2.20:
     resolution: {integrity: sha512-teW0TUQryGnEprHeOI6oH8NPVJBirknxksEiNCtdEjIi8W7JSTg8JPO+e1XlGI6ly24NDlDXUDYaHJayiaXjuw==}
     peerDependencies:
@@ -2168,6 +2184,21 @@ packages:
 
   /@vueuse/shared/6.7.3_vue@3.2.20:
     resolution: {integrity: sha512-6syKgXvdikcSEHJzF7iVyXMqe7y7C7pH35EhH70zQLPnLXH6op9OgD2u4Ro1zyxESRkotbFIsuQJghG5IzXbKA==}
+    peerDependencies:
+      '@vue/composition-api': ^1.1.0
+      vue: ^2.6.0 || ^3.2.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      vue:
+        optional: true
+    dependencies:
+      vue: 3.2.20
+      vue-demi: 0.11.4_vue@3.2.20
+    dev: false
+
+  /@vueuse/shared/6.7.4_vue@3.2.20:
+    resolution: {integrity: sha512-Lkm8myEiOj0sIqSXck5EXDbu0W705Q10BxydGLMfiV6wAY4U1zu+YgEgR37Wy2/mT1545pwQqiJ7bd3kQQFCMw==}
     peerDependencies:
       '@vue/composition-api': ^1.1.0
       vue: ^2.6.0 || ^3.2.0
@@ -7010,8 +7041,8 @@ packages:
       uc.micro: 1.0.6
     dev: true
 
-  /marked/3.0.7:
-    resolution: {integrity: sha512-ctKqbnLuNbsHbI26cfMyOlKgXGfl1orOv1AvWWDX7AkgfMOwCWvmuYc+mVLeWhQ9W6hdWVBynOs96VkcscKo0Q==}
+  /marked/3.0.8:
+    resolution: {integrity: sha512-0gVrAjo5m0VZSJb4rpL59K1unJAMb/hm8HRXqasD8VeC8m91ytDPMritgFSlKonfdt+rRYYpP/JfLxgIX8yoSw==}
     engines: {node: '>= 12'}
     hasBin: true
     dev: false
