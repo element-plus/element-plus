@@ -80,6 +80,27 @@
       background-color var(--el-transition-duration);
     vertical-align: middle;
 
+    .#{$namespace}-switch__inner {
+      position: absolute;
+      top: 1px;
+      left: 1px;
+      transition: all var(--el-transition-duration);
+      width: var(--el-switch-button-size);
+      height: var(--el-switch-button-size);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      left: 50%;
+
+      & > span {
+        color: var(--el-color-white);
+        transition: opacity var(--el-transition-duration);
+        position: absolute;
+        user-select: none;
+        font-size: 12px;
+      }
+    }
+
     .#{$namespace}-switch__action {
       position: absolute;
       top: 1px;
@@ -99,19 +120,19 @@
         transition: opacity var(--el-transition-duration);
         position: absolute;
         user-select: none;
-
-        &.is-show {
-          opacity: 1;
-        }
-
-        &.is-hide {
-          opacity: 0;
-        }
       }
+    }
 
-      .is-text {
-        font-size: 12px;
-      }
+    .is-text {
+      font-size: 12px;
+    }
+
+    .is-show {
+      opacity: 1;
+    }
+
+    .is-hide {
+      opacity: 0;
     }
   }
 
@@ -123,6 +144,10 @@
         left: 100%;
         margin-left: calc(-1px - var(--el-switch-button-size));
         color: var(--el-switch-on-color);
+      }
+      .#{$namespace}-switch__inner {
+        left: 50%;
+        margin-left: calc(-1px - var(--el-switch-button-size));
       }
     }
   }

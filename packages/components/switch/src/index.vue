@@ -37,17 +37,8 @@
       class="el-switch__core"
       :style="{ width: (width || 40) + 'px' }"
     >
-      <div class="el-switch__action">
-        <el-icon v-if="loading" class="is-loading"><loading /></el-icon>
-        <template v-else-if="inlinePrompt && activeIcon">
-          <el-icon class="is-icon" :class="checked ? 'is-show' : 'is-hide'">
-            <component :is="activeIcon" />
-          </el-icon>
-          <el-icon class="is-icon" :class="!checked ? 'is-show' : 'is-hide'">
-            <component :is="inactiveIcon" />
-          </el-icon>
-        </template>
-        <template v-else-if="inlinePrompt && activeText">
+      <div class="el-switch__inner">
+        <template v-if="inlinePrompt && !activeIcon && activeText">
           <span
             class="is-text"
             :class="checked ? 'is-show' : 'is-hide'"
@@ -62,6 +53,17 @@
           >
             {{ inactiveText.substr(0, 1) }}
           </span>
+        </template>
+      </div>
+      <div class="el-switch__action">
+        <el-icon v-if="loading" class="is-loading"><loading /></el-icon>
+        <template v-else-if="inlinePrompt && activeIcon">
+          <el-icon class="is-icon" :class="checked ? 'is-show' : 'is-hide'">
+            <component :is="activeIcon" />
+          </el-icon>
+          <el-icon class="is-icon" :class="!checked ? 'is-show' : 'is-hide'">
+            <component :is="inactiveIcon" />
+          </el-icon>
         </template>
       </div>
     </span>
