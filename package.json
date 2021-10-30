@@ -11,7 +11,7 @@
   },
   "scripts": {
     "cz": "git-cz",
-    "test": "jest",
+    "test": "skip-ci && \"Skipping CI...\" || jest",
     "dev": "pnpm -C play dev",
     "gen": "bash ./scripts/gc.sh",
     "gen:version": "sucrase-node scripts/gen-version.ts",
@@ -111,6 +111,7 @@
     "rollup-plugin-filesize": "^9.1.1",
     "rollup-plugin-vue": "^6.0.0",
     "sass": "^1.43.3",
+    "skip-ci": "^1.0.4",
     "sucrase": "^3.20.3",
     "through2": "^4.0.2",
     "ts-jest": "^26.5.6",
