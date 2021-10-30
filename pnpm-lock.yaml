@@ -19,7 +19,7 @@ importers:
       '@pnpm/logger': 4.0.0
       '@pnpm/types': 7.4.0
       '@popperjs/core': ^2.10.2
-      '@rollup/plugin-commonjs': 15.1.0
+      '@rollup/plugin-commonjs': 21.0.1
       '@rollup/plugin-node-resolve': 13.0.6
       '@rollup/plugin-replace': 3.0.0
       '@sucrase/jest-plugin': 2.2.0
@@ -98,7 +98,7 @@ importers:
       '@pnpm/find-workspace-packages': 3.1.20_@pnpm+logger@4.0.0
       '@pnpm/logger': 4.0.0
       '@pnpm/types': 7.4.0
-      '@rollup/plugin-commonjs': 15.1.0_rollup@2.58.3
+      '@rollup/plugin-commonjs': 21.0.1_rollup@2.58.3
       '@rollup/plugin-node-resolve': 13.0.6_rollup@2.58.3
       '@rollup/plugin-replace': 3.0.0_rollup@2.58.3
       '@sucrase/jest-plugin': 2.2.0
@@ -1505,11 +1505,11 @@ packages:
     resolution: {integrity: sha512-IXf3XA7+XyN7CP9gGh/XB0UxVMlvARGEgGXLubFICsUMGz6Q+DU+i4gGlpOxTjKvXjkJDJC8YdqdKkDj9qZHEQ==}
     dev: false
 
-  /@rollup/plugin-commonjs/15.1.0_rollup@2.58.3:
-    resolution: {integrity: sha512-xCQqz4z/o0h2syQ7d9LskIMvBSH4PX5PjYdpSSvgS+pQik3WahkQVNWg3D8XJeYjZoVWnIUQYDghuEMRGrmQYQ==}
+  /@rollup/plugin-commonjs/21.0.1_rollup@2.58.3:
+    resolution: {integrity: sha512-EA+g22lbNJ8p5kuZJUYyhhDK7WgJckW5g4pNN7n4mAFUM96VuwUnNT3xr2Db2iCZPI1pJPbGyfT5mS9T1dHfMg==}
     engines: {node: '>= 8.0.0'}
     peerDependencies:
-      rollup: ^2.22.0
+      rollup: ^2.38.3
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.58.3
       commondir: 1.0.1
