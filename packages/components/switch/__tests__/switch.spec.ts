@@ -24,6 +24,25 @@ describe('Switch.vue', () => {
     expect(leftLabelWrapper.text()).toEqual('off')
   })
 
+  test('inline prompt', () => {
+    const wrapper = mount(Switch, {
+      props: {
+        inlinePrompt: true,
+        activeText: 'on',
+        inactiveText: 'off',
+        activeColor: '#0f0',
+        inactiveColor: '#f00',
+        width: 100,
+      },
+    })
+    const vm = wrapper.vm
+    const coreEl = vm.$el.querySelector('.el-switch__core')
+    expect(coreEl.style.backgroundColor).toEqual('rgb(255, 0, 0)')
+    expect(coreEl.style.width).toEqual('100px')
+    const leftLabelWrapper = wrapper.find('.el-switch__inner span')
+    expect(leftLabelWrapper.text()).toEqual('o')
+  })
+
   test('switch with icons', () => {
     const wrapper = mount(Switch, {
       props: {
