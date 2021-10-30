@@ -307,6 +307,10 @@ export default defineComponent({
       type: [String, Object] as PropType<string | Component>,
       default: CircleClose,
     },
+    fitInputWidth: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: [
     UPDATE_MODEL_EVENT,
