@@ -7,7 +7,7 @@ lang: en-US
 
 Used to replace the browser's native scrollbar.
 
-<style lang="scss" scoped>
+<style lang="scss">
 .example-showcase {
   .el-scrollbar {
     .scrollbar-demo-item {
