@@ -62,7 +62,9 @@ export const messageEmits = {
 }
 export type MessageEmits = typeof messageEmits
 
-export type MessageOptions = Omit<MessageProps, 'id'>
+export type MessageOptions = Omit<MessageProps, 'id'> & {
+  appendTo?: HTMLElement | string
+}
 export type MessageOptionsTyped = Omit<MessageOptions, 'type'>
 
 export interface MessageHandle {
