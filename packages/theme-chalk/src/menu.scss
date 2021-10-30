@@ -289,7 +289,7 @@
       background: none !important;
     }
   }
-  [class^='el-icon'] {
+  [class^='#{$namespace}-icon'] {
     vertical-align: middle;
     margin-right: 5px;
     width: 24px;
