@@ -92,12 +92,12 @@
       align-items: center;
       left: 50%;
 
-      & > span {
+      .is-icon,
+      .is-text {
         color: var(--el-color-white);
         transition: opacity var(--el-transition-duration);
         position: absolute;
         user-select: none;
-        font-size: 12px;
       }
     }
 

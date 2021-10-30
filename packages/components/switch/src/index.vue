@@ -37,9 +37,26 @@
       class="el-switch__core"
       :style="{ width: (width || 40) + 'px' }"
     >
-      <div class="el-switch__inner">
-        <template v-if="inlinePrompt && !activeIcon && activeText">
+      <div v-if="inlinePrompt" class="el-switch__inner">
+        <template v-if="activeIcon || inactiveIcon">
+          <el-icon
+            v-if="activeIcon"
+            class="is-icon"
+            :class="checked ? 'is-show' : 'is-hide'"
+          >
+            <component :is="activeIcon" />
+          </el-icon>
+          <el-icon
+            v-if="inactiveIcon"
+            class="is-icon"
+            :class="!checked ? 'is-show' : 'is-hide'"
+          >
+            <component :is="inactiveIcon" />
+          </el-icon>
+        </template>
+        <template v-else-if="activeText || inactiveIcon">
           <span
+            v-if="activeText"
             class="is-text"
             :class="checked ? 'is-show' : 'is-hide'"
             :aria-hidden="!checked"
@@ -47,6 +64,7 @@
             {{ activeText.substr(0, 1) }}
           </span>
           <span
+            v-if="inactiveText"
             class="is-text"
             :class="!checked ? 'is-show' : 'is-hide'"
             :aria-hidden="checked"
@@ -57,14 +75,6 @@
       </div>
       <div class="el-switch__action">
         <el-icon v-if="loading" class="is-loading"><loading /></el-icon>
-        <template v-else-if="inlinePrompt && activeIcon">
-          <el-icon class="is-icon" :class="checked ? 'is-show' : 'is-hide'">
-            <component :is="activeIcon" />
-          </el-icon>
-          <el-icon class="is-icon" :class="!checked ? 'is-show' : 'is-hide'">
-            <component :is="inactiveIcon" />
-          </el-icon>
-        </template>
       </div>
     </span>
     <span
