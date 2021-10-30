@@ -214,10 +214,9 @@ export default defineComponent({
         }
       }
     }
-    const handleResize = () =>
-      nextTick(() => {
-        instance.proxy!.$forceUpdate()
-      })
+    const handleResize = () => {
+      nextTick(() => instance.proxy!.$forceUpdate())
+    }
 
     watch(
       () => props.defaultActive,

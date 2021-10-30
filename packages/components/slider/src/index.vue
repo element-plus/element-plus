@@ -21,7 +21,7 @@
       :max="max"
       :debounce="debounce"
       :size="inputSize"
-      @update:modelValue="setFirstValue"
+      @update:model-value="setFirstValue"
       @change="emitChange"
     />
     <div
@@ -37,7 +37,7 @@
         :model-value="firstValue"
         :vertical="vertical"
         :tooltip-class="tooltipClass"
-        @update:modelValue="setFirstValue"
+        @update:model-value="setFirstValue"
       />
       <slider-button
         v-if="range"
@@ -45,7 +45,7 @@
         :model-value="secondValue"
         :vertical="vertical"
         :tooltip-class="tooltipClass"
-        @update:modelValue="setSecondValue"
+        @update:model-value="setSecondValue"
       />
       <div v-if="showStops">
         <div

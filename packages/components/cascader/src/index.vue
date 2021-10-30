@@ -608,7 +608,9 @@ export default defineComponent({
 
     watch([checkedNodes, isDisabled], calculatePresentTags)
 
-    watch(presentTags, () => nextTick(updateStyle))
+    watch(presentTags, () => {
+      nextTick(() => updateStyle())
+    })
 
     watch(presentText, (val) => (inputValue.value = val), { immediate: true })
 
