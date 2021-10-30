@@ -571,7 +571,7 @@ export default defineComponent({
 
       switch (code) {
         case EVENT_CODE.up:
-        case EVENT_CODE.down:
+        case EVENT_CODE.down: {
           const distance = code === EVENT_CODE.up ? -1 : 1
           focusNode(
             getSibling(
@@ -581,6 +581,7 @@ export default defineComponent({
             )
           )
           break
+        }
         case EVENT_CODE.enter:
           target.click()
           break
