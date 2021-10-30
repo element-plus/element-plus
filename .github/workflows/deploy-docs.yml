@@ -49,14 +49,14 @@ jobs:
           DOC_ENV: production
 
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@3.7.1
+        uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: docs/.vitepress/dist
-          GIT_CONFIG_NAME: ElementPlusBot
-          GIT_CONFIG_EMAIL: hello@element-plus.org
-          COMMIT_MESSAGE: website deploy
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          folder: docs/.vitepress/dist
+          git-config-name: ElementPlusBot
+          git-config-email: hello@element-plus.org
+          commit-message: website deploy
 
       - name: Sync
         env:
