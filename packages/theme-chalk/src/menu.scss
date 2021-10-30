@@ -151,7 +151,7 @@
 
     > .#{$namespace}-menu-item,
     > .#{$namespace}-sub-menu > .#{$namespace}-sub-menu__title {
-      [class^='el-icon'] {
+      [class^='#{$namespace}-icon'] {
         margin: 0;
         vertical-align: middle;
         width: 24px;
@@ -217,7 +217,7 @@
 @include b(menu-item) {
   @include menu-item;
 
-  & [class^='el-icon'] {
+  & [class^='#{$namespace}-icon'] {
     margin-right: 5px;
     width: 24px;
     text-align: center;
