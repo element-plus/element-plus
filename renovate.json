@@ -1,4 +1,3 @@
 {
-  "extends": ["config:base"],
-  "rangeStrategy": "replace"
+  "extends": ["config:base", ":preserveSemverRanges"]
 }
