@@ -140,13 +140,15 @@ export default defineComponent({
         )
       }
       openedMenus.value.push(index)
+      emit('open', index, indexPath)
     }
 
-    const closeMenu: MenuProvider['closeMenu'] = (index) => {
+    const closeMenu: MenuProvider['closeMenu'] = (index, indexPath) => {
       const i = openedMenus.value.indexOf(index)
       if (i !== -1) {
         openedMenus.value.splice(i, 1)
       }
+      emit('close', index, indexPath)
     }
 
     const handleSubMenuClick: MenuProvider['handleSubMenuClick'] = ({
@@ -156,11 +158,9 @@ export default defineComponent({
       const isOpened = openedMenus.value.includes(index)
 
       if (isOpened) {
-        closeMenu(index)
-        emit('close', index, indexPath)
+        closeMenu(index, indexPath)
       } else {
         openMenu(index, indexPath)
-        emit('open', index, indexPath)
       }
     }
 
