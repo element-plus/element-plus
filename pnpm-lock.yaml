@@ -152,7 +152,7 @@ importers:
       '@crowdin/cli': ^3.6.5
       '@types/markdown-it': ^12.2.3
       '@vueuse/core': ^6.7.3
-      axios: ^0.23.0
+      axios: ^0.24.0
       clipboard-copy: ^4.0.1
       cross-env: ^7.0.3
       element-plus: npm:element-plus@1.1.0-beta.20
@@ -165,7 +165,7 @@ importers:
       vitepress: ~0.18.1
     dependencies:
       '@vueuse/core': 6.7.3_vue@3.2.20
-      axios: 0.23.0
+      axios: 0.24.0
       clipboard-copy: 4.0.1
       element-plus: 1.1.0-beta.20_vue@3.2.20
       marked: 3.0.7
@@ -2736,8 +2736,8 @@ packages:
     resolution: {integrity: sha512-zg7Hz2k5lI8kb7U32998pRRFin7zJlkfezGJjUc2heaD4Pw2wObakCDVzkKztTm/Ln7eiVvYsjqak0Ed4LkMDA==}
     dev: true
 
-  /axios/0.23.0:
-    resolution: {integrity: sha512-NmvAE4i0YAv5cKq8zlDoPd1VLKAqX5oLuZKs8xkJa4qi6RGn0uhCYFjWtHHC9EM/MwOwYWOs53W+V0aqEXq1sg==}
+  /axios/0.24.0:
+    resolution: {integrity: sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA==}
     dependencies:
       follow-redirects: 1.14.4
     transitivePeerDependencies:
