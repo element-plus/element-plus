@@ -23,7 +23,6 @@
   transition: opacity 0.3s, transform 0.4s, top 0.4s;
   background-color: var(--el-message-background-color);
   transition: opacity var(--el-transition-duration), transform 0.4s, top 0.4s;
-  overflow: hidden;
   padding: var(--el-message-padding);
   display: flex;
   align-items: center;
@@ -63,6 +62,12 @@
 
   @include e(icon) {
     margin-right: 10px;
+  }
+
+  @include e(badge) {
+    position: absolute;
+    top: -8px;
+    right: -8px;
   }
 
   @include e(content) {

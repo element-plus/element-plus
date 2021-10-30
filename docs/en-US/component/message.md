@@ -90,6 +90,7 @@ In this case you should call `ElMessage(options)`. We have also registered metho
 | on-close                 | callback function when closed with the message instance as the parameter       | function             | —                          | —             |
 | offset                   | set the distance to the top of viewport                                        | number               | —                          | 20            |
 | appendTo                 | set the root element for the message                                           | string / HTMLElement | -                          | document.body |
+| grouping                 | merge messages with the same content, type of VNode message is not supported   | boolean              | —                          | false         |
 
 ## Methods
 
