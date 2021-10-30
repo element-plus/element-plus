@@ -97,8 +97,10 @@
           @change="handleEndChange"
         />
         <el-icon
-          v-if="showClose"
           class="el-input__icon el-range__close-icon"
+          :class="{
+            'el-range__close-icon--hidden': !showClose,
+          }"
           @click="onClearIconClick"
         >
           <component :is="clearIcon" />

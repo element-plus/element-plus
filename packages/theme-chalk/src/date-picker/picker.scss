@@ -125,6 +125,11 @@
     svg {
       vertical-align: middle;
     }
+
+    &--hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
   }
 }
 
