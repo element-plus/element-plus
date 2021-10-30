@@ -1,10 +1,10 @@
-@import 'mixins/mixins';
-@import 'mixins/utils';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/utils' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(form) {
-  @include set-component-css-var('form', $--form);
+  @include set-component-css-var('form', $form);
 
   @include m(label-left) {
     & .#{$namespace}-form-item__label {
@@ -24,6 +24,7 @@
   @include m(inline) {
     & .#{$namespace}-form-item {
       display: inline-flex;
+      vertical-align: middle;
       margin-right: 10px;
     }
 

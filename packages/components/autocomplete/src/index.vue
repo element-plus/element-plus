@@ -58,7 +58,7 @@
           'el-autocomplete-suggestion',
           suggestionLoading && 'is-loading',
         ]"
-        :style="{ width: dropdownWidth, outline: 'none' }"
+        :style="{ minWidth: dropdownWidth, outline: 'none' }"
         role="region"
       >
         <el-scrollbar
@@ -67,7 +67,7 @@
           view-class="el-autocomplete-suggestion__list"
         >
           <li v-if="suggestionLoading">
-            <i class="el-icon-loading"></i>
+            <el-icon class="is-loading"><loading /></el-icon>
           </li>
           <template v-else>
             <li
@@ -107,8 +107,11 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { throwError } from '@element-plus/utils/error'
 import ElInput from '@element-plus/components/input'
 import ElScrollbar from '@element-plus/components/scrollbar'
-import ElPopper, { Effect, Placement } from '@element-plus/components/popper'
+import ElPopper, { Effect } from '@element-plus/components/popper'
+import ElIcon from '@element-plus/components/icon'
+import { Loading } from '@element-plus/icons'
 
+import type { Placement } from '@element-plus/components/popper'
 import type { PropType } from 'vue'
 
 export default defineComponent({
@@ -117,6 +120,8 @@ export default defineComponent({
     ElPopper,
     ElInput,
     ElScrollbar,
+    ElIcon,
+    Loading,
   },
   directives: {
     clickoutside: ClickOutside,

@@ -1,16 +1,10 @@
+import { TypeComponentsMap } from '@element-plus/utils/icon'
+import { buildProps, keyOf } from '@element-plus/utils/props'
 import type { ExtractPropTypes } from 'vue'
-import { buildProp, keyOf } from '@element-plus/utils/props'
 
 export type AlertEffect = 'light' | 'dark'
 
-export const ALERT_TYPE_CLASSES_MAP = {
-  success: 'el-icon-success',
-  warning: 'el-icon-warning',
-  error: 'el-icon-error',
-  info: 'el-icon-info',
-} as const
-
-export const alertProps = {
+export const alertProps = buildProps({
   title: {
     type: String,
     default: '',
@@ -19,11 +13,11 @@ export const alertProps = {
     type: String,
     default: '',
   },
-  type: buildProp({
+  type: {
     type: String,
-    values: keyOf(ALERT_TYPE_CLASSES_MAP),
+    values: keyOf(TypeComponentsMap),
     default: 'info',
-  }),
+  },
   closable: {
     type: Boolean,
     default: true,
@@ -34,12 +28,12 @@ export const alertProps = {
   },
   showIcon: Boolean,
   center: Boolean,
-  effect: buildProp({
+  effect: {
     type: String,
-    values: ['light', 'dark'] as const,
+    values: ['light', 'dark'],
     default: 'light',
-  }),
-} as const
+  },
+} as const)
 export type AlertProps = ExtractPropTypes<typeof alertProps>
 
 export const alertEmits = {

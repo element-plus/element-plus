@@ -37,27 +37,34 @@
           :validate-event="false"
           :size="realSize"
           :class="{ 'is-focus': popperVisible }"
+          @compositionstart="handleComposition"
+          @compositionupdate="handleComposition"
+          @compositionend="handleComposition"
           @focus="(e) => $emit('focus', e)"
           @blur="(e) => $emit('blur', e)"
           @input="handleInput"
         >
           <template #suffix>
-            <i
+            <el-icon
               v-if="clearBtnVisible"
               key="clear"
-              class="el-input__icon el-icon-circle-close"
+              class="el-input__icon icon-circle-close"
               @click.stop="handleClear"
-            ></i>
-            <i
+            >
+              <circle-close />
+            </el-icon>
+            <el-icon
               v-else
               key="arrow-down"
               :class="[
                 'el-input__icon',
-                'el-icon-arrow-down',
+                'icon-arrow-down',
                 popperVisible && 'is-reverse',
               ]"
               @click.stop="togglePopperVisible()"
-            ></i>
+            >
+              <arrow-down />
+            </el-icon>
           </template>
         </el-input>
 
@@ -83,6 +90,9 @@
             @input="(e) => handleInput(searchInputValue, e)"
             @click.stop="togglePopperVisible(true)"
             @keydown.delete="handleDelete"
+            @compositionstart="handleComposition"
+            @compositionupdate="handleComposition"
+            @compositionend="handleComposition"
           />
         </div>
       </div>
@@ -121,7 +131,7 @@
             @click="handleSuggestionClick(item)"
           >
             <span>{{ item.text }}</span>
-            <i v-if="item.checked" class="el-icon-check"></i>
+            <el-icon v-if="item.checked"><check /></el-icon>
           </li>
         </template>
         <slot v-else name="empty">
@@ -142,7 +152,6 @@ import {
   nextTick,
   onMounted,
   onBeforeUnmount,
-  Ref,
   ref,
   watch,
 } from 'vue'
@@ -153,11 +162,12 @@ import ElCascaderPanel, {
   CommonProps,
 } from '@element-plus/components/cascader-panel'
 import ElInput from '@element-plus/components/input'
-import ElPopper from '@element-plus/components/popper'
+import ElPopper, { Effect } from '@element-plus/components/popper'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
-import { elFormKey, elFormItemKey } from '@element-plus/tokens'
+import ElIcon from '@element-plus/components/icon'
 
+import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import { ClickOutside as Clickoutside } from '@element-plus/directives'
 import { useLocaleInject } from '@element-plus/hooks'
 
@@ -170,9 +180,11 @@ import {
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import { Effect, Options } from '@element-plus/components/popper'
+import { isKorean } from '@element-plus/utils/isDef'
+import { CircleClose, Check, ArrowDown } from '@element-plus/icons'
 
-import type { ComputedRef, PropType } from 'vue'
+import type { Options } from '@element-plus/components/popper'
+import type { ComputedRef, PropType, Ref } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 import type {
   CascaderValue,
@@ -214,6 +226,10 @@ export default defineComponent({
     ElPopper,
     ElScrollbar,
     ElTag,
+    ElIcon,
+    CircleClose,
+    Check,
+    ArrowDown,
   },
 
   directives: {
@@ -297,6 +313,7 @@ export default defineComponent({
     const searchInputValue = ref('')
     const presentTags: Ref<Tag[]> = ref([])
     const suggestions: Ref<CascaderNode[]> = ref([])
+    const isOnComposition = ref(false)
 
     const isDisabled = computed(() => props.disabled || elForm.disabled)
     const inputPlaceholder = computed(
@@ -344,7 +361,7 @@ export default defineComponent({
       set(val) {
         emit(UPDATE_MODEL_EVENT, val)
         emit(CHANGE_EVENT, val)
-        elFormItem.formItemMitt?.emit('el.form.change', [val])
+        elFormItem.validate?.('change')
       },
     })
 
@@ -479,14 +496,14 @@ export default defineComponent({
         const suggestionList = suggestionPanelEl.querySelector(
           '.el-cascader__suggestion-list'
         )
-        suggestionList.style.minWidth = inputInner.offsetWidth + 'px'
+        suggestionList.style.minWidth = `${inputInner.offsetWidth}px`
       }
 
       if (tagWrapperEl) {
         const { offsetHeight } = tagWrapperEl
         const height =
           presentTags.value.length > 0
-            ? Math.max(offsetHeight + 6, inputInitialHeight) + 'px'
+            ? `${Math.max(offsetHeight + 6, inputInitialHeight)}px`
             : `${inputInitialHeight}px`
         inputInner.style.height = height
         updatePopperPosition()
@@ -502,7 +519,20 @@ export default defineComponent({
       emit('expand-change', value)
     }
 
+    const handleComposition = (event: CompositionEvent) => {
+      const text = (event.target as HTMLInputElement)?.value
+      if (event.type === 'compositionend') {
+        isOnComposition.value = false
+        nextTick(() => handleInput(text))
+      } else {
+        const lastCharacter = text[text.length - 1] || ''
+        isOnComposition.value = !isKorean(lastCharacter)
+      }
+    }
+
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (isOnComposition.value) return
+
       switch (e.code) {
         case EVENT_CODE.enter:
           togglePopperVisible()
@@ -593,7 +623,7 @@ export default defineComponent({
       }
     }, props.debounce)
 
-    const handleInput = (val: string, e: KeyboardEvent) => {
+    const handleInput = (val: string, e?: KeyboardEvent) => {
       !popperVisible.value && togglePopperVisible(true)
 
       if (e?.isComposing) return
@@ -605,7 +635,9 @@ export default defineComponent({
 
     watch([checkedNodes, isDisabled], calculatePresentTags)
 
-    watch(presentTags, () => nextTick(updateStyle))
+    watch(presentTags, () => {
+      nextTick(() => updateStyle())
+    })
 
     watch(presentText, (val) => (inputValue.value = val), { immediate: true })
 
@@ -642,6 +674,7 @@ export default defineComponent({
       presentTags,
       suggestions,
       isDisabled,
+      isOnComposition,
       realSize,
       tagSize,
       multiple,
@@ -655,6 +688,7 @@ export default defineComponent({
       getCheckedNodes,
       handleExpandChange,
       handleKeyDown,
+      handleComposition,
       handleClear,
       handleSuggestionClick,
       handleSuggestionKeyDown,

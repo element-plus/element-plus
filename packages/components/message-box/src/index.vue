@@ -17,16 +17,20 @@
           customClass,
           { 'el-message-box--center': center },
         ]"
+        :style="customStyle"
       >
         <div
           v-if="title !== null && title !== undefined"
           class="el-message-box__header"
         >
           <div class="el-message-box__title">
-            <div
-              v-if="icon && center"
-              :class="['el-message-box__status', icon]"
-            ></div>
+            <el-icon
+              v-if="iconComponent && center"
+              class="el-message-box__status"
+              :class="typeClass"
+            >
+              <component :is="iconComponent" />
+            </el-icon>
             <span>{{ title }}</span>
           </div>
           <button
@@ -41,15 +45,18 @@
               handleAction(distinguishCancelAndClose ? 'close' : 'cancel')
             "
           >
-            <i class="el-message-box__close el-icon-close"></i>
+            <el-icon class="el-message-box__close"><close /></el-icon>
           </button>
         </div>
         <div class="el-message-box__content">
           <div class="el-message-box__container">
-            <div
-              v-if="icon && !center && hasMessage"
-              :class="['el-message-box__status', icon]"
-            ></div>
+            <el-icon
+              v-if="iconComponent && !center && hasMessage"
+              class="el-message-box__status"
+              :class="typeClass"
+            >
+              <component :is="iconComponent" />
+            </el-icon>
             <div v-if="hasMessage" class="el-message-box__message">
               <slot>
                 <p v-if="!dangerouslyUseHTMLString">{{ message }}</p>
@@ -128,26 +135,21 @@ import {
   usePreventGlobal,
 } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
-import { Overlay as ElOverlay } from '@element-plus/components/overlay'
+import { ElOverlay } from '@element-plus/components/overlay'
 import PopupManager from '@element-plus/utils/popup-manager'
 import { on, off } from '@element-plus/utils/dom'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { isValidComponentSize } from '@element-plus/utils/validators'
+import { ElIcon } from '@element-plus/components/icon'
+import { TypeComponents, TypeComponentsMap } from '@element-plus/utils/icon'
 
 import type { ComponentPublicInstance, PropType } from 'vue'
-import type { ComponentSize, Indexable } from '@element-plus/utils/types'
+import type { ComponentSize } from '@element-plus/utils/types'
 import type {
   Action,
   MessageBoxState,
   MessageBoxType,
 } from './message-box.type'
-
-const TypeMap: Indexable<string> = {
-  success: 'success',
-  info: 'info',
-  warning: 'warning',
-  error: 'error',
-}
 
 export default defineComponent({
   name: 'ElMessageBox',
@@ -158,6 +160,8 @@ export default defineComponent({
     ElButton,
     ElInput,
     ElOverlay,
+    ElIcon,
+    ...TypeComponents,
   },
   inheritAttrs: false,
   props: {
@@ -217,9 +221,10 @@ export default defineComponent({
       confirmButtonText: '',
       confirmButtonClass: '',
       customClass: '',
+      customStyle: {},
       dangerouslyUseHTMLString: false,
       distinguishCancelAndClose: false,
-      iconClass: '',
+      icon: '',
       inputPattern: null,
       inputPlaceholder: '',
       inputType: 'text',
@@ -245,12 +250,16 @@ export default defineComponent({
       validateError: false,
       zIndex: PopupManager.nextZIndex(),
     })
-    const icon = computed(
-      () =>
-        state.iconClass ||
-        (state.type && TypeMap[state.type]
-          ? `el-icon-${TypeMap[state.type]}`
-          : '')
+
+    const typeClass = computed(() => {
+      const type = state.type
+      return type && TypeComponentsMap[type]
+        ? `el-message-box-icon--${type}`
+        : ''
+    })
+
+    const iconComponent = computed(
+      () => state.icon || TypeComponentsMap[state.type] || ''
     )
     const hasMessage = computed(() => !!state.message)
     const inputRef = ref<ComponentPublicInstance>(null)
@@ -415,7 +424,8 @@ export default defineComponent({
       ...toRefs(state),
       visible,
       hasMessage,
-      icon,
+      typeClass,
+      iconComponent,
       confirmButtonClasses,
       inputRef,
       confirmRef,

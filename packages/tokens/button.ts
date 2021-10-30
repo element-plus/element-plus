@@ -1,9 +1,10 @@
 import type { InjectionKey } from 'vue'
 
-import type { ComponentSize } from '@element-plus/utils/types'
+import type { ButtonProps } from '@element-plus/components/button'
 
-export interface ElButtonGruopContext {
-  size?: ComponentSize
+export interface ElButtonGroupContext {
+  size?: ButtonProps['size']
+  type?: ButtonProps['type']
 }
 
-export const elButtonGroupKey: InjectionKey<ElButtonGruopContext> = Symbol()
+export const elButtonGroupKey: InjectionKey<ElButtonGroupContext> = Symbol()

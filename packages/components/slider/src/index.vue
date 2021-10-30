@@ -12,7 +12,7 @@
     <el-input-number
       v-if="showInput && !range"
       ref="input"
-      v-model="firstValue"
+      :model-value="firstValue"
       class="el-slider__input"
       :step="step"
       :disabled="sliderDisabled"
@@ -21,6 +21,7 @@
       :max="max"
       :debounce="debounce"
       :size="inputSize"
+      @update:model-value="setFirstValue"
       @change="emitChange"
     />
     <div
@@ -33,16 +34,18 @@
       <div class="el-slider__bar" :style="barStyle"></div>
       <slider-button
         ref="firstButton"
-        v-model="firstValue"
+        :model-value="firstValue"
         :vertical="vertical"
         :tooltip-class="tooltipClass"
+        @update:model-value="setFirstValue"
       />
       <slider-button
         v-if="range"
         ref="secondButton"
-        v-model="secondValue"
+        :model-value="secondValue"
         :vertical="vertical"
         :tooltip-class="tooltipClass"
+        @update:model-value="setSecondValue"
       />
       <div v-if="showStops">
         <div
@@ -84,7 +87,6 @@ import {
   provide,
   reactive,
   ref,
-  Ref,
   toRefs,
   watch,
 } from 'vue'
@@ -102,7 +104,7 @@ import { useMarks } from './useMarks'
 import { useSlide } from './useSlide'
 import { useStops } from './useStops'
 
-import type { PropType } from 'vue'
+import type { PropType, Ref } from 'vue'
 import type { ComponentSize, Nullable } from '@element-plus/utils/types'
 
 export default defineComponent({
@@ -210,6 +212,8 @@ export default defineComponent({
       resetSize,
       emitChange,
       onSliderClick,
+      setFirstValue,
+      setSecondValue,
     } = useSlide(props, initData, emit)
 
     const { stops, getStopStyle } = useStops(
@@ -225,7 +229,7 @@ export default defineComponent({
 
     const precision = computed(() => {
       const precisions = [props.min, props.max, props.step].map((item) => {
-        const decimal = ('' + item).split('.')[1]
+        const decimal = `${item}`.split('.')[1]
         return decimal ? decimal.length : 0
       })
       return Math.max.apply(null, precisions)
@@ -266,6 +270,8 @@ export default defineComponent({
       emitChange,
       onSliderClick,
       getStopStyle,
+      setFirstValue,
+      setSecondValue,
 
       stops,
       markList,
@@ -310,10 +316,7 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
         initData.firstValue = val[0]
         initData.secondValue = val[1]
         if (valueChanged()) {
-          elFormItem.formItemMitt?.emit('el.form.change', [
-            minValue.value,
-            maxValue.value,
-          ])
+          elFormItem.validate?.('change')
           initData.oldValue = val.slice()
         }
       }
@@ -325,7 +328,7 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
       } else {
         initData.firstValue = val
         if (valueChanged()) {
-          elFormItem.formItemMitt?.emit('el.form.change', val)
+          elFormItem.validate?.('change')
           initData.oldValue = val
         }
       }
@@ -339,26 +342,6 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
     (val) => {
       if (!val) {
         setValues()
-      }
-    }
-  )
-
-  watch(
-    () => initData.firstValue,
-    (val) => {
-      if (props.range) {
-        _emit([minValue.value, maxValue.value])
-      } else {
-        _emit(val)
-      }
-    }
-  )
-
-  watch(
-    () => initData.secondValue,
-    () => {
-      if (props.range) {
-        _emit([minValue.value, maxValue.value])
       }
     }
   )

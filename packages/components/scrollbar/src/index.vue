@@ -16,7 +16,7 @@
         :class="['el-scrollbar__view', viewClass]"
         :style="viewStyle"
       >
-        <slot></slot>
+        <slot />
       </component>
     </div>
     <template v-if="!native">
@@ -114,7 +114,6 @@ export default defineComponent({
     const resize = ref(null)
     const ratioY = ref(1)
     const ratioX = ref(1)
-
     const SCOPE = 'ElScrollbar'
     const GAP = 4 // top 2 + bottom 2 of bar instance
 
@@ -174,8 +173,8 @@ export default defineComponent({
         (offsetWidth - originalWidth) /
         (width / (offsetWidth - width))
 
-      sizeHeight.value = height + GAP < offsetHeight ? height + 'px' : ''
-      sizeWidth.value = width + GAP < offsetWidth ? width + 'px' : ''
+      sizeHeight.value = height + GAP < offsetHeight ? `${height}px` : ''
+      sizeWidth.value = width + GAP < offsetWidth ? `${width}px` : ''
     }
 
     const style = computed(() => {

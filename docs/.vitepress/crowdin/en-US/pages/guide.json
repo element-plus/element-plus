@@ -1,0 +1,30 @@
+{
+  "intro": {
+    "text": "Basics",
+    "children": [
+      { "text": "Design", "link": "/guide/design" },
+      { "text": "Navigation", "link": "/guide/nav" },
+      {
+        "text": "Installation",
+        "link": "/guide/installation"
+      },
+      {
+        "text": "Quick Start",
+        "link": "/guide/quickstart"
+      }
+    ]
+  },
+  "advanced": {
+    "text": "Advanced",
+    "children": [
+      { "text": "i18n", "link": "/guide/i18n" },
+      { "text": "Migration", "link": "/guide/migration" },
+      { "text": "Theming", "link": "/guide/theming" },
+      { "text": "Built-in Transitions", "link": "/guide/transitions" },
+      {
+        "text": "Changelog",
+        "link": "/guide/changelog"
+      }
+    ]
+  }
+}

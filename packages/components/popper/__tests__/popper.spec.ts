@@ -1,11 +1,11 @@
-import { mount } from '@vue/test-utils'
 import * as Vue from 'vue'
+import { mount } from '@vue/test-utils'
 import * as popperExports from '@popperjs/core'
 import { rAF } from '@element-plus/test-utils/tick'
+import PopupManager from '@element-plus/utils/popup-manager'
 import ElPopper from '../src/index.vue'
 
 import type { VueWrapper } from '@vue/test-utils'
-import PopupManager from '@element-plus/utils/popup-manager'
 
 type UnknownProps = Record<string, unknown>
 
@@ -181,10 +181,10 @@ describe('Popper.vue', () => {
       disabled: true,
       appendToBody: false,
     })
+    const $trigger = () => wrapper.find(`.${TEST_TRIGGER}`)
 
-    const $trigger = wrapper.find(`.${TEST_TRIGGER}`)
     expect(wrapper.find(selector).attributes('style')).toContain(DISPLAY_NONE)
-    await $trigger.trigger(MOUSE_ENTER_EVENT)
+    await $trigger().trigger(MOUSE_ENTER_EVENT)
 
     expect(wrapper.find(selector).attributes('style')).toContain(DISPLAY_NONE)
 
@@ -192,7 +192,7 @@ describe('Popper.vue', () => {
       disabled: false,
     })
 
-    await $trigger.trigger(MOUSE_ENTER_EVENT)
+    await $trigger().trigger(MOUSE_ENTER_EVENT)
 
     expect(wrapper.find(selector).attributes('style')).not.toContain(
       DISPLAY_NONE
@@ -232,7 +232,7 @@ describe('Popper.vue', () => {
     const errorHandler = jest.fn()
     mount(Wrapped, {
       slots: {
-        trigger: undefined,
+        // trigger: undefined,
       },
       global: {
         config: {

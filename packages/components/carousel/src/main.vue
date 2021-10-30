@@ -18,7 +18,9 @@
           @mouseleave="handleButtonLeave"
           @click.stop="throttledArrowClick(data.activeIndex - 1)"
         >
-          <i class="el-icon-arrow-left"></i>
+          <el-icon>
+            <arrow-left />
+          </el-icon>
         </button>
       </transition>
       <transition v-if="arrowDisplay" name="carousel-arrow-right">
@@ -33,7 +35,9 @@
           @mouseleave="handleButtonLeave"
           @click.stop="throttledArrowClick(data.activeIndex + 1)"
         >
-          <i class="el-icon-arrow-right"></i>
+          <el-icon>
+            <arrow-right />
+          </el-icon>
         </button>
       </transition>
       <slot></slot>
@@ -75,16 +79,23 @@ import {
   addResizeListener,
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
+import { ElIcon } from '@element-plus/components/icon'
+import { ArrowLeft, ArrowRight } from '@element-plus/icons'
 
+import { debugWarn } from '@element-plus/utils/error'
 import type {
   ICarouselProps,
   CarouselItem,
   InjectCarouselScope,
 } from './carousel'
-import { debugWarn } from '@element-plus/utils/error'
 
 export default defineComponent({
   name: 'ElCarousel',
+  components: {
+    ElIcon,
+    ArrowLeft,
+    ArrowRight,
+  },
   props: {
     initialIndex: {
       type: Number,
@@ -158,7 +169,7 @@ export default defineComponent({
     })
 
     const carouselClasses = computed(() => {
-      const classes = ['el-carousel', 'el-carousel--' + props.direction]
+      const classes = ['el-carousel', `el-carousel--${props.direction}`]
       if (props.type === 'card') {
         classes.push('el-carousel--card')
       }
@@ -168,7 +179,7 @@ export default defineComponent({
     const indicatorsClasses = computed(() => {
       const classes = [
         'el-carousel__indicators',
-        'el-carousel__indicators--' + props.direction,
+        `el-carousel__indicators--${props.direction}`,
       ]
       if (hasLabel.value) {
         classes.push('el-carousel__indicators--labels')

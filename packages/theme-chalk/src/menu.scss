@@ -1,14 +1,14 @@
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'mixins/utils';
-@import 'common/var';
-@import 'common/transition';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'mixins/utils' as *;
+@use 'common/var' as *;
+@use 'common/transition';
 
 @mixin menu-item {
   height: 56px;
   line-height: 56px;
   font-size: var(--el-menu-item-font-size);
-  color: var(--el-menu-item-font-color);
+  color: var(--el-menu-text-color);
   padding: 0 20px;
   list-style: none;
   cursor: pointer;
@@ -24,7 +24,7 @@
   }
 
   i {
-    color: var(--el-text-color-secondary);
+    color: inherit;
   }
 
   &:hover,
@@ -33,7 +33,7 @@
   }
 
   &:hover {
-    background-color: var(--el-menu-item-hover-fill);
+    background-color: var(--el-menu-hover-background-color);
   }
 
   @include when(disabled) {
@@ -44,7 +44,7 @@
 }
 
 @include b(menu) {
-  @include set-component-css-var('menu', $--menu);
+  @include set-component-css-var('menu', $menu);
 
   border-right: solid 1px var(--el-menu-border-color);
   list-style: none;
@@ -53,22 +53,22 @@
   padding-left: 0;
   background-color: var(--el-menu-background-color);
   box-sizing: border-box;
-  @include utils-clearfix;
-  &.#{$namespace}-menu--horizontal {
+
+  @include m(horizontal) {
     display: flex;
     flex-wrap: nowrap;
     border-bottom: solid 1px var(--el-menu-border-color);
-  }
-
-  @include m(horizontal) {
     border-right: none;
+
     & > .#{$namespace}-menu-item {
-      float: left;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+
       height: 60px;
-      line-height: 60px;
       margin: 0;
       border-bottom: 2px solid transparent;
-      color: var(--el-text-color-secondary);
+      color: var(--el-menu-text-color);
 
       a,
       a:hover {
@@ -81,8 +81,6 @@
       }
     }
     & > .#{$namespace}-sub-menu {
-      float: left;
-
       &:focus,
       &:hover {
         outline: none;
@@ -90,14 +88,14 @@
 
       &:hover {
         .#{$namespace}-sub-menu__title {
-          color: var(--el-text-color-primary);
+          color: var(--el-menu-hover-text-color);
         }
       }
 
       &.is-active {
         .#{$namespace}-sub-menu__title {
-          border-bottom: 2px solid var(--el-color-primary);
-          color: var(--el-text-color-primary);
+          border-bottom: 2px solid var(--el-menu-active-color);
+          color: var(--el-menu-active-color);
         }
       }
 
@@ -105,7 +103,7 @@
         height: 60px;
         line-height: 60px;
         border-bottom: 2px solid transparent;
-        color: var(--el-text-color-secondary);
+        color: var(--el-menu-text-color);
 
         &:hover {
           background-color: #fff;
@@ -122,27 +120,28 @@
     & .#{$namespace}-menu {
       & .#{$namespace}-menu-item,
       & .#{$namespace}-sub-menu__title {
-        background-color: $--color-white;
-        float: none;
+        background-color: var(--el-menu-background-color);
+        display: flex;
+        align-items: center;
         height: 36px;
-        line-height: 36px;
         padding: 0 10px;
-        color: var(--el-text-color-secondary);
+        color: var(--el-menu-text-color);
       }
 
       & .#{$namespace}-menu-item.is-active,
       & .#{$namespace}-sub-menu.is-active > .#{$namespace}-sub-menu__title {
-        color: var(--el-text-color-primary);
+        color: var(--el-menu-active-color);
       }
     }
     & .#{$namespace}-menu-item:not(.is-disabled):hover,
     & .#{$namespace}-menu-item:not(.is-disabled):focus {
       outline: none;
-      color: var(--el-text-color-primary);
+      color: var(--el-menu-hover-text-color);
+      background-color: var(--el-menu-hover-background-color);
     }
     & > .#{$namespace}-menu-item.is-active {
-      border-bottom: 2px solid var(--el-color-primary);
-      color: var(--el-text-color-primary);
+      border-bottom: 2px solid var(--el-menu-active-color);
+      color: var(--el-menu-active-color) !important;
     }
   }
   @include m(collapse) {
@@ -150,7 +149,7 @@
 
     > .#{$namespace}-menu-item,
     > .#{$namespace}-sub-menu > .#{$namespace}-sub-menu__title {
-      [class^='#{$namespace}-icon-'] {
+      [class^='is-icon-'] {
         margin: 0;
         vertical-align: middle;
         width: 24px;
@@ -199,7 +198,7 @@
       }
 
       &.is-active i {
-        color: var(--el-color-primary);
+        color: inherit;
       }
     }
   }
@@ -216,7 +215,7 @@
 @include b(menu-item) {
   @include menu-item;
 
-  & [class^='#{$namespace}-icon-'] {
+  & [class^='is-icon-'] {
     margin-right: 5px;
     width: 24px;
     text-align: center;
@@ -224,7 +223,7 @@
     vertical-align: middle;
   }
   @include when(active) {
-    color: var(--el-color-primary);
+    color: var(--el-menu-active-color);
     i {
       color: inherit;
     }
@@ -240,7 +239,7 @@
     @include menu-item;
 
     &:hover {
-      background-color: var(--el-menu-item-hover-fill);
+      background-color: var(--el-menu-hover-background-color);
     }
   }
   & .#{$namespace}-menu {
@@ -270,7 +269,7 @@
   }
   @include when(active) {
     .#{$namespace}-sub-menu__title {
-      border-bottom-color: var(--el-color-primary);
+      border-bottom-color: var(--el-menu-active-color);
     }
   }
   @include when(opened) {
@@ -286,7 +285,7 @@
       background: none !important;
     }
   }
-  [class^='#{$namespace}-icon-'] {
+  [class^='is-icon-'] {
     vertical-align: middle;
     margin-right: 5px;
     width: 24px;

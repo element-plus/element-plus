@@ -23,11 +23,11 @@ const bound01 = function (value: number | string, max: number | string) {
   if (isOnePointZero(value)) value = '100%'
 
   const processPercent = isPercentage(value)
-  value = Math.min(max as number, Math.max(0, parseFloat(value + '')))
+  value = Math.min(max as number, Math.max(0, parseFloat(`${value}`)))
 
   // Automatically convert percentage into number
   if (processPercent) {
-    value = parseInt(value * (max as number) + '', 10) / 100
+    value = parseInt(`${value * (max as number)}`, 10) / 100
   }
 
   // Handle floating point rounding errors
@@ -46,12 +46,12 @@ const toHex = function ({ r, g, b }) {
     value = Math.min(Math.round(value), 255)
     const high = Math.floor(value / 16)
     const low = value % 16
-    return '' + (INT_HEX_MAP[high] || high) + (INT_HEX_MAP[low] || low)
+    return `${INT_HEX_MAP[high] || high}${INT_HEX_MAP[low] || low}`
   }
 
   if (isNaN(r) || isNaN(g) || isNaN(b)) return ''
 
-  return '#' + hexOne(r) + hexOne(g) + hexOne(b)
+  return `#${hexOne(r)}${hexOne(g)}${hexOne(b)}`
 }
 
 const HEX_INT_MAP = { A: 10, B: 11, C: 12, D: 13, E: 14, F: 15 }
@@ -193,12 +193,12 @@ export default class Color {
       return
     }
 
-    this['_' + prop] = value
+    this[`_${prop}`] = value
     this.doOnChange()
   }
 
   get(prop: string) {
-    return this['_' + prop]
+    return this[`_${prop}`]
   }
 
   toRgb() {

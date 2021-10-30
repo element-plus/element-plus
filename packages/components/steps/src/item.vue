@@ -19,20 +19,17 @@
           v-if="currentStatus !== 'success' && currentStatus !== 'error'"
           name="icon"
         >
-          <i v-if="icon" :class="['el-step__icon-inner', icon]"></i>
+          <el-icon v-if="icon" class="el-step__icon-inner">
+            <component :is="icon" />
+          </el-icon>
           <div v-if="!icon && !isSimple" class="el-step__icon-inner">
             {{ index + 1 }}
           </div>
         </slot>
-        <i
-          v-else
-          :class="[
-            'el-step__icon-inner',
-            'is-status',
-            `el-icon-${currentStatus === 'success' ? 'check' : 'close'}`,
-          ]"
-        >
-        </i>
+        <el-icon v-else class="el-step__icon-inner is-status">
+          <check v-if="currentStatus === 'success'" />
+          <close v-else />
+        </el-icon>
       </div>
     </div>
     <!-- title & description -->
@@ -60,8 +57,10 @@ import {
   reactive,
   watch,
 } from 'vue'
+import { ElIcon } from '@element-plus/components/icon'
+import { Close, Check } from '@element-plus/icons'
 
-import type { Ref } from 'vue'
+import type { Ref, PropType, Component } from 'vue'
 
 export interface IStepsProps {
   space: number | string
@@ -87,13 +86,18 @@ export interface IStepsInject {
 
 export default defineComponent({
   name: 'ElStep',
+  components: {
+    ElIcon,
+    Close,
+    Check,
+  },
   props: {
     title: {
       type: String,
       default: '',
     },
     icon: {
-      type: String,
+      type: [String, Object] as PropType<string | Component>,
       default: '',
     },
     description: {
@@ -168,11 +172,11 @@ export default defineComponent({
             ? `${space.value}px`
             : space.value
             ? space.value
-            : 100 / (stepsCount.value - (isCenter.value ? 0 : 1)) + '%',
+            : `${100 / (stepsCount.value - (isCenter.value ? 0 : 1))}%`,
       }
       if (isVertical.value) return style
       if (isLast.value) {
-        style.maxWidth = 100 / stepsCount.value + '%'
+        style.maxWidth = `${100 / stepsCount.value}%`
       }
       return style
     })
@@ -184,12 +188,12 @@ export default defineComponent({
       let step = 100
       const style: Record<string, unknown> = {}
 
-      style.transitionDelay = 150 * index.value + 'ms'
+      style.transitionDelay = `${150 * index.value}ms`
       if (status === parent.props.processStatus) {
         step = 0
       } else if (status === 'wait') {
         step = 0
-        style.transitionDelay = -150 * index.value + 'ms'
+        style.transitionDelay = `${-150 * index.value}ms`
       }
       style.borderWidth = step && !isSimple.value ? '1px' : 0
       style[

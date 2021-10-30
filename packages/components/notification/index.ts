@@ -1,15 +1,8 @@
+import { withInstallFunction } from '@element-plus/utils/with-install'
+
 import Notify from './src/notify'
 
-import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
+export const ElNotification = withInstallFunction(Notify, '$notify')
+export default ElNotification
 
-const _Notify = Notify as SFCWithInstall<typeof Notify>
-
-_Notify.install = (app: App) => {
-  app.config.globalProperties.$notify = _Notify
-}
-
-export default _Notify
-export const ElNotification = _Notify
-
-export * from './src/notification.type'
+export * from './src/notification'

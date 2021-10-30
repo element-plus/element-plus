@@ -1,11 +1,11 @@
-@use "sass:map";
+@use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(scrollbar) {
-  @include set-component-css-var('scrollbar', $--scrollbar);
+  @include set-component-css-var('scrollbar', $scrollbar);
 }
 
 @include b(scrollbar) {
@@ -34,19 +34,19 @@
     border-radius: inherit;
     background-color: var(
       --el-scrollbar-background-color,
-      map.get($--scrollbar, 'background-color')
+      map.get($scrollbar, 'background-color')
     );
     transition: var(--el-transition-duration) background-color;
-    opacity: var(--el-scrollbar-opacity, map.get($--scrollbar, 'opacity'));
+    opacity: var(--el-scrollbar-opacity, map.get($scrollbar, 'opacity'));
 
     &:hover {
       background-color: var(
         --el-scrollbar-hover-background-color,
-        map.get($--scrollbar, 'hover-background-color')
+        map.get($scrollbar, 'hover-background-color')
       );
       opacity: var(
         --el-scrollbar-hover-opacity,
-        map.get($--scrollbar, 'hover-opacity')
+        map.get($scrollbar, 'hover-opacity')
       );
     }
   }

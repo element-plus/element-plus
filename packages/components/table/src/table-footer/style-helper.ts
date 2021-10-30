@@ -20,7 +20,7 @@ function useStyle<T>(props: TableFooter<T>) {
   } = useMapState<T>()
 
   const hasGutter = computed(() => {
-    return !props.fixed && table.layout.gutterWidth
+    return !props.fixed && !table.layout.gutterWidth
   })
   const isCellHidden = (
     index: number,

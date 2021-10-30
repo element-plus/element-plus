@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils'
-import Breadcrumb from '../src/index.vue'
-import BreadcrumbItem from '../src/item.vue'
+import { Check } from '@element-plus/icons'
+import Breadcrumb from '../src/breadcrumb.vue'
+import BreadcrumbItem from '../src/breadcrumb-item.vue'
 
 const _mount = (template: string) =>
   mount(
@@ -8,6 +9,11 @@ const _mount = (template: string) =>
       components: {
         'el-breadcrumb': Breadcrumb,
         'el-breadcrumb-item': BreadcrumbItem,
+      },
+      data() {
+        return {
+          Check,
+        }
       },
       template,
     },
@@ -30,21 +36,21 @@ describe('Breadcrumb.vue', () => {
     expect(wrapper.find('.el-breadcrumb__separator').text()).toBe('?')
   })
 
-  test('separatorClass', () => {
-    const wrapper = _mount(`
-      <el-breadcrumb separator="?" separatorClass="test">
+  test('separatorIcon', () => {
+    const wrapper = _mount(
+      `
+      <el-breadcrumb :separatorIcon="Check">
         <el-breadcrumb-item>A</el-breadcrumb-item>
       </el-breadcrumb>
-    `)
-    expect(wrapper.find('.el-breadcrumb__separator').text()).toBe('')
-    expect(wrapper.find('.el-breadcrumb__separator').classes()).toContain(
-      'test'
+    `
     )
+    expect(wrapper.find('.el-breadcrumb__separator').text()).toBe('')
+    expect(wrapper.findComponent(Check).exists()).toBe(true)
   })
 
   test('to', () => {
     const wrapper = _mount(`
-      <el-breadcrumb separator="?" separatorClass="test">
+      <el-breadcrumb separator="?" :separatorIcon="Check">
         <el-breadcrumb-item to="/index">A</el-breadcrumb-item>
       </el-breadcrumb>
     `)

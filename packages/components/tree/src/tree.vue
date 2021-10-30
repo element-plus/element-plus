@@ -49,9 +49,9 @@ import ElTreeNode from './tree-node.vue'
 import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast'
 import { useDragNodeHandler } from './model/useDragNode'
 import { useKeydown } from './model/useKeydown'
-import Node from './model/node'
+import type Node from './model/node'
 
-import type { ComponentInternalInstance, PropType } from 'vue'
+import type { ComponentInternalInstance, PropType, Component } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'
 import type {
   TreeComponentProps,
@@ -131,7 +131,7 @@ export default defineComponent({
       type: Number,
       default: 18,
     },
-    iconClass: String,
+    icon: [String, Object] as PropType<string | Component>,
   },
   emits: [
     'check-change',

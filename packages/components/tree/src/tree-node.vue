@@ -28,18 +28,18 @@
       class="el-tree-node__content"
       :style="{ paddingLeft: (node.level - 1) * tree.props.indent + 'px' }"
     >
-      <span
+      <el-icon
         :class="[
           {
             'is-leaf': node.isLeaf,
             expanded: !node.isLeaf && expanded,
           },
           'el-tree-node__expand-icon',
-          tree.props.iconClass ? tree.props.iconClass : 'el-icon-caret-right',
         ]"
         @click.stop="handleExpandIconClick"
       >
-      </span>
+        <component :is="tree.props.icon || CaretRight"></component>
+      </el-icon>
       <el-checkbox
         v-if="showCheckbox"
         :model-value="node.checked"
@@ -48,11 +48,12 @@
         @click.stop
         @change="handleCheckChange"
       />
-      <span
+      <el-icon
         v-if="node.loading"
-        class="el-tree-node__loading-icon el-icon-loading"
+        class="el-tree-node__loading-icon is-loading"
       >
-      </span>
+        <loading />
+      </el-icon>
       <node-content :node="node" :render-content="renderContent" />
     </div>
     <el-collapse-transition>
@@ -88,16 +89,18 @@ import {
 } from 'vue'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElCheckbox from '@element-plus/components/checkbox'
+import { ElIcon } from '@element-plus/components/icon'
+import { CaretRight, Loading } from '@element-plus/icons'
+import { debugWarn } from '@element-plus/utils/error'
 import NodeContent from './tree-node-content.vue'
 import { getNodeKey as getNodeKeyUtil } from './model/util'
 import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast'
-import { useDragNodeEmitter } from './model/useDragNode'
+import { dragEventsKey } from './model/useDragNode'
 import Node from './model/node'
 
 import type { ComponentInternalInstance, PropType } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'
 import type { TreeOptionProps, TreeNodeData, RootTreeType } from './tree.type'
-import { debugWarn } from '@element-plus/utils/error'
 
 export default defineComponent({
   name: 'ElTreeNode',
@@ -105,6 +108,8 @@ export default defineComponent({
     ElCollapseTransition,
     ElCheckbox,
     NodeContent,
+    ElIcon,
+    Loading,
   },
   props: {
     node: {
@@ -132,7 +137,7 @@ export default defineComponent({
     const oldChecked = ref<boolean>(null)
     const oldIndeterminate = ref<boolean>(null)
     const node$ = ref<Nullable<HTMLElement>>(null)
-    const { emitter } = useDragNodeEmitter()
+    const dragEvents = inject(dragEventsKey)
     const instance = getCurrentInstance()
 
     provide('NodeInstance', instance)
@@ -266,12 +271,12 @@ export default defineComponent({
 
     const handleDragStart = (event: DragEvent) => {
       if (!tree.props.draggable) return
-      emitter.emit('tree-node-drag-start', { event, treeNode: props })
+      dragEvents.treeNodeDragStart({ event, treeNode: props })
     }
 
     const handleDragOver = (event: DragEvent) => {
       if (!tree.props.draggable) return
-      emitter.emit('tree-node-drag-over', {
+      dragEvents.treeNodeDragOver({
         event,
         treeNode: { $el: node$.value, node: props.node },
       })
@@ -284,7 +289,7 @@ export default defineComponent({
 
     const handleDragEnd = (event: DragEvent) => {
       if (!tree.props.draggable) return
-      emitter.emit('tree-node-drag-end', event)
+      dragEvents.treeNodeDragEnd(event)
     }
 
     return {
@@ -294,7 +299,6 @@ export default defineComponent({
       childNodeRendered,
       oldChecked,
       oldIndeterminate,
-      emitter,
       getNodeKey,
       handleSelectChange,
       handleClick,
@@ -306,6 +310,7 @@ export default defineComponent({
       handleDragOver,
       handleDrop,
       handleDragEnd,
+      CaretRight,
     }
   },
 })

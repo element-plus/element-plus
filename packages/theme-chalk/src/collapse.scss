@@ -1,10 +1,10 @@
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
-@import 'common/transition';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+@use 'common/transition';
 
 @include b(collapse) {
-  @include set-component-css-var('collapse', $--collapse);
+  @include set-component-css-var('collapse', $collapse);
 
   border-top: 1px solid var(--el-collapse-border-color);
   border-bottom: 1px solid var(--el-collapse-border-color);

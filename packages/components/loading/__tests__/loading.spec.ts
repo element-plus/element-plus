@@ -1,9 +1,9 @@
+import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { sleep } from '@element-plus/test-utils'
 import Loading from '../src/index'
 import ElInput from '../../input'
 import vLoading from '../src/directive'
-import { nextTick } from 'vue'
 
 function destroyLoadingInstance(loadingInstance) {
   if (!loadingInstance) return
@@ -288,7 +288,7 @@ describe('Loading', () => {
       },
       template: `<el-input v-loading="true">
       <template #append>
-        <i class="el-icon-question"></i>
+        Loading Text
       </template>
       </el-input>`,
     })

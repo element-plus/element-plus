@@ -1,14 +1,12 @@
-import ResizeObserver from 'resize-observer-polyfill'
 import isServer from './isServer'
 
 import type { CustomizedHTMLElement } from './types'
 
 export type ResizableElement = CustomizedHTMLElement<{
-  __resizeListeners__: Array<(...args: unknown[]) => unknown>
-  __ro__: ResizeObserver
+  __resizeListeners__?: Array<(...args: unknown[]) => unknown>
+  __ro__?: ResizeObserver
 }>
 
-/* istanbul ignore next */
 const resizeHandler = function (entries: ResizeObserverEntry[]) {
   for (const entry of entries) {
     const listeners =
@@ -21,7 +19,6 @@ const resizeHandler = function (entries: ResizeObserverEntry[]) {
   }
 }
 
-/* istanbul ignore next */
 export const addResizeListener = function (
   element: ResizableElement,
   fn: (...args: unknown[]) => unknown
@@ -35,7 +32,6 @@ export const addResizeListener = function (
   element.__resizeListeners__.push(fn)
 }
 
-/* istanbul ignore next */
 export const removeResizeListener = function (
   element: ResizableElement,
   fn: (...args: unknown[]) => unknown
@@ -43,6 +39,6 @@ export const removeResizeListener = function (
   if (!element || !element.__resizeListeners__) return
   element.__resizeListeners__.splice(element.__resizeListeners__.indexOf(fn), 1)
   if (!element.__resizeListeners__.length) {
-    element.__ro__.disconnect()
+    element.__ro__?.disconnect()
   }
 }

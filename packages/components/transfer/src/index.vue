@@ -22,7 +22,7 @@
         :disabled="rightChecked.length === 0"
         @click="addToLeft"
       >
-        <i class="el-icon-arrow-left"></i>
+        <el-icon><arrow-left /></el-icon>
         <span v-if="buttonTexts[0] !== undefined">{{ buttonTexts[0] }}</span>
       </el-button>
       <el-button
@@ -32,7 +32,7 @@
         @click="addToRight"
       >
         <span v-if="buttonTexts[1] !== undefined">{{ buttonTexts[1] }}</span>
-        <i class="el-icon-arrow-right"></i>
+        <el-icon><arrow-right /></el-icon>
       </el-button>
     </div>
     <transfer-panel
@@ -65,19 +65,20 @@ import {
   watch,
 } from 'vue'
 import ElButton from '@element-plus/components/button'
+import ElIcon from '@element-plus/components/icon'
 import { elFormItemKey } from '@element-plus/tokens'
 import { useLocaleInject } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { ArrowLeft, ArrowRight } from '@element-plus/icons'
 import TransferPanel from './transfer-panel.vue'
 import { useComputedData } from './useComputedData'
-import { useCheckedChange } from './useCheckedChange'
-import { useMove } from './useMove'
-import { CHANGE_EVENT } from './transfer'
-
 import {
+  useCheckedChange,
   LEFT_CHECK_CHANGE_EVENT,
   RIGHT_CHECK_CHANGE_EVENT,
 } from './useCheckedChange'
+import { useMove } from './useMove'
+import { CHANGE_EVENT } from './transfer'
 
 import type { PropType, VNode } from 'vue'
 import type { ElFormItemContext } from '@element-plus/tokens'
@@ -89,6 +90,9 @@ export default defineComponent({
   components: {
     TransferPanel,
     ElButton,
+    ElIcon,
+    ArrowLeft,
+    ArrowRight,
   },
 
   props: {
@@ -206,8 +210,8 @@ export default defineComponent({
 
     watch(
       () => props.modelValue,
-      (val) => {
-        elFormItem.formItemMitt?.emit('el.form.change', val)
+      () => {
+        elFormItem.validate?.('change')
       }
     )
 

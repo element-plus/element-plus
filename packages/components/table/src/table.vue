@@ -354,7 +354,7 @@ export default defineComponent({
 
     const debouncedUpdateLayout = debounce(doLayout, 50)
 
-    const tableId = 'el-table_' + tableIdSeed++
+    const tableId = `el-table_${tableIdSeed++}`
     table.tableId = tableId
     table.state = {
       isGroup,

@@ -1,5 +1,5 @@
-import { debugWarn } from '@element-plus/utils/error'
 import dayjs from 'dayjs'
+import { debugWarn } from '@element-plus/utils/error'
 import defaultLang from './lang/en'
 
 export type TranslatePair = {

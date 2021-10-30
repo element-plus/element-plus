@@ -10,10 +10,10 @@ import {
 import ElCheckbox from '@element-plus/components/checkbox'
 import FilterPanel from '../filter-panel.vue'
 import useLayoutObserver from '../layout-observer'
+import { hColgroup } from '../h-helper'
 import useEvent from './event-helper'
 import useStyle from './style.helper'
 import useUtils from './utils-helper'
-import { hColgroup } from '../h-helper'
 
 import type { ComponentInternalInstance, Ref, PropType } from 'vue'
 import type { DefaultRow, Sort, Table } from '../table/defaults'

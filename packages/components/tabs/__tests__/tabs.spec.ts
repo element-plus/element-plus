@@ -228,7 +228,7 @@ describe('Tabs.vue', () => {
       methods: {
         handleTabsEdit(targetName, action) {
           if (action === 'add') {
-            const newTabName = ++this.tabIndex + ''
+            const newTabName = `${++this.tabIndex}`
             this.editableTabs.push({
               title: 'New Tab',
               name: newTabName,
@@ -267,7 +267,7 @@ describe('Tabs.vue', () => {
     expect(navItemsWrapper[1].classes('is-active')).toBe(true)
 
     // remove one tab, check panes length
-    await navItemsWrapper[1].find('.el-icon-close').trigger('click')
+    await navItemsWrapper[1].find('.is-icon-close').trigger('click')
 
     panesWrapper = wrapper.findAllComponents(TabPane)
     navItemsWrapper = navWrapper.findAll('.el-tabs__item')
@@ -276,7 +276,7 @@ describe('Tabs.vue', () => {
     expect(panesWrapper.length).toEqual(2)
 
     // add one tab, check panes length and current tab
-    await navWrapper.find('.el-tabs__new-tab').trigger('click')
+    await wrapper.find('.el-tabs__new-tab').trigger('click')
 
     panesWrapper = wrapper.findAllComponents(TabPane)
     navItemsWrapper = navWrapper.findAll('.el-tabs__item')
@@ -332,7 +332,7 @@ describe('Tabs.vue', () => {
       },
       methods: {
         addTab() {
-          const newTabName = ++this.tabIndex + ''
+          const newTabName = `${++this.tabIndex}`
           this.editableTabs.push({
             title: 'New Tab',
             name: newTabName,
@@ -362,7 +362,7 @@ describe('Tabs.vue', () => {
     const navWrapper = wrapper.findComponent(TabNav)
     await nextTick()
 
-    await navWrapper.find('.el-tabs__new-tab').trigger('click')
+    await wrapper.find('.el-tabs__new-tab').trigger('click')
 
     let navItemsWrapper = navWrapper.findAll('.el-tabs__item')
     let panesWrapper = wrapper.findAllComponents(TabPane)
@@ -370,7 +370,7 @@ describe('Tabs.vue', () => {
     expect(panesWrapper.length).toEqual(3)
     expect(navItemsWrapper[2].classes('is-active')).toBe(true)
 
-    await navItemsWrapper[2].find('.el-icon-close').trigger('click')
+    await navItemsWrapper[2].find('.is-icon-close').trigger('click')
 
     panesWrapper = wrapper.findAllComponents(TabPane)
     navItemsWrapper = navWrapper.findAll('.el-tabs__item')
@@ -398,7 +398,7 @@ describe('Tabs.vue', () => {
     const navWrapper = wrapper.findComponent(TabNav)
     await nextTick()
 
-    expect(navWrapper.findAll('.el-icon-close').length).toBe(2)
+    expect(navWrapper.findAll('.is-icon-close').length).toBe(2)
   })
 
   test('disabled', async () => {

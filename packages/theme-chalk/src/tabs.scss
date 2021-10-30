@@ -1,5 +1,5 @@
-@import 'mixins/mixins';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'common/var' as *;
 
 @include b(tabs) {
   @include e(header) {
@@ -24,7 +24,7 @@
     height: 18px;
     width: 18px;
     line-height: 18px;
-    margin: 12px 0 9px 10px;
+    margin: 10px;
     border-radius: 3px;
     text-align: center;
     font-size: 12px;
@@ -32,7 +32,7 @@
     cursor: pointer;
     transition: all 0.15s;
 
-    .#{$namespace}-icon-plus {
+    .is-icon-plus {
       transform: scale(0.8, 0.8);
     }
 
@@ -110,7 +110,7 @@
       outline: none;
     }
 
-    & .#{$namespace}-icon-close {
+    & .is-icon-close {
       border-radius: 50%;
       text-align: center;
       transition: all var(--el-transition-duration)
@@ -123,7 +123,11 @@
 
       &:hover {
         background-color: var(--el-text-color-placeholder);
-        color: $--color-white;
+        color: $color-white;
+      }
+
+      svg {
+        margin-top: 1px;
       }
     }
 
@@ -137,7 +141,7 @@
     }
 
     @include when(disabled) {
-      color: $--disabled-color-base;
+      color: $disabled-color-base;
       cursor: default;
     }
   }
@@ -161,9 +165,7 @@
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__active-bar {
       display: none;
     }
-    > .#{$namespace}-tabs__header
-      .#{$namespace}-tabs__item
-      .#{$namespace}-icon-close {
+    > .#{$namespace}-tabs__header .#{$namespace}-tabs__item .is-icon-close {
       position: relative;
       font-size: 12px;
       width: 0;
@@ -190,19 +192,19 @@
           padding-left: 13px;
           padding-right: 13px;
 
-          & .#{$namespace}-icon-close {
+          & .is-icon-close {
             width: 14px;
           }
         }
       }
       &.is-active {
-        border-bottom-color: $--color-white;
+        border-bottom-color: $color-white;
 
         &.is-closable {
           padding-left: 20px;
           padding-right: 20px;
 
-          .#{$namespace}-icon-close {
+          .is-icon-close {
             width: 14px;
           }
         }
@@ -210,7 +212,7 @@
     }
   }
   @include m(border-card) {
-    background: $--color-white;
+    background: $color-white;
     border: 1px solid var(--el-border-color-base);
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);
 
@@ -218,7 +220,7 @@
       padding: 15px;
     }
     > .#{$namespace}-tabs__header {
-      background-color: $--background-color-base;
+      background-color: $background-color-base;
       border-bottom: 1px solid var(--el-border-color-light);
       margin: 0;
     }
@@ -242,7 +244,7 @@
 
       &.is-active {
         color: var(--el-color-primary);
-        background-color: $--color-white;
+        background-color: $color-white;
         border-right-color: var(--el-border-color-base);
         border-left-color: var(--el-border-color-base);
       }
@@ -250,7 +252,7 @@
         color: var(--el-color-primary);
       }
       &.is-disabled {
-        color: $--disabled-color-base;
+        color: $disabled-color-base;
       }
     }
 
@@ -543,33 +545,25 @@
 @keyframes slideInRight-enter {
   0% {
     opacity: 0;
-    -webkit-transform-origin: 0 0;
     transform-origin: 0 0;
-    -webkit-transform: translateX(100%);
     transform: translateX(100%);
   }
 
   to {
     opacity: 1;
-    -webkit-transform-origin: 0 0;
     transform-origin: 0 0;
-    -webkit-transform: translateX(0);
     transform: translateX(0);
   }
 }
 @keyframes slideInRight-leave {
   0% {
-    -webkit-transform-origin: 0 0;
     transform-origin: 0 0;
-    -webkit-transform: translateX(0);
     transform: translateX(0);
     opacity: 1;
   }
 
   100% {
-    -webkit-transform-origin: 0 0;
     transform-origin: 0 0;
-    -webkit-transform: translateX(100%);
     transform: translateX(100%);
     opacity: 0;
   }
@@ -577,33 +571,25 @@
 @keyframes slideInLeft-enter {
   0% {
     opacity: 0;
-    -webkit-transform-origin: 0 0;
     transform-origin: 0 0;
-    -webkit-transform: translateX(-100%);
     transform: translateX(-100%);
   }
 
   to {
     opacity: 1;
-    -webkit-transform-origin: 0 0;
     transform-origin: 0 0;
-    -webkit-transform: translateX(0);
     transform: translateX(0);
   }
 }
 @keyframes slideInLeft-leave {
   0% {
-    -webkit-transform-origin: 0 0;
     transform-origin: 0 0;
-    -webkit-transform: translateX(0);
     transform: translateX(0);
     opacity: 1;
   }
 
   100% {
-    -webkit-transform-origin: 0 0;
     transform-origin: 0 0;
-    -webkit-transform: translateX(-100%);
     transform: translateX(-100%);
     opacity: 0;
   }

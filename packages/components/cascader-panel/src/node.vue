@@ -41,21 +41,24 @@
       -->
       <span></span>
     </el-radio>
-    <i
+    <el-icon
       v-else-if="isLeaf && node.checked"
-      class="el-icon-check el-cascader-node__prefix"
-    ></i>
+      class="el-cascader-node__prefix"
+    >
+      <check />
+    </el-icon>
 
     <!-- content -->
     <node-content />
 
     <!-- postfix -->
     <template v-if="!isLeaf">
-      <i
-        v-if="node.loading"
-        class="el-icon-loading el-cascader-node__postfix"
-      ></i>
-      <i v-else class="el-icon-arrow-right el-cascader-node__postfix"></i>
+      <el-icon v-if="node.loading" class="is-loading el-cascader-node__postfix">
+        <loading />
+      </el-icon>
+      <el-icon v-else class="arrow-right el-cascader-node__postfix">
+        <arrow-right />
+      </el-icon>
     </template>
   </li>
 </template>
@@ -64,9 +67,11 @@
 import { computed, defineComponent, inject } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import ElRadio from '@element-plus/components/radio'
+import ElIcon from '@element-plus/components/icon'
+import { Check, Loading, ArrowRight } from '@element-plus/icons'
 import NodeContent from './node-content'
-import type { default as CascaderNode } from './node'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
+import type { default as CascaderNode } from './node'
 
 import type { PropType } from 'vue'
 
@@ -77,6 +82,10 @@ export default defineComponent({
     ElCheckbox,
     ElRadio,
     NodeContent,
+    ElIcon,
+    Check,
+    Loading,
+    ArrowRight,
   },
 
   props: {

@@ -14,12 +14,14 @@ import { EVENT_CODE } from '@element-plus/utils/aria'
 import {
   addResizeListener,
   removeResizeListener,
-  ResizableElement,
 } from '@element-plus/utils/resize-event'
 import { on, off } from '@element-plus/utils/dom'
 import { throwError } from '@element-plus/utils/error'
+import { ElIcon } from '@element-plus/components/icon'
+import { ArrowLeft, ArrowRight, Close } from '@element-plus/icons'
 import TabBar from './tab-bar.vue'
 
+import type { ResizableElement } from '@element-plus/utils/resize-event'
 import type { PropType } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'
 import type { RootTabs, Pane, ITabType } from './token'
@@ -328,7 +330,7 @@ export default defineComponent({
               ],
               onClick: scrollPrev,
             },
-            [h('i', { class: 'el-icon-arrow-left' })]
+            [h(ElIcon, {}, () => [h(ArrowLeft)])]
           ),
           h(
             'span',
@@ -339,7 +341,7 @@ export default defineComponent({
               ],
               onClick: scrollNext,
             },
-            [h('i', { class: 'el-icon-arrow-right' })]
+            [h('i', {}, () => [h(ArrowRight)])]
           ),
         ]
       : null
@@ -351,12 +353,16 @@ export default defineComponent({
       pane.index = `${index}`
 
       const btnClose = closable
-        ? h('span', {
-            class: 'el-icon-close',
-            onClick: (ev) => {
-              onTabRemove(pane, ev)
+        ? h(
+            ElIcon,
+            {
+              class: 'is-icon-close',
+              onClick: (ev) => {
+                onTabRemove(pane, ev)
+              },
             },
-          })
+            () => [h(Close)]
+          )
         : null
 
       const tabLabelContent = pane.instance.slots.label?.() || pane.props.label

@@ -1,8 +1,14 @@
-import { h } from 'vue'
-import Node from './model/node'
-import TreeStore from './model/tree-store'
+import type {
+  h,
+  ComponentInternalInstance,
+  Ref,
+  SetupContext,
+  VNode,
+  Component,
+} from 'vue'
+import type Node from './model/node'
+import type TreeStore from './model/tree-store'
 
-import type { ComponentInternalInstance, Ref, SetupContext, VNode } from 'vue'
 export interface RootTreeType {
   ctx: SetupContext<any>
   props: TreeComponentProps
@@ -112,5 +118,5 @@ export declare interface TreeComponentProps {
   filterNodeMethod: FilterNodeMethodFunction
   accordion: boolean
   indent: number
-  iconClass: string
+  icon: string | Component
 }

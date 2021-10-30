@@ -8,22 +8,28 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ['14', '16']
+        node-version: ['16']
         include:
-          - node-version: '14'
-            node-name: 'LTS'
           - node-version: '16'
             node-name: 'Latest'
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Add dev branch
+        run: git branch dev origin/dev
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
       - name: Setup node
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'yarn'
+          cache: 'pnpm'
       - name: Install dependencies
-        run: yarn bootstrap
+        run: pnpm i --frozen-lockfile
       - name: Lint
-        run: yarn lint
+        run: pnpm lint
       - name: Test
-        run: yarn test
+        run: pnpm test

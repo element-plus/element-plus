@@ -1,8 +1,9 @@
+import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { defineGetter, makeScroll } from '@element-plus/test-utils'
-import Affix from '../src/index.vue'
+import Affix from '../src/affix.vue'
 
-let clientHeightRestore = null
+let clientHeightRestore: () => void
 
 const _mount = (template: string) =>
   mount(
@@ -35,6 +36,7 @@ describe('Affix.vue', () => {
     const wrapper = _mount(`
       <el-affix>${AXIOM}</el-affix>
     `)
+    await nextTick()
     expect(wrapper.text()).toEqual(AXIOM)
     const mockAffixRect = jest
       .spyOn(wrapper.find('.el-affix').element, 'getBoundingClientRect')
@@ -63,6 +65,7 @@ describe('Affix.vue', () => {
     const wrapper = _mount(`
       <el-affix :offset="30">${AXIOM}</el-affix>
     `)
+    await nextTick()
     const mockAffixRect = jest
       .spyOn(wrapper.find('.el-affix').element, 'getBoundingClientRect')
       .mockReturnValue({
@@ -92,6 +95,7 @@ describe('Affix.vue', () => {
     const wrapper = _mount(`
       <el-affix position="bottom" :offset="20">${AXIOM}</el-affix>
     `)
+    await nextTick()
 
     const mockAffixRect = jest
       .spyOn(wrapper.find('.el-affix').element, 'getBoundingClientRect')
@@ -125,6 +129,7 @@ describe('Affix.vue', () => {
       </div>
       <div style="height: 1000px"></div>
     `)
+    await nextTick()
 
     const mockAffixRect = jest
       .spyOn(wrapper.find('.el-affix').element, 'getBoundingClientRect')
@@ -166,6 +171,7 @@ describe('Affix.vue', () => {
     const wrapper = _mount(`
       <el-affix :z-index="1000">${AXIOM}</el-affix>
     `)
+    await nextTick()
     const mockAffixRect = jest
       .spyOn(wrapper.find('.el-affix').element, 'getBoundingClientRect')
       .mockReturnValue({

@@ -22,15 +22,21 @@
       :disabled="item.disabled"
     />
     <template #prefix>
-      <i :class="`el-input__icon ${prefixIcon}`"></i>
+      <el-icon class="el-input__prefix-icon">
+        <component :is="prefixIcon" />
+      </el-icon>
     </template>
   </el-select>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, PropType } from 'vue'
+import { defineComponent, computed, ref } from 'vue'
 import ElSelect from '@element-plus/components/select'
-import { ComponentSize } from '@element-plus/utils/types'
+import ElIcon from '@element-plus/components/icon'
+import { CircleClose, Clock } from '@element-plus/icons'
+
+import type { PropType, Component } from 'vue'
+import type { ComponentSize } from '@element-plus/utils/types'
 
 const { Option: ElOption } = ElSelect
 
@@ -62,11 +68,9 @@ const compareTime = (time1: string, time2: string): number => {
   return minutes1 > minutes2 ? 1 : -1
 }
 const formatTime = (time: Time): string => {
-  return (
-    (time.hours < 10 ? '0' + time.hours : time.hours) +
-    ':' +
-    (time.minutes < 10 ? '0' + time.minutes : time.minutes)
-  )
+  return `${time.hours < 10 ? `0${time.hours}` : time.hours}:${
+    time.minutes < 10 ? `0${time.minutes}` : time.minutes
+  }`
 }
 const nextTime = (time: string, step: string): string => {
   const timeValue = parseTime(time)
@@ -84,7 +88,7 @@ const nextTime = (time: string, step: string): string => {
 
 export default defineComponent({
   name: 'ElTimeSelect',
-  components: { ElSelect, ElOption },
+  components: { ElSelect, ElOption, ElIcon },
   model: {
     prop: 'value',
     event: 'change',
@@ -138,12 +142,12 @@ export default defineComponent({
       default: '',
     },
     prefixIcon: {
-      type: String,
-      default: 'el-icon-time',
+      type: [String, Object] as PropType<string | Component>,
+      default: Clock,
     },
     clearIcon: {
-      type: String,
-      default: 'el-icon-circle-close',
+      type: [String, Object] as PropType<string | Component>,
+      default: CircleClose,
     },
   },
   emits: ['change', 'blur', 'focus', 'update:modelValue'],

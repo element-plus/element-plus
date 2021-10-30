@@ -1,13 +1,8 @@
-import { App } from 'vue'
-import Backtop from './src/index.vue'
+import { withInstall } from '@element-plus/utils/with-install'
 
-import type { SFCWithInstall } from '@element-plus/utils/types'
+import Backtop from './src/backtop.vue'
 
-Backtop.install = (app: App): void => {
-  app.component(Backtop.name, Backtop)
-}
+export const ElBacktop = withInstall(Backtop)
+export default ElBacktop
 
-const _Backtop = Backtop as SFCWithInstall<typeof Backtop>
-
-export default _Backtop
-export const ElBacktop = _Backtop
+export * from './src/backtop'

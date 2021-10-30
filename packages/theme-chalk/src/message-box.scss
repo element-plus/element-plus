@@ -1,12 +1,12 @@
-@use "sass:map";
+@use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
-@import 'common/popup';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+@use 'common/popup' as *;
 
 @include b(message-box) {
-  @include set-component-css-var('messagebox', $--messagebox);
+  @include set-component-css-var('messagebox', $messagebox);
 }
 
 @include b(message-box) {
@@ -56,11 +56,12 @@
     border: none;
     outline: none;
     background: transparent;
-    font-size: var(--el-message-close-size, map.get($--message, 'close-size'));
+    font-size: var(--el-message-close-size, map.get($message, 'close-size'));
     cursor: pointer;
 
     .#{$namespace}-message-box__close {
       color: var(--el-color-info);
+      font-size: inherit;
     }
 
     &:focus,
@@ -106,10 +107,11 @@
     + .#{$namespace}-message-box__message {
       padding-left: 36px;
       padding-right: 12px;
+      word-break: break-word;
     }
 
     @each $type in (success, info, warning, error) {
-      &.#{$namespace}-icon-#{$type} {
+      &.#{$namespace}-message-box-icon--#{$type} {
         --el-messagebox-color: var(--el-color-#{$type});
         color: var(--el-messagebox-color);
       }

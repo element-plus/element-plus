@@ -1,11 +1,12 @@
 import { nextTick } from 'vue'
-import { mount, VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import installStyle from '@element-plus/test-utils/style-plugin'
 import Checkbox from '@element-plus/components/checkbox/src/checkbox.vue'
 import CheckboxGroup from '@element-plus/components/checkbox/src/checkbox-group.vue'
-import Input from '@element-plus/components/input/src/index.vue'
+import Input from '@element-plus/components/input'
 import Form from '../src/form.vue'
 import FormItem from '../src/form-item.vue'
+import type { VueWrapper } from '@vue/test-utils'
 
 type Methods = Record<string, () => any>
 function mountForm<D, M extends Methods, C>(
@@ -423,6 +424,64 @@ describe('Form', () => {
     )
 
     window.HTMLElement.prototype.scrollIntoView = oldScrollIntoView
+  })
+
+  test('validate return parameters', async () => {
+    const wrapper = mountForm({
+      template: `
+        <el-form ref="formRef" :model="form" :rules="rules" onsubmit="return false">
+          <el-form-item prop="name" label="name">
+            <el-input v-model="form.name" />
+          </el-form-item>
+          <el-form-item prop="age" label="age">
+            <el-input v-model="form.age" />
+          </el-form-item>
+        </el-form>
+      `,
+      data() {
+        return {
+          rules: {
+            name: [
+              { required: true, message: 'Please input name', trigger: 'blur' },
+            ],
+            age: [
+              { required: true, message: 'Please input age', trigger: 'blur' },
+            ],
+          },
+          form: {
+            name: 'test',
+            age: '',
+          },
+        }
+      },
+    })
+
+    async function validate() {
+      const [valid, fields] = await vm.$refs.formRef
+        .validate()
+        .then((fields) => [true, fields])
+        .catch((fields) => [false, fields])
+      return {
+        valid,
+        fields,
+      }
+    }
+
+    const vm = wrapper.vm as any
+    let res = await validate()
+    expect(res.valid).toBeFalsy()
+    expect(Object.keys(res.fields).length).toBe(1)
+    vm.form.name = ''
+    await nextTick()
+    res = await validate()
+    expect(res.valid).toBeFalsy()
+    expect(Object.keys(res.fields).length).toBe(2)
+    vm.form.name = 'test'
+    vm.form.age = 'age'
+    await nextTick()
+    res = await validate()
+    expect(res.valid).toBeTruthy()
+    expect(Object.keys(res.fields).length).toBe(0)
   })
 
   /*

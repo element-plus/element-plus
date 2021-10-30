@@ -2,6 +2,7 @@ import { nextTick } from 'vue'
 import { NOOP } from '@vue/shared'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { makeMountFunc } from '@element-plus/test-utils/make-mount'
+import { CircleClose } from '@element-plus/icons'
 import Select from '../src/select.vue'
 
 jest.useFakeTimers()
@@ -25,7 +26,7 @@ const clickClearButton = async (wrapper) => {
   const selectVm = select.vm as any
   selectVm.states.comboBoxHovering = true
   await nextTick()
-  const clearBtn = wrapper.find(`.${selectVm.clearIcon}`)
+  const clearBtn = wrapper.findComponent(CircleClose)
   expect(clearBtn.exists()).toBeTruthy()
   await clearBtn.trigger('click')
 }
@@ -82,6 +83,7 @@ const createSelect = (
       <el-select
         :options="options"
         :popper-class="popperClass"
+        :value-key="valueKey"
         :disabled="disabled"
         :clearable="clearable"
         :multiple="multiple"
@@ -118,6 +120,7 @@ const createSelect = (
           value: '',
           popperClass: '',
           allowCreate: false,
+          valueKey: 'value',
           disabled: false,
           clearable: false,
           multiple: false,
@@ -275,6 +278,46 @@ describe('Select', () => {
     expect(vm.value).toBe(vm.options[4].value)
     expect(placeholder.text()).toBe(vm.options[4].label)
     expect(vm.count).toBe(2)
+  })
+
+  it('value-key option', async () => {
+    const wrapper = createSelect({
+      data: () => {
+        return {
+          options: [
+            {
+              id: 'id 1',
+              value: 'value 1',
+              label: 'option 1',
+            },
+            {
+              id: 'id 2',
+              value: 'value 2',
+              label: 'option 2',
+            },
+            {
+              id: 'id 3',
+              value: 'value 3',
+              label: 'option 3',
+            },
+          ],
+          value: '',
+          valueKey: 'id',
+        }
+      },
+    })
+
+    await nextTick()
+    const vm = wrapper.vm as any
+    const options = getOptions()
+    options[1].click()
+    await nextTick()
+    expect(vm.value).toBe(vm.options[1].id)
+    vm.valueKey = 'value'
+    await nextTick()
+    options[2].click()
+    await nextTick()
+    expect(vm.value).toBe(vm.options[2].value)
   })
 
   it('disabled option', async () => {
@@ -450,6 +493,49 @@ describe('Select', () => {
       options[3].click()
       await nextTick()
       expect(vm.value.length).toBe(2)
+    })
+
+    it('value-key option', async () => {
+      const wrapper = createSelect({
+        data: () => {
+          return {
+            options: [
+              {
+                id: 'id 1',
+                value: 'value 1',
+                label: 'option 1',
+              },
+              {
+                id: 'id 2',
+                value: 'value 2',
+                label: 'option 2',
+              },
+              {
+                id: 'id 3',
+                value: 'value 3',
+                label: 'option 3',
+              },
+            ],
+            multiple: true,
+            value: [],
+            valueKey: 'id',
+          }
+        },
+      })
+
+      await nextTick()
+      const vm = wrapper.vm as any
+      const options = getOptions()
+      options[1].click()
+      await nextTick()
+      expect(vm.value.length).toBe(1)
+      expect(vm.value[0]).toBe(vm.options[1].id)
+      vm.valueKey = 'value'
+      await nextTick()
+      options[2].click()
+      await nextTick()
+      expect(vm.value.length).toBe(2)
+      expect(vm.value[1]).toBe(vm.options[2].value)
     })
   })
 

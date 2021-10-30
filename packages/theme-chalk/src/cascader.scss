@@ -1,16 +1,16 @@
-@use "sass:map";
+@use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(cascader) {
-  @include set-component-css-var('cascader', $--cascader);
+  @include set-component-css-var('cascader', $cascader);
 
   display: inline-block;
   position: relative;
   font-size: var(--el-font-size-base);
-  line-height: map.get($--input-height, 'default');
+  line-height: map.get($input-height, 'default');
   outline: none;
 
   &:not(.is-disabled):hover {
@@ -18,7 +18,7 @@
       cursor: pointer;
       border-color: var(
         --el-input-hover-border,
-        map.get($--input, 'hover-border')
+        map.get($input, 'hover-border')
       );
     }
   }
@@ -32,12 +32,22 @@
       &:focus {
         border-color: var(
           --el-input-focus-border,
-          map.get($--input, 'focus-border')
+          map.get($input, 'focus-border')
         );
       }
     }
 
-    .#{$namespace}-icon-arrow-down {
+    .#{$namespace}-input__suffix-inner {
+      .#{$namespace}-icon {
+        height: calc(100% - 2px);
+
+        svg {
+          vertical-align: middle;
+        }
+      }
+    }
+
+    .icon-arrow-down {
       transition: transform var(--el-transition-duration);
       font-size: 14px;
 
@@ -46,10 +56,10 @@
       }
     }
 
-    .#{$namespace}-icon-circle-close:hover {
+    .icon-circle-close:hover {
       color: var(
         --el-input-clear-hover-color,
-        map.get($--input, 'clear-hover-color')
+        map.get($input, 'clear-hover-color')
       );
     }
 
@@ -57,7 +67,7 @@
       .#{$namespace}-input__inner {
         border-color: var(
           --el-input-focus-border,
-          map.get($--input, 'focus-border')
+          map.get($input, 'focus-border')
         );
       }
     }
@@ -65,8 +75,8 @@
 
   @each $size in (medium, small, mini) {
     @include m($size) {
-      font-size: map.get($--input-font-size, $size);
-      line-height: map.get($--input-height, $size);
+      font-size: map.get($input-font-size, $size);
+      line-height: map.get($input-height, $size);
     }
   }
 
@@ -78,7 +88,7 @@
   }
 
   @include e(dropdown) {
-    @include set-component-css-var('cascader', $--cascader);
+    @include set-component-css-var('cascader', $cascader);
   }
 
   @include e(dropdown) {

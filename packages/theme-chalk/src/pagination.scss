@@ -1,12 +1,12 @@
-@use "sass:map";
+@use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'mixins/utils';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/utils' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(pagination) {
-  @include set-component-css-var('pagination', $--pagination);
+  @include set-component-css-var('pagination', $pagination);
 
   white-space: nowrap;
   padding: 2px 5px;
@@ -215,7 +215,7 @@
     .btn-next,
     .#{$namespace}-pager li {
       margin: 0 5px;
-      background-color: map.get($--colors, 'info', 'light-9');
+      background-color: map.get($colors, 'info', 'light-9');
       color: var(--el-text-color-regular);
       min-width: 30px;
       border-radius: 2px;
@@ -265,10 +265,6 @@
   padding: 0;
   margin: 0;
 
-  .more::before {
-    line-height: 30px;
-  }
-
   li {
     padding: 0 4px;
     background: var(--el-pagination-background-color);
@@ -285,11 +281,15 @@
 
     &.btn-quicknext,
     &.btn-quickprev {
-      line-height: 28px;
+      line-height: 32px;
       color: var(--el-pagination-button-color);
 
       &.disabled {
         color: var(--el-text-color-placeholder);
+      }
+
+      svg {
+        pointer-events: none;
       }
     }
 

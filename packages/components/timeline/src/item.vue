@@ -1,5 +1,5 @@
 <template>
-  <li class="el-timeline-item">
+  <li class="el-timeline-item" :class="{ 'el-timeline-item__center': center }">
     <div class="el-timeline-item__tail"></div>
 
     <div
@@ -14,7 +14,9 @@
         backgroundColor: color,
       }"
     >
-      <i v-if="icon" class="el-timeline-item__icon" :class="icon"></i>
+      <el-icon v-if="icon" class="el-timeline-item__icon">
+        <component :is="icon" />
+      </el-icon>
     </div>
     <div v-if="$slots.dot" class="el-timeline-item__dot">
       <slot name="dot"></slot>
@@ -44,15 +46,25 @@
 
 <script lang="ts">
 import { inject, defineComponent } from 'vue'
+import { ElIcon } from '@element-plus/components/icon'
+
+import type { PropType, Component } from 'vue'
 
 export default defineComponent({
   name: 'ElTimelineItem',
+  components: {
+    ElIcon,
+  },
   props: {
     timestamp: {
       type: String,
       default: '',
     },
     hideTimestamp: {
+      type: Boolean,
+      default: false,
+    },
+    center: {
       type: Boolean,
       default: false,
     },
@@ -73,7 +85,7 @@ export default defineComponent({
       default: 'normal',
     },
     icon: {
-      type: String,
+      type: [String, Object] as PropType<string | Component>,
       default: '',
     },
     hollow: {

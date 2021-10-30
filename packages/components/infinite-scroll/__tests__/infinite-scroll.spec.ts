@@ -1,5 +1,5 @@
-import { mount } from '@vue/test-utils'
 import { ref, nextTick } from 'vue'
+import { mount } from '@vue/test-utils'
 import { tick, defineGetter, makeScroll } from '@element-plus/test-utils'
 import InfiniteScroll, { SCOPE, DEFAULT_DELAY } from '../src/index'
 
@@ -76,7 +76,7 @@ afterAll(() => {
 })
 
 afterEach(() => {
-  const app = document.querySelector('#app')
+  const app = document.querySelector('[data-v-app]')
   document.body.removeChild(app)
 })
 

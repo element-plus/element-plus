@@ -1,7 +1,10 @@
 import { h } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
+import { ElIcon } from '@element-plus/components/icon'
+import { ArrowRight, Loading } from '@element-plus/icons'
 import { getPropByPath } from '@element-plus/utils/util'
 
+import type { VNode } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { Store } from './store'
 import type { TreeNode } from './table/defaults'
@@ -114,11 +117,7 @@ export const cellForced = {
           class: classes,
           onClick: callback,
         },
-        [
-          h('i', {
-            class: 'el-icon el-icon-arrow-right',
-          }),
-        ]
+        [h(ElIcon, null, [h(ArrowRight)])]
       )
     },
     sortable: false,
@@ -154,7 +153,7 @@ export function treeCellPrefix<T>({
   store: Store<T>
 }) {
   if (!treeNode) return null
-  const ele = []
+  const ele: VNode[] = []
   const callback = function (e) {
     e.stopPropagation()
     store.loadOrToggle(row)
@@ -163,7 +162,7 @@ export function treeCellPrefix<T>({
     ele.push(
       h('span', {
         class: 'el-table__indent',
-        style: { 'padding-left': treeNode.indent + 'px' },
+        style: { 'padding-left': `${treeNode.indent}px` },
       })
     )
   }
@@ -172,9 +171,9 @@ export function treeCellPrefix<T>({
       'el-table__expand-icon',
       treeNode.expanded ? 'el-table__expand-icon--expanded' : '',
     ]
-    let iconClasses = ['el-icon-arrow-right']
+    let icon = ArrowRight
     if (treeNode.loading) {
-      iconClasses = ['el-icon-loading']
+      icon = Loading
     }
 
     ele.push(
@@ -184,11 +183,7 @@ export function treeCellPrefix<T>({
           class: expandClasses,
           onClick: callback,
         },
-        [
-          h('i', {
-            class: iconClasses,
-          }),
-        ]
+        [h(ElIcon, { class: { 'is-loading': treeNode.loading } }, [h(icon)])]
       )
     )
   } else {

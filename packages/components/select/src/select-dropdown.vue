@@ -2,7 +2,7 @@
   <div
     class="el-select-dropdown"
     :class="[{ 'is-multiple': isMultiple }, popperClass]"
-    :style="{ minWidth: minWidth }"
+    :style="{ [isFitInputWidth ? 'width' : 'minWidth']: minWidth }"
   >
     <slot></slot>
   </div>
@@ -20,9 +20,9 @@ import {
 import {
   addResizeListener,
   removeResizeListener,
-  ResizableElement,
 } from '@element-plus/utils/resize-event'
 import { selectKey } from './token'
+import type { ResizableElement } from '@element-plus/utils/resize-event'
 
 export default defineComponent({
   name: 'ElSelectDropdown',
@@ -35,11 +35,13 @@ export default defineComponent({
     // computed
     const popperClass = computed(() => select.props.popperClass)
     const isMultiple = computed(() => select.props.multiple)
+    const isFitInputWidth = computed(() => select.props.fitInputWidth)
     const minWidth = ref('')
 
     function updateMinWidth() {
-      minWidth.value =
-        select.selectWrapper?.getBoundingClientRect().width + 'px'
+      minWidth.value = `${
+        select.selectWrapper?.getBoundingClientRect().width
+      }px`
     }
 
     onMounted(() => {
@@ -63,6 +65,7 @@ export default defineComponent({
       minWidth,
       popperClass,
       isMultiple,
+      isFitInputWidth,
     }
   },
 })

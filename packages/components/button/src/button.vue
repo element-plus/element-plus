@@ -2,7 +2,7 @@
   <button
     :class="[
       'el-button',
-      type ? 'el-button--' + type : '',
+      buttonType ? 'el-button--' + buttonType : '',
       buttonSize ? 'el-button--' + buttonSize : '',
       {
         'is-disabled': buttonDisabled,
@@ -17,45 +17,76 @@
     :type="nativeType"
     @click="handleClick"
   >
-    <i v-if="loading" class="el-icon-loading"></i>
-    <i v-if="icon && !loading" :class="icon"></i>
-    <span v-if="$slots.default"><slot></slot></span>
+    <el-icon v-if="loading" class="is-loading"><loading /></el-icon>
+    <el-icon v-else-if="icon">
+      <component :is="icon" />
+    </el-icon>
+    <span
+      v-if="$slots.default"
+      :class="{ 'el-button__text--expand': shouldAddSpace }"
+    >
+      <slot></slot>
+    </span>
   </button>
 </template>
 
 <script lang="ts">
-import { computed, inject, defineComponent } from 'vue'
-import { elFormKey, elFormItemKey } from '@element-plus/tokens'
-import { useGlobalConfig } from '@element-plus/utils/util'
-import { elButtonGroupKey } from '@element-plus/tokens'
+import { computed, inject, defineComponent, Text } from 'vue'
+import { ElIcon } from '@element-plus/components/icon'
+import { useFormItem } from '@element-plus/hooks'
+import { elButtonGroupKey, elFormKey } from '@element-plus/tokens'
+import { Loading } from '@element-plus/icons'
 
 import { buttonEmits, buttonProps } from './button'
-
-import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 
 export default defineComponent({
   name: 'ElButton',
 
+  components: {
+    ElIcon,
+    Loading,
+  },
+
   props: buttonProps,
   emits: buttonEmits,
 
-  setup(props, { emit }) {
-    const $ELEMENT = useGlobalConfig()
-
-    const elForm = inject<ElFormContext>(elFormKey)
-    const elFormItem = inject<ElFormItemContext>(elFormItemKey)
-    const elBtnGroup = inject(elButtonGroupKey)
-
-    const buttonSize = computed(
-      () => props.size || elBtnGroup?.size || elFormItem?.size || $ELEMENT.size
+  setup(props, { emit, slots }) {
+    const elBtnGroup = inject(elButtonGroupKey, undefined)
+    // add space between two characters in Chinese
+    const shouldAddSpace = computed(() => {
+      const defaultSlot = slots.default?.()
+      if (defaultSlot?.length === 1) {
+        const slot = defaultSlot[0]
+        if (slot?.type === Text) {
+          const text = slot.children
+          return /^\p{Unified_Ideograph}{2}$/u.test(text as string)
+        }
+      }
+      return false
+    })
+    const { size: buttonSize, disabled: buttonDisabled } = useFormItem({
+      size: computed(() => elBtnGroup?.size),
+    })
+    const buttonType = computed(
+      () => props.type || elBtnGroup?.type || 'default'
     )
-    const buttonDisabled = computed(() => props.disabled || elForm?.disabled)
 
-    const handleClick = (evt: MouseEvent) => emit('click', evt)
+    const elForm = inject(elFormKey, undefined)
+
+    const handleClick = (evt: MouseEvent) => {
+      if (props.nativeType === 'reset') {
+        elForm?.resetFields()
+      }
+      emit('click', evt)
+    }
 
     return {
       buttonSize,
+      buttonType,
       buttonDisabled,
+
+      shouldAddSpace,
+
       handleClick,
     }
   },

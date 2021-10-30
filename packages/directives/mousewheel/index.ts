@@ -1,18 +1,14 @@
-import normalizeWheel from 'normalize-wheel'
-
+import normalizeWheel from 'normalize-wheel-es'
+import { isFirefox } from '@element-plus/utils/util'
 import type { ObjectDirective, DirectiveBinding } from 'vue'
-
-const isFirefox =
-  typeof navigator !== 'undefined' &&
-  navigator.userAgent.toLowerCase().indexOf('firefox') > -1
 
 const mousewheel = function (element, callback) {
   if (element && element.addEventListener) {
-    const fn = function (event) {
+    const fn = function (this: any, event) {
       const normalized = normalizeWheel(event)
       callback && callback.apply(this, [event, normalized])
     }
-    if (isFirefox) {
+    if (isFirefox()) {
       element.addEventListener('DOMMouseScroll', fn)
     } else {
       element.onmousewheel = fn

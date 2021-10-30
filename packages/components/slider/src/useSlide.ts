@@ -1,6 +1,11 @@
-import { computed, CSSProperties, inject, nextTick, ref, shallowRef } from 'vue'
-import { CHANGE_EVENT } from '@element-plus/utils/constants'
+import { computed, inject, nextTick, ref, shallowRef } from 'vue'
+import {
+  CHANGE_EVENT,
+  UPDATE_MODEL_EVENT,
+  INPUT_EVENT,
+} from '@element-plus/utils/constants'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
+import type { CSSProperties } from 'vue'
 import type { ButtonRefs, ISliderInitData, ISliderProps } from './slider.type'
 
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
@@ -100,6 +105,24 @@ export const useSlide = (
     buttonRefs[buttonRefName].value.setPosition(percent)
   }
 
+  const setFirstValue = (firstValue: number) => {
+    initData.firstValue = firstValue
+    _emit(props.range ? [minValue.value, maxValue.value] : firstValue)
+  }
+
+  const setSecondValue = (secondValue: number) => {
+    initData.secondValue = secondValue
+
+    if (props.range) {
+      _emit([minValue.value, maxValue.value])
+    }
+  }
+
+  const _emit = (val: number | number[]) => {
+    emit(UPDATE_MODEL_EVENT, val)
+    emit(INPUT_EVENT, val)
+  }
+
   const emitChange = async () => {
     await nextTick()
     emit(
@@ -139,5 +162,7 @@ export const useSlide = (
     setPosition,
     emitChange,
     onSliderClick,
+    setFirstValue,
+    setSecondValue,
   }
 }

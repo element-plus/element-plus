@@ -149,17 +149,17 @@ export const getRowIdentity = <T>(
   row: T,
   rowKey: string | ((row: T) => any)
 ): string => {
-  if (!row) throw new Error('row is required when get row identity')
+  if (!row) throw new Error('Row is required when get row identity')
   if (typeof rowKey === 'string') {
     if (rowKey.indexOf('.') < 0) {
-      return row[rowKey] + ''
+      return `${row[rowKey]}`
     }
     const key = rowKey.split('.')
     let current = row
     for (let i = 0; i < key.length; i++) {
       current = current[key[i]]
     }
-    return current + ''
+    return `${current}`
   } else if (typeof rowKey === 'function') {
     return rowKey.call(null, row)
   }

@@ -11,8 +11,7 @@ import {
   h,
 } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
-import ElPopper from '@element-plus/components/popper'
-import {
+import ElPopper, {
   popperDefaultProps,
   Effect,
   renderArrow,
@@ -87,7 +86,7 @@ export default defineComponent({
     const trigger = $slots.reference ? $slots.reference() : null
 
     const title = renderIf(
-      this.title,
+      !!this.title,
       'div',
       _hoist,
       toDisplayString(this.title),

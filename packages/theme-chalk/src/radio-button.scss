@@ -1,13 +1,13 @@
-@use "sass:map";
+@use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'mixins/utils';
-@import 'mixins/var';
-@import 'mixins/button';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/utils' as *;
+@use 'mixins/var' as *;
+@use 'mixins/button' as *;
+@use 'common/var' as *;
 
 @include b(radio-button) {
-  @include set-component-css-var('radio-button', $--radio-button);
+  @include set-component-css-var('radio-button', $radio-button);
 }
 
 @include b(radio-button) {
@@ -22,15 +22,12 @@
     vertical-align: middle;
     background: var(
       --el-button-background-color,
-      map.get($--button, 'background-color')
+      map.get($button, 'background-color')
     );
-    border: $--border-base;
-    font-weight: var(
-      --el-button-font-weight,
-      map.get($--button, 'font-weight')
-    );
+    border: $border-base;
+    font-weight: var(--el-button-font-weight, map.get($button, 'font-weight'));
     border-left: 0;
-    color: var(--el-button-font-color, map.get($--button, 'font-color'));
+    color: var(--el-button-font-color, map.get($button, 'font-color'));
     -webkit-appearance: none;
     text-align: center;
     box-sizing: border-box;
@@ -39,12 +36,12 @@
     position: relative;
     cursor: pointer;
     transition: var(--el-transition-all);
-    @include utils-user-select(none);
+    user-select: none;
 
     @include button-size(
-      map.get($--button-padding-vertical, 'default'),
-      map.get($--button-padding-horizontal, 'default'),
-      map.get($--button-font-size, 'default'),
+      map.get($button-padding-vertical, 'default'),
+      map.get($button-padding-horizontal, 'default'),
+      map.get($button-font-size, 'default'),
       0
     );
 
@@ -63,7 +60,7 @@
 
   &:first-child {
     .#{$namespace}-radio-button__inner {
-      border-left: $--border-base;
+      border-left: $border-base;
       border-radius: var(--el-border-radius-base) 0 0
         var(--el-border-radius-base);
       box-shadow: none !important;
@@ -80,20 +77,20 @@
       & + .#{$namespace}-radio-button__inner {
         color: var(
           --el-radio-button-checked-font-color,
-          map.get($--radio-button, 'checked-font-color')
+          map.get($radio-button, 'checked-font-color')
         );
         background-color: var(
           --el-radio-button-checked-background-color,
-          map.get($--radio-button, 'checked-background-color')
+          map.get($radio-button, 'checked-background-color')
         );
         border-color: var(
           --el-radio-button-checked-border-color,
-          map.get($--radio-button, 'checked-border-color')
+          map.get($radio-button, 'checked-border-color')
         );
         box-shadow: -1px 0 0 0
           var(
             --el-radio-button-checked-border-color,
-            map.get($--radio-button, 'checked-border-color')
+            map.get($radio-button, 'checked-border-color')
           );
       }
     }
@@ -102,17 +99,17 @@
       & + .#{$namespace}-radio-button__inner {
         color: var(
           --el-button-disabled-font-color,
-          map.get($--button, 'disabled-font-color')
+          map.get($button, 'disabled-font-color')
         );
         cursor: not-allowed;
         background-image: none;
         background-color: var(
           --el-button-disabled-background-color,
-          map.get($--button, 'disabled-background-color')
+          map.get($button, 'disabled-background-color')
         );
         border-color: var(
           --el-button-disabled-border-color,
-          map.get($--button, 'disabled-border-color')
+          map.get($button, 'disabled-border-color')
         );
         box-shadow: none;
       }
@@ -139,9 +136,9 @@
     @include m($size) {
       & .#{$namespace}-radio-button__inner {
         @include button-size(
-          map.get($--button-padding-vertical, $size),
-          map.get($--button-padding-horizontal, $size),
-          map.get($--button-font-size, $size),
+          map.get($button-padding-vertical, $size),
+          map.get($button-padding-horizontal, $size),
+          map.get($button-font-size, $size),
           0
         );
       }

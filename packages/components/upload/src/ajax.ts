@@ -91,6 +91,11 @@ export default function upload(option: ElUploadRequestOptions) {
       xhr.setRequestHeader(item, headers[item])
     }
   }
+
+  headers.forEach((value, key) => {
+    xhr.setRequestHeader(key, value)
+  })
+
   xhr.send(formData)
   return xhr
 }

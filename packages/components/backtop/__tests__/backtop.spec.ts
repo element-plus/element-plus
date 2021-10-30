@@ -1,5 +1,7 @@
+import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import Backtop from '../src/index.vue'
+import { CaretTop } from '@element-plus/icons'
+import Backtop from '../src/backtop.vue'
 
 const _mount = (template: string) =>
   mount(
@@ -21,6 +23,8 @@ describe('Backtop.vue', () => {
         </div>
       </div>
     `)
+    await nextTick()
+
     expect(wrapper.find('.el-backtop').exists()).toBe(false)
     wrapper.element.scrollTop = 2000
     await wrapper.trigger('scroll')
@@ -29,7 +33,7 @@ describe('Backtop.vue', () => {
     expect(wrapper.find('.el-backtop').attributes('style')).toBe(
       'right: 100px; bottom: 200px;'
     )
-    expect(wrapper.find('.el-icon-caret-top').exists()).toBe(true)
+    expect(wrapper.findComponent(CaretTop).exists()).toBe(true)
 
     await wrapper.trigger('click')
     expect(wrapper.emitted()).toBeDefined()

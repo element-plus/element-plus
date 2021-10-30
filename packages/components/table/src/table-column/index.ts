@@ -14,7 +14,8 @@ import { cellStarts } from '../config'
 import { mergeOptions, compose } from '../util'
 import useWatcher from './watcher-helper'
 import useRender from './render-helper'
-import defaultProps, { TableColumn, TableColumnCtx } from './defaults'
+import defaultProps from './defaults'
+import type { TableColumn, TableColumnCtx } from './defaults'
 
 import type { DefaultRow } from '../table/defaults'
 
@@ -55,8 +56,9 @@ export default defineComponent({
     } = useRender(props as unknown as TableColumnCtx<unknown>, slots, owner)
 
     const parent = columnOrTableParent.value
-    columnId.value =
-      (parent.tableId || parent.columnId) + '_column_' + columnIdSeed++
+    columnId.value = `${
+      parent.tableId || parent.columnId
+    }_column_${columnIdSeed++}`
     onBeforeMount(() => {
       isSubColumn.value = owner.value !== parent
 
@@ -162,7 +164,10 @@ export default defineComponent({
       })
       if (renderDefault instanceof Array) {
         for (const childNode of renderDefault) {
-          if (childNode.type?.name === 'ElTableColumn') {
+          if (
+            childNode.type?.name === 'ElTableColumn' ||
+            childNode.shapeFlag & 2
+          ) {
             children.push(childNode)
           } else if (
             childNode.type === Fragment &&

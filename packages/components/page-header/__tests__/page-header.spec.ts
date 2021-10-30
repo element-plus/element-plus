@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils'
-import PageHeader from '../src/index.vue'
+import { ArrowLeft } from '@element-plus/icons'
+import PageHeader from '../src/page-header.vue'
 
 const AXIOM = 'Rem is the best girl'
 
@@ -12,11 +13,11 @@ describe('PageHeader.vue', () => {
   })
 
   test('should render icon props', () => {
-    const icon = 'el-icon-arrow-left'
+    const icon = ArrowLeft
     const wrapper = mount(PageHeader, {
       props: { icon },
     })
-    expect(wrapper.find('.el-page-header__icon i').classes()).toContain(icon)
+    expect(wrapper.findComponent(icon).exists()).toBe(true)
   })
 
   test('should render icon slots', () => {
@@ -52,7 +53,7 @@ describe('PageHeader.vue', () => {
       props: { content: AXIOM },
     })
 
-    await wrapper.find('.el-icon-back').trigger('click')
+    await wrapper.find('.el-icon').trigger('click')
     expect(wrapper.emitted('back')).toBeDefined()
   })
 })

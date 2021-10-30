@@ -1,8 +1,8 @@
-@use "sass:map";
+@use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 $positions: top, bottom, left, right;
 
@@ -14,7 +14,7 @@ $positionMap: (
 );
 
 @include b(tooltip) {
-  @include set-component-css-var('tooltip', $--tooltip);
+  @include set-component-css-var('tooltip', $tooltip);
 }
 
 @include b(tooltip) {

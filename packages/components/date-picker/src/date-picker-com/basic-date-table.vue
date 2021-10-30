@@ -25,11 +25,7 @@
           :key="key_"
           :class="getCellClasses(cell)"
         >
-          <div>
-            <span>
-              {{ cell.text }}
-            </span>
-          </div>
+          <el-date-picker-cell :cell="cell" />
         </td>
       </tr>
     </tbody>
@@ -41,11 +37,16 @@ import { defineComponent, computed, ref } from 'vue'
 import dayjs from 'dayjs'
 import { useLocaleInject } from '@element-plus/hooks'
 import { coerceTruthyValueToArray } from '@element-plus/utils/util'
+import ElDatePickerCell from './basic-cell-render'
+import type { PropType } from 'vue'
 
-import { PropType } from 'vue'
 import type { Dayjs } from 'dayjs'
+import type { DateCell } from '../date-picker.type'
 
 export default defineComponent({
+  components: {
+    ElDatePickerCell,
+  },
   props: {
     date: {
       type: Object as PropType<Dayjs>,
@@ -81,7 +82,6 @@ export default defineComponent({
       }),
     },
   },
-
   emits: ['changerange', 'pick', 'select'],
 
   setup(props, ctx) {
@@ -89,7 +89,7 @@ export default defineComponent({
     // data
     const lastRow = ref(null)
     const lastColumn = ref(null)
-    const tableRows = ref([[], [], [], [], [], []])
+    const tableRows = ref<DateCell[][]>([[], [], [], [], [], []])
 
     // todo better way to get Day.js locale object
     const firstDayOfWeek = (props.date as any).$locale().weekStart || 7
@@ -162,6 +162,9 @@ export default defineComponent({
           }
           const index = i * 7 + j
           const calTime = startDate.value.add(index - offset, 'day')
+          cell.dayjs = calTime
+          cell.date = calTime.toDate()
+          cell.timestamp = calTime.valueOf()
           cell.type = 'normal'
 
           const calEndDate =
@@ -222,6 +225,8 @@ export default defineComponent({
           cell.selected = selectedDate.find(
             (_) => _.valueOf() === calTime.valueOf()
           )
+          cell.isSelected = !!cell.selected
+          cell.isCurrent = isCurrent(cell)
           cell.disabled = props.disabledDate && props.disabledDate(cellDate)
           cell.customClass =
             props.cellClassName && props.cellClassName(cellDate)
@@ -241,6 +246,14 @@ export default defineComponent({
       return rows_
     })
 
+    const isCurrent = (cell): boolean => {
+      return (
+        props.selectionMode === 'day' &&
+        (cell.type === 'normal' || cell.type === 'today') &&
+        cellMatchesDate(cell, props.parsedValue)
+      )
+    }
+
     const cellMatchesDate = (cell, date) => {
       if (!date) return false
       return dayjs(date)
@@ -249,7 +262,7 @@ export default defineComponent({
     }
 
     const getCellClasses = (cell) => {
-      const classes = []
+      const classes: string[] = []
       if ((cell.type === 'normal' || cell.type === 'today') && !cell.disabled) {
         classes.push('available')
         if (cell.type === 'today') {
@@ -259,11 +272,7 @@ export default defineComponent({
         classes.push(cell.type)
       }
 
-      if (
-        props.selectionMode === 'day' &&
-        (cell.type === 'normal' || cell.type === 'today') &&
-        cellMatchesDate(cell, props.parsedValue)
-      ) {
+      if (isCurrent(cell)) {
         classes.push('current')
       }
 
@@ -337,10 +346,11 @@ export default defineComponent({
 
     const handleClick = (event) => {
       let target = event.target
-      if (target.tagName === 'SPAN') {
-        target = target.parentNode.parentNode
-      }
-      if (target.tagName === 'DIV') {
+
+      while (target) {
+        if (target.tagName === 'TD') {
+          break
+        }
         target = target.parentNode
       }
 
@@ -370,7 +380,7 @@ export default defineComponent({
         ctx.emit('pick', newDate)
       } else if (props.selectionMode === 'week') {
         const weekNumber = newDate.week()
-        const value = newDate.year() + 'w' + weekNumber
+        const value = `${newDate.year()}w${weekNumber}`
         ctx.emit('pick', {
           year: newDate.year(),
           week: weekNumber,

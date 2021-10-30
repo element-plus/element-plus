@@ -1,7 +1,7 @@
 import { reactive } from 'vue'
 import { hasOwn } from '@vue/shared'
 import { markNodeData, NODE_KEY } from './util'
-import TreeStore from './tree-store'
+import type TreeStore from './tree-store'
 
 import type { Nullable } from '@element-plus/utils/types'
 import type {
@@ -251,7 +251,7 @@ class Node {
   }
 
   insertChild(child?: FakeNode | Node, index?: number, batch?: boolean): void {
-    if (!child) throw new Error('insertChild error: child is required.')
+    if (!child) throw new Error('InsertChild error: child is required.')
 
     if (!(child instanceof Node)) {
       if (!batch) {
