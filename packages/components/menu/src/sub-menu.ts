@@ -301,7 +301,7 @@ export default defineComponent({
           {
             class: ['el-sub-menu__icon-arrow'],
           },
-          () => [subMenuTitleIcon.value]
+          () => [h(subMenuTitleIcon.value)]
         ),
       ]
 

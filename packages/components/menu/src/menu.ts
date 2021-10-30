@@ -363,7 +363,7 @@ export default defineComponent({
                   h(
                     ElIcon,
                     {
-                      class: ['is-icon-more', 'el-sub-menu__icon-more'],
+                      class: ['el-sub-menu__icon-more'],
                     },
                     () => [h(More)]
                   ),
