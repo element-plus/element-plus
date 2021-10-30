@@ -34,6 +34,7 @@ export const buildModules = async () => {
       commonjs(),
       esbuild({
         sourceMap: true,
+        target: 'es2018',
       }),
       filesize({ reporter }),
     ],
