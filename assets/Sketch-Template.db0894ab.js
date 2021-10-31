@@ -1,1 +1,1 @@
-var e="/images/Axure-Components.svg",a="/images/Sketch-Template.svg";export{e as _,a};
+var s="/images/Axure-Components.svg",a="/images/Sketch-Template.svg";export{s as _,a};
