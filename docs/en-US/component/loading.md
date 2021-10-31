@@ -21,7 +21,7 @@ loading/basic
 
 You can customize loading text, loading spinner and background color.
 
-:::demo Add attribute `element-loading-text` to the element on which `v-loading` is bound, and its value will be displayed under the spinner. Similarly, the `element-loading-spinner / element-loading-svg`, `element-loading-background` attributes are used to set the svg icon, background color value, and loading icon, respectively.
+:::demo Add attribute `element-loading-text` to the element on which `v-loading` is bound, and its value will be displayed under the spinner. Similarly, the `element-loading-spinner / element-loading-svg` and `element-loading-background` attributes are used to set the svg icon, background color value, and loading icon, respectively.
 
 loading/customization
 
