@@ -11,7 +11,6 @@ import {
   withDirectives,
 } from 'vue'
 import { removeClass } from '@element-plus/utils/dom'
-import ElIcon from '@element-plus/components/icon'
 
 import type { VNode } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'
