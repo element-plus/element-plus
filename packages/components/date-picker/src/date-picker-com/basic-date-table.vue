@@ -354,7 +354,7 @@ export default defineComponent({
         target = target.parentNode
       }
 
-      if (target.tagName !== 'TD') return
+      if (!target || target.tagName !== 'TD') return
 
       const row = target.parentNode.rowIndex - 1
       const column = target.cellIndex
