@@ -5,7 +5,7 @@
 
 _2021-10-30_
 
-#### Breaking changes
+#### Breaking changes:
 
 - Please refer to: [1.2.0-beta.1 Breaking change](https://github.com/element-plus/element-plus/discussions/4060)
 
