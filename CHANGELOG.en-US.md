@@ -13,6 +13,7 @@ _2021-10-30_
 
 - Use svg icons in components (#3492 by @adaex)
 - Remove font icon scss & font-path (#4074 by @YunYouJun)
+- Simplify build & support esm import (#4018 by @sxzz)
 - Components [el-popconfirm] adjust tag and style (#3981 by @btea)
 - Components add space between two characters in Chinese (#3992 by @cokemine)
 - Components el-switch add inline content support (#4091 by @adaex)
