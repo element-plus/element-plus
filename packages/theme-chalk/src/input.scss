@@ -203,9 +203,10 @@
 
   @include e(icon) {
     width: 25px;
+    height: inherit;
     text-align: center;
     transition: all var(--el-transition-duration);
-    line-height: map.get($input-height, 'default');
+    vertical-align: middle;
 
     &:after {
       content: '';
@@ -280,7 +281,7 @@
   @each $size in (medium, small, mini) {
     @include m($size) {
       font-size: map.get($input-font-size, $size);
-      line-height: map.get($input-height, $size);
+      line-height: map.get($input-height, $size) - 2;
 
       @include e(inner) {
         height: map.get($input-height, $size);
@@ -329,6 +330,7 @@
     }
 
     button.#{$namespace}-button,
+    button.#{$namespace}-button:hover,
     div.#{$namespace}-select .#{$namespace}-input__inner,
     div.#{$namespace}-select:hover .#{$namespace}-input__inner {
       border-color: transparent;
@@ -379,11 +381,4 @@
       border-color: transparent;
     }
   }
-}
-
-/** disalbe default clear on IE */
-.#{$namespace}-input__inner::-ms-clear {
-  display: none;
-  width: 0;
-  height: 0;
 }

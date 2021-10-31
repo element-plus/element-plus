@@ -24,11 +24,12 @@
         @blur="focusing = false"
       >
         <slot name="title">{{ title }}</slot>
-        <i
-          class="el-collapse-item__arrow el-icon-arrow-right"
+        <el-icon
+          class="el-collapse-item__arrow"
           :class="{ 'is-active': isActive }"
         >
-        </i>
+          <arrow-right />
+        </el-icon>
       </div>
     </div>
     <el-collapse-transition>
@@ -51,13 +52,15 @@
 import { defineComponent, inject, computed, ref } from 'vue'
 import { generateId } from '@element-plus/utils/util'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
-import type { PropType } from 'vue'
+import ElIcon from '@element-plus/components/icon'
+import { ArrowRight } from '@element-plus/icons'
 
+import type { PropType } from 'vue'
 import type { CollapseProvider } from './collapse.type'
 
 export default defineComponent({
   name: 'ElCollapseItem',
-  components: { ElCollapseTransition },
+  components: { ElCollapseTransition, ElIcon, ArrowRight },
   props: {
     title: {
       type: String,

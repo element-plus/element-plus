@@ -1,5 +1,6 @@
 ---
 page: true
+lang: en-US
 ---
 
 <script setup lang="ts">

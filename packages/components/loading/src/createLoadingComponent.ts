@@ -11,6 +11,7 @@ import {
   withDirectives,
 } from 'vue'
 import { removeClass } from '@element-plus/utils/dom'
+import ElIcon from '@element-plus/components/icon'
 
 import type { VNode } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'
@@ -111,7 +112,7 @@ export function createLoadingComponent({
         ]
       )
 
-      const noSpinner = h('i', { class: this.spinner })
+      const noSpinner = h(ElIcon, {}, () => [this.spinner])
 
       const spinnerText = h('p', { class: 'el-loading-text' }, [this.text])
 

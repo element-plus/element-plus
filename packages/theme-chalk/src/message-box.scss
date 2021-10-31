@@ -61,6 +61,7 @@
 
     .#{$namespace}-message-box__close {
       color: var(--el-color-info);
+      font-size: inherit;
     }
 
     &:focus,
@@ -110,7 +111,7 @@
     }
 
     @each $type in (success, info, warning, error) {
-      &.#{$namespace}-icon-#{$type} {
+      &.#{$namespace}-message-box-icon--#{$type} {
         --el-messagebox-color: var(--el-color-#{$type});
         color: var(--el-messagebox-color);
       }

@@ -1,3 +1,8 @@
+---
+title: Alert
+lang: en-US
+---
+
 # Alert
 
 Displays important alert messages.

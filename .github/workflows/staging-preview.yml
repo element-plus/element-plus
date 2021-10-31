@@ -31,7 +31,7 @@ jobs:
         run: pnpm build
 
       - name: Init Crowdin token
-        run: pnpm docs:crowdin
+        run: pnpm run docs:crowdin-credentials
         env:
           CROWDIN_TOKEN: ${{secrets.CROWDIN_TOKEN}}
 

@@ -141,9 +141,6 @@ $box-shadow: map.merge(
 );
 
 // Typography
-$font-path: 'fonts' !default;
-$font-display: 'auto' !default;
-
 $font-size: () !default;
 $font-size: map.merge(
   (

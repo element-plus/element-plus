@@ -37,14 +37,18 @@
         class="el-time-spinner__wrapper is-arrow"
         @mouseenter="emitSelectRange(item)"
       >
-        <i
+        <el-icon
           v-repeat-click="onDecreaseClick"
-          class="el-time-spinner__arrow el-icon-arrow-up"
-        ></i>
-        <i
+          class="el-time-spinner__arrow arrow-up"
+        >
+          <arrow-up />
+        </el-icon>
+        <el-icon
           v-repeat-click="onIncreaseClick"
-          class="el-time-spinner__arrow el-icon-arrow-down"
-        ></i>
+          class="el-time-spinner__arrow arrow-down"
+        >
+          <arrow-down />
+        </el-icon>
         <ul class="el-time-spinner__list">
           <li
             v-for="(time, key) in arrowListMap[item].value"
@@ -72,6 +76,8 @@ import { defineComponent, ref, nextTick, computed, onMounted, watch } from 'vue'
 import debounce from 'lodash/debounce'
 import { RepeatClick } from '@element-plus/directives'
 import ElScrollbar from '@element-plus/components/scrollbar'
+import ElIcon from '@element-plus/components/icon'
+import { ArrowUp, ArrowDown } from '@element-plus/icons'
 import { getTimeLists } from './useTimePicker'
 
 import type { PropType, Ref } from 'vue'
@@ -85,6 +91,9 @@ export default defineComponent({
 
   components: {
     ElScrollbar,
+    ElIcon,
+    ArrowUp,
+    ArrowDown,
   },
 
   props: {

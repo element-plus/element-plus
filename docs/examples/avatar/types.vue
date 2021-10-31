@@ -1,7 +1,7 @@
 <template>
   <div class="demo-type">
     <div>
-      <el-avatar icon="el-icon-user-solid"></el-avatar>
+      <el-avatar :icon="UserFilled"></el-avatar>
     </div>
     <div>
       <el-avatar
@@ -13,3 +13,7 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { UserFilled } from '@element-plus/icons'
+</script>

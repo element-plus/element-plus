@@ -67,10 +67,12 @@
             class="
               el-picker-panel__icon-btn
               el-date-picker__prev-btn
-              el-icon-d-arrow-left
+              d-arrow-left
             "
             @click="prevYear_"
-          ></button>
+          >
+            <el-icon><d-arrow-left /></el-icon>
+          </button>
           <button
             v-show="currentView === 'date'"
             type="button"
@@ -78,10 +80,12 @@
             class="
               el-picker-panel__icon-btn
               el-date-picker__prev-btn
-              el-icon-arrow-left
+              arrow-left
             "
             @click="prevMonth_"
-          ></button>
+          >
+            <el-icon><arrow-left /></el-icon>
+          </button>
           <span
             role="button"
             class="el-date-picker__header-label"
@@ -102,10 +106,12 @@
             class="
               el-picker-panel__icon-btn
               el-date-picker__next-btn
-              el-icon-d-arrow-right
+              d-arrow-right
             "
             @click="nextYear_"
-          ></button>
+          >
+            <el-icon><d-arrow-right /></el-icon>
+          </button>
           <button
             v-show="currentView === 'date'"
             type="button"
@@ -113,10 +119,12 @@
             class="
               el-picker-panel__icon-btn
               el-date-picker__next-btn
-              el-icon-arrow-right
+              arrow-right
             "
             @click="nextMonth_"
-          ></button>
+          >
+            <el-icon><arrow-right /></el-icon>
+          </button>
         </div>
         <div class="el-picker-panel__content">
           <date-table
@@ -181,8 +189,15 @@ import {
   extractTimeFormat,
   TimePickPanel,
 } from '@element-plus/components/time-picker'
+import { ElIcon } from '@element-plus/components/icon'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { isValidDatePickType } from '@element-plus/utils/validators'
+import {
+  DArrowLeft,
+  ArrowLeft,
+  DArrowRight,
+  ArrowRight,
+} from '@element-plus/icons'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
@@ -200,9 +215,14 @@ export default defineComponent({
     DateTable,
     ElInput,
     ElButton,
+    ElIcon,
     TimePickPanel,
     MonthTable,
     YearTable,
+    DArrowLeft,
+    ArrowLeft,
+    DArrowRight,
+    ArrowRight,
   },
 
   directives: { clickoutside: ClickOutside },

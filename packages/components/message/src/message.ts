@@ -1,6 +1,6 @@
 import { buildProps, definePropType } from '@element-plus/utils/props'
 
-import type { VNode, ExtractPropTypes } from 'vue'
+import type { VNode, ExtractPropTypes, Component } from 'vue'
 
 export const messageTypes = ['success', 'info', 'warning', 'error'] as const
 
@@ -21,8 +21,8 @@ export const messageProps = buildProps({
     type: Number,
     default: 3000,
   },
-  iconClass: {
-    type: String,
+  icon: {
+    type: definePropType<string | Component>([String, Object]),
     default: '',
   },
   id: {
@@ -62,7 +62,9 @@ export const messageEmits = {
 }
 export type MessageEmits = typeof messageEmits
 
-export type MessageOptions = Omit<MessageProps, 'id'>
+export type MessageOptions = Omit<MessageProps, 'id'> & {
+  appendTo?: HTMLElement | string
+}
 export type MessageOptionsTyped = Omit<MessageOptions, 'type'>
 
 export interface MessageHandle {

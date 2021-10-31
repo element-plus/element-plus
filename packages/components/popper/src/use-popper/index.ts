@@ -1,4 +1,4 @@
-import { computed, ref, reactive, watch } from 'vue'
+import { computed, ref, reactive, watch, unref } from 'vue'
 import { createPopper } from '@popperjs/core'
 import {
   generateId,
@@ -6,7 +6,6 @@ import {
   isHTMLElement,
   isArray,
   isString,
-  $,
 } from '@element-plus/utils/util'
 import PopupManager from '@element-plus/utils/popup-manager'
 import usePopperOptions from './popper-options'
@@ -159,21 +158,25 @@ export default function (
   }
 
   function initializePopper() {
-    if (!$(visibility)) {
+    if (!unref(visibility)) {
       return
     }
-    const unwrappedTrigger = $(triggerRef)
+    const unwrappedTrigger = unref(triggerRef)
     const _trigger = isHTMLElement(unwrappedTrigger)
       ? unwrappedTrigger
       : (unwrappedTrigger as ComponentPublicInstance).$el
-    popperInstance = createPopper(_trigger, $(popperRef), $(popperOptions))
+    popperInstance = createPopper(
+      _trigger,
+      unref(popperRef),
+      unref(popperOptions)
+    )
 
     popperInstance.update()
   }
 
   function doDestroy(forceDestroy?: boolean) {
     /* istanbul ignore if */
-    if (!popperInstance || ($(visibility) && !forceDestroy)) return
+    if (!popperInstance || (unref(visibility) && !forceDestroy)) return
     detachPopper()
   }
 
@@ -185,7 +188,7 @@ export default function (
   const events = {} as PopperEvents
 
   function update() {
-    if (!$(visibility)) {
+    if (!unref(visibility)) {
       return
     }
     if (popperInstance) {
@@ -204,7 +207,7 @@ export default function (
 
   if (!isManualMode()) {
     const toggleState = () => {
-      if ($(visibility)) {
+      if (unref(visibility)) {
         hide()
       } else {
         show()

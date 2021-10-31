@@ -1,3 +1,4 @@
+import type { Nullable } from '@element-plus/utils/types'
 export const EVENT_CODE = {
   tab: 'Tab',
   enter: 'Enter',
@@ -118,6 +119,26 @@ export const triggerEvent = function (
   evt.initEvent(name, ...opts)
   elm.dispatchEvent(evt)
   return elm
+}
+
+export const isLeaf = (el: HTMLElement) => !el.getAttribute('aria-owns')
+
+export const getSibling = (
+  el: HTMLElement,
+  distance: number,
+  elClass: string
+): Nullable<Element> => {
+  const { parentNode } = el
+  if (!parentNode) return null
+  const siblings = parentNode.querySelectorAll(elClass)
+  const index = Array.prototype.indexOf.call(siblings, el)
+  return siblings[index + distance] || null
+}
+
+export const focusNode = (el) => {
+  if (!el) return
+  el.focus()
+  !isLeaf(el) && el.click()
 }
 
 const Utils = {

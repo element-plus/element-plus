@@ -1,6 +1,7 @@
 import { isValidComponentSize } from '@element-plus/utils/validators'
+import { CircleClose } from '@element-plus/icons'
 
-import type { PropType } from 'vue'
+import type { PropType, Component } from 'vue'
 import type { Options } from '@popperjs/core'
 import type { ComponentSize } from '@element-plus/utils/types'
 
@@ -28,15 +29,15 @@ export const timePickerDefaultProps = {
     default: true,
   },
   clearIcon: {
-    type: String,
-    default: 'el-icon-circle-close',
+    type: [String, Object] as PropType<string | Component>,
+    default: CircleClose,
   },
   editable: {
     type: Boolean,
     default: true,
   },
   prefixIcon: {
-    type: String,
+    type: [String, Object] as PropType<string | Component>,
     default: '',
   },
   size: {

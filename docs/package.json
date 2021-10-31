@@ -5,24 +5,25 @@
     "dev": "pnpm gen-locale && vitepress dev .",
     "build": "cross-env NODE_ENV=production && vitepress build .",
     "serve": "cross-env NODE_ENV=production && vitepress serve .",
-    "gen-locale": "rimraf .vitepress/i18n && sucrase-node .vitepress/build/crowdin-generate.ts"
+    "gen-locale": "rimraf .vitepress/i18n && sucrase-node .vitepress/build/crowdin-generate.ts",
+    "crowdin-credentials": "sucrase-node .vitepress/build/crowdin-credentials.ts"
   },
   "dependencies": {
-    "@vueuse/core": "^6.5.3",
-    "axios": "^0.21.4",
-    "clipboard-copy": "^4.0.1",
-    "element-plus": "npm:element-plus@1.1.0-beta.20",
-    "marked": "^3.0.7",
-    "normalize.css": "^8.0.1",
-    "nprogress": "^0.2.0"
+    "@vueuse/core": "6.7.4",
+    "axios": "0.24.0",
+    "clipboard-copy": "4.0.1",
+    "element-plus": "npm:element-plus@latest",
+    "marked": "3.0.8",
+    "normalize.css": "8.0.1",
+    "nprogress": "0.2.0"
   },
   "devDependencies": {
-    "@crowdin/cli": "^3.6.5",
-    "@types/markdown-it": "^12.2.3",
-    "cross-env": "^7.0.3",
-    "markdown-it": "^12.2.0",
-    "markdown-it-container": "^3.0.0",
-    "vite-plugin-inspect": "^0.3.9",
-    "vitepress": "~0.18.1"
+    "@crowdin/cli": "3.7.1",
+    "@types/markdown-it": "12.2.3",
+    "cross-env": "7.0.3",
+    "markdown-it": "12.2.0",
+    "markdown-it-container": "3.0.0",
+    "vite-plugin-inspect": "0.3.9",
+    "vitepress": "0.18.1"
   }
 }

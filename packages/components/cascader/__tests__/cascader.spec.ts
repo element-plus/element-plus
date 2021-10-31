@@ -1,5 +1,8 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
+import { EVENT_CODE } from '@element-plus/utils/aria'
+import { triggerEvent } from '@element-plus/test-utils'
+import { ArrowDown, Check, CircleClose } from '@element-plus/icons'
 import Cascader from '../src/index.vue'
 
 const OPTIONS = [
@@ -22,13 +25,11 @@ const OPTIONS = [
 const AXIOM = 'Rem is the best girl'
 
 const TRIGGER = '.el-cascader'
-const DROPDOWN = '.el-cascader__dropdown'
 const NODE = '.el-cascader-node'
-const ARROW = '.el-icon-arrow-down'
-const CLEAR_BTN = '.el-icon-circle-close'
 const TAG = '.el-tag'
 const SUGGESTION_ITEM = '.el-cascader__suggestion-item'
-const CHECK_ICON = '.el-icon-check'
+const SUGGESTION_PANEL = '.el-cascader__suggestion-panel'
+const DROPDOWN = '.el-cascader__dropdown'
 
 const _mount: typeof mount = (options) =>
   mount(
@@ -59,7 +60,7 @@ describe('Cascader.vue', () => {
       },
     })
     const trigger = wrapper.find(TRIGGER)
-    const dropdown = document.querySelector(DROPDOWN) as HTMLDivElement
+    const dropdown = wrapper.findComponent(ArrowDown).element as HTMLDivElement
 
     await trigger.trigger('click')
     expect(dropdown.style.display).not.toBe('none')
@@ -95,14 +96,13 @@ describe('Cascader.vue', () => {
       },
     })
     const trigger = wrapper.find(TRIGGER)
-    const dropdown = document.querySelector(DROPDOWN) as HTMLDivElement
     const vm = wrapper.vm as any
 
     await trigger.trigger('click')
-    ;(dropdown.querySelector(NODE) as HTMLElement).click()
+    ;(document.querySelector(NODE) as HTMLElement).click()
     await nextTick()
     expect(handleExpandChange).toBeCalledWith(['zhejiang'])
-    ;(dropdown.querySelectorAll(NODE)[1] as HTMLElement).click()
+    ;(document.querySelectorAll(NODE)[1] as HTMLElement).click()
     await nextTick()
     expect(handleChange).toBeCalledWith(['zhejiang', 'hangzhou'])
     expect(vm.value).toEqual(['zhejiang', 'hangzhou'])
@@ -166,15 +166,15 @@ describe('Cascader.vue', () => {
       },
     })
     const trigger = wrapper.find(TRIGGER)
-    expect(wrapper.find(ARROW).exists()).toBe(true)
+    expect(wrapper.findComponent(ArrowDown).exists()).toBe(true)
     await trigger.trigger('mouseenter')
-    expect(wrapper.find(ARROW).exists()).toBe(false)
-    await wrapper.find(CLEAR_BTN).trigger('click')
+    expect(wrapper.findComponent(ArrowDown).exists()).toBe(false)
+    await wrapper.findComponent(CircleClose).trigger('click')
     expect(wrapper.find('input').element.value).toBe('')
     expect((wrapper.vm as any).getCheckedNodes().length).toBe(0)
     await trigger.trigger('mouseleave')
     await trigger.trigger('mouseenter')
-    await expect(wrapper.find(CLEAR_BTN).exists()).toBe(false)
+    await expect(wrapper.findComponent(CircleClose).exists()).toBe(false)
   })
 
   test('show last level label', async () => {
@@ -256,7 +256,6 @@ describe('Cascader.vue', () => {
     })
 
     const input = wrapper.find('input')
-    const dropdown = document.querySelector(DROPDOWN)
     input.element.value = 'Ni'
     await input.trigger('compositionstart')
     await input.trigger('input')
@@ -264,7 +263,7 @@ describe('Cascader.vue', () => {
     await input.trigger('compositionupdate')
     await input.trigger('input')
     await input.trigger('compositionend')
-    const suggestions = dropdown.querySelectorAll(
+    const suggestions = document.querySelectorAll(
       SUGGESTION_ITEM
     ) as NodeListOf<HTMLElement>
     const hzSuggestion = suggestions[0]
@@ -272,7 +271,7 @@ describe('Cascader.vue', () => {
     expect(hzSuggestion.textContent).toBe('Zhejiang / Hangzhou')
     hzSuggestion.click()
     await nextTick()
-    expect(hzSuggestion.querySelector(CHECK_ICON)).toBeTruthy()
+    expect(wrapper.findComponent(Check).exists()).toBeTruthy()
     expect(wrapper.vm.value).toEqual(['zhejiang', 'hangzhou'])
     hzSuggestion.click()
     await nextTick()
@@ -299,11 +298,10 @@ describe('Cascader.vue', () => {
     })
 
     const input = wrapper.find('.el-cascader__search-input')
-    const dropdown = document.querySelector(DROPDOWN)
     ;(input.element as HTMLInputElement).value = 'Ha'
     await input.trigger('input')
     await nextTick()
-    const hzSuggestion = dropdown.querySelector(SUGGESTION_ITEM) as HTMLElement
+    const hzSuggestion = document.querySelector(SUGGESTION_ITEM) as HTMLElement
     hzSuggestion.click()
     await nextTick()
     expect(wrapper.vm.value).toEqual([['zhejiang', 'hangzhou']])
@@ -326,11 +324,47 @@ describe('Cascader.vue', () => {
     })
 
     const input = wrapper.find('input')
-    const dropdown = document.querySelector(DROPDOWN)
     input.element.value = 'ha'
     await input.trigger('input')
-    const hzSuggestion = dropdown.querySelector(SUGGESTION_ITEM) as HTMLElement
+    const hzSuggestion = document.querySelector(SUGGESTION_ITEM) as HTMLElement
     expect(filterMethod).toBeCalled()
     expect(hzSuggestion.textContent).toBe('Zhejiang / Hangzhou')
+  })
+
+  test('filterable keyboard selection', async () => {
+    const wrapper = _mount({
+      template: `
+        <cascader
+          v-model="value"
+          :options="options"
+          filterable
+        />
+      `,
+      data() {
+        return {
+          options: OPTIONS,
+          value: [],
+        }
+      },
+    })
+
+    const input = wrapper.find('input')
+    const dropdown = document.querySelector(DROPDOWN)
+    input.element.value = 'h'
+    await input.trigger('input')
+    const suggestionsPanel = document.querySelector(
+      SUGGESTION_PANEL
+    ) as HTMLDivElement
+    const suggestions = dropdown.querySelectorAll(
+      SUGGESTION_ITEM
+    ) as NodeListOf<HTMLElement>
+    const hzSuggestion = suggestions[0]
+    triggerEvent(suggestionsPanel, 'keydown', EVENT_CODE.down)
+    expect(document.activeElement.textContent).toBe('Zhejiang / Hangzhou')
+    triggerEvent(hzSuggestion, 'keydown', EVENT_CODE.down)
+    expect(document.activeElement.textContent).toBe('Zhejiang / Ningbo')
+    triggerEvent(hzSuggestion, 'keydown', EVENT_CODE.enter)
+    await nextTick()
+    expect(wrapper.vm.value).toEqual(['zhejiang', 'hangzhou'])
   })
 })

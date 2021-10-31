@@ -1,4 +1,9 @@
-## Empty
+---
+title: Empty
+lang: en-US
+---
+
+# Empty
 
 Placeholder hints for empty states.
 

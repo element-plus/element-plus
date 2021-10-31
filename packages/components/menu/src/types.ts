@@ -26,7 +26,7 @@ export interface MenuProvider {
   removeSubMenu: (item: MenuItemRegistered) => void
 
   openMenu: (index: string, indexPath: string[]) => void
-  closeMenu: (index: string) => void
+  closeMenu: (index: string, indexPath: string[]) => void
 
   handleMenuItemClick: (item: MenuItemClicked) => void
   handleSubMenuClick: (subMenu: MenuItemRegistered) => void

@@ -32,6 +32,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
     getCellClass,
     getSpan,
     getColspanRealWidth,
+    isColumnHidden,
   } = useStyles(props)
   const firstDefaultColumnIndex = computed(() => {
     return props.store.states.columns.value.findIndex(
@@ -107,6 +108,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
         }
         const baseKey = `${$index},${cellIndex}`
         const patchKey = columnData.columnKey || columnData.rawColumnKey || ''
+        const tdChildren = cellChildren(cellIndex, column, data)
         return h(
           'td',
           {
@@ -119,10 +121,13 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
               handleCellMouseEnter($event, { ...row, tooltipEffect }),
             onMouseleave: handleCellMouseLeave,
           },
-          [column.renderCell(data)]
+          [tdChildren]
         )
       })
     )
+  }
+  const cellChildren = (cellIndex, column, data) => {
+    return isColumnHidden(cellIndex) ? null : column.renderCell(data)
   }
   const wrappedRowRender = (row: T, $index: number) => {
     const store = props.store

@@ -1,3 +1,8 @@
+---
+title: Collapse
+lang: en-US
+---
+
 # Collapse
 
 Use Collapse to store contents.

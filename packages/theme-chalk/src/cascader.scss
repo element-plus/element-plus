@@ -37,7 +37,17 @@
       }
     }
 
-    .#{$namespace}-icon-arrow-down {
+    .#{$namespace}-input__suffix-inner {
+      .#{$namespace}-icon {
+        height: calc(100% - 2px);
+
+        svg {
+          vertical-align: middle;
+        }
+      }
+    }
+
+    .icon-arrow-down {
       transition: transform var(--el-transition-duration);
       font-size: 14px;
 
@@ -46,7 +56,7 @@
       }
     }
 
-    .#{$namespace}-icon-circle-close:hover {
+    .icon-circle-close:hover {
       color: var(
         --el-input-clear-hover-color,
         map.get($input, 'clear-hover-color')

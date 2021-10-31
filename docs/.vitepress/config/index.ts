@@ -34,6 +34,14 @@ const buildTransformers = () => {
 
 console.log(`DOC_ENV: ${process.env.DOC_ENV}`)
 
+const locales = {}
+languages.forEach((lang) => {
+  locales[`/${lang}`] = {
+    label: lang,
+    lang,
+  }
+})
+
 export const config: UserConfig = {
   title: 'Element Plus',
   head,
@@ -50,12 +58,14 @@ export const config: UserConfig = {
     sidebars,
     nav,
     agolia: {
-      apiKey: 'e32c681af38f324039e81d81834e70b8',
-      appId: '7DCTSU0WBW',
+      apiKey: '377f2b647a96d9b1d62e4780f2344da2',
+      appId: 'BH4D9OD16A',
     },
     features,
     langs: languages,
   },
+
+  locales,
 
   markdown: {
     config: (md) => mdPlugin(md),

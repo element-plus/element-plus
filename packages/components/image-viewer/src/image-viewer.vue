@@ -13,7 +13,7 @@
 
       <!-- CLOSE -->
       <span class="el-image-viewer__btn el-image-viewer__close" @click="hide">
-        <i class="el-icon-close" />
+        <el-icon><close /></el-icon>
       </span>
 
       <!-- ARROW -->
@@ -23,32 +23,36 @@
           :class="{ 'is-disabled': !infinite && isFirst }"
           @click="prev"
         >
-          <i class="el-icon-arrow-left" />
+          <el-icon><arrow-left /></el-icon>
         </span>
         <span
           class="el-image-viewer__btn el-image-viewer__next"
           :class="{ 'is-disabled': !infinite && isLast }"
           @click="next"
         >
-          <i class="el-icon-arrow-right" />
+          <el-icon><arrow-right /></el-icon>
         </span>
       </template>
       <!-- ACTIONS -->
       <div class="el-image-viewer__btn el-image-viewer__actions">
         <div class="el-image-viewer__actions__inner">
-          <i class="el-icon-zoom-out" @click="handleActions('zoomOut')" />
-          <i class="el-icon-zoom-in" @click="handleActions('zoomIn')" />
-          <i class="el-image-viewer__actions__divider" />
-          <i :class="mode.icon" @click="toggleMode" />
-          <i class="el-image-viewer__actions__divider" />
-          <i
-            class="el-icon-refresh-left"
-            @click="handleActions('anticlocelise')"
-          />
-          <i
-            class="el-icon-refresh-right"
-            @click="handleActions('clocelise')"
-          />
+          <el-icon @click="handleActions('zoomOut')">
+            <zoom-out />
+          </el-icon>
+          <el-icon @click="handleActions('zoomIn')">
+            <zoom-in />
+          </el-icon>
+          <i class="el-image-viewer__actions__divider"></i>
+          <el-icon @click="toggleMode">
+            <component :is="mode.icon" />
+          </el-icon>
+          <i class="el-image-viewer__actions__divider"></i>
+          <el-icon @click="handleActions('anticlocelise')">
+            <refresh-left />
+          </el-icon>
+          <el-icon @click="handleActions('clocelise')">
+            <refresh-right />
+          </el-icon>
         </div>
       </div>
       <!-- CANVAS -->
@@ -82,9 +86,21 @@ import {
   effectScope,
 } from 'vue'
 import { useEventListener } from '@vueuse/core'
+import ElIcon from '@element-plus/components/icon'
 import { useLocaleInject } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { rafThrottle, isFirefox } from '@element-plus/utils/util'
+import {
+  Close,
+  ArrowLeft,
+  ArrowRight,
+  ZoomOut,
+  ZoomIn,
+  RefreshLeft,
+  RefreshRight,
+  FullScreen,
+  ScaleToOriginal,
+} from '@element-plus/icons'
 import { imageViewerProps, imageViewerEmits } from './image-viewer'
 
 import type { CSSProperties } from 'vue'
@@ -92,11 +108,11 @@ import type { CSSProperties } from 'vue'
 const Mode = {
   CONTAIN: {
     name: 'contain',
-    icon: 'el-icon-full-screen',
+    icon: FullScreen,
   },
   ORIGINAL: {
     name: 'original',
-    icon: 'el-icon-c-scale-to-original',
+    icon: ScaleToOriginal,
   },
 }
 
@@ -109,7 +125,16 @@ export type ImageViewerAction =
 
 export default defineComponent({
   name: 'ElImageViewer',
-
+  components: {
+    ElIcon,
+    Close,
+    ArrowLeft,
+    ArrowRight,
+    ZoomOut,
+    ZoomIn,
+    RefreshLeft,
+    RefreshRight,
+  },
   props: imageViewerProps,
   emits: imageViewerEmits,
 
