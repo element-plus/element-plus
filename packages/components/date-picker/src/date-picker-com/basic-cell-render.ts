@@ -7,7 +7,7 @@ export default defineComponent({
   name: 'ElDatePickerCell',
   props: buildProps({
     cell: {
-      type: definePropType<DateCell>(Array),
+      type: definePropType<DateCell>(Object),
     },
   }),
   setup(props) {
