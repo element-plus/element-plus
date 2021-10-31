@@ -1,6 +1,76 @@
 ## Changelog
 
 
+### 1.2.0-beta.1
+
+_2021-10-30_
+
+#### Breaking changes:
+
+- Please refer to: [1.2.0-beta.1 Breaking change](https://github.com/element-plus/element-plus/discussions/4060)
+
+#### Features
+
+- Use svg icons in components (#3492 by @adaex)
+- Remove font icon scss & font-path (#4074 by @YunYouJun)
+- Components [el-popconfirm] adjust tag and style (#3981 by @btea)
+- Components add space between two characters in Chinese (#3992 by @cokemine)
+- Components el-switch add inline content support (#4091 by @adaex)
+- Add fit-input-width prop (#4088 by @kooriookami)
+- Components [el-date-picker] support customized cell content (#4078 by @msidolphin)
+- Components [el-message] & [el-notification] appendTo option added (#4012 by @codespikex)
+- Add translation for Bengali language (#3972 by @IbrahimAlKhalil)
+- Dev play add unplugin-vue-components (#3931 by @sxzz)
+- Dev play add @element-plus/icons (#4034 by @xiaoxian521)
+
+#### Bug fixes
+
+- Components select v-2 value-key seems not working #2904 (#3915 by @spx443812507)
+- Utils remove $ from util
+- Tag should support large size too (#3948 by @cbbfcd)
+- Components [el-affix] update method does not exist (#3996 by @Alanscut)
+- Components [el-input] disable button style error (#3989 by @Alanscut)
+- Docs doc language selector kept reversing (#3987 by @JeremyWuuuuu)
+- Components [el-select-v2] set a non-empty array value error (#3998 by @btea)
+- Docs docs-search-not-working (#4004 by @JeremyWuuuuu)
+- Docs translation missing (#4006 by @JeremyWuuuuu)
+- Type error
+- Components [el-icon] support string size (#3835 by @cn-troy)
+- Docs add extra field for frontmatter
+- Components button displays icon only (#4019 by @sxzz)
+- Docs adding title for components (#4025 by @JeremyWuuuuu)
+- Dev fix play auto import (#4031 by @sxzz)
+- Popover repeat when exist fixed column in table (#3394 by @Alanscut)
+- Components [el-date-picker] increase  width of  range separator (#4028 by @baboon-king)
+- Components [el-form-item] validate success does not return fields (#4001 by @msidolphin)
+- Hooks add type remove ts error (#4055 by @btea)
+- Components [el-input-number] add a type attribute (#4030 by @921)
+- Components fix add space in prod mode (#4062 by @cokemine)
+- Dev fix playground and docs alias (#4068 by @sxzz)
+- Components [el-form-item] align inline elements vertically (#4080 by @921)
+- Components [el-input] maxlength is not correct (#3969 by @Alanscut)
+- Components [el-page-header] icon size (#4085 by @adaex)
+- Components [el-menu] trigger hover, open and close events no work (#4077 by @xiaoxian521)
+- Deps update dependency axios to ^0.24.0 (#4102 by @renovate[bot])
+- Docs tree document error (#4115 by @JeremyWuuuuu)
+- Checkbox fix checkbox when modelvalue length less than min limit (#1745 by @cokemine)
+- Docs update readme local development file name (#4117 by @btea)
+- Build transform to es2018 syntax (#4090 by @sxzz)
+- Components [el-upload] request headers missing when headers is typeof Headers(#4043 by @wxyong) (#4045)
+- Components [el-input] input border (#4110 by @Alanscut)
+- Components upload headers add type judge (#4119 by @btea)
+- Components [el-cascader] can not use keyboard select node(#3254 by @imswk) (#3260)
+- Components [el-menu] icon style (#4122 by @imswk)
+
+#### Refactors
+
+- Components ElInputNumber (#3974 by @JeremyWuuuuu)
+- Components [el-message] change the name of stopTimer
+- Docs icon usage (#4057 by @adaex)
+- Componentes deprecate the icon font of some components (#4067 by @adaex)
+- Directives use util method replace judge firefox (#4086 by @btea)
+- Utils!: remove resize-observer-polyfill (#4058 by @sxzz)
+
 ### 1.1.0-beta.24
 
 _2021-10-20_
