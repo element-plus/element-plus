@@ -208,7 +208,7 @@
               v-show="!showClearBtn"
               :class="['el-select-v2__caret', 'el-input__icon', iconReverse]"
             >
-              <component :is="iconComponent" />
+              <component :is="iconComponent" v-if="iconComponent" />
             </el-icon>
             <el-icon
               v-if="showClearBtn"
