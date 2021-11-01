@@ -78,9 +78,7 @@ export function useActiveSidebarLinks(
   }
 
   onMounted(() => {
-    nextTick(() => {
-      getScrollbarWrap().addEventListener('scroll', onScroll)
-    })
+    nextTick(() => getScrollbarWrap().addEventListener('scroll', onScroll))
   })
 
   onUpdated(() => {
