@@ -30,7 +30,7 @@
   }
 
   .#{$namespace}-select__tags > span {
-    display: inline-block;
+    display: contents;
   }
 
   &:hover {
