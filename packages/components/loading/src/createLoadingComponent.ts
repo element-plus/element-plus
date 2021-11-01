@@ -11,7 +11,6 @@ import {
   withDirectives,
 } from 'vue'
 import { removeClass } from '@element-plus/utils/dom'
-import ElIcon from '@element-plus/components/icon'
 
 import type { VNode } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'
@@ -94,12 +93,13 @@ export function createLoadingComponent({
       return componentSetupConfig
     },
     render() {
+      const svg = this.spinner || this.svg
       const spinner = h(
         'svg',
         {
           class: 'circular',
           viewBox: this.svgViewBox ? this.svgViewBox : '25 25 50 50',
-          ...(this.svg ? { innerHTML: this.svg } : {}),
+          ...(svg ? { innerHTML: svg } : {}),
         },
         [
           h('circle', {
@@ -111,8 +111,6 @@ export function createLoadingComponent({
           }),
         ]
       )
-
-      const noSpinner = h(ElIcon, {}, () => [this.spinner])
 
       const spinnerText = h('p', { class: 'el-loading-text' }, [this.text])
 
@@ -143,10 +141,7 @@ export function createLoadingComponent({
                     {
                       class: 'el-loading-spinner',
                     },
-                    [
-                      !this.spinner ? spinner : noSpinner,
-                      this.text ? spinnerText : null,
-                    ]
+                    [spinner, this.text ? spinnerText : null]
                   ),
                 ]
               ),
