@@ -204,17 +204,10 @@
   @include e(icon) {
     width: 25px;
     height: inherit;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     transition: all var(--el-transition-duration);
-    vertical-align: middle;
-
-    &:after {
-      content: '';
-      height: 100%;
-      width: 0;
-      display: inline-block;
-      vertical-align: middle;
-    }
   }
 
   @include e(validateIcon) {
