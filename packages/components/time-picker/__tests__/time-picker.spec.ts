@@ -592,4 +592,43 @@ describe('TimePicker(range)', () => {
       ElPopperOptions
     )
   })
+
+  it('am/pm mode avoid render redundant content', async () => {
+    const wrapper = _mount(
+      `<el-time-picker
+        v-model="timeRange"
+        is-range
+        range-separator="To"
+        start-placeholder="Start time"
+        end-placeholder="End time"
+        arrow-control
+        format="hh:mm:ss a"
+      >
+      </el-time-picker>
+      `,
+      () => ({
+        timeRange: [],
+      })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const list = document.querySelectorAll('.el-time-spinner__list')
+    expect(
+      list[0]
+        .querySelector('.el-time-spinner__item.active')
+        .innerHTML.split(' ').length
+    ).toBe(2)
+    expect(
+      list[1]
+        .querySelector('.el-time-spinner__item.active')
+        .innerHTML.split(' ').length
+    ).toBe(1)
+    expect(
+      list[2]
+        .querySelector('.el-time-spinner__item.active')
+        .innerHTML.split(' ').length
+    ).toBe(1)
+  })
 })
