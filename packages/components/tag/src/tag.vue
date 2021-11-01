@@ -6,11 +6,9 @@
     @click="handleClick"
   >
     <slot></slot>
-    <i
-      v-if="closable"
-      class="el-tag__close el-icon-close"
-      @click="handleClose"
-    ></i>
+    <el-icon v-if="closable" class="el-tag__close" @click="handleClose">
+      <close />
+    </el-icon>
   </span>
   <transition v-else name="el-zoom-in-center">
     <span
@@ -19,23 +17,25 @@
       @click="handleClick"
     >
       <slot></slot>
-      <i
-        v-if="closable"
-        class="el-tag__close el-icon-close"
-        @click="handleClose"
-      ></i>
+      <el-icon v-if="closable" class="el-tag__close" @click="handleClose">
+        <close />
+      </el-icon>
     </span>
   </transition>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
+import ElIcon from '@element-plus/components/icon'
 import { useGlobalConfig } from '@element-plus/utils/util'
+import { Close } from '@element-plus/icons'
 
 import { tagProps, tagEmits } from './tag'
 
 export default defineComponent({
   name: 'ElTag',
+
+  components: { ElIcon, Close },
 
   props: tagProps,
   emits: tagEmits,

@@ -1,3 +1,8 @@
+---
+title: Menu
+lang: en-US
+---
+
 # Menu
 
 Menu that provides navigation for your website.
@@ -38,6 +43,7 @@ menu/collapse
 | ------------------- | ---------------------------------------------------------------------------------------------------------- | ------- | --------------------- | -------- |
 | mode                | menu display mode                                                                                          | string  | horizontal / vertical | vertical |
 | collapse            | whether the menu is collapsed (available only in vertical mode)                                            | boolean | —                     | false    |
+| ellipsis            | whether the menu is ellipsis (available only in horizontal mode)                                           | boolean | —                     | true     |
 | background-color    | background color of Menu (hex format)                                                                      | string  | —                     | #ffffff  |
 | text-color          | text color of Menu (hex format)                                                                            | string  | —                     | #303133  |
 | active-text-color   | text color of currently active menu item (hex format)                                                      | string  | —                     | #409EFF  |
@@ -63,11 +69,11 @@ menu/collapse
 | open       | callback function when sub-menu expands   | index: index of expanded sub-menu, indexPath: index path of expanded sub-menu                                                                                              |
 | close      | callback function when sub-menu collapses | index: index of collapsed sub-menu, indexPath: index path of collapsed sub-menu                                                                                            |
 
-## Menu-Item Events
+## Menu Slots
 
-| Event Name | Description                                 | Parameters             |
-| ---------- | ------------------------------------------- | ---------------------- |
-| click      | callback function when menu-item is clicked | el: menu-item instance |
+| Name | Description               | Subtags                               |
+| ---- | ------------------------- | ------------------------------------- |
+| —    | customize default content | SubMenu / Menu-Item / Menu-Item-Group |
 
 ## SubMenu Attributes
 
@@ -80,6 +86,12 @@ menu/collapse
 | disabled              | whether the sub-menu is disabled                                                                                 | boolean | —               | false                                           |
 | popper-append-to-body | whether to append the popup menu to body. If the positioning of the menu is wrong, you can try setting this prop | boolean | -               | level one SubMenu: true / other SubMenus: false |
 
+## SubMenu Slots
+
+| Name | Description               | Subtags                               |
+| ---- | ------------------------- | ------------------------------------- |
+| —    | customize default content | SubMenu / Menu-Item / Menu-Item-Group |
+
 ## Menu-Item Attributes
 
 | Attribute | Description           | Type        | Accepted Values | Default |
@@ -88,8 +100,26 @@ menu/collapse
 | route     | Vue Router object     | object      | —               | —       |
 | disabled  | whether disabled      | boolean     | —               | false   |
 
+## Menu-Item Events
+
+| Event Name | Description                                 | Parameters             |
+| ---------- | ------------------------------------------- | ---------------------- |
+| click      | callback function when menu-item is clicked | el: menu-item instance |
+
+## Menu-Item Slots
+
+| Name | Description               |
+| ---- | ------------------------- |
+| —    | customize default content |
+
 ## Menu-Item-Group Attributes
 
 | Attribute | Description | Type   | Accepted Values | Default |
 | --------- | ----------- | ------ | --------------- | ------- |
 | title     | group title | string | —               | —       |
+
+## Menu-Item-Group Slots
+
+| Name | Description               | Subtags   |
+| ---- | ------------------------- | --------- |
+| —    | customize default content | Menu-Item |

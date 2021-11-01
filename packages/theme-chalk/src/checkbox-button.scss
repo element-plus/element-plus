@@ -35,7 +35,7 @@
     margin: 0;
     position: relative;
     transition: var(--el-transition-all);
-    @include utils-user-select(none);
+    user-select: none;
 
     @include button-size(
       map.get($button-padding-vertical, 'default'),

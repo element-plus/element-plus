@@ -17,35 +17,37 @@ import {
 import { useTimeoutFn } from '@vueuse/core'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElPopper from '@element-plus/components/popper'
-import { buildProp } from '@element-plus/utils/props'
+import { buildProps } from '@element-plus/utils/props'
 import { throwError } from '@element-plus/utils/error'
+import { ArrowDown, ArrowRight } from '@element-plus/icons'
+import { ElIcon } from '@element-plus/components/icon'
 import useMenu from './use-menu'
 import { useMenuCssVar } from './use-menu-css-var'
-import type { Placement } from '@element-plus/components/popper'
 
+import type { Placement } from '@element-plus/components/popper'
 import type { ExtractPropTypes, VNodeArrayChildren, CSSProperties } from 'vue'
 import type { MenuProvider, SubMenuProvider } from './types'
 
-export const subMenuProps = {
+export const subMenuProps = buildProps({
   index: {
     type: String,
     required: true,
   },
-  showTimeout: buildProp({
+  showTimeout: {
     type: Number,
     default: 300,
-  } as const),
-  hideTimeout: buildProp({
+  },
+  hideTimeout: {
     type: Number,
     default: 300,
-  } as const),
+  },
   popperClass: String,
   disabled: Boolean,
-  popperAppendToBody: buildProp({
+  popperAppendToBody: {
     type: Boolean,
     default: undefined,
-  } as const),
-} as const
+  },
+} as const)
 export type SubMenuProps = ExtractPropTypes<typeof subMenuProps>
 
 const COMPONENT_NAME = 'ElSubMenu'
@@ -80,8 +82,8 @@ export default defineComponent({
     const subMenuTitleIcon = computed(() => {
       return (mode.value === 'horizontal' && isFirstLevel.value) ||
         (mode.value === 'vertical' && !rootMenu.props.collapse)
-        ? 'el-icon-arrow-down'
-        : 'el-icon-arrow-right'
+        ? ArrowDown
+        : ArrowRight
     })
     const isFirstLevel = computed(() => {
       let isFirstLevel = true
@@ -234,7 +236,9 @@ export default defineComponent({
       mouseInChild.value = false
       timeout?.()
       ;({ stop: timeout } = useTimeoutFn(
-        () => !mouseInChild.value && rootMenu.closeMenu(props.index),
+        () =>
+          !mouseInChild.value &&
+          rootMenu.closeMenu(props.index, indexPath.value),
         props.hideTimeout
       ))
 
@@ -292,9 +296,13 @@ export default defineComponent({
     return () => {
       const titleTag: VNodeArrayChildren = [
         slots.title?.(),
-        h('i', {
-          class: ['el-sub-menu__icon-arrow', subMenuTitleIcon.value],
-        }),
+        h(
+          ElIcon,
+          {
+            class: ['el-sub-menu__icon-arrow'],
+          },
+          () => [h(subMenuTitleIcon.value)]
+        ),
       ]
 
       const ulStyle = useMenuCssVar(rootMenu.props)

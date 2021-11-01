@@ -26,7 +26,7 @@ export default {
       return new Promise((resolve) => {
         setTimeout(() => {
           status1.loading1 = false
-          ElMessage.success('switch success')
+          ElMessage.success('Switch success')
           return resolve(true)
         }, 1000)
       })
@@ -42,8 +42,8 @@ export default {
       return new Promise((_, reject) => {
         setTimeout(() => {
           status2.loading2 = false
-          ElMessage.error('switch failed')
-          return reject(new Error('error'))
+          ElMessage.error('Switch failed')
+          return reject(new Error('Error'))
         }, 1000)
       })
     }

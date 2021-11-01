@@ -1,3 +1,8 @@
+---
+title: Backtop
+lang: en-US
+---
+
 # Backtop
 
 A button to back to top
@@ -36,3 +41,9 @@ backtop/custom
 | Event Name | Description         | Parameters  |
 | ---------- | ------------------- | ----------- |
 | click      | triggers when click | click event |
+
+## Slots
+
+| Name | Description               |
+| ---- | ------------------------- |
+| —    | customize default content |

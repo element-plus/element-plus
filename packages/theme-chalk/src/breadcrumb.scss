@@ -12,9 +12,12 @@
     font-weight: bold;
     color: var(--el-text-color-placeholder);
 
-    &[class*='icon'] {
+    &.#{$namespace}-icon {
       margin: 0 6px;
       font-weight: normal;
+      svg {
+        vertical-align: middle;
+      }
     }
   }
 

@@ -10,7 +10,7 @@
       >
         <el-sub-menu index="1">
           <template #title>
-            <i class="el-icon-location"></i>
+            <el-icon><location /></el-icon>
             <span>Navigator One</span>
           </template>
           <el-menu-item-group title="Group One">
@@ -26,15 +26,15 @@
           </el-sub-menu>
         </el-sub-menu>
         <el-menu-item index="2">
-          <i class="el-icon-menu"></i>
+          <el-icon><icon-menu /></el-icon>
           <span>Navigator Two</span>
         </el-menu-item>
         <el-menu-item index="3" disabled>
-          <i class="el-icon-document"></i>
+          <el-icon><document /></el-icon>
           <span>Navigator Three</span>
         </el-menu-item>
         <el-menu-item index="4">
-          <i class="el-icon-setting"></i>
+          <el-icon><setting /></el-icon>
           <span>Navigator Four</span>
         </el-menu-item>
       </el-menu>
@@ -52,7 +52,7 @@
       >
         <el-sub-menu index="1">
           <template #title>
-            <i class="el-icon-location"></i>
+            <el-icon><location /></el-icon>
             <span>Navigator One</span>
           </template>
           <el-menu-item-group title="Group One">
@@ -68,15 +68,15 @@
           </el-sub-menu>
         </el-sub-menu>
         <el-menu-item index="2">
-          <i class="el-icon-menu"></i>
+          <el-icon><icon-menu /></el-icon>
           <span>Navigator Two</span>
         </el-menu-item>
         <el-menu-item index="3" disabled>
-          <i class="el-icon-document"></i>
+          <el-icon><document /></el-icon>
           <span>Navigator Three</span>
         </el-menu-item>
         <el-menu-item index="4">
-          <i class="el-icon-setting"></i>
+          <el-icon><setting /></el-icon>
           <span>Navigator Four</span>
         </el-menu-item>
       </el-menu>
@@ -86,8 +86,20 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import {
+  Location,
+  Document,
+  Menu as IconMenu,
+  Setting,
+} from '@element-plus/icons'
 
 export default defineComponent({
+  components: {
+    Location,
+    Document,
+    Setting,
+    IconMenu,
+  },
   setup() {
     const handleOpen = (key, keyPath) => {
       console.log(key, keyPath)

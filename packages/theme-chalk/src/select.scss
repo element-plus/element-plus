@@ -82,6 +82,10 @@
           color: var(--el-select-close-hover-color);
         }
       }
+
+      &.#{$namespace}-icon {
+        height: inherit;
+      }
     }
 
     &.is-disabled {
@@ -96,6 +100,10 @@
 
     &.is-focus .#{$namespace}-input__inner {
       border-color: var(--el-select-input-focus-border-color);
+    }
+
+    & .#{$namespace}-input__prefix-icon {
+      width: 25px;
     }
   }
 

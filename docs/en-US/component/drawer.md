@@ -1,3 +1,8 @@
+---
+title: Drawer
+lang: en-US
+---
+
 # Drawer
 
 Sometimes, `Dialog` does not always satisfy our requirements, let's say you have a massive form, or you need space to display something like `terms & conditions`, `Drawer` has almost identical API with `Dialog`, but it introduces different user experience.

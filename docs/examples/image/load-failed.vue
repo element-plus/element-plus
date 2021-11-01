@@ -9,10 +9,14 @@
       <el-image>
         <template #error>
           <div class="image-slot">
-            <i class="el-icon-picture-outline"></i>
+            <el-icon><picture /></el-icon>
           </div>
         </template>
       </el-image>
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { Picture } from '@element-plus/icons'
+</script>

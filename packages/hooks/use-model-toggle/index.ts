@@ -32,7 +32,7 @@ export const useModelToggle = ({
   onShow,
   onHide,
 }: ModelToggleParams) => {
-  const { appContext, props, proxy, emit } = getCurrentInstance()
+  const { appContext, props, proxy, emit } = getCurrentInstance()!
 
   const hasUpdateHandler = computed(() =>
     isFunction(props['onUpdate:modelValue'])
@@ -120,7 +120,7 @@ export const useModelToggle = ({
     }
   }
 
-  watch(() => props.modelValue, onChange)
+  watch(() => props.modelValue, onChange as any)
 
   if (
     shouldHideWhenRouteChanges &&

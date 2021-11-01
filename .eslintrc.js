@@ -1,4 +1,7 @@
-module.exports = {
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { defineConfig } = require('eslint-define-config')
+
+module.exports = defineConfig({
   root: true,
   parser: 'vue-eslint-parser',
   parserOptions: {
@@ -39,17 +42,12 @@ module.exports = {
   ],
   rules: {
     // js/ts
-    'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': 'warn',
-    'no-redeclare': 'off',
-    '@typescript-eslint/no-redeclare': 'error',
     'no-console': ['warn', { allow: ['error'] }],
     'no-restricted-syntax': ['error', 'LabeledStatement', 'WithStatement'],
     camelcase: ['error', { properties: 'never' }],
 
     'no-var': 'error',
     'no-empty': ['error', { allowEmptyCatch: true }],
-    'no-with': 'error',
     'no-void': 'error',
     'prefer-const': [
       'warn',
@@ -77,7 +75,9 @@ module.exports = {
     'vue/no-v-html': 'off',
     'vue/require-default-prop': 'off',
     'vue/require-explicit-emits': 'off',
+    'vue/multi-word-component-names': 'off',
 
+    // prettier
     'prettier/prettier': 'error',
 
     // import
@@ -117,4 +117,4 @@ module.exports = {
       },
     ],
   },
-}
+})

@@ -49,21 +49,6 @@
   }
 }
 
-// Placeholder
-@mixin placeholder {
-  &::-webkit-input-placeholder {
-    @content;
-  }
-
-  &::-moz-placeholder {
-    @content;
-  }
-
-  &:-ms-input-placeholder {
-    @content;
-  }
-}
-
 // BEM
 @mixin b($block) {
   $B: $namespace + '-' + $block !global;

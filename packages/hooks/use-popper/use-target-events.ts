@@ -21,7 +21,7 @@ export const useTargetEvents = (
   onHide: Handler,
   onToggle: Handler
 ) => {
-  const { props } = getCurrentInstance()
+  const { props } = getCurrentInstance()!
 
   let triggerFocused = false
 
@@ -67,7 +67,7 @@ export const useTargetEvents = (
 
   const mapEvents = (t: TriggerType) => {
     const events = {} as PopperEvents
-    triggerEventsMap[t].forEach((event) => {
+    triggerEventsMap[t]?.forEach((event) => {
       events[event] = popperEventsHandler
     })
 

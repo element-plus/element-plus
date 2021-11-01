@@ -24,10 +24,9 @@
         @mouseleave="inputHover = false"
       >
         <template #prefix>
-          <i
-            :class="['el-input__icon', 'el-icon-' + inputIcon]"
-            @click="clearQuery"
-          ></i>
+          <el-icon class="el-input__icon" @click="clearQuery">
+            <component :is="inputIcon" />
+          </el-icon>
         </template>
       </el-input>
       <el-checkbox-group
@@ -64,6 +63,7 @@ import { computed, defineComponent, reactive, toRefs } from 'vue'
 import { useLocaleInject } from '@element-plus/hooks'
 import { ElCheckbox, ElCheckboxGroup } from '@element-plus/components/checkbox'
 import ElInput from '@element-plus/components/input'
+import { CircleClose, Search } from '@element-plus/icons'
 import { useCheck, useCheckProps, CHECKED_CHANGE_EVENT } from './useCheck'
 
 export default defineComponent({
@@ -107,14 +107,14 @@ export default defineComponent({
 
     const inputIcon = computed(() => {
       return panelState.query.length > 0 && panelState.inputHover
-        ? 'circle-close'
-        : 'search'
+        ? CircleClose
+        : Search
     })
 
     const hasFooter = computed(() => !!slots.default()[0].children.length)
 
     const clearQuery = () => {
-      if (inputIcon.value === 'circle-close') {
+      if (inputIcon.value === CircleClose) {
         panelState.query = ''
       }
     }

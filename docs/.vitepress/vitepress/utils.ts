@@ -78,6 +78,7 @@ export function insertLinkIcon(contentRef: any) {
   )
 
   links.forEach((link: any) => {
+    link.classList.add('vp-link')
     if (
       !link.href.startsWith(window.origin) &&
       !link.innerHTML.includes('<img')

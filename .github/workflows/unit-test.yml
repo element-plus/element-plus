@@ -14,17 +14,21 @@ jobs:
             node-name: 'Latest'
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Add dev branch
+        run: git branch dev origin/dev
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 6.15.1
+          version: latest
       - name: Setup node
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
       - name: Install dependencies
-        run: pnpm i
+        run: pnpm i --frozen-lockfile
       - name: Lint
         run: pnpm lint
       - name: Test

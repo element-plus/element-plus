@@ -1,6 +1,7 @@
 import { ref, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import InputNumber from '../src/index.vue'
+import { ArrowUp, ArrowDown } from '@element-plus/icons'
+import InputNumber from '../src/input-number.vue'
 
 const mouseup = new Event('mouseup')
 const _mount = (options) =>
@@ -165,8 +166,8 @@ describe('InputNumber.vue', () => {
         }
       },
     })
-    expect(wrapper.find('.el-icon-arrow-down').exists()).toBe(true)
-    expect(wrapper.find('.el-icon-arrow-up').exists()).toBe(true)
+    expect(wrapper.findComponent(ArrowDown).exists()).toBe(true)
+    expect(wrapper.findComponent(ArrowUp).exists()).toBe(true)
   })
   test('change-event', async () => {
     const wrapper = _mount({
@@ -241,13 +242,13 @@ describe('InputNumber.vue', () => {
     const elInput = wrapper.findComponent({ name: 'ElInputNumber' }).vm
     elInput.handleInputChange('')
     await nextTick()
-    expect(wrapper.vm.num).toBe(undefined)
+    expect(wrapper.vm.num).toBe(1)
     elInput.increase()
     await nextTick()
-    expect(wrapper.vm.num).toBe(1)
+    expect(wrapper.vm.num).toBe(2)
     elInput.handleInputChange('')
     await nextTick()
-    expect(wrapper.vm.num).toBe(undefined)
+    expect(wrapper.vm.num).toBe(1)
     elInput.decrease()
     await nextTick()
     expect(wrapper.vm.num).toBe(1)

@@ -1,3 +1,8 @@
+---
+title: Breadcrumb
+lang: en-US
+---
+
 # Breadcrumb
 
 Displays the location of the current page, making it easier to browser back.
@@ -20,10 +25,16 @@ breadcrumb/icon
 
 ## Breadcrumb Attributes
 
-| Attribute       | Description                  | Type   | Accepted Values | Default |
-| --------------- | ---------------------------- | ------ | --------------- | ------- |
-| separator       | separator character          | string | —               | /       |
-| separator-class | class name of icon separator | string | —               | -       |
+| Attribute       | Description                       | Type               | Accepted Values | Default |
+| --------------- | --------------------------------- | ------------------ | --------------- | ------- |
+| separator       | separator character               | string             | —               | /       |
+| separator-class | icon compontent of icon separator | string / Component | —               | -       |
+
+## Breadcrumb Slots
+
+| Name | Description               | Subtags         |
+| ---- | ------------------------- | --------------- |
+| -    | customize default content | Breadcrumb Item |
 
 ## Breadcrumb Item Attributes
 
@@ -31,3 +42,9 @@ breadcrumb/icon
 | --------- | --------------------------------------------------------- | ------------- | --------------- | ------- |
 | to        | target route of the link, same as `to` of `vue-router`    | string/object | —               | —       |
 | replace   | if `true`, the navigation will not leave a history record | boolean       | —               | false   |
+
+## Breadcrumb Item Slots
+
+| Name | Description               |
+| ---- | ------------------------- |
+| —    | customize default content |

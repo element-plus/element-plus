@@ -1,6 +1,19 @@
+---
+title: Switch
+lang: en-US
+---
+
 # Switch
 
 Switch is used for switching between two opposing states.
+
+<style lang="scss">
+.example-showcase {
+  .el-switch + .el-switch {
+    margin-left: 10px;
+  }
+}
+</style>
 
 ## Basic usage
 
@@ -12,9 +25,25 @@ switch/basic
 
 ## Text description
 
+You can add `active-text` and `inactive-text` attribute to show texts. use `inline-prompt` attribute to control text is displayed inside dot.
+
 :::demo You can add `active-text` and `inactive-text` attribute to show texts.
 
 switch/text-description
+
+:::
+
+## Display custom icons
+
+:::tip
+
+Use the `active-icon` and `active-icon` attribute to add icon. You can pass either string for the component name (registered in advance) or the component itself which is a SVG Vue component. Element Plus has provided a set of icon that you can find at [icon](/en-US/component/icon)
+
+:::
+
+:::demo You can add `active-icon` and `inactive-icon` attribute to show icons. use `inline-prompt` attribute to control icon is displayed inside dot.
+
+switch/custom-icons
 
 :::
 
@@ -58,8 +87,9 @@ switch/prevent-switching
 | disabled              | whether Switch is disabled                                                                                                                      | boolean                   | —               | false   |
 | loading               | whether Switch is in loading state                                                                                                              | boolean                   | —               | false   |
 | width                 | width of Switch                                                                                                                                 | number                    | —               | 40      |
-| active-icon-class     | class name of the icon displayed when in `on` state, overrides `active-text`                                                                    | string                    | —               | —       |
-| inactive-icon-class   | class name of the icon displayed when in `off` state, overrides `inactive-text`                                                                 | string                    | —               | —       |
+| inline-prompt         | whether icon or text is displayed inside dot                                                                                                    | boolean                   | —               | false   |
+| active-icon           | component of the icon displayed when in `on` state, overrides `active-text`                                                                     | string / Component        | —               | —       |
+| inactive-icon         | component of the icon displayed when in `off` state, overrides `inactive-text`                                                                  | string / Component        | —               | —       |
 | active-text           | text displayed when in `on` state                                                                                                               | string                    | —               | —       |
 | inactive-text         | text displayed when in `off` state                                                                                                              | string                    | —               | —       |
 | active-value          | switch value when in `on` state                                                                                                                 | boolean / string / number | —               | true    |

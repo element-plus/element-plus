@@ -1,3 +1,8 @@
+---
+title: Descriptions
+lang: en-US
+---
+
 # Descriptions
 
 Display multiple fields in list form.
@@ -63,10 +68,11 @@ descriptions/customized-style
 
 ## Descriptions Slots
 
-| Name  | Description                                 |
-| ----- | ------------------------------------------- |
-| title | custom title, display on the top left       |
-| extra | custom extra area, display on the top right |
+| Name  | Description                                 | Subtags           |
+| ----- | ------------------------------------------- | ----------------- |
+| —     | customize default content                   | Descriptions Item |
+| title | custom title, display on the top left       | —                 |
+| extra | custom extra area, display on the top right | —                 |
 
 ## Descriptions Item Attributes
 
@@ -83,6 +89,7 @@ descriptions/customized-style
 
 ## Descriptions Item Slots
 
-| Name  | Description  |
-| ----- | ------------ |
-| label | custom label |
+| Name  | Description               |
+| ----- | ------------------------- |
+| —     | customize default content |
+| label | custom label              |

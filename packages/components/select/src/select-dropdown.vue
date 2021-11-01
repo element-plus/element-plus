@@ -2,7 +2,7 @@
   <div
     class="el-select-dropdown"
     :class="[{ 'is-multiple': isMultiple }, popperClass]"
-    :style="{ minWidth: minWidth }"
+    :style="{ [isFitInputWidth ? 'width' : 'minWidth']: minWidth }"
   >
     <slot></slot>
   </div>
@@ -35,6 +35,7 @@ export default defineComponent({
     // computed
     const popperClass = computed(() => select.props.popperClass)
     const isMultiple = computed(() => select.props.multiple)
+    const isFitInputWidth = computed(() => select.props.fitInputWidth)
     const minWidth = ref('')
 
     function updateMinWidth() {
@@ -64,6 +65,7 @@ export default defineComponent({
       minWidth,
       popperClass,
       isMultiple,
+      isFitInputWidth,
     }
   },
 })

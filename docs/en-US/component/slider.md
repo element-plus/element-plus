@@ -1,3 +1,8 @@
+---
+title: Slider
+lang: en-US
+---
+
 # Slider
 
 Drag the slider within a fixed range.

@@ -51,14 +51,6 @@ function update(options: any) {
   }
 }
 
-const searchIndexMap = {
-  'zh-CN': 'element-zh',
-  'en-US': 'element-en',
-  es: 'element-es',
-  'fr-FR': 'element-fr',
-  jp: 'element-jp',
-}
-
 const lang = useLang()
 
 function initialize(userOptions: any) {
@@ -69,7 +61,7 @@ function initialize(userOptions: any) {
   docsearch(
     Object.assign({}, userOptions, {
       container: '#docsearch',
-      indexName: searchIndexMap[lang.value],
+      indexName: 'element-plus',
       searchParameters: Object.assign({}, userOptions.searchParameters, {
         // pass a custom lang facetFilter to allow multiple language search
         // https://github.com/algolia/docsearch-configs/pull/3942
