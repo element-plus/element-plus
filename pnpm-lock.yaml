@@ -17,7 +17,7 @@ importers:
       '@element-plus/utils': workspace:*
       '@pnpm/find-workspace-packages': 3.1.20
       '@pnpm/logger': 4.0.0
-      '@pnpm/types': 7.4.0
+      '@pnpm/types': 7.5.0
       '@popperjs/core': ^2.10.2
       '@rollup/plugin-commonjs': 21.0.1
       '@rollup/plugin-node-resolve': 13.0.6
@@ -96,7 +96,7 @@ importers:
       '@commitlint/config-conventional': 13.2.0
       '@pnpm/find-workspace-packages': 3.1.20_@pnpm+logger@4.0.0
       '@pnpm/logger': 4.0.0
-      '@pnpm/types': 7.4.0
+      '@pnpm/types': 7.5.0
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.59.0
       '@rollup/plugin-node-resolve': 13.0.6_rollup@2.59.0
       '@rollup/plugin-replace': 3.0.0_rollup@2.59.0
@@ -1478,6 +1478,11 @@ packages:
 
   /@pnpm/types/7.4.0:
     resolution: {integrity: sha512-fZRYcBw7+d5wSWh0tD7ZSY9C5IRTD78xNEvoGVZOn/D5ziuJ+tGrArGf8vMXPCPxZ7Mp8rV8rLhX5xbXE+86Hw==}
+    engines: {node: '>=12.17'}
+    dev: true
+
+  /@pnpm/types/7.5.0:
+    resolution: {integrity: sha512-F5Ei+m2A1tLmNpyvGkKrqB0J0wxzBeDraJv6RZ44iOPR1uk8qmDYo6jYd7sX2vARx1RtKpEKt7RfplJj+tb0EA==}
     engines: {node: '>=12.17'}
     dev: true
 
