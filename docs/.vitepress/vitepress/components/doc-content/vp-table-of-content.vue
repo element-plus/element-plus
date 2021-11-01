@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
 import { useToc } from '../../composables/use-toc'
 import { useActiveSidebarLinks } from '../../composables/active-bar'
 
 const headers = useToc()
 const marker = ref()
 const container = ref()
-useActiveSidebarLinks(container, marker)
+const scrollbar = inject('ElScrollbar')
+useActiveSidebarLinks(container, marker, scrollbar)
 </script>
 
 <template>

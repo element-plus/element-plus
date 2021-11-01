@@ -1,8 +1,17 @@
 <script setup lang="ts">
-import { computed, onUpdated, watch, ref, nextTick } from 'vue'
+import {
+  computed,
+  onUpdated,
+  onMounted,
+  watch,
+  ref,
+  nextTick,
+  provide,
+} from 'vue'
 import nprogress from 'nprogress'
 import { useData, useRoute } from 'vitepress'
-import { useWindowSize } from '@vueuse/core'
+import { useWindowSize, useEventListener } from '@vueuse/core'
+import { getOffsetTopDistance } from 'element-plus/lib/utils/dom'
 import { useSidebar } from '../composables/sidebar'
 import VPHeroContent from './vp-hero-content.vue'
 import VPDocContent from './vp-doc-content.vue'
@@ -26,6 +35,23 @@ const maxHeight = computed(() =>
   width.value < screenMinWidth ? `calc(100vh - 96px)` : 'calc(100vh - 55px)'
 )
 
+const scrollbar = ref(null)
+
+provide('ElScrollbar', scrollbar)
+
+const handleHashChange = () => {
+  const anchor = document
+    .querySelector('.page-content')
+    ?.querySelector(location.hash) as HTMLElement
+  const parent = document.querySelector('.doc-content-container') as HTMLElement
+  if (anchor && parent) {
+    const offset = getOffsetTopDistance(anchor, parent)
+    ;(scrollbar.value as any)?.setScrollTop(offset)
+  }
+}
+
+useEventListener(window, 'hashchange', handleHashChange)
+
 watch(
   () => props.isSidebarOpen,
   (val) => {
@@ -36,6 +62,10 @@ watch(
   }
 )
 
+onMounted(() => {
+  window.requestAnimationFrame(handleHashChange)
+})
+
 onUpdated(() => {
   if (shouldUpdateProgress.value) {
     nprogress.done()
@@ -45,7 +75,7 @@ onUpdated(() => {
 
 <template>
   <main :class="{ 'page-content': true, 'has-sidebar': hasSidebar }">
-    <el-scrollbar :max-height="maxHeight">
+    <el-scrollbar ref="scrollbar" :max-height="maxHeight">
       <VPNotFound v-if="isNotFound" />
       <VPHeroContent v-else-if="isHeroPost" />
       <VPDocContent v-else>
