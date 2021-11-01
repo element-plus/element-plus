@@ -74,7 +74,6 @@
   }
 
   @include respond-to('xxl') {
-    padding: 24px 32px 96px calc((100% - var(--app-max-width)) / 2);
     width: calc((100% - var(--app-max-width)) / 2 + var(--sidebar-width-md));
   }
 }

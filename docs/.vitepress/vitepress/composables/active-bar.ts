@@ -1,20 +1,32 @@
-import { onMounted, onUnmounted, onUpdated } from 'vue'
+import { onMounted, onUnmounted, onUpdated, nextTick } from 'vue'
 import { throttleAndDebounce } from '../utils'
 
 import type { Ref } from 'vue'
 
 export function useActiveSidebarLinks(
   container: Ref<HTMLElement>,
-  marker: Ref<HTMLElement>
+  marker: Ref<HTMLElement>,
+  scrollbar
 ) {
   const onScroll = throttleAndDebounce(setActiveLink, 150)
+
+  const getScrollbarWrap = () => {
+    return scrollbar.value.$el?.querySelector('.el-scrollbar__wrap') || null
+  }
+  const getScrollY = () => {
+    return getScrollbarWrap()?.scrollTop || 0
+  }
+
   function setActiveLink() {
     const sidebarLinks = getSidebarLinks()
     const anchors = getAnchors(sidebarLinks)
+    const scrollbarWrap = getScrollbarWrap()
 
     if (
       anchors.length &&
-      window.scrollY + window.innerHeight === document.body.offsetHeight
+      scrollbarWrap &&
+      scrollbarWrap.offsetHeight + scrollbarWrap.scrollTop ===
+        scrollbarWrap.scrollHeight
     ) {
       activateLink(anchors[anchors.length - 1].hash)
       return
@@ -22,7 +34,12 @@ export function useActiveSidebarLinks(
     for (let i = 0; i < anchors.length; i++) {
       const anchor = anchors[i]
       const nextAnchor = anchors[i + 1]
-      const [isActive, hash] = isAnchorActive(i, anchor, nextAnchor)
+      const [isActive, hash] = isAnchorActive(
+        i,
+        anchor,
+        nextAnchor,
+        getScrollY()
+      )
       if (isActive) {
         history.replaceState(
           null,
@@ -61,8 +78,7 @@ export function useActiveSidebarLinks(
   }
 
   onMounted(() => {
-    window.requestAnimationFrame(setActiveLink)
-    window.addEventListener('scroll', onScroll)
+    nextTick(() => getScrollbarWrap().addEventListener('scroll', onScroll))
   })
 
   onUpdated(() => {
@@ -70,7 +86,7 @@ export function useActiveSidebarLinks(
   })
 
   onUnmounted(() => {
-    window.removeEventListener('scroll', onScroll)
+    getScrollbarWrap().removeEventListener('scroll', onScroll)
   })
 }
 function getSidebarLinks() {
@@ -101,9 +117,9 @@ function getAnchorTop(anchor: HTMLAnchorElement) {
 function isAnchorActive(
   index: number,
   anchor: HTMLAnchorElement,
-  nextAnchor: HTMLAnchorElement
+  nextAnchor: HTMLAnchorElement,
+  scrollTop: number
 ) {
-  const scrollTop = window.scrollY
   if (index === 0 && scrollTop === 0) {
     return [true, null]
   }
