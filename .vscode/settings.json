@@ -22,5 +22,6 @@
     "html",
     "vue",
     "markdown"
-  ]
+  ],
+  "vite.devCommand": "pnpm run dev -- --"
 }
