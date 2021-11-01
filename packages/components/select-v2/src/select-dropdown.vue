@@ -219,6 +219,7 @@ export default defineComponent({
         height,
         width,
         total: data.length,
+        scrollbarAlwaysOn: selectProps.scrollbarAlwaysOn,
         onKeydown: [
           _cache[1] ||
             (_cache[1] = withKeys(

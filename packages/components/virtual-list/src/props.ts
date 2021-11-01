@@ -90,6 +90,10 @@ export const virtualizedProps = {
     type: Boolean,
     default: true,
   },
+  scrollbarAlwaysOn: {
+    type: Boolean,
+    default: false,
+  },
 }
 
 export const virtualizedListProps = {

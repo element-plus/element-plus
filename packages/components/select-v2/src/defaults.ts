@@ -79,9 +79,9 @@ export const SelectProps = {
     type: String,
     default: 'value',
   },
-  alwaysOn: {
+  scrollbarAlwaysOn: {
     type: Boolean,
-    default: true,
+    default: false,
   },
 }
 

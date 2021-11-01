@@ -3,7 +3,7 @@
 
 @mixin showScrollbar {
   @include b(virtual-scrollbar) {
-    display: block;
+    opacity: 1;
   }
 }
 
@@ -19,7 +19,8 @@
   }
 }
 @include b(virtual-scrollbar) {
-  display: none;
+  opacity: 0;
+  transition: opacity 340ms ease-out;
 }
 
 @include b(vg) {
