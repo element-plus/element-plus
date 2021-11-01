@@ -80,7 +80,7 @@ export default defineComponent({
     })
 
     const icon = computed(() => {
-      return tree?.props.icon ? tree.props.icon : DEFAULT_ICON
+      return tree?.props.icon ?? DEFAULT_ICON
     })
 
     const handleClick = () => {
