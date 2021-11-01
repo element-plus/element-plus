@@ -324,11 +324,11 @@ export default defineComponent({
         ) as HTMLElement[]
         const originalSlot = flattedChildren(slot)
         const moreItemWidth = 64
-        const paddingLeft = parseInt(
+        const paddingLeft = Number.parseInt(
           getComputedStyle(menu.value).paddingLeft,
           10
         )
-        const paddingRight = parseInt(
+        const paddingRight = Number.parseInt(
           getComputedStyle(menu.value).paddingRight,
           10
         )

@@ -118,8 +118,7 @@ export function useTree(props: TreeProps, emit) {
       parent: TreeNode | undefined = undefined
     ) {
       const siblings: TreeNode[] = []
-      for (let index = 0; index < nodes.length; ++index) {
-        const rawNode = nodes[index]
+      for (const rawNode of nodes) {
         const value = getKey(rawNode)
         const node: TreeNode = {
           level,

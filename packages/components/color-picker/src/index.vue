@@ -223,7 +223,7 @@ export default defineComponent({
     // methods
     function displayedRgb(color, showAlpha) {
       if (!(color instanceof Color)) {
-        throw Error('color should be instance of _color Class')
+        throw new TypeError('color should be instance of _color Class')
       }
 
       const { r, g, b } = color.toRgb()

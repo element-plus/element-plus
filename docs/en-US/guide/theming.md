@@ -103,8 +103,7 @@ If they are mixed together, each hot update of `element-plus` needs to compile a
 :::
 
 ```ts
-import Vue from 'vue'
-
+import { createApp } from 'vue'
 import './styles/element/index.scss'
 import ElementPlus from 'element-plus'
 import App from './App.vue'

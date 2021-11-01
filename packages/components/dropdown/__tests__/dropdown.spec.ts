@@ -507,8 +507,7 @@ describe('Dropdown', () => {
         .findComponent({
           name: 'DropdownItemImpl',
         })
-        .find('.el-dropdown-menu__item')
-        .element.getAttribute('data-custom-attribute')
+        .find('.el-dropdown-menu__item').element.dataset.customAttribute
     ).toBe('hello')
   })
 

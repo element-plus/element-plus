@@ -198,8 +198,8 @@ const dateEquals = function (a: Date | any, b: Date | any) {
 }
 
 const valueEquals = function (a: Array<Date> | any, b: Array<Date> | any) {
-  const aIsArray = a instanceof Array
-  const bIsArray = b instanceof Array
+  const aIsArray = Array.isArray(a)
+  const bIsArray = Array.isArray(b)
   if (aIsArray && bIsArray) {
     if (a.length !== b.length) {
       return false
@@ -470,7 +470,7 @@ export default defineComponent({
       showClose.value = false
     }
     const isRangeInput = computed(() => {
-      return props.type.indexOf('range') > -1
+      return props.type.includes('range')
     })
 
     const pickerSize = useSize()
@@ -560,7 +560,7 @@ export default defineComponent({
         } else {
           // user may change focus between two input
           setTimeout(() => {
-            if (refInput.value.indexOf(document.activeElement) === -1) {
+            if (!refInput.value.includes(document.activeElement)) {
               pickerVisible.value = false
               blurInput()
             }

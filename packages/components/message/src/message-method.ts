@@ -162,7 +162,7 @@ export function close(id: string, userOnClose?: (vm: VNode) => void): void {
   if (len < 1) return
   for (let i = idx; i < len; i++) {
     const pos =
-      parseInt(instances[i].vm.el!.style['top'], 10) - removedHeight - 16
+      Number.parseInt(instances[i].vm.el!.style['top'], 10) - removedHeight - 16
 
     instances[i].vm.component!.props.offset = pos
   }

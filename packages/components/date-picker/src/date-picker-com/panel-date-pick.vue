@@ -192,7 +192,7 @@ import type { ConfigType, Dayjs } from 'dayjs'
 import type { IDatePickerType } from '../date-picker.type'
 
 // todo
-/* eslint-disable-next-line */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const timeWithinRange = (_: ConfigType, __: any, ___: string) => true
 
 export default defineComponent({

@@ -33,6 +33,7 @@
 import { ArrowDown } from '@element-plus/icons-vue'
 
 const handleClick = () => {
+  // eslint-disable-next-line no-alert
   alert('button click')
 }
 </script>

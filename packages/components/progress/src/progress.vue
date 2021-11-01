@@ -118,7 +118,10 @@ export default defineComponent({
 
     const radius = computed(() => {
       if (props.type === 'circle' || props.type === 'dashboard') {
-        return parseInt(`${50 - parseFloat(relativeStrokeWidth.value) / 2}`, 10)
+        return Number.parseInt(
+          `${50 - Number.parseFloat(relativeStrokeWidth.value) / 2}`,
+          10
+        )
       } else {
         return 0
       }
