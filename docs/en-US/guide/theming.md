@@ -79,8 +79,6 @@ If your project also uses SCSS, you can directly change Element Plus style varia
     ),
   ),
 );
-
-@import "element-plus/theme-chalk/src/index.scss";
 ```
 
 Then in the entry file of your project, import this style file instead of Element's built CSS:
