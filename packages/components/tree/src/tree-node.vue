@@ -88,6 +88,7 @@ import {
   inject,
   provide,
 } from 'vue'
+import { isString, isFunction } from '@vue/shared'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { debugWarn } from '@element-plus/utils/error'
@@ -188,15 +189,18 @@ export default defineComponent({
 
     const getNodeClass = (node: Node) => {
       const nodeClassFunc = props.props.class
-      let className = nodeClassFunc
-      if (nodeClassFunc instanceof Function) {
-        const { data } = node
-        className = nodeClassFunc(data, node)
-      }
-      if (!className) {
+      if (!nodeClassFunc) {
         return {}
       }
-      if (typeof className === 'string') {
+      let className
+      if (isFunction(nodeClassFunc)) {
+        const { data } = node
+        className = nodeClassFunc(data, node)
+      } else {
+        className = nodeClassFunc
+      }
+
+      if (isString(className)) {
         return { [className]: true }
       } else {
         return className
