@@ -58,7 +58,7 @@ const copySvgIcon = async (name, refs) => {
     >
       <span class="demo-svg-icon">
         <ElIcon :size="20">
-          <component :is="component" v-if="component" />
+          <component :is="component" />
         </ElIcon>
         <span class="icon-name">{{ component.name }}</span>
       </span>
