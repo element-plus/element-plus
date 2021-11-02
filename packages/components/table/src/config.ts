@@ -117,7 +117,17 @@ export const cellForced = {
           class: classes,
           onClick: callback,
         },
-        [h(ElIcon, null, [h(ArrowRight)])]
+        {
+          default: () => {
+            return [
+              h(ElIcon, null, {
+                default: () => {
+                  return [h(ArrowRight)]
+                },
+              }),
+            ]
+          },
+        }
       )
     },
     sortable: false,
@@ -183,7 +193,19 @@ export function treeCellPrefix<T>({
           class: expandClasses,
           onClick: callback,
         },
-        [h(ElIcon, { class: { 'is-loading': treeNode.loading } }, [h(icon)])]
+        {
+          default: () => {
+            return [
+              h(
+                ElIcon,
+                { class: { 'is-loading': treeNode.loading } },
+                {
+                  default: () => [h(icon)],
+                }
+              ),
+            ]
+          },
+        }
       )
     )
   } else {
