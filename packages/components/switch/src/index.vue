@@ -20,15 +20,15 @@
       @keydown.enter="switchValue"
     />
     <span
-      v-if="inactiveIconClass || inactiveText"
+      v-if="!inlinePrompt && (inactiveIcon || inactiveText)"
       :class="[
         'el-switch__label',
         'el-switch__label--left',
         !checked ? 'is-active' : '',
       ]"
     >
-      <i v-if="inactiveIconClass" :class="[inactiveIconClass]"></i>
-      <span v-if="!inactiveIconClass && inactiveText" :aria-hidden="checked">{{
+      <el-icon v-if="inactiveIcon"><component :is="inactiveIcon" /></el-icon>
+      <span v-if="!inactiveIcon && inactiveText" :aria-hidden="checked">{{
         inactiveText
       }}</span>
     </span>
@@ -37,25 +37,62 @@
       class="el-switch__core"
       :style="{ width: (width || 40) + 'px' }"
     >
+      <div v-if="inlinePrompt" class="el-switch__inner">
+        <template v-if="activeIcon || inactiveIcon">
+          <el-icon
+            v-if="activeIcon"
+            class="is-icon"
+            :class="checked ? 'is-show' : 'is-hide'"
+          >
+            <component :is="activeIcon" />
+          </el-icon>
+          <el-icon
+            v-if="inactiveIcon"
+            class="is-icon"
+            :class="!checked ? 'is-show' : 'is-hide'"
+          >
+            <component :is="inactiveIcon" />
+          </el-icon>
+        </template>
+        <template v-else-if="activeText || inactiveIcon">
+          <span
+            v-if="activeText"
+            class="is-text"
+            :class="checked ? 'is-show' : 'is-hide'"
+            :aria-hidden="!checked"
+          >
+            {{ activeText.substr(0, 1) }}
+          </span>
+          <span
+            v-if="inactiveText"
+            class="is-text"
+            :class="!checked ? 'is-show' : 'is-hide'"
+            :aria-hidden="checked"
+          >
+            {{ inactiveText.substr(0, 1) }}
+          </span>
+        </template>
+      </div>
       <div class="el-switch__action">
-        <i v-if="loading" class="el-icon-loading"></i>
+        <el-icon v-if="loading" class="is-loading"><loading /></el-icon>
       </div>
     </span>
     <span
-      v-if="activeIconClass || activeText"
+      v-if="!inlinePrompt && (activeIcon || activeText)"
       :class="[
         'el-switch__label',
         'el-switch__label--right',
         checked ? 'is-active' : '',
       ]"
     >
-      <i v-if="activeIconClass" :class="[activeIconClass]"></i>
-      <span v-if="!activeIconClass && activeText" :aria-hidden="!checked">{{
+      <el-icon v-if="activeIcon"><component :is="activeIcon" /></el-icon>
+      <span v-if="!activeIcon && activeText" :aria-hidden="!checked">{{
         activeText
       }}</span>
     </span>
   </div>
 </template>
+
 <script lang="ts">
 import {
   defineComponent,
@@ -70,8 +107,10 @@ import { isPromise } from '@vue/shared'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import { isBool } from '@element-plus/utils/util'
 import { throwError, debugWarn } from '@element-plus/utils/error'
+import ElIcon from '@element-plus/components/icon'
+import { Loading } from '@element-plus/icons'
 
-import type { PropType } from 'vue'
+import type { PropType, Component } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 
 type ValueType = boolean | string | number
@@ -81,8 +120,8 @@ interface ISwitchProps {
   value: ValueType
   disabled: boolean
   width: number
-  activeIconClass: string
-  inactiveIconClass: string
+  activeIcon: string | Component
+  inactiveIcon: string | Component
   activeText: string
   inactiveText: string
   activeColor: string
@@ -99,6 +138,7 @@ interface ISwitchProps {
 
 export default defineComponent({
   name: 'ElSwitch',
+  components: { ElIcon, Loading },
   props: {
     modelValue: {
       type: [Boolean, String, Number],
@@ -116,12 +156,16 @@ export default defineComponent({
       type: Number,
       default: 40,
     },
-    activeIconClass: {
-      type: String,
+    inlinePrompt: {
+      type: Boolean,
+      default: false,
+    },
+    activeIcon: {
+      type: [String, Object] as PropType<string | Component>,
       default: '',
     },
-    inactiveIconClass: {
-      type: String,
+    inactiveIcon: {
+      type: [String, Object] as PropType<string | Component>,
       default: '',
     },
     activeText: {

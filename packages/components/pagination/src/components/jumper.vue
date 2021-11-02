@@ -9,7 +9,7 @@
       :disabled="disabled"
       :model-value="innerValue"
       type="number"
-      @update:modelValue="handleInput"
+      @update:model-value="handleInput"
       @change="handleChange"
     />
     {{ t('el.pagination.pageClassifier') }}

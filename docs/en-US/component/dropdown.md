@@ -7,7 +7,7 @@ lang: en-US
 
 Toggleable menu for displaying lists of links and actions.
 
-<style lang="scss" scoped>
+<style lang="scss" >
 
 .example-showcase {
   .el-dropdown {
@@ -19,9 +19,10 @@ Toggleable menu for displaying lists of links and actions.
     cursor: pointer;
     color: var(--el-color-primary);
   }
-  .el-icon-arrow-down {
-    font-size: 12px;
-  }
+.el-icon--right {
+  font-size: 12px;
+  vertical-align: middle;
+}
 }
 
 .block-col-2 {

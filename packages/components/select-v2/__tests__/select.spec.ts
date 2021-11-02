@@ -2,6 +2,7 @@ import { nextTick } from 'vue'
 import { NOOP } from '@vue/shared'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { makeMountFunc } from '@element-plus/test-utils/make-mount'
+import { CircleClose } from '@element-plus/icons'
 import Select from '../src/select.vue'
 
 jest.useFakeTimers()
@@ -25,7 +26,7 @@ const clickClearButton = async (wrapper) => {
   const selectVm = select.vm as any
   selectVm.states.comboBoxHovering = true
   await nextTick()
-  const clearBtn = wrapper.find(`.${selectVm.clearIcon}`)
+  const clearBtn = wrapper.findComponent(CircleClose)
   expect(clearBtn.exists()).toBeTruthy()
   await clearBtn.trigger('click')
 }

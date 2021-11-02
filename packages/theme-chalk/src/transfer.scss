@@ -33,7 +33,7 @@
       font-size: 14px;
     }
 
-    & [class*='#{$namespace}-icon-'] + span {
+    & .#{$namespace}-icon + span {
       margin-left: 0;
     }
   }

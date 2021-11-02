@@ -20,7 +20,7 @@ export default (contentRenderer: () => VNode, appendToBody: Ref<boolean>) => {
     }
   }
 
-  let $el: HTMLElement = null
+  let $el: HTMLElement | null = null
 
   const showTeleport = () => {
     isTeleportVisible.value = true

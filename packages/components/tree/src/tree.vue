@@ -23,7 +23,7 @@
     />
     <div v-if="isEmpty" class="el-tree__empty-block">
       <span class="el-tree__empty-text">{{
-        emptyText || t('el.tree.emptyText')
+        emptyText ?? t('el.tree.emptyText')
       }}</span>
     </div>
     <div
@@ -51,7 +51,7 @@ import { useDragNodeHandler } from './model/useDragNode'
 import { useKeydown } from './model/useKeydown'
 import type Node from './model/node'
 
-import type { ComponentInternalInstance, PropType } from 'vue'
+import type { ComponentInternalInstance, PropType, Component } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'
 import type {
   TreeComponentProps,
@@ -131,7 +131,7 @@ export default defineComponent({
       type: Number,
       default: 18,
     },
-    iconClass: String,
+    icon: [String, Object] as PropType<string | Component>,
   },
   emits: [
     'check-change',

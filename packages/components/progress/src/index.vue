@@ -69,7 +69,7 @@
     >
       <slot v-bind="slotData">
         <span v-if="!status">{{ content }}</span>
-        <i v-else :class="iconClass"></i>
+        <el-icon v-else><component :is="statusIcon" /></el-icon>
       </slot>
     </div>
   </div>
@@ -77,6 +77,15 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
+import { ElIcon } from '@element-plus/components/icon'
+import {
+  WarningFilled,
+  CircleCheck,
+  CircleClose,
+  Check,
+  Close,
+} from '@element-plus/icons'
+
 import type { PropType, SVGAttributes } from 'vue'
 
 type ProgressFuncType = (percentage: number) => string
@@ -101,6 +110,14 @@ interface IProgressProps {
 
 export default defineComponent({
   name: 'ElProgress',
+  components: {
+    ElIcon,
+    CircleCheck,
+    CircleClose,
+    Check,
+    Close,
+    WarningFilled,
+  },
   props: {
     type: {
       type: String,
@@ -242,16 +259,14 @@ export default defineComponent({
       return ret
     })
 
-    const iconClass = computed(() => {
+    const statusIcon = computed(() => {
       if (props.status === 'warning') {
-        return 'el-icon-warning'
+        return WarningFilled
       }
       if (props.type === 'line') {
-        return props.status === 'success'
-          ? 'el-icon-circle-check'
-          : 'el-icon-circle-close'
+        return props.status === 'success' ? CircleCheck : CircleClose
       } else {
-        return props.status === 'success' ? 'el-icon-check' : 'el-icon-close'
+        return props.status === 'success' ? Check : Close
       }
     })
 
@@ -312,7 +327,7 @@ export default defineComponent({
       trailPathStyle,
       circlePathStyle,
       stroke,
-      iconClass,
+      statusIcon,
       progressTextSize,
       content,
       getCurrentColor,

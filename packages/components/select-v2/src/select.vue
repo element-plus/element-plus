@@ -204,19 +204,19 @@
             {{ currentPlaceholder }}
           </span>
           <span class="el-select-v2__suffix">
-            <i
+            <el-icon
               v-show="!showClearBtn"
-              :class="[
-                'el-select-v2__caret',
-                'el-input__icon',
-                'el-icon-' + iconClass,
-              ]"
-            ></i>
-            <i
+              :class="['el-select-v2__caret', 'el-input__icon', iconReverse]"
+            >
+              <component :is="iconComponent" v-if="iconComponent" />
+            </el-icon>
+            <el-icon
               v-if="showClearBtn"
-              :class="`el-select-v2__caret el-input__icon ${clearIcon}`"
+              class="el-select-v2__caret el-input__icon"
               @click.prevent.stop="handleClear"
-            ></i>
+            >
+              <component :is="clearIcon" />
+            </el-icon>
           </span>
         </div>
       </template>
@@ -248,6 +248,7 @@ import { defineComponent, provide, toRefs, reactive, vModelText } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
 import ElPopper from '@element-plus/components/popper'
 import ElTag from '@element-plus/components/tag'
+import ElIcon from '@element-plus/components/icon'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import ElSelectMenu from './select-dropdown.vue'
 import useSelect from './useSelect'
@@ -259,6 +260,7 @@ export default defineComponent({
     ElSelectMenu,
     ElTag,
     ElPopper,
+    ElIcon,
   },
   directives: { ClickOutside, ModelText: vModelText },
   props: SelectProps,

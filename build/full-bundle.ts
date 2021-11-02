@@ -27,7 +27,11 @@ export const buildFull = (minify: boolean) => async () => {
         exposeFilename: false,
       }),
       commonjs(),
-      esbuild({ minify, sourceMap: minify }),
+      esbuild({
+        minify,
+        sourceMap: minify,
+        target: 'es2018',
+      }),
       replace({
         'process.env.NODE_ENV': JSON.stringify('production'),
 

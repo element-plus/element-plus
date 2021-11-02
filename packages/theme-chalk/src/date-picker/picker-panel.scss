@@ -96,6 +96,10 @@
         cursor: not-allowed;
       }
     }
+    & .#{$namespace}-icon {
+      cursor: pointer;
+      font-size: inherit;
+    }
   }
 
   @include e(link-btn) {

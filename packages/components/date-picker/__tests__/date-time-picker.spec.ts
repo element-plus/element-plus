@@ -237,12 +237,12 @@ describe('Datetime Picker', () => {
     // changed month / year should not effect picked time
     ;(
       document.querySelector(
-        '.el-date-picker__header .el-icon-arrow-right'
+        '.el-date-picker__header .arrow-right'
       ) as HTMLElement
     ).click()
     ;(
       document.querySelector(
-        '.el-date-picker__header .el-icon-d-arrow-right'
+        '.el-date-picker__header .d-arrow-right'
       ) as HTMLElement
     ).click()
     // click confirm button

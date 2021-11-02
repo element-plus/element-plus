@@ -24,6 +24,7 @@
   @include m(inline) {
     & .#{$namespace}-form-item {
       display: inline-flex;
+      vertical-align: middle;
       margin-right: 10px;
     }
 
@@ -165,7 +166,7 @@
 
   @include m(feedback) {
     .#{$namespace}-input__validateIcon {
-      display: inline-block;
+      display: inline-flex;
     }
   }
 }

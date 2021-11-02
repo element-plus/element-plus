@@ -51,41 +51,50 @@
 
       <!-- prefix slot -->
       <span v-if="$slots.prefix || prefixIcon" class="el-input__prefix">
-        <slot name="prefix" />
-        <i v-if="prefixIcon" :class="['el-input__icon', prefixIcon]"></i>
+        <span class="el-input__prefix-inner">
+          <slot name="prefix"></slot>
+          <el-icon v-if="prefixIcon" class="el-input__icon">
+            <component :is="prefixIcon" />
+          </el-icon>
+        </span>
       </span>
 
       <!-- suffix slot -->
       <span v-if="suffixVisible" class="el-input__suffix">
         <span class="el-input__suffix-inner">
           <template v-if="!showClear || !showPwdVisible || !isWordLimitVisible">
-            <slot name="suffix" />
-            <i v-if="suffixIcon" :class="['el-input__icon', suffixIcon]"></i>
+            <slot name="suffix"></slot>
+            <el-icon v-if="suffixIcon" class="el-input__icon">
+              <component :is="suffixIcon" />
+            </el-icon>
           </template>
-
-          <i
+          <el-icon
             v-if="showClear"
-            class="el-input__icon el-icon-circle-close el-input__clear"
+            class="el-input__icon el-input__clear"
             @mousedown.prevent
             @click="clear"
-          />
-
-          <i
+          >
+            <circle-close />
+          </el-icon>
+          <el-icon
             v-if="showPwdVisible"
-            class="el-input__icon el-icon-view el-input__clear"
+            class="el-input__icon el-input__clear"
             @click="handlePasswordVisible"
-          />
-
+          >
+            <view />
+          </el-icon>
           <span v-if="isWordLimitVisible" class="el-input__count">
             <span class="el-input__count-inner">
-              {{ textLength }} / {{ maxlength }}
+              {{ textLength }} / {{ attrs.maxlength }}
             </span>
           </span>
         </span>
-        <i
+        <el-icon
           v-if="validateState"
-          :class="['el-input__icon', 'el-input__validateIcon', validateIcon]"
-        />
+          class="el-input__icon el-input__validateIcon"
+        >
+          <component :is="validateIcon" />
+        </el-icon>
       </span>
 
       <!-- append slot -->
@@ -117,7 +126,7 @@
         @keydown="handleKeydown"
       />
       <span v-if="isWordLimitVisible" class="el-input__count">
-        {{ textLength }} / {{ maxlength }}
+        {{ textLength }} / {{ attrs.maxlength }}
       </span>
     </template>
   </div>
@@ -136,12 +145,12 @@ import {
   onMounted,
   onUpdated,
 } from 'vue'
+import { ElIcon } from '@element-plus/components/icon'
+import { CircleClose } from '@element-plus/icons'
+import { ValidateComponentsMap } from '@element-plus/utils/icon'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import { useAttrs, useFormItem } from '@element-plus/hooks'
-import {
-  UPDATE_MODEL_EVENT,
-  VALIDATE_STATE_MAP,
-} from '@element-plus/utils/constants'
+import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { isObject } from '@element-plus/utils/util'
 import isServer from '@element-plus/utils/isServer'
 import { isKorean } from '@element-plus/utils/isDef'
@@ -159,6 +168,9 @@ const PENDANT_MAP = {
 
 export default defineComponent({
   name: 'ElInput',
+
+  components: { ElIcon, CircleClose },
+
   inheritAttrs: false,
 
   props: inputProps,
@@ -182,9 +194,12 @@ export default defineComponent({
     const _textareaCalcStyle = shallowRef(props.inputStyle)
 
     const inputOrTextarea = computed(() => input.value || textarea.value)
+
     const needStatusIcon = computed(() => elForm?.statusIcon ?? false)
     const validateState = computed(() => elFormItem?.validateState || '')
-    const validateIcon = computed(() => VALIDATE_STATE_MAP[validateState.value])
+    const validateIcon = computed(
+      () => ValidateComponentsMap[validateState.value]
+    )
     const containerStyle = computed(() => rawAttrs.style as StyleValue)
     const computedTextareaStyle = computed<StyleValue>(() => [
       props.inputStyle,
@@ -214,7 +229,7 @@ export default defineComponent({
     const isWordLimitVisible = computed(
       () =>
         props.showWordLimit &&
-        !!props.maxlength &&
+        !!attrs.value.maxlength &&
         (props.type === 'text' || props.type === 'textarea') &&
         !inputDisabled.value &&
         !props.readonly &&
@@ -224,7 +239,8 @@ export default defineComponent({
     const inputExceed = computed(
       () =>
         // show exceed style if length of initial value greater then maxlength
-        !!isWordLimitVisible.value && textLength.value > Number(props.maxlength)
+        !!isWordLimitVisible.value &&
+        textLength.value > Number(attrs.value.maxlength)
     )
 
     const resizeTextarea = () => {
@@ -278,7 +294,7 @@ export default defineComponent({
     }
 
     const handleInput = (event: Event) => {
-      let { value } = event.target as TargetElement
+      const { value } = event.target as TargetElement
 
       // should not emit input during composition
       // see: https://github.com/ElemeFE/element/issues/10516
@@ -287,15 +303,6 @@ export default defineComponent({
       // hack for https://github.com/ElemeFE/element/issues/8548
       // should remove the following line when we don't support IE
       if (value === nativeInputValue.value) return
-
-      // if set maxlength
-      if (props.maxlength) {
-        const sliceIndex = inputExceed.value
-          ? textLength.value
-          : props.maxlength
-        //  Convert value to an array for get a right lenght
-        value = Array.from(value).slice(0, Number(sliceIndex)).join('')
-      }
 
       emit(UPDATE_MODEL_EVENT, value)
       emit('input', value)

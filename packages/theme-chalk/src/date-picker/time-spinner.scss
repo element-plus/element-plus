@@ -53,11 +53,11 @@
       color: var(--el-color-primary);
     }
 
-    &.#{$namespace}-icon-arrow-up {
+    &.arrow-up {
       top: 10px;
     }
 
-    &.#{$namespace}-icon-arrow-down {
+    &.arrow-down {
       bottom: 10px;
     }
   }
