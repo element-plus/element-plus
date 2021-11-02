@@ -3,7 +3,7 @@
     <div class="el-page-header__left" @click="handleClick">
       <div v-if="icon || $slots.icon" class="el-page-header__icon">
         <slot name="icon">
-          <el-icon><component :is="icon" /></el-icon>
+          <el-icon><component :is="icon" v-if="icon" /></el-icon>
         </slot>
       </div>
       <div class="el-page-header__title">

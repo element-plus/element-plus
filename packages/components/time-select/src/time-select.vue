@@ -23,7 +23,7 @@
     />
     <template #prefix>
       <el-icon class="el-input__prefix-icon">
-        <component :is="prefixIcon" />
+        <component :is="prefixIcon" v-if="prefixIcon" />
       </el-icon>
     </template>
   </el-select>

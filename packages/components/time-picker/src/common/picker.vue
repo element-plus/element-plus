@@ -38,7 +38,7 @@
       >
         <template #prefix>
           <el-icon class="el-input__icon" @click="handleFocus">
-            <component :is="triggerIcon"></component>
+            <component :is="triggerIcon" v-if="triggerIcon"></component>
           </el-icon>
         </template>
         <template #suffix>
@@ -47,7 +47,7 @@
             class="el-input__icon clear-icon"
             @click="onClearIconClick"
           >
-            <component :is="clearIcon" />
+            <component :is="clearIcon" v-if="clearIcon" />
           </el-icon>
         </template>
       </el-input>
@@ -67,7 +67,7 @@
         @keydown="handleKeydown"
       >
         <el-icon class="el-input__icon el-range__icon" @click="handleFocus">
-          <component :is="triggerIcon"></component>
+          <component :is="triggerIcon" v-if="triggerIcon"></component>
         </el-icon>
         <input
           autocomplete="off"
@@ -103,7 +103,7 @@
           }"
           @click="onClearIconClick"
         >
-          <component :is="clearIcon" />
+          <component :is="clearIcon" v-if="clearIcon" />
         </el-icon>
       </div>
     </template>

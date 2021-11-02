@@ -7,7 +7,7 @@
       role="alert"
     >
       <el-icon v-if="showIcon" class="el-alert__icon" :class="isBigIcon">
-        <component :is="iconComponent" />
+        <component :is="iconComponent" v-if="iconComponent" />
       </el-icon>
       <div class="el-alert__content">
         <span

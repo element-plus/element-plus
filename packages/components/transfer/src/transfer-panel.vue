@@ -25,7 +25,7 @@
       >
         <template #prefix>
           <el-icon class="el-input__icon" @click="clearQuery">
-            <component :is="inputIcon" />
+            <component :is="inputIcon" v-if="inputIcon" />
           </el-icon>
         </template>
       </el-input>

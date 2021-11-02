@@ -2,7 +2,11 @@
   <div class="el-result">
     <div class="el-result__icon">
       <slot name="icon">
-        <component :is="resultIcon.component" :class="resultIcon.class" />
+        <component
+          :is="resultIcon.component"
+          v-if="resultIcon.component"
+          :class="resultIcon.class"
+        />
       </slot>
     </div>
     <div v-if="title || $slots.title" class="el-result__title">

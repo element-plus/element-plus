@@ -14,7 +14,7 @@
           class="el-popconfirm__icon"
           :style="{ color: iconColor }"
         >
-          <component :is="icon" />
+          <component :is="icon" v-if="icon" />
         </el-icon>
         {{ title }}
       </div>

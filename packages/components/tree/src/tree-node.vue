@@ -39,7 +39,10 @@
         ]"
         @click.stop="handleExpandIconClick"
       >
-        <component :is="tree.props.icon || CaretRight"></component>
+        <component
+          :is="tree.props.icon || CaretRight"
+          v-if="tree.props.icon || CaretRight"
+        ></component>
       </el-icon>
       <el-checkbox
         v-if="showCheckbox"

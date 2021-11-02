@@ -215,7 +215,7 @@
               class="el-select-v2__caret el-input__icon"
               @click.prevent.stop="handleClear"
             >
-              <component :is="clearIcon" />
+              <component :is="clearIcon" v-if="clearIcon" />
             </el-icon>
           </span>
         </div>

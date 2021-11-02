@@ -32,7 +32,7 @@
         ]"
         @click.stop="handleExpandIconClick"
       >
-        <component :is="icon" />
+        <component :is="icon" v-if="icon" />
       </el-icon>
       <el-checkbox
         v-if="showCheckbox"

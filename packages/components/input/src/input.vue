@@ -93,7 +93,7 @@
           v-if="validateState"
           class="el-input__icon el-input__validateIcon"
         >
-          <component :is="validateIcon" />
+          <component :is="validateIcon" v-if="validateIcon" />
         </el-icon>
       </span>
 
