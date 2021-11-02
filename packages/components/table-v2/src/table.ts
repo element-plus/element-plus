@@ -6,7 +6,7 @@ import { tableV2Props } from './props/table'
 import { Alignment } from './props/column'
 import { normalizeColumns, tryCall } from './utils'
 import { groupColumns } from './helpers/column'
-import { prefix } from './constants'
+import { prefix, sortOrder } from './constants'
 
 import GridTable from './components/grid-table'
 import TableRow from './components/row'
@@ -102,6 +102,8 @@ export default defineComponent({
     ) {
       //
     }
+
+    function onColumnSort() {}
 
     // renderers
 
@@ -221,88 +223,135 @@ export default defineComponent({
       })
     }
 
-    function renderHeaderCell({ columns, column, columnIndex, headerIndex }: {
-      columns: MappedColumn[],
-      column: MappedColumn,
+    function renderHeaderCell({
+      columns,
+      column,
+      columnIndex,
+      headerIndex,
+    }: {
+      columns: MappedColumn[]
+      column: MappedColumn
       columnIndex: number
-      headerIndex: number,
+      headerIndex: number
     }) {
-
       const commonKey = `header.${headerIndex}-cell.${column.key}.`
       if (column.isPlaceholder) {
         return h('div', {
           key: `${commonKey}placeholder`,
           class: calcKls('header-cell-placeholder'),
-          style: calcColumnStyle(column.key!)
+          style: calcColumnStyle(column.key!),
         })
       }
 
-      const { headerClassName, headerRenderer } = column;
-      const { sortBy, sortState, headerCellProps } = props;
-      const TableHeaderCell = getComponent('HeaderCell');
-      const SortIndicator = getComponent('Sorter');
+      const { headerClassName, headerRenderer } = column
+      const { sortBy, sortState, headerCellProps } = props
+      const TableHeaderCell = getComponent('HeaderCell')
+      const SortIndicator = getComponent('Sorter')
 
       const cellProps = { columns, column, columnIndex, headerIndex }
 
-      const cell = headerRenderer ? headerRenderer(cellProps) || HeaderCell
-      const cell = renderElement(
-        headerRenderer || <TableHeaderCell className={this._prefixClass('header-cell-text')} />,
-        cellProps
-      );
+      const cell = headerRenderer
+        ? headerRenderer(cellProps)
+        : h(HeaderCell, cellProps)
+      // const cell = renderElement(
+      //   headerRenderer || <TableHeaderCell className={this._prefixClass('header-cell-text')} />,
+      //   cellProps
+      // )
 
-      let sorting, sortOrder;
+      let sorting, _sortOrder
 
       if (sortState) {
-        const order = sortState[column.key];
-        sorting = order === SortOrder.ASC || order === SortOrder.DESC;
-        sortOrder = sorting ? order : SortOrder.ASC;
+        const order = sortState[column.key]
+        sorting = order === sortOrder.ASC || order === sortOrder.DESC
+        _sortOrder = sorting ? order : sortOrder.ASC
       } else {
-        sorting = column.key === sortBy.key;
-        sortOrder = sorting ? sortBy.order : SortOrder.ASC;
+        sorting = column.key === sortBy.key
+        _sortOrder = sorting ? sortBy.order : sortOrder.ASC
       }
 
-      const cellCls = tryCall(headerClassName, { columns, column, columnIndex, headerIndex });
-      const kls = [calcKls('header-cell'), cellCls, {
-        [calcKls('header-cell--align-center')]: column.align === Alignment.CENTER,
-        [calcKls('header-cell--align-right')]: column.align === Alignment.RIGHT,
-        [calcKls('header-cell--sortable')]: column.sortable,
-        [calcKls('header-cell--sorting')]: sorting,
-        [calcKls('header-cell--resizing')]: column.key === this.state.resizingKey,
-      }]
-      const extraProps = callOrReturn(headerCellProps, { columns, column, columnIndex, headerIndex });
-      const { tagName, ...rest } = extraProps || {};
-      const Tag = tagName || 'div';
-      return (
-        <Tag
-          role="gridcell"
-          key={`header-${headerIndex}-cell-${column.key}`}
-          onClick={column.sortable ? this._handleColumnSort : null}
-          {...rest}
-          className={cls}
-          style={this.columnManager.getColumnStyle(column.key)}
-          data-key={column.key}
-        >
-          {expandIcon}
-          {cell}
-          {column.sortable && (
-            <SortIndicator
-              sortOrder={sortOrder}
-              className={cn(this._prefixClass('sort-indicator'), {
-                [this._prefixClass('sort-indicator--descending')]: sortOrder === SortOrder.DESC,
-              })}
-            />
-          )}
-          {column.resizable && (
-            <ColumnResizer
-              className={this._prefixClass('column-resizer')}
-              column={column}
-              onResizeStart={this._handleColumnResizeStart}
-              onResizeStop={this._handleColumnResizeStop}
-              onResize={this._handleColumnResize}
-            />
-          )}
-        </Tag>
-      );
+      const cellCls = tryCall(headerClassName, {
+        columns,
+        column,
+        columnIndex,
+        headerIndex,
+      })
+      const kls = [
+        calcKls('header-cell'),
+        cellCls,
+        {
+          [calcKls('header-cell--align-center')]:
+            column.align === Alignment.CENTER,
+          [calcKls('header-cell--align-right')]:
+            column.align === Alignment.RIGHT,
+          [calcKls('header-cell--sortable')]: column.sortable,
+          [calcKls('header-cell--sorting')]: sorting,
+          // [calcKls('header-cell--resizing')]: column.key === 0,
+        },
+      ]
+      const extraProps = tryCall(headerCellProps, {
+        columns,
+        column,
+        columnIndex,
+        headerIndex,
+      })
+      const { tagName, ...rest } = extraProps || {}
+      const Tag = tagName || 'div'
+      return h(
+        Tag,
+        {
+          ...rest,
+          role: 'gridcell',
+          key: commonKey,
+          ...(column.sortable
+            ? {
+                onClick: onColumnSort,
+              }
+            : {}),
+          className: kls,
+          // style:
+          dataKey: column.key,
+        },
+        [
+          cell,
+          column.sortable
+            ? h(Sorter, {
+                order: _sortOrder,
+                class: calcKls('sorter'),
+              })
+            : null,
+        ]
+      )
+      // return (
+      // <Tag
+      //   role="gridcell"
+      //   key={`header-${headerIndex}-cell-${column.key}`}
+      //   onClick={column.sortable ? this._handleColumnSort : null}
+      //   {...rest}
+      //   className={cls}
+      //   style={this.columnManager.getColumnStyle(column.key)}
+      //   data-key={column.key}
+      // >
+      //   {expandIcon}
+      //   {cell}
+      //   {column.sortable && (
+      //     <SortIndicator
+      //       sortOrder={sortOrder}
+      //       className={cn(this._prefixClass('sort-indicator'), {
+      //         [this._prefixClass('sort-indicator--descending')]: sortOrder === SortOrder.DESC,
+      //       })}
+      //     />
+      //   )}
+      //   {column.resizable && (
+      //     <ColumnResizer
+      //       className={this._prefixClass('column-resizer')}
+      //       column={column}
+      //       onResizeStart={this._handleColumnResizeStart}
+      //       onResizeStop={this._handleColumnResizeStop}
+      //       onResize={this._handleColumnResize}
+      //     />
+      //   )}
+      // </Tag>
+      // )
     }
 
     function renderExpandIcon() {
