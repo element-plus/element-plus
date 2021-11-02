@@ -362,6 +362,29 @@ describe('Datetime Picker', () => {
     expect(spinners[1].textContent).toBe('24')
     expect(spinners[2].textContent).toBe('48')
   })
+
+  it('internal input should reaonly when pickerInputEditable is false', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        type="datetime"
+        :picker-input-editable="false"
+    />`,
+      () => ({
+        value: '',
+      })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const inputs = document.querySelectorAll(
+      '.el-date-picker__time-header .el-input__inner'
+    )
+    inputs.forEach((input) => {
+      expect(input.hasAttribute('readonly')).toBeTruthy()
+    })
+  })
 })
 
 describe('Datetimerange', () => {
@@ -719,5 +742,28 @@ describe('Datetimerange', () => {
       '10:59:59',
       '12:12:12',
     ])
+  })
+
+  it('internal input should reaonly when pickerInputEditable is false', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        type="datetimerange"
+        :picker-input-editable="false"
+    />`,
+      () => ({
+        value: [],
+      })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const inputs = document.querySelectorAll(
+      '.el-date-picker__time-header .el-input__inner'
+    )
+    inputs.forEach((input) => {
+      expect(input.hasAttribute('readonly')).toBeTruthy()
+    })
   })
 })

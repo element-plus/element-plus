@@ -36,6 +36,10 @@ export const timePickerDefaultProps = {
     type: Boolean,
     default: true,
   },
+  pickerInputEditable: {
+    type: Boolean,
+    default: true,
+  },
   prefixIcon: {
     type: [String, Object] as PropType<string | Component>,
     default: '',

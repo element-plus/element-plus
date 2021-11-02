@@ -31,6 +31,7 @@
                 :placeholder="t('el.datepicker.startDate')"
                 class="el-date-range-picker__editor"
                 :model-value="minVisibleDate"
+                :readonly="!pickerInputEditable"
                 @input="(val) => handleDateInput(val, 'min')"
                 @change="(val) => handleDateChange(val, 'min')"
               />
@@ -45,6 +46,7 @@
                 :disabled="rangeState.selecting"
                 :placeholder="t('el.datepicker.startTime')"
                 :model-value="minVisibleTime"
+                :readonly="!pickerInputEditable"
                 @focus="minTimePickerVisible = true"
                 @input="(val) => handleTimeInput(val, 'min')"
                 @change="(val) => handleTimeChange(val, 'min')"
@@ -70,7 +72,7 @@
                 :disabled="rangeState.selecting"
                 :placeholder="t('el.datepicker.endDate')"
                 :model-value="maxVisibleDate"
-                :readonly="!minDate"
+                :readonly="!minDate || !pickerInputEditable"
                 @input="(val) => handleDateInput(val, 'max')"
                 @change="(val) => handleDateChange(val, 'max')"
               />
@@ -85,7 +87,7 @@
                 :disabled="rangeState.selecting"
                 :placeholder="t('el.datepicker.endTime')"
                 :model-value="maxVisibleTime"
-                :readonly="!minDate"
+                :readonly="!minDate || !pickerInputEditable"
                 @focus="minDate && (maxTimePickerVisible = true)"
                 @input="(val) => handleTimeInput(val, 'max')"
                 @change="(val) => handleTimeChange(val, 'max')"
@@ -284,6 +286,10 @@ export default defineComponent({
       type: String as PropType<IDatePickerType>,
       required: true,
       validator: isValidDatePickType,
+    },
+    pickerInputEditable: {
+      type: Boolean,
+      default: true,
     },
   },
 

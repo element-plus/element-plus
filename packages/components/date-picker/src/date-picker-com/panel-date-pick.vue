@@ -28,6 +28,7 @@
               :placeholder="t('el.datepicker.selectDate')"
               :model-value="visibleDate"
               size="small"
+              :readonly="!pickerInputEditable"
               @input="(val) => (userInputDate = val)"
               @change="handleVisibleDateChange"
             />
@@ -39,6 +40,7 @@
             <el-input
               :placeholder="t('el.datepicker.selectTime')"
               :model-value="visibleTime"
+              :readonly="!pickerInputEditable"
               size="small"
               @focus="onTimePickerInputFocus"
               @input="(val) => (userInputTime = val)"
@@ -242,6 +244,10 @@ export default defineComponent({
       type: String as PropType<IDatePickerType>,
       required: true,
       validator: isValidDatePickType,
+    },
+    pickerInputEditable: {
+      type: Boolean,
+      default: true,
     },
   },
   emits: ['pick', 'set-picker-option'],
