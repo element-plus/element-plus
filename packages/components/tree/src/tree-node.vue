@@ -9,6 +9,7 @@
       'is-hidden': !node.visible,
       'is-focusable': !node.disabled,
       'is-checked': !node.disabled && node.checked,
+      ...getNodeClass(node),
     }"
     role="treeitem"
     tabindex="-1"
@@ -71,6 +72,7 @@
           :render-after-expand="renderAfterExpand"
           :show-checkbox="showCheckbox"
           :node="child"
+          :props="props"
           @node-expand="handleChildNodeExpand"
         />
       </div>
@@ -87,6 +89,7 @@ import {
   inject,
   provide,
 } from 'vue'
+import { isString, isFunction } from '@vue/shared'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
@@ -187,6 +190,26 @@ export default defineComponent({
 
     const getNodeKey = (node: Node): any => {
       return getNodeKeyUtil(tree.props.nodeKey, node.data)
+    }
+
+    const getNodeClass = (node: Node) => {
+      const nodeClassFunc = props.props.class
+      if (!nodeClassFunc) {
+        return {}
+      }
+      let className
+      if (isFunction(nodeClassFunc)) {
+        const { data } = node
+        className = nodeClassFunc(data, node)
+      } else {
+        className = nodeClassFunc
+      }
+
+      if (isString(className)) {
+        return { [className]: true }
+      } else {
+        return className
+      }
     }
 
     const handleSelectChange = (checked: boolean, indeterminate: boolean) => {
@@ -300,6 +323,7 @@ export default defineComponent({
       oldChecked,
       oldIndeterminate,
       getNodeKey,
+      getNodeClass,
       handleSelectChange,
       handleClick,
       handleContextMenu,
