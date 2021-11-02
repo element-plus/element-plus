@@ -114,7 +114,7 @@
     "sucrase": "3.20.3",
     "through2": "4.0.2",
     "ts-jest": "26.5.6",
-    "ts-morph": "12.1.0",
+    "ts-morph": "12.2.0",
     "typescript": "4.4.4",
     "vue": "3.2.21",
     "vue-jest": "5.0.0-alpha.10",
