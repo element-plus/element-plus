@@ -88,7 +88,7 @@ export const virtualizedProps = buildProps({
 
   width: {
     type: [Number, String],
-    required: true,
+    required: false,
   },
 
   perfMode: {

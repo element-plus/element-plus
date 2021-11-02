@@ -7,6 +7,14 @@ lang: en-US
 
 Switch is used for switching between two opposing states.
 
+<style lang="scss">
+.example-showcase {
+  .el-switch + .el-switch {
+    margin-left: 10px;
+  }
+}
+</style>
+
 ## Basic usage
 
 :::demo Bind `v-model` to a `Boolean` typed variable. The `active-color` and `inactive-color` attribute decides the background color in two states.
@@ -16,6 +24,8 @@ switch/basic
 :::
 
 ## Text description
+
+You can add `active-text` and `inactive-text` attribute to show texts. use `inline-prompt` attribute to control text is displayed inside dot.
 
 :::demo You can add `active-text` and `inactive-text` attribute to show texts.
 
@@ -31,7 +41,7 @@ Use the `active-icon` and `active-icon` attribute to add icon. You can pass eith
 
 :::
 
-:::demo You can add `active-icon` and `active-icon` attribute to show icons.
+:::demo You can add `active-icon` and `inactive-icon` attribute to show icons. use `inline-prompt` attribute to control icon is displayed inside dot.
 
 switch/custom-icons
 
@@ -77,6 +87,7 @@ switch/prevent-switching
 | disabled              | whether Switch is disabled                                                                                                                      | boolean                   | —               | false   |
 | loading               | whether Switch is in loading state                                                                                                              | boolean                   | —               | false   |
 | width                 | width of Switch                                                                                                                                 | number                    | —               | 40      |
+| inline-prompt         | whether icon or text is displayed inside dot                                                                                                    | boolean                   | —               | false   |
 | active-icon           | component of the icon displayed when in `on` state, overrides `active-text`                                                                     | string / Component        | —               | —       |
 | inactive-icon         | component of the icon displayed when in `off` state, overrides `inactive-text`                                                                  | string / Component        | —               | —       |
 | active-text           | text displayed when in `on` state                                                                                                               | string                    | —               | —       |

@@ -1,0 +1,9 @@
+{
+  extends: ['config:js-lib', ':prHourlyLimitNone'],
+  packageRules: [
+    {
+      matchPaths: ['docs/package.json'],
+      extends: ['config:js-app'],
+    },
+  ],
+}

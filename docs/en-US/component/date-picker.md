@@ -130,6 +130,38 @@ date-picker/default-time
 
 :::
 
+## Custom content
+
+The content of cell can be customized, in scoped-slot you can get the cell data.
+
+:::demo
+
+date-picker/custom-content
+
+:::
+
+For data details, please refer:
+
+```ts
+interface DateCell {
+  column: number
+  customClass: string
+  disabled: boolean
+  end: boolean
+  inRange: boolean
+  row: number
+  selected: Dayjs
+  isCurrent: boolean
+  isSelected: boolean
+  start: boolean
+  text: number
+  timestamp: number
+  date: Date
+  dayjs: Dayjs
+  type: 'normal' | 'today' | 'week' | 'next-month' | 'prev-month'
+}
+```
+
 ## Localization
 
 The default locale of is English, if you need to use other languages, please check [Internationalization](/en-US/guide/i18n)
@@ -183,4 +215,5 @@ Note, date time locale (month name, first day of the week ...) are also configur
 
 | Name            | Description                    |
 | --------------- | ------------------------------ |
+| default         | custom cell content            |
 | range-separator | custom range separator content |

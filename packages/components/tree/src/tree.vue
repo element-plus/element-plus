@@ -23,7 +23,7 @@
     />
     <div v-if="isEmpty" class="el-tree__empty-block">
       <span class="el-tree__empty-text">{{
-        emptyText || t('el.tree.emptyText')
+        emptyText ?? t('el.tree.emptyText')
       }}</span>
     </div>
     <div

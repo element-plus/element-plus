@@ -53,8 +53,7 @@
     "dayjs": "^1.10.7",
     "lodash": "^4.17.21",
     "memoize-one": "^6.0.0",
-    "normalize-wheel-es": "^1.1.0",
-    "resize-observer-polyfill": "^1.5.1"
+    "normalize-wheel-es": "^1.1.0"
   },
   "vetur": {
     "tags": "tags.json",

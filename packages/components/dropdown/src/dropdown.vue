@@ -67,7 +67,7 @@ import {
 import ElButton from '@element-plus/components/button'
 import ElPopper, { Effect } from '@element-plus/components/popper'
 import ElScrollbar from '@element-plus/components/scrollbar'
-import { ElIcon } from '@element-plus/components/icon'
+import ElIcon from '@element-plus/components/icon'
 import { on, addClass, removeClass } from '@element-plus/utils/dom'
 import { addUnit } from '@element-plus/utils/util'
 import { ArrowDown } from '@element-plus/icons'

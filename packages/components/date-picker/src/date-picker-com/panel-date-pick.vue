@@ -189,6 +189,7 @@ import {
   extractTimeFormat,
   TimePickPanel,
 } from '@element-plus/components/time-picker'
+import { ElIcon } from '@element-plus/components/icon'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { isValidDatePickType } from '@element-plus/utils/validators'
 import {
@@ -214,6 +215,7 @@ export default defineComponent({
     DateTable,
     ElInput,
     ElButton,
+    ElIcon,
     TimePickPanel,
     MonthTable,
     YearTable,

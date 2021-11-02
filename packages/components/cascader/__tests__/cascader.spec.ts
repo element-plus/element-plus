@@ -1,5 +1,7 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
+import { EVENT_CODE } from '@element-plus/utils/aria'
+import { triggerEvent } from '@element-plus/test-utils'
 import { ArrowDown, Check, CircleClose } from '@element-plus/icons'
 import Cascader from '../src/index.vue'
 
@@ -26,6 +28,8 @@ const TRIGGER = '.el-cascader'
 const NODE = '.el-cascader-node'
 const TAG = '.el-tag'
 const SUGGESTION_ITEM = '.el-cascader__suggestion-item'
+const SUGGESTION_PANEL = '.el-cascader__suggestion-panel'
+const DROPDOWN = '.el-cascader__dropdown'
 
 const _mount: typeof mount = (options) =>
   mount(
@@ -325,5 +329,42 @@ describe('Cascader.vue', () => {
     const hzSuggestion = document.querySelector(SUGGESTION_ITEM) as HTMLElement
     expect(filterMethod).toBeCalled()
     expect(hzSuggestion.textContent).toBe('Zhejiang / Hangzhou')
+  })
+
+  test('filterable keyboard selection', async () => {
+    const wrapper = _mount({
+      template: `
+        <cascader
+          v-model="value"
+          :options="options"
+          filterable
+        />
+      `,
+      data() {
+        return {
+          options: OPTIONS,
+          value: [],
+        }
+      },
+    })
+
+    const input = wrapper.find('input')
+    const dropdown = document.querySelector(DROPDOWN)
+    input.element.value = 'h'
+    await input.trigger('input')
+    const suggestionsPanel = document.querySelector(
+      SUGGESTION_PANEL
+    ) as HTMLDivElement
+    const suggestions = dropdown.querySelectorAll(
+      SUGGESTION_ITEM
+    ) as NodeListOf<HTMLElement>
+    const hzSuggestion = suggestions[0]
+    triggerEvent(suggestionsPanel, 'keydown', EVENT_CODE.down)
+    expect(document.activeElement.textContent).toBe('Zhejiang / Hangzhou')
+    triggerEvent(hzSuggestion, 'keydown', EVENT_CODE.down)
+    expect(document.activeElement.textContent).toBe('Zhejiang / Ningbo')
+    triggerEvent(hzSuggestion, 'keydown', EVENT_CODE.enter)
+    await nextTick()
+    expect(wrapper.vm.value).toEqual(['zhejiang', 'hangzhou'])
   })
 })

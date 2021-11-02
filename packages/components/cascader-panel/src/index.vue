@@ -26,7 +26,7 @@ import {
   watch,
 } from 'vue'
 import isEqual from 'lodash/isEqual'
-import { EVENT_CODE } from '@element-plus/utils/aria'
+import { EVENT_CODE, focusNode, getSibling } from '@element-plus/utils/aria'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import isServer from '@element-plus/utils/isServer'
 import scrollIntoView from '@element-plus/utils/scroll-into-view'
@@ -41,13 +41,7 @@ import ElCascaderMenu from './menu.vue'
 import Store from './store'
 import Node, { ExpandTrigger } from './node'
 import { CommonProps, useCascaderConfig } from './config'
-import {
-  checkNode,
-  focusNode,
-  getMenuIndex,
-  getSibling,
-  sortByOriginalOrder,
-} from './utils'
+import { checkNode, getMenuIndex, sortByOriginalOrder } from './utils'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
 import type { PropType, Ref } from 'vue'
@@ -99,36 +93,23 @@ export default defineComponent({
     )
     const renderLabelFn = computed(() => props.renderLabel || slots.default)
 
-    let oldConfig: typeof config
-    let oldOptions: CascaderOption[]
     const initStore = () => {
       const { options } = props
       const cfg = config.value
 
-      const configTemp = config
-      if (
-        oldOptions === undefined ||
-        oldOptions !== options ||
-        oldConfig === undefined ||
-        configTemp !== oldConfig
-      ) {
-        manualChecked = false
-        store.value = new Store(options, cfg)
-        menus.value = [store.value.getNodes()]
+      manualChecked = false
+      store.value = new Store(options, cfg)
+      menus.value = [store.value.getNodes()]
 
-        if (cfg.lazy && isEmpty(props.options)) {
-          initialLoaded = false
-          lazyLoad(undefined, () => {
-            initialLoaded = true
-            syncCheckedValue(false, true)
-          })
-        } else {
+      if (cfg.lazy && isEmpty(props.options)) {
+        initialLoaded = false
+        lazyLoad(undefined, () => {
+          initialLoaded = true
           syncCheckedValue(false, true)
-        }
+        })
+      } else {
+        syncCheckedValue(false, true)
       }
-
-      oldConfig = configTemp
-      oldOptions = options
     }
 
     const lazyLoad: ElCascaderPanelContext['lazyLoad'] = (node, cb) => {
@@ -303,7 +284,9 @@ export default defineComponent({
         case EVENT_CODE.up:
         case EVENT_CODE.down: {
           const distance = code === EVENT_CODE.up ? -1 : 1
-          focusNode(getSibling(target, distance))
+          focusNode(
+            getSibling(target, distance, '.el-cascader-node[tabindex="-1"]')
+          )
           break
         }
         case EVENT_CODE.left: {
@@ -346,7 +329,7 @@ export default defineComponent({
       })
     )
 
-    watch([config, () => props.options], () => initStore(), {
+    watch([config, () => props.options], initStore, {
       deep: true,
       immediate: true,
     })

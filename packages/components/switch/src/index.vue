@@ -20,7 +20,7 @@
       @keydown.enter="switchValue"
     />
     <span
-      v-if="inactiveIcon || inactiveText"
+      v-if="!inlinePrompt && (inactiveIcon || inactiveText)"
       :class="[
         'el-switch__label',
         'el-switch__label--left',
@@ -37,12 +37,48 @@
       class="el-switch__core"
       :style="{ width: (width || 40) + 'px' }"
     >
+      <div v-if="inlinePrompt" class="el-switch__inner">
+        <template v-if="activeIcon || inactiveIcon">
+          <el-icon
+            v-if="activeIcon"
+            class="is-icon"
+            :class="checked ? 'is-show' : 'is-hide'"
+          >
+            <component :is="activeIcon" />
+          </el-icon>
+          <el-icon
+            v-if="inactiveIcon"
+            class="is-icon"
+            :class="!checked ? 'is-show' : 'is-hide'"
+          >
+            <component :is="inactiveIcon" />
+          </el-icon>
+        </template>
+        <template v-else-if="activeText || inactiveIcon">
+          <span
+            v-if="activeText"
+            class="is-text"
+            :class="checked ? 'is-show' : 'is-hide'"
+            :aria-hidden="!checked"
+          >
+            {{ activeText.substr(0, 1) }}
+          </span>
+          <span
+            v-if="inactiveText"
+            class="is-text"
+            :class="!checked ? 'is-show' : 'is-hide'"
+            :aria-hidden="checked"
+          >
+            {{ inactiveText.substr(0, 1) }}
+          </span>
+        </template>
+      </div>
       <div class="el-switch__action">
         <el-icon v-if="loading" class="is-loading"><loading /></el-icon>
       </div>
     </span>
     <span
-      v-if="activeIcon || activeText"
+      v-if="!inlinePrompt && (activeIcon || activeText)"
       :class="[
         'el-switch__label',
         'el-switch__label--right',
@@ -56,6 +92,7 @@
     </span>
   </div>
 </template>
+
 <script lang="ts">
 import {
   defineComponent,
@@ -118,6 +155,10 @@ export default defineComponent({
     width: {
       type: Number,
       default: 40,
+    },
+    inlinePrompt: {
+      type: Boolean,
+      default: false,
     },
     activeIcon: {
       type: [String, Object] as PropType<string | Component>,

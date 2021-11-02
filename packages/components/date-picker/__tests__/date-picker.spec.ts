@@ -241,6 +241,39 @@ describe('DatePicker', () => {
     expect(attr).toEqual('false')
   })
 
+  it('custom content', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        ref="input">
+        <template #default="{ isCurrent, text }">
+          <div class="cell" :class="{ current: isCurrent }">
+            <div>{{ text }}</div>
+          </div>
+        </template>
+      </el-date-picker>`,
+      () => ({ value: '' }),
+      {
+        mounted() {
+          this.$refs.input.focus()
+        },
+      }
+    )
+    await nextTick()
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    {
+      ;(document.querySelector('td.available .cell') as HTMLElement).click()
+    }
+    input.trigger('focus')
+    await nextTick()
+    expect(
+      document.querySelector('td.available .cell').classList.contains('current')
+    ).toBeTruthy()
+  })
+
   describe('value-format', () => {
     it('with literal string', async () => {
       const day = dayjs()
