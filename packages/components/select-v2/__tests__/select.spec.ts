@@ -3,6 +3,7 @@ import { NOOP } from '@vue/shared'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { makeMountFunc } from '@element-plus/test-utils/make-mount'
 import { CircleClose } from '@element-plus/icons'
+import { hasClass } from '@element-plus/utils/dom'
 import Select from '../src/select.vue'
 
 jest.useFakeTimers()
@@ -93,6 +94,7 @@ const createSelect = (
         :placeholder="placeholder"
         :allow-create="allowCreate"
         :remote="remote"
+        :scrollbar-always-on="scrollbarAlwaysOn"
         ${
           options.methods && options.methods.filterMethod
             ? `:filter-method="filterMethod"`
@@ -129,6 +131,7 @@ const createSelect = (
           multipleLimit: 0,
           popperAppendToBody: true,
           placeholder: DEFAULT_PLACEHOLDER,
+          scrollbarAlwaysOn: false,
           ...(options.data && options.data()),
         }
       },
@@ -1158,5 +1161,35 @@ describe('Select', () => {
       ).toBe(true)
     }
     mockSelectWidth.mockRestore()
+  })
+
+  describe('scrollbarAlwaysOn flag control the scrollbar whether always displayed', () => {
+    it('The default scrollbar is not always displayed', async (done) => {
+      const wrapper = createSelect()
+      await nextTick()
+      const select = wrapper.findComponent(Select)
+      await wrapper.trigger('click')
+      expect((select.vm as any).expanded).toBeTruthy()
+      const box = document.querySelector<HTMLElement>('.el-vl__wrapper')
+      expect(hasClass(box, 'always-on')).toBe(false)
+      done()
+    })
+
+    it('set the scrollbar-always-on value to true, keep the scroll bar displayed', async (done) => {
+      const wrapper = createSelect({
+        data() {
+          return {
+            scrollbarAlwaysOn: true,
+          }
+        },
+      })
+      await nextTick()
+      const select = wrapper.findComponent(Select)
+      await wrapper.trigger('click')
+      expect((select.vm as any).expanded).toBeTruthy()
+      const box = document.querySelector<HTMLElement>('.el-vl__wrapper')
+      expect(hasClass(box, 'always-on')).toBe(true)
+      done()
+    })
   })
 })
