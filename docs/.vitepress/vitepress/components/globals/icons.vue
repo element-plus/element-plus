@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { hyphenate } from '@vue/shared'
 import clipboardCopy from 'clipboard-copy'
 import { ElMessage } from 'element-plus'
@@ -9,14 +9,11 @@ import localeData from '../../../i18n/component/icons.json'
 
 const lang = useLang()
 const locale = computed(() => localeData[lang.value])
+const copyIcon = ref(true)
 
-const copySvgIcon = async (svg) => {
+const copyContent = async (content) => {
   try {
-    await clipboardCopy(
-      `<el-icon>
-        <${hyphenate(svg)} />
-      </el-icon>`
-    )
+    await clipboardCopy(content)
 
     ElMessage({
       showClose: true,
@@ -31,15 +28,33 @@ const copySvgIcon = async (svg) => {
     })
   }
 }
+
+const copySvgIcon = async (name, refs) => {
+  if (copyIcon.value) {
+    await copyContent(`<el-icon><${hyphenate(name)} /></el-icon>`)
+  } else {
+    const content = refs[name].querySelector('svg')?.outerHTML ?? ''
+    await copyContent(content)
+  }
+}
 </script>
 
 <template>
+  <div style="text-align: right">
+    <el-switch
+      v-model="copyIcon"
+      active-text="Copy Icon Code"
+      inactive-text="Copy Svg Content"
+    >
+    </el-switch>
+  </div>
   <ul class="demo-icon-list">
     <li
       v-for="component in Icons"
       :key="component"
+      :ref="component.name"
       class="icon-item"
-      @click="copySvgIcon(component.name)"
+      @click="copySvgIcon(component.name, $refs)"
     >
       <span class="demo-svg-icon">
         <ElIcon :size="20">
