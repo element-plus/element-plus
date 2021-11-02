@@ -1,12 +1,12 @@
 <template>
   <div
+    v-show="type !== 'hidden'"
     :class="[
       type === 'textarea' ? 'el-textarea' : 'el-input',
       inputSize ? 'el-input--' + inputSize : '',
       {
         'is-disabled': inputDisabled,
         'is-exceed': inputExceed,
-        'is-hidden': type === 'hidden',
         'el-input-group': $slots.prepend || $slots.append,
         'el-input-group--append': $slots.append,
         'el-input-group--prepend': $slots.prepend,

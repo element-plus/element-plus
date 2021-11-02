@@ -260,10 +260,6 @@
     }
   }
 
-  @include when(hidden) {
-    display: none;
-  }
-
   @include m(suffix) {
     .#{$namespace}-input__inner {
       padding-right: 30px;
