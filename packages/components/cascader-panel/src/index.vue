@@ -44,7 +44,7 @@ import { CommonProps, useCascaderConfig } from './config'
 import { checkNode, getMenuIndex, sortByOriginalOrder } from './utils'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
-import type { PropType, Ref } from 'vue'
+import type { PropType } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'
 import type {
   CascaderValue,
@@ -81,12 +81,12 @@ export default defineComponent({
 
     const config = useCascaderConfig(props)
 
-    const store: Ref<Nullable<Store>> = ref(null)
-    const menuList: Ref<any[]> = ref([])
-    const checkedValue: Ref<Nullable<CascaderValue>> = ref(null)
-    const menus: Ref<CascaderNode[][]> = ref([])
-    const expandingNode: Ref<Nullable<CascaderNode>> = ref(null)
-    const checkedNodes: Ref<CascaderNode[]> = ref([])
+    const store = ref<Nullable<Store>>(null)
+    const menuList = ref<any[]>([])
+    const checkedValue = ref<Nullable<CascaderValue>>(null)
+    const menus = ref<CascaderNode[][]>([])
+    const expandingNode = ref<Nullable<CascaderNode>>(null)
+    const checkedNodes = ref<CascaderNode[]>([])
 
     const isHoverMenu = computed(
       () => config.value.expandTrigger === ExpandTrigger.HOVER
