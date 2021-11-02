@@ -59,12 +59,15 @@
               disabled: listMap[item].value[time],
             }"
           >
-            {{
-              time === undefined
-                ? ''
-                : ('0' + (amPmMode ? time % 12 || 12 : time)).slice(-2) +
-                  getAmPmFlag(time)
-            }}
+            <template v-if="time">
+              <template v-if="item === 'hours'">
+                {{ ('0' + (amPmMode ? time % 12 || 12 : time)).slice(-2)
+                }}{{ getAmPmFlag(time) }}
+              </template>
+              <template v-else>
+                {{ ('0' + time).slice(-2) }}
+              </template>
+            </template>
           </li>
         </ul>
       </div>
