@@ -4,6 +4,7 @@
     "johnsoncodehk.vscode-typescript-vue-plugin",
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
-    "antfu.vite"
+    "antfu.vite",
+    "lokalise.i18n-ally"
   ]
 }
