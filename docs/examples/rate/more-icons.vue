@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, shallowRef } from 'vue'
 import { ChatRound, ChatLineRound, ChatDotRound } from '@element-plus/icons'
 
 export default defineComponent({
@@ -17,7 +17,7 @@ export default defineComponent({
     return {
       value: ref(null),
       ChatRound,
-      icons: [ChatRound, ChatLineRound, ChatDotRound], // same as { 2: ChatRound, 4: { value: ChatLineRound, excluded: true }, 5: ChatDotRound }
+      icons: shallowRef([ChatRound, ChatLineRound, ChatDotRound]), // same as { 2: ChatRound, 4: { value: ChatLineRound, excluded: true }, 5: ChatDotRound }
     }
   },
 })

@@ -13,14 +13,15 @@
 </template>
 
 <script lang="ts">
+import { shallowRef } from 'vue'
 import { Check, Close } from '@element-plus/icons'
 export default {
   data() {
     return {
       value1: true,
       value2: true,
-      active: Check,
-      inactive: Close,
+      active: shallowRef(Check),
+      inactive: shallowRef(Close),
     }
   },
 }

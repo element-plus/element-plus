@@ -18,6 +18,7 @@
 </template>
 
 <script lang="ts">
+import { shallowRef } from 'vue'
 import { MoreFilled } from '@element-plus/icons'
 
 export default {
@@ -29,7 +30,7 @@ export default {
           timestamp: '2018-04-12 20:46',
           size: 'large',
           type: 'primary',
-          icon: MoreFilled,
+          icon: shallowRef(MoreFilled),
         },
         {
           content: 'Custom color',

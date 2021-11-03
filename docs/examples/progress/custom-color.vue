@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+import { defineComponent, reactive, toRefs, shallowRef } from 'vue'
 import { Minus, Plus } from '@element-plus/icons'
 
 export default defineComponent({
@@ -59,8 +59,8 @@ export default defineComponent({
       customColorMethod,
       increase,
       decrease,
-      Minus,
-      Plus,
+      Minus: shallowRef(Minus),
+      Plus: shallowRef(Plus),
     }
   },
 })

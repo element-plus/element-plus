@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, shallowRef } from 'vue'
 import { Calendar, Search } from '@element-plus/icons'
 
 export default defineComponent({
@@ -47,8 +47,8 @@ export default defineComponent({
   },
   setup() {
     return {
-      Calendar,
-      Search,
+      Calendar: shallowRef(Calendar),
+      Search: shallowRef(Search),
       input1: ref(''),
       input2: ref(''),
       input3: ref(''),

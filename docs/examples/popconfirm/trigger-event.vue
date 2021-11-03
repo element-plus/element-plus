@@ -15,12 +15,13 @@
 </template>
 
 <script lang="ts">
+import { shallowRef } from 'vue'
 import { InfoFilled } from '@element-plus/icons'
 
 export default {
   data() {
     return {
-      InfoFilled,
+      InfoFilled: shallowRef(InfoFilled),
     }
   },
   methods: {
