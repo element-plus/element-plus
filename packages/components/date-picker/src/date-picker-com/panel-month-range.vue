@@ -103,6 +103,7 @@
 <script lang="ts">
 import { defineComponent, computed, ref, watch, inject } from 'vue'
 import dayjs from 'dayjs'
+import ElIcon from '@element-plus/components/icon'
 import { useLocaleInject } from '@element-plus/hooks'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons'
 import MonthTable from './basic-month-table.vue'
@@ -111,7 +112,7 @@ import type { PropType } from 'vue'
 import type { Dayjs } from 'dayjs'
 
 export default defineComponent({
-  components: { MonthTable, DArrowLeft, DArrowRight },
+  components: { MonthTable, ElIcon, DArrowLeft, DArrowRight },
 
   props: {
     unlinkPanels: Boolean,

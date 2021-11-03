@@ -248,6 +248,7 @@ import {
   extractTimeFormat,
   TimePickPanel,
 } from '@element-plus/components/time-picker'
+import ElIcon from '@element-plus/components/icon'
 import { isValidDatePickType } from '@element-plus/utils/validators'
 import {
   DArrowLeft,
@@ -269,6 +270,7 @@ export default defineComponent({
     DateTable,
     ElInput,
     ElButton,
+    ElIcon,
     DArrowLeft,
     ArrowLeft,
     DArrowRight,
