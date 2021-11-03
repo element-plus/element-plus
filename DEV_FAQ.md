@@ -25,3 +25,11 @@ pnpm link --global element-plus
 ```
 
 > More info see [pnpm link](https://pnpm.io/cli/link).
+
+## Theme
+
+We should not write Chinese comments in scss files.
+
+It will generate warning `@charset "UTF-8";` in the header of css file when built with vite.
+
+> More info see [#3219](https://github.com/element-plus/element-plus/issues/3219).

@@ -180,7 +180,7 @@ $checkbox-bordered-input-width: map.merge(
       }
     }
     @include when(focus) {
-      /*focus时 视觉上区分*/
+      // Visually distinguish when focus
       .#{$namespace}-checkbox__inner {
         border-color: var(--el-checkbox-input-border-color-hover);
       }
