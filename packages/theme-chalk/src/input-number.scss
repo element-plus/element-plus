@@ -42,6 +42,7 @@
     color: var(--el-text-color-regular);
     cursor: pointer;
     font-size: 13px;
+    user-select: none;
 
     &:hover {
       color: var(--el-color-primary);
