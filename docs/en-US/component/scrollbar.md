@@ -40,9 +40,6 @@ Used to replace the browser's native scrollbar.
       }
     }
   }
-  .el-button {
-    margin-bottom: 20px;
-  }
   .el-slider {
     margin-top: 20px;
   }
