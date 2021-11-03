@@ -47,10 +47,10 @@
             <component :is="mode.icon" />
           </el-icon>
           <i class="el-image-viewer__actions__divider"></i>
-          <el-icon @click="handleActions('anticlocelise')">
+          <el-icon @click="handleActions('anticlockwise')">
             <refresh-left />
           </el-icon>
-          <el-icon @click="handleActions('clocelise')">
+          <el-icon @click="handleActions('clockwise')">
             <refresh-right />
           </el-icon>
         </div>
@@ -120,8 +120,8 @@ const mousewheelEventName = isFirefox() ? 'DOMMouseScroll' : 'mousewheel'
 export type ImageViewerAction =
   | 'zoomIn'
   | 'zoomOut'
-  | 'clocelise'
-  | 'anticlocelise'
+  | 'clockwise'
+  | 'anticlockwise'
 
 export default defineComponent({
   name: 'ElImageViewer',
@@ -353,10 +353,10 @@ export default defineComponent({
             (transform.value.scale + zoomRate).toFixed(3)
           )
           break
-        case 'clocelise':
+        case 'clockwise':
           transform.value.deg += rotateDeg
           break
-        case 'anticlocelise':
+        case 'anticlockwise':
           transform.value.deg -= rotateDeg
           break
       }
