@@ -1,3 +1,8 @@
+---
+title: Scrollbar
+lang: en-US
+---
+
 # Scrollbar
 
 Used to replace the browser's native scrollbar.

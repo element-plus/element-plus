@@ -1,3 +1,8 @@
+---
+title: Popover
+lang: en-US
+---
+
 # Popover
 
 ## Basic usage

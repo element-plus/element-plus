@@ -81,8 +81,23 @@ describe('Tag.vue', () => {
     })
     const vm = wrapper.vm
     const el = vm.$el
-    expect(el.className.indexOf('el-tag--dark') > -1).toEqual(true)
-    expect(el.className.indexOf('el-tag--light') > -1).toEqual(false)
-    expect(el.className.indexOf('el-tag--plain') > -1).toEqual(false)
+    expect(el.className.includes('el-tag--dark')).toEqual(true)
+    expect(el.className.includes('el-tag--light')).toEqual(false)
+    expect(el.className.includes('el-tag--plain')).toEqual(false)
+  })
+
+  // should also support large size
+  test('size', () => {
+    const wrapper = mount(Tag, {
+      props: {
+        size: 'large',
+      },
+    })
+    const vm = wrapper.vm
+    const el = vm.$el
+    expect(el.className.includes('el-tag--large')).toEqual(true)
+    expect(el.className.includes('el-tag--small')).toEqual(false)
+    expect(el.className.includes('el-tag--mini')).toEqual(false)
+    expect(el.className.includes('el-tag--medium')).toEqual(false)
   })
 })

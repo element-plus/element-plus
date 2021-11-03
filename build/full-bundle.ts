@@ -8,7 +8,7 @@ import replace from '@rollup/plugin-replace'
 import filesize from 'rollup-plugin-filesize'
 import { parallel } from 'gulp'
 import { version } from '../packages/element-plus/version'
-import { RollupResolveEntryPlugin } from './plugins/rollup-plugin-entry'
+import { ElementPlusAlias } from './plugins/element-plus-alias'
 import { epRoot, epOutput } from './utils/paths'
 import { generateExternal, writeBundles } from './utils/rollup'
 
@@ -18,17 +18,26 @@ export const buildFull = (minify: boolean) => async () => {
   const bundle = await rollup({
     input: path.resolve(epRoot, 'index.ts'),
     plugins: [
-      nodeResolve(),
+      await ElementPlusAlias(),
+      nodeResolve({
+        extensions: ['.mjs', '.js', '.json', '.ts'],
+      }),
       vue({
         target: 'browser',
         exposeFilename: false,
       }),
       commonjs(),
-      esbuild({ minify, sourceMap: minify }),
+      esbuild({
+        minify,
+        sourceMap: minify,
+        target: 'es2018',
+      }),
       replace({
         'process.env.NODE_ENV': JSON.stringify('production'),
+
+        // options
+        preventAssignment: true,
       }),
-      await RollupResolveEntryPlugin(),
       filesize(),
     ],
     external: await generateExternal({ full: true }),

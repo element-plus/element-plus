@@ -109,9 +109,9 @@ $ pnpm dev
 
 will start the local development environment
 
-2. Add your component into `play/play.vue`
+2. Add your component into `play/src/App.vue`
 
-> play.vue
+> App.vue
 
 ```vue
 <template>
@@ -124,7 +124,7 @@ import { ComponentYouAreDeveloping } from '@element-plus/components'
 </script>
 ```
 
-Modify `play.vue` file per your needs to get things work.
+Modify `App.vue` file per your needs to get things work.
 
 ## Component migration process
 

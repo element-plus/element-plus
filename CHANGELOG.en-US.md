@@ -1,6 +1,33 @@
 ## Changelog
 
 
+### 1.1.0-beta.24
+
+_2021-10-20_
+
+
+### 1.1.0-beta.23
+
+_2021-10-20_
+
+#### Bug fixes
+
+- Build fix package entry field (#3962 by @JeremyWuuuuu)
+
+### 1.1.0-beta.22
+
+_2021-10-20_
+
+#### Bug fixes
+
+- Utils svg classname deal (#3926 by @btea)
+- Components [el-rate] decimal icon display problem (#3921 by @Alanscut)
+- Components ElProgress remove unnecessary required props to prevent form error (#3954 by @Otto-J)
+
+#### Refactors
+
+- Utils dom and add test (#3950 by @btea)
+
 ### 1.1.0-beta.21
 
 _2021-10-18_

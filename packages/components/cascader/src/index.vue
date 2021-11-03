@@ -45,22 +45,26 @@
           @input="handleInput"
         >
           <template #suffix>
-            <i
+            <el-icon
               v-if="clearBtnVisible"
               key="clear"
-              class="el-input__icon el-icon-circle-close"
+              class="el-input__icon icon-circle-close"
               @click.stop="handleClear"
-            ></i>
-            <i
+            >
+              <circle-close />
+            </el-icon>
+            <el-icon
               v-else
               key="arrow-down"
               :class="[
                 'el-input__icon',
-                'el-icon-arrow-down',
+                'icon-arrow-down',
                 popperVisible && 'is-reverse',
               ]"
               @click.stop="togglePopperVisible()"
-            ></i>
+            >
+              <arrow-down />
+            </el-icon>
           </template>
         </el-input>
 
@@ -126,7 +130,7 @@
             @click="handleSuggestionClick(item)"
           >
             <span>{{ item.text }}</span>
-            <i v-if="item.checked" class="el-icon-check"></i>
+            <el-icon v-if="item.checked"><check /></el-icon>
           </li>
         </template>
         <slot v-else name="empty">
@@ -160,8 +164,9 @@ import ElInput from '@element-plus/components/input'
 import ElPopper, { Effect } from '@element-plus/components/popper'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
-import { elFormKey, elFormItemKey } from '@element-plus/tokens'
+import ElIcon from '@element-plus/components/icon'
 
+import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import { ClickOutside as Clickoutside } from '@element-plus/directives'
 import { useLocaleInject } from '@element-plus/hooks'
 
@@ -175,8 +180,9 @@ import {
 } from '@element-plus/utils/resize-event'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 import { isKorean } from '@element-plus/utils/isDef'
-import type { Options } from '@element-plus/components/popper'
+import { CircleClose, Check, ArrowDown } from '@element-plus/icons'
 
+import type { Options } from '@element-plus/components/popper'
 import type { ComputedRef, PropType, Ref } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 import type {
@@ -219,6 +225,10 @@ export default defineComponent({
     ElPopper,
     ElScrollbar,
     ElTag,
+    ElIcon,
+    CircleClose,
+    Check,
+    ArrowDown,
   },
 
   directives: {
@@ -598,7 +608,9 @@ export default defineComponent({
 
     watch([checkedNodes, isDisabled], calculatePresentTags)
 
-    watch(presentTags, () => nextTick(updateStyle))
+    watch(presentTags, () => {
+      nextTick(() => updateStyle())
+    })
 
     watch(presentText, (val) => (inputValue.value = val), { immediate: true })
 

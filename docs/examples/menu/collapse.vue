@@ -12,7 +12,7 @@
   >
     <el-sub-menu index="1">
       <template #title>
-        <i class="el-icon-location"></i>
+        <el-icon><location /></el-icon>
         <span>Navigator One</span>
       </template>
       <el-menu-item-group>
@@ -29,15 +29,15 @@
       </el-sub-menu>
     </el-sub-menu>
     <el-menu-item index="2">
-      <i class="el-icon-menu"></i>
+      <el-icon><icon-menu /></el-icon>
       <template #title>Navigator Two</template>
     </el-menu-item>
     <el-menu-item index="3" disabled>
-      <i class="el-icon-document"></i>
+      <el-icon><document /></el-icon>
       <template #title>Navigator Three</template>
     </el-menu-item>
     <el-menu-item index="4">
-      <i class="el-icon-setting"></i>
+      <el-icon><setting /></el-icon>
       <template #title>Navigator Four</template>
     </el-menu-item>
   </el-menu>
@@ -45,8 +45,20 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
+import {
+  Location,
+  Document,
+  Menu as IconMenu,
+  Setting,
+} from '@element-plus/icons'
 
 export default defineComponent({
+  components: {
+    Location,
+    Document,
+    Setting,
+    IconMenu,
+  },
   setup() {
     const isCollapse = ref(true)
     const handleOpen = (key, keyPath) => {

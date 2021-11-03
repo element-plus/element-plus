@@ -87,4 +87,32 @@ describe('Message on command', () => {
     expect(Message.info).toBeInstanceOf(Function)
     expect(Message.error).toBeInstanceOf(Function)
   })
+
+  test('it should appendTo specified HTMLElement', async () => {
+    const htmlElement = document.createElement('div')
+    const handle = Message({
+      appendTo: htmlElement,
+    })
+    await rAF()
+    expect(htmlElement.querySelector(selector)).toBeTruthy()
+    handle.close()
+    await rAF()
+    await nextTick()
+    expect(htmlElement.querySelector(selector)).toBeFalsy()
+  })
+
+  test('it should appendTo specified selector', async () => {
+    const htmlElement = document.createElement('div')
+    htmlElement.classList.add('message-manager')
+    document.body.appendChild(htmlElement)
+    const handle = Message({
+      appendTo: '.message-manager',
+    })
+    await rAF()
+    expect(htmlElement.querySelector(selector)).toBeTruthy()
+    handle.close()
+    await rAF()
+    await nextTick()
+    expect(htmlElement.querySelector(selector)).toBeFalsy()
+  })
 })

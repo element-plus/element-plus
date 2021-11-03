@@ -288,7 +288,7 @@ describe('Loading', () => {
       },
       template: `<el-input v-loading="true">
       <template #append>
-        <i class="el-icon-question"></i>
+        Loading Text
       </template>
       </el-input>`,
     })

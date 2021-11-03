@@ -1,3 +1,8 @@
+---
+title: Virtualized Select
+lang: en-US
+---
+
 # <ElBadge value="beta">Select V2 virtualized selector</ElBadge>
 
 :::tip
@@ -111,34 +116,34 @@ select-v2/remote-search
 
 ## SelectV2 Attributes
 
-| Param                 | Description                                                                                                                 | Type                               | Accepted Values   | Default              |
-| --------------------- | --------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | ----------------- | -------------------- |
-| model-value / v-model | biding value                                                                                                                | string / number / boolean / object | —                 | —                    |
-| multiple              | is multiple                                                                                                                 | boolean                            | —                 | false                |
-| disabled              | is disabled                                                                                                                 | boolean                            | —                 | false                |
-| value-key             | unique identity key name for value, required when value is an object                                                        | string                             | —                 | value                |
-| size                  | input box size                                                                                                              | string                             | medium/small/mini | —                    |
-| clearable             | whether select can be cleared                                                                                               | boolean                            | —                 | false                |
-| collapse-tags         | whether to collapse tags to a text when multiple selecting                                                                  | boolean                            | —                 | false                |
-| multiple-limit        | maximum number of options user can select when multiple is true. No limit when set to 0                                     | number                             | —                 | 0                    |
-| name                  | the name attribute of select input                                                                                          | string                             | —                 | —                    |
-| autocomplete          | select input 的 autocomplete 属性                                                                                           | string                             | —                 | off                  |
-| placeholder           | the autocomplete attribute of select input                                                                                  | string                             | —                 | Please select        |
-| filterable            | is filterable                                                                                                               | boolean                            | —                 | false                |
-| allow-create          | whether creating new items is allowed. To use this, `filterable` must be true                                               | boolean                            | —                 | false                |
-| no-data-text          | displayed text when there is no options, you can also use slot empty                                                        | string                             | —                 | No Data              |
-| popper-class          | custom class name for Select's dropdown                                                                                     | string                             | —                 | —                    |
-| popper-append-to-body | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false | boolean                            | -                 | false                |
-| popper-options        | Customized popper option see more at [popper.js](https://popper.js.org/documentation.html)                                  | object                             | -                 | -                    |
-| automatic-dropdown    | for non-filterable Select, this prop decides if the option menu pops up when the input is focused                           | boolean                            | -                 | false                |
-| clear-icon            | Customized clear icon class                                                                                                 | string                             | —                 | el-icon-circle-close |
-| height                | The height of the dropdown panel, 34px for each item                                                                        | number                             | -                 | 170                  |
+| Param                 | Description                                                                                                                 | Type                               | Accepted Values   | Default       |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | ----------------- | ------------- |
+| model-value / v-model | biding value                                                                                                                | string / number / boolean / object | —                 | —             |
+| multiple              | is multiple                                                                                                                 | boolean                            | —                 | false         |
+| disabled              | is disabled                                                                                                                 | boolean                            | —                 | false         |
+| value-key             | unique identity key name for value, required when value is an object                                                        | string                             | —                 | value         |
+| size                  | input box size                                                                                                              | string                             | medium/small/mini | —             |
+| clearable             | whether select can be cleared                                                                                               | boolean                            | —                 | false         |
+| collapse-tags         | whether to collapse tags to a text when multiple selecting                                                                  | boolean                            | —                 | false         |
+| multiple-limit        | maximum number of options user can select when multiple is true. No limit when set to 0                                     | number                             | —                 | 0             |
+| name                  | the name attribute of select input                                                                                          | string                             | —                 | —             |
+| autocomplete          | select input 的 autocomplete 属性                                                                                           | string                             | —                 | off           |
+| placeholder           | the autocomplete attribute of select input                                                                                  | string                             | —                 | Please select |
+| filterable            | is filterable                                                                                                               | boolean                            | —                 | false         |
+| allow-create          | whether creating new items is allowed. To use this, `filterable` must be true                                               | boolean                            | —                 | false         |
+| no-data-text          | displayed text when there is no options, you can also use slot empty                                                        | string                             | —                 | No Data       |
+| popper-class          | custom class name for Select's dropdown                                                                                     | string                             | —                 | —             |
+| popper-append-to-body | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false | boolean                            | -                 | false         |
+| popper-options        | Customized popper option see more at [popper.js](https://popper.js.org/documentation.html)                                  | object                             | -                 | -             |
+| automatic-dropdown    | for non-filterable Select, this prop decides if the option menu pops up when the input is focused                           | boolean                            | -                 | false         |
+| clear-icon            | Customized clear icon component                                                                                             | string / Component                 | —                 | CircleClose   |
+| height                | The height of the dropdown panel, 34px for each item                                                                        | number                             | -                 | 170           |
 
 <span style="display: none;">
 <!-- | no-match-text | 搜索条件无匹配时显示的文字，也可以使用`#empty`设置 | string | — | 无匹配数据 | -->
 <!-- | reserve-keyword | 多选且可搜索时，是否在选中一个Option后保留当前的搜索关键词 | boolean | — | false |
 | default-first-option | 在输入框按下回车，选择第一个匹配项。需配合 `filterable` 或 `remote` 使用 | boolean | - | false |
-| clear-icon | 自定义清空图标的类名 | string | — | el-icon-circle-close |
+| clear-icon | 自定义清空图标的类名 | string / component | — | CircleClose |
 | allow-create | 是否允许用户创建新条目，需配合 `filterable` 使用 | boolean | — | false |
 | filter-method | 自定义搜索方法 | function | — | — |
 | remote | 是否为远程搜索 | boolean | — | false |

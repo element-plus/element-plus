@@ -28,18 +28,18 @@
       class="el-tree-node__content"
       :style="{ paddingLeft: (node.level - 1) * tree.props.indent + 'px' }"
     >
-      <span
+      <el-icon
         :class="[
           {
             'is-leaf': node.isLeaf,
             expanded: !node.isLeaf && expanded,
           },
           'el-tree-node__expand-icon',
-          tree.props.iconClass ? tree.props.iconClass : 'el-icon-caret-right',
         ]"
         @click.stop="handleExpandIconClick"
       >
-      </span>
+        <component :is="tree.props.icon || CaretRight"></component>
+      </el-icon>
       <el-checkbox
         v-if="showCheckbox"
         :model-value="node.checked"
@@ -48,11 +48,12 @@
         @click.stop
         @change="handleCheckChange"
       />
-      <span
+      <el-icon
         v-if="node.loading"
-        class="el-tree-node__loading-icon el-icon-loading"
+        class="el-tree-node__loading-icon is-loading"
       >
-      </span>
+        <loading />
+      </el-icon>
       <node-content :node="node" :render-content="renderContent" />
     </div>
     <el-collapse-transition>
@@ -88,6 +89,8 @@ import {
 } from 'vue'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElCheckbox from '@element-plus/components/checkbox'
+import { ElIcon } from '@element-plus/components/icon'
+import { CaretRight, Loading } from '@element-plus/icons'
 import { debugWarn } from '@element-plus/utils/error'
 import NodeContent from './tree-node-content.vue'
 import { getNodeKey as getNodeKeyUtil } from './model/util'
@@ -105,6 +108,8 @@ export default defineComponent({
     ElCollapseTransition,
     ElCheckbox,
     NodeContent,
+    ElIcon,
+    Loading,
   },
   props: {
     node: {
@@ -305,6 +310,7 @@ export default defineComponent({
       handleDragOver,
       handleDrop,
       handleDragEnd,
+      CaretRight,
     }
   },
 })

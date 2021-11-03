@@ -1,3 +1,8 @@
+---
+title: Breadcrumb
+lang: en-US
+---
+
 # Breadcrumb
 
 Displays the location of the current page, making it easier to browser back.
@@ -20,10 +25,10 @@ breadcrumb/icon
 
 ## Breadcrumb Attributes
 
-| Attribute       | Description                  | Type   | Accepted Values | Default |
-| --------------- | ---------------------------- | ------ | --------------- | ------- |
-| separator       | separator character          | string | —               | /       |
-| separator-class | class name of icon separator | string | —               | -       |
+| Attribute       | Description                       | Type               | Accepted Values | Default |
+| --------------- | --------------------------------- | ------------------ | --------------- | ------- |
+| separator       | separator character               | string             | —               | /       |
+| separator-class | icon compontent of icon separator | string / Component | —               | -       |
 
 ## Breadcrumb Slots
 

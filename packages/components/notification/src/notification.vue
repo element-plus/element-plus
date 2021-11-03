@@ -14,15 +14,14 @@
       @mouseleave="startTimer"
       @click="onClick"
     >
-      <i
-        v-if="type || iconClass"
+      <el-icon
+        v-if="iconComponent"
         class="el-notification__icon"
-        :class="[typeClass, iconClass]"
-      ></i>
-      <div
-        class="el-notification__group"
-        :class="{ 'is-with-icon': typeClass || iconClass }"
+        :class="typeClass"
       >
+        <component :is="iconComponent" />
+      </el-icon>
+      <div class="el-notification__group">
         <h2 class="el-notification__title" v-text="title"></h2>
         <div
           v-show="message"
@@ -36,11 +35,13 @@
             <p v-else v-html="message"></p>
           </slot>
         </div>
-        <div
+        <el-icon
           v-if="showClose"
-          class="el-notification__closeBtn el-icon-close"
+          class="el-notification__closeBtn"
           @click.stop="close"
-        ></div>
+        >
+          <close />
+        </el-icon>
       </div>
     </div>
   </transition>
@@ -49,21 +50,19 @@
 import { defineComponent, computed, ref, onMounted } from 'vue'
 import { useEventListener, useTimeoutFn } from '@vueuse/core'
 import { EVENT_CODE } from '@element-plus/utils/aria'
+import { ElIcon } from '@element-plus/components/icon'
+import { TypeComponents, TypeComponentsMap } from '@element-plus/utils/icon'
 import { notificationProps, notificationEmits } from './notification'
 
 import type { CSSProperties } from 'vue'
-import type { NotificationProps } from './notification'
-
-export const typeMap: Record<NotificationProps['type'], string> = {
-  '': '',
-  success: 'el-icon-success',
-  info: 'el-icon-info',
-  warning: 'el-icon-warning',
-  error: 'el-icon-error',
-} as const
 
 export default defineComponent({
   name: 'ElNotification',
+
+  components: {
+    ElIcon,
+    ...TypeComponents,
+  },
 
   props: notificationProps,
   emits: notificationEmits,
@@ -72,7 +71,16 @@ export default defineComponent({
     const visible = ref(false)
     let timer: (() => void) | undefined = undefined
 
-    const typeClass = computed(() => typeMap[props.type])
+    const typeClass = computed(() => {
+      const type = props.type
+      return type && TypeComponentsMap[props.type]
+        ? `el-notification--${type}`
+        : ''
+    })
+
+    const iconComponent = computed(() => {
+      return TypeComponentsMap[props.type] || props.icon || ''
+    })
 
     const horizontalClass = computed(() =>
       props.position.endsWith('right') ? 'right' : 'left'
@@ -129,6 +137,7 @@ export default defineComponent({
     return {
       horizontalClass,
       typeClass,
+      iconComponent,
       positionStyle,
       visible,
 

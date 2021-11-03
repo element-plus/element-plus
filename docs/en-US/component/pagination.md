@@ -1,3 +1,8 @@
+---
+title: Pagination
+lang: en-US
+---
+
 # Pagination
 
 If you have too much data to display in one page, use pagination.

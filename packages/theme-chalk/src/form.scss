@@ -24,6 +24,7 @@
   @include m(inline) {
     & .#{$namespace}-form-item {
       display: inline-flex;
+      vertical-align: middle;
       margin-right: 10px;
     }
 

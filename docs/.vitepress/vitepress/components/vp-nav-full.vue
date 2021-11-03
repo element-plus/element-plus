@@ -20,7 +20,7 @@ const themeEnabled = useFeatureFlag('theme')
     <div v-if="fullScreen" ref="fullscreen">
       <div class="full-screen-container">
         <VPFullScreenMenu @close="$emit('close')" />
-        <VPFullScreenTranslation />
+        <VPFullScreenTranslation @close="$emit('close')" />
         <VPFullScreenThemeToggler v-if="themeEnabled" />
       </div>
     </div>

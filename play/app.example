@@ -1,11 +1,19 @@
 <template>
   <div class="play-container">
-    <ElButton> test </ElButton>
+    <el-icon color="#409EFC">
+      <check />
+    </el-icon>
+    <el-icon>
+      <MenuIcon />
+    </el-icon>
+    <ElButton>test</ElButton>
+    <div v-loading="true"></div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ElButton } from '@element-plus/components'
+import { Check, Menu as MenuIcon } from "@element-plus/icons";
+// code here
 </script>
 
 <style lang="scss">

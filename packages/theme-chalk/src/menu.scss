@@ -149,7 +149,7 @@
 
     > .#{$namespace}-menu-item,
     > .#{$namespace}-sub-menu > .#{$namespace}-sub-menu__title {
-      [class^='#{$namespace}-icon-'] {
+      [class^='is-icon-'] {
         margin: 0;
         vertical-align: middle;
         width: 24px;
@@ -215,7 +215,7 @@
 @include b(menu-item) {
   @include menu-item;
 
-  & [class^='#{$namespace}-icon-'] {
+  & [class^='is-icon-'] {
     margin-right: 5px;
     width: 24px;
     text-align: center;
@@ -285,7 +285,7 @@
       background: none !important;
     }
   }
-  [class^='#{$namespace}-icon-'] {
+  [class^='is-icon-'] {
     vertical-align: middle;
     margin-right: 5px;
     width: 24px;

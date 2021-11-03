@@ -25,11 +25,11 @@ export type LocalFallbacks = {
 }
 
 export const useFormItem = ({ size, disabled }: LocalFallbacks) => {
-  const vm = getCurrentInstance()
+  const vm = getCurrentInstance()!
   const $ELEMENT = useGlobalConfig()
 
   // vm.props is not reactive so we use the reactive one here.
-  const props = vm.proxy.$props as UseFormItemProps
+  const props = vm.proxy?.$props as UseFormItemProps
   const form = inject(elFormKey, undefined)
   const formItem = inject(elFormItemKey, undefined)
 

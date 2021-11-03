@@ -1,3 +1,8 @@
+---
+title: Skeleton
+lang: en-US
+---
+
 # Skeleton
 
 When loading data, and you need a rich experience for visual and interactions for your end users, you can choose `skeleton`.

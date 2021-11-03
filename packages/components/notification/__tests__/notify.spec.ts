@@ -80,4 +80,33 @@ describe('Notification on command', () => {
       expect(document.querySelector(`.el-icon-${type}`)).toBeDefined()
     }
   })
+
+  test('it should appendTo specified HTMLElement', async () => {
+    const htmlElement = document.createElement('div')
+    const handle = Notification({
+      appendTo: htmlElement,
+    })
+    await rAF()
+    expect(htmlElement.querySelector(selector)).toBeDefined()
+
+    handle.close()
+    await rAF()
+    await nextTick()
+    expect(htmlElement.querySelector(selector)).toBeNull()
+  })
+
+  test('it should appendTo specified selector', async () => {
+    const htmlElement = document.createElement('div')
+    htmlElement.classList.add('notification-manager')
+    document.body.appendChild(htmlElement)
+    const handle = Notification({
+      appendTo: '.notification-manager',
+    })
+    await rAF()
+    expect(htmlElement.querySelector(selector)).toBeDefined()
+    handle.close()
+    await rAF()
+    await nextTick()
+    expect(htmlElement.querySelector(selector)).toBeNull()
+  })
 })

@@ -1,3 +1,8 @@
+---
+title: Carousel
+lang: en-US
+---
+
 # Carousel
 
 Loop a series of images or texts in a limited space

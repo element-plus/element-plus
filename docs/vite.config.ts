@@ -8,11 +8,11 @@ const alias: Alias[] = []
 if (process.env.DOC_ENV !== 'production') {
   alias.push(
     {
-      find: /^element-plus$/,
+      find: /^element-plus(\/(es|lib))?$/,
       replacement: path.resolve(projRoot, 'packages/element-plus/index.ts'),
     },
     {
-      find: /^element-plus\/(es|lib)\/(.*)/,
+      find: /^element-plus\/(es|lib)\/(.*)$/,
       replacement: `${path.resolve(projRoot, 'packages')}/$2`,
     }
   )

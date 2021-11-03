@@ -3,7 +3,7 @@ import { useFormItemProps } from '@element-plus/hooks'
 import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import type { StyleValue } from '@element-plus/utils/types'
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, Component } from 'vue'
 
 type AutoSize = { minRows?: number; maxRows?: number } | boolean
 
@@ -53,11 +53,11 @@ export const inputProps = buildProps({
     default: false,
   },
   suffixIcon: {
-    type: String,
+    type: definePropType<string | Component>([String, Object]),
     default: '',
   },
   prefixIcon: {
-    type: String,
+    type: definePropType<string | Component>([String, Object]),
     default: '',
   },
   label: {
@@ -73,9 +73,6 @@ export const inputProps = buildProps({
   inputStyle: {
     type: definePropType<StyleValue>([Object, Array, String]),
     default: () => mutable({} as const),
-  },
-  maxlength: {
-    type: [Number, String],
   },
 } as const)
 export type InputProps = ExtractPropTypes<typeof inputProps>
