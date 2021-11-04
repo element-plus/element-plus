@@ -161,7 +161,8 @@
             </template>
             <template #suffix>
               <el-icon
-                v-show="!showClose && iconComponent"
+                v-if="iconComponent"
+                v-show="!showClose"
                 :class="['el-select__caret', 'el-input__icon', iconReverse]"
               >
                 <component :is="iconComponent" />

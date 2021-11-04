@@ -205,7 +205,8 @@
           </span>
           <span class="el-select-v2__suffix">
             <el-icon
-              v-show="!showClearBtn && iconComponent"
+              v-if="iconComponent"
+              v-show="!showClearBtn"
               :class="['el-select-v2__caret', 'el-input__icon', iconReverse]"
             >
               <component :is="iconComponent" />
