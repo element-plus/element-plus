@@ -67,7 +67,9 @@
           view-class="el-autocomplete-suggestion__list"
         >
           <li v-if="suggestionLoading">
-            <el-icon class="is-loading"><loading /></el-icon>
+            <el-icon class="is-loading">
+              <loading />
+            </el-icon>
           </li>
           <template v-else>
             <li
