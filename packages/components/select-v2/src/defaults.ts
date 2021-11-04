@@ -80,6 +80,10 @@ export const SelectProps = {
     type: String,
     default: 'value',
   },
+  scrollbarAlwaysOn: {
+    type: Boolean,
+    default: false,
+  },
 }
 
 export const OptionProps = {

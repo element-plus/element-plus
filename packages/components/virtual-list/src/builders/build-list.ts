@@ -65,7 +65,6 @@ const createList = ({
       const windowRef = ref<HTMLElement>()
       const innerRef = ref<HTMLElement>()
       const scrollbarRef = ref()
-
       const states = ref({
         isScrolling: false,
         scrollDir: 'forward',
@@ -74,6 +73,7 @@ const createList = ({
           : 0,
         updateRequested: false,
         isScrollbarDragging: false,
+        scrollbarAlwaysOn: props.scrollbarAlwaysOn,
       })
 
       // computed
@@ -506,7 +506,6 @@ const createList = ({
         scrollFrom:
           states.scrollOffset / (this.estimatedTotalSize - clientSize),
         total,
-        visible: true,
       })
 
       const listContainer = h(
@@ -526,7 +525,10 @@ const createList = ({
         'div',
         {
           key: 0,
-          class: 'el-vl__wrapper',
+          class: [
+            'el-vl__wrapper',
+            states.scrollbarAlwaysOn ? 'always-on' : '',
+          ],
         },
         [listContainer, scrollbar]
       )

@@ -226,6 +226,7 @@
           :data="filteredOptions"
           :width="popperSize"
           :hovering-index="states.hoveringIndex"
+          :scrollbar-always-on="scrollbarAlwaysOn"
         >
           <template #default="scope">
             <slot v-bind="scope"></slot>

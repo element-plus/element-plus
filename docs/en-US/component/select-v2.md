@@ -138,6 +138,7 @@ select-v2/remote-search
 | automatic-dropdown    | for non-filterable Select, this prop decides if the option menu pops up when the input is focused                           | boolean                            | -                 | false         |
 | clear-icon            | Customized clear icon component                                                                                             | string / Component                 | —                 | CircleClose   |
 | height                | The height of the dropdown panel, 34px for each item                                                                        | number                             | -                 | 170           |
+| scrollbar-always-on   | Controls whether the scrollbar is always displayed                                                                          | boolean                            | -                 | false         |
 
 <span style="display: none;">
 <!-- | no-match-text | 搜索条件无匹配时显示的文字，也可以使用`#empty`设置 | string | — | 无匹配数据 | -->
