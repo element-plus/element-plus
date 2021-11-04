@@ -10,7 +10,7 @@
       @click.stop="handleClick"
     >
       <slot>
-        <i class="el-icon-caret-top"></i>
+        <el-icon class="el-backtop__icon"><caret-top /></el-icon>
       </slot>
     </div>
   </transition>
@@ -19,8 +19,10 @@
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted, shallowRef } from 'vue'
 import { useEventListener, useThrottleFn } from '@vueuse/core'
+import { ElIcon } from '@element-plus/components/icon'
 import { easeInOutCubic } from '@element-plus/utils/animation'
 import { throwError } from '@element-plus/utils/error'
+import { CaretTop } from '@element-plus/icons'
 
 import { backtopEmits, backtopProps } from './backtop'
 
@@ -28,7 +30,10 @@ const COMPONENT_NAME = 'ElBacktop'
 
 export default defineComponent({
   name: COMPONENT_NAME,
-
+  components: {
+    ElIcon,
+    CaretTop,
+  },
   props: backtopProps,
   emits: backtopEmits,
 

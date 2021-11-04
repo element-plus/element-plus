@@ -1,7 +1,7 @@
 import { useFormItemProps } from '@element-plus/hooks'
-import { buildProp } from '@element-plus/utils/props'
+import { buildProps, definePropType } from '@element-plus/utils/props'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, Component } from 'vue'
 
 export const buttonType = [
   'default',
@@ -11,33 +11,34 @@ export const buttonType = [
   'info',
   'danger',
   'text',
+  '',
 ] as const
 export const buttonSize = ['', 'large', 'medium', 'small', 'mini'] as const
 export const buttonNativeType = ['button', 'submit', 'reset'] as const
 
-export const buttonProps = {
+export const buttonProps = buildProps({
   ...useFormItemProps,
-  type: buildProp({
+  type: {
     type: String,
     values: buttonType,
-    default: 'default',
-  } as const),
-  icon: {
-    type: String,
     default: '',
   },
-  nativeType: buildProp({
+  icon: {
+    type: definePropType<string | Component>([String, Object]),
+    default: '',
+  },
+  nativeType: {
     type: String,
     values: buttonNativeType,
     default: 'button',
-  } as const),
+  },
   loading: Boolean,
   plain: Boolean,
   autofocus: Boolean,
   round: Boolean,
   circle: Boolean,
   color: String,
-} as const
+} as const)
 
 export const buttonEmits = {
   click: (evt: MouseEvent) => evt instanceof MouseEvent,

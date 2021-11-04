@@ -14,7 +14,8 @@
 
   <el-dropdown trigger="click">
     <span class="el-dropdown-link">
-      Click Me<i class="el-icon-caret-bottom el-icon--right"></i>
+      Click Me
+      <el-icon class="el-icon--right"><caret-bottom /></el-icon>
     </span>
     <template #dropdown>
       <el-dropdown-menu>
@@ -30,6 +31,10 @@
     </template>
   </el-dropdown>
 </template>
+
+<script lang="ts" setup>
+import { CaretBottom } from '@element-plus/icons'
+</script>
 
 <style scoped>
 .item {

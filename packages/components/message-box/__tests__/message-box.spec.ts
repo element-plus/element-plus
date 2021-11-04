@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { rAF } from '@element-plus/test-utils/tick'
 import { triggerNativeCompositeClick } from '@element-plus/test-utils/composite-click'
+import { QuestionFilled } from '@element-plus/icons'
 import MessageBox from '../src/messageBox'
 
 const selector = '.el-overlay'
@@ -63,12 +64,16 @@ describe('MessageBox', () => {
   test('custom icon', async () => {
     MessageBox({
       type: 'warning',
-      iconClass: 'el-icon-question',
+      icon: QuestionFilled,
       message: '这是一段内容',
     })
     await rAF()
     const icon = document.querySelector('.el-message-box__status')
-    expect(icon.classList.contains('el-icon-question')).toBe(true)
+
+    expect(icon.classList.contains('el-icon')).toBe(true)
+
+    const svg = mount(QuestionFilled).find('svg').element
+    expect(icon.querySelector('svg').innerHTML).toBe(svg.innerHTML)
   })
 
   test('html string', async () => {

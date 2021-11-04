@@ -1,10 +1,12 @@
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'mixins/utils';
-@import 'common/var';
-@import 'common/transition';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'mixins/utils' as *;
+@use 'common/var' as *;
+@use 'common/transition';
 
 @mixin menu-item {
+  display: flex;
+  align-items: center;
   height: 56px;
   line-height: 56px;
   font-size: var(--el-menu-item-font-size);
@@ -20,7 +22,7 @@
   white-space: nowrap;
 
   * {
-    vertical-align: middle;
+    vertical-align: bottom;
   }
 
   i {
@@ -44,7 +46,7 @@
 }
 
 @include b(menu) {
-  @include set-component-css-var('menu', $--menu);
+  @include set-component-css-var('menu', $menu);
 
   border-right: solid 1px var(--el-menu-border-color);
   list-style: none;
@@ -149,7 +151,7 @@
 
     > .#{$namespace}-menu-item,
     > .#{$namespace}-sub-menu > .#{$namespace}-sub-menu__title {
-      [class^='#{$namespace}-icon-'] {
+      [class^='#{$namespace}-icon'] {
         margin: 0;
         vertical-align: middle;
         width: 24px;
@@ -215,7 +217,7 @@
 @include b(menu-item) {
   @include menu-item;
 
-  & [class^='#{$namespace}-icon-'] {
+  & [class^='#{$namespace}-icon'] {
     margin-right: 5px;
     width: 24px;
     text-align: center;
@@ -265,7 +267,9 @@
     right: 20px;
     margin-top: -7px;
     transition: transform var(--el-transition-duration);
-    font-size: 12px;
+    font-size: 12px !important;
+    margin-right: 0 !important;
+    width: inherit !important;
   }
   @include when(active) {
     .#{$namespace}-sub-menu__title {
@@ -285,7 +289,7 @@
       background: none !important;
     }
   }
-  [class^='#{$namespace}-icon-'] {
+  [class^='#{$namespace}-icon'] {
     vertical-align: middle;
     margin-right: 5px;
     width: 24px;

@@ -1,3 +1,8 @@
+---
+title: Upload
+lang: en-US
+---
+
 # Upload
 
 Upload files by clicking or drag-and-drop
@@ -82,6 +87,7 @@ upload/manual
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | ------------------------- | ------- |
 | action           | required, request URL                                                                                                                                                                 | string                             | —                         | —       |
 | headers          | request headers                                                                                                                                                                       | object                             | —                         | —       |
+| method           | set upload request method                                                                                                                                                             | string                             | post/put/patch            | post    |
 | multiple         | whether uploading multiple files is permitted                                                                                                                                         | boolean                            | —                         | —       |
 | data             | additions options of request                                                                                                                                                          | object                             | —                         | —       |
 | name             | key name for uploaded file                                                                                                                                                            | string                             | —                         | file    |
@@ -110,6 +116,7 @@ upload/manual
 
 | Name    | Description                        |
 | ------- | ---------------------------------- |
+| —       | customize default content          |
 | trigger | content which triggers file dialog |
 | tip     | content of tips                    |
 

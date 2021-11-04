@@ -1,3 +1,8 @@
+---
+title: Affix
+lang: en-US
+---
+
 # Affix
 
 Fix the element to a specific visible area.
@@ -53,6 +58,12 @@ affix/fixed
 | Method | Description                 | Parameters |
 | ------ | --------------------------- | ---------- |
 | update | update affix state manually | —          |
+
+## Slots
+
+| Name | Description               |
+| ---- | ------------------------- |
+| —    | customize default content |
 
 <style lang="scss">
 .example-showcase {

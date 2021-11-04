@@ -2,6 +2,7 @@ import { createVNode, render } from 'vue'
 import { isVNode } from '@element-plus/utils/util'
 import PopupManager from '@element-plus/utils/popup-manager'
 import isServer from '@element-plus/utils/isServer'
+import { debugWarn } from '@element-plus/utils/error'
 import MessageConstructor from './message.vue'
 import { messageTypes } from './message'
 
@@ -38,6 +39,21 @@ const message: MessageFn & Partial<Message> = function (options = {}) {
     },
   }
 
+  let appendTo: HTMLElement | null = document.body
+  if (options.appendTo instanceof HTMLElement) {
+    appendTo = options.appendTo
+  } else if (typeof options.appendTo === 'string') {
+    appendTo = document.querySelector(options.appendTo)
+  }
+  // should fallback to default value with a warning
+  if (!(appendTo instanceof HTMLElement)) {
+    debugWarn(
+      'ElMessage',
+      'the appendTo option is not an HTMLElement. Falling back to document.body.'
+    )
+    appendTo = document.body
+  }
+
   const container = document.createElement('div')
 
   container.className = `container_${id}`
@@ -60,7 +76,7 @@ const message: MessageFn & Partial<Message> = function (options = {}) {
   render(vm, container)
   // instances will remove this item when close function gets called. So we do not need to worry about it.
   instances.push({ vm })
-  document.body.appendChild(container.firstElementChild!)
+  appendTo.appendChild(container.firstElementChild!)
 
   return {
     // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle

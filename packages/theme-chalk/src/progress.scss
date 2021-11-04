@@ -1,6 +1,6 @@
-@import 'mixins/mixins';
-@import 'mixins/utils';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/utils' as *;
+@use 'common/var' as *;
 
 @include b(progress) {
   position: relative;
@@ -125,7 +125,7 @@
   @include e(innerText) {
     display: inline-block;
     vertical-align: middle;
-    color: $--color-white;
+    color: $color-white;
     font-size: 12px;
     margin: 0 5px;
   }

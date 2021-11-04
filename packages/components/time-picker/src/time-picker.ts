@@ -32,7 +32,6 @@ export default defineComponent({
         commonPicker.value?.handleBlur()
       },
     }
-
     provide('ElPopperOptions', props.popperOptions)
     ctx.expose(refProps)
     return () => {

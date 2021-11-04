@@ -1,5 +1,6 @@
 import { ref, h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
+import { Loading, Search } from '@element-plus/icons'
 import Button from '../src/button.vue'
 import ButtonGroup from '../src/button-group.vue'
 
@@ -15,9 +16,9 @@ describe('Button.vue', () => {
 
   it('icon', () => {
     const wrapper = mount(Button, {
-      props: { icon: 'el-icon-search' },
+      props: { icon: Search },
     })
-    expect(wrapper.find('.el-icon-search').exists()).toBeTruthy()
+    expect(wrapper.findComponent(Search).exists()).toBeTruthy()
   })
   it('nativeType', () => {
     const wrapper = mount(Button, {
@@ -30,7 +31,7 @@ describe('Button.vue', () => {
       props: { loading: true },
     })
     expect(wrapper.classes()).toContain('is-loading')
-    expect(wrapper.find('.el-icon-loading').exists()).toBeTruthy()
+    expect(wrapper.findComponent(Loading).exists()).toBeTruthy()
   })
   it('size', () => {
     const wrapper = mount(Button, {
@@ -109,10 +110,11 @@ describe('Button.vue', () => {
 describe('Button Group', () => {
   it('create', () => {
     const wrapper = mount({
-      template: `<el-button-group>
+      template: `
+        <el-button-group>
         <el-button type="primary">Prev</el-button>
         <el-button type="primary">Next</el-button>
-      </el-button-group>`,
+        </el-button-group>`,
       components: {
         'el-button-group': ButtonGroup,
         'el-button': Button,
@@ -151,5 +153,36 @@ describe('Button Group', () => {
     expect(
       wrapper.findAll('.el-button-group button.el-button--mini').length
     ).toBe(1)
+  })
+
+  it('button group type', async () => {
+    const wrapper = mount({
+      setup() {
+        return () =>
+          h(ButtonGroup, { type: 'warning' }, () => [
+            h(Button, { type: 'primary' }, () => 'Prev'),
+            h(Button, {}, () => 'Next'),
+          ])
+      },
+    })
+    expect(wrapper.classes()).toContain('el-button-group')
+    expect(
+      wrapper.findAll('.el-button-group button.el-button--primary').length
+    ).toBe(1)
+    expect(
+      wrapper.findAll('.el-button-group button.el-button--warning').length
+    ).toBe(1)
+  })
+
+  it('add space in two Chinese characters', async () => {
+    const wrapper = mount(Button, {
+      slots: {
+        default: '中文',
+      },
+    })
+    expect(wrapper.find('.el-button span').text()).toBe('中文')
+    expect(wrapper.find('.el-button span').classes()).toContain(
+      'el-button__text--expand'
+    )
   })
 })

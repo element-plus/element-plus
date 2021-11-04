@@ -1,5 +1,5 @@
 import type { InjectionKey } from 'vue'
-import type { FieldErrorList } from 'async-validator'
+import type { ValidateFieldsError } from 'async-validator'
 import type { ComponentSize } from '@element-plus/utils/types'
 
 export interface ElFormContext {
@@ -24,7 +24,7 @@ export interface ElFormContext {
 }
 
 export interface ValidateFieldCallback {
-  (isValid?: string, invalidFields?: FieldErrorList): void
+  (isValid?: string, invalidFields?: ValidateFieldsError): void
 }
 
 export interface ElFormItemContext {

@@ -10,7 +10,7 @@ defineProps<{
 
 <template>
   <div class="sponsor-item">
-    <a :href="item.url" :title="item.name">
+    <a :href="item.url" :title="item.name" target="_blank">
       <img :src="item.img" :alt="item.name" />
     </a>
   </div>

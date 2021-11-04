@@ -1,3 +1,8 @@
+---
+title: Table
+lang: en-US
+---
+
 # Table
 
 Display multiple data with similar format. You can sort, filter, compare your data in a table.
@@ -275,9 +280,10 @@ table/custom-index
 
 ## Table Slots
 
-| Name   | Description                                                                                                                                                                                   |
-| ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| append | Contents to be inserted after the last row. You may need this slot if you want to implement infinite scroll for the table. This slot will be displayed above the summary row if there is one. |
+| Name   | Description                                                                                                                                                                                   | Subtags      |
+| ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| -      | customize default content                                                                                                                                                                     | Table-column |
+| append | Contents to be inserted after the last row. You may need this slot if you want to implement infinite scroll for the table. This slot will be displayed above the summary row if there is one. | —            |
 
 ## Table-column Attributes
 

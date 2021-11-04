@@ -1,3 +1,8 @@
+---
+title: Layout
+lang: en-US
+---
+
 # Layout
 
 Quickly and easily create layouts with the basic 24-column.
@@ -79,7 +84,7 @@ certain conditions. These classes can be added to any DOM elements or custom com
 You need to import the following CSS file to use these classes:
 
 ```js
-import 'element-plus/lib/theme-chalk/display.css'
+import 'element-plus/theme-chalk/display.css'
 ```
 
 The classes are:
@@ -105,6 +110,12 @@ The classes are:
 | align     | vertical alignment of flex layout   | string | top/middle/bottom                           | top     |
 | tag       | custom element tag                  | string | \*                                          | div     |
 
+## Row Slots
+
+| Name | Description               | Subtags |
+| ---- | ------------------------- | ------- |
+| —    | customize default content | Col     |
+
 ## Col Attributes
 
 | Attribute | Description                                         | Type                                      | Accepted Values | Default |
@@ -119,3 +130,9 @@ The classes are:
 | lg        | `≥1200px` Responsive columns or column props object | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
 | xl        | `≥1920px` Responsive columns or column props object | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
 | tag       | custom element tag                                  | string                                    | \*              | div     |
+
+## Col Slots
+
+| Name | Description               |
+| ---- | ------------------------- |
+| —    | customize default content |

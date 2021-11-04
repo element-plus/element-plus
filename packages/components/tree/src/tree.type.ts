@@ -4,6 +4,7 @@ import type {
   Ref,
   SetupContext,
   VNode,
+  Component,
 } from 'vue'
 import type Node from './model/node'
 import type TreeStore from './model/tree-store'
@@ -63,6 +64,10 @@ export declare interface TreeOptionProps {
   label: string
   disabled: string
   isLeaf?: boolean
+  class?: (
+    data: TreeNodeData,
+    node: Node
+  ) => string | { [key: string]: boolean } | string
 }
 export declare type RenderContentFunction = (
   h: hType,
@@ -117,5 +122,5 @@ export declare interface TreeComponentProps {
   filterNodeMethod: FilterNodeMethodFunction
   accordion: boolean
   indent: number
-  iconClass: string
+  icon: string | Component
 }

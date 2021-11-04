@@ -1,13 +1,13 @@
 @use 'sass:math';
 @use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'mixins/utils';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/utils' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(transfer) {
-  @include set-component-css-var('transfer', $--transfer);
+  @include set-component-css-var('transfer', $transfer);
 }
 
 @include b(transfer) {
@@ -33,7 +33,7 @@
       font-size: 14px;
     }
 
-    & [class*='#{$namespace}-icon-'] + span {
+    & .#{$namespace}-icon + span {
       margin-left: 0;
     }
   }

@@ -1,11 +1,8 @@
 export function calcColorChannels(c: string) {
   let rawColor = c.trim().replace('#', '')
   if (/^[0-9a-fA-F]{3}$/.test(rawColor)) {
-    const color = rawColor.split('')
-    for (let i = 2; i >= 0; i--) {
-      color.splice(i, 0, color[i])
-    }
-    rawColor = color.join('')
+    rawColor =
+      rawColor[0].repeat(2) + rawColor[1].repeat(2) + rawColor[2].repeat(2)
   }
   if (/^[0-9a-fA-F]{6}$/.test(rawColor)) {
     return {
@@ -13,12 +10,11 @@ export function calcColorChannels(c: string) {
       green: parseInt(rawColor.slice(2, 4), 16),
       blue: parseInt(rawColor.slice(4, 6), 16),
     }
-  } else {
-    return {
-      red: 255,
-      green: 255,
-      blue: 255,
-    }
+  }
+  return {
+    red: 255,
+    green: 255,
+    blue: 255,
   }
 }
 

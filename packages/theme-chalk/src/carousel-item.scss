@@ -1,5 +1,5 @@
-@import 'mixins/mixins';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'common/var' as *;
 
 @include b(carousel) {
   @include e(item) {
@@ -43,7 +43,7 @@
     height: 100%;
     top: 0;
     left: 0;
-    background-color: $--color-white;
+    background-color: $color-white;
     opacity: 0.24;
     transition: var(--el-transition-duration-fast);
   }

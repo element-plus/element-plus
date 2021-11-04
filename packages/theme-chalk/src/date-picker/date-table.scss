@@ -1,5 +1,5 @@
-@import '../common/var';
-@import '../mixins/mixins';
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
 
 @include b(date-table) {
   font-size: 12px;
@@ -8,25 +8,25 @@
   @include when(week-mode) {
     .#{$namespace}-date-table__row {
       &:hover {
-        div {
+        .el-date-table-cell {
           background-color: var(--el-datepicker-inrange-background-color);
         }
         td.available:hover {
           color: var(--el-datepicker-font-color);
         }
-        td:first-child div {
+        td:first-child .el-date-table-cell {
           margin-left: 5px;
           border-top-left-radius: 15px;
           border-bottom-left-radius: 15px;
         }
-        td:last-child div {
+        td:last-child .el-date-table-cell {
           margin-right: 5px;
           border-top-right-radius: 15px;
           border-bottom-right-radius: 15px;
         }
       }
 
-      &.current div {
+      &.current .el-date-table-cell {
         background-color: var(--el-datepicker-inrange-background-color);
       }
     }
@@ -41,22 +41,21 @@
     cursor: pointer;
     position: relative;
 
-    & div {
+    @include b(date-table-cell) {
       height: 30px;
       padding: 3px 0;
       box-sizing: border-box;
-    }
-
-    & span {
-      width: 24px;
-      height: 24px;
-      display: block;
-      margin: 0 auto;
-      line-height: 24px;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      border-radius: 50%;
+      @include b(date-table-cell__text) {
+        width: 24px;
+        height: 24px;
+        display: block;
+        margin: 0 auto;
+        line-height: 24px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 50%;
+      }
     }
 
     &.next-month,
@@ -66,13 +65,13 @@
 
     &.today {
       position: relative;
-      span {
+      .el-date-table-cell__text {
         color: var(--el-color-primary);
         font-weight: bold;
       }
-      &.start-date span,
-      &.end-date span {
-        color: $--color-white;
+      &.start-date .el-date-table-cell__text,
+      &.end-date .el-date-table-cell__text {
+        color: $color-white;
       }
     }
 
@@ -80,47 +79,47 @@
       color: var(--el-datepicker-hover-font-color);
     }
 
-    &.in-range div {
+    &.in-range .el-date-table-cell {
       background-color: var(--el-datepicker-inrange-background-color);
       &:hover {
         background-color: var(--el-datepicker-inrange-hover-background-color);
       }
     }
 
-    &.current:not(.disabled) span {
-      color: $--color-white;
+    &.current:not(.disabled) .el-date-table-cell__text {
+      color: $color-white;
       background-color: var(--el-datepicker-active-color);
     }
-    &.start-date div,
-    &.end-date div {
-      color: $--color-white;
+    &.start-date .el-date-table-cell,
+    &.end-date .el-date-table-cell {
+      color: $color-white;
     }
 
-    &.start-date span,
-    &.end-date span {
+    &.start-date .el-date-table-cell__text,
+    &.end-date .el-date-table-cell__text {
       background-color: var(--el-datepicker-active-color);
     }
 
-    &.start-date div {
+    &.start-date .el-date-table-cell {
       margin-left: 5px;
       border-top-left-radius: 15px;
       border-bottom-left-radius: 15px;
     }
 
-    &.end-date div {
+    &.end-date .el-date-table-cell {
       margin-right: 5px;
       border-top-right-radius: 15px;
       border-bottom-right-radius: 15px;
     }
 
-    &.disabled div {
-      background-color: $--background-color-base;
+    &.disabled .el-date-table-cell {
+      background-color: $background-color-base;
       opacity: 1;
       cursor: not-allowed;
       color: var(--el-text-color-placeholder);
     }
 
-    &.selected div {
+    &.selected .el-date-table-cell {
       margin-left: 5px;
       margin-right: 5px;
       background-color: var(--el-datepicker-inrange-background-color);
@@ -130,9 +129,9 @@
       }
     }
 
-    &.selected span {
+    &.selected .el-date-table-cell__text {
       background-color: var(--el-datepicker-active-color);
-      color: $--color-white;
+      color: $color-white;
       border-radius: 15px;
     }
 

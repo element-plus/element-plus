@@ -8,20 +8,23 @@
       :style="fitStyle"
       @error="handleError"
     />
-    <i v-else-if="icon" :class="icon"></i>
+    <el-icon v-else-if="icon"><component :is="icon" /></el-icon>
     <slot v-else></slot>
   </span>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed, ref, watch } from 'vue'
+import { ElIcon } from '@element-plus/components/icon'
 import { avatarEmits, avatarProps } from './avatar'
 
 import type { CSSProperties } from 'vue'
 
 export default defineComponent({
   name: 'ElAvatar',
-
+  components: {
+    ElIcon,
+  },
   props: avatarProps,
   emits: avatarEmits,
 

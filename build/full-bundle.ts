@@ -1,114 +1,73 @@
 import path from 'path'
-import fs from 'fs'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import { rollup } from 'rollup'
 import commonjs from '@rollup/plugin-commonjs'
 import vue from 'rollup-plugin-vue'
 import esbuild from 'rollup-plugin-esbuild'
 import replace from '@rollup/plugin-replace'
-import { parallel, series } from 'gulp'
-import { genEntryTypes } from './entry-types'
-import { RollupResolveEntryPlugin } from './rollup-plugin-entry'
+import filesize from 'rollup-plugin-filesize'
+import { parallel } from 'gulp'
+import { version } from '../packages/element-plus/version'
+import { ElementPlusAlias } from './plugins/element-plus-alias'
 import { epRoot, epOutput } from './utils/paths'
-import { EP_PREFIX, excludes } from './constants'
-import { yellow, green } from './utils/log'
 import { generateExternal, writeBundles } from './utils/rollup'
-import { buildConfig } from './info'
 
-import { run } from './utils/process'
-import type { RollupOptions, OutputOptions } from 'rollup'
+import { withTaskName } from './utils/gulp'
 
-let config: RollupOptions
-
-const init = async () =>
-  (config = {
+export const buildFull = (minify: boolean) => async () => {
+  const bundle = await rollup({
     input: path.resolve(epRoot, 'index.ts'),
     plugins: [
-      nodeResolve(),
+      await ElementPlusAlias(),
+      nodeResolve({
+        extensions: ['.mjs', '.js', '.json', '.ts'],
+      }),
       vue({
         target: 'browser',
-        // css: false,
         exposeFilename: false,
       }),
       commonjs(),
-      esbuild({ minify: false }),
+      esbuild({
+        minify,
+        sourceMap: minify,
+        target: 'es2018',
+      }),
       replace({
         'process.env.NODE_ENV': JSON.stringify('production'),
+
+        // options
+        preventAssignment: true,
       }),
+      filesize(),
     ],
     external: await generateExternal({ full: true }),
   })
-
-export const buildFull = async () => {
-  yellow('Building bundle')
-
-  // Full bundle generation
-  const bundle = await rollup({
-    ...config,
-    plugins: [...config.plugins!, RollupResolveEntryPlugin()],
-  })
-
-  yellow('Generating index.full.js')
-  await bundle.write({
-    format: 'umd',
-    file: path.resolve(epOutput, 'dist/index.full.js'),
-    exports: 'named',
-    name: 'ElementPlus',
-    globals: {
-      vue: 'Vue',
+  const banner = `/*! Element Plus v${version} */\n`
+  await writeBundles(bundle, [
+    {
+      format: 'umd',
+      file: path.resolve(epOutput, `dist/index.full${minify ? '.min' : ''}.js`),
+      exports: 'named',
+      name: 'ElementPlus',
+      globals: {
+        vue: 'Vue',
+      },
+      sourcemap: minify,
+      banner,
     },
-  })
-  green('index.full.js generated')
-}
-
-export const buildEntry = async () => {
-  yellow('Generating entry files without dependencies')
-
-  const entryFiles = await fs.promises.readdir(epRoot, {
-    withFileTypes: true,
-  })
-
-  const entryPoints = entryFiles
-    .filter((f) => f.isFile())
-    .filter((f) => !['package.json', 'README.md'].includes(f.name))
-    .map((f) => path.resolve(epRoot, f.name))
-
-  const bundle = await rollup({
-    ...config,
-    input: entryPoints,
-    external: () => true,
-  })
-
-  const rewriter = (id: string) => {
-    if (id.startsWith(`${EP_PREFIX}/components`))
-      return id.replace(`${EP_PREFIX}/components`, './components')
-    else if (id.startsWith(EP_PREFIX) && excludes.every((e) => !id.endsWith(e)))
-      return id.replace(EP_PREFIX, '.')
-    else return ''
-  }
-
-  yellow('Generating entries')
-  writeBundles(
-    bundle,
-    Object.values(buildConfig).map(
-      (config): OutputOptions => ({
-        format: config.format,
-        dir: config.output.path,
-        exports: config.format === 'cjs' ? 'named' : undefined,
-        paths: rewriter,
-      })
-    )
-  )
-  green('entries generated')
-}
-
-export const copyFullStyle = () =>
-  Promise.all([
-    run(`cp ${epOutput}/theme-chalk/index.css ${epOutput}/dist/index.css`),
-    run(`cp -R ${epOutput}/theme-chalk/fonts ${epOutput}/dist/fonts`),
+    {
+      format: 'esm',
+      file: path.resolve(
+        epOutput,
+        `dist/index.full${minify ? '.min' : ''}.mjs`
+      ),
+      sourcemap: minify,
+      banner,
+    },
   ])
+}
 
-export const buildFullBundle = series(
-  init,
-  parallel(buildFull, buildEntry, genEntryTypes)
+export const buildFullBundle = parallel(
+  withTaskName('buildFullMinified', buildFull(true)),
+  withTaskName('buildFull', buildFull(false))
 )

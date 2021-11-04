@@ -1,5 +1,6 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
+import { User } from '@element-plus/icons'
 import {
   IMAGE_SUCCESS,
   IMAGE_FAIL,
@@ -39,10 +40,10 @@ describe('Avatar.vue', () => {
 
   test('icon avatar', () => {
     const wrapper = mount(Avatar, {
-      props: { icon: 'el-icon-user-solid' },
+      props: { icon: User },
     })
     expect(wrapper.classes()).toContain('el-avatar--icon')
-    expect(wrapper.find('i').classes()).toContain('el-icon-user-solid')
+    expect(wrapper.findComponent(User).exists()).toBe(true)
   })
 
   test('image avatar', () => {

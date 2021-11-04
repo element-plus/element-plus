@@ -1,6 +1,6 @@
 import { nextTick, h } from 'vue'
 import { mount } from '@vue/test-utils'
-import Space from '../src/index'
+import Space from '../src/space'
 
 const AXIOM = 'Rem is the best girl'
 
@@ -71,7 +71,7 @@ describe('Space.vue', () => {
       size: 'unknown',
     })
 
-    expect(warnHandler).toHaveBeenCalledTimes(1)
+    expect(warnHandler).toHaveBeenCalled()
 
     expect(wrapper.find('.el-space__item').attributes('style')).toContain(
       'margin-right: 8px'

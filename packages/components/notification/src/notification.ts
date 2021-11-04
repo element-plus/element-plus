@@ -1,4 +1,4 @@
-import { buildProp, definePropType } from '@element-plus/utils/props'
+import { buildProps, definePropType } from '@element-plus/utils/props'
 
 import type { VNode, ExtractPropTypes } from 'vue'
 
@@ -9,7 +9,7 @@ export const notificationTypes = [
   'error',
 ] as const
 
-export const notificationProps = {
+export const notificationProps = buildProps({
   customClass: {
     type: String,
     default: '',
@@ -22,35 +22,35 @@ export const notificationProps = {
     type: Number,
     default: 4500,
   },
-  iconClass: {
-    type: String,
+  icon: {
+    type: definePropType<string | Comment>([String, Object]),
     default: '',
   },
   id: {
     type: String,
     default: '',
   },
-  message: buildProp({
+  message: {
     type: definePropType<string | VNode>([String, Object]),
     default: '',
-  }),
+  },
   offset: {
     type: Number,
     default: 0,
   },
-  onClick: buildProp({
+  onClick: {
     type: definePropType<() => void>(Function),
     default: () => undefined,
-  }),
-  onClose: buildProp({
+  },
+  onClose: {
     type: definePropType<() => void>(Function),
     required: true,
-  }),
-  position: buildProp({
+  },
+  position: {
     type: String,
     values: ['top-right', 'top-left', 'bottom-right', 'bottom-left'],
     default: 'top-right',
-  } as const),
+  },
   showClose: {
     type: Boolean,
     default: true,
@@ -59,16 +59,16 @@ export const notificationProps = {
     type: String,
     default: '',
   },
-  type: buildProp({
+  type: {
     type: String,
     values: [...notificationTypes, ''],
     default: '',
-  } as const),
+  },
   zIndex: {
     type: Number,
     default: 0,
   },
-} as const
+} as const)
 export type NotificationProps = ExtractPropTypes<typeof notificationProps>
 
 export const notificationEmits = {
@@ -76,7 +76,9 @@ export const notificationEmits = {
 }
 export type NotificationEmits = typeof notificationEmits
 
-export type NotificationOptions = Omit<NotificationProps, 'id'>
+export type NotificationOptions = Omit<NotificationProps, 'id'> & {
+  appendTo?: HTMLElement | string
+}
 export type NotificationOptionsTyped = Omit<NotificationOptions, 'type'>
 
 export interface NotificationHandle {

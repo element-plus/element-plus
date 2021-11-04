@@ -1,6 +1,6 @@
-@import 'mixins/mixins';
-@import 'mixins/utils';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/utils' as *;
+@use 'common/var' as *;
 
 @include b(upload) {
   display: inline-block;
@@ -35,10 +35,10 @@
     width: 148px;
     height: 148px;
     cursor: pointer;
-    line-height: 146px;
     vertical-align: top;
 
     i {
+      margin-top: 59px; /* (148px - 28px) / 2 - 1px */
       font-size: 28px;
       color: #8c939d;
     }
@@ -70,7 +70,7 @@
   position: relative;
   overflow: hidden;
 
-  .#{$namespace}-icon-upload {
+  .#{$namespace}-icon--upload {
     font-size: 67px;
     color: var(--el-text-color-placeholder);
     margin: 40px 0 16px;
@@ -82,7 +82,7 @@
   }
 
   ~ .#{$namespace}-upload__files {
-    border-top: $--border-base;
+    border-top: $border-base;
     margin-top: 7px;
     padding-top: 5px;
   }
@@ -145,11 +145,11 @@
       margin-top: 10px;
     }
 
-    & .#{$namespace}-icon-upload-success {
+    & .#{$namespace}-icon--upload-success {
       color: var(--el-color-success);
     }
 
-    .#{$namespace}-icon-close {
+    .#{$namespace}-icon--close {
       display: none;
       position: absolute;
       top: 5px;
@@ -164,7 +164,7 @@
       }
     }
 
-    & .#{$namespace}-icon-close-tip {
+    & .#{$namespace}-icon--close-tip {
       display: none;
       position: absolute;
       top: 5px;
@@ -176,9 +176,9 @@
     }
 
     &:hover {
-      background-color: $--background-color-base;
+      background-color: $background-color-base;
 
-      .#{$namespace}-icon-close {
+      .#{$namespace}-icon--close {
         display: inline-block;
       }
 
@@ -209,7 +209,7 @@
       &:active {
         /* click时 */
         outline-width: 0;
-        .#{$namespace}-icon-close-tip {
+        .#{$namespace}-icon--close-tip {
           display: none;
         }
       }
@@ -240,11 +240,13 @@
     transition: color var(--el-transition-duration);
     white-space: nowrap;
 
-    [class^='#{$namespace}-icon'] {
-      height: 100%;
+    & .#{$namespace}-icon {
       margin-right: 7px;
       color: var(--el-text-color-secondary);
-      line-height: inherit;
+
+      svg {
+        vertical-align: text-bottom;
+      }
     }
   }
 
@@ -285,12 +287,12 @@
       margin: 0 8px 8px 0;
       display: inline-block;
 
-      .#{$namespace}-icon-check,
-      .#{$namespace}-icon-circle-check {
-        color: $--color-white;
+      .#{$namespace}-icon--check,
+      .#{$namespace}-icon--circle-check {
+        color: $color-white;
       }
 
-      .#{$namespace}-icon-close {
+      .#{$namespace}-icon--close {
         display: none;
       }
       &:hover {
@@ -399,9 +401,9 @@
       padding: 10px 10px 10px 90px;
       height: 92px;
 
-      .#{$namespace}-icon-check,
-      .#{$namespace}-icon-circle-check {
-        color: $--color-white;
+      .#{$namespace}-icon--check,
+      .#{$namespace}-icon--circle-check {
+        color: $color-white;
       }
 
       &:hover {
@@ -437,7 +439,7 @@
       position: relative;
       z-index: 1;
       margin-left: -80px;
-      background-color: $--color-white;
+      background-color: $color-white;
     }
 
     .#{$namespace}-upload-list__item-name {
@@ -544,7 +546,7 @@
 
     .btn {
       display: inline-block;
-      color: $--color-white;
+      color: $color-white;
       font-size: 14px;
       cursor: pointer;
       vertical-align: middle;
@@ -573,7 +575,7 @@
       }
 
       i {
-        color: $--color-white;
+        color: $color-white;
         display: block;
         font-size: 24px;
         line-height: inherit;
@@ -586,7 +588,7 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    background-color: $--color-white;
+    background-color: $color-white;
     height: 36px;
     width: 100%;
     overflow: hidden;
