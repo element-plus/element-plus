@@ -37,17 +37,21 @@
         @mouseleave="onMouseLeave"
       >
         <template #prefix>
-          <el-icon class="el-input__icon" @click="handleFocus">
-            <component :is="triggerIcon" v-if="triggerIcon"></component>
+          <el-icon
+            v-if="triggerIcon"
+            class="el-input__icon"
+            @click="handleFocus"
+          >
+            <component :is="triggerIcon"></component>
           </el-icon>
         </template>
         <template #suffix>
           <el-icon
-            v-if="showClose"
+            v-if="showClose && clearIcon"
             class="el-input__icon clear-icon"
             @click="onClearIconClick"
           >
-            <component :is="clearIcon" v-if="clearIcon" />
+            <component :is="clearIcon" />
           </el-icon>
         </template>
       </el-input>

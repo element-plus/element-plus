@@ -18,11 +18,11 @@
 </template>
 
 <script lang="ts">
-import { shallowRef } from 'vue'
+import { defineComponent } from 'vue'
 import { MoreFilled } from '@element-plus/icons'
 
-export default {
-  data() {
+export default defineComponent({
+  setup() {
     return {
       activities: [
         {
@@ -30,7 +30,7 @@ export default {
           timestamp: '2018-04-12 20:46',
           size: 'large',
           type: 'primary',
-          icon: shallowRef(MoreFilled),
+          icon: MoreFilled,
         },
         {
           content: 'Custom color',
@@ -55,5 +55,5 @@ export default {
       ],
     }
   },
-}
+})
 </script>

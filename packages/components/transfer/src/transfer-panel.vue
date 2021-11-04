@@ -24,8 +24,8 @@
         @mouseleave="inputHover = false"
       >
         <template #prefix>
-          <el-icon class="el-input__icon" @click="clearQuery">
-            <component :is="inputIcon" v-if="inputIcon" />
+          <el-icon v-if="inputIcon" class="el-input__icon" @click="clearQuery">
+            <component :is="inputIcon" />
           </el-icon>
         </template>
       </el-input>

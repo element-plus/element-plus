@@ -10,11 +10,11 @@
     <div class="el-popconfirm">
       <div class="el-popconfirm__main">
         <el-icon
-          v-if="!hideIcon"
+          v-if="!hideIcon && icon"
           class="el-popconfirm__icon"
           :style="{ color: iconColor }"
         >
-          <component :is="icon" v-if="icon" />
+          <component :is="icon" />
         </el-icon>
         {{ title }}
       </div>

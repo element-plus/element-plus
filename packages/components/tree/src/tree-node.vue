@@ -30,6 +30,7 @@
       :style="{ paddingLeft: (node.level - 1) * tree.props.indent + 'px' }"
     >
       <el-icon
+        v-if="tree.props.icon || CaretRight"
         :class="[
           {
             'is-leaf': node.isLeaf,
@@ -39,10 +40,7 @@
         ]"
         @click.stop="handleExpandIconClick"
       >
-        <component
-          :is="tree.props.icon || CaretRight"
-          v-if="tree.props.icon || CaretRight"
-        ></component>
+        <component :is="tree.props.icon || CaretRight"></component>
       </el-icon>
       <el-checkbox
         v-if="showCheckbox"

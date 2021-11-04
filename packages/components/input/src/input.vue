@@ -90,10 +90,10 @@
           </span>
         </span>
         <el-icon
-          v-if="validateState"
+          v-if="validateState && validateIcon"
           class="el-input__icon el-input__validateIcon"
         >
-          <component :is="validateIcon" v-if="validateIcon" />
+          <component :is="validateIcon" />
         </el-icon>
       </span>
 

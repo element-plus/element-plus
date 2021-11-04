@@ -22,6 +22,7 @@
       :style="{ paddingLeft: `${(node.level - 1) * indent}px` }"
     >
       <el-icon
+        v-if="icon"
         :class="[
           {
             'is-leaf': node?.isLeaf,
@@ -32,7 +33,7 @@
         ]"
         @click.stop="handleExpandIconClick"
       >
-        <component :is="icon" v-if="icon" />
+        <component :is="icon" />
       </el-icon>
       <el-checkbox
         v-if="showCheckbox"

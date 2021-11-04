@@ -22,8 +22,8 @@
       :disabled="item.disabled"
     />
     <template #prefix>
-      <el-icon class="el-input__prefix-icon">
-        <component :is="prefixIcon" v-if="prefixIcon" />
+      <el-icon v-if="prefixIcon" class="el-input__prefix-icon">
+        <component :is="prefixIcon" />
       </el-icon>
     </template>
   </el-select>

@@ -205,17 +205,17 @@
           </span>
           <span class="el-select-v2__suffix">
             <el-icon
-              v-show="!showClearBtn"
+              v-show="!showClearBtn && iconComponent"
               :class="['el-select-v2__caret', 'el-input__icon', iconReverse]"
             >
-              <component :is="iconComponent" v-if="iconComponent" />
+              <component :is="iconComponent" />
             </el-icon>
             <el-icon
-              v-if="showClearBtn"
+              v-if="showClearBtn && clearIcon"
               class="el-select-v2__caret el-input__icon"
               @click.prevent.stop="handleClear"
             >
-              <component :is="clearIcon" v-if="clearIcon" />
+              <component :is="clearIcon" />
             </el-icon>
           </span>
         </div>

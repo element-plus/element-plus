@@ -36,26 +36,13 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, shallowRef } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
 import { Calendar, Search } from '@element-plus/icons'
-
-export default defineComponent({
-  components: {
-    Calendar,
-    Search,
-  },
-  setup() {
-    return {
-      Calendar: shallowRef(Calendar),
-      Search: shallowRef(Search),
-      input1: ref(''),
-      input2: ref(''),
-      input3: ref(''),
-      input4: ref(''),
-    }
-  },
-})
+const input1 = ref('')
+const input2 = ref('')
+const input3 = ref('')
+const input4 = ref('')
 </script>
 
 <style>

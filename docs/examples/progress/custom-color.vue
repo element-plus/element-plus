@@ -59,8 +59,8 @@ export default defineComponent({
       customColorMethod,
       increase,
       decrease,
-      Minus: shallowRef(Minus),
-      Plus: shallowRef(Plus),
+      Minus,
+      Plus,
     }
   },
 })
