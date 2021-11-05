@@ -19,7 +19,7 @@ config-provider/usage
 
 ## button configurations
 
-:::demo Use two attributes to provide i18n related config
+:::demo
 
 config-provider/button
 
