@@ -60,7 +60,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import { ElCheckbox, ElCheckboxGroup } from '@element-plus/components/checkbox'
 import ElIcon from '@element-plus/components/icon'
 import ElInput from '@element-plus/components/input'
@@ -83,7 +83,7 @@ export default defineComponent({
   emits: [CHECKED_CHANGE_EVENT],
 
   setup(props, { slots }) {
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
 
     const panelState = reactive({
       checked: [],

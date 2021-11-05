@@ -2,11 +2,11 @@ import { inject, h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import Chinese from '@element-plus/locale/lang/zh-cn'
 import English from '@element-plus/locale/lang/en'
-import { useLocale, useLocaleProps, LocaleInjectionKey } from '../use-locale'
+import { provideLocale, useLocaleProps, localeContextKey } from '../use-locale'
 
 const TestComp = {
   setup() {
-    const { t } = inject(LocaleInjectionKey)
+    const { t } = inject(localeContextKey)
     return () => {
       return h(
         'div',
@@ -27,7 +27,7 @@ describe('use-locale', () => {
           'el-test': TestComp,
         },
         setup(_, { slots }) {
-          useLocale()
+          provideLocale()
           return () => slots.default()
         },
       },

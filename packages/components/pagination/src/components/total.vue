@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 
 import type { ExtractPropTypes } from 'vue'
 
@@ -28,7 +28,7 @@ export default defineComponent({
   props: paginationTotalProps,
 
   setup() {
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
     return {
       t,
     }

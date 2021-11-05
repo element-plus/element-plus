@@ -51,7 +51,7 @@ import { ref, computed, defineComponent } from 'vue'
 import dayjs from 'dayjs'
 
 import ElButton from '@element-plus/components/button'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils/error'
 import DateTable from './date-table.vue'
 import type { PropType, ComputedRef } from 'vue'
@@ -94,7 +94,7 @@ export default defineComponent({
 
   emits: ['input', 'update:modelValue'],
   setup(props, ctx) {
-    const { t, lang } = useLocaleInject()
+    const { t, lang } = useLocale()
     const selectedDay = ref(null)
     const now = dayjs().locale(lang.value)
 

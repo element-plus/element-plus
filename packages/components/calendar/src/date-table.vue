@@ -40,7 +40,7 @@
 import { computed, defineComponent, ref } from 'vue'
 import dayjs from 'dayjs'
 import localeData from 'dayjs/plugin/localeData'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
 import type { Dayjs } from 'dayjs'
 import type { PropType } from 'vue'
@@ -73,7 +73,7 @@ export default defineComponent({
   },
   emits: ['pick'],
   setup(props, ctx) {
-    const { lang } = useLocaleInject()
+    const { lang } = useLocale()
     const WEEK_DAYS = ref(
       dayjs().locale(lang.value).localeData().weekdaysShort()
     )
