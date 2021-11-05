@@ -4,8 +4,8 @@
 
 @mixin button-plain($color, $type) {
   --el-button-text-color: var(--el-color-#{$type});
-  --el-button-bg-color: #{map.get($--colors, $type, 'light-9')};
-  --el-button-border-color: #{map.get($--colors, $type, 'light-6')};
+  --el-button-bg-color: #{map.get($colors, $type, 'light-9')};
+  --el-button-border-color: #{map.get($colors, $type, 'light-6')};
 
   --el-button-hover-text-color: var(--el-color-white);
   --el-button-hover-bg-color: var(--el-color-#{$type});

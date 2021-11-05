@@ -16,13 +16,13 @@
   min-height: map.get($input-height, 'default');
   white-space: nowrap;
   cursor: pointer;
-  background: var(--el-button-bg-color，map.get($button, 'bg-color'));
+  background: var(--el-button-bg-color，#{map.get($button, 'bg-color')});
   border: var(--el-border-base);
   border-color: var(
     --el-button-border-color,
-    map.get($button, 'border-color')
+    #{map.get($button, 'border-color')}
   );
-  color: var(--el-button-text-color, map.get($button, 'text-color'));
+  color: var(--el-button-text-color, #{map.get($button, 'text-color')});
   -webkit-appearance: none;
   text-align: center;
   box-sizing: border-box;
@@ -175,7 +175,7 @@
       --el-button-hover-border-color: #{map.get($colors, $type, 'light-2')};
       --el-button-hover-color: #{map.get($colors, $type, 'light-2')};
       --el-button-active-text-color: #{darken(
-          map.get($--button-text-color, $type),
+          map.get($button-text-color, $type),
           $button-active-shade-percent
         )};
       --el-button-active-bg-color: #{darken(
