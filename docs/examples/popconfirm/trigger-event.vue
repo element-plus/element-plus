@@ -14,22 +14,13 @@
   </el-popconfirm>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { InfoFilled } from '@element-plus/icons'
 
-export default {
-  data() {
-    return {
-      InfoFilled,
-    }
-  },
-  methods: {
-    confirmEvent() {
-      console.log('confirm!')
-    },
-    cancelEvent() {
-      console.log('cancel!')
-    },
-  },
+const confirmEvent = () => {
+  console.log('confirm!')
+}
+const cancelEvent = () => {
+  console.log('cancel!')
 }
 </script>

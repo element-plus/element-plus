@@ -161,13 +161,14 @@
             </template>
             <template #suffix>
               <el-icon
+                v-if="iconComponent"
                 v-show="!showClose"
                 :class="['el-select__caret', 'el-input__icon', iconReverse]"
               >
                 <component :is="iconComponent" />
               </el-icon>
               <el-icon
-                v-if="showClose"
+                v-if="showClose && clearIcon"
                 class="el-select__caret el-input__icon"
                 @click="handleClearClick"
               >
@@ -259,7 +260,10 @@ export default defineComponent({
   props: {
     name: String,
     id: String,
-    modelValue: [Array, String, Number, Boolean, Object],
+    modelValue: {
+      type: [Array, String, Number, Boolean, Object],
+      default: undefined,
+    },
     autocomplete: {
       type: String,
       default: 'off',

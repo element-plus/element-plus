@@ -99,7 +99,7 @@
 
   position: relative;
   font-size: var(--el-font-size-base);
-  display: inline-block;
+  display: inline-flex;
   width: 100%;
   line-height: map.get($input-height, 'default');
   @include scroll-bar;
@@ -177,6 +177,8 @@
   }
 
   @include e(suffix) {
+    display: inline-flex;
+
     position: absolute;
     height: 100%;
     right: 5px;
@@ -189,9 +191,12 @@
 
   @include e(suffix-inner) {
     pointer-events: all;
+    display: inline-flex;
   }
 
   @include e(prefix) {
+    display: inline-flex;
+
     position: absolute;
     height: 100%;
     left: 5px;
@@ -201,20 +206,18 @@
     transition: all var(--el-transition-duration);
   }
 
+  @include e(prefix-inner) {
+    pointer-events: all;
+    display: inline-flex;
+  }
+
   @include e(icon) {
     width: 25px;
     height: inherit;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     transition: all var(--el-transition-duration);
-    vertical-align: middle;
-
-    &:after {
-      content: '';
-      height: 100%;
-      width: 0;
-      display: inline-block;
-      vertical-align: middle;
-    }
   }
 
   @include e(validateIcon) {
@@ -261,10 +264,6 @@
   }
 
   @include m(suffix) {
-    .#{$namespace}-input__inner {
-      padding-right: 30px;
-    }
-
     @include m(password-clear) {
       .#{$namespace}-input__inner {
         padding-right: 55px;

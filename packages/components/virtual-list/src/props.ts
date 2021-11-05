@@ -88,12 +88,16 @@ export const virtualizedProps = buildProps({
 
   width: {
     type: [Number, String],
-    required: true,
+    required: false,
   },
 
   perfMode: {
     type: Boolean,
     default: true,
+  },
+  scrollbarAlwaysOn: {
+    type: Boolean,
+    default: false,
   },
 } as const)
 

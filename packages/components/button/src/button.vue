@@ -33,10 +33,9 @@
 <script lang="ts">
 import { computed, inject, defineComponent, Text } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
-import { useFormItem } from '@element-plus/hooks'
+import { useFormItem, useGlobalConfig } from '@element-plus/hooks'
 import { elButtonGroupKey, elFormKey } from '@element-plus/tokens'
 import { Loading } from '@element-plus/icons'
-
 import { buttonEmits, buttonProps } from './button'
 
 export default defineComponent({
@@ -52,10 +51,15 @@ export default defineComponent({
 
   setup(props, { emit, slots }) {
     const elBtnGroup = inject(elButtonGroupKey, undefined)
+    const globalConfig = useGlobalConfig()
+    const autoInsertSpace = computed(() => {
+      return props.autoInsertSpace ?? globalConfig?.button.autoInsertSpace
+    })
+
     // add space between two characters in Chinese
     const shouldAddSpace = computed(() => {
       const defaultSlot = slots.default?.()
-      if (defaultSlot?.length === 1) {
+      if (autoInsertSpace.value && defaultSlot?.length === 1) {
         const slot = defaultSlot[0]
         if (slot?.type === Text) {
           const text = slot.children

@@ -100,14 +100,14 @@ function useStyle<T>(
       layout.updateElsHeight()
     }
     layout.updateColumnsWidth()
-    syncPostion()
+    requestAnimationFrame(syncPostion)
   }
   onMounted(async () => {
     setScrollClass('is-scrolling-left')
     store.updateColumns()
     await nextTick()
     bindEvents()
-    doLayout()
+    requestAnimationFrame(doLayout)
 
     resizeState.value = {
       width: table.vnode.el.offsetWidth,

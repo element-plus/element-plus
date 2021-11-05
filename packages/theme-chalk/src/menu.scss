@@ -258,19 +258,6 @@
       display: none !important;
     }
   }
-  @include e(icon-more) {
-    margin-right: 0 !important;
-  }
-  @include e(icon-arrow) {
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    margin-top: -7px;
-    transition: transform var(--el-transition-duration);
-    font-size: 12px !important;
-    margin-right: 0 !important;
-    width: inherit !important;
-  }
   @include when(active) {
     .#{$namespace}-sub-menu__title {
       border-bottom-color: var(--el-menu-active-color);
@@ -289,12 +276,27 @@
       background: none !important;
     }
   }
-  [class^='#{$namespace}-icon'] {
+  .#{$namespace}-icon {
     vertical-align: middle;
     margin-right: 5px;
     width: 24px;
     text-align: center;
     font-size: 18px;
+
+    &.#{$namespace}-sub-menu__icon-more {
+      margin-right: 0 !important;
+    }
+
+    &.#{$namespace}-sub-menu__icon-arrow {
+      position: absolute;
+      top: 50%;
+      right: 20px;
+      margin-top: -7px;
+      transition: transform var(--el-transition-duration);
+      font-size: 12px;
+      margin-right: 0;
+      width: inherit;
+    }
   }
 }
 

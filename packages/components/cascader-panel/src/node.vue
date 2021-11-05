@@ -5,7 +5,7 @@
     :aria-haspopup="!isLeaf"
     :aria-owns="isLeaf ? null : menuId"
     :aria-expanded="inExpandingPath"
-    :tabindex="expandable ? -1 : null"
+    :tabindex="expandable ? -1 : undefined"
     :class="[
       'el-cascader-node',
       checkStrictly && 'is-selectable',
@@ -99,7 +99,7 @@ export default defineComponent({
   emits: ['expand'],
 
   setup(props, { emit }) {
-    const panel = inject(CASCADER_PANEL_INJECTION_KEY)
+    const panel = inject(CASCADER_PANEL_INJECTION_KEY)!
 
     const isHoverMenu = computed(() => panel.isHoverMenu)
     const multiple = computed(() => panel.config.multiple)
@@ -110,7 +110,7 @@ export default defineComponent({
     const expandable = computed(
       () => (checkStrictly.value && !isLeaf.value) || !isDisabled.value
     )
-    const inExpandingPath = computed(() => isInPath(panel.expandingNode))
+    const inExpandingPath = computed(() => isInPath(panel.expandingNode!))
     // only useful in check-strictly mode
     const inCheckedPath = computed(
       () => checkStrictly.value && panel.checkedNodes.some(isInPath)

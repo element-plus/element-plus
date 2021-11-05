@@ -205,13 +205,14 @@
           </span>
           <span class="el-select-v2__suffix">
             <el-icon
+              v-if="iconComponent"
               v-show="!showClearBtn"
               :class="['el-select-v2__caret', 'el-input__icon', iconReverse]"
             >
               <component :is="iconComponent" />
             </el-icon>
             <el-icon
-              v-if="showClearBtn"
+              v-if="showClearBtn && clearIcon"
               class="el-select-v2__caret el-input__icon"
               @click.prevent.stop="handleClear"
             >
@@ -226,6 +227,7 @@
           :data="filteredOptions"
           :width="popperSize"
           :hovering-index="states.hoveringIndex"
+          :scrollbar-always-on="scrollbarAlwaysOn"
         >
           <template #default="scope">
             <slot v-bind="scope"></slot>

@@ -33,7 +33,13 @@
     transition: all 0.15s;
 
     .is-icon-plus {
+      height: inherit;
+      width: inherit;
       transform: scale(0.8, 0.8);
+
+      svg {
+        vertical-align: middle;
+      }
     }
 
     &:hover {

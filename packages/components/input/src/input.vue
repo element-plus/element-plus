@@ -1,5 +1,6 @@
 <template>
   <div
+    v-show="type !== 'hidden'"
     :class="[
       type === 'textarea' ? 'el-textarea' : 'el-input',
       inputSize ? 'el-input--' + inputSize : '',
@@ -81,7 +82,7 @@
             class="el-input__icon el-input__clear"
             @click="handlePasswordVisible"
           >
-            <view />
+            <icon-view />
           </el-icon>
           <span v-if="isWordLimitVisible" class="el-input__count">
             <span class="el-input__count-inner">
@@ -90,7 +91,7 @@
           </span>
         </span>
         <el-icon
-          v-if="validateState"
+          v-if="validateState && validateIcon"
           class="el-input__icon el-input__validateIcon"
         >
           <component :is="validateIcon" />
@@ -146,7 +147,7 @@ import {
   onUpdated,
 } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
-import { CircleClose } from '@element-plus/icons'
+import { CircleClose, View as IconView } from '@element-plus/icons'
 import { ValidateComponentsMap } from '@element-plus/utils/icon'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import { useAttrs, useFormItem } from '@element-plus/hooks'
@@ -169,7 +170,7 @@ const PENDANT_MAP = {
 export default defineComponent({
   name: 'ElInput',
 
-  components: { ElIcon, CircleClose },
+  components: { ElIcon, CircleClose, IconView },
 
   inheritAttrs: false,
 

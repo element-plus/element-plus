@@ -362,6 +362,39 @@ describe('Datetime Picker', () => {
     expect(spinners[1].textContent).toBe('24')
     expect(spinners[2].textContent).toBe('48')
   })
+
+  it('defaultTime only takes effect when time is not selected', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        type="datetime"
+        :default-time="defaultTime"
+    />`,
+      () => ({
+        value: '',
+        defaultTime: new Date(2000, 1, 1, 12, 0, 0),
+      })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const cells = document.querySelectorAll('.available .el-date-table-cell')
+    ;(cells[0] as HTMLElement).click()
+    await nextTick()
+    const timeInput = document.querySelector(
+      '.el-date-picker__time-header > span:nth-child(2) input'
+    ) as HTMLInputElement
+    expect(timeInput.value).toBe('12:00:00')
+    ;(timeInput as HTMLElement).focus()
+    await nextTick()
+    const spinner = document.querySelector(
+      '.el-time-spinner ul li.active'
+    ) as HTMLElement
+    ;(spinner.nextSibling as HTMLElement).click()
+    await nextTick()
+    expect(timeInput.value).toBe('13:00:00')
+  })
 })
 
 describe('Datetimerange', () => {

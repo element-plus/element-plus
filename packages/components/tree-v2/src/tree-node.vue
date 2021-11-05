@@ -22,6 +22,7 @@
       :style="{ paddingLeft: `${(node.level - 1) * indent}px` }"
     >
       <el-icon
+        v-if="icon"
         :class="[
           {
             'is-leaf': node?.isLeaf,
@@ -76,11 +77,11 @@ export default defineComponent({
     const tree = inject(ROOT_TREE_INJECTION_KEY)
 
     const indent = computed(() => {
-      return tree?.props.indent || 16
+      return tree?.props.indent ?? 16
     })
 
     const icon = computed(() => {
-      return tree?.props.icon ? tree.props.icon : DEFAULT_ICON
+      return tree?.props.icon ?? DEFAULT_ICON
     })
 
     const handleClick = () => {

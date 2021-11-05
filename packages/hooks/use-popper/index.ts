@@ -134,8 +134,8 @@ export const usePopperProps = {
 }
 
 export const usePopperHook = () => {
-  const vm = getCurrentInstance()
-  const props: ExtractPropTypes<typeof usePopperProps> = vm.props as any
+  const vm = getCurrentInstance()!
+  const props: ExtractPropTypes<typeof usePopperProps> = vm.proxy?.$props as any
   const { slots } = vm
 
   const arrowRef = ref<RefElement>(null)

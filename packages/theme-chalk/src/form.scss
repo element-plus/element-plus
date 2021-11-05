@@ -166,7 +166,7 @@
 
   @include m(feedback) {
     .#{$namespace}-input__validateIcon {
-      display: inline-block;
+      display: inline-flex;
     }
   }
 }

@@ -48,8 +48,7 @@
 
   .#{$namespace}-input__inner {
     cursor: pointer;
-    padding-right: 35px;
-    display: block;
+    display: inline-flex;
 
     &:focus {
       border-color: var(--el-select-input-focus-border-color);
@@ -57,7 +56,7 @@
   }
 
   .#{$namespace}-input {
-    display: block;
+    display: flex;
 
     & .#{$namespace}-select__caret {
       color: var(--el-select-input-color);

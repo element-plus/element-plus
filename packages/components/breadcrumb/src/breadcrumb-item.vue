@@ -24,6 +24,7 @@ import {
   onMounted,
   getCurrentInstance,
 } from 'vue'
+import ElIcon from '@element-plus/components/icon'
 import { elBreadcrumbKey } from '@element-plus/tokens'
 import { breadcrumbItemProps } from './breadcrumb-item'
 
@@ -33,6 +34,10 @@ const COMPONENT_NAME = 'ElBreadcrumbItem'
 
 export default defineComponent({
   name: COMPONENT_NAME,
+
+  components: {
+    ElIcon,
+  },
 
   props: breadcrumbItemProps,
 
