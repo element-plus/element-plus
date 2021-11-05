@@ -330,7 +330,7 @@ export default defineComponent({
               ],
               onClick: scrollPrev,
             },
-            [h(ElIcon, {}, [h(ArrowLeft)])]
+            [h(ElIcon, {}, { default: () => h(ArrowLeft) })]
           ),
           h(
             'span',
@@ -341,7 +341,7 @@ export default defineComponent({
               ],
               onClick: scrollNext,
             },
-            [h('i', {}, [h(ArrowRight)])]
+            [h(ElIcon, {}, { default: () => h(ArrowRight) })]
           ),
         ]
       : null
@@ -361,7 +361,7 @@ export default defineComponent({
                 onTabRemove(pane, ev)
               },
             },
-            [h(Close)]
+            { default: () => h(Close) }
           )
         : null
 
