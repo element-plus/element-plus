@@ -1,5 +1,6 @@
 <template>
   <div
+    v-show="type !== 'hidden'"
     :class="[
       type === 'textarea' ? 'el-textarea' : 'el-input',
       inputSize ? 'el-input--' + inputSize : '',
