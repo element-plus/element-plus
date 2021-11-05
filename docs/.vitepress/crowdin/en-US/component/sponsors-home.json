@@ -1,0 +1,22 @@
+[
+  {
+    "name": "JNPF",
+    "img": "/images/jnpf_index.png",
+    "url": "https://www.jnpfsoft.com/index.html?from=elementUI",
+    "slogan": "JNPF low code development platform to develop simple!",
+    "className": "jnpf"
+  },
+  {
+    "name": "bit",
+    "img": "/images/bit.svg",
+    "url": "https://bit.dev/?from=element-ui",
+    "slogan": "Share Code"
+  },
+  {
+    "name": "renren.io",
+    "img": "/images/renren.png",
+    "url": "https://www.renren.io/?from=element-ui",
+    "slogan": "Rapid development platform",
+    "className": "renren"
+  }
+]
