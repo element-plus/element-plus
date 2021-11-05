@@ -1,12 +1,12 @@
 import { inject, computed, getCurrentInstance, unref } from 'vue'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
-import { buildProps } from '@element-plus/utils/props'
+import { buildProps, componentSize } from '@element-plus/utils/props'
 import { useGlobalConfig } from '@element-plus/utils/util'
 
 import type { ExtractPropTypes } from 'vue'
 import type { MaybeRef } from '@vueuse/core'
 
-const sizes = ['', 'large', 'medium', 'small', 'mini'] as const
+const sizes = ['', ...componentSize] as const
 
 export const useFormItemProps = buildProps({
   size: {
@@ -16,7 +16,6 @@ export const useFormItemProps = buildProps({
   },
   disabled: Boolean,
 } as const)
-
 export type UseFormItemProps = ExtractPropTypes<typeof useFormItemProps>
 
 export type LocalFallbacks = {
@@ -24,11 +23,10 @@ export type LocalFallbacks = {
   disabled?: MaybeRef<UseFormItemProps['disabled'] | undefined>
 }
 
-export const useFormItem = ({ size, disabled }: LocalFallbacks) => {
+export const useFormItem = ({ size, disabled }: LocalFallbacks = {}) => {
   const vm = getCurrentInstance()!
   const $ELEMENT = useGlobalConfig()
 
-  // vm.props is not reactive so we use the reactive one here.
   const props = vm.proxy?.$props as UseFormItemProps
   const form = inject(elFormKey, undefined)
   const formItem = inject(elFormItemKey, undefined)
