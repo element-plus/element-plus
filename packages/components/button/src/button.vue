@@ -19,7 +19,9 @@
     :style="buttonStyle"
     @click="handleClick"
   >
-    <el-icon v-if="loading" class="is-loading"><loading /></el-icon>
+    <el-icon v-if="loading" class="is-loading">
+      <loading />
+    </el-icon>
     <el-icon v-else-if="icon">
       <component :is="icon" />
     </el-icon>
@@ -34,12 +36,12 @@
 
 <script lang="ts">
 import { computed, inject, defineComponent, Text } from 'vue'
+import { useCssVar } from '@vueuse/core'
 import { ElIcon } from '@element-plus/components/icon'
-import { useFormItem } from '@element-plus/hooks'
+import { useFormItem, useGlobalConfig } from '@element-plus/hooks'
 import { elButtonGroupKey, elFormKey } from '@element-plus/tokens'
 import { Loading } from '@element-plus/icons'
 
-import { useCssVar } from '@vueuse/core'
 import { lighten, darken } from '@element-plus/utils/color'
 
 import { buttonEmits, buttonProps } from './button'
@@ -58,10 +60,15 @@ export default defineComponent({
   setup(props, { emit, slots }) {
     const buttonRef = ref(null)
     const elBtnGroup = inject(elButtonGroupKey, undefined)
+    const globalConfig = useGlobalConfig()
+    const autoInsertSpace = computed(() => {
+      return props.autoInsertSpace ?? globalConfig?.button.autoInsertSpace
+    })
+
     // add space between two characters in Chinese
     const shouldAddSpace = computed(() => {
       const defaultSlot = slots.default?.()
-      if (defaultSlot?.length === 1) {
+      if (autoInsertSpace.value && defaultSlot?.length === 1) {
         const slot = defaultSlot[0]
         if (slot?.type === Text) {
           const text = slot.children
