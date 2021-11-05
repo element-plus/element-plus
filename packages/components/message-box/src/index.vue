@@ -129,7 +129,7 @@ import ElButton from '@element-plus/components/button'
 import { TrapFocus } from '@element-plus/directives'
 import {
   useModal,
-  useLockScreen,
+  useLockscreen,
   useLocale,
   useRestoreActive,
   usePreventGlobal,
@@ -414,7 +414,7 @@ export default defineComponent({
 
     // locks the screen to prevent scroll
     if (props.lockScroll) {
-      useLockScreen(visible)
+      useLockscreen(visible)
     }
 
     // restore to prev active element.
