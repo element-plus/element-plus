@@ -18,13 +18,6 @@
     <el-button :icon="Search" size="mini" circle></el-button>
   </el-row>
 </template>
-<script lang="ts">
+<script setup lang="ts">
 import { Search } from '@element-plus/icons'
-export default {
-  data() {
-    return {
-      Search,
-    }
-  },
-}
 </script>

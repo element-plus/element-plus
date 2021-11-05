@@ -6,7 +6,11 @@
       :class="[typeClass, center ? 'is-center' : '', 'is-' + effect]"
       role="alert"
     >
-      <el-icon v-if="showIcon" class="el-alert__icon" :class="isBigIcon">
+      <el-icon
+        v-if="showIcon && iconComponent"
+        class="el-alert__icon"
+        :class="isBigIcon"
+      >
         <component :is="iconComponent" />
       </el-icon>
       <div class="el-alert__content">
