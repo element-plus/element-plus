@@ -1,10 +1,8 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
+import { sleep } from '@element-plus/test-utils'
 import Carousel from '../src/main.vue'
 import CarouselItem from '../src/item.vue'
-
-const wait = (ms = 100) =>
-  new Promise((resolve) => setTimeout(() => resolve(0), ms))
 
 const _mount = (template: string, data?: () => void, methods?: any) =>
   mount({
@@ -43,10 +41,10 @@ describe('Carousel', () => {
       `)
 
     await nextTick()
-    await wait(10)
+    await sleep(10)
     const items = wrapper.vm.$el.querySelectorAll('.el-carousel__item')
     expect(items[0].classList.contains('is-active')).toBeTruthy()
-    await wait(60)
+    await sleep(60)
     expect(items[1].classList.contains('is-active')).toBeTruthy()
     done()
   })
@@ -61,7 +59,7 @@ describe('Carousel', () => {
       `)
 
     await nextTick()
-    await wait(10)
+    await sleep(10)
 
     expect(
       wrapper.vm.$el
@@ -86,7 +84,7 @@ describe('Carousel', () => {
     expect(items[0].classList.contains('is-active')).toBeTruthy()
     await wrapper.trigger('mouseleave')
     await nextTick()
-    await wait(700)
+    await sleep(700)
     expect(items[1].classList.contains('is-active')).toBeTruthy()
     done()
   })
@@ -115,7 +113,7 @@ describe('Carousel', () => {
     )
 
     await nextTick()
-    await wait(50)
+    await sleep(50)
     expect(wrapper.vm.val).toBe(1)
     expect(wrapper.vm.oldVal).toBe(0)
     done()
@@ -145,10 +143,10 @@ describe('Carousel', () => {
       `)
 
       await nextTick()
-      await wait()
+      await sleep(100)
       await wrapper.findAll('.el-carousel__indicator')[1].trigger('mouseenter')
       await nextTick()
-      await wait()
+      await sleep(100)
       expect(
         wrapper.vm.$el
           .querySelectorAll('.el-carousel__item')[1]
@@ -167,19 +165,19 @@ describe('Carousel', () => {
         </div>
       `)
     await nextTick()
-    await wait()
+    await sleep(100)
     const items = wrapper.vm.$el.querySelectorAll('.el-carousel__item')
     expect(items[0].classList.contains('is-active')).toBeTruthy()
     expect(items[1].classList.contains('is-in-stage')).toBeTruthy()
     expect(items[6].classList.contains('is-in-stage')).toBeTruthy()
     await items[1].click()
-    await wait()
+    await sleep(100)
     expect(items[1].classList.contains('is-active')).toBeTruthy()
     await wrapper.vm.$el.querySelector('.el-carousel__arrow--left').click()
-    await wait()
+    await sleep(100)
     expect(items[0].classList.contains('is-active')).toBeTruthy()
     await items[6].click()
-    await wait()
+    await sleep(100)
     expect(items[6].classList.contains('is-active')).toBeTruthy()
     done()
   })
@@ -211,7 +209,7 @@ describe('Carousel', () => {
     await wrapper.find('.el-carousel').trigger('mouseenter')
     const items = wrapper.vm.$el.querySelectorAll('.el-carousel__item')
     await nextTick()
-    await wait(60)
+    await sleep(60)
     expect(items[1].classList.contains('is-active')).toBeTruthy()
     done()
   })
