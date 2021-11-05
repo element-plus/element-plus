@@ -48,39 +48,13 @@
 <script lang="ts">
 import { defineComponent, computed, nextTick, ref } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { isValidComponentSize } from '@element-plus/utils/validators'
 import { useRadio, useRadioAttrs } from './useRadio'
-
-import type { PropType } from 'vue'
-import type { ComponentSize } from '@element-plus/utils/types'
+import { radioEmits, radioProps } from './radio'
 
 export default defineComponent({
   name: 'ElRadio',
-  componentName: 'ElRadio',
-
-  props: {
-    modelValue: {
-      type: [String, Number, Boolean],
-      default: '',
-    },
-    label: {
-      type: [String, Number, Boolean],
-      default: '',
-    },
-    disabled: Boolean,
-    name: {
-      type: String,
-      default: '',
-    },
-    border: Boolean,
-    size: {
-      type: String as PropType<ComponentSize>,
-      validator: isValidComponentSize,
-    },
-  },
-
-  emits: [UPDATE_MODEL_EVENT, 'change'],
-
+  props: radioProps,
+  emits: radioEmits,
   setup(props, ctx) {
     const { isGroup, radioGroup, elFormItemSize, ELEMENT, focus, elForm } =
       useRadio()

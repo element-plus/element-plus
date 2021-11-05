@@ -24,40 +24,16 @@ import {
 } from 'vue'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { isValidComponentSize } from '@element-plus/utils/validators'
 import { elFormItemKey } from '@element-plus/tokens'
 import radioGroupKey from './token'
-
-import type { PropType } from 'vue'
+import { radioGroupEmits, radioGroupProps } from './radio-group'
 import type { ElFormItemContext } from '@element-plus/tokens'
 import type { ComponentSize } from '@element-plus/utils/types'
 
 export default defineComponent({
   name: 'ElRadioGroup',
-
-  componentName: 'ElRadioGroup',
-
-  props: {
-    modelValue: {
-      type: [String, Number, Boolean],
-      default: '',
-    },
-    size: {
-      type: String as PropType<ComponentSize>,
-      validator: isValidComponentSize,
-    },
-    fill: {
-      type: String,
-      default: '',
-    },
-    textColor: {
-      type: String,
-      default: '',
-    },
-    disabled: Boolean,
-  },
-
-  emits: [UPDATE_MODEL_EVENT, 'change'],
+  props: radioGroupProps,
+  emits: radioGroupEmits,
 
   setup(props, ctx) {
     const radioGroup = ref(null)
@@ -69,7 +45,7 @@ export default defineComponent({
     })
 
     // methods
-    const changeEvent = (value) => {
+    const changeEvent = (value: string | number | boolean) => {
       ctx.emit(UPDATE_MODEL_EVENT, value)
       nextTick(() => {
         ctx.emit('change', value)
