@@ -29,3 +29,17 @@ export default defineComponent({
     }
   },
 })
+
+//
+function composeEventHandler<E extends Event>(
+  originalHandler?: (e: E) => void,
+  newHandler?: (e: E) => void
+) {
+  return (e: E) => {
+    originalHandler?.(e)
+
+    if (!e.defaultPrevented) {
+      newHandler?.(e)
+    }
+  }
+}

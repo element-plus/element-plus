@@ -93,6 +93,10 @@ export const usePopperProps = buildProps({
     type: Number,
     default: 200,
   },
+  showAfter: {
+    type: Number,
+    default: 0,
+  },
   manualMode: {
     type: Boolean,
     default: false,

@@ -1,9 +1,16 @@
 <template>
   <div :class="['el-popper']" :style="style">
-    <trigger ref="triggerRef">
+    <trigger
+      ref="triggerRef"
+      @click="onTriggerClick"
+      @mouseenter="onTriggerMouseEnter"
+      @mouseleave="onTriggerMouseLeave"
+      @focus="onTriggerFocus"
+      @blur="onTriggerBlur"
+    >
       <slot name="trigger" />
     </trigger>
-    <el-teleport :disabled="!appendToBody">
+    <el-teleport v-if="renderTeleport" :disabled="!appendToBody">
       <transition :name="transition" v-bind="transitionFallthrough">
         <div
           v-if="isShow"
@@ -14,8 +21,8 @@
           @click.stop
           @mouseup="mouseUpAndDown"
           @mousedown="mouseUpAndDown"
-          @mouseenter="handleMouseEnter"
-          @mouseleave="handleMouseLeave"
+          @mouseenter="popperMouseEnter"
+          @mouseleave="popperMouseLeave"
         >
           <slot>
             {{ content }}
@@ -33,7 +40,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, getCurrentInstance, ref, unref } from 'vue'
+import {
+  computed,
+  defineComponent,
+  getCurrentInstance,
+  nextTick,
+  ref,
+  unref,
+} from 'vue'
 import { isFunction, NOOP } from '@vue/shared'
 import { createPopper } from '@popperjs/core'
 import ElTeleport from '@element-plus/components/teleport'
@@ -43,6 +57,7 @@ import {
   useModelToggle,
   useModelToggleEmits,
   useModelToggleProps,
+  useTimeout,
 } from '@element-plus/hooks'
 import PopupManager from '@element-plus/utils/popup-manager'
 import { generateId, isHTMLElement, isString } from '@element-plus/utils/util'
@@ -66,18 +81,22 @@ export default defineComponent({
     const { props: vmProps } = getCurrentInstance()!
     const triggerRef = ref<{ el: Ref<HTMLElement | ComponentPublicInstance> }>()
     const popperRef = ref<HTMLElement>()
-    const isShow = ref(props.visible || false)
+    const isShow = ref(props.modelValue || false)
+    const renderTeleport = ref(false)
     const { show, hide } = useModelToggle({
       indicator: isShow,
-      show: onShow,
-      hide: onHide,
+      onShow,
+      onHide,
     })
+
     const hasUpdateFunctions = computed(() => {
       return isFunction(vmProps['onUpdate:visible'])
     })
 
+    const contentZIndex = ref(PopupManager.nextZIndex())
+
     const contentStyle = computed(() => {
-      return [{ zIndex: PopupManager.nextZIndex() }, props.popperStyle]
+      return [{ zIndex: unref(contentZIndex) }, props.popperStyle]
     })
 
     const mouseUpAndDown = computed(() =>
@@ -88,9 +107,9 @@ export default defineComponent({
       () => props.manualMode || props.trigger === 'manual'
     )
 
-    let showTimer: ReturnType<typeof setTimeout>
-    let hideTimer: ReturnType<typeof setTimeout>
+    const { registerTimeout, cancelTimeout } = useTimeout()
     let popperInstance: Instance
+    let triggerFocused = false
 
     const contentKls = computed(() => {
       return [
@@ -113,24 +132,37 @@ export default defineComponent({
       onBeforeLeave,
     }
 
-    const handleMouseEnter = () => {
+    const popperMouseEnter = () => {
       if (props.enterable && props.trigger !== 'click') {
-        clearTimeout(hideTimer)
+        cancelTimeout()
       }
     }
 
-    const handleMouseLeave = () => {
+    const popperMouseLeave = () => {
       const { trigger } = props
 
-      const canHide =
+      const shouldPreventHide =
         (isString(trigger) && (trigger === 'click' || trigger === 'focus')) ||
         (trigger.length === 1 &&
           (trigger[0] === 'click' || trigger[0] === 'focus'))
 
-      if (canHide) {
-        hide()
+      if (!shouldPreventHide) {
+        delayHide()
       }
     }
+
+    const onTriggerClick = () => {
+      if (triggerFocused) {
+        triggerFocused = false
+      } else {
+        onToggle()
+      }
+    }
+
+    const onTriggerMouseEnter = delayShow
+    const onTriggerMouseLeave = delayHide
+    const onTriggerFocus = delayShow
+    const onTriggerBlur = delayHide
 
     function initPopper() {
       if (!unref(isShow)) return
@@ -150,12 +182,40 @@ export default defineComponent({
       popperInstance.update()
     }
 
+    function delayShow() {
+      if (unref(isManual) || props.disabled) return
+
+      registerTimeout(() => show(), props.showAfter)
+    }
+
+    function delayHide() {
+      if (unref(isManual) || props.disabled) return
+
+      registerTimeout(() => hide(), props.hideAfter)
+    }
+
+    function detachPopper() {
+      if (popperInstance) {
+        popperInstance.destroy()
+        ;(popperInstance as any) = undefined
+      }
+    }
+
     function onShow() {
-      //
+      contentZIndex.value = PopupManager.nextZIndex()
+      nextTick(initPopper)
     }
 
     function onHide() {
-      //
+      nextTick(detachPopper)
+    }
+
+    function onToggle() {
+      if (unref(isShow)) {
+        delayShow()
+      } else {
+        delayHide()
+      }
     }
 
     return {
@@ -164,11 +224,18 @@ export default defineComponent({
       popperId,
       contentKls,
       contentStyle,
+      renderTeleport,
       transitionFallthrough,
       mouseUpAndDown,
       isShow,
-      handleMouseEnter,
-      handleMouseLeave,
+      popperMouseEnter,
+      popperMouseLeave,
+
+      onTriggerClick,
+      onTriggerMouseEnter,
+      onTriggerMouseLeave,
+      onTriggerFocus,
+      onTriggerBlur,
     }
   },
 })
