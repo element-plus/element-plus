@@ -162,7 +162,7 @@ importers:
       marked: 4.0.0
       normalize.css: 8.0.1
       nprogress: 0.2.0
-      vite-plugin-inspect: 0.3.9
+      vite-plugin-inspect: 0.3.10
       vitepress: 0.18.1
     dependencies:
       '@vueuse/core': 6.7.5_vue@3.2.21
@@ -179,7 +179,7 @@ importers:
       cross-env: 7.0.3
       markdown-it: 12.2.0
       markdown-it-container: 3.0.0
-      vite-plugin-inspect: 0.3.9
+      vite-plugin-inspect: 0.3.10
       vitepress: 0.18.1_sass@1.43.4
 
   packages/components:
@@ -249,14 +249,14 @@ importers:
       '@vitejs/plugin-vue': 1.9.4
       unplugin-vue-components: 0.17.1
       vite: 2.6.13
-      vite-plugin-inspect: 0.3.9
+      vite-plugin-inspect: 0.3.10
     dependencies:
       '@element-plus/icons': 0.0.11
     devDependencies:
       '@vitejs/plugin-vue': 1.9.4_vite@2.6.13
       unplugin-vue-components: 0.17.1_71d90d523f13830d998f49f5f2aa7d33
       vite: 2.6.13_sass@1.43.4
-      vite-plugin-inspect: 0.3.9_vite@2.6.13
+      vite-plugin-inspect: 0.3.10_vite@2.6.13
 
 packages:
 
@@ -10266,8 +10266,8 @@ packages:
       replace-ext: 1.0.1
     dev: true
 
-  /vite-plugin-inspect/0.3.9:
-    resolution: {integrity: sha512-iM4PQA76LHHKhePdsy/WjPczC+WNJedAm/ADUWv68sMJg+QOkgWzQiS+QkvfoulzDB7wmNPhKBP2lza1GubvMQ==}
+  /vite-plugin-inspect/0.3.10:
+    resolution: {integrity: sha512-4PDxPeiRd+szrepkHiogOCmiYy7fK15tZYpBq5vVXW24AooB5uk01HKMnFeKoZHPnB4nRNaoGPZFKTLndFosjQ==}
     peerDependencies:
       vite: ^2.0.0
     dependencies:
@@ -10278,8 +10278,8 @@ packages:
       - supports-color
     dev: true
 
-  /vite-plugin-inspect/0.3.9_vite@2.6.13:
-    resolution: {integrity: sha512-iM4PQA76LHHKhePdsy/WjPczC+WNJedAm/ADUWv68sMJg+QOkgWzQiS+QkvfoulzDB7wmNPhKBP2lza1GubvMQ==}
+  /vite-plugin-inspect/0.3.10_vite@2.6.13:
+    resolution: {integrity: sha512-4PDxPeiRd+szrepkHiogOCmiYy7fK15tZYpBq5vVXW24AooB5uk01HKMnFeKoZHPnB4nRNaoGPZFKTLndFosjQ==}
     peerDependencies:
       vite: ^2.0.0
     dependencies:
