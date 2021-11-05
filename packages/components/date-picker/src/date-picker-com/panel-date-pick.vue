@@ -247,8 +247,22 @@ export default defineComponent({
   emits: ['pick', 'set-picker-option'],
   setup(props, ctx) {
     const { t, lang } = useLocaleInject()
+    const pickerBase = inject('EP_PICKER_BASE') as any
+
+    const {
+      shortcuts,
+      disabledDate,
+      cellClassName,
+      defaultTime,
+      defaultValue,
+      arrowControl,
+    } = pickerBase.props
 
     const innerDate = ref(dayjs().locale(lang.value))
+
+    const defaultTimeD = computed(() => {
+      return dayjs(defaultTime).locale(lang.value)
+    })
 
     const month = computed(() => {
       return innerDate.value.month()
@@ -272,9 +286,8 @@ export default defineComponent({
         : true
     }
     const formatEmit = (emitDayjs: Dayjs) => {
-      if (defaultTime) {
-        const defaultTimeD = dayjs(defaultTime).locale(lang.value)
-        return defaultTimeD
+      if (defaultTime && !visibleTime.value) {
+        return defaultTimeD.value
           .year(emitDayjs.year())
           .month(emitDayjs.month())
           .date(emitDayjs.date())
@@ -552,7 +565,16 @@ export default defineComponent({
     }
 
     const getDefaultValue = () => {
-      return dayjs(defaultValue).locale(lang.value)
+      const parseDate = dayjs(defaultValue).locale(lang.value)
+      if (!defaultValue) {
+        const defaultTimeDValue = defaultTimeD.value
+        return dayjs()
+          .hour(defaultTimeDValue.hour())
+          .minute(defaultTimeDValue.minute())
+          .second(defaultTimeDValue.second())
+          .locale(lang.value)
+      }
+      return parseDate
     }
 
     const handleKeydown = (event) => {
@@ -630,16 +652,6 @@ export default defineComponent({
     ctx.emit('set-picker-option', ['formatToString', formatToString])
     ctx.emit('set-picker-option', ['parseUserInput', parseUserInput])
     ctx.emit('set-picker-option', ['handleKeydown', handleKeydown])
-
-    const pickerBase = inject('EP_PICKER_BASE') as any
-    const {
-      shortcuts,
-      disabledDate,
-      cellClassName,
-      defaultTime,
-      defaultValue,
-      arrowControl,
-    } = pickerBase.props
 
     watch(
       () => props.parsedValue,
