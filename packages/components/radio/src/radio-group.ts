@@ -1,17 +1,13 @@
-import { buildProps, definePropType } from '@element-plus/utils/props'
-import { isValidComponentSize } from '@element-plus/utils/validators'
+import { buildProps } from '@element-plus/utils/props'
+import { useFormItemProps } from '@element-plus/hooks'
 import { radioEmits } from './radio'
 import type { ExtractPropTypes } from '@vue/runtime-core'
-import type { ComponentSize } from '@element-plus/utils/types'
 
 export const radioGroupProps = buildProps({
+  ...useFormItemProps,
   modelValue: {
     type: [String, Number, Boolean],
     default: '',
-  },
-  size: {
-    type: definePropType<ComponentSize>([String]),
-    validator: isValidComponentSize,
   },
   fill: {
     type: String,
@@ -21,9 +17,7 @@ export const radioGroupProps = buildProps({
     type: String,
     default: '',
   },
-  disabled: Boolean,
 } as const)
-
 export type RadioGroupProps = ExtractPropTypes<typeof radioGroupProps>
 
 export const radioGroupEmits = radioEmits
