@@ -13,10 +13,12 @@ export const rowProps = buildProps({
   },
   justify: {
     type: String,
+    values: ['start', 'center', 'end', 'space-around', 'space-between'],
     default: 'start',
   },
   align: {
     type: String,
+    values: ['top', 'middle', 'bottom'],
     default: 'top',
   },
 } as const)
@@ -25,6 +27,7 @@ export type RowProps = ExtractPropTypes<typeof rowProps>
 export default defineComponent({
   name: 'ElRow',
   props: rowProps,
+
   setup(props, { slots }) {
     const gutter = computed(() => props.gutter)
     provide('ElRow', {
