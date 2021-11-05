@@ -37,7 +37,7 @@
     >
       <template #default="scope">
         <el-tag
-          :type="scope.row.tag === 'Home' ? 'primary' : 'success'"
+          :type="scope.row.tag === 'Home' ? '' : 'success'"
           disable-transitions
           >{{ scope.row.tag }}</el-tag
         >
