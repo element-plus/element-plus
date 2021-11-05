@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import useAttrs from '../use-attrs'
+import { useAttrs } from '../use-attrs'
 import type { ComponentOptions } from 'vue'
 
 const CLASS = 'a'
