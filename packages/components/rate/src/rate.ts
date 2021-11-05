@@ -1,6 +1,6 @@
 import { Star, StarFilled } from '@element-plus/icons'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { buildProps, definePropType } from '@element-plus/utils/props'
+import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
 import type { Component, ExtractPropTypes } from 'vue'
 
 export const rateProps = buildProps({
@@ -21,8 +21,8 @@ export const rateProps = buildProps({
     default: 5,
   },
   colors: {
-    type: [Array, Object],
-    default: () => ['#F7BA2A', '#F7BA2A', '#F7BA2A'],
+    type: definePropType<string[] | Record<number, string>>([Array, Object]),
+    default: () => mutable(['#F7BA2A', '#F7BA2A', '#F7BA2A'] as const),
   },
   voidColor: {
     type: String,
@@ -33,16 +33,18 @@ export const rateProps = buildProps({
     default: '#EFF2F7',
   },
   icons: {
-    type: definePropType<string[] | Component>([Array, Object]),
+    type: definePropType<
+      Array<string | Component> | Record<number, string | Component>
+    >([Array, Object]),
     default: () => [StarFilled, StarFilled, StarFilled],
   },
   voidIcon: {
     type: definePropType<string | Component>([String, Object]),
-    default: Star as any,
+    default: () => Star,
   },
   disabledvoidIcon: {
     type: definePropType<string | Component>([String, Object]),
-    default: StarFilled as any,
+    default: () => StarFilled,
   },
   disabled: {
     type: Boolean,
@@ -66,13 +68,14 @@ export const rateProps = buildProps({
   },
   texts: {
     type: definePropType<string[]>([Array]),
-    default: () => [
-      'Extremely bad',
-      'Disappointed',
-      'Fair',
-      'Satisfied',
-      'Surprise',
-    ],
+    default: () =>
+      mutable([
+        'Extremely bad',
+        'Disappointed',
+        'Fair',
+        'Satisfied',
+        'Surprise',
+      ] as const),
   },
   scoreTemplate: {
     type: String,
