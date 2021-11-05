@@ -94,7 +94,7 @@ export default defineComponent({
     // todo better way to get Day.js locale object
     const firstDayOfWeek = (props.date as any).$locale().weekStart || 7
     const WEEKS_CONSTANT = props.date
-      .locale('en')
+      ?.locale('en')
       .localeData()
       .weekdaysShort()
       .map((_) => _.toLowerCase())
@@ -105,12 +105,12 @@ export default defineComponent({
     })
 
     const startDate = computed(() => {
-      const startDayOfMonth = props.date.startOf('month')
+      const startDayOfMonth = props.date!.startOf('month')
       return startDayOfMonth.subtract(startDayOfMonth.day() || 7, 'day')
     })
 
     const WEEKS = computed(() => {
-      return WEEKS_CONSTANT.concat(WEEKS_CONSTANT).slice(
+      return WEEKS_CONSTANT?.concat(WEEKS_CONSTANT).slice(
         firstDayOfWeek,
         firstDayOfWeek + 7
       )
@@ -118,7 +118,7 @@ export default defineComponent({
 
     const rows = computed(() => {
       // TODO: refactory rows / getCellClasses
-      const startOfMonth = props.date.startOf('month')
+      const startOfMonth = props.date!.startOf('month')
       const startOfMonthDay = startOfMonth.day() || 7 // day of first day
       const dateCountOfMonth = startOfMonth.daysInMonth()
       const dateCountOfLastMonth = startOfMonth
@@ -258,23 +258,18 @@ export default defineComponent({
       if (!date) return false
       return dayjs(date)
         .locale(lang.value)
-        .isSame(props.date.date(Number(cell.text)), 'day')
+        .isSame(props.date?.date(Number(cell.text)), 'day')
     }
 
     const getCellClasses = (cell) => {
-      const classes: string[] = []
+      const classes: { [key: string]: any } = {}
       if ((cell.type === 'normal' || cell.type === 'today') && !cell.disabled) {
-        classes.push('available')
-        if (cell.type === 'today') {
-          classes.push('today')
-        }
+        classes['available'] = true
+        classes['today'] = cell.type === 'today'
       } else {
-        classes.push(cell.type)
+        classes[cell.type] = true
       }
-
-      if (isCurrent(cell)) {
-        classes.push('current')
-      }
+      classes['current'] = isCurrent(cell)
 
       if (
         cell.inRange &&
@@ -282,30 +277,17 @@ export default defineComponent({
           cell.type === 'today' ||
           props.selectionMode === 'week')
       ) {
-        classes.push('in-range')
-
-        if (cell.start) {
-          classes.push('start-date')
-        }
-
-        if (cell.end) {
-          classes.push('end-date')
-        }
+        classes['in-range'] = true
+        classes['start-date'] = cell.start
+        classes['end-date'] = cell.end
       }
+      classes['disabled'] = cell.disabled
+      classes['selected'] = cell.selected
+      classes['customClass'] = cell.customClass
 
-      if (cell.disabled) {
-        classes.push('disabled')
-      }
-
-      if (cell.selected) {
-        classes.push('selected')
-      }
-
-      if (cell.customClass) {
-        classes.push(cell.customClass)
-      }
-
-      return classes.join(' ')
+      return Object.keys(classes)
+        .filter((k) => classes[k])
+        .join(' ')
     }
 
     const getDateOfCell = (row, column) => {
@@ -326,7 +308,7 @@ export default defineComponent({
       }
       if (target.tagName !== 'TD') return
 
-      const row = target.parentNode.rowIndex - 1
+      const row = (target.parentNode.rowIndex - 1) as any
       const column = target.cellIndex
 
       // can not select disabled date
@@ -369,7 +351,7 @@ export default defineComponent({
           ctx.emit('pick', { minDate: newDate, maxDate: null })
           ctx.emit('select', true)
         } else {
-          if (newDate >= props.minDate) {
+          if (newDate >= props.minDate!) {
             ctx.emit('pick', { minDate: props.minDate, maxDate: newDate })
           } else {
             ctx.emit('pick', { minDate: newDate, maxDate: props.minDate })
@@ -399,7 +381,7 @@ export default defineComponent({
 
     const isWeekActive = (cell) => {
       if (props.selectionMode !== 'week') return false
-      let newDate = props.date.startOf('day')
+      let newDate = props.date!.startOf('day')
 
       if (cell.type === 'prev-month') {
         newDate = newDate.subtract(1, 'month')
