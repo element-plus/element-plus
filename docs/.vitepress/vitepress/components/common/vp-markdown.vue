@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { parse } from 'marked'
+import MarkdownIt from 'markdown-it'
+
+const md = new MarkdownIt()
 
 const props = defineProps({
   content: { type: String, required: true },
@@ -10,7 +12,8 @@ const attr = 'rel="noreferrer noopenner" target="_blank"'
 
 const parsed = computed(() => {
   // Note this is relatively arbitrary so that this could be buggy.
-  return parse(props.content)
+  return md
+    .render(props.content)
     .replace(
       /#([0-9]+) by/g,
       `<a href="https://github.com/element-plus/element-plus/pull/$1" ${attr}>#$1</a> by`
