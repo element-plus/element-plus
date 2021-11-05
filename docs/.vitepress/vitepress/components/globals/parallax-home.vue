@@ -123,7 +123,9 @@ useEventListener(window, 'scroll', handleScroll)
             <img src="/images/component.png" alt="" />
             <h3>{{ homeLang['6'] }}</h3>
             <p>{{ homeLang['7'] }}</p>
-            <a href="/en-US/component/layout.html"> {{ homeLang['5'] }} </a>
+            <a :href="`/${lang}/component/layout.html`">
+              {{ homeLang['5'] }}
+            </a>
           </div>
         </li>
         <li>
@@ -131,7 +133,7 @@ useEventListener(window, 'scroll', handleScroll)
             <img src="/images/resource.png" alt="" />
             <h3>{{ homeLang['8'] }}</h3>
             <p>{{ homeLang['9'] }}</p>
-            <a href="/en-US/resource/index.html"> {{ homeLang['5'] }} </a>
+            <a :href="`/${lang}/resource/index.html`"> {{ homeLang['5'] }} </a>
           </div>
         </li>
       </ul>
@@ -162,7 +164,7 @@ useEventListener(window, 'scroll', handleScroll)
         {{ homeLang['13'] }}
       </a>
       <a
-        href="/en-US/component/custom-theme"
+        :href="`/${lang}/guide/theming`"
         class="footer-main-link"
         target="_blank"
       >
