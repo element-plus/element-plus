@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, reactive, computed } from 'vue'
-import { withBase } from 'vitepress'
 import { useParallax, useThrottleFn, useEventListener } from '@vueuse/core'
 import { useLang } from '../../composables/lang'
 import homeLocale from '../../../i18n/pages/home.json'
