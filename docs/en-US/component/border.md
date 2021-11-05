@@ -1,3 +1,8 @@
+---
+title: Border
+lang: en-US
+---
+
 # Border
 
 We standardize the borders that can be used in buttons, cards, pop-ups and other components.

@@ -1,3 +1,8 @@
+---
+title: Progress
+lang: en-US
+---
+
 # Progress
 
 Progress is used to show the progress of current operation, and inform the user the current status.

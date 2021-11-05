@@ -1,3 +1,8 @@
+---
+title: Tree
+lang: en-US
+---
+
 # Tree
 
 Display a set of data with hierarchies.
@@ -9,6 +14,8 @@ Basic tree structure.
 :::demo
 
 tree/basic
+
+:::
 
 ## Selectable
 
@@ -66,6 +73,16 @@ tree/customized-node
 
 :::
 
+## Custom node class
+
+The class of tree nodes can be customized
+
+:::demo. Use `props.class` to build class name of nodes.
+
+tree/custom-node-class
+
+:::
+
 ## Tree node filtering
 
 Tree nodes can be filtered
@@ -120,7 +137,7 @@ tree/draggable
 | filter-node-method    | this function will be executed on each node when use filter method. if return `false`, tree node will be hidden.                                                                                                                                                                                                                                                            | Function(value, data, node)            | —               | —       |
 | accordion             | whether only one node among the same level can be expanded at one time                                                                                                                                                                                                                                                                                                      | boolean                                | —               | false   |
 | indent                | horizontal indentation of nodes in adjacent levels in pixels                                                                                                                                                                                                                                                                                                                | number                                 | —               | 16      |
-| icon-class            | custome tree node icon                                                                                                                                                                                                                                                                                                                                                      | string                                 | -               | -       |
+| icon                  | custome tree node icon component                                                                                                                                                                                                                                                                                                                                            | string / Component                     | -               | -       |
 | lazy                  | whether to lazy load leaf node, used with `load` attribute                                                                                                                                                                                                                                                                                                                  | boolean                                | —               | false   |
 | draggable             | whether enable tree nodes drag and drop                                                                                                                                                                                                                                                                                                                                     | boolean                                | —               | false   |
 | allow-drag            | this function will be executed before dragging a node. If `false` is returned, the node can not be dragged                                                                                                                                                                                                                                                                  | Function(node)                         | —               | —       |
@@ -134,6 +151,7 @@ tree/draggable
 | children  | specify which node object is used as the node's subtree                       | string                        | —               | —       |
 | disabled  | specify which key of node object represents if node's checkbox is disabled    | boolean, function(data, node) | —               | —       |
 | isLeaf    | specify whether the node is a leaf node, only works when lazy load is enabled | boolean, function(data, node) | —               | —       |
+| class     | custom node class name                                                        | string, function(data, node)  | —               | —       |
 
 ## Method
 

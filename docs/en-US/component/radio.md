@@ -1,4 +1,9 @@
-## Radio
+---
+title: Radio
+lang: en-US
+---
+
+# Radio
 
 Single selection among multiple options.
 
@@ -67,6 +72,12 @@ radio/with-borders
 | ---------- | ------------------------------------- | ----------------------------------- |
 | change     | triggers when the bound value changes | the label value of the chosen radio |
 
+## Radio Slots
+
+| Name | Description               |
+| ---- | ------------------------- |
+| —    | customize default content |
+
 ### Radio-group Attributes
 
 | Attribute             | Description                                       | Type                      | Accepted Values       | Default |
@@ -83,6 +94,12 @@ radio/with-borders
 | ---------- | ------------------------------------- | ----------------------------------- |
 | change     | triggers when the bound value changes | the label value of the chosen radio |
 
+## Radio-group Slots
+
+| Name | Description               | Subtags              |
+| ---- | ------------------------- | -------------------- |
+| —    | customize default content | Radio / Radio-button |
+
 ### Radio-button Attributes
 
 | Attribute | Description               | Type            | Accepted Values | Default |
@@ -90,3 +107,9 @@ radio/with-borders
 | label     | the value of radio        | string / number | —               | —       |
 | disabled  | whether radio is disabled | boolean         | —               | false   |
 | name      | native 'name' attribute   | string          | —               | —       |
+
+## Radio-button Slots
+
+| Name | Description               |
+| ---- | ------------------------- |
+| —    | customize default content |

@@ -94,7 +94,7 @@
   box-sizing: border-box;
   white-space: nowrap;
 
-  .#{$namespace}-icon-close {
+  .#{$namespace}-icon {
     border-radius: 50%;
     text-align: center;
     position: relative;
@@ -109,6 +109,10 @@
 
     &::before {
       display: block;
+    }
+
+    svg {
+      margin: 2px;
     }
   }
 

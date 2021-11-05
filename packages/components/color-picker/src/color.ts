@@ -41,14 +41,14 @@ const bound01 = function (value: number | string, max: number | string) {
 
 const INT_HEX_MAP = { 10: 'A', 11: 'B', 12: 'C', 13: 'D', 14: 'E', 15: 'F' }
 
-const toHex = function ({ r, g, b }) {
-  const hexOne = function (value: number) {
-    value = Math.min(Math.round(value), 255)
-    const high = Math.floor(value / 16)
-    const low = value % 16
-    return `${INT_HEX_MAP[high] || high}${INT_HEX_MAP[low] || low}`
-  }
+const hexOne = function (value: number) {
+  value = Math.min(Math.round(value), 255)
+  const high = Math.floor(value / 16)
+  const low = value % 16
+  return `${INT_HEX_MAP[high] || high}${INT_HEX_MAP[low] || low}`
+}
 
+const toHex = function ({ r, g, b }) {
   if (isNaN(r) || isNaN(g) || isNaN(b)) return ''
 
   return `#${hexOne(r)}${hexOne(g)}${hexOne(b)}`
@@ -198,6 +198,9 @@ export default class Color {
   }
 
   get(prop: string) {
+    if (prop === 'alpha') {
+      return Math.floor(this[`_${prop}`])
+    }
     return this[`_${prop}`]
   }
 
@@ -231,7 +234,7 @@ export default class Color {
         .map((val, index) => (index > 2 ? parseFloat(val) : parseInt(val, 10)))
 
       if (parts.length === 4) {
-        this._alpha = Math.floor(parseFloat(parts[3]) * 100)
+        this._alpha = parseFloat(parts[3]) * 100
       } else if (parts.length === 3) {
         this._alpha = 100
       }
@@ -247,7 +250,7 @@ export default class Color {
         .map((val, index) => (index > 2 ? parseFloat(val) : parseInt(val, 10)))
 
       if (parts.length === 4) {
-        this._alpha = Math.floor(parseFloat(parts[3]) * 100)
+        this._alpha = parseFloat(parts[3]) * 100
       } else if (parts.length === 3) {
         this._alpha = 100
       }
@@ -262,7 +265,7 @@ export default class Color {
         .map((val, index) => (index > 2 ? parseFloat(val) : parseInt(val, 10)))
 
       if (parts.length === 4) {
-        this._alpha = Math.floor(parseFloat(parts[3]) * 100)
+        this._alpha = parseFloat(parts[3]) * 100
       } else if (parts.length === 3) {
         this._alpha = 100
       }
@@ -287,9 +290,7 @@ export default class Color {
       }
 
       if (hex.length === 8) {
-        this._alpha = Math.floor(
-          (parseHexChannel(hex.substring(6)) / 255) * 100
-        )
+        this._alpha = (parseHexChannel(hex.substring(6)) / 255) * 100
       } else if (hex.length === 3 || hex.length === 6) {
         this._alpha = 100
       }
@@ -317,18 +318,24 @@ export default class Color {
           const hsl = hsv2hsl(_hue, _saturation / 100, _value / 100)
           this.value = `hsla(${_hue}, ${Math.round(
             hsl[1] * 100
-          )}%, ${Math.round(hsl[2] * 100)}%, ${_alpha / 100})`
+          )}%, ${Math.round(hsl[2] * 100)}%, ${this.get('alpha') / 100})`
           break
         }
         case 'hsv': {
           this.value = `hsva(${_hue}, ${Math.round(_saturation)}%, ${Math.round(
             _value
-          )}%, ${_alpha / 100})`
+          )}%, ${this.get('alpha') / 100})`
+          break
+        }
+        case 'hex': {
+          this.value = `${toHex(hsv2rgb(_hue, _saturation, _value))}${hexOne(
+            (_alpha * 255) / 100
+          )}`
           break
         }
         default: {
           const { r, g, b } = hsv2rgb(_hue, _saturation, _value)
-          this.value = `rgba(${r}, ${g}, ${b}, ${_alpha / 100})`
+          this.value = `rgba(${r}, ${g}, ${b}, ${this.get('alpha') / 100})`
         }
       }
     } else {

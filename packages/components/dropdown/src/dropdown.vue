@@ -46,7 +46,7 @@
               :type="type"
               class="el-dropdown__caret-button"
             >
-              <i class="el-dropdown__icon el-icon-arrow-down"></i>
+              <el-icon class="el-dropdown__icon"><arrow-down /></el-icon>
             </el-button>
           </el-button-group>
         </template>
@@ -67,12 +67,14 @@ import {
 import ElButton from '@element-plus/components/button'
 import ElPopper, { Effect } from '@element-plus/components/popper'
 import ElScrollbar from '@element-plus/components/scrollbar'
+import ElIcon from '@element-plus/components/icon'
 import { on, addClass, removeClass } from '@element-plus/utils/dom'
 import { addUnit } from '@element-plus/utils/util'
+import { ArrowDown } from '@element-plus/icons'
 import { useDropdown } from './useDropdown'
+
 import type { Placement } from '@element-plus/components/popper'
 import type { PropType, ComponentPublicInstance } from 'vue'
-
 import type { TriggerType } from '@element-plus/hooks/use-popper/use-target-events'
 import type { ButtonType } from '@element-plus/components/button/src/types'
 
@@ -86,6 +88,8 @@ export default defineComponent({
     ElButtonGroup,
     ElScrollbar,
     ElPopper,
+    ElIcon,
+    ArrowDown,
   },
   props: {
     trigger: {

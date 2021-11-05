@@ -23,7 +23,7 @@
   user-select: none;
   margin-right: 30px;
   height: map.get($radio-height, 'default');
-  @include utils-user-select(none);
+  user-select: none;
 
   @each $size in (medium, small, mini) {
     &.#{$namespace}-radio--#{$size} {

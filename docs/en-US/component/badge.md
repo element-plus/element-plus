@@ -1,3 +1,8 @@
+---
+title: Badge
+lang: en-US
+---
+
 # Badge
 
 A number or status mark on buttons and icons.
@@ -51,3 +56,9 @@ badge/dot
 | is-dot    | if a little dot is displayed                                                     | boolean         | —                                           | false   |
 | hidden    | hidden badge                                                                     | boolean         | —                                           | false   |
 | type      | button type                                                                      | string          | primary / success / warning / danger / info | —       |
+
+## Slots
+
+| Name | Description               |
+| ---- | ------------------------- |
+| —    | customize default content |

@@ -147,7 +147,7 @@ export default defineComponent({
     const labelStyle = computed(() => {
       const ret: CSSProperties = {}
       if (elForm.labelPosition === 'top') return ret
-      const labelWidth = addUnit(props.labelWidth) || addUnit(elForm.labelWidth)
+      const labelWidth = addUnit(props.labelWidth || elForm.labelWidth)
       if (labelWidth) {
         ret.width = labelWidth
       }
@@ -161,7 +161,7 @@ export default defineComponent({
       if (!props.label && !props.labelWidth && isNested.value) {
         return ret
       }
-      const labelWidth = addUnit(props.labelWidth) || addUnit(elForm.labelWidth)
+      const labelWidth = addUnit(props.labelWidth || elForm.labelWidth)
       if (!props.label && !slots.label) {
         ret.marginLeft = labelWidth
       }
@@ -224,23 +224,20 @@ export default defineComponent({
       const validator = new AsyncValidator(descriptor)
       const model = {}
       model[props.prop] = fieldValue.value
-      validator.validate(
-        model,
-        { firstFields: true },
-        (errors, invalidFields) => {
-          validateState.value = !errors ? 'success' : 'error'
-          validateMessage.value = errors
-            ? errors[0].message || `${props.prop} is required`
-            : ''
-          callback(validateMessage.value, invalidFields)
-          elForm.emit?.(
-            'validate',
-            props.prop,
-            !errors,
-            validateMessage.value || null
-          )
-        }
-      )
+      validator.validate(model, { firstFields: true }, (errors, fields) => {
+        validateState.value = !errors ? 'success' : 'error'
+        validateMessage.value = errors
+          ? errors[0].message || `${props.prop} is required`
+          : ''
+        // fix: #3860 after version 3.5.2, async-validator also return fields if validation fails
+        callback(validateMessage.value, errors ? fields : {})
+        elForm.emit?.(
+          'validate',
+          props.prop,
+          !errors,
+          validateMessage.value || null
+        )
+      })
     }
 
     const clearValidate = () => {

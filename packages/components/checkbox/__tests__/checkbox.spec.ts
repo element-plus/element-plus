@@ -294,34 +294,43 @@ describe('check-button', () => {
       `
       <el-checkbox-group
         v-model="checkList"
-        :min="1"
-        :max="2"
+        :min="2"
+        :max="3"
       >
         <el-checkbox-button label="a" ref="a"></el-checkbox-button>
         <el-checkbox-button label="b" ref="b"></el-checkbox-button>
         <el-checkbox-button label="c" ref="c"></el-checkbox-button>
         <el-checkbox-button label="d" ref="d"></el-checkbox-button>
+        <el-checkbox-button label="e" ref="e"></el-checkbox-button>
       </el-checkbox-group>
       `,
       () => ({
-        checkList: ['a'],
+        checkList: ['a', 'b'],
         lastEvent: null,
       })
     )
     const vm = wrapper.vm
-    expect(vm.checkList.length).toBe(1)
+    expect(vm.checkList.length).toBe(2)
     await wrapper.findComponent({ ref: 'a' }).trigger('click')
     vm.$nextTick(async () => {
-      expect(vm.checkList.length).toBe(1)
-      await wrapper.findComponent({ ref: 'b' }).trigger('click')
       expect(vm.checkList.length).toBe(2)
       await wrapper.findComponent({ ref: 'c' }).trigger('click')
-      expect(vm.checkList.length).toBe(2)
-      expect(vm.checkList).toEqual(['a', 'b'])
-      expect((wrapper.findComponent({ ref: 'c' }).vm as any).isDisabled).toBe(
+      expect(vm.checkList.length).toBe(3)
+      expect(vm.checkList).toEqual(['a', 'b', 'c'])
+      expect((wrapper.findComponent({ ref: 'd' }).vm as any).isDisabled).toBe(
         true
       )
-      expect((wrapper.findComponent({ ref: 'd' }).vm as any).isDisabled).toBe(
+      expect((wrapper.findComponent({ ref: 'e' }).vm as any).isDisabled).toBe(
+        true
+      )
+      vm.checkList = []
+      await vm.$nextTick()
+      await wrapper.findComponent({ ref: 'a' }).trigger('click')
+      await wrapper.findComponent({ ref: 'd' }).trigger('click')
+      expect(vm.checkList).toEqual(['a', 'd'])
+      await wrapper.findComponent({ ref: 'a' }).trigger('click')
+      expect(vm.checkList).toEqual(['a', 'd'])
+      expect((wrapper.findComponent({ ref: 'a' }).vm as any).isDisabled).toBe(
         true
       )
     })

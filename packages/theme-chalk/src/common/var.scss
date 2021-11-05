@@ -2,8 +2,6 @@
 @use 'sass:math';
 @use 'sass:map';
 
-@use '../mixins/config' as *;
-
 // Special comment for theme configurator
 // type|skipAutoTranslation|Category|Order
 // skipAutoTranslation 1
@@ -141,9 +139,6 @@ $box-shadow: map.merge(
 );
 
 // Typography
-$font-path: 'fonts' !default;
-$font-display: 'auto' !default;
-
 $font-size: () !default;
 $font-size: map.merge(
   (

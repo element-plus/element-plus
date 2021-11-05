@@ -1,61 +1,65 @@
-import { buildProp } from '@element-plus/utils/props'
-import { LTR, RTL, VERTICAL } from './defaults'
+import {
+  buildProp,
+  buildProps,
+  definePropType,
+  mutable,
+} from '@element-plus/utils/props'
+import { VERTICAL } from './defaults'
 
-import type { ExtractPropTypes, PropType } from 'vue'
+import type { ExtractPropTypes } from 'vue'
 import type { StyleValue } from '@element-plus/utils/types'
-import type { Direction, LayoutDirection, ItemSize } from './types'
+import type { ItemSize } from './types'
 
-const itemSize = {
-  type: [Number, Function] as PropType<number | ItemSize>,
+const itemSize = buildProp({
+  type: definePropType<number | ItemSize>([Number, Function]),
   required: true,
-}
+} as const)
 
-const estimatedItemSize = {
-  type: [Number] as PropType<number>,
-}
+const estimatedItemSize = buildProp({
+  type: Number,
+} as const)
 
-const cache = {
-  type: Number as PropType<number>,
+const cache = buildProp({
+  type: Number,
   default: 2,
-}
+} as const)
 
-const direction = {
-  type: String as PropType<Direction>,
+const direction = buildProp({
+  type: String,
+  values: ['ltr', 'rtl'],
   default: 'ltr',
-  validator: (val: Direction) => {
-    return val === LTR || val === RTL
-  },
-}
+} as const)
 
-const initScrollOffset = {
+const initScrollOffset = buildProp({
   type: Number,
   default: 0,
-}
+} as const)
 
 const total = buildProp({
   type: Number,
   required: true,
-})
+} as const)
 
-const layout = {
-  type: String as PropType<LayoutDirection>,
+const layout = buildProp({
+  type: String,
+  values: ['horizontal', 'vertical'],
   default: VERTICAL,
-}
+} as const)
 
-export const virtualizedProps = {
+export const virtualizedProps = buildProps({
   className: {
-    type: String as PropType<string>,
+    type: String,
     default: '',
   },
 
   containerElement: {
-    type: [String, Object],
+    type: definePropType<string | Element>([String, Object]),
     default: 'div',
   },
 
   data: {
-    type: [Array] as PropType<any[]>,
-    default: () => [],
+    type: definePropType<any[]>(Array),
+    default: () => mutable([] as const),
   },
 
   /**
@@ -63,10 +67,10 @@ export const virtualizedProps = {
    */
   direction,
 
-  height: buildProp({
+  height: {
     type: [String, Number],
     required: true,
-  }),
+  },
 
   innerElement: {
     type: [String, Object],
@@ -74,7 +78,7 @@ export const virtualizedProps = {
   },
 
   style: {
-    type: [Object, String, Array] as PropType<StyleValue>,
+    type: definePropType<StyleValue>([Object, String, Array]),
   },
 
   useIsScrolling: {
@@ -82,17 +86,22 @@ export const virtualizedProps = {
     default: false,
   },
 
-  width: buildProp({
+  width: {
     type: [Number, String],
-    required: true,
-  }),
+    required: false,
+  },
+
   perfMode: {
     type: Boolean,
     default: true,
   },
-}
+  scrollbarAlwaysOn: {
+    type: Boolean,
+    default: false,
+  },
+} as const)
 
-export const virtualizedListProps = {
+export const virtualizedListProps = buildProps({
   /**
    * @description describes how many items should be pre rendered to the head
    * and the tail of the window
@@ -115,9 +124,9 @@ export const virtualizedListProps = {
 
   itemSize,
   ...virtualizedProps,
-}
+} as const)
 
-export const virtualizedGridProps = {
+export const virtualizedGridProps = buildProps({
   columnCache: cache,
   columnWidth: itemSize,
   estimatedColumnWidth: estimatedItemSize,
@@ -129,9 +138,9 @@ export const virtualizedGridProps = {
   totalColumn: total,
   totalRow: total,
   ...virtualizedProps,
-}
+} as const)
 
-export const virtualizedScrollbarProps = {
+export const virtualizedScrollbarProps = buildProps({
   layout,
   total,
   ratio: {
@@ -147,7 +156,7 @@ export const virtualizedScrollbarProps = {
     required: true,
   },
   visible: Boolean,
-}
+} as const)
 
 export type VirtualizedProps = ExtractPropTypes<typeof virtualizedProps>
 export type VirtualizedListProps = ExtractPropTypes<typeof virtualizedListProps>

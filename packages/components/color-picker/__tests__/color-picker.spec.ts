@@ -61,6 +61,21 @@ describe('Color-picker', () => {
     expect(input.value.trim().toUpperCase()).toEqual('#20A0FF')
     wrapper.unmount()
   })
+  it('should show correct hex value contains alpha', async () => {
+    const wrapper = _mount(
+      `<el-color-picker v-model="color" color-format="hex" show-alpha></el-color-picker>`,
+      () => ({
+        color: '#20A0FFEE',
+      })
+    )
+    await wrapper.find('.el-color-picker__trigger').trigger('click')
+    await nextTick()
+    const input = document.querySelector<HTMLInputElement>(
+      '.el-color-dropdown__value input'
+    )
+    expect(input.value.trim().toUpperCase()).toEqual('#20A0FFEE')
+    wrapper.unmount()
+  })
   it('should pick a color when confirm button click', async () => {
     const wrapper = _mount(
       `<el-color-picker v-model="color"></el-color-picker>`,
@@ -75,7 +90,20 @@ describe('Color-picker', () => {
     expect(wrapper.vm.color).toEqual('#FF0000')
     wrapper.unmount()
   })
+  it('should pick a color contains alpha when confirm button click', async () => {
+    const wrapper = _mount(
+      `<el-color-picker v-model="color" color-format="hex" show-alpha></el-color-picker>`,
+      () => ({
+        color: null,
+      })
+    )
 
+    await wrapper.find('.el-color-picker__trigger').trigger('click')
+    document.querySelector<HTMLElement>('.el-color-dropdown__btn').click()
+    await nextTick()
+    expect(wrapper.vm.color).toEqual('#FF0000FF')
+    wrapper.unmount()
+  })
   it('should init the right color when open', async () => {
     const wrapper = _mount(
       `<el-color-picker v-model="color"></el-color-picker>`,

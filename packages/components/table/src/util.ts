@@ -149,7 +149,7 @@ export const getRowIdentity = <T>(
   row: T,
   rowKey: string | ((row: T) => any)
 ): string => {
-  if (!row) throw new Error('row is required when get row identity')
+  if (!row) throw new Error('Row is required when get row identity')
   if (typeof rowKey === 'string') {
     if (rowKey.indexOf('.') < 0) {
       return `${row[rowKey]}`

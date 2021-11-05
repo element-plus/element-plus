@@ -22,4 +22,8 @@
   &:hover {
     background-color: var(--el-backtop-hover-background-color);
   }
+
+  @include e(icon) {
+    font-size: 20px;
+  }
 }

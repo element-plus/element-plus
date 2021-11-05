@@ -2,6 +2,7 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { sleep } from '@element-plus/test-utils'
 import { EVENT_CODE } from '@element-plus/utils/aria'
+import { CircleClose } from '@element-plus/icons'
 import Select from '../src/select.vue'
 import Group from '../src/option-group.vue'
 import Option from '../src/option.vue'
@@ -21,6 +22,7 @@ interface SelectProps {
   multipleLimit?: number
   popperClass?: string
   defaultFirstOption?: boolean
+  fitInputWidth?: boolean
 }
 
 const _mount = (template: string, data: any = () => ({}), otherObj?) =>
@@ -58,6 +60,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
     'remote',
     'collapseTags',
     'automaticDropdown',
+    'fitInputWidth',
   ].forEach((config) => {
     configs[config] = configs[config] || false
   })
@@ -109,7 +112,8 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       :remote="remote"
       :loading="loading"
       :remoteMethod="remoteMethod"
-      :automatic-dropdown="automaticDropdown">
+      :automatic-dropdown="automaticDropdown"
+      :fit-input-width="fitInputWidth">
       <el-option
         v-for="item in options"
         :label="item.label"
@@ -130,6 +134,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       allowCreate: configs.allowCreate,
       popperClass: configs.popperClass,
       automaticDropdown: configs.automaticDropdown,
+      fitInputWidth: configs.fitInputWidth,
       loading: false,
       filterMethod: configs.filterMethod,
       remote: configs.remote,
@@ -148,6 +153,7 @@ const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
     'remote',
     'collapseTags',
     'automaticDropdown',
+    'fitInputWidth',
   ].forEach((config) => {
     configs[config] = configs[config] || false
   })
@@ -237,7 +243,8 @@ const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
       :remote="remote"
       :loading="loading"
       :remoteMethod="remoteMethod"
-      :automatic-dropdown="automaticDropdown">
+      :automatic-dropdown="automaticDropdown"
+      :fit-input-width="fitInputWidth">
       <el-group-option
         v-for="group in options"
         :key="group.label"
@@ -265,6 +272,7 @@ components: { ElOptionGroup }
       allowCreate: configs.allowCreate,
       popperClass: configs.popperClass,
       automaticDropdown: configs.automaticDropdown,
+      fitInputWidth: configs.fitInputWidth,
       loading: false,
       filterMethod: configs.filterMethod,
       remote: configs.remote,
@@ -526,10 +534,33 @@ describe('Select', () => {
     await vm.$nextTick()
     selectVm.inputHovering = true
     await selectVm.$nextTick()
-    const iconClear = wrapper.find('.el-input__icon.el-icon-circle-close')
+    const iconClear = wrapper.findComponent(CircleClose)
     expect(iconClear.exists()).toBe(true)
     await iconClear.trigger('click')
     expect(vm.value).toBe('')
+  })
+
+  test('fitInputWidth', async () => {
+    const wrapper = getSelectVm({ fitInputWidth: true })
+    const selectWrapper = wrapper.findComponent({ name: 'ElSelect' })
+    const selectDom = selectWrapper.element
+    const selectRect = {
+      height: 40,
+      width: 221,
+      x: 44,
+      y: 8,
+      top: 8,
+    }
+    const mockSelectWidth = jest
+      .spyOn(selectDom, 'getBoundingClientRect')
+      .mockReturnValue(selectRect as DOMRect)
+    const dropdown = wrapper.findComponent({ name: 'ElSelectDropdown' })
+    dropdown.vm.minWidth = `${
+      selectWrapper.element.getBoundingClientRect().width
+    }px`
+    await nextTick()
+    expect(dropdown.element.style.width).toBe('221px')
+    mockSelectWidth.mockRestore()
   })
 
   test('check default first option', async () => {
@@ -1258,7 +1289,7 @@ describe('Select', () => {
     await vm.$nextTick()
     selectVm.inputHovering = true
     await selectVm.$nextTick()
-    const iconClear = wrapper.find('.el-input__icon.el-icon-circle-close')
+    const iconClear = wrapper.findComponent(CircleClose)
     expect(wrapper.findAll('.el-tag').length).toBe(3)
     await iconClear.trigger('click')
     expect(wrapper.findAll('.el-tag').length).toBe(2)
@@ -1343,6 +1374,11 @@ describe('Select', () => {
     selectInputEl.value = 'a'
     selectInput.trigger('input')
     await vm.$nextTick()
+
+    const timer = sleep(300)
+    jest.runAllTimers()
+    await timer
+
     expect(innerInputEl.placeholder).toBe('')
 
     selectInput.trigger('keydown', {

@@ -1,3 +1,8 @@
+---
+title: Checkbox
+lang: en-US
+---
+
 # Checkbox
 
 A group of options for multiple choices.
@@ -91,6 +96,12 @@ checkbox/with-border
 | ---------- | --------------------------------------- | ----------------- |
 | change     | triggers when the binding value changes | the updated value |
 
+## Checkbox Slots
+
+| Name | Description               |
+| ---- | ------------------------- |
+| —    | customize default content |
+
 ## Checkbox-group Attributes
 
 | Attribute             | Description                                       | Type    | Accepted Values       | Default |
@@ -109,6 +120,12 @@ checkbox/with-border
 | ---------- | --------------------------------------- | ----------------- |
 | change     | triggers when the binding value changes | the updated value |
 
+## Checkbox-group Slots
+
+| Name | Description               | Subtags                    |
+| ---- | ------------------------- | -------------------------- |
+| -    | customize default content | Checkbox / Checkbox-button |
+
 ## Checkbox-button Attributes
 
 | Attribute   | Description                                               | Type                               | Accepted Values | Default |
@@ -119,3 +136,9 @@ checkbox/with-border
 | disabled    | whether the checkbox is disabled                          | boolean                            | —               | false   |
 | name        | native 'name' attribute                                   | string                             | —               | —       |
 | checked     | if the checkbox is checked                                | boolean                            | —               | false   |
+
+## Checkbox-button Slots
+
+| Name | Description               |
+| ---- | ------------------------- |
+| —    | customize default content |

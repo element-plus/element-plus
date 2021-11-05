@@ -12,8 +12,10 @@ import {
   nextTick,
 } from 'vue'
 import { Resize } from '@element-plus/directives'
+import ElIcon from '@element-plus/components/icon'
+import { More } from '@element-plus/icons'
 import Menubar from '@element-plus/utils/menu/menu-bar'
-import { buildProp, definePropType, mutable } from '@element-plus/utils/props'
+import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
 import { isString, isObject } from '@element-plus/utils/util'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu'
@@ -23,36 +25,40 @@ import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
 import type { VNode, ExtractPropTypes, VNodeNormalizedChildren } from 'vue'
 
-export const menuProps = {
-  mode: buildProp({
+export const menuProps = buildProps({
+  mode: {
     type: String,
     values: ['horizontal', 'vertical'],
     default: 'vertical',
-  } as const),
-  defaultActive: buildProp({
+  },
+  defaultActive: {
     type: String,
     default: '',
-  } as const),
-  defaultOpeneds: buildProp({
+  },
+  defaultOpeneds: {
     type: definePropType<string[]>(Array),
     default: () => mutable([] as const),
-  }),
+  },
   uniqueOpened: Boolean,
   router: Boolean,
-  menuTrigger: buildProp({
+  menuTrigger: {
     type: String,
     values: ['hover', 'click'],
     default: 'hover',
-  } as const),
+  },
   collapse: Boolean,
   backgroundColor: String,
   textColor: String,
   activeTextColor: String,
-  collapseTransition: buildProp({
+  collapseTransition: {
     type: Boolean,
     default: true,
-  } as const),
-} as const
+  },
+  ellipsis: {
+    type: Boolean,
+    default: true,
+  },
+} as const)
 export type MenuProps = ExtractPropTypes<typeof menuProps>
 
 const checkIndexPath = (indexPath: unknown): indexPath is string[] =>
@@ -134,13 +140,15 @@ export default defineComponent({
         )
       }
       openedMenus.value.push(index)
+      emit('open', index, indexPath)
     }
 
-    const closeMenu: MenuProvider['closeMenu'] = (index) => {
+    const closeMenu: MenuProvider['closeMenu'] = (index, indexPath) => {
       const i = openedMenus.value.indexOf(index)
       if (i !== -1) {
         openedMenus.value.splice(i, 1)
       }
+      emit('close', index, indexPath)
     }
 
     const handleSubMenuClick: MenuProvider['handleSubMenuClick'] = ({
@@ -150,11 +158,9 @@ export default defineComponent({
       const isOpened = openedMenus.value.includes(index)
 
       if (isOpened) {
-        closeMenu(index)
-        emit('close', index, indexPath)
+        closeMenu(index, indexPath)
       } else {
         openMenu(index, indexPath)
-        emit('open', index, indexPath)
       }
     }
 
@@ -208,10 +214,9 @@ export default defineComponent({
         }
       }
     }
-    const handleResize = () =>
-      nextTick(() => {
-        instance.proxy!.$forceUpdate()
-      })
+    const handleResize = () => {
+      nextTick(() => instance.proxy!.$forceUpdate())
+    }
 
     watch(
       () => props.defaultActive,
@@ -344,7 +349,7 @@ export default defineComponent({
         })
         const slotDefault = originalSlot.slice(0, sliceIndex)
         const slotMore = originalSlot.slice(sliceIndex)
-        if (slotMore?.length) {
+        if (slotMore?.length && props.ellipsis) {
           slot = slotDefault
           vShowMore.push(
             h(
@@ -355,9 +360,13 @@ export default defineComponent({
               },
               {
                 title: () =>
-                  h('i', {
-                    class: ['el-icon-more', 'el-sub-menu__icon-more'],
-                  }),
+                  h(
+                    ElIcon,
+                    {
+                      class: ['el-sub-menu__icon-more'],
+                    },
+                    () => [h(More)]
+                  ),
                 default: () => slotMore,
               }
             )
@@ -367,7 +376,10 @@ export default defineComponent({
 
       const ulStyle = useMenuCssVar(props)
 
-      const vMenu = useVNodeResize(
+      const resizeMenu = (vNode: VNode) =>
+        props.ellipsis ? useVNodeResize(vNode) : vNode
+
+      const vMenu = resizeMenu(
         h(
           'ul',
           {
@@ -381,7 +393,7 @@ export default defineComponent({
               'el-menu--collapse': props.collapse,
             },
           },
-          [...slot.map((vnode) => useVNodeResize(vnode)), ...vShowMore]
+          [...slot.map((vnode) => resizeMenu(vnode)), ...vShowMore]
         )
       )
 

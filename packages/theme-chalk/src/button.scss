@@ -30,7 +30,8 @@
   margin: 0;
   transition: 0.1s;
   font-weight: var(--el-button-font-weight);
-  @include utils-user-select(none);
+  user-select: none;
+
   & + & {
     margin-left: 10px;
   }
@@ -64,9 +65,12 @@
     border: 0;
   }
 
-  & [class*='#{$namespace}-icon-'] {
+  & [class*='#{$namespace}-icon'] {
     & + span {
       margin-left: 5px;
+    }
+    svg {
+      vertical-align: bottom;
     }
   }
 
@@ -148,6 +152,13 @@
   @include when(circle) {
     border-radius: 50%;
     padding: map.get($button-padding-vertical, 'default');
+  }
+
+  @include e(text) {
+    @include m(expand) {
+      letter-spacing: 0.3em;
+      margin-right: -0.3em;
+    }
   }
 
   @each $type in (primary, success, warning, danger, info) {
