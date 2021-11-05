@@ -1,12 +1,9 @@
 import { buildProps } from '@element-plus/utils/props'
+import { radioPropsBase } from './radio'
 import type { ExtractPropTypes } from 'vue'
 
 export const radioButtonProps = buildProps({
-  label: {
-    type: [String, Number, Boolean],
-    default: '',
-  },
-  disabled: Boolean,
+  ...radioPropsBase,
   name: {
     type: String,
     default: '',
