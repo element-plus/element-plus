@@ -1,0 +1,89 @@
+import { Star, StarFilled } from '@element-plus/icons'
+import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { buildProps, definePropType } from '@element-plus/utils/props'
+import type { Component, ExtractPropTypes } from 'vue'
+
+export const rateProps = buildProps({
+  modelValue: {
+    type: Number,
+    default: 0,
+  },
+  lowThreshold: {
+    type: Number,
+    default: 2,
+  },
+  highThreshold: {
+    type: Number,
+    default: 4,
+  },
+  max: {
+    type: Number,
+    default: 5,
+  },
+  colors: {
+    type: [Array, Object],
+    default: () => ['#F7BA2A', '#F7BA2A', '#F7BA2A'],
+  },
+  voidColor: {
+    type: String,
+    default: '#C6D1DE',
+  },
+  disabledVoidColor: {
+    type: String,
+    default: '#EFF2F7',
+  },
+  icons: {
+    type: definePropType<string[] | Component>([Array, Object]),
+    default: () => [StarFilled, StarFilled, StarFilled],
+  },
+  voidIcon: {
+    type: definePropType<string | Component>([String, Object]),
+    default: Star as any,
+  },
+  disabledvoidIcon: {
+    type: definePropType<string | Component>([String, Object]),
+    default: StarFilled as any,
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+  allowHalf: {
+    type: Boolean,
+    default: false,
+  },
+  showText: {
+    type: Boolean,
+    default: false,
+  },
+  showScore: {
+    type: Boolean,
+    default: false,
+  },
+  textColor: {
+    type: String,
+    default: '#1f2d3d',
+  },
+  texts: {
+    type: definePropType<string[]>([Array]),
+    default: () => [
+      'Extremely bad',
+      'Disappointed',
+      'Fair',
+      'Satisfied',
+      'Surprise',
+    ],
+  },
+  scoreTemplate: {
+    type: String,
+    default: '{value}',
+  },
+} as const)
+
+export type RateProps = ExtractPropTypes<typeof rateProps>
+
+export const rateEmits = {
+  change: (value: number) => typeof value === 'number',
+  [UPDATE_MODEL_EVENT]: (value: number) => typeof value === 'number',
+}
+export type RateEmits = typeof rateEmits

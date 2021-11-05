@@ -51,89 +51,14 @@ import { EVENT_CODE } from '@element-plus/utils/aria'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { ElIcon } from '@element-plus/components/icon'
 import { StarFilled, Star } from '@element-plus/icons'
-import type { PropType, Component } from 'vue'
+import { rateProps, rateEmits } from './rate'
 import type { ElFormContext } from '@element-plus/tokens'
 
 export default defineComponent({
   name: 'ElRate',
   components: { ElIcon, StarFilled, Star },
-  props: {
-    modelValue: {
-      type: Number,
-      default: 0,
-    },
-    lowThreshold: {
-      type: Number,
-      default: 2,
-    },
-    highThreshold: {
-      type: Number,
-      default: 4,
-    },
-    max: {
-      type: Number,
-      default: 5,
-    },
-    colors: {
-      type: [Array, Object],
-      default: () => ['#F7BA2A', '#F7BA2A', '#F7BA2A'],
-    },
-    voidColor: {
-      type: String,
-      default: '#C6D1DE',
-    },
-    disabledVoidColor: {
-      type: String,
-      default: '#EFF2F7',
-    },
-    icons: {
-      type: [Array, Object] as PropType<string[] | Component>,
-      default: () => [StarFilled, StarFilled, StarFilled],
-    },
-    voidIcon: {
-      type: [String, Object] as PropType<string | Component>,
-      default: Star,
-    },
-    disabledvoidIcon: {
-      type: [String, Object] as PropType<string | Component>,
-      default: StarFilled,
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-    allowHalf: {
-      type: Boolean,
-      default: false,
-    },
-    showText: {
-      type: Boolean,
-      default: false,
-    },
-    showScore: {
-      type: Boolean,
-      default: false,
-    },
-    textColor: {
-      type: String,
-      default: '#1f2d3d',
-    },
-    texts: {
-      type: Array as PropType<string[]>,
-      default: () => [
-        'Extremely bad',
-        'Disappointed',
-        'Fair',
-        'Satisfied',
-        'Surprise',
-      ],
-    },
-    scoreTemplate: {
-      type: String,
-      default: '{value}',
-    },
-  },
-  emits: [UPDATE_MODEL_EVENT, 'change'],
+  props: rateProps,
+  emits: rateEmits,
   setup(props, { emit }) {
     const elForm = inject(elFormKey, {} as ElFormContext)
 
