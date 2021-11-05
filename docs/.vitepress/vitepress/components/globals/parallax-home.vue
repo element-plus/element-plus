@@ -12,6 +12,13 @@ const jumbotronRef = ref<HTMLElement | null>(null)
 
 const sponsors = [
   {
+    name: 'JNPF',
+    img: withBase('/images/jnpf_index.png'),
+    url: 'https://www.jnpfsoft.com/index.html?from=elementUI',
+    slogan: 'JNPF low code development platform to develop simple!',
+    className: 'jnpf',
+  },
+  {
     name: 'bit',
     img: withBase('/images/bit.svg'),
     url: 'https://bit.dev/?from=element-ui',
@@ -252,6 +259,10 @@ useEventListener(window, 'scroll', handleScroll)
   .sponsors {
     display: flex;
     justify-content: center;
+    // jnpf ad class
+    .jnpf > div > p:last-of-type {
+      font-size: 12px;
+    }
   }
 
   .sponsor {

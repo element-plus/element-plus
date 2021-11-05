@@ -22,6 +22,7 @@
       :style="{ paddingLeft: `${(node.level - 1) * indent}px` }"
     >
       <el-icon
+        v-if="icon"
         :class="[
           {
             'is-leaf': node?.isLeaf,

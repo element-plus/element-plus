@@ -75,7 +75,8 @@
   </el-descriptions>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
 import {
   User,
   Iphone,
@@ -84,18 +85,5 @@ import {
   OfficeBuilding,
 } from '@element-plus/icons'
 
-export default {
-  components: {
-    User,
-    Iphone,
-    Location,
-    Tickets,
-    OfficeBuilding,
-  },
-  data() {
-    return {
-      size: '',
-    }
-  },
-}
+const size = ref('')
 </script>
