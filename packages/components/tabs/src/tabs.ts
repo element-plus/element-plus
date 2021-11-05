@@ -243,7 +243,7 @@ export default defineComponent({
                 }
               },
             },
-            [h(ElIcon, { class: 'is-icon-plus' }, () => [Plus])]
+            [h(ElIcon, { class: 'is-icon-plus' }, [Plus])]
           )
         : null
 

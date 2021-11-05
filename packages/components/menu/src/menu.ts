@@ -365,7 +365,7 @@ export default defineComponent({
                     {
                       class: ['el-sub-menu__icon-more'],
                     },
-                    () => [h(More)]
+                    [h(More)]
                   ),
                 default: () => slotMore,
               }
