@@ -5,17 +5,19 @@ import {
   CircleCloseFilled,
   InfoFilled,
 } from '@element-plus/icons'
-import type { Indexable } from '@element-plus/utils/types'
 import type { Component, ExtractPropTypes } from 'vue'
 
-export const IconMap: Indexable<string> = {
+export const IconMap = {
   success: 'icon-success',
   warning: 'icon-warning',
   error: 'icon-error',
   info: 'icon-info',
-}
+} as const
 
-export const IconComponentMap: Indexable<Component> = {
+export const IconComponentMap: Record<
+  typeof IconMap[keyof typeof IconMap],
+  Component
+> = {
   [IconMap.success]: CircleCheckFilled,
   [IconMap.warning]: WarningFilled,
   [IconMap.error]: CircleCloseFilled,
@@ -32,7 +34,7 @@ export const resultProps = buildProps({
     default: '',
   },
   icon: {
-    type: String,
+    values: ['success', 'warning', 'info', 'error'],
     default: 'info',
   },
 } as const)
