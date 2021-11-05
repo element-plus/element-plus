@@ -32,7 +32,6 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
     getCellClass,
     getSpan,
     getColspanRealWidth,
-    isColumnHidden,
   } = useStyles(props)
   const firstDefaultColumnIndex = computed(() => {
     return props.store.states.columns.value.findIndex(
@@ -127,7 +126,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
     )
   }
   const cellChildren = (cellIndex, column, data) => {
-    return isColumnHidden(cellIndex) ? null : column.renderCell(data)
+    return column.renderCell(data)
   }
   const wrappedRowRender = (row: T, $index: number) => {
     const store = props.store
