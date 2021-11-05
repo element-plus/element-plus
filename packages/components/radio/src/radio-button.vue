@@ -41,21 +41,12 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
 import { useRadio, useRadioAttrs } from './useRadio'
+import { radioButtonProps } from './radio-button'
 
 export default defineComponent({
   name: 'ElRadioButton',
+  props: radioButtonProps,
 
-  props: {
-    label: {
-      type: [String, Number, Boolean],
-      default: '',
-    },
-    disabled: Boolean,
-    name: {
-      type: String,
-      default: '',
-    },
-  },
   setup(props) {
     const { isGroup, radioGroup, elFormItemSize, ELEMENT, focus, elForm } =
       useRadio()
