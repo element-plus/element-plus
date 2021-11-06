@@ -33,10 +33,8 @@
 import { defineComponent, computed, ref } from 'vue'
 import ElSelect from '@element-plus/components/select'
 import ElIcon from '@element-plus/components/icon'
-import { CircleClose, Clock } from '@element-plus/icons'
 
-import type { PropType, Component } from 'vue'
-import type { ComponentSize } from '@element-plus/utils/types'
+import { timeSelectEmits, timeSelectProps } from './time-select'
 
 const { Option: ElOption } = ElSelect
 
@@ -93,64 +91,8 @@ export default defineComponent({
     prop: 'value',
     event: 'change',
   },
-  props: {
-    modelValue: String,
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-    editable: {
-      type: Boolean,
-      default: true,
-    },
-    clearable: {
-      type: Boolean,
-      default: true,
-    },
-    size: {
-      type: String as PropType<ComponentSize>,
-      default: '',
-      validator: (value: string) =>
-        !value || ['medium', 'small', 'mini'].indexOf(value) !== -1,
-    },
-    placeholder: {
-      type: String,
-      default: '',
-    },
-    start: {
-      type: String,
-      default: '09:00',
-    },
-    end: {
-      type: String,
-      default: '18:00',
-    },
-    step: {
-      type: String,
-      default: '00:30',
-    },
-    minTime: {
-      type: String,
-      default: '',
-    },
-    maxTime: {
-      type: String,
-      default: '',
-    },
-    name: {
-      type: String,
-      default: '',
-    },
-    prefixIcon: {
-      type: [String, Object] as PropType<string | Component>,
-      default: Clock,
-    },
-    clearIcon: {
-      type: [String, Object] as PropType<string | Component>,
-      default: CircleClose,
-    },
-  },
-  emits: ['change', 'blur', 'focus', 'update:modelValue'],
+  props: timeSelectProps,
+  emits: timeSelectEmits,
   setup(props) {
     // computed
     const select = ref(null)
