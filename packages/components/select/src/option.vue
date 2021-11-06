@@ -25,24 +25,12 @@ import {
   reactive,
 } from 'vue'
 import { useOption } from './useOption'
+import { optionProps } from './option'
 import type { SelectOptionProxy } from './token'
 
 export default defineComponent({
   name: 'ElOption',
-  componentName: 'ElOption',
-
-  props: {
-    value: {
-      required: true,
-      type: [String, Number, Boolean, Object],
-    },
-    label: [String, Number],
-    created: Boolean,
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-  },
+  props: optionProps,
 
   setup(props) {
     const states = reactive({

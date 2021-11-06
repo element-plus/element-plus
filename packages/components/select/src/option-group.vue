@@ -22,19 +22,12 @@ import {
   watch,
   toRaw,
 } from 'vue'
+import { optionGroupProps } from './option-group'
 import { selectGroupKey, selectKey } from './token'
 
 export default defineComponent({
   name: 'ElOptionGroup',
-  componentName: 'ElOptionGroup',
-
-  props: {
-    label: String,
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-  },
+  props: optionGroupProps,
   setup(props) {
     const visible = ref(true)
     const instance = getCurrentInstance()

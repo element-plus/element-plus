@@ -27,8 +27,6 @@ import type { ResizableElement } from '@element-plus/utils/resize-event'
 export default defineComponent({
   name: 'ElSelectDropdown',
 
-  componentName: 'ElSelectDropdown',
-
   setup() {
     const select = inject(selectKey)
 

@@ -21,6 +21,8 @@ import { getValueByPath, useGlobalConfig } from '@element-plus/utils/util'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import { ArrowUp } from '@element-plus/icons'
 
+import type { SelectEmits } from './select'
+import type { SetupContext } from 'vue'
 import type { QueryChangeCtx, SelectOptionProxy } from './token'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 
@@ -56,7 +58,11 @@ export function useSelectStates(props) {
 
 type States = ReturnType<typeof useSelectStates>
 
-export const useSelect = (props, states: States, ctx) => {
+export const useSelect = (
+  props,
+  states: States,
+  { emit }: SetupContext<SelectEmits>
+) => {
   const ELEMENT = useGlobalConfig()
   const { t } = useLocaleInject()
 
@@ -268,7 +274,7 @@ export const useSelect = (props, states: States, ctx) => {
           }
         }
       }
-      ctx.emit('visible-change', val)
+      emit('visible-change', val)
     }
   )
 
@@ -529,7 +535,7 @@ export const useSelect = (props, states: States, ctx) => {
 
   const emitChange = (val) => {
     if (!isEqual(props.modelValue, val)) {
-      ctx.emit(CHANGE_EVENT, val)
+      emit(CHANGE_EVENT, val)
     }
   }
 
@@ -537,7 +543,7 @@ export const useSelect = (props, states: States, ctx) => {
     if (e.target.value.length <= 0 && !toggleLastOptionHitState()) {
       const value = props.modelValue.slice()
       value.pop()
-      ctx.emit(UPDATE_MODEL_EVENT, value)
+      emit(UPDATE_MODEL_EVENT, value)
       emitChange(value)
     }
 
@@ -551,9 +557,9 @@ export const useSelect = (props, states: States, ctx) => {
     if (index > -1 && !selectDisabled.value) {
       const value = props.modelValue.slice()
       value.splice(index, 1)
-      ctx.emit(UPDATE_MODEL_EVENT, value)
+      emit(UPDATE_MODEL_EVENT, value)
       emitChange(value)
-      ctx.emit('remove-tag', tag.value)
+      emit('remove-tag', tag.value)
     }
     event.stopPropagation()
   }
@@ -566,10 +572,10 @@ export const useSelect = (props, states: States, ctx) => {
         if (item.isDisabled) value.push(item.value)
       }
     }
-    ctx.emit(UPDATE_MODEL_EVENT, value)
+    emit(UPDATE_MODEL_EVENT, value)
     emitChange(value)
     states.visible = false
-    ctx.emit('clear')
+    emit('clear')
   }
 
   const handleOptionSelect = (option, byClick) => {
@@ -584,7 +590,7 @@ export const useSelect = (props, states: States, ctx) => {
       ) {
         value.push(option.value)
       }
-      ctx.emit(UPDATE_MODEL_EVENT, value)
+      emit(UPDATE_MODEL_EVENT, value)
       emitChange(value)
       if (option.created) {
         states.query = ''
@@ -593,7 +599,7 @@ export const useSelect = (props, states: States, ctx) => {
       }
       if (props.filterable) input.value.focus()
     } else {
-      ctx.emit(UPDATE_MODEL_EVENT, option.value)
+      emit(UPDATE_MODEL_EVENT, option.value)
       emitChange(option.value)
       states.visible = false
     }
@@ -708,7 +714,7 @@ export const useSelect = (props, states: States, ctx) => {
           states.menuVisibleOnFocus = true
         }
       }
-      ctx.emit('focus', event)
+      emit('focus', event)
     } else {
       states.softFocus = false
     }
@@ -725,7 +731,7 @@ export const useSelect = (props, states: States, ctx) => {
       if (states.isSilentBlur) {
         states.isSilentBlur = false
       } else {
-        ctx.emit('blur', event)
+        emit('blur', event)
       }
     })
     states.softFocus = false

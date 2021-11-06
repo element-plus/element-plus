@@ -13,3 +13,6 @@ export const ElOption = withNoopInstall(Option)
 export const ElOptionGroup = withNoopInstall(OptionGroup)
 
 export * from './src/token'
+export * from './src/select'
+export * from './src/option'
+export * from './src/option-group'

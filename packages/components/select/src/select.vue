@@ -228,25 +228,20 @@ import ElPopper, { Effect } from '@element-plus/components/popper'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
+import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import {
   addResizeListener,
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
-import { isValidComponentSize } from '@element-plus/utils/validators'
-import { CircleClose } from '@element-plus/icons'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
 import { useSelect, useSelectStates } from './useSelect'
 import { selectKey } from './token'
-
-import type { PropType, Component } from 'vue'
-import type { ComponentSize } from '@element-plus/utils/types'
+import { selectProps, selectEmits } from './select'
 import type { SelectContext } from './token'
 
 export default defineComponent({
   name: 'ElSelect',
-  componentName: 'ElSelect',
   components: {
     ElInput,
     ElSelectMenu,
@@ -257,74 +252,8 @@ export default defineComponent({
     ElIcon,
   },
   directives: { ClickOutside },
-  props: {
-    name: String,
-    id: String,
-    modelValue: {
-      type: [Array, String, Number, Boolean, Object],
-      default: undefined,
-    },
-    autocomplete: {
-      type: String,
-      default: 'off',
-    },
-    automaticDropdown: Boolean,
-    size: {
-      type: String as PropType<ComponentSize>,
-      validator: isValidComponentSize,
-    },
-    disabled: Boolean,
-    clearable: Boolean,
-    filterable: Boolean,
-    allowCreate: Boolean,
-    loading: Boolean,
-    popperClass: {
-      type: String,
-      default: '',
-    },
-    remote: Boolean,
-    loadingText: String,
-    noMatchText: String,
-    noDataText: String,
-    remoteMethod: Function,
-    filterMethod: Function,
-    multiple: Boolean,
-    multipleLimit: {
-      type: Number,
-      default: 0,
-    },
-    placeholder: {
-      type: String,
-    },
-    defaultFirstOption: Boolean,
-    reserveKeyword: Boolean,
-    valueKey: {
-      type: String,
-      default: 'value',
-    },
-    collapseTags: Boolean,
-    popperAppendToBody: {
-      type: Boolean,
-      default: true,
-    },
-    clearIcon: {
-      type: [String, Object] as PropType<string | Component>,
-      default: CircleClose,
-    },
-    fitInputWidth: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: [
-    UPDATE_MODEL_EVENT,
-    CHANGE_EVENT,
-    'remove-tag',
-    'clear',
-    'visible-change',
-    'focus',
-    'blur',
-  ],
+  props: selectProps,
+  emits: selectEmits,
 
   setup(props, ctx) {
     const { t } = useLocaleInject()
