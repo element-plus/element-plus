@@ -4,11 +4,11 @@ import Slider from './src/slider.vue'
 import Marker from './src/marker.vue'
 import SliderButton from './src/slider-button.vue'
 
-export const ElSilder = withInstall(Slider, {
+export const ElSlider = withInstall(Slider, {
   Marker,
   SliderButton,
 })
-export default ElSilder
+export default ElSlider
 
 export const ElMarker = withNoopInstall(Marker)
 export const ElSliderButton = withNoopInstall(SliderButton)
