@@ -1,6 +1,6 @@
 import { withInstall, withNoopInstall } from '@element-plus/utils/with-install'
-import Timeline from './src/index.vue'
-import TimelineItem from './src/item.vue'
+import Timeline from './src/timeline.vue'
+import TimelineItem from './src/timeline-item.vue'
 
 export const ElTimeline = withInstall(Timeline, {
   TimelineItem,

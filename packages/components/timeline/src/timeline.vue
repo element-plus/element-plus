@@ -1,10 +1,10 @@
 <script lang="ts">
-import { h, provide, defineComponent } from 'vue'
+import { h, provide, defineComponent, renderSlot } from 'vue'
 
 export default defineComponent({
   name: 'ElTimeline',
-  setup(_, ctx) {
-    provide('timeline', ctx)
+  setup(_, { slots }) {
+    provide('timeline', slots)
 
     /**
      *  Maybe ,this component will not support prop 'reverse', why ?
@@ -32,7 +32,7 @@ export default defineComponent({
         {
           class: { 'el-timeline': true },
         },
-        ctx.slots.default?.()
+        [renderSlot(slots, 'default')]
       )
     }
   },

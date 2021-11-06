@@ -48,51 +48,14 @@
 import { inject, defineComponent } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 
-import type { PropType, Component } from 'vue'
+import { timelineItemProps } from './timeline-item'
 
 export default defineComponent({
   name: 'ElTimelineItem',
   components: {
     ElIcon,
   },
-  props: {
-    timestamp: {
-      type: String,
-      default: '',
-    },
-    hideTimestamp: {
-      type: Boolean,
-      default: false,
-    },
-    center: {
-      type: Boolean,
-      default: false,
-    },
-    placement: {
-      type: String,
-      default: 'bottom',
-    },
-    type: {
-      type: String,
-      default: '',
-    },
-    color: {
-      type: String,
-      default: '',
-    },
-    size: {
-      type: String,
-      default: 'normal',
-    },
-    icon: {
-      type: [String, Object] as PropType<string | Component>,
-      default: '',
-    },
-    hollow: {
-      type: Boolean,
-      default: false,
-    },
-  },
+  props: timelineItemProps,
   setup() {
     inject('timeline')
   },
