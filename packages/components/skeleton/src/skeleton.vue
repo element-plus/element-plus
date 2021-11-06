@@ -28,34 +28,15 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { useThrottleRender } from '@element-plus/hooks'
-import SkeletonItem from './item.vue'
+import SkeletonItem from './skeleton-item.vue'
+import { skeletonProps } from './skeleton'
 
 export default defineComponent({
   name: 'ElSkeleton',
   components: {
     [SkeletonItem.name]: SkeletonItem,
   },
-  props: {
-    animated: {
-      type: Boolean,
-      default: false,
-    },
-    count: {
-      type: Number,
-      default: 1,
-    },
-    rows: {
-      type: Number,
-      default: 3,
-    },
-    loading: {
-      type: Boolean,
-      default: true,
-    },
-    throttle: {
-      type: Number,
-    },
-  },
+  props: skeletonProps,
   setup(props) {
     const innerLoading = computed(() => {
       return props.loading

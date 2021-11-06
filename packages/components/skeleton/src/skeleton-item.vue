@@ -7,20 +7,13 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import ImgPlaceholder from './image-placeholder.vue'
-
-import type { PropType } from 'vue'
-import type { Variants } from './types'
+import { skeletonItemProps } from './skeleton-item'
 
 export default defineComponent({
   name: 'ElSkeletonItem',
   components: {
     [ImgPlaceholder.name]: ImgPlaceholder,
   },
-  props: {
-    variant: {
-      type: String as PropType<Variants>,
-      default: 'text',
-    },
-  },
+  props: skeletonItemProps,
 })
 </script>
