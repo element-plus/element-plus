@@ -28,18 +28,13 @@ import {
 import { off, on } from '@element-plus/utils/dom'
 import { BAR_MAP, renderThumbStyle } from './util'
 
+import { barProps } from './bar'
 import type { Ref } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'
 
 export default defineComponent({
   name: 'Bar',
-  props: {
-    vertical: Boolean,
-    size: String,
-    move: Number,
-    ratio: Number,
-    always: Boolean,
-  },
+  props: barProps,
   setup(props) {
     const instance = ref(null)
     const thumb = ref(null)
