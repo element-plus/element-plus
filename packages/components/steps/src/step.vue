@@ -60,29 +60,8 @@ import {
 import { ElIcon } from '@element-plus/components/icon'
 import { Close, Check } from '@element-plus/icons-vue'
 
-import type { Ref, PropType, Component } from 'vue'
-
-export interface IStepsProps {
-  space: number | string
-  active: number
-  direction: string
-  alignCenter: boolean
-  simple: boolean
-  finishStatus: string
-  processStatus: string
-}
-
-export interface StepItemState {
-  uid: number
-  currentStatus: string
-  setIndex: (val: number) => void
-  calcProgress: (status: string) => void
-}
-
-export interface IStepsInject {
-  props: IStepsProps
-  steps: Ref<StepItemState[]>
-}
+import { stepProps } from './step'
+import type { IStepsInject } from './step'
 
 export default defineComponent({
   name: 'ElStep',
@@ -91,26 +70,7 @@ export default defineComponent({
     Close,
     Check,
   },
-  props: {
-    title: {
-      type: String,
-      default: '',
-    },
-    icon: {
-      type: [String, Object] as PropType<string | Component>,
-      default: '',
-    },
-    description: {
-      type: String,
-      default: '',
-    },
-    status: {
-      type: String,
-      default: '',
-      validator: (val: string): boolean =>
-        ['', 'wait', 'process', 'finish', 'error', 'success'].includes(val),
-    },
-  },
+  props: stepProps,
   setup(props) {
     const index = ref(-1)
     const lineStyle = ref({})
