@@ -188,12 +188,15 @@ importers:
     specifiers:
       '@element-plus/icons': ^0.0.11
       '@popperjs/core': ^2.10.2
+      '@types/node': '*'
       '@vueuse/core': ^6.7.3
       async-validator: ^4.0.7
+      csstype: ^2.6.0
       dayjs: ^1.10.7
       lodash: ^4.17.21
       memoize-one: ^6.0.0
       normalize-wheel-es: ^1.1.0
+      vue-router: ^4.0.0
     dependencies:
       '@element-plus/icons': 0.0.11
       '@popperjs/core': 2.10.2
@@ -203,6 +206,10 @@ importers:
       lodash: 4.17.21
       memoize-one: 6.0.0
       normalize-wheel-es: 1.1.0
+    devDependencies:
+      '@types/node': 16.11.6
+      csstype: 2.6.18
+      vue-router: 4.0.12_vue@3.2.21
 
   packages/hooks:
     specifiers: {}
@@ -1765,6 +1772,10 @@ packages:
 
   /@types/node/16.11.4:
     resolution: {integrity: sha512-TMgXmy0v2xWyuCSCJM6NCna2snndD8yvQF67J29ipdzMcsPa9u+o0tjF5+EQNdhcuZplYuouYqpc4zcd5I6amQ==}
+    dev: true
+
+  /@types/node/16.11.6:
+    resolution: {integrity: sha512-ua7PgUoeQFjmWPcoo9khiPum3Pd60k4/2ZGXt18sm2Slk0W0xZTqt5Y0Ny1NyBiN1EVQ/+FaF9NcY4Qe6rwk5w==}
     dev: true
 
   /@types/normalize-package-data/2.4.0:
