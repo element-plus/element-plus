@@ -1,6 +1,6 @@
 import { h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import Slider from '../src/index.vue'
+import Slider from '../src/slider.vue'
 
 describe('Slider', () => {
   it('create', () => {

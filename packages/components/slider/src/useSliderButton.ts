@@ -3,15 +3,12 @@ import debounce from 'lodash/debounce'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { off, on } from '@element-plus/utils/dom'
 
-import type { ComputedRef, CSSProperties } from 'vue'
-import type {
-  ISliderButtonInitData,
-  ISliderButtonProps,
-  ISliderProvider,
-} from './slider.type'
+import type { SliderButtonProps, SliderButtonEmits } from './slider-button'
+import type { ComputedRef, CSSProperties, SetupContext } from 'vue'
+import type { ISliderButtonInitData, ISliderProvider } from './slider.type'
 
 const useTooltip = (
-  props: ISliderButtonProps,
+  props: SliderButtonProps,
   formatTooltip: ComputedRef<(value: number) => number | string>,
   showTooltip: ComputedRef<boolean>
 ) => {
@@ -48,9 +45,9 @@ const useTooltip = (
 }
 
 export const useSliderButton = (
-  props: ISliderButtonProps,
+  props: SliderButtonProps,
   initData: ISliderButtonInitData,
-  emit
+  { emit }: SetupContext<SliderButtonEmits>
 ) => {
   const {
     disabled,
@@ -64,7 +61,7 @@ export const useSliderButton = (
     emitChange,
     resetSize,
     updateDragging,
-  } = inject<ISliderProvider>('SliderProvider')
+  } = inject<ISliderProvider>('SliderProvider')!
 
   const { tooltip, tooltipVisible, formatValue, displayTooltip, hideTooltip } =
     useTooltip(props, formatTooltip, showTooltip)

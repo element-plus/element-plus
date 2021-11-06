@@ -1,10 +1,11 @@
 import { computed } from 'vue'
 import { debugWarn } from '@element-plus/utils/error'
+import type { SliderProps } from './slider'
 import type { ComputedRef, CSSProperties } from 'vue'
-import type { ISliderInitData, ISliderProps, Stops } from './slider.type'
+import type { ISliderInitData, Stops } from './slider.type'
 
 export const useStops = (
-  props: ISliderProps,
+  props: SliderProps,
   initData: ISliderInitData,
   minValue: ComputedRef<number>,
   maxValue: ComputedRef<number>

@@ -91,106 +91,30 @@ import {
   watch,
 } from 'vue'
 import ElInputNumber from '@element-plus/components/input-number'
-import {
-  UPDATE_MODEL_EVENT,
-  CHANGE_EVENT,
-  INPUT_EVENT,
-} from '@element-plus/utils/constants'
+import { UPDATE_MODEL_EVENT, INPUT_EVENT } from '@element-plus/utils/constants'
 import { off, on } from '@element-plus/utils/dom'
 import { throwError } from '@element-plus/utils/error'
-import SliderButton from './button.vue'
+import SliderButton from './slider-button.vue'
 import SliderMarker from './marker.vue'
 import { useMarks } from './useMarks'
 import { useSlide } from './useSlide'
 import { useStops } from './useStops'
 
-import type { PropType, Ref } from 'vue'
-import type { ComponentSize, Nullable } from '@element-plus/utils/types'
+import { sliderProps, sliderEmits } from './slider'
+import type { Ref } from 'vue'
+import type { Nullable } from '@element-plus/utils/types'
 
 export default defineComponent({
   name: 'ElSlider',
-
   components: {
     ElInputNumber,
     SliderButton,
     SliderMarker,
   },
-
-  props: {
-    modelValue: {
-      type: [Number, Array] as PropType<number | number[]>,
-      default: 0,
-    },
-    min: {
-      type: Number,
-      default: 0,
-    },
-    max: {
-      type: Number,
-      default: 100,
-    },
-    step: {
-      type: Number,
-      default: 1,
-    },
-    showInput: {
-      type: Boolean,
-      default: false,
-    },
-    showInputControls: {
-      type: Boolean,
-      default: true,
-    },
-    inputSize: {
-      type: String as PropType<ComponentSize>,
-      default: 'small',
-    },
-    showStops: {
-      type: Boolean,
-      default: false,
-    },
-    showTooltip: {
-      type: Boolean,
-      default: true,
-    },
-    formatTooltip: {
-      type: Function as PropType<(val: number) => number | string>,
-      default: undefined,
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-    range: {
-      type: Boolean,
-      default: false,
-    },
-    vertical: {
-      type: Boolean,
-      default: false,
-    },
-    height: {
-      type: String,
-      default: '',
-    },
-    debounce: {
-      type: Number,
-      default: 300,
-    },
-    label: {
-      type: String,
-      default: undefined,
-    },
-    tooltipClass: {
-      type: String,
-      default: undefined,
-    },
-    marks: Object,
-  },
-
-  emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, INPUT_EVENT],
-
-  setup(props, { emit }) {
+  props: sliderProps,
+  emits: sliderEmits,
+  setup(props, ctx) {
+    const { emit } = ctx
     const initData = reactive({
       firstValue: 0,
       secondValue: 0,
@@ -214,7 +138,7 @@ export default defineComponent({
       onSliderClick,
       setFirstValue,
       setSecondValue,
-    } = useSlide(props, initData, emit)
+    } = useSlide(props, initData, ctx)
 
     const { stops, getStopStyle } = useStops(
       props,

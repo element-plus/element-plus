@@ -1,27 +1,6 @@
 import type { ComputedRef, CSSProperties, Ref } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'
 
-export interface ISliderProps {
-  modelValue: number | number[]
-  min: number
-  max: number
-  step: number
-  showInput: boolean
-  showInputControls: boolean
-  inputSize: string
-  showStops: boolean
-  showTooltip: boolean
-  formatTooltip: (val: number) => number | string
-  disabled: boolean
-  range: boolean
-  vertical: boolean
-  height: string
-  debounce: number
-  label: string
-  tooltipClass: string
-  marks?: Record<number, any>
-}
-
 export interface ISliderInitData {
   firstValue: Nullable<number>
   secondValue: Nullable<number>
@@ -74,12 +53,6 @@ export type Slide = {
 
 export type ButtonRefs = {
   [s in 'firstButton' | 'secondButton']: Ref<Nullable<ISliderButton>>
-}
-
-export interface ISliderButtonProps {
-  modelValue: number
-  vertical: boolean
-  tooltipClass: string
 }
 
 export interface ISliderButtonInitData {

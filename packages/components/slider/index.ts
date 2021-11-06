@@ -1,15 +1,19 @@
-import Slider from './src/index.vue'
+import { withInstall, withNoopInstall } from '@element-plus/utils/with-install'
 
-import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
+import Slider from './src/slider.vue'
+import Marker from './src/marker.vue'
+import SliderButton from './src/slider-button.vue'
 
-Slider.install = (app: App): void => {
-  app.component(Slider.name, Slider)
-}
+export const ElSilder = withInstall(Slider, {
+  Marker,
+  SliderButton,
+})
+export default ElSilder
 
-const _Slider = Slider as SFCWithInstall<typeof Slider>
-
-export default _Slider
-export const ElSlider = _Slider
+export const ElMarker = withNoopInstall(Marker)
+export const ElSliderButton = withNoopInstall(SliderButton)
 
 export * from './src/slider.type'
+export * from './src/slider'
+export * from './src/marker'
+export * from './src/slider-button'

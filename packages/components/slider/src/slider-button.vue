@@ -39,34 +39,17 @@
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { useSliderButton } from './useSliderButton'
+import { silderButtonProps, sliderButtonEmits } from './slider-button'
 
 export default defineComponent({
   name: 'ElSliderButton',
-
   components: {
     ElTooltip,
   },
-
-  props: {
-    modelValue: {
-      type: Number,
-      default: 0,
-    },
-    vertical: {
-      type: Boolean,
-      default: false,
-    },
-    tooltipClass: {
-      type: String,
-      default: '',
-    },
-  },
-
-  emits: [UPDATE_MODEL_EVENT],
-
-  setup(props, { emit }) {
+  props: silderButtonProps,
+  emits: sliderButtonEmits,
+  setup(props, ctx) {
     const initData = reactive({
       hovering: false,
       dragging: false,
@@ -92,7 +75,7 @@ export default defineComponent({
       onLeftKeyDown,
       onRightKeyDown,
       setPosition,
-    } = useSliderButton(props, initData, emit)
+    } = useSliderButton(props, initData, ctx)
 
     const { hovering, dragging } = toRefs(initData)
 
