@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import { computed, inject, defineComponent, Text } from 'vue'
+import { computed, inject, defineComponent, Text, ref } from 'vue'
 import { useCssVar } from '@vueuse/core'
 import { ElIcon } from '@element-plus/components/icon'
 import { useFormItem, useGlobalConfig } from '@element-plus/hooks'

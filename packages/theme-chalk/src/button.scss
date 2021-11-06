@@ -16,7 +16,7 @@
   min-height: map.get($input-height, 'default');
   white-space: nowrap;
   cursor: pointer;
-  background: var(--el-button-bg-color，#{map.get($button, 'bg-color')});
+  background-color: var(--el-button-bg-color, #{map.get($button, 'bg-color')});
   border: var(--el-border-base);
   border-color: var(
     --el-button-border-color,
