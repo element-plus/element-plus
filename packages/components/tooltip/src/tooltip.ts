@@ -1,11 +1,49 @@
 import { defineComponent, h, ref, cloneVNode } from 'vue'
 import {
   default as ElPopper,
-  popperDefaultProps,
+  popperProps,
 } from '@element-plus/components/popper'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { throwError } from '@element-plus/utils/error'
 import { getFirstValidNode } from '@element-plus/utils/vnode'
+import { buildProps } from '@element-plus/utils/props'
+import type { ExtractPropTypes } from 'vue'
+
+export const tooltipProps = buildProps({
+  ...popperProps,
+  manual: {
+    type: Boolean,
+    default: false,
+  },
+  modelValue: {
+    type: Boolean,
+    validator: (val: unknown) => {
+      return typeof val === 'boolean'
+    },
+    default: undefined,
+  },
+  // This API should be decaprecate since it's confusing with close-delay
+  openDelay: {
+    type: Number,
+    default: 0,
+  },
+  visibleArrow: {
+    type: Boolean,
+    default: true,
+  },
+  tabindex: {
+    type: [String, Number],
+    default: '0',
+  },
+} as const)
+
+export type TooltipProps = ExtractPropTypes<typeof tooltipProps>
+
+export const tooltipEmits = {
+  [UPDATE_MODEL_EVENT]: (val: boolean) => typeof val === 'boolean',
+}
+
+export type TooltipEmits = typeof tooltipEmits
 
 /**
  * ElTooltip
@@ -18,34 +56,8 @@ export default defineComponent({
   components: {
     ElPopper,
   },
-  props: {
-    ...popperDefaultProps,
-    manual: {
-      type: Boolean,
-      default: false,
-    },
-    modelValue: {
-      type: Boolean,
-      validator: (val: unknown) => {
-        return typeof val === 'boolean'
-      },
-      default: undefined,
-    },
-    // This API should be decaprecate since it's confusing with close-delay
-    openDelay: {
-      type: Number,
-      default: 0,
-    },
-    visibleArrow: {
-      type: Boolean,
-      default: true,
-    },
-    tabindex: {
-      type: [String, Number],
-      default: '0',
-    },
-  },
-  emits: [UPDATE_MODEL_EVENT],
+  props: tooltipProps,
+  emits: tooltipEmits,
   setup(props, ctx) {
     // when manual mode is true, v-model must be passed down
     if (props.manual && typeof props.modelValue === 'undefined') {
@@ -91,7 +103,7 @@ export default defineComponent({
     const popper = h(
       ElPopper,
       {
-        ...Object.keys(popperDefaultProps).reduce((result, key) => {
+        ...Object.keys(popperProps).reduce((result, key) => {
           return { ...result, [key]: this[key] }
         }, {}),
         ref: 'popper',

@@ -9,7 +9,7 @@ import type {
 } from '@popperjs/core'
 import type { Nullable } from '@element-plus/utils/types'
 
-export const enum Effect {
+export enum Effect {
   DARK = 'dark',
   LIGHT = 'light',
 }

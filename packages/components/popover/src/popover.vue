@@ -12,7 +12,6 @@ import {
 } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
 import ElPopper, {
-  popperDefaultProps,
   Effect,
   renderArrow,
   renderPopper,
@@ -20,20 +19,10 @@ import ElPopper, {
 } from '@element-plus/components/popper'
 import { debugWarn } from '@element-plus/utils/error'
 import { renderIf, PatchFlags } from '@element-plus/utils/vnode'
-import usePopover, { SHOW_EVENT, HIDE_EVENT } from './usePopover'
+import usePopover from './usePopover'
+import { popoverProps, popoverEmits } from './popover'
 
-import type { PropType } from 'vue'
-import type { TriggerType } from '@element-plus/components/popper'
-
-const emits = [
-  'update:visible',
-  'after-enter',
-  'after-leave',
-  SHOW_EVENT,
-  HIDE_EVENT,
-]
 const NAME = 'ElPopover'
-
 const _hoist = { key: 0, class: 'el-popover__title', role: 'title' }
 
 export default defineComponent({
@@ -41,33 +30,8 @@ export default defineComponent({
   components: {
     ElPopper,
   },
-  props: {
-    ...popperDefaultProps,
-    content: {
-      type: String,
-    },
-    trigger: {
-      type: String as PropType<TriggerType>,
-      default: 'click',
-    },
-    title: {
-      type: String,
-    },
-    transition: {
-      type: String,
-      default: 'fade-in-linear',
-    },
-    width: {
-      type: [String, Number],
-      default: 150,
-    },
-    appendToBody: {
-      type: Boolean,
-      default: true,
-    },
-    tabindex: [String, Number],
-  },
-  emits,
+  props: popoverProps,
+  emits: popoverEmits,
   setup(props, ctx) {
     if (props.visible && !ctx.slots.reference) {
       debugWarn(
