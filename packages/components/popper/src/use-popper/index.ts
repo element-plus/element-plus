@@ -8,30 +8,19 @@ import {
   isString,
 } from '@element-plus/utils/util'
 import PopupManager from '@element-plus/utils/popup-manager'
+import { UPDATE_VISIBLE_EVENT } from '@element-plus/utils/constants'
 import usePopperOptions from './popper-options'
 
-import type {
-  ComponentPublicInstance,
-  CSSProperties,
-  SetupContext,
-  Ref,
-} from 'vue'
+import type { ComponentPublicInstance, CSSProperties, SetupContext } from 'vue'
 import type { TimeoutHandle, Nullable } from '@element-plus/utils/types'
 import type {
-  IPopperOptions,
+  PopperProps,
   TriggerType,
   PopperInstance,
   RefElement,
-} from './defaults'
-
-export type ElementType = ComponentPublicInstance | HTMLElement
-export type EmitType =
-  | 'update:visible'
-  | 'after-enter'
-  | 'after-leave'
-  | 'before-enter'
-  | 'before-leave'
-
+  RefElementType,
+  PopperEmits,
+} from './popper'
 export interface PopperEvents {
   onClick?: (e: Event) => void
   onMouseenter?: (e: Event) => void
@@ -40,14 +29,12 @@ export interface PopperEvents {
   onBlur?: (e: Event) => void
 }
 
-export const DEFAULT_TRIGGER = ['hover']
-export const UPDATE_VISIBLE_EVENT = 'update:visible'
 export default function (
-  props: IPopperOptions,
-  { emit }: SetupContext<EmitType[]>
+  props: PopperProps,
+  { emit }: SetupContext<PopperEmits>
 ) {
   const arrowRef = ref<RefElement>(null)
-  const triggerRef = ref(null) as Ref<ElementType>
+  const triggerRef = ref<RefElementType>(null)
   const popperRef = ref<RefElement>(null)
 
   const popperId = `el-popper-${generateId()}`
@@ -256,7 +243,7 @@ export default function (
     }
 
     const mapEvents = (t: TriggerType) => {
-      triggerEventsMap[t].forEach((event) => {
+      triggerEventsMap[t]!.forEach((event) => {
         events[event] = popperEventsHandler
       })
     }
@@ -308,5 +295,3 @@ export default function (
     visibility,
   }
 }
-
-export * from './defaults'

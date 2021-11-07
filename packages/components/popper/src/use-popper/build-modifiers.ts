@@ -1,8 +1,9 @@
+import type { RefElement } from './popper'
 import type { StrictModifiers, Placement } from '@popperjs/core'
 
 interface ModifierProps {
   offset?: number
-  arrow?: HTMLElement
+  arrow: RefElement
   arrowOffset?: number
   gpuAcceleration?: boolean
   fallbackPlacements?: Array<Placement>

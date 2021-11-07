@@ -1,4 +1,6 @@
-import type { PropType } from 'vue'
+import { buildProps, definePropType } from '@element-plus/utils/props'
+import { UPDATE_VISIBLE_EVENT } from '@element-plus/utils/constants'
+import type { ComponentPublicInstance, ExtractPropTypes } from 'vue'
 import type {
   Placement,
   PositioningStrategy,
@@ -7,12 +9,17 @@ import type {
 } from '@popperjs/core'
 import type { Nullable } from '@element-plus/utils/types'
 
-export enum Effect {
+export const enum Effect {
   DARK = 'dark',
   LIGHT = 'light',
 }
 
 export type RefElement = Nullable<HTMLElement>
+
+export type ElementType = ComponentPublicInstance | HTMLElement
+
+export type RefElementType = Nullable<ElementType>
+
 export type Offset = [number, number] | number
 
 export type { Placement, PositioningStrategy, PopperInstance, Options }
@@ -21,36 +28,9 @@ export type TriggerType = 'click' | 'hover' | 'focus' | 'manual'
 
 export type Trigger = TriggerType | TriggerType[]
 
-export type IPopperOptions = {
-  arrowOffset: number
-  autoClose: number
-  boundariesPadding: number
-  class: string
-  cutoff: boolean
-  disabled: boolean
-  enterable: boolean
-  hideAfter: number
-  manualMode: boolean
-  offset: number
-  placement: Placement
-  popperOptions: Partial<Options>
-  showAfter: number
-  showArrow: boolean
-  strategy: PositioningStrategy
-  trigger: Trigger
-  visible: boolean
-  stopPopperMouseEvent: boolean
-  gpuAcceleration: boolean
-  fallbackPlacements: Array<Placement>
-}
-
-// duplicate export at index.ts
-// export const DEFAULT_TRIGGER = 'hover'
-const DEFAULT_FALLBACK_PLACEMENTS = []
-
-export default {
-  // the arrow size is an equailateral triangle with 10px side length, the 3rd side length ~ 14.1px
-  // adding a offset to the ceil of 4.1 should be 5 this resolves the problem of arrow overflowing out of popper.
+// the arrow size is an equailateral triangle with 10px side length, the 3rd side length ~ 14.1px
+// adding a offset to the ceil of 4.1 should be 5 this resolves the problem of arrow overflowing out of popper.
+export const popperProps = buildProps({
   arrowOffset: {
     type: Number,
     default: 5,
@@ -89,7 +69,7 @@ export default {
     default: false,
   },
   effect: {
-    type: String as PropType<Effect>,
+    type: definePropType<Effect>(String),
     default: Effect.DARK,
   },
   enterable: {
@@ -109,8 +89,8 @@ export default {
     default: 12,
   },
   placement: {
-    type: String as PropType<Placement>,
-    default: 'bottom' as Placement,
+    type: definePropType<Placement>(String),
+    default: 'bottom',
   },
   popperClass: {
     type: String,
@@ -120,25 +100,23 @@ export default {
     type: Boolean,
     default: false,
   },
-  // Once this option were given, the entire popper is under the users' control, top priority
   popperOptions: {
-    type: Object as PropType<Partial<Options>>,
-    default: () => null,
+    type: definePropType<Partial<Options>>(Object),
   },
   showArrow: {
     type: Boolean,
     default: true,
   },
   strategy: {
-    type: String as PropType<PositioningStrategy>,
-    default: 'fixed' as PositioningStrategy,
+    type: definePropType<PositioningStrategy>(String),
+    default: 'fixed',
   },
   transition: {
     type: String,
     default: 'el-fade-in-linear',
   },
   trigger: {
-    type: [String, Array] as PropType<Trigger>,
+    type: definePropType<Trigger>([String, Array]),
     default: 'hover',
   },
   visible: {
@@ -154,7 +132,18 @@ export default {
     default: true,
   },
   fallbackPlacements: {
-    type: Array as PropType<Placement[]>,
-    default: DEFAULT_FALLBACK_PLACEMENTS,
+    type: definePropType<Placement[]>(Array),
+    default: () => [],
   },
+} as const)
+export type PopperProps = ExtractPropTypes<typeof popperProps>
+
+export const popperEmits = {
+  [UPDATE_VISIBLE_EVENT]: (val: boolean) => typeof val === 'boolean',
+  'after-enter': () => true,
+  'after-leave': () => true,
+  'before-enter': () => true,
+  'before-leave': () => true,
 }
+
+export type PopperEmits = typeof popperEmits

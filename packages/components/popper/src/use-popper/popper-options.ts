@@ -1,24 +1,15 @@
 import { computed } from 'vue'
 import buildModifiers from './build-modifiers'
 
+import type { PopperProps, RefElement } from './popper'
 import type { Ref } from 'vue'
-import type { Options, Placement } from '@popperjs/core'
-
-interface IUsePopperProps {
-  popperOptions: Partial<Options>
-  arrowOffset: number
-  offset: number
-  placement: Placement
-  gpuAcceleration: boolean
-  fallbackPlacements: Array<Placement>
-}
 
 interface IUsePopperState {
-  arrow: Ref<HTMLElement>
+  arrow: Ref<RefElement>
 }
 
 export default function usePopperOptions(
-  props: IUsePopperProps,
+  props: PopperProps,
   state: IUsePopperState
 ) {
   return computed(() => {
