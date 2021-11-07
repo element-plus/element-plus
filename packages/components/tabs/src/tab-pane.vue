@@ -20,23 +20,12 @@ import {
   getCurrentInstance,
   watch,
 } from 'vue'
+import { tabPaneProps } from './tab-pane'
 import type { RootTabs, UpdatePaneStateCallback } from './token'
 
 export default defineComponent({
   name: 'ElTabPane',
-  props: {
-    label: {
-      type: String,
-      default: '',
-    },
-    name: {
-      type: String,
-      default: '',
-    },
-    closable: Boolean,
-    disabled: Boolean,
-    lazy: Boolean,
-  },
+  props: tabPaneProps,
   setup(props) {
     const index = ref<string>(null)
     const loaded = ref(false)
@@ -67,7 +56,7 @@ export default defineComponent({
       if (val) loaded.value = true
     })
 
-    const instance = getCurrentInstance()
+    const instance = getCurrentInstance()!
     updatePaneState({
       uid: instance.uid,
       instance,

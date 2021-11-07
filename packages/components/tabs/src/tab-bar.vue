@@ -16,21 +16,17 @@ import {
 } from 'vue'
 import { capitalize } from '@vue/shared'
 import { Resize } from '@element-plus/directives'
-import type { Pane, RootTabs } from './token'
+import { tabBar } from './tab-bar'
+import type { RootTabs } from './token'
 
-import type { CSSProperties, PropType } from 'vue'
+import type { CSSProperties } from 'vue'
 
 export default defineComponent({
   name: 'ElTabBar',
   directives: {
     Resize,
   },
-  props: {
-    tabs: {
-      type: Array as PropType<Pane[]>,
-      default: () => [] as Pane[],
-    },
-  },
+  props: tabBar,
   setup(props) {
     const rootTabs = inject<RootTabs>('rootTabs')
     if (!rootTabs) {

@@ -9,7 +9,7 @@ import {
   onMounted,
   onBeforeUnmount,
 } from 'vue'
-import { NOOP, capitalize } from '@vue/shared'
+import { capitalize } from '@vue/shared'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import {
   addResizeListener,
@@ -20,50 +20,19 @@ import { throwError } from '@element-plus/utils/error'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight, Close } from '@element-plus/icons'
 import TabBar from './tab-bar.vue'
+import { tabNavProps } from './tab-nav'
+import type { RefElement } from '@element-plus/utils/types'
 
+import type { Scrollable } from './tab-nav'
 import type { ResizableElement } from '@element-plus/utils/resize-event'
-import type { PropType } from 'vue'
-import type { Nullable } from '@element-plus/utils/types'
-import type { RootTabs, Pane, ITabType } from './token'
-
-type RefElement = Nullable<HTMLElement>
-
-interface Scrollable {
-  next?: boolean
-  prev?: number
-}
+import type { RootTabs } from './token'
 
 export default defineComponent({
   name: 'ElTabNav',
   components: {
     TabBar,
   },
-  props: {
-    panes: {
-      type: Array as PropType<Pane[]>,
-      default: () => [] as Pane[],
-    },
-    currentName: {
-      type: String,
-      default: '',
-    },
-    editable: Boolean,
-    onTabClick: {
-      type: Function as PropType<
-        (tab: Pane, tabName: string, ev: Event) => void
-      >,
-      default: NOOP,
-    },
-    onTabRemove: {
-      type: Function as PropType<(tab: Pane, ev: Event) => void>,
-      default: NOOP,
-    },
-    type: {
-      type: String as PropType<ITabType>,
-      default: '',
-    },
-    stretch: Boolean,
-  },
+  props: tabNavProps,
   setup() {
     const rootTabs = inject<RootTabs>('rootTabs')
     if (!rootTabs) {
