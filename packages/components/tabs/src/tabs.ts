@@ -8,18 +8,26 @@ import {
   onUpdated,
   provide,
   ref,
+  renderSlot,
   watch,
 } from 'vue'
 import { isPromise } from '@vue/shared'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import ElIcon from '@element-plus/components/icon'
 import { Plus } from '@element-plus/icons'
+import { buildProps, definePropType } from '@element-plus/utils/props'
+import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import TabNav from './tab-nav.vue'
 
-import type { Component, ComponentInternalInstance, PropType, VNode } from 'vue'
+import type {
+  Component,
+  ComponentInternalInstance,
+  VNode,
+  ExtractPropTypes,
+  Ref,
+} from 'vue'
 import type {
   BeforeLeave,
-  IElTabsProps,
   ITabType,
   ITabPosition,
   Pane,
@@ -27,48 +35,60 @@ import type {
   UpdatePaneStateCallback,
 } from './token'
 
+export const tabsProps = buildProps({
+  type: {
+    type: definePropType<ITabType>(String),
+    default: '',
+  },
+  activeName: {
+    type: String,
+    default: '',
+  },
+  closable: Boolean,
+  addable: Boolean,
+  modelValue: {
+    type: String,
+    default: '',
+  },
+  editable: Boolean,
+  tabPosition: {
+    type: definePropType<ITabPosition>(String),
+    default: 'top',
+  },
+  beforeLeave: {
+    type: definePropType<BeforeLeave>(Function),
+  },
+  stretch: Boolean,
+} as const)
+export type TabsProps = ExtractPropTypes<typeof tabsProps>
+
+export const tabsEmits = {
+  [UPDATE_MODEL_EVENT]: (tabName: string) => typeof tabName === 'string',
+
+  [INPUT_EVENT]: (tabName: string) => typeof tabName === 'string',
+
+  'tab-click': (tab: Pane, ev: Event) => ev instanceof Event,
+
+  edit: (paneName: string | null, action: 'remove' | 'add') =>
+    action === 'remove' || action === 'add',
+
+  'tab-remove': (paneName: string) => typeof paneName === 'string',
+
+  'tab-add': () => true,
+}
+
+export type TabsEmits = typeof tabsEmits
+
 export default defineComponent({
   name: 'ElTabs',
   components: { TabNav },
-  props: {
-    type: {
-      type: String as PropType<ITabType>,
-      default: '',
-    },
-    activeName: {
-      type: String,
-      default: '',
-    },
-    closable: Boolean,
-    addable: Boolean,
-    modelValue: {
-      type: String,
-      default: '',
-    },
-    editable: Boolean,
-    tabPosition: {
-      type: String as PropType<ITabPosition>,
-      default: 'top',
-    },
-    beforeLeave: {
-      type: Function as PropType<BeforeLeave>,
-      default: null,
-    },
-    stretch: Boolean,
-  },
-  emits: [
-    'tab-click',
-    'edit',
-    'tab-remove',
-    'tab-add',
-    'input',
-    'update:modelValue',
-  ],
-  setup(props: IElTabsProps, ctx) {
+  props: tabsProps,
+  emits: tabsEmits,
+  setup(props: TabsProps, ctx) {
     const nav$ = ref<typeof TabNav>(null)
     const currentName = ref(props.modelValue || props.activeName || '0')
-    const panes = ref([])
-    const instance = getCurrentInstance()
+    const panes: Ref<Pane[]> = ref([])
+    const instance = getCurrentInstance()!
     const paneStatesMap = {}
 
     provide<RootTabs>('rootTabs', {
@@ -154,8 +174,8 @@ export default defineComponent({
 
     const changeCurrentName = (value) => {
       currentName.value = value
-      ctx.emit('input', value)
-      ctx.emit('update:modelValue', value)
+      ctx.emit(INPUT_EVENT, value)
+      ctx.emit(UPDATE_MODEL_EVENT, value)
     }
 
     const setCurrentName = (value) => {
@@ -179,13 +199,13 @@ export default defineComponent({
       }
     }
 
-    const handleTabClick = (tab, tabName, event) => {
+    const handleTabClick = (tab: Pane, tabName: string, event: Event) => {
       if (tab.props.disabled) return
       setCurrentName(tabName)
       ctx.emit('tab-click', tab, event)
     }
 
-    const handleTabRemove = (pane, ev) => {
+    const handleTabRemove = (pane: Pane, ev: Event) => {
       if (pane.props.disabled) return
       ev.stopPropagation()
       ctx.emit('edit', pane.props.name, 'remove')
@@ -272,7 +292,7 @@ export default defineComponent({
       {
         class: 'el-tabs__content',
       },
-      this.$slots?.default()
+      [renderSlot(this.$slots, 'default')]
     )
 
     return h(
