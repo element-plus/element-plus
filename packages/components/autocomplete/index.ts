@@ -1,12 +1,7 @@
-import Autocomplete from './src/index.vue'
-import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
+import { withInstall } from '@element-plus/utils/with-install'
+import Autocomplete from './src/autocomplete.vue'
 
-Autocomplete.install = (app: App): void => {
-  app.component(Autocomplete.name, Autocomplete)
-}
+export const ElAutocomplete = withInstall(Autocomplete)
+export default ElAutocomplete
 
-const _Autocomplete = Autocomplete as SFCWithInstall<typeof Autocomplete>
-
-export default _Autocomplete
-export const ElAutocomplete = _Autocomplete
+export * from './src/autocomplete'

@@ -98,7 +98,6 @@ import {
   nextTick,
   watch,
 } from 'vue'
-import { NOOP } from '@vue/shared'
 import debounce from 'lodash/debounce'
 import { useAttrs } from '@element-plus/hooks'
 import { ClickOutside } from '@element-plus/directives'
@@ -111,8 +110,7 @@ import ElPopper, { Effect } from '@element-plus/components/popper'
 import ElIcon from '@element-plus/components/icon'
 import { Loading } from '@element-plus/icons'
 
-import type { Placement } from '@element-plus/components/popper'
-import type { PropType } from 'vue'
+import { autocompleteEmits, autocompleteProps } from './autocomplete'
 
 export default defineComponent({
   name: 'ElAutocomplete',
@@ -127,73 +125,8 @@ export default defineComponent({
     clickoutside: ClickOutside,
   },
   inheritAttrs: false,
-  props: {
-    valueKey: {
-      type: String,
-      default: 'value',
-    },
-    modelValue: {
-      type: [String, Number],
-      default: '',
-    },
-    debounce: {
-      type: Number,
-      default: 300,
-    },
-    placement: {
-      type: String as PropType<Placement>,
-      validator: (val: string): boolean => {
-        return [
-          'top',
-          'top-start',
-          'top-end',
-          'bottom',
-          'bottom-start',
-          'bottom-end',
-        ].includes(val)
-      },
-      default: 'bottom-start',
-    },
-    fetchSuggestions: {
-      type: Function as PropType<
-        (queryString: string, cb: (data: any[]) => void) => void
-      >,
-      default: NOOP,
-    },
-    popperClass: {
-      type: String,
-      default: '',
-    },
-    triggerOnFocus: {
-      type: Boolean,
-      default: true,
-    },
-    selectWhenUnmatched: {
-      type: Boolean,
-      default: false,
-    },
-    hideLoading: {
-      type: Boolean,
-      default: false,
-    },
-    popperAppendToBody: {
-      type: Boolean,
-      default: true,
-    },
-    highlightFirstItem: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: [
-    UPDATE_MODEL_EVENT,
-    'input',
-    'change',
-    'focus',
-    'blur',
-    'clear',
-    'select',
-  ],
+  props: autocompleteProps,
+  emits: autocompleteEmits,
   setup(props, ctx) {
     const attrs = useAttrs()
     const suggestions = ref([])

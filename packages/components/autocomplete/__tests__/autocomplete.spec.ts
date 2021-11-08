@@ -2,7 +2,7 @@ import { mount } from '@vue/test-utils'
 import { NOOP } from '@vue/shared'
 import { sleep } from '@element-plus/test-utils'
 
-import Autocomplete from '../src/index.vue'
+import Autocomplete from '../src/autocomplete.vue'
 
 jest.unmock('lodash/debounce')
 
