@@ -32,6 +32,7 @@ export const useCheckboxProps = {
     type: [String, Number],
     default: undefined,
   },
+  tabindex: [String, Number],
   size: String,
 }
 
