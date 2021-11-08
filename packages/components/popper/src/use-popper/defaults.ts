@@ -7,10 +7,7 @@ import type {
 } from '@popperjs/core'
 import type { Nullable } from '@element-plus/utils/types'
 
-export enum Effect {
-  DARK = 'dark',
-  LIGHT = 'light',
-}
+export type Effect = 'dark' | 'light'
 
 export type RefElement = Nullable<HTMLElement>
 export type Offset = [number, number] | number
