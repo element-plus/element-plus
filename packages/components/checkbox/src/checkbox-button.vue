@@ -50,13 +50,13 @@
 </template>
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { useCheckbox, useCheckboxGroup, useCheckboxProps } from './useCheckbox'
+import { useCheckbox, useCheckboxGroup } from './useCheckbox'
+import { checkboxButtonProps, checkboxButtonEmits } from './checkbox-button'
 
 export default defineComponent({
   name: 'ElCheckboxButton',
-  props: useCheckboxProps,
-  emits: [UPDATE_MODEL_EVENT, 'change'],
+  props: checkboxButtonProps,
+  emits: checkboxButtonEmits,
   setup(props) {
     const { focus, isChecked, isDisabled, size, model, handleChange } =
       useCheckbox(props)

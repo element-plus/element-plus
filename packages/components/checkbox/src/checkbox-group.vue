@@ -13,46 +13,14 @@ import {
   nextTick,
   toRefs,
 } from 'vue'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { isValidComponentSize } from '@element-plus/utils/validators'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { useCheckboxGroup } from './useCheckbox'
-
-import type { PropType } from 'vue'
-import type { ComponentSize } from '@element-plus/utils/types'
+import { checkboxGroupProps, checkboxGroupEmits } from './checkbox-group'
 
 export default defineComponent({
   name: 'ElCheckboxGroup',
-
-  props: {
-    modelValue: {
-      type: [Object, Boolean, Array],
-      default: () => undefined,
-    },
-    disabled: Boolean,
-    min: {
-      type: Number,
-      default: undefined,
-    },
-    max: {
-      type: Number,
-      default: undefined,
-    },
-    size: {
-      type: String as PropType<ComponentSize>,
-      validator: isValidComponentSize,
-    },
-    fill: {
-      type: String,
-      default: undefined,
-    },
-    textColor: {
-      type: String,
-      default: undefined,
-    },
-  },
-
-  emits: [UPDATE_MODEL_EVENT, 'change'],
-
+  props: checkboxGroupProps,
+  emits: checkboxGroupEmits,
   setup(props, ctx) {
     const { elFormItem, elFormItemSize, ELEMENT } = useCheckboxGroup()
     const checkboxGroupSize = computed(
@@ -62,7 +30,7 @@ export default defineComponent({
     const changeEvent = (value) => {
       ctx.emit(UPDATE_MODEL_EVENT, value)
       nextTick(() => {
-        ctx.emit('change', value)
+        ctx.emit(CHANGE_EVENT, value)
       })
     }
 

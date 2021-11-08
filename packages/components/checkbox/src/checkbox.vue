@@ -61,54 +61,13 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { isValidComponentSize } from '@element-plus/utils/validators'
 import { useCheckbox } from './useCheckbox'
-
-import type { PropType } from 'vue'
-import type { ComponentSize } from '@element-plus/utils/types'
+import { checkboxProps, checkboxEmits } from './checkbox'
 
 export default defineComponent({
   name: 'ElCheckbox',
-  props: {
-    modelValue: {
-      type: [Boolean, Number, String],
-      default: () => undefined,
-    },
-    label: {
-      type: [String, Boolean, Number, Object],
-    },
-    indeterminate: Boolean,
-    disabled: Boolean,
-    checked: Boolean,
-    name: {
-      type: String,
-      default: undefined,
-    },
-    trueLabel: {
-      type: [String, Number],
-      default: undefined,
-    },
-    falseLabel: {
-      type: [String, Number],
-      default: undefined,
-    },
-    id: {
-      type: String,
-      default: undefined,
-    },
-    controls: {
-      type: String,
-      default: undefined,
-    },
-    border: Boolean,
-    size: {
-      type: String as PropType<ComponentSize>,
-      validator: isValidComponentSize,
-    },
-    tabindex: [String, Number],
-  },
-  emits: [UPDATE_MODEL_EVENT, 'change'],
+  props: checkboxProps,
+  emits: checkboxEmits,
   setup(props) {
     return useCheckbox(props)
   },

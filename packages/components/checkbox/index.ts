@@ -12,3 +12,7 @@ export default ElCheckbox
 
 export const ElCheckboxButton = withNoopInstall(CheckboxButton)
 export const ElCheckboxGroup = withNoopInstall(CheckboxGroup)
+
+export * from './src/checkbox'
+export * from './src/checkbox-group'
+export * from './src/checkbox-button'
