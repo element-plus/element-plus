@@ -4,6 +4,7 @@
       style="width: 100px; height: 100px"
       :src="url"
       :preview-src-list="srcList"
+      :initial-index="1"
     >
     </el-image>
   </div>
