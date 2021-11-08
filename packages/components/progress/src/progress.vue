@@ -85,28 +85,7 @@ import {
   Check,
   Close,
 } from '@element-plus/icons-vue'
-
-import type { PropType, SVGAttributes } from 'vue'
-
-type ProgressFuncType = (percentage: number) => string
-
-interface IProgressProps {
-  type: string
-  percentage: number
-  status: string
-  indeterminate: boolean
-  duration: number
-  strokeWidth: number
-  strokeLinecap: NonNullable<SVGAttributes['stroke-linecap']>
-  textInside: boolean
-  width: number
-  showText: boolean
-  color:
-    | string
-    | Array<string | { color: string; percentage: number }>
-    | ProgressFuncType
-  format: ProgressFuncType
-}
+import { progressProps } from './progress'
 
 export default defineComponent({
   name: 'ElProgress',
@@ -118,62 +97,8 @@ export default defineComponent({
     Close,
     WarningFilled,
   },
-  props: {
-    type: {
-      type: String,
-      default: 'line',
-      validator: (val: string): boolean =>
-        ['line', 'circle', 'dashboard'].indexOf(val) > -1,
-    },
-    percentage: {
-      type: Number,
-      default: 0,
-      validator: (val: number): boolean => val >= 0 && val <= 100,
-    },
-    status: {
-      type: String,
-      default: '',
-      validator: (val: string): boolean =>
-        ['', 'success', 'exception', 'warning'].indexOf(val) > -1,
-    },
-    indeterminate: {
-      type: Boolean,
-      default: false,
-    },
-    duration: {
-      type: Number,
-      default: 3,
-    },
-    strokeWidth: {
-      type: Number,
-      default: 6,
-    },
-    strokeLinecap: {
-      type: String as PropType<IProgressProps['strokeLinecap']>,
-      default: 'round' as IProgressProps['strokeLinecap'],
-    },
-    textInside: {
-      type: Boolean,
-      default: false,
-    },
-    width: {
-      type: Number,
-      default: 126,
-    },
-    showText: {
-      type: Boolean,
-      default: true,
-    },
-    color: {
-      type: [String, Array, Function],
-      default: '',
-    },
-    format: {
-      type: Function,
-      default: (percentage: number): string => `${percentage}%`,
-    },
-  },
-  setup(props: IProgressProps) {
+  props: progressProps,
+  setup(props) {
     const barStyle = computed(() => {
       return {
         width: `${props.percentage}%`,
