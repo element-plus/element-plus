@@ -83,7 +83,7 @@ input-number/controlled
 
 | Attribute             | Description                                      | Type               | Accepted Values         | Default     |
 | --------------------- | ------------------------------------------------ | ------------------ | ----------------------- | ----------- |
-| model-value / v-model | binding value                                    | number / undefined | —                       | 0           |
+| model-value / v-model | binding value                                    | number / undefined | —                       | —           |
 | min                   | the minimum allowed value                        | number             | —                       | `-Infinity` |
 | max                   | the maximum allowed value                        | number             | —                       | `Infinity`  |
 | step                  | incremental step                                 | number             | —                       | 1           |
