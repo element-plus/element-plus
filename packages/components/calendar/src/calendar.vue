@@ -54,7 +54,8 @@ import ElButton from '@element-plus/components/button'
 import { useLocale } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils/error'
 import DateTable from './date-table.vue'
-import type { PropType, ComputedRef } from 'vue'
+import { calendarProps, calendarEmits } from './calendar'
+import type { ComputedRef } from 'vue'
 
 import type { Dayjs } from 'dayjs'
 
@@ -75,24 +76,9 @@ export default defineComponent({
     ElButtonGroup,
   },
 
-  props: {
-    modelValue: {
-      type: Date,
-    },
-    range: {
-      type: Array as PropType<Array<Date>>,
-      validator: (range: Date): boolean => {
-        if (Array.isArray(range)) {
-          return (
-            range.length === 2 && range.every((item) => item instanceof Date)
-          )
-        }
-        return false
-      },
-    },
-  },
+  props: calendarProps,
 
-  emits: ['input', 'update:modelValue'],
+  emits: calendarEmits,
   setup(props, ctx) {
     const { t, lang } = useLocale()
     const selectedDay = ref(null)

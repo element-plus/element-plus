@@ -42,8 +42,8 @@ import dayjs from 'dayjs'
 import localeData from 'dayjs/plugin/localeData'
 import { useLocale } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
+import { dateTableProps, dateTableEmits } from './date-table'
 import type { Dayjs } from 'dayjs'
-import type { PropType } from 'vue'
 dayjs.extend(localeData)
 
 export const getPrevMonthLastDays = (date: Dayjs, amount) => {
@@ -57,21 +57,8 @@ export const getMonthDays = (date: Dayjs) => {
 }
 
 export default defineComponent({
-  props: {
-    selectedDay: {
-      type: Object as PropType<Dayjs>,
-    },
-    range: {
-      type: Array as PropType<Array<Dayjs>>,
-    },
-    date: {
-      type: Object as PropType<Dayjs>,
-    },
-    hideHeader: {
-      type: Boolean,
-    },
-  },
-  emits: ['pick'],
+  props: dateTableProps,
+  emits: dateTableEmits,
   setup(props, ctx) {
     const { t, lang } = useLocale()
     const WEEK_DAYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
