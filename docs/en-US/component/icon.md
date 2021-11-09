@@ -150,7 +150,7 @@ so you need to use an alias in order to render the icon, if you register `Menu` 
   </div>
 </ElRow>
 
-### SVG Icons collection <ElTag>Available >= 1.0.2-beta.66</ElTag>
+## SVG Icons collection <ElTag>Available >= 1.0.2-beta.66</ElTag>
 
 :::tip
 
@@ -176,7 +176,7 @@ so you need to use an alias in order to render the icon, if you register `Menu` 
   </li>
 </ul> -->
 
-### Icon Attributes
+## Icon Attributes
 
 | Attribute | Description                | Type                           | Acceptable Value | Default                |
 | --------- | -------------------------- | ------------------------------ | ---------------- | ---------------------- |
