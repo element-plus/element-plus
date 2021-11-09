@@ -15,8 +15,7 @@ export const stepsProps = buildProps({
   direction: {
     type: String,
     default: 'horizontal',
-    validator: (val: string): boolean =>
-      ['horizontal', 'vertical'].includes(val),
+    values: ['horizontal', 'vertical'],
   },
   alignCenter: {
     type: Boolean,
@@ -29,14 +28,12 @@ export const stepsProps = buildProps({
   finishStatus: {
     type: String,
     default: 'finish',
-    validator: (val: string): boolean =>
-      ['wait', 'process', 'finish', 'error', 'success'].includes(val),
+    values: ['wait', 'process', 'finish', 'error', 'success'],
   },
   processStatus: {
     type: String,
     default: 'process',
-    validator: (val: string): boolean =>
-      ['wait', 'process', 'finish', 'error', 'success'].includes(val),
+    values: ['wait', 'process', 'finish', 'error', 'success'],
   },
 })
 export type StepsProps = ExtractPropTypes<typeof stepsProps>

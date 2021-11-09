@@ -30,8 +30,7 @@ export const stepProps = buildProps({
   status: {
     type: String,
     default: '',
-    validator: (val: string): boolean =>
-      ['', 'wait', 'process', 'finish', 'error', 'success'].includes(val),
+    values: ['', 'wait', 'process', 'finish', 'error', 'success'],
   },
 })
 
