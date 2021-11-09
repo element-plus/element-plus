@@ -1,9 +1,11 @@
-import { buildProps, definePropType } from '@element-plus/utils/props'
-import { isValidComponentSize } from '@element-plus/utils/validators'
+import {
+  buildProps,
+  componentSize,
+  definePropType,
+} from '@element-plus/utils/props'
 import { CircleClose } from '@element-plus/icons'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import type { Component, ExtractPropTypes } from 'vue'
-import type { ComponentSize } from '@element-plus/utils/types'
 
 export const selectProps = buildProps({
   name: String,
@@ -18,8 +20,8 @@ export const selectProps = buildProps({
   },
   automaticDropdown: Boolean,
   size: {
-    type: definePropType<ComponentSize>([String]),
-    validator: isValidComponentSize,
+    type: String,
+    values: componentSize,
   },
   disabled: Boolean,
   clearable: Boolean,
