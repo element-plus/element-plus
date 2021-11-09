@@ -76,7 +76,7 @@ export default defineComponent({
     const lineStyle = ref({})
     const internalStatus = ref('')
     const parent: IStepsInject = inject('ElSteps')
-    const currentInstance = getCurrentInstance()
+    const currentInstance = getCurrentInstance()!
 
     onMounted(() => {
       watch(
