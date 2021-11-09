@@ -25,8 +25,8 @@ export default defineComponent({
 
   props: {
     modelValue: {
-      type: [Object, Boolean, Array],
-      default: () => undefined,
+      type: Array,
+      default: () => [],
     },
     disabled: Boolean,
     min: {

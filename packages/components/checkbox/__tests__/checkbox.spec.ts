@@ -94,6 +94,24 @@ describe('Checkbox', () => {
     expect(vm.checkList).toContain('b')
   })
 
+  test('checkbox group without modelValue', async () => {
+    const wrapper = _mount(
+      `
+      <el-checkbox-group v-model="checkList">
+        <el-checkbox label="a" ref="a"></el-checkbox>
+        <el-checkbox label="b" ref="b"></el-checkbox>
+        <el-checkbox label="c" ref="c"></el-checkbox>
+        <el-checkbox label="d" ref="d"></el-checkbox>
+      </el-checkbox-group>
+      `,
+      () => ({ checkList: undefined })
+    )
+    const vm = wrapper.vm
+    await wrapper.findComponent({ ref: 'a' }).trigger('click')
+    expect(vm.checkList.length).toBe(1)
+    expect(vm.checkList).toContain('a')
+  })
+
   test('checkbox group change', async () => {
     const wrapper = _mount(
       `
