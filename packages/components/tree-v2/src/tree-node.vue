@@ -84,8 +84,8 @@ export default defineComponent({
       return tree?.props.icon ?? DEFAULT_ICON
     })
 
-    const handleClick = () => {
-      emit('click', props.node)
+    const handleClick = (e: MouseEvent) => {
+      emit('click', props.node, e)
     }
     const handleExpandIconClick = () => {
       emit('toggle', props.node)
