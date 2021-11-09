@@ -45,12 +45,12 @@ export const usePopperCoreConfigProps = buildProps({
   },
   showArrow: {
     type: Boolean,
-    default: false,
+    default: true,
   },
   strategy: {
     type: String,
     values: ['fixed', 'absolute'] as const,
-    default: 'fixed',
+    default: 'absolute',
   },
 } as const)
 
@@ -105,6 +105,10 @@ export const usePopperProps = buildProps({
     type: Boolean,
     default: false,
   },
+  persistent: {
+    type: Boolean,
+    default: false,
+  },
   // attached to the popped up component wrapper
   popperClass: {
     type: definePropType<ClassType>([String, Array, Object]),
@@ -131,6 +135,10 @@ export const usePopperProps = buildProps({
     type: definePropType<string | PopperTrigger[]>([String, Array]),
     values: triggers,
     default: 'hover',
+  },
+  visible: {
+    type: Boolean,
+    default: null as any,
   },
   ...usePopperCoreConfigProps,
 } as const)

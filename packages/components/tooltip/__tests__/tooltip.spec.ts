@@ -1,6 +1,6 @@
 import { h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import Tooltip from '../src/index'
+import Tooltip from '../src/tooltip.vue'
 
 import type { VNode } from 'vue'
 

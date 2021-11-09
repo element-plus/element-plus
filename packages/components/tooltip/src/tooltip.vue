@@ -1,0 +1,73 @@
+<template>
+  <el-popper
+    v-bind="$attrs"
+    v-model:visible="modelValue"
+    @update:visible="$emit('update:modelValue')"
+    :show-after="compatShowAfter"
+    :show-arrow="compatShowArrow"
+  >
+    <template #default>
+      <slot name="content" />
+    </template>
+
+    <template #trigger>
+      <slot />
+    </template>
+  </el-popper>
+</template>
+
+<script lang="ts">
+import { defineComponent, computed } from 'vue'
+import ElPopper from '@element-plus/components/popper'
+import { useModelToggleProps, useModelToggleEmits } from '@element-plus/hooks'
+import { debugWarn } from '@element-plus/utils/error'
+import { isBool, isUndefined } from '@element-plus/utils/util'
+
+export default defineComponent({
+  components: {
+    ElPopper,
+  },
+  props: {
+    ...useModelToggleProps,
+    openDelay: {
+      type: Number,
+    },
+    visibleArrow: {
+      type: Boolean,
+      default: undefined,
+    },
+  },
+  emits: useModelToggleEmits,
+  setup(props, { attrs }) {
+    console.log(
+      props.openDelay,
+      props.visibleArrow,
+      attrs.showAfter,
+      attrs.showArrow
+    )
+
+    return {
+      compatShowAfter: computed(() => {
+        if (!isUndefined(props.openDelay)) {
+          debugWarn(
+            'ElTooltip',
+            'open-delay is about to be deprecated in the next major version, please use `show-after` instead'
+          )
+        }
+        return props.openDelay || (attrs.showAfter as number)
+      }),
+      compatShowArrow: computed(() => {
+        if (!isUndefined(props.visibleArrow)) {
+          debugWarn(
+            'ElTooltip',
+            '`visible-arrow` is about to be deprecated in the next major version, please use `show-arrow` instead'
+          )
+        }
+        return isBool(props.visibleArrow)
+          ? props.visibleArrow
+          : (attrs.showArrow as boolean)
+      }),
+    }
+  },
+})
+</script>

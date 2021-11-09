@@ -1,5 +1,5 @@
 <template>
-  <div :class="['el-popper']" :style="style">
+  <div :class="wrapperKls" :style="style">
     <trigger
       ref="triggerRef"
       @click="onTriggerClick"
@@ -10,14 +10,16 @@
     >
       <slot name="trigger" />
     </trigger>
-    <el-teleport v-if="renderTeleport" :disabled="!appendToBody">
+    <el-teleport v-if="persistent || renderTeleport" :disabled="!appendToBody">
       <transition :name="transition" v-bind="transitionFallthrough">
         <div
-          v-if="isShow"
+          v-if="persistent || isShow"
+          v-show="isShow"
           :id="popperId"
           :class="contentKls"
           :style="contentStyle"
           role="tooltip"
+          ref="popperRef"
           @click.stop
           @mouseup="mouseUpAndDown"
           @mousedown="mouseUpAndDown"
@@ -40,23 +42,14 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  getCurrentInstance,
-  nextTick,
-  ref,
-  unref,
-} from 'vue'
-import { isFunction, NOOP } from '@vue/shared'
+import { computed, defineComponent, nextTick, ref, unref } from 'vue'
+import { NOOP } from '@vue/shared'
 import { createPopper } from '@popperjs/core'
 import ElTeleport from '@element-plus/components/teleport'
 import {
   useTransitionFallthrough,
   useTransitionFallthroughEmits,
   useModelToggle,
-  useModelToggleEmits,
-  useModelToggleProps,
   useTimeout,
 } from '@element-plus/hooks'
 import PopupManager from '@element-plus/utils/popup-manager'
@@ -74,26 +67,23 @@ export default defineComponent({
     ElTeleport,
     Trigger,
   },
-  props: { ...usePopperProps, ...useModelToggleProps },
-  emits: [...useTransitionFallthroughEmits, ...useModelToggleEmits],
+  props: usePopperProps,
+  emits: [...useTransitionFallthroughEmits, 'update:visible'],
   setup(props) {
     const popperId = `el-popper-${generateId()}`
-    const { props: vmProps } = getCurrentInstance()!
     const triggerRef = ref<{ el: Ref<HTMLElement | ComponentPublicInstance> }>()
     const popperRef = ref<HTMLElement>()
-    const isShow = ref(props.modelValue || false)
+    const isShow = ref(props.visible || false)
     const renderTeleport = ref(false)
+    const contentZIndex = ref(PopupManager.nextZIndex())
+
     const { show, hide } = useModelToggle({
       indicator: isShow,
       onShow,
-      onHide,
+      modelKey: 'visible',
     })
 
-    const hasUpdateFunctions = computed(() => {
-      return isFunction(vmProps['onUpdate:visible'])
-    })
-
-    const contentZIndex = ref(PopupManager.nextZIndex())
+    const wrapperKls = computed(() => props.class)
 
     const contentStyle = computed(() => {
       return [{ zIndex: unref(contentZIndex) }, props.popperStyle]
@@ -101,10 +91,6 @@ export default defineComponent({
 
     const mouseUpAndDown = computed(() =>
       props.stopPopperMouseEvent ? stop : NOOP
-    )
-
-    const isManual = computed(
-      () => props.manualMode || props.trigger === 'manual'
     )
 
     const { registerTimeout, cancelTimeout } = useTimeout()
@@ -127,7 +113,12 @@ export default defineComponent({
 
     const transitionFallthrough = {
       onAfterEnter,
-      onAfterLeave,
+      onAfterLeave: () => {
+        if (!unref(isShow)) {
+          renderTeleport.value = false
+          onAfterLeave()
+        }
+      },
       onBeforeEnter,
       onBeforeLeave,
     }
@@ -154,15 +145,27 @@ export default defineComponent({
     const onTriggerClick = () => {
       if (triggerFocused) {
         triggerFocused = false
+        nextTick(detachPopper)
       } else {
         onToggle()
       }
     }
 
-    const onTriggerMouseEnter = delayShow
-    const onTriggerMouseLeave = delayHide
-    const onTriggerFocus = delayShow
-    const onTriggerBlur = delayHide
+    const onTriggerMouseEnter = () => delayShow()
+    const onTriggerMouseLeave = () => delayHide()
+    const onTriggerFocus = () => delayShow()
+    const onTriggerBlur = () => delayHide()
+
+    function delayShow() {
+      if (props.disabled) return
+      renderTeleport.value = true
+      registerTimeout(() => show(), props.showAfter)
+    }
+
+    function delayHide() {
+      if (props.disabled) return
+      registerTimeout(() => hide(), props.hideAfter)
+    }
 
     function initPopper() {
       if (!unref(isShow)) return
@@ -182,18 +185,6 @@ export default defineComponent({
       popperInstance.update()
     }
 
-    function delayShow() {
-      if (unref(isManual) || props.disabled) return
-
-      registerTimeout(() => show(), props.showAfter)
-    }
-
-    function delayHide() {
-      if (unref(isManual) || props.disabled) return
-
-      registerTimeout(() => hide(), props.hideAfter)
-    }
-
     function detachPopper() {
       if (popperInstance) {
         popperInstance.destroy()
@@ -204,10 +195,6 @@ export default defineComponent({
     function onShow() {
       contentZIndex.value = PopupManager.nextZIndex()
       nextTick(initPopper)
-    }
-
-    function onHide() {
-      nextTick(detachPopper)
     }
 
     function onToggle() {
@@ -222,6 +209,7 @@ export default defineComponent({
       triggerRef,
       popperRef,
       popperId,
+      wrapperKls,
       contentKls,
       contentStyle,
       renderTeleport,
