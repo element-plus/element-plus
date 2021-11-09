@@ -1,4 +1,8 @@
-import { buildProps, definePropType } from '@element-plus/utils/props'
+import {
+  buildProps,
+  componentSize,
+  definePropType,
+} from '@element-plus/utils/props'
 import { isArray, isNumber } from '@element-plus/utils/util'
 import {
   UPDATE_MODEL_EVENT,
@@ -6,7 +10,6 @@ import {
   INPUT_EVENT,
 } from '@element-plus/utils/constants'
 import type { ExtractPropTypes } from 'vue'
-import type { ComponentSize } from '@element-plus/utils/types'
 
 export const sliderProps = buildProps({
   modelValue: {
@@ -34,8 +37,8 @@ export const sliderProps = buildProps({
     default: true,
   },
   inputSize: {
-    type: definePropType<ComponentSize>(String),
-    default: 'small',
+    type: String,
+    values: componentSize,
   },
   showStops: {
     type: Boolean,
