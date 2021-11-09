@@ -1,9 +1,7 @@
-import { buildProps, definePropType } from '@element-plus/utils/props'
-import { isValidComponentSize } from '@element-plus/utils/validators'
+import { buildProps, componentSize } from '@element-plus/utils/props'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import type { ComputedRef } from 'vue'
-import type { ExtractPropTypes } from '@vue/runtime-core'
-import type { AnyFunction, ComponentSize } from '@element-plus/utils/types'
+import type { ComputedRef, ExtractPropTypes } from 'vue'
+import type { AnyFunction } from '@element-plus/utils/types'
 
 export const checkboxProps = buildProps({
   modelValue: {
@@ -38,8 +36,8 @@ export const checkboxProps = buildProps({
   },
   border: Boolean,
   size: {
-    type: definePropType<ComponentSize>(String),
-    validator: isValidComponentSize,
+    type: String,
+    values: componentSize,
   },
   tabindex: {
     type: [String, Number],

@@ -50,7 +50,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { useCheckbox, useCheckboxGroup } from './useCheckbox'
+import { useCheckbox, useCheckboxGroup } from './hook'
 import { checkboxButtonProps, checkboxButtonEmits } from './checkbox-button'
 
 export default defineComponent({

@@ -1,8 +1,6 @@
-import { buildProps, definePropType } from '@element-plus/utils/props'
-import { isValidComponentSize } from '@element-plus/utils/validators'
+import { buildProps, componentSize } from '@element-plus/utils/props'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import type { ExtractPropTypes } from '@vue/runtime-core'
-import type { ComponentSize } from '@element-plus/utils/types'
+import type { ExtractPropTypes } from 'vue'
 
 export const checkboxGroupProps = buildProps({
   modelValue: {
@@ -19,8 +17,8 @@ export const checkboxGroupProps = buildProps({
     default: undefined,
   },
   size: {
-    type: definePropType<ComponentSize>(String),
-    validator: isValidComponentSize,
+    type: String,
+    values: componentSize,
   },
   fill: {
     type: String,

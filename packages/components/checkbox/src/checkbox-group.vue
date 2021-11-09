@@ -14,7 +14,7 @@ import {
   toRefs,
 } from 'vue'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { useCheckboxGroup } from './useCheckbox'
+import { useCheckboxGroup } from './hook'
 import { checkboxGroupProps, checkboxGroupEmits } from './checkbox-group'
 
 export default defineComponent({

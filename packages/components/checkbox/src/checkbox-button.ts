@@ -1,5 +1,5 @@
 import { checkboxProps, checkboxEmits } from './checkbox'
-import type { ExtractPropTypes } from '@vue/runtime-core'
+import type { ExtractPropTypes } from 'vue'
 
 export const checkboxButtonProps = {
   ...checkboxProps,

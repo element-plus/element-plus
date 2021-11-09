@@ -61,7 +61,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { useCheckbox } from './useCheckbox'
+import { useCheckbox } from './hook'
 import { checkboxProps, checkboxEmits } from './checkbox'
 
 export default defineComponent({
