@@ -32,8 +32,8 @@
     "theme-chalk/src/*.scss",
     "es/components/*/style/*",
     "lib/components/*/style/*",
-    "lib/components/*/src/**",
-    "es/components/*/src/**"
+    "lib/components/**/*",
+    "es/components/**/*"
   ],
   "repository": {
     "type": "git",
@@ -54,6 +54,11 @@
     "lodash": "^4.17.21",
     "memoize-one": "^6.0.0",
     "normalize-wheel-es": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "*",
+    "csstype": "^2.6.0",
+    "vue-router": "^4.0.0"
   },
   "vetur": {
     "tags": "tags.json",

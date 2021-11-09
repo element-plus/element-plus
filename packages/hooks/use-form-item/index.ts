@@ -50,5 +50,7 @@ export const useFormItem = ({ size, disabled }: LocalFallbacks) => {
         props.disabled === true || unref(disabled) || form?.disabled || false
       )
     }),
+    form,
+    formItem,
   }
 }

@@ -1,5 +1,27 @@
 ## Changelog
 
+### 1.2.0-beta.3
+
+_2021-11-09_
+
+#### Bug fixes
+
+- Components [el-cascader] empty children set leaf (#3758 by @btea)
+- Build fix types  (#4254 by @sxzz)
+- Components [el-checkbox] tabindex property doesn't work (#4286 by @undefined-degisn)
+- Style radio group set inline-block (#4255 by @btea)
+- Theme-chalk fix icon style in Menu component is wrong (#4302 by @undefined-degisn)
+- Side-effects (#4310 by @sxzz)
+
+#### Refactors
+
+- Components refactor rate
+- Components refactor result
+- Components [el-result] improve props
+- Components refactor row
+- Components [el-row] improve props
+- Components refactor radio
+
 ### 1.2.0-beta.2
 
 _2021-11-05_

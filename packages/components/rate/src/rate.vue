@@ -37,8 +37,9 @@
       v-if="showText || showScore"
       class="el-rate__text"
       :style="{ color: textColor }"
-      >{{ text }}</span
     >
+      {{ text }}
+    </span>
   </div>
 </template>
 <script lang="ts">
@@ -51,96 +52,47 @@ import { EVENT_CODE } from '@element-plus/utils/aria'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { ElIcon } from '@element-plus/components/icon'
 import { StarFilled, Star } from '@element-plus/icons'
-import type { PropType, Component } from 'vue'
+import { rateProps, rateEmits } from './rate'
 import type { ElFormContext } from '@element-plus/tokens'
+
+function getValueFromMap<T>(
+  value: number,
+  map: Record<string, T | { excluded?: boolean; value: T }>
+) {
+  const isExcludedObject = (
+    val: unknown
+  ): val is { excluded?: boolean } & Record<any, unknown> => isObject(val)
+
+  const matchedKeys = Object.keys(map)
+    .map((key) => +key)
+    .filter((key) => {
+      const val = map[key]
+      const excluded = isExcludedObject(val) ? val.excluded : false
+      return excluded ? value < key : value <= key
+    })
+    .sort((a, b) => a - b)
+  const matchedValue = map[matchedKeys[0]]
+  return isExcludedObject(matchedValue) ? matchedValue.value : matchedValue
+}
 
 export default defineComponent({
   name: 'ElRate',
-  components: { ElIcon, StarFilled, Star },
-  props: {
-    modelValue: {
-      type: Number,
-      default: 0,
-    },
-    lowThreshold: {
-      type: Number,
-      default: 2,
-    },
-    highThreshold: {
-      type: Number,
-      default: 4,
-    },
-    max: {
-      type: Number,
-      default: 5,
-    },
-    colors: {
-      type: [Array, Object],
-      default: () => ['#F7BA2A', '#F7BA2A', '#F7BA2A'],
-    },
-    voidColor: {
-      type: String,
-      default: '#C6D1DE',
-    },
-    disabledVoidColor: {
-      type: String,
-      default: '#EFF2F7',
-    },
-    icons: {
-      type: [Array, Object] as PropType<string[] | Component>,
-      default: () => [StarFilled, StarFilled, StarFilled],
-    },
-    voidIcon: {
-      type: [String, Object] as PropType<string | Component>,
-      default: Star,
-    },
-    disabledvoidIcon: {
-      type: [String, Object] as PropType<string | Component>,
-      default: StarFilled,
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-    allowHalf: {
-      type: Boolean,
-      default: false,
-    },
-    showText: {
-      type: Boolean,
-      default: false,
-    },
-    showScore: {
-      type: Boolean,
-      default: false,
-    },
-    textColor: {
-      type: String,
-      default: '#1f2d3d',
-    },
-    texts: {
-      type: Array as PropType<string[]>,
-      default: () => [
-        'Extremely bad',
-        'Disappointed',
-        'Fair',
-        'Satisfied',
-        'Surprise',
-      ],
-    },
-    scoreTemplate: {
-      type: String,
-      default: '{value}',
-    },
+  components: {
+    ElIcon,
+    StarFilled,
+    Star,
   },
-  emits: [UPDATE_MODEL_EVENT, 'change'],
+  props: rateProps,
+  emits: rateEmits,
+
   setup(props, { emit }) {
     const elForm = inject(elFormKey, {} as ElFormContext)
 
     const currentValue = ref(props.modelValue)
+    const hoverIndex = ref(-1)
+    const pointerAtLeftHalf = ref(true)
 
     const rateDisabled = computed(() => props.disabled || elForm.disabled)
-
     const text = computed(() => {
       let result = ''
       if (props.showScore) {
@@ -153,21 +105,6 @@ export default defineComponent({
       }
       return result
     })
-
-    function getValueFromMap(value: unknown, map: Record<string, unknown>) {
-      const matchedKeys = Object.keys(map)
-        .filter((key) => {
-          const val = map[key]
-          const excluded = isObject(val) ? val.excluded : false
-          return excluded ? value < key : value <= key
-        })
-        .sort((a: never, b: never) => a - b)
-      const matchedValue = map[matchedKeys[0]]
-      return isObject(matchedValue)
-        ? matchedValue.value || matchedValue
-        : matchedValue || ''
-    }
-
     const valueDecimal = computed(
       () => props.modelValue * 100 - Math.floor(props.modelValue) * 100
     )
@@ -195,7 +132,6 @@ export default defineComponent({
         width,
       }
     })
-
     const componentMap = computed(() =>
       isArray(props.icons)
         ? {
@@ -208,7 +144,6 @@ export default defineComponent({
           }
         : props.icons
     )
-
     const decimalIconComponent = computed(() =>
       getValueFromMap(props.modelValue, componentMap.value)
     )
@@ -221,23 +156,10 @@ export default defineComponent({
     const iconComponents = computed(() => {
       const result = Array(props.max)
       const threshold = currentValue.value
-      // if (props.allowHalf && currentValue.value !== Math.floor(currentValue.value)) {
-      //   threshold--
-      // }
       result.fill(activeComponent.value, 0, threshold)
       result.fill(voidComponent.value, threshold, props.max)
       return result
     })
-
-    const pointerAtLeftHalf = ref(true)
-    watch(
-      () => props.modelValue,
-      (val) => {
-        currentValue.value = val
-        pointerAtLeftHalf.value =
-          props.modelValue !== Math.floor(props.modelValue)
-      }
-    )
 
     function showDecimalIcon(item: number) {
       const showWhenDisabled =
@@ -245,7 +167,6 @@ export default defineComponent({
         valueDecimal.value > 0 &&
         item - 1 < props.modelValue &&
         item > props.modelValue
-      /* istanbul ignore next */
       const showWhenAllowHalf =
         props.allowHalf &&
         pointerAtLeftHalf.value &&
@@ -310,17 +231,14 @@ export default defineComponent({
       return _currentValue
     }
 
-    const hoverIndex = ref(-1)
-
     function setCurrentValue(value: number, event: MouseEvent) {
       if (rateDisabled.value) {
         return
       }
-      /* istanbul ignore if */
       if (props.allowHalf) {
         let target = event.target as HTMLElement
         if (hasClass(target, 'el-rate__item')) {
-          target = target.querySelector('.el-rate__icon')
+          target = target.querySelector('.el-rate__icon')!
         }
         if (target.clientWidth === 0 || hasClass(target, 'el-rate__decimal')) {
           target = target.parentNode as HTMLElement
@@ -345,12 +263,21 @@ export default defineComponent({
       hoverIndex.value = -1
     }
 
+    watch(
+      () => props.modelValue,
+      (val) => {
+        currentValue.value = val
+        pointerAtLeftHalf.value =
+          props.modelValue !== Math.floor(props.modelValue)
+      }
+    )
+
     if (!props.modelValue) {
       emit(UPDATE_MODEL_EVENT, 0)
     }
+
     return {
       hoverIndex,
-
       currentValue,
       rateDisabled,
       text,
