@@ -111,7 +111,7 @@ image/lazy-load
 
 ## Image Preview
 
-:::demo allow big image preview by setting `previewSrcList` prop.
+:::demo allow big image preview by setting `previewSrcList` prop. You can initialize the position of the first picture previewed by `initial-index`. The default initial position is 0.
 
 image/image-preview
 
