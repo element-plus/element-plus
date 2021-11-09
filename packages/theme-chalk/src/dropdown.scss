@@ -13,6 +13,11 @@
   font-size: var(--el-font-size-base);
   line-height: 1;
 
+  @include when(disabled) {
+    cursor: not-allowed;
+    color: var(--el-font-color-disabled-base);
+  }
+
   @include e(popper) {
     @include set-component-css-var('dropdown', $dropdown);
 
@@ -58,29 +63,25 @@
     position: relative;
     border-left: none;
 
-    &::before {
-      $gap: 5px;
+    &:not(.#{$namespace}-button--default) {
+      z-index: 1;
+    }
 
+    &::before {
       content: '';
       position: absolute;
       display: block;
       width: 1px;
-      top: $gap;
-      bottom: $gap;
+      // button has 1px border
+      top: -1px;
+      bottom: -1px;
       left: 0;
       background: mix(white, transparent, 50%);
     }
 
     &.#{$namespace}-button--default::before {
-      background: var(--el-default-border-color);
+      background: var(--el-border-color-base);
       opacity: 0.5;
-    }
-
-    &:hover {
-      &::before {
-        top: 0;
-        bottom: 0;
-      }
     }
 
     & .#{$namespace}-dropdown__icon {

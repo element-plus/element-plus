@@ -1,5 +1,9 @@
 <template>
-  <div class="el-dropdown">
+  <div
+    class="el-dropdown"
+    :class="{ 'is-disabled': disabled }"
+    :aria-disabled="disabled"
+  >
     <el-popper
       ref="triggerVnode"
       v-model:visible="visible"
@@ -14,6 +18,7 @@
       transition="el-zoom-in-top"
       :stop-popper-mouse-event="false"
       :gpu-acceleration="false"
+      :disabled="disabled"
     >
       <template #default>
         <el-scrollbar
@@ -33,6 +38,7 @@
               <el-button
                 :size="dropdownSize"
                 :type="type"
+                :disabled="disabled"
                 @click="handlerMainButtonClick"
               >
                 <slot name="default"></slot>
@@ -40,6 +46,7 @@
               <el-button
                 :size="dropdownSize"
                 :type="type"
+                :disabled="disabled"
                 class="el-dropdown__caret-button"
               >
                 <el-icon class="el-dropdown__icon"><arrow-down /></el-icon>
@@ -62,18 +69,15 @@ import {
   onMounted,
 } from 'vue'
 import ElButton from '@element-plus/components/button'
-import ElPopper, { Effect } from '@element-plus/components/popper'
+import ElPopper from '@element-plus/components/popper'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'
 import { on, addClass, removeClass } from '@element-plus/utils/dom'
 import { addUnit } from '@element-plus/utils/util'
 import { ArrowDown } from '@element-plus/icons'
 import { useDropdown } from './useDropdown'
-
-import type { Placement } from '@element-plus/components/popper'
-import type { PropType, ComponentPublicInstance } from 'vue'
-import type { TriggerType } from '@element-plus/hooks/use-popper/use-target-events'
-import type { ButtonType } from '@element-plus/components/button/src/types'
+import { dropdownProps } from './dropdown'
+import type { ComponentPublicInstance } from 'vue'
 
 type Nullable<T> = null | T
 const { ButtonGroup: ElButtonGroup } = ElButton
@@ -88,46 +92,7 @@ export default defineComponent({
     ElIcon,
     ArrowDown,
   },
-  props: {
-    trigger: {
-      type: String as PropType<TriggerType | 'contextmenu'>,
-      default: 'hover',
-    },
-    type: String as PropType<ButtonType>,
-    size: {
-      type: String,
-      default: '',
-    },
-    splitButton: Boolean,
-    hideOnClick: {
-      type: Boolean,
-      default: true,
-    },
-    placement: {
-      type: String as PropType<Placement>,
-      default: 'bottom',
-    },
-    showTimeout: {
-      type: Number,
-      default: 150,
-    },
-    hideTimeout: {
-      type: Number,
-      default: 150,
-    },
-    tabindex: {
-      type: [Number, String],
-      default: 0,
-    },
-    effect: {
-      type: String as PropType<Effect>,
-      default: Effect.LIGHT,
-    },
-    maxHeight: {
-      type: [Number, String],
-      default: '',
-    },
-  },
+  props: dropdownProps,
   emits: ['visible-change', 'click', 'command'],
   setup(props, { emit }) {
     const _instance = getCurrentInstance()
@@ -160,6 +125,13 @@ export default defineComponent({
             removeClass(selfDefine, 'focusing')
           }
         }
+      }
+    )
+
+    watch(
+      () => props.disabled,
+      () => {
+        setDisabled()
       }
     )
 
@@ -196,7 +168,9 @@ export default defineComponent({
       if (props.tabindex >= 0) {
         resetTabindex(triggerElm.value)
       }
-      clearTimeout(timeout.value)
+      if (timeout.value) {
+        clearTimeout(timeout.value)
+      }
       timeout.value = window.setTimeout(
         () => {
           visible.value = false
@@ -228,6 +202,13 @@ export default defineComponent({
       emit('command', ...args)
     }
 
+    function setDisabled() {
+      const triggerElement = triggerElm.value
+      if (triggerElement) {
+        triggerElement.disabled = props.disabled
+      }
+    }
+
     provide('elDropdown', {
       instance: _instance,
       dropdownSize,
@@ -242,28 +223,30 @@ export default defineComponent({
     })
 
     onMounted(() => {
+      const triggerElement = triggerElm.value!
       if (!props.splitButton) {
-        on(triggerElm.value, 'focus', () => {
-          focusing.value = true
+        on(triggerElement, 'focus', () => {
+          focusing.value = !props.disabled
         })
-        on(triggerElm.value, 'blur', () => {
+        on(triggerElement, 'blur', () => {
           focusing.value = false
         })
-        on(triggerElm.value, 'click', () => {
+        on(triggerElement, 'click', () => {
           focusing.value = false
         })
       }
       if (props.trigger === 'hover') {
-        on(triggerElm.value, 'mouseenter', show)
-        on(triggerElm.value, 'mouseleave', hide)
+        on(triggerElement, 'mouseenter', show)
+        on(triggerElement, 'mouseleave', hide)
       } else if (props.trigger === 'click') {
-        on(triggerElm.value, 'click', handleClick)
+        on(triggerElement, 'click', handleClick)
       } else if (props.trigger === 'contextmenu') {
-        on(triggerElm.value, 'contextmenu', (e) => {
+        on(triggerElement, 'contextmenu', (e) => {
           e.preventDefault()
           handleClick()
         })
       }
+      setDisabled()
 
       Object.assign(_instance, {
         handleClick,
