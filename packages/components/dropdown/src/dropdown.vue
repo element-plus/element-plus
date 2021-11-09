@@ -7,6 +7,7 @@
       :fallback-placements="['bottom', 'top', 'right', 'left']"
       :effect="effect"
       pure
+      :disabled="disabled"
       :manual-mode="true"
       :trigger="[trigger]"
       popper-class="el-dropdown__popper"
@@ -126,6 +127,10 @@ export default defineComponent({
     maxHeight: {
       type: [Number, String],
       default: '',
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
     },
   },
   emits: ['visible-change', 'click', 'command'],
