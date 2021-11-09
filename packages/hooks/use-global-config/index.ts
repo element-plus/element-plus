@@ -4,7 +4,7 @@ import type { ConfigProvdierContext } from '@element-plus/tokens'
 
 const defaultConfig: ConfigProvdierContext = {
   button: {
-    autoInsertSpace: true,
+    autoInsertSpace: false,
   },
 }
 
