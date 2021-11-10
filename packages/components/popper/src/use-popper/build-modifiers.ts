@@ -37,10 +37,7 @@ export default function buildModifier(
       name: 'flip',
       options: {
         padding: 5,
-        fallbackPlacements:
-          fallbackPlacements && fallbackPlacements.length
-            ? fallbackPlacements
-            : undefined,
+        fallbackPlacements: fallbackPlacements ?? [],
       },
     },
     {
