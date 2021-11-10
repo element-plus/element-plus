@@ -1,6 +1,6 @@
 {
   "private": true,
-  "packageManager": "pnpm@6.20.4",
+  "packageManager": "pnpm@6.21.0",
   "workspaces": [
     "packages/*",
     "play",
@@ -119,6 +119,6 @@
     "vue": "3.2.21",
     "vue-jest": "5.0.0-alpha.10",
     "vue-router": "4.0.12",
-    "vue-tsc": "0.29.2"
+    "vue-tsc": "0.29.3"
   }
 }
