@@ -56,7 +56,7 @@ export const messageProps = buildProps({
   },
   appendTo: {
     type: definePropType<string | HTMLElement>([String, HTMLElement]),
-    default: ()=> document.body
+    default: () => document.body,
   },
   grouping: {
     type: Boolean,

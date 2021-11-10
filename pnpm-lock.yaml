@@ -10338,7 +10338,7 @@ packages:
       stylus:
         optional: true
     dependencies:
-      esbuild: 0.13.12
+      esbuild: 0.13.13
       postcss: 8.3.11
       resolve: 1.20.0
       rollup: 2.59.0

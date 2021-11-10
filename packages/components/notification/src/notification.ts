@@ -70,7 +70,7 @@ export const notificationProps = buildProps({
   },
   appendTo: {
     type: definePropType<string | HTMLElement>([String, HTMLElement]),
-    default: ()=> document.body
+    default: () => document.body,
   },
 } as const)
 export type NotificationProps = ExtractPropTypes<typeof notificationProps>
