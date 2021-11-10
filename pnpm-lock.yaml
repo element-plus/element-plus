@@ -17,7 +17,7 @@ importers:
       '@element-plus/utils': workspace:*
       '@pnpm/find-workspace-packages': 3.1.21
       '@pnpm/logger': 4.0.0
-      '@pnpm/types': 7.5.0
+      '@pnpm/types': 7.6.0
       '@popperjs/core': ^2.10.2
       '@rollup/plugin-commonjs': 21.0.1
       '@rollup/plugin-node-resolve': 13.0.6
@@ -96,7 +96,7 @@ importers:
       '@commitlint/config-conventional': 14.1.0
       '@pnpm/find-workspace-packages': 3.1.21_@pnpm+logger@4.0.0
       '@pnpm/logger': 4.0.0
-      '@pnpm/types': 7.5.0
+      '@pnpm/types': 7.6.0
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.59.0
       '@rollup/plugin-node-resolve': 13.0.6_rollup@2.59.0
       '@rollup/plugin-replace': 3.0.0_rollup@2.59.0
@@ -166,7 +166,7 @@ importers:
       '@vueuse/core': 6.8.0_vue@3.2.21
       axios: 0.24.0
       clipboard-copy: 4.0.1
-      element-plus: 1.2.0-beta.2_vue@3.2.21
+      element-plus: 1.2.0-beta.3_vue@3.2.21
       normalize.css: 8.0.1
       nprogress: 0.2.0
     devDependencies:
@@ -1485,6 +1485,11 @@ packages:
 
   /@pnpm/types/7.5.0:
     resolution: {integrity: sha512-F5Ei+m2A1tLmNpyvGkKrqB0J0wxzBeDraJv6RZ44iOPR1uk8qmDYo6jYd7sX2vARx1RtKpEKt7RfplJj+tb0EA==}
+    engines: {node: '>=12.17'}
+    dev: true
+
+  /@pnpm/types/7.6.0:
+    resolution: {integrity: sha512-P4kJm0iCn+Hk+1P/OobJQSOD8/Eu1C4bfuWlow8QXNp+FeRm1yGSOF1HKfznxGbE0YoavPnrhgKYLbEoJg/KNA==}
     engines: {node: '>=12.17'}
     dev: true
 
@@ -3933,8 +3938,8 @@ packages:
     resolution: {integrity: sha512-2jtSwgyiRzybHRxrc2nKI+39wH3AwQgn+sogQ+q814gv8hIFwrcZbV07Ea9f8AmK0ufPVZUvvAG1uZJ+obV4Jw==}
     dev: true
 
-  /element-plus/1.2.0-beta.2_vue@3.2.21:
-    resolution: {integrity: sha512-A5HpcpgcpoZZgVpAm1fy7sLb5zQj/tafhcJqD7avc4v3NgWDqSa58CNp5B7fpvVhXihRGWssqQjnTh2VczGGfw==}
+  /element-plus/1.2.0-beta.3_vue@3.2.21:
+    resolution: {integrity: sha512-vvUxR3uL2k9K+WCWz/98hq4uPQ6jvfGf0hfzWvao7pySJkNQq9DtRPC6/4/zUceA/J6Y2Yo3xSbR19JRCwurRw==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
