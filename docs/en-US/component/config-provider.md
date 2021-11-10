@@ -37,7 +37,7 @@ config-provider/button
 
 | Attribute       | Description                                                 | Type    | Accepted Values | Default |
 | --------------- | ----------------------------------------------------------- | ------- | --------------- | ------- |
-| autoInsertSpace | automatically insert a space between two chinese characters | boolean | -               | true    |
+| autoInsertSpace | automatically insert a space between two chinese characters | boolean | -               | false   |
 
 ## ConfigProvider Slots
 

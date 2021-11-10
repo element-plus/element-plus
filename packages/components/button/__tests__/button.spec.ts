@@ -179,6 +179,9 @@ describe('Button Group', () => {
       slots: {
         default: '中文',
       },
+      props: {
+        autoInsertSpace: true,
+      },
     })
     expect(wrapper.find('.el-button span').text()).toBe('中文')
     expect(wrapper.find('.el-button span').classes()).toContain(
