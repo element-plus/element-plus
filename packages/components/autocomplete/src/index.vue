@@ -3,6 +3,7 @@
     ref="popper"
     v-model:visible="suggestionVisible"
     :placement="placement"
+    :fallback-placements="['bottom-start', 'top-start']"
     :popper-class="`el-autocomplete__popper ${popperClass}`"
     :append-to-body="popperAppendToBody"
     pure
