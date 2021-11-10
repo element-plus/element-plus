@@ -58,8 +58,8 @@ export default defineComponent({
     const commonPicker = ref(null)
     const refProps = {
       ...props,
-      focus: () => {
-        commonPicker.value?.handleFocus()
+      focus: (focusStartInput = true) => {
+        commonPicker.value?.focus(focusStartInput)
       },
     }
     ctx.expose(refProps)
