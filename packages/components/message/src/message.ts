@@ -54,6 +54,10 @@ export const messageProps = buildProps({
     type: Number,
     default: 0,
   },
+  appendTo: {
+    type: definePropType<string | HTMLElement>([String, HTMLElement]),
+    default: ()=> document.body
+  },
   grouping: {
     type: Boolean,
     default: false,
