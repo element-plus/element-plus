@@ -4,7 +4,7 @@ import isServer from '@element-plus/utils/isServer'
 import {
   createGlobalNode,
   removeGlobalNode,
-} from '@element-plus/utils/global-nodes'
+} from '@element-plus/utils/glb-nodes'
 
 import type { VNode, Ref } from 'vue'
 

@@ -2,7 +2,7 @@ import {
   createGlobalNode,
   removeGlobalNode,
   changeGlobalNodesTarget,
-} from '../global-nodes'
+} from '../glb-nodes'
 
 describe('global-nodes', () => {
   afterEach(() => {
