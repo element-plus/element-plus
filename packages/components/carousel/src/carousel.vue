@@ -83,6 +83,7 @@ import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons'
 
 import { debugWarn } from '@element-plus/utils/error'
+import { carouselProps, carouselEmits } from './carousel'
 import type {
   ICarouselProps,
   CarouselItem,
@@ -96,51 +97,8 @@ export default defineComponent({
     ArrowLeft,
     ArrowRight,
   },
-  props: {
-    initialIndex: {
-      type: Number,
-      default: 0,
-    },
-    height: { type: String, default: '' },
-    trigger: {
-      type: String,
-      default: 'hover',
-    },
-    autoplay: {
-      type: Boolean,
-      default: true,
-    },
-    interval: {
-      type: Number,
-      default: 3000,
-    },
-    indicatorPosition: { type: String, default: '' },
-    indicator: {
-      type: Boolean,
-      default: true,
-    },
-    arrow: {
-      type: String,
-      default: 'hover',
-    },
-    type: { type: String, default: '' },
-    loop: {
-      type: Boolean,
-      default: true,
-    },
-    direction: {
-      type: String,
-      default: 'horizontal',
-      validator(val: string) {
-        return ['horizontal', 'vertical'].includes(val)
-      },
-    },
-    pauseOnHover: {
-      type: Boolean,
-      default: true,
-    },
-  },
-  emits: ['change'],
+  props: carouselProps,
+  emits: carouselEmits,
   setup(props: ICarouselProps, { emit }) {
     // data
     const data = reactive<{

@@ -1,7 +1,7 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import Carousel from '../src/main.vue'
-import CarouselItem from '../src/item.vue'
+import Carousel from '../src/carousel.vue'
+import CarouselItem from '../src/carousel-item.vue'
 
 const wait = (ms = 100) =>
   new Promise((resolve) => setTimeout(() => resolve(0), ms))

@@ -33,19 +33,14 @@ import {
 } from 'vue'
 import { autoprefixer } from '@element-plus/utils/util'
 import { debugWarn } from '@element-plus/utils/error'
+import { carouselItemProps } from './carousel-item'
 import type { CSSProperties } from 'vue'
 import type { InjectCarouselScope, ICarouselItemProps } from './carousel'
 
 const CARD_SCALE = 0.83
 export default defineComponent({
   name: 'ElCarouselItem',
-  props: {
-    name: { type: String, default: '' },
-    label: {
-      type: [String, Number],
-      default: '',
-    },
-  },
+  props: carouselItemProps,
   setup(props: ICarouselItemProps) {
     // instance
     const instance = getCurrentInstance()
