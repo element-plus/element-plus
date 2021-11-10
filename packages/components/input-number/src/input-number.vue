@@ -187,7 +187,7 @@ export default defineComponent({
       const newVal = _decrease(value)
       setCurrentValue(newVal)
     }
-    const setCurrentValue = (newVal: number) => {
+    const setCurrentValue = (newVal: number | string) => {
       const oldVal = data.currentValue
       if (typeof newVal === 'number' && props.precision !== undefined) {
         newVal = toPrecision(newVal, props.precision)
@@ -208,7 +208,7 @@ export default defineComponent({
       return (data.userInput = value)
     }
     const handleInputChange = (value: string) => {
-      const newVal = Number(value)
+      const newVal = value !== '' ? Number(value) : ''
       if ((isNumber(newVal) && !Number.isNaN(newVal)) || value === '') {
         setCurrentValue(newVal)
       }
