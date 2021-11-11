@@ -5,7 +5,10 @@ export const barProps = buildProps({
   vertical: Boolean,
   size: String,
   move: Number,
-  ratio: Number,
+  ratio: {
+    type: Number,
+    required: true,
+  },
   always: Boolean,
 } as const)
 export type BarProps = ExtractPropTypes<typeof barProps>
