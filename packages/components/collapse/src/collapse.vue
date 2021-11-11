@@ -7,21 +7,13 @@
 <script lang="ts">
 import { defineComponent, ref, watch, provide } from 'vue'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
-import type { PropType } from 'vue'
-import type { CollapseProvider } from './collapse.type'
+import { collapseProps, collapseEmits } from './collapse'
+import type { CollapseProvider } from './collapse'
 
 export default defineComponent({
   name: 'ElCollapse',
-  props: {
-    accordion: Boolean,
-    modelValue: {
-      type: [Array, String, Number] as PropType<
-        string | number | Array<string | number>
-      >,
-      default: () => [],
-    },
-  },
-  emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT],
+  props: collapseProps,
+  emits: collapseEmits,
   setup(props, { emit }) {
     const activeNames = ref([].concat(props.modelValue))
 

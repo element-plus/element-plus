@@ -55,25 +55,13 @@ import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElIcon from '@element-plus/components/icon'
 import { ArrowRight } from '@element-plus/icons'
 
-import type { PropType } from 'vue'
-import type { CollapseProvider } from './collapse.type'
+import { collapseItemProps } from './collapse-item'
+import type { CollapseProvider } from './collapse'
 
 export default defineComponent({
   name: 'ElCollapseItem',
   components: { ElCollapseTransition, ElIcon, ArrowRight },
-  props: {
-    title: {
-      type: String,
-      default: '',
-    },
-    name: {
-      type: [String, Number] as PropType<string | number>,
-      default: () => {
-        return generateId()
-      },
-    },
-    disabled: Boolean,
-  },
+  props: collapseItemProps,
   setup(props) {
     const collapse = inject<CollapseProvider>('collapse')
 
