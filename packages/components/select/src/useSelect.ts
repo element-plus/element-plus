@@ -67,7 +67,7 @@ export const useSelect = (props, states: States, ctx) => {
   const tags = ref(null)
   const selectWrapper = ref<HTMLElement | null>(null)
   const scrollbar = ref(null)
-  const hoverOption = ref(-1)
+  const hoverOption = ref(null)
   const queryChange = shallowRef<QueryChangeCtx>({ query: '' })
   const groupQueryChange = shallowRef('')
 
@@ -304,6 +304,8 @@ export const useSelect = (props, states: States, ctx) => {
     (val) => {
       if (typeof val === 'number' && val > -1) {
         hoverOption.value = optionsArray.value[val] || {}
+      } else {
+        hoverOption.value = null
       }
       optionsArray.value.forEach((option) => {
         option.hover = hoverOption.value === option
@@ -569,6 +571,7 @@ export const useSelect = (props, states: States, ctx) => {
     ctx.emit(UPDATE_MODEL_EVENT, value)
     emitChange(value)
     states.visible = false
+    states.hoverIndex = -1
     ctx.emit('clear')
   }
 
