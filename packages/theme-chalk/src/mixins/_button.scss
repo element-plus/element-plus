@@ -27,17 +27,6 @@
 }
 
 @mixin button-variant($type) {
-  &.is-disabled {
-    &,
-    &:hover,
-    &:focus,
-    &:active {
-      color: $color-white;
-      background-color: map.get($colors, $type, 'light-5');
-      border-color: map.get($colors, $type, 'light-5');
-    }
-  }
-
   &.is-plain {
     @include button-plain(var(--el-button-bg-color), $type);
   }

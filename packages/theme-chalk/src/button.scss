@@ -163,30 +163,13 @@
   }
 
   @include m(default) {
+    --el-button-text-color: var(--el-text-color-regular);
     --el-button-hover-text-color: var(--el-color-primary);
+    --el-button-disabled-text-color: var(--el-text-color-placeholder);
   }
 
   @each $type in (primary, success, warning, danger, info) {
     @include m($type) {
-      --el-button-text-color: #{map.get($button-text-color, $type)};
-      --el-button-bg-color: #{map.get($button-bg-color, $type)};
-      --el-button-border-color: #{map.get($button-border-color, $type)};
-      --el-button-hover-bg-color: #{map.get($colors, $type, 'light-2')};
-      --el-button-hover-border-color: #{map.get($colors, $type, 'light-2')};
-      --el-button-hover-color: #{map.get($colors, $type, 'light-2')};
-      --el-button-active-text-color: #{darken(
-          map.get($button-text-color, $type),
-          $button-active-shade-percent
-        )};
-      --el-button-active-bg-color: #{darken(
-          map.get($button-bg-color, $type),
-          $button-active-shade-percent
-        )};
-      --el-button-active-border-color: #{darken(
-          map.get($button-border-color, $type),
-          $button-active-shade-percent
-        )};
-
       @include button-variant($type);
     }
   }

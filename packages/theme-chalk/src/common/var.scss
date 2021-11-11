@@ -516,15 +516,15 @@ $button: map.merge(
     'font-weight': var(--el-font-weight-primary),
     'border-color': var(--el-border-color-base),
     'bg-color': var(--el-color-white),
-    'text-color': var(--el-text-color-regular),
-    'disabled-text-color': var(--el-text-color-placeholder),
+    'text-color': var(--el-color-white),
+    'disabled-text-color': var(--el-button-text-color),
     'disabled-bg-color': var(--el-color-white),
     'disabled-border-color': var(--el-border-color-light),
     'divide-border-color': rgba($color-white, 0.5),
     'hover-text-color': var(--el-color-white),
     'hover-bg-color': var(--el-color-primary-light-9),
     'hover-border-color': var(--el-color-primary-light-7),
-    'active-text-color': var(--el-color-primary),
+    'active-text-color': var(--el-button-hover-text-color),
     'active-border-color': var(--el-color-primary),
   ),
   $button
@@ -551,13 +551,6 @@ $button-text-color: () !default;
       $type: map.get($colors, $type, 'base'),
     ),
     $button-bg-color
-  ) !global;
-
-  $button-text-color: map.merge(
-    (
-      $type: map.get($colors, 'white'),
-    ),
-    $button-text-color
   ) !global;
 }
 

@@ -88,30 +88,38 @@ export default defineComponent({
     const buttonStyle = computed(() => {
       let styles = {}
 
-      if (props.color) {
-        const typeColor = useCssVar(`--el-color-${props.type}`)
-        const buttonBgColor = useCssVar(`--el-button-bg-color`, buttonRef)
-        const bgColor = props.color || buttonBgColor.value || typeColor.value
+      const typeColor = useCssVar(`--el-color-${props.type}`)
+      const buttonColor = props.color || typeColor.value
 
-        const darkenBgColor = darken(bgColor, 0.1)
+      if (buttonColor) {
+        const darkenBgColor = darken(buttonColor, 0.1)
         if (props.plain) {
           styles = {
-            '--el-button-bg-color': lighten(bgColor, 0.9),
-            '--el-button-text-color': bgColor,
+            '--el-button-bg-color': lighten(buttonColor, 0.9),
+            '--el-button-text-color': buttonColor,
             '--el-button-hover-text-color': 'var(--el-color-white)',
-            '--el-button-hover-bg-color': bgColor,
-            '--el-button-hover-border-color': bgColor,
+            '--el-button-hover-bg-color': buttonColor,
+            '--el-button-hover-border-color': buttonColor,
             '--el-button-active-bg-color': darkenBgColor,
             '--el-button-active-text-color': 'var(--el-color-white)',
             '--el-button-active-border-color': darkenBgColor,
           }
         } else {
+          const lightenBgColor = lighten(buttonColor)
           styles = {
-            '--el-button-bg-color': bgColor,
-            '--el-button-hover-bg-color': lighten(bgColor),
+            '--el-button-bg-color': buttonColor,
+            '--el-button-border-color': buttonColor,
+            '--el-button-hover-bg-color': lightenBgColor,
+            '--el-button-hover-border-color': lightenBgColor,
             '--el-button-active-bg-color': darkenBgColor,
             '--el-button-active-border-color': darkenBgColor,
           }
+        }
+
+        if (buttonDisabled.value) {
+          const disabledButtonColor = lighten(buttonColor, 0.5)
+          styles['--el-button-disabled-bg-color'] = disabledButtonColor
+          styles['--el-button-disabled-border-color'] = disabledButtonColor
         }
       }
 
