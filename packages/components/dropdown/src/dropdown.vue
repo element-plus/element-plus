@@ -71,7 +71,7 @@ import { ArrowDown } from '@element-plus/icons'
 import { useDropdown } from './useDropdown'
 
 import type { Placement } from '@element-plus/components/popper'
-import type { PropType, ComponentPublicInstance } from 'vue'
+import type { PropType, ComponentPublicInstance, CSSProperties } from 'vue'
 import type { TriggerType } from '@element-plus/hooks/use-popper/use-target-events'
 import type { ButtonType } from '@element-plus/components/button/src/types'
 
@@ -137,7 +137,9 @@ export default defineComponent({
 
     const visible = ref(false)
     const scrollbar = ref(null)
-    const wrapStyle = computed(() => `max-height: ${addUnit(props.maxHeight)}`)
+    const wrapStyle = computed<CSSProperties>(() => ({
+      maxHeight: addUnit(props.maxHeight),
+    }))
 
     watch(
       () => visible.value,
