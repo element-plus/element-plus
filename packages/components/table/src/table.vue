@@ -258,7 +258,7 @@
 
 <script lang="ts">
 import { defineComponent, getCurrentInstance, computed } from 'vue'
-import debounce from 'lodash/debounce'
+import debounce from 'lodash/debounce.js'
 import { Mousewheel } from '@element-plus/directives'
 import { useLocaleInject } from '@element-plus/hooks'
 import { createStore } from './store/helper'

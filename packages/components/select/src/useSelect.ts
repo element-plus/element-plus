@@ -9,8 +9,8 @@ import {
   triggerRef,
 } from 'vue'
 import { isObject, toRawType } from '@vue/shared'
-import lodashDebounce from 'lodash/debounce'
-import isEqual from 'lodash/isEqual'
+import lodashDebounce from 'lodash/debounce.js'
+import isEqual from 'lodash/isEqual.js'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { useLocaleInject } from '@element-plus/hooks'

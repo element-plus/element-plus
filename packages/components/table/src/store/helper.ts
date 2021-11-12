@@ -1,5 +1,5 @@
 import { watch } from 'vue'
-import debounce from 'lodash/debounce'
+import debounce from 'lodash/debounce.js'
 import useStore from '.'
 
 import type { Store } from '.'

@@ -25,7 +25,7 @@ import {
   ref,
   watch,
 } from 'vue'
-import isEqual from 'lodash/isEqual'
+import isEqual from 'lodash/isEqual.js'
 import { EVENT_CODE, focusNode, getSibling } from '@element-plus/utils/aria'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import isServer from '@element-plus/utils/isServer'

@@ -76,7 +76,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref, nextTick, computed, onMounted, watch } from 'vue'
-import debounce from 'lodash/debounce'
+import debounce from 'lodash/debounce.js'
 import { RepeatClick } from '@element-plus/directives'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'

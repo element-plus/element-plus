@@ -39,7 +39,7 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
 import dayjs from 'dayjs'
-import localeData from 'dayjs/plugin/localeData'
+import localeData from 'dayjs/plugin/localeData.js'
 import { useLocaleInject } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
 import type { Dayjs } from 'dayjs'

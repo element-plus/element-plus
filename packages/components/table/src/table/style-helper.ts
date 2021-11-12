@@ -8,7 +8,7 @@ import {
   unref,
   nextTick,
 } from 'vue'
-import throttle from 'lodash/throttle'
+import throttle from 'lodash/throttle.js'
 import {
   addResizeListener,
   removeResizeListener,

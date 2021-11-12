@@ -1,5 +1,5 @@
 import { computed, inject, nextTick, ref, watch } from 'vue'
-import debounce from 'lodash/debounce'
+import debounce from 'lodash/debounce.js'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { off, on } from '@element-plus/utils/dom'
 

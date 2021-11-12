@@ -12,7 +12,7 @@ import {
   looseEqual,
   toRawType,
 } from '@vue/shared'
-import isEqualWith from 'lodash/isEqualWith'
+import isEqualWith from 'lodash/isEqualWith.js'
 import isServer from './isServer'
 import { debugWarn, throwError } from './error'
 

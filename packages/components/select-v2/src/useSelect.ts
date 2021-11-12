@@ -9,8 +9,8 @@ import {
   onBeforeMount,
 } from 'vue'
 import { isArray, isFunction, isObject } from '@vue/shared'
-import isEqual from 'lodash/isEqual'
-import lodashDebounce from 'lodash/debounce'
+import isEqual from 'lodash/isEqual.js'
+import lodashDebounce from 'lodash/debounce.js'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import { useLocaleInject } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'

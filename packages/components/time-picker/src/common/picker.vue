@@ -145,7 +145,7 @@ import {
   provide,
 } from 'vue'
 import dayjs from 'dayjs'
-import isEqual from 'lodash/isEqual'
+import isEqual from 'lodash/isEqual.js'
 import { useLocaleInject } from '@element-plus/hooks'
 import { ClickOutside } from '@element-plus/directives'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
