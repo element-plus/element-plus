@@ -58,14 +58,13 @@ import {
   getPropByPath,
   useGlobalConfig,
 } from '@element-plus/utils/util'
-import { isValidComponentSize } from '@element-plus/utils/validators'
 import { elFormItemKey, elFormKey } from '@element-plus/tokens'
 import LabelWrap from './label-wrap'
 
-import type { PropType, CSSProperties } from 'vue'
+import { formItemProps } from './form-item'
+import type { CSSProperties } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'
 import type { ElFormContext, ValidateFieldCallback } from '@element-plus/tokens'
-import type { FormItemRule } from './form.type'
 
 export default defineComponent({
   name: 'ElFormItem',
@@ -73,34 +72,7 @@ export default defineComponent({
   components: {
     LabelWrap,
   },
-  props: {
-    label: String,
-    labelWidth: {
-      type: [String, Number],
-      default: '',
-    },
-    prop: String,
-    required: {
-      type: Boolean,
-      default: undefined,
-    },
-    rules: [Object, Array] as PropType<FormItemRule | FormItemRule[]>,
-    error: String,
-    validateStatus: String,
-    for: String,
-    inlineMessage: {
-      type: [String, Boolean],
-      default: '',
-    },
-    showMessage: {
-      type: Boolean,
-      default: true,
-    },
-    size: {
-      type: String as PropType<ComponentSize>,
-      validator: isValidComponentSize,
-    },
-  },
+  props: formItemProps,
   setup(props, { slots }) {
     const $ELEMENT = useGlobalConfig()
 

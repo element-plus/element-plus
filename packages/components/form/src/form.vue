@@ -22,11 +22,8 @@ import {
 } from 'vue'
 import { elFormKey } from '@element-plus/tokens'
 import { debugWarn } from '@element-plus/utils/error'
+import { formEmits, formProps } from './form'
 import type { ValidateFieldsError } from 'async-validator'
-
-import type { PropType } from 'vue'
-import type { ComponentSize } from '@element-plus/utils/types'
-import type { FormRulesMap } from './form.type'
 import type {
   ElFormItemContext as FormItemCtx,
   ValidateFieldCallback,
@@ -75,38 +72,8 @@ export interface Callback {
 
 export default defineComponent({
   name: 'ElForm',
-  props: {
-    model: Object,
-    rules: Object as PropType<FormRulesMap>,
-    labelPosition: String,
-    labelWidth: {
-      type: [String, Number],
-      default: '',
-    },
-    labelSuffix: {
-      type: String,
-      default: '',
-    },
-    inline: Boolean,
-    inlineMessage: Boolean,
-    statusIcon: Boolean,
-    showMessage: {
-      type: Boolean,
-      default: true,
-    },
-    size: String as PropType<ComponentSize>,
-    disabled: Boolean,
-    validateOnRuleChange: {
-      type: Boolean,
-      default: true,
-    },
-    hideRequiredAsterisk: {
-      type: Boolean,
-      default: false,
-    },
-    scrollToError: Boolean,
-  },
-  emits: ['validate'],
+  props: formProps,
+  emits: formEmits,
   setup(props, { emit }) {
     const fields: FormItemCtx[] = []
 
