@@ -17,7 +17,7 @@
   font-size: 14px;
   color: var(--el-table-font-color);
 
-  // 数据为空
+  // when data is empty
   @include e(empty-block) {
     min-height: 60px;
     text-align: center;
@@ -35,7 +35,7 @@
     color: var(--el-text-color-secondary);
   }
 
-  // 展开行
+  // expand the row
   @include e(expand-column) {
     .cell {
       padding: 0;
@@ -63,7 +63,7 @@
   @include e(expanded-cell) {
     background-color: var(--el-table-expanded-cell-background-color);
 
-    // 纯属为了增加权重
+    // increase the weight purely
     &[class*='cell'] {
       padding: 20px 50px;
     }
@@ -79,7 +79,7 @@
   }
 
   @include e(append-wrapper) {
-    // 避免外边距重合 https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing
+    // avoid overlapping margin https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing
     overflow: hidden;
   }
 
