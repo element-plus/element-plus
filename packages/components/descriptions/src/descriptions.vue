@@ -33,8 +33,8 @@
 <script lang="ts">
 import { computed, defineComponent, provide } from 'vue'
 import { useGlobalConfig } from '@element-plus/utils/util'
+import { elDescriptionsKey } from '@element-plus/tokens'
 import DescriptionsRow from './descriptions-row.vue'
-import { elDescriptionsKey } from './token'
 
 import { descriptionsProps } from './descriptions'
 

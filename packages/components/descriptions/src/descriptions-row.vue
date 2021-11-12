@@ -24,8 +24,8 @@
 
 <script lang="ts">
 import { defineComponent, inject } from 'vue'
+import { elDescriptionsKey } from '@element-plus/tokens'
 import DescriptionsCell from './descriptions-cell'
-import { elDescriptionsKey } from './token'
 
 import type { DescriptionsProps } from './descriptions'
 
