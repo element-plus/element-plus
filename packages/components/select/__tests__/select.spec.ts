@@ -2,7 +2,7 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { sleep } from '@element-plus/test-utils'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { CircleClose } from '@element-plus/icons'
+import { CircleClose, ArrowUp, CaretTop } from '@element-plus/icons'
 import Select from '../src/select.vue'
 import Group from '../src/option-group.vue'
 import Option from '../src/option.vue'
@@ -538,6 +538,15 @@ describe('Select', () => {
     expect(iconClear.exists()).toBe(true)
     await iconClear.trigger('click')
     expect(vm.value).toBe('')
+  })
+
+  test('suffix icon', async () => {
+    const wrapper = _mount(`<el-select></el-select>`)
+    let suffixIcon = wrapper.findComponent(ArrowUp)
+    expect(suffixIcon.exists()).toBe(true)
+    await wrapper.setProps({ suffixIcon: CaretTop })
+    suffixIcon = wrapper.findComponent(CaretTop)
+    expect(suffixIcon.exists()).toBe(true)
   })
 
   test('fitInputWidth', async () => {

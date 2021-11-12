@@ -146,6 +146,7 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 | automatic-dropdown    | for non-filterable Select, this prop decides if the option menu pops up when the input is focused                           | boolean                            | -                       | false            |
 | clear-icon            | Custom clear icon component                                                                                                 | string / Component                 | —                       | CircleClose      |
 | fit-input-width       | whether the width of the dropdown is the same as the input                                                                  | boolean                            | —                       | false            |
+| suffix-icon           | Custom suffix icon component                                                                                                | string / Component                 | —                       | ArrowUp          |
 
 ## Select Events
 
