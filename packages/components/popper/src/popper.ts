@@ -5,7 +5,7 @@ import type { ExtractPropTypes, StyleValue } from 'vue'
 import type { Placement, Options } from '@popperjs/core'
 
 const effects = ['light', 'dark'] as const
-const triggers = ['click', 'contextmenu', 'hover', 'focus', 'manual'] as const
+const triggers = ['click', 'contextmenu', 'hover', 'focus'] as const
 
 export type PopperEffect = typeof effects[number]
 export type PopperTrigger = typeof triggers[number]
@@ -135,6 +135,9 @@ export const usePopperProps = buildProps({
     type: definePropType<string | PopperTrigger[]>([String, Array]),
     values: triggers,
     default: 'hover',
+  },
+  triggeringElement: {
+    type: definePropType<HTMLElement>(Object),
   },
   visible: {
     type: Boolean,

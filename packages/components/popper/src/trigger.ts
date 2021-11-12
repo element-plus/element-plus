@@ -20,6 +20,7 @@ export default defineComponent({
     onMouseleave: { type: definePropType<(e: Event) => void>(Function) },
     onMousedown: { type: definePropType<(e: Event) => void>(Function) },
     onMouseup: { type: definePropType<(e: Event) => void>(Function) },
+    onContextmenu: { type: definePropType<(e: Event) => void>(Function) },
   }),
   setup(props, { slots, expose }) {
     const triggerRef = ref()
@@ -38,20 +39,27 @@ export default defineComponent({
         children,
         {
           ...props,
-          onClick: composeEventHandler(props.onClick, props.onClick),
+          onClick: composeEventHandler(children.props?.onClick, props.onClick),
+          onContextmenu: composeEventHandler(
+            children.props?.onContextmenu,
+            props.onContextmenu
+          ),
           onMouseenter: composeEventHandler(
-            props.onMouseenter,
+            children.props?.onMouseenter,
             props.onMouseenter
           ),
           onMouseleave: composeEventHandler(
-            props.onMouseleave,
+            children.props?.onMouseleave,
             props.onMouseleave
           ),
           onMousedown: composeEventHandler(
-            props.onMousedown,
+            children.props?.onMousedown,
             props.onMousedown
           ),
-          onMouseup: composeEventHandler(props.onMouseup, props.onMouseup),
+          onMouseup: composeEventHandler(
+            children.props?.onMouseup,
+            props.onMouseup
+          ),
           ref: triggerRef,
         },
         true

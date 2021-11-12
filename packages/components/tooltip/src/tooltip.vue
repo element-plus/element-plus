@@ -1,23 +1,24 @@
 <template>
   <el-popper
-    v-bind="$attrs"
+    ref="popperRef"
     v-model:visible="modelValue"
-    @update:visible="$emit('update:modelValue')"
+    v-bind="$attrs"
     :show-after="compatShowAfter"
     :show-arrow="compatShowArrow"
+    @update:visible="$emit('update:modelValue')"
   >
     <template #default>
       <slot name="content" />
     </template>
 
-    <template #trigger>
+    <template v-if="$slots.default" #trigger>
       <slot />
     </template>
   </el-popper>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, ref } from 'vue'
 import ElPopper from '@element-plus/components/popper'
 import { useModelToggleProps, useModelToggleEmits } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils/error'
@@ -39,13 +40,6 @@ export default defineComponent({
   },
   emits: useModelToggleEmits,
   setup(props, { attrs }) {
-    console.log(
-      props.openDelay,
-      props.visibleArrow,
-      attrs.showAfter,
-      attrs.showArrow
-    )
-
     return {
       compatShowAfter: computed(() => {
         if (!isUndefined(props.openDelay)) {
@@ -67,6 +61,7 @@ export default defineComponent({
           ? props.visibleArrow
           : (attrs.showArrow as boolean)
       }),
+      popperRef: ref(),
     }
   },
 })

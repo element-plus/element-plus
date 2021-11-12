@@ -61,6 +61,27 @@ Disabled form elements are not supported for Tooltip, more information can be fo
 
 :::
 
+## Virtual triggering
+
+Sometimes we want to render the tooltip on some other trigger element,
+we can separate the trigger and the content.
+
+:::demo
+
+tooltip/virtual-trigger
+
+:::
+
+## Controlled
+
+Tooltip can be controlled by the parent component, using v-model you can implement two way binding.
+
+:::demo
+
+tooltip/controlled
+
+:::
+
 ## Attributes
 
 | Attribute             | Description                                                                                                                   | Type    | Accepted Values                                                                                           | Default                                                 |
