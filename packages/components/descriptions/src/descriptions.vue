@@ -33,44 +33,17 @@
 <script lang="ts">
 import { computed, defineComponent, provide } from 'vue'
 import { useGlobalConfig } from '@element-plus/utils/util'
-import { isValidComponentSize } from '@element-plus/utils/validators'
 import DescriptionsRow from './descriptions-row.vue'
 import { elDescriptionsKey } from './token'
 
-import type { PropType } from 'vue'
-import type { ComponentSize } from '@element-plus/utils/types'
+import { descriptionsProps } from './descriptions'
 
 export default defineComponent({
   name: 'ElDescriptions',
   components: {
     [DescriptionsRow.name]: DescriptionsRow,
   },
-  props: {
-    border: {
-      type: Boolean,
-      default: false,
-    },
-    column: {
-      type: Number,
-      default: 3,
-    },
-    direction: {
-      type: String as PropType<'horizontal' | 'vertical'>,
-      default: 'horizontal',
-    },
-    size: {
-      type: String as PropType<ComponentSize>,
-      validator: isValidComponentSize,
-    },
-    title: {
-      type: String,
-      default: '',
-    },
-    extra: {
-      type: String,
-      default: '',
-    },
-  },
+  props: descriptionsProps,
   setup(props, { slots }) {
     provide(elDescriptionsKey, props)
 

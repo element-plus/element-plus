@@ -1,5 +1,5 @@
 import type { InjectionKey } from 'vue'
-import type { IDescriptionsInject } from './descriptions.type'
+import type { DescriptionsProps } from './descriptions'
 
 export const elDescriptionsKey =
-  'elDescriptions' as any as InjectionKey<IDescriptionsInject>
+  'elDescriptions' as any as InjectionKey<DescriptionsProps>

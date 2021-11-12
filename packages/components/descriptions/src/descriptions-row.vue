@@ -27,7 +27,7 @@ import { defineComponent, inject } from 'vue'
 import DescriptionsCell from './descriptions-cell'
 import { elDescriptionsKey } from './token'
 
-import type { IDescriptionsInject } from './descriptions.type'
+import type { DescriptionsProps } from './descriptions'
 
 export default defineComponent({
   name: 'ElDescriptionsRow',
@@ -40,7 +40,7 @@ export default defineComponent({
     },
   },
   setup() {
-    const descriptions = inject(elDescriptionsKey, {} as IDescriptionsInject)
+    const descriptions = inject(elDescriptionsKey, {} as DescriptionsProps)
 
     return {
       descriptions,
