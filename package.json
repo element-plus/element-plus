@@ -29,7 +29,8 @@
     "docs:gen-locale": "pnpm run -C docs gen-locale",
     "docs:crowdin-credentials": "pnpm run -C docs crowdin-credentials",
     "prepare": "husky install",
-    "postinstall": "pnpm gen:version"
+    "postinstall": "pnpm gen:version",
+    "preinstall": "npx only-allow pnpm -y"
   },
   "config": {
     "commitizen": {
