@@ -105,7 +105,7 @@
     "pretty-quick": "3.1.1",
     "resize-observer-polyfill": "1.5.1",
     "rimraf": "3.0.2",
-    "rollup": "2.59.0",
+    "rollup": "2.60.0",
     "rollup-plugin-css-only": "3.1.0",
     "rollup-plugin-esbuild": "4.6.0",
     "rollup-plugin-filesize": "9.1.1",
