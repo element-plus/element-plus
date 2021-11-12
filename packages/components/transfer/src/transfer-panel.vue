@@ -65,7 +65,8 @@ import { ElCheckbox, ElCheckboxGroup } from '@element-plus/components/checkbox'
 import ElIcon from '@element-plus/components/icon'
 import ElInput from '@element-plus/components/input'
 import { CircleClose, Search } from '@element-plus/icons'
-import { useCheck, useCheckProps, CHECKED_CHANGE_EVENT } from './useCheck'
+import { useCheck, CHECKED_CHANGE_EVENT } from './useCheck'
+import { transferPanelProps } from './transfer-panel'
 
 export default defineComponent({
   name: 'ElTransferPanel',
@@ -78,7 +79,7 @@ export default defineComponent({
     OptionContent: ({ option }) => option,
   },
 
-  props: useCheckProps,
+  props: transferPanelProps,
 
   emits: [CHECKED_CHANGE_EVENT],
 

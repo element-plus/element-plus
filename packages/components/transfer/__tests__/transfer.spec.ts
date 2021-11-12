@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import Transfer from '../src/index.vue'
+import Transfer from '../src/transfer.vue'
 
 describe('Transfer', () => {
   const getTestData = () => {

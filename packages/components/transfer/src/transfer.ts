@@ -1,8 +1,10 @@
-import { CHANGE_EVENT } from '@element-plus/utils/constants'
-
-import type { VNode } from 'vue'
-
-export { CHANGE_EVENT }
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { buildProps, definePropType } from '@element-plus/utils/props'
+import {
+  LEFT_CHECK_CHANGE_EVENT,
+  RIGHT_CHECK_CHANGE_EVENT,
+} from './useCheckedChange'
+import type { VNode, ExtractPropTypes } from 'vue'
 
 export type Key = string | number
 
@@ -25,43 +27,79 @@ export type Props = {
 
 export type TargetOrder = 'original' | 'push' | 'unshift'
 
-export interface TransferProps {
-  data: DataItem[]
-  titles: [string, string]
-  buttonTexts: [string, string]
-  filterPlaceholder: string
-  filterMethod?: (query: string, item: DataItem) => boolean
-  leftDefaultChecked: Key[]
-  rightDefaultChecked: Key[]
-  renderContent?: (h, option) => VNode
-  modelValue: Key[]
-  format: Format
-  filterable: boolean
-  props: Props
-  targetOrder: TargetOrder
+export const transferProps = buildProps({
+  data: {
+    type: definePropType<DataItem[]>(Array),
+    default: () => [],
+  },
+  titles: {
+    type: definePropType<any>(Array),
+    default: () => [],
+  },
+  buttonTexts: {
+    type: definePropType<any>(Array),
+    default: () => [],
+  },
+  filterPlaceholder: {
+    type: String,
+    default: '',
+  },
+  filterMethod: {
+    type: definePropType<(query: string, item: DataItem) => boolean>(Function),
+  },
+  leftDefaultChecked: {
+    type: definePropType<Key[]>(Array),
+    default: () => [],
+  },
+  rightDefaultChecked: {
+    type: definePropType<Key[]>(Array),
+    default: () => [],
+  },
+  renderContent: {
+    type: definePropType<(h, option) => VNode>(Function),
+  },
+  modelValue: {
+    type: definePropType<Key[]>(Array),
+    default: () => [],
+  },
+  format: {
+    type: definePropType<Format>(Object),
+    default: () => ({
+      noChecked: '',
+      hasChecked: '',
+    }),
+  },
+  filterable: {
+    type: Boolean,
+    default: false,
+  },
+  props: {
+    type: definePropType<Props>(Object),
+    default: () => ({
+      label: 'label',
+      key: 'key',
+      disabled: 'disabled',
+    }),
+  },
+  targetOrder: {
+    type: definePropType<TargetOrder>(String),
+    default: 'original',
+    values: ['original', 'push', 'unshift'],
+  },
+} as const)
+
+export type TransferProps = ExtractPropTypes<typeof transferProps>
+
+export const transferEmits = {
+  [UPDATE_MODEL_EVENT]: (val: any) => val,
+  [CHANGE_EVENT]: (val: any) => val,
+  [LEFT_CHECK_CHANGE_EVENT]: (val: any) => val,
+  [RIGHT_CHECK_CHANGE_EVENT]: (val: any) => val,
 }
+
+export type TransferEmits = typeof transferEmits
 
 export interface TransferCheckedState {
   leftChecked: Key[]
   rightChecked: Key[]
-}
-
-export interface TransferPanelProps {
-  data: DataItem[]
-  optionRender: ({ option: VNode }) => VNode
-  placeholder: string
-  title: string
-  filterable: boolean
-  format: Format
-  filterMethod: (query: string, item: DataItem) => boolean
-  defaultChecked: Key[]
-  props: Props
-}
-
-export interface TransferPanelState {
-  checked: Key[]
-  allChecked: boolean
-  query: string
-  inputHover: boolean
-  checkChangeByUser: boolean
 }

@@ -68,21 +68,14 @@ import ElButton from '@element-plus/components/button'
 import ElIcon from '@element-plus/components/icon'
 import { elFormItemKey } from '@element-plus/tokens'
 import { useLocaleInject } from '@element-plus/hooks'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons'
 import TransferPanel from './transfer-panel.vue'
 import { useComputedData } from './useComputedData'
-import {
-  useCheckedChange,
-  LEFT_CHECK_CHANGE_EVENT,
-  RIGHT_CHECK_CHANGE_EVENT,
-} from './useCheckedChange'
+import { useCheckedChange } from './useCheckedChange'
 import { useMove } from './useMove'
-import { CHANGE_EVENT } from './transfer'
 
-import type { PropType, VNode } from 'vue'
+import { transferProps, transferEmits } from './transfer'
 import type { ElFormItemContext } from '@element-plus/tokens'
-import type { DataItem, Format, Key, Props, TargetOrder } from './transfer'
 
 export default defineComponent({
   name: 'ElTransfer',
@@ -95,70 +88,8 @@ export default defineComponent({
     ArrowRight,
   },
 
-  props: {
-    data: {
-      type: Array as PropType<DataItem[]>,
-      default: () => [],
-    },
-    titles: {
-      type: Array as PropType<any> as PropType<[string, string]>,
-      default: () => [],
-    },
-    buttonTexts: {
-      type: Array as PropType<any> as PropType<[string, string]>,
-      default: () => [],
-    },
-    filterPlaceholder: {
-      type: String,
-      default: '',
-    },
-    filterMethod: Function as PropType<
-      (query: string, item: DataItem) => boolean
-    >,
-    leftDefaultChecked: {
-      type: Array as PropType<Key[]>,
-      default: () => [],
-    },
-    rightDefaultChecked: {
-      type: Array as PropType<Key[]>,
-      default: () => [],
-    },
-    renderContent: Function as PropType<(h, option) => VNode>,
-    modelValue: {
-      type: Array as PropType<Key[]>,
-      default: () => [],
-    },
-    format: {
-      type: Object as PropType<Format>,
-      default: () => ({}),
-    },
-    filterable: {
-      type: Boolean,
-      default: false,
-    },
-    props: {
-      type: Object as PropType<Props>,
-      default: () => ({
-        label: 'label',
-        key: 'key',
-        disabled: 'disabled',
-      }),
-    },
-    targetOrder: {
-      type: String as PropType<TargetOrder>,
-      default: 'original',
-      validator: (val: string) => {
-        return ['original', 'push', 'unshift'].includes(val)
-      },
-    },
-  },
-
-  emits: [
-    UPDATE_MODEL_EVENT,
-    CHANGE_EVENT,
-    LEFT_CHECK_CHANGE_EVENT,
-    RIGHT_CHECK_CHANGE_EVENT,
-  ],
+  props: transferProps,
+  emits: transferEmits,
 
   setup(props, { emit, slots }) {
     const { t } = useLocaleInject()
