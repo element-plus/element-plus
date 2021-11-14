@@ -10,11 +10,6 @@ export interface StepItemState {
   calcProgress: (status: string) => void
 }
 
-export interface StepsContext {
-  props: StepsProps
-  steps: Ref<StepItemState[]>
-}
-
 export const stepProps = buildProps({
   title: {
     type: String,
