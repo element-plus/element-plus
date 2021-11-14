@@ -10,7 +10,7 @@ export interface StepItemState {
   calcProgress: (status: string) => void
 }
 
-export interface StepsInject {
+export interface StepsContext {
   props: StepsProps
   steps: Ref<StepItemState[]>
 }
@@ -33,7 +33,7 @@ export const stepProps = buildProps({
     default: '',
     values: ['', 'wait', 'process', 'finish', 'error', 'success'],
   },
-})
+} as const)
 
 export type StepProps = ExtractPropTypes<typeof stepProps>
 

@@ -60,13 +60,15 @@ import {
 import { ElIcon } from '@element-plus/components/icon'
 import { Close, Check } from '@element-plus/icons-vue'
 
-import { elStepsKey } from '@element-plus/tokens/steps'
+import { stepsContextKey } from '@element-plus/tokens/steps'
 import { throwError } from '@element-plus/utils/error'
 import { stepProps } from './step'
-import type { StepsInject } from './step'
+import type { StepsContext } from './step'
+
+const COMPONENT_NAME = 'ElStep'
 
 export default defineComponent({
-  name: 'ElStep',
+  name: COMPONENT_NAME,
   components: {
     ElIcon,
     Close,
@@ -74,12 +76,12 @@ export default defineComponent({
   },
   props: stepProps,
   setup(props) {
+    const parent: StepsContext = inject(stepsContextKey)!
+    if (!parent) throwError(COMPONENT_NAME, 'must be nested inside ElSteps')
+
     const index = ref(-1)
     const lineStyle = ref({})
     const internalStatus = ref('')
-    const parent: StepsInject = inject(elStepsKey)!
-
-    if (!parent) throwError('ElStep', 'must be nested inside ElSteps')
 
     const currentInstance = getCurrentInstance()!
 
