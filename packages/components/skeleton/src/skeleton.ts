@@ -1,5 +1,5 @@
 import { buildProps } from '@element-plus/utils/props'
-import type ElSkeleton from './skeleton.vue'
+import type Skeleton from './skeleton.vue'
 import type { ExtractPropTypes } from 'vue'
 
 export const skeletonProps = buildProps({
@@ -25,4 +25,4 @@ export const skeletonProps = buildProps({
 } as const)
 export type SkeletonProps = ExtractPropTypes<typeof skeletonProps>
 
-export type SkeletonInstance = InstanceType<typeof ElSkeleton>
+export type SkeletonInstance = InstanceType<typeof Skeleton>

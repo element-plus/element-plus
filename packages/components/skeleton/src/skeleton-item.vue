@@ -12,7 +12,7 @@ import { skeletonItemProps } from './skeleton-item'
 export default defineComponent({
   name: 'ElSkeletonItem',
   components: {
-    [ImgPlaceholder.name]: ImgPlaceholder,
+    ImgPlaceholder,
   },
   props: skeletonItemProps,
 })
