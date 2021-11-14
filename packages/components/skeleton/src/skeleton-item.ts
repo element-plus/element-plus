@@ -1,4 +1,5 @@
 import { buildProps, definePropType } from '@element-plus/utils/props'
+import type ElSkeletonItem from './skeleton-item.vue'
 import type { ExtractPropTypes } from 'vue'
 
 export type Variants =
@@ -19,3 +20,5 @@ export const skeletonItemProps = buildProps({
   },
 } as const)
 export type SkeletonItemProps = ExtractPropTypes<typeof skeletonItemProps>
+
+export type SkeletonItemInstance = InstanceType<typeof ElSkeletonItem>
