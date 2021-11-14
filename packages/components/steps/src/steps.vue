@@ -12,14 +12,16 @@
 <script lang="ts">
 import { defineComponent, watch, ref, provide } from 'vue'
 import { CHANGE_EVENT } from '@element-plus/utils/constants'
+import { elStepsKey } from '@element-plus/tokens/steps'
 import { stepsProps, stepsEmits } from './steps'
+import type { StepItemState } from './step'
 
 export default defineComponent({
   name: 'ElSteps',
   props: stepsProps,
   emits: stepsEmits,
   setup(props, { emit }) {
-    const steps = ref([])
+    const steps = ref<StepItemState[]>([])
 
     watch(steps, () => {
       steps.value.forEach((instance, index) => {
@@ -27,7 +29,7 @@ export default defineComponent({
       })
     })
 
-    provide('ElSteps', { props, steps })
+    provide(elStepsKey, { props, steps })
 
     watch(
       () => props.active,

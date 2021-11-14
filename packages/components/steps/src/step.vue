@@ -60,8 +60,10 @@ import {
 import { ElIcon } from '@element-plus/components/icon'
 import { Close, Check } from '@element-plus/icons'
 
+import { elStepsKey } from '@element-plus/tokens/steps'
+import { throwError } from '@element-plus/utils/error'
 import { stepProps } from './step'
-import type { IStepsInject } from './step'
+import type { StepsInject } from './step'
 
 export default defineComponent({
   name: 'ElStep',
@@ -75,7 +77,10 @@ export default defineComponent({
     const index = ref(-1)
     const lineStyle = ref({})
     const internalStatus = ref('')
-    const parent: IStepsInject = inject('ElSteps')
+    const parent: StepsInject = inject(elStepsKey)!
+
+    if (!parent) throwError('ElStep', 'must be nested inside ElSteps')
+
     const currentInstance = getCurrentInstance()!
 
     onMounted(() => {
