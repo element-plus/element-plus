@@ -12,7 +12,7 @@
 <script lang="ts">
 import { defineComponent, watch, ref, provide } from 'vue'
 import { CHANGE_EVENT } from '@element-plus/utils/constants'
-import { elStepsKey } from '@element-plus/tokens/steps'
+import { stepsContextKey } from '@element-plus/tokens/steps'
 import { stepsProps, stepsEmits } from './steps'
 import type { StepItemState } from './step'
 
@@ -29,7 +29,7 @@ export default defineComponent({
       })
     })
 
-    provide(elStepsKey, { props, steps })
+    provide(stepsContextKey, { props, steps })
 
     watch(
       () => props.active,
