@@ -325,17 +325,13 @@ export default defineComponent({
             'aria-selected': pane.active,
             ref: `tab-${tabName}`,
             tabindex,
-            onFocus: () => {
-              setFocus()
-            },
-            onBlur: () => {
-              removeFocus()
-            },
-            onClick: (ev) => {
+            onFocus: () => setFocus(),
+            onBlur: () => removeFocus(),
+            onClick: (ev: MouseEvent) => {
               removeFocus()
               props.onTabClick(pane, tabName, ev)
             },
-            onKeydown: (ev) => {
+            onKeydown: (ev: KeyboardEvent) => {
               if (
                 closable &&
                 (ev.code === EVENT_CODE.delete ||
@@ -380,7 +376,7 @@ export default defineComponent({
                       : '',
                   ],
                   ref: nav$,
-                  style: navStyle,
+                  style: navStyle.value,
                   role: 'tablist',
                   onKeydown: changeTab,
                 },
