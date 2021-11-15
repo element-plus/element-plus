@@ -16,24 +16,13 @@
 <script lang="ts">
 import { defineComponent, getCurrentInstance } from 'vue'
 import ElIcon from '@element-plus/components/icon'
-import { buildProps, definePropType } from '@element-plus/utils/props'
 import { useDropdown } from './useDropdown'
-import type { Component } from 'vue'
+import { dropdownItemProps } from './dropdown-item'
 
 export default defineComponent({
   name: 'ElDropdownItem',
   components: { ElIcon },
-  props: buildProps({
-    command: {
-      type: [Object, String, Number],
-      default: () => ({}),
-    },
-    disabled: Boolean,
-    divided: Boolean,
-    icon: {
-      type: definePropType<string | Component>([String, Object]),
-    },
-  } as const),
+  props: dropdownItemProps,
   setup(props) {
     const { elDropdown } = useDropdown()
     const _instance = getCurrentInstance()
@@ -44,7 +33,7 @@ export default defineComponent({
         e.stopImmediatePropagation()
         return
       }
-      if (elDropdown.hideOnClick.value) {
+      if (elDropdown.hideOnClick!.value) {
         elDropdown.handleClick?.()
       }
       elDropdown.commandHandler?.(props.command, _instance, e)

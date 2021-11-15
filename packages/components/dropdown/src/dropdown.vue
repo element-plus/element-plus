@@ -62,7 +62,7 @@ import {
   onMounted,
 } from 'vue'
 import ElButton from '@element-plus/components/button'
-import ElPopper, { Effect } from '@element-plus/components/popper'
+import ElPopper from '@element-plus/components/popper'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'
 import { on, addClass, removeClass } from '@element-plus/utils/dom'
@@ -70,10 +70,8 @@ import { addUnit } from '@element-plus/utils/util'
 import { ArrowDown } from '@element-plus/icons'
 import { useDropdown } from './useDropdown'
 
-import type { Placement } from '@element-plus/components/popper'
-import type { PropType, ComponentPublicInstance, CSSProperties } from 'vue'
-import type { TriggerType } from '@element-plus/hooks/use-popper/use-target-events'
-import type { ButtonType } from '@element-plus/components/button/src/types'
+import { dropdownProps, dropdownEmits } from './dropdown'
+import type { ComponentPublicInstance, CSSProperties } from 'vue'
 
 type Nullable<T> = null | T
 const { ButtonGroup: ElButtonGroup } = ElButton
@@ -88,47 +86,8 @@ export default defineComponent({
     ElIcon,
     ArrowDown,
   },
-  props: {
-    trigger: {
-      type: String as PropType<TriggerType | 'contextmenu'>,
-      default: 'hover',
-    },
-    type: String as PropType<ButtonType>,
-    size: {
-      type: String,
-      default: '',
-    },
-    splitButton: Boolean,
-    hideOnClick: {
-      type: Boolean,
-      default: true,
-    },
-    placement: {
-      type: String as PropType<Placement>,
-      default: 'bottom',
-    },
-    showTimeout: {
-      type: Number,
-      default: 150,
-    },
-    hideTimeout: {
-      type: Number,
-      default: 150,
-    },
-    tabindex: {
-      type: [Number, String],
-      default: 0,
-    },
-    effect: {
-      type: String as PropType<Effect>,
-      default: Effect.LIGHT,
-    },
-    maxHeight: {
-      type: [Number, String],
-      default: '',
-    },
-  },
-  emits: ['visible-change', 'click', 'command'],
+  props: dropdownProps,
+  emits: dropdownEmits,
   setup(props, { emit }) {
     const _instance = getCurrentInstance()
     const { ELEMENT } = useDropdown()
@@ -198,7 +157,7 @@ export default defineComponent({
       if (props.tabindex >= 0) {
         resetTabindex(triggerElm.value)
       }
-      clearTimeout(timeout.value)
+      clearTimeout(timeout.value!)
       timeout.value = window.setTimeout(
         () => {
           visible.value = false
@@ -245,23 +204,23 @@ export default defineComponent({
 
     onMounted(() => {
       if (!props.splitButton) {
-        on(triggerElm.value, 'focus', () => {
+        on(triggerElm.value!, 'focus', () => {
           focusing.value = true
         })
-        on(triggerElm.value, 'blur', () => {
+        on(triggerElm.value!, 'blur', () => {
           focusing.value = false
         })
-        on(triggerElm.value, 'click', () => {
+        on(triggerElm.value!, 'click', () => {
           focusing.value = false
         })
       }
       if (props.trigger === 'hover') {
-        on(triggerElm.value, 'mouseenter', show)
-        on(triggerElm.value, 'mouseleave', hide)
+        on(triggerElm.value!, 'mouseenter', show)
+        on(triggerElm.value!, 'mouseleave', hide)
       } else if (props.trigger === 'click') {
-        on(triggerElm.value, 'click', handleClick)
+        on(triggerElm.value!, 'click', handleClick)
       } else if (props.trigger === 'contextmenu') {
-        on(triggerElm.value, 'contextmenu', (e) => {
+        on(triggerElm.value!, 'contextmenu', (e) => {
           e.preventDefault()
           handleClick()
         })

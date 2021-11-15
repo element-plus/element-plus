@@ -45,8 +45,8 @@ export const initDropdownDomEvent = (
     const code = ev.code
     if ([EVENT_CODE.up, EVENT_CODE.down].includes(code)) {
       removeTabindex()
-      resetTabindex(menuItems.value[0])
-      menuItems.value[0].focus()
+      resetTabindex(menuItems.value![0])
+      menuItems.value![0].focus()
       ev.preventDefault()
       ev.stopPropagation()
     } else if (code === EVENT_CODE.enter) {
@@ -59,8 +59,8 @@ export const initDropdownDomEvent = (
   function handleItemKeyDown(ev) {
     const code = ev.code
     const target = ev.target
-    const currentIndex = menuItemsArray.value.indexOf(target)
-    const max = menuItemsArray.value.length - 1
+    const currentIndex = menuItemsArray.value!.indexOf(target)
+    const max = menuItemsArray.value!.length - 1
     let nextIndex
     if ([EVENT_CODE.up, EVENT_CODE.down].includes(code)) {
       if (code === EVENT_CODE.up) {
@@ -69,8 +69,8 @@ export const initDropdownDomEvent = (
         nextIndex = currentIndex < max ? currentIndex + 1 : max
       }
       removeTabindex()
-      resetTabindex(menuItems.value[nextIndex])
-      menuItems.value[nextIndex].focus()
+      resetTabindex(menuItems.value![nextIndex])
+      menuItems.value![nextIndex].focus()
       ev.preventDefault()
       ev.stopPropagation()
     } else if (code === EVENT_CODE.enter) {
@@ -86,7 +86,7 @@ export const initDropdownDomEvent = (
   }
 
   function initAria() {
-    dropdownElm.value.setAttribute('id', listId.value)
+    dropdownElm.value!.setAttribute('id', listId.value)
     triggerElm.setAttribute('aria-haspopup', 'list')
     triggerElm.setAttribute('aria-controls', listId.value)
     if (!_instance.props.splitButton) {
@@ -98,11 +98,11 @@ export const initDropdownDomEvent = (
 
   function initEvent() {
     on(triggerElm, 'keydown', handleTriggerKeyDown)
-    on(dropdownElm.value, 'keydown', handleItemKeyDown, true)
+    on(dropdownElm.value!, 'keydown', handleItemKeyDown, true)
   }
 
   function initDomOperation() {
-    menuItems.value = dropdownElm.value.querySelectorAll(
+    menuItems.value = dropdownElm.value!.querySelectorAll(
       "[tabindex='-1']"
     ) as unknown as HTMLButtonElement[]
     menuItemsArray.value = [].slice.call(menuItems.value)
