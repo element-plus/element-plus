@@ -143,6 +143,9 @@ export const usePopperProps = buildProps({
     type: Boolean,
     default: null as any,
   },
+  ['onUpdate:visible']: {
+    type: Function,
+  },
   ...usePopperCoreConfigProps,
 } as const)
 

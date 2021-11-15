@@ -1,11 +1,11 @@
 <template>
   <el-popper
     ref="popperRef"
-    v-model:visible="modelValue"
+    :visible="modelValue"
     v-bind="$attrs"
     :show-after="compatShowAfter"
     :show-arrow="compatShowArrow"
-    @update:visible="$emit('update:modelValue')"
+    @update:visible="$emit('update:modelValue', modelValue)"
   >
     <template #default>
       <slot name="content" />

@@ -35,8 +35,7 @@
     >
       <transition :name="transition" v-bind="transitionFallthrough">
         <div
-          v-if="persistent || isShow"
-          v-show="isShow"
+          v-show="intermediateShow"
           :id="popperId"
           ref="popperRef"
           :class="contentKls"
@@ -64,7 +63,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, ref, unref } from 'vue'
+import { computed, defineComponent, nextTick, ref, unref, watch } from 'vue'
 import { createPopper } from '@popperjs/core'
 import ElTeleport from '@element-plus/components/teleport'
 import { ClickOutside } from '@element-plus/directives'
@@ -80,6 +79,7 @@ import {
   isHTMLElement,
   isString,
   isArray,
+  isBool,
 } from '@element-plus/utils/util'
 import { stop } from '@element-plus/utils/dom'
 
@@ -108,7 +108,11 @@ export default defineComponent({
     const triggerRef = ref<{ el: Ref<HTMLElement | ComponentPublicInstance> }>()
     const popperRef = ref<HTMLElement>()
     const arrowRef = ref<HTMLElement>()
-    const isShow = ref(props.visible || false)
+    const isShow = ref(false)
+    // Intermediate show is for the transition
+    // Since when show is true, when persistent is not true, it will cause the component bouncing
+    // using this intermediate show to avoid the bouncing only under controlled mode and not persistent.
+    const intermediateShow = ref(false)
     const renderTeleport = ref(false)
     const contentZIndex = ref(PopupManager.nextZIndex())
     usePopperContainer()
@@ -121,7 +125,7 @@ export default defineComponent({
 
     const popperOptions = usePopperOptions(arrowRef)
 
-    const isControlled = computed(() => props.visible !== null)
+    const isControlled = computed(() => isBool(props.visible))
 
     const wrapperKls = computed(() => props.class)
 
@@ -318,10 +322,7 @@ export default defineComponent({
     }
 
     function onShow() {
-      if (unref(isControlled)) {
-        renderTeleport.value = true
-        registerTimeout(() => doShow(), props.showAfter)
-      } else {
+      if (!unref(isControlled)) {
         doShow()
       }
     }
@@ -334,6 +335,21 @@ export default defineComponent({
       }
     }
 
+    watch(
+      () => unref(isShow),
+      (val) => {
+        if (unref(isControlled) && val) {
+          renderTeleport.value = true
+          registerTimeout(() => {
+            intermediateShow.value = true
+            doShow()
+          }, props.showAfter)
+        } else {
+          intermediateShow.value = val
+        }
+      }
+    )
+
     return {
       arrowRef,
       triggerRef,
@@ -344,7 +360,7 @@ export default defineComponent({
       contentStyle,
       renderTeleport,
       transitionFallthrough,
-      isShow,
+      intermediateShow,
       isControlled,
       isVirtualTrigger,
       POPPER_CONTAINER_SELECTOR,
