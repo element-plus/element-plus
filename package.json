@@ -78,7 +78,7 @@
     "@sucrase/jest-plugin": "2.2.0",
     "@types/gulp": "4.0.9",
     "@types/jest": "27.0.2",
-    "@types/lodash": "4.14.176",
+    "@types/lodash": "4.14.177",
     "@types/sass": "1.43.0",
     "@types/through2": "2.0.36",
     "@typescript-eslint/eslint-plugin": "5.3.1",
