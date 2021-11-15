@@ -116,3 +116,19 @@ export function insertLinkIcon(contentRef: any) {
     }
   })
 }
+
+export function insertTableWrapper(contentRef: any) {
+  if (!inBrowser) return
+  const tables: HTMLTableElement[] = Array.from(
+    contentRef.value?.$el.querySelectorAll(
+      'table:not(.el-table__body):not(.el-table__header)'
+    ) ?? []
+  )
+  tables.forEach((table) => {
+    const wrapper = document.createElement('div')
+    wrapper.classList.add('vp-table')
+    table.parentNode!.insertBefore(wrapper, table)
+    table.parentNode!.removeChild(table)
+    wrapper.appendChild(table)
+  })
+}
