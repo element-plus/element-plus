@@ -1,33 +1,32 @@
 <template>
-  <div :class="wrapperKls" :style="style">
-    <template v-if="!isVirtualTrigger">
-      <trigger
-        v-if="!isControlled"
-        ref="triggerRef"
-        v-click-outside="delayHide"
-        @click="onTriggerClick"
-        @contextmenu="onTriggerContextualMenu"
-        @mouseenter="onTriggerMouseEnter"
-        @mouseleave="onTriggerMouseLeave"
-        @focus="onTriggerFocus"
-        @blur="onTriggerBlur"
-      >
-        <slot name="trigger" />
-      </trigger>
-      <trigger
-        v-else
-        ref="triggerRef"
-        @click="onTriggerClick"
-        @contextmenu="onTriggerContextualMenu"
-        @mouseenter="onTriggerMouseEnter"
-        @mouseleave="onTriggerMouseLeave"
-        @focus="onTriggerFocus"
-        @blur="onTriggerBlur"
-      >
-        <slot name="trigger" />
-      </trigger>
-    </template>
-
+  <template v-if="!isVirtualTrigger">
+    <trigger
+      v-if="!isControlled"
+      ref="triggerRef"
+      v-click-outside="delayHide"
+      @click="onTriggerClick"
+      @contextmenu="onTriggerContextualMenu"
+      @mouseenter="onTriggerMouseEnter"
+      @mouseleave="onTriggerMouseLeave"
+      @focus="onTriggerFocus"
+      @blur="onTriggerBlur"
+    >
+      <slot name="trigger" />
+    </trigger>
+    <trigger
+      v-else
+      ref="triggerRef"
+      @click="onTriggerClick"
+      @contextmenu="onTriggerContextualMenu"
+      @mouseenter="onTriggerMouseEnter"
+      @mouseleave="onTriggerMouseLeave"
+      @focus="onTriggerFocus"
+      @blur="onTriggerBlur"
+    >
+      <slot name="trigger" />
+    </trigger>
+  </template>
+  <template v-if="!disabled">
     <el-teleport
       v-if="persistent || renderTeleport"
       :container="POPPER_CONTAINER_SELECTOR"
@@ -48,7 +47,10 @@
           @mouseleave="popperMouseLeave"
         >
           <slot>
-            {{ content }}
+            <span v-if="rawContent" v-html="content" />
+            <template v-else>
+              {{ content }}
+            </template>
           </slot>
           <div
             v-if="showArrow"
@@ -59,7 +61,7 @@
         </div>
       </transition>
     </el-teleport>
-  </div>
+  </template>
 </template>
 
 <script lang="ts">
@@ -126,8 +128,6 @@ export default defineComponent({
     const popperOptions = usePopperOptions(arrowRef)
 
     const isControlled = computed(() => isBool(props.visible))
-
-    const wrapperKls = computed(() => props.class)
 
     const contentStyle = computed<StyleValue>(() => {
       return [{ zIndex: unref(contentZIndex) }, props.popperStyle || {}]
@@ -213,6 +213,7 @@ export default defineComponent({
       onAfterEnter,
       onAfterLeave: () => {
         if (!unref(isShow)) {
+          detachPopper()
           renderTeleport.value = false
           onAfterLeave()
         }
@@ -243,7 +244,7 @@ export default defineComponent({
       if (includesTrigger('click')) {
         if (triggerFocused) {
           triggerFocused = false
-          nextTick(detachPopper)
+          delayHide()
         } else {
           onToggle()
         }
@@ -293,6 +294,9 @@ export default defineComponent({
 
     function initPopper() {
       if (!unref(isShow)) return
+      if (popperInstance) {
+        popperInstance.update()
+      }
 
       const triggerEl = unref(triggeringElement)
 
@@ -350,12 +354,20 @@ export default defineComponent({
       }
     )
 
+    watch(
+      () => props.disabled,
+      (val) => {
+        if (!val && unref(isShow)) {
+          onShow()
+        }
+      }
+    )
+
     return {
       arrowRef,
       triggerRef,
       popperRef,
       popperId,
-      wrapperKls,
       contentKls,
       contentStyle,
       renderTeleport,

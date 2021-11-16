@@ -3,12 +3,7 @@
     >Click me</el-button
   >
 
-  <el-tooltip
-    ref="tooltipRef"
-    persistent
-    :triggering-element="buttonRef"
-    trigger="contextmenu"
-  >
+  <el-tooltip ref="tooltipRef" :triggering-element="buttonRef" trigger="click">
     <template #content>
       <span> Some content </span>
     </template>

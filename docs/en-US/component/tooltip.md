@@ -19,7 +19,16 @@ tooltip/basic
 
 ## Theme
 
-Tooltip has two themes: `dark` and `light`。
+Tooltip has two built-in themes: `dark` and `light`。
+
+:::tip
+
+To use customized theme, you will have to known where your tooltip is rendered into, if your tooltip is rendered into the root element, you will need to set the css rule globally.
+
+It is recommended that not using linear gradient background color when you using customized theme and showing the arrow at the same time, because the popup arrow and the content is two different elements,
+the popup arrow's style needs to be set individually, and when it comes to the gradient background color, it might seem a little bit weird.
+
+:::
 
 :::demo Set `effect` to modify theme, and the default value is `dark`.
 
@@ -61,6 +70,23 @@ Disabled form elements are not supported for Tooltip, more information can be fo
 
 :::
 
+
+## HTML as content
+
+The content attribute can be set to HTML string.
+
+:::warning
+
+Although `message` property supports HTML strings, dynamically rendering arbitrary HTML on your website can be very dangerous because it can easily lead to [XSS attacks](https://en.wikipedia.org/wiki/Cross-site_scripting). So when `dangerouslyUseHTMLString` is on, please make sure the content of `message` is trusted, and **never** assign `message` to user-provided content.
+
+:::
+
+:::demo
+
+tooltip/html-content
+
+:::
+
 ## Virtual triggering
 
 Sometimes we want to render the tooltip on some other trigger element,
@@ -74,13 +100,24 @@ tooltip/virtual-trigger
 
 ## Controlled
 
-Tooltip can be controlled by the parent component, using v-model you can implement two way binding.
+Tooltip can be controlled by the parent component, by using `v-model` you can implement two way binding.
 
 :::demo
 
 tooltip/controlled
 
 :::
+
+## Animations
+
+Tooltip can be customized animated, you can set the the desired animation function as you desired.
+
+:::demo
+
+tooltip/animations
+
+:::
+
 
 ## Attributes
 

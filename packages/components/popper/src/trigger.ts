@@ -22,7 +22,7 @@ export default defineComponent({
     onMouseup: { type: definePropType<(e: Event) => void>(Function) },
     onContextmenu: { type: definePropType<(e: Event) => void>(Function) },
   }),
-  setup(props, { slots, expose }) {
+  setup(props, { slots, expose, attrs }) {
     const triggerRef = ref()
 
     expose({
@@ -38,28 +38,8 @@ export default defineComponent({
       return cloneVNode(
         children,
         {
+          ...attrs,
           ...props,
-          onClick: composeEventHandler(children.props?.onClick, props.onClick),
-          onContextmenu: composeEventHandler(
-            children.props?.onContextmenu,
-            props.onContextmenu
-          ),
-          onMouseenter: composeEventHandler(
-            children.props?.onMouseenter,
-            props.onMouseenter
-          ),
-          onMouseleave: composeEventHandler(
-            children.props?.onMouseleave,
-            props.onMouseleave
-          ),
-          onMousedown: composeEventHandler(
-            children.props?.onMousedown,
-            props.onMousedown
-          ),
-          onMouseup: composeEventHandler(
-            children.props?.onMouseup,
-            props.onMouseup
-          ),
           ref: triggerRef,
         },
         true
@@ -67,16 +47,3 @@ export default defineComponent({
     }
   },
 })
-
-//
-function composeEventHandler<E extends Event>(
-  originalHandler?: (e: E) => void,
-  newHandler?: (e: E) => void
-) {
-  return (e: E) => {
-    originalHandler?.(e)
-    if (!e.defaultPrevented) {
-      newHandler?.(e)
-    }
-  }
-}

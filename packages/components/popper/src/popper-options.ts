@@ -64,7 +64,7 @@ export const usePopperOptions = (arrowRef: Ref<HTMLElement | undefined>) => {
                   padding: arrowOffset ?? 5,
                 },
               } as any)
-            : undefined,
+            : {},
         ],
         ...(popperOptions?.modifiers ?? []),
       ],

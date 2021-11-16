@@ -25,6 +25,7 @@ import { debugWarn } from '@element-plus/utils/error'
 import { isBool, isUndefined } from '@element-plus/utils/util'
 
 export default defineComponent({
+  name: 'ElTooltip',
   components: {
     ElPopper,
   },

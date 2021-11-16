@@ -67,11 +67,6 @@ export const usePopperProps = buildProps({
     type: String,
     default: '',
   },
-  // attached to the root component
-  class: {
-    type: definePropType<ClassType>([String, Array, Object]),
-    default: '',
-  },
   cutoff: {
     type: Boolean,
     default: false,
@@ -82,7 +77,6 @@ export const usePopperProps = buildProps({
   },
   effect: {
     type: String,
-    values: effects,
     default: 'dark',
   },
   enterable: {
@@ -116,13 +110,13 @@ export const usePopperProps = buildProps({
   popperStyle: {
     type: definePropType<StyleValue>([String, Array, Object]),
   },
-  // attached to the root component
-  style: {
-    type: definePropType<StyleValue>([String, Array, Object]),
-  },
   stopPopperMouseEvent: {
     type: Boolean,
     default: true,
+  },
+  rawContent: {
+    type: Boolean,
+    default: false,
   },
   teleported: {
     type: Boolean,
