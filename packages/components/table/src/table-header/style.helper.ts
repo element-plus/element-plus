@@ -1,5 +1,5 @@
 import { getCurrentInstance } from 'vue'
-
+import { getFixedColumnsClass, getFixedColumnOffset } from '../util'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { Table } from '../table/defaults'
 import type { TableHeaderProps } from '.'
@@ -7,33 +7,6 @@ import type { TableHeaderProps } from '.'
 function useStyle<T>(props: TableHeaderProps<T>) {
   const instance = getCurrentInstance()
   const parent = instance.parent as Table<T>
-  const storeData = parent.store.states
-  const isCellHidden = (
-    index: number,
-    columns: TableColumnCtx<T>[]
-  ): boolean => {
-    let start = 0
-    for (let i = 0; i < index; i++) {
-      start += columns[i].colSpan
-    }
-    const after = start + columns[index].colSpan - 1
-    if (props.fixed === 'left') {
-      return after >= storeData.fixedLeafColumnsLength.value
-    } else if (props.fixed === 'right') {
-      return (
-        start <
-        storeData.columns.value.length -
-          storeData.rightFixedLeafColumnsLength.value
-      )
-    } else {
-      return (
-        after < storeData.fixedLeafColumnsLength.value ||
-        start >=
-          storeData.columns.value.length -
-            storeData.rightFixedLeafColumnsLength.value
-      )
-    }
-  }
 
   const getHeaderRowStyle = (rowIndex: number) => {
     const headerRowStyle = parent.props.headerRowStyle
@@ -61,16 +34,26 @@ function useStyle<T>(props: TableHeaderProps<T>) {
     row: T,
     column: TableColumnCtx<T>
   ) => {
-    const headerCellStyle = parent.props.headerCellStyle
-    if (typeof headerCellStyle === 'function') {
-      return headerCellStyle.call(null, {
+    let headerCellStyles = parent.props.headerCellStyle ?? {}
+    if (typeof headerCellStyles === 'function') {
+      headerCellStyles = headerCellStyles.call(null, {
         rowIndex,
         columnIndex,
         row,
         column,
       })
     }
-    return headerCellStyle
+
+    return Object.assign(
+      {},
+      headerCellStyles,
+      getFixedColumnOffset<T>(
+        columnIndex,
+        column.fixed,
+        props.store,
+        row as unknown as TableColumnCtx<T>[]
+      )
+    )
   }
 
   const getHeaderCellClass = (
@@ -79,19 +62,22 @@ function useStyle<T>(props: TableHeaderProps<T>) {
     row: T,
     column: TableColumnCtx<T>
   ) => {
+    const fixedClasses = column.isSubColumn
+      ? []
+      : getFixedColumnsClass<T>(
+          columnIndex,
+          column.fixed,
+          props.store,
+          row as unknown as TableColumnCtx<T>[]
+        )
     const classes = [
       column.id,
       column.order,
       column.headerAlign,
       column.className,
       column.labelClassName,
+      ...fixedClasses,
     ]
-    if (
-      rowIndex === 0 &&
-      isCellHidden(columnIndex, row as unknown as TableColumnCtx<T>[])
-    ) {
-      classes.push('is-hidden')
-    }
 
     if (!column.children) {
       classes.push('is-leaf')

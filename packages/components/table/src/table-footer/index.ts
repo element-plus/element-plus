@@ -42,11 +42,12 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const { hasGutter, getRowClasses, columns } = useStyle(
+    const { hasGutter, getRowClasses, getRowStyles, columns } = useStyle(
       props as TableFooter<DefaultRow>
     )
     return {
       getRowClasses,
+      getRowStyles,
       hasGutter,
       columns,
     }
@@ -119,6 +120,7 @@ export default defineComponent({
                       ...this.getRowClasses(column, cellIndex),
                       'el-table__cell',
                     ],
+                    style: this.getRowStyles(column, cellIndex),
                   },
                   [
                     h(

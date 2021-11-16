@@ -116,6 +116,7 @@
   }
 
   .#{$namespace}-table__cell {
+    position: relative;
     padding: 12px 0;
     min-width: 0;
     box-sizing: border-box;
@@ -123,7 +124,7 @@
     vertical-align: middle;
     position: relative;
     text-align: left;
-
+    z-index: 1;
     @include when(center) {
       text-align: center;
     }
@@ -184,7 +185,6 @@
   }
 
   th.#{$namespace}-table__cell {
-    overflow: hidden;
     user-select: none;
     background-color: var(--el-table-header-background-color);
 
@@ -266,6 +266,7 @@
     bottom: 0;
     width: 100%;
     height: 1px;
+    z-index: 3;
   }
 
   // table--border
@@ -300,77 +301,45 @@
     visibility: hidden;
   }
 
-  @include e((fixed, fixed-right)) {
-    position: absolute;
-    top: 0;
-    left: 0;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    box-shadow: var(--el-table-fixed-box-shadow);
-
-    &::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      height: 1px;
-      background-color: var(--el-border-color-lighter);
-      z-index: 4;
-    }
-  }
-
-  @include e(fixed-right-patch) {
-    position: absolute;
-    top: -1px;
-    right: 0;
-    background-color: var(--el-table-header-background-color);
-    border-bottom: var(--el-table-border);
-  }
-
-  @include e(fixed-right) {
-    top: 0;
-    left: auto;
-    right: 0;
-
-    .#{$namespace}-table__fixed-header-wrapper,
-    .#{$namespace}-table__fixed-body-wrapper,
-    .#{$namespace}-table__fixed-footer-wrapper {
-      left: auto;
-      right: 0;
-    }
-  }
-
-  @include e(fixed-header-wrapper) {
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 3;
-  }
-
-  @include e(fixed-footer-wrapper) {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    z-index: 3;
-
-    & tbody td.#{$namespace}-table__cell {
-      border-top: var(--el-table-border);
-      background-color: var(--el-table-row-hover-background-color);
-      color: var(--el-table-font-color);
-    }
-  }
-
-  @include e(fixed-body-wrapper) {
-    position: absolute;
-    left: 0;
-    top: 37px;
-    overflow: hidden;
-    z-index: 3;
-  }
-
   @include e((header-wrapper, body-wrapper, footer-wrapper)) {
     width: 100%;
+    tr {
+      td,
+      th {
+        &.#{$namespace}-table-fixed-column--left,
+        &.#{$namespace}-table-fixed-column--right {
+          position: sticky !important;
+          z-index: 2;
+          background: #fff;
+          &.is-last-column,
+          &.is-first-column {
+            &::before {
+              content: '';
+              position: absolute;
+              top: 0px;
+              width: 10px;
+              bottom: -1px;
+              overflow-x: hidden;
+              overflow-y: hidden;
+              box-shadow: inset -10px 0 10px -10px rgb(0 0 0 / 15%);
+              touch-action: none;
+              pointer-events: none;
+            }
+          }
+          &.is-first-column {
+            &::before {
+              left: -10px;
+            }
+          }
+          &.is-last-column {
+            &::before {
+              right: -10px;
+              box-shadow: inset 10px 0 10px -10px rgb(0 0 0 / 15%);
+            }
+          }
+        }
+      }
+    }
   }
 
   @include e(footer-wrapper) {
@@ -394,42 +363,55 @@
     }
   }
 
+  @include when(scrolling-left) {
+    .#{$namespace}-table-fixed-column--left.is-last-column {
+      &::before {
+        box-shadow: none;
+      }
+    }
+    &.#{$namespace}-table--border {
+      .#{$namespace}-table-fixed-column--left {
+        &.is-last-column {
+          &.#{$namespace}-table__cell {
+            border-right: var(--el-table-border);
+          }
+        }
+      }
+    }
+  }
+
+  @include when(scrolling-right) {
+    .#{$namespace}-table-fixed-column--right.is-first-column {
+      &::before {
+        box-shadow: none;
+      }
+    }
+    .#{$namespace}-table-fixed-column--left.is-last-column.#{$namespace}-table__cell {
+      border-right: none;
+    }
+  }
+
+  @include when(scrolling-middle) {
+    .#{$namespace}-table-fixed-column--left.is-last-column.#{$namespace}-table__cell {
+      border-right: none;
+    }
+  }
+
+  @include when(scrolling-none) {
+    .#{$namespace}-table-fixed-column--left,
+    .#{$namespace}-table-fixed-column--right {
+      &.is-first-column,
+      &.is-last-column {
+        &::before {
+          box-shadow: none;
+        }
+      }
+    }
+  }
+
   @include e(body-wrapper) {
     overflow: hidden;
     position: relative;
-
-    @include when(scrolling-none) {
-      ~ .#{$namespace}-table__fixed,
-      ~ .#{$namespace}-table__fixed-right {
-        box-shadow: none;
-      }
-    }
-
-    @include when(scrolling-left) {
-      ~ .#{$namespace}-table__fixed {
-        box-shadow: none;
-      }
-    }
-
-    @include when(scrolling-right) {
-      ~ .#{$namespace}-table__fixed-right {
-        box-shadow: none;
-      }
-    }
-
-    .#{$namespace}-table--border {
-      @include when(scrolling-right) {
-        ~ .#{$namespace}-table__fixed-right {
-          border-left: var(--el-table-border);
-        }
-      }
-
-      @include when(scrolling-left) {
-        ~ .#{$namespace}-table__fixed {
-          border-right: var(--el-table-border);
-        }
-      }
-    }
   }
 
   .caret-wrapper {
@@ -539,14 +521,6 @@
   @include m(enable-row-hover) {
     .#{$namespace}-table__body tr:hover > td.#{$namespace}-table__cell {
       background-color: var(--el-table-row-hover-background-color);
-    }
-  }
-
-  @include m(fluid-height) {
-    .#{$namespace}-table__fixed,
-    .#{$namespace}-table__fixed-right {
-      bottom: 0;
-      overflow: hidden;
     }
   }
 

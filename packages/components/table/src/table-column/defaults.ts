@@ -58,6 +58,7 @@ interface TableColumnCtx<T> {
   filterable: boolean | FilterMethods<T> | Filters
   order: string
   isColumnGroup: boolean
+  isSubColumn: boolean
   columns: TableColumnCtx<T>[]
   getColumnIndex: () => number
   no: number

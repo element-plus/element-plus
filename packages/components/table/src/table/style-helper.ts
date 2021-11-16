@@ -8,7 +8,6 @@ import {
   unref,
   nextTick,
 } from 'vue'
-import throttle from 'lodash/throttle'
 import {
   addResizeListener,
   removeResizeListener,
@@ -135,23 +134,15 @@ function useStyle<T>(
     el.className = classList.join(' ')
   }
   const setScrollClass = (className: string) => {
-    const { bodyWrapper } = table.refs
-    setScrollClassByEl(bodyWrapper, className)
+    const { tableWrapper } = table.refs
+    setScrollClassByEl(tableWrapper, className)
   }
-  const syncPostion = throttle(function () {
+  const syncPostion = function () {
     if (!table.refs.bodyWrapper) return
-    const { scrollLeft, scrollTop, offsetWidth, scrollWidth } =
-      table.refs.bodyWrapper
-    const {
-      headerWrapper,
-      footerWrapper,
-      fixedBodyWrapper,
-      rightFixedBodyWrapper,
-    } = table.refs
+    const { scrollLeft, offsetWidth, scrollWidth } = table.refs.bodyWrapper
+    const { headerWrapper, footerWrapper } = table.refs
     if (headerWrapper) headerWrapper.scrollLeft = scrollLeft
     if (footerWrapper) footerWrapper.scrollLeft = scrollLeft
-    if (fixedBodyWrapper) fixedBodyWrapper.scrollTop = scrollTop
-    if (rightFixedBodyWrapper) rightFixedBodyWrapper.scrollTop = scrollTop
     const maxScrollLeftPosition = scrollWidth - offsetWidth - 1
     if (scrollLeft >= maxScrollLeftPosition) {
       setScrollClass('is-scrolling-right')
@@ -160,7 +151,7 @@ function useStyle<T>(
     } else {
       setScrollClass('is-scrolling-middle')
     }
-  }, 10)
+  }
 
   const bindEvents = () => {
     table.refs.bodyWrapper.addEventListener('scroll', syncPostion, {

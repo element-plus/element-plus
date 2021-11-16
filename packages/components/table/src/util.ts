@@ -371,3 +371,115 @@ export function createTablePopper(
   on(trigger, 'mouseleave', removePopper)
   return popperInstance
 }
+
+export const isFixedColumn = <T>(
+  index: number,
+  fixed: string | boolean,
+  store: any,
+  realColumns?: TableColumnCtx<T>[]
+) => {
+  let start = 0
+  let after = index
+  if (realColumns) {
+    for (let i = 0; i < index; i++) {
+      start += realColumns[i].colSpan
+    }
+    after = start + realColumns[index].colSpan - 1
+  } else {
+    start = index
+  }
+  let fixedLayout
+  const columns = store.states.columns
+  if (fixed === 'left') {
+    if (after < store.states.fixedLeafColumnsLength.value) {
+      fixedLayout = 'left'
+    }
+  } else if (fixed === 'right') {
+    if (
+      start >=
+      columns.value.length - store.states.rightFixedLeafColumnsLength.value
+    ) {
+      fixedLayout = 'right'
+    }
+  } else {
+    if (after < store.states.fixedLeafColumnsLength.value) {
+      fixedLayout = 'left'
+    } else if (
+      start >=
+      columns.value.length - store.states.rightFixedLeafColumnsLength.value
+    ) {
+      fixedLayout = 'right'
+    }
+  }
+  return fixedLayout
+    ? {
+        direction: fixedLayout,
+        start,
+        after,
+      }
+    : {}
+}
+
+export const getFixedColumnsClass = <T>(
+  index: number,
+  fixed: string | boolean,
+  store: any,
+  realColumns?: TableColumnCtx<T>[]
+) => {
+  const classes: string[] = []
+  const { direction, start } = isFixedColumn(index, fixed, store, realColumns)
+  if (direction) {
+    const isLeft = direction === 'left'
+    classes.push(`el-table-fixed-column--${direction}`)
+    if (isLeft && start === store.states.fixedLeafColumnsLength.value - 1) {
+      classes.push('is-last-column')
+    } else if (
+      !isLeft &&
+      start ===
+        store.states.columns.value.length -
+          store.states.rightFixedLeafColumnsLength.value
+    ) {
+      classes.push('is-first-column')
+    }
+  }
+  return classes
+}
+
+export const getFixedColumnOffset = <T>(
+  index: number,
+  fixed: string | boolean,
+  store: any,
+  realColumns?: TableColumnCtx<T>[]
+) => {
+  const { direction, start = 0 } = isFixedColumn(
+    index,
+    fixed,
+    store,
+    realColumns
+  )
+  if (!direction) {
+    return
+  }
+  const styles: any = {}
+  const isLeft = direction === 'left'
+  const columns = store.states.columns.value
+  let offset
+  if (isLeft) {
+    offset = columns.slice(0, index).reduce((s, c) => {
+      return s + (c.realWidth === null ? c.width : c.realWidth)
+    }, 0)
+  } else {
+    offset = columns
+      .slice(start + 1)
+      .reverse()
+      .reduce((s, c) => {
+        return s + (c.realWidth === null ? c.width : c.realWidth)
+      }, 0)
+  }
+  if (isLeft) {
+    styles.left = `${offset}px`
+  } else {
+    styles.right = `${offset}px`
+  }
+  return styles
+}

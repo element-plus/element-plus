@@ -66,25 +66,41 @@ describe('table column', () => {
 
     it('fixed', async () => {
       const wrapper = createTable(
-        'fixed label="test1"',
+        'fixed label="test1" width="100px"',
         'fixed="right" label="test2"',
         'fixed="left" label="test3"'
       )
       await nextTick()
-      expect(
-        wrapper
-          .findAll('.el-table__fixed th:not(.is-hidden)')
-          .map((node) => node.text())
-      ).toEqual(['test1', 'test3'])
-
-      expect(
-        wrapper
-          .findAll('.el-table__fixed-right th:not(.is-hidden)')
-          .map((node) => node.text())
-      ).toEqual(['test2'])
-      expect(
-        wrapper.find('.el-table__body-wrapper').attributes('style')
-      ).toBeFalsy()
+      const leftFixedHeaderColumns = wrapper.findAll(
+        '.el-table__header .el-table-fixed-column--left'
+      )
+      const leftFixedBodyColumns = wrapper.findAll(
+        '.el-table__body .el-table-fixed-column--left'
+      )
+      const rightFixedHeaderColumns = wrapper.findAll(
+        '.el-table__header .el-table-fixed-column--right'
+      )
+      const rightFixedBodyColumns = wrapper.findAll(
+        '.el-table__body .el-table-fixed-column--right'
+      )
+      expect(leftFixedHeaderColumns.length).toBe(2)
+      expect(leftFixedBodyColumns.length).toBe(10)
+      expect(rightFixedHeaderColumns.length).toBe(1)
+      expect(rightFixedBodyColumns.length).toBe(5)
+      expect(leftFixedHeaderColumns[0].text()).toBe('test1')
+      expect(leftFixedHeaderColumns[1].text()).toBe('test3')
+      expect(leftFixedHeaderColumns[1].classes()).toContain('is-last-column')
+      expect(rightFixedHeaderColumns[0].text()).toBe('test2')
+      expect(rightFixedHeaderColumns[0].classes()).toContain('is-first-column')
+      expect(getComputedStyle(leftFixedHeaderColumns[0].element).left).toBe(
+        '0px'
+      )
+      expect(getComputedStyle(leftFixedHeaderColumns[1].element).left).toBe(
+        '100px'
+      )
+      expect(getComputedStyle(rightFixedHeaderColumns[0].element).right).toBe(
+        '0px'
+      )
       wrapper.unmount()
     })
 
@@ -1017,11 +1033,13 @@ describe('table column', () => {
       })
 
       await nextTick()
-      expect(Object.keys(wrapper.find('.el-table__fixed')).length).toEqual(0)
+      expect(
+        Object.keys(wrapper.find('.el-table-fixed-column--left')).length
+      ).toEqual(0)
       wrapper.vm.fixed = true
       await nextTick()
       expect(
-        Object.keys(wrapper.find('.el-table__fixed')).length
+        Object.keys(wrapper.find('.el-table-fixed-column--left')).length
       ).toBeGreaterThan(0)
       wrapper.unmount()
     })

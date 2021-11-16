@@ -60,6 +60,7 @@ const convertToRows = <T>(
       column.rowSpan = maxLevel - column.level + 1
     } else {
       column.rowSpan = 1
+      column.children.forEach((col) => (col.isSubColumn = true))
     }
     rows[column.level - 1].push(column)
   })
