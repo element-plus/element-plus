@@ -659,7 +659,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         states.cachedOptions = []
       }
     } else {
-      if (props.modelValue) {
+      if (
+        props.modelValue !== null &&
+        props.modelValue !== undefined &&
+        props.modelValue !== ''
+      ) {
         const options = filteredOptions.value
         const selectedItemIndex = options.findIndex(
           (option) => getValueKey(option) === props.modelValue
