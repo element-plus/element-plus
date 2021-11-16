@@ -112,7 +112,7 @@
   box-shadow: none;
 
   @include e(item) {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     list-style: none;
     line-height: 36px;
