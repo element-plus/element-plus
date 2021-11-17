@@ -105,7 +105,6 @@
     line-height: 16px;
     vertical-align: middle;
     top: -1px;
-    right: -5px;
 
     &::before {
       display: block;
@@ -114,6 +113,10 @@
     svg {
       margin: 2px;
     }
+  }
+
+  .#{$namespace}-tag__close {
+    right: -5px;
   }
 
   @include m(dark) {
