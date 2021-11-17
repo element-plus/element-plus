@@ -95,12 +95,18 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     return totalHeight > props.height ? props.height : totalHeight
   })
 
+  const hasModelValue = computed(() => {
+    return (
+      props.modelValue !== undefined &&
+      props.modelValue !== null &&
+      props.modelValue !== ''
+    )
+  })
+
   const showClearBtn = computed(() => {
     const hasValue = props.multiple
       ? Array.isArray(props.modelValue) && props.modelValue.length > 0
-      : props.modelValue !== undefined &&
-        props.modelValue !== null &&
-        props.modelValue !== ''
+      : hasModelValue.value
 
     const criteria =
       props.clearable &&
@@ -659,11 +665,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         states.cachedOptions = []
       }
     } else {
-      if (
-        props.modelValue !== null &&
-        props.modelValue !== undefined &&
-        props.modelValue !== ''
-      ) {
+      if (hasModelValue.value) {
         const options = filteredOptions.value
         const selectedItemIndex = options.findIndex(
           (option) => getValueKey(option) === props.modelValue
@@ -750,6 +752,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     inputWrapperStyle,
     popperSize,
     dropdownMenuVisible,
+    hasModelValue,
     // readonly,
     shouldShowPlaceholder,
     selectDisabled,
