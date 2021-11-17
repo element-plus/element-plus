@@ -1,5 +1,6 @@
 <template>
   <el-scrollbar
+    v-show="!isEmpty"
     :key="menuId"
     tag="ul"
     role="menu"
@@ -16,11 +17,8 @@
       :menu-id="menuId"
       @expand="handleExpand"
     />
-    <div v-if="isEmpty" class="el-cascader-menu__empty-text">
-      {{ t('el.cascader.noData') }}
-    </div>
     <svg
-      v-else-if="panel?.isHoverMenu"
+      v-if="panel?.isHoverMenu"
       ref="hoverZone"
       class="el-cascader-menu__hover-zone"
     ></svg>

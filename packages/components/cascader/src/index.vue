@@ -111,10 +111,11 @@
         @close="togglePopperVisible(false)"
       />
       <el-scrollbar
-        v-if="filterable"
-        v-show="filtering"
+        v-if="filterable || !options.length"
+        v-show="filtering || !options.length"
         ref="suggestionPanel"
         tag="ul"
+        role="menu"
         class="el-cascader__suggestion-panel"
         view-class="el-cascader__suggestion-list"
         @keydown="handleSuggestionKeyDown"
