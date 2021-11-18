@@ -15,7 +15,7 @@ export interface ITrapFocusElement extends HTMLElement {
   [TRAP_FOCUS_HANDLER]: (e: KeyboardEvent) => void
 }
 
-const FOCUS_STACK = []
+const FOCUS_STACK: ITrapFocusElement[] = []
 
 const FOCUS_HANDLER = (e: KeyboardEvent) => {
   // Getting the top layer.
@@ -60,7 +60,7 @@ const TrapFocus: ObjectDirective = {
     el[FOCUSABLE_CHILDREN] = obtainAllFocusableElements(el)
     FOCUS_STACK.push(el)
     if (FOCUS_STACK.length <= 1) {
-      on(document, 'keydown', FOCUS_HANDLER)
+      on(document, 'keydown', FOCUS_HANDLER as any)
     }
   },
   updated(el: ITrapFocusElement) {
@@ -71,7 +71,7 @@ const TrapFocus: ObjectDirective = {
   unmounted() {
     FOCUS_STACK.shift()
     if (FOCUS_STACK.length === 0) {
-      off(document, 'keydown', FOCUS_HANDLER)
+      off(document, 'keydown', FOCUS_HANDLER as any)
     }
   },
 }
