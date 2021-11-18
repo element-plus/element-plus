@@ -44,7 +44,7 @@ importers:
       eslint-define-config: 1.1.3
       eslint-plugin-import: 2.25.3
       eslint-plugin-prettier: 4.0.0
-      eslint-plugin-vue: 8.0.3
+      eslint-plugin-vue: 8.1.1
       expect-type: 0.13.0
       fast-glob: 3.2.7
       gulp: 4.0.2
@@ -119,7 +119,7 @@ importers:
       eslint-define-config: 1.1.3
       eslint-plugin-import: 2.25.3_eslint@8.2.0
       eslint-plugin-prettier: 4.0.0_307f015733298e29da9050ea0cee5b9e
-      eslint-plugin-vue: 8.0.3_eslint@8.2.0
+      eslint-plugin-vue: 8.1.1_eslint@8.2.0
       expect-type: 0.13.0
       fast-glob: 3.2.7
       gulp: 4.0.2
@@ -4671,8 +4671,8 @@ packages:
       prettier-linter-helpers: 1.0.0
     dev: true
 
-  /eslint-plugin-vue/8.0.3_eslint@8.2.0:
-    resolution: {integrity: sha512-Rlhhy5ltzde0sRwSkqHuNePTXLMMaJ5+qsQubM4RYloYsQ8cXlnJT5MDaCzSirkGADipOHtmQXIbbPFAzUrADg==}
+  /eslint-plugin-vue/8.1.1_eslint@8.2.0:
+    resolution: {integrity: sha512-rx64IrlhdfPya6u2V5ukOGiLCTgaCBdMSpczLVqyo8A0l+Vbo+lzvIfEUfAQ2auj+MF6y0TwxLorzdCIzHunnw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: ^6.2.0 || ^7.0.0 || ^8.0.0
