@@ -72,7 +72,9 @@ function getValueFromMap<T>(
     })
     .sort((a, b) => a - b)
   const matchedValue = map[matchedKeys[0]]
-  return isExcludedObject(matchedValue) ? matchedValue.value : matchedValue
+  return isExcludedObject(matchedValue)
+    ? matchedValue.value || matchedValue
+    : matchedValue
 }
 
 export default defineComponent({
