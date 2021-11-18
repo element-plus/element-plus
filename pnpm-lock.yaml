@@ -41,7 +41,7 @@ importers:
       esbuild: 0.13.14
       eslint: 8.2.0
       eslint-config-prettier: 8.3.0
-      eslint-define-config: 1.1.3
+      eslint-define-config: 1.1.4
       eslint-plugin-import: 2.25.3
       eslint-plugin-prettier: 4.0.0
       eslint-plugin-vue: 8.1.1
@@ -116,7 +116,7 @@ importers:
       esbuild: 0.13.14
       eslint: 8.2.0
       eslint-config-prettier: 8.3.0_eslint@8.2.0
-      eslint-define-config: 1.1.3
+      eslint-define-config: 1.1.4
       eslint-plugin-import: 2.25.3_eslint@8.2.0
       eslint-plugin-prettier: 4.0.0_307f015733298e29da9050ea0cee5b9e
       eslint-plugin-vue: 8.1.1_eslint@8.2.0
@@ -4611,8 +4611,8 @@ packages:
       eslint: 8.2.0
     dev: true
 
-  /eslint-define-config/1.1.3:
-    resolution: {integrity: sha512-QKVZKhZMw+wwjddgHlKM8HZd33RWFDacMfW863a7tNWNHirbKL0vGj5VwF2L4OiiEsK8QqvyAY5DQywyA5IzLw==}
+  /eslint-define-config/1.1.4:
+    resolution: {integrity: sha512-B1o0OTL32lPXwjjCpe+HtowrHqAlldInkU9PWVs+BsSi3E1GgjGIsiEz0g/1jHpBjP8zZMWh+DmdaB7gdLjUKQ==}
     engines: {node: '>= 16.9.0', npm: '>= 7.0.0', pnpm: '>= 6.17.0'}
     dev: true
 
