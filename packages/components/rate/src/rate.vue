@@ -61,7 +61,8 @@ function getValueFromMap<T>(
 ) {
   const isExcludedObject = (
     val: unknown
-  ): val is { excluded?: boolean } & Record<any, unknown> => isObject(val)
+  ): val is { excluded?: boolean } & Record<any, unknown> =>
+    isObject(val) && val.excluded
 
   const matchedKeys = Object.keys(map)
     .map((key) => +key)
