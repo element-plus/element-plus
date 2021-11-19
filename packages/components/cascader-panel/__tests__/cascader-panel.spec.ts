@@ -709,4 +709,41 @@ describe('CascaderPanel.vue', () => {
     await wrapper.setProps({ options: NORMAL_OPTIONS })
     expect(vm.getCheckedNodes(true).length).toBe(1)
   })
+
+  test('lazy load checkStrictly', async () => {
+    const wrapper = _mount({
+      template: `
+        <cascader-panel
+          v-model="value"
+          :props="props"
+        />
+      `,
+      data() {
+        return {
+          value: [],
+          props: {
+            multiple: false,
+            lazy: true,
+            checkStrictly: true,
+            lazyLoad,
+          },
+        }
+      },
+    })
+
+    jest.runAllTimers()
+    await nextTick()
+    const firstOption = wrapper.find(NODE)
+    expect(firstOption.exists()).toBe(true)
+
+    const firstRadio = wrapper.findAll(RADIO)[0]
+    await firstRadio.find('input').trigger('click')
+    jest.runAllTimers()
+    await nextTick()
+
+    expect(wrapper.vm.value).toEqual([1])
+
+    const secondMenu = wrapper.findAll(MENU)[1]
+    expect(secondMenu.exists()).toBe(true)
+  })
 })

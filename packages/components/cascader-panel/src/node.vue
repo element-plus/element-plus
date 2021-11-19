@@ -167,10 +167,10 @@ export default defineComponent({
     }
 
     const handleCheck = (checked: boolean) => {
+      doCheck(checked)
       if (!props.node.loaded) {
         doLoad()
       } else {
-        doCheck(checked)
         !checkStrictly.value && doExpand()
       }
     }
