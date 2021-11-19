@@ -526,6 +526,7 @@ $button: map.merge(
     'hover-border-color': var(--el-color-primary-light-7),
     'active-text-color': var(--el-button-hover-text-color),
     'active-border-color': var(--el-color-primary),
+    'active-bg-color': var(--el-button-hover-bg-color),
   ),
   $button
 );

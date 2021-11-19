@@ -48,7 +48,7 @@
     color: var(--el-button-hover-text-color);
     border-color: var(
       --el-button-hover-border-color,
-      --el-button-hover-bg-color
+      var(--el-button-hover-bg-color)
     );
     background-color: var(--el-button-hover-bg-color);
     outline: none;
@@ -58,9 +58,12 @@
     color: var(--el-button-active-text-color);
     border-color: var(
       --el-button-active-border-color,
-      --el-button-active-bg-color
+      var(--el-button-active-bg-color)
     );
-    background-color: var(--el-button-active-bg-color);
+    background-color: var(
+      --el-button-active-bg-color,
+      var(--el-button-bg-color)
+    );
     outline: none;
   }
 
