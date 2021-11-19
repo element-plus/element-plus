@@ -16,6 +16,7 @@
     :autofocus="autofocus"
     :type="nativeType"
     @click="handleClick"
+    @keypress.enter.prevent
   >
     <el-icon v-if="loading" class="is-loading"><loading /></el-icon>
     <el-icon v-else-if="icon">
