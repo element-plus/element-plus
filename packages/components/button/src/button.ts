@@ -36,6 +36,7 @@ export const buttonProps = buildProps({
   autofocus: Boolean,
   round: Boolean,
   circle: Boolean,
+  color: String,
   autoInsertSpace: {
     type: Boolean,
   },
