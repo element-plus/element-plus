@@ -121,7 +121,7 @@
       }
 
       & + .#{$namespace}-radio__label {
-        color: map.get($radio-checked, 'font-color');
+        color: map.get($radio-checked, 'text-color');
       }
     }
 

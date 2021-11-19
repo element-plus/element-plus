@@ -168,7 +168,7 @@ $checkbox: map.merge(
     'input-height': 14px,
     'input-width': 14px,
     'border-radius': var(--el-border-radius-small),
-    'background-color': var(--el-color-white),
+    'bg-color': var(--el-color-white),
     'input-border': var(--el-border-base),
     'disabled-border-color': var(--el-border-color-base),
     'disabled-input-fill': #edf2fc,
@@ -201,7 +201,7 @@ $radio: () !default;
 $radio: map.merge(
   (
     'font-size': var(--el-font-size-base),
-    'font-color': var(--el-text-color-regular),
+    'text-color': var(--el-text-color-regular),
     'font-weight': var(--el-font-weight-primary),
     'input-height': 14px,
     'input-width': 14px,
@@ -252,7 +252,7 @@ $radio-disabled: map.merge(
 $radio-checked: () !default;
 $radio-checked: map.merge(
   (
-    'font-color': var(--el-color-primary),
+    'text-color': var(--el-color-primary),
     'input-border-color': var(--el-color-primary),
     'icon-color': var(--el-color-primary),
   ),
@@ -331,7 +331,7 @@ $select-group: map.merge(
 $select-dropdown: () !default;
 $select-dropdown: map.merge(
   (
-    'background': var(--el-color-white),
+    'bg-color': var(--el-color-white),
     'shadow': var(--el-box-shadow-light),
     'empty-color': var(--el-text-color-secondary),
     'max-height': 274px,
@@ -382,7 +382,7 @@ $message: () !default;
 $message: map.merge(
   (
     'min-width': 380px,
-    'background-color': #edf2fc,
+    'bg-color': #edf2fc,
     'padding': 15px 15px 15px 20px,
     'close-size': 16px,
     'close-icon-color': var(--el-text-color-placeholder),
@@ -421,11 +421,11 @@ $notification: map.merge(
 $input: () !default;
 $input: map.merge(
   (
-    'font-color': var(--el-text-color-regular),
+    'text-color': var(--el-text-color-regular),
     'border': var(--el-border-base),
     'border-color': var(--el-border-color-base),
     'border-radius': var(--el-border-radius-base),
-    'background-color': var(--el-color-white),
+    'bg-color': var(--el-color-white),
     'icon-color': var(--el-text-color-placeholder),
     'placeholder-color': var(--el-text-color-placeholder),
     'hover-border': var(--el-border-color-hover),
@@ -622,7 +622,7 @@ $dialog: map.merge(
   (
     'width': 50%,
     'margin-top': 15vh,
-    'background-color': var(--el-color-white),
+    'bg-color': var(--el-color-white),
     'box-shadow': 0 1px 3px rgba(0, 0, 0, 0.3),
     'title-font-size': var(--el-font-size-large),
     'content-font-size': 14px,
@@ -639,13 +639,13 @@ $table: map.merge(
   (
     'border-color': var(--el-border-color-lighter),
     'border': 1px solid var(--el-table-border-color),
-    'font-color': var(--el-text-color-regular),
+    'text-color': var(--el-text-color-regular),
     'header-text-color': var(--el-text-color-secondary),
     'row-hover-bg-color': var(--el-bg-color-base),
     'current-row-bg-color': var(--el-color-primary-light-9),
     'header-bg-color': var(--el-color-white),
     'fixed-box-shadow': 0 0 10px rgba(0, 0, 0, 0.12),
-    'background-color': var(--el-color-white),
+    'bg-color': var(--el-color-white),
     'tr-bg-color': var(--el-color-white),
     'expanded-cell-bg-color': var(--el-color-white),
   ),
@@ -658,8 +658,8 @@ $pagination: () !default;
 $pagination: map.merge(
   (
     'font-size': 13px,
-    'background-color': var(--el-color-white),
-    'font-color': var(--el-text-color-primary),
+    'bg-color': var(--el-color-white),
+    'text-color': var(--el-text-color-primary),
     'border-radius': 3px,
     'button-color': var(--el-text-color-primary),
     'button-width': 35.5px,
@@ -689,7 +689,7 @@ $popup: map.merge(
 $popover: () !default;
 $popover: map.merge(
   (
-    'background-color': var(--el-color-white),
+    'bg-color': var(--el-color-white),
     'font-size': var(--el-font-size-base),
     'border-color': var(--el-border-color-lighter),
     'padding': 12px,
@@ -775,7 +775,7 @@ $tree: () !default;
 $tree: map.merge(
   (
     'node-hover-bg-color': var(--el-bg-color-base),
-    'font-color': var(--el-text-color-regular),
+    'text-color': var(--el-text-color-regular),
     'expand-icon-color': var(--el-text-color-placeholder),
   ),
   $tree
@@ -798,7 +798,7 @@ $dropdown: map.merge(
 $drawer: () !default;
 $drawer: map.merge(
   (
-    'background-color': var(--el-dialog-bg-color, var(--el-color-white)),
+    'bg-color': var(--el-dialog-bg-color, var(--el-color-white)),
     'padding-primary': var(--el-dialog-padding-primary, 20px),
   ),
   $drawer
@@ -809,7 +809,7 @@ $drawer: map.merge(
 $badge: () !default;
 $badge: map.merge(
   (
-    'background-color': var(--el-color-danger),
+    'bg-color': var(--el-color-danger),
     'radius': 10px,
     'font-size': 12px,
     'padding': 6px,
@@ -826,7 +826,7 @@ $card: map.merge(
       var(--el-border-color-light, map.get($border-color, 'lighter')),
     'border-radius': 4px,
     'padding': 20px,
-    'background-color': var(--el-color-white),
+    'bg-color': var(--el-color-white),
   ),
   $card
 );
@@ -834,7 +834,7 @@ $card: map.merge(
 $dark-card: () !default;
 $dark-card: map.merge(
   (
-    'background-color': var(--el-color-black),
+    'bg-color': var(--el-color-black),
   ),
   $dark-card
 );
@@ -866,7 +866,7 @@ $menu: map.merge(
     'active-color': var(--el-color-primary),
     'text-color': var(--el-text-color-primary),
     'hover-text-color': var(--el-text-color-primary),
-    'background-color': var(--el-color-white),
+    'bg-color': var(--el-color-white),
     'hover-bg-color': var(--el-color-primary-light-9),
     'item-font-size': var(--el-font-size-base),
     'item-hover-fill': var(--el-color-primary-light-9),
@@ -893,7 +893,7 @@ $rate: map.merge(
 $datepicker: () !default;
 $datepicker: map.merge(
   (
-    'font-color': var(--el-text-color-regular),
+    'text-color': var(--el-text-color-regular),
     'off-text-color': var(--el-text-color-placeholder),
     'header-text-color': var(--el-text-color-regular),
     'icon-color': var(--el-text-color-primary),
@@ -935,7 +935,7 @@ $scrollbar: () !default;
 $scrollbar: map.merge(
   (
     'opacity': 0.3,
-    'background-color': var(--el-text-color-secondary),
+    'bg-color': var(--el-text-color-secondary),
     'hover-opacity': 0.5,
     'hover-bg-color': var(--el-text-color-secondary),
   ),
@@ -1012,8 +1012,8 @@ $timeline: map.merge(
 $backtop: () !default;
 $backtop: map.merge(
   (
-    'background-color': var(--el-color-white),
-    'font-color': var(--el-color-primary),
+    'bg-color': var(--el-color-white),
+    'text-color': var(--el-color-primary),
     'hover-bg-color': var(--el-border-color-extra-light),
   ),
   $backtop
@@ -1073,8 +1073,8 @@ $form: map.merge(
 $avatar: () !default;
 $avatar: map.merge(
   (
-    'font-color': #fff,
-    'background-color': #c0c4cc,
+    'text-color': #fff,
+    'bg-color': #c0c4cc,
     'text-font-size': 14px,
     'icon-font-size': 18px,
     'border-radius': var(--el-border-radius-base),

@@ -34,7 +34,7 @@
     border-radius: inherit;
     background-color: var(
       --el-scrollbar-bg-color,
-      map.get($scrollbar, 'background-color')
+      map.get($scrollbar, 'bg-color')
     );
     transition: var(--el-transition-duration) background-color;
     opacity: var(--el-scrollbar-opacity, map.get($scrollbar, 'opacity'));

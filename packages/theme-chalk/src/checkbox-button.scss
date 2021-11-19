@@ -21,10 +21,10 @@
     white-space: nowrap;
     vertical-align: middle;
     cursor: pointer;
-    background: var(--el-button-bg-color, map.get($button, 'background-color'));
+    background: var(--el-button-bg-color, map.get($button, 'bg-color'));
     border: $border-base;
     border-left: 0;
-    color: var(--el-button-text-color, map.get($button, 'font-color'));
+    color: var(--el-button-text-color, map.get($button, 'text-color'));
     -webkit-appearance: none;
     text-align: center;
     box-sizing: border-box;

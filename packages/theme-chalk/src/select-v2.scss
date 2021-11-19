@@ -116,7 +116,7 @@ $input-inline-start: 15px !default;
 
   @include e(popper) {
     @include picker-popper(
-      map.get($select-dropdown, 'background'),
+      map.get($select-dropdown, 'bg-color'),
       map.get($select-dropdown, 'border'),
       map.get($select-dropdown, 'shadow')
     );
@@ -315,7 +315,7 @@ $input-inline-start: 15px !default;
     margin-inline-start: $input-inline-start;
     width: calc(100% - 52px);
     @include utils-ellipsis;
-    color: var(--el-input-text-color, map.get($input, 'font-color'));
+    color: var(--el-input-text-color, map.get($input, 'text-color'));
     font-size: inherit;
     @include when(transparent) {
       color: var(--el-text-color-placeholder);

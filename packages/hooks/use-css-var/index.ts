@@ -50,7 +50,7 @@ export const themeVarsKey: InjectionKey<VarsType> = 'themeVars' as any
  * ```ts
  * setup() {
  *  const themeVars = ref({
- *    '--el-button-default-background-color': '#f44336',
+ *    '--el-button-default-bg-color': '#f44336',
  *    '--el-button-default-text-color': '#2196f3',
  *  })
  *  useCssVar(themeVars)
