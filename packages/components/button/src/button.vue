@@ -58,7 +58,7 @@ export default defineComponent({
   emits: buttonEmits,
 
   setup(props, { emit, slots }) {
-    const buttonRef = ref(null)
+    const buttonRef = ref()
     const elBtnGroup = inject(elButtonGroupKey, undefined)
     const globalConfig = useGlobalConfig()
     const autoInsertSpace = computed(() => {
@@ -85,10 +85,10 @@ export default defineComponent({
     )
 
     // calculate hover & active color by color
+    const typeColor = useCssVar(`--el-color-${props.type}`)
     const buttonStyle = computed(() => {
       let styles = {}
 
-      const typeColor = useCssVar(`--el-color-${props.type}`)
       const buttonColor = props.color || typeColor.value
 
       if (buttonColor) {
