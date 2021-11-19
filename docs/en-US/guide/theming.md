@@ -61,7 +61,7 @@ $colors: map.deep-merge(
       'base': #909399,
     ),
   ),
-  $--colors
+  $colors
 );
 ```
 
