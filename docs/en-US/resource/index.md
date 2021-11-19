@@ -9,8 +9,8 @@ lang: en-US
 
 <style lang="scss" scoped>
 .page-resource {
-  padding-top: 55px;
   box-sizing: border-box;
+  padding: 35px 40px 0;
 
   .resource-placeholder {
     margin: 50px auto 100px;
@@ -69,7 +69,7 @@ p {
   color: #5e6d82;
 }
 .card {
-  padding-bottom: 16px;
+  padding-bottom: 28px;
   width: 100%;
   background: #ffffff;
   border: 1px solid var(--el-border-color-base);
@@ -101,8 +101,8 @@ p {
     min-height: 75px;
   }
   a {
-    height: 42px;
-    width: 190px;
+    height: 40px;
+    width: 160px;
     display: inline-block;
     line-height: 42px;
     font-size: 14px;
@@ -120,6 +120,9 @@ p {
   }
 }
 @media (max-width: 850px) {
+  .page-resource {
+    padding: 15px 0px 0;
+  }
   .cards {
     li {
       max-width: 500px;
@@ -200,8 +203,5 @@ h1 {
   h3 {
     color: var(--text-color);
   }
-}
-.page-resource {
-  padding: 55px 40px 0;
 }
 </style>
