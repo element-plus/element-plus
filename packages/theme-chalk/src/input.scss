@@ -71,7 +71,7 @@
     .#{$namespace}-textarea__inner {
       background-color: map.get($input-disabled, 'fill');
       border-color: map.get($input-disabled, 'border');
-      color: map.get($input-disabled, 'color');
+      color: map.get($input-disabled, 'text-color');
       cursor: not-allowed;
 
       &::placeholder {
@@ -232,7 +232,7 @@
     .#{$namespace}-input__inner {
       background-color: map.get($input-disabled, 'fill');
       border-color: map.get($input-disabled, 'border');
-      color: map.get($input-disabled, 'color');
+      color: map.get($input-disabled, 'text-color');
       cursor: not-allowed;
 
       &::placeholder {

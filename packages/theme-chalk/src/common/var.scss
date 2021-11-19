@@ -309,7 +309,7 @@ $select: map.merge(
 $select-option: () !default;
 $select-option: map.merge(
   (
-    'color': var(--el-text-color-regular),
+    'text-color': var(--el-text-color-regular),
     'disabled-color': var(--el-text-color-placeholder),
     'height': 34px,
     'hover-background': var(--el-bg-color-base),
@@ -321,7 +321,7 @@ $select-option: map.merge(
 $select-group: () !default;
 $select-group: map.merge(
   (
-    'color': var(--el-color-info),
+    'text-color': var(--el-color-info),
     'height': 30px,
     'font-size': 12px,
   ),
@@ -440,7 +440,7 @@ $input-disabled: map.merge(
   (
     'fill': var(--el-disabled-fill-base),
     'border': var(--el-disabled-border-base),
-    'color': var(--el-disabled-color-base),
+    'text-color': var(--el-disabled-color-base),
     'placeholder-color': var(--el-text-color-placeholder),
   ),
   $input-disabled
@@ -726,7 +726,7 @@ $tooltip: () !default;
 $tooltip: map.merge(
   (
     'fill': var(--el-text-color-primary),
-    'color': var(--el-color-white),
+    'text-color': var(--el-color-white),
     'font-size': 12px,
     'border-color': var(--el-text-color-primary),
     'arrow-size': 6px,
