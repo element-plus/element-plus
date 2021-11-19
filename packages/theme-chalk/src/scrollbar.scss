@@ -33,7 +33,7 @@
     cursor: pointer;
     border-radius: inherit;
     background-color: var(
-      --el-scrollbar-background-color,
+      --el-scrollbar-bg-color,
       map.get($scrollbar, 'background-color')
     );
     transition: var(--el-transition-duration) background-color;
@@ -41,8 +41,8 @@
 
     &:hover {
       background-color: var(
-        --el-scrollbar-hover-background-color,
-        map.get($scrollbar, 'hover-background-color')
+        --el-scrollbar-hover-bg-color,
+        map.get($scrollbar, 'hover-bg-color')
       );
       opacity: var(
         --el-scrollbar-hover-opacity,

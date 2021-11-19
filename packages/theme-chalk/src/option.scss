@@ -33,7 +33,7 @@
     }
 
     &.selected {
-      color: map.get($select-option, 'selected-font-color');
+      color: map.get($select-option, 'selected-text-color');
       font-weight: bold;
     }
   }

@@ -24,9 +24,9 @@
     width: 100%;
     font-size: inherit;
     font-family: inherit;
-    color: var(--el-input-font-color, map.get($input, 'font-color'));
+    color: var(--el-input-text-color, map.get($input, 'font-color'));
     background-color: var(
-      --el-input-background-color,
+      --el-input-bg-color,
       map.get($input, 'background-color')
     );
     background-image: none;
@@ -133,7 +133,7 @@
   @include e(inner) {
     -webkit-appearance: none;
     background-color: var(
-      --el-input-background-color,
+      --el-input-bg-color,
       map.get($input, 'background-color')
     );
     background-image: none;
@@ -143,7 +143,7 @@
     );
     border: var(--el-input-border, map.get($input, 'border'));
     box-sizing: border-box;
-    color: var(--el-input-font-color, map.get($input, 'font-color'));
+    color: var(--el-input-text-color, map.get($input, 'font-color'));
     display: inline-block;
     font-size: inherit;
     height: map.get($input-height, 'default');
@@ -307,7 +307,7 @@
   }
 
   @include e((append, prepend)) {
-    background-color: var(--el-background-color-base);
+    background-color: var(--el-bg-color-base);
     color: var(--el-color-info);
     vertical-align: middle;
     display: table-cell;

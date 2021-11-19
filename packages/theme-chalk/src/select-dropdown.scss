@@ -10,7 +10,7 @@
 
   @include when(multiple) {
     & .#{$namespace}-select-dropdown__item.selected {
-      color: map.get($select-option, 'selected-font-color');
+      color: map.get($select-option, 'selected-text-color');
       background-color: map.get($select-dropdown, 'background');
 
       &.hover {

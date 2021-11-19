@@ -10,7 +10,7 @@
 
   white-space: nowrap;
   padding: 2px 5px;
-  color: var(--el-pagination-font-color);
+  color: var(--el-pagination-text-color);
   font-weight: bold;
   @include utils-clearfix;
 
@@ -62,7 +62,7 @@
 
     &:disabled {
       color: var(--el-pagination-button-disabled-color);
-      background-color: var(--el-pagination-button-disabled-background-color);
+      background-color: var(--el-pagination-button-disabled-bg-color);
       cursor: not-allowed;
     }
   }
@@ -71,7 +71,7 @@
   .btn-next {
     background: center center no-repeat;
     background-size: 16px;
-    background-color: var(--el-pagination-background-color);
+    background-color: var(--el-pagination-bg-color);
     cursor: pointer;
     margin: 0;
     color: var(--el-pagination-button-color);
@@ -267,7 +267,7 @@
 
   li {
     padding: 0 4px;
-    background: var(--el-pagination-background-color);
+    background: var(--el-pagination-bg-color);
     vertical-align: top;
     display: inline-block;
     font-size: var(--el-pagination-font-size);

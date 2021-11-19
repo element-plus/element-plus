@@ -191,14 +191,14 @@ Like this:
 If you just want to customize a particular component, just add inline styles for certain components individually.
 
 ```html
-<el-tag style="--el-tag-background-color: red">Tag</el-tag>
+<el-tag style="--el-tag-bg-color: red">Tag</el-tag>
 ```
 
 For performance reasons, it is more recommended to custom css variables under a class rather than the global `:root`.
 
 ```css
 .custom-class {
-  --el-tag-background-color: red;
+  --el-tag-bg-color: red;
 }
 ```
 
