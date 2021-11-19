@@ -468,11 +468,12 @@ export default defineComponent({
 
     onBeforeUnmount(() => {
       removeResizeListener(selectWrapper.value as any, handleResize)
+
+      if (props.multiple && !Array.isArray(props.modelValue)) {
+        ctx.emit(UPDATE_MODEL_EVENT, [])
+      }
     })
 
-    if (props.multiple && !Array.isArray(props.modelValue)) {
-      ctx.emit(UPDATE_MODEL_EVENT, [])
-    }
     if (!props.multiple && Array.isArray(props.modelValue)) {
       ctx.emit(UPDATE_MODEL_EVENT, '')
     }
