@@ -84,6 +84,7 @@ import {
   watch,
   nextTick,
   effectScope,
+  markRaw,
 } from 'vue'
 import { useEventListener } from '@vueuse/core'
 import ElIcon from '@element-plus/components/icon'
@@ -108,11 +109,11 @@ import type { CSSProperties } from 'vue'
 const Mode = {
   CONTAIN: {
     name: 'contain',
-    icon: FullScreen,
+    icon: markRaw(FullScreen),
   },
   ORIGINAL: {
     name: 'original',
-    icon: ScaleToOriginal,
+    icon: markRaw(ScaleToOriginal),
   },
 }
 
