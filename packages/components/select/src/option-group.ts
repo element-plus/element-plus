@@ -9,3 +9,5 @@ export const optionGroupProps = buildProps({
   },
 } as const)
 export type OptionGroupProps = ExtractPropTypes<typeof optionGroupProps>
+
+export type OptionGroupContext = OptionGroupProps

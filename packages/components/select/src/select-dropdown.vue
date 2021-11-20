@@ -21,14 +21,16 @@ import {
   addResizeListener,
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
-import { selectKey } from './token'
+import { selectContextKey } from '@element-plus/tokens'
+import { throwError } from '@element-plus/utils/error'
 import type { ResizableElement } from '@element-plus/utils/resize-event'
 
+const COMPONENT_NAME = 'ElSelectDropdown'
 export default defineComponent({
-  name: 'ElSelectDropdown',
-
+  name: COMPONENT_NAME,
   setup() {
-    const select = inject(selectKey)
+    const select = inject(selectContextKey)
+    if (!select) throwError(COMPONENT_NAME, 'must be nested inside ElSelect')
 
     // computed
     const popperClass = computed(() => select.props.popperClass)
@@ -36,7 +38,7 @@ export default defineComponent({
     const isFitInputWidth = computed(() => select.props.fitInputWidth)
     const minWidth = ref('')
 
-    function updateMinWidth() {
+    const updateMinWidth = () => {
       minWidth.value = `${
         select.selectWrapper?.getBoundingClientRect().width
       }px`

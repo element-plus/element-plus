@@ -24,16 +24,18 @@ import {
   onBeforeUnmount,
   reactive,
 } from 'vue'
-import { useOption } from './useOption'
+import { useOption } from './use-option'
 import { optionProps } from './option'
-import type { SelectOptionProxy } from './token'
+import type { OptionInstance, OptionStates } from './option'
 
 export default defineComponent({
   name: 'ElOption',
   props: optionProps,
 
   setup(props) {
-    const states = reactive({
+    const vm = getCurrentInstance()!.proxy as unknown as OptionInstance
+
+    const states = reactive<OptionStates>({
       index: -1,
       groupDisabled: false,
       visible: true,
@@ -41,32 +43,33 @@ export default defineComponent({
       hover: false,
     })
 
-    const { currentLabel, itemSelected, isDisabled, select, hoverItem } =
+    const { currentLabel, itemSelected, isDisabled, selectContext, hoverItem } =
       useOption(props, states)
 
     const { visible, hover } = toRefs(states)
 
-    const vm = getCurrentInstance().proxy
-    const key = (vm as unknown as SelectOptionProxy).value
-    select.onOptionCreate(vm as unknown as SelectOptionProxy)
+    const key = vm.value
+    selectContext.onOptionCreate(vm)
 
     onBeforeUnmount(() => {
-      const { selected } = select
-      const selectedOptions = select.props.multiple ? selected : [selected]
-      const doesExist = select.cachedOptions.has(key)
+      const { selected } = selectContext
+      const selectedOptions = selectContext.props.multiple
+        ? selected
+        : [selected]
+      const doesExist = selectContext.cachedOptions.has(key)
       const doesSelected = selectedOptions.some((item) => {
-        return item.value === (vm as unknown as SelectOptionProxy).value
+        return item.value === vm.value
       })
       // if option is not selected, remove it from cache
       if (doesExist && !doesSelected) {
-        select.cachedOptions.delete(key)
+        selectContext.cachedOptions.delete(key)
       }
-      select.onOptionDestroy(key)
+      selectContext.onOptionDestroy(key)
     })
 
     function selectOptionClick() {
       if (props.disabled !== true && states.groupDisabled !== true) {
-        select.handleOptionSelect(vm, true)
+        selectContext.handleOptionSelect(vm, true)
       }
     }
 
@@ -74,11 +77,12 @@ export default defineComponent({
       currentLabel,
       itemSelected,
       isDisabled,
-      select,
+      selectContext,
       hoverItem,
       visible,
       hover,
       selectOptionClick,
+      states,
     }
   },
 })

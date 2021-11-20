@@ -1,14 +1,18 @@
 import { inject, computed, getCurrentInstance, watch, toRaw, unref } from 'vue'
 import { getValueByPath, escapeRegexpString } from '@element-plus/utils/util'
-import { selectKey, selectGroupKey } from './token'
 
+import { optionGroupContextKey, selectContextKey } from '@element-plus/tokens'
+import { throwError } from '@element-plus/utils/error'
+import type { QueryChangeCtx } from './select'
+import type { OptionProps } from './option'
 import type { Ref } from 'vue'
-import type { QueryChangeCtx } from './token'
 
-export function useOption(props, states) {
+export function useOption(props: OptionProps, states) {
+  const instance = getCurrentInstance()!
   // inject
-  const select = inject(selectKey)
-  const selectGroup = inject(selectGroupKey, { disabled: false })
+  const selectContext = inject(selectContextKey)
+  if (!selectContext) throwError('ElOption', 'must be nested inside ElSelect')
+  const optionGroupContext = inject(optionGroupContextKey, { disabled: false })
 
   // computed
   const isObject = computed(() => {
@@ -19,20 +23,20 @@ export function useOption(props, states) {
   })
 
   const itemSelected = computed(() => {
-    if (!select.props.multiple) {
-      return isEqual(props.value, select.props.modelValue)
+    if (!selectContext.props.multiple) {
+      return isEqual(props.value, selectContext.props.modelValue)
     } else {
-      return contains(select.props.modelValue as unknown[], props.value)
+      return contains(selectContext.props.modelValue as unknown[], props.value)
     }
   })
 
   const limitReached = computed(() => {
-    if (select.props.multiple) {
-      const modelValue = (select.props.modelValue || []) as unknown[]
+    if (selectContext.props.multiple) {
+      const modelValue = (selectContext.props.modelValue || []) as unknown[]
       return (
         !itemSelected.value &&
-        modelValue.length >= select.props.multipleLimit &&
-        select.props.multipleLimit > 0
+        modelValue.length >= selectContext.props.multipleLimit &&
+        selectContext.props.multipleLimit > 0
       )
     } else {
       return false
@@ -51,13 +55,11 @@ export function useOption(props, states) {
     return props.disabled || states.groupDisabled || limitReached.value
   })
 
-  const instance = getCurrentInstance()
-
-  const contains = (arr = [], target) => {
+  const contains = (arr: unknown[] = [], target) => {
     if (!isObject.value) {
       return arr && arr.indexOf(target) > -1
     } else {
-      const valueKey = select.props.valueKey
+      const valueKey = selectContext.props.valueKey
       return (
         arr &&
         arr.some((item) => {
@@ -73,28 +75,29 @@ export function useOption(props, states) {
     if (!isObject.value) {
       return a === b
     } else {
-      const { valueKey } = select.props
+      const { valueKey } = selectContext.props
       return getValueByPath(a, valueKey) === getValueByPath(b, valueKey)
     }
   }
 
   const hoverItem = () => {
-    if (!props.disabled && !selectGroup.disabled) {
-      select.hoverIndex = select.optionsArray.indexOf(instance)
+    if (!props.disabled && !optionGroupContext.disabled) {
+      selectContext.hoverIndex = selectContext.optionsArray.indexOf(instance)
     }
   }
 
   watch(
     () => currentLabel.value,
     () => {
-      if (!props.created && !select.props.remote) select.setSelected()
+      if (!props.created && !selectContext.props.remote)
+        selectContext.setSelected()
     }
   )
 
   watch(
     () => props.value,
     (val, oldVal) => {
-      const { remote, valueKey } = select.props
+      const { remote, valueKey } = selectContext.props
       if (!props.created && !remote) {
         if (
           valueKey &&
@@ -104,32 +107,32 @@ export function useOption(props, states) {
         ) {
           return
         }
-        select.setSelected()
+        selectContext.setSelected()
       }
     }
   )
 
   watch(
-    () => selectGroup.disabled,
+    () => optionGroupContext.disabled,
     () => {
-      states.groupDisabled = selectGroup.disabled
+      states.groupDisabled = optionGroupContext.disabled
     },
     { immediate: true }
   )
 
-  const { queryChange } = toRaw(select)
+  const { queryChange } = toRaw(selectContext)
   watch(queryChange, (changes: Ref<QueryChangeCtx>) => {
     const { query } = unref(changes)
 
     const regexp = new RegExp(escapeRegexpString(query), 'i')
-    states.visible = regexp.test(currentLabel.value) || props.created
+    states.visible = regexp.test(String(currentLabel.value)) || props.created
     if (!states.visible) {
-      select.filteredOptionsCount--
+      selectContext.filteredOptionsCount--
     }
   })
 
   return {
-    select,
+    selectContext,
     currentLabel,
     currentValue,
     itemSelected,

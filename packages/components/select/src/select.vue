@@ -62,7 +62,9 @@
               <span
                 :style="{
                   marginLeft:
-                    prefixWidth && selected.length ? `${prefixWidth}px` : null,
+                    prefixWidth && selected.length
+                      ? `${prefixWidth}px`
+                      : undefined,
                 }"
               >
                 <el-tag
@@ -97,8 +99,8 @@
                 marginLeft:
                   (prefixWidth && !selected.length) || tagInMultiLine
                     ? `${prefixWidth}px`
-                    : null,
-                flexGrow: '1',
+                    : undefined,
+                flexGrow: 1,
                 width: `${inputLength / (inputWidth - 32)}%`,
                 maxWidth: `${inputWidth - 42}px`,
               }"
@@ -131,7 +133,7 @@
             :readonly="readonly"
             :validate-event="false"
             :class="{ 'is-focus': visible }"
-            :tabindex="multiple && filterable ? '-1' : null"
+            :tabindex="multiple && filterable ? '-1' : undefined"
             @focus="handleFocus"
             @blur="handleBlur"
             @input="debouncedOnInputChange"
@@ -233,12 +235,13 @@ import {
   addResizeListener,
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
+import { selectContextKey } from '@element-plus/tokens'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
-import { useSelect, useSelectStates } from './useSelect'
-import { selectKey } from './token'
+import { useSelect, useSelectStates } from './use-select'
 import { selectProps, selectEmits } from './select'
-import type { SelectContext } from './token'
+import type { SelectContext } from './select'
+import type { Ref } from 'vue'
 
 export default defineComponent({
   name: 'ElSelect',
@@ -255,9 +258,10 @@ export default defineComponent({
   props: selectProps,
   emits: selectEmits,
 
-  setup(props, ctx) {
+  setup(props, { emit, slots }) {
     const { t } = useLocaleInject()
     const states = useSelectStates(props)
+
     const {
       optionsArray,
       selectSize,
@@ -305,9 +309,9 @@ export default defineComponent({
       scrollbar,
       queryChange,
       groupQueryChange,
-    } = useSelect(props, states, ctx)
+    } = useSelect(props, states, emit)
 
-    const { focus } = useFocus(reference)
+    const { focus } = useFocus(reference as unknown as Ref<HTMLElement>)
 
     const {
       inputWidth,
@@ -332,7 +336,7 @@ export default defineComponent({
     } = toRefs(states)
 
     provide(
-      selectKey,
+      selectContextKey,
       reactive({
         props,
         options,
@@ -369,24 +373,24 @@ export default defineComponent({
           small: 32,
           mini: 28,
         }
-        const input = reference.value.input
         states.initialInputHeight =
-          input.getBoundingClientRect().height || sizeMap[selectSize.value]
+          reference.value.input!.getBoundingClientRect().height ||
+          sizeMap[selectSize.value]
       }
       if (props.remote && props.multiple) {
         resetInputHeight()
       }
       nextTick(() => {
-        if (reference.value.$el) {
-          inputWidth.value = reference.value.$el.getBoundingClientRect().width
+        if (reference.value!.$el) {
+          inputWidth.value = reference.value!.$el.getBoundingClientRect().width
         }
-        if (ctx.slots.prefix) {
-          const inputChildNodes = reference.value.$el.childNodes
+        if (slots.prefix) {
+          const inputChildNodes = reference.value!.$el.childNodes
           const input = [].filter.call(
             inputChildNodes,
-            (item) => item.tagName === 'INPUT'
-          )[0]
-          const prefix = reference.value.$el.querySelector('.el-input__prefix')
+            (item: HTMLInputElement) => item.tagName === 'INPUT'
+          )[0] as HTMLInputElement
+          const prefix = reference.value!.$el.querySelector('.el-input__prefix')
           prefixWidth.value = Math.max(
             prefix.getBoundingClientRect().width + 5,
             30
@@ -404,10 +408,10 @@ export default defineComponent({
     })
 
     if (props.multiple && !Array.isArray(props.modelValue)) {
-      ctx.emit(UPDATE_MODEL_EVENT, [])
+      emit(UPDATE_MODEL_EVENT, [])
     }
     if (!props.multiple && Array.isArray(props.modelValue)) {
-      ctx.emit(UPDATE_MODEL_EVENT, '')
+      emit(UPDATE_MODEL_EVENT, '')
     }
 
     const popperPaneRef = computed(() => {

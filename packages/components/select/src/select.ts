@@ -5,7 +5,10 @@ import {
 } from '@element-plus/utils/props'
 import { CircleClose } from '@element-plus/icons'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
-import type { Component, ExtractPropTypes } from 'vue'
+import type { Nullable } from '@element-plus/utils/types'
+import type { ElInput, ElPopper, ElScrollbar } from '@element-plus/components'
+import type { OptionInstance } from './option'
+import type { Component, ExtractPropTypes, Ref } from 'vue'
 
 export const selectProps = buildProps({
   name: String,
@@ -78,3 +81,56 @@ export const selectEmits = {
   blur: (evt: Event) => evt instanceof Event,
 }
 export type SelectEmits = typeof selectEmits
+export interface QueryChangeCtx {
+  query: string
+}
+export interface SelectContext {
+  props: SelectProps
+  queryChange: Ref<QueryChangeCtx>
+  groupQueryChange: Ref<string>
+  selectWrapper: HTMLElement
+  cachedOptions: Map<any, any>
+  hoverIndex: number
+  optionsCount: number
+  filteredOptionsCount: number
+  options: Map<any, any>
+  optionsArray: any[]
+  selected: any | any[]
+  setSelected(): void
+  onOptionCreate(vm: OptionInstance): void
+  onOptionDestroy(key: number | string | Record<string, any> | boolean): void
+  handleOptionSelect(vm: OptionInstance, byClick: boolean): void
+}
+export interface SelectStates {
+  options: Map<any, any>
+  cachedOptions: Map<any, any>
+  createdLabel: Nullable<string>
+  createdSelected: false
+  selected: unknown[] | Record<any, any>
+  inputLength: number
+  inputWidth: number
+  initialInputHeight: number
+  optionsCount: number
+  filteredOptionsCount: number
+  visible: boolean
+  softFocus: boolean
+  selectedLabel: string
+  hoverIndex: number
+  query: string
+  previousQuery: Nullable<string>
+  inputHovering: boolean
+  cachedPlaceHolder: string
+  currentPlaceholder: string
+  menuVisibleOnFocus: boolean
+  isOnComposition: boolean
+  isSilentBlur: boolean
+  prefixWidth: Nullable<number>
+  tagInMultiLine: boolean
+}
+
+/** TODO: when merge other refactor components, may be can remove this and import ComponentInstance from @element-plus/components */
+export type PopperInstance = InstanceType<typeof ElPopper>
+
+export type ScrollbarInstance = InstanceType<typeof ElScrollbar>
+
+export type InputInstance = InstanceType<typeof ElInput>

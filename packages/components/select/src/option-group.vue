@@ -22,25 +22,33 @@ import {
   watch,
   toRaw,
 } from 'vue'
+import { optionGroupContextKey, selectContextKey } from '@element-plus/tokens'
+import { throwError } from '@element-plus/utils/error'
 import { optionGroupProps } from './option-group'
-import { selectGroupKey, selectKey } from './token'
+import type { Ref } from 'vue'
+import type { OptionInstance } from './option'
+
+const COMPONENT_NAME = 'ElOptionGroup'
 
 export default defineComponent({
-  name: 'ElOptionGroup',
+  name: COMPONENT_NAME,
   props: optionGroupProps,
   setup(props) {
+    const instance = getCurrentInstance()!
+
+    const selectContext = inject(selectContextKey)
+    if (!selectContext)
+      throwError(COMPONENT_NAME, 'must be nested inside ElSelect')
+
     const visible = ref(true)
-    const instance = getCurrentInstance()
-    const children = ref([])
+    const children: Ref<OptionInstance[]> = ref([])
 
     provide(
-      selectGroupKey,
+      optionGroupContextKey,
       reactive({
         ...toRefs(props),
       })
     )
-
-    const select = inject(selectKey)
 
     onMounted(() => {
       children.value = flattedChildren(instance.subTree)
@@ -48,7 +56,7 @@ export default defineComponent({
 
     // get all instances of options
     const flattedChildren = (node) => {
-      const children = []
+      const children: OptionInstance[] = []
       if (Array.isArray(node.children)) {
         node.children.forEach((child) => {
           if (
@@ -66,13 +74,14 @@ export default defineComponent({
       return children
     }
 
-    const { groupQueryChange } = toRaw(select)
+    const { groupQueryChange } = toRaw(selectContext)
     watch(groupQueryChange, () => {
       visible.value = children.value.some((option) => option.visible === true)
     })
 
     return {
       visible,
+      children,
     }
   },
 })
