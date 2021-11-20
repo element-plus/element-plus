@@ -109,12 +109,32 @@ export default defineComponent({
       }
     }
 
+    const getClientXY = (event: MouseEvent | TouchEvent) => {
+      let clientX: number
+      let clientY: number
+      if (event.type === 'touchend') {
+        clientY = (event as TouchEvent).changedTouches[0].clientY
+        clientX = (event as TouchEvent).changedTouches[0].clientX
+      } else if (event.type.startsWith('touch')) {
+        clientY = (event as TouchEvent).touches[0].clientY
+        clientX = (event as TouchEvent).touches[0].clientX
+      } else {
+        clientY = (event as MouseEvent).clientY
+        clientX = (event as MouseEvent).clientX
+      }
+      return {
+        clientX,
+        clientY,
+      }
+    }
+
     function handleDrag(event) {
       const el = instance.vnode.el as HTMLElement
       const rect = el.getBoundingClientRect()
+      const { clientX, clientY } = getClientXY(event)
 
       if (!props.vertical) {
-        let left = event.clientX - rect.left
+        let left = clientX - rect.left
         left = Math.max(thumb.value.offsetWidth / 2, left)
         left = Math.min(left, rect.width - thumb.value.offsetWidth / 2)
 
@@ -127,7 +147,7 @@ export default defineComponent({
           )
         )
       } else {
-        let top = event.clientY - rect.top
+        let top = clientY - rect.top
         top = Math.max(thumb.value.offsetHeight / 2, top)
         top = Math.min(top, rect.height - thumb.value.offsetHeight / 2)
 
