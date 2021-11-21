@@ -198,7 +198,7 @@
                 states.isComposing ||
                 (placeholder && multiple
                   ? modelValue.length === 0
-                  : !modelValue),
+                  : !hasModelValue),
             }"
           >
             {{ currentPlaceholder }}
