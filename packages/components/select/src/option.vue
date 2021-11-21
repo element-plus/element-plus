@@ -91,6 +91,7 @@ export default defineComponent({
       visible,
       hover,
       selectOptionClick,
+      states,
     }
   },
 })
