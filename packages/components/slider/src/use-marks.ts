@@ -1,6 +1,5 @@
 import { computed } from 'vue'
 import type { SliderProps } from './slider'
-import type { Mark } from './slider.type'
 
 export const useMarks = (props: SliderProps) => {
   return computed(() => {
@@ -13,12 +12,10 @@ export const useMarks = (props: SliderProps) => {
       .map(parseFloat)
       .sort((a, b) => a - b)
       .filter((point) => point <= props.max && point >= props.min)
-      .map(
-        (point): Mark => ({
-          point,
-          position: ((point - props.min) * 100) / (props.max - props.min),
-          mark: props.marks![point],
-        })
-      )
+      .map((point) => ({
+        point,
+        position: ((point - props.min) * 100) / (props.max - props.min),
+        mark: props.marks![point],
+      }))
   })
 }

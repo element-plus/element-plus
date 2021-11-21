@@ -39,8 +39,9 @@
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
-import { useSliderButton } from './useSliderButton'
+import { useSliderButton } from './use-slider-button'
 import { silderButtonProps, sliderButtonEmits } from './slider-button'
+import type { SliderButtonStates } from './slider-button'
 
 export default defineComponent({
   name: 'ElSliderButton',
@@ -49,8 +50,8 @@ export default defineComponent({
   },
   props: silderButtonProps,
   emits: sliderButtonEmits,
-  setup(props, ctx) {
-    const initData = reactive({
+  setup(props, { emit }) {
+    const initData = reactive<SliderButtonStates>({
       hovering: false,
       dragging: false,
       isClick: false,
@@ -75,7 +76,7 @@ export default defineComponent({
       onLeftKeyDown,
       onRightKeyDown,
       setPosition,
-    } = useSliderButton(props, initData, ctx)
+    } = useSliderButton(props, initData, emit)
 
     const { hovering, dragging } = toRefs(initData)
 

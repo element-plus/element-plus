@@ -94,15 +94,17 @@ import ElInputNumber from '@element-plus/components/input-number'
 import { UPDATE_MODEL_EVENT, INPUT_EVENT } from '@element-plus/utils/constants'
 import { off, on } from '@element-plus/utils/dom'
 import { throwError } from '@element-plus/utils/error'
+import { sliderContextKey } from '@element-plus/tokens'
 import SliderButton from './slider-button.vue'
 import SliderMarker from './marker.vue'
-import { useMarks } from './useMarks'
-import { useSlide } from './useSlide'
-import { useStops } from './useStops'
+import { useMarks } from './use-marks'
+import { useSlide } from './use-slide'
+import { useStops } from './use-stops'
 
 import { sliderProps, sliderEmits } from './slider'
-import type { Ref } from 'vue'
-import type { Nullable } from '@element-plus/utils/types'
+import type { ElFormItemContext } from '@element-plus/tokens'
+import type { ComputedRef, SetupContext } from 'vue'
+import type { SliderEmits, SliderProps, SliderStates } from './slider'
 
 export default defineComponent({
   name: 'ElSlider',
@@ -113,9 +115,8 @@ export default defineComponent({
   },
   props: sliderProps,
   emits: sliderEmits,
-  setup(props, ctx) {
-    const { emit } = ctx
-    const initData = reactive({
+  setup(props, { emit }) {
+    const initData = reactive<SliderStates>({
       firstValue: 0,
       secondValue: 0,
       oldValue: 0,
@@ -124,7 +125,7 @@ export default defineComponent({
     })
 
     const {
-      elFormItem,
+      formItem,
       slider,
       firstButton,
       secondButton,
@@ -138,7 +139,7 @@ export default defineComponent({
       onSliderClick,
       setFirstValue,
       setSecondValue,
-    } = useSlide(props, initData, ctx)
+    } = useSlide(props, initData, emit)
 
     const { stops, getStopStyle } = useStops(
       props,
@@ -149,7 +150,7 @@ export default defineComponent({
 
     const markList = useMarks(props)
 
-    useWatch(props, initData, minValue, maxValue, emit, elFormItem)
+    useWatch(props, initData, minValue, maxValue, emit, formItem)
 
     const precision = computed(() => {
       const precisions = [props.min, props.max, props.step].map((item) => {
@@ -168,7 +169,7 @@ export default defineComponent({
       initData.dragging = val
     }
 
-    provide('SliderProvider', {
+    provide(sliderContextKey, {
       ...toRefs(props),
       sliderSize,
       disabled: sliderDisabled,
@@ -205,7 +206,14 @@ export default defineComponent({
   },
 })
 
-const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
+const useWatch = (
+  props: SliderProps,
+  initData: SliderStates,
+  minValue: ComputedRef<number>,
+  maxValue: ComputedRef<number>,
+  emit: SetupContext<SliderEmits>['emit'],
+  formItem: ElFormItemContext | undefined
+) => {
   const _emit = (val: number | number[]) => {
     emit(UPDATE_MODEL_EVENT, val)
     emit(INPUT_EVENT, val)
@@ -224,7 +232,6 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
   const setValues = () => {
     if (props.min > props.max) {
       throwError('Slider', 'min should not be greater than max.')
-      return
     }
     const val = props.modelValue
     if (props.range && Array.isArray(val)) {
@@ -240,7 +247,7 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
         initData.firstValue = val[0]
         initData.secondValue = val[1]
         if (valueChanged()) {
-          elFormItem.validate?.('change')
+          formItem?.validate?.('change')
           initData.oldValue = val.slice()
         }
       }
@@ -252,7 +259,7 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
       } else {
         initData.firstValue = val
         if (valueChanged()) {
-          elFormItem.validate?.('change')
+          formItem?.validate?.('change')
           initData.oldValue = val
         }
       }
@@ -293,8 +300,12 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
   )
 }
 
-const useLifecycle = (props, initData, resetSize) => {
-  const sliderWrapper: Ref<Nullable<HTMLElement>> = ref(null)
+const useLifecycle = (
+  props: SliderProps,
+  initData: SliderStates,
+  resetSize: () => void
+) => {
+  const sliderWrapper = ref<HTMLElement>()
 
   onMounted(async () => {
     let valuetext
@@ -321,10 +332,10 @@ const useLifecycle = (props, initData, resetSize) => {
       valuetext = initData.firstValue
     }
 
-    sliderWrapper.value.setAttribute('aria-valuetext', valuetext)
+    sliderWrapper.value!.setAttribute('aria-valuetext', valuetext)
 
     // label screen reader
-    sliderWrapper.value.setAttribute(
+    sliderWrapper.value!.setAttribute(
       'aria-label',
       props.label ? props.label : `slider between ${props.min} and ${props.max}`
     )

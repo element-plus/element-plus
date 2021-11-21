@@ -1,39 +1,31 @@
-import { computed, inject, nextTick, ref, shallowRef } from 'vue'
+import { computed, nextTick, ref, shallowRef } from 'vue'
 import {
   CHANGE_EVENT,
   UPDATE_MODEL_EVENT,
   INPUT_EVENT,
 } from '@element-plus/utils/constants'
-import { elFormKey, elFormItemKey } from '@element-plus/tokens'
-import type { SliderProps, SliderEmits } from './slider'
-import type { CSSProperties, SetupContext } from 'vue'
-import type { ButtonRefs, ISliderInitData } from './slider.type'
-
-import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
-import type { Nullable } from '@element-plus/utils/types'
+import { useFormItem } from '@element-plus/hooks'
+import type { SliderButtonInstance } from './slider-button'
+import type { SliderProps, SliderEmits, SliderStates } from './slider'
+import type { CSSProperties, SetupContext, Ref } from 'vue'
 
 export const useSlide = (
   props: SliderProps,
-  initData: ISliderInitData,
-  { emit }: SetupContext<SliderEmits>
+  initData: SliderStates,
+  emit: SetupContext<SliderEmits>['emit']
 ) => {
-  const elForm = inject(elFormKey, {} as ElFormContext)
-  const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
+  const { formItem, disabled: sliderDisabled } = useFormItem({})
 
-  const slider = shallowRef<Nullable<HTMLElement>>(null)
+  const slider = shallowRef<HTMLElement>()
 
-  const firstButton = ref(null)
+  const firstButton: Ref<SliderButtonInstance | undefined> = ref()
 
-  const secondButton = ref(null)
+  const secondButton: Ref<SliderButtonInstance | undefined> = ref()
 
-  const buttonRefs: ButtonRefs = {
+  const buttonRefs = {
     firstButton,
     secondButton,
   }
-
-  const sliderDisabled = computed(() => {
-    return props.disabled || elForm.disabled || false
-  })
 
   const minValue = computed(() => {
     return Math.min(initData.firstValue, initData.secondValue)
@@ -85,7 +77,7 @@ export const useSlide = (
   const setPosition = (percent: number) => {
     const targetValue = props.min + (percent * (props.max - props.min)) / 100
     if (!props.range) {
-      firstButton.value.setPosition(percent)
+      firstButton.value!.setPosition(percent)
       return
     }
     let buttonRefName: string
@@ -136,12 +128,12 @@ export const useSlide = (
     if (sliderDisabled.value || initData.dragging) return
     resetSize()
     if (props.vertical) {
-      const sliderOffsetBottom = slider.value.getBoundingClientRect().bottom
+      const sliderOffsetBottom = slider.value!.getBoundingClientRect().bottom
       setPosition(
         ((sliderOffsetBottom - event.clientY) / initData.sliderSize) * 100
       )
     } else {
-      const sliderOffsetLeft = slider.value.getBoundingClientRect().left
+      const sliderOffsetLeft = slider.value!.getBoundingClientRect().left
       setPosition(
         ((event.clientX - sliderOffsetLeft) / initData.sliderSize) * 100
       )
@@ -150,7 +142,7 @@ export const useSlide = (
   }
 
   return {
-    elFormItem,
+    formItem,
     slider,
     firstButton,
     secondButton,

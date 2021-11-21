@@ -13,7 +13,6 @@ export default ElSlider
 export const ElMarker = withNoopInstall(Marker)
 export const ElSliderButton = withNoopInstall(SliderButton)
 
-export * from './src/slider.type'
 export * from './src/slider'
 export * from './src/marker'
 export * from './src/slider-button'

@@ -3,16 +3,22 @@ import debounce from 'lodash/debounce'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { off, on } from '@element-plus/utils/dom'
 
-import type { SliderButtonProps, SliderButtonEmits } from './slider-button'
-import type { ComputedRef, CSSProperties, SetupContext } from 'vue'
-import type { ISliderButtonInitData, ISliderProvider } from './slider.type'
+import { sliderContextKey } from '@element-plus/tokens'
+import { throwError } from '@element-plus/utils/error'
+import type {
+  SliderButtonProps,
+  SliderButtonEmits,
+  SliderButtonStates,
+  ElTooltipInstance,
+} from './slider-button'
+import type { CSSProperties, SetupContext, Ref } from 'vue'
 
 const useTooltip = (
   props: SliderButtonProps,
-  formatTooltip: ComputedRef<(value: number) => number | string>,
-  showTooltip: ComputedRef<boolean>
+  formatTooltip: Ref<(value: number) => number | string>,
+  showTooltip: Ref<boolean>
 ) => {
-  const tooltip = ref(null)
+  const tooltip = ref<ElTooltipInstance>()
 
   const tooltipVisible = ref(false)
 
@@ -22,7 +28,10 @@ const useTooltip = (
 
   const formatValue = computed(() => {
     return (
-      (enableFormat.value && formatTooltip.value(props.modelValue)) ||
+      (enableFormat.value &&
+        (formatTooltip.value as (value: number) => number | string)(
+          props.modelValue
+        )) ||
       props.modelValue
     )
   })
@@ -46,9 +55,13 @@ const useTooltip = (
 
 export const useSliderButton = (
   props: SliderButtonProps,
-  initData: ISliderButtonInitData,
-  { emit }: SetupContext<SliderButtonEmits>
+  initData: SliderButtonStates,
+  emit: SetupContext<SliderButtonEmits>['emit']
 ) => {
+  const sliderContext = inject(sliderContextKey)
+  if (!sliderContext)
+    throwError('ElSliderButton', 'must be nested inside ElSlider')
+
   const {
     disabled,
     min,
@@ -61,10 +74,14 @@ export const useSliderButton = (
     emitChange,
     resetSize,
     updateDragging,
-  } = inject<ISliderProvider>('SliderProvider')!
+  } = sliderContext
 
   const { tooltip, tooltipVisible, formatValue, displayTooltip, hideTooltip } =
-    useTooltip(props, formatTooltip, showTooltip)
+    useTooltip(
+      props,
+      formatTooltip as Ref<(value: number) => number | string>,
+      showTooltip
+    )
 
   const currentPosition = computed(() => {
     return `${
@@ -150,13 +167,13 @@ export const useSliderButton = (
     initData.newPosition = initData.startPosition
   }
 
-  const onDragging = (event: MouseEvent | TouchEvent) => {
+  const onDragging = (event: Event) => {
     if (initData.dragging) {
       initData.isClick = false
       displayTooltip()
       resetSize()
       let diff: number
-      const { clientX, clientY } = getClientXY(event)
+      const { clientX, clientY } = getClientXY(event as MouseEvent | TouchEvent)
       if (props.vertical) {
         initData.currentY = clientY
         diff = ((initData.startY - initData.currentY) / sliderSize.value) * 100
@@ -213,7 +230,7 @@ export const useSliderButton = (
 
     await nextTick()
     initData.dragging && displayTooltip()
-    tooltip.value.updatePopper()
+    tooltip.value!.updatePopper()
   }
 
   watch(

@@ -9,7 +9,16 @@ import {
   CHANGE_EVENT,
   INPUT_EVENT,
 } from '@element-plus/utils/constants'
-import type { ExtractPropTypes } from 'vue'
+import type { ComputedRef, ExtractPropTypes, Ref, ToRefs } from 'vue'
+import type slider from './slider.vue'
+
+export interface SliderStates {
+  firstValue: number
+  secondValue: number
+  oldValue: number | number[]
+  dragging: boolean
+  sliderSize: number
+}
 
 export const sliderProps = buildProps({
   modelValue: {
@@ -50,7 +59,6 @@ export const sliderProps = buildProps({
   },
   formatTooltip: {
     type: definePropType<(val: number) => number | string>(Function),
-    default: undefined,
   },
   disabled: {
     type: Boolean,
@@ -82,6 +90,7 @@ export const sliderProps = buildProps({
   },
   marks: Object,
 } as const)
+
 export type SliderProps = ExtractPropTypes<typeof sliderProps>
 
 export const sliderEmits = {
@@ -91,3 +100,14 @@ export const sliderEmits = {
   [INPUT_EVENT]: (val: number | number[]) => isNumber(val) || isArray(val),
 }
 export type SliderEmits = typeof sliderEmits
+
+export type SliderContext = ToRefs<SliderProps> & {
+  sliderSize: Ref<number>
+  disabled: ComputedRef<boolean>
+  precision: ComputedRef<number>
+  emitChange: () => void
+  resetSize: () => void
+  updateDragging: (val: boolean) => void
+}
+
+export type SliderInstance = InstanceType<typeof slider>

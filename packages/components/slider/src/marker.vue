@@ -10,19 +10,14 @@ export default defineComponent({
       return typeof props.mark === 'string' ? props.mark : props.mark?.label
     })
 
-    return {
-      label,
-    }
-  },
-  render() {
-    return h(
-      'div',
-      {
-        class: 'el-slider__marks-text',
-        style: this.mark?.style,
-      },
-      this.label
-    )
+    return () =>
+      h(
+        'div',
+        {
+          class: 'el-slider__marks-text',
+        },
+        label.value
+      )
   },
 })
 </script>
