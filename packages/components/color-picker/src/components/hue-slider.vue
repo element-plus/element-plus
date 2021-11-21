@@ -21,7 +21,7 @@ import {
   getCurrentInstance,
   defineComponent,
 } from 'vue'
-import { getClientXY } from '@element-plus/utils/util'
+import { getClientXY } from '@element-plus/utils/dom'
 import draggable from '../draggable'
 
 import type { PropType } from 'vue'
