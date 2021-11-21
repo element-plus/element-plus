@@ -405,7 +405,7 @@ export const useSelect = (props, states: States, ctx) => {
    */
   const checkDefaultFirstOption = () => {
     const optionsInDropdown = optionsArray.value.filter(
-      (n) => n.visible && !n.disabled && !n.groupDisabled
+      (n) => n.visible && !n.disabled && !n.states.groupDisabled
     )
     const userCreatedOption = optionsInDropdown.filter((n) => n.created)[0]
     const firstOriginOption = optionsInDropdown[0]
@@ -797,7 +797,7 @@ export const useSelect = (props, states: States, ctx) => {
       const option = optionsArray.value[states.hoverIndex]
       if (
         option.disabled === true ||
-        option.groupDisabled === true ||
+        option.states.groupDisabled === true ||
         !option.visible
       ) {
         navigateOptions(direction)
