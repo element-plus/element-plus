@@ -346,7 +346,7 @@ export default defineComponent({
     })
 
     const currentLabel = computed(
-      () => props.label + (elForm.labelSuffix || '')
+      () => (props.label || '') + (elForm.labelSuffix || '')
     )
 
     return {
