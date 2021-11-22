@@ -68,7 +68,7 @@ importers:
       sucrase: 3.20.3
       through2: 4.0.2
       ts-jest: 26.5.6
-      ts-morph: 13.0.0
+      ts-morph: 13.0.1
       typescript: 4.5.2
       vue: 3.2.22
       vue-jest: 5.0.0-alpha.10
@@ -140,7 +140,7 @@ importers:
       sucrase: 3.20.3
       through2: 4.0.2
       ts-jest: 26.5.6_jest@26.6.3+typescript@4.5.2
-      ts-morph: 13.0.0
+      ts-morph: 13.0.1
       typescript: 4.5.2
       vue: 3.2.22
       vue-jest: 5.0.0-alpha.10_410e1f02b0f111ce6647a671103660c3
@@ -781,12 +781,6 @@ packages:
       lodash: 4.17.21
     dev: true
 
-  /@commitlint/execute-rule/14.0.0:
-    resolution: {integrity: sha512-Hh/HLpCBDlrD3Rx2x2pDBx6CU+OtVqGXh7mbFpNihAVx6B0zyZqm/vv0cdwdhfGW5OEn1BhCqHf1ZOvL/DwdWA==}
-    engines: {node: '>=v12'}
-    dev: true
-    optional: true
-
   /@commitlint/execute-rule/15.0.0:
     resolution: {integrity: sha512-pyE4ApxjbWhb1TXz5vRiGwI2ssdMMgZbaaheZq1/7WC0xRnqnIhE1yUC1D2q20qPtvkZPstTYvMiRVtF+DvjUg==}
     engines: {node: '>=v12'}
@@ -818,26 +812,10 @@ packages:
       '@commitlint/types': 15.0.0
     dev: true
 
-  /@commitlint/load/14.1.0:
-    resolution: {integrity: sha512-p+HbgjhkqLsnxyjOUdEYHztHCp8n2oLVUJTmRPuP5FXLNevh6Gwmxf+NYC2J0sgD084aV2CFi3qu1W4yHWIknA==}
-    engines: {node: '>=v12'}
-    requiresBuild: true
-    dependencies:
-      '@commitlint/execute-rule': 14.0.0
-      '@commitlint/resolve-extends': 14.1.0
-      '@commitlint/types': 14.0.0
-      '@endemolshinegroup/cosmiconfig-typescript-loader': 3.0.2_b67f536f129c730ed129a6d21d223ba9
-      chalk: 4.1.2
-      cosmiconfig: 7.0.1
-      lodash: 4.17.21
-      resolve-from: 5.0.0
-      typescript: 4.5.2
-    dev: true
-    optional: true
-
   /@commitlint/load/15.0.0:
     resolution: {integrity: sha512-Ak1YPeOhvxmY3ioe0o6m1yLGvUAYb4BdfGgShU8jiTCmU3Mnmms0Xh/kfQz8AybhezCC3AmVTyBLaBZxOHR8kg==}
     engines: {node: '>=v12'}
+    requiresBuild: true
     dependencies:
       '@commitlint/execute-rule': 15.0.0
       '@commitlint/resolve-extends': 15.0.0
@@ -874,17 +852,6 @@ packages:
       git-raw-commits: 2.0.10
     dev: true
 
-  /@commitlint/resolve-extends/14.1.0:
-    resolution: {integrity: sha512-ko80k6QB6E6/OvGNWy4u7gzzWyluDT3VDNL2kfZaDywsnrYntUKyT4Do97gQ7orttITzj2GRtk3KWClVz4rUUQ==}
-    engines: {node: '>=v12'}
-    dependencies:
-      import-fresh: 3.3.0
-      lodash: 4.17.21
-      resolve-from: 5.0.0
-      resolve-global: 1.0.0
-    dev: true
-    optional: true
-
   /@commitlint/resolve-extends/15.0.0:
     resolution: {integrity: sha512-7apfRJjgJsKja7lHsPfEFixKjA/fk/UeD3owkOw1174yYu4u8xBDLSeU3IinGPdMuF9m245eX8wo7vLUy+EBSg==}
     engines: {node: '>=v12'}
@@ -917,14 +884,6 @@ packages:
     dependencies:
       find-up: 5.0.0
     dev: true
-
-  /@commitlint/types/14.0.0:
-    resolution: {integrity: sha512-sIls1nP2uSbGL466edYlh8mn7O/WP4i3bcvP+2DMhkscRCSgaPhNRWDilhYVsHt2Vu1HTQ27uT0Bj5/Lt2+EcQ==}
-    engines: {node: '>=v12'}
-    dependencies:
-      chalk: 4.1.2
-    dev: true
-    optional: true
 
   /@commitlint/types/15.0.0:
     resolution: {integrity: sha512-OMSLX+QJnyNoTwws54ULv9sOvuw9GdVezln76oyUd4YbMMJyaav62aSXDuCdWyL2sm9hTkSzyEi52PNaIj/vqw==}
@@ -1629,8 +1588,8 @@ packages:
     engines: {node: '>= 6'}
     dev: true
 
-  /@ts-morph/common/0.12.0:
-    resolution: {integrity: sha512-ni7pjqtuyfee4Z21180jrtIkv8/YPciHZhAIz6QIsHGJprheqFbNx3CrsYao48aV3aKx5a4YijADWOcnLzd2aQ==}
+  /@ts-morph/common/0.12.1:
+    resolution: {integrity: sha512-V2JI295qFTusoR0vlFQb5ddNUlYuaLWIvNBU3uZFQgrABYSoEkKzdJabvsL4iPpgAR+CF+gTjepBK/s0KyaNAw==}
     dependencies:
       fast-glob: 3.2.7
       minimatch: 3.0.4
@@ -3715,7 +3674,7 @@ packages:
       longest: 2.0.1
       word-wrap: 1.2.3
     optionalDependencies:
-      '@commitlint/load': 14.1.0
+      '@commitlint/load': 15.0.0
     dev: true
 
   /d/1.0.1:
@@ -10146,10 +10105,10 @@ packages:
       yargs-parser: 20.2.9
     dev: true
 
-  /ts-morph/13.0.0:
-    resolution: {integrity: sha512-DWKKq0uhILFUPZmhBqB+2vljrQ6fwrYJWEdESxOqh9iJk/ti0ZIBB4CUB95I0Gy7FynMRWFEJ3q+kTHzFU98gQ==}
+  /ts-morph/13.0.1:
+    resolution: {integrity: sha512-nJQm/Yz8utWAqieZHkY5Phphzi62kulNEOiliqnarzGpPBrWSsdn2Pz+DP7gulwyg/LRaFifvtSAsbvxylwAnw==}
     dependencies:
-      '@ts-morph/common': 0.12.0
+      '@ts-morph/common': 0.12.1
       code-block-writer: 11.0.0
     dev: true
 
