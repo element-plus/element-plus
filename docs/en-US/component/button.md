@@ -69,7 +69,7 @@ button/loading
 
 Besides default size, Button component provides three additional sizes for you to choose among different scenarios.
 
-:::demo Use attribute `size` to set additional sizes with `medium`, `small` or `mini`.
+:::demo Use attribute `size` to set additional sizes with `large`, `small`.
 
 button/size
 
@@ -91,7 +91,7 @@ button/custom
 
 | Attribute         | Description                                                 | Type               | Accepted Values                                    | Default |
 | ----------------- | ----------------------------------------------------------- | ------------------ | -------------------------------------------------- | ------- |
-| size              | button size                                                 | string             | medium / small / mini                              | —       |
+| size              | button size                                                 | string             | large / small                                      | —       |
 | type              | button type                                                 | string             | primary / success / warning / danger / info / text | —       |
 | plain             | determine whether it's a plain button                       | boolean            | —                                                  | false   |
 | round             | determine whether it's a round button                       | boolean            | —                                                  | false   |
@@ -113,7 +113,7 @@ button/custom
 
 | Attribute | Description                                      | Type   | Accepted Values             | Default |
 | --------- | ------------------------------------------------ | ------ | --------------------------- | ------- |
-| size      | control the size of buttons in this button-group | string | medium / small / mini       | —       |
+| size      | control the size of buttons in this button-group | string | large / small               | —       |
 | type      | control the type of buttons in this button-group | string | primary / success / warning | —       |
 
 ## Button-Group Slots

@@ -73,7 +73,7 @@
     }
   }
 
-  @each $size in (medium, small, mini) {
+  @each $size in (large, small) {
     @include m($size) {
       font-size: map.get($input-font-size, $size);
       line-height: map.get($input-height, $size);

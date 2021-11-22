@@ -85,7 +85,7 @@
     }
   }
 
-  @each $size in (medium, small, mini) {
+  @each $size in (large, small) {
     @include m($size) {
       width: map.get($input-number-width, $size);
       line-height: #{map.get($input-height, $size) - 2};
@@ -155,7 +155,7 @@
       border-radius: 0 0 var(--el-border-radius-base) 0;
     }
 
-    @each $size in (medium, small, mini) {
+    @each $size in (large, small) {
       &[class*='#{$size}'] {
         [class*='increase'],
         [class*='decrease'] {
