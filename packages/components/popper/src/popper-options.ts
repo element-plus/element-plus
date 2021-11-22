@@ -19,7 +19,7 @@ export const usePopperOptions = (arrowRef: Ref<HTMLElement | undefined>) => {
       popperOptions,
       strategy,
     } = props
-    return {
+    const options = {
       placement,
       strategy,
       ...popperOptions,
@@ -55,19 +55,26 @@ export const usePopperOptions = (arrowRef: Ref<HTMLElement | undefined>) => {
             adaptive: gpuAcceleration,
           },
         },
-        ...[
-          arrowElement
-            ? ({
-                name: 'arrow',
-                options: {
-                  element: arrowElement,
-                  padding: arrowOffset ?? 5,
-                },
-              } as any)
-            : {},
-        ],
+
         ...(popperOptions?.modifiers ?? []),
       ],
     }
+    if (arrowElement) {
+      options.modifiers.push({
+        name: 'arrow',
+        options: {
+          element: arrowElement,
+          padding: arrowOffset ?? 5,
+        },
+      } as any)
+    }
+
+    if (popperOptions?.modifiers) {
+      options.modifiers = [
+        ...options.modifiers,
+        ...(popperOptions.modifiers ?? []),
+      ]
+    }
+    return options
   })
 }

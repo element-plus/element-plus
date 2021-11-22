@@ -282,7 +282,7 @@ export default defineComponent({
     }
 
     function delayShow() {
-      if (props.disabled) return
+      if (props.disabled || unref(isControlled)) return
       renderTeleport.value = true
       registerTimeout(() => show(), props.showAfter)
     }
@@ -326,9 +326,7 @@ export default defineComponent({
     }
 
     function onShow() {
-      if (!unref(isControlled)) {
-        doShow()
-      }
+      doShow()
     }
 
     function onToggle() {

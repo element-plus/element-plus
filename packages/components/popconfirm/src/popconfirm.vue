@@ -1,8 +1,9 @@
 <template>
   <el-popper
-    v-model:visible="visible"
+    ref="popperRef"
+    v-bind="$attrs"
     trigger="click"
-    :effect="Effect.LIGHT"
+    effect="light"
     popper-class="el-popover"
     append-to-body
     :fallback-placements="['bottom', 'top', 'right', 'left']"
@@ -27,17 +28,17 @@
         </el-button>
       </div>
     </div>
-    <template #trigger>
-      <slot name="reference"></slot>
+    <template v-if="$slots.reference" #trigger>
+      <slot name="reference" />
     </template>
   </el-popper>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue'
+import { defineComponent, ref, computed, unref } from 'vue'
 import ElButton from '@element-plus/components/button'
 import ElIcon from '@element-plus/components/icon'
-import ElPopper, { Effect } from '@element-plus/components/popper'
+import ElPopper from '@element-plus/components/popper'
 import { useLocale } from '@element-plus/hooks'
 import { popconfirmProps, popconfirmEmits } from './popconfirm'
 
@@ -56,18 +57,25 @@ export default defineComponent({
   setup(props, { emit }) {
     const { t } = useLocale()
     const visible = ref(false)
+    const popperRef = ref<{ delayHide: () => void }>()
+
+    const hidePopper = () => {
+      unref(popperRef)?.delayHide?.()
+    }
     const confirm = () => {
       if (visible.value) {
         emit('confirm')
       }
-      visible.value = false
+      hidePopper()
     }
+
     const cancel = () => {
       if (visible.value) {
         emit('cancel')
       }
-      visible.value = false
+      hidePopper()
     }
+
     const finalConfirmButtonText = computed(
       () => props.confirmButtonText || t('el.popconfirm.confirmButtonText')
     )
@@ -76,11 +84,9 @@ export default defineComponent({
     )
 
     return {
-      Effect,
-      visible,
-
       finalConfirmButtonText,
       finalCancelButtonText,
+      popperRef,
 
       confirm,
       cancel,

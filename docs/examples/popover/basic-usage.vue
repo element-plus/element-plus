@@ -41,7 +41,6 @@
     placement="bottom"
     title="Title"
     :width="200"
-    trigger="manual"
     content="this is content, this is content, this is content"
   >
     <template #reference>
