@@ -1,5 +1,3 @@
-@use 'sass:map';
-
 @use 'mixins/mixins' as *;
 @use 'mixins/var' as *;
 @use 'common/var' as *;
@@ -118,7 +116,7 @@
   }
 
   .#{$namespace}-table__cell {
-    padding: map.get($table-padding, 'default');
+    padding: 12px 0;
     min-width: 0;
     box-sizing: border-box;
     text-overflow: ellipsis;
@@ -148,12 +146,23 @@
     }
   }
 
-  @each $size in (large, small) {
-    @include m($size) {
-      font-size: map.get($table-font-size, $size);
-      .#{$namespace}-table__cell {
-        padding: map.get($table-padding, $size);
-      }
+  @include m(medium) {
+    .#{$namespace}-table__cell {
+      padding: 10px 0;
+    }
+  }
+
+  @include m(small) {
+    font-size: 12px;
+    .#{$namespace}-table__cell {
+      padding: 8px 0;
+    }
+  }
+
+  @include m(mini) {
+    font-size: 12px;
+    .#{$namespace}-table__cell {
+      padding: 6px 0;
     }
   }
 
@@ -219,7 +228,7 @@
     text-overflow: ellipsis;
     white-space: normal;
     word-break: break-all;
-    line-height: 20px;
+    line-height: 23px;
     padding-left: 10px;
     padding-right: 10px;
 

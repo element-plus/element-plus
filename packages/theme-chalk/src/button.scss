@@ -151,6 +151,7 @@
   }
   @include when(round) {
     border-radius: var(--el-border-radius-round);
+    padding: 12px 23px;
   }
   @include when(circle) {
     border-radius: 50%;
@@ -176,7 +177,7 @@
     }
   }
 
-  @each $size in (large, small) {
+  @each $size in (medium, small, mini) {
     @include m($size) {
       min-height: map.get($input-height, $size);
 

@@ -9,9 +9,10 @@
 $checkbox-height: () !default;
 $checkbox-height: map.merge(
   (
-    'large': 40px,
-    'default': 32px,
-    'small': 24px,
+    'default': 40px,
+    'medium': 36px,
+    'small': 32px,
+    'mini': 28px,
   ),
   $checkbox-height
 );
