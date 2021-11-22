@@ -147,7 +147,7 @@
     }
 
     @include when(disabled) {
-      color: $disabled-color-base;
+      color: var(--el-disabled-text-color);
       cursor: default;
     }
   }
@@ -258,7 +258,7 @@
         color: var(--el-color-primary);
       }
       &.is-disabled {
-        color: $disabled-color-base;
+        color: var(--el-disabled-text-color);
       }
     }
 

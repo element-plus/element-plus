@@ -76,9 +76,9 @@
   --el-index-popper: 2000;
 
   // Disable base
-  --el-disabled-fill-base: var(--el-bg-color-base);
-  --el-disabled-color-base: var(--el-text-color-placeholder);
-  --el-disabled-border-base: var(--el-border-color-light);
+  --el-disabled-bg-color: #{map.get($disabled, 'bg-color')};
+  --el-disabled-text-color: #{map.get($disabled, 'text-color')};
+  --el-disabled-border-color: #{map.get($disabled, 'border-color')};
 
   /* Transition
 -------------------------- */
