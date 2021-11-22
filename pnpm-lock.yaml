@@ -249,14 +249,14 @@ importers:
   play:
     specifiers:
       '@element-plus/icons': ^0.0.11
-      '@vitejs/plugin-vue': 1.9.4
+      '@vitejs/plugin-vue': 1.10.0
       unplugin-vue-components: 0.17.2
       vite: 2.6.14
       vite-plugin-inspect: 0.3.10
     dependencies:
       '@element-plus/icons': 0.0.11
     devDependencies:
-      '@vitejs/plugin-vue': 1.9.4_vite@2.6.14
+      '@vitejs/plugin-vue': 1.10.0_vite@2.6.14
       unplugin-vue-components: 0.17.2_3c3bbef40a8add07c78b28db8fdf65c9
       vite: 2.6.14_sass@1.43.4
       vite-plugin-inspect: 0.3.10_vite@2.6.14
@@ -1967,6 +1967,15 @@ packages:
       eslint-visitor-keys: 3.1.0
     dev: true
 
+  /@vitejs/plugin-vue/1.10.0_vite@2.6.14:
+    resolution: {integrity: sha512-XkSN7lduhQ3z/WMXv2spqt9TCS0znCjnvIGmbud2bxViWWWR4JWXE+x/cQZ/klR0Ug4Ts9eubL7LXAysON5Uvg==}
+    engines: {node: '>=12.0.0'}
+    peerDependencies:
+      vite: ^2.5.10
+    dependencies:
+      vite: 2.6.14_sass@1.43.4
+    dev: true
+
   /@vitejs/plugin-vue/1.9.3_vite@2.6.10:
     resolution: {integrity: sha512-yW6H/q+4Mc2PcVjSOelcsMrg/k15DnMUz8jyCFsI04emc3aLwo4AoofUfGnjHUkgirrDxSJLVqQVGhonQ3yykA==}
     engines: {node: '>=12.0.0'}
@@ -1974,15 +1983,6 @@ packages:
       vite: ^2.5.10
     dependencies:
       vite: 2.6.10_sass@1.43.4
-    dev: true
-
-  /@vitejs/plugin-vue/1.9.4_vite@2.6.14:
-    resolution: {integrity: sha512-0CZqaCoChriPTTtGkERy1LGPcYjGFpi2uYRhBPIkqJqUGV5JnJFhQAgh6oH9j5XZHfrRaisX8W0xSpO4T7S78A==}
-    engines: {node: '>=12.0.0'}
-    peerDependencies:
-      vite: ^2.5.10
-    dependencies:
-      vite: 2.6.14_sass@1.43.4
     dev: true
 
   /@volar/code-gen/0.29.6:
