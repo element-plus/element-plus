@@ -151,7 +151,7 @@ importers:
     specifiers:
       '@crowdin/cli': 3.7.2
       '@types/markdown-it': 12.2.3
-      '@vueuse/core': 7.0.0
+      '@vueuse/core': 7.0.1
       axios: 0.24.0
       clipboard-copy: 4.0.1
       cross-env: 7.0.3
@@ -163,7 +163,7 @@ importers:
       vite-plugin-inspect: 0.3.10
       vitepress: 0.18.1
     dependencies:
-      '@vueuse/core': 7.0.0_vue@3.2.22
+      '@vueuse/core': 7.0.1_vue@3.2.22
       axios: 0.24.0
       clipboard-copy: 4.0.1
       element-plus: 1.2.0-beta.3_vue@3.2.22
@@ -2172,6 +2172,22 @@ packages:
       vue-demi: 0.11.4_vue@3.2.22
     dev: false
 
+  /@vueuse/core/7.0.1_vue@3.2.22:
+    resolution: {integrity: sha512-xWA1o+pQK2uqm6yewjnP8JvrFCPKokTQfTzF/7f74iCgGwPmyPVgPLLGlKLE7NZz32DlWEiGvF43E14X4a19zQ==}
+    peerDependencies:
+      '@vue/composition-api': ^1.1.0
+      vue: ^2.6.0 || ^3.2.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      vue:
+        optional: true
+    dependencies:
+      '@vueuse/shared': 7.0.1_vue@3.2.22
+      vue: 3.2.22
+      vue-demi: 0.11.4_vue@3.2.22
+    dev: false
+
   /@vueuse/shared/6.9.2_vue@3.2.22:
     resolution: {integrity: sha512-lAiMh6XROs0kSKVd0Yb/6GKoQMxC1fYrFDi6opvQWISPtcqRNluRrQxLUZ3WTI78ovtoKRLktjhkFAtydcfFDg==}
     peerDependencies:
@@ -2189,6 +2205,21 @@ packages:
 
   /@vueuse/shared/7.0.0_vue@3.2.22:
     resolution: {integrity: sha512-TG4FSjiFCTn4srJO8j9Ax4OOVKrBWgcRJY54+mHqYINEk95FFuCvk7cE642Byxq6eGTMTZRw+f8ufFIA9tqXig==}
+    peerDependencies:
+      '@vue/composition-api': ^1.1.0
+      vue: ^2.6.0 || ^3.2.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      vue:
+        optional: true
+    dependencies:
+      vue: 3.2.22
+      vue-demi: 0.11.4_vue@3.2.22
+    dev: false
+
+  /@vueuse/shared/7.0.1_vue@3.2.22:
+    resolution: {integrity: sha512-sZWV8Mq4R5oCO4Db/jN6OB3VS6enL7XieLbvKVggk73wFaVEMlEF140gOmp8u6K70ZbqPKwMuNntm1rjuPOrmg==}
     peerDependencies:
       '@vue/composition-api': ^1.1.0
       vue: ^2.6.0 || ^3.2.0
