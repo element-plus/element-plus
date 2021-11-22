@@ -10,8 +10,8 @@
         class="el-form-item__label"
         :style="labelStyle"
       >
-        <slot name="label" :label="label + elForm.labelSuffix">
-          {{ label + elForm.labelSuffix }}
+        <slot name="label" :label="currentLabel">
+          {{ currentLabel }}
         </slot>
       </label>
     </LabelWrap>
@@ -345,6 +345,10 @@ export default defineComponent({
       )
     })
 
+    const currentLabel = computed(
+      () => props.label + (elForm.labelSuffix || '')
+    )
+
     return {
       formItemRef,
       formItemClass,
@@ -356,6 +360,7 @@ export default defineComponent({
       labelFor,
       resetField,
       clearValidate,
+      currentLabel,
     }
   },
 })
