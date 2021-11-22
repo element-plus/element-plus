@@ -148,7 +148,7 @@
 
     @include when(disabled) {
       cursor: not-allowed;
-      color: var(--el-font-color-disabled-base);
+      color: var(--el-text-color-disabled-base);
     }
   }
 

@@ -35,7 +35,7 @@
   }
 
   // Background
-  --el-background-color-base: #{$background-color-base};
+  --el-bg-color-base: #{$background-color-base};
 
   // Border
   --el-border-width-base: #{$border-width-base};
@@ -68,7 +68,7 @@
 
   --el-font-weight-primary: 500;
   --el-font-line-height-primary: 24px;
-  --el-font-color-disabled-base: #bbb;
+  --el-text-color-disabled-base: #bbb;
 
   // z-index
   --el-index-normal: 1;
@@ -76,7 +76,7 @@
   --el-index-popper: 2000;
 
   // Disable base
-  --el-disabled-fill-base: var(--el-background-color-base);
+  --el-disabled-fill-base: var(--el-bg-color-base);
   --el-disabled-color-base: var(--el-text-color-placeholder);
   --el-disabled-border-base: var(--el-border-color-light);
 

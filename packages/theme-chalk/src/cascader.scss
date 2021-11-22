@@ -153,7 +153,7 @@
     margin: 0;
     padding: 6px 0;
     font-size: var(--el-font-size-base);
-    color: var(--el-cascader-menu-font-color);
+    color: var(--el-cascader-menu-text-color);
     text-align: center;
   }
 
@@ -173,7 +173,7 @@
     }
 
     &.is-checked {
-      color: var(--el-cascader-menu-selected-font-color);
+      color: var(--el-cascader-menu-selected-text-color);
       font-weight: bold;
     }
 
@@ -193,7 +193,7 @@
     min-width: 60px;
     margin: 2px 0 2px 15px;
     padding: 0;
-    color: var(--el-cascader-menu-font-color);
+    color: var(--el-cascader-menu-text-color);
     border: none;
     outline: none;
     box-sizing: border-box;

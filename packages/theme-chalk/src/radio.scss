@@ -11,7 +11,7 @@
 }
 
 @include b(radio) {
-  color: var(--el-radio-font-color);
+  color: var(--el-radio-text-color);
   font-weight: var(--el-radio-font-weight);
   position: relative;
   cursor: pointer;
@@ -121,7 +121,7 @@
       }
 
       & + .#{$namespace}-radio__label {
-        color: map.get($radio-checked, 'font-color');
+        color: map.get($radio-checked, 'text-color');
       }
     }
 
@@ -136,7 +136,7 @@
     border-radius: var(--el-radio-input-border-radius);
     width: var(--el-radio-input-width);
     height: var(--el-radio-input-height);
-    background-color: var(--el-radio-input-background-color);
+    background-color: var(--el-radio-input-bg-color);
     position: relative;
     cursor: pointer;
     display: inline-block;
