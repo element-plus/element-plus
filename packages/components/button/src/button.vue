@@ -39,7 +39,7 @@ import { computed, inject, defineComponent, Text, ref } from 'vue'
 import { useCssVar } from '@vueuse/core'
 import { ElIcon } from '@element-plus/components/icon'
 import { useFormItem, useGlobalConfig } from '@element-plus/hooks'
-import { elButtonGroupKey, elFormKey } from '@element-plus/tokens'
+import { buttonGroupContextKey } from '@element-plus/tokens'
 import { Loading } from '@element-plus/icons'
 
 import { lighten, darken } from '@element-plus/utils/color'
@@ -59,7 +59,7 @@ export default defineComponent({
 
   setup(props, { emit, slots }) {
     const buttonRef = ref()
-    const elBtnGroup = inject(elButtonGroupKey, undefined)
+    const buttonGroupContext = inject(buttonGroupContextKey, undefined)
     const globalConfig = useGlobalConfig()
     const autoInsertSpace = computed(() => {
       return props.autoInsertSpace ?? globalConfig?.button.autoInsertSpace
@@ -77,11 +77,16 @@ export default defineComponent({
       }
       return false
     })
-    const { size: buttonSize, disabled: buttonDisabled } = useFormItem({
-      size: computed(() => elBtnGroup?.size),
+
+    const {
+      form,
+      size: buttonSize,
+      disabled: buttonDisabled,
+    } = useFormItem({
+      size: computed(() => buttonGroupContext?.size),
     })
     const buttonType = computed(
-      () => props.type || elBtnGroup?.type || 'default'
+      () => props.type || buttonGroupContext?.type || 'default'
     )
 
     // calculate hover & active color by color
@@ -126,11 +131,9 @@ export default defineComponent({
       return styles
     })
 
-    const elForm = inject(elFormKey, undefined)
-
     const handleClick = (evt: MouseEvent) => {
       if (props.nativeType === 'reset') {
-        elForm?.resetFields()
+        form?.resetFields()
       }
       emit('click', evt)
     }
