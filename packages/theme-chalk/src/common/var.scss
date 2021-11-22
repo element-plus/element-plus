@@ -517,7 +517,7 @@ $button: map.merge(
     'border-color': var(--el-border-color-base),
     'bg-color': var(--el-color-white),
     'text-color': var(--el-text-color-regular),
-    'disabled-text-color': var(--el-text-color-placeholder),
+    'disabled-text-color': var(--el-disabled-color-base),
     'disabled-bg-color': var(--el-color-white),
     'disabled-border-color': var(--el-border-color-light),
     'divide-border-color': rgba($color-white, 0.5),
