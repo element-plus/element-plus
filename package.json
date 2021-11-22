@@ -101,7 +101,7 @@
     "gulp-typescript": "6.0.0-alpha.1",
     "husky": "7.0.4",
     "jest": "26.6.3",
-    "lint-staged": "11.2.6",
+    "lint-staged": "12.1.2",
     "prettier": "2.4.1",
     "pretty-quick": "3.1.2",
     "resize-observer-polyfill": "1.5.1",
