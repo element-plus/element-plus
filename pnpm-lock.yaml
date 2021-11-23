@@ -151,7 +151,7 @@ importers:
     specifiers:
       '@crowdin/cli': 3.7.2
       '@types/markdown-it': 12.2.3
-      '@vueuse/core': 7.0.1
+      '@vueuse/core': 7.0.3
       axios: 0.24.0
       clipboard-copy: 4.0.1
       cross-env: 7.0.3
@@ -163,7 +163,7 @@ importers:
       vite-plugin-inspect: 0.3.10
       vitepress: 0.18.1
     dependencies:
-      '@vueuse/core': 7.0.1_vue@3.2.22
+      '@vueuse/core': 7.0.3_vue@3.2.22
       axios: 0.24.0
       clipboard-copy: 4.0.1
       element-plus: 1.2.0-beta.3_vue@3.2.22
@@ -2172,8 +2172,8 @@ packages:
       vue-demi: 0.11.4_vue@3.2.22
     dev: false
 
-  /@vueuse/core/7.0.1_vue@3.2.22:
-    resolution: {integrity: sha512-xWA1o+pQK2uqm6yewjnP8JvrFCPKokTQfTzF/7f74iCgGwPmyPVgPLLGlKLE7NZz32DlWEiGvF43E14X4a19zQ==}
+  /@vueuse/core/7.0.3_vue@3.2.22:
+    resolution: {integrity: sha512-iKm6H3oZHXvCLhvNTkIKekLTfwnFiUSmb1lNJbm2v6ZU26PrwXHZZ9kdeNolwtV1awPKHoi/5RS/FTIWt+nN5Q==}
     peerDependencies:
       '@vue/composition-api': ^1.1.0
       vue: ^2.6.0 || ^3.2.0
@@ -2183,7 +2183,7 @@ packages:
       vue:
         optional: true
     dependencies:
-      '@vueuse/shared': 7.0.1_vue@3.2.22
+      '@vueuse/shared': 7.0.3_vue@3.2.22
       vue: 3.2.22
       vue-demi: 0.11.4_vue@3.2.22
     dev: false
@@ -2218,8 +2218,8 @@ packages:
       vue-demi: 0.11.4_vue@3.2.22
     dev: false
 
-  /@vueuse/shared/7.0.1_vue@3.2.22:
-    resolution: {integrity: sha512-sZWV8Mq4R5oCO4Db/jN6OB3VS6enL7XieLbvKVggk73wFaVEMlEF140gOmp8u6K70ZbqPKwMuNntm1rjuPOrmg==}
+  /@vueuse/shared/7.0.3_vue@3.2.22:
+    resolution: {integrity: sha512-g3FX5PMK3MrWPFrU6EL9wDYyGlgjOiOroe1idKHezcvtZQ1pkjbpQyLBmjWQvVTEF67k0aGlRd+YTpg8GcfcJw==}
     peerDependencies:
       '@vue/composition-api': ^1.1.0
       vue: ^2.6.0 || ^3.2.0
