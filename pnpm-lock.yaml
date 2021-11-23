@@ -68,7 +68,7 @@ importers:
       sucrase: 3.20.3
       through2: 4.0.2
       ts-jest: 26.5.6
-      ts-morph: 13.0.1
+      ts-morph: 13.0.2
       typescript: 4.5.2
       vue: 3.2.22
       vue-jest: 5.0.0-alpha.10
@@ -140,7 +140,7 @@ importers:
       sucrase: 3.20.3
       through2: 4.0.2
       ts-jest: 26.5.6_jest@26.6.3+typescript@4.5.2
-      ts-morph: 13.0.1
+      ts-morph: 13.0.2
       typescript: 4.5.2
       vue: 3.2.22
       vue-jest: 5.0.0-alpha.10_410e1f02b0f111ce6647a671103660c3
@@ -1588,8 +1588,8 @@ packages:
     engines: {node: '>= 6'}
     dev: true
 
-  /@ts-morph/common/0.12.1:
-    resolution: {integrity: sha512-V2JI295qFTusoR0vlFQb5ddNUlYuaLWIvNBU3uZFQgrABYSoEkKzdJabvsL4iPpgAR+CF+gTjepBK/s0KyaNAw==}
+  /@ts-morph/common/0.12.2:
+    resolution: {integrity: sha512-m5KjptpIf1K0t0QL38uE+ol1n+aNn9MgRq++G3Zym1FlqfN+rThsXlp3cAgib14pIeXF7jk3UtJQOviwawFyYg==}
     dependencies:
       fast-glob: 3.2.7
       minimatch: 3.0.4
@@ -10105,10 +10105,10 @@ packages:
       yargs-parser: 20.2.9
     dev: true
 
-  /ts-morph/13.0.1:
-    resolution: {integrity: sha512-nJQm/Yz8utWAqieZHkY5Phphzi62kulNEOiliqnarzGpPBrWSsdn2Pz+DP7gulwyg/LRaFifvtSAsbvxylwAnw==}
+  /ts-morph/13.0.2:
+    resolution: {integrity: sha512-SjeeHaRf/mFsNeR3KTJnx39JyEOzT4e+DX28gQx5zjzEOuFs2eGrqeN2PLKs/+AibSxPmzV7RD8nJVKmFJqtLA==}
     dependencies:
-      '@ts-morph/common': 0.12.1
+      '@ts-morph/common': 0.12.2
       code-block-writer: 11.0.0
     dev: true
 
