@@ -1324,6 +1324,41 @@ describe('Select', () => {
     expect(wrapper.findAll('.el-tag__close').length).toBe(0)
   })
 
+  test('tag type', async () => {
+    const wrapper = _mount(
+      `
+      <el-select v-model="value" multiple tag-type="success">
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        >
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕',
+          },
+          {
+            value: '选项2',
+            label: '双皮奶',
+          },
+        ],
+        value: [],
+      })
+    )
+
+    await wrapper.find('.select-trigger').trigger('click')
+    const options = getOptions()
+    options[1].click()
+    await nextTick()
+    expect(wrapper.find('.el-tag').classes()).toContain('el-tag--success')
+  })
+
   test('modelValue should be deep reactive in multiple mode', async () => {
     const wrapper = _mount(
       `
