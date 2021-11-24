@@ -66,11 +66,19 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
         column,
       })
     }
-    return Object.assign(
-      {},
-      cellStyles,
-      getFixedColumnOffset(columnIndex, props.fixed, props.store)
+    const fixedStyle = getFixedColumnOffset(
+      columnIndex,
+      props.fixed,
+      props.store
     )
+    if (fixedStyle) {
+      if (fixedStyle.left !== undefined) {
+        fixedStyle.left += 'px'
+      } else if (fixedStyle.right !== undefined) {
+        fixedStyle.right += 'px'
+      }
+    }
+    return Object.assign({}, cellStyles, fixedStyle)
   }
 
   const getCellClass = (

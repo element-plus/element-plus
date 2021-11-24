@@ -12,7 +12,16 @@ function useStyle<T>(props: TableFooter<T>) {
   const { columns } = useMapState<T>()
 
   const hasGutter = computed(() => {
-    return !props.fixed && !table.layout.gutterWidth
+    return (
+      !props.fixed &&
+      table.layout.gutterWidth > 0 &&
+      table.layout.height.value &&
+      table.layout.bodyScrollHeight.value > table.layout.bodyHeight.value
+    )
+  })
+
+  const gutterWidth = computed(() => {
+    return table.layout.gutterWidth
   })
   const getRowClasses = (column: TableColumnCtx<T>, cellIndex: number) => {
     const classes = [
@@ -30,12 +39,35 @@ function useStyle<T>(props: TableFooter<T>) {
     return classes
   }
 
-  const getRowStyles = (column: TableColumnCtx<T>, cellIndex: number) => {
-    return getFixedColumnOffset(cellIndex, column.fixed, props.store)
+  const getRowStyles = (
+    column: TableColumnCtx<T>,
+    cellIndex: number,
+    hasGutter: boolean,
+    gutterWidth: number
+  ) => {
+    const fixedStyle = getFixedColumnOffset(
+      cellIndex,
+      column.fixed,
+      props.store
+    )
+    if (fixedStyle) {
+      if (hasGutter) {
+        if (fixedStyle.right !== undefined) {
+          fixedStyle.right += gutterWidth
+        }
+      }
+      if (fixedStyle.left !== undefined) {
+        fixedStyle.left += 'px'
+      } else if (fixedStyle.right !== undefined) {
+        fixedStyle.right += 'px'
+      }
+    }
+    return fixedStyle
   }
 
   return {
     hasGutter,
+    gutterWidth,
     getRowClasses,
     getRowStyles,
     columns,

@@ -23,56 +23,70 @@
     :style="style"
     @mouseleave="handleMouseLeave()"
   >
-    <div ref="hiddenColumns" class="hidden-columns">
-      <slot></slot>
-    </div>
-    <div
-      v-if="showHeader"
-      ref="headerWrapper"
-      v-mousewheel="handleHeaderFooterMousewheel"
-      class="el-table__header-wrapper"
-    >
-      <table-header
-        ref="tableHeader"
-        :border="border"
-        :default-sort="defaultSort"
-        :store="store"
-        :style="{
-          width: layout.bodyWidth.value ? layout.bodyWidth.value + 'px' : '',
-        }"
-        @set-drag-visible="setDragVisible"
-      />
-    </div>
-    <div ref="bodyWrapper" :style="[bodyHeight]" class="el-table__body-wrapper">
-      <table-body
-        :context="context"
-        :highlight="highlightCurrentRow"
-        :row-class-name="rowClassName"
-        :tooltip-effect="tooltipEffect"
-        :row-style="rowStyle"
-        :store="store"
-        :stripe="stripe"
-        :style="{
-          width: bodyWidth,
-        }"
-      />
-      <div
-        v-if="isEmpty"
-        ref="emptyBlock"
-        :style="emptyBlockStyle"
-        class="el-table__empty-block"
-      >
-        <span class="el-table__empty-text">
-          <slot name="empty">{{ emptyText || t('el.table.emptyText') }}</slot>
-        </span>
+    <div class="el-table__inner-wrapper">
+      <div ref="hiddenColumns" class="hidden-columns">
+        <slot></slot>
       </div>
       <div
-        v-if="$slots.append"
-        ref="appendWrapper"
-        class="el-table__append-wrapper"
+        v-if="showHeader"
+        ref="headerWrapper"
+        v-mousewheel="handleHeaderFooterMousewheel"
+        class="el-table__header-wrapper"
       >
-        <slot name="append"></slot>
+        <table-header
+          ref="tableHeader"
+          :border="border"
+          :default-sort="defaultSort"
+          :store="store"
+          :style="{
+            width: layout.bodyWidth.value ? layout.bodyWidth.value + 'px' : '',
+          }"
+          @set-drag-visible="setDragVisible"
+        />
       </div>
+      <div
+        ref="bodyWrapper"
+        :style="[bodyHeight]"
+        class="el-table__body-wrapper"
+      >
+        <table-body
+          :context="context"
+          :highlight="highlightCurrentRow"
+          :row-class-name="rowClassName"
+          :tooltip-effect="tooltipEffect"
+          :row-style="rowStyle"
+          :store="store"
+          :stripe="stripe"
+          :style="{
+            width: bodyWidth,
+          }"
+        />
+        <div
+          v-if="isEmpty"
+          ref="emptyBlock"
+          :style="emptyBlockStyle"
+          class="el-table__empty-block"
+        >
+          <span class="el-table__empty-text">
+            <slot name="empty">{{ emptyText || t('el.table.emptyText') }}</slot>
+          </span>
+        </div>
+        <div
+          v-if="$slots.append"
+          ref="appendWrapper"
+          class="el-table__append-wrapper"
+        >
+          <slot name="append"></slot>
+        </div>
+      </div>
+      <div v-if="border || isGroup" class="el-table__border-left-patch"></div>
+      <div
+        v-if="layout.scrollX.value && layout.height.value"
+        class="el-table__border-bottom-patch"
+        :style="{
+          bottom: `${layout.gutterWidth}px`,
+        }"
+      ></div>
     </div>
     <div
       v-if="showSummary"

@@ -381,6 +381,7 @@ export const isFixedColumn = <T>(
   let start = 0
   let after = index
   if (realColumns) {
+    // handle group
     for (let i = 0; i < index; i++) {
       start += realColumns[i].colSpan
     }
@@ -472,14 +473,14 @@ export const getFixedColumnOffset = <T>(
     offset = columns
       .slice(start + 1)
       .reverse()
-      .reduce((s, c) => {
-        return s + (c.realWidth === null ? c.width : c.realWidth)
+      .reduce((acc, c) => {
+        return acc + (c.realWidth === null ? c.width : c.realWidth)
       }, 0)
   }
   if (isLeft) {
-    styles.left = `${offset}px`
+    styles.left = offset
   } else {
-    styles.right = `${offset}px`
+    styles.right = offset
   }
   return styles
 }

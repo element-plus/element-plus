@@ -1,5 +1,5 @@
 import { defineComponent, h } from 'vue'
-import { hGutter, hColgroup } from '../h-helper'
+import { hColgroup } from '../h-helper'
 import useStyle from './style-helper'
 import type { Store } from '../store'
 
@@ -42,25 +42,26 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const { hasGutter, getRowClasses, getRowStyles, columns } = useStyle(
-      props as TableFooter<DefaultRow>
-    )
+    const { hasGutter, getRowClasses, getRowStyles, columns, gutterWidth } =
+      useStyle(props as TableFooter<DefaultRow>)
     return {
       getRowClasses,
       getRowStyles,
       hasGutter,
+      gutterWidth,
       columns,
     }
   },
   render() {
+    const { hasGutter, gutterWidth, columns } = this
     let sums = []
     if (this.summaryMethod) {
       sums = this.summaryMethod({
-        columns: this.columns,
+        columns,
         data: this.store.states.data.value,
       })
     } else {
-      this.columns.forEach((column, index) => {
+      columns.forEach((column, index) => {
         if (index === 0) {
           sums[index] = this.sumText
           return
@@ -101,15 +102,15 @@ export default defineComponent({
         border: '0',
       },
       [
-        hColgroup(this.columns, this.hasGutter),
+        hColgroup(columns, hasGutter),
         h(
           'tbody',
           {
-            class: [{ 'has-gutter': this.hasGutter }],
+            class: [{ 'has-gutter': hasGutter }],
           },
           [
             h('tr', {}, [
-              ...this.columns.map((column, cellIndex) =>
+              ...columns.map((column, cellIndex) =>
                 h(
                   'td',
                   {
@@ -119,8 +120,16 @@ export default defineComponent({
                     class: [
                       ...this.getRowClasses(column, cellIndex),
                       'el-table__cell',
+                      hasGutter && cellIndex === columns.length - 1
+                        ? 'last'
+                        : '',
                     ],
-                    style: this.getRowStyles(column, cellIndex),
+                    style: this.getRowStyles(
+                      column,
+                      cellIndex,
+                      hasGutter,
+                      gutterWidth
+                    ),
                   },
                   [
                     h(
@@ -133,7 +142,13 @@ export default defineComponent({
                   ]
                 )
               ),
-              this.hasGutter && hGutter(),
+              hasGutter &&
+                h('td', {
+                  class: 'el-table__fixed-right-patch el-table__cell',
+                  style: {
+                    width: `${gutterWidth}px`,
+                  },
+                }),
             ]),
           ]
         ),

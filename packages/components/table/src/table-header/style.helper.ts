@@ -32,7 +32,9 @@ function useStyle<T>(props: TableHeaderProps<T>) {
     rowIndex: number,
     columnIndex: number,
     row: T,
-    column: TableColumnCtx<T>
+    column: TableColumnCtx<T>,
+    hasGutter: boolean,
+    gutterWidth: number
   ) => {
     let headerCellStyles = parent.props.headerCellStyle ?? {}
     if (typeof headerCellStyles === 'function') {
@@ -43,17 +45,25 @@ function useStyle<T>(props: TableHeaderProps<T>) {
         column,
       })
     }
-
-    return Object.assign(
-      {},
-      headerCellStyles,
-      getFixedColumnOffset<T>(
-        columnIndex,
-        column.fixed,
-        props.store,
-        row as unknown as TableColumnCtx<T>[]
-      )
+    const fixedStyle = getFixedColumnOffset<T>(
+      columnIndex,
+      column.fixed,
+      props.store,
+      row as unknown as TableColumnCtx<T>[]
     )
+    if (fixedStyle) {
+      if (hasGutter) {
+        if (fixedStyle.right !== undefined) {
+          fixedStyle.right += gutterWidth
+        }
+      }
+      if (fixedStyle.left !== undefined) {
+        fixedStyle.left += 'px'
+      } else if (fixedStyle.right !== undefined) {
+        fixedStyle.right += 'px'
+      }
+    }
+    return Object.assign({}, headerCellStyles, fixedStyle)
   }
 
   const getHeaderCellClass = (
