@@ -22,6 +22,7 @@ import {
   markRaw,
   reactive,
 } from 'vue'
+import { eagerComputed } from '@vueuse/core'
 import { tabsRootContextKey } from '@element-plus/tokens'
 import { throwError } from '@element-plus/utils/error'
 import { tabPaneProps } from './tab-pane'
@@ -39,11 +40,11 @@ export default defineComponent({
     const index = ref<string>()
     const loaded = ref(false)
     const isClosable = computed(() => props.closable || tabsRoot.props.closable)
-    const active = computed(
+    const active = eagerComputed(
       () => tabsRoot.currentName.value === (props.name || index.value)
     )
     const paneName = computed(() => props.name || index.value)
-    const shouldBeRender = computed(
+    const shouldBeRender = eagerComputed(
       () => !props.lazy || loaded.value || active.value
     )
 
