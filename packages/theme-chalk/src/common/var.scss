@@ -1088,14 +1088,21 @@ $avatar: map.merge(
   (
     'text-color': #fff,
     'bg-color': #c0c4cc,
-    'text-font-size': 14px,
-    'icon-font-size': 18px,
+    'text-size': 14px,
+    'icon-size': 18px,
     'border-radius': var(--el-border-radius-base),
-    'large-size': 40px,
-    'medium-size': 36px,
-    'small-size': 28px,
   ),
   $avatar
+);
+
+$avatar-size: () !default;
+$avatar-size: map.merge(
+  (
+    'large': 56px,
+    'default': 40px,
+    'small': 24px,
+  ),
+  $avatar-size
 );
 
 // Empty
