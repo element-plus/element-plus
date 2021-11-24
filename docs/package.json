@@ -9,7 +9,7 @@
     "crowdin-credentials": "sucrase-node .vitepress/build/crowdin-credentials.ts"
   },
   "dependencies": {
-    "@vueuse/core": "7.0.0",
+    "@vueuse/core": "7.0.3",
     "axios": "0.24.0",
     "clipboard-copy": "4.0.1",
     "element-plus": "npm:element-plus@latest",
@@ -22,7 +22,7 @@
     "cross-env": "7.0.3",
     "markdown-it": "12.2.0",
     "markdown-it-container": "3.0.0",
-    "vite-plugin-inspect": "0.3.10",
+    "vite-plugin-inspect": "0.3.11",
     "vitepress": "0.18.1"
   }
 }

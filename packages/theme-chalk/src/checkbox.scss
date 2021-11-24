@@ -159,7 +159,7 @@ $checkbox-bordered-input-width: map.merge(
       }
 
       & + span.#{$namespace}-checkbox__label {
-        color: $disabled-color-base;
+        color: var(--el-disabled-text-color);
         cursor: not-allowed;
       }
     }

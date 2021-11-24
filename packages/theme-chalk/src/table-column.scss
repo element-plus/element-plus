@@ -70,7 +70,7 @@
       }
 
       &.is-disabled {
-        color: $disabled-color-base;
+        color: var(--el-disabled-text-color);
         cursor: not-allowed;
       }
     }

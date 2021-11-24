@@ -152,10 +152,16 @@ $font-size: map.merge(
   $font-size
 );
 
-// Disable base
-$disabled-fill-base: var(--el-bg-color-base) !default;
-$disabled-color-base: var(--el-text-color-placeholder) !default;
-$disabled-border-base: var(--el-border-color-light) !default;
+// Disable default
+$disabled: () !default;
+$disabled: map.merge(
+  (
+    'bg-color': var(--el-bg-color-base),
+    'text-color': var(--el-text-color-placeholder),
+    'border-color': var(--el-border-color-light),
+  ),
+  $disabled
+);
 
 // Checkbox
 // css3 var in packages/theme-chalk/src/checkbox.scss
@@ -238,11 +244,11 @@ $radio-button: map.merge(
 $radio-disabled: () !default;
 $radio-disabled: map.merge(
   (
-    'input-border-color': var(--el-disabled-border-base),
-    'input-fill': var(--el-disabled-fill-base),
-    'icon-color': var(--el-disabled-fill-base),
-    'checked-input-border-color': var(--el-disabled-border-base),
-    'checked-input-fill': var(--el-disabled-fill-base),
+    'input-border-color': var(--el-disabled-border-color),
+    'input-fill': var(--el-disabled-bg-color),
+    'icon-color': var(--el-disabled-bg-color),
+    'checked-input-border-color': var(--el-disabled-border-color),
+    'checked-input-fill': var(--el-disabled-bg-color),
     'checked-icon-color': var(--el-text-color-placeholder),
   ),
   $radio-disabled
@@ -294,7 +300,7 @@ $select: () !default;
 $select: map.merge(
   (
     'border-color-hover': var(--el-border-color-hover),
-    'disabled-border': var(--el-disabled-border-base),
+    'disabled-border': var(--el-disabled-border-color),
     'font-size': var(--el-font-size-base),
     'close-hover-color': var(--el-text-color-secondary),
     'input-color': var(--el-text-color-placeholder),
@@ -437,9 +443,9 @@ $input: map.merge(
 $input-disabled: () !default;
 $input-disabled: map.merge(
   (
-    'fill': var(--el-disabled-fill-base),
-    'border': var(--el-disabled-border-base),
-    'text-color': var(--el-disabled-color-base),
+    'fill': var(--el-disabled-bg-color),
+    'border': var(--el-disabled-border-color),
+    'text-color': var(--el-disabled-text-color),
     'placeholder-color': var(--el-text-color-placeholder),
   ),
   $input-disabled
@@ -513,8 +519,8 @@ $button: map.merge(
     'font-weight': var(--el-font-weight-primary),
     'border-color': var(--el-border-color-base),
     'bg-color': var(--el-color-white),
-    'text-color': var(--el-color-white),
-    'disabled-text-color': var(--el-button-text-color),
+    'text-color': var(--el-text-color-regular),
+    'disabled-text-color': var(--el-disabled-text-color),
     'disabled-bg-color': var(--el-color-white),
     'disabled-border-color': var(--el-border-color-light),
     'divide-border-color': rgba($color-white, 0.5),
@@ -910,7 +916,7 @@ $datepicker: map.merge(
     'off-text-color': var(--el-text-color-placeholder),
     'header-text-color': var(--el-text-color-regular),
     'icon-color': var(--el-text-color-primary),
-    'border-color': var(--el-disabled-border-base),
+    'border-color': var(--el-disabled-border-color),
     'inner-border-color': var(--el-border-color-light),
     'inrange-bg-color': var(--el-border-color-extra-light),
     'inrange-hover-bg-color': var(--el-border-color-extra-light),

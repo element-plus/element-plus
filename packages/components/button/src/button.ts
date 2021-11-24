@@ -1,6 +1,7 @@
 import { useFormItemProps } from '@element-plus/hooks'
 import { buildProps, definePropType } from '@element-plus/utils/props'
 import type { ExtractPropTypes, Component } from 'vue'
+import type button from './button.vue'
 
 export const buttonType = [
   'default',
@@ -55,3 +56,5 @@ export type ButtonEmits = typeof buttonEmits
 
 export type ButtonType = ButtonProps['type']
 export type ButtonNativeType = ButtonProps['nativeType']
+
+export type ButtonInstance = InstanceType<typeof button>
