@@ -248,6 +248,7 @@ const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
       <el-group-option
         v-for="group in options"
         :key="group.label"
+        :disabled="group.disabled"
         :label="group.label">
         <el-option
           v-for="item in group.options"
@@ -466,6 +467,82 @@ describe('Select', () => {
   test('disabled select', () => {
     const wrapper = _mount(`<el-select disabled></el-select>`)
     expect(wrapper.find('.el-input').classes()).toContain('is-disabled')
+  })
+
+  test('group disabled option', () => {
+    const optionGroupData = [
+      {
+        label: 'Australia',
+        disabled: true,
+        options: [
+          {
+            value: 'Sydney',
+            label: 'Sydney',
+          },
+          {
+            value: 'Melbourne',
+            label: 'Melbourne',
+          },
+        ],
+      },
+    ]
+    const wrapper = getGroupSelectVm({}, optionGroupData)
+    const options = wrapper.findAllComponents(Option)
+    expect(options[0].classes('is-disabled')).toBeTruthy()
+  })
+
+  test('keyboard operations when option-group is disabled', async () => {
+    const optionGroupData = [
+      {
+        label: 'Australia',
+        disabled: true,
+        options: [
+          {
+            value: 'Sydney',
+            label: 'Sydney',
+          },
+          {
+            value: 'Melbourne',
+            label: 'Melbourne',
+          },
+        ],
+      },
+      {
+        label: 'China',
+        options: [
+          {
+            value: 'Shanghai',
+            label: 'Shanghai',
+          },
+          {
+            value: 'Shenzhen',
+            label: 'Shenzhen',
+          },
+          {
+            value: 'Guangzhou',
+            label: 'Guangzhou',
+          },
+          {
+            value: 'Dalian',
+            label: 'Dalian',
+          },
+        ],
+      },
+    ]
+    const wrapper = getGroupSelectVm({}, optionGroupData)
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const vm = select.vm as any
+    let i = 8
+    while (i--) {
+      vm.navigateOptions('next')
+    }
+    vm.navigateOptions('prev')
+    vm.navigateOptions('prev')
+    vm.navigateOptions('prev')
+    await vm.$nextTick()
+    vm.selectOption()
+    await vm.$nextTick()
+    expect((wrapper.vm as any).value).toBe('Dalian')
   })
 
   test('visible event', async () => {

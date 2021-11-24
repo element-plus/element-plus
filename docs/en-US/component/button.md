@@ -75,6 +75,18 @@ button/size
 
 :::
 
+## Custom Color <el-tag>beta</el-tag>
+
+You can custom button color.
+
+We will calculate hover color & active color automatically.
+
+:::demo
+
+button/custom
+
+:::
+
 ## Button Attributes
 
 | Attribute         | Description                                                 | Type               | Accepted Values                                    | Default |
@@ -99,9 +111,10 @@ button/size
 
 ## Button-Group Attributes
 
-| Attribute | Description                                      | Type   | Accepted Values       | Default |
-| --------- | ------------------------------------------------ | ------ | --------------------- | ------- |
-| size      | control the size of buttons in this button-group | string | medium / small / mini | —       |
+| Attribute | Description                                      | Type   | Accepted Values             | Default |
+| --------- | ------------------------------------------------ | ------ | --------------------------- | ------- |
+| size      | control the size of buttons in this button-group | string | medium / small / mini       | —       |
+| type      | control the type of buttons in this button-group | string | primary / success / warning | —       |
 
 ## Button-Group Slots
 

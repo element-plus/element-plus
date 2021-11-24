@@ -17,7 +17,7 @@
 
   @include e(popper) {
     @include picker-popper(
-      map.get($select-dropdown, 'background'),
+      map.get($select-dropdown, 'bg-color'),
       map.get($select-dropdown, 'border'),
       map.get($select-dropdown, 'shadow')
     );

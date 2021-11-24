@@ -10,7 +10,7 @@
     "@element-plus/icons": "^0.0.11"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "1.9.4",
+    "@vitejs/plugin-vue": "1.10.0",
     "unplugin-vue-components": "0.17.2",
     "vite": "2.6.14",
     "vite-plugin-inspect": "0.3.10"

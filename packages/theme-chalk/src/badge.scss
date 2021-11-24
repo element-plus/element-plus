@@ -13,7 +13,7 @@
   display: inline-block;
 
   @include e(content) {
-    background-color: var(--el-badge-background-color);
+    background-color: var(--el-badge-bg-color);
     border-radius: var(--el-badge-radius);
     color: var(--el-color-white);
     display: inline-block;

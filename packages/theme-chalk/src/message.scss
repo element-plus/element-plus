@@ -19,9 +19,9 @@
   left: 50%;
   top: 20px;
   transform: translateX(-50%);
-  background-color: var(--el-message-background-color);
+  background-color: var(--el-message-bg-color);
   transition: opacity 0.3s, transform 0.4s, top 0.4s;
-  background-color: var(--el-message-background-color);
+  background-color: var(--el-message-bg-color);
   transition: opacity var(--el-transition-duration), transform 0.4s, top 0.4s;
   padding: var(--el-message-padding);
   display: flex;
@@ -43,7 +43,7 @@
 
   @include m(info) {
     .#{$namespace}-message__content {
-      color: var(--el-message-info-font-color);
+      color: var(--el-message-info-text-color);
     }
   }
 
@@ -52,10 +52,10 @@
       background-color: map.get($colors, $type, 'light-9');
       border-color: map.get($colors, $type, 'light-8');
 
-      --el-message-font-color: var(--el-color-#{$type});
+      --el-message-text-color: var(--el-color-#{$type});
 
       .#{$namespace}-message__content {
-        color: var(--el-message-font-color);
+        color: var(--el-message-text-color);
       }
     }
   }
@@ -98,8 +98,8 @@
 
   @each $type in (success, info, warning, error) {
     & .#{$namespace}-message-icon--#{$type} {
-      --el-message-font-color: var(--el-color-#{$type});
-      color: var(--el-message-font-color);
+      --el-message-text-color: var(--el-color-#{$type});
+      color: var(--el-message-text-color);
     }
   }
 }

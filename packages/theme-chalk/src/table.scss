@@ -13,9 +13,9 @@
   height: fit-content;
   width: 100%;
   max-width: 100%;
-  background-color: var(--el-table-background-color);
+  background-color: var(--el-table-bg-color);
   font-size: 14px;
-  color: var(--el-table-font-color);
+  color: var(--el-table-text-color);
 
   // when data is empty
   @include e(empty-block) {
@@ -61,7 +61,7 @@
   }
 
   @include e(expanded-cell) {
-    background-color: var(--el-table-expanded-cell-background-color);
+    background-color: var(--el-table-expanded-cell-bg-color);
 
     // increase the weight purely
     &[class*='cell'] {
@@ -105,12 +105,12 @@
   }
 
   thead {
-    color: var(--el-table-header-font-color);
+    color: var(--el-table-header-text-color);
     font-weight: 500;
 
     &.is-group {
       th.#{$namespace}-table__cell {
-        background: var(--el-background-color-base);
+        background: var(--el-bg-color-base);
       }
     }
   }
@@ -168,7 +168,7 @@
   }
 
   tr {
-    background-color: var(--el-table-tr-background-color);
+    background-color: var(--el-table-tr-bg-color);
 
     input[type='checkbox'] {
       margin: 0;
@@ -186,7 +186,7 @@
 
   th.#{$namespace}-table__cell {
     user-select: none;
-    background-color: var(--el-table-header-background-color);
+    background-color: var(--el-table-header-bg-color);
 
     > .cell {
       display: inline-block;
@@ -358,8 +358,8 @@
     overflow: hidden;
 
     & tbody td.#{$namespace}-table__cell {
-      background-color: var(--el-table-row-hover-background-color);
-      color: var(--el-table-font-color);
+      background-color: var(--el-table-row-hover-bg-color);
+      color: var(--el-table-text-color);
     }
   }
 
@@ -466,7 +466,7 @@
         }
 
         &.current-row td.#{$namespace}-table__cell {
-          background-color: var(--el-table-current-row-background-color);
+          background-color: var(--el-table-current-row-bg-color);
         }
       }
     }
@@ -479,14 +479,14 @@
         &,
         &.current-row {
           > td.#{$namespace}-table__cell {
-            background-color: var(--el-table-row-hover-background-color);
+            background-color: var(--el-table-row-hover-bg-color);
           }
         }
       }
     }
 
     tr.current-row > td.#{$namespace}-table__cell {
-      background-color: var(--el-table-current-row-background-color);
+      background-color: var(--el-table-current-row-bg-color);
     }
   }
 
@@ -520,7 +520,7 @@
 
   @include m(enable-row-hover) {
     .#{$namespace}-table__body tr:hover > td.#{$namespace}-table__cell {
-      background-color: var(--el-table-row-hover-background-color);
+      background-color: var(--el-table-row-hover-bg-color);
     }
   }
 

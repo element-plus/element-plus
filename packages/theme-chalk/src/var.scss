@@ -24,18 +24,8 @@
     @include set-css-color-type($type);
   }
 
-  // --el-text-color-#{$type}
-  @each $type in (primary, regular, secondary, placeholder) {
-    @include set-css-var-type('text-color', $type, $text-color);
-  }
-
-  // --el-border-color-#{$type}
-  @each $type in (base, light, lighter, extra-light) {
-    @include set-css-var-type('border-color', $type, $border-color);
-  }
-
   // Background
-  --el-background-color-base: #{$background-color-base};
+  --el-bg-color-base: #{$background-color-base};
 
   // Border
   --el-border-width-base: #{$border-width-base};
@@ -44,17 +34,6 @@
   --el-border-base: var(--el-border-width-base) var(--el-border-style-base)
     var(--el-border-color-base);
 
-  // --el-border-radius-#{$type}
-  @each $type in (base, small, round, circle) {
-    @include set-css-var-type('border-radius', $type, $border-radius);
-  }
-
-  // Box-shadow
-  // --el-box-shadow-#{$type}
-  @each $type in (base, light) {
-    @include set-css-var-type('box-shadow', $type, $box-shadow);
-  }
-
   // Svg
   --el-svg-monochrome-grey: #dcdde0;
 
@@ -62,23 +41,28 @@
   --el-fill-base: var(--el-color-white);
 
   // Typography
-  @each $type in (extra-large, large, medium, base, small, extra-small) {
-    @include set-css-var-type('font-size', $type, $font-size);
-  }
+  @include set-component-css-var('font-size', $font-size);
 
   --el-font-weight-primary: 500;
   --el-font-line-height-primary: 24px;
-  --el-font-color-disabled-base: #bbb;
+  --el-text-color-disabled-base: #bbb;
 
   // z-index
   --el-index-normal: 1;
   --el-index-top: 1000;
   --el-index-popper: 2000;
 
+  // --el-text-color-#{$type}
+  @include set-component-css-var('text-color', $text-color);
+  // --el-border-color-#{$type}
+  @include set-component-css-var('border-color', $border-color);
+  // --el-border-radius-#{$type}
+  @include set-component-css-var('border-radius', $border-radius);
+  // Box-shadow
+  // --el-box-shadow-#{$type}
+  @include set-component-css-var('box-shadow', $box-shadow);
   // Disable base
-  --el-disabled-fill-base: var(--el-background-color-base);
-  --el-disabled-color-base: var(--el-text-color-placeholder);
-  --el-disabled-border-base: var(--el-border-color-light);
+  @include set-component-css-var('disabled', $disabled);
 
   /* Transition
 -------------------------- */

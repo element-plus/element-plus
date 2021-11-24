@@ -13,7 +13,7 @@
 @include b(card) {
   border-radius: var(--el-card-border-radius);
   border: 1px solid var(--el-card-border-color);
-  background-color: var(--el-card-background-color);
+  background-color: var(--el-card-bg-color);
   overflow: hidden;
   color: var(--el-text-color-primary);
   transition: var(--el-transition-duration);
