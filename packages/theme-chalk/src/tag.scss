@@ -126,12 +126,6 @@
     }
   }
 
-  @include m(medium) {
-    .#{$namespace}-icon-close {
-      transform: scale(0.8);
-    }
-  }
-
   @include m(small) {
     padding: 0 8px;
     .#{$namespace}-icon-close {
