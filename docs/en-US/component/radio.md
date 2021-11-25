@@ -83,7 +83,7 @@ radio/with-borders
 | Attribute             | Description                                       | Type                      | Accepted Values       | Default |
 | --------------------- | ------------------------------------------------- | ------------------------- | --------------------- | ------- |
 | model-value / v-model | binding value                                     | string / number / boolean | —                     | —       |
-| size                  | the size of radio                                 | string                    | medium / small / mini | —       |
+| size                  | the size of radio                                 | string                    | large / small / small | default |
 | disabled              | whether the nesting radios are disabled           | boolean                   | —                     | false   |
 | text-color            | font color when button is active                  | string                    | —                     | #ffffff |
 | fill                  | border and background color when button is active | string                    | —                     | #409EFF |
