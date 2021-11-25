@@ -72,7 +72,7 @@ tag/checkable
 | disable-transitions | whether to disable animations        | boolean | —                           | false   |
 | hit                 | whether Tag has a highlighted border | boolean | —                           | false   |
 | color               | background color of the Tag          | string  | —                           | —       |
-| size                | tag size                             | string  | medium / small / mini       | —       |
+| size                | tag size                             | string  | large / default /small      | default |
 | effect              | component theme                      | string  | dark / light / plain        | light   |
 
 ## Events
