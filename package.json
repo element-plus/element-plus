@@ -59,7 +59,7 @@
     "@element-plus/tokens": "workspace:*",
     "@element-plus/utils": "workspace:*",
     "@popperjs/core": "^2.10.2",
-    "@vueuse/core": "^7.0.0",
+    "@vueuse/core": "^7.1.1",
     "async-validator": "^4.0.7",
     "dayjs": "^1.10.7",
     "lodash": "^4.17.21",
