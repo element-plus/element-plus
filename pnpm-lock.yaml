@@ -55,7 +55,7 @@ importers:
       lodash: ^4.17.21
       memoize-one: ^6.0.0
       normalize-wheel-es: ^1.1.1
-      prettier: 2.4.1
+      prettier: 2.5.0
       pretty-quick: 3.1.2
       resize-observer-polyfill: 1.5.1
       rimraf: 3.0.2
@@ -118,7 +118,7 @@ importers:
       eslint-config-prettier: 8.3.0_eslint@8.3.0
       eslint-define-config: 1.1.4
       eslint-plugin-import: 2.25.3_eslint@8.3.0
-      eslint-plugin-prettier: 4.0.0_6c1acfc8d9d3a8dba99beef4e8bcebae
+      eslint-plugin-prettier: 4.0.0_d8c6a2a4ba8850181fffb74d8e835cec
       eslint-plugin-vue: 8.1.1_eslint@8.3.0
       expect-type: 0.13.0
       fast-glob: 3.2.7
@@ -127,8 +127,8 @@ importers:
       husky: 7.0.4
       jest: 26.6.3
       lint-staged: 12.1.2
-      prettier: 2.4.1
-      pretty-quick: 3.1.2_prettier@2.4.1
+      prettier: 2.5.0
+      pretty-quick: 3.1.2_prettier@2.5.0
       resize-observer-polyfill: 1.5.1
       rimraf: 3.0.2
       rollup: 2.60.1
@@ -4710,7 +4710,7 @@ packages:
       tsconfig-paths: 3.11.0
     dev: true
 
-  /eslint-plugin-prettier/4.0.0_6c1acfc8d9d3a8dba99beef4e8bcebae:
+  /eslint-plugin-prettier/4.0.0_d8c6a2a4ba8850181fffb74d8e835cec:
     resolution: {integrity: sha512-98MqmCJ7vJodoQK359bqQWaxOE0CS8paAz/GgjaZLyex4TTk3g9HugoO89EqWCrFiOqn9EVvcoo7gZzONCWVwQ==}
     engines: {node: '>=6.0.0'}
     peerDependencies:
@@ -4723,7 +4723,7 @@ packages:
     dependencies:
       eslint: 8.3.0
       eslint-config-prettier: 8.3.0_eslint@8.3.0
-      prettier: 2.4.1
+      prettier: 2.5.0
       prettier-linter-helpers: 1.0.0
     dev: true
 
@@ -8525,8 +8525,8 @@ packages:
       fast-diff: 1.2.0
     dev: true
 
-  /prettier/2.4.1:
-    resolution: {integrity: sha512-9fbDAXSBcc6Bs1mZrDYb3XKzDLm4EXXL9sC1LqKP5rZkT6KRr/rf9amVUcODVXgguK/isJz0d0hP72WeaKWsvA==}
+  /prettier/2.5.0:
+    resolution: {integrity: sha512-FM/zAKgWTxj40rH03VxzIPdXmj39SwSjwG0heUcNFwI+EMZJnY93yAiKXM3dObIKAM5TA88werc8T/EwhB45eg==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     dev: true
@@ -8568,7 +8568,7 @@ packages:
       parse-ms: 2.1.0
     dev: true
 
-  /pretty-quick/3.1.2_prettier@2.4.1:
+  /pretty-quick/3.1.2_prettier@2.5.0:
     resolution: {integrity: sha512-T+fpTJrDjTzewql4p3lKrRA7z3MrNyjBK1MKeaBm5PpKwATgVm885TpY7TgY8KFt5Q1Qn3QDseRQcyX9AKTKkA==}
     engines: {node: '>=10.13'}
     hasBin: true
@@ -8581,7 +8581,7 @@ packages:
       ignore: 5.1.8
       mri: 1.2.0
       multimatch: 4.0.0
-      prettier: 2.4.1
+      prettier: 2.5.0
     dev: true
 
   /printable-characters/1.0.42:
