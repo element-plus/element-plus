@@ -79,7 +79,7 @@
     "@types/gulp": "4.0.9",
     "@types/jest": "27.0.2",
     "@types/lodash": "4.14.177",
-    "@types/sass": "1.43.0",
+    "@types/sass": "1.43.1",
     "@types/through2": "2.0.36",
     "@typescript-eslint/eslint-plugin": "5.4.0",
     "@typescript-eslint/parser": "5.4.0",
