@@ -201,9 +201,9 @@ type suggestionPanelType = InstanceType<typeof ElScrollbar>
 const DEFAULT_INPUT_HEIGHT = 40
 
 const INPUT_HEIGHT_MAP = {
-  medium: 36,
-  small: 32,
-  mini: 28,
+  large: 36,
+  default: 32,
+  small: 28,
 }
 
 const popperOptions: Partial<Options> = {

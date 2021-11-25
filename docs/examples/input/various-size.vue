@@ -1,9 +1,8 @@
 <template>
   <div class="demo-input-size">
-    <el-input v-model="input1" placeholder="Please Input" />
-    <el-input v-model="input2" size="medium" placeholder="Please Input" />
+    <el-input v-model="input1" size="large" placeholder="Please Input" />
+    <el-input v-model="input2" placeholder="Please Input" />
     <el-input v-model="input3" size="small" placeholder="Please Input" />
-    <el-input v-model="input4" size="mini" placeholder="Please Input" />
   </div>
 </template>
 
@@ -15,7 +14,6 @@ export default defineComponent({
       input1: ref(''),
       input2: ref(''),
       input3: ref(''),
-      input4: ref(''),
     }
   },
 })
