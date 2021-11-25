@@ -10,7 +10,7 @@
   >
     <li
       v-for="file in files"
-      :key="file.uid || file"
+      :key="file.uid || file.name"
       :class="[
         'el-upload-list__item',
         'is-' + file.status,
@@ -67,7 +67,7 @@
           v-if="file.status === 'uploading'"
           :type="listType === 'picture-card' ? 'circle' : 'line'"
           :stroke-width="listType === 'picture-card' ? 6 : 2"
-          :percentage="+file.percentage"
+          :percentage="Number(file.percentage)"
         />
         <span
           v-if="listType === 'picture-card'"
@@ -93,7 +93,6 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { NOOP } from '@vue/shared'
 import { ElIcon } from '@element-plus/components/icon'
 import {
   Document,
@@ -106,8 +105,8 @@ import {
 import { useLocaleInject } from '@element-plus/hooks'
 import ElProgress from '@element-plus/components/progress'
 
-import type { PropType } from 'vue'
-import type { UploadFile } from './upload.type'
+import { uploadListEmits, uploadListProps } from './upload-list'
+import type { UploadFile } from './upload'
 
 export default defineComponent({
   name: 'ElUploadList',
@@ -121,25 +120,8 @@ export default defineComponent({
     Check,
     CircleCheck,
   },
-  props: {
-    files: {
-      type: Array as PropType<UploadFile[]>,
-      default: () => [] as File[],
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-    handlePreview: {
-      type: Function as PropType<(file: UploadFile) => void>,
-      default: () => NOOP,
-    },
-    listType: {
-      type: String as PropType<'picture' | 'picture-card' | 'text'>,
-      default: 'text',
-    },
-  },
-  emits: ['remove'],
+  props: uploadListProps,
+  emits: uploadListEmits,
   setup(props, { emit }) {
     const { t } = useLocaleInject()
 

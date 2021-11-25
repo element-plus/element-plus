@@ -13,33 +13,33 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref, inject } from 'vue'
+import { uploadContextKey } from '@element-plus/tokens'
+import { throwError } from '@element-plus/utils/error'
+import { uploadDraggerEmits, uploadDraggerProps } from './upload-dragger'
 
-import type { ElUpload } from './upload.type'
-
+const COMPONENT_NAME = 'ElUploadDrag'
 export default defineComponent({
-  name: 'ElUploadDrag',
-  props: {
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['file'],
+  name: COMPONENT_NAME,
+  props: uploadDraggerProps,
+  emits: uploadDraggerEmits,
   setup(props, { emit }) {
-    const uploader = inject('uploader', {} as ElUpload)
+    const uploaderContext = inject(uploadContextKey)
+    if (!uploaderContext)
+      throwError(COMPONENT_NAME, 'must be nested inside ElUpload')
+
     const dragover = ref(false)
 
-    function onDrop(e: DragEvent) {
-      if (props.disabled || !uploader) return
-      const accept = uploader.accept
+    const onDrop = (e: DragEvent) => {
+      if (props.disabled) return
+      const accept = uploaderContext.accept
       dragover.value = false
       if (!accept) {
-        emit('file', e.dataTransfer.files)
+        emit('file', e.dataTransfer!.files)
         return
       }
       emit(
         'file',
-        Array.from(e.dataTransfer.files).filter((file) => {
+        Array.from(e.dataTransfer!.files).filter((file) => {
           const { type, name } = file
           const extension =
             name.indexOf('.') > -1 ? `.${name.split('.').pop()}` : ''
@@ -64,7 +64,7 @@ export default defineComponent({
       )
     }
 
-    function onDragover() {
+    const onDragover = () => {
       if (!props.disabled) dragover.value = true
     }
 

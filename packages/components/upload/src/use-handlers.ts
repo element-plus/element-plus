@@ -1,22 +1,20 @@
 import { ref, watch } from 'vue'
 import { NOOP } from '@vue/shared'
 import cloneDeep from 'lodash/cloneDeep'
-
-// Inline types
 import type {
-  ListType,
+  RawFile,
   UploadFile,
+  UploadProgressEvent,
+  UploadProps,
   UploadStatus,
-  ElFile,
-  ElUploadProgressEvent,
-  IUseHandlersProps,
-} from './upload.type'
+} from './upload'
+
 type UploadRef = {
   abort: (file: UploadFile) => void
-  upload: (file: ElFile) => void
+  upload: (file: RawFile) => void
 }
 // helpers
-function getFile(rawFile: ElFile, uploadFiles: UploadFile[]) {
+function getFile(rawFile: RawFile, uploadFiles: UploadFile[]) {
   return uploadFiles.find((file) => file.uid === rawFile.uid)
 }
 
@@ -24,14 +22,14 @@ function genUid(seed: number) {
   return Date.now() + seed
 }
 
-export default (props: IUseHandlersProps) => {
+export default (props: UploadProps) => {
   const uploadFiles = ref<UploadFile[]>([])
-  const uploadRef = ref<UploadRef>(null)
+  const uploadRef = ref<UploadRef>()
 
   let tempIndex = 1
 
   function abort(file: UploadFile) {
-    uploadRef.value.abort(file)
+    uploadRef.value!.abort(file)
   }
 
   function clearFiles(status: UploadStatus[] = ['success', 'fail']) {
@@ -40,22 +38,22 @@ export default (props: IUseHandlersProps) => {
     })
   }
 
-  function handleError(err: Error, rawFile: ElFile) {
-    const file = getFile(rawFile, uploadFiles.value)
+  function handleError(err: Error, rawFile: RawFile) {
+    const file = getFile(rawFile, uploadFiles.value)!
     file.status = 'fail'
     uploadFiles.value.splice(uploadFiles.value.indexOf(file), 1)
     props.onError(err, file, uploadFiles.value)
     props.onChange(file, uploadFiles.value)
   }
 
-  function handleProgress(ev: ElUploadProgressEvent, rawFile: ElFile) {
-    const file = getFile(rawFile, uploadFiles.value)
+  function handleProgress(ev: UploadProgressEvent, rawFile: RawFile) {
+    const file = getFile(rawFile, uploadFiles.value)!
     props.onProgress(ev, file, uploadFiles.value)
     file.status = 'uploading'
     file.percentage = ev.percent || 0
   }
 
-  function handleSuccess(res: any, rawFile: ElFile) {
+  function handleSuccess(res: any, rawFile: RawFile) {
     const file = getFile(rawFile, uploadFiles.value)
     if (file) {
       file.status = 'success'
@@ -65,7 +63,7 @@ export default (props: IUseHandlersProps) => {
     }
   }
 
-  function handleStart(rawFile: ElFile) {
+  function handleStart(rawFile: RawFile) {
     const uid = genUid(tempIndex++)
     rawFile.uid = uid
     const file: UploadFile = {
@@ -81,16 +79,16 @@ export default (props: IUseHandlersProps) => {
         file.url = URL.createObjectURL(rawFile)
       } catch (err) {
         console.error('[Element Error][Upload]', err)
-        props.onError(err, file, uploadFiles.value)
+        props.onError(err as Error, file, uploadFiles.value)
       }
     }
     uploadFiles.value.push(file)
     props.onChange(file, uploadFiles.value)
   }
 
-  function handleRemove(file: UploadFile, raw: ElFile) {
+  function handleRemove(file: UploadFile, raw: RawFile) {
     if (raw) {
-      file = getFile(raw, uploadFiles.value)
+      file = getFile(raw, uploadFiles.value)!
     }
     const revokeObjectURL = () => {
       if (file.url && file.url.indexOf('blob:') === 0) {
@@ -124,20 +122,20 @@ export default (props: IUseHandlersProps) => {
     uploadFiles.value
       .filter((file) => file.status === 'ready')
       .forEach((file) => {
-        uploadRef.value.upload(file.raw)
+        uploadRef.value!.upload(file.raw)
       })
   }
 
   watch(
     () => props.listType,
-    (val: ListType) => {
+    (val) => {
       if (val === 'picture-card' || val === 'picture') {
         uploadFiles.value = uploadFiles.value.map((file) => {
           if (!file.url && file.raw) {
             try {
               file.url = URL.createObjectURL(file.raw)
             } catch (err) {
-              props.onError(err, file, uploadFiles.value)
+              props.onError(err as Error, file, uploadFiles.value)
             }
           }
           return file
