@@ -26,11 +26,13 @@
 @include b(icon) {
   --color: inherit;
   --font-size: #{map.get($font-size, 'base')};
+
   height: 1em;
   width: 1em;
   line-height: 1em;
-  text-align: center;
-  display: inline-block;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
   fill: currentColor;
   color: var(--color);
@@ -41,7 +43,7 @@
   }
 
   svg {
-    height: 1em;
-    width: 1em;
+    height: var(--font-size);
+    width: var(--font-size);
   }
 }

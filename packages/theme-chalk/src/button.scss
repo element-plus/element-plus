@@ -11,7 +11,7 @@
 }
 
 @include b(button) {
-  display: inline-block;
+  display: inline-flex;
   line-height: 1;
   min-height: map.get($input-height, 'default');
   white-space: nowrap;
