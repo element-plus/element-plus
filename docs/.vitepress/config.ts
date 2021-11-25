@@ -32,6 +32,7 @@ const buildTransformers = () => {
   return transformers
 }
 
+// eslint-disable-next-line no-console
 console.log(`DOC_ENV: ${process.env.DOC_ENV}`)
 
 const locales = {}

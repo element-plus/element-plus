@@ -37,6 +37,7 @@ export const highlight = (str: string, lang: string) => {
     try {
       loadLanguages([lang])
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.warn(
         chalk.yellow(
           `[vitepress] Syntax highlight for language "${lang}" is not supported.`
