@@ -31,7 +31,7 @@ export default defineComponent({
 
     function onDrop(e: DragEvent) {
       if (props.disabled || !uploader) return
-      const accept = uploader.accept
+      const accept = uploader.props?.accept || uploader.accept
       dragover.value = false
       if (!accept) {
         emit('file', e.dataTransfer.files)
