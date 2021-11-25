@@ -170,4 +170,23 @@ describe('TimeSelect', () => {
     const attr = popperEl.getAttribute('aria-hidden')
     expect(attr).toEqual('true')
   })
+
+  it('set use-12-hour', async () => {
+    const wrapper = _mount(
+      `  <el-time-select
+    v-model="value"
+    start="13:00"
+    step="00:30"
+    end="13:30"
+    :use-12-hour="true"
+  >
+  </el-time-select>`,
+      () => ({ value: '' })
+    )
+    const input = wrapper.find('.el-input__inner')
+    await input.trigger('click')
+    await nextTick()
+    const option = document.querySelector('.el-select-dropdown__item')
+    expect(option.textContent).toBe('01:00 PM')
+  })
 })

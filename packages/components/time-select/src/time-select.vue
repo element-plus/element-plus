@@ -48,8 +48,13 @@ interface Time {
 const parseTime = (time: string): null | Time => {
   const values = (time || '').split(':')
   if (values.length >= 2) {
-    const hours = parseInt(values[0], 10)
+    let hours = parseInt(values[0], 10)
     const minutes = parseInt(values[1], 10)
+    if (time.includes('AM') && hours === 12) {
+      hours = 0
+    } else if (time.includes('PM') && hours !== 12) {
+      hours += 12
+    }
     return {
       hours,
       minutes,
@@ -68,9 +73,10 @@ const compareTime = (time1: string, time2: string): number => {
   return minutes1 > minutes2 ? 1 : -1
 }
 const formatTime = (time: Time): string => {
-  return `${time.hours < 10 ? `0${time.hours}` : time.hours}:${
-    time.minutes < 10 ? `0${time.minutes}` : time.minutes
-  }`
+  return `${`${time.hours}`.padStart(2, '0')}:${`${time.minutes}`.padStart(
+    2,
+    '0'
+  )}`
 }
 const nextTime = (time: string, step: string): string => {
   const timeValue = parseTime(time)
@@ -86,6 +92,22 @@ const nextTime = (time: string, step: string): string => {
   return formatTime(next)
 }
 
+const format12h = (current: string): string => {
+  const time = parseTime(current)
+  let hours = time.hours
+  if (hours === 0 || hours === 24) {
+    hours = 12
+  }
+  if (hours > 12) {
+    hours = hours - 12
+  }
+  const apm = time.hours >= 12 && time.hours !== 24 ? ' PM' : ' AM'
+  return `${`${hours}`.padStart(2, '0')}:${`${time.minutes}`.padStart(
+    2,
+    '0'
+  )}${apm}`
+}
+
 export default defineComponent({
   name: 'ElTimeSelect',
   components: { ElSelect, ElOption, ElIcon },
@@ -94,6 +116,10 @@ export default defineComponent({
     event: 'change',
   },
   props: {
+    use12Hour: {
+      type: Boolean,
+      default: false,
+    },
     modelValue: String,
     disabled: {
       type: Boolean,
@@ -159,9 +185,14 @@ export default defineComponent({
       const result = []
       if (props.start && props.end && props.step) {
         let current = props.start
+        let currentTime
         while (compareTime(current, props.end) <= 0) {
+          currentTime = current
+          if (props.use12Hour) {
+            currentTime = format12h(current)
+          }
           result.push({
-            value: current,
+            value: currentTime,
             disabled:
               compareTime(current, props.minTime || '-1:-1') <= 0 ||
               compareTime(current, props.maxTime || '100:100') >= 0,

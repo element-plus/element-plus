@@ -7,6 +7,8 @@ lang: en-US
 
 Use Time Select for time input.
 
+The available time range is 00:00 to 23:59
+
 ## Fixed time picker
 
 Provide a list of fixed time for users to choose.
@@ -19,7 +21,7 @@ time-select/basic
 
 ## Fixed time range
 
-If start time is picked at first, then the end time will change accordingly.
+If start( end ) time is picked at first, then the status of end( start ) time's options will change accordingly.
 
 :::demo
 
@@ -45,6 +47,7 @@ time-select/time-range
 | step                  | time step                                                | string             | —                     | 00:30       |
 | min-time              | minimum time, any time before this time will be disabled | string             | —                     | 00:00       |
 | max-time              | maximum time, any time after this time will be disabled  | string             | —                     | —           |
+| use-12-hour           | use 12-hour format                                       | boolean            | —                     | false       |
 
 ## Events
 
