@@ -10,8 +10,9 @@ Use Date Picker for date input.
 <style lang="scss">
 
 .example-showcase .demo-date-picker {
-  padding: 0;
   display: flex;
+  width: 100%;
+  padding: 0;
   flex-wrap: wrap;
 }
 

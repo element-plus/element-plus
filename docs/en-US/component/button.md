@@ -91,7 +91,7 @@ button/custom
 
 | Attribute         | Description                                                 | Type               | Accepted Values                                    | Default |
 | ----------------- | ----------------------------------------------------------- | ------------------ | -------------------------------------------------- | ------- |
-| size              | button size                                                 | string             | large / small                                      | —       |
+| size              | button size                                                 | string             | large / default /small                             | —       |
 | type              | button type                                                 | string             | primary / success / warning / danger / info / text | —       |
 | plain             | determine whether it's a plain button                       | boolean            | —                                                  | false   |
 | round             | determine whether it's a round button                       | boolean            | —                                                  | false   |
