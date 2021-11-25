@@ -156,6 +156,7 @@ importers:
       clipboard-copy: 4.0.1
       cross-env: 7.0.3
       element-plus: npm:element-plus@latest
+      escape-html: ^1.0.3
       markdown-it: 12.2.0
       markdown-it-container: 3.0.0
       normalize.css: 8.0.1
@@ -174,6 +175,7 @@ importers:
       '@crowdin/cli': 3.7.2
       '@types/markdown-it': 12.2.3
       cross-env: 7.0.3
+      escape-html: 1.0.3
       markdown-it: 12.2.0
       markdown-it-container: 3.0.0
       vite-plugin-inspect: 0.3.11
@@ -4255,6 +4257,10 @@ packages:
   /escalade/3.1.1:
     resolution: {integrity: sha512-k0er2gUkLf8O0zKJiAhmkTnJlTvINGv7ygDNPbeIsX/TJjGJZHuh9B2UxbsaEkmlEo9MfhrSzmhIlhRlI2GXnw==}
     engines: {node: '>=6'}
+    dev: true
+
+  /escape-html/1.0.3:
+    resolution: {integrity: sha1-Aljq5NPQwJdN4cFpGI7wBR0dGYg=}
     dev: true
 
   /escape-string-regexp/1.0.5:

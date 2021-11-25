@@ -1,9 +1,9 @@
-import { languages } from '../utils/lang'
-import { head } from './head'
-import { sidebars } from './sidebars'
-import { nav } from './nav'
-import { mdPlugin } from './plugins'
-import { features } from './features'
+import { languages } from './utils/lang'
+import { head } from './config/head'
+import { sidebars } from './config/sidebars'
+import { nav } from './config/nav'
+import { mdPlugin } from './config/plugins'
+import { features } from './config/features'
 import type { UserConfig } from 'vitepress'
 
 const buildTransformers = () => {
