@@ -1,9 +1,8 @@
 <template>
   <el-radio-group v-model="size">
-    <el-radio label="">Default</el-radio>
-    <el-radio label="medium">Medium</el-radio>
+    <el-radio label="large">Large</el-radio>
+    <el-radio>Default</el-radio>
     <el-radio label="small">Small</el-radio>
-    <el-radio label="mini">Mini</el-radio>
   </el-radio-group>
 
   <el-descriptions

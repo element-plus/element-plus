@@ -239,7 +239,7 @@ form/size-control
 | error          | field error message, set its value and the field will validate error and show this message immediately                                   | string          | —                                   | —       |
 | show-message   | whether to show the error message                                                                                                        | boolean         | —                                   | true    |
 | inline-message | inline style validate message                                                                                                            | boolean         | —                                   | false   |
-| size           | control the size of components in this form-item                                                                                         | string          | medium / small / mini               | —       |
+| size           | control the size of components in this form-item                                                                                         | string          | large / default / small             | default |
 
 ## Rules
 

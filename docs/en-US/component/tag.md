@@ -37,7 +37,7 @@ tag/editable
 
 Besides default size, Tag component provides three additional sizes for you to choose among different scenarios.
 
-:::demo Use attribute `size` to set additional sizes with `medium`, `small` or `mini`.
+:::demo Use attribute `size` to set additional sizes with `large`, `default` or `small`.
 
 tag/sizes
 
