@@ -1,6 +1,6 @@
 {
   "private": true,
-  "packageManager": "pnpm@6.23.1",
+  "packageManager": "pnpm@6.23.2",
   "workspaces": [
     "packages/*",
     "play",
@@ -69,7 +69,7 @@
   "devDependencies": {
     "@commitlint/cli": "15.0.0",
     "@commitlint/config-conventional": "15.0.0",
-    "@pnpm/find-workspace-packages": "3.1.24",
+    "@pnpm/find-workspace-packages": "3.1.25",
     "@pnpm/logger": "4.0.0",
     "@pnpm/types": "7.6.0",
     "@rollup/plugin-commonjs": "21.0.1",
@@ -111,7 +111,7 @@
     "rollup-plugin-esbuild": "4.7.2",
     "rollup-plugin-filesize": "9.1.1",
     "rollup-plugin-vue": "6.0.0",
-    "sass": "1.43.4",
+    "sass": "1.43.5",
     "sucrase": "3.20.3",
     "through2": "4.0.2",
     "ts-jest": "26.5.6",
