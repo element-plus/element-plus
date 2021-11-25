@@ -15,8 +15,6 @@ DateTimePicker is derived from DatePicker and TimePicker. For a more detailed ex
 
 <style lang="scss">
 .example-showcase  {
-  display: flex;
-
   .block {
     padding: 30px 0;
     text-align: center;
