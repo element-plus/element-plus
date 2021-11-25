@@ -1,7 +1,19 @@
+@use 'sass:map';
+
 @use 'mixins/mixins' as *;
 @use 'mixins/utils' as *;
 @use 'mixins/var' as *;
 @use 'common/var' as *;
+
+$form-line-height: () !default;
+$form-line-height: map.merge(
+  (
+    'large': 36px,
+    'default': 32px,
+    'small': 28px,
+  ),
+  $form-line-height
+);
 
 @include b(form) {
   @include set-component-css-var('form', $form);
@@ -51,40 +63,19 @@
     display: none;
   }
 
-  @include m(medium) {
-    .#{$namespace}-form-item__label {
-      line-height: 36px;
-    }
-    .#{$namespace}-form-item__content {
-      line-height: 36px;
-    }
-  }
-  @include m(small) {
-    .#{$namespace}-form-item__label {
-      line-height: 32px;
-    }
-    .#{$namespace}-form-item__content {
-      line-height: 32px;
-    }
-    &.#{$namespace}-form-item {
-      margin-bottom: 18px;
-    }
-    .#{$namespace}-form-item__error {
-      padding-top: 2px;
-    }
-  }
-  @include m(mini) {
-    .#{$namespace}-form-item__label {
-      line-height: 28px;
-    }
-    .#{$namespace}-form-item__content {
-      line-height: 28px;
-    }
-    &.#{$namespace}-form-item {
-      margin-bottom: 18px;
-    }
-    .#{$namespace}-form-item__error {
-      padding-top: 1px;
+  @each $size in (large, default, small) {
+    @include m($size) {
+      .#{$namespace}-form-item__label,
+      .#{$namespace}-form-item__content {
+        font-size: map.get($input-font-size, $size);
+        line-height: map.get($form-line-height, $size);
+      }
+      &.#{$namespace}-form-item {
+        margin-bottom: 18px;
+      }
+      .#{$namespace}-form-item__error {
+        padding-top: 2px;
+      }
     }
   }
 

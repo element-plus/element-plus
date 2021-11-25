@@ -110,14 +110,6 @@
     }
   }
 
-  @include m(mini) {
-    @include e((increase, decrease)) {
-      [class*='#{$namespace}-icon'] {
-        transform: scale(0.8);
-      }
-    }
-  }
-
   @include when(without-controls) {
     .#{$namespace}-input__inner {
       padding-left: 15px;

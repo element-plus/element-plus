@@ -116,9 +116,6 @@
     appearance: none;
     height: 28px;
     background-color: transparent;
-    @include when(mini) {
-      height: 14px;
-    }
   }
 
   @include e(close) {
