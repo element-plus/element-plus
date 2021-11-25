@@ -111,7 +111,7 @@ export default defineComponent({
       type: String as PropType<ComponentSize>,
       default: '',
       validator: (value: string) =>
-        !value || ['medium', 'small', 'mini'].indexOf(value) !== -1,
+        !value || ['large', 'small'].indexOf(value) !== -1,
     },
     placeholder: {
       type: String,

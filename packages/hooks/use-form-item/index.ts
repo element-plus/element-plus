@@ -6,7 +6,7 @@ import { useGlobalConfig } from '@element-plus/utils/util'
 import type { ExtractPropTypes } from 'vue'
 import type { MaybeRef } from '@vueuse/core'
 
-const sizes = ['', 'large', 'medium', 'small', 'mini'] as const
+const sizes = ['', 'large', 'small'] as const
 
 export const useFormItemProps = buildProps({
   size: {
@@ -35,7 +35,7 @@ export const useFormItem = ({ size, disabled }: LocalFallbacks) => {
 
   return {
     size: computed(() => {
-      // TODO, fallback to default size like 'medium/large' instead of empty string
+      // TODO, fallback to default size like 'large/small' instead of empty string
       return (
         props.size ||
         unref(size) ||
