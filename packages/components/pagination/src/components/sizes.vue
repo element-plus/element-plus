@@ -4,7 +4,7 @@
       :model-value="innerPageSize"
       :disabled="disabled"
       :popper-class="popperClass"
-      size="mini"
+      size="small"
       @change="handleChange"
     >
       <el-option

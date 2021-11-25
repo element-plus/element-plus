@@ -134,7 +134,7 @@
     }
 
     .#{$namespace}-input__inner,
-    .#{$namespace}-input--mini {
+    .#{$namespace}-input--small {
       height: var(--el-pagination-height-extra-small) !important;
       line-height: var(--el-pagination-line-height-extra-small);
     }

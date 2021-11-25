@@ -187,7 +187,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   )
 
   const collapseTagSize = computed(() =>
-    ['small', 'mini'].indexOf(selectSize.value) > -1 ? 'mini' : 'small'
+    'small' === selectSize.value ? 'small' : ''
   )
 
   const tagMaxWidth = computed(() => {

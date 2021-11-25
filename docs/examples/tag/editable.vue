@@ -13,7 +13,7 @@
     ref="saveTagInput"
     v-model="inputValue"
     class="input-new-tag"
-    size="mini"
+    size="small"
     @keyup.enter="handleInputConfirm"
     @blur="handleInputConfirm"
   >

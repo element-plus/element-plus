@@ -267,10 +267,9 @@ $radio-checked: map.merge(
 $radio-bordered-padding: () !default;
 $radio-bordered-padding: map.merge(
   (
-    'default': 0 20px 0 10px,
-    'medium': 0 20px 0 10px,
+    'large': 0 20px 0 10px,
+    'default': 0 15px 0 10px,
     'small': 0 15px 0 10px,
-    'mini': 0 15px 0 10px,
   ),
   $radio-bordered-padding
 );

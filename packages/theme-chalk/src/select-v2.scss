@@ -177,7 +177,7 @@ $input-inline-start: 15px !default;
     appearance: none;
     height: 28px;
 
-    @include when(mini) {
+    @include when(small) {
       height: 14px;
     }
   }

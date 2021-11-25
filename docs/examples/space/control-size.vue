@@ -26,7 +26,7 @@
 export default {
   data() {
     return {
-      size: 'mini',
+      size: 'small',
     }
   },
 }

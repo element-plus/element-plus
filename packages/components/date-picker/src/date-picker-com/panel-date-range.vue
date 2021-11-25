@@ -216,7 +216,7 @@
     <div v-if="showTime" class="el-picker-panel__footer">
       <el-button
         v-if="clearable"
-        size="mini"
+        size="small"
         type="text"
         class="el-picker-panel__link-btn"
         @click="handleClear"
@@ -225,7 +225,7 @@
       </el-button>
       <el-button
         plain
-        size="mini"
+        size="small"
         class="el-picker-panel__link-btn"
         :disabled="btnDisabled"
         @click="handleConfirm(false)"

@@ -328,7 +328,7 @@ export default defineComponent({
       () => props.size || elFormItem.size || $ELEMENT.size
     )
     const tagSize = computed(() =>
-      ['small', 'mini'].includes(realSize.value) ? 'mini' : 'small'
+      ['small'].includes(realSize.value) ? 'small' : ''
     )
     const multiple = computed(() => !!props.props.multiple)
     const readonly = computed(() => !props.filterable || multiple.value)
