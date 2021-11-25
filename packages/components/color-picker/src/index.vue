@@ -31,13 +31,13 @@
             <el-input
               v-model="customInput"
               :validate-event="false"
-              size="mini"
+              size="small"
               @keyup.enter="handleConfirm"
               @blur="handleConfirm"
             />
           </span>
           <el-button
-            size="mini"
+            size="small"
             type="text"
             class="el-color-dropdown__link-btn"
             @click="clear"
@@ -46,7 +46,7 @@
           </el-button>
           <el-button
             plain
-            size="mini"
+            size="small"
             class="el-color-dropdown__btn"
             @click="confirmValue"
           >
@@ -74,20 +74,21 @@
               :style="{
                 backgroundColor: displayedColor,
               }"
-            ></span>
-            <el-icon
-              v-if="!modelValue && !showPanelColor"
-              class="el-color-picker__empty is-icon-close"
             >
-              <close />
-            </el-icon>
+              <el-icon
+                v-show="modelValue || showPanelColor"
+                class="el-color-picker__icon is-icon-arrow-down"
+              >
+                <arrow-down />
+              </el-icon>
+              <el-icon
+                v-if="!modelValue && !showPanelColor"
+                class="el-color-picker__empty is-icon-close"
+              >
+                <close />
+              </el-icon>
+            </span>
           </span>
-          <el-icon
-            v-show="modelValue || showPanelColor"
-            class="el-color-picker__icon is-icon-arrow-down"
-          >
-            <arrow-down />
-          </el-icon>
         </div>
       </div>
     </template>
