@@ -32,6 +32,10 @@
   font-weight: var(--el-button-font-weight);
   user-select: none;
 
+  > span {
+    display: inline-flex;
+  }
+
   & + & {
     margin-left: 10px;
   }
