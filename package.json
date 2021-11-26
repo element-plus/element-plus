@@ -88,7 +88,7 @@
     "chalk": "4.1.2",
     "components-helper": "1.0.4",
     "cz-conventional-changelog": "3.3.0",
-    "esbuild": "0.13.15",
+    "esbuild": "0.14.0",
     "eslint": "8.3.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-define-config": "1.1.4",
