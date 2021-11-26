@@ -1,3 +1,8 @@
+---
+title: Popover
+lang: en-US
+---
+
 # Popover
 
 ## Basic usage
@@ -44,10 +49,10 @@ popover/nested-operation
 | offset                    | popover offset                                                                                                                            | number          | —                                                                                                         | 0                                                       |
 | transition                | popover transition animation                                                                                                              | string          | —                                                                                                         | el-fade-in-linear                                       |
 | show-arrow                | whether a tooltip arrow is displayed or not. For more info, please refer to [Vue-popper](https://github.com/element-component/vue-popper) | boolean         | —                                                                                                         | true                                                    |
-| popper-options            | parameters for [popper.js](https://popper.js.org/documentation.html)                                                                      | object          | please refer to [popper.js](https://popper.js.org/documentation.html)                                     | `{ boundariesElement: 'body', gpuAcceleration: false }` |
+| popper-options            | parameters for [popper.js](https://popper.js.org/docs/v2/)                                                                                | object          | please refer to [popper.js](https://popper.js.org/docs/v2/)                                               | `{ boundariesElement: 'body', gpuAcceleration: false }` |
 | popper-class              | custom class name for popover                                                                                                             | string          | —                                                                                                         | —                                                       |
 | show-after                | delay of appearance, in millisecond                                                                                                       | number          | —                                                                                                         | 0                                                       |
-| hide-after                | delay of disappear, in millisecond                                                                                                        | number          | —                                                                                                         | 0                                                       |
+| hide-after                | delay of disappear, in millisecond                                                                                                        | number          | —                                                                                                         | 200                                                     |
 | auto-close                | timeout in milliseconds to hide tooltip                                                                                                   | number          | —                                                                                                         | 0                                                       |
 | tabindex                  | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Popover                                       | number          | —                                                                                                         | —                                                       |
 

@@ -1,7 +1,10 @@
 import { h } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
+import { ElIcon } from '@element-plus/components/icon'
+import { ArrowRight, Loading } from '@element-plus/icons'
 import { getPropByPath } from '@element-plus/utils/util'
 
+import type { VNode } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { Store } from './store'
 import type { TreeNode } from './table/defaults'
@@ -40,6 +43,7 @@ export const cellForced = {
       }
       return h(ElCheckbox, {
         disabled: isDisabled(),
+        size: store.states.tableSize.value,
         indeterminate:
           store.states.selection.value.length > 0 &&
           !store.states.isAllSelected.value,
@@ -62,6 +66,7 @@ export const cellForced = {
         disabled: column.selectable
           ? !column.selectable.call(null, row, $index)
           : false,
+        size: store.states.tableSize.value,
         onChange: () => {
           store.commit('rowSelectedChanged', row)
         },
@@ -114,11 +119,17 @@ export const cellForced = {
           class: classes,
           onClick: callback,
         },
-        [
-          h('i', {
-            class: 'el-icon el-icon-arrow-right',
-          }),
-        ]
+        {
+          default: () => {
+            return [
+              h(ElIcon, null, {
+                default: () => {
+                  return [h(ArrowRight)]
+                },
+              }),
+            ]
+          },
+        }
       )
     },
     sortable: false,
@@ -154,7 +165,7 @@ export function treeCellPrefix<T>({
   store: Store<T>
 }) {
   if (!treeNode) return null
-  const ele = []
+  const ele: VNode[] = []
   const callback = function (e) {
     e.stopPropagation()
     store.loadOrToggle(row)
@@ -172,9 +183,9 @@ export function treeCellPrefix<T>({
       'el-table__expand-icon',
       treeNode.expanded ? 'el-table__expand-icon--expanded' : '',
     ]
-    let iconClasses = ['el-icon-arrow-right']
+    let icon = ArrowRight
     if (treeNode.loading) {
-      iconClasses = ['el-icon-loading']
+      icon = Loading
     }
 
     ele.push(
@@ -184,11 +195,19 @@ export function treeCellPrefix<T>({
           class: expandClasses,
           onClick: callback,
         },
-        [
-          h('i', {
-            class: iconClasses,
-          }),
-        ]
+        {
+          default: () => {
+            return [
+              h(
+                ElIcon,
+                { class: { 'is-loading': treeNode.loading } },
+                {
+                  default: () => [h(icon)],
+                }
+              ),
+            ]
+          },
+        }
       )
     )
   } else {

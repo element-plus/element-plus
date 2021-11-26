@@ -1,8 +1,13 @@
-## Radio
+---
+title: Radio
+lang: en-US
+---
+
+# Radio
 
 Single selection among multiple options.
 
-### Basic usage
+## Basic usage
 
 Radio should not have too many options. Otherwise, use the Select component instead.
 
@@ -12,7 +17,7 @@ radio/basic-usage
 
 :::
 
-### Disabled
+## Disabled
 
 `disabled` attribute is used to disable the radio.
 
@@ -22,7 +27,7 @@ radio/disabled
 
 :::
 
-### Radio button group
+## Radio button group
 
 Suitable for choosing from some mutually exclusive options.
 
@@ -32,7 +37,7 @@ radio/radio-button-group
 
 :::
 
-### Button style
+## Button style
 
 Radio with button styles.
 
@@ -42,7 +47,7 @@ radio/button-style
 
 :::
 
-### With borders
+## With borders
 
 :::demo The `border` attribute adds a border to Radios.
 
@@ -50,7 +55,7 @@ radio/with-borders
 
 :::
 
-### Radio Attributes
+## Radio Attributes
 
 | Attribute             | Description                          | Type                      | Accepted Values       | Default |
 | --------------------- | ------------------------------------ | ------------------------- | --------------------- | ------- |
@@ -61,13 +66,19 @@ radio/with-borders
 | size                  | size of the Radio                    | string                    | medium / small / mini | —       |
 | name                  | native 'name' attribute              | string                    | —                     | —       |
 
-### Radio Events
+## Radio Events
 
 | Event Name | Description                           | Parameters                          |
 | ---------- | ------------------------------------- | ----------------------------------- |
 | change     | triggers when the bound value changes | the label value of the chosen radio |
 
-### Radio-group Attributes
+## Radio Slots
+
+| Name | Description               |
+| ---- | ------------------------- |
+| —    | customize default content |
+
+## Radio-group Attributes
 
 | Attribute             | Description                                       | Type                      | Accepted Values       | Default |
 | --------------------- | ------------------------------------------------- | ------------------------- | --------------------- | ------- |
@@ -77,16 +88,28 @@ radio/with-borders
 | text-color            | font color when button is active                  | string                    | —                     | #ffffff |
 | fill                  | border and background color when button is active | string                    | —                     | #409EFF |
 
-### Radio-group Events
+## Radio-group Events
 
 | Event Name | Description                           | Parameters                          |
 | ---------- | ------------------------------------- | ----------------------------------- |
 | change     | triggers when the bound value changes | the label value of the chosen radio |
 
-### Radio-button Attributes
+## Radio-group Slots
+
+| Name | Description               | Subtags              |
+| ---- | ------------------------- | -------------------- |
+| —    | customize default content | Radio / Radio-button |
+
+## Radio-button Attributes
 
 | Attribute | Description               | Type            | Accepted Values | Default |
 | --------- | ------------------------- | --------------- | --------------- | ------- |
 | label     | the value of radio        | string / number | —               | —       |
 | disabled  | whether radio is disabled | boolean         | —               | false   |
 | name      | native 'name' attribute   | string          | —               | —       |
+
+## Radio-button Slots
+
+| Name | Description               |
+| ---- | ------------------------- |
+| —    | customize default content |

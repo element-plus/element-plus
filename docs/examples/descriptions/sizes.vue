@@ -18,35 +18,35 @@
     </template>
     <el-descriptions-item>
       <template #label>
-        <i class="el-icon-user"></i>
+        <el-icon><user /></el-icon>
         Username
       </template>
       kooriookami
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
-        <i class="el-icon-mobile-phone"></i>
+        <el-icon><iphone /></el-icon>
         Telephone
       </template>
       18100000000
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
-        <i class="el-icon-location-outline"></i>
+        <el-icon><location /></el-icon>
         Place
       </template>
       Suzhou
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
-        <i class="el-icon-tickets"></i>
+        <el-icon><tickets /></el-icon>
         Remarks
       </template>
       <el-tag size="small">School</el-tag>
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
-        <i class="el-icon-office-building"></i>
+        <el-icon><office-building /></el-icon>
         Address
       </template>
       No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
@@ -75,12 +75,15 @@
   </el-descriptions>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      size: '',
-    }
-  },
-}
+<script setup lang="ts">
+import { ref } from 'vue'
+import {
+  User,
+  Iphone,
+  Location,
+  Tickets,
+  OfficeBuilding,
+} from '@element-plus/icons'
+
+const size = ref('')
 </script>

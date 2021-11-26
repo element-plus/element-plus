@@ -1,9 +1,9 @@
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(calendar) {
-  @include set-component-css-var('calendar', $--calendar);
+  @include set-component-css-var('calendar', $calendar);
 
   background-color: #fff;
 
@@ -48,7 +48,7 @@
     transition: background-color var(--el-transition-duration-fast) ease;
 
     @include when(selected) {
-      background-color: var(--el-calendar-selected-background-color);
+      background-color: var(--el-calendar-selected-bg-color);
     }
 
     @include when(today) {
@@ -74,7 +74,7 @@
     height: var(--el-calendar-cell-width);
     &:hover {
       cursor: pointer;
-      background-color: var(--el-calendar-selected-background-color);
+      background-color: var(--el-calendar-selected-bg-color);
     }
   }
 }

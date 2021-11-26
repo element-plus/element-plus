@@ -45,7 +45,7 @@
               <div class="el-select-v2__selected-item">
                 <el-tag
                   :closable="
-                    !selectDisabled && !states.cachedOptions[0].disable
+                    !selectDisabled && !states.cachedOptions[0]?.disable
                   "
                   :size="collapseTagSize"
                   type="info"
@@ -57,7 +57,7 @@
                     :style="{
                       maxWidth: `${tagMaxWidth}px`,
                     }"
-                    >{{ states.cachedOptions[0].label }}</span
+                    >{{ states.cachedOptions[0]?.label }}</span
                   >
                 </el-tag>
                 <el-tag
@@ -198,25 +198,26 @@
                 states.isComposing ||
                 (placeholder && multiple
                   ? modelValue.length === 0
-                  : !modelValue),
+                  : !hasModelValue),
             }"
           >
             {{ currentPlaceholder }}
           </span>
           <span class="el-select-v2__suffix">
-            <i
+            <el-icon
+              v-if="iconComponent"
               v-show="!showClearBtn"
-              :class="[
-                'el-select-v2__caret',
-                'el-input__icon',
-                'el-icon-' + iconClass,
-              ]"
-            ></i>
-            <i
-              v-if="showClearBtn"
-              :class="`el-select-v2__caret el-input__icon ${clearIcon}`"
+              :class="['el-select-v2__caret', 'el-input__icon', iconReverse]"
+            >
+              <component :is="iconComponent" />
+            </el-icon>
+            <el-icon
+              v-if="showClearBtn && clearIcon"
+              class="el-select-v2__caret el-input__icon"
               @click.prevent.stop="handleClear"
-            ></i>
+            >
+              <component :is="clearIcon" />
+            </el-icon>
           </span>
         </div>
       </template>
@@ -226,6 +227,7 @@
           :data="filteredOptions"
           :width="popperSize"
           :hovering-index="states.hoveringIndex"
+          :scrollbar-always-on="scrollbarAlwaysOn"
         >
           <template #default="scope">
             <slot v-bind="scope"></slot>
@@ -248,6 +250,7 @@ import { defineComponent, provide, toRefs, reactive, vModelText } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
 import ElPopper from '@element-plus/components/popper'
 import ElTag from '@element-plus/components/tag'
+import ElIcon from '@element-plus/components/icon'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import ElSelectMenu from './select-dropdown.vue'
 import useSelect from './useSelect'
@@ -259,6 +262,7 @@ export default defineComponent({
     ElSelectMenu,
     ElTag,
     ElPopper,
+    ElIcon,
   },
   directives: { ClickOutside, ModelText: vModelText },
   props: SelectProps,

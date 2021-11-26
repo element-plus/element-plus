@@ -1,9 +1,12 @@
 <template>
-  <el-button type="primary" icon="el-icon-edit"></el-button>
-  <el-button type="primary" icon="el-icon-share"></el-button>
-  <el-button type="primary" icon="el-icon-delete"></el-button>
-  <el-button type="primary" icon="el-icon-search">Search</el-button>
+  <el-button type="primary" :icon="Edit"></el-button>
+  <el-button type="primary" :icon="Share"></el-button>
+  <el-button type="primary" :icon="Delete"></el-button>
+  <el-button type="primary" :icon="Search">Search</el-button>
   <el-button type="primary">
-    Upload<i class="el-icon-upload el-icon-right"></i>
+    Upload<el-icon class="el-icon--right"><Upload /></el-icon>
   </el-button>
 </template>
+<script setup lang="ts">
+import { Edit, Share, Delete, Search, Upload } from '@element-plus/icons'
+</script>

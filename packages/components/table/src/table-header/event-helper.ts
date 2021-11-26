@@ -83,8 +83,9 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
             column,
             event
           )
-          props.store.scheduleLayout(false, true)
-
+          requestAnimationFrame(() => {
+            props.store.scheduleLayout(false, true)
+          })
           document.body.style.cursor = ''
           dragging.value = false
           draggingColumn.value = null

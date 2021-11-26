@@ -1,9 +1,9 @@
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(table) {
-  @include set-component-css-var('table', $--table);
+  @include set-component-css-var('table', $table);
 }
 
 @include b(table) {
@@ -13,11 +13,11 @@
   height: fit-content;
   width: 100%;
   max-width: 100%;
-  background-color: var(--el-table-background-color);
+  background-color: var(--el-table-bg-color);
   font-size: 14px;
-  color: var(--el-table-font-color);
+  color: var(--el-table-text-color);
 
-  // 数据为空
+  // when data is empty
   @include e(empty-block) {
     min-height: 60px;
     text-align: center;
@@ -35,7 +35,7 @@
     color: var(--el-text-color-secondary);
   }
 
-  // 展开行
+  // expand the row
   @include e(expand-column) {
     .cell {
       padding: 0;
@@ -56,18 +56,14 @@
     }
 
     > .#{$namespace}-icon {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      margin-left: -5px;
-      margin-top: -5px;
+      font-size: 12px;
     }
   }
 
   @include e(expanded-cell) {
-    background-color: var(--el-table-expanded-cell-background-color);
+    background-color: var(--el-table-expanded-cell-bg-color);
 
-    // 纯属为了增加权重
+    // increase the weight purely
     &[class*='cell'] {
       padding: 20px 50px;
     }
@@ -83,7 +79,7 @@
   }
 
   @include e(append-wrapper) {
-    // 避免外边距重合 https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing
+    // avoid overlapping margin https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing
     overflow: hidden;
   }
 
@@ -109,12 +105,12 @@
   }
 
   thead {
-    color: var(--el-table-header-font-color);
+    color: var(--el-table-header-text-color);
     font-weight: 500;
 
     &.is-group {
       th.#{$namespace}-table__cell {
-        background: var(--el-background-color-base);
+        background: var(--el-bg-color-base);
       }
     }
   }
@@ -171,7 +167,7 @@
   }
 
   tr {
-    background-color: var(--el-table-tr-background-color);
+    background-color: var(--el-table-tr-bg-color);
 
     input[type='checkbox'] {
       margin: 0;
@@ -190,7 +186,7 @@
   th.#{$namespace}-table__cell {
     overflow: hidden;
     user-select: none;
-    background-color: var(--el-table-header-background-color);
+    background-color: var(--el-table-header-bg-color);
 
     > .cell {
       display: inline-block;
@@ -328,7 +324,7 @@
     position: absolute;
     top: -1px;
     right: 0;
-    background-color: var(--el-table-header-background-color);
+    background-color: var(--el-table-header-bg-color);
     border-bottom: var(--el-table-border);
   }
 
@@ -360,8 +356,8 @@
 
     & tbody td.#{$namespace}-table__cell {
       border-top: var(--el-table-border);
-      background-color: var(--el-table-row-hover-background-color);
-      color: var(--el-table-font-color);
+      background-color: var(--el-table-row-hover-bg-color);
+      color: var(--el-table-text-color);
     }
   }
 
@@ -393,8 +389,8 @@
     overflow: hidden;
 
     & tbody td.#{$namespace}-table__cell {
-      background-color: var(--el-table-row-hover-background-color);
-      color: var(--el-table-font-color);
+      background-color: var(--el-table-row-hover-bg-color);
+      color: var(--el-table-text-color);
     }
   }
 
@@ -488,7 +484,7 @@
         }
 
         &.current-row td.#{$namespace}-table__cell {
-          background-color: var(--el-table-current-row-background-color);
+          background-color: var(--el-table-current-row-bg-color);
         }
       }
     }
@@ -501,14 +497,14 @@
         &,
         &.current-row {
           > td.#{$namespace}-table__cell {
-            background-color: var(--el-table-row-hover-background-color);
+            background-color: var(--el-table-row-hover-bg-color);
           }
         }
       }
     }
 
     tr.current-row > td.#{$namespace}-table__cell {
-      background-color: var(--el-table-current-row-background-color);
+      background-color: var(--el-table-current-row-bg-color);
     }
   }
 
@@ -542,7 +538,7 @@
 
   @include m(enable-row-hover) {
     .#{$namespace}-table__body tr:hover > td.#{$namespace}-table__cell {
-      background-color: var(--el-table-row-hover-background-color);
+      background-color: var(--el-table-row-hover-bg-color);
     }
   }
 
@@ -557,11 +553,11 @@
   [class*='#{$namespace}-table__row--level'] {
     .#{$namespace}-table__expand-icon {
       display: inline-block;
-      width: 20px;
-      line-height: 20px;
-      height: 20px;
+      width: 12px;
+      line-height: 12px;
+      height: 12px;
       text-align: center;
-      margin-right: 3px;
+      margin-right: 8px;
     }
   }
 }

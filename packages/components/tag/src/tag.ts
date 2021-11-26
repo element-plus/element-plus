@@ -1,30 +1,30 @@
-import { buildProp } from '@element-plus/utils/props'
+import { buildProps } from '@element-plus/utils/props'
 
 import type { ExtractPropTypes } from 'vue'
 
-export const tagProps = {
+export const tagProps = buildProps({
   closable: Boolean,
-  type: buildProp({
+  type: {
     type: String,
     values: ['success', 'info', 'warning', 'danger', ''],
     default: '',
-  } as const),
+  },
   hit: Boolean,
   disableTransitions: Boolean,
   color: {
     type: String,
     default: '',
   },
-  size: buildProp({
+  size: {
     type: String,
-    values: ['medium', 'small', 'mini'],
-  } as const),
-  effect: buildProp({
+    values: ['large', 'medium', 'small', 'mini'],
+  },
+  effect: {
     type: String,
     values: ['dark', 'light', 'plain'],
     default: 'light',
-  } as const),
-} as const
+  },
+} as const)
 export type TagProps = ExtractPropTypes<typeof tagProps>
 
 export const tagEmits = {

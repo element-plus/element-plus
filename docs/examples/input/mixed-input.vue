@@ -23,24 +23,19 @@
         </el-select>
       </template>
       <template #append>
-        <el-button icon="el-icon-search"></el-button>
+        <el-button :icon="Search"></el-button>
       </template>
     </el-input>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
-export default defineComponent({
-  setup() {
-    return {
-      input1: ref(''),
-      input2: ref(''),
-      input3: ref(''),
-      select: ref(''),
-    }
-  },
-})
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Search } from '@element-plus/icons'
+const input1 = ref('')
+const input2 = ref('')
+const input3 = ref('')
+const select = ref('')
 </script>
 
 <style>

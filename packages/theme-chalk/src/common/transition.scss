@@ -1,5 +1,4 @@
-@import '../mixins/config';
-@import 'var';
+@use '../mixins/config' as *;
 
 .fade-in-linear-enter-active,
 .fade-in-linear-leave-active {

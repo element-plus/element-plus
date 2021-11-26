@@ -1,3 +1,8 @@
+---
+title: Result
+lang: en-US
+---
+
 # Result
 
 Used to give feedback on the result of user's operation or access exception.
@@ -18,7 +23,7 @@ result/customized-content
 
 :::
 
-### Result Attributes
+## Result Attributes
 
 | Attribute | Description | Type   | Accepted Values                  | Default |
 | --------- | ----------- | ------ | -------------------------------- | ------- |
@@ -26,7 +31,7 @@ result/customized-content
 | sub-title | sub title   | string | —                                | —       |
 | icon      | icon type   | string | success / warning / info / error | info    |
 
-### Result Slots
+## Result Slots
 
 | Name     | Description       |
 | -------- | ----------------- |

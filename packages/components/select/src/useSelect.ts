@@ -19,8 +19,8 @@ import scrollIntoView from '@element-plus/utils/scroll-into-view'
 import { isKorean } from '@element-plus/utils/isDef'
 import { getValueByPath, useGlobalConfig } from '@element-plus/utils/util'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
-import type { QueryChangeCtx, SelectOptionProxy } from './token'
 
+import type { QueryChangeCtx, SelectOptionProxy } from './token'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 
 export function useSelectStates(props) {
@@ -94,12 +94,11 @@ export const useSelect = (props, states: States, ctx) => {
       hasValue
     return criteria
   })
-  const iconClass = computed(() =>
-    props.remote && props.filterable
-      ? ''
-      : states.visible
-      ? 'arrow-up is-reverse'
-      : 'arrow-up'
+  const iconComponent = computed(() =>
+    props.remote && props.filterable ? '' : props.suffixIcon
+  )
+  const iconReverse = computed(() =>
+    iconComponent.value && states.visible ? 'is-reverse' : ''
   )
 
   const debounce = computed(() => (props.remote ? 300 : 0))
@@ -406,7 +405,7 @@ export const useSelect = (props, states: States, ctx) => {
    */
   const checkDefaultFirstOption = () => {
     const optionsInDropdown = optionsArray.value.filter(
-      (n) => n.visible && !n.disabled && !n.groupDisabled
+      (n) => n.visible && !n.disabled && !n.states.groupDisabled
     )
     const userCreatedOption = optionsInDropdown.filter((n) => n.created)[0]
     const firstOriginOption = optionsInDropdown[0]
@@ -480,10 +479,7 @@ export const useSelect = (props, states: States, ctx) => {
       const valueKey = props.valueKey
       if (!props.multiple) {
         states.hoverIndex = optionsArray.value.findIndex((item) => {
-          return (
-            getValueByPath(item, valueKey) ===
-            getValueByPath(states.selected, valueKey)
-          )
+          return getValueKey(item) === getValueKey(states.selected)
         })
       } else {
         if (states.selected.length > 0) {
@@ -801,7 +797,7 @@ export const useSelect = (props, states: States, ctx) => {
       const option = optionsArray.value[states.hoverIndex]
       if (
         option.disabled === true ||
-        option.groupDisabled === true ||
+        option.states.groupDisabled === true ||
         !option.visible
       ) {
         navigateOptions(direction)
@@ -824,7 +820,8 @@ export const useSelect = (props, states: States, ctx) => {
     readonly,
     resetInputHeight,
     showClose,
-    iconClass,
+    iconComponent,
+    iconReverse,
     showNewOption,
     collapseTagSize,
     setSelected,

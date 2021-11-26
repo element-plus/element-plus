@@ -32,6 +32,7 @@ export const useCheckboxProps = {
     type: [String, Number],
     default: undefined,
   },
+  tabindex: [String, Number],
   size: String,
 }
 
@@ -73,21 +74,9 @@ const useModel = (props: IUseCheckboxProps) => {
 
     set(val: unknown) {
       if (isGroup.value && Array.isArray(val)) {
-        isLimitExceeded.value = false
-
-        if (
-          checkboxGroup.min !== undefined &&
-          val.length < checkboxGroup.min.value
-        ) {
-          isLimitExceeded.value = true
-        }
-        if (
+        isLimitExceeded.value =
           checkboxGroup.max !== undefined &&
           val.length > checkboxGroup.max.value
-        ) {
-          isLimitExceeded.value = true
-        }
-
         isLimitExceeded.value === false && checkboxGroup?.changeEvent?.(val)
       } else {
         emit(UPDATE_MODEL_EVENT, val)

@@ -1,8 +1,13 @@
-## Typography
+---
+title: Typography
+lang: en-US
+---
+
+# Typography
 
 We create a font convention to ensure the best presentation across different platforms.
 
-### Font
+## Font
 
 :::demo
 
@@ -10,7 +15,7 @@ typography/font
 
 :::
 
-### Font Convention
+## Font Convention
 
 :::demo
 
@@ -18,7 +23,7 @@ typography/convention
 
 :::
 
-### Font Line Height
+## Font Line Height
 
 :::demo
 
@@ -26,7 +31,7 @@ typography/line-height
 
 :::
 
-### Font-family
+## Font-family
 
 ```css
 font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',

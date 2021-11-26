@@ -1,5 +1,6 @@
 ---
 title: Theming
+lang: en-US
 ---
 
 # Custom theme
@@ -11,6 +12,11 @@ provide four ways to change the style variables.
 
 ## Change theme color <el-tag type="success" style="vertical-align: middle;">since 1.1.0-beta.1</el-tag>
 
+These are examples about custom theme.
+
+- Full import: [element-plus-vite-starter](https://github.com/element-plus/element-plus-vite-starter)
+- On demand: [unplugin-element-plus/examples/vite](https://github.com/element-plus/unplugin-element-plus)
+
 ### By SCSS variables
 
 `theme-chalk` is written in SCSS.
@@ -18,19 +24,21 @@ You can find SCSS variables in [`packages/theme-chalk/src/common/var.scss`](http
 
 ::: warning
 
-We use [sass:map](https://sass-lang.com/documentation/values/maps) to refactor all SCSS variables.
+We use sass modules ([sass:map](https://sass-lang.com/documentation/values/maps)...) to refactor all SCSS variables.
 
-For example, We use `$--colors` as a map to preserve different types of colors.
+> [Introducing Sass Modules | CSS-TRICKS](https://css-tricks.com/introducing-sass-modules/)
 
-`$--notification` is a map where all variables of the `notification` component at.
+For example, We use `$colors` as a map to preserve different types of colors.
+
+`$notification` is a map where all variables of the `notification` component at.
 
 In the future, we will write documentation for variables that can be customized for each component. You can also directly checkout the source [var.scss](https://github.com/element-plus/element-plus/blob/dev/packages/theme-chalk/src/common/var.scss).
 
 :::
 
 ```scss
-$--colors: () !default;
-$--colors: map.deep-merge(
+$colors: () !default;
+$colors: map.deep-merge(
   (
     'white': #ffffff,
     'black': #000000,
@@ -53,45 +61,105 @@ $--colors: map.deep-merge(
       'base': #909399,
     ),
   ),
-  $--colors
+  $colors
 );
 ```
 
 ### How to override it?
 
-If your project also uses SCSS, you can directly
-change Element Plus style variables. Create a new style file, e.g. `element-variables.scss`:
-
-> element-variables.scss
+If your project also uses SCSS, you can directly change Element Plus style variables. Create a new style file, e.g. `styles/element/index.scss`:
 
 ```scss
+// styles/element/index.scss
 /* just override what you need */
-$--colors: (
-  'primary': (
-    'base': green,
+@forward "element-plus/theme-chalk/src/common/var.scss" with (
+  $colors: (
+    "primary": (
+      "base": green,
+    ),
   ),
 );
+
+// If you just import on demand, you can ignore the following content.
+// if you want to import all styles:
+// @use "element-plus/theme-chalk/src/index.scss" as *;
 ```
 
-Then in the entry file of your project, import this style file instead of Element's
-built CSS:
+Then in the entry file of your project, import this style file instead of Element's built CSS:
 
 ::: tip
 
-Import `element-variables.scss` before scss of element-plus to avoid the problem of sass mixed variables, because we need generate light-x by your custom variables.
+Import `element/index.scss` before scss of element-plus to avoid the problem of sass mixed variables, because we need generate light-x by your custom variables.
+
+:::
+
+Create a `element/index.scss` to combine your variables and variables of element-plus. (If you import them in ts, they will not be combined.)
+
+::: tip
+
+In addition, you should distinguish your scss from the element variable scss.
+If they are mixed together, each hot update of `element-plus` needs to compile a large number of scss files, resulting in slow speed.
 
 :::
 
 ```ts
 import Vue from 'vue'
-// import it before element-plus scss
-import './element-variables.scss'
-import 'element-plus/theme-chalk/src/index.scss'
+
+import './styles/element/index.scss'
 import ElementPlus from 'element-plus'
 import App from './App.vue'
 
 const app = createApp(App)
 app.use(ElementPlus)
+```
+
+If you are using vite, and you want to custom theme when importing on demand.
+
+Use `scss.additionalData` to compile variables with scss of every component.
+
+```ts
+import path from 'path'
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+// You can also use unplugin-vue-components
+// import Components from 'unplugin-vue-components/vite'
+// import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+
+// or use unplugin-element-plus
+import ElementPlus from 'unplugin-element-plus/vite'
+
+// vite.config.ts
+export default defineConfig({
+  resolve: {
+    alias: {
+      '~/': `${path.resolve(__dirname, 'src')}/`,
+    },
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@use "~/styles/element/index.scss" as *;`,
+      },
+    },
+  },
+  plugins: [
+    vue(),
+    // use unplugin-vue-components
+    // Components({
+    //   resolvers: [
+    //     ElementPlusResolver({
+    //       importStyle: "sass",
+    //       // directives: true,
+    //       // version: "1.2.0-beta.1",
+    //     }),
+    //   ],
+    // }),
+    // or use unplugin-element-plus
+    ElementPlus({
+      useSource: true,
+    }),
+  ],
+})
 ```
 
 ### By CSS Variable
@@ -123,14 +191,14 @@ Like this:
 If you just want to customize a particular component, just add inline styles for certain components individually.
 
 ```html
-<el-tag style="--el-tag-background-color: red">Tag</el-tag>
+<el-tag style="--el-tag-bg-color: red">Tag</el-tag>
 ```
 
 For performance reasons, it is more recommended to custom css variables under a class rather than the global `:root`.
 
 ```css
 .custom-class {
-  --el-tag-background-color: red;
+  --el-tag-bg-color: red;
 }
 ```
 
@@ -173,7 +241,7 @@ change Element Plus style variables. Create a new style file, e.g. `element-vari
 /* theme color */
 $--color-primary: teal; /* icon font path, required */
 $--font-path: '~element-plus/lib/theme-chalk/fonts';
-@import '~element-plus/packages/theme-chalk/src/index';
+@use '~element-plus/packages/theme-chalk/src/index';
 ```
 
 Then in the entry file of your project, import this style file instead of Element's

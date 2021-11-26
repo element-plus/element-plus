@@ -1,3 +1,8 @@
+---
+title: Tooltip
+lang: en-US
+---
+
 # Tooltip
 
 Display prompt information for mouse hover.
@@ -77,3 +82,9 @@ Disabled form elements are not supported for Tooltip, more information can be fo
 | popper-class          | custom class name for Tooltip's popper                                                                                        | string  | —                                                                                                         | —                                                       |
 | enterable             | whether the mouse can enter the tooltip                                                                                       | Boolean | —                                                                                                         | true                                                    |
 | tabindex              | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Tooltip                           | number  | —                                                                                                         | 0                                                       |
+
+## Slots
+
+| Name | Description               |
+| ---- | ------------------------- |
+| —    | customize default content |

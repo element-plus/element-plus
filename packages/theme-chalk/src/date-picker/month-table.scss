@@ -1,4 +1,5 @@
-@import '../common/var';
+@use '../mixins/mixins' as *;
+@use '../common/var' as *;
 
 @include b(month-table) {
   font-size: 12px;
@@ -21,12 +22,12 @@
       }
       &.start-date .cell,
       &.end-date .cell {
-        color: $--color-white;
+        color: $color-white;
       }
     }
 
     &.disabled .cell {
-      background-color: $--background-color-base;
+      background-color: $background-color-base;
       cursor: not-allowed;
       color: var(--el-text-color-placeholder);
 
@@ -40,28 +41,28 @@
       height: 36px;
       display: block;
       line-height: 36px;
-      color: var(--el-datepicker-font-color);
+      color: var(--el-datepicker-text-color);
       margin: 0 auto;
       border-radius: 18px;
       &:hover {
-        color: var(--el-datepicker-hover-font-color);
+        color: var(--el-datepicker-hover-text-color);
       }
     }
 
     &.in-range div {
-      background-color: var(--el-datepicker-inrange-background-color);
+      background-color: var(--el-datepicker-inrange-bg-color);
       &:hover {
-        background-color: var(--el-datepicker-inrange-hover-background-color);
+        background-color: var(--el-datepicker-inrange-hover-bg-color);
       }
     }
     &.start-date div,
     &.end-date div {
-      color: $--color-white;
+      color: $color-white;
     }
 
     &.start-date .cell,
     &.end-date .cell {
-      color: $--color-white;
+      color: $color-white;
       background-color: var(--el-datepicker-active-color);
     }
 

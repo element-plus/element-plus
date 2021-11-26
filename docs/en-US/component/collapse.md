@@ -1,3 +1,8 @@
+---
+title: Collapse
+lang: en-US
+---
+
 # Collapse
 
 Use Collapse to store contents.
@@ -53,6 +58,12 @@ collapse/customization
 | Event Name | Description                        | Parameters                                                          |
 | ---------- | ---------------------------------- | ------------------------------------------------------------------- |
 | change     | triggers when active panels change | (activeNames: array (non-accordion mode) / string (accordion mode)) |
+
+## Collapse Slots
+
+| Name | Description               | Subtags       |
+| ---- | ------------------------- | ------------- |
+| -    | customize default content | Collapse Item |
 
 ## Collapse Item Attributes
 

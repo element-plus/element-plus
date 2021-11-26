@@ -1,10 +1,10 @@
-import { buildProp, definePropType } from '@element-plus/utils/props'
+import { buildProps, definePropType } from '@element-plus/utils/props'
 
-import type { VNode, ExtractPropTypes } from 'vue'
+import type { VNode, ExtractPropTypes, Component } from 'vue'
 
 export const messageTypes = ['success', 'info', 'warning', 'error'] as const
 
-export const messageProps = {
+export const messageProps = buildProps({
   customClass: {
     type: String,
     default: '',
@@ -21,31 +21,31 @@ export const messageProps = {
     type: Number,
     default: 3000,
   },
-  iconClass: {
-    type: String,
+  icon: {
+    type: definePropType<string | Component>([String, Object]),
     default: '',
   },
   id: {
     type: String,
     default: '',
   },
-  message: buildProp({
+  message: {
     type: definePropType<string | VNode>([String, Object]),
     default: '',
-  } as const),
-  onClose: buildProp({
+  },
+  onClose: {
     type: definePropType<() => void>(Function),
     required: false,
-  }),
+  },
   showClose: {
     type: Boolean,
     default: false,
   },
-  type: buildProp({
+  type: {
     type: String,
     values: messageTypes,
     default: 'info',
-  } as const),
+  },
   offset: {
     type: Number,
     default: 20,
@@ -54,7 +54,15 @@ export const messageProps = {
     type: Number,
     default: 0,
   },
-} as const
+  grouping: {
+    type: Boolean,
+    default: false,
+  },
+  repeatNum: {
+    type: Number,
+    default: 1,
+  },
+} as const)
 export type MessageProps = ExtractPropTypes<typeof messageProps>
 
 export const messageEmits = {
@@ -62,7 +70,9 @@ export const messageEmits = {
 }
 export type MessageEmits = typeof messageEmits
 
-export type MessageOptions = Omit<MessageProps, 'id'>
+export type MessageOptions = Omit<MessageProps, 'id'> & {
+  appendTo?: HTMLElement | string
+}
 export type MessageOptionsTyped = Omit<MessageOptions, 'type'>
 
 export interface MessageHandle {
@@ -72,16 +82,17 @@ export interface MessageHandle {
 export type MessageParams = Partial<MessageOptions> | string | VNode
 export type MessageParamsTyped = Partial<MessageOptionsTyped> | string | VNode
 
-export interface MessagePartial {
-  (options?: MessageParams): MessageHandle
+export type MessageFn = ((options?: MessageParams) => MessageHandle) & {
   closeAll(): void
-
-  success?: (options?: MessageParamsTyped) => MessageHandle
-  warning?: (options?: MessageParamsTyped) => MessageHandle
-  info?: (options?: MessageParamsTyped) => MessageHandle
-  error?: (options?: MessageParamsTyped) => MessageHandle
 }
-export type Message = Required<MessagePartial>
+export type MessageTypedFn = (options?: MessageParamsTyped) => MessageHandle
+
+export interface Message extends MessageFn {
+  success: MessageTypedFn
+  warning: MessageTypedFn
+  info: MessageTypedFn
+  error: MessageTypedFn
+}
 
 type MessageQueueItem = {
   vm: VNode

@@ -6,6 +6,7 @@
     <el-button type="info">Info</el-button>
     <el-button type="warning">Warning</el-button>
     <el-button type="danger">Danger</el-button>
+    <el-button>中文</el-button>
   </el-row>
 
   <el-row>
@@ -27,11 +28,14 @@
   </el-row>
 
   <el-row>
-    <el-button icon="el-icon-search" circle></el-button>
-    <el-button type="primary" icon="el-icon-edit" circle></el-button>
-    <el-button type="success" icon="el-icon-check" circle></el-button>
-    <el-button type="info" icon="el-icon-message" circle></el-button>
-    <el-button type="warning" icon="el-icon-star-off" circle></el-button>
-    <el-button type="danger" icon="el-icon-delete" circle></el-button>
+    <el-button :icon="Search" circle></el-button>
+    <el-button type="primary" :icon="Edit" circle></el-button>
+    <el-button type="success" :icon="Check" circle></el-button>
+    <el-button type="info" :icon="Message" circle></el-button>
+    <el-button type="warning" :icon="Star" circle></el-button>
+    <el-button type="danger" :icon="Delete" circle></el-button>
   </el-row>
 </template>
+<script setup lang="ts">
+import { Search, Edit, Check, Message, Star, Delete } from '@element-plus/icons'
+</script>

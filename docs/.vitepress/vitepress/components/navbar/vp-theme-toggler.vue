@@ -12,7 +12,7 @@ const toggle = useTheme()
 </template>
 
 <style scoped lang="scss">
-@import '../../styles/mixins';
+@use '../../styles/mixins' as *;
 .theme-toggler-content {
   @include with-bg;
   display: none;

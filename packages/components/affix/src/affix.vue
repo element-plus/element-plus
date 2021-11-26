@@ -121,22 +121,24 @@ export default defineComponent({
         target.value =
           document.querySelector<HTMLElement>(props.target) ?? undefined
         if (!target.value) {
-          throw new Error(`target is not existed: ${props.target}`)
+          throw new Error(`Target is not existed: ${props.target}`)
         }
       } else {
         target.value = document.documentElement
       }
-      scrollContainer.value = getScrollContainer(root.value!)
+      scrollContainer.value = getScrollContainer(root.value!, true)
     })
 
     useEventListener(scrollContainer, 'scroll', onScroll)
     useResizeObserver(root, () => update())
+    useResizeObserver(target, () => update())
 
     return {
       root,
       state,
       rootStyle,
       affixStyle,
+      update,
     }
   },
 })

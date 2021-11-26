@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import Tabs from '../src/tabs'
 import TabPane from '../src/tab-pane.vue'
-import TabNav from '../src/tab-nav.vue'
+import TabNav from '../src/tab-nav'
 
 describe('Tabs.vue', () => {
   test('create', async () => {
@@ -33,14 +33,14 @@ describe('Tabs.vue', () => {
     expect(panesWrapper[0].classes('el-tab-pane')).toBe(true)
     expect(panesWrapper[0].attributes('id')).toBe('pane-0')
     expect(panesWrapper[0].attributes('aria-hidden')).toEqual('false')
-    expect(tabsWrapper.vm.currentName).toEqual('0')
+    expect(tabsWrapper.vm.$.exposed.currentName.value).toEqual('0')
 
     await navItemsWrapper[2].trigger('click')
     expect(navItemsWrapper[0].classes('is-active')).toBe(false)
     expect(panesWrapper[0].attributes('aria-hidden')).toEqual('true')
     expect(navItemsWrapper[2].classes('is-active')).toBe(true)
     expect(panesWrapper[2].attributes('aria-hidden')).toEqual('false')
-    expect(tabsWrapper.vm.currentName).toEqual('2')
+    expect(tabsWrapper.vm.$.exposed.currentName.value).toEqual('2')
   })
 
   test('active-name', async () => {
@@ -79,14 +79,14 @@ describe('Tabs.vue', () => {
     expect(panesWrapper[1].classes('el-tab-pane')).toBe(true)
     expect(panesWrapper[1].attributes('id')).toBe('pane-b')
     expect(panesWrapper[1].attributes('aria-hidden')).toEqual('false')
-    expect(tabsWrapper.vm.currentName).toEqual('b')
+    expect(tabsWrapper.vm.$.exposed.currentName.value).toEqual('b')
 
     await navItemsWrapper[2].trigger('click')
     expect(navItemsWrapper[1].classes('is-active')).toBe(false)
     expect(panesWrapper[1].attributes('aria-hidden')).toEqual('true')
     expect(navItemsWrapper[2].classes('is-active')).toBe(true)
     expect(panesWrapper[2].attributes('aria-hidden')).toEqual('false')
-    expect(tabsWrapper.vm.currentName).toEqual('c')
+    expect(tabsWrapper.vm.$.exposed.currentName.value).toEqual('c')
   })
 
   test('card', async () => {
@@ -267,7 +267,7 @@ describe('Tabs.vue', () => {
     expect(navItemsWrapper[1].classes('is-active')).toBe(true)
 
     // remove one tab, check panes length
-    await navItemsWrapper[1].find('.el-icon-close').trigger('click')
+    await navItemsWrapper[1].find('.is-icon-close').trigger('click')
 
     panesWrapper = wrapper.findAllComponents(TabPane)
     navItemsWrapper = navWrapper.findAll('.el-tabs__item')
@@ -276,7 +276,7 @@ describe('Tabs.vue', () => {
     expect(panesWrapper.length).toEqual(2)
 
     // add one tab, check panes length and current tab
-    await navWrapper.find('.el-tabs__new-tab').trigger('click')
+    await wrapper.find('.el-tabs__new-tab').trigger('click')
 
     panesWrapper = wrapper.findAllComponents(TabPane)
     navItemsWrapper = navWrapper.findAll('.el-tabs__item')
@@ -362,7 +362,7 @@ describe('Tabs.vue', () => {
     const navWrapper = wrapper.findComponent(TabNav)
     await nextTick()
 
-    await navWrapper.find('.el-tabs__new-tab').trigger('click')
+    await wrapper.find('.el-tabs__new-tab').trigger('click')
 
     let navItemsWrapper = navWrapper.findAll('.el-tabs__item')
     let panesWrapper = wrapper.findAllComponents(TabPane)
@@ -370,7 +370,7 @@ describe('Tabs.vue', () => {
     expect(panesWrapper.length).toEqual(3)
     expect(navItemsWrapper[2].classes('is-active')).toBe(true)
 
-    await navItemsWrapper[2].find('.el-icon-close').trigger('click')
+    await navItemsWrapper[2].find('.is-icon-close').trigger('click')
 
     panesWrapper = wrapper.findAllComponents(TabPane)
     navItemsWrapper = navWrapper.findAll('.el-tabs__item')
@@ -398,7 +398,7 @@ describe('Tabs.vue', () => {
     const navWrapper = wrapper.findComponent(TabNav)
     await nextTick()
 
-    expect(navWrapper.findAll('.el-icon-close').length).toBe(2)
+    expect(navWrapper.findAll('.is-icon-close').length).toBe(2)
   })
 
   test('disabled', async () => {

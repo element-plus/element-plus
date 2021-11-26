@@ -1,9 +1,10 @@
-import type { ExtractPropTypes } from 'vue'
+import { Back } from '@element-plus/icons'
+import type { ExtractPropTypes, PropType, Component } from 'vue'
 
 export const pageHeaderProps = {
   icon: {
-    type: String,
-    default: 'el-icon-back',
+    type: [String, Object] as PropType<string | Component>,
+    default: Back,
   },
   title: String,
   content: {

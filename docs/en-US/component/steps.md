@@ -1,3 +1,8 @@
+---
+title: Steps
+lang: en-US
+---
+
 # Steps
 
 Guide the user to complete tasks in accordance with the process. Its steps can be set according to the actual application scenario and the number of the steps can't be less than 2.
@@ -83,6 +88,12 @@ steps/simple
 | finish-status  | status of end step                                                            | string          | wait / process / finish / error / success | finish     |
 | align-center   | center title and description                                                  | boolean         | —                                         | false      |
 | simple         | whether to apply simple theme                                                 | boolean         | -                                         | false      |
+
+## Steps Slots
+
+| Name | Description               | Subtags |
+| ---- | ------------------------- | ------- |
+| -    | customize default content | Step    |
 
 ## Step Attributes
 

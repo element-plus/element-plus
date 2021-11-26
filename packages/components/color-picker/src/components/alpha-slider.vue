@@ -28,6 +28,7 @@ import {
   getCurrentInstance,
   shallowRef,
 } from 'vue'
+import { getClientXY } from '@element-plus/utils/dom'
 import draggable from '../draggable'
 
 import type { PropType } from 'vue'
@@ -112,9 +113,10 @@ export default defineComponent({
     function handleDrag(event) {
       const el = instance.vnode.el as HTMLElement
       const rect = el.getBoundingClientRect()
+      const { clientX, clientY } = getClientXY(event)
 
       if (!props.vertical) {
-        let left = event.clientX - rect.left
+        let left = clientX - rect.left
         left = Math.max(thumb.value.offsetWidth / 2, left)
         left = Math.min(left, rect.width - thumb.value.offsetWidth / 2)
 
@@ -127,7 +129,7 @@ export default defineComponent({
           )
         )
       } else {
-        let top = event.clientY - rect.top
+        let top = clientY - rect.top
         top = Math.max(thumb.value.offsetHeight / 2, top)
         top = Math.min(top, rect.height - thumb.value.offsetHeight / 2)
 

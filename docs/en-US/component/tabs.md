@@ -1,3 +1,8 @@
+---
+title: Tabs
+lang: en-US
+---
+
 # Tabs
 
 Divide data collections which are related yet belong to different types.
@@ -108,6 +113,12 @@ tabs/customized-trigger
 | tab-remove | triggers when tab-remove button is clicked            | name of the removed tab |
 | tab-add    | triggers when tab-add button is clicked               | —                       |
 | edit       | triggers when tab-add button or tab-remove is clicked | (targetName, action)    |
+
+## Tabs Slots
+
+| Name | Description               | Subtags  |
+| ---- | ------------------------- | -------- |
+| -    | customize default content | Tab-pane |
 
 ## Tab-pane Attributes
 

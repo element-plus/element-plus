@@ -8,21 +8,22 @@
     :fallback-placements="['bottom', 'top', 'right', 'left']"
   >
     <div class="el-popconfirm">
-      <p class="el-popconfirm__main">
-        <i
-          v-if="!hideIcon"
-          :class="icon"
+      <div class="el-popconfirm__main">
+        <el-icon
+          v-if="!hideIcon && icon"
           class="el-popconfirm__icon"
           :style="{ color: iconColor }"
-        ></i>
+        >
+          <component :is="icon" />
+        </el-icon>
         {{ title }}
-      </p>
+      </div>
       <div class="el-popconfirm__action">
         <el-button size="mini" :type="cancelButtonType" @click="cancel">
-          {{ _cancelButtonText }}
+          {{ finalCancelButtonText }}
         </el-button>
         <el-button size="mini" :type="confirmButtonType" @click="confirm">
-          {{ _confirmButtonText }}
+          {{ finalConfirmButtonText }}
         </el-button>
       </div>
     </div>
@@ -35,6 +36,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue'
 import ElButton from '@element-plus/components/button'
+import ElIcon from '@element-plus/components/icon'
 import ElPopper, { Effect } from '@element-plus/components/popper'
 import { useLocaleInject } from '@element-plus/hooks'
 import { popconfirmProps, popconfirmEmits } from './popconfirm'
@@ -45,6 +47,7 @@ export default defineComponent({
   components: {
     ElButton,
     ElPopper,
+    ElIcon,
   },
 
   props: popconfirmProps,
@@ -61,18 +64,19 @@ export default defineComponent({
       visible.value = false
       emit('cancel')
     }
-    const _confirmButtonText = computed(
+    const finalConfirmButtonText = computed(
       () => props.confirmButtonText || t('el.popconfirm.confirmButtonText')
     )
-    const _cancelButtonText = computed(
+    const finalCancelButtonText = computed(
       () => props.cancelButtonText || t('el.popconfirm.cancelButtonText')
     )
 
     return {
       Effect,
       visible,
-      _confirmButtonText,
-      _cancelButtonText,
+
+      finalConfirmButtonText,
+      finalCancelButtonText,
 
       confirm,
       cancel,

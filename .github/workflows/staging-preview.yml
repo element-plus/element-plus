@@ -22,16 +22,16 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 6.15.1
+          version: latest
 
       - name: Install dependencies
-        run: pnpm bootstrap
+        run: pnpm i --frozen-lockfile
 
       - name: Compile Element Plus
-        run: sh scripts/build.sh
+        run: pnpm build
 
       - name: Init Crowdin token
-        run: pnpm docs:crowdin
+        run: pnpm run docs:crowdin-credentials
         env:
           CROWDIN_TOKEN: ${{secrets.CROWDIN_TOKEN}}
 
@@ -48,9 +48,10 @@ jobs:
         run: pnpm docs:build
         env:
           DOC_ENV: staging
+          NODE_OPTIONS: --max-old-space-size=4096
 
       - name: Deploy staging website
-        uses: JamesIves/github-pages-deploy-action@4.1.5
+        uses: JamesIves/github-pages-deploy-action@4.1.6
         with:
           token: ${{ secrets.EP_BOT_TOKEN }}
           branch: main

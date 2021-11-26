@@ -1,3 +1,8 @@
+---
+title: Scrollbar
+lang: en-US
+---
+
 # Scrollbar
 
 Used to replace the browser's native scrollbar.
@@ -34,9 +39,6 @@ Used to replace the browser's native scrollbar.
         color: var(--el-color-danger);
       }
     }
-  }
-  .el-button {
-    margin-bottom: 20px;
   }
   .el-slider {
     margin-top: 20px;
@@ -105,3 +107,9 @@ scrollbar/manual-scroll
 | setScrollTop  | Set distance to scroll top      | (scrollTop: number)  |
 | setScrollLeft | Set distance to scroll left     | (scrollLeft: number) |
 | update        | update scrollbar state manually | —                    |
+
+## Scrollbar Slots
+
+| Name | Description               |
+| ---- | ------------------------- |
+| —    | customize default content |

@@ -1,16 +1,16 @@
 @use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(cascader) {
-  @include set-component-css-var('cascader', $--cascader);
+  @include set-component-css-var('cascader', $cascader);
 
   display: inline-block;
   position: relative;
   font-size: var(--el-font-size-base);
-  line-height: map.get($--input-height, 'default');
+  line-height: map.get($input-height, 'default');
   outline: none;
 
   &:not(.is-disabled):hover {
@@ -18,7 +18,7 @@
       cursor: pointer;
       border-color: var(
         --el-input-hover-border,
-        map.get($--input, 'hover-border')
+        map.get($input, 'hover-border')
       );
     }
   }
@@ -32,12 +32,22 @@
       &:focus {
         border-color: var(
           --el-input-focus-border,
-          map.get($--input, 'focus-border')
+          map.get($input, 'focus-border')
         );
       }
     }
 
-    .#{$namespace}-icon-arrow-down {
+    .#{$namespace}-input__suffix-inner {
+      .#{$namespace}-icon {
+        height: calc(100% - 2px);
+
+        svg {
+          vertical-align: middle;
+        }
+      }
+    }
+
+    .icon-arrow-down {
       transition: transform var(--el-transition-duration);
       font-size: 14px;
 
@@ -46,10 +56,10 @@
       }
     }
 
-    .#{$namespace}-icon-circle-close:hover {
+    .icon-circle-close:hover {
       color: var(
         --el-input-clear-hover-color,
-        map.get($--input, 'clear-hover-color')
+        map.get($input, 'clear-hover-color')
       );
     }
 
@@ -57,7 +67,7 @@
       .#{$namespace}-input__inner {
         border-color: var(
           --el-input-focus-border,
-          map.get($--input, 'focus-border')
+          map.get($input, 'focus-border')
         );
       }
     }
@@ -65,20 +75,20 @@
 
   @each $size in (medium, small, mini) {
     @include m($size) {
-      font-size: map.get($--input-font-size, $size);
-      line-height: map.get($--input-height, $size);
+      font-size: map.get($input-font-size, $size);
+      line-height: map.get($input-height, $size);
     }
   }
 
   @include when(disabled) {
     .#{$namespace}-cascader__label {
       z-index: calc(var(--el-index-normal) + 1);
-      color: var(--el-disabled-color-base);
+      color: var(--el-disabled-text-color);
     }
   }
 
   @include e(dropdown) {
-    @include set-component-css-var('cascader', $--cascader);
+    @include set-component-css-var('cascader', $cascader);
   }
 
   @include e(dropdown) {
@@ -143,7 +153,7 @@
     margin: 0;
     padding: 6px 0;
     font-size: var(--el-font-size-base);
-    color: var(--el-cascader-menu-font-color);
+    color: var(--el-cascader-menu-text-color);
     text-align: center;
   }
 
@@ -163,7 +173,7 @@
     }
 
     &.is-checked {
-      color: var(--el-cascader-menu-selected-font-color);
+      color: var(--el-cascader-menu-selected-text-color);
       font-weight: bold;
     }
 
@@ -183,7 +193,7 @@
     min-width: 60px;
     margin: 2px 0 2px 15px;
     padding: 0;
-    color: var(--el-cascader-menu-font-color);
+    color: var(--el-cascader-menu-text-color);
     border: none;
     outline: none;
     box-sizing: border-box;

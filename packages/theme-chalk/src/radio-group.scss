@@ -1,6 +1,7 @@
-@import 'mixins/mixins';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'common/var' as *;
 
 @include b(radio-group) {
   font-size: 0;
+  display: inline-block;
 }

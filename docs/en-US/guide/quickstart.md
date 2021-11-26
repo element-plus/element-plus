@@ -1,5 +1,6 @@
 ---
 title: Quick Start
+lang: en-US
 ---
 
 # Quick Start
@@ -23,6 +24,20 @@ const app = createApp(App)
 
 app.use(ElementPlus)
 app.mount('#app')
+```
+
+#### Volar support
+
+If you use volar, please add the global component type definition to `compilerOptions.types` in `tsconfig.json`.
+
+```json
+// tsconfig.json
+{
+  "compilerOptions": {
+    // ...
+    "types": ["element-plus/global"]
+  }
+}
 ```
 
 ### On-demand Import

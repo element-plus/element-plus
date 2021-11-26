@@ -2,15 +2,11 @@ import { createVNode, render } from 'vue'
 import { isVNode } from '@element-plus/utils/util'
 import PopupManager from '@element-plus/utils/popup-manager'
 import isServer from '@element-plus/utils/isServer'
+import { debugWarn } from '@element-plus/utils/error'
 import MessageConstructor from './message.vue'
 import { messageTypes } from './message'
 
-import type {
-  MessagePartial,
-  Message,
-  MessageQueue,
-  MessageProps,
-} from './message'
+import type { Message, MessageFn, MessageQueue, MessageProps } from './message'
 import type { ComponentPublicInstance, VNode } from 'vue'
 
 const instances: MessageQueue = []
@@ -18,8 +14,32 @@ let seed = 1
 
 // TODO: Since Notify.ts is basically the same like this file. So we could do some encapsulation against them to reduce code duplication.
 
-const message: MessagePartial = function (options = {}) {
+const message: MessageFn & Partial<Message> = function (options = {}) {
   if (isServer) return { close: () => undefined }
+
+  if (
+    !isVNode(options) &&
+    typeof options === 'object' &&
+    options.grouping &&
+    !isVNode(options.message) &&
+    instances.length
+  ) {
+    const tempVm: any = instances.find(
+      (item) =>
+        `${item.vm.props?.message ?? ''}` ===
+        `${(options as any).message ?? ''}`
+    )
+    if (tempVm) {
+      tempVm.vm.component!.props.repeatNum += 1
+      tempVm.vm.component!.props.type = options?.type
+      return {
+        close: () =>
+          ((
+            vm.component!.proxy as ComponentPublicInstance<{ visible: boolean }>
+          ).visible = false),
+      }
+    }
+  }
 
   if (typeof options === 'string' || isVNode(options)) {
     options = { message: options }
@@ -41,6 +61,21 @@ const message: MessagePartial = function (options = {}) {
     onClose: () => {
       close(id, userOnClose)
     },
+  }
+
+  let appendTo: HTMLElement | null = document.body
+  if (options.appendTo instanceof HTMLElement) {
+    appendTo = options.appendTo
+  } else if (typeof options.appendTo === 'string') {
+    appendTo = document.querySelector(options.appendTo)
+  }
+  // should fallback to default value with a warning
+  if (!(appendTo instanceof HTMLElement)) {
+    debugWarn(
+      'ElMessage',
+      'the appendTo option is not an HTMLElement. Falling back to document.body.'
+    )
+    appendTo = document.body
   }
 
   const container = document.createElement('div')
@@ -65,7 +100,7 @@ const message: MessagePartial = function (options = {}) {
   render(vm, container)
   // instances will remove this item when close function gets called. So we do not need to worry about it.
   instances.push({ vm })
-  document.body.appendChild(container.firstElementChild!)
+  appendTo.appendChild(container.firstElementChild!)
 
   return {
     // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle

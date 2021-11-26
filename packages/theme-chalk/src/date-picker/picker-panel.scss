@@ -1,15 +1,16 @@
-@import '../common/var';
+@use '../mixins/mixins' as *;
+@use '../common/var' as *;
 
 @include b(picker-panel) {
   color: var(--el-text-color-regular);
-  background: $--color-white;
+  background: $color-white;
   border-radius: var(--el-border-radius-base);
   line-height: 30px;
 
   .#{$namespace}-time-panel {
     margin: 5px 0;
     border: solid 1px var(--el-datepicker-border-color);
-    background-color: $--color-white;
+    background-color: $color-white;
     box-shadow: var(--el-box-shadow-light);
   }
 
@@ -30,7 +31,7 @@
     border-top: 1px solid var(--el-datepicker-inner-border-color);
     padding: 4px;
     text-align: right;
-    background-color: $--color-white;
+    background-color: $color-white;
     position: relative;
     font-size: 0;
   }
@@ -42,14 +43,14 @@
     background-color: transparent;
     line-height: 28px;
     font-size: 14px;
-    color: var(--el-datepicker-font-color);
+    color: var(--el-datepicker-text-color);
     padding-left: 12px;
     text-align: left;
     outline: none;
     cursor: pointer;
 
     &:hover {
-      color: var(--el-datepicker-hover-font-color);
+      color: var(--el-datepicker-hover-text-color);
     }
 
     &.active {
@@ -85,15 +86,19 @@
     margin-top: 8px;
 
     &:hover {
-      color: var(--el-datepicker-hover-font-color);
+      color: var(--el-datepicker-hover-text-color);
     }
 
     @include when(disabled) {
-      color: var(--el-font-color-disabled-base);
+      color: var(--el-text-color-disabled-base);
 
       &:hover {
         cursor: not-allowed;
       }
+    }
+    & .#{$namespace}-icon {
+      cursor: pointer;
+      font-size: inherit;
     }
   }
 
@@ -111,7 +116,7 @@
   border-right: 1px solid var(--el-datepicker-inner-border-color);
   box-sizing: border-box;
   padding-top: 6px;
-  background-color: $--color-white;
+  background-color: $color-white;
   overflow: auto;
 }
 

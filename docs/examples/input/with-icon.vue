@@ -5,14 +5,14 @@
       <el-input
         v-model="input1"
         placeholder="Pick a date"
-        suffix-icon="el-icon-date"
+        :suffix-icon="Calendar"
       />
     </el-row>
     <el-row :gutter="20">
       <el-input
         v-model="input2"
         placeholder="Type something"
-        prefix-icon="el-icon-search"
+        :prefix-icon="Search"
       />
     </el-row>
   </div>
@@ -21,7 +21,7 @@
     <el-row :gutter="20">
       <el-input v-model="input3" placeholder="Pick a date">
         <template #suffix>
-          <i class="el-input__icon el-icon-date"></i>
+          <el-icon class="el-input__icon"><calendar /></el-icon>
         </template>
       </el-input>
     </el-row>
@@ -29,25 +29,20 @@
     <el-row :gutter="20">
       <el-input v-model="input4" placeholder="Type something">
         <template #prefix>
-          <i class="el-input__icon el-icon-search"></i>
+          <el-icon class="el-input__icon"><search /></el-icon>
         </template>
       </el-input>
     </el-row>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
-export default defineComponent({
-  setup() {
-    return {
-      input1: ref(''),
-      input2: ref(''),
-      input3: ref(''),
-      input4: ref(''),
-    }
-  },
-})
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Calendar, Search } from '@element-plus/icons'
+const input1 = ref('')
+const input2 = ref('')
+const input3 = ref('')
+const input4 = ref('')
 </script>
 
 <style>

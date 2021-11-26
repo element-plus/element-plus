@@ -1,11 +1,11 @@
 @use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(alert) {
-  @include set-component-css-var('alert', $--alert);
+  @include set-component-css-var('alert', $alert);
 
   width: 100%;
   padding: var(--el-alert-padding);
@@ -41,10 +41,10 @@
 
   @each $type in (success, info, warning, error) {
     @include m($type) {
-      --el-alert-background-color: #{map.get($--colors, $type, 'light-9')};
+      --el-alert-bg-color: #{map.get($colors, $type, 'light-9')};
 
       &.is-light {
-        background-color: var(--el-alert-background-color);
+        background-color: var(--el-alert-bg-color);
         color: var(--el-color-#{$type});
 
         .#{$namespace}-alert__description {

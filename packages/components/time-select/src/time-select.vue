@@ -22,7 +22,9 @@
       :disabled="item.disabled"
     />
     <template #prefix>
-      <i :class="`el-input__icon ${prefixIcon}`"></i>
+      <el-icon v-if="prefixIcon" class="el-input__prefix-icon">
+        <component :is="prefixIcon" />
+      </el-icon>
     </template>
   </el-select>
 </template>
@@ -30,7 +32,10 @@
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue'
 import ElSelect from '@element-plus/components/select'
-import type { PropType } from 'vue'
+import ElIcon from '@element-plus/components/icon'
+import { CircleClose, Clock } from '@element-plus/icons'
+
+import type { PropType, Component } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'
 
 const { Option: ElOption } = ElSelect
@@ -83,7 +88,7 @@ const nextTime = (time: string, step: string): string => {
 
 export default defineComponent({
   name: 'ElTimeSelect',
-  components: { ElSelect, ElOption },
+  components: { ElSelect, ElOption, ElIcon },
   model: {
     prop: 'value',
     event: 'change',
@@ -137,12 +142,12 @@ export default defineComponent({
       default: '',
     },
     prefixIcon: {
-      type: String,
-      default: 'el-icon-time',
+      type: [String, Object] as PropType<string | Component>,
+      default: Clock,
     },
     clearIcon: {
-      type: String,
-      default: 'el-icon-circle-close',
+      type: [String, Object] as PropType<string | Component>,
+      default: CircleClose,
     },
   },
   emits: ['change', 'blur', 'focus', 'update:modelValue'],

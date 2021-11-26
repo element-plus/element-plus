@@ -2,10 +2,10 @@
 
 set -e
 
-pnpm bootstrap
+pnpm i --frozen-lockfile
 pnpm update:version
 
-sh scripts/build.sh
+pnpm build
 
 find dist/element-plus/packages -type d -name node_modules -print0 | xargs -0 -I {} rm -rf {}
 

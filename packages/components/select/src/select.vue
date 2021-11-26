@@ -160,19 +160,20 @@
               </div>
             </template>
             <template #suffix>
-              <i
+              <el-icon
+                v-if="iconComponent"
                 v-show="!showClose"
-                :class="[
-                  'el-select__caret',
-                  'el-input__icon',
-                  'el-icon-' + iconClass,
-                ]"
-              ></i>
-              <i
-                v-if="showClose"
-                :class="`el-select__caret el-input__icon ${clearIcon}`"
+                :class="['el-select__caret', 'el-input__icon', iconReverse]"
+              >
+                <component :is="iconComponent" />
+              </el-icon>
+              <el-icon
+                v-if="showClose && clearIcon"
+                class="el-select__caret el-input__icon"
                 @click="handleClearClick"
-              ></i>
+              >
+                <component :is="clearIcon" />
+              </el-icon>
             </template>
           </el-input>
         </div>
@@ -226,18 +227,20 @@ import ElInput from '@element-plus/components/input'
 import ElPopper, { Effect } from '@element-plus/components/popper'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
+import ElIcon from '@element-plus/components/icon'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import {
   addResizeListener,
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
 import { isValidComponentSize } from '@element-plus/utils/validators'
+import { CircleClose, ArrowUp } from '@element-plus/icons'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
 import { useSelect, useSelectStates } from './useSelect'
 import { selectKey } from './token'
 
-import type { PropType } from 'vue'
+import type { PropType, Component } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'
 import type { SelectContext } from './token'
 
@@ -251,12 +254,16 @@ export default defineComponent({
     ElTag,
     ElScrollbar,
     ElPopper,
+    ElIcon,
   },
   directives: { ClickOutside },
   props: {
     name: String,
     id: String,
-    modelValue: [Array, String, Number, Boolean, Object],
+    modelValue: {
+      type: [Array, String, Number, Boolean, Object],
+      default: undefined,
+    },
     autocomplete: {
       type: String,
       default: 'off',
@@ -301,8 +308,16 @@ export default defineComponent({
       default: true,
     },
     clearIcon: {
-      type: String,
-      default: 'el-icon-circle-close',
+      type: [String, Object] as PropType<string | Component>,
+      default: CircleClose,
+    },
+    fitInputWidth: {
+      type: Boolean,
+      default: false,
+    },
+    suffixIcon: {
+      type: [String, Object] as PropType<string | Component>,
+      default: ArrowUp,
     },
   },
   emits: [
@@ -336,7 +351,8 @@ export default defineComponent({
       managePlaceholder,
       showClose,
       selectDisabled,
-      iconClass,
+      iconComponent,
+      iconReverse,
       showNewOption,
       emptyText,
       toggleLastOptionHitState,
@@ -507,7 +523,8 @@ export default defineComponent({
       managePlaceholder,
       showClose,
       selectDisabled,
-      iconClass,
+      iconComponent,
+      iconReverse,
       showNewOption,
       emptyText,
       toggleLastOptionHitState,

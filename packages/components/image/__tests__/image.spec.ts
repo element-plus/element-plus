@@ -5,7 +5,7 @@ import {
   IMAGE_FAIL,
   mockImageEvent,
 } from '@element-plus/test-utils/mock'
-import Image from '../src/index.vue'
+import Image from '../src/image.vue'
 
 // firstly wait for image event
 // secondly wait for vue render
@@ -74,6 +74,21 @@ describe('Image.vue', () => {
     })
     await doubleWait()
     expect(wrapper.find('img').classes()).toContain('el-image__preview')
+  })
+
+  test('preview initial index test', async () => {
+    const wrapper = mount(Image, {
+      props: {
+        src: IMAGE_SUCCESS,
+        previewSrcList: new Array(3).fill(IMAGE_FAIL),
+        initialIndex: 1,
+      },
+    })
+    await doubleWait()
+    await wrapper.find('.el-image__inner').trigger('click')
+    expect(
+      wrapper.findAll('.el-image-viewer__img')[1].attributes('style')
+    ).not.toContain('display: none')
   })
 
   test('$attrs', async () => {

@@ -1,3 +1,8 @@
+---
+title: Image
+lang: en-US
+---
+
 # Image
 
 Besides the native features of img, support lazy load, custom placeholder and load failure, etc.
@@ -61,6 +66,9 @@ Besides the native features of img, support lazy load, custom placeholder and lo
 .demo-image__error {
   .image-slot {
     font-size: 30px;
+    .el-icon {
+      font-size: 30px;
+    }
   }
   .el-image {
     width: 100%;
@@ -103,7 +111,7 @@ image/lazy-load
 
 ## Image Preview
 
-:::demo allow big image preview by setting `previewSrcList` prop.
+:::demo allow big image preview by setting `previewSrcList` prop. You can initialize the position of the first picture previewed by `initial-index`. The default initial position is 0.
 
 image/image-preview
 
@@ -116,6 +124,7 @@ image/image-preview
 | alt                 | Native alt                                                                                                                                       | string               | -                                          | -                                                                      |
 | fit                 | Indicate how the image should be resized to fit its container, same as [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit) | string               | fill / contain / cover / none / scale-down | -                                                                      |
 | hide-on-click-modal | When enabling preview, use this flag to control whether clicking on backdrop can exit preview mode                                               | boolean              | true / false                               | false                                                                  |
+| initial-index       | The initial preview image index, less than the length of `url-list`                                                                              | number               | int                                        | 0                                                                      |
 | lazy                | Whether to use lazy load                                                                                                                         | boolean              | —                                          | false                                                                  |
 | preview-src-list    | allow big image preview                                                                                                                          | Array                | —                                          | -                                                                      |
 | referrer-policy     | Native referrerPolicy                                                                                                                            | string               | -                                          | -                                                                      |

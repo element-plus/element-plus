@@ -29,9 +29,16 @@ The new website is launched at 17th Sep 2021.
 
 This project is still under heavy development. Feel free to join us and make your first pull request.
 
-[![Edit element-plus](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/element-plus-ncxnt?fontsize=14&hidenavigation=1&theme=dark)
+### Playground
 
-<br/>
+#### Try it with code sandbox
+
+[![Edit element-plus](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/element-plus-demo-dxtcr)
+
+#### Try it with our built-in playground
+
+[Playground](https://play.element-plus.org/)
+
 <p align="center">
   <b>Special thanks to the generous sponsorship by:</b>
 </p>
@@ -39,6 +46,11 @@ This project is still under heavy development. Feel free to join us and make you
 <table align="center" cellspacing="0" cellpadding="0">
   <tbody>
     <tr>
+      <td align="center" valign="middle">
+        <a href="https://www.jnpfsoft.com/index.html?from=elementUI" target="_blank">
+          <img width="150px" src="https://user-images.githubusercontent.com/17680888/140337374-59b3cb43-c1d3-449e-9757-2503de56f8e2.png">
+        </a>
+      </td>
       <td align="center" valign="middle">
         <a href="https://bit.dev/?from=element-ui" target="_blank">
           <img width="150px" src="https://user-images.githubusercontent.com/10095631/41342907-e44e7196-6f2f-11e8-92f2-47702dc8f059.png">
@@ -77,7 +89,7 @@ You can find the breaking change list here: [Breaking Change List](https://githu
 With command
 
 ```bash
-$ pnpm bootstrap
+$ pnpm i
 ```
 
 the project will install all dependencies
@@ -102,9 +114,9 @@ $ pnpm dev
 
 will start the local development environment
 
-2. Add your component into `play/play.vue`
+2. Add your component into `play/src/App.vue`
 
-> play.vue
+> App.vue
 
 ```vue
 <template>
@@ -117,7 +129,7 @@ import { ComponentYouAreDeveloping } from '@element-plus/components'
 </script>
 ```
 
-Modify `play.vue` file per your needs to get things work.
+Modify `App.vue` file per your needs to get things work.
 
 ## Component migration process
 
@@ -136,6 +148,8 @@ $ pnpm gen component-name
 ```
 
 Note the `component-name` must be in `kebab-case`, combining words by replacing each space with a dash.
+
+And component type must be added to `typings/global.d.ts`.
 
 ## Commit template
 

@@ -49,6 +49,12 @@ export const useMove = (
         ? itemsToBeMoved.concat(currentValue)
         : currentValue.concat(itemsToBeMoved)
 
+    if (props.targetOrder === 'original') {
+      currentValue = props.data
+        .filter((item) => currentValue.includes(item[propsKey.value]))
+        .map((item) => item[propsKey.value])
+    }
+
     _emit(currentValue, 'right', checkedState.leftChecked)
   }
 

@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
+import { CircleClose } from '@element-plus/icons'
 import Progress from '../src/index.vue'
-
 describe('Progress.vue', () => {
   test('percent', () => {
     const wrapper = mount(Progress, {
@@ -21,9 +21,7 @@ describe('Progress.vue', () => {
       },
     })
     expect(wrapper.classes()).toContain('is-exception')
-    expect(
-      wrapper.find('.el-progress__text .el-icon-circle-close').exists()
-    ).toBe(true)
+    expect(wrapper.findComponent(CircleClose).exists()).toBe(true)
   })
 
   test('text inside', () => {

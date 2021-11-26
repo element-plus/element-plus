@@ -1,3 +1,8 @@
+---
+title: Icon
+lang: en-US
+---
+
 # Icon
 
 Element Plus provides a set of common icons.
@@ -145,7 +150,7 @@ so you need to use an alias in order to render the icon, if you register `Menu` 
   </div>
 </ElRow>
 
-### SVG Icons collection <ElTag>Available >= 1.0.2-beta.66</ElTag>
+## SVG Icons collection <ElTag>Available >= 1.0.2-beta.66</ElTag>
 
 :::tip
 
@@ -171,9 +176,15 @@ so you need to use an alias in order to render the icon, if you register `Menu` 
   </li>
 </ul> -->
 
-### SVG Icon Attributes
+## Icon Attributes
 
 | Attribute | Description                | Type                           | Acceptable Value | Default                |
 | --------- | -------------------------- | ------------------------------ | ---------------- | ---------------------- |
 | color     | SVG tag's fill attribute   | Pick\<CSSProperties, 'color'\> | -                | inherit from color     |
-| size      | SVG icon size, size x size | number                         | -                | inherit from font size |
+| size      | SVG icon size, size x size | number \| string               | -                | inherit from font size |
+
+## Icon Slots
+
+| Name | Description               |
+| ---- | ------------------------- |
+| —    | customize default content |

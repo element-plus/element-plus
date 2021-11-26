@@ -1,24 +1,24 @@
-@import 'function';
-@import '../common/var';
+@use 'function' as *;
+@use '../common/var' as *;
+@forward 'config';
+@use 'config' as *;
 
-/* Break-points
- -------------------------- */
-@mixin res($key, $map: $--breakpoints) {
-  // 循环断点Map，如果存在则返回
+// Break-points
+@mixin res($key, $map: $breakpoints) {
+  // loop breakpoint Map, return if present
   @if map-has-key($map, $key) {
     @media only screen and #{unquote(map-get($map, $key))} {
       @content;
     }
   } @else {
-    @warn "Undefeined points: `#{$map}`";
+    @warn "Undefined points: `#{$map}`";
   }
 }
 
-/* Scrollbar
- -------------------------- */
+// Scrollbar
 @mixin scroll-bar {
-  $--scrollbar-thumb-background: #b4bccc;
-  $--scrollbar-track-background: #fff;
+  $scrollbar-thumb-background: #b4bccc;
+  $scrollbar-track-background: #fff;
 
   &::-webkit-scrollbar {
     z-index: 11;
@@ -31,42 +31,25 @@
     &-thumb {
       border-radius: 5px;
       width: 6px;
-      background: $--scrollbar-thumb-background;
+      background: $scrollbar-thumb-background;
     }
 
     &-corner {
-      background: $--scrollbar-track-background;
+      background: $scrollbar-track-background;
     }
 
     &-track {
-      background: $--scrollbar-track-background;
+      background: $scrollbar-track-background;
 
       &-piece {
-        background: $--scrollbar-track-background;
+        background: $scrollbar-track-background;
         width: 6px;
       }
     }
   }
 }
 
-/* Placeholder
- -------------------------- */
-@mixin placeholder {
-  &::-webkit-input-placeholder {
-    @content;
-  }
-
-  &::-moz-placeholder {
-    @content;
-  }
-
-  &:-ms-input-placeholder {
-    @content;
-  }
-}
-
-/* BEM
- -------------------------- */
+// BEM
 @mixin b($block) {
   $B: $namespace + '-' + $block !global;
 

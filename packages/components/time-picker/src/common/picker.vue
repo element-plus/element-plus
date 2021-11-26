@@ -37,16 +37,22 @@
         @mouseleave="onMouseLeave"
       >
         <template #prefix>
-          <i class="el-input__icon" :class="triggerClass" @click="handleFocus">
-          </i>
+          <el-icon
+            v-if="triggerIcon"
+            class="el-input__icon"
+            @click="handleFocus"
+          >
+            <component :is="triggerIcon"></component>
+          </el-icon>
         </template>
         <template #suffix>
-          <i
-            class="el-input__icon"
-            :class="[showClose ? '' + clearIcon : '']"
+          <el-icon
+            v-if="showClose && clearIcon"
+            class="el-input__icon clear-icon"
             @click="onClearIconClick"
           >
-          </i>
+            <component :is="clearIcon" />
+          </el-icon>
         </template>
       </el-input>
       <div
@@ -64,7 +70,13 @@
         @mouseleave="onMouseLeave"
         @keydown="handleKeydown"
       >
-        <i :class="['el-input__icon', 'el-range__icon', triggerClass]"></i>
+        <el-icon
+          v-if="triggerIcon"
+          class="el-input__icon el-range__icon"
+          @click="handleFocus"
+        >
+          <component :is="triggerIcon"></component>
+        </el-icon>
         <input
           autocomplete="off"
           :name="name && name[0]"
@@ -92,12 +104,16 @@
           @input="handleEndInput"
           @change="handleEndChange"
         />
-        <i
-          :class="[showClose ? '' + clearIcon : '']"
+        <el-icon
+          v-if="clearIcon"
           class="el-input__icon el-range__close-icon"
+          :class="{
+            'el-range__close-icon--hidden': !showClose,
+          }"
           @click="onClearIconClick"
         >
-        </i>
+          <component :is="clearIcon" />
+        </el-icon>
       </div>
     </template>
     <template #default>
@@ -134,9 +150,11 @@ import { useLocaleInject } from '@element-plus/hooks'
 import { ClickOutside } from '@element-plus/directives'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import ElInput from '@element-plus/components/input'
+import ElIcon from '@element-plus/components/icon'
 import ElPopper, { Effect } from '@element-plus/components/popper'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { useGlobalConfig, isEmpty } from '@element-plus/utils/util'
+import { Clock, Calendar } from '@element-plus/icons'
 import { timePickerDefaultProps } from './props'
 
 import type { Dayjs } from 'dayjs'
@@ -202,6 +220,7 @@ export default defineComponent({
   components: {
     ElInput,
     ElPopper,
+    ElIcon,
   },
   directives: { clickoutside: ClickOutside },
   props: timePickerDefaultProps,
@@ -236,7 +255,7 @@ export default defineComponent({
       // determine user real change only
       if (isClear || !valueEquals(val, valueOnOpen.value)) {
         ctx.emit('change', val)
-        props.validateEvent && elFormItem.validate?.('change', val)
+        props.validateEvent && elFormItem.validate?.('change')
       }
     }
     const emitInput = (val) => {
@@ -360,10 +379,8 @@ export default defineComponent({
 
     const isDatesPicker = computed(() => props.type === 'dates')
 
-    const triggerClass = computed(
-      () =>
-        props.prefixIcon ||
-        (isTimeLikePicker.value ? 'el-icon-time' : 'el-icon-date')
+    const triggerIcon = computed(
+      () => props.prefixIcon || (isTimeLikePicker.value ? Clock : Calendar)
     )
 
     const showClose = ref(false)
@@ -582,7 +599,7 @@ export default defineComponent({
       onMouseEnter,
       onClearIconClick,
       showClose,
-      triggerClass,
+      triggerIcon,
       onPick,
       handleFocus,
       handleBlur,

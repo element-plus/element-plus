@@ -1,10 +1,10 @@
-@import '../common/var';
-@import '../mixins/mixins';
-@import '../mixins/var';
-@import './picker-panel.scss';
+@use '../common/var' as *;
+@use '../mixins/mixins' as *;
+@use '../mixins/var' as *;
+@use './picker-panel.scss';
 
 @include b(date-picker) {
-  @include set-component-css-var('datepicker', $--datepicker);
+  @include set-component-css-var('datepicker', $datepicker);
 }
 
 @include b(date-picker) {
@@ -72,7 +72,7 @@
     color: var(--el-text-color-regular);
 
     &:hover {
-      color: var(--el-datepicker-hover-font-color);
+      color: var(--el-datepicker-hover-text-color);
     }
 
     &.active {

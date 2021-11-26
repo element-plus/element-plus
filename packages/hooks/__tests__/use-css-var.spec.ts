@@ -10,8 +10,8 @@ describe('usecssvar', () => {
       `,
       setup() {
         const themeVars = ref({
-          '--el-button-default-background-color': '#f44336',
-          '--el-button-default-font-color': '#2196f3',
+          '--el-button-default-bg-color': '#f44336',
+          '--el-button-default-text-color': '#2196f3',
         })
 
         useCssVar(themeVars)
@@ -21,10 +21,10 @@ describe('usecssvar', () => {
     const rootElement = window.document.documentElement
 
     expect(
-      rootElement.style.getPropertyValue('--el-button-default-background-color')
+      rootElement.style.getPropertyValue('--el-button-default-bg-color')
     ).toBe('#f44336')
     expect(
-      rootElement.style.getPropertyValue('--el-button-default-font-color')
+      rootElement.style.getPropertyValue('--el-button-default-text-color')
     ).toBe('#2196f3')
   })
 
@@ -35,8 +35,8 @@ describe('usecssvar', () => {
       `,
       setup() {
         const themeVars = ref({
-          '--el-span-default-background-color': '#f44336',
-          '--el-span-default-font-color': '#2196f3',
+          '--el-span-default-bg-color': '#f44336',
+          '--el-span-default-text-color': '#2196f3',
         })
         const elRef = ref(null)
 
@@ -51,10 +51,10 @@ describe('usecssvar', () => {
     const customElement = wrapper.find('span').element
 
     expect(
-      customElement.style.getPropertyValue('--el-span-default-background-color')
+      customElement.style.getPropertyValue('--el-span-default-bg-color')
     ).toBe('#f44336')
     expect(
-      customElement.style.getPropertyValue('--el-span-default-font-color')
+      customElement.style.getPropertyValue('--el-span-default-text-color')
     ).toBe('#2196f3')
   })
 })

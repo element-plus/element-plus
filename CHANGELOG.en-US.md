@@ -1,5 +1,317 @@
 ## Changelog
 
+### 1.2.0-beta.3
+
+_2021-11-09_
+
+#### Bug fixes
+
+- Components [el-cascader] empty children set leaf (#3758 by @btea)
+- Build fix types  (#4254 by @sxzz)
+- Components [el-checkbox] tabindex property doesn't work (#4286 by @undefined-degisn)
+- Style radio group set inline-block (#4255 by @btea)
+- Theme-chalk fix icon style in Menu component is wrong (#4302 by @undefined-degisn)
+- Side-effects (#4310 by @sxzz)
+
+#### Refactors
+
+- Components refactor rate
+- Components refactor result
+- Components [el-result] improve props
+- Components refactor row
+- Components [el-row] improve props
+- Components refactor radio
+
+### 1.2.0-beta.2
+
+_2021-11-05_
+
+#### Features
+
+- Components [el-tree] allow tree node to have customizable class (#3912 by @greper)
+- Components [el-color-picker] hex color with transparency (#3893 by @Alanscut)
+- Components el-teleport (#4186 by @JeremyWuuuuu)
+- Components [el-select-v2] mouse trigger scrollbar show/hide (#3722 by @btea)
+- Components [el-image] initialIndex (#4235 by @Alanscut)
+- Components [el-message] merge the same content messages(#3836 by @zhazhanitian) (#3988)
+- Docs add support for copying svg content (#4169 by @adaex)
+- 
+#### Bug fixes
+
+- Components [el-tree-v2] indent can not set zero (#3881 by @btea)
+- [el-date-picker] avoid click event error & fix cell props (#4134 by @msidolphin)
+- Components [el-tree] emptyText  empty string is invalid (#4135 by @imswk) (#4136)
+- Components [el-tree-v2] empty-text supports empty string & virtual list width become no required (#4144 by @msidolphin)
+- [el-transfer]modelvalue is not in original order (#4082 by @Alanscut)
+- Components el-loading spinner directive (#4133 by @adaex)
+- Components el-select-v2 empty icon (#4154 by @adaex)
+- Input suffix icon center by flex (#4159 by @YunYouJun)
+- Components [el-affix] listen resize (#3932 by @midcu)
+- Components [time-picker] am/pm mode avoid render redundant content (#4137 by @msidolphin)
+- Components [image-viewer] fix typo (#4183 by @btea)
+- Components input icon justify by flex (#4187 by @YunYouJun)
+- Docs fix typo (#4190 by @btea)
+- Style remove chinese comments in checkbox (#4189 by @YunYouJun)
+- Components el-teleport potential failure (#4197 by @JeremyWuuuuu)
+- Components view tag does not render (#4198 by @adaex)
+- Theme-chalk el-menu arrow icon style (#4230 by @adaex)
+- Components el-dropdown cannot be used with v-show (#4221 by @undefined-degisn)
+- Components [el-table] fixed mode layout misalignment (#4188 by @msidolphin)
+- Components empty icon component judgment (#4178 by @adaex)
+- [el-input]hidden input is not hidden (#4128 by @KawaiiZapic)
+- Components [el-cascader] search result switch not highlight (#4087 by @btea)
+- [el-date-picker] cannot change the time when provide default-time (#4228 by @msidolphin)
+- Components `h` function children parameter usage (#4238 by @adaex)
+- Components ensure table size affects inner selection (#3979 by @cokemine)
+- Components [el-table] development environment warning issues (#4167 by @msidolphin)
+- Components [el-select] first item hover status error (#3880 by @Alanscut)
+- Components [el-form] reset form validate error (#3759 by @btea)
+- Components [el-select] display false (#4036 by @Alanscut)
+- Fix el-input-number unexcepted text selecting when clicking buttons (#4191 by @KawaiiZapic)
+
+#### Refactors
+
+- Components elForm form rule & custom type (#3951 by @Otto-J)
+- Components [el-config-provider] improve componomponent  extendiability (#4175 by @msidolphin)
+- Docs use markdown-it instead of marked (#4239 by @YunYouJun)
+
+
+### 1.2.0-beta.1
+
+_2021-10-30_
+
+#### Breaking changes:
+
+- Please refer to: [1.2.0-beta.1 Breaking change](https://github.com/element-plus/element-plus/discussions/4060)
+
+#### Features
+
+- Use svg icons in components (#3492 by @adaex)
+- Remove font icon scss & font-path (#4074 by @YunYouJun)
+- Simplify build & support esm import (#4018 by @sxzz)
+- Components [el-popconfirm] adjust tag and style (#3981 by @btea)
+- Components add space between two characters in Chinese (#3992 by @cokemine)
+- Components el-switch add inline content support (#4091 by @adaex)
+- Add fit-input-width prop (#4088 by @kooriookami)
+- Components [el-date-picker] support customized cell content (#4078 by @msidolphin)
+- Components [el-message] & [el-notification] appendTo option added (#4012 by @codespikex)
+- Add translation for Bengali language (#3972 by @IbrahimAlKhalil)
+- Dev play add unplugin-vue-components (#3931 by @sxzz)
+- Dev play add @element-plus/icons (#4034 by @xiaoxian521)
+
+#### Bug fixes
+
+- Components select v-2 value-key seems not working #2904 (#3915 by @spx443812507)
+- Utils remove $ from util
+- Tag should support large size too (#3948 by @cbbfcd)
+- Components [el-affix] update method does not exist (#3996 by @Alanscut)
+- Components [el-input] disable button style error (#3989 by @Alanscut)
+- Docs doc language selector kept reversing (#3987 by @JeremyWuuuuu)
+- Components [el-select-v2] set a non-empty array value error (#3998 by @btea)
+- Docs docs-search-not-working (#4004 by @JeremyWuuuuu)
+- Docs translation missing (#4006 by @JeremyWuuuuu)
+- Type error
+- Components [el-icon] support string size (#3835 by @cn-troy)
+- Docs add extra field for frontmatter
+- Components button displays icon only (#4019 by @sxzz)
+- Docs adding title for components (#4025 by @JeremyWuuuuu)
+- Dev fix play auto import (#4031 by @sxzz)
+- Popover repeat when exist fixed column in table (#3394 by @Alanscut)
+- Components [el-date-picker] increase  width of  range separator (#4028 by @baboon-king)
+- Components [el-form-item] validate success does not return fields (#4001 by @msidolphin)
+- Hooks add type remove ts error (#4055 by @btea)
+- Components [el-input-number] add a type attribute (#4030 by @921)
+- Components fix add space in prod mode (#4062 by @cokemine)
+- Dev fix playground and docs alias (#4068 by @sxzz)
+- Components [el-form-item] align inline elements vertically (#4080 by @921)
+- Components [el-input] maxlength is not correct (#3969 by @Alanscut)
+- Components [el-page-header] icon size (#4085 by @adaex)
+- Components [el-menu] trigger hover, open and close events no work (#4077 by @xiaoxian521)
+- Deps update dependency axios to ^0.24.0 (#4102 by @renovate[bot])
+- Docs tree document error (#4115 by @JeremyWuuuuu)
+- Checkbox fix checkbox when modelvalue length less than min limit (#1745 by @cokemine)
+- Docs update readme local development file name (#4117 by @btea)
+- Build transform to es2018 syntax (#4090 by @sxzz)
+- Components [el-upload] request headers missing when headers is typeof Headers(#4043 by @wxyong) (#4045)
+- Components [el-input] input border (#4110 by @Alanscut)
+- Components upload headers add type judge (#4119 by @btea)
+- Components [el-cascader] can not use keyboard select node(#3254 by @imswk) (#3260)
+- Components [el-menu] icon style (#4122 by @imswk)
+
+#### Refactors
+
+- Components ElInputNumber (#3974 by @JeremyWuuuuu)
+- Components [el-message] change the name of stopTimer
+- Docs icon usage (#4057 by @adaex)
+- Componentes deprecate the icon font of some components (#4067 by @adaex)
+- Directives use util method replace judge firefox (#4086 by @btea)
+- Utils!: remove resize-observer-polyfill (#4058 by @sxzz)
+
+### 1.1.0-beta.24
+
+_2021-10-20_
+
+
+### 1.1.0-beta.23
+
+_2021-10-20_
+
+#### Bug fixes
+
+- Build fix package entry field (#3962 by @JeremyWuuuuu)
+
+### 1.1.0-beta.22
+
+_2021-10-20_
+
+#### Bug fixes
+
+- Utils svg classname deal (#3926 by @btea)
+- Components [el-rate] decimal icon display problem (#3921 by @Alanscut)
+- Components ElProgress remove unnecessary required props to prevent form error (#3954 by @Otto-J)
+
+#### Refactors
+
+- Utils dom and add test (#3950 by @btea)
+
+### 1.1.0-beta.21
+
+_2021-10-18_
+
+#### Features
+
+- Components [el-menu] add ellipsis prop (#3870 by @xiaoxian521)
+- Build!: improve esm exports (#3871 by @sxzz)
+
+#### Bug fixes
+
+- About custom extension of table column (#3437 by @Alanscut)
+- [ElSelectV2] set value to an empty array after selection error (#3875 by @Alanscut)
+- Table lazy rows can't expand at the first time (#3731 by @Alanscut)
+- Capitalize the first letter of the error message (#3882 by @deepthan)
+- Components [el-form-item] calc the label-width. (#3914 by @cbbfcd)
+- Style(components): [el-message-box] string does not wrap (#3856 by @zhazhanitian) (#3867)
+
+#### Refactors
+
+- Utils improve props validator warning (#3847 by @sxzz)
+- Components refactor input (#3805 by @sxzz)
+- Components refactor image-viewer (#3810 by @sxzz)
+- Utils use built-in throwError function (#3916 by @cbbfcd)
+- Utils addClass and removeClass (#3858 by @btea)
+
+### 1.1.0-beta.20
+
+_2021-10-11_
+
+#### Bug fixes
+
+- Components fix composition event bug (#3659 by @bchen1029)
+- Build fix generate component type (#3766 by @sxzz)
+- Components [el-date-picker] panel not select value enter error (#3768 by @btea)
+- Build: add default slot to generate better code hint files (#3763 by @tolking)
+
+#### Refactors
+
+- Components refactor space (#3757 by @sxzz)
+- Utils refactor buildProps & replace buildProp (#3775 by @sxzz)
+- Components refactor image (#3770 by @sxzz)
+- Components refactor col (#3804 by @sxzz)
+- Build: refactor copyDefinitions (#3756 by @sxzz)
+- Utils improve defineProps (#3811 by @sxzz)
+
+### 1.1.0-beta.19
+
+_2021-09-30_
+
+#### Features
+
+- Utils add buildProps (#3718 by @sxzz)
+- Components [el-menu] expose handleResize (#3723 by @xiaoxian521)
+
+#### Bug fixes
+
+- Components [el-autocomplete] popover auto width (#3674 by @Alanscut)
+- Table Attributes expand-row-keys has changed, but fold not work (#3675 by @Alanscut)
+- Style(components): optimize the addable style (#3726 by @xiaoxian521)
+- Build: fix build helper (#3727 by @sxzz)
+- Chore: fix the source value error in web-types (#3736 by @tolking)
+- Build: fix url error of docs in code prompt file (#3735 by @tolking)
+- Build: fix sideEffects at package.json (#3721 by @HelloJunWei)
+
+#### Refactors
+
+- Utils refactor aria color (#3742 by @btea)
+
+### 1.1.0-beta.18
+
+_2021-09-28_
+
+#### Features
+
+- Build support esm and minified full bundle (#3677 by @sxzz)
+- Docs enable mirror site redirection (#3683 by @JeremyWuuuuu)
+- Theme-chalk use @use instead of @import & remove /\*\*/ comment (#3696 by @YunYouJun)
+- Components [el-button-group] add type prop (#3702 by @sxzz)
+
+#### Bug fixes
+
+- Components [el-affix] get scrollContainer of vertical (#3424 by @SorrowX)
+- Docs quote to tip
+- Components [el-form] fix async-validator version (#3697 by @sxzz)
+
+#### Refactors
+
+- Dev drop babel (#3678 by @sxzz)
+- Components refactor menu (#3639 by @sxzz)
+- Play play start-up show network (#3707 by @btea)
+
+### 1.1.0-beta.17
+
+_2021-09-27_
+
+#### Features
+
+- Dev add global component types for volar (#3624 by @sxzz)
+- Utils extract color to utils & fix submenu color (#3638 by @YunYouJun)
+- Components [el-virtualized-grid] fulfillment (#3612 by @JeremyWuuuuu)
+- Project upgrade async-validator to 4.0.3 (#3667 by @sxzz)
+- Components add virtual tree (#3398 by @msidolphin)
+
+#### Bug fixes
+
+- Components [el-date-picker] validate callback (#3649 by @msidolphin)
+- Components [el-date-picker] dayjs props not extended (#3662 by @adaex)
+- Build fix dependencies packaging (#3665 by @sxzz)
+- Components trigger update:modelValue by itself (#3660 by @spx443812507)
+
+#### Refactors
+
+- Components [el-message][el-notification] improve type (#3636 by @sxzz)
+
+### 1.1.0-beta.16
+
+_2021-09-24_
+
+#### Features
+
+- Docs document website enhancement (#3580 by @JeremyWuuuuu)
+- Docs document add changelog page (#3596 by @JeremyWuuuuu)
+
+#### Bug fixes
+
+- Build release script error (#3576 by @JeremyWuuuuu)
+- Components fix message closeAll (#3583 by @sxzz)
+- Components [el-form] fix the methods validate callback invalid (#3589 by @btea)
+- Components [el-popover] fix the title renderIf type error (#3552 by @btea)
+- Components sub components no install issue (#3615 by @JeremyWuuuuu)
+- [el-menu] using v-for causing render loop (#3617 by @xiaoxian521)
+- Components [el-popconfirm] fix vue warning (#3618 by @sxzz)
+
+#### Refactors
+
+- Improve buildProp (#3592 by @sxzz)
+
 ### 1.1.0-beta.15
 
 _2021-09-23_

@@ -3,7 +3,7 @@
     <div class="el-page-header__left" @click="handleClick">
       <div v-if="icon || $slots.icon" class="el-page-header__icon">
         <slot name="icon">
-          <i :class="icon"></i>
+          <el-icon v-if="icon"><component :is="icon" /></el-icon>
         </slot>
       </div>
       <div class="el-page-header__title">
@@ -17,11 +17,17 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { ElIcon } from '@element-plus/components/icon'
+
 import { useLocaleInject } from '@element-plus/hooks'
 import { pageHeaderEmits, pageHeaderProps } from './page-header'
 
 export default defineComponent({
   name: 'ElPageHeader',
+
+  components: {
+    ElIcon,
+  },
 
   props: pageHeaderProps,
   emits: pageHeaderEmits,

@@ -21,16 +21,16 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 6.15.1
+          version: latest
 
       - name: Install dependencies
-        run: pnpm bootstrap
+        run: pnpm i --frozen-lockfile
 
       - name: Generate common locale
         run: pnpm docs:gen-locale
 
       - name: Build Element Plus
-        run: sh scripts/build.sh
+        run: pnpm build
 
       - name: Build website
         run: pnpm docs:build

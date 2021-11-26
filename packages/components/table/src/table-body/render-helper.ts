@@ -107,6 +107,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
         }
         const baseKey = `${$index},${cellIndex}`
         const patchKey = columnData.columnKey || columnData.rawColumnKey || ''
+        const tdChildren = cellChildren(cellIndex, column, data)
         return h(
           'td',
           {
@@ -119,10 +120,13 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
               handleCellMouseEnter($event, { ...row, tooltipEffect }),
             onMouseleave: handleCellMouseLeave,
           },
-          [column.renderCell(data)]
+          [tdChildren]
         )
       })
     )
+  }
+  const cellChildren = (cellIndex, column, data) => {
+    return column.renderCell(data)
   }
   const wrappedRowRender = (row: T, $index: number) => {
     const store = props.store
@@ -200,7 +204,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
             }
             const childKey = getRowIdentity(node, rowKey.value)
             if (childKey === undefined || childKey === null) {
-              throw new Error('for nested data item, row-key is required.')
+              throw new Error('For nested data item, row-key is required.')
             }
             cur = { ...treeData.value[childKey] }
             // 对于当前节点，分成有无子节点两种情况。

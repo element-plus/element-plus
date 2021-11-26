@@ -1,16 +1,16 @@
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(avatar) {
-  @include set-component-css-var('avatar', $--avatar);
+  @include set-component-css-var('avatar', $avatar);
 
   display: inline-block;
   box-sizing: border-box;
   text-align: center;
   overflow: hidden;
-  color: var(--el-avatar-font-color);
-  background: var(--el-avatar-background-color);
+  color: var(--el-avatar-text-color);
+  background: var(--el-avatar-bg-color);
   width: var(--el-avatar-large-size);
   height: var(--el-avatar-large-size);
   line-height: var(--el-avatar-large-size);

@@ -18,8 +18,11 @@
 </template>
 
 <script lang="ts">
-export default {
-  data() {
+import { defineComponent } from 'vue'
+import { MoreFilled } from '@element-plus/icons'
+
+export default defineComponent({
+  setup() {
     return {
       activities: [
         {
@@ -27,7 +30,7 @@ export default {
           timestamp: '2018-04-12 20:46',
           size: 'large',
           type: 'primary',
-          icon: 'el-icon-more',
+          icon: MoreFilled,
         },
         {
           content: 'Custom color',
@@ -52,5 +55,5 @@ export default {
       ],
     }
   },
-}
+})
 </script>

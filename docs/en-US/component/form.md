@@ -1,3 +1,8 @@
+---
+title: Form
+lang: en-US
+---
+
 # Form
 
 Form consists of `input`, `radio`, `select`, `checkbox` and so on. With form, you can collect, verify and submit data.
@@ -215,6 +220,12 @@ form/size-control
 | Event Name | Description                             | Parameters                                                                                            |
 | ---------- | --------------------------------------- | ----------------------------------------------------------------------------------------------------- |
 | validate   | triggers after a form item is validated | prop name of the form item being validated, whether validation is passed and the error message if not |
+
+## Form Slots
+
+| Name | Description                | Subtags   |
+| ---- | -------------------------- | --------- |
+| —    | customize of Dropdown Item | Form-Item |
 
 ## Form-Item Attributes
 

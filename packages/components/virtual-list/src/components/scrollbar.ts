@@ -54,7 +54,6 @@ const ScrollBar = defineComponent({
       right: '2px',
       bottom: '2px',
       borderRadius: '4px',
-      ...(props.visible ? {} : { display: 'none' }),
     }))
 
     const thumbSize = computed(() => {

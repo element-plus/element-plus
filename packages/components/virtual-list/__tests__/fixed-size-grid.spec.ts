@@ -1,4 +1,4 @@
-import { nextTick } from 'vue'
+import { nextTick, unref } from 'vue'
 import makeMount from '@element-plus/test-utils/make-mount'
 import makeScroll from '@element-plus/test-utils/make-scroll'
 import setupMock from '../setup-mock'
@@ -71,8 +71,8 @@ describe('<fixed-size-grid />', () => {
       expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(24)
 
       const gridRef = wrapper.vm.$refs.gridRef as GridRef
-      expect(gridRef.innerRef.style.height).toBe('2500px')
-      expect(gridRef.innerRef.style.width).toBe('5000px')
+      expect(unref(gridRef.innerRef).style.height).toBe('2500px')
+      expect(unref(gridRef.innerRef).style.width).toBe('5000px')
     })
 
     it('should render zero row zero column', async () => {
@@ -96,11 +96,11 @@ describe('<fixed-size-grid />', () => {
 
       const gridRef = wrapper.vm.$refs.gridRef as GridRef
 
-      makeScroll(gridRef.windowRef, 'scrollTop', 100)
+      makeScroll(unref(gridRef.windowRef), 'scrollTop', 100)
       await nextTick()
       expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(21)
 
-      makeScroll(gridRef.windowRef, 'scrollLeft', 100)
+      makeScroll(unref(gridRef.windowRef), 'scrollLeft', 100)
       await nextTick()
       // 5 (backward cache 1 + visible 2 + forward cache 2)
       // * 7 (backward cache 1 + visible 4 + forward cache 2)
@@ -114,11 +114,11 @@ describe('<fixed-size-grid />', () => {
       expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(24)
 
       const gridRef = wrapper.vm.$refs.gridRef as GridRef
-      makeScroll(gridRef.windowRef, 'scrollTop', 0)
+      makeScroll(unref(gridRef.windowRef), 'scrollTop', 0)
       await nextTick()
       expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(24)
 
-      makeScroll(gridRef.windowRef, 'scrollLeft', 0)
+      makeScroll(unref(gridRef.windowRef), 'scrollLeft', 0)
       await nextTick()
       expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(24)
     })
@@ -153,7 +153,7 @@ describe('<fixed-size-grid />', () => {
 
       await nextTick()
       expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(48)
-      expect(wrapper.find(ITEM_SELECTOR)).toEqual(prevFirstItem)
+      expect(wrapper.find(ITEM_SELECTOR).element).toEqual(prevFirstItem.element)
     })
 
     it('should scrollToItem with correct alignment', async () => {

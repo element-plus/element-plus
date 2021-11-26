@@ -7,11 +7,9 @@
     >
       <slot></slot>
     </span>
-    <i
-      v-if="separatorClass"
-      class="el-breadcrumb__separator"
-      :class="separatorClass"
-    />
+    <el-icon v-if="separatorIcon" class="el-breadcrumb__separator">
+      <component :is="separatorIcon" />
+    </el-icon>
     <span v-else class="el-breadcrumb__separator" role="presentation">
       {{ separator }}
     </span>
@@ -26,6 +24,7 @@ import {
   onMounted,
   getCurrentInstance,
 } from 'vue'
+import ElIcon from '@element-plus/components/icon'
 import { elBreadcrumbKey } from '@element-plus/tokens'
 import { breadcrumbItemProps } from './breadcrumb-item'
 
@@ -35,6 +34,10 @@ const COMPONENT_NAME = 'ElBreadcrumbItem'
 
 export default defineComponent({
   name: COMPONENT_NAME,
+
+  components: {
+    ElIcon,
+  },
 
   props: breadcrumbItemProps,
 
@@ -56,7 +59,7 @@ export default defineComponent({
     return {
       link,
       separator: parent?.separator,
-      separatorClass: parent?.separatorClass,
+      separatorIcon: parent?.separatorIcon,
     }
   },
 })

@@ -5,10 +5,6 @@
   "peerDependencies": {
     "vue": "^3.2.0"
   },
-  "scripts": {
-    "clean": "rm -rf lib",
-    "build": "gulp build"
-  },
   "main": "index.ts",
   "module": "index.ts",
   "types": "index.d.js",

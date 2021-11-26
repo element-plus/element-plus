@@ -1,4 +1,4 @@
-import { defineComponent, h, provide, ref } from 'vue'
+import { defineComponent, h, provide, ref, renderSlot } from 'vue'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
@@ -17,7 +17,7 @@ import {
 import DatePickPanel from './date-picker-com/panel-date-pick.vue'
 import DateRangePickPanel from './date-picker-com/panel-date-range.vue'
 import MonthRangePickPanel from './date-picker-com/panel-month-range.vue'
-
+import { ROOT_PICKER_INJECTION_KEY } from './date-picker.type'
 import type { PropType } from 'vue'
 import type { IDatePickerType } from './date-picker.type'
 
@@ -52,6 +52,9 @@ export default defineComponent({
   emits: ['update:modelValue'],
   setup(props, ctx) {
     provide('ElPopperOptions', props.popperOptions)
+    provide(ROOT_PICKER_INJECTION_KEY, {
+      ctx,
+    })
     const commonPicker = ref(null)
     const refProps = {
       ...props,
@@ -78,6 +81,7 @@ export default defineComponent({
         },
         {
           default: (scopedProps) => h(getPanel(props.type), scopedProps),
+          'range-separator': () => renderSlot(ctx.slots, 'range-separator'),
         }
       )
     }

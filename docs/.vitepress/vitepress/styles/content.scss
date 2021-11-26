@@ -1,6 +1,6 @@
-@import './mixins';
-@import './content/doc-content';
-@import './content/hero-content';
+@use './mixins' as *;
+@use './content/doc-content';
+@use './content/hero-content';
 
 .page-content {
   @include respond-to('lg') {
@@ -16,6 +16,20 @@
           (100vw - var(--app-max-width)) / 2 + var(--sidebar-width-md)
         );
       }
+    }
+  }
+
+  .doc-content a {
+    display: inline-flex;
+    align-items: center;
+    &.vp-link {
+      white-space: nowrap;
+      word-break: keep-all;
+    }
+    .link-icon {
+      margin-left: 0.25rem;
+      height: 1em;
+      width: 1em;
     }
   }
 }
