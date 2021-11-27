@@ -56,7 +56,7 @@ datetime-picker/date-and-time-range
 
 :::
 
-### Default time value for start date and end date
+## Default time value for start date and end date
 
 :::demo When picking date range on the date panel with type `datetimerange`, `00:00:00` will be used as the default time value for start and end date. We can control it with the `default-time` attribute. `default-time` accepts an array of up to two Date objects. The first item controls time value of the start date and the second item controls time value of the end date.
 

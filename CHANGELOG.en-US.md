@@ -1,5 +1,48 @@
 ## Changelog
 
+### 1.2.0-beta.4
+
+_2021-11-27_
+
+#### Features
+
+- Components [el-select] support suffix-icon (#4364 by @emojiiii)
+- Add translation for pashto language (#4456 by @NangialaiStoman)
+- Components add custom color for button & rename css var bg-color (#3664 by @YunYouJun)
+- Add figma resource (#4469 by @0song)
+
+#### Bug fixes
+
+- Components [el-autocomplete] fix popper position (#4321 by @btea)
+- Components [el-tabs] fix tab render (#4383 by @sxzz)
+- Docs el-image picture icon (#4433 by @adaex)
+- Components [el-rate] icon hidden (#4452 by @imswk)
+- I18n improve Polish translations (#4475 by @lukaszwojtow)
+- Components [ElSelect] fix group disabled don't work (#4481 by @emojiiii)
+- Components [el-image] preview-src-list warn (#4472 by @emojiiii)
+- Components [el-select-v2] set option default value 0 (#4417 by @btea)
+- Style radio checkbox button default color (#4492 by @YunYouJun)
+- Coler picker support touch (#4477 by @kooriookami)
+- Components [ElFormItem] label will be show undefined (#4487 by @emojiiii)
+- Locale improve Indonesian (Bahasa) translations and fix typo (#4476 by @muhammadcahya)
+- Components [el-menu] menu-collapse onLeave lose done (#4517 by @xiaoxian521)
+- Components [el-upload] fix get accept from uploader.props (#4506 by @sumy7)
+- Components [date-picker] `range-separator slot` don't work (#4522 by @emojiiii)
+- Avoid unnecessary tab switch rerender (#4513 by @oliverzy)
+
+#### Refactors
+
+- [el-config-provider] change default autoInsertSpace to false (#4330 by @msidolphin)
+- Components refactor tabs
+- Components refactor tabs
+- Components refactor scrollbar
+- Components refactor scrollbar
+- Components refactor skeleton/skeleton-item (#4264 by @emojiiii)
+- Style rename to text-color bg-color (#4468 by @YunYouJun)
+- Style rename disabled color and migrate to css var (#4493 by @YunYouJun)
+- Components refactor button (#4499 by @emojiiii)
+- Improve tsconfig (#4386 by @sxzz)
+
 ### 1.2.0-beta.3
 
 _2021-11-09_

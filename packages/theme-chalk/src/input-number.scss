@@ -56,7 +56,7 @@
     }
 
     &.is-disabled {
-      color: var(--el-disabled-color-base);
+      color: var(--el-disabled-text-color);
       cursor: not-allowed;
     }
   }
@@ -75,11 +75,11 @@
 
   @include when(disabled) {
     @include e((increase, decrease)) {
-      border-color: var(--el-disabled-border-base);
-      color: var(--el-disabled-border-base);
+      border-color: var(--el-disabled-border-color);
+      color: var(--el-disabled-border-color);
 
       &:hover {
-        color: var(--el-disabled-border-base);
+        color: var(--el-disabled-border-color);
         cursor: not-allowed;
       }
     }

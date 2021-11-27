@@ -7,3 +7,8 @@ export const ElTabs = withInstall(Tabs, {
 })
 export default ElTabs
 export const ElTabPane = withNoopInstall(TabPane)
+
+export * from './src/tabs'
+export * from './src/tab-bar'
+export * from './src/tab-nav'
+export * from './src/tab-pane'

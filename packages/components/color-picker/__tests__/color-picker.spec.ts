@@ -21,11 +21,12 @@ const _mount = (template: string, data: () => { [key: string]: any }) => {
 type ColorPickerVM = ComponentPublicInstance<{
   handleClick: (opt: {
     target: Nullable<HTMLElement>
+    type: string
     clientX: number
     clientY: number
   }) => void
   thumbTop: number
-  handleDrag: (opt: { clientX: number; clientY: number }) => void
+  handleDrag: (opt: { type: string; clientX: number; clientY: number }) => void
 }>
 
 describe('Color-picker', () => {
@@ -188,6 +189,7 @@ describe('Color-picker', () => {
       .mockReturnValue(4)
     ;(hueSlideWrapper.vm as ColorPickerVM).handleClick({
       target: null,
+      type: 'mouseup',
       clientX: 0,
       clientY: 100,
     })
@@ -229,6 +231,7 @@ describe('Color-picker', () => {
       .mockReturnValue(4)
     ;(hueSlideWrapper.vm as ColorPickerVM).handleClick({
       target: null,
+      type: 'mouseup',
       clientX: 0,
       clientY: 100,
     })
@@ -268,6 +271,7 @@ describe('Color-picker', () => {
       .mockReturnValue(4)
     ;(alphaWrapper.vm as ColorPickerVM).handleClick({
       target: null,
+      type: 'mouseup',
       clientX: 50,
       clientY: 0,
     })
@@ -289,7 +293,11 @@ describe('Color-picker', () => {
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     const colorPickerWrapper = wrapper.findComponent(ColorPicker)
     const svPanelWrapper = colorPickerWrapper.findComponent({ ref: 'svPanel' })
-    ;(svPanelWrapper.vm as ColorPickerVM).handleDrag({ clientX: 0, clientY: 0 })
+    ;(svPanelWrapper.vm as ColorPickerVM).handleDrag({
+      type: 'mousemove',
+      clientX: 0,
+      clientY: 0,
+    })
     wrapper.vm.$nextTick(() => {
       expect(wrapper.vm.color._saturation !== 50).toBeTruthy()
       expect(wrapper.vm.color._value !== 50).toBeTruthy()
@@ -404,6 +412,7 @@ describe('Color-picker', () => {
       .mockReturnValue(4)
     ;(hueSlideWrapper.vm as ColorPickerVM).handleClick({
       target: null,
+      type: 'mouseup',
       clientX: 0,
       clientY: 1000,
     })

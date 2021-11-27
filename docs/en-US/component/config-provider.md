@@ -33,11 +33,11 @@ config-provider/button
 | i18n      | External translator, when this attribute is provided, it will be used at first, and it will fallback to default translator when this method returns nullish value | Function\<(...args: []) =\> string\> | -                                                                                       | -                       |
 | button    | button related configuration, [see the following table](#button-attributes)                                                                                       | ButtonGlobalConfig                   | -                                                                                       | see the following table |
 
-### Button Attributes
+## Button Attributes
 
 | Attribute       | Description                                                 | Type    | Accepted Values | Default |
 | --------------- | ----------------------------------------------------------- | ------- | --------------- | ------- |
-| autoInsertSpace | automatically insert a space between two chinese characters | boolean | -               | true    |
+| autoInsertSpace | automatically insert a space between two chinese characters | boolean | -               | false   |
 
 ## ConfigProvider Slots
 

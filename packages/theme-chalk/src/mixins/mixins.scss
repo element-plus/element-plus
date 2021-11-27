@@ -5,13 +5,13 @@
 
 // Break-points
 @mixin res($key, $map: $breakpoints) {
-  // 循环断点Map，如果存在则返回
+  // loop breakpoint Map, return if present
   @if map-has-key($map, $key) {
     @media only screen and #{unquote(map-get($map, $key))} {
       @content;
     }
   } @else {
-    @warn "Undefeined points: `#{$map}`";
+    @warn "Undefined points: `#{$map}`";
   }
 }
 

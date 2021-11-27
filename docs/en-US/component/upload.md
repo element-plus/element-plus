@@ -119,6 +119,7 @@ upload/manual
 | —       | customize default content          |
 | trigger | content which triggers file dialog |
 | tip     | content of tips                    |
+| file    | content of thumbnail template.     |
 
 ## Methods
 

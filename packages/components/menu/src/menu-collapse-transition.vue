@@ -46,9 +46,10 @@ export default defineComponent({
         el.style.overflow = 'hidden'
       },
 
-      onLeave(el: HTMLElement) {
+      onLeave(el: HTMLElement, done) {
         addClass(el, 'horizontal-collapse-transition')
         el.style.width = `${el.dataset.scrollWidth}px`
+        done()
       },
     } as BaseTransitionProps<HTMLElement> as TransitionProps
 

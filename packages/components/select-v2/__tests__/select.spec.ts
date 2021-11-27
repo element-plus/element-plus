@@ -803,6 +803,31 @@ describe('Select', () => {
     expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
   })
 
+  it('default value is 0', async () => {
+    const wrapper = createSelect({
+      data: () => ({
+        value: 0,
+        options: [
+          {
+            value: 0,
+            label: 'option_a',
+          },
+          {
+            value: 1,
+            label: 'option_b',
+          },
+          {
+            value: 2,
+            label: 'option_c',
+          },
+        ],
+      }),
+    })
+    await nextTick()
+    const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
+    expect(placeholder.text()).toBe('option_a')
+  })
+
   it('emptyText error show', async () => {
     const wrapper = createSelect({
       data() {

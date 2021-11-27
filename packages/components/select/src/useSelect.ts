@@ -19,7 +19,6 @@ import scrollIntoView from '@element-plus/utils/scroll-into-view'
 import { isKorean } from '@element-plus/utils/isDef'
 import { getValueByPath, useGlobalConfig } from '@element-plus/utils/util'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
-import { ArrowUp } from '@element-plus/icons'
 
 import type { QueryChangeCtx, SelectOptionProxy } from './token'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
@@ -96,7 +95,7 @@ export const useSelect = (props, states: States, ctx) => {
     return criteria
   })
   const iconComponent = computed(() =>
-    props.remote && props.filterable ? '' : ArrowUp
+    props.remote && props.filterable ? '' : props.suffixIcon
   )
   const iconReverse = computed(() =>
     iconComponent.value && states.visible ? 'is-reverse' : ''
@@ -406,7 +405,7 @@ export const useSelect = (props, states: States, ctx) => {
    */
   const checkDefaultFirstOption = () => {
     const optionsInDropdown = optionsArray.value.filter(
-      (n) => n.visible && !n.disabled && !n.groupDisabled
+      (n) => n.visible && !n.disabled && !n.states.groupDisabled
     )
     const userCreatedOption = optionsInDropdown.filter((n) => n.created)[0]
     const firstOriginOption = optionsInDropdown[0]
@@ -798,7 +797,7 @@ export const useSelect = (props, states: States, ctx) => {
       const option = optionsArray.value[states.hoverIndex]
       if (
         option.disabled === true ||
-        option.groupDisabled === true ||
+        option.states.groupDisabled === true ||
         !option.visible
       ) {
         navigateOptions(direction)
