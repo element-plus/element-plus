@@ -760,7 +760,6 @@ $tag: map.merge(
   (
     'font-size': 12px,
     'border-radius': 4px,
-    'padding': 0 10px,
   ),
   $tag
 );
@@ -775,6 +774,16 @@ $tag-height: map.merge(
     'small': 20px,
   ),
   $tag-height
+);
+
+$tag-padding: () !default;
+$tag-padding: map.merge(
+  (
+    'large': 12px,
+    'default': 8px,
+    'small': 4px,
+  ),
+  $tag-padding
 );
 
 @each $type in $types {
