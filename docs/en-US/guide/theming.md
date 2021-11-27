@@ -72,12 +72,12 @@ If your project also uses SCSS, you can directly change Element Plus style varia
 ```scss
 // styles/element/index.scss
 /* just override what you need */
-@forward "element-plus/theme-chalk/src/common/var.scss" with (
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
   $colors: (
-    "primary": (
-      "base": green,
+    'primary': (
+      'base': green,
     ),
-  ),
+  )
 );
 
 // If you just import on demand, you can ignore the following content.
