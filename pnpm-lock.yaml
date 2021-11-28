@@ -15,7 +15,7 @@ importers:
       '@element-plus/theme-chalk': workspace:*
       '@element-plus/tokens': workspace:*
       '@element-plus/utils': workspace:*
-      '@pnpm/find-workspace-packages': 3.1.25
+      '@pnpm/find-workspace-packages': 3.1.26
       '@pnpm/logger': 4.0.0
       '@pnpm/types': 7.6.0
       '@popperjs/core': ^2.10.2
@@ -94,7 +94,7 @@ importers:
     devDependencies:
       '@commitlint/cli': 15.0.0
       '@commitlint/config-conventional': 15.0.0
-      '@pnpm/find-workspace-packages': 3.1.25_@pnpm+logger@4.0.0
+      '@pnpm/find-workspace-packages': 3.1.26_@pnpm+logger@4.0.0
       '@pnpm/logger': 4.0.0
       '@pnpm/types': 7.6.0
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.60.1
@@ -166,7 +166,7 @@ importers:
       '@vueuse/core': 7.1.2_vue@3.2.22
       axios: 0.24.0
       clipboard-copy: 4.0.1
-      element-plus: 1.2.0-beta.3_vue@3.2.22
+      element-plus: 1.2.0-beta.4_vue@3.2.22
       normalize.css: 8.0.1
       nprogress: 0.2.0
     devDependencies:
@@ -1291,15 +1291,15 @@ packages:
       load-json-file: 6.2.0
     dev: true
 
-  /@pnpm/cli-utils/0.6.33_@pnpm+logger@4.0.0:
-    resolution: {integrity: sha512-PZKHSHbUDV10/ATKvmA84B5OqxAC/pMLtW7Cv13fCuW9R2nUSPJYgSsv8xfXIW1GxyDoA57pO+bC4f/wVl4FYA==}
+  /@pnpm/cli-utils/0.6.34_@pnpm+logger@4.0.0:
+    resolution: {integrity: sha512-qRi3Iwy3M1H0126tiT9p9mMU2UOpQrmO9vefNtRjJkWUJh8dLvdkS2FcDJOx4T0B7y0N3C26Q1JHOZW6SMt6vA==}
     engines: {node: '>=12.17'}
     peerDependencies:
       '@pnpm/logger': ^4.0.0
     dependencies:
       '@pnpm/cli-meta': 2.0.0
       '@pnpm/config': 13.5.1_@pnpm+logger@4.0.0
-      '@pnpm/default-reporter': 8.3.8_@pnpm+logger@4.0.0
+      '@pnpm/default-reporter': 8.4.0_@pnpm+logger@4.0.0
       '@pnpm/error': 2.0.0
       '@pnpm/logger': 4.0.0
       '@pnpm/manifest-utils': 2.1.2_@pnpm+logger@4.0.0
@@ -1345,8 +1345,8 @@ packages:
       '@pnpm/types': 7.6.0
     dev: true
 
-  /@pnpm/default-reporter/8.3.8_@pnpm+logger@4.0.0:
-    resolution: {integrity: sha512-iUXTP5iYpHaBniqnZTKWuRH0Me6ionTDBYq4SSVAHpxwnekPLqfqUX3RZJLzac2F5dP3Qyi2edHaIDGm30EFGQ==}
+  /@pnpm/default-reporter/8.4.0_@pnpm+logger@4.0.0:
+    resolution: {integrity: sha512-85Q7VnVYf976DygTtMZX/yPsJXhk0XDYQYOq/MafXOhlN1y6+0Xy7GgsMTJdNYyE8KSG0i4E+qCEfLxOUgMphQ==}
     engines: {node: '>=12.17'}
     dependencies:
       '@pnpm/config': 13.5.1_@pnpm+logger@4.0.0
@@ -1375,11 +1375,11 @@ packages:
     engines: {node: '>=12.17'}
     dev: true
 
-  /@pnpm/find-workspace-packages/3.1.25_@pnpm+logger@4.0.0:
-    resolution: {integrity: sha512-VBoFmDB4+wVt76aLywEzsXBoXxnkhIacm7WB2/j4d6tIKTtzMTd1QdBrWmnU1aNqyAE85bCwZkhzJIU1k6Zu+w==}
+  /@pnpm/find-workspace-packages/3.1.26_@pnpm+logger@4.0.0:
+    resolution: {integrity: sha512-fm+qb8jjgXZIX8d4bu4fPSLVEFoG24DeRexxuIOzsFyP6GzngQdEgObJ0ZC6JjTbCnog9iVYRfQ/JOqS6zUlEQ==}
     engines: {node: '>=12.17'}
     dependencies:
-      '@pnpm/cli-utils': 0.6.33_@pnpm+logger@4.0.0
+      '@pnpm/cli-utils': 0.6.34_@pnpm+logger@4.0.0
       '@pnpm/constants': 5.0.0
       '@pnpm/types': 7.6.0
       find-packages: 8.0.7
@@ -2141,22 +2141,6 @@ packages:
       vue: 3.2.22
     dev: true
 
-  /@vueuse/core/6.9.2_vue@3.2.22:
-    resolution: {integrity: sha512-FRwl4ccSFuHZBHLGgS9TMv/+Dd6XFaL4o9nph2qtgQIV+z29RBFokw08XjHfykiENRzB01MjYHJ7iRUnsIFQXg==}
-    peerDependencies:
-      '@vue/composition-api': ^1.1.0
-      vue: ^2.6.0 || ^3.2.0
-    peerDependenciesMeta:
-      '@vue/composition-api':
-        optional: true
-      vue:
-        optional: true
-    dependencies:
-      '@vueuse/shared': 6.9.2_vue@3.2.22
-      vue: 3.2.22
-      vue-demi: 0.11.4_vue@3.2.22
-    dev: false
-
   /@vueuse/core/7.0.0_vue@3.2.22:
     resolution: {integrity: sha512-dhf10icxd7w16AVaOtriVkum+CdCjskV0wht/kpGnOb2NbYBeXuiZNruMA+w8DaRPO4oXW8UhAix/S8HCz9OlQ==}
     peerDependencies:
@@ -2185,21 +2169,6 @@ packages:
         optional: true
     dependencies:
       '@vueuse/shared': 7.1.2_vue@3.2.22
-      vue: 3.2.22
-      vue-demi: 0.11.4_vue@3.2.22
-    dev: false
-
-  /@vueuse/shared/6.9.2_vue@3.2.22:
-    resolution: {integrity: sha512-lAiMh6XROs0kSKVd0Yb/6GKoQMxC1fYrFDi6opvQWISPtcqRNluRrQxLUZ3WTI78ovtoKRLktjhkFAtydcfFDg==}
-    peerDependencies:
-      '@vue/composition-api': ^1.1.0
-      vue: ^2.6.0 || ^3.2.0
-    peerDependenciesMeta:
-      '@vue/composition-api':
-        optional: true
-      vue:
-        optional: true
-    dependencies:
       vue: 3.2.22
       vue-demi: 0.11.4_vue@3.2.22
     dev: false
@@ -3987,14 +3956,14 @@ packages:
     resolution: {integrity: sha512-2jtSwgyiRzybHRxrc2nKI+39wH3AwQgn+sogQ+q814gv8hIFwrcZbV07Ea9f8AmK0ufPVZUvvAG1uZJ+obV4Jw==}
     dev: true
 
-  /element-plus/1.2.0-beta.3_vue@3.2.22:
-    resolution: {integrity: sha512-vvUxR3uL2k9K+WCWz/98hq4uPQ6jvfGf0hfzWvao7pySJkNQq9DtRPC6/4/zUceA/J6Y2Yo3xSbR19JRCwurRw==}
+  /element-plus/1.2.0-beta.4_vue@3.2.22:
+    resolution: {integrity: sha512-wYOwa/Zop5xMqhqkS7jOd32FF0Y2IpquIu8JLMbmvwlWvRUVetE5RO5lvxiF6etZgq8urRVttisXnOzJ9YOItQ==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
       '@element-plus/icons': 0.0.11
       '@popperjs/core': 2.10.2
-      '@vueuse/core': 6.9.2_vue@3.2.22
+      '@vueuse/core': 7.1.2_vue@3.2.22
       async-validator: 4.0.7
       dayjs: 1.10.7
       lodash: 4.17.21
