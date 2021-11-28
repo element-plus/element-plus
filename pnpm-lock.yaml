@@ -6,6 +6,7 @@ importers:
     specifiers:
       '@commitlint/cli': 15.0.0
       '@commitlint/config-conventional': 15.0.0
+      '@commitlint/cz-commitlint': 15.0.0
       '@element-plus/components': workspace:*
       '@element-plus/directives': workspace:*
       '@element-plus/hooks': workspace:*
@@ -35,8 +36,8 @@ importers:
       '@vueuse/core': ^7.0.0
       async-validator: ^4.0.7
       chalk: 4.1.2
+      commitizen: 4.2.4
       components-helper: 1.0.4
-      cz-conventional-changelog: 3.3.0
       dayjs: ^1.10.7
       esbuild: 0.14.0
       eslint: 8.3.0
@@ -94,6 +95,7 @@ importers:
     devDependencies:
       '@commitlint/cli': 15.0.0
       '@commitlint/config-conventional': 15.0.0
+      '@commitlint/cz-commitlint': 15.0.0_commitizen@4.2.4
       '@pnpm/find-workspace-packages': 3.1.25_@pnpm+logger@4.0.0
       '@pnpm/logger': 4.0.0
       '@pnpm/types': 7.6.0
@@ -111,8 +113,8 @@ importers:
       '@vue/compiler-sfc': 3.2.22
       '@vue/test-utils': 2.0.0-rc.16_vue@3.2.22
       chalk: 4.1.2
+      commitizen: 4.2.4
       components-helper: 1.0.4
-      cz-conventional-changelog: 3.3.0
       esbuild: 0.14.0
       eslint: 8.3.0
       eslint-config-prettier: 8.3.0_eslint@8.3.0
@@ -771,6 +773,22 @@ packages:
     engines: {node: '>=v12'}
     dependencies:
       conventional-changelog-conventionalcommits: 4.6.1
+    dev: true
+
+  /@commitlint/cz-commitlint/15.0.0_commitizen@4.2.4:
+    resolution: {integrity: sha512-e2hdYijPOMVB4JNRHRRhD++Mh9V64AgRJLpyApzJQchNGuWS7ssfTLkmrZWI7omHin7ppgBXuiB7AnI4450Kfg==}
+    engines: {node: '>= 10'}
+    peerDependencies:
+      commitizen: ^4.0.3
+      inquirer: ^8.0.0
+    dependencies:
+      '@commitlint/ensure': 15.0.0
+      '@commitlint/load': 15.0.0
+      '@commitlint/types': 15.0.0
+      chalk: 4.1.2
+      commitizen: 4.2.4
+      lodash: 4.17.21
+      word-wrap: 1.2.3
     dev: true
 
   /@commitlint/ensure/15.0.0:
@@ -3419,8 +3437,8 @@ packages:
     engines: {node: '>= 12'}
     dev: true
 
-  /commitizen/4.2.1:
-    resolution: {integrity: sha512-nZsp8IThkDu7C+93BFD/mLShb9Gd6Wsaf90tpKE3x/6u5y/Q52kzanIJpGr0qvIsJ5bCMpgKtr3Lbu3miEJfaA==}
+  /commitizen/4.2.4:
+    resolution: {integrity: sha512-LlZChbDzg3Ir3O2S7jSo/cgWp5/QwylQVr59K4xayVq8S4/RdKzSyJkghAiZZHfhh5t4pxunUoyeg0ml1q/7aw==}
     engines: {node: '>= 10'}
     hasBin: true
     dependencies:
@@ -3428,7 +3446,7 @@ packages:
       cz-conventional-changelog: 3.2.0
       dedent: 0.7.0
       detect-indent: 6.0.0
-      find-node-modules: 2.0.0
+      find-node-modules: 2.1.2
       find-root: 1.1.0
       fs-extra: 8.1.0
       glob: 7.1.4
@@ -3655,21 +3673,7 @@ packages:
     engines: {node: '>= 10'}
     dependencies:
       chalk: 2.4.2
-      commitizen: 4.2.1
-      conventional-commit-types: 3.0.0
-      lodash.map: 4.6.0
-      longest: 2.0.1
-      word-wrap: 1.2.3
-    optionalDependencies:
-      '@commitlint/load': 15.0.0
-    dev: true
-
-  /cz-conventional-changelog/3.3.0:
-    resolution: {integrity: sha512-U466fIzU5U22eES5lTNiNbZ+d8dfcHcssH4o7QsdWaCcRs/feIPCxKYSWkYBNs5mny7MvEfwpTLWjvbm94hecw==}
-    engines: {node: '>= 10'}
-    dependencies:
-      chalk: 2.4.2
-      commitizen: 4.2.1
+      commitizen: 4.2.4
       conventional-commit-types: 3.0.0
       lodash.map: 4.6.0
       longest: 2.0.1
@@ -5141,11 +5145,11 @@ packages:
       to-regex-range: 5.0.1
     dev: true
 
-  /find-node-modules/2.0.0:
-    resolution: {integrity: sha512-8MWIBRgJi/WpjjfVXumjPKCtmQ10B+fjx6zmSA+770GMJirLhWIzg8l763rhjl9xaeaHbnxPNRQKq2mgMhr+aw==}
+  /find-node-modules/2.1.2:
+    resolution: {integrity: sha512-x+3P4mbtRPlSiVE1Qco0Z4YLU8WFiFcuWTf3m75OV9Uzcfs2Bg+O9N+r/K0AnmINBW06KpfqKwYJbFlFq4qNug==}
     dependencies:
-      findup-sync: 3.0.0
-      merge: 1.2.1
+      findup-sync: 4.0.0
+      merge: 2.1.1
     dev: true
 
   /find-packages/8.0.7:
@@ -5210,6 +5214,16 @@ packages:
       detect-file: 1.0.0
       is-glob: 4.0.3
       micromatch: 3.1.10
+      resolve-dir: 1.0.1
+    dev: true
+
+  /findup-sync/4.0.0:
+    resolution: {integrity: sha512-6jvvn/12IC4quLBL1KNokxC7wWTvYncaVUYSoxWw7YykPLuRrnv4qdHcSOywOI5RpkOVGeQRtWM8/q+G6W6qfQ==}
+    engines: {node: '>= 8'}
+    dependencies:
+      detect-file: 1.0.0
+      is-glob: 4.0.3
+      micromatch: 4.0.4
       resolve-dir: 1.0.1
     dev: true
 
@@ -7510,8 +7524,8 @@ packages:
     resolution: {integrity: sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==}
     dev: true
 
-  /merge/1.2.1:
-    resolution: {integrity: sha512-VjFo4P5Whtj4vsLzsYBu5ayHhoHJ0UqNm7ibvShmbmoz7tGi0vXaoJbGdB+GmDMLUdg8DpQXEIeVDAe8MaABvQ==}
+  /merge/2.1.1:
+    resolution: {integrity: sha512-jz+Cfrg9GWOZbQAnDQ4hlVnQky+341Yk5ru8bZSe6sIDTCIg8n9i/u7hSQGSVOF3C7lH6mGtqjkiT9G4wFLL0w==}
     dev: true
 
   /merge2/1.4.1:

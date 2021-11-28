@@ -34,7 +34,7 @@
   },
   "config": {
     "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
+      "path": "@commitlint/cz-commitlint"
     }
   },
   "lint-staged": {
@@ -69,6 +69,7 @@
   "devDependencies": {
     "@commitlint/cli": "15.0.0",
     "@commitlint/config-conventional": "15.0.0",
+    "@commitlint/cz-commitlint": "15.0.0",
     "@pnpm/find-workspace-packages": "3.1.25",
     "@pnpm/logger": "4.0.0",
     "@pnpm/types": "7.6.0",
@@ -86,8 +87,8 @@
     "@vue/compiler-sfc": "3.2.22",
     "@vue/test-utils": "2.0.0-rc.16",
     "chalk": "4.1.2",
+    "commitizen": "4.2.4",
     "components-helper": "1.0.4",
-    "cz-conventional-changelog": "3.3.0",
     "esbuild": "0.14.0",
     "eslint": "8.3.0",
     "eslint-config-prettier": "8.3.0",
