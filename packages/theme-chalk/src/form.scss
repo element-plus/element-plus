@@ -90,13 +90,13 @@ $form-line-height: map.merge(
     text-align: right;
     font-size: var(--el-form-label-font-size);
     color: var(--el-text-color-regular);
-    line-height: 40px;
+    line-height: map.get($form-line-height, 'default');
     padding: 0 12px 0 0;
     box-sizing: border-box;
   }
   @include e(content) {
     flex: 1;
-    line-height: 40px;
+    line-height: map.get($form-line-height, 'default');
     position: relative;
     font-size: 14px;
     min-width: 0;
