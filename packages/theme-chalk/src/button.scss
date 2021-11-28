@@ -10,6 +10,8 @@
   @include set-component-css-var('button', $button);
 }
 
+$button-border-width: 1px;
+
 @include b(button) {
   display: inline-flex;
   line-height: 1;
@@ -41,8 +43,8 @@
   }
 
   @include button-size(
-    map.get($button-padding-vertical, 'default'),
-    map.get($button-padding-horizontal, 'default'),
+    map.get($button-padding-vertical, 'default') - $button-border-width,
+    map.get($button-padding-horizontal, 'default') - $button-border-width,
     map.get($button-font-size, 'default'),
     map.get($button-border-radius, 'default')
   );

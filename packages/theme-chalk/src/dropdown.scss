@@ -7,9 +7,9 @@
 $dropdown-item-line-height: () !default;
 $dropdown-item-line-height: map.merge(
   (
-    'large': 36px,
-    'default': 32px,
-    'small': 28px,
+    'large': 22px,
+    'default': 22px,
+    'small': 20px,
   ),
   $dropdown-item-line-height
 );
@@ -17,12 +17,24 @@ $dropdown-item-line-height: map.merge(
 $dropdown-item-padding: () !default;
 $dropdown-item-padding: map.merge(
   (
-    'large': 0 22px,
-    'default': 0 18px,
-    'small': 0 14px,
+    'large': 7px 20px,
+    'default': 5px 16px,
+    'small': 2px 12px,
   ),
   $dropdown-item-padding
 );
+
+$dropdown-caret-width: () !default;
+$dropdown-caret-width: map.merge(
+  (
+    'large': 40px,
+    'default': 30px,
+    'small': 20px,
+  ),
+  $dropdown-caret-width
+);
+
+$dropdown-divider-width: 1px !default;
 
 @include b(dropdown) {
   @include set-component-css-var('dropdown', $dropdown);
@@ -65,9 +77,12 @@ $dropdown-item-padding: map.merge(
   }
 
   & .#{$namespace}-dropdown__caret-button {
-    padding-left: 5px;
-    padding-right: 5px;
-    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: map.get($dropdown-caret-width, 'default');
     border-left: none;
 
     > span {
@@ -112,6 +127,14 @@ $dropdown-item-padding: map.merge(
   .#{$namespace}-dropdown-selfdefine {
     // 自定义
     outline: none;
+  }
+
+  @each $size in (large, small) {
+    @include m($size) {
+      .#{$namespace}-dropdown__caret-button {
+        width: map.get($dropdown-caret-width, $size);
+      }
+    }
   }
 }
 
