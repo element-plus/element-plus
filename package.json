@@ -102,7 +102,7 @@
     "husky": "7.0.4",
     "jest": "26.6.3",
     "lint-staged": "12.1.2",
-    "prettier": "2.4.1",
+    "prettier": "2.5.0",
     "pretty-quick": "3.1.2",
     "resize-observer-polyfill": "1.5.1",
     "rimraf": "3.0.2",
