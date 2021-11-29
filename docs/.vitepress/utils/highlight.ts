@@ -1,3 +1,4 @@
+// ref https://github.com/vuejs/vitepress/blob/main/src/node/markdown/plugins/highlight.ts
 import chalk from 'chalk'
 import escapeHtml from 'escape-html'
 import prism from 'prismjs'
