@@ -1,58 +1,55 @@
 <template>
-  <el-popper
-    ref="triggerVnode"
-    v-model:visible="visible"
-    :placement="placement"
-    :fallback-placements="['bottom', 'top', 'right', 'left']"
-    :effect="effect"
-    pure
-    :manual-mode="true"
-    :trigger="[trigger]"
-    popper-class="el-dropdown__popper"
-    append-to-body
-    transition="el-zoom-in-top"
-    :stop-popper-mouse-event="false"
-    :gpu-acceleration="false"
-  >
-    <template #default>
-      <el-scrollbar
-        ref="scrollbar"
-        tag="ul"
-        :wrap-style="wrapStyle"
-        view-class="el-dropdown__list"
-      >
-        <slot name="dropdown"></slot>
-      </el-scrollbar>
-    </template>
-    <template #trigger>
-      <div
-        :class="[
-          'el-dropdown',
-          dropdownSize ? 'el-dropdown--' + dropdownSize : '',
-        ]"
-      >
-        <slot v-if="!splitButton" name="default"></slot>
-        <template v-else>
-          <el-button-group>
-            <el-button
-              :size="dropdownSize"
-              :type="type"
-              @click="handlerMainButtonClick"
-            >
-              <slot name="default"></slot>
-            </el-button>
-            <el-button
-              :size="dropdownSize"
-              :type="type"
-              class="el-dropdown__caret-button"
-            >
-              <el-icon class="el-dropdown__icon"><arrow-down /></el-icon>
-            </el-button>
-          </el-button-group>
-        </template>
-      </div>
-    </template>
-  </el-popper>
+  <div class="el-dropdown">
+    <el-popper
+      ref="triggerVnode"
+      v-model:visible="visible"
+      :placement="placement"
+      :fallback-placements="['bottom', 'top', 'right', 'left']"
+      :effect="effect"
+      pure
+      :manual-mode="true"
+      :trigger="[trigger]"
+      popper-class="el-dropdown__popper"
+      append-to-body
+      transition="el-zoom-in-top"
+      :stop-popper-mouse-event="false"
+      :gpu-acceleration="false"
+    >
+      <template #default>
+        <el-scrollbar
+          ref="scrollbar"
+          tag="ul"
+          :wrap-style="wrapStyle"
+          view-class="el-dropdown__list"
+        >
+          <slot name="dropdown"></slot>
+        </el-scrollbar>
+      </template>
+      <template #trigger>
+        <div :class="[dropdownSize ? 'el-dropdown--' + dropdownSize : '']">
+          <slot v-if="!splitButton" name="default"></slot>
+          <template v-else>
+            <el-button-group>
+              <el-button
+                :size="dropdownSize"
+                :type="type"
+                @click="handlerMainButtonClick"
+              >
+                <slot name="default"></slot>
+              </el-button>
+              <el-button
+                :size="dropdownSize"
+                :type="type"
+                class="el-dropdown__caret-button"
+              >
+                <el-icon class="el-dropdown__icon"><arrow-down /></el-icon>
+              </el-button>
+            </el-button-group>
+          </template>
+        </div>
+      </template>
+    </el-popper>
+  </div>
 </template>
 <script lang="ts">
 import {
@@ -74,7 +71,7 @@ import { ArrowDown } from '@element-plus/icons'
 import { useDropdown } from './useDropdown'
 
 import type { Placement } from '@element-plus/components/popper'
-import type { PropType, ComponentPublicInstance } from 'vue'
+import type { PropType, ComponentPublicInstance, CSSProperties } from 'vue'
 import type { TriggerType } from '@element-plus/hooks/use-popper/use-target-events'
 import type { ButtonType } from '@element-plus/components/button/src/types'
 
@@ -140,7 +137,9 @@ export default defineComponent({
 
     const visible = ref(false)
     const scrollbar = ref(null)
-    const wrapStyle = computed(() => `max-height: ${addUnit(props.maxHeight)}`)
+    const wrapStyle = computed<CSSProperties>(() => ({
+      maxHeight: addUnit(props.maxHeight),
+    }))
 
     watch(
       () => visible.value,

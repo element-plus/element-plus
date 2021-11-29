@@ -57,7 +57,7 @@ describe('menu', () => {
     // const item2 = await wrapper.findComponent({ ref: 'item2' })
 
     expect(
-      window.getComputedStyle(instance)._values['--el-menu-background-color']
+      window.getComputedStyle(instance)._values['--el-menu-bg-color']
     ).toEqual(backgroundColor)
 
     // We can not test final style, so comment it out for now.
@@ -161,7 +161,7 @@ describe('menu', () => {
     expect(elSubMenu.vm.$.exposed.opened).toBeTruthy()
   })
 
-  test('hover-background-color', async () => {
+  test('hover-bg-color', async () => {
     const wrapper = _mount(
       `<el-menu ref="menu" default-active="2"
         :background-color="background"

@@ -71,7 +71,7 @@ space/auto-wrapping
 
 Sometimes we want something more than blank space, so we have (spacer) to help us.
 
-### Literal type spacer
+## Literal type spacer
 
 :::demo
 
@@ -79,7 +79,7 @@ space/literal-type-spacer
 
 :::
 
-### Spacer can also be VNode
+## Spacer can also be VNode
 
 :::demo
 

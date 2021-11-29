@@ -49,7 +49,7 @@ $checkbox-bordered-input-width: map.merge(
 }
 
 @include b(checkbox) {
-  color: var(--el-checkbox-font-color);
+  color: var(--el-checkbox-text-color);
   font-weight: var(--el-checkbox-font-weight);
   font-size: var(--el-font-size-base);
   position: relative;
@@ -160,14 +160,14 @@ $checkbox-bordered-input-width: map.merge(
       }
 
       & + span.#{$namespace}-checkbox__label {
-        color: $disabled-color-base;
+        color: var(--el-disabled-text-color);
         cursor: not-allowed;
       }
     }
 
     @include when(checked) {
       .#{$namespace}-checkbox__inner {
-        background-color: var(--el-checkbox-checked-background-color);
+        background-color: var(--el-checkbox-checked-bg-color);
         border-color: var(--el-checkbox-checked-input-border-color);
 
         &::after {
@@ -176,7 +176,7 @@ $checkbox-bordered-input-width: map.merge(
       }
 
       & + .#{$namespace}-checkbox__label {
-        color: var(--el-checkbox-checked-font-color);
+        color: var(--el-checkbox-checked-text-color);
       }
     }
     @include when(focus) {
@@ -187,7 +187,7 @@ $checkbox-bordered-input-width: map.merge(
     }
     @include when(indeterminate) {
       .#{$namespace}-checkbox__inner {
-        background-color: var(--el-checkbox-checked-background-color);
+        background-color: var(--el-checkbox-checked-bg-color);
         border-color: var(--el-checkbox-checked-input-border-color);
 
         &::before {
@@ -216,7 +216,7 @@ $checkbox-bordered-input-width: map.merge(
     box-sizing: border-box;
     width: var(--el-checkbox-input-width);
     height: var(--el-checkbox-input-height);
-    background-color: var(--el-checkbox-background-color);
+    background-color: var(--el-checkbox-bg-color);
     z-index: var(--el-index-normal);
     transition: border-color 0.25s cubic-bezier(0.71, -0.46, 0.29, 1.46),
       background-color 0.25s cubic-bezier(0.71, -0.46, 0.29, 1.46);

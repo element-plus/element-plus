@@ -10,8 +10,8 @@
         class="el-form-item__label"
         :style="labelStyle"
       >
-        <slot name="label" :label="label + elForm.labelSuffix">
-          {{ label + elForm.labelSuffix }}
+        <slot name="label" :label="currentLabel">
+          {{ currentLabel }}
         </slot>
       </label>
     </LabelWrap>
@@ -49,6 +49,7 @@ import {
   ref,
   toRefs,
   watch,
+  nextTick,
 } from 'vue'
 import { NOOP } from '@vue/shared'
 import AsyncValidator from 'async-validator'
@@ -245,8 +246,6 @@ export default defineComponent({
       validateMessage.value = ''
     }
     const resetField = () => {
-      validateState.value = ''
-      validateMessage.value = ''
       const model = elForm.model
       const value = fieldValue.value
       let path = props.prop
@@ -259,6 +258,9 @@ export default defineComponent({
       } else {
         prop.o[prop.k] = initialValue
       }
+      nextTick(() => {
+        clearValidate()
+      })
     }
 
     const getRules = () => {
@@ -343,6 +345,10 @@ export default defineComponent({
       )
     })
 
+    const currentLabel = computed(
+      () => (props.label || '') + (elForm.labelSuffix || '')
+    )
+
     return {
       formItemRef,
       formItemClass,
@@ -354,6 +360,7 @@ export default defineComponent({
       labelFor,
       resetField,
       clearValidate,
+      currentLabel,
     }
   },
 })

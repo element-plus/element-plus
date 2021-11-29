@@ -1,27 +1,20 @@
 <template>
-  <el-switch v-model="value1" :active-icon="active" :inactive-icon="inactive">
+  <el-switch v-model="value1" :active-icon="Check" :inactive-icon="Close">
   </el-switch>
   <br />
   <el-switch
     v-model="value2"
     style="margin-left: 24px"
     inline-prompt
-    :active-icon="active"
-    :inactive-icon="inactive"
+    :active-icon="Check"
+    :inactive-icon="Close"
   >
   </el-switch>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
 import { Check, Close } from '@element-plus/icons'
-export default {
-  data() {
-    return {
-      value1: true,
-      value2: true,
-      active: Check,
-      inactive: Close,
-    }
-  },
-}
+const value1 = ref(true)
+const value2 = ref(true)
 </script>

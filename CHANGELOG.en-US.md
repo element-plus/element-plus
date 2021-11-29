@@ -1,5 +1,123 @@
 ## Changelog
 
+### 1.2.0-beta.4
+
+_2021-11-27_
+
+#### Features
+
+- Components [el-select] support suffix-icon (#4364 by @emojiiii)
+- Add translation for pashto language (#4456 by @NangialaiStoman)
+- Components add custom color for button & rename css var bg-color (#3664 by @YunYouJun)
+- Add figma resource (#4469 by @0song)
+
+#### Bug fixes
+
+- Components [el-autocomplete] fix popper position (#4321 by @btea)
+- Components [el-tabs] fix tab render (#4383 by @sxzz)
+- Docs el-image picture icon (#4433 by @adaex)
+- Components [el-rate] icon hidden (#4452 by @imswk)
+- I18n improve Polish translations (#4475 by @lukaszwojtow)
+- Components [ElSelect] fix group disabled don't work (#4481 by @emojiiii)
+- Components [el-image] preview-src-list warn (#4472 by @emojiiii)
+- Components [el-select-v2] set option default value 0 (#4417 by @btea)
+- Style radio checkbox button default color (#4492 by @YunYouJun)
+- Coler picker support touch (#4477 by @kooriookami)
+- Components [ElFormItem] label will be show undefined (#4487 by @emojiiii)
+- Locale improve Indonesian (Bahasa) translations and fix typo (#4476 by @muhammadcahya)
+- Components [el-menu] menu-collapse onLeave lose done (#4517 by @xiaoxian521)
+- Components [el-upload] fix get accept from uploader.props (#4506 by @sumy7)
+- Components [date-picker] `range-separator slot` don't work (#4522 by @emojiiii)
+- Avoid unnecessary tab switch rerender (#4513 by @oliverzy)
+
+#### Refactors
+
+- [el-config-provider] change default autoInsertSpace to false (#4330 by @msidolphin)
+- Components refactor tabs
+- Components refactor tabs
+- Components refactor scrollbar
+- Components refactor scrollbar
+- Components refactor skeleton/skeleton-item (#4264 by @emojiiii)
+- Style rename to text-color bg-color (#4468 by @YunYouJun)
+- Style rename disabled color and migrate to css var (#4493 by @YunYouJun)
+- Components refactor button (#4499 by @emojiiii)
+- Improve tsconfig (#4386 by @sxzz)
+
+### 1.2.0-beta.3
+
+_2021-11-09_
+
+#### Bug fixes
+
+- Components [el-cascader] empty children set leaf (#3758 by @btea)
+- Build fix types  (#4254 by @sxzz)
+- Components [el-checkbox] tabindex property doesn't work (#4286 by @undefined-degisn)
+- Style radio group set inline-block (#4255 by @btea)
+- Theme-chalk fix icon style in Menu component is wrong (#4302 by @undefined-degisn)
+- Side-effects (#4310 by @sxzz)
+
+#### Refactors
+
+- Components refactor rate
+- Components refactor result
+- Components [el-result] improve props
+- Components refactor row
+- Components [el-row] improve props
+- Components refactor radio
+
+### 1.2.0-beta.2
+
+_2021-11-05_
+
+#### Features
+
+- Components [el-tree] allow tree node to have customizable class (#3912 by @greper)
+- Components [el-color-picker] hex color with transparency (#3893 by @Alanscut)
+- Components el-teleport (#4186 by @JeremyWuuuuu)
+- Components [el-select-v2] mouse trigger scrollbar show/hide (#3722 by @btea)
+- Components [el-image] initialIndex (#4235 by @Alanscut)
+- Components [el-message] merge the same content messages(#3836 by @zhazhanitian) (#3988)
+- Docs add support for copying svg content (#4169 by @adaex)
+- 
+#### Bug fixes
+
+- Components [el-tree-v2] indent can not set zero (#3881 by @btea)
+- [el-date-picker] avoid click event error & fix cell props (#4134 by @msidolphin)
+- Components [el-tree] emptyText  empty string is invalid (#4135 by @imswk) (#4136)
+- Components [el-tree-v2] empty-text supports empty string & virtual list width become no required (#4144 by @msidolphin)
+- [el-transfer]modelvalue is not in original order (#4082 by @Alanscut)
+- Components el-loading spinner directive (#4133 by @adaex)
+- Components el-select-v2 empty icon (#4154 by @adaex)
+- Input suffix icon center by flex (#4159 by @YunYouJun)
+- Components [el-affix] listen resize (#3932 by @midcu)
+- Components [time-picker] am/pm mode avoid render redundant content (#4137 by @msidolphin)
+- Components [image-viewer] fix typo (#4183 by @btea)
+- Components input icon justify by flex (#4187 by @YunYouJun)
+- Docs fix typo (#4190 by @btea)
+- Style remove chinese comments in checkbox (#4189 by @YunYouJun)
+- Components el-teleport potential failure (#4197 by @JeremyWuuuuu)
+- Components view tag does not render (#4198 by @adaex)
+- Theme-chalk el-menu arrow icon style (#4230 by @adaex)
+- Components el-dropdown cannot be used with v-show (#4221 by @undefined-degisn)
+- Components [el-table] fixed mode layout misalignment (#4188 by @msidolphin)
+- Components empty icon component judgment (#4178 by @adaex)
+- [el-input]hidden input is not hidden (#4128 by @KawaiiZapic)
+- Components [el-cascader] search result switch not highlight (#4087 by @btea)
+- [el-date-picker] cannot change the time when provide default-time (#4228 by @msidolphin)
+- Components `h` function children parameter usage (#4238 by @adaex)
+- Components ensure table size affects inner selection (#3979 by @cokemine)
+- Components [el-table] development environment warning issues (#4167 by @msidolphin)
+- Components [el-select] first item hover status error (#3880 by @Alanscut)
+- Components [el-form] reset form validate error (#3759 by @btea)
+- Components [el-select] display false (#4036 by @Alanscut)
+- Fix el-input-number unexcepted text selecting when clicking buttons (#4191 by @KawaiiZapic)
+
+#### Refactors
+
+- Components elForm form rule & custom type (#3951 by @Otto-J)
+- Components [el-config-provider] improve componomponent  extendiability (#4175 by @msidolphin)
+- Docs use markdown-it instead of marked (#4239 by @YunYouJun)
+
 
 ### 1.2.0-beta.1
 

@@ -6,10 +6,9 @@ import glob from 'fast-glob'
 import { bold } from 'chalk'
 
 import { green, red, yellow } from './utils/log'
-import { buildOutput, pkgRoot, projRoot } from './utils/paths'
+import { buildOutput, epRoot, pkgRoot, projRoot } from './utils/paths'
 
 import { excludeFiles, pathRewriter } from './utils/pkg'
-import { run } from './utils/process'
 import type { SourceFile } from 'ts-morph'
 
 const TSCONFIG_PATH = path.resolve(projRoot, 'tsconfig.json')
@@ -37,16 +36,22 @@ export const generateTypesDefinitions = async () => {
   })
 
   const filePaths = excludeFiles(
-    await glob('**/*.{js,ts,vue}', {
+    await glob(['**/*.{js,ts,vue}', '!element-plus/**/*'], {
       cwd: pkgRoot,
       absolute: true,
       onlyFiles: true,
     })
   )
+  const epPaths = excludeFiles(
+    await glob('**/*.{js,ts,vue}', {
+      cwd: epRoot,
+      onlyFiles: true,
+    })
+  )
 
   const sourceFiles: SourceFile[] = []
-  await Promise.all(
-    filePaths.map(async (file) => {
+  await Promise.all([
+    ...filePaths.map(async (file) => {
       if (file.endsWith('.vue')) {
         const content = await fs.readFile(file, 'utf-8')
         const sfc = vueCompiler.parse(content)
@@ -71,12 +76,18 @@ export const generateTypesDefinitions = async () => {
           )
           sourceFiles.push(sourceFile)
         }
-      } else if (file.endsWith('.ts')) {
+      } else {
         const sourceFile = project.addSourceFileAtPath(file)
         sourceFiles.push(sourceFile)
       }
-    })
-  )
+    }),
+    ...epPaths.map(async (file) => {
+      const content = await fs.readFile(path.resolve(epRoot, file), 'utf-8')
+      sourceFiles.push(
+        project.createSourceFile(path.resolve(pkgRoot, file), content)
+      )
+    }),
+  ])
 
   const diagnostics = project.getPreEmitDiagnostics()
   console.log(project.formatDiagnosticsWithColorAndContext(diagnostics))
@@ -115,11 +126,4 @@ export const generateTypesDefinitions = async () => {
   })
 
   await Promise.all(tasks)
-
-  const epFiles = await glob('**/*', {
-    cwd: path.resolve(outDir, 'element-plus'),
-    absolute: true,
-  })
-  await run(`mv ${epFiles.join(' ')} ${outDir}`)
-  await run(`rmdir ${path.resolve(outDir, 'element-plus')}`)
 }

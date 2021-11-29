@@ -99,8 +99,8 @@ export default defineComponent({
     })
 
     const imageIndex = computed(() => {
-      const { src, previewSrcList } = props
-      let previewIndex = 0
+      const { src, previewSrcList, initialIndex } = props
+      let previewIndex = initialIndex
       const srcIndex = previewSrcList.indexOf(src)
       if (srcIndex >= 0) {
         previewIndex = srcIndex

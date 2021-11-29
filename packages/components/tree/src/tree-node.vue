@@ -30,6 +30,7 @@
       :style="{ paddingLeft: (node.level - 1) * tree.props.indent + 'px' }"
     >
       <el-icon
+        v-if="tree.props.icon || CaretRight"
         :class="[
           {
             'is-leaf': node.isLeaf,

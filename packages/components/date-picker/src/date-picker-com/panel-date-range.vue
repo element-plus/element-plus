@@ -155,11 +155,7 @@
           />
         </div>
         <div
-          class="
-            el-picker-panel__content
-            el-date-range-picker__content
-            is-right
-          "
+          class="el-picker-panel__content el-date-range-picker__content is-right"
         >
           <div class="el-date-range-picker__header">
             <button
@@ -248,6 +244,7 @@ import {
   extractTimeFormat,
   TimePickPanel,
 } from '@element-plus/components/time-picker'
+import ElIcon from '@element-plus/components/icon'
 import { isValidDatePickType } from '@element-plus/utils/validators'
 import {
   DArrowLeft,
@@ -269,6 +266,7 @@ export default defineComponent({
     DateTable,
     ElInput,
     ElButton,
+    ElIcon,
     DArrowLeft,
     ArrowLeft,
     DArrowRight,

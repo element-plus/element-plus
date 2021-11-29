@@ -18,10 +18,11 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from 'vue'
 import { MoreFilled } from '@element-plus/icons'
 
-export default {
-  data() {
+export default defineComponent({
+  setup() {
     return {
       activities: [
         {
@@ -54,5 +55,5 @@ export default {
       ],
     }
   },
-}
+})
 </script>

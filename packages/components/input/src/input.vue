@@ -1,5 +1,6 @@
 <template>
   <div
+    v-show="type !== 'hidden'"
     :class="[
       type === 'textarea' ? 'el-textarea' : 'el-input',
       inputSize ? 'el-input--' + inputSize : '',
@@ -90,7 +91,7 @@
           </span>
         </span>
         <el-icon
-          v-if="validateState"
+          v-if="validateState && validateIcon"
           class="el-input__icon el-input__validateIcon"
         >
           <component :is="validateIcon" />

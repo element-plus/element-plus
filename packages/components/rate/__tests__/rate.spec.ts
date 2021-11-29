@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import Rate from '../src/index.vue'
+import Rate from '../src/rate.vue'
 
 describe('Rate.vue', () => {
   test('create', () => {

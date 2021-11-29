@@ -1,13 +1,13 @@
 import { computed, getCurrentInstance, inject, provide, ref } from 'vue'
 import English from '@element-plus/locale/lang/en'
-
-import type { InjectionKey, PropType, Ref } from 'vue'
+import { buildProp, definePropType } from '@element-plus/utils/props'
+import type { InjectionKey, Ref } from 'vue'
 import type { Language } from '@element-plus/locale'
 
 export const useLocaleProps = {
-  locale: {
-    type: Object as PropType<Language>,
-  },
+  locale: buildProp({
+    type: definePropType<Language>(Object),
+  }),
 }
 
 type Translator = (...args: any[]) => string

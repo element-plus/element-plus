@@ -2,7 +2,11 @@
   <div class="el-result">
     <div class="el-result__icon">
       <slot name="icon">
-        <component :is="resultIcon.component" :class="resultIcon.class" />
+        <component
+          :is="resultIcon.component"
+          v-if="resultIcon.component"
+          :class="resultIcon.class"
+        />
       </slot>
     </div>
     <div v-if="title || $slots.title" class="el-result__title">
@@ -22,46 +26,11 @@
 </template>
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-import {
-  WarningFilled,
-  CircleCheckFilled,
-  CircleCloseFilled,
-  InfoFilled,
-} from '@element-plus/icons'
-
-import type { Component } from 'vue'
-import type { Indexable } from '@element-plus/utils/types'
-
-const IconMap: Indexable<string> = {
-  success: 'icon-success',
-  warning: 'icon-warning',
-  error: 'icon-error',
-  info: 'icon-info',
-}
-
-const IconComponentMap: Indexable<Component> = {
-  [IconMap.success]: CircleCheckFilled,
-  [IconMap.warning]: WarningFilled,
-  [IconMap.error]: CircleCloseFilled,
-  [IconMap.info]: InfoFilled,
-}
+import { resultProps, IconComponentMap, IconMap } from './result'
 
 export default defineComponent({
   name: 'ElResult',
-  props: {
-    title: {
-      type: String,
-      default: '',
-    },
-    subTitle: {
-      type: String,
-      default: '',
-    },
-    icon: {
-      type: String,
-      default: 'info',
-    },
-  },
+  props: resultProps,
   setup(props) {
     const resultIcon = computed(() => {
       const icon = props.icon

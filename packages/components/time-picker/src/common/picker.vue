@@ -37,13 +37,17 @@
         @mouseleave="onMouseLeave"
       >
         <template #prefix>
-          <el-icon class="el-input__icon" @click="handleFocus">
+          <el-icon
+            v-if="triggerIcon"
+            class="el-input__icon"
+            @click="handleFocus"
+          >
             <component :is="triggerIcon"></component>
           </el-icon>
         </template>
         <template #suffix>
           <el-icon
-            v-if="showClose"
+            v-if="showClose && clearIcon"
             class="el-input__icon clear-icon"
             @click="onClearIconClick"
           >
@@ -66,7 +70,11 @@
         @mouseleave="onMouseLeave"
         @keydown="handleKeydown"
       >
-        <el-icon class="el-input__icon el-range__icon" @click="handleFocus">
+        <el-icon
+          v-if="triggerIcon"
+          class="el-input__icon el-range__icon"
+          @click="handleFocus"
+        >
           <component :is="triggerIcon"></component>
         </el-icon>
         <input
@@ -97,6 +105,7 @@
           @change="handleEndChange"
         />
         <el-icon
+          v-if="clearIcon"
           class="el-input__icon el-range__close-icon"
           :class="{
             'el-range__close-icon--hidden': !showClose,

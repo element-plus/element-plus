@@ -1,7 +1,7 @@
 import { useFormItemProps } from '@element-plus/hooks'
 import { buildProps, definePropType } from '@element-plus/utils/props'
-
 import type { ExtractPropTypes, Component } from 'vue'
+import type button from './button.vue'
 
 export const buttonType = [
   'default',
@@ -37,7 +37,15 @@ export const buttonProps = buildProps({
   autofocus: Boolean,
   round: Boolean,
   circle: Boolean,
+  color: String,
+  autoInsertSpace: {
+    type: Boolean,
+  },
 } as const)
+
+export interface ButtonConfigContext {
+  autoInsertSpace?: boolean
+}
 
 export const buttonEmits = {
   click: (evt: MouseEvent) => evt instanceof MouseEvent,
@@ -48,3 +56,5 @@ export type ButtonEmits = typeof buttonEmits
 
 export type ButtonType = ButtonProps['type']
 export type ButtonNativeType = ButtonProps['nativeType']
+
+export type ButtonInstance = InstanceType<typeof button>

@@ -120,7 +120,7 @@ class Node {
     return isUndefined(isLeaf)
       ? lazy && !loaded
         ? false
-        : !Array.isArray(childrenData)
+        : !(Array.isArray(childrenData) && childrenData.length)
       : !!isLeaf
   }
 

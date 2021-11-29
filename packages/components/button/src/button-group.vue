@@ -5,7 +5,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, provide, reactive, toRef } from 'vue'
-import { elButtonGroupKey } from '@element-plus/tokens'
+import { buttonGroupContextKey } from '@element-plus/tokens'
 import { buttonGroupProps } from './button-group'
 
 export default defineComponent({
@@ -14,7 +14,7 @@ export default defineComponent({
 
   setup(props) {
     provide(
-      elButtonGroupKey,
+      buttonGroupContextKey,
       reactive({
         size: toRef(props, 'size'),
         type: toRef(props, 'type'),

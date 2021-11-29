@@ -30,6 +30,7 @@
         type="checkbox"
         :aria-hidden="indeterminate ? 'true' : 'false'"
         :name="name"
+        :tabindex="tabindex"
         :disabled="isDisabled"
         :true-value="trueLabel"
         :false-value="falseLabel"
@@ -46,6 +47,7 @@
         :disabled="isDisabled"
         :value="label"
         :name="name"
+        :tabindex="tabindex"
         @change="handleChange"
         @focus="focus = true"
         @blur="focus = false"
@@ -104,6 +106,7 @@ export default defineComponent({
       type: String as PropType<ComponentSize>,
       validator: isValidComponentSize,
     },
+    tabindex: [String, Number],
   },
   emits: [UPDATE_MODEL_EVENT, 'change'],
   setup(props) {

@@ -63,6 +63,16 @@ Although `message` property supports HTML strings, dynamically rendering arbitra
 
 :::
 
+## grouping
+
+merge messages with the same content.
+
+:::demo Set `grouping` to true and the same content of `message` will be merged.
+
+message/grouping
+
+:::
+
 ## Global method
 
 Element Plus has added a global method `$message` for `app.config.globalProperties`. So in a vue instance you can call `Message` like what we did in this page.
@@ -90,6 +100,7 @@ In this case you should call `ElMessage(options)`. We have also registered metho
 | on-close                 | callback function when closed with the message instance as the parameter       | function             | —                          | —             |
 | offset                   | set the distance to the top of viewport                                        | number               | —                          | 20            |
 | appendTo                 | set the root element for the message                                           | string / HTMLElement | -                          | document.body |
+| grouping                 | merge messages with the same content, type of VNode message is not supported   | boolean              | —                          | false         |
 
 ## Methods
 
