@@ -112,7 +112,7 @@ import ElButton from '@element-plus/components/button'
 import ElIcon from '@element-plus/components/icon'
 import { ClickOutside } from '@element-plus/directives'
 import { elFormItemKey, elFormKey } from '@element-plus/tokens'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import ElPopper, { Effect } from '@element-plus/components/popper'
 import ElInput from '@element-plus/components/input'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
@@ -163,7 +163,7 @@ export default defineComponent({
   emits: ['change', 'active-change', UPDATE_MODEL_EVENT],
   setup(props, { emit }) {
     const ELEMENT = useGlobalConfig()
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
     const elForm = inject(elFormKey, {} as ElFormContext)
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
 

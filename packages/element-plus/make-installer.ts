@@ -1,5 +1,5 @@
 import { setConfig } from '@element-plus/utils/config'
-import { LocaleInjectionKey, localeProviderMaker } from '@element-plus/hooks'
+import { localeContextKey, localeProviderMaker } from '@element-plus/hooks'
 import { version } from './version'
 
 import type { App, Plugin } from 'vue'
@@ -25,7 +25,7 @@ const makeInstaller = (components: Plugin[] = []) => {
 
     if (option.locale) {
       const localeProvides = localeProviderMaker(opts.locale)
-      app.provide(LocaleInjectionKey, localeProvides)
+      app.provide(localeContextKey, localeProvides)
     }
 
     app.config.globalProperties.$ELEMENT = option

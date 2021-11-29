@@ -35,7 +35,7 @@
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue'
 import dayjs from 'dayjs'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import { coerceTruthyValueToArray } from '@element-plus/utils/util'
 import ElDatePickerCell from './basic-cell-render'
 import type { PropType } from 'vue'
@@ -85,7 +85,7 @@ export default defineComponent({
   emits: ['changerange', 'pick', 'select'],
 
   setup(props, ctx) {
-    const { t, lang } = useLocaleInject()
+    const { t, lang } = useLocale()
     // data
     const lastRow = ref(null)
     const lastColumn = ref(null)
