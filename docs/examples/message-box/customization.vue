@@ -26,7 +26,7 @@ export default defineComponent({
               setTimeout(() => {
                 instance.confirmButtonLoading = false
               }, 300)
-            }, 300000)
+            }, 3000)
           } else {
             done()
           }
