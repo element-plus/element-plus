@@ -27,7 +27,7 @@ function useStyle<T>(props: TableFooter<T>) {
     columns: TableColumnCtx<T>[],
     column: TableColumnCtx<T>
   ) => {
-    if (props.fixed || props.fixed === 'left') {
+    if (props.fixed === 'left') {
       return index >= leftFixedLeafCount.value
     } else if (props.fixed === 'right') {
       let before = 0
