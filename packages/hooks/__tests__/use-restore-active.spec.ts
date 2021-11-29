@@ -1,5 +1,5 @@
 import { ref, nextTick } from 'vue'
-import useRestoreActive from '../use-restore-active'
+import { useRestoreActive } from '../use-restore-active'
 
 describe('useRestoreActive', () => {
   it('should restore active element', async () => {

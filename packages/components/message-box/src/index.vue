@@ -131,8 +131,8 @@ import ElButton from '@element-plus/components/button'
 import { TrapFocus } from '@element-plus/directives'
 import {
   useModal,
-  useLockScreen,
-  useLocaleInject,
+  useLockscreen,
+  useLocale,
   useRestoreActive,
   usePreventGlobal,
 } from '@element-plus/hooks'
@@ -212,7 +212,7 @@ export default defineComponent({
   emits: ['vanish', 'action'],
   setup(props, { emit }) {
     // const popup = usePopup(props, doClose)
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
     const visible = ref(false)
     // s represents state
     const state = reactive<MessageBoxState>({
@@ -414,7 +414,7 @@ export default defineComponent({
 
     // locks the screen to prevent scroll
     if (props.lockScroll) {
-      useLockScreen(visible)
+      useLockscreen(visible)
     }
 
     // restore to prev active element.

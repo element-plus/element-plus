@@ -146,7 +146,7 @@ import {
 } from 'vue'
 import dayjs from 'dayjs'
 import isEqual from 'lodash/isEqual'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import { ClickOutside } from '@element-plus/directives'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import ElInput from '@element-plus/components/input'
@@ -227,7 +227,7 @@ export default defineComponent({
   emits: ['update:modelValue', 'change', 'focus', 'blur', 'calendar-change'],
   setup(props, ctx) {
     const ELEMENT = useGlobalConfig()
-    const { lang } = useLocaleInject()
+    const { lang } = useLocale()
 
     const elForm = inject(elFormKey, {} as ElFormContext)
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)

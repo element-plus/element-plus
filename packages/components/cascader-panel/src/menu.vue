@@ -30,7 +30,7 @@
 <script lang="ts">
 import { computed, defineComponent, getCurrentInstance, inject, ref } from 'vue'
 import ElScrollbar from '@element-plus/components/scrollbar'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import { generateId } from '@element-plus/utils/util'
 import ElCascaderNode from './node.vue'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
@@ -60,7 +60,7 @@ export default defineComponent({
 
   setup(props) {
     const instance = getCurrentInstance()!
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
     const id = generateId()
     let activeNode: Nullable<HTMLElement> = null
     let hoverTimer: Nullable<TimeoutHandle> = null

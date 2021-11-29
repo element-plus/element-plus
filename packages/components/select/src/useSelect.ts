@@ -13,7 +13,7 @@ import lodashDebounce from 'lodash/debounce'
 import isEqual from 'lodash/isEqual'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import isServer from '@element-plus/utils/isServer'
 import scrollIntoView from '@element-plus/utils/scroll-into-view'
 import { isKorean } from '@element-plus/utils/isDef'
@@ -24,7 +24,7 @@ import type { QueryChangeCtx, SelectOptionProxy } from './token'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 
 export function useSelectStates(props) {
-  const { t } = useLocaleInject()
+  const { t } = useLocale()
   return reactive({
     options: new Map(),
     cachedOptions: new Map(),
@@ -57,7 +57,7 @@ type States = ReturnType<typeof useSelectStates>
 
 export const useSelect = (props, states: States, ctx) => {
   const ELEMENT = useGlobalConfig()
-  const { t } = useLocaleInject()
+  const { t } = useLocale()
 
   // template refs
   const reference = ref(null)

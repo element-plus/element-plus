@@ -222,7 +222,7 @@ import {
   computed,
 } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
-import { useFocus, useLocaleInject } from '@element-plus/hooks'
+import { useFocus, useLocale } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import ElPopper, { Effect } from '@element-plus/components/popper'
 import ElScrollbar from '@element-plus/components/scrollbar'
@@ -331,7 +331,7 @@ export default defineComponent({
   ],
 
   setup(props, ctx) {
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
     const states = useSelectStates(props)
     const {
       optionsArray,

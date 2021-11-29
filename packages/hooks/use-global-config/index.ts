@@ -8,6 +8,5 @@ const defaultConfig: ConfigProvdierContext = {
   },
 }
 
-export const useGlobalConfig = () => {
-  return inject(configProviderContextKey, defaultConfig)
-}
+export const useGlobalConfig = () =>
+  inject(configProviderContextKey, defaultConfig)
