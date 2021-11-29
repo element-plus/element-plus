@@ -98,6 +98,8 @@
           <el-button
             v-show="showConfirmButton"
             ref="confirmRef"
+            type="primary"
+            plain
             :loading="confirmButtonLoading"
             :class="[confirmButtonClasses]"
             :round="roundButton"
@@ -265,9 +267,7 @@ export default defineComponent({
     const inputRef = ref<ComponentPublicInstance>(null)
     const confirmRef = ref<ComponentPublicInstance>(null)
 
-    const confirmButtonClasses = computed(
-      () => `el-button--primary ${state.confirmButtonClass}`
-    )
+    const confirmButtonClasses = computed(() => state.confirmButtonClass)
 
     watch(
       () => state.inputValue,
