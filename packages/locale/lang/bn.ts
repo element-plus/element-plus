@@ -1,3 +1,4 @@
+import bn from 'dayjs/locale/bn'
 export default {
   name: 'bn',
   el: {
@@ -119,5 +120,6 @@ export default {
       confirmButtonText: 'হ্যা',
       cancelButtonText: 'না',
     },
+    locale: bn,
   },
 }

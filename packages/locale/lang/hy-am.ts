@@ -1,3 +1,4 @@
+import hyAm from 'dayjs/locale/hy-am'
 export default {
   name: 'hy-am',
   el: {
@@ -117,5 +118,6 @@ export default {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
     },
+    locale: hyAm,
   },
 }

@@ -1,3 +1,4 @@
+import nb from 'dayjs/locale/nb'
 export default {
   name: 'nb-no',
   el: {
@@ -116,5 +117,6 @@ export default {
       confirmButtonText: 'Ja',
       cancelButtonText: 'Nei',
     },
+    locale: nb,
   },
 }

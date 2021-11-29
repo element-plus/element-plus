@@ -1,3 +1,4 @@
+import nl from 'dayjs/locale/nl'
 export default {
   name: 'nl',
   el: {
@@ -117,5 +118,6 @@ export default {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
     },
+    locale: nl,
   },
 }

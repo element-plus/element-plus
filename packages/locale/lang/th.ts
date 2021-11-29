@@ -1,3 +1,4 @@
+import th from 'dayjs/locale/th'
 export default {
   name: 'th',
   el: {
@@ -117,5 +118,6 @@ export default {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
     },
+    locale: th,
   },
 }

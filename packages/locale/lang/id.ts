@@ -1,3 +1,4 @@
+import id from 'dayjs/locale/id'
 export default {
   name: 'id',
   el: {
@@ -117,5 +118,6 @@ export default {
       confirmButtonText: 'Ya',
       cancelButtonText: 'Tidak',
     },
+    locale: id,
   },
 }

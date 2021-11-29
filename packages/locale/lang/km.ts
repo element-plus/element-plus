@@ -1,3 +1,4 @@
+import km from 'dayjs/locale/km'
 export default {
   name: 'km',
   el: {
@@ -117,5 +118,6 @@ export default {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
     },
+    locale: km,
   },
 }

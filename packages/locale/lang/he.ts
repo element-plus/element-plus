@@ -1,3 +1,4 @@
+import he from 'dayjs/locale/he'
 export default {
   name: 'he',
   el: {
@@ -117,5 +118,6 @@ export default {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
     },
+    locale: he,
   },
 }

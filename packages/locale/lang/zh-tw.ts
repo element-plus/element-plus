@@ -1,3 +1,4 @@
+import zhTw from 'dayjs/locale/zh-tw'
 export default {
   name: 'zh-tw',
   el: {
@@ -117,5 +118,6 @@ export default {
       confirmButtonText: '確認',
       cancelButtonText: '取消',
     },
+    locale: zhTw,
   },
 }

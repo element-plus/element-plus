@@ -1,3 +1,4 @@
+import ru from 'dayjs/locale/ru'
 export default {
   name: 'ru',
   el: {
@@ -117,5 +118,6 @@ export default {
       confirmButtonText: 'OK',
       cancelButtonText: 'Отмена',
     },
+    locale: ru,
   },
 }

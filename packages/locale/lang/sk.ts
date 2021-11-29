@@ -1,3 +1,4 @@
+import sk from 'dayjs/locale/sk'
 export default {
   name: 'sk',
   el: {
@@ -119,5 +120,6 @@ export default {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
     },
+    locale: sk,
   },
 }

@@ -1,3 +1,4 @@
+import tk from 'dayjs/locale/tk'
 export default {
   name: 'tk',
   el: {
@@ -117,5 +118,6 @@ export default {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
     },
+    locale: tk,
   },
 }

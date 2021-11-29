@@ -1,3 +1,4 @@
+import tr from 'dayjs/locale/tr'
 export default {
   name: 'tr',
   el: {
@@ -117,5 +118,6 @@ export default {
       confirmButtonText: 'Evet',
       cancelButtonText: 'Hayır',
     },
+    locale: tr,
   },
 }

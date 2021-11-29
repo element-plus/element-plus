@@ -1,3 +1,4 @@
+import ta from 'dayjs/locale/ta'
 export default {
   name: 'ta',
   el: {
@@ -116,5 +117,6 @@ export default {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
     },
+    locale: ta,
   },
 }

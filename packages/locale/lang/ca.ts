@@ -1,3 +1,4 @@
+import ca from 'dayjs/locale/ca'
 export default {
   name: 'ca',
   el: {
@@ -116,5 +117,6 @@ export default {
       confirmButtonText: 'Si',
       cancelButtonText: 'No',
     },
+    locale: ca,
   },
 }

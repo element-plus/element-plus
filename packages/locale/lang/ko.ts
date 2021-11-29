@@ -1,3 +1,4 @@
+import ko from 'dayjs/locale/ko'
 export default {
   name: 'ko',
   el: {
@@ -117,5 +118,6 @@ export default {
       confirmButtonText: '예',
       cancelButtonText: '아니오',
     },
+    locale: ko,
   },
 }

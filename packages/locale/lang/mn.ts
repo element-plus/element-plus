@@ -1,3 +1,4 @@
+import mn from 'dayjs/locale/mn'
 export default {
   name: 'mn',
   el: {
@@ -117,5 +118,6 @@ export default {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
     },
+    locale: mn,
   },
 }

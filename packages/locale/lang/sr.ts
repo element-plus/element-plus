@@ -1,3 +1,4 @@
+import sr from 'dayjs/locale/sr'
 export default {
   name: 'sr',
   el: {
@@ -117,5 +118,6 @@ export default {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
     },
+    locale: sr,
   },
 }

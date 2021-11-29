@@ -1,3 +1,4 @@
+import hu from 'dayjs/locale/hu'
 export default {
   name: 'hu',
   el: {
@@ -116,5 +117,6 @@ export default {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
     },
+    locale: hu,
   },
 }

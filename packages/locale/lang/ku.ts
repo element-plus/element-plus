@@ -1,3 +1,4 @@
+import ku from 'dayjs/locale/ku'
 export default {
   name: 'ku',
   el: {
@@ -117,5 +118,6 @@ export default {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
     },
+    locale: ku,
   },
 }

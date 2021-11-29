@@ -1,3 +1,4 @@
+import eo from 'dayjs/locale/eo'
 export default {
   name: 'eo',
   el: {
@@ -117,5 +118,6 @@ export default {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
     },
+    locale: eo,
   },
 }

@@ -1,3 +1,4 @@
+import ugCn from 'dayjs/locale/ug-cn'
 export default {
   name: 'ug-cn',
   el: {
@@ -117,5 +118,6 @@ export default {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
     },
+    locale: ugCn,
   },
 }

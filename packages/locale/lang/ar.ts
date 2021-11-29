@@ -1,3 +1,4 @@
+import ar from 'dayjs/locale/ar'
 export default {
   name: 'ar',
   el: {
@@ -116,5 +117,6 @@ export default {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
     },
+    locale: ar,
   },
 }

@@ -1,3 +1,4 @@
+import vi from 'dayjs/locale/vi'
 export default {
   name: 'vi',
   el: {
@@ -117,5 +118,6 @@ export default {
       confirmButtonText: 'Ok',
       cancelButtonText: 'Huỷ',
     },
+    locale: vi,
   },
 }

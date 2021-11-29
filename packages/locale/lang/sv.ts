@@ -1,3 +1,4 @@
+import sv from 'dayjs/locale/sv'
 export default {
   name: 'sv',
   el: {
@@ -117,5 +118,6 @@ export default {
       confirmButtonText: 'Ja',
       cancelButtonText: 'Nej',
     },
+    locale: sv,
   },
 }

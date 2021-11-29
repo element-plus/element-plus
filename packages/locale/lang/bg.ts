@@ -1,3 +1,4 @@
+import bg from 'dayjs/locale/bg'
 export default {
   name: 'bg',
   el: {
@@ -117,5 +118,6 @@ export default {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
     },
+    locale: bg,
   },
 }

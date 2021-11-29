@@ -1,3 +1,4 @@
+import ro from 'dayjs/locale/ro'
 export default {
   name: 'ro',
   el: {
@@ -117,5 +118,6 @@ export default {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
     },
+    locale: ro,
   },
 }

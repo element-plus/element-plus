@@ -1,3 +1,4 @@
+import ja from 'dayjs/locale/ja'
 export default {
   name: 'ja',
   el: {
@@ -117,5 +118,6 @@ export default {
       confirmButtonText: 'はい',
       cancelButtonText: 'いいえ',
     },
+    locale: ja,
   },
 }

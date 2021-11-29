@@ -1,3 +1,4 @@
+import kk from 'dayjs/locale/kk'
 export default {
   name: 'kk',
   el: {
@@ -117,5 +118,6 @@ export default {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
     },
+    locale: kk,
   },
 }

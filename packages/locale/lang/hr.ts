@@ -1,3 +1,4 @@
+import hr from 'dayjs/locale/hr'
 export default {
   name: 'hr',
   el: {
@@ -117,5 +118,6 @@ export default {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
     },
+    locale: hr,
   },
 }

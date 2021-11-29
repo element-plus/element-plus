@@ -1,3 +1,4 @@
+import sl from 'dayjs/locale/sl'
 export default {
   name: 'sl',
   el: {
@@ -117,5 +118,6 @@ export default {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
     },
+    locale: sl,
   },
 }

@@ -1,3 +1,4 @@
+import fi from 'dayjs/locale/fi'
 export default {
   name: 'fi',
   el: {
@@ -117,5 +118,6 @@ export default {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
     },
+    locale: fi,
   },
 }

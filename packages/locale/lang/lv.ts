@@ -1,3 +1,4 @@
+import lv from 'dayjs/locale/lv'
 export default {
   name: 'lv',
   el: {
@@ -117,5 +118,6 @@ export default {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
     },
+    locale: lv,
   },
 }
