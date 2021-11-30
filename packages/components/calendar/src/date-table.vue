@@ -8,7 +8,9 @@
     cellpadding="0"
   >
     <thead v-if="!hideHeader">
-      <th v-for="day in weekDays" :key="day">{{ day }}</th>
+      <th v-for="day in weekDays" :key="day">
+        {{ t('el.datepicker.weeks.' + day) }}
+      </th>
     </thead>
     <tbody>
       <tr
@@ -73,10 +75,8 @@ export default defineComponent({
   },
   emits: ['pick'],
   setup(props, ctx) {
-    const { lang } = useLocale()
-    const WEEK_DAYS = ref(
-      dayjs().locale(lang.value).localeData().weekdaysShort()
-    )
+    const { t, lang } = useLocale()
+    const WEEK_DAYS = ref(dayjs().locale('en').localeData().weekdaysShort())
 
     const now = dayjs().locale(lang.value)
 
@@ -180,11 +180,12 @@ export default defineComponent({
       const start = firstDayOfWeek
 
       if (start === 0) {
-        return WEEK_DAYS.value
+        return WEEK_DAYS.value.map((_) => _.toLowerCase())
       } else {
         return WEEK_DAYS.value
           .slice(start)
           .concat(WEEK_DAYS.value.slice(0, start))
+          .map((_) => _.toLowerCase())
       }
     })
 
@@ -195,6 +196,7 @@ export default defineComponent({
       getCellClass,
       pickDay,
       getSlotData,
+      t,
     }
   },
 })
