@@ -44,7 +44,7 @@ export type Indexable<T> = {
 
 export type Hash<T> = Indexable<T>
 
-export type TimeoutHandle = ReturnType<typeof global.setTimeout>
+export type TimeoutHandle = number
 
 export type ComponentSize = 'large' | 'medium' | 'small' | 'mini'
 
