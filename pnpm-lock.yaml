@@ -64,7 +64,7 @@ importers:
       rollup-plugin-esbuild: 4.7.2
       rollup-plugin-filesize: 9.1.1
       rollup-plugin-vue: 6.0.0
-      sass: 1.43.5
+      sass: 1.44.0
       sucrase: 3.20.3
       through2: 4.0.2
       ts-jest: 26.5.6
@@ -136,7 +136,7 @@ importers:
       rollup-plugin-esbuild: 4.7.2_esbuild@0.14.0+rollup@2.60.2
       rollup-plugin-filesize: 9.1.1
       rollup-plugin-vue: 6.0.0_@vue+compiler-sfc@3.2.22
-      sass: 1.43.5
+      sass: 1.44.0
       sucrase: 3.20.3
       through2: 4.0.2
       ts-jest: 26.5.6_jest@26.6.3+typescript@4.5.2
@@ -176,7 +176,7 @@ importers:
       markdown-it: 12.2.0
       markdown-it-container: 3.0.0
       vite-plugin-inspect: 0.3.11
-      vitepress: 0.18.1_sass@1.43.5
+      vitepress: 0.18.1_sass@1.44.0
 
   packages/components:
     specifiers: {}
@@ -258,7 +258,7 @@ importers:
     devDependencies:
       '@vitejs/plugin-vue': 1.10.1_vite@2.6.14
       unplugin-vue-components: 0.17.2_3889301b3bc22241e4bbf4b4b434dbcb
-      vite: 2.6.14_sass@1.43.5
+      vite: 2.6.14_sass@1.44.0
       vite-plugin-inspect: 0.3.11_vite@2.6.14
 
 packages:
@@ -1974,7 +1974,7 @@ packages:
     peerDependencies:
       vite: ^2.5.10
     dependencies:
-      vite: 2.6.14_sass@1.43.5
+      vite: 2.6.14_sass@1.44.0
     dev: true
 
   /@vitejs/plugin-vue/1.9.3_vite@2.6.10:
@@ -1983,7 +1983,7 @@ packages:
     peerDependencies:
       vite: ^2.5.10
     dependencies:
-      vite: 2.6.10_sass@1.43.5
+      vite: 2.6.10_sass@1.44.0
     dev: true
 
   /@volar/code-gen/0.29.8:
@@ -5915,6 +5915,10 @@ packages:
     engines: {node: '>= 4'}
     dev: true
 
+  /immutable/4.0.0:
+    resolution: {integrity: sha512-zIE9hX70qew5qTUjSS7wi1iwj/l7+m54KWU247nhM3v806UdGj1yDndXj+IOYxxtW9zyLI+xqFNZjTuDaLUqFw==}
+    dev: true
+
   /import-fresh/3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -9246,12 +9250,13 @@ packages:
       walker: 1.0.7
     dev: true
 
-  /sass/1.43.5:
-    resolution: {integrity: sha512-WuNm+eAryMgQluL7Mbq9M4EruyGGMyal7Lu58FfnRMVWxgUzIvI7aSn60iNt3kn5yZBMR7G84fAGDcwqOF5JOg==}
+  /sass/1.44.0:
+    resolution: {integrity: sha512-0hLREbHFXGQqls/K8X+koeP+ogFRPF4ZqetVB19b7Cst9Er8cOR0rc6RU7MaI4W1JmUShd1BPgPoeqmmgMMYFw==}
     engines: {node: '>=8.9.0'}
     hasBin: true
     dependencies:
       chokidar: 3.5.2
+      immutable: 4.0.0
     dev: true
 
   /saxes/5.0.1:
@@ -10360,7 +10365,7 @@ packages:
         optional: true
     dependencies:
       rollup: 2.60.2
-      vite: 2.6.14_sass@1.43.5
+      vite: 2.6.14_sass@1.44.0
       webpack-virtual-modules: 0.4.3
     dev: true
 
@@ -10540,12 +10545,12 @@ packages:
       debug: 4.3.2
       sirv: 1.0.17
       ufo: 0.7.9
-      vite: 2.6.14_sass@1.43.5
+      vite: 2.6.14_sass@1.44.0
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /vite/2.6.10_sass@1.43.5:
+  /vite/2.6.10_sass@1.44.0:
     resolution: {integrity: sha512-XbevwpDJMs3lKiGEj0UQScsOCpwHIjFgfzPnFVkPgnxsF9oPv1uGyckLg58XkXv6LnO46KN9yZqJzINFmAxtUg==}
     engines: {node: '>=12.2.0'}
     hasBin: true
@@ -10565,12 +10570,12 @@ packages:
       postcss: 8.3.11
       resolve: 1.20.0
       rollup: 2.58.3
-      sass: 1.43.5
+      sass: 1.44.0
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
 
-  /vite/2.6.14_sass@1.43.5:
+  /vite/2.6.14_sass@1.44.0:
     resolution: {integrity: sha512-2HA9xGyi+EhY2MXo0+A2dRsqsAG3eFNEVIo12olkWhOmc8LfiM+eMdrXf+Ruje9gdXgvSqjLI9freec1RUM5EA==}
     engines: {node: '>=12.2.0'}
     hasBin: true
@@ -10590,12 +10595,12 @@ packages:
       postcss: 8.3.11
       resolve: 1.20.0
       rollup: 2.59.0
-      sass: 1.43.5
+      sass: 1.44.0
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
 
-  /vitepress/0.18.1_sass@1.43.5:
+  /vitepress/0.18.1_sass@1.44.0:
     resolution: {integrity: sha512-uUY0N8pgiGDkrdzDPI4OeCke6J7c3l17lqsQZzcGvxxHlN6qHWR4EJ4usII91UZIlpBwZymh5kKI12mr3+KG1Q==}
     engines: {node: '>=12.0.0'}
     hasBin: true
@@ -10625,7 +10630,7 @@ packages:
       polka: 0.5.2
       prismjs: 1.25.0
       sirv: 1.0.17
-      vite: 2.6.10_sass@1.43.5
+      vite: 2.6.10_sass@1.44.0
       vue: 3.2.22
     transitivePeerDependencies:
       - less
