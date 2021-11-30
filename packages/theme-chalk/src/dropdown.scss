@@ -112,6 +112,8 @@
   box-shadow: none;
 
   @include e(item) {
+    display: flex;
+    align-items: center;
     list-style: none;
     line-height: 36px;
     padding: 0 20px;
