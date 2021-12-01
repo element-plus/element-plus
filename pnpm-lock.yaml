@@ -166,7 +166,7 @@ importers:
       '@vueuse/core': 7.1.2_vue@3.2.23
       axios: 0.24.0
       clipboard-copy: 4.0.1
-      element-plus: 1.2.0-beta.4_vue@3.2.23
+      element-plus: 1.2.0-beta.5_vue@3.2.23
       normalize.css: 8.0.1
       nprogress: 0.2.0
     devDependencies:
@@ -3964,8 +3964,8 @@ packages:
     resolution: {integrity: sha512-2jtSwgyiRzybHRxrc2nKI+39wH3AwQgn+sogQ+q814gv8hIFwrcZbV07Ea9f8AmK0ufPVZUvvAG1uZJ+obV4Jw==}
     dev: true
 
-  /element-plus/1.2.0-beta.4_vue@3.2.23:
-    resolution: {integrity: sha512-wYOwa/Zop5xMqhqkS7jOd32FF0Y2IpquIu8JLMbmvwlWvRUVetE5RO5lvxiF6etZgq8urRVttisXnOzJ9YOItQ==}
+  /element-plus/1.2.0-beta.5_vue@3.2.23:
+    resolution: {integrity: sha512-8KNGsNZ6RjVJ7kmxq/WLeTBMhVxSjfaGdW2QdcdXz4km1MgxbyBfdiNGVQG4XH/n+hbtLFldCPw0mVT4vkncuA==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
