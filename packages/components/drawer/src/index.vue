@@ -67,7 +67,7 @@ import {
 } from '@element-plus/components/dialog'
 import ElIcon from '@element-plus/components/icon'
 import { TrapFocus } from '@element-plus/directives'
-import { Close } from '@element-plus/icons'
+import { Close } from '@element-plus/icons-vue'
 
 import type { PropType, SetupContext } from 'vue'
 

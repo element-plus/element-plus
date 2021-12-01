@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Check } from '@element-plus/icons'
+import { Check } from '@element-plus/icons-vue'
 </script>
 
 <style lang="scss" scoped>

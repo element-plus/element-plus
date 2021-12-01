@@ -21,7 +21,7 @@ import {
 import { getValueByPath, useGlobalConfig } from '@element-plus/utils/util'
 import { Effect } from '@element-plus/components/popper'
 
-import { ArrowUp } from '@element-plus/icons'
+import { ArrowUp } from '@element-plus/icons-vue'
 import { useAllowCreate } from './useAllowCreate'
 
 import { flattenOptions } from './util'

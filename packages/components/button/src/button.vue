@@ -40,7 +40,7 @@ import { useCssVar } from '@vueuse/core'
 import { ElIcon } from '@element-plus/components/icon'
 import { useFormItem, useGlobalConfig } from '@element-plus/hooks'
 import { buttonGroupContextKey } from '@element-plus/tokens'
-import { Loading } from '@element-plus/icons'
+import { Loading } from '@element-plus/icons-vue'
 
 import { lighten, darken } from '@element-plus/utils/color'
 
