@@ -495,8 +495,9 @@ export default defineComponent({
         return
       }
 
-      if (code === EVENT_CODE.enter) {
+      if (code === EVENT_CODE.enter || code === EVENT_CODE.numpadEnter) {
         if (
+          userInput.value === null ||
           userInput.value === '' ||
           isValidValue(parseUserInputToDayjs(displayValue.value))
         ) {
