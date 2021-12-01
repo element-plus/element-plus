@@ -1,5 +1,4 @@
 import { computed, getCurrentInstance, inject, provide, ref, unref } from 'vue'
-import get from 'lodash/get'
 import English from '@element-plus/locale/lang/en'
 import { buildProps, definePropType } from '@element-plus/utils/props'
 import type { MaybeRef } from '@vueuse/core'
@@ -12,11 +11,35 @@ export const useLocaleProps = buildProps({
   },
 })
 
-export type Translator = (path: string) => string
+export type Translator = (path: string, option?: Record<string, any>) => string
 export type LocaleContext = {
   locale: Ref<Language>
   lang: Ref<string>
   t: Translator
+}
+
+function template(str: string, option?: Record<string, any>) {
+  if (!str || !option) return str
+  return str.replace(/\{(\w+)\}/g, (_, key) => {
+    return option[key]
+  })
+}
+
+const defaultTranslator = (
+  locale: Language,
+  path: string,
+  option?: Record<string, any>
+) => {
+  let value
+  const array = path.split('.')
+  let current = locale
+  for (let i = 0, j = array.length; i < j; i++) {
+    const property = array[i]
+    value = current[property]
+    if (i === j - 1) return template(value, option)
+    if (!value) return ''
+    current = value
+  }
 }
 
 export const localeContextKey: InjectionKey<LocaleContext> =
@@ -57,11 +80,14 @@ export const provideLocale = () => {
 
 export const buildTranslator =
   (locale: MaybeRef<Language>): Translator =>
-  (path) =>
-    translate(path, unref(locale))
+  (path: string, option?: Record<string, any>) =>
+    translate(path, unref(locale), option)
 
-export const translate = (path: string, locale: Language): string =>
-  get(locale, path, '')
+export const translate = (
+  path: string,
+  locale: Language,
+  option?: Record<string, any>
+): string => defaultTranslator(locale, path, option)!
 
 export const localeProviderMaker = (locale = English) => {
   const lang = ref(locale.name)
