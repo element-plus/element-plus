@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import localeData from 'dayjs/plugin/localeData'
 import { useLocale } from '@element-plus/hooks'
@@ -73,16 +73,12 @@ export default defineComponent({
   },
   emits: ['pick'],
   setup(props, ctx) {
-    const { lang } = useLocale()
-    const WEEK_DAYS = ref(
-      dayjs().locale(lang.value).localeData().weekdaysShort()
-    )
+    const { t, lang } = useLocale()
+    const WEEK_DAYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
 
     const now = dayjs().locale(lang.value)
-
     // todo better way to get Day.js locale object
     const firstDayOfWeek = (now as any).$locale().weekStart || 0
-
     const toNestedArr = (days) => {
       return rangeArr(days.length / 7).map((_, index) => {
         const start = index * 7
@@ -178,13 +174,12 @@ export default defineComponent({
 
     const weekDays = computed(() => {
       const start = firstDayOfWeek
-
       if (start === 0) {
-        return WEEK_DAYS.value
+        return WEEK_DAYS.map((_) => t(`el.datepicker.weeks.${_}`))
       } else {
-        return WEEK_DAYS.value
-          .slice(start)
-          .concat(WEEK_DAYS.value.slice(0, start))
+        return WEEK_DAYS.slice(start)
+          .concat(WEEK_DAYS.slice(0, start))
+          .map((_) => t(`el.datepicker.weeks.${_}`))
       }
     })
 
