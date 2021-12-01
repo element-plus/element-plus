@@ -7,7 +7,7 @@
   @include m(simple) {
     padding: 13px 8%;
     border-radius: 4px;
-    background: $background-color-base;
+    background: var(--el-bg-color);
   }
 
   @include m(horizontal) {

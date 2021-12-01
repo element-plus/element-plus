@@ -226,7 +226,7 @@
       padding: 15px;
     }
     > .#{$namespace}-tabs__header {
-      background-color: $background-color-base;
+      background-color: var(--el-bg-color);
       border-bottom: 1px solid var(--el-border-color-light);
       margin: 0;
     }
