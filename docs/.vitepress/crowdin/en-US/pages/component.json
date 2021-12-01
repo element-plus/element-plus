@@ -3,12 +3,12 @@
     "text": "Basic",
     "children": [
       {
-        "link": "/border",
-        "text": "Border"
-      },
-      {
         "link": "/button",
         "text": "Button"
+      },
+      {
+        "link": "/border",
+        "text": "Border"
       },
       {
         "link": "/color",

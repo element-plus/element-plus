@@ -147,10 +147,7 @@ export default defineComponent({
           stopResizeObserver?.()
           stopResizeListener?.()
         } else {
-          ;({ stop: stopResizeObserver } = useResizeObserver(
-            resize$.value,
-            update
-          ))
+          ;({ stop: stopResizeObserver } = useResizeObserver(resize$, update))
           stopResizeListener = useEventListener('resize', update)
         }
       },

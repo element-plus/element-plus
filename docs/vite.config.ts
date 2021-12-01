@@ -33,6 +33,7 @@ export default defineConfig({
   optimizeDeps: {
     include: [
       'vue',
+      'markdown-it',
       'clipboard-copy',
       '@vueuse/core',
       'axios',

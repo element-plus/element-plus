@@ -263,6 +263,10 @@
         padding-right: 55px;
       }
     }
+
+    .#{$namespace}-input__inner {
+      padding-right: 30px;
+    }
   }
 
   @include m(prefix) {

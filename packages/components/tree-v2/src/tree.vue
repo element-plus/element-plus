@@ -43,7 +43,7 @@
 
 <script lang="ts">
 import { defineComponent, getCurrentInstance, provide } from 'vue'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import { FixedSizeList } from '@element-plus/components/virtual-list'
 import { useTree } from './composables/useTree'
 import ElTreeNode from './tree-node.vue'
@@ -64,7 +64,7 @@ export default defineComponent({
       props,
       instance: getCurrentInstance(),
     })
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
     const {
       flattenTree,
       isNotEmpty,

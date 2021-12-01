@@ -45,7 +45,7 @@
 import { defineComponent, computed, ref, onMounted, watch, nextTick } from 'vue'
 import { isString } from '@vue/shared'
 import { useEventListener, useThrottleFn } from '@vueuse/core'
-import { useAttrs, useLocaleInject } from '@element-plus/hooks'
+import { useAttrs, useLocale } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
 import isServer from '@element-plus/utils/isServer'
 import { getScrollContainer, isInContainer } from '@element-plus/utils/dom'
@@ -69,7 +69,7 @@ export default defineComponent({
   emits: imageEmits,
 
   setup(props, { emit, attrs: rawAttrs }) {
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
 
     const attrs = useAttrs()
     const hasLoadError = ref(false)

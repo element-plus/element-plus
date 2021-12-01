@@ -19,7 +19,7 @@
 import { defineComponent } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import { pageHeaderEmits, pageHeaderProps } from './page-header'
 
 export default defineComponent({
@@ -33,7 +33,7 @@ export default defineComponent({
   emits: pageHeaderEmits,
 
   setup(_, { emit }) {
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
 
     function handleClick() {
       emit('back')
