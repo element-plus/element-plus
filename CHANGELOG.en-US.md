@@ -1,5 +1,29 @@
 ## Changelog
 
+### 1.2.0-beta.5
+
+_2021-12-01_
+
+#### Features
+
+- Docs add auto import and update icon (#4554 by @sxzz)
+
+#### Bug fixes
+
+- Components confirm button style when in message-box (#4564 by @YunYouJun)
+- Style input inner padding right when has suffix (#4574 by @YunYouJun)
+- Components [ElMenu] the collapsible menu switch will disappear (#4575 by @emojiiii)
+- Components [ElScrollbar] fix useResizeObserver watch undefined (#4576 by @emojiiii)
+- Components [el-tag] icon-center (#4438 by @Alanscut)
+- Components [el-dropdown] icon vertical center (#4431 by @Alanscut)
+- Utils setTimeout & config-provider type (#4598 by @sxzz)
+
+#### Refactors
+
+- Hooks refactor hooks (#4253 by @sxzz)
+- Improvement(components): [el-cascader-panel] unref store (#4544 by @btea)
+- Update item.vue (#4555 by @yonghui-wang)
+
 ### 1.2.0-beta.4
 
 _2021-11-27_
