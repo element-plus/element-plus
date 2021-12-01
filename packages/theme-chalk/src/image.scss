@@ -12,17 +12,17 @@
   overflow: hidden;
 
   @include e(inner) {
-    @extend %size;
+    @extend %size !optional;
     vertical-align: top;
   }
 
   @include e(placeholder) {
-    @extend %size;
+    @extend %size !optional;
     background: $background-color-base;
   }
 
   @include e(error) {
-    @extend %size;
+    @extend %size !optional;
     display: flex;
     justify-content: center;
     align-items: center;
