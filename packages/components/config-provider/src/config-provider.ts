@@ -9,7 +9,7 @@ export const configProviderProps = {
     type: definePropType<ButtonConfigContext>(Object),
     default: () => {
       return mutable({
-        autoInsertSpace: true,
+        autoInsertSpace: false,
       } as const)
     },
   }),
