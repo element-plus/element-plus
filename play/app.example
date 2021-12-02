@@ -1,10 +1,10 @@
 <template>
   <div class="play-container">
     <el-icon color="#409EFC">
-      <CheckIcon />
+      <check-icon />
     </el-icon>
     <el-icon>
-      <MenuIcon />
+      <menu-icon />
     </el-icon>
     <el-button>test</el-button>
     <div v-loading="true"></div>
