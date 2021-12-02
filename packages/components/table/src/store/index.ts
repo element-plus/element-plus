@@ -149,8 +149,8 @@ function useStore<T>() {
         states.sortingColumn.value = null
         states.sortProp.value = null
       }
-      const ingore = { filter: true }
-      instance.store.execQuery(ingore)
+      const ignore = { filter: true }
+      instance.store.execQuery(ignore)
 
       if (!options || !(options.silent || options.init)) {
         instance.emit('sort-change', {
