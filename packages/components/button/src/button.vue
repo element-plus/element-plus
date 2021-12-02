@@ -90,7 +90,9 @@ export default defineComponent({
     )
 
     // calculate hover & active color by color
-    const typeColor = useCssVar(`--el-color-${props.type}`)
+    const typeColor = computed(
+      () => useCssVar(`--el-color-${props.type}`).value
+    )
     const buttonStyle = computed(() => {
       let styles = {}
 
