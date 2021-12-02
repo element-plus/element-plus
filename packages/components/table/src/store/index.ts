@@ -142,7 +142,10 @@ function useStore<T>() {
     changeSortCondition(states: StoreStates, options: Sort) {
       // 修复 pr https://github.com/ElemeFE/element/pull/15012 导致的 bug
       const { sortingColumn: column, sortProp: prop, sortOrder: order } = states
-      if (unref(order) === null) {
+      const columValue = unref(column),
+        propValue = unref(prop),
+        orderValue = unref(order)
+      if (orderValue === null) {
         states.sortingColumn.value = null
         states.sortProp.value = null
       }
@@ -151,9 +154,9 @@ function useStore<T>() {
 
       if (!options || !(options.silent || options.init)) {
         instance.emit('sort-change', {
-          column: unref(column),
-          prop: unref(prop),
-          order: unref(order),
+          column: columValue,
+          prop: propValue,
+          order: orderValue,
         })
       }
 
@@ -206,11 +209,13 @@ function useStore<T>() {
     updateTableScrollY,
   }
 }
+
 export default useStore
 
 class HelperStore<T> {
   Return = useStore<T>()
 }
+
 type StoreFilter = Record<string, string[]>
 type Store<T> = HelperStore<T>['Return']
 export type { WatcherPropsData, Store, StoreFilter }
