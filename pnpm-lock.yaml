@@ -15,7 +15,7 @@ importers:
       '@element-plus/theme-chalk': workspace:*
       '@element-plus/tokens': workspace:*
       '@element-plus/utils': workspace:*
-      '@pnpm/find-workspace-packages': 3.1.27
+      '@pnpm/find-workspace-packages': 3.1.28
       '@pnpm/logger': 4.0.0
       '@pnpm/types': 7.6.0
       '@popperjs/core': ^2.10.2
@@ -94,7 +94,7 @@ importers:
     devDependencies:
       '@commitlint/cli': 15.0.0
       '@commitlint/config-conventional': 15.0.0
-      '@pnpm/find-workspace-packages': 3.1.27_@pnpm+logger@4.0.0
+      '@pnpm/find-workspace-packages': 3.1.28_@pnpm+logger@4.0.0
       '@pnpm/logger': 4.0.0
       '@pnpm/types': 7.6.0
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.60.2
@@ -1291,15 +1291,15 @@ packages:
       load-json-file: 6.2.0
     dev: true
 
-  /@pnpm/cli-utils/0.6.35_@pnpm+logger@4.0.0:
-    resolution: {integrity: sha512-f8m+0GY7q/4GQ6Lc7AVK/SvS/ssZ1fF/NsscaeNpZOJERAE7aNB5ZfSLPrQHMSrVlMkmD/gasLECxhXtmR6srA==}
+  /@pnpm/cli-utils/0.6.36_@pnpm+logger@4.0.0:
+    resolution: {integrity: sha512-TlJc7xIkEnRPyhr0ENaLgZ4R5EoTYUMTf89W+7oUWmGqXJYoKv8rwdoD2AqbtinQV8naNnLwaHdjnC95fMY/nw==}
     engines: {node: '>=12.17'}
     peerDependencies:
       '@pnpm/logger': ^4.0.0
     dependencies:
       '@pnpm/cli-meta': 2.0.0
-      '@pnpm/config': 13.6.0_@pnpm+logger@4.0.0
-      '@pnpm/default-reporter': 8.4.1_@pnpm+logger@4.0.0
+      '@pnpm/config': 13.6.1_@pnpm+logger@4.0.0
+      '@pnpm/default-reporter': 8.4.2_@pnpm+logger@4.0.0
       '@pnpm/error': 2.0.0
       '@pnpm/logger': 4.0.0
       '@pnpm/manifest-utils': 2.1.2_@pnpm+logger@4.0.0
@@ -1309,8 +1309,8 @@ packages:
       load-json-file: 6.2.0
     dev: true
 
-  /@pnpm/config/13.6.0_@pnpm+logger@4.0.0:
-    resolution: {integrity: sha512-XPiDJn5ULE7Evu49yh4NvZW8xPUoGnprgSsDVHr0F5QgT2R+f1DW5pu3dDsJW+u6z+mbeeZU/N6jIGAtogc3AA==}
+  /@pnpm/config/13.6.1_@pnpm+logger@4.0.0:
+    resolution: {integrity: sha512-8FDPce6DxVvso3mkbqhUVMV74Itzl4osIknWSlzmV+Y/tBBlCwRDgyuRrXtRFbZ0y8qiuA2r1XrB8+PWgjjR5Q==}
     engines: {node: '>=12.17'}
     dependencies:
       '@pnpm/constants': 5.0.0
@@ -1323,7 +1323,6 @@ packages:
       camelcase: 6.2.0
       can-write-to-dir: 1.1.1
       is-subdir: 1.2.0
-      normalize-registry-url: 2.0.0
       ramda: 0.27.1
       realpath-missing: 1.1.0
       which: 2.0.2
@@ -1346,11 +1345,11 @@ packages:
       '@pnpm/types': 7.6.0
     dev: true
 
-  /@pnpm/default-reporter/8.4.1_@pnpm+logger@4.0.0:
-    resolution: {integrity: sha512-UEQH7M6IIXOocWnLWuGBUrwzJoVwQDzRt5cIE9zN0SvVYs4Uv5RhZECyc1Qmzfg7mS6vYpo8O6mc0QIXPnofwA==}
+  /@pnpm/default-reporter/8.4.2_@pnpm+logger@4.0.0:
+    resolution: {integrity: sha512-1TKnSFfBmn3tZ4L/zYePK3/IawM9TwbxbwaNGNwpL7e3uhHXCFnCXyZiIL6TAzq0CUz7Xwvw+3+ofvPnbTgd6A==}
     engines: {node: '>=12.17'}
     dependencies:
-      '@pnpm/config': 13.6.0_@pnpm+logger@4.0.0
+      '@pnpm/config': 13.6.1_@pnpm+logger@4.0.0
       '@pnpm/core-loggers': 6.0.6_@pnpm+logger@4.0.0
       '@pnpm/error': 2.0.0
       '@pnpm/types': 7.6.0
@@ -1376,11 +1375,11 @@ packages:
     engines: {node: '>=12.17'}
     dev: true
 
-  /@pnpm/find-workspace-packages/3.1.27_@pnpm+logger@4.0.0:
-    resolution: {integrity: sha512-L46i+jfTirfD7N8VnPHnwvwD54Uiysj6dV43mJ/gM2quavbV4E4U7RDzmUoVe09K5Ah4cS0xPrQ5u+RKuc0OyQ==}
+  /@pnpm/find-workspace-packages/3.1.28_@pnpm+logger@4.0.0:
+    resolution: {integrity: sha512-xzqqx721yBKnnq61QumLVTG0nbXVOwxQUpfzxoZM/XQHIFS1HSK7xScgT2pboLagurMxgGy+TERHqCYuLgddPw==}
     engines: {node: '>=12.17'}
     dependencies:
-      '@pnpm/cli-utils': 0.6.35_@pnpm+logger@4.0.0
+      '@pnpm/cli-utils': 0.6.36_@pnpm+logger@4.0.0
       '@pnpm/constants': 5.0.0
       '@pnpm/types': 7.6.0
       find-packages: 8.0.7
@@ -7858,10 +7857,6 @@ packages:
   /normalize-range/0.1.2:
     resolution: {integrity: sha1-LRDAa9/TEuqXd2laTShDlFa3WUI=}
     engines: {node: '>=0.10.0'}
-    dev: true
-
-  /normalize-registry-url/2.0.0:
-    resolution: {integrity: sha512-3e9FwDyRAhbxXw4slm4Tjv40u78yPwMc/WZkACpqNQOs5sM7wic853AeTLkMFEVhivZkclGYlse8iYsklz0Yvg==}
     dev: true
 
   /normalize-wheel-es/1.1.1:
