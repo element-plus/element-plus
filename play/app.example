@@ -1,18 +1,18 @@
 <template>
   <div class="play-container">
     <el-icon color="#409EFC">
-      <check />
+      <CheckIcon />
     </el-icon>
     <el-icon>
       <MenuIcon />
     </el-icon>
-    <ElButton>test</ElButton>
+    <el-button>test</el-button>
     <div v-loading="true"></div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Check, Menu as MenuIcon } from "@element-plus/icons";
+import { Check as CheckIcon, Menu as MenuIcon } from '@element-plus/icons'
 // code here
 </script>
 
