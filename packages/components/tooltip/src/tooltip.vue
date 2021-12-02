@@ -5,6 +5,7 @@
     v-bind="$attrs"
     :show-after="compatShowAfter"
     :show-arrow="compatShowArrow"
+    :hide-after="hideAfter"
     @update:visible="$emit('update:modelValue', modelValue)"
   >
     <template #default>
@@ -37,6 +38,10 @@ export default defineComponent({
     visibleArrow: {
       type: Boolean,
       default: undefined,
+    },
+    hideAfter: {
+      type: Number,
+      default: 200,
     },
   },
   emits: useModelToggleEmits,

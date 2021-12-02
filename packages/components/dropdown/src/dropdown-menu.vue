@@ -1,17 +1,25 @@
 <template>
   <ul
-    v-clickOutside:[triggerElm]="innerHide"
-    :class="[size && `el-dropdown-menu--${size}`]"
-    class="el-dropdown-menu"
-    @mouseenter.stop="show"
-    @mouseleave.stop="hide"
+    ref="dropdownListWrapperRef"
+    role="menu"
+    :class="['el-dropdown-menu', size && `el-dropdown-menu--${size}`]"
+    @keydown="onKeydown"
   >
     <slot></slot>
   </ul>
 </template>
 <script lang="ts">
-import { defineComponent, getCurrentInstance, onMounted } from 'vue'
+import {
+  defineComponent,
+  getCurrentInstance,
+  onMounted,
+  inject,
+  ref,
+} from 'vue'
 import { ClickOutside } from '@element-plus/directives'
+
+import { FOCUS_TRAP_INJECTION_KEY } from '@element-plus/components/focus-trap'
+import { DROPDOWN_INJECTION_KEY } from './tokens'
 import { useDropdown, initDropdownDomEvent } from './useDropdown'
 
 export default defineComponent({
@@ -19,37 +27,24 @@ export default defineComponent({
   directives: {
     ClickOutside,
   },
+  inheritAttrs: false,
   setup() {
     const { _elDropdownSize, elDropdown } = useDropdown()
     const size = _elDropdownSize.value
+    const dropdownListWrapperRef = ref<HTMLElement>()
 
-    function show() {
-      if (['click', 'contextmenu'].includes(elDropdown.trigger.value)) return
-      elDropdown.show?.()
-    }
-    function hide() {
-      if (['click', 'contextmenu'].includes(elDropdown.trigger.value)) return
-      _hide()
-    }
-    function _hide() {
-      elDropdown.hide?.()
-    }
+    const { focusTrapRef, onKeydown } = inject(
+      FOCUS_TRAP_INJECTION_KEY,
+      undefined
+    )!
 
-    onMounted(() => {
-      const dropdownMenu = getCurrentInstance()
-      initDropdownDomEvent(
-        dropdownMenu,
-        elDropdown.triggerElm.value,
-        elDropdown.instance
-      )
-    })
+    const { contentRef } = inject(DROPDOWN_INJECTION_KEY, undefined)!
+    const dropdownMenuVm = getCurrentInstance()!
 
     return {
       size,
-      show,
-      hide,
-      innerHide: _hide,
-      triggerElm: elDropdown.triggerElm,
+      dropdownListWrapperRef,
+      onKeydown,
     }
   },
 })

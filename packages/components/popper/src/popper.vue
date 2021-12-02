@@ -1,20 +1,6 @@
 <template>
   <template v-if="!isVirtualTrigger">
     <trigger
-      v-if="!isControlled"
-      ref="triggerRef"
-      v-click-outside="delayHide"
-      @click="onTriggerClick"
-      @contextmenu="onTriggerContextualMenu"
-      @mouseenter="onTriggerMouseEnter"
-      @mouseleave="onTriggerMouseLeave"
-      @focus="onTriggerFocus"
-      @blur="onTriggerBlur"
-    >
-      <slot name="trigger" />
-    </trigger>
-    <trigger
-      v-else
       ref="triggerRef"
       @click="onTriggerClick"
       @contextmenu="onTriggerContextualMenu"
@@ -66,9 +52,9 @@
 
 <script lang="ts">
 import { computed, defineComponent, nextTick, ref, unref, watch } from 'vue'
+import { onClickOutside } from '@vueuse/core'
 import { createPopper } from '@popperjs/core'
 import ElTeleport from '@element-plus/components/teleport'
-import { ClickOutside } from '@element-plus/directives'
 import {
   useTransitionFallthrough,
   useTransitionFallthroughEmits,
@@ -91,7 +77,7 @@ import { usePopperContainer, POPPER_CONTAINER_SELECTOR } from './container'
 import { usePopperOptions } from './popper-options'
 import { useTriggeringElement } from './triggering-element'
 
-import type { ComponentPublicInstance, Ref, StyleValue } from 'vue'
+import type { ComponentPublicInstance, Ref } from 'vue'
 import type { Instance } from '@popperjs/core'
 import type { PopperTrigger } from './popper'
 
@@ -99,9 +85,6 @@ export default defineComponent({
   components: {
     ElTeleport,
     Trigger,
-  },
-  directives: {
-    ClickOutside,
   },
   props: usePopperProps,
   emits: [...useTransitionFallthroughEmits, 'update:visible'],
@@ -129,8 +112,8 @@ export default defineComponent({
 
     const isControlled = computed(() => isBool(props.visible))
 
-    const contentStyle = computed<StyleValue>(() => {
-      return [{ zIndex: unref(contentZIndex) }, props.popperStyle || {}]
+    const contentStyle = computed(() => {
+      return [{ zIndex: unref(contentZIndex) }, props.popperStyle || {}] as any
     })
 
     const contentKls = computed(() => {
@@ -138,7 +121,7 @@ export default defineComponent({
         {
           'el-popper': true,
           'is-pure': props.pure,
-          [`is-${props.effect}`]: !props.pure,
+          [`is-${props.effect}`]: !!props.effect,
         },
         props.popperClass,
       ]
@@ -184,6 +167,11 @@ export default defineComponent({
         blur: onTriggerBlur,
       }
     )
+
+    onClickOutside(popperRef, (e) => {
+      if (unref(isControlled) || !unref(isShow)) return
+      delayHide()
+    })
 
     const includesTrigger = (trigger: PopperTrigger) => {
       return (
@@ -241,6 +229,7 @@ export default defineComponent({
     }
 
     function onTriggerClick() {
+      if (unref(isControlled)) return
       if (includesTrigger('click')) {
         if (triggerFocused) {
           triggerFocused = false
@@ -252,22 +241,26 @@ export default defineComponent({
     }
 
     function onTriggerMouseEnter() {
+      if (unref(isControlled)) return
       if (unref(isHoverTriggering)) {
         delayShow()
       }
     }
     function onTriggerMouseLeave() {
+      if (unref(isControlled)) return
       if (unref(isHoverTriggering)) {
         delayHide()
       }
     }
 
     function onTriggerFocus() {
+      if (unref(isControlled)) return
       if (unref(isFocusTriggering)) {
         delayShow()
       }
     }
     function onTriggerBlur() {
+      if (unref(isControlled)) return
       if (unref(isFocusTriggering)) {
         delayHide()
       }
@@ -275,6 +268,7 @@ export default defineComponent({
 
     // note that fo contextual menu trigger, the default behavior will be prevented
     function onTriggerContextualMenu(e: Event) {
+      if (unref(isControlled)) return
       if (includesTrigger('contextmenu')) {
         e.preventDefault()
         onToggle()
@@ -298,14 +292,14 @@ export default defineComponent({
         popperInstance.update()
       }
 
-      const triggerEl = unref(triggeringElement)
+      const referenceEl = props.referenceElement || unref(triggeringElement)
 
       const contentEl = unref(popperRef)
 
-      if (!triggerEl || !contentEl) return
+      if (!referenceEl || !contentEl) return
 
       popperInstance = createPopper(
-        triggerEl as HTMLElement,
+        referenceEl as HTMLElement,
         contentEl,
         unref(popperOptions)
       )
@@ -340,12 +334,18 @@ export default defineComponent({
     watch(
       () => unref(isShow),
       (val) => {
-        if (unref(isControlled) && val) {
-          renderTeleport.value = true
-          registerTimeout(() => {
-            intermediateShow.value = true
-            doShow()
-          }, props.showAfter)
+        if (unref(isControlled)) {
+          if (val) {
+            renderTeleport.value = true
+            registerTimeout(() => {
+              intermediateShow.value = true
+              doShow()
+            }, props.showAfter)
+          } else {
+            registerTimeout(() => {
+              intermediateShow.value = false
+            }, props.hideAfter)
+          }
         } else {
           intermediateShow.value = val
         }

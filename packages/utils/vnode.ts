@@ -11,7 +11,12 @@ import {
 
 import { hasOwn } from '@vue/shared'
 import { debugWarn } from './error'
-import type { VNode, VNodeTypes, VNodeChild } from 'vue'
+import type {
+  ComponentPublicInstance,
+  VNode,
+  VNodeTypes,
+  VNodeChild,
+} from 'vue'
 
 type Children = VNodeTypes[] | VNodeTypes
 
@@ -127,4 +132,11 @@ export const getNormalizedProps = (node: VNode) => {
   })
 
   return props
+}
+
+// For Vue fragmented element it will be nodeType === 'text' and no content at all
+// The next
+export const unwrapFragmentElement = (el: HTMLElement) => {
+  if (el.nodeType === 3 && !el.textContent) return el.nextElementSibling
+  return el
 }

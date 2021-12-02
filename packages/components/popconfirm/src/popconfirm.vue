@@ -7,6 +7,7 @@
     popper-class="el-popover"
     append-to-body
     :fallback-placements="['bottom', 'top', 'right', 'left']"
+    :hide-after="hideAfter"
   >
     <div class="el-popconfirm">
       <div class="el-popconfirm__main">

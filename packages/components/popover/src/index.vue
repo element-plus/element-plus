@@ -3,6 +3,7 @@
     ref="popperRef"
     v-bind="$attrs"
     effect="light"
+    :hide-after="hideAfter"
     :popper-class="kls"
     :popper-style="style"
     :stop-popper-mouse-event="false"
@@ -40,6 +41,10 @@ export default defineComponent({
   props: {
     title: String,
     content: usePopperProps.content,
+    hideAfter: {
+      type: Number,
+      default: 200,
+    },
     popperClass: String,
     popperStyle: usePopperProps.popperStyle,
     width: {

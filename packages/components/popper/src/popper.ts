@@ -85,7 +85,7 @@ export const usePopperProps = buildProps({
   },
   hideAfter: {
     type: Number,
-    default: 200,
+    default: 0,
   },
   showAfter: {
     type: Number,
@@ -127,10 +127,12 @@ export const usePopperProps = buildProps({
   },
   trigger: {
     type: definePropType<string | PopperTrigger[]>([String, Array]),
-    values: triggers,
     default: 'hover',
   },
   triggeringElement: {
+    type: definePropType<HTMLElement>(Object),
+  },
+  referenceElement: {
     type: definePropType<HTMLElement>(Object),
   },
   visible: {

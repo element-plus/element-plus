@@ -36,6 +36,10 @@ export const popconfirmProps = buildProps({
     type: Boolean,
     default: false,
   },
+  hideAfter: {
+    type: Number,
+    default: 200,
+  },
 } as const)
 export type PopconfirmProps = ExtractPropTypes<typeof popconfirmProps>
 
