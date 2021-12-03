@@ -35,6 +35,7 @@ import {
   coerceTruthyValueToArray,
   deduplicate,
   isEmpty,
+  isEqualWithFunction,
 } from '@element-plus/utils/util'
 
 import ElCascaderMenu from './menu.vue'
@@ -333,7 +334,17 @@ export default defineComponent({
       })
     )
 
-    watch([config, () => props.options], initStore, {
+    watch(
+      config,
+      (newConfig, oldConfig) => {
+        if (isEqualWithFunction(newConfig, oldConfig)) return
+
+        initStore()
+      },
+      { deep: true }
+    )
+
+    watch(() => props.options, initStore, {
       deep: true,
       immediate: true,
     })
