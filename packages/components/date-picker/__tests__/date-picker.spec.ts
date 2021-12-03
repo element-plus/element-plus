@@ -275,6 +275,54 @@ describe('DatePicker', () => {
     ).toBeTruthy()
   })
 
+  it('custom content comment', async () => {
+    _mount(
+      `<el-date-picker
+        v-model="value"
+        ref="input">
+        <template #default="{ isCurrent, text }">
+          <!-- <div class="cell" :class="{ current: isCurrent }">
+            <div>{{ text + "csw" }}</div>
+          </div> -->
+        </template>
+      </el-date-picker>`,
+      () => ({ value: '' }),
+      {
+        mounted() {
+          this.$refs.input.focus()
+        },
+      }
+    )
+    await nextTick()
+    const el = document.querySelector('td.available .el-date-table-cell')
+    const text = el.textContent
+    expect(text.includes('csw')).toBeFalsy()
+  })
+
+  it('custom content value validate', async () => {
+    _mount(
+      `<el-date-picker
+        v-model="value"
+        ref="input">
+        <template #default="{ isCurrent, text }">
+          <div class="cell" :class="{ current: isCurrent }">
+            <div>{{ text + "csw" }}</div>
+          </div>
+        </template>
+      </el-date-picker>`,
+      () => ({ value: '' }),
+      {
+        mounted() {
+          this.$refs.input.focus()
+        },
+      }
+    )
+    await nextTick()
+    const el = document.querySelector('td.available .cell')
+    const text = el.textContent
+    expect(text.includes('csw')).toBeTruthy()
+  })
+
   describe('value-format', () => {
     it('with literal string', async () => {
       const day = dayjs()
