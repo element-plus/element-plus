@@ -48,7 +48,7 @@ export default defineComponent({
       data: createData(4, 30, 5),
       query: ref(''),
       props: ref({
-        id: 'id',
+        value: 'id',
         label: 'label',
         children: 'children',
       }),
