@@ -26,7 +26,8 @@ export default defineComponent({
     const popperInjection = inject(POPPER_INJECTION_KEY, undefined)!
 
     onMounted(() => {
-      popperInjection.anchor.value = props.virtualRef || triggerRef.value.$el
+      popperInjection.triggerRef.value =
+        props.virtualRef || triggerRef.value.$el
     })
 
     return {

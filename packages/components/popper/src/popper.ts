@@ -13,11 +13,14 @@ export type PopperTrigger = typeof triggers[number]
 type ClassObjectType = Record<string, any>
 type ClassType = string | ClassObjectType | ClassType[]
 
-export const usePopperCoreConfigProps = buildProps({
+export const usePopperArrowProps = buildProps({
   arrowOffset: {
     type: Number,
     default: 5,
   },
+})
+
+export const usePopperCoreConfigProps = buildProps({
   boundariesPadding: {
     type: Number,
     default: 0,
@@ -42,10 +45,6 @@ export const usePopperCoreConfigProps = buildProps({
   popperOptions: {
     type: definePropType<Partial<Options>>(Object),
     default: () => ({}),
-  },
-  showArrow: {
-    type: Boolean,
-    default: true,
   },
   strategy: {
     type: String,
@@ -74,10 +73,6 @@ export const usePopperProps = buildProps({
   disabled: {
     type: Boolean,
     default: false,
-  },
-  effect: {
-    type: String,
-    default: 'dark',
   },
   enterable: {
     type: Boolean,
@@ -145,4 +140,22 @@ export const usePopperProps = buildProps({
   ...usePopperCoreConfigProps,
 } as const)
 
+export const usePopperContentProps = buildProps({
+  style: { type: definePropType<StyleValue>([String, Array, Object]) },
+  className: { type: definePropType<ClassType>([String, Array, Object]) },
+  effect: {
+    type: String,
+    values: ['light', 'dark'],
+    default: 'dark',
+  },
+  pure: {
+    type: Boolean,
+  },
+  zIndex: Number,
+  ...usePopperCoreConfigProps,
+})
+
 export type UsePopperProps = ExtractPropTypes<typeof usePopperProps>
+export type UsePopperCoreConfigProps = ExtractPropTypes<
+  typeof usePopperCoreConfigProps
+>
