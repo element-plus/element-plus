@@ -240,11 +240,11 @@ export default defineComponent({
             newVal = toPrecision(newVal, props.precision)
           }
         }
-        if (newVal !== undefined && newVal >= props.max) {
+        if (newVal !== undefined && newVal > props.max) {
           newVal = props.max
           emit('update:modelValue', newVal)
         }
-        if (newVal !== undefined && newVal <= props.min) {
+        if (newVal !== undefined && newVal < props.min) {
           newVal = props.min
           emit('update:modelValue', newVal)
         }
