@@ -257,8 +257,21 @@ export default defineComponent({
       type: Function as PropType<
         (node: CascaderNode, keyword: string) => boolean
       >,
-      default: (node: CascaderNode, keyword: string) =>
-        node.text.includes(keyword),
+      default: (
+        node: CascaderNode,
+        keyword: string,
+        caseInsensitive: boolean
+      ) => {
+        const text = caseInsensitive ? node.text.toLocaleLowerCase() : node.text
+        const formattedKeyword = caseInsensitive
+          ? keyword.toLocaleLowerCase()
+          : keyword
+        return text.includes(formattedKeyword)
+      },
+    },
+    filterCaseInsensitive: {
+      type: Boolean,
+      default: false,
     },
     separator: {
       type: String,
@@ -451,13 +464,14 @@ export default defineComponent({
     }
 
     const calculateSuggestions = () => {
-      const { filterMethod, showAllLevels, separator } = props
+      const { filterMethod, showAllLevels, separator, filterCaseInsensitive } =
+        props
       const res = panel.value
         ?.getFlattedNodes(!props.props.checkStrictly)
         ?.filter((node) => {
           if (node.isDisabled) return false
           node.calcText(showAllLevels, separator)
-          return filterMethod(node, searchKeyword.value)
+          return filterMethod(node, searchKeyword.value, filterCaseInsensitive)
         })
 
       if (multiple.value) {
