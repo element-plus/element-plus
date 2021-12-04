@@ -250,14 +250,14 @@ importers:
     specifiers:
       '@element-plus/icons-vue': ^0.2.2
       '@vitejs/plugin-vue': 1.10.1
-      unplugin-vue-components: 0.17.3
+      unplugin-vue-components: 0.17.4
       vite: 2.6.14
       vite-plugin-inspect: 0.3.11
     dependencies:
       '@element-plus/icons-vue': 0.2.2_vue@3.2.23
     devDependencies:
       '@vitejs/plugin-vue': 1.10.1_vite@2.6.14
-      unplugin-vue-components: 0.17.3_9fb2980cdf95da0e45d7b70f9297451c
+      unplugin-vue-components: 0.17.4_9fb2980cdf95da0e45d7b70f9297451c
       vite: 2.6.14_sass@1.44.0
       vite-plugin-inspect: 0.3.11_vite@2.6.14
 
@@ -10360,8 +10360,8 @@ packages:
     engines: {node: '>= 10.0.0'}
     dev: true
 
-  /unplugin-vue-components/0.17.3_9fb2980cdf95da0e45d7b70f9297451c:
-    resolution: {integrity: sha512-p5Y6vNVCOVvP5yaZfrkebp6gt5DW8aFjIngOoGUzl4ifbxZnTmwzx1kZD3GMQcx1he5zG3tEKSjIEFtsfsf4NQ==}
+  /unplugin-vue-components/0.17.4_9fb2980cdf95da0e45d7b70f9297451c:
+    resolution: {integrity: sha512-xBc/pprXOzIjW7aZ5Km5MfnbXev8ot13TUXH0Ln1Cs4zsNhKK3aWsl8IKo1RyL3c+pduR4IwWbMW/HHR+AuHuA==}
     engines: {node: '>=14'}
     peerDependencies:
       '@babel/parser': ^7.15.8
