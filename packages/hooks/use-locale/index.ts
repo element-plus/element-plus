@@ -66,7 +66,7 @@ export const translate = (
   option: undefined | TranslatorOption,
   locale: Language
 ): string =>
-  (get(locale, path, '') as string).replace(
+  (get(locale, path, path) as string).replace(
     /\{(\w+)\}/g,
     (_, key) => `${option?.[key] ?? `{${key}}`}`
   )
