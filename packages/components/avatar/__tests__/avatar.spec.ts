@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { User } from '@element-plus/icons'
+import { User } from '@element-plus/icons-vue'
 import {
   IMAGE_SUCCESS,
   IMAGE_FAIL,

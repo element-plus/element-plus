@@ -102,7 +102,7 @@ import {
   ZoomIn,
   Check,
   CircleCheck,
-} from '@element-plus/icons'
+} from '@element-plus/icons-vue'
 import { useLocale } from '@element-plus/hooks'
 import ElProgress from '@element-plus/components/progress'
 

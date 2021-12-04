@@ -108,7 +108,7 @@ import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import { isBool } from '@element-plus/utils/util'
 import { throwError, debugWarn } from '@element-plus/utils/error'
 import ElIcon from '@element-plus/components/icon'
-import { Loading } from '@element-plus/icons'
+import { Loading } from '@element-plus/icons-vue'
 
 import type { PropType, Component } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'

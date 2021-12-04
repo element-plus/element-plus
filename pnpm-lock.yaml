@@ -9,7 +9,7 @@ importers:
       '@element-plus/components': workspace:*
       '@element-plus/directives': workspace:*
       '@element-plus/hooks': workspace:*
-      '@element-plus/icons': ^0.0.11
+      '@element-plus/icons-vue': ^0.2.2
       '@element-plus/locale': workspace:*
       '@element-plus/test-utils': workspace:*
       '@element-plus/theme-chalk': workspace:*
@@ -78,7 +78,7 @@ importers:
       '@element-plus/components': link:packages/components
       '@element-plus/directives': link:packages/directives
       '@element-plus/hooks': link:packages/hooks
-      '@element-plus/icons': 0.0.11
+      '@element-plus/icons-vue': 0.2.2_vue@3.2.23
       '@element-plus/locale': link:packages/locale
       '@element-plus/test-utils': link:packages/test-utils
       '@element-plus/theme-chalk': link:packages/theme-chalk
@@ -186,7 +186,7 @@ importers:
 
   packages/element-plus:
     specifiers:
-      '@element-plus/icons': ^0.0.11
+      '@element-plus/icons-vue': ^0.2.2
       '@popperjs/core': ^2.10.2
       '@types/node': '*'
       '@vueuse/core': ^7.0.0
@@ -198,7 +198,7 @@ importers:
       normalize-wheel-es: ^1.1.1
       vue-router: ^4.0.0
     dependencies:
-      '@element-plus/icons': 0.0.11
+      '@element-plus/icons-vue': 0.2.2_vue@3.2.23
       '@popperjs/core': 2.10.2
       '@vueuse/core': 7.0.0_vue@3.2.23
       async-validator: 4.0.7
@@ -248,13 +248,13 @@ importers:
 
   play:
     specifiers:
-      '@element-plus/icons': ^0.0.11
+      '@element-plus/icons-vue': ^0.2.2
       '@vitejs/plugin-vue': 1.10.1
       unplugin-vue-components: 0.17.2
       vite: 2.6.14
       vite-plugin-inspect: 0.3.11
     dependencies:
-      '@element-plus/icons': 0.0.11
+      '@element-plus/icons-vue': 0.2.2_vue@3.2.23
     devDependencies:
       '@vitejs/plugin-vue': 1.10.1_vite@2.6.14
       unplugin-vue-components: 0.17.2_9fb2980cdf95da0e45d7b70f9297451c
@@ -924,6 +924,19 @@ packages:
       '@francoischalifour/autocomplete-preset-algolia': 1.0.0-alpha.28
       algoliasearch: 4.10.5
     dev: true
+
+  /@element-plus/icons-svg/0.2.2:
+    resolution: {integrity: sha512-i3RG1Avx0mzdf1ysB5RKUcOIALL8lX58cY/Xl1/7PwakJ2J7XqJevAu+s/6uz6y3yLf3CcsuRbcbz0xeiIYHag==}
+    dev: false
+
+  /@element-plus/icons-vue/0.2.2_vue@3.2.23:
+    resolution: {integrity: sha512-lCg6iz6/PBzMDtg0q09ri4mx5CdkxcnhMN7JacEPHq8ZN1qJirJqw5YWUGz281xFzoI9YMJU3wWzKNmZYjDLiQ==}
+    peerDependencies:
+      vue: ^3.2.0
+    dependencies:
+      '@element-plus/icons-svg': 0.2.2
+      vue: 3.2.23
+    dev: false
 
   /@element-plus/icons/0.0.11:
     resolution: {integrity: sha512-iKQXSxXu131Ai+I9Ymtcof9WId7kaXvB1+WRfAfpQCW7UiAMYgdNDqb/u0hgTo2Yq3MwC4MWJnNuTBEpG8r7+A==}

@@ -28,7 +28,7 @@
 import { computed, defineComponent } from 'vue'
 import ElIcon from '@element-plus/components/icon'
 import { useGlobalConfig } from '@element-plus/utils/util'
-import { Close } from '@element-plus/icons'
+import { Close } from '@element-plus/icons-vue'
 
 import { tagProps, tagEmits } from './tag'
 

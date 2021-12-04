@@ -64,7 +64,7 @@ import { useLocale } from '@element-plus/hooks'
 import { ElCheckbox, ElCheckboxGroup } from '@element-plus/components/checkbox'
 import ElIcon from '@element-plus/components/icon'
 import ElInput from '@element-plus/components/input'
-import { CircleClose, Search } from '@element-plus/icons'
+import { CircleClose, Search } from '@element-plus/icons-vue'
 import { useCheck, useCheckProps, CHECKED_CHANGE_EVENT } from './useCheck'
 
 export default defineComponent({
