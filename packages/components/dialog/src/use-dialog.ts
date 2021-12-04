@@ -168,6 +168,8 @@ export const useDialog = (
     beforeLeave,
     handleClose,
     onModalClick,
+    close,
+    doClose,
     closed,
     style,
     rendered,
