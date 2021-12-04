@@ -89,23 +89,38 @@ useEventListener(window, 'scroll', handleScroll)
         </div>
       </div>
     </div>
-    <div class="sponsors">
-      <a
-        v-for="(sponsor, i) in sponsors"
-        :key="i"
-        :class="['sponsor', sponsor.className]"
-        :href="sponsor.url"
-        target="_blank"
-      >
-        <img width="45" :src="sponsor.img" :alt="sponsor.name" />
-        <div>
-          <p>
-            Sponsored by
-            <span class="name">{{ sponsor.name }}</span>
-          </p>
-          <p>{{ sponsor.slogan }}</p>
-        </div>
-      </a>
+    <div class="sponsors-container">
+      <div class="sponsors-list">
+        <a
+          v-for="(sponsor, i) in sponsors"
+          :key="i"
+          :class="['sponsor', sponsor.className]"
+          :href="sponsor.url"
+          target="_blank"
+        >
+          <img width="45" :src="sponsor.img" :alt="sponsor.name" />
+          <div>
+            <p>
+              Sponsored by
+              <span class="name">{{ sponsor.name }}</span>
+            </p>
+            <p>{{ sponsor.slogan }}</p>
+          </div>
+        </a>
+      </div>
+      <div class="join">
+        <el-tooltip placement="top" hide-after="1000" offset="20">
+          <template #content>
+            {{ homeLang['21'] }}
+            <a href="mailto:element-plus@outlook.com" target="_blank">
+              &nbsp;element-plus@outlook.com
+            </a>
+          </template>
+          <a href="mailto:element-plus@outlook.com" target="_blank">
+            <el-button round>{{ homeLang['20'] }}</el-button>
+          </a>
+        </el-tooltip>
+      </div>
     </div>
     <div class="cards">
       <ul class="container">
@@ -228,7 +243,14 @@ useEventListener(window, 'scroll', handleScroll)
     }
   }
 
-  .sponsors {
+  .sponsors-container {
+    .join {
+      text-align: center;
+      margin: 0 0 50px 0;
+    }
+  }
+
+  .sponsors-list {
     display: flex;
     justify-content: center;
     // jnpf ad class
@@ -238,7 +260,7 @@ useEventListener(window, 'scroll', handleScroll)
   }
 
   .sponsor {
-    margin: 0 20px 50px;
+    margin: 0 20px 10px;
     display: inline-flex;
     width: 300px;
     height: 100px;
