@@ -9,7 +9,7 @@ importers:
       '@element-plus/components': workspace:*
       '@element-plus/directives': workspace:*
       '@element-plus/hooks': workspace:*
-      '@element-plus/icons-vue': ^0.2.2
+      '@element-plus/icons-vue': ^0.2.4
       '@element-plus/locale': workspace:*
       '@element-plus/test-utils': workspace:*
       '@element-plus/theme-chalk': workspace:*
@@ -75,7 +75,7 @@ importers:
       '@element-plus/components': link:packages/components
       '@element-plus/directives': link:packages/directives
       '@element-plus/hooks': link:packages/hooks
-      '@element-plus/icons-vue': 0.2.2_vue@3.2.23
+      '@element-plus/icons-vue': 0.2.4_vue@3.2.23
       '@element-plus/locale': link:packages/locale
       '@element-plus/test-utils': link:packages/test-utils
       '@element-plus/theme-chalk': link:packages/theme-chalk
@@ -929,6 +929,14 @@ packages:
       vue: ^3.2.0
     dependencies:
       '@element-plus/icons-svg': 0.2.2
+      vue: 3.2.23
+    dev: false
+
+  /@element-plus/icons-vue/0.2.4_vue@3.2.23:
+    resolution: {integrity: sha512-RsJNyL58rwxtsjeMy34o8txkL6UlME1stWsUlRpTac6UE9Bx9gdJvnDXbIKhOJqBLX17fBjmposdrn6VTqim2w==}
+    peerDependencies:
+      vue: ^3.2.0
+    dependencies:
       vue: 3.2.23
     dev: false
 
