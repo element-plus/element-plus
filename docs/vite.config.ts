@@ -31,6 +31,20 @@ export default defineConfig({
   },
   plugins: [Inspect()],
   optimizeDeps: {
-    include: ['@vueuse/core', 'dayjs'],
+    include: [
+      'vue',
+      'markdown-it',
+      'clipboard-copy',
+      '@vueuse/core',
+      'axios',
+      'nprogress',
+      '@element-plus/icons-vue',
+      'dayjs',
+      'memoize-one',
+      'async-validator',
+      'lodash',
+      '@popperjs/core',
+      'normalize-wheel-es',
+    ],
   },
 })

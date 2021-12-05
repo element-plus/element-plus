@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { Check, Loading } from '@element-plus/icons'
+import { Check, Loading } from '@element-plus/icons-vue'
 import CascaderPanel from '../src/index.vue'
 
 const NORMAL_OPTIONS = [
@@ -34,6 +34,11 @@ const NORMAL_OPTIONS = [
         label: 'Shanghai',
       },
     ],
+  },
+  {
+    value: 'guangdong',
+    label: 'Guangdong',
+    children: [],
   },
 ]
 
@@ -154,12 +159,14 @@ describe('CascaderPanel.vue', () => {
     })
 
     const options = wrapper.findAll(NODE)
-    const [bjNode, zjNode] = options
+    const [bjNode, zjNode, , gdNode] = options
 
     expect(wrapper.findAll(MENU).length).toBe(1)
-    expect(options.length).toBe(3)
+    expect(options.length).toBe(4)
     expect(bjNode.text()).toBe('Beijing')
     expect(bjNode.find(EXPAND_ARROW).exists()).toBe(false)
+    expect(zjNode.find(EXPAND_ARROW).exists()).toBe(true)
+    expect(gdNode.find(EXPAND_ARROW).exists()).toBe(false)
 
     await zjNode.trigger('click')
     const menus = wrapper.findAll(MENU)
@@ -178,6 +185,12 @@ describe('CascaderPanel.vue', () => {
     expect(handleExpandChange).toBeCalledTimes(2)
     expect(handleChange).toBeCalledTimes(2)
     expect(wrapper.vm.value).toEqual(['beijing'])
+
+    await gdNode.trigger('click')
+    expect(wrapper.findAll(MENU).length).toBe(1)
+    expect(handleExpandChange).toBeCalledTimes(3)
+    expect(handleChange).toBeCalledTimes(3)
+    expect(wrapper.vm.value).toEqual(['guangdong'])
   })
 
   test('with default value', async () => {

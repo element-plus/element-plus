@@ -36,26 +36,13 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
-import { Calendar, Search } from '@element-plus/icons'
-
-export default defineComponent({
-  components: {
-    Calendar,
-    Search,
-  },
-  setup() {
-    return {
-      Calendar,
-      Search,
-      input1: ref(''),
-      input2: ref(''),
-      input3: ref(''),
-      input4: ref(''),
-    }
-  },
-})
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Calendar, Search } from '@element-plus/icons-vue'
+const input1 = ref('')
+const input2 = ref('')
+const input3 = ref('')
+const input4 = ref('')
 </script>
 
 <style>

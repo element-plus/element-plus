@@ -12,13 +12,6 @@
   </el-popconfirm>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import { InfoFilled } from '@element-plus/icons'
-
-export default defineComponent({
-  setup() {
-    return { InfoFilled }
-  },
-})
+<script setup lang="ts">
+import { InfoFilled } from '@element-plus/icons-vue'
 </script>

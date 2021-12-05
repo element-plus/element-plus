@@ -61,7 +61,7 @@ $colors: map.deep-merge(
       'base': #909399,
     ),
   ),
-  $--colors
+  $colors
 );
 ```
 
@@ -72,15 +72,17 @@ If your project also uses SCSS, you can directly change Element Plus style varia
 ```scss
 // styles/element/index.scss
 /* just override what you need */
-@forward "element-plus/theme-chalk/src/common/var.scss" with (
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
   $colors: (
-    "primary": (
-      "base": green,
+    'primary': (
+      'base': green,
     ),
-  ),
+  )
 );
 
-@import "element-plus/theme-chalk/src/index.scss";
+// If you just import on demand, you can ignore the following content.
+// if you want to import all styles:
+// @use "element-plus/theme-chalk/src/index.scss" as *;
 ```
 
 Then in the entry file of your project, import this style file instead of Element's built CSS:
@@ -113,13 +115,17 @@ app.use(ElementPlus)
 
 If you are using vite, and you want to custom theme when importing on demand.
 
-Use `scss.additionalData` to compile variables with scss of every compoent.
+Use `scss.additionalData` to compile variables with scss of every component.
 
 ```ts
 import path from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+// You can also use unplugin-vue-components
+// import Components from 'unplugin-vue-components/vite'
+// import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
+// or use unplugin-element-plus
 import ElementPlus from 'unplugin-element-plus/vite'
 
 // vite.config.ts
@@ -138,6 +144,17 @@ export default defineConfig({
   },
   plugins: [
     vue(),
+    // use unplugin-vue-components
+    // Components({
+    //   resolvers: [
+    //     ElementPlusResolver({
+    //       importStyle: "sass",
+    //       // directives: true,
+    //       // version: "1.2.0-beta.1",
+    //     }),
+    //   ],
+    // }),
+    // or use unplugin-element-plus
     ElementPlus({
       useSource: true,
     }),
@@ -174,14 +191,14 @@ Like this:
 If you just want to customize a particular component, just add inline styles for certain components individually.
 
 ```html
-<el-tag style="--el-tag-background-color: red">Tag</el-tag>
+<el-tag style="--el-tag-bg-color: red">Tag</el-tag>
 ```
 
 For performance reasons, it is more recommended to custom css variables under a class rather than the global `:root`.
 
 ```css
 .custom-class {
-  --el-tag-background-color: red;
+  --el-tag-bg-color: red;
 }
 ```
 

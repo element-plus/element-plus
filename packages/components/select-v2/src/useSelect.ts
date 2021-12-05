@@ -12,7 +12,7 @@ import { isArray, isFunction, isObject } from '@vue/shared'
 import isEqual from 'lodash/isEqual'
 import lodashDebounce from 'lodash/debounce'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import {
   addResizeListener,
@@ -21,7 +21,7 @@ import {
 import { getValueByPath, useGlobalConfig } from '@element-plus/utils/util'
 import { Effect } from '@element-plus/components/popper'
 
-import { ArrowUp } from '@element-plus/icons'
+import { ArrowUp } from '@element-plus/icons-vue'
 import { useAllowCreate } from './useAllowCreate'
 
 import { flattenOptions } from './util'
@@ -41,7 +41,7 @@ const TAG_BASE_WIDTH = {
 
 const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   // inject
-  const { t } = useLocaleInject()
+  const { t } = useLocale()
   const elForm = inject(elFormKey, {} as ElFormContext)
   const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
   const $ELEMENT = useGlobalConfig()
@@ -95,12 +95,18 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     return totalHeight > props.height ? props.height : totalHeight
   })
 
+  const hasModelValue = computed(() => {
+    return (
+      props.modelValue !== undefined &&
+      props.modelValue !== null &&
+      props.modelValue !== ''
+    )
+  })
+
   const showClearBtn = computed(() => {
     const hasValue = props.multiple
       ? Array.isArray(props.modelValue) && props.modelValue.length > 0
-      : props.modelValue !== undefined &&
-        props.modelValue !== null &&
-        props.modelValue !== ''
+      : hasModelValue.value
 
     const criteria =
       props.clearable &&
@@ -659,7 +665,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         states.cachedOptions = []
       }
     } else {
-      if (props.modelValue) {
+      if (hasModelValue.value) {
         const options = filteredOptions.value
         const selectedItemIndex = options.findIndex(
           (option) => getValueKey(option) === props.modelValue
@@ -746,6 +752,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     inputWrapperStyle,
     popperSize,
     dropdownMenuVisible,
+    hasModelValue,
     // readonly,
     shouldShowPlaceholder,
     selectDisabled,

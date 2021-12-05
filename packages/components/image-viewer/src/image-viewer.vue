@@ -47,10 +47,10 @@
             <component :is="mode.icon" />
           </el-icon>
           <i class="el-image-viewer__actions__divider"></i>
-          <el-icon @click="handleActions('anticlocelise')">
+          <el-icon @click="handleActions('anticlockwise')">
             <refresh-left />
           </el-icon>
-          <el-icon @click="handleActions('clocelise')">
+          <el-icon @click="handleActions('clockwise')">
             <refresh-right />
           </el-icon>
         </div>
@@ -84,10 +84,11 @@ import {
   watch,
   nextTick,
   effectScope,
+  markRaw,
 } from 'vue'
 import { useEventListener } from '@vueuse/core'
 import ElIcon from '@element-plus/components/icon'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { rafThrottle, isFirefox } from '@element-plus/utils/util'
 import {
@@ -100,7 +101,7 @@ import {
   RefreshRight,
   FullScreen,
   ScaleToOriginal,
-} from '@element-plus/icons'
+} from '@element-plus/icons-vue'
 import { imageViewerProps, imageViewerEmits } from './image-viewer'
 
 import type { CSSProperties } from 'vue'
@@ -108,11 +109,11 @@ import type { CSSProperties } from 'vue'
 const Mode = {
   CONTAIN: {
     name: 'contain',
-    icon: FullScreen,
+    icon: markRaw(FullScreen),
   },
   ORIGINAL: {
     name: 'original',
-    icon: ScaleToOriginal,
+    icon: markRaw(ScaleToOriginal),
   },
 }
 
@@ -120,8 +121,8 @@ const mousewheelEventName = isFirefox() ? 'DOMMouseScroll' : 'mousewheel'
 export type ImageViewerAction =
   | 'zoomIn'
   | 'zoomOut'
-  | 'clocelise'
-  | 'anticlocelise'
+  | 'clockwise'
+  | 'anticlockwise'
 
 export default defineComponent({
   name: 'ElImageViewer',
@@ -139,7 +140,7 @@ export default defineComponent({
   emits: imageViewerEmits,
 
   setup(props, { emit }) {
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
     const wrapper = ref<HTMLDivElement>()
     const img = ref<HTMLImageElement>()
 
@@ -353,10 +354,10 @@ export default defineComponent({
             (transform.value.scale + zoomRate).toFixed(3)
           )
           break
-        case 'clocelise':
+        case 'clockwise':
           transform.value.deg += rotateDeg
           break
-        case 'anticlocelise':
+        case 'anticlockwise':
           transform.value.deg -= rotateDeg
           break
       }

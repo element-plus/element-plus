@@ -22,6 +22,7 @@
       :style="{ paddingLeft: `${(node.level - 1) * indent}px` }"
     >
       <el-icon
+        v-if="icon"
         :class="[
           {
             'is-leaf': node?.isLeaf,
@@ -49,7 +50,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, inject } from 'vue'
-import { CaretRight } from '@element-plus/icons'
+import { CaretRight } from '@element-plus/icons-vue'
 import ElIcon from '@element-plus/components/icon'
 import ElCheckbox from '@element-plus/components/checkbox'
 import ElNodeContent from './tree-node-content'

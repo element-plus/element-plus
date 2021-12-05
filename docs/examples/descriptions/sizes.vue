@@ -75,27 +75,15 @@
   </el-descriptions>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
 import {
   User,
   Iphone,
   Location,
   Tickets,
   OfficeBuilding,
-} from '@element-plus/icons'
+} from '@element-plus/icons-vue'
 
-export default {
-  components: {
-    User,
-    Iphone,
-    Location,
-    Tickets,
-    OfficeBuilding,
-  },
-  data() {
-    return {
-      size: '',
-    }
-  },
-}
+const size = ref('')
 </script>

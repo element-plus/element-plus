@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
 import makeMount from '@element-plus/test-utils/make-mount'
-import Skeleton from '../src/index.vue'
+import Skeleton from '../src/skeleton.vue'
 const AXIOM = 'AXIOM is the best girl'
 
 jest.useFakeTimers()

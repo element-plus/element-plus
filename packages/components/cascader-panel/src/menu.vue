@@ -20,17 +20,17 @@
       {{ t('el.cascader.noData') }}
     </div>
     <svg
-      v-else-if="panel.isHoverMenu"
+      v-else-if="panel?.isHoverMenu"
       ref="hoverZone"
       class="el-cascader-menu__hover-zone"
-    />
+    ></svg>
   </el-scrollbar>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, getCurrentInstance, inject, ref } from 'vue'
 import ElScrollbar from '@element-plus/components/scrollbar'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import { generateId } from '@element-plus/utils/util'
 import ElCascaderNode from './node.vue'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
@@ -59,15 +59,15 @@ export default defineComponent({
   },
 
   setup(props) {
-    const instance = getCurrentInstance()
-    const { t } = useLocaleInject()
+    const instance = getCurrentInstance()!
+    const { t } = useLocale()
     const id = generateId()
     let activeNode: Nullable<HTMLElement> = null
     let hoverTimer: Nullable<TimeoutHandle> = null
 
-    const panel = inject(CASCADER_PANEL_INJECTION_KEY)
+    const panel = inject(CASCADER_PANEL_INJECTION_KEY)!
 
-    const hoverZone = ref(null)
+    const hoverZone = ref<null | SVGSVGElement>(null)
 
     const isEmpty = computed(() => !props.nodes.length)
     const menuId = computed(() => `cascader-menu-${id}-${props.index}`)

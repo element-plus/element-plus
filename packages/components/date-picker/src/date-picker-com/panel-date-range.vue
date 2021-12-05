@@ -155,11 +155,7 @@
           />
         </div>
         <div
-          class="
-            el-picker-panel__content
-            el-date-range-picker__content
-            is-right
-          "
+          class="el-picker-panel__content el-date-range-picker__content is-right"
         >
           <div class="el-date-range-picker__header">
             <button
@@ -241,20 +237,21 @@ import { computed, defineComponent, inject, ref, watch } from 'vue'
 import dayjs from 'dayjs'
 import ElButton from '@element-plus/components/button'
 import { ClickOutside } from '@element-plus/directives'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import {
   extractDateFormat,
   extractTimeFormat,
   TimePickPanel,
 } from '@element-plus/components/time-picker'
+import ElIcon from '@element-plus/components/icon'
 import { isValidDatePickType } from '@element-plus/utils/validators'
 import {
   DArrowLeft,
   ArrowLeft,
   DArrowRight,
   ArrowRight,
-} from '@element-plus/icons'
+} from '@element-plus/icons-vue'
 import DateTable from './basic-date-table.vue'
 
 import type { PropType } from 'vue'
@@ -269,6 +266,7 @@ export default defineComponent({
     DateTable,
     ElInput,
     ElButton,
+    ElIcon,
     DArrowLeft,
     ArrowLeft,
     DArrowRight,
@@ -290,7 +288,7 @@ export default defineComponent({
   emits: ['pick', 'set-picker-option', 'calendar-change'],
 
   setup(props, ctx) {
-    const { t, lang } = useLocaleInject()
+    const { t, lang } = useLocale()
     const leftDate = ref(dayjs().locale(lang.value))
     const rightDate = ref(dayjs().locale(lang.value).add(1, 'month'))
     const minDate = ref(null)

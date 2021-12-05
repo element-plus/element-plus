@@ -4,6 +4,6 @@ export interface FormItemRule extends RuleItem {
   trigger?: string
 }
 
-export interface FormRulesMap {
-  [key: string]: FormItemRule | FormItemRule[]
-}
+export type FormRulesMap<T extends string = string> = Partial<
+  Record<T, FormItemRule | FormItemRule[]>
+>

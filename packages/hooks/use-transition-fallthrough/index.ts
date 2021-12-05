@@ -25,7 +25,7 @@ export const useTransitionFallthroughEmits = [
   ENTER_CANCELLED,
   LEAVE,
   LEAVE_CANCELLED,
-]
+] as const
 
 // Sometimes we want to delegate the transition emitted event
 // we have to right the function locally, which is not a good
@@ -59,7 +59,7 @@ export const useTransitionFallthroughEmits = [
  */
 
 export const useTransitionFallthrough = () => {
-  const { emit } = getCurrentInstance()
+  const { emit } = getCurrentInstance()!
 
   return {
     onAfterAppear: () => {

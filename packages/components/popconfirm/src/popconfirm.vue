@@ -10,7 +10,7 @@
     <div class="el-popconfirm">
       <div class="el-popconfirm__main">
         <el-icon
-          v-if="!hideIcon"
+          v-if="!hideIcon && icon"
           class="el-popconfirm__icon"
           :style="{ color: iconColor }"
         >
@@ -38,7 +38,7 @@ import { defineComponent, ref, computed } from 'vue'
 import ElButton from '@element-plus/components/button'
 import ElIcon from '@element-plus/components/icon'
 import ElPopper, { Effect } from '@element-plus/components/popper'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import { popconfirmProps, popconfirmEmits } from './popconfirm'
 
 export default defineComponent({
@@ -54,7 +54,7 @@ export default defineComponent({
   emits: popconfirmEmits,
 
   setup(props, { emit }) {
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
     const visible = ref(false)
     const confirm = () => {
       visible.value = false

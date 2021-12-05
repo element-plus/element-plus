@@ -1,22 +1,19 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { hyphenate } from '@vue/shared'
 import clipboardCopy from 'clipboard-copy'
 import { ElMessage } from 'element-plus'
-import * as Icons from '@element-plus/icons'
+import * as Icons from '@element-plus/icons-vue'
 import { useLang } from '../../composables/lang'
 import localeData from '../../../i18n/component/icons.json'
 
 const lang = useLang()
 const locale = computed(() => localeData[lang.value])
+const copyIcon = ref(true)
 
-const copySvgIcon = async (svg) => {
+const copyContent = async (content) => {
   try {
-    await clipboardCopy(
-      `<el-icon>
-        <${hyphenate(svg)} />
-      </el-icon>`
-    )
+    await clipboardCopy(content)
 
     ElMessage({
       showClose: true,
@@ -31,15 +28,33 @@ const copySvgIcon = async (svg) => {
     })
   }
 }
+
+const copySvgIcon = async (name, refs) => {
+  if (copyIcon.value) {
+    await copyContent(`<el-icon><${hyphenate(name)} /></el-icon>`)
+  } else {
+    const content = refs[name].querySelector('svg')?.outerHTML ?? ''
+    await copyContent(content)
+  }
+}
 </script>
 
 <template>
+  <div style="text-align: right">
+    <el-switch
+      v-model="copyIcon"
+      active-text="Copy icon code"
+      inactive-text="Copy SVG content"
+    >
+    </el-switch>
+  </div>
   <ul class="demo-icon-list">
     <li
       v-for="component in Icons"
       :key="component"
+      :ref="component.name"
       class="icon-item"
-      @click="copySvgIcon(component.name)"
+      @click="copySvgIcon(component.name, $refs)"
     >
       <span class="demo-svg-icon">
         <ElIcon :size="20">
@@ -60,12 +75,12 @@ const copySvgIcon = async (svg) => {
   border-left: 1px solid var(--el-border-color-base);
   border-radius: 4px;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(7, 1fr);
 
   .icon-item {
     text-align: center;
     color: var(--el-text-color-regular);
-    height: 120px;
+    height: 90px;
     font-size: 13px;
     border-right: 1px solid var(--el-border-color-base);
     border-bottom: 1px solid var(--el-border-color-base);

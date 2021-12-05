@@ -42,7 +42,7 @@ import {
   watch,
   getCurrentInstance,
 } from 'vue'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import TreeStore from './model/tree-store'
 import { getNodeKey as getNodeKeyUtil } from './model/util'
 import ElTreeNode from './tree-node.vue'
@@ -149,7 +149,7 @@ export default defineComponent({
     'node-drag-over',
   ],
   setup(props, ctx) {
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
 
     const store = ref<TreeStore>(
       new TreeStore({

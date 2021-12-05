@@ -1,4 +1,4 @@
-import { ref, getCurrentInstance, unref, watch } from 'vue'
+import { ref, getCurrentInstance, unref, watch, toRefs } from 'vue'
 import { hasOwn } from '@vue/shared'
 import {
   getKeysMap,
@@ -46,6 +46,7 @@ const doFlattenColumns = (columns) => {
 
 function useWatcher<T>() {
   const instance = getCurrentInstance() as Table<T>
+  const { size: tableSize } = toRefs(instance.proxy?.$props as any)
   const rowKey: Ref<string> = ref(null)
   const data: Ref<T[]> = ref([])
   const _data: Ref<T[]> = ref([])
@@ -498,6 +499,7 @@ function useWatcher<T>() {
     loadOrToggle,
     updateTreeData,
     states: {
+      tableSize,
       rowKey,
       data,
       _data,

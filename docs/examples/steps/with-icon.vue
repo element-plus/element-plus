@@ -7,5 +7,5 @@
 </template>
 
 <script lang="ts" setup>
-import { Edit, Upload, Picture } from '@element-plus/icons'
+import { Edit, Upload, Picture } from '@element-plus/icons-vue'
 </script>

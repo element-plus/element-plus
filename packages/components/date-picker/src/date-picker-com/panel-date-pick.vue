@@ -64,11 +64,7 @@
           <button
             type="button"
             :aria-label="t(`el.datepicker.prevYear`)"
-            class="
-              el-picker-panel__icon-btn
-              el-date-picker__prev-btn
-              d-arrow-left
-            "
+            class="el-picker-panel__icon-btn el-date-picker__prev-btn d-arrow-left"
             @click="prevYear_"
           >
             <el-icon><d-arrow-left /></el-icon>
@@ -77,11 +73,7 @@
             v-show="currentView === 'date'"
             type="button"
             :aria-label="t(`el.datepicker.prevMonth`)"
-            class="
-              el-picker-panel__icon-btn
-              el-date-picker__prev-btn
-              arrow-left
-            "
+            class="el-picker-panel__icon-btn el-date-picker__prev-btn arrow-left"
             @click="prevMonth_"
           >
             <el-icon><arrow-left /></el-icon>
@@ -103,11 +95,7 @@
           <button
             type="button"
             :aria-label="t(`el.datepicker.nextYear`)"
-            class="
-              el-picker-panel__icon-btn
-              el-date-picker__next-btn
-              d-arrow-right
-            "
+            class="el-picker-panel__icon-btn el-date-picker__next-btn d-arrow-right"
             @click="nextYear_"
           >
             <el-icon><d-arrow-right /></el-icon>
@@ -116,11 +104,7 @@
             v-show="currentView === 'date'"
             type="button"
             :aria-label="t(`el.datepicker.nextMonth`)"
-            class="
-              el-picker-panel__icon-btn
-              el-date-picker__next-btn
-              arrow-right
-            "
+            class="el-picker-panel__icon-btn el-date-picker__next-btn arrow-right"
             @click="nextMonth_"
           >
             <el-icon><arrow-right /></el-icon>
@@ -182,7 +166,7 @@ import { computed, defineComponent, inject, ref, watch } from 'vue'
 import dayjs from 'dayjs'
 import ElButton from '@element-plus/components/button'
 import { ClickOutside } from '@element-plus/directives'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import {
   extractDateFormat,
@@ -197,7 +181,7 @@ import {
   ArrowLeft,
   DArrowRight,
   ArrowRight,
-} from '@element-plus/icons'
+} from '@element-plus/icons-vue'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
@@ -246,9 +230,23 @@ export default defineComponent({
   },
   emits: ['pick', 'set-picker-option'],
   setup(props, ctx) {
-    const { t, lang } = useLocaleInject()
+    const { t, lang } = useLocale()
+    const pickerBase = inject('EP_PICKER_BASE') as any
+
+    const {
+      shortcuts,
+      disabledDate,
+      cellClassName,
+      defaultTime,
+      defaultValue,
+      arrowControl,
+    } = pickerBase.props
 
     const innerDate = ref(dayjs().locale(lang.value))
+
+    const defaultTimeD = computed(() => {
+      return dayjs(defaultTime).locale(lang.value)
+    })
 
     const month = computed(() => {
       return innerDate.value.month()
@@ -272,9 +270,8 @@ export default defineComponent({
         : true
     }
     const formatEmit = (emitDayjs: Dayjs) => {
-      if (defaultTime) {
-        const defaultTimeD = dayjs(defaultTime).locale(lang.value)
-        return defaultTimeD
+      if (defaultTime && !visibleTime.value) {
+        return defaultTimeD.value
           .year(emitDayjs.year())
           .month(emitDayjs.month())
           .date(emitDayjs.date())
@@ -552,7 +549,16 @@ export default defineComponent({
     }
 
     const getDefaultValue = () => {
-      return dayjs(defaultValue).locale(lang.value)
+      const parseDate = dayjs(defaultValue).locale(lang.value)
+      if (!defaultValue) {
+        const defaultTimeDValue = defaultTimeD.value
+        return dayjs()
+          .hour(defaultTimeDValue.hour())
+          .minute(defaultTimeDValue.minute())
+          .second(defaultTimeDValue.second())
+          .locale(lang.value)
+      }
+      return parseDate
     }
 
     const handleKeydown = (event) => {
@@ -630,16 +636,6 @@ export default defineComponent({
     ctx.emit('set-picker-option', ['formatToString', formatToString])
     ctx.emit('set-picker-option', ['parseUserInput', parseUserInput])
     ctx.emit('set-picker-option', ['handleKeydown', handleKeydown])
-
-    const pickerBase = inject('EP_PICKER_BASE') as any
-    const {
-      shortcuts,
-      disabledDate,
-      cellClassName,
-      defaultTime,
-      defaultValue,
-      arrowControl,
-    } = pickerBase.props
 
     watch(
       () => props.parsedValue,

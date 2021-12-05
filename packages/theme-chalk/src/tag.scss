@@ -11,10 +11,10 @@
 @mixin genTheme(
   $backgroundColorWeight,
   $borderColorWeight,
-  $fontColorWeight,
+  $textColorWeight,
   $hoverColorWeight
 ) {
-  --el-tag-background-color: #{mix(
+  --el-tag-bg-color: #{mix(
       map.get($tag-color, 'primary'),
       $color-white,
       $backgroundColorWeight
@@ -24,10 +24,10 @@
       $color-white,
       $borderColorWeight
     )};
-  --el-tag-font-color: #{mix(
+  --el-tag-text-color: #{mix(
       map.get($tag-color, 'primary'),
       $color-white,
-      $fontColorWeight
+      $textColorWeight
     )};
   --el-tag-hover-color: #{mix(
       map.get($tag-color, 'primary'),
@@ -35,16 +35,16 @@
       $hoverColorWeight
     )};
 
-  background-color: var(--el-tag-background-color);
+  background-color: var(--el-tag-bg-color);
   border-color: var(--el-tag-border-color);
-  color: var(--el-tag-font-color);
+  color: var(--el-tag-text-color);
 
   @include when(hit) {
     border-color: map.get($tag-color, 'primary');
   }
 
   .#{$namespace}-tag__close {
-    color: var(--el-tag-font-color);
+    color: var(--el-tag-text-color);
     &:hover {
       color: var(--el-color-white);
       background-color: var(--el-tag-hover-color);
@@ -53,7 +53,7 @@
 
   @each $type in $types {
     &.#{$namespace}-tag--#{$type} {
-      --el-tag-background-color: #{mix(
+      --el-tag-bg-color: #{mix(
           map.get($tag-color, $type),
           $color-white,
           $backgroundColorWeight
@@ -63,10 +63,10 @@
           $color-white,
           $borderColorWeight
         )};
-      --el-tag-font-color: #{mix(
+      --el-tag-text-color: #{mix(
           map.get($tag-color, $type),
           $color-white,
-          $fontColorWeight
+          $textColorWeight
         )};
       --el-tag-hover-color: #{mix(
           map.get($tag-color, $type),
@@ -105,7 +105,6 @@
     line-height: 16px;
     vertical-align: middle;
     top: -1px;
-    right: -5px;
 
     &::before {
       display: block;
@@ -114,6 +113,10 @@
     svg {
       margin: 2px;
     }
+  }
+
+  .#{$namespace}-tag__close {
+    right: -5px;
   }
 
   @include m(dark) {

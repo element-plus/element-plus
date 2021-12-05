@@ -1,5 +1,5 @@
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import { CircleClose } from '@element-plus/icons'
+import { CircleClose } from '@element-plus/icons-vue'
 
 import type { PropType, Component } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'
@@ -79,6 +79,10 @@ export const SelectProps = {
   valueKey: {
     type: String,
     default: 'value',
+  },
+  scrollbarAlwaysOn: {
+    type: Boolean,
+    default: false,
   },
 }
 

@@ -161,13 +161,14 @@
             </template>
             <template #suffix>
               <el-icon
+                v-if="iconComponent"
                 v-show="!showClose"
                 :class="['el-select__caret', 'el-input__icon', iconReverse]"
               >
                 <component :is="iconComponent" />
               </el-icon>
               <el-icon
-                v-if="showClose"
+                v-if="showClose && clearIcon"
                 class="el-select__caret el-input__icon"
                 @click="handleClearClick"
               >
@@ -221,7 +222,7 @@ import {
   computed,
 } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
-import { useFocus, useLocaleInject } from '@element-plus/hooks'
+import { useFocus, useLocale } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import ElPopper, { Effect } from '@element-plus/components/popper'
 import ElScrollbar from '@element-plus/components/scrollbar'
@@ -233,7 +234,7 @@ import {
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import { CircleClose } from '@element-plus/icons'
+import { CircleClose, ArrowUp } from '@element-plus/icons-vue'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
 import { useSelect, useSelectStates } from './useSelect'
@@ -259,7 +260,10 @@ export default defineComponent({
   props: {
     name: String,
     id: String,
-    modelValue: [Array, String, Number, Boolean, Object],
+    modelValue: {
+      type: [Array, String, Number, Boolean, Object],
+      default: undefined,
+    },
     autocomplete: {
       type: String,
       default: 'off',
@@ -311,6 +315,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    suffixIcon: {
+      type: [String, Object] as PropType<string | Component>,
+      default: ArrowUp,
+    },
   },
   emits: [
     UPDATE_MODEL_EVENT,
@@ -323,7 +331,7 @@ export default defineComponent({
   ],
 
   setup(props, ctx) {
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
     const states = useSelectStates(props)
     const {
       optionsArray,

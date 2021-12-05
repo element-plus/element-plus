@@ -22,7 +22,7 @@
       :disabled="item.disabled"
     />
     <template #prefix>
-      <el-icon class="el-input__prefix-icon">
+      <el-icon v-if="prefixIcon" class="el-input__prefix-icon">
         <component :is="prefixIcon" />
       </el-icon>
     </template>
@@ -33,7 +33,7 @@
 import { defineComponent, computed, ref } from 'vue'
 import ElSelect from '@element-plus/components/select'
 import ElIcon from '@element-plus/components/icon'
-import { CircleClose, Clock } from '@element-plus/icons'
+import { CircleClose, Clock } from '@element-plus/icons-vue'
 
 import type { PropType, Component } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'

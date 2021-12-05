@@ -26,8 +26,8 @@ import { stop } from '@element-plus/utils/dom'
 import PopupManager from '@element-plus/utils/popup-manager'
 import { throwError } from '@element-plus/utils/error'
 
-import useTeleport from '../use-teleport'
-import useTimeout from '../use-timeout'
+import { useTeleport } from '../use-teleport'
+import { useTimeout } from '../use-timeout'
 import { useModelToggle } from '../use-model-toggle'
 import { useTransitionFallthrough } from '../use-transition-fallthrough'
 import { defaultPopperOptions, defaultModifiers } from './use-popper-options'
@@ -134,8 +134,8 @@ export const usePopperProps = {
 }
 
 export const usePopperHook = () => {
-  const vm = getCurrentInstance()
-  const props: ExtractPropTypes<typeof usePopperProps> = vm.props as any
+  const vm = getCurrentInstance()!
+  const props: ExtractPropTypes<typeof usePopperProps> = vm.proxy?.$props as any
   const { slots } = vm
 
   const arrowRef = ref<RefElement>(null)

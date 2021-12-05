@@ -5,6 +5,6 @@
   "copy-code": "Copy code",
   "switch-button-option-text": "Switch to Options API",
   "switch-button-setup-text": "Switch to Composition API",
-  "copy-success": "Copied！",
+  "copy-success": "Copied!",
   "copy-error": "This browser does not support automatic copy！"
 }

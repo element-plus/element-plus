@@ -5,5 +5,9 @@
       matchPaths: ['docs/package.json'],
       extends: ['config:js-app'],
     },
+    {
+      matchPaths: ['packages/element-plus/package.json'],
+      extends: ['config:base', ':preserveSemverRanges'],
+    },
   ],
 }

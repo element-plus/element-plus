@@ -3,6 +3,7 @@
     ref="popper"
     v-model:visible="suggestionVisible"
     :placement="placement"
+    :fallback-placements="['bottom-start', 'top-start']"
     :popper-class="`el-autocomplete__popper ${popperClass}`"
     :append-to-body="popperAppendToBody"
     pure
@@ -109,7 +110,7 @@ import ElInput from '@element-plus/components/input'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElPopper, { Effect } from '@element-plus/components/popper'
 import ElIcon from '@element-plus/components/icon'
-import { Loading } from '@element-plus/icons'
+import { Loading } from '@element-plus/icons-vue'
 
 import type { Placement } from '@element-plus/components/popper'
 import type { PropType } from 'vue'

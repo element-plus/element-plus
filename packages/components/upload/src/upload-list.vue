@@ -102,8 +102,8 @@ import {
   ZoomIn,
   Check,
   CircleCheck,
-} from '@element-plus/icons'
-import { useLocaleInject } from '@element-plus/hooks'
+} from '@element-plus/icons-vue'
+import { useLocale } from '@element-plus/hooks'
 import ElProgress from '@element-plus/components/progress'
 
 import type { PropType } from 'vue'
@@ -141,7 +141,7 @@ export default defineComponent({
   },
   emits: ['remove'],
   setup(props, { emit }) {
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
 
     const handleClick = (file: UploadFile) => {
       props.handlePreview(file)

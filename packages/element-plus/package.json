@@ -32,8 +32,8 @@
     "theme-chalk/src/*.scss",
     "es/components/*/style/*",
     "lib/components/*/style/*",
-    "lib/components/*/src/**",
-    "es/components/*/src/**"
+    "lib/components/**/*",
+    "es/components/**/*"
   ],
   "repository": {
     "type": "git",
@@ -46,14 +46,19 @@
     "vue": "^3.2.0"
   },
   "dependencies": {
-    "@element-plus/icons": "^0.0.11",
+    "@element-plus/icons-vue": "^0.2.2",
     "@popperjs/core": "^2.10.2",
-    "@vueuse/core": "^6.7.3",
+    "@vueuse/core": "^7.0.0",
     "async-validator": "^4.0.7",
     "dayjs": "^1.10.7",
     "lodash": "^4.17.21",
     "memoize-one": "^6.0.0",
-    "normalize-wheel-es": "^1.1.0"
+    "normalize-wheel-es": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "*",
+    "csstype": "^2.6.0",
+    "vue-router": "^4.0.0"
   },
   "vetur": {
     "tags": "tags.json",

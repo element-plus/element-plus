@@ -95,6 +95,10 @@ export const virtualizedProps = buildProps({
     type: Boolean,
     default: true,
   },
+  scrollbarAlwaysOn: {
+    type: Boolean,
+    default: false,
+  },
 } as const)
 
 export const virtualizedListProps = buildProps({

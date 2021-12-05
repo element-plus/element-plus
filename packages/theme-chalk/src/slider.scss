@@ -16,7 +16,7 @@
     width: 100%;
     height: var(--el-slider-height);
     margin: var(--el-slider-margin);
-    background-color: var(--el-slider-runway-background-color);
+    background-color: var(--el-slider-runway-bg-color);
     border-radius: var(--el-slider-border-radius);
     position: relative;
     cursor: pointer;
@@ -88,7 +88,7 @@
 
   @include e(bar) {
     height: var(--el-slider-height);
-    background-color: var(--el-slider-main-background-color);
+    background-color: var(--el-slider-main-bg-color);
     border-top-left-radius: var(--el-slider-border-radius);
     border-bottom-left-radius: var(--el-slider-border-radius);
     position: absolute;
@@ -123,7 +123,7 @@
     width: var(--el-slider-button-size);
     height: var(--el-slider-button-size);
     vertical-align: middle;
-    border: solid 2px var(--el-slider-main-background-color);
+    border: solid 2px var(--el-slider-main-bg-color);
     background-color: var(--el-color-white);
     border-radius: 50%;
     box-sizing: border-box;
@@ -151,7 +151,7 @@
     height: var(--el-slider-height);
     width: var(--el-slider-height);
     border-radius: var(--el-border-radius-circle);
-    background-color: var(--el-slider-stop-background-color);
+    background-color: var(--el-slider-stop-bg-color);
     transform: translateX(-50%);
   }
 

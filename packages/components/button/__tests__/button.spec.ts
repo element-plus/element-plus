@@ -1,6 +1,6 @@
 import { ref, h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { Loading, Search } from '@element-plus/icons'
+import { Loading, Search } from '@element-plus/icons-vue'
 import Button from '../src/button.vue'
 import ButtonGroup from '../src/button-group.vue'
 
@@ -178,6 +178,9 @@ describe('Button Group', () => {
     const wrapper = mount(Button, {
       slots: {
         default: '中文',
+      },
+      props: {
+        autoInsertSpace: true,
       },
     })
     expect(wrapper.find('.el-button span').text()).toBe('中文')

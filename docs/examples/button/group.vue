@@ -12,21 +12,12 @@
     <el-button type="primary" :icon="Delete"></el-button>
   </el-button-group>
 </template>
-<script lang="ts">
-import { ElIcon } from '@element-plus/components/icon'
-import { ArrowLeft, Edit, Share, Delete, ArrowRight } from '@element-plus/icons'
-export default {
-  components: {
-    ElIcon,
-    ArrowRight,
-  },
-  data() {
-    return {
-      ArrowLeft,
-      Edit,
-      Share,
-      Delete,
-    }
-  },
-}
+<script setup lang="ts">
+import {
+  ArrowLeft,
+  Edit,
+  Share,
+  Delete,
+  ArrowRight,
+} from '@element-plus/icons-vue'
 </script>

@@ -36,6 +36,10 @@ export const imageProps = buildProps({
     type: Number,
     default: 2000,
   },
+  initialIndex: {
+    type: Number,
+    default: 0,
+  },
 } as const)
 export type ImageProps = ExtractPropTypes<typeof imageProps>
 

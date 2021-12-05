@@ -72,7 +72,7 @@ import { useFormItem } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import { isNumber } from '@element-plus/utils/util'
 import { debugWarn } from '@element-plus/utils/error'
-import { ArrowUp, ArrowDown, Plus, Minus } from '@element-plus/icons'
+import { ArrowUp, ArrowDown, Plus, Minus } from '@element-plus/icons-vue'
 import { inputNumberProps, inputNumberEmits } from './input-number'
 
 import type { ComponentPublicInstance } from 'vue'

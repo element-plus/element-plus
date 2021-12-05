@@ -38,10 +38,11 @@
     width: map.get($input-height, 'default');
     height: auto;
     text-align: center;
-    background: $background-color-base;
+    background: var(--el-bg-color);
     color: var(--el-text-color-regular);
     cursor: pointer;
     font-size: 13px;
+    user-select: none;
 
     &:hover {
       color: var(--el-color-primary);
@@ -55,7 +56,7 @@
     }
 
     &.is-disabled {
-      color: var(--el-disabled-color-base);
+      color: var(--el-disabled-text-color);
       cursor: not-allowed;
     }
   }
@@ -74,11 +75,11 @@
 
   @include when(disabled) {
     @include e((increase, decrease)) {
-      border-color: var(--el-disabled-border-base);
-      color: var(--el-disabled-border-base);
+      border-color: var(--el-disabled-border-color);
+      color: var(--el-disabled-border-color);
 
       &:hover {
-        color: var(--el-disabled-border-base);
+        color: var(--el-disabled-border-color);
         cursor: not-allowed;
       }
     }

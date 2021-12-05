@@ -36,18 +36,13 @@
     <el-button type="danger" :icon="Delete" circle></el-button>
   </el-row>
 </template>
-<script lang="ts">
-import { Search, Edit, Check, Message, Star, Delete } from '@element-plus/icons'
-export default {
-  data() {
-    return {
-      Search,
-      Edit,
-      Check,
-      Message,
-      Star,
-      Delete,
-    }
-  },
-}
+<script setup lang="ts">
+import {
+  Search,
+  Edit,
+  Check,
+  Message,
+  Star,
+  Delete,
+} from '@element-plus/icons-vue'
 </script>

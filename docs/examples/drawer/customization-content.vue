@@ -54,7 +54,7 @@
         <el-button
           type="primary"
           :loading="loading"
-          @click="$refs.drawer.closeDrawer()"
+          @click="$refs.drawer.close()"
           >{{ loading ? 'Submitting ...' : 'Submit' }}</el-button
         >
       </div>

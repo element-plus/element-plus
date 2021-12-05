@@ -37,13 +37,17 @@
         @mouseleave="onMouseLeave"
       >
         <template #prefix>
-          <el-icon class="el-input__icon" @click="handleFocus">
+          <el-icon
+            v-if="triggerIcon"
+            class="el-input__icon"
+            @click="handleFocus"
+          >
             <component :is="triggerIcon"></component>
           </el-icon>
         </template>
         <template #suffix>
           <el-icon
-            v-if="showClose"
+            v-if="showClose && clearIcon"
             class="el-input__icon clear-icon"
             @click="onClearIconClick"
           >
@@ -66,7 +70,11 @@
         @mouseleave="onMouseLeave"
         @keydown="handleKeydown"
       >
-        <el-icon class="el-input__icon el-range__icon" @click="handleFocus">
+        <el-icon
+          v-if="triggerIcon"
+          class="el-input__icon el-range__icon"
+          @click="handleFocus"
+        >
           <component :is="triggerIcon"></component>
         </el-icon>
         <input
@@ -97,6 +105,7 @@
           @change="handleEndChange"
         />
         <el-icon
+          v-if="clearIcon"
           class="el-input__icon el-range__close-icon"
           :class="{
             'el-range__close-icon--hidden': !showClose,
@@ -137,7 +146,7 @@ import {
 } from 'vue'
 import dayjs from 'dayjs'
 import isEqual from 'lodash/isEqual'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import { ClickOutside } from '@element-plus/directives'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import ElInput from '@element-plus/components/input'
@@ -145,7 +154,7 @@ import ElIcon from '@element-plus/components/icon'
 import ElPopper, { Effect } from '@element-plus/components/popper'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { useGlobalConfig, isEmpty } from '@element-plus/utils/util'
-import { Clock, Calendar } from '@element-plus/icons'
+import { Clock, Calendar } from '@element-plus/icons-vue'
 import { timePickerDefaultProps } from './props'
 
 import type { Dayjs } from 'dayjs'
@@ -218,7 +227,7 @@ export default defineComponent({
   emits: ['update:modelValue', 'change', 'focus', 'blur', 'calendar-change'],
   setup(props, ctx) {
     const ELEMENT = useGlobalConfig()
-    const { lang } = useLocaleInject()
+    const { lang } = useLocale()
 
     const elForm = inject(elFormKey, {} as ElFormContext)
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
@@ -486,8 +495,9 @@ export default defineComponent({
         return
       }
 
-      if (code === EVENT_CODE.enter) {
+      if (code === EVENT_CODE.enter || code === EVENT_CODE.numpadEnter) {
         if (
+          userInput.value === null ||
           userInput.value === '' ||
           isValidValue(parseUserInputToDayjs(displayValue.value))
         ) {

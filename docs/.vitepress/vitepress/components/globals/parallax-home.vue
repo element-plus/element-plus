@@ -1,30 +1,18 @@
 <script setup lang="ts">
 import { ref, reactive, computed } from 'vue'
-import { withBase } from 'vitepress'
-
 import { useParallax, useThrottleFn, useEventListener } from '@vueuse/core'
+import { useLang } from '../../composables/lang'
+import homeLocale from '../../../i18n/pages/home.json'
+import sponsorLocale from '../../../i18n/component/sponsors-home.json'
 import type { CSSProperties } from 'vue'
 
 const target = ref<HTMLElement | null>(null)
 const parallax = reactive(useParallax(target))
 const jumbotronRedOffset = ref(0)
 const jumbotronRef = ref<HTMLElement | null>(null)
-
-const sponsors = [
-  {
-    name: 'bit',
-    img: withBase('/images/bit.svg'),
-    url: 'https://bit.dev/?from=element-ui',
-    slogan: 'Share Code',
-  },
-  {
-    name: 'renren.io',
-    img: withBase('/images/renren.png'),
-    url: 'https://www.renren.io/?from=element-ui',
-    slogan: 'Rapid development platform',
-    className: 'renren',
-  },
-]
+const lang = useLang()
+const homeLang = computed(() => homeLocale[lang.value])
+const sponsors = computed(() => sponsorLocale[lang.value])
 
 const containerStyle: CSSProperties = {
   display: 'flex',
@@ -85,11 +73,8 @@ useEventListener(window, 'scroll', handleScroll)
   <div ref="target" class="home-page">
     <div class="banner">
       <div class="banner-desc">
-        <h1>A Desktop UI Library</h1>
-        <p>
-          Element Plus, a Vue 3 based component library for developers,
-          designers and product managers
-        </p>
+        <h1>{{ homeLang['1'] }}</h1>
+        <p>{{ homeLang['2'] }}</p>
       </div>
     </div>
     <div ref="jumbotronRef" class="jumbotron">
@@ -104,57 +89,65 @@ useEventListener(window, 'scroll', handleScroll)
         </div>
       </div>
     </div>
-    <div class="sponsors">
-      <a
-        v-for="(sponsor, i) in sponsors"
-        :key="i"
-        :class="['sponsor', sponsor.className]"
-        :href="sponsor.url"
-        target="_blank"
-      >
-        <img width="45" :src="sponsor.img" :alt="sponsor.name" />
-        <div>
-          <p>
-            Sponsored by
-            <span class="name">{{ sponsor.name }}</span>
-          </p>
-          <p>{{ sponsor.slogan }}</p>
-        </div>
-      </a>
+    <div class="sponsors-container">
+      <div class="sponsors-list">
+        <a
+          v-for="(sponsor, i) in sponsors"
+          :key="i"
+          :class="['sponsor', sponsor.className]"
+          :href="sponsor.url"
+          target="_blank"
+        >
+          <img width="45" :src="sponsor.img" :alt="sponsor.name" />
+          <div>
+            <p>
+              Sponsored by
+              <span class="name">{{ sponsor.name }}</span>
+            </p>
+            <p>{{ sponsor.slogan }}</p>
+          </div>
+        </a>
+      </div>
+      <div class="join">
+        <el-tooltip placement="top" hide-after="1000" offset="20">
+          <template #content>
+            {{ homeLang['21'] }}
+            <a href="mailto:element-plus@outlook.com" target="_blank">
+              &nbsp;element-plus@outlook.com
+            </a>
+          </template>
+          <a href="mailto:element-plus@outlook.com" target="_blank">
+            <el-button round>{{ homeLang['20'] }}</el-button>
+          </a>
+        </el-tooltip>
+      </div>
     </div>
     <div class="cards">
       <ul class="container">
         <li>
           <div class="card">
             <img src="/images/guide.png" alt="" />
-            <h3>Guide</h3>
-            <p>
-              Understand the design guidelines, helping designers build product
-              that's logically sound, reasonably structured and easy to use.
-            </p>
-            <a href="/en-US/guide/design.html"> View Detail </a>
+            <h3>{{ homeLang['3'] }}</h3>
+            <p>{{ homeLang['4'] }}</p>
+            <a :href="`/${lang}/guide/design.html`">{{ homeLang['5'] }}</a>
           </div>
         </li>
         <li>
           <div class="card">
             <img src="/images/component.png" alt="" />
-            <h3>Component</h3>
-            <p>
-              Experience interaction details by strolling through component
-              demos. Use encapsulated code to improve developing efficiency.
-            </p>
-            <a href="/en-US/component/layout.html"> View Detail </a>
+            <h3>{{ homeLang['6'] }}</h3>
+            <p>{{ homeLang['7'] }}</p>
+            <a :href="`/${lang}/component/layout.html`">
+              {{ homeLang['5'] }}
+            </a>
           </div>
         </li>
         <li>
           <div class="card">
             <img src="/images/resource.png" alt="" />
-            <h3>Resource</h3>
-            <p>
-              Download relevant design resources for shaping page prototype or
-              visual draft, increasing design efficiency.
-            </p>
-            <a href="/en-US/resource/index.html"> View Detail </a>
+            <h3>{{ homeLang['8'] }}</h3>
+            <p>{{ homeLang['9'] }}</p>
+            <a :href="`/${lang}/resource/index.html`"> {{ homeLang['5'] }} </a>
           </div>
         </li>
       </ul>
@@ -162,65 +155,66 @@ useEventListener(window, 'scroll', handleScroll)
   </div>
   <footer class="footer">
     <div class="footer-main">
-      <h4>Links</h4>
+      <h4>{{ homeLang['10'] }}</h4>
       <a
         href="https://github.com/element-plus/element-plus"
         class="footer-main-link"
         target="_blank"
       >
-        GitHub
+        {{ homeLang['11'] }}
       </a>
       <a
         href="https://github.com/element-plus/element-plus/releases"
         class="footer-main-link"
         target="_blank"
       >
-        Changelog
+        {{ homeLang['12'] }}
       </a>
       <a
         href="https://github.com/element-plus/element-plus-starter"
         class="footer-main-link"
         target="_blank"
       >
-        Starter kit
+        {{ homeLang['13'] }}
       </a>
       <a
-        href="/en-US/component/custom-theme"
+        :href="`/${lang}/guide/theming`"
         class="footer-main-link"
         target="_blank"
       >
-        Online Theme Roller
+        {{ homeLang['14'] }}
       </a>
     </div>
 
     <div class="footer-main">
-      <h4>Community</h4>
+      <h4>{{ homeLang['19'] }}</h4>
       <a
         href="https://gitter.im/element-en/Lobby"
         class="footer-main-link"
         target="_blank"
-        >Gitter</a
       >
+        {{ homeLang['15'] }}
+      </a>
       <a
         href="https://github.com/element-plus/element-plus/issues"
         class="footer-main-link"
         target="_blank"
       >
-        Feedback
+        {{ homeLang['16'] }}
       </a>
       <a
         href="https://github.com/element-plus/element-plus/blob/dev/.github/CONTRIBUTING.en-US.md"
         class="footer-main-link"
         target="_blank"
       >
-        Contribution
+        {{ homeLang['17'] }}
       </a>
       <a
         href="https://segmentfault.com/t/element-plus"
         class="footer-main-link"
         target="_blank"
       >
-        SegmentFault
+        {{ homeLang['18'] }}
       </a>
     </div>
   </footer>
@@ -249,13 +243,24 @@ useEventListener(window, 'scroll', handleScroll)
     }
   }
 
-  .sponsors {
+  .sponsors-container {
+    .join {
+      text-align: center;
+      margin: 0 0 50px 0;
+    }
+  }
+
+  .sponsors-list {
     display: flex;
     justify-content: center;
+    // jnpf ad class
+    .jnpf > div > p:last-of-type {
+      font-size: 12px;
+    }
   }
 
   .sponsor {
-    margin: 0 20px 50px;
+    margin: 0 20px 10px;
     display: inline-flex;
     width: 300px;
     height: 100px;
