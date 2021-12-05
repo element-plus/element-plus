@@ -64,12 +64,11 @@ const useModel = (props: IUseCheckboxProps) => {
   const { emit } = getCurrentInstance()
   const { isGroup, checkboxGroup } = useCheckboxGroup()
   const isLimitExceeded = ref(false)
-  const store = computed(() =>
-    checkboxGroup ? checkboxGroup.modelValue?.value : props.modelValue
-  )
   const model = computed({
     get() {
-      return isGroup.value ? store.value : props.modelValue ?? selfModel.value
+      return isGroup.value
+        ? checkboxGroup.modelValue?.value
+        : props.modelValue ?? selfModel.value
     },
 
     set(val: unknown) {
