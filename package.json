@@ -86,6 +86,7 @@
     "@vue/test-utils": "2.0.0-rc.16",
     "chalk": "4.1.2",
     "components-helper": "1.0.4",
+    "csstype": "2.6.19",
     "cz-conventional-changelog": "3.3.0",
     "esbuild": "0.14.2",
     "eslint": "8.4.0",
