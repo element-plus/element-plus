@@ -8,6 +8,7 @@ import {
   hasClass,
   getStyle,
 } from '@element-plus/utils/dom'
+import isServer from '@element-plus/utils/isServer'
 
 import type { Ref } from 'vue'
 
@@ -23,6 +24,10 @@ export const useLockscreen = (trigger: Ref<boolean>) => {
       'You need to pass a ref param to this function'
     )
   }
+  if (isServer || hasClass(document.body, 'el-popup-parent--hidden')) {
+    return
+  }
+
   let scrollBarWidth = 0
   let withoutHiddenClass = false
   let bodyPaddingRight = '0'
