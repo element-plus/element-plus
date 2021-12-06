@@ -208,7 +208,7 @@
   @include e(icon) {
     width: 25px;
     height: inherit;
-    display: flex;
+    display: flex !important;
     justify-content: center;
     align-items: center;
     transition: all var(--el-transition-duration);
