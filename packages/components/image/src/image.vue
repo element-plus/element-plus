@@ -11,7 +11,7 @@
       <div class="el-image__error">{{ t('el.image.error') }}</div>
     </slot>
     <img
-      v-else
+      v-show="!loading && !hasLoadError"
       class="el-image__inner"
       v-bind="attrs"
       :src="src"
