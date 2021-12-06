@@ -37,12 +37,11 @@
 <script lang="ts">
 import { computed, inject, defineComponent, Text, ref } from 'vue'
 import { useCssVar } from '@vueuse/core'
+import { TinyColor } from '@ctrl/tinycolor'
 import { ElIcon } from '@element-plus/components/icon'
 import { useFormItem, useGlobalConfig } from '@element-plus/hooks'
 import { buttonGroupContextKey } from '@element-plus/tokens'
 import { Loading } from '@element-plus/icons-vue'
-
-import { lighten, darken } from '@element-plus/utils/color'
 
 import { buttonEmits, buttonProps } from './button'
 
@@ -99,32 +98,36 @@ export default defineComponent({
       const buttonColor = props.color || typeColor.value
 
       if (buttonColor) {
-        const darkenBgColor = darken(buttonColor, 0.1)
+        const shadeBgColor = new TinyColor(buttonColor).shade(10).toString()
         if (props.plain) {
           styles = {
-            '--el-button-bg-color': lighten(buttonColor, 0.9),
+            '--el-button-bg-color': new TinyColor(buttonColor)
+              .tint(90)
+              .toString(),
             '--el-button-text-color': buttonColor,
             '--el-button-hover-text-color': 'var(--el-color-white)',
             '--el-button-hover-bg-color': buttonColor,
             '--el-button-hover-border-color': buttonColor,
-            '--el-button-active-bg-color': darkenBgColor,
+            '--el-button-active-bg-color': shadeBgColor,
             '--el-button-active-text-color': 'var(--el-color-white)',
-            '--el-button-active-border-color': darkenBgColor,
+            '--el-button-active-border-color': shadeBgColor,
           }
         } else {
-          const lightenBgColor = lighten(buttonColor)
+          const tintBgColor = new TinyColor(buttonColor).tint(20).toString()
           styles = {
             '--el-button-bg-color': buttonColor,
             '--el-button-border-color': buttonColor,
-            '--el-button-hover-bg-color': lightenBgColor,
-            '--el-button-hover-border-color': lightenBgColor,
-            '--el-button-active-bg-color': darkenBgColor,
-            '--el-button-active-border-color': darkenBgColor,
+            '--el-button-hover-bg-color': tintBgColor,
+            '--el-button-hover-border-color': tintBgColor,
+            '--el-button-active-bg-color': shadeBgColor,
+            '--el-button-active-border-color': shadeBgColor,
           }
         }
 
         if (buttonDisabled.value) {
-          const disabledButtonColor = lighten(buttonColor, 0.5)
+          const disabledButtonColor = new TinyColor(buttonColor)
+            .tint(50)
+            .toString()
           styles['--el-button-disabled-bg-color'] = disabledButtonColor
           styles['--el-button-disabled-border-color'] = disabledButtonColor
         }
