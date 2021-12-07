@@ -38,6 +38,7 @@
     <el-input
       ref="input"
       type="number"
+      :step="step"
       :model-value="displayValue"
       :placeholder="placeholder"
       :disabled="inputNumberDisabled"
