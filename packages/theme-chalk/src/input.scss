@@ -213,7 +213,7 @@
     align-items: center;
     transition: all var(--el-transition-duration);
 
-    &.#{$namespace}-input__icon {
+    &.#{$namespace}-icon {
       display: flex;
     }
   }
