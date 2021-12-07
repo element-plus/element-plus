@@ -208,10 +208,14 @@
   @include e(icon) {
     width: 25px;
     height: inherit;
-    display: flex !important;
+    display: flex;
     justify-content: center;
     align-items: center;
     transition: all var(--el-transition-duration);
+
+    &.#{$namespace}-input__icon {
+      display: flex;
+    }
   }
 
   @include e(validateIcon) {
