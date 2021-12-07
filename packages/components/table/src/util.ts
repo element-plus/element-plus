@@ -330,7 +330,6 @@ export function createTablePopper(
   function renderArrow(): HTMLDivElement {
     const arrow = document.createElement('div')
     arrow.className = 'el-popper__arrow'
-    arrow.style.bottom = '-4px'
     return arrow
   }
   function showPopper() {
