@@ -29,11 +29,11 @@ Element Plus provides a set of common icons.
 # Choose a package manager you like.
 
 # NPM
-$ npm install @element-plus/icons
+$ npm install @element-plus/icons-vue
 # Yarn
-$ yarn add @element-plus/icons
+$ yarn add @element-plus/icons-vue
 # pnpm
-$ pnpm install @element-plus/icons
+$ pnpm install @element-plus/icons-vue
 ```
 
 ## Simple usage
