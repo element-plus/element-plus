@@ -175,6 +175,7 @@ export default defineComponent({
       new Color({
         enableAlpha: props.showAlpha,
         format: props.colorFormat,
+        value: props.modelValue,
       })
     )
     const showPicker = ref(false)
@@ -213,7 +214,6 @@ export default defineComponent({
       (val) => {
         customInput.value = val
         emit('active-change', val)
-        // showPanelColor.value = true
       }
     )
 
@@ -279,8 +279,8 @@ export default defineComponent({
         const newColor = new Color({
           enableAlpha: props.showAlpha,
           format: props.colorFormat,
+          value: props.modelValue,
         })
-        newColor.fromString(props.modelValue)
         if (!color.compare(newColor)) {
           resetColor()
         }
@@ -299,7 +299,6 @@ export default defineComponent({
 
     onMounted(() => {
       if (props.modelValue) {
-        color.fromString(props.modelValue)
         customInput.value = currentColor.value
       }
     })
