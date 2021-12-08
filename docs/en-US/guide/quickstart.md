@@ -79,7 +79,7 @@ export default {
 
 ```ts
 // webpack.config.js
-import AutoImport from 'unplugin-auto-import/webpack'
+const AutoImport =  require('unplugin-auto-import/webpack')
 const Components = require('unplugin-vue-components/webpack')
 const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
 
