@@ -104,6 +104,8 @@
     box-sizing: border-box;
   }
   @include e(content) {
+    display: inline-flex;
+    align-items: center;
     flex: 1;
     line-height: 40px;
     position: relative;
