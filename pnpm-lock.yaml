@@ -147,7 +147,7 @@ importers:
     specifiers:
       '@crowdin/cli': 3.7.2
       '@types/markdown-it': 12.2.3
-      '@vueuse/core': 7.1.2
+      '@vueuse/core': 7.2.2
       axios: 0.24.0
       clipboard-copy: 4.0.1
       cross-env: 7.0.3
@@ -159,7 +159,7 @@ importers:
       vite-plugin-inspect: 0.3.11
       vitepress: 0.18.1
     dependencies:
-      '@vueuse/core': 7.1.2_vue@3.2.24
+      '@vueuse/core': 7.2.2_vue@3.2.24
       axios: 0.24.0
       clipboard-copy: 4.0.1
       element-plus: 1.2.0-beta.5_vue@3.2.24
@@ -253,7 +253,7 @@ importers:
       '@element-plus/icons-vue': 0.2.2_vue@3.2.24
     devDependencies:
       '@vitejs/plugin-vue': 1.10.1_vite@2.6.14
-      unplugin-vue-components: 0.17.6_9fb2980cdf95da0e45d7b70f9297451c
+      unplugin-vue-components: 0.17.6_a4c87ffeeef0c2e8cdf5ea9dc2dd44e5
       vite: 2.6.14_sass@1.44.0
       vite-plugin-inspect: 0.3.11_vite@2.6.14
 
@@ -2164,8 +2164,8 @@ packages:
       vue-demi: 0.11.4_vue@3.2.24
     dev: false
 
-  /@vueuse/core/7.1.2_vue@3.2.24:
-    resolution: {integrity: sha512-SLoOPfhZdNRNUkZfx+wrHj6WycWdSw2RmNS8E4ngQ2kmBoJjRarGy51/GkGdjqHQqmhuwuFoNO2WaU0yBn3ffg==}
+  /@vueuse/core/7.2.2_vue@3.2.24:
+    resolution: {integrity: sha512-T9oksrPflNhsgG/Y/7IeCSmITPZ0VKDnTpK8y7SQl4ZIdLIL8L7fJyhJEgSMWyo497j/XK3RKFkOTh4GFTVeIQ==}
     peerDependencies:
       '@vue/composition-api': ^1.1.0
       vue: ^2.6.0 || ^3.2.0
@@ -2175,7 +2175,7 @@ packages:
       vue:
         optional: true
     dependencies:
-      '@vueuse/shared': 7.1.2_vue@3.2.24
+      '@vueuse/shared': 7.2.2_vue@3.2.24
       vue: 3.2.24
       vue-demi: 0.11.4_vue@3.2.24
     dev: false
@@ -2195,8 +2195,8 @@ packages:
       vue-demi: 0.11.4_vue@3.2.24
     dev: false
 
-  /@vueuse/shared/7.1.2_vue@3.2.24:
-    resolution: {integrity: sha512-AjYh4y9S5FMOoHDsysqcXY/1mpqNTrnWUD50yaaiyf+5kGWQVIpAkkjKZlYSC/NHKxxCRn0cLR4nWMzceUWewQ==}
+  /@vueuse/shared/7.2.2_vue@3.2.24:
+    resolution: {integrity: sha512-9vevEvvQgx4snSrDfZ5BFd7FmlIl9rwTtr8ySzPZhZQslx6lbcsXK3Q97I06Fv8S2TedR//X9fn2QbNtbFmdog==}
     peerDependencies:
       '@vue/composition-api': ^1.1.0
       vue: ^2.6.0 || ^3.2.0
@@ -3974,7 +3974,7 @@ packages:
     dependencies:
       '@element-plus/icons': 0.0.11
       '@popperjs/core': 2.11.0
-      '@vueuse/core': 7.1.2_vue@3.2.24
+      '@vueuse/core': 7.2.2_vue@3.2.24
       async-validator: 4.0.7
       dayjs: 1.10.7
       lodash: 4.17.21
@@ -10151,7 +10151,7 @@ packages:
     engines: {node: '>= 10.0.0'}
     dev: true
 
-  /unplugin-vue-components/0.17.6_9fb2980cdf95da0e45d7b70f9297451c:
+  /unplugin-vue-components/0.17.6_a4c87ffeeef0c2e8cdf5ea9dc2dd44e5:
     resolution: {integrity: sha512-Z2XvwKeY7/++MucRKzJihDsbdL8rFb71VfmuhtMtLE8zurjFu57XKFx0RNFUD5zD4g0HEyR9GGTwXu2YI0rang==}
     engines: {node: '>=14'}
     peerDependencies:
