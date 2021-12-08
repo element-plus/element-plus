@@ -40,11 +40,11 @@ export const popconfirmProps = buildProps({
     type: Number,
     default: 200,
   },
+  onConfirm: {
+    type: definePropType<(e: Event) => Promise<boolean> | boolean>(Function),
+  },
+  onCancel: {
+    type: definePropType<(e: Event) => Promise<boolean> | boolean>(Function),
+  },
 } as const)
 export type PopconfirmProps = ExtractPropTypes<typeof popconfirmProps>
-
-export const popconfirmEmits = {
-  confirm: () => true,
-  cancel: () => true,
-}
-export type PopconfirmEmits = typeof popconfirmEmits

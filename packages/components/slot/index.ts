@@ -1,7 +1,6 @@
 import type { Ref } from 'vue'
-export { default as ElSlot } from './src/slot'
-export { default } from './src/slot'
+export { default as ElOnlyChild } from './src/only-child'
 
-export type ElSlotExpose = {
+export type ElOnlyChildExpose = {
   forwardRef: Ref<HTMLElement>
 }

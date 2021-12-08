@@ -1,13 +1,8 @@
 <template>
   <el-collection-item :id="id" :focusable="focusable" :active="active">
-    <el-slot
-      ref="itemRef"
-      tag="span"
-      :tabindex="isCurrentTab ? 0 : -1"
-      v-bind="$attrs"
-    >
+    <span ref="itemRef" :tabindex="isCurrentTab ? 0 : -1" v-bind="$attrs">
       <slot />
-    </el-slot>
+    </span>
   </el-collection-item>
 </template>
 
@@ -17,7 +12,6 @@ import {
   COLLECTION_INJECTION_KEY,
   ElCollectionItem,
 } from '@element-plus/components/collection'
-import { ElSlot } from '@element-plus/components/slot'
 import { useId } from '@element-plus/hooks'
 import { composeEventHandlers } from '@element-plus/utils/dom'
 import { EVENT_CODE } from '@element-plus/utils/aria'
@@ -27,7 +21,6 @@ import { getFocusIntent, reorderArray, focusFirst } from './utils'
 export default defineComponent({
   components: {
     ElCollectionItem,
-    ElSlot,
   },
   props: {
     focusable: {

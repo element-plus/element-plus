@@ -1,13 +1,7 @@
 <template>
-  <el-slot
-    ref="focusTrapRef"
-    tag="div"
-    :tabindex="-1"
-    v-bind="$attrs"
-    @keydown="onKeydown"
-  >
+  <div ref="focusTrapRef" :tabindex="-1" v-bind="$attrs" @keydown="onKeydown">
     <slot />
-  </el-slot>
+  </div>
 </template>
 <script lang="ts">
 import {
@@ -20,7 +14,6 @@ import {
   unref,
   watch,
 } from 'vue'
-import { ElSlot } from '@element-plus/components/slot'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { on, off } from '@element-plus/utils/dom'
 import {
@@ -39,14 +32,11 @@ import {
   FOCUS_ON_UNMOUNT,
 } from './tokens'
 
-import type { ElSlotExpose } from '@element-plus/components/slot'
+import type { ElOnlyChildExpose } from '@element-plus/components/slot'
 import type { FocusLayer } from './utils'
 
 export default defineComponent({
   name: 'ElFocusTrap',
-  components: {
-    ElSlot,
-  },
   inheritAttrs: false,
   props: {
     loop: Boolean,
@@ -54,7 +44,7 @@ export default defineComponent({
   },
   emits: [ON_MOUNT_FOCUS_EVT, ON_UNMOUNT_FOCUS_EVT],
   setup(props, { emit }) {
-    const focusTrapRef = ref<ElSlotExpose>()
+    const focusTrapRef = ref<HTMLElement | null>()
     let lastFocusBeforeMounted: HTMLElement | null
     let lastFocusAfterMounted: HTMLElement | null
 

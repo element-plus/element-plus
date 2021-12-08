@@ -1,21 +1,40 @@
 <template>
-  <el-button ref="buttonRef" v-click-outside="onClickOutside"
-    >Click me</el-button
-  >
-
-  <el-tooltip ref="tooltipRef" :triggering-element="buttonRef" trigger="click">
-    <template #content>
-      <span> Some content </span>
-    </template>
-  </el-tooltip>
+  <el-tooltip
+    content="Bottom center"
+    placement="bottom"
+    effect="light"
+    trigger="click"
+    :virtual-ref="triggerRef"
+    v-model:visible="visible"
+  />
+  <el-button @click="visible = !visible">test</el-button>
 </template>
 
 <script setup lang="ts">
-import { ref, unref } from 'vue'
-import { ClickOutside as vClickOutside } from 'element-plus'
-const buttonRef = ref()
-const tooltipRef = ref()
-const onClickOutside = () => {
-  unref(tooltipRef).popperRef?.delayHide?.()
-}
+import { ref, onMounted } from 'vue'
+
+const visible = ref(false)
+const triggerRef = ref({
+  getBoundingClientRect() {
+    return position.value
+  },
+})
+
+const position = ref({
+  top: 0,
+  left: 0,
+  bottom: 0,
+  right: 0,
+})
+
+onMounted(() => {
+  document.addEventListener('mousemove', (e) => {
+    position.value = DOMRect.fromRect({
+      width: 0,
+      height: 0,
+      x: e.clientX,
+      y: e.clientY,
+    })
+  })
+})
 </script>

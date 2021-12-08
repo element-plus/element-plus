@@ -30,7 +30,7 @@ export default defineComponent({
   componentName: 'ElSelectDropdown',
 
   setup() {
-    const select = inject(selectKey)
+    const select = inject(selectKey)!
 
     // computed
     const popperClass = computed(() => select.props.popperClass)
@@ -47,7 +47,7 @@ export default defineComponent({
     onMounted(() => {
       // TODO: updatePopper
       // popper.value.update()
-
+      updateMinWidth()
       addResizeListener(
         select.selectWrapper as ResizableElement,
         updateMinWidth

@@ -255,17 +255,14 @@ export const getClientXY = (event: MouseEvent | TouchEvent) => {
 }
 
 export const composeEventHandlers = <E>(
-  theirsHandler?: (event: E) => void,
+  theirsHandler?: (event: E) => boolean | undefined,
   oursHandler?: (event: E) => void,
   { checkForDefaultPrevented = true } = {}
 ) => {
   const handleEvent = (event: E) => {
-    theirsHandler?.(event)
+    const shouldPrevent = theirsHandler?.(event)
 
-    if (
-      checkForDefaultPrevented === false ||
-      !(event as unknown as Event).defaultPrevented
-    ) {
+    if (checkForDefaultPrevented === false || !shouldPrevent) {
       return oursHandler?.(event)
     }
   }
@@ -277,4 +274,14 @@ type WhenMouseHandler = (e: PointerEvent) => any
 export const whenMouse = (handler: WhenMouseHandler): WhenMouseHandler => {
   return (e: PointerEvent) =>
     e.pointerType === 'mouse' ? handler(e) : undefined
+}
+
+export const composeStoppableHandler = <E extends Event>(
+  handler: (e: E) => void
+) => {
+  return (e: E) => {
+    if (!e.defaultPrevented) {
+      handler(e)
+    }
+  }
 }

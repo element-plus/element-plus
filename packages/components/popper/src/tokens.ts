@@ -1,11 +1,11 @@
 import type { InjectionKey, Ref } from 'vue'
-
-export type Measurable = {
-  getBoundingClientRect: () => DOMRect
-}
+import type { Instance } from '@popperjs/core'
+import type { Measurable } from './popper'
 
 export type ElPopperInjectionContext = {
   triggerRef: Ref<Measurable | null>
+  contentRef: Ref<HTMLElement | null>
+  popperInstanceRef: Ref<Instance | null>
 }
 
 export type ElPopperContentInjectionContext = {

@@ -7,8 +7,16 @@ import type { Placement, Options } from '@popperjs/core'
 const effects = ['light', 'dark'] as const
 const triggers = ['click', 'contextmenu', 'hover', 'focus'] as const
 
+export const Effect = {
+  LIGHT: 'light',
+  DARK: 'dark',
+}
+
 export type PopperEffect = typeof effects[number]
 export type PopperTrigger = typeof triggers[number]
+export type Measurable = {
+  getBoundingClientRect: () => DOMRect
+}
 
 type ClassObjectType = Record<string, any>
 type ClassType = string | ClassObjectType | ClassType[]
@@ -54,17 +62,9 @@ export const usePopperCoreConfigProps = buildProps({
 } as const)
 
 export const usePopperProps = buildProps({
-  appendToBody: {
-    type: Boolean,
-    default: true,
-  },
   autoClose: {
     type: Number,
     default: 0,
-  },
-  content: {
-    type: String,
-    default: '',
   },
   cutoff: {
     type: Boolean,
@@ -74,85 +74,64 @@ export const usePopperProps = buildProps({
     type: Boolean,
     default: false,
   },
-  enterable: {
-    type: Boolean,
-    default: true,
-  },
-  hideAfter: {
-    type: Number,
-    default: 0,
-  },
-  showAfter: {
-    type: Number,
-    default: 0,
-  },
-  manualMode: {
-    type: Boolean,
-    default: false,
-  },
-  pure: {
-    type: Boolean,
-    default: false,
-  },
+
   persistent: {
     type: Boolean,
     default: false,
   },
   // attached to the popped up component wrapper
+
+  referenceElement: {
+    type: definePropType<HTMLElement>(Object),
+  },
+
+  ['onUpdate:visible']: {
+    type: Function,
+  },
+} as const)
+
+export const usePopperContentProps = buildProps({
+  ...usePopperCoreConfigProps,
+  style: { type: definePropType<StyleValue>([String, Array, Object]) },
+  className: { type: definePropType<ClassType>([String, Array, Object]) },
+  content: {
+    type: String,
+    default: '',
+  },
+  effect: {
+    type: String,
+    default: 'dark',
+  },
+  enterable: {
+    type: Boolean,
+    default: true,
+  },
+  pure: {
+    type: Boolean,
+  },
   popperClass: {
     type: definePropType<ClassType>([String, Array, Object]),
   },
   popperStyle: {
     type: definePropType<StyleValue>([String, Array, Object]),
   },
-  stopPopperMouseEvent: {
-    type: Boolean,
-    default: true,
-  },
   rawContent: {
     type: Boolean,
     default: false,
   },
-  teleported: {
+  stopPopperMouseEvent: {
     type: Boolean,
-  },
-  transition: {
-    type: String,
-    default: 'el-fade-in-linear',
-  },
-  trigger: {
-    type: definePropType<string | PopperTrigger[]>([String, Array]),
-    default: 'hover',
-  },
-  triggeringElement: {
-    type: definePropType<HTMLElement>(Object),
-  },
-  referenceElement: {
-    type: definePropType<HTMLElement>(Object),
+    default: true,
   },
   visible: {
     type: Boolean,
     default: null as any,
   },
-  ['onUpdate:visible']: {
-    type: Function,
-  },
-  ...usePopperCoreConfigProps,
-} as const)
-
-export const usePopperContentProps = buildProps({
-  style: { type: definePropType<StyleValue>([String, Array, Object]) },
-  className: { type: definePropType<ClassType>([String, Array, Object]) },
-  effect: {
-    type: String,
-    values: ['light', 'dark'],
-    default: 'dark',
-  },
-  pure: {
-    type: Boolean,
-  },
   zIndex: Number,
-  ...usePopperCoreConfigProps,
+})
+
+export const usePopperTriggerProps = buildProps({
+  virtualRef: { type: definePropType<Measurable>(Object) },
 })
 
 export type UsePopperProps = ExtractPropTypes<typeof usePopperProps>

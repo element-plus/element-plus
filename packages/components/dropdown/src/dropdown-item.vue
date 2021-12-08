@@ -4,7 +4,7 @@
     :text-value="textValue ?? textContent"
   >
     <el-roving-focus-item as-child :focusable="!disabled">
-      <el-slot
+      <div
         ref="itemRef"
         v-bind="$attrs"
         :class="{
@@ -20,7 +20,7 @@
       >
         <el-icon v-if="icon"><component :is="icon" /></el-icon>
         <slot />
-      </el-slot>
+      </div>
     </el-roving-focus-item>
   </el-collection-item>
 </template>
@@ -37,7 +37,6 @@ import {
 import ElIcon from '@element-plus/components/icon'
 import { ElCollectionItem } from '@element-plus/components/collection'
 import { ElRovingFocusItem } from '@element-plus/components/roving-focus-group'
-import { ElSlot } from '@element-plus/components/slot'
 import { buildProps, definePropType } from '@element-plus/utils/props'
 import { composeEventHandlers, whenMouse } from '@element-plus/utils/dom'
 import { useDropdown } from './useDropdown'
@@ -46,7 +45,7 @@ import type { Component } from 'vue'
 
 export default defineComponent({
   name: 'ElDropdownItem',
-  components: { ElIcon, ElCollectionItem, ElRovingFocusItem, ElSlot },
+  components: { ElIcon, ElCollectionItem, ElRovingFocusItem },
   props: buildProps({
     command: {
       type: [Object, String, Number],
@@ -82,6 +81,7 @@ export default defineComponent({
     const handlePointerMove = composeEventHandlers(
       (e: PointerEvent) => {
         emit('pointermove', e)
+        return e.defaultPrevented
       },
       whenMouse((e) => {
         if (props.disabled) {
@@ -98,6 +98,7 @@ export default defineComponent({
     const handlePointerLeave = composeEventHandlers(
       (e: PointerEvent) => {
         emit('pointerleave', e)
+        return e.defaultPrevented
       },
       whenMouse((e) => {
         onItemLeave(e)

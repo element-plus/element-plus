@@ -12,6 +12,7 @@ import { isObject, toRawType } from '@vue/shared'
 import lodashDebounce from 'lodash/debounce'
 import isEqual from 'lodash/isEqual'
 import { isClient } from '@vueuse/core'
+import ElTooltip from '@element-plus/components/tooltip'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { useLocale, useSize } from '@element-plus/hooks'
@@ -20,8 +21,9 @@ import { isKorean } from '@element-plus/utils/isDef'
 import { getValueByPath } from '@element-plus/utils/util'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 
-import type { QueryChangeCtx, SelectOptionProxy } from './token'
+import type { ComponentPublicInstance } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
+import type { QueryChangeCtx, SelectOptionProxy } from './token'
 
 export function useSelectStates(props) {
   const { t } = useLocale()
@@ -48,7 +50,7 @@ export function useSelectStates(props) {
     menuVisibleOnFocus: false,
     isOnComposition: false,
     isSilentBlur: false,
-    prefixWidth: null,
+    prefixWidth: 0,
     tagInMultiLine: false,
   })
 }
@@ -59,12 +61,18 @@ export const useSelect = (props, states: States, ctx) => {
   const { t } = useLocale()
 
   // template refs
-  const reference = ref(null)
-  const input = ref(null)
-  const popper = ref(null)
-  const tags = ref(null)
+  const reference = ref<ComponentPublicInstance<{
+    focus: () => void
+    blur: () => void
+    input: HTMLInputElement
+  }> | null>(null)
+  const input = ref<HTMLInputElement | null>(null)
+  const tooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
+  const tags = ref<HTMLElement | null>(null)
   const selectWrapper = ref<HTMLElement | null>(null)
-  const scrollbar = ref(null)
+  const scrollbar = ref<{
+    handleScroll: () => void
+  } | null>(null)
   const hoverOption = ref(-1)
   const queryChange = shallowRef<QueryChangeCtx>({ query: '' })
   const groupQueryChange = shallowRef('')
@@ -242,13 +250,13 @@ export const useSelect = (props, states: States, ctx) => {
           }
         }
       } else {
-        popper.value?.update?.()
+        tooltipRef.value?.updatePopper?.()
 
         if (props.filterable) {
           states.filteredOptionsCount = states.optionsCount
           states.query = props.remote ? '' : states.selectedLabel
           if (props.multiple) {
-            input.value.focus()
+            input.value?.focus()
           } else {
             if (states.selectedLabel) {
               states.currentPlaceholder = states.selectedLabel
@@ -274,12 +282,16 @@ export const useSelect = (props, states: States, ctx) => {
     () => states.options.entries(),
     () => {
       if (!isClient) return
-      popper.value?.update?.()
+      tooltipRef.value?.updatePopper?.()
       if (props.multiple) {
         resetInputHeight()
       }
       const inputs = selectWrapper.value?.querySelectorAll('input') || []
-      if ([].indexOf.call(inputs, document.activeElement) === -1) {
+      if (
+        Array.from(inputs).indexOf(
+          document.activeElement as HTMLInputElement
+        ) === -1
+      ) {
         setSelected()
       }
       if (
@@ -313,10 +325,9 @@ export const useSelect = (props, states: States, ctx) => {
     nextTick(() => {
       if (!reference.value) return
       const inputChildNodes = reference.value.$el.childNodes
-      const input = [].filter.call(
-        inputChildNodes,
-        (item) => item.tagName === 'INPUT'
-      )[0]
+      const input = Array.from(inputChildNodes).filter(
+        (item) => (item as HTMLElement).tagName === 'INPUT'
+      )[0] as HTMLInputElement
       const _tags = tags.value
       const sizeInMap = states.initialInputHeight || 40
       input.style.height =
@@ -332,7 +343,7 @@ export const useSelect = (props, states: States, ctx) => {
       states.tagInMultiLine = parseFloat(input.style.height) > sizeInMap
 
       if (states.visible && emptyText.value !== false) {
-        popper.value?.update?.()
+        tooltipRef.value?.updatePopper?.()
       }
     })
   }
@@ -349,12 +360,12 @@ export const useSelect = (props, states: States, ctx) => {
     }
     states.previousQuery = val
     nextTick(() => {
-      if (states.visible) popper.value?.update?.()
+      if (states.visible) tooltipRef.value?.updatePopper?.()
     })
     states.hoverIndex = -1
     if (props.multiple && props.filterable) {
       nextTick(() => {
-        const length = input.value.length * 15 + 20
+        const length = input.value!.value.length * 15 + 20
         states.inputLength = props.collapseTags ? Math.min(50, length) : length
         managePlaceholder()
         resetInputHeight()
@@ -384,7 +395,7 @@ export const useSelect = (props, states: States, ctx) => {
 
   const managePlaceholder = () => {
     if (states.currentPlaceholder !== '') {
-      states.currentPlaceholder = input.value.value
+      states.currentPlaceholder = input.value!.value
         ? ''
         : states.cachedPlaceHolder
     }
@@ -426,7 +437,7 @@ export const useSelect = (props, states: States, ctx) => {
       if (props.filterable) states.query = states.selectedLabel
       return
     }
-    const result = []
+    const result: any[] = []
     if (Array.isArray(props.modelValue)) {
       props.modelValue.forEach((value) => {
         result.push(getOption(value))
@@ -500,7 +511,7 @@ export const useSelect = (props, states: States, ctx) => {
 
   const handleResize = () => {
     resetInputWidth()
-    popper.value?.update?.()
+    tooltipRef.value?.updatePopper?.()
     if (props.multiple) resetInputHeight()
   }
 
@@ -556,7 +567,7 @@ export const useSelect = (props, states: States, ctx) => {
 
   const deleteSelected = (event) => {
     event.stopPropagation()
-    const value = props.multiple ? [] : ''
+    const value: string | any[] = props.multiple ? [] : ''
     if (typeof value !== 'string') {
       for (const item of states.selected) {
         if (item.isDisabled) value.push(item.value)
@@ -587,7 +598,7 @@ export const useSelect = (props, states: States, ctx) => {
         handleQueryChange('')
         states.inputLength = 20
       }
-      if (props.filterable) input.value.focus()
+      if (props.filterable) input.value?.focus()
     } else {
       ctx.emit(UPDATE_MODEL_EVENT, option.value)
       emitChange(option.value)
@@ -601,7 +612,7 @@ export const useSelect = (props, states: States, ctx) => {
     })
   }
 
-  const getValueIndex = (arr = [], value) => {
+  const getValueIndex = (arr: any[] = [], value) => {
     if (!isObject(value)) return arr.indexOf(value)
 
     const valueKey = props.valueKey
@@ -620,7 +631,7 @@ export const useSelect = (props, states: States, ctx) => {
     states.softFocus = true
     const _input = input.value || reference.value
     if (_input) {
-      _input.focus()
+      _input?.focus()
     }
   }
 
@@ -637,12 +648,12 @@ export const useSelect = (props, states: States, ctx) => {
       }
     }
 
-    if (popper.value && target) {
-      const menu = popper.value?.popperRef?.querySelector?.(
+    if (tooltipRef.value && target) {
+      const menu = tooltipRef.value?.popperRef.contentRef?.querySelector?.(
         '.el-select-dropdown__wrap'
       )
       if (menu) {
-        scrollIntoView(menu, target)
+        scrollIntoView(menu as HTMLElement, target)
       }
     }
     scrollbar.value?.handleScroll()
@@ -663,7 +674,7 @@ export const useSelect = (props, states: States, ctx) => {
 
   const resetInputState = (e: KeyboardEvent) => {
     if (e.code !== EVENT_CODE.backspace) toggleLastOptionHitState(false)
-    states.inputLength = input.value.length * 15 + 20
+    states.inputLength = input.value!.value.length * 15 + 20
     resetInputHeight()
   }
 
@@ -712,7 +723,7 @@ export const useSelect = (props, states: States, ctx) => {
 
   const blur = () => {
     states.visible = false
-    reference.value.blur()
+    reference.value?.blur()
   }
 
   const handleBlur = (event: Event) => {
@@ -744,7 +755,7 @@ export const useSelect = (props, states: States, ctx) => {
         states.visible = !states.visible
       }
       if (states.visible) {
-        ;(input.value || reference.value).focus()
+        ;(input.value || reference.value)?.focus()
       }
     }
   }
@@ -847,7 +858,7 @@ export const useSelect = (props, states: States, ctx) => {
     // DOM ref
     reference,
     input,
-    popper,
+    tooltipRef,
     tags,
     selectWrapper,
     scrollbar,

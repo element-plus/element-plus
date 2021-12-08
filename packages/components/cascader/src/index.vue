@@ -1,21 +1,21 @@
 <template>
-  <el-popper
-    ref="popper"
+  <el-tooltip
+    ref="tooltipRef"
     v-model:visible="popperVisible"
-    manual-mode
     :append-to-body="popperAppendToBody"
-    placement="bottom-start"
     :popper-class="`el-cascader__dropdown ${popperClass}`"
     :popper-options="popperOptions"
     :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
     :stop-popper-mouse-event="false"
-    transition="el-zoom-in-top"
     :gpu-acceleration="false"
-    :effect="Effect.LIGHT"
+    placement="bottom-start"
+    transition="el-zoom-in-top"
+    effect="light"
     pure
-    @after-leave="hideSuggestionPanel"
+    @hide="hideSuggestionPanel"
+    persistent
   >
-    <template #trigger>
+    <template #default>
       <div
         v-clickoutside:[popperPaneRef]="() => togglePopperVisible(false)"
         :class="[
@@ -98,7 +98,7 @@
       </div>
     </template>
 
-    <template #default>
+    <template #content>
       <el-cascader-panel
         v-show="!filtering"
         ref="panel"
@@ -108,7 +108,7 @@
         :border="false"
         :render-label="$slots.default"
         @expand-change="handleExpandChange"
-        @close="togglePopperVisible(false)"
+        @close="$nextTick(() => togglePopperVisible(false))"
       />
       <el-scrollbar
         v-if="filterable"
@@ -141,7 +141,7 @@
         </slot>
       </el-scrollbar>
     </template>
-  </el-popper>
+  </el-tooltip>
 </template>
 
 <script lang="ts">
@@ -154,6 +154,7 @@ import {
   onBeforeUnmount,
   ref,
   watch,
+  shallowRef,
 } from 'vue'
 import { isPromise } from '@vue/shared'
 import debounce from 'lodash/debounce'
@@ -163,7 +164,7 @@ import ElCascaderPanel, {
   CommonProps,
 } from '@element-plus/components/cascader-panel'
 import ElInput from '@element-plus/components/input'
-import ElPopper, { Effect } from '@element-plus/components/popper'
+import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
@@ -193,7 +194,7 @@ import type {
 import type { ComponentSize } from '@element-plus/utils/types'
 
 type cascaderPanelType = InstanceType<typeof ElCascaderPanel>
-type popperType = InstanceType<typeof ElPopper>
+type tooltipType = InstanceType<typeof ElTooltip>
 type inputType = InstanceType<typeof ElInput>
 type suggestionPanelType = InstanceType<typeof ElScrollbar>
 
@@ -227,7 +228,7 @@ export default defineComponent({
   components: {
     ElCascaderPanel,
     ElInput,
-    ElPopper,
+    ElTooltip,
     ElScrollbar,
     ElTag,
     ElIcon,
@@ -304,7 +305,7 @@ export default defineComponent({
     const elForm = inject(elFormKey, {} as ElFormContext)
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
 
-    const popper: Ref<popperType | null> = ref(null)
+    const tooltipRef: Ref<tooltipType | null> = ref(null)
     const input: Ref<inputType | null> = ref(null)
     const tagWrapper = ref(null)
     const panel: Ref<cascaderPanelType | null> = ref(null)
@@ -367,7 +368,7 @@ export default defineComponent({
     })
 
     const popperPaneRef = computed(() => {
-      return popper.value?.popperRef
+      return tooltipRef.value?.popperRef?.contentRef
     })
 
     const togglePopperVisible = (visible?: boolean) => {
@@ -393,7 +394,9 @@ export default defineComponent({
     }
 
     const updatePopperPosition = () => {
-      nextTick(popper.value?.update)
+      nextTick(() => {
+        tooltipRef.value?.updatePopper()
+      })
     }
 
     const hideSuggestionPanel = () => {
@@ -657,9 +660,8 @@ export default defineComponent({
     })
 
     return {
-      Effect,
       popperOptions,
-      popper,
+      tooltipRef,
       popperPaneRef,
       input,
       tagWrapper,

@@ -1,7 +1,6 @@
 <template>
-  <el-slot
+  <div
     ref="rovingFocusGroupRef"
-    tag="div"
     v-bind="$attrs"
     :tabindex="isBackingOut ? -1 : 0"
     :style="rovingFocusRootStyle"
@@ -10,7 +9,7 @@
     @mousedown="handleMousedown"
   >
     <slot />
-  </el-slot>
+  </div>
 </template>
 
 <script lang="ts">
@@ -28,7 +27,6 @@ import {
   readonly,
   toRef,
 } from 'vue'
-import { ElSlot } from '@element-plus/components/slot'
 import { composeEventHandlers, on, off } from '@element-plus/utils/dom'
 import { COLLECTION_INJECTION_KEY } from '@element-plus/components/collection'
 import { rovingFocusGroupProps } from './roving-focus-group'
@@ -36,15 +34,12 @@ import { ROVING_FOCUS_GROUP_INJECTION_KEY } from './tokens'
 import { focusFirst } from './utils'
 
 import type { StyleValue } from 'vue'
-import type { ElSlotExpose } from '@element-plus/components/slot'
+import type { ElOnlyChildExpose } from '@element-plus/components/slot'
 
 const ENTRY_FOCUS_EVT = 'rovingFocusGroup.entryFocus'
 const EVT_OPTS: EventInit = { bubbles: false, cancelable: true }
 export default defineComponent({
   name: 'ElRovingFocusGroupImpl',
-  components: {
-    ElSlot,
-  },
   inheritAttrs: false,
   props: rovingFocusGroupProps,
   setup(props, { emit }) {
@@ -53,7 +48,7 @@ export default defineComponent({
     )
     const isBackingOut = ref(false)
     const isClickFocus = ref(false)
-    const rovingFocusGroupRef = ref<ElSlotExpose>()
+    const rovingFocusGroupRef = ref<ElOnlyChildExpose>()
     const { getItems } = inject(COLLECTION_INJECTION_KEY, undefined)!
     const rovingFocusRootStyle = computed(() => {
       // casting to any for fix compiler error since HTMLElement.StyleValue does not

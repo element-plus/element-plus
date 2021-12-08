@@ -1,14 +1,17 @@
 <template>
-  <el-popper
-    ref="popperRef"
+  <el-tooltip
     v-bind="$attrs"
-    effect="light"
-    :hide-after="hideAfter"
+    :aria-label="title"
+    :effect="effect"
+    :enterable="enterable"
     :popper-class="kls"
     :popper-style="style"
-    :stop-popper-mouse-event="false"
   >
-    <template #default>
+    <template v-if="$slots.reference">
+      <slot name="reference" />
+    </template>
+
+    <template #content>
       <div v-if="title" class="el-popover__title" role="title">
         {{ title }}
       </div>
@@ -16,15 +19,12 @@
         {{ content }}
       </slot>
     </template>
-
-    <template v-if="$slots.reference" #trigger>
-      <slot name="reference" />
-    </template>
-  </el-popper>
+  </el-tooltip>
 </template>
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue'
-import ElPopper, { usePopperProps } from '@element-plus/components/popper'
+import { usePopperContentProps } from '@element-plus/components/popper'
+import ElTooltip from '@element-plus/components/tooltip'
 import { isString } from '@element-plus/utils/util'
 
 import type { StyleValue } from 'vue'
@@ -36,17 +36,25 @@ const NAME = 'ElPopover'
 export default defineComponent({
   name: NAME,
   components: {
-    ElPopper,
+    ElTooltip,
   },
   props: {
     title: String,
-    content: usePopperProps.content,
+    content: usePopperContentProps.content,
+    effect: {
+      ...usePopperContentProps.effect,
+      default: 'light',
+    },
     hideAfter: {
       type: Number,
       default: 200,
     },
     popperClass: String,
-    popperStyle: usePopperProps.popperStyle,
+    popperStyle: usePopperContentProps.popperStyle,
+    enterable: {
+      ...usePopperContentProps.enterable,
+      default: true,
+    },
     width: {
       type: [String, Number],
       default: 150,

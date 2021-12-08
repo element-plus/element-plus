@@ -1,8 +1,12 @@
 <template>
-  <div ref="popperContentRef" :style="contentStyle" :class="contentClass">
-    <el-slot tag="div" style="">
-      <slot />
-    </el-slot>
+  <div
+    ref="popperContentRef"
+    :style="contentStyle"
+    :class="contentClass"
+    @mouseenter="(e) => $emit('mouseenter', e)"
+    @mouseleave="(e) => $emit('mouseleave', e)"
+  >
+    <slot />
   </div>
 </template>
 
@@ -15,9 +19,9 @@ import {
   provide,
   unref,
   onMounted,
+  watch,
 } from 'vue'
 import { createPopper } from '@popperjs/core'
-import { ElSlot } from '@element-plus/components/slot'
 import PopupManager from '@element-plus/utils/popup-manager'
 import { debugWarn } from '@element-plus/utils/error'
 import { POPPER_INJECTION_KEY, POPPER_CONTENT_INJECTION_KEY } from './tokens'
@@ -26,14 +30,15 @@ import { buildPopperOptions } from './utils'
 
 export default defineComponent({
   name: 'ElPopperContent',
-  components: {
-    ElSlot,
-  },
-  inheritAttrs: false,
   props: usePopperContentProps,
+  inheritAttrs: false,
+  emits: ['mouseenter', 'mouseleave'],
   setup(props) {
-    const { triggerRef } = inject(POPPER_INJECTION_KEY, undefined)!
-    const popperContentRef = ref<HTMLDivElement | null>(null)
+    const { triggerRef, popperInstanceRef, contentRef } = inject(
+      POPPER_INJECTION_KEY,
+      undefined
+    )!
+    const popperContentRef = ref<HTMLElement | null>(null)
     const arrowRef = ref<HTMLElement | null>(null)
     const arrowOffset = ref<number>()
     provide(POPPER_CONTENT_INJECTION_KEY, {
@@ -45,7 +50,7 @@ export default defineComponent({
     )
 
     const contentStyle = computed(() => {
-      return [{ zIndex: unref(contentZIndex) }, props.style] as any
+      return [{ zIndex: unref(contentZIndex) }, props.popperStyle] as any
     })
 
     const contentClass = computed(() => {
@@ -55,9 +60,18 @@ export default defineComponent({
           'is-pure': props.pure,
           [`is-${props.effect}`]: !!props.effect,
         },
-        props.className,
+        props.popperClass,
       ]
     })
+
+    const createPopperInstance = ({ triggerEl, popperContentEl, arrowEl }) => {
+      const options = buildPopperOptions(props, {
+        arrowEl,
+        arrowOffset: unref(arrowOffset),
+      })
+
+      return createPopper(triggerEl, popperContentEl, options)
+    }
 
     onMounted(() => {
       const popperContentEl = unref(popperContentRef)!
@@ -69,16 +83,49 @@ export default defineComponent({
           'ElPopper',
           'Popper content needs a HTMLElement or virtual trigger to work'
         )
+        return
       }
 
-      const options = buildPopperOptions(props, {
+      const instance = createPopperInstance({
+        triggerEl,
+        popperContentEl,
         arrowEl,
-        arrowOffset: unref(arrowOffset),
       })
 
-      const instance = createPopper(triggerEl, popperContentEl, options)
+      popperInstanceRef.value = instance
+
       instance.update()
+
+      watch(
+        () => triggerEl.getBoundingClientRect(),
+        () => {
+          instance.update()
+        }
+      )
+
+      watch(
+        () => unref(triggerRef),
+        (val) => {
+          if (val) {
+            instance.destroy()
+            const newInstance = createPopperInstance({
+              triggerEl: val,
+              popperContentEl,
+              arrowEl,
+            })
+            popperInstanceRef.value = newInstance
+            newInstance.update()
+          }
+        }
+      )
     })
+
+    watch(
+      () => popperContentRef.value,
+      (val) => {
+        contentRef.value = val
+      }
+    )
 
     return {
       popperContentRef,

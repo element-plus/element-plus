@@ -1,6 +1,6 @@
 <template>
   <div class="el-dropdown">
-    <el-popper
+    <el-tooltip
       ref="popperRef"
       :effect="effect"
       :fallback-placements="['bottom', 'top', 'right', 'left']"
@@ -44,7 +44,7 @@
           <slot name="default"></slot>
         </div>
       </template>
-    </el-popper>
+    </el-tooltip>
     <template v-if="splitButton">
       <el-button-group>
         <el-button
@@ -80,7 +80,10 @@ import {
   unref as undef,
 } from 'vue'
 import ElButton from '@element-plus/components/button'
-import ElPopper, { Effect } from '@element-plus/components/popper'
+import ElTooltip, {
+  useTooltipTriggerProps,
+  useTooltipContentProps,
+} from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'
 import ElFocusTrap from '@element-plus/components/focus-trap'
@@ -94,8 +97,7 @@ import { useDropdown } from './useDropdown'
 
 import type { Placement } from '@element-plus/components/popper'
 import type { PropType, ComponentPublicInstance, CSSProperties } from 'vue'
-import type { TriggerType } from '@element-plus/hooks/use-popper/use-target-events'
-import type { ButtonType } from '@element-plus/components/button/src/types'
+import type { ButtonType } from '@element-plus/components/button'
 import type { ElDropdownInjectionContext } from './tokens'
 
 type Nullable<T> = null | T
@@ -108,16 +110,13 @@ export default defineComponent({
     ElFocusTrap,
     ElButtonGroup,
     ElScrollbar,
-    ElPopper,
+    ElTooltip,
     ElRovingFocusGroup,
     ElIcon,
     ArrowDown,
   },
   props: {
-    trigger: {
-      type: String as PropType<TriggerType | 'contextmenu'>,
-      default: 'hover',
-    },
+    trigger: useTooltipTriggerProps.trigger,
     type: String as PropType<ButtonType>,
     size: {
       type: String,
@@ -148,8 +147,8 @@ export default defineComponent({
       default: 0,
     },
     effect: {
-      type: String as PropType<Effect>,
-      default: Effect.LIGHT,
+      ...useTooltipContentProps.effect,
+      default: 'light',
     },
     maxHeight: {
       type: [Number, String],

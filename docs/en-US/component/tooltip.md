@@ -97,6 +97,16 @@ tooltip/virtual-trigger
 
 :::
 
+## Singleton
+
+Tooltip can also be singleton, which means you can have multiple trigger with only one tooltip instance, this function is implemented based on `Virtual triggering`
+
+:::demo
+
+tooltip/singleton
+
+:::
+
 ## Controlled
 
 Tooltip can be controlled by the parent component, by using `v-model` you can implement two way binding.

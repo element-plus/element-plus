@@ -1,58 +1,57 @@
 <template>
-  <el-popper
+  <el-tooltip
     ref="popper"
     v-model:visible="suggestionVisible"
     :placement="placement"
     :fallback-placements="['bottom-start', 'top-start']"
     :popper-class="`el-autocomplete__popper ${popperClass}`"
     :append-to-body="popperAppendToBody"
+    :gpu-acceleration="false"
     pure
     manual-mode
-    :effect="Effect.LIGHT"
+    effect="light"
     trigger="click"
     transition="el-zoom-in-top"
-    :gpu-acceleration="false"
+    @show="onSuggestionShow"
   >
-    <template #trigger>
-      <div
-        v-clickoutside="close"
-        :class="['el-autocomplete', $attrs.class]"
-        :style="$attrs.style"
-        role="combobox"
-        aria-haspopup="listbox"
-        :aria-expanded="suggestionVisible"
-        :aria-owns="id"
+    <div
+      v-clickoutside="close"
+      :class="['el-autocomplete', $attrs.class]"
+      :style="$attrs.style"
+      role="combobox"
+      aria-haspopup="listbox"
+      :aria-expanded="suggestionVisible"
+      :aria-owns="id"
+    >
+      <el-input
+        ref="inputRef"
+        v-bind="attrs"
+        :model-value="modelValue"
+        @input="handleInput"
+        @change="handleChange"
+        @focus="handleFocus"
+        @blur="handleBlur"
+        @clear="handleClear"
+        @keydown.up.prevent="highlight(highlightedIndex - 1)"
+        @keydown.down.prevent="highlight(highlightedIndex + 1)"
+        @keydown.enter="handleKeyEnter"
+        @keydown.tab="close"
       >
-        <el-input
-          ref="inputRef"
-          v-bind="attrs"
-          :model-value="modelValue"
-          @input="handleInput"
-          @change="handleChange"
-          @focus="handleFocus"
-          @blur="handleBlur"
-          @clear="handleClear"
-          @keydown.up.prevent="highlight(highlightedIndex - 1)"
-          @keydown.down.prevent="highlight(highlightedIndex + 1)"
-          @keydown.enter="handleKeyEnter"
-          @keydown.tab="close"
-        >
-          <template v-if="$slots.prepend" #prepend>
-            <slot name="prepend"></slot>
-          </template>
-          <template v-if="$slots.append" #append>
-            <slot name="append"></slot>
-          </template>
-          <template v-if="$slots.prefix" #prefix>
-            <slot name="prefix"></slot>
-          </template>
-          <template v-if="$slots.suffix" #suffix>
-            <slot name="suffix"></slot>
-          </template>
-        </el-input>
-      </div>
-    </template>
-    <template #default>
+        <template v-if="$slots.prepend" #prepend>
+          <slot name="prepend"></slot>
+        </template>
+        <template v-if="$slots.append" #append>
+          <slot name="append"></slot>
+        </template>
+        <template v-if="$slots.prefix" #prefix>
+          <slot name="prefix"></slot>
+        </template>
+        <template v-if="$slots.suffix" #suffix>
+          <slot name="suffix"></slot>
+        </template>
+      </el-input>
+    </div>
+    <template #content>
       <div
         ref="regionRef"
         :class="[
@@ -66,6 +65,8 @@
           tag="ul"
           wrap-class="el-autocomplete-suggestion__wrap"
           view-class="el-autocomplete-suggestion__list"
+          role="listbox"
+          :id="id"
         >
           <li v-if="suggestionLoading">
             <el-icon class="is-loading"><loading /></el-icon>
@@ -86,7 +87,7 @@
         </el-scrollbar>
       </div>
     </template>
-  </el-popper>
+  </el-tooltip>
 </template>
 
 <script lang="ts">
@@ -108,7 +109,7 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { throwError } from '@element-plus/utils/error'
 import ElInput from '@element-plus/components/input'
 import ElScrollbar from '@element-plus/components/scrollbar'
-import ElPopper, { Effect } from '@element-plus/components/popper'
+import ElTooltip from '@element-plus/components/tooltip'
 import ElIcon from '@element-plus/components/icon'
 import { Loading } from '@element-plus/icons-vue'
 
@@ -118,7 +119,7 @@ import type { PropType } from 'vue'
 export default defineComponent({
   name: 'ElAutocomplete',
   components: {
-    ElPopper,
+    ElTooltip,
     ElInput,
     ElScrollbar,
     ElIcon,
@@ -197,14 +198,18 @@ export default defineComponent({
   ],
   setup(props, ctx) {
     const attrs = useAttrs()
-    const suggestions = ref([])
+    const suggestions = ref<any[]>([])
     const highlightedIndex = ref(-1)
     const dropdownWidth = ref('')
     const activated = ref(false)
     const suggestionDisabled = ref(false)
     const loading = ref(false)
-    const inputRef = ref(null)
-    const regionRef = ref(null)
+    const inputRef = ref<{
+      inputOrTextarea: HTMLInputElement | HTMLTextAreaElement
+      focus: () => void
+      $el: HTMLElement
+    } | null>(null)
+    const regionRef = ref<HTMLElement | null>(null)
     const popper = ref(null)
 
     const id = computed(() => {
@@ -219,37 +224,29 @@ export default defineComponent({
       return !props.hideLoading && loading.value
     })
 
-    const updatePopperPosition = () => {
-      nextTick(popper.value.update)
+    const onSuggestionShow = () => {
+      nextTick(() => {
+        if (suggestionVisible.value) {
+          dropdownWidth.value = `${inputRef.value!.$el.offsetWidth}px`
+        }
+      })
     }
 
-    watch(suggestionVisible, () => {
-      dropdownWidth.value = `${inputRef.value.$el.offsetWidth}px`
-    })
-
     onMounted(() => {
-      inputRef.value.inputOrTextarea.setAttribute('role', 'textbox')
-      inputRef.value.inputOrTextarea.setAttribute('aria-autocomplete', 'list')
-      inputRef.value.inputOrTextarea.setAttribute('aria-controls', 'id')
-      inputRef.value.inputOrTextarea.setAttribute(
+      inputRef.value!.inputOrTextarea.setAttribute('role', 'textbox')
+      inputRef.value!.inputOrTextarea.setAttribute('aria-autocomplete', 'list')
+      inputRef.value!.inputOrTextarea.setAttribute('aria-controls', 'id')
+      inputRef.value!.inputOrTextarea.setAttribute(
         'aria-activedescendant',
         `${id.value}-item-${highlightedIndex.value}`
       )
-      const $ul = regionRef.value.querySelector(
-        '.el-autocomplete-suggestion__list'
-      )
-      $ul.setAttribute('role', 'listbox')
-      $ul.setAttribute('id', id.value)
     })
 
-    onUpdated(updatePopperPosition)
-
-    const getData = (queryString) => {
+    const getData = (queryString: string) => {
       if (suggestionDisabled.value) {
         return
       }
       loading.value = true
-      updatePopperPosition()
       props.fetchSuggestions(queryString, (suggestionsArg) => {
         loading.value = false
         if (suggestionDisabled.value) {
@@ -267,7 +264,7 @@ export default defineComponent({
       })
     }
     const debouncedGetData = debounce(getData, props.debounce)
-    const handleInput = (value) => {
+    const handleInput = (value: string) => {
       ctx.emit('input', value)
       ctx.emit(UPDATE_MODEL_EVENT, value)
       suggestionDisabled.value = false
@@ -285,7 +282,7 @@ export default defineComponent({
       activated.value = true
       ctx.emit('focus', e)
       if (props.triggerOnFocus) {
-        debouncedGetData(props.modelValue)
+        debouncedGetData(String(props.modelValue))
       }
     }
     const handleBlur = (e) => {
@@ -315,7 +312,7 @@ export default defineComponent({
       activated.value = false
     }
     const focus = () => {
-      inputRef.value.focus()
+      inputRef.value?.focus()
     }
     const select = (item) => {
       ctx.emit('input', item[props.valueKey])
@@ -326,7 +323,7 @@ export default defineComponent({
         highlightedIndex.value = -1
       })
     }
-    const highlight = (index) => {
+    const highlight = (index: number) => {
       if (!suggestionVisible.value || loading.value) {
         return
       }
@@ -337,15 +334,15 @@ export default defineComponent({
       if (index >= suggestions.value.length) {
         index = suggestions.value.length - 1
       }
-      const suggestion = regionRef.value.querySelector(
+      const suggestion = regionRef.value!.querySelector(
         '.el-autocomplete-suggestion__wrap'
-      )
+      )!
       const suggestionList = suggestion.querySelectorAll(
         '.el-autocomplete-suggestion__list li'
-      )
+      )!
       const highlightItem = suggestionList[index]
       const scrollTop = suggestion.scrollTop
-      const { offsetTop, scrollHeight } = highlightItem
+      const { offsetTop, scrollHeight } = highlightItem as HTMLElement
 
       if (offsetTop + scrollHeight > scrollTop + suggestion.clientHeight) {
         suggestion.scrollTop += scrollHeight
@@ -354,15 +351,13 @@ export default defineComponent({
         suggestion.scrollTop -= scrollHeight
       }
       highlightedIndex.value = index
-      inputRef.value.inputOrTextarea.setAttribute(
+      inputRef.value!.inputOrTextarea.setAttribute(
         'aria-activedescendant',
         `${id.value}-item-${highlightedIndex.value}`
       )
     }
 
     return {
-      Effect,
-
       attrs,
       suggestions,
       highlightedIndex,
@@ -389,6 +384,7 @@ export default defineComponent({
       focus,
       select,
       highlight,
+      onSuggestionShow,
     }
   },
 })

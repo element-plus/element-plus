@@ -21,7 +21,7 @@ Like Tooltip, Popover can be triggered by virtual elements, if your use case inc
 
 :::warning
 
-`v-popover` is about to be deprecated, please use `triggering-element` as alternative.
+`v-popover` is about to be deprecated, please use `virtual-ref` as alternative.
 
 :::
 

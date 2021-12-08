@@ -5,7 +5,7 @@
 
   <el-popover
     ref="popoverRef"
-    :triggering-element="buttonRef"
+    :virtual-ref="buttonRef"
     trigger="click"
     title="With title"
   >
