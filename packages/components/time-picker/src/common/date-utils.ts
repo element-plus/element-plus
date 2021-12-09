@@ -1,6 +1,4 @@
-export const rangeArr = (n) => {
-  return Array.from(Array(n).keys())
-}
+export const rangeArr = (n: number) => Array.from(Array(n).keys())
 
 export const extractDateFormat = (format: string) => {
   return format
