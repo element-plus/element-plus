@@ -245,14 +245,14 @@ importers:
   play:
     specifiers:
       '@element-plus/icons-vue': ^0.2.2
-      '@vitejs/plugin-vue': 1.10.1
+      '@vitejs/plugin-vue': 1.10.2
       unplugin-vue-components: 0.17.6
       vite: 2.7.1
       vite-plugin-inspect: 0.3.11
     dependencies:
       '@element-plus/icons-vue': 0.2.2_vue@3.2.24
     devDependencies:
-      '@vitejs/plugin-vue': 1.10.1_vite@2.7.1
+      '@vitejs/plugin-vue': 1.10.2_vite@2.7.1
       unplugin-vue-components: 0.17.6_108438df7d1dc587d5838c2bd9aed28c
       vite: 2.7.1_sass@1.44.0
       vite-plugin-inspect: 0.3.11_vite@2.7.1
@@ -1993,8 +1993,8 @@ packages:
       vite: 2.6.14_sass@1.44.0
     dev: true
 
-  /@vitejs/plugin-vue/1.10.1_vite@2.7.1:
-    resolution: {integrity: sha512-oL76QETMSpVE9jIScirGB2bYJEVU/+r+g+K7oG+sXPs9TZljqveoVRsmLyXlMZTjpQkLL8gz527cW80NMGVKJg==}
+  /@vitejs/plugin-vue/1.10.2_vite@2.7.1:
+    resolution: {integrity: sha512-/QJ0Z9qfhAFtKRY+r57ziY4BSbGUTGsPRMpB/Ron3QPwBZM4OZAZHdTa4a8PafCwU5DTatXG8TMDoP8z+oDqJw==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       vite: ^2.5.10
