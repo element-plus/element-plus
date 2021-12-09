@@ -20,7 +20,7 @@ export default defineComponent({
   setup() {
     const customPrefix = shallowRef({
       render() {
-        return h('p', 'custom')
+        return h('p', 'pre')
       },
     })
     const state = reactive({
