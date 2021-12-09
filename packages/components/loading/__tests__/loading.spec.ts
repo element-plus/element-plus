@@ -1,9 +1,9 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { sleep } from '@element-plus/test-utils'
-import Loading from '../src/index'
+import { Loading } from '../src/service'
+import { vLoading } from '../src/directive'
 import ElInput from '../../input'
-import vLoading from '../src/directive'
 
 function destroyLoadingInstance(loadingInstance) {
   if (!loadingInstance) return
