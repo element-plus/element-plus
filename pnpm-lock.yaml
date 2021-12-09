@@ -152,7 +152,7 @@ importers:
       clipboard-copy: 4.0.1
       cross-env: 7.0.3
       element-plus: npm:element-plus@latest
-      markdown-it: 12.2.0
+      markdown-it: 12.3.0
       markdown-it-container: 3.0.0
       normalize.css: 8.0.1
       nprogress: 0.2.0
@@ -169,7 +169,7 @@ importers:
       '@crowdin/cli': 3.7.2
       '@types/markdown-it': 12.2.3
       cross-env: 7.0.3
-      markdown-it: 12.2.0
+      markdown-it: 12.3.0
       markdown-it-container: 3.0.0
       vite-plugin-inspect: 0.3.11
       vitepress: 0.18.1_sass@1.44.0
@@ -7241,14 +7241,14 @@ packages:
       object-visit: 1.0.1
     dev: true
 
-  /markdown-it-anchor/8.3.1_b5b6ac618dbcb305e9dd9bd86fa4e841:
+  /markdown-it-anchor/8.3.1_1f85d0cd950c8d82ba02e2ef922b5f6a:
     resolution: {integrity: sha512-i12nPHfLM5uKQXVkzyJt5tZ7DetcYqZoCeiUc9OPqhAhqAR6SOswqMgzqEvDyT5BK6DOc8MmV78VjzCsYM5J5g==}
     peerDependencies:
       '@types/markdown-it': '*'
       markdown-it: '*'
     dependencies:
       '@types/markdown-it': 12.2.3
-      markdown-it: 12.2.0
+      markdown-it: 12.3.0
     dev: true
 
   /markdown-it-container/3.0.0:
@@ -7264,8 +7264,8 @@ packages:
     engines: {node: '>6.4.0'}
     dev: true
 
-  /markdown-it/12.2.0:
-    resolution: {integrity: sha512-Wjws+uCrVQRqOoJvze4HCqkKl1AsSh95iFAeQDwnyfxM09divCBSXlDR1uTvyUP3Grzpn4Ru8GeCxYPM8vkCQg==}
+  /markdown-it/12.3.0:
+    resolution: {integrity: sha512-T345UZZ6ejQWTjG6PSEHplzNy5m4kF6zvUpHVDv8Snl/pEU0OxIK0jGg8YLVNwJvT8E0YJC7/2UvssJDk/wQCQ==}
     hasBin: true
     dependencies:
       argparse: 2.0.1
@@ -10469,8 +10469,8 @@ packages:
       globby: 11.0.4
       gray-matter: 4.0.3
       lru-cache: 6.0.0
-      markdown-it: 12.2.0
-      markdown-it-anchor: 8.3.1_b5b6ac618dbcb305e9dd9bd86fa4e841
+      markdown-it: 12.3.0
+      markdown-it-anchor: 8.3.1_1f85d0cd950c8d82ba02e2ef922b5f6a
       markdown-it-container: 3.0.0
       markdown-it-emoji: 2.0.0
       markdown-it-table-of-contents: 0.5.2
