@@ -1,6 +1,7 @@
 import { buildProps, definePropType } from '@element-plus/utils/props'
 import type { SVGAttributes, ExtractPropTypes } from 'vue'
 
+type Color = { color: string; percentage: number }
 type ProgressFn = (percentage: number) => string
 
 export const progressProps = buildProps({
@@ -48,9 +49,11 @@ export const progressProps = buildProps({
     default: true,
   },
   color: {
-    type: definePropType<
-      string | { color: string; percentage: number } | ProgressFn
-    >([String, Array, Function]),
+    type: definePropType<string | Color[] | ProgressFn>([
+      String,
+      Array,
+      Function,
+    ]),
     default: '',
   },
   format: {
