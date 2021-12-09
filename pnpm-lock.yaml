@@ -25,7 +25,7 @@ importers:
       '@sucrase/jest-plugin': 2.2.0
       '@types/gulp': 4.0.9
       '@types/jest': 27.0.2
-      '@types/lodash': 4.14.177
+      '@types/lodash': 4.14.178
       '@types/sass': 1.43.1
       '@typescript-eslint/eslint-plugin': 5.6.0
       '@typescript-eslint/parser': 5.6.0
@@ -101,7 +101,7 @@ importers:
       '@sucrase/jest-plugin': 2.2.0
       '@types/gulp': 4.0.9
       '@types/jest': 27.0.2
-      '@types/lodash': 4.14.177
+      '@types/lodash': 4.14.178
       '@types/sass': 1.43.1
       '@typescript-eslint/eslint-plugin': 5.6.0_16d83f5c41c3abb1061a82b07c18e4f3
       '@typescript-eslint/parser': 5.6.0_eslint@8.4.1+typescript@4.5.2
@@ -1758,8 +1758,8 @@ packages:
     resolution: {integrity: sha512-HZQYqbiFVWufzCwexrvh694SOim8z2d+xJl5UNamcvQFejLY/2YUtzXHYi3cHdI7PMlS8ejH2slRAOJQ32aNbA==}
     dev: true
 
-  /@types/lodash/4.14.177:
-    resolution: {integrity: sha512-0fDwydE2clKe9MNfvXHBHF9WEahRuj+msTuQqOmAApNORFvhMYZKNGGJdCzuhheVjMps/ti0Ak/iJPACMaevvw==}
+  /@types/lodash/4.14.178:
+    resolution: {integrity: sha512-0d5Wd09ItQWH1qFbEyQ7oTQ3GZrMfth5JkbN3EvTKLXcHLRDSXeLnlvlOn0wvxVIwK5o2M8JzP/OWz7T3NRsbw==}
     dev: true
 
   /@types/markdown-it/12.2.3:
