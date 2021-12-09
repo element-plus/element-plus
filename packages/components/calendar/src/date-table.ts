@@ -8,20 +8,19 @@ export const dateTableProps = buildProps({
     type: definePropType<Dayjs>(Object),
   },
   range: {
-    type: definePropType<Array<Dayjs>>(Array),
+    type: definePropType<[Dayjs, Dayjs]>(Array),
   },
   date: {
     type: definePropType<Dayjs>(Object),
+    required: true,
   },
   hideHeader: {
     type: Boolean,
   },
 } as const)
-
 export type DateTableProps = ExtractPropTypes<typeof dateTableProps>
 
 export const dateTableEmits = {
   pick: (value: Dayjs) => isObject(value),
 }
-
 export type DateTableEmits = typeof dateTableEmits
