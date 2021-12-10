@@ -430,11 +430,22 @@ export default defineComponent({
 
     const userInput = ref(null)
 
+    const isDisabledDate = (value: Dayjs) => {
+      if (Array.isArray(value)) {
+        return value.some(
+          (val) => props.disabledDate && props.disabledDate(val.toDate())
+        )
+      } else {
+        return props.disabledDate && props.disabledDate(value.toDate())
+      }
+    }
+
     const handleChange = () => {
       if (userInput.value) {
         const value = parseUserInputToDayjs(displayValue.value)
         if (value) {
           if (isValidValue(value)) {
+            if (isDisabledDate(value)) return
             emitInput(
               Array.isArray(value)
                 ? value.map((_) => _.toDate())
@@ -541,6 +552,7 @@ export default defineComponent({
     const handleStartChange = () => {
       const value = parseUserInputToDayjs(userInput.value && userInput.value[0])
       if (value && value.isValid()) {
+        if (isDisabledDate(value)) return
         userInput.value = [formatDayjsToString(value), displayValue.value[1]]
         const newValue = [value, parsedValue.value && parsedValue.value[1]]
         if (isValidValue(newValue)) {
@@ -553,6 +565,7 @@ export default defineComponent({
     const handleEndChange = () => {
       const value = parseUserInputToDayjs(userInput.value && userInput.value[1])
       if (value && value.isValid()) {
+        if (isDisabledDate(value)) return
         userInput.value = [displayValue.value[0], formatDayjsToString(value)]
         const newValue = [parsedValue.value && parsedValue.value[0], value]
         if (isValidValue(newValue)) {
