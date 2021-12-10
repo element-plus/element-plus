@@ -146,14 +146,14 @@ import {
 } from 'vue'
 import dayjs from 'dayjs'
 import isEqual from 'lodash/isEqual'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, useSize } from '@element-plus/hooks'
 import { ClickOutside } from '@element-plus/directives'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
 import ElPopper, { Effect } from '@element-plus/components/popper'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { useGlobalConfig, isEmpty } from '@element-plus/utils/util'
+import { isEmpty } from '@element-plus/utils/util'
 import { Clock, Calendar } from '@element-plus/icons-vue'
 import { timePickerDefaultProps } from './props'
 
@@ -226,7 +226,6 @@ export default defineComponent({
   props: timePickerDefaultProps,
   emits: ['update:modelValue', 'change', 'focus', 'blur', 'calendar-change'],
   setup(props, ctx) {
-    const ELEMENT = useGlobalConfig()
     const { lang } = useLocale()
 
     const elForm = inject(elFormKey, {} as ElFormContext)
@@ -415,9 +414,7 @@ export default defineComponent({
       return props.type.indexOf('range') > -1
     })
 
-    const pickerSize = computed(() => {
-      return props.size || elFormItem.size || ELEMENT.size
-    })
+    const pickerSize = useSize()
 
     const popperPaneRef = computed(() => {
       return refPopper.value?.popperRef
