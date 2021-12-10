@@ -82,6 +82,7 @@ export default defineComponent({
       visibleArrow,
       modelValue,
       tabindex,
+      fallbackPlacements,
     } = this
 
     const throwErrorTip = () => {
@@ -100,6 +101,9 @@ export default defineComponent({
         showArrow: visibleArrow,
         visible: modelValue,
         'onUpdate:visible': onUpdateVisible,
+        fallbackPlacements: fallbackPlacements.length
+          ? fallbackPlacements
+          : ['bottom-start', 'top-start', 'right', 'left'],
       },
       {
         default: () => ($slots.content ? $slots.content() : content),
