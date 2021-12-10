@@ -34,7 +34,7 @@ importers:
       '@vueuse/core': ^7.0.0
       async-validator: ^4.0.7
       chalk: 4.1.2
-      components-helper: 1.0.4
+      components-helper: 1.0.5
       csstype: 2.6.19
       cz-conventional-changelog: 3.3.0
       dayjs: ^1.10.7
@@ -108,7 +108,7 @@ importers:
       '@vue/compiler-sfc': 3.2.24
       '@vue/test-utils': 2.0.0-rc.16_vue@3.2.24
       chalk: 4.1.2
-      components-helper: 1.0.4
+      components-helper: 1.0.5
       csstype: 2.6.19
       cz-conventional-changelog: 3.3.0
       esbuild: 0.14.2
@@ -3440,8 +3440,8 @@ packages:
     resolution: {integrity: sha512-Rd3se6QB+sO1TwqZjscQrurpEPIfO0/yYnSin6Q/rD3mOutHvUrCAhJub3r90uNb+SESBuE0QYoB90YdfatsRg==}
     dev: true
 
-  /components-helper/1.0.4:
-    resolution: {integrity: sha512-clMIW5PIGIWLAAhYZdV6G+8lSMvxWB5Ow9iIM6Q6aIlXrD2uyZmF/RQ+3ye4UKv2lFJ0I5FRUyAwvR/FyvHHnA==}
+  /components-helper/1.0.5:
+    resolution: {integrity: sha512-lW+r/Zl1CG+jXW9DKVizWSmINQ+bBV5jQblycKrJlceFl1fUdXQ69Qlg9CPV1Ittv6HMH8WVBO3+wv8rt9RMWw==}
     engines: {node: '>10.0.0'}
     dependencies:
       fast-glob: 3.2.7
