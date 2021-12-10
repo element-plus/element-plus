@@ -282,6 +282,8 @@ export default defineComponent({
           }
         } else {
           const defaultArr = getDefaultValue()
+          minDate.value = null
+          maxDate.value = null
           leftDate.value = defaultArr[0]
           rightDate.value = defaultArr[1]
         }
