@@ -211,7 +211,7 @@ const parser = function (
   return day.isValid() ? day : undefined
 }
 
-const formatter = function (date: Date, format: string, lang: string) {
+const formatter = function (date: number | Date, format: string, lang: string) {
   return isEmpty(format) ? date : dayjs(date).locale(lang).format(format)
 }
 
