@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import { computed, inject, defineComponent, Text, ref } from 'vue'
+import { computed, inject, defineComponent, Text, ref, reactive } from 'vue'
 import { useCssVar } from '@vueuse/core'
 import { ElIcon } from '@element-plus/components/icon'
 import { useFormItem, useGlobalConfig } from '@element-plus/hooks'
@@ -89,14 +89,31 @@ export default defineComponent({
       () => props.type || buttonGroupContext?.type || 'default'
     )
 
-    // calculate hover & active color by color
-    const typeColor = computed(
-      () => useCssVar(`--el-color-${props.type}`).value
-    )
+    // primary / success / warning / danger / info / text
+    const typeColor = reactive({
+      primary: useCssVar('--el-color-primary'),
+      success: useCssVar('--el-color-success'),
+      warning: useCssVar('--el-color-warning'),
+      danger: useCssVar('--el-color-danger'),
+      info: useCssVar('--el-color-info'),
+    })
+
     const buttonStyle = computed(() => {
       let styles = {}
+      let buttonColor = ''
 
-      const buttonColor = props.color || typeColor.value
+      if (props.color) {
+        // css var
+        if (props.color.startsWith('--')) {
+          buttonColor = window
+            .getComputedStyle(document.documentElement)
+            .getPropertyValue(props.color)
+        } else {
+          buttonColor = props.color
+        }
+      } else {
+        buttonColor = typeColor[buttonType.value]
+      }
 
       if (buttonColor) {
         const darkenBgColor = darken(buttonColor, 0.1)
