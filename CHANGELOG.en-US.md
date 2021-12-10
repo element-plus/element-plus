@@ -1,5 +1,58 @@
 ## Changelog
 
+### 1.2.0-beta.6
+
+_2021-12-10_
+
+#### Features
+
+- Components [ElCalender] add internationalization (#4582 by @emojiiii)
+- Components [el-dialog] support custom close icon (#4514 by @spx443812507)
+- Components [el-divider] support setting the dividing line style  (#4435 by @Alanscut)
+- Components [el-select] tag type (#4504 by @Alanscut)
+- Components [el-config-provider] add size (#4730 by @sxzz)
+
+#### Bug fixes
+
+- Theme-chalk add !optional to @extend
+- Components [el-date-picker] can't use numpadEnter (#4563 by @Alanscut)
+- Hooks rename `ConfigProvdierContext` to `ConfigProviderContext` (#4620 by @emojiiii)
+- Components dropdown menu divided style, close #4631 (#4638 by @YunYouJun)
+- Components [el-config-provider] autoInsertSpace false (#4629 by @Alanscut)
+- Locale update ca (#4644 by @oscaralbareda)
+- Components [el-button] computed type (#4641 by @btea)
+- Style icon font-size inherit (#4565 by @YunYouJun)
+- Hooks fix translate option (#4619 by @sxzz)
+- Components [el-message] fit badge error type (#4662 by @btea)
+- Hooks return key name if not defined (#4664 by @sxzz)
+- Upgrade @element-plus/icons-vue to currentColor (#4671 by @YunYouJun)
+- Vue type errors (#4696 by @sxzz)
+- Components [el-table] tooltip wrong style
+- Components [el-input-number]raise native form validation error (#4706 by @Alanscut)
+- Hooks [lockscreen] body lock remove unexpected (#4693 by @KawaiiZapic) (#4694)
+- Docs fix code not working in Codepen (#4678 by @imguolao) (#4679)
+- Components [el-input-number]set value equal to min will update (#4650 by @Alanscut)
+- Docs replace @element-plus/icons with @element-plus/icons-vue (#4704 by @pdsuwwz)
+- Docs fix webpack config import syntax (#4718 by @owenvip)
+- Style override el-icon display in el-input__icon (#4684 by @YunYouJun)
+- Components [el-menu] third-party icons are hidden (#4754 by @Alanscut)
+- Components [table-column, time-picker] improve typings (#4761 by @CarterLi)
+- Build compatible to build on windows (#4747 by @sxzz)
+- Components [el-tooltip] fallback placement (#4771 by @Alanscut)
+
+#### Refactors
+
+- Change icon package name (#4625 by @sxzz)
+- Components refactor drawer (#4282 by @Alanscut)
+- Style rename -color-base to --el-bg-color (#4615 by @YunYouJun)
+- Components refactor calendar (#4325 by @Alanscut)
+- Components refactor progress
+- Components refactor progress
+- Improve types (#4746 by @sxzz)
+- Components refactor loading (#4750 by @sxzz)
+- Components [el-checkbox] simplify the value (#4674 by @iceshou)
+- Components refactor switch (#4271 by @emojiiii)
+
 ### 1.2.0-beta.5
 
 _2021-12-01_
