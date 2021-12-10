@@ -426,7 +426,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     } else {
       selectedIndex.value = idx
       states.selectedLabel = option.label
-      update(getValueKey(option))
+      update(getValueKey(option.value))
       expanded.value = false
       states.isComposing = false
       states.isSilentBlur = byClick
