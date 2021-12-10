@@ -1,16 +1,16 @@
 import { useLocaleProps } from '@element-plus/hooks'
-import { buildProp, definePropType, mutable } from '@element-plus/utils/props'
+import { buildProps, definePropType } from '@element-plus/utils/props'
 import type { ButtonConfigContext } from '@element-plus/components/button'
 
-export const configProviderProps = {
+export const configProviderProps = buildProps({
   ...useLocaleProps,
-  // Add more configs
-  button: buildProp({
+
+  size: {
+    type: String,
+    values: ['large', 'medium', 'small', 'mini'],
+  },
+
+  button: {
     type: definePropType<ButtonConfigContext>(Object),
-    default: () => {
-      return mutable({
-        autoInsertSpace: true,
-      } as const)
-    },
-  }),
-}
+  },
+} as const)

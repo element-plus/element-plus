@@ -15,5 +15,5 @@
 </template>
 
 <script lang="ts" setup>
-import { Calendar } from '@element-plus/icons'
+import { Calendar } from '@element-plus/icons-vue'
 </script>

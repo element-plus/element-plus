@@ -52,7 +52,7 @@ export default defineComponent({
     return {
       data,
       props: ref({
-        id: 'id',
+        value: 'id',
         label: 'label',
         children: 'children',
       }),

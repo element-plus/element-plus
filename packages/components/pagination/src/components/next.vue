@@ -14,7 +14,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
-import { ArrowRight } from '@element-plus/icons'
+import { ArrowRight } from '@element-plus/icons-vue'
 
 const paginationNextProps = {
   disabled: Boolean,

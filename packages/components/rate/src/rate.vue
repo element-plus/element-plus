@@ -51,7 +51,7 @@ import { EVENT_CODE } from '@element-plus/utils/aria'
 
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { ElIcon } from '@element-plus/components/icon'
-import { StarFilled, Star } from '@element-plus/icons'
+import { StarFilled, Star } from '@element-plus/icons-vue'
 import { rateProps, rateEmits } from './rate'
 import type { ElFormContext } from '@element-plus/tokens'
 

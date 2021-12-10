@@ -49,7 +49,7 @@ export default defineConfig(async () => {
         'normalize-wheel-es',
         '@popperjs/core',
         'dayjs',
-        '@element-plus/icons',
+        '@element-plus/icons-vue',
         ...optimizeDeps,
       ],
     },

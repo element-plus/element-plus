@@ -37,5 +37,12 @@
   </el-row>
 </template>
 <script setup lang="ts">
-import { Search, Edit, Check, Message, Star, Delete } from '@element-plus/icons'
+import {
+  Search,
+  Edit,
+  Check,
+  Message,
+  Star,
+  Delete,
+} from '@element-plus/icons-vue'
 </script>

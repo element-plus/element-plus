@@ -143,7 +143,6 @@
         content: '';
         height: $divided-offset;
         display: block;
-        margin: 0 -20px;
         background-color: $color-white;
       }
     }
@@ -168,7 +167,6 @@
 
         &:before {
           height: $divided-offset;
-          margin: 0 -17px;
         }
       }
     }
@@ -188,7 +186,6 @@
 
         &:before {
           height: $divided-offset;
-          margin: 0 -15px;
         }
       }
     }
@@ -208,7 +205,6 @@
 
         &:before {
           height: $divided-offset;
-          margin: 0 -10px;
         }
       }
     }

@@ -17,7 +17,7 @@ import isServer from './isServer'
 import { debugWarn, throwError } from './error'
 
 import type { ComponentPublicInstance, CSSProperties, Ref } from 'vue'
-import type { TimeoutHandle, Nullable } from './types'
+import type { TimeoutHandle, Nullable, ComponentSize } from './types'
 
 export const SCOPE = 'Util'
 
@@ -178,7 +178,10 @@ export function isUndefined(val: any): val is undefined {
   return val === undefined
 }
 
-export function useGlobalConfig() {
+/**
+ * @deprecated please use `useGlobalConfig` in hooks.
+ */
+export function useGlobalConfig(): { size?: ComponentSize; zIndex?: number } {
   const vm: any = getCurrentInstance()
   if ('$ELEMENT' in vm.proxy) {
     return vm.proxy.$ELEMENT

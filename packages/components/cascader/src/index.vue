@@ -169,19 +169,18 @@ import ElIcon from '@element-plus/components/icon'
 
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import { ClickOutside as Clickoutside } from '@element-plus/directives'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, useSize } from '@element-plus/hooks'
 
 import { EVENT_CODE, focusNode, getSibling } from '@element-plus/utils/aria'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import isServer from '@element-plus/utils/isServer'
-import { useGlobalConfig } from '@element-plus/utils/util'
 import {
   addResizeListener,
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 import { isKorean } from '@element-plus/utils/isDef'
-import { CircleClose, Check, ArrowDown } from '@element-plus/icons'
+import { CircleClose, Check, ArrowDown } from '@element-plus/icons-vue'
 
 import type { Options } from '@element-plus/components/popper'
 import type { ComputedRef, PropType, Ref } from 'vue'
@@ -302,7 +301,6 @@ export default defineComponent({
     let pressDeleteCount = 0
 
     const { t } = useLocale()
-    const $ELEMENT = useGlobalConfig()
     const elForm = inject(elFormKey, {} as ElFormContext)
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
 
@@ -324,9 +322,7 @@ export default defineComponent({
     const inputPlaceholder = computed(
       () => props.placeholder || t('el.cascader.placeholder')
     )
-    const realSize: ComputedRef<ComponentSize> = computed(
-      () => props.size || elFormItem.size || $ELEMENT.size
-    )
+    const realSize = useSize()
     const tagSize = computed(() =>
       ['small', 'mini'].includes(realSize.value) ? 'mini' : 'small'
     )

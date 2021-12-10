@@ -3,21 +3,13 @@
     <span class="demonstration"
       >Select any level of options (Single selection)</span
     >
-    <el-cascader
-      :options="options"
-      :props="{ checkStrictly: true }"
-      clearable
-    />
+    <el-cascader :options="options" :props="props1" clearable />
   </div>
   <div class="block">
     <span class="demonstration"
       >Select any level of options (Multiple selection)</span
     >
-    <el-cascader
-      :options="options"
-      :props="{ multiple: true, checkStrictly: true }"
-      clearable
-    />
+    <el-cascader :options="options" :props="props2" clearable />
   </div>
 </template>
 
@@ -27,6 +19,13 @@ import { defineComponent, reactive, toRefs } from 'vue'
 export default defineComponent({
   setup() {
     const state = reactive({
+      props1: {
+        checkStrictly: true,
+      },
+      props2: {
+        multiple: true,
+        checkStrictly: true,
+      },
       options: [
         {
           value: 'guide',

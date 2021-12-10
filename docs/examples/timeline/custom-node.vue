@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { MoreFilled } from '@element-plus/icons'
+import { MoreFilled } from '@element-plus/icons-vue'
 
 export default defineComponent({
   setup() {

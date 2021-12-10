@@ -85,7 +85,7 @@
 import { defineComponent, ref, computed, getCurrentInstance, watch } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
-import { ArrowDown, ArrowUp } from '@element-plus/icons'
+import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { ClickOutside } from '@element-plus/directives'
 import { useLocale } from '@element-plus/hooks'
 import ElPopper, { Effect } from '@element-plus/components/popper'

@@ -8,5 +8,5 @@
   </el-button>
 </template>
 <script setup lang="ts">
-import { Edit, Share, Delete, Search, Upload } from '@element-plus/icons'
+import { Edit, Share, Delete, Search, Upload } from '@element-plus/icons-vue'
 </script>

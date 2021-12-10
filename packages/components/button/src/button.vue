@@ -38,9 +38,14 @@
 import { computed, inject, defineComponent, Text, ref } from 'vue'
 import { useCssVar } from '@vueuse/core'
 import { ElIcon } from '@element-plus/components/icon'
-import { useFormItem, useGlobalConfig } from '@element-plus/hooks'
+import {
+  useDisabled,
+  useFormItem,
+  useGlobalConfig,
+  useSize,
+} from '@element-plus/hooks'
 import { buttonGroupContextKey } from '@element-plus/tokens'
-import { Loading } from '@element-plus/icons'
+import { Loading } from '@element-plus/icons-vue'
 
 import { lighten, darken } from '@element-plus/utils/color'
 
@@ -60,10 +65,11 @@ export default defineComponent({
   setup(props, { emit, slots }) {
     const buttonRef = ref()
     const buttonGroupContext = inject(buttonGroupContextKey, undefined)
-    const globalConfig = useGlobalConfig()
-    const autoInsertSpace = computed(() => {
-      return props.autoInsertSpace ?? globalConfig?.button.autoInsertSpace
-    })
+    const globalConfig = useGlobalConfig('button')
+    const autoInsertSpace = computed(
+      () =>
+        props.autoInsertSpace ?? globalConfig.value?.autoInsertSpace ?? false
+    )
 
     // add space between two characters in Chinese
     const shouldAddSpace = computed(() => {
@@ -78,19 +84,17 @@ export default defineComponent({
       return false
     })
 
-    const {
-      form,
-      size: buttonSize,
-      disabled: buttonDisabled,
-    } = useFormItem({
-      size: computed(() => buttonGroupContext?.size),
-    })
+    const { form } = useFormItem()
+    const buttonSize = useSize(computed(() => buttonGroupContext?.size))
+    const buttonDisabled = useDisabled()
     const buttonType = computed(
       () => props.type || buttonGroupContext?.type || 'default'
     )
 
     // calculate hover & active color by color
-    const typeColor = useCssVar(`--el-color-${props.type}`)
+    const typeColor = computed(
+      () => useCssVar(`--el-color-${props.type}`).value
+    )
     const buttonStyle = computed(() => {
       let styles = {}
 
