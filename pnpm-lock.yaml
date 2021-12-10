@@ -23,6 +23,7 @@ importers:
       '@rollup/plugin-node-resolve': 13.0.6
       '@rollup/plugin-replace': 3.0.0
       '@sucrase/jest-plugin': 2.2.0
+      '@types/fs-extra': 9.0.13
       '@types/gulp': 4.0.9
       '@types/jest': 27.0.2
       '@types/lodash': 4.14.178
@@ -47,6 +48,7 @@ importers:
       eslint-plugin-vue: 8.2.0
       expect-type: 0.13.0
       fast-glob: 3.2.7
+      fs-extra: 10.0.0
       gulp: 4.0.2
       husky: 7.0.4
       jest: 26.6.3
@@ -99,6 +101,7 @@ importers:
       '@rollup/plugin-node-resolve': 13.0.6_rollup@2.61.0
       '@rollup/plugin-replace': 3.0.0_rollup@2.61.0
       '@sucrase/jest-plugin': 2.2.0
+      '@types/fs-extra': 9.0.13
       '@types/gulp': 4.0.9
       '@types/jest': 27.0.2
       '@types/lodash': 4.14.178
@@ -120,6 +123,7 @@ importers:
       eslint-plugin-vue: 8.2.0_eslint@8.4.1
       expect-type: 0.13.0
       fast-glob: 3.2.7
+      fs-extra: 10.0.0
       gulp: 4.0.2
       husky: 7.0.4
       jest: 26.6.3
@@ -1666,6 +1670,12 @@ packages:
 
   /@types/expect/1.20.4:
     resolution: {integrity: sha512-Q5Vn3yjTDyCMV50TB6VRIbQNxSE4OmZR86VSbGaNpfUolm0iePBB4KdEEHmxoY5sT2+2DIvXW0rvMDP2nHZ4Mg==}
+    dev: true
+
+  /@types/fs-extra/9.0.13:
+    resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
+    dependencies:
+      '@types/node': 16.11.6
     dev: true
 
   /@types/glob-stream/6.1.1:
