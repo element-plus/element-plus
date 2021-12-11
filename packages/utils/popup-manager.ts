@@ -1,4 +1,4 @@
-import isServer from './isServer'
+import { isClient } from '@vueuse/core'
 import * as configs from './config'
 import { addClass, removeClass, on } from './dom'
 import { EVENT_CODE } from './aria'
@@ -47,7 +47,7 @@ let hasModal = false
 let zIndex: number
 
 const getModal = function (): HTMLElement {
-  if (isServer) return
+  if (!isClient) return
   let modalDom = PopupManager.modalDom
   if (modalDom) {
     hasModal = true
@@ -104,7 +104,7 @@ const PopupManager: IPopupManager = {
   },
 
   openModal(id, zIndex, dom, modalClass, modalFade) {
-    if (isServer) return
+    if (!isClient) return
     if (!id || zIndex === undefined) return
     this.modalFade = modalFade
 
@@ -204,7 +204,7 @@ Object.defineProperty(PopupManager, 'zIndex', {
 })
 
 const getTopPopup = function () {
-  if (isServer) return
+  if (!isClient) return
   if (PopupManager.modalStack.length > 0) {
     const topPopup = PopupManager.modalStack[PopupManager.modalStack.length - 1]
     if (!topPopup) return
@@ -214,7 +214,7 @@ const getTopPopup = function () {
   }
 }
 
-if (!isServer) {
+if (isClient) {
   // handle `esc` key when the popup is shown
   on(window, 'keydown', function (event: KeyboardEvent) {
     if (event.code === EVENT_CODE.esc) {

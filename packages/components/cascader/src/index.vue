@@ -158,6 +158,7 @@ import {
 import { isPromise } from '@vue/shared'
 import debounce from 'lodash/debounce'
 
+import { isClient } from '@vueuse/core'
 import ElCascaderPanel, {
   CommonProps,
 } from '@element-plus/components/cascader-panel'
@@ -173,7 +174,6 @@ import { useLocale, useSize } from '@element-plus/hooks'
 
 import { EVENT_CODE, focusNode, getSibling } from '@element-plus/utils/aria'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
-import isServer from '@element-plus/utils/isServer'
 import {
   addResizeListener,
   removeResizeListener,
@@ -491,7 +491,7 @@ export default defineComponent({
       const tagWrapperEl = tagWrapper.value
       const suggestionPanelEl = suggestionPanel.value?.$el
 
-      if (isServer || !inputInner) return
+      if (!isClient || !inputInner) return
 
       if (suggestionPanelEl) {
         const suggestionList = suggestionPanelEl.querySelector(

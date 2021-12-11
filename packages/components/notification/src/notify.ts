@@ -1,5 +1,5 @@
 import { createVNode, render } from 'vue'
-import isServer from '@element-plus/utils/isServer'
+import { isClient } from '@vueuse/core'
 import PopupManager from '@element-plus/utils/popup-manager'
 import { isVNode } from '@element-plus/utils/util'
 import { debugWarn } from '@element-plus/utils/error'
@@ -31,7 +31,7 @@ const GAP_SIZE = 16
 let seed = 1
 
 const notify: NotifyFn & Partial<Notify> = function (options = {}) {
-  if (isServer) return { close: () => undefined }
+  if (!isClient) return { close: () => undefined }
 
   if (typeof options === 'string' || isVNode(options)) {
     options = { message: options }
