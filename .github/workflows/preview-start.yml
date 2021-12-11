@@ -11,6 +11,6 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: |
-            <img width="400" src="https://user-images.githubusercontent.com/17680888/145600226-14f9cb31-33b8-4757-b2c0-affdb7499089.png">
+            <img width="400" src="https://user-images.githubusercontent.com/17680888/145667098-5fc781c7-4c6d-463a-af06-133e9195c01b.png">
             <!-- ELEMENT_PLUS_PREVIEW -->
           body-include: '<!-- ELEMENT_PLUS_PREVIEW -->'
