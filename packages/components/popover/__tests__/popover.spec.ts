@@ -80,7 +80,7 @@ describe('Popover.vue', () => {
       Number.parseInt(
         window.getComputedStyle(wrapper.find('.el-popper').element).zIndex
       )
-    ).toBeLessThanOrEqual(PopupManager.zIndex)
+    ).toBeLessThanOrEqual(PopupManager.getInitialZIndex() + PopupManager.zIndex)
   })
 
   test('should render correctly with tabindex', async () => {

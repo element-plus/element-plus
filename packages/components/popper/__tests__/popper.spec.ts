@@ -107,7 +107,7 @@ describe('Popper.vue', () => {
       Number.parseInt(
         window.getComputedStyle(wrapper.find('.el-popper').element).zIndex
       )
-    ).toBeLessThanOrEqual(PopupManager.zIndex)
+    ).toBeLessThanOrEqual(PopupManager.getInitialZIndex() + PopupManager.zIndex)
   })
 
   test('should show popper when mouse entered and hide when popper left', async () => {
