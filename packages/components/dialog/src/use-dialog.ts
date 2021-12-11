@@ -3,7 +3,7 @@ import { useTimeoutFn, isClient } from '@vueuse/core'
 
 import { useLockscreen, useRestoreActive, useModal } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import PopupManager from '@element-plus/utils/popup-manager'
+import { PopupManager } from '@element-plus/utils/popup-manager'
 import { isNumber } from '@element-plus/utils/util'
 
 import type { CSSProperties, Ref, SetupContext } from 'vue'

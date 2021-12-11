@@ -2,7 +2,7 @@ import { provide, defineComponent, watch } from 'vue'
 import { buildProps, definePropType } from '@element-plus/utils/props'
 import { useLocaleProps, provideLocale } from '@element-plus/hooks'
 import { configProviderContextKey } from '@element-plus/tokens'
-import PopupManager from '@element-plus/utils/popup-manager'
+import { PopupManager } from '@element-plus/utils/popup-manager'
 import { isNumber } from '@element-plus/utils/util'
 import type { ButtonConfigContext } from '@element-plus/components/button'
 

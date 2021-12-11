@@ -15,7 +15,7 @@ interface Instance {
 
 type StackFrame = { id: string; zIndex: number; modalClass: string }
 
-export interface PopupManager {
+interface PopupManager {
   getInstance: (id: string) => Instance
   zIndex: number
   globalInitialZIndex: number
@@ -67,7 +67,7 @@ const getModal = function (): HTMLElement {
 
 const instances = {}
 
-const PopupManager: PopupManager = {
+export const PopupManager: PopupManager = {
   modalFade: true,
   modalDom: undefined,
   globalInitialZIndex: 2000,
@@ -225,5 +225,3 @@ if (isClient) {
     }
   })
 }
-
-export default PopupManager

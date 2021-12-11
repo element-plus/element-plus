@@ -1,5 +1,5 @@
 import { ref, nextTick, h, createSlots } from 'vue'
-import PopupManager from '@element-plus/utils/popup-manager'
+import { PopupManager } from '@element-plus/utils/popup-manager'
 import makeMount from '@element-plus/test-utils/make-mount'
 import Popover from '../src/index.vue'
 

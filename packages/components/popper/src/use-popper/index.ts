@@ -7,7 +7,7 @@ import {
   isArray,
   isString,
 } from '@element-plus/utils/util'
-import PopupManager from '@element-plus/utils/popup-manager'
+import { PopupManager } from '@element-plus/utils/popup-manager'
 import usePopperOptions from './popper-options'
 
 import type {
