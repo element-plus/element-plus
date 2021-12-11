@@ -15,7 +15,7 @@
 <p align="center">Element Plus - A Vue.js 3 UI library</p>
 
 - 💪 Vue 3 Composition API
-- 🔥 Written in TypeScript
+- 🔥 Written in TypeScript1
 
 ## Archived website
 
