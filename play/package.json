@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "1.10.2",
-    "unplugin-vue-components": "0.17.6",
+    "unplugin-vue-components": "0.17.8",
     "vite": "2.7.1",
     "vite-plugin-inspect": "0.3.11"
   }
