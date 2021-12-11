@@ -368,3 +368,44 @@ describe('Cascader.vue', () => {
     expect(wrapper.vm.value).toEqual(['zhejiang', 'hangzhou'])
   })
 })
+
+test('filter-case-insensitive', async () => {
+  const wrapper = _mount({
+    template: `
+      <cascader
+        v-model="value"
+        :options="options"
+        filterable
+        filter-case-insensitive
+      />
+    `,
+    data() {
+      return {
+        options: OPTIONS,
+        value: [],
+      }
+    },
+  })
+
+  const input = wrapper.find('input')
+  input.element.value = 'ni'
+  await input.trigger('compositionstart')
+  await input.trigger('input')
+  input.element.value = 'ha'
+  await input.trigger('compositionupdate')
+  await input.trigger('input')
+  await input.trigger('compositionend')
+  const suggestions = document.querySelectorAll(
+    SUGGESTION_ITEM
+  ) as NodeListOf<HTMLElement>
+  const hzSuggestion = suggestions[0]
+  expect(suggestions.length).toBe(1)
+  expect(hzSuggestion.textContent).toBe('Zhejiang / Hangzhou')
+  hzSuggestion.click()
+  await nextTick()
+  expect(wrapper.findComponent(Check).exists()).toBeTruthy()
+  expect(wrapper.vm.value).toEqual(['zhejiang', 'hangzhou'])
+  hzSuggestion.click()
+  await nextTick()
+  expect(wrapper.vm.value).toEqual(['zhejiang', 'hangzhou'])
+})
