@@ -10,8 +10,9 @@ Use Date Picker for date input.
 <style lang="scss">
 
 .example-showcase .demo-date-picker {
-  padding: 0;
   display: flex;
+  width: 100%;
+  padding: 0;
   flex-wrap: wrap;
 }
 
@@ -185,7 +186,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | model-value / v-model | binding value                                                                                         | date(DatePicker) / array(DateRangePicker)        | —                                                                                                                 | —           |
 | readonly              | whether DatePicker is read only                                                                       | boolean                                          | —                                                                                                                 | false       |
 | disabled              | whether DatePicker is disabled                                                                        | boolean                                          | —                                                                                                                 | false       |
-| size                  | size of Input                                                                                         | string                                           | large/medium/small/mini                                                                                           | large       |
+| size                  | size of Input                                                                                         | string                                           | large/default/small                                                                                               | default     |
 | editable              | whether the input is editable                                                                         | boolean                                          | —                                                                                                                 | true        |
 | clearable             | whether to show clear button                                                                          | boolean                                          | —                                                                                                                 | true        |
 | placeholder           | placeholder in non-range mode                                                                         | string                                           | —                                                                                                                 | —           |

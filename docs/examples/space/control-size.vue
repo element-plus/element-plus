@@ -1,9 +1,8 @@
 <template>
   <el-space direction="vertical" alignment="start" :size="30">
     <el-radio-group v-model="size">
-      <el-radio :label="'mini'">mini</el-radio>
       <el-radio :label="'small'">small</el-radio>
-      <el-radio :label="'medium'">medium</el-radio>
+      <el-radio :label="'default'">default</el-radio>
       <el-radio :label="'large'">large</el-radio>
     </el-radio-group>
 
@@ -27,7 +26,7 @@
 export default {
   data() {
     return {
-      size: 'mini',
+      size: 'small',
     }
   },
 }

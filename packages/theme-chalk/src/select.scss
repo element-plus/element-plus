@@ -23,7 +23,7 @@
     );
   }
 
-  @each $size in (medium, small, mini) {
+  @each $size in (large, small) {
     @include m($size) {
       line-height: map.get($input-height, $size);
     }
@@ -116,9 +116,6 @@
     appearance: none;
     height: 28px;
     background-color: transparent;
-    @include when(mini) {
-      height: 14px;
-    }
   }
 
   @include e(close) {

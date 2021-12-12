@@ -13,31 +13,25 @@ DateTimePicker is derived from DatePicker and TimePicker. For a more detailed ex
 
 :::
 
-<style lang="scss" scoped>
-
+<style lang="scss">
 .example-showcase  {
-  padding: 0;
-  display: flex;
-}
+  .block {
+    padding: 30px 0;
+    text-align: center;
+    border-right: solid 1px var(--el-border-color-base);
+    flex: 1;
+    &:last-child {
+      border-right: none;
+    }
+  }
 
-.example-showcase .block {
-  padding: 30px 0;
-  text-align: center;
-  border-right: solid 1px var(--el-border-color-base);
-  flex: 1;
-  &:last-child {
-    border-right: none;
+  .demonstration {
+    display: block;
+    color: var(--el-text-color-secondary);
+    font-size: 14px;
+    margin-bottom: 20px;
   }
 }
-
-.example-showcase .demonstration {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-
-
 </style>
 
 ## Date and time
@@ -73,7 +67,7 @@ datetime-picker/default-time
 | disabled              | whether DatePicker is disabled                                                                        | boolean                                           | —                                                                                                                                                                               | false               |
 | editable              | whether the input is editable                                                                         | boolean                                           | —                                                                                                                                                                               | true                |
 | clearable             | whether to show clear button                                                                          | boolean                                           | —                                                                                                                                                                               | true                |
-| size                  | size of Input                                                                                         | string                                            | large/medium/small/mini                                                                                                                                                         | large               |
+| size                  | size of Input                                                                                         | string                                            | large/default/small                                                                                                                                                             | default             |
 | placeholder           | placeholder in non-range mode                                                                         | string                                            | —                                                                                                                                                                               | —                   |
 | start-placeholder     | placeholder for the start date in range mode                                                          | string                                            | —                                                                                                                                                                               | —                   |
 | end-placeholder       | placeholder for the end date in range mode                                                            | string                                            | —                                                                                                                                                                               | —                   |

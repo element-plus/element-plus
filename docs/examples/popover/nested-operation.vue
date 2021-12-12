@@ -2,10 +2,10 @@
   <el-popover v-model:visible="visible" placement="top" :width="160">
     <p>Are you sure to delete this?</p>
     <div style="text-align: right; margin: 0">
-      <el-button size="mini" type="text" @click="visible = false"
+      <el-button size="small" type="text" @click="visible = false"
         >cancel</el-button
       >
-      <el-button type="primary" size="mini" @click="visible = false"
+      <el-button size="small" type="primary" @click="visible = false"
         >confirm</el-button
       >
     </div>

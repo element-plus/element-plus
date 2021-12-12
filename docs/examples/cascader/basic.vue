@@ -309,3 +309,12 @@ export default defineComponent({
   },
 })
 </script>
+
+<style lang="scss" scoped>
+.block {
+  margin: 1rem;
+}
+.demonstration {
+  margin: 1rem;
+}
+</style>

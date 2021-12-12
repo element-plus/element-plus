@@ -200,9 +200,9 @@ type suggestionPanelType = InstanceType<typeof ElScrollbar>
 const DEFAULT_INPUT_HEIGHT = 40
 
 const INPUT_HEIGHT_MAP = {
-  medium: 36,
-  small: 32,
-  mini: 28,
+  large: 36,
+  default: 32,
+  small: 28,
 }
 
 const popperOptions: Partial<Options> = {
@@ -324,7 +324,7 @@ export default defineComponent({
     )
     const realSize = useSize()
     const tagSize = computed(() =>
-      ['small', 'mini'].includes(realSize.value) ? 'mini' : 'small'
+      ['small'].includes(realSize.value) ? 'small' : ''
     )
     const multiple = computed(() => !!props.props.multiple)
     const readonly = computed(() => !props.filterable || multiple.value)

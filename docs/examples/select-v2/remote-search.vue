@@ -3,7 +3,6 @@
     v-model="value"
     style="width: 240px"
     multiple
-    size="medium"
     filterable
     remote
     :remote-method="remoteMethod"
