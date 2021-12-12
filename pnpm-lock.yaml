@@ -186,6 +186,7 @@ importers:
 
   packages/element-plus:
     specifiers:
+      '@ctrl/tinycolor': ^3.4.0
       '@element-plus/icons-vue': ^0.2.2
       '@popperjs/core': ^2.10.2
       '@types/node': '*'
@@ -207,6 +208,7 @@ importers:
       memoize-one: 6.0.0
       normalize-wheel-es: 1.1.1
     devDependencies:
+      '@ctrl/tinycolor': 3.4.0
       '@types/node': 16.11.6
       csstype: 2.6.18
       vue-router: 4.0.12_vue@3.2.24
@@ -897,6 +899,11 @@ packages:
     hasBin: true
     dependencies:
       shelljs: 0.8.4
+    dev: true
+
+  /@ctrl/tinycolor/3.4.0:
+    resolution: {integrity: sha512-JZButFdZ1+/xAfpguQHoabIXkcqRRKpMrWKBkpEZZyxfY9C1DpADFB8PEqGSTeFr135SaTRfKqGKx5xSCLI7ZQ==}
+    engines: {node: '>=10'}
     dev: true
 
   /@docsearch/css/1.0.0-alpha.28:
