@@ -1,0 +1,27 @@
+// scrollbar
+* {
+  scrollbar-color: var(--el-color-primary-light-6) var(--el-bg-color);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar:horizontal {
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--el-color-primary-light-5);
+  border-radius: 10px;
+
+  &:hover {
+    background: var(--el-color-primary-light-3);
+  }
+
+  &:active {
+    background: var(--el-color-primary-light-1);
+  }
+}
