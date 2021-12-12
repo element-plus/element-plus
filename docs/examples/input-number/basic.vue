@@ -8,7 +8,7 @@ import { defineComponent, ref } from 'vue'
 export default defineComponent({
   setup() {
     const num = ref(1)
-    const handleChange = (value: string) => {
+    const handleChange = (value) => {
       console.log(value)
     }
     return {

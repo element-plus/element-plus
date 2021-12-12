@@ -82,7 +82,7 @@ import {
   Location,
   Tickets,
   OfficeBuilding,
-} from '@element-plus/icons'
+} from '@element-plus/icons-vue'
 
 const size = ref('')
 </script>

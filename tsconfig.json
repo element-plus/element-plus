@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "strict": true,
     "module": "ES6",
-    "target": "ES6",
+    "target": "ES2018",
     "noImplicitAny": false,
     "declaration": true,
     "moduleResolution": "Node",
@@ -12,8 +13,7 @@
     "lib": ["ES2018", "DOM"],
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true
+    "resolveJsonModule": true
   },
   "include": ["packages"],
   "exclude": ["node_modules", "**/__test?__", "**/dist"]

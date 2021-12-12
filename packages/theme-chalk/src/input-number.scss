@@ -38,7 +38,7 @@
     width: map.get($input-height, 'default');
     height: auto;
     text-align: center;
-    background: $background-color-base;
+    background: var(--el-bg-color);
     color: var(--el-text-color-regular);
     cursor: pointer;
     font-size: 13px;

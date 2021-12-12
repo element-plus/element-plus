@@ -3,3 +3,5 @@ import { ConfigProvider } from './src'
 
 export const ElConfigProvider = withInstall(ConfigProvider)
 export default ElConfigProvider
+
+export * from './src/config-provider'

@@ -35,7 +35,7 @@
                 :closable="!selectDisabled && !selected[0].isDisabled"
                 :size="collapseTagSize"
                 :hit="selected[0].hitState"
-                type="info"
+                :type="tagType"
                 disable-transitions
                 @close="deleteTag($event, selected[0])"
               >
@@ -49,7 +49,7 @@
                 v-if="selected.length > 1"
                 :closable="false"
                 :size="collapseTagSize"
-                type="info"
+                :type="tagType"
                 disable-transitions
               >
                 <span class="el-select__tags-text"
@@ -71,7 +71,7 @@
                   :closable="!selectDisabled && !item.isDisabled"
                   :size="collapseTagSize"
                   :hit="item.hitState"
-                  type="info"
+                  :type="tagType"
                   disable-transitions
                   @close="deleteTag($event, item)"
                 >
@@ -234,7 +234,7 @@ import {
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import { CircleClose, ArrowUp } from '@element-plus/icons'
+import { CircleClose, ArrowUp } from '@element-plus/icons-vue'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
 import { useSelect, useSelectStates } from './useSelect'
@@ -318,6 +318,10 @@ export default defineComponent({
     suffixIcon: {
       type: [String, Object] as PropType<string | Component>,
       default: ArrowUp,
+    },
+    tagType: {
+      type: String,
+      default: 'info',
     },
   },
   emits: [

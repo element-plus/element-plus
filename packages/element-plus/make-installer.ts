@@ -3,15 +3,14 @@ import { localeContextKey, localeProviderMaker } from '@element-plus/hooks'
 import { version } from './version'
 
 import type { App, Plugin } from 'vue'
-import type { ComponentSize } from '@element-plus/utils/types'
 import type { InstallOptions } from '@element-plus/utils/config'
 
-const makeInstaller = (components: Plugin[] = []) => {
+export const makeInstaller = (components: Plugin[] = []) => {
   const apps: App[] = []
 
   const install = (app: App, opts: InstallOptions) => {
     const defaultInstallOpt: InstallOptions = {
-      size: '' as ComponentSize,
+      size: '',
       zIndex: 2000,
     }
 
@@ -19,9 +18,7 @@ const makeInstaller = (components: Plugin[] = []) => {
     if (apps.includes(app)) return
     apps.push(app)
 
-    components.forEach((c) => {
-      app.use(c)
-    })
+    components.forEach((c) => app.use(c))
 
     if (option.locale) {
       const localeProvides = localeProviderMaker(opts.locale)
@@ -38,5 +35,3 @@ const makeInstaller = (components: Plugin[] = []) => {
     install,
   }
 }
-
-export default makeInstaller

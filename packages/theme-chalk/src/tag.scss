@@ -107,11 +107,17 @@ $tag-border-width: 1px;
     font-size: 12px;
     height: 16px;
     width: 16px;
-    right: -5px;
+    line-height: 16px;
+    vertical-align: middle;
+    top: -1px;
 
     svg {
       margin: 2px;
     }
+  }
+
+  .#{$namespace}-tag__close {
+    right: -5px;
   }
 
   @include m(dark) {

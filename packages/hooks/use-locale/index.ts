@@ -6,18 +6,19 @@ import type { MaybeRef } from '@vueuse/core'
 import type { InjectionKey, Ref } from 'vue'
 import type { Language } from '@element-plus/locale'
 
-export const useLocaleProps = buildProps({
-  locale: {
-    type: definePropType<Language>(Object),
-  },
-})
-
-export type Translator = (path: string) => string
+export type TranslatorOption = Record<string, string | number>
+export type Translator = (path: string, option?: TranslatorOption) => string
 export type LocaleContext = {
   locale: Ref<Language>
   lang: Ref<string>
   t: Translator
 }
+
+export const useLocaleProps = buildProps({
+  locale: {
+    type: definePropType<Language>(Object),
+  },
+})
 
 export const localeContextKey: InjectionKey<LocaleContext> =
   Symbol('localeContextKey')
@@ -25,7 +26,7 @@ export const localeContextKey: InjectionKey<LocaleContext> =
 // this is meant to fix global methods like `ElMessage(opts)`, this way we can inject current locale
 // into the component as default injection value.
 // refer to: https://github.com/element-plus/element-plus/issues/2610#issuecomment-887965266
-let localeContextCache: LocaleContext
+let cache: LocaleContext
 
 export const provideLocale = () => {
   const vm = getCurrentInstance()!
@@ -51,17 +52,24 @@ export const provideLocale = () => {
    *   </config-provider>
    * </config-provider>
    */
-  localeContextCache = provides
+  cache = provides
   provide(localeContextKey, provides)
 }
 
 export const buildTranslator =
   (locale: MaybeRef<Language>): Translator =>
-  (path) =>
-    translate(path, unref(locale))
+  (path, option) =>
+    translate(path, option, unref(locale))
 
-export const translate = (path: string, locale: Language): string =>
-  get(locale, path, '')
+export const translate = (
+  path: string,
+  option: undefined | TranslatorOption,
+  locale: Language
+): string =>
+  (get(locale, path, path) as string).replace(
+    /\{(\w+)\}/g,
+    (_, key) => `${option?.[key] ?? `{${key}}`}`
+  )
 
 export const localeProviderMaker = (locale = English) => {
   const lang = ref(locale.name)
@@ -74,8 +82,5 @@ export const localeProviderMaker = (locale = English) => {
 }
 
 export const useLocale = () => {
-  return inject(
-    localeContextKey,
-    localeContextCache || localeProviderMaker(English)
-  )
+  return inject(localeContextKey, cache || localeProviderMaker(English))
 }

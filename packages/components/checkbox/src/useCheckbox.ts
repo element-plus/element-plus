@@ -1,9 +1,9 @@
 import { ref, computed, inject, getCurrentInstance, watch } from 'vue'
 import { toTypeString } from '@vue/shared'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { useGlobalConfig } from '@element-plus/utils/util'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 
+import { useSize } from '@element-plus/hooks'
 import type { ExtractPropTypes } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 import type { PartialReturnType } from '@element-plus/utils/types'
@@ -39,7 +39,6 @@ export const useCheckboxProps = {
 export type IUseCheckboxProps = ExtractPropTypes<typeof useCheckboxProps>
 
 export const useCheckboxGroup = () => {
-  const ELEMENT = useGlobalConfig()
   const elForm = inject(elFormKey, {} as ElFormContext)
   const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
   const checkboxGroup = inject<ICheckboxGroupInstance>('CheckboxGroup', {})
@@ -53,7 +52,6 @@ export const useCheckboxGroup = () => {
     isGroup,
     checkboxGroup,
     elForm,
-    ELEMENT,
     elFormItemSize,
     elFormItem,
   }
@@ -64,12 +62,11 @@ const useModel = (props: IUseCheckboxProps) => {
   const { emit } = getCurrentInstance()
   const { isGroup, checkboxGroup } = useCheckboxGroup()
   const isLimitExceeded = ref(false)
-  const store = computed(() =>
-    checkboxGroup ? checkboxGroup.modelValue?.value : props.modelValue
-  )
   const model = computed({
     get() {
-      return isGroup.value ? store.value : props.modelValue ?? selfModel.value
+      return isGroup.value
+        ? checkboxGroup.modelValue?.value
+        : props.modelValue ?? selfModel.value
     },
 
     set(val: unknown) {
@@ -95,14 +92,9 @@ const useCheckboxStatus = (
   props: IUseCheckboxProps,
   { model }: PartialReturnType<typeof useModel>
 ) => {
-  const { isGroup, checkboxGroup, elFormItemSize, ELEMENT } = useCheckboxGroup()
+  const { isGroup, checkboxGroup } = useCheckboxGroup()
   const focus = ref(false)
-  const size = computed<string | undefined>(
-    () =>
-      checkboxGroup?.checkboxGroupSize?.value ||
-      elFormItemSize.value ||
-      ELEMENT.size
-  )
+  const size = useSize(checkboxGroup?.checkboxGroupSize, { prop: true })
   const isChecked = computed<boolean>(() => {
     const value = model.value
     if (toTypeString(value) === '[object Boolean]') {
@@ -115,12 +107,12 @@ const useCheckboxStatus = (
       return !!value
     }
   })
-  const checkboxSize = computed(() => {
-    const temCheckboxSize = props.size || elFormItemSize.value || ELEMENT.size
-    return isGroup.value
-      ? checkboxGroup?.checkboxGroupSize?.value || temCheckboxSize
-      : temCheckboxSize
-  })
+
+  const checkboxSize = useSize(
+    computed(() =>
+      isGroup.value ? checkboxGroup?.checkboxGroupSize?.value : undefined
+    )
+  )
 
   return {
     isChecked,

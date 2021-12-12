@@ -43,11 +43,12 @@ export default defineConfig({
   optimizeDeps: {
     include: [
       'vue',
+      'markdown-it',
       'clipboard-copy',
       '@vueuse/core',
       'axios',
       'nprogress',
-      '@element-plus/icons',
+      '@element-plus/icons-vue',
       'dayjs',
       'memoize-one',
       'async-validator',

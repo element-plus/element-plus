@@ -212,6 +212,10 @@
     justify-content: center;
     align-items: center;
     transition: all var(--el-transition-duration);
+
+    &.#{$namespace}-icon {
+      display: flex;
+    }
   }
 
   @include e(validateIcon) {
@@ -263,6 +267,10 @@
         padding-right: 55px;
       }
     }
+
+    .#{$namespace}-input__inner {
+      padding-right: 30px;
+    }
   }
 
   @include m(prefix) {
@@ -301,7 +309,7 @@
   }
 
   @include e((append, prepend)) {
-    background-color: var(--el-bg-color-base);
+    background-color: var(--el-bg-color);
     color: var(--el-color-info);
     vertical-align: middle;
     display: table-cell;

@@ -27,9 +27,9 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
 import ElIcon from '@element-plus/components/icon'
-import { useGlobalConfig } from '@element-plus/utils/util'
-import { Close } from '@element-plus/icons'
+import { Close } from '@element-plus/icons-vue'
 
+import { useSize } from '@element-plus/hooks'
 import { tagProps, tagEmits } from './tag'
 
 export default defineComponent({
@@ -41,9 +41,7 @@ export default defineComponent({
   emits: tagEmits,
 
   setup(props, { emit }) {
-    const ELEMENT = useGlobalConfig()
-
-    const tagSize = computed(() => props.size || ELEMENT.size)
+    const tagSize = useSize()
     const classes = computed(() => {
       const { type, hit, effect } = props
       return [

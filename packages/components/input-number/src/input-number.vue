@@ -38,6 +38,7 @@
     <el-input
       ref="input"
       type="number"
+      :step="step"
       :model-value="displayValue"
       :placeholder="placeholder"
       :disabled="inputNumberDisabled"
@@ -68,11 +69,11 @@ import {
 
 import { ElIcon } from '@element-plus/components/icon'
 import { RepeatClick } from '@element-plus/directives'
-import { useFormItem } from '@element-plus/hooks'
+import { useDisabled, useSize } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import { isNumber } from '@element-plus/utils/util'
 import { debugWarn } from '@element-plus/utils/error'
-import { ArrowUp, ArrowDown, Plus, Minus } from '@element-plus/icons'
+import { ArrowUp, ArrowDown, Plus, Minus } from '@element-plus/icons-vue'
 import { inputNumberProps, inputNumberEmits } from './input-number'
 
 import type { ComponentPublicInstance } from 'vue'
@@ -125,8 +126,8 @@ export default defineComponent({
       return props.controls && props.controlsPosition === 'right'
     })
 
-    const { size: inputNumberSize, disabled: inputNumberDisabled } =
-      useFormItem({})
+    const inputNumberSize = useSize()
+    const inputNumberDisabled = useDisabled()
 
     const displayValue = computed(() => {
       if (data.userInput !== null) {
@@ -240,11 +241,11 @@ export default defineComponent({
             newVal = toPrecision(newVal, props.precision)
           }
         }
-        if (newVal !== undefined && newVal >= props.max) {
+        if (newVal !== undefined && newVal > props.max) {
           newVal = props.max
           emit('update:modelValue', newVal)
         }
-        if (newVal !== undefined && newVal <= props.min) {
+        if (newVal !== undefined && newVal < props.min) {
           newVal = props.min
           emit('update:modelValue', newVal)
         }

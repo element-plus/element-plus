@@ -13,11 +13,11 @@ import lodashDebounce from 'lodash/debounce'
 import isEqual from 'lodash/isEqual'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, useSize } from '@element-plus/hooks'
 import isServer from '@element-plus/utils/isServer'
 import scrollIntoView from '@element-plus/utils/scroll-into-view'
 import { isKorean } from '@element-plus/utils/isDef'
-import { getValueByPath, useGlobalConfig } from '@element-plus/utils/util'
+import { getValueByPath } from '@element-plus/utils/util'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 
 import type { QueryChangeCtx, SelectOptionProxy } from './token'
@@ -56,7 +56,6 @@ export function useSelectStates(props) {
 type States = ReturnType<typeof useSelectStates>
 
 export const useSelect = (props, states: States, ctx) => {
-  const ELEMENT = useGlobalConfig()
   const { t } = useLocale()
 
   // template refs
@@ -146,9 +145,7 @@ export const useSelect = (props, states: States, ctx) => {
     )
   })
 
-  const selectSize = computed(
-    () => props.size || elFormItem.size || ELEMENT.size
-  )
+  const selectSize = useSize()
 
   const collapseTagSize = computed(() =>
     ['small'].indexOf(selectSize.value) > -1 ? 'small' : ''

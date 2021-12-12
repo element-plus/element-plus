@@ -5,6 +5,8 @@ import { ElMessageBox } from '@element-plus/components/message-box'
 import { ElNotification } from '@element-plus/components/notification'
 import { ElPopoverDirective } from '@element-plus/components/popover'
 
+import type { Plugin } from 'vue'
+
 export default [
   ElInfiniteScroll,
   ElLoading,
@@ -12,4 +14,4 @@ export default [
   ElMessageBox,
   ElNotification,
   ElPopoverDirective,
-]
+] as Plugin[]

@@ -104,7 +104,7 @@ $border-color: map.merge(
 
 // Background
 /// color|1|Background Color|4
-$background-color-base: #f5f7fa !default;
+$bg-color: #f5f7fa !default;
 
 // Border
 $border-width-base: 1px !default;
@@ -156,7 +156,7 @@ $font-size: map.merge(
 $disabled: () !default;
 $disabled: map.merge(
   (
-    'bg-color': var(--el-bg-color-base),
+    'bg-color': var(--el-bg-color),
     'text-color': var(--el-text-color-placeholder),
     'border-color': var(--el-border-color-light),
   ),
@@ -316,7 +316,7 @@ $select-option: map.merge(
     'text-color': var(--el-text-color-regular),
     'disabled-color': var(--el-text-color-placeholder),
     'height': 34px,
-    'hover-background': var(--el-bg-color-base),
+    'hover-background': var(--el-bg-color),
     'selected-text-color': var(--el-color-primary),
   ),
   $select-option
@@ -502,7 +502,7 @@ $cascader: map.merge(
     'menu-radius': var(--el-border-radius-base),
     'menu-border': solid 1px var(--el-border-color-light),
     'menu-shadow': var(--el-box-shadow-light),
-    'node-background-hover': var(--el-bg-color-base),
+    'node-background-hover': var(--el-bg-color),
     'node-color-disabled': var(--el-text-color-placeholder),
     'color-empty': var(--el-text-color-placeholder),
     'tag-background': #f0f2f5,
@@ -639,7 +639,7 @@ $table: map.merge(
     'border': 1px solid var(--el-table-border-color),
     'text-color': var(--el-text-color-regular),
     'header-text-color': var(--el-text-color-secondary),
-    'row-hover-bg-color': var(--el-bg-color-base),
+    'row-hover-bg-color': var(--el-bg-color),
     'current-row-bg-color': var(--el-color-primary-light-9),
     'header-bg-color': var(--el-color-white),
     'fixed-box-shadow': 0 0 10px rgba(0, 0, 0, 0.12),
@@ -800,7 +800,7 @@ $tag-padding: map.merge(
 $tree: () !default;
 $tree: map.merge(
   (
-    'node-hover-bg-color': var(--el-bg-color-base),
+    'node-hover-bg-color': var(--el-bg-color),
     'text-color': var(--el-text-color-regular),
     'expand-icon-color': var(--el-text-color-placeholder),
   ),
@@ -1012,7 +1012,7 @@ $transfer: map.merge(
     'border-radius': var(--el-border-radius-base),
     'panel-width': 200px,
     'panel-header-height': 40px,
-    'panel-header-bg-color': var(--el-bg-color-base),
+    'panel-header-bg-color': var(--el-bg-color),
     'panel-footer-height': 40px,
     'panel-body-height': 246px,
     'item-height': 30px,

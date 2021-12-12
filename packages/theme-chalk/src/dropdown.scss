@@ -151,6 +151,8 @@ $dropdown-divider-width: 1px !default;
   box-shadow: none;
 
   @include e(item) {
+    display: flex;
+    align-items: center;
     list-style: none;
     line-height: map.get($dropdown-item-line-height, 'default');
     padding: map.get($dropdown-item-padding, 'default');
@@ -180,7 +182,6 @@ $dropdown-divider-width: 1px !default;
         content: '';
         height: $divided-offset;
         display: block;
-        margin: 0 -20px;
         background-color: $color-white;
       }
     }
@@ -201,6 +202,10 @@ $dropdown-divider-width: 1px !default;
         &.#{$namespace}-dropdown-menu__item--divided {
           $divided-offset: 3px;
           margin-top: $divided-offset;
+
+          &:before {
+            height: $divided-offset;
+          }
         }
       }
     }
