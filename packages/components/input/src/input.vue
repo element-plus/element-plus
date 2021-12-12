@@ -145,6 +145,7 @@ import {
   onMounted,
   onUpdated,
 } from 'vue'
+import { isClient } from '@vueuse/core'
 import { ElIcon } from '@element-plus/components/icon'
 import { CircleClose, View as IconView } from '@element-plus/icons-vue'
 import { ValidateComponentsMap } from '@element-plus/utils/icon'
@@ -156,7 +157,6 @@ import {
 } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { isObject } from '@element-plus/utils/util'
-import isServer from '@element-plus/utils/isServer'
 import { isKorean } from '@element-plus/utils/isDef'
 import { calcTextareaHeight } from './calc-textarea-height'
 import { inputProps, inputEmits } from './input'
@@ -249,7 +249,7 @@ export default defineComponent({
     const resizeTextarea = () => {
       const { type, autosize } = props
 
-      if (isServer || type !== 'textarea') return
+      if (!isClient || type !== 'textarea') return
 
       if (autosize) {
         const minRows = isObject(autosize) ? autosize.minRows : undefined

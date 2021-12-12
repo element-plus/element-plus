@@ -13,7 +13,7 @@ import {
   toRawType,
 } from '@vue/shared'
 import isEqualWith from 'lodash/isEqualWith'
-import isServer from './isServer'
+import { isClient } from '@vueuse/core'
 import { debugWarn, throwError } from './error'
 
 import type { ComponentPublicInstance, CSSProperties, Ref } from 'vue'
@@ -110,7 +110,7 @@ export const coerceTruthyValueToArray = (arr) => {
 // export const isEdge
 
 export const isFirefox = function (): boolean {
-  return !isServer && !!window.navigator.userAgent.match(/firefox/i)
+  return isClient && !!window.navigator.userAgent.match(/firefox/i)
 }
 
 export const autoprefixer = function (style: CSSProperties): CSSProperties {
