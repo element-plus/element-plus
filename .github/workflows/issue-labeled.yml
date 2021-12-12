@@ -17,7 +17,7 @@ jobs:
           body: |
             Hello @${{ github.event.issue.user.login }}. We totally like your proposal/feedback, welcome to [send us a Pull Request](https://help.github.com/en/articles/creating-a-pull-request) for it. Please send your Pull Request to `dev` branch, fill the [Pull Request Template](https://github.com/element-plus/element-plus/blob/dev/.github/pull_request_template.md) here, provide changelog/TypeScript/documentation/test cases if needed and make sure CI passed, we will review it soon. We appreciate your effort in advance and looking forward to your contribution!
 
-            你好 @${{ github.event.issue.user.login }}，我们完全同意你的提议/反馈，欢迎直接在此仓库 [创建一个 Pull Request](https://help.github.com/en/articles/creating-a-pull-request) 来解决这个问题。请将 Pull Request 发到 `dev 分支，务必填写 Pull Request 内的[预设模板](https://github.com/element-plus/element-plus/blob/dev/.github/pull_request_template.md)，提供改动所需相应的 changelog、TypeScript 定义、测试用例、文档等，并确保 CI 通过，我们会尽快进行 Review，提前感谢和期待您的贡献。
+            你好 @${{ github.event.issue.user.login }}，我们完全同意你的提议/反馈，欢迎直接在此仓库 [创建一个 Pull Request](https://help.github.com/en/articles/creating-a-pull-request) 来解决这个问题。请将 Pull Request 发到 `dev` 分支，务必填写 Pull Request 内的[预设模板](https://github.com/element-plus/element-plus/blob/dev/.github/pull_request_template.md)，提供改动所需相应的 changelog、TypeScript 定义、测试用例、文档等，并确保 CI 通过，我们会尽快进行 Review，提前感谢和期待您的贡献。
 
       - name: need reproduction
         if: github.event.label.name == 'need reproduction'
