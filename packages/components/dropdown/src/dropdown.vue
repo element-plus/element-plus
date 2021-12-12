@@ -11,37 +11,41 @@
       :popper-class="`el-dropdown__popper ${popperClass}`"
       :reference-element="referenceElementRef?.$el"
       :trigger="trigger"
-      :triggering-element="triggeringElementRef"
       :show-after="showTimeout"
       :stop-popper-mouse-event="false"
+      :virtual-ref="triggeringElementRef"
+      :virtual-triggering="splitButton"
+      @show="$emit('visible-change', true)"
+      @hide="$emit('visible-change', false)"
       append-to-body
       pure
       transition="el-zoom-in-top"
     >
-      <template #default>
+      <template #content>
         <el-scrollbar
           ref="scrollbar"
-          tag="ul"
           :wrap-style="wrapStyle"
+          tag="ul"
           view-class="el-dropdown__list"
         >
           <el-focus-trap trapped @mount-on-focus="onMountOnFocus">
             <el-roving-focus-group
-              as-child
-              orientation="horizontal"
               :loop="loop"
               :current-tab-id="currentTabId"
-              @current-tab-change="(val) => (currentTabId = val)"
+              orientation="horizontal"
+              @current-tab-id-change="handleCurrentTabIdChange"
               @entry-focus="handleEntryFocus"
             >
-              <slot name="dropdown"></slot>
+              <el-dropdown-collection>
+                <slot name="dropdown"></slot>
+              </el-dropdown-collection>
             </el-roving-focus-group>
           </el-focus-trap>
         </el-scrollbar>
       </template>
-      <template v-if="!splitButton" #trigger>
+      <template v-if="!splitButton" #default>
         <div :class="[dropdownSize ? 'el-dropdown--' + dropdownSize : '']">
-          <slot name="default"></slot>
+          <slot name="default" />
         </div>
       </template>
     </el-tooltip>
@@ -53,7 +57,7 @@
           :type="type"
           @click="handlerMainButtonClick"
         >
-          <slot name="default"></slot>
+          <slot name="default" />
         </el-button>
         <el-button
           ref="triggeringElementRef"
@@ -75,9 +79,9 @@ import {
   provide,
   ref,
   onMounted,
-  onBeforeMount,
+  toRef,
   watch,
-  unref as undef,
+  unref,
 } from 'vue'
 import ElButton from '@element-plus/components/button'
 import ElTooltip, {
@@ -92,6 +96,7 @@ import { on, addClass, removeClass } from '@element-plus/utils/dom'
 import { addUnit } from '@element-plus/utils/util'
 import { ArrowDown } from '@element-plus/icons-vue'
 import { useSize } from '@element-plus/hooks'
+import { ElCollection as ElDropdownCollection } from './dropdown'
 import { DROPDOWN_INJECTION_KEY } from './tokens'
 import { useDropdown } from './useDropdown'
 
@@ -110,6 +115,7 @@ export default defineComponent({
     ElFocusTrap,
     ElButtonGroup,
     ElScrollbar,
+    ElDropdownCollection,
     ElTooltip,
     ElRovingFocusGroup,
     ElIcon,
@@ -164,15 +170,14 @@ export default defineComponent({
     const _instance = getCurrentInstance()
     // const { ELEMENT } = useDropdown()
 
-    const itemMap: ElDropdownInjectionContext['itemMap'] = new Map()
     const triggeringElementRef = ref()
     const referenceElementRef = ref()
-    const popperRef = ref()
-    const contentRef = ref<HTMLElement>()
-    const focusing = ref(false)
+    const popperRef = ref<InstanceType<typeof ElTooltip> | null>(null)
+    const contentRef = ref<HTMLElement | null>(null)
     const visible = ref(false)
     const scrollbar = ref(null)
-    const currentTabId = ref(null)
+    const currentTabId = ref<string | null>(null)
+    const isUsingKeyboard = ref(false)
 
     const wrapStyle = computed<CSSProperties>(() => ({
       maxHeight: addUnit(props.maxHeight),
@@ -187,32 +192,7 @@ export default defineComponent({
 
     function handleClick() {
       if (triggerElm.value?.disabled) return
-      if (visible.value) {
-        hide()
-      } else {
-        show()
-      }
-    }
-
-    function show() {
-      popperRef.value?.delayShow?.()
-    }
-
-    function hide() {
-      popperRef.value?.delayHide?.()
-      removeTabindex()
-      if (props.tabindex >= 0) {
-        resetTabindex(triggerElm.value)
-      }
-    }
-
-    function removeTabindex() {
-      triggerElm.value?.setAttribute('tabindex', '-1')
-    }
-
-    function resetTabindex(ele) {
-      removeTabindex()
-      ele?.setAttribute('tabindex', '0')
+      popperRef.value?.onClose()
     }
 
     function triggerElmFocus() {
@@ -230,22 +210,31 @@ export default defineComponent({
     }
 
     function onItemEnter(e: PointerEvent) {
+      // console.log(e)
       // NOOP for now
     }
 
     function onItemLeave(e: PointerEvent) {
-      const contentEl = undef(contentRef)
+      const contentEl = unref(contentRef)
 
       contentEl?.focus()
       currentTabId.value = null
     }
 
+    function handleCurrentTabIdChange(id: string) {
+      currentTabId.value = id
+    }
+
     function handleEntryFocus(e: Event) {
-      if (!isUsingKeyboard.value) e.preventDefault()
+      if (!isUsingKeyboard.value) {
+        e.preventDefault()
+        e.stopImmediatePropagation()
+      }
     }
 
     provide(DROPDOWN_INJECTION_KEY, {
       contentRef,
+      isUsingKeyboard,
       onItemEnter,
       onItemLeave,
     })
@@ -256,86 +245,20 @@ export default defineComponent({
       visible,
       handleClick,
       commandHandler,
-      show,
-      hide,
-      trigger: computed(() => props.trigger),
-      hideOnClick: computed(() => props.hideOnClick),
+      trigger: toRef(props, 'trigger'),
+      hideOnClick: toRef(props, 'hideOnClick'),
       triggerElm,
     })
 
     const onMountOnFocus = (e: Event) => {
       e.preventDefault()
-      contentRef.value?.focus?.()
+      contentRef.value?.focus?.({
+        preventScroll: true,
+      })
     }
-
-    onMounted(() => {
-      // if (!props.splitButton) {
-      //   on(triggerElm.value, 'focus', () => {
-      //     focusing.value = true
-      //   })
-      //   on(triggerElm.value, 'blur', () => {
-      //     focusing.value = false
-      //   })
-      //   on(triggerElm.value, 'click', () => {
-      //     focusing.value = false
-      //   })
-      // }
-      // if (props.trigger === 'hover') {
-      //   on(triggerElm.value, 'mouseenter', show)
-      //   on(triggerElm.value, 'mouseleave', hide)
-      // } else if (props.trigger === 'click') {
-      //   on(triggerElm.value, 'click', handleClick)
-      // } else if (props.trigger === 'contextmenu') {
-      //   on(triggerElm.value, 'contextmenu', (e) => {
-      //     e.preventDefault()
-      //     handleClick()
-      //   })
-      // }
-      // Object.assign(_instance, {
-      //   handleClick,
-      //   hide,
-      //   resetTabindex,
-      // })
-    })
-
-    // onBeforeMount(() => {
-    //   itemMap.clear()
-    // })
-
-    const onVisibleUpdated = (val: boolean) => {
-      if (val) {
-        // add document handler for navigating
-      } else {
-        // remove the handler after popup disappears
-      }
-    }
-
-    watch(
-      () => focusing.value,
-      (val) => {
-        const selfDefine = triggerElm.value
-        if (selfDefine) {
-          if (val) {
-            addClass(selfDefine, 'focusing')
-          } else {
-            removeClass(selfDefine, 'focusing')
-          }
-        }
-      }
-    )
-
-    watch(
-      () => visible.value,
-      (val) => {
-        if (val) triggerElmFocus()
-        if (!val) triggerElmBlur()
-        emit('visible-change', val)
-      }
-    )
 
     const handlerMainButtonClick = (event) => {
       emit('click', event)
-      hide()
     }
 
     return {
@@ -344,9 +267,9 @@ export default defineComponent({
       wrapStyle,
       dropdownSize,
       currentTabId,
+      handleCurrentTabIdChange,
       handlerMainButtonClick,
       handleEntryFocus,
-      onVisibleUpdated,
       onMountOnFocus,
       popperRef,
       triggeringElementRef,

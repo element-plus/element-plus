@@ -26,7 +26,7 @@ import PopupManager from '@element-plus/utils/popup-manager'
 import { debugWarn } from '@element-plus/utils/error'
 import { POPPER_INJECTION_KEY, POPPER_CONTENT_INJECTION_KEY } from './tokens'
 import { usePopperContentProps } from './popper'
-import { buildPopperOptions } from './utils'
+import { buildPopperOptions, unwrapMeasurableEl } from './utils'
 
 export default defineComponent({
   name: 'ElPopperContent',
@@ -64,21 +64,26 @@ export default defineComponent({
       ]
     })
 
-    const createPopperInstance = ({ triggerEl, popperContentEl, arrowEl }) => {
+    const createPopperInstance = ({
+      referenceEl,
+      popperContentEl,
+      arrowEl,
+    }) => {
       const options = buildPopperOptions(props, {
         arrowEl,
         arrowOffset: unref(arrowOffset),
       })
 
-      return createPopper(triggerEl, popperContentEl, options)
+      return createPopper(referenceEl, popperContentEl, options)
     }
 
     onMounted(() => {
       const popperContentEl = unref(popperContentRef)!
-      const triggerEl = unref(triggerRef)
+      const referenceEl =
+        unwrapMeasurableEl(props.referenceEl) || unref(triggerRef)
       const arrowEl = unref(arrowRef)
 
-      if (!triggerEl) {
+      if (!referenceEl) {
         debugWarn(
           'ElPopper',
           'Popper content needs a HTMLElement or virtual trigger to work'
@@ -87,7 +92,7 @@ export default defineComponent({
       }
 
       const instance = createPopperInstance({
-        triggerEl,
+        referenceEl,
         popperContentEl,
         arrowEl,
       })
@@ -97,19 +102,19 @@ export default defineComponent({
       instance.update()
 
       watch(
-        () => triggerEl.getBoundingClientRect(),
+        () => referenceEl.getBoundingClientRect(),
         () => {
           instance.update()
         }
       )
 
       watch(
-        () => unref(triggerRef),
+        () => props.referenceEl || unref(triggerRef),
         (val) => {
           if (val) {
             instance.destroy()
             const newInstance = createPopperInstance({
-              triggerEl: val,
+              referenceEl: val,
               popperContentEl,
               arrowEl,
             })

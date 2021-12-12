@@ -1,11 +1,8 @@
 <template>
-  <div ref="focusTrapRef" :tabindex="-1" v-bind="$attrs" @keydown="onKeydown">
-    <slot />
-  </div>
+  <slot />
 </template>
 <script lang="ts">
 import {
-  computed,
   defineComponent,
   ref,
   onMounted,
@@ -32,7 +29,6 @@ import {
   FOCUS_ON_UNMOUNT,
 } from './tokens'
 
-import type { ElOnlyChildExpose } from '@element-plus/components/slot'
 import type { FocusLayer } from './utils'
 
 export default defineComponent({
@@ -45,12 +41,10 @@ export default defineComponent({
   emits: [ON_MOUNT_FOCUS_EVT, ON_UNMOUNT_FOCUS_EVT],
   setup(props, { emit }) {
     const focusTrapRef = ref<HTMLElement | null>()
+    const forwardRef = ref<HTMLElement | null>(null)
     let lastFocusBeforeMounted: HTMLElement | null
     let lastFocusAfterMounted: HTMLElement | null
 
-    const forwardRef = computed(
-      () => unref(focusTrapRef)?.forwardRef.value ?? null
-    )
     const focusLayer: FocusLayer = {
       paused: false,
       pause() {
@@ -156,7 +150,8 @@ export default defineComponent({
             off(document, 'focusin', onFocusIn)
             off(document, 'focusout', onFocusOut)
           }
-        }
+        },
+        { immediate: true }
       )
     })
 
@@ -182,6 +177,7 @@ export default defineComponent({
 
     return {
       focusTrapRef,
+      forwardRef,
       onKeydown,
     }
   },

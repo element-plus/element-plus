@@ -6,7 +6,11 @@
     :show-arrow="compatShowArrow"
     :hide-after="hideAfter"
   >
-    <el-tooltip-trigger :trigger="trigger" :virtual-ref="virtualRef">
+    <el-tooltip-trigger
+      :trigger="trigger"
+      :virtual-ref="virtualRef"
+      :virtual-triggering="virtualTriggering"
+    >
       <slot />
     </el-tooltip-trigger>
     <el-tooltip-content v-bind="derivedProps">

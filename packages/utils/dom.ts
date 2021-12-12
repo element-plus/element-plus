@@ -1,6 +1,6 @@
 import { isClient } from '@vueuse/core'
 import { camelize, isObject } from './util'
-import type { CSSProperties } from 'vue'
+import type { CSSProperties, ComponentPublicInstance, Ref } from 'vue'
 
 import type { Nullable } from './types'
 
@@ -255,7 +255,7 @@ export const getClientXY = (event: MouseEvent | TouchEvent) => {
 }
 
 export const composeEventHandlers = <E>(
-  theirsHandler?: (event: E) => boolean | undefined,
+  theirsHandler?: (event: E) => boolean | void,
   oursHandler?: (event: E) => void,
   { checkForDefaultPrevented = true } = {}
 ) => {
@@ -283,5 +283,13 @@ export const composeStoppableHandler = <E extends Event>(
     if (!e.defaultPrevented) {
       handler(e)
     }
+  }
+}
+
+export const composeRefs = (...refs: Ref<HTMLElement | null>[]) => {
+  return (el: Element | ComponentPublicInstance | null) => {
+    refs.forEach((ref) => {
+      ref.value = el as HTMLElement | null
+    })
   }
 }

@@ -1,4 +1,4 @@
-import type { InjectionKey, Ref } from 'vue'
+import type { Ref } from 'vue'
 
 export type CollectionItem<T = Record<string, any>> = {
   ref: HTMLElement | null
@@ -10,7 +10,6 @@ export type ElCollectionInjectionContext = {
   collectionRef: Ref<HTMLElement | null>
 }
 
-export const COLLECTION_INJECTION_KEY: InjectionKey<ElCollectionInjectionContext> =
-  Symbol('elCollection')
-
-export const COLLECTION_ITEM_SIGN = 'data-el-collection-item'
+export type ElCollectionItemInjectionContext = {
+  collectionItemRef: Ref<HTMLElement | null>
+}

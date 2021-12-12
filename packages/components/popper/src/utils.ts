@@ -1,4 +1,5 @@
-import type { UsePopperCoreConfigProps } from './popper'
+import type { ComponentPublicInstance } from 'vue'
+import type { UsePopperCoreConfigProps, Measurable } from './popper'
 
 type ArrowProps = {
   arrowEl: HTMLElement | null
@@ -20,6 +21,21 @@ export const buildPopperOptions = (
   attachArrow(options, arrowProps)
   deriveExtraModifiers(options, popperOptions?.modifiers)
   return options
+}
+
+export const unwrapMeasurableEl = (
+  $el: Measurable | null | ComponentPublicInstance
+) => {
+  let el: HTMLElement | null = null
+  if (!$el) return null
+
+  if ('getBoundingClientRect' in $el || ($el as any) instanceof HTMLElement) {
+    el = $el as HTMLElement
+  } else {
+    // refs can be Vue component
+    el = ($el as any as ComponentPublicInstance).$el
+  }
+  return el
 }
 
 function genModifiers(options: UsePopperCoreConfigProps) {

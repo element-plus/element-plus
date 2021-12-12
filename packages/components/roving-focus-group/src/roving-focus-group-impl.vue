@@ -1,15 +1,5 @@
 <template>
-  <div
-    ref="rovingFocusGroupRef"
-    v-bind="$attrs"
-    :tabindex="isBackingOut ? -1 : 0"
-    :style="rovingFocusRootStyle"
-    @blur="handleBlur"
-    @focus="handleFocus"
-    @mousedown="handleMousedown"
-  >
-    <slot />
-  </div>
+  <slot />
 </template>
 
 <script lang="ts">
@@ -23,18 +13,20 @@ import {
   unref,
   inject,
   watch,
-  reactive,
   readonly,
   toRef,
 } from 'vue'
 import { composeEventHandlers, on, off } from '@element-plus/utils/dom'
-import { COLLECTION_INJECTION_KEY } from '@element-plus/components/collection'
-import { rovingFocusGroupProps } from './roving-focus-group'
+import {
+  rovingFocusGroupProps,
+  ROVING_FOCUS_COLLECTION_INJECTION_KEY,
+} from './roving-focus-group'
 import { ROVING_FOCUS_GROUP_INJECTION_KEY } from './tokens'
 import { focusFirst } from './utils'
 
 import type { StyleValue } from 'vue'
-import type { ElOnlyChildExpose } from '@element-plus/components/slot'
+
+const CURRENT_TAB_ID_CHANGE_EVT = 'currentTabIdChange'
 
 const ENTRY_FOCUS_EVT = 'rovingFocusGroup.entryFocus'
 const EVT_OPTS: EventInit = { bubbles: false, cancelable: true }
@@ -42,15 +34,19 @@ export default defineComponent({
   name: 'ElRovingFocusGroupImpl',
   inheritAttrs: false,
   props: rovingFocusGroupProps,
+  emits: [CURRENT_TAB_ID_CHANGE_EVT, 'entryFocus'],
   setup(props, { emit }) {
     const currentTabbedId = ref<string | null>(
       (props.currentTabId || props.defaultCurrentTabId) ?? null
     )
     const isBackingOut = ref(false)
     const isClickFocus = ref(false)
-    const rovingFocusGroupRef = ref<ElOnlyChildExpose>()
-    const { getItems } = inject(COLLECTION_INJECTION_KEY, undefined)!
-    const rovingFocusRootStyle = computed(() => {
+    const rovingFocusGroupRef = ref<HTMLElement | null>(null)
+    const { getItems } = inject(
+      ROVING_FOCUS_COLLECTION_INJECTION_KEY,
+      undefined
+    )!
+    const rovingFocusGroupRootStyle = computed(() => {
       // casting to any for fix compiler error since HTMLElement.StyleValue does not
       // support CSSProperties
       return [
@@ -60,27 +56,27 @@ export default defineComponent({
         props.style as StyleValue,
       ] as any
     })
+
     const onItemFocus = (tabbedId: string) => {
-      currentTabbedId.value = tabbedId
-      emit('currentTabIdChange', tabbedId)
+      emit(CURRENT_TAB_ID_CHANGE_EVT, tabbedId)
     }
 
     const onItemShiftTab = () => {
       isBackingOut.value = true
     }
 
-    const handleMousedown = composeEventHandlers(
+    const onMousedown = composeEventHandlers(
       (e: Event) => {
-        emit('mousedown', e)
+        props.onMousedown?.(e)
       },
       () => {
         isClickFocus.value = true
       }
     )
 
-    const handleFocus = composeEventHandlers(
+    const onFocus = composeEventHandlers(
       (e: FocusEvent) => {
-        emit('focus', e)
+        props.onFocus?.(e)
       },
       (e) => {
         const isKeyboardFocus = !unref(isClickFocus)
@@ -115,9 +111,9 @@ export default defineComponent({
       }
     )
 
-    const handleBlur = composeEventHandlers(
+    const onBlur = composeEventHandlers(
       (e: Event) => {
-        emit('blur', e)
+        props.onBlur?.(e)
       },
       () => {
         isBackingOut.value = false
@@ -128,17 +124,22 @@ export default defineComponent({
       emit('entryFocus', ...args)
     }
 
-    provide(
-      ROVING_FOCUS_GROUP_INJECTION_KEY,
-      reactive({
-        currentTabbedId: readonly(currentTabbedId),
-        onItemFocus,
-        onItemShiftTab,
-        loop: toRef(props, 'loop'),
-        orientation: toRef(props, 'orientation'),
-        dir: toRef(props, 'dir'),
-      })
-    )
+    provide(ROVING_FOCUS_GROUP_INJECTION_KEY, {
+      currentTabbedId: readonly(currentTabbedId),
+      loop: toRef(props, 'loop'),
+      tabIndex: computed(() => {
+        return unref(isBackingOut) ? -1 : 0
+      }),
+      rovingFocusGroupRef,
+      rovingFocusGroupRootStyle,
+      orientation: toRef(props, 'orientation'),
+      dir: toRef(props, 'dir'),
+      onItemFocus,
+      onItemShiftTab,
+      onBlur,
+      onFocus,
+      onMousedown,
+    })
 
     watch(
       () => props.currentTabId,
@@ -149,27 +150,13 @@ export default defineComponent({
 
     onMounted(() => {
       const rovingFocusGroupEl = unref(rovingFocusGroupRef)!
-
-      on(rovingFocusGroupEl.forwardRef.value, ENTRY_FOCUS_EVT, handleEntryFocus)
+      on(rovingFocusGroupEl, ENTRY_FOCUS_EVT, handleEntryFocus)
     })
 
     onBeforeUnmount(() => {
       const rovingFocusGroupEl = unref(rovingFocusGroupRef)!
-      off(
-        rovingFocusGroupEl.forwardRef.value,
-        ENTRY_FOCUS_EVT,
-        handleEntryFocus
-      )
+      off(rovingFocusGroupEl, ENTRY_FOCUS_EVT, handleEntryFocus)
     })
-
-    return {
-      isBackingOut,
-      rovingFocusGroupRef,
-      rovingFocusRootStyle,
-      handleBlur,
-      handleFocus,
-      handleMousedown,
-    }
   },
 })
 </script>

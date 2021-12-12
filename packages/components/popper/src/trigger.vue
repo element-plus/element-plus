@@ -1,19 +1,25 @@
 <template>
-  <slot />
+  <el-only-child
+    v-if="!virtualTriggering"
+    v-bind="$attrs"
+    :aria-describedby="open ? id : undefined"
+  >
+    <slot />
+  </el-only-child>
 </template>
 
 <script lang="ts">
 import { defineComponent, inject, ref, watch } from 'vue'
+import { ElOnlyChild } from '@element-plus/components/slot'
 import { useForwardRef } from '@element-plus/hooks'
 import { usePopperTriggerProps } from './popper'
 import { POPPER_INJECTION_KEY } from './tokens'
-
-import type { ComponentPublicInstance } from 'vue'
-import type { Measurable } from './popper'
+import { unwrapMeasurableEl } from './utils'
 
 export default defineComponent({
   name: 'ElPopperTrigger',
   inheritAttrs: false,
+  components: { ElOnlyChild },
   props: {
     ...usePopperTriggerProps,
     onMouseenter: Function,
@@ -23,34 +29,19 @@ export default defineComponent({
     onFocus: Function,
     onBlur: Function,
     onContextmenu: Function,
+    id: String,
+    open: Boolean,
   },
   setup(props) {
     const triggerRef = ref<HTMLElement | null>(null)
     const popperInjection = inject(POPPER_INJECTION_KEY, undefined)!
     useForwardRef(popperInjection.triggerRef)
 
-    const unwrapTrigger = (maybeRef: Measurable | null) => {
-      let el: HTMLElement | null = null
-      if (!maybeRef) return null
-
-      if (
-        'getBoundingClientRect' in maybeRef ||
-        (maybeRef as any) instanceof HTMLElement
-      ) {
-        el = maybeRef as HTMLElement
-      } else {
-        // refs can be Vue component
-        el = (maybeRef as any as ComponentPublicInstance).$el
-      }
-      return el
-    }
-
     watch(
       () => props.virtualRef,
       (val) => {
         if (val) {
-          console.log(unwrapTrigger(val))
-          popperInjection.triggerRef.value = unwrapTrigger(val)
+          popperInjection.triggerRef.value = unwrapMeasurableEl(val)
         }
       },
       {

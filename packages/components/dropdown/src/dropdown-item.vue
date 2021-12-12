@@ -1,28 +1,19 @@
 <template>
-  <el-collection-item
+  <el-dropdown-collection-item
     :disabled="disabled"
     :text-value="textValue ?? textContent"
   >
-    <el-roving-focus-item as-child :focusable="!disabled">
-      <div
-        ref="itemRef"
-        v-bind="$attrs"
-        :class="{
-          'el-dropdown-menu__item': true,
-          'is-disabled': disabled,
-          'el-dropdown-menu__item--divided': divided,
-        }"
-        tag="div"
-        :aria-disabled="disabled"
-        role="menuitem"
-        @pointermove="handlePointerMove"
+    <el-roving-focus-item :focusable="!disabled">
+      <el-dropdown-item-impl
+        v-bind="$props"
         @pointerleave="handlePointerLeave"
+        @pointermove="handlePointerMove"
+        @click="handleClick"
       >
-        <el-icon v-if="icon"><component :is="icon" /></el-icon>
         <slot />
-      </div>
+      </el-dropdown-item-impl>
     </el-roving-focus-item>
-  </el-collection-item>
+  </el-dropdown-collection-item>
 </template>
 <script lang="ts">
 import {
@@ -30,34 +21,29 @@ import {
   defineComponent,
   getCurrentInstance,
   inject,
-  onMounted,
   ref,
   unref,
 } from 'vue'
 import ElIcon from '@element-plus/components/icon'
-import { ElCollectionItem } from '@element-plus/components/collection'
 import { ElRovingFocusItem } from '@element-plus/components/roving-focus-group'
-import { buildProps, definePropType } from '@element-plus/utils/props'
 import { composeEventHandlers, whenMouse } from '@element-plus/utils/dom'
+import ElDropdownItemImpl from './dropdown-item-impl.vue'
 import { useDropdown } from './useDropdown'
+import {
+  ElCollectionItem as ElDropdownCollectionItem,
+  dropdownItemProps,
+} from './dropdown'
 import { DROPDOWN_INJECTION_KEY } from './tokens'
-import type { Component } from 'vue'
 
 export default defineComponent({
   name: 'ElDropdownItem',
-  components: { ElIcon, ElCollectionItem, ElRovingFocusItem },
-  props: buildProps({
-    command: {
-      type: [Object, String, Number],
-      default: () => ({}),
-    },
-    disabled: Boolean,
-    divided: Boolean,
-    textValue: String,
-    icon: {
-      type: definePropType<string | Component>([String, Object]),
-    },
-  } as const),
+  components: {
+    ElIcon,
+    ElDropdownCollectionItem,
+    ElRovingFocusItem,
+    ElDropdownItemImpl,
+  },
+  props: dropdownItemProps,
   emits: ['pointermove', 'pointerleave'],
   setup(props, { emit }) {
     const { elDropdown } = useDropdown()
@@ -68,15 +54,6 @@ export default defineComponent({
       DROPDOWN_INJECTION_KEY,
       undefined
     )!
-
-    onMounted(() => {
-      // console.log(itemRef)
-      // const itemEl = unref(itemRef)
-      // itemMap.set(itemEl, {
-      //   ref: itemEl,
-      //   ...props,
-      // })
-    })
 
     const handlePointerMove = composeEventHandlers(
       (e: PointerEvent) => {
@@ -120,7 +97,6 @@ export default defineComponent({
       handleClick,
       handlePointerMove,
       handlePointerLeave,
-      itemRef,
       textContent,
     }
   },

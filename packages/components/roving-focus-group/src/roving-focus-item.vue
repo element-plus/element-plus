@@ -1,26 +1,39 @@
 <template>
-  <el-collection-item :id="id" :focusable="focusable" :active="active">
-    <span ref="itemRef" :tabindex="isCurrentTab ? 0 : -1" v-bind="$attrs">
-      <slot />
-    </span>
-  </el-collection-item>
+  <el-roving-focus-collection-item
+    :id="id"
+    :focusable="focusable"
+    :active="active"
+  >
+    <slot />
+  </el-roving-focus-collection-item>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, ref, unref, nextTick } from 'vue'
 import {
-  COLLECTION_INJECTION_KEY,
-  ElCollectionItem,
-} from '@element-plus/components/collection'
+  computed,
+  defineComponent,
+  inject,
+  ref,
+  unref,
+  nextTick,
+  provide,
+} from 'vue'
 import { useId } from '@element-plus/hooks'
 import { composeEventHandlers } from '@element-plus/utils/dom'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { ROVING_FOCUS_GROUP_INJECTION_KEY } from './tokens'
+import {
+  ROVING_FOCUS_COLLECTION_INJECTION_KEY,
+  ElCollectionItem as ElRovingFocusCollectionItem,
+} from './roving-focus-group'
+import {
+  ROVING_FOCUS_GROUP_INJECTION_KEY,
+  ROVING_FOCUS_GROUP_ITEM_INJECTION_KEY,
+} from './tokens'
 import { getFocusIntent, reorderArray, focusFirst } from './utils'
 
 export default defineComponent({
   components: {
-    ElCollectionItem,
+    ElRovingFocusCollectionItem,
   },
   props: {
     focusable: {
@@ -34,13 +47,19 @@ export default defineComponent({
   },
   emits: ['mousedown', 'focus', 'keydown'],
   setup(props, { emit }) {
-    const rovingFocusInjection = inject(
+    const { currentTabbedId, loop, onItemFocus, onItemShiftTab } = inject(
       ROVING_FOCUS_GROUP_INJECTION_KEY,
       undefined
     )!
-    const { getItems } = inject(COLLECTION_INJECTION_KEY, undefined)!
+
+    const { getItems } = inject(
+      ROVING_FOCUS_COLLECTION_INJECTION_KEY,
+      undefined
+    )!
+
     const id = useId()
-    const itemRef = ref(null)
+    const rovingFocusGroupItemRef = ref<HTMLElement | null>(null)
+
     const handleMousedown = composeEventHandlers(
       (e: Event) => {
         emit('mousedown', e)
@@ -49,7 +68,7 @@ export default defineComponent({
         if (!props.focusable) {
           e.preventDefault()
         } else {
-          rovingFocusInjection.onItemFocus(unref(id))
+          onItemFocus(unref(id))
         }
       }
     )
@@ -59,7 +78,7 @@ export default defineComponent({
         emit('focus', e)
       },
       () => {
-        rovingFocusInjection.onItemFocus(unref(id))
+        onItemFocus(unref(id))
       }
     )
 
@@ -70,7 +89,7 @@ export default defineComponent({
       (e) => {
         const { key, shiftKey, target, currentTarget } = e as KeyboardEvent
         if (key === EVENT_CODE.tab && shiftKey) {
-          rovingFocusInjection.onItemShiftTab()
+          onItemShiftTab()
           return
         }
         if (target !== currentTarget) return
@@ -95,7 +114,7 @@ export default defineComponent({
                 elements.reverse()
               }
               const currentIdx = elements.indexOf(currentTarget as HTMLElement)
-              elements = rovingFocusInjection.loop
+              elements = loop.value
                 ? reorderArray(elements, currentIdx + 1)
                 : elements.slice(currentIdx + 1)
               break
@@ -112,13 +131,18 @@ export default defineComponent({
       }
     )
 
-    const isCurrentTab = computed(
-      () => rovingFocusInjection.currentTabbedId === unref(id)
-    )
+    const isCurrentTab = computed(() => currentTabbedId.value === unref(id))
+
+    provide(ROVING_FOCUS_GROUP_ITEM_INJECTION_KEY, {
+      rovingFocusGroupItemRef,
+      tabIndex: computed(() => (unref(isCurrentTab) ? 0 : -1)),
+      handleMousedown,
+      handleFocus,
+      handleKeydown,
+    })
+
     return {
       id,
-      itemRef,
-      isCurrentTab,
       handleKeydown,
       handleFocus,
       handleMousedown,

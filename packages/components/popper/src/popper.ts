@@ -119,6 +119,9 @@ export const usePopperContentProps = buildProps({
     type: Boolean,
     default: false,
   },
+  referenceEl: {
+    type: definePropType<HTMLElement>(Object),
+  },
   stopPopperMouseEvent: {
     type: Boolean,
     default: true,
@@ -132,6 +135,7 @@ export const usePopperContentProps = buildProps({
 
 export const usePopperTriggerProps = buildProps({
   virtualRef: { type: definePropType<Measurable>(Object) },
+  virtualTriggering: { type: Boolean },
 })
 
 export type UsePopperProps = ExtractPropTypes<typeof usePopperProps>
