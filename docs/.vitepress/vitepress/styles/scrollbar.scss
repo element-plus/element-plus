@@ -1,6 +1,6 @@
 // scrollbar
 * {
-  scrollbar-color: var(--el-color-primary-light-6) var(--el-bg-color);
+  scrollbar-color: var(--el-scrollbar-bg-color) var(--el-bg-color);
 }
 
 ::-webkit-scrollbar {
@@ -14,14 +14,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--el-color-primary-light-5);
+  background-color: rgba(0, 0, 0, 0.2);
   border-radius: 10px;
+  transition: all 0.2s ease-in-out;
 
   &:hover {
-    background: var(--el-color-primary-light-3);
-  }
-
-  &:active {
-    background: var(--el-color-primary-light-1);
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.3);
   }
 }
