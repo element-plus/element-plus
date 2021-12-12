@@ -156,13 +156,13 @@ importers:
       clipboard-copy: 4.0.1
       cross-env: 7.0.3
       element-plus: npm:element-plus@latest
-      escape-html: ^1.0.3
+      escape-html: 1.0.3
       markdown-it: 12.3.0
       markdown-it-container: 3.0.0
       normalize.css: 8.0.1
       nprogress: 0.2.0
       vite-plugin-inspect: 0.3.11
-      vite-plugin-windicss: ^1.5.1
+      vite-plugin-windicss: 1.5.4
       vitepress: 0.20.5
     dependencies:
       '@vueuse/core': 7.3.0_vue@3.2.24
