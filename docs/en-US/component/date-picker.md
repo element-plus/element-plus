@@ -218,9 +218,9 @@ Note, date time locale (month name, first day of the week ...) are also configur
 
 ## Methods
 
-| Method | Description               | Parameters |
-| ------ | ------------------------- | ---------- |
-| focus  | focus the Input component | —          |
+| Method | Description               | Parameters      |
+| ------ | ------------------------- | --------------- |
+| focus  | focus the Input component | focusStartInput |
 
 ## Slots
 

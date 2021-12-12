@@ -4,13 +4,7 @@ import { copy } from 'fs-extra'
 import { series, parallel } from 'gulp'
 import { run } from './utils/process'
 import { withTaskName } from './utils/gulp'
-import {
-  buildOutput,
-  epOutput,
-  epPackage,
-  epRoot,
-  projRoot,
-} from './utils/paths'
+import { buildOutput, epOutput, epPackage, projRoot } from './utils/paths'
 import { buildConfig } from './build-info'
 import type { TaskFunction } from 'gulp'
 import type { Module } from './build-info'
@@ -18,23 +12,18 @@ import type { Module } from './build-info'
 const runTask = (name: string) =>
   withTaskName(name, () => run(`pnpm run build ${name}`))
 
-export const copyFiles = () => {
-  const copyTypings = async () => {
-    await copyFile(
-      path.resolve(projRoot, 'typings/global.d.ts'),
-      path.resolve(epOutput, 'global.d.ts')
-    )
-  }
-
-  return Promise.all([
+export const copyFiles = () =>
+  Promise.all([
     copyFile(epPackage, path.join(epOutput, 'package.json')),
     copyFile(
-      path.resolve(epRoot, 'README.md'),
+      path.resolve(projRoot, 'README.md'),
       path.resolve(epOutput, 'README.md')
     ),
-    copyTypings(),
+    copyFile(
+      path.resolve(projRoot, 'typings/global.d.ts'),
+      path.resolve(epOutput, 'global.d.ts')
+    ),
   ])
-}
 
 export const copyTypesDefinitions: TaskFunction = (done) => {
   const src = path.resolve(buildOutput, 'types')
