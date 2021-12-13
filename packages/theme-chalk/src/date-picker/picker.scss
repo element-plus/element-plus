@@ -99,12 +99,12 @@
 
   .#{$namespace}-range-separator {
     flex: 1;
-    display: inline-block;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
     height: 100%;
     padding: 0 5px;
     margin: 0;
-    text-align: center;
-    line-height: 32px;
     font-size: 14px;
     word-break: keep-all;
     color: var(--el-text-color-primary);
@@ -151,7 +151,7 @@
     }
   }
 
-  @each $size in (medium, small, mini) {
+  @each $size in (large, small) {
     @include m($size) {
       line-height: map.get($input-height, $size);
 

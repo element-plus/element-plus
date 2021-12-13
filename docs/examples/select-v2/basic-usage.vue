@@ -3,7 +3,18 @@
     v-model="value"
     :options="options"
     placeholder="Please select"
-    style="width: 240px"
+    size="large"
+  />
+  <el-select-v2
+    v-model="value"
+    :options="options"
+    placeholder="Please select"
+  />
+  <el-select-v2
+    v-model="value"
+    :options="options"
+    placeholder="Please select"
+    size="small"
   />
 </template>
 
@@ -26,3 +37,11 @@ export default defineComponent({
   },
 })
 </script>
+
+<style lang="scss" scoped>
+.example-showcase {
+  .el-select-v2 {
+    margin-right: 20px;
+  }
+}
+</style>

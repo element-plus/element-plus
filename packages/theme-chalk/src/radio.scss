@@ -25,7 +25,7 @@
   height: map.get($radio-height, 'default');
   user-select: none;
 
-  @each $size in (medium, small, mini) {
+  @each $size in (large, small) {
     &.#{$namespace}-radio--#{$size} {
       height: map.get($radio-height, $size);
     }
@@ -50,7 +50,7 @@
       margin-left: 10px;
     }
 
-    @each $size in (medium, small, mini) {
+    @each $size in (large, small) {
       &.#{$namespace}-radio--#{$size} {
         padding: map.get($radio-bordered-padding, $size);
         border-radius: var(--el-border-radius-base);

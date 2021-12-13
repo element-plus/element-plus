@@ -96,9 +96,9 @@ scrollbar/manual-scroll
 
 ## Scrollbar Events
 
-| Event Name | Description             | Parameters                                      |
-| ---------- | ----------------------- | ----------------------------------------------- |
-| scroll     | triggers when scrolling | distance of scrolling { scrollLeft, scrollTop } |
+| Event Name | Description             | Parameters                                        |
+| ---------- | ----------------------- | ------------------------------------------------- |
+| scroll     | triggers when scrolling | distance of scrolling `{ scrollLeft, scrollTop }` |
 
 ## Scrollbar Methods
 

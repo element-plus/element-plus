@@ -11,13 +11,13 @@ import {
 import { isObject, toRawType } from '@vue/shared'
 import lodashDebounce from 'lodash/debounce'
 import isEqual from 'lodash/isEqual'
+import { isClient } from '@vueuse/core'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { useLocale } from '@element-plus/hooks'
-import isServer from '@element-plus/utils/isServer'
+import { useLocale, useSize } from '@element-plus/hooks'
 import scrollIntoView from '@element-plus/utils/scroll-into-view'
 import { isKorean } from '@element-plus/utils/isDef'
-import { getValueByPath, useGlobalConfig } from '@element-plus/utils/util'
+import { getValueByPath } from '@element-plus/utils/util'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 
 import type { QueryChangeCtx, SelectOptionProxy } from './token'
@@ -56,7 +56,6 @@ export function useSelectStates(props) {
 type States = ReturnType<typeof useSelectStates>
 
 export const useSelect = (props, states: States, ctx) => {
-  const ELEMENT = useGlobalConfig()
   const { t } = useLocale()
 
   // template refs
@@ -146,12 +145,10 @@ export const useSelect = (props, states: States, ctx) => {
     )
   })
 
-  const selectSize = computed(
-    () => props.size || elFormItem.size || ELEMENT.size
-  )
+  const selectSize = useSize()
 
   const collapseTagSize = computed(() =>
-    ['small', 'mini'].indexOf(selectSize.value) > -1 ? 'mini' : 'small'
+    ['small'].indexOf(selectSize.value) > -1 ? 'small' : ''
   )
 
   const dropMenuVisible = computed(
@@ -276,7 +273,7 @@ export const useSelect = (props, states: States, ctx) => {
     // https://github.com/vuejs/vue-next/issues/2116
     () => states.options.entries(),
     () => {
-      if (isServer) return
+      if (!isClient) return
       popper.value?.update?.()
       if (props.multiple) {
         resetInputHeight()

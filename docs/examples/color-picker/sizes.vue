@@ -1,9 +1,8 @@
 <template>
   <div class="demo-color-sizes">
+    <el-color-picker v-model="color" size="large" />
     <el-color-picker v-model="color" />
-    <el-color-picker v-model="color" size="medium" />
     <el-color-picker v-model="color" size="small" />
-    <el-color-picker v-model="color" size="mini" />
   </div>
 </template>
 

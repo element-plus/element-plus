@@ -8,7 +8,9 @@
       :style="fitStyle"
       @error="handleError"
     />
-    <el-icon v-else-if="icon"><component :is="icon" /></el-icon>
+    <el-icon v-else-if="icon">
+      <component :is="icon" />
+    </el-icon>
     <slot v-else></slot>
   </span>
 </template>
@@ -44,9 +46,7 @@ export default defineComponent({
       const { size } = props
       return typeof size === 'number'
         ? {
-            height: `${size}px`,
-            width: `${size}px`,
-            lineHeight: `${size}px`,
+            '--el-avatar-size': `${size}px`,
           }
         : {}
     })

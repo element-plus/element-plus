@@ -158,6 +158,7 @@ import {
 import { isPromise } from '@vue/shared'
 import debounce from 'lodash/debounce'
 
+import { isClient } from '@vueuse/core'
 import ElCascaderPanel, {
   CommonProps,
 } from '@element-plus/components/cascader-panel'
@@ -169,12 +170,10 @@ import ElIcon from '@element-plus/components/icon'
 
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import { ClickOutside as Clickoutside } from '@element-plus/directives'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, useSize } from '@element-plus/hooks'
 
 import { EVENT_CODE, focusNode, getSibling } from '@element-plus/utils/aria'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
-import isServer from '@element-plus/utils/isServer'
-import { useGlobalConfig } from '@element-plus/utils/util'
 import {
   addResizeListener,
   removeResizeListener,
@@ -201,9 +200,9 @@ type suggestionPanelType = InstanceType<typeof ElScrollbar>
 const DEFAULT_INPUT_HEIGHT = 40
 
 const INPUT_HEIGHT_MAP = {
-  medium: 36,
-  small: 32,
-  mini: 28,
+  large: 36,
+  default: 32,
+  small: 28,
 }
 
 const popperOptions: Partial<Options> = {
@@ -302,7 +301,6 @@ export default defineComponent({
     let pressDeleteCount = 0
 
     const { t } = useLocale()
-    const $ELEMENT = useGlobalConfig()
     const elForm = inject(elFormKey, {} as ElFormContext)
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
 
@@ -324,11 +322,9 @@ export default defineComponent({
     const inputPlaceholder = computed(
       () => props.placeholder || t('el.cascader.placeholder')
     )
-    const realSize: ComputedRef<ComponentSize> = computed(
-      () => props.size || elFormItem.size || $ELEMENT.size
-    )
+    const realSize = useSize()
     const tagSize = computed(() =>
-      ['small', 'mini'].includes(realSize.value) ? 'mini' : 'small'
+      ['small'].includes(realSize.value) ? 'small' : ''
     )
     const multiple = computed(() => !!props.props.multiple)
     const readonly = computed(() => !props.filterable || multiple.value)
@@ -495,7 +491,7 @@ export default defineComponent({
       const tagWrapperEl = tagWrapper.value
       const suggestionPanelEl = suggestionPanel.value?.$el
 
-      if (isServer || !inputInner) return
+      if (!isClient || !inputInner) return
 
       if (suggestionPanelEl) {
         const suggestionList = suggestionPanelEl.querySelector(

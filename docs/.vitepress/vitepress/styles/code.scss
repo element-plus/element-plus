@@ -3,7 +3,7 @@ code {
   border-radius: 3px;
   padding: 0.25rem 0.5rem;
   font-family: var(--code-font-family);
-  font-size: 0.85em;
+  font-size: var(--code-font-size);
   color: var(--code-text-color);
   background-color: var(--code-bg-color);
 }

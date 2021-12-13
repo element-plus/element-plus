@@ -13,8 +13,8 @@ import {
   addResizeListener,
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
-import { useGlobalConfig } from '@element-plus/utils/util'
 import { on, off } from '@element-plus/utils/dom'
+import { useSize } from '@element-plus/hooks'
 import { parseHeight } from '../util'
 
 import type { ResizableElement } from '@element-plus/utils/resize-event'
@@ -29,7 +29,6 @@ function useStyle<T>(
   store: Store<T>,
   table: Table<T>
 ) {
-  const $ELEMENT = useGlobalConfig()
   const isHidden = ref(false)
   const renderExpanded = ref(null)
   const resizeProxyVisible = ref(false)
@@ -207,9 +206,7 @@ function useStyle<T>(
       doLayout()
     }
   }
-  const tableSize = computed(() => {
-    return props.size || $ELEMENT.size
-  })
+  const tableSize = useSize()
   const bodyWidth = computed(() => {
     const { bodyWidth: bodyWidth_, scrollY, gutterWidth } = layout
     return bodyWidth_.value

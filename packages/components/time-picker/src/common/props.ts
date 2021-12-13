@@ -61,7 +61,7 @@ export const timePickerDefaultProps = {
     default: () => ({}),
   },
   modelValue: {
-    type: [Date, Array, String] as PropType<string | Date | Date[]>,
+    type: [Date, Array, String] as PropType<string | Date | (number | Date)[]>,
     default: '',
   },
   rangeSeparator: {

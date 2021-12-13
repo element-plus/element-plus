@@ -42,20 +42,25 @@ jobs:
 
       - name: Deploy has succeeded
         if: ${{ success() }}
-        run: |
-          export DEPLOY_DOMAIN=https://preview-${PULL_REQUEST_NUMBER}-element-plus.surge.sh
-          curl -X POST ${BOT_URL} -H 'Content-Type:application/json' --data-raw '{"botAction":"Preview", "pr":'${PULL_REQUEST_NUMBER}', "url":"'${DEPLOY_DOMAIN}'"}'
-        env:
-          BOT_URL: ${{ secrets.BOT_URL }}
-          PULL_REQUEST_NUMBER: ${{ steps.pr.outputs.id }}
+        uses: actions-cool/maintain-one-comment@v2.0.2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            [<img width="400" src="https://user-images.githubusercontent.com/10731096/103995277-368b9a00-51d3-11eb-9f8f-67542f560613.png">](https://preview-${{ steps.pr.outputs.id }}-element-plus.surge.sh)
+            <!-- ELEMENT_PLUS_PREVIEW -->
+          body-include: '<!-- ELEMENT_PLUS_PREVIEW -->'
+          number: ${{ steps.pr.outputs.id }}
 
       - name: Deploy has failed
         if: ${{ failure() }}
-        run: |
-          curl -X POST ${BOT_URL} -H 'Content-Type:application/json' --data-raw '{"status":"error", "botAction":"Preview", "pr":'${PULL_REQUEST_NUMBER}'}'
-        env:
-          BOT_URL: ${{ secrets.BOT_URL }}
-          PULL_REQUEST_NUMBER: ${{ steps.pr.outputs.id }}
+        uses: actions-cool/maintain-one-comment@v2.0.2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            [<img width="400" src="https://user-images.githubusercontent.com/10731096/103995139-004e1a80-51d3-11eb-99ba-57e4b04826b4.png">](https://preview-${{ steps.pr.outputs.id }}-element-plus.surge.sh)
+            <!-- ELEMENT_PLUS_PREVIEW -->
+          body-include: '<!-- ELEMENT_PLUS_PREVIEW -->'
+          number: ${{ steps.pr.outputs.id }}
 
   # Build failed, update comment
   on-failure:
@@ -74,9 +79,12 @@ jobs:
         id: pr
         run: echo "::set-output name=id::$(<pr.txt)"
 
-      - name: Update comment
-        run: |
-          curl -X POST ${BOT_URL} -H 'Content-Type:application/json' --data-raw '{"status":"error", "botAction":"Preview", "pr":'${PULL_REQUEST_NUMBER}'}'
-        env:
-          BOT_URL: ${{ secrets.BOT_URL }}
-          PULL_REQUEST_NUMBER: ${{ steps.pr.outputs.id }}
+      - name: Deploy has failed
+        uses: actions-cool/maintain-one-comment@v2.0.2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            [<img width="400" src="https://user-images.githubusercontent.com/10731096/103995139-004e1a80-51d3-11eb-99ba-57e4b04826b4.png">](https://preview-${{ steps.pr.outputs.id }}-element-plus.surge.sh)
+            <!-- ELEMENT_PLUS_PREVIEW -->
+          body-include: '<!-- ELEMENT_PLUS_PREVIEW -->'
+          number: ${{ steps.pr.outputs.id }}

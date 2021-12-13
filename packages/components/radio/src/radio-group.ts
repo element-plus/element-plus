@@ -1,10 +1,11 @@
 import { buildProps } from '@element-plus/utils/props'
-import { useFormItemProps } from '@element-plus/hooks'
+import { useSizeProp } from '@element-plus/hooks'
 import { radioEmits } from './radio'
 import type { ExtractPropTypes } from '@vue/runtime-core'
 
 export const radioGroupProps = buildProps({
-  ...useFormItemProps,
+  size: useSizeProp,
+  disabled: Boolean,
   modelValue: {
     type: [String, Number, Boolean],
     default: '',

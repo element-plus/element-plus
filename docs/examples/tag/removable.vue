@@ -1,5 +1,11 @@
 <template>
-  <el-tag v-for="tag in tags" :key="tag.name" closable :type="tag.type">
+  <el-tag
+    v-for="tag in tags"
+    :key="tag.name"
+    class="mx-1"
+    closable
+    :type="tag.type"
+  >
     {{ tag.name }}
   </el-tag>
 </template>

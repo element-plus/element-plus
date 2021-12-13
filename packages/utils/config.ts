@@ -1,7 +1,7 @@
 import type { ComponentSize } from './types'
 
 export interface InstallOptions {
-  size: ComponentSize
+  size: ComponentSize | ''
   zIndex: number
   locale?: any
 }

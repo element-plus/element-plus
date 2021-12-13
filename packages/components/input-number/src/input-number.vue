@@ -69,7 +69,7 @@ import {
 
 import { ElIcon } from '@element-plus/components/icon'
 import { RepeatClick } from '@element-plus/directives'
-import { useFormItem } from '@element-plus/hooks'
+import { useDisabled, useSize } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import { isNumber } from '@element-plus/utils/util'
 import { debugWarn } from '@element-plus/utils/error'
@@ -126,8 +126,8 @@ export default defineComponent({
       return props.controls && props.controlsPosition === 'right'
     })
 
-    const { size: inputNumberSize, disabled: inputNumberDisabled } =
-      useFormItem({})
+    const inputNumberSize = useSize()
+    const inputNumberDisabled = useDisabled()
 
     const displayValue = computed(() => {
       if (data.userInput !== null) {

@@ -3,11 +3,12 @@ import { buildProps } from '@element-plus/utils/props'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { isBool, isString, isNumber } from '@element-plus/utils/util'
 import { radioGroupKey } from '@element-plus/tokens'
-import { useFormItem, useFormItemProps } from '@element-plus/hooks'
+import { useDisabled, useSize, useSizeProp } from '@element-plus/hooks'
 import type { ExtractPropTypes, SetupContext } from 'vue'
 
 export const radioPropsBase = buildProps({
-  ...useFormItemProps,
+  size: useSizeProp,
+  disabled: Boolean,
   label: {
     type: [String, Number, Boolean],
     default: '',
@@ -56,10 +57,8 @@ export const useRadio = (
     },
   })
 
-  const { size, disabled } = useFormItem({
-    size: computed(() => radioGroup?.size),
-    disabled: computed(() => radioGroup?.disabled),
-  })
+  const size = useSize(computed(() => radioGroup?.size))
+  const disabled = useDisabled(computed(() => radioGroup?.disabled))
   const focus = ref(false)
   const tabIndex = computed(() => {
     return disabled.value || (isGroup.value && modelValue.value !== props.label)

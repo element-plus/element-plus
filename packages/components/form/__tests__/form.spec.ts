@@ -203,7 +203,7 @@ describe('Form', () => {
     const wrapper = mountForm({
       template: `
         <div>
-          <el-form :model="form" size="mini" ref="labelMini">
+          <el-form :model="form" size="small" ref="labelSmall">
             <el-form-item>
               <el-input v-model="form.name"></el-input>
             </el-form-item>
@@ -219,7 +219,7 @@ describe('Form', () => {
       },
     })
     expect(wrapper.findComponent(FormItem).classes()).toContain(
-      'el-form-item--mini'
+      'el-form-item--small'
     )
   })
 

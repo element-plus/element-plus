@@ -26,9 +26,9 @@ import {
   watch,
 } from 'vue'
 import isEqual from 'lodash/isEqual'
+import { isClient } from '@vueuse/core'
 import { EVENT_CODE, focusNode, getSibling } from '@element-plus/utils/aria'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
-import isServer from '@element-plus/utils/isServer'
 import scrollIntoView from '@element-plus/utils/scroll-into-view'
 import {
   arrayFlat,
@@ -266,7 +266,7 @@ export default defineComponent({
     }
 
     const scrollToExpandingNode = () => {
-      if (isServer) return
+      if (!isClient) return
 
       menuList.value.forEach((menu) => {
         const menuElement = menu?.$el

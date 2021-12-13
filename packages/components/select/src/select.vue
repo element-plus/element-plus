@@ -35,7 +35,7 @@
                 :closable="!selectDisabled && !selected[0].isDisabled"
                 :size="collapseTagSize"
                 :hit="selected[0].hitState"
-                type="info"
+                :type="tagType"
                 disable-transitions
                 @close="deleteTag($event, selected[0])"
               >
@@ -49,7 +49,7 @@
                 v-if="selected.length > 1"
                 :closable="false"
                 :size="collapseTagSize"
-                type="info"
+                :type="tagType"
                 disable-transitions
               >
                 <span class="el-select__tags-text"
@@ -71,7 +71,7 @@
                   :closable="!selectDisabled && !item.isDisabled"
                   :size="collapseTagSize"
                   :hit="item.hitState"
-                  type="info"
+                  :type="tagType"
                   disable-transitions
                   @close="deleteTag($event, item)"
                 >
@@ -319,6 +319,10 @@ export default defineComponent({
       type: [String, Object] as PropType<string | Component>,
       default: ArrowUp,
     },
+    tagType: {
+      type: String,
+      default: 'info',
+    },
   },
   emits: [
     UPDATE_MODEL_EVENT,
@@ -440,9 +444,9 @@ export default defineComponent({
       addResizeListener(selectWrapper.value as any, handleResize)
       if (reference.value && reference.value.$el) {
         const sizeMap = {
-          medium: 36,
-          small: 32,
-          mini: 28,
+          large: 36,
+          default: 32,
+          small: 28,
         }
         const input = reference.value.input
         states.initialInputHeight =

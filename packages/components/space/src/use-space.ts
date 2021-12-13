@@ -6,9 +6,8 @@ import type { CSSProperties, StyleValue } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'
 
 const SIZE_MAP: Record<ComponentSize, number> = {
-  mini: 4,
   small: 8,
-  medium: 12,
+  default: 12,
   large: 16,
 }
 

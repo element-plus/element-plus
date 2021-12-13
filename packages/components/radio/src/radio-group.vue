@@ -34,7 +34,7 @@ export default defineComponent({
 
   setup(props, ctx) {
     const radioGroupRef = ref<HTMLDivElement>()
-    const { size, disabled, formItem } = useFormItem({})
+    const { formItem } = useFormItem()
 
     const changeEvent = (value: RadioGroupProps['modelValue']) => {
       ctx.emit(UPDATE_MODEL_EVENT, value)
@@ -100,8 +100,6 @@ export default defineComponent({
     )
 
     return {
-      size,
-      disabled,
       radioGroupRef,
       handleKeydown,
     }

@@ -12,14 +12,14 @@
     <el-table-column label="Name" prop="name" />
     <el-table-column align="right">
       <template #header>
-        <el-input v-model="search" size="mini" placeholder="Type to search" />
+        <el-input v-model="search" size="small" placeholder="Type to search" />
       </template>
       <template #default="scope">
-        <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
+        <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
           >Edit</el-button
         >
         <el-button
-          size="mini"
+          size="small"
           type="danger"
           @click="handleDelete(scope.$index, scope.row)"
           >Delete</el-button

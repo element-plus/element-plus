@@ -73,16 +73,12 @@
     margin-top: 3px;
     width: 130px;
 
-    &.#{$namespace}-input-number--mini {
-      margin-top: 5px;
-    }
-
-    &.#{$namespace}-input-number--medium {
-      margin-top: 0;
-    }
-
     &.#{$namespace}-input-number--large {
       margin-top: -2px;
+    }
+
+    &.#{$namespace}-input-number--small {
+      margin-top: 5px;
     }
   }
 
@@ -191,7 +187,7 @@
       transform: translateY(50%);
     }
     &.#{$namespace}-slider--with-input {
-      padding-bottom: #{map.get($input-height, 'medium') + 22px};
+      padding-bottom: #{map.get($input-height, 'default') + 22px};
       .#{$namespace}-slider__input {
         overflow: visible;
         float: none;
