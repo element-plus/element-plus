@@ -193,7 +193,7 @@ $button-border-width: 1px;
 
       @include button-size(
         map.get($button-padding-vertical, $size) - $button-border-width,
-        map.get($button-padding-horizontal, $size),
+        map.get($button-padding-horizontal, $size) - $button-border-width,
         map.get($button-font-size, $size),
         map.get($button-border-radius, $size)
       );
