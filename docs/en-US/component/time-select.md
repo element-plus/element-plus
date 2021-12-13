@@ -31,7 +31,6 @@ time-select/time-range
 
 ## Attributes
 
-
 | Attribute             | Description                                              | Type               | Accepted Values         | Default     |
 | --------------------- | -------------------------------------------------------- | ------------------ | ----------------------- | ----------- |
 | model-value / v-model | binding value                                            | string             | —                       | —           |
@@ -49,7 +48,6 @@ time-select/time-range
 | min-time              | minimum time, any time before this time will be disabled | string             | —                       | 00:00       |
 | max-time              | maximum time, any time after this time will be disabled  | string             | —                       | —           |
 | use-12-hour           | use 12-hour format                                       | boolean            | —                       | false       |
-
 
 ## Events
 
