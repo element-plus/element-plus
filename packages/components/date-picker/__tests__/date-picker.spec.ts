@@ -129,6 +129,46 @@ describe('DatePicker', () => {
     expect(vm.value).toBeNull()
   })
 
+  it('defaultValue', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        :default-value="defaultValue"
+    />`,
+      () => ({
+        value: '',
+        defaultValue: new Date(2011, 10, 1),
+      })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    ;(document.querySelector('td.available') as HTMLElement).click()
+    await nextTick()
+    const vm = wrapper.vm as any
+    expect(vm.value).toBeDefined()
+    expect(vm.value.getFullYear()).toBe(2011)
+    expect(vm.value.getMonth()).toBe(10)
+    expect(vm.value.getDate()).toBe(1)
+    const picker = wrapper.findComponent(CommonPicker)
+    ;(picker.vm as any).showClose = true
+    await nextTick()
+    ;(document.querySelector('.clear-icon') as HTMLElement).click()
+    expect(vm.value).toBeNull()
+
+    vm.defaultValue = new Date(2031, 5, 1)
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    ;(document.querySelector('td.available') as HTMLElement).click()
+    await nextTick()
+    expect(vm.value).toBeDefined()
+    expect(vm.value.getFullYear()).toBe(2031)
+    expect(vm.value.getMonth()).toBe(5)
+    expect(vm.value.getDate()).toBe(1)
+  })
+
   it('event change, focus, blur', async () => {
     const changeHandler = jest.fn()
     const focusHandler = jest.fn()

@@ -233,7 +233,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, ref, watch } from 'vue'
+import { computed, defineComponent, inject, ref, watch, toRefs } from 'vue'
 import dayjs from 'dayjs'
 import ElButton from '@element-plus/components/button'
 import { ClickOutside } from '@element-plus/directives'
@@ -331,7 +331,7 @@ export default defineComponent({
       return rightDate.value.month()
     })
 
-    const hasShortcuts = computed(() => !!shortcuts.length)
+    const hasShortcuts = computed(() => !!shortcuts.value.length)
 
     const minVisibleDate = computed(() => {
       if (dateUserInput.value.min !== null) return dateUserInput.value.min
@@ -360,11 +360,11 @@ export default defineComponent({
     })
 
     const timeFormat = computed(() => {
-      return extractTimeFormat(format)
+      return extractTimeFormat(format.value)
     })
 
     const dateFormat = computed(() => {
-      return extractDateFormat(format)
+      return extractDateFormat(format.value)
     })
 
     const leftPrevYear = () => {
@@ -481,10 +481,10 @@ export default defineComponent({
 
     const formatEmit = (emitDayjs: Dayjs, index?) => {
       if (!emitDayjs) return
-      if (defaultTime) {
-        const defaultTimeD = dayjs(defaultTime[index] || defaultTime).locale(
-          lang.value
-        )
+      if (defaultTime.value) {
+        const defaultTimeD = dayjs(
+          defaultTime.value[index] || defaultTime.value
+        ).locale(lang.value)
         return defaultTimeD
           .year(emitDayjs.year())
           .month(emitDayjs.month())
@@ -541,7 +541,7 @@ export default defineComponent({
       const parsedValueD = dayjs(value, dateFormat.value).locale(lang.value)
 
       if (parsedValueD.isValid()) {
-        if (disabledDate && disabledDate(parsedValueD.toDate())) {
+        if (disabledDate.value && disabledDate.value(parsedValueD.toDate())) {
           return
         }
         if (type === 'min') {
@@ -658,27 +658,27 @@ export default defineComponent({
 
     const formatToString = (value: Dayjs | Dayjs[]) => {
       return Array.isArray(value)
-        ? value.map((_) => _.format(format))
-        : value.format(format)
+        ? value.map((_) => _.format(format.value))
+        : value.format(format.value)
     }
 
     const parseUserInput = (value: Dayjs | Dayjs[]) => {
       return Array.isArray(value)
-        ? value.map((_) => dayjs(_, format).locale(lang.value))
-        : dayjs(value, format).locale(lang.value)
+        ? value.map((_) => dayjs(_, format.value).locale(lang.value))
+        : dayjs(value, format.value).locale(lang.value)
     }
 
     const getDefaultValue = () => {
       let start: Dayjs
-      if (Array.isArray(defaultValue)) {
-        const left = dayjs(defaultValue[0])
-        let right = dayjs(defaultValue[1])
+      if (Array.isArray(defaultValue.value)) {
+        const left = dayjs(defaultValue.value[0])
+        let right = dayjs(defaultValue.value[1])
         if (!props.unlinkPanels) {
           right = left.add(1, 'month')
         }
         return [left, right]
-      } else if (defaultValue) {
-        start = dayjs(defaultValue)
+      } else if (defaultValue.value) {
+        start = dayjs(defaultValue.value)
       } else {
         start = dayjs()
       }
@@ -702,7 +702,21 @@ export default defineComponent({
       defaultValue,
       arrowControl,
       clearable,
-    } = pickerBase.props
+    } = toRefs(pickerBase.props)
+
+    watch(
+      () => defaultValue.value,
+      (val) => {
+        if (val) {
+          const defaultArr = getDefaultValue()
+          minDate.value = null
+          maxDate.value = null
+          leftDate.value = defaultArr[0]
+          rightDate.value = defaultArr[1]
+        }
+      },
+      { immediate: true }
+    )
 
     watch(
       () => props.parsedValue,

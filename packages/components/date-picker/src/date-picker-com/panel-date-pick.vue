@@ -162,7 +162,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, ref, watch } from 'vue'
+import { computed, defineComponent, inject, ref, watch, toRefs } from 'vue'
 import dayjs from 'dayjs'
 import ElButton from '@element-plus/components/button'
 import { ClickOutside } from '@element-plus/directives'
@@ -240,12 +240,12 @@ export default defineComponent({
       defaultTime,
       defaultValue,
       arrowControl,
-    } = pickerBase.props
+    } = toRefs(pickerBase.props)
 
     const innerDate = ref(dayjs().locale(lang.value))
 
     const defaultTimeD = computed(() => {
-      return dayjs(defaultTime).locale(lang.value)
+      return dayjs(defaultTime.value).locale(lang.value)
     })
 
     const month = computed(() => {
@@ -270,7 +270,7 @@ export default defineComponent({
         : true
     }
     const formatEmit = (emitDayjs: Dayjs) => {
-      if (defaultTime && !visibleTime.value) {
+      if (defaultTime.value && !visibleTime.value) {
         return defaultTimeD.value
           .year(emitDayjs.year())
           .month(emitDayjs.month())
@@ -385,7 +385,7 @@ export default defineComponent({
       { immediate: true }
     )
 
-    const hasShortcuts = computed(() => !!shortcuts.length)
+    const hasShortcuts = computed(() => !!shortcuts.value.length)
 
     const handleMonthPick = (month) => {
       innerDate.value = innerDate.value.startOf('month').month(month)
@@ -429,7 +429,7 @@ export default defineComponent({
         // deal with the scenario where: user opens the date time picker, then confirm without doing anything
         let result = props.parsedValue as Dayjs
         if (!result) {
-          const defaultTimeD = dayjs(defaultTime).locale(lang.value)
+          const defaultTimeD = dayjs(defaultTime.value).locale(lang.value)
           const defaultValueD = getDefaultValue()
           result = defaultTimeD
             .year(defaultValueD.year())
@@ -447,7 +447,7 @@ export default defineComponent({
       const now = dayjs().locale(lang.value)
       const nowDate = now.toDate()
       if (
-        (!disabledDate || !disabledDate(nowDate)) &&
+        (!disabledDate.value || !disabledDate.value(nowDate)) &&
         checkDateWithinRange(nowDate)
       ) {
         innerDate.value = dayjs().locale(lang.value)
@@ -465,7 +465,7 @@ export default defineComponent({
 
     const visibleTime = computed(() => {
       if (userInputTime.value) return userInputTime.value
-      if (!props.parsedValue && !defaultValue) return
+      if (!props.parsedValue && !defaultValue.value) return
       return ((props.parsedValue || innerDate.value) as Dayjs).format(
         timeFormat.value
       )
@@ -473,7 +473,7 @@ export default defineComponent({
 
     const visibleDate = computed(() => {
       if (userInputDate.value) return userInputDate.value
-      if (!props.parsedValue && !defaultValue) return
+      if (!props.parsedValue && !defaultValue.value) return
       return ((props.parsedValue || innerDate.value) as Dayjs).format(
         dateFormat.value
       )
@@ -517,7 +517,7 @@ export default defineComponent({
     const handleVisibleDateChange = (value) => {
       const newDate = dayjs(value, dateFormat.value).locale(lang.value)
       if (newDate.isValid()) {
-        if (disabledDate && disabledDate(newDate.toDate())) {
+        if (disabledDate.value && disabledDate.value(newDate.toDate())) {
           return
         }
         innerDate.value = newDate
@@ -533,7 +533,7 @@ export default defineComponent({
       return (
         dayjs.isDayjs(date) &&
         date.isValid() &&
-        (disabledDate ? !disabledDate(date.toDate()) : true)
+        (disabledDate.value ? !disabledDate.value(date.toDate()) : true)
       )
     }
 
@@ -549,8 +549,8 @@ export default defineComponent({
     }
 
     const getDefaultValue = () => {
-      const parseDate = dayjs(defaultValue).locale(lang.value)
-      if (!defaultValue) {
+      const parseDate = dayjs(defaultValue.value).locale(lang.value)
+      if (!defaultValue.value) {
         const defaultTimeDValue = defaultTimeD.value
         return dayjs()
           .hour(defaultTimeDValue.hour())
@@ -622,7 +622,7 @@ export default defineComponent({
       while (Math.abs(innerDate.value.diff(newDate, 'year', true)) < 1) {
         const map = mapping[selectionMode.value]
         map.offset(newDate, map[keyCode])
-        if (disabledDate && disabledDate(newDate)) {
+        if (disabledDate.value && disabledDate.value(newDate)) {
           continue
         }
         const result = dayjs(newDate).locale(lang.value)
@@ -636,6 +636,16 @@ export default defineComponent({
     ctx.emit('set-picker-option', ['formatToString', formatToString])
     ctx.emit('set-picker-option', ['parseUserInput', parseUserInput])
     ctx.emit('set-picker-option', ['handleKeydown', handleKeydown])
+
+    watch(
+      () => defaultValue.value,
+      (val) => {
+        if (val) {
+          innerDate.value = getDefaultValue()
+        }
+      },
+      { immediate: true }
+    )
 
     watch(
       () => props.parsedValue,
