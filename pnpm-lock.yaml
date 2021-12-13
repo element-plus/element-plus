@@ -257,15 +257,15 @@ importers:
       '@element-plus/icons-vue': ^0.2.4
       '@vitejs/plugin-vue': 2.0.0
       unplugin-vue-components: 0.17.9
-      vite: 2.7.1
+      vite: 2.7.2
       vite-plugin-inspect: 0.3.11
     dependencies:
       '@element-plus/icons-vue': 0.2.4_vue@3.2.24
     devDependencies:
-      '@vitejs/plugin-vue': 2.0.0_vite@2.7.1+vue@3.2.24
-      unplugin-vue-components: 0.17.9_4fbfb4462bb07b6857e6a975b8e602c0
-      vite: 2.7.1_sass@1.45.0
-      vite-plugin-inspect: 0.3.11_vite@2.7.1
+      '@vitejs/plugin-vue': 2.0.0_vite@2.7.2+vue@3.2.24
+      unplugin-vue-components: 0.17.9_cb6981ef92a0c6c4db9c0151a8107b2c
+      vite: 2.7.2_sass@1.45.0
+      vite-plugin-inspect: 0.3.11_vite@2.7.2
 
 packages:
 
@@ -1995,17 +1995,6 @@ packages:
       eslint-visitor-keys: 3.1.0
     dev: true
 
-  /@vitejs/plugin-vue/2.0.0_vite@2.7.1+vue@3.2.24:
-    resolution: {integrity: sha512-4Xn1h9OcaAf7KYrvz2oEi52fCCCLcCzyr3pDOrzYTWrs0DrzNOXt9fT5IiGb1f/uoNTdX3aAkXVGNXrGkzF/zw==}
-    engines: {node: '>=12.0.0'}
-    peerDependencies:
-      vite: ^2.5.10
-      vue: ^3.2.25
-    dependencies:
-      vite: 2.7.1_sass@1.45.0
-      vue: 3.2.24
-    dev: true
-
   /@vitejs/plugin-vue/2.0.0_vite@2.7.1+vue@3.2.26:
     resolution: {integrity: sha512-4Xn1h9OcaAf7KYrvz2oEi52fCCCLcCzyr3pDOrzYTWrs0DrzNOXt9fT5IiGb1f/uoNTdX3aAkXVGNXrGkzF/zw==}
     engines: {node: '>=12.0.0'}
@@ -2015,6 +2004,17 @@ packages:
     dependencies:
       vite: 2.7.1_sass@1.45.0
       vue: 3.2.26
+    dev: true
+
+  /@vitejs/plugin-vue/2.0.0_vite@2.7.2+vue@3.2.24:
+    resolution: {integrity: sha512-4Xn1h9OcaAf7KYrvz2oEi52fCCCLcCzyr3pDOrzYTWrs0DrzNOXt9fT5IiGb1f/uoNTdX3aAkXVGNXrGkzF/zw==}
+    engines: {node: '>=12.0.0'}
+    peerDependencies:
+      vite: ^2.5.10
+      vue: ^3.2.25
+    dependencies:
+      vite: 2.7.2_sass@1.45.0
+      vue: 3.2.24
     dev: true
 
   /@volar/code-gen/0.29.8:
@@ -10096,7 +10096,7 @@ packages:
     engines: {node: '>= 10.0.0'}
     dev: true
 
-  /unplugin-vue-components/0.17.9_4fbfb4462bb07b6857e6a975b8e602c0:
+  /unplugin-vue-components/0.17.9_cb6981ef92a0c6c4db9c0151a8107b2c:
     resolution: {integrity: sha512-SZrK3T/uEoP2g2bH+8DwBznoqlS0dI7kQvCmHmL8HmTXdM78kh5P/9SN5IwuNpfbmXoGXWJPB8Pr8Ke8zsgpmA==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -10118,7 +10118,7 @@ packages:
       magic-string: 0.25.7
       minimatch: 3.0.4
       resolve: 1.20.0
-      unplugin: 0.2.21_rollup@2.61.1+vite@2.7.1
+      unplugin: 0.2.21_rollup@2.61.1+vite@2.7.2
       vue: 3.2.24
     transitivePeerDependencies:
       - rollup
@@ -10127,7 +10127,7 @@ packages:
       - webpack
     dev: true
 
-  /unplugin/0.2.21_rollup@2.61.1+vite@2.7.1:
+  /unplugin/0.2.21_rollup@2.61.1+vite@2.7.2:
     resolution: {integrity: sha512-IJ15/L5XbhnV7J09Zjk0FT5HEkBjkXucWAXQWRsmEtUxmmxwh23yavrmDbCF6ZPxWiVB28+wnKIHePTRRpQPbQ==}
     peerDependencies:
       rollup: ^2.50.0
@@ -10142,7 +10142,7 @@ packages:
         optional: true
     dependencies:
       rollup: 2.61.1
-      vite: 2.7.1_sass@1.45.0
+      vite: 2.7.2_sass@1.45.0
       webpack-virtual-modules: 0.4.3
     dev: true
 
@@ -10309,7 +10309,7 @@ packages:
       - supports-color
     dev: true
 
-  /vite-plugin-inspect/0.3.11_vite@2.7.1:
+  /vite-plugin-inspect/0.3.11_vite@2.7.2:
     resolution: {integrity: sha512-YsaV4bhJ++EULZamWVudMsq0VTugR/0slgbSj/A9JI9KmsGsXBCN4zBx0ptd0TkKrRniLbqO7iQqdZaybuLGvQ==}
     peerDependencies:
       vite: ^2.0.0
@@ -10317,7 +10317,7 @@ packages:
       debug: 4.3.2
       sirv: 1.0.17
       ufo: 0.7.9
-      vite: 2.7.1_sass@1.45.0
+      vite: 2.7.2_sass@1.45.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -10355,6 +10355,31 @@ packages:
       postcss: 8.4.4
       resolve: 1.20.0
       rollup: 2.60.2
+      sass: 1.45.0
+    optionalDependencies:
+      fsevents: 2.3.2
+    dev: true
+
+  /vite/2.7.2_sass@1.45.0:
+    resolution: {integrity: sha512-wMffVVdKZRZP/HwW3yttKL8X+IJePz7bUcnGm0vqljffpVwHpjWC3duZtJQHAGvy+wrTjmwU7vkULpZ1dVXY6w==}
+    engines: {node: '>=12.2.0'}
+    hasBin: true
+    peerDependencies:
+      less: '*'
+      sass: '*'
+      stylus: '*'
+    peerDependenciesMeta:
+      less:
+        optional: true
+      sass:
+        optional: true
+      stylus:
+        optional: true
+    dependencies:
+      esbuild: 0.13.13
+      postcss: 8.4.4
+      resolve: 1.20.0
+      rollup: 2.61.1
       sass: 1.45.0
     optionalDependencies:
       fsevents: 2.3.2
