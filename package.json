@@ -89,7 +89,7 @@
     "components-helper": "1.0.5",
     "csstype": "2.6.19",
     "cz-conventional-changelog": "3.3.0",
-    "esbuild": "0.14.2",
+    "esbuild": "0.14.3",
     "eslint": "8.4.1",
     "eslint-config-prettier": "8.3.0",
     "eslint-define-config": "1.2.0",
