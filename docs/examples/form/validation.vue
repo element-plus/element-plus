@@ -61,19 +61,23 @@
       <el-input v-model="ruleForm.desc" type="textarea"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="submitForm">Create</el-button>
-      <el-button @click="resetForm">Reset</el-button>
+      <el-button type="primary" @click="submitForm(ruleFormRef)"
+        >Create</el-button
+      >
+      <el-button @click="resetForm(ruleFormRef)">Reset</el-button>
     </el-form-item>
   </el-form>
 </template>
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import type { ElFormContext } from 'element-plus'
+// More info see https://github.com/element-plus/element-plus/blob/dev/docs/examples/form/utils.ts
+import { resetForm, submitForm } from './utils'
+import type { ElForm } from 'element-plus'
 
 const formSize = ref('')
 
-const ruleFormRef = ref<ElFormContext>()
+const ruleFormRef = ref<InstanceType<typeof ElForm>>()
 const ruleForm = reactive({
   name: '',
   region: '',
@@ -145,21 +149,4 @@ const rules = reactive({
     },
   ],
 })
-
-const submitForm = () => {
-  if (!ruleFormRef.value) return
-  ruleFormRef.value.validate((valid: boolean) => {
-    if (valid) {
-      console.log('submit!')
-    } else {
-      console.log('error submit!')
-      return false
-    }
-  })
-}
-
-const resetForm = () => {
-  if (!ruleFormRef.value) return
-  ruleFormRef.value.resetFields()
-}
 </script>

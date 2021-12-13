@@ -22,17 +22,14 @@
   </el-form>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      labelPosition: 'right',
-      formLabelAlign: {
-        name: '',
-        region: '',
-        type: '',
-      },
-    }
-  },
-}
+<script lang="ts" setup>
+import { reactive, ref } from 'vue'
+
+const labelPosition = ref('right')
+
+const formLabelAlign = reactive({
+  name: '',
+  region: '',
+  type: '',
+})
 </script>
