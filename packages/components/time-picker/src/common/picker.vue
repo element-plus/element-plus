@@ -146,15 +146,15 @@ import {
 } from 'vue'
 import dayjs from 'dayjs'
 import isEqual from 'lodash/isEqual'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale, useSize } from '@element-plus/hooks'
 import { ClickOutside } from '@element-plus/directives'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
 import ElPopper, { Effect } from '@element-plus/components/popper'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { useGlobalConfig, isEmpty } from '@element-plus/utils/util'
-import { Clock, Calendar } from '@element-plus/icons'
+import { isEmpty } from '@element-plus/utils/util'
+import { Clock, Calendar } from '@element-plus/icons-vue'
 import { timePickerDefaultProps } from './props'
 
 import type { Dayjs } from 'dayjs'
@@ -211,7 +211,7 @@ const parser = function (
   return day.isValid() ? day : undefined
 }
 
-const formatter = function (date: Date, format: string, lang: string) {
+const formatter = function (date: number | Date, format: string, lang: string) {
   return isEmpty(format) ? date : dayjs(date).locale(lang).format(format)
 }
 
@@ -226,8 +226,7 @@ export default defineComponent({
   props: timePickerDefaultProps,
   emits: ['update:modelValue', 'change', 'focus', 'blur', 'calendar-change'],
   setup(props, ctx) {
-    const ELEMENT = useGlobalConfig()
-    const { lang } = useLocaleInject()
+    const { lang } = useLocale()
 
     const elForm = inject(elFormKey, {} as ElFormContext)
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
@@ -271,7 +270,7 @@ export default defineComponent({
         ctx.emit('update:modelValue', val ? formatValue : val, lang.value)
       }
     }
-    const refInput = computed(() => {
+    const refInput = computed<HTMLInputElement[]>(() => {
       if (refPopper.value.triggerRef) {
         const _r = isRangeInput.value
           ? refPopper.value.triggerRef
@@ -279,6 +278,12 @@ export default defineComponent({
         return [].slice.call(_r.querySelectorAll('input'))
       }
       return []
+    })
+    const refStartInput = computed(() => {
+      return refInput?.value[0]
+    })
+    const refEndInput = computed(() => {
+      return refInput?.value[1]
     })
     const setSelectionRange = (start, end, pos) => {
       const _inputs = refInput.value
@@ -303,6 +308,17 @@ export default defineComponent({
       userInput.value = null
       emitInput(result)
     }
+
+    const focus = (focusStartInput = true) => {
+      let input = refStartInput.value
+      if (!focusStartInput && isRangeInput.value) {
+        input = refEndInput.value
+      }
+      if (input) {
+        input.focus()
+      }
+    }
+
     const handleFocus = (e) => {
       if (props.readonly || pickerDisabled.value || pickerVisible.value) return
       pickerVisible.value = true
@@ -415,9 +431,7 @@ export default defineComponent({
       return props.type.indexOf('range') > -1
     })
 
-    const pickerSize = computed(() => {
-      return props.size || elFormItem.size || ELEMENT.size
-    })
+    const pickerSize = useSize()
 
     const popperPaneRef = computed(() => {
       return refPopper.value?.popperRef
@@ -495,8 +509,9 @@ export default defineComponent({
         return
       }
 
-      if (code === EVENT_CODE.enter) {
+      if (code === EVENT_CODE.enter || code === EVENT_CODE.numpadEnter) {
         if (
+          userInput.value === null ||
           userInput.value === '' ||
           isValidValue(parseUserInputToDayjs(displayValue.value))
         ) {
@@ -612,6 +627,7 @@ export default defineComponent({
       pickerDisabled,
       onSetPickerOption,
       onCalendarChange,
+      focus,
     }
   },
 })

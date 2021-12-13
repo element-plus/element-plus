@@ -85,9 +85,9 @@
 import { defineComponent, ref, computed, getCurrentInstance, watch } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
-import { ArrowDown, ArrowUp } from '@element-plus/icons'
+import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { ClickOutside } from '@element-plus/directives'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import ElPopper, { Effect } from '@element-plus/components/popper'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import type { Placement } from '@element-plus/components/popper'
@@ -128,7 +128,7 @@ export default defineComponent({
   },
   setup(props) {
     const instance = getCurrentInstance()
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
     const parent = instance.parent as TableHeader
     if (!parent.filterPanels.value[props.column.id]) {
       parent.filterPanels.value[props.column.id] = instance

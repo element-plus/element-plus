@@ -26,9 +26,9 @@ import {
   watch,
 } from 'vue'
 import isEqual from 'lodash/isEqual'
+import { isClient } from '@vueuse/core'
 import { EVENT_CODE, focusNode, getSibling } from '@element-plus/utils/aria'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
-import isServer from '@element-plus/utils/isServer'
 import scrollIntoView from '@element-plus/utils/scroll-into-view'
 import {
   arrayFlat,
@@ -81,7 +81,7 @@ export default defineComponent({
 
     const config = useCascaderConfig(props)
 
-    const store = ref<Nullable<Store>>(null)
+    let store: Nullable<Store> = null
     const menuList = ref<any[]>([])
     const checkedValue = ref<Nullable<CascaderValue>>(null)
     const menus = ref<CascaderNode[][]>([])
@@ -98,12 +98,16 @@ export default defineComponent({
       const cfg = config.value
 
       manualChecked = false
-      store.value = new Store(options, cfg)
-      menus.value = [store.value.getNodes()]
+      store = new Store(options, cfg)
+      menus.value = [store.getNodes()]
 
       if (cfg.lazy && isEmpty(props.options)) {
         initialLoaded = false
-        lazyLoad(undefined, () => {
+        lazyLoad(undefined, (list) => {
+          if (list) {
+            store = new Store(list, cfg)
+            menus.value = [store.getNodes()]
+          }
           initialLoaded = true
           syncCheckedValue(false, true)
         })
@@ -120,7 +124,7 @@ export default defineComponent({
       const resolve = (dataList: CascaderOption[]) => {
         const _node = node as Node
         const parent = _node.root ? null : _node
-        dataList && store.value?.appendNodes(dataList, parent as any)
+        dataList && store?.appendNodes(dataList, parent as any)
         _node.loading = false
         _node.loaded = true
         _node.childrenData = _node.childrenData || []
@@ -173,7 +177,7 @@ export default defineComponent({
     }
 
     const getFlattedNodes = (leafOnly: boolean) => {
-      return store.value?.getFlattedNodes(leafOnly)
+      return store?.getFlattedNodes(leafOnly)
     }
 
     const getCheckedNodes = (leafOnly: boolean) => {
@@ -213,7 +217,7 @@ export default defineComponent({
           arrayFlat(coerceTruthyValueToArray(modelValue))
         )
         const nodes = values
-          .map((val) => store.value?.getNodeByValue(val))
+          .map((val) => store?.getNodeByValue(val))
           .filter((node) => !!node && !node.loaded && !node.loading) as Node[]
 
         if (nodes.length) {
@@ -228,7 +232,7 @@ export default defineComponent({
           ? coerceTruthyValueToArray(modelValue)
           : [modelValue]
         const nodes = deduplicate(
-          values.map((val) => store.value?.getNodeByValue(val, leafOnly))
+          values.map((val) => store?.getNodeByValue(val, leafOnly))
         ) as Node[]
         syncMenuState(nodes, false)
         checkedValue.value = modelValue!
@@ -244,7 +248,7 @@ export default defineComponent({
       const newNodes = newCheckedNodes.filter(
         (node) => !!node && (checkStrictly || node.isLeaf)
       )
-      const oldExpandingNode = store.value?.getSameNode(expandingNode.value!)
+      const oldExpandingNode = store?.getSameNode(expandingNode.value!)
       const newExpandingNode =
         (reserveExpandingState && oldExpandingNode) || newNodes[0]
 
@@ -262,7 +266,7 @@ export default defineComponent({
     }
 
     const scrollToExpandingNode = () => {
-      if (isServer) return
+      if (!isClient) return
 
       menuList.value.forEach((menu) => {
         const menuElement = menu?.$el

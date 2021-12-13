@@ -39,14 +39,14 @@
   // --dropdown-z-index: 22;
 
   // code block vars
-
-  --code-bg-color: var(--el-bg-color-base);
+  --code-font-size: var(--el-font-size-base);
+  --code-bg-color: var(--el-bg-color);
   --code-text-color: var(--text-color);
   --code-font-family: var(--font-family-mono);
 
   // doc search vars
   --docsearch-primary-color: var(--brand-color);
-  --docsearch-searchbox-background: var(--el-bg-color-base);
+  --docsearch-searchbox-background: var(--el-bg-color);
 }
 
 :root {

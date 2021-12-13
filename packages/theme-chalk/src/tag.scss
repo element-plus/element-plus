@@ -8,6 +8,8 @@
   @include set-component-css-var('tag', $tag);
 }
 
+$tag-border-width: 1px;
+
 @mixin genTheme(
   $backgroundColorWeight,
   $borderColorWeight,
@@ -83,12 +85,15 @@
 
 @include b(tag) {
   @include genTheme(10%, 20%, 100%, 100%);
-  display: inline-block;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
   height: map.get($tag-height, 'default');
-  padding: var(--el-tag-padding);
-  line-height: map.get($tag-height, 'default') - 2px;
+  padding: map.get($tag-padding, 'default');
   font-size: var(--el-tag-font-size);
-  border-width: 1px;
+  line-height: 1;
+  border-width: $tag-border-width;
   border-style: solid;
   border-radius: var(--el-tag-border-radius);
   box-sizing: border-box;
@@ -105,15 +110,14 @@
     line-height: 16px;
     vertical-align: middle;
     top: -1px;
-    right: -5px;
-
-    &::before {
-      display: block;
-    }
 
     svg {
       margin: 2px;
     }
+  }
+
+  .#{$namespace}-tag__close {
+    right: -5px;
   }
 
   @include m(dark) {
@@ -124,31 +128,16 @@
     @include genTheme(0, 40%, 100%, 100%);
   }
 
-  @each $size in (medium, small, mini) {
+  @each $size in (large, small) {
     @include m($size) {
+      padding: 0 map.get($tag-padding, $size) - $tag-border-width;
       height: map.get($tag-height, $size);
-      line-height: map.get($tag-height, $size) - 2px;
-    }
-  }
-
-  @include m(medium) {
-    .#{$namespace}-icon-close {
-      transform: scale(0.8);
     }
   }
 
   @include m(small) {
-    padding: 0 8px;
     .#{$namespace}-icon-close {
       transform: scale(0.8);
-    }
-  }
-
-  @include m(mini) {
-    padding: 0 5px;
-    .#{$namespace}-icon-close {
-      margin-left: -3px;
-      transform: scale(0.7);
     }
   }
 }

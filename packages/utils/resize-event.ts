@@ -1,4 +1,4 @@
-import isServer from './isServer'
+import { isClient } from '@vueuse/core'
 
 import type { CustomizedHTMLElement } from './types'
 
@@ -23,7 +23,7 @@ export const addResizeListener = function (
   element: ResizableElement,
   fn: (...args: unknown[]) => unknown
 ): void {
-  if (isServer || !element) return
+  if (!isClient || !element) return
   if (!element.__resizeListeners__) {
     element.__resizeListeners__ = []
     element.__ro__ = new ResizeObserver(resizeHandler)

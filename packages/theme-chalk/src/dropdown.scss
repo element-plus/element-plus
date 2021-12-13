@@ -4,10 +4,42 @@
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
+$dropdown-item-line-height: () !default;
+$dropdown-item-line-height: map.merge(
+  (
+    'large': 22px,
+    'default': 22px,
+    'small': 20px,
+  ),
+  $dropdown-item-line-height
+);
+
+$dropdown-item-padding: () !default;
+$dropdown-item-padding: map.merge(
+  (
+    'large': 7px 20px,
+    'default': 5px 16px,
+    'small': 2px 12px,
+  ),
+  $dropdown-item-padding
+);
+
+$dropdown-caret-width: () !default;
+$dropdown-caret-width: map.merge(
+  (
+    'large': 40px,
+    'default': 30px,
+    'small': 20px,
+  ),
+  $dropdown-caret-width
+);
+
+$dropdown-divider-width: 1px !default;
+
 @include b(dropdown) {
   @include set-component-css-var('dropdown', $dropdown);
 
-  display: inline-block;
+  display: inline-flex;
   position: relative;
   color: var(--el-text-color-regular);
   font-size: var(--el-font-size-base);
@@ -44,19 +76,18 @@
     }
   }
 
-  .#{$namespace}-button-group {
-    display: block;
-
-    .#{$namespace}-button {
-      float: none;
-    }
-  }
-
   & .#{$namespace}-dropdown__caret-button {
-    padding-left: 5px;
-    padding-right: 5px;
-    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: map.get($dropdown-caret-width, 'default');
     border-left: none;
+
+    > span {
+      display: inline-flex;
+    }
 
     &::before {
       $gap: 5px;
@@ -97,6 +128,14 @@
     // 自定义
     outline: none;
   }
+
+  @each $size in (large, small) {
+    @include m($size) {
+      .#{$namespace}-dropdown__caret-button {
+        width: map.get($dropdown-caret-width, $size);
+      }
+    }
+  }
 }
 
 @include b(dropdown-menu) {
@@ -104,7 +143,7 @@
   top: 0;
   left: 0;
   z-index: var(--el-dropdown-menu-index);
-  padding: 10px 0;
+  padding: 3px 0;
   margin: 0;
   background-color: $color-white;
   border: none;
@@ -112,9 +151,11 @@
   box-shadow: none;
 
   @include e(item) {
+    display: flex;
+    align-items: center;
     list-style: none;
-    line-height: 36px;
-    padding: 0 20px;
+    line-height: map.get($dropdown-item-line-height, 'default');
+    padding: map.get($dropdown-item-padding, 'default');
     margin: 0;
     font-size: var(--el-font-size-base);
     color: var(--el-text-color-regular);
@@ -141,7 +182,6 @@
         content: '';
         height: $divided-offset;
         display: block;
-        margin: 0 -20px;
         background-color: $color-white;
       }
     }
@@ -152,61 +192,20 @@
     }
   }
 
-  @include m(medium) {
-    padding: 6px 0;
+  @each $size in (large, small) {
+    @include m($size) {
+      @include e(item) {
+        padding: map.get($dropdown-item-padding, $size);
+        line-height: map.get($dropdown-item-line-height, $size);
+        font-size: map.get($input-font-size, $size);
 
-    @include e(item) {
-      line-height: 30px;
-      padding: 0 17px;
-      font-size: 14px;
+        &.#{$namespace}-dropdown-menu__item--divided {
+          $divided-offset: 3px;
+          margin-top: $divided-offset;
 
-      &.#{$namespace}-dropdown-menu__item--divided {
-        $divided-offset: 6px;
-        margin-top: $divided-offset;
-
-        &:before {
-          height: $divided-offset;
-          margin: 0 -17px;
-        }
-      }
-    }
-  }
-
-  @include m(small) {
-    padding: 6px 0;
-
-    @include e(item) {
-      line-height: 27px;
-      padding: 0 15px;
-      font-size: 13px;
-
-      &.#{$namespace}-dropdown-menu__item--divided {
-        $divided-offset: 4px;
-        margin-top: $divided-offset;
-
-        &:before {
-          height: $divided-offset;
-          margin: 0 -15px;
-        }
-      }
-    }
-  }
-
-  @include m(mini) {
-    padding: 3px 0;
-
-    @include e(item) {
-      line-height: 24px;
-      padding: 0 10px;
-      font-size: 12px;
-
-      &.#{$namespace}-dropdown-menu__item--divided {
-        $divided-offset: 3px;
-        margin-top: $divided-offset;
-
-        &:before {
-          height: $divided-offset;
-          margin: 0 -10px;
+          &:before {
+            height: $divided-offset;
+          }
         }
       }
     }

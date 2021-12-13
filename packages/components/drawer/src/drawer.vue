@@ -59,19 +59,13 @@
 
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue'
+import { Close } from '@element-plus/icons-vue'
+
 import { ElOverlay } from '@element-plus/components/overlay'
-import {
-  useDialog,
-  dialogProps,
-  dialogEmits,
-} from '@element-plus/components/dialog'
+import { useDialog } from '@element-plus/components/dialog'
 import ElIcon from '@element-plus/components/icon'
 import { TrapFocus } from '@element-plus/directives'
-import { Close } from '@element-plus/icons'
-
-import type { PropType, SetupContext } from 'vue'
-
-type DrawerDirection = 'ltr' | 'rtl' | 'ttb' | 'btt'
+import { drawerProps, drawerEmits } from './drawer'
 
 export default defineComponent({
   name: 'ElDrawer',
@@ -83,42 +77,24 @@ export default defineComponent({
   directives: {
     TrapFocus,
   },
-  props: {
-    ...dialogProps,
-    direction: {
-      type: String as PropType<DrawerDirection>,
-      default: 'rtl',
-      validator: (val: DrawerDirection) => {
-        return ['ltr', 'rtl', 'ttb', 'btt'].indexOf(val) !== -1
-      },
-    },
-    size: {
-      type: [String, Number],
-      default: '30%',
-    },
-    withHeader: {
-      type: Boolean,
-      default: true,
-    },
-    modalFade: {
-      type: Boolean,
-      default: true,
-    },
-  },
-
-  emits: dialogEmits,
+  props: drawerProps,
+  emits: drawerEmits,
 
   setup(props, ctx) {
-    const drawerRef = ref<HTMLElement>(null)
+    const drawerRef = ref<HTMLElement>()
+
+    const isHorizontal = computed(
+      () => props.direction === 'rtl' || props.direction === 'ltr'
+    )
+    const drawerSize = computed(() =>
+      typeof props.size === 'number' ? `${props.size}px` : props.size
+    )
+
     return {
-      ...useDialog(props, ctx as SetupContext, drawerRef),
+      ...useDialog(props, ctx, drawerRef),
       drawerRef,
-      isHorizontal: computed(
-        () => props.direction === 'rtl' || props.direction === 'ltr'
-      ),
-      drawerSize: computed(() =>
-        typeof props.size === 'number' ? `${props.size}px` : props.size
-      ),
+      isHorizontal,
+      drawerSize,
     }
   },
 })

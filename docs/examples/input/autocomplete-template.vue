@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue'
-import { Edit } from '@element-plus/icons'
+import { Edit } from '@element-plus/icons-vue'
 export default defineComponent({
   components: {
     Edit,

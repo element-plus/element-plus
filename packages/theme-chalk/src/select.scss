@@ -23,7 +23,7 @@
     );
   }
 
-  @each $size in (medium, small, mini) {
+  @each $size in (large, small) {
     @include m($size) {
       line-height: map.get($input-height, $size);
     }
@@ -116,9 +116,6 @@
     appearance: none;
     height: 28px;
     background-color: transparent;
-    @include when(mini) {
-      height: 14px;
-    }
   }
 
   @include e(close) {
@@ -152,26 +149,30 @@
     margin-top: -2px;
   }
 
-  .#{$namespace}-select__tags .#{$namespace}-tag {
-    box-sizing: border-box;
-    border-color: transparent;
-    margin: 2px 0 2px 6px;
-    background-color: #f0f2f5;
+  .#{$namespace}-select__tags {
+    .#{$namespace}-tag {
+      box-sizing: border-box;
+      border-color: transparent;
+      margin: 2px 0 2px 6px;
 
-    .#{$namespace}-icon-close {
-      background-color: var(--el-text-color-placeholder);
-      right: -7px;
-      top: 0;
-      color: $color-white;
+      .#{$namespace}-icon-close {
+        background-color: var(--el-text-color-placeholder);
+        right: -7px;
+        top: 0;
+        color: $color-white;
 
-      &:hover {
-        background-color: var(--el-text-color-secondary);
+        &:hover {
+          background-color: var(--el-text-color-secondary);
+        }
+
+        &::before {
+          display: block;
+          transform: translate(0, 0.5px);
+        }
       }
-
-      &::before {
-        display: block;
-        transform: translate(0, 0.5px);
-      }
+    }
+    .#{$namespace}-tag--info {
+      background-color: #f0f2f5;
     }
   }
 }

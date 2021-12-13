@@ -13,7 +13,7 @@ export const isValidWidthUnit = (val: string | number): boolean => {
 }
 
 export const isValidComponentSize = (val: string) =>
-  ['', 'large', 'medium', 'small', 'mini'].includes(val)
+  ['', 'large', 'default', 'small'].includes(val)
 
 export const isValidDatePickType = (val: string) =>
   [

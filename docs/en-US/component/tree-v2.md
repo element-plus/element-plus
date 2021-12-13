@@ -90,7 +90,7 @@ tree-v2/filter
 
 | Attribute | Description                                                                          | Type           | Default  |
 | --------- | ------------------------------------------------------------------------------------ | -------------- | -------- |
-| id        | unique identity key name for nodes, its value should be unique across the whole tree | string, number | id       |
+| value     | unique identity key name for nodes, its value should be unique across the whole tree | string, number | id       |
 | label     | specify which key of node object is used as the node's label                         | string         | label    |
 | children  | specify which node object is used as the node's subtree                              | string         | children |
 | disabled  | specify which key of node object represents if node's checkbox is disabled           | boolean        | disabled |

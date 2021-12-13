@@ -5,7 +5,7 @@ import { Project } from 'ts-morph'
 import glob from 'fast-glob'
 import { bold } from 'chalk'
 
-import { green, red, yellow } from './utils/log'
+import { errorAndExit, green, yellow } from './utils/log'
 import { buildOutput, epRoot, pkgRoot, projRoot } from './utils/paths'
 
 import { excludeFiles, pathRewriter } from './utils/pkg'
@@ -20,16 +20,12 @@ const outDir = path.resolve(buildOutput, 'types')
 export const generateTypesDefinitions = async () => {
   const project = new Project({
     compilerOptions: {
-      allowJs: true,
-      declaration: true,
       emitDeclarationOnly: true,
-      noEmitOnError: false,
       outDir,
       baseUrl: projRoot,
       paths: {
         '@element-plus/*': ['packages/*'],
       },
-      skipLibCheck: true,
     },
     tsConfigFilePath: TSCONFIG_PATH,
     skipAddingFilesFromTsConfig: true,
@@ -103,8 +99,7 @@ export const generateTypesDefinitions = async () => {
     const emitOutput = sourceFile.getEmitOutput()
     const emitFiles = emitOutput.getOutputFiles()
     if (emitFiles.length === 0) {
-      red(`Emit no file: ${bold(relativePath)}`)
-      return
+      errorAndExit(new Error(`Emit no file: ${bold(relativePath)}`))
     }
 
     const tasks = emitFiles.map(async (outputFile) => {

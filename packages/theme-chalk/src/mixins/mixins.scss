@@ -171,7 +171,7 @@
 }
 
 @mixin extend-rule($name) {
-  @extend #{'%shared-' + $name};
+  @extend #{'%shared-' + $name} !optional;
 }
 
 @mixin share-rule($name) {

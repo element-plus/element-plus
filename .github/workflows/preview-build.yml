@@ -5,9 +5,16 @@ on: pull_request
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+      fail-fast: false
+
     env:
       PULL_REQUEST_NUMBER: ${{ github.event.number }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -39,6 +46,7 @@ jobs:
 
       # share website dist
       - name: Upload artifact
+        if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v2
         with:
           name: docs
@@ -47,12 +55,12 @@ jobs:
 
       # write pr.txt for share
       - name: Save pr number
-        if: ${{ always() }}
+        if: matrix.os == 'ubuntu-latest'
         run: echo ${PULL_REQUEST_NUMBER} > ./pr.txt
 
       # share pr number
       - name: Upload pr number
-        if: ${{ always() }}
+        if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v2
         with:
           name: pr

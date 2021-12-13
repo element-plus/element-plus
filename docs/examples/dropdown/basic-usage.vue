@@ -19,5 +19,5 @@
 </template>
 
 <script lang="ts" setup>
-import { ArrowDown } from '@element-plus/icons'
+import { ArrowDown } from '@element-plus/icons-vue'
 </script>

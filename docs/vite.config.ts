@@ -1,6 +1,7 @@
 import path from 'path'
 import Inspect from 'vite-plugin-inspect'
 import { defineConfig } from 'vite'
+import WindiCSS from 'vite-plugin-windicss'
 import { projRoot } from './.vitepress/utils/paths'
 import type { Alias } from 'vite'
 
@@ -29,15 +30,25 @@ export default defineConfig({
   resolve: {
     alias,
   },
-  plugins: [Inspect()],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          windicss: ['windicss'],
+        },
+      },
+    },
+  },
+  plugins: [WindiCSS(), Inspect()],
   optimizeDeps: {
     include: [
       'vue',
+      'markdown-it',
       'clipboard-copy',
       '@vueuse/core',
       'axios',
       'nprogress',
-      '@element-plus/icons',
+      '@element-plus/icons-vue',
       'dayjs',
       'memoize-one',
       'async-validator',

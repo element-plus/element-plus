@@ -49,13 +49,13 @@
 <script lang="ts">
 import { ref, computed, defineComponent } from 'vue'
 import dayjs from 'dayjs'
-
-import ElButton from '@element-plus/components/button'
-import { useLocaleInject } from '@element-plus/hooks'
+import { ElButton, ElButtonGroup } from '@element-plus/components/button'
+import { useLocale } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils/error'
 import DateTable from './date-table.vue'
-import type { PropType, ComputedRef } from 'vue'
+import { calendarProps, calendarEmits } from './calendar'
 
+import type { ComputedRef } from 'vue'
 import type { Dayjs } from 'dayjs'
 
 type DateType =
@@ -65,7 +65,6 @@ type DateType =
   | 'next-year'
   | 'today'
 
-const { ButtonGroup: ElButtonGroup } = ElButton
 export default defineComponent({
   name: 'ElCalendar',
 
@@ -75,27 +74,12 @@ export default defineComponent({
     ElButtonGroup,
   },
 
-  props: {
-    modelValue: {
-      type: Date,
-    },
-    range: {
-      type: Array as PropType<Array<Date>>,
-      validator: (range: Date): boolean => {
-        if (Array.isArray(range)) {
-          return (
-            range.length === 2 && range.every((item) => item instanceof Date)
-          )
-        }
-        return false
-      },
-    },
-  },
+  props: calendarProps,
+  emits: calendarEmits,
 
-  emits: ['input', 'update:modelValue'],
-  setup(props, ctx) {
-    const { t, lang } = useLocaleInject()
-    const selectedDay = ref(null)
+  setup(props, { emit }) {
+    const { t, lang } = useLocale()
+    const selectedDay = ref<Dayjs>()
     const now = dayjs().locale(lang.value)
 
     const prevMonthDayjs = computed(() => {
@@ -122,17 +106,18 @@ export default defineComponent({
       return `${date.value.year()} ${t('el.datepicker.year')} ${t(pickedMonth)}`
     })
 
-    const realSelectedDay = computed({
+    const realSelectedDay = computed<Dayjs | undefined>({
       get() {
         if (!props.modelValue) return selectedDay.value
         return date.value
       },
-      set(val: Dayjs) {
+      set(val) {
+        if (!val) return
         selectedDay.value = val
         const result = val.toDate()
 
-        ctx.emit('input', result)
-        ctx.emit('update:modelValue', result)
+        emit('input', result)
+        emit('update:modelValue', result)
       },
     })
 
@@ -152,9 +137,9 @@ export default defineComponent({
     // https://github.com/element-plus/element-plus/issues/3155
     // Calculate the validate date range according to the start and end dates
     const calculateValidatedDateRange = (
-      startDayjs: dayjs.Dayjs,
-      endDayjs: dayjs.Dayjs
-    ) => {
+      startDayjs: Dayjs,
+      endDayjs: Dayjs
+    ): [Dayjs, Dayjs][] => {
       const firstDay = startDayjs.startOf('week')
       const lastDay = endDayjs.endOf('week')
       const firstMonth = firstDay.get('month')

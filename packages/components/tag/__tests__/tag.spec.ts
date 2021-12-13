@@ -96,8 +96,7 @@ describe('Tag.vue', () => {
     const vm = wrapper.vm
     const el = vm.$el
     expect(el.className.includes('el-tag--large')).toEqual(true)
+    expect(el.className.includes('el-tag--default')).toEqual(false)
     expect(el.className.includes('el-tag--small')).toEqual(false)
-    expect(el.className.includes('el-tag--mini')).toEqual(false)
-    expect(el.className.includes('el-tag--medium')).toEqual(false)
   })
 })

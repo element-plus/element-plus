@@ -2,7 +2,7 @@ import { nextTick } from 'vue'
 import { NOOP } from '@vue/shared'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { makeMountFunc } from '@element-plus/test-utils/make-mount'
-import { CircleClose } from '@element-plus/icons'
+import { CircleClose } from '@element-plus/icons-vue'
 import { hasClass } from '@element-plus/utils/dom'
 import Select from '../src/select.vue'
 

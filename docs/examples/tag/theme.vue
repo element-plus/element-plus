@@ -1,20 +1,22 @@
 <template>
-  <div class="tag-group">
-    <span class="tag-group__title">Dark</span>
+  <div class="tag-group my-2">
+    <span class="tag-group__title m-1">Dark</span>
     <el-tag
       v-for="item in items"
       :key="item.label"
+      class="mx-1"
       :type="item.type"
       effect="dark"
     >
       {{ item.label }}
     </el-tag>
   </div>
-  <div class="tag-group">
-    <span class="tag-group__title">Plain</span>
+  <div class="tag-group my-2">
+    <span class="tag-group__title m-1">Plain</span>
     <el-tag
       v-for="item in items"
       :key="item.label"
+      class="mx-1"
       :type="item.type"
       effect="plain"
     >
@@ -38,13 +40,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss">
-.tag-group {
-  margin-bottom: 8px;
-
-  &__title {
-    margin-right: 8px;
-  }
-}
-</style>

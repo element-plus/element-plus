@@ -67,8 +67,8 @@ import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'
 import { on, addClass, removeClass } from '@element-plus/utils/dom'
 import { addUnit } from '@element-plus/utils/util'
-import { ArrowDown } from '@element-plus/icons'
-import { useDropdown } from './useDropdown'
+import { ArrowDown } from '@element-plus/icons-vue'
+import { useSize } from '@element-plus/hooks'
 
 import type { Placement } from '@element-plus/components/popper'
 import type { PropType, ComponentPublicInstance, CSSProperties } from 'vue'
@@ -131,7 +131,6 @@ export default defineComponent({
   emits: ['visible-change', 'click', 'command'],
   setup(props, { emit }) {
     const _instance = getCurrentInstance()
-    const { ELEMENT } = useDropdown()
 
     const timeout = ref<Nullable<number>>(null)
 
@@ -224,7 +223,7 @@ export default defineComponent({
       triggerElm.value?.blur?.()
     }
 
-    const dropdownSize = computed(() => props.size || ELEMENT.size)
+    const dropdownSize = useSize()
 
     function commandHandler(...args) {
       emit('command', ...args)

@@ -16,7 +16,7 @@ export interface ElFormContext {
   inline?: boolean
   inlineMessage?: boolean
   model?: Record<string, unknown>
-  size?: string
+  size?: ComponentSize
   showMessage?: boolean
   labelPosition?: string
   labelWidth?: string | number

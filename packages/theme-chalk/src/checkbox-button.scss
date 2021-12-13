@@ -122,7 +122,7 @@
     }
   }
 
-  @each $size in (medium, small, mini) {
+  @each $size in (large, small) {
     @include m($size) {
       .#{$namespace}-checkbox-button__inner {
         @include button-size(

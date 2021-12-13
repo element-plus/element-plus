@@ -88,7 +88,7 @@ import {
 } from 'vue'
 import { useEventListener } from '@vueuse/core'
 import ElIcon from '@element-plus/components/icon'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { rafThrottle, isFirefox } from '@element-plus/utils/util'
 import {
@@ -101,7 +101,7 @@ import {
   RefreshRight,
   FullScreen,
   ScaleToOriginal,
-} from '@element-plus/icons'
+} from '@element-plus/icons-vue'
 import { imageViewerProps, imageViewerEmits } from './image-viewer'
 
 import type { CSSProperties } from 'vue'
@@ -140,7 +140,7 @@ export default defineComponent({
   emits: imageViewerEmits,
 
   setup(props, { emit }) {
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
     const wrapper = ref<HTMLDivElement>()
     const img = ref<HTMLImageElement>()
 

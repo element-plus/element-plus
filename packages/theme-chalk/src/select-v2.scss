@@ -20,6 +20,8 @@ $input-inline-start: 15px !default;
   font-size: map.get($input-font-size, 'default');
   $selector: &;
   @include e(wrapper) {
+    height: map.get($input-height, 'default');
+
     box-sizing: border-box;
     cursor: pointer;
     padding: 5px 30px 5px 0px;
@@ -48,7 +50,7 @@ $input-inline-start: 15px !default;
     @include when(disabled) {
       cursor: not-allowed;
 
-      background-color: var(--el-bg-color-base);
+      background-color: var(--el-bg-color);
       color: var(--el-text-color-placeholder);
       border-color: var(--el-select-disabled-border);
 
@@ -80,8 +82,8 @@ $input-inline-start: 15px !default;
     }
 
     #{$selector}__input-wrapper input {
-      line-height: map.get($input-height, 'medium') - 8px;
-      height: map.get($input-height, 'medium') - 8px;
+      line-height: map.get($input-height, 'default') - 8px;
+      height: map.get($input-height, 'default') - 8px;
 
       min-width: 4px;
       width: 100%;
@@ -122,59 +124,20 @@ $input-inline-start: 15px !default;
     );
   }
 
-  @include m(medium) {
-    @include e(wrapper) {
-      padding: 3px 30px 3px 0px;
-      &,
-      #{$selector}__input-wrapper {
-        line-height: map.get($input-height, 'medium');
-      }
-    }
-    @include e(caret) {
-      line-height: map.get($input-height, 'medium');
-    }
-    @include e(suffix) {
-      height: map.get($input-height, 'medium');
-    }
-  }
-
-  @include m(small) {
-    @include e(wrapper) {
-      padding: 3px 30px 3px 0px;
-      line-height: map.get($input-height, 'small');
-      #{$selector}__input-wrapper {
-        line-height: map.get($input-height, 'small') - 8px;
-        input {
-          line-height: map.get($input-height, 'small') - 8px;
-          height: map.get($input-height, 'small') - 8px;
+  @each $size in (large, small) {
+    @include m($size) {
+      @include e(wrapper) {
+        &,
+        #{$selector}__input-wrapper {
+          height: map.get($input-height, $size);
         }
       }
-    }
-    @include e(caret) {
-      line-height: map.get($input-height, 'small');
-    }
-    @include e(suffix) {
-      height: map.get($input-height, 'small');
-    }
-  }
-
-  @include m(mini) {
-    @include e(wrapper) {
-      padding: 1px 30px 1px 0px;
-      line-height: map.get($input-height, 'mini');
-      #{$selector}__input-wrapper {
-        line-height: map.get($input-height, 'mini') - 4px;
-        input {
-          line-height: map.get($input-height, 'mini') - 4px;
-          height: map.get($input-height, 'mini') - 4px;
-        }
+      @include e(caret) {
+        height: map.get($input-height, $size);
       }
-    }
-    @include e(caret) {
-      line-height: map.get($input-height, 'mini');
-    }
-    @include e(suffix) {
-      height: map.get($input-height, 'mini');
+      @include e(suffix) {
+        height: map.get($input-height, $size);
+      }
     }
   }
 
@@ -214,7 +177,7 @@ $input-inline-start: 15px !default;
     appearance: none;
     height: 28px;
 
-    @include when(mini) {
+    @include when(small) {
       height: 14px;
     }
   }

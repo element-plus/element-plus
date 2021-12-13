@@ -1,13 +1,17 @@
-import { inject } from 'vue'
+import { inject, toRef } from 'vue'
 import { configProviderContextKey } from '@element-plus/tokens'
-import type { ConfigProvdierContext } from '@element-plus/tokens'
+import type { Ref } from 'vue'
+import type { ConfigProviderContext } from '@element-plus/tokens'
 
-const defaultConfig: ConfigProvdierContext = {
-  button: {
-    autoInsertSpace: false,
-  },
-}
-
-export const useGlobalConfig = () => {
-  return inject(configProviderContextKey, defaultConfig)
+export function useGlobalConfig<K extends keyof ConfigProviderContext>(
+  key: K
+): Ref<ConfigProviderContext[K]>
+export function useGlobalConfig(): ConfigProviderContext
+export function useGlobalConfig(key?: keyof ConfigProviderContext) {
+  const config = inject(configProviderContextKey, {})
+  if (key) {
+    return toRef(config, key)
+  } else {
+    return config
+  }
 }

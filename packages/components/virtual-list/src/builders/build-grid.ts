@@ -12,8 +12,8 @@ import {
 } from 'vue'
 import { hasOwn } from '@vue/shared'
 
+import { isClient } from '@vueuse/core'
 import { isNumber, isString } from '@element-plus/utils/util'
-import isServer from '@element-plus/utils/isServer'
 import getScrollBarWidth from '@element-plus/utils/scrollbar-width'
 
 import Scrollbar from '../components/scrollbar'
@@ -445,7 +445,7 @@ const createGrid = ({
       // life cycles
       onMounted(() => {
         // for SSR
-        if (isServer) return
+        if (!isClient) return
         const { initScrollLeft, initScrollTop } = props
         const windowElement = unref(windowRef)
         if (windowElement) {

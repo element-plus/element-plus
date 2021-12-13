@@ -31,13 +31,13 @@
             <el-input
               v-model="customInput"
               :validate-event="false"
-              size="mini"
+              size="small"
               @keyup.enter="handleConfirm"
               @blur="handleConfirm"
             />
           </span>
           <el-button
-            size="mini"
+            size="small"
             type="text"
             class="el-color-dropdown__link-btn"
             @click="clear"
@@ -46,7 +46,7 @@
           </el-button>
           <el-button
             plain
-            size="mini"
+            size="small"
             class="el-color-dropdown__btn"
             @click="confirmValue"
           >
@@ -74,20 +74,21 @@
               :style="{
                 backgroundColor: displayedColor,
               }"
-            ></span>
-            <el-icon
-              v-if="!modelValue && !showPanelColor"
-              class="el-color-picker__empty is-icon-close"
             >
-              <close />
-            </el-icon>
+              <el-icon
+                v-show="modelValue || showPanelColor"
+                class="el-color-picker__icon is-icon-arrow-down"
+              >
+                <arrow-down />
+              </el-icon>
+              <el-icon
+                v-if="!modelValue && !showPanelColor"
+                class="el-color-picker__empty is-icon-close"
+              >
+                <close />
+              </el-icon>
+            </span>
           </span>
-          <el-icon
-            v-show="modelValue || showPanelColor"
-            class="el-color-picker__icon is-icon-arrow-down"
-          >
-            <arrow-down />
-          </el-icon>
         </div>
       </div>
     </template>
@@ -111,13 +112,12 @@ import ElButton from '@element-plus/components/button'
 import ElIcon from '@element-plus/components/icon'
 import { ClickOutside } from '@element-plus/directives'
 import { elFormItemKey, elFormKey } from '@element-plus/tokens'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale, useSize } from '@element-plus/hooks'
 import ElPopper, { Effect } from '@element-plus/components/popper'
 import ElInput from '@element-plus/components/input'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import { Close, ArrowDown } from '@element-plus/icons'
+import { Close, ArrowDown } from '@element-plus/icons-vue'
 import AlphaSlider from './components/alpha-slider.vue'
 import HueSlider from './components/hue-slider.vue'
 import Predefine from './components/predefine.vue'
@@ -161,8 +161,7 @@ export default defineComponent({
   },
   emits: ['change', 'active-change', UPDATE_MODEL_EVENT],
   setup(props, { emit }) {
-    const ELEMENT = useGlobalConfig()
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
     const elForm = inject(elFormKey, {} as ElFormContext)
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
 
@@ -187,9 +186,7 @@ export default defineComponent({
       }
       return displayedRgb(color, props.showAlpha)
     })
-    const colorSize = computed(() => {
-      return props.size || elFormItem.size || ELEMENT.size
-    })
+    const colorSize = useSize()
     const colorDisabled = computed(() => {
       return props.disabled || elForm.disabled
     })

@@ -44,10 +44,9 @@
 <script lang="ts">
 import { defineComponent, computed, ref, onMounted, watch, nextTick } from 'vue'
 import { isString } from '@vue/shared'
-import { useEventListener, useThrottleFn } from '@vueuse/core'
-import { useAttrs, useLocaleInject } from '@element-plus/hooks'
+import { useEventListener, useThrottleFn, isClient } from '@vueuse/core'
+import { useAttrs, useLocale } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
-import isServer from '@element-plus/utils/isServer'
 import { getScrollContainer, isInContainer } from '@element-plus/utils/dom'
 import { imageEmits, imageProps } from './image'
 
@@ -69,7 +68,7 @@ export default defineComponent({
   emits: imageEmits,
 
   setup(props, { emit, attrs: rawAttrs }) {
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
 
     const attrs = useAttrs()
     const hasLoadError = ref(false)
@@ -87,7 +86,7 @@ export default defineComponent({
 
     const imageStyle = computed<CSSProperties>(() => {
       const { fit } = props
-      if (!isServer && fit) {
+      if (isClient && fit) {
         return { objectFit: fit }
       }
       return {}
@@ -109,7 +108,7 @@ export default defineComponent({
     })
 
     const loadImage = () => {
-      if (isServer) return
+      if (!isClient) return
 
       // reset status
       loading.value = true
@@ -151,7 +150,7 @@ export default defineComponent({
     const lazyLoadHandler = useThrottleFn(handleLazyLoad, 200)
 
     async function addLazyLoadListener() {
-      if (isServer) return
+      if (!isClient) return
 
       await nextTick()
 
@@ -176,7 +175,7 @@ export default defineComponent({
     }
 
     function removeLazyLoadListener() {
-      if (isServer || !_scrollContainer.value || !lazyLoadHandler) return
+      if (!isClient || !_scrollContainer.value || !lazyLoadHandler) return
 
       stopScrollListener()
       _scrollContainer.value = undefined

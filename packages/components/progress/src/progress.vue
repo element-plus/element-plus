@@ -84,29 +84,9 @@ import {
   CircleClose,
   Check,
   Close,
-} from '@element-plus/icons'
-
-import type { PropType, SVGAttributes } from 'vue'
-
-type ProgressFuncType = (percentage: number) => string
-
-interface IProgressProps {
-  type: string
-  percentage: number
-  status: string
-  indeterminate: boolean
-  duration: number
-  strokeWidth: number
-  strokeLinecap: NonNullable<SVGAttributes['stroke-linecap']>
-  textInside: boolean
-  width: number
-  showText: boolean
-  color:
-    | string
-    | Array<string | { color: string; percentage: number }>
-    | ProgressFuncType
-  format: ProgressFuncType
-}
+} from '@element-plus/icons-vue'
+import { progressProps } from './progress'
+import type { CSSProperties } from 'vue'
 
 export default defineComponent({
   name: 'ElProgress',
@@ -118,73 +98,20 @@ export default defineComponent({
     Close,
     WarningFilled,
   },
-  props: {
-    type: {
-      type: String,
-      default: 'line',
-      validator: (val: string): boolean =>
-        ['line', 'circle', 'dashboard'].indexOf(val) > -1,
-    },
-    percentage: {
-      type: Number,
-      default: 0,
-      validator: (val: number): boolean => val >= 0 && val <= 100,
-    },
-    status: {
-      type: String,
-      default: '',
-      validator: (val: string): boolean =>
-        ['', 'success', 'exception', 'warning'].indexOf(val) > -1,
-    },
-    indeterminate: {
-      type: Boolean,
-      default: false,
-    },
-    duration: {
-      type: Number,
-      default: 3,
-    },
-    strokeWidth: {
-      type: Number,
-      default: 6,
-    },
-    strokeLinecap: {
-      type: String as PropType<IProgressProps['strokeLinecap']>,
-      default: 'round' as IProgressProps['strokeLinecap'],
-    },
-    textInside: {
-      type: Boolean,
-      default: false,
-    },
-    width: {
-      type: Number,
-      default: 126,
-    },
-    showText: {
-      type: Boolean,
-      default: true,
-    },
-    color: {
-      type: [String, Array, Function],
-      default: '',
-    },
-    format: {
-      type: Function,
-      default: (percentage: number): string => `${percentage}%`,
-    },
-  },
-  setup(props: IProgressProps) {
-    const barStyle = computed(() => {
-      return {
+  props: progressProps,
+
+  setup(props) {
+    const barStyle = computed(
+      (): CSSProperties => ({
         width: `${props.percentage}%`,
         animationDuration: `${props.duration}s`,
         backgroundColor: getCurrentColor(props.percentage),
-      }
-    })
+      })
+    )
 
-    const relativeStrokeWidth = computed(() => {
-      return ((props.strokeWidth / props.width) * 100).toFixed(1)
-    })
+    const relativeStrokeWidth = computed(() =>
+      ((props.strokeWidth / props.width) * 100).toFixed(1)
+    )
 
     const radius = computed(() => {
       if (props.type === 'circle' || props.type === 'dashboard') {
@@ -205,40 +132,36 @@ export default defineComponent({
           `
     })
 
-    const perimeter = computed(() => {
-      return 2 * Math.PI * radius.value
-    })
+    const perimeter = computed(() => 2 * Math.PI * radius.value)
 
-    const rate = computed(() => {
-      return props.type === 'dashboard' ? 0.75 : 1
-    })
+    const rate = computed(() => (props.type === 'dashboard' ? 0.75 : 1))
 
     const strokeDashoffset = computed(() => {
       const offset = (-1 * perimeter.value * (1 - rate.value)) / 2
       return `${offset}px`
     })
 
-    const trailPathStyle = computed(() => {
-      return {
+    const trailPathStyle = computed(
+      (): CSSProperties => ({
         strokeDasharray: `${perimeter.value * rate.value}px, ${
           perimeter.value
         }px`,
         strokeDashoffset: strokeDashoffset.value,
-      }
-    })
+      })
+    )
 
-    const circlePathStyle = computed(() => {
-      return {
+    const circlePathStyle = computed(
+      (): CSSProperties => ({
         strokeDasharray: `${
           perimeter.value * rate.value * (props.percentage / 100)
         }px, ${perimeter.value}px`,
         strokeDashoffset: strokeDashoffset.value,
         transition: 'stroke-dasharray 0.6s ease 0s, stroke 0.6s ease',
-      }
-    })
+      })
+    )
 
     const stroke = computed(() => {
-      let ret
+      let ret: string
       if (props.color) {
         ret = getCurrentColor(props.percentage)
       } else {
@@ -276,11 +199,9 @@ export default defineComponent({
         : props.width * 0.111111 + 2
     })
 
-    const content = computed(() => {
-      return props.format(props.percentage)
-    })
+    const content = computed(() => props.format(props.percentage))
 
-    const getCurrentColor = (percentage) => {
+    const getCurrentColor = (percentage: number) => {
       const { color } = props
       if (typeof color === 'function') {
         return color(percentage)
@@ -297,16 +218,12 @@ export default defineComponent({
           }
           return seriesColor
         })
-        const colorArray = seriesColors.sort(
-          (a, b) => a.percentage - b.percentage
-        )
+        const colors = seriesColors.sort((a, b) => a.percentage - b.percentage)
 
-        for (let i = 0; i < colorArray.length; i++) {
-          if (colorArray[i].percentage > percentage) {
-            return colorArray[i].color
-          }
+        for (const color of colors) {
+          if (color.percentage > percentage) return color.color
         }
-        return colorArray[colorArray.length - 1]?.color
+        return colors[colors.length - 1]?.color
       }
     }
 
@@ -330,7 +247,6 @@ export default defineComponent({
       statusIcon,
       progressTextSize,
       content,
-      getCurrentColor,
       slotData,
     }
   },

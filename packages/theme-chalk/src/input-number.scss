@@ -38,7 +38,7 @@
     width: map.get($input-height, 'default');
     height: auto;
     text-align: center;
-    background: $background-color-base;
+    background: var(--el-bg-color);
     color: var(--el-text-color-regular);
     cursor: pointer;
     font-size: 13px;
@@ -85,7 +85,7 @@
     }
   }
 
-  @each $size in (medium, small, mini) {
+  @each $size in (large, small) {
     @include m($size) {
       width: map.get($input-number-width, $size);
       line-height: #{map.get($input-height, $size) - 2};
@@ -106,14 +106,6 @@
     @include e((increase, decrease)) {
       [class*='#{$namespace}-icon'] {
         transform: scale(0.9);
-      }
-    }
-  }
-
-  @include m(mini) {
-    @include e((increase, decrease)) {
-      [class*='#{$namespace}-icon'] {
-        transform: scale(0.8);
       }
     }
   }
@@ -155,7 +147,7 @@
       border-radius: 0 0 var(--el-border-radius-base) 0;
     }
 
-    @each $size in (medium, small, mini) {
+    @each $size in (large, small) {
       &[class*='#{$size}'] {
         [class*='increase'],
         [class*='decrease'] {

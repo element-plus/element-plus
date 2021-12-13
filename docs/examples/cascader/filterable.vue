@@ -12,7 +12,7 @@
     <el-cascader
       placeholder="Try searchingL Guide"
       :options="options"
-      :props="{ multiple: true }"
+      :props="props"
       filterable
     />
   </div>
@@ -24,6 +24,9 @@ import { defineComponent, reactive, toRefs } from 'vue'
 export default defineComponent({
   setup() {
     const state = reactive({
+      props: {
+        multiple: true,
+      },
       options: [
         {
           value: 'guide',

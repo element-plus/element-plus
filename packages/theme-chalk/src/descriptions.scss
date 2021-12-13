@@ -1,6 +1,28 @@
+@use 'sass:map';
+
 @use 'mixins/mixins' as *;
 @use 'mixins/var' as *;
 @use 'common/var' as *;
+
+$descriptions-cell-padding-bottom: () !default;
+$descriptions-cell-padding-bottom: map.merge(
+  (
+    'large': 10px,
+    'default': 8px,
+    'small': 6px,
+  ),
+  $descriptions-cell-padding-bottom
+);
+
+$descriptions-bordered-cell-padding: () !default;
+$descriptions-bordered-cell-padding: map.merge(
+  (
+    'large': 10px,
+    'default': 8px 10px,
+    'small': 6px 10px,
+  ),
+  $descriptions-bordered-cell-padding
+);
 
 @include b(descriptions) {
   @include set-component-css-var('descriptions', $descriptions);
@@ -53,58 +75,29 @@
   .is-bordered {
     .#{$namespace}-descriptions__cell {
       border: var(--el-descriptions-table-border);
-      padding: 12px 10px;
+      padding: map.get($descriptions-bordered-cell-padding, 'default');
     }
   }
 
   :not(.is-bordered) {
     .#{$namespace}-descriptions__cell {
-      padding-bottom: 12px;
+      padding-bottom: map.get($descriptions-cell-padding-bottom, 'default');
     }
   }
 
-  @include m(medium) {
-    &.is-bordered {
-      .#{$namespace}-descriptions__cell {
-        padding: 10px;
+  @each $size in (large, small) {
+    @include m($size) {
+      font-size: map.get($input-font-size, $size);
+      &.is-bordered {
+        .#{$namespace}-descriptions__cell {
+          padding: map.get($descriptions-bordered-cell-padding, $size);
+        }
       }
-    }
 
-    &:not(.is-bordered) {
-      .#{$namespace}-descriptions__cell {
-        padding-bottom: 10px;
-      }
-    }
-  }
-
-  @include m(small) {
-    font-size: 12px;
-
-    &.is-bordered {
-      .#{$namespace}-descriptions__cell {
-        padding: 8px 10px;
-      }
-    }
-
-    &:not(.is-bordered) {
-      .#{$namespace}-descriptions__cell {
-        padding-bottom: 8px;
-      }
-    }
-  }
-
-  @include m(mini) {
-    font-size: 12px;
-
-    &.is-bordered {
-      .#{$namespace}-descriptions__cell {
-        padding: 6px 10px;
-      }
-    }
-
-    &:not(.is-bordered) {
-      .#{$namespace}-descriptions__cell {
-        padding-bottom: 6px;
+      &:not(.is-bordered) {
+        .#{$namespace}-descriptions__cell {
+          padding-bottom: map.get($descriptions-cell-padding-bottom, $size);
+        }
       }
     }
   }

@@ -14,7 +14,7 @@
     <el-cascader
       v-model="value"
       :options="options"
-      :props="{ expandTrigger: 'hover' }"
+      :props="props"
       @change="handleChange"
     ></el-cascader>
   </div>
@@ -27,6 +27,9 @@ export default defineComponent({
   setup() {
     const state = reactive({
       value: [],
+      props: {
+        expandTrigger: 'hover',
+      },
       options: [
         {
           value: 'guide',
@@ -306,3 +309,12 @@ export default defineComponent({
   },
 })
 </script>
+
+<style lang="scss" scoped>
+.block {
+  margin: 1rem;
+}
+.demonstration {
+  margin: 1rem;
+}
+</style>
