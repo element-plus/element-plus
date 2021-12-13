@@ -73,7 +73,7 @@
     "@pnpm/logger": "4.0.0",
     "@pnpm/types": "7.6.0",
     "@rollup/plugin-commonjs": "21.0.1",
-    "@rollup/plugin-node-resolve": "13.0.6",
+    "@rollup/plugin-node-resolve": "13.1.1",
     "@rollup/plugin-replace": "3.0.0",
     "@sucrase/jest-plugin": "2.2.0",
     "@types/fs-extra": "9.0.13",
