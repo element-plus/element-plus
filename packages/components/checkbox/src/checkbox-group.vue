@@ -54,7 +54,7 @@ export default defineComponent({
 
   emits: [UPDATE_MODEL_EVENT, 'change'],
 
-  setup(props, ctx) {
+  setup(props, { emit, slots }) {
     const { elFormItem } = useCheckboxGroup()
     const checkboxGroupSize = useSize()
 
