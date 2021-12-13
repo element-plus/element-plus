@@ -453,8 +453,8 @@ $input-disabled: map.merge(
 $input-font-size: () !default;
 $input-font-size: map.merge(
   (
-    'large': var(--el-font-size-base, map.get($font-size, 'base')),
-    'default': 12px,
+    'large': 16px,
+    'default': 14px,
     'small': 12px,
   ),
   $input-font-size
