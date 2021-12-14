@@ -91,7 +91,7 @@
           </span>
         </span>
         <el-icon
-          v-if="validateState && validateIcon"
+          v-if="needStatusIcon && validateIcon"
           class="el-input__icon el-input__validateIcon"
         >
           <component :is="validateIcon" />
@@ -198,7 +198,9 @@ export default defineComponent({
 
     const inputOrTextarea = computed(() => input.value || textarea.value)
 
-    const needStatusIcon = computed(() => form?.statusIcon ?? false)
+    const needStatusIcon = computed(
+      () => form?.statusIcon && validateState.value
+    )
     const validateState = computed(() => formItem?.validateState || '')
     const validateIcon = computed(
       () => ValidateComponentsMap[validateState.value]
@@ -386,7 +388,7 @@ export default defineComponent({
         showClear.value ||
         props.showPassword ||
         isWordLimitVisible.value ||
-        (!!validateState.value && needStatusIcon.value)
+        needStatusIcon.value
     )
 
     watch(
@@ -447,7 +449,6 @@ export default defineComponent({
       textarea,
       attrs,
       inputSize,
-      validateState,
       validateIcon,
       containerStyle,
       computedTextareaStyle,
@@ -461,6 +462,7 @@ export default defineComponent({
       passwordVisible,
       inputOrTextarea,
       suffixVisible,
+      needStatusIcon,
 
       resizeTextarea,
       handleInput,

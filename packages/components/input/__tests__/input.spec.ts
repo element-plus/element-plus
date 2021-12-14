@@ -1,7 +1,9 @@
-import { nextTick, ref } from 'vue'
+import { nextTick, ref, provide } from 'vue'
 import { mount } from '@vue/test-utils'
 import { sleep, defineGetter } from '@element-plus/test-utils'
+import { elFormItemKey, elFormKey } from '@element-plus/tokens'
 import Input from '../src/input.vue'
+import type { ElFormItemContext, ElFormContext } from '@element-plus/tokens'
 
 const _mount = (options) =>
   mount({
@@ -128,6 +130,35 @@ describe('Input.vue', () => {
       template: `<el-input suffix-icon="time" />`,
     })
     const icon = wrapper.find('.el-input__icon')
+    expect(icon.exists()).toBe(true)
+  })
+
+  test('should not show validateIcon', () => {
+    const wrapper = _mount({
+      template: `<el-input suffix-icon="time" />`,
+      setup() {
+        provide(elFormItemKey, {
+          validateState: 'error',
+        } as ElFormItemContext)
+      },
+    })
+    const icon = wrapper.find('.el-input__validateIcon')
+    expect(icon.exists()).toBe(false)
+  })
+
+  test('should show validateIcon', () => {
+    const wrapper = _mount({
+      template: `<el-input suffix-icon="time" />`,
+      setup() {
+        provide(elFormItemKey, {
+          validateState: 'error',
+        } as ElFormItemContext)
+        provide(elFormKey, {
+          statusIcon: true,
+        } as ElFormContext)
+      },
+    })
+    const icon = wrapper.find('.el-input__validateIcon')
     expect(icon.exists()).toBe(true)
   })
 
