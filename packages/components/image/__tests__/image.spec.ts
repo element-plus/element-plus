@@ -50,7 +50,7 @@ describe('Image.vue', () => {
     expect(wrapper.find('img').exists()).toBe(false)
     expect(wrapper.find('.el-image__error').exists()).toBe(true)
   })
-  
+
   test('image load sequence success test', async () => {
     const wrapper = mount(Image, {
       props: {
