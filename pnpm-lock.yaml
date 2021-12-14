@@ -149,7 +149,7 @@ importers:
 
   docs:
     specifiers:
-      '@crowdin/cli': 3.7.2
+      '@crowdin/cli': 3.7.3
       '@types/markdown-it': 12.2.3
       '@vueuse/core': 7.3.0
       axios: 0.24.0
@@ -172,7 +172,7 @@ importers:
       normalize.css: 8.0.1
       nprogress: 0.2.0
     devDependencies:
-      '@crowdin/cli': 3.7.2
+      '@crowdin/cli': 3.7.3
       '@types/markdown-it': 12.2.3
       cross-env: 7.0.3
       escape-html: 1.0.3
@@ -913,8 +913,8 @@ packages:
       chalk: 4.1.2
     dev: true
 
-  /@crowdin/cli/3.7.2:
-    resolution: {integrity: sha512-dM7pQLHo10XnHvi0RAkOFAwqn/LB4NE42njn4dHSu8O30zLgsVbCEq4KvUajE2aFz0mDeAzMgxjEDJSssFUf2Q==}
+  /@crowdin/cli/3.7.3:
+    resolution: {integrity: sha512-Nk/W49LP2YOZiXyboJj3H7Lpu2s+g7M1YOfg+NLnflSEofZRMvzc3oRNMVdmOr/S5zPX7K7SQ6jw7x2xWINlOw==}
     hasBin: true
     dependencies:
       shelljs: 0.8.4
