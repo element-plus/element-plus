@@ -140,6 +140,7 @@
     color: var(--el-input-text-color, map.get($input, 'text-color'));
     display: inline-block;
     font-size: inherit;
+    font-family: inherit;
     height: map.get($input-height, 'default');
     line-height: map.get($input-height, 'default');
     outline: none;
