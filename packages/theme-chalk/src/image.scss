@@ -17,7 +17,7 @@
   }
 
   @include e(placeholder) {
-    @extend %size;
+    @extend %size !optional;
     background: var(--el-bg-color);
   }
 
