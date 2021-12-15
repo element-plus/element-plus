@@ -17,33 +17,23 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const value = ref('2021-10-29')
+const value = ref('2021-10-29')
+const holidays = [
+  '2021-10-01',
+  '2021-10-02',
+  '2021-10-03',
+  '2021-10-04',
+  '2021-10-05',
+  '2021-10-06',
+  '2021-10-07',
+]
 
-    const holidays = [
-      '2021-10-01',
-      '2021-10-02',
-      '2021-10-03',
-      '2021-10-04',
-      '2021-10-05',
-      '2021-10-06',
-      '2021-10-07',
-    ]
-
-    function isHoliday({ dayjs }) {
-      return holidays.includes(dayjs.format('YYYY-MM-DD'))
-    }
-
-    return {
-      value,
-      isHoliday,
-    }
-  },
-})
+const isHoliday = ({ dayjs }) => {
+  return holidays.includes(dayjs.format('YYYY-MM-DD'))
+}
 </script>
 
 <style lang="scss" scoped>

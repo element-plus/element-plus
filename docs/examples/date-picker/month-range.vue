@@ -27,42 +27,33 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const state = reactive({
-      shortcuts: [
-        {
-          text: 'This month',
-          value: [new Date(), new Date()],
-        },
-        {
-          text: 'This year',
-          value: () => {
-            const end = new Date()
-            const start = new Date(new Date().getFullYear(), 0)
-            return [start, end]
-          },
-        },
-        {
-          text: 'Last 6 months',
-          value: () => {
-            const end = new Date()
-            const start = new Date()
-            start.setMonth(start.getMonth() - 6)
-            return [start, end]
-          },
-        },
-      ],
-      value1: '',
-      value2: '',
-    })
+const value1 = ref('')
+const value2 = ref('')
 
-    return {
-      ...toRefs(state),
-    }
+const shortcuts = [
+  {
+    text: 'This month',
+    value: [new Date(), new Date()],
   },
-})
+  {
+    text: 'This year',
+    value: () => {
+      const end = new Date()
+      const start = new Date(new Date().getFullYear(), 0)
+      return [start, end]
+    },
+  },
+  {
+    text: 'Last 6 months',
+    value: () => {
+      const end = new Date()
+      const start = new Date()
+      start.setMonth(start.getMonth() - 6)
+      return [start, end]
+    },
+  },
+]
 </script>
