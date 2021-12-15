@@ -27,8 +27,8 @@
           ></el-date-picker>
         </el-form-item>
       </el-col>
-      <el-col class="line" :span="2">
-        <span class="mx-2 text-gray-500">-</span>
+      <el-col class="text-center" :span="2">
+        <span class="text-gray-500">-</span>
       </el-col>
       <el-col :span="11">
         <el-form-item prop="date2">

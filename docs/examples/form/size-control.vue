@@ -29,7 +29,7 @@
           style="width: 100%"
         ></el-date-picker>
       </el-col>
-      <el-col class="line" :span="2" style="margin: 0 0.5rem">-</el-col>
+      <el-col class="text-center" :span="1" style="margin: 0 0.5rem">-</el-col>
       <el-col :span="11">
         <el-time-picker
           v-model="sizeForm.date2"

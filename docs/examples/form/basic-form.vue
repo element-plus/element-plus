@@ -18,8 +18,8 @@
           style="width: 100%"
         ></el-date-picker>
       </el-col>
-      <el-col class="line" :span="2">
-        <span class="mx-2 text-gray-500">-</span>
+      <el-col :span="2" class="text-center">
+        <span class="text-gray-500">-</span>
       </el-col>
       <el-col :span="11">
         <el-time-picker
