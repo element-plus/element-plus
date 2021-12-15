@@ -89,7 +89,7 @@
             :loading="cancelButtonLoading"
             :class="[cancelButtonClass]"
             :round="roundButton"
-            :size="buttonSize || 'small'"
+            :size="buttonSize || ''"
             @click="handleAction('cancel')"
             @keydown.prevent.enter="handleAction('cancel')"
           >
@@ -104,7 +104,7 @@
             :class="[confirmButtonClasses]"
             :round="roundButton"
             :disabled="confirmButtonDisabled"
-            :size="buttonSize || 'small'"
+            :size="buttonSize || ''"
             @click="handleAction('confirm')"
             @keydown.prevent.enter="handleAction('confirm')"
           >
