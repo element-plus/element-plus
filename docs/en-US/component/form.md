@@ -22,10 +22,6 @@ The component has been upgraded with a flex layout to replace the old float layo
     width: 460px;
   }
 
-  .line {
-    text-align: center;
-  }
-
   .el-checkbox-group {
     width: 320px;
     margin: 0;

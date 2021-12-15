@@ -15,20 +15,15 @@
   </el-form>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      formInline: {
-        user: '',
-        region: '',
-      },
-    }
-  },
-  methods: {
-    onSubmit() {
-      console.log('submit!')
-    },
-  },
+<script lang="ts" setup>
+import { reactive } from 'vue'
+
+const formInline = reactive({
+  user: '',
+  region: '',
+})
+
+const onSubmit = () => {
+  console.log('submit!')
 }
 </script>

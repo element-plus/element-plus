@@ -14,8 +14,12 @@ $button-border-width: 1px;
 
 @include b(button) {
   display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
   line-height: 1;
-  min-height: map.get($input-height, 'default');
+  // min-height will expand when in flex
+  height: map.get($input-height, 'default');
   white-space: nowrap;
   cursor: pointer;
   background-color: var(--el-button-bg-color, #{map.get($button, 'bg-color')});
@@ -185,11 +189,11 @@ $button-border-width: 1px;
 
   @each $size in (large, small) {
     @include m($size) {
-      min-height: map.get($input-height, $size);
+      height: map.get($input-height, $size);
 
       @include button-size(
-        map.get($button-padding-vertical, $size),
-        map.get($button-padding-horizontal, $size),
+        map.get($button-padding-vertical, $size) - $button-border-width,
+        map.get($button-padding-horizontal, $size) - $button-border-width,
         map.get($button-font-size, $size),
         map.get($button-border-radius, $size)
       );

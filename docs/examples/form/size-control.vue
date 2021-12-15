@@ -56,6 +56,10 @@
         <el-radio border label="Venue"></el-radio>
       </el-radio-group>
     </el-form-item>
+    <el-form-item>
+      <el-button type="primary" @click="onSubmit">Create</el-button>
+      <el-button>Cancel</el-button>
+    </el-form-item>
     <el-form-item size="large">
       <el-button type="primary" @click="onSubmit">Create</el-button>
       <el-button>Cancel</el-button>

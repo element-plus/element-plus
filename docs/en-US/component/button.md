@@ -125,9 +125,6 @@ button/custom
 <style lang="scss">
 .example-showcase {
   .el-row {
-    margin-bottom: 20px;
-    align-items: baseline;
-
     &:last-child {
       margin-bottom: 0;
     }

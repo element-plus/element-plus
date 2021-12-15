@@ -36,6 +36,28 @@
       :suffix-icon="Search"
     />
   </div>
+  <div class="demo-input-size">
+    <el-input
+      v-model="input1"
+      class="w-50 m-2"
+      size="large"
+      placeholder="Please Input"
+      :prefix-icon="Search"
+    ></el-input>
+    <el-input
+      v-model="input2"
+      class="w-50 m-2"
+      placeholder="Please Input"
+      :prefix-icon="Search"
+    />
+    <el-input
+      v-model="input3"
+      class="w-50 m-2"
+      size="small"
+      placeholder="Please Input"
+      :prefix-icon="Search"
+    />
+  </div>
 </template>
 
 <script lang="ts" setup>
