@@ -26,31 +26,11 @@
   </el-table>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const state = reactive({
-      tableData: [
-        {
-          date: '2016-05-02',
-          name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District',
-        },
-        {
-          date: '2016-05-04',
-          name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District',
-        },
-        {
-          date: '2016-05-01',
-          name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District',
-        },
-      ],
-      loading: true,
-      svg: `
+const loading = ref(true)
+const svg = `
         <path class="path" d="
           M 30 15
           L 28 17
@@ -59,9 +39,22 @@ export default defineComponent({
           A 15 15, 0, 1, 1, 27.99 7.5
           L 15 15
         " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>
-      `,
-    })
-    return toRefs(state)
+      `
+const tableData = [
+  {
+    date: '2016-05-02',
+    name: 'John Smith',
+    address: 'No.1518,  Jinshajiang Road, Putuo District',
   },
-})
+  {
+    date: '2016-05-04',
+    name: 'John Smith',
+    address: 'No.1518,  Jinshajiang Road, Putuo District',
+  },
+  {
+    date: '2016-05-01',
+    name: 'John Smith',
+    address: 'No.1518,  Jinshajiang Road, Putuo District',
+  },
+]
 </script>
