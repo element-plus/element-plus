@@ -69,7 +69,7 @@
   "devDependencies": {
     "@commitlint/cli": "15.0.0",
     "@commitlint/config-conventional": "15.0.0",
-    "@pnpm/find-workspace-packages": "3.1.28",
+    "@pnpm/find-workspace-packages": "3.1.30",
     "@pnpm/logger": "4.0.0",
     "@pnpm/types": "7.6.0",
     "@rollup/plugin-commonjs": "21.0.1",
