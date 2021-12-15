@@ -11,7 +11,7 @@ export const getWorkspaceNames = async (dir = projRoot) => {
   return pkgs
     .filter((pkg) => pkg.dir.startsWith(dir))
     .map((pkg) => pkg.manifest.name)
-    .filter((name): name is string => !!name)
+    .filter(Boolean)
 }
 
 export const getPackageManifest = (pkgPath: string) => {

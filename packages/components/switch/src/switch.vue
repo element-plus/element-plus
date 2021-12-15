@@ -61,7 +61,7 @@
             :class="checked ? 'is-show' : 'is-hide'"
             :aria-hidden="!checked"
           >
-            {{ activeText.substr(0, 1) }}
+            {{ activeText.substring(0, 1) }}
           </span>
           <span
             v-if="inactiveText"
@@ -69,7 +69,7 @@
             :class="!checked ? 'is-show' : 'is-hide'"
             :aria-hidden="checked"
           >
-            {{ inactiveText.substr(0, 1) }}
+            {{ inactiveText.substring(0, 1) }}
           </span>
         </template>
       </div>

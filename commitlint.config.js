@@ -9,7 +9,7 @@ async function getPackages(context) {
   const packages = await getWorkspacePackages(cwd)
   return packages
     .map((pkg) => pkg.manifest.name)
-    .filter((name) => !!name)
+    .filter(Boolean)
     .map((name) => (name.charAt(0) === '@' ? name.split('/')[1] : name))
 }
 
