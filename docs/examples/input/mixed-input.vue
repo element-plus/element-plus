@@ -4,12 +4,12 @@
       <template #prepend>Http://</template>
     </el-input>
   </div>
-  <div style="margin-top: 15px">
+  <div class="mt-4">
     <el-input v-model="input2" placeholder="Please input">
       <template #append>.com</template>
     </el-input>
   </div>
-  <div style="margin-top: 15px">
+  <div class="mt-4">
     <el-input
       v-model="input3"
       placeholder="Please input"
