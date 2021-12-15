@@ -24,15 +24,9 @@
   </el-dialog>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    return {
-      outerVisible: ref(false),
-      innerVisible: ref(false),
-    }
-  },
-})
+const outerVisible = ref(false)
+const innerVisible = ref(false)
 </script>
