@@ -4,21 +4,12 @@
   </ul>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
-
-export default defineComponent({
-  setup() {
-    const count = ref(0)
-    const load = () => {
-      count.value += 2
-    }
-    return {
-      count,
-      load,
-    }
-  },
-})
+<script lang="ts" setup>
+import { ref } from 'vue'
+const count = ref(0)
+const load = () => {
+  count.value += 2
+}
 </script>
 
 <style lang="scss">

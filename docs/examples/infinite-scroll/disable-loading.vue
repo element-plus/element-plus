@@ -12,31 +12,19 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed } from 'vue'
+<script lang="ts" setup>
+import { ref, computed } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const count = ref(10)
-    const loading = ref(false)
-    const noMore = computed(() => count.value >= 20)
-    const disabled = computed(() => loading.value || noMore.value)
-    const load = () => {
-      loading.value = true
-      setTimeout(() => {
-        count.value += 2
-        loading.value = false
-      }, 2000)
-    }
-    return {
-      count,
-      loading,
-      noMore,
-      disabled,
-      load,
-    }
-  },
-})
+const count = ref(10)
+const loading = ref(false)
+const noMore = computed(() => count.value >= 20)
+const load = () => {
+  loading.value = true
+  setTimeout(() => {
+    count.value += 2
+    loading.value = false
+  }, 2000)
+}
 </script>
 
 <style lang="scss">
