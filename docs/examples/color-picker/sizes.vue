@@ -6,18 +6,10 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const color = ref('409EFF')
-
-    return {
-      color,
-    }
-  },
-})
+const color = ref('409EFF')
 </script>
 
 <style lang="scss">
