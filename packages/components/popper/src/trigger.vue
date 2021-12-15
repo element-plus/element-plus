@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, ref, watch } from 'vue'
+import { defineComponent, inject, watch } from 'vue'
 import { ElOnlyChild } from '@element-plus/components/slot'
 import { useForwardRef } from '@element-plus/hooks'
 import { usePopperTriggerProps } from './popper'
@@ -33,15 +33,14 @@ export default defineComponent({
     open: Boolean,
   },
   setup(props) {
-    const triggerRef = ref<HTMLElement | null>(null)
-    const popperInjection = inject(POPPER_INJECTION_KEY, undefined)!
-    useForwardRef(popperInjection.triggerRef)
+    const { triggerRef } = inject(POPPER_INJECTION_KEY, undefined)!
+    useForwardRef(triggerRef)
 
     watch(
       () => props.virtualRef,
       (val) => {
         if (val) {
-          popperInjection.triggerRef.value = unwrapMeasurableEl(val)
+          triggerRef.value = unwrapMeasurableEl(val)
         }
       },
       {
@@ -50,7 +49,7 @@ export default defineComponent({
     )
 
     watch(
-      () => popperInjection.triggerRef.value,
+      () => triggerRef.value,
       (val) => {
         if (val && val instanceof HTMLElement) {
           ;[
@@ -71,6 +70,9 @@ export default defineComponent({
             }
           })
         }
+      },
+      {
+        immediate: true,
       }
     )
 

@@ -19,6 +19,7 @@ import {
   provide,
   unref,
   onMounted,
+  onBeforeUnmount,
   watch,
 } from 'vue'
 import { createPopper } from '@popperjs/core'
@@ -79,6 +80,7 @@ export default defineComponent({
 
     onMounted(() => {
       const popperContentEl = unref(popperContentRef)!
+      contentRef.value = popperContentEl
       const referenceEl =
         unwrapMeasurableEl(props.referenceEl) || unref(triggerRef)
       const arrowEl = unref(arrowRef)
@@ -105,14 +107,18 @@ export default defineComponent({
         () => referenceEl.getBoundingClientRect(),
         () => {
           instance.update()
+        },
+        {
+          immediate: true,
         }
       )
 
       watch(
         () => props.referenceEl || unref(triggerRef),
         (val) => {
+          popperInstanceRef.value?.destroy()
+
           if (val) {
-            instance.destroy()
             const newInstance = createPopperInstance({
               referenceEl: val,
               popperContentEl,
@@ -120,20 +126,21 @@ export default defineComponent({
             })
             popperInstanceRef.value = newInstance
             newInstance.update()
+          } else {
+            popperInstanceRef.value = null
           }
         }
       )
     })
 
-    watch(
-      () => popperContentRef.value,
-      (val) => {
-        contentRef.value = val
-      }
-    )
+    onBeforeUnmount(() => {
+      popperInstanceRef.value?.destroy()
+      popperInstanceRef.value = null
+    })
 
     return {
       popperContentRef,
+      popperInstanceRef,
       contentStyle,
       contentClass,
     }
