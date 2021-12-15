@@ -47,10 +47,11 @@
       :min="min"
       :name="name"
       :label="label"
+      :validate-event="false"
       @keydown.up.prevent="increase"
       @keydown.down.prevent="decrease"
-      @blur="(event) => $emit('blur', event)"
-      @focus="(event) => $emit('focus', event)"
+      @blur="handleBlur"
+      @focus="handleFocus"
       @input="handleInput"
       @change="handleInputChange"
     />
@@ -69,7 +70,7 @@ import {
 
 import { ElIcon } from '@element-plus/components/icon'
 import { RepeatClick } from '@element-plus/directives'
-import { useDisabled, useSize } from '@element-plus/hooks'
+import { useDisabled, useFormItem, useSize } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import { isNumber } from '@element-plus/utils/util'
 import { debugWarn } from '@element-plus/utils/error'
@@ -104,6 +105,7 @@ export default defineComponent({
       currentValue: props.modelValue,
       userInput: null,
     })
+    const { formItem } = useFormItem()
 
     const minDisabled = computed(() => _decrease(props.modelValue) < props.min)
     const maxDisabled = computed(() => _increase(props.modelValue) > props.max)
@@ -203,6 +205,7 @@ export default defineComponent({
       emit('update:modelValue', newVal)
       emit('input', newVal)
       emit('change', newVal, oldVal)
+      formItem?.validate?.('change')
       data.currentValue = newVal
     }
     const handleInput = (value: string) => {
@@ -222,6 +225,15 @@ export default defineComponent({
 
     const blur = () => {
       input.value?.blur?.()
+    }
+
+    const handleFocus = (event: MouseEvent) => {
+      emit('focus', event)
+    }
+
+    const handleBlur = (event: MouseEvent) => {
+      emit('blur', event)
+      formItem?.validate?.('blur')
     }
 
     watch(
@@ -286,6 +298,8 @@ export default defineComponent({
       minDisabled,
       focus,
       blur,
+      handleFocus,
+      handleBlur,
     }
   },
 })
