@@ -34,7 +34,9 @@ export default (props: IUseHandlersProps) => {
     uploadRef.value.abort(file)
   }
 
-  function clearFiles(status: UploadStatus[] = ['success', 'fail']) {
+  function clearFiles(
+    status: UploadStatus[] = ['ready', 'uploading', 'success', 'fail']
+  ) {
     uploadFiles.value = uploadFiles.value.filter((row) => {
       return status.indexOf(row.status) === -1
     })
