@@ -10,14 +10,7 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
-
-export default defineComponent({
-  setup() {
-    return {
-      value: ref(false),
-    }
-  },
-})
+<script lang="ts" setup>
+import { ref } from 'vue'
+const value = ref(false)
 </script>

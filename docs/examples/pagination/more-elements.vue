@@ -50,28 +50,20 @@
     </el-pagination>
   </div>
 </template>
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const handleSizeChange = (val) => {
-      console.log(`${val} items per page`)
-    }
-    const handleCurrentChange = (val) => {
-      console.log(`current page: ${val}`)
-    }
+const currentPage1 = ref(5)
+const currentPage2 = ref(5)
+const currentPage3 = ref(5)
+const currentPage4 = ref(4)
 
-    return {
-      currentPage1: ref(5),
-      currentPage2: ref(5),
-      currentPage3: ref(5),
-      currentPage4: ref(4),
-      handleSizeChange,
-      handleCurrentChange,
-    }
-  },
-})
+const handleSizeChange = (val: number) => {
+  console.log(`${val} items per page`)
+}
+const handleCurrentChange = (val: number) => {
+  console.log(`current page: ${val}`)
+}
 </script>
 
 <style lang="scss" scoped>
