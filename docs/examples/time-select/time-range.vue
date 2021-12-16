@@ -20,15 +20,11 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      startTime: '',
-      endTime: '',
-    }
-  },
-}
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const startTime = ref('')
+const endTime = ref('')
 </script>
 
 <style lang="scss">
