@@ -17,7 +17,7 @@ importers:
       '@element-plus/utils': workspace:*
       '@pnpm/find-workspace-packages': 3.1.30
       '@pnpm/logger': 4.0.0
-      '@pnpm/types': 7.6.0
+      '@pnpm/types': 7.7.1
       '@popperjs/core': ^2.10.2
       '@rollup/plugin-commonjs': 21.0.1
       '@rollup/plugin-node-resolve': 13.1.1
@@ -96,7 +96,7 @@ importers:
       '@commitlint/config-conventional': 15.0.0
       '@pnpm/find-workspace-packages': 3.1.30_@pnpm+logger@4.0.0
       '@pnpm/logger': 4.0.0
-      '@pnpm/types': 7.6.0
+      '@pnpm/types': 7.7.1
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.61.1
       '@rollup/plugin-node-resolve': 13.1.1_rollup@2.61.1
       '@rollup/plugin-replace': 3.0.0_rollup@2.61.1
@@ -1515,11 +1515,6 @@ packages:
       archy: 1.0.0
       chalk: 4.1.2
       cli-columns: 4.0.0
-    dev: true
-
-  /@pnpm/types/7.6.0:
-    resolution: {integrity: sha512-P4kJm0iCn+Hk+1P/OobJQSOD8/Eu1C4bfuWlow8QXNp+FeRm1yGSOF1HKfznxGbE0YoavPnrhgKYLbEoJg/KNA==}
-    engines: {node: '>=12.17'}
     dev: true
 
   /@pnpm/types/7.7.1:

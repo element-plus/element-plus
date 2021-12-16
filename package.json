@@ -71,7 +71,7 @@
     "@commitlint/config-conventional": "15.0.0",
     "@pnpm/find-workspace-packages": "3.1.30",
     "@pnpm/logger": "4.0.0",
-    "@pnpm/types": "7.6.0",
+    "@pnpm/types": "7.7.1",
     "@rollup/plugin-commonjs": "21.0.1",
     "@rollup/plugin-node-resolve": "13.1.1",
     "@rollup/plugin-replace": "3.0.0",
