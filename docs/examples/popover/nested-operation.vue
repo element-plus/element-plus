@@ -15,14 +15,8 @@
   </el-popover>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    return {
-      visible: ref(false),
-    }
-  },
-})
+const visible = ref(false)
 </script>
