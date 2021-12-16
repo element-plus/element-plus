@@ -27,17 +27,18 @@
     }
   }
 
-  .#{$namespace}-icon {
-    vertical-align: text-bottom;
-  }
-
   @include e((increase, decrease)) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+
     position: absolute;
     z-index: 1;
     top: 1px;
+    bottom: 1px;
+
     width: map.get($input-height, 'default');
-    height: auto;
-    text-align: center;
     background: var(--el-bg-color);
     color: var(--el-text-color-regular);
     cursor: pointer;
