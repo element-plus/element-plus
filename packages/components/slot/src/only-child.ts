@@ -8,7 +8,7 @@ import {
   withDirectives,
   inject,
 } from 'vue'
-import { NOOP } from '@vue/shared'
+import { NOOP, isObject } from '@vue/shared'
 import {
   FORWARD_REF_INJECTION_KEY,
   useForwardRefDirective,
@@ -50,20 +50,31 @@ function findFirstLegitChild(node: VNode[] | undefined) {
   if (!node) return null
   const children = node as VNode[]
   for (let i = 0; i < children.length; i++) {
+    /**
+     * when user uses h(Fragment, [text]) to render plain string,
+     * this switch case just cannot handle, when the value is primitives
+     * we should just return the wrapped string
+     */
     const child = children[i]
-
-    switch (child.type) {
-      case Comment:
-        continue
-      case Text:
-        return h('span', { class: 'el-only-child__content' }, [child])
-      case Fragment:
-        return findFirstLegitChild(child.children as VNode[])
-      default:
-        return child
+    if (isObject(child)) {
+      switch (child.type) {
+        case Comment:
+          continue
+        case Text:
+          return wrapTextContent(child)
+        case Fragment:
+          return findFirstLegitChild(child.children as VNode[])
+        default:
+          return child
+      }
     }
+    return wrapTextContent(child)
   }
   return null
+}
+
+function wrapTextContent(s: string | VNode) {
+  return h('span', { class: 'el-only-child__content' }, [s])
 }
 
 export default OnlyChild

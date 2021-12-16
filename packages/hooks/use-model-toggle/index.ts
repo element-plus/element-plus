@@ -2,11 +2,7 @@ import { computed, getCurrentInstance, watch, onMounted } from 'vue'
 import { isFunction } from '@vue/shared'
 import { isClient } from '@vueuse/core'
 import { isBool } from '@element-plus/utils/util'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import {
-  buildProp,
-  definePropType,
-} from '@element-plus/utils/props'
+import { buildProp, definePropType } from '@element-plus/utils/props'
 import type { RouteLocationNormalizedLoaded } from 'vue-router'
 
 import type { Ref, ComponentPublicInstance, ExtractPropTypes } from 'vue'
@@ -75,7 +71,7 @@ export const createModelToggleComposable = (name: string) => {
       )
         return
 
-    const shouldEmit = hasUpdateHandler.value && isClient
+      const shouldEmit = hasUpdateHandler.value && isClient
 
       if (shouldEmit) {
         emit(updateEventKey, true)
@@ -86,10 +82,10 @@ export const createModelToggleComposable = (name: string) => {
       }
     }
 
-  const hide = () => {
-    if (props.disabled === true || !isClient) return
+    const hide = () => {
+      if (props.disabled === true || !isClient) return
 
-    const shouldEmit = hasUpdateHandler.value && isClient
+      const shouldEmit = hasUpdateHandler.value && isClient
 
       if (shouldEmit) {
         emit(updateEventKey, false)
