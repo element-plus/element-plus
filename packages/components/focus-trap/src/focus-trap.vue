@@ -165,7 +165,7 @@ export default defineComponent({
         on(trapContainer, FOCUS_ON_UNMOUNT, focusOnUnmount)
         trapContainer.dispatchEvent(unmountEvent)
 
-        if (unmountEvent.defaultPrevented) {
+        if (!unmountEvent.defaultPrevented) {
           tryFocus(lastFocusBeforeMounted ?? document.body, true)
         }
 

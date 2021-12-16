@@ -57,7 +57,7 @@ export const isHidden = (element: HTMLElement, container: HTMLElement) => {
 export const getEdges = (container: HTMLElement) => {
   const focusable = obtainAllFocusableElements(container)
   const first = getVisibleElement(focusable, container)
-  const last = getVisibleElement(focusable, container)
+  const last = getVisibleElement(focusable.reverse(), container)
   return [first, last]
 }
 
@@ -90,7 +90,7 @@ function removeFromStack<T>(list: T[], item: T) {
   const idx = list.indexOf(item)
 
   if (idx !== -1) {
-    return [...copy.slice(0, idx), ...copy.slice(idx + 1)]
+    copy.splice(idx, 1)
   }
   return copy
 }
@@ -105,7 +105,7 @@ const createFocusableStack = () => {
       currentLayer.pause()
     }
 
-    stack = removeFromStack(stack, currentLayer)
+    stack = removeFromStack(stack, layer)
     stack.unshift(layer)
   }
 
