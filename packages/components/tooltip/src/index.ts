@@ -104,6 +104,7 @@ export default defineComponent({
         fallbackPlacements: fallbackPlacements.length
           ? fallbackPlacements
           : ['bottom-start', 'top-start', 'right', 'left'],
+        gpuAcceleration: false,
       },
       {
         default: () => ($slots.content ? $slots.content() : content),
