@@ -63,7 +63,6 @@ const clearFilter = () => {
   tableRef.value!.clearFilter()
 }
 const formatter = (row: User, column: TableColumnCtx<User>) => {
-  console.log('column: ', column)
   return row.address
 }
 const filterTag = (value: string, row: User) => {
