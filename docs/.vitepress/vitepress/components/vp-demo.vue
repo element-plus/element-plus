@@ -9,7 +9,7 @@ import { usePlayGround } from '../composables/use-playground'
 import demoBlockLocale from '../../i18n/component/demo-block.json'
 import GithubIcon from './icons/github.vue'
 import SourceCodeIcon from './icons/source-code.vue'
-import CodepenIcon from './icons/codepen.vue'
+import PlayGroundIcon from './icons/playground.vue'
 import CopyIcon from './icons/copy-icon.vue'
 
 import Example from './demo/vp-example.vue'
@@ -98,7 +98,7 @@ const copyCode = async () => {
   try {
     await copy()
     $message.success(locale.value['copy-success'])
-  } catch (e: Error) {
+  } catch (e: any) {
     $message.error(e.message)
   }
 }
@@ -112,7 +112,7 @@ const copyCode = async () => {
       <div class="op-btns">
         <ElTooltip :content="locale['edit-in-codepen']" :visible-arrow="false">
           <ElIcon :size="20" class="op-btn">
-            <CodepenIcon @click="onCodepenClicked" />
+            <PlayGroundIcon @click="onCodepenClicked" />
           </ElIcon>
         </ElTooltip>
         <ElTooltip :content="locale['edit-on-github']" :visible-arrow="false">
