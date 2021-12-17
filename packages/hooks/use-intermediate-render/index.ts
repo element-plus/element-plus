@@ -34,7 +34,7 @@ export const useDelayedRender = ({
       } else {
         beforeHide?.()
         nextTick(() => {
-          if (!unref(indicator)) return
+          if (unref(indicator)) return
           intermediateIndicator.value = false
           nextTick(() => {
             afterHide?.()

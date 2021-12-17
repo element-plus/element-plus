@@ -1,13 +1,13 @@
 <template>
   <el-teleport
-    v-if="persistent ? true : entering ? open : intermediateOpen"
+    v-if="shouldRenderTeleport"
     :disabled="!teleported"
     :container="POPPER_CONTAINER_SELECTOR"
   >
     <transition :name="transition" @after-leave="onTransitionLeave">
       <el-popper-content
-        v-if="persistent ? true : leaving ? open : intermediateOpen"
-        v-show="persistent ? (leaving ? open : intermediateOpen) : true"
+        v-if="shouldRenderPopperContent"
+        v-show="shouldShowPopperContent"
         v-bind="derivedProps"
         :style="contentStyle"
         @mouseenter="onContentEnter"
@@ -53,7 +53,25 @@ export default defineComponent({
     const { controlled, id, open, trigger, onClose, onOpen, onShow, onHide } =
       inject(TOOLTIP_INJECTION_KEY, undefined)!
 
-    const contentStyle = computed(() => attrs.style as any)
+    const contentStyle = computed(() => (props.style ?? {}) as any)
+    const shouldRenderTeleport = computed(() => {
+      if (props.persistent) return true
+      return unref(entering) ? unref(open) : unref(intermediateOpen)
+    })
+
+    const shouldRenderPopperContent = computed(() => {
+      if (props.persistent) return true
+      return unref(leaving) ? unref(open) : unref(intermediateOpen)
+    })
+
+    const shouldShowPopperContent = computed(() => {
+      // This is for control persistent mode transition
+      // When persistent this element will always be rendered, we simply use v-show to control the transition
+      if (props.persistent) {
+        return unref(leaving) ? unref(open) : unref(intermediateOpen)
+      }
+      return true
+    })
 
     useEscapeKeydown(onClose)
 
@@ -61,16 +79,28 @@ export default defineComponent({
       indicator: open,
       intermediateIndicator: intermediateOpen,
       beforeShow: () => {
+        // indicates interruption of hide transition
+        if (unref(leaving)) {
+          leaving.value = false
+          intermediateOpen.value = false
+        }
         entering.value = true
       },
       beforeHide: () => {
+        // indicates interruption of show transition
+        if (unref(entering)) {
+          entering.value = false
+          return
+        }
         leaving.value = true
       },
       afterShow: () => {
+        if (!unref(open)) return
         entering.value = false
         onShow()
       },
       afterHide: () => {
+        if (unref(open)) return
         // prevent the content from hiding if it's still open
         onHide()
       },
@@ -104,6 +134,9 @@ export default defineComponent({
       id,
       intermediateOpen,
       contentStyle,
+      shouldRenderTeleport,
+      shouldRenderPopperContent,
+      shouldShowPopperContent,
       open,
       POPPER_CONTAINER_SELECTOR,
       onContentEnter,
