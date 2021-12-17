@@ -108,40 +108,39 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .box {
   width: 400px;
+}
+.box .top {
+  text-align: center;
+}
 
-  .top {
-    text-align: center;
-  }
+.box .left {
+  float: left;
+  width: 110px;
+}
 
-  .left {
-    float: left;
-    width: 110px;
-  }
+.box .right {
+  float: right;
+  width: 110px;
+}
 
-  .right {
-    float: right;
-    width: 110px;
-  }
+.box .bottom {
+  clear: both;
+  text-align: center;
+}
 
-  .bottom {
-    clear: both;
-    text-align: center;
-  }
+.box .item {
+  margin: 4px;
+}
 
-  .item {
-    margin: 4px;
-  }
+.box .left .el-tooltip__popper,
+.box .right .el-tooltip__popper {
+  padding: 8px 10px;
+}
 
-  .left .el-tooltip__popper,
-  .right .el-tooltip__popper {
-    padding: 8px 10px;
-  }
-
-  .el-button {
-    width: 110px;
-  }
+.el-button {
+  width: 110px;
 }
 </style>

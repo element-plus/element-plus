@@ -27,27 +27,26 @@ const load = () => {
 }
 </script>
 
-<style lang="scss">
+<style>
 .infinite-list-wrapper {
   height: 300px;
   text-align: center;
+}
+.infinite-list-wrapper .list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
 
-  .list {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
-
-  .list-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 50px;
-    background: var(--el-color-danger-lighter);
-    color: var(--el-color-danger);
-    & + .list-item {
-      margin-top: 10px;
-    }
-  }
+.infinite-list-wrapper .list-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  background: var(--el-color-danger-lighter);
+  color: var(--el-color-danger);
+}
+.infinite-list-wrapper .list-item + .list-item {
+  margin-top: 10px;
 }
 </style>

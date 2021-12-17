@@ -16,19 +16,17 @@ const urls = [
 ]
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .demo-image__lazy {
   height: 400px;
   overflow-y: auto;
-
-  .el-image {
-    display: block;
-    min-height: 200px;
-    margin-bottom: 10px;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
+}
+.demo-image__lazy .el-image {
+  display: block;
+  min-height: 200px;
+  margin-bottom: 10px;
+}
+.demo-image__lazy .el-image:last-child {
+  margin-bottom: 0;
 }
 </style>

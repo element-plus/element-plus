@@ -29,10 +29,8 @@ const options = Array.from({ length: 1000 }).map((_, idx) => ({
 const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 </script>
 
-<style lang="scss" scoped>
-.example-showcase {
-  .el-select-v2 {
-    margin-right: 20px;
-  }
+<style scoped>
+.example-showcase .el-select-v2 {
+  margin-right: 20px;
 }
 </style>

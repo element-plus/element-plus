@@ -12,10 +12,8 @@ import { ref } from 'vue'
 const color = ref('409EFF')
 </script>
 
-<style lang="scss">
-.demo-color-sizes {
-  .el-color-picker:not(:last-child) {
-    margin-right: 16px;
-  }
+<style>
+.demo-color-sizes .el-color-picker:not(:last-child) {
+  margin-right: 16px;
 }
 </style>

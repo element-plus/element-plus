@@ -27,10 +27,8 @@ const startTime = ref('')
 const endTime = ref('')
 </script>
 
-<style lang="scss">
-.demo-time-range {
-  .el-select {
-    margin-right: 8px;
-  }
+<style>
+.demo-time-range .el-select {
+  margin-right: 8px;
 }
 </style>

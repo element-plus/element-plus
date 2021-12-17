@@ -66,7 +66,7 @@ const handleCurrentChange = (val: number) => {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .demo-pagination-block + .demo-pagination-block {
   margin-top: 10px;
 }

@@ -49,12 +49,12 @@ const props = {
 const data = createData(4, 30, 40)
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .prefix {
   color: var(--el-color-primary);
   margin-right: 10px;
-  &.is-leaf {
-    color: var(--el-color-success);
-  }
+}
+.prefix.is-leaf {
+  color: var(--el-color-success);
 }
 </style>

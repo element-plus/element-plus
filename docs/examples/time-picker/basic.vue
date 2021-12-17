@@ -51,10 +51,8 @@ const disabledSeconds = (hour: number, minute: number) => {
 }
 </script>
 
-<style lang="scss">
-.demo-basic {
-  .el-date-editor {
-    margin: 8px;
-  }
+<style>
+.demo-basic .el-date-editor {
+  margin: 8px;
 }
 </style>
