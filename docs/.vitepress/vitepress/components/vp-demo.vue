@@ -110,7 +110,7 @@ const copyCode = async () => {
     <p class="example-description" v-html="decodedDescription" />
     <div class="example">
       <div class="op-btns">
-        <ElTooltip :content="locale['edit-in-codepen']" :visible-arrow="false">
+        <ElTooltip :content="locale['edit-in-editor']" :visible-arrow="false">
           <ElIcon :size="20" class="op-btn">
             <PlayGroundIcon @click="onCodepenClicked" />
           </ElIcon>
