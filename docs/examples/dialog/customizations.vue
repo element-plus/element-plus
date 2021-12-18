@@ -19,6 +19,7 @@
     </el-table>
   </el-dialog>
 
+  <br />
   <!-- Form -->
   <el-button type="text" @click="dialogFormVisible = true"
     >open a Form nested Dialog</el-button

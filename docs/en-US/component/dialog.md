@@ -46,6 +46,22 @@ dialog/basic-usage
 
 :::
 
+## Set draggable
+
+Dialog can be dragged by your mouse when you set `:draggable = "true"`
+
+:::demo Set `:resettable = "true"` can reset the dialog to the initial position when it is dragged outside the window range.
+
+dialog/draggable
+
+:::
+
+:::tip
+
+`draggable` is invalid when `fullscreen` is set
+
+:::
+
 ## Customizations
 
 The content of Dialog can be anything, even a table or a form. This example shows how to use Element Plus Table and Form with Dialog。
@@ -107,6 +123,8 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 | width                 | width of Dialog                                                                                   | string / number                                  | —               | 50%     |
 | fullscreen            | whether the Dialog takes up full screen                                                           | boolean                                          | —               | false   |
 | top                   | value for `margin-top` of Dialog CSS                                                              | string                                           | —               | 15vh    |
+| draggable             | whether the Dialog can be dragged                                                                 | boolean                                          | —               | false   |
+| resettable            | Whether the dialog is reset to the initial position when it is dragged outside the window range   | boolean                                          | —               | false   |
 | modal                 | whether a mask is displayed                                                                       | boolean                                          | —               | true    |
 | append-to-body        | whether to append Dialog itself to body. A nested Dialog should have this attribute set to `true` | boolean                                          | —               | false   |
 | lock-scroll           | whether scroll of body is disabled while Dialog is displayed                                      | boolean                                          | —               | true    |

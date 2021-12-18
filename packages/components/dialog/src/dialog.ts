@@ -36,6 +36,14 @@ export const dialogProps = buildProps({
     type: Boolean,
     default: true,
   },
+  draggable: {
+    type: Boolean,
+    default: false,
+  },
+  resettable: {
+    type: Boolean,
+    default: false,
+  },
   fullscreen: {
     type: Boolean,
     default: false,

@@ -1,10 +1,10 @@
 import { computed, ref, watch, nextTick, onMounted } from 'vue'
-import { useTimeoutFn, isClient } from '@vueuse/core'
+import { useTimeoutFn, isClient, useEventListener } from '@vueuse/core'
 
 import { useLockscreen, useRestoreActive, useModal } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import PopupManager from '@element-plus/utils/popup-manager'
-import { isNumber } from '@element-plus/utils/util'
+import { isNumber, rafThrottle } from '@element-plus/utils/util'
 
 import type { CSSProperties, Ref, SetupContext } from 'vue'
 import type { DialogEmits, DialogProps } from './dialog'
@@ -12,7 +12,8 @@ import type { DialogEmits, DialogProps } from './dialog'
 export const useDialog = (
   props: DialogProps,
   { emit }: SetupContext<DialogEmits>,
-  targetRef: Ref<HTMLElement | undefined>
+  targetRef: Ref<HTMLElement | undefined>,
+  wrapper: Ref<HTMLDivElement | undefined>
 ) => {
   const visible = ref(false)
   const closed = ref(false)
@@ -25,9 +26,70 @@ export const useDialog = (
   const normalizeWidth = computed(() =>
     isNumber(props.width) ? `${props.width}px` : props.width
   )
+  const transform = ref({
+    offsetX: 0,
+    offsetY: 0,
+  })
+  function handleMouseDown(e: MouseEvent) {
+    if (
+      !e.target.classList.contains('el-dialog__header') &&
+      !e.target.classList.contains('el-dialog__body') &&
+      !e.target.classList.contains('el-dialog__footer')
+    ) {
+      return
+    }
+    if (props.fullscreen || !props.draggable) return
+    if (e.button !== 0 || !wrapper.value) return
+    const { offsetX, offsetY } = transform.value
+    const startX = e.pageX
+    const startY = e.pageY
+
+    const divLeft = window.screenLeft
+    const divRight = window.screenLeft + window.innerWidth
+    const divTop = window.screenTop
+    const divBottom = window.screenTop + window.innerHeight
+
+    const dragHandler = rafThrottle((ev: MouseEvent) => {
+      transform.value = {
+        offsetX: offsetX + ev.pageX - startX,
+        offsetY: offsetY + ev.pageY - startY,
+      }
+    })
+    const removeMousemove = useEventListener(document, 'mousemove', dragHandler)
+    useEventListener(document, 'mouseup', (evt) => {
+      if (props.resettable) {
+        const mouseX = evt.clientX
+        const mouseY = evt.clientY
+        if (
+          mouseX < divLeft ||
+          mouseX > divRight ||
+          mouseY < divTop ||
+          mouseY > divBottom
+        ) {
+          reset()
+        }
+      }
+      removeMousemove()
+    })
+
+    e.preventDefault()
+  }
+
+  function reset() {
+    transform.value = {
+      offsetX: 0,
+      offsetY: 0,
+    }
+  }
 
   const style = computed<CSSProperties>(() => {
-    const style: CSSProperties = {}
+    let style: CSSProperties = {}
+    if (wrapper && props.draggable) {
+      style = {
+        left: `${transform.value.offsetX}px`,
+        top: `${transform.value.offsetY}px`,
+      }
+    }
     const varPrefix = `--el-dialog`
     if (!props.fullscreen) {
       if (props.top) {
@@ -143,6 +205,12 @@ export const useDialog = (
           if (targetRef.value) {
             targetRef.value.scrollTop = 0
           }
+          if (wrapper) {
+            transform.value = {
+              offsetX: 0,
+              offsetY: 0,
+            }
+          }
         })
       } else {
         // this.$el.removeEventListener('scroll', this.updatePopper
@@ -169,6 +237,7 @@ export const useDialog = (
     onModalClick,
     close,
     doClose,
+    handleMouseDown,
     closed,
     style,
     rendered,

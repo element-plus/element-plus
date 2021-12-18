@@ -91,7 +91,7 @@ export default defineComponent({
     )
 
     return {
-      ...useDialog(props, ctx, drawerRef),
+      ...useDialog(props, ctx, drawerRef, undefined),
       drawerRef,
       isHorizontal,
       drawerSize,

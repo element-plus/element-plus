@@ -14,6 +14,7 @@
         :z-index="zIndex"
       >
         <div
+          ref="wrapper"
           class="el-overlay-dialog"
           @click="overlayEvent.onClick"
           @mousedown="overlayEvent.onMousedown"
@@ -35,6 +36,7 @@
             :aria-label="title || 'dialog'"
             :style="style"
             @click.stop=""
+            @mousedown="handleMouseDown"
           >
             <div class="el-dialog__header">
               <slot name="title">
@@ -95,11 +97,13 @@ export default defineComponent({
 
   setup(props, ctx) {
     const dialogRef = ref<HTMLElement>()
-    const dialog = useDialog(props, ctx, dialogRef)
+    const wrapper = ref<HTMLDivElement>()
+    const dialog = useDialog(props, ctx, dialogRef, wrapper)
     const overlayEvent = useSameTarget(dialog.onModalClick)
 
     return {
       dialogRef,
+      wrapper,
       overlayEvent,
       ...dialog,
     }
