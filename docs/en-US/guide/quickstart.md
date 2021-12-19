@@ -46,7 +46,7 @@ You need to use an additional plugin to import components you used.
 
 #### Auto import <el-tag type="primary" style="vertical-align: middle;" effect="dark" size="small">Recommend</el-tag>
 
-First you need install `unplugin-vue-components` and `unplugin-auto-import`.
+First you need to install `unplugin-vue-components` and `unplugin-auto-import`.
 
 ```shell
 npm install -D unplugin-vue-components unplugin-auto-import
@@ -197,5 +197,5 @@ We can also use [Nuxt.js](https://nuxtjs.org)：
 
 ## Let's Get Started
 
-You can bootstrap your project from now on, for each components usage, please
-refer to individual component documentation.
+You can bootstrap your project from now on.  For each components usage, please
+refer to the individual component documentation.
