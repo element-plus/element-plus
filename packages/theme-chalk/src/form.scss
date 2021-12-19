@@ -121,6 +121,7 @@
   }
 
   @include when(error) {
+    & .#{$namespace}-select-v2__wrapper,
     & .#{$namespace}-input__inner,
     & .#{$namespace}-textarea__inner {
       &,
