@@ -11,6 +11,10 @@ export interface ElFormContext {
   removeField: (field: ElFormItemContext) => void
   resetFields: () => void
   clearValidate: (props: string | string[]) => void
+  validate: {
+    (): Promise<boolean>
+    (callback: ValidateCallback): void
+  }
   validateField: (props: string | string[], cb: ValidateFieldCallback) => void
   labelSuffix: string
   inline?: boolean
@@ -24,6 +28,10 @@ export interface ElFormContext {
   statusIcon?: boolean
   hideRequiredAsterisk?: boolean
   disabled?: boolean
+}
+
+export interface ValidateCallback {
+  (valid: boolean, failedFields?: ValidateFieldsError): void
 }
 
 export interface ValidateFieldCallback {
