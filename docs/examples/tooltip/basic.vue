@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <div class="top">
+    <div class="box-row">
       <el-tooltip
         class="item"
         effect="dark"
@@ -26,7 +26,7 @@
         <el-button>top-end</el-button>
       </el-tooltip>
     </div>
-    <div class="left">
+    <div class="box-row">
       <el-tooltip
         class="item"
         effect="dark"
@@ -38,6 +38,16 @@
       <el-tooltip
         class="item"
         effect="dark"
+        content="Right Top prompts info"
+        placement="right-start"
+      >
+        <el-button>right-start</el-button>
+      </el-tooltip>
+    </div>
+    <div class="box-row">
+      <el-tooltip
+        class="item"
+        effect="dark"
         content="Left Center prompts info"
         placement="left"
       >
@@ -46,29 +56,21 @@
       <el-tooltip
         class="item"
         effect="dark"
-        content="Left Bottom prompts info"
-        placement="left-end"
-      >
-        <el-button>left-end</el-button>
-      </el-tooltip>
-    </div>
-
-    <div class="right">
-      <el-tooltip
-        class="item"
-        effect="dark"
-        content="Right Top prompts info"
-        placement="right-start"
-      >
-        <el-button>right-start</el-button>
-      </el-tooltip>
-      <el-tooltip
-        class="item"
-        effect="dark"
         content="Right Center prompts info"
         placement="right"
       >
         <el-button>right</el-button>
+      </el-tooltip>
+    </div>
+
+    <div class="box-row">
+      <el-tooltip
+        class="item"
+        effect="dark"
+        content="Left Bottom prompts info"
+        placement="left-end"
+      >
+        <el-button>left-end</el-button>
       </el-tooltip>
       <el-tooltip
         class="item"
@@ -79,7 +81,7 @@
         <el-button>right-end</el-button>
       </el-tooltip>
     </div>
-    <div class="bottom">
+    <div class="box-row">
       <el-tooltip
         class="item"
         effect="dark"
@@ -111,37 +113,14 @@
 <style lang="scss" scoped>
 .box {
   width: 400px;
-
-  .top {
-    text-align: center;
-  }
-
-  .left {
-    float: left;
-    width: 110px;
-  }
-
-  .right {
-    float: right;
-    width: 110px;
-  }
-
-  .bottom {
-    clear: both;
-    text-align: center;
-  }
-
-  .item {
-    margin: 4px;
-  }
-
-  .left .el-tooltip__popper,
-  .right .el-tooltip__popper {
-    padding: 8px 10px;
-  }
-
-  .el-button {
-    width: 110px;
+  .box-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 0;
+    .item {
+      width: 122px;
+    }
   }
 }
 </style>
