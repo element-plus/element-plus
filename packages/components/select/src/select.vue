@@ -167,6 +167,7 @@
                   'el-input__icon',
                   'el-icon-' + iconClass,
                 ]"
+                @click="handlePickUpSelect"
               ></i>
               <i
                 v-if="showClose"
@@ -364,6 +365,7 @@ export default defineComponent({
       scrollbar,
       queryChange,
       groupQueryChange,
+      handlePickUpSelect,
     } = useSelect(props, states, ctx)
 
     const { focus } = useFocus(reference)
@@ -533,6 +535,7 @@ export default defineComponent({
       tags,
       selectWrapper,
       scrollbar,
+      handlePickUpSelect,
     }
   },
 })

@@ -738,6 +738,11 @@ export const useSelect = (props, states: States, ctx) => {
     deleteSelected(event)
   }
 
+  const handlePickUpSelect = (event: Event) => {
+    event.stopPropagation()
+    states.visible = !states.visible
+  }
+
   const handleClose = () => {
     states.visible = false
   }
@@ -857,5 +862,6 @@ export const useSelect = (props, states: States, ctx) => {
     tags,
     selectWrapper,
     scrollbar,
+    handlePickUpSelect,
   }
 }
