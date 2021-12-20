@@ -1,4 +1,6 @@
+import { unref } from 'vue'
 import { isArray } from '@element-plus/utils/util'
+import type { Ref } from 'vue'
 import type { Trigger } from './tooltip'
 
 export const isTriggerType = (trigger: Trigger | Trigger[], type: Trigger) => {
@@ -9,11 +11,11 @@ export const isTriggerType = (trigger: Trigger | Trigger[], type: Trigger) => {
 }
 
 export const whenTrigger = (
-  trigger: Trigger | Trigger[],
+  trigger: Ref<Trigger | Trigger[]>,
   type: Trigger,
   handler: (e: Event) => void
 ) => {
   return (e: Event) => {
-    isTriggerType(trigger, type) && handler(e)
+    isTriggerType(unref(trigger), type) && handler(e)
   }
 }

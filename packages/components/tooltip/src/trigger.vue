@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, ref, unref } from 'vue'
+import { defineComponent, inject, ref, unref, toRef } from 'vue'
 import { ElPopperTrigger } from '@element-plus/components/popper'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { composeEventHandlers } from '@element-plus/utils/dom'
@@ -45,31 +45,32 @@ export default defineComponent({
         return true
       }
     }
+    const trigger = toRef(props, 'trigger')
     const onMouseenter = composeEventHandlers(
       stopWhenControlled,
-      whenTrigger(props.trigger, 'hover', onOpen)
+      whenTrigger(trigger, 'hover', onOpen)
     )
     const onMouseleave = composeEventHandlers(
       stopWhenControlled,
-      whenTrigger(props.trigger, 'hover', onClose)
+      whenTrigger(trigger, 'hover', onClose)
     )
     const onMousedown = composeEventHandlers(
       stopWhenControlled,
-      whenTrigger(props.trigger, 'click', onToggle)
+      whenTrigger(trigger, 'click', onToggle)
     )
     const onFocus = composeEventHandlers(
       stopWhenControlled,
-      whenTrigger(props.trigger, 'focus', onOpen)
+      whenTrigger(trigger, 'focus', onOpen)
     )
 
     const onBlur = composeEventHandlers(
       stopWhenControlled,
-      whenTrigger(props.trigger, 'focus', onClose)
+      whenTrigger(trigger, 'focus', onClose)
     )
 
     const onContextMenu = composeEventHandlers(
       stopWhenControlled,
-      whenTrigger(props.trigger, 'contextmenu', (e: Event) => {
+      whenTrigger(trigger, 'contextmenu', (e: Event) => {
         e.preventDefault()
         onToggle(e)
       })

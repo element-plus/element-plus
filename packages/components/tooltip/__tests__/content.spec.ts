@@ -1,28 +1,31 @@
-import { nextTick, ref } from 'vue'
+import { nextTick } from 'vue'
 import ElTeleport from '@element-plus/components/teleport'
 import { shallowMount } from '@vue/test-utils'
-import ElToolTipContent from '../src/content.vue'
+import { genTooltipProvides } from './provides'
+import ElTooltipContent from '../src/content.vue'
 import { TOOLTIP_INJECTION_KEY } from '../src/tokens'
 
 const AXIOM = 'rem is the best girl'
 
 describe('<ElTooltipContent />', () => {
-  const onOpen = jest.fn()
-  const onClose = jest.fn()
-  const onToggle = jest.fn()
-  const onShow = jest.fn()
-  const onHide = jest.fn()
-  const id = ref('test_id')
-  const open = ref(false)
-  const controlled = ref(false)
-  const trigger = ref('hover')
+  const {
+    controlled,
+    id,
+    open,
+    trigger,
+    onOpen,
+    onClose,
+    onToggle,
+    onShow,
+    onHide,
+  } = genTooltipProvides()
 
   const defaultProvide = {
     [TOOLTIP_INJECTION_KEY as symbol]: {
       controlled,
       id,
-      trigger,
       open,
+      trigger,
       onOpen,
       onClose,
       onToggle,
@@ -32,7 +35,7 @@ describe('<ElTooltipContent />', () => {
   }
 
   const createComponent = (props = {}, provides = {}) =>
-    shallowMount(ElToolTipContent, {
+    shallowMount(ElTooltipContent, {
       props,
       global: {
         provide: {
