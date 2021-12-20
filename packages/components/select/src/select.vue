@@ -164,6 +164,7 @@
                 v-if="iconComponent"
                 v-show="!showClose"
                 :class="['el-select__caret', 'el-input__icon', iconReverse]"
+                @click="handlePickUpSelect"
               >
                 <component :is="iconComponent" />
               </el-icon>
@@ -369,6 +370,7 @@ export default defineComponent({
       blur,
       handleBlur,
       handleClearClick,
+      handlePickUpSelect,
       handleClose,
       toggleMenu,
       selectOption,
@@ -539,6 +541,7 @@ export default defineComponent({
       blur,
       handleBlur,
       handleClearClick,
+      handlePickUpSelect,
       handleClose,
       toggleMenu,
       selectOption,
