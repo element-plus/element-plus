@@ -4,7 +4,7 @@
       <el-icon><plus /></el-icon>
     </template>
     <template #file="{ file }">
-      <div>
+      <div class="el-upload-list__item">
         <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
         <span class="el-upload-list__item-actions">
           <span
@@ -65,3 +65,9 @@ export default {
   },
 }
 </script>
+<style scoped>
+.el-upload-list__item {
+   width:100%;
+   height:100%;
+}
+</style>
