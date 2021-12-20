@@ -38,7 +38,7 @@ export default (props: IUseHandlersProps) => {
     status: UploadStatus[] = ['ready', 'uploading', 'success', 'fail']
   ) {
     uploadFiles.value = uploadFiles.value.filter((row) => {
-      return status.indexOf(row.status) === -1
+      return !status.includes(row.status)
     })
   }
 
