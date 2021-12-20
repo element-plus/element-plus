@@ -31,8 +31,8 @@ const makeRange = (start, end) => {
 export default {
   data() {
     return {
-      value1: new Date(2016, 9, 10, 18, 40),
-      value2: new Date(2016, 9, 10, 18, 40),
+      value1: new Date(2016, 9, 10, 18, 30),
+      value2: new Date(2016, 9, 10, 18, 30),
     }
   },
   methods: {
