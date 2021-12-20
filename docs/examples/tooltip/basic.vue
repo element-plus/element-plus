@@ -118,7 +118,7 @@
     align-items: center;
     justify-content: space-between;
     .item {
-      width: 122px;
+      width: 110px;
     }
   }
 }
