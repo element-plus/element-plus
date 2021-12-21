@@ -201,7 +201,11 @@ export default function (
   function onVisibilityChange(toState: boolean) {
     if (toState) {
       popperStyle.value.zIndex = PopupManager.nextZIndex()
-      initializePopper()
+      if (popperInstance) {
+        popperInstance.update()
+      } else {
+        initializePopper()
+      }
     }
   }
 
