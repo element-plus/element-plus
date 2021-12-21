@@ -11,7 +11,7 @@
   position: relative;
   cursor: default;
   background: var(--el-color-white);
-  color: var(--el-tree-font-color);
+  color: var(--el-tree-text-color);
 
   @include e(empty-block) {
     position: relative;
@@ -45,7 +45,7 @@
   &:focus {
     /* focus */
     > .#{$namespace}-tree-node__content {
-      background-color: var(--el-tree-node-hover-background-color);
+      background-color: var(--el-tree-node-hover-bg-color);
     }
   }
 
@@ -69,7 +69,7 @@
       margin-right: 8px;
     }
     &:hover {
-      background-color: var(--el-tree-node-hover-background-color);
+      background-color: var(--el-tree-node-hover-bg-color);
     }
 
     .#{$namespace}-tree.is-dragging & {

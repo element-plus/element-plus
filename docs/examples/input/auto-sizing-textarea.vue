@@ -14,14 +14,9 @@
   >
   </el-input>
 </template>
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
-export default defineComponent({
-  setup() {
-    return {
-      textarea1: ref(''),
-      textarea2: ref(''),
-    }
-  },
-})
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+const textarea1 = ref('')
+const textarea2 = ref('')
 </script>

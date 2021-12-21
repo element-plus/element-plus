@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import { hyphenate } from '@vue/shared'
 import clipboardCopy from 'clipboard-copy'
 import { ElMessage } from 'element-plus'
-import * as Icons from '@element-plus/icons'
+import * as Icons from '@element-plus/icons-vue'
 import { useLang } from '../../composables/lang'
 import localeData from '../../../i18n/component/icons.json'
 
@@ -43,8 +43,8 @@ const copySvgIcon = async (name, refs) => {
   <div style="text-align: right">
     <el-switch
       v-model="copyIcon"
-      active-text="Copy Icon Code"
-      inactive-text="Copy Svg Content"
+      active-text="Copy icon code"
+      inactive-text="Copy SVG content"
     >
     </el-switch>
   </div>
@@ -75,12 +75,12 @@ const copySvgIcon = async (name, refs) => {
   border-left: 1px solid var(--el-border-color-base);
   border-radius: 4px;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(7, 1fr);
 
   .icon-item {
     text-align: center;
     color: var(--el-text-color-regular);
-    height: 120px;
+    height: 90px;
     font-size: 13px;
     border-right: 1px solid var(--el-border-color-base);
     border-bottom: 1px solid var(--el-border-color-base);

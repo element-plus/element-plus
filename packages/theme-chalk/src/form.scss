@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 @use 'mixins/mixins' as *;
 @use 'mixins/utils' as *;
 @use 'mixins/var' as *;
@@ -41,7 +43,8 @@
 
 @include b(form-item) {
   display: flex;
-  margin-bottom: 22px;
+  --font-size: #{map.get($input-font-size, 'default')};
+  margin-bottom: calc(var(--font-size) + 8px);
 
   & .#{$namespace}-form-item {
     margin-bottom: 0;
@@ -51,40 +54,10 @@
     display: none;
   }
 
-  @include m(medium) {
-    .#{$namespace}-form-item__label {
-      line-height: 36px;
-    }
-    .#{$namespace}-form-item__content {
-      line-height: 36px;
-    }
-  }
-  @include m(small) {
-    .#{$namespace}-form-item__label {
-      line-height: 32px;
-    }
-    .#{$namespace}-form-item__content {
-      line-height: 32px;
-    }
-    &.#{$namespace}-form-item {
-      margin-bottom: 18px;
-    }
-    .#{$namespace}-form-item__error {
-      padding-top: 2px;
-    }
-  }
-  @include m(mini) {
-    .#{$namespace}-form-item__label {
-      line-height: 28px;
-    }
-    .#{$namespace}-form-item__content {
-      line-height: 28px;
-    }
-    &.#{$namespace}-form-item {
-      margin-bottom: 18px;
-    }
-    .#{$namespace}-form-item__error {
-      padding-top: 1px;
+  @each $size in (large, default, small) {
+    @include m($size) {
+      --font-size: #{map.get($input-font-size, $size)};
+      --el-form-label-font-size: var(--font-size);
     }
   }
 
@@ -99,15 +72,17 @@
     text-align: right;
     font-size: var(--el-form-label-font-size);
     color: var(--el-text-color-regular);
-    line-height: 40px;
+    line-height: calc(var(--el-form-label-font-size) * 2 + 4px);
     padding: 0 12px 0 0;
     box-sizing: border-box;
   }
   @include e(content) {
+    display: inline-flex;
+    align-items: center;
     flex: 1;
-    line-height: 40px;
+    line-height: calc(var(--font-size) * 2 + 4px);
     position: relative;
-    font-size: 14px;
+    font-size: var(--font-size);
     min-width: 0;
 
     .#{$namespace}-input-group {

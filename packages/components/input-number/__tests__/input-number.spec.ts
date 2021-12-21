@@ -1,6 +1,6 @@
 import { ref, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { ArrowUp, ArrowDown } from '@element-plus/icons'
+import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
 import InputNumber from '../src/input-number.vue'
 
 const mouseup = new Event('mouseup')

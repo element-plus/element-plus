@@ -23,7 +23,7 @@
     }
 
     &:hover {
-      background-color: $background-color-base;
+      background-color: var(--el-bg-color);
       font-weight: bold;
       cursor: pointer;
     }

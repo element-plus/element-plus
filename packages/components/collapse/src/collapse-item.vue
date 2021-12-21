@@ -53,7 +53,7 @@ import { defineComponent, inject, computed, ref } from 'vue'
 import { generateId } from '@element-plus/utils/util'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElIcon from '@element-plus/components/icon'
-import { ArrowRight } from '@element-plus/icons'
+import { ArrowRight } from '@element-plus/icons-vue'
 
 import type { PropType } from 'vue'
 import type { CollapseProvider } from './collapse.type'

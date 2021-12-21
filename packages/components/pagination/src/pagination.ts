@@ -7,7 +7,7 @@ import {
   getCurrentInstance,
   watch,
 } from 'vue'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils/error'
 import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
 import { elPaginationKey } from '@element-plus/tokens'
@@ -105,7 +105,7 @@ export default defineComponent({
   emits: paginationEmits,
 
   setup(props, { emit, slots }) {
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
     const vnodeProps = getCurrentInstance()!.vnode.props || {}
     // we can find @xxx="xxx" props on `vnodeProps` to check if user bind corresponding events
     const hasCurrentPageListener =

@@ -5,13 +5,13 @@ import { ElButton } from '@element-plus/components'
 import {
   elFormKey,
   elFormItemKey,
-  elButtonGroupKey,
+  buttonGroupContextKey,
 } from '@element-plus/tokens'
 
 import type {
   ElFormContext,
   ElFormItemContext,
-  ElButtonGroupContext,
+  ButtonGroupContext,
 } from '@element-plus/tokens'
 
 const AXIOM = 'Rem is the best girl'
@@ -48,7 +48,7 @@ describe('use-form-item', () => {
   })
 
   it('should return props.size instead of injected.size', () => {
-    const propSize = 'mini'
+    const propSize = 'small'
     const wrapper = mountComponent(
       () => {
         provide(elFormItemKey, {
@@ -66,11 +66,11 @@ describe('use-form-item', () => {
   })
 
   it('should return fallback.size instead inject.size', () => {
-    const fallbackSize = 'mini'
+    const fallbackSize = 'small'
     const wrapper = mountComponent(() => {
-      provide(elButtonGroupKey, {
+      provide(buttonGroupContextKey, {
         size: fallbackSize,
-      } as ElButtonGroupContext)
+      } as ButtonGroupContext)
 
       provide(elFormItemKey, {
         size: 'large',
@@ -81,11 +81,11 @@ describe('use-form-item', () => {
   })
 
   it('should return formItem.size instead form.size', () => {
-    const itemSize = 'mini'
+    const itemSize = 'small'
     const wrapper = mountComponent(() => {
       provide(elFormItemKey, {
         size: itemSize,
-      } as ElButtonGroupContext)
+      } as ElFormItemContext)
 
       provide(elFormKey, {
         size: 'large',

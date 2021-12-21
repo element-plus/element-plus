@@ -1,5 +1,13 @@
 <template>
-  <el-form ref="form" :model="sizeForm" label-width="120px" size="mini">
+  <div style="margin-left: 1rem">
+    <el-radio-group v-model="size">
+      <el-radio label="small">Small</el-radio>
+      <el-radio label="default">Default</el-radio>
+      <el-radio label="large">Large</el-radio>
+    </el-radio-group>
+  </div>
+  <br />
+  <el-form ref="form" :model="sizeForm" label-width="120px" :size="size">
     <el-form-item label="Activity name">
       <el-input v-model="sizeForm.name"></el-input>
     </el-form-item>
@@ -21,7 +29,7 @@
           style="width: 100%"
         ></el-date-picker>
       </el-col>
-      <el-col class="line" :span="2">-</el-col>
+      <el-col class="text-center" :span="1" style="margin: 0 0.5rem">-</el-col>
       <el-col :span="11">
         <el-time-picker
           v-model="sizeForm.date2"
@@ -43,10 +51,14 @@
       </el-checkbox-group>
     </el-form-item>
     <el-form-item label="Resources">
-      <el-radio-group v-model="sizeForm.resource" size="medium">
+      <el-radio-group v-model="sizeForm.resource">
         <el-radio border label="Sponsor"></el-radio>
         <el-radio border label="Venue"></el-radio>
       </el-radio-group>
+    </el-form-item>
+    <el-form-item>
+      <el-button type="primary" @click="onSubmit">Create</el-button>
+      <el-button>Cancel</el-button>
     </el-form-item>
     <el-form-item size="large">
       <el-button type="primary" @click="onSubmit">Create</el-button>
@@ -55,26 +67,23 @@
   </el-form>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      sizeForm: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: '',
-      },
-    }
-  },
-  methods: {
-    onSubmit() {
-      console.log('submit!')
-    },
-  },
+<script lang="ts" setup>
+import { reactive, ref } from 'vue'
+
+const size = ref('small')
+
+const sizeForm = reactive({
+  name: '',
+  region: '',
+  date1: '',
+  date2: '',
+  delivery: false,
+  type: [],
+  resource: '',
+  desc: '',
+})
+
+function onSubmit() {
+  console.log('submit!')
 }
 </script>

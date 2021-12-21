@@ -1,10 +1,10 @@
-import isServer from './isServer'
+import { isClient } from '@vueuse/core'
 
 export default function scrollIntoView(
   container: HTMLElement,
   selected: HTMLElement
 ): void {
-  if (isServer) return
+  if (!isClient) return
 
   if (!selected) {
     container.scrollTop = 0

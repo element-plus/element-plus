@@ -147,7 +147,7 @@
     }
 
     @include when(disabled) {
-      color: $disabled-color-base;
+      color: var(--el-disabled-text-color);
       cursor: default;
     }
   }
@@ -226,7 +226,7 @@
       padding: 15px;
     }
     > .#{$namespace}-tabs__header {
-      background-color: $background-color-base;
+      background-color: var(--el-bg-color);
       border-bottom: 1px solid var(--el-border-color-light);
       margin: 0;
     }
@@ -258,7 +258,7 @@
         color: var(--el-color-primary);
       }
       &.is-disabled {
-        color: $disabled-color-base;
+        color: var(--el-disabled-text-color);
       }
     }
 

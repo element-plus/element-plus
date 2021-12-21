@@ -15,7 +15,7 @@
           </template>
           <template #reference>
             <div class="name-wrapper">
-              <el-tag size="medium">{{ scope.row.name }}</el-tag>
+              <el-tag>{{ scope.row.name }}</el-tag>
             </div>
           </template>
         </el-popover>
@@ -23,11 +23,11 @@
     </el-table-column>
     <el-table-column label="Operations">
       <template #default="scope">
-        <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
+        <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
           >Edit</el-button
         >
         <el-button
-          size="mini"
+          size="small"
           type="danger"
           @click="handleDelete(scope.$index, scope.row)"
           >Delete</el-button
@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts">
-import { Timer } from '@element-plus/icons'
+import { Timer } from '@element-plus/icons-vue'
 
 export default {
   components: {

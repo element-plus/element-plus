@@ -1,19 +1,21 @@
 import { computed, getCurrentInstance, watch, onMounted } from 'vue'
 import { isFunction } from '@vue/shared'
+import { isClient } from '@vueuse/core'
 import { isBool } from '@element-plus/utils/util'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import isServer from '@element-plus/utils/isServer'
+import { buildProps, definePropType } from '@element-plus/utils/props'
+import type { RouteLocationNormalizedLoaded } from 'vue-router'
 
-import type { Ref, ComponentPublicInstance } from 'vue'
+import type { Ref, ComponentPublicInstance, ExtractPropTypes } from 'vue'
 
-export const useModelToggleProps = {
+export const useModelToggleProps = buildProps({
   modelValue: {
-    type: Boolean,
+    type: definePropType<boolean | null>(Boolean),
     default: null,
   },
-
   'onUpdate:modelValue': Function,
-}
+})
+export type UseModelToggleProps = ExtractPropTypes<typeof useModelToggleProps>
 
 export const useModelToggleEmits = [UPDATE_MODEL_EVENT]
 
@@ -32,7 +34,9 @@ export const useModelToggle = ({
   onShow,
   onHide,
 }: ModelToggleParams) => {
-  const { appContext, props, proxy, emit } = getCurrentInstance()!
+  const instance = getCurrentInstance()!
+  const props = instance.props as UseModelToggleProps & { disabled: boolean }
+  const { emit } = instance
 
   const hasUpdateHandler = computed(() =>
     isFunction(props['onUpdate:modelValue'])
@@ -72,7 +76,7 @@ export const useModelToggle = ({
     )
       return
 
-    const shouldEmit = hasUpdateHandler.value && !isServer
+    const shouldEmit = hasUpdateHandler.value && isClient
 
     if (shouldEmit) {
       emit(UPDATE_MODEL_EVENT, true)
@@ -84,9 +88,9 @@ export const useModelToggle = ({
   }
 
   const hide = () => {
-    if (props.disabled === true || isServer) return
+    if (props.disabled === true || !isClient) return
 
-    const shouldEmit = hasUpdateHandler.value && !isServer
+    const shouldEmit = hasUpdateHandler.value && isClient
 
     if (shouldEmit) {
       emit(UPDATE_MODEL_EVENT, false)
@@ -124,13 +128,13 @@ export const useModelToggle = ({
 
   if (
     shouldHideWhenRouteChanges &&
-    appContext.config.globalProperties.$route !== undefined
+    instance.appContext.config.globalProperties.$route !== undefined
   ) {
     watch(
       () => ({
         ...(
-          proxy as ComponentPublicInstance<{
-            $route: any
+          instance.proxy as ComponentPublicInstance<{
+            $route: RouteLocationNormalizedLoaded
           }>
         ).$route,
       }),

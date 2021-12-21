@@ -1,4 +1,4 @@
-import { Back } from '@element-plus/icons'
+import { Back } from '@element-plus/icons-vue'
 import type { ExtractPropTypes, PropType, Component } from 'vue'
 
 export const pageHeaderProps = {

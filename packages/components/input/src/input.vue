@@ -136,7 +136,6 @@
 <script lang="ts">
 import {
   defineComponent,
-  inject,
   computed,
   watch,
   nextTick,
@@ -146,14 +145,18 @@ import {
   onMounted,
   onUpdated,
 } from 'vue'
+import { isClient } from '@vueuse/core'
 import { ElIcon } from '@element-plus/components/icon'
-import { CircleClose, View as IconView } from '@element-plus/icons'
+import { CircleClose, View as IconView } from '@element-plus/icons-vue'
 import { ValidateComponentsMap } from '@element-plus/utils/icon'
-import { elFormKey, elFormItemKey } from '@element-plus/tokens'
-import { useAttrs, useFormItem } from '@element-plus/hooks'
+import {
+  useAttrs,
+  useDisabled,
+  useFormItem,
+  useSize,
+} from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { isObject } from '@element-plus/utils/util'
-import isServer from '@element-plus/utils/isServer'
 import { isKorean } from '@element-plus/utils/isDef'
 import { calcTextareaHeight } from './calc-textarea-height'
 import { inputProps, inputEmits } from './input'
@@ -181,10 +184,9 @@ export default defineComponent({
     const instance = getCurrentInstance()!
     const attrs = useAttrs()
 
-    const elForm = inject(elFormKey, undefined)
-    const elFormItem = inject(elFormItemKey, undefined)
-
-    const { size: inputSize, disabled: inputDisabled } = useFormItem({})
+    const { form, formItem } = useFormItem()
+    const inputSize = useSize()
+    const inputDisabled = useDisabled()
 
     const input = ref<HTMLInputElement>()
     const textarea = ref<HTMLTextAreaElement>()
@@ -196,8 +198,8 @@ export default defineComponent({
 
     const inputOrTextarea = computed(() => input.value || textarea.value)
 
-    const needStatusIcon = computed(() => elForm?.statusIcon ?? false)
-    const validateState = computed(() => elFormItem?.validateState || '')
+    const needStatusIcon = computed(() => form?.statusIcon ?? false)
+    const validateState = computed(() => formItem?.validateState || '')
     const validateIcon = computed(
       () => ValidateComponentsMap[validateState.value]
     )
@@ -247,7 +249,7 @@ export default defineComponent({
     const resizeTextarea = () => {
       const { type, autosize } = props
 
-      if (isServer || type !== 'textarea') return
+      if (!isClient || type !== 'textarea') return
 
       if (autosize) {
         const minRows = isObject(autosize) ? autosize.minRows : undefined
@@ -337,7 +339,7 @@ export default defineComponent({
       focused.value = false
       emit('blur', event)
       if (props.validateEvent) {
-        elFormItem?.validate?.('blur')
+        formItem?.validate?.('blur')
       }
     }
 
@@ -392,7 +394,7 @@ export default defineComponent({
       () => {
         nextTick(resizeTextarea)
         if (props.validateEvent) {
-          elFormItem?.validate?.('change')
+          formItem?.validate?.('change')
         }
       }
     )

@@ -1,9 +1,9 @@
-import isServer from './isServer'
+import { isClient } from '@vueuse/core'
 
 let scrollBarWidth: number
 
 export default function (): number {
-  if (isServer) return 0
+  if (!isClient) return 0
   if (scrollBarWidth !== undefined) return scrollBarWidth
 
   const outer = document.createElement('div')

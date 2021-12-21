@@ -1,15 +1,29 @@
 <script lang="ts" setup>
+import { ref } from 'vue'
 import { useRoute } from 'vitepress'
 import VPLink from '../common/vp-link.vue'
 import { isActiveLink } from '../../utils'
 
 import type { Link } from '../../types'
-
+const USER_VISITED_NEW_RESOURCE_PAGE = 'USER_VISITED_NEW_RESOURCE_PAGE'
 defineProps<{
   item: Link
 }>()
 
 const route = useRoute()
+const isVisited = ref(
+  !!window.localStorage.getItem(USER_VISITED_NEW_RESOURCE_PAGE)
+)
+const isNewPage = (item: Link) => item.activeMatch === '/resource/'
+const onNavClick = (item: Link) => {
+  if (isNewPage(item) && !isVisited.value) {
+    window.localStorage.setItem(
+      USER_VISITED_NEW_RESOURCE_PAGE,
+      Date.now().toString()
+    )
+    isVisited.value = true
+  }
+}
 </script>
 
 <template>
@@ -24,8 +38,12 @@ const route = useRoute()
     }"
     :href="item.link"
     :no-icon="true"
+    @click="onNavClick(item)"
   >
-    {{ item.text }}
+    <el-badge v-if="isNewPage(item) && !isVisited" is-dot class="badge">
+      {{ item.text }}</el-badge
+    >
+    <template v-else> {{ item.text }}</template>
   </VPLink>
 </template>
 
@@ -46,6 +64,15 @@ const route = useRoute()
 
   &:hover {
     color: var(--brand-color);
+  }
+
+  .badge {
+    display: inline;
+    vertical-align: unset;
+  }
+
+  .badge:deep(.is-dot) {
+    right: 0;
   }
 }
 </style>

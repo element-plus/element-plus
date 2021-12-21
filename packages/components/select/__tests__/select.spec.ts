@@ -2,7 +2,7 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { sleep } from '@element-plus/test-utils'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { CircleClose } from '@element-plus/icons'
+import { CircleClose, ArrowUp, CaretTop } from '@element-plus/icons-vue'
 import Select from '../src/select.vue'
 import Group from '../src/option-group.vue'
 import Option from '../src/option.vue'
@@ -248,6 +248,7 @@ const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
       <el-group-option
         v-for="group in options"
         :key="group.label"
+        :disabled="group.disabled"
         :label="group.label">
         <el-option
           v-for="item in group.options"
@@ -468,6 +469,82 @@ describe('Select', () => {
     expect(wrapper.find('.el-input').classes()).toContain('is-disabled')
   })
 
+  test('group disabled option', () => {
+    const optionGroupData = [
+      {
+        label: 'Australia',
+        disabled: true,
+        options: [
+          {
+            value: 'Sydney',
+            label: 'Sydney',
+          },
+          {
+            value: 'Melbourne',
+            label: 'Melbourne',
+          },
+        ],
+      },
+    ]
+    const wrapper = getGroupSelectVm({}, optionGroupData)
+    const options = wrapper.findAllComponents(Option)
+    expect(options[0].classes('is-disabled')).toBeTruthy()
+  })
+
+  test('keyboard operations when option-group is disabled', async () => {
+    const optionGroupData = [
+      {
+        label: 'Australia',
+        disabled: true,
+        options: [
+          {
+            value: 'Sydney',
+            label: 'Sydney',
+          },
+          {
+            value: 'Melbourne',
+            label: 'Melbourne',
+          },
+        ],
+      },
+      {
+        label: 'China',
+        options: [
+          {
+            value: 'Shanghai',
+            label: 'Shanghai',
+          },
+          {
+            value: 'Shenzhen',
+            label: 'Shenzhen',
+          },
+          {
+            value: 'Guangzhou',
+            label: 'Guangzhou',
+          },
+          {
+            value: 'Dalian',
+            label: 'Dalian',
+          },
+        ],
+      },
+    ]
+    const wrapper = getGroupSelectVm({}, optionGroupData)
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const vm = select.vm as any
+    let i = 8
+    while (i--) {
+      vm.navigateOptions('next')
+    }
+    vm.navigateOptions('prev')
+    vm.navigateOptions('prev')
+    vm.navigateOptions('prev')
+    await vm.$nextTick()
+    vm.selectOption()
+    await vm.$nextTick()
+    expect((wrapper.vm as any).value).toBe('Dalian')
+  })
+
   test('visible event', async () => {
     const wrapper = _mount(
       `
@@ -538,6 +615,15 @@ describe('Select', () => {
     expect(iconClear.exists()).toBe(true)
     await iconClear.trigger('click')
     expect(vm.value).toBe('')
+  })
+
+  test('suffix icon', async () => {
+    const wrapper = _mount(`<el-select></el-select>`)
+    let suffixIcon = wrapper.findComponent(ArrowUp)
+    expect(suffixIcon.exists()).toBe(true)
+    await wrapper.setProps({ suffixIcon: CaretTop })
+    suffixIcon = wrapper.findComponent(CaretTop)
+    expect(suffixIcon.exists()).toBe(true)
   })
 
   test('fitInputWidth', async () => {
@@ -1313,6 +1399,41 @@ describe('Select', () => {
     await wrapper.find('.el-tag__close').trigger('click')
     expect(wrapper.findAll('.el-tag').length).toBe(2)
     expect(wrapper.findAll('.el-tag__close').length).toBe(0)
+  })
+
+  test('tag type', async () => {
+    const wrapper = _mount(
+      `
+      <el-select v-model="value" multiple tag-type="success">
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        >
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕',
+          },
+          {
+            value: '选项2',
+            label: '双皮奶',
+          },
+        ],
+        value: [],
+      })
+    )
+
+    await wrapper.find('.select-trigger').trigger('click')
+    const options = getOptions()
+    options[1].click()
+    await nextTick()
+    expect(wrapper.find('.el-tag').classes()).toContain('el-tag--success')
   })
 
   test('modelValue should be deep reactive in multiple mode', async () => {

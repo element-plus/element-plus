@@ -9,8 +9,8 @@ lang: en-US
 
 <style lang="scss" scoped>
 .page-resource {
-  padding-top: 55px;
   box-sizing: border-box;
+  padding: 35px 40px 0;
 
   .resource-placeholder {
     margin: 50px auto 100px;
@@ -69,7 +69,7 @@ p {
   color: #5e6d82;
 }
 .card {
-  padding-bottom: 16px;
+  padding-bottom: 28px;
   width: 100%;
   background: #ffffff;
   border: 1px solid var(--el-border-color-base);
@@ -96,12 +96,13 @@ p {
     color: #99a9bf;
     padding: 0 30px;
     margin: 0;
-    word-break: break-all;
+    word-break: break-word;
     line-height: 1.8; // 1.6 for english
+    min-height: 75px;
   }
   a {
-    height: 42px;
-    width: 190px;
+    height: 40px;
+    width: 160px;
     display: inline-block;
     line-height: 42px;
     font-size: 14px;
@@ -115,9 +116,13 @@ p {
     transition: all 0.3s;
     text-decoration: none;
     margin-top: 20px;
+    margin-bottom: 20px;
   }
 }
 @media (max-width: 850px) {
+  .page-resource {
+    padding: 15px 0px 0;
+  }
   .cards {
     li {
       max-width: 500px;
@@ -165,6 +170,18 @@ p {
           >
         </div>
       </li>
+      <li>
+        <div class="card">
+          <img src="/images/figma.png" alt="Figma" />
+          <h3>Figma Template</h3>
+          <p>Newly designed Figma component library for 2021 with new features such as Auto-layout and Variants.</p>
+          <a
+            onclick="ga('send', 'event', 'ResourceDownload', 'Download', 'Sketch');"
+            href="https://www.figma.com/community/file/1021254029764378306"
+            >Download</a
+          >
+        </div>
+      </li>
     </ul>
   </div>
 </div>
@@ -180,14 +197,11 @@ h1 {
 }
 
 .card {
-  background-color: var(--bg-color-soft);
+  background-color: var(--bg-color);
   border-color: var(--border-color);
 
   h3 {
     color: var(--text-color);
   }
-}
-.page-resource {
-  padding: 55px 40px 0;
 }
 </style>

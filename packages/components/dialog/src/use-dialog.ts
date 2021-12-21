@@ -1,9 +1,8 @@
 import { computed, ref, watch, nextTick, onMounted } from 'vue'
-import { useTimeoutFn } from '@vueuse/core'
+import { useTimeoutFn, isClient } from '@vueuse/core'
 
-import { useLockScreen, useRestoreActive, useModal } from '@element-plus/hooks'
+import { useLockscreen, useRestoreActive, useModal } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import isServer from '@element-plus/utils/isServer'
 import PopupManager from '@element-plus/utils/popup-manager'
 import { isNumber } from '@element-plus/utils/util'
 
@@ -101,7 +100,7 @@ export const useDialog = (
   }
 
   function doOpen() {
-    if (isServer) {
+    if (!isClient) {
       return
     }
 
@@ -116,7 +115,7 @@ export const useDialog = (
   }
 
   if (props.lockScroll) {
-    useLockScreen(visible)
+    useLockscreen(visible)
   }
 
   if (props.closeOnPressEscape) {
@@ -168,6 +167,8 @@ export const useDialog = (
     beforeLeave,
     handleClose,
     onModalClick,
+    close,
+    doClose,
     closed,
     style,
     rendered,

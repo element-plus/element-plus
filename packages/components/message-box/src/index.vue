@@ -89,7 +89,7 @@
             :loading="cancelButtonLoading"
             :class="[cancelButtonClass]"
             :round="roundButton"
-            :size="buttonSize || 'small'"
+            :size="buttonSize || ''"
             @click="handleAction('cancel')"
             @keydown.prevent.enter="handleAction('cancel')"
           >
@@ -98,11 +98,13 @@
           <el-button
             v-show="showConfirmButton"
             ref="confirmRef"
+            type="primary"
+            plain
             :loading="confirmButtonLoading"
             :class="[confirmButtonClasses]"
             :round="roundButton"
             :disabled="confirmButtonDisabled"
-            :size="buttonSize || 'small'"
+            :size="buttonSize || ''"
             @click="handleAction('confirm')"
             @keydown.prevent.enter="handleAction('confirm')"
           >
@@ -129,8 +131,8 @@ import ElButton from '@element-plus/components/button'
 import { TrapFocus } from '@element-plus/directives'
 import {
   useModal,
-  useLockScreen,
-  useLocaleInject,
+  useLockscreen,
+  useLocale,
   useRestoreActive,
   usePreventGlobal,
 } from '@element-plus/hooks'
@@ -210,7 +212,7 @@ export default defineComponent({
   emits: ['vanish', 'action'],
   setup(props, { emit }) {
     // const popup = usePopup(props, doClose)
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
     const visible = ref(false)
     // s represents state
     const state = reactive<MessageBoxState>({
@@ -265,9 +267,7 @@ export default defineComponent({
     const inputRef = ref<ComponentPublicInstance>(null)
     const confirmRef = ref<ComponentPublicInstance>(null)
 
-    const confirmButtonClasses = computed(
-      () => `el-button--primary ${state.confirmButtonClass}`
-    )
+    const confirmButtonClasses = computed(() => state.confirmButtonClass)
 
     watch(
       () => state.inputValue,
@@ -414,7 +414,7 @@ export default defineComponent({
 
     // locks the screen to prevent scroll
     if (props.lockScroll) {
-      useLockScreen(visible)
+      useLockscreen(visible)
     }
 
     // restore to prev active element.

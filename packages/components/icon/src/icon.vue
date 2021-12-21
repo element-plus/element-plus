@@ -28,7 +28,7 @@ export default defineComponent({
           size = `${size}px`
         }
         return {
-          ...(props.size ? { '--font-size': size } : {}),
+          ...(props.size ? { fontSize: size } : {}),
           ...(props.color ? { '--color': props.color } : {}),
         } as CSSProperties
       }),

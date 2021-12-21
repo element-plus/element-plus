@@ -1,6 +1,6 @@
 import { getCurrentInstance, ref } from 'vue'
+import { isClient } from '@vueuse/core'
 import { hasClass, addClass, removeClass } from '@element-plus/utils/dom'
-import isServer from '@element-plus/utils/isServer'
 
 import type { TableHeaderProps } from '.'
 import type { TableColumnCtx } from '../table-column/defaults'
@@ -30,7 +30,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
   const dragging = ref(false)
   const dragState = ref({})
   const handleMouseDown = (event: MouseEvent, column: TableColumnCtx<T>) => {
-    if (isServer) return
+    if (!isClient) return
     if (column.children && column.children.length > 0) return
     /* istanbul ignore if */
     if (draggingColumn.value && props.border) {
@@ -138,7 +138,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
   }
 
   const handleMouseOut = () => {
-    if (isServer) return
+    if (!isClient) return
     document.body.style.cursor = ''
   }
   const toggleOrder = ({ order, sortOrders }) => {

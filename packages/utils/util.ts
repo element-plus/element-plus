@@ -13,11 +13,11 @@ import {
   toRawType,
 } from '@vue/shared'
 import isEqualWith from 'lodash/isEqualWith'
-import isServer from './isServer'
+import { isClient } from '@vueuse/core'
 import { debugWarn, throwError } from './error'
 
 import type { ComponentPublicInstance, CSSProperties, Ref } from 'vue'
-import type { TimeoutHandle, Nullable } from './types'
+import type { TimeoutHandle, Nullable, ComponentSize } from './types'
 
 export const SCOPE = 'Util'
 
@@ -110,7 +110,7 @@ export const coerceTruthyValueToArray = (arr) => {
 // export const isEdge
 
 export const isFirefox = function (): boolean {
-  return !isServer && !!window.navigator.userAgent.match(/firefox/i)
+  return isClient && !!window.navigator.userAgent.match(/firefox/i)
 }
 
 export const autoprefixer = function (style: CSSProperties): CSSProperties {
@@ -178,7 +178,10 @@ export function isUndefined(val: any): val is undefined {
   return val === undefined
 }
 
-export function useGlobalConfig() {
+/**
+ * @deprecated please use `useGlobalConfig` in hooks.
+ */
+export function useGlobalConfig(): { size?: ComponentSize; zIndex?: number } {
   const vm: any = getCurrentInstance()
   if ('$ELEMENT' in vm.proxy) {
     return vm.proxy.$ELEMENT

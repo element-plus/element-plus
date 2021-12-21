@@ -48,7 +48,7 @@ This project is still under heavy development. Feel free to join us and make you
     <tr>
       <td align="center" valign="middle">
         <a href="https://www.jnpfsoft.com/index.html?from=elementUI" target="_blank">
-          <img width="150px" src="https://user-images.githubusercontent.com/17680888/140337374-59b3cb43-c1d3-449e-9757-2503de56f8e2.png">
+          <img width="150px" src="https://user-images.githubusercontent.com/17680888/145664631-bbe85550-4406-4f20-a19f-7e6e844a9b85.png">
         </a>
       </td>
       <td align="center" valign="middle">
@@ -166,15 +166,26 @@ Example
 # example: feat(components): [el-button] add type for form usage #1234
 ```
 
-## Licence
+## Sponsors
 
-Element Plus is open source software licensed as
-[MIT](https://github.com/element-plus/element-plus/blob/master/LICENSE).
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [Become a sponsor](https://opencollective.com/element-plus#sponsor)
+
+<a href="https://opencollective.com/element-plus/sponsor/0/website" target="_blank"><img src="https://opencollective.com/element-plus/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/element-plus/sponsor/1/website" target="_blank"><img src="https://opencollective.com/element-plus/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/element-plus/sponsor/2/website" target="_blank"><img src="https://opencollective.com/element-plus/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/element-plus/sponsor/3/website" target="_blank"><img src="https://opencollective.com/element-plus/sponsor/3/avatar.svg"></a>
 
 ## Contributors
 
-This project wouldn't exist without our amazing contributors
+This project exists thanks to all the people who contribute.
+
+And thank you to all our backers! 🙏
 
 <a href="https://github.com/element-plus/element-plus/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=element-plus/element-plus" />
 </a>
+
+## Licence
+
+Element Plus is open source software licensed as
+[MIT](https://github.com/element-plus/element-plus/blob/master/LICENSE).

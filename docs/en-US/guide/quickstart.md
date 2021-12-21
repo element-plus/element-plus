@@ -46,24 +46,28 @@ You need to use an additional plugin to import components you used.
 
 #### Auto import <el-tag type="primary" style="vertical-align: middle;" effect="dark" size="small">Recommend</el-tag>
 
-First you need install `unplugin-vue-components`.
+First you need install `unplugin-vue-components` and `unplugin-auto-import`.
 
 ```shell
-npm install unplugin-vue-components
+npm install -D unplugin-vue-components unplugin-auto-import
 ```
 
-Then add the code below into your `Vite` or `webpack` config file.
+Then add the code below into your `Vite` or `Webpack` config file.
 
 ##### Vite
 
 ```ts
 // vite.config.ts
+import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 export default {
   plugins: [
     // ...
+    AutoImport({
+      resolvers: [ElementPlusResolver()],
+    }),
     Components({
       resolvers: [ElementPlusResolver()],
     }),
@@ -75,12 +79,16 @@ export default {
 
 ```ts
 // webpack.config.js
+const AutoImport = require('unplugin-auto-import/webpack')
 const Components = require('unplugin-vue-components/webpack')
 const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
 
 module.exports = {
   // ...
   plugins: [
+    AutoImport({
+      resolvers: [ElementPlusResolver()],
+    }),
     Components({
       resolvers: [ElementPlusResolver()],
     }),
@@ -88,9 +96,9 @@ module.exports = {
 }
 ```
 
-For more bundlers ([Rollup](https://rollupjs.org/), [Vue CLI](https://cli.vuejs.org/)) and configs please reference [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components#readme).
+For more bundlers ([Rollup](https://rollupjs.org/), [Vue CLI](https://cli.vuejs.org/)) and configs please reference [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components#installation) and [unplugin-auto-import](https://github.com/antfu/unplugin-auto-import#install).
 
-#### Manually import
+### Manually import
 
 Element Plus provides out of box [Tree Shaking](https://webpack.js.org/guides/tree-shaking/)
 functionalities based on ES Module.
@@ -120,6 +128,19 @@ export default {
   plugins: [ElementPlus()],
 }
 ```
+
+:::warning
+
+You need to manually import the styles if you're using `unplugin-element-plus` and only used the component API.
+
+Example:
+
+```ts
+import 'element-plus/es/components/message/style/css'
+import { ElMessage } from 'element-plus'
+```
+
+:::
 
 ## Starter Template
 

@@ -49,7 +49,6 @@ export default defineComponent({
   setup(props: ICarouselItemProps) {
     // instance
     const instance = getCurrentInstance()
-    instance.uid
 
     // data
     const data = reactive({

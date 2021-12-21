@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
-import isServer from '@element-plus/utils/isServer'
+import { isClient } from '@vueuse/core'
 import { elTeleportProps } from './teleport'
 
 export default defineComponent({
@@ -17,7 +17,7 @@ export default defineComponent({
     const containerRef = ref<HTMLElement>()
     const containerStyle = computed(() => {
       return props.container === 'body' ||
-        (isServer && props.container === document.body)
+        (!isClient && props.container === document.body)
         ? [
             props.style,
             {

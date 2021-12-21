@@ -9,10 +9,10 @@
     .#{$namespace}-date-table__row {
       &:hover {
         .el-date-table-cell {
-          background-color: var(--el-datepicker-inrange-background-color);
+          background-color: var(--el-datepicker-inrange-bg-color);
         }
         td.available:hover {
-          color: var(--el-datepicker-font-color);
+          color: var(--el-datepicker-text-color);
         }
         td:first-child .el-date-table-cell {
           margin-left: 5px;
@@ -27,7 +27,7 @@
       }
 
       &.current .el-date-table-cell {
-        background-color: var(--el-datepicker-inrange-background-color);
+        background-color: var(--el-datepicker-inrange-bg-color);
       }
     }
   }
@@ -60,7 +60,7 @@
 
     &.next-month,
     &.prev-month {
-      color: var(--el-datepicker-off-font-color);
+      color: var(--el-datepicker-off-text-color);
     }
 
     &.today {
@@ -76,13 +76,13 @@
     }
 
     &.available:hover {
-      color: var(--el-datepicker-hover-font-color);
+      color: var(--el-datepicker-hover-text-color);
     }
 
     &.in-range .el-date-table-cell {
-      background-color: var(--el-datepicker-inrange-background-color);
+      background-color: var(--el-datepicker-inrange-bg-color);
       &:hover {
-        background-color: var(--el-datepicker-inrange-hover-background-color);
+        background-color: var(--el-datepicker-inrange-hover-bg-color);
       }
     }
 
@@ -113,7 +113,7 @@
     }
 
     &.disabled .el-date-table-cell {
-      background-color: $background-color-base;
+      background-color: var(--el-bg-color);
       opacity: 1;
       cursor: not-allowed;
       color: var(--el-text-color-placeholder);
@@ -122,10 +122,10 @@
     &.selected .el-date-table-cell {
       margin-left: 5px;
       margin-right: 5px;
-      background-color: var(--el-datepicker-inrange-background-color);
+      background-color: var(--el-datepicker-inrange-bg-color);
       border-radius: 15px;
       &:hover {
-        background-color: var(--el-datepicker-inrange-hover-background-color);
+        background-color: var(--el-datepicker-inrange-hover-bg-color);
       }
     }
 
@@ -137,13 +137,13 @@
 
     &.week {
       font-size: 80%;
-      color: var(--el-datepicker-header-font-color);
+      color: var(--el-datepicker-header-text-color);
     }
   }
 
   th {
     padding: 5px;
-    color: var(--el-datepicker-header-font-color);
+    color: var(--el-datepicker-header-text-color);
     font-weight: 400;
     border-bottom: solid 1px var(--el-border-color-lighter);
   }

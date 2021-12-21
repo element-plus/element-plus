@@ -19,10 +19,10 @@ Toggleable menu for displaying lists of links and actions.
     cursor: pointer;
     color: var(--el-color-primary);
   }
-.el-icon--right {
-  font-size: 12px;
-  vertical-align: middle;
-}
+  .el-icon--right {
+    font-size: 12px;
+    vertical-align: middle;
+  }
 }
 
 .block-col-2 {
@@ -101,7 +101,7 @@ dropdown/command-event
 
 Besides default size, Dropdown component provides three additional sizes for you to choose among different scenarios.
 
-:::demo Use attribute `size` to set additional sizes with `medium`, `small` or `mini`.
+:::demo Use attribute `size` to set additional sizes with `large`, `default` or `small`.
 
 dropdown/sizes
 
@@ -112,7 +112,7 @@ dropdown/sizes
 | Attribute     | Description                                                                                          | Type            | Accepted Values                                      | Default |
 | ------------- | ---------------------------------------------------------------------------------------------------- | --------------- | ---------------------------------------------------- | ------- |
 | type          | menu button type, refer to `Button` Component, only works when `split-button` is true                | string          | —                                                    | —       |
-| size          | menu size, also works on the split button                                                            | string          | medium / small / mini                                | —       |
+| size          | menu size, also works on the split button                                                            | string          | large / default / small                              | default |
 | max-height    | the max height of menu                                                                               | string / number | —                                                    | —       |
 | split-button  | whether a button group is displayed                                                                  | boolean         | —                                                    | false   |
 | disabled      | Whether to disable                                                                                   | boolean         | —                                                    | false   |
@@ -122,6 +122,7 @@ dropdown/sizes
 | show-timeout  | Delay time before show a dropdown (only works when trigger is `hover`)                               | number          | —                                                    | 250     |
 | hide-timeout  | Delay time before hide a dropdown (only works when trigger is `hover`)                               | number          | —                                                    | 150     |
 | tabindex      | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Dropdown | number          | —                                                    | 0       |
+| popper-class  | custom class name for Dropdown's dropdown                                                            | string          | —                                                    | —       |
 
 ## Dropdown Slots
 

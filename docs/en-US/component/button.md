@@ -69,9 +69,21 @@ button/loading
 
 Besides default size, Button component provides three additional sizes for you to choose among different scenarios.
 
-:::demo Use attribute `size` to set additional sizes with `medium`, `small` or `mini`.
+:::demo Use attribute `size` to set additional sizes with `large`, `small`.
 
 button/size
+
+:::
+
+## Custom Color <el-tag>beta</el-tag>
+
+You can custom button color.
+
+We will calculate hover color & active color automatically.
+
+:::demo
+
+button/custom
 
 :::
 
@@ -79,7 +91,7 @@ button/size
 
 | Attribute         | Description                                                 | Type               | Accepted Values                                    | Default |
 | ----------------- | ----------------------------------------------------------- | ------------------ | -------------------------------------------------- | ------- |
-| size              | button size                                                 | string             | medium / small / mini                              | —       |
+| size              | button size                                                 | string             | large / default /small                             | —       |
 | type              | button type                                                 | string             | primary / success / warning / danger / info / text | —       |
 | plain             | determine whether it's a plain button                       | boolean            | —                                                  | false   |
 | round             | determine whether it's a round button                       | boolean            | —                                                  | false   |
@@ -99,9 +111,10 @@ button/size
 
 ## Button-Group Attributes
 
-| Attribute | Description                                      | Type   | Accepted Values       | Default |
-| --------- | ------------------------------------------------ | ------ | --------------------- | ------- |
-| size      | control the size of buttons in this button-group | string | medium / small / mini | —       |
+| Attribute | Description                                      | Type   | Accepted Values             | Default |
+| --------- | ------------------------------------------------ | ------ | --------------------------- | ------- |
+| size      | control the size of buttons in this button-group | string | large / small               | —       |
+| type      | control the type of buttons in this button-group | string | primary / success / warning | —       |
 
 ## Button-Group Slots
 
@@ -112,9 +125,6 @@ button/size
 <style lang="scss">
 .example-showcase {
   .el-row {
-    margin-bottom: 20px;
-    align-items: baseline;
-
     &:last-child {
       margin-bottom: 0;
     }

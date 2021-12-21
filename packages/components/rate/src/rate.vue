@@ -51,7 +51,7 @@ import { EVENT_CODE } from '@element-plus/utils/aria'
 
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { ElIcon } from '@element-plus/components/icon'
-import { StarFilled, Star } from '@element-plus/icons'
+import { StarFilled, Star } from '@element-plus/icons-vue'
 import { rateProps, rateEmits } from './rate'
 import type { ElFormContext } from '@element-plus/tokens'
 
@@ -72,7 +72,7 @@ function getValueFromMap<T>(
     })
     .sort((a, b) => a - b)
   const matchedValue = map[matchedKeys[0]]
-  return isExcludedObject(matchedValue) ? matchedValue.value : matchedValue
+  return (isExcludedObject(matchedValue) && matchedValue.value) || matchedValue
 }
 
 export default defineComponent({

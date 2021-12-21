@@ -1,12 +1,17 @@
-import { inject, h, nextTick } from 'vue'
+import { h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import Chinese from '@element-plus/locale/lang/zh-cn'
 import English from '@element-plus/locale/lang/en'
-import { useLocale, useLocaleProps, LocaleInjectionKey } from '../use-locale'
+import {
+  provideLocale,
+  useLocaleProps,
+  useLocale,
+  buildTranslator,
+} from '../use-locale'
 
 const TestComp = {
   setup() {
-    const { t } = inject(LocaleInjectionKey)
+    const { t } = useLocale()
     return () => {
       return h(
         'div',
@@ -27,7 +32,7 @@ describe('use-locale', () => {
           'el-test': TestComp,
         },
         setup(_, { slots }) {
-          useLocale()
+          provideLocale()
           return () => slots.default()
         },
       },
@@ -65,5 +70,10 @@ describe('use-locale', () => {
     expect(wrapper.find('.locale-manifest').text()).toBe(
       English.el.popconfirm.confirmButtonText
     )
+  })
+
+  test('return key name if not defined', () => {
+    const t = buildTranslator(English)
+    expect(t('el.popconfirm.someThing')).toBe('el.popconfirm.someThing')
   })
 })

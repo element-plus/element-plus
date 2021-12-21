@@ -1,32 +1,34 @@
 <template>
-  <div class="block">
-    <span class="demonstration">Default</span>
-    <el-date-picker
-      v-model="value1"
-      type="datetime"
-      placeholder="Select date and time"
-    >
-    </el-date-picker>
-  </div>
-  <div class="block">
-    <span class="demonstration">With shortcuts</span>
-    <el-date-picker
-      v-model="value2"
-      type="datetime"
-      placeholder="Select date and time"
-      :shortcuts="shortcuts"
-    >
-    </el-date-picker>
-  </div>
-  <div class="block">
-    <span class="demonstration">With default time</span>
-    <el-date-picker
-      v-model="value3"
-      type="datetime"
-      placeholder="Select date and time"
-      :default-time="defaultTime"
-    >
-    </el-date-picker>
+  <div class="flex">
+    <div class="block">
+      <span class="demonstration">Default</span>
+      <el-date-picker
+        v-model="value1"
+        type="datetime"
+        placeholder="Select date and time"
+      >
+      </el-date-picker>
+    </div>
+    <div class="block">
+      <span class="demonstration">With shortcuts</span>
+      <el-date-picker
+        v-model="value2"
+        type="datetime"
+        placeholder="Select date and time"
+        :shortcuts="shortcuts"
+      >
+      </el-date-picker>
+    </div>
+    <div class="block">
+      <span class="demonstration">With default time</span>
+      <el-date-picker
+        v-model="value3"
+        type="datetime"
+        placeholder="Select date and time"
+        :default-time="defaultTime"
+      >
+      </el-date-picker>
+    </div>
   </div>
 </template>
 

@@ -40,7 +40,7 @@ export default defineComponent({
     return {
       data: createData(4, 30, 40),
       props: ref({
-        id: 'id',
+        value: 'id',
         label: 'label',
         children: 'children',
         disabled: 'disabled',

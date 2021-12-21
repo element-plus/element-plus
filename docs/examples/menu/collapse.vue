@@ -50,7 +50,7 @@ import {
   Document,
   Menu as IconMenu,
   Setting,
-} from '@element-plus/icons'
+} from '@element-plus/icons-vue'
 
 export default defineComponent({
   components: {

@@ -1,6 +1,6 @@
 <template>
   <el-form
-    ref="dynamicValidateForm"
+    ref="formRef"
     :model="dynamicValidateForm"
     label-width="120px"
     class="demo-dynamic"
@@ -34,60 +34,55 @@
         trigger: 'blur',
       }"
     >
-      <el-input v-model="domain.value"></el-input
-      ><el-button @click.prevent="removeDomain(domain)">Delete</el-button>
+      <el-input v-model="domain.value"></el-input>
+      <el-button class="ml-2" @click.prevent="removeDomain(domain)"
+        >Delete</el-button
+      >
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="submitForm('dynamicValidateForm')"
-        >Submit</el-button
-      >
+      <el-button type="primary" @click="submitForm(formRef)">Submit</el-button>
       <el-button @click="addDomain">New domain</el-button>
-      <el-button @click="resetForm('dynamicValidateForm')">Reset</el-button>
+      <el-button @click="resetForm(formRef)">Reset</el-button>
     </el-form-item>
   </el-form>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      dynamicValidateForm: {
-        domains: [
-          {
-            key: 1,
-            value: '',
-          },
-        ],
-        email: '',
-      },
-    }
-  },
-  methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert('submit!')
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
+<script lang="ts" setup>
+import { reactive, ref } from 'vue'
+// More info see https://github.com/element-plus/element-plus/blob/dev/docs/examples/form/utils.ts
+import { resetForm, submitForm } from './utils'
+import type { ElForm } from 'element-plus'
+
+const formRef = ref<InstanceType<typeof ElForm>>()
+const dynamicValidateForm = reactive<{
+  domains: DomainItem[]
+  email: string
+}>({
+  domains: [
+    {
+      key: 1,
+      value: '',
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields()
-    },
-    removeDomain(item) {
-      const index = this.dynamicValidateForm.domains.indexOf(item)
-      if (index !== -1) {
-        this.dynamicValidateForm.domains.splice(index, 1)
-      }
-    },
-    addDomain() {
-      this.dynamicValidateForm.domains.push({
-        key: Date.now(),
-        value: '',
-      })
-    },
-  },
+  ],
+  email: '',
+})
+
+interface DomainItem {
+  key: number
+  value: string
+}
+
+const removeDomain = (item: DomainItem) => {
+  const index = dynamicValidateForm.domains.indexOf(item)
+  if (index !== -1) {
+    dynamicValidateForm.domains.splice(index, 1)
+  }
+}
+
+const addDomain = () => {
+  dynamicValidateForm.domains.push({
+    key: Date.now(),
+    value: '',
+  })
 }
 </script>

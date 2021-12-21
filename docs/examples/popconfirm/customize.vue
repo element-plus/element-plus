@@ -13,5 +13,5 @@
 </template>
 
 <script setup lang="ts">
-import { InfoFilled } from '@element-plus/icons'
+import { InfoFilled } from '@element-plus/icons-vue'
 </script>

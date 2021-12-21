@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import Calendar from '../src/index.vue'
+import Calendar from '../src/calendar.vue'
 
 const _mount = (template: string, data?, otherObj?) =>
   mount({

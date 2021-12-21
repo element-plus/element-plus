@@ -37,7 +37,7 @@
   width: 100%;
   height: 100%;
   opacity: var(--el-popup-modal-opacity);
-  background: var(--el-popup-modal-background-color);
+  background: var(--el-popup-modal-bg-color);
 }
 
 @include b(popup-parent) {

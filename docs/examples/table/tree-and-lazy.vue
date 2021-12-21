@@ -89,7 +89,7 @@ export default {
     }
   },
   methods: {
-    load(tree, treeNode, resolve) {
+    load(row, treeNode, resolve) {
       setTimeout(() => {
         resolve([
           {

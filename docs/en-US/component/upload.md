@@ -15,6 +15,14 @@ upload/basic
 
 :::
 
+## Cover previous file
+
+:::demo Set `limit` and `on-exceed` to automatically replace the previous file when select a new file.
+
+upload/limit-cover
+
+:::
+
 ## User avatar upload
 
 Use `before-upload` hook to limit the upload file format and size.
@@ -119,11 +127,13 @@ upload/manual
 | —       | customize default content          |
 | trigger | content which triggers file dialog |
 | tip     | content of tips                    |
+| file    | content of thumbnail template.     |
 
 ## Methods
 
-| Methods Name | Description                                                                             | Parameters                  |
-| ------------ | --------------------------------------------------------------------------------------- | --------------------------- |
-| clearFiles   | clear the uploaded file list (this method is not supported in the `before-upload` hook) | —                           |
-| abort        | cancel upload request                                                                   | （ file: fileList's item ） |
-| submit       | upload the file list manually                                                           | —                           |
+| Methods Name | Description                                                                     | Parameters                                                                    | Default                                   |
+| ------------ | ------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------- |
+| clearFiles   | clear the file list (this method is not supported in the `before-upload` hook). | UploadStatus[] (UploadStatus = 'ready' \| 'uploading' \| 'success' \| 'fail') | ['ready', 'uploading', 'success', 'fail'] |
+| abort        | cancel upload request                                                           | ( file: fileList's item )                                                     |                                           |
+| submit       | upload the file list manually                                                   | —                                                                             |                                           |
+| handleStart  | select the file manually                                                        | ( file: files' item)                                                          |                                           |

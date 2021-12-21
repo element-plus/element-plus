@@ -1,4 +1,6 @@
 import path from 'path'
+import { mkdir, copyFile } from 'fs/promises'
+import { copy } from 'fs-extra'
 import { series, parallel } from 'gulp'
 import { run } from './utils/process'
 import { withTaskName } from './utils/gulp'
@@ -10,36 +12,40 @@ import type { Module } from './build-info'
 const runTask = (name: string) =>
   withTaskName(name, () => run(`pnpm run build ${name}`))
 
-export const copyFiles = () => {
-  const copyTypings = async () => {
-    const src = path.resolve(projRoot, 'typings', 'global.d.ts')
-    await run(`cp ${src} ${epOutput}`)
-  }
-
-  return Promise.all([
-    run(`cp ${epPackage} ${path.join(epOutput, 'package.json')}`),
-    run(`cp README.md ${epOutput}`),
-    copyTypings(),
+export const copyFiles = () =>
+  Promise.all([
+    copyFile(epPackage, path.join(epOutput, 'package.json')),
+    copyFile(
+      path.resolve(projRoot, 'README.md'),
+      path.resolve(epOutput, 'README.md')
+    ),
+    copyFile(
+      path.resolve(projRoot, 'typings/global.d.ts'),
+      path.resolve(epOutput, 'global.d.ts')
+    ),
   ])
-}
 
 export const copyTypesDefinitions: TaskFunction = (done) => {
-  const src = `${buildOutput}/types/`
-  const copy = (module: Module) =>
+  const src = path.resolve(buildOutput, 'types')
+  const copyTypes = (module: Module) =>
     withTaskName(`copyTypes:${module}`, () =>
-      run(`rsync -a ${src} ${buildConfig[module].output.path}/`)
+      copy(src, buildConfig[module].output.path, { recursive: true })
     )
 
-  return parallel(copy('esm'), copy('cjs'))(done)
+  return parallel(copyTypes('esm'), copyTypes('cjs'))(done)
 }
 
 export const copyFullStyle = async () => {
-  await run(`mkdir -p ${epOutput}/dist`)
-  await run(`cp ${epOutput}/theme-chalk/index.css ${epOutput}/dist/index.css`)
+  await mkdir(path.resolve(epOutput, 'dist'), { recursive: true })
+  await copyFile(
+    path.resolve(epOutput, 'theme-chalk/index.css'),
+    path.resolve(epOutput, 'dist/index.css')
+  )
 }
 
 export default series(
   withTaskName('clean', () => run('pnpm run clean')),
+  withTaskName('createOutput', () => mkdir(epOutput, { recursive: true })),
 
   parallel(
     runTask('buildModules'),
