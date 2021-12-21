@@ -30,7 +30,7 @@ import { ref } from 'vue'
 const upload = ref()
 
 const handleExceed = (files) => {
-  upload.value.clearFiles(['ready', 'success', 'fail', 'uploading'])
+  upload.value.clearFiles()
   upload.value.handleStart(files[0])
 }
 const submitUpload = () => {
