@@ -30,11 +30,11 @@ export const switchProps = buildProps({
     default: false,
   },
   activeIcon: {
-    type: definePropType<string | Component>([String, Object]),
+    type: definePropType<string | Component>([String, Object, Function]),
     default: '',
   },
   inactiveIcon: {
-    type: definePropType<string | Component>([String, Object]),
+    type: definePropType<string | Component>([String, Object, Function]),
     default: '',
   },
   activeText: {

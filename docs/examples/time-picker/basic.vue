@@ -23,8 +23,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-const value1 = ref(new Date(2016, 9, 10, 18, 40))
-const value2 = ref(new Date(2016, 9, 10, 18, 40))
+const value1 = ref(new Date(2016, 9, 10, 18, 30))
+const value2 = ref(new Date(2016, 9, 10, 18, 30))
 
 const makeRange = (start: number, end: number) => {
   const result: number[] = []
