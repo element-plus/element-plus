@@ -5,6 +5,7 @@
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 @use './select-dropdown.scss';
+@use './select/common.scss' as *;
 
 @include b(select) {
   @include set-component-css-var('select', $select);
@@ -39,12 +40,7 @@
     }
   }
 
-  .#{$namespace}-select__tags-text {
-    text-overflow: ellipsis;
-    display: inline-block;
-    overflow-x: hidden;
-    vertical-align: bottom;
-  }
+  @include select-common(select);
 
   .#{$namespace}-input__inner {
     cursor: pointer;

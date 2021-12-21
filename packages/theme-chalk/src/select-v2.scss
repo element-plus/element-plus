@@ -7,6 +7,7 @@
 @use './select-dropdown-v2.scss';
 @use './option-item.scss';
 @use './option-group.scss';
+@use './select/common.scss' as *;
 
 $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
 
@@ -22,12 +23,11 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
   @include e(wrapper) {
     display: flex;
     align-items: center;
-
-    height: map.get($input-height, 'default');
+    flex-wrap: wrap;
 
     box-sizing: border-box;
     cursor: pointer;
-    padding-right: 30px;
+    padding: 2px 30px 2px 0;
     border: 1px solid var(--el-border-color-base);
     border-radius: var(--el-border-radius-base);
     transition: border-color var(--el-transition-duration-fast)
@@ -104,13 +104,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     }
   }
 
-  .#{$namespace}-select-v2__tags-text {
-    text-overflow: ellipsis;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-  }
+  @include select-common(select-v2);
 
   @include e(empty) {
     padding: 10px 0;
