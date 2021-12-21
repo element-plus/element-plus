@@ -8,16 +8,6 @@
   @include set-component-css-var('input', $input);
 }
 
-$input-padding-horizontal: () !default;
-$input-padding-horizontal: map.merge(
-  (
-    'large': 16px,
-    'default': 12px,
-    'small': 8px,
-  ),
-  $input-padding-horizontal
-);
-
 @include b(textarea) {
   position: relative;
   display: inline-block;
