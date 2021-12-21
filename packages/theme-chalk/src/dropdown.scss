@@ -28,8 +28,8 @@ $dropdown-caret-width: () !default;
 $dropdown-caret-width: map.merge(
   (
     'large': 40px,
-    'default': 30px,
-    'small': 20px,
+    'default': 32px,
+    'small': 24px,
   ),
   $dropdown-caret-width
 );

@@ -90,7 +90,7 @@ $tag-border-width: 1px;
   align-items: center;
 
   height: map.get($tag-height, 'default');
-  padding: map.get($tag-padding, 'default');
+  padding: map.get($tag-padding, 'default') - $border-width-base;
   font-size: var(--el-tag-font-size);
   line-height: 1;
   border-width: $tag-border-width;
