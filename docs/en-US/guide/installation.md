@@ -41,7 +41,7 @@ $ yarn add element-plus
 $ pnpm install element-plus
 ```
 
-If your network environment is not good, it is recommended to use a mirror registry [cnpm](https://github.com/cnpm/cnpm) or [Alibaba](https://registry.npm.taobao.org).
+If your network environment is not good, it is recommended to use a mirror registry [cnpm](https://github.com/cnpm/cnpm) or [Alibaba](https://registry.npmmirror.com/).
 
 ## Import in Browser
 
