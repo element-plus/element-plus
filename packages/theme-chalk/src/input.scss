@@ -153,7 +153,7 @@ $input-padding-horizontal: map.merge(
     height: map.get($input-height, 'default');
     line-height: map.get($input-height, 'default');
     outline: none;
-    padding: 0 map.get($input-padding-horizontal, 'default');
+    padding: 0 map.get($input-padding-horizontal, 'default')-$border-width-base;
     transition: var(--el-transition-border);
     width: 100%;
 
@@ -301,7 +301,7 @@ $input-padding-horizontal: map.merge(
       @include e(inner) {
         height: map.get($input-height, $size);
         line-height: map.get($input-height, $size);
-        padding: 0 map.get($input-padding-horizontal, $size);
+        padding: 0 map.get($input-padding-horizontal, $size)-$border-width-base;
       }
 
       .#{$namespace}-input__icon {

@@ -533,6 +533,8 @@ $button: map.merge(
   $button
 );
 
+$button-border-width: $border-width-base !default;
+
 // need mix, so do not use css var
 $button-hover-tint-percent: 20%;
 $button-active-shade-percent: 10%;
@@ -592,7 +594,7 @@ $button-padding-horizontal: map.merge(
   (
     'large': 20px,
     'default': 16px,
-    'small': 8px,
+    'small': 12px,
   ),
   $button-padding-horizontal
 );

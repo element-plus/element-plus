@@ -13,7 +13,7 @@
       border
     ></el-checkbox>
   </div>
-  <div class="demo-with-border">
+  <div class="demo-with-border my-4">
     <el-checkbox v-model="checked3" label="Option1" border></el-checkbox>
     <el-checkbox v-model="checked4" label="Option2" border></el-checkbox>
   </div>
@@ -42,9 +42,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style scoped>
-.demo-with-border {
-  margin-top: 24px;
-}
-</style>

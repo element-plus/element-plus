@@ -19,9 +19,9 @@ $checkbox-height: map.merge(
 $checkbox-bordered-padding: () !default;
 $checkbox-bordered-padding: map.merge(
   (
-    'large': 0 20px 0 10px,
-    'default': 0 15px 0 10px,
-    'small': 0 15px 0 10px,
+    'large': 0 20px 0 12px,
+    'default': 0 16px 0 10px,
+    'small': 0 12px 0 8px,
   ),
   $checkbox-bordered-padding
 );
@@ -251,7 +251,7 @@ $checkbox-bordered-input-width: map.merge(
 
   @include e(label) {
     display: inline-block;
-    padding-left: 10px;
+    padding-left: 8px;
     line-height: 1;
     font-size: var(--el-checkbox-font-size);
   }

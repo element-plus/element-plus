@@ -10,8 +10,6 @@
   @include set-component-css-var('button', $button);
 }
 
-$button-border-width: 1px;
-
 @include b(button) {
   display: inline-flex;
   justify-content: center;
@@ -165,7 +163,7 @@ $button-border-width: 1px;
   }
   @include when(circle) {
     border-radius: 50%;
-    padding: map.get($button-padding-vertical, 'default');
+    padding: map.get($button-padding-vertical, 'default') - $button-border-width;
   }
 
   @include e(text) {
@@ -199,7 +197,7 @@ $button-border-width: 1px;
       );
 
       @include when(circle) {
-        padding: map.get($button-padding-vertical, $size);
+        padding: map.get($button-padding-vertical, $size) - $button-border-width;
       }
     }
   }
