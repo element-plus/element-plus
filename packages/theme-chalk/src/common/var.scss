@@ -490,6 +490,16 @@ $input-number-width: map.merge(
   $input-number-width
 );
 
+$input-padding-horizontal: () !default;
+$input-padding-horizontal: map.merge(
+  (
+    'large': 16px,
+    'default': 12px,
+    'small': 8px,
+  ),
+  $input-padding-horizontal
+);
+
 // Cascader
 // css3 var in packages/theme-chalk/src/cascader.scss
 $cascader: () !default;
