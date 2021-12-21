@@ -13,12 +13,8 @@
     <el-tab-pane label="Task">Task</el-tab-pane>
   </el-tabs>
 </template>
-<script lang="ts">
-export default {
-  data() {
-    return {
-      tabPosition: 'left',
-    }
-  },
-}
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const tabPosition = ref('left')
 </script>

@@ -84,30 +84,16 @@
   </el-container>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
-import { Message, Menu, Setting } from '@element-plus/icons-vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
+import { Message, Menu as IconMenu, Setting } from '@element-plus/icons-vue'
 
-export default defineComponent({
-  components: {
-    Message,
-    Setting,
-    'icon-menu': Menu,
-  },
-  setup() {
-    const item = {
-      date: '2016-05-02',
-      name: 'Tom',
-      address: 'No. 189, Grove St, Los Angeles',
-    }
-
-    const tableData = ref(Array(20).fill(item))
-
-    return {
-      tableData,
-    }
-  },
-})
+const item = {
+  date: '2016-05-02',
+  name: 'Tom',
+  address: 'No. 189, Grove St, Los Angeles',
+}
+const tableData = ref(Array(20).fill(item))
 </script>
 
 <style>

@@ -364,4 +364,31 @@ describe('Dropdown', () => {
     await sleep(TIMEOUT)
     expect(content.visible).toBe(true)
   })
+
+  test('popperClass', async () => {
+    const wrapper = await _mount(
+      `
+      <el-dropdown ref="b" max-height="60px" popper-class="custom-popper-class">
+        <span class="el-dropdown-link" ref="a">
+          dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>Apple</el-dropdown-item>
+            <el-dropdown-item>Orange</el-dropdown-item>
+            <el-dropdown-item>Cherry</el-dropdown-item>
+            <el-dropdown-item disabled>Peach</el-dropdown-item>
+            <el-dropdown-item divided>Pear</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      `,
+      () => ({})
+    )
+    const content = wrapper.findComponent({ ref: 'b' }) as any
+    const popperId = content?.componentVM?.triggerVnode?.popperId
+    const popperElement = document.getElementById(popperId)
+
+    expect(popperElement.classList.contains('custom-popper-class')).toBe(true)
+  })
 })

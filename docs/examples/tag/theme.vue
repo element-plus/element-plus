@@ -25,18 +25,14 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      items: [
-        { type: '', label: 'Tag 1' },
-        { type: 'success', label: 'Tag 2' },
-        { type: 'info', label: 'Tag 3' },
-        { type: 'danger', label: 'Tag 4' },
-        { type: 'warning', label: 'Tag 5' },
-      ],
-    }
-  },
-}
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const items = ref([
+  { type: '', label: 'Tag 1' },
+  { type: 'success', label: 'Tag 2' },
+  { type: 'info', label: 'Tag 3' },
+  { type: 'danger', label: 'Tag 4' },
+  { type: 'warning', label: 'Tag 5' },
+])
 </script>

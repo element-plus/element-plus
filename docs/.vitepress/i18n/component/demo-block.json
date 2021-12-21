@@ -1,0 +1,12 @@
+{
+  "en-US": {
+    "view-source": "View source",
+    "edit-on-github": "Edit on Github",
+    "edit-in-editor": "Edit in PlayGround",
+    "copy-code": "Copy code",
+    "switch-button-option-text": "Switch to Options API",
+    "switch-button-setup-text": "Switch to Composition API",
+    "copy-success": "Copied!",
+    "copy-error": "This browser does not support automatic copy！"
+  }
+}

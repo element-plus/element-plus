@@ -22,12 +22,7 @@
   </el-space>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      size: 'small',
-    }
-  },
-}
+<script lang="ts" setup>
+import { ref } from 'vue'
+const size = ref('small')
 </script>

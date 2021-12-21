@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { computed, toRef, ref, getCurrentInstance } from 'vue'
+import { computed, toRef, getCurrentInstance } from 'vue'
 import { useClipboard } from '@vueuse/core'
 import { useToggle } from '../composables/toggle'
 import { useLang } from '../composables/lang'
 import { useSourceCode } from '../composables/source-code'
+import { usePlayGround } from '../composables/use-playground'
 
 import demoBlockLocale from '../../i18n/component/demo-block.json'
 import GithubIcon from './icons/github.vue'
 import SourceCodeIcon from './icons/source-code.vue'
-import CodepenIcon from './icons/codepen.vue'
+import PlayGroundIcon from './icons/playground.vue'
 import CopyIcon from './icons/copy-icon.vue'
 
 import Example from './demo/vp-example.vue'
 import SourceCode from './demo/vp-source-code.vue'
-import Codepen from './demo/vp-codepen.vue'
 
 const props = defineProps({
   // source is encoded via encodeURIComponent
@@ -58,7 +58,7 @@ const props = defineProps({
   },
 })
 
-const vm = getCurrentInstance()
+const vm = getCurrentInstance()!
 
 const { copy, isSupported } = useClipboard({
   source: decodeURIComponent(props.rawSource),
@@ -80,12 +80,14 @@ const formatPathDemos = computed(() => {
   return demos
 })
 
-const codepenRef = ref()
 const locale = computed(() => demoBlockLocale[lang.value])
-const decodedDescription = computed(() => decodeURIComponent(props.description))
+const decodedDescription = computed(() =>
+  decodeURIComponent(props.description!)
+)
 
 const onCodepenClicked = () => {
-  codepenRef.value.submit?.()
+  const code = usePlayGround(props.rawSource)
+  window.open(`https://play.element-plus.org/#${code}`)
 }
 
 const copyCode = async () => {
@@ -96,7 +98,7 @@ const copyCode = async () => {
   try {
     await copy()
     $message.success(locale.value['copy-success'])
-  } catch (e: Error) {
+  } catch (e: any) {
     $message.error(e.message)
   }
 }
@@ -107,18 +109,10 @@ const copyCode = async () => {
     <!-- danger here DO NOT USE INLINE SCRIPT TAG -->
     <p class="example-description" v-html="decodedDescription" />
     <div class="example">
-      <Codepen
-        ref="codepenRef"
-        :css="props.css"
-        :css-pre-processor="props.cssPreProcessor"
-        :html="props.html"
-        :js="props.js"
-        :js-pre-processor="props.jsPreProcessor"
-      />
       <div class="op-btns">
-        <ElTooltip :content="locale['edit-in-codepen']" :visible-arrow="false">
+        <ElTooltip :content="locale['edit-in-editor']" :visible-arrow="false">
           <ElIcon :size="20" class="op-btn">
-            <CodepenIcon @click="onCodepenClicked" />
+            <PlayGroundIcon @click="onCodepenClicked" />
           </ElIcon>
         </ElTooltip>
         <ElTooltip :content="locale['edit-on-github']" :visible-arrow="false">

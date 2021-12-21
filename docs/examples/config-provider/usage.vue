@@ -9,41 +9,30 @@
   </div>
 </template>
 
-<script lang="ts">
-// import { ConfigProvider } from 'element-plus'
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const locale1 = ref({
-      name: 'zh-cn',
-      el: {
-        colorpicker: {
-          confirm: '确定',
-          clear: '清空',
-        },
-      },
-    })
-    const locale2 = ref({
-      name: 'en',
-      el: {
-        colorpicker: {
-          confirm: 'Confirm',
-          clear: 'Clear',
-        },
-      },
-    })
-    const toggle = () => {
-      const temp = locale1.value
-      locale1.value = locale2.value
-      locale2.value = temp
-    }
-
-    return {
-      locale1,
-      locale2,
-      toggle,
-    }
+const locale1 = ref({
+  name: 'zh-cn',
+  el: {
+    colorpicker: {
+      confirm: '确定',
+      clear: '清空',
+    },
   },
 })
+const locale2 = ref({
+  name: 'en',
+  el: {
+    colorpicker: {
+      confirm: 'Confirm',
+      clear: 'Clear',
+    },
+  },
+})
+const toggle = () => {
+  const temp = locale1.value
+  locale1.value = locale2.value
+  locale2.value = temp
+}
 </script>

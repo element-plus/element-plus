@@ -7,8 +7,9 @@
 @use './select-dropdown-v2.scss';
 @use './option-item.scss';
 @use './option-group.scss';
+@use './select/common.scss' as *;
 
-$input-inline-start: 15px !default;
+$input-inline-start: map.get($input-padding-horizontal, 'default') !default;
 
 @include b(select-v2) {
   @include set-component-css-var('select', $select);
@@ -20,11 +21,13 @@ $input-inline-start: 15px !default;
   font-size: map.get($input-font-size, 'default');
   $selector: &;
   @include e(wrapper) {
-    height: map.get($input-height, 'default');
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
 
     box-sizing: border-box;
     cursor: pointer;
-    padding: 5px 30px 5px 0px;
+    padding: 2px 30px 2px 0;
     border: 1px solid var(--el-border-color-base);
     border-radius: var(--el-border-radius-base);
     transition: border-color var(--el-transition-duration-fast)
@@ -101,12 +104,7 @@ $input-inline-start: 15px !default;
     }
   }
 
-  .#{$namespace}-select-v2__tags-text {
-    text-overflow: ellipsis;
-    display: inline-block;
-    overflow-x: hidden;
-    vertical-align: bottom;
-  }
+  @include select-common(select-v2);
 
   @include e(empty) {
     padding: 10px 0;

@@ -22,20 +22,11 @@
   </el-calendar>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const calendar = ref()
-    const selectDate = (val: string) => {
-      calendar.value.selectDate(val)
-    }
-
-    return {
-      calendar,
-      selectDate,
-    }
-  },
-})
+const calendar = ref()
+const selectDate = (val: string) => {
+  calendar.value.selectDate(val)
+}
 </script>

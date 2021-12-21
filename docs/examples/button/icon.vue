@@ -12,3 +12,9 @@
 <script setup lang="ts">
 import { Edit, Share, Delete, Search, Upload } from '@element-plus/icons-vue'
 </script>
+
+<style>
+:root {
+  --el-color-primary: #409eff;
+}
+</style>

@@ -23,37 +23,27 @@
   </el-popover>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
-
-export default defineComponent({
-  setup() {
-    const state = reactive({
-      gridData: [
-        {
-          date: '2016-05-02',
-          name: 'Jack',
-          address: 'New York City',
-        },
-        {
-          date: '2016-05-04',
-          name: 'Jack',
-          address: 'New York City',
-        },
-        {
-          date: '2016-05-01',
-          name: 'Jack',
-          address: 'New York City',
-        },
-        {
-          date: '2016-05-03',
-          name: 'Jack',
-          address: 'New York City',
-        },
-      ],
-    })
-
-    return toRefs(state)
+<script lang="ts" setup>
+const gridData = [
+  {
+    date: '2016-05-02',
+    name: 'Jack',
+    address: 'New York City',
   },
-})
+  {
+    date: '2016-05-04',
+    name: 'Jack',
+    address: 'New York City',
+  },
+  {
+    date: '2016-05-01',
+    name: 'Jack',
+    address: 'New York City',
+  },
+  {
+    date: '2016-05-03',
+    name: 'Jack',
+    address: 'New York City',
+  },
+]
 </script>

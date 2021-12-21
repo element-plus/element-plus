@@ -15,7 +15,7 @@
     >
       <el-input
         v-model.number="numberValidateForm.age"
-        type="age"
+        type="text"
         autocomplete="off"
       ></el-input>
     </el-form-item>

@@ -13,27 +13,14 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, toRefs, shallowRef, h } from 'vue'
+<script lang="ts" setup>
+import { ref, shallowRef, h } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const customPrefix = shallowRef({
-      render() {
-        return h('p', 'pre')
-      },
-    })
-    const state = reactive({
-      disabledDate(time) {
-        return time.getTime() > Date.now()
-      },
-      value1: '',
-    })
+const value1 = ref('')
 
-    return {
-      ...toRefs(state),
-      customPrefix,
-    }
+const customPrefix = shallowRef({
+  render() {
+    return h('p', 'pre')
   },
 })
 </script>
