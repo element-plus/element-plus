@@ -106,7 +106,7 @@ checkbox/with-border
 
 | Attribute             | Description                                       | Type    | Accepted Values        | Default |
 | --------------------- | ------------------------------------------------- | ------- | ---------------------- | ------- |
-| model-value / v-model | binding value                                     | array   | —                      | —       |
+| model-value / v-model | binding value                                     | array   | —                      | []      |
 | size                  | size of checkbox                                  | string  | large / default /small | —       |
 | disabled              | whether the nesting checkboxes are disabled       | boolean | —                      | false   |
 | min                   | minimum number of checkbox checked                | number  | —                      | —       |
