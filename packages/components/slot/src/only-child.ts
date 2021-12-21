@@ -41,7 +41,9 @@ const OnlyChild = defineComponent({
         return null
       }
 
-      return withDirectives(cloneVNode(firstLegitNode), [[forwardRefDirective]])
+      return withDirectives(cloneVNode(firstLegitNode, attrs), [
+        [forwardRefDirective],
+      ])
     }
   },
 })

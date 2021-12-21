@@ -101,7 +101,7 @@ describe('<ElTooltipTrigger />', () => {
 
         const { vm } = wrapper
         await wrapper.setProps({
-          trigger: 'focus'
+          trigger: 'focus',
         })
         const blurEvt = new FocusEvent('blur')
         vm.onBlur(blurEvt)
@@ -112,13 +112,13 @@ describe('<ElTooltipTrigger />', () => {
         await nextTick()
         expect(onOpen).toHaveBeenCalledTimes(1)
         await wrapper.setProps({
-          trigger: 'click'
+          trigger: 'click',
         })
         const mousedownEvt = new MouseEvent('mousedown')
         vm.onMousedown(mousedownEvt)
         await nextTick()
         await wrapper.setProps({
-          trigger: 'hover'
+          trigger: 'hover',
         })
         expect(onToggle).toHaveBeenCalledTimes(1)
         const mouseenterEvt = new MouseEvent('mouseenter')
@@ -130,7 +130,7 @@ describe('<ElTooltipTrigger />', () => {
         await nextTick()
         expect(onClose).toHaveBeenCalledTimes(2)
         await wrapper.setProps({
-          trigger: 'contextmenu'
+          trigger: 'contextmenu',
         })
         const contextmenuEvt = new MouseEvent('contextmenu')
         vm.onContextMenu(contextmenuEvt)
@@ -140,21 +140,21 @@ describe('<ElTooltipTrigger />', () => {
         // keyboard evt
 
         let keyboardEvt = new KeyboardEvent('keydown', {
-          code: EVENT_CODE.esc
+          code: EVENT_CODE.esc,
         })
 
         vm.onKeydown(keyboardEvt)
         await nextTick()
         expect(onToggle).toHaveBeenCalledTimes(2)
         keyboardEvt = new KeyboardEvent('keydown', {
-          code: EVENT_CODE.enter
+          code: EVENT_CODE.enter,
         })
         vm.onKeydown(keyboardEvt)
         await nextTick()
         expect(onToggle).toHaveBeenCalledTimes(3)
 
         keyboardEvt = new KeyboardEvent('keydown', {
-          code: EVENT_CODE.space
+          code: EVENT_CODE.space,
         })
         vm.onKeydown(keyboardEvt)
         await nextTick()

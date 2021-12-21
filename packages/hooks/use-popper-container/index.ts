@@ -12,7 +12,10 @@ export const usePopperContainer = () => {
   onBeforeMount(() => {
     if (isServer) return
 
-    if (!cachedContainer) {
+    // This is for bypassing the error that when under testing env, we often encounter
+    // document.body.innerHTML = '' situation
+    // for this we need to disable the caching since it's not really needed
+    if (process.env?.NODE_ENV === 'test' || !cachedContainer) {
       const container = document.createElement('div')
       container.id = POPPER_CONTAINER_ID
       document.body.appendChild(container)

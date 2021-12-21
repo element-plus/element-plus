@@ -56,9 +56,6 @@ import {
 } from './tooltip'
 import { TOOLTIP_INJECTION_KEY } from './tokens'
 
-import type { UnwrapRef } from 'vue'
-import type { ElPopperInjectionContext } from '@element-plus/components/popper'
-
 const { useModelToggleProps, useModelToggle, useModelToggleEmits } =
   createModelToggleComposable('visible')
 
@@ -157,6 +154,7 @@ export default defineComponent({
       compatShowAfter,
       compatShowArrow,
       popperRef,
+      open,
       updatePopper,
       derivedProps,
       onOpen,

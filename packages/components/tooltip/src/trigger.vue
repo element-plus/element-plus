@@ -4,6 +4,7 @@
     :id="id"
     :open="open"
     :virtual-triggering="virtualTriggering"
+    class="el-tooltip__trigger"
     @blur="onBlur"
     @contextmenu="onContextMenu"
     @focus="onFocus"

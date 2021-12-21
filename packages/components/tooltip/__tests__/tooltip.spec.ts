@@ -1,51 +1,113 @@
 import { h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
+import { debugWarn } from '@element-plus/utils/error'
+import { rAF } from '@element-plus/test-utils/tick'
+import { ElPopperTrigger } from '@element-plus/components/popper'
 import Tooltip from '../src/tooltip.vue'
 
 import type { VNode } from 'vue'
 
+jest.useFakeTimers()
+
+jest.mock('@element-plus/utils/error', () => ({
+  debugWarn: jest.fn(),
+}))
+
 const AXIOM = 'Rem is the best girl'
 
-const _mount = (props: any = {}, content: string | VNode = '') =>
-  mount(Tooltip, {
-    slots: {
-      default: () => h('div', AXIOM),
-      content: () => content,
-    },
-    props,
-    attachTo: 'body',
-  })
-
-const selector = '.el-popper'
-describe('Tooltip.vue', () => {
-  beforeEach(() => {
-    document.body.innerHTML = ''
-  })
-  test('render test', () => {
-    const wrapper = _mount(undefined, AXIOM)
-    expect(wrapper.html()).toContain(AXIOM)
-  })
-
-  test('manual mode', async () => {
-    const wrapper = _mount(
-      {
-        manual: true,
-        modelValue: false,
+describe('<ElTooltip />', () => {
+  const createComponent = (props: any = {}, content: string | VNode = '') =>
+    mount(Tooltip, {
+      slots: {
+        default: () => AXIOM,
+        content: () => content,
       },
-      AXIOM
-    )
-    // since VTU does not provide any functionality for testing teleported components
-    expect(document.querySelector(selector).getAttribute('style')).toContain(
-      'display: none'
-    )
-
-    await wrapper.setProps({
-      modelValue: true,
+      props,
+      attachTo: document.body,
     })
 
-    await nextTick()
-    expect(
-      document.querySelector(selector).getAttribute('style')
-    ).not.toContain('display: none')
+  let wrapper: ReturnType<typeof createComponent>
+  const findTrigger = () => wrapper.findComponent(ElPopperTrigger)
+
+  afterEach(() => {
+    wrapper?.unmount()
+    document.body.innerHTML = ''
+    ;(debugWarn as jest.Mock).mockClear()
+  })
+
+  describe('rendering', () => {
+    it('should render correctly', async () => {
+      wrapper = createComponent()
+      await nextTick()
+      expect(findTrigger().text()).toContain(AXIOM)
+    })
+  })
+
+  describe('deprecating API', () => {
+    it('should warn about API that will be deprecated', async () => {
+      expect(debugWarn).toHaveBeenCalledTimes(0)
+
+      wrapper = createComponent({
+        openDelay: 200,
+        visibleArrow: true,
+      })
+
+      await nextTick()
+      expect(debugWarn).toHaveBeenCalledTimes(2)
+    })
+  })
+
+  describe('functionality', () => {
+    const content = 'Test content'
+
+    it('should be able to update popper content manually', async () => {
+      wrapper = createComponent()
+      await nextTick()
+
+      const { vm } = wrapper
+      expect(vm.updatePopper).toBeDefined()
+      vm.updatePopper()
+    })
+
+    it('should be able to open & close tooltip content', async () => {
+      wrapper = createComponent({}, content)
+      await nextTick()
+
+      const trigger$ = findTrigger()
+      const triggerEl = trigger$.find('.el-tooltip__trigger')
+      await triggerEl.trigger('mouseenter')
+      jest.runAllTimers()
+      await rAF()
+
+      expect(wrapper.emitted()).toHaveProperty('show')
+
+      await triggerEl.trigger('mouseleave') // dispatches a timer with 200ms timeout.
+      jest.runAllTimers()
+      await rAF()
+
+      expect(wrapper.emitted()).toHaveProperty('hide')
+    })
+
+    it('should be able to toggle visibility of tooltip content', async () => {
+      wrapper = createComponent(
+        {
+          trigger: 'click',
+        },
+        content
+      )
+      await nextTick()
+
+      const trigger$ = findTrigger()
+      const triggerEl = trigger$.find('.el-tooltip__trigger')
+      await triggerEl.trigger('mousedown')
+      jest.runAllTimers()
+      await rAF()
+      expect(wrapper.emitted()).toHaveProperty('show')
+
+      await triggerEl.trigger('mousedown')
+      jest.runAllTimers()
+      await rAF()
+      expect(wrapper.emitted()).toHaveProperty('hide')
+    })
   })
 })
