@@ -19,10 +19,10 @@ Toggleable menu for displaying lists of links and actions.
     cursor: pointer;
     color: var(--el-color-primary);
   }
-.el-icon--right {
-  font-size: 12px;
-  vertical-align: middle;
-}
+  .el-icon--right {
+    font-size: 12px;
+    vertical-align: middle;
+  }
 }
 
 .block-col-2 {
@@ -122,6 +122,7 @@ dropdown/sizes
 | show-timeout  | Delay time before show a dropdown (only works when trigger is `hover`)                               | number          | —                                                    | 250     |
 | hide-timeout  | Delay time before hide a dropdown (only works when trigger is `hover`)                               | number          | —                                                    | 150     |
 | tabindex      | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Dropdown | number          | —                                                    | 0       |
+| popper-class  | custom class name for Dropdown's dropdown                                                            | string          | —                                                    | —       |
 
 ## Dropdown Slots
 

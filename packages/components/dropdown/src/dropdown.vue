@@ -9,7 +9,7 @@
       pure
       :manual-mode="true"
       :trigger="[trigger]"
-      popper-class="el-dropdown__popper"
+      :popper-class="`el-dropdown__popper ${popperClass}`"
       append-to-body
       transition="el-zoom-in-top"
       :stop-popper-mouse-event="false"
@@ -125,6 +125,10 @@ export default defineComponent({
     },
     maxHeight: {
       type: [Number, String],
+      default: '',
+    },
+    popperClass: {
+      type: String,
       default: '',
     },
   },
