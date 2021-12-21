@@ -30,10 +30,9 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return { direction: 'horizontal', fillRatio: 30 }
-  },
-}
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const direction = ref('horizontal')
+const fillRatio = ref(30)
 </script>

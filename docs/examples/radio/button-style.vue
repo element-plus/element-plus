@@ -25,16 +25,10 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    return {
-      radio1: ref('New York'),
-      radio2: ref('New York'),
-      radio3: ref('New York'),
-    }
-  },
-})
+const radio1 = ref('New York')
+const radio2 = ref('New York')
+const radio3 = ref('New York')
 </script>

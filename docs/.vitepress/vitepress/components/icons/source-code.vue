@@ -6,9 +6,3 @@
     ></path>
   </svg>
 </template>
-
-<script>
-export default {
-  name: 'SourceCodeIcon',
-}
-</script>

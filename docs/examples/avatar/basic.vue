@@ -24,22 +24,16 @@
     </el-col>
   </el-row>
 </template>
-<script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+<script lang="ts" setup>
+import { reactive, toRefs } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const state = reactive({
-      circleUrl:
-        'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-      squareUrl:
-        'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png',
-      sizeList: ['large', 'default', 'small'],
-    })
-
-    return {
-      ...toRefs(state),
-    }
-  },
+const state = reactive({
+  circleUrl:
+    'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+  squareUrl:
+    'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png',
+  sizeList: ['large', 'default', 'small'],
 })
+
+const { circleUrl, squareUrl, sizeList } = toRefs(state)
 </script>

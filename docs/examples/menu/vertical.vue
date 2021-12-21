@@ -84,33 +84,17 @@
   </el-row>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
 import {
   Location,
   Document,
   Menu as IconMenu,
   Setting,
 } from '@element-plus/icons-vue'
-
-export default defineComponent({
-  components: {
-    Location,
-    Document,
-    Setting,
-    IconMenu,
-  },
-  setup() {
-    const handleOpen = (key, keyPath) => {
-      console.log(key, keyPath)
-    }
-    const handleClose = (key, keyPath) => {
-      console.log(key, keyPath)
-    }
-    return {
-      handleOpen,
-      handleClose,
-    }
-  },
-})
+const handleOpen = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath)
+}
+const handleClose = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath)
+}
 </script>

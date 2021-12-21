@@ -17,43 +17,36 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
 import { MoreFilled } from '@element-plus/icons-vue'
 
-export default defineComponent({
-  setup() {
-    return {
-      activities: [
-        {
-          content: 'Custom icon',
-          timestamp: '2018-04-12 20:46',
-          size: 'large',
-          type: 'primary',
-          icon: MoreFilled,
-        },
-        {
-          content: 'Custom color',
-          timestamp: '2018-04-03 20:46',
-          color: '#0bbd87',
-        },
-        {
-          content: 'Custom size',
-          timestamp: '2018-04-03 20:46',
-          size: 'large',
-        },
-        {
-          content: 'Custom hollow',
-          timestamp: '2018-04-03 20:46',
-          type: 'primary',
-          hollow: true,
-        },
-        {
-          content: 'Default node',
-          timestamp: '2018-04-03 20:46',
-        },
-      ],
-    }
+const activities = [
+  {
+    content: 'Custom icon',
+    timestamp: '2018-04-12 20:46',
+    size: 'large',
+    type: 'primary',
+    icon: MoreFilled,
   },
-})
+  {
+    content: 'Custom color',
+    timestamp: '2018-04-03 20:46',
+    color: '#0bbd87',
+  },
+  {
+    content: 'Custom size',
+    timestamp: '2018-04-03 20:46',
+    size: 'large',
+  },
+  {
+    content: 'Custom hollow',
+    timestamp: '2018-04-03 20:46',
+    type: 'primary',
+    hollow: true,
+  },
+  {
+    content: 'Default node',
+    timestamp: '2018-04-03 20:46',
+  },
+]
 </script>

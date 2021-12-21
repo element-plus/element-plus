@@ -10,6 +10,10 @@ import type { Route } from 'vitepress'
 
 export * from 'vitepress/dist/client/theme-default/utils'
 
+export function utoa(data: string): string {
+  return btoa(unescape(encodeURIComponent(data)))
+}
+
 export const throttleAndDebounce = (fn: () => any, delay: number) => {
   let timeout: ReturnType<typeof setTimeout>
   let called = false

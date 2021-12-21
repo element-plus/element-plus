@@ -6,17 +6,12 @@
     <el-tab-pane label="Task" name="fourth">Task</el-tab-pane>
   </el-tabs>
 </template>
-<script lang="ts">
-export default {
-  data() {
-    return {
-      activeName: 'first',
-    }
-  },
-  methods: {
-    handleClick(tab, event) {
-      console.log(tab, event)
-    },
-  },
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const activeName = ref('first')
+
+const handleClick = (tab: string, event: Event) => {
+  console.log(tab, event)
 }
 </script>

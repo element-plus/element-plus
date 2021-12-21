@@ -21,17 +21,11 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    return {
-      radio1: ref('1'),
-      radio2: ref('1'),
-      radio3: ref('1'),
-      radio4: ref('1'),
-    }
-  },
-})
+const radio1 = ref('1')
+const radio2 = ref('1')
+const radio3 = ref('1')
+const radio4 = ref('1')
 </script>

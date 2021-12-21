@@ -25,22 +25,14 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const state = reactive({
-      checked1: true,
-      checked2: false,
-      checked3: false,
-      checked4: true,
-      checkboxGroup1: [],
-    })
-
-    return toRefs(state)
-  },
-})
+const checked1 = ref(true)
+const checked2 = ref(false)
+const checked3 = ref(false)
+const checked4 = ref(true)
+const checkboxGroup1 = ref([])
 </script>
 
 <style scoped>
