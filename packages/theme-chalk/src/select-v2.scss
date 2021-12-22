@@ -196,11 +196,13 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
   }
 
   @include e(suffix) {
+    display: inline-flex;
     position: absolute;
-    right: 5px;
+    right: 12px;
     height: 40px;
     top: 50%;
     transform: translateY(-50%);
+    color: var(--el-input-icon-color, map.get($input, 'icon-color'));
   }
 
   @include e(caret) {
