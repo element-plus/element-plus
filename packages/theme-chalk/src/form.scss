@@ -121,7 +121,7 @@
   }
 
   @include when(error) {
-    & .#{$namespace}-input__inner,
+    & .#{$namespace}-form-item__content .#{$namespace}-input__inner,
     & .#{$namespace}-textarea__inner {
       &,
       &:focus {
