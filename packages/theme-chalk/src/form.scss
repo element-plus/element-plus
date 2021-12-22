@@ -122,6 +122,7 @@
 
   @include when(error) {
     & .#{$namespace}-form-item__content .#{$namespace}-input__inner,
+    & .#{$namespace}-select-v2__wrapper,
     & .#{$namespace}-textarea__inner {
       &,
       &:focus {
