@@ -289,6 +289,21 @@ describe('check-button', () => {
     ).toEqual('#ff0000')
   })
 
+  test('button group tag', () => {
+    const wrapper = _mount(
+      `
+      <el-checkbox-group v-model="checkList" tag="tr">
+        <el-checkbox-button label="a" ref="a"></el-checkbox-button>
+        <el-checkbox-button label="b" ref="b"></el-checkbox-button>
+        <el-checkbox-button label="c" ref="c"></el-checkbox-button>
+        <el-checkbox-button label="d" ref="d"></el-checkbox-button>
+      </el-checkbox-group>
+      `,
+      () => ({ checkList: ['a', 'b'] })
+    )
+    expect(wrapper.find('tr').classes('el-checkbox-group')).toBeTruthy()
+  })
+
   test('button group min and max', async () => {
     const wrapper = _mount(
       `
