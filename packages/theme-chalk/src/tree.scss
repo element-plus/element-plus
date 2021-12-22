@@ -98,8 +98,10 @@
     }
 
     &.is-leaf {
-      color: transparent;
       cursor: default;
+      .icon{
+        color: transparent;
+      }
     }
     &.is-hidden {
       visibility: hidden;
