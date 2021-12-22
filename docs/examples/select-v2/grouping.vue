@@ -11,6 +11,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 
 const value = ref([])
 const options = Array.from({ length: 10 }).map((_, idx) => {
@@ -24,5 +25,4 @@ const options = Array.from({ length: 10 }).map((_, idx) => {
     })),
   }
 })
-const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 </script>
