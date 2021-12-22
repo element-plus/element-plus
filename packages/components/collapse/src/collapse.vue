@@ -5,29 +5,18 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  watch,
-  provide,
-  PropType,
-  Ref,
-  onUnmounted,
-} from 'vue'
-import mitt, { Emitter } from 'mitt'
+import { defineComponent, ref, watch, provide } from 'vue'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
+import type { PropType } from 'vue'
+import type { CollapseProvider } from './collapse.type'
 
-export interface CollapseProvider {
-  activeNames: Ref
-  collapseMitt: Emitter
-}
 export default defineComponent({
   name: 'ElCollapse',
   props: {
     accordion: Boolean,
     modelValue: {
       type: [Array, String, Number] as PropType<
-      string | number | Array<string | number>
+        string | number | Array<string | number>
       >,
       default: () => [],
     },
@@ -35,22 +24,21 @@ export default defineComponent({
   emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT],
   setup(props, { emit }) {
     const activeNames = ref([].concat(props.modelValue))
-    const collapseMitt: Emitter = mitt()
 
-    const setActiveNames = _activeNames => {
+    const setActiveNames = (_activeNames) => {
       activeNames.value = [].concat(_activeNames)
       const value = props.accordion ? activeNames.value[0] : activeNames.value
       emit(UPDATE_MODEL_EVENT, value)
       emit(CHANGE_EVENT, value)
     }
 
-    const handleItemClick = name => {
+    const handleItemClick = (name) => {
       if (props.accordion) {
         setActiveNames(
           (activeNames.value[0] || activeNames.value[0] === 0) &&
             activeNames.value[0] === name
             ? ''
-            : name,
+            : name
         )
       } else {
         const _activeNames = activeNames.value.slice(0)
@@ -69,18 +57,12 @@ export default defineComponent({
       () => props.modelValue,
       () => {
         activeNames.value = [].concat(props.modelValue)
-      },
+      }
     )
 
-    collapseMitt.on('item-click', handleItemClick)
-
-    onUnmounted(() => {
-      collapseMitt.all.clear()
-    })
-
-    provide('collapse', {
+    provide<CollapseProvider>('collapse', {
       activeNames,
-      collapseMitt,
+      handleItemClick,
     })
 
     return {

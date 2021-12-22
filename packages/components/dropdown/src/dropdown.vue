@@ -1,53 +1,55 @@
 <template>
-  <el-popper
-    ref="triggerVnode"
-    v-model:visible="visible"
-    :placement="placement"
-    :fallback-placements="['bottom', 'top', 'right', 'left']"
-    :effect="effect"
-    pure
-    :manual-mode="true"
-    :trigger="[trigger]"
-    popper-class="el-dropdown__popper"
-    append-to-body
-    transition="el-zoom-in-top"
-    :stop-popper-mouse-event="false"
-    :gpu-acceleration="false"
-  >
-    <template #default>
-      <el-scrollbar
-        ref="scrollbar"
-        tag="ul"
-        :wrap-style="wrapStyle"
-        view-class="el-dropdown__list"
-      >
-        <slot name="dropdown"></slot>
-      </el-scrollbar>
-    </template>
-    <template #trigger>
-      <div :class="['el-dropdown', dropdownSize ? 'el-dropdown--' + dropdownSize : '']">
-        <slot v-if="!splitButton" name="default"></slot>
-        <template v-else>
-          <el-button-group>
-            <el-button
-              :size="dropdownSize"
-              :type="type"
-              @click="handlerMainButtonClick"
-            >
-              <slot name="default"></slot>
-            </el-button>
-            <el-button
-              :size="dropdownSize"
-              :type="type"
-              class="el-dropdown__caret-button"
-            >
-              <i class="el-dropdown__icon el-icon-arrow-down"></i>
-            </el-button>
-          </el-button-group>
-        </template>
-      </div>
-    </template>
-  </el-popper>
+  <div class="el-dropdown">
+    <el-popper
+      ref="triggerVnode"
+      v-model:visible="visible"
+      :placement="placement"
+      :fallback-placements="['bottom', 'top', 'right', 'left']"
+      :effect="effect"
+      pure
+      :manual-mode="true"
+      :trigger="[trigger]"
+      :popper-class="`el-dropdown__popper ${popperClass}`"
+      append-to-body
+      transition="el-zoom-in-top"
+      :stop-popper-mouse-event="false"
+      :gpu-acceleration="false"
+    >
+      <template #default>
+        <el-scrollbar
+          ref="scrollbar"
+          tag="ul"
+          :wrap-style="wrapStyle"
+          view-class="el-dropdown__list"
+        >
+          <slot name="dropdown"></slot>
+        </el-scrollbar>
+      </template>
+      <template #trigger>
+        <div :class="[dropdownSize ? 'el-dropdown--' + dropdownSize : '']">
+          <slot v-if="!splitButton" name="default"></slot>
+          <template v-else>
+            <el-button-group>
+              <el-button
+                :size="dropdownSize"
+                :type="type"
+                @click="handlerMainButtonClick"
+              >
+                <slot name="default"></slot>
+              </el-button>
+              <el-button
+                :size="dropdownSize"
+                :type="type"
+                class="el-dropdown__caret-button"
+              >
+                <el-icon class="el-dropdown__icon"><arrow-down /></el-icon>
+              </el-button>
+            </el-button-group>
+          </template>
+        </div>
+      </template>
+    </el-popper>
+  </div>
 </template>
 <script lang="ts">
 import {
@@ -60,13 +62,18 @@ import {
   onMounted,
 } from 'vue'
 import ElButton from '@element-plus/components/button'
-import ElPopper from '@element-plus/components/popper'
+import ElPopper, { Effect } from '@element-plus/components/popper'
 import ElScrollbar from '@element-plus/components/scrollbar'
+import ElIcon from '@element-plus/components/icon'
 import { on, addClass, removeClass } from '@element-plus/utils/dom'
 import { addUnit } from '@element-plus/utils/util'
-import { useDropdown } from './useDropdown'
+import { ArrowDown } from '@element-plus/icons-vue'
+import { useSize } from '@element-plus/hooks'
 
-import type { ComponentPublicInstance } from 'vue'
+import type { Placement } from '@element-plus/components/popper'
+import type { PropType, ComponentPublicInstance, CSSProperties } from 'vue'
+import type { TriggerType } from '@element-plus/hooks/use-popper/use-target-events'
+import type { ButtonType } from '@element-plus/components/button/src/types'
 
 type Nullable<T> = null | T
 const { ButtonGroup: ElButtonGroup } = ElButton
@@ -78,13 +85,15 @@ export default defineComponent({
     ElButtonGroup,
     ElScrollbar,
     ElPopper,
+    ElIcon,
+    ArrowDown,
   },
   props: {
     trigger: {
-      type: String,
+      type: String as PropType<TriggerType | 'contextmenu'>,
       default: 'hover',
     },
-    type: String,
+    type: String as PropType<ButtonType>,
     size: {
       type: String,
       default: '',
@@ -95,7 +104,7 @@ export default defineComponent({
       default: true,
     },
     placement: {
-      type: String,
+      type: String as PropType<Placement>,
       default: 'bottom',
     },
     showTimeout: {
@@ -111,38 +120,43 @@ export default defineComponent({
       default: 0,
     },
     effect: {
-      type: String,
-      default: 'light',
+      type: String as PropType<Effect>,
+      default: Effect.LIGHT,
     },
     maxHeight: {
       type: [Number, String],
+      default: '',
+    },
+    popperClass: {
+      type: String,
       default: '',
     },
   },
   emits: ['visible-change', 'click', 'command'],
   setup(props, { emit }) {
     const _instance = getCurrentInstance()
-    const { ELEMENT } = useDropdown()
 
     const timeout = ref<Nullable<number>>(null)
 
     const visible = ref(false)
     const scrollbar = ref(null)
-    const wrapStyle = computed(() => `max-height: ${addUnit(props.maxHeight)}`)
+    const wrapStyle = computed<CSSProperties>(() => ({
+      maxHeight: addUnit(props.maxHeight),
+    }))
 
     watch(
       () => visible.value,
-      val => {
+      (val) => {
         if (val) triggerElmFocus()
         if (!val) triggerElmBlur()
         emit('visible-change', val)
-      },
+      }
     )
 
     const focusing = ref(false)
     watch(
       () => focusing.value,
-      val => {
+      (val) => {
         const selfDefine = triggerElm.value
         if (selfDefine) {
           if (val) {
@@ -151,14 +165,14 @@ export default defineComponent({
             removeClass(selfDefine, 'focusing')
           }
         }
-      },
+      }
     )
 
     const triggerVnode = ref<Nullable<ComponentPublicInstance>>(null)
     const triggerElm = computed<Nullable<HTMLButtonElement>>(() => {
-      const _: any =
-        (triggerVnode.value?.$refs.triggerRef as HTMLElement)?.children[0] ?? {}
-      return !props.splitButton ? _ : _.children?.[1]
+      const _: any = (triggerVnode.value?.$refs.triggerRef as HTMLElement)
+        ?.children[0]
+      return !props.splitButton ? _ : _?.children?.[1]
     })
 
     function handleClick() {
@@ -177,7 +191,7 @@ export default defineComponent({
         () => {
           visible.value = true
         },
-        ['click', 'contextmenu'].includes(props.trigger) ? 0 : props.showTimeout,
+        ['click', 'contextmenu'].includes(props.trigger) ? 0 : props.showTimeout
       )
     }
 
@@ -192,7 +206,7 @@ export default defineComponent({
         () => {
           visible.value = false
         },
-        ['click', 'contextmenu'].includes(props.trigger) ? 0 : props.hideTimeout,
+        ['click', 'contextmenu'].includes(props.trigger) ? 0 : props.hideTimeout
       )
     }
 
@@ -213,7 +227,7 @@ export default defineComponent({
       triggerElm.value?.blur?.()
     }
 
-    const dropdownSize = computed(() => props.size || ELEMENT.size)
+    const dropdownSize = useSize()
 
     function commandHandler(...args) {
       emit('command', ...args)
@@ -250,7 +264,7 @@ export default defineComponent({
       } else if (props.trigger === 'click') {
         on(triggerElm.value, 'click', handleClick)
       } else if (props.trigger === 'contextmenu') {
-        on(triggerElm.value, 'contextmenu', e => {
+        on(triggerElm.value, 'contextmenu', (e) => {
           e.preventDefault()
           handleClick()
         })
@@ -263,7 +277,7 @@ export default defineComponent({
       })
     })
 
-    const handlerMainButtonClick = event => {
+    const handlerMainButtonClick = (event) => {
       emit('click', event)
       hide()
     }

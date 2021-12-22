@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import Overlay from '../src/index.vue'
+import Overlay from '../src/overlay'
 
 const AXIOM = 'Rem is the best girl'
 

@@ -1,5 +1,4 @@
 import { ref, getCurrentInstance, unref } from 'vue'
-import { arrayFind } from '@element-plus/utils/util'
 import { getRowIdentity } from '../util'
 
 import type { Ref } from 'vue'
@@ -25,9 +24,8 @@ function useCurrent<T>(watcherData: WatcherPropsData<T>) {
     const { data, rowKey } = watcherData
     let _currentRow = null
     if (rowKey.value) {
-      _currentRow = arrayFind(
-        unref(data) || [],
-        item => getRowIdentity(item, rowKey.value) === key,
+      _currentRow = (unref(data) || []).find(
+        (item) => getRowIdentity(item, rowKey.value) === key
       )
     }
     currentRow.value = _currentRow

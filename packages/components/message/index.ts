@@ -1,16 +1,8 @@
-import Message from './src/message'
+import { withInstallFunction } from '@element-plus/utils/with-install'
 
-import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
+import Message from './src/message-method'
 
-const _Message = Message as SFCWithInstall<typeof Message>
+export const ElMessage = withInstallFunction(Message, '$message')
+export default ElMessage
 
-_Message.install = (app: App) => {
-  app.config.globalProperties.$message = _Message
-}
-
-export default _Message
-export const ElMessage = _Message
-
-export * from './src/types'
-
+export * from './src/message'

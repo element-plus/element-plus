@@ -1,14 +1,11 @@
 <template>
   <el-scrollbar
-    :id="menuId"
+    :key="menuId"
     tag="ul"
     role="menu"
     class="el-cascader-menu"
     wrap-class="el-cascader-menu__wrap"
-    :view-class="[
-      'el-cascader-menu__list',
-      isEmpty && 'is-empty'
-    ]"
+    :view-class="['el-cascader-menu__list', isEmpty && 'is-empty']"
     @mousemove="handleMouseMove"
     @mouseleave="clearHoverZone"
   >
@@ -19,33 +16,25 @@
       :menu-id="menuId"
       @expand="handleExpand"
     />
-    <div
-      v-if="isEmpty"
-      class="el-cascader-menu__empty-text"
-    >
+    <div v-if="isEmpty" class="el-cascader-menu__empty-text">
       {{ t('el.cascader.noData') }}
     </div>
     <svg
-      v-else-if="panel.isHoverMenu"
+      v-else-if="panel?.isHoverMenu"
       ref="hoverZone"
       class="el-cascader-menu__hover-zone"
-    />
+    ></svg>
   </el-scrollbar>
 </template>
 
 <script lang="ts">
-import {
-  computed, defineComponent, getCurrentInstance,
-  inject, ref,
-} from 'vue'
+import { computed, defineComponent, getCurrentInstance, inject, ref } from 'vue'
 import ElScrollbar from '@element-plus/components/scrollbar'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import { generateId } from '@element-plus/utils/util'
 import ElCascaderNode from './node.vue'
-import { default as CascaderNode } from './node'
-import {
-  CASCADER_PANEL_INJECTION_KEY,
-} from './types'
+import { CASCADER_PANEL_INJECTION_KEY } from './types'
+import type { default as CascaderNode } from './node'
 
 import type { PropType } from 'vue'
 import type { TimeoutHandle, Nullable } from '@element-plus/utils/types'
@@ -60,7 +49,7 @@ export default defineComponent({
 
   props: {
     nodes: {
-      type: Array as PropType< CascaderNode[]>,
+      type: Array as PropType<CascaderNode[]>,
       required: true,
     },
     index: {
@@ -69,16 +58,16 @@ export default defineComponent({
     },
   },
 
-  setup (props) {
-    const instance = getCurrentInstance()
-    const { t } = useLocaleInject()
+  setup(props) {
+    const instance = getCurrentInstance()!
+    const { t } = useLocale()
     const id = generateId()
     let activeNode: Nullable<HTMLElement> = null
     let hoverTimer: Nullable<TimeoutHandle> = null
 
-    const panel = inject(CASCADER_PANEL_INJECTION_KEY)
+    const panel = inject(CASCADER_PANEL_INJECTION_KEY)!
 
-    const hoverZone = ref(null)
+    const hoverZone = ref<null | SVGSVGElement>(null)
 
     const isEmpty = computed(() => !props.nodes.length)
     const menuId = computed(() => `cascader-menu-${id}-${props.index}`)
@@ -105,7 +94,10 @@ export default defineComponent({
           <path style="pointer-events: auto;" fill="transparent" d="M${startX} ${bottom} L${offsetWidth} ${offsetHeight} V${bottom} Z" />
         `
       } else if (!hoverTimer) {
-        hoverTimer = window.setTimeout(clearHoverZone, panel.config.hoverThreshold)
+        hoverTimer = window.setTimeout(
+          clearHoverZone,
+          panel.config.hoverThreshold
+        )
       }
     }
 
@@ -133,6 +125,4 @@ export default defineComponent({
     }
   },
 })
-
 </script>
-

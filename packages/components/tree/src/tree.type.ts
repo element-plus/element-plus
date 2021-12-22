@@ -1,8 +1,14 @@
-import { h } from 'vue'
-import Node from './model/node'
-import TreeStore from './model/tree-store'
+import type {
+  h,
+  ComponentInternalInstance,
+  Ref,
+  SetupContext,
+  VNode,
+  Component,
+} from 'vue'
+import type Node from './model/node'
+import type TreeStore from './model/tree-store'
 
-import type { ComponentInternalInstance, Ref, SetupContext, VNode } from 'vue'
 export interface RootTreeType {
   ctx: SetupContext<any>
   props: TreeComponentProps
@@ -58,8 +64,15 @@ export declare interface TreeOptionProps {
   label: string
   disabled: string
   isLeaf?: boolean
+  class?: (
+    data: TreeNodeData,
+    node: Node
+  ) => string | { [key: string]: boolean } | string
 }
-export declare type RenderContentFunction = (h: hType, context: RenderContentContext) => (VNode | VNode[])
+export declare type RenderContentFunction = (
+  h: hType,
+  context: RenderContentContext
+) => VNode | VNode[]
 export declare interface RenderContentContext {
   _self: ComponentInternalInstance
   node: Node
@@ -68,10 +81,21 @@ export declare interface RenderContentContext {
 }
 export declare type AllowDragFunction = (node: Node) => boolean
 export declare type DropType = 'inner' | 'prev' | 'next'
-export declare type AllowDropFunction = (draggingNode: Node, dropNode: Node, type: DropType) => boolean
-export declare type LoadFunction = (rootNode: Node, loadedCallback: (data: TreeData) => void) => void
+export declare type AllowDropFunction = (
+  draggingNode: Node,
+  dropNode: Node,
+  type: DropType
+) => boolean
+export declare type LoadFunction = (
+  rootNode: Node,
+  loadedCallback: (data: TreeData) => void
+) => void
 export declare type FilterValue = any
-export declare type FilterNodeMethodFunction = (value: FilterValue, data: TreeNodeData, child: Node) => boolean
+export declare type FilterNodeMethodFunction = (
+  value: FilterValue,
+  data: TreeNodeData,
+  child: Node
+) => boolean
 export declare interface TreeComponentProps {
   data: TreeData
   emptyText: string
@@ -98,5 +122,5 @@ export declare interface TreeComponentProps {
   filterNodeMethod: FilterNodeMethodFunction
   accordion: boolean
   indent: number
-  iconClass: string
+  icon: string | Component
 }

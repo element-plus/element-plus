@@ -1,5 +1,5 @@
-import { mount } from '@vue/test-utils'
 import { ref, nextTick } from 'vue'
+import { mount } from '@vue/test-utils'
 import { tick, defineGetter, makeScroll } from '@element-plus/test-utils'
 import InfiniteScroll, { SCOPE, DEFAULT_DELAY } from '../src/index'
 
@@ -17,9 +17,11 @@ const CUSTOM_DISTANCE = 10
 let clientHeightRestore = null
 let scrollHeightRestore = null
 
-const _mount = (options: Record<string, unknown>) => mount({
-  ...options,
-  template: `
+const _mount = (options: Record<string, unknown>) =>
+  mount(
+    {
+      ...options,
+      template: `
     <ul v-infinite-scroll="load" ${options.extraAttrs}>
       <li
         v-for="i in count"
@@ -29,10 +31,12 @@ const _mount = (options: Record<string, unknown>) => mount({
       >{{ i }}</li>
     </ul>
   `,
-  directives: {
-    InfiniteScroll,
-  },
-}, { attachTo: document.body })
+      directives: {
+        InfiniteScroll,
+      },
+    },
+    { attachTo: document.body }
+  )
 
 const setup = function () {
   const count = ref(0)
@@ -43,13 +47,27 @@ const setup = function () {
   return { count, load }
 }
 
-const countListItem = (wrapper: any) => wrapper.findAll(`.${LIST_ITEM_CLASS}`).length
+const countListItem = (wrapper: any) =>
+  wrapper.findAll(`.${LIST_ITEM_CLASS}`).length
 
 beforeAll(() => {
-  clientHeightRestore = defineGetter(window.HTMLElement.prototype, 'clientHeight', CONTAINER_HEIGHT, 0)
-  scrollHeightRestore = defineGetter(window.HTMLElement.prototype, 'scrollHeight', function () {
-    return Array.from(this.getElementsByClassName(LIST_ITEM_CLASS)).length * ITEM_HEIGHT
-  }, 0)
+  clientHeightRestore = defineGetter(
+    window.HTMLElement.prototype,
+    'clientHeight',
+    CONTAINER_HEIGHT,
+    0
+  )
+  scrollHeightRestore = defineGetter(
+    window.HTMLElement.prototype,
+    'scrollHeight',
+    function () {
+      return (
+        Array.from(this.getElementsByClassName(LIST_ITEM_CLASS)).length *
+        ITEM_HEIGHT
+      )
+    },
+    0
+  )
 })
 
 afterAll(() => {
@@ -58,7 +76,7 @@ afterAll(() => {
 })
 
 afterEach(() => {
-  const app = document.querySelector('#app')
+  const app = document.querySelector('[data-v-app]')
   document.body.removeChild(app)
 })
 
@@ -182,5 +200,4 @@ describe('InfiniteScroll', () => {
     await makeScroll(documentElement, 'scrollTop', 0)
     expect(countListItem(wrapper)).toBe(INITIAL_VALUE + 1)
   })
-
 })

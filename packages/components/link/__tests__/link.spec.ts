@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import Link from '../src/index.vue'
+import Link from '../src/link.vue'
 
 const AXIOM = 'Rem is the best girl'
 
@@ -38,7 +38,6 @@ describe('Link.vue', () => {
     expect(wrapper.emitted('click')).toBeUndefined()
   })
 
-
   test('icon slots', () => {
     const linkName = 'test link'
     const wrapper = mount(Link, {
@@ -50,5 +49,4 @@ describe('Link.vue', () => {
     expect(wrapper.text()).toContain(linkName)
     expect(wrapper.text()).toContain(AXIOM)
   })
-
 })

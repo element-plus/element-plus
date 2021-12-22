@@ -1,13 +1,8 @@
-import { App } from 'vue'
-import Badge from './src/index.vue'
+import { withInstall } from '@element-plus/utils/with-install'
 
-import type { SFCWithInstall } from '@element-plus/utils/types'
+import Badge from './src/badge.vue'
 
-Badge.install = (app: App): void => {
-  app.component(Badge.name, Badge)
-}
+export const ElBadge = withInstall(Badge)
+export default ElBadge
 
-const _Badge = Badge as SFCWithInstall<typeof Badge>
-
-export default _Badge
-export const ElBadge = _Badge
+export * from './src/badge'

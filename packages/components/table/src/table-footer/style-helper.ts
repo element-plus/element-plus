@@ -20,12 +20,12 @@ function useStyle<T>(props: TableFooter<T>) {
   } = useMapState<T>()
 
   const hasGutter = computed(() => {
-    return !props.fixed && table.layout.gutterWidth
+    return !props.fixed && !table.layout.gutterWidth
   })
   const isCellHidden = (
     index: number,
     columns: TableColumnCtx<T>[],
-    column: TableColumnCtx<T>,
+    column: TableColumnCtx<T>
   ) => {
     if (props.fixed || props.fixed === 'left') {
       return index >= leftFixedLeafCount.value

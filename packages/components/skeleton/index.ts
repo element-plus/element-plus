@@ -1,22 +1,13 @@
-import Skeleton from './src/index.vue'
-import SkeletonItem from './src/item.vue'
+import { withInstall, withNoopInstall } from '@element-plus/utils/with-install'
 
-import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
+import Skeleton from './src/skeleton.vue'
+import SkeletonItem from './src/skeleton-item.vue'
 
-Skeleton.install = (app: App): void => {
-  app.component(Skeleton.name, Skeleton)
-  app.component(SkeletonItem.name, SkeletonItem)
-}
+export const ElSkeleton = withInstall(Skeleton, {
+  SkeletonItem,
+})
+export default ElSkeleton
+export const ElSkeletonItem = withNoopInstall(SkeletonItem)
 
-Skeleton.SkeletonItem = SkeletonItem
-
-const _Skeleton = Skeleton as any as SFCWithInstall<typeof Skeleton> & {
-  SkeletonItem: typeof SkeletonItem
-}
-
-export default _Skeleton
-export const ElSkeleton = _Skeleton
-export const ElSkeletonItem = SkeletonItem
-
-export * from './src/types'
+export * from './src/skeleton'
+export * from './src/skeleton-item'

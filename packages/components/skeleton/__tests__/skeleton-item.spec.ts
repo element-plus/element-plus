@@ -1,5 +1,5 @@
 import makeMount from '@element-plus/test-utils/make-mount'
-import SkeletonItem from '../src/item.vue'
+import SkeletonItem from '../src/skeleton-item.vue'
 
 describe('<skeleton-item />', () => {
   const mount = makeMount(SkeletonItem, {})
@@ -11,7 +11,6 @@ describe('<skeleton-item />', () => {
   })
 
   test('should render image placeholder', () => {
-
     const wrapper = mount({
       props: {
         variant: 'image',
@@ -20,5 +19,4 @@ describe('<skeleton-item />', () => {
 
     expect(wrapper.find('svg').exists()).toBe(true)
   })
-
 })

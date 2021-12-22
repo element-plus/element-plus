@@ -1,4 +1,3 @@
-
 import type { PropType } from 'vue'
 import type { Options } from '@popperjs/core'
 
@@ -39,12 +38,12 @@ export const defaultModifiers = [
 ]
 
 export const defaultPopperOptions = {
-  type: Object as PropType<Options>,
+  type: Object as PropType<Partial<Options>>,
   default: () => {
     return {
       fallbackPlacements: DEFAULT_FALLBACK_PLACEMENTS,
       strategy: 'fixed',
       modifiers: defaultModifiers,
-    }
+    } as Partial<Options>
   },
 }

@@ -12,69 +12,59 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref, computed, inject, getCurrentInstance, watch } from 'vue'
-import type { RootTabs, UpdatePaneStateCallback } from './token'
+import {
+  defineComponent,
+  ref,
+  computed,
+  inject,
+  getCurrentInstance,
+  watch,
+  markRaw,
+  reactive,
+} from 'vue'
+import { eagerComputed } from '@vueuse/core'
+import { tabsRootContextKey } from '@element-plus/tokens'
+import { throwError } from '@element-plus/utils/error'
+import { tabPaneProps } from './tab-pane'
+
+const COMPONENT_NAME = 'ElTabPane'
 
 export default defineComponent({
-  name: 'ElTabPane',
-  props: {
-    label: {
-      type: String,
-      default: '',
-    },
-    name: {
-      type: String,
-      default: '',
-    },
-    closable: Boolean,
-    disabled: Boolean,
-    lazy: Boolean,
-  },
+  name: COMPONENT_NAME,
+  props: tabPaneProps,
   setup(props) {
-    const index = ref<string>(null)
+    const instance = getCurrentInstance()!
+    const tabsRoot = inject(tabsRootContextKey)
+    if (!tabsRoot) throwError(COMPONENT_NAME, `must use with ElTabs`)
+
+    const index = ref<string>()
     const loaded = ref(false)
-    const rootTabs = inject<RootTabs>('rootTabs')
-    const updatePaneState = inject<UpdatePaneStateCallback>('updatePaneState')
+    const isClosable = computed(() => props.closable || tabsRoot.props.closable)
+    const active = eagerComputed(
+      () => tabsRoot.currentName.value === (props.name || index.value)
+    )
+    const paneName = computed(() => props.name || index.value)
+    const shouldBeRender = eagerComputed(
+      () => !props.lazy || loaded.value || active.value
+    )
 
-    if (!rootTabs || !updatePaneState) {
-      throw new Error(`ElTabPane must use with ElTabs`)
-    }
-
-    const isClosable = computed(() => {
-      return props.closable || rootTabs.props.closable
-    })
-
-    const active = computed(() => {
-      return rootTabs.currentName.value === (props.name || index.value)
-    })
-
-    const paneName = computed((): string => {
-      return props.name || index.value
-    })
-
-    const shouldBeRender = computed(() => {
-      return !props.lazy || loaded.value || active.value
-    })
-
-    watch(active, val => {
+    watch(active, (val) => {
       if (val) loaded.value = true
     })
 
-    const instance = getCurrentInstance()
-    updatePaneState({
-      uid: instance.uid,
-      instance,
-      props,
-      paneName,
-      active,
-      index,
-      isClosable,
-    })
+    tabsRoot.updatePaneState(
+      reactive({
+        uid: instance.uid,
+        instance: markRaw(instance),
+        props,
+        paneName,
+        active,
+        index,
+        isClosable,
+      })
+    )
 
     return {
-      index,
-      loaded,
-      isClosable,
       active,
       paneName,
       shouldBeRender,

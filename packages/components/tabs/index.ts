@@ -1,20 +1,14 @@
+import { withInstall, withNoopInstall } from '@element-plus/utils/with-install'
 import Tabs from './src/tabs'
 import TabPane from './src/tab-pane.vue'
 
-import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
+export const ElTabs = withInstall(Tabs, {
+  TabPane,
+})
+export default ElTabs
+export const ElTabPane = withNoopInstall(TabPane)
 
-Tabs.install = (app: App): void => {
-  app.component(Tabs.name, Tabs)
-  app.component(TabPane.name, TabPane)
-}
-
-Tabs.TabPane = TabPane
-
-const _Tabs = Tabs as any as SFCWithInstall<typeof Tabs> & {
-  TabPane: typeof TabPane
-}
-
-export default _Tabs
-export const ElTabs = _Tabs
-export const ElTabPane = TabPane
+export * from './src/tabs'
+export * from './src/tab-bar'
+export * from './src/tab-nav'
+export * from './src/tab-pane'

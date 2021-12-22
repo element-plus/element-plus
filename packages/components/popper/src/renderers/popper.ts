@@ -2,7 +2,7 @@ import { withDirectives, Transition, vShow, withCtx, h } from 'vue'
 import { NOOP } from '@vue/shared'
 import { stop } from '@element-plus/utils/dom'
 
-import type { VNode, Ref } from 'vue'
+import type { VNode, Ref, CSSProperties } from 'vue'
 import type { Effect } from '../use-popper/defaults'
 
 interface IRenderPopperProps {
@@ -10,7 +10,7 @@ interface IRenderPopperProps {
   name: string
   stopPopperMouseEvent: boolean
   popperClass: string
-  popperStyle?: Partial<CSSStyleDeclaration>
+  popperStyle?: Partial<CSSProperties>
   popperId: string
   popperRef?: Ref<HTMLElement>
   pure?: boolean
@@ -25,7 +25,7 @@ interface IRenderPopperProps {
 
 export default function renderPopper(
   props: IRenderPopperProps,
-  children: VNode[],
+  children: VNode[]
 ) {
   const {
     effect,
@@ -45,12 +45,7 @@ export default function renderPopper(
     onBeforeLeave,
   } = props
 
-  const kls = [
-    popperClass,
-    'el-popper',
-    'is-' + effect,
-    pure ? 'is-pure' : '',
-  ]
+  const kls = [popperClass, 'el-popper', `is-${effect}`, pure ? 'is-pure' : '']
   /**
    * Equivalent to
    * <transition :name="name">
@@ -65,32 +60,34 @@ export default function renderPopper(
     Transition,
     {
       name,
-      'onAfterEnter': onAfterEnter,
-      'onAfterLeave': onAfterLeave,
-      'onBeforeEnter': onBeforeEnter,
-      'onBeforeLeave': onBeforeLeave,
+      onAfterEnter,
+      onAfterLeave,
+      onBeforeEnter,
+      onBeforeLeave,
     },
     {
-      default: withCtx(() => [withDirectives(
-        h(
-          'div',
-          {
-            'aria-hidden': String(!visibility),
-            class: kls,
-            style: popperStyle ?? {},
-            id: popperId,
-            ref: popperRef ?? 'popperRef',
-            role: 'tooltip',
-            onMouseenter,
-            onMouseleave,
-            onClick: stop,
-            onMousedown: mouseUpAndDown,
-            onMouseup: mouseUpAndDown,
-          },
-          children,
+      default: withCtx(() => [
+        withDirectives(
+          h(
+            'div',
+            {
+              'aria-hidden': String(!visibility),
+              class: kls,
+              style: popperStyle ?? {},
+              id: popperId,
+              ref: popperRef ?? 'popperRef',
+              role: 'tooltip',
+              onMouseenter,
+              onMouseleave,
+              onClick: stop,
+              onMousedown: mouseUpAndDown,
+              onMouseup: mouseUpAndDown,
+            },
+            children
+          ),
+          [[vShow, visibility]]
         ),
-        [[vShow, visibility]],
-      )]),
-    },
+      ]),
+    }
   )
 }

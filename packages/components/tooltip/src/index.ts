@@ -1,7 +1,10 @@
 import { defineComponent, h, ref, cloneVNode } from 'vue'
-import { default as ElPopper, popperDefaultProps } from '@element-plus/components/popper'
+import {
+  default as ElPopper,
+  popperDefaultProps,
+} from '@element-plus/components/popper'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import throwError from '@element-plus/utils/error'
+import { throwError } from '@element-plus/utils/error'
 import { getFirstValidNode } from '@element-plus/utils/vnode'
 
 /**
@@ -46,12 +49,15 @@ export default defineComponent({
   setup(props, ctx) {
     // when manual mode is true, v-model must be passed down
     if (props.manual && typeof props.modelValue === 'undefined') {
-      throwError('[ElTooltip]', 'You need to pass a v-model to el-tooltip when `manual` is true')
+      throwError(
+        '[ElTooltip]',
+        'You need to pass a v-model to el-tooltip when `manual` is true'
+      )
     }
 
     const popper = ref(null)
 
-    const onUpdateVisible = val => {
+    const onUpdateVisible = (val) => {
       ctx.emit(UPDATE_MODEL_EVENT, val)
     }
 
@@ -76,6 +82,7 @@ export default defineComponent({
       visibleArrow,
       modelValue,
       tabindex,
+      fallbackPlacements,
     } = this
 
     const throwErrorTip = () => {
@@ -94,6 +101,9 @@ export default defineComponent({
         showArrow: visibleArrow,
         visible: modelValue,
         'onUpdate:visible': onUpdateVisible,
+        fallbackPlacements: fallbackPlacements.length
+          ? fallbackPlacements
+          : ['bottom-start', 'top-start', 'right', 'left'],
       },
       {
         default: () => ($slots.content ? $slots.content() : content),
@@ -105,7 +115,7 @@ export default defineComponent({
           }
           throwErrorTip()
         },
-      },
+      }
     )
 
     return popper

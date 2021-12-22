@@ -1,5 +1,5 @@
 import { EVENT_CODE, triggerEvent } from '../aria'
-import MenuItem from './menu-item'
+import type MenuItem from './menu-item'
 
 class SubMenu {
   public subMenuItems: NodeList
@@ -20,7 +20,7 @@ class SubMenu {
     } else if (idx < 0) {
       idx = this.subMenuItems.length - 1
     }
-    (this.subMenuItems[idx] as HTMLElement).focus()
+    ;(this.subMenuItems[idx] as HTMLElement).focus()
     this.subIndex = idx
   }
 

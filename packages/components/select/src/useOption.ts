@@ -1,15 +1,9 @@
-import {
-  inject,
-  computed,
-  getCurrentInstance,
-  watch,
-  onBeforeUnmount,
-} from 'vue'
+import { inject, computed, getCurrentInstance, watch, toRaw, unref } from 'vue'
 import { getValueByPath, escapeRegexpString } from '@element-plus/utils/util'
-import {
-  selectKey, selectGroupKey,
-  selectEvents,
-} from './token'
+import { selectKey, selectGroupKey } from './token'
+
+import type { Ref } from 'vue'
+import type { QueryChangeCtx } from './token'
 
 export function useOption(props, states) {
   // inject
@@ -18,7 +12,10 @@ export function useOption(props, states) {
 
   // computed
   const isObject = computed(() => {
-    return Object.prototype.toString.call(props.value).toLowerCase() === '[object object]'
+    return (
+      Object.prototype.toString.call(props.value).toLowerCase() ===
+      '[object object]'
+    )
   })
 
   const itemSelected = computed(() => {
@@ -32,9 +29,11 @@ export function useOption(props, states) {
   const limitReached = computed(() => {
     if (select.props.multiple) {
       const modelValue = (select.props.modelValue || []) as unknown[]
-      return !itemSelected.value &&
-      modelValue.length >= select.props.multipleLimit &&
+      return (
+        !itemSelected.value &&
+        modelValue.length >= select.props.multipleLimit &&
         select.props.multipleLimit > 0
+      )
     } else {
       return false
     }
@@ -59,9 +58,14 @@ export function useOption(props, states) {
       return arr && arr.indexOf(target) > -1
     } else {
       const valueKey = select.props.valueKey
-      return arr && arr.some(item => {
-        return getValueByPath(item, valueKey) === getValueByPath(target, valueKey)
-      })
+      return (
+        arr &&
+        arr.some((item) => {
+          return (
+            getValueByPath(item, valueKey) === getValueByPath(target, valueKey)
+          )
+        })
+      )
     }
   }
 
@@ -80,37 +84,48 @@ export function useOption(props, states) {
     }
   }
 
-  const queryChange = (query: string) => {
+  watch(
+    () => currentLabel.value,
+    () => {
+      if (!props.created && !select.props.remote) select.setSelected()
+    }
+  )
+
+  watch(
+    () => props.value,
+    (val, oldVal) => {
+      const { remote, valueKey } = select.props
+      if (!props.created && !remote) {
+        if (
+          valueKey &&
+          typeof val === 'object' &&
+          typeof oldVal === 'object' &&
+          val[valueKey] === oldVal[valueKey]
+        ) {
+          return
+        }
+        select.setSelected()
+      }
+    }
+  )
+
+  watch(
+    () => selectGroup.disabled,
+    () => {
+      states.groupDisabled = selectGroup.disabled
+    },
+    { immediate: true }
+  )
+
+  const { queryChange } = toRaw(select)
+  watch(queryChange, (changes: Ref<QueryChangeCtx>) => {
+    const { query } = unref(changes)
+
     const regexp = new RegExp(escapeRegexpString(query), 'i')
     states.visible = regexp.test(currentLabel.value) || props.created
     if (!states.visible) {
       select.filteredOptionsCount--
     }
-  }
-
-  watch(() => currentLabel.value, () => {
-    if (!props.created && !select.props.remote) select.setSelected()
-  })
-
-  watch(() => props.value, (val, oldVal) => {
-    const { remote, valueKey } = select.props
-    if (!props.created && !remote) {
-      if (valueKey && typeof val === 'object' && typeof oldVal === 'object' && val[valueKey] === oldVal[valueKey]) {
-        return
-      }
-      select.setSelected()
-    }
-  })
-
-  watch(() => selectGroup.disabled, () => {
-    states.groupDisabled = selectGroup.disabled
-  }, { immediate: true })
-
-  // Emitter
-  select.selectEmitter.on(selectEvents.queryChange, queryChange)
-
-  onBeforeUnmount(() => {
-    select.selectEmitter.off(selectEvents.queryChange, queryChange)
   })
 
   return {

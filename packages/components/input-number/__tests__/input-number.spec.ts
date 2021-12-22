@@ -1,14 +1,16 @@
-import { mount } from '@vue/test-utils'
-import InputNumber from '../src/index.vue'
 import { ref, nextTick } from 'vue'
+import { mount } from '@vue/test-utils'
+import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
+import InputNumber from '../src/input-number.vue'
 
 const mouseup = new Event('mouseup')
-const _mount = options => mount({
-  components: {
-    'el-input-number': InputNumber,
-  },
-  ...options,
-})
+const _mount = (options) =>
+  mount({
+    components: {
+      'el-input-number': InputNumber,
+    },
+    ...options,
+  })
 describe('InputNumber.vue', () => {
   test('create', async () => {
     const wrapper = _mount({
@@ -97,7 +99,8 @@ describe('InputNumber.vue', () => {
   })
   test('step-strictly', async () => {
     const wrapper = _mount({
-      template: '<el-input-number :step-strictly="true" :step="2" v-model="num" />',
+      template:
+        '<el-input-number :step-strictly="true" :step="2" v-model="num" />',
       setup() {
         const num = ref(0)
         return {
@@ -163,8 +166,8 @@ describe('InputNumber.vue', () => {
         }
       },
     })
-    expect(wrapper.find('.el-icon-arrow-down').exists()).toBe(true)
-    expect(wrapper.find('.el-icon-arrow-up').exists()).toBe(true)
+    expect(wrapper.findComponent(ArrowDown).exists()).toBe(true)
+    expect(wrapper.findComponent(ArrowUp).exists()).toBe(true)
   })
   test('change-event', async () => {
     const wrapper = _mount({
@@ -180,16 +183,24 @@ describe('InputNumber.vue', () => {
     document.dispatchEvent(mouseup)
     await nextTick()
     expect(wrapper.getComponent(InputNumber).emitted('change')).toHaveLength(1)
-    expect(wrapper.getComponent(InputNumber).emitted().change[0]).toEqual([1, 0])
+    expect(wrapper.getComponent(InputNumber).emitted().change[0]).toEqual([
+      1, 0,
+    ])
     expect(wrapper.getComponent(InputNumber).emitted('input')).toHaveLength(1)
-    expect(wrapper.getComponent(InputNumber).emitted('update:modelValue')).toHaveLength(1)
+    expect(
+      wrapper.getComponent(InputNumber).emitted('update:modelValue')
+    ).toHaveLength(1)
     wrapper.find('.el-input-number__increase').trigger('mousedown')
     document.dispatchEvent(mouseup)
     await nextTick()
     expect(wrapper.getComponent(InputNumber).emitted('change')).toHaveLength(2)
-    expect(wrapper.getComponent(InputNumber).emitted().change[1]).toEqual([2, 1])
+    expect(wrapper.getComponent(InputNumber).emitted().change[1]).toEqual([
+      2, 1,
+    ])
     expect(wrapper.getComponent(InputNumber).emitted('input')).toHaveLength(2)
-    expect(wrapper.getComponent(InputNumber).emitted('update:modelValue')).toHaveLength(2)
+    expect(
+      wrapper.getComponent(InputNumber).emitted('update:modelValue')
+    ).toHaveLength(2)
   })
   test('blur-event', async () => {
     const wrapper = _mount({
@@ -231,13 +242,13 @@ describe('InputNumber.vue', () => {
     const elInput = wrapper.findComponent({ name: 'ElInputNumber' }).vm
     elInput.handleInputChange('')
     await nextTick()
-    expect(wrapper.vm.num).toBe(undefined)
+    expect(wrapper.vm.num).toBe(1)
     elInput.increase()
     await nextTick()
-    expect(wrapper.vm.num).toBe(1)
+    expect(wrapper.vm.num).toBe(2)
     elInput.handleInputChange('')
     await nextTick()
-    expect(wrapper.vm.num).toBe(undefined)
+    expect(wrapper.vm.num).toBe(1)
     elInput.decrease()
     await nextTick()
     expect(wrapper.vm.num).toBe(1)
@@ -285,7 +296,6 @@ describe('InputNumber.vue', () => {
     elInputNumber1.increase()
     await nextTick()
     expect(wrapper.vm.num1).toBe(3)
-
 
     elInputNumber2.increase()
     await nextTick()

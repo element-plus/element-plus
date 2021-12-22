@@ -1,7 +1,8 @@
 import { mount } from '@vue/test-utils'
-import MessageBox from '../src/messageBox'
 import { rAF } from '@element-plus/test-utils/tick'
 import { triggerNativeCompositeClick } from '@element-plus/test-utils/composite-click'
+import { QuestionFilled } from '@element-plus/icons-vue'
+import MessageBox from '../src/messageBox'
 
 const selector = '.el-overlay'
 
@@ -15,7 +16,7 @@ const _mount = (invoker: () => void) => {
     },
     {
       attachTo: 'body',
-    },
+    }
   )
 }
 
@@ -30,18 +31,25 @@ describe('MessageBox', () => {
       type: 'success',
       title: '消息',
       message: '这是一段内容',
+      customStyle: {
+        width: '100px',
+      },
     })
     const msgbox: HTMLElement = document.querySelector(selector)
 
     expect(msgbox).toBeDefined()
     await rAF()
     expect(
-      msgbox.querySelector('.el-message-box__title span').textContent,
+      msgbox.querySelector('.el-message-box__title span').textContent
     ).toEqual('消息')
     expect(
       msgbox.querySelector('.el-message-box__message').querySelector('p')
-        .textContent,
+        .textContent
     ).toEqual('这是一段内容')
+    /** custom inline style */
+    expect(
+      (msgbox.querySelector('.el-message-box') as HTMLElement).style.width
+    ).toEqual('100px')
     MessageBox.close()
     await rAF()
     expect(msgbox.style.display).toEqual('none')
@@ -56,12 +64,16 @@ describe('MessageBox', () => {
   test('custom icon', async () => {
     MessageBox({
       type: 'warning',
-      iconClass: 'el-icon-question',
+      icon: QuestionFilled,
       message: '这是一段内容',
     })
     await rAF()
     const icon = document.querySelector('.el-message-box__status')
-    expect(icon.classList.contains('el-icon-question')).toBe(true)
+
+    expect(icon.classList.contains('el-icon')).toBe(true)
+
+    const svg = mount(QuestionFilled).find('svg').element
+    expect(icon.querySelector('svg').innerHTML).toBe(svg.innerHTML)
   })
 
   test('html string', async () => {
@@ -82,7 +94,7 @@ describe('MessageBox', () => {
         title: '消息',
         message: '这是一段内容',
         distinguishCancelAndClose: true,
-        callback: action => {
+        callback: (action) => {
           msgAction = action
         },
       })
@@ -92,7 +104,7 @@ describe('MessageBox', () => {
     await rAF()
 
     const btn = document.querySelector(
-      '.el-message-box__close',
+      '.el-message-box__close'
     ) as HTMLButtonElement
     btn.click()
     await rAF()
@@ -162,13 +174,13 @@ describe('MessageBox', () => {
     MessageBox({
       title: '消息',
       message: '这是一段内容',
-      callback: action => {
+      callback: (action) => {
         msgAction = action
       },
     })
     await rAF()
     const closeBtn = document.querySelector(
-      '.el-message-box__close',
+      '.el-message-box__close'
     ) as HTMLButtonElement
     closeBtn.click()
     await rAF()
@@ -178,7 +190,7 @@ describe('MessageBox', () => {
   test('beforeClose', async () => {
     let msgAction = ''
     MessageBox({
-      callback: action => {
+      callback: (action) => {
         msgAction = action
       },
       title: '消息',
@@ -188,9 +200,11 @@ describe('MessageBox', () => {
       },
     })
     await rAF()
-    ;(document.querySelector(
-      '.el-message-box__btns .el-button--primary',
-    ) as HTMLButtonElement).click()
+    ;(
+      document.querySelector(
+        '.el-message-box__btns .el-button--primary'
+      ) as HTMLButtonElement
+    ).click()
     await rAF()
     expect(msgAction).toEqual('confirm')
   })
@@ -199,13 +213,13 @@ describe('MessageBox', () => {
     test('resolve', async () => {
       let msgAction = ''
       MessageBox.confirm('此操作将永久删除该文件, 是否继续?', '提示').then(
-        action => {
+        (action) => {
           msgAction = action
-        },
+        }
       )
       await rAF()
       const btn = document.querySelector(
-        '.el-message-box__btns .el-button--primary',
+        '.el-message-box__btns .el-button--primary'
       ) as HTMLButtonElement
       btn.click()
       await rAF()
@@ -215,14 +229,12 @@ describe('MessageBox', () => {
     test('reject', async () => {
       let msgAction = ''
       MessageBox.confirm('此操作将永久删除该文件, 是否继续?', '提示').catch(
-        action => {
+        (action) => {
           msgAction = action
-        },
+        }
       )
       await rAF()
-      const btn = document.querySelector(
-        '.el-message-box__btns .el-button',
-      )
+      const btn = document.querySelector('.el-message-box__btns .el-button')
       ;(btn as HTMLButtonElement).click()
       await rAF()
       expect(msgAction).toEqual('cancel')

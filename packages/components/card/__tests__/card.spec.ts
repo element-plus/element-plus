@@ -1,9 +1,4 @@
 import { mount } from '@vue/test-utils'
-import Card from '../src/index.vue'
-
-const AXIOM = 'Rem is the best girl'
-
-describe('Card.vue', () => {
   test('render test', () => {
     const wrapper = mount(Card, {
       slots: {
@@ -65,7 +60,9 @@ describe('Card.vue', () => {
         bodyStyle: style,
       },
     })
-    expect(wrapper.find('.el-card__body').attributes('style')).toBe('font-size: 14px;')
+    expect(wrapper.find('.el-card__body').attributes('style')).toBe(
+      'font-size: 14px;'
+    )
   })
 
   test('body style with array', () => {
@@ -78,7 +75,9 @@ describe('Card.vue', () => {
         bodyStyle: style,
       },
     })
-    expect(wrapper.find('.el-card__body').attributes('style').replace(/[ ]/g, '')).toBe('font-size:14px;color:blue;')
+    expect(
+      wrapper.find('.el-card__body').attributes('style').replace(/[ ]/g, '')
+    ).toBe('font-size:14px;color:blue;')
   })
 
   test('shadow', () => {

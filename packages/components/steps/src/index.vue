@@ -1,5 +1,10 @@
 <template>
-  <div :class="['el-steps', simple ? 'el-steps--simple' : `el-steps--${direction}`]">
+  <div
+    :class="[
+      'el-steps',
+      simple ? 'el-steps--simple' : `el-steps--${direction}`,
+    ]"
+  >
     <slot></slot>
   </div>
 </template>
@@ -23,7 +28,8 @@ export default defineComponent({
     direction: {
       type: String,
       default: 'horizontal',
-      validator: (val: string): boolean => ['horizontal', 'vertical'].includes(val),
+      validator: (val: string): boolean =>
+        ['horizontal', 'vertical'].includes(val),
     },
     alignCenter: {
       type: Boolean,
@@ -36,12 +42,14 @@ export default defineComponent({
     finishStatus: {
       type: String,
       default: 'finish',
-      validator: (val: string): boolean => ['wait', 'process', 'finish', 'error', 'success'].includes(val),
+      validator: (val: string): boolean =>
+        ['wait', 'process', 'finish', 'error', 'success'].includes(val),
     },
     processStatus: {
       type: String,
       default: 'process',
-      validator: (val: string): boolean => ['wait', 'process', 'finish', 'error', 'success'].includes(val),
+      validator: (val: string): boolean =>
+        ['wait', 'process', 'finish', 'error', 'success'].includes(val),
     },
   },
   emits: [CHANGE_EVENT],
@@ -56,9 +64,12 @@ export default defineComponent({
 
     provide('ElSteps', { props, steps })
 
-    watch(() => props.active, (newVal, oldVal) => {
-      emit(CHANGE_EVENT, newVal, oldVal)
-    })
+    watch(
+      () => props.active,
+      (newVal, oldVal) => {
+        emit(CHANGE_EVENT, newVal, oldVal)
+      }
+    )
 
     return {
       steps,

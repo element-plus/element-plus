@@ -1,9 +1,9 @@
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(notification) {
-  @include set-component-css-var('notification', $--notification);
+  @include set-component-css-var('notification', $notification);
 }
 
 @include b(notification) {
@@ -77,7 +77,7 @@
   }
 
   @each $type in (success, info, warning, error) {
-    .#{$namespace}-icon-#{$type} {
+    @include m($type) {
       --el-notification-icon-color: var(--el-color-#{$type});
       color: var(--el-notification-icon-color);
     }

@@ -1,4 +1,4 @@
-import { ref, getCurrentInstance, unref, watch } from 'vue'
+import { ref, getCurrentInstance, unref, watch, toRefs } from 'vue'
 import { hasOwn } from '@vue/shared'
 import {
   getKeysMap,
@@ -27,13 +27,13 @@ const sortData = (data, states) => {
     states.sortProp,
     states.sortOrder,
     sortingColumn.sortMethod,
-    sortingColumn.sortBy,
+    sortingColumn.sortBy
   )
 }
 
-const doFlattenColumns = columns => {
+const doFlattenColumns = (columns) => {
   const result = []
-  columns.forEach(column => {
+  columns.forEach((column) => {
     if (column.children) {
       // eslint-disable-next-line prefer-spread
       result.push.apply(result, doFlattenColumns(column.children))
@@ -46,6 +46,7 @@ const doFlattenColumns = columns => {
 
 function useWatcher<T>() {
   const instance = getCurrentInstance() as Table<T>
+  const { size: tableSize } = toRefs(instance.proxy?.$props as any)
   const rowKey: Ref<string> = ref(null)
   const data: Ref<T[]> = ref([])
   const _data: Ref<T[]> = ref([])
@@ -85,10 +86,10 @@ function useWatcher<T>() {
   // 更新列
   const updateColumns = () => {
     fixedColumns.value = _columns.value.filter(
-      column => column.fixed === true || column.fixed === 'left',
+      (column) => column.fixed === true || column.fixed === 'left'
     )
     rightFixedColumns.value = _columns.value.filter(
-      column => column.fixed === 'right',
+      (column) => column.fixed === 'right'
     )
     if (
       fixedColumns.value.length > 0 &&
@@ -100,7 +101,7 @@ function useWatcher<T>() {
       fixedColumns.value.unshift(_columns.value[0])
     }
 
-    const notFixedColumns = _columns.value.filter(column => !column.fixed)
+    const notFixedColumns = _columns.value.filter((column) => !column.fixed)
     originColumns.value = []
       .concat(fixedColumns.value)
       .concat(notFixedColumns)
@@ -134,7 +135,7 @@ function useWatcher<T>() {
   }
 
   // 选择
-  const isSelected = row => {
+  const isSelected = (row) => {
     return selection.value.indexOf(row) > -1
   }
 
@@ -159,21 +160,28 @@ function useWatcher<T>() {
         }
       }
     } else {
-      deleted = selection.value.filter(item => data.value.indexOf(item) === -1)
+      deleted = selection.value.filter(
+        (item) => data.value.indexOf(item) === -1
+      )
     }
     if (deleted.length) {
       const newSelection = selection.value.filter(
-        item => deleted.indexOf(item) === -1,
+        (item) => deleted.indexOf(item) === -1
       )
       selection.value = newSelection
       instance.emit('selection-change', newSelection.slice())
+    } else {
+      if (selection.value.length) {
+        selection.value = []
+        instance.emit('selection-change', [])
+      }
     }
   }
 
   const toggleRowSelection = (
     row: T,
     selected = undefined,
-    emitChange = true,
+    emitChange = true
   ) => {
     const changed = toggleRowStatus(selection.value, row, selected)
     if (changed) {
@@ -217,7 +225,7 @@ function useWatcher<T>() {
     if (selectionChanged) {
       instance.emit(
         'selection-change',
-        selection.value ? selection.value.slice() : [],
+        selection.value ? selection.value.slice() : []
       )
     }
     instance.emit('select-all', selection.value)
@@ -225,7 +233,7 @@ function useWatcher<T>() {
 
   const updateSelectionByRowKey = () => {
     const selectedMap = getKeysMap(selection.value, rowKey.value)
-    data.value.forEach(row => {
+    data.value.forEach((row) => {
       const rowId = getRowIdentity(row, rowKey.value)
       const rowInfo = selectedMap[rowId]
       if (rowInfo) {
@@ -245,7 +253,7 @@ function useWatcher<T>() {
     if (rowKey.value) {
       selectedMap = getKeysMap(selection.value, rowKey.value)
     }
-    const isSelected = function(row) {
+    const isSelected = function (row) {
       if (selectedMap) {
         return !!selectedMap[getRowIdentity(row, rowKey.value)]
       } else {
@@ -279,14 +287,12 @@ function useWatcher<T>() {
   // gets the number of all child nodes by rowKey
   const getChildrenCount = (rowKey: string) => {
     if (!instance || !instance.store) return 0
-    const {
-      treeData,
-    } = instance.store.states
+    const { treeData } = instance.store.states
     let count = 0
     const children = treeData.value[rowKey]?.children
     if (children) {
       count += children.length
-      children.forEach(childKey => {
+      children.forEach((childKey) => {
         count += getChildrenCount(childKey)
       })
     }
@@ -299,7 +305,7 @@ function useWatcher<T>() {
       columns = [columns]
     }
     const filters_ = {}
-    columns.forEach(col => {
+    columns.forEach((col) => {
       filters.value[col.id] = values
       filters_[col.columnKey || col.id] = values
     })
@@ -317,19 +323,19 @@ function useWatcher<T>() {
 
   const execFilter = () => {
     let sourceData = unref(_data)
-    Object.keys(filters.value).forEach(columnId => {
+    Object.keys(filters.value).forEach((columnId) => {
       const values = filters.value[columnId]
       if (!values || values.length === 0) return
       const column = getColumnById(
         {
           columns: columns.value,
         },
-        columnId,
+        columnId
       )
       if (column && column.filterMethod) {
-        sourceData = sourceData.filter(row => {
-          return values.some(value =>
-            column.filterMethod.call(null, value, row, column),
+        sourceData = sourceData.filter((row) => {
+          return values.some((value) =>
+            column.filterMethod.call(null, value, row, column)
           )
         })
       }
@@ -354,12 +360,9 @@ function useWatcher<T>() {
     execSort()
   }
 
-  const clearFilter = columnKeys => {
-    const {
-      tableHeader,
-      fixedTableHeader,
-      rightFixedTableHeader,
-    } = instance.refs as TableRefs
+  const clearFilter = (columnKeys) => {
+    const { tableHeader, fixedTableHeader, rightFixedTableHeader } =
+      instance.refs as TableRefs
     let panels = {}
     if (tableHeader) panels = Object.assign(panels, tableHeader.filterPanels)
     if (fixedTableHeader)
@@ -375,16 +378,16 @@ function useWatcher<T>() {
     }
 
     if (Array.isArray(columnKeys)) {
-      const columns_ = columnKeys.map(key =>
+      const columns_ = columnKeys.map((key) =>
         getColumnByKey(
           {
             columns: columns.value,
           },
-          key,
-        ),
+          key
+        )
       )
-      keys.forEach(key => {
-        const column = columns_.find(col => col.id === key)
+      keys.forEach((key) => {
+        const column = columns_.find((col) => col.id === key)
         if (column) {
           column.filteredValue = []
         }
@@ -396,8 +399,8 @@ function useWatcher<T>() {
         multi: true,
       })
     } else {
-      keys.forEach(key => {
-        const column = columns.value.find(col => col.id === key)
+      keys.forEach((key) => {
+        const column = columns.value.find((col) => col.id === key)
         if (column) {
           column.filteredValue = []
         }
@@ -433,6 +436,7 @@ function useWatcher<T>() {
   const {
     updateTreeExpandKeys,
     toggleTreeExpansion,
+    updateTreeData,
     loadOrToggle,
     states: treeStates,
   } = useTree({
@@ -493,7 +497,9 @@ function useWatcher<T>() {
     updateExpandRows,
     updateCurrentRowData,
     loadOrToggle,
+    updateTreeData,
     states: {
+      tableSize,
       rowKey,
       data,
       _data,

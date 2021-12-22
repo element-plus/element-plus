@@ -1,9 +1,11 @@
 import { nextTick } from 'vue'
-import throttle from 'lodash/throttle'
 import { isFunction } from '@vue/shared'
-import { getScrollContainer, getOffsetTopDistance } from '@element-plus/utils/dom'
-import throwError from '@element-plus/utils/error'
-import { entries } from '@element-plus/utils/util'
+import throttle from 'lodash/throttle'
+import {
+  getScrollContainer,
+  getOffsetTopDistance,
+} from '@element-plus/utils/dom'
+import { throwError } from '@element-plus/utils/error'
 
 import type { ObjectDirective, ComponentPublicInstance } from 'vue'
 
@@ -47,17 +49,19 @@ type InfiniteScrollEl = HTMLElement & {
   }
 }
 
-const getScrollOptions = (el: HTMLElement, instance: ComponentPublicInstance): ScrollOptions => {
-  return entries(attributes)
-    .reduce((acm, [name, option]) => {
-      const { type, default: defaultValue } = option
-      const attrVal = el.getAttribute(`infinite-scroll-${name}`)
-      let value = instance[attrVal] ?? attrVal ?? defaultValue
-      value = value === 'false' ? false : value
-      value = type(value)
-      acm[name] = Number.isNaN(value) ? defaultValue : value
-      return acm
-    }, {} as ScrollOptions)
+const getScrollOptions = (
+  el: HTMLElement,
+  instance: ComponentPublicInstance
+): ScrollOptions => {
+  return Object.entries(attributes).reduce((acm, [name, option]) => {
+    const { type, default: defaultValue } = option
+    const attrVal = el.getAttribute(`infinite-scroll-${name}`)
+    let value = instance[attrVal] ?? attrVal ?? defaultValue
+    value = value === 'false' ? false : value
+    value = type(value)
+    acm[name] = Number.isNaN(value) ? defaultValue : value
+    return acm
+  }, {} as ScrollOptions)
 }
 
 const destroyObserver = (el: InfiniteScrollEl) => {
@@ -70,11 +74,8 @@ const destroyObserver = (el: InfiniteScrollEl) => {
 }
 
 const handleScroll = (el: InfiniteScrollEl, cb: InfiniteScrollCallback) => {
-  const {
-    container, containerEl,
-    instance, observer,
-    lastScrollTop,
-  } = el[SCOPE]
+  const { container, containerEl, instance, observer, lastScrollTop } =
+    el[SCOPE]
   const { disabled, distance } = getScrollOptions(el, instance)
   const { clientHeight, scrollHeight, scrollTop } = containerEl
   const delta = scrollTop - lastScrollTop
@@ -82,7 +83,7 @@ const handleScroll = (el: InfiniteScrollEl, cb: InfiniteScrollCallback) => {
   el[SCOPE].lastScrollTop = scrollTop
 
   // trigger only if full check has done and not disabled and scroll down
-  if (observer || disabled || delta < 0 ) return
+  if (observer || disabled || delta < 0) return
 
   let shouldTrigger = false
 
@@ -92,7 +93,8 @@ const handleScroll = (el: InfiniteScrollEl, cb: InfiniteScrollCallback) => {
     // get the scrollHeight since el might be visible overflow
     const { clientTop, scrollHeight: height } = el
     const offsetTop = getOffsetTopDistance(el, containerEl)
-    shouldTrigger = scrollTop + clientHeight >= offsetTop + clientTop + height - distance
+    shouldTrigger =
+      scrollTop + clientHeight >= offsetTop + clientTop + height - distance
   }
 
   if (shouldTrigger) {
@@ -113,12 +115,15 @@ function checkFull(el: InfiniteScrollEl, cb: InfiniteScrollCallback) {
   }
 }
 
-const InfiniteScroll: ObjectDirective<InfiniteScrollEl, InfiniteScrollCallback> = {
+const InfiniteScroll: ObjectDirective<
+  InfiniteScrollEl,
+  InfiniteScrollCallback
+> = {
   async mounted(el, binding) {
     const { instance, value: cb } = binding
 
     if (!isFunction(cb)) {
-      throwError(SCOPE, '\'v-infinite-scroll\' binding value must be a function')
+      throwError(SCOPE, "'v-infinite-scroll' binding value must be a function")
     }
 
     // ensure parentNode mounted
@@ -126,19 +131,28 @@ const InfiniteScroll: ObjectDirective<InfiniteScrollEl, InfiniteScrollCallback> 
 
     const { delay, immediate } = getScrollOptions(el, instance)
     const container = getScrollContainer(el, true)
-    const containerEl = container === window ? document.documentElement : (container as HTMLElement)
+    const containerEl =
+      container === window
+        ? document.documentElement
+        : (container as HTMLElement)
     const onScroll = throttle(handleScroll.bind(null, el, cb), delay)
 
     if (!container) return
 
     el[SCOPE] = {
-      instance, container, containerEl,
-      delay, cb, onScroll,
+      instance,
+      container,
+      containerEl,
+      delay,
+      cb,
+      onScroll,
       lastScrollTop: containerEl.scrollTop,
     }
 
     if (immediate) {
-      const observer = new MutationObserver(throttle(checkFull.bind(null, el, cb), CHECK_INTERVAL))
+      const observer = new MutationObserver(
+        throttle(checkFull.bind(null, el, cb), CHECK_INTERVAL)
+      )
       el[SCOPE].observer = observer
       observer.observe(el, { childList: true, subtree: true })
       checkFull(el, cb)

@@ -32,7 +32,6 @@ export default defineComponent({
         commonPicker.value?.handleBlur()
       },
     }
-
     provide('ElPopperOptions', props.popperOptions)
     ctx.expose(refProps)
     return () => {
@@ -44,11 +43,12 @@ export default defineComponent({
           format,
           type,
           ref: commonPicker,
-          'onUpdate:modelValue': value => ctx.emit('update:modelValue', value),
+          'onUpdate:modelValue': (value) =>
+            ctx.emit('update:modelValue', value),
         },
         {
-          default: scopedProps => h(panel, scopedProps),
-        },
+          default: (scopedProps) => h(panel, scopedProps),
+        }
       )
     }
   },

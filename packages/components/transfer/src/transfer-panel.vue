@@ -24,10 +24,9 @@
         @mouseleave="inputHover = false"
       >
         <template #prefix>
-          <i
-            :class="['el-input__icon', 'el-icon-' + inputIcon]"
-            @click="clearQuery"
-          ></i>
+          <el-icon v-if="inputIcon" class="el-input__icon" @click="clearQuery">
+            <component :is="inputIcon" />
+          </el-icon>
         </template>
       </el-input>
       <el-checkbox-group
@@ -43,12 +42,13 @@
           :label="item[keyProp]"
           :disabled="item[disabledProp]"
         >
-          <option-content
-            :option="optionRender(item)"
-          />
+          <option-content :option="optionRender(item)" />
         </el-checkbox>
       </el-checkbox-group>
-      <p v-show="hasNoMatch || data.length === 0" class="el-transfer-panel__empty">
+      <p
+        v-show="hasNoMatch || data.length === 0"
+        class="el-transfer-panel__empty"
+      >
         {{ hasNoMatch ? t('el.transfer.noMatch') : t('el.transfer.noData') }}
       </p>
     </div>
@@ -60,9 +60,11 @@
 
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import { ElCheckbox, ElCheckboxGroup } from '@element-plus/components/checkbox'
+import ElIcon from '@element-plus/components/icon'
 import ElInput from '@element-plus/components/input'
+import { CircleClose, Search } from '@element-plus/icons-vue'
 import { useCheck, useCheckProps, CHECKED_CHANGE_EVENT } from './useCheck'
 
 export default defineComponent({
@@ -72,6 +74,7 @@ export default defineComponent({
     ElCheckboxGroup,
     ElCheckbox,
     ElInput,
+    ElIcon,
     OptionContent: ({ option }) => option,
   },
 
@@ -80,7 +83,7 @@ export default defineComponent({
   emits: [CHECKED_CHANGE_EVENT],
 
   setup(props, { slots }) {
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
 
     const panelState = reactive({
       checked: [],
@@ -106,25 +109,20 @@ export default defineComponent({
 
     const inputIcon = computed(() => {
       return panelState.query.length > 0 && panelState.inputHover
-        ? 'circle-close'
-        : 'search'
+        ? CircleClose
+        : Search
     })
 
     const hasFooter = computed(() => !!slots.default()[0].children.length)
 
     const clearQuery = () => {
-      if (inputIcon.value === 'circle-close') {
+      if (inputIcon.value === CircleClose) {
         panelState.query = ''
       }
     }
 
-    const {
-      checked,
-      allChecked,
-      query,
-      inputHover,
-      checkChangeByUser,
-    } = toRefs(panelState)
+    const { checked, allChecked, query, inputHover, checkChangeByUser } =
+      toRefs(panelState)
 
     return {
       labelProp,

@@ -1,9 +1,7 @@
-import type { PropType } from 'vue'
-import type { DefaultRow } from '../table/defaults'
-import type { ComponentInternalInstance, Ref, VNode } from 'vue'
-import type { Table } from '../table/defaults'
+import type { PropType, ComponentInternalInstance, Ref, VNode } from 'vue'
+import type { DefaultRow, Table } from '../table/defaults'
 
-type CI<T> = { column: TableColumnCtx<T>; $index: number; }
+type CI<T> = { column: TableColumnCtx<T>; $index: number }
 
 type Filters = {
   text: string
@@ -41,8 +39,8 @@ interface TableColumnCtx<T> {
     row: T,
     column: TableColumnCtx<T>,
     cellValue,
-    index: number,
-  ) => VNode
+    index: number
+  ) => VNode | string
   selectable: (row: T, index: number) => boolean
   reserveSelection: boolean
   filterMethod: FilterMethods<T>
@@ -63,6 +61,7 @@ interface TableColumnCtx<T> {
   columns: TableColumnCtx<T>[]
   getColumnIndex: () => number
   no: number
+  filterOpened?: boolean
 }
 
 interface TableColumn<T> extends ComponentInternalInstance {
@@ -95,7 +94,7 @@ export default {
     default: '',
   },
   renderHeader: Function as PropType<
-  TableColumnCtx<DefaultRow>['renderHeader']
+    TableColumnCtx<DefaultRow>['renderHeader']
   >,
   sortable: {
     type: [Boolean, String],
@@ -103,7 +102,7 @@ export default {
   },
   sortMethod: Function as PropType<TableColumnCtx<DefaultRow>['sortMethod']>,
   sortBy: [String, Function, Array] as PropType<
-  TableColumnCtx<DefaultRow>['sortBy']
+    TableColumnCtx<DefaultRow>['sortBy']
   >,
   resizable: {
     type: Boolean,
@@ -119,7 +118,7 @@ export default {
   selectable: Function as PropType<TableColumnCtx<DefaultRow>['selectable']>,
   reserveSelection: Boolean,
   filterMethod: Function as PropType<
-  TableColumnCtx<DefaultRow>['filterMethod']
+    TableColumnCtx<DefaultRow>['filterMethod']
   >,
   filteredValue: Array as PropType<TableColumnCtx<DefaultRow>['filteredValue']>,
   filters: Array as PropType<TableColumnCtx<DefaultRow>['filters']>,
@@ -136,8 +135,7 @@ export default {
     },
     validator: (val: TableColumnCtx<unknown>['sortOrders']) => {
       return val.every(
-        (order: string) =>
-          ['ascending', 'descending', null].indexOf(order) > -1,
+        (order: string) => ['ascending', 'descending', null].indexOf(order) > -1
       )
     },
   },

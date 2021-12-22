@@ -21,7 +21,7 @@
       :multiple="multiple"
       :accept="accept"
       @change="handleChange"
-    >
+    />
   </div>
 </template>
 
@@ -38,7 +38,7 @@ import type { ListType, UploadFile, ElFile } from './upload.type'
 
 type IFileHanlder = (
   file: Nullable<ElFile[]>,
-  fileList?: UploadFile[],
+  fileList?: UploadFile[]
 ) => unknown
 
 type AjaxEventListener = (e: ProgressEvent, file: ElFile) => unknown
@@ -67,6 +67,10 @@ export default defineComponent({
     headers: {
       type: Object as PropType<Nullable<Partial<Headers>>>,
       default: () => null,
+    },
+    method: {
+      type: String,
+      default: 'post',
     },
     withCredentials: {
       type: Boolean,
@@ -99,7 +103,7 @@ export default defineComponent({
     },
     beforeUpload: {
       type: Function as PropType<
-      (file: File) => Promise<File | Blob> | boolean | unknown
+        (file: File) => Promise<File | Blob> | boolean | unknown
       >,
       default: NOOP as (file: File) => void,
     },
@@ -113,7 +117,7 @@ export default defineComponent({
     },
     onRemove: {
       type: Function as PropType<
-      (file: Nullable<FileList>, rawFile: ElFile) => void
+        (file: Nullable<FileList>, rawFile: ElFile) => void
       >,
       default: NOOP as (file: Nullable<FileList>, rawFile: ElFile) => void,
     },
@@ -142,7 +146,7 @@ export default defineComponent({
     },
     onExceed: {
       type: Function as PropType<
-      (files: FileList, fileList: UploadFile[]) => void
+        (files: FileList, fileList: UploadFile[]) => void
       >,
       default: NOOP,
     },
@@ -164,7 +168,7 @@ export default defineComponent({
       if (postFiles.length === 0) {
         return
       }
-      postFiles.forEach(rawFile => {
+      postFiles.forEach((rawFile) => {
         props.onStart(rawFile)
         if (props.autoUpload) upload(rawFile as ElFile)
       })
@@ -178,7 +182,7 @@ export default defineComponent({
       const before = props.beforeUpload(rawFile)
       if (before instanceof Promise) {
         before
-          .then(processedFile => {
+          .then((processedFile) => {
             const fileType = Object.prototype.toString.call(processedFile)
             if (fileType === '[object File]' || fileType === '[object Blob]') {
               if (fileType === '[object Blob]') {
@@ -211,10 +215,10 @@ export default defineComponent({
         let uid = file
         if (file.uid) uid = file.uid
         if (_reqs[uid]) {
-          (_reqs[uid] as XMLHttpRequest).abort()
+          ;(_reqs[uid] as XMLHttpRequest).abort()
         }
       } else {
-        Object.keys(_reqs).forEach(uid => {
+        Object.keys(_reqs).forEach((uid) => {
           if (_reqs[uid]) (_reqs[uid] as XMLHttpRequest).abort()
           delete _reqs[uid]
         })
@@ -228,16 +232,17 @@ export default defineComponent({
         withCredentials: props.withCredentials,
         file: rawFile,
         data: props.data,
+        method: props.method,
         filename: props.name,
         action: props.action,
-        onProgress: e => {
+        onProgress: (e) => {
           props.onProgress(e, rawFile)
         },
-        onSuccess: res => {
+        onSuccess: (res) => {
           props.onSuccess(res, rawFile)
           delete reqs.value[uid]
         },
-        onError: err => {
+        onError: (err) => {
           props.onError(err, rawFile)
           delete reqs.value[uid]
         },

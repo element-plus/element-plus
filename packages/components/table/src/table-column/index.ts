@@ -14,7 +14,8 @@ import { cellStarts } from '../config'
 import { mergeOptions, compose } from '../util'
 import useWatcher from './watcher-helper'
 import useRender from './render-helper'
-import defaultProps, { TableColumn, TableColumnCtx } from './defaults'
+import defaultProps from './defaults'
+import type { TableColumn, TableColumnCtx } from './defaults'
 
 import type { DefaultRow } from '../table/defaults'
 
@@ -39,7 +40,7 @@ export default defineComponent({
 
     const { registerNormalWatchers, registerComplexWatchers } = useWatcher(
       owner,
-      props,
+      props
     )
     const {
       columnId,
@@ -52,11 +53,12 @@ export default defineComponent({
       getPropsData,
       getColumnElIndex,
       realAlign,
-    } = useRender((props as unknown) as TableColumnCtx<unknown>, slots, owner)
+    } = useRender(props as unknown as TableColumnCtx<unknown>, slots, owner)
 
     const parent = columnOrTableParent.value
-    columnId.value =
-      (parent.tableId || parent.columnId) + '_column_' + columnIdSeed++
+    columnId.value = `${
+      parent.tableId || parent.columnId
+    }_column_${columnIdSeed++}`
     onBeforeMount(() => {
       isSubColumn.value = owner.value !== parent
 
@@ -65,7 +67,7 @@ export default defineComponent({
       const defaults = {
         ...cellStarts[type],
         id: columnId.value,
-        type: type,
+        type,
         property: props.prop || props.property,
         align: realAlign,
         headerAlign: realHeaderAlign,
@@ -78,7 +80,7 @@ export default defineComponent({
         isColumnGroup: false,
         filterOpened: false,
         // sort 相关属性
-        sortable: sortable,
+        sortable,
         // index 列
         index: props.index,
         // <el-table-column key="xxx" />
@@ -114,7 +116,7 @@ export default defineComponent({
       const chains = compose(
         setColumnRenders,
         setColumnWidth,
-        setColumnForcedProps,
+        setColumnForcedProps
       )
       column = chains(column)
       columnConfig.value = column
@@ -136,14 +138,14 @@ export default defineComponent({
         owner.value.store.commit(
           'insertColumn',
           columnConfig.value,
-          isSubColumn.value ? parent.columnConfig.value : null,
+          isSubColumn.value ? parent.columnConfig.value : null
         )
     })
     onBeforeUnmount(() => {
       owner.value.store.commit(
         'removeColumn',
         columnConfig.value,
-        isSubColumn.value ? parent.columnConfig.value : null,
+        isSubColumn.value ? parent.columnConfig.value : null
       )
     })
     instance.columnId = columnId.value
@@ -162,7 +164,10 @@ export default defineComponent({
       })
       if (renderDefault instanceof Array) {
         for (const childNode of renderDefault) {
-          if (childNode.type?.name === 'ElTableColumn') {
+          if (
+            childNode.type?.name === 'ElTableColumn' ||
+            childNode.shapeFlag & 2
+          ) {
             children.push(childNode)
           } else if (
             childNode.type === Fragment &&

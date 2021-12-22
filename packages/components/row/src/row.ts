@@ -1,25 +1,33 @@
 import { defineComponent, computed, h, provide } from 'vue'
+import { buildProps } from '@element-plus/utils/props'
+import type { ExtractPropTypes } from 'vue'
+
+export const rowProps = buildProps({
+  tag: {
+    type: String,
+    default: 'div',
+  },
+  gutter: {
+    type: Number,
+    default: 0,
+  },
+  justify: {
+    type: String,
+    values: ['start', 'center', 'end', 'space-around', 'space-between'],
+    default: 'start',
+  },
+  align: {
+    type: String,
+    values: ['top', 'middle', 'bottom'],
+    default: 'top',
+  },
+} as const)
+export type RowProps = ExtractPropTypes<typeof rowProps>
 
 export default defineComponent({
   name: 'ElRow',
-  props: {
-    tag: {
-      type: String,
-      default: 'div',
-    },
-    gutter: {
-      type: Number,
-      default: 0,
-    },
-    justify: {
-      type: String,
-      default: 'start',
-    },
-    align: {
-      type: String,
-      default: 'top',
-    },
-  },
+  props: rowProps,
+
   setup(props, { slots }) {
     const gutter = computed(() => props.gutter)
     provide('ElRow', {
@@ -49,7 +57,7 @@ export default defineComponent({
           ],
           style: style.value,
         },
-        slots.default?.(),
+        slots.default?.()
       )
   },
 })

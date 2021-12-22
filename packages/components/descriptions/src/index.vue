@@ -1,6 +1,9 @@
 <template>
   <div class="el-descriptions">
-    <div v-if="title || extra || $slots.title || $slots.extra" class="el-descriptions__header">
+    <div
+      v-if="title || extra || $slots.title || $slots.extra"
+      class="el-descriptions__header"
+    >
       <div class="el-descriptions__title">
         <slot name="title">{{ title }}</slot>
       </div>
@@ -10,7 +13,13 @@
     </div>
 
     <div class="el-descriptions__body">
-      <table :class="['el-descriptions__table', {'is-bordered': border}, descriptionsSize ? `el-descriptions--${descriptionsSize}` : '']">
+      <table
+        :class="[
+          'el-descriptions__table',
+          { 'is-bordered': border },
+          descriptionsSize ? `el-descriptions--${descriptionsSize}` : '',
+        ]"
+      >
         <tbody>
           <template v-for="(row, index) in getRows()" :key="index">
             <el-descriptions-row :row="row" />
@@ -22,9 +31,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, provide } from 'vue'
-import { useGlobalConfig } from '@element-plus/utils/util'
+import { defineComponent, provide } from 'vue'
 import { isValidComponentSize } from '@element-plus/utils/validators'
+import { useSize } from '@element-plus/hooks'
 import DescriptionsRow from './descriptions-row.vue'
 import { elDescriptionsKey } from './token'
 
@@ -65,15 +74,12 @@ export default defineComponent({
   setup(props, { slots }) {
     provide(elDescriptionsKey, props)
 
-    const $ELEMENT = useGlobalConfig()
-    const descriptionsSize = computed(() => {
-      return props.size || $ELEMENT.size
-    })
+    const descriptionsSize = useSize()
 
-    const flattedChildren = children => {
+    const flattedChildren = (children) => {
       const temp = Array.isArray(children) ? children : [children]
       const res = []
-      temp.forEach(child => {
+      temp.forEach((child) => {
         if (Array.isArray(child.children)) {
           res.push(...flattedChildren(child.children))
         } else {
@@ -98,14 +104,16 @@ export default defineComponent({
     }
 
     const getRows = () => {
-      const children = flattedChildren(slots.default?.()).filter(node => node?.type?.name === 'ElDescriptionsItem')
+      const children = flattedChildren(slots.default?.()).filter(
+        (node) => node?.type?.name === 'ElDescriptionsItem'
+      )
       const rows = []
       let temp = []
       let count = props.column
       let totalSpan = 0 // all spans number of item
 
       children.forEach((node, index) => {
-        let span = node.props?.span || 1
+        const span = node.props?.span || 1
 
         if (index < children.length - 1) {
           totalSpan += span > count ? count : span
@@ -113,7 +121,7 @@ export default defineComponent({
 
         if (index === children.length - 1) {
           // calculate the last item span
-          const lastSpan = props.column - totalSpan % props.column
+          const lastSpan = props.column - (totalSpan % props.column)
           temp.push(filledNode(node, lastSpan, count, true))
           rows.push(temp)
           return

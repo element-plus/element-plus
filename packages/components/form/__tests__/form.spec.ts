@@ -1,15 +1,16 @@
 import { nextTick } from 'vue'
-import { mount, VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import installStyle from '@element-plus/test-utils/style-plugin'
 import Checkbox from '@element-plus/components/checkbox/src/checkbox.vue'
 import CheckboxGroup from '@element-plus/components/checkbox/src/checkbox-group.vue'
-import Input from '@element-plus/components/input/src/index.vue'
+import Input from '@element-plus/components/input'
 import Form from '../src/form.vue'
 import FormItem from '../src/form-item.vue'
+import type { VueWrapper } from '@vue/test-utils'
 
 type Methods = Record<string, () => any>
 function mountForm<D, M extends Methods, C>(
-  config: C & { data?(): D; methods?: M; },
+  config: C & { data?(): D; methods?: M }
 ) {
   return mount({
     components: {
@@ -50,7 +51,7 @@ describe('Form', () => {
     expect(findStyle(wrapper, '.el-form-item__label').width).toBe('80px')
   })
 
-  test('auto label width', async() => {
+  test('auto label width', async () => {
     const wrapper = mountForm({
       template: `
         <el-form ref="form" :model="form" label-width="auto" :label-position="labelPosition">
@@ -89,7 +90,7 @@ describe('Form', () => {
     expect(marginRight).toEqual(marginRight1)
   })
 
-  test('form-item auto label width', async() => {
+  test('form-item auto label width', async () => {
     const wrapper = mountForm({
       template: `
         <el-form ref="form" label-position="right" label-width="150px" :model="form">
@@ -118,7 +119,9 @@ describe('Form', () => {
     await nextTick()
 
     const formItemLabels = wrapper.findAll<HTMLElement>('.el-form-item__label')
-    const formItemLabelWraps = wrapper.findAll<HTMLElement>('.el-form-item__label-wrap')
+    const formItemLabelWraps = wrapper.findAll<HTMLElement>(
+      '.el-form-item__label-wrap'
+    )
 
     const labelWrapMarginLeft1 = formItemLabelWraps[0].element.style.marginLeft
     const labelWrapMarginLeft2 = formItemLabelWraps[1].element.style.marginLeft
@@ -188,15 +191,19 @@ describe('Form', () => {
         }
       },
     })
-    expect(wrapper.findComponent({ ref: 'labelTop' }).classes()).toContain('el-form--label-top')
-    expect(wrapper.findComponent({ ref: 'labelLeft' }).classes()).toContain('el-form--label-left')
+    expect(wrapper.findComponent({ ref: 'labelTop' }).classes()).toContain(
+      'el-form--label-top'
+    )
+    expect(wrapper.findComponent({ ref: 'labelLeft' }).classes()).toContain(
+      'el-form--label-left'
+    )
   })
 
   test('label size', () => {
     const wrapper = mountForm({
       template: `
         <div>
-          <el-form :model="form" size="mini" ref="labelMini">
+          <el-form :model="form" size="small" ref="labelSmall">
             <el-form-item>
               <el-input v-model="form.name"></el-input>
             </el-form-item>
@@ -211,10 +218,12 @@ describe('Form', () => {
         }
       },
     })
-    expect(wrapper.findComponent(FormItem).classes()).toContain('el-form-item--mini')
+    expect(wrapper.findComponent(FormItem).classes()).toContain(
+      'el-form-item--small'
+    )
   })
 
-  test('show message', done => {
+  test('show message', (done) => {
     const wrapper = mountForm({
       template: `
         <el-form :model="form" ref="form">
@@ -240,7 +249,7 @@ describe('Form', () => {
       },
     })
     const form: any = wrapper.findComponent(Form).vm
-    form.validate(async valid => {
+    form.validate(async (valid) => {
       expect(valid).toBe(false)
       await nextTick()
       expect(wrapper.find('.el-form-item__error').exists()).toBe(false)
@@ -280,10 +289,19 @@ describe('Form', () => {
               { required: true, message: 'Please input name', trigger: 'blur' },
             ],
             address: [
-              { required: true, message: 'Please input address', trigger: 'change' },
+              {
+                required: true,
+                message: 'Please input address',
+                trigger: 'change',
+              },
             ],
             type: [
-              { type: 'array', required: true, message: 'Please input type', trigger: 'change' },
+              {
+                type: 'array',
+                required: true,
+                message: 'Please input type',
+                trigger: 'change',
+              },
             ],
           },
         }
@@ -338,10 +356,19 @@ describe('Form', () => {
               { required: true, message: 'Please input name', trigger: 'blur' },
             ],
             address: [
-              { required: true, message: 'Please input address', trigger: 'change' },
+              {
+                required: true,
+                message: 'Please input address',
+                trigger: 'change',
+              },
             ],
             type: [
-              { type: 'array', required: true, message: 'Please input type', trigger: 'change' },
+              {
+                type: 'array',
+                required: true,
+                message: 'Please input type',
+                trigger: 'change',
+              },
             ],
           },
         }
@@ -361,6 +388,100 @@ describe('Form', () => {
     form.clearValidate()
     await nextTick()
     expect(addressField.validateMessage).toBe('')
+  })
+
+  test('scroll to field', () => {
+    const wrapper = mountForm({
+      template: `
+        <div>
+          <el-form ref="form">
+            <el-form-item prop="name" ref="formItem">
+              <el-input></el-input>
+            </el-form-item>
+          </el-form>
+        </div>
+      `,
+      data() {
+        return {
+          form: {
+            name: '',
+          },
+        }
+      },
+    })
+
+    const oldScrollIntoView = window.HTMLElement.prototype.scrollIntoView
+
+    const scrollIntoViewMock = jest.fn()
+    window.HTMLElement.prototype.scrollIntoView = function () {
+      scrollIntoViewMock(this)
+    }
+
+    const form: any = wrapper.findComponent({ ref: 'form' }).vm
+    form.scrollToField('name')
+    expect(scrollIntoViewMock).toHaveBeenCalledWith(
+      wrapper.findComponent({ ref: 'formItem' }).element
+    )
+
+    window.HTMLElement.prototype.scrollIntoView = oldScrollIntoView
+  })
+
+  test('validate return parameters', async () => {
+    const wrapper = mountForm({
+      template: `
+        <el-form ref="formRef" :model="form" :rules="rules" onsubmit="return false">
+          <el-form-item prop="name" label="name">
+            <el-input v-model="form.name" />
+          </el-form-item>
+          <el-form-item prop="age" label="age">
+            <el-input v-model="form.age" />
+          </el-form-item>
+        </el-form>
+      `,
+      data() {
+        return {
+          rules: {
+            name: [
+              { required: true, message: 'Please input name', trigger: 'blur' },
+            ],
+            age: [
+              { required: true, message: 'Please input age', trigger: 'blur' },
+            ],
+          },
+          form: {
+            name: 'test',
+            age: '',
+          },
+        }
+      },
+    })
+
+    async function validate() {
+      const [valid, fields] = await vm.$refs.formRef
+        .validate()
+        .then((fields) => [true, fields])
+        .catch((fields) => [false, fields])
+      return {
+        valid,
+        fields,
+      }
+    }
+
+    const vm = wrapper.vm as any
+    let res = await validate()
+    expect(res.valid).toBeFalsy()
+    expect(Object.keys(res.fields).length).toBe(1)
+    vm.form.name = ''
+    await nextTick()
+    res = await validate()
+    expect(res.valid).toBeFalsy()
+    expect(Object.keys(res.fields).length).toBe(2)
+    vm.form.name = 'test'
+    vm.form.age = 'age'
+    await nextTick()
+    res = await validate()
+    expect(res.valid).toBeTruthy()
+    expect(Object.keys(res.fields).length).toBe(0)
   })
 
   /*
@@ -409,7 +530,6 @@ describe('Form', () => {
     })
   })
   */
-
 
   /*
   test('validate event', async done => {

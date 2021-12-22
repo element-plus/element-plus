@@ -1,11 +1,12 @@
-@use "sass:map";
+@use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'mixins/utils';
-@import 'mixins/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/utils' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(slider) {
-  @include set-component-css-var('slider', $--slider);
+  @include set-component-css-var('slider', $slider);
 }
 
 @include b(slider) {
@@ -15,7 +16,7 @@
     width: 100%;
     height: var(--el-slider-height);
     margin: var(--el-slider-margin);
-    background-color: var(--el-slider-runway-background-color);
+    background-color: var(--el-slider-runway-bg-color);
     border-radius: var(--el-slider-border-radius);
     position: relative;
     cursor: pointer;
@@ -72,22 +73,18 @@
     margin-top: 3px;
     width: 130px;
 
-    &.#{$namespace}-input-number--mini {
-      margin-top: 5px;
-    }
-
-    &.#{$namespace}-input-number--medium {
-      margin-top: 0;
-    }
-
     &.#{$namespace}-input-number--large {
       margin-top: -2px;
+    }
+
+    &.#{$namespace}-input-number--small {
+      margin-top: 5px;
     }
   }
 
   @include e(bar) {
     height: var(--el-slider-height);
-    background-color: var(--el-slider-main-background-color);
+    background-color: var(--el-slider-main-bg-color);
     border-top-left-radius: var(--el-slider-border-radius);
     border-bottom-left-radius: var(--el-slider-border-radius);
     position: absolute;
@@ -122,7 +119,7 @@
     width: var(--el-slider-button-size);
     height: var(--el-slider-button-size);
     vertical-align: middle;
-    border: solid 2px var(--el-slider-main-background-color);
+    border: solid 2px var(--el-slider-main-bg-color);
     background-color: var(--el-color-white);
     border-radius: 50%;
     box-sizing: border-box;
@@ -150,7 +147,7 @@
     height: var(--el-slider-height);
     width: var(--el-slider-height);
     border-radius: var(--el-border-radius-circle);
-    background-color: var(--el-slider-stop-background-color);
+    background-color: var(--el-slider-stop-bg-color);
     transform: translateX(-50%);
   }
 
@@ -190,7 +187,7 @@
       transform: translateY(50%);
     }
     &.#{$namespace}-slider--with-input {
-      padding-bottom: #{map.get($--input-height, 'medium') + 22px};
+      padding-bottom: #{map.get($input-height, 'default') + 22px};
       .#{$namespace}-slider__input {
         overflow: visible;
         float: none;
@@ -205,9 +202,9 @@
         }
         .#{$namespace}-input-number__decrease,
         .#{$namespace}-input-number__increase {
-          top: map.get($--input-height, 'small');
+          top: map.get($input-height, 'small');
           margin-top: -1px;
-          border: var(--el-input-border, map.get($--input, 'border'));
+          border: var(--el-input-border, map.get($input, 'border'));
           line-height: 20px;
           box-sizing: border-box;
           transition: var(--el-transition-border);
@@ -217,14 +214,14 @@
           right: 18px;
           border-bottom-left-radius: var(
             --el-input-border-radius,
-            map.get($--input, 'border-radius')
+            map.get($input, 'border-radius')
           );
         }
         .#{$namespace}-input-number__increase {
           width: 19px;
           border-bottom-right-radius: var(
             --el-input-border-radius,
-            map.get($--input, 'border-radius')
+            map.get($input, 'border-radius')
           );
           & ~ .#{$namespace}-input .#{$namespace}-input__inner {
             border-bottom-left-radius: 0;
@@ -236,7 +233,7 @@
           .#{$namespace}-input-number__increase {
             border-color: var(
               --el-input-hover-border,
-              map.get($--input, 'hover-border')
+              map.get($input, 'hover-border')
             );
           }
         }
@@ -245,7 +242,7 @@
           .#{$namespace}-input-number__increase {
             border-color: var(
               --el-input-focus-border,
-              map.get($--input, 'focus-border')
+              map.get($input, 'focus-border')
             );
           }
         }

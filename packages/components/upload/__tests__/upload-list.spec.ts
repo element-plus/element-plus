@@ -12,24 +12,19 @@ const mount = makeMount(UploadList, {
   },
 })
 
-
 describe('<upload-list />', () => {
-
   describe('render test', () => {
     test('should render correct', () => {
       const wrapper = mount({
-
         slots: {
-          default: ({ file }: { file: File; } ) => h('div', null, file.name),
+          default: ({ file }: { file: File }) => h('div', null, file.name),
         },
       })
       expect(wrapper.text()).toBe(testName)
     })
   })
 
-
   describe('functionalities', () => {
-
     test('handle preview works', async () => {
       const preview = jest.fn()
       const wrapper = mount({
@@ -58,7 +53,7 @@ describe('<upload-list />', () => {
         },
       })
 
-      await wrapper.find('.el-icon-close').trigger('click')
+      await wrapper.find('.el-icon--close').trigger('click')
       expect(remove).toHaveBeenCalled()
 
       await wrapper.find('.el-upload-list__item').trigger('keydown', {
@@ -74,7 +69,5 @@ describe('<upload-list />', () => {
       await wrapper.find('.el-upload-list__item-delete').trigger('click')
       expect(remove).toHaveBeenCalledTimes(3)
     })
-
   })
-
 })

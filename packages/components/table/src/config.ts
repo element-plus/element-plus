@@ -1,7 +1,10 @@
 import { h } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
+import { ElIcon } from '@element-plus/components/icon'
+import { ArrowRight, Loading } from '@element-plus/icons-vue'
 import { getPropByPath } from '@element-plus/utils/util'
 
+import type { VNode } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { Store } from './store'
 import type { TreeNode } from './table/defaults'
@@ -34,12 +37,13 @@ export const cellStarts = {
 // 这些选项不应该被覆盖
 export const cellForced = {
   selection: {
-    renderHeader: function<T>({ store }: { store: Store<T>; }) {
+    renderHeader<T>({ store }: { store: Store<T> }) {
       function isDisabled() {
         return store.states.data.value && store.states.data.value.length === 0
       }
       return h(ElCheckbox, {
         disabled: isDisabled(),
+        size: store.states.tableSize.value,
         indeterminate:
           store.states.selection.value.length > 0 &&
           !store.states.isAllSelected.value,
@@ -47,7 +51,7 @@ export const cellForced = {
         modelValue: store.states.isAllSelected.value,
       })
     },
-    renderCell: function<T>({
+    renderCell<T>({
       row,
       column,
       store,
@@ -62,6 +66,7 @@ export const cellForced = {
         disabled: column.selectable
           ? !column.selectable.call(null, row, $index)
           : false,
+        size: store.states.tableSize.value,
         onChange: () => {
           store.commit('rowSelectedChanged', row)
         },
@@ -73,10 +78,10 @@ export const cellForced = {
     resizable: false,
   },
   index: {
-    renderHeader: function<T>({ column }: { column: TableColumnCtx<T>; }) {
+    renderHeader<T>({ column }: { column: TableColumnCtx<T> }) {
       return column.label || '#'
     },
-    renderCell: function<T>({
+    renderCell<T>({
       column,
       $index,
     }: {
@@ -96,15 +101,15 @@ export const cellForced = {
     sortable: false,
   },
   expand: {
-    renderHeader: function<T>({ column }: { column: TableColumnCtx<T>; }) {
+    renderHeader<T>({ column }: { column: TableColumnCtx<T> }) {
       return column.label || ''
     },
-    renderCell: function<T>({ row, store }: { row: T; store: Store<T>; }) {
+    renderCell<T>({ row, store }: { row: T; store: Store<T> }) {
       const classes = ['el-table__expand-icon']
       if (store.states.expandRows.value.indexOf(row) > -1) {
         classes.push('el-table__expand-icon--expanded')
       }
-      const callback = function(e: Event) {
+      const callback = function (e: Event) {
         e.stopPropagation()
         store.toggleRowExpansion(row)
       }
@@ -114,11 +119,17 @@ export const cellForced = {
           class: classes,
           onClick: callback,
         },
-        [
-          h('i', {
-            class: 'el-icon el-icon-arrow-right',
-          }),
-        ],
+        {
+          default: () => {
+            return [
+              h(ElIcon, null, {
+                default: () => {
+                  return [h(ArrowRight)]
+                },
+              }),
+            ]
+          },
+        }
       )
     },
     sortable: false,
@@ -154,8 +165,8 @@ export function treeCellPrefix<T>({
   store: Store<T>
 }) {
   if (!treeNode) return null
-  const ele = []
-  const callback = function(e) {
+  const ele: VNode[] = []
+  const callback = function (e) {
     e.stopPropagation()
     store.loadOrToggle(row)
   }
@@ -163,8 +174,8 @@ export function treeCellPrefix<T>({
     ele.push(
       h('span', {
         class: 'el-table__indent',
-        style: { 'padding-left': treeNode.indent + 'px' },
-      }),
+        style: { 'padding-left': `${treeNode.indent}px` },
+      })
     )
   }
   if (typeof treeNode.expanded === 'boolean' && !treeNode.noLazyChildren) {
@@ -172,9 +183,9 @@ export function treeCellPrefix<T>({
       'el-table__expand-icon',
       treeNode.expanded ? 'el-table__expand-icon--expanded' : '',
     ]
-    let iconClasses = ['el-icon-arrow-right']
+    let icon = ArrowRight
     if (treeNode.loading) {
-      iconClasses = ['el-icon-loading']
+      icon = Loading
     }
 
     ele.push(
@@ -184,18 +195,26 @@ export function treeCellPrefix<T>({
           class: expandClasses,
           onClick: callback,
         },
-        [
-          h('i', {
-            class: iconClasses,
-          }),
-        ],
-      ),
+        {
+          default: () => {
+            return [
+              h(
+                ElIcon,
+                { class: { 'is-loading': treeNode.loading } },
+                {
+                  default: () => [h(icon)],
+                }
+              ),
+            ]
+          },
+        }
+      )
     )
   } else {
     ele.push(
       h('span', {
         class: 'el-table__placeholder',
-      }),
+      })
     )
   }
   return ele

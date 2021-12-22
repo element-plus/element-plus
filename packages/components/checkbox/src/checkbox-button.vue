@@ -14,29 +14,30 @@
     <input
       v-if="trueLabel || falseLabel"
       v-model="model"
-      :checked="isChecked"
       class="el-checkbox-button__original"
       type="checkbox"
       :name="name"
+      :tabindex="tabindex"
       :disabled="isDisabled"
       :true-value="trueLabel"
       :false-value="falseLabel"
       @change="handleChange"
       @focus="focus = true"
       @blur="focus = false"
-    >
+    />
     <input
       v-else
       v-model="model"
       class="el-checkbox-button__original"
       type="checkbox"
       :name="name"
+      :tabindex="tabindex"
       :disabled="isDisabled"
       :value="label"
       @change="handleChange"
       @focus="focus = true"
       @blur="focus = false"
-    >
+    />
 
     <span
       v-if="$slots.default || label"
@@ -45,14 +46,10 @@
     >
       <slot>{{ label }}</slot>
     </span>
-
   </label>
 </template>
-<script lang='ts'>
-import {
-  defineComponent,
-  computed,
-} from 'vue'
+<script lang="ts">
+import { defineComponent, computed } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { useCheckbox, useCheckboxGroup, useCheckboxProps } from './useCheckbox'
 
@@ -61,7 +58,8 @@ export default defineComponent({
   props: useCheckboxProps,
   emits: [UPDATE_MODEL_EVENT, 'change'],
   setup(props) {
-    const { focus, isChecked, isDisabled, size, model, handleChange } = useCheckbox(props)
+    const { focus, isChecked, isDisabled, size, model, handleChange } =
+      useCheckbox(props)
     const { checkboxGroup } = useCheckboxGroup()
 
     const activeStyle = computed(() => {
@@ -73,7 +71,6 @@ export default defineComponent({
         boxShadow: fillValue ? `-1px 0 0 0 ${fillValue}` : null,
       }
     })
-
 
     return {
       focus,

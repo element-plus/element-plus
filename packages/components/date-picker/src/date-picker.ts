@@ -1,4 +1,4 @@
-import { defineComponent, h, provide, ref } from 'vue'
+import { defineComponent, h, provide, ref, renderSlot } from 'vue'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
@@ -17,10 +17,9 @@ import {
 import DatePickPanel from './date-picker-com/panel-date-pick.vue'
 import DateRangePickPanel from './date-picker-com/panel-date-range.vue'
 import MonthRangePickPanel from './date-picker-com/panel-month-range.vue'
-
+import { ROOT_PICKER_INJECTION_KEY } from './date-picker.type'
 import type { PropType } from 'vue'
 import type { IDatePickerType } from './date-picker.type'
-
 
 dayjs.extend(localeData)
 dayjs.extend(advancedFormat)
@@ -53,28 +52,38 @@ export default defineComponent({
   emits: ['update:modelValue'],
   setup(props, ctx) {
     provide('ElPopperOptions', props.popperOptions)
+    provide(ROOT_PICKER_INJECTION_KEY, {
+      ctx,
+    })
     const commonPicker = ref(null)
     const refProps = {
       ...props,
-      focus: () => {
-        commonPicker.value?.handleFocus()
+      focus: (focusStartInput = true) => {
+        commonPicker.value?.focus(focusStartInput)
       },
     }
     ctx.expose(refProps)
     return () => {
       // since props always have all defined keys on it, {format, ...props} will always overwrite format
       // pick props.format or provide default value here before spreading
-      const format = props.format ?? (DEFAULT_FORMATS_DATEPICKER[props.type] || DEFAULT_FORMATS_DATE)
-      return h(CommonPicker, {
-        ...props,
-        format,
-        type: props.type,
-        ref: commonPicker,
-        'onUpdate:modelValue': value => ctx.emit('update:modelValue', value),
-      },
-      {
-        default: scopedProps => h(getPanel(props.type), scopedProps),
-      })
+      const format =
+        props.format ??
+        (DEFAULT_FORMATS_DATEPICKER[props.type] || DEFAULT_FORMATS_DATE)
+      return h(
+        CommonPicker,
+        {
+          ...props,
+          format,
+          type: props.type,
+          ref: commonPicker,
+          'onUpdate:modelValue': (value) =>
+            ctx.emit('update:modelValue', value),
+        },
+        {
+          default: (scopedProps) => h(getPanel(props.type), scopedProps),
+          'range-separator': () => renderSlot(ctx.slots, 'range-separator'),
+        }
+      )
     }
   },
 })

@@ -1,11 +1,12 @@
-import { h, ComponentPublicInstance, nextTick } from 'vue'
+import { h, nextTick } from 'vue'
 import { rAF } from '@element-plus/test-utils/tick'
 import makeMount from '@element-plus/test-utils/make-mount'
-import * as domExports from '@element-plus/utils/dom'
 import { EVENT_CODE } from '@element-plus/utils/aria'
+import { TypeComponentsMap } from '@element-plus/utils/icon'
 import PopupManager from '@element-plus/utils/popup-manager'
-import Notification from '../src/index.vue'
+import Notification from '../src/notification.vue'
 
+import type { ComponentPublicInstance, Component } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
 
 const AXIOM = 'Rem is the best girl'
@@ -31,16 +32,19 @@ describe('Notification.vue', () => {
 
       const vm = wrapper.vm as ComponentPublicInstance<{
         visible: boolean
-        typeClass: string
+        iconComponent: Component
         horizontalClass: string
         positionStyle: Record<string, string>
       }>
 
       expect(wrapper.text()).toEqual(AXIOM)
       expect(vm.visible).toBe(true)
-      expect(vm.typeClass).toBe('')
+      expect(vm.iconComponent).toBe('')
       expect(vm.horizontalClass).toBe('right')
-      expect(vm.positionStyle).toEqual({ top: '0px','z-index': 0 })
+      expect(vm.positionStyle).toEqual({
+        top: '0px',
+        zIndex: 0,
+      } as CSSProperties)
     })
 
     test('should be able to render VNode', () => {
@@ -51,7 +55,7 @@ describe('Notification.vue', () => {
             {
               class: 'text-node',
             },
-            AXIOM,
+            AXIOM
           ),
         },
       })
@@ -86,8 +90,8 @@ describe('Notification.vue', () => {
     test('should be able to render z-index style with zIndex flag', () => {
       const zIndex = PopupManager.nextZIndex()
       const wrapper = _mount({
-        props:{
-          zIndex: zIndex,
+        props: {
+          zIndex,
         },
       })
 
@@ -95,34 +99,10 @@ describe('Notification.vue', () => {
         positionStyle: Record<string, string>
       }>
 
-      expect(vm.positionStyle).toEqual({ top: '0px','z-index': zIndex })
-    })
-  })
-
-  describe('lifecycle', () => {
-    let onMock
-    let offMock
-    beforeEach(() => {
-      onMock = jest.spyOn(domExports, 'on').mockReset()
-      offMock = jest.spyOn(domExports, 'off').mockReset()
-    })
-
-    afterEach(() => {
-      onMock.mockRestore()
-      offMock.mockRestore()
-    })
-
-    test('should add event listener to target element when init', () => {
-      jest.spyOn(domExports, 'on')
-      jest.spyOn(domExports, 'off')
-      const wrapper = _mount({
-        slots: {
-          default: AXIOM,
-        },
-      })
-      expect(domExports.on).toHaveBeenCalled()
-      wrapper.unmount()
-      expect(domExports.off).toHaveBeenCalled()
+      expect(vm.positionStyle).toEqual({
+        top: '0px',
+        zIndex,
+      } as CSSProperties)
     })
   })
 
@@ -136,8 +116,8 @@ describe('Notification.vue', () => {
             type,
           },
         })
-        expect(wrapper.find('.el-notification__icon').classes()).toContain(
-          `el-icon-${type}`,
+        expect(wrapper.findComponent(TypeComponentsMap[type]).exists()).toBe(
+          true
         )
       }
     })
@@ -150,9 +130,7 @@ describe('Notification.vue', () => {
         },
       })
 
-      expect(wrapper.find('.el-notification__icon').classes()).not.toContain(
-        `el-icon-${type}`,
-      )
+      expect(wrapper.find('.el-notification__icon').exists()).toBe(false)
     })
   })
 
@@ -182,7 +160,7 @@ describe('Notification.vue', () => {
           duration,
         },
       })
-      const vm = wrapper.vm as ComponentPublicInstance<{ visible: boolean; }>
+      const vm = wrapper.vm as ComponentPublicInstance<{ visible: boolean }>
 
       jest.runAllTimers()
 
@@ -198,7 +176,7 @@ describe('Notification.vue', () => {
         },
       })
 
-      const vm = wrapper.vm as ComponentPublicInstance<{ visible: boolean; }>
+      const vm = wrapper.vm as ComponentPublicInstance<{ visible: boolean }>
 
       await rAF()
       await wrapper.find('[role=alert]').trigger('mouseenter')
@@ -222,7 +200,7 @@ describe('Notification.vue', () => {
         },
       })
 
-      const vm = wrapper.vm as ComponentPublicInstance<{ visible: boolean; }>
+      const vm = wrapper.vm as ComponentPublicInstance<{ visible: boolean }>
       await rAF()
       expect(vm.visible).toBe(true)
       jest.runAllTimers()
@@ -252,7 +230,7 @@ describe('Notification.vue', () => {
         },
       })
 
-      const vm = wrapper.vm as ComponentPublicInstance<{ visible: boolean; }>
+      const vm = wrapper.vm as ComponentPublicInstance<{ visible: boolean }>
 
       const event = new KeyboardEvent('keydown', {
         code: EVENT_CODE.backspace,
@@ -271,7 +249,7 @@ describe('Notification.vue', () => {
           default: AXIOM,
         },
       })
-      const vm = wrapper.vm as ComponentPublicInstance<{ visible: boolean; }>
+      const vm = wrapper.vm as ComponentPublicInstance<{ visible: boolean }>
       // Same as above
       const event = new KeyboardEvent('keydown', {
         code: EVENT_CODE.esc,

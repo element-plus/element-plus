@@ -11,7 +11,7 @@
     :stop-popper-mouse-event="false"
     transition="el-zoom-in-top"
     :gpu-acceleration="false"
-    effect="light"
+    :effect="Effect.LIGHT"
     pure
     @after-leave="hideSuggestionPanel"
   >
@@ -21,7 +21,7 @@
         :class="[
           'el-cascader',
           realSize && `el-cascader--${realSize}`,
-          { 'is-disabled': isDisabled }
+          { 'is-disabled': isDisabled },
         ]"
         @click="() => togglePopperVisible(readonly ? undefined : true)"
         @keydown="handleKeyDown"
@@ -37,27 +37,34 @@
           :validate-event="false"
           :size="realSize"
           :class="{ 'is-focus': popperVisible }"
-          @focus="e => $emit('focus', e)"
-          @blur="e => $emit('blur', e)"
+          @compositionstart="handleComposition"
+          @compositionupdate="handleComposition"
+          @compositionend="handleComposition"
+          @focus="(e) => $emit('focus', e)"
+          @blur="(e) => $emit('blur', e)"
           @input="handleInput"
         >
           <template #suffix>
-            <i
+            <el-icon
               v-if="clearBtnVisible"
               key="clear"
-              class="el-input__icon el-icon-circle-close"
+              class="el-input__icon icon-circle-close"
               @click.stop="handleClear"
-            ></i>
-            <i
+            >
+              <circle-close />
+            </el-icon>
+            <el-icon
               v-else
               key="arrow-down"
               :class="[
                 'el-input__icon',
-                'el-icon-arrow-down',
-                popperVisible && 'is-reverse'
+                'icon-arrow-down',
+                popperVisible && 'is-reverse',
               ]"
               @click.stop="togglePopperVisible()"
-            ></i>
+            >
+              <arrow-down />
+            </el-icon>
           </template>
         </el-input>
 
@@ -80,10 +87,13 @@
             type="text"
             class="el-cascader__search-input"
             :placeholder="presentText ? '' : inputPlaceholder"
-            @input="e => handleInput(searchInputValue, e)"
+            @input="(e) => handleInput(searchInputValue, e)"
             @click.stop="togglePopperVisible(true)"
             @keydown.delete="handleDelete"
-          >
+            @compositionstart="handleComposition"
+            @compositionupdate="handleComposition"
+            @compositionend="handleComposition"
+          />
         </div>
       </div>
     </template>
@@ -107,6 +117,7 @@
         tag="ul"
         class="el-cascader__suggestion-panel"
         view-class="el-cascader__suggestion-list"
+        @keydown="handleSuggestionKeyDown"
       >
         <template v-if="suggestions.length">
           <li
@@ -114,71 +125,94 @@
             :key="item.uid"
             :class="[
               'el-cascader__suggestion-item',
-              item.checked && 'is-checked'
+              item.checked && 'is-checked',
             ]"
             :tabindex="-1"
             @click="handleSuggestionClick(item)"
           >
             <span>{{ item.text }}</span>
-            <i v-if="item.checked" class="el-icon-check"></i>
+            <el-icon v-if="item.checked"><check /></el-icon>
           </li>
         </template>
         <slot v-else name="empty">
-          <li class="el-cascader__empty-text">{{ t('el.cascader.noMatch') }}</li>
+          <li class="el-cascader__empty-text">
+            {{ t('el.cascader.noMatch') }}
+          </li>
         </slot>
       </el-scrollbar>
     </template>
   </el-popper>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import {
-  computed, defineComponent,
-  inject, nextTick,
-  onMounted, onBeforeUnmount,
-  Ref, ref, watch,
+  computed,
+  defineComponent,
+  inject,
+  nextTick,
+  onMounted,
+  onBeforeUnmount,
+  ref,
+  watch,
 } from 'vue'
 import { isPromise } from '@vue/shared'
 import debounce from 'lodash/debounce'
 
-import ElCascaderPanel, { CommonProps } from '@element-plus/components/cascader-panel'
+import { isClient } from '@vueuse/core'
+import ElCascaderPanel, {
+  CommonProps,
+} from '@element-plus/components/cascader-panel'
 import ElInput from '@element-plus/components/input'
-import ElPopper from '@element-plus/components/popper'
+import ElPopper, { Effect } from '@element-plus/components/popper'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
+import ElIcon from '@element-plus/components/icon'
+
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
-
 import { ClickOutside as Clickoutside } from '@element-plus/directives'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale, useSize } from '@element-plus/hooks'
 
-import { EVENT_CODE } from '@element-plus/utils/aria'
+import { EVENT_CODE, focusNode, getSibling } from '@element-plus/utils/aria'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
-import isServer from '@element-plus/utils/isServer'
-import { useGlobalConfig } from '@element-plus/utils/util'
-import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
+import {
+  addResizeListener,
+  removeResizeListener,
+} from '@element-plus/utils/resize-event'
 import { isValidComponentSize } from '@element-plus/utils/validators'
+import { isKorean } from '@element-plus/utils/isDef'
+import { CircleClose, Check, ArrowDown } from '@element-plus/icons-vue'
 
-import type { ComputedRef, PropType } from 'vue'
+import type { Options } from '@element-plus/components/popper'
+import type { ComputedRef, PropType, Ref } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
-import type { CascaderValue, CascaderNode, Tag } from '@element-plus/components/cascader-panel'
+import type {
+  CascaderValue,
+  CascaderNode,
+  Tag,
+} from '@element-plus/components/cascader-panel'
 import type { ComponentSize } from '@element-plus/utils/types'
+
+type cascaderPanelType = InstanceType<typeof ElCascaderPanel>
+type popperType = InstanceType<typeof ElPopper>
+type inputType = InstanceType<typeof ElInput>
+type suggestionPanelType = InstanceType<typeof ElScrollbar>
 
 const DEFAULT_INPUT_HEIGHT = 40
 
 const INPUT_HEIGHT_MAP = {
-  medium: 36,
-  small: 32,
-  mini: 28,
+  large: 36,
+  default: 32,
+  small: 28,
 }
 
-const popperOptions = {
+const popperOptions: Partial<Options> = {
   modifiers: [
     {
       name: 'arrowPosition',
       enabled: true,
       phase: 'main',
       fn: ({ state }) => {
-        const { modifiersData, placement } = state
+        const { modifiersData, placement } = state as any
         if (['right', 'left'].includes(placement)) return
         modifiersData.arrow.x = 35
       },
@@ -196,6 +230,10 @@ export default defineComponent({
     ElPopper,
     ElScrollbar,
     ElTag,
+    ElIcon,
+    CircleClose,
+    Check,
+    ArrowDown,
   },
 
   directives: {
@@ -215,8 +253,11 @@ export default defineComponent({
     clearable: Boolean,
     filterable: Boolean,
     filterMethod: {
-      type: Function as PropType<(node: CascaderNode, keyword: string) => boolean>,
-      default: (node: CascaderNode, keyword: string) => node.text.includes(keyword),
+      type: Function as PropType<
+        (node: CascaderNode, keyword: string) => boolean
+      >,
+      default: (node: CascaderNode, keyword: string) =>
+        node.text.includes(keyword),
     },
     separator: {
       type: String,
@@ -259,16 +300,15 @@ export default defineComponent({
     let inputInitialHeight = 0
     let pressDeleteCount = 0
 
-    const { t } = useLocaleInject()
-    const $ELEMENT = useGlobalConfig()
+    const { t } = useLocale()
     const elForm = inject(elFormKey, {} as ElFormContext)
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
 
-    const popper = ref(null)
-    const input = ref(null)
+    const popper: Ref<popperType | null> = ref(null)
+    const input: Ref<inputType | null> = ref(null)
     const tagWrapper = ref(null)
-    const panel = ref(null)
-    const suggestionPanel = ref(null)
+    const panel: Ref<cascaderPanelType | null> = ref(null)
+    const suggestionPanel: Ref<suggestionPanelType | null> = ref(null)
     const popperVisible = ref(false)
     const inputHover = ref(false)
     const filtering = ref(false)
@@ -276,22 +316,32 @@ export default defineComponent({
     const searchInputValue = ref('')
     const presentTags: Ref<Tag[]> = ref([])
     const suggestions: Ref<CascaderNode[]> = ref([])
+    const isOnComposition = ref(false)
 
     const isDisabled = computed(() => props.disabled || elForm.disabled)
-    const inputPlaceholder = computed(() => props.placeholder || t('el.cascader.placeholder'))
-    const realSize: ComputedRef<string> = computed(() => props.size || elFormItem.size || $ELEMENT.size)
-    const tagSize = computed(() => ['small', 'mini'].includes(realSize.value) ? 'mini' : 'small')
+    const inputPlaceholder = computed(
+      () => props.placeholder || t('el.cascader.placeholder')
+    )
+    const realSize = useSize()
+    const tagSize = computed(() =>
+      ['small'].includes(realSize.value) ? 'small' : ''
+    )
     const multiple = computed(() => !!props.props.multiple)
     const readonly = computed(() => !props.filterable || multiple.value)
-    const searchKeyword = computed(() => multiple.value ? searchInputValue.value : inputValue.value)
-    const checkedNodes: ComputedRef<CascaderNode[]> = computed(() => panel.value?.checkedNodes || [])
+    const searchKeyword = computed(() =>
+      multiple.value ? searchInputValue.value : inputValue.value
+    )
+    const checkedNodes: ComputedRef<CascaderNode[]> = computed(
+      () => panel.value?.checkedNodes || []
+    )
     const clearBtnVisible = computed(() => {
       if (
         !props.clearable ||
         isDisabled.value ||
         filtering.value ||
         !inputHover.value
-      ) return false
+      )
+        return false
 
       return !!checkedNodes.value.length
     })
@@ -299,18 +349,20 @@ export default defineComponent({
       const { showAllLevels, separator } = props
       const nodes = checkedNodes.value
       return nodes.length
-        ? multiple.value ? ' ' : nodes[0].calcText(showAllLevels, separator)
+        ? multiple.value
+          ? ' '
+          : nodes[0].calcText(showAllLevels, separator)
         : ''
     })
 
-    const checkedValue = computed({
-      get () {
+    const checkedValue = computed<CascaderValue>({
+      get() {
         return props.modelValue
       },
-      set (val) {
+      set(val) {
         emit(UPDATE_MODEL_EVENT, val)
         emit(CHANGE_EVENT, val)
-        elFormItem.formItemMitt?.emit('el.form.change', [val])
+        elFormItem.validate?.('change')
       },
     })
 
@@ -325,11 +377,11 @@ export default defineComponent({
 
       if (visible !== popperVisible.value) {
         popperVisible.value = visible
-        input.value.input.setAttribute('aria-expanded', visible)
+        input.value?.input?.setAttribute('aria-expanded', `${visible}`)
 
         if (visible) {
           updatePopperPosition()
-          nextTick(panel.value.scrollToExpandingNode)
+          nextTick(panel.value?.scrollToExpandingNode)
         } else if (props.filterable) {
           const { value } = presentText
           inputValue.value = value
@@ -341,7 +393,7 @@ export default defineComponent({
     }
 
     const updatePopperPosition = () => {
-      nextTick(popper.value.update)
+      nextTick(popper.value?.update)
     }
 
     const hideSuggestionPanel = () => {
@@ -360,9 +412,9 @@ export default defineComponent({
     }
 
     const deleteTag = (tag: Tag) => {
-      const { node } = tag
+      const node = tag.node as CascaderNode
       node.doCheck(false)
-      panel.value.calculateCheckedValue()
+      panel.value?.calculateCheckedValue()
       emit('remove-tag', node.valueByOption)
     }
 
@@ -386,7 +438,7 @@ export default defineComponent({
               closable: false,
             })
           } else {
-            rest.forEach(node => tags.push(genTag(node)))
+            rest.forEach((node) => tags.push(genTag(node)))
           }
         }
       }
@@ -396,31 +448,36 @@ export default defineComponent({
 
     const calculateSuggestions = () => {
       const { filterMethod, showAllLevels, separator } = props
-      const res = panel.value.getFlattedNodes(!props.props.checkStrictly)
-        .filter(node => {
+      const res = panel.value
+        ?.getFlattedNodes(!props.props.checkStrictly)
+        ?.filter((node) => {
           if (node.isDisabled) return false
           node.calcText(showAllLevels, separator)
           return filterMethod(node, searchKeyword.value)
         })
 
       if (multiple.value) {
-        presentTags.value.forEach(tag => {
+        presentTags.value.forEach((tag) => {
           tag.hitState = false
         })
       }
 
       filtering.value = true
-      suggestions.value = res
+      suggestions.value = res!
       updatePopperPosition()
     }
 
     const focusFirstNode = () => {
-      let firstNode = null
+      let firstNode!: HTMLElement
 
       if (filtering.value && suggestionPanel.value) {
-        firstNode = suggestionPanel.value.$el.querySelector('.el-cascader__suggestion-item')
+        firstNode = suggestionPanel.value.$el.querySelector(
+          '.el-cascader__suggestion-item'
+        )
       } else {
-        firstNode = panel.value?.$el.querySelector('.el-cascader-node[tabindex="-1"]')
+        firstNode = panel.value?.$el.querySelector(
+          '.el-cascader-node[tabindex="-1"]'
+        )
       }
 
       if (firstNode) {
@@ -430,27 +487,32 @@ export default defineComponent({
     }
 
     const updateStyle = () => {
-      const inputInner = input.value.input
+      const inputInner = input.value?.input
       const tagWrapperEl = tagWrapper.value
       const suggestionPanelEl = suggestionPanel.value?.$el
 
-      if (isServer || !inputInner) return
+      if (!isClient || !inputInner) return
 
       if (suggestionPanelEl) {
-        const suggestionList = suggestionPanelEl.querySelector('.el-cascader__suggestion-list')
-        suggestionList.style.minWidth = inputInner.offsetWidth + 'px'
+        const suggestionList = suggestionPanelEl.querySelector(
+          '.el-cascader__suggestion-list'
+        )
+        suggestionList.style.minWidth = `${inputInner.offsetWidth}px`
       }
 
       if (tagWrapperEl) {
         const { offsetHeight } = tagWrapperEl
-        const height = presentTags.value.length > 0 ? Math.max(offsetHeight + 6, inputInitialHeight) + 'px' : `${inputInitialHeight}px`
+        const height =
+          presentTags.value.length > 0
+            ? `${Math.max(offsetHeight + 6, inputInitialHeight)}px`
+            : `${inputInitialHeight}px`
         inputInner.style.height = height
         updatePopperPosition()
       }
     }
 
     const getCheckedNodes = (leafOnly: boolean) => {
-      return panel.value.getCheckedNodes(leafOnly)
+      return panel.value?.getCheckedNodes(leafOnly)
     }
 
     const handleExpandChange = (value: CascaderValue) => {
@@ -458,7 +520,20 @@ export default defineComponent({
       emit('expand-change', value)
     }
 
+    const handleComposition = (event: CompositionEvent) => {
+      const text = (event.target as HTMLInputElement)?.value
+      if (event.type === 'compositionend') {
+        isOnComposition.value = false
+        nextTick(() => handleInput(text))
+      } else {
+        const lastCharacter = text[text.length - 1] || ''
+        isOnComposition.value = !isKorean(lastCharacter)
+      }
+    }
+
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (isOnComposition.value) return
+
       switch (e.code) {
         case EVENT_CODE.enter:
           togglePopperVisible()
@@ -466,7 +541,7 @@ export default defineComponent({
         case EVENT_CODE.down:
           togglePopperVisible(true)
           nextTick(focusFirstNode)
-          event.preventDefault()
+          e.preventDefault()
           break
         case EVENT_CODE.esc:
         case EVENT_CODE.tab:
@@ -476,18 +551,45 @@ export default defineComponent({
     }
 
     const handleClear = () => {
-      panel.value.clearCheckedNodes()
+      panel.value?.clearCheckedNodes()
       togglePopperVisible(false)
     }
 
     const handleSuggestionClick = (node: CascaderNode) => {
       const { checked } = node
 
-      if (multiple.value ) {
-        panel.value.handleCheckChange(node, !checked, false)
+      if (multiple.value) {
+        panel.value?.handleCheckChange(node, !checked, false)
       } else {
-        !checked && panel.value.handleCheckChange(node, true, false)
+        !checked && panel.value?.handleCheckChange(node, true, false)
         togglePopperVisible(false)
+      }
+    }
+
+    const handleSuggestionKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement
+      const { code } = e
+
+      switch (code) {
+        case EVENT_CODE.up:
+        case EVENT_CODE.down: {
+          const distance = code === EVENT_CODE.up ? -1 : 1
+          focusNode(
+            getSibling(
+              target,
+              distance,
+              '.el-cascader__suggestion-item[tabindex="-1"]'
+            )
+          )
+          break
+        }
+        case EVENT_CODE.enter:
+          target.click()
+          break
+        case EVENT_CODE.esc:
+        case EVENT_CODE.tab:
+          togglePopperVisible(false)
+          break
       }
     }
 
@@ -513,8 +615,9 @@ export default defineComponent({
       const passed = props.beforeFilter(value)
 
       if (isPromise(passed)) {
-        passed.then(calculateSuggestions)
-          .catch(() => { /* prevent log error */ })
+        passed.then(calculateSuggestions).catch(() => {
+          /* prevent log error */
+        })
       } else if (passed !== false) {
         calculateSuggestions()
       } else {
@@ -522,7 +625,7 @@ export default defineComponent({
       }
     }, props.debounce)
 
-    const handleInput = (val: string, e: KeyboardEvent) => {
+    const handleInput = (val: string, e?: KeyboardEvent) => {
       !popperVisible.value && togglePopperVisible(true)
 
       if (e?.isComposing) return
@@ -534,25 +637,27 @@ export default defineComponent({
 
     watch([checkedNodes, isDisabled], calculatePresentTags)
 
-    watch(presentTags, () => nextTick(updateStyle))
+    watch(presentTags, () => {
+      nextTick(() => updateStyle())
+    })
 
-    watch(
-      presentText,
-      val => inputValue.value = val,
-      { immediate: true },
-    )
+    watch(presentText, (val) => (inputValue.value = val), { immediate: true })
 
     onMounted(() => {
-      const inputEl = input.value.$el
-      inputInitialHeight = inputEl?.offsetHeight || INPUT_HEIGHT_MAP[realSize.value] || DEFAULT_INPUT_HEIGHT
+      const inputEl = input.value?.$el
+      inputInitialHeight =
+        inputEl?.offsetHeight ||
+        INPUT_HEIGHT_MAP[realSize.value] ||
+        DEFAULT_INPUT_HEIGHT
       addResizeListener(inputEl, updateStyle)
     })
 
     onBeforeUnmount(() => {
-      removeResizeListener(input.value.$el, updateStyle)
+      removeResizeListener(input.value?.$el, updateStyle)
     })
 
     return {
+      Effect,
       popperOptions,
       popper,
       popperPaneRef,
@@ -571,6 +676,7 @@ export default defineComponent({
       presentTags,
       suggestions,
       isDisabled,
+      isOnComposition,
       realSize,
       tagSize,
       multiple,
@@ -584,8 +690,10 @@ export default defineComponent({
       getCheckedNodes,
       handleExpandChange,
       handleKeyDown,
+      handleComposition,
       handleClear,
       handleSuggestionClick,
+      handleSuggestionKeyDown,
       handleDelete,
       handleInput,
     }

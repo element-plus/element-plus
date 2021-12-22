@@ -1,21 +1,22 @@
 import type { InjectionKey } from 'vue'
-import type {
-  FieldErrorList,
-} from 'async-validator'
-import type { Emitter } from 'mitt'
+import type { ValidateFieldsError } from 'async-validator'
 import type { ComponentSize } from '@element-plus/utils/types'
 
 export interface ElFormContext {
   registerLabelWidth(width: number, oldWidth: number): void
   deregisterLabelWidth(width: number): void
   autoLabelWidth: string | undefined
-  formMitt: Emitter
   emit: (evt: string, ...args: any[]) => void
+  addField: (field: ElFormItemContext) => void
+  removeField: (field: ElFormItemContext) => void
+  resetFields: () => void
+  clearValidate: (props: string | string[]) => void
+  validateField: (props: string | string[], cb: ValidateFieldCallback) => void
   labelSuffix: string
   inline?: boolean
   inlineMessage?: boolean
   model?: Record<string, unknown>
-  size?: string
+  size?: ComponentSize
   showMessage?: boolean
   labelPosition?: string
   labelWidth?: string | number
@@ -26,29 +27,21 @@ export interface ElFormContext {
 }
 
 export interface ValidateFieldCallback {
-  (isValid?: string, invalidFields?: FieldErrorList): void
+  (isValid?: string, invalidFields?: ValidateFieldsError): void
 }
 
 export interface ElFormItemContext {
   prop?: string
-  formItemMitt: Emitter
   size?: ComponentSize
   validateState: string
   $el: HTMLDivElement
   validate(trigger: string, callback?: ValidateFieldCallback): void
   updateComputedLabelWidth(width: number): void
-  addValidateEvents(): void
-  removeValidateEvents(): void
+  evaluateValidationEnabled(): void
   resetField(): void
   clearValidate(): void
 }
 
-// TODO: change it to symbol
-export const elFormKey: InjectionKey<ElFormContext> = 'elForm' as any
-
-export const elFormItemKey: InjectionKey<ElFormItemContext> = 'elFormItem' as any
-
-export const elFormEvents = {
-  addField: 'el.form.addField',
-  removeField: 'el.form.removeField',
-} as const
+export const elFormKey: InjectionKey<ElFormContext> = Symbol('elForm')
+export const elFormItemKey: InjectionKey<ElFormItemContext> =
+  Symbol('elFormItem')

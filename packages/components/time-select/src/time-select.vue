@@ -9,10 +9,10 @@
     :placeholder="placeholder"
     default-first-option
     :filterable="editable"
-    @update:model-value="event => $emit('update:modelValue', event)"
-    @change="event => $emit('change', event)"
-    @blur="event => $emit('blur', event)"
-    @focus="event => $emit('focus', event)"
+    @update:model-value="(event) => $emit('update:modelValue', event)"
+    @change="(event) => $emit('change', event)"
+    @blur="(event) => $emit('blur', event)"
+    @focus="(event) => $emit('focus', event)"
   >
     <el-option
       v-for="item in items"
@@ -22,7 +22,9 @@
       :disabled="item.disabled"
     />
     <template #prefix>
-      <i :class="`el-input__icon ${prefixIcon}`"></i>
+      <el-icon v-if="prefixIcon" class="el-input__prefix-icon">
+        <component :is="prefixIcon" />
+      </el-icon>
     </template>
   </el-select>
 </template>
@@ -30,6 +32,11 @@
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue'
 import ElSelect from '@element-plus/components/select'
+import ElIcon from '@element-plus/components/icon'
+import { CircleClose, Clock } from '@element-plus/icons-vue'
+
+import type { PropType, Component } from 'vue'
+import type { ComponentSize } from '@element-plus/utils/types'
 
 const { Option: ElOption } = ElSelect
 
@@ -61,11 +68,9 @@ const compareTime = (time1: string, time2: string): number => {
   return minutes1 > minutes2 ? 1 : -1
 }
 const formatTime = (time: Time): string => {
-  return (
-    (time.hours < 10 ? '0' + time.hours : time.hours) +
-    ':' +
-    (time.minutes < 10 ? '0' + time.minutes : time.minutes)
-  )
+  return `${time.hours < 10 ? `0${time.hours}` : time.hours}:${
+    time.minutes < 10 ? `0${time.minutes}` : time.minutes
+  }`
 }
 const nextTime = (time: string, step: string): string => {
   const timeValue = parseTime(time)
@@ -83,7 +88,7 @@ const nextTime = (time: string, step: string): string => {
 
 export default defineComponent({
   name: 'ElTimeSelect',
-  components: { ElSelect, ElOption },
+  components: { ElSelect, ElOption, ElIcon },
   model: {
     prop: 'value',
     event: 'change',
@@ -103,10 +108,10 @@ export default defineComponent({
       default: true,
     },
     size: {
-      type: String,
+      type: String as PropType<ComponentSize>,
       default: '',
       validator: (value: string) =>
-        !value || ['medium', 'small', 'mini'].indexOf(value) !== -1,
+        !value || ['large', 'small'].indexOf(value) !== -1,
     },
     placeholder: {
       type: String,
@@ -137,12 +142,12 @@ export default defineComponent({
       default: '',
     },
     prefixIcon: {
-      type: String,
-      default: 'el-icon-time',
+      type: [String, Object] as PropType<string | Component>,
+      default: Clock,
     },
     clearIcon: {
-      type: String,
-      default: 'el-icon-circle-close',
+      type: [String, Object] as PropType<string | Component>,
+      default: CircleClose,
     },
   },
   emits: ['change', 'blur', 'focus', 'update:modelValue'],

@@ -1,5 +1,5 @@
+import type { OptionProps, SelectProps } from './defaults'
 import type { ExtractPropTypes, InjectionKey } from 'vue'
-import { OptionProps, SelectProps } from './defaults'
 import type { Option } from './select.types'
 
 export interface SelectV2Context {
@@ -10,6 +10,7 @@ export interface SelectV2Context {
   onKeyboardSelect: () => void
 }
 
-export const selectV2InjectionKey = 'ElSelectV2Injection' as any as InjectionKey<SelectV2Context>
+export const selectV2InjectionKey =
+  'ElSelectV2Injection' as any as InjectionKey<SelectV2Context>
 export type IOptionProps = ExtractPropTypes<typeof OptionProps>
 export type ISelectProps = ExtractPropTypes<typeof SelectProps>

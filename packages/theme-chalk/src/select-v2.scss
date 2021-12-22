@@ -1,23 +1,33 @@
-@use "sass:map";
+@use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'mixins/utils';
-@import 'common/var';
-@import './select-dropdown-v2.scss';
-@import './option-item.scss';
-@import './option-group.scss';
+@use 'mixins/mixins' as *;
+@use 'mixins/utils' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+@use './select-dropdown-v2.scss';
+@use './option-item.scss';
+@use './option-group.scss';
+@use './select/common.scss' as *;
 
-$--input-inline-start: 15px !default;
+$input-inline-start: map.get($input-padding-horizontal, 'default') !default;
+
+@include b(select-v2) {
+  @include set-component-css-var('select', $select);
+}
 
 @include b(select-v2) {
   display: inline-block;
   position: relative;
-  font-size: map.get($--input-font-size, 'default');
+  font-size: map.get($input-font-size, 'default');
   $selector: &;
   @include e(wrapper) {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
     box-sizing: border-box;
     cursor: pointer;
-    padding: 5px 30px 5px 0px;
+    padding: 2px 30px 2px 0;
     border: 1px solid var(--el-border-color-base);
     border-radius: var(--el-border-radius-base);
     transition: border-color var(--el-transition-duration-fast)
@@ -43,12 +53,12 @@ $--input-inline-start: 15px !default;
     @include when(disabled) {
       cursor: not-allowed;
 
-      background-color: var(--el-background-color-base);
+      background-color: var(--el-bg-color);
       color: var(--el-text-color-placeholder);
       border-color: var(--el-select-disabled-border);
 
       &:hover {
-        border-color: inherit;
+        border-color: var(--el-select-disabled-border);
       }
 
       &.is-focus {
@@ -64,19 +74,19 @@ $--input-inline-start: 15px !default;
     #{$selector}__input-wrapper {
       box-sizing: border-box;
       position: relative;
-      margin-inline-start: $--input-inline-start;
+      margin-inline-start: $input-inline-start;
       max-width: 100%;
       overflow: hidden;
     }
 
     &,
     #{$selector}__input-wrapper {
-      line-height: map.get($--input-height, 'default');
+      line-height: map.get($input-height, 'default');
     }
 
     #{$selector}__input-wrapper input {
-      line-height: map.get($--input-height, 'medium') - 8px;
-      height: map.get($--input-height, 'medium') - 8px;
+      line-height: map.get($input-height, 'default') - 8px;
+      height: map.get($input-height, 'default') - 8px;
 
       min-width: 4px;
       width: 100%;
@@ -94,6 +104,8 @@ $--input-inline-start: 15px !default;
     }
   }
 
+  @include select-common(select-v2);
+
   @include e(empty) {
     padding: 10px 0;
     margin: 0;
@@ -104,64 +116,26 @@ $--input-inline-start: 15px !default;
 
   @include e(popper) {
     @include picker-popper(
-      map.get($--select-dropdown, 'background'),
-      map.get($--select-dropdown, 'border'),
-      map.get($--select-dropdown, 'shadow')
+      map.get($select-dropdown, 'bg-color'),
+      map.get($select-dropdown, 'border'),
+      map.get($select-dropdown, 'shadow')
     );
   }
 
-  @include m(medium) {
-    @include e(wrapper) {
-      padding: 3px 30px 3px 0px;
-      &, #{$selector}__input-wrapper {
-        line-height: map.get($--input-height, 'medium');
-      }
-    }
-    @include e(caret) {
-      line-height: map.get($--input-height, 'medium');
-    }
-    @include e(suffix) {
-      height: map.get($--input-height, 'medium');
-    }
-  }
-
-  @include m(small) {
-    @include e(wrapper) {
-      padding: 3px 30px 3px 0px;
-      line-height: map.get($--input-height, 'small');
-      #{$selector}__input-wrapper {
-        line-height: map.get($--input-height, 'small') - 8px;
-        input {
-          line-height: map.get($--input-height, 'small') - 8px;
-          height: map.get($--input-height, 'small') - 8px;
+  @each $size in (large, small) {
+    @include m($size) {
+      @include e(wrapper) {
+        &,
+        #{$selector}__input-wrapper {
+          height: map.get($input-height, $size);
         }
       }
-    }
-    @include e(caret) {
-      line-height: map.get($--input-height, 'small');
-    }
-    @include e(suffix) {
-      height: map.get($--input-height, 'small');
-    }
-  }
-
-  @include m(mini) {
-    @include e(wrapper) {
-      padding: 1px 30px 1px 0px;
-      line-height: map.get($--input-height, 'mini');
-      #{$selector}__input-wrapper {
-        line-height: map.get($--input-height, 'mini') - 4px;
-        input {
-          line-height: map.get($--input-height, 'mini') - 4px;
-          height: map.get($--input-height, 'mini') - 4px;
-        }
+      @include e(caret) {
+        height: map.get($input-height, $size);
       }
-    }
-    @include e(caret) {
-      line-height: map.get($--input-height, 'mini');
-    }
-    @include e(suffix) {
-      height: map.get($--input-height, 'mini');
+      @include e(suffix) {
+        height: map.get($input-height, $size);
+      }
     }
   }
 
@@ -201,7 +175,7 @@ $--input-inline-start: 15px !default;
     appearance: none;
     height: 28px;
 
-    @include when(mini) {
+    @include when(small) {
       height: 14px;
     }
   }
@@ -252,6 +226,13 @@ $--input-inline-start: 15px !default;
         color: (--el-select-close-hover-color);
       }
     }
+
+    &.#{$namespace}-icon {
+      height: inherit;
+      svg {
+        vertical-align: middle;
+      }
+    }
   }
 
   @include e(selection) {
@@ -292,9 +273,10 @@ $--input-inline-start: 15px !default;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    margin-inline-start: $--input-inline-start;
+    margin-inline-start: $input-inline-start;
     width: calc(100% - 52px);
-    color: var(--el-input-font-color, map.get($--input, 'font-color'));
+    @include utils-ellipsis;
+    color: var(--el-input-text-color, map.get($input, 'text-color'));
     font-size: inherit;
     @include when(transparent) {
       color: var(--el-text-color-placeholder);
@@ -310,7 +292,6 @@ $--input-inline-start: 15px !default;
     .#{$namespace}-icon-close {
       background-color: var(--el-text-color-placeholder);
       right: -7px;
-      top: 0;
       color: var(--el-color-white);
 
       &:hover {

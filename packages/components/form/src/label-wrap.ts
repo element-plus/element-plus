@@ -10,8 +10,12 @@ import {
   ref,
   watch,
 } from 'vue'
-import { addResizeListener, removeResizeListener, ResizableElement } from '@element-plus/utils/resize-event'
+import {
+  addResizeListener,
+  removeResizeListener,
+} from '@element-plus/utils/resize-event'
 import { elFormItemKey, elFormKey } from '@element-plus/tokens'
+import type { ResizableElement } from '@element-plus/utils/resize-event'
 
 import type { CSSProperties } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'
@@ -37,8 +41,7 @@ export default defineComponent({
 
     const getLabelWidth = () => {
       if (el.value?.firstElementChild) {
-        const width = window.getComputedStyle(el.value.firstElementChild)
-          .width
+        const width = window.getComputedStyle(el.value.firstElementChild).width
         return Math.ceil(parseFloat(width))
       } else {
         return 0
@@ -58,7 +61,10 @@ export default defineComponent({
     const updateLabelWidthFn = () => updateLabelWidth('update')
 
     onMounted(() => {
-      addResizeListener(el.value.firstElementChild as ResizableElement, updateLabelWidthFn)
+      addResizeListener(
+        el.value.firstElementChild as ResizableElement,
+        updateLabelWidthFn
+      )
       updateLabelWidthFn()
     })
 
@@ -66,7 +72,10 @@ export default defineComponent({
 
     onBeforeUnmount(() => {
       updateLabelWidth('remove')
-      removeResizeListener(el.value.firstElementChild as ResizableElement, updateLabelWidthFn)
+      removeResizeListener(
+        el.value?.firstElementChild as ResizableElement,
+        updateLabelWidthFn
+      )
     })
 
     function render() {
@@ -75,10 +84,14 @@ export default defineComponent({
         const autoLabelWidth = elForm.autoLabelWidth
         const style = {} as CSSProperties
         if (autoLabelWidth && autoLabelWidth !== 'auto') {
-          const marginWidth = Math.max(0, parseInt(autoLabelWidth, 10) - computedWidth.value)
-          const marginPosition = elForm.labelPosition === 'left' ? 'marginRight' : 'marginLeft'
+          const marginWidth = Math.max(
+            0,
+            parseInt(autoLabelWidth, 10) - computedWidth.value
+          )
+          const marginPosition =
+            elForm.labelPosition === 'left' ? 'marginRight' : 'marginLeft'
           if (marginWidth) {
-            style[marginPosition] = marginWidth + 'px'
+            style[marginPosition] = `${marginWidth}px`
           }
         }
         return h(
@@ -88,7 +101,7 @@ export default defineComponent({
             class: ['el-form-item__label-wrap'],
             style,
           },
-          slots.default?.(),
+          slots.default?.()
         )
       } else {
         return h(Fragment, { ref: el }, slots.default?.())

@@ -1,6 +1,6 @@
 import { isNumber } from '@element-plus/utils/util'
-import throwError from '@element-plus/utils/error'
-import createGrid from '../builders/buildGrid'
+import { throwError } from '@element-plus/utils/error'
+import createGrid from '../builders/build-grid'
 
 import {
   AUTO_ALIGNMENT,
@@ -36,23 +36,23 @@ const FixedSizeGrid = createGrid({
     alignment,
     scrollLeft,
     _,
-    scrollBarWidth,
+    scrollBarWidth
   ) => {
     width = Number(width)
     const lastColumnOffset = Math.max(
       0,
-      totalColumn * (columnWidth as number) - width,
+      totalColumn * (columnWidth as number) - width
     )
     const maxOffset = Math.min(
       lastColumnOffset,
-      columnIndex * (columnWidth as number),
+      columnIndex * (columnWidth as number)
     )
     const minOffset = Math.max(
       0,
       columnIndex * (columnWidth as number) -
-      width +
-      scrollBarWidth +
-      (columnWidth as number),
+        width +
+        scrollBarWidth +
+        (columnWidth as number)
     )
 
     if (alignment === 'smart') {
@@ -68,7 +68,7 @@ const FixedSizeGrid = createGrid({
         return maxOffset
       case END_ALIGNMENT:
         return minOffset
-      case CENTERED_ALIGNMENT:
+      case CENTERED_ALIGNMENT: {
         const middleOffset = Math.round(minOffset + (maxOffset - minOffset) / 2)
         if (middleOffset < Math.ceil(width / 2)) {
           return 0
@@ -77,6 +77,7 @@ const FixedSizeGrid = createGrid({
         } else {
           return middleOffset
         }
+      }
       case AUTO_ALIGNMENT:
       default:
         if (scrollLeft >= minOffset && scrollLeft <= maxOffset) {
@@ -97,7 +98,7 @@ const FixedSizeGrid = createGrid({
     align,
     scrollTop,
     _,
-    scrollBarWidth,
+    scrollBarWidth
   ): number => {
     height = Number(height)
     const lastRowOffset = Math.max(0, totalRow * (rowHeight as number) - height)
@@ -105,9 +106,9 @@ const FixedSizeGrid = createGrid({
     const minOffset = Math.max(
       0,
       rowIndex * (rowHeight as number) -
-      height +
-      scrollBarWidth +
-      (rowHeight as number),
+        height +
+        scrollBarWidth +
+        (rowHeight as number)
     )
 
     if (align === SMART_ALIGNMENT) {
@@ -123,7 +124,7 @@ const FixedSizeGrid = createGrid({
         return maxOffset
       case END_ALIGNMENT:
         return minOffset
-      case CENTERED_ALIGNMENT:
+      case CENTERED_ALIGNMENT: {
         const middleOffset = Math.round(minOffset + (maxOffset - minOffset) / 2)
         if (middleOffset < Math.ceil(height / 2)) {
           return 0
@@ -132,6 +133,7 @@ const FixedSizeGrid = createGrid({
         } else {
           return middleOffset
         }
+      }
       case AUTO_ALIGNMENT:
       default:
         if (scrollTop >= minOffset && scrollTop <= maxOffset) {
@@ -151,73 +153,79 @@ const FixedSizeGrid = createGrid({
       0,
       Math.min(
         totalColumn - 1,
-        Math.floor(scrollLeft / (columnWidth as number)),
-      ),
+        Math.floor(scrollLeft / (columnWidth as number))
+      )
     ),
 
   getColumnStopIndexForStartIndex: (
     { columnWidth, totalColumn, width },
     startIndex: number,
-    scrollLeft: number,
+    scrollLeft: number
   ): number => {
     const left = startIndex * (columnWidth as number)
     const visibleColumnsCount = Math.ceil(
-      ((width as number) + scrollLeft - left) / (columnWidth as number),
+      ((width as number) + scrollLeft - left) / (columnWidth as number)
     )
     return Math.max(
       0,
-      Math.min(
-        totalColumn - 1,
-        startIndex + visibleColumnsCount - 1,
-      ),
+      Math.min(totalColumn - 1, startIndex + visibleColumnsCount - 1)
     )
   },
 
   getRowStartIndexForOffset: (
     { rowHeight, totalRow },
-    scrollTop: number,
+    scrollTop: number
   ): number =>
     Math.max(
       0,
-      Math.min(totalRow - 1, Math.floor(scrollTop / (rowHeight as number))),
+      Math.min(totalRow - 1, Math.floor(scrollTop / (rowHeight as number)))
     ),
 
   getRowStopIndexForStartIndex: (
     { rowHeight, totalRow, height },
     startIndex: number,
-    scrollTop: number,
+    scrollTop: number
   ): number => {
     const top = startIndex * (rowHeight as number)
     const numVisibleRows = Math.ceil(
-      ((height as number) + scrollTop - top) / (rowHeight as number),
+      ((height as number) + scrollTop - top) / (rowHeight as number)
     )
     return Math.max(
       0,
       Math.min(
         totalRow - 1,
-        startIndex + numVisibleRows - 1, // -1 is because stop index is inclusive
-      ),
+        startIndex + numVisibleRows - 1 // -1 is because stop index is inclusive
+      )
     )
   },
-
-  initCache: () => void 0,
+  /**
+   * Fixed size grid does not need this cache
+   * Using any to bypass it, TODO: Using type inference to fix this.
+   */
+  initCache: () => undefined as any,
 
   clearCache: true,
 
   validateProps: ({ columnWidth, rowHeight }) => {
     if (process.env.NODE_ENV !== 'production') {
       if (!isNumber(columnWidth)) {
-        throwError(SCOPE, `
+        throwError(
+          SCOPE,
+          `
           "columnWidth" must be passed as number,
             instead ${typeof columnWidth} was given.
-        `)
+        `
+        )
       }
 
       if (!isNumber(rowHeight)) {
-        throwError(SCOPE, `
+        throwError(
+          SCOPE,
+          `
           "columnWidth" must be passed as number,
             instead ${typeof rowHeight} was given.
-        `)
+        `
+        )
       }
     }
   },

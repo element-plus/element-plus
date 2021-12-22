@@ -1,11 +1,11 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import Switch from '../src/index.vue'
+import { Checked, CircleClose } from '@element-plus/icons-vue'
+import Switch from '../src/switch.vue'
 
 jest.useFakeTimers()
 
 describe('Switch.vue', () => {
-
   test('create', () => {
     const wrapper = mount(Switch, {
       props: {
@@ -24,16 +24,34 @@ describe('Switch.vue', () => {
     expect(leftLabelWrapper.text()).toEqual('off')
   })
 
+  test('inline prompt', () => {
+    const wrapper = mount(Switch, {
+      props: {
+        inlinePrompt: true,
+        activeText: 'on',
+        inactiveText: 'off',
+        activeColor: '#0f0',
+        inactiveColor: '#f00',
+        width: 100,
+      },
+    })
+    const vm = wrapper.vm
+    const coreEl = vm.$el.querySelector('.el-switch__core')
+    expect(coreEl.style.backgroundColor).toEqual('rgb(255, 0, 0)')
+    expect(coreEl.style.width).toEqual('100px')
+    const leftLabelWrapper = wrapper.find('.el-switch__inner span')
+    expect(leftLabelWrapper.text()).toEqual('o')
+  })
+
   test('switch with icons', () => {
     const wrapper = mount(Switch, {
       props: {
-        activeIconClass: 'el-icon-check',
-        inactiveIconClass: 'el-icon-close',
+        activeIcon: Checked,
+        inactiveIcon: CircleClose,
       },
     })
 
-    const iconWrapper = wrapper.find('.el-switch__label--left i')
-    expect(iconWrapper.classes('el-icon-close')).toBe(true)
+    expect(wrapper.findComponent(Checked).exists()).toBe(true)
   })
 
   test('value correctly update', async () => {
@@ -261,7 +279,7 @@ describe('Switch.vue', () => {
               this.loading = false
               return this.asyncResult == 'success'
                 ? resolve(true)
-                : reject(new Error('error'))
+                : reject(new Error('Error'))
             }, 1000)
           })
         },

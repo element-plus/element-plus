@@ -2,7 +2,7 @@
   <div
     class="el-color-svpanel"
     :style="{
-      backgroundColor: background
+      backgroundColor: background,
     }"
   >
     <div class="el-color-svpanel__white"></div>
@@ -11,7 +11,7 @@
       class="el-color-svpanel__cursor"
       :style="{
         top: cursorTop + 'px',
-        left: cursorLeft + 'px'
+        left: cursorLeft + 'px',
       }"
     >
       <div></div>
@@ -20,7 +20,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch, getCurrentInstance, onMounted } from 'vue'
+import {
+  defineComponent,
+  ref,
+  computed,
+  watch,
+  getCurrentInstance,
+  onMounted,
+} from 'vue'
+import { getClientXY } from '@element-plus/utils/dom'
 import draggable from '../draggable'
 
 import type { PropType } from 'vue'
@@ -53,20 +61,21 @@ export default defineComponent({
       const value = props.color.get('value')
 
       const el = instance.vnode.el
-      let { clientWidth: width, clientHeight: height } = el
+      const { clientWidth: width, clientHeight: height } = el
 
-      cursorLeft.value = saturation * width / 100
-      cursorTop.value = (100 - value) * height / 100
+      cursorLeft.value = (saturation * width) / 100
+      cursorTop.value = ((100 - value) * height) / 100
 
-      background.value = 'hsl(' + props.color.get('hue') + ', 100%, 50%)'
+      background.value = `hsl(${props.color.get('hue')}, 100%, 50%)`
     }
 
     function handleDrag(event) {
       const el = instance.vnode.el
       const rect = el.getBoundingClientRect()
+      const { clientX, clientY } = getClientXY(event)
 
-      let left = event.clientX - rect.left
-      let top = event.clientY - rect.top
+      let left = clientX - rect.left
+      let top = clientY - rect.top
       left = Math.max(0, left)
       left = Math.min(left, rect.width)
 
@@ -76,21 +85,25 @@ export default defineComponent({
       cursorLeft.value = left
       cursorTop.value = top
       props.color.set({
-        saturation: left / rect.width * 100,
-        value: 100 - top / rect.height * 100,
+        saturation: (left / rect.width) * 100,
+        value: 100 - (top / rect.height) * 100,
       })
     }
+
     // watch
-    watch(() => colorValue.value, () => {
-      update()
-    })
+    watch(
+      () => colorValue.value,
+      () => {
+        update()
+      }
+    )
     // mounted
     onMounted(() => {
       draggable(instance.vnode.el as HTMLElement, {
-        drag: event => {
+        drag: (event) => {
           handleDrag(event)
         },
-        end: event => {
+        end: (event) => {
           handleDrag(event)
         },
       })

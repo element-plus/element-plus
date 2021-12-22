@@ -11,21 +11,29 @@ const makeList = (total, method, methodFunc) => {
   return arr
 }
 
-const makeAvailableArr = list => {
-  return list.map((_, index) => !_ ? index : _).filter(_ => _ !== true)
+const makeAvailableArr = (list) => {
+  return list.map((_, index) => (!_ ? index : _)).filter((_) => _ !== true)
 }
 
-export const getTimeLists = (disabledHours, disabledMinutes, disabledSeconds) => {
+export const getTimeLists = (
+  disabledHours,
+  disabledMinutes,
+  disabledSeconds
+) => {
   const getHoursList = (role, compare?) => {
     return makeList(24, disabledHours, () => disabledHours(role, compare))
   }
 
   const getMinutesList = (hour, role, compare?) => {
-    return makeList(60, disabledMinutes, () => disabledMinutes(hour, role, compare))
+    return makeList(60, disabledMinutes, () =>
+      disabledMinutes(hour, role, compare)
+    )
   }
 
   const getSecondsList = (hour, minute, role, compare?) => {
-    return makeList(60, disabledSeconds, () => disabledSeconds(hour, minute, role, compare))
+    return makeList(60, disabledSeconds, () =>
+      disabledSeconds(hour, minute, role, compare)
+    )
   }
 
   return {
@@ -35,16 +43,15 @@ export const getTimeLists = (disabledHours, disabledMinutes, disabledSeconds) =>
   }
 }
 
-
-export const getAvailableArrs = (disabledHours, disabledMinutes, disabledSeconds) => {
-  const {
-    getHoursList,
-    getMinutesList,
-    getSecondsList,
-  } = getTimeLists(
+export const getAvailableArrs = (
+  disabledHours,
+  disabledMinutes,
+  disabledSeconds
+) => {
+  const { getHoursList, getMinutesList, getSecondsList } = getTimeLists(
     disabledHours,
     disabledMinutes,
-    disabledSeconds,
+    disabledSeconds
   )
 
   const getAvailableHours = (role, compare?) => {
@@ -72,11 +79,14 @@ export const useOldValue = (props: {
 }) => {
   const oldValue = ref(props.parsedValue)
 
-  watch(() => props.visible, val => {
-    if (!val) {
-      oldValue.value = props.parsedValue
+  watch(
+    () => props.visible,
+    (val) => {
+      if (!val) {
+        oldValue.value = props.parsedValue
+      }
     }
-  })
+  )
 
   return oldValue
 }

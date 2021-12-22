@@ -1,8 +1,13 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { IMAGE_SUCCESS, IMAGE_FAIL, mockImageEvent } from '@element-plus/test-utils'
+import { User } from '@element-plus/icons-vue'
+import {
+  IMAGE_SUCCESS,
+  IMAGE_FAIL,
+  mockImageEvent,
+} from '@element-plus/test-utils'
 
-import Avatar from '../src/index.vue'
+import Avatar from '../src/avatar.vue'
 
 describe('Avatar.vue', () => {
   mockImageEvent()
@@ -16,7 +21,7 @@ describe('Avatar.vue', () => {
     const wrapper = mount(Avatar, {
       props: { size: 50 },
     })
-    expect(wrapper.attributes('style')).toContain('height: 50px')
+    expect(wrapper.attributes('style')).toContain('--el-avatar-size: 50px;')
   })
 
   test('size is string', () => {
@@ -35,10 +40,10 @@ describe('Avatar.vue', () => {
 
   test('icon avatar', () => {
     const wrapper = mount(Avatar, {
-      props: { icon: 'el-icon-user-solid' },
+      props: { icon: User },
     })
     expect(wrapper.classes()).toContain('el-avatar--icon')
-    expect(wrapper.find('i').classes()).toContain('el-icon-user-solid')
+    expect(wrapper.findComponent(User).exists()).toBe(true)
   })
 
   test('image avatar', () => {
@@ -66,7 +71,9 @@ describe('Avatar.vue', () => {
       const wrapper = mount(Avatar, {
         props: { fit, src: IMAGE_SUCCESS },
       })
-      expect(wrapper.find('img').attributes('style')).toContain(`object-fit: ${fit};`)
+      expect(wrapper.find('img').attributes('style')).toContain(
+        `object-fit: ${fit};`
+      )
     }
   })
 
@@ -84,4 +91,3 @@ describe('Avatar.vue', () => {
     expect(wrapper.find('img').exists()).toBe(true)
   })
 })
-

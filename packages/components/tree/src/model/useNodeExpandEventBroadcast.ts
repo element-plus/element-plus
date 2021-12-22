@@ -1,15 +1,15 @@
 import { inject, provide } from 'vue'
-import Node from '../model/node'
+import type Node from '../model/node'
 
 interface NodeMap {
   treeNodeExpand(node: Node): void
   children: NodeMap[]
 }
 
-export function useNodeExpandEventBroadcast(props){
+export function useNodeExpandEventBroadcast(props) {
   const parentNodeMap = inject<NodeMap>('TreeNodeMap', null)
   const currentNodeMap: NodeMap = {
-    treeNodeExpand: node => {
+    treeNodeExpand: (node) => {
       if (props.node !== node) {
         props.node.collapse()
       }
@@ -26,7 +26,7 @@ export function useNodeExpandEventBroadcast(props){
   return {
     broadcastExpanded: (node: Node): void => {
       if (!props.accordion) return
-      for(const childNode of currentNodeMap.children) {
+      for (const childNode of currentNodeMap.children) {
         childNode.treeNodeExpand(node)
       }
     },

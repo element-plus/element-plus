@@ -1,18 +1,23 @@
 import { getCurrentInstance } from 'vue'
-import { camelize, capitalize, extend, hasOwn, hyphenate, isArray, isObject, isString, isFunction, looseEqual, toRawType } from '@vue/shared'
+import {
+  camelize,
+  capitalize,
+  extend,
+  hasOwn,
+  hyphenate,
+  isArray,
+  isObject,
+  isString,
+  isFunction,
+  looseEqual,
+  toRawType,
+} from '@vue/shared'
 import isEqualWith from 'lodash/isEqualWith'
-import isServer from './isServer'
-import { warn } from './error'
+import { isClient } from '@vueuse/core'
+import { debugWarn, throwError } from './error'
 
 import type { ComponentPublicInstance, CSSProperties, Ref } from 'vue'
-import type { AnyFunction, TimeoutHandle, Hash, Nullable } from './types'
-
-// type polyfill for compat isIE method
-declare global {
-  interface Document {
-    documentMode?: any
-  }
-}
+import type { TimeoutHandle, Nullable, ComponentSize } from './types'
 
 export const SCOPE = 'Util'
 
@@ -28,40 +33,53 @@ export function toObject<T>(arr: Array<T>): Record<string, T> {
 
 export const getValueByPath = (obj, paths = ''): unknown => {
   let ret: unknown = obj
-  paths.split('.').map(path => {
+  paths.split('.').map((path) => {
     ret = ret?.[path]
   })
   return ret
 }
 
-export function getPropByPath(obj: any, path: string, strict: boolean): {
+export function getPropByPath(
+  obj: any,
+  path: string,
+  strict: boolean
+): {
   o: unknown
   k: string
   v: Nullable<unknown>
 } {
   let tempObj = obj
-  path = path.replace(/\[(\w+)\]/g, '.$1')
-  path = path.replace(/^\./, '')
+  let key, value
 
-  const keyArr = path.split('.')
-  let i = 0
-  for (i; i < keyArr.length - 1; i++) {
-    if (!tempObj && !strict) break
-    const key = keyArr[i]
+  if (obj && hasOwn(obj, path)) {
+    key = path
+    value = tempObj?.[path]
+  } else {
+    path = path.replace(/\[(\w+)\]/g, '.$1')
+    path = path.replace(/^\./, '')
 
-    if (key in tempObj) {
-      tempObj = tempObj[key]
-    } else {
-      if (strict) {
-        throw new Error('please transfer a valid prop path to form item!')
+    const keyArr = path.split('.')
+    let i = 0
+    for (i; i < keyArr.length - 1; i++) {
+      if (!tempObj && !strict) break
+      const key = keyArr[i]
+
+      if (key in tempObj) {
+        tempObj = tempObj[key]
+      } else {
+        if (strict) {
+          throwError(SCOPE, 'Please transfer a valid prop path to form item!')
+        }
+        break
       }
-      break
     }
+    key = keyArr[i]
+    value = tempObj?.[keyArr[i]]
   }
   return {
     o: tempObj,
-    k: keyArr[i],
-    v: tempObj?.[keyArr[i]],
+    k: key,
+    v: value,
   }
 }
 
@@ -80,34 +98,28 @@ export const escapeRegexpString = (value = ''): string =>
 // Use native Array.find, Array.findIndex instead
 
 // coerce truthy value to array
-export const coerceTruthyValueToArray = arr => {
+export const coerceTruthyValueToArray = (arr) => {
   if (!arr && arr !== 0) {
     return []
   }
   return Array.isArray(arr) ? arr : [arr]
 }
 
-export const isIE = function (): boolean {
-  return !isServer && !isNaN(Number(document.documentMode))
-}
-
-export const isEdge = function (): boolean {
-  return !isServer && navigator.userAgent.indexOf('Edge') > -1
-}
+// drop IE and (Edge < 79) support
+// export const isIE
+// export const isEdge
 
 export const isFirefox = function (): boolean {
-  return !isServer && !!window.navigator.userAgent.match(/firefox/i)
+  return isClient && !!window.navigator.userAgent.match(/firefox/i)
 }
 
-export const autoprefixer = function (
-  style: CSSProperties,
-): CSSProperties {
+export const autoprefixer = function (style: CSSProperties): CSSProperties {
   const rules = ['transform', 'transition', 'animation']
   const prefixes = ['ms-', 'webkit-']
-  rules.forEach(rule => {
+  rules.forEach((rule) => {
     const value = style[rule]
     if (rule && value) {
-      prefixes.forEach(prefix => {
+      prefixes.forEach((prefix) => {
         style[prefix + rule] = value
       })
     }
@@ -118,6 +130,7 @@ export const autoprefixer = function (
 export const kebabCase = hyphenate
 
 // reexport from lodash & vue shared
+export { isVNode } from 'vue'
 export {
   hasOwn,
   // isEmpty,
@@ -131,20 +144,21 @@ export {
   extend,
 }
 
-export const isBool = (val: unknown) => typeof val === 'boolean'
-export const isNumber = (val: unknown) => typeof val === 'number'
+export const isBool = (val: unknown): val is boolean => typeof val === 'boolean'
+export const isNumber = (val: unknown): val is number => typeof val === 'number'
 export const isHTMLElement = (val: unknown) => toRawType(val).startsWith('HTML')
 
-export function rafThrottle<T extends AnyFunction<any>>(fn: T): AnyFunction<void> {
+export function rafThrottle<T extends (...args: any) => any>(fn: T): T {
   let locked = false
-  return function (...args: any[]) {
+  return function (this: ThisParameterType<T>, ...args: any[]) {
     if (locked) return
     locked = true
+
     window.requestAnimationFrame(() => {
-      fn.apply(this, args)
+      Reflect.apply(fn, this, args)
       locked = false
     })
-  }
+  } as T
 }
 
 export const clearTimer = (timer: Ref<TimeoutHandle>) => {
@@ -160,19 +174,14 @@ export function getRandomInt(max: number) {
   return Math.floor(Math.random() * Math.floor(max))
 }
 
-export function entries<T>(obj: Hash<T>): [string, T][] {
-  return Object
-    .keys(obj)
-    .map((key: string) => ([key, obj[key]]))
-}
-
 export function isUndefined(val: any): val is undefined {
-  return val === void 0
+  return val === undefined
 }
 
-export { isVNode } from 'vue'
-
-export function useGlobalConfig() {
+/**
+ * @deprecated please use `useGlobalConfig` in hooks.
+ */
+export function useGlobalConfig(): { size?: ComponentSize; zIndex?: number } {
   const vm: any = getCurrentInstance()
   if ('$ELEMENT' in vm.proxy) {
     return vm.proxy.$ELEMENT
@@ -180,26 +189,13 @@ export function useGlobalConfig() {
   return {}
 }
 
-export const arrayFindIndex = function <T = any>(
-  arr: Array<T>,
-  pred: (args: T) => boolean,
-): number {
-  return arr.findIndex(pred)
-}
-
-export const arrayFind = function <T>(
-  arr: Array<T>,
-  pred: (args: T) => boolean,
-): T {
-  return arr.find(pred)
-}
-
 export function isEmpty(val: unknown) {
   if (
-    !val && val !== 0 ||
-    isArray(val) && !val.length ||
-    isObject(val) && !Object.keys(val).length
-  ) return true
+    (!val && val !== 0) ||
+    (isArray(val) && !val.length) ||
+    (isObject(val) && !Object.keys(val).length)
+  )
+    return true
 
   return false
 }
@@ -215,23 +211,13 @@ export function deduplicate<T>(arr: T[]) {
   return Array.from(new Set(arr))
 }
 
-/**
- * Unwraps refed value
- * @param ref Refed value
- */
-export function $<T>(ref: Ref<T>) {
-  return ref.value
-}
-
 export function addUnit(value: string | number) {
   if (isString(value)) {
     return value
   } else if (isNumber(value)) {
-    return value + 'px'
+    return `${value}px`
   }
-  if (process.env.NODE_ENV === 'development') {
-    warn(SCOPE, 'binding value must be a string or number')
-  }
+  debugWarn(SCOPE, 'binding value must be a string or number')
   return ''
 }
 
@@ -244,9 +230,11 @@ export function addUnit(value: string | number) {
  *  lodash.isEqual(() => 1, () => 1)      // false
  *  isEqualWith(() => 1, () => 1)         // true
  */
-export function isEqualWithFunction (obj: any, other: any) {
+export function isEqualWithFunction(obj: any, other: any) {
   return isEqualWith(obj, other, (objVal, otherVal) => {
-    return isFunction(objVal) && isFunction(otherVal) ? `${objVal}` === `${otherVal}` : undefined
+    return isFunction(objVal) && isFunction(otherVal)
+      ? `${objVal}` === `${otherVal}`
+      : undefined
   })
 }
 
@@ -256,9 +244,10 @@ export function isEqualWithFunction (obj: any, other: any) {
  * @returns (val: T) => void
  */
 
-export const refAttacher =
-  <T extends (HTMLElement | ComponentPublicInstance)>(ref: Ref<T>) => {
-    return (val: T) => {
-      ref.value = val
-    }
+export const refAttacher = <T extends HTMLElement | ComponentPublicInstance>(
+  ref: Ref<T>
+) => {
+  return (val: T) => {
+    ref.value = val
   }
+}

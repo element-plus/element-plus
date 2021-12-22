@@ -1,7 +1,10 @@
 <template>
   <transition :name="transitionName">
     <div v-if="actualVisible || visible" class="el-time-panel">
-      <div class="el-time-panel__content" :class="{ 'has-seconds': showSeconds }">
+      <div
+        class="el-time-panel__content"
+        :class="{ 'has-seconds': showSeconds }"
+      >
         <time-spinner
           ref="spinner"
           :role="datetimeRole || 'start'"
@@ -38,15 +41,10 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  computed,
-  inject,
-} from 'vue'
+import { defineComponent, ref, computed, inject } from 'vue'
 import dayjs from 'dayjs'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import TimeSpinner from './basic-time-spinner.vue'
 import { getAvailableArrs, useOldValue } from './useTimePicker'
 
@@ -79,7 +77,7 @@ export default defineComponent({
   emits: ['pick', 'select-range', 'set-picker-option'],
 
   setup(props, ctx) {
-    const { t, lang } = useLocaleInject()
+    const { t, lang } = useLocale()
     // data
     const selectionRange = ref([0, 2])
     const oldValue = useOldValue(props)
@@ -104,13 +102,15 @@ export default defineComponent({
     const handleCancel = () => {
       ctx.emit('pick', oldValue.value, false)
     }
-    const handleConfirm = (visible = false, first) => {
+    const handleConfirm = (visible = false, first = false) => {
       if (first) return
       ctx.emit('pick', props.parsedValue, visible)
     }
     const handleChange = (_date: Dayjs) => {
       // visible avoids edge cases, when use scrolls during panel closing animation
-      if (!props.visible) { return }
+      if (!props.visible) {
+        return
+      }
       const result = getRangeAvailableTime(_date).millisecond(0)
       ctx.emit('pick', result, true)
     }
@@ -122,7 +122,9 @@ export default defineComponent({
 
     const changeSelectionRange = (step: number) => {
       const list = [0, 3].concat(showSeconds.value ? [6] : [])
-      const mapping = ['hours', 'minutes'].concat(showSeconds.value ? ['seconds'] : [])
+      const mapping = ['hours', 'minutes'].concat(
+        showSeconds.value ? ['seconds'] : []
+      )
       const index = list.indexOf(selectionRange.value[0])
       const next = (index + step + list.length) % list.length
       timePickerOptions['start_emitSelectRange'](mapping[next])
@@ -132,14 +134,14 @@ export default defineComponent({
       const code = event.code
 
       if (code === EVENT_CODE.left || code === EVENT_CODE.right) {
-        const step = (code === EVENT_CODE.left) ? -1 : 1
+        const step = code === EVENT_CODE.left ? -1 : 1
         changeSelectionRange(step)
         event.preventDefault()
         return
       }
 
       if (code === EVENT_CODE.up || code === EVENT_CODE.down) {
-        const step = (code === EVENT_CODE.up) ? -1 : 1
+        const step = code === EVENT_CODE.up ? -1 : 1
         timePickerOptions['start_scrollDown'](step)
         event.preventDefault()
         return
@@ -152,19 +154,27 @@ export default defineComponent({
         minute: getAvailableMinutes,
         second: getAvailableSeconds,
       }
-      let result = date;
-      ['hour', 'minute', 'second'].forEach(_ => {
+      let result = date
+      ;['hour', 'minute', 'second'].forEach((_) => {
         if (availableMap[_]) {
           let availableArr
           const method = availableMap[_]
           if (_ === 'minute') {
             availableArr = method(result.hour(), props.datetimeRole)
           } else if (_ === 'second') {
-            availableArr = method(result.hour(), result.minute(), props.datetimeRole)
+            availableArr = method(
+              result.hour(),
+              result.minute(),
+              props.datetimeRole
+            )
           } else {
             availableArr = method(props.datetimeRole)
           }
-          if (availableArr && availableArr.length && !availableArr.includes(result[_]())) {
+          if (
+            availableArr &&
+            availableArr.length &&
+            !availableArr.includes(result[_]())
+          ) {
             result = result[_](availableArr[0])
           }
         }
@@ -189,20 +199,26 @@ export default defineComponent({
     ctx.emit('set-picker-option', ['isValidValue', isValidValue])
     ctx.emit('set-picker-option', ['formatToString', formatToString])
     ctx.emit('set-picker-option', ['parseUserInput', parseUserInput])
-    ctx.emit('set-picker-option',['handleKeydown', handleKeydown])
-    ctx.emit('set-picker-option',['getRangeAvailableTime', getRangeAvailableTime])
-    ctx.emit('set-picker-option',['getDefaultValue', getDefaultValue])
+    ctx.emit('set-picker-option', ['handleKeydown', handleKeydown])
+    ctx.emit('set-picker-option', [
+      'getRangeAvailableTime',
+      getRangeAvailableTime,
+    ])
+    ctx.emit('set-picker-option', ['getDefaultValue', getDefaultValue])
     const timePickerOptions = {} as any
-    const onSetOption = e => {
+    const onSetOption = (e) => {
       timePickerOptions[e[0]] = e[1]
     }
     const pickerBase = inject('EP_PICKER_BASE') as any
-    const { arrowControl, disabledHours, disabledMinutes, disabledSeconds, defaultValue } = pickerBase.props
     const {
-      getAvailableHours,
-      getAvailableMinutes,
-      getAvailableSeconds,
-    } = getAvailableArrs(disabledHours, disabledMinutes, disabledSeconds)
+      arrowControl,
+      disabledHours,
+      disabledMinutes,
+      disabledSeconds,
+      defaultValue,
+    } = pickerBase.props
+    const { getAvailableHours, getAvailableMinutes, getAvailableSeconds } =
+      getAvailableArrs(disabledHours, disabledMinutes, disabledSeconds)
 
     return {
       transitionName,

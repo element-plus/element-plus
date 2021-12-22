@@ -1,8 +1,10 @@
 import { isValidComponentSize } from '@element-plus/utils/validators'
+import { CircleClose } from '@element-plus/icons-vue'
 
-import type { PropType } from 'vue'
+import type { PropType, Component } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'
 import type { OptionType } from './select.types'
+import type { Options } from '@element-plus/components/popper'
 
 export const SelectProps = {
   allowCreate: Boolean,
@@ -13,8 +15,8 @@ export const SelectProps = {
   automaticDropdown: Boolean,
   clearable: Boolean,
   clearIcon: {
-    type: String,
-    default: 'el-icon-circle-close',
+    type: [String, Object] as PropType<string | Component>,
+    default: CircleClose,
   },
   collapseTags: Boolean,
   defaultFirstOption: Boolean,
@@ -37,7 +39,9 @@ export const SelectProps = {
   loading: Boolean,
   loadingText: String,
   label: String,
-  modelValue: [Array, String, Number, Boolean, Object] as PropType<any[] | string | number | boolean | Record<string, any> | any>,
+  modelValue: [Array, String, Number, Boolean, Object] as PropType<
+    any[] | string | number | boolean | Record<string, any> | any
+  >,
   multiple: Boolean,
   multipleLimit: {
     type: Number,
@@ -64,8 +68,8 @@ export const SelectProps = {
     default: '',
   },
   popperOptions: {
-    type: Object,
-    default: () => ({}),
+    type: Object as PropType<Partial<Options>>,
+    default: () => ({} as Partial<Options>),
   },
   remote: Boolean,
   size: {
@@ -75,6 +79,10 @@ export const SelectProps = {
   valueKey: {
     type: String,
     default: 'value',
+  },
+  scrollbarAlwaysOn: {
+    type: Boolean,
+    default: false,
   },
 }
 

@@ -1,6 +1,6 @@
 import { getCurrentInstance, ref } from 'vue'
+import { isClient } from '@vueuse/core'
 import { hasClass, addClass, removeClass } from '@element-plus/utils/dom'
-import isServer from '@element-plus/utils/isServer'
 
 import type { TableHeaderProps } from '.'
 import type { TableColumnCtx } from '../table-column/defaults'
@@ -30,7 +30,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
   const dragging = ref(false)
   const dragState = ref({})
   const handleMouseDown = (event: MouseEvent, column: TableColumnCtx<T>) => {
-    if (isServer) return
+    if (!isClient) return
     if (column.children && column.children.length > 0) return
     /* istanbul ignore if */
     if (draggingColumn.value && props.border) {
@@ -53,12 +53,12 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
         tableLeft,
       }
       const resizeProxy = table.refs.resizeProxy as HTMLElement
-      resizeProxy.style.left = (dragState.value as any).startLeft + 'px'
+      resizeProxy.style.left = `${(dragState.value as any).startLeft}px`
 
-      document.onselectstart = function() {
+      document.onselectstart = function () {
         return false
       }
-      document.ondragstart = function() {
+      document.ondragstart = function () {
         return false
       }
 
@@ -67,7 +67,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
           event.clientX - (dragState.value as any).startMouseLeft
         const proxyLeft = (dragState.value as any).startLeft + deltaLeft
 
-        resizeProxy.style.left = Math.max(minLeft, proxyLeft) + 'px'
+        resizeProxy.style.left = `${Math.max(minLeft, proxyLeft)}px`
       }
 
       const handleMouseUp = () => {
@@ -81,10 +81,11 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
             column.width,
             startLeft - startColumnLeft,
             column,
-            event,
+            event
           )
-          props.store.scheduleLayout(false, true)
-
+          requestAnimationFrame(() => {
+            props.store.scheduleLayout(false, true)
+          })
           document.body.style.cursor = ''
           dragging.value = false
           draggingColumn.value = null
@@ -97,7 +98,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
         document.onselectstart = null
         document.ondragstart = null
 
-        setTimeout(function() {
+        setTimeout(function () {
           removeClass(columnEl, 'noclick')
         }, 0)
       }
@@ -137,7 +138,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
   }
 
   const handleMouseOut = () => {
-    if (isServer) return
+    if (!isClient) return
     document.body.style.cursor = ''
   }
   const toggleOrder = ({ order, sortOrders }) => {
@@ -148,7 +149,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
   const handleSortClick = (
     event: Event,
     column: TableColumnCtx<T>,
-    givenOrder: string | boolean,
+    givenOrder: string | boolean
   ) => {
     event.stopPropagation()
     const order =

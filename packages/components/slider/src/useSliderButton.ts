@@ -3,11 +3,18 @@ import debounce from 'lodash/debounce'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { off, on } from '@element-plus/utils/dom'
 
-import type { ComputedRef } from 'vue'
-import type { ISliderButtonInitData, ISliderButtonProps, ISliderProvider } from './slider.type'
+import type { ComputedRef, CSSProperties } from 'vue'
+import type {
+  ISliderButtonInitData,
+  ISliderButtonProps,
+  ISliderProvider,
+} from './slider.type'
 
-const useTooltip = (props: ISliderButtonProps, formatTooltip: ComputedRef<(value: number) => number | string>, showTooltip: ComputedRef<boolean>) => {
-
+const useTooltip = (
+  props: ISliderButtonProps,
+  formatTooltip: ComputedRef<(value: number) => number | string>,
+  showTooltip: ComputedRef<boolean>
+) => {
   const tooltip = ref(null)
 
   const tooltipVisible = ref(false)
@@ -17,7 +24,10 @@ const useTooltip = (props: ISliderButtonProps, formatTooltip: ComputedRef<(value
   })
 
   const formatValue = computed(() => {
-    return enableFormat.value && formatTooltip.value(props.modelValue) || props.modelValue
+    return (
+      (enableFormat.value && formatTooltip.value(props.modelValue)) ||
+      props.modelValue
+    )
   })
 
   const displayTooltip = debounce(() => {
@@ -37,7 +47,11 @@ const useTooltip = (props: ISliderButtonProps, formatTooltip: ComputedRef<(value
   }
 }
 
-export const useSliderButton = (props: ISliderButtonProps, initData: ISliderButtonInitData, emit) => {
+export const useSliderButton = (
+  props: ISliderButtonProps,
+  initData: ISliderButtonInitData,
+  emit
+) => {
   const {
     disabled,
     min,
@@ -52,20 +66,21 @@ export const useSliderButton = (props: ISliderButtonProps, initData: ISliderButt
     updateDragging,
   } = inject<ISliderProvider>('SliderProvider')
 
-  const {
-    tooltip,
-    tooltipVisible,
-    formatValue,
-    displayTooltip,
-    hideTooltip,
-  } = useTooltip(props, formatTooltip, showTooltip)
+  const { tooltip, tooltipVisible, formatValue, displayTooltip, hideTooltip } =
+    useTooltip(props, formatTooltip, showTooltip)
 
   const currentPosition = computed(() => {
-    return `${(props.modelValue - min.value) / (max.value - min.value) * 100}%`
+    return `${
+      ((props.modelValue - min.value) / (max.value - min.value)) * 100
+    }%`
   })
 
   const wrapperStyle = computed(() => {
-    return (props.vertical ? { bottom: currentPosition.value } : { left: currentPosition.value }) as CSSStyleDeclaration
+    return (
+      props.vertical
+        ? { bottom: currentPosition.value }
+        : { left: currentPosition.value }
+    ) as CSSProperties
   })
 
   const handleMouseEnter = () => {
@@ -93,14 +108,18 @@ export const useSliderButton = (props: ISliderButtonProps, initData: ISliderButt
 
   const onLeftKeyDown = () => {
     if (disabled.value) return
-    initData.newPosition = parseFloat(currentPosition.value) - step.value / (max.value - min.value) * 100
+    initData.newPosition =
+      parseFloat(currentPosition.value) -
+      (step.value / (max.value - min.value)) * 100
     setPosition(initData.newPosition)
     emitChange()
   }
 
   const onRightKeyDown = () => {
     if (disabled.value) return
-    initData.newPosition = parseFloat(currentPosition.value) + step.value / (max.value - min.value) * 100
+    initData.newPosition =
+      parseFloat(currentPosition.value) +
+      (step.value / (max.value - min.value)) * 100
     setPosition(initData.newPosition)
     emitChange()
   }
@@ -124,10 +143,7 @@ export const useSliderButton = (props: ISliderButtonProps, initData: ISliderButt
   const onDragStart = (event: MouseEvent | TouchEvent) => {
     initData.dragging = true
     initData.isClick = true
-    const {
-      clientX,
-      clientY,
-    } = getClientXY(event)
+    const { clientX, clientY } = getClientXY(event)
     if (props.vertical) {
       initData.startY = clientY
     } else {
@@ -143,16 +159,13 @@ export const useSliderButton = (props: ISliderButtonProps, initData: ISliderButt
       displayTooltip()
       resetSize()
       let diff: number
-      const {
-        clientX,
-        clientY,
-      } = getClientXY(event)
+      const { clientX, clientY } = getClientXY(event)
       if (props.vertical) {
         initData.currentY = clientY
-        diff = (initData.startY - initData.currentY) / sliderSize.value * 100
+        diff = ((initData.startY - initData.currentY) / sliderSize.value) * 100
       } else {
         initData.currentX = clientX
-        diff = (initData.currentX - initData.startX) / sliderSize.value * 100
+        diff = ((initData.currentX - initData.startX) / sliderSize.value) * 100
       }
       initData.newPosition = initData.startPosition + diff
       setPosition(initData.newPosition)
@@ -162,9 +175,9 @@ export const useSliderButton = (props: ISliderButtonProps, initData: ISliderButt
   const onDragEnd = () => {
     if (initData.dragging) {
       /*
-         * 防止在 mouseup 后立即触发 click，导致滑块有几率产生一小段位移
-         * 不使用 preventDefault 是因为 mouseup 和 click 没有注册在同一个 DOM 上
-         */
+       * 防止在 mouseup 后立即触发 click，导致滑块有几率产生一小段位移
+       * 不使用 preventDefault 是因为 mouseup 和 click 没有注册在同一个 DOM 上
+       */
       setTimeout(() => {
         initData.dragging = false
         if (!initData.hovering) {
@@ -192,7 +205,8 @@ export const useSliderButton = (props: ISliderButtonProps, initData: ISliderButt
     }
     const lengthPerStep = 100 / ((max.value - min.value) / step.value)
     const steps = Math.round(newPosition / lengthPerStep)
-    let value = steps * lengthPerStep * (max.value - min.value) * 0.01 + min.value
+    let value =
+      steps * lengthPerStep * (max.value - min.value) * 0.01 + min.value
     value = parseFloat(value.toFixed(precision.value))
     emit(UPDATE_MODEL_EVENT, value)
 
@@ -205,9 +219,12 @@ export const useSliderButton = (props: ISliderButtonProps, initData: ISliderButt
     tooltip.value.updatePopper()
   }
 
-  watch(() => initData.dragging, val => {
-    updateDragging(val)
-  })
+  watch(
+    () => initData.dragging,
+    (val) => {
+      updateDragging(val)
+    }
+  )
 
   return {
     tooltip,

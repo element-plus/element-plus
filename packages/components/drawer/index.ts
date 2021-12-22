@@ -1,13 +1,7 @@
-import Drawer from './src/index.vue'
+import { withInstall } from '@element-plus/utils/with-install'
+import Drawer from './src/drawer.vue'
 
-import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
+export const ElDrawer = withInstall(Drawer)
+export default ElDrawer
 
-Drawer.install = (app: App): void => {
-  app.component(Drawer.name, Drawer)
-}
-
-const _Drawer = Drawer as SFCWithInstall<typeof Drawer>
-
-export default _Drawer
-export const ElDrawer = _Drawer
+export * from './src/drawer'

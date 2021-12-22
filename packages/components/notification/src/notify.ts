@@ -1,20 +1,25 @@
 import { createVNode, render } from 'vue'
-import isServer from '@element-plus/utils/isServer'
+import { isClient } from '@vueuse/core'
 import PopupManager from '@element-plus/utils/popup-manager'
 import { isVNode } from '@element-plus/utils/util'
-import NotificationConstructor from './index.vue'
+import { debugWarn } from '@element-plus/utils/error'
+import NotificationConstructor from './notification.vue'
+import { notificationTypes } from './notification'
 
-import type { ComponentPublicInstance } from 'vue'
+import type { ComponentPublicInstance, VNode } from 'vue'
 import type {
-  INotificationOptions,
-  INotification,
+  NotificationOptions,
+  Notify,
+  NotifyFn,
   NotificationQueue,
-  NotificationVM,
-  Position,
-} from './notification.type'
+  NotificationProps,
+} from './notification'
 
 // This should be a queue but considering there were `non-autoclosable` notifications.
-const notifications: Record<Position, NotificationQueue> = {
+const notifications: Record<
+  NotificationOptions['position'],
+  NotificationQueue
+> = {
   'top-left': [],
   'top-right': [],
   'bottom-left': [],
@@ -25,73 +30,94 @@ const notifications: Record<Position, NotificationQueue> = {
 const GAP_SIZE = 16
 let seed = 1
 
-const Notification: INotification = function (options = {}) {
-  if (isServer) return
+const notify: NotifyFn & Partial<Notify> = function (options = {}) {
+  if (!isClient) return { close: () => undefined }
+
+  if (typeof options === 'string' || isVNode(options)) {
+    options = { message: options }
+  }
+
   const position = options.position || 'top-right'
 
   let verticalOffset = options.offset || 0
-  notifications[position]
-    .forEach(({ vm }) => {
-      verticalOffset += (vm.el.offsetHeight || 0) + GAP_SIZE
-    })
+  notifications[position].forEach(({ vm }) => {
+    verticalOffset += (vm.el?.offsetHeight || 0) + GAP_SIZE
+  })
   verticalOffset += GAP_SIZE
 
-  const id = 'notification_' + seed++
+  const id = `notification_${seed++}`
   const userOnClose = options.onClose
-  options = {
+  const props: Partial<NotificationProps> = {
     // default options end
+    zIndex: PopupManager.nextZIndex(),
+    offset: verticalOffset,
     ...options,
+    id,
     onClose: () => {
       close(id, position, userOnClose)
     },
-    offset: verticalOffset,
-    id,
-    zIndex: PopupManager.nextZIndex(),
+  }
+
+  let appendTo: HTMLElement | null = document.body
+  if (options.appendTo instanceof HTMLElement) {
+    appendTo = options.appendTo
+  } else if (typeof options.appendTo === 'string') {
+    appendTo = document.querySelector(options.appendTo)
+  }
+
+  // should fallback to default value with a warning
+  if (!(appendTo instanceof HTMLElement)) {
+    debugWarn(
+      'ElNotification',
+      'the appendTo option is not an HTMLElement. Falling back to document.body.'
+    )
+    appendTo = document.body
   }
 
   const container = document.createElement('div')
 
   const vm = createVNode(
     NotificationConstructor,
-    options,
-    isVNode(options.message)
+    props,
+    isVNode(props.message)
       ? {
-        default: () => options.message,
-      }
-      : null,
+          default: () => props.message,
+        }
+      : null
   )
 
   // clean notification element preventing mem leak
-  vm.props.onDestroy = () => {
+  vm.props!.onDestroy = () => {
     render(null, container)
   }
 
   // instances will remove this item when close function gets called. So we do not need to worry about it.
   render(vm, container)
   notifications[position].push({ vm })
-  document.body.appendChild(container.firstElementChild)
+  appendTo.appendChild(container.firstElementChild!)
 
   return {
     // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
     // for out component, so that all closing steps will not be skipped.
     close: () => {
-      (vm.component.proxy as ComponentPublicInstance<{ visible: boolean; }>).visible = false
+      ;(
+        vm.component!.proxy as ComponentPublicInstance<{ visible: boolean }>
+      ).visible = false
     },
   }
 }
-
-  ; (['success', 'warning', 'info', 'error'] as const).forEach(type => {
-  Object.assign(Notification, {
-    [type]: (options: NotificationVM | INotificationOptions | string = {}) => {
-      if (typeof options === 'string' || isVNode(options)) {
-        options = {
-          message: options,
-        }
+notificationTypes.forEach((type) => {
+  notify[type] = (options = {}) => {
+    if (typeof options === 'string' || isVNode(options)) {
+      options = {
+        message: options,
       }
-      options.type = type
-      return Notification(options)
-    },
-  })
+    }
+    return notify({
+      ...options,
+      type,
+    })
+  }
 })
 
 /**
@@ -104,12 +130,14 @@ const Notification: INotification = function (options = {}) {
  */
 export function close(
   id: string,
-  position: Position,
-  userOnClose?: (vm: NotificationVM) => void,
+  position: NotificationOptions['position'],
+  userOnClose?: (vm: VNode) => void
 ): void {
   // maybe we can store the index when inserting the vm to notification list.
   const orientedNotifications = notifications[position]
-  const idx = orientedNotifications.findIndex(({ vm }) => vm.component.props.id === id)
+  const idx = orientedNotifications.findIndex(
+    ({ vm }) => vm.component?.props.id === id
+  )
   if (idx === -1) return
   const { vm } = orientedNotifications[idx]
   if (!vm) return
@@ -117,7 +145,7 @@ export function close(
   userOnClose?.(vm)
 
   // note that this is called @before-leave, that's why we were able to fetch this property.
-  const removedHeight = vm.el.offsetHeight
+  const removedHeight = vm.el!.offsetHeight
   const verticalPos = position.split('-')[0]
   orientedNotifications.splice(idx, 1)
   const len = orientedNotifications.length
@@ -126,22 +154,23 @@ export function close(
   for (let i = idx; i < len; i++) {
     // new position equals the current offsetTop minus removed height plus 16px(the gap size between each item)
     const { el, component } = orientedNotifications[i].vm
-    const pos = parseInt(el.style[verticalPos], 10) - removedHeight - GAP_SIZE
-    component.props.offset = pos
+    const pos = parseInt(el!.style[verticalPos], 10) - removedHeight - GAP_SIZE
+    component!.props.offset = pos
   }
 }
 
 export function closeAll(): void {
   // loop through all directions, close them at once.
-  for (const key in notifications) {
-    const orientedNotifications = notifications[key as Position]
+  for (const orientedNotifications of Object.values(notifications)) {
     orientedNotifications.forEach(({ vm }) => {
       // same as the previous close method, we'd like to make sure lifecycle gets handle properly.
-      (vm.component.proxy as ComponentPublicInstance<{ visible: boolean; }>).visible = false
+      ;(
+        vm.component!.proxy as ComponentPublicInstance<{ visible: boolean }>
+      ).visible = false
     })
   }
 }
 
-Notification.closeAll = closeAll
+notify.closeAll = closeAll
 
-export default Notification
+export default notify as Notify

@@ -1,14 +1,8 @@
-import Affix from './src/index.vue'
+import { withInstall } from '@element-plus/utils/with-install'
 
-import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
+import Affix from './src/affix.vue'
 
-Affix.install = (app: App): void => {
+export const ElAffix = withInstall(Affix)
+export default ElAffix
 
-  app.component(Affix.name, Affix)
-}
-
-const _Affix = Affix as SFCWithInstall<typeof Affix>
-
-export default _Affix
-export const ElAffix = _Affix
+export * from './src/affix'

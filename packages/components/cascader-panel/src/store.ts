@@ -9,7 +9,6 @@ import type {
   CascaderConfig,
 } from './node'
 
-
 const flatNodes = (nodes: Node[], leafOnly: boolean) => {
   return nodes.reduce((res, node) => {
     if (node.isLeaf) {
@@ -27,18 +26,20 @@ export default class Store {
   readonly allNodes: Node[]
   readonly leafNodes: Node[]
 
-  constructor (data: CascaderOption[], readonly config: CascaderConfig) {
-    const nodes = (data || []).map(nodeData => new Node(nodeData, this.config))
+  constructor(data: CascaderOption[], readonly config: CascaderConfig) {
+    const nodes = (data || []).map(
+      (nodeData) => new Node(nodeData, this.config)
+    )
     this.nodes = nodes
     this.allNodes = flatNodes(nodes, false)
     this.leafNodes = flatNodes(nodes, true)
   }
 
-  getNodes () {
+  getNodes() {
     return this.nodes
   }
 
-  getFlattedNodes (leafOnly: boolean) {
+  getFlattedNodes(leafOnly: boolean) {
     return leafOnly ? this.leafNodes : this.allNodes
   }
 
@@ -54,26 +55,30 @@ export default class Store {
   }
 
   appendNodes(nodeDataList: CascaderOption[], parentNode: Node) {
-    nodeDataList.forEach(nodeData => this.appendNode(nodeData, parentNode))
+    nodeDataList.forEach((nodeData) => this.appendNode(nodeData, parentNode))
   }
 
   // when checkStrictly, leaf node first
-  getNodeByValue (value: CascaderNodeValue | CascaderNodePathValue, leafOnly = false): Nullable<Node> {
+  getNodeByValue(
+    value: CascaderNodeValue | CascaderNodePathValue,
+    leafOnly = false
+  ): Nullable<Node> {
     if (!value && value !== 0) return null
 
-    const nodes = this.getFlattedNodes(leafOnly)
-      .filter(node => isEqual(node.value, value) || isEqual(node.pathValues, value))
+    const nodes = this.getFlattedNodes(leafOnly).filter(
+      (node) => isEqual(node.value, value) || isEqual(node.pathValues, value)
+    )
 
     return nodes[0] || null
   }
 
-  getSameNode (node: Node): Nullable<Node> {
+  getSameNode(node: Node): Nullable<Node> {
     if (!node) return null
 
-    const nodes = this.getFlattedNodes(false)
-      .filter(({ value, level }) => isEqual(node.value, value) && node.level === level)
+    const nodes = this.getFlattedNodes(false).filter(
+      ({ value, level }) => isEqual(node.value, value) && node.level === level
+    )
 
     return nodes[0] || null
   }
-
 }

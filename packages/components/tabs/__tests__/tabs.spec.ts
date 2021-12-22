@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import Tabs from '../src/tabs'
 import TabPane from '../src/tab-pane.vue'
-import TabNav from '../src/tab-nav.vue'
+import TabNav from '../src/tab-nav'
 
 describe('Tabs.vue', () => {
   test('create', async () => {
@@ -33,14 +33,14 @@ describe('Tabs.vue', () => {
     expect(panesWrapper[0].classes('el-tab-pane')).toBe(true)
     expect(panesWrapper[0].attributes('id')).toBe('pane-0')
     expect(panesWrapper[0].attributes('aria-hidden')).toEqual('false')
-    expect(tabsWrapper.vm.currentName).toEqual('0')
+    expect(tabsWrapper.vm.$.exposed.currentName.value).toEqual('0')
 
     await navItemsWrapper[2].trigger('click')
     expect(navItemsWrapper[0].classes('is-active')).toBe(false)
     expect(panesWrapper[0].attributes('aria-hidden')).toEqual('true')
     expect(navItemsWrapper[2].classes('is-active')).toBe(true)
     expect(panesWrapper[2].attributes('aria-hidden')).toEqual('false')
-    expect(tabsWrapper.vm.currentName).toEqual('2')
+    expect(tabsWrapper.vm.$.exposed.currentName.value).toEqual('2')
   })
 
   test('active-name', async () => {
@@ -79,14 +79,14 @@ describe('Tabs.vue', () => {
     expect(panesWrapper[1].classes('el-tab-pane')).toBe(true)
     expect(panesWrapper[1].attributes('id')).toBe('pane-b')
     expect(panesWrapper[1].attributes('aria-hidden')).toEqual('false')
-    expect(tabsWrapper.vm.currentName).toEqual('b')
+    expect(tabsWrapper.vm.$.exposed.currentName.value).toEqual('b')
 
     await navItemsWrapper[2].trigger('click')
     expect(navItemsWrapper[1].classes('is-active')).toBe(false)
     expect(panesWrapper[1].attributes('aria-hidden')).toEqual('true')
     expect(navItemsWrapper[2].classes('is-active')).toBe(true)
     expect(panesWrapper[2].attributes('aria-hidden')).toEqual('false')
-    expect(tabsWrapper.vm.currentName).toEqual('c')
+    expect(tabsWrapper.vm.$.exposed.currentName.value).toEqual('c')
   })
 
   test('card', async () => {
@@ -142,19 +142,24 @@ describe('Tabs.vue', () => {
       `,
       data() {
         return {
-          tabs: [{
-            label: 'tab1',
-            name: 'tab1',
-          }, {
-            label: 'tab2',
-            name: 'tab2',
-          }, {
-            label: 'tab3',
-            name: 'tab3',
-          }, {
-            label: 'tab4',
-            name: 'tab4',
-          }],
+          tabs: [
+            {
+              label: 'tab1',
+              name: 'tab1',
+            },
+            {
+              label: 'tab2',
+              name: 'tab2',
+            },
+            {
+              label: 'tab3',
+              name: 'tab3',
+            },
+            {
+              label: 'tab4',
+              name: 'tab4',
+            },
+          ],
         }
       },
     })
@@ -200,26 +205,30 @@ describe('Tabs.vue', () => {
       data() {
         return {
           editableTabsValue: '2',
-          editableTabs: [{
-            title: 'Tab 1',
-            name: '1',
-            content: 'Tab 1 content',
-          }, {
-            title: 'Tab 2',
-            name: '2',
-            content: 'Tab 2 content',
-          }, {
-            title: 'Tab 3',
-            name: '3',
-            content: 'Tab 3 content',
-          }],
+          editableTabs: [
+            {
+              title: 'Tab 1',
+              name: '1',
+              content: 'Tab 1 content',
+            },
+            {
+              title: 'Tab 2',
+              name: '2',
+              content: 'Tab 2 content',
+            },
+            {
+              title: 'Tab 3',
+              name: '3',
+              content: 'Tab 3 content',
+            },
+          ],
           tabIndex: 3,
         }
       },
       methods: {
         handleTabsEdit(targetName, action) {
           if (action === 'add') {
-            const newTabName = ++this.tabIndex + ''
+            const newTabName = `${++this.tabIndex}`
             this.editableTabs.push({
               title: 'New Tab',
               name: newTabName,
@@ -241,7 +250,7 @@ describe('Tabs.vue', () => {
               })
             }
             this.editableTabsValue = activeName
-            this.editableTabs = tabs.filter(tab => tab.name !== targetName)
+            this.editableTabs = tabs.filter((tab) => tab.name !== targetName)
           }
         },
       },
@@ -258,7 +267,7 @@ describe('Tabs.vue', () => {
     expect(navItemsWrapper[1].classes('is-active')).toBe(true)
 
     // remove one tab, check panes length
-    await navItemsWrapper[1].find('.el-icon-close').trigger('click')
+    await navItemsWrapper[1].find('.is-icon-close').trigger('click')
 
     panesWrapper = wrapper.findAllComponents(TabPane)
     navItemsWrapper = navWrapper.findAll('.el-tabs__item')
@@ -267,7 +276,7 @@ describe('Tabs.vue', () => {
     expect(panesWrapper.length).toEqual(2)
 
     // add one tab, check panes length and current tab
-    await navWrapper.find('.el-tabs__new-tab').trigger('click')
+    await wrapper.find('.el-tabs__new-tab').trigger('click')
 
     panesWrapper = wrapper.findAllComponents(TabPane)
     navItemsWrapper = navWrapper.findAll('.el-tabs__item')
@@ -306,21 +315,24 @@ describe('Tabs.vue', () => {
       data() {
         return {
           editableTabsValue: '2',
-          editableTabs: [{
-            title: 'Tab 1',
-            name: '1',
-            content: 'Tab 1 content',
-          }, {
-            title: 'Tab 2',
-            name: '2',
-            content: 'Tab 2 content',
-          }],
+          editableTabs: [
+            {
+              title: 'Tab 1',
+              name: '1',
+              content: 'Tab 1 content',
+            },
+            {
+              title: 'Tab 2',
+              name: '2',
+              content: 'Tab 2 content',
+            },
+          ],
           tabIndex: 2,
         }
       },
       methods: {
         addTab() {
-          const newTabName = ++this.tabIndex + ''
+          const newTabName = `${++this.tabIndex}`
           this.editableTabs.push({
             title: 'New Tab',
             name: newTabName,
@@ -342,7 +354,7 @@ describe('Tabs.vue', () => {
             })
           }
           this.editableTabsValue = activeName
-          this.editableTabs = tabs.filter(tab => tab.name !== targetName)
+          this.editableTabs = tabs.filter((tab) => tab.name !== targetName)
         },
       },
     })
@@ -350,7 +362,7 @@ describe('Tabs.vue', () => {
     const navWrapper = wrapper.findComponent(TabNav)
     await nextTick()
 
-    await navWrapper.find('.el-tabs__new-tab').trigger('click')
+    await wrapper.find('.el-tabs__new-tab').trigger('click')
 
     let navItemsWrapper = navWrapper.findAll('.el-tabs__item')
     let panesWrapper = wrapper.findAllComponents(TabPane)
@@ -358,7 +370,7 @@ describe('Tabs.vue', () => {
     expect(panesWrapper.length).toEqual(3)
     expect(navItemsWrapper[2].classes('is-active')).toBe(true)
 
-    await navItemsWrapper[2].find('.el-icon-close').trigger('click')
+    await navItemsWrapper[2].find('.is-icon-close').trigger('click')
 
     panesWrapper = wrapper.findAllComponents(TabPane)
     navItemsWrapper = navWrapper.findAll('.el-tabs__item')
@@ -386,7 +398,7 @@ describe('Tabs.vue', () => {
     const navWrapper = wrapper.findComponent(TabNav)
     await nextTick()
 
-    expect(navWrapper.findAll('.el-icon-close').length).toBe(2)
+    expect(navWrapper.findAll('.is-icon-close').length).toBe(2)
   })
 
   test('disabled', async () => {
@@ -437,7 +449,9 @@ describe('Tabs.vue', () => {
     expect(tabsWrapper.find('.el-tabs__header').classes('is-left')).toBe(true)
     expect(tabsWrapper.find('.el-tabs__nav-wrap').classes('is-left')).toBe(true)
     expect(tabsWrapper.find('.el-tabs__nav').classes('is-left')).toBe(true)
-    expect(tabsWrapper.find('.el-tabs__active-bar').classes('is-left')).toBe(true)
+    expect(tabsWrapper.find('.el-tabs__active-bar').classes('is-left')).toBe(
+      true
+    )
     expect(tabsWrapper.find('.el-tabs__item').classes('is-left')).toBe(true)
   })
 
@@ -496,19 +510,29 @@ describe('Tabs.vue', () => {
 
     const tabsWrapper = wrapper.findComponent(Tabs)
     await nextTick()
-    const mockCRect = jest.spyOn(wrapper.find('#tab-C').element, 'getBoundingClientRect').mockReturnValue({ left: 300 } as DOMRect)
-    const mockComputedStyle = jest.spyOn(window, 'getComputedStyle').mockReturnValue({ paddingLeft: '0px' } as CSSStyleDeclaration)
+    const mockCRect = jest
+      .spyOn(wrapper.find('#tab-C').element, 'getBoundingClientRect')
+      .mockReturnValue({ left: 300 } as DOMRect)
+    const mockComputedStyle = jest
+      .spyOn(window, 'getComputedStyle')
+      .mockReturnValue({ paddingLeft: '0px' } as CSSStyleDeclaration)
     await wrapper.find('#tab-C').trigger('click')
 
-    expect(tabsWrapper.find('.el-tabs__active-bar').attributes().style).toMatch('translateX(300px)')
+    expect(tabsWrapper.find('.el-tabs__active-bar').attributes().style).toMatch(
+      'translateX(300px)'
+    )
 
     wrapper.vm.tabPosition = 'left'
     await nextTick()
-    const mockCYRect = jest.spyOn(wrapper.find('#tab-C').element, 'getBoundingClientRect').mockReturnValue({ top: 200 } as DOMRect)
+    const mockCYRect = jest
+      .spyOn(wrapper.find('#tab-C').element, 'getBoundingClientRect')
+      .mockReturnValue({ top: 200 } as DOMRect)
     await wrapper.find('#tab-A').trigger('click')
     await wrapper.find('#tab-C').trigger('click')
 
-    expect(tabsWrapper.find('.el-tabs__active-bar').attributes().style).toMatch('translateY(200px)')
+    expect(tabsWrapper.find('.el-tabs__active-bar').attributes().style).toMatch(
+      'translateY(200px)'
+    )
 
     mockCRect.mockRestore()
     mockCYRect.mockRestore()
@@ -617,19 +641,29 @@ describe('Tabs.vue', () => {
     const vm = wrapper.vm
     await nextTick()
 
-    await wrapper.find('#tab-second').trigger('keydown', { code: EVENT_CODE.right })
+    await wrapper
+      .find('#tab-second')
+      .trigger('keydown', { code: EVENT_CODE.right })
     expect(vm.activeName).toEqual('third')
 
-    await wrapper.find('#tab-third').trigger('keydown', { code: EVENT_CODE.right })
+    await wrapper
+      .find('#tab-third')
+      .trigger('keydown', { code: EVENT_CODE.right })
     expect(vm.activeName).toEqual('fourth')
 
-    await wrapper.find('#tab-fourth').trigger('keydown', { code: EVENT_CODE.right })
+    await wrapper
+      .find('#tab-fourth')
+      .trigger('keydown', { code: EVENT_CODE.right })
     expect(vm.activeName).toEqual('first')
 
-    await wrapper.find('#tab-first').trigger('keydown', { code: EVENT_CODE.left })
+    await wrapper
+      .find('#tab-first')
+      .trigger('keydown', { code: EVENT_CODE.left })
     expect(vm.activeName).toEqual('fourth')
 
-    await wrapper.find('#tab-fourth').trigger('keydown', { code: EVENT_CODE.left })
+    await wrapper
+      .find('#tab-fourth')
+      .trigger('keydown', { code: EVENT_CODE.left })
     expect(vm.activeName).toEqual('third')
   })
 

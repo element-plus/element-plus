@@ -1,5 +1,5 @@
-import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
+import { mount } from '@vue/test-utils'
 import Collapse from '../src/collapse.vue'
 import CollapseItem from '../src/collapse-item.vue'
 
@@ -36,7 +36,9 @@ describe('Collapse.vue', () => {
     const vm = wrapper.vm
     const collapseWrapper = wrapper.findComponent(Collapse)
     const collapseItemWrappers = collapseWrapper.findAllComponents(CollapseItem)
-    const collapseItemHeaderEls = vm.$el.querySelectorAll('.el-collapse-item__header')
+    const collapseItemHeaderEls = vm.$el.querySelectorAll(
+      '.el-collapse-item__header'
+    )
     expect(collapseItemWrappers[0].vm.isActive).toBe(true)
 
     collapseItemHeaderEls[2].click()
@@ -80,7 +82,9 @@ describe('Collapse.vue', () => {
     const vm = wrapper.vm
     const collapseWrapper = wrapper.findComponent(Collapse)
     const collapseItemWrappers = collapseWrapper.findAllComponents(CollapseItem)
-    const collapseItemHeaderEls = vm.$el.querySelectorAll('.el-collapse-item__header')
+    const collapseItemHeaderEls = vm.$el.querySelectorAll(
+      '.el-collapse-item__header'
+    )
     expect(collapseItemWrappers[0].vm.isActive).toBe(true)
 
     collapseItemHeaderEls[2].click()
@@ -129,7 +133,9 @@ describe('Collapse.vue', () => {
     const vm = wrapper.vm
     const collapseWrapper = wrapper.findComponent(Collapse)
     const collapseItemWrappers = collapseWrapper.findAllComponents(CollapseItem)
-    const collapseItemHeaderEls = vm.$el.querySelectorAll('.el-collapse-item__header')
+    const collapseItemHeaderEls = vm.$el.querySelectorAll(
+      '.el-collapse-item__header'
+    )
     expect(collapseItemWrappers[0].vm.isActive).toBe(true)
     expect(vm.activeNames).toEqual(['1'])
     expect(onChange).not.toHaveBeenCalled()

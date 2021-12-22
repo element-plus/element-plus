@@ -1,58 +1,69 @@
-import gulp from 'gulp'
-import ts from 'gulp-typescript'
 import path from 'path'
-import through2 from 'through2'
+import { mkdir, copyFile } from 'fs/promises'
+import { copy } from 'fs-extra'
+import { series, parallel } from 'gulp'
+import { run } from './utils/process'
+import { withTaskName } from './utils/gulp'
+import { buildOutput, epOutput, epPackage, projRoot } from './utils/paths'
+import { buildConfig } from './build-info'
+import type { TaskFunction } from 'gulp'
+import type { Module } from './build-info'
 
-const output = path.resolve(__dirname, '../dist/styles')
+const runTask = (name: string) =>
+  withTaskName(name, () => run(`pnpm run build ${name}`))
 
-const tsProject = ts.createProject('tsconfig.json', {
-  declaration: true,
-  target: 'ESNEXT',
-  skipLibCheck: true,
-  module: 'commonjs',
-})
+export const copyFiles = () =>
+  Promise.all([
+    copyFile(epPackage, path.join(epOutput, 'package.json')),
+    copyFile(
+      path.resolve(projRoot, 'README.md'),
+      path.resolve(epOutput, 'README.md')
+    ),
+    copyFile(
+      path.resolve(projRoot, 'typings/global.d.ts'),
+      path.resolve(epOutput, 'global.d.ts')
+    ),
+  ])
 
-const rewriter = () => {
-  return through2.obj(function(file, _, cb) {
-    const compIdentifier = new RegExp('@element-plus/components', 'g')
-    const compReplacer = '../../../components'
-    const themeIdentifier = new RegExp('@element-plus/theme-chalk', 'g')
-    const themeReplacer = '../../../../theme-chalk'
-    file.contents = Buffer.from(
-      file.contents
-        .toString()
-        .replace(compIdentifier, compReplacer)
-        .replace(themeIdentifier, themeReplacer),
+export const copyTypesDefinitions: TaskFunction = (done) => {
+  const src = path.resolve(buildOutput, 'types')
+  const copyTypes = (module: Module) =>
+    withTaskName(`copyTypes:${module}`, () =>
+      copy(src, buildConfig[module].output.path, { recursive: true })
     )
-    cb(null, file)
-  })
+
+  return parallel(copyTypes('esm'), copyTypes('cjs'))(done)
 }
 
-const inputs = '../packages/components/**/style/*.ts'
-
-function compileEsm() {
-  return gulp
-    .src(inputs)
-    .pipe(rewriter())
-    .pipe(tsProject())
-    .pipe(gulp.dest(path.resolve(output, 'lib')))
+export const copyFullStyle = async () => {
+  await mkdir(path.resolve(epOutput, 'dist'), { recursive: true })
+  await copyFile(
+    path.resolve(epOutput, 'theme-chalk/index.css'),
+    path.resolve(epOutput, 'dist/index.css')
+  )
 }
 
-function compileCjs() {
-  return gulp
-    .src(inputs)
-    .pipe(rewriter())
-    .pipe(
-      ts.createProject('tsconfig.json', {
-        declaration: true,
-        target: 'ESNEXT',
-        skipLibCheck: true,
-        module: 'ESNEXT',
-      })(),
+export default series(
+  withTaskName('clean', () => run('pnpm run clean')),
+  withTaskName('createOutput', () => mkdir(epOutput, { recursive: true })),
+
+  parallel(
+    runTask('buildModules'),
+    runTask('buildFullBundle'),
+    runTask('generateTypesDefinitions'),
+    runTask('buildHelper'),
+    series(
+      withTaskName('buildThemeChalk', () =>
+        run('pnpm run -C packages/theme-chalk build')
+      ),
+      copyFullStyle
     )
-    .pipe(gulp.dest(path.resolve(output, 'es')))
-}
+  ),
 
-export const build = gulp.series(compileEsm, compileCjs)
+  parallel(copyTypesDefinitions, copyFiles)
+)
 
-export default build
+export * from './types-definitions'
+export * from './modules'
+export * from './full-bundle'
+export * from './helper'

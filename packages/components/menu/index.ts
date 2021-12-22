@@ -1,33 +1,22 @@
-import Menu from './src/menu.vue'
-import MenuItem from './src/menuItem.vue'
-import MenuItemGroup from './src/menuItemGroup.vue'
-import SubMenu from './src/submenu.vue'
+import { withInstall, withNoopInstall } from '@element-plus/utils/with-install'
 
-import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
+import Menu from './src/menu'
+import MenuItem from './src/menu-item.vue'
+import MenuItemGroup from './src/menu-item-group.vue'
+import SubMenu from './src/sub-menu'
 
-Menu.install = (app: App): void => {
-  app.component(Menu.name, Menu)
-  app.component(MenuItem.name, MenuItem)
-  app.component(MenuItemGroup.name, MenuItemGroup)
-  app.component(SubMenu.name, SubMenu)
-}
-
-Menu.MenuItem = MenuItem
-Menu.MenuItemGroup = MenuItemGroup
-Menu.SubMenu = SubMenu
-
-const _Menu = Menu as any as SFCWithInstall<typeof Menu> & {
-  MenuItem: typeof MenuItem
-  MenuItemGroup: typeof MenuItemGroup
-  SubMenu: typeof SubMenu
-}
-
-export default _Menu
-export const ElMenu = _Menu
-export const ElMenuItem = MenuItem
-export const ElMenuItemGroup = MenuItemGroup
-export const ElSubMenu = SubMenu
+export const ElMenu = withInstall(Menu, {
+  MenuItem,
+  MenuItemGroup,
+  SubMenu,
+})
+export default ElMenu
+export const ElMenuItem = withNoopInstall(MenuItem)
+export const ElMenuItemGroup = withNoopInstall(MenuItemGroup)
+export const ElSubMenu = withNoopInstall(SubMenu)
 
 export * from './src/menu'
-
+export * from './src/menu-item'
+export * from './src/menu-item-group'
+export * from './src/sub-menu'
+export * from './src/types'

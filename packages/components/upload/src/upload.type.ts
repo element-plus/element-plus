@@ -29,6 +29,7 @@ export interface ElUploadAjaxError extends Error {
 
 export interface ElUploadRequestOptions {
   action: string
+  method: string
   data: Record<string, string | Blob>
   filename: string
   file: File
@@ -39,8 +40,15 @@ export interface ElUploadRequestOptions {
   withCredentials: boolean
 }
 
-export type FileHandler<T = void> = (file: UploadFile, uploadFiles: UploadFile[]) => T
-export type FileResultHandler<T = any> = (param: T, file: UploadFile, uploadFiles: UploadFile[]) => void
+export type FileHandler<T = void> = (
+  file: UploadFile,
+  uploadFiles: UploadFile[]
+) => T
+export type FileResultHandler<T = any> = (
+  param: T,
+  file: UploadFile,
+  uploadFiles: UploadFile[]
+) => void
 
 export interface IUseHandlersProps {
   listType: ListType

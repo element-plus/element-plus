@@ -31,9 +31,8 @@ import {
   getCurrentInstance,
   onUnmounted,
 } from 'vue'
-import {
-  autoprefixer,
-} from '@element-plus/utils/util'
+import { autoprefixer } from '@element-plus/utils/util'
+import { debugWarn } from '@element-plus/utils/error'
 import type { CSSProperties } from 'vue'
 import type { InjectCarouselScope, ICarouselItemProps } from './carousel'
 
@@ -50,7 +49,6 @@ export default defineComponent({
   setup(props: ICarouselItemProps) {
     // instance
     const instance = getCurrentInstance()
-    instance.uid
 
     // data
     const data = reactive({
@@ -65,7 +63,7 @@ export default defineComponent({
 
     // inject
     const injectCarouselScope: InjectCarouselScope = inject(
-      'injectCarouselScope',
+      'injectCarouselScope'
     )
 
     // computed
@@ -112,14 +110,17 @@ export default defineComponent({
     }
 
     function calcTranslate(index, activeIndex, isVertical) {
-      const distance = (isVertical ? injectCarouselScope.root.value?.offsetHeight : injectCarouselScope.root.value?.offsetWidth) || 0
+      const distance =
+        (isVertical
+          ? injectCarouselScope.root.value?.offsetHeight
+          : injectCarouselScope.root.value?.offsetWidth) || 0
       return distance * (index - activeIndex)
     }
 
     const translateItem = (
       index: number,
       activeIndex: number,
-      oldIndex: number,
+      oldIndex: number
     ) => {
       const parentType = injectCarouselScope.type
       const length = injectCarouselScope.items.value.length
@@ -131,8 +132,9 @@ export default defineComponent({
       }
       if (parentType === 'card') {
         if (parentDirection.value === 'vertical') {
-          console.warn(
-            '[Element Warn][Carousel]vertical direction is not supported in card mode',
+          debugWarn(
+            'Carousel',
+            'vertical direction is not supported in card mode'
           )
         }
         data.inStage = Math.round(Math.abs(index - activeIndex)) <= 1
@@ -150,7 +152,7 @@ export default defineComponent({
     function handleItemClick() {
       if (injectCarouselScope && injectCarouselScope.type === 'card') {
         const index = injectCarouselScope.items.value
-          .map(d => d.uid)
+          .map((d) => d.uid)
           .indexOf(instance.uid)
         injectCarouselScope.setActiveItem(index)
       }

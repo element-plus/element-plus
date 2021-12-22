@@ -1,6 +1,6 @@
-@import 'mixins/mixins';
-@import 'mixins/utils';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/utils' as *;
+@use 'common/var' as *;
 
 @include b(breadcrumb) {
   font-size: 14px;
@@ -12,9 +12,12 @@
     font-weight: bold;
     color: var(--el-text-color-placeholder);
 
-    &[class*='icon'] {
+    &.#{$namespace}-icon {
       margin: 0 6px;
       font-weight: normal;
+      svg {
+        vertical-align: middle;
+      }
     }
   }
 

@@ -1,5 +1,5 @@
 import { cloneVNode } from 'vue'
-import throwError from '@element-plus/utils/error'
+import { throwError } from '@element-plus/utils/error'
 import { getFirstValidNode } from '@element-plus/utils/vnode'
 
 import type { VNode, Ref, ComponentPublicInstance } from 'vue'
@@ -13,8 +13,12 @@ interface IRenderTriggerProps extends Record<string, unknown> {
   onFocus?: EventHandler
 }
 
-export default function renderTrigger(trigger: VNode[], extraProps: IRenderTriggerProps) {
+export default function renderTrigger(
+  trigger: VNode[],
+  extraProps: IRenderTriggerProps
+) {
   const firstElement = getFirstValidNode(trigger, 1)
-  if (!firstElement) throwError('renderTrigger', 'trigger expects single rooted node')
+  if (!firstElement)
+    throwError('renderTrigger', 'trigger expects single rooted node')
   return cloneVNode(firstElement, extraProps, true)
 }

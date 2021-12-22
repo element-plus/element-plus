@@ -1,0 +1,26 @@
+@use '../mixins' as *;
+@use './table-of-content';
+
+.doc-content-wrapper {
+  --toc-width: 144px;
+  padding: 32px 24px 96px;
+  .doc-content-container {
+    max-width: 60rem;
+    margin: 0 auto;
+  }
+
+  @include respond-to('md') {
+    padding: 48px 32px 96px;
+  }
+  @include respond-to('lg') {
+    padding: 64px 64px 96px;
+  }
+  @include respond-to('xlg') {
+    padding: 64px 0 96px 64px;
+    display: flex;
+    .doc-content-container {
+      min-width: 38.75rem;
+      margin: 0;
+    }
+  }
+}

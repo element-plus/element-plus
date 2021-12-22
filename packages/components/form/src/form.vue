@@ -3,7 +3,7 @@
     class="el-form"
     :class="[
       labelPosition ? 'el-form--label-' + labelPosition : '',
-      { 'el-form--inline': inline }
+      { 'el-form--inline': inline },
     ]"
   >
     <slot></slot>
@@ -11,15 +11,26 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, provide, reactive, ref, toRefs, watch } from 'vue'
-import { FieldErrorList } from 'async-validator'
-import mitt from 'mitt'
-import { elFormEvents, elFormKey } from '@element-plus/tokens'
+import {
+  computed,
+  defineComponent,
+  provide,
+  reactive,
+  ref,
+  toRefs,
+  watch,
+} from 'vue'
+import { elFormKey } from '@element-plus/tokens'
+import { debugWarn } from '@element-plus/utils/error'
+import type { ValidateFieldsError } from 'async-validator'
 
 import type { PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'
 import type { FormRulesMap } from './form.type'
-import type { ElFormItemContext as FormItemCtx, ValidateFieldCallback } from '@element-plus/tokens'
+import type {
+  ElFormItemContext as FormItemCtx,
+  ValidateFieldCallback,
+} from '@element-plus/tokens'
 
 function useFormLabelWidth() {
   const potentialLabelWidthArr = ref([])
@@ -32,7 +43,7 @@ function useFormLabelWidth() {
   function getLabelWidthIndex(width: number) {
     const index = potentialLabelWidthArr.value.indexOf(width)
     if (index === -1) {
-      console.warn('[Element Warn][ElementForm]unexpected width ' + width)
+      debugWarn('Form', `unexpected width ${width}`)
     }
     return index
   }
@@ -59,7 +70,7 @@ function useFormLabelWidth() {
 }
 
 export interface Callback {
-  (isValid?: boolean, invalidFields?: FieldErrorList): void
+  (isValid?: boolean, invalidFields?: ValidateFieldsError): void
 }
 
 export default defineComponent({
@@ -97,44 +108,39 @@ export default defineComponent({
   },
   emits: ['validate'],
   setup(props, { emit }) {
-    const formMitt = mitt()
-
     const fields: FormItemCtx[] = []
 
     watch(
       () => props.rules,
       () => {
-        fields.forEach(field => {
-          field.removeValidateEvents()
-          field.addValidateEvents()
+        fields.forEach((field) => {
+          field.evaluateValidationEnabled()
         })
 
         if (props.validateOnRuleChange) {
           validate(() => ({}))
         }
-      },
+      }
     )
 
-    formMitt.on<FormItemCtx>(elFormEvents.addField, field => {
+    const addField = (field: FormItemCtx) => {
       if (field) {
         fields.push(field)
       }
-    })
+    }
 
-    formMitt.on<FormItemCtx>(elFormEvents.removeField, field => {
+    const removeField = (field: FormItemCtx) => {
       if (field.prop) {
         fields.splice(fields.indexOf(field), 1)
       }
-    })
+    }
 
     const resetFields = () => {
       if (!props.model) {
-        console.warn(
-          '[Element Warn][Form]model is required for resetFields to work.',
-        )
+        debugWarn('Form', 'model is required for resetFields to work.')
         return
       }
-      fields.forEach(field => {
+      fields.forEach((field) => {
         field.resetField()
       })
     }
@@ -142,19 +148,17 @@ export default defineComponent({
     const clearValidate = (props: string | string[] = []) => {
       const fds = props.length
         ? typeof props === 'string'
-          ? fields.filter(field => props === field.prop)
-          : fields.filter(field => props.indexOf(field.prop) > -1)
+          ? fields.filter((field) => props === field.prop)
+          : fields.filter((field) => props.indexOf(field.prop) > -1)
         : fields
-      fds.forEach(field => {
+      fds.forEach((field) => {
         field.clearValidate()
       })
     }
 
     const validate = (callback?: Callback) => {
       if (!props.model) {
-        console.warn(
-          '[Element Warn][Form]model is required for validate to work!',
-        )
+        debugWarn('Form', 'model is required for validate to work!')
         return
       }
 
@@ -197,21 +201,24 @@ export default defineComponent({
       return promise
     }
 
-    const validateField = (props: string | string[], cb: ValidateFieldCallback) => {
+    const validateField = (
+      props: string | string[],
+      cb: ValidateFieldCallback
+    ) => {
       props = [].concat(props)
-      const fds = fields.filter(field => props.indexOf(field.prop) !== -1)
+      const fds = fields.filter((field) => props.indexOf(field.prop) !== -1)
       if (!fields.length) {
-        console.warn('[Element Warn]please pass correct props!')
+        debugWarn('Form', 'please pass correct props!')
         return
       }
 
-      fds.forEach(field => {
+      fds.forEach((field) => {
         field.validate('', cb)
       })
     }
 
     const scrollToField = (prop: string) => {
-      fields.forEach(item => {
+      fields.forEach((item) => {
         if (item.prop === prop) {
           item.$el.scrollIntoView()
         }
@@ -219,12 +226,13 @@ export default defineComponent({
     }
 
     const elForm = reactive({
-      formMitt,
       ...toRefs(props),
       resetFields,
       clearValidate,
       validateField,
       emit,
+      addField,
+      removeField,
       ...useFormLabelWidth(),
     })
 

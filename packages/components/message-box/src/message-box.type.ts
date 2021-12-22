@@ -1,4 +1,4 @@
-import type { VNode } from 'vue'
+import type { CSSProperties, VNode, Component } from 'vue'
 
 type MessageType = '' | 'success' | 'warning' | 'info' | 'error'
 
@@ -18,8 +18,9 @@ export declare interface MessageBoxState {
   title: string
   message: string
   type: MessageType
-  iconClass: string
+  icon: string | Component
   customClass: string
+  customStyle: CSSProperties
   showInput: boolean
   inputValue: string
   inputPlaceholder: string
@@ -40,7 +41,9 @@ export declare interface MessageBoxState {
   cancelButtonClass: string
   editorErrorMessage: string
 
-  beforeClose: null | ((action: Action, instance: MessageBoxState, done: () => void) => void)
+  beforeClose:
+    | null
+    | ((action: Action, instance: MessageBoxState, done: () => void) => void)
   callback: null | Callback
   distinguishCancelAndClose: boolean
   modalFade: boolean
@@ -58,16 +61,18 @@ export type Callback =
 
 /** Options used in MessageBox */
 export interface ElMessageBoxOptions {
-
   /** Callback before MessageBox closes, and it will prevent MessageBox from closing */
   beforeClose?: (
     action: Action,
     instance: MessageBoxState,
-    done: () => void,
+    done: () => void
   ) => void
 
   /** Custom class name for MessageBox */
   customClass?: string
+
+  /** Custom inline style for MessageBox */
+  customStyle?: CSSProperties
 
   /** MessageBox closing callback if you don't prefer Promise */
   callback?: Callback
@@ -99,8 +104,8 @@ export interface ElMessageBoxOptions {
   /** Message box type */
   boxType?: MessageBoxType
 
-  /** Custom icon's class */
-  iconClass?: string
+  /** Custom icon component */
+  icon?: string | Component
 
   /** Whether message is treated as HTML string */
   dangerouslyUseHTMLString?: boolean
@@ -152,18 +157,16 @@ export interface ElMessageBoxOptions {
 
   /** Error message when validation fails */
   inputErrorMessage?: string
-
 }
 
-export type ElMessageBoxShortcutMethod =
+export type ElMessageBoxShortcutMethod = ((
+  message: ElMessageBoxOptions['message'],
+  title: ElMessageBoxOptions['title'],
+  options?: ElMessageBoxOptions
+) => Promise<MessageBoxData>) &
   ((
     message: ElMessageBoxOptions['message'],
-    title: ElMessageBoxOptions['title'],
-    options?: ElMessageBoxOptions,
-  ) => Promise<MessageBoxData>)
-  & ((
-    message: ElMessageBoxOptions['message'],
-    options?: ElMessageBoxOptions,
+    options?: ElMessageBoxOptions
   ) => Promise<MessageBoxData>)
 
 export interface IElMessageBox {

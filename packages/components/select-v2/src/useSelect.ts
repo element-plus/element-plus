@@ -8,43 +8,41 @@ import {
   onMounted,
   onBeforeMount,
 } from 'vue'
-import {
-  isArray,
-  isFunction,
-  isObject,
-} from '@vue/shared'
+import { isArray, isFunction, isObject } from '@vue/shared'
 import isEqual from 'lodash/isEqual'
 import lodashDebounce from 'lodash/debounce'
-import { elFormKey, elFormItemKey } from '@element-plus/tokens'
-import { useLocaleInject } from '@element-plus/hooks'
+import { elFormKey } from '@element-plus/tokens'
+import { useLocale, useSize } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
-import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
 import {
-  getValueByPath,
-  useGlobalConfig,
-} from '@element-plus/utils/util'
+  addResizeListener,
+  removeResizeListener,
+} from '@element-plus/utils/resize-event'
+import { getValueByPath } from '@element-plus/utils/util'
+import { Effect } from '@element-plus/components/popper'
 
+import { ArrowUp } from '@element-plus/icons-vue'
 import { useAllowCreate } from './useAllowCreate'
 
-import { SelectProps } from './defaults'
 import { flattenOptions } from './util'
 
-
-import type { ExtractPropTypes, CSSProperties } from 'vue'
-import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
-import type { OptionType, Option } from './select.types'
 import { useInput } from './useInput'
+import type { SelectProps } from './defaults'
+import type { ExtractPropTypes, CSSProperties } from 'vue'
+import type { ElFormContext } from '@element-plus/tokens'
+import type { OptionType, Option } from './select.types'
 
 const DEFAULT_INPUT_PLACEHOLDER = ''
 const MINIMUM_INPUT_WIDTH = 11
+const TAG_BASE_WIDTH = {
+  small: 42,
+  mini: 33,
+}
 
 const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
-
   // inject
-  const { t } = useLocaleInject()
+  const { t } = useLocale()
   const elForm = inject(elFormKey, {} as ElFormContext)
-  const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
-  const $ELEMENT = useGlobalConfig()
 
   const states = reactive({
     inputValue: DEFAULT_INPUT_PLACEHOLDER,
@@ -62,7 +60,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     isSilentBlur: false,
     isComposing: false,
     inputLength: 20,
-    inputWidth: 240,
+    selectWidth: 200,
     initialInputHeight: 0,
     previousQuery: null,
     previousValue: '',
@@ -95,10 +93,18 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     return totalHeight > props.height ? props.height : totalHeight
   })
 
+  const hasModelValue = computed(() => {
+    return (
+      props.modelValue !== undefined &&
+      props.modelValue !== null &&
+      props.modelValue !== ''
+    )
+  })
+
   const showClearBtn = computed(() => {
     const hasValue = props.multiple
       ? Array.isArray(props.modelValue) && props.modelValue.length > 0
-      : props.modelValue !== undefined && props.modelValue !== null && props.modelValue !== ''
+      : hasModelValue.value
 
     const criteria =
       props.clearable &&
@@ -108,9 +114,15 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     return criteria
   })
 
-  const iconClass = computed(() => props.remote && props.filterable ? '' : (expanded.value ? 'arrow-up is-reverse' : 'arrow-up'))
+  const iconComponent = computed(() =>
+    props.remote && props.filterable ? '' : ArrowUp
+  )
 
-  const debounce = computed(() => props.remote ? 300 : 0)
+  const iconReverse = computed(() =>
+    iconComponent.value && expanded.value ? 'is-reverse' : ''
+  )
+
+  const debounce = computed(() => (props.remote ? 300 : 0))
 
   // filteredOptions includes flatten the data into one dimensional array.
   const emptyText = computed(() => {
@@ -118,7 +130,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     if (props.loading) {
       return props.loadingText || t('el.select.loading')
     } else {
-      if (props.remote && states.inputValue === '' && options.length === 0) return false
+      if (props.remote && states.inputValue === '' && options.length === 0)
+        return false
       if (props.filterable && states.inputValue && options.length > 0) {
         return props.noMatchText || t('el.select.noMatch')
       }
@@ -140,34 +153,58 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     if (props.loading) {
       return []
     }
-    return flattenOptions((props.options as OptionType[]).concat(states.createdOptions).map(v => {
-      if (isArray(v.options)) {
-        const filtered = v.options.filter(isValidOption)
-        if (filtered.length > 0) {
-          return {
-            ...v,
-            options: filtered,
+    return flattenOptions(
+      (props.options as OptionType[])
+        .concat(states.createdOptions)
+        .map((v) => {
+          if (isArray(v.options)) {
+            const filtered = v.options.filter(isValidOption)
+            if (filtered.length > 0) {
+              return {
+                ...v,
+                options: filtered,
+              }
+            }
+          } else {
+            if (props.remote || isValidOption(v as Option)) {
+              return v
+            }
           }
-        }
-      } else {
-        if (props.remote || isValidOption(v as Option)) {
-          return v
-        }
-      }
-      return null
-    }).filter(v => v !== null))
+          return null
+        })
+        .filter((v) => v !== null)
+    )
   })
 
-  const selectSize = computed(() => props.size || elFormItem.size || $ELEMENT.size)
+  const optionsAllDisabled = computed(() =>
+    filteredOptions.value.every((option) => option.disabled)
+  )
 
-  const collapseTagSize = computed(() => ['small', 'mini'].indexOf(selectSize.value) > -1 ? 'mini' : 'small')
+  const selectSize = useSize()
+
+  const collapseTagSize = computed(() =>
+    'small' === selectSize.value ? 'small' : ''
+  )
+
+  const tagMaxWidth = computed(() => {
+    const select = selectionRef.value
+    const size = collapseTagSize.value
+    const paddingLeft = select
+      ? parseInt(getComputedStyle(select).paddingLeft)
+      : 0
+    const paddingRight = select
+      ? parseInt(getComputedStyle(select).paddingRight)
+      : 0
+    return (
+      states.selectWidth - paddingRight - paddingLeft - TAG_BASE_WIDTH[size]
+    )
+  })
 
   const calculatePopperSize = () => {
     popperSize.value = selectRef.value?.getBoundingClientRect?.()?.width || 200
   }
 
   const inputWrapperStyle = computed(() => {
-
     return {
       width: `${
         states.calculatedWidth === 0
@@ -189,9 +226,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const currentPlaceholder = computed(() => {
     const _placeholder = props.placeholder || t('el.select.placeholder')
-    return props.multiple
-      ? _placeholder
-      : states.selectedLabel || _placeholder
+    return props.multiple ? _placeholder : states.selectedLabel || _placeholder
   })
 
   // this obtains the actual popper DOM element.
@@ -200,22 +235,38 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   // the index with current value in options
   const indexRef = computed<number>(() => {
     if (props.multiple) {
+      const len = (props.modelValue as []).length
       if ((props.modelValue as Array<any>).length > 0) {
-        return filteredOptions.value.findIndex(o => o.value === props.modelValue[0])
+        return filteredOptions.value.findIndex(
+          (o) => o.value === props.modelValue[len - 1]
+        )
       }
     } else {
       if (props.modelValue) {
-        return filteredOptions.value.findIndex(o => o.value === props.modelValue)
+        return filteredOptions.value.findIndex(
+          (o) => o.value === props.modelValue
+        )
       }
     }
     return -1
   })
 
-  const dropdownMenuVisible = computed(() => expanded.value && emptyText.value !== false)
+  const dropdownMenuVisible = computed(() => {
+    return expanded.value && emptyText.value !== false
+  })
 
   // hooks
-  const { createNewOption, removeNewOption, selectNewOption, clearAllNewOption } = useAllowCreate(props, states)
-  const { handleCompositionStart, handleCompositionUpdate, handleCompositionEnd } = useInput(e => onInput(e))
+  const {
+    createNewOption,
+    removeNewOption,
+    selectNewOption,
+    clearAllNewOption,
+  } = useAllowCreate(props, states)
+  const {
+    handleCompositionStart,
+    handleCompositionUpdate,
+    handleCompositionEnd,
+  } = useInput((e) => onInput(e))
 
   // methods
   const focusAndUpdatePopup = () => {
@@ -227,8 +278,10 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     if (props.automaticDropdown) return
     if (!selectDisabled.value) {
       if (states.isComposing) states.softFocus = true
-      expanded.value = !expanded.value
-      inputRef.value?.focus?.()
+      return nextTick(() => {
+        expanded.value = !expanded.value
+        inputRef.value?.focus?.()
+      })
     }
   }
 
@@ -251,7 +304,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     states.previousQuery = val
     if (props.filterable && isFunction(props.filterMethod)) {
       props.filterMethod(val)
-    } else if (props.filterable && props.remote && isFunction(props.remoteMethod)) {
+    } else if (
+      props.filterable &&
+      props.remote &&
+      isFunction(props.remoteMethod)
+    ) {
       props.remoteMethod(val)
     }
   }
@@ -269,8 +326,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const getValueIndex = (arr = [], value: unknown) => {
-    if (!isObject(value)) return arr.indexOf(value)
-
+    if (!isObject(value)) {
+      return arr.indexOf(value)
+    }
     const valueKey = props.valueKey
     let index = -1
     arr.some((item, i) => {
@@ -284,22 +342,20 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const getValueKey = (item: unknown) => {
-    return isObject(item)
-      ? getValueByPath(item, props.valueKey)
-      : item
+    return isObject(item) ? getValueByPath(item, props.valueKey) : item
   }
 
   // if the selected item is item then we get label via indexing
   // otherwise it should be string we simply return the item itself.
   const getLabel = (item: unknown) => {
-    return isObject(item)
-      ? item.label
-      : item
+    return isObject(item) ? item.label : item
   }
 
   const resetInputHeight = () => {
-    if (props.collapseTags && !props.filterable) return
-    nextTick(() => {
+    if (props.collapseTags && !props.filterable) {
+      return
+    }
+    return nextTick(() => {
       if (!inputRef.value) return
       const selection = selectionRef.value
 
@@ -314,12 +370,15 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     resetInputWidth()
     calculatePopperSize()
     popper.value?.update?.()
-    if (props.multiple) resetInputHeight()
+    if (props.multiple) {
+      return resetInputHeight()
+    }
   }
 
   const resetInputWidth = () => {
-    if (inputRef.value) {
-      states.inputWidth = inputRef.value.getBoundingClientRect().width
+    const select = selectionRef.value
+    if (select) {
+      states.selectWidth = select.getBoundingClientRect().width
     }
   }
 
@@ -327,7 +386,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     if (props.multiple) {
       let selectedOptions = (props.modelValue as any[]).slice()
 
-      const index = getValueIndex(selectedOptions, option.value)
+      const index = getValueIndex(selectedOptions, getValueKey(option))
       if (index > -1) {
         selectedOptions = [
           ...selectedOptions.slice(0, index),
@@ -335,10 +394,14 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         ]
         states.cachedOptions.splice(index, 1)
         removeNewOption(option)
-      } else if (props.multipleLimit <= 0 || selectedOptions.length < props.multipleLimit) {
-        selectedOptions = [...selectedOptions, option.value]
+      } else if (
+        props.multipleLimit <= 0 ||
+        selectedOptions.length < props.multipleLimit
+      ) {
+        selectedOptions = [...selectedOptions, getValueKey(option)]
         states.cachedOptions.push(option)
         selectNewOption(option)
+        updateHoveringIndex(idx)
       }
       update(selectedOptions)
       if (option.created) {
@@ -351,13 +414,15 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         onUpdateInputValue('')
       }
       if (props.filterable) {
-        states.calculatedWidth = calculatorRef.value.getBoundingClientRect().width
+        states.calculatedWidth =
+          calculatorRef.value.getBoundingClientRect().width
       }
       resetInputHeight()
+      setSoftFocus()
     } else {
       selectedIndex.value = idx
       states.selectedLabel = option.label
-      update(option.value)
+      update(getValueKey(option))
       expanded.value = false
       states.isComposing = false
       states.isSilentBlur = byClick
@@ -365,11 +430,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       if (!option.created) {
         clearAllNewOption()
       }
+      updateHoveringIndex(idx)
     }
   }
 
   const deleteTag = (event: MouseEvent, tag: Option) => {
-
     const index = (props.modelValue as Array<any>).indexOf(tag.value)
 
     if (index > -1 && !selectDisabled.value) {
@@ -381,8 +446,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       update(value)
       emit('remove-tag', tag.value)
       states.softFocus = true
-      nextTick(focusAndUpdatePopup)
       removeNewOption(tag)
+      return nextTick(focusAndUpdatePopup)
     }
     event.stopPropagation()
   }
@@ -391,9 +456,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     const focused = states.isComposing
     states.isComposing = true
     if (!states.softFocus) {
-      if (props.automaticDropdown || props.filterable) {
-        expanded.value = true
-      }
       // If already in the focus state, shouldn't trigger event
       if (!focused) emit('focus', event)
     } else {
@@ -406,10 +468,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
     // reset input value when blurred
     // https://github.com/ElemeFE/element/pull/10822
-    nextTick(() => {
+    return nextTick(() => {
       inputRef.value?.blur?.()
       if (calculatorRef.value) {
-        states.calculatedWidth = calculatorRef.value.getBoundingClientRect().width
+        states.calculatedWidth =
+          calculatorRef.value.getBoundingClientRect().width
       }
       if (states.isSilentBlur) {
         states.isSilentBlur = false
@@ -420,7 +483,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       }
       states.isComposing = false
     })
-
   }
 
   // keyboard handlers
@@ -460,7 +522,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     update(emptyValue)
     emit('clear')
     clearAllNewOption()
-    nextTick(focusAndUpdatePopup)
+    return nextTick(focusAndUpdatePopup)
   }
 
   const onUpdateInputValue = (val: string) => {
@@ -468,60 +530,77 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     states.inputValue = val
   }
 
-  const onKeyboardNavigate = (direction: 'forward' | 'backward') => {
-    if (selectDisabled.value) return
-
-    if (props.multiple) {
-      expanded.value = true
+  const onKeyboardNavigate = (
+    direction: 'forward' | 'backward',
+    hoveringIndex: number = undefined
+  ) => {
+    const options = filteredOptions.value
+    if (
+      !['forward', 'backward'].includes(direction) ||
+      selectDisabled.value ||
+      options.length <= 0 ||
+      optionsAllDisabled.value
+    ) {
       return
     }
-
-    let newIndex: number
-
-    if (props.options.length === 0 || filteredOptions.value.length === 0) return
-
-    if (filteredOptions.value.length > 0) {
-      // only two ways: forward or backward
-      if (direction === 'forward') {
-        newIndex = selectedIndex.value + 1
-
-        if (newIndex > filteredOptions.value.length - 1) {
-          newIndex = 0
-        }
-        // states.hoveringIndex++
-        // if (states.hoveringIndex === props.options.length) {
-        //   states.hoveringIndex = 0
-        // }
-      } else {
-        newIndex = selectedIndex.value - 1
-
-        if (newIndex < 0) {
-          newIndex = filteredOptions.value.length - 1
-        }
+    if (!expanded.value) {
+      return toggleMenu()
+    }
+    if (hoveringIndex === undefined) {
+      hoveringIndex = states.hoveringIndex
+    }
+    let newIndex = -1
+    if (direction === 'forward') {
+      newIndex = hoveringIndex + 1
+      if (newIndex >= options.length) {
+        // return to the first option
+        newIndex = 0
       }
-
-      selectedIndex.value = newIndex
-      const option = filteredOptions.value[newIndex]
-      if (option.disabled || option.type === 'Group') {
-        onKeyboardNavigate(direction)
-        // prevent dispatching multiple nextTick callbacks.
-        return
+    } else if (direction === 'backward') {
+      newIndex = hoveringIndex - 1
+      if (newIndex < 0) {
+        // navigate to the last one
+        newIndex = options.length - 1
       }
-
-      emit(UPDATE_MODEL_EVENT, filteredOptions.value[newIndex])
-      emitChange(filteredOptions.value[newIndex])
+    }
+    const option = options[newIndex]
+    if (option.disabled || option.type === 'Group') {
+      // prevent dispatching multiple nextTick callbacks.
+      return onKeyboardNavigate(direction, newIndex)
+    } else {
+      updateHoveringIndex(newIndex)
+      scrollToItem(newIndex)
     }
   }
 
   const onKeyboardSelect = () => {
     if (!expanded.value) {
-      toggleMenu()
-    } else {
-      onSelect(filteredOptions.value[states.hoveringIndex], states.hoveringIndex, false)
+      return toggleMenu()
+    } else if (~states.hoveringIndex) {
+      onSelect(
+        filteredOptions.value[states.hoveringIndex],
+        states.hoveringIndex,
+        false
+      )
     }
   }
 
-  const onInput = event => {
+  const updateHoveringIndex = (idx: number) => {
+    states.hoveringIndex = idx
+  }
+
+  const resetHoveringIndex = () => {
+    states.hoveringIndex = -1
+  }
+
+  const setSoftFocus = () => {
+    const _input = inputRef.value
+    if (_input) {
+      _input.focus?.()
+    }
+  }
+
+  const onInput = (event) => {
     const value = event.target.value
     onUpdateInputValue(value)
     if (states.displayInputValue.length > 0 && !expanded.value) {
@@ -541,14 +620,15 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const handleClickOutside = () => {
     expanded.value = false
-    handleBlur()
+    return handleBlur()
   }
 
   const handleMenuEnter = () => {
     states.inputValue = states.displayInputValue
     return nextTick(() => {
       if (~indexRef.value) {
-        scrollToItem(indexRef.value)
+        updateHoveringIndex(indexRef.value)
+        scrollToItem(states.hoveringIndex)
       }
     })
   }
@@ -558,21 +638,37 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const initStates = () => {
+    resetHoveringIndex()
     if (props.multiple) {
       if ((props.modelValue as Array<any>).length > 0) {
-        states.cachedOptions.length = 0;
-        (props.modelValue as Array<any>).map(selected => {
-          const item = filteredOptions.value.find(option => option.value === selected)
-          if (item) {
-            states.cachedOptions.push(item as Option)
+        let initHovering = false
+        states.cachedOptions.length = 0
+        ;(props.modelValue as Array<any>).map((selected) => {
+          const itemIndex = filteredOptions.value.findIndex(
+            (option) => getValueKey(option) === selected
+          )
+          if (~itemIndex) {
+            states.cachedOptions.push(
+              filteredOptions.value[itemIndex] as Option
+            )
+            if (!initHovering) {
+              updateHoveringIndex(itemIndex)
+            }
+            initHovering = true
           }
         })
+      } else {
+        states.cachedOptions = []
       }
     } else {
-      if (props.modelValue) {
-        const selectedItem = filteredOptions.value.find(o => o.value === props.modelValue)
-        if (selectedItem) {
-          states.selectedLabel = selectedItem.label
+      if (hasModelValue.value) {
+        const options = filteredOptions.value
+        const selectedItemIndex = options.findIndex(
+          (option) => getValueKey(option) === props.modelValue
+        )
+        if (~selectedItemIndex) {
+          states.selectedLabel = options[selectedItemIndex].label
+          updateHoveringIndex(selectedItemIndex)
         } else {
           states.selectedLabel = `${props.modelValue}`
         }
@@ -587,7 +683,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   // reactive object which could cause perf penalty when unnecessary field gets changed the watch method will
   // be invoked.
 
-  watch(expanded, val => {
+  watch(expanded, (val) => {
     emit('visible-change', val)
     if (val) {
       popper.value.update?.()
@@ -598,23 +694,31 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   })
 
-  watch(() => props.modelValue, val => {
-    if (!val || val.toString() !== states.previousValue) {
-      initStates()
+  watch(
+    () => props.modelValue,
+    (val) => {
+      if (!val || val.toString() !== states.previousValue) {
+        initStates()
+      }
+    },
+    {
+      deep: true,
     }
-  }, {
-    deep: true,
-  })
+  )
 
-  watch(() => props.options, () => {
-    const input = inputRef.value
-    // filter or remote-search scenarios are not initialized
-    if (!input || (input && document.activeElement !== input)) {
-      initStates()
+  watch(
+    () => props.options,
+    () => {
+      const input = inputRef.value
+      // filter or remote-search scenarios are not initialized
+      if (!input || (input && document.activeElement !== input)) {
+        initStates()
+      }
+    },
+    {
+      deep: true,
     }
-  }, {
-    deep: true,
-  })
+  )
 
   // fix the problem that scrollTop is not reset in filterable mode
   watch(filteredOptions, () => {
@@ -639,16 +743,19 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     popupHeight,
     debounce,
     filteredOptions,
-    iconClass,
+    iconComponent,
+    iconReverse,
     inputWrapperStyle,
     popperSize,
     dropdownMenuVisible,
+    hasModelValue,
     // readonly,
     shouldShowPlaceholder,
     selectDisabled,
     selectSize,
     showClearBtn,
     states,
+    tagMaxWidth,
 
     // refs items exports
     calculatorRef,
@@ -660,6 +767,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     selectionRef,
 
     popperRef,
+
+    Effect,
 
     // methods exports
     debouncedOnInputChange,
@@ -673,12 +782,14 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     handleEsc,
     handleFocus,
     handleMenuEnter,
+    handleResize,
     toggleMenu,
     scrollTo: scrollToItem,
     onInput,
     onKeyboardNavigate,
     onKeyboardSelect,
     onSelect,
+    onHover: updateHoveringIndex,
     onUpdateInputValue,
     handleCompositionStart,
     handleCompositionEnd,

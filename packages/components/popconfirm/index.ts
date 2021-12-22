@@ -1,13 +1,8 @@
-import Popconfirm from './src/index.vue'
+import { withInstall } from '@element-plus/utils/with-install'
 
-import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
+import Popconfirm from './src/popconfirm.vue'
 
-Popconfirm.install = (app: App): void => {
-  app.component(Popconfirm.name, Popconfirm)
-}
+export const ElPopconfirm = withInstall(Popconfirm)
+export default ElPopconfirm
 
-const _Popconfirm = Popconfirm as SFCWithInstall<typeof Popconfirm>
-
-export default _Popconfirm
-export const ElPopconfirm = _Popconfirm
+export * from './src/popconfirm'

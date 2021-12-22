@@ -1,4 +1,4 @@
-import { computed, ref, reactive, watch } from 'vue'
+import { computed, ref, reactive, watch, unref } from 'vue'
 import { createPopper } from '@popperjs/core'
 import {
   generateId,
@@ -6,12 +6,16 @@ import {
   isHTMLElement,
   isArray,
   isString,
-  $,
 } from '@element-plus/utils/util'
 import PopupManager from '@element-plus/utils/popup-manager'
 import usePopperOptions from './popper-options'
 
-import type { ComponentPublicInstance, CSSProperties, SetupContext, Ref } from 'vue'
+import type {
+  ComponentPublicInstance,
+  CSSProperties,
+  SetupContext,
+  Ref,
+} from 'vue'
 import type { TimeoutHandle, Nullable } from '@element-plus/utils/types'
 import type {
   IPopperOptions,
@@ -21,7 +25,12 @@ import type {
 } from './defaults'
 
 export type ElementType = ComponentPublicInstance | HTMLElement
-export type EmitType = 'update:visible' | 'after-enter' | 'after-leave' | 'before-enter' | 'before-leave'
+export type EmitType =
+  | 'update:visible'
+  | 'after-enter'
+  | 'after-leave'
+  | 'before-enter'
+  | 'before-leave'
 
 export interface PopperEvents {
   onClick?: (e: Event) => void
@@ -33,9 +42,9 @@ export interface PopperEvents {
 
 export const DEFAULT_TRIGGER = ['hover']
 export const UPDATE_VISIBLE_EVENT = 'update:visible'
-export default function(
+export default function (
   props: IPopperOptions,
-  { emit }: SetupContext<EmitType[]>,
+  { emit }: SetupContext<EmitType[]>
 ) {
   const arrowRef = ref<RefElement>(null)
   const triggerRef = ref(null) as Ref<ElementType>
@@ -149,21 +158,25 @@ export default function(
   }
 
   function initializePopper() {
-    if (!$(visibility)) {
+    if (!unref(visibility)) {
       return
     }
-    const unwrappedTrigger = $(triggerRef)
+    const unwrappedTrigger = unref(triggerRef)
     const _trigger = isHTMLElement(unwrappedTrigger)
       ? unwrappedTrigger
       : (unwrappedTrigger as ComponentPublicInstance).$el
-    popperInstance = createPopper(_trigger, $(popperRef), $(popperOptions))
+    popperInstance = createPopper(
+      _trigger,
+      unref(popperRef),
+      unref(popperOptions)
+    )
 
     popperInstance.update()
   }
 
   function doDestroy(forceDestroy?: boolean) {
     /* istanbul ignore if */
-    if (!popperInstance || ($(visibility) && !forceDestroy)) return
+    if (!popperInstance || (unref(visibility) && !forceDestroy)) return
     detachPopper()
   }
 
@@ -175,7 +188,7 @@ export default function(
   const events = {} as PopperEvents
 
   function update() {
-    if (!$(visibility)) {
+    if (!unref(visibility)) {
       return
     }
     if (popperInstance) {
@@ -188,13 +201,17 @@ export default function(
   function onVisibilityChange(toState: boolean) {
     if (toState) {
       popperStyle.value.zIndex = PopupManager.nextZIndex()
-      initializePopper()
+      if (popperInstance) {
+        popperInstance.update()
+      } else {
+        initializePopper()
+      }
     }
   }
 
   if (!isManualMode()) {
     const toggleState = () => {
-      if ($(visibility)) {
+      if (unref(visibility)) {
         hide()
       } else {
         show()
@@ -234,14 +251,16 @@ export default function(
       }
     }
 
-    const triggerEventsMap: Partial<Record<TriggerType, (keyof PopperEvents)[]>> = {
+    const triggerEventsMap: Partial<
+      Record<TriggerType, (keyof PopperEvents)[]>
+    > = {
       click: ['onClick'],
       hover: ['onMouseenter', 'onMouseleave'],
       focus: ['onFocus', 'onBlur'],
     }
 
     const mapEvents = (t: TriggerType) => {
-      triggerEventsMap[t].forEach(event => {
+      triggerEventsMap[t].forEach((event) => {
         events[event] = popperEventsHandler
       })
     }
@@ -253,7 +272,7 @@ export default function(
     }
   }
 
-  watch(popperOptions, val => {
+  watch(popperOptions, (val) => {
     if (!popperInstance) return
     popperInstance.setOptions(val)
     popperInstance.update()

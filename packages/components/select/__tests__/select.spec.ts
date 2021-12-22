@@ -2,6 +2,7 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { sleep } from '@element-plus/test-utils'
 import { EVENT_CODE } from '@element-plus/utils/aria'
+import { CircleClose, ArrowUp, CaretTop } from '@element-plus/icons-vue'
 import Select from '../src/select.vue'
 import Group from '../src/option-group.vue'
 import Option from '../src/option.vue'
@@ -21,57 +22,81 @@ interface SelectProps {
   multipleLimit?: number
   popperClass?: string
   defaultFirstOption?: boolean
+  fitInputWidth?: boolean
 }
 
-const _mount = (template: string, data: any = () => ({}), otherObj?) => mount({
-  components: {
-    'el-select': Select,
-    'el-option': Option,
-    'el-group-option': Group,
-  },
-  template,
-  data,
-  ...otherObj,
-}, {
-  attachTo: 'body',
-})
+const _mount = (template: string, data: any = () => ({}), otherObj?) =>
+  mount(
+    {
+      components: {
+        'el-select': Select,
+        'el-option': Option,
+        'el-group-option': Group,
+      },
+      template,
+      data,
+      ...otherObj,
+    },
+    {
+      attachTo: 'body',
+    }
+  )
 
 function getOptions(): HTMLElement[] {
-  return Array.from(document.querySelectorAll<HTMLElement>(
-    'body > div:last-child .el-select-dropdown__item',
-  ))
+  return Array.from(
+    document.querySelectorAll<HTMLElement>(
+      'body > div:last-child .el-select-dropdown__item'
+    )
+  )
 }
 
 const getSelectVm = (configs: SelectProps = {}, options?) => {
-  ['multiple', 'clearable', 'defaultFirstOption', 'filterable', 'allowCreate', 'remote', 'collapseTags', 'automaticDropdown'].forEach(config => {
+  ;[
+    'multiple',
+    'clearable',
+    'defaultFirstOption',
+    'filterable',
+    'allowCreate',
+    'remote',
+    'collapseTags',
+    'automaticDropdown',
+    'fitInputWidth',
+  ].forEach((config) => {
     configs[config] = configs[config] || false
   })
   configs.multipleLimit = configs.multipleLimit || 0
   if (!options) {
-    options = [{
-      value: '选项1',
-      label: '黄金糕',
-      disabled: false,
-    }, {
-      value: '选项2',
-      label: '双皮奶',
-      disabled: false,
-    }, {
-      value: '选项3',
-      label: '蚵仔煎',
-      disabled: false,
-    }, {
-      value: '选项4',
-      label: '龙须面',
-      disabled: false,
-    }, {
-      value: '选项5',
-      label: '北京烤鸭',
-      disabled: false,
-    }]
+    options = [
+      {
+        value: '选项1',
+        label: '黄金糕',
+        disabled: false,
+      },
+      {
+        value: '选项2',
+        label: '双皮奶',
+        disabled: false,
+      },
+      {
+        value: '选项3',
+        label: '蚵仔煎',
+        disabled: false,
+      },
+      {
+        value: '选项4',
+        label: '龙须面',
+        disabled: false,
+      },
+      {
+        value: '选项5',
+        label: '北京烤鸭',
+        disabled: false,
+      },
+    ]
   }
 
-  return _mount(`
+  return _mount(
+    `
     <el-select
       ref="select"
       v-model="value"
@@ -87,7 +112,8 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       :remote="remote"
       :loading="loading"
       :remoteMethod="remoteMethod"
-      :automatic-dropdown="automaticDropdown">
+      :automatic-dropdown="automaticDropdown"
+      :fit-input-width="fitInputWidth">
       <el-option
         v-for="item in options"
         :label="item.label"
@@ -96,80 +122,113 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
         :value="item.value">
       </el-option>
     </el-select>
-  `, () => ({
-    options,
-    multiple: configs.multiple,
-    multipleLimit: configs.multipleLimit,
-    clearable: configs.clearable,
-    defaultFirstOption: configs.defaultFirstOption,
-    filterable: configs.filterable,
-    collapseTags: configs.collapseTags,
-    allowCreate: configs.allowCreate,
-    popperClass: configs.popperClass,
-    automaticDropdown: configs.automaticDropdown,
-    loading: false,
-    filterMethod: configs.filterMethod,
-    remote: configs.remote,
-    remoteMethod: configs.remoteMethod,
-    value: configs.multiple ? [] : '',
-  }))
+  `,
+    () => ({
+      options,
+      multiple: configs.multiple,
+      multipleLimit: configs.multipleLimit,
+      clearable: configs.clearable,
+      defaultFirstOption: configs.defaultFirstOption,
+      filterable: configs.filterable,
+      collapseTags: configs.collapseTags,
+      allowCreate: configs.allowCreate,
+      popperClass: configs.popperClass,
+      automaticDropdown: configs.automaticDropdown,
+      fitInputWidth: configs.fitInputWidth,
+      loading: false,
+      filterMethod: configs.filterMethod,
+      remote: configs.remote,
+      remoteMethod: configs.remoteMethod,
+      value: configs.multiple ? [] : '',
+    })
+  )
 }
 
 const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
-  ['multiple', 'clearable', 'filterable', 'allowCreate', 'remote', 'collapseTags', 'automaticDropdown'].forEach(config => {
+  ;[
+    'multiple',
+    'clearable',
+    'filterable',
+    'allowCreate',
+    'remote',
+    'collapseTags',
+    'automaticDropdown',
+    'fitInputWidth',
+  ].forEach((config) => {
     configs[config] = configs[config] || false
   })
   configs.multipleLimit = configs.multipleLimit || 0
   if (!options) {
-    options = [{
-      label: 'Australia',
-      options: [{
-        value: 'Sydney',
-        label: 'Sydney',
-      }, {
-        value: 'Melbourne',
-        label: 'Melbourne',
-      }],
-    }, {
-      label: 'China',
-      options: [{
-        value: 'Shanghai',
-        label: 'Shanghai',
-      }, {
-        value: 'Shenzhen',
-        label: 'Shenzhen',
-      }, {
-        value: 'Guangzhou',
-        label: 'Guangzhou',
-      }, {
-        value: 'Dalian',
-        label: 'Dalian',
-      }],
-    }, {
-      label: 'India',
-      options: [{
-        value: 'Mumbai',
-        label: 'Mumbai',
-      }, {
-        value: 'Delhi',
-        label: 'Delhi',
-      }, {
-        value: 'Bangalore',
-        label: 'Bangalore',
-      }],
-    }, {
-      label: 'Indonesia',
-      options: [{
-        value: 'Bandung',
-        label: 'Bandung',
-      }, {
-        value: 'Jakarta',
-        label: 'Jakarta',
-      }],
-    }]
+    options = [
+      {
+        label: 'Australia',
+        options: [
+          {
+            value: 'Sydney',
+            label: 'Sydney',
+          },
+          {
+            value: 'Melbourne',
+            label: 'Melbourne',
+          },
+        ],
+      },
+      {
+        label: 'China',
+        options: [
+          {
+            value: 'Shanghai',
+            label: 'Shanghai',
+          },
+          {
+            value: 'Shenzhen',
+            label: 'Shenzhen',
+          },
+          {
+            value: 'Guangzhou',
+            label: 'Guangzhou',
+          },
+          {
+            value: 'Dalian',
+            label: 'Dalian',
+          },
+        ],
+      },
+      {
+        label: 'India',
+        options: [
+          {
+            value: 'Mumbai',
+            label: 'Mumbai',
+          },
+          {
+            value: 'Delhi',
+            label: 'Delhi',
+          },
+          {
+            value: 'Bangalore',
+            label: 'Bangalore',
+          },
+        ],
+      },
+      {
+        label: 'Indonesia',
+        options: [
+          {
+            value: 'Bandung',
+            label: 'Bandung',
+          },
+          {
+            value: 'Jakarta',
+            label: 'Jakarta',
+          },
+        ],
+      },
+    ]
   }
 
-  return _mount(`
+  return _mount(
+    `
     <el-select
       ref="select"
       v-model="value"
@@ -184,10 +243,12 @@ const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
       :remote="remote"
       :loading="loading"
       :remoteMethod="remoteMethod"
-      :automatic-dropdown="automaticDropdown">
+      :automatic-dropdown="automaticDropdown"
+      :fit-input-width="fitInputWidth">
       <el-group-option
         v-for="group in options"
         :key="group.label"
+        :disabled="group.disabled"
         :label="group.label">
         <el-option
           v-for="item in group.options"
@@ -201,32 +262,36 @@ import ElOptionGroup from './option-group'
 export default {
 components: { ElOptionGroup }
  }
-</script>`, () => ({
-    options,
-    multiple: configs.multiple,
-    multipleLimit: configs.multipleLimit,
-    clearable: configs.clearable,
-    filterable: configs.filterable,
-    collapseTags: configs.collapseTags,
-    allowCreate: configs.allowCreate,
-    popperClass: configs.popperClass,
-    automaticDropdown: configs.automaticDropdown,
-    loading: false,
-    filterMethod: configs.filterMethod,
-    remote: configs.remote,
-    remoteMethod: configs.remoteMethod,
-    value: configs.multiple ? [] : '',
-  }))
+</script>`,
+    () => ({
+      options,
+      multiple: configs.multiple,
+      multipleLimit: configs.multipleLimit,
+      clearable: configs.clearable,
+      filterable: configs.filterable,
+      collapseTags: configs.collapseTags,
+      allowCreate: configs.allowCreate,
+      popperClass: configs.popperClass,
+      automaticDropdown: configs.automaticDropdown,
+      fitInputWidth: configs.fitInputWidth,
+      loading: false,
+      filterMethod: configs.filterMethod,
+      remote: configs.remote,
+      remoteMethod: configs.remoteMethod,
+      value: configs.multiple ? [] : '',
+    })
+  )
 }
 
 describe('Select', () => {
-
   afterEach(() => {
     document.body.innerHTML = ''
   })
 
   test('create', async () => {
-    const wrapper = _mount(`<el-select v-model="value"></el-select>`, () => ({ value: '' }))
+    const wrapper = _mount(`<el-select v-model="value"></el-select>`, () => ({
+      value: '',
+    }))
     expect(wrapper.classes()).toContain('el-select')
     expect(wrapper.find('.el-input__inner').element.placeholder).toBe('Select')
     const select = wrapper.findComponent({ name: 'ElSelect' })
@@ -236,7 +301,9 @@ describe('Select', () => {
 
   test('options rendered correctly', () => {
     const wrapper = getSelectVm()
-    const options = wrapper.element.querySelectorAll('.el-select-dropdown__item')
+    const options = wrapper.element.querySelectorAll(
+      '.el-select-dropdown__item'
+    )
     const result = [].every.call(options, (option, index) => {
       const text = option.querySelector('span').textContent
       const vm = wrapper.vm as any
@@ -251,8 +318,9 @@ describe('Select', () => {
     expect(dropdown.classes()).toContain('custom-dropdown')
   })
 
-  test('default value', async() => {
-    const wrapper = _mount(`
+  test('default value', async () => {
+    const wrapper = _mount(
+      `
       <el-select v-model="value">
         <el-option
           v-for="item in options"
@@ -262,22 +330,27 @@ describe('Select', () => {
         </el-option>
       </el-select>
     `,
-    () => ({
-      options: [{
-        value: '选项1',
-        label: '黄金糕',
-      }, {
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕',
+          },
+          {
+            value: '选项2',
+            label: '双皮奶',
+          },
+        ],
         value: '选项2',
-        label: '双皮奶',
-      }],
-      value: '选项2',
-    }))
+      })
+    )
     await wrapper.vm.$nextTick()
     expect(wrapper.find('.el-input__inner').element.value).toBe('双皮奶')
   })
 
   test('sync set value and options', async () => {
-    const wrapper = _mount(`
+    const wrapper = _mount(
+      `
     <el-select v-model="value">
       <el-option
         v-for="item in options"
@@ -287,28 +360,35 @@ describe('Select', () => {
       </el-option>
     </el-select>
   `,
-    () => ({
-      options: [{
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕',
+          },
+          {
+            value: '选项2',
+            label: '双皮奶',
+          },
+        ],
+        value: '选项2',
+      })
+    )
+    const vm = wrapper.vm as any
+    vm.options = [
+      {
         value: '选项1',
         label: '黄金糕',
-      }, {
-        value: '选项2',
-        label: '双皮奶',
-      }],
-      value: '选项2',
-    }))
-    const vm = wrapper.vm as any
-    vm.options = [{
-      value: '选项1',
-      label: '黄金糕',
-    }]
+      },
+    ]
     vm.value = '选项1'
     await wrapper.vm.$nextTick()
     expect(wrapper.find('.el-input__inner').element.value).toBe('黄金糕')
   })
 
   test('single select', async () => {
-    const wrapper = _mount(`
+    const wrapper = _mount(
+      `
       <el-select v-model="value" @change="handleChange">
         <el-option
           v-for="item in options"
@@ -319,33 +399,40 @@ describe('Select', () => {
         </el-option>
       </el-select>
     `,
-    () => ({
-      options: [{
-        value: '选项1',
-        label: '黄金糕',
-      }, {
-        value: '选项2',
-        label: '双皮奶',
-      }, {
-        value: '选项3',
-        label: '蚵仔煎',
-      }, {
-        value: '选项4',
-        label: '龙须面',
-      }, {
-        value: '选项5',
-        label: '北京烤鸭',
-      }],
-      value: '',
-      count: 0,
-    }),
-    {
-      methods: {
-        handleChange() {
-          this.count++
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕',
+          },
+          {
+            value: '选项2',
+            label: '双皮奶',
+          },
+          {
+            value: '选项3',
+            label: '蚵仔煎',
+          },
+          {
+            value: '选项4',
+            label: '龙须面',
+          },
+          {
+            value: '选项5',
+            label: '北京烤鸭',
+          },
+        ],
+        value: '',
+        count: 0,
+      }),
+      {
+        methods: {
+          handleChange() {
+            this.count++
+          },
         },
-      },
-    })
+      }
+    )
 
     await wrapper.find('.select-trigger').trigger('click')
     const options = getOptions()
@@ -364,7 +451,7 @@ describe('Select', () => {
     expect(vm.count).toBe(2)
   })
 
-  test('disabled option', async() => {
+  test('disabled option', async () => {
     const wrapper = getSelectVm()
     const vm = wrapper.vm as any
     wrapper.find('.select-trigger').trigger('click')
@@ -382,8 +469,85 @@ describe('Select', () => {
     expect(wrapper.find('.el-input').classes()).toContain('is-disabled')
   })
 
-  test('visible event', async() => {
-    const wrapper = _mount(`
+  test('group disabled option', () => {
+    const optionGroupData = [
+      {
+        label: 'Australia',
+        disabled: true,
+        options: [
+          {
+            value: 'Sydney',
+            label: 'Sydney',
+          },
+          {
+            value: 'Melbourne',
+            label: 'Melbourne',
+          },
+        ],
+      },
+    ]
+    const wrapper = getGroupSelectVm({}, optionGroupData)
+    const options = wrapper.findAllComponents(Option)
+    expect(options[0].classes('is-disabled')).toBeTruthy()
+  })
+
+  test('keyboard operations when option-group is disabled', async () => {
+    const optionGroupData = [
+      {
+        label: 'Australia',
+        disabled: true,
+        options: [
+          {
+            value: 'Sydney',
+            label: 'Sydney',
+          },
+          {
+            value: 'Melbourne',
+            label: 'Melbourne',
+          },
+        ],
+      },
+      {
+        label: 'China',
+        options: [
+          {
+            value: 'Shanghai',
+            label: 'Shanghai',
+          },
+          {
+            value: 'Shenzhen',
+            label: 'Shenzhen',
+          },
+          {
+            value: 'Guangzhou',
+            label: 'Guangzhou',
+          },
+          {
+            value: 'Dalian',
+            label: 'Dalian',
+          },
+        ],
+      },
+    ]
+    const wrapper = getGroupSelectVm({}, optionGroupData)
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const vm = select.vm as any
+    let i = 8
+    while (i--) {
+      vm.navigateOptions('next')
+    }
+    vm.navigateOptions('prev')
+    vm.navigateOptions('prev')
+    vm.navigateOptions('prev')
+    await vm.$nextTick()
+    vm.selectOption()
+    await vm.$nextTick()
+    expect((wrapper.vm as any).value).toBe('Dalian')
+  })
+
+  test('visible event', async () => {
+    const wrapper = _mount(
+      `
     <el-select v-model="value" @visible-change="handleVisibleChange">
       <el-option
         v-for="item in options"
@@ -392,18 +556,19 @@ describe('Select', () => {
         :value="item.value">
       </el-option>
     </el-select>`,
-    () => ({
-      options: [],
-      value: '',
-      visible: '',
-    }),
-    {
-      methods: {
-        handleVisibleChange(val) {
-          this.visible = val
+      () => ({
+        options: [],
+        value: '',
+        visible: '',
+      }),
+      {
+        methods: {
+          handleVisibleChange(val) {
+            this.visible = val
+          },
         },
-      },
-    })
+      }
+    )
     const select = wrapper.findComponent({ name: 'ElSelect' })
     const vm = wrapper.vm as any
     const selectVm = select.vm as any
@@ -412,7 +577,7 @@ describe('Select', () => {
     expect(vm.visible).toBe(true)
   })
 
-  test('keyboard operations', async() => {
+  test('keyboard operations', async () => {
     const wrapper = getSelectVm()
     const select = wrapper.findComponent({ name: 'ElSelect' })
     const vm = select.vm as any
@@ -446,10 +611,42 @@ describe('Select', () => {
     await vm.$nextTick()
     selectVm.inputHovering = true
     await selectVm.$nextTick()
-    const iconClear = wrapper.find('.el-input__icon.el-icon-circle-close')
+    const iconClear = wrapper.findComponent(CircleClose)
     expect(iconClear.exists()).toBe(true)
     await iconClear.trigger('click')
     expect(vm.value).toBe('')
+  })
+
+  test('suffix icon', async () => {
+    const wrapper = _mount(`<el-select></el-select>`)
+    let suffixIcon = wrapper.findComponent(ArrowUp)
+    expect(suffixIcon.exists()).toBe(true)
+    await wrapper.setProps({ suffixIcon: CaretTop })
+    suffixIcon = wrapper.findComponent(CaretTop)
+    expect(suffixIcon.exists()).toBe(true)
+  })
+
+  test('fitInputWidth', async () => {
+    const wrapper = getSelectVm({ fitInputWidth: true })
+    const selectWrapper = wrapper.findComponent({ name: 'ElSelect' })
+    const selectDom = selectWrapper.element
+    const selectRect = {
+      height: 40,
+      width: 221,
+      x: 44,
+      y: 8,
+      top: 8,
+    }
+    const mockSelectWidth = jest
+      .spyOn(selectDom, 'getBoundingClientRect')
+      .mockReturnValue(selectRect as DOMRect)
+    const dropdown = wrapper.findComponent({ name: 'ElSelectDropdown' })
+    dropdown.vm.minWidth = `${
+      selectWrapper.element.getBoundingClientRect().width
+    }px`
+    await nextTick()
+    expect(dropdown.element.style.width).toBe('221px')
+    mockSelectWidth.mockRestore()
   })
 
   test('check default first option', async () => {
@@ -468,23 +665,30 @@ describe('Select', () => {
   })
 
   test('check default first option when the very first option is disabled', async () => {
-    const demoOptions = [{
-      value: 'HTML',
-      label: 'HTML',
-      disabled: true,
-    }, {
-      value: 'CSS',
-      label: 'CSS',
-      disabled: false,
-    }, {
-      value: 'JavaScript',
-      label: 'JavaScript',
-      disabled: false,
-    }]
-    const wrapper = getSelectVm({
-      filterable: true,
-      defaultFirstOption: true,
-    }, demoOptions)
+    const demoOptions = [
+      {
+        value: 'HTML',
+        label: 'HTML',
+        disabled: true,
+      },
+      {
+        value: 'CSS',
+        label: 'CSS',
+        disabled: false,
+      },
+      {
+        value: 'JavaScript',
+        label: 'JavaScript',
+        disabled: false,
+      },
+    ]
+    const wrapper = getSelectVm(
+      {
+        filterable: true,
+        defaultFirstOption: true,
+      },
+      demoOptions
+    )
     const select = wrapper.findComponent({ name: 'ElSelect' })
     const selectVm = select.vm as any
     const input = wrapper.find('input')
@@ -507,7 +711,7 @@ describe('Select', () => {
     selectVm.debouncedOnInputChange()
     await nextTick()
     const options = [...getOptions()]
-    const target = options.filter(option => option.textContent === 'new')
+    const target = options.filter((option) => option.textContent === 'new')
     target[0].click()
     expect((wrapper.vm as any).value).toBe('new')
   })
@@ -523,38 +727,50 @@ describe('Select', () => {
     await nextTick()
     options[3].click()
     await nextTick()
-    expect(vm.value.indexOf('选项2') > -1 && vm.value.indexOf('选项4') > -1).toBe(true)
+    expect(
+      vm.value.indexOf('选项2') > -1 && vm.value.indexOf('选项4') > -1
+    ).toBe(true)
     const tagCloseIcons = wrapper.findAll('.el-tag__close')
     await tagCloseIcons[0].trigger('click')
     expect(vm.value.indexOf('选项1')).toBe(-1)
   })
 
   test('multiple select when content overflow', async () => {
-    const wrapper = _mount(`
+    const wrapper = _mount(
+      `
       <el-select v-model="selectedList" multiple placeholder="请选择">
         <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
         </el-option>
       </el-select>
     `,
-    () => ({
-      options: [{
-        value: '选项1',
-        label: '黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕',
-      }, {
-        value: '选项2',
-        label: '双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶',
-      }, {
-        value: '选项3',
-        label: '蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎',
-      }, {
-        value: '选项4',
-        label: '龙须面',
-      }, {
-        value: '选项5',
-        label: '北京烤鸭',
-      }],
-      selectedList: [],
-    }))
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label:
+              '黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕',
+          },
+          {
+            value: '选项2',
+            label:
+              '双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶',
+          },
+          {
+            value: '选项3',
+            label: '蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎',
+          },
+          {
+            value: '选项4',
+            label: '龙须面',
+          },
+          {
+            value: '选项5',
+            label: '北京烤鸭',
+          },
+        ],
+        selectedList: [],
+      })
+    )
     await wrapper.find('.select-trigger').trigger('click')
     const options = getOptions()
     const selectWrapper = wrapper.findComponent(Select)
@@ -563,11 +779,13 @@ describe('Select', () => {
     const inputRect = {
       height: 40,
       width: 221,
-      x:44,
-      y:8,
-      top:8,
+      x: 44,
+      y: 8,
+      top: 8,
     }
-    const mockInputWidth = jest.spyOn(inputDom, 'getBoundingClientRect').mockReturnValue(inputRect as DOMRect)
+    const mockInputWidth = jest
+      .spyOn(inputDom, 'getBoundingClientRect')
+      .mockReturnValue(inputRect as DOMRect)
     selectWrapper.vm.handleResize()
     options[0].click()
     await nextTick()
@@ -576,39 +794,51 @@ describe('Select', () => {
     options[2].click()
     await nextTick()
     const tagWrappers = wrapper.findAll('.el-select__tags-text')
-    for(let i = 0;i < tagWrappers.length;i++) {
+    for (let i = 0; i < tagWrappers.length; i++) {
       const tagWrapperDom = tagWrappers[i].element
-      expect(parseInt(tagWrapperDom.style.maxWidth) === inputRect.width - 75).toBe(true)
+      expect(
+        parseInt(tagWrapperDom.style.maxWidth) === inputRect.width - 75
+      ).toBe(true)
     }
     mockInputWidth.mockRestore()
   })
 
   test('multiple select with collapseTags when content overflow', async () => {
-    const wrapper = _mount(`
+    const wrapper = _mount(
+      `
       <el-select v-model="selectedList" multiple collapseTags placeholder="请选择">
         <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
         </el-option>
       </el-select>
     `,
-    () => ({
-      options: [{
-        value: '选项1',
-        label: '黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕',
-      }, {
-        value: '选项2',
-        label: '双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶',
-      }, {
-        value: '选项3',
-        label: '蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎',
-      }, {
-        value: '选项4',
-        label: '龙须面',
-      }, {
-        value: '选项5',
-        label: '北京烤鸭',
-      }],
-      selectedList: [],
-    }))
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label:
+              '黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕',
+          },
+          {
+            value: '选项2',
+            label:
+              '双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶',
+          },
+          {
+            value: '选项3',
+            label: '蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎',
+          },
+          {
+            value: '选项4',
+            label: '龙须面',
+          },
+          {
+            value: '选项5',
+            label: '北京烤鸭',
+          },
+        ],
+        selectedList: [],
+      })
+    )
     await wrapper.find('.select-trigger').trigger('click')
     const options = getOptions()
     const selectWrapper = wrapper.findComponent(Select)
@@ -617,11 +847,13 @@ describe('Select', () => {
     const inputRect = {
       height: 40,
       width: 221,
-      x:44,
-      y:8,
-      top:8,
+      x: 44,
+      y: 8,
+      top: 8,
     }
-    const mockInputWidth = jest.spyOn(inputDom, 'getBoundingClientRect').mockReturnValue(inputRect as DOMRect)
+    const mockInputWidth = jest
+      .spyOn(inputDom, 'getBoundingClientRect')
+      .mockReturnValue(inputRect as DOMRect)
     selectWrapper.vm.handleResize()
     options[0].click()
     await nextTick()
@@ -631,12 +863,15 @@ describe('Select', () => {
     await nextTick()
     const tagWrappers = wrapper.findAll('.el-select__tags-text')
     const tagWrapperDom = tagWrappers[0].element
-    expect(parseInt(tagWrapperDom.style.maxWidth) === inputRect.width - 123).toBe(true)
+    expect(
+      parseInt(tagWrapperDom.style.maxWidth) === inputRect.width - 123
+    ).toBe(true)
     mockInputWidth.mockRestore()
   })
 
   test('multiple remove-tag', async () => {
-    const wrapper = _mount(`
+    const wrapper = _mount(
+      `
       <el-select v-model="value" multiple @remove-tag="handleRemoveTag">
         <el-option
           v-for="item in options"
@@ -647,32 +882,39 @@ describe('Select', () => {
         </el-option>
       </el-select>
     `,
-    () => ({
-      options: [{
-        value: '选项1',
-        label: '黄金糕',
-      }, {
-        value: '选项2',
-        label: '双皮奶',
-      }, {
-        value: '选项3',
-        label: '蚵仔煎',
-      }, {
-        value: '选项4',
-        label: '龙须面',
-      }, {
-        value: '选项5',
-        label: '北京烤鸭',
-      }],
-      value: ['选项1', '选项2'],
-    }),
-    {
-      methods: {
-        handleRemoveTag() {
-          // pass
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕',
+          },
+          {
+            value: '选项2',
+            label: '双皮奶',
+          },
+          {
+            value: '选项3',
+            label: '蚵仔煎',
+          },
+          {
+            value: '选项4',
+            label: '龙须面',
+          },
+          {
+            value: '选项5',
+            label: '北京烤鸭',
+          },
+        ],
+        value: ['选项1', '选项2'],
+      }),
+      {
+        methods: {
+          handleRemoveTag() {
+            // pass
+          },
         },
-      },
-    })
+      }
+    )
 
     const vm = wrapper.vm as any
     await vm.$nextTick()
@@ -700,13 +942,16 @@ describe('Select', () => {
   test('event:focus & blur', async () => {
     const handleFocus = jest.fn()
     const handleBlur = jest.fn()
-    const wrapper = _mount(`<el-select
+    const wrapper = _mount(
+      `<el-select
       @focus="handleFocus"
-      @blur="handleBlur" />`, () => ({
-      handleFocus,
-      handleBlur,
-    }))
-    const select = wrapper.findComponent(({ name: 'ElSelect' }))
+      @blur="handleBlur" />`,
+      () => ({
+        handleFocus,
+        handleBlur,
+      })
+    )
+    const select = wrapper.findComponent({ name: 'ElSelect' })
     const input = select.find('input')
 
     expect(input.exists()).toBe(true)
@@ -719,17 +964,20 @@ describe('Select', () => {
   test('event:focus & blur for multile & filterable select', async () => {
     const handleFocus = jest.fn()
     const handleBlur = jest.fn()
-    const wrapper = _mount(`
+    const wrapper = _mount(
+      `
     <el-select
       @focus="handleFocus"
       @blur="handleBlur"
       multiple
       filterable
-    />`, () => ({
-      handleFocus,
-      handleBlur,
-    }))
-    const select = wrapper.findComponent(({ name: 'ElSelect' }))
+    />`,
+      () => ({
+        handleFocus,
+        handleBlur,
+      })
+    )
+    const select = wrapper.findComponent({ name: 'ElSelect' })
     const input = select.find('input')
 
     expect(input.exists()).toBe(true)
@@ -742,7 +990,8 @@ describe('Select', () => {
   test('should not open popper when automatic-dropdown not set', async () => {
     const wrapper = getSelectVm()
     const select = wrapper.findComponent({ name: 'ElSelect' })
-    await select.findComponent({ ref: 'reference' })
+    await select
+      .findComponent({ ref: 'reference' })
       .find('input')
       .element.focus()
     expect((select.vm as any).visible).toBe(false)
@@ -751,22 +1000,27 @@ describe('Select', () => {
   test('should open popper when automatic-dropdown is set', async () => {
     const wrapper = getSelectVm({ automaticDropdown: true })
     const select = wrapper.findComponent({ name: 'ElSelect' })
-    await select.findComponent({ ref: 'reference' }).find('input').trigger('focus')
+    await select
+      .findComponent({ ref: 'reference' })
+      .find('input')
+      .trigger('focus')
     expect((select.vm as any).visible).toBe(true)
   })
 
   test('only emit change on user input', async () => {
     let callCount = 0
-    const wrapper = _mount(`
+    const wrapper = _mount(
+      `
     <el-select v-model="value" @change="change" ref="select">
       <el-option label="1" value="1" />
       <el-option label="2" value="2" />
       <el-option label="3" value="3" />
     </el-select>`,
-    () => ({
-      value: '1',
-      change: () => ++callCount,
-    }))
+      () => ({
+        value: '1',
+        change: () => ++callCount,
+      })
+    )
 
     expect(callCount).toBe(0)
     await wrapper.find('.select-trigger').trigger('click')
@@ -776,25 +1030,29 @@ describe('Select', () => {
   })
 
   test('render slot `empty`', async () => {
-    const wrapper = _mount(`
+    const wrapper = _mount(
+      `
       <el-select v-model="value">
         <template #empty>
           <div class="empty-slot">EmptySlot</div>
         </template>
       </el-select>`,
-    () => ({
-      value: '1',
-    }))
+      () => ({
+        value: '1',
+      })
+    )
     await wrapper.find('.select-trigger').trigger('click')
     expect(document.querySelector('.empty-slot').textContent).toBe('EmptySlot')
   })
 
-  test('should set placeholder to label of selected option when filterable is true and multiple is false', async() => {
-    const wrapper = _mount(`
+  test('should set placeholder to label of selected option when filterable is true and multiple is false', async () => {
+    const wrapper = _mount(
+      `
       <el-select ref="select" v-model="value" filterable>
         <el-option label="test" value="test" />
       </el-select>`,
-    () => ({ value: 'test' }))
+      () => ({ value: 'test' })
+    )
     const vm = wrapper.vm as any
     await wrapper.trigger('click')
     const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm as any
@@ -803,8 +1061,9 @@ describe('Select', () => {
     expect(vm.value).toBe('test')
   })
 
-  test('default value is null or undefined', async() => {
-    const wrapper = _mount(`
+  test('default value is null or undefined', async () => {
+    const wrapper = _mount(
+      `
     <el-select v-model="value">
       <el-option
         v-for="item in options"
@@ -813,16 +1072,20 @@ describe('Select', () => {
         :value="item.value">
       </el-option>
     </el-select>`,
-    () => ({
-      options: [{
-        value: '选项1',
-        label: '黄金糕',
-      }, {
-        value: '选项2',
-        label: '双皮奶',
-      }],
-      value: undefined,
-    }))
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕',
+          },
+          {
+            value: '选项2',
+            label: '双皮奶',
+          },
+        ],
+        value: undefined,
+      })
+    )
     const vm = wrapper.vm as any
     vm.value = null
     await vm.$nextTick()
@@ -833,7 +1096,8 @@ describe('Select', () => {
   })
 
   test('emptyText error show', async () => {
-    const wrapper = _mount(`
+    const wrapper = _mount(
+      `
     <el-select :model-value="value" filterable placeholder="Select">
       <el-option
         v-for="item in options"
@@ -842,29 +1106,38 @@ describe('Select', () => {
         :value="item.value">
       </el-option>
     </el-select>`,
-    () => ({
-      options: [{
-        value: 'Option1',
-        label: 'Option1',
-      }, {
-        value: 'Option2',
-        label: 'Option2',
-      }, {
-        value: 'Option3',
-        label: 'Option3',
-      }, {
-        value: 'Option4',
-        label: 'Option4',
-      }, {
-        value: 'Option5',
-        label: 'Option5',
-      }],
-      value: 'test',
-    }))
+      () => ({
+        options: [
+          {
+            value: 'Option1',
+            label: 'Option1',
+          },
+          {
+            value: 'Option2',
+            label: 'Option2',
+          },
+          {
+            value: 'Option3',
+            label: 'Option3',
+          },
+          {
+            value: 'Option4',
+            label: 'Option4',
+          },
+          {
+            value: 'Option5',
+            label: 'Option5',
+          },
+        ],
+        value: 'test',
+      })
+    )
     const select = wrapper.findComponent({ name: 'ElSelect' })
     select.trigger('click')
     await nextTick()
-    expect(!!document.querySelector('.el-select__popper').style.display).toBeFalsy()
+    expect(
+      !!document.querySelector('.el-select__popper').style.display
+    ).toBeFalsy()
     expect(wrapper.findAll('.el-select-dropdown__empty').length).toBe(0)
   })
 
@@ -895,27 +1168,62 @@ describe('Select', () => {
           value: [],
           list: [],
           loading: false,
-          states: ['Alabama', 'Alaska', 'Arizona',
-            'Arkansas', 'California', 'Colorado',
-            'Connecticut', 'Delaware', 'Florida',
-            'Georgia', 'Hawaii', 'Idaho', 'Illinois',
-            'Indiana', 'Iowa', 'Kansas', 'Kentucky',
-            'Louisiana', 'Maine', 'Maryland',
-            'Massachusetts', 'Michigan', 'Minnesota',
-            'Mississippi', 'Missouri', 'Montana',
-            'Nebraska', 'Nevada', 'New Hampshire',
-            'New Jersey', 'New Mexico', 'New York',
-            'North Carolina', 'North Dakota', 'Ohio',
-            'Oklahoma', 'Oregon', 'Pennsylvania',
-            'Rhode Island', 'South Carolina',
-            'South Dakota', 'Tennessee', 'Texas',
-            'Utah', 'Vermont', 'Virginia',
-            'Washington', 'West Virginia', 'Wisconsin',
-            'Wyoming'],
+          states: [
+            'Alabama',
+            'Alaska',
+            'Arizona',
+            'Arkansas',
+            'California',
+            'Colorado',
+            'Connecticut',
+            'Delaware',
+            'Florida',
+            'Georgia',
+            'Hawaii',
+            'Idaho',
+            'Illinois',
+            'Indiana',
+            'Iowa',
+            'Kansas',
+            'Kentucky',
+            'Louisiana',
+            'Maine',
+            'Maryland',
+            'Massachusetts',
+            'Michigan',
+            'Minnesota',
+            'Mississippi',
+            'Missouri',
+            'Montana',
+            'Nebraska',
+            'Nevada',
+            'New Hampshire',
+            'New Jersey',
+            'New Mexico',
+            'New York',
+            'North Carolina',
+            'North Dakota',
+            'Ohio',
+            'Oklahoma',
+            'Oregon',
+            'Pennsylvania',
+            'Rhode Island',
+            'South Carolina',
+            'South Dakota',
+            'Tennessee',
+            'Texas',
+            'Utah',
+            'Vermont',
+            'Virginia',
+            'Washington',
+            'West Virginia',
+            'Wisconsin',
+            'Wyoming',
+          ],
         }
       },
       mounted() {
-        this.list = this.states.map(item => {
+        this.list = this.states.map((item) => {
           return { value: `value:${item}`, label: `label:${item}` }
         })
       },
@@ -925,9 +1233,10 @@ describe('Select', () => {
             this.loading = true
             setTimeout(() => {
               this.loading = false
-              this.options = this.list.filter(item => {
-                return item.label.toLowerCase()
-                  .indexOf(query.toLowerCase()) > -1
+              this.options = this.list.filter((item) => {
+                return (
+                  item.label.toLowerCase().indexOf(query.toLowerCase()) > -1
+                )
               })
             }, 200)
           } else {
@@ -970,7 +1279,8 @@ describe('Select', () => {
   })
 
   test('disabled group', async () => {
-    const wrapper = _mount(`
+    const wrapper = _mount(
+      `
     <el-select v-model="value">
       <el-group-option
         v-for="group in options"
@@ -985,27 +1295,28 @@ describe('Select', () => {
         </el-option>
       </el-group-option>
     </el-select>`,
-    () => ({
-      options: [
-        {
-          label: 'Popular cities',
-          options: [
-            { value: 'Shanghai', label: 'Shanghai' },
-            { value: 'Beijing', label: 'Beijing' },
-          ],
-        },
-        {
-          label: 'City name',
-          options: [
-            { value: 'Chengdu',label: 'Chengdu' },
-            { value: 'Shenzhen', label: 'Shenzhen' },
-            { value: 'Guangzhou',label: 'Guangzhou' },
-            { value: 'Dalian',label: 'Dalian' },
-          ],
-        },
-      ],
-      value: '',
-    }))
+      () => ({
+        options: [
+          {
+            label: 'Popular cities',
+            options: [
+              { value: 'Shanghai', label: 'Shanghai' },
+              { value: 'Beijing', label: 'Beijing' },
+            ],
+          },
+          {
+            label: 'City name',
+            options: [
+              { value: 'Chengdu', label: 'Chengdu' },
+              { value: 'Shenzhen', label: 'Shenzhen' },
+              { value: 'Guangzhou', label: 'Guangzhou' },
+              { value: 'Dalian', label: 'Dalian' },
+            ],
+          },
+        ],
+        value: '',
+      })
+    )
 
     const vm = wrapper.vm as any
     wrapper.find('.select-trigger').trigger('click')
@@ -1024,7 +1335,8 @@ describe('Select', () => {
   })
 
   test('tag of disabled option is not closable', async () => {
-    const wrapper = _mount(`
+    const wrapper = _mount(
+      `
     <el-select v-model="vendors" multiple :collapse-tags="isCollapsed" :clearable="isClearable" placeholder="Select Business Unit">
     <el-option
       v-for="(vendor, index) in options"
@@ -1034,17 +1346,19 @@ describe('Select', () => {
       :disabled="vendor.isDisabled"
     >
     </el-option>
-  </el-select>`, () => ({
-      vendors: [2, 3, 4],
-      isCollapsed: false,
-      isClearable: false,
-      options: [
-        { name: 'Test 1', isDisabled: false },
-        { name: 'Test 2', isDisabled: true },
-        { name: 'Test 3', isDisabled: false },
-        { name: 'Test 4', isDisabled: true },
-      ],
-    }))
+  </el-select>`,
+      () => ({
+        vendors: [2, 3, 4],
+        isCollapsed: false,
+        isClearable: false,
+        options: [
+          { name: 'Test 1', isDisabled: false },
+          { name: 'Test 2', isDisabled: true },
+          { name: 'Test 3', isDisabled: false },
+          { name: 'Test 4', isDisabled: true },
+        ],
+      })
+    )
     const vm = wrapper.vm as any
     await vm.$nextTick()
     const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm as any
@@ -1061,7 +1375,7 @@ describe('Select', () => {
     await vm.$nextTick()
     selectVm.inputHovering = true
     await selectVm.$nextTick()
-    const iconClear = wrapper.find('.el-input__icon.el-icon-circle-close')
+    const iconClear = wrapper.findComponent(CircleClose)
     expect(wrapper.findAll('.el-tag').length).toBe(3)
     await iconClear.trigger('click')
     expect(wrapper.findAll('.el-tag').length).toBe(2)
@@ -1087,8 +1401,44 @@ describe('Select', () => {
     expect(wrapper.findAll('.el-tag__close').length).toBe(0)
   })
 
+  test('tag type', async () => {
+    const wrapper = _mount(
+      `
+      <el-select v-model="value" multiple tag-type="success">
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        >
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕',
+          },
+          {
+            value: '选项2',
+            label: '双皮奶',
+          },
+        ],
+        value: [],
+      })
+    )
+
+    await wrapper.find('.select-trigger').trigger('click')
+    const options = getOptions()
+    options[1].click()
+    await nextTick()
+    expect(wrapper.find('.el-tag').classes()).toContain('el-tag--success')
+  })
+
   test('modelValue should be deep reactive in multiple mode', async () => {
-    const wrapper = _mount(`
+    const wrapper = _mount(
+      `
     <el-select v-model="modelValue" multiple>
       <el-option
         v-for="option in options"
@@ -1097,15 +1447,17 @@ describe('Select', () => {
         :label="option.label"
       >
       </el-option>
-    </el-select>`, () => ({
-      modelValue: [1],
-      options: [
-        { label: 'Test 1', value: 1 },
-        { label: 'Test 2', value: 2 },
-        { label: 'Test 3', value: 3 },
-        { label: 'Test 4', value: 4 },
-      ],
-    }))
+    </el-select>`,
+      () => ({
+        modelValue: [1],
+        options: [
+          { label: 'Test 1', value: 1 },
+          { label: 'Test 2', value: 2 },
+          { label: 'Test 3', value: 3 },
+          { label: 'Test 4', value: 4 },
+        ],
+      })
+    )
     const vm = wrapper.vm as any
     await vm.$nextTick()
     expect(wrapper.findAll('.el-tag').length).toBe(1)
@@ -1118,12 +1470,15 @@ describe('Select', () => {
 
   test('should reset placeholder after clear when both multiple and filterable are true', async () => {
     const placeholder = 'placeholder'
-    const wrapper = _mount(`
+    const wrapper = _mount(
+      `
     <el-select v-model="modelValue" multiple filterable placeholder=${placeholder}>
       <el-option label="1" value="1" />
-    </el-select>`, () => ({
-      modelValue: ['1'],
-    }))
+    </el-select>`,
+      () => ({
+        modelValue: ['1'],
+      })
+    )
     const vm = wrapper.vm as any
     await vm.$nextTick()
 
@@ -1140,6 +1495,11 @@ describe('Select', () => {
     selectInputEl.value = 'a'
     selectInput.trigger('input')
     await vm.$nextTick()
+
+    const timer = sleep(300)
+    jest.runAllTimers()
+    await timer
+
     expect(innerInputEl.placeholder).toBe('')
 
     selectInput.trigger('keydown', {
@@ -1155,11 +1515,11 @@ describe('Select', () => {
       const options = wrapper.findAllComponents({ name: 'ElOption' })
 
       await wrapper.find('.select-trigger').trigger('click')
-      expect(options.every(option => option.vm.visible)).toBe(true)
+      expect(options.every((option) => option.vm.visible)).toBe(true)
 
       await options[1].trigger('click')
       await wrapper.find('.select-trigger').trigger('click')
-      expect(options.every(option => option.vm.visible)).toBe(true)
+      expect(options.every((option) => option.vm.visible)).toBe(true)
     }
 
     test('both filterable and multiple are false', async () => {
@@ -1186,16 +1546,29 @@ describe('Select', () => {
       vm.debouncedQueryChange(event)
       await nextTick
       const groups = wrapper.findAllComponents(Group)
-      expect(groups.filter(group => {
-        const vm = group.vm as any
-        return vm.visible
-      }).length).toBe(1)
+      expect(
+        groups.filter((group) => {
+          const vm = group.vm as any
+          return vm.visible
+        }).length
+      ).toBe(1)
     })
   })
 
   describe('after search', () => {
-    async function testAfterSearch({ multiple, filterMethod, remote, remoteMethod }: SelectProps) {
-      const wrapper = getSelectVm({ filterable: true, multiple, filterMethod, remote, remoteMethod })
+    async function testAfterSearch({
+      multiple,
+      filterMethod,
+      remote,
+      remoteMethod,
+    }: SelectProps) {
+      const wrapper = getSelectVm({
+        filterable: true,
+        multiple,
+        filterMethod,
+        remote,
+        remoteMethod,
+      })
       const method = remote ? remoteMethod : filterMethod
       const firstInputLetter = 'a'
       const secondInputLetter = 'aa'
@@ -1203,7 +1576,9 @@ describe('Select', () => {
       const vm = wrapper.vm as any
       await vm.$nextTick()
 
-      const input = wrapper.find(multiple ? '.el-select__input' : '.el-input__inner')
+      const input = wrapper.find(
+        multiple ? '.el-select__input' : '.el-input__inner'
+      )
       const inputEl = input.element as HTMLInputElement
       await input.trigger('click')
       inputEl.value = firstInputLetter

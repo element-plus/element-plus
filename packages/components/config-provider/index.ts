@@ -1,11 +1,7 @@
-import withInstall from '@element-plus/utils/with-install'
-import { ConfigProvider } from './config-provider'
+import { withInstall } from '@element-plus/utils/with-install'
+import { ConfigProvider } from './src'
 
-
-const ElConfigProvider = withInstall(ConfigProvider)
-
+export const ElConfigProvider = withInstall(ConfigProvider)
 export default ElConfigProvider
 
-export {
-  ElConfigProvider,
-}
+export * from './src/config-provider'

@@ -1,8 +1,4 @@
-import type {
-  CSSProperties,
-  ComponentInternalInstance,
-  ExtractPropTypes,
-} from 'vue'
+import type { CSSProperties, ComponentInternalInstance, Ref } from 'vue'
 
 export type Instance = ComponentInternalInstance
 
@@ -10,7 +6,10 @@ export type Alignment = 'auto' | 'smart' | 'center' | 'start' | 'end'
 export type ItemSize = (idx: number) => number
 export type Direction = 'ltr' | 'rtl'
 export type LayoutDirection = 'horizontal' | 'vertical'
-export type RTLOffsetType = 'negative' | 'positive-descending' | 'positive-ascending';
+export type RTLOffsetType =
+  | 'negative'
+  | 'positive-descending'
+  | 'positive-ascending'
 
 export type ItemProps<T> = {
   data: T
@@ -43,44 +42,49 @@ export type GridCache = {
 export type ScrollDir = 'forwards' | 'backwards'
 
 export type ListItemSizer<T, P extends InitListCacheFunc<T>> = (
-  props: ExtractPropTypes<T>,
+  props: T,
   index: number,
   cache: ReturnType<P>
 ) => number
 
-export type GetEstimatedTotalSize<T, P extends InitCacheFunc<T, GridCache | ListCache>> = (
-  props: ExtractPropTypes<T>,
-  cache: ReturnType<P>
-) => number
+export type GetEstimatedTotalSize<
+  T,
+  P extends InitCacheFunc<T, GridCache | ListCache>
+> = (props: T, cache: ReturnType<P>) => number
 
 export type GetOffset<T, P extends InitListCacheFunc<T>> = (
-  props: ExtractPropTypes<T>,
+  props: T,
   idx: number,
   alignment: Alignment,
   offset: number,
-  cache: ReturnType<P>,
+  cache: ReturnType<P>
 ) => number
 
-export type GetStartIndexForOffset<T, P extends InitCacheFunc<T, GridCache | ListCache>> = (
-  props: ExtractPropTypes<T>,
-  offset: number,
-  cache: ReturnType<P>,
-) => number;
+export type GetStartIndexForOffset<
+  T,
+  P extends InitCacheFunc<T, GridCache | ListCache>
+> = (props: T, offset: number, cache: ReturnType<P>) => number
 
-export type GetStopIndexForStartIndex<T, P extends InitCacheFunc<T, GridCache | ListCache>> = (
-  props: ExtractPropTypes<T>,
+export type GetStopIndexForStartIndex<
+  T,
+  P extends InitCacheFunc<T, GridCache | ListCache>
+> = (
+  props: T,
   startIndex: number,
   scrollOffset: number,
-  cache: ReturnType<P>,
-) => number;
+  cache: ReturnType<P>
+) => number
 
-export type PropValidator<T> = (props: ExtractPropTypes<T>) => void
+export type PropValidator<T> = (props: T) => void
 
-export type InitCacheFunc<T, P> = (props: ExtractPropTypes<T>, cache: Instance) => P
+export type InitCacheFunc<T, P> = (props: T, cache: Instance) => P
 export type InitListCacheFunc<T> = InitCacheFunc<T, ListCache>
 export type InitGridCacheFunc<T> = InitCacheFunc<T, GridCache>
 
-export type ListConstructorProps<T, P extends InitListCacheFunc<T> = InitListCacheFunc<T>> = {
+export type ListConstructorProps<
+  T,
+  P extends InitListCacheFunc<T> = InitListCacheFunc<T>
+> = {
   name?: string
   getItemOffset: ListItemSizer<T, P>
   getEstimatedTotalSize: GetEstimatedTotalSize<T, P>
@@ -99,8 +103,8 @@ export type ExposesStates = {
 }
 
 export type SharedExposes = {
-  windowRef: HTMLElement
-  innerRef: HTMLElement
+  windowRef: Ref<HTMLElement>
+  innerRef: Ref<HTMLElement>
   getItemStyleCache: (_: any, __: any, ___: any) => CSSProperties
 }
 
@@ -120,30 +124,37 @@ export type GridExposes = {
     xAxisScrollDir: Direction
     yAxisScrollDir: Direction
   } & ExposesStates
-  scrollTo: (props: {
-    scrollLeft: number
-    scrollTop: number
-  }) => void
-  scrollToItem: (columnIndex?: number, rowIndex?: number, alignment?: Alignment) => void
-
+  scrollTo: (props: { scrollLeft: number; scrollTop: number }) => void
+  scrollToItem: (
+    columnIndex?: number,
+    rowIndex?: number,
+    alignment?: Alignment
+  ) => void
 } & SharedExposes
 
+export type ScrollbarExpose = {
+  onMouseUp: () => void
+}
+
 export type GetGridOffset<T, P extends InitGridCacheFunc<T>> = (
-  props: ExtractPropTypes<T>,
+  props: T,
   index: number,
   alignment: Alignment,
   offset: number,
   cache: ReturnType<P>,
-  scrollbarWidth: number,
+  scrollbarWidth: number
 ) => number
 
 export type GetPosition<T, P extends InitGridCacheFunc<T>> = (
-  props: ExtractPropTypes<T>,
+  props: T,
   index: number,
-  cache: ReturnType<P>,
+  cache: ReturnType<P>
 ) => [number, number]
 
-export type GridConstructorProps<T, P extends InitGridCacheFunc<T> = InitGridCacheFunc<T>> = {
+export type GridConstructorProps<
+  T,
+  P extends InitGridCacheFunc<T> = InitGridCacheFunc<T>
+> = {
   name?: string
   // columns getter
   getColumnOffset: GetGridOffset<T, P>

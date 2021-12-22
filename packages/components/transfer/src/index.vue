@@ -22,7 +22,7 @@
         :disabled="rightChecked.length === 0"
         @click="addToLeft"
       >
-        <i class="el-icon-arrow-left"></i>
+        <el-icon><arrow-left /></el-icon>
         <span v-if="buttonTexts[0] !== undefined">{{ buttonTexts[0] }}</span>
       </el-button>
       <el-button
@@ -32,7 +32,7 @@
         @click="addToRight"
       >
         <span v-if="buttonTexts[1] !== undefined">{{ buttonTexts[1] }}</span>
-        <i class="el-icon-arrow-right"></i>
+        <el-icon><arrow-right /></el-icon>
       </el-button>
     </div>
     <transfer-panel
@@ -55,28 +55,34 @@
 
 <script lang="ts">
 import {
-  computed, defineComponent, inject, h,
-  reactive, ref, toRefs, watch,
+  computed,
+  defineComponent,
+  inject,
+  h,
+  reactive,
+  ref,
+  toRefs,
+  watch,
 } from 'vue'
 import ElButton from '@element-plus/components/button'
+import ElIcon from '@element-plus/components/icon'
 import { elFormItemKey } from '@element-plus/tokens'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import TransferPanel from './transfer-panel.vue'
 import { useComputedData } from './useComputedData'
-import { useCheckedChange } from './useCheckedChange'
+import {
+  useCheckedChange,
+  LEFT_CHECK_CHANGE_EVENT,
+  RIGHT_CHECK_CHANGE_EVENT,
+} from './useCheckedChange'
 import { useMove } from './useMove'
 import { CHANGE_EVENT } from './transfer'
 
-import { LEFT_CHECK_CHANGE_EVENT, RIGHT_CHECK_CHANGE_EVENT } from './useCheckedChange'
-
 import type { PropType, VNode } from 'vue'
 import type { ElFormItemContext } from '@element-plus/tokens'
-import type {
-  DataItem, Format, Key,
-  Props, TargetOrder,
-} from './transfer'
-
+import type { DataItem, Format, Key, Props, TargetOrder } from './transfer'
 
 export default defineComponent({
   name: 'ElTransfer',
@@ -84,6 +90,9 @@ export default defineComponent({
   components: {
     TransferPanel,
     ElButton,
+    ElIcon,
+    ArrowLeft,
+    ArrowRight,
   },
 
   props: {
@@ -103,7 +112,9 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    filterMethod: Function as PropType<(query: string, item: DataItem) => boolean>,
+    filterMethod: Function as PropType<
+      (query: string, item: DataItem) => boolean
+    >,
     leftDefaultChecked: {
       type: Array as PropType<Key[]>,
       default: () => [],
@@ -150,7 +161,7 @@ export default defineComponent({
   ],
 
   setup(props, { emit, slots }) {
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
 
     const checkedState = reactive({
@@ -158,21 +169,19 @@ export default defineComponent({
       rightChecked: [],
     })
 
-    const {
+    const { propsKey, sourceData, targetData } = useComputedData(props)
+
+    const { onSourceCheckedChange, onTargetCheckedChange } = useCheckedChange(
+      checkedState,
+      emit
+    )
+
+    const { addToLeft, addToRight } = useMove(
+      props,
+      checkedState,
       propsKey,
-      sourceData,
-      targetData,
-    } = useComputedData(props)
-
-    const {
-      onSourceCheckedChange,
-      onTargetCheckedChange,
-    } = useCheckedChange(checkedState, emit)
-
-    const {
-      addToLeft,
-      addToRight,
-    } = useMove(props, checkedState, propsKey, emit)
+      emit
+    )
 
     const leftPanel = ref(null)
     const rightPanel = ref(null)
@@ -187,17 +196,26 @@ export default defineComponent({
 
     const hasButtonTexts = computed(() => props.buttonTexts.length === 2)
 
-    const leftPanelTitle = computed(() => props.titles[0] || t('el.transfer.titles.0'))
+    const leftPanelTitle = computed(
+      () => props.titles[0] || t('el.transfer.titles.0')
+    )
 
-    const rightPanelTitle = computed(() => props.titles[1] || t('el.transfer.titles.1'))
+    const rightPanelTitle = computed(
+      () => props.titles[1] || t('el.transfer.titles.1')
+    )
 
-    const panelFilterPlaceholder = computed(() => props.filterPlaceholder || t('el.transfer.filterPlaceholder'))
+    const panelFilterPlaceholder = computed(
+      () => props.filterPlaceholder || t('el.transfer.filterPlaceholder')
+    )
 
-    watch(() => props.modelValue, val => {
-      elFormItem.formItemMitt?.emit('el.form.change', val)
-    })
+    watch(
+      () => props.modelValue,
+      () => {
+        elFormItem.validate?.('change')
+      }
+    )
 
-    const optionRender = computed(() => option => {
+    const optionRender = computed(() => (option) => {
       if (props.renderContent) return props.renderContent(h, option)
 
       if (slots.default) return slots.default({ option })

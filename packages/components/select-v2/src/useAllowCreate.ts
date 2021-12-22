@@ -3,7 +3,6 @@ import type { ISelectProps } from './token'
 import type { Option } from './select.types'
 
 export function useAllowCreate(props: ISelectProps, states) {
-
   const createOptionCount = ref(0)
   const cachedSelectedOption = ref<Option>(null)
 
@@ -12,8 +11,11 @@ export function useAllowCreate(props: ISelectProps, states) {
   })
 
   function hasExistingOption(query: string) {
-    const hasValue = option => option.value === query
-    return props.options && props.options.some(hasValue) || states.createdOptions.some(hasValue)
+    const hasValue = (option) => option.value === query
+    return (
+      (props.options && props.options.some(hasValue)) ||
+      states.createdOptions.some(hasValue)
+    )
   }
 
   function selectNewOption(option: Option) {
@@ -59,7 +61,9 @@ export function useAllowCreate(props: ISelectProps, states) {
     if (!enableAllowCreateMode.value || !option || !option.created) {
       return
     }
-    const idx = states.createdOptions.findIndex(it => it.value === option.value)
+    const idx = states.createdOptions.findIndex(
+      (it) => it.value === option.value
+    )
     if (~idx) {
       states.createdOptions.splice(idx, 1)
       createOptionCount.value--

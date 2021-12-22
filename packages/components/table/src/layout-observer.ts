@@ -39,7 +39,7 @@ function useLayoutObserver<T>(root: Table<T>) {
     if (!cols.length) return
     const flattenColumns = layout.getFlattenColumns()
     const columnsMap = {}
-    flattenColumns.forEach(column => {
+    flattenColumns.forEach((column) => {
       columnsMap[column.id] = column
     })
     for (let i = 0, j = cols.length; i < j; i++) {
@@ -61,7 +61,7 @@ function useLayoutObserver<T>(root: Table<T>) {
     const ths = root.vnode.el.querySelectorAll('th.gutter')
     for (let i = 0, j = ths.length; i < j; i++) {
       const th = ths[i]
-      th.style.width = layout.scrollY.value ? layout.gutterWidth + 'px' : '0'
+      th.style.width = layout.scrollY.value ? `${layout.gutterWidth}px` : '0'
       th.style.display = layout.scrollY.value ? '' : 'none'
     }
   }

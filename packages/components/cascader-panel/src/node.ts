@@ -1,21 +1,26 @@
-
 import { isFunction } from '@vue/shared'
 import { capitalize, isUndefined, isEmpty } from '@element-plus/utils/util'
 import type { VNode } from 'vue'
 
 export type CascaderNodeValue = string | number
 export type CascaderNodePathValue = CascaderNodeValue[]
-export type CascaderValue = CascaderNodeValue | CascaderNodePathValue | (CascaderNodeValue | CascaderNodePathValue)[]
+export type CascaderValue =
+  | CascaderNodeValue
+  | CascaderNodePathValue
+  | (CascaderNodeValue | CascaderNodePathValue)[]
 export type CascaderConfig = Required<CascaderProps>
 export enum ExpandTrigger {
   CLICK = 'click',
-  HOVER = 'hover'
+  HOVER = 'hover',
 }
 export type isDisabled = (data: CascaderOption, node: Node) => boolean
 export type isLeaf = (data: CascaderOption, node: Node) => boolean
 export type Resolve = (dataList?: CascaderOption[]) => void
 export type LazyLoad = (node: Node, resolve: Resolve) => void
-export type RenderLabel = ({ node: Node, data: CascaderOption }) => VNode | VNode[]
+export type RenderLabel = ({
+  node: Node,
+  data: CascaderOption,
+}) => VNode | VNode[]
 export interface CascaderOption extends Record<string, unknown> {
   label?: string
   value?: CascaderNodeValue
@@ -74,11 +79,11 @@ class Node {
   indeterminate = false
   loading = false
 
-  constructor (
+  constructor(
     readonly data: Nullable<CascaderOption>,
     readonly config: CascaderConfig,
     readonly parent?: Node,
-    readonly root = false,
+    readonly root = false
   ) {
     const { value: valueKey, label: labelKey, children: childrenKey } = config
 
@@ -89,35 +94,41 @@ class Node {
     this.value = data[valueKey] as CascaderNodeValue
     this.label = data[labelKey] as string
     this.pathNodes = pathNodes
-    this.pathValues = pathNodes.map(node => node.value)
-    this.pathLabels = pathNodes.map(node => node.label)
+    this.pathValues = pathNodes.map((node) => node.value)
+    this.pathLabels = pathNodes.map((node) => node.label)
     this.childrenData = childrenData
-    this.children = (childrenData || []).map(child => new Node(child, config, this))
+    this.children = (childrenData || []).map(
+      (child) => new Node(child, config, this)
+    )
     this.loaded = !config.lazy || this.isLeaf || !isEmpty(childrenData)
   }
 
-  get isDisabled (): boolean {
+  get isDisabled(): boolean {
     const { data, parent, config } = this
     const { disabled, checkStrictly } = config
-    const isDisabled = isFunction(disabled) ? disabled(data, this) : !!data[disabled]
-    return isDisabled || !checkStrictly && parent?.isDisabled
+    const isDisabled = isFunction(disabled)
+      ? disabled(data, this)
+      : !!data[disabled]
+    return isDisabled || (!checkStrictly && parent?.isDisabled)
   }
 
-  get isLeaf (): boolean {
+  get isLeaf(): boolean {
     const { data, config, childrenData, loaded } = this
     const { lazy, leaf } = config
     const isLeaf = isFunction(leaf) ? leaf(data, this) : data[leaf]
 
     return isUndefined(isLeaf)
-      ? lazy && !loaded ? false : !Array.isArray(childrenData)
+      ? lazy && !loaded
+        ? false
+        : !(Array.isArray(childrenData) && childrenData.length)
       : !!isLeaf
   }
 
-  get valueByOption () {
+  get valueByOption() {
     return this.config.emitPath ? this.pathValues : this.value
   }
 
-  appendChild (childData: CascaderOption) {
+  appendChild(childData: CascaderOption) {
     const { childrenData, children } = this
     const node = new Node(childData, this.config, this)
 
@@ -132,15 +143,15 @@ class Node {
     return node
   }
 
-  calcText (allLevels: boolean, separator: string) {
+  calcText(allLevels: boolean, separator: string) {
     const text = allLevels ? this.pathLabels.join(separator) : this.label
     this.text = text
     return text
   }
 
-  broadcast (event: string, ...args: unknown[]) {
+  broadcast(event: string, ...args: unknown[]) {
     const handlerName = `onParent${capitalize(event)}`
-    this.children.forEach(child => {
+    this.children.forEach((child) => {
       if (child) {
         // bottom up
         child.broadcast(event, ...args)
@@ -149,7 +160,7 @@ class Node {
     })
   }
 
-  emit (event: string, ...args: unknown[]) {
+  emit(event: string, ...args: unknown[]) {
     const { parent } = this
     const handlerName = `onChild${capitalize(event)}`
     if (parent) {
@@ -166,9 +177,9 @@ class Node {
 
   onChildCheck() {
     const { children } = this
-    const validChildren = children.filter(child => !child.isDisabled)
+    const validChildren = children.filter((child) => !child.isDisabled)
     const checked = validChildren.length
-      ? validChildren.every(child => child.checked)
+      ? validChildren.every((child) => child.checked)
       : false
 
     this.setCheckState(checked)
@@ -177,12 +188,16 @@ class Node {
   setCheckState(checked: boolean) {
     const totalNum = this.children.length
     const checkedNum = this.children.reduce((c, p) => {
-      const num = p.checked ? 1 : (p.indeterminate ? 0.5 : 0)
+      const num = p.checked ? 1 : p.indeterminate ? 0.5 : 0
       return c + num
     }, 0)
 
-    this.checked = this.loaded && this.children.every(child => child.loaded && child.checked) && checked
-    this.indeterminate = this.loaded && checkedNum !== totalNum && checkedNum > 0
+    this.checked =
+      this.loaded &&
+      this.children.every((child) => child.loaded && child.checked) &&
+      checked
+    this.indeterminate =
+      this.loaded && checkedNum !== totalNum && checkedNum > 0
   }
 
   doCheck(checked: boolean) {

@@ -260,7 +260,7 @@
 import { defineComponent, getCurrentInstance, computed } from 'vue'
 import debounce from 'lodash/debounce'
 import { Mousewheel } from '@element-plus/directives'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import { createStore } from './store/helper'
 import TableLayout from './table-layout'
 import TableHeader from './table-header'
@@ -306,8 +306,8 @@ export default defineComponent({
   ],
   setup(props) {
     type Row = typeof props.data[number]
-    const { t } = useLocaleInject()
-    let table = getCurrentInstance() as Table<Row>
+    const { t } = useLocale()
+    const table = getCurrentInstance() as Table<Row>
     const store = createStore<Row>(table, props)
     table.store = store
     const layout = new TableLayout<Row>({
@@ -354,7 +354,7 @@ export default defineComponent({
 
     const debouncedUpdateLayout = debounce(doLayout, 50)
 
-    const tableId = 'el-table_' + tableIdSeed++
+    const tableId = `el-table_${tableIdSeed++}`
     table.tableId = tableId
     table.state = {
       isGroup,

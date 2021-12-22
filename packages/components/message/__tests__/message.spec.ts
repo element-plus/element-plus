@@ -1,17 +1,20 @@
 import { h, nextTick } from 'vue'
-import * as domExports from '@element-plus/utils/dom'
 import makeMount from '@element-plus/test-utils/make-mount'
 import { rAF } from '@element-plus/test-utils/tick'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import Message from '../src/index.vue'
-
-import type { ComponentPublicInstance, CSSProperties } from 'vue'
+import { TypeComponentsMap } from '@element-plus/utils/icon'
+import Message from '../src/message.vue'
+import type { ComponentPublicInstance, CSSProperties, Component } from 'vue'
 
 const AXIOM = 'Rem is the best girl'
 
 jest.useFakeTimers()
 
-type MessageInstance = ComponentPublicInstance<{ visible: boolean; typeClass: string; customStyle: CSSProperties; }>
+type MessageInstance = ComponentPublicInstance<{
+  visible: boolean
+  iconComponent: string | Component
+  customStyle: CSSProperties
+}>
 
 const onClose = jest.fn()
 const _mount = makeMount(Message, {
@@ -33,7 +36,7 @@ describe('Message.vue', () => {
 
       expect(wrapper.text()).toEqual(AXIOM)
       expect(vm.visible).toBe(true)
-      expect(vm.typeClass).toBe('el-icon-info')
+      expect(vm.iconComponent).toBe(TypeComponentsMap['info'])
       expect(vm.customStyle).toEqual({ top: '20px', zIndex: 0 })
     })
 
@@ -72,27 +75,14 @@ describe('Message.vue', () => {
     })
   })
 
-  describe('lifecycle', () => {
-    test('should add keydown event lister on mount', () => {
-      jest.spyOn(domExports, 'on')
-      jest.spyOn(domExports, 'off')
-      const wrapper = _mount({
-        slots: { default: AXIOM },
-      })
-      expect(domExports.on).toHaveBeenCalled()
-      wrapper.unmount()
-      expect(domExports.off).toHaveBeenCalled()
-    })
-
-  })
-
   describe('Message.type', () => {
     test('should be able to render typed messages', () => {
       for (const type of ['success', 'warning', 'info', 'error'] as const) {
         const wrapper = _mount({ props: { type } })
 
-        const renderedClasses = wrapper.find('.el-message__icon').classes()
-        expect(renderedClasses).toContain(`el-icon-${type}`)
+        expect(wrapper.findComponent(TypeComponentsMap[type]).exists()).toBe(
+          true
+        )
       }
     })
 
@@ -100,7 +90,17 @@ describe('Message.vue', () => {
       const type = 'some-type'
       const wrapper = _mount({ props: { type } })
 
-      expect(wrapper.find(`el-icon-${type}`).exists()).toBe(false)
+      for (const key in TypeComponentsMap) {
+        if (key === type) {
+          expect(wrapper.findComponent(TypeComponentsMap[key]).exists()).toBe(
+            true
+          )
+        } else {
+          expect(wrapper.findComponent(TypeComponentsMap[key]).exists()).toBe(
+            false
+          )
+        }
+      }
     })
   })
 

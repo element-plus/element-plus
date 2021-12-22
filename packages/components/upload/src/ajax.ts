@@ -5,19 +5,23 @@ import type {
   ElUploadAjaxError,
 } from './upload.type'
 
-function getError(action: string, option: ElUploadRequestOptions, xhr: XMLHttpRequest) {
+function getError(
+  action: string,
+  option: ElUploadRequestOptions,
+  xhr: XMLHttpRequest
+) {
   let msg: string
   if (xhr.response) {
     msg = `${xhr.response.error || xhr.response}`
   } else if (xhr.responseText) {
     msg = `${xhr.responseText}`
   } else {
-    msg = `fail to post ${action} ${xhr.status}`
+    msg = `fail to ${option.method} ${action} ${xhr.status}`
   }
 
   const err = new Error(msg) as ElUploadAjaxError
   err.status = xhr.status
-  err.method = 'post'
+  err.method = option.method
   err.url = action
   return err
 }
@@ -46,7 +50,7 @@ export default function upload(option: ElUploadRequestOptions) {
   if (xhr.upload) {
     xhr.upload.onprogress = function progress(e) {
       if (e.total > 0) {
-        (e as ElUploadProgressEvent).percent = e.loaded / e.total * 100
+        ;(e as ElUploadProgressEvent).percent = (e.loaded / e.total) * 100
       }
       option.onProgress(e)
     }
@@ -55,7 +59,7 @@ export default function upload(option: ElUploadRequestOptions) {
   const formData = new FormData()
 
   if (option.data) {
-    Object.keys(option.data).forEach(key => {
+    Object.keys(option.data).forEach((key) => {
       formData.append(key, option.data[key])
     })
   }
@@ -74,7 +78,7 @@ export default function upload(option: ElUploadRequestOptions) {
     option.onSuccess(getBody(xhr))
   }
 
-  xhr.open('post', action, true)
+  xhr.open(option.method, action, true)
 
   if (option.withCredentials && 'withCredentials' in xhr) {
     xhr.withCredentials = true
@@ -87,6 +91,13 @@ export default function upload(option: ElUploadRequestOptions) {
       xhr.setRequestHeader(item, headers[item])
     }
   }
+
+  if (headers instanceof Headers) {
+    headers.forEach((value, key) => {
+      xhr.setRequestHeader(key, value)
+    })
+  }
+
   xhr.send(formData)
   return xhr
 }

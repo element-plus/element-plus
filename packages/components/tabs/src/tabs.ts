@@ -8,136 +8,121 @@ import {
   onUpdated,
   provide,
   ref,
+  renderSlot,
   watch,
 } from 'vue'
-import { isPromise } from '@vue/shared'
+import { isPromise, NOOP } from '@vue/shared'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import TabNav from './tab-nav.vue'
+import ElIcon from '@element-plus/components/icon'
+import { Plus } from '@element-plus/icons-vue'
+import { buildProps, definePropType } from '@element-plus/utils/props'
+import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { tabsRootContextKey } from '@element-plus/tokens'
+import TabNav from './tab-nav'
+import type { TabsPaneContext } from '@element-plus/tokens'
 
-import type { Component, ComponentInternalInstance, PropType, VNode } from 'vue'
 import type {
-  BeforeLeave,
-  IElTabsProps,
-  ITabType,
-  ITabPosition,
-  Pane,
-  RootTabs,
-  UpdatePaneStateCallback,
-} from './token'
+  Component,
+  ComponentInternalInstance,
+  VNode,
+  ExtractPropTypes,
+  Ref,
+} from 'vue'
+
+export const tabsProps = buildProps({
+  type: {
+    type: String,
+    values: ['card', 'border-card', ''],
+    default: '',
+  },
+  activeName: {
+    type: String,
+    default: '',
+  },
+  closable: Boolean,
+  addable: Boolean,
+  modelValue: {
+    type: String,
+    default: '',
+  },
+  editable: Boolean,
+  tabPosition: {
+    type: String,
+    values: ['top', 'right', 'bottom', 'left'],
+    default: 'top',
+  },
+  beforeLeave: {
+    type: definePropType<
+      (
+        newTabName: string,
+        oldTabName: string
+      ) => void | boolean | Promise<void | boolean>
+    >(Function),
+    default: () => true,
+  },
+  stretch: Boolean,
+} as const)
+export type TabsProps = ExtractPropTypes<typeof tabsProps>
+
+export const tabsEmits = {
+  [UPDATE_MODEL_EVENT]: (tabName: string) => typeof tabName === 'string',
+  [INPUT_EVENT]: (tabName: string) => typeof tabName === 'string',
+  'tab-click': (pane: TabsPaneContext, ev: Event) => ev instanceof Event,
+  edit: (paneName: string | null, action: 'remove' | 'add') =>
+    action === 'remove' || action === 'add',
+  'tab-remove': (paneName: string) => typeof paneName === 'string',
+  'tab-add': () => true,
+}
+export type TabsEmits = typeof tabsEmits
+
+const getPaneInstanceFromSlot = (
+  vnode: VNode,
+  paneInstanceList: ComponentInternalInstance[] = []
+) => {
+  const children = (vnode.children || []) as ArrayLike<VNode>
+  Array.from(children).forEach((node) => {
+    let type = node.type
+    type = (type as Component).name || type
+    if (type === 'ElTabPane' && node.component) {
+      paneInstanceList.push(node.component)
+    } else if (type === Fragment || type === 'template') {
+      getPaneInstanceFromSlot(node, paneInstanceList)
+    }
+  })
+  return paneInstanceList
+}
 
 export default defineComponent({
   name: 'ElTabs',
-  components: { TabNav },
-  props: {
-    type: {
-      type: String as PropType<ITabType>,
-      default: '',
-    },
-    activeName: {
-      type: String,
-      default: '',
-    },
-    closable: Boolean,
-    addable: Boolean,
-    modelValue: {
-      type: String,
-      default: '',
-    },
-    editable: Boolean,
-    tabPosition: {
-      type: String as PropType<ITabPosition>,
-      default: 'top',
-    },
-    beforeLeave: {
-      type: Function as PropType<BeforeLeave>,
-      default: null,
-    },
-    stretch: Boolean,
-  },
-  emits: [
-    'tab-click',
-    'edit',
-    'tab-remove',
-    'tab-add',
-    'input',
-    'update:modelValue',
-  ],
-  setup(props: IElTabsProps, ctx) {
-    const nav$ = ref<typeof TabNav>(null)
+
+  props: tabsProps,
+  emits: tabsEmits,
+
+  setup(props, { emit, slots, expose }) {
+    const instance = getCurrentInstance()!
+    const nav$ = ref<InstanceType<typeof TabNav>>()
+
+    const panes: Ref<TabsPaneContext[]> = ref([])
     const currentName = ref(props.modelValue || props.activeName || '0')
-    const panes = ref([])
-    const instance = getCurrentInstance()
-    const paneStatesMap = {}
 
-    provide<RootTabs>('rootTabs', {
-      props,
-      currentName,
-    })
+    const paneStatesMap: Record<number, TabsPaneContext> = {}
 
-    provide<UpdatePaneStateCallback>('updatePaneState', (pane: Pane) => {
-      paneStatesMap[pane.uid] = pane
-    })
-
-    watch(
-      () => props.activeName,
-      modelValue => {
-        setCurrentName(modelValue)
-      },
-    )
-
-    watch(
-      () => props.modelValue,
-      modelValue => {
-        setCurrentName(modelValue)
-      },
-    )
-
-    watch(currentName, () => {
-      nextTick(() => {
-        nav$.value && nav$.value.$nextTick(() => {
-          nav$.value && nav$.value.scrollToActiveTab()
-        })
-      })
-      setPaneInstances(true)
-    })
-
-    const getPaneInstanceFromSlot = (
-      vnode: VNode,
-      paneInstanceList: ComponentInternalInstance[] = [],
-    ) => {
-      Array.from((vnode.children || []) as ArrayLike<VNode>).forEach(node => {
-        let type = node.type
-        type = (type as Component).name || type
-        if (type === 'ElTabPane' && node.component) {
-          paneInstanceList.push(node.component)
-        } else if (type === Fragment || type === 'template') {
-          getPaneInstanceFromSlot(node, paneInstanceList)
-        }
-      })
-      return paneInstanceList
-    }
-
-    const setPaneInstances = (isForceUpdate = false) => {
-      if (ctx.slots.default) {
-        const children = instance.subTree.children
-
-        const content = Array.from(children as ArrayLike<VNode>).find(
-          ({ props }) => {
-            return props.class === 'el-tabs__content'
-          },
+    const updatePaneInstances = (isForceUpdate = false) => {
+      if (slots.default) {
+        const children = instance.subTree.children as ArrayLike<VNode>
+        const content = Array.from(children).find(
+          ({ props }) => props?.class === 'el-tabs__content'
         )
-
         if (!content) return
 
-        const paneInstanceList: Pane[] = getPaneInstanceFromSlot(content).map(
-          paneComponent => {
-            return paneStatesMap[paneComponent.uid]
-          },
-        )
+        const paneInstanceList: TabsPaneContext[] = getPaneInstanceFromSlot(
+          content
+        ).map((paneComponent) => paneStatesMap[paneComponent.uid])
+
         const panesChanged = !(
           paneInstanceList.length === panes.value.length &&
           paneInstanceList.every(
-            (pane, index) => pane.uid === panes.value[index].uid,
+            (pane, index) => pane.uid === panes.value[index].uid
           )
         )
 
@@ -149,140 +134,142 @@ export default defineComponent({
       }
     }
 
-    const changeCurrentName = value => {
+    const changeCurrentName = (value: string) => {
       currentName.value = value
-      ctx.emit('input', value)
-      ctx.emit('update:modelValue', value)
+      emit(INPUT_EVENT, value)
+      emit(UPDATE_MODEL_EVENT, value)
     }
 
-    const setCurrentName = value => {
+    const setCurrentName = (value: string) => {
       // should do nothing.
       if (currentName.value === value) return
 
-      const beforeLeave = props.beforeLeave
-      const before = beforeLeave && beforeLeave(value, currentName.value)
-      if (before && isPromise(before)) {
-        before.then(
+      const canLeave = props.beforeLeave?.(value, currentName.value)
+      if (isPromise(canLeave)) {
+        canLeave.then(
           () => {
             changeCurrentName(value)
-            nav$.value.removeFocus?.()
+
+            // call exposed function, Vue doesn't support expose in typescript yet.
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            nav$.value?.removeFocus?.()
           },
-          () => {
-            // ignore promise rejection in `before-leave` hook
-          },
+          // ignore promise rejection in `before-leave` hook
+          NOOP
         )
-      } else if (before !== false) {
+      } else if (canLeave !== false) {
         changeCurrentName(value)
       }
     }
 
-    const handleTabClick = (tab, tabName, event) => {
+    const handleTabClick = (
+      tab: TabsPaneContext,
+      tabName: string,
+      event: Event
+    ) => {
       if (tab.props.disabled) return
       setCurrentName(tabName)
-      ctx.emit('tab-click', tab, event)
+      emit('tab-click', tab, event)
     }
 
-    const handleTabRemove = (pane, ev) => {
+    const handleTabRemove = (pane: TabsPaneContext, ev: Event) => {
       if (pane.props.disabled) return
       ev.stopPropagation()
-      ctx.emit('edit', pane.props.name, 'remove')
-      ctx.emit('tab-remove', pane.props.name)
+      emit('edit', pane.props.name, 'remove')
+      emit('tab-remove', pane.props.name)
     }
 
     const handleTabAdd = () => {
-      ctx.emit('edit', null, 'add')
-      ctx.emit('tab-add')
+      emit('edit', null, 'add')
+      emit('tab-add')
     }
 
-    onUpdated(() => {
-      setPaneInstances()
+    onUpdated(() => updatePaneInstances())
+    onMounted(() => updatePaneInstances())
+
+    watch(
+      () => props.activeName,
+      (modelValue) => setCurrentName(modelValue)
+    )
+
+    watch(
+      () => props.modelValue,
+      (modelValue) => setCurrentName(modelValue)
+    )
+
+    watch(currentName, async () => {
+      updatePaneInstances(true)
+      await nextTick()
+      await nav$.value?.$nextTick()
+
+      // call exposed function, Vue doesn't support expose in typescript yet.
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      nav$.value?.scrollToActiveTab()
     })
 
-    onMounted(() => {
-      setPaneInstances()
+    provide(tabsRootContextKey, {
+      props,
+      currentName,
+      updatePaneState: (pane) => (paneStatesMap[pane.uid] = pane),
     })
 
-    return {
-      nav$,
-      handleTabClick,
-      handleTabRemove,
-      handleTabAdd,
+    expose({
       currentName,
-      panes,
-    }
-  },
+    })
 
-  render() {
-    const {
-      type,
-      handleTabClick,
-      handleTabRemove,
-      handleTabAdd,
-      currentName,
-      panes,
-      editable,
-      addable,
-      tabPosition,
-      stretch,
-    } = this
+    return () => {
+      const newButton =
+        props.editable || props.addable
+          ? h(
+              'span',
+              {
+                class: 'el-tabs__new-tab',
+                tabindex: '0',
+                onClick: handleTabAdd,
+                onKeydown: (ev: KeyboardEvent) => {
+                  if (ev.code === EVENT_CODE.enter) handleTabAdd()
+                },
+              },
+              [h(ElIcon, { class: 'is-icon-plus' }, { default: () => h(Plus) })]
+            )
+          : null
 
-    const newButton =
-      editable || addable
-        ? h(
-          'span',
-          {
-            class: 'el-tabs__new-tab',
-            tabindex: '0',
-            onClick: handleTabAdd,
-            onKeydown: ev => {
-              if (ev.code === EVENT_CODE.enter) {
-                handleTabAdd()
-              }
-            },
+      const header = h(
+        'div',
+        { class: ['el-tabs__header', `is-${props.tabPosition}`] },
+        [
+          newButton,
+          h(TabNav, {
+            currentName: currentName.value,
+            editable: props.editable,
+            type: props.type,
+            panes: panes.value,
+            stretch: props.stretch,
+            ref: nav$,
+            onTabClick: handleTabClick,
+            onTabRemove: handleTabRemove,
+          }),
+        ]
+      )
+
+      const panels = h('div', { class: 'el-tabs__content' }, [
+        renderSlot(slots, 'default'),
+      ])
+
+      return h(
+        'div',
+        {
+          class: {
+            'el-tabs': true,
+            'el-tabs--card': props.type === 'card',
+            [`el-tabs--${props.tabPosition}`]: true,
+            'el-tabs--border-card': props.type === 'border-card',
           },
-          [h('i', { class: 'el-icon-plus' })],
-        )
-        : null
-
-    const header = h(
-      'div',
-      {
-        class: ['el-tabs__header', `is-${tabPosition}`],
-      },
-      [
-        newButton,
-        h(TabNav, {
-          currentName,
-          editable,
-          type,
-          panes,
-          stretch,
-          ref: 'nav$',
-          onTabClick: handleTabClick,
-          onTabRemove: handleTabRemove,
-        }),
-      ],
-    )
-
-    const panels = h(
-      'div',
-      {
-        class: 'el-tabs__content',
-      },
-      this.$slots?.default(),
-    )
-
-    return h(
-      'div',
-      {
-        class: {
-          'el-tabs': true,
-          'el-tabs--card': type === 'card',
-          [`el-tabs--${tabPosition}`]: true,
-          'el-tabs--border-card': type === 'border-card',
         },
-      },
-      tabPosition !== 'bottom' ? [header, panels] : [panels, header],
-    )
+        props.tabPosition !== 'bottom' ? [header, panels] : [panels, header]
+      )
+    }
   },
 })

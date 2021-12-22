@@ -1,4 +1,5 @@
-@import '../common/var';
+@use '../mixins/mixins' as *;
+@use '../common/var' as *;
 
 @include b(time-spinner) {
   &.has-seconds {
@@ -30,7 +31,7 @@
       }
 
       .#{$namespace}-time-spinner__item:hover:not(.disabled):not(.active) {
-        background: $--color-white;
+        background: $color-white;
         cursor: default;
       }
     }
@@ -52,11 +53,11 @@
       color: var(--el-color-primary);
     }
 
-    &.#{$namespace}-icon-arrow-up {
+    &.arrow-up {
       top: 10px;
     }
 
-    &.#{$namespace}-icon-arrow-down {
+    &.arrow-down {
       bottom: 10px;
     }
   }
@@ -94,7 +95,7 @@
     color: var(--el-text-color-regular);
 
     &:hover:not(.disabled):not(.active) {
-      background: $--background-color-base;
+      background: var(--el-bg-color);
       cursor: pointer;
     }
 

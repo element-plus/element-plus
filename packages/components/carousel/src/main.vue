@@ -10,7 +10,7 @@
         <button
           v-show="
             (arrow === 'always' || data.hover) &&
-              (props.loop || data.activeIndex > 0)
+            (props.loop || data.activeIndex > 0)
           "
           type="button"
           class="el-carousel__arrow el-carousel__arrow--left"
@@ -18,14 +18,16 @@
           @mouseleave="handleButtonLeave"
           @click.stop="throttledArrowClick(data.activeIndex - 1)"
         >
-          <i class="el-icon-arrow-left"></i>
+          <el-icon>
+            <arrow-left />
+          </el-icon>
         </button>
       </transition>
       <transition v-if="arrowDisplay" name="carousel-arrow-right">
         <button
           v-show="
             (arrow === 'always' || data.hover) &&
-              (props.loop || data.activeIndex < items.length - 1)
+            (props.loop || data.activeIndex < items.length - 1)
           "
           type="button"
           class="el-carousel__arrow el-carousel__arrow--right"
@@ -33,7 +35,9 @@
           @mouseleave="handleButtonLeave"
           @click.stop="throttledArrowClick(data.activeIndex + 1)"
         >
-          <i class="el-icon-arrow-right"></i>
+          <el-icon>
+            <arrow-right />
+          </el-icon>
         </button>
       </transition>
       <slot></slot>
@@ -75,11 +79,23 @@ import {
   addResizeListener,
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
+import { ElIcon } from '@element-plus/components/icon'
+import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 
-import type { ICarouselProps, CarouselItem, InjectCarouselScope } from './carousel'
+import { debugWarn } from '@element-plus/utils/error'
+import type {
+  ICarouselProps,
+  CarouselItem,
+  InjectCarouselScope,
+} from './carousel'
 
 export default defineComponent({
   name: 'ElCarousel',
+  components: {
+    ElIcon,
+    ArrowLeft,
+    ArrowRight,
+  },
   props: {
     initialIndex: {
       type: Number,
@@ -145,15 +161,15 @@ export default defineComponent({
 
     // computed
     const arrowDisplay = computed(
-      () => props.arrow !== 'never' && props.direction !== 'vertical',
+      () => props.arrow !== 'never' && props.direction !== 'vertical'
     )
 
     const hasLabel = computed(() => {
-      return items.value.some(item => item.label.toString().length > 0)
+      return items.value.some((item) => item.label.toString().length > 0)
     })
 
     const carouselClasses = computed(() => {
-      const classes = ['el-carousel', 'el-carousel--' + props.direction]
+      const classes = ['el-carousel', `el-carousel--${props.direction}`]
       if (props.type === 'card') {
         classes.push('el-carousel--card')
       }
@@ -163,7 +179,7 @@ export default defineComponent({
     const indicatorsClasses = computed(() => {
       const classes = [
         'el-carousel__indicators',
-        'el-carousel__indicators--' + props.direction,
+        `el-carousel__indicators--${props.direction}`,
       ]
       if (hasLabel.value) {
         classes.push('el-carousel__indicators--labels')
@@ -176,14 +192,14 @@ export default defineComponent({
 
     // methods
     const throttledArrowClick = throttle(
-      index => {
+      (index) => {
         setActiveItem(index)
       },
       300,
-      { trailing: true },
+      { trailing: true }
     )
 
-    const throttledIndicatorHover = throttle(index => {
+    const throttledIndicatorHover = throttle((index) => {
       handleIndicatorHover(index)
     }, 300)
 
@@ -209,17 +225,17 @@ export default defineComponent({
 
     function setActiveItem(index) {
       if (typeof index === 'string') {
-        const filteredItems = items.value.filter(item => item.name === index)
+        const filteredItems = items.value.filter((item) => item.name === index)
         if (filteredItems.length > 0) {
           index = items.value.indexOf(filteredItems[0])
         }
       }
       index = Number(index)
       if (isNaN(index) || index !== Math.floor(index)) {
-        console.warn('[Element Warn][Carousel]index must be an integer.')
+        debugWarn('Carousel', 'index must be an integer.')
         return
       }
-      let length = items.value.length
+      const length = items.value.length
       const oldIndex = data.activeIndex
       if (index < 0) {
         data.activeIndex = props.loop ? length - 1 : 0
@@ -244,10 +260,10 @@ export default defineComponent({
     }
 
     function removeItem(uid) {
-      const index = items.value.findIndex(item => item.uid === uid)
+      const index = items.value.findIndex((item) => item.uid === uid)
       if (index !== -1) {
         items.value.splice(index, 1)
-        if(data.activeIndex === index) next()
+        if (data.activeIndex === index) next()
       }
     }
 
@@ -294,7 +310,7 @@ export default defineComponent({
 
     function handleButtonLeave() {
       if (props.direction === 'vertical') return
-      items.value.forEach(item => {
+      items.value.forEach((item) => {
         item.hover = false
       })
     }
@@ -325,19 +341,19 @@ export default defineComponent({
         if (prev > -1) {
           emit('change', current, prev)
         }
-      },
+      }
     )
     watch(
       () => props.autoplay,
-      current => {
+      (current) => {
         current ? startTimer() : pauseTimer()
-      },
+      }
     )
     watch(
       () => props.loop,
       () => {
         setActiveItem(data.activeIndex)
-      },
+      }
     )
 
     // lifecycle

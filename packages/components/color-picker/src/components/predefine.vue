@@ -5,11 +5,10 @@
         v-for="(item, index) in rgbaColors"
         :key="colors[index]"
         class="el-color-predefine__color-selector"
-        :class="{selected: item.selected, 'is-alpha': item._alpha < 100}"
+        :class="{ selected: item.selected, 'is-alpha': item._alpha < 100 }"
         @click="handleSelect(index)"
       >
-        <div :style="{backgroundColor: item.value}">
-        </div>
+        <div :style="{ backgroundColor: item.value }"></div>
       </div>
     </div>
   </div>
@@ -36,14 +35,17 @@ export default defineComponent({
     const rgbaColors = ref(parseColors(props.colors, props.color))
 
     //watch
-    watch(() => currentColor.value, val => {
-      const color = new Color()
-      color.fromString(val)
+    watch(
+      () => currentColor.value,
+      (val) => {
+        const color = new Color()
+        color.fromString(val)
 
-      rgbaColors.value.forEach(item => {
-        item.selected = color.compare(item)
-      })
-    })
+        rgbaColors.value.forEach((item) => {
+          item.selected = color.compare(item)
+        })
+      }
+    )
     watchEffect(() => {
       rgbaColors.value = parseColors(props.colors, props.color)
     })
@@ -52,7 +54,7 @@ export default defineComponent({
       props.color.fromString(props.colors[index])
     }
     function parseColors(colors, color) {
-      return colors.map(value => {
+      return colors.map((value) => {
         const c = new Color()
         c.enableAlpha = true
         c.format = 'rgba'

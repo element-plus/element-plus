@@ -6,13 +6,13 @@
     role="slider"
     :aria-valuemin="min"
     :aria-valuemax="max"
-    :aria-orientation="vertical ? 'vertical': 'horizontal'"
+    :aria-orientation="vertical ? 'vertical' : 'horizontal'"
     :aria-disabled="sliderDisabled"
   >
     <el-input-number
       v-if="showInput && !range"
       ref="input"
-      v-model="firstValue"
+      :model-value="firstValue"
       class="el-slider__input"
       :step="step"
       :disabled="sliderDisabled"
@@ -21,32 +21,31 @@
       :max="max"
       :debounce="debounce"
       :size="inputSize"
+      @update:model-value="setFirstValue"
       @change="emitChange"
     />
     <div
       ref="slider"
       class="el-slider__runway"
-      :class="{ 'show-input': showInput && !range, 'disabled': sliderDisabled }"
+      :class="{ 'show-input': showInput && !range, disabled: sliderDisabled }"
       :style="runwayStyle"
       @click="onSliderClick"
     >
-      <div
-        class="el-slider__bar"
-        :style="barStyle"
-      >
-      </div>
+      <div class="el-slider__bar" :style="barStyle"></div>
       <slider-button
         ref="firstButton"
-        v-model="firstValue"
+        :model-value="firstValue"
         :vertical="vertical"
         :tooltip-class="tooltipClass"
+        @update:model-value="setFirstValue"
       />
       <slider-button
         v-if="range"
         ref="secondButton"
-        v-model="secondValue"
+        :model-value="secondValue"
         :vertical="vertical"
         :tooltip-class="tooltipClass"
+        @update:model-value="setSecondValue"
       />
       <div v-if="showStops">
         <div
@@ -63,8 +62,7 @@
             :key="key"
             :style="getStopStyle(item.position)"
             class="el-slider__stop el-slider__marks-stop"
-          >
-          </div>
+          ></div>
         </div>
         <div class="el-slider__marks">
           <slider-marker
@@ -89,22 +87,25 @@ import {
   provide,
   reactive,
   ref,
-  Ref,
   toRefs,
   watch,
 } from 'vue'
 import ElInputNumber from '@element-plus/components/input-number'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT, INPUT_EVENT } from '@element-plus/utils/constants'
+import {
+  UPDATE_MODEL_EVENT,
+  CHANGE_EVENT,
+  INPUT_EVENT,
+} from '@element-plus/utils/constants'
 import { off, on } from '@element-plus/utils/dom'
-import throwError from '@element-plus/utils/error'
+import { throwError } from '@element-plus/utils/error'
 import SliderButton from './button.vue'
 import SliderMarker from './marker.vue'
 import { useMarks } from './useMarks'
 import { useSlide } from './useSlide'
 import { useStops } from './useStops'
 
-import type { PropType } from 'vue'
-import type { Nullable } from '@element-plus/utils/types'
+import type { PropType, Ref } from 'vue'
+import type { ComponentSize, Nullable } from '@element-plus/utils/types'
 
 export default defineComponent({
   name: 'ElSlider',
@@ -141,7 +142,7 @@ export default defineComponent({
       default: true,
     },
     inputSize: {
-      type: String,
+      type: String as PropType<ComponentSize>,
       default: 'small',
     },
     showStops: {
@@ -211,20 +212,24 @@ export default defineComponent({
       resetSize,
       emitChange,
       onSliderClick,
+      setFirstValue,
+      setSecondValue,
     } = useSlide(props, initData, emit)
 
-    const {
-      stops,
-      getStopStyle,
-    } = useStops(props, initData, minValue, maxValue)
+    const { stops, getStopStyle } = useStops(
+      props,
+      initData,
+      minValue,
+      maxValue
+    )
 
     const markList = useMarks(props)
 
     useWatch(props, initData, minValue, maxValue, emit, elFormItem)
 
     const precision = computed(() => {
-      let precisions = [props.min, props.max, props.step].map(item => {
-        let decimal = ('' + item).split('.')[1]
+      const precisions = [props.min, props.max, props.step].map((item) => {
+        const decimal = `${item}`.split('.')[1]
         return decimal ? decimal.length : 0
       })
       return Math.max.apply(null, precisions)
@@ -232,13 +237,8 @@ export default defineComponent({
 
     const { sliderWrapper } = useLifecycle(props, initData, resetSize)
 
-    const {
-      firstValue,
-      secondValue,
-      oldValue,
-      dragging,
-      sliderSize,
-    } = toRefs(initData)
+    const { firstValue, secondValue, oldValue, dragging, sliderSize } =
+      toRefs(initData)
 
     const updateDragging = (val: boolean) => {
       initData.dragging = val
@@ -248,10 +248,10 @@ export default defineComponent({
       ...toRefs(props),
       sliderSize,
       disabled: sliderDisabled,
-      precision: precision,
-      emitChange: emitChange,
-      resetSize: resetSize,
-      updateDragging: updateDragging,
+      precision,
+      emitChange,
+      resetSize,
+      updateDragging,
     })
 
     return {
@@ -270,6 +270,8 @@ export default defineComponent({
       emitChange,
       onSliderClick,
       getStopStyle,
+      setFirstValue,
+      setSecondValue,
 
       stops,
       markList,
@@ -280,7 +282,6 @@ export default defineComponent({
 })
 
 const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
-
   const _emit = (val: number | number[]) => {
     emit(UPDATE_MODEL_EVENT, val)
     emit(INPUT_EVENT, val)
@@ -288,8 +289,9 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
 
   const valueChanged = () => {
     if (props.range) {
-      return ![minValue.value, maxValue.value]
-        .every((item, index) => item === initData.oldValue[index])
+      return ![minValue.value, maxValue.value].every(
+        (item, index) => item === initData.oldValue[index]
+      )
     } else {
       return props.modelValue !== initData.oldValue
     }
@@ -314,7 +316,7 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
         initData.firstValue = val[0]
         initData.secondValue = val[1]
         if (valueChanged()) {
-          elFormItem.formItemMitt?.emit('el.form.change', [minValue.value, maxValue.value])
+          elFormItem.validate?.('change')
           initData.oldValue = val.slice()
         }
       }
@@ -326,7 +328,7 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
       } else {
         initData.firstValue = val
         if (valueChanged()) {
-          elFormItem.formItemMitt?.emit('el.form.change', val)
+          elFormItem.validate?.('change')
           initData.oldValue = val
         }
       }
@@ -335,39 +337,36 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
 
   setValues()
 
-  watch(() => initData.dragging, val => {
-    if (!val) {
+  watch(
+    () => initData.dragging,
+    (val) => {
+      if (!val) {
+        setValues()
+      }
+    }
+  )
+
+  watch(
+    () => props.modelValue,
+    (val, oldVal) => {
+      if (
+        initData.dragging ||
+        (Array.isArray(val) &&
+          Array.isArray(oldVal) &&
+          val.every((item, index) => item === oldVal[index]))
+      ) {
+        return
+      }
       setValues()
     }
-  })
+  )
 
-  watch(() => initData.firstValue, val => {
-    if (props.range) {
-      _emit([minValue.value, maxValue.value])
-    } else {
-      _emit(val)
+  watch(
+    () => [props.min, props.max],
+    () => {
+      setValues()
     }
-  })
-
-  watch(() => initData.secondValue, () => {
-    if (props.range) {
-      _emit([minValue.value, maxValue.value])
-    }
-  })
-
-  watch(() => props.modelValue, (val, oldVal) => {
-    if (initData.dragging
-      || Array.isArray(val)
-      && Array.isArray(oldVal)
-      && val.every((item, index) => item === oldVal[index])) {
-      return
-    }
-    setValues()
-  })
-
-  watch(() => [props.min, props.max], () => {
-    setValues()
-  })
+  )
 }
 
 const useLifecycle = (props, initData, resetSize) => {
@@ -384,12 +383,15 @@ const useLifecycle = (props, initData, resetSize) => {
         initData.secondValue = props.max
       }
       initData.oldValue = [initData.firstValue, initData.secondValue]
-      valuetext = `${ initData.firstValue }-${ initData.secondValue }`
+      valuetext = `${initData.firstValue}-${initData.secondValue}`
     } else {
       if (typeof props.modelValue !== 'number' || isNaN(props.modelValue)) {
         initData.firstValue = props.min
       } else {
-        initData.firstValue = Math.min(props.max, Math.max(props.min, props.modelValue))
+        initData.firstValue = Math.min(
+          props.max,
+          Math.max(props.min, props.modelValue)
+        )
       }
       initData.oldValue = initData.firstValue
       valuetext = initData.firstValue
@@ -398,7 +400,10 @@ const useLifecycle = (props, initData, resetSize) => {
     sliderWrapper.value.setAttribute('aria-valuetext', valuetext)
 
     // label screen reader
-    sliderWrapper.value.setAttribute('aria-label', props.label ? props.label : `slider between ${ props.min } and ${ props.max }`)
+    sliderWrapper.value.setAttribute(
+      'aria-label',
+      props.label ? props.label : `slider between ${props.min} and ${props.max}`
+    )
 
     on(window, 'resize', resetSize)
 

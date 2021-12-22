@@ -1,19 +1,21 @@
 import { computed, getCurrentInstance, watch, onMounted } from 'vue'
 import { isFunction } from '@vue/shared'
+import { isClient } from '@vueuse/core'
 import { isBool } from '@element-plus/utils/util'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import isServer from '@element-plus/utils/isServer'
+import { buildProps, definePropType } from '@element-plus/utils/props'
+import type { RouteLocationNormalizedLoaded } from 'vue-router'
 
-import type { Ref, ComponentPublicInstance } from 'vue'
+import type { Ref, ComponentPublicInstance, ExtractPropTypes } from 'vue'
 
-export const useModelToggleProps = {
+export const useModelToggleProps = buildProps({
   modelValue: {
-    type: Boolean,
+    type: definePropType<boolean | null>(Boolean),
     default: null,
   },
-
   'onUpdate:modelValue': Function,
-}
+})
+export type UseModelToggleProps = ExtractPropTypes<typeof useModelToggleProps>
 
 export const useModelToggleEmits = [UPDATE_MODEL_EVENT]
 
@@ -32,9 +34,13 @@ export const useModelToggle = ({
   onShow,
   onHide,
 }: ModelToggleParams) => {
-  const { appContext, props, proxy, emit } = getCurrentInstance()
+  const instance = getCurrentInstance()!
+  const props = instance.props as UseModelToggleProps & { disabled: boolean }
+  const { emit } = instance
 
-  const hasUpdateHandler = computed(() => isFunction(props['onUpdate:modelValue']))
+  const hasUpdateHandler = computed(() =>
+    isFunction(props['onUpdate:modelValue'])
+  )
   // when it matches the default value we say this is absent
   // though this could be mistakenly passed from the user but we need to rule out that
   // condition
@@ -64,9 +70,13 @@ export const useModelToggle = ({
   }
 
   const show = () => {
-    if (props.disabled === true || (isFunction(shouldProceed) && !shouldProceed())) return
+    if (
+      props.disabled === true ||
+      (isFunction(shouldProceed) && !shouldProceed())
+    )
+      return
 
-    const shouldEmit = hasUpdateHandler.value && !isServer
+    const shouldEmit = hasUpdateHandler.value && isClient
 
     if (shouldEmit) {
       emit(UPDATE_MODEL_EVENT, true)
@@ -75,13 +85,12 @@ export const useModelToggle = ({
     if (isModelBindingAbsent.value || !shouldEmit) {
       doShow()
     }
-
   }
 
   const hide = () => {
-    if (props.disabled === true || isServer) return
+    if (props.disabled === true || !isClient) return
 
-    const shouldEmit = hasUpdateHandler.value && !isServer
+    const shouldEmit = hasUpdateHandler.value && isClient
 
     if (shouldEmit) {
       emit(UPDATE_MODEL_EVENT, false)
@@ -95,7 +104,6 @@ export const useModelToggle = ({
   const onChange = (val: boolean) => {
     if (!isBool(val)) return
     if (props.disabled && val) {
-
       if (hasUpdateHandler.value) {
         emit(UPDATE_MODEL_EVENT, false)
       }
@@ -116,16 +124,26 @@ export const useModelToggle = ({
     }
   }
 
-  watch(() => props.modelValue, onChange)
+  watch(() => props.modelValue, onChange as any)
 
-  if (shouldHideWhenRouteChanges && appContext.config.globalProperties.$route !== void 0) {
-    watch(() => ({ ...(proxy as ComponentPublicInstance<{
-      $route: any
-    }>).$route }), () => {
-      if (shouldHideWhenRouteChanges.value && indicator.value) {
-        hide()
+  if (
+    shouldHideWhenRouteChanges &&
+    instance.appContext.config.globalProperties.$route !== undefined
+  ) {
+    watch(
+      () => ({
+        ...(
+          instance.proxy as ComponentPublicInstance<{
+            $route: RouteLocationNormalizedLoaded
+          }>
+        ).$route,
+      }),
+      () => {
+        if (shouldHideWhenRouteChanges.value && indicator.value) {
+          hide()
+        }
       }
-    })
+    )
   }
 
   onMounted(() => {

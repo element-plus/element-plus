@@ -3,11 +3,12 @@
     ref="popper"
     v-model:visible="suggestionVisible"
     :placement="placement"
+    :fallback-placements="['bottom-start', 'top-start']"
     :popper-class="`el-autocomplete__popper ${popperClass}`"
     :append-to-body="popperAppendToBody"
     pure
     manual-mode
-    effect="light"
+    :effect="Effect.LIGHT"
     trigger="click"
     transition="el-zoom-in-top"
     :gpu-acceleration="false"
@@ -54,8 +55,11 @@
     <template #default>
       <div
         ref="regionRef"
-        :class="['el-autocomplete-suggestion', suggestionLoading && 'is-loading']"
-        :style="{ width: dropdownWidth, outline: 'none' }"
+        :class="[
+          'el-autocomplete-suggestion',
+          suggestionLoading && 'is-loading',
+        ]"
+        :style="{ minWidth: dropdownWidth, outline: 'none' }"
         role="region"
       >
         <el-scrollbar
@@ -64,14 +68,14 @@
           view-class="el-autocomplete-suggestion__list"
         >
           <li v-if="suggestionLoading">
-            <i class="el-icon-loading"></i>
+            <el-icon class="is-loading"><loading /></el-icon>
           </li>
           <template v-else>
             <li
               v-for="(item, index) in suggestions"
               :id="`${id}-item-${index}`"
               :key="index"
-              :class="{'highlighted': highlightedIndex === index}"
+              :class="{ highlighted: highlightedIndex === index }"
               role="option"
               :aria-selected="highlightedIndex === index"
               @click="select(item)"
@@ -87,9 +91,13 @@
 
 <script lang="ts">
 import {
-  defineComponent, ref, computed,
-  onMounted, onUpdated,
-  nextTick, watch,
+  defineComponent,
+  ref,
+  computed,
+  onMounted,
+  onUpdated,
+  nextTick,
+  watch,
 } from 'vue'
 import { NOOP } from '@vue/shared'
 import debounce from 'lodash/debounce'
@@ -97,11 +105,14 @@ import { useAttrs } from '@element-plus/hooks'
 import { ClickOutside } from '@element-plus/directives'
 import { generateId, isArray } from '@element-plus/utils/util'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import throwError from '@element-plus/utils/error'
+import { throwError } from '@element-plus/utils/error'
 import ElInput from '@element-plus/components/input'
 import ElScrollbar from '@element-plus/components/scrollbar'
-import ElPopper from '@element-plus/components/popper'
+import ElPopper, { Effect } from '@element-plus/components/popper'
+import ElIcon from '@element-plus/components/icon'
+import { Loading } from '@element-plus/icons-vue'
 
+import type { Placement } from '@element-plus/components/popper'
 import type { PropType } from 'vue'
 
 export default defineComponent({
@@ -110,6 +121,8 @@ export default defineComponent({
     ElPopper,
     ElInput,
     ElScrollbar,
+    ElIcon,
+    Loading,
   },
   directives: {
     clickoutside: ClickOutside,
@@ -129,14 +142,23 @@ export default defineComponent({
       default: 300,
     },
     placement: {
-      type: String,
+      type: String as PropType<Placement>,
       validator: (val: string): boolean => {
-        return ['top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end'].includes(val)
+        return [
+          'top',
+          'top-start',
+          'top-end',
+          'bottom',
+          'bottom-start',
+          'bottom-end',
+        ].includes(val)
       },
       default: 'bottom-start',
     },
     fetchSuggestions: {
-      type: Function as PropType<(queryString: string, cb: (data: any[]) => void) => void>,
+      type: Function as PropType<
+        (queryString: string, cb: (data: any[]) => void) => void
+      >,
       default: NOOP,
     },
     popperClass: {
@@ -164,7 +186,15 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: [UPDATE_MODEL_EVENT, 'input', 'change', 'focus', 'blur', 'clear', 'select'],
+  emits: [
+    UPDATE_MODEL_EVENT,
+    'input',
+    'change',
+    'focus',
+    'blur',
+    'clear',
+    'select',
+  ],
   setup(props, ctx) {
     const attrs = useAttrs()
     const suggestions = ref([])
@@ -181,7 +211,8 @@ export default defineComponent({
       return `el-autocomplete-${generateId()}`
     })
     const suggestionVisible = computed(() => {
-      const isValidData = isArray(suggestions.value) && suggestions.value.length > 0
+      const isValidData =
+        isArray(suggestions.value) && suggestions.value.length > 0
       return (isValidData || loading.value) && activated.value
     })
     const suggestionLoading = computed(() => {
@@ -200,21 +231,26 @@ export default defineComponent({
       inputRef.value.inputOrTextarea.setAttribute('role', 'textbox')
       inputRef.value.inputOrTextarea.setAttribute('aria-autocomplete', 'list')
       inputRef.value.inputOrTextarea.setAttribute('aria-controls', 'id')
-      inputRef.value.inputOrTextarea.setAttribute('aria-activedescendant', `${id.value}-item-${highlightedIndex.value}`)
-      const $ul = regionRef.value.querySelector('.el-autocomplete-suggestion__list')
+      inputRef.value.inputOrTextarea.setAttribute(
+        'aria-activedescendant',
+        `${id.value}-item-${highlightedIndex.value}`
+      )
+      const $ul = regionRef.value.querySelector(
+        '.el-autocomplete-suggestion__list'
+      )
       $ul.setAttribute('role', 'listbox')
       $ul.setAttribute('id', id.value)
     })
 
     onUpdated(updatePopperPosition)
 
-    const getData = queryString => {
+    const getData = (queryString) => {
       if (suggestionDisabled.value) {
         return
       }
       loading.value = true
       updatePopperPosition()
-      props.fetchSuggestions(queryString, suggestionsArg => {
+      props.fetchSuggestions(queryString, (suggestionsArg) => {
         loading.value = false
         if (suggestionDisabled.value) {
           return
@@ -223,12 +259,15 @@ export default defineComponent({
           suggestions.value = suggestionsArg
           highlightedIndex.value = props.highlightFirstItem ? 0 : -1
         } else {
-          throwError('ElAutocomplete', 'autocomplete suggestions must be an array')
+          throwError(
+            'ElAutocomplete',
+            'autocomplete suggestions must be an array'
+          )
         }
       })
     }
     const debouncedGetData = debounce(getData, props.debounce)
-    const handleInput = value => {
+    const handleInput = (value) => {
       ctx.emit('input', value)
       ctx.emit(UPDATE_MODEL_EVENT, value)
       suggestionDisabled.value = false
@@ -239,17 +278,17 @@ export default defineComponent({
       }
       debouncedGetData(value)
     }
-    const handleChange = value => {
+    const handleChange = (value) => {
       ctx.emit('change', value)
     }
-    const handleFocus = e => {
+    const handleFocus = (e) => {
       activated.value = true
       ctx.emit('focus', e)
       if (props.triggerOnFocus) {
         debouncedGetData(props.modelValue)
       }
     }
-    const handleBlur = e => {
+    const handleBlur = (e) => {
       ctx.emit('blur', e)
     }
     const handleClear = () => {
@@ -258,9 +297,10 @@ export default defineComponent({
       ctx.emit('clear')
     }
     const handleKeyEnter = () => {
-      if (suggestionVisible.value
-        && highlightedIndex.value >= 0
-        && highlightedIndex.value < suggestions.value.length
+      if (
+        suggestionVisible.value &&
+        highlightedIndex.value >= 0 &&
+        highlightedIndex.value < suggestions.value.length
       ) {
         select(suggestions.value[highlightedIndex.value])
       } else if (props.selectWhenUnmatched) {
@@ -277,7 +317,7 @@ export default defineComponent({
     const focus = () => {
       inputRef.value.focus()
     }
-    const select = item => {
+    const select = (item) => {
       ctx.emit('input', item[props.valueKey])
       ctx.emit(UPDATE_MODEL_EVENT, item[props.valueKey])
       ctx.emit('select', item)
@@ -286,7 +326,7 @@ export default defineComponent({
         highlightedIndex.value = -1
       })
     }
-    const highlight = index => {
+    const highlight = (index) => {
       if (!suggestionVisible.value || loading.value) {
         return
       }
@@ -297,23 +337,32 @@ export default defineComponent({
       if (index >= suggestions.value.length) {
         index = suggestions.value.length - 1
       }
-      const suggestion = regionRef.value.querySelector('.el-autocomplete-suggestion__wrap')
-      const suggestionList = suggestion.querySelectorAll('.el-autocomplete-suggestion__list li')
+      const suggestion = regionRef.value.querySelector(
+        '.el-autocomplete-suggestion__wrap'
+      )
+      const suggestionList = suggestion.querySelectorAll(
+        '.el-autocomplete-suggestion__list li'
+      )
       const highlightItem = suggestionList[index]
       const scrollTop = suggestion.scrollTop
       const { offsetTop, scrollHeight } = highlightItem
 
-      if (offsetTop + scrollHeight > (scrollTop + suggestion.clientHeight)) {
+      if (offsetTop + scrollHeight > scrollTop + suggestion.clientHeight) {
         suggestion.scrollTop += scrollHeight
       }
       if (offsetTop < scrollTop) {
         suggestion.scrollTop -= scrollHeight
       }
       highlightedIndex.value = index
-      inputRef.value.inputOrTextarea.setAttribute('aria-activedescendant', `${id.value}-item-${highlightedIndex.value}`)
+      inputRef.value.inputOrTextarea.setAttribute(
+        'aria-activedescendant',
+        `${id.value}-item-${highlightedIndex.value}`
+      )
     }
 
     return {
+      Effect,
+
       attrs,
       suggestions,
       highlightedIndex,

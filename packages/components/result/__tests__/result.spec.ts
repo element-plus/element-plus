@@ -1,5 +1,5 @@
 import makeMount from '@element-plus/test-utils/make-mount'
-import Result from '../src/index.vue'
+import Result from '../src/result.vue'
 
 const AXIOM = 'Rem is the best girl'
 
@@ -36,22 +36,30 @@ describe('Result.vue', () => {
       },
     })
     expect(wrapper.find('.el-result__icon svg').exists()).toBe(true)
-    expect(wrapper.find('.el-result__icon svg').classes()).toContain('icon-success')
+    expect(wrapper.find('.el-result__icon svg').classes()).toContain(
+      'icon-success'
+    )
     await wrapper.setProps({
       icon: 'error',
     })
     expect(wrapper.find('.el-result__icon svg').exists()).toBe(true)
-    expect(wrapper.find('.el-result__icon svg').classes()).toContain('icon-error')
+    expect(wrapper.find('.el-result__icon svg').classes()).toContain(
+      'icon-error'
+    )
     await wrapper.setProps({
       icon: 'warning',
     })
     expect(wrapper.find('.el-result__icon svg').exists()).toBe(true)
-    expect(wrapper.find('.el-result__icon svg').classes()).toContain('icon-warning')
+    expect(wrapper.find('.el-result__icon svg').classes()).toContain(
+      'icon-warning'
+    )
     await wrapper.setProps({
       icon: 'info',
     })
     expect(wrapper.find('.el-result__icon svg').exists()).toBe(true)
-    expect(wrapper.find('.el-result__icon svg').classes()).toContain('icon-info')
+    expect(wrapper.find('.el-result__icon svg').classes()).toContain(
+      'icon-info'
+    )
   })
 
   test('should render icon slots', () => {

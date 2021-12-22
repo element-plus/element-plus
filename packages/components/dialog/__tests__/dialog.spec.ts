@@ -2,8 +2,8 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { rAF } from '@element-plus/test-utils/tick'
 import triggerCompositeClick from '@element-plus/test-utils/composite-click'
+import { Delete } from '@element-plus/icons-vue'
 import Dialog from '../'
-
 
 const AXIOM = 'Rem is the best girl'
 
@@ -83,7 +83,7 @@ describe('Dialog.vue', () => {
     })
     await nextTick()
     expect(
-      document.body.firstElementChild.classList.contains('el-overlay'),
+      document.body.firstElementChild.classList.contains('el-overlay')
     ).toBe(true)
     wrapper.unmount()
   })
@@ -151,8 +151,9 @@ describe('Dialog.vue', () => {
       })
       await nextTick()
       expect(wrapper.find('.el-overlay').exists()).toBe(true)
+      expect(wrapper.find('.el-overlay-dialog').exists()).toBe(true)
 
-      await triggerCompositeClick(wrapper.find('.el-overlay'))
+      await triggerCompositeClick(wrapper.find('.el-overlay-dialog'))
       expect(wrapper.vm.visible).toBe(false)
     })
   })
@@ -240,7 +241,7 @@ describe('Dialog.vue', () => {
       const wrapper = _mount({
         props: {
           modelValue: visible,
-          'onUpdate:modelValue': (val: boolean) => visible = val,
+          'onUpdate:modelValue': (val: boolean) => (visible = val),
           onClose,
           onClosed,
         },
@@ -251,13 +252,28 @@ describe('Dialog.vue', () => {
       await rAF()
       await nextTick()
 
-      await triggerCompositeClick(wrapper.find('.el-overlay'))
+      await triggerCompositeClick(wrapper.find('.el-overlay-dialog'))
       await nextTick()
       await rAF()
       await nextTick()
       expect(onClose).toHaveBeenCalled()
       expect(onClosed).toHaveBeenCalled()
       expect(visible).toBe(false)
+    })
+
+    test('closeIcon', async () => {
+      const wrapper = _mount({
+        props: {
+          modelValue: true,
+          closeIcon: Delete,
+        },
+      })
+      await nextTick()
+      await rAF()
+      const closeIcon = wrapper.find('svg')
+      expect(closeIcon.exists()).toBe(true)
+      const svg = mount(Delete).find('svg').element
+      expect(closeIcon.element.innerHTML).toBe(svg.innerHTML)
     })
   })
 })

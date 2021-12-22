@@ -46,20 +46,24 @@ describe('<upload-dragger />', () => {
 
       await dragger.trigger('drop', {
         dataTransfer: {
-          files: [{
-            type: 'video/mp4',
-            name: 'test.mp4',
-          }],
+          files: [
+            {
+              type: 'video/mp4',
+              name: 'test.mp4',
+            },
+          ],
         },
       })
       expect(onDrop).toHaveBeenCalledTimes(1)
       expect(dragger.emitted('file')).toHaveLength(1)
       await dragger.trigger('drop', {
         dataTransfer: {
-          files: [{
-            type: 'video/mov',
-            name: 'test.mov',
-          }],
+          files: [
+            {
+              type: 'video/mov',
+              name: 'test.mov',
+            },
+          ],
         },
       })
       expect(dragger.emitted('file')).toHaveLength(2)

@@ -1,5 +1,4 @@
 import { nextTick, getCurrentInstance, unref } from 'vue'
-import { arrayFind } from '@element-plus/utils/util'
 import useWatcher from './watcher'
 
 import type { Ref } from 'vue'
@@ -13,9 +12,9 @@ interface WatcherPropsData<T> {
 
 function replaceColumn<T>(
   array: TableColumnCtx<T>[],
-  column: TableColumnCtx<T>,
+  column: TableColumnCtx<T>
 ) {
-  return array.map(item => {
+  return array.map((item) => {
     if (item.id === column.id) {
       return column
     } else if (item.children?.length) {
@@ -26,7 +25,7 @@ function replaceColumn<T>(
 }
 
 function sortColumn<T>(array: TableColumnCtx<T>[]) {
-  array.forEach(item => {
+  array.forEach((item) => {
     item.no = item.getColumnIndex?.()
     if (item.children?.length) {
       sortColumn(item.children)
@@ -49,6 +48,9 @@ function useStore<T>() {
       // 没有使用 computed，而是手动更新部分数据 https://github.com/vuejs/vue/issues/6660#issuecomment-331417140
       instance.store.updateCurrentRowData()
       instance.store.updateExpandRows()
+      instance.store.updateTreeData(
+        instance.store.states.defaultExpandAll.value
+      )
       if (unref(states.reserveSelection)) {
         instance.store.assertRowKey()
         instance.store.updateSelectionByRowKey()
@@ -68,7 +70,7 @@ function useStore<T>() {
     insertColumn(
       states: StoreStates,
       column: TableColumnCtx<T>,
-      parent: TableColumnCtx<T>,
+      parent: TableColumnCtx<T>
     ) {
       const array = unref(states._columns)
       let newColumns = []
@@ -97,13 +99,13 @@ function useStore<T>() {
     removeColumn(
       states: StoreStates,
       column: TableColumnCtx<T>,
-      parent: TableColumnCtx<T>,
+      parent: TableColumnCtx<T>
     ) {
       const array = unref(states._columns) || []
       if (parent) {
         parent.children.splice(
-          parent.children.findIndex(item => item.id === column.id),
-          1,
+          parent.children.findIndex((item) => item.id === column.id),
+          1
         )
         if (parent.children.length === 0) {
           delete parent.children
@@ -126,9 +128,8 @@ function useStore<T>() {
     sort(states: StoreStates, options: Sort) {
       const { prop, order, init } = options
       if (prop) {
-        const column = arrayFind(
-          unref(states.columns),
-          column => column.property === prop,
+        const column = unref(states.columns).find(
+          (column) => column.property === prop
         )
         if (column) {
           column.order = order
@@ -187,7 +188,7 @@ function useStore<T>() {
       instance.store.updateCurrentRow(row)
     },
   }
-  const commit = function(name: keyof typeof mutations, ...args) {
+  const commit = function (name: keyof typeof mutations, ...args) {
     const mutations = instance.store.mutations
     if (mutations[name]) {
       mutations[name].apply(instance, [instance.store.states].concat(args))
@@ -195,7 +196,7 @@ function useStore<T>() {
       throw new Error(`Action not found: ${name}`)
     }
   }
-  const updateTableScrollY = function() {
+  const updateTableScrollY = function () {
     nextTick(() => instance.layout.updateScrollY.apply(instance.layout))
   }
   return {

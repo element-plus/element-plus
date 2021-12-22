@@ -1,5 +1,6 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
+import { Check, Loading } from '@element-plus/icons-vue'
 import CascaderPanel from '../src/index.vue'
 
 const NORMAL_OPTIONS = [
@@ -33,6 +34,11 @@ const NORMAL_OPTIONS = [
         label: 'Shanghai',
       },
     ],
+  },
+  {
+    value: 'guangdong',
+    label: 'Guangdong',
+    children: [],
   },
 ]
 
@@ -91,28 +97,32 @@ const CUSTOM_PROPS_OPTIONS = [
 const MENU = '.el-cascader-menu'
 const NODE = '.el-cascader-node'
 const VALID_NODE = '.el-cascader-node:not(.is-disabled)'
-const EXPAND_ARROW = '.el-icon-arrow-right.el-cascader-node__postfix'
+const EXPAND_ARROW = '.arrow-right.el-cascader-node__postfix'
 const CHECKBOX = '.el-checkbox__input'
 const RADIO = '.el-radio__input'
 
 let id = 0
 
-const _mount: typeof mount = options => mount({
-  components: {
-    CascaderPanel,
-  },
-  ...options,
-})
+console.warn = function () {
+  // noop
+}
+
+const _mount: typeof mount = (options) =>
+  mount({
+    components: {
+      CascaderPanel,
+    },
+    ...options,
+  })
 
 const lazyLoad = (node, resolve) => {
   const { level } = node
   setTimeout(() => {
-    const nodes = Array.from({ length: level + 1 })
-      .map(() => ({
-        value: ++id,
-        label: `option${id}`,
-        leaf: level >= 1,
-      }))
+    const nodes = Array.from({ length: level + 1 }).map(() => ({
+      value: ++id,
+      label: `option${id}`,
+      leaf: level >= 1,
+    }))
     resolve(nodes)
   }, 1000)
 }
@@ -149,12 +159,14 @@ describe('CascaderPanel.vue', () => {
     })
 
     const options = wrapper.findAll(NODE)
-    const [bjNode, zjNode] = options
+    const [bjNode, zjNode, , gdNode] = options
 
     expect(wrapper.findAll(MENU).length).toBe(1)
-    expect(options.length).toBe(3)
+    expect(options.length).toBe(4)
     expect(bjNode.text()).toBe('Beijing')
     expect(bjNode.find(EXPAND_ARROW).exists()).toBe(false)
+    expect(zjNode.find(EXPAND_ARROW).exists()).toBe(true)
+    expect(gdNode.find(EXPAND_ARROW).exists()).toBe(false)
 
     await zjNode.trigger('click')
     const menus = wrapper.findAll(MENU)
@@ -173,6 +185,12 @@ describe('CascaderPanel.vue', () => {
     expect(handleExpandChange).toBeCalledTimes(2)
     expect(handleChange).toBeCalledTimes(2)
     expect(wrapper.vm.value).toEqual(['beijing'])
+
+    await gdNode.trigger('click')
+    expect(wrapper.findAll(MENU).length).toBe(1)
+    expect(handleExpandChange).toBeCalledTimes(3)
+    expect(handleChange).toBeCalledTimes(3)
+    expect(wrapper.vm.value).toEqual(['guangdong'])
   })
 
   test('with default value', async () => {
@@ -192,7 +210,7 @@ describe('CascaderPanel.vue', () => {
     expect(menus.length).toBe(2)
     expect(zjNode.classes('in-active-path')).toBe(true)
     expect(hzNode.classes('is-active')).toBe(true)
-    expect(hzNode.find('.el-icon-check').exists()).toBe(true)
+    expect(hzNode.findComponent(Check).exists()).toBe(true)
 
     await wrapper.setProps({ modelValue: ['beijing'] })
 
@@ -380,7 +398,10 @@ describe('CascaderPanel.vue', () => {
 
     await nbCheckbox.find('input').trigger('click')
     expect(zjCheckbox.classes('is-checked')).toBe(true)
-    expect(wrapper.vm.value).toEqual([['zhejiang', 'hangzhou'], ['zhejiang', 'ningbo']])
+    expect(wrapper.vm.value).toEqual([
+      ['zhejiang', 'hangzhou'],
+      ['zhejiang', 'ningbo'],
+    ])
 
     await zjCheckbox.find('input').trigger('click')
     expect(zjCheckbox.classes('is-checked')).toBe(false)
@@ -548,10 +569,10 @@ describe('CascaderPanel.vue', () => {
     expect(firstOption.exists()).toBe(true)
 
     await firstOption.trigger('click')
-    expect(firstOption.find('.el-icon-loading').exists()).toBe(true)
+    expect(firstOption.findComponent(Loading).exists()).toBe(true)
     jest.runAllTimers()
     await nextTick()
-    expect(firstOption.find('.el-icon-loading').exists()).toBe(false)
+    expect(firstOption.findComponent(Loading).exists()).toBe(false)
 
     const secondMenu = wrapper.findAll(MENU)[1]
     expect(secondMenu.exists()).toBe(true)
@@ -586,12 +607,11 @@ describe('CascaderPanel.vue', () => {
           lazyLoad(node, resolve) {
             const { level } = node
             setTimeout(() => {
-              const nodes = Array.from({ length: level + 1 })
-                .map(() => ({
-                  value: { id: ++id },
-                  label: `option${id}`,
-                  leaf: level >= 1,
-                }))
+              const nodes = Array.from({ length: level + 1 }).map(() => ({
+                value: { id: ++id },
+                label: `option${id}`,
+                leaf: level >= 1,
+              }))
               resolve(nodes)
             }, 1000)
           },
@@ -619,18 +639,17 @@ describe('CascaderPanel.vue', () => {
           props: {
             multiple: true,
             lazy: true,
-            lazyLoad (node, resolve) {
+            lazyLoad(node, resolve) {
               const { level } = node
               setTimeout(() => {
-                const nodes = Array.from({ length: level + 1 })
-                  .map(() => {
-                    ++id
-                    return {
-                      value: id,
-                      label: `option${id}`,
-                      leaf: id === 3,
-                    }
-                  })
+                const nodes = Array.from({ length: level + 1 }).map(() => {
+                  ++id
+                  return {
+                    value: id,
+                    label: `option${id}`,
+                    leaf: id === 3,
+                  }
+                })
                 resolve(nodes)
               }, 1000)
             },
@@ -653,9 +672,13 @@ describe('CascaderPanel.vue', () => {
     expect(firstMenu.find(CHECKBOX).classes('is-checked')).toBe(false)
     expect(firstMenu.find(CHECKBOX).classes('is-indeterminate')).toBe(true)
     expect(secondMenu.findAll(CHECKBOX)[0].classes('is-checked')).toBe(false)
-    expect(secondMenu.findAll(CHECKBOX)[0].classes('is-indeterminate')).toBe(false)
+    expect(secondMenu.findAll(CHECKBOX)[0].classes('is-indeterminate')).toBe(
+      false
+    )
     expect(secondMenu.findAll(CHECKBOX)[1].classes('is-checked')).toBe(true)
-    expect(secondMenu.findAll(CHECKBOX)[1].classes('is-indeterminate')).toBe(false)
+    expect(secondMenu.findAll(CHECKBOX)[1].classes('is-indeterminate')).toBe(
+      false
+    )
   })
 
   test('getCheckedNodes and clearCheckedNodes', () => {

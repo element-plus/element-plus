@@ -4,30 +4,36 @@
       ref="bar"
       class="el-color-alpha-slider__bar"
       :style="{
-        background
+        background,
       }"
       @click="handleClick"
-    >
-    </div>
+    ></div>
     <div
       ref="thumb"
       class="el-color-alpha-slider__thumb"
       :style="{
         left: thumbLeft + 'px',
-        top: thumbTop + 'px'
+        top: thumbTop + 'px',
       }"
-    >
-    </div>
+    ></div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, watch, ref, onMounted, getCurrentInstance, PropType } from 'vue'
+import {
+  defineComponent,
+  watch,
+  ref,
+  onMounted,
+  getCurrentInstance,
+  shallowRef,
+} from 'vue'
+import { getClientXY } from '@element-plus/utils/dom'
 import draggable from '../draggable'
 
+import type { PropType } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'
 import type Color from '../color'
-
 
 export default defineComponent({
   name: 'ElColorAlphaSlider',
@@ -44,20 +50,26 @@ export default defineComponent({
   setup(props) {
     const instance = getCurrentInstance()
     // ref
-    const thumb = ref<Nullable<HTMLElement>>(null)
-    const bar = ref<Nullable<HTMLElement>>(null)
+    const thumb = shallowRef<Nullable<HTMLElement>>(null)
+    const bar = shallowRef<Nullable<HTMLElement>>(null)
 
     // data
     const thumbLeft = ref(0)
     const thumbTop = ref(0)
     const background = ref<Nullable<string>>(null)
 
-    watch(() => props.color.get('alpha'), () => {
-      update()
-    })
-    watch(() => props.color.value, () => {
-      update()
-    })
+    watch(
+      () => props.color.get('alpha'),
+      () => {
+        update()
+      }
+    )
+    watch(
+      () => props.color.value,
+      () => {
+        update()
+      }
+    )
 
     //methods
     function getThumbLeft() {
@@ -66,7 +78,9 @@ export default defineComponent({
       const alpha = props.color.get('alpha')
 
       if (!el) return 0
-      return Math.round(alpha * (el.offsetWidth - thumb.value.offsetWidth / 2) / 100)
+      return Math.round(
+        (alpha * (el.offsetWidth - thumb.value.offsetWidth / 2)) / 100
+      )
     }
 
     function getThumbTop() {
@@ -75,7 +89,9 @@ export default defineComponent({
       const alpha = props.color.get('alpha')
 
       if (!el) return 0
-      return Math.round(alpha * (el.offsetHeight - thumb.value.offsetHeight / 2) / 100)
+      return Math.round(
+        (alpha * (el.offsetHeight - thumb.value.offsetHeight / 2)) / 100
+      )
     }
 
     function getBackground() {
@@ -97,19 +113,34 @@ export default defineComponent({
     function handleDrag(event) {
       const el = instance.vnode.el as HTMLElement
       const rect = el.getBoundingClientRect()
+      const { clientX, clientY } = getClientXY(event)
 
       if (!props.vertical) {
-        let left = event.clientX - rect.left
+        let left = clientX - rect.left
         left = Math.max(thumb.value.offsetWidth / 2, left)
         left = Math.min(left, rect.width - thumb.value.offsetWidth / 2)
 
-        props.color.set('alpha', Math.round((left - thumb.value.offsetWidth / 2) / (rect.width - thumb.value.offsetWidth) * 100))
+        props.color.set(
+          'alpha',
+          Math.round(
+            ((left - thumb.value.offsetWidth / 2) /
+              (rect.width - thumb.value.offsetWidth)) *
+              100
+          )
+        )
       } else {
-        let top = event.clientY - rect.top
+        let top = clientY - rect.top
         top = Math.max(thumb.value.offsetHeight / 2, top)
         top = Math.min(top, rect.height - thumb.value.offsetHeight / 2)
 
-        props.color.set('alpha', Math.round((top - thumb.value.offsetHeight / 2) / (rect.height - thumb.value.offsetHeight) * 100))
+        props.color.set(
+          'alpha',
+          Math.round(
+            ((top - thumb.value.offsetHeight / 2) /
+              (rect.height - thumb.value.offsetHeight)) *
+              100
+          )
+        )
       }
     }
 
@@ -122,10 +153,10 @@ export default defineComponent({
     // mounded
     onMounted(() => {
       const dragConfig = {
-        drag: event => {
+        drag: (event) => {
           handleDrag(event)
         },
-        end: event => {
+        end: (event) => {
           handleDrag(event)
         },
       }

@@ -1,11 +1,11 @@
-@import 'common/var';
+@use 'common/var' as *;
 
 body {
   font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
     'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
   font-weight: 400;
   font-size: var(--el-font-size-base);
-  color: $--color-black;
+  color: $color-black;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -19,11 +19,7 @@ a {
   }
 
   &:active {
-    color: mix(
-      $--color-black,
-      $--color-primary,
-      $--button-active-shade-percent
-    );
+    color: mix($color-black, $color-primary, $button-active-shade-percent);
   }
 }
 

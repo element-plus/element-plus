@@ -1,4 +1,4 @@
-import { Ref, ToRefs, UnwrapRef } from 'vue'
+import type { Ref, ToRefs, UnwrapRef } from 'vue'
 
 export interface ICarouselItemProps {
   name: string
@@ -31,7 +31,8 @@ export interface ICarouselProps {
   pauseOnHover: boolean
 }
 
-export type UnionCarouselItemData = ICarouselItemProps & ToRefs<ICarouselItemData>
+export type UnionCarouselItemData = ICarouselItemProps &
+  ToRefs<ICarouselItemData>
 
 export interface CarouselItem extends UnionCarouselItemData {
   uid: number

@@ -1,0 +1,17 @@
+[
+  {
+    "text": "Guide",
+    "link": "/guide/design",
+    "activeMatch": "/guide/"
+  },
+  {
+    "text": "Component",
+    "link": "/component/button",
+    "activeMatch": "/component/"
+  },
+  {
+    "text": "Resource",
+    "link": "/resource/index",
+    "activeMatch": "/resource/"
+  }
+]
