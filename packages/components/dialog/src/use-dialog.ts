@@ -41,18 +41,18 @@ export const useDialog = (
     if (props.fullscreen || !props.draggable) return
     if (e.button !== 0 || !wrapper.value) return
     const { offsetX, offsetY } = transform.value
-    const startX = e.pageX
-    const startY = e.pageY
+    const startX = e.clientX
+    const startY = e.clientY
 
-    const divLeft = window.screenLeft
-    const divRight = window.screenLeft + window.innerWidth
-    const divTop = window.screenTop
-    const divBottom = window.screenTop + window.innerHeight
+    const divLeft = wrapper.value.clientLeft
+    const divRight = wrapper.value.clientLeft + wrapper.value.clientWidth
+    const divTop = wrapper.value.clientTop
+    const divBottom = wrapper.value.clientTop + wrapper.value.clientHeight
 
     const dragHandler = rafThrottle((ev: MouseEvent) => {
       transform.value = {
-        offsetX: offsetX + ev.pageX - startX,
-        offsetY: offsetY + ev.pageY - startY,
+        offsetX: offsetX + ev.clientX - startX,
+        offsetY: offsetY + ev.clientY - startY,
       }
     })
     const removeMousemove = useEventListener(document, 'mousemove', dragHandler)
