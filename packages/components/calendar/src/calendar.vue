@@ -144,13 +144,15 @@ export default defineComponent({
       const lastDay = endDayjs.endOf('week')
       const firstMonth = firstDay.get('month')
       const lastMonth = lastDay.get('month')
-
       // Current mouth
       if (firstMonth === lastMonth) {
         return [[firstDay, lastDay]]
       }
       // Two adjacent months
-      else if (firstMonth + 1 === lastMonth) {
+      else if (
+        firstMonth + 1 === lastMonth ||
+        startDayjs.add(1, 'month').month() === endDayjs.month()
+      ) {
         const firstMonthLastDay = firstDay.endOf('month')
         const lastMonthFirstDay = lastDay.startOf('month')
 
