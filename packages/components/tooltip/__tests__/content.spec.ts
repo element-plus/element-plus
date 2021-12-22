@@ -1,7 +1,7 @@
 import { nextTick } from 'vue'
 import ElTeleport from '@element-plus/components/teleport'
 import { shallowMount } from '@vue/test-utils'
-import { genTooltipProvides } from './provides'
+import { genTooltipProvides } from '../test-helper/provides'
 import ElTooltipContent from '../src/content.vue'
 import { TOOLTIP_INJECTION_KEY } from '../src/tokens'
 
