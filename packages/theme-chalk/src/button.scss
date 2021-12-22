@@ -10,8 +10,10 @@
   @include set-component-css-var('button', $button);
 }
 
+$button-border-width: 1px;
+
 @include b(button) {
-  display: inline-block;
+  display: inline-flex;
   line-height: 1;
   min-height: map.get($input-height, 'default');
   white-space: nowrap;
@@ -32,13 +34,18 @@
   font-weight: var(--el-button-font-weight);
   user-select: none;
 
+  > span {
+    display: inline-flex;
+    align-items: center;
+  }
+
   & + & {
     margin-left: 10px;
   }
 
   @include button-size(
-    map.get($button-padding-vertical, 'default'),
-    map.get($button-padding-horizontal, 'default'),
+    map.get($button-padding-vertical, 'default') - $button-border-width,
+    map.get($button-padding-horizontal, 'default') - $button-border-width,
     map.get($button-font-size, 'default'),
     map.get($button-border-radius, 'default')
   );
@@ -151,7 +158,6 @@
   }
   @include when(round) {
     border-radius: var(--el-border-radius-round);
-    padding: 12px 23px;
   }
   @include when(circle) {
     border-radius: 50%;
@@ -177,7 +183,7 @@
     }
   }
 
-  @each $size in (medium, small, mini) {
+  @each $size in (large, small) {
     @include m($size) {
       min-height: map.get($input-height, $size);
 

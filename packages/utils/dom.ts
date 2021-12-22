@@ -1,4 +1,4 @@
-import isServer from './isServer'
+import { isClient } from '@vueuse/core'
 import { camelize, isObject } from './util'
 import type { CSSProperties } from 'vue'
 
@@ -104,7 +104,7 @@ export const getStyle = function (
   element: HTMLElement,
   styleName: string
 ): string {
-  if (isServer) return ''
+  if (!isClient) return ''
   if (!element || !styleName) return ''
   styleName = camelize(styleName)
   if (styleName === 'float') {
@@ -157,7 +157,7 @@ export const isScroll = (
   el: HTMLElement,
   isVertical?: Nullable<boolean>
 ): RegExpMatchArray | null => {
-  if (isServer) return null
+  if (!isClient) return null
   const determinedDirection = isVertical === null || isVertical === undefined
   const overflow = determinedDirection
     ? getStyle(el, 'overflow')
@@ -172,7 +172,7 @@ export const getScrollContainer = (
   el: HTMLElement,
   isVertical?: Nullable<boolean>
 ): Window | HTMLElement | undefined => {
-  if (isServer) return
+  if (!isClient) return
 
   let parent: HTMLElement = el
   while (parent) {
@@ -191,7 +191,7 @@ export const isInContainer = (
   el: Element | undefined,
   container: Element | Window | undefined
 ): boolean => {
-  if (isServer || !el || !container) return false
+  if (!isClient || !el || !container) return false
 
   const elRect = el.getBoundingClientRect()
 

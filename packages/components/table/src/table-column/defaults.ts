@@ -40,7 +40,7 @@ interface TableColumnCtx<T> {
     column: TableColumnCtx<T>,
     cellValue,
     index: number
-  ) => VNode
+  ) => VNode | string
   selectable: (row: T, index: number) => boolean
   reserveSelection: boolean
   filterMethod: FilterMethods<T>

@@ -1,4 +1,4 @@
-import isServer from '@element-plus/utils/isServer'
+import { isClient } from '@vueuse/core'
 import { on, off } from '@element-plus/utils/dom'
 
 let isDragging = false
@@ -10,7 +10,7 @@ export declare interface IOptions {
 }
 
 export default function (element: HTMLElement, options: IOptions) {
-  if (isServer) return
+  if (!isClient) return
 
   const moveFn = function (event: Event) {
     options.drag?.(event)

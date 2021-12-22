@@ -413,14 +413,14 @@ describe('TimePicker(range)', () => {
     const wrapper = _mount(
       `<el-time-picker
         v-model="value"
-        size="mini"
+        size="small"
         :is-range="true"
       />`,
       () => ({
         value: [new Date(2016, 9, 10, 18, 40), new Date(2016, 9, 10, 19, 40)],
       })
     )
-    expect(wrapper.find('.el-range-editor--mini').exists()).toBeTruthy()
+    expect(wrapper.find('.el-range-editor--small').exists()).toBeTruthy()
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')

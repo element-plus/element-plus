@@ -36,6 +36,7 @@
     <el-button type="danger" :icon="Delete" circle></el-button>
   </el-row>
 </template>
+
 <script setup lang="ts">
 import {
   Search,

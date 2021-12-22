@@ -35,9 +35,9 @@ describe('Button.vue', () => {
   })
   it('size', () => {
     const wrapper = mount(Button, {
-      props: { size: 'medium' },
+      props: { size: 'default' },
     })
-    expect(wrapper.classes()).toContain('el-button--medium')
+    expect(wrapper.classes()).toContain('el-button--default')
   })
   it('plain', () => {
     const wrapper = mount(Button, {
@@ -132,7 +132,6 @@ describe('Button Group', () => {
           h(ButtonGroup, { size: size.value }, () => [
             h(Button, { type: 'primary' }, () => 'Prev'),
             h(Button, { type: 'primary' }, () => 'Next'),
-            h(Button, { type: 'primary', size: 'mini' }, () => 'Mini'),
           ])
       },
     })
@@ -140,19 +139,13 @@ describe('Button Group', () => {
     expect(
       wrapper.findAll('.el-button-group button.el-button--small').length
     ).toBe(2)
-    expect(
-      wrapper.findAll('.el-button-group button.el-button--mini').length
-    ).toBe(1)
 
-    size.value = 'medium'
+    size.value = 'default'
     await nextTick()
 
     expect(
-      wrapper.findAll('.el-button-group button.el-button--medium').length
+      wrapper.findAll('.el-button-group button.el-button--default').length
     ).toBe(2)
-    expect(
-      wrapper.findAll('.el-button-group button.el-button--mini').length
-    ).toBe(1)
   })
 
   it('button group type', async () => {

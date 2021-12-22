@@ -87,6 +87,7 @@ describe('Checkbox', () => {
     expect(vm.checkList.length).toBe(0)
     await wrapper.findComponent({ ref: 'a' }).trigger('click')
     expect(vm.checkList.length).toBe(1)
+
     expect(vm.checkList).toContain('a')
     await wrapper.findComponent({ ref: 'b' }).trigger('click')
     expect(vm.checkList.length).toBe(2)

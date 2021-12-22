@@ -1,4 +1,4 @@
-import { useFormItemProps } from '@element-plus/hooks'
+import { useSizeProp } from '@element-plus/hooks'
 import { buildProps, definePropType } from '@element-plus/utils/props'
 import type { ExtractPropTypes, Component } from 'vue'
 import type button from './button.vue'
@@ -13,11 +13,12 @@ export const buttonType = [
   'text',
   '',
 ] as const
-export const buttonSize = ['', 'large', 'medium', 'small', 'mini'] as const
+export const buttonSize = ['', 'large', 'default', 'small'] as const
 export const buttonNativeType = ['button', 'submit', 'reset'] as const
 
 export const buttonProps = buildProps({
-  ...useFormItemProps,
+  size: useSizeProp,
+  disabled: Boolean,
   type: {
     type: String,
     values: buttonType,
@@ -40,6 +41,7 @@ export const buttonProps = buildProps({
   color: String,
   autoInsertSpace: {
     type: Boolean,
+    default: undefined,
   },
 } as const)
 

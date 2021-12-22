@@ -34,8 +34,10 @@
         trigger: 'blur',
       }"
     >
-      <el-input v-model="domain.value"></el-input
-      ><el-button @click.prevent="removeDomain(domain)">Delete</el-button>
+      <el-input v-model="domain.value"></el-input>
+      <el-button class="mt-2" @click.prevent="removeDomain(domain)"
+        >Delete</el-button
+      >
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="submitForm('dynamicValidateForm')"

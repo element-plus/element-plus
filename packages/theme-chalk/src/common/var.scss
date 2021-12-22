@@ -223,10 +223,9 @@ $radio: map.merge(
 $radio-height: () !default;
 $radio-height: map.merge(
   (
-    'default': 40px,
-    'medium': 36px,
-    'small': 32px,
-    'mini': 28px,
+    'large': 40px,
+    'default': 32px,
+    'small': 24px,
   ),
   $radio-height
 );
@@ -268,10 +267,9 @@ $radio-checked: map.merge(
 $radio-bordered-padding: () !default;
 $radio-bordered-padding: map.merge(
   (
-    'default': 0 20px 0 10px,
-    'medium': 0 20px 0 10px,
+    'large': 0 20px 0 10px,
+    'default': 0 15px 0 10px,
     'small': 0 15px 0 10px,
-    'mini': 0 15px 0 10px,
   ),
   $radio-bordered-padding
 );
@@ -279,9 +277,9 @@ $radio-bordered-padding: map.merge(
 $radio-bordered-input-height: () !default;
 $radio-bordered-input-height: map.merge(
   (
-    'medium': 14px,
+    'large': 14px,
+    'default': 12px,
     'small': 12px,
-    'mini': 12px,
   ),
   $radio-bordered-input-height
 );
@@ -289,9 +287,9 @@ $radio-bordered-input-height: map.merge(
 $radio-bordered-input-width: () !default;
 $radio-bordered-input-width: map.merge(
   (
-    'medium': 14px,
+    'large': 14px,
+    'default': 12px,
     'small': 12px,
-    'mini': 12px,
   ),
   $radio-bordered-input-width
 );
@@ -455,10 +453,9 @@ $input-disabled: map.merge(
 $input-font-size: () !default;
 $input-font-size: map.merge(
   (
-    'default': var(--el-font-size-base, map.get($font-size, 'base')),
-    'medium': 14px,
-    'small': 13px,
-    'mini': 12px,
+    'large': var(--el-font-size-base, map.get($font-size, 'base')),
+    'default': 12px,
+    'small': 12px,
   ),
   $input-font-size
 );
@@ -466,10 +463,9 @@ $input-font-size: map.merge(
 $input-height: () !default;
 $input-height: map.merge(
   (
-    'default': 40px,
-    'medium': 36px,
-    'small': 32px,
-    'mini': 28px,
+    'large': 40px,
+    'default': 32px,
+    'small': 24px,
   ),
   $input-height
 );
@@ -477,9 +473,9 @@ $input-height: map.merge(
 $input-line-height: () !default;
 $input-line-height: map.merge(
   (
-    'medium': 28px,
+    'large': 40px,
+    'default': 32px,
     'small': 24px,
-    'mini': 20px,
   ),
   $input-line-height
 );
@@ -487,9 +483,9 @@ $input-line-height: map.merge(
 $input-number-width: () !default;
 $input-number-width: map.merge(
   (
-    'medium': 200px,
-    'small': 130px,
-    'mini': 130px,
+    'large': 178px,
+    'default': 146px,
+    'small': 118px,
   ),
   $input-number-width
 );
@@ -564,10 +560,9 @@ $button-text-color: () !default;
 $button-font-size: () !default;
 $button-font-size: map.merge(
   (
+    'large': var(--el-font-size-base, map.get($font-size, 'base')),
     'default': var(--el-font-size-base, map.get($font-size, 'base')),
-    'medium': var(--el-font-size-base, map.get($font-size, 'base')),
     'small': 12px,
-    'mini': 12px,
   ),
   $button-font-size
 );
@@ -575,10 +570,9 @@ $button-font-size: map.merge(
 $button-border-radius: () !default;
 $button-border-radius: map.merge(
   (
+    'large': var(--el-border-radius-base),
     'default': var(--el-border-radius-base),
-    'medium': var(--el-border-radius-base),
     'small': calc(var(--el-border-radius-base) - 1px),
-    'mini': calc(var(--el-border-radius-base) - 1px),
   ),
   $button-border-radius
 );
@@ -586,10 +580,9 @@ $button-border-radius: map.merge(
 $button-padding-vertical: () !default;
 $button-padding-vertical: map.merge(
   (
-    'default': 12px,
-    'medium': 10px,
-    'small': 9px,
-    'mini': 7px,
+    'large': 12px,
+    'default': 9px,
+    'small': 6px,
   ),
   $button-padding-vertical
 );
@@ -597,10 +590,9 @@ $button-padding-vertical: map.merge(
 $button-padding-horizontal: () !default;
 $button-padding-horizontal: map.merge(
   (
-    'default': 20px,
-    'medium': 20px,
-    'small': 15px,
-    'mini': 15px,
+    'large': 20px,
+    'default': 16px,
+    'small': 8px,
   ),
   $button-padding-horizontal
 );
@@ -656,6 +648,26 @@ $table: map.merge(
     'expanded-cell-bg-color': var(--el-color-white),
   ),
   $table
+);
+
+$table-font-size: () !default;
+$table-font-size: map.merge(
+  (
+    'large': var(--el-font-size-base, map.get($font-size, 'base')),
+    'default': 12px,
+    'small': 12px,
+  ),
+  $table-font-size
+);
+
+$table-padding: () !default;
+$table-padding: map.merge(
+  (
+    'large': 13px 0,
+    'default': 10px 0,
+    'small': 6px 0,
+  ),
+  $table-padding
 );
 
 // Pagination
@@ -748,7 +760,6 @@ $tag: map.merge(
   (
     'font-size': 12px,
     'border-radius': 4px,
-    'padding': 0 10px,
   ),
   $tag
 );
@@ -758,12 +769,21 @@ $tag-color: () !default;
 $tag-height: () !default;
 $tag-height: map.merge(
   (
-    'default': 32px,
-    'medium': 28px,
-    'small': 24px,
-    'mini': 20px,
+    'large': 32px,
+    'default': 24px,
+    'small': 20px,
   ),
   $tag-height
+);
+
+$tag-padding: () !default;
+$tag-padding: map.merge(
+  (
+    'large': 12px,
+    'default': 8px,
+    'small': 4px,
+  ),
+  $tag-padding
 );
 
 @each $type in $types {
@@ -1081,14 +1101,21 @@ $avatar: map.merge(
   (
     'text-color': #fff,
     'bg-color': #c0c4cc,
-    'text-font-size': 14px,
-    'icon-font-size': 18px,
+    'text-size': 14px,
+    'icon-size': 18px,
     'border-radius': var(--el-border-radius-base),
-    'large-size': 40px,
-    'medium-size': 36px,
-    'small-size': 28px,
   ),
   $avatar
+);
+
+$avatar-size: () !default;
+$avatar-size: map.merge(
+  (
+    'large': 56px,
+    'default': 40px,
+    'small': 24px,
+  ),
+  $avatar-size
 );
 
 // Empty

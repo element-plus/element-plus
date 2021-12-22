@@ -1,7 +1,7 @@
-import isServer from './isServer'
+import { isClient } from '@vueuse/core'
 
 const globalNodes = []
-let target = isServer ? undefined : document.body
+let target = !isClient ? undefined : document.body
 
 export function createGlobalNode(id?: string) {
   const el = document.createElement('div')

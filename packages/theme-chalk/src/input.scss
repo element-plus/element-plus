@@ -212,6 +212,10 @@
     justify-content: center;
     align-items: center;
     transition: all var(--el-transition-duration);
+
+    &.#{$namespace}-icon {
+      display: flex;
+    }
   }
 
   @include e(validateIcon) {
@@ -275,7 +279,7 @@
     }
   }
 
-  @each $size in (medium, small, mini) {
+  @each $size in (large, small) {
     @include m($size) {
       font-size: map.get($input-font-size, $size);
       line-height: map.get($input-height, $size) - 2;
