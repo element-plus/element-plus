@@ -193,14 +193,14 @@ describe('Tree.vue', () => {
     const firstNodeWrapper = wrapper.find('.el-tree-node')
 
     await firstNodeContentWrapper.trigger('click')
-    await sleep() // because node click method to expaned is async
+    await nextTick() // because node click method to expaned is async
 
     expect(vm.clickedNode.label).toEqual('一级 1')
     expect(firstNodeWrapper.classes('is-expanded')).toBe(true)
     expect(firstNodeWrapper.classes('is-current')).toBe(true)
 
     await firstNodeContentWrapper.trigger('click')
-    await sleep()
+    await nextTick() // because node click method to expaned is async
 
     expect(firstNodeWrapper.classes('is-expanded')).toBe(false)
     expect(firstNodeWrapper.classes('is-current')).toBe(true)
@@ -222,7 +222,7 @@ describe('Tree.vue', () => {
     const firstNodeWrapper = wrapper.find('.el-tree-node')
 
     await firstNodeContentWrapper.trigger('click')
-    await sleep() // because node click method to expaned is async
+    await nextTick() // because node click method to expaned is async
 
     expect(firstNodeWrapper.classes('is-expanded')).toBe(false)
   })
@@ -336,7 +336,7 @@ describe('Tree.vue', () => {
 
     const firstNodeContentWrapper = wrapper.find('.el-tree-node__content')
     await firstNodeContentWrapper.trigger('click')
-    await sleep()
+    await nextTick()
 
     expect(wrapper.findAll('.el-tree-node.is-expanded').length).toEqual(2)
   })
@@ -386,7 +386,7 @@ describe('Tree.vue', () => {
     expect(treeVm.getCheckedNodes(true).length).toEqual(2)
 
     await seconNodeExpandIconWrapper.trigger('click')
-    await sleep()
+    await nextTick()
 
     const secondTreeNodeWrapper = treeWrapper.findAll('.el-tree-node')[1]
     const secondNodefirstLeafCheckboxWrapper = secondTreeNodeWrapper.find(
@@ -416,7 +416,7 @@ describe('Tree.vue', () => {
     expect(secondNodeCheckboxWrapper.exists()).toBe(true)
 
     await secondNodeCheckboxWrapper.trigger('click')
-    await sleep()
+    await nextTick()
 
     expect(handleCheckMockFunction.mock.calls.length).toBe(1)
     const [data, args] = handleCheckMockFunction.mock.calls[0]
