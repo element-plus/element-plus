@@ -57,12 +57,16 @@ export default defineComponent({
     const { t } = useLocale()
     const visible = ref(false)
     const confirm = () => {
+      if (visible.value) {
+        emit('confirm')
+      }
       visible.value = false
-      emit('confirm')
     }
     const cancel = () => {
+      if (visible.value) {
+        emit('cancel')
+      }
       visible.value = false
-      emit('cancel')
     }
     const finalConfirmButtonText = computed(
       () => props.confirmButtonText || t('el.popconfirm.confirmButtonText')
