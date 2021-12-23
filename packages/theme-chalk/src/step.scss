@@ -280,6 +280,10 @@
       }
     }
 
+    @include e(line) {
+      display: none;
+    }
+
     @include e(arrow) {
       flex-grow: 1;
       display: flex;
