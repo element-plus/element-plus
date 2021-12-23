@@ -31,13 +31,6 @@ export const useDialog = (
     offsetY: 0,
   })
   function handleMouseDown(e: MouseEvent) {
-    if (
-      !e.target.classList.contains('el-dialog__header') &&
-      !e.target.classList.contains('el-dialog__body') &&
-      !e.target.classList.contains('el-dialog__footer')
-    ) {
-      return
-    }
     if (props.fullscreen || !props.draggable) return
     if (e.button !== 0 || !wrapper.value) return
     const { offsetX, offsetY } = transform.value
@@ -83,12 +76,11 @@ export const useDialog = (
   }
 
   const style = computed<CSSProperties>(() => {
-    let style: CSSProperties = {}
+    const style: CSSProperties = {}
     if (wrapper && props.draggable) {
-      style = {
-        left: `${transform.value.offsetX}px`,
-        top: `${transform.value.offsetY}px`,
-      }
+      const left = `${transform.value.offsetX}px`
+      const top = `${transform.value.offsetY}px`
+      style[`transform`] = `translate3d(${left}, ${top}, 0px)`
     }
     const varPrefix = `--el-dialog`
     if (!props.fullscreen) {

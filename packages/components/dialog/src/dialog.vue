@@ -36,9 +36,8 @@
             :aria-label="title || 'dialog'"
             :style="style"
             @click.stop=""
-            @mousedown="handleMouseDown"
           >
-            <div class="el-dialog__header">
+            <div class="el-dialog__header" @mousedown="handleMouseDown">
               <slot name="title">
                 <span class="el-dialog__title">
                   {{ title }}
