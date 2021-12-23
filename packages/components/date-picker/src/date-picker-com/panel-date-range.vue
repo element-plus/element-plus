@@ -233,7 +233,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, ref, watch, toRefs } from 'vue'
+import { computed, defineComponent, inject, ref, watch, toRef } from 'vue'
 import dayjs from 'dayjs'
 import ElButton from '@element-plus/components/button'
 import { ClickOutside } from '@element-plus/directives'
@@ -331,7 +331,7 @@ export default defineComponent({
       return rightDate.value.month()
     })
 
-    const hasShortcuts = computed(() => !!shortcuts.value.length)
+    const hasShortcuts = computed(() => !!shortcuts.length)
 
     const minVisibleDate = computed(() => {
       if (dateUserInput.value.min !== null) return dateUserInput.value.min
@@ -360,11 +360,11 @@ export default defineComponent({
     })
 
     const timeFormat = computed(() => {
-      return extractTimeFormat(format.value)
+      return extractTimeFormat(format)
     })
 
     const dateFormat = computed(() => {
-      return extractDateFormat(format.value)
+      return extractDateFormat(format)
     })
 
     const leftPrevYear = () => {
@@ -481,10 +481,10 @@ export default defineComponent({
 
     const formatEmit = (emitDayjs: Dayjs, index?) => {
       if (!emitDayjs) return
-      if (defaultTime.value) {
-        const defaultTimeD = dayjs(
-          defaultTime.value[index] || defaultTime.value
-        ).locale(lang.value)
+      if (defaultTime) {
+        const defaultTimeD = dayjs(defaultTime[index] || defaultTime).locale(
+          lang.value
+        )
         return defaultTimeD
           .year(emitDayjs.year())
           .month(emitDayjs.month())
@@ -541,7 +541,7 @@ export default defineComponent({
       const parsedValueD = dayjs(value, dateFormat.value).locale(lang.value)
 
       if (parsedValueD.isValid()) {
-        if (disabledDate.value && disabledDate.value(parsedValueD.toDate())) {
+        if (disabledDate && disabledDate(parsedValueD.toDate())) {
           return
         }
         if (type === 'min') {
@@ -658,14 +658,14 @@ export default defineComponent({
 
     const formatToString = (value: Dayjs | Dayjs[]) => {
       return Array.isArray(value)
-        ? value.map((_) => _.format(format.value))
-        : value.format(format.value)
+        ? value.map((_) => _.format(format))
+        : value.format(format)
     }
 
     const parseUserInput = (value: Dayjs | Dayjs[]) => {
       return Array.isArray(value)
-        ? value.map((_) => dayjs(_, format.value).locale(lang.value))
-        : dayjs(value, format.value).locale(lang.value)
+        ? value.map((_) => dayjs(_, format).locale(lang.value))
+        : dayjs(value, format).locale(lang.value)
     }
 
     const getDefaultValue = () => {
@@ -699,10 +699,10 @@ export default defineComponent({
       cellClassName,
       format,
       defaultTime,
-      defaultValue,
       arrowControl,
       clearable,
-    } = toRefs(pickerBase.props)
+    } = pickerBase.props
+    const defaultValue = toRef(pickerBase.props, 'defaultValue')
 
     watch(
       () => defaultValue.value,

@@ -97,7 +97,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, watch, inject, toRefs } from 'vue'
+import { defineComponent, computed, ref, watch, inject, toRef } from 'vue'
 import dayjs from 'dayjs'
 import ElIcon from '@element-plus/components/icon'
 import { useLocale } from '@element-plus/hooks'
@@ -124,7 +124,7 @@ export default defineComponent({
     const leftDate = ref(dayjs().locale(lang.value))
     const rightDate = ref(dayjs().locale(lang.value).add(1, 'year'))
 
-    const hasShortcuts = computed(() => !!shortcuts.value.length)
+    const hasShortcuts = computed(() => !!shortcuts.length)
 
     const handleShortcutClick = (shortcut) => {
       const shortcutValues =
@@ -237,7 +237,7 @@ export default defineComponent({
     }
 
     const formatToString = (value) => {
-      return value.map((_) => _.format(format.value))
+      return value.map((_) => _.format(format))
     }
 
     const getDefaultValue = () => {
@@ -261,9 +261,8 @@ export default defineComponent({
     // pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
     ctx.emit('set-picker-option', ['formatToString', formatToString])
     const pickerBase = inject('EP_PICKER_BASE') as any
-    const { shortcuts, disabledDate, format, defaultValue } = toRefs(
-      pickerBase.props
-    )
+    const { shortcuts, disabledDate, format } = pickerBase.props
+    const defaultValue = toRef(pickerBase.props, 'defaultValue')
 
     watch(
       () => defaultValue.value,
