@@ -151,7 +151,7 @@ importers:
     specifiers:
       '@crowdin/cli': 3.7.4
       '@types/markdown-it': 12.2.3
-      '@vueuse/core': 7.4.1
+      '@vueuse/core': 7.3.0
       axios: 0.24.0
       clipboard-copy: 4.0.1
       cross-env: 7.0.3
@@ -165,7 +165,7 @@ importers:
       vite-plugin-windicss: 1.5.4
       vitepress: 0.20.5
     dependencies:
-      '@vueuse/core': 7.4.1_vue@3.2.24
+      '@vueuse/core': 7.3.0_vue@3.2.24
       axios: 0.24.0
       clipboard-copy: 4.0.1
       element-plus: 1.2.0-beta.6_vue@3.2.24
@@ -2283,39 +2283,8 @@ packages:
       vue-demi: 0.11.4_vue@3.2.24
     dev: false
 
-  /@vueuse/core/7.4.1_vue@3.2.24:
-    resolution: {integrity: sha512-8UeLPCAieeQLXFHF1/28SIEK6ILLPb/4hp03hR+xkXF00gB/YUp0CEVcRAL9uQ8HTZa3S2T/jTISMc1ZjilM0A==}
-    peerDependencies:
-      '@vue/composition-api': ^1.1.0
-      vue: ^2.6.0 || ^3.2.0
-    peerDependenciesMeta:
-      '@vue/composition-api':
-        optional: true
-      vue:
-        optional: true
-    dependencies:
-      '@vueuse/shared': 7.4.1_vue@3.2.24
-      vue: 3.2.24
-      vue-demi: 0.11.4_vue@3.2.24
-    dev: false
-
   /@vueuse/shared/7.3.0_vue@3.2.24:
     resolution: {integrity: sha512-vOAeI84tIXKVkzm8s/Mxbrzhj0QN6NyVc/sC6LrW0AjVNdvpD8sB1dZiDn9yh8T77WJmloCEt4zZVIppeq7I+w==}
-    peerDependencies:
-      '@vue/composition-api': ^1.1.0
-      vue: ^2.6.0 || ^3.2.0
-    peerDependenciesMeta:
-      '@vue/composition-api':
-        optional: true
-      vue:
-        optional: true
-    dependencies:
-      vue: 3.2.24
-      vue-demi: 0.11.4_vue@3.2.24
-    dev: false
-
-  /@vueuse/shared/7.4.1_vue@3.2.24:
-    resolution: {integrity: sha512-Pzb7XoHIcgPwwBJ5Ow9lZb0HTDyaLDV3pgxKauPGTMN9qvEylG06kUG+VTjJXkPsRtiGu46di8XyFeMw2dongA==}
     peerDependencies:
       '@vue/composition-api': ^1.1.0
       vue: ^2.6.0 || ^3.2.0
@@ -4065,7 +4034,7 @@ packages:
     dependencies:
       '@element-plus/icons-vue': 0.2.4_vue@3.2.24
       '@popperjs/core': 2.11.0
-      '@vueuse/core': 7.4.1_vue@3.2.24
+      '@vueuse/core': 7.3.0_vue@3.2.24
       async-validator: 4.0.7
       dayjs: 1.10.7
       lodash: 4.17.21
