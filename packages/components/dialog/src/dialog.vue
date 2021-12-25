@@ -26,6 +26,7 @@
               'el-dialog',
               {
                 'is-fullscreen': fullscreen,
+                'is-draggable': draggable,
                 'el-dialog--center': center,
               },
               customClass,
