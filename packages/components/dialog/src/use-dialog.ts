@@ -1,7 +1,12 @@
 import { computed, ref, watch, nextTick, onMounted } from 'vue'
 import { useTimeoutFn, isClient } from '@vueuse/core'
 
-import { useLockscreen, useRestoreActive, useModal } from '@element-plus/hooks'
+import {
+  useLockscreen,
+  useRestoreActive,
+  useModal,
+  useDraggable,
+} from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { PopupManager } from '@element-plus/utils/popup-manager'
 import { isNumber } from '@element-plus/utils/util'
@@ -18,6 +23,7 @@ export const useDialog = (
   const closed = ref(false)
   const rendered = ref(false) // when desctroyOnClose is true, we initialize it as false vise versa
   const zIndex = ref(props.zIndex || PopupManager.nextZIndex())
+  const headerRef = ref<HTMLElement>()
 
   let openTimer: (() => void) | undefined = undefined
   let closeTimer: (() => void) | undefined = undefined
@@ -158,6 +164,10 @@ export const useDialog = (
       visible.value = true
       rendered.value = true // enables lazy rendering
       open()
+    }
+    if (!props.fullscreen && props.draggable) {
+      headerRef.value = targetRef.value.querySelector('.el-dialog__header')
+      useDraggable(targetRef, headerRef)
     }
   })
 

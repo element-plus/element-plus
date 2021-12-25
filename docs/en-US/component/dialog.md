@@ -92,6 +92,16 @@ dialog/destroy-on-close
 
 :::
 
+### Draggable Dialog
+
+Try to drag the `header` part.
+
+:::demo Set `draggable` to `true` to drag.
+
+dialog/draggable-dialog
+
+:::
+
 :::tip
 
 When using `modal` = false, please make sure that `append-to-body` was set to **true**, because `Dialog` was positioned by `position: relative`, when `modal` gets removed, `Dialog` will position itself based on the current position in the DOM, instead of `Document.Body`, thus the style will be messed up.
@@ -117,6 +127,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 | close-on-press-escape | whether the Dialog can be closed by pressing ESC                                                  | boolean                                          | —               | true    |
 | show-close            | whether to show a close button                                                                    | boolean                                          | —               | true    |
 | before-close          | callback before Dialog closes, and it will prevent Dialog from closing                            | function(done)，done is used to close the Dialog | —               | —       |
+| draggable             | whether can drag Dialog                                                                           | boolean                                          | —               | false   |
 | center                | whether to align the header and footer in center                                                  | boolean                                          | —               | false   |
 | destroy-on-close      | Destroy elements in Dialog when closed                                                            | boolean                                          | —               | false   |
 
