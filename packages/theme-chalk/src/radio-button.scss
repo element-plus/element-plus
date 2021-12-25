@@ -33,6 +33,7 @@
     position: relative;
     cursor: pointer;
     transition: var(--el-transition-all);
+    width: 100%;
     user-select: none;
 
     @include button-size(
