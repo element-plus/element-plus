@@ -324,7 +324,7 @@ export default defineComponent({
     )
     const realSize = useSize()
     const tagSize = computed(() =>
-      ['small'].includes(realSize.value) ? 'small' : ''
+      ['small'].includes(realSize.value) ? 'small' : 'default'
     )
     const multiple = computed(() => !!props.props.multiple)
     const readonly = computed(() => !props.filterable || multiple.value)

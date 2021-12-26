@@ -44,7 +44,7 @@ const getButtonVm = (wrapper: ReturnType<typeof mountComponent>) => {
 describe('use-form-item', () => {
   it('should return local value', () => {
     const wrapper = mountComponent()
-    expect(getButtonVm(wrapper).buttonSize).toBe('')
+    expect(getButtonVm(wrapper).buttonSize).toBe('default')
   })
 
   it('should return props.size instead of injected.size', () => {
