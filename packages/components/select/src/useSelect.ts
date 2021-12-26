@@ -148,7 +148,7 @@ export const useSelect = (props, states: States, ctx) => {
   const selectSize = useSize()
 
   const collapseTagSize = computed(() =>
-    ['small'].indexOf(selectSize.value) > -1 ? 'small' : ''
+    ['small'].indexOf(selectSize.value) > -1 ? 'small' : 'default'
   )
 
   const dropMenuVisible = computed(
