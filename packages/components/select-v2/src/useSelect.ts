@@ -33,8 +33,9 @@ import type { OptionType, Option } from './select.types'
 const DEFAULT_INPUT_PLACEHOLDER = ''
 const MINIMUM_INPUT_WIDTH = 11
 const TAG_BASE_WIDTH = {
-  small: 42,
-  mini: 33,
+  larget: 51,
+  default: 42,
+  small: 33,
 }
 
 const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
@@ -191,7 +192,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const tagMaxWidth = computed(() => {
     const select = selectionRef.value
-    const size = collapseTagSize.value
+    const size = collapseTagSize.value || 'default'
     const paddingLeft = select
       ? parseInt(getComputedStyle(select).paddingLeft)
       : 0
