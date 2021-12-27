@@ -16,14 +16,24 @@ $checkbox-height: map.merge(
   $checkbox-height
 );
 
-$checkbox-bordered-padding: () !default;
-$checkbox-bordered-padding: map.merge(
+$checkbox-bordered-padding-left: () !default;
+$checkbox-bordered-padding-left: map.merge(
   (
-    'large': 0 20px 0 12px,
-    'default': 0 16px 0 10px,
-    'small': 0 12px 0 8px,
+    'large': 12px,
+    'default': 10px,
+    'small': 8px,
   ),
-  $checkbox-bordered-padding
+  $checkbox-bordered-padding-left
+);
+
+$checkbox-bordered-padding-right: () !default;
+$checkbox-bordered-padding-right: map.merge(
+  (
+    'large': 20px,
+    'default': 16px,
+    'small': 12px,
+  ),
+  $checkbox-bordered-padding-right
 );
 
 $checkbox-bordered-input-height: () !default;
@@ -66,7 +76,8 @@ $checkbox-bordered-input-width: map.merge(
   }
 
   @include when(bordered) {
-    padding: map.get($checkbox-bordered-padding, 'default');
+    padding: 0 map.get($checkbox-bordered-padding-right, 'default')-$border-width-base
+      0 map.get($checkbox-bordered-padding-left, 'default')-$border-width-base;
     border-radius: var(--el-border-radius-base);
     border: var(--el-border-base);
     box-sizing: border-box;
@@ -86,7 +97,11 @@ $checkbox-bordered-input-width: map.merge(
 
     @each $size in (large, small) {
       &.#{$namespace}-checkbox--#{$size} {
-        padding: map.get($checkbox-bordered-padding, $size);
+        padding: 0
+          map.get($checkbox-bordered-padding-right, $size)-$border-width-base
+          0
+          map.get($checkbox-bordered-padding-left, $size)-$border-width-base;
+
         border-radius: map.get($button-border-radius, $size);
 
         .#{$namespace}-checkbox__label {
