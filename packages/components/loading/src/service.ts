@@ -19,6 +19,7 @@ export const Loading = function (
   const resolved = resolveOptions(options)
 
   if (resolved.fullscreen && fullscreenInstance) {
+    fullscreenInstance.remvoeElLoadingChild()
     fullscreenInstance.close()
   }
 
