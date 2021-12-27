@@ -81,7 +81,7 @@
     "@types/jest": "27.0.2",
     "@types/lodash": "4.14.178",
     "@types/sass": "1.43.1",
-    "@typescript-eslint/eslint-plugin": "5.8.0",
+    "@typescript-eslint/eslint-plugin": "5.8.1",
     "@typescript-eslint/parser": "5.8.0",
     "@vue/compiler-sfc": "3.2.26",
     "@vue/test-utils": "2.0.0-rc.16",
