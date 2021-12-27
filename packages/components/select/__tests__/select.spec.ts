@@ -256,13 +256,7 @@ const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
           :label="item.label"
           :value="item.value"/>
       </el-group-option>
-    </el-select>
-  <script>
-import ElOptionGroup from './option-group'
-export default {
-components: { ElOptionGroup }
- }
-</script>`,
+    </el-select>`,
     () => ({
       options,
       multiple: configs.multiple,
