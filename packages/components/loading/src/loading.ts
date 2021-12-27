@@ -43,15 +43,18 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
       }
       removeClass(target, 'el-loading-parent--hidden')
     }
+    removeElParent()
+  }
+  function removeElParent() {
     vm.$el?.parentNode?.removeChild(vm.$el)
   }
-
   function close() {
     if (options.beforeClose && !options.beforeClose()) return
 
     const target = data.parent
     target.vLoadingAddClassList = undefined
     afterLeaveFlag.value = true
+    removeElParent()
     clearTimeout(afterLeaveTimer)
 
     afterLeaveTimer = window.setTimeout(() => {
