@@ -45,7 +45,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
     }
     removeElParent()
   }
-  function removeElParent() {
+  function removeElParent(): void {
     vm.$el?.parentNode?.removeChild(vm.$el)
   }
   function close() {
