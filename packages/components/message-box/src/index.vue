@@ -99,7 +99,6 @@
             v-show="showConfirmButton"
             ref="confirmRef"
             type="primary"
-            plain
             :loading="confirmButtonLoading"
             :class="[confirmButtonClasses]"
             :round="roundButton"
