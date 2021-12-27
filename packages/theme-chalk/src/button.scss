@@ -187,7 +187,8 @@
 
   @each $size in (large, small) {
     @include m($size) {
-      height: map.get($input-height, $size);
+      --el-button-size: #{map.get($input-height, $size)};
+      height: var(--el-button-size);
 
       @include button-size(
         map.get($button-padding-vertical, $size) - $button-border-width,
@@ -197,6 +198,12 @@
       );
 
       @include when(circle) {
+        width: var(--el-button-size);
+
+        @if $size == large {
+          font-size: 16px;
+        }
+
         padding: map.get($button-padding-vertical, $size) - $button-border-width;
       }
     }
