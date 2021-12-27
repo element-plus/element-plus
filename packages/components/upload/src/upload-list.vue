@@ -17,7 +17,7 @@
         focusing ? 'focusing' : '',
       ]"
       tabindex="0"
-      @keydown.delete="!disabled && handleRemove($event, file)"
+      @keydown.delete="!disabled && handleRemove(file)"
       @focus="focusing = true"
       @blur="focusing = false"
       @click="onFileClicked"
@@ -53,7 +53,7 @@
         <el-icon
           v-if="!disabled"
           class="el-icon--close"
-          @click="handleRemove($event, file)"
+          @click="handleRemove(file)"
         >
           <close />
         </el-icon>
@@ -82,7 +82,7 @@
           <span
             v-if="!disabled"
             class="el-upload-list__item-delete"
-            @click="handleRemove($event, file)"
+            @click="handleRemove(file)"
           >
             <el-icon class="el-icon--delete"><delete /></el-icon>
           </span>
@@ -151,7 +151,7 @@ export default defineComponent({
       ;(e.target as HTMLElement).focus()
     }
 
-    const handleRemove = (e: Event, file: UploadFile) => {
+    const handleRemove = (file: UploadFile) => {
       emit('remove', file)
     }
     return {

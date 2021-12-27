@@ -122,18 +122,19 @@ upload/manual
 
 ## Slots
 
-| Name    | Description                        |
-| ------- | ---------------------------------- |
-| —       | customize default content          |
-| trigger | content which triggers file dialog |
-| tip     | content of tips                    |
-| file    | content of thumbnail template.     |
+| Name    | Description                        | Parameters                |
+| ------- | ---------------------------------- | ------------------------- |
+| —       | customize default content          | -                         |
+| trigger | content which triggers file dialog | -                         |
+| tip     | content of tips                    | -                         |
+| file    | content of thumbnail template.     | file ( #file = { file } ) |
 
 ## Methods
 
 | Methods Name | Description                                                                     | Parameters                                                                    | Default                                   |
 | ------------ | ------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------- |
 | clearFiles   | clear the file list (this method is not supported in the `before-upload` hook). | UploadStatus[] (UploadStatus = 'ready' \| 'uploading' \| 'success' \| 'fail') | ['ready', 'uploading', 'success', 'fail'] |
-| abort        | cancel upload request                                                           | ( file: fileList's item )                                                     |                                           |
-| submit       | upload the file list manually                                                   | —                                                                             |                                           |
-| handleStart  | select the file manually                                                        | ( file: files' item)                                                          |                                           |
+| abort        | cancel upload request                                                           | ( file: fileList's item )                                                     | -                                         |
+| submit       | upload the file list manually                                                   | —                                                                             | -                                         |
+| handleStart  | select the file manually                                                        | ( file: files' item)                                                          | -                                         |
+| handleRemove | remove the file manually                                                        | ( file: fileList's item )                                                     | -                                         |
