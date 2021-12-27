@@ -10,6 +10,16 @@
   @include set-component-css-var('button', $button);
 }
 
+$button-icon-span-gap: () !default;
+$button-icon-span-gap: map.merge(
+  (
+    'large': 8px,
+    'default': 6px,
+    'small': 4px,
+  ),
+  $button-icon-span-gap
+);
+
 @include b(button) {
   display: inline-flex;
   justify-content: center;
@@ -82,7 +92,7 @@
 
   & [class*='#{$namespace}-icon'] {
     & + span {
-      margin-left: 5px;
+      margin-left: map.get($button-icon-span-gap, 'default');
     }
     svg {
       vertical-align: bottom;
@@ -189,6 +199,12 @@
     @include m($size) {
       --el-button-size: #{map.get($input-height, $size)};
       height: var(--el-button-size);
+
+      & [class*='#{$namespace}-icon'] {
+        & + span {
+          margin-left: map.get($button-icon-span-gap, $size);
+        }
+      }
 
       @include button-size(
         map.get($button-padding-vertical, $size) - $button-border-width,
