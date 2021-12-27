@@ -792,10 +792,20 @@ $tag-padding: () !default;
 $tag-padding: map.merge(
   (
     'large': 12px,
-    'default': 8px,
-    'small': 4px,
+    'default': 10px,
+    'small': 8px,
   ),
   $tag-padding
+);
+
+$tag-icon-size: () !default;
+$tag-icon-size: map.merge(
+  (
+    'large': 18px,
+    'default': 16px,
+    'small': 14px,
+  ),
+  $tag-icon-size
 );
 
 @each $type in $types {

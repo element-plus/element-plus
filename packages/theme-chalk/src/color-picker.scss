@@ -221,7 +221,7 @@ $color-picker-size: map.merge(
   }
 
   @include e(btns) {
-    margin-top: 8px;
+    margin-top: 12px;
     text-align: right;
   }
 
