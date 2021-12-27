@@ -6,9 +6,9 @@
 $color-picker-size: () !default;
 $color-picker-size: map.merge(
   (
-    'large': 36px,
+    'large': 40px,
     'default': 32px,
-    'small': 28px,
+    'small': 24px,
   ),
   $color-picker-size
 );
@@ -221,7 +221,7 @@ $color-picker-size: map.merge(
   }
 
   @include e(btns) {
-    margin-top: 6px;
+    margin-top: 8px;
     text-align: right;
   }
 

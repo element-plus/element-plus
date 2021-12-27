@@ -483,9 +483,9 @@ $input-line-height: map.merge(
 $input-number-width: () !default;
 $input-number-width: map.merge(
   (
-    'large': 178px,
-    'default': 146px,
-    'small': 118px,
+    'large': 180px,
+    'default': 150px,
+    'small': 120px,
   ),
   $input-number-width
 );

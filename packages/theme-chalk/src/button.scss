@@ -52,7 +52,7 @@ $button-icon-span-gap: map.merge(
   }
 
   & + & {
-    margin-left: 10px;
+    margin-left: 12px;
   }
 
   @include button-size(
