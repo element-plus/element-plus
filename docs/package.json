@@ -25,6 +25,6 @@
     "markdown-it-container": "3.0.0",
     "vite-plugin-inspect": "0.3.11",
     "vite-plugin-windicss": "1.6.1",
-    "vitepress": "0.20.5"
+    "vitepress": "0.20.10"
   }
 }
