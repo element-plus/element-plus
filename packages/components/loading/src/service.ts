@@ -3,6 +3,7 @@ import { isString } from '@vue/shared'
 import { isClient } from '@vueuse/core'
 import { addClass, getStyle, removeClass } from '@element-plus/utils/dom'
 import PopupManager from '@element-plus/utils/popup-manager'
+import el from '@element-plus/locale/lang/el'
 import { createLoadingComponent } from './loading'
 import type { LoadingInstance } from './loading'
 import type { LoadingOptionsResolved } from '..'
@@ -19,50 +20,49 @@ export const Loading = function (
   const resolved = resolveOptions(options)
 
   if (resolved.fullscreen && fullscreenInstance) {
-    fullscreenInstance.remvoeElLoadingChild()
-    fullscreenInstance.close()
-  }
+    return fullscreenInstance
+  } else {
+    const instance = createLoadingComponent({
+      ...resolved,
+      closed: () => {
+        resolved.closed?.()
+        if (resolved.fullscreen) fullscreenInstance = undefined
+      },
+    })
 
-  const instance = createLoadingComponent({
-    ...resolved,
-    closed: () => {
-      resolved.closed?.()
-      if (resolved.fullscreen) fullscreenInstance = undefined
-    },
-  })
-
-  addStyle(resolved, resolved.parent, instance)
-  addClassList(resolved, resolved.parent, instance)
-
-  resolved.parent.vLoadingAddClassList = () =>
+    addStyle(resolved, resolved.parent, instance)
     addClassList(resolved, resolved.parent, instance)
 
-  /**
-   * add loading-number to parent.
-   * because if a fullscreen loading is triggered when somewhere
-   * a v-loading.body was triggered before and it's parent is
-   * document.body which with a margin , the fullscreen loading's
-   * destroySelf function will remove 'el-loading-parent--relative',
-   * and then the position of v-loading.body will be error.
-   */
-  let loadingNumber: string | null =
-    resolved.parent.getAttribute('loading-number')
-  if (!loadingNumber) {
-    loadingNumber = '1'
-  } else {
-    loadingNumber = `${Number.parseInt(loadingNumber) + 1}`
+    resolved.parent.vLoadingAddClassList = () =>
+      addClassList(resolved, resolved.parent, instance)
+
+    /**
+     * add loading-number to parent.
+     * because if a fullscreen loading is triggered when somewhere
+     * a v-loading.body was triggered before and it's parent is
+     * document.body which with a margin , the fullscreen loading's
+     * destroySelf function will remove 'el-loading-parent--relative',
+     * and then the position of v-loading.body will be error.
+     */
+    let loadingNumber: string | null =
+      resolved.parent.getAttribute('loading-number')
+    if (!loadingNumber) {
+      loadingNumber = '1'
+    } else {
+      loadingNumber = `${Number.parseInt(loadingNumber) + 1}`
+    }
+    resolved.parent.setAttribute('loading-number', loadingNumber)
+
+    resolved.parent.appendChild(instance.$el)
+
+    // after instance render, then modify visible to trigger transition
+    nextTick(() => (instance.visible.value = resolved.visible))
+
+    if (resolved.fullscreen) {
+      fullscreenInstance = instance
+    }
+    return instance
   }
-  resolved.parent.setAttribute('loading-number', loadingNumber)
-
-  resolved.parent.appendChild(instance.$el)
-
-  // after instance render, then modify visible to trigger transition
-  nextTick(() => (instance.visible.value = resolved.visible))
-
-  if (resolved.fullscreen) {
-    fullscreenInstance = instance
-  }
-  return instance
 }
 
 const resolveOptions = (options: LoadingOptions): LoadingOptionsResolved => {
