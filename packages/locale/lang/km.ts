@@ -108,14 +108,14 @@ export default {
       hasCheckedFormat: '{checked}/{total} បានជ្រើសយក',
     },
     image: {
-      error: 'មិនបានជោគជ័យ', 
+      error: 'មិនបានជោគជ័យ',
     },
     pageHeader: {
-      title: 'ត្រលប់ក្រោយ', 
+      title: 'ត្រលប់ក្រោយ',
     },
     popconfirm: {
-      confirmButtonText: 'យល់ព្រម', 
-      cancelButtonText: 'មិនព្រម', 
+      confirmButtonText: 'យល់ព្រម',
+      cancelButtonText: 'មិនព្រម',
     },
   },
 }
