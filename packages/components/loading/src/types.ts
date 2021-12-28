@@ -14,6 +14,7 @@ export type LoadingOptionsResolved = {
   target: HTMLElement
   beforeClose?: () => boolean
   closed?: () => void
+  isService: boolean
 }
 export type LoadingOptions = Partial<
   Omit<LoadingOptionsResolved, 'parent' | 'target'> & {

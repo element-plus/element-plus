@@ -17,7 +17,9 @@ export const Loading = function (
   if (!isClient) return undefined as any
 
   const resolved = resolveOptions(options)
-  if (resolved.fullscreen && fullscreenInstance) {
+
+  if (resolved.isService && fullscreenInstance) {
+    addElAttris(resolved, fullscreenInstance)
     return fullscreenInstance
   } else {
     const instance = createLoadingComponent({
@@ -28,39 +30,44 @@ export const Loading = function (
       },
     })
 
-    addStyle(resolved, resolved.parent, instance)
-    addClassList(resolved, resolved.parent, instance)
-
-    resolved.parent.vLoadingAddClassList = () =>
-      addClassList(resolved, resolved.parent, instance)
-
-    /**
-     * add loading-number to parent.
-     * because if a fullscreen loading is triggered when somewhere
-     * a v-loading.body was triggered before and it's parent is
-     * document.body which with a margin , the fullscreen loading's
-     * destroySelf function will remove 'el-loading-parent--relative',
-     * and then the position of v-loading.body will be error.
-     */
-    let loadingNumber: string | null =
-      resolved.parent.getAttribute('loading-number')
-    if (!loadingNumber) {
-      loadingNumber = '1'
-    } else {
-      loadingNumber = `${Number.parseInt(loadingNumber) + 1}`
-    }
-    resolved.parent.setAttribute('loading-number', loadingNumber)
-
-    resolved.parent.appendChild(instance.$el)
-
-    // after instance render, then modify visible to trigger transition
-    nextTick(() => (instance.visible.value = resolved.visible))
-
-    if (resolved.fullscreen) {
+    addElAttris(resolved, instance)
+    if (resolved.isService) {
       fullscreenInstance = instance
     }
     return instance
   }
+}
+const addElAttris = (
+  resolved: LoadingOptionsResolved,
+  instance: LoadingInstance
+) => {
+  addStyle(resolved, resolved.parent, instance)
+  addClassList(resolved, resolved.parent, instance)
+
+  resolved.parent.vLoadingAddClassList = () =>
+    addClassList(resolved, resolved.parent, instance)
+
+  /**
+   * add loading-number to parent.
+   * because if a fullscreen loading is triggered when somewhere
+   * a v-loading.body was triggered before and it's parent is
+   * document.body which with a margin , the fullscreen loading's
+   * destroySelf function will remove 'el-loading-parent--relative',
+   * and then the position of v-loading.body will be error.
+   */
+  let loadingNumber: string | null =
+    resolved.parent.getAttribute('loading-number')
+  if (!loadingNumber) {
+    loadingNumber = '1'
+  } else {
+    loadingNumber = `${Number.parseInt(loadingNumber) + 1}`
+  }
+  resolved.parent.setAttribute('loading-number', loadingNumber)
+
+  resolved.parent.appendChild(instance.$el)
+
+  // after instance render, then modify visible to trigger transition
+  nextTick(() => (instance.visible.value = resolved.visible))
 }
 
 const resolveOptions = (options: LoadingOptions): LoadingOptionsResolved => {
@@ -83,6 +90,7 @@ const resolveOptions = (options: LoadingOptions): LoadingOptionsResolved => {
     customClass: options.customClass || '',
     visible: options.visible ?? true,
     target,
+    isService: options.isService ?? true,
   }
 }
 
