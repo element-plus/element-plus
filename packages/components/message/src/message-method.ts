@@ -18,11 +18,7 @@ const message: MessageFn & Partial<Message> = function (options = {}) {
   if (!isClient) return { close: () => undefined }
 
   if (messageConfig.max && instances.length >= messageConfig.max) {
-    return {
-      close: () => {
-        return
-      },
-    }
+    return { close: () => undefined }
   }
   if (
     !isVNode(options) &&
