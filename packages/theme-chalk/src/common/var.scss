@@ -533,7 +533,7 @@ $button: map.merge(
     'disabled-bg-color': var(--el-color-white),
     'disabled-border-color': var(--el-border-color-light),
     'divide-border-color': rgba($color-white, 0.5),
-    'hover-text-color': var(--el-color-white),
+    'hover-text-color': var(--el-color-primary),
     'hover-bg-color': var(--el-color-primary-light-9),
     'hover-border-color': var(--el-color-primary-light-7),
     'active-text-color': var(--el-button-hover-text-color),

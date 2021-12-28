@@ -248,9 +248,9 @@ describe('Datetime Picker', () => {
     // click confirm button
     ;(
       document.querySelector(
-        '.el-picker-panel__footer .el-button--default'
+        '.el-picker-panel__footer .el-button'
       ) as HTMLElement
-    ).click()
+    )[1].click()
     const vm = wrapper.vm as any
     expect(dayjs(vm.value).format(formatStr)).toBe('2000-10-01 12:00:00')
   })
@@ -425,9 +425,9 @@ describe('Datetimerange', () => {
     await nextTick()
     ;(
       document.querySelector(
-        '.el-picker-panel__footer .el-button--default'
+        '.el-picker-panel__footer .el-button'
       ) as HTMLElement
-    ).click()
+    )[1].click()
     await nextTick()
     const vm = wrapper.vm as any
     expect(vm.value.map((_) => dayjs(_).format(formatStr))).toStrictEqual([
@@ -497,9 +497,11 @@ describe('Datetimerange', () => {
     triggerEvent(rightCell, 'mousemove', true)
     triggerEvent(rightCell, 'click', true)
     await nextTick()
-    const btn = document.querySelector(
-      '.el-picker-panel__footer .el-button--default'
-    ) as HTMLElement
+    const btn = (
+      document.querySelector(
+        '.el-picker-panel__footer .el-button'
+      ) as HTMLElement
+    )[1]
     btn.click()
     await nextTick()
     const vm = wrapper.vm as any
@@ -545,9 +547,11 @@ describe('Datetimerange', () => {
     ) as HTMLElement
     button.click()
     await nextTick()
-    const btn = document.querySelector(
-      '.el-picker-panel__footer .el-button--default'
-    ) as HTMLElement
+    const btn = (
+      document.querySelector(
+        '.el-picker-panel__footer .el-button'
+      ) as HTMLElement
+    )[1]
     btn.click()
     await nextTick()
     expect(vm.value).not.toBe('')
@@ -583,9 +587,11 @@ describe('Datetimerange', () => {
     triggerEvent(leftDateInput, 'input', true)
     triggerEvent(leftDateInput, 'change', true)
     await nextTick()
-    const btn = document.querySelector(
-      '.el-picker-panel__footer .el-button--default'
-    ) as HTMLElement
+    const btn = (
+      document.querySelector(
+        '.el-picker-panel__footer .el-button'
+      ) as HTMLElement
+    )[1]
     expect(btn.getAttribute('disabled')).not.toBeUndefined() // invalid input disables button
     btn.click()
     await nextTick()
@@ -743,9 +749,9 @@ describe('Datetimerange', () => {
     await nextTick()
     ;(
       document.querySelector(
-        '.el-picker-panel__footer .el-button--default'
+        '.el-picker-panel__footer .el-button'
       ) as HTMLElement
-    ).click()
+    )[1].click()
     await nextTick()
     const vm = wrapper.vm as any
     expect(vm.value.map((_) => dayjs(_).format('HH:mm:ss'))).toStrictEqual([
