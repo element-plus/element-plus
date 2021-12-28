@@ -12,10 +12,10 @@ export const createModelToggleComposable = (name: string) => {
     [name]: buildProp({
       type: definePropType<boolean | null>(Boolean),
       default: null,
-    }),
+    } as const),
     [`onUpdate:${name}`]: buildProp({
       type: definePropType<(val: boolean) => void>(Function),
-    }),
+    } as const),
   }
 
   const useModelToggleEmits = [`update:${name}`]

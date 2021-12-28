@@ -74,30 +74,12 @@ export const usePopperProps = buildProps({
     type: Boolean,
     default: false,
   },
-
-  persistent: {
-    type: Boolean,
-    default: false,
-  },
-  // attached to the popped up component wrapper
-
-  referenceElement: {
-    type: definePropType<HTMLElement>(Object),
-  },
-
-  ['onUpdate:visible']: {
-    type: Function,
-  },
 } as const)
 
 export const usePopperContentProps = buildProps({
   ...usePopperCoreConfigProps,
   style: { type: definePropType<StyleValue>([String, Array, Object]) },
   className: { type: definePropType<ClassType>([String, Array, Object]) },
-  content: {
-    type: String,
-    default: '',
-  },
   effect: {
     type: String,
     default: 'dark',
@@ -115,20 +97,12 @@ export const usePopperContentProps = buildProps({
   popperStyle: {
     type: definePropType<StyleValue>([String, Array, Object]),
   },
-  rawContent: {
-    type: Boolean,
-    default: false,
-  },
   referenceEl: {
     type: definePropType<HTMLElement>(Object),
   },
   stopPopperMouseEvent: {
     type: Boolean,
     default: true,
-  },
-  visible: {
-    type: Boolean,
-    default: null as any,
   },
   zIndex: Number,
 })

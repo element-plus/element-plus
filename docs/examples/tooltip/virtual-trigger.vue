@@ -1,11 +1,12 @@
 <template>
   <el-tooltip
+    v-model:visible="visible"
     content="Bottom center"
     placement="bottom"
     effect="light"
     trigger="click"
+    virtual-triggering
     :virtual-ref="triggerRef"
-    v-model:visible="visible"
   />
   <el-button @click="visible = !visible">test</el-button>
 </template>

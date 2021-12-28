@@ -2,8 +2,7 @@
   <div
     ref="selectWrapper"
     v-click-outside:[popperPaneRef]="handleClose"
-    class="el-select"
-    :class="[selectSize ? 'el-select--' + selectSize : '']"
+    :class="wrapperKls"
     @click.stop="toggleMenu"
   >
     <el-tooltip
@@ -27,7 +26,7 @@
             v-if="multiple"
             ref="tags"
             class="el-select__tags"
-            :style="{ maxWidth: inputWidth - 32 + 'px', width: '100%' }"
+            :style="selectTagsStyle"
           >
             <span v-if="collapseTags && selected.length">
               <el-tag
@@ -219,6 +218,7 @@ import {
   reactive,
   provide,
   computed,
+  unref,
 } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
 import { useFocus, useLocale } from '@element-plus/hooks'
@@ -409,6 +409,20 @@ export default defineComponent({
       tagInMultiLine,
     } = toRefs(states)
 
+    const wrapperKls = computed(() => {
+      const classList = ['el-select']
+      const _selectSize = unref(selectSize)
+      if (_selectSize) {
+        classList.push(`el-select--${_selectSize}`)
+      }
+      return classList
+    })
+
+    const selectTagsStyle = computed(() => ({
+      maxWidth: `${unref(inputWidth) - 32}px`,
+      width: '100%',
+    }))
+
     provide(
       selectKey,
       reactive({
@@ -552,6 +566,9 @@ export default defineComponent({
       tags,
       selectWrapper,
       scrollbar,
+
+      wrapperKls,
+      selectTagsStyle,
     }
   },
 })

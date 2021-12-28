@@ -12,20 +12,15 @@ export default defineComponent({
   name: 'ElPopperProvider',
   inheritAttrs: false,
   setup() {
-    const triggerRef = ref<HTMLElement | null>(null)
-    const popperInstanceRef = ref(null)
-    const contentRef = ref(null)
-    provide(POPPER_INJECTION_KEY, {
-      triggerRef,
-      popperInstanceRef,
-      contentRef,
-    })
-
-    return {
-      popperInstanceRef,
-      triggerRef,
-      contentRef,
+    const popperProvides = {
+      triggerRef: ref<HTMLElement | null>(null),
+      popperInstanceRef: ref(null),
+      contentRef: ref(null),
     } as ElPopperInjectionContext
+
+    provide(POPPER_INJECTION_KEY, popperProvides)
+
+    return popperProvides
   },
 })
 </script>

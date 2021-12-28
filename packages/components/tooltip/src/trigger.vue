@@ -1,7 +1,7 @@
 <template>
   <el-popper-trigger
-    :virtual-ref="virtualRef"
     :id="id"
+    :virtual-ref="virtualRef"
     :open="open"
     :virtual-triggering="virtualTriggering"
     class="el-tooltip__trigger"
@@ -30,10 +30,10 @@ import type { ElOnlyChildExpose } from '@element-plus/components/slot'
 
 export default defineComponent({
   name: 'ElTooltipTrigger',
-  props: useTooltipTriggerProps,
   components: {
     ElPopperTrigger,
   },
+  props: useTooltipTriggerProps,
   setup(props) {
     const { controlled, id, open, onOpen, onClose, onToggle } = inject(
       TOOLTIP_INJECTION_KEY,

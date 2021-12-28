@@ -16,7 +16,6 @@ export const useDelayedToggleProps = buildProps({
 })
 
 export type UseDelayedToggleProps = {
-  indicator: Ref<boolean>
   open: () => void
   close: () => void
 } & ToRefs<ExtractPropTypes<typeof useDelayedToggleProps>>
@@ -24,7 +23,6 @@ export type UseDelayedToggleProps = {
 export const useDelayedToggle = ({
   showAfter,
   hideAfter,
-  indicator,
   open,
   close,
 }: UseDelayedToggleProps) => {

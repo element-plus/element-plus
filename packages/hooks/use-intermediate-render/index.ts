@@ -5,6 +5,7 @@ import type { Ref } from 'vue'
 export type UseDelayedRenderProps = {
   indicator: Ref<boolean>
   intermediateIndicator: Ref<boolean>
+  shouldSetIntermediate?: (step: 'show' | 'hide') => boolean
   beforeShow?: () => void
   beforeHide?: () => void
   afterShow?: () => void
@@ -14,6 +15,7 @@ export type UseDelayedRenderProps = {
 export const useDelayedRender = ({
   indicator,
   intermediateIndicator,
+  shouldSetIntermediate = () => true,
   beforeShow,
   afterShow,
   afterHide,
@@ -26,20 +28,32 @@ export const useDelayedRender = ({
         beforeShow?.()
         nextTick(() => {
           if (!unref(indicator)) return
-          intermediateIndicator.value = true
-          nextTick(() => {
-            afterShow?.()
-          })
+          if (shouldSetIntermediate('show')) {
+            intermediateIndicator.value = true
+          }
         })
       } else {
         beforeHide?.()
         nextTick(() => {
           if (unref(indicator)) return
-          intermediateIndicator.value = false
-          nextTick(() => {
-            afterHide?.()
-          })
+
+          if (shouldSetIntermediate('hide')) {
+            intermediateIndicator.value = false
+          }
         })
+      }
+    }
+  )
+
+  // because we don't always set the value ourselves, so that we
+  // simply watch the value's state, then invoke the corresponding hook.
+  watch(
+    () => intermediateIndicator.value,
+    (val) => {
+      if (val) {
+        afterShow?.()
+      } else {
+        afterHide?.()
       }
     }
   )

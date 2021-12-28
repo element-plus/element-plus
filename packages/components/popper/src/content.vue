@@ -19,7 +19,6 @@ import {
   provide,
   unref,
   onMounted,
-  onBeforeUnmount,
   watch,
 } from 'vue'
 import { createPopper } from '@popperjs/core'
@@ -32,7 +31,6 @@ import { buildPopperOptions, unwrapMeasurableEl } from './utils'
 export default defineComponent({
   name: 'ElPopperContent',
   props: usePopperContentProps,
-  inheritAttrs: false,
   emits: ['mouseenter', 'mouseleave'],
   setup(props) {
     const { triggerRef, popperInstanceRef, contentRef } = inject(
@@ -50,20 +48,18 @@ export default defineComponent({
       () => props.zIndex || PopupManager.nextZIndex()
     )
 
-    const contentStyle = computed(() => {
-      return [{ zIndex: unref(contentZIndex) }, props.popperStyle] as any
-    })
+    const contentStyle = computed(
+      () => [{ zIndex: unref(contentZIndex) }, props.popperStyle] as any
+    )
 
-    const contentClass = computed(() => {
-      return [
-        {
-          'el-popper': true,
-          'is-pure': props.pure,
-          [`is-${props.effect}`]: !!props.effect,
-        },
-        props.popperClass,
-      ]
-    })
+    const contentClass = computed(() => [
+      {
+        'el-popper': true,
+        'is-pure': props.pure,
+        [`is-${props.effect}`]: !!props.effect,
+      },
+      props.popperClass,
+    ])
 
     const createPopperInstance = ({
       referenceEl,
@@ -131,11 +127,6 @@ export default defineComponent({
           }
         }
       )
-    })
-
-    onBeforeUnmount(() => {
-      popperInstanceRef.value?.destroy()
-      popperInstanceRef.value = null
     })
 
     return {

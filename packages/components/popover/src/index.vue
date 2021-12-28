@@ -23,8 +23,9 @@
 </template>
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue'
-import { usePopperContentProps } from '@element-plus/components/popper'
-import ElTooltip from '@element-plus/components/tooltip'
+import ElTooltip, {
+  useTooltipContentProps,
+} from '@element-plus/components/tooltip'
 import { isString } from '@element-plus/utils/util'
 
 import type { StyleValue } from 'vue'
@@ -40,9 +41,9 @@ export default defineComponent({
   },
   props: {
     title: String,
-    content: usePopperContentProps.content,
+    content: useTooltipContentProps.content,
     effect: {
-      ...usePopperContentProps.effect,
+      ...useTooltipContentProps.effect,
       default: 'light',
     },
     hideAfter: {
@@ -50,9 +51,9 @@ export default defineComponent({
       default: 200,
     },
     popperClass: String,
-    popperStyle: usePopperContentProps.popperStyle,
+    popperStyle: useTooltipContentProps.popperStyle,
     enterable: {
-      ...usePopperContentProps.enterable,
+      ...useTooltipContentProps.enterable,
       default: true,
     },
     width: {

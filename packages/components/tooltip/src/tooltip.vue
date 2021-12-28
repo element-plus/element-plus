@@ -1,19 +1,35 @@
 <template>
-  <el-popper
-    ref="popperRef"
-    v-bind="derivedProps"
-    :show-after="compatShowAfter"
-    :show-arrow="compatShowArrow"
-    :hide-after="hideAfter"
-  >
+  <el-popper ref="popperRef">
     <el-tooltip-trigger
       :trigger="trigger"
       :virtual-ref="virtualRef"
       :virtual-triggering="virtualTriggering"
     >
-      <slot />
+      <slot v-if="$slots.default" />
     </el-tooltip-trigger>
-    <el-tooltip-content v-bind="derivedProps">
+    <el-tooltip-content
+      :aria-label="ariaLabel"
+      :boundaries-padding="boundariesPadding"
+      :content="content"
+      :effect="effect"
+      :enterable="enterable"
+      :fallback-placements="fallbackPlacements"
+      :hide-after="hideAfter"
+      :gpu-acceleration="gpuAcceleration"
+      :offset="offset"
+      :popper-class="popperClass"
+      :popper-style="popperStyle"
+      :placement="placement"
+      :popper-options="popperOptions"
+      :pure="pure"
+      :raw-content="rawContent"
+      :reference-el="referenceEl"
+      :show-after="compatShowAfter"
+      :strategy="strategy"
+      :teleported="teleported"
+      :transition="transition"
+      :z-index="zIndex"
+    >
       <slot name="content">
         <span v-if="rawContent" v-html="content"></span>
         <span v-else>{{ content }}</span>
@@ -57,7 +73,7 @@ import {
 import { TOOLTIP_INJECTION_KEY } from './tokens'
 
 const { useModelToggleProps, useModelToggle, useModelToggleEmits } =
-  createModelToggleComposable('visible')
+  createModelToggleComposable('visible' as const)
 
 export default defineComponent({
   name: 'ElTooltip',
@@ -112,7 +128,6 @@ export default defineComponent({
     })
 
     const { onOpen, onClose } = useDelayedToggle({
-      indicator: readonly(open),
       showAfter: compatShowAfter,
       hideAfter: toRef(props, 'hideAfter'),
       open: show,

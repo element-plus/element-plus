@@ -18,8 +18,8 @@ import { unwrapMeasurableEl } from './utils'
 
 export default defineComponent({
   name: 'ElPopperTrigger',
-  inheritAttrs: false,
   components: { ElOnlyChild },
+  inheritAttrs: false,
   props: {
     ...usePopperTriggerProps,
     onMouseenter: Function,

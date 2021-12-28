@@ -8,6 +8,7 @@
     :virtual-ref="buttonRef"
     trigger="click"
     title="With title"
+    virtual-triggering
   >
     <span> Some content </span>
   </el-popover>

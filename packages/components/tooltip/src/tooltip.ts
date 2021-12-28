@@ -1,4 +1,4 @@
-import { buildProps } from '@element-plus/utils/props'
+import { buildProps, definePropType } from '@element-plus/utils/props'
 import {
   usePopperTriggerProps,
   usePopperContentProps,
@@ -15,8 +15,24 @@ export const useTooltipContentProps = {
   ...useDelayedToggleProps,
   ...usePopperContentProps,
   ...buildProps({
+    content: {
+      type: String,
+      default: '',
+    },
+    rawContent: {
+      type: Boolean,
+      default: false,
+    },
     persistent: Boolean,
     ariaLabel: String,
+    // because model toggle prop is generated dynamically
+    // so the typing cannot be evaluated by typescript as type:
+    // [name]: { type: Boolean, default: null }
+    // so we need to declare that again for type checking.
+    visible: {
+      type: definePropType<boolean | null>(Boolean),
+      default: null,
+    },
     transition: {
       type: String,
       default: 'el-fade-in-linear',
