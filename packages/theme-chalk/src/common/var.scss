@@ -163,6 +163,16 @@ $disabled: map.merge(
   $disabled
 );
 
+$common-component-size: () !default;
+$common-component-size: map.merge(
+  (
+    'large': 40px,
+    'default': 32px,
+    'small': 24px,
+  ),
+  $common-component-size
+);
+
 // Checkbox
 // css3 var in packages/theme-chalk/src/checkbox.scss
 $checkbox: () !default;
@@ -221,14 +231,7 @@ $radio: map.merge(
 );
 
 $radio-height: () !default;
-$radio-height: map.merge(
-  (
-    'large': 40px,
-    'default': 32px,
-    'small': 24px,
-  ),
-  $radio-height
-);
+$radio-height: map.merge($common-component-size, $radio-height);
 
 $radio-button: () !default;
 $radio-button: map.merge(
@@ -461,24 +464,10 @@ $input-font-size: map.merge(
 );
 
 $input-height: () !default;
-$input-height: map.merge(
-  (
-    'large': 40px,
-    'default': 32px,
-    'small': 24px,
-  ),
-  $input-height
-);
+$input-height: map.merge($common-component-size, $input-height);
 
 $input-line-height: () !default;
-$input-line-height: map.merge(
-  (
-    'large': 40px,
-    'default': 32px,
-    'small': 24px,
-  ),
-  $input-line-height
-);
+$input-line-height: map.merge($common-component-size, $input-line-height);
 
 $input-number-width: () !default;
 $input-number-width: map.merge(

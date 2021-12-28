@@ -25,14 +25,7 @@ $dropdown-item-padding: map.merge(
 );
 
 $dropdown-caret-width: () !default;
-$dropdown-caret-width: map.merge(
-  (
-    'large': 40px,
-    'default': 32px,
-    'small': 24px,
-  ),
-  $dropdown-caret-width
-);
+$dropdown-caret-width: map.merge($common-component-size, $dropdown-caret-width);
 
 $dropdown-divider-width: 1px !default;
 

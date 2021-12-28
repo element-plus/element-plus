@@ -7,14 +7,7 @@
 @use 'mixins/utils' as *;
 
 $checkbox-height: () !default;
-$checkbox-height: map.merge(
-  (
-    'large': 40px,
-    'default': 32px,
-    'small': 24px,
-  ),
-  $checkbox-height
-);
+$checkbox-height: map.merge($common-component-size, $checkbox-height);
 
 $checkbox-bordered-padding-left: () !default;
 $checkbox-bordered-padding-left: map.merge(
