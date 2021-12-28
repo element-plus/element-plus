@@ -1,6 +1,6 @@
 import path from 'path'
 import fs from 'fs'
-import { parse } from '@vue/compiler-sfc'
+import { parse } from 'vue/compiler-sfc'
 import MarkdownIt from 'markdown-it'
 import mdContainer from 'markdown-it-container'
 import { highlight } from '../utils/highlight'
