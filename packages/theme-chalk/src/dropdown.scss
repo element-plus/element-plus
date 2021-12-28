@@ -92,11 +92,11 @@ $dropdown-divider-width: 1px !default;
       top: $gap;
       bottom: $gap;
       left: 0;
-      background: mix(white, transparent, 50%);
+      background: rgba(0, 0, 0, 0.5);
     }
 
-    &.#{$namespace}-button--default::before {
-      background: var(--el-default-border-color);
+    &.#{$namespace}-button::before {
+      background: var(--el-border-color-base);
       opacity: 0.5;
     }
 
@@ -131,12 +131,23 @@ $dropdown-divider-width: 1px !default;
   }
 }
 
+$dropdown-menu-padding-vertical: () !default;
+$dropdown-menu-padding-vertical: map.merge(
+  (
+    'large': 8px,
+    'default': 6px,
+    'small': 4px,
+  ),
+  $dropdown-menu-padding-vertical
+);
+
 @include b(dropdown-menu) {
   position: relative;
   top: 0;
   left: 0;
   z-index: var(--el-dropdown-menu-index);
-  padding: 3px 0;
+  padding: map.get($dropdown-menu-padding-vertical, 'default')-$border-width-base
+    0;
   margin: 0;
   background-color: $color-white;
   border: none;
@@ -187,6 +198,9 @@ $dropdown-divider-width: 1px !default;
 
   @each $size in (large, small) {
     @include m($size) {
+      padding: map.get($dropdown-menu-padding-vertical, $size)-$border-width-base
+        0;
+
       @include e(item) {
         padding: map.get($dropdown-item-padding, $size);
         line-height: map.get($dropdown-item-line-height, $size);
