@@ -121,26 +121,3 @@ button/custom
 | Name | Description                    | Subtags |
 | ---- | ------------------------------ | ------- |
 | -    | customize button group content | Button  |
-
-<style lang="scss">
-.example-showcase {
-  .el-row {
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-  .el-button + .el-button {
-    margin-left: 10px;
-  }
-  .el-button-group {
-    .el-button + .el-button {
-      margin-left: 0;
-    }
-
-    & + .el-button-group {
-      margin-left: 10px;
-    }
-  }
-}
-
-</style>

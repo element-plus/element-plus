@@ -4,14 +4,7 @@
 @use 'common/var' as *;
 
 $color-picker-size: () !default;
-$color-picker-size: map.merge(
-  (
-    'large': 36px,
-    'default': 32px,
-    'small': 28px,
-  ),
-  $color-picker-size
-);
+$color-picker-size: map.merge($common-component-size, $color-picker-size);
 
 @include b(color-predefine) {
   display: flex;
@@ -221,7 +214,7 @@ $color-picker-size: map.merge(
   }
 
   @include e(btns) {
-    margin-top: 6px;
+    margin-top: 12px;
     text-align: right;
   }
 

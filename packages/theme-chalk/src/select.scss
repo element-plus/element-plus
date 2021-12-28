@@ -96,10 +96,6 @@
     &.is-focus .#{$namespace}-input__inner {
       border-color: var(--el-select-input-focus-border-color);
     }
-
-    & .#{$namespace}-input__prefix-icon {
-      width: 25px;
-    }
   }
 
   @include e(input) {

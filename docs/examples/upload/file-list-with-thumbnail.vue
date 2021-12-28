@@ -7,7 +7,7 @@
     :file-list="fileList"
     list-type="picture"
   >
-    <el-button size="small" type="primary">Click to upload</el-button>
+    <el-button type="primary">Click to upload</el-button>
     <template #tip>
       <div class="el-upload__tip">
         jpg/png files with a size less than 500kb

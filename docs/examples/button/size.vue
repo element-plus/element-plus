@@ -3,6 +3,9 @@
     <el-button size="large">Large</el-button>
     <el-button>Default</el-button>
     <el-button size="small">Small</el-button>
+    <el-button size="large" type="primary" :icon="Search">Search</el-button>
+    <el-button type="primary" :icon="Search">Search</el-button>
+    <el-button size="small" type="primary" :icon="Search">Search</el-button>
   </el-row>
   <el-row class="my-4">
     <el-button size="large" round>Large</el-button>
