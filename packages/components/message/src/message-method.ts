@@ -3,6 +3,7 @@ import { isClient } from '@vueuse/core'
 import { isVNode } from '@element-plus/utils/util'
 import PopupManager from '@element-plus/utils/popup-manager'
 import { debugWarn } from '@element-plus/utils/error'
+import { messageConfig } from '@element-plus/components/config-provider/src'
 import MessageConstructor from './message.vue'
 import { messageTypes } from './message'
 
@@ -13,10 +14,16 @@ const instances: MessageQueue = []
 let seed = 1
 
 // TODO: Since Notify.ts is basically the same like this file. So we could do some encapsulation against them to reduce code duplication.
-
 const message: MessageFn & Partial<Message> = function (options = {}) {
   if (!isClient) return { close: () => undefined }
 
+  if (messageConfig.max && instances.length >= messageConfig.max) {
+    return {
+      close: () => {
+        return
+      },
+    }
+  }
   if (
     !isVNode(options) &&
     typeof options === 'object' &&

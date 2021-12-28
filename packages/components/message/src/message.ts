@@ -64,6 +64,9 @@ export const messageProps = buildProps({
   },
 } as const)
 export type MessageProps = ExtractPropTypes<typeof messageProps>
+export interface MessageConfigContext {
+  max?: number
+}
 
 export const messageEmits = {
   destroy: () => true,

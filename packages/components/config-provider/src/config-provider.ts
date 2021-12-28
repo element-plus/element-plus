@@ -1,6 +1,7 @@
 import { useLocaleProps } from '@element-plus/hooks'
 import { buildProps, definePropType } from '@element-plus/utils/props'
 import type { ButtonConfigContext } from '@element-plus/components/button'
+import type { MessageConfigContext } from '@element-plus/components/message'
 
 export const configProviderProps = buildProps({
   ...useLocaleProps,
@@ -12,5 +13,9 @@ export const configProviderProps = buildProps({
 
   button: {
     type: definePropType<ButtonConfigContext>(Object),
+  },
+
+  message: {
+    type: definePropType<MessageConfigContext>(Object),
   },
 } as const)
