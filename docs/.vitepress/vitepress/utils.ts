@@ -70,7 +70,7 @@ export function createCrowdinUrl(targetLang: string) {
   if (targetLang.startsWith('zh-')) {
     translateLang = targetLang.split('-').join('').toLocaleLowerCase()
   } else {
-    translateLang = targetLang.split('-').shift().toLocaleLowerCase()
+    translateLang = targetLang.split('-').shift()!.toLocaleLowerCase()
   }
   return `https://crowdin.com/translate/element-plus/all/en-${translateLang}`
 }
