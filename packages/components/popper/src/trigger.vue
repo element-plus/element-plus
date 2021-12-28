@@ -50,8 +50,8 @@ export default defineComponent({
 
     watch(
       () => triggerRef.value,
-      (val) => {
-        if (val && val instanceof HTMLElement) {
+      (el, prevEl) => {
+        if (el && el instanceof HTMLElement) {
           ;[
             'onMouseenter',
             'onMouseleave',
@@ -63,7 +63,11 @@ export default defineComponent({
           ].forEach((eventName) => {
             const handler = props[eventName]
             if (handler) {
-              ;(val as HTMLElement).addEventListener(
+              ;(el as HTMLElement).addEventListener(
+                eventName.slice(2).toLowerCase(),
+                handler
+              )
+              ;(prevEl as HTMLElement)?.removeEventListener(
                 eventName.slice(2).toLowerCase(),
                 handler
               )

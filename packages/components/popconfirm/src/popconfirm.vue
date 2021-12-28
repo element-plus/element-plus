@@ -22,10 +22,10 @@
           {{ title }}
         </div>
         <div class="el-popconfirm__action">
-          <el-button size="mini" :type="cancelButtonType" @click="cancel">
+          <el-button size="small" :type="cancelButtonType" @click="cancel">
             {{ finalCancelButtonText }}
           </el-button>
-          <el-button size="mini" :type="confirmButtonType" @click="confirm">
+          <el-button size="small" :type="confirmButtonType" @click="confirm">
             {{ finalConfirmButtonText }}
           </el-button>
         </div>

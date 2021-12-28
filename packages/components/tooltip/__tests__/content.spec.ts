@@ -1,6 +1,6 @@
-import { nextTick } from 'vue'
-import ElTeleport from '@element-plus/components/teleport'
+import { nextTick, Transition } from 'vue'
 import { shallowMount } from '@vue/test-utils'
+import ElTeleport from '@element-plus/components/teleport'
 import { genTooltipProvides } from '../test-helper/provides'
 import ElTooltipContent from '../src/content.vue'
 import { TOOLTIP_INJECTION_KEY } from '../src/tokens'
@@ -51,6 +51,14 @@ describe('<ElTooltipContent />', () => {
     })
 
   let wrapper: ReturnType<typeof createComponent>
+  const OLD_ENV = process.env.NODE_ENV
+  beforeAll(() => {
+    process.env.NODE_ENV = 'development'
+  })
+
+  afterAll(() => {
+    process.env.NODE_ENV = OLD_ENV
+  })
 
   afterEach(() => {
     ;[onOpen, onClose, onToggle, onShow, onHide].forEach((fn) => fn.mockClear())
@@ -108,7 +116,7 @@ describe('<ElTooltipContent />', () => {
       })
     })
 
-    describe('displaying content when non-persistent', () => {
+    describe.only('displaying content when non-persistent', () => {
       it('should be able to show and hide content when updating the indicator', async () => {
         wrapper = createComponent()
         await nextTick()
@@ -145,6 +153,9 @@ describe('<ElTooltipContent />', () => {
         expect(vm.shouldRenderPopperContent).toBe(false)
         await nextTick()
         expect(vm.leaving).toBe(true)
+        // manually calling onTransitionLeave, because we stubbed Transition component.
+        vm.onTransitionLeave()
+        await nextTick()
         expect(vm.shouldRenderTeleport).toBe(false)
         expect(vm.shouldRenderPopperContent).toBe(false)
         await nextTick()
@@ -187,6 +198,9 @@ describe('<ElTooltipContent />', () => {
         expect(vm.shouldRenderTeleport).toBe(true)
         expect(vm.shouldRenderPopperContent).toBe(true)
         await nextTick()
+        // manually calling onTransitionLeave, because we stubbed Transition component.
+        vm.onTransitionLeave()
+        await nextTick()
         expect(vm.shouldRenderTeleport).toBe(false)
         expect(vm.shouldRenderPopperContent).toBe(false)
       })
@@ -209,7 +223,7 @@ describe('<ElTooltipContent />', () => {
         await nextTick()
         expect(vm.leaving).toBe(true)
         await nextTick()
-        expect(vm.shouldRenderTeleport).toBe(false)
+        expect(vm.shouldRenderTeleport).toBe(true)
         expect(vm.shouldRenderPopperContent).toBe(false)
         expect(onHide).not.toHaveBeenCalled()
 

@@ -51,6 +51,17 @@ popover/nested-operation
 
 :::
 
+## Directive
+
+You can still using popover in directive way but this is **not recommended** anymore since this makes your application
+complicated, you may refer to the virtual triggering for more information.
+
+:::demo
+
+popover/directive-usage
+
+:::
+
 ## Attributes
 
 | Attribute                 | Description                                                                                                                                                              | Type            | Accepted Values                                                                                           | Default                                                 |

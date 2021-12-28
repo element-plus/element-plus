@@ -1,5 +1,6 @@
 <template>
   <el-tooltip
+    ref="tooltipRef"
     v-bind="$attrs"
     :aria-label="title"
     :effect="effect"
@@ -22,7 +23,7 @@
   </el-tooltip>
 </template>
 <script lang="ts">
-import { defineComponent, computed, ref } from 'vue'
+import { defineComponent, computed, ref, unref } from 'vue'
 import ElTooltip, {
   useTooltipContentProps,
 } from '@element-plus/components/tooltip'
@@ -63,7 +64,10 @@ export default defineComponent({
   },
   emits,
   setup(props) {
-    const popperRef = ref()
+    const tooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
+    const popperRef = computed(() => {
+      return unref(tooltipRef)?.popperRef
+    })
     const width = computed(() => {
       if (isString(props.width)) {
         return props.width as string
@@ -91,6 +95,7 @@ export default defineComponent({
     return {
       kls,
       style,
+      tooltipRef,
       popperRef,
     }
   },

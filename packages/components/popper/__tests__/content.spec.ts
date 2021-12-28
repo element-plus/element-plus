@@ -1,12 +1,7 @@
 import { ref, nextTick } from 'vue'
 import { shallowMount } from '@vue/test-utils'
-import { debugWarn } from '@element-plus/utils/error'
 import ElContent from '../src/content.vue'
 import { POPPER_INJECTION_KEY } from '../src/tokens'
-
-jest.mock('@element-plus/utils/error', () => ({
-  debugWarn: jest.fn(),
-}))
 
 const AXIOM = 'rem is the best girl'
 const popperInjection = {
@@ -41,7 +36,6 @@ describe('<ElPopperContent />', () => {
 
     afterEach(() => {
       popperInjection.triggerRef.value = null
-      ;(debugWarn as jest.MockedFunction<typeof debugWarn>).mockClear()
       wrapper?.unmount()
     })
 
@@ -98,17 +92,6 @@ describe('<ElPopperContent />', () => {
     })
 
     describe('instantiate popper instance', () => {
-      it('should warn when there are no reference node for popper', async () => {
-        popperInjection.triggerRef.value = null
-
-        wrapper = mountContent()
-        await nextTick()
-        expect(debugWarn).toHaveBeenCalledWith(
-          'ElPopper',
-          'Popper content needs a HTMLElement or virtual trigger to work'
-        )
-      })
-
       it('should be able to update the current instance', async () => {
         wrapper = mountContent()
         await nextTick()

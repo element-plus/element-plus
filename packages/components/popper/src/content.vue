@@ -23,7 +23,6 @@ import {
 } from 'vue'
 import { createPopper } from '@popperjs/core'
 import PopupManager from '@element-plus/utils/popup-manager'
-import { debugWarn } from '@element-plus/utils/error'
 import { POPPER_INJECTION_KEY, POPPER_CONTENT_INJECTION_KEY } from './tokens'
 import { usePopperContentProps } from './popper'
 import { buildPopperOptions, unwrapMeasurableEl } from './utils'
@@ -74,57 +73,44 @@ export default defineComponent({
       return createPopper(referenceEl, popperContentEl, options)
     }
 
+    const updatePopper = () => {
+      unref(popperInstanceRef)?.update()
+    }
+
     onMounted(() => {
-      const popperContentEl = unref(popperContentRef)!
-      contentRef.value = popperContentEl
-      const referenceEl =
-        unwrapMeasurableEl(props.referenceEl) || unref(triggerRef)
-      const arrowEl = unref(arrowRef)
-
-      if (!referenceEl) {
-        debugWarn(
-          'ElPopper',
-          'Popper content needs a HTMLElement or virtual trigger to work'
-        )
-        return
-      }
-
-      const instance = createPopperInstance({
-        referenceEl,
-        popperContentEl,
-        arrowEl,
-      })
-
-      popperInstanceRef.value = instance
-
-      instance.update()
-
+      let updateHandle: ReturnType<typeof watch>
       watch(
-        () => referenceEl.getBoundingClientRect(),
-        () => {
-          instance.update()
-        },
-        {
-          immediate: true,
-        }
-      )
-
-      watch(
-        () => props.referenceEl || unref(triggerRef),
+        () => unwrapMeasurableEl(props.referenceEl) || unref(triggerRef),
         (val) => {
-          popperInstanceRef.value?.destroy()
-
+          updateHandle?.()
           if (val) {
+            popperInstanceRef.value?.destroy()
+            const popperContentEl = unref(popperContentRef)!
+            contentRef.value = popperContentEl
+            const arrowEl = unref(arrowRef)
+
             const newInstance = createPopperInstance({
               referenceEl: val,
-              popperContentEl,
+              popperContentEl: unref(popperContentRef)!,
               arrowEl,
             })
             popperInstanceRef.value = newInstance
-            newInstance.update()
+
+            updateHandle = watch(
+              () => val!.getBoundingClientRect(),
+              () => {
+                updatePopper()
+              },
+              {
+                immediate: true,
+              }
+            )
           } else {
             popperInstanceRef.value = null
           }
+        },
+        {
+          immediate: true,
         }
       )
     })
@@ -134,6 +120,7 @@ export default defineComponent({
       popperInstanceRef,
       contentStyle,
       contentClass,
+      updatePopper,
     }
   },
 })

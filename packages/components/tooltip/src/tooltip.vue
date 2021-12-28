@@ -1,6 +1,7 @@
 <template>
   <el-popper ref="popperRef">
     <el-tooltip-trigger
+      :disabled="disabled"
       :trigger="trigger"
       :virtual-ref="virtualRef"
       :virtual-triggering="virtualTriggering"
@@ -17,6 +18,7 @@
       :hide-after="hideAfter"
       :gpu-acceleration="gpuAcceleration"
       :offset="offset"
+      :persistent="persistent"
       :popper-class="popperClass"
       :popper-style="popperStyle"
       :placement="placement"

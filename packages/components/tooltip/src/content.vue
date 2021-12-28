@@ -8,6 +8,7 @@
       <el-popper-content
         v-if="shouldRenderPopperContent"
         v-show="shouldShowPopperContent"
+        ref="contentRef"
         v-bind="$attrs"
         :aria-hidden="ariaHidden"
         :boundaries-padding="boundariesPadding"
@@ -37,15 +38,7 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  inject,
-  nextTick,
-  ref,
-  unref,
-  watch,
-} from 'vue'
+import { computed, defineComponent, inject, nextTick, ref, unref } from 'vue'
 import { ElPopperContent } from '@element-plus/components/popper'
 import { ElVisuallyHidden } from '@element-plus/components/visual-hidden'
 import { ElTeleport } from '@element-plus/components/teleport'
@@ -69,6 +62,7 @@ export default defineComponent({
   inheritAttrs: false,
   props: useTooltipContentProps,
   setup(props) {
+    const contentRef = ref<InstanceType<typeof ElPopperContent> | null>(null)
     const intermediateOpen = ref(false)
     const entering = ref(false)
     const leaving = ref(false)
@@ -138,6 +132,9 @@ export default defineComponent({
         if (!unref(open)) return
         entering.value = false
         onShow()
+        nextTick(() => {
+          unref(contentRef)?.updatePopper()
+        })
       },
       afterHide: () => {
         if (unref(open)) return
@@ -157,6 +154,7 @@ export default defineComponent({
     }
 
     const onContentEnter = composeEventHandlers(stopWhenControlled, () => {
+      console.log(1)
       if (props.enterable) {
         onOpen()
       }
@@ -175,6 +173,7 @@ export default defineComponent({
       id,
       intermediateOpen,
       contentStyle,
+      contentRef,
       shouldRenderTeleport,
       shouldRenderPopperContent,
       shouldShowPopperContent,

@@ -46,6 +46,7 @@ export const useTooltipContentProps = {
 
 export const useTooltipTriggerProps = {
   ...usePopperTriggerProps,
+  disabled: Boolean,
   trigger: {
     type: [String, Array] as PropType<Trigger | Trigger[]>,
     default: 'hover',

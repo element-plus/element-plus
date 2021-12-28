@@ -41,36 +41,42 @@ export default defineComponent({
     )!
     const triggerRef = ref<ElOnlyChildExpose | null>(null)
 
-    const stopWhenControlled = () => {
-      if (unref(controlled)) {
+    const stopWhenControlledOrDisabled = () => {
+      if (unref(controlled) || props.disabled) {
         return true
       }
     }
     const trigger = toRef(props, 'trigger')
     const onMouseenter = composeEventHandlers(
-      stopWhenControlled,
+      stopWhenControlledOrDisabled,
       whenTrigger(trigger, 'hover', onOpen)
     )
     const onMouseleave = composeEventHandlers(
-      stopWhenControlled,
+      stopWhenControlledOrDisabled,
       whenTrigger(trigger, 'hover', onClose)
     )
     const onMousedown = composeEventHandlers(
-      stopWhenControlled,
-      whenTrigger(trigger, 'click', onToggle)
+      stopWhenControlledOrDisabled,
+      whenTrigger(trigger, 'click', (e) => {
+        // distinguish left click
+        if ((e as MouseEvent).button === 0) {
+          onToggle(e)
+        }
+      })
     )
+
     const onFocus = composeEventHandlers(
-      stopWhenControlled,
+      stopWhenControlledOrDisabled,
       whenTrigger(trigger, 'focus', onOpen)
     )
 
     const onBlur = composeEventHandlers(
-      stopWhenControlled,
+      stopWhenControlledOrDisabled,
       whenTrigger(trigger, 'focus', onClose)
     )
 
     const onContextMenu = composeEventHandlers(
-      stopWhenControlled,
+      stopWhenControlledOrDisabled,
       whenTrigger(trigger, 'contextmenu', (e: Event) => {
         e.preventDefault()
         onToggle(e)
@@ -78,7 +84,7 @@ export default defineComponent({
     )
 
     const onKeydown = composeEventHandlers(
-      stopWhenControlled,
+      stopWhenControlledOrDisabled,
       (e: KeyboardEvent) => {
         const { code } = e
         if (code === EVENT_CODE.enter || code === EVENT_CODE.space) {
