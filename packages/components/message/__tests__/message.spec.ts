@@ -101,6 +101,17 @@ describe('Message.vue', () => {
     })
   })
 
+  describe('set max', () => {
+    test('should be intercepted when string length exceeding the max', () => {
+      const wrapper = _mount({
+        props: { message: 'this is a looooooooong message', max: 10 },
+      })
+      const content = wrapper.find('.el-message__content').text()
+      expect(content.includes('...')).toBe(true)
+      expect(content.length).toBe(13)
+    })
+  })
+
   describe('event handlers', () => {
     test('it should be able to close the message by clicking close button', async () => {
       const onClose = jest.fn()

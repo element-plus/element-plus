@@ -62,6 +62,9 @@ export const messageProps = buildProps({
     type: Number,
     default: 1,
   },
+  max: {
+    type: Number,
+  },
 } as const)
 export type MessageProps = ExtractPropTypes<typeof messageProps>
 

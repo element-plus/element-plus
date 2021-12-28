@@ -31,10 +31,10 @@
       </el-icon>
       <slot>
         <p v-if="!dangerouslyUseHTMLString" class="el-message__content">
-          {{ message }}
+          {{ showMessage }}
         </p>
         <!-- Caution here, message could've been compromised, never use user's input as message -->
-        <p v-else class="el-message__content" v-html="message"></p>
+        <p v-else class="el-message__content" v-html="showMessage"></p>
       </slot>
       <el-icon
         v-if="showClose"
@@ -53,6 +53,7 @@ import { EVENT_CODE } from '@element-plus/utils/aria'
 import ElBadge from '@element-plus/components/badge'
 import { ElIcon } from '@element-plus/components/icon'
 import { TypeComponents, TypeComponentsMap } from '@element-plus/utils/icon'
+import { isString } from '@element-plus/utils/util'
 
 import { messageEmits, messageProps } from './message'
 import type { BadgeProps } from '@element-plus/components/badge'
@@ -91,6 +92,15 @@ export default defineComponent({
       top: `${props.offset}px`,
       zIndex: props.zIndex,
     }))
+
+    const showMessage = computed(() => {
+      if (isString(props.message)) {
+        if (props.max && props.max > 0 && props.max < props.message.length) {
+          return `${props.message.slice(0, props.max)}...`
+        }
+      }
+      return props.message
+    })
 
     function startTimer() {
       if (props.duration > 0) {
@@ -140,6 +150,7 @@ export default defineComponent({
       customStyle,
       visible,
       badgeType,
+      showMessage,
 
       close,
       clearTimer,
