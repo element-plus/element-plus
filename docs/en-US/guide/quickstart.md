@@ -197,5 +197,5 @@ We can also use [Nuxt.js](https://nuxtjs.org)：
 
 ## Let's Get Started
 
-You can bootstrap your project from now on.  For each components usage, please
+You can bootstrap your project from now on. For each components usage, please
 refer to the individual component documentation.
