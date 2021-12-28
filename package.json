@@ -67,7 +67,7 @@
     "normalize-wheel-es": "^1.1.1"
   },
   "devDependencies": {
-    "@commitlint/cli": "16.0.0",
+    "@commitlint/cli": "16.0.1",
     "@commitlint/config-conventional": "16.0.0",
     "@pnpm/find-workspace-packages": "3.1.31",
     "@pnpm/logger": "4.0.0",
