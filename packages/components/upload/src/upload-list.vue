@@ -68,6 +68,7 @@
           :type="listType === 'picture-card' ? 'circle' : 'line'"
           :stroke-width="listType === 'picture-card' ? 6 : 2"
           :percentage="+file.percentage"
+          style="margin-top: 0.5rem"
         />
         <span
           v-if="listType === 'picture-card'"
