@@ -273,10 +273,6 @@
 
     .#{$namespace}-table__cell {
       border-right: var(--el-table-border);
-
-      &:first-child .cell {
-        padding-left: 10px;
-      }
     }
 
     th.#{$namespace}-table__cell.gutter:last-of-type {
