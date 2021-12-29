@@ -37,7 +37,7 @@ This project is still under heavy development. Feel free to join us and make you
 
 #### Try it with our built-in playground
 
-[Playground](https://play.element-plus.org/)
+[Playground](https://element-plus.run/)
 
 <p align="center">
   <b>Special thanks to the generous sponsorship by:</b>

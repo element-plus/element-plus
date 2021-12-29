@@ -5,7 +5,9 @@
     :style="{ backgroundColor: color }"
     @click="handleClick"
   >
-    <slot></slot>
+    <span class="el-tag__content">
+      <slot></slot>
+    </span>
     <el-icon v-if="closable" class="el-tag__close" @click="handleClose">
       <close />
     </el-icon>
@@ -16,7 +18,9 @@
       :style="{ backgroundColor: color }"
       @click="handleClick"
     >
-      <slot></slot>
+      <span class="el-tag__content">
+        <slot></slot>
+      </span>
       <el-icon v-if="closable" class="el-tag__close" @click="handleClose">
         <close />
       </el-icon>
@@ -43,9 +47,10 @@ export default defineComponent({
   setup(props, { emit }) {
     const tagSize = useSize()
     const classes = computed(() => {
-      const { type, hit, effect } = props
+      const { type, hit, effect, closable } = props
       return [
         'el-tag',
+        closable && 'is-closable',
         type ? `el-tag--${type}` : '',
         tagSize.value ? `el-tag--${tagSize.value}` : '',
         effect ? `el-tag--${effect}` : '',

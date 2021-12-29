@@ -20,7 +20,6 @@ export const inputNumberProps = buildProps({
   },
   modelValue: {
     type: Number,
-    required: true,
   },
   disabled: {
     type: Boolean,

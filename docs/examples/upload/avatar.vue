@@ -57,9 +57,6 @@ const beforeAvatarUpload = (file: ElFile) => {
   height: 178px;
   text-align: center;
 }
-.avatar-uploader-icon svg {
-  margin-top: 74px; /* (178px - 28px) / 2 - 1px */
-}
 .avatar {
   width: 178px;
   height: 178px;

@@ -79,7 +79,7 @@ import { inputNumberProps, inputNumberEmits } from './input-number'
 import type { ComponentPublicInstance } from 'vue'
 
 interface IData {
-  currentValue: number
+  currentValue: number | undefined
   userInput: null | number | string
 }
 
@@ -133,7 +133,7 @@ export default defineComponent({
       if (data.userInput !== null) {
         return data.userInput
       }
-      let currentValue: number | string = data.currentValue
+      let currentValue: number | string | undefined = data.currentValue
       if (isNumber(currentValue)) {
         if (Number.isNaN(currentValue)) return ''
         if (props.precision !== undefined) {
@@ -228,8 +228,7 @@ export default defineComponent({
       () => props.modelValue,
       (value) => {
         let newVal = Number(value)
-        if (newVal !== undefined) {
-          if (isNaN(newVal)) return
+        if (!isNaN(newVal)) {
           if (props.stepStrictly) {
             const stepPrecision = getPrecision(props.step)
             const precisionFactor = Math.pow(10, stepPrecision)
@@ -240,14 +239,15 @@ export default defineComponent({
           if (props.precision !== undefined) {
             newVal = toPrecision(newVal, props.precision)
           }
-        }
-        if (newVal !== undefined && newVal > props.max) {
-          newVal = props.max
-          emit('update:modelValue', newVal)
-        }
-        if (newVal !== undefined && newVal < props.min) {
-          newVal = props.min
-          emit('update:modelValue', newVal)
+
+          if (newVal > props.max) {
+            newVal = props.max
+            emit('update:modelValue', newVal)
+          }
+          if (newVal < props.min) {
+            newVal = props.min
+            emit('update:modelValue', newVal)
+          }
         }
         data.currentValue = newVal
         data.userInput = null

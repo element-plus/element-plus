@@ -20,6 +20,7 @@
     <template #trigger>
       <el-input
         v-if="!isRangeInput"
+        :id="id"
         v-clickoutside:[popperPaneRef]="onClickOutside"
         :model-value="displayValue"
         :name="name"
@@ -78,6 +79,7 @@
           <component :is="triggerIcon"></component>
         </el-icon>
         <input
+          :id="id && id[0]"
           autocomplete="off"
           :name="name && name[0]"
           :placeholder="startPlaceholder"
@@ -93,6 +95,7 @@
           <span class="el-range-separator">{{ rangeSeparator }}</span>
         </slot>
         <input
+          :id="id && id[1]"
           autocomplete="off"
           :name="name && name[1]"
           :placeholder="endPlaceholder"
