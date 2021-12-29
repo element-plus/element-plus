@@ -681,6 +681,16 @@ $table-padding: map.merge(
   $table-padding
 );
 
+$table-cell-padding: () !default;
+$table-cell-padding: map.merge(
+  (
+    'large': 0 16px,
+    'default': 0 12px,
+    'small': 0 8px,
+  ),
+  $table-cell-padding
+);
+
 // Pagination
 // css3 var in packages/theme-chalk/src/pagination.scss
 $pagination: () !default;

@@ -148,11 +148,29 @@
     }
   }
 
+  .cell {
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-all;
+    line-height: 23px;
+    padding: 0 12px;
+
+    &.#{$namespace}-tooltip {
+      white-space: nowrap;
+      min-width: 50px;
+    }
+  }
+
   @each $size in (large, small) {
     @include m($size) {
       font-size: map.get($table-font-size, $size);
       .#{$namespace}-table__cell {
         padding: map.get($table-padding, $size);
+      }
+      .cell {
+        padding: map.get($table-cell-padding, $size);
       }
     }
   }
@@ -210,22 +228,6 @@
 
     &.gutter {
       width: 0;
-    }
-  }
-
-  .cell {
-    box-sizing: border-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal;
-    word-break: break-all;
-    line-height: 23px;
-    padding-left: 10px;
-    padding-right: 10px;
-
-    &.#{$namespace}-tooltip {
-      white-space: nowrap;
-      min-width: 50px;
     }
   }
 
