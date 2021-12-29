@@ -17,7 +17,7 @@
     </template>
     <el-descriptions-item>
       <template #label>
-        <div class="item">
+        <div class="cell-item">
           <el-icon>
             <user />
           </el-icon>
@@ -28,7 +28,7 @@
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
-        <div class="item">
+        <div class="cell-item">
           <el-icon>
             <iphone />
           </el-icon>
@@ -39,7 +39,7 @@
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
-        <div class="item">
+        <div class="cell-item">
           <el-icon>
             <location />
           </el-icon>
@@ -50,7 +50,7 @@
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
-        <div class="item">
+        <div class="cell-item">
           <el-icon>
             <tickets />
           </el-icon>
@@ -61,7 +61,7 @@
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
-        <div class="item">
+        <div class="cell-item">
           <el-icon>
             <office-building />
           </el-icon>
@@ -111,7 +111,7 @@ const size = ref('')
   margin-top: 20px;
 }
 
-.item {
+.cell-item {
   display: flex;
   align-items: center;
 }
