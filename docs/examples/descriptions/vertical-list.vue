@@ -28,6 +28,7 @@
     :column="4"
     :size="size"
     direction="vertical"
+    :style="blockMargin"
   >
     <el-descriptions-item label="Username">kooriookami</el-descriptions-item>
     <el-descriptions-item label="Telephone">18100000000</el-descriptions-item>
@@ -42,9 +43,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const size = ref('')
+const blockMargin = computed(() => {
+  const marginMap = {
+    large: '32px',
+    default: '28px',
+    small: '24px',
+  }
+  return {
+    marginTop: marginMap[size.value] || marginMap.default,
+  }
+})
 </script>
 
 <style scoped>
