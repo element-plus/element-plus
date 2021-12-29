@@ -61,7 +61,7 @@ importers:
       rimraf: 3.0.2
       rollup: 2.62.0
       rollup-plugin-css-only: 3.1.0
-      rollup-plugin-esbuild: 4.8.1
+      rollup-plugin-esbuild: 4.8.2
       rollup-plugin-filesize: 9.1.1
       rollup-plugin-vue: 6.0.0
       sass: 1.45.1
@@ -132,7 +132,7 @@ importers:
       rimraf: 3.0.2
       rollup: 2.62.0
       rollup-plugin-css-only: 3.1.0_rollup@2.62.0
-      rollup-plugin-esbuild: 4.8.1_esbuild@0.14.8+rollup@2.62.0
+      rollup-plugin-esbuild: 4.8.2_esbuild@0.14.8+rollup@2.62.0
       rollup-plugin-filesize: 9.1.1
       rollup-plugin-vue: 6.0.0
       sass: 1.45.1
@@ -8961,8 +8961,8 @@ packages:
       rollup: 2.62.0
     dev: true
 
-  /rollup-plugin-esbuild/4.8.1_esbuild@0.14.8+rollup@2.62.0:
-    resolution: {integrity: sha512-prGY+azzysPnH3McwQnw1tTRMWIYtEVO75GtG40ETrLCX/43+tLrXzPEzxPelcFCaOK9112QgYJKJ6aS1J4l0w==}
+  /rollup-plugin-esbuild/4.8.2_esbuild@0.14.8+rollup@2.62.0:
+    resolution: {integrity: sha512-wsaYNOjzTb6dN1qCIZsMZ7Q0LWiPJklYs2TDI8vJA2LUbvtPUY+17TC8C0vSat3jPMInfR9XWKdA7ttuwkjsGQ==}
     engines: {node: '>=12'}
     peerDependencies:
       esbuild: '>=0.10.1'
