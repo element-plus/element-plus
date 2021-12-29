@@ -9,26 +9,6 @@
 $checkbox-height: () !default;
 $checkbox-height: map.merge($common-component-size, $checkbox-height);
 
-$checkbox-bordered-padding-left: () !default;
-$checkbox-bordered-padding-left: map.merge(
-  (
-    'large': 12px,
-    'default': 10px,
-    'small': 8px,
-  ),
-  $checkbox-bordered-padding-left
-);
-
-$checkbox-bordered-padding-right: () !default;
-$checkbox-bordered-padding-right: map.merge(
-  (
-    'large': 20px,
-    'default': 16px,
-    'small': 12px,
-  ),
-  $checkbox-bordered-padding-right
-);
-
 $checkbox-bordered-input-height: () !default;
 $checkbox-bordered-input-height: map.merge(
   (
@@ -82,10 +62,6 @@ $checkbox-bordered-input-width: map.merge(
     &.is-disabled {
       border-color: var(--el-border-color-lighter);
       cursor: not-allowed;
-    }
-
-    & + .#{$namespace}-checkbox.is-bordered {
-      margin-left: 10px;
     }
 
     @each $size in (large, small) {

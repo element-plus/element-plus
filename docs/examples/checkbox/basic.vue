@@ -11,6 +11,20 @@
     <el-checkbox v-model="checked5" label="Option 1" size="small"></el-checkbox>
     <el-checkbox v-model="checked6" label="Option 2" size="small"></el-checkbox>
   </div>
+  <div>
+    <el-checkbox
+      v-model="checked5"
+      label="Option 1"
+      size="small"
+      disabled
+    ></el-checkbox>
+    <el-checkbox
+      v-model="checked6"
+      label="Option 2"
+      size="small"
+      disabled
+    ></el-checkbox>
+  </div>
 </template>
 
 <script lang="ts" setup>
