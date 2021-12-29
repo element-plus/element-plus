@@ -18,7 +18,7 @@
     <el-descriptions-item>
       <template #label>
         <div class="cell-item">
-          <el-icon>
+          <el-icon :style="iconStyle">
             <user />
           </el-icon>
           Username
@@ -29,7 +29,7 @@
     <el-descriptions-item>
       <template #label>
         <div class="cell-item">
-          <el-icon>
+          <el-icon :style="iconStyle">
             <iphone />
           </el-icon>
           Telephone
@@ -40,7 +40,7 @@
     <el-descriptions-item>
       <template #label>
         <div class="cell-item">
-          <el-icon>
+          <el-icon :style="iconStyle">
             <location />
           </el-icon>
           Place
@@ -51,7 +51,7 @@
     <el-descriptions-item>
       <template #label>
         <div class="cell-item">
-          <el-icon>
+          <el-icon :style="iconStyle">
             <tickets />
           </el-icon>
           Remarks
@@ -62,7 +62,7 @@
     <el-descriptions-item>
       <template #label>
         <div class="cell-item">
-          <el-icon>
+          <el-icon :style="iconStyle">
             <office-building />
           </el-icon>
           Address
@@ -94,7 +94,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import {
   User,
   Iphone,
@@ -104,6 +104,16 @@ import {
 } from '@element-plus/icons-vue'
 
 const size = ref('')
+const iconStyle = computed(() => {
+  const marginMap = {
+    large: '8px',
+    default: '6px',
+    small: '4px',
+  }
+  return {
+    marginRight: marginMap[size.value] || marginMap.default,
+  }
+})
 </script>
 
 <style scoped>
@@ -114,9 +124,5 @@ const size = ref('')
 .cell-item {
   display: flex;
   align-items: center;
-}
-
-.el-icon {
-  margin-right: 5px;
 }
 </style>
