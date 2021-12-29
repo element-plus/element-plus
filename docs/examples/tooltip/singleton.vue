@@ -2,6 +2,7 @@
   <div>
     <el-button
       v-for="i in 3"
+      :key="i"
       @mouseover="(e) => (buttonRef = e.currentTarget)"
       @click="visible = !visible"
       >Click to open tooltip</el-button

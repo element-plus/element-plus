@@ -4,7 +4,7 @@ import TestCollection, {
   CollectionChildComponent as ChildComponent,
 } from '../test-helper'
 
-import { ComponentPublicInstance } from 'vue'
+import type { ComponentPublicInstance } from 'vue'
 import type { ElCollectionInjectionContext } from '../src/tokens'
 
 const { ElCollection } = TestCollection

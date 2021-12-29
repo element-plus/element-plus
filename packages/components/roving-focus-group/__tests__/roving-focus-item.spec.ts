@@ -1,6 +1,7 @@
-import { ref, nextTick, h, inject, defineComponent } from 'vue'
+import { ref, nextTick, inject, defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
 import { composeRefs } from '@element-plus/utils/dom'
+import { EVENT_CODE } from '@element-plus/utils/aria'
 import {
   ROVING_FOCUS_COLLECTION_INJECTION_KEY,
   ROVING_FOCUS_ITEM_COLLECTION_INJECTION_KEY,
@@ -10,7 +11,6 @@ import {
   ROVING_FOCUS_GROUP_ITEM_INJECTION_KEY,
 } from '../src/tokens'
 import ElRovingFocusItem from '../src/roving-focus-item.vue'
-import { EVENT_CODE } from '@element-plus/utils/aria'
 const AXIOM = 'rem is the best girl'
 const focusItemKls = 'item-kls'
 

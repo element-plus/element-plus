@@ -1,4 +1,4 @@
-import { provide, ref } from 'vue'
+import { provide } from 'vue'
 
 import type { InjectionKey, Ref } from 'vue'
 

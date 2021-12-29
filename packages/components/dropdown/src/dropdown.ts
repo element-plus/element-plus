@@ -31,13 +31,18 @@ export interface IElDropdownInstance {
 
 export const dropdownProps = {
   trigger: useTooltipTriggerProps.trigger,
-  placement: {
-    type: definePropType<Placement>(String),
-    default: 'button',
+
+  effect: {
+    ...useTooltipContentProps.effect,
+    default: 'light',
   },
   ...buildProps({
     type: {
       type: definePropType<ButtonType>(String),
+    },
+    placement: {
+      type: definePropType<Placement>(String),
+      default: 'bottom',
     },
     size: {
       type: String,
@@ -64,10 +69,7 @@ export const dropdownProps = {
       type: definePropType<number | string>([Number, String]),
       default: 0,
     },
-    effect: {
-      ...useTooltipContentProps.effect,
-      default: 'light',
-    },
+
     maxHeight: {
       type: definePropType<number | string>([Number, String]),
       default: '',

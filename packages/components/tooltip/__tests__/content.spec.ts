@@ -1,4 +1,4 @@
-import { nextTick, Transition } from 'vue'
+import { nextTick } from 'vue'
 import { shallowMount } from '@vue/test-utils'
 import ElTeleport from '@element-plus/components/teleport'
 import { genTooltipProvides } from '../test-helper/provides'

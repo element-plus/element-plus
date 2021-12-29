@@ -1,6 +1,5 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { rAF } from '@element-plus/test-utils/tick'
 import { sleep } from '@element-plus/test-utils'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { CircleClose, ArrowUp, CaretTop } from '@element-plus/icons-vue'
@@ -600,7 +599,7 @@ describe('Select', () => {
     jest.runAllTimers()
     await timer
     vm.toggleMenu()
-    await nextTick
+    await nextTick()
     expect(vm.hoverIndex).toBe(3)
   })
 
@@ -1482,7 +1481,6 @@ describe('Select', () => {
         modelValue: ['1'],
       })
     )
-    const vm = wrapper.vm as any
     await nextTick()
 
     const innerInput = wrapper.find('.el-input__inner')
@@ -1547,7 +1545,7 @@ describe('Select', () => {
       const vm = wrapper.findComponent(Select).vm
       const event = { target: { value: 'sh' } }
       vm.debouncedQueryChange(event)
-      await nextTick
+      await nextTick()
       const groups = wrapper.findAllComponents(Group)
       expect(
         groups.filter((group) => {
@@ -1576,7 +1574,6 @@ describe('Select', () => {
       const firstInputLetter = 'a'
       const secondInputLetter = 'aa'
 
-      const vm = wrapper.vm as any
       await nextTick()
 
       const input = wrapper.find(

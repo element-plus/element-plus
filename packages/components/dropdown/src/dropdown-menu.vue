@@ -14,16 +14,7 @@
   </ul>
 </template>
 <script lang="ts">
-import {
-  defineComponent,
-  getCurrentInstance,
-  onMounted,
-  onBeforeUnmount,
-  inject,
-  ref,
-  unref,
-  watch,
-} from 'vue'
+import { defineComponent, inject, unref } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { FOCUS_TRAP_INJECTION_KEY } from '@element-plus/components/focus-trap'
@@ -40,19 +31,17 @@ import {
   FIRST_LAST_KEYS,
   LAST_KEYS,
 } from './dropdown'
-import { useDropdown, initDropdownDomEvent } from './useDropdown'
-
-import type { ComponentPublicInstance } from 'vue'
+import { useDropdown } from './useDropdown'
 
 export default defineComponent({
   name: 'ElDropdownMenu',
-  props: dropdownMenuProps,
   directives: {
     ClickOutside,
   },
   inheritAttrs: false,
+  props: dropdownMenuProps,
   setup(props) {
-    const { _elDropdownSize, elDropdown } = useDropdown()
+    const { _elDropdownSize } = useDropdown()
     const size = _elDropdownSize.value
 
     const { focusTrapRef, onKeydown } = inject(

@@ -1,4 +1,4 @@
-import { h, nextTick } from 'vue'
+import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { debugWarn } from '@element-plus/utils/error'
 import { rAF } from '@element-plus/test-utils/tick'

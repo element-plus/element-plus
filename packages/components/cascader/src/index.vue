@@ -12,8 +12,8 @@
     transition="el-zoom-in-top"
     effect="light"
     pure
-    @hide="hideSuggestionPanel"
     persistent
+    @hide="hideSuggestionPanel"
   >
     <template #default>
       <div
@@ -154,7 +154,6 @@ import {
   onBeforeUnmount,
   ref,
   watch,
-  shallowRef,
 } from 'vue'
 import { isPromise } from '@vue/shared'
 import debounce from 'lodash/debounce'

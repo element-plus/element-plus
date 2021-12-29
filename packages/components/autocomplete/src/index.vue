@@ -62,11 +62,11 @@
         role="region"
       >
         <el-scrollbar
+          :id="id"
           tag="ul"
           wrap-class="el-autocomplete-suggestion__wrap"
           view-class="el-autocomplete-suggestion__list"
           role="listbox"
-          :id="id"
         >
           <li v-if="suggestionLoading">
             <el-icon class="is-loading"><loading /></el-icon>
@@ -91,15 +91,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  computed,
-  onMounted,
-  onUpdated,
-  nextTick,
-  watch,
-} from 'vue'
+import { defineComponent, ref, computed, onMounted, nextTick } from 'vue'
 import { NOOP } from '@vue/shared'
 import debounce from 'lodash/debounce'
 import { useAttrs } from '@element-plus/hooks'
