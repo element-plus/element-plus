@@ -21,7 +21,7 @@ importers:
       '@popperjs/core': ^2.10.2
       '@rollup/plugin-commonjs': 21.0.1
       '@rollup/plugin-node-resolve': 13.1.1
-      '@rollup/plugin-replace': 3.0.0
+      '@rollup/plugin-replace': 3.0.1
       '@sucrase/jest-plugin': 2.2.0
       '@types/fs-extra': 9.0.13
       '@types/gulp': 4.0.9
@@ -98,7 +98,7 @@ importers:
       '@pnpm/types': 7.8.0
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.62.0
       '@rollup/plugin-node-resolve': 13.1.1_rollup@2.62.0
-      '@rollup/plugin-replace': 3.0.0_rollup@2.62.0
+      '@rollup/plugin-replace': 3.0.1_rollup@2.62.0
       '@sucrase/jest-plugin': 2.2.0
       '@types/fs-extra': 9.0.13
       '@types/gulp': 4.0.9
@@ -1593,8 +1593,8 @@ packages:
       rollup: 2.62.0
     dev: true
 
-  /@rollup/plugin-replace/3.0.0_rollup@2.62.0:
-    resolution: {integrity: sha512-3c7JCbMuYXM4PbPWT4+m/4Y6U60SgsnDT/cCyAyUKwFHg7pTSfsSQzIpETha3a3ig6OdOKzZz87D9ZXIK3qsDg==}
+  /@rollup/plugin-replace/3.0.1_rollup@2.62.0:
+    resolution: {integrity: sha512-989J5oRzf3mm0pO/0djTijdfEh9U3n63BIXN5X7T4U9BP+fN4oxQ6DvDuBvFaHA6scaHQRclqmKQEkBhB7k7Hg==}
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0
     dependencies:
