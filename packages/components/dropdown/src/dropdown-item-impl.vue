@@ -9,13 +9,13 @@
       'el-dropdown-menu__item--divided': divided,
     }"
     :tabindex="tabIndex"
+    role="menuitem"
     @click="(e) => $emit('click', e)"
     @focus="handleFocus"
     @keydown="handleKeydown"
     @mousedown="handleMousedown"
     @pointermove="(e) => $emit('pointermove', e)"
     @pointerleave="(e) => $emit('pointerleave', e)"
-    role="menuitem"
   >
     <el-icon v-if="icon"><component :is="icon" /></el-icon>
     <slot />
@@ -29,6 +29,7 @@ import {
   ROVING_FOCUS_ITEM_COLLECTION_INJECTION_KEY,
 } from '@element-plus/components/roving-focus-group'
 import { COLLECTION_ITEM_SIGN } from '@element-plus/components/collection'
+import { ElIcon } from '@element-plus/components/icon'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { composeEventHandlers, composeRefs } from '@element-plus/utils/dom'
 import {
@@ -38,6 +39,9 @@ import {
 
 export default defineComponent({
   name: 'DropdownItemImpl',
+  components: {
+    ElIcon,
+  },
   props: dropdownItemProps,
   emits: ['pointermove', 'pointerleave', 'click'],
   setup(_, { emit }) {

@@ -22,7 +22,6 @@
         v-if="!isRangeInput"
         :id="id"
         ref="inputRef"
-        v-clickoutside:[popperPaneRef]="onClickOutside"
         :model-value="displayValue"
         :name="name"
         :size="pickerSize"

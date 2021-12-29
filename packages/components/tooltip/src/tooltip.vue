@@ -93,7 +93,7 @@ export default defineComponent({
     ...useTooltipProps,
   },
   emits: [...useModelToggleEmits, 'show', 'hide'],
-  setup(props, { attrs, emit }) {
+  setup(props, { emit }) {
     usePopperContainer()
     const compatShowAfter = computed(() => {
       if (!isUndefined(props.openDelay)) {
@@ -138,13 +138,6 @@ export default defineComponent({
 
     const controlled = computed(() => isBool(props.visible))
 
-    const derivedProps = computed(() => {
-      return {
-        ...props,
-        ...attrs,
-      }
-    })
-
     provide(TOOLTIP_INJECTION_KEY, {
       controlled,
       id,
@@ -173,7 +166,6 @@ export default defineComponent({
       popperRef,
       open,
       updatePopper,
-      derivedProps,
       onOpen,
       onClose,
     }

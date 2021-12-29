@@ -24,10 +24,9 @@
 </template>
 <script lang="ts">
 import { defineComponent, computed, ref, unref } from 'vue'
-import ElTooltip, {
-  useTooltipContentProps,
-} from '@element-plus/components/tooltip'
+import ElTooltip from '@element-plus/components/tooltip'
 import { isString } from '@element-plus/utils/util'
+import { usePopoverProps } from './popover'
 
 import type { StyleValue } from 'vue'
 
@@ -40,28 +39,7 @@ export default defineComponent({
   components: {
     ElTooltip,
   },
-  props: {
-    title: String,
-    content: useTooltipContentProps.content,
-    effect: {
-      ...useTooltipContentProps.effect,
-      default: 'light',
-    },
-    hideAfter: {
-      type: Number,
-      default: 200,
-    },
-    popperClass: String,
-    popperStyle: useTooltipContentProps.popperStyle,
-    enterable: {
-      ...useTooltipContentProps.enterable,
-      default: true,
-    },
-    width: {
-      type: [String, Number],
-      default: 150,
-    },
-  },
+  props: usePopoverProps,
   emits,
   setup(props) {
     const tooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)

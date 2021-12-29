@@ -154,7 +154,6 @@ export default defineComponent({
     }
 
     const onContentEnter = composeEventHandlers(stopWhenControlled, () => {
-      console.log(1)
       if (props.enterable) {
         onOpen()
       }

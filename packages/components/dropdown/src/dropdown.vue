@@ -15,11 +15,11 @@
       :stop-popper-mouse-event="false"
       :virtual-ref="triggeringElementRef"
       :virtual-triggering="splitButton"
-      @show="$emit('visible-change', true)"
-      @hide="$emit('visible-change', false)"
       append-to-body
       pure
       transition="el-zoom-in-top"
+      @show="$emit('visible-change', true)"
+      @hide="$emit('visible-change', false)"
     >
       <template #content>
         <el-scrollbar
@@ -44,7 +44,7 @@
         </el-scrollbar>
       </template>
       <template v-if="!splitButton" #default>
-        <div :class="[dropdownSize ? 'el-dropdown--' + dropdownSize : '']">
+        <div :class="dropdownTriggerKls">
           <slot name="default" />
         </div>
       </template>
@@ -82,28 +82,19 @@ import {
   unref,
 } from 'vue'
 import ElButton from '@element-plus/components/button'
-import ElTooltip, {
-  useTooltipTriggerProps,
-  useTooltipContentProps,
-} from '@element-plus/components/tooltip'
+import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import ElRovingFocusGroup from '@element-plus/components/roving-focus-group'
-import { on, addClass, removeClass } from '@element-plus/utils/dom'
 import { addUnit } from '@element-plus/utils/util'
 import { ArrowDown } from '@element-plus/icons-vue'
 import { useSize } from '@element-plus/hooks'
-import { ElCollection as ElDropdownCollection } from './dropdown'
+import { ElCollection as ElDropdownCollection, dropdownProps } from './dropdown'
 import { DROPDOWN_INJECTION_KEY } from './tokens'
-import { useDropdown } from './useDropdown'
 
-import type { Placement } from '@element-plus/components/popper'
-import type { PropType, ComponentPublicInstance, CSSProperties } from 'vue'
-import type { ButtonType } from '@element-plus/components/button'
-import type { ElDropdownInjectionContext } from './tokens'
+import type { CSSProperties } from 'vue'
 
-type Nullable<T> = null | T
 const { ButtonGroup: ElButtonGroup } = ElButton
 
 export default defineComponent({
@@ -119,50 +110,7 @@ export default defineComponent({
     ElIcon,
     ArrowDown,
   },
-  props: {
-    trigger: useTooltipTriggerProps.trigger,
-    type: String as PropType<ButtonType>,
-    size: {
-      type: String,
-      default: '',
-    },
-    splitButton: Boolean,
-    hideOnClick: {
-      type: Boolean,
-      default: true,
-    },
-    loop: {
-      type: Boolean,
-    },
-    placement: {
-      type: String as PropType<Placement>,
-      default: 'bottom',
-    },
-    showTimeout: {
-      type: Number,
-      default: 150,
-    },
-    hideTimeout: {
-      type: Number,
-      default: 150,
-    },
-    tabindex: {
-      type: [Number, String],
-      default: 0,
-    },
-    effect: {
-      ...useTooltipContentProps.effect,
-      default: 'light',
-    },
-    maxHeight: {
-      type: [Number, String],
-      default: '',
-    },
-    popperClass: {
-      type: String,
-      default: '',
-    },
-  },
+  props: dropdownProps,
   emits: ['visible-change', 'click', 'command'],
   setup(props, { emit }) {
     const _instance = getCurrentInstance()
@@ -179,6 +127,9 @@ export default defineComponent({
     const wrapStyle = computed<CSSProperties>(() => ({
       maxHeight: addUnit(props.maxHeight),
     }))
+    const dropdownTriggerKls = computed(() => [
+      [dropdownSize.value ? `el-dropdown--${dropdownSize.value}` : ''],
+    ])
 
     function handleClick() {
       popperRef.value?.onClose()
@@ -236,7 +187,7 @@ export default defineComponent({
       })
     }
 
-    const handlerMainButtonClick = (event: PointerEvent) => {
+    const handlerMainButtonClick = (event: MouseEvent) => {
       emit('click', event)
     }
 
@@ -244,6 +195,7 @@ export default defineComponent({
       visible,
       scrollbar,
       wrapStyle,
+      dropdownTriggerKls,
       dropdownSize,
       currentTabId,
       handleCurrentTabIdChange,

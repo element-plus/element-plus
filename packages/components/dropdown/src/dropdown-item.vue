@@ -24,7 +24,6 @@ import {
   ref,
   unref,
 } from 'vue'
-import ElIcon from '@element-plus/components/icon'
 import { ElRovingFocusItem } from '@element-plus/components/roving-focus-group'
 import { composeEventHandlers, whenMouse } from '@element-plus/utils/dom'
 import ElDropdownItemImpl from './dropdown-item-impl.vue'
@@ -38,7 +37,6 @@ import { DROPDOWN_INJECTION_KEY } from './tokens'
 export default defineComponent({
   name: 'ElDropdownItem',
   components: {
-    ElIcon,
     ElDropdownCollectionItem,
     ElRovingFocusItem,
     ElDropdownItemImpl,

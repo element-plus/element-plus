@@ -1,7 +1,13 @@
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { buildProps, definePropType } from '@element-plus/utils/props'
 import { createCollectionWithScope } from '@element-plus/components/collection'
+import {
+  useTooltipTriggerProps,
+  useTooltipContentProps,
+} from '@element-plus/components/tooltip'
 
+import type { ButtonType } from '@element-plus/components/button'
+import type { Placement } from '@element-plus/components/popper'
 import type {
   ComponentInternalInstance,
   Component,
@@ -22,6 +28,56 @@ export interface IElDropdownInstance {
   hideOnClick?: ComputedRef<boolean>
   triggerElm?: ComputedRef<Nullable<HTMLButtonElement>>
 }
+
+export const dropdownProps = {
+  trigger: useTooltipTriggerProps.trigger,
+  placement: {
+    type: definePropType<Placement>(String),
+    default: 'button',
+  },
+  ...buildProps({
+    type: {
+      type: definePropType<ButtonType>(String),
+    },
+    size: {
+      type: String,
+      default: '',
+    },
+    splitButton: Boolean,
+    hideOnClick: {
+      type: Boolean,
+      default: true,
+    },
+    loop: {
+      type: Boolean,
+    },
+
+    showTimeout: {
+      type: Number,
+      default: 150,
+    },
+    hideTimeout: {
+      type: Number,
+      default: 150,
+    },
+    tabindex: {
+      type: definePropType<number | string>([Number, String]),
+      default: 0,
+    },
+    effect: {
+      ...useTooltipContentProps.effect,
+      default: 'light',
+    },
+    maxHeight: {
+      type: definePropType<number | string>([Number, String]),
+      default: '',
+    },
+    popperClass: {
+      type: String,
+      default: '',
+    },
+  } as const),
+} as const
 
 export const dropdownItemProps = buildProps({
   command: {
