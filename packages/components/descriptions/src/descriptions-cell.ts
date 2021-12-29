@@ -55,7 +55,10 @@ export default defineComponent({
             class: [
               'el-descriptions__cell',
               'el-descriptions__label',
-              { 'is-bordered-label': this.descriptions.border },
+              {
+                'is-bordered-label': this.descriptions.border,
+                'is-vertical-label': this.descriptions.direction === 'vertical',
+              },
               labelAlign,
               labelClassName,
             ],
@@ -71,6 +74,11 @@ export default defineComponent({
             class: [
               'el-descriptions__cell',
               'el-descriptions__content',
+              {
+                'is-bordered-content': this.descriptions.border,
+                'is-vertical-content':
+                  this.descriptions.direction === 'vertical',
+              },
               align,
               className,
             ],

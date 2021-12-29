@@ -1,8 +1,15 @@
 <template>
+  <el-radio-group v-model="size">
+    <el-radio label="large">Large</el-radio>
+    <el-radio>Default</el-radio>
+    <el-radio label="small">Small</el-radio>
+  </el-radio-group>
+
   <el-descriptions
     title="Vertical list with border"
     direction="vertical"
     :column="4"
+    :size="size"
     border
   >
     <el-descriptions-item label="Username">kooriookami</el-descriptions-item>
@@ -12,15 +19,14 @@
       <el-tag size="small">School</el-tag>
     </el-descriptions-item>
     <el-descriptions-item label="Address"
-      >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu
-      Province</el-descriptions-item
-    >
+      >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
+    </el-descriptions-item>
   </el-descriptions>
 
   <el-descriptions
-    class="margin-top"
     title="Vertical list without border"
     :column="4"
+    :size="size"
     direction="vertical"
   >
     <el-descriptions-item label="Username">kooriookami</el-descriptions-item>
@@ -30,8 +36,19 @@
       <el-tag size="small">School</el-tag>
     </el-descriptions-item>
     <el-descriptions-item label="Address"
-      >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu
-      Province</el-descriptions-item
-    >
+      >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
+    </el-descriptions-item>
   </el-descriptions>
 </template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const size = ref('')
+</script>
+
+<style scoped>
+.el-descriptions {
+  margin-top: 20px;
+}
+</style>

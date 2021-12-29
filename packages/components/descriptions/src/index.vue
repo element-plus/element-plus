@@ -1,5 +1,8 @@
 <template>
-  <div class="el-descriptions">
+  <div
+    class="el-descriptions"
+    :class="descriptionsSize ? `el-descriptions--${descriptionsSize}` : ''"
+  >
     <div
       v-if="title || extra || $slots.title || $slots.extra"
       class="el-descriptions__header"
@@ -13,13 +16,7 @@
     </div>
 
     <div class="el-descriptions__body">
-      <table
-        :class="[
-          'el-descriptions__table',
-          { 'is-bordered': border },
-          descriptionsSize ? `el-descriptions--${descriptionsSize}` : '',
-        ]"
-      >
+      <table :class="['el-descriptions__table', { 'is-bordered': border }]">
         <tbody>
           <template v-for="(row, index) in getRows()" :key="index">
             <el-descriptions-row :row="row" />

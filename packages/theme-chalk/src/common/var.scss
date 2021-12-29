@@ -1149,10 +1149,8 @@ $empty: map.merge(
 $descriptions: () !default;
 $descriptions: map.merge(
   (
-    'header-margin-bottom': 20px,
-    'title-font-size': 16px,
     'table-border': 1px solid var(--el-border-color-lighter),
-    'item-bordered-label-background': #fafafa,
+    'item-bordered-label-background': #f5f7fa,
   ),
   $descriptions
 );

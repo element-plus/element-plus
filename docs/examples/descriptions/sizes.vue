@@ -13,40 +13,60 @@
     border
   >
     <template #extra>
-      <el-button type="primary" size="small">Operation</el-button>
+      <el-button type="primary">Operation</el-button>
     </template>
     <el-descriptions-item>
       <template #label>
-        <el-icon><user /></el-icon>
-        Username
+        <div class="item">
+          <el-icon>
+            <user />
+          </el-icon>
+          Username
+        </div>
       </template>
       kooriookami
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
-        <el-icon><iphone /></el-icon>
-        Telephone
+        <div class="item">
+          <el-icon>
+            <iphone />
+          </el-icon>
+          Telephone
+        </div>
       </template>
       18100000000
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
-        <el-icon><location /></el-icon>
-        Place
+        <div class="item">
+          <el-icon>
+            <location />
+          </el-icon>
+          Place
+        </div>
       </template>
       Suzhou
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
-        <el-icon><tickets /></el-icon>
-        Remarks
+        <div class="item">
+          <el-icon>
+            <tickets />
+          </el-icon>
+          Remarks
+        </div>
       </template>
       <el-tag size="small">School</el-tag>
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
-        <el-icon><office-building /></el-icon>
-        Address
+        <div class="item">
+          <el-icon>
+            <office-building />
+          </el-icon>
+          Address
+        </div>
       </template>
       No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
     </el-descriptions-item>
@@ -59,7 +79,7 @@
     :size="size"
   >
     <template #extra>
-      <el-button type="primary" size="small">Operation</el-button>
+      <el-button type="primary">Operation</el-button>
     </template>
     <el-descriptions-item label="Username">kooriookami</el-descriptions-item>
     <el-descriptions-item label="Telephone">18100000000</el-descriptions-item>
@@ -68,9 +88,8 @@
       <el-tag size="small">School</el-tag>
     </el-descriptions-item>
     <el-descriptions-item label="Address"
-      >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu
-      Province</el-descriptions-item
-    >
+      >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
+    </el-descriptions-item>
   </el-descriptions>
 </template>
 
@@ -86,3 +105,18 @@ import {
 
 const size = ref('')
 </script>
+
+<style scoped>
+.el-descriptions {
+  margin-top: 20px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+}
+
+.el-icon {
+  margin-right: 5px;
+}
+</style>
