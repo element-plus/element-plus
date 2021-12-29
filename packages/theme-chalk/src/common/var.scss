@@ -665,7 +665,7 @@ $table-font-size: () !default;
 $table-font-size: map.merge(
   (
     'large': var(--el-font-size-base, map.get($font-size, 'base')),
-    'default': 12px,
+    'default': 14px,
     'small': 12px,
   ),
   $table-font-size
@@ -674,9 +674,9 @@ $table-font-size: map.merge(
 $table-padding: () !default;
 $table-padding: map.merge(
   (
-    'large': 13px 0,
-    'default': 10px 0,
-    'small': 6px 0,
+    'large': 12px 0,
+    'default': 8px 0,
+    'small': 4px 0,
   ),
   $table-padding
 );
