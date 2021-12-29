@@ -211,6 +211,26 @@ $checkbox-button: map.merge(
   $checkbox-button
 );
 
+$checkbox-bordered-padding-left: () !default;
+$checkbox-bordered-padding-left: map.merge(
+  (
+    'large': 12px,
+    'default': 10px,
+    'small': 8px,
+  ),
+  $checkbox-bordered-padding-left
+);
+
+$checkbox-bordered-padding-right: () !default;
+$checkbox-bordered-padding-right: map.merge(
+  (
+    'large': 20px,
+    'default': 16px,
+    'small': 12px,
+  ),
+  $checkbox-bordered-padding-right
+);
+
 // Radio
 /// fontSize||Font|1
 $radio: () !default;
@@ -265,16 +285,6 @@ $radio-checked: map.merge(
     'icon-color': var(--el-color-primary),
   ),
   $radio-checked
-);
-
-$radio-bordered-padding: () !default;
-$radio-bordered-padding: map.merge(
-  (
-    'large': 0 20px 0 10px,
-    'default': 0 15px 0 10px,
-    'small': 0 15px 0 10px,
-  ),
-  $radio-bordered-padding
 );
 
 $radio-bordered-input-height: () !default;
@@ -790,9 +800,9 @@ $tag-padding: map.merge(
 $tag-icon-size: () !default;
 $tag-icon-size: map.merge(
   (
-    'large': 18px,
-    'default': 16px,
-    'small': 14px,
+    'large': 16px,
+    'default': 14px,
+    'small': 12px,
   ),
   $tag-icon-size
 );
