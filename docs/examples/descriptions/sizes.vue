@@ -77,6 +77,7 @@
     title="Without border"
     :column="3"
     :size="size"
+    :style="blockMargin"
   >
     <template #extra>
       <el-button type="primary">Operation</el-button>
@@ -112,6 +113,16 @@ const iconStyle = computed(() => {
   }
   return {
     marginRight: marginMap[size.value] || marginMap.default,
+  }
+})
+const blockMargin = computed(() => {
+  const marginMap = {
+    large: '32px',
+    default: '28px',
+    small: '24px',
+  }
+  return {
+    marginTop: marginMap[size.value] || marginMap.default,
   }
 })
 </script>
