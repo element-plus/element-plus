@@ -18,19 +18,29 @@ export const Loading = function (
 
   const resolved = resolveOptions(options)
 
-  if (resolved.fullscreen && fullscreenInstance) {
-    fullscreenInstance.remvoeElLoadingChild()
-    fullscreenInstance.close()
+  if (resolved.isService && fullscreenInstance) {
+    addElAttris(resolved, fullscreenInstance)
+    return fullscreenInstance
+  } else {
+    const instance = createLoadingComponent({
+      ...resolved,
+      closed: () => {
+        resolved.closed?.()
+        if (resolved.fullscreen) fullscreenInstance = undefined
+      },
+    })
+
+    addElAttris(resolved, instance)
+    if (resolved.isService) {
+      fullscreenInstance = instance
+    }
+    return instance
   }
-
-  const instance = createLoadingComponent({
-    ...resolved,
-    closed: () => {
-      resolved.closed?.()
-      if (resolved.fullscreen) fullscreenInstance = undefined
-    },
-  })
-
+}
+const addElAttris = (
+  resolved: LoadingOptionsResolved,
+  instance: LoadingInstance
+) => {
   addStyle(resolved, resolved.parent, instance)
   addClassList(resolved, resolved.parent, instance)
 
@@ -58,11 +68,6 @@ export const Loading = function (
 
   // after instance render, then modify visible to trigger transition
   nextTick(() => (instance.visible.value = resolved.visible))
-
-  if (resolved.fullscreen) {
-    fullscreenInstance = instance
-  }
-  return instance
 }
 
 const resolveOptions = (options: LoadingOptions): LoadingOptionsResolved => {
@@ -85,6 +90,7 @@ const resolveOptions = (options: LoadingOptions): LoadingOptionsResolved => {
     customClass: options.customClass || '',
     visible: options.visible ?? true,
     target,
+    isService: options.isService ?? true,
   }
 }
 
