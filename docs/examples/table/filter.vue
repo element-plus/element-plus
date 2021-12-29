@@ -58,8 +58,10 @@ const tableRef = ref<InstanceType<typeof ElTable>>()
 const resetDateFilter = () => {
   tableRef.value!.clearFilter(['date'])
 }
-// TODO: improvement typeing when refactor table
+// TODO: improvement typing when refactor table
 const clearFilter = () => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
   tableRef.value!.clearFilter()
 }
 const formatter = (row: User, column: TableColumnCtx<User>) => {

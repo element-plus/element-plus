@@ -86,8 +86,8 @@ const decodedDescription = computed(() =>
 )
 
 const onPlaygroundClicked = () => {
-  const code = usePlayGround(props.rawSource)
-  window.open(`https://element-plus.run/#${code}`)
+  const { link } = usePlayGround(props.rawSource)
+  window.open(link)
 }
 
 const copyCode = async () => {

@@ -8,7 +8,17 @@ import { inBrowser } from 'vitepress'
 
 import type { Route } from 'vitepress'
 
-export * from 'vitepress/dist/client/theme-default/utils'
+export {
+  isArray,
+  isNullish,
+  isExternal,
+  isActive,
+  normalize,
+  joinUrl,
+  ensureEndingSlash,
+  ensureStartingSlash,
+  removeExtention,
+} from 'vitepress/dist/client/theme-default/utils'
 
 export function utoa(data: string): string {
   return btoa(unescape(encodeURIComponent(data)))
@@ -60,8 +70,6 @@ export function createGitHubUrl(
     docsDir ? `${docsDir.replace(endingSlashRE, '')}/` : ''
   }${folder || ''}${path}${ext || ''}`
 }
-
-export const isServer = typeof window === 'undefined'
 
 export function createCrowdinUrl(targetLang: string) {
   let translateLang = ''

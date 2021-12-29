@@ -1,6 +1,6 @@
 {
   "name": "@element-plus/docs",
-  "version": "0.0.1",
+  "private": true,
   "scripts": {
     "dev": "pnpm gen-locale && vitepress dev .",
     "build": "cross-env NODE_ENV=production && vitepress build .",
@@ -9,6 +9,8 @@
     "crowdin-credentials": "sucrase-node .vitepress/build/crowdin-credentials.ts"
   },
   "dependencies": {
+    "@docsearch/js": "^3.0.0-alpha.42",
+    "@docsearch/react": "^3.0.0-alpha.42",
     "@vueuse/core": "7.4.1",
     "axios": "0.24.0",
     "clipboard-copy": "4.0.1",

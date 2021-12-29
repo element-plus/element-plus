@@ -28,5 +28,11 @@ ${SETUP_CODE}
   const originCode = {
     [MAIN_FILE_NAME]: code,
   }
-  return utoa(JSON.stringify(originCode))
+
+  const encoded = utoa(JSON.stringify(originCode))
+  const link = `https://element-plus.run/#${encoded}`
+  return {
+    encoded,
+    link,
+  }
 }
