@@ -197,7 +197,7 @@ export default defineComponent({
       if (newVal !== undefined && newVal <= props.min) newVal = props.min
       if (oldVal === newVal) return
       if (!isNumber(newVal)) {
-        newVal = NaN
+        newVal = undefined
       }
       data.userInput = null
       emit('update:modelValue', newVal)
@@ -265,7 +265,11 @@ export default defineComponent({
         String(inputNumberDisabled.value)
       )
       if (!isNumber(props.modelValue)) {
-        emit('update:modelValue', Number(props.modelValue))
+        let val: number | undefined = Number(props.modelValue)
+        if (isNaN(val)) {
+          val = undefined
+        }
+        emit('update:modelValue', val)
       }
     })
     onUpdated(() => {
