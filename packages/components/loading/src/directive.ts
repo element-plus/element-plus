@@ -52,6 +52,7 @@ const createInstance = (
     target: getBindingProp('target') ?? (fullscreen ? undefined : el),
     body: getBindingProp('body') ?? binding.modifiers.body,
     lock: getBindingProp('lock') ?? binding.modifiers.lock,
+    isService: getBindingProp('isService') ?? false,
   }
   el[INSTANCE_KEY] = {
     options,
