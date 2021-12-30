@@ -7,8 +7,8 @@
 @mixin menu-item {
   display: flex;
   align-items: center;
-  height: 56px;
-  line-height: 56px;
+  height: var(--el-menu-item-height);
+  line-height: var(--el-menu-item-height);
   font-size: var(--el-menu-item-font-size);
   color: var(--el-menu-text-color);
   padding: 0 20px;
@@ -67,7 +67,7 @@
       justify-content: center;
       align-items: center;
 
-      height: 60px;
+      height: 100%;
       margin: 0;
       border-bottom: 2px solid transparent;
       color: var(--el-menu-text-color);
@@ -102,8 +102,7 @@
       }
 
       & .#{$namespace}-sub-menu__title {
-        height: 60px;
-        line-height: 60px;
+        height: 100%;
         border-bottom: 2px solid transparent;
         color: var(--el-menu-text-color);
 
