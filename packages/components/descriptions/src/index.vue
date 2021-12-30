@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="el-descriptions"
-    :class="descriptionsSize ? `el-descriptions--${descriptionsSize}` : ''"
-  >
+  <div :class="descriptionKls">
     <div
       v-if="title || extra || $slots.title || $slots.extra"
       class="el-descriptions__header"
@@ -28,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, provide } from 'vue'
+import { computed, defineComponent, provide } from 'vue'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 import { useSize } from '@element-plus/hooks'
 import DescriptionsRow from './descriptions-row.vue'
@@ -72,6 +69,12 @@ export default defineComponent({
     provide(elDescriptionsKey, props)
 
     const descriptionsSize = useSize()
+
+    const prefix = 'el-descriptions'
+    const descriptionKls = computed(() => [
+      prefix,
+      descriptionsSize.value ? `${prefix}--${descriptionsSize.value}` : '',
+    ])
 
     const flattedChildren = (children) => {
       const temp = Array.isArray(children) ? children : [children]
@@ -139,7 +142,7 @@ export default defineComponent({
     }
 
     return {
-      descriptionsSize,
+      descriptionKls,
       getRows,
     }
   },
