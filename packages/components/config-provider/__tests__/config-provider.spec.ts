@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 import { localeContextKey } from '@element-plus/hooks'
 import Chinese from '@element-plus/locale/lang/zh-cn'
 import English from '@element-plus/locale/lang/en'
-import { ElButton } from '@element-plus/components'
+import { ElButton, ElMessage } from '@element-plus/components'
 import ConfigProvider from '../src/config-provider'
 import type { Language } from '@element-plus/locale'
 
@@ -118,6 +118,40 @@ describe('config-provider', () => {
       expect(
         wrapper.find('.el-button .el-button__text--expand').exists()
       ).toBeFalsy()
+    })
+  })
+
+  describe('button-config', () => {
+    it('', async () => {
+      const wrapper = mount({
+        components: {
+          [ConfigProvider.name]: ConfigProvider,
+          ElButton,
+        },
+        setup() {
+          const config = reactive({
+            max: 3,
+          })
+          const open = () => {
+            ElMessage('this is a message.')
+          }
+          return {
+            config,
+            open,
+          }
+        },
+        template: `
+          <el-config-provider :button="config">
+            <el-button @click="open">open</el-button>
+          </el-config-provider>
+        `,
+      })
+      await nextTick()
+      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.el-button').trigger('click')
+      expect(document.querySelectorAll('.el-message').length).toBe(4)
     })
   })
 })

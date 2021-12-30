@@ -5,6 +5,9 @@ import { configProviderContextKey } from '@element-plus/tokens'
 import { PopupManager } from '@element-plus/utils/popup-manager'
 import { isNumber } from '@element-plus/utils/util'
 import type { ButtonConfigContext } from '@element-plus/components/button'
+import type { MessageConfigContext } from '@element-plus/components/message'
+
+export const messageConfig: MessageConfigContext = {}
 
 export const configProviderProps = buildProps({
   ...useLocaleProps,
@@ -16,6 +19,10 @@ export const configProviderProps = buildProps({
 
   button: {
     type: definePropType<ButtonConfigContext>(Object),
+  },
+
+  message: {
+    type: definePropType<MessageConfigContext>(Object),
   },
 
   zIndex: {
@@ -30,6 +37,7 @@ export default defineComponent({
   setup(props, { slots }) {
     provideLocale()
     provide(configProviderContextKey, props)
+    Object.assign(messageConfig, props.message || {})
 
     watch(
       () => props.zIndex,
