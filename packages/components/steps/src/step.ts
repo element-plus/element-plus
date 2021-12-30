@@ -1,7 +1,6 @@
 import { buildProps, definePropType } from '@element-plus/utils/props'
 import type Step from './step.vue'
-import type { StepsProps } from './steps'
-import type { Component, ExtractPropTypes, Ref } from 'vue'
+import type { Component, ExtractPropTypes } from 'vue'
 
 export interface StepItemState {
   uid: number
