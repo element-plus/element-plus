@@ -40,8 +40,7 @@ export const stepsProps = buildProps({
 export type StepsProps = ExtractPropTypes<typeof stepsProps>
 
 export const stepsEmits = {
-  [CHANGE_EVENT]: (newValue: number, oldValue: number) =>
-    isNumber(newValue) && isNumber(oldValue),
+  [CHANGE_EVENT]: (newValue: number, oldValue: number) => isNumber(oldValue),
 }
 export type StepsEmits = typeof stepsEmits
 
