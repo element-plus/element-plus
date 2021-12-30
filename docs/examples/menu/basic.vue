@@ -21,7 +21,7 @@
     <el-menu-item index="3" disabled>Info</el-menu-item>
     <el-menu-item index="4">Orders</el-menu-item>
   </el-menu>
-  <div class="line"></div>
+  <div class="h-6"></div>
   <el-menu
     :default-active="activeIndex2"
     class="el-menu-demo"

@@ -94,23 +94,4 @@ describe('use-form-item', () => {
 
     expect(getButtonVm(wrapper).buttonSize).toBe(itemSize)
   })
-
-  // update this once useGlobalConfig is fixed
-  // it('should return global config when none is provided', () => {
-  //   const size = 'small'
-  //   const wrapper = mountComponent(undefined, {
-  //     global: {
-  //       globalProperties: {
-  //         $ELEMENT: {
-  //           size,
-  //         },
-  //       },
-  //     },
-  //   })
-  //   console.log(wrapper.vm.$data)
-
-  //   expect(getButtonVm(wrapper).buttonSize).toBe(size)
-  // })
-
-  // Add test case for config provider
 })

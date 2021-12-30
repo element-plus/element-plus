@@ -59,7 +59,9 @@ const props = {
 }
 
 const onQueryChanged = (query: string) => {
-  // TODO: fix typeing when refactor tree-v2
+  // TODO: fix typing when refactor tree-v2
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
   treeRef.value!.filter(query)
 }
 const filterMethod = (query: string, node: TreeNode) => {

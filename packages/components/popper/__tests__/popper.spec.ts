@@ -2,7 +2,7 @@ import * as Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import * as popperExports from '@popperjs/core'
 import { rAF } from '@element-plus/test-utils/tick'
-import PopupManager from '@element-plus/utils/popup-manager'
+import { PopupManager } from '@element-plus/utils/popup-manager'
 import ElPopper from '../src/index.vue'
 
 import type { VueWrapper } from '@vue/test-utils'
@@ -107,7 +107,7 @@ describe('Popper.vue', () => {
       Number.parseInt(
         window.getComputedStyle(wrapper.find('.el-popper').element).zIndex
       )
-    ).toBeLessThanOrEqual(PopupManager.zIndex)
+    ).toBeLessThanOrEqual(PopupManager.getInitialZIndex() + PopupManager.zIndex)
   })
 
   test('should show popper when mouse entered and hide when popper left', async () => {

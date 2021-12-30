@@ -35,9 +35,9 @@ describe('Button.vue', () => {
   })
   it('size', () => {
     const wrapper = mount(Button, {
-      props: { size: 'default' },
+      props: { size: 'large' },
     })
-    expect(wrapper.classes()).toContain('el-button--default')
+    expect(wrapper.classes()).toContain('el-button--large')
   })
   it('plain', () => {
     const wrapper = mount(Button, {
@@ -140,11 +140,11 @@ describe('Button Group', () => {
       wrapper.findAll('.el-button-group button.el-button--small').length
     ).toBe(2)
 
-    size.value = 'default'
+    size.value = 'large'
     await nextTick()
 
     expect(
-      wrapper.findAll('.el-button-group button.el-button--default').length
+      wrapper.findAll('.el-button-group button.el-button--large').length
     ).toBe(2)
   })
 

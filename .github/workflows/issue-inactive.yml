@@ -2,7 +2,8 @@ name: Issue Inactive
 
 on:
   schedule:
-    - cron: '0 8 * * *'
+    # GMT+8 00:00
+    - cron: '0 16 * * *'
 
 jobs:
   close-issues:

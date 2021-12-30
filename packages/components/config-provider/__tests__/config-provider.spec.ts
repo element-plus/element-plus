@@ -4,7 +4,7 @@ import { localeContextKey } from '@element-plus/hooks'
 import Chinese from '@element-plus/locale/lang/zh-cn'
 import English from '@element-plus/locale/lang/en'
 import { ElButton } from '@element-plus/components'
-import { ConfigProvider } from '../src'
+import ConfigProvider from '../src/config-provider'
 import type { Language } from '@element-plus/locale'
 
 const TestComp = {

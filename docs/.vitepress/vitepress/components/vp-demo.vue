@@ -9,7 +9,7 @@ import { usePlayGround } from '../composables/use-playground'
 import demoBlockLocale from '../../i18n/component/demo-block.json'
 import GithubIcon from './icons/github.vue'
 import SourceCodeIcon from './icons/source-code.vue'
-import PlayGroundIcon from './icons/playground.vue'
+import PlayCircleLine from './icons/play-circle-line.vue'
 import CopyIcon from './icons/copy-icon.vue'
 
 import Example from './demo/vp-example.vue'
@@ -85,9 +85,9 @@ const decodedDescription = computed(() =>
   decodeURIComponent(props.description!)
 )
 
-const onCodepenClicked = () => {
-  const code = usePlayGround(props.rawSource)
-  window.open(`https://element-plus.run/#${code}`)
+const onPlaygroundClicked = () => {
+  const { link } = usePlayGround(props.rawSource)
+  window.open(link)
 }
 
 const copyCode = async () => {
@@ -112,7 +112,7 @@ const copyCode = async () => {
       <div class="op-btns">
         <ElTooltip :content="locale['edit-in-editor']" :visible-arrow="false">
           <ElIcon :size="20" class="op-btn">
-            <PlayGroundIcon @click="onCodepenClicked" />
+            <PlayCircleLine @click="onPlaygroundClicked" />
           </ElIcon>
         </ElTooltip>
         <ElTooltip :content="locale['edit-on-github']" :visible-arrow="false">

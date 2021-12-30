@@ -87,7 +87,7 @@ export default defineComponent({
     const buttonSize = useSize(computed(() => buttonGroupContext?.size))
     const buttonDisabled = useDisabled()
     const buttonType = computed(
-      () => props.type || buttonGroupContext?.type || 'default'
+      () => props.type || buttonGroupContext?.type || ''
     )
 
     // calculate hover & active color by color

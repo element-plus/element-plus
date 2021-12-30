@@ -77,7 +77,8 @@
     box-sizing: border-box;
   }
   @include e(content) {
-    display: inline-flex;
+    display: flex;
+    flex-wrap: wrap;
     align-items: center;
     flex: 1;
     line-height: calc(var(--font-size) * 2 + 4px);

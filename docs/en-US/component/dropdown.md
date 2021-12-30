@@ -19,10 +19,6 @@ Toggleable menu for displaying lists of links and actions.
     cursor: pointer;
     color: var(--el-color-primary);
   }
-  .el-icon--right {
-    font-size: 12px;
-    vertical-align: middle;
-  }
 }
 
 .block-col-2 {
