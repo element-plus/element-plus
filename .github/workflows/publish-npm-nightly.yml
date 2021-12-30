@@ -60,6 +60,6 @@ jobs:
         run: sh ./scripts/publish.sh
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}}
-          TAG_VERSION: 1.0.${{ steps.date.outputs.date }}
+          TAG_VERSION: 0.0.${{ steps.date.outputs.date }}
           GIT_HEAD: ${{env.GIT_HEAD}}
           REGISTRY: https://registry.npmjs.com/
