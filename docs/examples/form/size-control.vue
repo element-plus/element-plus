@@ -1,9 +1,9 @@
 <template>
   <div style="margin-left: 1rem">
     <el-radio-group v-model="size">
-      <el-radio label="small">Small</el-radio>
-      <el-radio label="default">Default</el-radio>
-      <el-radio label="large">Large</el-radio>
+      <el-radio :label="'large'">large</el-radio>
+      <el-radio :label="'default'">default</el-radio>
+      <el-radio :label="'small'">small</el-radio>
     </el-radio-group>
   </div>
   <br />
@@ -70,7 +70,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 
-const size = ref('small')
+const size = ref('default')
 
 const sizeForm = reactive({
   name: '',
