@@ -1,5 +1,5 @@
 <template>
-  <el-radio-group v-model="labelPosition" size="small">
+  <el-radio-group v-model="labelPosition">
     <el-radio-button label="left">Left</el-radio-button>
     <el-radio-button label="right">Right</el-radio-button>
     <el-radio-button label="top">Top</el-radio-button>
@@ -9,6 +9,7 @@
     :label-position="labelPosition"
     label-width="100px"
     :model="formLabelAlign"
+    style="max-width: 460px"
   >
     <el-form-item label="Name">
       <el-input v-model="formLabelAlign.name"></el-input>
