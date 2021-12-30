@@ -90,7 +90,7 @@ const resolveOptions = (options: LoadingOptions): LoadingOptionsResolved => {
     customClass: options.customClass || '',
     visible: options.visible ?? true,
     target,
-    isService: options.isService ?? true,
+    isService: target === document.body && (options.isService ?? true),
   }
 }
 
