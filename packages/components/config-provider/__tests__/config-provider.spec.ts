@@ -122,7 +122,7 @@ describe('config-provider', () => {
   })
 
   describe('button-config', () => {
-    it('', async () => {
+    it('limit the number of messages displayed at the same time', async () => {
       const wrapper = mount({
         components: {
           [ConfigProvider.name]: ConfigProvider,
