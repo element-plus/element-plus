@@ -3,14 +3,14 @@
 @use 'mixins/mixins' as *;
 @use 'common/var' as *;
 
-$descriptions-item-bordered-label-margin-right: () !default;
-$descriptions-item-bordered-label-margin-right: map.merge(
+$descriptions-item-label-margin-right: () !default;
+$descriptions-item-label-margin-right: map.merge(
   (
     'large': 16px,
     'default': 16px,
     'small': 12px,
   ),
-  $descriptions-item-bordered-label-margin-right
+  $descriptions-item-label-margin-right
 );
 
 $descriptions-item-vertical-label-padding-bottom: () !default;
@@ -33,10 +33,7 @@ $descriptions-item-vertical-label-padding-bottom: map.merge(
 
     &:not(.is-bordered-label) {
       color: var(--el-text-color-primary);
-      margin-right: map.get(
-        $descriptions-item-bordered-label-margin-right,
-        'default'
-      );
+      margin-right: map.get($descriptions-item-label-margin-right, 'default');
     }
 
     &.#{$namespace}-descriptions__cell:not(.is-bordered-label).is-vertical-label {
@@ -61,10 +58,7 @@ $descriptions-item-vertical-label-padding-bottom: map.merge(
     @include m($size) {
       @include e(label) {
         &:not(.is-bordered-label) {
-          margin-right: map.get(
-            $descriptions-item-bordered-label-margin-right,
-            $size
-          );
+          margin-right: map.get($descriptions-item-label-margin-right, $size);
         }
 
         &.#{$namespace}-descriptions__cell:not(.is-bordered-label).is-vertical-label {
