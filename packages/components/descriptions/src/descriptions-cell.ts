@@ -35,6 +35,7 @@ export default defineComponent({
     ) as IDescriptionsItemInject
 
     const { border, direction } = this.descriptions
+    const isVertical = direction === 'vertical'
     const label = this.cell?.children?.label?.() || item.label
     const content = this.cell?.children?.default?.()
     const span = item.span
@@ -58,12 +59,12 @@ export default defineComponent({
               'el-descriptions__label',
               {
                 'is-bordered-label': border,
-                'is-vertical-label': direction === 'vertical',
+                'is-vertical-label': isVertical,
               },
               labelAlign,
               labelClassName,
             ],
-            colSpan: direction === 'vertical' ? span : 1,
+            colSpan: isVertical ? span : 1,
           },
           label
         )
@@ -77,12 +78,12 @@ export default defineComponent({
               'el-descriptions__content',
               {
                 'is-bordered-content': border,
-                'is-vertical-content': direction === 'vertical',
+                'is-vertical-content': isVertical,
               },
               align,
               className,
             ],
-            colSpan: direction === 'vertical' ? span : span * 2 - 1,
+            colSpan: isVertical ? span : span * 2 - 1,
           },
           content
         )
