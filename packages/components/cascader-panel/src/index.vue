@@ -75,13 +75,13 @@ export default defineComponent({
   emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'close', 'expand-change'],
 
   setup(props, { emit, slots }) {
-    let initialLoaded = true
     // for interrupt sync check status in lazy mode
     let manualChecked = false
 
     const config = useCascaderConfig(props)
 
     let store: Nullable<Store> = null
+    const initialLoaded = ref(true)
     const menuList = ref<any[]>([])
     const checkedValue = ref<Nullable<CascaderValue>>(null)
     const menus = ref<CascaderNode[][]>([])
@@ -102,13 +102,13 @@ export default defineComponent({
       menus.value = [store.getNodes()]
 
       if (cfg.lazy && isEmpty(props.options)) {
-        initialLoaded = false
+        initialLoaded.value = false
         lazyLoad(undefined, (list) => {
           if (list) {
             store = new Store(list, cfg)
             menus.value = [store.getNodes()]
           }
-          initialLoaded = true
+          initialLoaded.value = true
           syncCheckedValue(false, true)
         })
       } else {
@@ -206,7 +206,7 @@ export default defineComponent({
       const leafOnly = !checkStrictly
 
       if (
-        !initialLoaded ||
+        !initialLoaded.value ||
         manualChecked ||
         (!forced && isEqual(modelValue, checkedValue.value))
       )
@@ -326,6 +326,7 @@ export default defineComponent({
         expandingNode,
         checkedNodes,
         isHoverMenu,
+        initialLoaded,
         renderLabelFn,
         lazyLoad,
         expandNode,
