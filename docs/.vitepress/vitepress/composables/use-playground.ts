@@ -1,31 +1,38 @@
-/* eslint-disable */
 import { utoa } from '../utils'
 
 const scriptRe = /<script[^>]*>([\s\S]*)<\/script>/
 
+const MAIN_FILE_NAME = 'App.vue'
+const SETUP_CODE = `import { setupElementPlus } from './element-plus.js'
+setupElementPlus()`
+
 export const usePlayGround = (source: string) => {
   const decodeCode = decodeURIComponent(source)
   const result = decodeCode.match(scriptRe)
-  let finalCode = ''
+  let code: string
   if (result) {
-    finalCode = decodeCode.replace(
+    code = decodeCode.replace(
       scriptRe,
       `<script lang="ts" setup>
-import { setupElementPlus } from './element-plus.js'
-setupElementPlus()
+${SETUP_CODE}
 $1
-<\/script>`
+</script>`
     )
   } else {
-    finalCode = `${decodeCode}
+    code = `${decodeCode}
 <script lang="ts" setup>
-import { setupElementPlus } from './element-plus.js'
-setupElementPlus()
-<\/script>
+${SETUP_CODE}
+</script>
 `
   }
   const originCode = {
-    'App.vue': finalCode,
+    [MAIN_FILE_NAME]: code,
   }
-  return utoa(JSON.stringify(originCode))
+
+  const encoded = utoa(JSON.stringify(originCode))
+  const link = `https://element-plus.run/#${encoded}`
+  return {
+    encoded,
+    link,
+  }
 }

@@ -1,5 +1,6 @@
-module.exports = {
-  rules: {
-    '@typescript-eslint/no-var-requires': 'off',
-  },
-}
+/* eslint-disable @typescript-eslint/no-var-requires */
+const { defineConfig } = require('eslint-define-config')
+
+module.exports = defineConfig({
+  rules: {},
+})

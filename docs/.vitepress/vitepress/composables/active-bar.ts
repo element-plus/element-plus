@@ -56,7 +56,7 @@ export function useActiveSidebarLinks(
     }
   }
 
-  function deactiveLink(link: HTMLElement) {
+  function deactiveLink(link: HTMLElement | null) {
     link && link.classList.remove('active')
   }
 
@@ -93,7 +93,7 @@ function getPageOffset() {
 function getAnchorTop(anchor: HTMLAnchorElement) {
   const pageOffset = getPageOffset()
   try {
-    return anchor.parentElement.offsetTop - pageOffset - 15
+    return anchor.parentElement!.offsetTop - pageOffset - 15
   } catch (e) {
     return 0
   }
