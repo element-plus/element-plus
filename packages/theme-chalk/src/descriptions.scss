@@ -39,19 +39,9 @@ $descriptions-bordered-cell-padding: map.merge(
   (
     'large': 12px 15px,
     'default': 8px 11px,
-    'small': 5px 7px,
+    'small': 4px 7px,
   ),
   $descriptions-bordered-cell-padding
-);
-
-$descriptions-cell-line-height: () !default;
-$descriptions-cell-line-height: map.merge(
-  (
-    'large': 23px,
-    'default': 23px,
-    'small': 21px,
-  ),
-  $descriptions-cell-line-height
 );
 
 $descriptions-cell-font-size: () !default;
@@ -95,7 +85,7 @@ $descriptions-cell-font-size: map.merge(
         box-sizing: border-box;
         text-align: left;
         font-weight: normal;
-        line-height: map.get($descriptions-cell-line-height, 'default');
+        line-height: 23px;
         font-size: map.get($descriptions-cell-font-size, 'default');
 
         @include when(left) {
@@ -141,7 +131,6 @@ $descriptions-cell-font-size: map.merge(
       @include e(body) {
         .#{$namespace}-descriptions__table {
           .#{$namespace}-descriptions__cell {
-            line-height: map.get($descriptions-cell-line-height, $size);
             font-size: map.get($descriptions-cell-font-size, $size);
           }
 
