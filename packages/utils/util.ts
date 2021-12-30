@@ -1,4 +1,3 @@
-import { getCurrentInstance } from 'vue'
 import {
   camelize,
   capitalize,
@@ -17,7 +16,7 @@ import { isClient } from '@vueuse/core'
 import { debugWarn, throwError } from './error'
 
 import type { ComponentPublicInstance, CSSProperties, Ref } from 'vue'
-import type { TimeoutHandle, Nullable, ComponentSize } from './types'
+import type { TimeoutHandle, Nullable } from './types'
 
 export const SCOPE = 'Util'
 
@@ -176,17 +175,6 @@ export function getRandomInt(max: number) {
 
 export function isUndefined(val: any): val is undefined {
   return val === undefined
-}
-
-/**
- * @deprecated please use `useGlobalConfig` in hooks.
- */
-export function useGlobalConfig(): { size?: ComponentSize; zIndex?: number } {
-  const vm: any = getCurrentInstance()
-  if ('$ELEMENT' in vm.proxy) {
-    return vm.proxy.$ELEMENT
-  }
-  return {}
 }
 
 export function isEmpty(val: unknown) {

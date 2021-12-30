@@ -3,7 +3,7 @@ import { rAF } from '@element-plus/test-utils/tick'
 import makeMount from '@element-plus/test-utils/make-mount'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { TypeComponentsMap } from '@element-plus/utils/icon'
-import PopupManager from '@element-plus/utils/popup-manager'
+import { PopupManager } from '@element-plus/utils/popup-manager'
 import Notification from '../src/notification.vue'
 
 import type { ComponentPublicInstance, Component } from 'vue'
