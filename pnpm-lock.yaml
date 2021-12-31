@@ -150,6 +150,7 @@ importers:
       '@crowdin/cli': 3.7.4
       '@docsearch/js': 3.0.0-alpha.42
       '@docsearch/react': 3.0.0-alpha.42
+      '@iconify-json/ri': ^1.0.2
       '@types/markdown-it': 12.2.3
       '@vueuse/core': 7.4.3
       axios: 0.24.0
@@ -161,6 +162,8 @@ importers:
       markdown-it-container: 3.0.0
       normalize.css: 8.0.1
       nprogress: 0.2.0
+      unplugin-icons: ^0.13.0
+      unplugin-vue-components: 0.17.11
       vite-plugin-inspect: 0.3.11
       vite-plugin-windicss: 1.6.1
       vitepress: 0.20.10
@@ -170,16 +173,19 @@ importers:
       '@vueuse/core': 7.4.3_vue@3.2.26
       axios: 0.24.0
       clipboard-copy: 4.0.1
-      element-plus: 1.2.0-beta.6_vue@3.2.26
+      element-plus: 1.3.0-beta.1_vue@3.2.26
       normalize.css: 8.0.1
       nprogress: 0.2.0
     devDependencies:
       '@crowdin/cli': 3.7.4
+      '@iconify-json/ri': 1.0.2
       '@types/markdown-it': 12.2.3
       cross-env: 7.0.3
       escape-html: 1.0.3
       markdown-it: 12.3.0
       markdown-it-container: 3.0.0
+      unplugin-icons: 0.13.0_rollup@2.62.0
+      unplugin-vue-components: 0.17.11_rollup@2.62.0+vue@3.2.26
       vite-plugin-inspect: 0.3.11
       vite-plugin-windicss: 1.6.1
       vitepress: 0.20.10_sass@1.45.2
@@ -364,8 +370,21 @@ packages:
       '@algolia/logger-common': 4.10.5
       '@algolia/requester-common': 4.10.5
 
+  /@antfu/install-pkg/0.1.0:
+    resolution: {integrity: sha512-VaIJd3d1o7irZfK1U0nvBsHMyjkuyMP3HKYVV53z8DKyulkHKmjhhtccXO51WSPeeSHIeoJEoNOKavYpS7jkZw==}
+    dependencies:
+      execa: 5.1.1
+      find-up: 5.0.0
+    dev: true
+
   /@antfu/utils/0.3.0:
     resolution: {integrity: sha512-UU8TLr/EoXdg7OjMp0h9oDoIAVr+Z/oW9cpOxQQyrsz6Qzd2ms/1CdWx8fl2OQdFpxGmq5Vc4TwfLHId6nAZjA==}
+    dependencies:
+      '@types/throttle-debounce': 2.1.0
+    dev: true
+
+  /@antfu/utils/0.4.0:
+    resolution: {integrity: sha512-gqkpvjkgFUu+s3kP+Ly33OKpo5zvVY3FDFhv5BIb98SncS3KD6DNxPfNDjwHIoyXbz1leWo1j8DtRLZ1D2Jv+Q==}
     dependencies:
       '@types/throttle-debounce': 2.1.0
     dev: true
@@ -1022,6 +1041,22 @@ packages:
 
   /@humanwhocodes/object-schema/1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
+    dev: true
+
+  /@iconify-json/ri/1.0.2:
+    resolution: {integrity: sha512-PZMjoNE05S1PTcQHdIla/0htpmvMV2JvNwDzfEWVNGsLRG+htZuwozY9iiua6PGqmTw+kfBklvqrkTpzCpZvhQ==}
+    dependencies:
+      '@iconify/types': 1.0.12
+    dev: true
+
+  /@iconify/types/1.0.12:
+    resolution: {integrity: sha512-6er6wSGF3hgc1JEZqiGpg21CTCjHBYOUwqLmb2Idzkjiw6ogalGP0ZMLVutCzah+0WB4yP+Zd2oVPN8jvJ+Ftg==}
+    dev: true
+
+  /@iconify/utils/1.0.20:
+    resolution: {integrity: sha512-J5IriR8KeANs8vIEFKWzOlOvNgZHkwqkmqaIwvqtuDbBeFHtXGfM/LYMDmjtRJ0AAa7f254qw6TK7gAibYfHUA==}
+    dependencies:
+      '@iconify/types': 1.0.12
     dev: true
 
   /@istanbuljs/load-nyc-config/1.1.0:
@@ -4019,11 +4054,12 @@ packages:
     resolution: {integrity: sha512-2jtSwgyiRzybHRxrc2nKI+39wH3AwQgn+sogQ+q814gv8hIFwrcZbV07Ea9f8AmK0ufPVZUvvAG1uZJ+obV4Jw==}
     dev: true
 
-  /element-plus/1.2.0-beta.6_vue@3.2.26:
-    resolution: {integrity: sha512-8EdSIR/5/FHcSB8w1diAh+gJMHgxIvxuZoayY99k6taAR1QyEFHuPTgFccZLopJ1+iP4UEsZFz49l57qS08Utw==}
+  /element-plus/1.3.0-beta.1_vue@3.2.26:
+    resolution: {integrity: sha512-q3vMaKElPpuSTeIF7kuDmMOE+N1YVCCIG3fshXpz6qgjnxPbgZumVM0qGfhr8DTu9JxRbBoDok49dqtX/BWn3w==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
+      '@ctrl/tinycolor': 3.4.0
       '@element-plus/icons-vue': 0.2.4_vue@3.2.26
       '@popperjs/core': 2.11.0
       '@vueuse/core': 7.4.3_vue@3.2.26
@@ -10139,6 +10175,37 @@ packages:
     engines: {node: '>= 10.0.0'}
     dev: true
 
+  /unplugin-icons/0.13.0_rollup@2.62.0:
+    resolution: {integrity: sha512-CyAl0HV3bZUGT7ut9agpPRhEYXCvufr80Fh72yrkD57BVCTZ7ze10Rt63ZrvPXiJQpd+aI/Bizm2aqOf3WPSfg==}
+    peerDependencies:
+      '@svgr/core': ^5.5.0
+      '@vue/compiler-sfc': ^3.0.2
+      vue-template-compiler: ^2.6.12
+      vue-template-es2015-compiler: ^1.9.0
+    peerDependenciesMeta:
+      '@svgr/core':
+        optional: true
+      '@vue/compiler-sfc':
+        optional: true
+      vue-template-compiler:
+        optional: true
+      vue-template-es2015-compiler:
+        optional: true
+    dependencies:
+      '@antfu/install-pkg': 0.1.0
+      '@antfu/utils': 0.4.0
+      '@iconify/utils': 1.0.20
+      debug: 4.3.3
+      kolorist: 1.5.1
+      local-pkg: 0.4.0
+      unplugin: 0.2.21_rollup@2.62.0
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
+      - vite
+      - webpack
+    dev: true
+
   /unplugin-vue-components/0.17.11_95e0d1fabfe6a3bc972c7b440477cc9b:
     resolution: {integrity: sha512-u5MQ0TbikszRelCt6EA/HskGtGkGLDxi7tQ4/4tcEPWkH3yXSZRJCOeLF5MSdxN1SiGjaJ0I9zeHjoZFC3FvRw==}
     engines: {node: '>=14'}
@@ -10168,6 +10235,55 @@ packages:
       - supports-color
       - vite
       - webpack
+    dev: true
+
+  /unplugin-vue-components/0.17.11_rollup@2.62.0+vue@3.2.26:
+    resolution: {integrity: sha512-u5MQ0TbikszRelCt6EA/HskGtGkGLDxi7tQ4/4tcEPWkH3yXSZRJCOeLF5MSdxN1SiGjaJ0I9zeHjoZFC3FvRw==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@babel/parser': ^7.15.8
+      '@babel/traverse': ^7.15.4
+      vue: 2 || 3
+    peerDependenciesMeta:
+      '@babel/parser':
+        optional: true
+      '@babel/traverse':
+        optional: true
+    dependencies:
+      '@antfu/utils': 0.3.0
+      '@rollup/pluginutils': 4.1.1
+      chokidar: 3.5.2
+      debug: 4.3.3
+      fast-glob: 3.2.7
+      local-pkg: 0.4.0
+      magic-string: 0.25.7
+      minimatch: 3.0.4
+      resolve: 1.20.0
+      unplugin: 0.2.21_rollup@2.62.0
+      vue: 3.2.26
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
+      - vite
+      - webpack
+    dev: true
+
+  /unplugin/0.2.21_rollup@2.62.0:
+    resolution: {integrity: sha512-IJ15/L5XbhnV7J09Zjk0FT5HEkBjkXucWAXQWRsmEtUxmmxwh23yavrmDbCF6ZPxWiVB28+wnKIHePTRRpQPbQ==}
+    peerDependencies:
+      rollup: ^2.50.0
+      vite: ^2.3.0
+      webpack: 4 || 5
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+      vite:
+        optional: true
+      webpack:
+        optional: true
+    dependencies:
+      rollup: 2.62.0
+      webpack-virtual-modules: 0.4.3
     dev: true
 
   /unplugin/0.2.21_rollup@2.62.0+vite@2.7.10:
