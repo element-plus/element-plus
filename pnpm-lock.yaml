@@ -148,8 +148,8 @@ importers:
   docs:
     specifiers:
       '@crowdin/cli': 3.7.4
-      '@docsearch/js': ^3.0.0-alpha.42
-      '@docsearch/react': ^3.0.0-alpha.42
+      '@docsearch/js': 3.0.0-alpha.42
+      '@docsearch/react': 3.0.0-alpha.42
       '@types/markdown-it': 12.2.3
       '@vueuse/core': 7.4.3
       axios: 0.24.0
