@@ -93,6 +93,8 @@ describe('Popover.vue', () => {
 
     expect(
       Number.parseInt(window.getComputedStyle(findContentComp().element).zIndex)
-    ).toBeLessThanOrEqual(PopupManager.zIndex)
+    ).toBeLessThanOrEqual(
+      PopupManager.zIndex + PopupManager.globalInitialZIndex
+    )
   })
 })

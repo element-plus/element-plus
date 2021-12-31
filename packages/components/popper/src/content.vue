@@ -22,7 +22,7 @@ import {
   watch,
 } from 'vue'
 import { createPopper } from '@popperjs/core'
-import PopupManager from '@element-plus/utils/popup-manager'
+import { PopupManager } from '@element-plus/utils/popup-manager'
 import { POPPER_INJECTION_KEY, POPPER_CONTENT_INJECTION_KEY } from './tokens'
 import { usePopperContentProps } from './popper'
 import { buildPopperOptions, unwrapMeasurableEl } from './utils'
