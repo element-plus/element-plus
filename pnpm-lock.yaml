@@ -237,7 +237,7 @@ importers:
       gulp-autoprefixer: 8.0.0
       gulp-clean-css: 4.3.0
       gulp-rename: 2.0.0
-      gulp-sass: 5.0.0
+      gulp-sass: 5.1.0
     devDependencies:
       '@types/gulp-autoprefixer': 0.0.33
       '@types/gulp-clean-css': 4.3.0
@@ -246,7 +246,7 @@ importers:
       gulp-autoprefixer: 8.0.0_gulp@4.0.2
       gulp-clean-css: 4.3.0
       gulp-rename: 2.0.0
-      gulp-sass: 5.0.0
+      gulp-sass: 5.1.0
 
   packages/tokens:
     specifiers: {}
@@ -5548,16 +5548,15 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /gulp-sass/5.0.0:
-    resolution: {integrity: sha512-J0aH0/2N4+2szGCeut0ktGHK0Wg8L9uWivuigrl7xv+nhxozBQRAKLrhnDDaTa3FeUWYtgT8w4RlgdhRy5v16w==}
+  /gulp-sass/5.1.0:
+    resolution: {integrity: sha512-7VT0uaF+VZCmkNBglfe1b34bxn/AfcssquLKVDYnCDJ3xNBaW7cUuI3p3BQmoKcoKFrs9jdzUxyb+u+NGfL4OQ==}
     engines: {node: '>=12'}
     dependencies:
-      chalk: 4.1.2
-      lodash: 4.17.21
+      lodash.clonedeep: 4.5.0
+      picocolors: 1.0.0
       plugin-error: 1.0.1
       replace-ext: 2.0.0
       strip-ansi: 6.0.1
-      transfob: 1.0.0
       vinyl-sourcemaps-apply: 0.2.1
     dev: true
 
@@ -7148,6 +7147,10 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       p-locate: 5.0.0
+    dev: true
+
+  /lodash.clonedeep/4.5.0:
+    resolution: {integrity: sha1-4j8/nE+Pvd6HJSnBBxhXoIblzO8=}
     dev: true
 
   /lodash.map/4.6.0:
@@ -9855,10 +9858,6 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       punycode: 2.1.1
-    dev: true
-
-  /transfob/1.0.0:
-    resolution: {integrity: sha1-x/wnpbVDCtSGJnrmZtkj90oKsyA=}
     dev: true
 
   /trim-newlines/3.0.1:
