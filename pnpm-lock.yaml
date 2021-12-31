@@ -150,7 +150,7 @@ importers:
       '@crowdin/cli': 3.7.4
       '@docsearch/js': 3.0.0-alpha.42
       '@docsearch/react': 3.0.0-alpha.42
-      '@iconify-json/ri': ^1.0.2
+      '@iconify-json/ri': 1.0.2
       '@types/markdown-it': 12.2.3
       '@vueuse/core': 7.4.3
       axios: 0.24.0
@@ -162,7 +162,7 @@ importers:
       markdown-it-container: 3.0.0
       normalize.css: 8.0.1
       nprogress: 0.2.0
-      unplugin-icons: ^0.13.0
+      unplugin-icons: 0.13.0
       unplugin-vue-components: 0.17.11
       vite-plugin-inspect: 0.3.11
       vite-plugin-windicss: 1.6.1
