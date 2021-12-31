@@ -14,7 +14,7 @@
     "@vueuse/core": "7.4.3",
     "axios": "0.24.0",
     "clipboard-copy": "4.0.1",
-    "element-plus": "^1.3.0-beta.1",
+    "element-plus": "npm:element-plus@latest",
     "normalize.css": "8.0.1",
     "nprogress": "0.2.0"
   },
