@@ -64,7 +64,7 @@ importers:
       rollup-plugin-esbuild: 4.8.2
       rollup-plugin-filesize: 9.1.1
       rollup-plugin-vue: 6.0.0
-      sass: 1.45.1
+      sass: 1.45.2
       sucrase: 3.20.3
       ts-jest: 26.5.6
       ts-morph: 13.0.2
@@ -135,7 +135,7 @@ importers:
       rollup-plugin-esbuild: 4.8.2_esbuild@0.14.9+rollup@2.62.0
       rollup-plugin-filesize: 9.1.1
       rollup-plugin-vue: 6.0.0
-      sass: 1.45.1
+      sass: 1.45.2
       sucrase: 3.20.3
       ts-jest: 26.5.6_jest@26.6.3+typescript@4.5.4
       ts-morph: 13.0.2
@@ -182,7 +182,7 @@ importers:
       markdown-it-container: 3.0.0
       vite-plugin-inspect: 0.3.11
       vite-plugin-windicss: 1.6.1
-      vitepress: 0.20.10_sass@1.45.1
+      vitepress: 0.20.10_sass@1.45.2
 
   packages/components:
     specifiers: {}
@@ -266,7 +266,7 @@ importers:
     devDependencies:
       '@vitejs/plugin-vue': 2.0.1_vite@2.7.10+vue@3.2.26
       unplugin-vue-components: 0.17.11_95e0d1fabfe6a3bc972c7b440477cc9b
-      vite: 2.7.10_sass@1.45.1
+      vite: 2.7.10_sass@1.45.2
       vite-plugin-inspect: 0.3.11_vite@2.7.10
 
 packages:
@@ -2027,7 +2027,7 @@ packages:
       vite: ^2.5.10
       vue: ^3.2.25
     dependencies:
-      vite: 2.7.10_sass@1.45.1
+      vite: 2.7.10_sass@1.45.2
       vue: 3.2.26
     dev: true
 
@@ -2038,7 +2038,7 @@ packages:
       vite: ^2.5.10
       vue: ^3.2.25
     dependencies:
-      vite: 2.7.7_sass@1.45.1
+      vite: 2.7.7_sass@1.45.2
       vue: 3.2.26
     dev: true
 
@@ -9079,8 +9079,8 @@ packages:
       walker: 1.0.7
     dev: true
 
-  /sass/1.45.1:
-    resolution: {integrity: sha512-pwPRiq29UR0o4X3fiQyCtrESldXvUQAAE0QmcJTpsI4kuHHcLzZ54M1oNBVIXybQv8QF2zfkpFcTxp8ta97dUA==}
+  /sass/1.45.2:
+    resolution: {integrity: sha512-cKfs+F9AMPAFlbbTXNsbGvg3y58nV0mXA3E94jqaySKcC8Kq3/8983zVKQ0TLMUrHw7hF9Tnd3Bz9z5Xgtrl9g==}
     engines: {node: '>=8.9.0'}
     hasBin: true
     dependencies:
@@ -10186,7 +10186,7 @@ packages:
         optional: true
     dependencies:
       rollup: 2.62.0
-      vite: 2.7.10_sass@1.45.1
+      vite: 2.7.10_sass@1.45.2
       webpack-virtual-modules: 0.4.3
     dev: true
 
@@ -10361,7 +10361,7 @@ packages:
       debug: 4.3.2
       sirv: 1.0.17
       ufo: 0.7.9
-      vite: 2.7.10_sass@1.45.1
+      vite: 2.7.10_sass@1.45.2
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -10379,7 +10379,7 @@ packages:
       - supports-color
     dev: true
 
-  /vite/2.7.10_sass@1.45.1:
+  /vite/2.7.10_sass@1.45.2:
     resolution: {integrity: sha512-KEY96ntXUid1/xJihJbgmLZx7QSC2D4Tui0FdS0Old5OokYzFclcofhtxtjDdGOk/fFpPbHv9yw88+rB93Tb8w==}
     engines: {node: '>=12.2.0'}
     hasBin: true
@@ -10399,12 +10399,12 @@ packages:
       postcss: 8.4.5
       resolve: 1.20.0
       rollup: 2.62.0
-      sass: 1.45.1
+      sass: 1.45.2
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
 
-  /vite/2.7.7_sass@1.45.1:
+  /vite/2.7.7_sass@1.45.2:
     resolution: {integrity: sha512-Nm4ingl//gMSj/p1aCBHuTc5Fd8W8Mwdci/HUvqCVq8xaJqF7z08S/LRq1M9kS0jRfJk1/f/CwUyQAr6YgsOLw==}
     engines: {node: '>=12.2.0'}
     hasBin: true
@@ -10424,12 +10424,12 @@ packages:
       postcss: 8.4.5
       resolve: 1.20.0
       rollup: 2.61.1
-      sass: 1.45.1
+      sass: 1.45.2
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
 
-  /vitepress/0.20.10_sass@1.45.1:
+  /vitepress/0.20.10_sass@1.45.2:
     resolution: {integrity: sha512-dKgH6k1yxdEjIIxoXGI0vMg3lpBLvMarre/vvt4beuxd+rXOUB1a7DAtXDmgIXOMGQ7IcF+4zyd2132IedhjtQ==}
     engines: {node: '>=12.0.0'}
     hasBin: true
@@ -10438,7 +10438,7 @@ packages:
       '@docsearch/js': 3.0.0-alpha.42
       '@vitejs/plugin-vue': 2.0.1_vite@2.7.7+vue@3.2.26
       prismjs: 1.25.0
-      vite: 2.7.7_sass@1.45.1
+      vite: 2.7.7_sass@1.45.2
       vue: 3.2.26
     transitivePeerDependencies:
       - '@algolia/client-search'
