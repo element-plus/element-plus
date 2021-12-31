@@ -12,6 +12,7 @@ Drag the slider within a fixed range.
   display: flex;
   align-items: center;
   .el-slider {
+    margin-top: 0;
     margin-left: 12px;
   }
   .demonstration {
@@ -22,6 +23,7 @@ Drag the slider within a fixed range.
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    margin-bottom: 0;
      & + .el-slider {
         flex: 0 0 70%;
     }
