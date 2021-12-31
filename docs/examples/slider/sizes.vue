@@ -9,3 +9,13 @@ import { ref } from 'vue'
 
 const value = ref(0)
 </script>
+
+<style scoped>
+.el-slider {
+  margin-top: 20px;
+}
+
+.el-slider:first-child {
+  margin-top: 0;
+}
+</style>

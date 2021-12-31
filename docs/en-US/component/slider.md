@@ -12,7 +12,6 @@ Drag the slider within a fixed range.
   display: flex;
   align-items: center;
   .el-slider {
-    flex: 1;
     margin-left: 12px;
   }
   .demonstration {
