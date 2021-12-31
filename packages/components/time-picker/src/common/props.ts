@@ -6,6 +6,9 @@ import type { Options } from '@popperjs/core'
 import type { ComponentSize } from '@element-plus/utils/types'
 
 export const timePickerDefaultProps = {
+  id: {
+    type: [Array, String],
+  },
   name: {
     type: [Array, String],
     default: '',
@@ -61,7 +64,9 @@ export const timePickerDefaultProps = {
     default: () => ({}),
   },
   modelValue: {
-    type: [Date, Array, String] as PropType<string | Date | (number | Date)[]>,
+    type: [Date, Array, String, Number] as PropType<
+      number | string | Date | (number | string | Date)[]
+    >,
     default: '',
   },
   rangeSeparator: {

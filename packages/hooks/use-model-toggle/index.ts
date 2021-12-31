@@ -1,8 +1,8 @@
 import { computed, getCurrentInstance, watch, onMounted } from 'vue'
 import { isFunction } from '@vue/shared'
+import { isClient } from '@vueuse/core'
 import { isBool } from '@element-plus/utils/util'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import isServer from '@element-plus/utils/isServer'
 import { buildProps, definePropType } from '@element-plus/utils/props'
 import type { RouteLocationNormalizedLoaded } from 'vue-router'
 
@@ -76,7 +76,7 @@ export const useModelToggle = ({
     )
       return
 
-    const shouldEmit = hasUpdateHandler.value && !isServer
+    const shouldEmit = hasUpdateHandler.value && isClient
 
     if (shouldEmit) {
       emit(UPDATE_MODEL_EVENT, true)
@@ -88,9 +88,9 @@ export const useModelToggle = ({
   }
 
   const hide = () => {
-    if (props.disabled === true || isServer) return
+    if (props.disabled === true || !isClient) return
 
-    const shouldEmit = hasUpdateHandler.value && !isServer
+    const shouldEmit = hasUpdateHandler.value && isClient
 
     if (shouldEmit) {
       emit(UPDATE_MODEL_EVENT, false)

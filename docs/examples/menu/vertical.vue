@@ -1,7 +1,7 @@
 <template>
   <el-row class="tac">
     <el-col :span="12">
-      <h5>Default colors</h5>
+      <h5 class="mb-2">Default colors</h5>
       <el-menu
         default-active="2"
         class="el-menu-vertical-demo"
@@ -40,7 +40,7 @@
       </el-menu>
     </el-col>
     <el-col :span="12">
-      <h5>Custom colors</h5>
+      <h5 class="mb-2">Custom colors</h5>
       <el-menu
         active-text-color="#ffd04b"
         background-color="#545c64"
@@ -84,33 +84,17 @@
   </el-row>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
 import {
   Location,
   Document,
   Menu as IconMenu,
   Setting,
 } from '@element-plus/icons-vue'
-
-export default defineComponent({
-  components: {
-    Location,
-    Document,
-    Setting,
-    IconMenu,
-  },
-  setup() {
-    const handleOpen = (key, keyPath) => {
-      console.log(key, keyPath)
-    }
-    const handleClose = (key, keyPath) => {
-      console.log(key, keyPath)
-    }
-    return {
-      handleOpen,
-      handleClose,
-    }
-  },
-})
+const handleOpen = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath)
+}
+const handleClose = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath)
+}
 </script>

@@ -89,7 +89,7 @@
             :loading="cancelButtonLoading"
             :class="[cancelButtonClass]"
             :round="roundButton"
-            :size="buttonSize || 'small'"
+            :size="buttonSize || ''"
             @click="handleAction('cancel')"
             @keydown.prevent.enter="handleAction('cancel')"
           >
@@ -99,12 +99,11 @@
             v-show="showConfirmButton"
             ref="confirmRef"
             type="primary"
-            plain
             :loading="confirmButtonLoading"
             :class="[confirmButtonClasses]"
             :round="roundButton"
             :disabled="confirmButtonDisabled"
-            :size="buttonSize || 'small'"
+            :size="buttonSize || ''"
             @click="handleAction('confirm')"
             @keydown.prevent.enter="handleAction('confirm')"
           >
@@ -138,7 +137,7 @@ import {
 } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import { ElOverlay } from '@element-plus/components/overlay'
-import PopupManager from '@element-plus/utils/popup-manager'
+import { PopupManager } from '@element-plus/utils/popup-manager'
 import { on, off } from '@element-plus/utils/dom'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { isValidComponentSize } from '@element-plus/utils/validators'

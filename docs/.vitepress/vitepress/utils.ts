@@ -8,7 +8,21 @@ import { inBrowser } from 'vitepress'
 
 import type { Route } from 'vitepress'
 
-export * from 'vitepress/dist/client/theme-default/utils'
+export {
+  isArray,
+  isNullish,
+  isExternal,
+  isActive,
+  normalize,
+  joinUrl,
+  ensureEndingSlash,
+  ensureStartingSlash,
+  removeExtention,
+} from 'vitepress/dist/client/theme-default/utils'
+
+export function utoa(data: string): string {
+  return btoa(unescape(encodeURIComponent(data)))
+}
 
 export const throttleAndDebounce = (fn: () => any, delay: number) => {
   let timeout: ReturnType<typeof setTimeout>
@@ -57,8 +71,6 @@ export function createGitHubUrl(
   }${folder || ''}${path}${ext || ''}`
 }
 
-export const isServer = typeof window === 'undefined'
-
 export function createCrowdinUrl(targetLang: string) {
   let translateLang = ''
   // for zh-CN zh-HK zh-TW, maybe later we will have cases like Chinese lang
@@ -66,7 +78,7 @@ export function createCrowdinUrl(targetLang: string) {
   if (targetLang.startsWith('zh-')) {
     translateLang = targetLang.split('-').join('').toLocaleLowerCase()
   } else {
-    translateLang = targetLang.split('-').shift().toLocaleLowerCase()
+    translateLang = targetLang.split('-').shift()!.toLocaleLowerCase()
   }
   return `https://crowdin.com/translate/element-plus/all/en-${translateLang}`
 }

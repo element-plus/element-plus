@@ -109,9 +109,9 @@ export default defineComponent({
     },
     size: {
       type: String as PropType<ComponentSize>,
-      default: '',
+      default: 'default',
       validator: (value: string) =>
-        !value || ['medium', 'small', 'mini'].indexOf(value) !== -1,
+        !value || ['large', 'default', 'small'].indexOf(value) !== -1,
     },
     placeholder: {
       type: String,

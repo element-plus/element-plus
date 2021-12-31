@@ -7,7 +7,7 @@ import {
   isArray,
   isString,
 } from '@element-plus/utils/util'
-import PopupManager from '@element-plus/utils/popup-manager'
+import { PopupManager } from '@element-plus/utils/popup-manager'
 import usePopperOptions from './popper-options'
 
 import type {
@@ -201,7 +201,11 @@ export default function (
   function onVisibilityChange(toState: boolean) {
     if (toState) {
       popperStyle.value.zIndex = PopupManager.nextZIndex()
-      initializePopper()
+      if (popperInstance) {
+        popperInstance.update()
+      } else {
+        initializePopper()
+      }
     }
   }
 

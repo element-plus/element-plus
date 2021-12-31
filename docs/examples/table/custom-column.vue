@@ -2,20 +2,22 @@
   <el-table :data="tableData" style="width: 100%">
     <el-table-column label="Date" width="180">
       <template #default="scope">
-        <el-icon><timer /></el-icon>
-        <span style="margin-left: 10px">{{ scope.row.date }}</span>
+        <div style="display: flex; align-items: center">
+          <el-icon><timer /></el-icon>
+          <span style="margin-left: 10px">{{ scope.row.date }}</span>
+        </div>
       </template>
     </el-table-column>
     <el-table-column label="Name" width="180">
       <template #default="scope">
         <el-popover effect="light" trigger="hover" placement="top">
           <template #default>
-            <p>姓名: {{ scope.row.name }}</p>
-            <p>住址: {{ scope.row.address }}</p>
+            <p>name: {{ scope.row.name }}</p>
+            <p>address: {{ scope.row.address }}</p>
           </template>
           <template #reference>
             <div class="name-wrapper">
-              <el-tag size="medium">{{ scope.row.name }}</el-tag>
+              <el-tag>{{ scope.row.name }}</el-tag>
             </div>
           </template>
         </el-popover>
@@ -23,11 +25,11 @@
     </el-table-column>
     <el-table-column label="Operations">
       <template #default="scope">
-        <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
+        <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
           >Edit</el-button
         >
         <el-button
-          size="mini"
+          size="small"
           type="danger"
           @click="handleDelete(scope.$index, scope.row)"
           >Delete</el-button
@@ -37,46 +39,42 @@
   </el-table>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { Timer } from '@element-plus/icons-vue'
 
-export default {
-  components: {
-    Timer,
-  },
-  data() {
-    return {
-      tableData: [
-        {
-          date: '2016-05-03',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-        },
-        {
-          date: '2016-05-02',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-        },
-        {
-          date: '2016-05-04',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-        },
-        {
-          date: '2016-05-01',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-        },
-      ],
-    }
-  },
-  methods: {
-    handleEdit(index, row) {
-      console.log(index, row)
-    },
-    handleDelete(index, row) {
-      console.log(index, row)
-    },
-  },
+interface User {
+  date: string
+  name: string
+  address: string
 }
+
+const handleEdit = (index: number, row: User) => {
+  console.log(index, row)
+}
+const handleDelete = (index: number, row: User) => {
+  console.log(index, row)
+}
+
+const tableData: User[] = [
+  {
+    date: '2016-05-03',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-02',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-04',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-01',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+]
 </script>

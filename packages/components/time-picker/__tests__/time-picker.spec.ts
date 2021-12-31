@@ -413,14 +413,14 @@ describe('TimePicker(range)', () => {
     const wrapper = _mount(
       `<el-time-picker
         v-model="value"
-        size="mini"
+        size="small"
         :is-range="true"
       />`,
       () => ({
         value: [new Date(2016, 9, 10, 18, 40), new Date(2016, 9, 10, 19, 40)],
       })
     )
-    expect(wrapper.find('.el-range-editor--mini').exists()).toBeTruthy()
+    expect(wrapper.find('.el-range-editor--small').exists()).toBeTruthy()
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
@@ -463,22 +463,29 @@ describe('TimePicker(range)', () => {
   })
 
   it('cancel button', async () => {
+    const cancelDates = [
+      new Date(2016, 9, 10, 9, 40),
+      new Date(2016, 9, 10, 15, 40),
+    ]
     const wrapper = _mount(
       `<el-time-picker
         v-model="value"
         is-range
       />`,
-      () => ({ value: '' })
+      () => ({
+        value: cancelDates,
+      })
     )
 
     const input = wrapper.find('input')
     input.trigger('blur')
+    await nextTick()
     input.trigger('focus')
     await nextTick()
     ;(document.querySelector('.el-time-panel__btn.cancel') as any).click()
     await nextTick()
     const vm = wrapper.vm as any
-    expect(vm.value).toBe('')
+    expect(vm.value).toEqual(cancelDates)
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()

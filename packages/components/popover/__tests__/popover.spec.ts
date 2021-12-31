@@ -1,5 +1,5 @@
 import { ref, nextTick, h, createSlots } from 'vue'
-import PopupManager from '@element-plus/utils/popup-manager'
+import { PopupManager } from '@element-plus/utils/popup-manager'
 import makeMount from '@element-plus/test-utils/make-mount'
 import Popover from '../src/index.vue'
 
@@ -80,7 +80,7 @@ describe('Popover.vue', () => {
       Number.parseInt(
         window.getComputedStyle(wrapper.find('.el-popper').element).zIndex
       )
-    ).toBeLessThanOrEqual(PopupManager.zIndex)
+    ).toBeLessThanOrEqual(PopupManager.getInitialZIndex() + PopupManager.zIndex)
   })
 
   test('should render correctly with tabindex', async () => {

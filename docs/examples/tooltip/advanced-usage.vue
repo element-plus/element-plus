@@ -11,14 +11,10 @@
   </el-tooltip>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      disabled: false,
-    }
-  },
-}
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const disabled = ref(false)
 </script>
 
 <style>

@@ -9,18 +9,9 @@
   </div>
 </template>
 
-<script lang="ts">
-import { ref, defineComponent } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const value1 = ref(0)
-    const value2 = ref(0)
-
-    return {
-      value1,
-      value2,
-    }
-  },
-})
+const value1 = ref(0)
+const value2 = ref(0)
 </script>

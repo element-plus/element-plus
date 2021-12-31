@@ -12,20 +12,28 @@
     :height="208"
   ></el-tree-v2>
 </template>
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
+import type { TreeNode } from 'element-plus/es/components/tree-v2/src/types'
+import type { ElTreeV2 } from 'element-plus'
 
-const getKey = (prefix, id) => {
+interface Tree {
+  id: string
+  label: string
+  children?: Tree[]
+}
+
+const getKey = (prefix: string, id: number) => {
   return `${prefix}-${id}`
 }
 
 const createData = (
-  maxDeep,
-  maxChildren,
-  minNodesNumber,
+  maxDeep: number,
+  maxChildren: number,
+  minNodesNumber: number,
   deep = 1,
   key = 'node'
-) => {
+): Tree[] => {
   let id = 0
   return new Array(minNodesNumber).fill(deep).map(() => {
     const childrenNumber =
@@ -40,26 +48,23 @@ const createData = (
     }
   })
 }
-export default defineComponent({
-  setup() {
-    const treeRef = ref(null)
-    return {
-      treeRef,
-      data: createData(4, 30, 5),
-      query: ref(''),
-      props: ref({
-        value: 'id',
-        label: 'label',
-        children: 'children',
-      }),
-      onQueryChanged(query) {
-        const tree = treeRef.value as any
-        tree?.filter(query)
-      },
-      filterMethod(query, node) {
-        return node.label.indexOf(query) !== -1
-      },
-    }
-  },
-})
+
+const query = ref('')
+const treeRef = ref<InstanceType<typeof ElTreeV2>>()
+const data = createData(4, 30, 5)
+const props = {
+  value: 'id',
+  label: 'label',
+  children: 'children',
+}
+
+const onQueryChanged = (query: string) => {
+  // TODO: fix typing when refactor tree-v2
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  treeRef.value!.filter(query)
+}
+const filterMethod = (query: string, node: TreeNode) => {
+  return node.label!.indexOf(query) !== -1
+}
 </script>

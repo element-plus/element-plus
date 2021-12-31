@@ -71,7 +71,7 @@ const onNavClick = (item: Link) => {
     vertical-align: unset;
   }
 
-  .badge::v-deep .is-dot {
+  .badge:deep(.is-dot) {
     right: 0;
   }
 }

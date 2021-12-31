@@ -7,12 +7,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@element-plus/icons-vue": "^0.2.2"
+    "@element-plus/icons-vue": "^0.2.4"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "1.10.2",
-    "unplugin-vue-components": "0.17.6",
-    "vite": "2.7.1",
+    "@vitejs/plugin-vue": "2.0.1",
+    "unplugin-vue-components": "0.17.11",
+    "vite": "2.7.10",
     "vite-plugin-inspect": "0.3.11"
   }
 }

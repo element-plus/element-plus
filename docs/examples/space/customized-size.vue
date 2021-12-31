@@ -15,12 +15,8 @@
   </el-space>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      size: 20,
-    }
-  },
-}
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const size = ref(20)
 </script>

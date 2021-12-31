@@ -1,5 +1,5 @@
 import { NOOP } from '@vue/shared'
-import { isServer } from '../utils'
+import { isClient } from '@vueuse/core'
 import { useFeatureFlag } from './feature-flag'
 
 const THEME_KEY = 'preferred_theme'
@@ -7,7 +7,7 @@ const PREFER_SYSTEM = 'system'
 
 export const useTheme = () => {
   const themeEnabled = useFeatureFlag('theme')
-  if (isServer || !themeEnabled.value) return NOOP
+  if (!isClient || !themeEnabled.value) return NOOP
 
   const cachedPreference = localStorage.getItem(THEME_KEY) || PREFER_SYSTEM
   // refer to https://css-tricks.com/dark-modes-with-css/

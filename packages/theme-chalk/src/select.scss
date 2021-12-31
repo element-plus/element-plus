@@ -5,6 +5,7 @@
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 @use './select-dropdown.scss';
+@use './select/common.scss' as *;
 
 @include b(select) {
   @include set-component-css-var('select', $select);
@@ -23,7 +24,7 @@
     );
   }
 
-  @each $size in (medium, small, mini) {
+  @each $size in (large, small) {
     @include m($size) {
       line-height: map.get($input-height, $size);
     }
@@ -39,12 +40,7 @@
     }
   }
 
-  .#{$namespace}-select__tags-text {
-    text-overflow: ellipsis;
-    display: inline-block;
-    overflow-x: hidden;
-    vertical-align: bottom;
-  }
+  @include select-common(select);
 
   .#{$namespace}-input__inner {
     cursor: pointer;
@@ -100,10 +96,6 @@
     &.is-focus .#{$namespace}-input__inner {
       border-color: var(--el-select-input-focus-border-color);
     }
-
-    & .#{$namespace}-input__prefix-icon {
-      width: 25px;
-    }
   }
 
   @include e(input) {
@@ -116,9 +108,6 @@
     appearance: none;
     height: 28px;
     background-color: transparent;
-    @include when(mini) {
-      height: 14px;
-    }
   }
 
   @include e(close) {

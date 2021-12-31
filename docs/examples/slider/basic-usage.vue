@@ -21,29 +21,16 @@
   </div>
 </template>
 
-<script lang="ts">
-import { ref, defineComponent } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const value1 = ref(0)
-    const value2 = ref(0)
-    const value3 = ref(0)
-    const value4 = ref(0)
-    const value5 = ref(0)
+const value1 = ref(0)
+const value2 = ref(0)
+const value3 = ref(0)
+const value4 = ref(0)
+const value5 = ref(0)
 
-    const formatTooltip = (val) => {
-      return val / 100
-    }
-
-    return {
-      value1,
-      value2,
-      value3,
-      value4,
-      value5,
-      formatTooltip,
-    }
-  },
-})
+const formatTooltip = (val: number) => {
+  return val / 100
+}
 </script>

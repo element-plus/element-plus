@@ -10,8 +10,9 @@ Use Date Picker for date input.
 <style lang="scss">
 
 .example-showcase .demo-date-picker {
-  padding: 0;
   display: flex;
+  width: 100%;
+  padding: 0;
   flex-wrap: wrap;
 }
 
@@ -185,7 +186,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | model-value / v-model | binding value                                                                                         | date(DatePicker) / array(DateRangePicker)        | —                                                                                                                 | —           |
 | readonly              | whether DatePicker is read only                                                                       | boolean                                          | —                                                                                                                 | false       |
 | disabled              | whether DatePicker is disabled                                                                        | boolean                                          | —                                                                                                                 | false       |
-| size                  | size of Input                                                                                         | string                                           | large/medium/small/mini                                                                                           | large       |
+| size                  | size of Input                                                                                         | string                                           | large/default/small                                                                                               | default     |
 | editable              | whether the input is editable                                                                         | boolean                                          | —                                                                                                                 | true        |
 | clearable             | whether to show clear button                                                                          | boolean                                          | —                                                                                                                 | true        |
 | placeholder           | placeholder in non-range mode                                                                         | string                                           | —                                                                                                                 | —           |
@@ -198,6 +199,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | default-value         | optional, default date of the calendar                                                                | Date                                             | anything accepted by `new Date()`                                                                                 | —           |
 | default-time          | optional, the time value to use when selecting date range                                             | Date[]                                           | Array with length 2, each item is a Date. The first item for the start date and then second item for the end date | —           |
 | value-format          | optional, format of binding value. If not specified, the binding value will be a Date object          | string                                           | see [date formats](/en-US/component/date-picker#date-formats)                                                     | —           |
+| id                    | same as `id` in native input                                                                          | string / array(string)                           | String `id="my-date"` or array `:id="['my-range-start', 'my-range-end']"` for date range                          | -           |
 | name                  | same as `name` in native input                                                                        | string                                           | —                                                                                                                 | —           |
 | unlink-panels         | unlink two date-panels in range-picker                                                                | boolean                                          | —                                                                                                                 | false       |
 | prefix-icon           | custom prefix icon component                                                                          | string / Component                               | —                                                                                                                 | Date        |
@@ -217,9 +219,9 @@ Note, date time locale (month name, first day of the week ...) are also configur
 
 ## Methods
 
-| Method | Description               | Parameters |
-| ------ | ------------------------- | ---------- |
-| focus  | focus the Input component | —          |
+| Method | Description               | Parameters      |
+| ------ | ------------------------- | --------------- |
+| focus  | focus the Input component | focusStartInput |
 
 ## Slots
 

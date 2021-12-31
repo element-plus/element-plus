@@ -1,10 +1,11 @@
 <template>
   <el-form
-    ref="ruleForm"
+    ref="ruleFormRef"
     :model="ruleForm"
     :rules="rules"
     label-width="120px"
     class="demo-ruleForm"
+    :size="formSize"
   >
     <el-form-item label="Activity name" prop="name">
       <el-input v-model="ruleForm.name"></el-input>
@@ -26,7 +27,9 @@
           ></el-date-picker>
         </el-form-item>
       </el-col>
-      <el-col class="line" :span="2">-</el-col>
+      <el-col class="text-center" :span="2">
+        <span class="text-gray-500">-</span>
+      </el-col>
       <el-col :span="11">
         <el-form-item prop="date2">
           <el-time-picker
@@ -58,104 +61,92 @@
       <el-input v-model="ruleForm.desc" type="textarea"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="submitForm('ruleForm')"
+      <el-button type="primary" @click="submitForm(ruleFormRef)"
         >Create</el-button
       >
-      <el-button @click="resetForm('ruleForm')">Reset</el-button>
+      <el-button @click="resetForm(ruleFormRef)">Reset</el-button>
     </el-form-item>
   </el-form>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      ruleForm: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: '',
-      },
-      rules: {
-        name: [
-          {
-            required: true,
-            message: 'Please input Activity name',
-            trigger: 'blur',
-          },
-          {
-            min: 3,
-            max: 5,
-            message: 'Length should be 3 to 5',
-            trigger: 'blur',
-          },
-        ],
-        region: [
-          {
-            required: true,
-            message: 'Please select Activity zone',
-            trigger: 'change',
-          },
-        ],
-        date1: [
-          {
-            type: 'date',
-            required: true,
-            message: 'Please pick a date',
-            trigger: 'change',
-          },
-        ],
-        date2: [
-          {
-            type: 'date',
-            required: true,
-            message: 'Please pick a time',
-            trigger: 'change',
-          },
-        ],
-        type: [
-          {
-            type: 'array',
-            required: true,
-            message: 'Please select at least one activity type',
-            trigger: 'change',
-          },
-        ],
-        resource: [
-          {
-            required: true,
-            message: 'Please select activity resource',
-            trigger: 'change',
-          },
-        ],
-        desc: [
-          {
-            required: true,
-            message: 'Please input activity form',
-            trigger: 'blur',
-          },
-        ],
-      },
-    }
-  },
-  methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert('submit!')
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
+<script lang="ts" setup>
+import { reactive, ref } from 'vue'
+// More info see https://github.com/element-plus/element-plus/blob/dev/docs/examples/form/utils.ts
+import { resetForm, submitForm } from './utils'
+import type { ElForm } from 'element-plus'
+
+const formSize = ref('')
+
+const ruleFormRef = ref<InstanceType<typeof ElForm>>()
+const ruleForm = reactive({
+  name: '',
+  region: '',
+  date1: '',
+  date2: '',
+  delivery: false,
+  type: [],
+  resource: '',
+  desc: '',
+})
+
+const rules = reactive({
+  name: [
+    {
+      required: true,
+      message: 'Please input Activity name',
+      trigger: 'blur',
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields()
+    {
+      min: 3,
+      max: 5,
+      message: 'Length should be 3 to 5',
+      trigger: 'blur',
     },
-  },
-}
+  ],
+  region: [
+    {
+      required: true,
+      message: 'Please select Activity zone',
+      trigger: 'change',
+    },
+  ],
+  date1: [
+    {
+      type: 'date',
+      required: true,
+      message: 'Please pick a date',
+      trigger: 'change',
+    },
+  ],
+  date2: [
+    {
+      type: 'date',
+      required: true,
+      message: 'Please pick a time',
+      trigger: 'change',
+    },
+  ],
+  type: [
+    {
+      type: 'array',
+      required: true,
+      message: 'Please select at least one activity type',
+      trigger: 'change',
+    },
+  ],
+  resource: [
+    {
+      required: true,
+      message: 'Please select activity resource',
+      trigger: 'change',
+    },
+  ],
+  desc: [
+    {
+      required: true,
+      message: 'Please input activity form',
+      trigger: 'blur',
+    },
+  ],
+})
 </script>

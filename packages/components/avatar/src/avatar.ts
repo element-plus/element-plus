@@ -5,7 +5,7 @@ import type { ObjectFitProperty } from 'csstype'
 export const avatarProps = buildProps({
   size: {
     type: [Number, String],
-    values: ['large', 'medium', 'small'],
+    values: ['large', 'default', 'small'],
     default: 'large',
     validator: (val: unknown): val is number => typeof val === 'number',
   },

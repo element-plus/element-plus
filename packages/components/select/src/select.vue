@@ -444,9 +444,9 @@ export default defineComponent({
       addResizeListener(selectWrapper.value as any, handleResize)
       if (reference.value && reference.value.$el) {
         const sizeMap = {
-          medium: 36,
-          small: 32,
-          mini: 28,
+          large: 36,
+          default: 32,
+          small: 28,
         }
         const input = reference.value.input
         states.initialInputHeight =

@@ -27,21 +27,10 @@
   </el-dropdown>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
 import { ArrowDown } from '@element-plus/icons-vue'
 
-export default defineComponent({
-  components: {
-    ArrowDown,
-  },
-  setup() {
-    const handleClick = () => {
-      alert('button click')
-    }
-    return {
-      handleClick,
-    }
-  },
-})
+const handleClick = () => {
+  alert('button click')
+}
 </script>

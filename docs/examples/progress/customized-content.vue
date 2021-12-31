@@ -27,7 +27,7 @@
 import { Check } from '@element-plus/icons-vue'
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .percentage-value {
   display: block;
   margin-top: 10px;

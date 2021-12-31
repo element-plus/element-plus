@@ -158,6 +158,7 @@ import {
 import { isPromise } from '@vue/shared'
 import debounce from 'lodash/debounce'
 
+import { isClient } from '@vueuse/core'
 import ElCascaderPanel, {
   CommonProps,
 } from '@element-plus/components/cascader-panel'
@@ -173,7 +174,6 @@ import { useLocale, useSize } from '@element-plus/hooks'
 
 import { EVENT_CODE, focusNode, getSibling } from '@element-plus/utils/aria'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
-import isServer from '@element-plus/utils/isServer'
 import {
   addResizeListener,
   removeResizeListener,
@@ -200,9 +200,9 @@ type suggestionPanelType = InstanceType<typeof ElScrollbar>
 const DEFAULT_INPUT_HEIGHT = 40
 
 const INPUT_HEIGHT_MAP = {
-  medium: 36,
-  small: 32,
-  mini: 28,
+  large: 36,
+  default: 32,
+  small: 28,
 }
 
 const popperOptions: Partial<Options> = {
@@ -324,7 +324,7 @@ export default defineComponent({
     )
     const realSize = useSize()
     const tagSize = computed(() =>
-      ['small', 'mini'].includes(realSize.value) ? 'mini' : 'small'
+      ['small'].includes(realSize.value) ? 'small' : 'default'
     )
     const multiple = computed(() => !!props.props.multiple)
     const readonly = computed(() => !props.filterable || multiple.value)
@@ -491,7 +491,7 @@ export default defineComponent({
       const tagWrapperEl = tagWrapper.value
       const suggestionPanelEl = suggestionPanel.value?.$el
 
-      if (isServer || !inputInner) return
+      if (!isClient || !inputInner) return
 
       if (suggestionPanelEl) {
         const suggestionList = suggestionPanelEl.querySelector(

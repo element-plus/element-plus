@@ -7,19 +7,11 @@
     @change="handleChange"
   />
 </template>
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const num = ref(1)
-    const handleChange = (value) => {
-      console.log(value)
-    }
-    return {
-      num,
-      handleChange,
-    }
-  },
-})
+const num = ref(1)
+const handleChange = (value: number) => {
+  console.log(value)
+}
 </script>

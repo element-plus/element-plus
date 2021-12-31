@@ -8,6 +8,9 @@
 @include b(pagination) {
   @include set-component-css-var('pagination', $pagination);
 
+  display: inline-flex;
+  align-items: center;
+
   white-space: nowrap;
   padding: 2px 5px;
   color: var(--el-pagination-text-color);
@@ -16,7 +19,9 @@
 
   span:not([class*='suffix']),
   button {
-    display: inline-block;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
     font-size: var(--el-pagination-font-size);
     min-width: var(--el-pagination-button-width);
     height: var(--el-pagination-button-height);
@@ -134,7 +139,7 @@
     }
 
     .#{$namespace}-input__inner,
-    .#{$namespace}-input--mini {
+    .#{$namespace}-input--small {
       height: var(--el-pagination-height-extra-small) !important;
       line-height: var(--el-pagination-line-height-extra-small);
     }
@@ -269,7 +274,9 @@
     padding: 0 4px;
     background: var(--el-pagination-bg-color);
     vertical-align: top;
-    display: inline-block;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
     font-size: var(--el-pagination-font-size);
     min-width: var(--el-pagination-button-width);
     height: var(--el-pagination-button-height);

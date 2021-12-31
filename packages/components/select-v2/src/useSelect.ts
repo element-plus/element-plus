@@ -4,16 +4,15 @@ import {
   ref,
   reactive,
   nextTick,
-  inject,
   onMounted,
   onBeforeMount,
 } from 'vue'
 import { isArray, isFunction, isObject } from '@vue/shared'
 import isEqual from 'lodash/isEqual'
 import lodashDebounce from 'lodash/debounce'
-import { elFormKey } from '@element-plus/tokens'
-import { useLocale, useSize } from '@element-plus/hooks'
+import { useFormItem, useLocale, useSize } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
+import { ValidateComponentsMap } from '@element-plus/utils/icon'
 import {
   addResizeListener,
   removeResizeListener,
@@ -29,20 +28,20 @@ import { flattenOptions } from './util'
 import { useInput } from './useInput'
 import type { SelectProps } from './defaults'
 import type { ExtractPropTypes, CSSProperties } from 'vue'
-import type { ElFormContext } from '@element-plus/tokens'
 import type { OptionType, Option } from './select.types'
 
 const DEFAULT_INPUT_PLACEHOLDER = ''
 const MINIMUM_INPUT_WIDTH = 11
 const TAG_BASE_WIDTH = {
-  small: 42,
-  mini: 33,
+  larget: 51,
+  default: 42,
+  small: 33,
 }
 
 const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   // inject
   const { t } = useLocale()
-  const elForm = inject(elFormKey, {} as ElFormContext)
+  const { form: elForm, formItem: elFormItem } = useFormItem()
 
   const states = reactive({
     inputValue: DEFAULT_INPUT_PLACEHOLDER,
@@ -86,7 +85,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   // the controller of the expanded popup
   const expanded = ref(false)
 
-  const selectDisabled = computed(() => props.disabled || elForm.disabled)
+  const selectDisabled = computed(() => props.disabled || elForm?.disabled)
 
   const popupHeight = computed(() => {
     const totalHeight = filteredOptions.value.length * 34
@@ -120,6 +119,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const iconReverse = computed(() =>
     iconComponent.value && expanded.value ? 'is-reverse' : ''
+  )
+
+  const validateState = computed(() => elFormItem?.validateState || '')
+  const validateIcon = computed(
+    () => ValidateComponentsMap[validateState.value]
   )
 
   const debounce = computed(() => (props.remote ? 300 : 0))
@@ -183,12 +187,12 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const selectSize = useSize()
 
   const collapseTagSize = computed(() =>
-    ['small', 'mini'].indexOf(selectSize.value) > -1 ? 'mini' : 'small'
+    'small' === selectSize.value ? 'small' : 'default'
   )
 
   const tagMaxWidth = computed(() => {
     const select = selectionRef.value
-    const size = collapseTagSize.value
+    const size = collapseTagSize.value || 'default'
     const paddingLeft = select
       ? parseInt(getComputedStyle(select).paddingLeft)
       : 0
@@ -696,9 +700,12 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   watch(
     () => props.modelValue,
-    (val) => {
+    (val, oldVal) => {
       if (!val || val.toString() !== states.previousValue) {
         initStates()
+      }
+      if (!isEqual(val, oldVal)) {
+        elFormItem?.validate?.('change')
       }
     },
     {
@@ -767,6 +774,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     selectionRef,
 
     popperRef,
+
+    validateState,
+    validateIcon,
 
     Effect,
 

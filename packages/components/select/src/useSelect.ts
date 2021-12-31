@@ -11,10 +11,10 @@ import {
 import { isObject, toRawType } from '@vue/shared'
 import lodashDebounce from 'lodash/debounce'
 import isEqual from 'lodash/isEqual'
+import { isClient } from '@vueuse/core'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { useLocale, useSize } from '@element-plus/hooks'
-import isServer from '@element-plus/utils/isServer'
 import scrollIntoView from '@element-plus/utils/scroll-into-view'
 import { isKorean } from '@element-plus/utils/isDef'
 import { getValueByPath } from '@element-plus/utils/util'
@@ -148,7 +148,7 @@ export const useSelect = (props, states: States, ctx) => {
   const selectSize = useSize()
 
   const collapseTagSize = computed(() =>
-    ['small', 'mini'].indexOf(selectSize.value) > -1 ? 'mini' : 'small'
+    ['small'].indexOf(selectSize.value) > -1 ? 'small' : 'default'
   )
 
   const dropMenuVisible = computed(
@@ -273,7 +273,7 @@ export const useSelect = (props, states: States, ctx) => {
     // https://github.com/vuejs/vue-next/issues/2116
     () => states.options.entries(),
     () => {
-      if (isServer) return
+      if (!isClient) return
       popper.value?.update?.()
       if (props.multiple) {
         resetInputHeight()

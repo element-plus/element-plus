@@ -20,6 +20,7 @@
     <template #trigger>
       <el-input
         v-if="!isRangeInput"
+        :id="id"
         v-clickoutside:[popperPaneRef]="onClickOutside"
         :model-value="displayValue"
         :name="name"
@@ -78,6 +79,7 @@
           <component :is="triggerIcon"></component>
         </el-icon>
         <input
+          :id="id && id[0]"
           autocomplete="off"
           :name="name && name[0]"
           :placeholder="startPlaceholder"
@@ -93,6 +95,7 @@
           <span class="el-range-separator">{{ rangeSeparator }}</span>
         </slot>
         <input
+          :id="id && id[1]"
           autocomplete="off"
           :name="name && name[1]"
           :placeholder="endPlaceholder"
@@ -270,7 +273,7 @@ export default defineComponent({
         ctx.emit('update:modelValue', val ? formatValue : val, lang.value)
       }
     }
-    const refInput = computed(() => {
+    const refInput = computed<HTMLInputElement[]>(() => {
       if (refPopper.value.triggerRef) {
         const _r = isRangeInput.value
           ? refPopper.value.triggerRef
@@ -278,6 +281,12 @@ export default defineComponent({
         return [].slice.call(_r.querySelectorAll('input'))
       }
       return []
+    })
+    const refStartInput = computed(() => {
+      return refInput?.value[0]
+    })
+    const refEndInput = computed(() => {
+      return refInput?.value[1]
     })
     const setSelectionRange = (start, end, pos) => {
       const _inputs = refInput.value
@@ -302,6 +311,17 @@ export default defineComponent({
       userInput.value = null
       emitInput(result)
     }
+
+    const focus = (focusStartInput = true) => {
+      let input = refStartInput.value
+      if (!focusStartInput && isRangeInput.value) {
+        input = refEndInput.value
+      }
+      if (input) {
+        input.focus()
+      }
+    }
+
     const handleFocus = (e) => {
       if (props.readonly || pickerDisabled.value || pickerVisible.value) return
       pickerVisible.value = true
@@ -610,6 +630,7 @@ export default defineComponent({
       pickerDisabled,
       onSetPickerOption,
       onCalendarChange,
+      focus,
     }
   },
 })

@@ -8,22 +8,16 @@
   </el-scrollbar>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      count: 3,
-    }
-  },
-  methods: {
-    add() {
-      this.count++
-    },
-    onDelete() {
-      if (this.count > 0) {
-        this.count--
-      }
-    },
-  },
+<script lang="ts" setup>
+import { ref } from 'vue'
+const count = ref(3)
+
+const add = () => {
+  count.value++
+}
+const onDelete = () => {
+  if (count.value > 0) {
+    count.value--
+  }
 }
 </script>

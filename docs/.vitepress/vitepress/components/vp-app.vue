@@ -28,7 +28,7 @@ onMounted(async () => {
   window.addEventListener(
     'click',
     (e) => {
-      const link = e.target.closest('a')
+      const link = (e.target as HTMLElement).closest('a')
       if (!link) return
 
       const { protocol, hostname, pathname, target } = link
@@ -69,9 +69,7 @@ onMounted(async () => {
       location.href = `https://element-plus.gitee.io${toLang}${location.pathname.slice(
         toLang.length
       )}`
-    } catch (e) {
-      // do nothing
-    }
+    } catch {}
   }
 })
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="form" :model="form" label-width="120px">
+  <el-form ref="formRef" :model="form" label-width="120px">
     <el-form-item label="Activity name">
       <el-input v-model="form.name"></el-input>
     </el-form-item>
@@ -18,7 +18,9 @@
           style="width: 100%"
         ></el-date-picker>
       </el-col>
-      <el-col class="line" :span="2">-</el-col>
+      <el-col :span="2" class="text-center">
+        <span class="text-gray-500">-</span>
+      </el-col>
       <el-col :span="11">
         <el-time-picker
           v-model="form.date2"
@@ -54,26 +56,22 @@
   </el-form>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: '',
-      },
-    }
-  },
-  methods: {
-    onSubmit() {
-      console.log('submit!')
-    },
-  },
+<script lang="ts" setup>
+import { reactive } from 'vue'
+
+// do not use same name with ref
+const form = reactive({
+  name: '',
+  region: '',
+  date1: '',
+  date2: '',
+  delivery: false,
+  type: [],
+  resource: '',
+  desc: '',
+})
+
+const onSubmit = () => {
+  console.log('submit!')
 }
 </script>

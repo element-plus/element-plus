@@ -7,7 +7,7 @@
 @include b(input-number) {
   position: relative;
   display: inline-block;
-  width: 180px;
+  width: map.get($input-number-width, 'default');
   line-height: #{map.get($input-height, 'default') - 2};
 
   .#{$namespace}-input {
@@ -27,17 +27,18 @@
     }
   }
 
-  .#{$namespace}-icon {
-    vertical-align: text-bottom;
-  }
-
   @include e((increase, decrease)) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+
     position: absolute;
     z-index: 1;
     top: 1px;
+    bottom: 1px;
+
     width: map.get($input-height, 'default');
-    height: auto;
-    text-align: center;
     background: var(--el-bg-color);
     color: var(--el-text-color-regular);
     cursor: pointer;
@@ -85,7 +86,7 @@
     }
   }
 
-  @each $size in (medium, small, mini) {
+  @each $size in (large, small) {
     @include m($size) {
       width: map.get($input-number-width, $size);
       line-height: #{map.get($input-height, $size) - 2};
@@ -106,14 +107,6 @@
     @include e((increase, decrease)) {
       [class*='#{$namespace}-icon'] {
         transform: scale(0.9);
-      }
-    }
-  }
-
-  @include m(mini) {
-    @include e((increase, decrease)) {
-      [class*='#{$namespace}-icon'] {
-        transform: scale(0.8);
       }
     }
   }
@@ -155,7 +148,7 @@
       border-radius: 0 0 var(--el-border-radius-base) 0;
     }
 
-    @each $size in (medium, small, mini) {
+    @each $size in (large, small) {
       &[class*='#{$size}'] {
         [class*='increase'],
         [class*='decrease'] {

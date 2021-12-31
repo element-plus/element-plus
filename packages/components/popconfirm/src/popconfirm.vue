@@ -19,10 +19,10 @@
         {{ title }}
       </div>
       <div class="el-popconfirm__action">
-        <el-button size="mini" :type="cancelButtonType" @click="cancel">
+        <el-button size="small" :type="cancelButtonType" @click="cancel">
           {{ finalCancelButtonText }}
         </el-button>
-        <el-button size="mini" :type="confirmButtonType" @click="confirm">
+        <el-button size="small" :type="confirmButtonType" @click="confirm">
           {{ finalConfirmButtonText }}
         </el-button>
       </div>
@@ -57,12 +57,16 @@ export default defineComponent({
     const { t } = useLocale()
     const visible = ref(false)
     const confirm = () => {
+      if (visible.value) {
+        emit('confirm')
+      }
       visible.value = false
-      emit('confirm')
     }
     const cancel = () => {
+      if (visible.value) {
+        emit('cancel')
+      }
       visible.value = false
-      emit('cancel')
     }
     const finalConfirmButtonText = computed(
       () => props.confirmButtonText || t('el.popconfirm.confirmButtonText')
