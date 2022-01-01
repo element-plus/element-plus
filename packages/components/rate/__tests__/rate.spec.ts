@@ -12,6 +12,15 @@ describe('Rate.vue', () => {
     expect(stars.length).toEqual(10)
   })
 
+  test('size', () => {
+    const wrapper = mount(Rate, {
+      props: {
+        size: 'large',
+      },
+    })
+    expect(wrapper.find('.el-rate--large').exists()).toBe(true)
+  })
+
   test('allow half', async () => {
     const wrapper = mount({
       template: `
