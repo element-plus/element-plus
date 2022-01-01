@@ -24,6 +24,15 @@ describe('Switch.vue', () => {
     expect(leftLabelWrapper.text()).toEqual('off')
   })
 
+  test('size', () => {
+    const wrapper = mount(Switch, {
+      props: {
+        size: 'large',
+      },
+    })
+    expect(wrapper.find('.el-switch--large').exists()).toBe(true)
+  })
+
   test('inline prompt', () => {
     const wrapper = mount(Switch, {
       props: {

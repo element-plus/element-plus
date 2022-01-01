@@ -4,6 +4,16 @@
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
+$switch-height: () !default;
+$switch-height: map.merge(
+  (
+    'large': 40px,
+    'default': 32px,
+    'small': 24px,
+  ),
+  $switch-height
+);
+
 @include b(switch) {
   @include set-component-css-var('switch', $switch);
 }
@@ -14,7 +24,7 @@
   position: relative;
   font-size: var(--el-switch-font-size);
   line-height: var(--el-switch-height);
-  height: var(--el-switch-height);
+  height: map.get($switch-height, 'default');
   vertical-align: middle;
   @include when(disabled) {
     & .#{$namespace}-switch__core,
@@ -174,5 +184,11 @@
   & .label-fade-enter-from,
   & .label-fade-leave-active {
     opacity: 0;
+  }
+
+  @each $size in (large, small) {
+    @include m($size) {
+      height: map.get($switch-height, $size);
+    }
   }
 }
