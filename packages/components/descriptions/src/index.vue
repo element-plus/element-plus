@@ -1,5 +1,5 @@
 <template>
-  <div class="el-descriptions">
+  <div :class="descriptionKls">
     <div
       v-if="title || extra || $slots.title || $slots.extra"
       class="el-descriptions__header"
@@ -13,13 +13,7 @@
     </div>
 
     <div class="el-descriptions__body">
-      <table
-        :class="[
-          'el-descriptions__table',
-          { 'is-bordered': border },
-          descriptionsSize ? `el-descriptions--${descriptionsSize}` : '',
-        ]"
-      >
+      <table :class="['el-descriptions__table', { 'is-bordered': border }]">
         <tbody>
           <template v-for="(row, index) in getRows()" :key="index">
             <el-descriptions-row :row="row" />
@@ -32,8 +26,8 @@
 
 <script lang="ts">
 import { computed, defineComponent, provide } from 'vue'
-import { useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
+import { useSize } from '@element-plus/hooks'
 import DescriptionsRow from './descriptions-row.vue'
 import { elDescriptionsKey } from './token'
 
@@ -74,10 +68,13 @@ export default defineComponent({
   setup(props, { slots }) {
     provide(elDescriptionsKey, props)
 
-    const $ELEMENT = useGlobalConfig()
-    const descriptionsSize = computed(() => {
-      return props.size || $ELEMENT.size
-    })
+    const descriptionsSize = useSize()
+
+    const prefix = 'el-descriptions'
+    const descriptionKls = computed(() => [
+      prefix,
+      descriptionsSize.value ? `${prefix}--${descriptionsSize.value}` : '',
+    ])
 
     const flattedChildren = (children) => {
       const temp = Array.isArray(children) ? children : [children]
@@ -145,7 +142,7 @@ export default defineComponent({
     }
 
     return {
-      descriptionsSize,
+      descriptionKls,
       getRows,
     }
   },

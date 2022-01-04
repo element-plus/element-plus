@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import useFocus from '../use-focus'
+import { useFocus } from '../use-focus'
 
 describe('useFocus', () => {
   it('should focus el', async () => {

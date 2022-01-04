@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 @use 'mixins/mixins' as *;
 @use 'mixins/var' as *;
 @use 'common/var' as *;
@@ -123,14 +125,13 @@
 
     &.is-group {
       th.#{$namespace}-table__cell {
-        background: var(--el-bg-color-base);
+        background: var(--el-bg-color);
       }
     }
   }
 
   .#{$namespace}-table__cell {
-    position: relative;
-    padding: 12px 0;
+    padding: map.get($table-padding, 'default');
     min-width: 0;
     box-sizing: border-box;
     text-overflow: ellipsis;
@@ -160,23 +161,30 @@
     }
   }
 
-  @include m(medium) {
-    .#{$namespace}-table__cell {
-      padding: 10px 0;
+  .cell {
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-all;
+    line-height: 23px;
+    padding: 0 12px;
+
+    &.#{$namespace}-tooltip {
+      white-space: nowrap;
+      min-width: 50px;
     }
   }
 
-  @include m(small) {
-    font-size: 12px;
-    .#{$namespace}-table__cell {
-      padding: 8px 0;
-    }
-  }
-
-  @include m(mini) {
-    font-size: 12px;
-    .#{$namespace}-table__cell {
-      padding: 6px 0;
+  @each $size in (large, small) {
+    @include m($size) {
+      font-size: map.get($table-font-size, $size);
+      .#{$namespace}-table__cell {
+        padding: map.get($table-padding, $size);
+      }
+      .cell {
+        padding: map.get($table-cell-padding, $size);
+      }
     }
   }
 
@@ -232,22 +240,6 @@
 
     &.gutter {
       width: 0;
-    }
-  }
-
-  .cell {
-    box-sizing: border-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal;
-    word-break: break-all;
-    line-height: 23px;
-    padding-left: 10px;
-    padding-right: 10px;
-
-    &.#{$namespace}-tooltip {
-      white-space: nowrap;
-      min-width: 50px;
     }
   }
 

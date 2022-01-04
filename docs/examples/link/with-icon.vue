@@ -7,5 +7,5 @@
   </div>
 </template>
 <script setup lang="ts">
-import { Edit, View as IconView } from '@element-plus/icons'
+import { Edit, View as IconView } from '@element-plus/icons-vue'
 </script>

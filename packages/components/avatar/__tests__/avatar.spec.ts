@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { User } from '@element-plus/icons'
+import { User } from '@element-plus/icons-vue'
 import {
   IMAGE_SUCCESS,
   IMAGE_FAIL,
@@ -21,7 +21,7 @@ describe('Avatar.vue', () => {
     const wrapper = mount(Avatar, {
       props: { size: 50 },
     })
-    expect(wrapper.attributes('style')).toContain('height: 50px')
+    expect(wrapper.attributes('style')).toContain('--el-avatar-size: 50px;')
   })
 
   test('size is string', () => {

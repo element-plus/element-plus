@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import ImgEmpty from './img-empty.vue'
 import { emptyProps } from './empty'
 
@@ -33,7 +33,7 @@ export default defineComponent({
   props: emptyProps,
 
   setup(props) {
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
     const emptyDescription = computed(
       () => props.description || t('el.table.emptyText')
     )

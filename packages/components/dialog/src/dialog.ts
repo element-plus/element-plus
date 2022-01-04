@@ -2,7 +2,7 @@ import { isValidWidthUnit } from '@element-plus/utils/validators'
 import { buildProps, definePropType } from '@element-plus/utils/props'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, Component } from 'vue'
 
 export const dialogProps = buildProps({
   appendToBody: {
@@ -22,6 +22,10 @@ export const dialogProps = buildProps({
   },
   customClass: {
     type: String,
+    default: '',
+  },
+  closeIcon: {
+    type: definePropType<string | Component>([String, Object]),
     default: '',
   },
   closeOnClickModal: {

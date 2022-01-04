@@ -46,9 +46,10 @@
     "vue": "^3.2.0"
   },
   "dependencies": {
-    "@element-plus/icons": "^0.0.11",
+    "@ctrl/tinycolor": "^3.4.0",
+    "@element-plus/icons-vue": "^0.2.4",
     "@popperjs/core": "^2.10.2",
-    "@vueuse/core": "^7.0.0",
+    "@vueuse/core": "^7.3.0",
     "async-validator": "^4.0.7",
     "dayjs": "^1.10.7",
     "lodash": "^4.17.21",

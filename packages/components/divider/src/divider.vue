@@ -1,5 +1,8 @@
 <template>
-  <div :class="['el-divider', `el-divider--${direction}`]">
+  <div
+    :class="['el-divider', `el-divider--${direction}`]"
+    :style="{ '--el-border-style': borderStyle }"
+  >
     <div
       v-if="$slots.default && direction !== 'vertical'"
       :class="['el-divider__text', `is-${contentPosition}`]"

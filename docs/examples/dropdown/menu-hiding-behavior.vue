@@ -10,11 +10,12 @@
         <el-dropdown-item>Action 3</el-dropdown-item>
         <el-dropdown-item disabled>Action 4</el-dropdown-item>
         <el-dropdown-item divided>Action 5</el-dropdown-item>
+        <el-dropdown-item divided>Action 6</el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>
 </template>
 
 <script lang="ts" setup>
-import { ArrowDown } from '@element-plus/icons'
+import { ArrowDown } from '@element-plus/icons-vue'
 </script>

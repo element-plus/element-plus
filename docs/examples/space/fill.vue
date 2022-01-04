@@ -19,10 +19,8 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return { fill: true }
-  },
-}
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const fill = ref(true)
 </script>

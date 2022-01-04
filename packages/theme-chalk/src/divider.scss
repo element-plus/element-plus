@@ -2,7 +2,6 @@
 @use 'mixins/mixins' as *;
 
 @include b(divider) {
-  background-color: var(--el-border-color-base);
   position: relative;
 
   @include m(horizontal) {
@@ -10,6 +9,7 @@
     height: 1px;
     width: 100%;
     margin: 24px 0;
+    border-top: 1px var(--el-border-color-base) var(--el-border-style);
   }
 
   @include m(vertical) {
@@ -19,6 +19,7 @@
     margin: 0 8px;
     vertical-align: middle;
     position: relative;
+    border-left: 1px var(--el-border-color-base) var(--el-border-style);
   }
 
   @include e(text) {

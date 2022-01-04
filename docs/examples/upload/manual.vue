@@ -1,18 +1,14 @@
 <template>
   <el-upload
-    ref="upload"
+    ref="uploadRef"
     class="upload-demo"
     action="https://jsonplaceholder.typicode.com/posts/"
     :auto-upload="false"
   >
     <template #trigger>
-      <el-button size="small" type="primary">select file</el-button>
+      <el-button type="primary">select file</el-button>
     </template>
-    <el-button
-      style="margin-left: 10px"
-      size="small"
-      type="success"
-      @click="submitUpload"
+    <el-button class="ml-3" type="success" @click="submitUpload"
       >upload to server</el-button
     >
     <template #tip>
@@ -22,12 +18,13 @@
     </template>
   </el-upload>
 </template>
-<script lang="ts">
-export default {
-  methods: {
-    submitUpload() {
-      this.$refs.upload.submit()
-    },
-  },
+<script lang="ts" setup>
+import { ref } from 'vue'
+import type { ElUpload } from 'element-plus'
+
+const uploadRef = ref<InstanceType<typeof ElUpload>>()
+
+const submitUpload = () => {
+  uploadRef.value!.submit()
 }
 </script>

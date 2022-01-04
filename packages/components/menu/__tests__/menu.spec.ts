@@ -21,6 +21,10 @@ const _mount = (template: string, options = {}) =>
   })
 
 describe('menu', () => {
+  afterEach(() => {
+    document.body.innerHTML = ''
+  })
+
   test('create', async () => {
     const wrapper = _mount(
       `<el-menu>
@@ -400,11 +404,17 @@ describe('other', () => {
         <el-menu-item index="3">订单管理</el-menu-item>
       </el-menu>`
     )
-    expect(wrapper.classes()).toContain('el-menu--horizontal')
-    const submenu = await wrapper.findComponent({ ref: 'submenu' })
+    await nextTick()
 
-    submenu.trigger('mouseenter')
+    expect(wrapper.classes()).toContain('el-menu--horizontal')
+    const submenu = wrapper.findComponent({ ref: 'submenu' })
+
+    await submenu.trigger('mouseenter')
+
     await sleep(500)
+    await nextTick()
+    await rAF()
+
     expect(
       document.body.querySelector('body [role="tooltip"]').getAttribute('style')
     ).not.toContain('display: none')

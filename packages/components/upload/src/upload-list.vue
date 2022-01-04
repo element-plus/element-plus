@@ -17,7 +17,7 @@
         focusing ? 'focusing' : '',
       ]"
       tabindex="0"
-      @keydown.delete="!disabled && handleRemove($event, file)"
+      @keydown.delete="!disabled && handleRemove(file)"
       @focus="focusing = true"
       @blur="focusing = false"
       @click="onFileClicked"
@@ -53,7 +53,7 @@
         <el-icon
           v-if="!disabled"
           class="el-icon--close"
-          @click="handleRemove($event, file)"
+          @click="handleRemove(file)"
         >
           <close />
         </el-icon>
@@ -68,6 +68,7 @@
           :type="listType === 'picture-card' ? 'circle' : 'line'"
           :stroke-width="listType === 'picture-card' ? 6 : 2"
           :percentage="+file.percentage"
+          style="margin-top: 0.5rem"
         />
         <span
           v-if="listType === 'picture-card'"
@@ -82,7 +83,7 @@
           <span
             v-if="!disabled"
             class="el-upload-list__item-delete"
-            @click="handleRemove($event, file)"
+            @click="handleRemove(file)"
           >
             <el-icon class="el-icon--delete"><delete /></el-icon>
           </span>
@@ -102,8 +103,8 @@ import {
   ZoomIn,
   Check,
   CircleCheck,
-} from '@element-plus/icons'
-import { useLocaleInject } from '@element-plus/hooks'
+} from '@element-plus/icons-vue'
+import { useLocale } from '@element-plus/hooks'
 import ElProgress from '@element-plus/components/progress'
 
 import type { PropType } from 'vue'
@@ -141,7 +142,7 @@ export default defineComponent({
   },
   emits: ['remove'],
   setup(props, { emit }) {
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
 
     const handleClick = (file: UploadFile) => {
       props.handlePreview(file)
@@ -151,7 +152,7 @@ export default defineComponent({
       ;(e.target as HTMLElement).focus()
     }
 
-    const handleRemove = (e: Event, file: UploadFile) => {
+    const handleRemove = (file: UploadFile) => {
       emit('remove', file)
     }
     return {

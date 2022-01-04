@@ -95,6 +95,7 @@ import { ElTransfer } from '@element-plus/components/transfer'
 import { ElTree } from '@element-plus/components/tree'
 import { ElTreeV2 } from '@element-plus/components/tree-v2'
 import { ElUpload } from '@element-plus/components/upload'
+import type { Plugin } from 'vue'
 
 export default [
   ElAffix,
@@ -187,4 +188,4 @@ export default [
   ElTree,
   ElTreeV2,
   ElUpload,
-]
+] as Plugin[]

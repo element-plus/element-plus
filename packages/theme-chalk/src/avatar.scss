@@ -1,25 +1,28 @@
+@use 'sass:map';
+
 @use 'mixins/mixins' as *;
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
 @include b(avatar) {
   @include set-component-css-var('avatar', $avatar);
+  @include set-component-css-var('avatar-size', $avatar-size);
 
-  display: inline-block;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
   box-sizing: border-box;
   text-align: center;
   overflow: hidden;
   color: var(--el-avatar-text-color);
   background: var(--el-avatar-bg-color);
-  width: var(--el-avatar-large-size);
-  height: var(--el-avatar-large-size);
-  line-height: var(--el-avatar-large-size);
-  font-size: var(--el-avatar-text-font-size);
+  width: var(--el-avatar-size);
+  height: var(--el-avatar-size);
+  font-size: var(--el-avatar-text-size);
 
   > img {
     display: block;
     height: 100%;
-    vertical-align: middle;
   }
 
   @include m(circle) {
@@ -31,14 +34,12 @@
   }
 
   @include m(icon) {
-    font-size: var(--el-avatar-icon-font-size);
+    font-size: var(--el-avatar-icon-size);
   }
 
-  @each $size in (small, medium, large) {
+  @each $size in (small, default, large) {
     @include m($size) {
-      width: var(--el-avatar-#{$size}-size);
-      height: var(--el-avatar-#{$size}-size);
-      line-height: var(--el-avatar-#{$size}-size);
+      --el-avatar-size: #{map.get($avatar-size, $size)};
     }
   }
 }

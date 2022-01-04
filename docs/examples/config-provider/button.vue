@@ -11,18 +11,10 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive } from 'vue'
+<script lang="ts" setup>
+import { reactive } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const config = reactive({
-      autoInsertSpace: true,
-    })
-
-    return {
-      config,
-    }
-  },
+const config = reactive({
+  autoInsertSpace: true,
 })
 </script>

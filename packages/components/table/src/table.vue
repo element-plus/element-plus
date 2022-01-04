@@ -118,7 +118,7 @@
 import { defineComponent, getCurrentInstance, computed } from 'vue'
 import debounce from 'lodash/debounce'
 import { Mousewheel } from '@element-plus/directives'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import { createStore } from './store/helper'
 import TableLayout from './table-layout'
 import TableHeader from './table-header'
@@ -164,7 +164,7 @@ export default defineComponent({
   ],
   setup(props) {
     type Row = typeof props.data[number]
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
     const table = getCurrentInstance() as Table<Row>
     const store = createStore<Row>(table, props)
     table.store = store

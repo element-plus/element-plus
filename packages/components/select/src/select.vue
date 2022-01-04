@@ -2,40 +2,38 @@
   <div
     ref="selectWrapper"
     v-click-outside:[popperPaneRef]="handleClose"
-    class="el-select"
-    :class="[selectSize ? 'el-select--' + selectSize : '']"
+    :class="wrapperKls"
     @click.stop="toggleMenu"
   >
-    <el-popper
-      ref="popper"
+    <el-tooltip
+      ref="tooltipRef"
       v-model:visible="dropMenuVisible"
       placement="bottom-start"
       :append-to-body="popperAppendToBody"
       :popper-class="`el-select__popper ${popperClass}`"
       :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
-      manual-mode
-      :effect="Effect.LIGHT"
+      effect="light"
       pure
       trigger="click"
       transition="el-zoom-in-top"
       :stop-popper-mouse-event="false"
       :gpu-acceleration="false"
-      @before-enter="handleMenuEnter"
+      @show="handleMenuEnter"
     >
-      <template #trigger>
+      <template #default>
         <div class="select-trigger">
           <div
             v-if="multiple"
             ref="tags"
             class="el-select__tags"
-            :style="{ maxWidth: inputWidth - 32 + 'px', width: '100%' }"
+            :style="selectTagsStyle"
           >
             <span v-if="collapseTags && selected.length">
               <el-tag
                 :closable="!selectDisabled && !selected[0].isDisabled"
                 :size="collapseTagSize"
                 :hit="selected[0].hitState"
-                type="info"
+                :type="tagType"
                 disable-transitions
                 @close="deleteTag($event, selected[0])"
               >
@@ -49,7 +47,7 @@
                 v-if="selected.length > 1"
                 :closable="false"
                 :size="collapseTagSize"
-                type="info"
+                :type="tagType"
                 disable-transitions
               >
                 <span class="el-select__tags-text"
@@ -71,7 +69,7 @@
                   :closable="!selectDisabled && !item.isDisabled"
                   :size="collapseTagSize"
                   :hit="item.hitState"
-                  type="info"
+                  :type="tagType"
                   disable-transitions
                   @close="deleteTag($event, item)"
                 >
@@ -131,7 +129,7 @@
             :readonly="readonly"
             :validate-event="false"
             :class="{ 'is-focus': visible }"
-            :tabindex="multiple && filterable ? '-1' : null"
+            :tabindex="multiple && filterable ? -1 : undefined"
             @focus="handleFocus"
             @blur="handleBlur"
             @input="debouncedOnInputChange"
@@ -178,7 +176,7 @@
           </el-input>
         </div>
       </template>
-      <template #default>
+      <template #content>
         <el-select-menu>
           <el-scrollbar
             v-show="options.size > 0 && !loading"
@@ -206,7 +204,7 @@
           </template>
         </el-select-menu>
       </template>
-    </el-popper>
+    </el-tooltip>
   </div>
 </template>
 
@@ -220,11 +218,12 @@ import {
   reactive,
   provide,
   computed,
+  unref,
 } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
-import { useFocus, useLocaleInject } from '@element-plus/hooks'
+import { useFocus, useLocale } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
-import ElPopper, { Effect } from '@element-plus/components/popper'
+import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
@@ -234,7 +233,7 @@ import {
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import { CircleClose, ArrowUp } from '@element-plus/icons'
+import { CircleClose, ArrowUp } from '@element-plus/icons-vue'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
 import { useSelect, useSelectStates } from './useSelect'
@@ -253,7 +252,7 @@ export default defineComponent({
     ElOption,
     ElTag,
     ElScrollbar,
-    ElPopper,
+    ElTooltip,
     ElIcon,
   },
   directives: { ClickOutside },
@@ -319,6 +318,10 @@ export default defineComponent({
       type: [String, Object] as PropType<string | Component>,
       default: ArrowUp,
     },
+    tagType: {
+      type: String,
+      default: 'info',
+    },
   },
   emits: [
     UPDATE_MODEL_EVENT,
@@ -331,7 +334,7 @@ export default defineComponent({
   ],
 
   setup(props, ctx) {
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
     const states = useSelectStates(props)
     const {
       optionsArray,
@@ -374,7 +377,7 @@ export default defineComponent({
 
       reference,
       input,
-      popper,
+      tooltipRef,
       tags,
       selectWrapper,
       scrollbar,
@@ -405,6 +408,20 @@ export default defineComponent({
       prefixWidth,
       tagInMultiLine,
     } = toRefs(states)
+
+    const wrapperKls = computed(() => {
+      const classList = ['el-select']
+      const _selectSize = unref(selectSize)
+      if (_selectSize) {
+        classList.push(`el-select--${_selectSize}`)
+      }
+      return classList
+    })
+
+    const selectTagsStyle = computed(() => ({
+      maxWidth: `${unref(inputWidth) - 32}px`,
+      width: '100%',
+    }))
 
     provide(
       selectKey,
@@ -440,11 +457,11 @@ export default defineComponent({
       addResizeListener(selectWrapper.value as any, handleResize)
       if (reference.value && reference.value.$el) {
         const sizeMap = {
-          medium: 36,
-          small: 32,
-          mini: 28,
+          large: 36,
+          default: 32,
+          small: 28,
         }
-        const input = reference.value.input
+        const input = reference.value.input as HTMLInputElement
         states.initialInputHeight =
           input.getBoundingClientRect().height || sizeMap[selectSize.value]
       }
@@ -452,13 +469,13 @@ export default defineComponent({
         resetInputHeight()
       }
       nextTick(() => {
+        if (!reference.value) return
         if (reference.value.$el) {
           inputWidth.value = reference.value.$el.getBoundingClientRect().width
         }
         if (ctx.slots.prefix) {
           const inputChildNodes = reference.value.$el.childNodes
-          const input = [].filter.call(
-            inputChildNodes,
+          const input = (Array.from(inputChildNodes) as HTMLElement[]).filter(
             (item) => item.tagName === 'INPUT'
           )[0]
           const prefix = reference.value.$el.querySelector('.el-input__prefix')
@@ -486,11 +503,10 @@ export default defineComponent({
     }
 
     const popperPaneRef = computed(() => {
-      return popper.value?.popperRef
+      return tooltipRef.value?.popperRef?.contentRef
     })
 
     return {
-      Effect,
       tagInMultiLine,
       prefixWidth,
       selectSize,
@@ -545,11 +561,14 @@ export default defineComponent({
 
       reference,
       input,
-      popper,
+      tooltipRef,
       popperPaneRef,
       tags,
       selectWrapper,
       scrollbar,
+
+      wrapperKls,
+      selectTagsStyle,
     }
   },
 })

@@ -1,1 +1,1 @@
-export default typeof window === 'undefined'
+export default !(globalThis ? globalThis.document : window)

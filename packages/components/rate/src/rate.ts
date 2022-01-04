@@ -1,4 +1,4 @@
-import { Star, StarFilled } from '@element-plus/icons'
+import { Star, StarFilled } from '@element-plus/icons-vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
 import type { Component, ExtractPropTypes } from 'vue'

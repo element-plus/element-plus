@@ -1,12 +1,14 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import dayjs from 'dayjs'
+import { rAF } from '@element-plus/test-utils/tick'
 import ConfigProvider from '@element-plus/components/config-provider'
 import { CommonPicker } from '@element-plus/components/time-picker'
 import Input from '@element-plus/components/input'
 import zhCn from '@element-plus/locale/lang/zh-cn'
 import enUs from '@element-plus/locale/lang/en'
 import 'dayjs/locale/zh-cn'
+import { EVENT_CODE } from '@element-plus/utils/aria'
 import DatePicker from '../src/date-picker'
 
 const _mount = (template: string, data = () => ({}), otherObj?) =>
@@ -236,6 +238,7 @@ describe('DatePicker', () => {
       }
     )
     await nextTick()
+    await rAF()
     const popperEl = document.querySelector('.el-picker__popper')
     const attr = popperEl.getAttribute('aria-hidden')
     expect(attr).toEqual('false')
@@ -272,6 +275,54 @@ describe('DatePicker', () => {
     expect(
       document.querySelector('td.available .cell').classList.contains('current')
     ).toBeTruthy()
+  })
+
+  it('custom content comment', async () => {
+    _mount(
+      `<el-date-picker
+        v-model="value"
+        ref="input">
+        <template #default="{ isCurrent, text }">
+          <!-- <div class="cell" :class="{ current: isCurrent }">
+            <div>{{ text + "csw" }}</div>
+          </div> -->
+        </template>
+      </el-date-picker>`,
+      () => ({ value: '' }),
+      {
+        mounted() {
+          this.$refs.input.focus()
+        },
+      }
+    )
+    await nextTick()
+    const el = document.querySelector('td.available .el-date-table-cell')
+    const text = el.textContent
+    expect(text.includes('csw')).toBeFalsy()
+  })
+
+  it('custom content value validate', async () => {
+    _mount(
+      `<el-date-picker
+        v-model="value"
+        ref="input">
+        <template #default="{ isCurrent, text }">
+          <div class="cell" :class="{ current: isCurrent }">
+            <div>{{ text + "csw" }}</div>
+          </div>
+        </template>
+      </el-date-picker>`,
+      () => ({ value: '' }),
+      {
+        mounted() {
+          this.$refs.input.focus()
+        },
+      }
+    )
+    await nextTick()
+    const el = document.querySelector('td.available .cell')
+    const text = el.textContent
+    expect(text.includes('csw')).toBeTruthy()
   })
 
   describe('value-format', () => {
@@ -674,6 +725,58 @@ describe('DatePicker dates', () => {
     td[1].click()
     await nextTick()
     expect(vm.value.length).toBe(0)
+  })
+})
+
+describe('DatePicker keyboard events', () => {
+  it('enter', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+    type='date'
+    v-model="value"
+  />`,
+      () => ({ value: '' })
+    )
+    const input = wrapper.find('.el-input__inner')
+    await input.trigger('focus')
+    await input.trigger('click')
+    await nextTick()
+
+    const popperEl = document.querySelectorAll('.el-picker__popper')[0]
+    const attr = popperEl.getAttribute('aria-hidden')
+    expect(attr).toEqual('false')
+
+    await input.trigger('keydown', {
+      code: EVENT_CODE.enter,
+    })
+    const popperEl2 = document.querySelectorAll('.el-picker__popper')[0]
+    const attr2 = popperEl2.getAttribute('aria-hidden')
+    expect(attr2).toEqual('true')
+  })
+
+  it('numpadEnter', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+    type='date'
+    v-model="value"
+  />`,
+      () => ({ value: '' })
+    )
+    const input = wrapper.find('.el-input__inner')
+    await input.trigger('focus')
+    await input.trigger('click')
+    await nextTick()
+
+    const popperEl = document.querySelectorAll('.el-picker__popper')[0]
+    const attr = popperEl.getAttribute('aria-hidden')
+    expect(attr).toEqual('false')
+
+    await input.trigger('keydown', {
+      code: EVENT_CODE.numpadEnter,
+    })
+    const popperEl2 = document.querySelectorAll('.el-picker__popper')[0]
+    const attr2 = popperEl2.getAttribute('aria-hidden')
+    expect(attr2).toEqual('true')
   })
 })
 

@@ -1,7 +1,7 @@
 import { nextTick, ref, isRef } from 'vue'
 import { hasOwn } from '@vue/shared'
+import { isClient } from '@vueuse/core'
 import scrollbarWidth from '@element-plus/utils/scrollbar-width'
-import isServer from '@element-plus/utils/isServer'
 import { parseHeight } from './util'
 import type { Ref } from 'vue'
 
@@ -100,7 +100,7 @@ class TableLayout<T> {
   }
 
   setHeight(value: string | number, prop = 'height') {
-    if (isServer) return
+    if (!isClient) return
     const el = this.table.vnode.el
     value = parseHeight(value)
     this.height.value = Number(value)
@@ -199,7 +199,7 @@ class TableLayout<T> {
   }
 
   updateColumnsWidth() {
-    if (isServer) return
+    if (!isClient) return
     const fit = this.fit
     const bodyWidth = this.table.vnode.el.clientWidth
     let bodyMinWidth = 0

@@ -2,7 +2,8 @@ import { nextTick } from 'vue'
 import { NOOP } from '@vue/shared'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { makeMountFunc } from '@element-plus/test-utils/make-mount'
-import { CircleClose } from '@element-plus/icons'
+import { rAF } from '@element-plus/test-utils/tick'
+import { CircleClose } from '@element-plus/icons-vue'
 import { hasClass } from '@element-plus/utils/dom'
 import Select from '../src/select.vue'
 
@@ -657,6 +658,7 @@ describe('Select', () => {
       const selectVm = select.vm as any
       selectVm.expanded = true
       await nextTick()
+      await rAF()
       const vm = wrapper.vm as any
       const input = wrapper.find('input')
       // create a new option
@@ -669,8 +671,10 @@ describe('Select', () => {
       expect(vm.value).toBe('1111')
       selectVm.expanded = false
       await nextTick()
+      await rAF()
       selectVm.expanded = true
       await nextTick()
+      await rAF()
       expect(selectVm.filteredOptions.length).toBe(4)
       selectVm.handleClear()
       expect(selectVm.filteredOptions.length).toBe(3)
@@ -747,7 +751,14 @@ describe('Select', () => {
       },
     })
     await nextTick()
-    expect(wrapper.find('.empty-slot').exists()).toBeTruthy()
+    expect(
+      wrapper
+        .findComponent({
+          name: 'ElPopperContent',
+        })
+        .find('.empty-slot')
+        .exists()
+    ).toBeTruthy()
   })
 
   it('should set placeholder to label of selected option when filterable is true and multiple is false', async () => {
@@ -861,7 +872,13 @@ describe('Select', () => {
       },
     })
     await nextTick()
-    expect(wrapper.findAll('.custom-renderer').length).toBeGreaterThan(0)
+    expect(
+      wrapper
+        .findComponent({
+          name: 'ElPopperContent',
+        })
+        .findAll('.custom-renderer').length
+    ).toBeGreaterThan(0)
   })
 
   it('tag of disabled option is not closable', async () => {

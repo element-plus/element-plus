@@ -95,7 +95,7 @@
     color: var(--el-text-color-regular);
 
     &:hover:not(.disabled):not(.active) {
-      background: $background-color-base;
+      background: var(--el-bg-color);
       cursor: pointer;
     }
 

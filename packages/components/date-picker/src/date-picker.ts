@@ -1,4 +1,4 @@
-import { defineComponent, h, provide, ref } from 'vue'
+import { defineComponent, h, provide, ref, renderSlot } from 'vue'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
@@ -58,8 +58,8 @@ export default defineComponent({
     const commonPicker = ref(null)
     const refProps = {
       ...props,
-      focus: () => {
-        commonPicker.value?.handleFocus()
+      focus: (focusStartInput = true) => {
+        commonPicker.value?.focus(focusStartInput)
       },
     }
     ctx.expose(refProps)
@@ -81,6 +81,7 @@ export default defineComponent({
         },
         {
           default: (scopedProps) => h(getPanel(props.type), scopedProps),
+          'range-separator': () => renderSlot(ctx.slots, 'range-separator'),
         }
       )
     }

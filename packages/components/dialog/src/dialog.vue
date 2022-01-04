@@ -49,7 +49,9 @@
                 type="button"
                 @click="handleClose"
               >
-                <el-icon class="el-dialog__close"><close /> </el-icon>
+                <el-icon class="el-dialog__close">
+                  <component :is="closeIcon || 'close'" />
+                </el-icon>
               </button>
             </div>
             <template v-if="rendered">

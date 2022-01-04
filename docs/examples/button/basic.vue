@@ -1,5 +1,5 @@
 <template>
-  <el-row>
+  <el-row class="mb-4">
     <el-button>Default</el-button>
     <el-button type="primary">Primary</el-button>
     <el-button type="success">Success</el-button>
@@ -9,7 +9,7 @@
     <el-button>中文</el-button>
   </el-row>
 
-  <el-row>
+  <el-row class="mb-4">
     <el-button plain>Plain</el-button>
     <el-button type="primary" plain>Primary</el-button>
     <el-button type="success" plain>Success</el-button>
@@ -18,7 +18,7 @@
     <el-button type="danger" plain>Danger</el-button>
   </el-row>
 
-  <el-row>
+  <el-row class="mb-4">
     <el-button round>Round</el-button>
     <el-button type="primary" round>Primary</el-button>
     <el-button type="success" round>Success</el-button>
@@ -36,6 +36,25 @@
     <el-button type="danger" :icon="Delete" circle></el-button>
   </el-row>
 </template>
-<script setup lang="ts">
-import { Search, Edit, Check, Message, Star, Delete } from '@element-plus/icons'
+
+<script lang="ts" setup>
+import {
+  Search,
+  Edit,
+  Check,
+  Message,
+  Star,
+  Delete,
+} from '@element-plus/icons-vue'
 </script>
+
+<style>
+:root {
+  --el-color-primary: #409eff;
+  --el-color-success: #67c23a;
+  --el-color-warning: #e6a23c;
+  --el-color-danger: #f56c6c;
+  --el-color-error: #f56c6c;
+  --el-color-info: #909399;
+}
+</style>

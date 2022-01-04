@@ -104,7 +104,7 @@ $border-color: map.merge(
 
 // Background
 /// color|1|Background Color|4
-$background-color-base: #f5f7fa !default;
+$bg-color: #f5f7fa !default;
 
 // Border
 $border-width-base: 1px !default;
@@ -156,11 +156,21 @@ $font-size: map.merge(
 $disabled: () !default;
 $disabled: map.merge(
   (
-    'bg-color': var(--el-bg-color-base),
+    'bg-color': var(--el-bg-color),
     'text-color': var(--el-text-color-placeholder),
     'border-color': var(--el-border-color-light),
   ),
   $disabled
+);
+
+$common-component-size: () !default;
+$common-component-size: map.merge(
+  (
+    'large': 40px,
+    'default': 32px,
+    'small': 24px,
+  ),
+  $common-component-size
 );
 
 // Checkbox
@@ -201,6 +211,26 @@ $checkbox-button: map.merge(
   $checkbox-button
 );
 
+$checkbox-bordered-padding-left: () !default;
+$checkbox-bordered-padding-left: map.merge(
+  (
+    'large': 12px,
+    'default': 10px,
+    'small': 8px,
+  ),
+  $checkbox-bordered-padding-left
+);
+
+$checkbox-bordered-padding-right: () !default;
+$checkbox-bordered-padding-right: map.merge(
+  (
+    'large': 20px,
+    'default': 16px,
+    'small': 12px,
+  ),
+  $checkbox-bordered-padding-right
+);
+
 // Radio
 /// fontSize||Font|1
 $radio: () !default;
@@ -221,15 +251,7 @@ $radio: map.merge(
 );
 
 $radio-height: () !default;
-$radio-height: map.merge(
-  (
-    'default': 40px,
-    'medium': 36px,
-    'small': 32px,
-    'mini': 28px,
-  ),
-  $radio-height
-);
+$radio-height: map.merge($common-component-size, $radio-height);
 
 $radio-button: () !default;
 $radio-button: map.merge(
@@ -265,23 +287,12 @@ $radio-checked: map.merge(
   $radio-checked
 );
 
-$radio-bordered-padding: () !default;
-$radio-bordered-padding: map.merge(
-  (
-    'default': 0 20px 0 10px,
-    'medium': 0 20px 0 10px,
-    'small': 0 15px 0 10px,
-    'mini': 0 15px 0 10px,
-  ),
-  $radio-bordered-padding
-);
-
 $radio-bordered-input-height: () !default;
 $radio-bordered-input-height: map.merge(
   (
-    'medium': 14px,
+    'large': 14px,
+    'default': 12px,
     'small': 12px,
-    'mini': 12px,
   ),
   $radio-bordered-input-height
 );
@@ -289,9 +300,9 @@ $radio-bordered-input-height: map.merge(
 $radio-bordered-input-width: () !default;
 $radio-bordered-input-width: map.merge(
   (
-    'medium': 14px,
+    'large': 14px,
+    'default': 12px,
     'small': 12px,
-    'mini': 12px,
   ),
   $radio-bordered-input-width
 );
@@ -318,7 +329,7 @@ $select-option: map.merge(
     'text-color': var(--el-text-color-regular),
     'disabled-color': var(--el-text-color-placeholder),
     'height': 34px,
-    'hover-background': var(--el-bg-color-base),
+    'hover-background': var(--el-bg-color),
     'selected-text-color': var(--el-color-primary),
   ),
   $select-option
@@ -455,43 +466,37 @@ $input-disabled: map.merge(
 $input-font-size: () !default;
 $input-font-size: map.merge(
   (
-    'default': var(--el-font-size-base, map.get($font-size, 'base')),
-    'medium': 14px,
-    'small': 13px,
-    'mini': 12px,
+    'large': 14px,
+    'default': 14px,
+    'small': 12px,
   ),
   $input-font-size
 );
 
 $input-height: () !default;
-$input-height: map.merge(
-  (
-    'default': 40px,
-    'medium': 36px,
-    'small': 32px,
-    'mini': 28px,
-  ),
-  $input-height
-);
+$input-height: map.merge($common-component-size, $input-height);
 
 $input-line-height: () !default;
-$input-line-height: map.merge(
-  (
-    'medium': 28px,
-    'small': 24px,
-    'mini': 20px,
-  ),
-  $input-line-height
-);
+$input-line-height: map.merge($common-component-size, $input-line-height);
 
 $input-number-width: () !default;
 $input-number-width: map.merge(
   (
-    'medium': 200px,
-    'small': 130px,
-    'mini': 130px,
+    'large': 180px,
+    'default': 150px,
+    'small': 120px,
   ),
   $input-number-width
+);
+
+$input-padding-horizontal: () !default;
+$input-padding-horizontal: map.merge(
+  (
+    'large': 16px,
+    'default': 12px,
+    'small': 8px,
+  ),
+  $input-padding-horizontal
 );
 
 // Cascader
@@ -506,7 +511,7 @@ $cascader: map.merge(
     'menu-radius': var(--el-border-radius-base),
     'menu-border': solid 1px var(--el-border-color-light),
     'menu-shadow': var(--el-box-shadow-light),
-    'node-background-hover': var(--el-bg-color-base),
+    'node-background-hover': var(--el-bg-color),
     'node-color-disabled': var(--el-text-color-placeholder),
     'color-empty': var(--el-text-color-placeholder),
     'tag-background': #f0f2f5,
@@ -527,7 +532,7 @@ $button: map.merge(
     'disabled-bg-color': var(--el-color-white),
     'disabled-border-color': var(--el-border-color-light),
     'divide-border-color': rgba($color-white, 0.5),
-    'hover-text-color': var(--el-color-white),
+    'hover-text-color': var(--el-color-primary),
     'hover-bg-color': var(--el-color-primary-light-9),
     'hover-border-color': var(--el-color-primary-light-7),
     'active-text-color': var(--el-button-hover-text-color),
@@ -536,6 +541,8 @@ $button: map.merge(
   ),
   $button
 );
+
+$button-border-width: $border-width-base !default;
 
 // need mix, so do not use css var
 $button-hover-tint-percent: 20%;
@@ -564,10 +571,9 @@ $button-text-color: () !default;
 $button-font-size: () !default;
 $button-font-size: map.merge(
   (
+    'large': var(--el-font-size-base, map.get($font-size, 'base')),
     'default': var(--el-font-size-base, map.get($font-size, 'base')),
-    'medium': var(--el-font-size-base, map.get($font-size, 'base')),
     'small': 12px,
-    'mini': 12px,
   ),
   $button-font-size
 );
@@ -575,10 +581,9 @@ $button-font-size: map.merge(
 $button-border-radius: () !default;
 $button-border-radius: map.merge(
   (
+    'large': var(--el-border-radius-base),
     'default': var(--el-border-radius-base),
-    'medium': var(--el-border-radius-base),
     'small': calc(var(--el-border-radius-base) - 1px),
-    'mini': calc(var(--el-border-radius-base) - 1px),
   ),
   $button-border-radius
 );
@@ -586,10 +591,9 @@ $button-border-radius: map.merge(
 $button-padding-vertical: () !default;
 $button-padding-vertical: map.merge(
   (
-    'default': 12px,
-    'medium': 10px,
-    'small': 9px,
-    'mini': 7px,
+    'large': 13px,
+    'default': 9px,
+    'small': 6px,
   ),
   $button-padding-vertical
 );
@@ -597,10 +601,9 @@ $button-padding-vertical: map.merge(
 $button-padding-horizontal: () !default;
 $button-padding-horizontal: map.merge(
   (
-    'default': 20px,
-    'medium': 20px,
-    'small': 15px,
-    'mini': 15px,
+    'large': 20px,
+    'default': 16px,
+    'small': 12px,
   ),
   $button-padding-horizontal
 );
@@ -647,7 +650,7 @@ $table: map.merge(
     'border': 1px solid var(--el-table-border-color),
     'text-color': var(--el-text-color-regular),
     'header-text-color': var(--el-text-color-secondary),
-    'row-hover-bg-color': var(--el-bg-color-base),
+    'row-hover-bg-color': var(--el-bg-color),
     'current-row-bg-color': var(--el-color-primary-light-9),
     'header-bg-color': var(--el-color-white),
     'fixed-box-shadow': 0 0 10px rgba(0, 0, 0, 0.12),
@@ -656,6 +659,36 @@ $table: map.merge(
     'expanded-cell-bg-color': var(--el-color-white),
   ),
   $table
+);
+
+$table-font-size: () !default;
+$table-font-size: map.merge(
+  (
+    'large': var(--el-font-size-base, map.get($font-size, 'base')),
+    'default': 14px,
+    'small': 12px,
+  ),
+  $table-font-size
+);
+
+$table-padding: () !default;
+$table-padding: map.merge(
+  (
+    'large': 12px 0,
+    'default': 8px 0,
+    'small': 4px 0,
+  ),
+  $table-padding
+);
+
+$table-cell-padding: () !default;
+$table-cell-padding: map.merge(
+  (
+    'large': 0 16px,
+    'default': 0 12px,
+    'small': 0 8px,
+  ),
+  $table-cell-padding
 );
 
 // Pagination
@@ -748,7 +781,6 @@ $tag: map.merge(
   (
     'font-size': 12px,
     'border-radius': 4px,
-    'padding': 0 10px,
   ),
   $tag
 );
@@ -758,12 +790,31 @@ $tag-color: () !default;
 $tag-height: () !default;
 $tag-height: map.merge(
   (
-    'default': 32px,
-    'medium': 28px,
-    'small': 24px,
-    'mini': 20px,
+    'large': 32px,
+    'default': 24px,
+    'small': 20px,
   ),
   $tag-height
+);
+
+$tag-padding: () !default;
+$tag-padding: map.merge(
+  (
+    'large': 12px,
+    'default': 10px,
+    'small': 8px,
+  ),
+  $tag-padding
+);
+
+$tag-icon-size: () !default;
+$tag-icon-size: map.merge(
+  (
+    'large': 14px,
+    'default': 14px,
+    'small': 12px,
+  ),
+  $tag-icon-size
 );
 
 @each $type in $types {
@@ -780,7 +831,7 @@ $tag-height: map.merge(
 $tree: () !default;
 $tree: map.merge(
   (
-    'node-hover-bg-color': var(--el-bg-color-base),
+    'node-hover-bg-color': var(--el-bg-color),
     'text-color': var(--el-text-color-regular),
     'expand-icon-color': var(--el-text-color-placeholder),
   ),
@@ -874,6 +925,7 @@ $menu: map.merge(
     'hover-text-color': var(--el-text-color-primary),
     'bg-color': var(--el-color-white),
     'hover-bg-color': var(--el-color-primary-light-9),
+    'item-height': 56px,
     'item-font-size': var(--el-font-size-base),
     'item-hover-fill': var(--el-color-primary-light-9),
     'border-color': #e6e6e6,
@@ -992,7 +1044,7 @@ $transfer: map.merge(
     'border-radius': var(--el-border-radius-base),
     'panel-width': 200px,
     'panel-header-height': 40px,
-    'panel-header-bg-color': var(--el-bg-color-base),
+    'panel-header-bg-color': var(--el-bg-color),
     'panel-footer-height': 40px,
     'panel-body-height': 246px,
     'item-height': 30px,
@@ -1081,14 +1133,21 @@ $avatar: map.merge(
   (
     'text-color': #fff,
     'bg-color': #c0c4cc,
-    'text-font-size': 14px,
-    'icon-font-size': 18px,
+    'text-size': 14px,
+    'icon-size': 18px,
     'border-radius': var(--el-border-radius-base),
-    'large-size': 40px,
-    'medium-size': 36px,
-    'small-size': 28px,
   ),
   $avatar
+);
+
+$avatar-size: () !default;
+$avatar-size: map.merge(
+  (
+    'large': 56px,
+    'default': 40px,
+    'small': 24px,
+  ),
+  $avatar-size
 );
 
 // Empty
@@ -1111,10 +1170,8 @@ $empty: map.merge(
 $descriptions: () !default;
 $descriptions: map.merge(
   (
-    'header-margin-bottom': 20px,
-    'title-font-size': 16px,
     'table-border': 1px solid var(--el-border-color-lighter),
-    'item-bordered-label-background': #fafafa,
+    'item-bordered-label-background': #f5f7fa,
   ),
   $descriptions
 );

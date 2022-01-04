@@ -14,23 +14,29 @@ export default defineComponent({
     const picker = inject(ROOT_PICKER_INJECTION_KEY)
     return () => {
       const cell = props.cell
-      return picker?.ctx.slots.default
-        ? picker.ctx.slots.default(cell)
-        : h(
-            'div',
+      if (picker?.ctx.slots.default) {
+        const list = picker.ctx.slots.default(cell).filter((item) => {
+          return item.type.toString() !== 'Symbol(Comment)'
+        })
+        if (list.length) {
+          return list
+        }
+      }
+      return h(
+        'div',
+        {
+          class: 'el-date-table-cell',
+        },
+        [
+          h(
+            'span',
             {
-              class: 'el-date-table-cell',
+              class: 'el-date-table-cell__text',
             },
-            [
-              h(
-                'span',
-                {
-                  class: 'el-date-table-cell__text',
-                },
-                [cell?.text]
-              ),
-            ]
-          )
+            [cell?.text]
+          ),
+        ]
+      )
     }
   },
 })

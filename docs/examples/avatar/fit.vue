@@ -6,19 +6,13 @@
     </div>
   </div>
 </template>
-<script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+<script lang="ts" setup>
+import { reactive, toRefs } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const state = reactive({
-      fits: ['fill', 'contain', 'cover', 'none', 'scale-down'],
-      url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
-    })
-
-    return {
-      ...toRefs(state),
-    }
-  },
+const state = reactive({
+  fits: ['fill', 'contain', 'cover', 'none', 'scale-down'],
+  url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
 })
+
+const { fits, url } = toRefs(state)
 </script>

@@ -33,7 +33,7 @@
 import { defineComponent, computed, ref } from 'vue'
 import ElSelect from '@element-plus/components/select'
 import ElIcon from '@element-plus/components/icon'
-import { CircleClose, Clock } from '@element-plus/icons'
+import { CircleClose, Clock } from '@element-plus/icons-vue'
 
 import type { PropType, Component } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'
@@ -109,9 +109,9 @@ export default defineComponent({
     },
     size: {
       type: String as PropType<ComponentSize>,
-      default: '',
+      default: 'default',
       validator: (value: string) =>
-        !value || ['medium', 'small', 'mini'].indexOf(value) !== -1,
+        !value || ['large', 'default', 'small'].indexOf(value) !== -1,
     },
     placeholder: {
       type: String,

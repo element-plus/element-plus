@@ -42,16 +42,10 @@
   </el-space>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 import dayjs from 'dayjs'
 
-export default defineComponent({
-  data() {
-    return {
-      loading: true,
-      currentDate: dayjs().format('YYYY-MM-DD'),
-    }
-  },
-})
+const loading = ref(true)
+const currentDate = dayjs().format('YYYY-MM-DD')
 </script>
