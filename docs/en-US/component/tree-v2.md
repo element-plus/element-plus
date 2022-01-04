@@ -100,32 +100,32 @@ tree-v2/filter
 `Tree` has the following method, which returns the currently selected array of nodes.
 | Method | Description | Parameters |
 | --------------- | ---------------------------------------- | ---------------------------------------- |
-| filter | filter all tree nodes, filtered nodes will be hidden | (query: string) |
-| getCheckedNodes | If the node can be selected (`show-checkbox` is `true`), it returns the currently selected array of nodes | (leafOnly: boolean) |
-| getCheckedKeys | If the node can be selected (`show-checkbox` is `true`), it returns the currently selected array of node's keys | (leafOnly: boolean) |
-| setCheckedKeys | set certain nodes to be checked | (keys: TreeKey[]) |
-| setChecked | set node to be checked or not | (key: TreeKey, checked: boolean) |
+| filter | filter all tree nodes, filtered nodes will be hidden | `(query: string)` |
+| getCheckedNodes | If the node can be selected (`show-checkbox` is `true`), it returns the currently selected array of nodes | `(leafOnly: boolean)` |
+| getCheckedKeys | If the node can be selected (`show-checkbox` is `true`), it returns the currently selected array of node's keys | `(leafOnly: boolean)` |
+| setCheckedKeys | set certain nodes to be checked | `(keys: TreeKey[])` |
+| setChecked | set node to be checked or not | `(key: TreeKey, checked: boolean)` |
 | getHalfCheckedNodes | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of nodes | - |
 | getHalfCheckedKeys | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of node's keys | - |
-| getCurrentKey | return the highlight node's key (undefined if no node is highlighted) | — |
-| getCurrentNode | return the highlight node's data (undefined if no node is highlighted) | — |
-| setCurrentKey | set highlighted node by key | (key: TreeKey) |
-| setData | When the data is very large, using reactive data will cause the poor performance, so we provide a way to avoid this situation | (data: TreeData) |
+| getCurrentKey | return the highlight node's key (undefined if no node is highlighted) | - |
+| getCurrentNode | return the highlight node's data (undefined if no node is highlighted) | - |
+| setCurrentKey | set highlighted node by key | `(key: TreeKey)` |
+| setData | When the data is very large, using reactive data will cause the poor performance, so we provide a way to avoid this situation | `(data: TreeData)` |
 
 ## Events
 
-| Event Name       | Description                                          | Parameters                                                                                                                            |
-| ---------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| node-click       | triggers when a node is clicked                      | (data: TreeNodeData, node: TreeNode)                                                                                                  |
-| node-contextmenu | triggers when a node is clicked by right button      | (e: Event, data: TreeNodeData, node: TreeNode)                                                                                        |
-| check-change     | triggers when the selected state of the node changes | (data: TreeNodeData, checked: boolean)                                                                                                |
-| check            | triggers after clicking the checkbox of a node       | (data: TreeNodeData, info: { checkedKeys: TreeKey[],checkedNodes: TreeData, halfCheckedKeys: TreeKey[], halfCheckedNodes: TreeData,}) |
-| current-change   | triggers when current node changes                   | (data: TreeNodeData, node: TreeNode)                                                                                                  |
-| node-expand      | triggers when current node open                      | (data: TreeNodeData, node: TreeNode)                                                                                                  |
-| node-collapse    | triggers when current node close                     | (data: TreeNodeData, node: TreeNode)                                                                                                  |
+| Event Name       | Description                                          | Parameters                                                                                                                              |
+| ---------------- | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| node-click       | triggers when a node is clicked                      | `(data: TreeNodeData, node: TreeNode)`                                                                                                  |
+| node-contextmenu | triggers when a node is clicked by right button      | `(e: Event, data: TreeNodeData, node: TreeNode)`                                                                                        |
+| check-change     | triggers when the selected state of the node changes | `(data: TreeNodeData, checked: boolean)`                                                                                                |
+| check            | triggers after clicking the checkbox of a node       | `(data: TreeNodeData, info: { checkedKeys: TreeKey[],checkedNodes: TreeData, halfCheckedKeys: TreeKey[], halfCheckedNodes: TreeData,})` |
+| current-change   | triggers when current node changes                   | `(data: TreeNodeData, node: TreeNode)`                                                                                                  |
+| node-expand      | triggers when current node open                      | `(data: TreeNodeData, node: TreeNode)`                                                                                                  |
+| node-collapse    | triggers when current node close                     | `(data: TreeNodeData, node: TreeNode)`                                                                                                  |
 
 ## Slots
 
-| Name | Description                                                                                  |
-| ---- | -------------------------------------------------------------------------------------------- |
-| —    | Custom content for tree nodes. The scope parameter is { node: TreeNode, data: TreeNodeData } |
+| Name | Description                                                                                    |
+| ---- | ---------------------------------------------------------------------------------------------- |
+| -    | Custom content for tree nodes. The scope parameter is `{ node: TreeNode, data: TreeNodeData }` |
