@@ -1,34 +1,35 @@
 <template>
-  <el-popper
+  <el-tooltip
     ref="refPopper"
     v-model:visible="pickerVisible"
-    manual-mode
-    :effect="Effect.LIGHT"
+    effect="light"
     pure
     trigger="click"
     v-bind="$attrs"
+    append-to-body
+    transition="el-zoom-in-top"
     :popper-class="`el-picker__popper ${popperClass}`"
     :popper-options="elPopperOptions"
     :fallback-placements="['bottom', 'top', 'right', 'left']"
-    transition="el-zoom-in-top"
     :gpu-acceleration="false"
     :stop-popper-mouse-event="false"
-    append-to-body
-    @before-enter="pickerActualVisible = true"
-    @after-leave="pickerActualVisible = false"
+    :hide-after="0"
+    @show="pickerActualVisible = true"
+    @hide="pickerActualVisible = false"
   >
-    <template #trigger>
+    <template #default>
       <el-input
         v-if="!isRangeInput"
         :id="id"
-        v-clickoutside:[popperPaneRef]="onClickOutside"
+        ref="inputRef"
         :model-value="displayValue"
         :name="name"
         :size="pickerSize"
         :disabled="pickerDisabled"
         :placeholder="placeholder"
         class="el-date-editor"
-        :class="'el-date-editor--' + type"
+        :class="['el-date-editor--' + type, $attrs.class || undefined]"
+        :style="$attrs.style || undefined"
         :readonly="!editable || readonly || isDatesPicker || type === 'week'"
         @input="onUserInput"
         @focus="handleFocus"
@@ -36,6 +37,7 @@
         @change="handleChange"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
+        @click.stop
       >
         <template #prefix>
           <el-icon
@@ -58,7 +60,7 @@
       </el-input>
       <div
         v-else
-        v-clickoutside:[popperPaneRef]="onClickOutside"
+        ref="inputRef"
         class="el-date-editor el-range-editor el-input__inner"
         :class="[
           'el-date-editor--' + type,
@@ -119,7 +121,7 @@
         </el-icon>
       </div>
     </template>
-    <template #default>
+    <template #content>
       <slot
         :visible="pickerVisible"
         :actual-visible="pickerActualVisible"
@@ -135,7 +137,7 @@
         @mousedown.stop
       ></slot>
     </template>
-  </el-popper>
+  </el-tooltip>
 </template>
 <script lang="ts">
 import {
@@ -146,21 +148,23 @@ import {
   inject,
   watch,
   provide,
+  unref,
 } from 'vue'
 import dayjs from 'dayjs'
 import isEqual from 'lodash/isEqual'
+import { onClickOutside } from '@vueuse/core'
 import { useLocale, useSize } from '@element-plus/hooks'
-import { ClickOutside } from '@element-plus/directives'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
-import ElPopper, { Effect } from '@element-plus/components/popper'
+import ElTooltip from '@element-plus/components/tooltip'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { isEmpty } from '@element-plus/utils/util'
 import { Clock, Calendar } from '@element-plus/icons-vue'
 import { timePickerDefaultProps } from './props'
 
 import type { Dayjs } from 'dayjs'
+import type { ComponentPublicInstance } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 import type { Options } from '@popperjs/core'
 
@@ -222,10 +226,9 @@ export default defineComponent({
   name: 'Picker',
   components: {
     ElInput,
-    ElPopper,
+    ElTooltip,
     ElIcon,
   },
-  directives: { clickoutside: ClickOutside },
   props: timePickerDefaultProps,
   emits: ['update:modelValue', 'change', 'focus', 'blur', 'calendar-change'],
   setup(props, ctx) {
@@ -235,7 +238,8 @@ export default defineComponent({
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
     const elPopperOptions = inject('ElPopperOptions', {} as Options)
 
-    const refPopper = ref(null)
+    const refPopper = ref<InstanceType<typeof ElTooltip>>()
+    const inputRef = ref<HTMLElement | ComponentPublicInstance>()
     const pickerVisible = ref(false)
     const pickerActualVisible = ref(false)
     const valueOnOpen = ref(null)
@@ -274,11 +278,11 @@ export default defineComponent({
       }
     }
     const refInput = computed<HTMLInputElement[]>(() => {
-      if (refPopper.value.triggerRef) {
+      if (inputRef.value) {
         const _r = isRangeInput.value
-          ? refPopper.value.triggerRef
-          : refPopper.value.triggerRef.$el
-        return [].slice.call(_r.querySelectorAll('input'))
+          ? inputRef.value
+          : (inputRef.value as any as ComponentPublicInstance).$el
+        return Array.from<HTMLInputElement>(_r.querySelectorAll('input'))
       }
       return []
     })
@@ -329,7 +333,7 @@ export default defineComponent({
     }
 
     const handleBlur = () => {
-      pickerVisible.value = false
+      refPopper.value?.onClose()
       blurInput()
     }
 
@@ -437,13 +441,31 @@ export default defineComponent({
     const pickerSize = useSize()
 
     const popperPaneRef = computed(() => {
-      return refPopper.value?.popperRef
+      return refPopper.value?.popperRef?.contentRef
     })
 
-    const onClickOutside = () => {
-      if (!pickerVisible.value) return
+    const popperEl = computed(() => unref(refPopper)?.popperRef?.contentRef)
+    const actualInputRef = computed(() => {
+      if (unref(isRangeInput)) {
+        return unref(inputRef)
+      }
+
+      return (unref(inputRef) as ComponentPublicInstance)?.$el
+    })
+
+    onClickOutside(actualInputRef, (e: PointerEvent) => {
+      const unrefedPopperEl = unref(popperEl)
+      const inputEl = unref(actualInputRef)
+      if (
+        (unrefedPopperEl &&
+          (e.target === unrefedPopperEl ||
+            e.composedPath().includes(unrefedPopperEl))) ||
+        e.target === inputEl ||
+        e.composedPath().includes(inputEl)
+      )
+        return
       pickerVisible.value = false
-    }
+    })
 
     const userInput = ref(null)
 
@@ -596,8 +618,6 @@ export default defineComponent({
     })
 
     return {
-      Effect,
-
       // injected popper options
       elPopperOptions,
 
@@ -627,6 +647,7 @@ export default defineComponent({
       parsedValue,
       setSelectionRange,
       refPopper,
+      inputRef,
       pickerDisabled,
       onSetPickerOption,
       onCalendarChange,

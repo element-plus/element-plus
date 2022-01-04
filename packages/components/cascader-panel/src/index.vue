@@ -287,6 +287,7 @@ export default defineComponent({
       switch (code) {
         case EVENT_CODE.up:
         case EVENT_CODE.down: {
+          e.preventDefault()
           const distance = code === EVENT_CODE.up ? -1 : 1
           focusNode(
             getSibling(target, distance, '.el-cascader-node[tabindex="-1"]')
@@ -294,6 +295,7 @@ export default defineComponent({
           break
         }
         case EVENT_CODE.left: {
+          e.preventDefault()
           const preMenu = menuList.value[getMenuIndex(target) - 1]
           const expandedNode = preMenu?.$el.querySelector(
             '.el-cascader-node[aria-expanded="true"]'
@@ -302,6 +304,7 @@ export default defineComponent({
           break
         }
         case EVENT_CODE.right: {
+          e.preventDefault()
           const nextMenu = menuList.value[getMenuIndex(target) + 1]
           const firstNode = nextMenu?.$el.querySelector(
             '.el-cascader-node[tabindex="-1"]'

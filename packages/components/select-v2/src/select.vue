@@ -8,7 +8,7 @@
     @mouseenter="states.comboBoxHovering = true"
     @mouseleave="states.comboBoxHovering = false"
   >
-    <el-popper
+    <el-tooltip
       ref="popper"
       v-model:visible="dropdownMenuVisible"
       :append-to-body="popperAppendToBody"
@@ -17,16 +17,15 @@
       :stop-popper-mouse-event="false"
       :popper-options="popperOptions"
       :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
-      :effect="Effect.LIGHT"
-      manual-mode
+      effect="light"
       placement="bottom-start"
       pure
       transition="el-zoom-in-top"
       trigger="click"
-      @before-enter="handleMenuEnter"
-      @after-leave="states.inputValue = states.displayInputValue"
+      @show="handleMenuEnter"
+      @hide="states.inputValue = states.displayInputValue"
     >
-      <template #trigger>
+      <template #default>
         <div
           ref="selectionRef"
           class="el-select-v2__wrapper"
@@ -227,7 +226,7 @@
           </span>
         </div>
       </template>
-      <template #default>
+      <template #content>
         <el-select-menu
           ref="menuRef"
           :data="filteredOptions"
@@ -247,14 +246,14 @@
           </template>
         </el-select-menu>
       </template>
-    </el-popper>
+    </el-tooltip>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, provide, toRefs, reactive, vModelText } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
-import ElPopper from '@element-plus/components/popper'
+import ElTooltip from '@element-plus/components/tooltip'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
@@ -267,7 +266,7 @@ export default defineComponent({
   components: {
     ElSelectMenu,
     ElTag,
-    ElPopper,
+    ElTooltip,
     ElIcon,
   },
   directives: { ClickOutside, ModelText: vModelText },
