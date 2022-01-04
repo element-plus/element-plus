@@ -144,7 +144,7 @@ describe('DatePicker', () => {
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    ;(document.querySelector('td.available') as HTMLElement).click()
+    document.querySelector<HTMLElement>('td.available').click()
     await nextTick()
     const vm = wrapper.vm as any
     expect(vm.value).toBeDefined()
