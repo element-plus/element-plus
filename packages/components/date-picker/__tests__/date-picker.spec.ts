@@ -154,14 +154,14 @@ describe('DatePicker', () => {
     const picker = wrapper.findComponent(CommonPicker)
     ;(picker.vm as any).showClose = true
     await nextTick()
-    ;(document.querySelector('.clear-icon') as HTMLElement).click()
+    document.querySelector<HTMLElement>('.clear-icon').click()
     expect(vm.value).toBeNull()
 
     vm.defaultValue = new Date(2031, 5, 1)
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    ;(document.querySelector('td.available') as HTMLElement).click()
+    document.querySelector<HTMLElement>('td.available').click()
     await nextTick()
     expect(vm.value).toBeDefined()
     expect(vm.value.getFullYear()).toBe(2031)
