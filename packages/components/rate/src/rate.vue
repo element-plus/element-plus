@@ -95,10 +95,7 @@ export default defineComponent({
     const pointerAtLeftHalf = ref(true)
 
     const prefix = 'el-rate'
-    const rateKls = computed(() => [
-      prefix,
-      rateSize.value ? `${prefix}--${rateSize.value}` : '',
-    ])
+    const rateKls = computed(() => [prefix, `${prefix}--${rateSize.value}`])
 
     const rateDisabled = computed(() => props.disabled || elForm.disabled)
     const text = computed(() => {
