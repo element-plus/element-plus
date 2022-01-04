@@ -2,6 +2,7 @@ import { computed, getCurrentInstance, inject, provide, ref, unref } from 'vue'
 import get from 'lodash/get'
 import English from '@element-plus/locale/lang/en'
 import { buildProps, definePropType } from '@element-plus/utils/props'
+import { useGlobalConfig } from '@element-plus/hooks'
 import type { MaybeRef } from '@vueuse/core'
 import type { InjectionKey, Ref } from 'vue'
 import type { Language } from '@element-plus/locale'
@@ -71,7 +72,7 @@ export const translate = (
     (_, key) => `${option?.[key] ?? `{${key}}`}`
   )
 
-export const localeProviderMaker = (locale = English) => {
+export const localeProviderMaker = (locale: Language = English) => {
   const lang = ref(locale.name)
   const localeRef = ref(locale)
   return {
@@ -82,5 +83,9 @@ export const localeProviderMaker = (locale = English) => {
 }
 
 export const useLocale = () => {
-  return inject(localeContextKey, cache || localeProviderMaker(English))
+  const locale = useGlobalConfig('locale').value
+  return inject(
+    localeContextKey,
+    cache || localeProviderMaker(locale || English)
+  )
 }
