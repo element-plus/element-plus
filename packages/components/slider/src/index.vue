@@ -236,7 +236,7 @@ export default defineComponent({
     const prefix = 'el-slider'
     const sliderKls = computed(() => [
       prefix,
-      sliderWrapperSize.value ? `${prefix}--${sliderWrapperSize.value}` : '',
+      `${prefix}--${sliderWrapperSize.value}`,
       props.vertical ? 'is-vertical' : '',
       props.showInput ? 'el-slider--with-input' : '',
     ])
