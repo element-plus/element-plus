@@ -128,7 +128,7 @@ export default defineComponent({
     const prefix = 'el-switch'
     const switchKls = computed(() => [
       prefix,
-      switchSize.value ? `${prefix}--${switchSize.value}` : '',
+      `${prefix}--${switchSize.value}`,
       switchDisabled.value ? 'is-disabled' : '',
       checked.value ? 'is-checked' : '',
     ])
