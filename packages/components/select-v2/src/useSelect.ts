@@ -647,6 +647,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       if ((props.modelValue as Array<any>).length > 0) {
         let initHovering = false
         states.cachedOptions.length = 0
+        states.previousValue = props.modelValue.toString()
         ;(props.modelValue as Array<any>).map((selected) => {
           const itemIndex = filteredOptions.value.findIndex(
             (option) => getValueKey(option) === selected
@@ -663,6 +664,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         })
       } else {
         states.cachedOptions = []
+        states.previousValue = ''
       }
     } else {
       if (hasModelValue.value) {
