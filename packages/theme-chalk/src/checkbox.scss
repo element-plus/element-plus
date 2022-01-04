@@ -40,13 +40,6 @@ $checkbox-bordered-input-width: map.merge(
   white-space: nowrap;
   user-select: none;
   margin-right: 30px;
-  height: map.get($checkbox-height, 'default');
-
-  @each $size in (large, small) {
-    &.#{$namespace}-checkbox--#{$size} {
-      height: map.get($checkbox-height, $size);
-    }
-  }
 
   @include when(bordered) {
     padding: 0 map.get($checkbox-bordered-padding-right, 'default')-$border-width-base
@@ -54,6 +47,13 @@ $checkbox-bordered-input-width: map.merge(
     border-radius: var(--el-border-radius-base);
     border: var(--el-border-base);
     box-sizing: border-box;
+    height: map.get($checkbox-height, 'default');
+
+    @each $size in (large, small) {
+      &.#{$namespace}-checkbox--#{$size} {
+        height: map.get($checkbox-height, $size);
+      }
+    }
 
     &.is-checked {
       border-color: var(--el-color-primary);
@@ -236,7 +236,6 @@ $checkbox-bordered-input-width: map.merge(
   @include e(label) {
     display: inline-block;
     padding-left: 8px;
-    line-height: 1;
     font-size: var(--el-checkbox-font-size);
   }
 

@@ -118,12 +118,16 @@ function useRender<T>(
           children = originRenderCell(data)
         }
         const prefix = treeCellPrefix(data)
+        const classes = {
+          cell: true,
+          'is-selection': column.type === 'selection',
+          'el-tooltip': column.showOverflowTooltip,
+        }
         const props = {
-          class: 'cell',
+          class: classes,
           style: {},
         }
         if (column.showOverflowTooltip) {
-          props.class += ' el-tooltip'
           props.style = {
             width: `${
               (data.column.realWidth || Number(data.column.width)) - 1

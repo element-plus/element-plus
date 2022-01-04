@@ -161,6 +161,11 @@
       white-space: nowrap;
       min-width: 50px;
     }
+
+    @include when(selection) {
+      display: flex;
+      align-items: center;
+    }
   }
 
   @each $size in (large, small) {
@@ -203,6 +208,11 @@
       position: relative;
       vertical-align: middle;
       width: 100%;
+
+      @include when(selection) {
+        display: flex;
+        align-items: center;
+      }
 
       &.highlight {
         color: var(--el-color-primary);

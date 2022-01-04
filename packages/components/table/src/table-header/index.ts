@@ -185,6 +185,7 @@ export default defineComponent({
                             ? 'highlight'
                             : '',
                           column.labelClassName,
+                          column.type === 'selection' ? 'is-selection' : '',
                         ],
                       },
                       [
