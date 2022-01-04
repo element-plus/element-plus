@@ -1,4 +1,4 @@
-import { defineComponent, renderSlot } from 'vue'
+import { defineComponent, renderSlot, watch } from 'vue'
 import { buildProps, definePropType } from '@element-plus/utils/props'
 import {
   useLocaleProps,
@@ -37,7 +37,13 @@ export default defineComponent({
 
   setup(props, { slots }) {
     provideLocale()
-    Object.assign(messageConfig, props.message || {})
+    watch(
+      () => props.message,
+      (val) => {
+        Object.assign(messageConfig, val ?? {})
+      },
+      { immediate: true, deep: true }
+    )
     const config = provideGlobalConfig(props)
     return () => renderSlot(slots, 'default', { config: config?.value })
   },

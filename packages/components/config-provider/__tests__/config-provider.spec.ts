@@ -121,7 +121,7 @@ describe('config-provider', () => {
     })
   })
 
-  describe('button-config', () => {
+  describe('message-config', () => {
     it('limit the number of messages displayed at the same time', async () => {
       const wrapper = mount({
         components: {
@@ -141,7 +141,7 @@ describe('config-provider', () => {
           }
         },
         template: `
-          <el-config-provider :button="config">
+          <el-config-provider :message="config">
             <el-button @click="open">open</el-button>
           </el-config-provider>
         `,
@@ -151,7 +151,17 @@ describe('config-provider', () => {
       wrapper.find('.el-button').trigger('click')
       wrapper.find('.el-button').trigger('click')
       wrapper.find('.el-button').trigger('click')
-      expect(document.querySelectorAll('.el-message').length).toBe(4)
+      await nextTick()
+      expect(document.querySelectorAll('.el-message').length).toBe(3)
+
+      wrapper.vm.config.max = 10
+      await nextTick()
+      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.el-button').trigger('click')
+      await nextTick()
+      expect(document.querySelectorAll('.el-message').length).toBe(7)
     })
   })
 })
