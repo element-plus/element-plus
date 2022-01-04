@@ -39,7 +39,7 @@ export const unwrapMeasurableEl = (
 }
 
 function genModifiers(options: UsePopperCoreConfigProps) {
-  const { offset, gpuAcceleration } = options
+  const { offset, gpuAcceleration, fallbackPlacements } = options
   return [
     {
       name: 'offset',
@@ -62,7 +62,7 @@ function genModifiers(options: UsePopperCoreConfigProps) {
       name: 'flip',
       options: {
         padding: 5,
-        fallbackPlacements: [],
+        fallbackPlacements: fallbackPlacements ?? [],
       },
     },
     {
