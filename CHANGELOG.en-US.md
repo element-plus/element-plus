@@ -1,5 +1,67 @@
 ## Changelog
 
+### 1.3.0-beta.1
+
+_2021-12-31_
+
+#### Breaking changes:
+
+- Please refer to: [1.3.0-beta.1 Breaking change](https://github.com/element-plus/element-plus/discussions/5037)
+
+#### Features
+
+- Components [el-dropdown] add new "popper-class" prop (#4909 by @jagoncalves14)
+- [el-popconfirm]add debounce of confirm() and cancel() (#4943 by @Alanscut)
+- Components [date/time-picker] add id attribute to the inputs (#4972 by @purepear)
+- Components [ElCheckboxGroup] add Fragment (#4743 by @emojiiii)
+
+#### Bug fixes
+
+- Components [ElDatePicker] click clear is invalid (#4768 by @emojiiii)
+- Style update cascader radio button padding size (#5057 by @JeremyWuuuuu)
+- [el-date-picker] focus input box when focus method is called (#4343 by @msidolphin)
+- Components [date-picker] filter custom content comment (#4651 by @btea)
+- Build circular dependency (#4791 by @sxzz)
+- Style custom icon size (#4798 by @YunYouJun)
+- Theme-chalk Put back !optional to @extend (#4835 by @cregis0073)
+- Components [el-form] vertical aligin (#4717 by @Alanscut)
+- Style adjust component size & demo (#4801 by @YunYouJun)
+- Components [el-popper] onVisibilityChange (#4907 by @imswk)
+- [el-checkbox-group]: default value adjusted to empty array (#4316 by @msidolphin)
+- Tag in select style (#4914 by @YunYouJun)
+- Components [select-v2] missing validate action when clear (#4892 by @Ryan2128)
+- Core fix unit testing warning (#4948 by @HerringtonDarkholme)
+- Components change size mini to small (#4947 by @HerringtonDarkholme)
+- Components always emit scroll with scrollTop number (#4974 by @HerringtonDarkholme)
+- Components fix more size prop checks (#4975 by @HerringtonDarkholme)
+- Components fix message warning (#4979 by @HerringtonDarkholme)
+- Components [el-step] 移除在simple模式下多余的点 (#4944 by @cn-troy)
+- Components [el-loading] fix the overlap problem
+- Message-box confirm button style (#4988 by @YunYouJun)
+- Components [el-drawer] fix content cannot scroll issue (#5001 by @msidolphin)
+- Components [el-upload] improve image style (#4902 by @fanhefeng)
+- Locale update translation/spelling of Khmer (#4930 by @ITKHMER)
+- Components input-number/input/dropdown/select/badge details (#4866 by @YunYouJun)
+- Components [el-input-number]set undefined to modelValue (#4869 by @Alanscut)
+- Theme-chalk upload progress & menu padding style & pagination align (#5011 by @YunYouJun)
+- Adjust tag icon size & add checkbox with-border demo (#5033 by @YunYouJun)
+- Theme-chalk auto menu item height & add css var, close #4864 (#5034 by @YunYouJun)
+- Components adjust style of the radio and form (#5047 by @msidolphin)
+- Components [time-picker] improve typings (#4810 by @CarterLi)
+- Perf: [el-switch] activeIcon and inactiveIcon type (#4899 by @xiaoxian521)
+- Style: update descriptions style (#5025 by @kooriookami)
+
+#### Refactors
+
+- Utils use @ctrl/tinycolor instead of custom color.ts (#4682 by @YunYouJun)
+- Style adjust component size to large/default/small (#4491 by @YunYouJun)
+- Utils remove isServer (#4792 by @sxzz)
+- Docs use setup sugar simplify input demo (#4845 by @YunYouJun)
+- Components set messagebox button size be default (#4846 by @YunYouJun)
+- Upgrade vue & remove `@vue/compiler-sfc` (#4815 by @sxzz)
+- Style adjust table size to large/default/small (#5036 by @iamkun)
+- Utils: refactor global config (#4793 by @sxzz)
+
 ### 1.2.0-beta.6
 
 _2021-12-10_

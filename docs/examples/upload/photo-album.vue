@@ -11,26 +11,19 @@
     <img width="100%" :src="dialogImageUrl" alt="" />
   </el-dialog>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
+import { ref } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
-export default {
-  components: {
-    Plus,
-  },
-  data() {
-    return {
-      dialogImageUrl: '',
-      dialogVisible: false,
-    }
-  },
-  methods: {
-    handleRemove(file, fileList) {
-      console.log(file, fileList)
-    },
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url
-      this.dialogVisible = true
-    },
-  },
+import type { UploadFile } from 'element-plus/es/components/upload/src/upload.type'
+
+const dialogImageUrl = ref('')
+const dialogVisible = ref(false)
+
+const handleRemove = (file: UploadFile, fileList: UploadFile[]) => {
+  console.log(file, fileList)
+}
+const handlePictureCardPreview = (file: UploadFile) => {
+  dialogImageUrl.value = file.url!
+  dialogVisible.value = true
 }
 </script>

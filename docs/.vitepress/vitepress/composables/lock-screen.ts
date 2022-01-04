@@ -1,4 +1,5 @@
 import { onUnmounted } from 'vue'
+import { isClient } from '@vueuse/core'
 import {
   addClass,
   hasClass,
@@ -6,7 +7,6 @@ import {
   removeClass,
 } from '@element-plus/utils/dom'
 import getScrollBarWidth from '@element-plus/utils/scrollbar-width'
-import { isServer } from '../utils'
 
 export const useLockScreen = () => {
   let scrollBarWidth = 0
@@ -19,7 +19,7 @@ export const useLockScreen = () => {
   })
 
   const cleanup = () => {
-    if (isServer) return
+    if (!isClient) return
     removeClass(document.body, 'el-popup-parent--hidden')
     if (withoutHiddenClass) {
       document.body.style.paddingRight = bodyPaddingRight
@@ -27,7 +27,7 @@ export const useLockScreen = () => {
   }
 
   const lock = () => {
-    if (isServer) return
+    if (!isClient) return
     withoutHiddenClass = !hasClass(document.body, 'el-popup-parent--hidden')
     if (withoutHiddenClass) {
       bodyPaddingRight = document.body.style.paddingRight

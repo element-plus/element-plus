@@ -10,12 +10,24 @@
   @include set-component-css-var('button', $button);
 }
 
-$button-border-width: 1px;
+$button-icon-span-gap: () !default;
+$button-icon-span-gap: map.merge(
+  (
+    'large': 8px,
+    'default': 6px,
+    'small': 4px,
+  ),
+  $button-icon-span-gap
+);
 
 @include b(button) {
   display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
   line-height: 1;
-  min-height: map.get($input-height, 'default');
+  // min-height will expand when in flex
+  height: map.get($input-height, 'default');
   white-space: nowrap;
   cursor: pointer;
   background-color: var(--el-button-bg-color, #{map.get($button, 'bg-color')});
@@ -40,7 +52,7 @@ $button-border-width: 1px;
   }
 
   & + & {
-    margin-left: 10px;
+    margin-left: 12px;
   }
 
   @include button-size(
@@ -80,7 +92,7 @@ $button-border-width: 1px;
 
   & [class*='#{$namespace}-icon'] {
     & + span {
-      margin-left: 5px;
+      margin-left: map.get($button-icon-span-gap, 'default');
     }
     svg {
       vertical-align: bottom;
@@ -161,7 +173,7 @@ $button-border-width: 1px;
   }
   @include when(circle) {
     border-radius: 50%;
-    padding: map.get($button-padding-vertical, 'default');
+    padding: map.get($button-padding-vertical, 'default') - $button-border-width;
   }
 
   @include e(text) {
@@ -185,17 +197,25 @@ $button-border-width: 1px;
 
   @each $size in (large, small) {
     @include m($size) {
-      min-height: map.get($input-height, $size);
+      --el-button-size: #{map.get($input-height, $size)};
+      height: var(--el-button-size);
+
+      & [class*='#{$namespace}-icon'] {
+        & + span {
+          margin-left: map.get($button-icon-span-gap, $size);
+        }
+      }
 
       @include button-size(
-        map.get($button-padding-vertical, $size),
-        map.get($button-padding-horizontal, $size),
+        map.get($button-padding-vertical, $size) - $button-border-width,
+        map.get($button-padding-horizontal, $size) - $button-border-width,
         map.get($button-font-size, $size),
         map.get($button-border-radius, $size)
       );
 
       @include when(circle) {
-        padding: map.get($button-padding-vertical, $size);
+        width: var(--el-button-size);
+        padding: map.get($button-padding-vertical, $size) - $button-border-width;
       }
     }
   }

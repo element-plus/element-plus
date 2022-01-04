@@ -95,6 +95,24 @@ describe('Checkbox', () => {
     expect(vm.checkList).toContain('b')
   })
 
+  test('checkbox group without modelValue', async () => {
+    const wrapper = _mount(
+      `
+      <el-checkbox-group v-model="checkList">
+        <el-checkbox label="a" ref="a"></el-checkbox>
+        <el-checkbox label="b" ref="b"></el-checkbox>
+        <el-checkbox label="c" ref="c"></el-checkbox>
+        <el-checkbox label="d" ref="d"></el-checkbox>
+      </el-checkbox-group>
+      `,
+      () => ({ checkList: undefined })
+    )
+    const vm = wrapper.vm
+    await wrapper.findComponent({ ref: 'a' }).trigger('click')
+    expect(vm.checkList.length).toBe(1)
+    expect(vm.checkList).toContain('a')
+  })
+
   test('checkbox group change', async () => {
     const wrapper = _mount(
       `
@@ -288,6 +306,21 @@ describe('check-button', () => {
       (vm.$refs.a as any).$el.querySelector('.el-checkbox-button__inner').style
         .borderColor
     ).toEqual('#ff0000')
+  })
+
+  test('button group tag', () => {
+    const wrapper = _mount(
+      `
+      <el-checkbox-group v-model="checkList" tag="tr">
+        <el-checkbox-button label="a" ref="a"></el-checkbox-button>
+        <el-checkbox-button label="b" ref="b"></el-checkbox-button>
+        <el-checkbox-button label="c" ref="c"></el-checkbox-button>
+        <el-checkbox-button label="d" ref="d"></el-checkbox-button>
+      </el-checkbox-group>
+      `,
+      () => ({ checkList: ['a', 'b'] })
+    )
+    expect(wrapper.find('tr').classes('el-checkbox-group')).toBeTruthy()
   })
 
   test('button group min and max', async () => {

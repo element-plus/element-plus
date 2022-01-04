@@ -17,14 +17,8 @@
   />
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
-export default defineComponent({
-  setup() {
-    return {
-      text: ref(''),
-      textarea: ref(''),
-    }
-  },
-})
+<script lang="ts" setup>
+import { ref } from 'vue'
+const text = ref('')
+const textarea = ref('')
 </script>

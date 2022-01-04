@@ -5,16 +5,6 @@
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
-$form-line-height: () !default;
-$form-line-height: map.merge(
-  (
-    'large': 36px,
-    'default': 32px,
-    'small': 28px,
-  ),
-  $form-line-height
-);
-
 @include b(form) {
   @include set-component-css-var('form', $form);
 
@@ -53,7 +43,8 @@ $form-line-height: map.merge(
 
 @include b(form-item) {
   display: flex;
-  margin-bottom: 22px;
+  --font-size: #{map.get($input-font-size, 'default')};
+  margin-bottom: calc(var(--font-size) + 8px);
 
   & .#{$namespace}-form-item {
     margin-bottom: 0;
@@ -65,17 +56,8 @@ $form-line-height: map.merge(
 
   @each $size in (large, default, small) {
     @include m($size) {
-      .#{$namespace}-form-item__label,
-      .#{$namespace}-form-item__content {
-        font-size: map.get($input-font-size, $size);
-        line-height: map.get($form-line-height, $size);
-      }
-      &.#{$namespace}-form-item {
-        margin-bottom: 18px;
-      }
-      .#{$namespace}-form-item__error {
-        padding-top: 2px;
-      }
+      --font-size: #{map.get($input-font-size, $size)};
+      --el-form-label-font-size: var(--font-size);
     }
   }
 
@@ -90,15 +72,18 @@ $form-line-height: map.merge(
     text-align: right;
     font-size: var(--el-form-label-font-size);
     color: var(--el-text-color-regular);
-    line-height: map.get($form-line-height, 'default');
+    line-height: calc(var(--el-form-label-font-size) * 2 + 4px);
     padding: 0 12px 0 0;
     box-sizing: border-box;
   }
   @include e(content) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     flex: 1;
-    line-height: map.get($form-line-height, 'default');
+    line-height: calc(var(--font-size) * 2 + 4px);
     position: relative;
-    font-size: 14px;
+    font-size: var(--font-size);
     min-width: 0;
 
     .#{$namespace}-input-group {
@@ -137,6 +122,7 @@ $form-line-height: map.merge(
   }
 
   @include when(error) {
+    & .#{$namespace}-select-v2__wrapper,
     & .#{$namespace}-input__inner,
     & .#{$namespace}-textarea__inner {
       &,

@@ -3,6 +3,7 @@
     <el-time-select
       v-model="startTime"
       :max-time="endTime"
+      class="mr-4"
       placeholder="Start time"
       start="08:30"
       step="00:15"
@@ -21,21 +22,9 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      startTime: '',
-      endTime: '',
-    }
-  },
-}
-</script>
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-<style lang="scss">
-.demo-time-range {
-  .el-select {
-    margin-right: 8px;
-  }
-}
-</style>
+const startTime = ref('')
+const endTime = ref('')
+</script>

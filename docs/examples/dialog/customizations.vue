@@ -47,52 +47,44 @@
   </el-dialog>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+<script lang="ts" setup>
+import { reactive, ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const state = reactive({
-      gridData: [
-        {
-          date: '2016-05-02',
-          name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District',
-        },
-        {
-          date: '2016-05-04',
-          name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District',
-        },
-        {
-          date: '2016-05-01',
-          name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District',
-        },
-        {
-          date: '2016-05-03',
-          name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District',
-        },
-      ],
-      dialogTableVisible: false,
-      dialogFormVisible: false,
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: '',
-      },
-      formLabelWidth: '120px',
-    })
+const dialogTableVisible = ref(false)
+const dialogFormVisible = ref(false)
+const formLabelWidth = '120px'
 
-    return {
-      ...toRefs(state),
-    }
-  },
+const form = reactive({
+  name: '',
+  region: '',
+  date1: '',
+  date2: '',
+  delivery: false,
+  type: [],
+  resource: '',
+  desc: '',
 })
+
+const gridData = [
+  {
+    date: '2016-05-02',
+    name: 'John Smith',
+    address: 'No.1518,  Jinshajiang Road, Putuo District',
+  },
+  {
+    date: '2016-05-04',
+    name: 'John Smith',
+    address: 'No.1518,  Jinshajiang Road, Putuo District',
+  },
+  {
+    date: '2016-05-01',
+    name: 'John Smith',
+    address: 'No.1518,  Jinshajiang Road, Putuo District',
+  },
+  {
+    date: '2016-05-03',
+    name: 'John Smith',
+    address: 'No.1518,  Jinshajiang Road, Putuo District',
+  },
+]
 </script>

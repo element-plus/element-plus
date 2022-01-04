@@ -7,7 +7,7 @@ import type { Mutable } from './types'
 const wrapperKey = Symbol()
 export type PropWrapper<T> = { [wrapperKey]: T }
 
-export const propKey = Symbol()
+export const propKey = '__elPropsReservedKey'
 
 type ResolveProp<T> = ExtractPropTypes<{
   key: { type: T; required: true }

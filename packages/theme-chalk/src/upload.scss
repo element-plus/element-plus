@@ -313,6 +313,7 @@
     .#{$namespace}-upload-list__item-thumbnail {
       width: 100%;
       height: 100%;
+      object-fit: contain;
     }
 
     .#{$namespace}-upload-list__item-status-label {

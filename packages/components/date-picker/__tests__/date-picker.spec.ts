@@ -1,6 +1,7 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import dayjs from 'dayjs'
+import { rAF } from '@element-plus/test-utils/tick'
 import ConfigProvider from '@element-plus/components/config-provider'
 import { CommonPicker } from '@element-plus/components/time-picker'
 import Input from '@element-plus/components/input'
@@ -237,6 +238,7 @@ describe('DatePicker', () => {
       }
     )
     await nextTick()
+    await rAF()
     const popperEl = document.querySelector('.el-picker__popper')
     const attr = popperEl.getAttribute('aria-hidden')
     expect(attr).toEqual('false')

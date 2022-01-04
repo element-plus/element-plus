@@ -20,28 +20,19 @@
   </el-drawer>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 import { ElMessageBox } from 'element-plus'
 
-export default defineComponent({
-  setup() {
-    const drawer = ref(false)
-    const direction = ref('rtl')
-    const handleClose = (done) => {
-      ElMessageBox.confirm('Are you sure you want to close this?')
-        .then(() => {
-          done()
-        })
-        .catch(() => {
-          // catch error
-        })
-    }
-    return {
-      drawer,
-      direction,
-      handleClose,
-    }
-  },
-})
+const drawer = ref(false)
+const direction = ref('rtl')
+const handleClose = (done: () => void) => {
+  ElMessageBox.confirm('Are you sure you want to close this?')
+    .then(() => {
+      done()
+    })
+    .catch(() => {
+      // catch error
+    })
+}
 </script>

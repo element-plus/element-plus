@@ -1,9 +1,9 @@
 <template>
   <div style="margin-left: 1rem">
     <el-radio-group v-model="size">
-      <el-radio label="small">Small</el-radio>
-      <el-radio label="default">Default</el-radio>
-      <el-radio label="large">Large</el-radio>
+      <el-radio :label="'large'">large</el-radio>
+      <el-radio :label="'default'">default</el-radio>
+      <el-radio :label="'small'">small</el-radio>
     </el-radio-group>
   </div>
   <br />
@@ -29,7 +29,7 @@
           style="width: 100%"
         ></el-date-picker>
       </el-col>
-      <el-col class="line" :span="2" style="margin: 0 0.5rem">-</el-col>
+      <el-col class="text-center" :span="1" style="margin: 0 0.5rem">-</el-col>
       <el-col :span="11">
         <el-time-picker
           v-model="sizeForm.date2"
@@ -56,7 +56,7 @@
         <el-radio border label="Venue"></el-radio>
       </el-radio-group>
     </el-form-item>
-    <el-form-item size="large">
+    <el-form-item>
       <el-button type="primary" @click="onSubmit">Create</el-button>
       <el-button>Cancel</el-button>
     </el-form-item>
@@ -66,7 +66,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 
-const size = ref('small')
+const size = ref('default')
 
 const sizeForm = reactive({
   name: '',

@@ -2,6 +2,7 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import dayjs from 'dayjs'
 import { triggerEvent } from '@element-plus/test-utils'
+import { rAF } from '@element-plus/test-utils/tick'
 import TimePicker from '../src/time-picker'
 import Picker from '../src/common/picker.vue'
 
@@ -344,7 +345,10 @@ describe('TimePicker', () => {
         },
       }
     )
+    // This one allows mounted to take effect
     await nextTick()
+    // These following two allows popper to gets rendered.
+    await rAF()
     const popperEl = document.querySelector('.el-picker__popper')
     const attr = popperEl.getAttribute('aria-hidden')
     expect(attr).toEqual('false')
@@ -425,10 +429,11 @@ describe('TimePicker(range)', () => {
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
+    // For skipping Transition animation
+    await rAF()
     const list = document.querySelectorAll(
       '.el-time-spinner__list .el-time-spinner__item.active'
     )
-
     ;['18', '40', '00', '19', '40', '00'].forEach((_, i) => {
       expect(list[i].textContent).toBe(_)
     })
@@ -452,7 +457,8 @@ describe('TimePicker(range)', () => {
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-
+    // For skipping Transition animation
+    await rAF()
     const list = document.querySelectorAll(
       '.el-time-spinner__list .el-time-spinner__item.active'
     )
@@ -463,22 +469,31 @@ describe('TimePicker(range)', () => {
   })
 
   it('cancel button', async () => {
+    const cancelDates = [
+      new Date(2016, 9, 10, 9, 40),
+      new Date(2016, 9, 10, 15, 40),
+    ]
     const wrapper = _mount(
       `<el-time-picker
         v-model="value"
         is-range
       />`,
-      () => ({ value: '' })
+      () => ({
+        value: cancelDates,
+      })
     )
 
     const input = wrapper.find('input')
     input.trigger('blur')
+    await nextTick()
     input.trigger('focus')
     await nextTick()
+    // For skipping Transition animation
+    await rAF()
     ;(document.querySelector('.el-time-panel__btn.cancel') as any).click()
     await nextTick()
     const vm = wrapper.vm as any
-    expect(vm.value).toBe('')
+    expect(vm.value).toEqual(cancelDates)
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
@@ -514,6 +529,8 @@ describe('TimePicker(range)', () => {
     const input = wrapper.find('input')
     input.trigger('focus')
     await nextTick()
+    // For skipping Transition animation
+    await rAF()
 
     const list = document.querySelectorAll('.el-time-spinner__list')
     const leftHoursEl = list[0]
@@ -614,6 +631,9 @@ describe('TimePicker(range)', () => {
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
+    // For skipping Transition animation
+    await rAF()
+
     const list = document.querySelectorAll('.el-time-spinner__list')
     expect(
       list[0]

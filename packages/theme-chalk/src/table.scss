@@ -148,11 +148,29 @@
     }
   }
 
+  .cell {
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-all;
+    line-height: 23px;
+    padding: 0 12px;
+
+    &.#{$namespace}-tooltip {
+      white-space: nowrap;
+      min-width: 50px;
+    }
+  }
+
   @each $size in (large, small) {
     @include m($size) {
       font-size: map.get($table-font-size, $size);
       .#{$namespace}-table__cell {
         padding: map.get($table-padding, $size);
+      }
+      .cell {
+        padding: map.get($table-cell-padding, $size);
       }
     }
   }
@@ -213,22 +231,6 @@
     }
   }
 
-  .cell {
-    box-sizing: border-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal;
-    word-break: break-all;
-    line-height: 20px;
-    padding-left: 10px;
-    padding-right: 10px;
-
-    &.#{$namespace}-tooltip {
-      white-space: nowrap;
-      min-width: 50px;
-    }
-  }
-
   // 拥有多级表头
   @include m((group, border)) {
     border: var(--el-table-border);
@@ -271,10 +273,6 @@
 
     .#{$namespace}-table__cell {
       border-right: var(--el-table-border);
-
-      &:first-child .cell {
-        padding-left: 10px;
-      }
     }
 
     th.#{$namespace}-table__cell.gutter:last-of-type {

@@ -49,16 +49,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const activeName = ref('1')
-
-    return {
-      activeName,
-    }
-  },
-})
+const activeName = ref('1')
 </script>

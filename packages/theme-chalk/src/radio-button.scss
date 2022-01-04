@@ -36,8 +36,8 @@
     user-select: none;
 
     @include button-size(
-      map.get($button-padding-vertical, 'default'),
-      map.get($button-padding-horizontal, 'default'),
+      map.get($button-padding-vertical, 'default') - $button-border-width,
+      map.get($button-padding-horizontal, 'default') - $button-border-width,
       map.get($button-font-size, 'default'),
       0
     );
@@ -133,8 +133,8 @@
     @include m($size) {
       & .#{$namespace}-radio-button__inner {
         @include button-size(
-          map.get($button-padding-vertical, $size),
-          map.get($button-padding-horizontal, $size),
+          map.get($button-padding-vertical, $size) - $button-border-width,
+          map.get($button-padding-horizontal, $size) - $button-border-width,
           map.get($button-font-size, $size),
           0
         );

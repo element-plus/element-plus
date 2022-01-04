@@ -10,7 +10,7 @@
     :on-exceed="handleExceed"
     :file-list="fileList"
   >
-    <el-button size="small" type="primary">Click to upload</el-button>
+    <el-button type="primary">Click to upload</el-button>
     <template #tip>
       <div class="el-upload__tip">
         jpg/png files with a size less than 500kb
@@ -18,39 +18,41 @@
     </template>
   </el-upload>
 </template>
-<script lang="ts">
-export default {
-  data() {
-    return {
-      fileList: [
-        {
-          name: 'food.jpeg',
-          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-        },
-        {
-          name: 'food2.jpeg',
-          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-        },
-      ],
-    }
+<script lang="ts" setup>
+import { ref } from 'vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import type { UploadFile } from 'element-plus/es/components/upload/src/upload.type'
+
+interface RawFile {
+  name: string
+  url: string
+}
+
+const fileList = ref<RawFile[]>([
+  {
+    name: 'food.jpeg',
+    url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
   },
-  methods: {
-    handleRemove(file, fileList) {
-      console.log(file, fileList)
-    },
-    handlePreview(file) {
-      console.log(file)
-    },
-    handleExceed(files, fileList) {
-      this.$message.warning(
-        `The limit is 3, you selected ${
-          files.length
-        } files this time, add up to ${files.length + fileList.length} totally`
-      )
-    },
-    beforeRemove(file, fileList) {
-      return this.$confirm(`Cancel the transfert of ${file.name} ?`)
-    },
+  {
+    name: 'food2.jpeg',
+    url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
   },
+])
+
+const handleRemove = (file: UploadFile, fileList: UploadFile[]) => {
+  console.log(file, fileList)
+}
+const handlePreview = (file: UploadFile) => {
+  console.log(file)
+}
+const handleExceed = (files: FileList, fileList: UploadFile[]) => {
+  ElMessage.warning(
+    `The limit is 3, you selected ${files.length} files this time, add up to ${
+      files.length + fileList.length
+    } totally`
+  )
+}
+const beforeRemove = (file: UploadFile, fileList: UploadFile[]) => {
+  return ElMessageBox.confirm(`Cancel the transfert of ${file.name} ?`)
 }
 </script>

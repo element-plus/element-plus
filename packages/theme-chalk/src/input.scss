@@ -143,7 +143,7 @@
     height: map.get($input-height, 'default');
     line-height: map.get($input-height, 'default');
     outline: none;
-    padding: 0 15px;
+    padding: 0 map.get($input-padding-horizontal, 'default')-$border-width-base;
     transition: var(--el-transition-border);
     width: 100%;
 
@@ -175,7 +175,7 @@
 
     position: absolute;
     height: 100%;
-    right: 5px;
+    right: map.get($input-padding-horizontal, 'default');
     top: 0;
     text-align: center;
     color: var(--el-input-icon-color, map.get($input, 'icon-color'));
@@ -193,7 +193,7 @@
 
     position: absolute;
     height: 100%;
-    left: 5px;
+    left: map.get($input-padding-horizontal, 'default');
     top: 0;
     text-align: center;
     color: var(--el-input-icon-color, map.get($input, 'icon-color'));
@@ -206,7 +206,6 @@
   }
 
   @include e(icon) {
-    width: 25px;
     height: inherit;
     display: flex;
     justify-content: center;
@@ -261,6 +260,11 @@
     }
   }
 
+  $input-padding-size-with-extra-icon: calc(
+    5px + map.get($input-font-size, 'default') +
+      map.get($input-padding-horizontal, 'default')
+  );
+
   @include m(suffix) {
     @include m(password-clear) {
       .#{$namespace}-input__inner {
@@ -269,13 +273,13 @@
     }
 
     .#{$namespace}-input__inner {
-      padding-right: 30px;
+      padding-right: $input-padding-size-with-extra-icon;
     }
   }
 
   @include m(prefix) {
     .#{$namespace}-input__inner {
-      padding-left: 30px;
+      padding-left: $input-padding-size-with-extra-icon;
     }
   }
 
@@ -287,10 +291,36 @@
       @include e(inner) {
         height: map.get($input-height, $size);
         line-height: map.get($input-height, $size);
+        padding: 0 map.get($input-padding-horizontal, $size)-$border-width-base;
       }
 
       .#{$namespace}-input__icon {
         line-height: map.get($input-height, $size);
+      }
+
+      $input-padding-size-with-extra-icon: calc(
+        5px + map.get($input-font-size, $size) +
+          map.get($input-padding-horizontal, $size)
+      );
+
+      &.#{$namespace}-input--prefix {
+        .#{$namespace}-input__inner {
+          padding-left: $input-padding-size-with-extra-icon;
+        }
+      }
+
+      &.#{$namespace}-input--suffix {
+        .#{$namespace}-input__inner {
+          padding-right: $input-padding-size-with-extra-icon;
+        }
+      }
+
+      @include e(prefix) {
+        left: map.get($input-padding-horizontal, $size);
+      }
+
+      @include e(suffix) {
+        right: map.get($input-padding-horizontal, $size);
       }
     }
   }

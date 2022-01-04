@@ -15,6 +15,7 @@ async function main() {
   if (fs.existsSync(localeOutput)) {
     throw new Error(exists)
   }
+
   console.log(chalk.cyan('Starting for build doc for developing'))
   // all language should be identical since it is mirrored from crowdin.
   const dirs = await fs.promises.readdir(componentLocaleRoot, {
@@ -29,9 +30,7 @@ async function main() {
   await fs.promises.writeFile(
     path.resolve(localeOutput, 'lang.json'),
     JSON.stringify(languages),
-    {
-      encoding: 'utf-8',
-    }
+    'utf-8'
   )
 
   // loop through en-US
@@ -49,7 +48,11 @@ async function main() {
   await traverseDir(enUS, languagePaths, localeOutput)
 }
 
-async function traverseDir(dir, paths, targetPath) {
+async function traverseDir(
+  dir: string,
+  paths: { name: string; pathname: string }[],
+  targetPath: string
+) {
   const contents = await fs.promises.readdir(dir, { withFileTypes: true })
 
   await Promise.all(

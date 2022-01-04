@@ -5,16 +5,18 @@ import 'virtual:windi-base.css'
 import 'virtual:windi-components.css'
 
 import VPApp, { globals, NotFound } from '../vitepress'
+import { define } from '../utils/types'
 
 // windicss utilities should be the last style import
 import 'virtual:windi-utilities.css'
 // windicss devtools support (dev only)
 import 'virtual:windi-devtools'
 
-export default {
+import type { Theme } from 'vitepress'
+
+export default define<Theme>({
   NotFound,
   Layout: VPApp,
-  logo: '/images/element-plus-logo-small.svg',
   enhanceApp: ({ app }) => {
     app.use(ElementPlus)
 
@@ -22,4 +24,4 @@ export default {
       app.component(name, Comp)
     })
   },
-}
+})

@@ -2,7 +2,7 @@ import { nextTick } from 'vue'
 import { isString } from '@vue/shared'
 import { isClient } from '@vueuse/core'
 import { addClass, getStyle, removeClass } from '@element-plus/utils/dom'
-import PopupManager from '@element-plus/utils/popup-manager'
+import { PopupManager } from '@element-plus/utils/popup-manager'
 import { createLoadingComponent } from './loading'
 import type { LoadingInstance } from './loading'
 import type { LoadingOptionsResolved } from '..'
@@ -19,6 +19,7 @@ export const Loading = function (
   const resolved = resolveOptions(options)
 
   if (resolved.fullscreen && fullscreenInstance) {
+    fullscreenInstance.remvoeElLoadingChild()
     fullscreenInstance.close()
   }
 
