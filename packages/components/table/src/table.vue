@@ -38,17 +38,11 @@
           :border="border"
           :default-sort="defaultSort"
           :store="store"
-          :style="{
-            width: layout.bodyWidth.value ? layout.bodyWidth.value + 'px' : '',
-          }"
+          :style="tableBodyStyles"
           @set-drag-visible="setDragVisible"
         />
       </div>
-      <div
-        ref="bodyWrapper"
-        :style="[bodyHeight]"
-        class="el-table__body-wrapper"
-      >
+      <div ref="bodyWrapper" :style="bodyHeight" class="el-table__body-wrapper">
         <table-body
           :context="context"
           :highlight="highlightCurrentRow"
@@ -68,7 +62,7 @@
           class="el-table__empty-block"
         >
           <span class="el-table__empty-text">
-            <slot name="empty">{{ emptyText || t('el.table.emptyText') }}</slot>
+            <slot name="empty">{{ computedEmptyText }}</slot>
           </span>
         </div>
         <div
@@ -83,9 +77,7 @@
       <div
         v-if="layout.scrollX.value && layout.height.value"
         class="el-table__border-bottom-patch"
-        :style="{
-          bottom: `${layout.gutterWidth}px`,
-        }"
+        :style="borderBottomPatchStyles"
       ></div>
     </div>
     <div
@@ -99,10 +91,8 @@
         :border="border"
         :default-sort="defaultSort"
         :store="store"
-        :style="{
-          width: layout.bodyWidth.value ? layout.bodyWidth.value + 'px' : '',
-        }"
-        :sum-text="sumText || t('el.table.sumText')"
+        :style="tableBodyStyles"
+        :sum-text="computedSumText"
         :summary-method="summaryMethod"
       />
     </div>
@@ -208,6 +198,8 @@ export default defineComponent({
       bodyWidth,
       resizeState,
       doLayout,
+      tableBodyStyles,
+      borderBottomPatchStyles,
     } = useStyle<Row>(props, layout, store, table)
 
     const debouncedUpdateLayout = debounce(doLayout, 50)
@@ -220,6 +212,14 @@ export default defineComponent({
       doLayout,
       debouncedUpdateLayout,
     }
+    const computedSumText = computed(
+      () => props.sumText || t('el.table.sumText')
+    )
+
+    const computedEmptyText = computed(() => {
+      return props.emptyText || t('el.table.emptyText')
+    })
+
     return {
       layout,
       store,
@@ -235,7 +235,9 @@ export default defineComponent({
       isGroup,
       bodyWidth,
       bodyHeight,
+      tableBodyStyles,
       emptyBlockStyle,
+      borderBottomPatchStyles,
       debouncedUpdateLayout,
       handleFixedMousewheel,
       fixedHeight,
@@ -252,6 +254,8 @@ export default defineComponent({
       t,
       setDragVisible,
       context: table,
+      computedSumText,
+      computedEmptyText,
     }
   },
 })

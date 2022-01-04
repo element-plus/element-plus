@@ -63,7 +63,9 @@ export default defineComponent({
     }
   },
   render() {
-    const data = this.store.states.data.value || []
+    const { wrappedRowRender, store } = this
+    const data = store.states.data.value || []
+    const columns = store.states.columns.value
     return h(
       'table',
       {
@@ -73,10 +75,10 @@ export default defineComponent({
         border: '0',
       },
       [
-        hColgroup(this.store.states.columns.value),
+        hColgroup(columns),
         h('tbody', {}, [
           data.reduce((acc: VNode[], row) => {
-            return acc.concat(this.wrappedRowRender(row, acc.length))
+            return acc.concat(wrappedRowRender(row, acc.length))
           }, []),
         ]),
       ]

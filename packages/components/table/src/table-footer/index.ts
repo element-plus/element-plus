@@ -42,33 +42,40 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const { hasGutter, getRowClasses, getRowStyles, columns, gutterWidth } =
+    const { hasGutter, getCellClasses, getCellStyles, columns, gutterWidth } =
       useStyle(props as TableFooter<DefaultRow>)
     return {
-      getRowClasses,
-      getRowStyles,
+      getCellClasses,
+      getCellStyles,
       hasGutter,
       gutterWidth,
       columns,
     }
   },
   render() {
-    const { hasGutter, gutterWidth, columns } = this
+    const {
+      hasGutter,
+      gutterWidth,
+      columns,
+      getCellStyles,
+      getCellClasses,
+      summaryMethod,
+      sumText,
+    } = this
+    const data = this.store.states.data.value
     let sums = []
-    if (this.summaryMethod) {
-      sums = this.summaryMethod({
+    if (summaryMethod) {
+      sums = summaryMethod({
         columns,
-        data: this.store.states.data.value,
+        data,
       })
     } else {
       columns.forEach((column, index) => {
         if (index === 0) {
-          sums[index] = this.sumText
+          sums[index] = sumText
           return
         }
-        const values = this.store.states.data.value.map((item) =>
-          Number(item[column.property])
-        )
+        const values = data.map((item) => Number(item[column.property]))
         const precisions = []
         let notNumber = true
         values.forEach((value) => {
@@ -117,19 +124,8 @@ export default defineComponent({
                     key: cellIndex,
                     colspan: column.colSpan,
                     rowspan: column.rowSpan,
-                    class: [
-                      ...this.getRowClasses(column, cellIndex),
-                      'el-table__cell',
-                      hasGutter && cellIndex === columns.length - 1
-                        ? 'last'
-                        : '',
-                    ],
-                    style: this.getRowStyles(
-                      column,
-                      cellIndex,
-                      hasGutter,
-                      gutterWidth
-                    ),
+                    class: getCellClasses(columns, cellIndex, hasGutter),
+                    style: getCellStyles(column, cellIndex, hasGutter),
                   },
                   [
                     h(

@@ -131,7 +131,25 @@ export default defineComponent({
     }
   },
   render() {
-    const { hasGutter, gutterWidth } = this
+    const {
+      columns,
+      isGroup,
+      hasGutter,
+      columnRows,
+      gutterWidth,
+      getHeaderCellStyle,
+      getHeaderCellClass,
+      getHeaderRowClass,
+      getHeaderRowStyle,
+      handleHeaderClick,
+      handleHeaderContextMenu,
+      handleMouseDown,
+      handleMouseMove,
+      handleSortClick,
+      handleMouseOut,
+      store,
+      $parent,
+    } = this
     let rowSpan = 1
     return h(
       'table',
@@ -142,19 +160,19 @@ export default defineComponent({
         class: 'el-table__header',
       },
       [
-        hColgroup(this.columns, this.hasGutter),
+        hColgroup(columns, hasGutter),
         h(
           'thead',
           {
-            class: { 'is-group': this.isGroup, 'has-gutter': this.hasGutter },
+            class: { 'is-group': isGroup, 'has-gutter': hasGutter },
           },
-          this.columnRows.map((subColumns, rowIndex) =>
+          columnRows.map((subColumns, rowIndex) =>
             h(
               'tr',
               {
-                class: this.getHeaderRowClass(rowIndex),
+                class: getHeaderRowClass(rowIndex),
                 key: rowIndex,
-                style: this.getHeaderRowStyle(rowIndex),
+                style: getHeaderRowStyle(rowIndex),
               },
               subColumns
                 .map((column, cellIndex) => {
@@ -164,7 +182,7 @@ export default defineComponent({
                   return h(
                     'th',
                     {
-                      class: this.getHeaderCellClass(
+                      class: getHeaderCellClass(
                         rowIndex,
                         cellIndex,
                         subColumns,
@@ -173,23 +191,19 @@ export default defineComponent({
                       colspan: column.colSpan,
                       key: `${column.id}-thead`,
                       rowSpan: column.rowSpan,
-                      style: this.getHeaderCellStyle(
+                      style: getHeaderCellStyle(
                         rowIndex,
                         cellIndex,
                         subColumns,
                         column,
-                        hasGutter,
-                        gutterWidth
+                        hasGutter
                       ),
-                      onClick: ($event) =>
-                        this.handleHeaderClick($event, column),
+                      onClick: ($event) => handleHeaderClick($event, column),
                       onContextmenu: ($event) =>
-                        this.handleHeaderContextMenu($event, column),
-                      onMousedown: ($event) =>
-                        this.handleMouseDown($event, column),
-                      onMousemove: ($event) =>
-                        this.handleMouseMove($event, column),
-                      onMouseout: this.handleMouseOut,
+                        handleHeaderContextMenu($event, column),
+                      onMousedown: ($event) => handleMouseDown($event, column),
+                      onMousemove: ($event) => handleMouseMove($event, column),
+                      onMouseout: handleMouseOut,
                     },
                     [
                       h(
@@ -209,8 +223,8 @@ export default defineComponent({
                             ? column.renderHeader({
                                 column,
                                 $index: cellIndex,
-                                store: this.store,
-                                _self: this.$parent,
+                                store,
+                                _self: $parent,
                               })
                             : column.label,
                           column.sortable &&
@@ -218,13 +232,13 @@ export default defineComponent({
                               'span',
                               {
                                 onClick: ($event) =>
-                                  this.handleSortClick($event, column),
+                                  handleSortClick($event, column),
                                 class: 'caret-wrapper',
                               },
                               [
                                 h('i', {
                                   onClick: ($event) =>
-                                    this.handleSortClick(
+                                    handleSortClick(
                                       $event,
                                       column,
                                       'ascending'
@@ -233,7 +247,7 @@ export default defineComponent({
                                 }),
                                 h('i', {
                                   onClick: ($event) =>
-                                    this.handleSortClick(
+                                    handleSortClick(
                                       $event,
                                       column,
                                       'descending'
@@ -244,7 +258,7 @@ export default defineComponent({
                             ),
                           column.filterable &&
                             h(FilterPanel, {
-                              store: this.$parent.store,
+                              store: $parent.store,
                               placement:
                                 column.filterPlacement || 'bottom-start',
                               column,

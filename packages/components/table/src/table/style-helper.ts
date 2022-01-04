@@ -93,6 +93,19 @@ function useStyle<T>(
     )
   })
 
+  const tableBodyStyles = computed(() => {
+    return {
+      width: layout.bodyWidth.value ? `${layout.bodyWidth.value}px` : '',
+    }
+  })
+
+  const borderBottomPatchStyles = computed(() => {
+    return {
+      bottom: `${layout.gutterWidth}px`,
+      right: `${layout.gutterWidth}px`,
+    }
+  })
+
   const doLayout = () => {
     if (shouldUpdateHeight.value) {
       layout.updateElsHeight()
@@ -326,6 +339,8 @@ function useStyle<T>(
     bodyWidth,
     resizeState,
     doLayout,
+    tableBodyStyles,
+    borderBottomPatchStyles,
   }
 }
 

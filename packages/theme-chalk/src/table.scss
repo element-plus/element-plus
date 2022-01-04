@@ -246,7 +246,6 @@
   // 拥有多级表头
   @include m((group, border)) {
     @include e((inner-wrapper, footer-wrapper)) {
-      border-top: var(--el-table-border);
       tr:first-child {
         td,
         th {
@@ -255,6 +254,9 @@
           }
         }
       }
+    }
+    @include e((footer-wrapper)) {
+      border-top: var(--el-table-border);
     }
 
     @include share-rule(border-pseudo) {
@@ -267,6 +269,17 @@
 
   // table--border
   @include m(border) {
+    @include e(inner-wrapper) {
+      &::after {
+        @include extend-rule(border-pseudo);
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 1px;
+        z-index: 3;
+      }
+    }
+
     &::before {
       @include extend-rule(border-pseudo);
       top: -1px;
@@ -551,7 +564,6 @@
 
   @include e(border-bottom-patch) {
     left: 0;
-    width: 100%;
     height: 1px;
     z-index: 3;
     position: absolute;

@@ -1,5 +1,10 @@
 import { computed, getCurrentInstance } from 'vue'
-import { getFixedColumnOffset, getFixedColumnsClass } from '../util'
+import {
+  getFixedColumnOffset,
+  getFixedColumnsClass,
+  ensurePosition,
+  ensureRightFixedStyle,
+} from '../util'
 import useMapState from './mapState-helper'
 import type { Table } from '../table/defaults'
 import type { TableColumnCtx } from '../table-column/defaults'
@@ -23,8 +28,14 @@ function useStyle<T>(props: TableFooter<T>) {
   const gutterWidth = computed(() => {
     return table.layout.gutterWidth
   })
-  const getRowClasses = (column: TableColumnCtx<T>, cellIndex: number) => {
+  const getCellClasses = (
+    columns: TableColumnCtx<T>[],
+    cellIndex: number,
+    hasGutter: boolean
+  ) => {
+    const column = columns[cellIndex]
     const classes = [
+      'el-table__cell',
       column.id,
       column.align,
       column.labelClassName,
@@ -36,40 +47,33 @@ function useStyle<T>(props: TableFooter<T>) {
     if (!column.children) {
       classes.push('is-leaf')
     }
+    if (hasGutter && cellIndex === columns.length - 1) {
+      classes.push('last')
+    }
     return classes
   }
 
-  const getRowStyles = (
+  const getCellStyles = (
     column: TableColumnCtx<T>,
     cellIndex: number,
-    hasGutter: boolean,
-    gutterWidth: number
+    hasGutter: boolean
   ) => {
     const fixedStyle = getFixedColumnOffset(
       cellIndex,
       column.fixed,
       props.store
     )
-    if (fixedStyle) {
-      if (hasGutter) {
-        if (fixedStyle.right !== undefined) {
-          fixedStyle.right += gutterWidth
-        }
-      }
-      if (fixedStyle.left !== undefined) {
-        fixedStyle.left += 'px'
-      } else if (fixedStyle.right !== undefined) {
-        fixedStyle.right += 'px'
-      }
-    }
+    ensureRightFixedStyle(fixedStyle, hasGutter)
+    ensurePosition(fixedStyle, 'left')
+    ensurePosition(fixedStyle, 'right')
     return fixedStyle
   }
 
   return {
     hasGutter,
     gutterWidth,
-    getRowClasses,
-    getRowStyles,
+    getCellClasses,
+    getCellStyles,
     columns,
   }
 }

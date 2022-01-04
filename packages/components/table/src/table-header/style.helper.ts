@@ -1,5 +1,10 @@
 import { getCurrentInstance } from 'vue'
-import { getFixedColumnsClass, getFixedColumnOffset } from '../util'
+import {
+  getFixedColumnsClass,
+  getFixedColumnOffset,
+  ensurePosition,
+  ensureRightFixedStyle,
+} from '../util'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { Table } from '../table/defaults'
 import type { TableHeaderProps } from '.'
@@ -33,8 +38,7 @@ function useStyle<T>(props: TableHeaderProps<T>) {
     columnIndex: number,
     row: T,
     column: TableColumnCtx<T>,
-    hasGutter: boolean,
-    gutterWidth: number
+    hasGutter: boolean
   ) => {
     let headerCellStyles = parent.props.headerCellStyle ?? {}
     if (typeof headerCellStyles === 'function') {
@@ -51,18 +55,9 @@ function useStyle<T>(props: TableHeaderProps<T>) {
       props.store,
       row as unknown as TableColumnCtx<T>[]
     )
-    if (fixedStyle) {
-      if (hasGutter) {
-        if (fixedStyle.right !== undefined) {
-          fixedStyle.right += gutterWidth
-        }
-      }
-      if (fixedStyle.left !== undefined) {
-        fixedStyle.left += 'px'
-      } else if (fixedStyle.right !== undefined) {
-        fixedStyle.right += 'px'
-      }
-    }
+    ensureRightFixedStyle(fixedStyle, hasGutter)
+    ensurePosition(fixedStyle, 'left')
+    ensurePosition(fixedStyle, 'right')
     return Object.assign({}, headerCellStyles, fixedStyle)
   }
 

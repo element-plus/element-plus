@@ -83,24 +83,26 @@ describe('table column', () => {
       const rightFixedBodyColumns = wrapper.findAll(
         '.el-table__body .el-table-fixed-column--right'
       )
-      expect(leftFixedHeaderColumns.length).toBe(2)
-      expect(leftFixedBodyColumns.length).toBe(10)
-      expect(rightFixedHeaderColumns.length).toBe(1)
-      expect(rightFixedBodyColumns.length).toBe(5)
-      expect(leftFixedHeaderColumns[0].text()).toBe('test1')
-      expect(leftFixedHeaderColumns[1].text()).toBe('test3')
-      expect(leftFixedHeaderColumns[1].classes()).toContain('is-last-column')
-      expect(rightFixedHeaderColumns[0].text()).toBe('test2')
-      expect(rightFixedHeaderColumns[0].classes()).toContain('is-first-column')
-      expect(getComputedStyle(leftFixedHeaderColumns[0].element).left).toBe(
+      expect(leftFixedHeaderColumns).toHaveLength(2)
+      expect(leftFixedBodyColumns).toHaveLength(10)
+      expect(rightFixedHeaderColumns).toHaveLength(1)
+      expect(rightFixedBodyColumns).toHaveLength(5)
+      expect(leftFixedHeaderColumns.at(0).text()).toBe('test1')
+      expect(leftFixedHeaderColumns.at(1).text()).toBe('test3')
+      expect(leftFixedHeaderColumns.at(1).classes()).toContain('is-last-column')
+      expect(rightFixedHeaderColumns.at(0).text()).toBe('test2')
+      expect(rightFixedHeaderColumns.at(0).classes()).toContain(
+        'is-first-column'
+      )
+      expect(getComputedStyle(leftFixedHeaderColumns.at(0).element).left).toBe(
         '0px'
       )
-      expect(getComputedStyle(leftFixedHeaderColumns[1].element).left).toBe(
+      expect(getComputedStyle(leftFixedHeaderColumns.at(1).element).left).toBe(
         '100px'
       )
-      expect(getComputedStyle(rightFixedHeaderColumns[0].element).right).toBe(
-        '0px'
-      )
+      expect(
+        getComputedStyle(rightFixedHeaderColumns.at(0).element).right
+      ).toBe('0px')
       wrapper.unmount()
     })
 
@@ -1033,14 +1035,10 @@ describe('table column', () => {
       })
 
       await nextTick()
-      expect(
-        Object.keys(wrapper.find('.el-table-fixed-column--left')).length
-      ).toEqual(0)
+      expect(wrapper.find('.el-table-fixed-column--left').exists()).toBeFalsy()
       wrapper.vm.fixed = true
       await nextTick()
-      expect(
-        Object.keys(wrapper.find('.el-table-fixed-column--left')).length
-      ).toBeGreaterThan(0)
+      expect(wrapper.find('.el-table-fixed-column--left').exists()).toBeTruthy()
       wrapper.unmount()
     })
 
