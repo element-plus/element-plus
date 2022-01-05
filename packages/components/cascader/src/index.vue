@@ -324,7 +324,7 @@ export default defineComponent({
     )
     const realSize = useSize()
     const tagSize = computed(() =>
-      ['small'].includes(realSize.value) ? 'small' : 'default'
+      ['small', 'default'].includes(realSize.value) ? 'small' : 'default'
     )
     const multiple = computed(() => !!props.props.multiple)
     const readonly = computed(() => !props.filterable || multiple.value)
@@ -504,9 +504,11 @@ export default defineComponent({
 
       if (tagWrapperEl) {
         const { offsetHeight } = tagWrapperEl
+        const _offsetHeight =
+          offsetHeight + (realSize.value === 'small' ? 0 : 6)
         const height =
           presentTags.value.length > 0
-            ? `${Math.max(offsetHeight + 6, inputInitialHeight)}px`
+            ? `${Math.max(_offsetHeight, inputInitialHeight)}px`
             : `${inputInitialHeight}px`
         inputInner.style.height = height
         updatePopperPosition()
