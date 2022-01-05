@@ -27,11 +27,12 @@ config-provider/button
 
 ## Config Provider Attributes
 
-| Attribute | Description                                                                                                                                                       | Type                                 | Accepted Values                                                                         | Default                 |
-| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ | --------------------------------------------------------------------------------------- | ----------------------- |
-| locale    | Locale Object                                                                                                                                                     | Object\<Language\>                   | [languages](https://github.com/element-plus/element-plus/tree/dev/packages/locale/lang) | English                 |
-| i18n      | External translator, when this attribute is provided, it will be used at first, and it will fallback to default translator when this method returns nullish value | Function\<(...args: []) =\> string\> | -                                                                                       | -                       |
-| button    | button related configuration, [see the following table](#button-attributes)                                                                                       | ButtonGlobalConfig                   | -                                                                                       | see the following table |
+| Attribute | Description                                                                 | Type               | Accepted Values                                                                         | Default                 |
+| --------- | --------------------------------------------------------------------------- | ------------------ | --------------------------------------------------------------------------------------- | ----------------------- |
+| locale    | Locale Object                                                               | Object\<Language\> | [languages](https://github.com/element-plus/element-plus/tree/dev/packages/locale/lang) | English                 |
+| size      | global component size                                                       | string             | large / default /small                                                                  | default                 |
+| zIndex    | global Initial zIndex                                                       | number             | -                                                                                       | -                       |
+| button    | button related configuration, [see the following table](#button-attributes) | ButtonGlobalConfig | -                                                                                       | see the following table |
 
 ## Button Attributes
 
