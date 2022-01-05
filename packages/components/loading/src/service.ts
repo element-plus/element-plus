@@ -19,7 +19,7 @@ export const Loading = function (
   const resolved = resolveOptions(options)
 
   if (resolved.isService && fullscreenInstance) {
-    addElAttris(resolved, fullscreenInstance)
+    initElAttris(resolved, fullscreenInstance)
     return fullscreenInstance
   } else {
     const instance = createLoadingComponent({
@@ -30,14 +30,14 @@ export const Loading = function (
       },
     })
 
-    addElAttris(resolved, instance)
+    initElAttris(resolved, instance)
     if (resolved.isService) {
       fullscreenInstance = instance
     }
     return instance
   }
 }
-const addElAttris = (
+const initElAttris = (
   resolved: LoadingOptionsResolved,
   instance: LoadingInstance
 ) => {
