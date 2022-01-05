@@ -192,7 +192,7 @@ export default defineComponent({
   },
   setup() {
     return {
-      size: 3000,
+      zIndex: 3000,
       size: 'small',
     }
   },
