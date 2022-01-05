@@ -78,6 +78,7 @@ export default defineComponent({
         filteredValue: [],
         filterPlacement: '',
         isColumnGroup: false,
+        isSubColumn: false,
         filterOpened: false,
         // sort 相关属性
         sortable,

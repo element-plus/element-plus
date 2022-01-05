@@ -1,6 +1,11 @@
 import { computed, getCurrentInstance } from 'vue'
+import {
+  getFixedColumnOffset,
+  getFixedColumnsClass,
+  ensurePosition,
+  ensureRightFixedStyle,
+} from '../util'
 import useMapState from './mapState-helper'
-
 import type { Table } from '../table/defaults'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { TableFooter } from '.'
@@ -8,60 +13,67 @@ import type { TableFooter } from '.'
 function useStyle<T>(props: TableFooter<T>) {
   const instance = getCurrentInstance()
   const table = instance.parent as Table<T>
-  const store = table.store
 
-  const {
-    leftFixedLeafCount,
-    rightFixedLeafCount,
-    columnsCount,
-    leftFixedCount,
-    rightFixedCount,
-    columns,
-  } = useMapState<T>()
+  const { columns } = useMapState<T>()
 
   const hasGutter = computed(() => {
-    return !props.fixed && !table.layout.gutterWidth
+    return (
+      !props.fixed &&
+      table.layout.gutterWidth > 0 &&
+      table.layout.height.value &&
+      table.layout.bodyScrollHeight.value > table.layout.bodyHeight.value
+    )
   })
-  const isCellHidden = (
-    index: number,
+
+  const gutterWidth = computed(() => {
+    return table.layout.gutterWidth
+  })
+  const getCellClasses = (
     columns: TableColumnCtx<T>[],
-    column: TableColumnCtx<T>
+    cellIndex: number,
+    hasGutter: boolean
   ) => {
-    if (props.fixed || props.fixed === 'left') {
-      return index >= leftFixedLeafCount.value
-    } else if (props.fixed === 'right') {
-      let before = 0
-      for (let i = 0; i < index; i++) {
-        before += columns[i].colSpan
-      }
-      return before < columnsCount.value - rightFixedLeafCount.value
-    } else if (!props.fixed && column.fixed) {
-      // hide cell when footer instance is not fixed and column is fixed
-      return true
-    } else {
-      return (
-        index < leftFixedCount.value ||
-        index >= columnsCount.value - rightFixedCount.value
-      )
-    }
-  }
-  const getRowClasses = (column: TableColumnCtx<T>, cellIndex: number) => {
-    const classes = [column.id, column.align, column.labelClassName]
+    const column = columns[cellIndex]
+    const classes = [
+      'el-table__cell',
+      column.id,
+      column.align,
+      column.labelClassName,
+      ...getFixedColumnsClass(cellIndex, column.fixed, props.store),
+    ]
     if (column.className) {
       classes.push(column.className)
-    }
-    if (isCellHidden(cellIndex, store.states.columns.value, column)) {
-      classes.push('is-hidden')
     }
     if (!column.children) {
       classes.push('is-leaf')
     }
+    if (hasGutter && cellIndex === columns.length - 1) {
+      classes.push('last')
+    }
     return classes
+  }
+
+  const getCellStyles = (
+    column: TableColumnCtx<T>,
+    cellIndex: number,
+    hasGutter: boolean
+  ) => {
+    const fixedStyle = getFixedColumnOffset(
+      cellIndex,
+      column.fixed,
+      props.store
+    )
+    ensureRightFixedStyle(fixedStyle, hasGutter)
+    ensurePosition(fixedStyle, 'left')
+    ensurePosition(fixedStyle, 'right')
+    return fixedStyle
   }
 
   return {
     hasGutter,
-    getRowClasses,
+    gutterWidth,
+    getCellClasses,
+    getCellStyles,
     columns,
   }
 }
