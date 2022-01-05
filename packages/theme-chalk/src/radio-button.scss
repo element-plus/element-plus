@@ -21,7 +21,7 @@
     white-space: nowrap;
     vertical-align: middle;
     background: var(--el-button-bg-color, map.get($button, 'bg-color'));
-    border: $border-base;
+    border: var(--el-button-border-color, $border-base);
     font-weight: var(--el-button-font-weight, map.get($button, 'font-weight'));
     border-left: 0;
     color: var(--el-button-text-color, map.get($button, 'text-color'));
