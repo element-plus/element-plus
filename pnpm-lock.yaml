@@ -20,7 +20,7 @@ importers:
       '@pnpm/types': 7.8.0
       '@popperjs/core': ^2.10.2
       '@rollup/plugin-commonjs': 21.0.1
-      '@rollup/plugin-node-resolve': 13.1.2
+      '@rollup/plugin-node-resolve': 13.1.3
       '@rollup/plugin-replace': 3.0.1
       '@sucrase/jest-plugin': 2.2.0
       '@types/fs-extra': 9.0.13
@@ -97,7 +97,7 @@ importers:
       '@pnpm/logger': 4.0.0
       '@pnpm/types': 7.8.0
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.63.0
-      '@rollup/plugin-node-resolve': 13.1.2_rollup@2.63.0
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.63.0
       '@rollup/plugin-replace': 3.0.1_rollup@2.63.0
       '@sucrase/jest-plugin': 2.2.0
       '@types/fs-extra': 9.0.13
@@ -1592,8 +1592,8 @@ packages:
       rollup: 2.63.0
     dev: true
 
-  /@rollup/plugin-node-resolve/13.1.2_rollup@2.63.0:
-    resolution: {integrity: sha512-xyqbuf1vyOPC60jEKhx3DBHunymnCJswzjNTKfX4Jz7zCPar1UqbRZCNY1u5QaXh97beaFTWdoUUWiV4qX8o/g==}
+  /@rollup/plugin-node-resolve/13.1.3_rollup@2.63.0:
+    resolution: {integrity: sha512-BdxNk+LtmElRo5d06MGY4zoepyrXX1tkzX2hrnPEZ53k78GuOMWLqmJDGIIOPwVRIFZrLQOo+Yr6KtCuLIA0AQ==}
     engines: {node: '>= 10.0.0'}
     peerDependencies:
       rollup: ^2.42.0
