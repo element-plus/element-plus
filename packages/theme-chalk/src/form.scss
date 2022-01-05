@@ -5,6 +5,26 @@
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
+$form-item-margin-bottom: () !default;
+$form-item-margin-bottom: map.merge(
+  (
+    'large': 22px,
+    'default': 18px,
+    'small': 18px,
+  ),
+  $form-item-margin-bottom
+);
+
+$form-item-line-height: () !default;
+$form-item-line-height: map.merge(
+  (
+    'large': 40px,
+    'default': 32px,
+    'small': 24px,
+  ),
+  $form-item-line-height
+);
+
 @include b(form) {
   @include set-component-css-var('form', $form);
 
@@ -27,7 +47,7 @@
     & .#{$namespace}-form-item {
       display: inline-flex;
       vertical-align: middle;
-      margin-right: 10px;
+      margin-right: 32px;
     }
 
     &.#{$namespace}-form--label-top {
@@ -44,7 +64,7 @@
 @include b(form-item) {
   display: flex;
   --font-size: #{map.get($input-font-size, 'default')};
-  margin-bottom: calc(var(--font-size) + 8px);
+  margin-bottom: #{map.get($form-item-margin-bottom, 'default')};
 
   & .#{$namespace}-form-item {
     margin-bottom: 0;
@@ -58,6 +78,14 @@
     @include m($size) {
       --font-size: #{map.get($input-font-size, $size)};
       --el-form-label-font-size: var(--font-size);
+      margin-bottom: #{map.get($form-item-margin-bottom, $size)};
+
+      @include e(label) {
+        line-height: #{map.get($form-item-line-height, $size)};
+      }
+      @include e(content) {
+        line-height: #{map.get($form-item-line-height, $size)};
+      }
     }
   }
 
@@ -72,7 +100,7 @@
     text-align: right;
     font-size: var(--el-form-label-font-size);
     color: var(--el-text-color-regular);
-    line-height: calc(var(--el-form-label-font-size) * 2 + 4px);
+    line-height: #{map.get($form-item-line-height, 'defalt')};
     padding: 0 12px 0 0;
     box-sizing: border-box;
   }
@@ -81,7 +109,7 @@
     flex-wrap: wrap;
     align-items: center;
     flex: 1;
-    line-height: calc(var(--font-size) * 2 + 4px);
+    line-height: #{map.get($form-item-line-height, 'defalt')};
     position: relative;
     font-size: var(--font-size);
     min-width: 0;
