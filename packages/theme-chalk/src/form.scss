@@ -25,6 +25,16 @@ $form-item-line-height: map.merge(
   $form-item-line-height
 );
 
+$form-item-error-padding-top: () !default;
+$form-item-error-padding-top: map.merge(
+  (
+    'large': 4px,
+    'default': 2px,
+    'small': 2px,
+  ),
+  $form-item-error-padding-top
+);
+
 @include b(form) {
   @include set-component-css-var('form', $form);
 
@@ -86,6 +96,9 @@ $form-item-line-height: map.merge(
       @include e(content) {
         line-height: #{map.get($form-item-line-height, $size)};
       }
+      @include e(error) {
+        padding-top: #{map.get($form-item-error-padding-top, $size)};
+      }
     }
   }
 
@@ -122,7 +135,7 @@ $form-item-line-height: map.merge(
     color: var(--el-color-danger);
     font-size: 12px;
     line-height: 1;
-    padding-top: 4px;
+    padding-top: #{map.get($form-item-error-padding-top, 'defalt')};
     position: absolute;
     top: 100%;
     left: 0;
