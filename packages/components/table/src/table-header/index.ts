@@ -2,7 +2,7 @@ import {
   defineComponent,
   getCurrentInstance,
   computed,
-  onMounted,
+  watch,
   nextTick,
   ref,
   h,
@@ -74,7 +74,7 @@ export default defineComponent({
     const gutterWidth = computed(() => {
       return tableLayout.gutterWidth
     })
-    onMounted(() => {
+    watch(storeData.columns, () => {
       nextTick(() => {
         const { prop, order } = props.defaultSort
         const init = true
