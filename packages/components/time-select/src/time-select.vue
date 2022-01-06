@@ -31,6 +31,7 @@
 
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue'
+import dayjs from 'dayjs'
 import ElSelect from '@element-plus/components/select'
 import ElIcon from '@element-plus/components/icon'
 import { CircleClose, Clock } from '@element-plus/icons-vue'
@@ -50,9 +51,10 @@ const parseTime = (time: string): null | Time => {
   if (values.length >= 2) {
     let hours = parseInt(values[0], 10)
     const minutes = parseInt(values[1], 10)
-    if (time.includes('AM') && hours === 12) {
+    const timeUpper = time.toUpperCase()
+    if (timeUpper.includes('AM') && hours === 12) {
       hours = 0
-    } else if (time.includes('PM') && hours !== 12) {
+    } else if (timeUpper.includes('PM') && hours !== 12) {
       hours += 12
     }
     return {
@@ -72,11 +74,11 @@ const compareTime = (time1: string, time2: string): number => {
   }
   return minutes1 > minutes2 ? 1 : -1
 }
+const padTime = (time: number | string) => {
+  return `${time}`.padStart(2, '0')
+}
 const formatTime = (time: Time): string => {
-  return `${`${time.hours}`.padStart(2, '0')}:${`${time.minutes}`.padStart(
-    2,
-    '0'
-  )}`
+  return `${padTime(time.hours)}:${padTime(time.minutes)}`
 }
 const nextTime = (time: string, step: string): string => {
   const timeValue = parseTime(time)
@@ -92,22 +94,6 @@ const nextTime = (time: string, step: string): string => {
   return formatTime(next)
 }
 
-const format12h = (current: string): string => {
-  const time = parseTime(current)
-  let hours = time.hours
-  if (hours === 0 || hours === 24) {
-    hours = 12
-  }
-  if (hours > 12) {
-    hours = hours - 12
-  }
-  const apm = time.hours >= 12 && time.hours !== 24 ? ' PM' : ' AM'
-  return `${`${hours}`.padStart(2, '0')}:${`${time.minutes}`.padStart(
-    2,
-    '0'
-  )}${apm}`
-}
-
 export default defineComponent({
   name: 'ElTimeSelect',
   components: { ElSelect, ElOption, ElIcon },
@@ -116,9 +102,9 @@ export default defineComponent({
     event: 'change',
   },
   props: {
-    use12Hour: {
-      type: Boolean,
-      default: false,
+    format: {
+      type: String,
+      default: 'HH:mm',
     },
     modelValue: String,
     disabled: {
@@ -187,10 +173,7 @@ export default defineComponent({
         let current = props.start
         let currentTime
         while (compareTime(current, props.end) <= 0) {
-          currentTime = current
-          if (props.use12Hour) {
-            currentTime = format12h(current)
-          }
+          currentTime = dayjs(current, 'HH:mm').format(props.format)
           result.push({
             value: currentTime,
             disabled:

@@ -1,8 +1,11 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
 import Select from '@element-plus/components/select'
 import { sleep } from '@element-plus/test-utils'
 import TimeSelect from '../src/time-select.vue'
+dayjs.extend(customParseFormat)
 
 const { Option } = Select
 
@@ -171,14 +174,14 @@ describe('TimeSelect', () => {
     expect(attr).toEqual('true')
   })
 
-  it('set use-12-hour', async () => {
+  it('set format', async () => {
     const wrapper = _mount(
-      `  <el-time-select
+      `<el-time-select
     v-model="value"
     start="13:00"
     step="00:30"
     end="13:30"
-    :use-12-hour="true"
+    format="hh:mm A"
   >
   </el-time-select>`,
       () => ({ value: '' })
