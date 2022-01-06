@@ -19,6 +19,15 @@ $checkbox-bordered-input-height: map.merge(
   $checkbox-bordered-input-height
 );
 
+$checkbox-font-size: () !default;
+$checkbox-font-size: map.merge(
+  (
+    'large': 14px,
+    'small': 12px,
+  ),
+  $checkbox-font-size
+);
+
 $checkbox-bordered-input-width: () !default;
 $checkbox-bordered-input-width: map.merge(
   $checkbox-bordered-input-height,
@@ -41,12 +50,6 @@ $checkbox-bordered-input-width: map.merge(
   user-select: none;
   margin-right: 30px;
   height: map.get($checkbox-height, 'default');
-
-  @each $size in (large, small) {
-    &.#{$namespace}-checkbox--#{$size} {
-      height: map.get($checkbox-height, $size);
-    }
-  }
 
   @include when(bordered) {
     padding: 0 map.get($checkbox-bordered-padding-right, 'default')-$border-width-base
@@ -238,6 +241,37 @@ $checkbox-bordered-input-width: map.merge(
     padding-left: 8px;
     line-height: 1;
     font-size: var(--el-checkbox-font-size);
+  }
+
+  @each $size in (large, small) {
+    &.#{$namespace}-checkbox--#{$size} {
+      height: map.get($checkbox-height, $size);
+      @include e(label) {
+        font-size: map.get($checkbox-font-size, $size);
+      }
+      @include e(inner) {
+        width: map.get($checkbox-font-size, $size);
+        height: map.get($checkbox-font-size, $size);
+      }
+    }
+  }
+
+  &.#{$namespace}-checkbox--small {
+    @include e(input) {
+      @include when(indeterminate) {
+        @include e(inner) {
+          &::before {
+            top: 4px;
+          }
+        }
+      }
+    }
+    @include e(inner) {
+      &::after {
+        width: 2px;
+        height: 6px;
+      }
+    }
   }
 
   &:last-of-type {
