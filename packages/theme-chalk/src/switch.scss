@@ -14,6 +14,16 @@ $switch-height: map.merge(
   $switch-height
 );
 
+$switch-font-size: () !default;
+$switch-font-size: map.merge(
+  (
+    'large': 14px,
+    'default': 14px,
+    'small': 12px,
+  ),
+  $switch-font-size
+);
+
 @include b(switch) {
   @include set-component-css-var('switch', $switch);
 }
@@ -22,7 +32,7 @@ $switch-height: map.merge(
   display: inline-flex;
   align-items: center;
   position: relative;
-  font-size: var(--el-switch-font-size);
+  font-size: map.get($switch-font-size, 'default');
   line-height: var(--el-switch-height);
   height: map.get($switch-height, 'default');
   vertical-align: middle;
@@ -37,7 +47,7 @@ $switch-height: map.merge(
     transition: var(--el-transition-duration-fast);
     height: var(--el-switch-height);
     display: inline-block;
-    font-size: var(--el-switch-font-size);
+    font-size: map.get($switch-font-size, 'default');
     font-weight: 500;
     cursor: pointer;
     vertical-align: middle;
@@ -55,11 +65,12 @@ $switch-height: map.merge(
     }
     & * {
       line-height: 1;
-      font-size: var(--el-switch-font-size);
+      font-size: map.get($switch-font-size, 'default');
       display: inline-block;
     }
     .#{$namespace}-icon {
       height: inherit;
+
       svg {
         vertical-align: middle;
       }
@@ -150,11 +161,13 @@ $switch-height: map.merge(
     .#{$namespace}-switch__core {
       border-color: var(--el-switch-on-color);
       background-color: var(--el-switch-on-color);
+
       .#{$namespace}-switch__action {
         left: 100%;
         margin-left: calc(-1px - var(--el-switch-button-size));
         color: var(--el-switch-on-color);
       }
+
       .#{$namespace}-switch__inner {
         left: 50%;
         margin-left: calc(-1px - var(--el-switch-button-size));
@@ -173,6 +186,7 @@ $switch-height: map.merge(
           left: 10px;
         }
       }
+
       &.#{$namespace}-switch__label--right {
         span {
           right: 10px;
@@ -188,7 +202,16 @@ $switch-height: map.merge(
 
   @each $size in (large, small) {
     @include m($size) {
+      font-size: map.get($switch-font-size, $size);
       height: map.get($switch-height, $size);
+
+      @include e(label) {
+        font-size: map.get($switch-font-size, $size);
+
+        & * {
+          font-size: map.get($switch-font-size, $size);
+        }
+      }
     }
   }
 }
