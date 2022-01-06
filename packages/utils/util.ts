@@ -35,7 +35,7 @@ export const getValueByPath = (obj, paths = ''): unknown => {
   paths.split('.').map((path) => {
     ret = ret?.[path]
   })
-  return ret
+  return Number.isNaN(Number(ret)) ? ret : Number(ret)
 }
 
 export function getPropByPath(
