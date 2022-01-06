@@ -1,6 +1,6 @@
 import { onBeforeMount } from 'vue'
+import { isClient } from '@vueuse/core'
 import { generateId } from '@element-plus/utils/util'
-import isServer from '@element-plus/utils/isServer'
 
 let cachedContainer: HTMLElement
 
@@ -10,7 +10,7 @@ export const POPPER_CONTAINER_SELECTOR = `#${POPPER_CONTAINER_ID}`
 
 export const usePopperContainer = () => {
   onBeforeMount(() => {
-    if (isServer) return
+    if (!isClient) return
 
     // This is for bypassing the error that when under testing env, we often encounter
     // document.body.innerHTML = '' situation
