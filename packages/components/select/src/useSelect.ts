@@ -339,18 +339,20 @@ export const useSelect = (props, states: States, ctx) => {
         states.selected.length === 0
           ? `${sizeInMap}px`
           : `${Math.max(
-              _tags
-                ? _tags.clientHeight + (_tags.clientHeight > sizeInMap ? 6 : 0)
-                : 0,
+              _tags ? _tags.clientHeight + paddingHeight(_tags, sizeInMap) : 0,
               sizeInMap
             )}px`
 
       states.tagInMultiLine = parseFloat(input.style.height) > sizeInMap
-
       if (states.visible && emptyText.value !== false) {
         tooltipRef.value?.updatePopper?.()
       }
     })
+  }
+  const paddingHeight = (_tags, sizeInMap): number => {
+    return _tags.clientHeight > sizeInMap && collapseTagSize.value !== 'small'
+      ? 6
+      : 0
   }
 
   const handleQueryChange = (val) => {

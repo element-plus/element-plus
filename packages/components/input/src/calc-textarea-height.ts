@@ -108,6 +108,6 @@ export function calcTextareaHeight(
   result.height = `${height}px`
   hiddenTextarea.parentNode?.removeChild(hiddenTextarea)
   hiddenTextarea = undefined
-
+  console.log(result.height, 'result.height')
   return result
 }
