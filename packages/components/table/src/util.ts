@@ -73,10 +73,12 @@ export const orderBy = function <T>(
       return sortMethod(a.value, b.value)
     }
     for (let i = 0, len = a.key.length; i < len; i++) {
-      if (a.key[i] < b.key[i]) {
+      const _a = Number.isNaN(Number(a.key[i])) ? a.key[i] : Number(a.key[i])
+      const _b = Number.isNaN(Number(b.key[i])) ? b.key[i] : Number(b.key[i])
+      if (_a < _b) {
         return -1
       }
-      if (a.key[i] > b.key[i]) {
+      if (_a > _b) {
         return 1
       }
     }
