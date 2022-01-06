@@ -10,6 +10,7 @@
       <div
         ref="root"
         v-trap-focus
+        role="dialog"
         :aria-label="title || 'dialog'"
         aria-modal="true"
         :class="[
