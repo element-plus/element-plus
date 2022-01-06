@@ -103,6 +103,8 @@ $form-item-error-padding-top: map.merge(
   }
 
   @include e(label-wrap) {
+    display: flex;
+
     .#{$namespace}-form-item__label {
       display: inline-block;
     }
