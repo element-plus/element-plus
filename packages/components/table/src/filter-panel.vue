@@ -1,18 +1,17 @@
 <template>
-  <el-popper
+  <el-tooltip
     ref="tooltip"
     v-model:visible="tooltipVisible"
     :offset="0"
     :placement="placement"
     :show-arrow="false"
     :stop-popper-mouse-event="false"
-    :effect="Effect.LIGHT"
-    pure
-    manual-mode
-    popper-class="el-table-filter"
     append-to-body
+    effect="light"
+    pure
+    popper-class="el-table-filter"
   >
-    <template #default>
+    <template #content>
       <div v-if="multiple">
         <div class="el-table-filter__content">
           <el-scrollbar wrap-class="el-table-filter__wrap">
@@ -66,7 +65,7 @@
         </li>
       </ul>
     </template>
-    <template #trigger>
+    <template #default>
       <span
         v-click-outside:[popperPaneRef]="hideFilterPanel"
         class="el-table__column-filter-trigger el-none-outline"
@@ -78,7 +77,7 @@
         </el-icon>
       </span>
     </template>
-  </el-popper>
+  </el-tooltip>
 </template>
 
 <script lang="ts">
@@ -88,7 +87,7 @@ import { ElIcon } from '@element-plus/components/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { ClickOutside } from '@element-plus/directives'
 import { useLocale } from '@element-plus/hooks'
-import ElPopper, { Effect } from '@element-plus/components/popper'
+import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import type { Placement } from '@element-plus/components/popper'
 
@@ -105,7 +104,7 @@ export default defineComponent({
     ElCheckbox,
     ElCheckboxGroup,
     ElScrollbar,
-    ElPopper,
+    ElTooltip,
     ElIcon,
     ArrowDown,
     ArrowUp,
@@ -134,7 +133,7 @@ export default defineComponent({
       parent.filterPanels.value[props.column.id] = instance
     }
     const tooltipVisible = ref(false)
-    const tooltip = ref(null)
+    const tooltip = ref<InstanceType<typeof ElTooltip> | null>(null)
     const filters = computed(() => {
       return props.column && props.column.filters
     })
@@ -221,7 +220,7 @@ export default defineComponent({
     )
 
     const popperPaneRef = computed(() => {
-      return tooltip.value?.popperRef
+      return tooltip.value?.popperRef?.contentRef
     })
 
     return {
@@ -239,7 +238,6 @@ export default defineComponent({
       hideFilterPanel,
       popperPaneRef,
       tooltip,
-      Effect,
     }
   },
 })

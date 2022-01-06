@@ -65,7 +65,14 @@ export default defineComponent({
     const { tableLayout, onColumnsChange, onScrollableChange } =
       useLayoutObserver(parent)
     const hasGutter = computed(() => {
-      return !props.fixed && tableLayout.gutterWidth
+      return (
+        !props.fixed &&
+        tableLayout.gutterWidth > 0 &&
+        tableLayout.bodyScrollHeight.value > tableLayout.bodyHeight.value
+      )
+    })
+    const gutterWidth = computed(() => {
+      return tableLayout.gutterWidth
     })
     onMounted(() => {
       nextTick(() => {
@@ -104,6 +111,7 @@ export default defineComponent({
       columns: storeData.columns,
       filterPanels,
       hasGutter,
+      gutterWidth,
       onColumnsChange,
       onScrollableChange,
       columnRows,
@@ -123,6 +131,26 @@ export default defineComponent({
     }
   },
   render() {
+    const {
+      columns,
+      isGroup,
+      hasGutter,
+      columnRows,
+      gutterWidth,
+      getHeaderCellStyle,
+      getHeaderCellClass,
+      getHeaderRowClass,
+      getHeaderRowStyle,
+      handleHeaderClick,
+      handleHeaderContextMenu,
+      handleMouseDown,
+      handleMouseMove,
+      handleSortClick,
+      handleMouseOut,
+      store,
+      $parent,
+    } = this
+    let rowSpan = 1
     return h(
       'table',
       {
@@ -132,113 +160,135 @@ export default defineComponent({
         class: 'el-table__header',
       },
       [
-        hColgroup(this.columns, this.hasGutter),
+        hColgroup(columns, hasGutter),
         h(
           'thead',
           {
-            class: { 'is-group': this.isGroup, 'has-gutter': this.hasGutter },
+            class: { 'is-group': isGroup, 'has-gutter': hasGutter },
           },
-          this.columnRows.map((subColumns, rowIndex) =>
+          columnRows.map((subColumns, rowIndex) =>
             h(
               'tr',
               {
-                class: this.getHeaderRowClass(rowIndex),
+                class: getHeaderRowClass(rowIndex),
                 key: rowIndex,
-                style: this.getHeaderRowStyle(rowIndex),
+                style: getHeaderRowStyle(rowIndex),
               },
-              subColumns.map((column, cellIndex) =>
-                h(
-                  'th',
-                  {
-                    class: this.getHeaderCellClass(
-                      rowIndex,
-                      cellIndex,
-                      subColumns,
-                      column
-                    ),
-                    colspan: column.colSpan,
-                    key: `${column.id}-thead`,
-                    rowSpan: column.rowSpan,
-                    style: this.getHeaderCellStyle(
-                      rowIndex,
-                      cellIndex,
-                      subColumns,
-                      column
-                    ),
-                    onClick: ($event) => this.handleHeaderClick($event, column),
-                    onContextmenu: ($event) =>
-                      this.handleHeaderContextMenu($event, column),
-                    onMousedown: ($event) =>
-                      this.handleMouseDown($event, column),
-                    onMousemove: ($event) =>
-                      this.handleMouseMove($event, column),
-                    onMouseout: this.handleMouseOut,
-                  },
-                  [
-                    h(
-                      'div',
-                      {
-                        class: [
-                          'cell',
-                          column.filteredValue &&
-                          column.filteredValue.length > 0
-                            ? 'highlight'
-                            : '',
-                          column.labelClassName,
-                        ],
-                      },
-                      [
-                        column.renderHeader
-                          ? column.renderHeader({
+              subColumns
+                .map((column, cellIndex) => {
+                  if (column.rowSpan > rowSpan) {
+                    rowSpan = column.rowSpan
+                  }
+                  return h(
+                    'th',
+                    {
+                      class: getHeaderCellClass(
+                        rowIndex,
+                        cellIndex,
+                        subColumns,
+                        column
+                      ),
+                      colspan: column.colSpan,
+                      key: `${column.id}-thead`,
+                      rowSpan: column.rowSpan,
+                      style: getHeaderCellStyle(
+                        rowIndex,
+                        cellIndex,
+                        subColumns,
+                        column,
+                        hasGutter
+                      ),
+                      onClick: ($event) => handleHeaderClick($event, column),
+                      onContextmenu: ($event) =>
+                        handleHeaderContextMenu($event, column),
+                      onMousedown: ($event) => handleMouseDown($event, column),
+                      onMousemove: ($event) => handleMouseMove($event, column),
+                      onMouseout: handleMouseOut,
+                    },
+                    [
+                      h(
+                        'div',
+                        {
+                          class: [
+                            'cell',
+                            column.filteredValue &&
+                            column.filteredValue.length > 0
+                              ? 'highlight'
+                              : '',
+                            column.labelClassName,
+                          ],
+                        },
+                        [
+                          column.renderHeader
+                            ? column.renderHeader({
+                                column,
+                                $index: cellIndex,
+                                store,
+                                _self: $parent,
+                              })
+                            : column.label,
+                          column.sortable &&
+                            h(
+                              'span',
+                              {
+                                onClick: ($event) =>
+                                  handleSortClick($event, column),
+                                class: 'caret-wrapper',
+                              },
+                              [
+                                h('i', {
+                                  onClick: ($event) =>
+                                    handleSortClick(
+                                      $event,
+                                      column,
+                                      'ascending'
+                                    ),
+                                  class: 'sort-caret ascending',
+                                }),
+                                h('i', {
+                                  onClick: ($event) =>
+                                    handleSortClick(
+                                      $event,
+                                      column,
+                                      'descending'
+                                    ),
+                                  class: 'sort-caret descending',
+                                }),
+                              ]
+                            ),
+                          column.filterable &&
+                            h(FilterPanel, {
+                              store: $parent.store,
+                              placement:
+                                column.filterPlacement || 'bottom-start',
                               column,
-                              $index: cellIndex,
-                              store: this.store,
-                              _self: this.$parent,
-                            })
-                          : column.label,
-                        column.sortable &&
-                          h(
-                            'span',
-                            {
-                              onClick: ($event) =>
-                                this.handleSortClick($event, column),
-                              class: 'caret-wrapper',
+                              upDataColumn: (key, value) => {
+                                column[key] = value
+                              },
+                            }),
+                        ]
+                      ),
+                    ]
+                  )
+                })
+                .concat(
+                  hasGutter && rowIndex === 0
+                    ? [
+                        h(
+                          'th',
+                          {
+                            class: 'el-table__fixed-right-patch el-table__cell',
+                            key: `el-table--scrollbar`,
+                            rowSpan,
+                            style: {
+                              width: `${gutterWidth}px`,
                             },
-                            [
-                              h('i', {
-                                onClick: ($event) =>
-                                  this.handleSortClick(
-                                    $event,
-                                    column,
-                                    'ascending'
-                                  ),
-                                class: 'sort-caret ascending',
-                              }),
-                              h('i', {
-                                onClick: ($event) =>
-                                  this.handleSortClick(
-                                    $event,
-                                    column,
-                                    'descending'
-                                  ),
-                                class: 'sort-caret descending',
-                              }),
-                            ]
-                          ),
-                        column.filterable &&
-                          h(FilterPanel, {
-                            store: this.$parent.store,
-                            placement: column.filterPlacement || 'bottom-start',
-                            column,
-                            upDataColumn: (key, value) => {
-                              column[key] = value
-                            },
-                          }),
+                          },
+                          []
+                        ),
                       ]
-                    ),
-                  ]
+                    : []
                 )
-              )
             )
           )
         ),

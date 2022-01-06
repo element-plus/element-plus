@@ -175,16 +175,29 @@ app.use(ElementPlus, { size: 'small', zIndex: 3000 })
 
 On-demand:
 
-```ts
-import { createApp } from 'vue'
-import { ElButton } from 'element-plus'
-import App from './App.vue'
+```vue
+<template>
+  <el-config-provider :size="size" :zIndex="zIndex">
+    <app />
+  </el-config-provider>
+</template>
 
-const app = createApp(App)
-app.config.globalProperties.$ELEMENT = {
-  // options
-}
-app.use(ElButton)
+<script>
+import { defineComponent } from 'vue'
+import { ElConfigProvider } from 'element-plus'
+
+export default defineComponent({
+  components: {
+    ElConfigProvider,
+  },
+  setup() {
+    return {
+      zIndex: 3000,
+      size: 'small',
+    }
+  },
+})
+</script>
 ```
 
 ## Using Nuxt.js
