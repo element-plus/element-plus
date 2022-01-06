@@ -339,9 +339,7 @@ export const useSelect = (props, states: States, ctx) => {
         states.selected.length === 0
           ? `${sizeInMap}px`
           : `${Math.max(
-              _tags
-                ? _tags.clientHeight + (_tags.clientHeight > sizeInMap ? 6 : 0)
-                : 0,
+              _tags ? _tags.clientHeight + paddingHeight(_tags, sizeInMap) : 0,
               sizeInMap
             )}px`
 
@@ -352,7 +350,11 @@ export const useSelect = (props, states: States, ctx) => {
       }
     })
   }
-
+  const paddingHeight = (_tags, sizeInMap): number => {
+    return _tags.clientHeight > sizeInMap && collapseTagSize.value !== 'small'
+      ? 6
+      : 0
+  }
   const handleQueryChange = (val) => {
     if (states.previousQuery === val || states.isOnComposition) return
     if (
