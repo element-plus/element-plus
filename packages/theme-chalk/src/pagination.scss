@@ -8,9 +8,6 @@
 @include b(pagination) {
   @include set-component-css-var('pagination', $pagination);
 
-  display: inline-flex;
-  align-items: center;
-
   white-space: nowrap;
   padding: 2px 5px;
   color: var(--el-pagination-text-color);
