@@ -115,7 +115,7 @@ $form-item-error-padding-top: map.merge(
     text-align: right;
     font-size: var(--el-form-label-font-size);
     color: var(--el-text-color-regular);
-    line-height: #{map.get($form-item-line-height, 'defalt')};
+    line-height: #{map.get($form-item-line-height, 'default')};
     padding: 0 12px 0 0;
     box-sizing: border-box;
   }
@@ -124,7 +124,7 @@ $form-item-error-padding-top: map.merge(
     flex-wrap: wrap;
     align-items: center;
     flex: 1;
-    line-height: #{map.get($form-item-line-height, 'defalt')};
+    line-height: #{map.get($form-item-line-height, 'default')};
     position: relative;
     font-size: var(--font-size);
     min-width: 0;
@@ -137,7 +137,7 @@ $form-item-error-padding-top: map.merge(
     color: var(--el-color-danger);
     font-size: 12px;
     line-height: 1;
-    padding-top: #{map.get($form-item-error-padding-top, 'defalt')};
+    padding-top: #{map.get($form-item-error-padding-top, 'default')};
     position: absolute;
     top: 100%;
     left: 0;
