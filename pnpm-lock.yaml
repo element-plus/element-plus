@@ -158,7 +158,7 @@ importers:
       cross-env: 7.0.3
       element-plus: npm:element-plus@latest
       escape-html: 1.0.3
-      markdown-it: 12.3.0
+      markdown-it: 12.3.1
       markdown-it-container: 3.0.0
       normalize.css: 8.0.1
       nprogress: 0.2.0
@@ -182,7 +182,7 @@ importers:
       '@types/markdown-it': 12.2.3
       cross-env: 7.0.3
       escape-html: 1.0.3
-      markdown-it: 12.3.0
+      markdown-it: 12.3.1
       markdown-it-container: 3.0.0
       unplugin-icons: 0.13.0_rollup@2.63.0
       unplugin-vue-components: 0.17.11_rollup@2.63.0+vue@3.2.26
@@ -7330,8 +7330,8 @@ packages:
     resolution: {integrity: sha512-y6oKTq4BB9OQuY/KLfk/O3ysFhB3IMYoIWhGJEidXt1NQFocFK2sA2t0NYZAMyMShAGL6x5OPIbrmXPIqaN9rw==}
     dev: true
 
-  /markdown-it/12.3.0:
-    resolution: {integrity: sha512-T345UZZ6ejQWTjG6PSEHplzNy5m4kF6zvUpHVDv8Snl/pEU0OxIK0jGg8YLVNwJvT8E0YJC7/2UvssJDk/wQCQ==}
+  /markdown-it/12.3.1:
+    resolution: {integrity: sha512-xu6ZyQc/W1mWRwBOZT5ePVVn77MhHYkWwiAMgy/oBwUwSD2fS5xND3oIN44RCqVMgpNbhKtzZs9B75mC7FHwTQ==}
     hasBin: true
     dependencies:
       argparse: 2.0.1
