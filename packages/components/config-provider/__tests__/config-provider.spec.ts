@@ -4,6 +4,7 @@ import { localeContextKey } from '@element-plus/hooks'
 import Chinese from '@element-plus/locale/lang/zh-cn'
 import English from '@element-plus/locale/lang/en'
 import { ElButton, ElMessage } from '@element-plus/components'
+import { sleep } from '@element-plus/test-utils'
 import ConfigProvider from '../src/config-provider'
 import type { Language } from '@element-plus/locale'
 
@@ -162,6 +163,45 @@ describe('config-provider', () => {
       wrapper.find('.el-button').trigger('click')
       await nextTick()
       expect(document.querySelectorAll('.el-message').length).toBe(7)
+    })
+
+    it('multiple config-provider config override', async () => {
+      const wrapper = mount({
+        components: {
+          [ConfigProvider.name]: ConfigProvider,
+          ElButton,
+        },
+        setup() {
+          const config = reactive({
+            max: 3,
+          })
+          const overrideConfig = reactive({
+            max: 1,
+          })
+          const open = () => {
+            ElMessage('this is a message.')
+          }
+          return {
+            config,
+            overrideConfig,
+            open,
+          }
+        },
+        template: `
+          <el-config-provider :message="config">
+            <el-button @click="open">open</el-button>
+          </el-config-provider>
+          <el-config-provider :message="overrideConfig">
+          </el-config-provider>
+        `,
+      })
+      ElMessage.closeAll()
+      await sleep(40)
+      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.el-button').trigger('click')
+      await nextTick()
+      expect(document.querySelectorAll('.el-message').length).toBe(1)
     })
   })
 })
