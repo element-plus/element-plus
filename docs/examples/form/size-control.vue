@@ -5,9 +5,20 @@
       <el-radio-button label="default">default</el-radio-button>
       <el-radio-button label="small">small</el-radio-button>
     </el-radio-group>
+    <el-radio-group v-model="labelPosition">
+      <el-radio-button label="left">Left</el-radio-button>
+      <el-radio-button label="right">Right</el-radio-button>
+      <el-radio-button label="top">Top</el-radio-button>
+    </el-radio-group>
   </div>
   <br />
-  <el-form ref="form" :model="sizeForm" label-width="auto" :size="size">
+  <el-form
+    ref="form"
+    :model="sizeForm"
+    label-width="auto"
+    :label-position="labelPosition"
+    :size="size"
+  >
     <el-form-item label="Activity name">
       <el-input v-model="sizeForm.name"></el-input>
     </el-form-item>
@@ -67,6 +78,7 @@
 import { reactive, ref } from 'vue'
 
 const size = ref('default')
+const labelPosition = ref('right')
 
 const sizeForm = reactive({
   name: '',
@@ -83,3 +95,9 @@ function onSubmit() {
   console.log('submit!')
 }
 </script>
+
+<style>
+.el-radio-group {
+  margin-right: 12px;
+}
+</style>
