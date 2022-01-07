@@ -189,9 +189,9 @@ describe('config-provider', () => {
         },
         template: `
           <el-config-provider :message="config">
-            <el-button @click="open">open</el-button>
-          </el-config-provider>
-          <el-config-provider :message="overrideConfig">
+            <el-config-provider :message="overrideConfig">
+              <el-button @click="open">open</el-button>
+            </el-config-provider>
           </el-config-provider>
         `,
       })
