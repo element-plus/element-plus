@@ -167,20 +167,40 @@ export default defineComponent({
     // computed
     const select = ref(null)
     const value = computed(() => props.modelValue)
+    const start = computed(() => {
+      const time = parseTime(props.start)
+      return formatTime(time)
+    })
+    const end = computed(() => {
+      const time = parseTime(props.end)
+      return formatTime(time)
+    })
+    const step = computed(() => {
+      const time = parseTime(props.step)
+      return formatTime(time)
+    })
+    const minTime = computed(() => {
+      const time = parseTime(props.minTime)
+      return time ? formatTime(time) : null
+    })
+    const maxTime = computed(() => {
+      const time = parseTime(props.maxTime)
+      return time ? formatTime(time) : null
+    })
     const items = computed(() => {
       const result = []
       if (props.start && props.end && props.step) {
-        let current = props.start
+        let current = start.value
         let currentTime
-        while (compareTime(current, props.end) <= 0) {
+        while (compareTime(current, end.value) <= 0) {
           currentTime = dayjs(current, 'HH:mm').format(props.format)
           result.push({
             value: currentTime,
             disabled:
-              compareTime(current, props.minTime || '-1:-1') <= 0 ||
-              compareTime(current, props.maxTime || '100:100') >= 0,
+              compareTime(current, minTime.value || '-1:-1') <= 0 ||
+              compareTime(current, maxTime.value || '100:100') >= 0,
           })
-          current = nextTime(current, props.step)
+          current = nextTime(current, step.value)
         }
       }
       return result
