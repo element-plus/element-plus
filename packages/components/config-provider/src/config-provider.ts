@@ -1,13 +1,16 @@
-import { provide, defineComponent, watch } from 'vue'
+import { defineComponent, renderSlot, watch } from 'vue'
 import { buildProps, definePropType } from '@element-plus/utils/props'
-import { useLocaleProps, provideLocale } from '@element-plus/hooks'
-import { configProviderContextKey } from '@element-plus/tokens'
-import { PopupManager } from '@element-plus/utils/popup-manager'
-import { isNumber } from '@element-plus/utils/util'
+import { provideGlobalConfig } from '@element-plus/hooks'
+import type { Language } from '@element-plus/locale'
 import type { ButtonConfigContext } from '@element-plus/components/button'
+import type { MessageConfigContext } from '@element-plus/components/message'
+
+export const messageConfig: MessageConfigContext = {}
 
 export const configProviderProps = buildProps({
-  ...useLocaleProps,
+  locale: {
+    type: definePropType<Language>(Object),
+  },
 
   size: {
     type: String,
@@ -16,6 +19,10 @@ export const configProviderProps = buildProps({
 
   button: {
     type: definePropType<ButtonConfigContext>(Object),
+  },
+
+  message: {
+    type: definePropType<MessageConfigContext>(Object),
   },
 
   zIndex: {
@@ -28,18 +35,14 @@ export default defineComponent({
   props: configProviderProps,
 
   setup(props, { slots }) {
-    provideLocale()
-    provide(configProviderContextKey, props)
-
     watch(
-      () => props.zIndex,
-      () => {
-        if (isNumber(props.zIndex))
-          PopupManager.globalInitialZIndex = props.zIndex
+      () => props.message,
+      (val) => {
+        Object.assign(messageConfig, val ?? {})
       },
-      { immediate: true }
+      { immediate: true, deep: true }
     )
-
-    return () => slots.default?.()
+    const config = provideGlobalConfig(props)
+    return () => renderSlot(slots, 'default', { config: config?.value })
   },
 })

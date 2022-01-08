@@ -165,8 +165,7 @@ $dropdown-menu-padding-vertical: map.merge(
     color: var(--el-text-color-regular);
     cursor: pointer;
     outline: none;
-    &:not(.is-disabled):hover,
-    &:focus {
+    &:not(.is-disabled):focus {
       background-color: var(--el-dropdown-menuItem-hover-fill);
       color: var(--el-dropdown-menuItem-hover-color);
     }

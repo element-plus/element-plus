@@ -5,8 +5,10 @@ import {
   INPUT_EVENT,
 } from '@element-plus/utils/constants'
 import { isBool, isNumber, isString } from '@element-plus/utils/util'
+import { isValidComponentSize } from '@element-plus/utils/validators'
+import type { ComponentSize } from '@element-plus/utils/types'
 import type Switch from './switch.vue'
-import type { Component, ExtractPropTypes } from 'vue'
+import type { Component, ExtractPropTypes, PropType } from 'vue'
 
 export const switchProps = buildProps({
   modelValue: {
@@ -80,6 +82,10 @@ export const switchProps = buildProps({
   },
   beforeChange: {
     type: definePropType<() => Promise<boolean> | boolean>(Function),
+  },
+  size: {
+    type: String as PropType<ComponentSize>,
+    validator: isValidComponentSize,
   },
 } as const)
 

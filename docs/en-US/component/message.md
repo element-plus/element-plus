@@ -91,7 +91,7 @@ In this case you should call `ElMessage(options)`. We have also registered metho
 | ------------------------ | ------------------------------------------------------------------------------ | -------------------- | -------------------------- | ------------- |
 | message                  | message text                                                                   | string / VNode       | —                          | —             |
 | type                     | message type                                                                   | string               | success/warning/info/error | info          |
-| icon-class               | custom icon's class, overrides `type`                                          | string               | —                          | —             |
+| icon                     | custom icon component, overrides `type`                                        | string / Component   | —                          | —             |
 | dangerouslyUseHTMLString | whether `message` is treated as HTML string                                    | boolean              | —                          | false         |
 | custom-class             | custom class name for Message                                                  | string               | —                          | —             |
 | duration                 | display duration, millisecond. If set to 0, it will not turn off automatically | number               | —                          | 3000          |

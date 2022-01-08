@@ -1,6 +1,7 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import dayjs from 'dayjs'
+import { rAF } from '@element-plus/test-utils/tick'
 import ConfigProvider from '@element-plus/components/config-provider'
 import { CommonPicker } from '@element-plus/components/time-picker'
 import Input from '@element-plus/components/input'
@@ -237,6 +238,7 @@ describe('DatePicker', () => {
       }
     )
     await nextTick()
+    await rAF()
     const popperEl = document.querySelector('.el-picker__popper')
     const attr = popperEl.getAttribute('aria-hidden')
     expect(attr).toEqual('false')
@@ -321,6 +323,26 @@ describe('DatePicker', () => {
     const el = document.querySelector('td.available .cell')
     const text = el.textContent
     expect(text.includes('csw')).toBeTruthy()
+  })
+
+  it('custom content bail out slot compoent', async () => {
+    _mount(
+      `<el-date-picker
+        v-model="value"
+        ref="input">
+        <slot name="testest"></slot>
+      </el-date-picker>`,
+      () => ({ value: '' }),
+      {
+        mounted() {
+          this.$refs.input.focus()
+        },
+      }
+    )
+    await nextTick()
+    const el = document.querySelector<HTMLElement>('td.available')
+    const text = el.textContent
+    expect(!!text).toBeTruthy()
   })
 
   describe('value-format', () => {

@@ -1,6 +1,7 @@
 <template>
   <el-switch
     v-model="value1"
+    class="mb-2"
     active-text="Pay by month"
     inactive-text="Pay by year"
   >
@@ -8,6 +9,7 @@
   <br />
   <el-switch
     v-model="value2"
+    class="mb-2"
     active-color="#13ce66"
     inactive-color="#ff4949"
     active-text="Pay by month"
@@ -18,6 +20,7 @@
   </el-switch>
   <el-switch
     v-model="value4"
+    class="ml-2"
     inline-prompt
     active-color="#13ce66"
     inactive-color="#ff4949"

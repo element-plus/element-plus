@@ -239,3 +239,14 @@ export const refAttacher = <T extends HTMLElement | ComponentPublicInstance>(
     ref.value = val
   }
 }
+
+export const merge = <T extends Record<string, any>>(a: T, b: T) => {
+  const keys = [
+    ...new Set([...Object.keys(a), ...Object.keys(b)]),
+  ] as (keyof T)[]
+  const obj = {} as T
+  for (const key of keys) {
+    obj[key] = b[key] ?? a[key]
+  }
+  return obj
+}

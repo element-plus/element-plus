@@ -26,7 +26,7 @@ if (isClient) {
   on(document, 'mouseup', (e: MouseEvent) => {
     for (const handlers of nodeList.values()) {
       for (const { documentHandler } of handlers) {
-        documentHandler(e, startClick)
+        documentHandler(e as MouseEvent, startClick)
       }
     }
   })

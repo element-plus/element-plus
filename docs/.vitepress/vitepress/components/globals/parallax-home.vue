@@ -109,7 +109,7 @@ useEventListener(window, 'scroll', handleScroll)
         </a>
       </div>
       <div class="join">
-        <el-tooltip placement="top" hide-after="1000" offset="20">
+        <el-tooltip placement="top" :hide-after="1000" :offset="20">
           <template #content>
             {{ homeLang['21'] }}
             <a href="mailto:element-plus@outlook.com" target="_blank">

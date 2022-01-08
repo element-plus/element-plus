@@ -280,6 +280,7 @@ export default defineComponent({
       provide<SubMenuProvider>(`subMenu:${instance.uid}`, {
         addSubMenu,
         removeSubMenu,
+        mouseInChild: ref(false),
       })
     }
 

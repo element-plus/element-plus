@@ -125,9 +125,8 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
   @each $size in (large, small) {
     @include m($size) {
       @include e(wrapper) {
-        &,
-        #{$selector}__input-wrapper {
-          height: map.get($input-height, $size);
+        #{$selector}__combobox-input {
+          height: map.get($input-height, $size) - 6px;
         }
       }
       @include e(caret) {

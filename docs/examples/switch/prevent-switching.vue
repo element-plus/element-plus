@@ -6,6 +6,7 @@
   />
   <el-switch
     v-model="value2"
+    class="ml-2"
     :loading="loading2"
     :before-change="beforeChange2"
   />

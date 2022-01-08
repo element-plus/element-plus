@@ -13,6 +13,6 @@
     "@vitejs/plugin-vue": "2.0.1",
     "unplugin-vue-components": "0.17.11",
     "vite": "2.7.10",
-    "vite-plugin-inspect": "0.3.11"
+    "vite-plugin-inspect": "0.3.13"
   }
 }

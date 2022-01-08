@@ -19,7 +19,7 @@ export const useRestoreActive = (
           initialFocus.value.focus?.()
         }
       } else {
-        if (process.env.NODE_ENV === 'testing') {
+        if (process.env.NODE_ENV === 'test') {
           previousActive.focus.call(previousActive)
         } else {
           previousActive.focus()
