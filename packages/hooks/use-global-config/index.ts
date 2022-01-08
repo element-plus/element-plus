@@ -6,14 +6,17 @@ import type { MaybeRef } from '@vueuse/core'
 import type { Ref, App } from 'vue'
 import type { ConfigProviderContext } from '@element-plus/tokens'
 
-const fallback = ref<ConfigProviderContext>({})
+// this is meant to fix global methods like `ElMessage(opts)`, this way we can inject current locale
+// into the component as default injection value.
+// refer to: https://github.com/element-plus/element-plus/issues/2610#issuecomment-887965266
+const cache = ref<ConfigProviderContext>({})
 
 export function useGlobalConfig<K extends keyof ConfigProviderContext>(
   key: K
 ): Ref<ConfigProviderContext[K]>
 export function useGlobalConfig(): Ref<ConfigProviderContext>
 export function useGlobalConfig(key?: keyof ConfigProviderContext) {
-  const config = inject(configProviderContextKey, fallback)
+  const config = inject(configProviderContextKey, cache)
   if (key) {
     return isObject(config.value) && hasOwn(config.value, key)
       ? computed(() => config.value[key])
@@ -45,5 +48,6 @@ export const provideGlobalConfig = (
     return merge(oldConfig.value, cfg)
   })
   provideFn(configProviderContextKey, context)
+  cache.value = context.value
   return context
 }

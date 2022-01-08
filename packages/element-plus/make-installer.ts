@@ -1,5 +1,5 @@
 import { watch, unref } from 'vue'
-import { provideGlobalConfig, provideLocale } from '@element-plus/hooks'
+import { provideGlobalConfig } from '@element-plus/hooks'
 import { isNumber } from '@element-plus/utils/util'
 import { PopupManager } from '@element-plus/utils/popup-manager'
 import { version } from './version'
@@ -15,7 +15,6 @@ export const makeInstaller = (components: Plugin[] = []) => {
     app[INSTALLED_KEY] = true
     components.forEach((c) => app.use(c))
     provideGlobalConfig(options, app)
-    provideLocale(options.locale)
 
     watch(
       () => unref(options).zIndex,
