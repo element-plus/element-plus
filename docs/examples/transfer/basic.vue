@@ -102,7 +102,7 @@ const handleChange = (
 
 <style>
 .transfer-footer {
-  margin-left: 20px;
+  margin-left: 15px;
   padding: 6px 5px;
 }
 </style>
