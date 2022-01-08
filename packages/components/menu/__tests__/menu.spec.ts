@@ -392,8 +392,9 @@ describe('other', () => {
     expect(submenu1.classes().includes('is-opened')).toBeFalsy()
   })
   test('horizontal mode', async () => {
+    const onOpen = jest.fn()
     const wrapper = _mount(
-      `<el-menu mode="horizontal">
+      `<el-menu mode="horizontal" @open="onOpen">
         <el-menu-item index="1">处理中心</el-menu-item>
         <el-sub-menu index="2" ref="submenu">
           <template slot="title">我的工作台</template>
@@ -402,7 +403,12 @@ describe('other', () => {
           <el-menu-item index="2-3">选项3</el-menu-item>
         </el-sub-menu>
         <el-menu-item index="3">订单管理</el-menu-item>
-      </el-menu>`
+      </el-menu>`,
+      {
+        methods: {
+          onOpen,
+        },
+      }
     )
     await nextTick()
 
@@ -415,9 +421,7 @@ describe('other', () => {
     await nextTick()
     await rAF()
 
-    expect(
-      document.body.querySelector('body [role="tooltip"]').getAttribute('style')
-    ).not.toContain('display: none')
+    expect(onOpen).toHaveBeenCalled()
   })
   test('menu group', async () => {
     const wrapper = _mount(
