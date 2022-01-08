@@ -29,7 +29,7 @@
 
   @include e(footer) {
     border-top: 1px solid var(--el-datepicker-inner-border-color);
-    padding: 4px;
+    padding: 4px 12px;
     text-align: right;
     background-color: $color-white;
     position: relative;

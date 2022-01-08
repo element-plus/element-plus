@@ -1,7 +1,6 @@
 <template>
   <div
-    class="el-switch"
-    :class="{ 'is-disabled': switchDisabled, 'is-checked': checked }"
+    :class="switchKls"
     role="switch"
     :aria-checked="checked"
     :aria-disabled="switchDisabled"
@@ -105,7 +104,7 @@ import {
   CHANGE_EVENT,
   INPUT_EVENT,
 } from '@element-plus/utils/constants'
-import { useDisabled, useFormItem } from '@element-plus/hooks'
+import { useDisabled, useFormItem, useSize } from '@element-plus/hooks'
 import { switchProps, switchEmits } from './switch'
 
 const COMPONENT_NAME = 'ElSwitch'
@@ -121,9 +120,18 @@ export default defineComponent({
     const { formItem } = useFormItem()
     const switchDisabled = useDisabled(computed(() => props.loading))
 
+    const switchSize = useSize()
     const isModelValue = ref(props.modelValue !== false)
     const input = ref<HTMLInputElement>()
     const core = ref<HTMLSpanElement>()
+
+    const prefix = 'el-switch'
+    const switchKls = computed(() => [
+      prefix,
+      `${prefix}--${switchSize.value}`,
+      switchDisabled.value ? 'is-disabled' : '',
+      checked.value ? 'is-checked' : '',
+    ])
 
     watch(
       () => props.modelValue,
@@ -235,6 +243,7 @@ export default defineComponent({
       core,
       switchDisabled,
       checked,
+      switchKls,
       handleChange,
       switchValue,
       focus,

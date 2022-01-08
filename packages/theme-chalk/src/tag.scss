@@ -117,14 +117,14 @@ $tag-icon-span-gap: map.merge(
     position: relative;
     cursor: pointer;
 
-    font-size: calc(var(--el-icon-size) - 2px);
+    font-size: calc(var(--el-icon-size) - 1px);
 
     height: var(--el-icon-size);
     width: var(--el-icon-size);
     line-height: var(--el-icon-size);
 
     svg {
-      margin: 2px;
+      margin: 1px;
     }
   }
 
@@ -144,7 +144,7 @@ $tag-icon-span-gap: map.merge(
     padding-right: map.get($tag-icon-span-gap, 'default') - $border-width-base;
   }
 
-  @each $size in (large, small) {
+  @each $size in (large, default, small) {
     @include m($size) {
       padding: 0 map.get($tag-padding, $size) - $tag-border-width;
       height: map.get($tag-height, $size);

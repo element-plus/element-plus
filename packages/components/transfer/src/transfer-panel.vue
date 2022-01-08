@@ -18,16 +18,13 @@
         v-if="filterable"
         v-model="query"
         class="el-transfer-panel__filter"
-        size="small"
+        size="default"
         :placeholder="placeholder"
+        :prefix-icon="SearchIcon"
+        clearable
         @mouseenter="inputHover = true"
         @mouseleave="inputHover = false"
       >
-        <template #prefix>
-          <el-icon v-if="inputIcon" class="el-input__icon" @click="clearQuery">
-            <component :is="inputIcon" />
-          </el-icon>
-        </template>
       </el-input>
       <el-checkbox-group
         v-show="!hasNoMatch && data.length > 0"
@@ -62,9 +59,8 @@
 import { computed, defineComponent, reactive, toRefs } from 'vue'
 import { useLocale } from '@element-plus/hooks'
 import { ElCheckbox, ElCheckboxGroup } from '@element-plus/components/checkbox'
-import ElIcon from '@element-plus/components/icon'
 import ElInput from '@element-plus/components/input'
-import { CircleClose, Search } from '@element-plus/icons-vue'
+import { Search } from '@element-plus/icons-vue'
 import { useCheck, useCheckProps, CHECKED_CHANGE_EVENT } from './useCheck'
 
 export default defineComponent({
@@ -74,7 +70,6 @@ export default defineComponent({
     ElCheckboxGroup,
     ElCheckbox,
     ElInput,
-    ElIcon,
     OptionContent: ({ option }) => option,
   },
 
@@ -107,19 +102,7 @@ export default defineComponent({
       return panelState.query.length > 0 && filteredData.value.length === 0
     })
 
-    const inputIcon = computed(() => {
-      return panelState.query.length > 0 && panelState.inputHover
-        ? CircleClose
-        : Search
-    })
-
     const hasFooter = computed(() => !!slots.default()[0].children.length)
-
-    const clearQuery = () => {
-      if (inputIcon.value === CircleClose) {
-        panelState.query = ''
-      }
-    }
 
     const { checked, allChecked, query, inputHover, checkChangeByUser } =
       toRefs(panelState)
@@ -140,9 +123,8 @@ export default defineComponent({
       checkChangeByUser,
 
       hasNoMatch,
-      inputIcon,
+      SearchIcon: Search,
       hasFooter,
-      clearQuery,
 
       t,
     }

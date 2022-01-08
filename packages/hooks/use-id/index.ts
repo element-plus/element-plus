@@ -1,5 +1,5 @@
 import { computed, inject, unref } from 'vue'
-import isServer from '@element-plus/utils/isServer'
+import { isClient } from '@vueuse/core'
 import { debugWarn } from '@element-plus/utils/error'
 
 import type { InjectionKey, Ref } from 'vue'
@@ -21,7 +21,7 @@ export const ID_INJECTION_KEY: InjectionKey<ElIdInjectionContext> =
 export const useId = (deterministicId?: MaybeRef<string>): Ref<string> => {
   const idInjection = inject(ID_INJECTION_KEY, defaultIdInjection)
 
-  if (isServer && idInjection === defaultIdInjection) {
+  if (!isClient && idInjection === defaultIdInjection) {
     debugWarn(
       'IdInjection',
       `Looks like you are using server rendering, you must provide a id provider to ensure the hydration process to be succeed
