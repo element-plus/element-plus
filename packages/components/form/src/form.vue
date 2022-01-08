@@ -1,11 +1,5 @@
 <template>
-  <form
-    class="el-form"
-    :class="[
-      labelPosition ? 'el-form--label-' + labelPosition : '',
-      { 'el-form--inline': inline },
-    ]"
-  >
+  <form :class="formKls">
     <slot></slot>
   </form>
 </template>
@@ -22,6 +16,7 @@ import {
 } from 'vue'
 import { elFormKey } from '@element-plus/tokens'
 import { debugWarn } from '@element-plus/utils/error'
+import { useSize } from '@element-plus/hooks'
 import type { ValidateFieldsError } from 'async-validator'
 
 import type { PropType } from 'vue'
@@ -122,6 +117,18 @@ export default defineComponent({
         }
       }
     )
+
+    const formSize = useSize()
+    const prefix = 'el-form'
+    const formKls = computed(() => {
+      const { labelPosition, inline } = props
+      return [
+        prefix,
+        `${prefix}--${formSize.value}`,
+        labelPosition ? `${prefix}--label-${labelPosition}` : '',
+        inline ? `${prefix}--inline` : '',
+      ]
+    })
 
     const addField = (field: FormItemCtx) => {
       if (field) {
@@ -239,6 +246,7 @@ export default defineComponent({
     provide(elFormKey, elForm)
 
     return {
+      formKls,
       validate, // export
       resetFields,
       clearValidate,

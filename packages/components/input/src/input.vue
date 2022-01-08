@@ -91,7 +91,7 @@
           </span>
         </span>
         <el-icon
-          v-if="validateState && validateIcon"
+          v-if="validateState && validateIcon && needStatusIcon"
           class="el-input__icon el-input__validateIcon"
         >
           <component :is="validateIcon" />
@@ -461,6 +461,7 @@ export default defineComponent({
       passwordVisible,
       inputOrTextarea,
       suffixVisible,
+      needStatusIcon,
 
       resizeTextarea,
       handleInput,
