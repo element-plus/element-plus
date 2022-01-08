@@ -34,7 +34,7 @@ const copySvgIcon = async (name, refs) => {
     await copyContent(`<el-icon><${hyphenate(name)} /></el-icon>`)
   } else {
     const content =
-      (refs[name] && refs[name][0].querySelector('svg')?.outerHTML) ?? ''
+      (refs[name]?.[0].querySelector('svg')?.outerHTML) ?? ''
     await copyContent(content)
   }
 }
