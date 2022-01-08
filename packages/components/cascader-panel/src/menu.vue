@@ -16,7 +16,13 @@
       :menu-id="menuId"
       @expand="handleExpand"
     />
-    <div v-if="isEmpty" class="el-cascader-menu__empty-text">
+    <div v-if="isLoading" class="el-cascader-menu__empty-text">
+      <el-icon size="14" class="is-loading">
+        <loading />
+      </el-icon>
+      {{ t('el.cascader.loading') }}
+    </div>
+    <div v-else-if="isEmpty" class="el-cascader-menu__empty-text">
       {{ t('el.cascader.noData') }}
     </div>
     <svg
@@ -32,10 +38,12 @@ import { computed, defineComponent, getCurrentInstance, inject, ref } from 'vue'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import { useLocale } from '@element-plus/hooks'
 import { generateId } from '@element-plus/utils/util'
+import { Loading } from '@element-plus/icons-vue'
+import ElIcon from '@element-plus/components/icon'
 import ElCascaderNode from './node.vue'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
-import type { default as CascaderNode } from './node'
 
+import type { default as CascaderNode } from './node'
 import type { PropType } from 'vue'
 import type { TimeoutHandle, Nullable } from '@element-plus/utils/types'
 
@@ -43,6 +51,8 @@ export default defineComponent({
   name: 'ElCascaderMenu',
 
   components: {
+    Loading,
+    ElIcon,
     ElScrollbar,
     ElCascaderNode,
   },
@@ -70,6 +80,7 @@ export default defineComponent({
     const hoverZone = ref<null | SVGSVGElement>(null)
 
     const isEmpty = computed(() => !props.nodes.length)
+    const isLoading = computed(() => !panel.initialLoaded)
     const menuId = computed(() => `cascader-menu-${id}-${props.index}`)
 
     const handleExpand = (e: MouseEvent) => {
@@ -112,11 +123,11 @@ export default defineComponent({
       hoverZone.value.innerHTML = ''
       clearHoverTimer()
     }
-
     return {
       panel,
       hoverZone,
       isEmpty,
+      isLoading,
       menuId,
       t,
       handleExpand,
