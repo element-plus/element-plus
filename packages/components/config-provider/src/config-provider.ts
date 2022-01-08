@@ -1,14 +1,13 @@
-import { defineComponent, renderSlot } from 'vue'
+import { defineComponent, renderSlot, toRef } from 'vue'
 import { buildProps, definePropType } from '@element-plus/utils/props'
-import {
-  useLocaleProps,
-  provideLocale,
-  provideGlobalConfig,
-} from '@element-plus/hooks'
+import { provideLocale, provideGlobalConfig } from '@element-plus/hooks'
+import type { Language } from '@element-plus/locale'
 import type { ButtonConfigContext } from '@element-plus/components/button'
 
 export const configProviderProps = buildProps({
-  ...useLocaleProps,
+  locale: {
+    type: definePropType<Language>(Object),
+  },
 
   size: {
     type: String,
@@ -29,7 +28,7 @@ export default defineComponent({
   props: configProviderProps,
 
   setup(props, { slots }) {
-    provideLocale()
+    provideLocale(toRef(props, 'locale'))
     const config = provideGlobalConfig(props)
     return () => renderSlot(slots, 'default', { config: config?.value })
   },

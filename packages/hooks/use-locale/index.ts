@@ -1,4 +1,4 @@
-import { computed, getCurrentInstance, inject, provide, ref, unref } from 'vue'
+import { computed, inject, provide, ref, unref } from 'vue'
 import get from 'lodash/get'
 import English from '@element-plus/locale/lang/en'
 import { buildProps, definePropType } from '@element-plus/utils/props'
@@ -28,12 +28,8 @@ export const localeContextKey: InjectionKey<LocaleContext> =
 // refer to: https://github.com/element-plus/element-plus/issues/2610#issuecomment-887965266
 let cache: LocaleContext
 
-export const provideLocale = () => {
-  const vm = getCurrentInstance()!
-  const props = vm.props as {
-    locale: Language
-  }
-  const locale = computed(() => props.locale || English)
+export const provideLocale = (userLocale: MaybeRef<Language | undefined>) => {
+  const locale = computed(() => unref(userLocale) || English)
   const lang = computed(() => locale.value.name)
 
   const t = buildTranslator(locale)
