@@ -3,7 +3,8 @@ import { mount } from '@vue/test-utils'
 import { useLocale } from '@element-plus/hooks'
 import Chinese from '@element-plus/locale/lang/zh-cn'
 import English from '@element-plus/locale/lang/en'
-import { ElButton } from '@element-plus/components'
+import { ElButton, ElMessage } from '@element-plus/components'
+import { sleep } from '@element-plus/test-utils'
 import ConfigProvider from '../src/config-provider'
 import type { Language } from '@element-plus/locale'
 
@@ -118,6 +119,89 @@ describe('config-provider', () => {
       expect(
         wrapper.find('.el-button .el-button__text--expand').exists()
       ).toBeFalsy()
+    })
+  })
+
+  describe('message-config', () => {
+    it('limit the number of messages displayed at the same time', async () => {
+      const wrapper = mount({
+        components: {
+          [ConfigProvider.name]: ConfigProvider,
+          ElButton,
+        },
+        setup() {
+          const config = reactive({
+            max: 3,
+          })
+          const open = () => {
+            ElMessage('this is a message.')
+          }
+          return {
+            config,
+            open,
+          }
+        },
+        template: `
+          <el-config-provider :message="config">
+            <el-button @click="open">open</el-button>
+          </el-config-provider>
+        `,
+      })
+      await nextTick()
+      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.el-button').trigger('click')
+      await nextTick()
+      expect(document.querySelectorAll('.el-message').length).toBe(3)
+
+      wrapper.vm.config.max = 10
+      await nextTick()
+      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.el-button').trigger('click')
+      await nextTick()
+      expect(document.querySelectorAll('.el-message').length).toBe(7)
+    })
+
+    it('multiple config-provider config override', async () => {
+      const wrapper = mount({
+        components: {
+          [ConfigProvider.name]: ConfigProvider,
+          ElButton,
+        },
+        setup() {
+          const config = reactive({
+            max: 3,
+          })
+          const overrideConfig = reactive({
+            max: 1,
+          })
+          const open = () => {
+            ElMessage('this is a message.')
+          }
+          return {
+            config,
+            overrideConfig,
+            open,
+          }
+        },
+        template: `
+          <el-config-provider :message="config">
+            <el-config-provider :message="overrideConfig">
+              <el-button @click="open">open</el-button>
+            </el-config-provider>
+          </el-config-provider>
+        `,
+      })
+      ElMessage.closeAll()
+      await sleep(40)
+      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.el-button').trigger('click')
+      await nextTick()
+      expect(document.querySelectorAll('.el-message').length).toBe(1)
     })
   })
 })
