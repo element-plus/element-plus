@@ -16,7 +16,9 @@ export default defineComponent({
       const cell = props.cell
       if (picker?.ctx.slots.default) {
         const list = picker.ctx.slots.default(cell).filter((item) => {
-          return item.type.toString() !== 'Symbol(Comment)'
+          return (
+            item.patchFlag !== -2 && item.type.toString() !== 'Symbol(Comment)'
+          )
         })
         if (list.length) {
           return list

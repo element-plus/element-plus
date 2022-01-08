@@ -325,6 +325,26 @@ describe('DatePicker', () => {
     expect(text.includes('csw')).toBeTruthy()
   })
 
+  it('custom content bail out slot compoent', async () => {
+    _mount(
+      `<el-date-picker
+        v-model="value"
+        ref="input">
+        <slot name="testest"></slot>
+      </el-date-picker>`,
+      () => ({ value: '' }),
+      {
+        mounted() {
+          this.$refs.input.focus()
+        },
+      }
+    )
+    await nextTick()
+    const el = document.querySelector<HTMLElement>('td.available')
+    const text = el.textContent
+    expect(!!text).toBeTruthy()
+  })
+
   describe('value-format', () => {
     it('with literal string', async () => {
       const day = dayjs()
