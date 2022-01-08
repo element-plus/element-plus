@@ -1,5 +1,51 @@
 ## Changelog
 
+### 1.3.0-beta.2
+
+_2022-01-08_
+
+#### Features
+
+- Add global properties typings (#5075 by @sxzz)
+- Components [el-message-box] add role="dialog" attribute (#5190 by @purepear)
+- Components [el-rate] rate add size prop (#5102 by @kooriookami)
+- Components [el-switch] switch add size prop (#5101 by @kooriookami)
+- Components [el-slider] slider add size prop (#5091 by @kooriookami)
+- Components checkbox & radio support small size (#5189 by @msidolphin)
+- Docs Add migration chapter (#5205 by @JeremyWuuuuu)
+- Export popup manager (#5220 by @sxzz)
+- Components [el-tag] adjust icon size (#5207 by @btea)
+- Components [el-cascader] cascader panel loading placeholder (#5064 by @KawaiiZapic)
+- Components [el-message] config-provider message max attr (#5063 by @btea)
+
+#### Bug fixes
+
+- Docs docs site deploy error (#5081 by @JeremyWuuuuu)
+- Theme-chalk input-number controls increase/decrease height (#5088 by @YunYouJun)
+- Components popper content fallback placements (#5119 by @JeremyWuuuuu)
+- Docs correct minor typos (#5140 by @MrFu1998)
+- Components [el-select-v2] tag overflow (#5160 by @Alanscut)
+- Components width reset to empty string should be parsed to auto (#5186 by @cokemine)
+- Components [el-date-picker] fix footer style (#5144 by @msidolphin)
+- Components [el-table] improve scrollable condition (#5149 by @msidolphin)
+- Fix el-input-number inputting will trigger form validate (#4838 by @kooriookami)
+- Components [el-form] fix form style (#5145 by @kooriookami)
+- Hooks provide root locale (#5218 by @sxzz)
+- Components [el-date-picker] ignore special flag (#5200 by @msidolphin)
+- Docs [el-icon] fix svg icon cannot copied issue (#5208 by @msidolphin)
+- Components [el-pagination] layout error (#5181 by @Alanscut)
+- Components [el-transfer] improve styles (#5139 by @msidolphin)
+
+#### Refactors
+
+- Docs auto import icons & optimize details (#5087 by @YunYouJun)
+- Docs add spacing for switch example (#5092 by @YunYouJun)
+- Utils!: remove global config (#5093 by @sxzz)
+- Components popper composables (#5035 by @JeremyWuuuuu)
+- Components [layout] optimize performance (#4600 by @msidolphin)
+- [el-table] using sticky position refactor fixed column (#4414 by @msidolphin)
+- Utils remove isServer (#5173 by @btea)
+
 ### 1.3.0-beta.1
 
 _2021-12-31_
