@@ -12,6 +12,7 @@
     effect="light"
     trigger="click"
     transition="el-zoom-in-top"
+    persistent
     @show="onSuggestionShow"
   >
     <div

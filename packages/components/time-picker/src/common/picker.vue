@@ -14,6 +14,7 @@
     :gpu-acceleration="false"
     :stop-popper-mouse-event="false"
     :hide-after="0"
+    persistent
     @show="pickerActualVisible = true"
     @hide="pickerActualVisible = false"
   >

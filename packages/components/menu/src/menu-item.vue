@@ -18,6 +18,7 @@
       "
       :effect="Effect.DARK"
       placement="right"
+      persistent
     >
       <template #content>
         <slot name="title" />

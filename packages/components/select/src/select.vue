@@ -18,6 +18,7 @@
       transition="el-zoom-in-top"
       :stop-popper-mouse-event="false"
       :gpu-acceleration="false"
+      persistent
       @show="handleMenuEnter"
     >
       <template #default>

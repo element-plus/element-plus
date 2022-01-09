@@ -18,6 +18,7 @@
       append-to-body
       pure
       transition="el-zoom-in-top"
+      persistent
       @show="$emit('visible-change', true)"
       @hide="$emit('visible-change', false)"
     >

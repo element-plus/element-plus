@@ -10,6 +10,7 @@
     effect="light"
     pure
     popper-class="el-table-filter"
+    persistent
   >
     <template #content>
       <div v-if="multiple">
