@@ -7,6 +7,7 @@
     :enterable="enterable"
     :popper-class="kls"
     :popper-style="style"
+    persistent
   >
     <template v-if="$slots.reference">
       <slot name="reference" />

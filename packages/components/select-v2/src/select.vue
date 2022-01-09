@@ -22,6 +22,7 @@
       pure
       transition="el-zoom-in-top"
       trigger="click"
+      persistent
       @show="handleMenuEnter"
       @hide="states.inputValue = states.displayInputValue"
     >
