@@ -35,3 +35,5 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           skip-step: install
+          package-manager: pnpm
+          test-script: pnpm jest --ci --json --coverage --testLocationInResults --outputFile=report.json
