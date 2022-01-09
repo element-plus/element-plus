@@ -42,7 +42,7 @@ export default defineComponent({
     ElDropdownItemImpl,
   },
   props: dropdownItemProps,
-  emits: ['pointermove', 'pointerleave'],
+  emits: ['pointermove', 'pointerleave', 'click'],
   setup(props, { emit }) {
     const { elDropdown } = useDropdown()
     const _instance = getCurrentInstance()
@@ -79,17 +79,23 @@ export default defineComponent({
         onItemLeave(e)
       })
     )
-    function handleClick(e: UIEvent) {
-      // if disabled don't collapse the drop-down list
-      if (props.disabled) {
-        e.stopImmediatePropagation()
-        return
+
+    const handleClick = composeEventHandlers(
+      (e: PointerEvent) => {
+        emit('click', e)
+        return e.defaultPrevented
+      },
+      (e) => {
+        if (props.disabled) {
+          e.stopImmediatePropagation()
+          return
+        }
+        if (elDropdown?.hideOnClick?.value) {
+          elDropdown.handleClick?.()
+        }
+        elDropdown.commandHandler?.(props.command, _instance, e)
       }
-      if (elDropdown?.hideOnClick?.value) {
-        elDropdown.handleClick?.()
-      }
-      elDropdown.commandHandler?.(props.command, _instance, e)
-    }
+    )
 
     return {
       handleClick,
