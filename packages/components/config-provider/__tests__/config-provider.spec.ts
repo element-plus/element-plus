@@ -196,7 +196,7 @@ describe('config-provider', () => {
         `,
       })
       ElMessage.closeAll()
-      await sleep(40)
+      await sleep(500)
       wrapper.find('.el-button').trigger('click')
       wrapper.find('.el-button').trigger('click')
       wrapper.find('.el-button').trigger('click')
