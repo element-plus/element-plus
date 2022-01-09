@@ -4,7 +4,7 @@ importers:
 
   .:
     specifiers:
-      '@commitlint/cli': 16.0.1
+      '@commitlint/cli': 16.0.2
       '@commitlint/config-conventional': 16.0.0
       '@element-plus/components': workspace:*
       '@element-plus/directives': workspace:*
@@ -91,7 +91,7 @@ importers:
       memoize-one: 6.0.0
       normalize-wheel-es: 1.1.1
     devDependencies:
-      '@commitlint/cli': 16.0.1
+      '@commitlint/cli': 16.0.2
       '@commitlint/config-conventional': 16.0.0
       '@pnpm/find-workspace-packages': 3.1.34_@pnpm+logger@4.0.0
       '@pnpm/logger': 4.0.0
@@ -173,7 +173,7 @@ importers:
       '@vueuse/core': 7.5.3_vue@3.2.26
       axios: 0.24.0
       clipboard-copy: 4.0.1
-      element-plus: 1.3.0-beta.1_vue@3.2.26
+      element-plus: 1.3.0-beta.2_vue@3.2.26
       normalize.css: 8.0.1
       nprogress: 0.2.0
     devDependencies:
@@ -775,8 +775,8 @@ packages:
       minimist: 1.2.5
     dev: true
 
-  /@commitlint/cli/16.0.1:
-    resolution: {integrity: sha512-61gGRy65WiVDRsqP0dAR2fAgE3qrTBW3fgz9MySv32y5Ib3ZXXDDq6bGyQqi2dSaPuDYzNCRwwlC7mmQM73T/g==}
+  /@commitlint/cli/16.0.2:
+    resolution: {integrity: sha512-Jt7iaBjoLGC5Nq4dHPTvTYnqPGkElFPBtTXTvBpTgatZApczyjI2plE0oG4GYWPp1suHIS/VdVDOMpPZjGVusg==}
     engines: {node: '>=v12'}
     hasBin: true
     dependencies:
@@ -4072,8 +4072,8 @@ packages:
     resolution: {integrity: sha512-2jtSwgyiRzybHRxrc2nKI+39wH3AwQgn+sogQ+q814gv8hIFwrcZbV07Ea9f8AmK0ufPVZUvvAG1uZJ+obV4Jw==}
     dev: true
 
-  /element-plus/1.3.0-beta.1_vue@3.2.26:
-    resolution: {integrity: sha512-q3vMaKElPpuSTeIF7kuDmMOE+N1YVCCIG3fshXpz6qgjnxPbgZumVM0qGfhr8DTu9JxRbBoDok49dqtX/BWn3w==}
+  /element-plus/1.3.0-beta.2_vue@3.2.26:
+    resolution: {integrity: sha512-8FWS8soDPCUHNIid60gzvLCbb9NC3rXAPgaRik73OQ0wO6M1KcdO/Lc7zQY76JHxWsZWo7ne9Jfz6dXQJooDuQ==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
