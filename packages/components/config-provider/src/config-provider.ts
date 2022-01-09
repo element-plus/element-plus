@@ -1,14 +1,16 @@
-import { defineComponent, renderSlot } from 'vue'
+import { defineComponent, renderSlot, watch } from 'vue'
 import { buildProps, definePropType } from '@element-plus/utils/props'
-import {
-  useLocaleProps,
-  provideLocale,
-  provideGlobalConfig,
-} from '@element-plus/hooks'
+import { provideGlobalConfig } from '@element-plus/hooks'
+import type { Language } from '@element-plus/locale'
 import type { ButtonConfigContext } from '@element-plus/components/button'
+import type { MessageConfigContext } from '@element-plus/components/message'
+
+export const messageConfig: MessageConfigContext = {}
 
 export const configProviderProps = buildProps({
-  ...useLocaleProps,
+  locale: {
+    type: definePropType<Language>(Object),
+  },
 
   size: {
     type: String,
@@ -17,6 +19,10 @@ export const configProviderProps = buildProps({
 
   button: {
     type: definePropType<ButtonConfigContext>(Object),
+  },
+
+  message: {
+    type: definePropType<MessageConfigContext>(Object),
   },
 
   zIndex: {
@@ -29,7 +35,13 @@ export default defineComponent({
   props: configProviderProps,
 
   setup(props, { slots }) {
-    provideLocale()
+    watch(
+      () => props.message,
+      (val) => {
+        Object.assign(messageConfig, val ?? {})
+      },
+      { immediate: true, deep: true }
+    )
     const config = provideGlobalConfig(props)
     return () => renderSlot(slots, 'default', { config: config?.value })
   },

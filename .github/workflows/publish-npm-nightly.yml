@@ -9,6 +9,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    if: ${{ github.repository_owner == 'element-plus' }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -31,6 +32,7 @@ jobs:
   publish:
     needs: test
     runs-on: ubuntu-latest
+    if: ${{ github.repository_owner == 'element-plus' }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2

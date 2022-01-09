@@ -3,6 +3,7 @@
     ref="popperContentRef"
     :style="contentStyle"
     :class="contentClass"
+    role="tooltip"
     @mouseenter="(e) => $emit('mouseenter', e)"
     @mouseleave="(e) => $emit('mouseleave', e)"
   >

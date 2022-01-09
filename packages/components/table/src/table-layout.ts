@@ -90,8 +90,7 @@ class TableLayout<T> {
       if (this.bodyHeight.value === null) {
         scrollY = false
       } else {
-        const body = bodyWrapper.querySelector('.el-table__body') as HTMLElement
-        scrollY = body.offsetHeight > this.bodyHeight.value
+        scrollY = bodyWrapper.scrollHeight > this.bodyHeight.value
       }
       this.scrollY.value = scrollY
       return prevScrollY !== scrollY

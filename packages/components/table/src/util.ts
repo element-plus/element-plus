@@ -194,20 +194,22 @@ export function mergeOptions<T, K>(defaults: T, config: K): T & K {
   return options
 }
 
-export function parseWidth(width: number | string): number {
+export function parseWidth(width: number | string): number | string {
+  if (width === '') return width
   if (width !== undefined) {
     width = parseInt(width as string, 10)
-    if (isNaN(width)) {
-      width = null
+    if (Number.isNaN(width)) {
+      width = ''
     }
   }
-  return +width
+  return width
 }
 
-export function parseMinWidth(minWidth): number {
-  if (typeof minWidth !== 'undefined') {
+export function parseMinWidth(minWidth: number | string): number | string {
+  if (minWidth === '') return minWidth
+  if (minWidth !== undefined) {
     minWidth = parseWidth(minWidth)
-    if (isNaN(minWidth)) {
+    if (Number.isNaN(minWidth)) {
       minWidth = 80
     }
   }
