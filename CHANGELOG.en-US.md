@@ -1,5 +1,14 @@
 ## Changelog
 
+### 1.3.0-beta.3
+
+_2022-01-09_
+
+#### Bug fixes
+
+- Components make Datepicker `value-format="x"` emit number timestamp value (#5187 by @CarterLi)
+- Tooltip with compoents add persistent (#5250 by @kooriookami)
+
 ### 1.3.0-beta.2
 
 _2022-01-08_

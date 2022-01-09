@@ -8,6 +8,7 @@
     append-to-body
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :hide-after="hideAfter"
+    persistent
   >
     <template #content>
       <div class="el-popconfirm">

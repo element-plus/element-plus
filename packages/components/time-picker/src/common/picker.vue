@@ -14,6 +14,7 @@
     :gpu-acceleration="false"
     :stop-popper-mouse-event="false"
     :hide-after="0"
+    persistent
     @show="pickerActualVisible = true"
     @hide="pickerActualVisible = false"
   >
@@ -212,14 +213,17 @@ const parser = function (
   format: string,
   lang: string
 ): Dayjs {
-  const day = isEmpty(format)
-    ? dayjs(date).locale(lang)
-    : dayjs(date, format).locale(lang)
+  const day =
+    isEmpty(format) || format === 'x'
+      ? dayjs(date).locale(lang)
+      : dayjs(date, format).locale(lang)
   return day.isValid() ? day : undefined
 }
 
 const formatter = function (date: number | Date, format: string, lang: string) {
-  return isEmpty(format) ? date : dayjs(date).locale(lang).format(format)
+  if (isEmpty(format)) return date
+  if (format === 'x') return +date
+  return dayjs(date).locale(lang).format(format)
 }
 
 export default defineComponent({
