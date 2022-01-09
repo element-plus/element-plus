@@ -587,7 +587,7 @@ export default defineComponent({
         userInput.value = [formatDayjsToString(value), displayValue.value[1]]
         const newValue = [value, parsedValue.value && parsedValue.value[1]]
         if (isValidValue(newValue)) {
-          emitInput(newValue)
+          emitInput(newValue.map((_) => _.toDate()))
           userInput.value = null
         }
       }
@@ -599,7 +599,7 @@ export default defineComponent({
         userInput.value = [displayValue.value[0], formatDayjsToString(value)]
         const newValue = [parsedValue.value && parsedValue.value[0], value]
         if (isValidValue(newValue)) {
-          emitInput(newValue)
+          emitInput(newValue.map((_) => _.toDate()))
           userInput.value = null
         }
       }
