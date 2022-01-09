@@ -184,7 +184,36 @@ export default defineComponent({
 
     const parseUserInput = (value: Dayjs) => {
       if (!value) return null
-      return dayjs(value, props.format).locale(lang.value)
+      const unformattedDayjsValue = dayjs(value, props.format).locale(
+        lang.value
+      )
+
+      function formatValue(value: string, format: string): string {
+        if (value) {
+          const strArr = value.split('')
+          const formats = format.split(/[^a-z]+/i)
+          let replacedValue = format
+          formats.forEach((s) => {
+            const temp = new Array(s.length).fill(0)
+            const patch = strArr.splice(0, s.length)
+            const patchLen = patch.length
+            if (patchLen > 0) {
+              temp.splice(temp.length - patchLen, patchLen, ...patch)
+            }
+
+            replacedValue = replacedValue.replace(RegExp(s), temp.join(''))
+          })
+          return replacedValue
+        }
+        return ''
+      }
+
+      // 没有效果，并且是纯数字的字符串则进行尝试解析
+      return !unformattedDayjsValue.isValid() && !/[^\d]/g.test(value)
+        ? dayjs(formatValue(value, props.format), props.format).locale(
+            lang.value
+          )
+        : unformattedDayjsValue
     }
 
     const formatToString = (value: Dayjs) => {
