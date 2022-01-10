@@ -19,7 +19,7 @@
     "nprogress": "0.2.0"
   },
   "devDependencies": {
-    "@crowdin/cli": "3.7.4",
+    "@crowdin/cli": "3.7.5",
     "@iconify-json/ri": "1.0.2",
     "@types/markdown-it": "12.2.3",
     "cross-env": "7.0.3",
