@@ -14,9 +14,7 @@ const route = useRoute()
 const isVisited = ref(
   !!window.localStorage.getItem(USER_VISITED_NEW_RESOURCE_PAGE)
 )
-// const isNewPage = (item: Link) => item.activeMatch === '/resource/'
-
-const isNewPage = (item?: Link) => false
+const isNewPage = (item: Link) => item.activeMatch === '/some_fake_path/'
 
 const onNavClick = (item: Link) => {
   if (isNewPage(item) && !isVisited.value) {
