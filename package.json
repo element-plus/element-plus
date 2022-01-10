@@ -113,7 +113,7 @@
     "rollup": "2.63.0",
     "rollup-plugin-css-only": "3.1.0",
     "rollup-plugin-esbuild": "4.8.2",
-    "rollup-plugin-filesize": "9.1.1",
+    "rollup-plugin-filesize": "9.1.2",
     "rollup-plugin-vue": "6.0.0",
     "sass": "1.47.0",
     "sucrase": "3.20.3",

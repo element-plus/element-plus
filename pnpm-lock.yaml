@@ -63,7 +63,7 @@ importers:
       rollup: 2.63.0
       rollup-plugin-css-only: 3.1.0
       rollup-plugin-esbuild: 4.8.2
-      rollup-plugin-filesize: 9.1.1
+      rollup-plugin-filesize: 9.1.2
       rollup-plugin-vue: 6.0.0
       sass: 1.47.0
       sucrase: 3.20.3
@@ -135,7 +135,7 @@ importers:
       rollup: 2.63.0
       rollup-plugin-css-only: 3.1.0_rollup@2.63.0
       rollup-plugin-esbuild: 4.8.2_esbuild@0.14.11+rollup@2.63.0
-      rollup-plugin-filesize: 9.1.1
+      rollup-plugin-filesize: 9.1.2
       rollup-plugin-vue: 6.0.0
       sass: 1.47.0
       sucrase: 3.20.3
@@ -8053,7 +8053,7 @@ packages:
       is-wsl: 2.2.0
       semver: 7.3.5
       shellwords: 0.1.1
-      uuid: 8.3.0
+      uuid: 8.3.2
       which: 2.0.2
     dev: true
     optional: true
@@ -9383,8 +9383,8 @@ packages:
       - supports-color
     dev: true
 
-  /rollup-plugin-filesize/9.1.1:
-    resolution: {integrity: sha512-x0r2A85TCEdRwF3rm+bcN4eAmbER8tt+YVf88gBQ6sLyH4oGcnNLPQqAUX+v7mIvHC/y59QwZvo6vxaC2ias6Q==}
+  /rollup-plugin-filesize/9.1.2:
+    resolution: {integrity: sha512-m2fE9hFaKgWKisJzyWXctOFKlgMRelo/58HgeC0lXUK/qykxiqkr6bsrotlvo2bvrwPsjgT7scNdQSr6qtl37A==}
     engines: {node: '>=10.0.0'}
     dependencies:
       '@babel/runtime': 7.15.4
@@ -10766,12 +10766,6 @@ packages:
     deprecated: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
     hasBin: true
     dev: true
-
-  /uuid/8.3.0:
-    resolution: {integrity: sha512-fX6Z5o4m6XsXBdli9g7DtWgAx+osMsRRZFKma1mIUsLCz6vRvv+pz5VNbyu9UEDzpMWulZfvpgb/cmDXVulYFQ==}
-    hasBin: true
-    dev: true
-    optional: true
 
   /uuid/8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
