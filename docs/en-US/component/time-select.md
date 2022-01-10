@@ -65,7 +65,7 @@ time-select/time-range
 | step                                  | time step                                                | string             | —                                                                                      | 00:30       |
 | min-time                              | minimum time, any time before this time will be disabled | string             | —                                                                                      | 00:00       |
 | max-time                              | maximum time, any time after this time will be disabled  | string             | —                                                                                      | —           |
-| format <el-tag>1.3.0-beta.1+</el-tag> | set time format                                          | string             | see [formats](https://day.js.org/docs/en/display/format#list-of-all-available-formats) | HH:mm       |
+| format <el-tag>1.3.0-beta.3+</el-tag> | set format of time                                       | string             | see [formats](https://day.js.org/docs/en/display/format#list-of-all-available-formats) | HH:mm       |
 
 ## Events
 
