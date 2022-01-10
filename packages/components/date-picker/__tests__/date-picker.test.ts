@@ -1041,7 +1041,9 @@ describe('DatePicker keyboard events', () => {
 describe('DateRangePicker', () => {
   it('create & custom class & style', async () => {
     let calendarChangeValue = null
+    let onChangeValue = []
     const changeHandler = vi.fn()
+    const inputChangeHandler = vi.fn()
     const popperClassName = 'popper-class-test'
     const customClassName = 'custom-class-test'
     const wrapper = _mount(
@@ -1052,10 +1054,15 @@ describe('DateRangePicker', () => {
         :style="{color:'red'}"
         :class="customClassName"
         :popperClass="popperClassName"
+        @change="onChange"
       />`,
       () => ({ value: '', popperClassName, customClassName }),
       {
         methods: {
+          onChange(e) {
+            onChangeValue = e
+            return inputChangeHandler(e)
+          },
           onCalendarChange(e) {
             calendarChangeValue = e
             changeHandler(e)
@@ -1104,6 +1111,15 @@ describe('DateRangePicker', () => {
     expect(calendarChangeValue.length).toBe(2)
     expect(calendarChangeValue[0]).toBeInstanceOf(Date)
     expect(calendarChangeValue[1]).toBeInstanceOf(Date)
+    inputs[0].trigger('focus')
+    inputs[0].setValue('2021-10-10')
+    inputs[0].trigger('blur')
+    inputs[1].trigger('focus')
+    inputs[1].setValue('2021-10-12')
+    inputs[1].trigger('blur')
+    expect(inputChangeHandler).toHaveBeenCalledTimes(1)
+    expect(onChangeValue[0]).toBeInstanceOf(Date)
+    expect(onChangeValue[1]).toBeInstanceOf(Date)
   })
 
   it('reverse selection', async () => {
