@@ -14,8 +14,10 @@
     height: 2px;
     background-color: var(--el-color-primary);
     z-index: 1;
-    transition: transform var(--el-transition-duration)
-      cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: width var(--el-transition-duration)
+        var(--el-transition-function-ease-in-out-bezier),
+      transform var(--el-transition-duration)
+        var(--el-transition-function-ease-in-out-bezier);
     list-style: none;
   }
   @include e(new-tab) {
@@ -120,7 +122,7 @@
       border-radius: 50%;
       text-align: center;
       transition: all var(--el-transition-duration)
-        cubic-bezier(0.645, 0.045, 0.355, 1);
+        var(--el-transition-function-ease-in-out-bezier);
       margin-left: 5px;
       &:before {
         transform: scale(0.9);
@@ -187,9 +189,9 @@
       border-bottom: 1px solid transparent;
       border-left: 1px solid var(--el-border-color-light);
       transition: color var(--el-transition-duration)
-          cubic-bezier(0.645, 0.045, 0.355, 1),
+          var(--el-transition-function-ease-in-out-bezier),
         padding var(--el-transition-duration)
-          cubic-bezier(0.645, 0.045, 0.355, 1);
+          var(--el-transition-function-ease-in-out-bezier);
       &:first-child {
         border-left: none;
       }
@@ -235,7 +237,7 @@
     }
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__item {
       transition: all var(--el-transition-duration)
-        cubic-bezier(0.645, 0.045, 0.355, 1);
+        var(--el-transition-function-ease-in-out-bezier);
       border: 1px solid transparent;
       margin-top: -1px;
       color: var(--el-text-color-secondary);
