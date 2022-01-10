@@ -9,7 +9,6 @@ import DropdownMenu from '../src/dropdown-menu.vue'
 
 const MOUSE_ENTER_EVENT = 'mouseenter'
 const MOUSE_LEAVE_EVENT = 'mouseleave'
-const MOUSE_DOWN = 'mousedown'
 const CONTEXTMENU = 'contextmenu'
 
 jest.useFakeTimers()
@@ -144,7 +143,7 @@ describe('Dropdown', () => {
     jest.runAllTimers()
     await rAF()
     expect(content.open).toBe(false)
-    await triggerElm.trigger(MOUSE_DOWN, {
+    await triggerElm.trigger('click', {
       button: 0,
     })
     jest.runAllTimers()

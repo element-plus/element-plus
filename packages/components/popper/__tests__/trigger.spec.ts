@@ -57,19 +57,19 @@ describe('<ElPopperTrigger />', () => {
 
   describe('can attach handlers', () => {
     it('should be able to attach handlers to the trigger', async () => {
-      const onMousedown = jest.fn()
+      const onClick = jest.fn()
       const virtualRef = document.createElement('div')
       wrapper = mountTrigger({
-        onMousedown,
+        onClick,
         virtualTriggering: true,
         virtualRef,
       })
       await nextTick()
-      expect(onMousedown).not.toHaveBeenCalled()
-      const evt = new MouseEvent('mousedown')
+      expect(onClick).not.toHaveBeenCalled()
+      const evt = new MouseEvent('click')
       virtualRef.dispatchEvent(evt)
       await nextTick()
-      expect(onMousedown).toHaveBeenCalled()
+      expect(onClick).toHaveBeenCalled()
     })
   })
 })

@@ -37,7 +37,7 @@ describe('Popconfirm.vue', () => {
       'display: none'
     )
 
-    await trigger.trigger('mousedown', {
+    await trigger.trigger('click', {
       button: 0,
     })
 
