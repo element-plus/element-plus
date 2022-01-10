@@ -12,6 +12,9 @@
   "scripts": {
     "cz": "git-cz",
     "test": "jest",
+    "prepare:e2e": "if [ ! -d \"docs/.vitepress/dist\" ]; then pnpm run docs:build; fi;",
+    "e2e": "cypress open",
+    "e2e:ci": "cypress run",
     "dev": "pnpm -C play dev",
     "gen": "bash ./scripts/gc.sh",
     "gen:version": "sucrase-node scripts/gen-version.ts",
@@ -87,6 +90,7 @@
     "chalk": "4.1.2",
     "components-helper": "1.0.5",
     "csstype": "2.6.19",
+    "cypress": "^9.2.0",
     "cz-conventional-changelog": "3.3.0",
     "esbuild": "0.14.11",
     "eslint": "8.6.0",
