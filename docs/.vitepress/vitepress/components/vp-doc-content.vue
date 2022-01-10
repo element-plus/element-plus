@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useData } from 'vitepress'
-import { insertLinkIcon } from '../utils'
+import { insertLinkIcon, insertTableWrapper } from '../utils'
 import VPPageFooter from './doc-content/vp-page-footer.vue'
 import VPPageNav from './doc-content/vp-page-nav.vue'
 import VPTableOfContent from './doc-content/vp-table-of-content.vue'
@@ -9,8 +9,9 @@ import VPTableOfContent from './doc-content/vp-table-of-content.vue'
 const { page } = useData()
 const content = ref<{ $el: HTMLElement }>()
 
-function updateLink() {
+function updateDom() {
   insertLinkIcon(content)
+  insertTableWrapper(content)
 }
 </script>
 
@@ -20,8 +21,8 @@ function updateLink() {
       <Content
         ref="content"
         class="doc-content"
-        @vnode-mounted="updateLink"
-        @vnode-updated="updateLink"
+        @vnode-mounted="updateDom"
+        @vnode-updated="updateDom"
       />
       <VPPageFooter />
       <VPPageNav />

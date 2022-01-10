@@ -43,9 +43,11 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
       }
       removeClass(target, 'el-loading-parent--hidden')
     }
+    remvoeElLoadingChild()
+  }
+  function remvoeElLoadingChild(): void {
     vm.$el?.parentNode?.removeChild(vm.$el)
   }
-
   function close() {
     if (options.beforeClose && !options.beforeClose()) return
 
@@ -143,6 +145,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
   return {
     ...toRefs(data),
     setText,
+    remvoeElLoadingChild,
     close,
     handleAfterLeave,
     vm,

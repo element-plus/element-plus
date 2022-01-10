@@ -2,16 +2,18 @@
   <el-table :data="tableData" style="width: 100%">
     <el-table-column label="Date" width="180">
       <template #default="scope">
-        <el-icon><timer /></el-icon>
-        <span style="margin-left: 10px">{{ scope.row.date }}</span>
+        <div style="display: flex; align-items: center">
+          <el-icon><timer /></el-icon>
+          <span style="margin-left: 10px">{{ scope.row.date }}</span>
+        </div>
       </template>
     </el-table-column>
     <el-table-column label="Name" width="180">
       <template #default="scope">
         <el-popover effect="light" trigger="hover" placement="top">
           <template #default>
-            <p>姓名: {{ scope.row.name }}</p>
-            <p>住址: {{ scope.row.address }}</p>
+            <p>name: {{ scope.row.name }}</p>
+            <p>address: {{ scope.row.address }}</p>
           </template>
           <template #reference>
             <div class="name-wrapper">

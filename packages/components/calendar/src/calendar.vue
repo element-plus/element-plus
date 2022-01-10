@@ -8,13 +8,13 @@
           class="el-calendar__button-group"
         >
           <el-button-group>
-            <el-button size="mini" @click="selectDate('prev-month')">
+            <el-button size="small" @click="selectDate('prev-month')">
               {{ t('el.datepicker.prevMonth') }}
             </el-button>
-            <el-button size="mini" @click="selectDate('today')">
+            <el-button size="small" @click="selectDate('today')">
               {{ t('el.datepicker.today') }}
             </el-button>
-            <el-button size="mini" @click="selectDate('next-month')">
+            <el-button size="small" @click="selectDate('next-month')">
               {{ t('el.datepicker.nextMonth') }}
             </el-button>
           </el-button-group>

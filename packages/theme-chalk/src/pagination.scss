@@ -16,7 +16,9 @@
 
   span:not([class*='suffix']),
   button {
-    display: inline-block;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
     font-size: var(--el-pagination-font-size);
     min-width: var(--el-pagination-button-width);
     height: var(--el-pagination-button-height);
@@ -269,7 +271,9 @@
     padding: 0 4px;
     background: var(--el-pagination-bg-color);
     vertical-align: top;
-    display: inline-block;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
     font-size: var(--el-pagination-font-size);
     min-width: var(--el-pagination-button-width);
     height: var(--el-pagination-button-height);

@@ -1,19 +1,19 @@
 <template>
-  <el-popper
+  <el-tooltip
     ref="popper"
     v-model:visible="showPicker"
-    :effect="Effect.LIGHT"
-    manual-mode
-    trigger="click"
     :show-arrow="false"
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :offset="0"
-    transition="el-zoom-in-top"
     :gpu-acceleration="false"
     :popper-class="`el-color-picker__panel el-color-dropdown ${popperClass}`"
     :stop-popper-mouse-event="false"
+    effect="light"
+    trigger="click"
+    transition="el-zoom-in-top"
+    persistent
   >
-    <template #default>
+    <template #content>
       <div v-click-outside="hide">
         <div class="el-color-dropdown__main-wrapper">
           <hue-slider ref="hue" class="hue-slider" :color="color" vertical />
@@ -55,7 +55,7 @@
         </div>
       </div>
     </template>
-    <template #trigger>
+    <template #default>
       <div
         :class="[
           'el-color-picker',
@@ -92,7 +92,7 @@
         </div>
       </div>
     </template>
-  </el-popper>
+  </el-tooltip>
 </template>
 
 <script lang="ts">
@@ -113,7 +113,7 @@ import ElIcon from '@element-plus/components/icon'
 import { ClickOutside } from '@element-plus/directives'
 import { elFormItemKey, elFormKey } from '@element-plus/tokens'
 import { useLocale, useSize } from '@element-plus/hooks'
-import ElPopper, { Effect } from '@element-plus/components/popper'
+import ElTooltip from '@element-plus/components/tooltip'
 import ElInput from '@element-plus/components/input'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { isValidComponentSize } from '@element-plus/utils/validators'
@@ -134,7 +134,7 @@ export default defineComponent({
   name: 'ElColorPicker',
   components: {
     ElButton,
-    ElPopper,
+    ElTooltip,
     ElInput,
     ElIcon,
     Close,
@@ -316,7 +316,6 @@ export default defineComponent({
     })
 
     return {
-      Effect,
       color: color as Color,
       colorDisabled,
       colorSize,

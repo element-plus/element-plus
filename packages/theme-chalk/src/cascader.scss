@@ -100,6 +100,10 @@
       var(--el-cascader-menu-border),
       var(--el-cascader-menu-shadow)
     );
+
+    &.#{$namespace}-popper {
+      box-shadow: var(--el-cascader-menu-shadow);
+    }
   }
 
   @include e(tags) {

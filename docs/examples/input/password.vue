@@ -1,5 +1,10 @@
 <template>
-  <el-input v-model="input" placeholder="Please input password" show-password />
+  <el-input
+    v-model="input"
+    type="password"
+    placeholder="Please input password"
+    show-password
+  />
 </template>
 
 <script lang="ts" setup>

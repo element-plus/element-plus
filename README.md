@@ -17,19 +17,21 @@
 - 💪 Vue 3 Composition API
 - 🔥 Written in TypeScript
 
-## Archived website
-
-If you are looking for previous version website, here is the link.
-
-[Element Plus Documentation Archived](https://github.com/element-plus/doc-archive)
-
-The new website is launched at 17th Sep 2021.
-
 ## Status: Beta
 
 This project is still under heavy development. Feel free to join us and make your first pull request.
 
+## Getting Started
+
+Alright, for you to get started if you are looking for making Element Plus better you should keep reading.
+For developers that uses Element Plus to develop your website you should go ahead visit [Getting Started](https://element-plus.org/)
+
+- 中国大陆[加速镜像站点](https://element-plus.gitee.io/)
+
 ### Playground
+
+You can also try Element Plus out with the components built-in playground
+(This thing is still under development, most of the functions are ready)
 
 #### Try it with code sandbox
 
@@ -37,7 +39,7 @@ This project is still under heavy development. Feel free to join us and make you
 
 #### Try it with our built-in playground
 
-[Playground](https://play.element-plus.org/)
+[Playground](https://element-plus.run/)
 
 <p align="center">
   <b>Special thanks to the generous sponsorship by:</b>
@@ -72,99 +74,34 @@ This project is still under heavy development. Feel free to join us and make you
 Element Plus is translated to multiple languages, you can click the badge to help up update the translation or apply to become
 a proofreader [![Crowdin](https://badges.crowdin.net/element-plus/localized.svg)](https://crowdin.com/project/element-plus)
 
-## Documentation
+For now we are only showing English and Chinese for resource reasons, but we are looking forward to translate it into more languages, please go to the link
+above and leave a message if you want to help translating Element Plus into your desired language.
 
-You can find for more details, API, and other docs on [https://element-plus.org](https://element-plus.org/)
-
-国内[加速镜像站点](https://element-plus.gitee.io/)
+## Stay tuned :eyes:
 
 Join our [Discord](https://discord.link/ElementPlus) to start communicating with everybody.
 
 ## Breaking change list
 
+**Note:** we are now currently preparing for the stable release, the APIs should be stable right now, we are going to
+make a full list about how to get upgraded from [Element UI](https://element.eleme.io) to Element Plus. This breaking change list
+might be updated day by day.
+
 You can find the breaking change list here: [Breaking Change List](https://github.com/element-plus/element-plus/issues/162).
 
-## Bootstrap project
+## This thing is broken, I should help improve it!
 
-With command
+Awesommmmmmee. Everything you need is down below. You can also refer to
+[CONTRIBUTING](https://github.com/element-plus/element-plus/blob/dev/CONTRIBUTING.md) and
+[Code of Conduct](https://github.com/element-plus/element-plus/blob/dev/CODE_OF_CONDUCT.md)
+where you'll find the same information listed below.
 
-```bash
-$ pnpm i
-```
+## I would like to become a part of the development team!
 
-the project will install all dependencies
+Welcome :star_struck:! We are looking for talented developers to join us and making Element Plus better! If you care to join the development team, please
+reach out to us, you are more than welcomed to join us! :heart:
 
-## Website preview
-
-With command
-
-```bash
-$ pnpm docs:dev
-```
-
-the project will launch website for you to preview all existing component
-
-## Local development
-
-1. With command
-
-```shell
-$ pnpm dev
-```
-
-will start the local development environment
-
-2. Add your component into `play/src/App.vue`
-
-> App.vue
-
-```vue
-<template>
-  <ComponentYouAreDeveloping />
-</template>
-
-<script setup lang="ts">
-// make sure this component is registered in @element-plus/components
-import { ComponentYouAreDeveloping } from '@element-plus/components'
-</script>
-```
-
-Modify `App.vue` file per your needs to get things work.
-
-## Component migration process
-
-1. Convert the item in https://github.com/element-plus/element-plus/projects/1 to an issue
-2. Assign yourself to the issue
-3. Author your component by generating new component command below
-4. Migrate tests and docs
-5. Open a new pull request, fill in the component issue link in 1
-
-## Generate new component
-
-With command
-
-```bash
-$ pnpm gen component-name
-```
-
-Note the `component-name` must be in `kebab-case`, combining words by replacing each space with a dash.
-
-And component type must be added to `typings/global.d.ts`.
-
-## Commit template
-
-With command
-
-```bash
-pnpm cz
-```
-
-Example
-
-```
-# [TYPE](SCOPE): [el-component-name] DESCRIPTION#[ISSUE]
-# example: feat(components): [el-button] add type for form usage #1234
-```
+We are now lacking of experts of `Testing`, `GitHub Actions`, `PM`, if you do feel like you can and willing to help us, please do reach out to us. :pray:
 
 ## Sponsors
 
@@ -185,7 +122,7 @@ And thank you to all our backers! 🙏
   <img src="https://contrib.rocks/image?repo=element-plus/element-plus" />
 </a>
 
-## Licence
+## License
 
 Element Plus is open source software licensed as
 [MIT](https://github.com/element-plus/element-plus/blob/master/LICENSE).

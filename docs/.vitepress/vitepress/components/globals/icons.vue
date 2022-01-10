@@ -33,7 +33,7 @@ const copySvgIcon = async (name, refs) => {
   if (copyIcon.value) {
     await copyContent(`<el-icon><${hyphenate(name)} /></el-icon>`)
   } else {
-    const content = refs[name].querySelector('svg')?.outerHTML ?? ''
+    const content = refs[name]?.[0].querySelector('svg')?.outerHTML ?? ''
     await copyContent(content)
   }
 }
@@ -51,7 +51,7 @@ const copySvgIcon = async (name, refs) => {
   <ul class="demo-icon-list">
     <li
       v-for="component in Icons"
-      :key="component"
+      :key="component.name"
       :ref="component.name"
       class="icon-item"
       @click="copySvgIcon(component.name, $refs)"

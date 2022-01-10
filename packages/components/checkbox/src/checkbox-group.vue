@@ -1,9 +1,3 @@
-<template>
-  <div class="el-checkbox-group" role="group" aria-label="checkbox-group">
-    <slot></slot>
-  </div>
-</template>
-
 <script lang="ts">
 import {
   defineComponent,
@@ -12,6 +6,8 @@ import {
   provide,
   nextTick,
   toRefs,
+  h,
+  renderSlot,
 } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { isValidComponentSize } from '@element-plus/utils/validators'
@@ -50,18 +46,22 @@ export default defineComponent({
       type: String,
       default: undefined,
     },
+    tag: {
+      type: String,
+      default: 'div',
+    },
   },
 
   emits: [UPDATE_MODEL_EVENT, 'change'],
 
-  setup(props, ctx) {
+  setup(props, { emit, slots }) {
     const { elFormItem } = useCheckboxGroup()
     const checkboxGroupSize = useSize()
 
     const changeEvent = (value) => {
-      ctx.emit(UPDATE_MODEL_EVENT, value)
+      emit(UPDATE_MODEL_EVENT, value)
       nextTick(() => {
-        ctx.emit('change', value)
+        emit('change', value)
       })
     }
 
@@ -88,6 +88,17 @@ export default defineComponent({
         elFormItem.validate?.('change')
       }
     )
+    return () => {
+      return h(
+        props.tag,
+        {
+          class: 'el-checkbox-group',
+          role: 'group',
+          'aria-label': 'checkbox-group',
+        },
+        [renderSlot(slots, 'default')]
+      )
+    }
   },
 })
 </script>

@@ -24,6 +24,7 @@
       :popper-class="tooltipClass"
       :disabled="!showTooltip"
       manual
+      persistent
     >
       <template #content>
         <span>{{ formatValue }}</span>

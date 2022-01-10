@@ -1,6 +1,6 @@
 <template>
   <div
-    class="el-rate"
+    :class="rateKls"
     role="slider"
     :aria-valuenow="currentValue"
     :aria-valuetext="text"
@@ -52,6 +52,7 @@ import { EVENT_CODE } from '@element-plus/utils/aria'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { ElIcon } from '@element-plus/components/icon'
 import { StarFilled, Star } from '@element-plus/icons-vue'
+import { useSize } from '@element-plus/hooks'
 import { rateProps, rateEmits } from './rate'
 import type { ElFormContext } from '@element-plus/tokens'
 
@@ -88,9 +89,13 @@ export default defineComponent({
   setup(props, { emit }) {
     const elForm = inject(elFormKey, {} as ElFormContext)
 
+    const rateSize = useSize()
     const currentValue = ref(props.modelValue)
     const hoverIndex = ref(-1)
     const pointerAtLeftHalf = ref(true)
+
+    const prefix = 'el-rate'
+    const rateKls = computed(() => [prefix, `${prefix}--${rateSize.value}`])
 
     const rateDisabled = computed(() => props.disabled || elForm.disabled)
     const text = computed(() => {
@@ -284,6 +289,7 @@ export default defineComponent({
       decimalStyle,
       decimalIconComponent,
       iconComponents,
+      rateKls,
 
       showDecimalIcon,
       getIconStyle,

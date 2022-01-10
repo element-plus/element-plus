@@ -1,4 +1,3 @@
-import { getCurrentInstance } from 'vue'
 import {
   camelize,
   capitalize,
@@ -17,7 +16,7 @@ import { isClient } from '@vueuse/core'
 import { debugWarn, throwError } from './error'
 
 import type { ComponentPublicInstance, CSSProperties, Ref } from 'vue'
-import type { TimeoutHandle, Nullable, ComponentSize } from './types'
+import type { TimeoutHandle, Nullable } from './types'
 
 export const SCOPE = 'Util'
 
@@ -178,17 +177,6 @@ export function isUndefined(val: any): val is undefined {
   return val === undefined
 }
 
-/**
- * @deprecated please use `useGlobalConfig` in hooks.
- */
-export function useGlobalConfig(): { size?: ComponentSize; zIndex?: number } {
-  const vm: any = getCurrentInstance()
-  if ('$ELEMENT' in vm.proxy) {
-    return vm.proxy.$ELEMENT
-  }
-  return {}
-}
-
 export function isEmpty(val: unknown) {
   if (
     (!val && val !== 0) ||
@@ -250,4 +238,15 @@ export const refAttacher = <T extends HTMLElement | ComponentPublicInstance>(
   return (val: T) => {
     ref.value = val
   }
+}
+
+export const merge = <T extends Record<string, any>>(a: T, b: T) => {
+  const keys = [
+    ...new Set([...Object.keys(a), ...Object.keys(b)]),
+  ] as (keyof T)[]
+  const obj = {} as T
+  for (const key of keys) {
+    obj[key] = b[key] ?? a[key]
+  }
+  return obj
 }

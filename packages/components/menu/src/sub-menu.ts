@@ -16,7 +16,7 @@ import {
 } from 'vue'
 import { useTimeoutFn } from '@vueuse/core'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
-import ElPopper from '@element-plus/components/popper'
+import ElTooltip from '@element-plus/components/tooltip'
 import { buildProps } from '@element-plus/utils/props'
 import { throwError } from '@element-plus/utils/error'
 import { ArrowDown, ArrowRight } from '@element-plus/icons-vue'
@@ -73,12 +73,16 @@ export default defineComponent({
     const subMenus = ref<MenuProvider['subMenus']>({})
 
     let timeout: (() => void) | undefined
-    const currentPlacement = ref<Placement | ''>('')
     const mouseInChild = ref(false)
     const verticalTitleRef = ref<HTMLDivElement>()
-    const vPopper = ref()
+    const vPopper = ref<InstanceType<typeof ElTooltip> | null>(null)
 
     // computed
+    const currentPlacement = computed<Placement>(() =>
+      mode.value === 'horizontal' && isFirstLevel.value
+        ? 'bottom-start'
+        : 'right-start'
+    )
     const subMenuTitleIcon = computed(() => {
       return (mode.value === 'horizontal' && isFirstLevel.value) ||
         (mode.value === 'vertical' && !rootMenu.props.collapse)
@@ -171,12 +175,11 @@ export default defineComponent({
     })
 
     // methods
-    const doDestroy = () => vPopper.value?.doDestroy()
+    const doDestroy = () =>
+      vPopper.value?.popperRef?.popperInstanceRef?.destroy()
 
     const handleCollapseToggle = (value: boolean) => {
-      if (value) {
-        updatePlacement()
-      } else {
+      if (!value) {
         doDestroy()
       }
     }
@@ -212,13 +215,12 @@ export default defineComponent({
       ) {
         return
       }
-      mouseInChild.value = true
+      subMenu.mouseInChild.value = true
 
       timeout?.()
-      ;({ stop: timeout } = useTimeoutFn(
-        () => rootMenu.openMenu(props.index, indexPath.value),
-        showTimeout
-      ))
+      ;({ stop: timeout } = useTimeoutFn(() => {
+        rootMenu.openMenu(props.index, indexPath.value)
+      }, showTimeout))
 
       if (appendToBody.value) {
         parentMenu.value.vnode.el?.dispatchEvent(new MouseEvent('mouseenter'))
@@ -233,8 +235,8 @@ export default defineComponent({
       ) {
         return
       }
-      mouseInChild.value = false
       timeout?.()
+      subMenu.mouseInChild.value = false
       ;({ stop: timeout } = useTimeoutFn(
         () =>
           !mouseInChild.value &&
@@ -247,13 +249,6 @@ export default defineComponent({
           subMenu.handleMouseleave?.(true)
         }
       }
-    }
-
-    const updatePlacement = () => {
-      currentPlacement.value =
-        mode.value === 'horizontal' && isFirstLevel.value
-          ? 'bottom-start'
-          : 'right-start'
     }
 
     watch(
@@ -273,6 +268,7 @@ export default defineComponent({
         addSubMenu,
         removeSubMenu,
         handleMouseleave,
+        mouseInChild,
       })
     }
 
@@ -285,7 +281,6 @@ export default defineComponent({
     onMounted(() => {
       rootMenu.addSubMenu(item)
       subMenu.addSubMenu(item)
-      updatePlacement()
     })
 
     onBeforeUnmount(() => {
@@ -312,24 +307,24 @@ export default defineComponent({
       const child = rootMenu.isMenuPopup
         ? h(
             // TODO: correct popper's type.
-            ElPopper as any,
+            ElTooltip as any,
             {
               ref: vPopper,
-              manualMode: true,
               visible: opened.value,
               effect: 'light',
               pure: true,
               offset: 6,
               showArrow: false,
+              persistent: true,
               popperClass: props.popperClass,
               placement: currentPlacement.value,
-              appendToBody: appendToBody.value,
+              teleported: appendToBody.value,
               fallbackPlacements: fallbackPlacements.value,
               transition: menuTransitionName.value,
               gpuAcceleration: false,
             },
             {
-              default: () =>
+              content: () =>
                 h(
                   'div',
                   {
@@ -353,7 +348,7 @@ export default defineComponent({
                     ),
                   ]
                 ),
-              trigger: () =>
+              default: () =>
                 h(
                   'div',
                   {

@@ -1,4 +1,4 @@
-import GitHubIcon from '../components/icons/github.vue'
+import GitHubIcon from '~icons/ri/github-fill'
 
 export const useSocialLinks = () => {
   return [

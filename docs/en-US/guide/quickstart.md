@@ -46,7 +46,7 @@ You need to use an additional plugin to import components you used.
 
 #### Auto import <el-tag type="primary" style="vertical-align: middle;" effect="dark" size="small">Recommend</el-tag>
 
-First you need install `unplugin-vue-components` and `unplugin-auto-import`.
+First you need to install `unplugin-vue-components` and `unplugin-auto-import`.
 
 ```shell
 npm install -D unplugin-vue-components unplugin-auto-import
@@ -175,16 +175,29 @@ app.use(ElementPlus, { size: 'small', zIndex: 3000 })
 
 On-demand:
 
-```ts
-import { createApp } from 'vue'
-import { ElButton } from 'element-plus'
-import App from './App.vue'
+```vue
+<template>
+  <el-config-provider :size="size" :zIndex="zIndex">
+    <app />
+  </el-config-provider>
+</template>
 
-const app = createApp(App)
-app.config.globalProperties.$ELEMENT = {
-  // options
-}
-app.use(ElButton)
+<script>
+import { defineComponent } from 'vue'
+import { ElConfigProvider } from 'element-plus'
+
+export default defineComponent({
+  components: {
+    ElConfigProvider,
+  },
+  setup() {
+    return {
+      zIndex: 3000,
+      size: 'small',
+    }
+  },
+})
+</script>
 ```
 
 ## Using Nuxt.js
@@ -197,5 +210,5 @@ We can also use [Nuxt.js](https://nuxtjs.org)：
 
 ## Let's Get Started
 
-You can bootstrap your project from now on, for each components usage, please
-refer to individual component documentation.
+You can bootstrap your project from now on. For each components usage, please
+refer to the individual component documentation.

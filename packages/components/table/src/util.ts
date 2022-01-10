@@ -1,7 +1,8 @@
 import { hasOwn } from '@vue/shared'
 import { createPopper } from '@popperjs/core'
-import PopupManager from '@element-plus/utils/popup-manager'
+import { PopupManager } from '@element-plus/utils/popup-manager'
 import { getValueByPath } from '@element-plus/utils/util'
+import scrollbarWidth from '@element-plus/utils/scrollbar-width'
 import { off, on } from '@element-plus/utils/dom'
 
 import type {
@@ -193,20 +194,22 @@ export function mergeOptions<T, K>(defaults: T, config: K): T & K {
   return options
 }
 
-export function parseWidth(width: number | string): number {
+export function parseWidth(width: number | string): number | string {
+  if (width === '') return width
   if (width !== undefined) {
     width = parseInt(width as string, 10)
-    if (isNaN(width)) {
-      width = null
+    if (Number.isNaN(width)) {
+      width = ''
     }
   }
-  return +width
+  return width
 }
 
-export function parseMinWidth(minWidth): number {
-  if (typeof minWidth !== 'undefined') {
+export function parseMinWidth(minWidth: number | string): number | string {
+  if (minWidth === '') return minWidth
+  if (minWidth !== undefined) {
     minWidth = parseWidth(minWidth)
-    if (isNaN(minWidth)) {
+    if (Number.isNaN(minWidth)) {
       minWidth = 80
     }
   }
@@ -369,4 +372,144 @@ export function createTablePopper(
   on(trigger, 'mouseenter', showPopper)
   on(trigger, 'mouseleave', removePopper)
   return popperInstance
+}
+
+export const isFixedColumn = <T>(
+  index: number,
+  fixed: string | boolean,
+  store: any,
+  realColumns?: TableColumnCtx<T>[]
+) => {
+  let start = 0
+  let after = index
+  if (realColumns) {
+    // handle group
+    for (let i = 0; i < index; i++) {
+      start += realColumns[i].colSpan
+    }
+    after = start + realColumns[index].colSpan - 1
+  } else {
+    start = index
+  }
+  let fixedLayout
+  const columns = store.states.columns
+  switch (fixed) {
+    case 'left':
+      if (after < store.states.fixedLeafColumnsLength.value) {
+        fixedLayout = 'left'
+      }
+      break
+    case 'right':
+      if (
+        start >=
+        columns.value.length - store.states.rightFixedLeafColumnsLength.value
+      ) {
+        fixedLayout = 'right'
+      }
+      break
+    default:
+      if (after < store.states.fixedLeafColumnsLength.value) {
+        fixedLayout = 'left'
+      } else if (
+        start >=
+        columns.value.length - store.states.rightFixedLeafColumnsLength.value
+      ) {
+        fixedLayout = 'right'
+      }
+  }
+  return fixedLayout
+    ? {
+        direction: fixedLayout,
+        start,
+        after,
+      }
+    : {}
+}
+
+export const getFixedColumnsClass = <T>(
+  index: number,
+  fixed: string | boolean,
+  store: any,
+  realColumns?: TableColumnCtx<T>[]
+) => {
+  const classes: string[] = []
+  const { direction, start } = isFixedColumn(index, fixed, store, realColumns)
+  if (direction) {
+    const isLeft = direction === 'left'
+    classes.push(`el-table-fixed-column--${direction}`)
+    if (isLeft && start === store.states.fixedLeafColumnsLength.value - 1) {
+      classes.push('is-last-column')
+    } else if (
+      !isLeft &&
+      start ===
+        store.states.columns.value.length -
+          store.states.rightFixedLeafColumnsLength.value
+    ) {
+      classes.push('is-first-column')
+    }
+  }
+  return classes
+}
+
+function getOffset<T>(offset: number, column: TableColumnCtx<T>) {
+  return (
+    offset +
+    (Number.isNaN(column.realWidth) ? Number(column.width) : column.realWidth)
+  )
+}
+
+export const getFixedColumnOffset = <T>(
+  index: number,
+  fixed: string | boolean,
+  store: any,
+  realColumns?: TableColumnCtx<T>[]
+) => {
+  const { direction, start = 0 } = isFixedColumn(
+    index,
+    fixed,
+    store,
+    realColumns
+  )
+  if (!direction) {
+    return
+  }
+  const styles: any = {}
+  const isLeft = direction === 'left'
+  const columns = store.states.columns.value
+  if (isLeft) {
+    styles.left = columns.slice(0, index).reduce(getOffset, 0)
+  } else {
+    styles.right = columns
+      .slice(start + 1)
+      .reverse()
+      .reduce(getOffset, 0)
+  }
+  return styles
+}
+
+export function getCellStyle<T>(
+  column: TableColumnCtx<T>,
+  cellIndex: number,
+  hasGutter: boolean,
+  gutterWidth: number,
+  store: any
+) {
+  const fixedStyle = getFixedColumnOffset(cellIndex, column.fixed, store)
+  ensureRightFixedStyle(fixedStyle, hasGutter)
+  ensurePosition(fixedStyle, 'left')
+  ensurePosition(fixedStyle, 'right')
+  return fixedStyle
+}
+
+export const ensureRightFixedStyle = (style, hasGutter: boolean) => {
+  if (hasGutter && style && !Number.isNaN(style.right)) {
+    style.right += scrollbarWidth()
+  }
+}
+
+export const ensurePosition = (style, key: string) => {
+  if (!style) return
+  if (!Number.isNaN(style[key])) {
+    style[key] = `${style[key]}px`
+  }
 }

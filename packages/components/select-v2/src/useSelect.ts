@@ -26,6 +26,7 @@ import { useAllowCreate } from './useAllowCreate'
 import { flattenOptions } from './util'
 
 import { useInput } from './useInput'
+import type ElTooltip from '@element-plus/components/tooltip'
 import type { SelectProps } from './defaults'
 import type { ExtractPropTypes, CSSProperties } from 'vue'
 import type { OptionType, Option } from './select.types'
@@ -33,8 +34,9 @@ import type { OptionType, Option } from './select.types'
 const DEFAULT_INPUT_PLACEHOLDER = ''
 const MINIMUM_INPUT_WIDTH = 11
 const TAG_BASE_WIDTH = {
-  small: 42,
-  mini: 33,
+  larget: 51,
+  default: 42,
+  small: 33,
 }
 
 const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
@@ -76,7 +78,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const controlRef = ref(null)
   const inputRef = ref(null) // el-input ref
   const menuRef = ref(null)
-  const popper = ref(null)
+  const popper = ref<InstanceType<typeof ElTooltip> | null>(null)
   const selectRef = ref(null)
   const selectionRef = ref(null) // tags ref
   const calculatorRef = ref<HTMLElement>(null)
@@ -186,12 +188,12 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const selectSize = useSize()
 
   const collapseTagSize = computed(() =>
-    'small' === selectSize.value ? 'small' : ''
+    'small' === selectSize.value ? 'small' : 'default'
   )
 
   const tagMaxWidth = computed(() => {
     const select = selectionRef.value
-    const size = collapseTagSize.value
+    const size = collapseTagSize.value || 'default'
     const paddingLeft = select
       ? parseInt(getComputedStyle(select).paddingLeft)
       : 0
@@ -233,7 +235,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   })
 
   // this obtains the actual popper DOM element.
-  const popperRef = computed(() => popper.value?.popperRef)
+  const popperRef = computed(() => popper.value?.popperRef?.contentRef)
 
   // the index with current value in options
   const indexRef = computed<number>(() => {
@@ -274,7 +276,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   // methods
   const focusAndUpdatePopup = () => {
     inputRef.value.focus?.()
-    popper.value.update?.()
+    popper.value?.updatePopper()
   }
 
   const toggleMenu = () => {
@@ -364,7 +366,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
       selectRef.value.height = selection.offsetHeight
       if (expanded.value && emptyText.value !== false) {
-        popper.value?.update?.()
+        popper.value?.updatePopper?.()
       }
     })
   }
@@ -372,7 +374,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const handleResize = () => {
     resetInputWidth()
     calculatePopperSize()
-    popper.value?.update?.()
+    popper.value?.updatePopper?.()
     if (props.multiple) {
       return resetInputHeight()
     }

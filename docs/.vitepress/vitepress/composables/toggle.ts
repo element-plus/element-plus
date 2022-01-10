@@ -1,20 +1,16 @@
 import { isRef, ref } from 'vue'
+import { isBoolean } from '@vueuse/core'
+import type { MaybeRef } from '@vueuse/core'
 
-import type { Ref } from 'vue'
-
-const isBool = (val: unknown): val is boolean => {
-  return typeof val === 'boolean'
-}
-
-export const useToggle = (getToggled?: Ref<boolean>) => {
+export const useToggle = (getToggled?: MaybeRef<boolean>) => {
   const val = isRef(getToggled)
     ? getToggled
-    : ref(isBool(getToggled) ? getToggled : false)
+    : ref(isBoolean(getToggled) ? getToggled : false)
 
   return [
     val,
     (toggle?: boolean) => {
-      val.value = isBool(toggle) ? toggle : !val.value
+      val.value = isBoolean(toggle) ? toggle : !val.value
     },
   ] as const
 }

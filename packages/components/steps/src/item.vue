@@ -10,7 +10,7 @@
   >
     <!-- icon & line -->
     <div :class="['el-step__head', `is-${currentStatus}`]">
-      <div class="el-step__line">
+      <div v-if="!isSimple" class="el-step__line">
         <i class="el-step__line-inner" :style="lineStyle"></i>
       </div>
 

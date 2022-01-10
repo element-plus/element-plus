@@ -1,8 +1,9 @@
 import { createVNode, render } from 'vue'
 import { isClient } from '@vueuse/core'
-import { isVNode } from '@element-plus/utils/util'
-import PopupManager from '@element-plus/utils/popup-manager'
+import { isVNode, isNumber } from '@element-plus/utils/util'
+import { PopupManager } from '@element-plus/utils/popup-manager'
 import { debugWarn } from '@element-plus/utils/error'
+import { messageConfig } from '@element-plus/components/config-provider/src/config-provider'
 import MessageConstructor from './message.vue'
 import { messageTypes } from './message'
 
@@ -16,6 +17,9 @@ let seed = 1
 
 const message: MessageFn & Partial<Message> = function (options = {}) {
   if (!isClient) return { close: () => undefined }
+  if (isNumber(messageConfig.max) && instances.length >= messageConfig.max) {
+    return { close: () => undefined }
+  }
 
   if (
     !isVNode(options) &&

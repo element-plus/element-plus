@@ -1,6 +1,7 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import dayjs from 'dayjs'
+import { rAF } from '@element-plus/test-utils/tick'
 import ConfigProvider from '@element-plus/components/config-provider'
 import { CommonPicker } from '@element-plus/components/time-picker'
 import Input from '@element-plus/components/input'
@@ -237,6 +238,7 @@ describe('DatePicker', () => {
       }
     )
     await nextTick()
+    await rAF()
     const popperEl = document.querySelector('.el-picker__popper')
     const attr = popperEl.getAttribute('aria-hidden')
     expect(attr).toEqual('false')
@@ -323,6 +325,26 @@ describe('DatePicker', () => {
     expect(text.includes('csw')).toBeTruthy()
   })
 
+  it('custom content bail out slot compoent', async () => {
+    _mount(
+      `<el-date-picker
+        v-model="value"
+        ref="input">
+        <slot name="testest"></slot>
+      </el-date-picker>`,
+      () => ({ value: '' }),
+      {
+        mounted() {
+          this.$refs.input.focus()
+        },
+      }
+    )
+    await nextTick()
+    const el = document.querySelector<HTMLElement>('td.available')
+    const text = el.textContent
+    expect(!!text).toBeTruthy()
+  })
+
   describe('value-format', () => {
     it('with literal string', async () => {
       const day = dayjs()
@@ -354,8 +376,8 @@ describe('DatePicker', () => {
       )
       const vm = wrapper.vm as any
       const input = wrapper.find('input')
-      input.trigger('blur')
-      input.trigger('focus')
+      await input.trigger('blur')
+      await input.trigger('focus')
       await nextTick()
       {
         ;(document.querySelector('td.available') as HTMLElement).click()
@@ -367,9 +389,50 @@ describe('DatePicker', () => {
           valueFormat
         ).format(valueFormat)
       )
-      wrapper.find('button').trigger('click')
+      await wrapper.find('button').trigger('click')
       await nextTick()
       expect(wrapper.findComponent(Input).vm.modelValue).toBe('2021-05-31')
+    })
+
+    it('with "x"', async () => {
+      const format = 'YYYY/MM/DD'
+      const dateStr = '2021/05/31'
+      const valueFormat = 'x'
+      const value = Date.now()
+      const wrapper = _mount(
+        `
+        <el-date-picker
+          ref="compo"
+          v-model="value"
+          type="date"
+          format="${format}"
+          value-format="${valueFormat}" />
+        <button @click="changeValue">click</button>
+      `,
+        () => {
+          return {
+            value,
+          }
+        },
+        {
+          methods: {
+            changeValue() {
+              this.value = +new Date(dateStr)
+            },
+          },
+        }
+      )
+      const vm = wrapper.vm as any
+      const input = wrapper.find('input')
+      await input.trigger('blur')
+      await input.trigger('focus')
+      await nextTick()
+      ;(document.querySelector('td.available') as HTMLElement).click()
+      await nextTick()
+      expect(vm.value).toBe(+dayjs().startOf('M'))
+      await wrapper.find('button').trigger('click')
+      await nextTick()
+      expect(wrapper.findComponent(Input).vm.modelValue).toBe(dateStr)
     })
   })
 })

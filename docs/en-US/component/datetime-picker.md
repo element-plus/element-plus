@@ -42,6 +42,26 @@ datetime-picker/date-and-time
 
 :::
 
+## DateTime Formats
+
+Use `format` to control displayed text's format in the input box. Use `value-format` to control binding value's format.
+
+By default, the component accepts and emits a `Date` object.
+
+Check the list [here](https://day.js.org/docs/en/display/format#list-of-all-available-formats) of all available formats of Day.js.
+
+:::warning
+
+Pay attention to capitalization
+
+:::
+
+:::demo
+
+datetime-picker/date-and-time-formats
+
+:::
+
 ## Date and time range
 
 :::demo You can select date and time range by setting `type` to `datetimerange`.
@@ -78,6 +98,8 @@ datetime-picker/default-time
 | range-separator       | range separator                                                                                       | string                                            | -                                                                                                                                                                               | '-'                 |
 | default-value         | optional, default date of the calendar                                                                | Date                                              | anything accepted by `new Date()`                                                                                                                                               | —                   |
 | default-time          | the default time value after picking a date                                                           | non-range: Date / range: Date[]                   | non-range: a Date object, range: array of two Date objects, and the first item is for the start date and second for the end date. Time `00:00:00` will be used if not specified | —                   |
+| value-format          | optional, format of binding value. If not specified, the binding value will be a Date object          | string                                            | see [date formats](https://day.js.org/docs/en/display/format)                                                                                                                   | —                   |
+| id                    | same as `id` in native input                                                                          | string / array(string)                            | String `id="my-datetime"` or array `:id="['my-range-start', 'my-range-end']"` for date range                                                                                    | -                   |
 | name                  | same as `name` in native input                                                                        | string                                            | —                                                                                                                                                                               | —                   |
 | unlink-panels         | unllink two date-panels in range-picker                                                               | boolean                                           | —                                                                                                                                                                               | false               |
 | prefix-icon           | Custom prefix icon component                                                                          | string                                            | —                                                                                                                                                                               | Date                |

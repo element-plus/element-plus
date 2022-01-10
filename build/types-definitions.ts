@@ -1,6 +1,6 @@
 import path from 'path'
 import fs from 'fs/promises'
-import * as vueCompiler from '@vue/compiler-sfc'
+import * as vueCompiler from 'vue/compiler-sfc'
 import { Project } from 'ts-morph'
 import glob from 'fast-glob'
 import { bold } from 'chalk'

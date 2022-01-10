@@ -163,6 +163,16 @@ $disabled: map.merge(
   $disabled
 );
 
+$common-component-size: () !default;
+$common-component-size: map.merge(
+  (
+    'large': 40px,
+    'default': 32px,
+    'small': 24px,
+  ),
+  $common-component-size
+);
+
 // Checkbox
 // css3 var in packages/theme-chalk/src/checkbox.scss
 $checkbox: () !default;
@@ -201,6 +211,26 @@ $checkbox-button: map.merge(
   $checkbox-button
 );
 
+$checkbox-bordered-padding-left: () !default;
+$checkbox-bordered-padding-left: map.merge(
+  (
+    'large': 12px,
+    'default': 10px,
+    'small': 8px,
+  ),
+  $checkbox-bordered-padding-left
+);
+
+$checkbox-bordered-padding-right: () !default;
+$checkbox-bordered-padding-right: map.merge(
+  (
+    'large': 20px,
+    'default': 16px,
+    'small': 12px,
+  ),
+  $checkbox-bordered-padding-right
+);
+
 // Radio
 /// fontSize||Font|1
 $radio: () !default;
@@ -221,14 +251,7 @@ $radio: map.merge(
 );
 
 $radio-height: () !default;
-$radio-height: map.merge(
-  (
-    'large': 40px,
-    'default': 32px,
-    'small': 24px,
-  ),
-  $radio-height
-);
+$radio-height: map.merge($common-component-size, $radio-height);
 
 $radio-button: () !default;
 $radio-button: map.merge(
@@ -262,16 +285,6 @@ $radio-checked: map.merge(
     'icon-color': var(--el-color-primary),
   ),
   $radio-checked
-);
-
-$radio-bordered-padding: () !default;
-$radio-bordered-padding: map.merge(
-  (
-    'large': 0 20px 0 10px,
-    'default': 0 15px 0 10px,
-    'small': 0 15px 0 10px,
-  ),
-  $radio-bordered-padding
 );
 
 $radio-bordered-input-height: () !default;
@@ -453,7 +466,7 @@ $input-disabled: map.merge(
 $input-font-size: () !default;
 $input-font-size: map.merge(
   (
-    'large': 16px,
+    'large': 14px,
     'default': 14px,
     'small': 12px,
   ),
@@ -461,31 +474,17 @@ $input-font-size: map.merge(
 );
 
 $input-height: () !default;
-$input-height: map.merge(
-  (
-    'large': 40px,
-    'default': 32px,
-    'small': 24px,
-  ),
-  $input-height
-);
+$input-height: map.merge($common-component-size, $input-height);
 
 $input-line-height: () !default;
-$input-line-height: map.merge(
-  (
-    'large': 40px,
-    'default': 32px,
-    'small': 24px,
-  ),
-  $input-line-height
-);
+$input-line-height: map.merge($common-component-size, $input-line-height);
 
 $input-number-width: () !default;
 $input-number-width: map.merge(
   (
-    'large': 178px,
-    'default': 146px,
-    'small': 118px,
+    'large': 180px,
+    'default': 150px,
+    'small': 120px,
   ),
   $input-number-width
 );
@@ -533,7 +532,7 @@ $button: map.merge(
     'disabled-bg-color': var(--el-color-white),
     'disabled-border-color': var(--el-border-color-light),
     'divide-border-color': rgba($color-white, 0.5),
-    'hover-text-color': var(--el-color-white),
+    'hover-text-color': var(--el-color-primary),
     'hover-bg-color': var(--el-color-primary-light-9),
     'hover-border-color': var(--el-color-primary-light-7),
     'active-text-color': var(--el-button-hover-text-color),
@@ -542,6 +541,8 @@ $button: map.merge(
   ),
   $button
 );
+
+$button-border-width: $border-width-base !default;
 
 // need mix, so do not use css var
 $button-hover-tint-percent: 20%;
@@ -590,7 +591,7 @@ $button-border-radius: map.merge(
 $button-padding-vertical: () !default;
 $button-padding-vertical: map.merge(
   (
-    'large': 12px,
+    'large': 13px,
     'default': 9px,
     'small': 6px,
   ),
@@ -602,7 +603,7 @@ $button-padding-horizontal: map.merge(
   (
     'large': 20px,
     'default': 16px,
-    'small': 8px,
+    'small': 12px,
   ),
   $button-padding-horizontal
 );
@@ -614,7 +615,6 @@ $switch: map.merge(
   (
     'on-color': var(--el-color-primary),
     'off-color': var(--el-border-color-base),
-    'font-size': var(--el-font-size-base),
     'core-border-radius': 10px,
     'width': 40px,
     'height': 20px,
@@ -664,7 +664,7 @@ $table-font-size: () !default;
 $table-font-size: map.merge(
   (
     'large': var(--el-font-size-base, map.get($font-size, 'base')),
-    'default': 12px,
+    'default': 14px,
     'small': 12px,
   ),
   $table-font-size
@@ -673,11 +673,21 @@ $table-font-size: map.merge(
 $table-padding: () !default;
 $table-padding: map.merge(
   (
-    'large': 13px 0,
-    'default': 10px 0,
-    'small': 6px 0,
+    'large': 12px 0,
+    'default': 8px 0,
+    'small': 4px 0,
   ),
   $table-padding
+);
+
+$table-cell-padding: () !default;
+$table-cell-padding: map.merge(
+  (
+    'large': 0 16px,
+    'default': 0 12px,
+    'small': 0 8px,
+  ),
+  $table-cell-padding
 );
 
 // Pagination
@@ -790,10 +800,20 @@ $tag-padding: () !default;
 $tag-padding: map.merge(
   (
     'large': 12px,
-    'default': 8px,
-    'small': 4px,
+    'default': 10px,
+    'small': 8px,
   ),
   $tag-padding
+);
+
+$tag-icon-size: () !default;
+$tag-icon-size: map.merge(
+  (
+    'large': 16px,
+    'default': 14px,
+    'small': 12px,
+  ),
+  $tag-icon-size
 );
 
 @each $type in $types {
@@ -884,7 +904,6 @@ $slider: map.merge(
     'runway-bg-color': var(--el-border-color-light),
     'stop-bg-color': var(--el-color-white),
     'disable-color': var(--el-text-color-placeholder),
-    'margin': 16px 0,
     'border-radius': 3px,
     'height': 6px,
     'button-size': 20px,
@@ -904,6 +923,7 @@ $menu: map.merge(
     'hover-text-color': var(--el-text-color-primary),
     'bg-color': var(--el-color-white),
     'hover-bg-color': var(--el-color-primary-light-9),
+    'item-height': 56px,
     'item-font-size': var(--el-font-size-base),
     'item-hover-fill': var(--el-color-primary-light-9),
     'border-color': #e6e6e6,
@@ -1024,7 +1044,7 @@ $transfer: map.merge(
     'panel-header-height': 40px,
     'panel-header-bg-color': var(--el-bg-color),
     'panel-footer-height': 40px,
-    'panel-body-height': 246px,
+    'panel-body-height': 278px,
     'item-height': 30px,
     'filter-height': 32px,
   ),
@@ -1148,10 +1168,8 @@ $empty: map.merge(
 $descriptions: () !default;
 $descriptions: map.merge(
   (
-    'header-margin-bottom': 20px,
-    'title-font-size': 16px,
     'table-border': 1px solid var(--el-border-color-lighter),
-    'item-bordered-label-background': #fafafa,
+    'item-bordered-label-background': #f5f7fa,
   ),
   $descriptions
 );

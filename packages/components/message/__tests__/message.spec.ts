@@ -87,20 +87,17 @@ describe('Message.vue', () => {
     })
 
     test('should not be able to render invalid type icon', () => {
+      const consoleWarn = console.warn
+      console.warn = jest.fn()
       const type = 'some-type'
       const wrapper = _mount({ props: { type } })
 
       for (const key in TypeComponentsMap) {
-        if (key === type) {
-          expect(wrapper.findComponent(TypeComponentsMap[key]).exists()).toBe(
-            true
-          )
-        } else {
-          expect(wrapper.findComponent(TypeComponentsMap[key]).exists()).toBe(
-            false
-          )
-        }
+        expect(wrapper.findComponent(TypeComponentsMap[key]).exists()).toBe(
+          false
+        )
       }
+      console.warn = consoleWarn
     })
   })
 

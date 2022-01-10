@@ -99,7 +99,6 @@ container/example
   .el-footer {
     background-color: #b3c0d1;
     color: var(--el-text-color-primary);
-    line-height: 60px;
   }
 
   .el-aside {

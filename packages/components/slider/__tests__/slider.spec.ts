@@ -33,6 +33,24 @@ describe('Slider', () => {
     }, 10)
   })
 
+  it('sizes', () => {
+    const wrapper = mount({
+      template: `
+        <div>
+        <slider v-model="value" size="small">
+        </slider>
+        </div>
+      `,
+      components: { Slider },
+      data() {
+        return {
+          value: 0,
+        }
+      },
+    })
+    expect(wrapper.find('.el-slider--small').exists()).toBe(true)
+  })
+
   it('show tooltip', () => {
     const wrapper = mount({
       template: `

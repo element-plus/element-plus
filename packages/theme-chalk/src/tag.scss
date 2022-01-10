@@ -10,6 +10,16 @@
 
 $tag-border-width: 1px;
 
+$tag-icon-span-gap: () !default;
+$tag-icon-span-gap: map.merge(
+  (
+    'large': 8px,
+    'default': 6px,
+    'small': 4px,
+  ),
+  $tag-icon-span-gap
+);
+
 @mixin genTheme(
   $backgroundColorWeight,
   $borderColorWeight,
@@ -90,7 +100,7 @@ $tag-border-width: 1px;
   align-items: center;
 
   height: map.get($tag-height, 'default');
-  padding: map.get($tag-padding, 'default');
+  padding: 0 map.get($tag-padding, 'default') - $border-width-base;
   font-size: var(--el-tag-font-size);
   line-height: 1;
   border-width: $tag-border-width;
@@ -99,23 +109,27 @@ $tag-border-width: 1px;
   box-sizing: border-box;
   white-space: nowrap;
 
+  --el-icon-size: 14px;
+
   .#{$namespace}-icon {
     border-radius: 50%;
     text-align: center;
     position: relative;
     cursor: pointer;
-    font-size: 12px;
-    height: 16px;
-    width: 16px;
-    line-height: 16px;
+
+    font-size: calc(var(--el-icon-size) - 1px);
+
+    height: var(--el-icon-size);
+    width: var(--el-icon-size);
+    line-height: var(--el-icon-size);
 
     svg {
-      margin: 2px;
+      margin: 1px;
     }
   }
 
   .#{$namespace}-tag__close {
-    right: -5px;
+    margin-left: map.get($tag-icon-span-gap, 'default');
   }
 
   @include m(dark) {
@@ -126,10 +140,24 @@ $tag-border-width: 1px;
     @include genTheme(0, 40%, 100%, 100%);
   }
 
-  @each $size in (large, small) {
+  &.is-closable {
+    padding-right: map.get($tag-icon-span-gap, 'default') - $border-width-base;
+  }
+
+  @each $size in (large, default, small) {
     @include m($size) {
       padding: 0 map.get($tag-padding, $size) - $tag-border-width;
       height: map.get($tag-height, $size);
+
+      --el-icon-size: #{map.get($tag-icon-size, $size)};
+
+      .#{$namespace}-tag__close {
+        margin-left: map.get($tag-icon-span-gap, $size);
+      }
+
+      &.is-closable {
+        padding-right: map.get($tag-icon-span-gap, $size) - $border-width-base;
+      }
     }
   }
 

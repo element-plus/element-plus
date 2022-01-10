@@ -7,56 +7,21 @@ import { useSourceCode } from '../composables/source-code'
 import { usePlayGround } from '../composables/use-playground'
 
 import demoBlockLocale from '../../i18n/component/demo-block.json'
-import GithubIcon from './icons/github.vue'
-import SourceCodeIcon from './icons/source-code.vue'
-import PlayGroundIcon from './icons/playground.vue'
-import CopyIcon from './icons/copy-icon.vue'
 
 import Example from './demo/vp-example.vue'
 import SourceCode from './demo/vp-source-code.vue'
 
-const props = defineProps({
-  // source is encoded via encodeURIComponent
-  source: {
-    type: String,
-    required: true,
-  },
-  path: {
-    type: String,
-    required: true,
-  },
-  css: {
-    type: String,
-    required: true,
-  },
-  cssPreProcessor: {
-    type: String,
-    required: true,
-  },
-  js: {
-    type: String,
-    required: true,
-  },
-  jsPreProcessor: {
-    type: String,
-    required: true,
-  },
-  html: {
-    type: String,
-    required: true,
-  },
-  demos: {
-    type: Object,
-    required: true,
-  },
-  rawSource: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-  },
-})
+const props = defineProps<{
+  source: string
+  path: string
+  css?: string
+  cssPreProcessor?: string
+  js?: string
+  html?: string
+  demos: object
+  rawSource: string
+  description?: string
+}>()
 
 const vm = getCurrentInstance()!
 
@@ -85,9 +50,9 @@ const decodedDescription = computed(() =>
   decodeURIComponent(props.description!)
 )
 
-const onCodepenClicked = () => {
-  const code = usePlayGround(props.rawSource)
-  window.open(`https://play.element-plus.org/#${code}`)
+const onPlaygroundClicked = () => {
+  const { link } = usePlayGround(props.rawSource)
+  window.open(link)
 }
 
 const copyCode = async () => {
@@ -107,33 +72,39 @@ const copyCode = async () => {
 <template>
   <ClientOnly>
     <!-- danger here DO NOT USE INLINE SCRIPT TAG -->
-    <p class="example-description" v-html="decodedDescription" />
+    <p text="sm" v-html="decodedDescription" />
     <div class="example">
       <div class="op-btns">
-        <ElTooltip :content="locale['edit-in-editor']" :visible-arrow="false">
+        <ElTooltip :content="locale['edit-in-editor']" :show-arrow="false">
           <ElIcon :size="20" class="op-btn">
-            <PlayGroundIcon @click="onCodepenClicked" />
+            <i-ri-play-circle-line @click="onPlaygroundClicked" />
           </ElIcon>
         </ElTooltip>
-        <ElTooltip :content="locale['edit-on-github']" :visible-arrow="false">
-          <ElIcon :size="20" class="op-btn github">
+        <ElTooltip :content="locale['edit-on-github']" :show-arrow="false">
+          <ElIcon
+            :size="20"
+            class="op-btn github"
+            style="color: var(--text-color-light)"
+          >
             <a :href="demoSourceUrl" rel="noreferrer noopener" target="_blank">
-              <GithubIcon />
+              <i-ri-github-line />
             </a>
           </ElIcon>
         </ElTooltip>
-        <ElTooltip :content="locale['copy-code']" :visible-arrow="false">
+        <ElTooltip :content="locale['copy-code']" :show-arrow="false">
           <ElIcon :size="20" class="op-btn" @click="copyCode">
-            <CopyIcon />
+            <!-- <CopyIcon /> -->
+            <i-ri-file-copy-2-line />
           </ElIcon>
         </ElTooltip>
-        <ElTooltip :content="locale['view-source']" :visible-arrow="false">
+        <ElTooltip :content="locale['view-source']" :show-arrow="false">
           <ElIcon :size="20" class="op-btn" @click="setSourceVisible">
-            <SourceCodeIcon />
+            <!-- <SourceCodeIcon /> -->
+            <i-ri-code-line />
           </ElIcon>
         </ElTooltip>
       </div>
-      <ElDivider />
+      <ElDivider class="m-0" />
       <Example :file="path" :demo="formatPathDemos[path]" />
       <ElDivider v-if="sourceVisible" />
       <el-collapse-transition>
@@ -144,9 +115,6 @@ const copyCode = async () => {
 </template>
 
 <style scoped lang="scss">
-.example-description {
-  font-size: 14px;
-}
 .example {
   border: 1px solid var(--border-color);
   border-radius: var(--el-border-radius-base);
@@ -160,18 +128,27 @@ const copyCode = async () => {
     height: 3rem;
     line-height: 3rem;
 
-    .op-btn {
-      margin: 0 0.5rem;
-      cursor: pointer;
-      color: var(--text-color);
-
-      &.github a {
+    .el-icon {
+      &:hover {
         color: var(--text-color);
       }
     }
-  }
-  .el-divider {
-    margin: 0;
+
+    .op-btn {
+      margin: 0 0.5rem;
+      cursor: pointer;
+      color: var(--text-color-lighter);
+      transition: 0.2s;
+
+      &.github a {
+        transition: 0.2s;
+        color: var(--text-color-lighter);
+
+        &:hover {
+          color: var(--text-color);
+        }
+      }
+    }
   }
 }
 </style>
