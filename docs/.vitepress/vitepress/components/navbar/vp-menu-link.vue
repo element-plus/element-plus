@@ -16,7 +16,7 @@ const isVisited = ref(
 )
 // const isNewPage = (item: Link) => item.activeMatch === '/resource/'
 
-const isNewPage = (item: Link) => false
+const isNewPage = (item?: Link) => false
 
 const onNavClick = (item: Link) => {
   if (isNewPage(item) && !isVisited.value) {
