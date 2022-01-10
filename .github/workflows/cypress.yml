@@ -33,7 +33,7 @@ jobs:
         run: pnpm install serve -D -w
 
       - name: Serve documentation site
-        run: pnpm exec serve docs -p 5001
+        run: pnpm exec serve docs -p 5001 &
 
       - name: Run Cypress
         run: npx cypress run
