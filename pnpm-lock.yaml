@@ -36,7 +36,7 @@ importers:
       chalk: 4.1.2
       components-helper: 1.0.5
       csstype: 2.6.19
-      cypress: ^9.2.0
+      cypress: 9.2.0
       cz-conventional-changelog: 3.3.0
       dayjs: ^1.10.7
       esbuild: 0.14.11
@@ -8053,7 +8053,7 @@ packages:
       is-wsl: 2.2.0
       semver: 7.3.5
       shellwords: 0.1.1
-      uuid: 8.3.0
+      uuid: 8.3.2
       which: 2.0.2
     dev: true
     optional: true
@@ -10766,12 +10766,6 @@ packages:
     deprecated: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
     hasBin: true
     dev: true
-
-  /uuid/8.3.0:
-    resolution: {integrity: sha512-fX6Z5o4m6XsXBdli9g7DtWgAx+osMsRRZFKma1mIUsLCz6vRvv+pz5VNbyu9UEDzpMWulZfvpgb/cmDXVulYFQ==}
-    hasBin: true
-    dev: true
-    optional: true
 
   /uuid/8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
