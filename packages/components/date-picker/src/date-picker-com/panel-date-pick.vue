@@ -182,7 +182,7 @@ import {
   DArrowRight,
   ArrowRight,
 } from '@element-plus/icons-vue'
-import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tooltip/src/tokens'
+import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tooltip'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
