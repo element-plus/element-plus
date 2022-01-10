@@ -178,7 +178,6 @@ $dropdown-menu-padding-vertical: map.merge(
       $divided-offset: 6px;
 
       position: relative;
-      margin-top: $divided-offset;
       border-top: 1px solid var(--el-border-color-lighter);
 
       &:before {
