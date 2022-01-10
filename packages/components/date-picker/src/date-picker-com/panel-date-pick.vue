@@ -182,6 +182,7 @@ import {
   DArrowRight,
   ArrowRight,
 } from '@element-plus/icons-vue'
+import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tooltip/src/tokens'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
@@ -232,7 +233,7 @@ export default defineComponent({
   setup(props, ctx) {
     const { t, lang } = useLocale()
     const pickerBase = inject('EP_PICKER_BASE') as any
-
+    const popper = inject(TOOLTIP_INJECTION_KEY)
     const {
       shortcuts,
       disabledDate,
@@ -383,6 +384,13 @@ export default defineComponent({
         currentView.value = 'date'
       },
       { immediate: true }
+    )
+
+    watch(
+      () => currentView.value,
+      () => {
+        popper?.updatePopper()
+      }
     )
 
     const hasShortcuts = computed(() => !!shortcuts.length)

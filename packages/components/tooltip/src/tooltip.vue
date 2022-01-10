@@ -158,6 +158,7 @@ export default defineComponent({
       onHide: () => {
         emit('hide')
       },
+      updatePopper,
     })
 
     return {
