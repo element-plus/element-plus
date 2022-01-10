@@ -4,9 +4,11 @@ import { useLocale } from '@element-plus/hooks'
 import Chinese from '@element-plus/locale/lang/zh-cn'
 import English from '@element-plus/locale/lang/en'
 import { ElButton, ElMessage } from '@element-plus/components'
-import { sleep } from '@element-plus/test-utils'
+import { rAF } from '@element-plus/test-utils/tick'
 import ConfigProvider from '../src/config-provider'
 import type { Language } from '@element-plus/locale'
+
+jest.useFakeTimers()
 
 const TestComp = {
   setup() {
@@ -195,8 +197,8 @@ describe('config-provider', () => {
           </el-config-provider>
         `,
       })
-      ElMessage.closeAll()
-      await sleep(40)
+      jest.runAllTimers()
+      await rAF()
       wrapper.find('.el-button').trigger('click')
       wrapper.find('.el-button').trigger('click')
       wrapper.find('.el-button').trigger('click')
