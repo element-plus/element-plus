@@ -95,6 +95,7 @@ const createSelect = (
         :placeholder="placeholder"
         :allow-create="allowCreate"
         :remote="remote"
+        :reserve-keyword="reserveKeyword"
         :scrollbar-always-on="scrollbarAlwaysOn"
         ${
           options.methods && options.methods.filterMethod
@@ -129,6 +130,7 @@ const createSelect = (
           multiple: false,
           remote: false,
           filterable: false,
+          reserveKeyword: false,
           multipleLimit: 0,
           popperAppendToBody: true,
           placeholder: DEFAULT_PLACEHOLDER,
