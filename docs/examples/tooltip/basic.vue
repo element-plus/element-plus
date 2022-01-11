@@ -51,7 +51,7 @@
         content="Left Center prompts info"
         placement="left"
       >
-        <el-button>left</el-button>
+        <el-button class="mt-3 mb-3">left</el-button>
       </el-tooltip>
       <el-tooltip
         class="box-item"
