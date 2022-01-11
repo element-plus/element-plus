@@ -1,7 +1,7 @@
 <template>
   <ul
     :ref="dropdownListWrapperRef"
-    :class="['el-dropdown-menu', size && `el-dropdown-menu--${size}`]"
+    :class="dropdownKls"
     :style="rovingFocusGroupRootStyle"
     :tabindex="-1"
     role="menu"
@@ -14,8 +14,7 @@
   </ul>
 </template>
 <script lang="ts">
-import { defineComponent, inject, unref } from 'vue'
-import { ClickOutside } from '@element-plus/directives'
+import { computed, defineComponent, inject, unref } from 'vue'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { FOCUS_TRAP_INJECTION_KEY } from '@element-plus/components/focus-trap'
 import {
@@ -35,10 +34,6 @@ import { useDropdown } from './useDropdown'
 
 export default defineComponent({
   name: 'ElDropdownMenu',
-  directives: {
-    ClickOutside,
-  },
-  inheritAttrs: false,
   props: dropdownMenuProps,
   setup(props) {
     const { _elDropdownSize } = useDropdown()
@@ -69,6 +64,10 @@ export default defineComponent({
       ROVING_FOCUS_COLLECTION_INJECTION_KEY,
       undefined
     )!
+
+    const dropdownKls = computed(() => {
+      return ['el-dropdown-menu', size && `el-dropdown-menu--${size}`]
+    })
 
     const dropdownListWrapperRef = composeRefs(
       contentRef,
@@ -120,6 +119,7 @@ export default defineComponent({
       size,
       rovingFocusGroupRootStyle,
       tabIndex,
+      dropdownKls,
       dropdownListWrapperRef,
       handleKeydown,
       onBlur,

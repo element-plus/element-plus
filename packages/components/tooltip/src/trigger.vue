@@ -6,11 +6,11 @@
     :virtual-triggering="virtualTriggering"
     class="el-tooltip__trigger"
     @blur="onBlur"
+    @click="onClick"
     @contextmenu="onContextMenu"
     @focus="onFocus"
     @mouseenter="onMouseenter"
     @mouseleave="onMouseleave"
-    @mousedown="onMousedown"
     @keydown="onKeydown"
   >
     <slot />
@@ -55,7 +55,7 @@ export default defineComponent({
       stopWhenControlledOrDisabled,
       whenTrigger(trigger, 'hover', onClose)
     )
-    const onMousedown = composeEventHandlers(
+    const onClick = composeEventHandlers(
       stopWhenControlledOrDisabled,
       whenTrigger(trigger, 'click', (e) => {
         // distinguish left click
@@ -99,7 +99,7 @@ export default defineComponent({
       onFocus,
       onMouseenter,
       onMouseleave,
-      onMousedown,
+      onClick,
       onKeydown,
       open,
       id,

@@ -69,7 +69,7 @@ describe('<ElTooltipTrigger />', () => {
         await nextTick()
         expect(onOpen).not.toHaveBeenCalled()
         const mousedownEvt = new MouseEvent('mousedown')
-        vm.onMousedown(mousedownEvt)
+        vm.onClick(mousedownEvt)
         await nextTick()
         expect(onToggle).not.toHaveBeenCalled()
         const mouseenterEvt = new MouseEvent('mouseenter')
@@ -115,7 +115,7 @@ describe('<ElTooltipTrigger />', () => {
           trigger: 'click',
         })
         const mousedownEvt = new MouseEvent('mousedown')
-        vm.onMousedown(mousedownEvt)
+        vm.onClick(mousedownEvt)
         await nextTick()
         await wrapper.setProps({
           trigger: 'hover',

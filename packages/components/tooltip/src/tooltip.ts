@@ -41,6 +41,9 @@ export const useTooltipContentProps = {
       type: Boolean,
       default: true,
     },
+    disabled: {
+      type: Boolean,
+    },
   }),
 }
 

@@ -55,7 +55,7 @@ describe('v-popover', () => {
     expect(
       document.body.querySelector('.el-popover').getAttribute('style')
     ).toContain('display: none')
-    await wrapper.find(refNode).trigger('mousedown', {
+    await wrapper.find(refNode).trigger('click', {
       button: 0,
     })
     await nextTick()
