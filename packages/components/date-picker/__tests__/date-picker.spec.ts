@@ -842,16 +842,21 @@ describe('DatePicker keyboard events', () => {
 })
 
 describe('DateRangePicker', () => {
-  it('create', async () => {
+  it('create & custom class & style', async () => {
     let calendarChangeValue = null
     const changeHandler = jest.fn()
+    const popperClassName = 'popper-class-test'
+    const customClassName = 'custom-class-test'
     const wrapper = _mount(
       `<el-date-picker
-    type='daterange'
-    v-model="value"
-    @CalendarChange="onCalendarChange"
-  />`,
-      () => ({ value: '' }),
+        type='daterange'
+        v-model="value"
+        @calendarChange="onCalendarChange"
+        :style="{color:'red'}"
+        :class="customClassName"
+        :popperClass="popperClassName"
+      />`,
+      () => ({ value: '', popperClassName, customClassName }),
       {
         methods: {
           onCalendarChange(e) {
@@ -866,6 +871,9 @@ describe('DateRangePicker', () => {
     inputs[0].trigger('focus')
     await nextTick()
 
+    const outterInput = wrapper.find('.el-range-editor.el-input__inner')
+    expect(outterInput.classes()).toContain(customClassName)
+    expect(outterInput.attributes().style).toBeDefined()
     const panels = document.querySelectorAll('.el-date-range-picker__content')
     expect(panels.length).toBe(2)
     ;(panels[0].querySelector('td.available') as HTMLElement).click()
@@ -875,6 +883,12 @@ describe('DateRangePicker', () => {
     inputs[0].trigger('blur')
     inputs[0].trigger('focus')
     await nextTick()
+    // popperClassName
+    expect(
+      document
+        .querySelector('.el-picker__popper')
+        .classList.contains(popperClassName)
+    ).toBe(true)
     // correct highlight
     const startDate = document.querySelectorAll('.start-date')
     const endDate = document.querySelectorAll('.end-date')

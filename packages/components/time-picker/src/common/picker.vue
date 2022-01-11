@@ -68,7 +68,9 @@
           pickerSize ? `el-range-editor--${pickerSize}` : '',
           pickerDisabled ? 'is-disabled' : '',
           pickerVisible ? 'is-active' : '',
+          $attrs.class || undefined,
         ]"
+        :style="$attrs.style || undefined"
         @click="handleFocus"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
