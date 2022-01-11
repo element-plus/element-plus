@@ -299,12 +299,12 @@ export default defineComponent({
     }
 
     const handleDragOver = (event: DragEvent) => {
+      event.preventDefault()
       if (!tree.props.draggable) return
       dragEvents.treeNodeDragOver({
         event,
         treeNode: { $el: node$.value, node: props.node },
       })
-      event.preventDefault()
     }
 
     const handleDrop = (event: DragEvent) => {
