@@ -61,4 +61,4 @@ jobs:
       - name: Sync
         env:
           TRIGGERSYNCURL: ${{ secrets.TRIGGERSYNCURL }}
-        run: curl "$TRIGGERSYNCURL"
+        run: curl -k "$TRIGGERSYNCURL"
