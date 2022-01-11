@@ -321,6 +321,7 @@ export default defineComponent({
           class: [
             'el-pagination',
             {
+              'is-disabled': props.disabled,
               'is-background': props.background,
               'el-pagination--small': props.small,
             },

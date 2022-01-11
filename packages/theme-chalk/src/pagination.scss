@@ -256,6 +256,17 @@
       }
     }
   }
+
+  @include when(disabled) {
+
+    @include e(total) {
+      color: var(--el-text-color-placeholder);
+    }
+    
+    @include e(jump) {
+      color: var(--el-text-color-placeholder);
+    }
+  }
 }
 
 @include b(pager) {
