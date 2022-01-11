@@ -103,6 +103,7 @@ describe('Dropdown', () => {
       .findComponent({
         name: 'DropdownItemImpl',
       })
+      .find('.el-dropdown-menu__item')
       .trigger('click')
     await nextTick()
     jest.runAllTimers()
@@ -352,6 +353,7 @@ describe('Dropdown', () => {
         .findComponent({
           name: 'DropdownItemImpl',
         })
+        .find('.el-dropdown-menu__item')
         .element.getAttribute('tabindex')
     ).toBe('0')
   })

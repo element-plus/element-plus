@@ -18,6 +18,8 @@ Toggleable menu for displaying lists of links and actions.
   .el-dropdown-link {
     cursor: pointer;
     color: var(--el-color-primary);
+    display: flex;
+    align-items: center;
   }
 }
 
