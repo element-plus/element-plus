@@ -1,5 +1,5 @@
 <template>
-  <teleport :disabled="!teleported" :to="POPPER_CONTAINER_SELECTOR">
+  <teleport :disabled="!teleported" :to="appendTo">
     <transition
       :name="transition"
       @after-leave="onTransitionLeave"
@@ -44,10 +44,7 @@ import { onClickOutside } from '@vueuse/core'
 import { ElPopperContent } from '@element-plus/components/popper'
 import { ElVisuallyHidden } from '@element-plus/components/visual-hidden'
 import { composeEventHandlers } from '@element-plus/utils/dom'
-import {
-  useEscapeKeydown,
-  POPPER_CONTAINER_SELECTOR,
-} from '@element-plus/hooks'
+import { useEscapeKeydown } from '@element-plus/hooks'
 
 import { useTooltipContentProps } from './tooltip'
 import { TOOLTIP_INJECTION_KEY } from './tokens'
@@ -156,7 +153,6 @@ export default defineComponent({
       shouldRender,
       shouldShow,
       open,
-      POPPER_CONTAINER_SELECTOR,
       onAfterShow,
       onBeforeEnter,
       onContentEnter,

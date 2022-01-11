@@ -202,5 +202,21 @@ describe('<ElTooltipContent />', () => {
         })
       })
     })
+
+    it('should append to', async () => {
+      const el = document.createElement('div')
+      const id = 'test_id'
+      el.id = id
+      document.body.appendChild(el)
+
+      wrapper = createComponent({
+        appendTo: `#${id}`,
+      })
+
+      await nextTick()
+
+      expect(el.children).toHaveLength(1)
+      expect(el.querySelector('[aria-hidden="true"]')).not.toBeNull()
+    })
   })
 })
