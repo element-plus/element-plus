@@ -36,7 +36,7 @@ importers:
       chalk: 4.1.2
       components-helper: 1.0.5
       csstype: 2.6.19
-      cypress: 8.5.0
+      cypress: 8.7.0
       cz-conventional-changelog: 3.3.0
       dayjs: ^1.10.7
       esbuild: 0.14.11
@@ -112,7 +112,7 @@ importers:
       chalk: 4.1.2
       components-helper: 1.0.5
       csstype: 2.6.19
-      cypress: 8.5.0
+      cypress: 8.7.0
       cz-conventional-changelog: 3.3.0
       esbuild: 0.14.11
       eslint: 8.6.0
@@ -175,7 +175,7 @@ importers:
       '@vueuse/core': 7.5.3_vue@3.2.26
       axios: 0.24.0
       clipboard-copy: 4.0.1
-      element-plus: 1.3.0-beta.3_vue@3.2.26
+      element-plus: 1.3.0-beta.4_vue@3.2.26
       normalize.css: 8.0.1
       nprogress: 0.2.0
     devDependencies:
@@ -3838,8 +3838,8 @@ packages:
     resolution: {integrity: sha512-ZVxXaNy28/k3kJg0Fou5MiYpp88j7H9hLZp8PDC3jV0WFjfH5E9xHb56L0W59cPbKbcHXeP4qyT8PrHp8t6LcQ==}
     dev: true
 
-  /cypress/8.5.0:
-    resolution: {integrity: sha512-MMkXIS+Ro2KETn4gAlG3tIc/7FiljuuCZP0zpd9QsRG6MZSyZW/l1J3D4iQM6WHsVxuX4rFChn5jPFlC2tNSvQ==}
+  /cypress/8.7.0:
+    resolution: {integrity: sha512-b1bMC3VQydC6sXzBMFnSqcvwc9dTZMgcaOzT0vpSD+Gq1yFc+72JDWi55sfUK5eIeNLAtWOGy1NNb6UlhMvB+Q==}
     engines: {node: '>=12.0.0'}
     hasBin: true
     requiresBuild: true
@@ -4247,8 +4247,8 @@ packages:
     resolution: {integrity: sha512-2jtSwgyiRzybHRxrc2nKI+39wH3AwQgn+sogQ+q814gv8hIFwrcZbV07Ea9f8AmK0ufPVZUvvAG1uZJ+obV4Jw==}
     dev: true
 
-  /element-plus/1.3.0-beta.3_vue@3.2.26:
-    resolution: {integrity: sha512-OeSAfuXpZJAdakC9hsQkcBrQEib+uVzzTZ52EiZZxQ1ArktxdfONkQyZ/KTR20pfr+3gla2guhWseg60md1sLA==}
+  /element-plus/1.3.0-beta.4_vue@3.2.26:
+    resolution: {integrity: sha512-iCJuNJBCWUQFiK6YVPkoxRkNppPqMTeFGajdHYVLWC+pbshmHaRIBriYOF8ytFW8fPyEC77b8JlSBG/tHiLsyQ==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
