@@ -371,7 +371,7 @@ describe('TimePicker', () => {
     await nextTick()
     const popperEl = document.querySelector('.el-picker__popper')
     const attr = popperEl.getAttribute('aria-hidden')
-    expect(attr).toEqual('true')
+    expect(attr).toEqual('false')
   })
 
   it('model value should sync when disabled-hours was updated', async () => {

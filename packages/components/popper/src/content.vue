@@ -44,9 +44,7 @@ export default defineComponent({
       arrowRef,
       arrowOffset,
     })
-    const contentZIndex = computed(
-      () => props.zIndex || PopupManager.nextZIndex()
-    )
+    const contentZIndex = ref(props.zIndex || PopupManager.nextZIndex())
 
     const contentStyle = computed(
       () => [{ zIndex: unref(contentZIndex) }, props.popperStyle] as any
@@ -76,6 +74,7 @@ export default defineComponent({
 
     const updatePopper = () => {
       unref(popperInstanceRef)?.update()
+      contentZIndex.value = props.zIndex || PopupManager.nextZIndex()
     }
 
     onMounted(() => {

@@ -11,6 +11,7 @@ export type ElTooltipInjectionContext = {
   onToggle: (e: Event) => void
   onShow: () => void
   onHide: () => void
+  updatePopper: () => void
 }
 
 export const TOOLTIP_INJECTION_KEY: InjectionKey<ElTooltipInjectionContext> =
