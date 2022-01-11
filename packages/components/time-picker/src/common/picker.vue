@@ -135,6 +135,7 @@
         @select-range="setSelectionRange"
         @set-picker-option="onSetPickerOption"
         @calendar-change="onCalendarChange"
+        @panel-change="onPanelChange"
         @mousedown.stop
       ></slot>
     </template>
@@ -234,7 +235,14 @@ export default defineComponent({
     ElIcon,
   },
   props: timePickerDefaultProps,
-  emits: ['update:modelValue', 'change', 'focus', 'blur', 'calendar-change'],
+  emits: [
+    'update:modelValue',
+    'change',
+    'focus',
+    'blur',
+    'calendar-change',
+    'panel-change',
+  ],
   setup(props, ctx) {
     const { lang } = useLocale()
 
@@ -617,6 +625,10 @@ export default defineComponent({
       ctx.emit('calendar-change', e)
     }
 
+    const onPanelChange = (value, mode, view) => {
+      ctx.emit('panel-change', value, mode, view)
+    }
+
     provide('EP_PICKER_BASE', {
       props,
     })
@@ -655,6 +667,7 @@ export default defineComponent({
       pickerDisabled,
       onSetPickerOption,
       onCalendarChange,
+      onPanelChange,
       focus,
     }
   },

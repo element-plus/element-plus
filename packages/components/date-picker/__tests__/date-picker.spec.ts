@@ -30,6 +30,53 @@ afterEach(() => {
   document.documentElement.innerHTML = ''
 })
 
+const testDatePickerPanelChange = async (type: 'date' | 'daterange') => {
+  let mode
+  const wrapper = _mount(
+    `<el-date-picker
+        type="${type}"
+        v-model="value"
+        @panel-change="onPanelChange"
+    />`,
+    () => ({ value: type === 'daterange' ? [] : '' }),
+    {
+      methods: {
+        onPanelChange(value, _mode) {
+          mode = _mode
+        },
+      },
+    }
+  )
+
+  const reset = () => {
+    mode = undefined
+  }
+
+  const input = wrapper.find('input')
+  input.trigger('blur')
+  input.trigger('focus')
+  await nextTick()
+  const prevMonth = document.querySelector<HTMLElement>('button.arrow-left')
+  const prevYear = document.querySelector<HTMLElement>('button.d-arrow-left')
+  const nextMonth = document.querySelector<HTMLElement>('button.arrow-right')
+  const nextYear = document.querySelector<HTMLElement>('button.d-arrow-right')
+  prevMonth.click()
+  await nextTick()
+  expect(mode).toBe('month')
+  reset()
+  nextMonth.click()
+  await nextTick()
+  expect(mode).toBe('month')
+  reset()
+  prevYear.click()
+  await nextTick()
+  expect(mode).toBe('year')
+  reset()
+  nextYear.click()
+  await nextTick()
+  expect(mode).toBe('year')
+}
+
 describe('DatePicker', () => {
   it('create & custom class & style', async () => {
     const popperClassName = 'popper-class-test'
@@ -531,6 +578,10 @@ describe('DatePicker Navigation', () => {
     await nextTick()
     expect(getYearLabel()).toContain('2001')
     expect(getMonthLabel()).toContain('January')
+  })
+
+  it('panel change event', async () => {
+    await testDatePickerPanelChange('date')
   })
 })
 
@@ -1079,6 +1130,10 @@ describe('DateRangePicker', () => {
     expect((wrapper.vm as any).value.toString()).toBe(
       ['01/05 2021', '01/06 2021'].toString()
     )
+  })
+
+  it('panel change event', async () => {
+    await testDatePickerPanelChange('daterange')
   })
 })
 
