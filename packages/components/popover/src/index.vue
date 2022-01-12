@@ -71,11 +71,16 @@ export default defineComponent({
       ]
     })
 
+    const hide = () => {
+      tooltipRef.value?.hide()
+    }
+
     return {
       kls,
       style,
       tooltipRef,
       popperRef,
+      hide,
     }
   },
 })

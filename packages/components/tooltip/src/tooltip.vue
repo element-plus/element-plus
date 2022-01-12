@@ -167,6 +167,7 @@ export default defineComponent({
       compatShowArrow,
       popperRef,
       open,
+      hide,
       updatePopper,
       onOpen,
       onClose,
