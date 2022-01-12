@@ -25,7 +25,7 @@ import {
   ref,
   toRef,
 } from 'vue'
-import { useEventListener } from '@vueuse/core'
+import { useEventListener, isClient } from '@vueuse/core'
 import { scrollbarContextKey } from '@element-plus/tokens'
 import { throwError } from '@element-plus/utils/error'
 import { BAR_MAP, renderThumbStyle } from './util'
@@ -52,7 +52,7 @@ export default defineComponent({
     let cursorLeave = false
     let onselectstartStore:
       | ((this: GlobalEventHandlers, ev: Event) => any)
-      | null = null
+      | null = isClient ? document.onselectstart : null
 
     const bar = computed(
       () => BAR_MAP[props.vertical ? 'vertical' : 'horizontal']
@@ -145,7 +145,7 @@ export default defineComponent({
       barStore.value[bar.value.axis] = 0
       document.removeEventListener('mousemove', mouseMoveDocumentHandler)
       document.removeEventListener('mouseup', mouseUpDocumentHandler)
-      document.onselectstart = onselectstartStore
+      restoreOnselectstart()
       if (cursorLeave) visible.value = false
     }
 
@@ -159,9 +159,15 @@ export default defineComponent({
       visible.value = cursorDown
     }
 
-    onBeforeUnmount(() =>
+    onBeforeUnmount(() => {
+      restoreOnselectstart()
       document.removeEventListener('mouseup', mouseUpDocumentHandler)
-    )
+    })
+
+    const restoreOnselectstart = () => {
+      if (document.onselectstart !== onselectstartStore)
+        document.onselectstart = onselectstartStore
+    }
 
     useEventListener(
       toRef(scrollbar, 'scrollbarElement'),
