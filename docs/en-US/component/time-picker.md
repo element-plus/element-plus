@@ -11,9 +11,19 @@ Use Time Picker for time input.
 
 Can pick an arbitrary time.
 
-:::demo Use `el-time-picker` label, and you can limit the time range by specifying `disabledHours` `disabledMinutes` and `disabledSeconds`. By default, you can scroll the mouse wheel to pick time, alternatively you can use the control arrows when the `arrow-control` attribute is set.
+:::demo By default, you can scroll the mouse wheel to pick time, alternatively you can use the control arrows when the `arrow-control` attribute is set.
 
 time-picker/basic
+
+:::
+
+## Limit the time range
+
+You can also limit the time range.
+
+:::demo Limit the time range by specifying `disabledHours` `disabledMinutes` and `disabledSeconds`.
+
+time-picker/basic-range
 
 :::
 
