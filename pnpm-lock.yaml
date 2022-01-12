@@ -36,7 +36,7 @@ importers:
       chalk: 4.1.2
       components-helper: 1.0.5
       csstype: 2.6.19
-      cypress: 9.2.0
+      cypress: 8.5.0
       cz-conventional-changelog: 3.3.0
       dayjs: ^1.10.7
       esbuild: 0.14.11
@@ -112,7 +112,7 @@ importers:
       chalk: 4.1.2
       components-helper: 1.0.5
       csstype: 2.6.19
-      cypress: 9.2.0
+      cypress: 8.5.0
       cz-conventional-changelog: 3.3.0
       esbuild: 0.14.11
       eslint: 8.6.0
@@ -3838,8 +3838,8 @@ packages:
     resolution: {integrity: sha512-ZVxXaNy28/k3kJg0Fou5MiYpp88j7H9hLZp8PDC3jV0WFjfH5E9xHb56L0W59cPbKbcHXeP4qyT8PrHp8t6LcQ==}
     dev: true
 
-  /cypress/9.2.0:
-    resolution: {integrity: sha512-Jn26Tprhfzh/a66Sdj9SoaYlnNX6Mjfmj5PHu2a7l3YHXhrgmavM368wjCmgrxC6KHTOv9SpMQGhAJn+upDViA==}
+  /cypress/8.5.0:
+    resolution: {integrity: sha512-MMkXIS+Ro2KETn4gAlG3tIc/7FiljuuCZP0zpd9QsRG6MZSyZW/l1J3D4iQM6WHsVxuX4rFChn5jPFlC2tNSvQ==}
     engines: {node: '>=12.0.0'}
     hasBin: true
     requiresBuild: true
@@ -3879,6 +3879,7 @@ packages:
       ospath: 1.2.2
       pretty-bytes: 5.6.0
       proxy-from-env: 1.0.0
+      ramda: 0.27.1
       request-progress: 3.0.0
       supports-color: 8.1.1
       tmp: 0.2.1
