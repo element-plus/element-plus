@@ -1,5 +1,13 @@
 ## Changelog
 
+### 1.3.0-beta.5
+
+_2022-01-12_
+
+#### Bug fixes
+
+- Fix error build type file (#5335 by @JeremyWuuuuu)
+
 ### 1.3.0-beta.4
 
 _2022-01-11_
