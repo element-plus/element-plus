@@ -258,7 +258,6 @@
   }
 
   @include when(disabled) {
-
     @include e(total) {
       color: var(--el-text-color-placeholder);
     }
