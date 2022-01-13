@@ -24,15 +24,15 @@ export const rateProps = buildProps({
   },
   colors: {
     type: definePropType<string[] | Record<number, string>>([Array, Object]),
-    default: () => mutable(['#F7BA2A', '#F7BA2A', '#F7BA2A'] as const),
+    default: () => mutable(['var(--el-rate-star-color)', 'var(--el-rate-star-color)', 'var(--el-rate-star-color)'] as const),
   },
   voidColor: {
     type: String,
-    default: '#C6D1DE',
+    default: 'var(--el-rate-void-color)',
   },
   disabledVoidColor: {
     type: String,
-    default: '#EFF2F7',
+    default: 'var(--el-rate-disable-void-color)',
   },
   icons: {
     type: definePropType<
@@ -66,7 +66,7 @@ export const rateProps = buildProps({
   },
   textColor: {
     type: String,
-    default: '#1f2d3d',
+    default: 'var(--el-rate-text-color)',
   },
   texts: {
     type: definePropType<string[]>([Array]),
