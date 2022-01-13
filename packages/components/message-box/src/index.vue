@@ -8,7 +8,7 @@
       @click.self="handleWrapperClick"
     >
       <div
-        ref="root"
+        ref="rootRef"
         v-trap-focus
         role="dialog"
         :aria-label="title || 'dialog'"
@@ -16,12 +16,13 @@
         :class="[
           'el-message-box',
           customClass,
-          { 'el-message-box--center': center },
+          { 'el-message-box--center': center, 'is-draggable': draggable },
         ]"
         :style="customStyle"
       >
         <div
           v-if="title !== null && title !== undefined"
+          ref="headerRef"
           class="el-message-box__header"
         >
           <div class="el-message-box__title">
@@ -136,6 +137,7 @@ import {
   useRestoreActive,
   usePreventGlobal,
   useSize,
+  useDraggable,
 } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import { ElOverlay } from '@element-plus/components/overlay'
@@ -197,6 +199,7 @@ export default defineComponent({
       default: true,
     },
     center: Boolean,
+    draggable: Boolean,
     roundButton: {
       default: false,
       type: Boolean,
@@ -270,6 +273,8 @@ export default defineComponent({
       () => state.icon || TypeComponentsMap[state.type] || ''
     )
     const hasMessage = computed(() => !!state.message)
+    const rootRef = ref<ComponentPublicInstance>(null)
+    const headerRef = ref<ComponentPublicInstance>(null)
     const inputRef = ref<ComponentPublicInstance>(null)
     const confirmRef = ref<ComponentPublicInstance>(null)
 
@@ -315,6 +320,9 @@ export default defineComponent({
       await nextTick()
       if (props.closeOnHashChange) {
         on(window, 'hashchange', doClose)
+      }
+      if (props.draggable) {
+        useDraggable(rootRef, headerRef)
       }
     })
 
@@ -434,6 +442,8 @@ export default defineComponent({
       btnSize,
       iconComponent,
       confirmButtonClasses,
+      rootRef,
+      headerRef,
       inputRef,
       confirmRef,
       doClose, // for outside usage
