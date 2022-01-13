@@ -25,7 +25,7 @@ importers:
       '@sucrase/jest-plugin': 2.2.0
       '@types/fs-extra': 9.0.13
       '@types/gulp': 4.0.9
-      '@types/jest': 27.0.2
+      '@types/jest': 27.4.0
       '@types/lodash': 4.14.178
       '@types/sass': 1.43.1
       '@typescript-eslint/eslint-plugin': 5.9.1
@@ -103,7 +103,7 @@ importers:
       '@sucrase/jest-plugin': 2.2.0
       '@types/fs-extra': 9.0.13
       '@types/gulp': 4.0.9
-      '@types/jest': 27.0.2
+      '@types/jest': 27.4.0
       '@types/lodash': 4.14.178
       '@types/sass': 1.43.1
       '@typescript-eslint/eslint-plugin': 5.9.1_b7b2e42b32ee097737cd3e626b10847b
@@ -1858,8 +1858,8 @@ packages:
       '@types/istanbul-lib-report': 3.0.0
     dev: true
 
-  /@types/jest/27.0.2:
-    resolution: {integrity: sha512-4dRxkS/AFX0c5XW6IPMNOydLn2tEhNhJV7DnYK+0bjoJZ+QTmfucBlihX7aoEsh/ocYtkLC73UbnBXBXIxsULA==}
+  /@types/jest/27.4.0:
+    resolution: {integrity: sha512-gHl8XuC1RZ8H2j5sHv/JqsaxXkDDM9iDOgu0Wp8sjs4u/snb2PVehyWXJPr+ORA0RPpgw231mnutWI1+0hgjIQ==}
     dependencies:
       jest-diff: 27.3.1
       pretty-format: 27.3.1
