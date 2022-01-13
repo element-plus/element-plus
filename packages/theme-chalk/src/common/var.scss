@@ -941,7 +941,9 @@ $rate: map.merge(
     'icon-margin': 6px,
     'icon-color': var(--el-text-color-placeholder),
     'void-color': #c6d1de,
-    'rate-color': #F7BA2A,
+    'star-color': #F7BA2A,
+    'disable-void-color': #EFF2F7,
+    'text-color': #1f2d3d,
   ),
   $rate
 );
