@@ -35,7 +35,7 @@ importers:
       async-validator: ^4.0.7
       chalk: 4.1.2
       components-helper: 1.0.5
-      csstype: 2.6.19
+      csstype: 3.0.10
       cypress: 8.5.0
       cz-conventional-changelog: 3.3.0
       dayjs: ^1.10.7
@@ -111,7 +111,7 @@ importers:
       '@vue/test-utils': 2.0.0-rc.16_vue@3.2.26
       chalk: 4.1.2
       components-helper: 1.0.5
-      csstype: 2.6.19
+      csstype: 3.0.10
       cypress: 8.5.0
       cz-conventional-changelog: 3.3.0
       esbuild: 0.14.11
@@ -206,7 +206,7 @@ importers:
       '@types/node': '*'
       '@vueuse/core': ^7.3.0
       async-validator: ^4.0.7
-      csstype: ^2.6.0
+      csstype: ^3.0.0
       dayjs: ^1.10.7
       lodash: ^4.17.21
       memoize-one: ^6.0.0
@@ -224,7 +224,7 @@ importers:
       normalize-wheel-es: 1.1.1
     devDependencies:
       '@types/node': 16.11.6
-      csstype: 2.6.18
+      csstype: 3.0.10
       vue-router: 4.0.12_vue@3.2.26
 
   packages/hooks:
@@ -3835,12 +3835,12 @@ packages:
       cssom: 0.3.8
     dev: true
 
-  /csstype/2.6.18:
-    resolution: {integrity: sha512-RSU6Hyeg14am3Ah4VZEmeX8H7kLwEEirXe6aU2IPfKNvhXwTflK5HQRDNI0ypQXoqmm+QPyG2IaPuQE5zMwSIQ==}
-    dev: true
-
   /csstype/2.6.19:
     resolution: {integrity: sha512-ZVxXaNy28/k3kJg0Fou5MiYpp88j7H9hLZp8PDC3jV0WFjfH5E9xHb56L0W59cPbKbcHXeP4qyT8PrHp8t6LcQ==}
+    dev: true
+
+  /csstype/3.0.10:
+    resolution: {integrity: sha512-2u44ZG2OcNUO9HDp/Jl8C07x6pU/eTR3ncV91SiK3dhG9TWvRVsCoJw14Ckx5DgWkzGA3waZWO3d7pgqpUI/XA==}
     dev: true
 
   /cypress/8.5.0:
