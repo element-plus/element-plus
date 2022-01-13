@@ -98,7 +98,7 @@
     "eslint-define-config": "1.2.2",
     "eslint-plugin-import": "2.25.4",
     "eslint-plugin-prettier": "4.0.0",
-    "eslint-plugin-vue": "8.2.0",
+    "eslint-plugin-vue": "8.3.0",
     "expect-type": "0.13.0",
     "fast-glob": "3.2.10",
     "fs-extra": "10.0.0",

@@ -45,7 +45,7 @@ importers:
       eslint-define-config: 1.2.2
       eslint-plugin-import: 2.25.4
       eslint-plugin-prettier: 4.0.0
-      eslint-plugin-vue: 8.2.0
+      eslint-plugin-vue: 8.3.0
       expect-type: 0.13.0
       fast-glob: 3.2.10
       fs-extra: 10.0.0
@@ -120,7 +120,7 @@ importers:
       eslint-define-config: 1.2.2
       eslint-plugin-import: 2.25.4_eslint@8.6.0
       eslint-plugin-prettier: 4.0.0_1c588f61426b1faf18812943f1678311
-      eslint-plugin-vue: 8.2.0_eslint@8.6.0
+      eslint-plugin-vue: 8.3.0_eslint@8.6.0
       expect-type: 0.13.0
       fast-glob: 3.2.10
       fs-extra: 10.0.0
@@ -4845,8 +4845,8 @@ packages:
       prettier-linter-helpers: 1.0.0
     dev: true
 
-  /eslint-plugin-vue/8.2.0_eslint@8.6.0:
-    resolution: {integrity: sha512-cLIdTuOAMXyHeQ4drYKcZfoyzdwdBpH279X8/N0DgmotEI9yFKb5O/cAgoie/CkQZCH/MOmh0xw/KEfS90zY2A==}
+  /eslint-plugin-vue/8.3.0_eslint@8.6.0:
+    resolution: {integrity: sha512-IIuLHw4vQxGlHcoP2dG6t/2OVdQf2qoyAzEGAxreU1afZOHGA7y3TWq8I+r3ZA6Wjs6xpeUWGHlT31QGr9Rb5g==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: ^6.2.0 || ^7.0.0 || ^8.0.0
