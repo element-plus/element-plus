@@ -4,20 +4,20 @@
     v-model:visible="suggestionVisible"
     :placement="placement"
     :fallback-placements="['bottom-start', 'top-start']"
-    :popper-class="`el-autocomplete__popper ${popperClass}`"
+    :popper-class="`${prefixClass}__popper ${popperClass}`"
     :append-to-body="popperAppendToBody"
     :gpu-acceleration="false"
     pure
     manual-mode
     effect="light"
     trigger="click"
-    transition="el-zoom-in-top"
+    :transition="zoomInTopClass"
     persistent
     @show="onSuggestionShow"
   >
     <div
       v-clickoutside="close"
-      :class="['el-autocomplete', $attrs.class]"
+      :class="[prefixClass, $attrs.class]"
       :style="$attrs.style"
       role="combobox"
       aria-haspopup="listbox"
@@ -56,7 +56,7 @@
       <div
         ref="regionRef"
         :class="[
-          'el-autocomplete-suggestion',
+          `${prefixClass}-suggestion`,
           suggestionLoading && 'is-loading',
         ]"
         :style="{ minWidth: dropdownWidth, outline: 'none' }"
@@ -65,8 +65,8 @@
         <el-scrollbar
           :id="id"
           tag="ul"
-          wrap-class="el-autocomplete-suggestion__wrap"
-          view-class="el-autocomplete-suggestion__list"
+          :wrap-class="`${prefixClass}-suggestion__wrap`"
+          :view-class="`${prefixClass}-suggestion__list`"
           role="listbox"
         >
           <li v-if="suggestionLoading">
@@ -95,7 +95,7 @@
 import { defineComponent, ref, computed, onMounted, nextTick } from 'vue'
 import { NOOP } from '@vue/shared'
 import debounce from 'lodash/debounce'
-import { useAttrs } from '@element-plus/hooks'
+import { useAttrs, usePrefixClass } from '@element-plus/hooks'
 import { ClickOutside } from '@element-plus/directives'
 import { generateId, isArray } from '@element-plus/utils/util'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
@@ -190,6 +190,9 @@ export default defineComponent({
     'select',
   ],
   setup(props, ctx) {
+    const prefixClass = usePrefixClass('autocomplete')
+    const zoomInTopClass = usePrefixClass('zoom-in-top')
+
     const attrs = useAttrs()
     const suggestions = ref<any[]>([])
     const highlightedIndex = ref(-1)
@@ -206,7 +209,7 @@ export default defineComponent({
     const popper = ref(null)
 
     const id = computed(() => {
-      return `el-autocomplete-${generateId()}`
+      return `${prefixClass.value}-${generateId()}`
     })
     const suggestionVisible = computed(() => {
       const isValidData =
@@ -328,10 +331,10 @@ export default defineComponent({
         index = suggestions.value.length - 1
       }
       const suggestion = regionRef.value!.querySelector(
-        '.el-autocomplete-suggestion__wrap'
+        `.${prefixClass}-suggestion__wrap`
       )!
       const suggestionList = suggestion.querySelectorAll(
-        '.el-autocomplete-suggestion__list li'
+        `.${prefixClass}-suggestion__list li`
       )!
       const highlightItem = suggestionList[index]
       const scrollTop = suggestion.scrollTop
@@ -361,6 +364,8 @@ export default defineComponent({
       inputRef,
       regionRef,
       popper,
+      prefixClass,
+      zoomInTopClass,
 
       id,
       suggestionVisible,

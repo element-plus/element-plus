@@ -1,16 +1,16 @@
 <template>
-  <transition name="el-fade-in">
+  <transition :name="fadeInClass">
     <div
       v-if="visible"
       :style="{
         right: styleRight,
         bottom: styleBottom,
       }"
-      class="el-backtop"
+      :class="prefixClass"
       @click.stop="handleClick"
     >
       <slot>
-        <el-icon class="el-backtop__icon"><caret-top /></el-icon>
+        <el-icon :class="`${prefixClass}__icon`"><caret-top /></el-icon>
       </slot>
     </div>
   </transition>
@@ -23,6 +23,7 @@ import { ElIcon } from '@element-plus/components/icon'
 import { easeInOutCubic } from '@element-plus/utils/animation'
 import { throwError } from '@element-plus/utils/error'
 import { CaretTop } from '@element-plus/icons-vue'
+import { usePrefixClass } from '@element-plus/hooks'
 
 import { backtopEmits, backtopProps } from './backtop'
 
@@ -38,6 +39,8 @@ export default defineComponent({
   emits: backtopEmits,
 
   setup(props, { emit }) {
+    const prefixClass = usePrefixClass('backtop')
+    const fadeInClass = usePrefixClass('fade-in')
     const el = shallowRef<HTMLElement | undefined>(document.documentElement)
     const container = shallowRef<Document | HTMLElement>(document)
     const visible = ref(false)
@@ -84,6 +87,8 @@ export default defineComponent({
     })
 
     return {
+      prefixClass,
+      fadeInClass,
       visible,
       styleBottom,
       styleRight,

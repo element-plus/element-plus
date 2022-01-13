@@ -1,11 +1,11 @@
 <template>
-  <div class="el-calendar">
-    <div class="el-calendar__header">
+  <div :class="prefixClass">
+    <div :class="`${prefixClass}__header`">
       <slot name="header" :date="i18nDate">
-        <div class="el-calendar__title">{{ i18nDate }}</div>
+        <div :class="`${prefixClass}__title`">{{ i18nDate }}</div>
         <div
           v-if="validatedRange.length === 0"
-          class="el-calendar__button-group"
+          :class="`${prefixClass}__button-group`"
         >
           <el-button-group>
             <el-button size="small" @click="selectDate('prev-month')">
@@ -21,14 +21,14 @@
         </div>
       </slot>
     </div>
-    <div v-if="validatedRange.length === 0" class="el-calendar__body">
+    <div v-if="validatedRange.length === 0" :class="`${prefixClass}__body`">
       <date-table :date="date" :selected-day="realSelectedDay" @pick="pickDay">
         <template v-if="$slots.dateCell" #dateCell="data">
           <slot name="dateCell" v-bind="data"></slot>
         </template>
       </date-table>
     </div>
-    <div v-else class="el-calendar__body">
+    <div v-else :class="`${prefixClass}__body`">
       <date-table
         v-for="(range_, index) in validatedRange"
         :key="index"
@@ -50,7 +50,7 @@
 import { ref, computed, defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import { ElButton, ElButtonGroup } from '@element-plus/components/button'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, usePrefixClass } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils/error'
 import DateTable from './date-table.vue'
 import { calendarProps, calendarEmits } from './calendar'
@@ -78,6 +78,8 @@ export default defineComponent({
   emits: calendarEmits,
 
   setup(props, { emit }) {
+    const prefixClass = usePrefixClass('calendar')
+
     const { t, lang } = useLocale()
     const selectedDay = ref<Dayjs>()
     const now = dayjs().locale(lang.value)
@@ -253,6 +255,7 @@ export default defineComponent({
     }
 
     return {
+      prefixClass,
       selectedDay,
       curMonthDatePrefix,
       i18nDate,

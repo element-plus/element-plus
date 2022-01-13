@@ -18,6 +18,7 @@
 <script lang="ts">
 import { defineComponent, computed, ref, watch } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
+import { usePrefixClass } from '@element-plus/hooks'
 import { avatarEmits, avatarProps } from './avatar'
 
 import type { CSSProperties } from 'vue'
@@ -32,13 +33,14 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const hasLoadError = ref(false)
-
+    const prefixClass = usePrefixClass('avatar')
     const avatarClass = computed(() => {
       const { size, icon, shape } = props
-      const classList = ['el-avatar']
-      if (size && typeof size === 'string') classList.push(`el-avatar--${size}`)
-      if (icon) classList.push('el-avatar--icon')
-      if (shape) classList.push(`el-avatar--${shape}`)
+      const classList = [prefixClass.value]
+      if (size && typeof size === 'string')
+        classList.push(`${prefixClass.value}--${size}`)
+      if (icon) classList.push(`${prefixClass.value}--icon`)
+      if (shape) classList.push(`${prefixClass.value}--${shape}`)
       return classList
     })
 

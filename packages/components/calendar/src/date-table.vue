@@ -1,7 +1,7 @@
 <template>
   <table
     :class="{
-      'el-calendar-table': true,
+      [`${prefixClass}-table`]: true,
       'is-range': isInRange,
     }"
     cellspacing="0"
@@ -16,8 +16,8 @@
         v-for="(row, index) in rows"
         :key="index"
         :class="{
-          'el-calendar-table__row': true,
-          'el-calendar-table__row--hide-border': index === 0 && hideHeader,
+          [`${prefixClass}-table__row`]: true,
+          [`${prefixClass}-table__row--hide-border`]: index === 0 && hideHeader,
         }"
       >
         <td
@@ -26,7 +26,7 @@
           :class="getCellClass(cell)"
           @click="handlePickDay(cell)"
         >
-          <div class="el-calendar-day">
+          <div :class="`${prefixClass}-day`">
             <slot name="dateCell" :data="getSlotData(cell)">
               <span>{{ cell.text }}</span>
             </slot>
@@ -41,7 +41,7 @@
 import { computed, defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import localeData from 'dayjs/plugin/localeData'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, usePrefixClass } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
 import { dateTableProps, dateTableEmits } from './date-table'
 import type { Dayjs } from 'dayjs'
@@ -76,6 +76,8 @@ export default defineComponent({
   emits: dateTableEmits,
 
   setup(props, { emit }) {
+    const prefixClass = usePrefixClass('calendar')
+
     const { t, lang } = useLocale()
 
     const now = dayjs().locale(lang.value)
@@ -181,6 +183,7 @@ export default defineComponent({
     }
 
     return {
+      prefixClass,
       isInRange,
       weekDays,
       rows,

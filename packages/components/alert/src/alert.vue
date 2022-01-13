@@ -2,26 +2,31 @@
   <transition name="el-alert-fade">
     <div
       v-show="visible"
-      class="el-alert"
-      :class="[typeClass, center ? 'is-center' : '', 'is-' + effect]"
+      :class="[
+        prefixClass,
+        typeClass,
+        center ? 'is-center' : '',
+        'is-' + effect,
+      ]"
       role="alert"
     >
       <el-icon
         v-if="showIcon && iconComponent"
-        class="el-alert__icon"
-        :class="isBigIcon"
+        :class="[`${prefixClass}__icon`, isBigIcon]"
       >
         <component :is="iconComponent" />
       </el-icon>
-      <div class="el-alert__content">
+      <div :class="`${prefixClass}__content`">
         <span
           v-if="title || $slots.title"
-          class="el-alert__title"
-          :class="[isBoldTitle]"
+          :class="[`${prefixClass}__title`, isBoldTitle]"
         >
           <slot name="title">{{ title }}</slot>
         </span>
-        <p v-if="$slots.default || description" class="el-alert__description">
+        <p
+          v-if="$slots.default || description"
+          :class="`${prefixClass}__description`"
+        >
           <slot>
             {{ description }}
           </slot>
@@ -29,12 +34,13 @@
         <template v-if="closable">
           <div
             v-if="closeText"
-            class="el-alert__closebtn is-customed"
+            :class="`${prefixClass}__closebtn`"
+            class="is-customed"
             @click="close"
           >
             {{ closeText }}
           </div>
-          <el-icon v-else class="el-alert__closebtn" @click="close">
+          <el-icon v-else :class="`${prefixClass}__closebtn`" @click="close">
             <close />
           </el-icon>
         </template>
@@ -46,6 +52,7 @@
 import { defineComponent, computed, ref } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { TypeComponents, TypeComponentsMap } from '@element-plus/utils/icon'
+import { usePrefixClass } from '@element-plus/hooks'
 import { alertProps, alertEmits } from './alert'
 
 export default defineComponent({
@@ -62,9 +69,9 @@ export default defineComponent({
   setup(props, { emit, slots }) {
     // state
     const visible = ref(true)
-
+    const prefixClass = usePrefixClass('alert')
     // computed
-    const typeClass = computed(() => `el-alert--${props.type}`)
+    const typeClass = computed(() => `${prefixClass}--${props.type}`)
     const iconComponent = computed(
       () => TypeComponentsMap[props.type] || TypeComponentsMap['info']
     )
@@ -87,6 +94,7 @@ export default defineComponent({
       iconComponent,
       isBigIcon,
       isBoldTitle,
+      prefixClass,
       close,
     }
   },
