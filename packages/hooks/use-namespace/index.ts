@@ -1,12 +1,12 @@
-import { unref } from 'vue'
+import { unref, computed } from 'vue'
 import { useGlobalConfig } from '../use-global-config'
 import type { MaybeRef } from '@vueuse/core'
 
 export const useNamespace = (block?: MaybeRef<string>) => {
-  const namespace = unref(useGlobalConfig('namespace')) || 'el'
+  const namespace = computed(() => useGlobalConfig('namespace').value || 'el')
   const b = (_block?: string) => {
     const _b = _block || unref(block)
-    return _b ? `${namespace}-${_b}` : ''
+    return _b ? `${unref(namespace)}-${_b}` : ''
   }
   const e = (element: string, _block?: string) =>
     element ? `${b(_block)}__${element}` : ''
