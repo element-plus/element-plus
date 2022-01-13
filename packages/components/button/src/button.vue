@@ -2,9 +2,9 @@
   <button
     ref="buttonRef"
     :class="[
-      'el-button',
-      buttonType ? 'el-button--' + buttonType : '',
-      buttonSize ? 'el-button--' + buttonSize : '',
+      `${ns.b('button')}`,
+      buttonType ? `${ns.e('button', buttonType)}` : '',
+      buttonSize ? `${ns.e('button', buttonSize)}` : '',
       {
         'is-disabled': buttonDisabled,
         'is-loading': loading,
@@ -43,6 +43,7 @@ import {
   useDisabled,
   useFormItem,
   useGlobalConfig,
+  useNamespace,
   useSize,
 } from '@element-plus/hooks'
 import { buttonGroupContextKey } from '@element-plus/tokens'
@@ -65,6 +66,7 @@ export default defineComponent({
     const buttonRef = ref()
     const buttonGroupContext = inject(buttonGroupContextKey, undefined)
     const globalConfig = useGlobalConfig('button')
+    const ns = useNamespace()
     const autoInsertSpace = computed(
       () =>
         props.autoInsertSpace ?? globalConfig.value?.autoInsertSpace ?? false
@@ -156,6 +158,8 @@ export default defineComponent({
       shouldAddSpace,
 
       handleClick,
+
+      ns,
     }
   },
 })
