@@ -60,10 +60,10 @@ export declare interface TreeStoreOptions {
   filterNodeMethod: FilterNodeMethodFunction
 }
 export declare interface TreeOptionProps {
-  children: string
-  label: string
-  disabled: string
-  isLeaf?: boolean
+  children?: string
+  label?: string | ((data: TreeNodeData, node: Node) => string)
+  disabled?: string | ((data: TreeNodeData, node: Node) => string)
+  isLeaf?: boolean | ((data: TreeNodeData, node: Node) => string)
   class?: (
     data: TreeNodeData,
     node: Node
