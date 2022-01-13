@@ -2,9 +2,9 @@
   <button
     ref="buttonRef"
     :class="[
-      `${ns.b('button')}`,
-      buttonType ? `${ns.e('button', buttonType)}` : '',
-      buttonSize ? `${ns.e('button', buttonSize)}` : '',
+      `${ns.b()}`,
+      `${ns.m(buttonType)}`,
+      `${ns.m(buttonSize)}`,
       {
         'is-disabled': buttonDisabled,
         'is-loading': loading,
@@ -27,7 +27,7 @@
     </el-icon>
     <span
       v-if="$slots.default"
-      :class="{ 'el-button__text--expand': shouldAddSpace }"
+      :class="[shouldAddSpace ? `${ns.m('expand', 'text')}` : '']"
     >
       <slot></slot>
     </span>
@@ -66,7 +66,7 @@ export default defineComponent({
     const buttonRef = ref()
     const buttonGroupContext = inject(buttonGroupContextKey, undefined)
     const globalConfig = useGlobalConfig('button')
-    const ns = useNamespace()
+    const ns = useNamespace('button')
     const autoInsertSpace = computed(
       () =>
         props.autoInsertSpace ?? globalConfig.value?.autoInsertSpace ?? false
