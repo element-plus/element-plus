@@ -1,15 +1,13 @@
-import { getCurrentInstance, ref, h } from 'vue'
+import { ref, h, inject } from 'vue'
 import debounce from 'lodash/debounce'
 import { getStyle, hasClass } from '@element-plus/utils/dom'
 import { createTablePopper, getCell, getColumnByCell } from '../util'
-
+import { TABLE_INJECTION_KEY } from '../tokens'
 import type { TableColumnCtx } from '../table-column/defaults'
-import type { Table } from '../table/defaults'
 import type { TableBodyProps } from './defaults'
 
 function useEvents<T>(props: Partial<TableBodyProps<T>>) {
-  const instance = getCurrentInstance()
-  const parent = instance.parent as Table<T>
+  const parent = inject(TABLE_INJECTION_KEY)
   const tooltipContent = ref('')
   const tooltipTrigger = ref(h('div'))
   const handleEvent = (event: Event, row: T, name: string) => {

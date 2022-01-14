@@ -3,7 +3,6 @@ import {
   getFixedColumnOffset,
   getFixedColumnsClass,
   ensurePosition,
-  ensureRightFixedStyle,
 } from '../util'
 import useMapState from './mapState-helper'
 import type { Table } from '../table/defaults'
@@ -28,11 +27,7 @@ function useStyle<T>(props: TableFooter<T>) {
   const gutterWidth = computed(() => {
     return table.layout.gutterWidth
   })
-  const getCellClasses = (
-    columns: TableColumnCtx<T>[],
-    cellIndex: number,
-    hasGutter: boolean
-  ) => {
+  const getCellClasses = (columns: TableColumnCtx<T>[], cellIndex: number) => {
     const column = columns[cellIndex]
     const classes = [
       'el-table__cell',
@@ -47,23 +42,15 @@ function useStyle<T>(props: TableFooter<T>) {
     if (!column.children) {
       classes.push('is-leaf')
     }
-    if (hasGutter && cellIndex === columns.length - 1) {
-      classes.push('last')
-    }
     return classes
   }
 
-  const getCellStyles = (
-    column: TableColumnCtx<T>,
-    cellIndex: number,
-    hasGutter: boolean
-  ) => {
+  const getCellStyles = (column: TableColumnCtx<T>, cellIndex: number) => {
     const fixedStyle = getFixedColumnOffset(
       cellIndex,
       column.fixed,
       props.store
     )
-    ensureRightFixedStyle(fixedStyle, hasGutter)
     ensurePosition(fixedStyle, 'left')
     ensurePosition(fixedStyle, 'right')
     return fixedStyle

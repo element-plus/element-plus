@@ -124,8 +124,8 @@ export default defineComponent({
                     key: cellIndex,
                     colspan: column.colSpan,
                     rowspan: column.rowSpan,
-                    class: getCellClasses(columns, cellIndex, hasGutter),
-                    style: getCellStyles(column, cellIndex, hasGutter),
+                    class: getCellClasses(columns, cellIndex),
+                    style: getCellStyles(column, cellIndex),
                   },
                   [
                     h(

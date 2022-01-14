@@ -195,8 +195,7 @@ export default defineComponent({
                         rowIndex,
                         cellIndex,
                         subColumns,
-                        column,
-                        hasGutter
+                        column
                       ),
                       onClick: ($event) => handleHeaderClick($event, column),
                       onContextmenu: ($event) =>
