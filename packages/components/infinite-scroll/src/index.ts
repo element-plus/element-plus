@@ -106,7 +106,7 @@ function checkFull(el: InfiniteScrollEl, cb: InfiniteScrollCallback) {
   const { containerEl, instance } = el[SCOPE]
   const { disabled } = getScrollOptions(el, instance)
 
-  if (disabled) return
+  if (disabled || containerEl.clientHeight === 0) return
 
   if (containerEl.scrollHeight <= containerEl.clientHeight) {
     cb.call(instance)
@@ -165,6 +165,15 @@ const InfiniteScroll: ObjectDirective<
 
     container?.removeEventListener('scroll', onScroll)
     destroyObserver(el)
+  },
+  async updated(el) {
+    if (!el[SCOPE]) {
+      await nextTick()
+    }
+    const { containerEl, cb, observer } = el[SCOPE]
+    if (containerEl.clientHeight && observer) {
+      checkFull(el, cb)
+    }
   },
 }
 
