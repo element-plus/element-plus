@@ -59,7 +59,7 @@
               disabled: listMap[item].value[time],
             }"
           >
-            <template v-if="time">
+            <template v-if="typeof time === 'number'">
               <template v-if="item === 'hours'">
                 {{ ('0' + (amPmMode ? time % 12 || 12 : time)).slice(-2)
                 }}{{ getAmPmFlag(time) }}
