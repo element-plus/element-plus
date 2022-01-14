@@ -168,6 +168,7 @@ $dropdown-menu-padding-vertical: map.merge(
   @include e(item) {
     display: flex;
     align-items: center;
+    white-space: nowrap;
     list-style: none;
     line-height: map.get($dropdown-item-line-height, 'default');
     padding: map.get($dropdown-item-padding, 'default');
