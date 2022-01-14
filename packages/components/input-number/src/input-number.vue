@@ -228,6 +228,9 @@ export default defineComponent({
       () => props.modelValue,
       (value) => {
         let newVal = Number(value)
+        if (value === null) {
+          newVal = Number.NaN
+        }
         if (!isNaN(newVal)) {
           if (props.stepStrictly) {
             const stepPrecision = getPrecision(props.step)
