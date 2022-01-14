@@ -14,6 +14,7 @@ import { hasOwn } from '@vue/shared'
 
 import { isClient } from '@vueuse/core'
 import { isNumber, isString } from '@element-plus/utils/util'
+import { usePrefixClass } from '@element-plus/hooks'
 
 import { useCache } from '../hooks/use-cache'
 import useWheel from '../hooks/use-wheel'
@@ -53,6 +54,7 @@ const createList = ({
     props: virtualizedListProps,
     emits: [ITEM_RENDER_EVT, SCROLL_EVT],
     setup(props, { emit, expose }) {
+      const prefixClass = usePrefixClass('vl__wrapper')
       validateProps(props)
       const instance = getCurrentInstance()!
       const dynamicSizeCache = ref(initCache(props, instance))
@@ -412,6 +414,7 @@ const createList = ({
         clientSize,
         estimatedTotalSize,
         windowStyle,
+        prefixClass,
         windowRef,
         innerRef,
         innerStyle,
@@ -445,6 +448,7 @@ const createList = ({
         $slots,
         className,
         clientSize,
+        prefixClass,
         containerElement,
         data,
         getItemStyle,
@@ -525,10 +529,7 @@ const createList = ({
         'div',
         {
           key: 0,
-          class: [
-            'el-vl__wrapper',
-            states.scrollbarAlwaysOn ? 'always-on' : '',
-          ],
+          class: [prefixClass, states.scrollbarAlwaysOn ? 'always-on' : ''],
         },
         [listContainer, scrollbar]
       )

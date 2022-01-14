@@ -15,6 +15,7 @@ import { hasOwn } from '@vue/shared'
 import { isClient } from '@vueuse/core'
 import { isNumber, isString } from '@element-plus/utils/util'
 import getScrollBarWidth from '@element-plus/utils/scrollbar-width'
+import { usePrefixClass } from '@element-plus/hooks'
 
 import Scrollbar from '../components/scrollbar'
 import { useGridWheel } from '../hooks/use-grid-wheel'
@@ -60,6 +61,7 @@ const createGrid = ({
     props: virtualizedGridProps,
     emits: [ITEM_RENDER_EVT, SCROLL_EVT],
     setup(props, { emit, expose, slots }) {
+      const prefixClass = usePrefixClass('vg__wrapper')
       validateProps(props)
       const instance = getCurrentInstance()!
       const cache = ref(initCache(props, instance))
@@ -594,7 +596,7 @@ const createGrid = ({
           'div',
           {
             key: 0,
-            class: 'el-vg__wrapper',
+            class: prefixClass.value,
           },
           [
             h(
