@@ -96,7 +96,7 @@ export default defineComponent({
 
     watch(
       () => props.modelValue,
-      () => formItem?.validate('change')
+      () => formItem?.validate('change').catch(() => undefined)
     )
 
     return {

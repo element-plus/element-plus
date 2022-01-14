@@ -18,11 +18,11 @@ import {
 } from '@element-plus/constants'
 import { isKorean, scrollIntoView } from '@element-plus/utils'
 import { useLocale, useNamespace, useSize } from '@element-plus/hooks'
-import { elFormKey, elFormItemKey } from '@element-plus/tokens'
+import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 
 import type { ComponentPublicInstance } from 'vue'
 import type ElTooltip from '@element-plus/components/tooltip'
-import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
+import type { FormContext, FormItemContext } from '@element-plus/tokens'
 import type { QueryChangeCtx, SelectOptionProxy } from './token'
 
 export function useSelectStates(props) {
@@ -79,8 +79,8 @@ export const useSelect = (props, states: States, ctx) => {
   const groupQueryChange = shallowRef('')
 
   // inject
-  const elForm = inject(elFormKey, {} as ElFormContext)
-  const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
+  const elForm = inject(formContextKey, {} as FormContext)
+  const elFormItem = inject(formItemContextKey, {} as FormItemContext)
 
   const readonly = computed(
     () => !props.filterable || props.multiple || !states.visible
@@ -206,7 +206,7 @@ export const useSelect = (props, states: States, ctx) => {
         states.inputLength = 20
       }
       if (!isEqual(val, oldVal)) {
-        elFormItem.validate?.('change')
+        elFormItem.validate?.('change').catch(() => undefined)
       }
     },
     {

@@ -208,7 +208,7 @@ export default defineComponent({
       emit('update:modelValue', newVal)
       emit('input', newVal)
       emit('change', newVal, oldVal)
-      formItem?.validate?.('change')
+      formItem?.validate?.('change').catch(() => undefined)
       data.currentValue = newVal
     }
     const handleInput = (value: string) => {
@@ -236,7 +236,7 @@ export default defineComponent({
 
     const handleBlur = (event: MouseEvent) => {
       emit('blur', event)
-      formItem?.validate?.('blur')
+      formItem?.validate?.('blur').catch(() => undefined)
     }
 
     watch(

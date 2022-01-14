@@ -1,0 +1,54 @@
+import { componentSizes } from '@element-plus/constants'
+import { buildProps, definePropType } from '@element-plus/utils'
+
+import type { ExtractPropTypes } from 'vue'
+import type FormItem from './form-item.vue'
+import type { FormItemRule } from './types'
+import type { Arrayable } from '@element-plus/utils'
+
+export const formItemValidateStates = [
+  '',
+  'error',
+  'validating',
+  'success',
+] as const
+export type FormItemValidateState = typeof formItemValidateStates[number]
+
+export const formItemProps = buildProps({
+  label: String,
+  labelWidth: {
+    type: [String, Number],
+    default: '',
+  },
+  prop: {
+    type: definePropType<Arrayable<string>>([String, Array]),
+  },
+  required: {
+    type: Boolean,
+    default: undefined,
+  },
+  rules: {
+    type: definePropType<Arrayable<FormItemRule>>([Object, Array]),
+  },
+  error: String,
+  validateStatus: {
+    type: String,
+    values: formItemValidateStates,
+  },
+  for: String,
+  inlineMessage: {
+    type: [String, Boolean],
+    default: '',
+  },
+  showMessage: {
+    type: Boolean,
+    default: true,
+  },
+  size: {
+    type: String,
+    values: componentSizes,
+  },
+} as const)
+export type FormItemProps = ExtractPropTypes<typeof formItemProps>
+
+export type FormItemInstance = InstanceType<typeof FormItem>

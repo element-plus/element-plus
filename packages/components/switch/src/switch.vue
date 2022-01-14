@@ -167,7 +167,7 @@ export default defineComponent({
       }
 
       if (props.validateEvent) {
-        formItem?.validate?.('change')
+        formItem?.validate?.('change').catch(() => undefined)
       }
     })
 

@@ -63,6 +63,9 @@ module.exports = defineConfig({
     'block-scoped-var': 'error',
     'no-constant-condition': ['error', { checkLoops: false }],
 
+    'no-redeclare': 'off',
+    '@typescript-eslint/no-redeclare': 'error',
+
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',

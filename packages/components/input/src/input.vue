@@ -340,7 +340,7 @@ export default defineComponent({
       focused.value = false
       emit('blur', event)
       if (props.validateEvent) {
-        formItem?.validate?.('blur')
+        formItem?.validate?.('blur').catch(() => undefined)
       }
     }
 
@@ -395,7 +395,7 @@ export default defineComponent({
       () => {
         nextTick(resizeTextarea)
         if (props.validateEvent) {
-          formItem?.validate?.('change')
+          formItem?.validate?.('change').catch(() => undefined)
         }
       }
     )

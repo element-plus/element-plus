@@ -35,9 +35,8 @@
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
-import type { ElForm } from 'element-plus'
+import type { FormInstance } from 'element-plus'
 
-type FormInstance = InstanceType<typeof ElForm>
 const ruleFormRef = ref<FormInstance>()
 
 const checkAge = (rule: any, value: any, callback: any) => {

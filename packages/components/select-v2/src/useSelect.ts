@@ -723,7 +723,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         initStates()
       }
       if (!isEqual(val, oldVal)) {
-        elFormItem?.validate?.('change')
+        elFormItem?.validate?.('change').catch(() => undefined)
       }
     },
     {
