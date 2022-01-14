@@ -58,7 +58,7 @@ describe('use-locale', () => {
 
   it('should provide bem correctly', async () => {
     await nextTick()
-    expect(wrapper.find('#testId').classes().join('+')).toBe(
+    expect(wrapper.find('#testId').classes().join('~')).toBe(
       [
         'ep-table', // b()
         'ep-table-body', // b('body')
@@ -67,7 +67,7 @@ describe('use-locale', () => {
         'ep-table-content__active', // be('content', 'active')
         'ep-table__content--active', // em('content', 'active')
         'ep-table-body__content--active', // bem('body', 'content', 'active')
-      ].join('+')
+      ].join('~')
     )
   })
 })
