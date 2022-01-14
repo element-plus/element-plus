@@ -1,12 +1,14 @@
 import { onBeforeMount } from 'vue'
 import { isClient } from '@vueuse/core'
 import { generateId } from '@element-plus/utils/util'
-import { usePrefixClass } from '@element-plus/hooks'
 
-const popperPrefixClass = usePrefixClass('popper')
+import { prefixClass } from '@element-plus/components/config-provider'
+
 let cachedContainer: HTMLElement
 
-export const POPPER_CONTAINER_ID = `${popperPrefixClass.value}-container-${generateId()}`
+export const POPPER_CONTAINER_ID = `${
+  prefixClass.value
+}-popper-container-${generateId()}`
 
 export const POPPER_CONTAINER_SELECTOR = `#${POPPER_CONTAINER_ID}`
 
