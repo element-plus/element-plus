@@ -1,10 +1,7 @@
 import { EP_PKG, EP_PREFIX } from '../utils/constants'
-import { getDistPackages } from '../utils/pkg'
 import type { Plugin } from 'rollup'
 
-export async function ElementPlusAlias(): Promise<Plugin> {
-  const pkgs = await getDistPackages()
-
+export function ElementPlusAlias(): Plugin {
   return {
     name: 'element-plus-alias-plugin',
     resolveId(id, importer, options) {
@@ -18,11 +15,6 @@ export async function ElementPlusAlias(): Promise<Plugin> {
         }
       }
 
-      let updatedId = id
-      for (const pkg of pkgs) {
-        if (id.startsWith(pkg.name))
-          updatedId = updatedId.replace(pkg.name, pkg.dir)
-      }
       return this.resolve(id, importer, { skipSelf: true, ...options })
     },
   }

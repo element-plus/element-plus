@@ -42,18 +42,3 @@ export const excludeFiles = (files: string[]) => {
     (path) => !excludes.some((exclude) => path.includes(exclude))
   )
 }
-
-/**
- * get package list (theme-chalk excluded)
- */
-export const getDistPackages = async () =>
-  (await getWorkspacePackages())
-    .map((pkg) => ({ name: pkg.manifest.name, dir: pkg.dir }))
-    .filter(
-      (pkg): pkg is { name: string; dir: string } =>
-        !!pkg.name &&
-        !!pkg.dir &&
-        pkg.name.startsWith(EP_PREFIX) &&
-        pkg.dir.startsWith(pkgRoot) &&
-        pkg.name !== `${EP_PREFIX}/theme-chalk`
-    )

@@ -25,7 +25,7 @@ export const buildModules = async () => {
   const bundle = await rollup({
     input,
     plugins: [
-      await ElementPlusAlias(),
+      ElementPlusAlias(),
       css(),
       vue({ target: 'browser' }),
       nodeResolve({
