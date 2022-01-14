@@ -1,7 +1,7 @@
 import findWorkspacePackages from '@pnpm/find-workspace-packages'
 import { buildConfig } from '../build-info'
 import { EP_PREFIX } from './constants'
-import { pkgRoot, projRoot } from './paths'
+import { projRoot } from './paths'
 import type { Module } from '../build-info'
 import type { ProjectManifest } from '@pnpm/types'
 
@@ -25,12 +25,12 @@ export const getPackageDependencies = (pkgPath: string): string[] => {
   return Object.keys(dependencies ?? {})
 }
 
+/** used for type generator */
 export const pathRewriter = (module: Module) => {
   const config = buildConfig[module]
 
   return (id: string) => {
     id = id.replaceAll(`${EP_PREFIX}/theme-chalk`, 'element-plus/theme-chalk')
-    // TODO: handle @element-plus/icons
     id = id.replaceAll(`${EP_PREFIX}/`, `${config.bundle.path}/`)
     return id
   }

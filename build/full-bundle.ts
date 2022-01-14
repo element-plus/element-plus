@@ -13,10 +13,16 @@ import { version } from '../packages/element-plus/version'
 import { reporter } from './plugins/size-reporter'
 import { ElementPlusAlias } from './plugins/element-plus-alias'
 import { epRoot, epOutput, localeRoot } from './utils/paths'
-import { generateExternal, writeBundles } from './utils/rollup'
+import {
+  formatBundleFilename,
+  generateExternal,
+  writeBundles,
+} from './utils/rollup'
 import { withTaskName } from './utils/gulp'
+import { EP_BRAND_NAME } from './utils/constants'
+import { target } from './build-info'
 
-const banner = `/*! Element Plus v${version} */\n`
+const banner = `/*! ${EP_BRAND_NAME} v${version} */\n`
 
 async function buildFullEntry(minify: boolean) {
   const bundle = await rollup({
@@ -34,7 +40,7 @@ async function buildFullEntry(minify: boolean) {
       esbuild({
         minify,
         sourceMap: minify,
-        target: 'es2018',
+        target,
       }),
       replace({
         'process.env.NODE_ENV': JSON.stringify('production'),
@@ -49,7 +55,11 @@ async function buildFullEntry(minify: boolean) {
   await writeBundles(bundle, [
     {
       format: 'umd',
-      file: path.resolve(epOutput, `dist/index.full${minify ? '.min' : ''}.js`),
+      file: path.resolve(
+        epOutput,
+        'dist',
+        formatBundleFilename('index.full', minify, 'js')
+      ),
       exports: 'named',
       name: 'ElementPlus',
       globals: {
@@ -62,7 +72,8 @@ async function buildFullEntry(minify: boolean) {
       format: 'esm',
       file: path.resolve(
         epOutput,
-        `dist/index.full${minify ? '.min' : ''}.mjs`
+        'dist',
+        formatBundleFilename('index.full', minify, 'mjs')
       ),
       sourcemap: minify,
       banner,
@@ -85,7 +96,7 @@ async function buildFullLocale(minify: boolean) {
           esbuild({
             minify,
             sourceMap: minify,
-            target: 'es2018',
+            target,
           }),
           filesize({ reporter }),
         ],
@@ -96,7 +107,7 @@ async function buildFullLocale(minify: boolean) {
           file: path.resolve(
             epOutput,
             'dist/locale',
-            `${filename}${minify ? '.min' : ''}.js`
+            formatBundleFilename(filename, minify, 'js')
           ),
           exports: 'named',
           name: `ElementPlusLocale${name}`,
@@ -108,7 +119,7 @@ async function buildFullLocale(minify: boolean) {
           file: path.resolve(
             epOutput,
             'dist/locale',
-            `${filename}${minify ? '.min' : ''}.mjs`
+            formatBundleFilename(filename, minify, 'mjs')
           ),
           sourcemap: minify,
           banner,
