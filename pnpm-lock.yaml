@@ -47,7 +47,7 @@ importers:
       eslint-plugin-prettier: 4.0.0
       eslint-plugin-vue: 8.3.0
       expect-type: 0.13.0
-      fast-glob: 3.2.10
+      fast-glob: 3.2.11
       fs-extra: 10.0.0
       gulp: 4.0.2
       husky: 7.0.4
@@ -122,7 +122,7 @@ importers:
       eslint-plugin-prettier: 4.0.0_1c588f61426b1faf18812943f1678311
       eslint-plugin-vue: 8.3.0_eslint@8.6.0
       expect-type: 0.13.0
-      fast-glob: 3.2.10
+      fast-glob: 3.2.11
       fs-extra: 10.0.0
       gulp: 4.0.2
       husky: 7.0.4
@@ -1707,7 +1707,7 @@ packages:
   /@ts-morph/common/0.12.2:
     resolution: {integrity: sha512-m5KjptpIf1K0t0QL38uE+ol1n+aNn9MgRq++G3Zym1FlqfN+rThsXlp3cAgib14pIeXF7jk3UtJQOviwawFyYg==}
     dependencies:
-      fast-glob: 3.2.10
+      fast-glob: 3.2.11
       minimatch: 3.0.4
       mkdirp: 1.0.4
       path-browserify: 1.0.1
@@ -3660,7 +3660,7 @@ packages:
     resolution: {integrity: sha512-lW+r/Zl1CG+jXW9DKVizWSmINQ+bBV5jQblycKrJlceFl1fUdXQ69Qlg9CPV1Ittv6HMH8WVBO3+wv8rt9RMWw==}
     engines: {node: '>10.0.0'}
     dependencies:
-      fast-glob: 3.2.10
+      fast-glob: 3.2.11
     dev: true
 
   /concat-map/0.0.1:
@@ -5236,6 +5236,17 @@ packages:
       micromatch: 4.0.4
     dev: true
 
+  /fast-glob/3.2.11:
+    resolution: {integrity: sha512-xrO3+1bxSo3ZVHAnqzyuewYT6aMFHRAd4Kcs92MAonjwQZLsK9d0SF1IyQ3k5PoirxTW0Oe/RqFgMQ6TcNE5Ew==}
+    engines: {node: '>=8.6.0'}
+    dependencies:
+      '@nodelib/fs.stat': 2.0.5
+      '@nodelib/fs.walk': 1.2.8
+      glob-parent: 5.1.2
+      merge2: 1.4.1
+      micromatch: 4.0.4
+    dev: true
+
   /fast-glob/3.2.7:
     resolution: {integrity: sha512-rYGMRwip6lUMvYD3BTScMwT1HtAs2d71SMv66Vrxs0IekGZEjhM0pcMfjQPnknBt2zeCwQMEupiN02ZP4DiT1Q==}
     engines: {node: '>=8'}
@@ -5343,7 +5354,7 @@ packages:
     dependencies:
       '@pnpm/read-project-manifest': 2.0.11
       '@pnpm/types': 7.9.0
-      fast-glob: 3.2.10
+      fast-glob: 3.2.11
       p-filter: 2.1.0
     dev: true
 
@@ -5796,7 +5807,7 @@ packages:
     dependencies:
       array-union: 2.1.0
       dir-glob: 3.0.1
-      fast-glob: 3.2.10
+      fast-glob: 3.2.11
       ignore: 5.1.8
       merge2: 1.4.1
       slash: 3.0.0
