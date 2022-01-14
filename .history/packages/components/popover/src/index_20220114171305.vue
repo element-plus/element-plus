@@ -67,8 +67,8 @@ export default defineComponent({
 
     const kls = computed(() => {
       return [
-        { [`${popoverPrefixClass.value}--plain`]: !!props.content },
-        popoverPrefixClass.value,
+        { 'el-popover--plain': !!props.content },
+        'el-popover',
         props.popperClass,
       ]
     })

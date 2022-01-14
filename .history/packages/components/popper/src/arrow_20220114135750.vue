@@ -1,5 +1,5 @@
 <template>
-  <span ref="arrowRef" :class="`${popperPrefixClass}__arrow`" data-popper-arrow="" />
+  <span ref="arrowRef" class="el-popper__arrow" data-popper-arrow="" />
 </template>
 
 <script lang="ts">
@@ -14,13 +14,11 @@ import {
 } from 'vue'
 import { usePopperArrowProps } from './popper'
 import { POPPER_CONTENT_INJECTION_KEY } from './tokens'
-import { usePrefixClass } from '@element-plus/hooks'
 
 export default defineComponent({
   name: 'ElPopperArrow',
   props: usePopperArrowProps,
   setup(props) {
-    const popperPrefixClass = usePrefixClass('popper')
     const arrowRef = ref<HTMLSpanElement | null>(null)
     const popperContentInjection = inject(
       POPPER_CONTENT_INJECTION_KEY,
@@ -43,7 +41,6 @@ export default defineComponent({
     })
 
     return {
-      popperPrefixClass,
       arrowRef,
     }
   },

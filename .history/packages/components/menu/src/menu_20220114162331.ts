@@ -392,9 +392,9 @@ export default defineComponent({
             ref: menu,
             style: ulStyle.value,
             class: {
-              [`${menuPrefixClass.value}`]: true,
-              [`${menuPrefixClass.value}--horizontal`]: props.mode === 'horizontal',
-              [`${menuPrefixClass.value}--collapse`]: props.collapse,
+              [`${menuPrefixClass}`]: true,
+              [`${menuPrefixClass}--horizontal`]: props.mode === 'horizontal',
+              [`${menuPrefixClass}--collapse`]: props.collapse,
             },
           },
           [...slot.map((vnode) => resizeMenu(vnode)), ...vShowMore]

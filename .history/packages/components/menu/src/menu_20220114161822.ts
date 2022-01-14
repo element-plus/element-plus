@@ -93,7 +93,6 @@ export default defineComponent({
 
   setup(props, { emit, slots, expose }) {
     const subMenuPrefixClass = usePrefixClass('sub-menu')
-    const menuPrefixClass = usePrefixClass('menu')
     const instance = getCurrentInstance()!
     const router = instance.appContext.config.globalProperties.$router as Router
     const menu = ref<HTMLUListElement>()
@@ -392,9 +391,9 @@ export default defineComponent({
             ref: menu,
             style: ulStyle.value,
             class: {
-              [`${menuPrefixClass.value}`]: true,
-              [`${menuPrefixClass.value}--horizontal`]: props.mode === 'horizontal',
-              [`${menuPrefixClass.value}--collapse`]: props.collapse,
+              'el-menu': true,
+              'el-menu--horizontal': props.mode === 'horizontal',
+              'el-menu--collapse': props.collapse,
             },
           },
           [...slot.map((vnode) => resizeMenu(vnode)), ...vShowMore]

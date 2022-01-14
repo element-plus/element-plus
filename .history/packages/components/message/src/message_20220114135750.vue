@@ -8,8 +8,8 @@
       v-show="visible"
       :id="id"
       :class="[
-        messagePrefixClass,
-        type && !icon ? `${messagePrefixClass}--${type}` : '',
+        'el-message',
+        type && !icon ? `el-message--${type}` : '',
         center ? 'is-center' : '',
         showClose ? 'is-closable' : '',
         customClass,
@@ -23,22 +23,22 @@
         v-if="repeatNum > 1"
         :value="repeatNum"
         :type="badgeType"
-        :class="`${messagePrefixClass}__badge`"
+        class="el-message__badge"
       >
       </el-badge>
-      <el-icon v-if="iconComponent" :class="[`${messagePrefixClass}__icon`, typeClass]">
+      <el-icon v-if="iconComponent" class="el-message__icon" :class="typeClass">
         <component :is="iconComponent" />
       </el-icon>
       <slot>
-        <p v-if="!dangerouslyUseHTMLString" :class="`${messagePrefixClass}__content`">
+        <p v-if="!dangerouslyUseHTMLString" class="el-message__content">
           {{ message }}
         </p>
         <!-- Caution here, message could've been compromised, never use user's input as message -->
-        <p v-else :class="`${messagePrefixClass}__content`" v-html="message"></p>
+        <p v-else class="el-message__content" v-html="message"></p>
       </slot>
       <el-icon
         v-if="showClose"
-        :class="`${messagePrefixClass}__closeBtn`"
+        class="el-message__closeBtn"
         @click.stop="close"
       >
         <close />
@@ -58,7 +58,6 @@ import { messageEmits, messageProps } from './message'
 import type { BadgeProps } from '@element-plus/components/badge'
 
 import type { CSSProperties } from 'vue'
-import { usePrefixClass } from '@element-plus/hooks'
 
 export default defineComponent({
   name: 'ElMessage',
@@ -73,7 +72,6 @@ export default defineComponent({
   emits: messageEmits,
 
   setup(props) {
-    const messagePrefixClass = usePrefixClass('message')
     const visible = ref(false)
     const badgeType = ref<BadgeProps['type']>(
       props.type ? (props.type === 'error' ? 'danger' : props.type) : 'info'
@@ -82,7 +80,7 @@ export default defineComponent({
 
     const typeClass = computed(() => {
       const type = props.type
-      return type && TypeComponentsMap[type] ? `${messagePrefixClass.value}-icon--${type}` : ''
+      return type && TypeComponentsMap[type] ? `el-message-icon--${type}` : ''
     })
 
     const iconComponent = computed(() => {
@@ -137,7 +135,6 @@ export default defineComponent({
     useEventListener(document, 'keydown', keydown)
 
     return {
-      messagePrefixClass,
       typeClass,
       iconComponent,
       customStyle,

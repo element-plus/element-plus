@@ -356,7 +356,7 @@ export default defineComponent({
                 h(
                   'div',
                   {
-                    class: `${subMenuPrefixClass.value}__title`,
+                    class: `${subMenuPrefixClass.value}__title'`,
                     style: [
                       paddingStyle.value,
                       titleStyle.value,

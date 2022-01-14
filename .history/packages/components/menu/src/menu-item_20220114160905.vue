@@ -1,10 +1,10 @@
 <template>
   <li
+    class="el-menu-item"
     role="menuitem"
     tabindex="-1"
     :style="paddingStyle"
     :class="{
-      [menuItemPrefixClass]: true,
       'is-active': active,
       'is-disabled': disabled,
     }"

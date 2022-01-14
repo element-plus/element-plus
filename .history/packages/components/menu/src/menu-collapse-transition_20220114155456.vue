@@ -13,8 +13,8 @@ import { usePrefixClass } from '@element-plus/hooks'
 export default defineComponent({
   name: 'ElMenuCollapseTransition',
   setup() {
-    const opacityPrefixClass = usePrefixClass('opacity-transition')
-    const menuCollapsePrefixClass = usePrefixClass('menu--collapse')
+    const opacityPrefixClass = usePrefixClass('el-opacity-transition')
+    const menuCollapsePrefixClass = usePrefixClass('el-menu--collapse')
     const listeners = {
       onBeforeEnter: (el) => (el.style.opacity = '0.2'),
       onEnter(el, done) {

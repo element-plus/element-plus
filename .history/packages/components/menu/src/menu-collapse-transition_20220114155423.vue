@@ -13,8 +13,8 @@ import { usePrefixClass } from '@element-plus/hooks'
 export default defineComponent({
   name: 'ElMenuCollapseTransition',
   setup() {
-    const opacityPrefixClass = usePrefixClass('opacity-transition')
-    const menuCollapsePrefixClass = usePrefixClass('menu--collapse')
+    const opacityPrefixClass = usePrefixClass('el-opacity-transition')
+    const opacityPrefixClass = usePrefixClass('el-menu--collapse')
     const listeners = {
       onBeforeEnter: (el) => (el.style.opacity = '0.2'),
       onEnter(el, done) {
@@ -33,16 +33,16 @@ export default defineComponent({
           ;(el as any).dataset = {}
         }
 
-        if (hasClass(el, menuCollapsePrefixClass.value)) {
-          removeClass(el, menuCollapsePrefixClass.value)
+        if (hasClass(el, 'el-menu--collapse')) {
+          removeClass(el, 'el-menu--collapse')
           el.dataset.oldOverflow = el.style.overflow
           el.dataset.scrollWidth = el.clientWidth.toString()
-          addClass(el, menuCollapsePrefixClass.value)
+          addClass(el, 'el-menu--collapse')
         } else {
-          addClass(el, menuCollapsePrefixClass.value)
+          addClass(el, 'el-menu--collapse')
           el.dataset.oldOverflow = el.style.overflow
           el.dataset.scrollWidth = el.clientWidth.toString()
-          removeClass(el, menuCollapsePrefixClass.value)
+          removeClass(el, 'el-menu--collapse')
         }
 
         el.style.width = `${el.scrollWidth}px`

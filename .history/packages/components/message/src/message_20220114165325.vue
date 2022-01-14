@@ -9,7 +9,7 @@
       :id="id"
       :class="[
         messagePrefixClass,
-        type && !icon ? `${messagePrefixClass}--${type}` : '',
+        type && !icon ? `el-message--${type}` : '',
         center ? 'is-center' : '',
         showClose ? 'is-closable' : '',
         customClass,
@@ -82,7 +82,7 @@ export default defineComponent({
 
     const typeClass = computed(() => {
       const type = props.type
-      return type && TypeComponentsMap[type] ? `${messagePrefixClass.value}-icon--${type}` : ''
+      return type && TypeComponentsMap[type] ? `el-message-icon--${type}` : ''
     })
 
     const iconComponent = computed(() => {

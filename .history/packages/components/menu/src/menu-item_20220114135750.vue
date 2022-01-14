@@ -1,10 +1,10 @@
 <template>
   <li
+    class="el-menu-item"
     role="menuitem"
     tabindex="-1"
     :style="paddingStyle"
     :class="{
-      [menuItemPrefixClass]: true,
       'is-active': active,
       'is-disabled': disabled,
     }"
@@ -63,7 +63,6 @@ import useMenu from './use-menu'
 import { menuItemEmits, menuItemProps } from './menu-item'
 
 import type { MenuItemRegistered, MenuProvider, SubMenuProvider } from './types'
-import { usePrefixClass } from '@element-plus/hooks'
 
 const COMPONENT_NAME = 'ElMenuItem'
 export default defineComponent({
@@ -76,7 +75,6 @@ export default defineComponent({
   emits: menuItemEmits,
 
   setup(props, { emit }) {
-    const menuItemPrefixClass = usePrefixClass('menu-item')
     const instance = getCurrentInstance()!
     const rootMenu = inject<MenuProvider>('rootMenu')
     if (!rootMenu) throwError(COMPONENT_NAME, 'can not inject root menu')
@@ -118,7 +116,6 @@ export default defineComponent({
     })
 
     return {
-      menuItemPrefixClass,
       Effect,
       parentMenu,
       rootMenu,

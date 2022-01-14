@@ -24,7 +24,6 @@ import { useMenuCssVar } from './use-menu-css-var'
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
 import type { VNode, ExtractPropTypes, VNodeNormalizedChildren } from 'vue'
-import { usePrefixClass } from '@element-plus/hooks'
 
 export const menuProps = buildProps({
   mode: {
@@ -92,8 +91,6 @@ export default defineComponent({
   emits: menuEmits,
 
   setup(props, { emit, slots, expose }) {
-    const subMenuPrefixClass = usePrefixClass('sub-menu')
-    const menuPrefixClass = usePrefixClass('menu')
     const instance = getCurrentInstance()!
     const router = instance.appContext.config.globalProperties.$router as Router
     const menu = ref<HTMLUListElement>()
@@ -360,14 +357,14 @@ export default defineComponent({
               ElSubMenu,
               {
                 index: 'sub-menu-more',
-                class: `${subMenuPrefixClass.value}__hide-arrow`,
+                class: 'el-sub-menu__hide-arrow',
               },
               {
                 title: () =>
                   h(
                     ElIcon,
                     {
-                      class: [`${subMenuPrefixClass.value}__icon-more`],
+                      class: ['el-sub-menu__icon-more'],
                     },
                     { default: () => h(More) }
                   ),
@@ -392,9 +389,9 @@ export default defineComponent({
             ref: menu,
             style: ulStyle.value,
             class: {
-              [`${menuPrefixClass.value}`]: true,
-              [`${menuPrefixClass.value}--horizontal`]: props.mode === 'horizontal',
-              [`${menuPrefixClass.value}--collapse`]: props.collapse,
+              'el-menu': true,
+              'el-menu--horizontal': props.mode === 'horizontal',
+              'el-menu--collapse': props.collapse,
             },
           },
           [...slot.map((vnode) => resizeMenu(vnode)), ...vShowMore]

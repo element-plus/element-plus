@@ -1,7 +1,7 @@
 <template>
   <li :class="menuItemGroupPrefixClass">
     <div
-      :class="`${menuItemGroupPrefixClass}__title`"
+      class="`${menuItemGroupPrefixClass}__title`"
       :style="{ paddingLeft: `${levelPadding}px` }"
     >
       <template v-if="!$slots.title">{{ title }}</template>

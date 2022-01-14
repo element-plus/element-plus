@@ -27,14 +27,12 @@ import { PopupManager } from '@element-plus/utils/popup-manager'
 import { POPPER_INJECTION_KEY, POPPER_CONTENT_INJECTION_KEY } from './tokens'
 import { usePopperContentProps } from './popper'
 import { buildPopperOptions, unwrapMeasurableEl } from './utils'
-import { usePrefixClass } from '@element-plus/hooks'
 
 export default defineComponent({
   name: 'ElPopperContent',
   props: usePopperContentProps,
   emits: ['mouseenter', 'mouseleave'],
   setup(props) {
-    const popperPrefixClass = usePrefixClass('popper')
     const { triggerRef, popperInstanceRef, contentRef } = inject(
       POPPER_INJECTION_KEY,
       undefined
@@ -54,7 +52,7 @@ export default defineComponent({
 
     const contentClass = computed(() => [
       {
-        [`${popperPrefixClass.value}`]: true,
+        'el-popper': true,
         'is-pure': props.pure,
         [`is-${props.effect}`]: !!props.effect,
       },

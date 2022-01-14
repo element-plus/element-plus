@@ -343,8 +343,8 @@ export default defineComponent({
                       'ul',
                       {
                         class: [
-                          `${menuPrefixClass.value} ${menuPrefixClass.value}--popup`,
-                          `${menuPrefixClass.value}--popup-${currentPlacement.value}`,
+                          'el-menu el-menu--popup',
+                          `el-menu--popup-${currentPlacement.value}`,
                         ],
                         style: ulStyle.value,
                       },
@@ -356,7 +356,7 @@ export default defineComponent({
                 h(
                   'div',
                   {
-                    class: `${subMenuPrefixClass.value}__title`,
+                    class: `${subMenuPrefixClass.value}__title'`,
                     style: [
                       paddingStyle.value,
                       titleStyle.value,
@@ -393,7 +393,7 @@ export default defineComponent({
                       'ul',
                       {
                         role: 'menu',
-                        class: `${menuPrefixClass.value} ${menuPrefixClass.value}--inline`,
+                        class: `'el-menu el-menu--inline'`,
                         style: ulStyle.value,
                       },
                       [slots.default?.()]
