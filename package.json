@@ -100,7 +100,7 @@
     "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-vue": "8.3.0",
     "expect-type": "0.13.0",
-    "fast-glob": "3.2.10",
+    "fast-glob": "3.2.11",
     "fs-extra": "10.0.0",
     "gulp": "4.0.2",
     "husky": "7.0.4",
