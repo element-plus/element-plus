@@ -66,7 +66,10 @@ export default defineComponent({
     )!
 
     const dropdownKls = computed(() => {
-      return ['el-dropdown-menu', size && `el-dropdown-menu--${size}`]
+      return [
+        'el-dropdown-menu',
+        size.value && `el-dropdown-menu--${size.value}`,
+      ]
     })
 
     const dropdownListWrapperRef = composeRefs(
