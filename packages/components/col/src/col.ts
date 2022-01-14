@@ -112,7 +112,7 @@ export default defineComponent({
       h(
         props.tag,
         {
-          class: ['${prefixClass.value}', classList.value],
+          class: [prefixClass.value, classList.value],
           style: style.value,
         },
         [renderSlot(slots, 'default')]

@@ -12,7 +12,7 @@
       />
 
       <!-- CLOSE -->
-      <span :class="`${prefixClass}:__btn ${prefixClass}__close`" @click="hide">
+      <span :class="`${prefixClass}__btn ${prefixClass}__close`" @click="hide">
         <el-icon><close /></el-icon>
       </span>
 
@@ -20,7 +20,7 @@
       <template v-if="!isSingle">
         <span
           :class="[
-            `${prefixClass}:__btn ${prefixClass}__prev`,
+            `${prefixClass}__btn ${prefixClass}__prev`,
             { 'is-disabled': !infinite && isFirst },
           ]"
           @click="prev"
@@ -29,7 +29,7 @@
         </span>
         <span
           :class="[
-            `${prefixClass}:__btn ${prefixClass}__next`,
+            `${prefixClass}__btn ${prefixClass}__next`,
             { 'is-disabled': !infinite && isLast },
           ]"
           @click="next"
@@ -38,7 +38,7 @@
         </span>
       </template>
       <!-- ACTIONS -->
-      <div :class="`${prefixClass}:__btn ${prefixClass}__actions`">
+      <div :class="`${prefixClass}__btn ${prefixClass}__actions`">
         <div :class="`${prefixClass}__actions__inner`">
           <el-icon @click="handleActions('zoomOut')">
             <zoom-out />
@@ -144,7 +144,7 @@ export default defineComponent({
   emits: imageViewerEmits,
 
   setup(props, { emit }) {
-    const prefixClass = usePrefixClass('')
+    const prefixClass = usePrefixClass('image-viewer')
 
     const { t } = useLocale()
     const wrapper = ref<HTMLDivElement>()

@@ -56,9 +56,8 @@
         </div>
         <div
           v-show="currentView !== 'time'"
-          class="r"
           :class="{
-            [`${datePickerPrefixClass}__heade`]: true,
+            [`${datePickerPrefixClass}__header`]: true,
             [`${datePickerPrefixClass}__header--bordered`]:
               currentView === 'year' || currentView === 'month',
           }"
@@ -666,8 +665,8 @@ export default defineComponent({
     )
 
     return {
-      datePickerPrefixClass,
       pickerPanelPrefixClass,
+      datePickerPrefixClass,
       handleTimePick,
       handleTimePickClose,
       onTimePickerInputFocus,

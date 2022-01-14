@@ -1,7 +1,7 @@
 <template>
   <span
     :class="{
-      [`${prefixClass}-tag`]: true,
+      [`${prefixClass}`]: true,
       'is-checked': checked,
     }"
     @click="onChange"

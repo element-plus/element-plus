@@ -116,7 +116,7 @@
         ref="suggestionPanel"
         tag="ul"
         :class="`${prefixClass}__suggestion-panel`"
-        view-:class="`${prefixClass}__suggestion-list`"
+        :view-class="`${prefixClass}__suggestion-list`"
         @keydown="handleSuggestionKeyDown"
       >
         <template v-if="suggestions.length">
