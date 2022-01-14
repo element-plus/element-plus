@@ -12,22 +12,21 @@
     <span
       v-for="(item, key) in max"
       :key="key"
-      class="el-rate__item"
+      :class="`${ratePrefixClass}__item`"
       :style="{ cursor: rateDisabled ? 'auto' : 'pointer' }"
       @mousemove="setCurrentValue(item, $event)"
       @mouseleave="resetCurrentValue"
       @click="selectValue(item)"
     >
       <el-icon
-        :class="[{ hover: hoverIndex === item }]"
-        class="el-rate__icon"
+        :class="[{ hover: hoverIndex === item }, `${ratePrefixClass}__icon`]"
         :style="getIconStyle(item)"
       >
         <component :is="iconComponents[item - 1]" />
         <el-icon
           v-if="showDecimalIcon(item)"
           :style="decimalStyle"
-          class="el-rate__icon el-rate__decimal"
+          :class="[`${ratePrefixClass}__icon`,`${ratePrefixClass}__decimal`]"
         >
           <component :is="decimalIconComponent" />
         </el-icon>
@@ -35,7 +34,7 @@
     </span>
     <span
       v-if="showText || showScore"
-      class="el-rate__text"
+      :class="`${ratePrefixClass}__text`"
       :style="{ color: textColor }"
     >
       {{ text }}
@@ -55,6 +54,7 @@ import { StarFilled, Star } from '@element-plus/icons-vue'
 import { useSize } from '@element-plus/hooks'
 import { rateProps, rateEmits } from './rate'
 import type { ElFormContext } from '@element-plus/tokens'
+import { usePrefixClass } from '@element-plus/hooks'
 
 function getValueFromMap<T>(
   value: number,
@@ -87,6 +87,7 @@ export default defineComponent({
   emits: rateEmits,
 
   setup(props, { emit }) {
+    const ratePrefixClass = usePrefixClass('rate')
     const elForm = inject(elFormKey, {} as ElFormContext)
 
     const rateSize = useSize()
@@ -94,7 +95,7 @@ export default defineComponent({
     const hoverIndex = ref(-1)
     const pointerAtLeftHalf = ref(true)
 
-    const prefix = 'el-rate'
+    const prefix = ratePrefixClass.value
     const rateKls = computed(() => [prefix, `${prefix}--${rateSize.value}`])
 
     const rateDisabled = computed(() => props.disabled || elForm.disabled)
@@ -242,10 +243,10 @@ export default defineComponent({
       }
       if (props.allowHalf) {
         let target = event.target as HTMLElement
-        if (hasClass(target, 'el-rate__item')) {
-          target = target.querySelector('.el-rate__icon')!
+        if (hasClass(target, `${ratePrefixClass.value}__item`)) {
+          target = target.querySelector(`.${ratePrefixClass.value}__icon`)!
         }
-        if (target.clientWidth === 0 || hasClass(target, 'el-rate__decimal')) {
+        if (target.clientWidth === 0 || hasClass(target, `${ratePrefixClass.value}__decimal`)) {
           target = target.parentNode as HTMLElement
         }
         pointerAtLeftHalf.value = event.offsetX * 2 <= target.clientWidth
@@ -282,6 +283,7 @@ export default defineComponent({
     }
 
     return {
+      ratePrefixClass,
       hoverIndex,
       currentValue,
       rateDisabled,

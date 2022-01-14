@@ -4,25 +4,25 @@
     v-bind="$attrs"
     trigger="click"
     effect="light"
-    popper-class="el-popover"
+    :popper-class="popoverPrefixClass"
     append-to-body
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :hide-after="hideAfter"
     persistent
   >
     <template #content>
-      <div class="el-popconfirm">
-        <div class="el-popconfirm__main">
+      <div :class="popconfirmPrefixClass">
+        <div :class="`${popconfirmPrefixClass}__main`">
           <el-icon
             v-if="!hideIcon && icon"
-            class="el-popconfirm__icon"
+            :class="`${popconfirmPrefixClass}__icon`"
             :style="{ color: iconColor }"
           >
             <component :is="icon" />
           </el-icon>
           {{ title }}
         </div>
-        <div class="el-popconfirm__action">
+        <div :class="`${popconfirmPrefixClass}__action`">
           <el-button size="small" :type="cancelButtonType" @click="cancel">
             {{ finalCancelButtonText }}
           </el-button>
@@ -45,6 +45,7 @@ import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
 import { useLocale } from '@element-plus/hooks'
 import { popconfirmProps } from './popconfirm'
+import { usePrefixClass } from '@element-plus/hooks'
 
 export default defineComponent({
   name: 'ElPopconfirm',
@@ -58,6 +59,8 @@ export default defineComponent({
   props: popconfirmProps,
 
   setup(props) {
+    const popoverPrefixClass = usePrefixClass('popover')
+    const popconfirmPrefixClass = usePrefixClass('popconfirm')
     const { t } = useLocale()
     const tooltipRef = ref<{ onClose: () => void }>()
 
@@ -86,6 +89,8 @@ export default defineComponent({
     )
 
     return {
+      popoverPrefixClass,
+      popconfirmPrefixClass,
       finalConfirmButtonText,
       finalCancelButtonText,
       tooltipRef,

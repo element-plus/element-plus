@@ -17,3 +17,5 @@ packages/element-plus/version.ts
 *.local
 cypress/screenshots/*
 cypress/videos/*
+
+.history

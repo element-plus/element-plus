@@ -1,5 +1,5 @@
 <template>
-  <span class="el-pagination__total">
+  <span :class="prefixClass">
     {{
       t('el.pagination.total', {
         total,
@@ -11,6 +11,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { useLocale } from '@element-plus/hooks'
+import { usePrefixClass } from '@element-plus/hooks'
 
 import type { ExtractPropTypes } from 'vue'
 
@@ -28,8 +29,10 @@ export default defineComponent({
   props: paginationTotalProps,
 
   setup() {
+    const prefixClass = usePrefixClass('pagination__total')
     const { t } = useLocale()
     return {
+      prefixClass,
       t,
     }
   },

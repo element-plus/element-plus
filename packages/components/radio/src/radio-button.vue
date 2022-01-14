@@ -1,13 +1,13 @@
 <template>
   <label
-    class="el-radio-button"
     :class="[
-      size ? 'el-radio-button--' + size : '',
+      size ? `${radioPrefixClass}-button--` + size : '',
       {
         'is-active': modelValue === label,
         'is-disabled': disabled,
         'is-focus': focus,
       },
+      `${radioPrefixClass}-button`
     ]"
     role="radio"
     :aria-checked="modelValue === label"
@@ -18,7 +18,7 @@
     <input
       ref="radioRef"
       v-model="modelValue"
-      class="el-radio-button__original-radio"
+      :class="`${radioPrefixClass}-button__original-radio`"
       :value="label"
       type="radio"
       :name="name"
@@ -28,7 +28,7 @@
       @blur="focus = false"
     />
     <span
-      class="el-radio-button__inner"
+      :class="`${radioPrefixClass}-button__inner`"
       :style="modelValue === label ? activeStyle : {}"
       @keydown.stop
     >
@@ -43,12 +43,14 @@ import { computed, defineComponent } from 'vue'
 import { useRadio } from './radio'
 import { radioButtonProps } from './radio-button'
 import type { CSSProperties } from 'vue'
+import { usePrefixClass } from '@element-plus/hooks'
 
 export default defineComponent({
   name: 'ElRadioButton',
   props: radioButtonProps,
 
   setup(props, { emit }) {
+    const radioPrefixClass = usePrefixClass('radio')
     const {
       radioRef,
       isGroup,
@@ -70,6 +72,7 @@ export default defineComponent({
     })
 
     return {
+      radioPrefixClass,
       isGroup,
       size,
       disabled,

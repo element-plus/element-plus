@@ -7,7 +7,7 @@
     <div
       v-show="visible"
       :id="id"
-      :class="['el-notification', customClass, horizontalClass]"
+      :class="[notificationPrefixClass, customClass, horizontalClass]"
       :style="positionStyle"
       role="alert"
       @mouseenter="clearTimer"
@@ -16,16 +16,15 @@
     >
       <el-icon
         v-if="iconComponent"
-        class="el-notification__icon"
-        :class="typeClass"
+        :class="[`${notificationPrefixClass}__icon`, typeClass]"
       >
         <component :is="iconComponent" />
       </el-icon>
-      <div class="el-notification__group">
-        <h2 class="el-notification__title" v-text="title"></h2>
+      <div :class="`${notificationPrefixClass}__group`">
+        <h2 :class="`${notificationPrefixClass}__title`" v-text="title"></h2>
         <div
           v-show="message"
-          class="el-notification__content"
+          :class="`${notificationPrefixClass}__content`"
           :style="!!title ? undefined : { margin: 0 }"
         >
           <slot>
@@ -37,7 +36,7 @@
         </div>
         <el-icon
           v-if="showClose"
-          class="el-notification__closeBtn"
+          :class="`${notificationPrefixClass}__closeBtn`"
           @click.stop="close"
         >
           <close />
@@ -55,6 +54,7 @@ import { TypeComponents, TypeComponentsMap } from '@element-plus/utils/icon'
 import { notificationProps, notificationEmits } from './notification'
 
 import type { CSSProperties } from 'vue'
+import { usePrefixClass } from '@element-plus/hooks'
 
 export default defineComponent({
   name: 'ElNotification',
@@ -68,13 +68,14 @@ export default defineComponent({
   emits: notificationEmits,
 
   setup(props) {
+    const notificationPrefixClass = usePrefixClass('notification')
     const visible = ref(false)
     let timer: (() => void) | undefined = undefined
 
     const typeClass = computed(() => {
       const type = props.type
       return type && TypeComponentsMap[props.type]
-        ? `el-notification--${type}`
+        ? `${notificationPrefixClass.value}--${type}`
         : ''
     })
 
@@ -135,6 +136,7 @@ export default defineComponent({
     useEventListener(document, 'keydown', onKeydown)
 
     return {
+      notificationPrefixClass,
       horizontalClass,
       typeClass,
       iconComponent,

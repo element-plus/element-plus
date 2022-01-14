@@ -1,7 +1,6 @@
 <template>
   <div
-    class="el-select-dropdown"
-    :class="[{ 'is-multiple': isMultiple }, popperClass]"
+    :class="[{ 'is-multiple': isMultiple }, popperClass, selectDropdownPrefixClass]"
     :style="{ [isFitInputWidth ? 'width' : 'minWidth']: minWidth }"
   >
     <slot></slot>
@@ -23,6 +22,7 @@ import {
 } from '@element-plus/utils/resize-event'
 import { selectKey } from './token'
 import type { ResizableElement } from '@element-plus/utils/resize-event'
+import { usePrefixClass } from '@element-plus/hooks'
 
 export default defineComponent({
   name: 'ElSelectDropdown',
@@ -30,6 +30,7 @@ export default defineComponent({
   componentName: 'ElSelectDropdown',
 
   setup() {
+    const selectDropdownPrefixClass = usePrefixClass('select-dropdown')
     const select = inject(selectKey)!
 
     // computed
@@ -62,6 +63,7 @@ export default defineComponent({
     })
 
     return {
+      selectDropdownPrefixClass,
       minWidth,
       popperClass,
       isMultiple,

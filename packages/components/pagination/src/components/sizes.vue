@@ -1,5 +1,5 @@
 <template>
-  <span class="el-pagination__sizes">
+  <span :class="prefixClass">
     <el-select
       :model-value="innerPageSize"
       :disabled="disabled"
@@ -24,6 +24,7 @@ import { ElSelect, ElOption } from '@element-plus/components/select'
 import { useLocale } from '@element-plus/hooks'
 import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
 import { usePagination } from '../usePagination'
+import { usePrefixClass } from '@element-plus/hooks'
 
 import type { Nullable } from '@element-plus/utils/types'
 
@@ -55,6 +56,7 @@ export default defineComponent({
   emits: ['page-size-change'],
 
   setup(props, { emit }) {
+    const prefixClass = usePrefixClass('pagination__sizes')
     const { t } = useLocale()
     const pagination = usePagination()
     const innerPageSize = ref<Nullable<number>>(props.pageSize)
@@ -90,6 +92,7 @@ export default defineComponent({
     }
 
     return {
+      prefixClass,
       innerPagesizes,
       innerPageSize,
 
