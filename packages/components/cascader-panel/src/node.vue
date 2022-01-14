@@ -7,7 +7,7 @@
     :aria-expanded="inExpandingPath"
     :tabindex="expandable ? -1 : undefined"
     :class="[
-      'el-cascader-node',
+      `${prefixClass}-node`,
       checkStrictly && 'is-selectable',
       inExpandingPath && 'in-active-path',
       inCheckedPath && 'in-checked-path',
@@ -43,7 +43,7 @@
     </el-radio>
     <el-icon
       v-else-if="isLeaf && node.checked"
-      class="el-cascader-node__prefix"
+      :class="`${prefixClass}-node__prefix`"
     >
       <check />
     </el-icon>
@@ -53,10 +53,13 @@
 
     <!-- postfix -->
     <template v-if="!isLeaf">
-      <el-icon v-if="node.loading" class="is-loading el-cascader-node__postfix">
+      <el-icon
+        v-if="node.loading"
+        :class="['is-loading', `${prefixClass}-node__postfix`]"
+      >
         <loading />
       </el-icon>
-      <el-icon v-else class="arrow-right el-cascader-node__postfix">
+      <el-icon v-else :class="['arrow-right', `${prefixClass}-node__postfix`]">
         <arrow-right />
       </el-icon>
     </template>
@@ -68,6 +71,7 @@ import { computed, defineComponent, inject } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import ElRadio from '@element-plus/components/radio'
 import ElIcon from '@element-plus/components/icon'
+import { usePrefixClass } from '@element-plus/hooks'
 import { Check, Loading, ArrowRight } from '@element-plus/icons-vue'
 import NodeContent from './node-content'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
@@ -99,6 +103,7 @@ export default defineComponent({
   emits: ['expand'],
 
   setup(props, { emit }) {
+    const prefixClass = usePrefixClass('cascader')
     const panel = inject(CASCADER_PANEL_INJECTION_KEY)!
 
     const isHoverMenu = computed(() => panel.isHoverMenu)
@@ -176,6 +181,7 @@ export default defineComponent({
     }
 
     return {
+      prefixClass,
       panel,
       isHoverMenu,
       multiple,

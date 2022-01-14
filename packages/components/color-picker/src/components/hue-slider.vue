@@ -1,9 +1,9 @@
 <template>
-  <div class="el-color-hue-slider" :class="{ 'is-vertical': vertical }">
-    <div ref="bar" class="el-color-hue-slider__bar" @click="handleClick"></div>
+  <div :class="{ [prefixClass]: true, 'is-vertical': vertical }">
+    <div ref="bar" :class="`${prefixClass}__bar`" @click="handleClick"></div>
     <div
       ref="thumb"
-      class="el-color-hue-slider__thumb"
+      :class="`${prefixClass}__thumb`"
       :style="{
         left: thumbLeft + 'px',
         top: thumbTop + 'px',
@@ -22,6 +22,7 @@ import {
   defineComponent,
 } from 'vue'
 import { getClientXY } from '@element-plus/utils/dom'
+import { usePrefixClass } from '@element-plus/hooks'
 import draggable from '../draggable'
 
 import type { PropType } from 'vue'
@@ -39,6 +40,8 @@ export default defineComponent({
     vertical: Boolean,
   },
   setup(props) {
+    const prefixClass = usePrefixClass('color-hue-slider')
+
     const instance = getCurrentInstance()
     // ref
     const thumb = ref<HTMLElement | null>(null)
@@ -142,6 +145,7 @@ export default defineComponent({
     })
 
     return {
+      prefixClass,
       bar,
       thumb,
       thumbLeft,

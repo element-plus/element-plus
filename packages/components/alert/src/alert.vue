@@ -71,7 +71,7 @@ export default defineComponent({
     const visible = ref(true)
     const prefixClass = usePrefixClass('alert')
     // computed
-    const typeClass = computed(() => `${prefixClass}--${props.type}`)
+    const typeClass = computed(() => `${prefixClass.value}--${props.type}`)
     const iconComponent = computed(
       () => TypeComponentsMap[props.type] || TypeComponentsMap['info']
     )

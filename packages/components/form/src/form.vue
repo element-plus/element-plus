@@ -16,7 +16,7 @@ import {
 } from 'vue'
 import { elFormKey } from '@element-plus/tokens'
 import { debugWarn } from '@element-plus/utils/error'
-import { useSize } from '@element-plus/hooks'
+import { useSize, usePrefixClass } from '@element-plus/hooks'
 import type { ValidateFieldsError } from 'async-validator'
 
 import type { PropType } from 'vue'
@@ -103,6 +103,8 @@ export default defineComponent({
   },
   emits: ['validate'],
   setup(props, { emit }) {
+    const prefixClass = usePrefixClass('form')
+
     const fields: FormItemCtx[] = []
 
     watch(
@@ -119,14 +121,14 @@ export default defineComponent({
     )
 
     const formSize = useSize()
-    const prefix = 'el-form'
+
     const formKls = computed(() => {
       const { labelPosition, inline } = props
       return [
-        prefix,
-        `${prefix}--${formSize.value}`,
-        labelPosition ? `${prefix}--label-${labelPosition}` : '',
-        inline ? `${prefix}--inline` : '',
+        prefixClass.value,
+        `${prefixClass.value}--${formSize.value}`,
+        labelPosition ? `${prefixClass.value}--label-${labelPosition}` : '',
+        inline ? `${prefixClass.value}--inline` : '',
       ]
     })
 

@@ -1,8 +1,8 @@
 <template>
-  <div class="el-color-alpha-slider" :class="{ 'is-vertical': vertical }">
+  <div :class="{ [prefixClass]: true, 'is-vertical': vertical }">
     <div
       ref="bar"
-      class="el-color-alpha-slider__bar"
+      :class="`${prefixClass}__bar`"
       :style="{
         background,
       }"
@@ -10,7 +10,7 @@
     ></div>
     <div
       ref="thumb"
-      class="el-color-alpha-slider__thumb"
+      :class="`${prefixClass}__thumb`"
       :style="{
         left: thumbLeft + 'px',
         top: thumbTop + 'px',
@@ -29,6 +29,7 @@ import {
   shallowRef,
 } from 'vue'
 import { getClientXY } from '@element-plus/utils/dom'
+import { usePrefixClass } from '@element-plus/hooks'
 import draggable from '../draggable'
 
 import type { PropType } from 'vue'
@@ -48,6 +49,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const prefixClass = usePrefixClass('color-alpha-slider')
     const instance = getCurrentInstance()
     // ref
     const thumb = shallowRef<Nullable<HTMLElement>>(null)
@@ -167,6 +169,7 @@ export default defineComponent({
     })
 
     return {
+      prefixClass,
       thumb,
       bar,
       thumbLeft,

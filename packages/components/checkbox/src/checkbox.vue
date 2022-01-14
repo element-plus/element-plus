@@ -1,9 +1,9 @@
 <template>
   <label
     :id="id"
-    class="el-checkbox"
     :class="[
-      checkboxSize ? 'el-checkbox--' + checkboxSize : '',
+      prefixClass,
+      checkboxSize ? `${prefixClass}--${checkboxSize}` : '',
       { 'is-disabled': isDisabled },
       { 'is-bordered': border },
       { 'is-checked': isChecked },
@@ -11,8 +11,8 @@
     :aria-controls="indeterminate ? controls : null"
   >
     <span
-      class="el-checkbox__input"
       :class="{
+        [`${prefixClass}__input`]: true,
         'is-disabled': isDisabled,
         'is-checked': isChecked,
         'is-indeterminate': indeterminate,
@@ -22,11 +22,11 @@
       :role="indeterminate ? 'checkbox' : undefined"
       :aria-checked="indeterminate ? 'mixed' : false"
     >
-      <span class="el-checkbox__inner"></span>
+      <span :class="`${prefixClass}__inner`"></span>
       <input
         v-if="trueLabel || falseLabel"
         v-model="model"
-        class="el-checkbox__original"
+        :class="`${prefixClass}__original`"
         type="checkbox"
         :aria-hidden="indeterminate ? 'true' : 'false'"
         :name="name"
@@ -41,7 +41,7 @@
       <input
         v-else
         v-model="model"
-        class="el-checkbox__original"
+        :class="`${prefixClass}__original`"
         type="checkbox"
         :aria-hidden="indeterminate ? 'true' : 'false'"
         :disabled="isDisabled"
@@ -53,7 +53,7 @@
         @blur="focus = false"
       />
     </span>
-    <span v-if="$slots.default || label" class="el-checkbox__label">
+    <span v-if="$slots.default || label" :class="`${prefixClass}__label`">
       <slot></slot>
       <template v-if="!$slots.default">{{ label }}</template>
     </span>
@@ -63,6 +63,7 @@
 import { defineComponent } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { isValidComponentSize } from '@element-plus/utils/validators'
+import { usePrefixClass } from '@element-plus/hooks'
 import { useCheckbox } from './useCheckbox'
 
 import type { PropType } from 'vue'
@@ -110,7 +111,12 @@ export default defineComponent({
   },
   emits: [UPDATE_MODEL_EVENT, 'change'],
   setup(props) {
-    return useCheckbox(props)
+    const prefixClass = usePrefixClass('checkbox')
+
+    return {
+      prefixClass,
+      ...useCheckbox(props),
+    }
   },
 })
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="el-dropdown">
+  <div :class="prefixClass">
     <el-tooltip
       ref="popperRef"
       :effect="effect"
@@ -8,7 +8,7 @@
       :hide-after="hideTimeout"
       :manual-mode="true"
       :placement="placement"
-      :popper-class="`el-dropdown__popper ${popperClass}`"
+      :popper-class="`${prefixClass}__popper ${popperClass}`"
       :reference-element="referenceElementRef?.$el"
       :trigger="trigger"
       :show-after="showTimeout"
@@ -27,7 +27,7 @@
           ref="scrollbar"
           :wrap-style="wrapStyle"
           tag="ul"
-          view-class="el-dropdown__list"
+          :view-class="`${prefixClass}__list`"
         >
           <el-focus-trap trapped @mount-on-focus="onMountOnFocus">
             <el-roving-focus-group
@@ -64,9 +64,9 @@
           ref="triggeringElementRef"
           :size="dropdownSize"
           :type="type"
-          class="el-dropdown__caret-button"
+          :class="`${prefixClass}__caret-button`"
         >
-          <el-icon class="el-dropdown__icon"><arrow-down /></el-icon>
+          <el-icon :class="`${prefixClass}__icon`"><arrow-down /></el-icon>
         </el-button>
       </el-button-group>
     </template>
@@ -90,7 +90,7 @@ import ElFocusTrap from '@element-plus/components/focus-trap'
 import ElRovingFocusGroup from '@element-plus/components/roving-focus-group'
 import { addUnit } from '@element-plus/utils/util'
 import { ArrowDown } from '@element-plus/icons-vue'
-import { useSize } from '@element-plus/hooks'
+import { useSize, usePrefixClass } from '@element-plus/hooks'
 import { ElCollection as ElDropdownCollection, dropdownProps } from './dropdown'
 import { DROPDOWN_INJECTION_KEY } from './tokens'
 
@@ -114,6 +114,7 @@ export default defineComponent({
   props: dropdownProps,
   emits: ['visible-change', 'click', 'command'],
   setup(props, { emit }) {
+    const prefixClass = usePrefixClass('dropdown')
     const _instance = getCurrentInstance()
 
     const triggeringElementRef = ref()
@@ -129,7 +130,7 @@ export default defineComponent({
       maxHeight: addUnit(props.maxHeight),
     }))
     const dropdownTriggerKls = computed(() => [
-      [dropdownSize.value ? `el-dropdown--${dropdownSize.value}` : ''],
+      [dropdownSize.value ? `${prefixClass.value}--${dropdownSize.value}` : ''],
     ])
 
     function handleClick() {
@@ -193,6 +194,7 @@ export default defineComponent({
     }
 
     return {
+      prefixClass,
       visible,
       scrollbar,
       wrapStyle,

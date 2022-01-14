@@ -1,33 +1,34 @@
 <template>
   <div
-    class="el-picker-panel el-date-range-picker"
     :class="[
+      dateRangePickerPrefixClass,
+      pickerPanelPrefixClass,
       {
         'has-sidebar': $slots.sidebar || hasShortcuts,
       },
     ]"
   >
-    <div class="el-picker-panel__body-wrapper">
-      <slot name="sidebar" class="el-picker-panel__sidebar"></slot>
-      <div v-if="hasShortcuts" class="el-picker-panel__sidebar">
+    <div :class="`${pickerPanelPrefixClass}__body-wrapper`">
+      <slot name="sidebar" :class="`${pickerPanelPrefixClass}__sidebar`"></slot>
+      <div v-if="hasShortcuts" :class="`${pickerPanelPrefixClass}__sidebar`">
         <button
           v-for="(shortcut, key) in shortcuts"
           :key="key"
           type="button"
-          class="el-picker-panel__shortcut"
+          :class="`${pickerPanelPrefixClass}__shortcut`"
           @click="handleShortcutClick(shortcut)"
         >
           {{ shortcut.text }}
         </button>
       </div>
-      <div class="el-picker-panel__body">
+      <div :class="`${pickerPanelPrefixClass}__body`">
         <div
-          class="el-picker-panel__content el-date-range-picker__content is-left"
+          :class="`${pickerPanelPrefixClass}__content ${dateRangePickerPrefixClass}__content is-left`"
         >
-          <div class="el-date-range-picker__header">
+          <div :class="`${dateRangePickerPrefixClass}__header`">
             <button
               type="button"
-              class="el-picker-panel__icon-btn d-arrow-left"
+              :class="`${pickerPanelPrefixClass}__icon-btn d-arrow-left`"
               @click="leftPrevYear"
             >
               <el-icon><d-arrow-left /></el-icon>
@@ -36,8 +37,11 @@
               v-if="unlinkPanels"
               type="button"
               :disabled="!enableYearArrow"
-              :class="{ 'is-disabled': !enableYearArrow }"
-              class="el-picker-panel__icon-btn d-arrow-right"
+              :class="{
+                [`${pickerPanelPrefixClass}__icon-btn`]: true,
+                'is-disabled': !enableYearArrow,
+              }"
+              class="d-arrow-right"
               @click="leftNextYear"
             >
               <el-icon><d-arrow-right /></el-icon>
@@ -57,22 +61,25 @@
           />
         </div>
         <div
-          class="el-picker-panel__content el-date-range-picker__content is-right"
+          :class="`${pickerPanelPrefixClass}__content ${dateRangePickerPrefixClass}__content is-right`"
         >
-          <div class="el-date-range-picker__header">
+          <div :class="`${dateRangePickerPrefixClass}__header`">
             <button
               v-if="unlinkPanels"
               type="button"
               :disabled="!enableYearArrow"
-              :class="{ 'is-disabled': !enableYearArrow }"
-              class="el-picker-panel__icon-btn d-arrow-left"
+              :class="{
+                [`${pickerPanelPrefixClass}__icon-btn`]: true,
+                'is-disabled': !enableYearArrow,
+              }"
+              class="d-arrow-left"
               @click="rightPrevYear"
             >
               <el-icon><d-arrow-left /></el-icon>
             </button>
             <button
               type="button"
-              class="el-picker-panel__icon-btn d-arrow-right"
+              :class="`${pickerPanelPrefixClass}__icon-btn d-arrow-right`"
               @click="rightNextYear"
             >
               <el-icon><d-arrow-right /></el-icon>
@@ -100,7 +107,7 @@
 import { defineComponent, computed, ref, watch, inject } from 'vue'
 import dayjs from 'dayjs'
 import ElIcon from '@element-plus/components/icon'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, usePrefixClass } from '@element-plus/hooks'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
 import MonthTable from './basic-month-table.vue'
 
@@ -120,6 +127,9 @@ export default defineComponent({
   emits: ['pick', 'set-picker-option'],
 
   setup(props, ctx) {
+    const pickerPanelPrefixClass = usePrefixClass('picker-panel')
+    const dateRangePickerPrefixClass = usePrefixClass('date-range-picker')
+
     const { t, lang } = useLocale()
     const leftDate = ref(dayjs().locale(lang.value))
     const rightDate = ref(dayjs().locale(lang.value).add(1, 'year'))
@@ -292,6 +302,8 @@ export default defineComponent({
     )
 
     return {
+      pickerPanelPrefixClass,
+      dateRangePickerPrefixClass,
       shortcuts,
       disabledDate,
       onSelect,

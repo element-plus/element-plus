@@ -1,20 +1,24 @@
 <template>
   <div
-    class="el-collapse-item"
-    :class="{ 'is-active': isActive, 'is-disabled': disabled }"
+    class=""
+    :class="{
+      [`${prefixClass}-item`]: true,
+      'is-active': isActive,
+      'is-disabled': disabled,
+    }"
   >
     <div
       role="tab"
       :aria-expanded="isActive"
-      :aria-controls="`el-collapse-content-${id}`"
-      :aria-describedby="`el-collapse-content-${id}`"
+      :aria-controls="`${prefixClass}-content-${id}`"
+      :aria-describedby="`${prefixClass}-content-${id}`"
     >
       <div
-        :id="`el-collapse-head-${id}`"
-        class="el-collapse-item__header"
+        :id="`${prefixClass}-head-${id}`"
         role="button"
         :tabindex="disabled ? -1 : 0"
         :class="{
+          [`${prefixClass}-item__header`]: true,
           focusing: focusing,
           'is-active': isActive,
         }"
@@ -25,8 +29,10 @@
       >
         <slot name="title">{{ title }}</slot>
         <el-icon
-          class="el-collapse-item__arrow"
-          :class="{ 'is-active': isActive }"
+          :class="{
+            [`${prefixClass}-item__arrow`]: true,
+            'is-active': isActive,
+          }"
         >
           <arrow-right />
         </el-icon>
@@ -35,13 +41,13 @@
     <el-collapse-transition>
       <div
         v-show="isActive"
-        :id="`el-collapse-content-${id}`"
-        class="el-collapse-item__wrap"
+        :id="`${prefixClass}-content-${id}`"
+        :class="`${prefixClass}-item__wrap`"
         role="tabpanel"
         :aria-hidden="!isActive"
-        :aria-labelledby="`el-collapse-head-${id}`"
+        :aria-labelledby="`${prefixClass}-head-${id}`"
       >
-        <div class="el-collapse-item__content">
+        <div :class="`${prefixClass}-item__content`">
           <slot></slot>
         </div>
       </div>
@@ -53,6 +59,7 @@ import { defineComponent, inject, computed, ref } from 'vue'
 import { generateId } from '@element-plus/utils/util'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElIcon from '@element-plus/components/icon'
+import { usePrefixClass } from '@element-plus/hooks'
 import { ArrowRight } from '@element-plus/icons-vue'
 
 import type { PropType } from 'vue'
@@ -75,6 +82,8 @@ export default defineComponent({
     disabled: Boolean,
   },
   setup(props) {
+    const prefixClass = usePrefixClass('collapse')
+
     const collapse = inject<CollapseProvider>('collapse')
 
     const contentWrapStyle = ref({
@@ -112,6 +121,7 @@ export default defineComponent({
     }
 
     return {
+      prefixClass,
       isActive,
       contentWrapStyle,
       contentHeight,

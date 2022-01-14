@@ -1,11 +1,11 @@
 <template>
-  <footer class="el-footer" :style="style">
+  <footer :class="prefixClass" :style="style">
     <slot></slot>
   </footer>
 </template>
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-
+import { usePrefixClass } from '@element-plus/hooks'
 import type { CSSProperties } from 'vue'
 
 export default defineComponent({
@@ -17,7 +17,9 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const prefixClass = usePrefixClass('footer')
     return {
+      prefixClass,
       style: computed(
         () =>
           (props.height

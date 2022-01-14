@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="['el-cascader-panel', border && 'is-bordered']"
+    :class="[`${prefixClass}-panel`, border && 'is-bordered']"
     @keydown="handleKeyDown"
   >
     <el-cascader-menu
@@ -36,6 +36,7 @@ import {
   deduplicate,
   isEmpty,
 } from '@element-plus/utils/util'
+import { usePrefixClass } from '@element-plus/hooks'
 
 import ElCascaderMenu from './menu.vue'
 import Store from './store'
@@ -75,6 +76,8 @@ export default defineComponent({
   emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'close', 'expand-change'],
 
   setup(props, { emit, slots }) {
+    const prefixClass = usePrefixClass('cascader')
+
     // for interrupt sync check status in lazy mode
     let manualChecked = false
 
@@ -273,8 +276,10 @@ export default defineComponent({
         if (menuElement) {
           const container = menuElement.querySelector('.el-scrollbar__wrap')
           const activeNode =
-            menuElement.querySelector('.el-cascader-node.is-active') ||
-            menuElement.querySelector('.el-cascader-node.in-active-path')
+            menuElement.querySelector(`.${prefixClass.value}-node.is-active`) ||
+            menuElement.querySelector(
+              `.${prefixClass.value}-node.in-active-path`
+            )
           scrollIntoView(container, activeNode)
         }
       })
@@ -290,7 +295,11 @@ export default defineComponent({
           e.preventDefault()
           const distance = code === EVENT_CODE.up ? -1 : 1
           focusNode(
-            getSibling(target, distance, '.el-cascader-node[tabindex="-1"]')
+            getSibling(
+              target,
+              distance,
+              `.${prefixClass.value}-node[tabindex="-1"]`
+            )
           )
           break
         }
@@ -298,7 +307,7 @@ export default defineComponent({
           e.preventDefault()
           const preMenu = menuList.value[getMenuIndex(target) - 1]
           const expandedNode = preMenu?.$el.querySelector(
-            '.el-cascader-node[aria-expanded="true"]'
+            `.${prefixClass.value}-node[aria-expanded="true"]`
           )
           focusNode(expandedNode)
           break
@@ -307,7 +316,7 @@ export default defineComponent({
           e.preventDefault()
           const nextMenu = menuList.value[getMenuIndex(target) + 1]
           const firstNode = nextMenu?.$el.querySelector(
-            '.el-cascader-node[tabindex="-1"]'
+            `.${prefixClass.value}-node[tabindex="-1"]`
           )
           focusNode(firstNode)
           break
@@ -362,6 +371,7 @@ export default defineComponent({
     onMounted(() => !isEmpty(props.modelValue) && syncCheckedValue())
 
     return {
+      prefixClass,
       menuList,
       menus,
       checkedNodes,

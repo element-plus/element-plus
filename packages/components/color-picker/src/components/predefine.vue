@@ -1,11 +1,14 @@
 <template>
-  <div class="el-color-predefine">
-    <div class="el-color-predefine__colors">
+  <div :about="prefixClass">
+    <div :class="`${prefixClass}__colors`">
       <div
         v-for="(item, index) in rgbaColors"
         :key="colors[index]"
-        class="el-color-predefine__color-selector"
-        :class="{ selected: item.selected, 'is-alpha': item._alpha < 100 }"
+        :class="{
+          [`${prefixClass}__color-selector`]: true,
+          selected: item.selected,
+          'is-alpha': item._alpha < 100,
+        }"
         @click="handleSelect(index)"
       >
         <div :style="{ backgroundColor: item.value }"></div>
@@ -16,6 +19,7 @@
 
 <script lang="ts">
 import { ref, watch, watchEffect, defineComponent } from 'vue'
+import { usePrefixClass } from '@element-plus/hooks'
 import { useOptions } from '../useOption'
 import Color from '../color'
 
@@ -30,6 +34,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const prefixClass = usePrefixClass('color-predefine')
     const { currentColor } = useOptions()
     //data
     const rgbaColors = ref(parseColors(props.colors, props.color))
@@ -64,6 +69,7 @@ export default defineComponent({
       })
     }
     return {
+      prefixClass,
       rgbaColors,
       handleSelect,
     }

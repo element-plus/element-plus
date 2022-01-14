@@ -3,50 +3,54 @@
     <div
       ref="wrapper"
       :tabindex="-1"
-      class="el-image-viewer__wrapper"
+      :class="`${prefixClass}__wrapper`"
       :style="{ zIndex }"
     >
       <div
-        class="el-image-viewer__mask"
+        :class="`${prefixClass}__mask`"
         @click.self="hideOnClickModal && hide()"
       />
 
       <!-- CLOSE -->
-      <span class="el-image-viewer__btn el-image-viewer__close" @click="hide">
+      <span :class="`${prefixClass}:__btn ${prefixClass}__close`" @click="hide">
         <el-icon><close /></el-icon>
       </span>
 
       <!-- ARROW -->
       <template v-if="!isSingle">
         <span
-          class="el-image-viewer__btn el-image-viewer__prev"
-          :class="{ 'is-disabled': !infinite && isFirst }"
+          :class="[
+            `${prefixClass}:__btn ${prefixClass}__prev`,
+            { 'is-disabled': !infinite && isFirst },
+          ]"
           @click="prev"
         >
           <el-icon><arrow-left /></el-icon>
         </span>
         <span
-          class="el-image-viewer__btn el-image-viewer__next"
-          :class="{ 'is-disabled': !infinite && isLast }"
+          :class="[
+            `${prefixClass}:__btn ${prefixClass}__next`,
+            { 'is-disabled': !infinite && isLast },
+          ]"
           @click="next"
         >
           <el-icon><arrow-right /></el-icon>
         </span>
       </template>
       <!-- ACTIONS -->
-      <div class="el-image-viewer__btn el-image-viewer__actions">
-        <div class="el-image-viewer__actions__inner">
+      <div :class="`${prefixClass}:__btn ${prefixClass}__actions`">
+        <div :class="`${prefixClass}__actions__inner`">
           <el-icon @click="handleActions('zoomOut')">
             <zoom-out />
           </el-icon>
           <el-icon @click="handleActions('zoomIn')">
             <zoom-in />
           </el-icon>
-          <i class="el-image-viewer__actions__divider"></i>
+          <i :class="`${prefixClass}__actions__divider`"></i>
           <el-icon @click="toggleMode">
             <component :is="mode.icon" />
           </el-icon>
-          <i class="el-image-viewer__actions__divider"></i>
+          <i :class="`${prefixClass}__actions__divider`"></i>
           <el-icon @click="handleActions('anticlockwise')">
             <refresh-left />
           </el-icon>
@@ -56,7 +60,7 @@
         </div>
       </div>
       <!-- CANVAS -->
-      <div class="el-image-viewer__canvas">
+      <div :class="`${prefixClass}__canvas`">
         <img
           v-for="(url, i) in urlList"
           v-show="i === index"
@@ -64,7 +68,7 @@
           :key="url"
           :src="url"
           :style="imgStyle"
-          class="el-image-viewer__img"
+          :class="`${prefixClass}__img`"
           @load="handleImgLoad"
           @error="handleImgError"
           @mousedown="handleMouseDown"
@@ -88,7 +92,7 @@ import {
 } from 'vue'
 import { useEventListener } from '@vueuse/core'
 import ElIcon from '@element-plus/components/icon'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, usePrefixClass } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { rafThrottle, isFirefox } from '@element-plus/utils/util'
 import {
@@ -140,6 +144,8 @@ export default defineComponent({
   emits: imageViewerEmits,
 
   setup(props, { emit }) {
+    const prefixClass = usePrefixClass('')
+
     const { t } = useLocale()
     const wrapper = ref<HTMLDivElement>()
     const img = ref<HTMLImageElement>()
@@ -386,6 +392,7 @@ export default defineComponent({
     })
 
     return {
+      prefixClass,
       index,
       wrapper,
       img,

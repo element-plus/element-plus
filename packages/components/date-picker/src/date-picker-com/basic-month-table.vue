@@ -1,6 +1,6 @@
 <template>
   <table
-    class="el-month-table"
+    :class="prefixClass"
     @click="handleMonthTableClick"
     @mousemove="handleMouseMove"
   >
@@ -21,7 +21,7 @@
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue'
 import dayjs from 'dayjs'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, usePrefixClass } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
 import { hasClass } from '@element-plus/utils/dom'
 import { coerceTruthyValueToArray } from '@element-plus/utils/util'
@@ -68,6 +68,8 @@ export default defineComponent({
   emits: ['changerange', 'pick', 'select'],
 
   setup(props, ctx) {
+    const prefixClass = usePrefixClass('month-table')
+
     const { t, lang } = useLocale()
     const months = ref(
       props.date
@@ -229,6 +231,7 @@ export default defineComponent({
     }
 
     return {
+      prefixClass,
       handleMouseMove,
       handleMonthTableClick,
       rows,

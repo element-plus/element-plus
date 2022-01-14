@@ -1,11 +1,11 @@
 <template>
-  <aside class="el-aside" :style="style">
+  <aside :class="prefixClass" :style="style">
     <slot></slot>
   </aside>
 </template>
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-
+import { usePrefixClass } from '@element-plus/hooks'
 import type { CSSProperties } from 'vue'
 
 export default defineComponent({
@@ -17,7 +17,10 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const prefixClass = usePrefixClass('aside')
+
     return {
+      prefixClass,
       style: computed(() => {
         return props.width
           ? ({ '--el-aside-width': props.width } as CSSProperties)

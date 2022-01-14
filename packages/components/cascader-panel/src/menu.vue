@@ -3,9 +3,9 @@
     :key="menuId"
     tag="ul"
     role="menu"
-    class="el-cascader-menu"
-    wrap-class="el-cascader-menu__wrap"
-    :view-class="['el-cascader-menu__list', isEmpty && 'is-empty']"
+    :class="`${prefixClass}-menu`"
+    :wrap-class="`${prefixClass}-menu__wrap`"
+    :view-class="[`${prefixClass}-menu__list`, isEmpty && 'is-empty']"
     @mousemove="handleMouseMove"
     @mouseleave="clearHoverZone"
   >
@@ -16,19 +16,19 @@
       :menu-id="menuId"
       @expand="handleExpand"
     />
-    <div v-if="isLoading" class="el-cascader-menu__empty-text">
+    <div v-if="isLoading" :class="`${prefixClass}-menu__empty-text`">
       <el-icon size="14" class="is-loading">
         <loading />
       </el-icon>
       {{ t('el.cascader.loading') }}
     </div>
-    <div v-else-if="isEmpty" class="el-cascader-menu__empty-text">
+    <div v-else-if="isEmpty" :class="`${prefixClass}-menu__empty-text`">
       {{ t('el.cascader.noData') }}
     </div>
     <svg
       v-else-if="panel?.isHoverMenu"
       ref="hoverZone"
-      class="el-cascader-menu__hover-zone"
+      :class="`${prefixClass}-menu__hover-zone`"
     ></svg>
   </el-scrollbar>
 </template>
@@ -36,7 +36,7 @@
 <script lang="ts">
 import { computed, defineComponent, getCurrentInstance, inject, ref } from 'vue'
 import ElScrollbar from '@element-plus/components/scrollbar'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, usePrefixClass } from '@element-plus/hooks'
 import { generateId } from '@element-plus/utils/util'
 import { Loading } from '@element-plus/icons-vue'
 import ElIcon from '@element-plus/components/icon'
@@ -69,6 +69,7 @@ export default defineComponent({
   },
 
   setup(props) {
+    const prefixClass = usePrefixClass('cascader')
     const instance = getCurrentInstance()!
     const { t } = useLocale()
     const id = generateId()
@@ -124,6 +125,7 @@ export default defineComponent({
       clearHoverTimer()
     }
     return {
+      prefixClass,
       panel,
       hoverZone,
       isEmpty,

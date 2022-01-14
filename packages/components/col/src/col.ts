@@ -1,4 +1,5 @@
 import { defineComponent, computed, inject, h, renderSlot } from 'vue'
+import { usePrefixClass } from '@element-plus/hooks'
 import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
 import type { ExtractPropTypes, CSSProperties } from 'vue'
 
@@ -57,6 +58,7 @@ export default defineComponent({
   props: colProps,
 
   setup(props, { slots }) {
+    const prefixClass = usePrefixClass('col')
     const { gutter } = inject('ElRow', { gutter: { value: 0 } })
 
     const style = computed<CSSProperties>(() => {
@@ -76,22 +78,24 @@ export default defineComponent({
       pos.forEach((prop) => {
         const size = props[prop]
         if (typeof size === 'number') {
-          if (prop === 'span') classes.push(`el-col-${props[prop]}`)
-          else if (size > 0) classes.push(`el-col-${prop}-${props[prop]}`)
+          if (prop === 'span')
+            classes.push(`${prefixClass.value}-${props[prop]}`)
+          else if (size > 0)
+            classes.push(`${prefixClass.value}-${prop}-${props[prop]}`)
         }
       })
 
       const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
       sizes.forEach((size) => {
         if (typeof props[size] === 'number') {
-          classes.push(`el-col-${size}-${props[size]}`)
+          classes.push(`${prefixClass.value}-${size}-${props[size]}`)
         } else if (typeof props[size] === 'object') {
           const sizeProps = props[size]
           Object.keys(sizeProps).forEach((prop) => {
             classes.push(
               prop !== 'span'
-                ? `el-col-${size}-${prop}-${sizeProps[prop]}`
-                : `el-col-${size}-${sizeProps[prop]}`
+                ? `${prefixClass.value}-${size}-${prop}-${sizeProps[prop]}`
+                : `${prefixClass.value}-${size}-${sizeProps[prop]}`
             )
           })
         }
@@ -108,7 +112,7 @@ export default defineComponent({
       h(
         props.tag,
         {
-          class: ['el-col', classList.value],
+          class: ['${prefixClass.value}', classList.value],
           style: style.value,
         },
         [renderSlot(slots, 'default')]

@@ -3,6 +3,7 @@ import { isString } from '@vue/shared'
 import { isClient } from '@vueuse/core'
 import { addClass, getStyle, removeClass } from '@element-plus/utils/dom'
 import { PopupManager } from '@element-plus/utils/popup-manager'
+import { usePrefixClass } from '@element-plus/hooks'
 import { createLoadingComponent } from './loading'
 import type { LoadingInstance } from './loading'
 import type { LoadingOptionsResolved } from '..'
@@ -15,8 +16,8 @@ export const Loading = function (
   options: LoadingOptions = {}
 ): LoadingInstance {
   if (!isClient) return undefined as any
-
   const resolved = resolveOptions(options)
+  const prefixClass = usePrefixClass('loading')
 
   if (resolved.fullscreen && fullscreenInstance) {
     fullscreenInstance.remvoeElLoadingChild()
@@ -32,10 +33,10 @@ export const Loading = function (
   })
 
   addStyle(resolved, resolved.parent, instance)
-  addClassList(resolved, resolved.parent, instance)
+  addClassList(resolved, resolved.parent, instance, prefixClass.value)
 
   resolved.parent.vLoadingAddClassList = () =>
-    addClassList(resolved, resolved.parent, instance)
+    addClassList(resolved, resolved.parent, instance, prefixClass.value)
 
   /**
    * add loading-number to parent.
@@ -131,19 +132,20 @@ const addStyle = async (
 const addClassList = (
   options: LoadingOptions,
   parent: HTMLElement,
-  instance: LoadingInstance
+  instance: LoadingInstance,
+  prefixClass: string
 ) => {
   if (
     instance.originalPosition.value !== 'absolute' &&
     instance.originalPosition.value !== 'fixed'
   ) {
-    addClass(parent, 'el-loading-parent--relative')
+    addClass(parent, `${prefixClass}-parent--relative`)
   } else {
-    removeClass(parent, 'el-loading-parent--relative')
+    removeClass(parent, `${prefixClass}-parent--relative`)
   }
   if (options.fullscreen && options.lock) {
-    addClass(parent, 'el-loading-parent--hidden')
+    addClass(parent, `${prefixClass}-parent--hidden`)
   } else {
-    removeClass(parent, 'el-loading-parent--hidden')
+    removeClass(parent, `${prefixClass}-parent--hidden`)
   }
 }

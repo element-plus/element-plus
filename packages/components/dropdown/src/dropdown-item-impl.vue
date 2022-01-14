@@ -1,11 +1,11 @@
 <template>
-  <div v-if="divided" class="el-dropdown-menu__item--divided"></div>
+  <div v-if="divided" :class="`${prefixClass}__item--divided`"></div>
   <div
     :ref="itemRef"
     v-bind="dataset"
     :aria-disabled="disabled"
     :class="{
-      'el-dropdown-menu__item': true,
+      [`${prefixClass}__item`]: true,
       'is-disabled': disabled,
     }"
     :tabindex="tabIndex"
@@ -28,6 +28,7 @@ import {
   ROVING_FOCUS_GROUP_ITEM_INJECTION_KEY,
   ROVING_FOCUS_ITEM_COLLECTION_INJECTION_KEY,
 } from '@element-plus/components/roving-focus-group'
+import { usePrefixClass } from '@element-plus/hooks'
 import { COLLECTION_ITEM_SIGN } from '@element-plus/components/collection'
 import { ElIcon } from '@element-plus/components/icon'
 import { EVENT_CODE } from '@element-plus/utils/aria'
@@ -45,6 +46,7 @@ export default defineComponent({
   props: dropdownItemProps,
   emits: ['pointermove', 'pointerleave', 'click'],
   setup(_, { emit }) {
+    const prefixClass = usePrefixClass('dropdown-menu')
     const { collectionItemRef: dropdownCollectionItemRef } = inject(
       DROPDOWN_COLLECTION_ITEM_INJECTION_KEY,
       undefined
@@ -80,6 +82,7 @@ export default defineComponent({
     }, handleItemKeydown)
 
     return {
+      prefixClass,
       itemRef,
       dataset: {
         [COLLECTION_ITEM_SIGN]: '',

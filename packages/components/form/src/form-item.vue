@@ -1,5 +1,5 @@
 <template>
-  <div ref="formItemRef" class="el-form-item" :class="formItemClass">
+  <div ref="formItemRef" :class="formItemClass">
     <LabelWrap
       :is-auto-width="labelStyle.width === 'auto'"
       :update-all="elForm.labelWidth === 'auto'"
@@ -7,7 +7,7 @@
       <label
         v-if="label || $slots.label"
         :for="labelFor"
-        class="el-form-item__label"
+        :class="`${prefixClass}__label`"
         :style="labelStyle"
       >
         <slot name="label" :label="currentLabel">
@@ -15,14 +15,14 @@
         </slot>
       </label>
     </LabelWrap>
-    <div class="el-form-item__content" :style="contentStyle">
+    <div :class="`${prefixClass}__content`" :style="contentStyle">
       <slot></slot>
       <transition name="el-zoom-in-top">
         <slot v-if="shouldShowError" name="error" :error="validateMessage">
           <div
-            class="el-form-item__error"
             :class="{
-              'el-form-item__error--inline':
+              [`${prefixClass}__error`]: true,
+              [`${prefixClass}__error--inline`]:
                 typeof inlineMessage === 'boolean'
                   ? inlineMessage
                   : elForm.inlineMessage || false,
@@ -56,7 +56,7 @@ import AsyncValidator from 'async-validator'
 import { addUnit, getPropByPath } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 import { elFormItemKey, elFormKey } from '@element-plus/tokens'
-import { useSize } from '@element-plus/hooks'
+import { useSize, usePrefixClass } from '@element-plus/hooks'
 import LabelWrap from './label-wrap'
 
 import type { PropType, CSSProperties } from 'vue'
@@ -99,6 +99,7 @@ export default defineComponent({
     },
   },
   setup(props, { slots }) {
+    const prefixClass = usePrefixClass('form-item')
     const elForm = inject(elFormKey, {} as ElFormContext)
     const validateState = ref('')
     const validateMessage = ref('')
@@ -318,15 +319,16 @@ export default defineComponent({
     provide(elFormItemKey, elFormItem)
 
     const formItemClass = computed(() => [
+      prefixClass.value,
       {
-        'el-form-item--feedback': elForm.statusIcon,
+        [`${prefixClass.value}--feedback`]: elForm.statusIcon,
         'is-error': validateState.value === 'error',
         'is-validating': validateState.value === 'validating',
         'is-success': validateState.value === 'success',
         'is-required': isRequired.value || props.required,
         'is-no-asterisk': elForm.hideRequiredAsterisk,
       },
-      sizeClass.value ? `el-form-item--${sizeClass.value}` : '',
+      sizeClass.value ? `${prefixClass.value}--${sizeClass.value}` : '',
     ])
 
     const shouldShowError = computed(() => {
@@ -342,6 +344,7 @@ export default defineComponent({
     )
 
     return {
+      prefixClass,
       formItemRef,
       formItemClass,
       shouldShowError,
