@@ -14,7 +14,7 @@
     </template>
 
     <template #content>
-      <div v-if="title" :class="`${popoverPrefixClass}__title`" role="title">
+      <div v-if="title" class="el-popover__title" role="title">
         {{ title }}
       </div>
       <slot>
@@ -28,7 +28,6 @@ import { defineComponent, computed, ref, unref } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
 import { isString } from '@element-plus/utils/util'
 import { usePopoverProps } from './popover'
-import { usePrefixClass } from '@element-plus/hooks'
 
 import type { StyleValue } from 'vue'
 
@@ -44,7 +43,6 @@ export default defineComponent({
   props: usePopoverProps,
   emits,
   setup(props) {
-    const popoverPrefixClass = usePrefixClass('popover')
     const tooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
     const popperRef = computed(() => {
       return unref(tooltipRef)?.popperRef
@@ -67,14 +65,13 @@ export default defineComponent({
 
     const kls = computed(() => {
       return [
-        { [`${popoverPrefixClass.value}--plain`]: !!props.content },
-        popoverPrefixClass.value,
+        { 'el-popover--plain': !!props.content },
+        'el-popover',
         props.popperClass,
       ]
     })
 
     return {
-      popoverPrefixClass,
       kls,
       style,
       tooltipRef,

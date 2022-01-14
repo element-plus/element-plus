@@ -256,7 +256,7 @@ export default defineComponent({
     const typeClass = computed(() => {
       const type = state.type
       return type && TypeComponentsMap[type]
-        ? `${messageBoxPrefixClass.value}-icon--${type}`
+        ? `${messageBoxPrefixClass}-icon--${type}`
         : ''
     })
 

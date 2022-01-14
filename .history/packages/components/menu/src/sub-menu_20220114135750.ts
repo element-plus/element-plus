@@ -27,7 +27,6 @@ import { useMenuCssVar } from './use-menu-css-var'
 import type { Placement } from '@element-plus/components/popper'
 import type { ExtractPropTypes, VNodeArrayChildren, CSSProperties } from 'vue'
 import type { MenuProvider, SubMenuProvider } from './types'
-import { usePrefixClass } from '@element-plus/hooks'
 
 export const subMenuProps = buildProps({
   index: {
@@ -57,9 +56,6 @@ export default defineComponent({
   props: subMenuProps,
 
   setup(props, { slots, expose }) {
-    const zoomInPrefixClass = usePrefixClass('zoom-in')
-    const subMenuPrefixClass = usePrefixClass('sub-menu')
-    const menuPrefixClass = usePrefixClass('menu')
     const instance = getCurrentInstance()!
     const { paddingStyle, indexPath, parentMenu } = useMenu(
       instance,
@@ -112,7 +108,7 @@ export default defineComponent({
         : Boolean(props.popperAppendToBody)
     })
     const menuTransitionName = computed(() =>
-      rootMenu.props.collapse ? `${zoomInPrefixClass.value}-left` : `${zoomInPrefixClass.value}-top`
+      rootMenu.props.collapse ? 'el-zoom-in-left' : 'el-zoom-in-top'
     )
     const fallbackPlacements = computed<Placement[]>(() =>
       mode.value === 'horizontal' && isFirstLevel.value
@@ -298,7 +294,7 @@ export default defineComponent({
         h(
           ElIcon,
           {
-            class: [`${subMenuPrefixClass.value}__icon-arrow`],
+            class: ['el-sub-menu__icon-arrow'],
           },
           { default: () => h(subMenuTitleIcon.value) }
         ),
@@ -332,7 +328,7 @@ export default defineComponent({
                 h(
                   'div',
                   {
-                    class: [`${menuPrefixClass.value}--${mode.value}`, props.popperClass],
+                    class: [`el-menu--${mode.value}`, props.popperClass],
                     onMouseenter: (evt: MouseEvent) =>
                       handleMouseenter(evt, 100),
                     onMouseleave: () => handleMouseleave(true),
@@ -343,8 +339,8 @@ export default defineComponent({
                       'ul',
                       {
                         class: [
-                          `${menuPrefixClass.value} ${menuPrefixClass.value}--popup`,
-                          `${menuPrefixClass.value}--popup-${currentPlacement.value}`,
+                          'el-menu el-menu--popup',
+                          `el-menu--popup-${currentPlacement.value}`,
                         ],
                         style: ulStyle.value,
                       },
@@ -356,7 +352,7 @@ export default defineComponent({
                 h(
                   'div',
                   {
-                    class: `${subMenuPrefixClass.value}__title`,
+                    class: 'el-sub-menu__title',
                     style: [
                       paddingStyle.value,
                       titleStyle.value,
@@ -372,7 +368,7 @@ export default defineComponent({
             h(
               'div',
               {
-                class: `${subMenuPrefixClass.value}__title`,
+                class: 'el-sub-menu__title',
                 style: [
                   paddingStyle.value,
                   titleStyle.value,
@@ -393,7 +389,7 @@ export default defineComponent({
                       'ul',
                       {
                         role: 'menu',
-                        class: `${menuPrefixClass.value} ${menuPrefixClass.value}--inline`,
+                        class: 'el-menu el-menu--inline',
                         style: ulStyle.value,
                       },
                       [slots.default?.()]
@@ -408,7 +404,7 @@ export default defineComponent({
         'li',
         {
           class: [
-            `${subMenuPrefixClass.value}`,
+            'el-sub-menu',
             {
               'is-active': active.value,
               'is-opened': opened.value,

@@ -4,7 +4,7 @@
     tabindex="-1"
     :style="paddingStyle"
     :class="{
-      [menuItemPrefixClass]: true,
+      menuItemPrefixClass,
       'is-active': active,
       'is-disabled': disabled,
     }"

@@ -48,22 +48,23 @@
             <el-icon :class="`${messageBoxPrefixClass}__close`"><close /></el-icon>
           </button>
         </div>
-        <div :class="`${messageBoxPrefixClass}__content`">
-          <div :class="`${messageBoxPrefixClass}__container`">
+        <div class="el-message-box__content">
+          <div class="el-message-box__container">
             <el-icon
               v-if="iconComponent && !center && hasMessage"
-              :class="[`${messageBoxPrefixClass}__status`, typeClass]"
+              class="el-message-box__status"
+              :class="typeClass"
             >
               <component :is="iconComponent" />
             </el-icon>
-            <div v-if="hasMessage" :class="`${messageBoxPrefixClass}__message`">
+            <div v-if="hasMessage" class="el-message-box__message">
               <slot>
                 <p v-if="!dangerouslyUseHTMLString">{{ message }}</p>
                 <p v-else v-html="message"></p>
               </slot>
             </div>
           </div>
-          <div v-show="showInput" :class="`${messageBoxPrefixClass}__input`">
+          <div v-show="showInput" class="el-message-box__input">
             <el-input
               ref="inputRef"
               v-model="inputValue"
@@ -73,7 +74,7 @@
               @keydown.prevent.enter="handleInputEnter"
             />
             <div
-              :class="`${messageBoxPrefixClass}__errormsg`"
+              class="el-message-box__errormsg"
               :style="{
                 visibility: !!editorErrorMessage ? 'visible' : 'hidden',
               }"
@@ -82,7 +83,7 @@
             </div>
           </div>
         </div>
-        <div :class="`${messageBoxPrefixClass}__btns`">
+        <div class="el-message-box__btns">
           <el-button
             v-if="showCancelButton"
             :loading="cancelButtonLoading"
@@ -256,7 +257,7 @@ export default defineComponent({
     const typeClass = computed(() => {
       const type = state.type
       return type && TypeComponentsMap[type]
-        ? `${messageBoxPrefixClass.value}-icon--${type}`
+        ? `el-message-box-icon--${type}`
         : ''
     })
 

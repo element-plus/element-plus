@@ -1,7 +1,7 @@
 <template>
-  <li :class="menuItemGroupPrefixClass">
+  <li class="el-menu-item-group">
     <div
-      :class="`${menuItemGroupPrefixClass}__title`"
+      class="el-menu-item-group__title"
       :style="{ paddingLeft: `${levelPadding}px` }"
     >
       <template v-if="!$slots.title">{{ title }}</template>
@@ -19,7 +19,6 @@ import { throwError } from '@element-plus/utils/error'
 import { menuItemGroupProps } from './menu-item-group'
 
 import type { MenuProvider } from './types'
-import { usePrefixClass } from '@element-plus/hooks'
 
 const COMPONENT_NAME = 'ElMenuItemGroup'
 
@@ -29,7 +28,6 @@ export default defineComponent({
   props: menuItemGroupProps,
 
   setup() {
-    const menuItemGroupPrefixClass = usePrefixClass('menu-item-group')
     const instance = getCurrentInstance()!
     const menu = inject<MenuProvider>('rootMenu')
     if (!menu) throwError(COMPONENT_NAME, 'can not inject root menu')
@@ -48,7 +46,6 @@ export default defineComponent({
     })
 
     return {
-      menuItemGroupPrefixClass,
       levelPadding,
     }
   },
