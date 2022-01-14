@@ -136,7 +136,10 @@
 
   @include e(btns) {
     padding: 5px 15px 0;
-    text-align: right;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
 
     & button:nth-child(2) {
       margin-left: 10px;
