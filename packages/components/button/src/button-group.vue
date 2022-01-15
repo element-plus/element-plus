@@ -1,5 +1,5 @@
 <template>
-  <div :class="className">
+  <div :class="`${ns.b('group')}`">
     <slot></slot>
   </div>
 </template>
@@ -23,7 +23,7 @@ export default defineComponent({
     )
     const ns = useNamespace('button')
     return {
-      className: `${ns.b('group')}`,
+      ns,
     }
   },
 })
