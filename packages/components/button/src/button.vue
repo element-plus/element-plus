@@ -2,9 +2,9 @@
   <button
     ref="buttonRef"
     :class="[
-      'el-button',
-      buttonType ? 'el-button--' + buttonType : '',
-      buttonSize ? 'el-button--' + buttonSize : '',
+      `${ns.b()}`,
+      `${ns.m(buttonType)}`,
+      `${ns.m(buttonSize)}`,
       {
         'is-disabled': buttonDisabled,
         'is-loading': loading,
@@ -27,7 +27,7 @@
     </el-icon>
     <span
       v-if="$slots.default"
-      :class="{ 'el-button__text--expand': shouldAddSpace }"
+      :class="[shouldAddSpace ? `${ns.em('text', 'expand')}` : '']"
     >
       <slot></slot>
     </span>
@@ -43,6 +43,7 @@ import {
   useDisabled,
   useFormItem,
   useGlobalConfig,
+  useNamespace,
   useSize,
 } from '@element-plus/hooks'
 import { buttonGroupContextKey } from '@element-plus/tokens'
@@ -65,6 +66,7 @@ export default defineComponent({
     const buttonRef = ref()
     const buttonGroupContext = inject(buttonGroupContextKey, undefined)
     const globalConfig = useGlobalConfig('button')
+    const ns = useNamespace('button')
     const autoInsertSpace = computed(
       () =>
         props.autoInsertSpace ?? globalConfig.value?.autoInsertSpace ?? false
@@ -156,6 +158,8 @@ export default defineComponent({
       shouldAddSpace,
 
       handleClick,
+
+      ns,
     }
   },
 })
