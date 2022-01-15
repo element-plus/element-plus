@@ -1,7 +1,7 @@
 <template>
   <template v-if="uiLoading">
     <div
-      :class="['el-skeleton', animated ? 'is-animated' : '']"
+      :class="[skeletonPrefixClass, animated ? 'is-animated' : '']"
       v-bind="$attrs"
     >
       <template v-for="i in count" :key="i">
@@ -11,7 +11,7 @@
             v-for="item in rows"
             :key="item"
             :class="{
-              'el-skeleton__paragraph': true,
+              [`${skeletonPrefixClass}__paragraph`]: true,
               'is-last': item === rows && rows > 1,
             }"
             variant="p"
@@ -30,6 +30,7 @@ import { defineComponent, computed } from 'vue'
 import { useThrottleRender } from '@element-plus/hooks'
 import SkeletonItem from './skeleton-item.vue'
 import { skeletonProps } from './skeleton'
+import { usePrefixClass } from '@element-plus/hooks'
 
 export default defineComponent({
   name: 'ElSkeleton',
@@ -38,6 +39,7 @@ export default defineComponent({
   },
   props: skeletonProps,
   setup(props) {
+    const skeletonPrefixClass = usePrefixClass('skeleton')
     const innerLoading = computed(() => {
       return props.loading
     })
@@ -45,6 +47,7 @@ export default defineComponent({
     const uiLoading = useThrottleRender(innerLoading, props.throttle)
 
     return {
+      skeletonPrefixClass,
       uiLoading,
     }
   },

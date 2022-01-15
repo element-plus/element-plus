@@ -9,7 +9,7 @@
     <input
       :id="id"
       ref="input"
-      class="el-switch__input"
+      :class="`${switchPrefixClass}__input`"
       type="checkbox"
       :name="name"
       :true-value="activeValue"
@@ -21,8 +21,8 @@
     <span
       v-if="!inlinePrompt && (inactiveIcon || inactiveText)"
       :class="[
-        'el-switch__label',
-        'el-switch__label--left',
+        `${switchPrefixClass}__label`,
+        `${switchPrefixClass}__label--left`,
         !checked ? 'is-active' : '',
       ]"
     >
@@ -33,10 +33,10 @@
     </span>
     <span
       ref="core"
-      class="el-switch__core"
+      :class="`${switchPrefixClass}__core`"
       :style="{ width: (width || 40) + 'px' }"
     >
-      <div v-if="inlinePrompt" class="el-switch__inner">
+      <div v-if="inlinePrompt" :class="`${switchPrefixClass}__inner`">
         <template v-if="activeIcon || inactiveIcon">
           <el-icon
             v-if="activeIcon"
@@ -72,15 +72,15 @@
           </span>
         </template>
       </div>
-      <div class="el-switch__action">
+      <div :class="`${switchPrefixClass}__action`">
         <el-icon v-if="loading" class="is-loading"><loading /></el-icon>
       </div>
     </span>
     <span
       v-if="!inlinePrompt && (activeIcon || activeText)"
       :class="[
-        'el-switch__label',
-        'el-switch__label--right',
+        `${switchPrefixClass}__label`,
+        `${switchPrefixClass}__label--right`,
         checked ? 'is-active' : '',
       ]"
     >
@@ -104,7 +104,7 @@ import {
   CHANGE_EVENT,
   INPUT_EVENT,
 } from '@element-plus/utils/constants'
-import { useDisabled, useFormItem, useSize } from '@element-plus/hooks'
+import { useDisabled, useFormItem, useSize, usePrefixClass } from '@element-plus/hooks'
 import { switchProps, switchEmits } from './switch'
 
 const COMPONENT_NAME = 'ElSwitch'
@@ -117,6 +117,7 @@ export default defineComponent({
   emits: switchEmits,
 
   setup(props, { emit }) {
+    const switchPrefixClass = usePrefixClass('switch')
     const { formItem } = useFormItem()
     const switchDisabled = useDisabled(computed(() => props.loading))
 
@@ -125,7 +126,7 @@ export default defineComponent({
     const input = ref<HTMLInputElement>()
     const core = ref<HTMLSpanElement>()
 
-    const prefix = 'el-switch'
+    const prefix = switchPrefixClass.value
     const switchKls = computed(() => [
       prefix,
       `${prefix}--${switchSize.value}`,
@@ -239,6 +240,7 @@ export default defineComponent({
     })
 
     return {
+      switchPrefixClass,
       input,
       core,
       switchDisabled,

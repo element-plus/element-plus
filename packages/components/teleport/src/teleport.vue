@@ -1,6 +1,6 @@
 <template>
   <teleport v-if="container" :to="container" :disabled="disabled">
-    <div ref="containerRef" class="el-teleport" :style="containerStyle">
+    <div ref="containerRef" :class="teleportPrefixClass" :style="containerStyle">
       <slot />
     </div>
   </teleport>
@@ -9,10 +9,12 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
 import { elTeleportProps } from './teleport'
+import { usePrefixClass } from '@element-plus/hooks'
 
 export default defineComponent({
   props: elTeleportProps,
   setup(props) {
+    const teleportPrefixClass = usePrefixClass('teleport')
     const containerRef = ref<HTMLElement>()
     const containerStyle = computed(() => {
       return props.container === 'body'
@@ -28,6 +30,7 @@ export default defineComponent({
         : {}
     })
     return {
+      teleportPrefixClass,
       containerRef,
       containerStyle,
     }

@@ -4,7 +4,7 @@
     :virtual-ref="virtualRef"
     :open="open"
     :virtual-triggering="virtualTriggering"
-    class="el-tooltip__trigger"
+    :class="prefixClass"
     @blur="onBlur"
     @click="onClick"
     @contextmenu="onContextMenu"
@@ -22,6 +22,7 @@ import { defineComponent, inject, ref, unref, toRef } from 'vue'
 import { ElPopperTrigger } from '@element-plus/components/popper'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { composeEventHandlers } from '@element-plus/utils/dom'
+import { usePrefixClass } from '@element-plus/hooks'
 import { TOOLTIP_INJECTION_KEY } from './tokens'
 import { useTooltipTriggerProps } from './tooltip'
 import { whenTrigger } from './utils'
@@ -35,6 +36,7 @@ export default defineComponent({
   },
   props: useTooltipTriggerProps,
   setup(props) {
+    const prefixClass = usePrefixClass('tooltip__trigger')
     const { controlled, id, open, onOpen, onClose, onToggle } = inject(
       TOOLTIP_INJECTION_KEY,
       undefined
@@ -94,6 +96,7 @@ export default defineComponent({
     )
 
     return {
+      prefixClass,
       onBlur,
       onContextMenu,
       onFocus,

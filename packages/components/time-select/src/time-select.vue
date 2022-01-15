@@ -22,7 +22,7 @@
       :disabled="item.disabled"
     />
     <template #prefix>
-      <el-icon v-if="prefixIcon" class="el-input__prefix-icon">
+      <el-icon v-if="prefixIcon" :class="prefixClass">
         <component :is="prefixIcon" />
       </el-icon>
     </template>
@@ -34,6 +34,7 @@ import { defineComponent, computed, ref } from 'vue'
 import ElSelect from '@element-plus/components/select'
 import ElIcon from '@element-plus/components/icon'
 import { CircleClose, Clock } from '@element-plus/icons-vue'
+import { usePrefixClass } from '@element-plus/hooks'
 
 import type { PropType, Component } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'
@@ -152,6 +153,7 @@ export default defineComponent({
   },
   emits: ['change', 'blur', 'focus', 'update:modelValue'],
   setup(props) {
+    const prefixClass = usePrefixClass('input__prefix-icon')
     // computed
     const select = ref(null)
     const value = computed(() => props.modelValue)
@@ -179,6 +181,7 @@ export default defineComponent({
     }
 
     return {
+      prefixClass,
       select,
       value,
       items,

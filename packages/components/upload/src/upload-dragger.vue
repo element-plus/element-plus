@@ -1,7 +1,7 @@
 <template>
   <div
     :class="{
-      'el-upload-dragger': true,
+      [`${uploadPrefixClass}-dragger`]: true,
       'is-dragover': dragover,
     }"
     @drop.prevent="onDrop"
@@ -15,6 +15,7 @@
 import { defineComponent, ref, inject } from 'vue'
 
 import type { ElUpload } from './upload.type'
+import { usePrefixClass } from '@element-plus/hooks'
 
 export default defineComponent({
   name: 'ElUploadDrag',
@@ -26,6 +27,7 @@ export default defineComponent({
   },
   emits: ['file'],
   setup(props, { emit }) {
+    const uploadPrefixClass = usePrefixClass('upload')
     const uploader = inject('uploader', {} as ElUpload)
     const dragover = ref(false)
 
@@ -69,6 +71,7 @@ export default defineComponent({
     }
 
     return {
+      uploadPrefixClass,
       dragover,
       onDrop,
       onDragover,

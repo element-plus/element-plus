@@ -2,6 +2,7 @@ import { defineComponent, h } from 'vue'
 import { hColgroup } from '../h-helper'
 import useStyle from './style-helper'
 import type { Store } from '../store'
+import { usePrefixClass } from '@element-plus/hooks'
 
 import type { PropType } from 'vue'
 import type { DefaultRow, Sort, SummaryMethod } from '../table/defaults'
@@ -42,9 +43,11 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const tablePrefixClass = usePrefixClass('table')
     const { hasGutter, getCellClasses, getCellStyles, columns, gutterWidth } =
       useStyle(props as TableFooter<DefaultRow>)
     return {
+      tablePrefixClass,
       getCellClasses,
       getCellStyles,
       hasGutter,
@@ -52,7 +55,8 @@ export default defineComponent({
       columns,
     }
   },
-  render() {
+  render(params) {
+    const { tablePrefixClass } = params;
     const {
       hasGutter,
       gutterWidth,
@@ -103,7 +107,7 @@ export default defineComponent({
     return h(
       'table',
       {
-        class: 'el-table__footer',
+        class: `${tablePrefixClass}__footer`,
         cellspacing: '0',
         cellpadding: '0',
         border: '0',
@@ -140,7 +144,7 @@ export default defineComponent({
               ),
               hasGutter &&
                 h('td', {
-                  class: 'el-table__fixed-right-patch el-table__cell',
+                  class: `${tablePrefixClass}__fixed-right-patch ${tablePrefixClass}__cell`,
                   style: {
                     width: `${gutterWidth}px`,
                   },

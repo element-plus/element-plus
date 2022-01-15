@@ -12,6 +12,7 @@ import { NOOP, isObject } from '@vue/shared'
 import {
   FORWARD_REF_INJECTION_KEY,
   useForwardRefDirective,
+  usePrefixClass
 } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils/error'
 
@@ -22,12 +23,15 @@ const NAME = 'ElOnlyChild'
 const OnlyChild = defineComponent({
   name: NAME,
   setup(_, { slots, attrs }) {
+    const prefixClass = usePrefixClass('only-child_content')
+
     const forwardRefInjection = inject(FORWARD_REF_INJECTION_KEY, undefined)!
     const forwardRefDirective = useForwardRefDirective(
       forwardRefInjection.setForwardRef ?? NOOP
     )
     return () => {
       const defaultSlot = slots.default?.(attrs)
+      
       if (!defaultSlot) return null
 
       if (defaultSlot.length > 1) {
@@ -35,7 +39,8 @@ const OnlyChild = defineComponent({
         return null
       }
 
-      const firstLegitNode = findFirstLegitChild(defaultSlot)
+      const firstLegitNode = findFirstLegitChild(defaultSlot, prefixClass.value)
+      
       if (!firstLegitNode) {
         debugWarn(NAME, 'no valid child node found')
         return null
@@ -48,7 +53,7 @@ const OnlyChild = defineComponent({
   },
 })
 
-function findFirstLegitChild(node: VNode[] | undefined) {
+function findFirstLegitChild(node: VNode[] | undefined, prefixCls: string) {
   if (!node) return null
   const children = node as VNode[]
   for (let i = 0; i < children.length; i++) {
@@ -63,20 +68,20 @@ function findFirstLegitChild(node: VNode[] | undefined) {
         case Comment:
           continue
         case Text:
-          return wrapTextContent(child)
+          return wrapTextContent(child, prefixCls)
         case Fragment:
-          return findFirstLegitChild(child.children as VNode[])
+          return findFirstLegitChild(child.children as VNode[], prefixCls)
         default:
           return child
       }
     }
-    return wrapTextContent(child)
+    return wrapTextContent(child, prefixCls)
   }
   return null
 }
 
-function wrapTextContent(s: string | VNode) {
-  return h('span', { class: 'el-only-child__content' }, [s])
+function wrapTextContent(s: string | VNode, prefixCls) {
+  return h('span', { class: prefixCls }, [s])
 }
 
 export default OnlyChild

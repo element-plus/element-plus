@@ -42,7 +42,7 @@ export const useTooltipContentProps = {
     },
     transition: {
       type: String,
-      default: 'el-fade-in-linear',
+      default: 'fade-in-linear',
     },
     teleported: {
       type: Boolean,

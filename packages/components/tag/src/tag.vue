@@ -5,10 +5,10 @@
     :style="{ backgroundColor: color }"
     @click="handleClick"
   >
-    <span class="el-tag__content">
+    <span :class="`${tagPrefixClass}__content`">
       <slot></slot>
     </span>
-    <el-icon v-if="closable" class="el-tag__close" @click="handleClose">
+    <el-icon v-if="closable" :class="`${tagPrefixClass}__close`" @click="handleClose">
       <close />
     </el-icon>
   </span>
@@ -18,10 +18,10 @@
       :style="{ backgroundColor: color }"
       @click="handleClick"
     >
-      <span class="el-tag__content">
+      <span :class="`${tagPrefixClass}__content`">
         <slot></slot>
       </span>
-      <el-icon v-if="closable" class="el-tag__close" @click="handleClose">
+      <el-icon v-if="closable" :class="`${tagPrefixClass}__close`" @click="handleClose">
         <close />
       </el-icon>
     </span>
@@ -35,6 +35,7 @@ import { Close } from '@element-plus/icons-vue'
 
 import { useSize } from '@element-plus/hooks'
 import { tagProps, tagEmits } from './tag'
+import { usePrefixClass } from '@element-plus/hooks'
 
 export default defineComponent({
   name: 'ElTag',
@@ -45,15 +46,16 @@ export default defineComponent({
   emits: tagEmits,
 
   setup(props, { emit }) {
+    const tagPrefixClass = usePrefixClass('tag')
     const tagSize = useSize()
     const classes = computed(() => {
       const { type, hit, effect, closable } = props
       return [
-        'el-tag',
+        tagPrefixClass.value,
         closable && 'is-closable',
-        type ? `el-tag--${type}` : '',
-        tagSize.value ? `el-tag--${tagSize.value}` : '',
-        effect ? `el-tag--${effect}` : '',
+        type ? `${tagPrefixClass.value}--${type}` : '',
+        tagSize.value ? `${tagPrefixClass.value}--${tagSize.value}` : '',
+        effect ? `${tagPrefixClass.value}--${effect}` : '',
         hit && 'is-hit',
       ]
     })
@@ -69,6 +71,7 @@ export default defineComponent({
     }
 
     return {
+      tagPrefixClass,
       classes,
       handleClose,
       handleClick,

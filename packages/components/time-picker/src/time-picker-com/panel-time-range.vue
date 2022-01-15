@@ -1,13 +1,17 @@
 <template>
-  <div v-if="actualVisible" class="el-time-range-picker el-picker-panel">
-    <div class="el-time-range-picker__content">
-      <div class="el-time-range-picker__cell">
-        <div class="el-time-range-picker__header">
+  <div v-if="actualVisible" :class="`${timeRangePickerPrefixClass} ${pickerPanelPrefixClass}`">
+    <div :class="`${timeRangePickerPrefixClass}__content`">
+      <div :class="`${timeRangePickerPrefixClass}__cell`">
+        <div :class="`${timeRangePickerPrefixClass}__header`">
           {{ t('el.datepicker.startTime') }}
         </div>
         <div
-          :class="{ 'has-seconds': showSeconds, 'is-arrow': arrowControl }"
-          class="el-time-range-picker__body el-time-panel__content"
+          :class="{ 
+            'has-seconds': showSeconds,
+            'is-arrow': arrowControl,
+            [`${timeRangePickerPrefixClass}__body`]: true,
+            [`${timePanelPrefixClass}__content`]: true,
+          }"
         >
           <time-spinner
             ref="minSpinner"
@@ -25,13 +29,17 @@
           />
         </div>
       </div>
-      <div class="el-time-range-picker__cell">
-        <div class="el-time-range-picker__header">
+      <div :class="`${timeRangePickerPrefixClass}__cell`">
+        <div :class="`${timeRangePickerPrefixClass}__header`">
           {{ t('el.datepicker.endTime') }}
         </div>
         <div
-          :class="{ 'has-seconds': showSeconds, 'is-arrow': arrowControl }"
-          class="el-time-range-picker__body el-time-panel__content"
+          :class="{
+            'has-seconds': showSeconds,
+            'is-arrow': arrowControl,
+            [`${timeRangePickerPrefixClass}__body`]: true,
+            [`${timePanelPrefixClass}__content`]: true,
+          }"
         >
           <time-spinner
             ref="maxSpinner"
@@ -50,17 +58,17 @@
         </div>
       </div>
     </div>
-    <div class="el-time-panel__footer">
+    <div :class="`${timePanelPrefixClass}__footer`">
       <button
         type="button"
-        class="el-time-panel__btn cancel"
+        :class="`${timePanelPrefixClass}__btn cancel`"
         @click="handleCancel()"
       >
         {{ t('el.datepicker.cancel') }}
       </button>
       <button
         type="button"
-        class="el-time-panel__btn confirm"
+        :class="`${timePanelPrefixClass}__btn confirm`"
         :disabled="btnConfirmDisabled"
         @click="handleConfirm()"
       >
@@ -74,7 +82,7 @@
 import { defineComponent, ref, computed, inject } from 'vue'
 import dayjs from 'dayjs'
 import union from 'lodash/union'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, usePrefixClass } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import TimeSpinner from './basic-time-spinner.vue'
 import { getAvailableArrs, useOldValue } from './useTimePicker'
@@ -107,6 +115,9 @@ export default defineComponent({
   emits: ['pick', 'select-range', 'set-picker-option'],
 
   setup(props, ctx) {
+    const timeRangePickerPrefixClass = usePrefixClass('time-range-picker')
+    const timePanelPrefixClass = usePrefixClass('time-panel')
+    const pickerPanelPrefixClass = usePrefixClass('picker-panel')
     const { t, lang } = useLocale()
     const minDate = computed(() => props.parsedValue[0])
     const maxDate = computed(() => props.parsedValue[1])
@@ -343,6 +354,9 @@ export default defineComponent({
     } = pickerBase.props
 
     return {
+      timeRangePickerPrefixClass,
+      timePanelPrefixClass,
+      pickerPanelPrefixClass,
       arrowControl,
       onSetOption,
       setMaxSelectionRange,

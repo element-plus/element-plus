@@ -23,6 +23,7 @@ import { tabsRootContextKey } from '@element-plus/tokens'
 import TabBar from './tab-bar.vue'
 import type { ExtractPropTypes, CSSProperties } from 'vue'
 import type { TabsPaneContext } from '@element-plus/tokens'
+import { usePrefixClass } from '@element-plus/hooks'
 export interface Scrollable {
   next?: boolean
   prev?: number
@@ -64,6 +65,7 @@ export default defineComponent({
   props: tabNavProps,
 
   setup(props, { expose }) {
+    const tabsPrefixClass = usePrefixClass('tabs')
     const visibility = useDocumentVisibility()
     const focused = useWindowFocus()
 
@@ -266,7 +268,7 @@ export default defineComponent({
               'span',
               {
                 class: [
-                  'el-tabs__nav-prev',
+                  `${tabsPrefixClass.value}__nav-prev`,
                   scrollable.value.prev ? '' : 'is-disabled',
                 ],
                 onClick: scrollPrev,
@@ -277,7 +279,7 @@ export default defineComponent({
               'span',
               {
                 class: [
-                  'el-tabs__nav-next',
+                  `${tabsPrefixClass.value}__nav-next`,
                   scrollable.value.next ? '' : 'is-disabled',
                 ],
                 onClick: scrollNext,
@@ -311,7 +313,7 @@ export default defineComponent({
           'div',
           {
             class: {
-              'el-tabs__item': true,
+              [`${tabsPrefixClass.value}__item`]: true,
               [`is-${rootTabs.props.tabPosition}`]: true,
               'is-active': pane.active,
               'is-disabled': pane.props.disabled,
@@ -350,7 +352,7 @@ export default defineComponent({
         {
           ref: el$,
           class: [
-            'el-tabs__nav-wrap',
+            `${tabsPrefixClass.value}__nav-wrap`,
             scrollable.value ? 'is-scrollable' : '',
             `is-${rootTabs.props.tabPosition}`,
           ],
@@ -360,7 +362,7 @@ export default defineComponent({
           h(
             'div',
             {
-              class: 'el-tabs__nav-scroll',
+              class: `${tabsPrefixClass.value}__nav-scroll`,
               ref: navScroll$,
             },
             [
@@ -368,7 +370,7 @@ export default defineComponent({
                 'div',
                 {
                   class: [
-                    'el-tabs__nav',
+                    `${tabsPrefixClass.value}__nav`,
                     `is-${rootTabs.props.tabPosition}`,
                     props.stretch &&
                     ['top', 'bottom'].includes(rootTabs.props.tabPosition)
