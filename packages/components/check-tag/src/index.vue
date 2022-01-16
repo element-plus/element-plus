@@ -1,7 +1,7 @@
 <template>
   <span
     :class="{
-      'el-check-tag': true,
+      [`${prefixClass}`]: true,
       'is-checked': checked,
     }"
     @click="onChange"
@@ -11,7 +11,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-
+import { usePrefixClass } from '@element-plus/hooks'
 import type { ExtractPropTypes } from 'vue'
 
 export const checkTagProps = {
@@ -30,6 +30,8 @@ export default defineComponent({
   emits: ['change', 'update:checked'],
 
   setup(props, { emit }) {
+    const prefixClass = usePrefixClass('check-tag')
+
     const onChange = () => {
       const checked = !props.checked
       emit('change', checked)
@@ -37,6 +39,7 @@ export default defineComponent({
     }
 
     return {
+      prefixClass,
       onChange,
     }
   },

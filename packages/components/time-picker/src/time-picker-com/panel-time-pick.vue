@@ -1,9 +1,11 @@
 <template>
   <transition :name="transitionName">
-    <div v-if="actualVisible || visible" class="el-time-panel">
+    <div v-if="actualVisible || visible" :class="timePanelPrefixClass">
       <div
-        class="el-time-panel__content"
-        :class="{ 'has-seconds': showSeconds }"
+        :class="{
+          'has-seconds': showSeconds,
+          [`${timePanelPrefixClass}__content`]: true,
+        }"
       >
         <time-spinner
           ref="spinner"
@@ -20,17 +22,17 @@
           @select-range="setSelectionRange"
         />
       </div>
-      <div class="el-time-panel__footer">
+      <div :class="`${timePanelPrefixClass}__footer`">
         <button
           type="button"
-          class="el-time-panel__btn cancel"
+          :class="`${timePanelPrefixClass}__btn cancel`"
           @click="handleCancel"
         >
           {{ t('el.datepicker.cancel') }}
         </button>
         <button
           type="button"
-          class="el-time-panel__btn confirm"
+          :class="`${timePanelPrefixClass}__btn confirm`"
           @click="handleConfirm()"
         >
           {{ t('el.datepicker.confirm') }}
@@ -44,7 +46,7 @@
 import { defineComponent, ref, computed, inject } from 'vue'
 import dayjs from 'dayjs'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, usePrefixClass } from '@element-plus/hooks'
 import TimeSpinner from './basic-time-spinner.vue'
 import { getAvailableArrs, useOldValue } from './useTimePicker'
 
@@ -77,13 +79,17 @@ export default defineComponent({
   emits: ['pick', 'select-range', 'set-picker-option'],
 
   setup(props, ctx) {
+    const timePanelPrefixClass = usePrefixClass('time-panel')
+    const zoomPrefixClass = usePrefixClass('zoom')
     const { t, lang } = useLocale()
     // data
     const selectionRange = ref([0, 2])
     const oldValue = useOldValue(props)
     // computed
     const transitionName = computed(() => {
-      return props.actualVisible === undefined ? 'el-zoom-in-top' : ''
+      return props.actualVisible === undefined
+        ? `${zoomPrefixClass.value}-in-top`
+        : ''
     })
     const showSeconds = computed(() => {
       return props.format.includes('ss')
@@ -221,6 +227,7 @@ export default defineComponent({
       getAvailableArrs(disabledHours, disabledMinutes, disabledSeconds)
 
     return {
+      timePanelPrefixClass,
       transitionName,
       arrowControl,
       onSetOption,

@@ -14,6 +14,7 @@ import {
   addResizeListener,
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
+import { usePrefixClass } from '@element-plus/hooks'
 import { elFormItemKey, elFormKey } from '@element-plus/tokens'
 import type { ResizableElement } from '@element-plus/utils/resize-event'
 
@@ -27,6 +28,7 @@ export default defineComponent({
     updateAll: Boolean,
   },
   setup(props, { slots }) {
+    const prefixClass = usePrefixClass('form-item__label-wrap')
     const el = ref<Nullable<HTMLElement>>(null)
     const elForm = inject(elFormKey)
     const elFormItem = inject(elFormItemKey)
@@ -98,7 +100,7 @@ export default defineComponent({
           'div',
           {
             ref: el,
-            class: ['el-form-item__label-wrap'],
+            class: [prefixClass.value],
             style,
           },
           slots.default?.()

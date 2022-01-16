@@ -2,9 +2,9 @@
   <button
     ref="buttonRef"
     :class="[
-      'el-button',
-      buttonType ? 'el-button--' + buttonType : '',
-      buttonSize ? 'el-button--' + buttonSize : '',
+      prefixClass,
+      buttonType ? `${prefixClass}--${buttonType}` : '',
+      buttonSize ? `${prefixClass}--${buttonSize}` : '',
       {
         'is-disabled': buttonDisabled,
         'is-loading': loading,
@@ -27,7 +27,7 @@
     </el-icon>
     <span
       v-if="$slots.default"
-      :class="{ 'el-button__text--expand': shouldAddSpace }"
+      :class="{ [`${prefixClass}__text--expand`]: shouldAddSpace }"
     >
       <slot></slot>
     </span>
@@ -44,6 +44,7 @@ import {
   useFormItem,
   useGlobalConfig,
   useSize,
+  usePrefixClass,
 } from '@element-plus/hooks'
 import { buttonGroupContextKey } from '@element-plus/tokens'
 import { Loading } from '@element-plus/icons-vue'
@@ -62,6 +63,8 @@ export default defineComponent({
   emits: buttonEmits,
 
   setup(props, { emit, slots }) {
+    const prefixClass = usePrefixClass('button')
+
     const buttonRef = ref()
     const buttonGroupContext = inject(buttonGroupContextKey, undefined)
     const globalConfig = useGlobalConfig('button')
@@ -146,6 +149,8 @@ export default defineComponent({
     }
 
     return {
+      prefixClass,
+
       buttonRef,
       buttonStyle,
 

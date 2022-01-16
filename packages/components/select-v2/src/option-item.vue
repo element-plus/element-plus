@@ -3,7 +3,7 @@
     :aria-selected="selected"
     :style="style"
     :class="{
-      'el-select-dropdown__option-item': true,
+      [prefixClass]: true,
       'is-selected': selected,
       'is-disabled': disabled,
       'is-created': created,
@@ -20,14 +20,18 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { usePrefixClass } from '@element-plus/hooks'
 import { useOption } from './useOption'
 import { OptionProps } from './defaults'
+
 export default defineComponent({
   props: OptionProps,
   emits: ['select', 'hover'],
   setup(props, { emit }) {
+    const prefixClass = usePrefixClass('select-dropdown__option-item')
     const { hoverItem, selectOptionClick } = useOption(props, { emit })
     return {
+      prefixClass,
       hoverItem,
       selectOptionClick,
     }

@@ -1,23 +1,23 @@
 <template>
   <div
     ref="container"
-    :class="['el-image', $attrs.class]"
+    :class="[prefixClass, $attrs.class]"
     :style="containerStyle"
   >
     <slot v-if="loading" name="placeholder">
-      <div class="el-image__placeholder"></div>
+      <div :class="`${prefixClass}__placeholder`"></div>
     </slot>
     <slot v-else-if="hasLoadError" name="error">
-      <div class="el-image__error">{{ t('el.image.error') }}</div>
+      <div :class="`${prefixClass}__error`">{{ t('el.image.error') }}</div>
     </slot>
     <img
       v-else
-      class="el-image__inner"
       v-bind="attrs"
       :src="src"
       :style="imageStyle"
       :class="{
-        'el-image__preview': preview,
+        [`${prefixClass}__inner`]: true,
+        [`${prefixClass}__preview`]: preview,
       }"
       @click="clickHandler"
     />
@@ -45,7 +45,7 @@
 import { defineComponent, computed, ref, onMounted, watch, nextTick } from 'vue'
 import { isString } from '@vue/shared'
 import { useEventListener, useThrottleFn, isClient } from '@vueuse/core'
-import { useAttrs, useLocale } from '@element-plus/hooks'
+import { useAttrs, useLocale, usePrefixClass } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
 import { getScrollContainer, isInContainer } from '@element-plus/utils/dom'
 import { imageEmits, imageProps } from './image'
@@ -68,6 +68,7 @@ export default defineComponent({
   emits: imageEmits,
 
   setup(props, { emit, attrs: rawAttrs }) {
+    const prefixClass = usePrefixClass('image')
     const { t } = useLocale()
 
     const attrs = useAttrs()
@@ -242,6 +243,7 @@ export default defineComponent({
     })
 
     return {
+      prefixClass,
       attrs,
       loading,
       hasLoadError,

@@ -1,8 +1,8 @@
 <template>
   <label
-    class="el-checkbox-button"
     :class="[
-      size ? 'el-checkbox-button--' + size : '',
+      prefixClass,
+      size ? `${prefixClass}--${size}` : '',
       { 'is-disabled': isDisabled },
       { 'is-checked': isChecked },
       { 'is-focus': focus },
@@ -14,7 +14,7 @@
     <input
       v-if="trueLabel || falseLabel"
       v-model="model"
-      class="el-checkbox-button__original"
+      :class="`${prefixClass}__original`"
       type="checkbox"
       :name="name"
       :tabindex="tabindex"
@@ -28,7 +28,7 @@
     <input
       v-else
       v-model="model"
-      class="el-checkbox-button__original"
+      :class="`${prefixClass}__original`"
       type="checkbox"
       :name="name"
       :tabindex="tabindex"
@@ -41,7 +41,7 @@
 
     <span
       v-if="$slots.default || label"
-      class="el-checkbox-button__inner"
+      :class="`${prefixClass}__inner`"
       :style="isChecked ? activeStyle : null"
     >
       <slot>{{ label }}</slot>
@@ -51,6 +51,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { usePrefixClass } from '@element-plus/hooks'
 import { useCheckbox, useCheckboxGroup, useCheckboxProps } from './useCheckbox'
 
 export default defineComponent({
@@ -58,6 +59,8 @@ export default defineComponent({
   props: useCheckboxProps,
   emits: [UPDATE_MODEL_EVENT, 'change'],
   setup(props) {
+    const prefixClass = usePrefixClass('checkbox-button')
+
     const { focus, isChecked, isDisabled, size, model, handleChange } =
       useCheckbox(props)
     const { checkboxGroup } = useCheckboxGroup()
@@ -73,6 +76,7 @@ export default defineComponent({
     })
 
     return {
+      prefixClass,
       focus,
       isChecked,
       isDisabled,

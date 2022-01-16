@@ -16,6 +16,7 @@ import {
   FixedSizeList,
   DynamicSizeList,
 } from '@element-plus/components/virtual-list'
+import { usePrefixClass } from '@element-plus/hooks'
 import GroupItem from './group-item.vue'
 import OptionItem from './option-item.vue'
 
@@ -33,6 +34,7 @@ export default defineComponent({
     width: Number,
   },
   setup(props) {
+    const prefixClass = usePrefixClass('select-dropdown')
     const select = inject(selectV2InjectionKey) as any
     const cachedHeights = ref<Array<number>>([])
 
@@ -120,6 +122,7 @@ export default defineComponent({
 
     // computed
     return {
+      prefixClass,
       select,
       listProps,
       listRef,
@@ -136,6 +139,7 @@ export default defineComponent({
 
   render(_ctx, _cache) {
     const {
+      prefixClass,
       $slots,
 
       data,
@@ -164,7 +168,7 @@ export default defineComponent({
       return h(
         'div',
         {
-          class: 'el-select-dropdown',
+          class: prefixClass,
           style: {
             width: `${width}px`,
           },
@@ -214,7 +218,7 @@ export default defineComponent({
       Comp,
       {
         ref: 'listRef', // forwarded ref so that select can access the list directly
-        className: 'el-select-dropdown__list',
+        className: `${prefixClass}__list`,
         data,
         height,
         width,
@@ -268,7 +272,7 @@ export default defineComponent({
       {
         class: {
           'is-multiple': multiple,
-          'el-select-dropdown': true,
+          [prefixClass]: true,
         },
       },
       [List]

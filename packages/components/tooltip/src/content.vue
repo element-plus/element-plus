@@ -1,7 +1,7 @@
 <template>
   <teleport :disabled="!teleported" :to="appendTo">
     <transition
-      :name="transition"
+      :name="displayTransition"
       @after-leave="onTransitionLeave"
       @before-enter="onBeforeEnter"
       @after-enter="onAfterShow"
@@ -44,7 +44,7 @@ import { onClickOutside } from '@vueuse/core'
 import { ElPopperContent } from '@element-plus/components/popper'
 import { ElVisuallyHidden } from '@element-plus/components/visual-hidden'
 import { composeEventHandlers } from '@element-plus/utils/dom'
-import { useEscapeKeydown } from '@element-plus/hooks'
+import { useEscapeKeydown, usePrefixClass } from '@element-plus/hooks'
 
 import { useTooltipContentProps } from './tooltip'
 import { TOOLTIP_INJECTION_KEY } from './tokens'
@@ -84,6 +84,10 @@ export default defineComponent({
     const contentStyle = computed(() => (props.style ?? {}) as any)
 
     const ariaHidden = computed(() => !unref(open))
+
+    const displayTransition = computed(
+      () => usePrefixClass(props.transition).value
+    )
 
     useEscapeKeydown(onClose)
 
@@ -143,6 +147,7 @@ export default defineComponent({
     )
 
     return {
+      displayTransition,
       ariaHidden,
       entering,
       leaving,

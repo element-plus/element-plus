@@ -1,8 +1,8 @@
 <template>
   <li
     v-show="visible"
-    class="el-select-dropdown__item"
     :class="{
+      [prefixClass]: true,
       selected: itemSelected,
       'is-disabled': isDisabled,
       hover: hover,
@@ -24,6 +24,7 @@ import {
   onBeforeUnmount,
   reactive,
 } from 'vue'
+import { usePrefixClass } from '@element-plus/hooks'
 import { useOption } from './useOption'
 import type { SelectOptionProxy } from './token'
 
@@ -45,6 +46,7 @@ export default defineComponent({
   },
 
   setup(props) {
+    const prefixClass = usePrefixClass('select-dropdown__item')
     const states = reactive({
       index: -1,
       groupDisabled: false,
@@ -83,6 +85,7 @@ export default defineComponent({
     }
 
     return {
+      prefixClass,
       currentLabel,
       itemSelected,
       isDisabled,

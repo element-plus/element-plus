@@ -1,8 +1,8 @@
 <template>
   <div
     ref="node$"
-    class="el-tree-node"
     :class="{
+      [prefixClass]: true,
       'is-expanded': expanded,
       'is-current': current,
       'is-focusable': !disabled,
@@ -18,7 +18,7 @@
     @contextmenu="handleContextMenu"
   >
     <div
-      class="el-tree-node__content"
+      :class="`${prefixClass}__content`"
       :style="{ paddingLeft: `${(node.level - 1) * indent}px` }"
     >
       <el-icon
@@ -29,7 +29,7 @@
             'is-hidden': hiddenExpandIcon,
             expanded: !node?.isLeaf && expanded,
           },
-          'el-tree-node__expand-icon',
+          `${prefixClass}__expand-icon`,
         ]"
         @click.stop="handleExpandIconClick"
       >
@@ -53,6 +53,7 @@ import { computed, defineComponent, inject } from 'vue'
 import { CaretRight } from '@element-plus/icons-vue'
 import ElIcon from '@element-plus/components/icon'
 import ElCheckbox from '@element-plus/components/checkbox'
+import { usePrefixClass } from '@element-plus/hooks'
 import ElNodeContent from './tree-node-content'
 import {
   ROOT_TREE_INJECTION_KEY,
@@ -60,7 +61,6 @@ import {
   treeNodeEmits,
   treeNodeProps,
 } from './virtual-tree'
-
 const DEFAULT_ICON = 'caret-right'
 
 export default defineComponent({
@@ -74,6 +74,8 @@ export default defineComponent({
   props: treeNodeProps,
   emits: treeNodeEmits,
   setup(props, { emit }) {
+    const prefixClass = usePrefixClass('tree-node')
+
     const tree = inject(ROOT_TREE_INJECTION_KEY)
 
     const indent = computed(() => {
@@ -102,6 +104,7 @@ export default defineComponent({
     }
 
     return {
+      prefixClass,
       indent,
       icon,
       handleClick,

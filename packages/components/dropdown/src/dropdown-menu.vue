@@ -22,6 +22,7 @@ import {
   ROVING_FOCUS_GROUP_INJECTION_KEY,
   focusFirst,
 } from '@element-plus/components/roving-focus-group'
+import { usePrefixClass } from '@element-plus/hooks'
 import { composeRefs, composeEventHandlers } from '@element-plus/utils/dom'
 import { DROPDOWN_INJECTION_KEY } from './tokens'
 import {
@@ -36,6 +37,7 @@ export default defineComponent({
   name: 'ElDropdownMenu',
   props: dropdownMenuProps,
   setup(props) {
+    const prefixClass = usePrefixClass('dropdown-menu')
     const { _elDropdownSize } = useDropdown()
     const size = _elDropdownSize.value
 
@@ -67,7 +69,7 @@ export default defineComponent({
 
     const dropdownKls = computed(() => {
       return [
-        'el-dropdown-menu',
+        prefixClass.value,
         size.value && `el-dropdown-menu--${size.value}`,
       ]
     })

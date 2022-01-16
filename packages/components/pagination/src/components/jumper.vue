@@ -1,9 +1,9 @@
 <template>
-  <span class="el-pagination__jump">
+  <span :class="`${paginationPrefixClass}__jump`">
     {{ t('el.pagination.goto') }}
     <el-input
       size="small"
-      class="el-pagination__editor is-in-pagination"
+      :class="[`${paginationPrefixClass}__editor`, 'is-in-pagination']"
       :min="1"
       :max="pageCount"
       :disabled="disabled"
@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, usePrefixClass } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import { usePagination } from '../usePagination'
 
@@ -29,6 +29,7 @@ export default defineComponent({
   },
 
   setup() {
+    const paginationPrefixClass = usePrefixClass('pagination')
     const { t } = useLocale()
     const { pageCount, disabled, currentPage, changeEvent } = usePagination()
     const userInput = ref<number>()
@@ -44,6 +45,7 @@ export default defineComponent({
     }
 
     return {
+      paginationPrefixClass,
       pageCount,
       disabled,
       innerValue,

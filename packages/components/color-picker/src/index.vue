@@ -6,7 +6,7 @@
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :offset="0"
     :gpu-acceleration="false"
-    :popper-class="`el-color-picker__panel el-color-dropdown ${popperClass}`"
+    :popper-class="`${prefixClass}-picker__panel ${prefixClass}-dropdown ${popperClass}`"
     :stop-popper-mouse-event="false"
     effect="light"
     trigger="click"
@@ -15,7 +15,7 @@
   >
     <template #content>
       <div v-click-outside="hide">
-        <div class="el-color-dropdown__main-wrapper">
+        <div :autocave="`${prefixClass}-dropdown__main-wrapper`">
           <hue-slider ref="hue" class="hue-slider" :color="color" vertical />
           <sv-panel ref="svPanel" :color="color" />
         </div>
@@ -26,8 +26,8 @@
           :color="color"
           :colors="predefine"
         />
-        <div class="el-color-dropdown__btns">
-          <span class="el-color-dropdown__value">
+        <div :class="`${prefixClass}-dropdown__btns`">
+          <span :class="`${prefixClass}-dropdown__value`">
             <el-input
               v-model="customInput"
               :validate-event="false"
@@ -39,7 +39,7 @@
           <el-button
             size="small"
             type="text"
-            class="el-color-dropdown__link-btn"
+            :class="`${prefixClass}-dropdown__link-btn`"
             @click="clear"
           >
             {{ t('el.colorpicker.clear') }}
@@ -47,7 +47,7 @@
           <el-button
             plain
             size="small"
-            class="el-color-dropdown__btn"
+            :class="`${prefixClass}-dropdown__btn`"
             @click="confirmValue"
           >
             {{ t('el.colorpicker.confirm') }}
@@ -58,32 +58,34 @@
     <template #default>
       <div
         :class="[
-          'el-color-picker',
+          `${prefixClass}-picker`,
           colorDisabled ? 'is-disabled' : '',
-          colorSize ? `el-color-picker--${colorSize}` : '',
+          colorSize ? `${prefixClass}-picker--${colorSize}` : '',
         ]"
       >
-        <div v-if="colorDisabled" class="el-color-picker__mask"></div>
-        <div class="el-color-picker__trigger" @click="handleTrigger">
+        <div v-if="colorDisabled" :class="`${prefixClass}-picker__mask`"></div>
+        <div :class="`${prefixClass}-picker__trigger`" @click="handleTrigger">
           <span
-            class="el-color-picker__color"
-            :class="{ 'is-alpha': showAlpha }"
+            :class="{
+              [`${prefixClass}-picker__color`]: true,
+              'is-alpha': showAlpha,
+            }"
           >
             <span
-              class="el-color-picker__color-inner"
+              :class="`${prefixClass}-picker__color-inner`"
               :style="{
                 backgroundColor: displayedColor,
               }"
             >
               <el-icon
                 v-show="modelValue || showPanelColor"
-                class="el-color-picker__icon is-icon-arrow-down"
+                :class="`${prefixClass}-picker__icon is-icon-arrow-down`"
               >
                 <arrow-down />
               </el-icon>
               <el-icon
                 v-if="!modelValue && !showPanelColor"
-                class="el-color-picker__empty is-icon-close"
+                :class="`${prefixClass}-picker__empty is-icon-close`"
               >
                 <close />
               </el-icon>
@@ -112,7 +114,7 @@ import ElButton from '@element-plus/components/button'
 import ElIcon from '@element-plus/components/icon'
 import { ClickOutside } from '@element-plus/directives'
 import { elFormItemKey, elFormKey } from '@element-plus/tokens'
-import { useLocale, useSize } from '@element-plus/hooks'
+import { useLocale, useSize, usePrefixClass } from '@element-plus/hooks'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElInput from '@element-plus/components/input'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
@@ -161,6 +163,8 @@ export default defineComponent({
   },
   emits: ['change', 'active-change', UPDATE_MODEL_EVENT],
   setup(props, { emit }) {
+    const prefixClass = usePrefixClass('color')
+
     const { t } = useLocale()
     const elForm = inject(elFormKey, {} as ElFormContext)
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
@@ -316,6 +320,7 @@ export default defineComponent({
     })
 
     return {
+      prefixClass,
       color: color as Color,
       colorDisabled,
       colorSize,

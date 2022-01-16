@@ -5,7 +5,7 @@
     @mouseenter.stop="handleMouseEnter"
     @mouseleave.stop="handleMouseLeave"
   >
-    <div class="el-carousel__container" :style="{ height: height }">
+    <div :class="`${prefixClass}__container`" :style="{ height: height }">
       <transition v-if="arrowDisplay" name="carousel-arrow-left">
         <button
           v-show="
@@ -13,7 +13,7 @@
             (props.loop || data.activeIndex > 0)
           "
           type="button"
-          class="el-carousel__arrow el-carousel__arrow--left"
+          :class="`${prefixClass}__arrow ${prefixClass}__arrow--left`"
           @mouseenter="handleButtonEnter('left')"
           @mouseleave="handleButtonLeave"
           @click.stop="throttledArrowClick(data.activeIndex - 1)"
@@ -30,7 +30,7 @@
             (props.loop || data.activeIndex < items.length - 1)
           "
           type="button"
-          class="el-carousel__arrow el-carousel__arrow--right"
+          :class="`${prefixClass}__arrow ${prefixClass}__arrow--right`"
           @mouseenter="handleButtonEnter('right')"
           @mouseleave="handleButtonLeave"
           @click.stop="throttledArrowClick(data.activeIndex + 1)"
@@ -47,14 +47,14 @@
         v-for="(item, index) in items"
         :key="index"
         :class="[
-          'el-carousel__indicator',
-          'el-carousel__indicator--' + direction,
+          `${prefixClass}__indicator`,
+          `${prefixClass}__indicator--${direction}`,
           { 'is-active': index === data.activeIndex },
         ]"
         @mouseenter="throttledIndicatorHover(index)"
         @click.stop="handleIndicatorClick(index)"
       >
-        <button class="el-carousel__button">
+        <button :class="`${prefixClass}__button`">
           <span v-if="hasLabel">{{ item.label }}</span>
         </button>
       </li>
@@ -81,6 +81,7 @@ import {
 } from '@element-plus/utils/resize-event'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
+import { usePrefixClass } from '@element-plus/hooks'
 
 import { debugWarn } from '@element-plus/utils/error'
 import type {
@@ -142,6 +143,8 @@ export default defineComponent({
   },
   emits: ['change'],
   setup(props: ICarouselProps, { emit }) {
+    const prefixClass = usePrefixClass('carousel')
+
     // data
     const data = reactive<{
       activeIndex: number
@@ -169,23 +172,26 @@ export default defineComponent({
     })
 
     const carouselClasses = computed(() => {
-      const classes = ['el-carousel', `el-carousel--${props.direction}`]
+      const classes = [
+        prefixClass.value,
+        `${prefixClass.value}--${props.direction}`,
+      ]
       if (props.type === 'card') {
-        classes.push('el-carousel--card')
+        classes.push(`${prefixClass.value}--card`)
       }
       return classes
     })
 
     const indicatorsClasses = computed(() => {
       const classes = [
-        'el-carousel__indicators',
-        `el-carousel__indicators--${props.direction}`,
+        `${prefixClass.value}__indicators`,
+        `${prefixClass.value}__indicators--${props.direction}`,
       ]
       if (hasLabel.value) {
-        classes.push('el-carousel__indicators--labels')
+        classes.push(`${prefixClass.value}__indicators--labels`)
       }
       if (props.indicatorPosition === 'outside' || props.type === 'card') {
-        classes.push('el-carousel__indicators--outside')
+        classes.push(`${prefixClass.value}__indicators--outside`)
       }
       return classes
     })
@@ -388,6 +394,8 @@ export default defineComponent({
     })
 
     return {
+      prefixClass,
+
       data,
       props,
       items,

@@ -1,10 +1,10 @@
 <template>
   <div
     v-show="data.ready"
-    class="el-carousel__item"
     :class="{
+      [`${prefixClass}__item`]: true,
       'is-active': data.active,
-      'el-carousel__item--card': type === 'card',
+      [`${prefixClass}__item--card`]: type === 'card',
       'is-in-stage': data.inStage,
       'is-hover': data.hover,
       'is-animating': data.animating,
@@ -15,7 +15,7 @@
     <div
       v-if="type === 'card'"
       v-show="!data.active"
-      class="el-carousel__mask"
+      :class="`${prefixClass}__mask`"
     ></div>
     <slot></slot>
   </div>
@@ -33,6 +33,7 @@ import {
 } from 'vue'
 import { autoprefixer } from '@element-plus/utils/util'
 import { debugWarn } from '@element-plus/utils/error'
+import { usePrefixClass } from '@element-plus/hooks'
 import type { CSSProperties } from 'vue'
 import type { InjectCarouselScope, ICarouselItemProps } from './carousel'
 
@@ -47,6 +48,7 @@ export default defineComponent({
     },
   },
   setup(props: ICarouselItemProps) {
+    const prefixClass = usePrefixClass('carousel')
     // instance
     const instance = getCurrentInstance()
 
@@ -179,6 +181,7 @@ export default defineComponent({
     return {
       data,
       itemStyle,
+      prefixClass,
       translateItem,
       type: injectCarouselScope.type,
       handleItemClick,

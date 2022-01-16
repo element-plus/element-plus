@@ -1,8 +1,8 @@
 <template>
   <label
-    class="el-radio"
     :class="{
-      [`el-radio--${size || ''}`]: size,
+      [radioPrefixClass]: true,
+      [`${radioPrefixClass}--${size || ''}`]: size,
       'is-disabled': disabled,
       'is-focus': focus,
       'is-bordered': border,
@@ -15,17 +15,17 @@
     @keydown.space.stop.prevent="modelValue = disabled ? modelValue : label"
   >
     <span
-      class="el-radio__input"
       :class="{
+        [`${radioPrefixClass}__input`]: true,
         'is-disabled': disabled,
         'is-checked': modelValue === label,
       }"
     >
-      <span class="el-radio__inner"></span>
+      <span :class="`${radioPrefixClass}__inner`"></span>
       <input
         ref="radioRef"
         v-model="modelValue"
-        class="el-radio__original"
+        :class="`${radioPrefixClass}__original`"
         :value="label"
         type="radio"
         aria-hidden="true"
@@ -37,7 +37,7 @@
         @change="handleChange"
       />
     </span>
-    <span class="el-radio__label" @keydown.stop>
+    <span :class="`${radioPrefixClass}__label`" @keydown.stop>
       <slot>
         {{ label }}
       </slot>
@@ -47,6 +47,7 @@
 
 <script lang="ts">
 import { defineComponent, nextTick } from 'vue'
+import { usePrefixClass } from '@element-plus/hooks'
 import { useRadio, radioEmits, radioProps } from './radio'
 
 export default defineComponent({
@@ -55,6 +56,7 @@ export default defineComponent({
   emits: radioEmits,
 
   setup(props, { emit }) {
+    const radioPrefixClass = usePrefixClass('radio')
     const { radioRef, isGroup, focus, size, disabled, tabIndex, modelValue } =
       useRadio(props, emit)
 
@@ -63,6 +65,7 @@ export default defineComponent({
     }
 
     return {
+      radioPrefixClass,
       focus,
       isGroup,
       modelValue,

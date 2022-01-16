@@ -1,5 +1,5 @@
 <template>
-  <i class="el-icon" :style="style" v-bind="$attrs">
+  <i :class="prefixClass" :style="style" v-bind="$attrs">
     <slot></slot>
   </i>
 </template>
@@ -7,6 +7,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { isNumber, isString } from '@element-plus/utils/util'
+import { usePrefixClass } from '@element-plus/hooks'
 import { iconProps } from './icon'
 
 import type { CSSProperties } from 'vue'
@@ -18,7 +19,10 @@ export default defineComponent({
   props: iconProps,
 
   setup(props) {
+    const prefixClass = usePrefixClass('icon')
+
     return {
+      prefixClass,
       style: computed<CSSProperties>(() => {
         if (!props.size && !props.color) {
           return {}

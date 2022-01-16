@@ -1,13 +1,18 @@
 <template>
-  <div class="el-time-spinner" :class="{ 'has-seconds': showSeconds }">
+  <div
+    :class="{
+      'has-seconds': showSeconds,
+      [`${timePrefixClass}-spinner`]: true,
+    }"
+  >
     <template v-if="!arrowControl">
       <el-scrollbar
         v-for="item in spinnerItems"
         :key="item"
         :ref="getRefId(item)"
-        class="el-time-spinner__wrapper"
+        :class="`${timePrefixClass}-spinner__wrapper`"
         wrap-style="max-height: inherit;"
-        view-class="el-time-spinner__list"
+        :view-class="`${timePrefixClass}-spinner__list`"
         noresize
         tag="ul"
         @mouseenter="emitSelectRange(item)"
@@ -16,8 +21,11 @@
         <li
           v-for="(disabled, key) in listMap[item].value"
           :key="key"
-          class="el-time-spinner__item"
-          :class="{ active: key === timePartsMap[item].value, disabled }"
+          :class="{
+            active: key === timePartsMap[item].value,
+            disabled,
+            [`${timePrefixClass}-spinner__item`]: true,
+          }"
           @click="handleClick(item, { value: key, disabled })"
         >
           <template v-if="item === 'hours'">
@@ -34,29 +42,29 @@
       <div
         v-for="item in spinnerItems"
         :key="item"
-        class="el-time-spinner__wrapper is-arrow"
+        :class="`${timePrefixClass}-spinner__wrapper is-arrow`"
         @mouseenter="emitSelectRange(item)"
       >
         <el-icon
           v-repeat-click="onDecreaseClick"
-          class="el-time-spinner__arrow arrow-up"
+          :class="`${timePrefixClass}-spinner__arrow arrow-up`"
         >
           <arrow-up />
         </el-icon>
         <el-icon
           v-repeat-click="onIncreaseClick"
-          class="el-time-spinner__arrow arrow-down"
+          :class="`${timePrefixClass}-spinner__arrow arrow-down`"
         >
           <arrow-down />
         </el-icon>
-        <ul class="el-time-spinner__list">
+        <ul :class="`${timePrefixClass}-spinner__list`">
           <li
             v-for="(time, key) in arrowListMap[item].value"
             :key="key"
-            class="el-time-spinner__item"
             :class="{
               active: time === timePartsMap[item].value,
               disabled: listMap[item].value[time],
+              [`${timePrefixClass}-spinner__item`]: true,
             }"
           >
             <template v-if="time">
@@ -81,6 +89,7 @@ import { RepeatClick } from '@element-plus/directives'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'
 import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
+import { usePrefixClass } from '@element-plus/hooks'
 import { getTimeLists } from './useTimePicker'
 
 import type { PropType, Ref } from 'vue'
@@ -131,6 +140,8 @@ export default defineComponent({
   emits: ['change', 'select-range', 'set-option'],
 
   setup(props, ctx) {
+    const timePrefixClass = usePrefixClass('time')
+    const scrollbarPrefixClass = usePrefixClass('scrollbar')
     // data
     let isScrolling = false
     const debouncedResetScroll = debounce((type) => {
@@ -247,10 +258,9 @@ export default defineComponent({
       if (props.arrowControl) return
       const el = listRefsMap[type]
       if (el.value) {
-        el.value.$el.querySelector('.el-scrollbar__wrap').scrollTop = Math.max(
-          0,
-          value * typeItemHeight(type)
-        )
+        el.value.$el.querySelector(
+          `.${scrollbarPrefixClass.value}__wrap`
+        ).scrollTop = Math.max(0, value * typeItemHeight(type))
       }
     }
 
@@ -330,8 +340,9 @@ export default defineComponent({
       debouncedResetScroll(type)
       const value = Math.min(
         Math.round(
-          (listRefsMap[type].value.$el.querySelector('.el-scrollbar__wrap')
-            .scrollTop -
+          (listRefsMap[type].value.$el.querySelector(
+            `.${scrollbarPrefixClass}__wrap`
+          ).scrollTop -
             (scrollBarHeight(type) * 0.5 - 10) / typeItemHeight(type) +
             3) /
             typeItemHeight(type)
@@ -349,7 +360,7 @@ export default defineComponent({
       const bindFuntion = (type) => {
         if (listRefsMap[type].value) {
           listRefsMap[type].value.$el.querySelector(
-            '.el-scrollbar__wrap'
+            `.${scrollbarPrefixClass}__wrap`
           ).onscroll = () => {
             // TODO: scroll is emitted when set scrollTop programatically
             // should find better solutions in the future!
@@ -393,6 +404,7 @@ export default defineComponent({
     )
 
     return {
+      timePrefixClass,
       getRefId,
       spinnerItems,
       currentScrollbar,

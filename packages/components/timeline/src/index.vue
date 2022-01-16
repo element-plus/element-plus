@@ -1,9 +1,11 @@
 <script lang="ts">
 import { h, provide, defineComponent } from 'vue'
+import { usePrefixClass } from '@element-plus/hooks'
 
 export default defineComponent({
   name: 'ElTimeline',
   setup(_, ctx) {
+    const prefixClass = usePrefixClass('timeline')
     provide('timeline', ctx)
 
     /**
@@ -30,7 +32,7 @@ export default defineComponent({
       return h(
         'ul',
         {
-          class: { 'el-timeline': true },
+          class: { [`${prefixClass.value}`]: true },
         },
         ctx.slots.default?.()
       )

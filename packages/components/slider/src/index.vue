@@ -10,12 +10,15 @@
   >
     <div
       ref="slider"
-      class="el-slider__runway"
-      :class="{ 'show-input': showInput && !range, disabled: sliderDisabled }"
+      :class="{
+        'show-input': showInput && !range,
+        disabled: sliderDisabled,
+        [`${sliderPrefixClass}__runway`]: true,
+      }"
       :style="runwayStyle"
       @click="onSliderClick"
     >
-      <div class="el-slider__bar" :style="barStyle"></div>
+      <div :class="`${sliderPrefixClass}__bar`" :style="barStyle"></div>
       <slider-button
         ref="firstButton"
         :model-value="firstValue"
@@ -35,7 +38,7 @@
         <div
           v-for="(item, key) in stops"
           :key="key"
-          class="el-slider__stop"
+          :class="`${sliderPrefixClass}__stop`"
           :style="getStopStyle(item)"
         ></div>
       </div>
@@ -45,10 +48,10 @@
             v-for="(item, key) in markList"
             :key="key"
             :style="getStopStyle(item.position)"
-            class="el-slider__stop el-slider__marks-stop"
+            :class="`${sliderPrefixClass}__stop ${sliderPrefixClass}__marks-stop`"
           ></div>
         </div>
-        <div class="el-slider__marks">
+        <div :class="`${sliderPrefixClass}__marks`">
           <slider-marker
             v-for="(item, key) in markList"
             :key="key"
@@ -62,7 +65,7 @@
       v-if="showInput && !range"
       ref="input"
       :model-value="firstValue"
-      class="el-slider__input"
+      :class="`${sliderPrefixClass}__input`"
       :step="step"
       :disabled="sliderDisabled"
       :controls="showInputControls"
@@ -98,7 +101,7 @@ import {
 import { off, on } from '@element-plus/utils/dom'
 import { throwError } from '@element-plus/utils/error'
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import { useSize } from '@element-plus/hooks'
+import { useSize, usePrefixClass } from '@element-plus/hooks'
 import SliderButton from './button.vue'
 import SliderMarker from './marker.vue'
 import { useMarks } from './useMarks'
@@ -196,6 +199,7 @@ export default defineComponent({
   emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, INPUT_EVENT],
 
   setup(props, { emit }) {
+    const sliderPrefixClass = usePrefixClass('slider')
     const initData = reactive({
       firstValue: 0,
       secondValue: 0,
@@ -233,12 +237,12 @@ export default defineComponent({
       () => props.inputSize || sliderWrapperSize.value
     )
 
-    const prefix = 'el-slider'
+    const prefix = sliderPrefixClass.value
     const sliderKls = computed(() => [
       prefix,
       `${prefix}--${sliderWrapperSize.value}`,
       props.vertical ? 'is-vertical' : '',
-      props.showInput ? 'el-slider--with-input' : '',
+      props.showInput ? `${sliderPrefixClass.value}--with-input` : '',
     ])
 
     const markList = useMarks(props)
@@ -273,6 +277,7 @@ export default defineComponent({
     })
 
     return {
+      sliderPrefixClass,
       firstValue,
       secondValue,
       oldValue,

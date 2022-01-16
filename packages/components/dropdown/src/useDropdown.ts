@@ -2,7 +2,7 @@ import { inject, computed, ref } from 'vue'
 import { generateId } from '@element-plus/utils/util'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { on, addClass } from '@element-plus/utils/dom'
-
+import { usePrefixClass } from '@element-plus/hooks'
 import type { Nullable } from '@element-plus/utils/types'
 import type { IElDropdownInstance } from './dropdown'
 
@@ -21,6 +21,7 @@ export const initDropdownDomEvent = (
   triggerElm,
   _instance
 ) => {
+  const prefixClass = usePrefixClass('dropdown')
   const menuItems = ref<Nullable<HTMLButtonElement[]>>(null)
   const menuItemsArray = ref<Nullable<HTMLElement[]>>(null)
   const dropdownElm = ref<Nullable<HTMLElement>>(null)
@@ -90,7 +91,7 @@ export const initDropdownDomEvent = (
     if (!_instance.props.splitButton) {
       triggerElm.setAttribute('role', 'button')
       triggerElm.setAttribute('tabindex', _instance.props.tabindex)
-      addClass(triggerElm, 'el-dropdown-selfdefine')
+      addClass(triggerElm, `${prefixClass.value}-selfdefine`)
     }
   }
 

@@ -1,15 +1,18 @@
 <template>
-  <transition name="el-collapse-transition" v-on="on">
+  <transition :name="prefixClass" v-on="on">
     <slot></slot>
   </transition>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-
+import { usePrefixClass } from '@element-plus/hooks'
 export default defineComponent({
   name: 'ElCollapseTransition',
   setup() {
+    const prefixClass = usePrefixClass('collapse-transition')
+
     return {
+      prefixClass,
       on: {
         beforeEnter(el) {
           if (!el.dataset) el.dataset = {}

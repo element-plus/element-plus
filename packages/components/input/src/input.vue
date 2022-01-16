@@ -2,18 +2,19 @@
   <div
     v-show="type !== 'hidden'"
     :class="[
-      type === 'textarea' ? 'el-textarea' : 'el-input',
-      inputSize ? 'el-input--' + inputSize : '',
+      type === 'textarea' ? textareaPrefixClass : inputPrefixClass,
+      inputSize ? `${inputPrefixClass}--${inputSize}` : '',
       {
         'is-disabled': inputDisabled,
         'is-exceed': inputExceed,
-        'el-input-group': $slots.prepend || $slots.append,
-        'el-input-group--append': $slots.append,
-        'el-input-group--prepend': $slots.prepend,
-        'el-input--prefix': $slots.prefix || prefixIcon,
-        'el-input--suffix':
+        [`${inputPrefixClass}-group`]: $slots.prepend || $slots.append,
+        [`${inputPrefixClass}-group--append`]: $slots.append,
+        [`${inputPrefixClass}-group--prepend`]: $slots.prepend,
+        [`${inputPrefixClass}--prefix`]: $slots.prefix || prefixIcon,
+        [`${inputPrefixClass}--suffix`]:
           $slots.suffix || suffixIcon || clearable || showPassword,
-        'el-input--suffix--password-clear': clearable && showPassword,
+        [`${inputPrefixClass}--suffix--password-clear`]:
+          clearable && showPassword,
       },
       $attrs.class,
     ]"
@@ -24,13 +25,13 @@
     <!-- input -->
     <template v-if="type !== 'textarea'">
       <!-- prepend slot -->
-      <div v-if="$slots.prepend" class="el-input-group__prepend">
+      <div v-if="$slots.prepend" :class="`${inputPrefixClass}-group__prepend`">
         <slot name="prepend" />
       </div>
 
       <input
         ref="input"
-        class="el-input__inner"
+        :class="`${inputPrefixClass}__inner`"
         v-bind="attrs"
         :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
         :disabled="inputDisabled"
@@ -51,27 +52,30 @@
       />
 
       <!-- prefix slot -->
-      <span v-if="$slots.prefix || prefixIcon" class="el-input__prefix">
-        <span class="el-input__prefix-inner">
+      <span
+        v-if="$slots.prefix || prefixIcon"
+        :class="`${inputPrefixClass}__prefix`"
+      >
+        <span :class="`${inputPrefixClass}__prefix-inner`">
           <slot name="prefix"></slot>
-          <el-icon v-if="prefixIcon" class="el-input__icon">
+          <el-icon v-if="prefixIcon" :class="`${inputPrefixClass}__icon`">
             <component :is="prefixIcon" />
           </el-icon>
         </span>
       </span>
 
       <!-- suffix slot -->
-      <span v-if="suffixVisible" class="el-input__suffix">
-        <span class="el-input__suffix-inner">
+      <span v-if="suffixVisible" :class="`${inputPrefixClass}__suffix`">
+        <span :class="`${inputPrefixClass}__suffix-inner`">
           <template v-if="!showClear || !showPwdVisible || !isWordLimitVisible">
             <slot name="suffix"></slot>
-            <el-icon v-if="suffixIcon" class="el-input__icon">
+            <el-icon v-if="suffixIcon" :class="`${inputPrefixClass}__icon`">
               <component :is="suffixIcon" />
             </el-icon>
           </template>
           <el-icon
             v-if="showClear"
-            class="el-input__icon el-input__clear"
+            :class="`${inputPrefixClass}__icon ${inputPrefixClass}__clear`"
             @mousedown.prevent
             @click="clear"
           >
@@ -79,27 +83,27 @@
           </el-icon>
           <el-icon
             v-if="showPwdVisible"
-            class="el-input__icon el-input__clear"
+            :class="`${inputPrefixClass}__icon ${inputPrefixClass}__clear`"
             @click="handlePasswordVisible"
           >
             <icon-view />
           </el-icon>
-          <span v-if="isWordLimitVisible" class="el-input__count">
-            <span class="el-input__count-inner">
+          <span v-if="isWordLimitVisible" :class="`${inputPrefixClass}__count`">
+            <span :class="`${inputPrefixClass}__count-inner`">
               {{ textLength }} / {{ attrs.maxlength }}
             </span>
           </span>
         </span>
         <el-icon
           v-if="validateState && validateIcon && needStatusIcon"
-          class="el-input__icon el-input__validateIcon"
+          :class="`${inputPrefixClass}__icon ${inputPrefixClass}__validateIcon`"
         >
           <component :is="validateIcon" />
         </el-icon>
       </span>
 
       <!-- append slot -->
-      <div v-if="$slots.append" class="el-input-group__append">
+      <div v-if="$slots.append" :class="`${inputPrefixClass}-group__append`">
         <slot name="append" />
       </div>
     </template>
@@ -108,7 +112,7 @@
     <template v-else>
       <textarea
         ref="textarea"
-        class="el-textarea__inner"
+        :class="`${textareaPrefixClass}__inner`"
         v-bind="attrs"
         :tabindex="tabindex"
         :disabled="inputDisabled"
@@ -126,7 +130,7 @@
         @change="handleChange"
         @keydown="handleKeydown"
       />
-      <span v-if="isWordLimitVisible" class="el-input__count">
+      <span v-if="isWordLimitVisible" :class="`${inputPrefixClass}__count`">
         {{ textLength }} / {{ attrs.maxlength }}
       </span>
     </template>
@@ -154,6 +158,7 @@ import {
   useDisabled,
   useFormItem,
   useSize,
+  usePrefixClass,
 } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { isObject } from '@element-plus/utils/util'
@@ -181,6 +186,8 @@ export default defineComponent({
   emits: inputEmits,
 
   setup(props, { slots, emit, attrs: rawAttrs }) {
+    const inputPrefixClass = usePrefixClass('input')
+    const textareaPrefixClass = usePrefixClass('textarea')
     const instance = getCurrentInstance()!
     const attrs = useAttrs()
 
@@ -274,7 +281,7 @@ export default defineComponent({
       const { el } = instance.vnode
       if (!el) return
       const elList: HTMLSpanElement[] = Array.from(
-        el.querySelectorAll(`.el-input__${place}`)
+        el.querySelectorAll(`.${inputPrefixClass.value}__${place}`)
       )
       const target = elList.find((item) => item.parentNode === el)
 
@@ -284,7 +291,8 @@ export default defineComponent({
 
       if (slots[pendant]) {
         target.style.transform = `translateX(${place === 'suffix' ? '-' : ''}${
-          el.querySelector(`.el-input-group__${pendant}`).offsetWidth
+          el.querySelector(`.${inputPrefixClass.value}-group__${pendant}`)
+            .offsetWidth
         }px)`
       } else {
         target.removeAttribute('style')
@@ -443,6 +451,8 @@ export default defineComponent({
     }
 
     return {
+      inputPrefixClass,
+      textareaPrefixClass,
       input,
       textarea,
       attrs,

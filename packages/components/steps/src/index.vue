@@ -1,8 +1,10 @@
 <template>
   <div
     :class="[
-      'el-steps',
-      simple ? 'el-steps--simple' : `el-steps--${direction}`,
+      stepsPrefixClass,
+      simple
+        ? `${stepsPrefixClass}--simple`
+        : `${stepsPrefixClass}--${direction}`,
     ]"
   >
     <slot></slot>
@@ -13,6 +15,7 @@
 import { defineComponent, watch, ref, provide } from 'vue'
 
 import { CHANGE_EVENT } from '@element-plus/utils/constants'
+import { usePrefixClass } from '@element-plus/hooks'
 
 export default defineComponent({
   name: 'ElSteps',
@@ -54,6 +57,7 @@ export default defineComponent({
   },
   emits: [CHANGE_EVENT],
   setup(props, { emit }) {
+    const stepsPrefixClass = usePrefixClass('steps')
     const steps = ref([])
 
     watch(steps, () => {
@@ -72,6 +76,7 @@ export default defineComponent({
     )
 
     return {
+      stepsPrefixClass,
       steps,
     }
   },

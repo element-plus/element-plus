@@ -7,21 +7,24 @@
 import { defineComponent } from 'vue'
 import { addClass, removeClass, hasClass } from '@element-plus/utils/dom'
 
+import { usePrefixClass } from '@element-plus/hooks'
 import type { TransitionProps, BaseTransitionProps } from 'vue'
 
 export default defineComponent({
   name: 'ElMenuCollapseTransition',
   setup() {
+    const opacityPrefixClass = usePrefixClass('opacity-transition')
+    const menuCollapsePrefixClass = usePrefixClass('menu--collapse')
     const listeners = {
       onBeforeEnter: (el) => (el.style.opacity = '0.2'),
       onEnter(el, done) {
-        addClass(el, 'el-opacity-transition')
+        addClass(el, opacityPrefixClass.value)
         el.style.opacity = '1'
         done()
       },
 
       onAfterEnter(el) {
-        removeClass(el, 'el-opacity-transition')
+        removeClass(el, opacityPrefixClass.value)
         el.style.opacity = ''
       },
 
@@ -30,16 +33,16 @@ export default defineComponent({
           ;(el as any).dataset = {}
         }
 
-        if (hasClass(el, 'el-menu--collapse')) {
-          removeClass(el, 'el-menu--collapse')
+        if (hasClass(el, menuCollapsePrefixClass.value)) {
+          removeClass(el, menuCollapsePrefixClass.value)
           el.dataset.oldOverflow = el.style.overflow
           el.dataset.scrollWidth = el.clientWidth.toString()
-          addClass(el, 'el-menu--collapse')
+          addClass(el, menuCollapsePrefixClass.value)
         } else {
-          addClass(el, 'el-menu--collapse')
+          addClass(el, menuCollapsePrefixClass.value)
           el.dataset.oldOverflow = el.style.overflow
           el.dataset.scrollWidth = el.clientWidth.toString()
-          removeClass(el, 'el-menu--collapse')
+          removeClass(el, menuCollapsePrefixClass.value)
         }
 
         el.style.width = `${el.scrollWidth}px`

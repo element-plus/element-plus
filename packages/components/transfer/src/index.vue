@@ -1,5 +1,5 @@
 <template>
-  <div class="el-transfer">
+  <div :class="prefixClass">
     <transfer-panel
       ref="leftPanel"
       :data="sourceData"
@@ -15,10 +15,13 @@
     >
       <slot name="left-footer"></slot>
     </transfer-panel>
-    <div class="el-transfer__buttons">
+    <div :class="`${prefixClass}__buttons`">
       <el-button
         type="primary"
-        :class="['el-transfer__button', hasButtonTexts ? 'is-with-texts' : '']"
+        :class="[
+          `${prefixClass}__button`,
+          hasButtonTexts ? 'is-with-texts' : '',
+        ]"
         :disabled="rightChecked.length === 0"
         @click="addToLeft"
       >
@@ -27,7 +30,10 @@
       </el-button>
       <el-button
         type="primary"
-        :class="['el-transfer__button', hasButtonTexts ? 'is-with-texts' : '']"
+        :class="[
+          `${prefixClass}__button`,
+          hasButtonTexts ? 'is-with-texts' : '',
+        ]"
         :disabled="leftChecked.length === 0"
         @click="addToRight"
       >
@@ -67,7 +73,7 @@ import {
 import ElButton from '@element-plus/components/button'
 import ElIcon from '@element-plus/components/icon'
 import { elFormItemKey } from '@element-plus/tokens'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, usePrefixClass } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import TransferPanel from './transfer-panel.vue'
@@ -161,6 +167,8 @@ export default defineComponent({
   ],
 
   setup(props, { emit, slots }) {
+    const prefixClass = usePrefixClass('transfer')
+
     const { t } = useLocale()
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
 
@@ -224,6 +232,7 @@ export default defineComponent({
     })
 
     return {
+      prefixClass,
       sourceData,
       targetData,
       onSourceCheckedChange,

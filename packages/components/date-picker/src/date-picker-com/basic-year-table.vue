@@ -1,5 +1,5 @@
 <template>
-  <table class="el-year-table" @click="handleYearTableClick">
+  <table :class="prefixClass" @click="handleYearTableClick">
     <tbody>
       <tr>
         <td class="available" :class="getCellStyle(startYear + 0)">
@@ -46,7 +46,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import dayjs from 'dayjs'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, usePrefixClass } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
 import { hasClass } from '@element-plus/utils/dom'
 import { coerceTruthyValueToArray } from '@element-plus/utils/util'
@@ -77,6 +77,7 @@ export default defineComponent({
   emits: ['pick'],
 
   setup(props, ctx) {
+    const prefixClass = usePrefixClass('year-table')
     const { lang } = useLocale()
     const startYear = computed(() => {
       return Math.floor(props.date.year() / 10) * 10
@@ -108,6 +109,7 @@ export default defineComponent({
       }
     }
     return {
+      prefixClass,
       startYear,
       getCellStyle,
       handleYearTableClick,

@@ -1,8 +1,11 @@
 <template>
   <div
     ref="button"
-    class="el-slider__button-wrapper"
-    :class="{ hover: hovering, dragging: dragging }"
+    :class="{
+      hover: hovering,
+      dragging: dragging,
+      [`${sliderPrefixClass}__button-wrapper`]: true,
+    }"
     :style="wrapperStyle"
     tabindex="0"
     @mouseenter="handleMouseEnter"
@@ -30,8 +33,11 @@
         <span>{{ formatValue }}</span>
       </template>
       <div
-        class="el-slider__button"
-        :class="{ hover: hovering, dragging: dragging }"
+        :class="{
+          hover: hovering,
+          dragging: dragging,
+          [`${sliderPrefixClass}__button`]: true,
+        }"
       ></div>
     </el-tooltip>
   </div>
@@ -41,6 +47,7 @@
 import { defineComponent, reactive, toRefs } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { usePrefixClass } from '@element-plus/hooks'
 import { useSliderButton } from './useSliderButton'
 
 export default defineComponent({
@@ -68,6 +75,7 @@ export default defineComponent({
   emits: [UPDATE_MODEL_EVENT],
 
   setup(props, { emit }) {
+    const sliderPrefixClass = usePrefixClass('slider')
     const initData = reactive({
       hovering: false,
       dragging: false,
@@ -98,6 +106,7 @@ export default defineComponent({
     const { hovering, dragging } = toRefs(initData)
 
     return {
+      sliderPrefixClass,
       tooltip,
       tooltipVisible,
       showTooltip,

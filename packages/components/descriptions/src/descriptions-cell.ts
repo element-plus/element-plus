@@ -1,5 +1,6 @@
 import { defineComponent, h, inject } from 'vue'
 import { addUnit } from '@element-plus/utils/util'
+import { usePrefixClass } from '@element-plus/hooks'
 import { getNormalizedProps } from '@element-plus/utils/vnode'
 import { elDescriptionsKey } from './token'
 
@@ -23,9 +24,11 @@ export default defineComponent({
     },
   },
   setup() {
+    const prefixClass = usePrefixClass('descriptions')
     const descriptions = inject(elDescriptionsKey, {} as IDescriptionsInject)
 
     return {
+      prefixClass,
       descriptions,
     }
   },
@@ -33,7 +36,7 @@ export default defineComponent({
     const item = getNormalizedProps(
       this.cell as VNode
     ) as IDescriptionsItemInject
-
+    const { prefixClass } = this
     const { border, direction } = this.descriptions
     const isVertical = direction === 'vertical'
     const label = this.cell?.children?.label?.() || item.label
@@ -55,8 +58,8 @@ export default defineComponent({
           {
             style,
             class: [
-              'el-descriptions__cell',
-              'el-descriptions__label',
+              `${prefixClass}__cell`,
+              `${prefixClass}__label`,
               {
                 'is-bordered-label': border,
                 'is-vertical-label': isVertical,
@@ -74,8 +77,8 @@ export default defineComponent({
           {
             style,
             class: [
-              'el-descriptions__cell',
-              'el-descriptions__content',
+              `${prefixClass}__cell`,
+              `${prefixClass}__content`,
               {
                 'is-bordered-content': border,
                 'is-vertical-content': isVertical,
@@ -92,21 +95,21 @@ export default defineComponent({
           'td',
           {
             style,
-            class: ['el-descriptions__cell', align],
+            class: [`${prefixClass}__cell`, align],
             colSpan: span,
           },
           [
             h(
               'span',
               {
-                class: ['el-descriptions__label', labelClassName],
+                class: [`${prefixClass}__label`, labelClassName],
               },
               label
             ),
             h(
               'span',
               {
-                class: ['el-descriptions__content', className],
+                class: [`${prefixClass}__content`, className],
               },
               content
             ),

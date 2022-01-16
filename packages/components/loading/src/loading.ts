@@ -10,6 +10,7 @@ import {
   withCtx,
   withDirectives,
 } from 'vue'
+import { usePrefixClass } from '@element-plus/hooks'
 import { removeClass } from '@element-plus/utils/dom'
 
 import type { LoadingOptionsResolved } from './types'
@@ -17,6 +18,7 @@ import type { LoadingOptionsResolved } from './types'
 export function createLoadingComponent(options: LoadingOptionsResolved) {
   let afterLeaveTimer: number
 
+  const prefixClass = usePrefixClass('loading')
   const afterLeaveFlag = ref(false)
   const data = reactive({
     ...options,
@@ -36,12 +38,12 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
         target.getAttribute('loading-number')
       loadingNumber = Number.parseInt(loadingNumber as any) - 1
       if (!loadingNumber) {
-        removeClass(target, 'el-loading-parent--relative')
+        removeClass(target, `${prefixClass.value}-parent--relative`)
         target.removeAttribute('loading-number')
       } else {
         target.setAttribute('loading-number', loadingNumber.toString())
       }
-      removeClass(target, 'el-loading-parent--hidden')
+      removeClass(target, `${prefixClass.value}-parent--hidden`)
     }
     remvoeElLoadingChild()
   }
@@ -97,13 +99,13 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
         )
 
         const spinnerText = data.text
-          ? h('p', { class: 'el-loading-text' }, [data.text])
+          ? h('p', { class: `${prefixClass.value}-text` }, [data.text])
           : undefined
 
         return h(
           Transition,
           {
-            name: 'el-loading-fade',
+            name: `${prefixClass.value}-fade`,
             onAfterLeave: handleAfterLeave,
           },
           {
@@ -116,7 +118,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
                       backgroundColor: data.background || '',
                     },
                     class: [
-                      'el-loading-mask',
+                      `${prefixClass.value}-mask`,
                       data.customClass,
                       data.fullscreen ? 'is-fullscreen' : '',
                     ],
@@ -125,7 +127,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
                     h(
                       'div',
                       {
-                        class: 'el-loading-spinner',
+                        class: `${prefixClass.value}-spinner`,
                       },
                       [spinner, spinnerText]
                     ),

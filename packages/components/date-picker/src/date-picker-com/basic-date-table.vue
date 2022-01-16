@@ -2,8 +2,7 @@
   <table
     cellspacing="0"
     cellpadding="0"
-    class="el-date-table"
-    :class="{ 'is-week-mode': selectionMode === 'week' }"
+    :class="{ [prefixClass]: true, 'is-week-mode': selectionMode === 'week' }"
     @click="handleClick"
     @mousemove="handleMouseMove"
   >
@@ -17,8 +16,10 @@
       <tr
         v-for="(row, key) in rows"
         :key="key"
-        class="el-date-table__row"
-        :class="{ current: isWeekActive(row[1]) }"
+        :class="{
+          [`${prefixClass}__row`]: true,
+          current: isWeekActive(row[1]),
+        }"
       >
         <td
           v-for="(cell, key_) in row"
@@ -35,7 +36,7 @@
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue'
 import dayjs from 'dayjs'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, usePrefixClass } from '@element-plus/hooks'
 import { coerceTruthyValueToArray } from '@element-plus/utils/util'
 import ElDatePickerCell from './basic-cell-render'
 import type { PropType } from 'vue'
@@ -85,6 +86,8 @@ export default defineComponent({
   emits: ['changerange', 'pick', 'select'],
 
   setup(props, ctx) {
+    const prefixClass = usePrefixClass('date-table')
+
     const { t, lang } = useLocale()
     // data
     const lastRow = ref(null)
@@ -421,6 +424,7 @@ export default defineComponent({
     }
 
     return {
+      prefixClass,
       handleMouseMove,
       t,
       rows,

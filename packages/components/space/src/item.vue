@@ -7,11 +7,11 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { buildProps } from '@element-plus/utils/props'
-
+import { usePrefixClass } from '@element-plus/hooks'
 const spaceItem = buildProps({
   prefixCls: {
     type: String,
-    default: 'el-space',
+    default: 'space',
   },
 } as const)
 
@@ -19,7 +19,11 @@ export default defineComponent({
   props: spaceItem,
 
   setup(props) {
-    const classes = computed(() => [`${props.prefixCls}__item`])
+    const prefixClass =
+      props.prefixCls === 'space'
+        ? usePrefixClass(props.prefixCls).value
+        : props.prefixCls
+    const classes = computed(() => [`${prefixClass}__item`])
 
     return {
       classes,

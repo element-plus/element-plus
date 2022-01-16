@@ -1,6 +1,11 @@
 <template>
-  <div ref="root" class="el-affix" :style="rootStyle">
-    <div :class="{ 'el-affix--fixed': state.fixed }" :style="affixStyle">
+  <div ref="root" :class="prefixClass" :style="rootStyle">
+    <div
+      :class="{
+        [`${prefixClass}--fixed`]: state.fixed,
+      }"
+      :style="affixStyle"
+    >
       <slot></slot>
     </div>
   </div>
@@ -16,8 +21,8 @@ import {
 } from 'vue'
 import { useEventListener, useResizeObserver } from '@vueuse/core'
 import { getScrollContainer } from '@element-plus/utils/dom'
+import { usePrefixClass } from '@element-plus/hooks'
 import { affixEmits, affixProps } from './affix'
-
 import type { CSSProperties } from 'vue'
 
 export default defineComponent({
@@ -30,6 +35,8 @@ export default defineComponent({
     const target = shallowRef<HTMLElement>()
     const root = shallowRef<HTMLDivElement>()
     const scrollContainer = shallowRef<HTMLElement | Window>()
+
+    const prefixClass = usePrefixClass('affix')
 
     const state = reactive({
       fixed: false,
@@ -138,6 +145,7 @@ export default defineComponent({
       state,
       rootStyle,
       affixStyle,
+      prefixClass,
       update,
     }
   },

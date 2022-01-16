@@ -1,6 +1,6 @@
 <template>
-  <div class="el-transfer-panel">
-    <p class="el-transfer-panel__header">
+  <div :class="prefixClass">
+    <p :class="`${prefixClass}__header`">
       <el-checkbox
         v-model="allChecked"
         :indeterminate="isIndeterminate"
@@ -11,13 +11,11 @@
       </el-checkbox>
     </p>
 
-    <div
-      :class="['el-transfer-panel__body', hasFooter ? 'is-with-footer' : '']"
-    >
+    <div :class="[`${prefixClass}__body`, hasFooter ? 'is-with-footer' : '']">
       <el-input
         v-if="filterable"
         v-model="query"
-        class="el-transfer-panel__filter"
+        :class="`${prefixClass}__filter`"
         size="default"
         :placeholder="placeholder"
         :prefix-icon="SearchIcon"
@@ -29,13 +27,12 @@
       <el-checkbox-group
         v-show="!hasNoMatch && data.length > 0"
         v-model="checked"
-        :class="{ 'is-filterable': filterable }"
-        class="el-transfer-panel__list"
+        :class="{ [`${prefixClass}__list`]: true, 'is-filterable': filterable }"
       >
         <el-checkbox
           v-for="item in filteredData"
           :key="item[keyProp]"
-          class="el-transfer-panel__item"
+          :class="`${prefixClass}__item`"
           :label="item[keyProp]"
           :disabled="item[disabledProp]"
         >
@@ -44,12 +41,12 @@
       </el-checkbox-group>
       <p
         v-show="hasNoMatch || data.length === 0"
-        class="el-transfer-panel__empty"
+        :class="`${prefixClass}__empty`"
       >
         {{ hasNoMatch ? t('el.transfer.noMatch') : t('el.transfer.noData') }}
       </p>
     </div>
-    <p v-if="hasFooter" class="el-transfer-panel__footer">
+    <p v-if="hasFooter" :class="`${prefixClass}__footer`">
       <slot></slot>
     </p>
   </div>
@@ -57,7 +54,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, usePrefixClass } from '@element-plus/hooks'
 import { ElCheckbox, ElCheckboxGroup } from '@element-plus/components/checkbox'
 import ElInput from '@element-plus/components/input'
 import { Search } from '@element-plus/icons-vue'
@@ -78,6 +75,8 @@ export default defineComponent({
   emits: [CHECKED_CHANGE_EVENT],
 
   setup(props, { slots }) {
+    const prefixClass = usePrefixClass('transfer-panel')
+
     const { t } = useLocale()
 
     const panelState = reactive({
@@ -108,6 +107,8 @@ export default defineComponent({
       toRefs(panelState)
 
     return {
+      prefixClass,
+
       labelProp,
       keyProp,
       disabledProp,

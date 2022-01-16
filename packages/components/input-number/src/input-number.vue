@@ -1,8 +1,8 @@
 <template>
   <div
     :class="[
-      'el-input-number',
-      inputNumberSize ? 'el-input-number--' + inputNumberSize : '',
+      prefixClass,
+      inputNumberSize ? `${prefixClass}-${inputNumberSize}` : '',
       { 'is-disabled': inputNumberDisabled },
       { 'is-without-controls': !controls },
       { 'is-controls-right': controlsAtRight },
@@ -12,9 +12,11 @@
     <span
       v-if="controls"
       v-repeat-click="decrease"
-      class="el-input-number__decrease"
       role="button"
-      :class="{ 'is-disabled': minDisabled }"
+      :class="{
+        [`${prefixClass}__decrease`]: true,
+        'is-disabled': minDisabled,
+      }"
       @keydown.enter="decrease"
     >
       <el-icon>
@@ -25,9 +27,11 @@
     <span
       v-if="controls"
       v-repeat-click="increase"
-      class="el-input-number__increase"
       role="button"
-      :class="{ 'is-disabled': maxDisabled }"
+      :class="{
+        [`${prefixClass}__increase`]: true,
+        'is-disabled': maxDisabled,
+      }"
       @keydown.enter="increase"
     >
       <el-icon>
@@ -70,7 +74,12 @@ import {
 
 import { ElIcon } from '@element-plus/components/icon'
 import { RepeatClick } from '@element-plus/directives'
-import { useDisabled, useFormItem, useSize } from '@element-plus/hooks'
+import {
+  useDisabled,
+  useFormItem,
+  useSize,
+  usePrefixClass,
+} from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import { isNumber } from '@element-plus/utils/util'
 import { debugWarn } from '@element-plus/utils/error'
@@ -100,6 +109,8 @@ export default defineComponent({
   props: inputNumberProps,
   emits: inputNumberEmits,
   setup(props, { emit }) {
+    const prefixClass = usePrefixClass('input-number')
+
     const input = ref<ComponentPublicInstance<typeof ElInput>>()
     const data = reactive<IData>({
       currentValue: props.modelValue,
@@ -285,6 +296,7 @@ export default defineComponent({
       innerInput.setAttribute('aria-valuenow', data.currentValue)
     })
     return {
+      prefixClass,
       input,
       displayValue,
       handleInput,

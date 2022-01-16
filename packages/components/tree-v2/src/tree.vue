@@ -1,14 +1,14 @@
 <template>
   <div
-    class="el-tree"
     :class="{
-      'el-tree--highlight-current': highlightCurrent,
+      [prefixClass]: true,
+      [`${prefixClass}--highlight-current`]: highlightCurrent,
     }"
     role="tree"
   >
     <fixed-size-list
       v-if="isNotEmpty"
-      class-name="el-tree-virtual-list"
+      :class-name="`${prefixClass}-virtual-list`"
       :data="flattenTree"
       :total="flattenTree.length"
       :height="height"
@@ -33,8 +33,8 @@
         ></el-tree-node>
       </template>
     </fixed-size-list>
-    <div v-else class="el-tree__empty-block">
-      <span class="el-tree__empty-text">{{
+    <div v-else :class="`${prefixClass}__empty-block`">
+      <span :class="`${prefixClass}__empty-text`">{{
         emptyText ?? t('el.tree.emptyText')
       }}</span>
     </div>
@@ -43,7 +43,7 @@
 
 <script lang="ts">
 import { defineComponent, getCurrentInstance, provide } from 'vue'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, usePrefixClass } from '@element-plus/hooks'
 import { FixedSizeList } from '@element-plus/components/virtual-list'
 import { useTree } from './composables/useTree'
 import ElTreeNode from './tree-node.vue'
@@ -59,6 +59,8 @@ export default defineComponent({
   props: treeProps,
   emits: treeEmits,
   setup(props: TreeProps, ctx) {
+    const prefixClass = usePrefixClass('tree')
+
     provide(ROOT_TREE_INJECTION_KEY, {
       ctx,
       props,
@@ -107,6 +109,7 @@ export default defineComponent({
     })
 
     return {
+      prefixClass,
       t,
       flattenTree,
       itemSize: 26,

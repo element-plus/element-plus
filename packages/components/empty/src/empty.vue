@@ -1,16 +1,16 @@
 <template>
-  <div class="el-empty">
-    <div class="el-empty__image" :style="imageStyle">
+  <div :class="prefixClass">
+    <div :class="`${prefixClass}__image`" :style="imageStyle">
       <img v-if="image" :src="image" ondragstart="return false" />
       <slot v-else name="image">
         <img-empty />
       </slot>
     </div>
-    <div class="el-empty__description">
+    <div :class="`${prefixClass}__description`">
       <slot v-if="$slots.description" name="description"></slot>
       <p v-else>{{ emptyDescription }}</p>
     </div>
-    <div v-if="$slots.default" class="el-empty__bottom">
+    <div v-if="$slots.default" :class="`${prefixClass}__bottom`">
       <slot></slot>
     </div>
   </div>
@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, usePrefixClass } from '@element-plus/hooks'
 import ImgEmpty from './img-empty.vue'
 import { emptyProps } from './empty'
 
@@ -33,6 +33,8 @@ export default defineComponent({
   props: emptyProps,
 
   setup(props) {
+    const prefixClass = usePrefixClass('empty')
+
     const { t } = useLocale()
     const emptyDescription = computed(
       () => props.description || t('el.table.emptyText')
@@ -42,6 +44,7 @@ export default defineComponent({
     }))
 
     return {
+      prefixClass,
       emptyDescription,
       imageStyle,
     }

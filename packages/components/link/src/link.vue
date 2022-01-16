@@ -1,8 +1,8 @@
 <template>
   <a
     :class="[
-      'el-link',
-      type ? `el-link--${type}` : '',
+      prefixClass,
+      type ? `${prefixClass}--${type}` : '',
       disabled && 'is-disabled',
       underline && !disabled && 'is-underline',
     ]"
@@ -10,7 +10,7 @@
     @click="handleClick"
   >
     <el-icon v-if="icon"><component :is="icon" /></el-icon>
-    <span v-if="$slots.default" class="el-link--inner">
+    <span v-if="$slots.default" :class="`${prefixClass}--inner`">
       <slot></slot>
     </span>
 
@@ -19,6 +19,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { usePrefixClass } from '@element-plus/hooks'
 import { ElIcon } from '@element-plus/components/icon'
 import { linkProps, linkEmits } from './link'
 
@@ -31,11 +32,14 @@ export default defineComponent({
   emits: linkEmits,
 
   setup(props, { emit }) {
+    const prefixClass = usePrefixClass('link')
+
     function handleClick(event: MouseEvent) {
       if (!props.disabled) emit('click', event)
     }
 
     return {
+      prefixClass,
       handleClick,
     }
   },

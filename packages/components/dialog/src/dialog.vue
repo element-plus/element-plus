@@ -14,7 +14,7 @@
         :z-index="zIndex"
       >
         <div
-          class="el-overlay-dialog"
+          :class="overlayDialogPrefixClass"
           @click="overlayEvent.onClick"
           @mousedown="overlayEvent.onMousedown"
           @mouseup="overlayEvent.onMouseup"
@@ -23,10 +23,10 @@
             ref="dialogRef"
             v-trap-focus
             :class="[
-              'el-dialog',
+              prefixClass,
               {
                 'is-fullscreen': fullscreen,
-                'el-dialog--center': center,
+                [`${prefixClass}--center`]: center,
               },
               customClass,
             ]"
@@ -36,30 +36,30 @@
             :style="style"
             @click.stop=""
           >
-            <div class="el-dialog__header">
+            <div :class="`${prefixClass}__header`">
               <slot name="title">
-                <span class="el-dialog__title">
+                <span :class="`${prefixClass}__title`">
                   {{ title }}
                 </span>
               </slot>
               <button
                 v-if="showClose"
                 aria-label="close"
-                class="el-dialog__headerbtn"
+                :class="`${prefixClass}__headerbtn`"
                 type="button"
                 @click="handleClose"
               >
-                <el-icon class="el-dialog__close">
+                <el-icon :class="`${prefixClass}__close`">
                   <component :is="closeIcon || 'close'" />
                 </el-icon>
               </button>
             </div>
             <template v-if="rendered">
-              <div class="el-dialog__body">
+              <div :class="`${prefixClass}__body`">
                 <slot></slot>
               </div>
             </template>
-            <div v-if="$slots.footer" class="el-dialog__footer">
+            <div v-if="$slots.footer" :class="`${prefixClass}__footer`">
               <slot name="footer"></slot>
             </div>
           </div>
@@ -75,7 +75,7 @@ import { TrapFocus } from '@element-plus/directives'
 import { ElOverlay } from '@element-plus/components/overlay'
 import { ElIcon } from '@element-plus/components/icon'
 import { CloseComponents } from '@element-plus/utils/icon'
-import { useSameTarget } from '@element-plus/hooks'
+import { useSameTarget, usePrefixClass } from '@element-plus/hooks'
 import { dialogProps, dialogEmits } from './dialog'
 import { useDialog } from './use-dialog'
 
@@ -94,11 +94,16 @@ export default defineComponent({
   emits: dialogEmits,
 
   setup(props, ctx) {
+    const prefixClass = usePrefixClass('dialog')
+    const overlayDialogPrefixClass = usePrefixClass('overlay-dialog')
+
     const dialogRef = ref<HTMLElement>()
     const dialog = useDialog(props, ctx, dialogRef)
     const overlayEvent = useSameTarget(dialog.onModalClick)
 
     return {
+      prefixClass,
+      overlayDialogPrefixClass,
       dialogRef,
       overlayEvent,
       ...dialog,

@@ -1,9 +1,9 @@
 <template>
   <div
     ref="el$"
-    class="el-tree"
     :class="{
-      'el-tree--highlight-current': highlightCurrent,
+      [prefixClass]: true,
+      [`${prefixClass}--highlight-current`]: highlightCurrent,
       'is-dragging': !!dragState.draggingNode,
       'is-drop-not-allow': !dragState.allowDrop,
       'is-drop-inner': dragState.dropType === 'inner',
@@ -21,15 +21,15 @@
       :render-content="renderContent"
       @node-expand="handleNodeExpand"
     />
-    <div v-if="isEmpty" class="el-tree__empty-block">
-      <span class="el-tree__empty-text">{{
+    <div v-if="isEmpty" :class="`${prefixClass}__empty-block`">
+      <span :class="`${prefixClass}__empty-text`">{{
         emptyText ?? t('el.tree.emptyText')
       }}</span>
     </div>
     <div
       v-show="dragState.showDropIndicator"
       ref="dropIndicator$"
-      class="el-tree__drop-indicator"
+      :class="`${prefixClass}__drop-indicator`"
     ></div>
   </div>
 </template>
@@ -42,7 +42,7 @@ import {
   watch,
   getCurrentInstance,
 } from 'vue'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, usePrefixClass } from '@element-plus/hooks'
 import TreeStore from './model/tree-store'
 import { getNodeKey as getNodeKeyUtil } from './model/util'
 import ElTreeNode from './tree-node.vue'
@@ -149,6 +149,8 @@ export default defineComponent({
     'node-drag-over',
   ],
   setup(props, ctx) {
+    const prefixClass = usePrefixClass('tree')
+
     const { t } = useLocale()
 
     const store = ref<TreeStore>(
@@ -368,6 +370,7 @@ export default defineComponent({
     } as any)
 
     return {
+      prefixClass,
       // ref
       store,
       root,

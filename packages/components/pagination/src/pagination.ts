@@ -7,7 +7,7 @@ import {
   getCurrentInstance,
   watch,
 } from 'vue'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, usePrefixClass } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils/error'
 import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
 import { elPaginationKey } from '@element-plus/tokens'
@@ -105,6 +105,7 @@ export default defineComponent({
   emits: paginationEmits,
 
   setup(props, { emit, slots }) {
+    const prefixClass = usePrefixClass('pagination')
     const { t } = useLocale()
     const vnodeProps = getCurrentInstance()!.vnode.props || {}
     // we can find @xxx="xxx" props on `vnodeProps` to check if user bind corresponding events
@@ -253,7 +254,7 @@ export default defineComponent({
       const rightWrapperChildren: Array<VNode | VNode[] | null> = []
       const rightWrapperRoot = h(
         'div',
-        { class: 'el-pagination__rightwrapper' },
+        { class: `${prefixClass.value}__rightwrapper` },
         rightWrapperChildren
       )
       const TEMPLATE_MAP: Record<
@@ -319,10 +320,10 @@ export default defineComponent({
           role: 'pagination',
           'aria-label': 'pagination',
           class: [
-            'el-pagination',
+            prefixClass.value,
             {
               'is-background': props.background,
-              'el-pagination--small': props.small,
+              [`${prefixClass.value}--small`]: props.small,
             },
           ],
         },

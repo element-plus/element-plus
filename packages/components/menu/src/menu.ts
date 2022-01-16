@@ -17,6 +17,7 @@ import { More } from '@element-plus/icons-vue'
 import Menubar from '@element-plus/utils/menu/menu-bar'
 import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
 import { isString, isObject } from '@element-plus/utils/util'
+import { usePrefixClass } from '@element-plus/hooks'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu'
 import { useMenuCssVar } from './use-menu-css-var'
@@ -91,6 +92,8 @@ export default defineComponent({
   emits: menuEmits,
 
   setup(props, { emit, slots, expose }) {
+    const subMenuPrefixClass = usePrefixClass('sub-menu')
+    const menuPrefixClass = usePrefixClass('menu')
     const instance = getCurrentInstance()!
     const router = instance.appContext.config.globalProperties.$router as Router
     const menu = ref<HTMLUListElement>()
@@ -357,14 +360,14 @@ export default defineComponent({
               ElSubMenu,
               {
                 index: 'sub-menu-more',
-                class: 'el-sub-menu__hide-arrow',
+                class: `${subMenuPrefixClass.value}__hide-arrow`,
               },
               {
                 title: () =>
                   h(
                     ElIcon,
                     {
-                      class: ['el-sub-menu__icon-more'],
+                      class: [`${subMenuPrefixClass.value}__icon-more`],
                     },
                     { default: () => h(More) }
                   ),
@@ -389,9 +392,10 @@ export default defineComponent({
             ref: menu,
             style: ulStyle.value,
             class: {
-              'el-menu': true,
-              'el-menu--horizontal': props.mode === 'horizontal',
-              'el-menu--collapse': props.collapse,
+              [`${menuPrefixClass.value}`]: true,
+              [`${menuPrefixClass.value}--horizontal`]:
+                props.mode === 'horizontal',
+              [`${menuPrefixClass.value}--collapse`]: props.collapse,
             },
           },
           [...slot.map((vnode) => resizeMenu(vnode)), ...vShowMore]

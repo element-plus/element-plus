@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="['el-upload', `el-upload--${listType}`]"
+    :class="[uploadPrefixClass, `${uploadPrefixClass}--${listType}`]"
     tabindex="0"
     @click="handleClick"
     @keydown.self.enter.space="handleKeydown"
@@ -15,7 +15,7 @@
     </template>
     <input
       ref="inputRef"
-      class="el-upload__input"
+      :class="`${uploadPrefixClass}__input`"
       type="file"
       :name="name"
       :multiple="multiple"
@@ -29,6 +29,7 @@
 import { defineComponent, ref } from 'vue'
 import { NOOP, hasOwn } from '@vue/shared'
 
+import { usePrefixClass } from '@element-plus/hooks'
 import ajax from './ajax'
 import UploadDragger from './upload-dragger.vue'
 
@@ -152,6 +153,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const uploadPrefixClass = usePrefixClass('upload')
     const reqs = ref({} as Indexable<XMLHttpRequest | Promise<any>>)
     const mouseover = ref(false)
     const inputRef = ref(null as Nullable<HTMLInputElement>)
@@ -272,6 +274,7 @@ export default defineComponent({
     }
 
     return {
+      uploadPrefixClass,
       reqs,
       mouseover,
       inputRef,

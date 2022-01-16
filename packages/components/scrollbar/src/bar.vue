@@ -3,12 +3,12 @@
     <div
       v-show="always || visible"
       ref="instance"
-      :class="['el-scrollbar__bar', 'is-' + bar.key]"
+      :class="[`${scrollbarPrefixClass}__bar`, 'is-' + bar.key]"
       @mousedown="clickTrackHandler"
     >
       <div
         ref="thumb"
-        class="el-scrollbar__thumb"
+        :class="`${scrollbarPrefixClass}__thumb`"
         :style="thumbStyle"
         @mousedown="clickThumbHandler"
       ></div>
@@ -28,6 +28,7 @@ import {
 import { useEventListener } from '@vueuse/core'
 import { scrollbarContextKey } from '@element-plus/tokens'
 import { throwError } from '@element-plus/utils/error'
+import { usePrefixClass } from '@element-plus/hooks'
 import { BAR_MAP, renderThumbStyle } from './util'
 
 import { barProps } from './bar'
@@ -38,6 +39,7 @@ export default defineComponent({
   props: barProps,
 
   setup(props) {
+    const scrollbarPrefixClass = usePrefixClass('scrollbar')
     const scrollbar = inject(scrollbarContextKey)
     if (!scrollbar)
       throwError(COMPONENT_NAME, 'can not inject scrollbar context')
@@ -175,6 +177,7 @@ export default defineComponent({
     )
 
     return {
+      scrollbarPrefixClass,
       instance,
       thumb,
       bar,

@@ -1,14 +1,14 @@
 <template>
   <div
-    class="el-color-svpanel"
+    :class="prefixClass"
     :style="{
       backgroundColor: background,
     }"
   >
-    <div class="el-color-svpanel__white"></div>
-    <div class="el-color-svpanel__black"></div>
+    <div :class="`${prefixClass}__white`"></div>
+    <div :class="`${prefixClass}__black`"></div>
     <div
-      class="el-color-svpanel__cursor"
+      :class="`${prefixClass}__cursor`"
       :style="{
         top: cursorTop + 'px',
         left: cursorLeft + 'px',
@@ -29,6 +29,7 @@ import {
   onMounted,
 } from 'vue'
 import { getClientXY } from '@element-plus/utils/dom'
+import { usePrefixClass } from '@element-plus/hooks'
 import draggable from '../draggable'
 
 import type { PropType } from 'vue'
@@ -44,6 +45,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const prefixClass = usePrefixClass('color-svpanel')
     // instance
     const instance = getCurrentInstance()
     // data
@@ -112,6 +114,7 @@ export default defineComponent({
       update()
     })
     return {
+      prefixClass,
       cursorTop,
       cursorLeft,
       background,

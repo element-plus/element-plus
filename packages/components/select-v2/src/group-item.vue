@@ -1,14 +1,14 @@
 <template>
   <div
     v-if="item.isTitle"
-    class="el-select-group__title"
+    :class="`${prefixClass}__title`"
     :style="[style, { lineHeight: `${height}px` }]"
   >
     {{ item.label }}
   </div>
-  <div v-else class="el-select-group__split" :style="style">
+  <div v-else :class="`${prefixClass}__split`" :style="style">
     <span
-      class="el-select-group__split-dash"
+      :class="`${prefixClass}__split-dash`"
       :style="{ top: `${height / 2}px` }"
     ></span>
   </div>
@@ -16,6 +16,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { usePrefixClass } from '@element-plus/hooks'
 
 export default defineComponent({
   props: {
@@ -25,6 +26,12 @@ export default defineComponent({
     },
     style: Object,
     height: Number,
+  },
+  setup(props) {
+    const prefixClass = usePrefixClass('select-group')
+    return {
+      prefixClass,
+    }
   },
 })
 </script>

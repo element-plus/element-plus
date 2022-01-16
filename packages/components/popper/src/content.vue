@@ -24,6 +24,7 @@ import {
 } from 'vue'
 import { createPopper } from '@popperjs/core'
 import { PopupManager } from '@element-plus/utils/popup-manager'
+import { usePrefixClass } from '@element-plus/hooks'
 import { POPPER_INJECTION_KEY, POPPER_CONTENT_INJECTION_KEY } from './tokens'
 import { usePopperContentProps } from './popper'
 import { buildPopperOptions, unwrapMeasurableEl } from './utils'
@@ -33,6 +34,7 @@ export default defineComponent({
   props: usePopperContentProps,
   emits: ['mouseenter', 'mouseleave'],
   setup(props) {
+    const popperPrefixClass = usePrefixClass('popper')
     const { triggerRef, popperInstanceRef, contentRef } = inject(
       POPPER_INJECTION_KEY,
       undefined
@@ -52,7 +54,7 @@ export default defineComponent({
 
     const contentClass = computed(() => [
       {
-        'el-popper': true,
+        [`${popperPrefixClass.value}`]: true,
         'is-pure': props.pure,
         [`is-${props.effect}`]: !!props.effect,
       },

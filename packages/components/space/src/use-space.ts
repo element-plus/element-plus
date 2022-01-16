@@ -1,5 +1,6 @@
 import { ref, computed, watchEffect } from 'vue'
 import { isNumber } from '@element-plus/utils/util'
+import { usePrefixClass } from '@element-plus/hooks'
 import type { SpaceProps } from './space'
 
 import type { CSSProperties, StyleValue } from 'vue'
@@ -12,9 +13,11 @@ const SIZE_MAP: Record<ComponentSize, number> = {
 }
 
 export function useSpace(props: SpaceProps) {
+  const prefixClass = usePrefixClass('space')
+
   const classes = computed(() => [
-    'el-space',
-    `el-space--${props.direction}`,
+    prefixClass.value,
+    `${prefixClass.value}--${props.direction}`,
     props.class,
   ])
 

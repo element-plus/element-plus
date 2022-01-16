@@ -1,11 +1,11 @@
 <template>
-  <section class="el-container" :class="{ 'is-vertical': isVertical }">
+  <section :class="{ [prefixClass]: true, 'is-vertical': isVertical }">
     <slot></slot>
   </section>
 </template>
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-
+import { usePrefixClass } from '@element-plus/hooks'
 import type { Component, VNode } from 'vue'
 
 export default defineComponent({
@@ -17,6 +17,8 @@ export default defineComponent({
     },
   },
   setup(props, { slots }) {
+    const prefixClass = usePrefixClass('container')
+
     const isVertical = computed(() => {
       if (props.direction === 'vertical') {
         return true
@@ -34,6 +36,7 @@ export default defineComponent({
       }
     })
     return {
+      prefixClass,
       isVertical,
     }
   },

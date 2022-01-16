@@ -14,21 +14,20 @@
         :aria-label="title || 'dialog'"
         aria-modal="true"
         :class="[
-          'el-message-box',
+          messageBoxPrefixClass,
           customClass,
-          { 'el-message-box--center': center },
+          { [`${messageBoxPrefixClass}--center`]: center },
         ]"
         :style="customStyle"
       >
         <div
           v-if="title !== null && title !== undefined"
-          class="el-message-box__header"
+          :class="`${messageBoxPrefixClass}__header`"
         >
-          <div class="el-message-box__title">
+          <div :class="`${messageBoxPrefixClass}__title`">
             <el-icon
               v-if="iconComponent && center"
-              class="el-message-box__status"
-              :class="typeClass"
+              :class="[`${messageBoxPrefixClass}__status`, typeClass]"
             >
               <component :is="iconComponent" />
             </el-icon>
@@ -37,7 +36,7 @@
           <button
             v-if="showClose"
             type="button"
-            class="el-message-box__headerbtn"
+            :class="`${messageBoxPrefixClass}__headerbtn`"
             aria-label="Close"
             @click="
               handleAction(distinguishCancelAndClose ? 'close' : 'cancel')
@@ -46,26 +45,27 @@
               handleAction(distinguishCancelAndClose ? 'close' : 'cancel')
             "
           >
-            <el-icon class="el-message-box__close"><close /></el-icon>
+            <el-icon :class="`${messageBoxPrefixClass}__close`"
+              ><close
+            /></el-icon>
           </button>
         </div>
-        <div class="el-message-box__content">
-          <div class="el-message-box__container">
+        <div :class="`${messageBoxPrefixClass}__content`">
+          <div :class="`${messageBoxPrefixClass}__container`">
             <el-icon
               v-if="iconComponent && !center && hasMessage"
-              class="el-message-box__status"
-              :class="typeClass"
+              :class="[`${messageBoxPrefixClass}__status`, typeClass]"
             >
               <component :is="iconComponent" />
             </el-icon>
-            <div v-if="hasMessage" class="el-message-box__message">
+            <div v-if="hasMessage" :class="`${messageBoxPrefixClass}__message`">
               <slot>
                 <p v-if="!dangerouslyUseHTMLString">{{ message }}</p>
                 <p v-else v-html="message"></p>
               </slot>
             </div>
           </div>
-          <div v-show="showInput" class="el-message-box__input">
+          <div v-show="showInput" :class="`${messageBoxPrefixClass}__input`">
             <el-input
               ref="inputRef"
               v-model="inputValue"
@@ -75,7 +75,7 @@
               @keydown.prevent.enter="handleInputEnter"
             />
             <div
-              class="el-message-box__errormsg"
+              :class="`${messageBoxPrefixClass}__errormsg`"
               :style="{
                 visibility: !!editorErrorMessage ? 'visible' : 'hidden',
               }"
@@ -84,7 +84,7 @@
             </div>
           </div>
         </div>
-        <div class="el-message-box__btns">
+        <div :class="`${messageBoxPrefixClass}__btns`">
           <el-button
             v-if="showCancelButton"
             :loading="cancelButtonLoading"
@@ -135,6 +135,7 @@ import {
   useLocale,
   useRestoreActive,
   usePreventGlobal,
+  usePrefixClass,
 } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import { ElOverlay } from '@element-plus/components/overlay'
@@ -211,6 +212,7 @@ export default defineComponent({
   },
   emits: ['vanish', 'action'],
   setup(props, { emit }) {
+    const messageBoxPrefixClass = usePrefixClass('message-box')
     // const popup = usePopup(props, doClose)
     const { t } = useLocale()
     const visible = ref(false)
@@ -256,7 +258,7 @@ export default defineComponent({
     const typeClass = computed(() => {
       const type = state.type
       return type && TypeComponentsMap[type]
-        ? `el-message-box-icon--${type}`
+        ? `${messageBoxPrefixClass.value}-icon--${type}`
         : ''
     })
 
@@ -421,6 +423,7 @@ export default defineComponent({
     useRestoreActive(visible)
 
     return {
+      messageBoxPrefixClass,
       ...toRefs(state),
       visible,
       hasMessage,

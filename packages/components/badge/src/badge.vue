@@ -1,12 +1,13 @@
 <template>
-  <div class="el-badge">
+  <div :class="prefixClass">
     <slot></slot>
-    <transition name="el-zoom-in-center">
+    <transition :name="zoomInCenterClass">
       <sup
         v-show="!hidden && (content || content === '0' || isDot)"
         class="el-badge__content"
         :class="[
-          'el-badge__content--' + type,
+          `${prefixClass}__content`,
+          `${prefixClass}__content--${type}`,
           {
             'is-fixed': $slots.default,
             'is-dot': isDot,
@@ -21,6 +22,7 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
+import { usePrefixClass } from '@element-plus/hooks'
 import { badgeProps } from './badge'
 
 export default defineComponent({
@@ -29,6 +31,9 @@ export default defineComponent({
   props: badgeProps,
 
   setup(props) {
+    const prefixClass = usePrefixClass('badge')
+    const zoomInCenterClass = usePrefixClass('zoom-in-center')
+
     const content = computed<string>(() => {
       if (props.isDot) return ''
 
@@ -39,6 +44,8 @@ export default defineComponent({
     })
 
     return {
+      prefixClass,
+      zoomInCenterClass,
       content,
     }
   },

@@ -14,7 +14,7 @@ import isEqual from 'lodash/isEqual'
 import { isClient } from '@vueuse/core'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { useLocale, useSize } from '@element-plus/hooks'
+import { useLocale, useSize, usePrefixClass } from '@element-plus/hooks'
 import scrollIntoView from '@element-plus/utils/scroll-into-view'
 import { isKorean } from '@element-plus/utils/isDef'
 import { getValueByPath } from '@element-plus/utils/util'
@@ -24,6 +24,8 @@ import type { ComponentPublicInstance } from 'vue'
 import type ElTooltip from '@element-plus/components/tooltip'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 import type { QueryChangeCtx, SelectOptionProxy } from './token'
+
+const prefixClass = usePrefixClass('select-dropdown__wrap')
 
 export function useSelectStates(props) {
   const { t } = useLocale()
@@ -655,7 +657,7 @@ export const useSelect = (props, states: States, ctx) => {
 
     if (tooltipRef.value && target) {
       const menu = tooltipRef.value?.popperRef?.contentRef?.querySelector?.(
-        '.el-select-dropdown__wrap'
+        `.${prefixClass.value}`
       )
       if (menu) {
         scrollIntoView(menu as HTMLElement, target)

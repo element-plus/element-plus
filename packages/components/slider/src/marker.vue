@@ -1,5 +1,6 @@
 <script lang="ts">
 import { computed, defineComponent, h } from 'vue'
+import { usePrefixClass } from '@element-plus/hooks'
 
 import type { PropType } from 'vue'
 
@@ -12,19 +13,22 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const prefixClass = usePrefixClass('slider__marks-text')
     const label = computed(() => {
       return typeof props.mark === 'string' ? props.mark : props.mark.label
     })
 
     return {
+      prefixClass,
       label,
     }
   },
-  render() {
+  render(params) {
+    const { prefixClass } = params
     return h(
       'div',
       {
-        class: 'el-slider__marks-text',
+        class: prefixClass,
         style: this.mark?.style,
       },
       this.label

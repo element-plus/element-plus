@@ -1,7 +1,7 @@
 <template>
   <div
     ref="radioGroupRef"
-    class="el-radio-group"
+    :class="radioGroupPrefixClass"
     role="radiogroup"
     @keydown="handleKeydown"
   >
@@ -23,7 +23,7 @@ import {
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { radioGroupKey } from '@element-plus/tokens'
-import { useFormItem } from '@element-plus/hooks'
+import { useFormItem, usePrefixClass } from '@element-plus/hooks'
 import { radioGroupEmits, radioGroupProps } from './radio-group'
 import type { RadioGroupProps } from '..'
 
@@ -33,6 +33,7 @@ export default defineComponent({
   emits: radioGroupEmits,
 
   setup(props, ctx) {
+    const radioGroupPrefixClass = usePrefixClass('radio-group')
     const radioGroupRef = ref<HTMLDivElement>()
     const { formItem } = useFormItem()
 
@@ -100,6 +101,7 @@ export default defineComponent({
     )
 
     return {
+      radioGroupPrefixClass,
       radioGroupRef,
       handleKeydown,
     }

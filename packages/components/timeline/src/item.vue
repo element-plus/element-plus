@@ -1,42 +1,42 @@
 <template>
-  <li class="el-timeline-item" :class="{ 'el-timeline-item__center': center }">
-    <div class="el-timeline-item__tail"></div>
+  <li :class="{ [`${prefixClass}__center`]: center, [`${prefixClass}`]: true }">
+    <div :class="`${prefixClass}__tail`"></div>
 
     <div
       v-if="!$slots.dot"
-      class="el-timeline-item__node"
       :class="[
-        `el-timeline-item__node--${size || ''}`,
-        `el-timeline-item__node--${type || ''}`,
+        `${prefixClass}__node--${size || ''}`,
+        `${prefixClass}__node--${type || ''}`,
         hollow ? 'is-hollow' : '',
+        `${prefixClass}__node`,
       ]"
       :style="{
         backgroundColor: color,
       }"
     >
-      <el-icon v-if="icon" class="el-timeline-item__icon">
+      <el-icon v-if="icon" :class="`${prefixClass}__icon`">
         <component :is="icon" />
       </el-icon>
     </div>
-    <div v-if="$slots.dot" class="el-timeline-item__dot">
+    <div v-if="$slots.dot" :class="`${prefixClass}__dot`">
       <slot name="dot"></slot>
     </div>
 
-    <div class="el-timeline-item__wrapper">
+    <div :class="`${prefixClass}__wrapper`">
       <div
         v-if="!hideTimestamp && placement === 'top'"
-        class="el-timeline-item__timestamp is-top"
+        :class="`${prefixClass}__timestamp is-top`"
       >
         {{ timestamp }}
       </div>
 
-      <div class="el-timeline-item__content">
+      <div :class="`${prefixClass}__content`">
         <slot></slot>
       </div>
 
       <div
         v-if="!hideTimestamp && placement === 'bottom'"
-        class="el-timeline-item__timestamp is-bottom"
+        :class="`${prefixClass}__timestamp is-bottom`"
       >
         {{ timestamp }}
       </div>
@@ -48,6 +48,7 @@
 import { inject, defineComponent } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 
+import { usePrefixClass } from '@element-plus/hooks'
 import type { PropType, Component } from 'vue'
 
 export default defineComponent({
@@ -94,7 +95,11 @@ export default defineComponent({
     },
   },
   setup() {
+    const prefixClass = usePrefixClass('timeline-item')
     inject('timeline')
+    return {
+      prefixClass,
+    }
   },
 })
 </script>

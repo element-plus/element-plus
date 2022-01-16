@@ -1,29 +1,30 @@
 <template>
   <div
-    class="el-picker-panel el-date-picker"
     :class="[
+      pickerPanelPrefixClass,
+      datePickerPrefixClass,
       {
         'has-sidebar': $slots.sidebar || hasShortcuts,
         'has-time': showTime,
       },
     ]"
   >
-    <div class="el-picker-panel__body-wrapper">
-      <slot name="sidebar" class="el-picker-panel__sidebar"></slot>
-      <div v-if="hasShortcuts" class="el-picker-panel__sidebar">
+    <div :class="`${pickerPanelPrefixClass}__body-wrapper`">
+      <slot name="sidebar" :class="`${pickerPanelPrefixClass}__sidebar`"></slot>
+      <div v-if="hasShortcuts" :class="`${pickerPanelPrefixClass}__sidebar`">
         <button
           v-for="(shortcut, key) in shortcuts"
           :key="key"
           type="button"
-          class="el-picker-panel__shortcut"
+          :class="`${pickerPanelPrefixClass}__shortcut`"
           @click="handleShortcutClick(shortcut)"
         >
           {{ shortcut.text }}
         </button>
       </div>
-      <div class="el-picker-panel__body">
-        <div v-if="showTime" class="el-date-picker__time-header">
-          <span class="el-date-picker__editor-wrap">
+      <div :class="`${pickerPanelPrefixClass}__body`">
+        <div v-if="showTime" :class="`${datePickerPrefixClass}__time-header`">
+          <span :class="`${datePickerPrefixClass}__editor-wrap`">
             <el-input
               :placeholder="t('el.datepicker.selectDate')"
               :model-value="visibleDate"
@@ -34,7 +35,7 @@
           </span>
           <span
             v-clickoutside="handleTimePickClose"
-            class="el-date-picker__editor-wrap"
+            :class="`${datePickerPrefixClass}__editor-wrap`"
           >
             <el-input
               :placeholder="t('el.datepicker.selectTime')"
@@ -55,16 +56,16 @@
         </div>
         <div
           v-show="currentView !== 'time'"
-          class="el-date-picker__header"
           :class="{
-            'el-date-picker__header--bordered':
+            [`${datePickerPrefixClass}__header`]: true,
+            [`${datePickerPrefixClass}__header--bordered`]:
               currentView === 'year' || currentView === 'month',
           }"
         >
           <button
             type="button"
             :aria-label="t(`el.datepicker.prevYear`)"
-            class="el-picker-panel__icon-btn el-date-picker__prev-btn d-arrow-left"
+            :class="`${pickerPanelPrefixClass}__icon-btn ${datePickerPrefixClass}__prev-btn d-arrow-left`"
             @click="prevYear_"
           >
             <el-icon><d-arrow-left /></el-icon>
@@ -73,29 +74,31 @@
             v-show="currentView === 'date'"
             type="button"
             :aria-label="t(`el.datepicker.prevMonth`)"
-            class="el-picker-panel__icon-btn el-date-picker__prev-btn arrow-left"
+            :class="`${pickerPanelPrefixClass}__icon-btn ${datePickerPrefixClass}__prev-btn arrow-left`"
             @click="prevMonth_"
           >
             <el-icon><arrow-left /></el-icon>
           </button>
           <span
             role="button"
-            class="el-date-picker__header-label"
+            :class="`${datePickerPrefixClass}__header-label`"
             @click="showYearPicker"
             >{{ yearLabel }}</span
           >
           <span
             v-show="currentView === 'date'"
             role="button"
-            class="el-date-picker__header-label"
-            :class="{ active: currentView === 'month' }"
+            :class="{
+              [`${datePickerPrefixClass}__header-label`]: true,
+              active: currentView === 'month',
+            }"
             @click="showMonthPicker"
             >{{ t(`el.datepicker.month${month + 1}`) }}</span
           >
           <button
             type="button"
             :aria-label="t(`el.datepicker.nextYear`)"
-            class="el-picker-panel__icon-btn el-date-picker__next-btn d-arrow-right"
+            :class="`${pickerPanelPrefixClass}__icon-btn ${datePickerPrefixClass}__next-btn d-arrow-right`"
             @click="nextYear_"
           >
             <el-icon><d-arrow-right /></el-icon>
@@ -104,13 +107,13 @@
             v-show="currentView === 'date'"
             type="button"
             :aria-label="t(`el.datepicker.nextMonth`)"
-            class="el-picker-panel__icon-btn el-date-picker__next-btn arrow-right"
+            :class="`${pickerPanelPrefixClass}__icon-btn ${datePickerPrefixClass}__next-btn arrow-right`"
             @click="nextMonth_"
           >
             <el-icon><arrow-right /></el-icon>
           </button>
         </div>
-        <div class="el-picker-panel__content">
+        <div :class="`${pickerPanelPrefixClass}__content`">
           <date-table
             v-if="currentView === 'date'"
             :selection-mode="selectionMode"
@@ -138,13 +141,13 @@
     </div>
     <div
       v-show="footerVisible && currentView === 'date'"
-      class="el-picker-panel__footer"
+      :class="`${pickerPanelPrefixClass}__footer`"
     >
       <el-button
         v-show="selectionMode !== 'dates'"
         size="small"
         type="text"
-        class="el-picker-panel__link-btn"
+        :class="`${pickerPanelPrefixClass}__link-btn`"
         @click="changeToNow"
       >
         {{ t('el.datepicker.now') }}
@@ -152,7 +155,7 @@
       <el-button
         plain
         size="small"
-        class="el-picker-panel__link-btn"
+        :class="`${pickerPanelPrefixClass}__link-btn`"
         @click="onConfirm"
       >
         {{ t('el.datepicker.confirm') }}
@@ -166,7 +169,7 @@ import { computed, defineComponent, inject, ref, watch } from 'vue'
 import dayjs from 'dayjs'
 import ElButton from '@element-plus/components/button'
 import { ClickOutside } from '@element-plus/directives'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, usePrefixClass } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import {
   extractDateFormat,
@@ -231,6 +234,8 @@ export default defineComponent({
   },
   emits: ['pick', 'set-picker-option'],
   setup(props, ctx) {
+    const datePickerPrefixClass = usePrefixClass('date-picker')
+    const pickerPanelPrefixClass = usePrefixClass('picker-panel')
     const { t, lang } = useLocale()
     const pickerBase = inject('EP_PICKER_BASE') as any
     const popper = inject(TOOLTIP_INJECTION_KEY)
@@ -660,6 +665,8 @@ export default defineComponent({
     )
 
     return {
+      pickerPanelPrefixClass,
+      datePickerPrefixClass,
       handleTimePick,
       handleTimePickClose,
       onTimePickerInputFocus,

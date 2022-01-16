@@ -1,7 +1,7 @@
 <template>
   <div
     ref="breadcrumb"
-    class="el-breadcrumb"
+    :class="prefixClass"
     aria-label="Breadcrumb"
     role="navigation"
   >
@@ -12,6 +12,7 @@
 <script lang="ts">
 import { defineComponent, provide, ref, onMounted } from 'vue'
 import { elBreadcrumbKey } from '@element-plus/tokens'
+import { usePrefixClass } from '@element-plus/hooks'
 
 import { breadcrumbProps } from './breadcrumb'
 
@@ -21,11 +22,14 @@ export default defineComponent({
 
   setup(props) {
     const breadcrumb = ref<HTMLDivElement>()
+    const prefixClass = usePrefixClass('breadcrumb')
 
     provide(elBreadcrumbKey, props)
 
     onMounted(() => {
-      const items = breadcrumb.value!.querySelectorAll('.el-breadcrumb__item')
+      const items = breadcrumb.value!.querySelectorAll(
+        `.${prefixClass.value}_item`
+      )
       if (items.length) {
         items[items.length - 1].setAttribute('aria-current', 'page')
       }
@@ -33,6 +37,7 @@ export default defineComponent({
 
     return {
       breadcrumb,
+      prefixClass,
     }
   },
 })

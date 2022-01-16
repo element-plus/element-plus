@@ -11,7 +11,7 @@ import {
 } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import { useSize } from '@element-plus/hooks'
+import { useSize, usePrefixClass } from '@element-plus/hooks'
 import { useCheckboxGroup } from './useCheckbox'
 
 import type { PropType } from 'vue'
@@ -55,6 +55,8 @@ export default defineComponent({
   emits: [UPDATE_MODEL_EVENT, 'change'],
 
   setup(props, { emit, slots }) {
+    const prefixClass = usePrefixClass('checkbox-group')
+
     const { elFormItem } = useCheckboxGroup()
     const checkboxGroupSize = useSize()
 
@@ -92,7 +94,7 @@ export default defineComponent({
       return h(
         props.tag,
         {
-          class: 'el-checkbox-group',
+          class: prefixClass.value,
           role: 'group',
           'aria-label': 'checkbox-group',
         },
