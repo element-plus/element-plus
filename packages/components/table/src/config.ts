@@ -3,11 +3,15 @@ import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowRight, Loading } from '@element-plus/icons-vue'
 import { getPropByPath } from '@element-plus/utils/util'
+import { usePrefixClass } from '@element-plus/hooks'
 
 import type { VNode } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { Store } from './store'
 import type { TreeNode } from './table/defaults'
+
+const prefixClass = usePrefixClass('table')
+
 
 export const cellStarts = {
   default: {
@@ -18,7 +22,7 @@ export const cellStarts = {
     minWidth: 48,
     realWidth: 48,
     order: '',
-    className: 'el-table-column--selection',
+    className: 'table-column--selection',
   },
   expand: {
     width: 48,
@@ -105,9 +109,9 @@ export const cellForced = {
       return column.label || ''
     },
     renderCell<T>({ row, store }: { row: T; store: Store<T> }) {
-      const classes = ['el-table__expand-icon']
+      const classes = [`${prefixClass.value}__expand-icon`]
       if (store.states.expandRows.value.indexOf(row) > -1) {
-        classes.push('el-table__expand-icon--expanded')
+        classes.push(`${prefixClass.value}__expand-icon--expanded`)
       }
       const callback = function (e: Event) {
         e.stopPropagation()
@@ -134,7 +138,7 @@ export const cellForced = {
     },
     sortable: false,
     resizable: false,
-    className: 'el-table__expand-column',
+    className: 'table__expand-column',
   },
 }
 
@@ -173,15 +177,15 @@ export function treeCellPrefix<T>({
   if (treeNode.indent) {
     ele.push(
       h('span', {
-        class: 'el-table__indent',
+        class: `${prefixClass.value}__indent`,
         style: { 'padding-left': `${treeNode.indent}px` },
       })
     )
   }
   if (typeof treeNode.expanded === 'boolean' && !treeNode.noLazyChildren) {
     const expandClasses = [
-      'el-table__expand-icon',
-      treeNode.expanded ? 'el-table__expand-icon--expanded' : '',
+      `${prefixClass.value}__expand-icon`,
+      treeNode.expanded ? `${prefixClass.value}__expand-icon--expanded` : '',
     ]
     let icon = ArrowRight
     if (treeNode.loading) {
@@ -213,7 +217,7 @@ export function treeCellPrefix<T>({
   } else {
     ele.push(
       h('span', {
-        class: 'el-table__placeholder',
+        class: `${prefixClass.value}__placeholder`,
       })
     )
   }

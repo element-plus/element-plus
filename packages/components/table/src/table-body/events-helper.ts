@@ -6,8 +6,10 @@ import { createTablePopper, getCell, getColumnByCell } from '../util'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { Table } from '../table/defaults'
 import type { TableBodyProps } from './defaults'
+import { usePrefixClass } from '@element-plus/hooks'
 
 function useEvents<T>(props: Partial<TableBodyProps<T>>) {
+  const tooltipPrefixClass = usePrefixClass('tooltip')
   const instance = getCurrentInstance()
   const parent = instance.parent as Table<T>
   const tooltipContent = ref('')
@@ -73,7 +75,7 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
     const cellChild = (event.target as HTMLElement).querySelector(
       '.cell'
     ) as HTMLElement
-    if (!(hasClass(cellChild, 'el-tooltip') && cellChild.childNodes.length)) {
+    if (!(hasClass(cellChild, tooltipPrefixClass.value) && cellChild.childNodes.length)) {
       return
     }
     // use range width instead of scrollWidth to determine whether the text is overflowing

@@ -1,11 +1,11 @@
 <template>
-  <div ref="scrollbar$" class="el-scrollbar">
+  <div ref="scrollbar$" :class="scrollbarPrefixClass">
     <div
       ref="wrap$"
       :class="[
         wrapClass,
-        'el-scrollbar__wrap',
-        native ? '' : 'el-scrollbar__wrap--hidden-default',
+        `${scrollbarPrefixClass}__wrap`,
+        native ? '' : `${scrollbarPrefixClass}__wrap--hidden-default`,
       ]"
       :style="style"
       @scroll="handleScroll"
@@ -13,7 +13,7 @@
       <component
         :is="tag"
         ref="resize$"
-        :class="['el-scrollbar__view', viewClass]"
+        :class="[`${scrollbarPrefixClass}__view`, viewClass]"
         :style="viewStyle"
       >
         <slot />
@@ -47,6 +47,7 @@ import { addUnit, isNumber } from '@element-plus/utils/util'
 import { debugWarn } from '@element-plus/utils/error'
 import { scrollbarContextKey } from '@element-plus/tokens'
 import Bar from './bar.vue'
+import { usePrefixClass } from '@element-plus/hooks'
 
 import { scrollbarProps, scrollbarEmits } from './scrollbar'
 import type { StyleValue, CSSProperties } from 'vue'
@@ -60,6 +61,7 @@ export default defineComponent({
   emits: scrollbarEmits,
 
   setup(props, { emit }) {
+    const scrollbarPrefixClass = usePrefixClass('scrollbar')
     let stopResizeObserver: (() => void) | undefined = undefined
     let stopResizeListener: (() => void) | undefined = undefined
 
@@ -167,6 +169,7 @@ export default defineComponent({
     })
 
     return {
+      scrollbarPrefixClass,
       scrollbar$,
       wrap$,
       resize$,

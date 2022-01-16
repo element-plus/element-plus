@@ -1,6 +1,7 @@
 import { defineComponent, computed, h, provide } from 'vue'
 import { buildProps } from '@element-plus/utils/props'
 import type { ExtractPropTypes } from 'vue'
+import { usePrefixClass } from '@element-plus/hooks'
 
 export const rowProps = buildProps({
   tag: {
@@ -29,6 +30,7 @@ export default defineComponent({
   props: rowProps,
 
   setup(props, { slots }) {
+    const rowPrefixClass = usePrefixClass('row')
     const gutter = computed(() => props.gutter)
     provide('ElRow', {
       gutter,
@@ -51,7 +53,7 @@ export default defineComponent({
         props.tag,
         {
           class: [
-            'el-row',
+            rowPrefixClass.value,
             props.justify !== 'start' ? `is-justify-${props.justify}` : '',
             props.align !== 'top' ? `is-align-${props.align}` : '',
           ],

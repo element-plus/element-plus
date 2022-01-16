@@ -24,6 +24,9 @@ import type { ComponentPublicInstance } from 'vue'
 import type ElTooltip from '@element-plus/components/tooltip'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 import type { QueryChangeCtx, SelectOptionProxy } from './token'
+import { usePrefixClass } from '@element-plus/hooks'
+
+const prefixClass = usePrefixClass('select-dropdown__wrap')
 
 export function useSelectStates(props) {
   const { t } = useLocale()
@@ -655,7 +658,7 @@ export const useSelect = (props, states: States, ctx) => {
 
     if (tooltipRef.value && target) {
       const menu = tooltipRef.value?.popperRef?.contentRef?.querySelector?.(
-        '.el-select-dropdown__wrap'
+        `.${prefixClass.value}`
       )
       if (menu) {
         scrollIntoView(menu as HTMLElement, target)

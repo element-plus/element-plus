@@ -20,6 +20,7 @@ import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { tabsRootContextKey } from '@element-plus/tokens'
 import TabNav from './tab-nav'
 import type { TabsPaneContext } from '@element-plus/tokens'
+import { usePrefixClass } from '@element-plus/hooks'
 
 import type {
   Component,
@@ -99,6 +100,7 @@ export default defineComponent({
   emits: tabsEmits,
 
   setup(props, { emit, slots, expose }) {
+    const tabsPrefixClass = usePrefixClass('tabs')
     const instance = getCurrentInstance()!
     const nav$ = ref<InstanceType<typeof TabNav>>()
 
@@ -111,7 +113,7 @@ export default defineComponent({
       if (slots.default) {
         const children = instance.subTree.children as ArrayLike<VNode>
         const content = Array.from(children).find(
-          ({ props }) => props?.class === 'el-tabs__content'
+          ({ props }) => props?.class === `${tabsPrefixClass.value}__content`
         )
         if (!content) return
 
@@ -225,7 +227,7 @@ export default defineComponent({
           ? h(
               'span',
               {
-                class: 'el-tabs__new-tab',
+                class: `${tabsPrefixClass.value}__new-tab`,
                 tabindex: '0',
                 onClick: handleTabAdd,
                 onKeydown: (ev: KeyboardEvent) => {
@@ -238,7 +240,7 @@ export default defineComponent({
 
       const header = h(
         'div',
-        { class: ['el-tabs__header', `is-${props.tabPosition}`] },
+        { class: [`${tabsPrefixClass.value}__header`, `is-${props.tabPosition}`] },
         [
           newButton,
           h(TabNav, {
@@ -254,7 +256,7 @@ export default defineComponent({
         ]
       )
 
-      const panels = h('div', { class: 'el-tabs__content' }, [
+      const panels = h('div', { class: `${tabsPrefixClass.value}__content` }, [
         renderSlot(slots, 'default'),
       ])
 
@@ -262,10 +264,10 @@ export default defineComponent({
         'div',
         {
           class: {
-            'el-tabs': true,
-            'el-tabs--card': props.type === 'card',
-            [`el-tabs--${props.tabPosition}`]: true,
-            'el-tabs--border-card': props.type === 'border-card',
+            [tabsPrefixClass.value]: true,
+            [`${tabsPrefixClass.value}--card`]: props.type === 'card',
+            [`${tabsPrefixClass.value}--${props.tabPosition}`]: true,
+            [`${tabsPrefixClass.value}--border-card`]: props.type === 'border-card',
           },
         },
         props.tabPosition !== 'bottom' ? [header, panels] : [panels, header]

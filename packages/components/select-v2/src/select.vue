@@ -2,8 +2,7 @@
   <div
     ref="selectRef"
     v-click-outside:[popperRef]="handleClickOutside"
-    :class="[selectSize ? 'el-select-v2--' + selectSize : '']"
-    class="el-select-v2"
+    :class="[selectSize ? `${selectV2prefixClass}--` + selectSize : '', selectV2prefixClass]"
     @click.stop="toggleMenu"
     @mouseenter="states.comboBoxHovering = true"
     @mouseleave="states.comboBoxHovering = false"
@@ -12,7 +11,7 @@
       ref="popper"
       v-model:visible="dropdownMenuVisible"
       :append-to-body="popperAppendToBody"
-      :popper-class="`el-select-v2__popper ${popperClass}`"
+      :popper-class="`${selectV2prefixClass}__popper ${popperClass}`"
       :gpu-acceleration="false"
       :stop-popper-mouse-event="false"
       :popper-options="popperOptions"
@@ -20,7 +19,7 @@
       effect="light"
       placement="bottom-start"
       pure
-      transition="el-zoom-in-top"
+      :transition="zoomInTopPrefixClass"
       trigger="click"
       persistent
       @show="handleMenuEnter"
@@ -29,8 +28,8 @@
       <template #default>
         <div
           ref="selectionRef"
-          class="el-select-v2__wrapper"
           :class="{
+            [`${selectV2prefixClass}__wrapper`]: true,
             'is-focused': states.isComposing,
             'is-hovering': states.comboBoxHovering,
             'is-filterable': filterable,
@@ -40,9 +39,9 @@
           <div v-if="$slots.prefix">
             <slot name="prefix"></slot>
           </div>
-          <div v-if="multiple" class="el-select-v2__selection">
+          <div v-if="multiple" :class="`${selectV2prefixClass}__selection`">
             <template v-if="collapseTags && modelValue.length > 0">
-              <div class="el-select-v2__selected-item">
+              <div :class="`${selectV2prefixClass}__selected-item`">
                 <el-tag
                   :closable="
                     !selectDisabled && !states.cachedOptions[0]?.disable
@@ -53,7 +52,7 @@
                   @close="deleteTag($event, states.cachedOptions[0])"
                 >
                   <span
-                    class="el-select-v2__tags-text"
+                    :class="`${selectV2prefixClass}__tags-text`"
                     :style="{
                       maxWidth: `${tagMaxWidth}px`,
                     }"
@@ -68,7 +67,7 @@
                   disable-transitions
                 >
                   <span
-                    class="el-select-v2__tags-text"
+                    :class="`${selectV2prefixClass}__tags-text`"
                     :style="{
                       maxWidth: `${tagMaxWidth}px`,
                     }"
@@ -82,7 +81,7 @@
               <div
                 v-for="(selected, idx) in states.cachedOptions"
                 :key="idx"
-                class="el-select-v2__selected-item"
+                :class="`${selectV2prefixClass}__selected-item`"
               >
                 <el-tag
                   :key="getValueKey(selected)"
@@ -93,7 +92,7 @@
                   @close="deleteTag($event, selected)"
                 >
                   <span
-                    class="el-select-v2__tags-text"
+                    :class="`${selectV2prefixClass}__tags-text`"
                     :style="{
                       maxWidth: `${tagMaxWidth}px`,
                     }"
@@ -103,7 +102,7 @@
               </div>
             </template>
             <div
-              class="el-select-v2__selected-item el-select-v2__input-wrapper"
+              :class="`${selectV2prefixClass}__selected-item ${selectV2prefixClass}__input-wrapper`"
               :style="inputWrapperStyle"
             >
               <input
@@ -116,8 +115,7 @@
                 autocapitalize="off"
                 :aria-expanded="expanded"
                 :aria-labelledby="label"
-                class="el-select-v2__combobox-input"
-                :class="[selectSize ? `is-${selectSize}` : '']"
+                :class="[selectSize ? `is-${selectSize}` : '', `${selectV2prefixClass}__combobox-input`]"
                 :disabled="disabled"
                 role="combobox"
                 :readonly="!filterable"
@@ -141,7 +139,7 @@
                 v-if="filterable"
                 ref="calculatorRef"
                 aria-hidden="true"
-                class="el-select-v2__input-calculator"
+                :class="`${selectV2prefixClass}__input-calculator`"
                 v-text="states.displayInputValue"
               >
               </span>
@@ -149,7 +147,7 @@
           </div>
           <template v-else>
             <div
-              class="el-select-v2__selected-item el-select-v2__input-wrapper"
+              :class="`${selectV2prefixClass}__selected-item ${selectV2prefixClass}__input-wrapper`"
             >
               <input
                 :id="id"
@@ -161,7 +159,7 @@
                 :aria-expanded="expanded"
                 autocapitalize="off"
                 :autocomplete="autocomplete"
-                class="el-select-v2__combobox-input"
+                :class="`${selectV2prefixClass}__combobox-input`"
                 :disabled="disabled"
                 :name="name"
                 role="combobox"
@@ -185,7 +183,7 @@
               v-if="filterable"
               ref="calculatorRef"
               aria-hidden="true"
-              class="el-select-v2__selected-item el-select-v2__input-calculator"
+              :class="`${selectV2prefixClass}__selected-item ${selectV2prefixClass}__input-calculator`"
               v-text="states.displayInputValue"
             >
             </span>
@@ -193,7 +191,7 @@
           <span
             v-if="shouldShowPlaceholder"
             :class="{
-              'el-select-v2__placeholder': true,
+             [`${selectV2prefixClass}__placeholder`]: true,
               'is-transparent':
                 states.isComposing ||
                 (placeholder && multiple
@@ -203,24 +201,24 @@
           >
             {{ currentPlaceholder }}
           </span>
-          <span class="el-select-v2__suffix">
+          <span :class="`${selectV2prefixClass}__suffix`">
             <el-icon
               v-if="iconComponent"
               v-show="!showClearBtn"
-              :class="['el-select-v2__caret', 'el-input__icon', iconReverse]"
+              :class="[`${selectV2prefixClass}__caret`, `${inputPrefixClass}__icon`, iconReverse]"
             >
               <component :is="iconComponent" />
             </el-icon>
             <el-icon
               v-if="showClearBtn && clearIcon"
-              class="el-select-v2__caret el-input__icon"
+              :class="`${selectV2prefixClass}__caret ${inputPrefixClass}__icon`"
               @click.prevent.stop="handleClear"
             >
               <component :is="clearIcon" />
             </el-icon>
             <el-icon
               v-if="validateState && validateIcon"
-              class="el-input__icon el-input__validateIcon"
+              :class="`${inputPrefixClass}__icon ${inputPrefixClass}__validateIcon`"
             >
               <component :is="validateIcon" />
             </el-icon>
@@ -240,7 +238,7 @@
           </template>
           <template #empty>
             <slot name="empty">
-              <p class="el-select-v2__empty">
+              <p :class="`${selectV2prefixClass}__empty`">
                 {{ emptyText ? emptyText : '' }}
               </p>
             </slot>
@@ -262,6 +260,8 @@ import ElSelectMenu from './select-dropdown.vue'
 import useSelect from './useSelect'
 import { selectV2InjectionKey } from './token'
 import { SelectProps } from './defaults'
+import { usePrefixClass } from '@element-plus/hooks'
+
 export default defineComponent({
   name: 'ElSelectV2',
   components: {
@@ -283,7 +283,11 @@ export default defineComponent({
   ],
 
   setup(props, { emit }) {
+    const selectV2prefixClass = usePrefixClass('select-v2')
+    const zoomInTopPrefixClass = usePrefixClass('zoom-in-top')
+    const inputPrefixClass = usePrefixClass('input')
     const API = useSelect(props, emit)
+    
     // TODO, remove the any cast to align the actual API.
     provide(selectV2InjectionKey, {
       props: reactive({
@@ -296,7 +300,12 @@ export default defineComponent({
       onKeyboardSelect: API.onKeyboardSelect,
     } as any)
 
-    return API
+    return {
+      ...API,
+      selectV2prefixClass,
+      zoomInTopPrefixClass,
+      inputPrefixClass,
+    }
   },
 })
 </script>

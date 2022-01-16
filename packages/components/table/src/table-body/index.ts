@@ -13,6 +13,7 @@ import useLayoutObserver from '../layout-observer'
 import { removePopper } from '../util'
 import useRender from './render-helper'
 import defaultProps from './defaults'
+import { usePrefixClass } from '@element-plus/hooks'
 
 import type { VNode } from 'vue'
 import type { DefaultRow, Table } from '../table/defaults'
@@ -21,6 +22,7 @@ export default defineComponent({
   name: 'ElTableBody',
   props: defaultProps,
   setup(props) {
+    const tablePrefixClass = usePrefixClass('table')
     const instance = getCurrentInstance()
     const parent = instance.parent as Table<DefaultRow>
 
@@ -35,7 +37,7 @@ export default defineComponent({
         raf = (fn) => window.setTimeout(fn, 16)
       }
       raf(() => {
-        const rows = instance.vnode.el.querySelectorAll('.el-table__row')
+        const rows = instance.vnode.el.querySelectorAll(`.${tablePrefixClass.value}__row`)
         const oldRow = rows[oldVal]
         const newRow = rows[newVal]
         if (oldRow) {
@@ -55,6 +57,7 @@ export default defineComponent({
     })
 
     return {
+      tablePrefixClass,
       onColumnsChange,
       onScrollableChange,
       wrappedRowRender,
@@ -62,14 +65,15 @@ export default defineComponent({
       tooltipTrigger,
     }
   },
-  render() {
+  render(params) {
+    const { tablePrefixClass } = params;
     const { wrappedRowRender, store } = this
     const data = store.states.data.value || []
     const columns = store.states.columns.value
     return h(
       'table',
       {
-        class: 'el-table__body',
+        class: `${tablePrefixClass}__body`,
         cellspacing: '0',
         cellpadding: '0',
         border: '0',

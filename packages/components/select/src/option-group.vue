@@ -1,8 +1,8 @@
 <template>
-  <ul v-show="visible" class="el-select-group__wrap">
-    <li class="el-select-group__title">{{ label }}</li>
+  <ul v-show="visible" :class="`${selectGroupPrefixClass}__wrap`">
+    <li :class="`${selectGroupPrefixClass}__title`">{{ label }}</li>
     <li>
-      <ul class="el-select-group">
+      <ul :class="selectGroupPrefixClass">
         <slot></slot>
       </ul>
     </li>
@@ -23,6 +23,7 @@ import {
   toRaw,
 } from 'vue'
 import { selectGroupKey, selectKey } from './token'
+import { usePrefixClass } from '@element-plus/hooks'
 
 export default defineComponent({
   name: 'ElOptionGroup',
@@ -36,6 +37,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const selectGroupPrefixClass = usePrefixClass('select-group')
     const visible = ref(true)
     const instance = getCurrentInstance()
     const children = ref([])
@@ -79,6 +81,7 @@ export default defineComponent({
     })
 
     return {
+      selectGroupPrefixClass,
       visible,
     }
   },

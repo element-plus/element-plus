@@ -5,6 +5,7 @@ import { buildProps, definePropType } from '@element-plus/utils/props'
 
 import type { ExtractPropTypes, CSSProperties } from 'vue'
 import type { ZIndexProperty } from 'csstype'
+import { usePrefixClass } from '@element-plus/hooks'
 
 export const overlayProps = buildProps({
   mask: {
@@ -40,6 +41,7 @@ export default defineComponent({
   emits: overlayEmits,
 
   setup(props, { slots, emit }) {
+    const prefixClass = usePrefixClass('overlay')
     const onMaskClick = (e: MouseEvent) => {
       emit('click', e)
     }
@@ -56,7 +58,7 @@ export default defineComponent({
         ? createVNode(
             'div',
             {
-              class: ['el-overlay', props.overlayClass],
+              class: [prefixClass.value, props.overlayClass],
               style: {
                 zIndex: props.zIndex,
               },

@@ -1,12 +1,12 @@
 <template>
   <div
-    class="el-progress"
     :class="[
-      `el-progress--${type}`,
+      progressPrefixClass,
+      `${progressPrefixClass}--${type}`,
       status ? `is-${status}` : '',
       {
-        'el-progress--without-text': !showText,
-        'el-progress--text-inside': textInside,
+        [`${progressPrefixClass}--without-text`]: !showText,
+        [`${progressPrefixClass}--text-inside`]: textInside,
       },
     ]"
     role="progressbar"
@@ -14,21 +14,21 @@
     aria-valuemin="0"
     aria-valuemax="100"
   >
-    <div v-if="type === 'line'" class="el-progress-bar">
+    <div v-if="type === 'line'" :class="`${progressPrefixClass}-bar`">
       <div
-        class="el-progress-bar__outer"
+        :class="`${progressPrefixClass}-bar__outer`"
         :style="{ height: `${strokeWidth}px` }"
       >
         <div
           :class="[
-            'el-progress-bar__inner',
-            { 'el-progress-bar__inner--indeterminate': indeterminate },
+            [`${progressPrefixClass}-bar__inner`],
+            { [`${progressPrefixClass}-bar__inner--indeterminate`]: indeterminate },
           ]"
           :style="barStyle"
         >
           <div
             v-if="(showText || $slots.default) && textInside"
-            class="el-progress-bar__innerText"
+            :class="`${progressPrefixClass}-bar__innerText`"
           >
             <slot v-bind="slotData">
               <span>{{ content }}</span>
@@ -39,12 +39,12 @@
     </div>
     <div
       v-else
-      class="el-progress-circle"
+      :class="`${progressPrefixClass}-circle`"
       :style="{ height: `${width}px`, width: `${width}px` }"
     >
       <svg viewBox="0 0 100 100">
         <path
-          class="el-progress-circle__track"
+          :class="`${progressPrefixClass}-circle__track`"
           :d="trackPath"
           stroke="#e5e9f2"
           :stroke-width="relativeStrokeWidth"
@@ -52,7 +52,7 @@
           :style="trailPathStyle"
         />
         <path
-          class="el-progress-circle__path"
+          :class="`${progressPrefixClass}-circle__path`"
           :d="trackPath"
           :stroke="stroke"
           fill="none"
@@ -64,7 +64,7 @@
     </div>
     <div
       v-if="(showText || $slots.default) && !textInside"
-      class="el-progress__text"
+      :class="`${progressPrefixClass}__text`"
       :style="{ fontSize: `${progressTextSize}px` }"
     >
       <slot v-bind="slotData">
@@ -87,6 +87,7 @@ import {
 } from '@element-plus/icons-vue'
 import { progressProps } from './progress'
 import type { CSSProperties } from 'vue'
+import { usePrefixClass } from '@element-plus/hooks'
 
 export default defineComponent({
   name: 'ElProgress',
@@ -101,6 +102,7 @@ export default defineComponent({
   props: progressProps,
 
   setup(props) {
+    const progressPrefixClass = usePrefixClass('progress')
     const barStyle = computed(
       (): CSSProperties => ({
         width: `${props.percentage}%`,
@@ -234,6 +236,7 @@ export default defineComponent({
     })
 
     return {
+      progressPrefixClass,
       barStyle,
       relativeStrokeWidth,
       radius,

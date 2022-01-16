@@ -2,6 +2,7 @@ import { h, getCurrentInstance, computed } from 'vue'
 import { getRowIdentity } from '../util'
 import useEvents from './events-helper'
 import useStyles from './styles-helper'
+import { usePrefixClass } from '@element-plus/hooks'
 
 import type { TableBodyProps } from './defaults'
 import type {
@@ -12,6 +13,7 @@ import type {
 } from '../table/defaults'
 
 function useRender<T>(props: Partial<TableBodyProps<T>>) {
+  const tablePrefixClass = usePrefixClass('table')
   const instance = getCurrentInstance()
   const parent = instance.parent as Table<T>
   const {
@@ -51,7 +53,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
     const rowClasses = getRowClass(row, $index)
     let display = true
     if (treeRowData) {
-      rowClasses.push(`el-table__row--level-${treeRowData.level}`)
+      rowClasses.push(`${tablePrefixClass.value}__row--level-${treeRowData.level}`)
       display = treeRowData.display
     }
     const displayStyle = display
@@ -158,7 +160,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
                 'td',
                 {
                   colspan: store.states.columns.value.length,
-                  class: 'el-table__cell el-table__expanded-cell',
+                  class: `${tablePrefixClass.value}__cell ${tablePrefixClass.value}__expanded-cell`,
                 },
                 [renderExpanded({ row, $index, store })]
               ),

@@ -1,7 +1,7 @@
 <template>
   <div
     ref="bar$"
-    :class="['el-tabs__active-bar', `is-${rootTabs.props.tabPosition}`]"
+    :class="[`${tabsPrefixClass}__active-bar`, `is-${rootTabs.props.tabPosition}`]"
     :style="barStyle"
   ></div>
 </template>
@@ -19,6 +19,7 @@ import { useResizeObserver } from '@vueuse/core'
 import { tabsRootContextKey } from '@element-plus/tokens'
 import { throwError } from '@element-plus/utils/error'
 import { tabBar } from './tab-bar'
+import { usePrefixClass } from '@element-plus/hooks'
 
 import type { CSSProperties } from 'vue'
 
@@ -28,6 +29,7 @@ export default defineComponent({
   props: tabBar,
 
   setup(props) {
+    const tabsPrefixClass = usePrefixClass('tabs')
     const instance = getCurrentInstance()!
     const rootTabs = inject(tabsRootContextKey)
     if (!rootTabs) throwError(COMPONENT_NAME, 'must use with ElTabs')
@@ -91,6 +93,7 @@ export default defineComponent({
     useResizeObserver(bar$, () => update())
 
     return {
+      tabsPrefixClass,
       bar$,
       rootTabs,
       barStyle,
