@@ -1,4 +1,5 @@
 import { provide, ref } from 'vue'
+import { usePrefixClass } from '@element-plus/hooks'
 import { addClass, removeClass } from '@element-plus/utils/dom'
 import type { InjectionKey } from 'vue'
 import type Node from './node'
@@ -22,6 +23,8 @@ export interface DragEvents {
 export const dragEventsKey: InjectionKey<DragEvents> = Symbol('dragEvents')
 
 export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
+  const prefixClass = usePrefixClass('tree')
+
   const dragState = ref({
     showDropIndicator: false,
     draggingNode: null,
@@ -123,7 +126,7 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
     }
 
     const iconPosition = dropNode.$el
-      .querySelector('.el-tree-node__expand-icon')
+      .querySelector(`.${prefixClass.value}-node__expand-icon`)
       .getBoundingClientRect()
     const dropIndicator = dropIndicator$.value
     if (dropType === 'before') {

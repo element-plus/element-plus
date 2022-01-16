@@ -2,8 +2,8 @@
   <div
     v-show="node.visible"
     ref="node$"
-    class="el-tree-node"
     :class="{
+      [prefixClass]: true,
       'is-expanded': expanded,
       'is-current': node.isCurrent,
       'is-hidden': !node.visible,
@@ -26,7 +26,7 @@
     @drop.stop="handleDrop"
   >
     <div
-      class="el-tree-node__content"
+      :class="`${prefixClass}__content`"
       :style="{ paddingLeft: (node.level - 1) * tree.props.indent + 'px' }"
     >
       <el-icon
@@ -36,7 +36,7 @@
             'is-leaf': node.isLeaf,
             expanded: !node.isLeaf && expanded,
           },
-          'el-tree-node__expand-icon',
+          `${prefixClass}__expand-icon`,
         ]"
         @click.stop="handleExpandIconClick"
       >
@@ -52,7 +52,7 @@
       />
       <el-icon
         v-if="node.loading"
-        class="el-tree-node__loading-icon is-loading"
+        :class="`${prefixClass}__loading-icon is-loading`"
       >
         <loading />
       </el-icon>
@@ -62,7 +62,7 @@
       <div
         v-if="!renderAfterExpand || childNodeRendered"
         v-show="expanded"
-        class="el-tree-node__children"
+        :class="`${prefixClass}__children`"
         role="group"
         :aria-expanded="expanded"
       >
@@ -91,6 +91,7 @@ import {
   provide,
 } from 'vue'
 import { isString, isFunction } from '@vue/shared'
+import { usePrefixClass } from '@element-plus/hooks'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
@@ -134,6 +135,7 @@ export default defineComponent({
   },
   emits: ['node-expand'],
   setup(props, ctx) {
+    const prefixClass = usePrefixClass('tree-node')
     const { broadcastExpanded } = useNodeExpandEventBroadcast(props)
     const tree = inject<RootTreeType>('RootTree')
     const expanded = ref(false)
@@ -317,6 +319,7 @@ export default defineComponent({
     }
 
     return {
+      prefixClass,
       node$,
       tree,
       expanded,

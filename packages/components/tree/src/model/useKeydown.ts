@@ -1,4 +1,5 @@
 import { onMounted, onUpdated, onBeforeUnmount, watch, shallowRef } from 'vue'
+import { usePrefixClass } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { on, off } from '@element-plus/utils/dom'
 import type TreeStore from './tree-store'
@@ -10,6 +11,7 @@ interface UseKeydownOption {
   el$: Ref<HTMLElement>
 }
 export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
+  const prefixClass = usePrefixClass('tree')
   const treeItems = shallowRef<Nullable<HTMLElement>[]>([])
   const checkboxItems = shallowRef<Nullable<HTMLElement>[]>([])
 
@@ -37,7 +39,8 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
 
   const handleKeydown = (ev: KeyboardEvent): void => {
     const currentItem = ev.target as HTMLElement
-    if (currentItem.className.indexOf('el-tree-node') === -1) return
+    if (currentItem.className.indexOf(`${prefixClass.value}-node`) === -1)
+      return
     const code = ev.code
     treeItems.value = Array.from(
       el$.value.querySelectorAll('.is-focusable[role=treeitem]')
