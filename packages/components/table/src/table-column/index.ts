@@ -120,7 +120,6 @@ export default defineComponent({
         setColumnForcedProps
       )
       column = chains(column)
-      
       columnConfig.value = column
 
       // 注册 watcher

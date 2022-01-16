@@ -8,10 +8,8 @@ import {
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { Table } from '../table/defaults'
 import type { TableHeaderProps } from '.'
-import { usePrefixClass } from '@element-plus/hooks'
 
 function useStyle<T>(props: TableHeaderProps<T>) {
-  const tablePrefixClass = usePrefixClass('table')
   const instance = getCurrentInstance()
   const parent = instance.parent as Table<T>
 
@@ -108,7 +106,7 @@ function useStyle<T>(props: TableHeaderProps<T>) {
       )
     }
 
-    classes.push(`${tablePrefixClass.value}__cell`)
+    classes.push('el-table__cell')
 
     return classes.join(' ')
   }

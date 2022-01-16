@@ -14,7 +14,6 @@ import { hColgroup } from '../h-helper'
 import useEvent from './event-helper'
 import useStyle from './style.helper'
 import useUtils from './utils-helper'
-import { usePrefixClass } from '@element-plus/hooks'
 
 import type { ComponentInternalInstance, Ref, PropType } from 'vue'
 import type { DefaultRow, Sort, Table } from '../table/defaults'
@@ -59,7 +58,6 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const tablePrefixClass = usePrefixClass('table')
     const instance = getCurrentInstance() as TableHeader
     const parent = instance.parent as Table<unknown>
     const storeData = parent.store.states
@@ -110,7 +108,6 @@ export default defineComponent({
     instance.filterPanels = filterPanels
 
     return {
-      tablePrefixClass,
       columns: storeData.columns,
       filterPanels,
       hasGutter,
@@ -133,8 +130,7 @@ export default defineComponent({
       toggleAllSelection,
     }
   },
-  render(params) {
-    const { tablePrefixClass } = params;
+  render() {
     const {
       columns,
       isGroup,
@@ -161,7 +157,7 @@ export default defineComponent({
         border: '0',
         cellpadding: '0',
         cellspacing: '0',
-        class: `${tablePrefixClass}__header`,
+        class: 'el-table__header',
       },
       [
         hColgroup(columns, hasGutter),
@@ -281,8 +277,8 @@ export default defineComponent({
                         h(
                           'th',
                           {
-                            class: `${tablePrefixClass}__fixed-right-patch ${tablePrefixClass}__cell`,
-                            key: `${tablePrefixClass}--scrollbar`,
+                            class: 'el-table__fixed-right-patch el-table__cell',
+                            key: `el-table--scrollbar`,
                             rowSpan,
                             style: {
                               width: `${gutterWidth}px`,

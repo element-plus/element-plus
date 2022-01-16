@@ -9,10 +9,8 @@ import useMapState from './mapState-helper'
 import type { Table } from '../table/defaults'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { TableFooter } from '.'
-import { usePrefixClass } from '@element-plus/hooks'
 
 function useStyle<T>(props: TableFooter<T>) {
-  const tablePrefixClass = usePrefixClass('table')
   const instance = getCurrentInstance()
   const table = instance.parent as Table<T>
 
@@ -37,7 +35,7 @@ function useStyle<T>(props: TableFooter<T>) {
   ) => {
     const column = columns[cellIndex]
     const classes = [
-      `${tablePrefixClass.value}__cell`,
+      'el-table__cell',
       column.id,
       column.align,
       column.labelClassName,

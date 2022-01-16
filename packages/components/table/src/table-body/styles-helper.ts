@@ -7,10 +7,8 @@ import {
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { Table } from '../table/defaults'
 import type { TableBodyProps } from './defaults'
-import { usePrefixClass } from '@element-plus/hooks'
 
 function useStyles<T>(props: Partial<TableBodyProps<T>>) {
-  const tablePrefixClass = usePrefixClass('table')
   const instance = getCurrentInstance()
   const parent = instance.parent as Table<T>
 
@@ -26,7 +24,7 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
   }
 
   const getRowClass = (row: T, rowIndex: number) => {
-    const classes = [`${tablePrefixClass.value}__row`]
+    const classes = ['el-table__row']
     if (
       parent.props.highlightCurrentRow &&
       row === props.store.states.currentRow.value
@@ -35,7 +33,7 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
     }
 
     if (props.stripe && rowIndex % 2 === 1) {
-      classes.push(`${tablePrefixClass.value}__row--striped`)
+      classes.push('el-table__row--striped')
     }
     const rowClassName = parent.props.rowClassName
     if (typeof rowClassName === 'string') {
@@ -91,9 +89,7 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
     const fixedClasses = column.isSubColumn
       ? []
       : getFixedColumnsClass(columnIndex, props.fixed, props.store)
-    const classes = [column.id, column.align, column.className, '__cell',...fixedClasses].filter(Boolean).map(cls => {
-      return `${tablePrefixClass.value}${cls}`
-    })
+    const classes = [column.id, column.align, column.className, ...fixedClasses]
     const cellClassName = parent.props.cellClassName
     if (typeof cellClassName === 'string') {
       classes.push(cellClassName)
@@ -107,7 +103,9 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
         })
       )
     }
-    
+
+    classes.push('el-table__cell')
+
     return classes.join(' ')
   }
   const getSpan = (

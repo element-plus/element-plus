@@ -42,7 +42,7 @@
           @set-drag-visible="setDragVisible"
         />
       </div>
-      <div ref="bodyWrapper" :style="bodyHeight" class="jx-table__body-wrapper">
+      <div ref="bodyWrapper" :style="bodyHeight" class="el-table__body-wrapper">
         <table-body
           :context="context"
           :highlight="highlightCurrentRow"
