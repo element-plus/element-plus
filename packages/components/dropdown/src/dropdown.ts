@@ -5,6 +5,7 @@ import {
   useTooltipTriggerProps,
   useTooltipContentProps,
 } from '@element-plus/components/tooltip'
+import type { Options } from '@popperjs/core'
 
 import type { ButtonType } from '@element-plus/components/button'
 import type { Placement } from '@element-plus/components/popper'
@@ -44,6 +45,10 @@ export const dropdownProps = {
       type: definePropType<Placement>(String),
       default: 'bottom',
     },
+    popperOptions: {
+      type: definePropType<Partial<Options>>(Object),
+      default: () => ({}),
+    },
     size: {
       type: String,
       default: '',
@@ -56,7 +61,6 @@ export const dropdownProps = {
     loop: {
       type: Boolean,
     },
-
     showTimeout: {
       type: Number,
       default: 150,
@@ -69,7 +73,6 @@ export const dropdownProps = {
       type: definePropType<number | string>([Number, String]),
       default: 0,
     },
-
     maxHeight: {
       type: definePropType<number | string>([Number, String]),
       default: '',

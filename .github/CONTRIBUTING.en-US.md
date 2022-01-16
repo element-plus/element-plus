@@ -2,7 +2,7 @@
 
 Hi! Thank you for choosing Element Plus.
 
-Element Plus is a Vue 3.0 based component library for developers, designers and product managers.
+Element Plus is a Vue 3 based component library for developers, designers and product managers.
 
 We are excited that you are interested in contributing to Element Plus. Before submitting your contribution though, please make sure to take a moment and read through the following guidelines.
 

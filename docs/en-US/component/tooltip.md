@@ -91,6 +91,13 @@ tooltip/html-content
 Sometimes we want to render the tooltip on some other trigger element,
 we can separate the trigger and the content.
 
+:::tip
+
+Virtual triggering tooltip is controlled component, so that you will have to control the visibility of the tooltip your own
+when this happens, **YOU WILL NOT** be able to close the tooltip by clicking somewhere else.
+
+:::
+
 :::demo
 
 tooltip/virtual-trigger
@@ -100,6 +107,12 @@ tooltip/virtual-trigger
 ## Singleton
 
 Tooltip can also be singleton, which means you can have multiple trigger with only one tooltip instance, this function is implemented based on `Virtual triggering`
+
+:::tip
+
+Known issue: when using singleton, the popup will be bouncing out from unexpected places
+
+:::
 
 :::demo
 
@@ -129,28 +142,32 @@ tooltip/animations
 
 ## Attributes
 
-| Attribute             | Description                                                                                                                                                  | Type    | Accepted Values                                                                                           | Default                                                 |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| append-to-body        | whether to append Dialog itself to body. A nested Dialog should have this attribute set to `true`                                                            | boolean | —                                                                                                         | true                                                    |
-| effect                | Tooltip theme                                                                                                                                                | string  | dark/light                                                                                                | dark                                                    |
-| content               | display content, can be overridden by `slot#content`                                                                                                         | String  | —                                                                                                         | —                                                       |
-| placement             | position of Tooltip                                                                                                                                          | string  | top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end | bottom                                                  |
-| model-value / v-model | visibility of Tooltip                                                                                                                                        | boolean | —                                                                                                         | false                                                   |
-| disabled              | whether Tooltip is disabled                                                                                                                                  | boolean | —                                                                                                         | false                                                   |
-| offset                | offset of the Tooltip                                                                                                                                        | number  | —                                                                                                         | 0                                                       |
-| transition            | animation name                                                                                                                                               | string  | —                                                                                                         | el-fade-in-linear                                       |
-| visible-arrow         | whether an arrow is displayed. For more information, check [ElPopper](https://github.com/element-plus/element-plus/tree/dev/packages/components/popper) page | boolean | —                                                                                                         | true                                                    |
-| popper-options        | [popper.js](https://popper.js.org/documentation.html) parameters                                                                                             | Object  | refer to [popper.js](https://popper.js.org/documentation.html) doc                                        | `{ boundariesElement: 'body', gpuAcceleration: false }` |
-| show-after            | delay of appearance, in millisecond                                                                                                                          | number  | —                                                                                                         | 0                                                       |
-| hide-after            | delay of disappear, in millisecond                                                                                                                           | number  | —                                                                                                         | 0                                                       |
-| auto-close            | timeout in milliseconds to hide tooltip                                                                                                                      | number  | —                                                                                                         | 0                                                       |
-| manual                | whether to control Tooltip manually. `mouseenter` and `mouseleave` won't have effects if set to `true`                                                       | boolean | —                                                                                                         | false                                                   |
-| popper-class          | custom class name for Tooltip's popper                                                                                                                       | string  | —                                                                                                         | —                                                       |
-| enterable             | whether the mouse can enter the tooltip                                                                                                                      | Boolean | —                                                                                                         | true                                                    |
-| tabindex              | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Tooltip                                                          | number  | —                                                                                                         | 0                                                       |
+| Attribute             | Description                                                                                                                                                  | Type        | Accepted Values                                                                                           | Default                                                 |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| append-to-body        | whether to append Dialog itself to body. A nested Dialog should have this attribute set to `true`                                                            | boolean     | —                                                                                                         | true                                                    |
+| effect                | Tooltip theme, built-in theme: `dark` / `light`                                                                                                              | string      | string                                                                                                    | dark                                                    |
+| content               | display content, can be overridden by `slot#content`                                                                                                         | String      | —                                                                                                         | —                                                       |
+| placement             | position of Tooltip                                                                                                                                          | string      | top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end | bottom                                                  |
+| model-value / v-model | visibility of Tooltip                                                                                                                                        | boolean     | —                                                                                                         | false                                                   |
+| disabled              | whether Tooltip is disabled                                                                                                                                  | boolean     | —                                                                                                         | false                                                   |
+| offset                | offset of the Tooltip                                                                                                                                        | number      | —                                                                                                         | 0                                                       |
+| transition            | animation name                                                                                                                                               | string      | —                                                                                                         | el-fade-in-linear                                       |
+| visible-arrow         | whether an arrow is displayed. For more information, check [ElPopper](https://github.com/element-plus/element-plus/tree/dev/packages/components/popper) page | boolean     | —                                                                                                         | true                                                    |
+| popper-options        | [popper.js](https://popper.js.org/documentation.html) parameters                                                                                             | Object      | refer to [popper.js](https://popper.js.org/documentation.html) doc                                        | `{ boundariesElement: 'body', gpuAcceleration: false }` |
+| show-after            | delay of appearance, in millisecond                                                                                                                          | number      | —                                                                                                         | 0                                                       |
+| hide-after            | delay of disappear, in millisecond                                                                                                                           | number      | —                                                                                                         | 0                                                       |
+| auto-close            | timeout in milliseconds to hide tooltip                                                                                                                      | number      | —                                                                                                         | 0                                                       |
+| manual                | whether to control Tooltip manually. `mouseenter` and `mouseleave` won't have effects if set to `true`                                                       | boolean     | —                                                                                                         | false                                                   |
+| popper-class          | custom class name for Tooltip's popper                                                                                                                       | string      | —                                                                                                         | —                                                       |
+| enterable             | whether the mouse can enter the tooltip                                                                                                                      | Boolean     | —                                                                                                         | true                                                    |
+| tabindex              | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Tooltip                                                          | number      | —                                                                                                         | 0                                                       |
+| trigger               | How should the tooltip be triggered (to show)                                                                                                                | string      | hover / click / focus / contextmenu                                                                       | hover                                                   |
+| virtual-triggering    | Indicates whether virtual triggering is enabled                                                                                                              | boolean     | -                                                                                                         | false                                                   |
+| virtual-ref           | Indicates the reference element to which the tooltip is attached                                                                                             | HTMLElement | -                                                                                                         | -                                                       |
 
 ## Slots
 
-| Name | Description               |
-| ---- | ------------------------- |
-| —    | customize default content |
+| Name    | Description                            |
+| ------- | -------------------------------------- |
+| —       | Tooltip triggering & reference element |
+| content | customize content                      |

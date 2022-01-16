@@ -1,5 +1,33 @@
 ## Changelog
 
+### 1.3.0-beta.5
+
+_2022-01-12_
+
+#### Bug fixes
+
+- Fix error build type file (#5335 by @JeremyWuuuuu)
+
+### 1.3.0-beta.4
+
+_2022-01-11_
+
+#### Features
+
+- Components [el-tabs] add active-bar width transition (#5206 by @purepear) (#5223)
+
+#### Bug fixes
+
+- Dropdowm item can not click (#5257 by @kooriookami)
+- Components [el-tree] fix safari drop animation issue (#5294 by @msidolphin)
+- Components [el-dropdown] cannot be closed by clicking outside (#5287 by @JeremyWuuuuu)
+- Style [el-dropdown] fix doc style (#5266 by @kooriookami)
+- Components [el-date-picker] panel position error after view switch (#5277 by @msidolphin)
+- Components [el-tooltip] restoring append-to API (#5296 by @JeremyWuuuuu)
+- Fix DateRangePicker custom style & class bug (#5300 by @0song)
+- [el-calendar] selected wrong date when change the month/year (#5297 by @msidolphin)
+- Project adding cypress into element plus (#5281 by @JeremyWuuuuu)
+
 ### 1.3.0-beta.3
 
 _2022-01-09_

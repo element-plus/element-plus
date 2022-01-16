@@ -24,7 +24,7 @@ export default defineComponent({
     ...usePopperTriggerProps,
     onMouseenter: Function,
     onMouseleave: Function,
-    onMousedown: Function,
+    onClick: Function,
     onKeydown: Function,
     onFocus: Function,
     onBlur: Function,
@@ -55,7 +55,7 @@ export default defineComponent({
           ;[
             'onMouseenter',
             'onMouseleave',
-            'onMousedown',
+            'onClick',
             'onKeydown',
             'onFocus',
             'onBlur',

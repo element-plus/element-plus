@@ -83,22 +83,22 @@ export default defineComponent({
     const now = dayjs().locale(lang.value)
 
     const prevMonthDayjs = computed(() => {
-      return date.value.subtract(1, 'month')
+      return date.value.subtract(1, 'month').date(1)
     })
     const curMonthDatePrefix = computed(() => {
       return dayjs(date.value).locale(lang.value).format('YYYY-MM')
     })
 
     const nextMonthDayjs = computed(() => {
-      return date.value.add(1, 'month')
+      return date.value.add(1, 'month').date(1)
     })
 
     const prevYearDayjs = computed(() => {
-      return date.value.subtract(1, 'year')
+      return date.value.subtract(1, 'year').date(1)
     })
 
     const nextYearDayjs = computed(() => {
-      return date.value.add(1, 'year')
+      return date.value.add(1, 'year').date(1)
     })
 
     const i18nDate = computed(() => {

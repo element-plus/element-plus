@@ -1,4 +1,5 @@
 <template>
+  <div v-if="divided" class="el-dropdown-menu__item--divided"></div>
   <div
     :ref="itemRef"
     v-bind="dataset"
@@ -6,7 +7,6 @@
     :class="{
       'el-dropdown-menu__item': true,
       'is-disabled': disabled,
-      'el-dropdown-menu__item--divided': divided,
     }"
     :tabindex="tabIndex"
     role="menuitem"

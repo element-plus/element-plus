@@ -63,7 +63,8 @@
     cursor: pointer;
 
     & > .#{$namespace}-tree-node__expand-icon {
-      margin: 6px;
+      padding: 6px;
+      box-sizing: content-box;
     }
     & > label.#{$namespace}-checkbox {
       margin-right: 8px;

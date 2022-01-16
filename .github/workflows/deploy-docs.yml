@@ -49,7 +49,7 @@ jobs:
           DOC_ENV: production
 
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@4.2.1
+        uses: JamesIves/github-pages-deploy-action@v4.2.2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
@@ -61,4 +61,4 @@ jobs:
       - name: Sync
         env:
           TRIGGERSYNCURL: ${{ secrets.TRIGGERSYNCURL }}
-        run: curl "$TRIGGERSYNCURL"
+        run: curl -k "$TRIGGERSYNCURL"

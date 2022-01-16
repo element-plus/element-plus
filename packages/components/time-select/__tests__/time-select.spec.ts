@@ -1,8 +1,11 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
 import Select from '@element-plus/components/select'
 import { sleep } from '@element-plus/test-utils'
 import TimeSelect from '../src/time-select.vue'
+dayjs.extend(customParseFormat)
 
 const { Option } = Select
 
@@ -169,5 +172,24 @@ describe('TimeSelect', () => {
     const popperEl = document.querySelector('.el-select__popper')
     const attr = popperEl.getAttribute('aria-hidden')
     expect(attr).toEqual('true')
+  })
+
+  it('set format', async () => {
+    const wrapper = _mount(
+      `<el-time-select
+    v-model="value"
+    start="13:00"
+    step="00:30"
+    end="13:30"
+    format="hh:mm A"
+  >
+  </el-time-select>`,
+      () => ({ value: '' })
+    )
+    const input = wrapper.find('.el-input__inner')
+    await input.trigger('click')
+    await nextTick()
+    const option = document.querySelector('.el-select-dropdown__item')
+    expect(option.textContent).toBe('01:00 PM')
   })
 })

@@ -99,12 +99,12 @@ describe('<ElTooltip />', () => {
 
       const trigger$ = findTrigger()
       const triggerEl = trigger$.find('.el-tooltip__trigger')
-      await triggerEl.trigger('mousedown')
+      await triggerEl.trigger('click')
       jest.runAllTimers()
       await rAF()
       expect(wrapper.emitted()).toHaveProperty('show')
 
-      await triggerEl.trigger('mousedown')
+      await triggerEl.trigger('click')
       jest.runAllTimers()
       await rAF()
       expect(wrapper.emitted()).toHaveProperty('hide')

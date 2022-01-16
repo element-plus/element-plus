@@ -12,6 +12,7 @@
       :aria-label="ariaLabel"
       :boundaries-padding="boundariesPadding"
       :content="content"
+      :disabled="disabled"
       :effect="effect"
       :enterable="enterable"
       :fallback-placements="fallbackPlacements"
@@ -158,6 +159,7 @@ export default defineComponent({
       onHide: () => {
         emit('hide')
       },
+      updatePopper,
     })
 
     return {

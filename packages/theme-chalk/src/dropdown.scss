@@ -24,6 +24,16 @@ $dropdown-item-padding: map.merge(
   $dropdown-item-padding
 );
 
+$dropdown-item-divided-margin: () !default;
+$dropdown-item-divided-margin: map.merge(
+  (
+    'large': 8px 0,
+    'default': 6px 0,
+    'small': 4px 0,
+  ),
+  $dropdown-item-divided-margin
+);
+
 $dropdown-caret-width: () !default;
 $dropdown-caret-width: map.merge($common-component-size, $dropdown-caret-width);
 
@@ -37,6 +47,7 @@ $dropdown-divider-width: 1px !default;
   color: var(--el-text-color-regular);
   font-size: var(--el-font-size-base);
   line-height: 1;
+  vertical-align: top;
 
   @include e(popper) {
     @include set-component-css-var('dropdown', $dropdown);
@@ -157,6 +168,7 @@ $dropdown-menu-padding-vertical: map.merge(
   @include e(item) {
     display: flex;
     align-items: center;
+    white-space: nowrap;
     list-style: none;
     line-height: map.get($dropdown-item-line-height, 'default');
     padding: map.get($dropdown-item-padding, 'default');
@@ -175,18 +187,8 @@ $dropdown-menu-padding-vertical: map.merge(
     }
 
     @include m(divided) {
-      $divided-offset: 6px;
-
-      position: relative;
-      margin-top: $divided-offset;
+      margin: map.get($dropdown-item-divided-margin, 'default');
       border-top: 1px solid var(--el-border-color-lighter);
-
-      &:before {
-        content: '';
-        height: $divided-offset;
-        display: block;
-        background-color: $color-white;
-      }
     }
 
     @include when(disabled) {
@@ -205,13 +207,8 @@ $dropdown-menu-padding-vertical: map.merge(
         line-height: map.get($dropdown-item-line-height, $size);
         font-size: map.get($input-font-size, $size);
 
-        &.#{$namespace}-dropdown-menu__item--divided {
-          $divided-offset: 3px;
-          margin-top: $divided-offset;
-
-          &:before {
-            height: $divided-offset;
-          }
+        @include m(divided) {
+          margin: map.get($dropdown-item-divided-margin, $size);
         }
       }
     }

@@ -1,11 +1,12 @@
 <template>
-  <div class="el-button-group">
+  <div :class="`${ns.b('group')}`">
     <slot></slot>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, provide, reactive, toRef } from 'vue'
 import { buttonGroupContextKey } from '@element-plus/tokens'
+import { useNamespace } from '@element-plus/hooks'
 import { buttonGroupProps } from './button-group'
 
 export default defineComponent({
@@ -20,6 +21,10 @@ export default defineComponent({
         type: toRef(props, 'type'),
       })
     )
+    const ns = useNamespace('button')
+    return {
+      ns,
+    }
   },
 })
 </script>

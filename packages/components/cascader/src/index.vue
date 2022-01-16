@@ -22,7 +22,9 @@
           'el-cascader',
           realSize && `el-cascader--${realSize}`,
           { 'is-disabled': isDisabled },
+          $attrs.class,
         ]"
+        :style="$attrs.style"
         @click="() => togglePopperVisible(readonly ? undefined : true)"
         @keydown="handleKeyDown"
         @mouseenter="inputHover = true"

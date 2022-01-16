@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "pnpm gen-locale && vitepress dev .",
     "build": "cross-env NODE_ENV=production && vitepress build .",
-    "serve": "cross-env NODE_ENV=production && vitepress serve .",
+    "serve": "cross-env NODE_ENV=production vitepress serve . --port 5001",
     "gen-locale": "rimraf .vitepress/i18n && sucrase-node .vitepress/build/crowdin-generate.ts",
     "crowdin-credentials": "sucrase-node .vitepress/build/crowdin-credentials.ts"
   },
@@ -19,7 +19,7 @@
     "nprogress": "0.2.0"
   },
   "devDependencies": {
-    "@crowdin/cli": "3.7.4",
+    "@crowdin/cli": "3.7.7",
     "@iconify-json/ri": "1.0.2",
     "@types/markdown-it": "12.2.3",
     "cross-env": "7.0.3",
