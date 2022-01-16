@@ -3,7 +3,8 @@
     <el-tooltip
       ref="popperRef"
       :effect="effect"
-      :fallback-placements="['bottom', 'top', 'right', 'left']"
+      :fallback-placements="['bottom', 'top']"
+      :popper-options="popperOptions"
       :gpu-acceleration="false"
       :hide-after="hideTimeout"
       :manual-mode="true"
