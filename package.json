@@ -93,7 +93,7 @@
     "cypress": "8.5.0",
     "cz-conventional-changelog": "3.3.0",
     "esbuild": "0.14.11",
-    "eslint": "8.6.0",
+    "eslint": "8.7.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-define-config": "1.2.2",
     "eslint-plugin-import": "2.25.4",
