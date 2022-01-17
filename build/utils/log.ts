@@ -1,20 +1,33 @@
 import process from 'process'
 import chalk from 'chalk'
 
+/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+const [command, info, error] = ['command', 'info', 'error'].map(
+  (symbol: string) => {
+    return (msg: string) => console.log(`[${symbol}] ${msg}`)
+  }
+)
+/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+const [group, endGroup] = ['group', 'endgroup'].map((symbol) => {
+  return (groupMsg: string) => {
+    console.log(`##[${symbol}] ${groupMsg}`)
+  }
+})
+
 export function cyan(str: string) {
-  console.log(chalk.cyan(str))
+  command(chalk.cyan(str))
 }
 
 export function yellow(str: string) {
-  console.log(chalk.yellow(str))
+  command(chalk.yellow(str))
 }
 
 export function green(str: string) {
-  console.log(chalk.green(str))
+  command(chalk.green(str))
 }
 
 export function red(str: string) {
-  console.error(chalk.red(str))
+  error(chalk.red(str))
 }
 
 export function errorAndExit(e: Error): never {
