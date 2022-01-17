@@ -45,6 +45,12 @@ $directions: rtl, ltr, ttb, btt;
     font-size: 1rem;
   }
 
+  @include e(footer) {
+    padding: var(--el-drawer-padding-primary);
+    padding-top: 10px;
+    text-align: right;
+  }
+
   &__close-btn {
     border: none;
     cursor: pointer;
