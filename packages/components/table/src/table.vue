@@ -202,7 +202,6 @@ export default defineComponent({
       resizeState,
       doLayout,
       tableBodyStyles,
-      borderBottomPatchStyles,
     } = useStyle<Row>(props, layout, store, table)
 
     const debouncedUpdateLayout = debounce(doLayout, 50)
@@ -241,7 +240,6 @@ export default defineComponent({
       height,
       tableBodyStyles,
       emptyBlockStyle,
-      borderBottomPatchStyles,
       debouncedUpdateLayout,
       handleFixedMousewheel,
       fixedHeight,

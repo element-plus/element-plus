@@ -42,26 +42,18 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const { hasGutter, getCellClasses, getCellStyles, columns, gutterWidth } =
-      useStyle(props as TableFooter<DefaultRow>)
+    const { getCellClasses, getCellStyles, columns } = useStyle(
+      props as TableFooter<DefaultRow>
+    )
     return {
       getCellClasses,
       getCellStyles,
-      hasGutter,
-      gutterWidth,
       columns,
     }
   },
   render() {
-    const {
-      hasGutter,
-      gutterWidth,
-      columns,
-      getCellStyles,
-      getCellClasses,
-      summaryMethod,
-      sumText,
-    } = this
+    const { columns, getCellStyles, getCellClasses, summaryMethod, sumText } =
+      this
     const data = this.store.states.data.value
     let sums = []
     if (summaryMethod) {
@@ -109,45 +101,32 @@ export default defineComponent({
         border: '0',
       },
       [
-        hColgroup(columns, hasGutter),
-        h(
-          'tbody',
-          {
-            class: [{ 'has-gutter': hasGutter }],
-          },
-          [
-            h('tr', {}, [
-              ...columns.map((column, cellIndex) =>
-                h(
-                  'td',
-                  {
-                    key: cellIndex,
-                    colspan: column.colSpan,
-                    rowspan: column.rowSpan,
-                    class: getCellClasses(columns, cellIndex),
-                    style: getCellStyles(column, cellIndex),
-                  },
-                  [
-                    h(
-                      'div',
-                      {
-                        class: ['cell', column.labelClassName],
-                      },
-                      [sums[cellIndex]]
-                    ),
-                  ]
-                )
-              ),
-              hasGutter &&
-                h('td', {
-                  class: 'el-table__fixed-right-patch el-table__cell',
-                  style: {
-                    width: `${gutterWidth}px`,
-                  },
-                }),
-            ]),
-          ]
-        ),
+        hColgroup(columns),
+        h('tbody', [
+          h('tr', {}, [
+            ...columns.map((column, cellIndex) =>
+              h(
+                'td',
+                {
+                  key: cellIndex,
+                  colspan: column.colSpan,
+                  rowspan: column.rowSpan,
+                  class: getCellClasses(columns, cellIndex),
+                  style: getCellStyles(column, cellIndex),
+                },
+                [
+                  h(
+                    'div',
+                    {
+                      class: ['cell', column.labelClassName],
+                    },
+                    [sums[cellIndex]]
+                  ),
+                ]
+              )
+            ),
+          ]),
+        ]),
       ]
     )
   },

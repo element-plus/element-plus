@@ -99,13 +99,6 @@ function useStyle<T>(
     }
   })
 
-  const borderBottomPatchStyles = computed(() => {
-    return {
-      bottom: `${layout.gutterWidth}px`,
-      right: `${layout.gutterWidth}px`,
-    }
-  })
-
   const doLayout = () => {
     if (shouldUpdateHeight.value) {
       layout.updateElsHeight()
@@ -363,7 +356,6 @@ function useStyle<T>(
     resizeState,
     doLayout,
     tableBodyStyles,
-    borderBottomPatchStyles,
   }
 }
 

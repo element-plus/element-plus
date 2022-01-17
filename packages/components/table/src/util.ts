@@ -486,19 +486,6 @@ export const getFixedColumnOffset = <T>(
   return styles
 }
 
-export function getCellStyle<T>(
-  column: TableColumnCtx<T>,
-  cellIndex: number,
-  hasGutter: boolean,
-  gutterWidth: number,
-  store: any
-) {
-  const fixedStyle = getFixedColumnOffset(cellIndex, column.fixed, store)
-  ensurePosition(fixedStyle, 'left')
-  ensurePosition(fixedStyle, 'right')
-  return fixedStyle
-}
-
 export const ensurePosition = (style, key: string) => {
   if (!style) return
   if (!Number.isNaN(style[key])) {
