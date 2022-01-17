@@ -21,21 +21,24 @@
   >
     <span>Hi, there!</span>
   </el-drawer>
-  <el-drawer
-    v-model="drawer2"
-    :direction="direction"
-    :before-close="handleClose"
-  >
+  <el-drawer v-model="drawer2" :direction="direction">
     <template #title>
       <h4>set title by slot</h4>
     </template>
     <template #default>
-      <p>set default slot</p>
+      <div>
+        <el-radio v-model="radio1" label="Option 1" size="large"
+          >Option 1</el-radio
+        >
+        <el-radio v-model="radio1" label="Option 2" size="large"
+          >Option 2</el-radio
+        >
+      </div>
     </template>
     <template #footer>
       <div style="flex: auto">
-        <el-button>cancel</el-button>
-        <el-button type="primary">confirm</el-button>
+        <el-button @click="cancelClick">cancel</el-button>
+        <el-button type="primary" @click="confirmClick">confirm</el-button>
       </div>
     </template>
   </el-drawer>
@@ -48,10 +51,23 @@ import { ElMessageBox } from 'element-plus'
 const drawer = ref(false)
 const drawer2 = ref(false)
 const direction = ref('rtl')
+const radio1 = ref('Option 1')
 const handleClose = (done: () => void) => {
   ElMessageBox.confirm('Are you sure you want to close this?')
     .then(() => {
       done()
+    })
+    .catch(() => {
+      // catch error
+    })
+}
+function cancelClick() {
+  drawer2.value = false
+}
+function confirmClick() {
+  ElMessageBox.confirm(`Are you confirm to chose ${radio1.value} ?`)
+    .then(() => {
+      drawer2.value = false
     })
     .catch(() => {
       // catch error
