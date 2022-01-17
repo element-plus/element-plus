@@ -454,7 +454,9 @@ export const getFixedColumnsClass = <T>(
 function getOffset<T>(offset: number, column: TableColumnCtx<T>) {
   return (
     offset +
-    (Number.isNaN(column.realWidth) ? Number(column.width) : column.realWidth)
+    (column.realWidth === null || Number.isNaN(column.realWidth)
+      ? Number(column.width)
+      : column.realWidth)
   )
 }
 
