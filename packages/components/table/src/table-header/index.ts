@@ -1,7 +1,6 @@
 import {
   defineComponent,
   getCurrentInstance,
-  computed,
   onMounted,
   nextTick,
   ref,

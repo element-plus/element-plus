@@ -1,7 +1,6 @@
 import { nextTick, ref, isRef } from 'vue'
 import { hasOwn } from '@vue/shared'
 import { isClient } from '@vueuse/core'
-import scrollbarWidth from '@element-plus/utils/scrollbar-width'
 import { parseHeight } from './util'
 import type { Ref } from 'vue'
 
