@@ -29,7 +29,7 @@
     "unplugin-icons": "0.13.0",
     "unplugin-vue-components": "0.17.13",
     "vite-plugin-inspect": "0.3.13",
-    "vite-plugin-windicss": "1.6.2",
+    "vite-plugin-windicss": "1.6.3",
     "vitepress": "0.21.5"
   }
 }
