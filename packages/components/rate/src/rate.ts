@@ -24,11 +24,12 @@ export const rateProps = buildProps({
   },
   colors: {
     type: definePropType<string[] | Record<number, string>>([Array, Object]),
-    default: () => mutable([
-      'var(--el-rate-star-color)',
-      'var(--el-rate-star-color)',
-      'var(--el-rate-star-color)'
-    ] as const),
+    default: () =>
+      mutable([
+        'var(--el-rate-star-color)',
+        'var(--el-rate-star-color)',
+        'var(--el-rate-star-color)',
+      ] as const),
   },
   voidColor: {
     type: String,
