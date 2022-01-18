@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { isNumber, isString } from '@element-plus/utils/util'
+import { addUnit, isUndefined } from '@element-plus/utils/util'
 import { useNamespace } from '@element-plus/hooks'
 import { iconProps } from './icon'
 
@@ -22,16 +22,11 @@ export default defineComponent({
     const ns = useNamespace('icon')
 
     const style = computed<CSSProperties>(() => {
-      if (!props.size && !props.color) {
-        return {}
-      }
-      let size = props.size
-      if (isNumber(size) || (isString(size) && !size.endsWith('px'))) {
-        size = `${size}px`
-      }
+      if (!props.size && !props.color) return {}
+
       return {
-        ...(props.size ? { fontSize: size } : {}),
-        ...(props.color ? { '--color': props.color } : {}),
+        fontSize: !isUndefined(props.size) ? addUnit(props.size) : undefined,
+        '--color': props.color,
       }
     })
 
