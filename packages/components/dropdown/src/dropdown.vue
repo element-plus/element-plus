@@ -121,7 +121,6 @@ export default defineComponent({
     const referenceElementRef = ref()
     const popperRef = ref<InstanceType<typeof ElTooltip> | null>(null)
     const contentRef = ref<HTMLElement | null>(null)
-    const visible = ref(false)
     const scrollbar = ref(null)
     const currentTabId = ref<string | null>(null)
     const isUsingKeyboard = ref(false)
@@ -135,6 +134,14 @@ export default defineComponent({
 
     function handleClick() {
       popperRef.value?.onClose()
+    }
+
+    function handleClose() {
+      popperRef.value?.onClose()
+    }
+
+    function handleOpen() {
+      popperRef.value?.onOpen()
     }
 
     const dropdownSize = useSize()
@@ -175,7 +182,6 @@ export default defineComponent({
     provide('elDropdown', {
       instance: _instance,
       dropdownSize,
-      visible,
       handleClick,
       commandHandler,
       trigger: toRef(props, 'trigger'),
@@ -194,7 +200,6 @@ export default defineComponent({
     }
 
     return {
-      visible,
       scrollbar,
       wrapStyle,
       dropdownTriggerKls,
@@ -203,6 +208,8 @@ export default defineComponent({
       handleCurrentTabIdChange,
       handlerMainButtonClick,
       handleEntryFocus,
+      handleClose,
+      handleOpen,
       onMountOnFocus,
       popperRef,
       triggeringElementRef,
