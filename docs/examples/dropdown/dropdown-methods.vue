@@ -5,7 +5,7 @@
   <div style="margin: 15px">
     <el-button @click="showClick">show</el-button>
   </div>
-  <el-dropdown ref="dropdown1" trigger="click" style="margin-right: 30px">
+  <el-dropdown ref="dropdown1" trigger="contextmenu" style="margin-right: 30px">
     <span class="el-dropdown-link"> Dropdown List1 </span>
     <template #dropdown>
       <el-dropdown-menu>
@@ -18,7 +18,7 @@
     </template>
   </el-dropdown>
 
-  <el-dropdown trigger="click" @visible-change="handleVisible2">
+  <el-dropdown trigger="contextmenu" @visible-change="handleVisible2">
     <span class="el-dropdown-link"> Dropdown List2 </span>
     <template #dropdown>
       <el-dropdown-menu>
