@@ -7,7 +7,7 @@ export const avatarProps = buildProps({
   size: {
     type: [Number, String],
     values: ['large', 'default', 'small'],
-    default: 'large',
+    default: 'default',
     validator: (val: unknown): val is number => typeof val === 'number',
   },
   shape: {

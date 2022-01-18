@@ -4,12 +4,12 @@
     :class="[
       type === 'textarea' ? nsTextarea.b() : nsInput.b(),
       nsInput.m(inputSize),
+      nsInput.is('disabled', inputDisabled),
+      nsInput.is('exceed', inputExceed),
       {
-        [nsInput.is('disabled')]: inputDisabled,
-        [nsInput.is('exceed')]: inputExceed,
         [nsInput.b('group')]: $slots.prepend || $slots.append,
-        [nsInput.b('group--append')]: $slots.append,
-        [nsInput.b('group--prepend')]: $slots.prepend,
+        [nsInput.bm('group', 'append')]: $slots.append,
+        [nsInput.bm('group', 'prepend')]: $slots.prepend,
         [nsInput.m('prefix')]: $slots.prefix || prefixIcon,
         [nsInput.m('suffix')]:
           $slots.suffix || suffixIcon || clearable || showPassword,
