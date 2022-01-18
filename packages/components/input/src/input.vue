@@ -2,18 +2,18 @@
   <div
     v-show="type !== 'hidden'"
     :class="[
-      type === 'textarea' ? 'el-textarea' : 'el-input',
-      inputSize ? 'el-input--' + inputSize : '',
+      type === 'textarea' ? ns2.b() : ns.b(),
+      ns.m(inputSize),
       {
         'is-disabled': inputDisabled,
         'is-exceed': inputExceed,
-        'el-input-group': $slots.prepend || $slots.append,
-        'el-input-group--append': $slots.append,
-        'el-input-group--prepend': $slots.prepend,
-        'el-input--prefix': $slots.prefix || prefixIcon,
-        'el-input--suffix':
+        [ns.b('group')]: $slots.prepend || $slots.append,
+        [ns.b('group--append')]: $slots.append,
+        [ns.b('group--prepend')]: $slots.prepend,
+        [ns.m('prefix')]: $slots.prefix || prefixIcon,
+        [ns.m('suffix')]:
           $slots.suffix || suffixIcon || clearable || showPassword,
-        'el-input--suffix--password-clear': clearable && showPassword,
+        [ns.m('suffix--password-clear')]: clearable && showPassword,
       },
       $attrs.class,
     ]"
@@ -24,13 +24,13 @@
     <!-- input -->
     <template v-if="type !== 'textarea'">
       <!-- prepend slot -->
-      <div v-if="$slots.prepend" class="el-input-group__prepend">
+      <div v-if="$slots.prepend" :class="ns.be('group', 'prepend')">
         <slot name="prepend" />
       </div>
 
       <input
         ref="input"
-        class="el-input__inner"
+        :class="ns.e('inner')"
         v-bind="attrs"
         :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
         :disabled="inputDisabled"
@@ -51,27 +51,27 @@
       />
 
       <!-- prefix slot -->
-      <span v-if="$slots.prefix || prefixIcon" class="el-input__prefix">
-        <span class="el-input__prefix-inner">
+      <span v-if="$slots.prefix || prefixIcon" :class="ns.e('prefix')">
+        <span :class="ns.e('prefix-inner')">
           <slot name="prefix"></slot>
-          <el-icon v-if="prefixIcon" class="el-input__icon">
+          <el-icon v-if="prefixIcon" :class="ns.e('icon')">
             <component :is="prefixIcon" />
           </el-icon>
         </span>
       </span>
 
       <!-- suffix slot -->
-      <span v-if="suffixVisible" class="el-input__suffix">
-        <span class="el-input__suffix-inner">
+      <span v-if="suffixVisible" :class="ns.e('suffix')">
+        <span :class="ns.e('suffix-inner')">
           <template v-if="!showClear || !showPwdVisible || !isWordLimitVisible">
             <slot name="suffix"></slot>
-            <el-icon v-if="suffixIcon" class="el-input__icon">
+            <el-icon v-if="suffixIcon" :class="ns.e('icon')">
               <component :is="suffixIcon" />
             </el-icon>
           </template>
           <el-icon
             v-if="showClear"
-            class="el-input__icon el-input__clear"
+            :class="[ns.e('icon'), ns.e('clear')]"
             @mousedown.prevent
             @click="clear"
           >
@@ -79,27 +79,28 @@
           </el-icon>
           <el-icon
             v-if="showPwdVisible"
-            class="el-input__icon el-input__clear"
+            :class="[ns.e('icon'), ns.e('clear')]"
             @click="handlePasswordVisible"
           >
             <icon-view />
           </el-icon>
-          <span v-if="isWordLimitVisible" class="el-input__count">
-            <span class="el-input__count-inner">
+          <span v-if="isWordLimitVisible" :class="ns.e('count')">
+            <span :class="ns.e('count-inner')">
               {{ textLength }} / {{ attrs.maxlength }}
             </span>
           </span>
         </span>
         <el-icon
           v-if="validateState && validateIcon && needStatusIcon"
-          class="el-input__icon el-input__validateIcon"
+          :class="[ns.e('icon'), ns.e('validateIcon')]"
         >
           <component :is="validateIcon" />
         </el-icon>
       </span>
 
       <!-- append slot -->
-      <div v-if="$slots.append" class="el-input-group__append">
+
+      <div v-if="$slots.append" :class="ns.be('group', 'append')">
         <slot name="append" />
       </div>
     </template>
@@ -108,7 +109,7 @@
     <template v-else>
       <textarea
         ref="textarea"
-        class="el-textarea__inner"
+        :class="ns2.e('inner')"
         v-bind="attrs"
         :tabindex="tabindex"
         :disabled="inputDisabled"
@@ -126,7 +127,7 @@
         @change="handleChange"
         @keydown="handleKeydown"
       />
-      <span v-if="isWordLimitVisible" class="el-input__count">
+      <span v-if="isWordLimitVisible" :class="ns.e('count')">
         {{ textLength }} / {{ attrs.maxlength }}
       </span>
     </template>
@@ -154,6 +155,7 @@ import {
   useDisabled,
   useFormItem,
   useSize,
+  useNamespace,
 } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { isObject } from '@element-plus/utils/util'
@@ -187,6 +189,8 @@ export default defineComponent({
     const { form, formItem } = useFormItem()
     const inputSize = useSize()
     const inputDisabled = useDisabled()
+    const ns = useNamespace('input')
+    const ns2 = useNamespace('textarea')
 
     const input = ref<HTMLInputElement>()
     const textarea = ref<HTMLTextAreaElement>()
@@ -274,7 +278,7 @@ export default defineComponent({
       const { el } = instance.vnode
       if (!el) return
       const elList: HTMLSpanElement[] = Array.from(
-        el.querySelectorAll(`.el-input__${place}`)
+        el.querySelectorAll(`.${ns.e(place)}`)
       )
       const target = elList.find((item) => item.parentNode === el)
 
@@ -284,7 +288,7 @@ export default defineComponent({
 
       if (slots[pendant]) {
         target.style.transform = `translateX(${place === 'suffix' ? '-' : ''}${
-          el.querySelector(`.el-input-group__${pendant}`).offsetWidth
+          el.querySelector(`.${ns.be('group', pendant)}`).offsetWidth
         }px)`
       } else {
         target.removeAttribute('style')
@@ -479,6 +483,9 @@ export default defineComponent({
       onMouseLeave,
       onMouseEnter,
       handleKeydown,
+
+      ns,
+      ns2,
     }
   },
 })
