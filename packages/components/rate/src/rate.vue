@@ -240,6 +240,7 @@ export default defineComponent({
         return
       }
       if (props.allowHalf) {
+        // TODO: use cache via computed https://github.com/element-plus/element-plus/pull/5456#discussion_r786472092
         let target = event.target as HTMLElement
         if (hasClass(target, ns.e('item'))) {
           target = target.querySelector(`.${ns.e('icon')}`)!
