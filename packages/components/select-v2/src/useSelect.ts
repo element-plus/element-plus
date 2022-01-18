@@ -414,7 +414,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         handleQueryChange('')
         states.inputLength = 20
       }
-      if (props.filterable) {
+      if (props.filterable && !props.reserveKeyword) {
         inputRef.value.focus?.()
         onUpdateInputValue('')
       }
