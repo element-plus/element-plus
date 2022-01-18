@@ -1,6 +1,7 @@
 import { defineComponent, computed, h, provide } from 'vue'
 import { buildProps } from '@element-plus/utils/props'
-import type { ExtractPropTypes } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
+import type { ExtractPropTypes, CSSProperties } from 'vue'
 
 export const rowProps = buildProps({
   tag: {
@@ -24,26 +25,28 @@ export const rowProps = buildProps({
 } as const)
 export type RowProps = ExtractPropTypes<typeof rowProps>
 
-export default defineComponent({
+const Row = defineComponent({
   name: 'ElRow',
   props: rowProps,
 
   setup(props, { slots }) {
+    const ns = useNamespace('row')
+
     const gutter = computed(() => props.gutter)
     provide('ElRow', {
       gutter,
     })
 
     const style = computed(() => {
-      const ret = {
+      const styles: CSSProperties = {
         marginLeft: '',
         marginRight: '',
       }
       if (props.gutter) {
-        ret.marginLeft = `-${props.gutter / 2}px`
-        ret.marginRight = ret.marginLeft
+        styles.marginLeft = `-${props.gutter / 2}px`
+        styles.marginRight = styles.marginLeft
       }
-      return ret
+      return styles
     })
 
     return () =>
@@ -51,7 +54,7 @@ export default defineComponent({
         props.tag,
         {
           class: [
-            'el-row',
+            ns.b(),
             props.justify !== 'start' ? `is-justify-${props.justify}` : '',
             props.align !== 'top' ? `is-align-${props.align}` : '',
           ],
@@ -61,3 +64,6 @@ export default defineComponent({
       )
   },
 })
+
+export default Row
+export type RowInstance = InstanceType<typeof Row>
