@@ -1,5 +1,5 @@
 <template>
-  <i class="el-icon" :style="style" v-bind="$attrs">
+  <i :class="ns.b()" :style="style" v-bind="$attrs">
     <slot></slot>
   </i>
 </template>
@@ -7,6 +7,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { isNumber, isString } from '@element-plus/utils/util'
+import { useNamespace } from '@element-plus/hooks'
 import { iconProps } from './icon'
 
 import type { CSSProperties } from 'vue'
@@ -18,20 +19,25 @@ export default defineComponent({
   props: iconProps,
 
   setup(props) {
+    const ns = useNamespace('icon')
+
+    const style = computed<CSSProperties>(() => {
+      if (!props.size && !props.color) {
+        return {}
+      }
+      let size = props.size
+      if (isNumber(size) || (isString(size) && !size.endsWith('px'))) {
+        size = `${size}px`
+      }
+      return {
+        ...(props.size ? { fontSize: size } : {}),
+        ...(props.color ? { '--color': props.color } : {}),
+      }
+    })
+
     return {
-      style: computed<CSSProperties>(() => {
-        if (!props.size && !props.color) {
-          return {}
-        }
-        let size = props.size
-        if (isNumber(size) || (isString(size) && !size.endsWith('px'))) {
-          size = `${size}px`
-        }
-        return {
-          ...(props.size ? { fontSize: size } : {}),
-          ...(props.color ? { '--color': props.color } : {}),
-        } as CSSProperties
-      }),
+      ns,
+      style,
     }
   },
 })
