@@ -25,7 +25,7 @@ export default defineComponent({
       if (!props.size && !props.color) return {}
 
       return {
-        fontSize: !isUndefined(props.size) ? addUnit(props.size) : undefined,
+        fontSize: isUndefined(props.size) ? undefined : addUnit(props.size),
         '--color': props.color,
       }
     })
