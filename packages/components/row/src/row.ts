@@ -37,7 +37,7 @@ const Row = defineComponent({
       gutter,
     })
 
-    const style = computed<CSSProperties>(() => {
+    const style = computed(() => {
       const styles: CSSProperties = {
         marginLeft: '',
         marginRight: '',
