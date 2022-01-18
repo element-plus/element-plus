@@ -1,6 +1,6 @@
 import {
   onMounted,
-  onUnmounted,
+  onBeforeUnmount,
   computed,
   ref,
   watchEffect,
@@ -143,10 +143,8 @@ function useStyle<T>(
     setScrollClassByEl(tableWrapper, className)
   }
   const syncPostion = function () {
-    if (!table.refs.bodyWrapper) return
-    const scrollContainer = table.refs.bodyWrapper.querySelector<HTMLElement>(
-      '.el-scrollbar__wrap'
-    )
+    if (!table.refs.scrollWrapper) return
+    const scrollContainer = table.refs.scrollWrapper.wrap$
     if (!scrollContainer) return
     const { scrollLeft, offsetWidth, scrollWidth } = scrollContainer
     const { headerWrapper, footerWrapper } = table.refs
@@ -163,24 +161,24 @@ function useStyle<T>(
   }
 
   const bindEvents = () => {
-    table.refs.bodyWrapper
-      .querySelector('.el-scrollbar__wrap')
-      ?.addEventListener('scroll', syncPostion, {
-        passive: true,
-      })
+    table.refs.scrollWrapper.wrap$?.addEventListener('scroll', syncPostion, {
+      passive: true,
+    })
     if (props.fit) {
       addResizeListener(table.vnode.el as ResizableElement, resizeListener)
     } else {
       on(window, 'resize', doLayout)
     }
   }
-  onUnmounted(() => {
+  onBeforeUnmount(() => {
     unbindEvents()
   })
   const unbindEvents = () => {
-    table.refs.bodyWrapper
-      ?.querySelector('.el-scrollbar__wrap')
-      ?.removeEventListener('scroll', syncPostion, true)
+    table.refs.scrollWrapper.wrap$?.removeEventListener(
+      'scroll',
+      syncPostion,
+      true
+    )
     if (props.fit) {
       removeResizeListener(table.vnode.el as ResizableElement, resizeListener)
     } else {

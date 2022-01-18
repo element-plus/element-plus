@@ -32,7 +32,7 @@
     }
   }
 
-  &.#{$namespace}-table--footer {
+  &.has-footer {
     @include e(inner-wrapper) {
       &::before {
         bottom: 1px;

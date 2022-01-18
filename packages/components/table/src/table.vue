@@ -15,7 +15,7 @@
         'el-table--enable-row-transition':
           (store.states.data.value || []).length !== 0 &&
           (store.states.data.value || []).length < 100,
-        'el-table--footer': showSummary,
+        'has-footer': showSummary,
       },
       tableSize ? `el-table--${tableSize}` : '',
       className,
@@ -44,7 +44,7 @@
         />
       </div>
       <div ref="bodyWrapper" :style="bodyHeight" class="el-table__body-wrapper">
-        <el-scrollbar :height="height">
+        <el-scrollbar ref="scrollWrapper" :height="height">
           <table-body
             :context="context"
             :highlight="highlightCurrentRow"
