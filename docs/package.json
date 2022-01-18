@@ -12,7 +12,7 @@
     "@docsearch/js": "3.0.0-alpha.42",
     "@docsearch/react": "3.0.0-alpha.42",
     "@vueuse/core": "7.5.3",
-    "axios": "0.24.0",
+    "axios": "0.25.0",
     "clipboard-copy": "4.0.1",
     "element-plus": "npm:element-plus@latest",
     "normalize.css": "8.0.1",
