@@ -19,7 +19,7 @@
 import { defineComponent, computed, ref, watch } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
-import { addUnit, isNumber } from '@element-plus/utils/util'
+import { addUnit, isNumber, isString } from '@element-plus/utils/util'
 import { avatarEmits, avatarProps } from './avatar'
 
 import type { CSSProperties } from 'vue'
@@ -40,7 +40,7 @@ export default defineComponent({
     const avatarClass = computed(() => {
       const { size, icon, shape } = props
       const classList = [ns.b()]
-      if (size && typeof size === 'string') classList.push(ns.m(size))
+      if (isString(size)) classList.push(ns.m(size))
       if (icon) classList.push(ns.m('icon'))
       if (shape) classList.push(ns.m(shape))
       return classList
