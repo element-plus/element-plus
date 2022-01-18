@@ -40,7 +40,7 @@ function useStore<T>() {
   type StoreStates = typeof watcher.states
   const mutations = {
     setData(states: StoreStates, data: T[]) {
-      const dataInstanceChanged = unref(states.data) !== data
+      const dataInstanceChanged = unref(states._data) !== data
       states.data.value = data
       states._data.value = data
       instance.store.execQuery()
