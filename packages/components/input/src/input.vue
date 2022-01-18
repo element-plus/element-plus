@@ -2,18 +2,18 @@
   <div
     v-show="type !== 'hidden'"
     :class="[
-      type === 'textarea' ? ns2.b() : ns.b(),
-      ns.m(inputSize),
+      type === 'textarea' ? nsTextarea.b() : nsInput.b(),
+      nsInput.m(inputSize),
       {
-        'is-disabled': inputDisabled,
-        'is-exceed': inputExceed,
-        [ns.b('group')]: $slots.prepend || $slots.append,
-        [ns.b('group--append')]: $slots.append,
-        [ns.b('group--prepend')]: $slots.prepend,
-        [ns.m('prefix')]: $slots.prefix || prefixIcon,
-        [ns.m('suffix')]:
+        [nsInput.is('disabled')]: inputDisabled,
+        [nsInput.is('exceed')]: inputExceed,
+        [nsInput.b('group')]: $slots.prepend || $slots.append,
+        [nsInput.b('group--append')]: $slots.append,
+        [nsInput.b('group--prepend')]: $slots.prepend,
+        [nsInput.m('prefix')]: $slots.prefix || prefixIcon,
+        [nsInput.m('suffix')]:
           $slots.suffix || suffixIcon || clearable || showPassword,
-        [ns.m('suffix--password-clear')]: clearable && showPassword,
+        [nsInput.m('suffix--password-clear')]: clearable && showPassword,
       },
       $attrs.class,
     ]"
@@ -24,13 +24,13 @@
     <!-- input -->
     <template v-if="type !== 'textarea'">
       <!-- prepend slot -->
-      <div v-if="$slots.prepend" :class="ns.be('group', 'prepend')">
+      <div v-if="$slots.prepend" :class="nsInput.be('group', 'prepend')">
         <slot name="prepend" />
       </div>
 
       <input
         ref="input"
-        :class="ns.e('inner')"
+        :class="nsInput.e('inner')"
         v-bind="attrs"
         :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
         :disabled="inputDisabled"
@@ -51,27 +51,27 @@
       />
 
       <!-- prefix slot -->
-      <span v-if="$slots.prefix || prefixIcon" :class="ns.e('prefix')">
-        <span :class="ns.e('prefix-inner')">
+      <span v-if="$slots.prefix || prefixIcon" :class="nsInput.e('prefix')">
+        <span :class="nsInput.e('prefix-inner')">
           <slot name="prefix"></slot>
-          <el-icon v-if="prefixIcon" :class="ns.e('icon')">
+          <el-icon v-if="prefixIcon" :class="nsInput.e('icon')">
             <component :is="prefixIcon" />
           </el-icon>
         </span>
       </span>
 
       <!-- suffix slot -->
-      <span v-if="suffixVisible" :class="ns.e('suffix')">
-        <span :class="ns.e('suffix-inner')">
+      <span v-if="suffixVisible" :class="nsInput.e('suffix')">
+        <span :class="nsInput.e('suffix-inner')">
           <template v-if="!showClear || !showPwdVisible || !isWordLimitVisible">
             <slot name="suffix"></slot>
-            <el-icon v-if="suffixIcon" :class="ns.e('icon')">
+            <el-icon v-if="suffixIcon" :class="nsInput.e('icon')">
               <component :is="suffixIcon" />
             </el-icon>
           </template>
           <el-icon
             v-if="showClear"
-            :class="[ns.e('icon'), ns.e('clear')]"
+            :class="[nsInput.e('icon'), nsInput.e('clear')]"
             @mousedown.prevent
             @click="clear"
           >
@@ -79,20 +79,20 @@
           </el-icon>
           <el-icon
             v-if="showPwdVisible"
-            :class="[ns.e('icon'), ns.e('clear')]"
+            :class="[nsInput.e('icon'), nsInput.e('clear')]"
             @click="handlePasswordVisible"
           >
             <icon-view />
           </el-icon>
-          <span v-if="isWordLimitVisible" :class="ns.e('count')">
-            <span :class="ns.e('count-inner')">
+          <span v-if="isWordLimitVisible" :class="nsInput.e('count')">
+            <span :class="nsInput.e('count-inner')">
               {{ textLength }} / {{ attrs.maxlength }}
             </span>
           </span>
         </span>
         <el-icon
           v-if="validateState && validateIcon && needStatusIcon"
-          :class="[ns.e('icon'), ns.e('validateIcon')]"
+          :class="[nsInput.e('icon'), nsInput.e('validateIcon')]"
         >
           <component :is="validateIcon" />
         </el-icon>
@@ -100,7 +100,7 @@
 
       <!-- append slot -->
 
-      <div v-if="$slots.append" :class="ns.be('group', 'append')">
+      <div v-if="$slots.append" :class="nsInput.be('group', 'append')">
         <slot name="append" />
       </div>
     </template>
@@ -109,7 +109,7 @@
     <template v-else>
       <textarea
         ref="textarea"
-        :class="ns2.e('inner')"
+        :class="nsTextarea.e('inner')"
         v-bind="attrs"
         :tabindex="tabindex"
         :disabled="inputDisabled"
@@ -127,7 +127,7 @@
         @change="handleChange"
         @keydown="handleKeydown"
       />
-      <span v-if="isWordLimitVisible" :class="ns.e('count')">
+      <span v-if="isWordLimitVisible" :class="nsInput.e('count')">
         {{ textLength }} / {{ attrs.maxlength }}
       </span>
     </template>
@@ -189,8 +189,8 @@ export default defineComponent({
     const { form, formItem } = useFormItem()
     const inputSize = useSize()
     const inputDisabled = useDisabled()
-    const ns = useNamespace('input')
-    const ns2 = useNamespace('textarea')
+    const nsInput = useNamespace('input')
+    const nsTextarea = useNamespace('textarea')
 
     const input = ref<HTMLInputElement>()
     const textarea = ref<HTMLTextAreaElement>()
@@ -278,7 +278,7 @@ export default defineComponent({
       const { el } = instance.vnode
       if (!el) return
       const elList: HTMLSpanElement[] = Array.from(
-        el.querySelectorAll(`.${ns.e(place)}`)
+        el.querySelectorAll(`.${nsInput.e(place)}`)
       )
       const target = elList.find((item) => item.parentNode === el)
 
@@ -288,7 +288,7 @@ export default defineComponent({
 
       if (slots[pendant]) {
         target.style.transform = `translateX(${place === 'suffix' ? '-' : ''}${
-          el.querySelector(`.${ns.be('group', pendant)}`).offsetWidth
+          el.querySelector(`.${nsInput.be('group', pendant)}`).offsetWidth
         }px)`
       } else {
         target.removeAttribute('style')
@@ -484,8 +484,8 @@ export default defineComponent({
       onMouseEnter,
       handleKeydown,
 
-      ns,
-      ns2,
+      nsInput,
+      nsTextarea,
     }
   },
 })

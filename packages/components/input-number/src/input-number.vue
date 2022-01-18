@@ -3,9 +3,9 @@
     :class="[
       ns.b(),
       ns.m(inputNumberSize),
-      { 'is-disabled': inputNumberDisabled },
-      { 'is-without-controls': !controls },
-      { 'is-controls-right': controlsAtRight },
+      ns.is('disabled', inputNumberDisabled),
+      ns.is('without-controls', !controls),
+      ns.is('controls-right', controlsAtRight),
     ]"
     @dragstart.prevent
   >
@@ -13,7 +13,7 @@
       v-if="controls"
       v-repeat-click="decrease"
       role="button"
-      :class="[ns.e('decrease'), { 'is-disabled': minDisabled }]"
+      :class="[ns.e('decrease'), ns.is('disabled', minDisabled)]"
       @keydown.enter="decrease"
     >
       <el-icon>
@@ -25,7 +25,7 @@
       v-if="controls"
       v-repeat-click="increase"
       role="button"
-      :class="[ns.e('increase'), { 'is-disabled': maxDisabled }]"
+      :class="[ns.e('increase'), ns.is('disabled', maxDisabled)]"
       @keydown.enter="increase"
     >
       <el-icon>
