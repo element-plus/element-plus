@@ -133,7 +133,7 @@ export default defineComponent({
     ])
 
     function handleClick() {
-      popperRef.value?.onClose()
+      handleClose()
     }
 
     function handleClose() {
