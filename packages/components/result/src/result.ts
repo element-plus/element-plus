@@ -6,6 +6,7 @@ import {
   InfoFilled,
 } from '@element-plus/icons-vue'
 import type { Component, ExtractPropTypes } from 'vue'
+import type Result from './result.vue'
 
 export const IconMap = {
   success: 'icon-success',
@@ -40,3 +41,5 @@ export const resultProps = buildProps({
 } as const)
 
 export type ResultProps = ExtractPropTypes<typeof resultProps>
+
+export type ResultInstance = InstanceType<typeof Result>
