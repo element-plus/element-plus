@@ -1,14 +1,15 @@
 import { isString } from '@vue/shared'
-import { useFormItemProps } from '@element-plus/hooks'
 import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { useSizeProp } from '@element-plus/hooks'
 import type { StyleValue } from '@element-plus/utils/types'
 import type { ExtractPropTypes, Component } from 'vue'
 
 type AutoSize = { minRows?: number; maxRows?: number } | boolean
 
 export const inputProps = buildProps({
-  ...useFormItemProps,
+  size: useSizeProp,
+  disabled: Boolean,
   modelValue: {
     type: definePropType<string | number | null | undefined>(undefined),
     default: '',

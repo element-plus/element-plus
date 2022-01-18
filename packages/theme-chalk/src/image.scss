@@ -12,22 +12,22 @@
   overflow: hidden;
 
   @include e(inner) {
-    @extend %size;
+    @extend %size !optional;
     vertical-align: top;
   }
 
   @include e(placeholder) {
-    @extend %size;
-    background: $background-color-base;
+    @extend %size !optional;
+    background: var(--el-bg-color);
   }
 
   @include e(error) {
-    @extend %size;
+    @extend %size !optional;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 14px;
-    background: $background-color-base;
+    background: var(--el-bg-color);
     color: var(--el-text-color-placeholder);
     vertical-align: middle;
   }

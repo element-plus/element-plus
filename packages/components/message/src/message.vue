@@ -22,7 +22,7 @@
       <el-badge
         v-if="repeatNum > 1"
         :value="repeatNum"
-        :type="type ?? 'info'"
+        :type="badgeType"
         class="el-message__badge"
       >
       </el-badge>
@@ -55,6 +55,7 @@ import { ElIcon } from '@element-plus/components/icon'
 import { TypeComponents, TypeComponentsMap } from '@element-plus/utils/icon'
 
 import { messageEmits, messageProps } from './message'
+import type { BadgeProps } from '@element-plus/components/badge'
 
 import type { CSSProperties } from 'vue'
 
@@ -72,6 +73,9 @@ export default defineComponent({
 
   setup(props) {
     const visible = ref(false)
+    const badgeType = ref<BadgeProps['type']>(
+      props.type ? (props.type === 'error' ? 'danger' : props.type) : 'info'
+    )
     let stopTimer: (() => void) | undefined = undefined
 
     const typeClass = computed(() => {
@@ -135,6 +139,7 @@ export default defineComponent({
       iconComponent,
       customStyle,
       visible,
+      badgeType,
 
       close,
       clearTimer,

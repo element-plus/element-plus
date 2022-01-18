@@ -1,6 +1,6 @@
 import { ref, h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { Loading, Search } from '@element-plus/icons'
+import { Loading, Search } from '@element-plus/icons-vue'
 import Button from '../src/button.vue'
 import ButtonGroup from '../src/button-group.vue'
 
@@ -35,9 +35,9 @@ describe('Button.vue', () => {
   })
   it('size', () => {
     const wrapper = mount(Button, {
-      props: { size: 'medium' },
+      props: { size: 'large' },
     })
-    expect(wrapper.classes()).toContain('el-button--medium')
+    expect(wrapper.classes()).toContain('el-button--large')
   })
   it('plain', () => {
     const wrapper = mount(Button, {
@@ -132,7 +132,6 @@ describe('Button Group', () => {
           h(ButtonGroup, { size: size.value }, () => [
             h(Button, { type: 'primary' }, () => 'Prev'),
             h(Button, { type: 'primary' }, () => 'Next'),
-            h(Button, { type: 'primary', size: 'mini' }, () => 'Mini'),
           ])
       },
     })
@@ -140,19 +139,13 @@ describe('Button Group', () => {
     expect(
       wrapper.findAll('.el-button-group button.el-button--small').length
     ).toBe(2)
-    expect(
-      wrapper.findAll('.el-button-group button.el-button--mini').length
-    ).toBe(1)
 
-    size.value = 'medium'
+    size.value = 'large'
     await nextTick()
 
     expect(
-      wrapper.findAll('.el-button-group button.el-button--medium').length
+      wrapper.findAll('.el-button-group button.el-button--large').length
     ).toBe(2)
-    expect(
-      wrapper.findAll('.el-button-group button.el-button--mini').length
-    ).toBe(1)
   })
 
   it('button group type', async () => {
@@ -178,6 +171,9 @@ describe('Button Group', () => {
     const wrapper = mount(Button, {
       slots: {
         default: '中文',
+      },
+      props: {
+        autoInsertSpace: true,
       },
     })
     expect(wrapper.find('.el-button span').text()).toBe('中文')

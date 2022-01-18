@@ -9,11 +9,14 @@ export interface ElFormContext {
   emit: (evt: string, ...args: any[]) => void
   addField: (field: ElFormItemContext) => void
   removeField: (field: ElFormItemContext) => void
+  resetFields: () => void
+  clearValidate: (props: string | string[]) => void
+  validateField: (props: string | string[], cb: ValidateFieldCallback) => void
   labelSuffix: string
   inline?: boolean
   inlineMessage?: boolean
   model?: Record<string, unknown>
-  size?: string
+  size?: ComponentSize
   showMessage?: boolean
   labelPosition?: string
   labelWidth?: string | number

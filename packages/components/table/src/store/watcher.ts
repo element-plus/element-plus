@@ -170,11 +170,6 @@ function useWatcher<T>() {
       )
       selection.value = newSelection
       instance.emit('selection-change', newSelection.slice())
-    } else {
-      if (selection.value.length) {
-        selection.value = []
-        instance.emit('selection-change', [])
-      }
     }
   }
 

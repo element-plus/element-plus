@@ -25,16 +25,16 @@
 
 @include b(icon) {
   --color: inherit;
-  --font-size: #{map.get($font-size, 'base')};
   height: 1em;
   width: 1em;
   line-height: 1em;
-  text-align: center;
-  display: inline-block;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
   fill: currentColor;
   color: var(--color);
-  font-size: var(--font-size);
+  font-size: inherit;
 
   @include when(loading) {
     animation: rotating 2s linear infinite;

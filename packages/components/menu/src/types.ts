@@ -1,3 +1,4 @@
+import type { Ref } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 import type { MenuProps } from './menu'
 
@@ -36,4 +37,5 @@ export interface SubMenuProvider {
   addSubMenu: (item: MenuItemRegistered) => void
   removeSubMenu: (item: MenuItemRegistered) => void
   handleMouseleave?: (deepDispatch: boolean) => void
+  mouseInChild: Ref<boolean>
 }

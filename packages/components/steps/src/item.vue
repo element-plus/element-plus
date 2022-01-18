@@ -10,7 +10,7 @@
   >
     <!-- icon & line -->
     <div :class="['el-step__head', `is-${currentStatus}`]">
-      <div class="el-step__line">
+      <div v-if="!isSimple" class="el-step__line">
         <i class="el-step__line-inner" :style="lineStyle"></i>
       </div>
 
@@ -58,7 +58,7 @@ import {
   watch,
 } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
-import { Close, Check } from '@element-plus/icons'
+import { Close, Check } from '@element-plus/icons-vue'
 
 import type { Ref, PropType, Component } from 'vue'
 

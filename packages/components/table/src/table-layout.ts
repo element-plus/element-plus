@@ -1,7 +1,7 @@
 import { nextTick, ref, isRef } from 'vue'
 import { hasOwn } from '@vue/shared'
+import { isClient } from '@vueuse/core'
 import scrollbarWidth from '@element-plus/utils/scrollbar-width'
-import isServer from '@element-plus/utils/isServer'
 import { parseHeight } from './util'
 import type { Ref } from 'vue'
 
@@ -29,6 +29,7 @@ class TableLayout<T> {
   footerHeight: Ref<null | number> // Table Footer Height
   viewportHeight: Ref<null | number> // Table Height - Scroll Bar Height
   bodyHeight: Ref<null | number> // Table Height - Table Header Height
+  bodyScrollHeight: Ref<number>
   fixedBodyHeight: Ref<null | number> // Table Height - Table Header Height - Scroll Bar Height
   gutterWidth: number
   constructor(options: Record<string, any>) {
@@ -50,6 +51,7 @@ class TableLayout<T> {
     this.footerHeight = ref(44)
     this.viewportHeight = ref(null)
     this.bodyHeight = ref(null)
+    this.bodyScrollHeight = ref(0)
     this.fixedBodyHeight = ref(null)
     this.gutterWidth = scrollbarWidth()
     for (const name in options) {
@@ -88,8 +90,7 @@ class TableLayout<T> {
       if (this.bodyHeight.value === null) {
         scrollY = false
       } else {
-        const body = bodyWrapper.querySelector('.el-table__body') as HTMLElement
-        scrollY = body.offsetHeight > this.bodyHeight.value
+        scrollY = bodyWrapper.scrollHeight > this.bodyHeight.value
       }
       this.scrollY.value = scrollY
       return prevScrollY !== scrollY
@@ -98,7 +99,7 @@ class TableLayout<T> {
   }
 
   setHeight(value: string | number, prop = 'height') {
-    if (isServer) return
+    if (!isClient) return
     const el = this.table.vnode.el
     value = parseHeight(value)
     this.height.value = Number(value)
@@ -136,7 +137,8 @@ class TableLayout<T> {
 
   updateElsHeight() {
     if (!this.table.$ready) return nextTick(() => this.updateElsHeight())
-    const { headerWrapper, appendWrapper, footerWrapper } = this.table.refs
+    const { headerWrapper, appendWrapper, footerWrapper, bodyWrapper } =
+      this.table.refs
     this.appendHeight.value = appendWrapper ? appendWrapper.offsetHeight : 0
     if (this.showHeader && !headerWrapper) return
 
@@ -163,8 +165,13 @@ class TableLayout<T> {
       ? footerWrapper.offsetHeight
       : 0)
     if (this.height.value !== null) {
+      if (this.bodyHeight.value === null) {
+        requestAnimationFrame(() => this.updateElsHeight())
+      }
       this.bodyHeight.value =
         tableHeight - headerHeight - footerHeight + (footerWrapper ? 1 : 0)
+      this.bodyScrollHeight.value =
+        bodyWrapper.querySelector('.el-table__body')?.scrollHeight!
     }
     this.fixedBodyHeight.value = this.scrollX.value
       ? this.bodyHeight.value - this.gutterWidth
@@ -191,7 +198,7 @@ class TableLayout<T> {
   }
 
   updateColumnsWidth() {
-    if (isServer) return
+    if (!isClient) return
     const fit = this.fit
     const bodyWidth = this.table.vnode.el.clientWidth
     let bodyMinWidth = 0

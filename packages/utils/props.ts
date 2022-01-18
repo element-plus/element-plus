@@ -7,7 +7,7 @@ import type { Mutable } from './types'
 const wrapperKey = Symbol()
 export type PropWrapper<T> = { [wrapperKey]: T }
 
-export const propKey = Symbol()
+export const propKey = '__elPropsReservedKey'
 
 type ResolveProp<T> = ExtractPropTypes<{
   key: { type: T; required: true }
@@ -88,10 +88,10 @@ export type BuildPropReturn<T, D, R, V, C> = {
   } as const)
   * @example
   // limited options and other types
-  // the type will be PropType<'small' | 'medium' | number>
+  // the type will be PropType<'small' | 'large' | number>
   buildProp({
     type: [String, Number],
-    values: ['small', 'medium'],
+    values: ['small', 'large'],
     validator: (val: unknown): val is number => typeof val === 'number',
   } as const)
   @link see more: https://github.com/element-plus/element-plus/pull/3341
@@ -207,4 +207,4 @@ export const mutable = <T extends readonly any[] | Record<string, unknown>>(
   val: T
 ) => val as Mutable<typeof val>
 
-export const componentSize = ['large', 'medium', 'small', 'mini'] as const
+export const componentSize = ['large', 'default', 'small'] as const

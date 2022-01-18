@@ -61,7 +61,7 @@ $colors: map.deep-merge(
       'base': #909399,
     ),
   ),
-  $--colors
+  $colors
 );
 ```
 
@@ -72,12 +72,12 @@ If your project also uses SCSS, you can directly change Element Plus style varia
 ```scss
 // styles/element/index.scss
 /* just override what you need */
-@forward "element-plus/theme-chalk/src/common/var.scss" with (
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
   $colors: (
-    "primary": (
-      "base": green,
+    'primary': (
+      'base': green,
     ),
-  ),
+  )
 );
 
 // If you just import on demand, you can ignore the following content.
@@ -191,14 +191,14 @@ Like this:
 If you just want to customize a particular component, just add inline styles for certain components individually.
 
 ```html
-<el-tag style="--el-tag-background-color: red">Tag</el-tag>
+<el-tag style="--el-tag-bg-color: red">Tag</el-tag>
 ```
 
 For performance reasons, it is more recommended to custom css variables under a class rather than the global `:root`.
 
 ```css
 .custom-class {
-  --el-tag-background-color: red;
+  --el-tag-bg-color: red;
 }
 ```
 

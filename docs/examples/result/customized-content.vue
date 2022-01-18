@@ -6,7 +6,7 @@
       ></el-image>
     </template>
     <template #extra>
-      <el-button type="primary" size="medium">Back</el-button>
+      <el-button type="primary">Back</el-button>
     </template>
   </el-result>
 </template>

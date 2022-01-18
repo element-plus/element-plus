@@ -8,13 +8,25 @@
   @include set-component-css-var('tag', $tag);
 }
 
+$tag-border-width: 1px;
+
+$tag-icon-span-gap: () !default;
+$tag-icon-span-gap: map.merge(
+  (
+    'large': 8px,
+    'default': 6px,
+    'small': 4px,
+  ),
+  $tag-icon-span-gap
+);
+
 @mixin genTheme(
   $backgroundColorWeight,
   $borderColorWeight,
-  $fontColorWeight,
+  $textColorWeight,
   $hoverColorWeight
 ) {
-  --el-tag-background-color: #{mix(
+  --el-tag-bg-color: #{mix(
       map.get($tag-color, 'primary'),
       $color-white,
       $backgroundColorWeight
@@ -24,10 +36,10 @@
       $color-white,
       $borderColorWeight
     )};
-  --el-tag-font-color: #{mix(
+  --el-tag-text-color: #{mix(
       map.get($tag-color, 'primary'),
       $color-white,
-      $fontColorWeight
+      $textColorWeight
     )};
   --el-tag-hover-color: #{mix(
       map.get($tag-color, 'primary'),
@@ -35,16 +47,16 @@
       $hoverColorWeight
     )};
 
-  background-color: var(--el-tag-background-color);
+  background-color: var(--el-tag-bg-color);
   border-color: var(--el-tag-border-color);
-  color: var(--el-tag-font-color);
+  color: var(--el-tag-text-color);
 
   @include when(hit) {
     border-color: map.get($tag-color, 'primary');
   }
 
   .#{$namespace}-tag__close {
-    color: var(--el-tag-font-color);
+    color: var(--el-tag-text-color);
     &:hover {
       color: var(--el-color-white);
       background-color: var(--el-tag-hover-color);
@@ -53,7 +65,7 @@
 
   @each $type in $types {
     &.#{$namespace}-tag--#{$type} {
-      --el-tag-background-color: #{mix(
+      --el-tag-bg-color: #{mix(
           map.get($tag-color, $type),
           $color-white,
           $backgroundColorWeight
@@ -63,10 +75,10 @@
           $color-white,
           $borderColorWeight
         )};
-      --el-tag-font-color: #{mix(
+      --el-tag-text-color: #{mix(
           map.get($tag-color, $type),
           $color-white,
-          $fontColorWeight
+          $textColorWeight
         )};
       --el-tag-hover-color: #{mix(
           map.get($tag-color, $type),
@@ -83,37 +95,41 @@
 
 @include b(tag) {
   @include genTheme(10%, 20%, 100%, 100%);
-  display: inline-block;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
   height: map.get($tag-height, 'default');
-  padding: var(--el-tag-padding);
-  line-height: map.get($tag-height, 'default') - 2px;
+  padding: 0 map.get($tag-padding, 'default') - $border-width-base;
   font-size: var(--el-tag-font-size);
-  border-width: 1px;
+  line-height: 1;
+  border-width: $tag-border-width;
   border-style: solid;
   border-radius: var(--el-tag-border-radius);
   box-sizing: border-box;
   white-space: nowrap;
+
+  --el-icon-size: 14px;
 
   .#{$namespace}-icon {
     border-radius: 50%;
     text-align: center;
     position: relative;
     cursor: pointer;
-    font-size: 12px;
-    height: 16px;
-    width: 16px;
-    line-height: 16px;
-    vertical-align: middle;
-    top: -1px;
-    right: -5px;
 
-    &::before {
-      display: block;
-    }
+    font-size: calc(var(--el-icon-size) - 1px);
+
+    height: var(--el-icon-size);
+    width: var(--el-icon-size);
+    line-height: var(--el-icon-size);
 
     svg {
-      margin: 2px;
+      margin: 1px;
     }
+  }
+
+  .#{$namespace}-tag__close {
+    margin-left: map.get($tag-icon-span-gap, 'default');
   }
 
   @include m(dark) {
@@ -124,31 +140,30 @@
     @include genTheme(0, 40%, 100%, 100%);
   }
 
-  @each $size in (medium, small, mini) {
-    @include m($size) {
-      height: map.get($tag-height, $size);
-      line-height: map.get($tag-height, $size) - 2px;
-    }
+  &.is-closable {
+    padding-right: map.get($tag-icon-span-gap, 'default') - $border-width-base;
   }
 
-  @include m(medium) {
-    .#{$namespace}-icon-close {
-      transform: scale(0.8);
+  @each $size in (large, default, small) {
+    @include m($size) {
+      padding: 0 map.get($tag-padding, $size) - $tag-border-width;
+      height: map.get($tag-height, $size);
+
+      --el-icon-size: #{map.get($tag-icon-size, $size)};
+
+      .#{$namespace}-tag__close {
+        margin-left: map.get($tag-icon-span-gap, $size);
+      }
+
+      &.is-closable {
+        padding-right: map.get($tag-icon-span-gap, $size) - $border-width-base;
+      }
     }
   }
 
   @include m(small) {
-    padding: 0 8px;
     .#{$namespace}-icon-close {
       transform: scale(0.8);
-    }
-  }
-
-  @include m(mini) {
-    padding: 0 5px;
-    .#{$namespace}-icon-close {
-      margin-left: -3px;
-      transform: scale(0.7);
     }
   }
 }

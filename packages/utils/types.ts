@@ -32,9 +32,9 @@ export type PartialReturnType<T extends (...args: unknown[]) => unknown> =
 
 export type SFCWithInstall<T> = T & Plugin
 
-export type RefElement = HTMLElement | null
-
 export type Nullable<T> = T | null
+
+export type RefElement = Nullable<HTMLElement>
 
 export type CustomizedHTMLElement<T> = HTMLElement & T
 
@@ -44,9 +44,9 @@ export type Indexable<T> = {
 
 export type Hash<T> = Indexable<T>
 
-export type TimeoutHandle = ReturnType<typeof global.setTimeout>
+export type TimeoutHandle = number
 
-export type ComponentSize = 'large' | 'medium' | 'small' | 'mini'
+export type ComponentSize = 'large' | 'default' | 'small'
 
 export type StyleValue = string | CSSProperties | Array<StyleValue>
 

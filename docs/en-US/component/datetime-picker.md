@@ -13,31 +13,25 @@ DateTimePicker is derived from DatePicker and TimePicker. For a more detailed ex
 
 :::
 
-<style lang="scss" scoped>
-
+<style lang="scss">
 .example-showcase  {
-  padding: 0;
-  display: flex;
-}
+  .block {
+    padding: 30px 0;
+    text-align: center;
+    border-right: solid 1px var(--el-border-color-base);
+    flex: 1;
+    &:last-child {
+      border-right: none;
+    }
+  }
 
-.example-showcase .block {
-  padding: 30px 0;
-  text-align: center;
-  border-right: solid 1px var(--el-border-color-base);
-  flex: 1;
-  &:last-child {
-    border-right: none;
+  .demonstration {
+    display: block;
+    color: var(--el-text-color-secondary);
+    font-size: 14px;
+    margin-bottom: 20px;
   }
 }
-
-.example-showcase .demonstration {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-
-
 </style>
 
 ## Date and time
@@ -45,6 +39,26 @@ DateTimePicker is derived from DatePicker and TimePicker. For a more detailed ex
 :::demo You can select date and time in one picker at the same time by setting `type` to `datetime`. The way to use shortcuts is the same as Date Picker.
 
 datetime-picker/date-and-time
+
+:::
+
+## DateTime Formats
+
+Use `format` to control displayed text's format in the input box. Use `value-format` to control binding value's format.
+
+By default, the component accepts and emits a `Date` object.
+
+Check the list [here](https://day.js.org/docs/en/display/format#list-of-all-available-formats) of all available formats of Day.js.
+
+:::warning
+
+Pay attention to capitalization
+
+:::
+
+:::demo
+
+datetime-picker/date-and-time-formats
 
 :::
 
@@ -56,7 +70,7 @@ datetime-picker/date-and-time-range
 
 :::
 
-### Default time value for start date and end date
+## Default time value for start date and end date
 
 :::demo When picking date range on the date panel with type `datetimerange`, `00:00:00` will be used as the default time value for start and end date. We can control it with the `default-time` attribute. `default-time` accepts an array of up to two Date objects. The first item controls time value of the start date and the second item controls time value of the end date.
 
@@ -73,7 +87,7 @@ datetime-picker/default-time
 | disabled              | whether DatePicker is disabled                                                                        | boolean                                           | —                                                                                                                                                                               | false               |
 | editable              | whether the input is editable                                                                         | boolean                                           | —                                                                                                                                                                               | true                |
 | clearable             | whether to show clear button                                                                          | boolean                                           | —                                                                                                                                                                               | true                |
-| size                  | size of Input                                                                                         | string                                            | large/medium/small/mini                                                                                                                                                         | large               |
+| size                  | size of Input                                                                                         | string                                            | large/default/small                                                                                                                                                             | default             |
 | placeholder           | placeholder in non-range mode                                                                         | string                                            | —                                                                                                                                                                               | —                   |
 | start-placeholder     | placeholder for the start date in range mode                                                          | string                                            | —                                                                                                                                                                               | —                   |
 | end-placeholder       | placeholder for the end date in range mode                                                            | string                                            | —                                                                                                                                                                               | —                   |
@@ -84,6 +98,8 @@ datetime-picker/default-time
 | range-separator       | range separator                                                                                       | string                                            | -                                                                                                                                                                               | '-'                 |
 | default-value         | optional, default date of the calendar                                                                | Date                                              | anything accepted by `new Date()`                                                                                                                                               | —                   |
 | default-time          | the default time value after picking a date                                                           | non-range: Date / range: Date[]                   | non-range: a Date object, range: array of two Date objects, and the first item is for the start date and second for the end date. Time `00:00:00` will be used if not specified | —                   |
+| value-format          | optional, format of binding value. If not specified, the binding value will be a Date object          | string                                            | see [date formats](https://day.js.org/docs/en/display/format)                                                                                                                   | —                   |
+| id                    | same as `id` in native input                                                                          | string / array(string)                            | String `id="my-datetime"` or array `:id="['my-range-start', 'my-range-end']"` for date range                                                                                    | -                   |
 | name                  | same as `name` in native input                                                                        | string                                            | —                                                                                                                                                                               | —                   |
 | unlink-panels         | unllink two date-panels in range-picker                                                               | boolean                                           | —                                                                                                                                                                               | false               |
 | prefix-icon           | Custom prefix icon component                                                                          | string                                            | —                                                                                                                                                                               | Date                |

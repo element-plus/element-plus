@@ -35,7 +35,7 @@ jobs:
           CROWDIN_TOKEN: ${{secrets.CROWDIN_TOKEN}}
 
       - name: Pull Crowdin translations
-        run: cd docs && pnpm exec crowdin download
+        run: cd docs && pnpm exec crowdin download -l zh-CN
 
       - name: Generate common locale
         run: pnpm docs:gen-locale
@@ -49,7 +49,7 @@ jobs:
           DOC_ENV: production
 
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@4.1.5
+        uses: JamesIves/github-pages-deploy-action@v4.2.2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
@@ -61,4 +61,4 @@ jobs:
       - name: Sync
         env:
           TRIGGERSYNCURL: ${{ secrets.TRIGGERSYNCURL }}
-        run: curl "$TRIGGERSYNCURL"
+        run: curl -k "$TRIGGERSYNCURL"

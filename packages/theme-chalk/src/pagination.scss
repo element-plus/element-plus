@@ -10,13 +10,15 @@
 
   white-space: nowrap;
   padding: 2px 5px;
-  color: var(--el-pagination-font-color);
+  color: var(--el-pagination-text-color);
   font-weight: bold;
   @include utils-clearfix;
 
   span:not([class*='suffix']),
   button {
-    display: inline-block;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
     font-size: var(--el-pagination-font-size);
     min-width: var(--el-pagination-button-width);
     height: var(--el-pagination-button-height);
@@ -62,7 +64,7 @@
 
     &:disabled {
       color: var(--el-pagination-button-disabled-color);
-      background-color: var(--el-pagination-button-disabled-background-color);
+      background-color: var(--el-pagination-button-disabled-bg-color);
       cursor: not-allowed;
     }
   }
@@ -71,7 +73,7 @@
   .btn-next {
     background: center center no-repeat;
     background-size: 16px;
-    background-color: var(--el-pagination-background-color);
+    background-color: var(--el-pagination-bg-color);
     cursor: pointer;
     margin: 0;
     color: var(--el-pagination-button-color);
@@ -134,7 +136,7 @@
     }
 
     .#{$namespace}-input__inner,
-    .#{$namespace}-input--mini {
+    .#{$namespace}-input--small {
       height: var(--el-pagination-height-extra-small) !important;
       line-height: var(--el-pagination-line-height-extra-small);
     }
@@ -267,9 +269,11 @@
 
   li {
     padding: 0 4px;
-    background: var(--el-pagination-background-color);
+    background: var(--el-pagination-bg-color);
     vertical-align: top;
-    display: inline-block;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
     font-size: var(--el-pagination-font-size);
     min-width: var(--el-pagination-button-width);
     height: var(--el-pagination-button-height);

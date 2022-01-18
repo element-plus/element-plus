@@ -6,19 +6,9 @@
   </el-checkbox-group>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-const cityOptions = ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen']
-
-export default defineComponent({
-  setup() {
-    const state = reactive({
-      checkedCities: ['Shanghai', 'Beijing'],
-      cities: cityOptions,
-    })
-
-    return toRefs(state)
-  },
-})
+const checkedCities = ref(['Shanghai', 'Beijing'])
+const cities = ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen']
 </script>

@@ -59,41 +59,50 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    const generateData = (_) => {
-      const data = []
-      for (let i = 1; i <= 15; i++) {
-        data.push({
-          key: i,
-          label: `Option ${i}`,
-          disabled: i % 4 === 0,
-        })
-      }
-      return data
-    }
-    return {
-      data: generateData(),
-      rightValue: [1],
-      leftValue: [1],
-      renderFunc(h, option) {
-        return h('span', null, option.key, ' - ', option.label)
-      },
-    }
-  },
+<script lang="ts" setup>
+import { ref } from 'vue'
+import type { VNode, VNodeProps } from 'vue'
 
-  methods: {
-    handleChange(value, direction, movedKeys) {
-      console.log(value, direction, movedKeys)
-    },
-  },
+interface Option {
+  key: number
+  label: string
+  disabled: boolean
+}
+
+const generateData = (): Option[] => {
+  const data: Option[] = []
+  for (let i = 1; i <= 15; i++) {
+    data.push({
+      key: i,
+      label: `Option ${i}`,
+      disabled: i % 4 === 0,
+    })
+  }
+  return data
+}
+
+const data = ref(generateData())
+const rightValue = ref([1])
+const leftValue = ref([1])
+
+const renderFunc = (
+  h: (type: string, props: VNodeProps | null, children?: string) => VNode,
+  option: Option
+) => {
+  return h('span', null, option.label)
+}
+const handleChange = (
+  value: number | string,
+  direction: 'left' | 'right',
+  movedKeys: string[] | number[]
+) => {
+  console.log(value, direction, movedKeys)
 }
 </script>
 
 <style>
 .transfer-footer {
-  margin-left: 20px;
+  margin-left: 15px;
   padding: 6px 5px;
 }
 </style>

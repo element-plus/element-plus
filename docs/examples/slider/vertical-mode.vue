@@ -4,16 +4,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { ref, defineComponent } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const value = ref(0)
-
-    return {
-      value,
-    }
-  },
-})
+const value = ref(0)
 </script>

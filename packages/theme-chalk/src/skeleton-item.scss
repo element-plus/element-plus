@@ -2,9 +2,7 @@
 @use 'common/var' as *;
 
 @include b(skeleton) {
-  @each $size in (small, medium, large) {
-    --el-skeleton-avatar-#{$size}-size: var(--el-avatar-#{$size}-size);
-  }
+  --el-skeleton-circle-size: var(--el-avatar-size);
 }
 
 @mixin circle-size($size) {
@@ -24,15 +22,10 @@
 
   @include e(circle) {
     border-radius: 50%;
-    @include circle-size(var(--el-skeleton-avatar-medium-size));
 
-    @include m(lg) {
-      @include circle-size(var(--el-skeleton-avatar-large-size));
-    }
-
-    @include m(md) {
-      @include circle-size(var(--el-skeleton-avatar-small-size));
-    }
+    width: var(--el-skeleton-circle-size);
+    height: var(--el-skeleton-circle-size);
+    line-height: var(--el-skeleton-circle-size);
   }
 
   @include e(button) {

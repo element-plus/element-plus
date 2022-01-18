@@ -80,7 +80,7 @@ import {
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
 import { ElIcon } from '@element-plus/components/icon'
-import { ArrowLeft, ArrowRight } from '@element-plus/icons'
+import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 
 import { debugWarn } from '@element-plus/utils/error'
 import type {
