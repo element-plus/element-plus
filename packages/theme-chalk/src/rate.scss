@@ -4,13 +4,24 @@
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
+$rate-height: () !default;
+$rate-height: map.merge(
+  (
+    'large': 40px,
+    'default': 32px,
+    'small': 24px,
+  ),
+  $rate-height
+);
+
 @include b(rate) {
   @include set-component-css-var('rate', $rate);
 }
 
 @include b(rate) {
-  height: var(--el-rate-height);
-  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  height: map.get($rate-height, 'default');
 
   &:focus,
   &:active {
@@ -53,5 +64,11 @@
   @include e(text) {
     font-size: var(--el-rate-font-size);
     vertical-align: middle;
+  }
+
+  @each $size in (large, small) {
+    @include m($size) {
+      height: map.get($rate-height, $size);
+    }
   }
 }

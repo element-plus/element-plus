@@ -22,7 +22,7 @@ import { useEventListener, useThrottleFn } from '@vueuse/core'
 import { ElIcon } from '@element-plus/components/icon'
 import { easeInOutCubic } from '@element-plus/utils/animation'
 import { throwError } from '@element-plus/utils/error'
-import { CaretTop } from '@element-plus/icons'
+import { CaretTop } from '@element-plus/icons-vue'
 
 import { backtopEmits, backtopProps } from './backtop'
 

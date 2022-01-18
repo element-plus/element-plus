@@ -1,5 +1,5 @@
 import { defineComponent, h } from 'vue'
-import { hGutter, hColgroup } from '../h-helper'
+import { hColgroup } from '../h-helper'
 import useStyle from './style-helper'
 import type { Store } from '../store'
 
@@ -42,31 +42,40 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const { hasGutter, getRowClasses, columns } = useStyle(
-      props as TableFooter<DefaultRow>
-    )
+    const { hasGutter, getCellClasses, getCellStyles, columns, gutterWidth } =
+      useStyle(props as TableFooter<DefaultRow>)
     return {
-      getRowClasses,
+      getCellClasses,
+      getCellStyles,
       hasGutter,
+      gutterWidth,
       columns,
     }
   },
   render() {
+    const {
+      hasGutter,
+      gutterWidth,
+      columns,
+      getCellStyles,
+      getCellClasses,
+      summaryMethod,
+      sumText,
+    } = this
+    const data = this.store.states.data.value
     let sums = []
-    if (this.summaryMethod) {
-      sums = this.summaryMethod({
-        columns: this.columns,
-        data: this.store.states.data.value,
+    if (summaryMethod) {
+      sums = summaryMethod({
+        columns,
+        data,
       })
     } else {
-      this.columns.forEach((column, index) => {
+      columns.forEach((column, index) => {
         if (index === 0) {
-          sums[index] = this.sumText
+          sums[index] = sumText
           return
         }
-        const values = this.store.states.data.value.map((item) =>
-          Number(item[column.property])
-        )
+        const values = data.map((item) => Number(item[column.property]))
         const precisions = []
         let notNumber = true
         values.forEach((value) => {
@@ -100,25 +109,23 @@ export default defineComponent({
         border: '0',
       },
       [
-        hColgroup(this.columns, this.hasGutter),
+        hColgroup(columns, hasGutter),
         h(
           'tbody',
           {
-            class: [{ 'has-gutter': this.hasGutter }],
+            class: [{ 'has-gutter': hasGutter }],
           },
           [
             h('tr', {}, [
-              ...this.columns.map((column, cellIndex) =>
+              ...columns.map((column, cellIndex) =>
                 h(
                   'td',
                   {
                     key: cellIndex,
                     colspan: column.colSpan,
                     rowspan: column.rowSpan,
-                    class: [
-                      ...this.getRowClasses(column, cellIndex),
-                      'el-table__cell',
-                    ],
+                    class: getCellClasses(columns, cellIndex, hasGutter),
+                    style: getCellStyles(column, cellIndex, hasGutter),
                   },
                   [
                     h(
@@ -131,7 +138,13 @@ export default defineComponent({
                   ]
                 )
               ),
-              this.hasGutter && hGutter(),
+              hasGutter &&
+                h('td', {
+                  class: 'el-table__fixed-right-patch el-table__cell',
+                  style: {
+                    width: `${gutterWidth}px`,
+                  },
+                }),
             ]),
           ]
         ),

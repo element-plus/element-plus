@@ -1,6 +1,6 @@
 import { ref, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { ArrowUp, ArrowDown } from '@element-plus/icons'
+import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
 import InputNumber from '../src/input-number.vue'
 
 const mouseup = new Event('mouseup')
@@ -40,6 +40,25 @@ describe('InputNumber.vue', () => {
       },
     })
     expect(wrapper.find('input').element.value).toEqual('1')
+  })
+  test('set modelValue undefined to display placeholder', async () => {
+    const wrapper = _mount({
+      template:
+        '<el-input-number :model-value="inputText" placeholder="input number"/>',
+      setup() {
+        const inputText = ref(1)
+        return {
+          inputText,
+        }
+      },
+    })
+    expect(wrapper.find('input').element.value).toEqual('1')
+    wrapper.vm.inputText = undefined
+    await nextTick()
+    expect(wrapper.find('input').element.value).toEqual('')
+    expect(wrapper.find('input').element.getAttribute('aria-valuenow')).toEqual(
+      'NaN'
+    )
   })
   test('min', async () => {
     const wrapper = _mount({

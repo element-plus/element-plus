@@ -9,28 +9,20 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const color1 = ref('#409EFF')
-    const color2 = ref(null)
-    return {
-      color1,
-      color2,
-    }
-  },
-})
+const color1 = ref('#409EFF')
+const color2 = ref()
 </script>
 
-<style lang="scss">
+<style>
 .demo-color-block {
   display: flex;
   align-items: center;
   margin-bottom: 16px;
-  .demonstration {
-    margin-right: 16px;
-  }
+}
+.demo-color-block .demonstration {
+  margin-right: 16px;
 }
 </style>

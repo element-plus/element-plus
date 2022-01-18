@@ -10,12 +10,8 @@
   </el-tooltip>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      value: '100',
-    }
-  },
-}
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const value = ref('100')
 </script>

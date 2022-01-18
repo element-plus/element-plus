@@ -9,7 +9,7 @@
       <el-image>
         <template #error>
           <div class="image-slot">
-            <el-icon><picture /></el-icon>
+            <el-icon><icon-picture /></el-icon>
           </div>
         </template>
       </el-image>
@@ -18,5 +18,5 @@
 </template>
 
 <script setup lang="ts">
-import { Picture } from '@element-plus/icons'
+import { Picture as IconPicture } from '@element-plus/icons-vue'
 </script>

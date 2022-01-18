@@ -29,7 +29,7 @@
 
   @include e(footer) {
     border-top: 1px solid var(--el-datepicker-inner-border-color);
-    padding: 4px;
+    padding: 4px 12px;
     text-align: right;
     background-color: $color-white;
     position: relative;
@@ -43,14 +43,14 @@
     background-color: transparent;
     line-height: 28px;
     font-size: 14px;
-    color: var(--el-datepicker-font-color);
+    color: var(--el-datepicker-text-color);
     padding-left: 12px;
     text-align: left;
     outline: none;
     cursor: pointer;
 
     &:hover {
-      color: var(--el-datepicker-hover-font-color);
+      color: var(--el-datepicker-hover-text-color);
     }
 
     &.active {
@@ -86,11 +86,11 @@
     margin-top: 8px;
 
     &:hover {
-      color: var(--el-datepicker-hover-font-color);
+      color: var(--el-datepicker-hover-text-color);
     }
 
     @include when(disabled) {
-      color: var(--el-font-color-disabled-base);
+      color: var(--el-text-color-disabled-base);
 
       &:hover {
         cursor: not-allowed;

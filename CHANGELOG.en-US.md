@@ -1,5 +1,270 @@
 ## Changelog
 
+### 1.3.0-beta.5
+
+_2022-01-12_
+
+#### Bug fixes
+
+- Fix error build type file (#5335 by @JeremyWuuuuu)
+
+### 1.3.0-beta.4
+
+_2022-01-11_
+
+#### Features
+
+- Components [el-tabs] add active-bar width transition (#5206 by @purepear) (#5223)
+
+#### Bug fixes
+
+- Dropdowm item can not click (#5257 by @kooriookami)
+- Components [el-tree] fix safari drop animation issue (#5294 by @msidolphin)
+- Components [el-dropdown] cannot be closed by clicking outside (#5287 by @JeremyWuuuuu)
+- Style [el-dropdown] fix doc style (#5266 by @kooriookami)
+- Components [el-date-picker] panel position error after view switch (#5277 by @msidolphin)
+- Components [el-tooltip] restoring append-to API (#5296 by @JeremyWuuuuu)
+- Fix DateRangePicker custom style & class bug (#5300 by @0song)
+- [el-calendar] selected wrong date when change the month/year (#5297 by @msidolphin)
+- Project adding cypress into element plus (#5281 by @JeremyWuuuuu)
+
+### 1.3.0-beta.3
+
+_2022-01-09_
+
+#### Bug fixes
+
+- Components make Datepicker `value-format="x"` emit number timestamp value (#5187 by @CarterLi)
+- Tooltip with compoents add persistent (#5250 by @kooriookami)
+
+### 1.3.0-beta.2
+
+_2022-01-08_
+
+#### Features
+
+- Add global properties typings (#5075 by @sxzz)
+- Components [el-message-box] add role="dialog" attribute (#5190 by @purepear)
+- Components [el-rate] rate add size prop (#5102 by @kooriookami)
+- Components [el-switch] switch add size prop (#5101 by @kooriookami)
+- Components [el-slider] slider add size prop (#5091 by @kooriookami)
+- Components checkbox & radio support small size (#5189 by @msidolphin)
+- Docs Add migration chapter (#5205 by @JeremyWuuuuu)
+- Export popup manager (#5220 by @sxzz)
+- Components [el-tag] adjust icon size (#5207 by @btea)
+- Components [el-cascader] cascader panel loading placeholder (#5064 by @KawaiiZapic)
+- Components [el-message] config-provider message max attr (#5063 by @btea)
+
+#### Bug fixes
+
+- Docs docs site deploy error (#5081 by @JeremyWuuuuu)
+- Theme-chalk input-number controls increase/decrease height (#5088 by @YunYouJun)
+- Components popper content fallback placements (#5119 by @JeremyWuuuuu)
+- Docs correct minor typos (#5140 by @MrFu1998)
+- Components [el-select-v2] tag overflow (#5160 by @Alanscut)
+- Components width reset to empty string should be parsed to auto (#5186 by @cokemine)
+- Components [el-date-picker] fix footer style (#5144 by @msidolphin)
+- Components [el-table] improve scrollable condition (#5149 by @msidolphin)
+- Fix el-input-number inputting will trigger form validate (#4838 by @kooriookami)
+- Components [el-form] fix form style (#5145 by @kooriookami)
+- Hooks provide root locale (#5218 by @sxzz)
+- Components [el-date-picker] ignore special flag (#5200 by @msidolphin)
+- Docs [el-icon] fix svg icon cannot copied issue (#5208 by @msidolphin)
+- Components [el-pagination] layout error (#5181 by @Alanscut)
+- Components [el-transfer] improve styles (#5139 by @msidolphin)
+
+#### Refactors
+
+- Docs auto import icons & optimize details (#5087 by @YunYouJun)
+- Docs add spacing for switch example (#5092 by @YunYouJun)
+- Utils!: remove global config (#5093 by @sxzz)
+- Components popper composables (#5035 by @JeremyWuuuuu)
+- Components [layout] optimize performance (#4600 by @msidolphin)
+- [el-table] using sticky position refactor fixed column (#4414 by @msidolphin)
+- Utils remove isServer (#5173 by @btea)
+
+### 1.3.0-beta.1
+
+_2021-12-31_
+
+#### Breaking changes:
+
+- Please refer to: [1.3.0-beta.1 Breaking change](https://github.com/element-plus/element-plus/discussions/5037)
+
+#### Features
+
+- Components [el-dropdown] add new "popper-class" prop (#4909 by @jagoncalves14)
+- [el-popconfirm]add debounce of confirm() and cancel() (#4943 by @Alanscut)
+- Components [date/time-picker] add id attribute to the inputs (#4972 by @purepear)
+- Components [ElCheckboxGroup] add Fragment (#4743 by @emojiiii)
+
+#### Bug fixes
+
+- Components [ElDatePicker] click clear is invalid (#4768 by @emojiiii)
+- Style update cascader radio button padding size (#5057 by @JeremyWuuuuu)
+- [el-date-picker] focus input box when focus method is called (#4343 by @msidolphin)
+- Components [date-picker] filter custom content comment (#4651 by @btea)
+- Build circular dependency (#4791 by @sxzz)
+- Style custom icon size (#4798 by @YunYouJun)
+- Theme-chalk Put back !optional to @extend (#4835 by @cregis0073)
+- Components [el-form] vertical aligin (#4717 by @Alanscut)
+- Style adjust component size & demo (#4801 by @YunYouJun)
+- Components [el-popper] onVisibilityChange (#4907 by @imswk)
+- [el-checkbox-group]: default value adjusted to empty array (#4316 by @msidolphin)
+- Tag in select style (#4914 by @YunYouJun)
+- Components [select-v2] missing validate action when clear (#4892 by @Ryan2128)
+- Core fix unit testing warning (#4948 by @HerringtonDarkholme)
+- Components change size mini to small (#4947 by @HerringtonDarkholme)
+- Components always emit scroll with scrollTop number (#4974 by @HerringtonDarkholme)
+- Components fix more size prop checks (#4975 by @HerringtonDarkholme)
+- Components fix message warning (#4979 by @HerringtonDarkholme)
+- Components [el-step] 移除在simple模式下多余的点 (#4944 by @cn-troy)
+- Components [el-loading] fix the overlap problem
+- Message-box confirm button style (#4988 by @YunYouJun)
+- Components [el-drawer] fix content cannot scroll issue (#5001 by @msidolphin)
+- Components [el-upload] improve image style (#4902 by @fanhefeng)
+- Locale update translation/spelling of Khmer (#4930 by @ITKHMER)
+- Components input-number/input/dropdown/select/badge details (#4866 by @YunYouJun)
+- Components [el-input-number]set undefined to modelValue (#4869 by @Alanscut)
+- Theme-chalk upload progress & menu padding style & pagination align (#5011 by @YunYouJun)
+- Adjust tag icon size & add checkbox with-border demo (#5033 by @YunYouJun)
+- Theme-chalk auto menu item height & add css var, close #4864 (#5034 by @YunYouJun)
+- Components adjust style of the radio and form (#5047 by @msidolphin)
+- Components [time-picker] improve typings (#4810 by @CarterLi)
+- Perf: [el-switch] activeIcon and inactiveIcon type (#4899 by @xiaoxian521)
+- Style: update descriptions style (#5025 by @kooriookami)
+
+#### Refactors
+
+- Utils use @ctrl/tinycolor instead of custom color.ts (#4682 by @YunYouJun)
+- Style adjust component size to large/default/small (#4491 by @YunYouJun)
+- Utils remove isServer (#4792 by @sxzz)
+- Docs use setup sugar simplify input demo (#4845 by @YunYouJun)
+- Components set messagebox button size be default (#4846 by @YunYouJun)
+- Upgrade vue & remove `@vue/compiler-sfc` (#4815 by @sxzz)
+- Style adjust table size to large/default/small (#5036 by @iamkun)
+- Utils: refactor global config (#4793 by @sxzz)
+
+### 1.2.0-beta.6
+
+_2021-12-10_
+
+#### Features
+
+- Components [ElCalender] add internationalization (#4582 by @emojiiii)
+- Components [el-dialog] support custom close icon (#4514 by @spx443812507)
+- Components [el-divider] support setting the dividing line style  (#4435 by @Alanscut)
+- Components [el-select] tag type (#4504 by @Alanscut)
+- Components [el-config-provider] add size (#4730 by @sxzz)
+
+#### Bug fixes
+
+- Theme-chalk add !optional to @extend
+- Components [el-date-picker] can't use numpadEnter (#4563 by @Alanscut)
+- Hooks rename `ConfigProvdierContext` to `ConfigProviderContext` (#4620 by @emojiiii)
+- Components dropdown menu divided style, close #4631 (#4638 by @YunYouJun)
+- Components [el-config-provider] autoInsertSpace false (#4629 by @Alanscut)
+- Locale update ca (#4644 by @oscaralbareda)
+- Components [el-button] computed type (#4641 by @btea)
+- Style icon font-size inherit (#4565 by @YunYouJun)
+- Hooks fix translate option (#4619 by @sxzz)
+- Components [el-message] fit badge error type (#4662 by @btea)
+- Hooks return key name if not defined (#4664 by @sxzz)
+- Upgrade @element-plus/icons-vue to currentColor (#4671 by @YunYouJun)
+- Vue type errors (#4696 by @sxzz)
+- Components [el-table] tooltip wrong style
+- Components [el-input-number]raise native form validation error (#4706 by @Alanscut)
+- Hooks [lockscreen] body lock remove unexpected (#4693 by @KawaiiZapic) (#4694)
+- Docs fix code not working in Codepen (#4678 by @imguolao) (#4679)
+- Components [el-input-number]set value equal to min will update (#4650 by @Alanscut)
+- Docs replace @element-plus/icons with @element-plus/icons-vue (#4704 by @pdsuwwz)
+- Docs fix webpack config import syntax (#4718 by @owenvip)
+- Style override el-icon display in el-input__icon (#4684 by @YunYouJun)
+- Components [el-menu] third-party icons are hidden (#4754 by @Alanscut)
+- Components [table-column, time-picker] improve typings (#4761 by @CarterLi)
+- Build compatible to build on windows (#4747 by @sxzz)
+- Components [el-tooltip] fallback placement (#4771 by @Alanscut)
+
+#### Refactors
+
+- Change icon package name (#4625 by @sxzz)
+- Components refactor drawer (#4282 by @Alanscut)
+- Style rename -color-base to --el-bg-color (#4615 by @YunYouJun)
+- Components refactor calendar (#4325 by @Alanscut)
+- Components refactor progress
+- Components refactor progress
+- Improve types (#4746 by @sxzz)
+- Components refactor loading (#4750 by @sxzz)
+- Components [el-checkbox] simplify the value (#4674 by @iceshou)
+- Components refactor switch (#4271 by @emojiiii)
+
+### 1.2.0-beta.5
+
+_2021-12-01_
+
+#### Features
+
+- Docs add auto import and update icon (#4554 by @sxzz)
+
+#### Bug fixes
+
+- Components confirm button style when in message-box (#4564 by @YunYouJun)
+- Style input inner padding right when has suffix (#4574 by @YunYouJun)
+- Components [ElMenu] the collapsible menu switch will disappear (#4575 by @emojiiii)
+- Components [ElScrollbar] fix useResizeObserver watch undefined (#4576 by @emojiiii)
+- Components [el-tag] icon-center (#4438 by @Alanscut)
+- Components [el-dropdown] icon vertical center (#4431 by @Alanscut)
+- Utils setTimeout & config-provider type (#4598 by @sxzz)
+
+#### Refactors
+
+- Hooks refactor hooks (#4253 by @sxzz)
+- Improvement(components): [el-cascader-panel] unref store (#4544 by @btea)
+- Update item.vue (#4555 by @yonghui-wang)
+
+### 1.2.0-beta.4
+
+_2021-11-27_
+
+#### Features
+
+- Components [el-select] support suffix-icon (#4364 by @emojiiii)
+- Add translation for pashto language (#4456 by @NangialaiStoman)
+- Components add custom color for button & rename css var bg-color (#3664 by @YunYouJun)
+- Add figma resource (#4469 by @0song)
+
+#### Bug fixes
+
+- Components [el-autocomplete] fix popper position (#4321 by @btea)
+- Components [el-tabs] fix tab render (#4383 by @sxzz)
+- Docs el-image picture icon (#4433 by @adaex)
+- Components [el-rate] icon hidden (#4452 by @imswk)
+- I18n improve Polish translations (#4475 by @lukaszwojtow)
+- Components [ElSelect] fix group disabled don't work (#4481 by @emojiiii)
+- Components [el-image] preview-src-list warn (#4472 by @emojiiii)
+- Components [el-select-v2] set option default value 0 (#4417 by @btea)
+- Style radio checkbox button default color (#4492 by @YunYouJun)
+- Coler picker support touch (#4477 by @kooriookami)
+- Components [ElFormItem] label will be show undefined (#4487 by @emojiiii)
+- Locale improve Indonesian (Bahasa) translations and fix typo (#4476 by @muhammadcahya)
+- Components [el-menu] menu-collapse onLeave lose done (#4517 by @xiaoxian521)
+- Components [el-upload] fix get accept from uploader.props (#4506 by @sumy7)
+- Components [date-picker] `range-separator slot` don't work (#4522 by @emojiiii)
+- Avoid unnecessary tab switch rerender (#4513 by @oliverzy)
+
+#### Refactors
+
+- [el-config-provider] change default autoInsertSpace to false (#4330 by @msidolphin)
+- Components refactor tabs
+- Components refactor tabs
+- Components refactor scrollbar
+- Components refactor scrollbar
+- Components refactor skeleton/skeleton-item (#4264 by @emojiiii)
+- Style rename to text-color bg-color (#4468 by @YunYouJun)
+- Style rename disabled color and migrate to css var (#4493 by @YunYouJun)
+- Components refactor button (#4499 by @emojiiii)
+- Improve tsconfig (#4386 by @sxzz)
+
 ### 1.2.0-beta.3
 
 _2021-11-09_

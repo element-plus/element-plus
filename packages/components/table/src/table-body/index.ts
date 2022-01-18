@@ -6,8 +6,8 @@ import {
   onUnmounted,
   onUpdated,
 } from 'vue'
+import { isClient } from '@vueuse/core'
 import { addClass, removeClass } from '@element-plus/utils/dom'
-import isServer from '@element-plus/utils/isServer'
 import { hColgroup } from '../h-helper'
 import useLayoutObserver from '../layout-observer'
 import { removePopper } from '../util'
@@ -29,7 +29,7 @@ export default defineComponent({
     const { onColumnsChange, onScrollableChange } = useLayoutObserver(parent)
 
     watch(props.store.states.hoverRow, (newVal: any, oldVal: any) => {
-      if (!props.store.states.isComplex.value || isServer) return
+      if (!props.store.states.isComplex.value || !isClient) return
       let raf = window.requestAnimationFrame
       if (!raf) {
         raf = (fn) => window.setTimeout(fn, 16)
@@ -63,7 +63,9 @@ export default defineComponent({
     }
   },
   render() {
-    const data = this.store.states.data.value || []
+    const { wrappedRowRender, store } = this
+    const data = store.states.data.value || []
+    const columns = store.states.columns.value
     return h(
       'table',
       {
@@ -73,10 +75,10 @@ export default defineComponent({
         border: '0',
       },
       [
-        hColgroup(this.store.states.columns.value),
+        hColgroup(columns),
         h('tbody', {}, [
           data.reduce((acc: VNode[], row) => {
-            return acc.concat(this.wrappedRowRender(row, acc.length))
+            return acc.concat(wrappedRowRender(row, acc.length))
           }, []),
         ]),
       ]

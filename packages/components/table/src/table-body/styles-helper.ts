@@ -1,5 +1,9 @@
 import { getCurrentInstance } from 'vue'
-
+import {
+  getFixedColumnOffset,
+  getFixedColumnsClass,
+  ensurePosition,
+} from '../util'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { Table } from '../table/defaults'
 import type { TableBodyProps } from './defaults'
@@ -7,24 +11,7 @@ import type { TableBodyProps } from './defaults'
 function useStyles<T>(props: Partial<TableBodyProps<T>>) {
   const instance = getCurrentInstance()
   const parent = instance.parent as Table<T>
-  const isColumnHidden = (index) => {
-    if (props.fixed === 'left') {
-      return index >= props.store.states.fixedLeafColumnsLength.value
-    } else if (props.fixed === 'right') {
-      return (
-        index <
-        props.store.states.columns.value.length -
-          props.store.states.rightFixedLeafColumnsLength.value
-      )
-    } else {
-      return (
-        index < props.store.states.fixedLeafColumnsLength.value ||
-        index >=
-          props.store.states.columns.value.length -
-            props.store.states.rightFixedLeafColumnsLength.value
-      )
-    }
-  }
+
   const getRowStyle = (row: T, rowIndex: number) => {
     const rowStyle = parent.props.rowStyle
     if (typeof rowStyle === 'function') {
@@ -74,15 +61,23 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
     column: TableColumnCtx<T>
   ) => {
     const cellStyle = parent.props.cellStyle
+    let cellStyles = cellStyle ?? {}
     if (typeof cellStyle === 'function') {
-      return cellStyle.call(null, {
+      cellStyles = cellStyle.call(null, {
         rowIndex,
         columnIndex,
         row,
         column,
       })
     }
-    return cellStyle
+    const fixedStyle = getFixedColumnOffset(
+      columnIndex,
+      props.fixed,
+      props.store
+    )
+    ensurePosition(fixedStyle, 'left')
+    ensurePosition(fixedStyle, 'right')
+    return Object.assign({}, cellStyles, fixedStyle)
   }
 
   const getCellClass = (
@@ -91,12 +86,10 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
     row: T,
     column: TableColumnCtx<T>
   ) => {
-    const classes = [column.id, column.align, column.className]
-
-    if (isColumnHidden(columnIndex)) {
-      classes.push('is-hidden')
-    }
-
+    const fixedClasses = column.isSubColumn
+      ? []
+      : getFixedColumnsClass(columnIndex, props.fixed, props.store)
+    const classes = [column.id, column.align, column.className, ...fixedClasses]
     const cellClassName = parent.props.cellClassName
     if (typeof cellClassName === 'string') {
       classes.push(cellClassName)
@@ -164,7 +157,6 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
     getCellClass,
     getSpan,
     getColspanRealWidth,
-    isColumnHidden,
   }
 }
 

@@ -49,7 +49,36 @@ cascader/last-level
 
 ## Multiple Selection
 
-Set `props.multiple = true` to use multiple selection.
+Add `:props="props"` in tag and set data `props = { multiple: true }` to use multiple selection.
+
+Do:
+
+```html
+<template>
+  <el-cascader :props="props" />
+</template>
+<script lang="ts">
+  export default {
+    setup() {
+      return {
+        props: {
+          // props.
+          multiple: true,
+        },
+      }
+    },
+  }
+</script>
+```
+
+Don't do:
+
+```html
+<template>
+  <!--  Object literal binging here is invalid syntax for cascader  -->
+  <el-cascader :props="{ multiple: true }" />
+</template>
+```
 
 :::demo When using multiple selection, all selected tags will display by default, You can set `collapse-tags = true` to fold selected tags.
 
@@ -109,24 +138,24 @@ cascader/panel
 
 ## Cascader Attributes
 
-| Attribute             | Description                                                                                                                                                                      | Type                    | Accepted Values       | Default |
-| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- | --------------------- | ------- |
-| model-value / v-model | binding value                                                                                                                                                                    | -                       | —                     | —       |
-| options               | data of the options，the key of `value` and `label` can be customize by `Props`.                                                                                                 | array                   | —                     | —       |
-| props                 | configuration options, see the following table.                                                                                                                                  | object                  | —                     | —       |
-| size                  | size of input                                                                                                                                                                    | string                  | medium / small / mini | —       |
-| placeholder           | placeholder of input                                                                                                                                                             | string                  | —                     | Select  |
-| disabled              | whether Cascader is disabled                                                                                                                                                     | boolean                 | —                     | false   |
-| clearable             | whether selected value can be cleared                                                                                                                                            | boolean                 | —                     | false   |
-| show-all-levels       | whether to display all levels of the selected value in the input                                                                                                                 | boolean                 | —                     | true    |
-| collapse-tags         | whether to collapse tags in multiple selection mode                                                                                                                              | boolean                 | -                     | false   |
-| separator             | option label separator                                                                                                                                                           | string                  | —                     | ' / '   |
-| filterable            | whether the options can be searched                                                                                                                                              | boolean                 | —                     | —       |
-| filter-method         | customize search logic, the first parameter is `node`, the second is `keyword`, and need return a boolean value indicating whether it hits.                                      | function(node, keyword) | -                     | -       |
-| debounce              | debounce delay when typing filter keyword, in milliseconds                                                                                                                       | number                  | —                     | 300     |
-| before-filter         | hook function before filtering with the value to be filtered as its parameter. If `false` is returned or a `Promise` is returned and then is rejected, filtering will be aborted | function(value)         | —                     | —       |
-| popper-class          | custom class name for Cascader's dropdown                                                                                                                                        | string                  | —                     | —       |
-| popper-append-to-body | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false                                                      | boolean                 | -                     | true    |
+| Attribute             | Description                                                                                                                                                                      | Type                    | Accepted Values        | Default |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- | ---------------------- | ------- |
+| model-value / v-model | binding value                                                                                                                                                                    | -                       | —                      | —       |
+| options               | data of the options，the key of `value` and `label` can be customize by `Props`.                                                                                                 | array                   | —                      | —       |
+| props                 | configuration options, see the following table.                                                                                                                                  | object                  | —                      | —       |
+| size                  | size of input                                                                                                                                                                    | string                  | large / default /small | —       |
+| placeholder           | placeholder of input                                                                                                                                                             | string                  | —                      | Select  |
+| disabled              | whether Cascader is disabled                                                                                                                                                     | boolean                 | —                      | false   |
+| clearable             | whether selected value can be cleared                                                                                                                                            | boolean                 | —                      | false   |
+| show-all-levels       | whether to display all levels of the selected value in the input                                                                                                                 | boolean                 | —                      | true    |
+| collapse-tags         | whether to collapse tags in multiple selection mode                                                                                                                              | boolean                 | -                      | false   |
+| separator             | option label separator                                                                                                                                                           | string                  | —                      | ' / '   |
+| filterable            | whether the options can be searched                                                                                                                                              | boolean                 | —                      | —       |
+| filter-method         | customize search logic, the first parameter is `node`, the second is `keyword`, and need return a boolean value indicating whether it hits.                                      | function(node, keyword) | -                      | -       |
+| debounce              | debounce delay when typing filter keyword, in milliseconds                                                                                                                       | number                  | —                      | 300     |
+| before-filter         | hook function before filtering with the value to be filtered as its parameter. If `false` is returned or a `Promise` is returned and then is rejected, filtering will be aborted | function(value)         | —                      | —       |
+| popper-class          | custom class name for Cascader's dropdown                                                                                                                                        | string                  | —                      | —       |
+| popper-append-to-body | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false                                                      | boolean                 | -                      | true    |
 
 ## Cascader Events
 

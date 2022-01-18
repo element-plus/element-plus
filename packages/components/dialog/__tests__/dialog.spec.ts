@@ -2,6 +2,7 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { rAF } from '@element-plus/test-utils/tick'
 import triggerCompositeClick from '@element-plus/test-utils/composite-click'
+import { Delete } from '@element-plus/icons-vue'
 import Dialog from '../'
 
 const AXIOM = 'Rem is the best girl'
@@ -258,6 +259,21 @@ describe('Dialog.vue', () => {
       expect(onClose).toHaveBeenCalled()
       expect(onClosed).toHaveBeenCalled()
       expect(visible).toBe(false)
+    })
+
+    test('closeIcon', async () => {
+      const wrapper = _mount({
+        props: {
+          modelValue: true,
+          closeIcon: Delete,
+        },
+      })
+      await nextTick()
+      await rAF()
+      const closeIcon = wrapper.find('svg')
+      expect(closeIcon.exists()).toBe(true)
+      const svg = mount(Delete).find('svg').element
+      expect(closeIcon.element.innerHTML).toBe(svg.innerHTML)
     })
   })
 })

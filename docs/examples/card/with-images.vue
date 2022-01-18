@@ -23,18 +23,10 @@
   </el-row>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const currentDate = ref(new Date())
-
-    return {
-      currentDate,
-    }
-  },
-})
+const currentDate = ref(new Date())
 </script>
 
 <style>

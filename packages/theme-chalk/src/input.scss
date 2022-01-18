@@ -24,11 +24,8 @@
     width: 100%;
     font-size: inherit;
     font-family: inherit;
-    color: var(--el-input-font-color, map.get($input, 'font-color'));
-    background-color: var(
-      --el-input-background-color,
-      map.get($input, 'background-color')
-    );
+    color: var(--el-input-text-color, map.get($input, 'text-color'));
+    background-color: var(--el-input-bg-color, map.get($input, 'bg-color'));
     background-image: none;
     border: var(--el-input-border, map.get($input, 'border'));
     border-radius: var(
@@ -74,7 +71,7 @@
     .#{$namespace}-textarea__inner {
       background-color: map.get($input-disabled, 'fill');
       border-color: map.get($input-disabled, 'border');
-      color: map.get($input-disabled, 'color');
+      color: map.get($input-disabled, 'text-color');
       cursor: not-allowed;
 
       &::placeholder {
@@ -132,10 +129,7 @@
 
   @include e(inner) {
     -webkit-appearance: none;
-    background-color: var(
-      --el-input-background-color,
-      map.get($input, 'background-color')
-    );
+    background-color: var(--el-input-bg-color, map.get($input, 'bg-color'));
     background-image: none;
     border-radius: var(
       --el-input-border-radius,
@@ -143,13 +137,13 @@
     );
     border: var(--el-input-border, map.get($input, 'border'));
     box-sizing: border-box;
-    color: var(--el-input-font-color, map.get($input, 'font-color'));
+    color: var(--el-input-text-color, map.get($input, 'text-color'));
     display: inline-block;
     font-size: inherit;
     height: map.get($input-height, 'default');
     line-height: map.get($input-height, 'default');
     outline: none;
-    padding: 0 15px;
+    padding: 0 map.get($input-padding-horizontal, 'default')-$border-width-base;
     transition: var(--el-transition-border);
     width: 100%;
 
@@ -181,7 +175,7 @@
 
     position: absolute;
     height: 100%;
-    right: 5px;
+    right: map.get($input-padding-horizontal, 'default');
     top: 0;
     text-align: center;
     color: var(--el-input-icon-color, map.get($input, 'icon-color'));
@@ -199,7 +193,7 @@
 
     position: absolute;
     height: 100%;
-    left: 5px;
+    left: map.get($input-padding-horizontal, 'default');
     top: 0;
     text-align: center;
     color: var(--el-input-icon-color, map.get($input, 'icon-color'));
@@ -212,12 +206,15 @@
   }
 
   @include e(icon) {
-    width: 25px;
     height: inherit;
     display: flex;
     justify-content: center;
     align-items: center;
     transition: all var(--el-transition-duration);
+
+    &.#{$namespace}-icon {
+      display: flex;
+    }
   }
 
   @include e(validateIcon) {
@@ -238,7 +235,7 @@
     .#{$namespace}-input__inner {
       background-color: map.get($input-disabled, 'fill');
       border-color: map.get($input-disabled, 'border');
-      color: map.get($input-disabled, 'color');
+      color: map.get($input-disabled, 'text-color');
       cursor: not-allowed;
 
       &::placeholder {
@@ -263,21 +260,30 @@
     }
   }
 
+  $input-padding-size-with-extra-icon: calc(
+    5px + map.get($input-font-size, 'default') +
+      map.get($input-padding-horizontal, 'default')
+  );
+
   @include m(suffix) {
     @include m(password-clear) {
       .#{$namespace}-input__inner {
         padding-right: 55px;
       }
     }
+
+    .#{$namespace}-input__inner {
+      padding-right: $input-padding-size-with-extra-icon;
+    }
   }
 
   @include m(prefix) {
     .#{$namespace}-input__inner {
-      padding-left: 30px;
+      padding-left: $input-padding-size-with-extra-icon;
     }
   }
 
-  @each $size in (medium, small, mini) {
+  @each $size in (large, small) {
     @include m($size) {
       font-size: map.get($input-font-size, $size);
       line-height: map.get($input-height, $size) - 2;
@@ -285,10 +291,36 @@
       @include e(inner) {
         height: map.get($input-height, $size);
         line-height: map.get($input-height, $size);
+        padding: 0 map.get($input-padding-horizontal, $size)-$border-width-base;
       }
 
       .#{$namespace}-input__icon {
         line-height: map.get($input-height, $size);
+      }
+
+      $input-padding-size-with-extra-icon: calc(
+        5px + map.get($input-font-size, $size) +
+          map.get($input-padding-horizontal, $size)
+      );
+
+      &.#{$namespace}-input--prefix {
+        .#{$namespace}-input__inner {
+          padding-left: $input-padding-size-with-extra-icon;
+        }
+      }
+
+      &.#{$namespace}-input--suffix {
+        .#{$namespace}-input__inner {
+          padding-right: $input-padding-size-with-extra-icon;
+        }
+      }
+
+      @include e(prefix) {
+        left: map.get($input-padding-horizontal, $size);
+      }
+
+      @include e(suffix) {
+        right: map.get($input-padding-horizontal, $size);
       }
     }
   }
@@ -307,7 +339,7 @@
   }
 
   @include e((append, prepend)) {
-    background-color: var(--el-background-color-base);
+    background-color: var(--el-bg-color);
     color: var(--el-color-info);
     vertical-align: middle;
     display: table-cell;

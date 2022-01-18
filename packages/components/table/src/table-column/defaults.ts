@@ -40,7 +40,7 @@ interface TableColumnCtx<T> {
     column: TableColumnCtx<T>,
     cellValue,
     index: number
-  ) => VNode
+  ) => VNode | string
   selectable: (row: T, index: number) => boolean
   reserveSelection: boolean
   filterMethod: FilterMethods<T>
@@ -58,6 +58,7 @@ interface TableColumnCtx<T> {
   filterable: boolean | FilterMethods<T> | Filters
   order: string
   isColumnGroup: boolean
+  isSubColumn: boolean
   columns: TableColumnCtx<T>[]
   getColumnIndex: () => number
   no: number

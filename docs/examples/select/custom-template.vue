@@ -19,40 +19,34 @@
   </el-select>
 </template>
 
-<script lang="ts">
-import { ref, defineComponent } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    return {
-      cities: ref([
-        {
-          value: 'Beijing',
-          label: 'Beijing',
-        },
-        {
-          value: 'Shanghai',
-          label: 'Shanghai',
-        },
-        {
-          value: 'Nanjing',
-          label: 'Nanjing',
-        },
-        {
-          value: 'Chengdu',
-          label: 'Chengdu',
-        },
-        {
-          value: 'Shenzhen',
-          label: 'Shenzhen',
-        },
-        {
-          value: 'Guangzhou',
-          label: 'Guangzhou',
-        },
-      ]),
-      value: ref(''),
-    }
+const value = ref('')
+const cities = [
+  {
+    value: 'Beijing',
+    label: 'Beijing',
   },
-})
+  {
+    value: 'Shanghai',
+    label: 'Shanghai',
+  },
+  {
+    value: 'Nanjing',
+    label: 'Nanjing',
+  },
+  {
+    value: 'Chengdu',
+    label: 'Chengdu',
+  },
+  {
+    value: 'Shenzhen',
+    label: 'Shenzhen',
+  },
+  {
+    value: 'Guangzhou',
+    label: 'Guangzhou',
+  },
+]
 </script>

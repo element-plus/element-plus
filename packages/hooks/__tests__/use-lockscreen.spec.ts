@@ -2,14 +2,14 @@ import { ref, nextTick, defineComponent, onMounted } from 'vue'
 import { mount } from '@vue/test-utils'
 import { hasClass } from '@element-plus/utils/dom'
 
-import useLockScreen from '../use-lockscreen'
+import { useLockscreen } from '../use-lockscreen'
 
 const kls = 'el-popup-parent--hidden'
 
 const Comp = defineComponent({
   setup() {
     const flag = ref(false)
-    useLockScreen(flag)
+    useLockscreen(flag)
     onMounted(() => {
       flag.value = true
     })
@@ -17,7 +17,7 @@ const Comp = defineComponent({
   template: `<div></div>`,
 })
 
-describe('useLockScreen', () => {
+describe('useLockscreen', () => {
   test('should lock screen when trigger is true', async () => {
     const wrapper = mount({
       template: `

@@ -4,6 +4,10 @@ import type { VNode, ExtractPropTypes, Component } from 'vue'
 
 export const messageTypes = ['success', 'info', 'warning', 'error'] as const
 
+export interface MessageConfigContext {
+  max?: number
+}
+
 export const messageProps = buildProps({
   customClass: {
     type: String,

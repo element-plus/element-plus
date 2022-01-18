@@ -7,7 +7,7 @@
         sub-title="Please follow the instructions"
       >
         <template #extra>
-          <el-button type="primary" size="medium">Back</el-button>
+          <el-button type="primary">Back</el-button>
         </template>
       </el-result>
     </el-col>
@@ -18,7 +18,7 @@
         sub-title="Please follow the instructions"
       >
         <template #extra>
-          <el-button type="primary" size="medium">Back</el-button>
+          <el-button type="primary">Back</el-button>
         </template>
       </el-result>
     </el-col>
@@ -29,7 +29,7 @@
         sub-title="Please follow the instructions"
       >
         <template #extra>
-          <el-button type="primary" size="medium">Back</el-button>
+          <el-button type="primary">Back</el-button>
         </template>
       </el-result>
     </el-col>
@@ -40,7 +40,7 @@
         sub-title="Please follow the instructions"
       >
         <template #extra>
-          <el-button type="primary" size="medium">Back</el-button>
+          <el-button type="primary">Back</el-button>
         </template>
       </el-result>
     </el-col>

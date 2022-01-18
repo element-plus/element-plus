@@ -39,21 +39,11 @@
     </div>
   </div>
 </template>
-<script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const state = reactive({
-      value1: '',
-      value2: '',
-      value3: '',
-      value4: '',
-    })
-
-    return {
-      ...toRefs(state),
-    }
-  },
-})
+const value1 = ref('')
+const value2 = ref('')
+const value3 = ref('')
+const value4 = ref('')
 </script>

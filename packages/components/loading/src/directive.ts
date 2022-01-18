@@ -1,56 +1,94 @@
-import Loading from './index'
+import { isRef, ref } from 'vue'
+import { isObject, isString, hyphenate } from '@vue/shared'
+import { Loading } from './service'
+import type { Directive, DirectiveBinding, UnwrapRef } from 'vue'
+import type { LoadingOptions } from './types'
+import type { LoadingInstance } from './loading'
 
-import type { DirectiveBinding } from 'vue'
-import type { ILoadingInstance } from './loading.type'
+const INSTANCE_KEY = Symbol('ElLoading')
 
-const INSTANCE_NAME = 'ElLoading'
-
+export type LoadingBinding = boolean | UnwrapRef<LoadingOptions>
 export interface ElementLoading extends HTMLElement {
-  [INSTANCE_NAME]?: ILoadingInstance
+  [INSTANCE_KEY]?: {
+    instance: LoadingInstance
+    options: LoadingOptions
+  }
 }
 
-const createInstance = (el: ElementLoading, binding: DirectiveBinding) => {
-  const textExr = el.getAttribute('element-loading-text')
-  const spinnerExr = el.getAttribute('element-loading-spinner')
-  const svgExr = el.getAttribute('element-loading-svg')
-  const svgViewBoxExr = el.getAttribute('element-loading-svg-view-box')
-  const backgroundExr = el.getAttribute('element-loading-background')
-  const customClassExr = el.getAttribute('element-loading-custom-class')
+const createInstance = (
+  el: ElementLoading,
+  binding: DirectiveBinding<LoadingBinding>
+) => {
   const vm = binding.instance
-  el[INSTANCE_NAME] = Loading({
-    text: (vm && vm[textExr]) || textExr,
-    svg: (vm && vm[svgExr]) || svgExr,
-    svgViewBox: (vm && vm[svgViewBoxExr]) || svgViewBoxExr,
-    spinner: (vm && vm[spinnerExr]) || spinnerExr,
-    background: (vm && vm[backgroundExr]) || backgroundExr,
-    customClass: (vm && vm[customClassExr]) || customClassExr,
-    fullscreen: !!binding.modifiers.fullscreen,
-    target: binding.modifiers.fullscreen ? null : el,
-    body: !!binding.modifiers.body,
-    visible: true,
-    lock: !!binding.modifiers.lock,
-  })
+
+  const getBindingProp = <K extends keyof LoadingOptions>(
+    key: K
+  ): LoadingOptions[K] =>
+    isObject(binding.value) ? binding.value[key] : undefined
+
+  const resolveExpression = (key: any) => {
+    const data = (isString(key) && vm?.[key]) || key
+    if (data) return ref(data)
+    else return data
+  }
+
+  const getProp = <K extends keyof LoadingOptions>(name: K) =>
+    resolveExpression(
+      getBindingProp(name) ||
+        el.getAttribute(`element-loading-${hyphenate(name)}`)
+    )
+
+  const fullscreen =
+    getBindingProp('fullscreen') ?? binding.modifiers.fullscreen
+
+  const options: LoadingOptions = {
+    text: getProp('text'),
+    svg: getProp('svg'),
+    svgViewBox: getProp('svgViewBox'),
+    spinner: getProp('spinner'),
+    background: getProp('background'),
+    customClass: getProp('customClass'),
+    fullscreen,
+    target: getBindingProp('target') ?? (fullscreen ? undefined : el),
+    body: getBindingProp('body') ?? binding.modifiers.body,
+    lock: getBindingProp('lock') ?? binding.modifiers.lock,
+  }
+  el[INSTANCE_KEY] = {
+    options,
+    instance: Loading(options),
+  }
 }
 
-const vLoading = {
-  mounted(el: ElementLoading, binding: DirectiveBinding) {
+const updateOptions = (
+  newOptions: UnwrapRef<LoadingOptions>,
+  originalOptions: LoadingOptions
+) => {
+  for (const key of Object.keys(originalOptions)) {
+    if (isRef(originalOptions[key]))
+      originalOptions[key].value = newOptions[key]
+  }
+}
+
+export const vLoading: Directive<ElementLoading, LoadingBinding> = {
+  mounted(el, binding) {
     if (binding.value) {
       createInstance(el, binding)
     }
   },
-  updated(el: ElementLoading, binding: DirectiveBinding) {
-    const instance = el[INSTANCE_NAME]
+  updated(el, binding) {
+    const instance = el[INSTANCE_KEY]
     if (binding.oldValue !== binding.value) {
-      if (binding.value) {
+      if (binding.value && !binding.oldValue) {
         createInstance(el, binding)
+      } else if (binding.value && binding.oldValue) {
+        if (isObject(binding.value))
+          updateOptions(binding.value, instance!.options)
       } else {
-        instance?.close()
+        instance?.instance.close()
       }
     }
   },
-  unmounted(el: ElementLoading) {
-    el[INSTANCE_NAME]?.close()
+  unmounted(el) {
+    el[INSTANCE_KEY]?.instance.close()
   },
 }
-
-export default vLoading

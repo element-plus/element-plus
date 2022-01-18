@@ -72,7 +72,8 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
       )
       dropNext = props.allowDrop(draggingNode.node, dropNode.node, 'next')
     }
-    event.dataTransfer.dropEffect = dropInner ? 'move' : 'none'
+    event.dataTransfer.dropEffect =
+      dropInner || dropPrev || dropNext ? 'move' : 'none'
     if ((dropPrev || dropInner || dropNext) && oldDropNode !== dropNode) {
       if (oldDropNode) {
         ctx.emit('node-drag-leave', draggingNode.node, oldDropNode.node, event)

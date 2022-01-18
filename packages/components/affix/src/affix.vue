@@ -75,7 +75,7 @@ export default defineComponent({
       state.scrollTop =
         scrollContainer.value instanceof Window
           ? document.documentElement.scrollTop
-          : scrollContainer.value.scrollTop
+          : scrollContainer.value.scrollTop || 0
       state.clientHeight = document.documentElement.clientHeight
 
       if (props.position === 'top') {

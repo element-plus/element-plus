@@ -1,9 +1,10 @@
 <template>
   <button
+    ref="buttonRef"
     :class="[
-      'el-button',
-      buttonType ? 'el-button--' + buttonType : '',
-      buttonSize ? 'el-button--' + buttonSize : '',
+      `${ns.b()}`,
+      `${ns.m(buttonType)}`,
+      `${ns.m(buttonSize)}`,
       {
         'is-disabled': buttonDisabled,
         'is-loading': loading,
@@ -15,15 +16,18 @@
     :disabled="buttonDisabled || loading"
     :autofocus="autofocus"
     :type="nativeType"
+    :style="buttonStyle"
     @click="handleClick"
   >
-    <el-icon v-if="loading" class="is-loading"><loading /></el-icon>
+    <el-icon v-if="loading" class="is-loading">
+      <loading />
+    </el-icon>
     <el-icon v-else-if="icon">
       <component :is="icon" />
     </el-icon>
     <span
       v-if="$slots.default"
-      :class="{ 'el-button__text--expand': shouldAddSpace }"
+      :class="[shouldAddSpace ? `${ns.em('text', 'expand')}` : '']"
     >
       <slot></slot>
     </span>
@@ -31,11 +35,20 @@
 </template>
 
 <script lang="ts">
-import { computed, inject, defineComponent, Text } from 'vue'
+import { computed, inject, defineComponent, Text, ref } from 'vue'
+import { useCssVar } from '@vueuse/core'
+import { TinyColor } from '@ctrl/tinycolor'
 import { ElIcon } from '@element-plus/components/icon'
-import { useFormItem, useGlobalConfig } from '@element-plus/hooks'
-import { elButtonGroupKey, elFormKey } from '@element-plus/tokens'
-import { Loading } from '@element-plus/icons'
+import {
+  useDisabled,
+  useFormItem,
+  useGlobalConfig,
+  useNamespace,
+  useSize,
+} from '@element-plus/hooks'
+import { buttonGroupContextKey } from '@element-plus/tokens'
+import { Loading } from '@element-plus/icons-vue'
+
 import { buttonEmits, buttonProps } from './button'
 
 export default defineComponent({
@@ -50,11 +63,14 @@ export default defineComponent({
   emits: buttonEmits,
 
   setup(props, { emit, slots }) {
-    const elBtnGroup = inject(elButtonGroupKey, undefined)
-    const globalConfig = useGlobalConfig()
-    const autoInsertSpace = computed(() => {
-      return props.autoInsertSpace ?? globalConfig?.button.autoInsertSpace
-    })
+    const buttonRef = ref()
+    const buttonGroupContext = inject(buttonGroupContextKey, undefined)
+    const globalConfig = useGlobalConfig('button')
+    const ns = useNamespace('button')
+    const autoInsertSpace = computed(
+      () =>
+        props.autoInsertSpace ?? globalConfig.value?.autoInsertSpace ?? false
+    )
 
     // add space between two characters in Chinese
     const shouldAddSpace = computed(() => {
@@ -68,23 +84,73 @@ export default defineComponent({
       }
       return false
     })
-    const { size: buttonSize, disabled: buttonDisabled } = useFormItem({
-      size: computed(() => elBtnGroup?.size),
-    })
+
+    const { form } = useFormItem()
+    const buttonSize = useSize(computed(() => buttonGroupContext?.size))
+    const buttonDisabled = useDisabled()
     const buttonType = computed(
-      () => props.type || elBtnGroup?.type || 'default'
+      () => props.type || buttonGroupContext?.type || ''
     )
 
-    const elForm = inject(elFormKey, undefined)
+    // calculate hover & active color by color
+    const typeColor = computed(
+      () => useCssVar(`--el-color-${props.type}`).value
+    )
+    const buttonStyle = computed(() => {
+      let styles = {}
+
+      const buttonColor = props.color || typeColor.value
+
+      if (buttonColor) {
+        const shadeBgColor = new TinyColor(buttonColor).shade(10).toString()
+        if (props.plain) {
+          styles = {
+            '--el-button-bg-color': new TinyColor(buttonColor)
+              .tint(90)
+              .toString(),
+            '--el-button-text-color': buttonColor,
+            '--el-button-hover-text-color': 'var(--el-color-white)',
+            '--el-button-hover-bg-color': buttonColor,
+            '--el-button-hover-border-color': buttonColor,
+            '--el-button-active-bg-color': shadeBgColor,
+            '--el-button-active-text-color': 'var(--el-color-white)',
+            '--el-button-active-border-color': shadeBgColor,
+          }
+        } else {
+          const tintBgColor = new TinyColor(buttonColor).tint(20).toString()
+          styles = {
+            '--el-button-bg-color': buttonColor,
+            '--el-button-border-color': buttonColor,
+            '--el-button-hover-bg-color': tintBgColor,
+            '--el-button-hover-border-color': tintBgColor,
+            '--el-button-active-bg-color': shadeBgColor,
+            '--el-button-active-border-color': shadeBgColor,
+          }
+        }
+
+        if (buttonDisabled.value) {
+          const disabledButtonColor = new TinyColor(buttonColor)
+            .tint(50)
+            .toString()
+          styles['--el-button-disabled-bg-color'] = disabledButtonColor
+          styles['--el-button-disabled-border-color'] = disabledButtonColor
+        }
+      }
+
+      return styles
+    })
 
     const handleClick = (evt: MouseEvent) => {
       if (props.nativeType === 'reset') {
-        elForm?.resetFields()
+        form?.resetFields()
       }
       emit('click', evt)
     }
 
     return {
+      buttonRef,
+      buttonStyle,
+
       buttonSize,
       buttonType,
       buttonDisabled,
@@ -92,6 +158,8 @@ export default defineComponent({
       shouldAddSpace,
 
       handleClick,
+
+      ns,
     }
   },
 })

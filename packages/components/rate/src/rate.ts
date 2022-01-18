@@ -1,7 +1,9 @@
-import { Star, StarFilled } from '@element-plus/icons'
+import { Star, StarFilled } from '@element-plus/icons-vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
-import type { Component, ExtractPropTypes } from 'vue'
+import { isValidComponentSize } from '@element-plus/utils/validators'
+import type { ComponentSize } from '@element-plus/utils/types'
+import type { Component, ExtractPropTypes, PropType } from 'vue'
 
 export const rateProps = buildProps({
   modelValue: {
@@ -80,6 +82,10 @@ export const rateProps = buildProps({
   scoreTemplate: {
     type: String,
     default: '{value}',
+  },
+  size: {
+    type: String as PropType<ComponentSize>,
+    validator: isValidComponentSize,
   },
 } as const)
 

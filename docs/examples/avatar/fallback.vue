@@ -8,14 +8,6 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-export default defineComponent({
-  setup() {
-    const errorHandler = () => true
-    return {
-      errorHandler,
-    }
-  },
-})
+<script lang="ts" setup>
+const errorHandler = () => true
 </script>

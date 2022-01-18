@@ -18,17 +18,6 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  setup() {
-    const format = (percentage) =>
-      percentage === 100 ? 'Full' : `${percentage}%`
-
-    return {
-      format,
-    }
-  },
-})
+<script lang="ts" setup>
+const format = (percentage) => (percentage === 100 ? 'Full' : `${percentage}%`)
 </script>

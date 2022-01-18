@@ -41,10 +41,10 @@
 
   @each $type in (success, info, warning, error) {
     @include m($type) {
-      --el-alert-background-color: #{map.get($colors, $type, 'light-9')};
+      --el-alert-bg-color: #{map.get($colors, $type, 'light-9')};
 
       &.is-light {
-        background-color: var(--el-alert-background-color);
+        background-color: var(--el-alert-bg-color);
         color: var(--el-color-#{$type});
 
         .#{$namespace}-alert__description {

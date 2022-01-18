@@ -18,28 +18,20 @@
   </el-drawer>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 import { ElMessageBox } from 'element-plus'
 
-export default defineComponent({
-  setup() {
-    const drawer = ref(false)
-    const innerDrawer = ref(false)
-    const handleClose = (done) => {
-      ElMessageBox.confirm('You still have unsaved data, proceed?')
-        .then(() => {
-          done()
-        })
-        .catch(() => {
-          // catch error
-        })
-    }
-    return {
-      drawer,
-      innerDrawer,
-      handleClose,
-    }
-  },
-})
+const drawer = ref(false)
+const innerDrawer = ref(false)
+
+const handleClose = (done: () => void) => {
+  ElMessageBox.confirm('You still have unsaved data, proceed?')
+    .then(() => {
+      done()
+    })
+    .catch(() => {
+      // catch error
+    })
+}
 </script>

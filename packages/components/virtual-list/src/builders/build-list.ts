@@ -12,8 +12,8 @@ import {
 } from 'vue'
 import { hasOwn } from '@vue/shared'
 
+import { isClient } from '@vueuse/core'
 import { isNumber, isString } from '@element-plus/utils/util'
-import isServer from '@element-plus/utils/isServer'
 
 import { useCache } from '../hooks/use-cache'
 import useWheel from '../hooks/use-wheel'
@@ -358,7 +358,7 @@ const createList = ({
 
       // life cycles
       onMounted(() => {
-        if (isServer) return
+        if (!isClient) return
         const { initScrollOffset } = props
         const windowElement = unref(windowRef)
         if (isNumber(initScrollOffset) && windowElement) {

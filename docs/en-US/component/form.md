@@ -22,10 +22,6 @@ The component has been upgraded with a flex layout to replace the old float layo
     width: 460px;
   }
 
-  .line {
-    text-align: center;
-  }
-
   .el-checkbox-group {
     width: 320px;
     margin: 0;
@@ -189,21 +185,21 @@ form/size-control
 
 ## Form Attributes
 
-| Attribute               | Description                                                                                                                       | Type            | Accepted Values       | Default |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------- | --------------------- | ------- |
-| model                   | data of form component                                                                                                            | object          | —                     | —       |
-| rules                   | validation rules of form                                                                                                          | object          | —                     | —       |
-| inline                  | whether the form is inline                                                                                                        | boolean         | —                     | false   |
-| label-position          | position of label. If set to 'left' or 'right', `label-width` prop is also required                                               | string          | left / right / top    | right   |
-| label-width             | width of label, e.g. '50px'. All its direct child form items will inherit this value. Width `auto` is supported.                  | string / number | —                     | —       |
-| label-suffix            | suffix of the label                                                                                                               | string          | —                     | —       |
-| hide-required-asterisk  | whether required fields should have a red asterisk (star) beside their labels                                                     | boolean         | —                     | false   |
-| show-message            | whether to show the error message                                                                                                 | boolean         | —                     | true    |
-| inline-message          | whether to display the error message inline with the form item                                                                    | boolean         | —                     | false   |
-| status-icon             | whether to display an icon indicating the validation result                                                                       | boolean         | —                     | false   |
-| validate-on-rule-change | whether to trigger validation when the `rules` prop is changed                                                                    | boolean         | —                     | true    |
-| size                    | control the size of components in this form                                                                                       | string          | medium / small / mini | —       |
-| disabled                | whether to disabled all components in this form. If set to true, it cannot be overridden by its inner components' `disabled` prop | boolean         | —                     | false   |
+| Attribute               | Description                                                                                                                       | Type            | Accepted Values         | Default |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------- | ----------------------- | ------- |
+| model                   | data of form component                                                                                                            | object          | —                       | —       |
+| rules                   | validation rules of form                                                                                                          | object          | —                       | —       |
+| inline                  | whether the form is inline                                                                                                        | boolean         | —                       | false   |
+| label-position          | position of label. If set to 'left' or 'right', `label-width` prop is also required                                               | string          | left / right / top      | right   |
+| label-width             | width of label, e.g. '50px'. All its direct child form items will inherit this value. Width `auto` is supported.                  | string / number | —                       | —       |
+| label-suffix            | suffix of the label                                                                                                               | string          | —                       | —       |
+| hide-required-asterisk  | whether required fields should have a red asterisk (star) beside their labels                                                     | boolean         | —                       | false   |
+| show-message            | whether to show the error message                                                                                                 | boolean         | —                       | true    |
+| inline-message          | whether to display the error message inline with the form item                                                                    | boolean         | —                       | false   |
+| status-icon             | whether to display an icon indicating the validation result                                                                       | boolean         | —                       | false   |
+| validate-on-rule-change | whether to trigger validation when the `rules` prop is changed                                                                    | boolean         | —                       | true    |
+| size                    | control the size of components in this form                                                                                       | string          | large / default / small | —       |
+| disabled                | whether to disabled all components in this form. If set to true, it cannot be overridden by its inner components' `disabled` prop | boolean         | —                       | false   |
 
 ## Form Methods
 
@@ -239,7 +235,7 @@ form/size-control
 | error          | field error message, set its value and the field will validate error and show this message immediately                                   | string          | —                                   | —       |
 | show-message   | whether to show the error message                                                                                                        | boolean         | —                                   | true    |
 | inline-message | inline style validate message                                                                                                            | boolean         | —                                   | false   |
-| size           | control the size of components in this form-item                                                                                         | string          | medium / small / mini               | —       |
+| size           | control the size of components in this form-item                                                                                         | string          | large / default / small             | default |
 
 ## Rules
 
