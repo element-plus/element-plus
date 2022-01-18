@@ -229,7 +229,7 @@ export default defineComponent({
       validator: isValidDatePickType,
     },
   },
-  emits: ['pick', 'set-picker-option'],
+  emits: ['pick', 'set-picker-option', 'panel-change'],
   setup(props, ctx) {
     const { t, lang } = useLocale()
     const pickerBase = inject('EP_PICKER_BASE') as any
@@ -317,10 +317,12 @@ export default defineComponent({
     }
     const prevMonth_ = () => {
       innerDate.value = innerDate.value.subtract(1, 'month')
+      handlePanelChange('month')
     }
 
     const nextMonth_ = () => {
       innerDate.value = innerDate.value.add(1, 'month')
+      handlePanelChange('month')
     }
 
     const prevYear_ = () => {
@@ -329,6 +331,7 @@ export default defineComponent({
       } else {
         innerDate.value = innerDate.value.subtract(1, 'year')
       }
+      handlePanelChange('year')
     }
 
     const nextYear_ = () => {
@@ -337,6 +340,7 @@ export default defineComponent({
       } else {
         innerDate.value = innerDate.value.add(1, 'year')
       }
+      handlePanelChange('year')
     }
 
     const currentView = ref('date')
@@ -402,6 +406,7 @@ export default defineComponent({
       } else {
         currentView.value = 'date'
       }
+      handlePanelChange('month')
     }
 
     const handleYearPick = (year) => {
@@ -412,6 +417,7 @@ export default defineComponent({
         innerDate.value = innerDate.value.year(year)
         currentView.value = 'month'
       }
+      handlePanelChange('year')
     }
 
     const showMonthPicker = () => {
@@ -638,6 +644,15 @@ export default defineComponent({
         ctx.emit('pick', result, true)
         break
       }
+    }
+
+    const handlePanelChange = (mode: 'month' | 'year') => {
+      ctx.emit(
+        'panel-change',
+        innerDate.value.toDate(),
+        mode,
+        currentView.value
+      )
     }
 
     ctx.emit('set-picker-option', ['isValidValue', isValidValue])
