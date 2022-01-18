@@ -185,8 +185,8 @@ export default defineComponent({
       emit
     )
 
-    const leftPanel = ref<TransferType | null>(null)
-    const rightPanel = ref<TransferType | null>(null)
+    const leftPanel = ref<TransferType>()
+    const rightPanel = ref<TransferType>()
 
     const clearQuery = (which: 'left' | 'right') => {
       if (which === 'left') {
