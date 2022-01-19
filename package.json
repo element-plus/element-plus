@@ -115,7 +115,7 @@
     "rollup-plugin-esbuild": "4.8.2",
     "rollup-plugin-filesize": "9.1.2",
     "rollup-plugin-vue": "6.0.0",
-    "sass": "1.48.0",
+    "sass": "1.49.0",
     "sucrase": "3.20.3",
     "ts-jest": "26.5.6",
     "ts-morph": "13.0.2",
