@@ -7,7 +7,7 @@
         ns.e('node'),
         ns.em('node', size || ''),
         ns.em('node', type || ''),
-        hollow ? 'is-hollow' : '',
+        ns.is('hollow', hollow),
       ]"
       :style="{
         backgroundColor: color,
@@ -24,7 +24,7 @@
     <div :class="ns.e('wrapper')">
       <div
         v-if="!hideTimestamp && placement === 'top'"
-        :class="[ns.e('timestamp'), 'is-top']"
+        :class="[ns.e('timestamp'), ns.is('top')]"
       >
         {{ timestamp }}
       </div>
@@ -35,7 +35,7 @@
 
       <div
         v-if="!hideTimestamp && placement === 'bottom'"
-        :class="[ns.e('timestamp'), 'is-bottom']"
+        :class="[ns.e('timestamp'), ns.is('bottom')]"
       >
         {{ timestamp }}
       </div>

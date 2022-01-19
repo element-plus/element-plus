@@ -14,7 +14,7 @@ export const cardProps = buildProps({
   },
   shadow: {
     type: String,
-    default: '',
+    default: 'always',
   },
 } as const)
 export type CardProps = ExtractPropTypes<typeof cardProps>

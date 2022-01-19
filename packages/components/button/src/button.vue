@@ -2,16 +2,14 @@
   <button
     ref="buttonRef"
     :class="[
-      `${ns.b()}`,
-      `${ns.m(buttonType)}`,
-      `${ns.m(buttonSize)}`,
-      {
-        'is-disabled': buttonDisabled,
-        'is-loading': loading,
-        'is-plain': plain,
-        'is-round': round,
-        'is-circle': circle,
-      },
+      ns.b(),
+      ns.m(buttonType),
+      ns.m(buttonSize),
+      ns.is('disabled', buttonDisabled),
+      ns.is('loading', loading),
+      ns.is('plain', plain),
+      ns.is('round', round),
+      ns.is('circle', circle),
     ]"
     :disabled="buttonDisabled || loading"
     :autofocus="autofocus"
@@ -19,7 +17,7 @@
     :style="buttonStyle"
     @click="handleClick"
   >
-    <el-icon v-if="loading" class="is-loading">
+    <el-icon v-if="loading" :class="ns.is('loading')">
       <loading />
     </el-icon>
     <el-icon v-else-if="icon">
