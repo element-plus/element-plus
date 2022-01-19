@@ -1,20 +1,19 @@
 <template>
   <div
     :class="[
-      'el-input-number',
-      inputNumberSize ? 'el-input-number--' + inputNumberSize : '',
-      { 'is-disabled': inputNumberDisabled },
-      { 'is-without-controls': !controls },
-      { 'is-controls-right': controlsAtRight },
+      ns.b(),
+      ns.m(inputNumberSize),
+      ns.is('disabled', inputNumberDisabled),
+      ns.is('without-controls', !controls),
+      ns.is('controls-right', controlsAtRight),
     ]"
     @dragstart.prevent
   >
     <span
       v-if="controls"
       v-repeat-click="decrease"
-      class="el-input-number__decrease"
       role="button"
-      :class="{ 'is-disabled': minDisabled }"
+      :class="[ns.e('decrease'), ns.is('disabled', minDisabled)]"
       @keydown.enter="decrease"
     >
       <el-icon>
@@ -25,9 +24,8 @@
     <span
       v-if="controls"
       v-repeat-click="increase"
-      class="el-input-number__increase"
       role="button"
-      :class="{ 'is-disabled': maxDisabled }"
+      :class="[ns.e('increase'), ns.is('disabled', maxDisabled)]"
       @keydown.enter="increase"
     >
       <el-icon>
@@ -70,7 +68,12 @@ import {
 
 import { ElIcon } from '@element-plus/components/icon'
 import { RepeatClick } from '@element-plus/directives'
-import { useDisabled, useFormItem, useSize } from '@element-plus/hooks'
+import {
+  useDisabled,
+  useFormItem,
+  useSize,
+  useNamespace,
+} from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import { isNumber } from '@element-plus/utils/util'
 import { debugWarn } from '@element-plus/utils/error'
@@ -106,6 +109,7 @@ export default defineComponent({
       userInput: null,
     })
     const { formItem } = useFormItem()
+    const ns = useNamespace('input-number')
 
     const minDisabled = computed(() => _decrease(props.modelValue) < props.min)
     const maxDisabled = computed(() => _increase(props.modelValue) > props.max)
@@ -300,6 +304,8 @@ export default defineComponent({
       blur,
       handleFocus,
       handleBlur,
+
+      ns,
     }
   },
 })
