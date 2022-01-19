@@ -1,6 +1,6 @@
 <template>
-  <div ref="root" class="el-affix" :style="rootStyle">
-    <div :class="{ 'el-affix--fixed': state.fixed }" :style="affixStyle">
+  <div ref="root" :class="ns.b()" :style="rootStyle">
+    <div :class="{ [ns.m('fixed')]: state.fixed }" :style="affixStyle">
       <slot></slot>
     </div>
   </div>
@@ -16,6 +16,7 @@ import {
 } from 'vue'
 import { useEventListener, useResizeObserver } from '@vueuse/core'
 import { getScrollContainer } from '@element-plus/utils/dom'
+import { useNamespace } from '@element-plus/hooks'
 import { affixEmits, affixProps } from './affix'
 
 import type { CSSProperties } from 'vue'
@@ -27,6 +28,8 @@ export default defineComponent({
   emits: affixEmits,
 
   setup(props, { emit }) {
+    const ns = useNamespace('affix')
+
     const target = shallowRef<HTMLElement>()
     const root = shallowRef<HTMLDivElement>()
     const scrollContainer = shallowRef<HTMLElement | Window>()
@@ -134,6 +137,7 @@ export default defineComponent({
     useResizeObserver(target, () => update())
 
     return {
+      ns,
       root,
       state,
       rootStyle,
