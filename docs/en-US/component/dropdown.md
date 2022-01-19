@@ -95,6 +95,16 @@ dropdown/command-event
 
 :::
 
+## Dropdown methods
+
+You can open or close the dropdown menu by manually use `handleOpen` or `handleClose`
+
+:::demo
+
+dropdown/dropdown-methods
+
+:::
+
 ## Sizes
 
 Besides default size, Dropdown component provides three additional sizes for you to choose among different scenarios.
@@ -137,6 +147,13 @@ dropdown/sizes
 | click          | if `split-button` is `true`, triggers when left button is clicked | —                                             |
 | command        | triggers when a dropdown item is clicked                          | the command dispatched from the dropdown item |
 | visible-change | triggers when the dropdown appears/disappears                     | true when it appears, and false otherwise     |
+
+## Dropdown Methods
+
+| Method      | Description             | Parameters |
+| ----------- | ----------------------- | ---------- |
+| handleOpen  | open the dropdown menu  | —          |
+| handleClose | close the dropdown menu | —          |
 
 ## Dropdown-Menu Slots
 

@@ -2,7 +2,7 @@
   <transition name="el-alert-fade">
     <div
       v-show="visible"
-      :class="[ns.b(), ns.m(type), center ? 'is-center' : '', `is-${effect}`]"
+      :class="[ns.b(), ns.m(type), ns.is('center', center), ns.is(effect)]"
       role="alert"
     >
       <el-icon
@@ -26,7 +26,7 @@
         <template v-if="closable">
           <div
             v-if="closeText"
-            :class="[ns.e('closebtn'), 'is-customed']"
+            :class="[ns.e('closebtn'), ns.is('customed')]"
             @click="close"
           >
             {{ closeText }}
@@ -68,10 +68,10 @@ export default defineComponent({
       () => TypeComponentsMap[props.type] || TypeComponentsMap['info']
     )
     const isBigIcon = computed(() =>
-      props.description || slots.default ? 'is-big' : ''
+      props.description || slots.default ? ns.is('big') : ''
     )
     const isBoldTitle = computed(() =>
-      props.description || slots.default ? 'is-bold' : ''
+      props.description || slots.default ? ns.is('bold') : ''
     )
 
     // methods

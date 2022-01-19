@@ -1,5 +1,5 @@
 <template>
-  <span :class="[ns.b(), { 'is-checked': checked }]" @click="onChange">
+  <span :class="[ns.b(), ns.is('checked', checked)]" @click="onChange">
     <slot></slot>
   </span>
 </template>

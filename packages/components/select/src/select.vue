@@ -297,7 +297,10 @@ export default defineComponent({
       type: String,
     },
     defaultFirstOption: Boolean,
-    reserveKeyword: Boolean,
+    reserveKeyword: {
+      type: Boolean,
+      default: true,
+    },
     valueKey: {
       type: String,
       default: 'value',

@@ -23,7 +23,7 @@
       :class="[
         ns.e('label'),
         ns.em('label', 'left'),
-        !checked ? 'is-active' : '',
+        ns.is('active', !checked),
       ]"
     >
       <el-icon v-if="inactiveIcon"><component :is="inactiveIcon" /></el-icon>
@@ -40,15 +40,13 @@
         <template v-if="activeIcon || inactiveIcon">
           <el-icon
             v-if="activeIcon"
-            class="is-icon"
-            :class="checked ? 'is-show' : 'is-hide'"
+            :class="[ns.is('icon'), checked ? ns.is('show') : ns.is('hide')]"
           >
             <component :is="activeIcon" />
           </el-icon>
           <el-icon
             v-if="inactiveIcon"
-            class="is-icon"
-            :class="!checked ? 'is-show' : 'is-hide'"
+            :class="[ns.is('icon'), !checked ? ns.is('show') : ns.is('hide')]"
           >
             <component :is="inactiveIcon" />
           </el-icon>
@@ -56,16 +54,14 @@
         <template v-else-if="activeText || inactiveIcon">
           <span
             v-if="activeText"
-            class="is-text"
-            :class="checked ? 'is-show' : 'is-hide'"
+            :class="[ns.is('text'), checked ? ns.is('show') : ns.is('hide')]"
             :aria-hidden="!checked"
           >
             {{ activeText.substr(0, 1) }}
           </span>
           <span
             v-if="inactiveText"
-            class="is-text"
-            :class="!checked ? 'is-show' : 'is-hide'"
+            :class="[ns.is('text'), !checked ? ns.is('show') : ns.is('hide')]"
             :aria-hidden="checked"
           >
             {{ inactiveText.substr(0, 1) }}
@@ -73,7 +69,7 @@
         </template>
       </div>
       <div :class="ns.e('action')">
-        <el-icon v-if="loading" class="is-loading"><loading /></el-icon>
+        <el-icon v-if="loading" :class="ns.is('loading')"><loading /></el-icon>
       </div>
     </span>
     <span
@@ -81,7 +77,7 @@
       :class="[
         ns.e('label'),
         ns.em('label', 'right'),
-        checked ? 'is-active' : '',
+        ns.is('active', checked),
       ]"
     >
       <el-icon v-if="activeIcon"><component :is="activeIcon" /></el-icon>
@@ -134,8 +130,8 @@ export default defineComponent({
     const switchKls = computed(() => [
       ns.b(),
       ns.m(switchSize.value),
-      switchDisabled.value ? 'is-disabled' : '',
-      checked.value ? 'is-checked' : '',
+      ns.is('disabled', switchDisabled.value),
+      ns.is('checked', checked.value),
     ])
 
     watch(

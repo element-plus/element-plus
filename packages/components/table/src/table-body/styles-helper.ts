@@ -1,16 +1,15 @@
-import { getCurrentInstance } from 'vue'
+import { inject } from 'vue'
 import {
   getFixedColumnOffset,
   getFixedColumnsClass,
   ensurePosition,
 } from '../util'
+import { TABLE_INJECTION_KEY } from '../tokens'
 import type { TableColumnCtx } from '../table-column/defaults'
-import type { Table } from '../table/defaults'
 import type { TableBodyProps } from './defaults'
 
 function useStyles<T>(props: Partial<TableBodyProps<T>>) {
-  const instance = getCurrentInstance()
-  const parent = instance.parent as Table<T>
+  const parent = inject(TABLE_INJECTION_KEY)
 
   const getRowStyle = (row: T, rowIndex: number) => {
     const rowStyle = parent.props.rowStyle

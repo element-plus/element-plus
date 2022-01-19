@@ -1,7 +1,6 @@
 import { nextTick, ref, isRef } from 'vue'
 import { hasOwn } from '@vue/shared'
 import { isClient } from '@vueuse/core'
-import scrollbarWidth from '@element-plus/utils/scrollbar-width'
 import { parseHeight } from './util'
 import type { Ref } from 'vue'
 
@@ -53,7 +52,7 @@ class TableLayout<T> {
     this.bodyHeight = ref(null)
     this.bodyScrollHeight = ref(0)
     this.fixedBodyHeight = ref(null)
-    this.gutterWidth = scrollbarWidth()
+    this.gutterWidth = 0
     for (const name in options) {
       if (hasOwn(options, name)) {
         if (isRef(this[name])) {

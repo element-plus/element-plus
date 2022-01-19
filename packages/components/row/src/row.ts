@@ -55,8 +55,8 @@ const Row = defineComponent({
         {
           class: [
             ns.b(),
-            props.justify !== 'start' ? `is-justify-${props.justify}` : '',
-            props.align !== 'top' ? `is-align-${props.align}` : '',
+            ns.is(`justify-${props.justify}`, props.justify !== 'start'),
+            ns.is(`align-${props.align}`, props.align !== 'top'),
           ],
           style: style.value,
         },

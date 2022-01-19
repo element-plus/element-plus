@@ -2,7 +2,7 @@
   <div :class="[ns.b(), ns.m(direction)]" :style="dividerStyle">
     <div
       v-if="$slots.default && direction !== 'vertical'"
-      :class="[ns.e('text'), `is-${contentPosition}`]"
+      :class="[ns.e('text'), ns.is(contentPosition)]"
     >
       <slot></slot>
     </div>

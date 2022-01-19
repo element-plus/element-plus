@@ -151,4 +151,43 @@ describe('Collapse.vue', () => {
     expect(collapseItemWrappers[0].vm.isActive).toBe(false)
     expect(vm.activeNames).toEqual(['3'])
   })
+
+  test('deep watch modelValue', async () => {
+    const wrapper = mount({
+      components: {
+        'el-collapse': Collapse,
+        'el-collapse-item': CollapseItem,
+      },
+      data() {
+        return {
+          activeNames: ['1'],
+        }
+      },
+      mounted() {
+        this.activeNames.push('2')
+      },
+      template: `
+        <el-collapse v-model="activeNames">
+          <el-collapse-item title="title1" name="1">
+            <div class="content">111</div>
+          </el-collapse-item>
+          <el-collapse-item title="title2" name="2">
+            <div class="content">222</div>
+          </el-collapse-item>
+          <el-collapse-item title="title3" name="3">
+            <div class="content">333</div>
+          </el-collapse-item>
+          <el-collapse-item title="title4" name="4">
+            <div class="content">444</div>
+          </el-collapse-item>
+        </el-collapse>
+      `,
+    })
+
+    await nextTick()
+    const collapseWrapper = wrapper.findComponent(Collapse)
+    const collapseItemWrappers = collapseWrapper.findAllComponents(CollapseItem)
+    expect(collapseItemWrappers[0].vm.isActive).toBe(true)
+    expect(collapseItemWrappers[1].vm.isActive).toBe(true)
+  })
 })

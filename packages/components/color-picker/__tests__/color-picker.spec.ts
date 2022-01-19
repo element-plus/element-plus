@@ -426,4 +426,17 @@ describe('Color-picker', () => {
     mockThumbDom.mockRestore()
     mockHueSlideOffsetHeight.mockRestore()
   })
+  it('should not execute active-change event', async () => {
+    const onActiveChange = jest.fn()
+    const wrapper = _mount(
+      `<el-color-picker :model-value='color' @active-change='onActiveChange'/>`,
+      () => ({
+        color: '#20A0FF',
+        onActiveChange,
+      })
+    )
+    await nextTick()
+    expect(onActiveChange).not.toHaveBeenCalled()
+    wrapper.unmount()
+  })
 })

@@ -3,7 +3,6 @@ import {
   getFixedColumnsClass,
   getFixedColumnOffset,
   ensurePosition,
-  ensureRightFixedStyle,
 } from '../util'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { Table } from '../table/defaults'
@@ -37,8 +36,7 @@ function useStyle<T>(props: TableHeaderProps<T>) {
     rowIndex: number,
     columnIndex: number,
     row: T,
-    column: TableColumnCtx<T>,
-    hasGutter: boolean
+    column: TableColumnCtx<T>
   ) => {
     let headerCellStyles = parent.props.headerCellStyle ?? {}
     if (typeof headerCellStyles === 'function') {
@@ -55,7 +53,6 @@ function useStyle<T>(props: TableHeaderProps<T>) {
       props.store,
       row as unknown as TableColumnCtx<T>[]
     )
-    ensureRightFixedStyle(fixedStyle, hasGutter)
     ensurePosition(fixedStyle, 'left')
     ensurePosition(fixedStyle, 'right')
     return Object.assign({}, headerCellStyles, fixedStyle)
