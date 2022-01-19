@@ -36,7 +36,7 @@
         <path
           class="el-progress-circle__track"
           :d="trackPath"
-          stroke="#e5e9f2"
+          :stroke="trackColor"
           :stroke-width="relativeStrokeWidth"
           fill="none"
           :style="trailPathStyle"
@@ -82,6 +82,7 @@ interface IProgressProps {
   width: number
   showText: boolean
   color: string | Array<string | { color: string; percentage: number; }> | ProgressFuncType
+  trackColor: string
   format: ProgressFuncType
 }
 
@@ -135,6 +136,10 @@ export default defineComponent({
     color: {
       type: [String, Array, Function],
       default: '',
+    },
+    trackColor: {
+      type: String,
+      default: '#e5e9f2',
     },
     format: {
       type: Function,
