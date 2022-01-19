@@ -347,20 +347,21 @@ Vous pouvez également spécifier l'attribut `type` de `dashboard` pour utiliser
 
 ### Attributs
 
-| Attribut       | Description                                                                                | Type                  | Valeurs acceptées      | Défaut |
-| -------------- | ------------------------------------------------------------------------------------------ | --------------------- | ---------------------- | ------ |
-| **percentage** | Le pourcentage, **requis**.                                                                | number                | 0-100                  | 0      |
-| type           | Le type de barre.                                                                          | string                | line/circle/dashboard  | line   |
-| stroke-width   | La largeur de la barre.                                                                    | number                | —                      | 6      |
-| text-inside    | Si le pourcentage doit être à l'intérieur de la barre, ne marche que si `type` est 'line'. | boolean               | —                      | false  |
-| status         | Le statut actuel de la progression.                                                        | string                | success/exception/text | —      |
-| indeterminate  | set indeterminate progress                                                                 | boolean               | -                      | false  |
-| duration       | control the animation duration of indeterminate progress                                   | number                | -                      | 3      |
-| color          | La couleur de fon de la barre. Écrase `status`.                                            | string/function/array | —                      | ''     |
-| width          | La largeur du canvas dans le cas d'une barre circulaire.                                   | number                | —                      | 126    |
-| show-text      | Si le pourcentage doit être affiché.                                                       | boolean               | —                      | true   |
-| stroke-linecap | circle/dashboard type shape at the end path                                                | string                | butt/round/square      | round  |
-| format         | Vous pouvez personnaliser le format du texte en définissant le format                      | function(percentage)  | —                      | —      |
+| Attribut       | Description                                                                                | Type                  | Valeurs acceptées      | Défaut     |
+| -------------- | ------------------------------------------------------------------------------------------ | --------------------- | ---------------------- | ------     |
+| **percentage** | Le pourcentage, **requis**.                                                                | number                | 0-100                  | 0          |
+| type           | Le type de barre.                                                                          | string                | line/circle/dashboard  | line       |
+| stroke-width   | La largeur de la barre.                                                                    | number                | —                      | 6          |
+| text-inside    | Si le pourcentage doit être à l'intérieur de la barre, ne marche que si `type` est 'line'. | boolean               | —                      | false      |
+| status         | Le statut actuel de la progression.                                                        | string                | success/exception/text | —          |
+| indeterminate  | set indeterminate progress                                                                 | boolean               | -                      | false      |
+| duration       | control the animation duration of indeterminate progress                                   | number                | -                      | 3          |
+| color          | La couleur de fon de la barre. Écrase `status`.                                            | string/function/array | —                      | ''         |
+| trackColor     | Couleur de fond pour le suivi des progrès.                                                 | string                | —                      | '#e5e9f2'  |
+| width          | La largeur du canvas dans le cas d'une barre circulaire.                                   | number                | —                      | 126        |
+| show-text      | Si le pourcentage doit être affiché.                                                       | boolean               | —                      | true       |
+| stroke-linecap | circle/dashboard type shape at the end path                                                | string                | butt/round/square      | round      |
+| format         | Vous pouvez personnaliser le format du texte en définissant le format                      | function(percentage)  | —                      | —          |    
 
 ### Slot
 | name    | Description                                     |

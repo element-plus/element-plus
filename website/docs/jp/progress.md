@@ -356,6 +356,7 @@
 | indeterminate  | 操作にかかる時間を示しません                                                            | boolean               | -                         | false   |
 | duration       | indeterminateのプログレスバーのアニメーション期間                                       | number                | -                         | 3       |
 | color          | プログレスバーの背景色を指定します。`status` プロップをオーバーライドします。           | string/function/array | —                         | ''      |
+| trackColor     | 進捗状況の背景色。                                                                     | string                | —                         | '#e5e9f2' |
 | width          | サークルプログレスバーのキャンバス幅                                                    | number                | —                         | 126     |
 | show-text      | パーセンテージ表示の有無                                                                | boolean               | —                         | true    |
 | stroke-linecap | 終点でのサークル/ダッシュボード型の形状                                                 | string                | butt/round/square         | round   |

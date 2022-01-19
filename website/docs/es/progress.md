@@ -354,6 +354,7 @@ Puede utilizar el atributo `color` para establecer el color de la barra de progr
 | indeterminate  | set indeterminate progress                                                                  | boolean               | -                         | false       |
 | duration       | control the animation duration of indeterminate progress                                    | number                | -                         | 3           |
 | color          | color de fondo de la barra de progreso. Sobreescribe la propiedad `status`                  | string/function/array | —                         | ''          |
+| trackColor     | Color de fondo para el seguimiento del progreso.                                            | string                | —                         | '#e5e9f2'   |
 | width          | ancho del canvas que contiene la barra de progreso circula                                  | number                | —                         | 126         |
 | show-text      | mostrar porcentaje                                                                          | boolean               | —                         | true        |
 | stroke-linecap | circle/dashboard type shape at the end path                                                 | string                | butt/round/square         | round       |
