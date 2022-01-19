@@ -1,12 +1,9 @@
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
-@import './checkbox';
-@import './radio';
-@import './scrollbar';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(cascader-panel) {
-  @include set-component-css-var('cascader', $--cascader);
+  @include set-component-css-var('cascader', $cascader);
 }
 
 @include b(cascader-panel) {
@@ -23,7 +20,7 @@
 @include b(cascader-menu) {
   min-width: 180px;
   box-sizing: border-box;
-  color: var(--el-cascader-menu-font-color);
+  color: var(--el-cascader-menu-text-color);
   border-right: var(--el-cascader-menu-border);
 
   &:last-child {
@@ -79,13 +76,13 @@
   outline: none;
 
   &.is-selectable.in-active-path {
-    color: var(--el-cascader-menu-font-color);
+    color: var(--el-cascader-menu-text-color);
   }
 
   &.in-active-path,
   &.is-selectable.in-checked-path,
   &.is-active {
-    color: var(--el-cascader-menu-selected-font-color);
+    color: var(--el-cascader-menu-selected-text-color);
     font-weight: bold;
   }
 
@@ -116,7 +113,7 @@
   @include e(label) {
     flex: 1;
     text-align: left;
-    padding: 0 10px;
+    padding: 0 8px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

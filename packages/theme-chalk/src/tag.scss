@@ -1,81 +1,93 @@
-@use "sass:map";
+@use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(tag) {
-  @include set-component-css-var('tag', $--tag);
+  @include set-component-css-var('tag', $tag);
 }
+
+$tag-border-width: 1px;
+
+$tag-icon-span-gap: () !default;
+$tag-icon-span-gap: map.merge(
+  (
+    'large': 8px,
+    'default': 6px,
+    'small': 4px,
+  ),
+  $tag-icon-span-gap
+);
 
 @mixin genTheme(
   $backgroundColorWeight,
   $borderColorWeight,
-  $fontColorWeight,
+  $textColorWeight,
   $hoverColorWeight
 ) {
-  --el-tag-background-color: #{mix(
-      map.get($--tag-color, 'primary'),
-      $--color-white,
+  --el-tag-bg-color: #{mix(
+      map.get($tag-color, 'primary'),
+      $color-white,
       $backgroundColorWeight
     )};
   --el-tag-border-color: #{mix(
-      map.get($--tag-color, 'primary'),
-      $--color-white,
+      map.get($tag-color, 'primary'),
+      $color-white,
       $borderColorWeight
     )};
-  --el-tag-font-color: #{mix(
-      map.get($--tag-color, 'primary'),
-      $--color-white,
-      $fontColorWeight
+  --el-tag-text-color: #{mix(
+      map.get($tag-color, 'primary'),
+      $color-white,
+      $textColorWeight
     )};
   --el-tag-hover-color: #{mix(
-      map.get($--tag-color, 'primary'),
-      $--color-white,
+      map.get($tag-color, 'primary'),
+      $color-white,
       $hoverColorWeight
     )};
 
-  background-color: var(--el-tag-background-color);
+  background-color: var(--el-tag-bg-color);
   border-color: var(--el-tag-border-color);
-  color: var(--el-tag-font-color);
+  color: var(--el-tag-text-color);
 
   @include when(hit) {
-    border-color: map.get($--tag-color, 'primary');
+    border-color: map.get($tag-color, 'primary');
   }
 
   .#{$namespace}-tag__close {
-    color: var(--el-tag-font-color);
+    color: var(--el-tag-text-color);
     &:hover {
       color: var(--el-color-white);
       background-color: var(--el-tag-hover-color);
     }
   }
 
-  @each $type in $--types {
+  @each $type in $types {
     &.#{$namespace}-tag--#{$type} {
-      --el-tag-background-color: #{mix(
-          map.get($--tag-color, $type),
-          $--color-white,
+      --el-tag-bg-color: #{mix(
+          map.get($tag-color, $type),
+          $color-white,
           $backgroundColorWeight
         )};
       --el-tag-border-color: #{mix(
-          map.get($--tag-color, $type),
-          $--color-white,
+          map.get($tag-color, $type),
+          $color-white,
           $borderColorWeight
         )};
-      --el-tag-font-color: #{mix(
-          map.get($--tag-color, $type),
-          $--color-white,
-          $fontColorWeight
+      --el-tag-text-color: #{mix(
+          map.get($tag-color, $type),
+          $color-white,
+          $textColorWeight
         )};
       --el-tag-hover-color: #{mix(
-          map.get($--tag-color, $type),
-          $--color-white,
+          map.get($tag-color, $type),
+          $color-white,
           $hoverColorWeight
         )};
 
       @include when(hit) {
-        border-color: map.get($--tag-color, $type);
+        border-color: map.get($tag-color, $type);
       }
     }
   }
@@ -83,33 +95,41 @@
 
 @include b(tag) {
   @include genTheme(10%, 20%, 100%, 100%);
-  display: inline-block;
-  height: 32px;
-  padding: var(--el-tag-padding);
-  line-height: 30px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  height: map.get($tag-height, 'default');
+  padding: 0 map.get($tag-padding, 'default') - $border-width-base;
   font-size: var(--el-tag-font-size);
-  border-width: 1px;
+  line-height: 1;
+  border-width: $tag-border-width;
   border-style: solid;
   border-radius: var(--el-tag-border-radius);
   box-sizing: border-box;
   white-space: nowrap;
 
-  .#{$namespace}-icon-close {
+  --el-icon-size: 14px;
+
+  .#{$namespace}-icon {
     border-radius: 50%;
     text-align: center;
     position: relative;
     cursor: pointer;
-    font-size: 12px;
-    height: 16px;
-    width: 16px;
-    line-height: 16px;
-    vertical-align: middle;
-    top: -1px;
-    right: -5px;
 
-    &::before {
-      display: block;
+    font-size: calc(var(--el-icon-size) - 1px);
+
+    height: var(--el-icon-size);
+    width: var(--el-icon-size);
+    line-height: var(--el-icon-size);
+
+    svg {
+      margin: 1px;
     }
+  }
+
+  .#{$namespace}-tag__close {
+    margin-left: map.get($tag-icon-span-gap, 'default');
   }
 
   @include m(dark) {
@@ -120,33 +140,30 @@
     @include genTheme(0, 40%, 100%, 100%);
   }
 
-  @include m(medium) {
-    height: 28px;
-    line-height: 26px;
+  &.is-closable {
+    padding-right: map.get($tag-icon-span-gap, 'default') - $border-width-base;
+  }
 
-    .#{$namespace}-icon-close {
-      transform: scale(0.8);
+  @each $size in (large, default, small) {
+    @include m($size) {
+      padding: 0 map.get($tag-padding, $size) - $tag-border-width;
+      height: map.get($tag-height, $size);
+
+      --el-icon-size: #{map.get($tag-icon-size, $size)};
+
+      .#{$namespace}-tag__close {
+        margin-left: map.get($tag-icon-span-gap, $size);
+      }
+
+      &.is-closable {
+        padding-right: map.get($tag-icon-span-gap, $size) - $border-width-base;
+      }
     }
   }
 
   @include m(small) {
-    height: 24px;
-    padding: 0 8px;
-    line-height: 22px;
-
     .#{$namespace}-icon-close {
       transform: scale(0.8);
-    }
-  }
-
-  @include m(mini) {
-    height: 20px;
-    padding: 0 5px;
-    line-height: 19px;
-
-    .#{$namespace}-icon-close {
-      margin-left: -3px;
-      transform: scale(0.7);
     }
   }
 }

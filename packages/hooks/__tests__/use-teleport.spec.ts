@@ -1,25 +1,36 @@
 import { ref, nextTick, h } from 'vue'
 import { mount } from '@vue/test-utils'
 
-import useTeleport from '../use-teleport'
+import { useTeleport } from '../use-teleport'
 
 const AXIOM = 'Rem is the best girl'
 
 const Comp = {
   setup() {
     const appendToBody = ref(true)
-    const { showTeleport, hideTeleport, renderTeleport } = useTeleport(() => h('div', AXIOM), appendToBody)
+    const { showTeleport, hideTeleport, renderTeleport } = useTeleport(
+      () => h('div', AXIOM),
+      appendToBody
+    )
 
     return () => {
       return [
-        h('button', {
-          class: 'show',
-          onClick: showTeleport,
-        }, 'show'),
-        h('button', {
-          class: 'hide',
-          onClick: hideTeleport,
-        }, 'hide'),
+        h(
+          'button',
+          {
+            class: 'show',
+            onClick: showTeleport,
+          },
+          'show'
+        ),
+        h(
+          'button',
+          {
+            class: 'hide',
+            onClick: hideTeleport,
+          },
+          'hide'
+        ),
         h('button', {
           class: 'toggle',
           onClick: () => {
@@ -34,7 +45,6 @@ const Comp = {
 }
 
 describe('useModal', () => {
-
   let wrapper: ReturnType<typeof mount>
 
   beforeEach(() => {

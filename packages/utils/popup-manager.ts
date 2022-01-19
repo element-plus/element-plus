@@ -1,9 +1,10 @@
-import isServer from './isServer'
-import * as configs from './config'
+import { getCurrentInstance } from 'vue'
+import { isClient } from '@vueuse/core'
+import { useGlobalConfig } from '@element-plus/hooks'
 import { addClass, removeClass, on } from './dom'
 import { EVENT_CODE } from './aria'
-
 import type { Ref } from 'vue'
+
 interface Instance {
   closeOnClickModal: Ref<boolean>
   closeOnPressEscape: Ref<boolean>
@@ -12,11 +13,13 @@ interface Instance {
   handleAction?: (action: string) => void
 }
 
-type StackFrame = { id: string; zIndex: number; modalClass: string; };
+type StackFrame = { id: string; zIndex: number; modalClass: string }
 
-interface IPopupManager {
+interface PopupManager {
   getInstance: (id: string) => Instance
   zIndex: number
+  globalInitialZIndex: number
+  getInitialZIndex: () => number
   modalDom?: HTMLElement
   modalFade: boolean
   modalStack: StackFrame[]
@@ -44,10 +47,9 @@ const onModalClick = () => {
 }
 
 let hasModal = false
-let zIndex: number
 
-const getModal = function(): HTMLElement {
-  if (isServer) return
+const getModal = function (): HTMLElement {
+  if (!isClient) return undefined as any
   let modalDom = PopupManager.modalDom
   if (modalDom) {
     hasModal = true
@@ -65,35 +67,41 @@ const getModal = function(): HTMLElement {
 
 const instances = {}
 
-const PopupManager: IPopupManager = {
+export const PopupManager: PopupManager = {
   modalFade: true,
   modalDom: undefined,
-  zIndex,
+  globalInitialZIndex: 2000,
+  zIndex: 0,
 
-  getInstance: function(id) {
+  getInitialZIndex() {
+    if (!getCurrentInstance()) return this.globalInitialZIndex
+    return useGlobalConfig('zIndex').value ?? this.globalInitialZIndex
+  },
+
+  getInstance(id) {
     return instances[id]
   },
 
-  register: function(id, instance) {
+  register(id, instance) {
     if (id && instance) {
       instances[id] = instance
     }
   },
 
-  deregister: function(id) {
+  deregister(id) {
     if (id) {
       instances[id] = null
       delete instances[id]
     }
   },
 
-  nextZIndex: function() {
-    return ++PopupManager.zIndex
+  nextZIndex() {
+    return this.getInitialZIndex() + ++this.zIndex
   },
 
   modalStack: [],
 
-  doOnModalClick: function() {
+  doOnModalClick() {
     const topItem = PopupManager.modalStack[PopupManager.modalStack.length - 1]
     if (!topItem) return
 
@@ -103,8 +111,8 @@ const PopupManager: IPopupManager = {
     }
   },
 
-  openModal: function(id, zIndex, dom, modalClass, modalFade) {
-    if (isServer) return
+  openModal(id, zIndex, dom, modalClass, modalFade) {
+    if (!isClient) return
     if (!id || zIndex === undefined) return
     this.modalFade = modalFade
 
@@ -125,7 +133,7 @@ const PopupManager: IPopupManager = {
     }
     if (modalClass) {
       const classArr = modalClass.trim().split(/\s+/)
-      classArr.forEach(item => addClass(modalDom, item))
+      classArr.forEach((item) => addClass(modalDom, item))
     }
     setTimeout(() => {
       removeClass(modalDom, 'v-modal-enter')
@@ -143,10 +151,10 @@ const PopupManager: IPopupManager = {
     modalDom.tabIndex = 0
     modalDom.style.display = ''
 
-    this.modalStack.push({ id: id, zIndex: zIndex, modalClass: modalClass })
+    this.modalStack.push({ id, zIndex, modalClass })
   },
 
-  closeModal: function(id) {
+  closeModal(id) {
     const modalStack = this.modalStack
     const modalDom = getModal()
 
@@ -155,12 +163,12 @@ const PopupManager: IPopupManager = {
       if (topItem.id === id) {
         if (topItem.modalClass) {
           const classArr = topItem.modalClass.trim().split(/\s+/)
-          classArr.forEach(item => removeClass(modalDom, item))
+          classArr.forEach((item) => removeClass(modalDom, item))
         }
 
         modalStack.pop()
         if (modalStack.length > 0) {
-          modalDom.style.zIndex = modalStack[modalStack.length - 1].zIndex
+          modalDom.style.zIndex = `${modalStack[modalStack.length - 1].zIndex}`
         }
       } else {
         for (let i = modalStack.length - 1; i >= 0; i--) {
@@ -190,24 +198,10 @@ const PopupManager: IPopupManager = {
   },
 }
 
-Object.defineProperty(PopupManager, 'zIndex', {
-  configurable: true,
-  get() {
-    if (zIndex === undefined) {
-      zIndex = configs.getConfig('zIndex') as number || 2000
-    }
-    return zIndex
-  },
-  set(value) {
-    zIndex = value
-  },
-})
-
-const getTopPopup = function() {
-  if (isServer) return
+const getTopPopup = function () {
+  if (!isClient) return
   if (PopupManager.modalStack.length > 0) {
-    const topPopup =
-      PopupManager.modalStack[PopupManager.modalStack.length - 1]
+    const topPopup = PopupManager.modalStack[PopupManager.modalStack.length - 1]
     if (!topPopup) return
     const instance = PopupManager.getInstance(topPopup.id)
 
@@ -215,9 +209,9 @@ const getTopPopup = function() {
   }
 }
 
-if (!isServer) {
+if (isClient) {
   // handle `esc` key when the popup is shown
-  on(window, 'keydown', function(event: KeyboardEvent) {
+  window.addEventListener('keydown', function (event: KeyboardEvent) {
     if (event.code === EVENT_CODE.esc) {
       const topPopup = getTopPopup()
 
@@ -225,11 +219,9 @@ if (!isServer) {
         topPopup.handleClose
           ? topPopup.handleClose()
           : topPopup.handleAction
-            ? topPopup.handleAction('cancel')
-            : topPopup.close()
+          ? topPopup.handleAction('cancel')
+          : topPopup.close()
       }
     }
   })
 }
-
-export default PopupManager

@@ -1,23 +1,24 @@
-@use "sass:map";
+@use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'mixins/utils';
-@import 'mixins/var';
-@import 'common/var';
-@import 'select';
+@use 'mixins/mixins' as *;
+@use 'mixins/utils' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(pagination) {
-  @include set-component-css-var('pagination', $--pagination);
+  @include set-component-css-var('pagination', $pagination);
 
   white-space: nowrap;
   padding: 2px 5px;
-  color: var(--el-pagination-font-color);
+  color: var(--el-pagination-text-color);
   font-weight: bold;
   @include utils-clearfix;
 
   span:not([class*='suffix']),
   button {
-    display: inline-block;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
     font-size: var(--el-pagination-font-size);
     min-width: var(--el-pagination-button-width);
     height: var(--el-pagination-button-height);
@@ -63,7 +64,7 @@
 
     &:disabled {
       color: var(--el-pagination-button-disabled-color);
-      background-color: var(--el-pagination-button-disabled-background-color);
+      background-color: var(--el-pagination-button-disabled-bg-color);
       cursor: not-allowed;
     }
   }
@@ -72,7 +73,7 @@
   .btn-next {
     background: center center no-repeat;
     background-size: 16px;
-    background-color: var(--el-pagination-background-color);
+    background-color: var(--el-pagination-bg-color);
     cursor: pointer;
     margin: 0;
     color: var(--el-pagination-button-color);
@@ -135,7 +136,7 @@
     }
 
     .#{$namespace}-input__inner,
-    .#{$namespace}-input--mini {
+    .#{$namespace}-input--small {
       height: var(--el-pagination-height-extra-small) !important;
       line-height: var(--el-pagination-line-height-extra-small);
     }
@@ -216,7 +217,7 @@
     .btn-next,
     .#{$namespace}-pager li {
       margin: 0 5px;
-      background-color: map.get($--colors, 'info', 'light-9');
+      background-color: map.get($colors, 'info', 'light-9');
       color: var(--el-text-color-regular);
       min-width: 30px;
       border-radius: 2px;
@@ -266,15 +267,13 @@
   padding: 0;
   margin: 0;
 
-  .more::before {
-    line-height: 30px;
-  }
-
   li {
     padding: 0 4px;
-    background: var(--el-pagination-background-color);
+    background: var(--el-pagination-bg-color);
     vertical-align: top;
-    display: inline-block;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
     font-size: var(--el-pagination-font-size);
     min-width: var(--el-pagination-button-width);
     height: var(--el-pagination-button-height);
@@ -286,11 +285,15 @@
 
     &.btn-quicknext,
     &.btn-quickprev {
-      line-height: 28px;
+      line-height: 32px;
       color: var(--el-pagination-button-color);
 
       &.disabled {
         color: var(--el-text-color-placeholder);
+      }
+
+      svg {
+        pointer-events: none;
       }
     }
 

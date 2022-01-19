@@ -1,9 +1,9 @@
-import isServer from './isServer'
+import { isClient } from '@vueuse/core'
 
 let scrollBarWidth: number
 
-export default function(): number {
-  if (isServer) return 0
+export default function (): number {
+  if (!isClient) return 0
   if (scrollBarWidth !== undefined) return scrollBarWidth
 
   const outer = document.createElement('div')
@@ -22,7 +22,7 @@ export default function(): number {
   outer.appendChild(inner)
 
   const widthWithScroll = inner.offsetWidth
-  outer.parentNode.removeChild(outer)
+  outer.parentNode?.removeChild(outer)
   scrollBarWidth = widthNoScroll - widthWithScroll
 
   return scrollBarWidth

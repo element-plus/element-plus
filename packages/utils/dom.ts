@@ -1,44 +1,45 @@
-import isServer from './isServer'
+import { isClient } from '@vueuse/core'
 import { camelize, isObject } from './util'
+import type { CSSProperties, ComponentPublicInstance, Ref } from 'vue'
 
-export type Nullable<T> = null | T
+import type { Nullable } from './types'
 
 /* istanbul ignore next */
-const trim = function(s: string) {
-  return (s || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '')
+const trimArr = function (s: string) {
+  return (s || '').split(' ').filter((item) => !!item.trim())
 }
 
 /* istanbul ignore next */
-export const on = function(
+export const on = function (
   element: HTMLElement | Document | Window,
   event: string,
   handler: EventListenerOrEventListenerObject,
-  useCapture = false,
+  useCapture = false
 ): void {
   if (element && event && handler) {
-    element.addEventListener(event, handler, useCapture)
+    element?.addEventListener(event, handler, useCapture)
   }
 }
 
 /* istanbul ignore next */
-export const off = function(
+export const off = function (
   element: HTMLElement | Document | Window,
   event: string,
   handler: EventListenerOrEventListenerObject,
-  useCapture = false,
+  useCapture = false
 ): void {
   if (element && event && handler) {
-    element.removeEventListener(event, handler, useCapture)
+    element?.removeEventListener(event, handler, useCapture)
   }
 }
 
 /* istanbul ignore next */
-export const once = function(
+export const once = function (
   el: HTMLElement,
   event: string,
-  fn: EventListener,
+  fn: EventListener
 ): void {
-  const listener = function(...args: unknown[]) {
+  const listener = function (this: any, ...args: any) {
     if (fn) {
       fn.apply(this, args)
     }
@@ -48,70 +49,63 @@ export const once = function(
 }
 
 /* istanbul ignore next */
-export function hasClass(el: HTMLElement, cls: string): boolean {
+export function hasClass(el: HTMLElement | Element, cls: string): boolean {
   if (!el || !cls) return false
   if (cls.indexOf(' ') !== -1)
     throw new Error('className should not contain space.')
   if (el.classList) {
     return el.classList.contains(cls)
   } else {
-    return (' ' + el.className + ' ').indexOf(' ' + cls + ' ') > -1
+    const className = el.getAttribute('class') || ''
+    return className.split(' ').includes(cls)
   }
 }
 
 /* istanbul ignore next */
-export function addClass(el: HTMLElement, cls: string): void {
+export function addClass(el: HTMLElement | Element, cls: string): void {
   if (!el) return
-  let curClass = el.className
-  const classes = (cls || '').split(' ')
+  let className = el.getAttribute('class') || ''
+  const curClass = trimArr(className)
+  const classes = (cls || '')
+    .split(' ')
+    .filter((item) => !curClass.includes(item) && !!item.trim())
 
-  for (let i = 0, j = classes.length; i < j; i++) {
-    const clsName = classes[i]
-    if (!clsName) continue
-
-    if (el.classList) {
-      el.classList.add(clsName)
-    } else if (!hasClass(el, clsName)) {
-      curClass += ' ' + clsName
-    }
-  }
-  if (!el.classList) {
-    el.className = curClass
+  if (el.classList) {
+    el.classList.add(...classes)
+  } else {
+    className += ` ${classes.join(' ')}`
+    el.setAttribute('class', className)
   }
 }
 
 /* istanbul ignore next */
-export function removeClass(el: HTMLElement, cls: string): void {
+export function removeClass(el: HTMLElement | Element, cls: string): void {
   if (!el || !cls) return
-  const classes = cls.split(' ')
-  let curClass = ' ' + el.className + ' '
+  const classes = trimArr(cls)
+  let curClass = el.getAttribute('class') || ''
 
-  for (let i = 0, j = classes.length; i < j; i++) {
-    const clsName = classes[i]
-    if (!clsName) continue
-
-    if (el.classList) {
-      el.classList.remove(clsName)
-    } else if (hasClass(el, clsName)) {
-      curClass = curClass.replace(' ' + clsName + ' ', ' ')
-    }
+  if (el.classList) {
+    el.classList.remove(...classes)
+    return
   }
-  if (!el.classList) {
-    el.className = trim(curClass)
-  }
+  classes.forEach((item) => {
+    curClass = curClass.replace(` ${item} `, ' ')
+  })
+  const className = trimArr(curClass).join(' ')
+  el.setAttribute('class', className)
 }
 
 /* istanbul ignore next */
-// Here I want to use the type CSSStyleDeclaration, but the definition for CSSStyleDeclaration
+// Here I want to use the type CSSProperties, but the definition for CSSProperties
 // has { [index: number]: string } in its type annotation, which does not satisfy the method
 // camelize(s: string)
 // Same as the return type
-export const getStyle = function(
+export const getStyle = function (
   element: HTMLElement,
-  styleName: string,
+  styleName: string
 ): string {
-  if (isServer) return
-  if (!element || !styleName) return null
+  if (!isClient) return ''
+  if (!element || !styleName) return ''
   styleName = camelize(styleName)
   if (styleName === 'float') {
     styleName = 'cssFloat'
@@ -119,7 +113,7 @@ export const getStyle = function(
   try {
     const style = element.style[styleName]
     if (style) return style
-    const computed = document.defaultView.getComputedStyle(element, '')
+    const computed = document.defaultView?.getComputedStyle(element, '')
     return computed ? computed[styleName] : ''
   } catch (e) {
     return element.style[styleName]
@@ -129,13 +123,13 @@ export const getStyle = function(
 /* istanbul ignore next */
 export function setStyle(
   element: HTMLElement,
-  styleName: CSSStyleDeclaration | string,
-  value?: string,
+  styleName: CSSProperties | string,
+  value?: string
 ): void {
   if (!element || !styleName) return
 
   if (isObject(styleName)) {
-    Object.keys(styleName).forEach(prop => {
+    Object.keys(styleName).forEach((prop) => {
       setStyle(element, prop, styleName[prop])
     })
   } else {
@@ -144,11 +138,14 @@ export function setStyle(
   }
 }
 
-export function removeStyle(element: HTMLElement, style: CSSStyleDeclaration | string) {
+export function removeStyle(
+  element: HTMLElement,
+  style: CSSProperties | string
+) {
   if (!element || !style) return
 
   if (isObject(style)) {
-    Object.keys(style).forEach(prop => {
+    Object.keys(style).forEach((prop) => {
       setStyle(element, prop, '')
     })
   } else {
@@ -158,24 +155,24 @@ export function removeStyle(element: HTMLElement, style: CSSStyleDeclaration | s
 
 export const isScroll = (
   el: HTMLElement,
-  isVertical?: Nullable<boolean>,
-): RegExpMatchArray => {
-  if (isServer) return
+  isVertical?: Nullable<boolean>
+): RegExpMatchArray | null => {
+  if (!isClient) return null
   const determinedDirection = isVertical === null || isVertical === undefined
   const overflow = determinedDirection
     ? getStyle(el, 'overflow')
     : isVertical
-      ? getStyle(el, 'overflow-y')
-      : getStyle(el, 'overflow-x')
+    ? getStyle(el, 'overflow-y')
+    : getStyle(el, 'overflow-x')
 
   return overflow.match(/(scroll|auto|overlay)/)
 }
 
 export const getScrollContainer = (
   el: HTMLElement,
-  isVertical?: Nullable<boolean>,
-): Window | HTMLElement => {
-  if (isServer) return
+  isVertical?: Nullable<boolean>
+): Window | HTMLElement | undefined => {
+  if (!isClient) return
 
   let parent: HTMLElement = el
   while (parent) {
@@ -191,27 +188,23 @@ export const getScrollContainer = (
 }
 
 export const isInContainer = (
-  el: HTMLElement,
-  container: HTMLElement,
+  el: Element | undefined,
+  container: Element | Window | undefined
 ): boolean => {
-  if (isServer || !el || !container) return false
+  if (!isClient || !el || !container) return false
 
   const elRect = el.getBoundingClientRect()
-  let containerRect: Partial<DOMRect>
 
-  if (
-    [window, document, document.documentElement, null, undefined].includes(
-      container,
-    )
-  ) {
+  let containerRect: Pick<DOMRect, 'top' | 'bottom' | 'left' | 'right'>
+  if (container instanceof Element) {
+    containerRect = container.getBoundingClientRect()
+  } else {
     containerRect = {
       top: 0,
       right: window.innerWidth,
       bottom: window.innerHeight,
       left: 0,
     }
-  } else {
-    containerRect = container.getBoundingClientRect()
   }
   return (
     elRect.top < containerRect.bottom &&
@@ -233,8 +226,70 @@ export const getOffsetTop = (el: HTMLElement) => {
   return offset
 }
 
-export const getOffsetTopDistance = (el: HTMLElement, containerEl: HTMLElement) => {
+export const getOffsetTopDistance = (
+  el: HTMLElement,
+  containerEl: HTMLElement
+) => {
   return Math.abs(getOffsetTop(el) - getOffsetTop(containerEl))
 }
 
 export const stop = (e: Event) => e.stopPropagation()
+
+export const getClientXY = (event: MouseEvent | TouchEvent) => {
+  let clientX: number
+  let clientY: number
+  if (event.type === 'touchend') {
+    clientY = (event as TouchEvent).changedTouches[0].clientY
+    clientX = (event as TouchEvent).changedTouches[0].clientX
+  } else if (event.type.startsWith('touch')) {
+    clientY = (event as TouchEvent).touches[0].clientY
+    clientX = (event as TouchEvent).touches[0].clientX
+  } else {
+    clientY = (event as MouseEvent).clientY
+    clientX = (event as MouseEvent).clientX
+  }
+  return {
+    clientX,
+    clientY,
+  }
+}
+
+export const composeEventHandlers = <E>(
+  theirsHandler?: (event: E) => boolean | void,
+  oursHandler?: (event: E) => void,
+  { checkForDefaultPrevented = true } = {}
+) => {
+  const handleEvent = (event: E) => {
+    const shouldPrevent = theirsHandler?.(event)
+
+    if (checkForDefaultPrevented === false || !shouldPrevent) {
+      return oursHandler?.(event)
+    }
+  }
+  return handleEvent
+}
+
+type WhenMouseHandler = (e: PointerEvent) => any
+
+export const whenMouse = (handler: WhenMouseHandler): WhenMouseHandler => {
+  return (e: PointerEvent) =>
+    e.pointerType === 'mouse' ? handler(e) : undefined
+}
+
+export const composeStoppableHandler = <E extends Event>(
+  handler: (e: E) => void
+) => {
+  return (e: E) => {
+    if (!e.defaultPrevented) {
+      handler(e)
+    }
+  }
+}
+
+export const composeRefs = (...refs: Ref<HTMLElement | null>[]) => {
+  return (el: Element | ComponentPublicInstance | null) => {
+    refs.forEach((ref) => {
+      ref.value = el as HTMLElement | null
+    })
+  }
+}

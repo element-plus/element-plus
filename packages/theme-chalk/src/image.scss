@@ -1,6 +1,5 @@
-@import 'mixins/mixins';
-@import 'common/var';
-@import './image-viewer.scss';
+@use 'mixins/mixins' as *;
+@use 'common/var' as *;
 
 %size {
   width: 100%;
@@ -13,30 +12,22 @@
   overflow: hidden;
 
   @include e(inner) {
-    @extend %size;
+    @extend %size !optional;
     vertical-align: top;
-
-    @include m(center) {
-      position: relative;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      display: block;
-    }
   }
 
   @include e(placeholder) {
-    @extend %size;
-    background: $--background-color-base;
+    @extend %size !optional;
+    background: var(--el-bg-color);
   }
 
   @include e(error) {
-    @extend %size;
+    @extend %size !optional;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 14px;
-    background: $--background-color-base;
+    background: var(--el-bg-color);
     color: var(--el-text-color-placeholder);
     vertical-align: middle;
   }

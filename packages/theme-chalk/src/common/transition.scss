@@ -1,5 +1,4 @@
-@import '../mixins/config';
-@import 'var';
+@use '../mixins/config' as *;
 
 .fade-in-linear-enter-active,
 .fade-in-linear-leave-active {
@@ -87,6 +86,14 @@
     var(--el-transition-duration) padding-top ease-in-out,
     var(--el-transition-duration) padding-bottom ease-in-out;
 }
+
+.el-collapse-transition-leave-active,
+.el-collapse-transition-enter-active {
+  transition: var(--el-transition-duration) max-height ease-in-out,
+    var(--el-transition-duration) padding-top ease-in-out,
+    var(--el-transition-duration) padding-bottom ease-in-out;
+}
+
 .horizontal-collapse-transition {
   transition: var(--el-transition-duration) width ease-in-out,
     var(--el-transition-duration) padding-left ease-in-out,

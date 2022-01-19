@@ -1,0 +1,31 @@
+{
+  "cSpell.words": ["Element Plus", "element-plus"],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "npm.packageManager": "pnpm",
+  "eslint.probe": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "html",
+    "vue",
+    "markdown"
+  ],
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "html",
+    "vue",
+    "markdown"
+  ],
+  "vite.devCommand": "pnpm run dev -- --",
+  "i18n-ally.localesPaths": "packages/locale/lang",
+  "i18n-ally.enabledParsers": ["ts"],
+  "i18n-ally.enabledFrameworks": ["vue", "vue-sfc"],
+  "i18n-ally.keystyle": "nested"
+}

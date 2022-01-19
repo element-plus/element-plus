@@ -1,98 +1,28 @@
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
-@import './overlay.scss';
-
-@keyframes #{$namespace}-drawer-fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@mixin drawer-animation($direction) {
-  @keyframes #{$direction}-drawer-animation {
-    0% {
-      @if $direction == ltr {
-        transform: translate(0px, 0px);
-      }
-
-      @if $direction == rtl {
-        transform: translate(0px, 0px);
-      }
-
-      @if $direction == ttb {
-        transform: translate(0px, 0px);
-      }
-
-      @if $direction == btt {
-        transform: translate(0px, 0px);
-      }
-    }
-
-    100% {
-      @if $direction == ltr {
-        transform: translate(-100%, 0px);
-      }
-
-      @if $direction == rtl {
-        transform: translate(100%, 0px);
-      }
-
-      @if $direction == ttb {
-        transform: translate(0px, -100%);
-      }
-
-      @if $direction == btt {
-        transform: translate(0px, 100%);
-      }
-    }
-  }
-}
-
-@mixin animation-in($direction) {
-  &.#{$direction} {
-    animation: #{$direction}-drawer-animation var(--el-transition-duration) linear
-      reverse;
-  }
-}
-
-@mixin animation-out($direction) {
-  &.#{$direction} {
-    animation: #{$direction}-drawer-animation var(--el-transition-duration) linear;
-  }
-}
-
-@include drawer-animation(rtl);
-@include drawer-animation(ltr);
-@include drawer-animation(ttb);
-@include drawer-animation(btt);
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 $directions: rtl, ltr, ttb, btt;
 
 @include b(drawer) {
-  @include set-component-css-var('drawer', $--drawer);
+  @include set-component-css-var('drawer', $drawer);
 }
 
 @include b(drawer) {
   position: absolute;
   box-sizing: border-box;
-  background-color: var(--el-drawer-background-color);
+  background-color: var(--el-drawer-bg-color);
   display: flex;
   flex-direction: column;
   box-shadow: 0 8px 10px -5px rgba(0, 0, 0, 0.2),
     0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12);
   overflow: hidden;
 
-  @each $direction in $directions {
-    .#{$namespace}-drawer-fade-enter-active & {
-      @include animation-in($direction);
-    }
+  transition: all var(--el-transition-duration);
 
-    .#{$namespace}-drawer-fade-leave-active & {
-      @include animation-out($direction);
+  @each $direction in $directions {
+    .#{$direction} {
+      transform: translate(0, 0);
     }
   }
 
@@ -115,6 +45,12 @@ $directions: rtl, ltr, ttb, btt;
     font-size: 1rem;
   }
 
+  @include e(footer) {
+    padding: var(--el-drawer-padding-primary);
+    padding-top: 10px;
+    text-align: right;
+  }
+
   &__close-btn {
     border: none;
     cursor: pointer;
@@ -127,10 +63,16 @@ $directions: rtl, ltr, ttb, btt;
         color: var(--el-color-primary);
       }
     }
+    .#{$namespace}-icon {
+      font-size: inherit;
+      vertical-align: text-bottom;
+    }
   }
 
   &__body {
     flex: 1;
+    padding: var(--el-drawer-padding-primary);
+    overflow: auto;
     & > * {
       box-sizing: border-box;
     }
@@ -167,12 +109,51 @@ $directions: rtl, ltr, ttb, btt;
   }
 }
 
-.#{$namespace}-drawer-fade-enter-active {
-  animation: #{$namespace}-drawer-fade-in var(--el-transition-duration);
-  overflow: hidden !important;
-}
+.#{$namespace}-drawer-fade {
+  &-enter-active,
+  &-leave-active {
+    transition: all var(--el-transition-duration);
+  }
 
-.#{$namespace}-drawer-fade-leave-active {
-  overflow: hidden !important;
-  animation: #{$namespace}-drawer-fade-in var(--el-transition-duration) reverse;
+  &-enter-from,
+  &-enter-active,
+  &-enter-to,
+  &-leave-from,
+  &-leave-active,
+  &-leave-to {
+    overflow: hidden !important;
+  }
+
+  &-enter-from,
+  &-leave-to {
+    opacity: 0;
+  }
+
+  &-enter-to,
+  &-leave-from {
+    opacity: 1;
+  }
+
+  &-enter-from,
+  &-leave-to {
+    @each $direction in $directions {
+      .#{$direction} {
+        @if $direction == ltr {
+          transform: translateX(-100%);
+        }
+
+        @if $direction == rtl {
+          transform: translateX(100%);
+        }
+
+        @if $direction == ttb {
+          transform: translateY(-100%);
+        }
+
+        @if $direction == btt {
+          transform: translateY(100%);
+        }
+      }
+    }
+  }
 }

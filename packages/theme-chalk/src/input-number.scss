@@ -1,38 +1,49 @@
-@use "sass:math";
-@use "sass:map";
+@use 'sass:math';
+@use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'common/var';
-@import 'input';
+@use 'mixins/mixins' as *;
+@use 'common/var' as *;
 
 @include b(input-number) {
   position: relative;
   display: inline-block;
-  width: 180px;
-  line-height: #{map.get($--input-height, 'default') - 2};
+  width: map.get($input-number-width, 'default');
+  line-height: #{map.get($input-height, 'default') - 2};
 
   .#{$namespace}-input {
     display: block;
 
     &__inner {
       -webkit-appearance: none;
-      padding-left: #{map.get($--input-height, 'default') + 10};
-      padding-right: #{map.get($--input-height, 'default') + 10};
+      -moz-appearance: textfield;
+      &::-webkit-inner-spin-button,
+      &::-webkit-outer-spin-button {
+        margin: 0;
+        -webkit-appearance: none;
+      }
+      padding-left: #{map.get($input-height, 'default') + 10};
+      padding-right: #{map.get($input-height, 'default') + 10};
       text-align: center;
     }
   }
 
   @include e((increase, decrease)) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+
     position: absolute;
     z-index: 1;
     top: 1px;
-    width: map.get($--input-height, 'default');
-    height: auto;
-    text-align: center;
-    background: $--background-color-base;
+    bottom: 1px;
+
+    width: map.get($input-height, 'default');
+    background: var(--el-bg-color);
     color: var(--el-text-color-regular);
     cursor: pointer;
     font-size: 13px;
+    user-select: none;
 
     &:hover {
       color: var(--el-color-primary);
@@ -40,13 +51,13 @@
       & ~ .#{$namespace}-input:not(.is-disabled) .#{$namespace}-input__inner {
         border-color: var(
           --el-input-focus-border,
-          map.get($--input, 'focus-border')
+          map.get($input, 'focus-border')
         );
       }
     }
 
     &.is-disabled {
-      color: var(--el-disabled-color-base);
+      color: var(--el-disabled-text-color);
       cursor: not-allowed;
     }
   }
@@ -65,29 +76,29 @@
 
   @include when(disabled) {
     @include e((increase, decrease)) {
-      border-color: var(--el-disabled-border-base);
-      color: var(--el-disabled-border-base);
+      border-color: var(--el-disabled-border-color);
+      color: var(--el-disabled-border-color);
 
       &:hover {
-        color: var(--el-disabled-border-base);
+        color: var(--el-disabled-border-color);
         cursor: not-allowed;
       }
     }
   }
 
-  @each $size in (medium, small, mini) {
+  @each $size in (large, small) {
     @include m($size) {
-      width: map.get($--input-number-width, $size);
-      line-height: #{map.get($--input-height, $size) - 2};
+      width: map.get($input-number-width, $size);
+      line-height: #{map.get($input-height, $size) - 2};
 
       @include e((increase, decrease)) {
-        width: map.get($--input-height, $size);
-        font-size: map.get($--input-font-size, $size);
+        width: map.get($input-height, $size);
+        font-size: map.get($input-font-size, $size);
       }
 
       .#{$namespace}-input__inner {
-        padding-left: #{map.get($--input-height, $size) + 7};
-        padding-right: #{map.get($--input-height, $size) + 7};
+        padding-left: #{map.get($input-height, $size) + 7};
+        padding-right: #{map.get($input-height, $size) + 7};
       }
     }
   }
@@ -96,14 +107,6 @@
     @include e((increase, decrease)) {
       [class*='#{$namespace}-icon'] {
         transform: scale(0.9);
-      }
-    }
-  }
-
-  @include m(mini) {
-    @include e((increase, decrease)) {
-      [class*='#{$namespace}-icon'] {
-        transform: scale(0.8);
       }
     }
   }
@@ -118,12 +121,17 @@
   @include when(controls-right) {
     .#{$namespace}-input__inner {
       padding-left: 15px;
-      padding-right: #{map.get($--input-height, 'default') + 10};
+      padding-right: #{map.get($input-height, 'default') + 10};
     }
 
     @include e((increase, decrease)) {
-      height: auto;
-      line-height: #{math.div(map.get($--input-height, 'default') - 2, 2)};
+      --el-input-number-controls-height: #{math.div(
+          map.get($input-height, 'default') - 2,
+          2
+        )};
+
+      height: var(--el-input-number-controls-height);
+      line-height: var(--el-input-number-controls-height);
 
       [class*='#{$namespace}-icon'] {
         transform: scale(0.8);
@@ -131,13 +139,14 @@
     }
 
     @include e(increase) {
+      bottom: auto;
+      left: auto;
       border-radius: 0 var(--el-border-radius-base) 0 0;
       border-bottom: var(--el-border-base);
     }
 
     @include e(decrease) {
       right: 1px;
-      bottom: 1px;
       top: auto;
       left: auto;
       border-right: none;
@@ -145,11 +154,14 @@
       border-radius: 0 0 var(--el-border-radius-base) 0;
     }
 
-    @each $size in (medium, small, mini) {
+    @each $size in (large, small) {
       &[class*='#{$size}'] {
         [class*='increase'],
         [class*='decrease'] {
-          line-height: #{math.div(map.get($--input-height, $size) - 2, 2)};
+          --el-input-number-controls-height: #{math.div(
+              map.get($input-height, $size) - 2,
+              2
+            )};
         }
       }
     }

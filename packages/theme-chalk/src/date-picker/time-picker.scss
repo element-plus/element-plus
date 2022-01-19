@@ -1,4 +1,5 @@
-@import '../common/var';
+@use '../mixins/mixins' as *;
+@use '../common/var' as *;
 
 @include b(time-panel) {
   border-radius: 2px;
@@ -55,7 +56,8 @@
   }
 
   @include e(footer) {
-    border-top: 1px solid var(--el-datepicker-inner-border-color);
+    border-top: 1px solid
+      var(--el-timepicker-inner-border-color, var(--el-border-color-light));
     padding: 4px;
     height: 36px;
     line-height: 25px;
@@ -76,7 +78,7 @@
 
     &.confirm {
       font-weight: 800;
-      color: var(--el-datepicker-active-color);
+      color: var(--el-timepicker-active-color, var(--el-color-primary));
     }
   }
 }

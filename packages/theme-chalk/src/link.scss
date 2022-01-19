@@ -1,11 +1,11 @@
-@use "sass:map";
+@use 'sass:map';
 
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(link) {
-  @include set-component-css-var('link', $--link);
+  @include set-component-css-var('link', $link);
 }
 
 @include b(link) {
@@ -45,7 +45,7 @@
   }
 
   &.#{$namespace}-link--default {
-    color: var(--el-link-default-font-color);
+    color: var(--el-link-default-text-color);
 
     &:hover {
       color: var(--el-link-default-active-color);
@@ -56,29 +56,29 @@
     }
 
     @include when(disabled) {
-      color: var(--el-link-disabled-font-color);
+      color: var(--el-link-disabled-text-color);
     }
   }
 
-  @each $type in $--types {
+  @each $type in $types {
     &.#{$namespace}-link--#{$type} {
-      --el-link-font-color: var(--el-color-#{$type});
-      color: var(--el-link-font-color);
+      --el-link-text-color: var(--el-color-#{$type});
+      color: var(--el-link-text-color);
 
       &:hover {
-        color: mix(map.get($--link-font-color, $type), $--color-white, 80%);
+        color: mix(map.get($link-text-color, $type), $color-white, 80%);
       }
 
       &:after {
-        border-color: var(--el-link-font-color);
+        border-color: var(--el-link-text-color);
       }
 
       @include when(disabled) {
-        color: mix(map.get($--link-font-color, $type), $--color-white, 50%);
+        color: mix(map.get($link-text-color, $type), $color-white, 50%);
       }
       @include when(underline) {
         &:hover:after {
-          border-color: var(--el-link-font-color);
+          border-color: var(--el-link-text-color);
         }
       }
     }

@@ -1,20 +1,18 @@
-import { onBeforeUnmount } from 'vue'
+import { tryOnScopeDispose } from '@vueuse/core'
 
-export default function () {
-  let timeoutHandle: ReturnType<typeof setTimeout>
+export function useTimeout() {
+  let timeoutHandle: number
 
-  onBeforeUnmount(() => {
-    clearTimeout(timeoutHandle)
-  })
+  const registerTimeout = (fn: (...args: any[]) => any, delay: number) => {
+    cancelTimeout()
+    timeoutHandle = window.setTimeout(fn, delay)
+  }
+  const cancelTimeout = () => window.clearTimeout(timeoutHandle)
+
+  tryOnScopeDispose(() => cancelTimeout())
 
   return {
-    registerTimeout: (fn: (...args: any[]) => unknown, delay: number) => {
-      clearTimeout(timeoutHandle)
-      timeoutHandle = setTimeout(fn, delay)
-    },
-
-    cancelTimeout: () => {
-      clearTimeout(timeoutHandle)
-    },
+    registerTimeout,
+    cancelTimeout,
   }
 }

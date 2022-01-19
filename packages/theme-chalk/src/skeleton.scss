@@ -1,10 +1,9 @@
-@import 'mixins/mixins';
-@import 'mixins/var';
-@import 'common/var';
-@import './skeleton-item.scss';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(skeleton) {
-  @include set-component-css-var('skeleton', $--skeleton);
+  @include set-component-css-var('skeleton', $skeleton);
 }
 
 @mixin skeleton-color() {
