@@ -162,7 +162,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, ref, watch } from 'vue'
+import { computed, defineComponent, inject, ref, watch, toRef } from 'vue'
 import dayjs from 'dayjs'
 import ElButton from '@element-plus/components/button'
 import { ClickOutside } from '@element-plus/directives'
@@ -239,9 +239,9 @@ export default defineComponent({
       disabledDate,
       cellClassName,
       defaultTime,
-      defaultValue,
       arrowControl,
     } = pickerBase.props
+    const defaultValue = toRef(pickerBase.props, 'defaultValue')
 
     const innerDate = ref(dayjs().locale(lang.value))
 
@@ -479,7 +479,7 @@ export default defineComponent({
 
     const visibleTime = computed(() => {
       if (userInputTime.value) return userInputTime.value
-      if (!props.parsedValue && !defaultValue) return
+      if (!props.parsedValue && !defaultValue.value) return
       return ((props.parsedValue || innerDate.value) as Dayjs).format(
         timeFormat.value
       )
@@ -487,7 +487,7 @@ export default defineComponent({
 
     const visibleDate = computed(() => {
       if (userInputDate.value) return userInputDate.value
-      if (!props.parsedValue && !defaultValue) return
+      if (!props.parsedValue && !defaultValue.value) return
       return ((props.parsedValue || innerDate.value) as Dayjs).format(
         dateFormat.value
       )
@@ -563,8 +563,8 @@ export default defineComponent({
     }
 
     const getDefaultValue = () => {
-      const parseDate = dayjs(defaultValue).locale(lang.value)
-      if (!defaultValue) {
+      const parseDate = dayjs(defaultValue.value).locale(lang.value)
+      if (!defaultValue.value) {
         const defaultTimeDValue = defaultTimeD.value
         return dayjs()
           .hour(defaultTimeDValue.hour())
@@ -659,6 +659,16 @@ export default defineComponent({
     ctx.emit('set-picker-option', ['formatToString', formatToString])
     ctx.emit('set-picker-option', ['parseUserInput', parseUserInput])
     ctx.emit('set-picker-option', ['handleKeydown', handleKeydown])
+
+    watch(
+      () => defaultValue.value,
+      (val) => {
+        if (val) {
+          innerDate.value = getDefaultValue()
+        }
+      },
+      { immediate: true }
+    )
 
     watch(
       () => props.parsedValue,
