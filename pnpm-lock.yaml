@@ -168,7 +168,7 @@ importers:
       unplugin-vue-components: 0.17.13
       vite-plugin-inspect: 0.3.13
       vite-plugin-windicss: 1.6.3
-      vitepress: 0.21.5
+      vitepress: 0.21.6
     dependencies:
       '@docsearch/js': 3.0.0-alpha.42
       '@docsearch/react': 3.0.0-alpha.42
@@ -190,7 +190,7 @@ importers:
       unplugin-vue-components: 0.17.13_def7c98c917a531d2769211c423f86dc
       vite-plugin-inspect: 0.3.13
       vite-plugin-windicss: 1.6.3
-      vitepress: 0.21.5_sass@1.48.0
+      vitepress: 0.21.6_sass@1.48.0
 
   packages/components:
     specifiers: {}
@@ -11059,8 +11059,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitepress/0.21.5_sass@1.48.0:
-    resolution: {integrity: sha512-4CUlUFfuslufYg877wTUU462z7tURgKmwJmwFtDo4PEv/nEMJHj+VLSTgrjCM38h9rTHSWRfBW87+AMw/e9uTA==}
+  /vitepress/0.21.6_sass@1.48.0:
+    resolution: {integrity: sha512-OzwD2cTfvoK5VKV0UWSqu4XvUOz4vWFJ4Bdi0z8GoVkTFXkfmbFawEDVXAZwzu0Hn4/VLopgmEyooc91iGKFlg==}
     engines: {node: '>=12.0.0'}
     hasBin: true
     dependencies:
