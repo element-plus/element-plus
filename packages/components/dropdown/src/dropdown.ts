@@ -9,18 +9,12 @@ import type { Options } from '@popperjs/core'
 
 import type { ButtonType } from '@element-plus/components/button'
 import type { Placement } from '@element-plus/components/popper'
-import type {
-  ComponentInternalInstance,
-  Component,
-  ComputedRef,
-  Ref,
-} from 'vue'
+import type { ComponentInternalInstance, Component, ComputedRef } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'
 
 export interface IElDropdownInstance {
   instance?: ComponentInternalInstance
   dropdownSize?: ComputedRef<string>
-  visible?: Ref<boolean>
   handleClick?: () => void
   commandHandler?: (...arg) => void
   show?: () => void
