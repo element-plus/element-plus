@@ -4,7 +4,7 @@ importers:
 
   .:
     specifiers:
-      '@commitlint/cli': 16.0.2
+      '@commitlint/cli': 16.0.3
       '@commitlint/config-conventional': 16.0.0
       '@element-plus/components': workspace:*
       '@element-plus/directives': workspace:*
@@ -93,7 +93,7 @@ importers:
       memoize-one: 6.0.0
       normalize-wheel-es: 1.1.1
     devDependencies:
-      '@commitlint/cli': 16.0.2_@types+node@16.11.21
+      '@commitlint/cli': 16.0.3_@types+node@16.11.21
       '@commitlint/config-conventional': 16.0.0
       '@pnpm/find-workspace-packages': 3.1.38_@pnpm+logger@4.0.0
       '@pnpm/logger': 4.0.0
@@ -794,8 +794,8 @@ packages:
       minimist: 1.2.5
     dev: true
 
-  /@commitlint/cli/16.0.2_@types+node@16.11.21:
-    resolution: {integrity: sha512-Jt7iaBjoLGC5Nq4dHPTvTYnqPGkElFPBtTXTvBpTgatZApczyjI2plE0oG4GYWPp1suHIS/VdVDOMpPZjGVusg==}
+  /@commitlint/cli/16.0.3_@types+node@16.11.21:
+    resolution: {integrity: sha512-SB1od4/1ek5SShNKjKgUdpqiVNulNVgCkjkV4Zz9zLKrxn3sPcgvXMQNh/wy0/T4WPUVgHrHGcxWYOYXxrGwpg==}
     engines: {node: '>=v12'}
     hasBin: true
     dependencies:
