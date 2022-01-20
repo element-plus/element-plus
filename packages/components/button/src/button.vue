@@ -2,9 +2,9 @@
   <button
     ref="buttonRef"
     :class="[
-      `${ns.b()}`,
-      `${ns.m(buttonType)}`,
-      `${ns.m(buttonSize)}`,
+      ns.b(),
+      ns.m(buttonType),
+      ns.m(buttonSize),
       {
         'is-disabled': buttonDisabled,
         'is-loading': loading,
@@ -19,15 +19,18 @@
     :style="buttonStyle"
     @click="handleClick"
   >
-    <el-icon v-if="loading" class="is-loading">
-      <loading />
-    </el-icon>
+    <template v-if="loading">
+      <slot v-if="$slots.loading" name="loading"></slot>
+      <el-icon v-else class="is-loading">
+        <component :is="loadingIcon" />
+      </el-icon>
+    </template>
     <el-icon v-else-if="icon">
       <component :is="icon" />
     </el-icon>
     <span
       v-if="$slots.default"
-      :class="[shouldAddSpace ? `${ns.em('text', 'expand')}` : '']"
+      :class="[shouldAddSpace ? ns.em('text', 'expand') : '']"
     >
       <slot></slot>
     </span>
