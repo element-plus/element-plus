@@ -1,5 +1,5 @@
 <template>
-  <el-tooltip v-model="visible">
+  <el-tooltip v-model:visible="visible">
     <template #content>
       <span>
         <p>Content</p>
