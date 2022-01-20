@@ -5,25 +5,25 @@ import {
   watch,
   onUnmounted,
   onUpdated,
+  inject,
 } from 'vue'
 import { isClient } from '@vueuse/core'
 import { addClass, removeClass } from '@element-plus/utils/dom'
 import { hColgroup } from '../h-helper'
 import useLayoutObserver from '../layout-observer'
 import { removePopper } from '../util'
+import { TABLE_INJECTION_KEY } from '../tokens'
 import useRender from './render-helper'
 import defaultProps from './defaults'
 
 import type { VNode } from 'vue'
-import type { DefaultRow, Table } from '../table/defaults'
 
 export default defineComponent({
   name: 'ElTableBody',
   props: defaultProps,
   setup(props) {
     const instance = getCurrentInstance()
-    const parent = instance.parent as Table<DefaultRow>
-
+    const parent = inject(TABLE_INJECTION_KEY)
     const { wrappedRowRender, tooltipContent, tooltipTrigger } =
       useRender(props)
     const { onColumnsChange, onScrollableChange } = useLayoutObserver(parent)

@@ -30,8 +30,6 @@
     "dist/*",
     "theme-chalk/*.css",
     "theme-chalk/src/*.scss",
-    "es/components/*/style/*",
-    "lib/components/*/style/*",
     "lib/components/**/*",
     "es/components/**/*"
   ],
@@ -48,8 +46,8 @@
   "dependencies": {
     "@ctrl/tinycolor": "^3.4.0",
     "@element-plus/icons-vue": "^0.2.4",
-    "@popperjs/core": "^2.10.2",
-    "@vueuse/core": "^7.3.0",
+    "@popperjs/core": "^2.11.2",
+    "@vueuse/core": "^7.5.3",
     "async-validator": "^4.0.7",
     "dayjs": "^1.10.7",
     "lodash": "^4.17.21",
@@ -58,7 +56,7 @@
   },
   "devDependencies": {
     "@types/node": "*",
-    "csstype": "^2.6.0",
+    "csstype": "^2.6.19",
     "vue-router": "^4.0.0"
   },
   "vetur": {

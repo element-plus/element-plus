@@ -5,13 +5,11 @@
       ns.b(),
       ns.m(buttonType),
       ns.m(buttonSize),
-      {
-        'is-disabled': buttonDisabled,
-        'is-loading': loading,
-        'is-plain': plain,
-        'is-round': round,
-        'is-circle': circle,
-      },
+      ns.is('disabled', buttonDisabled),
+      ns.is('loading', loading),
+      ns.is('plain', plain),
+      ns.is('round', round),
+      ns.is('circle', circle),
     ]"
     :disabled="buttonDisabled || loading"
     :autofocus="autofocus"
@@ -21,7 +19,7 @@
   >
     <template v-if="loading">
       <slot v-if="$slots.loading" name="loading"></slot>
-      <el-icon v-else class="is-loading">
+      <el-icon v-else :class="ns.is('loading')">
         <component :is="loadingIcon" />
       </el-icon>
     </template>

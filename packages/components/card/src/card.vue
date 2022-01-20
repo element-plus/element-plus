@@ -1,5 +1,5 @@
 <template>
-  <div :class="[ns.b(), shadow ? `is-${shadow}-shadow` : 'is-always-shadow']">
+  <div :class="[ns.b(), ns.is(`${shadow}-shadow`)]">
     <div v-if="$slots.header || header" :class="ns.e('header')">
       <slot name="header">{{ header }}</slot>
     </div>

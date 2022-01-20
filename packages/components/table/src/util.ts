@@ -2,7 +2,6 @@ import { hasOwn } from '@vue/shared'
 import { createPopper } from '@popperjs/core'
 import { PopupManager } from '@element-plus/utils/popup-manager'
 import { getValueByPath } from '@element-plus/utils/util'
-import scrollbarWidth from '@element-plus/utils/scrollbar-width'
 import { off, on } from '@element-plus/utils/dom'
 
 import type {
@@ -487,26 +486,6 @@ export const getFixedColumnOffset = <T>(
       .reduce(getOffset, 0)
   }
   return styles
-}
-
-export function getCellStyle<T>(
-  column: TableColumnCtx<T>,
-  cellIndex: number,
-  hasGutter: boolean,
-  gutterWidth: number,
-  store: any
-) {
-  const fixedStyle = getFixedColumnOffset(cellIndex, column.fixed, store)
-  ensureRightFixedStyle(fixedStyle, hasGutter)
-  ensurePosition(fixedStyle, 'left')
-  ensurePosition(fixedStyle, 'right')
-  return fixedStyle
-}
-
-export const ensureRightFixedStyle = (style, hasGutter: boolean) => {
-  if (hasGutter && style && !Number.isNaN(style.right)) {
-    style.right += scrollbarWidth()
-  }
 }
 
 export const ensurePosition = (style, key: string) => {

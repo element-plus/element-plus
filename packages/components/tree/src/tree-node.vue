@@ -224,7 +224,7 @@ export default defineComponent({
       oldIndeterminate.value = indeterminate
     }
 
-    const handleClick = () => {
+    const handleClick = (e: MouseEvent) => {
       const store = tree.store.value
       store.setCurrentNode(props.node)
       tree.ctx.emit(
@@ -243,7 +243,7 @@ export default defineComponent({
           target: { checked: !props.node.checked },
         })
       }
-      tree.ctx.emit('node-click', props.node.data, props.node, instance)
+      tree.ctx.emit('node-click', props.node.data, props.node, instance, e)
     }
 
     const handleContextMenu = (event: Event) => {
