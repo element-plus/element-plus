@@ -28,7 +28,7 @@ if (process.env.DOC_ENV !== 'production') {
 }
 
 export default async () => {
-  const deps = getPackageDependencies(epPackage)
+  const { dependencies } = getPackageDependencies(epPackage)
   const optimizeDeps = [
     'vue',
     '@vue/shared',
@@ -36,7 +36,7 @@ export default async () => {
     'clipboard-copy',
     'axios',
     'nprogress',
-    ...deps,
+    ...dependencies,
   ]
   optimizeDeps.push(
     ...(
