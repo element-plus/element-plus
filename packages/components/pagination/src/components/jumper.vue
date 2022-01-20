@@ -39,6 +39,7 @@ export default defineComponent({
     }
 
     function handleChange(val: number | string) {
+      val = parseInt(`${val}`, 10)
       changeEvent?.(+val)
       userInput.value = undefined
     }
