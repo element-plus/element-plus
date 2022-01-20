@@ -107,7 +107,7 @@ button/custom
 | round             | determine whether it's a round button                       | boolean            | —                                                  | false   |
 | circle            | determine whether it's a circle button                      | boolean            | —                                                  | false   |
 | loading           | determine whether it's loading                              | boolean            | —                                                  | false   |
-| loadingIcon       | customize loading icon component                            | string / Component | —                                                  | —       |
+| loading-icon      | customize loading icon component                            | string / Component | —                                                  | Loading |
 | disabled          | disable the button                                          | boolean            | —                                                  | false   |
 | icon              | icon component                                              | string / Component | —                                                  | —       |
 | autofocus         | same as native button's `autofocus`                         | boolean            | —                                                  | false   |

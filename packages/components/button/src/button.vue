@@ -28,7 +28,7 @@
     </el-icon>
     <span
       v-if="$slots.default"
-      :class="[shouldAddSpace ? ns.em('text', 'expand') : '']"
+      :class="{ [ns.em('text', 'expand')]: shouldAddSpace }"
     >
       <slot></slot>
     </span>
