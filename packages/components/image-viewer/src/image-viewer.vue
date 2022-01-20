@@ -3,50 +3,53 @@
     <div
       ref="wrapper"
       :tabindex="-1"
-      class="el-image-viewer__wrapper"
+      :class="ns.e('wrapper')"
       :style="{ zIndex }"
     >
-      <div
-        class="el-image-viewer__mask"
-        @click.self="hideOnClickModal && hide()"
-      />
+      <div :class="ns.e('mask')" @click.self="hideOnClickModal && hide()" />
 
       <!-- CLOSE -->
-      <span class="el-image-viewer__btn el-image-viewer__close" @click="hide">
+      <span :class="[ns.e('btn'), ns.e('close')]" @click="hide">
         <el-icon><close /></el-icon>
       </span>
 
       <!-- ARROW -->
       <template v-if="!isSingle">
         <span
-          class="el-image-viewer__btn el-image-viewer__prev"
-          :class="{ 'is-disabled': !infinite && isFirst }"
+          :class="[
+            ns.e('btn'),
+            ns.e('prev'),
+            { [ns.is('disabled')]: !infinite && isFirst },
+          ]"
           @click="prev"
         >
           <el-icon><arrow-left /></el-icon>
         </span>
         <span
-          class="el-image-viewer__btn el-image-viewer__next"
-          :class="{ 'is-disabled': !infinite && isLast }"
+          :class="[
+            ns.e('btn'),
+            ns.e('next'),
+            { [ns.is('disabled')]: !infinite && isLast },
+          ]"
           @click="next"
         >
           <el-icon><arrow-right /></el-icon>
         </span>
       </template>
       <!-- ACTIONS -->
-      <div class="el-image-viewer__btn el-image-viewer__actions">
-        <div class="el-image-viewer__actions__inner">
+      <div :class="[ns.e('btn'), ns.e('actions')]">
+        <div :class="ns.e('actions__inner')">
           <el-icon @click="handleActions('zoomOut')">
             <zoom-out />
           </el-icon>
           <el-icon @click="handleActions('zoomIn')">
             <zoom-in />
           </el-icon>
-          <i class="el-image-viewer__actions__divider"></i>
+          <i :class="ns.e('actions__divider')"></i>
           <el-icon @click="toggleMode">
             <component :is="mode.icon" />
           </el-icon>
-          <i class="el-image-viewer__actions__divider"></i>
+          <i :class="ns.e('actions__divider')"></i>
           <el-icon @click="handleActions('anticlockwise')">
             <refresh-left />
           </el-icon>
@@ -56,7 +59,7 @@
         </div>
       </div>
       <!-- CANVAS -->
-      <div class="el-image-viewer__canvas">
+      <div :class="ns.e('canvas')">
         <img
           v-for="(url, i) in urlList"
           v-show="i === index"
@@ -64,7 +67,7 @@
           :key="url"
           :src="url"
           :style="imgStyle"
-          class="el-image-viewer__img"
+          :class="ns.e('img')"
           @load="handleImgLoad"
           @error="handleImgError"
           @mousedown="handleMouseDown"
@@ -88,7 +91,7 @@ import {
 } from 'vue'
 import { useEventListener } from '@vueuse/core'
 import ElIcon from '@element-plus/components/icon'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { rafThrottle, isFirefox } from '@element-plus/utils/util'
 import {
@@ -141,6 +144,7 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const { t } = useLocale()
+    const ns = useNamespace('image-viewer')
     const wrapper = ref<HTMLDivElement>()
     const img = ref<HTMLImageElement>()
 
@@ -403,6 +407,8 @@ export default defineComponent({
       handleImgLoad,
       handleImgError,
       handleMouseDown,
+
+      ns,
     }
   },
 })
