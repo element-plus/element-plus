@@ -25,7 +25,7 @@
     &::before {
       @include extend-rule(border-pseudo);
       left: 0;
-      bottom: 0;
+      bottom: 0px;
       width: 100%;
       height: 1px;
       z-index: 3;
@@ -33,7 +33,7 @@
   }
 
   &.has-footer {
-    @include e(inner-wrapper) {
+    .#{$namespace}-table__inner-wrapper {
       &::before {
         bottom: 1px;
       }
