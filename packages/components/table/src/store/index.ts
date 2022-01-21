@@ -1,4 +1,5 @@
 import { nextTick, getCurrentInstance, unref } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
 import useWatcher from './watcher'
 
 import type { Ref } from 'vue'
@@ -37,6 +38,7 @@ function sortColumn<T>(array: TableColumnCtx<T>[]) {
 function useStore<T>() {
   const instance = getCurrentInstance() as Table<T>
   const watcher = useWatcher<T>()
+  const ns = useNamespace('table')
   type StoreStates = typeof watcher.states
   const mutations = {
     setData(states: StoreStates, data: T[]) {
@@ -200,6 +202,7 @@ function useStore<T>() {
     nextTick(() => instance.layout.updateScrollY.apply(instance.layout))
   }
   return {
+    ns,
     ...watcher,
     mutations,
     commit,

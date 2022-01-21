@@ -9,6 +9,7 @@ import {
 } from 'vue'
 import { isClient } from '@vueuse/core'
 import { addClass, removeClass } from '@element-plus/utils/dom'
+import { useNamespace } from '@element-plus/hooks'
 import { hColgroup } from '../h-helper'
 import useLayoutObserver from '../layout-observer'
 import { removePopper } from '../util'
@@ -24,9 +25,10 @@ export default defineComponent({
   setup(props) {
     const instance = getCurrentInstance()
     const parent = inject(TABLE_INJECTION_KEY)
+    const ns = useNamespace('table')
     const { wrappedRowRender, tooltipContent, tooltipTrigger } =
       useRender(props)
-    const { onColumnsChange, onScrollableChange } = useLayoutObserver(parent)
+    const { onColumnsChange, onScrollableChange } = useLayoutObserver(parent!)
 
     watch(props.store.states.hoverRow, (newVal: any, oldVal: any) => {
       if (!props.store.states.isComplex.value || !isClient) return
@@ -35,7 +37,7 @@ export default defineComponent({
         raf = (fn) => window.setTimeout(fn, 16)
       }
       raf(() => {
-        const rows = instance.vnode.el.querySelectorAll('.el-table__row')
+        const rows = instance?.vnode.el?.querySelectorAll(ns.e('row'))
         const oldRow = rows[oldVal]
         const newRow = rows[newVal]
         if (oldRow) {
@@ -55,6 +57,7 @@ export default defineComponent({
     })
 
     return {
+      ns,
       onColumnsChange,
       onScrollableChange,
       wrappedRowRender,
@@ -63,13 +66,13 @@ export default defineComponent({
     }
   },
   render() {
-    const { wrappedRowRender, store } = this
+    const { ns, wrappedRowRender, store } = this
     const data = store.states.data.value || []
     const columns = store.states.columns.value
     return h(
       'table',
       {
-        class: 'el-table__body',
+        class: ns.e('body'),
         cellspacing: '0',
         cellpadding: '0',
         border: '0',

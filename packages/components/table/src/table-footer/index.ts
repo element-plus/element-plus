@@ -1,4 +1,5 @@
 import { defineComponent, h } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
 import { hColgroup } from '../h-helper'
 import useStyle from './style-helper'
 import type { Store } from '../store'
@@ -45,15 +46,23 @@ export default defineComponent({
     const { getCellClasses, getCellStyles, columns } = useStyle(
       props as TableFooter<DefaultRow>
     )
+    const ns = useNamespace('table')
     return {
+      ns,
       getCellClasses,
       getCellStyles,
       columns,
     }
   },
   render() {
-    const { columns, getCellStyles, getCellClasses, summaryMethod, sumText } =
-      this
+    const {
+      columns,
+      getCellStyles,
+      getCellClasses,
+      summaryMethod,
+      sumText,
+      ns,
+    } = this
     const data = this.store.states.data.value
     let sums = []
     if (summaryMethod) {
@@ -95,7 +104,7 @@ export default defineComponent({
     return h(
       'table',
       {
-        class: 'el-table__footer',
+        class: ns.e('footer'),
         cellspacing: '0',
         cellpadding: '0',
         border: '0',
