@@ -156,7 +156,7 @@ importers:
       '@docsearch/react': 3.0.0-alpha.42
       '@iconify-json/ri': 1.0.2
       '@types/markdown-it': 12.2.3
-      '@vueuse/core': 7.5.3
+      '@vueuse/core': 7.5.4
       axios: 0.25.0
       clipboard-copy: 4.0.1
       cross-env: 7.0.3
@@ -175,7 +175,7 @@ importers:
     dependencies:
       '@docsearch/js': 3.0.0-alpha.42
       '@docsearch/react': 3.0.0-alpha.42
-      '@vueuse/core': 7.5.3_vue@3.2.27
+      '@vueuse/core': 7.5.4_vue@3.2.27
       axios: 0.25.0
       clipboard-copy: 4.0.1
       element-plus: 1.3.0-beta.5_vue@3.2.27
@@ -2323,8 +2323,39 @@ packages:
       vue-demi: 0.12.1_vue@3.2.27
     dev: false
 
+  /@vueuse/core/7.5.4_vue@3.2.27:
+    resolution: {integrity: sha512-PKmyHN2lZuttGgKmsoMMqiSojSYYKraszilP0gpQIGcLt2YoLABaG3VFjdPs2tY6DM+HG3o70HuzOMEQCY8fqQ==}
+    peerDependencies:
+      '@vue/composition-api': ^1.1.0
+      vue: ^2.6.0 || ^3.2.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      vue:
+        optional: true
+    dependencies:
+      '@vueuse/shared': 7.5.4_vue@3.2.27
+      vue: 3.2.27
+      vue-demi: 0.12.1_vue@3.2.27
+    dev: false
+
   /@vueuse/shared/7.5.3_vue@3.2.27:
     resolution: {integrity: sha512-BJ71cxHN5VByW1S58Gl85NFJaQu93F7Vs7K/MuAKsIIuHm9PBbkR5Vxkg9ko9cBdiKVt+FNoo13BhdbA+Vwycg==}
+    peerDependencies:
+      '@vue/composition-api': ^1.1.0
+      vue: ^2.6.0 || ^3.2.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      vue:
+        optional: true
+    dependencies:
+      vue: 3.2.27
+      vue-demi: 0.12.1_vue@3.2.27
+    dev: false
+
+  /@vueuse/shared/7.5.4_vue@3.2.27:
+    resolution: {integrity: sha512-750RnGUEgg1+K4jGVkv7M5UOStAa/IjAInV6BugyBOvRYL2l1lcIDUi4V/qIKTlhd2oUAByCEnlqIpFD2a3tfw==}
     peerDependencies:
       '@vue/composition-api': ^1.1.0
       vue: ^2.6.0 || ^3.2.0
@@ -4213,7 +4244,7 @@ packages:
       '@ctrl/tinycolor': 3.4.0
       '@element-plus/icons-vue': 0.2.4_vue@3.2.27
       '@popperjs/core': 2.11.2
-      '@vueuse/core': 7.5.3_vue@3.2.27
+      '@vueuse/core': 7.5.4_vue@3.2.27
       async-validator: 4.0.7
       dayjs: 1.10.7
       lodash: 4.17.21
