@@ -30,8 +30,8 @@
     "dist/*",
     "theme-chalk/*.css",
     "theme-chalk/src/*.scss",
-    "lib/components/**/*",
-    "es/components/**/*"
+    "es/components/*/style/*",
+    "lib/components/*/style/*"
   ],
   "repository": {
     "type": "git",
