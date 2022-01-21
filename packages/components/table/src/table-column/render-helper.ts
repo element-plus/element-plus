@@ -137,7 +137,7 @@ function useRender<T>(
           style: {},
         }
         if (column.showOverflowTooltip) {
-          props.class += ` ${unref(ns.namespace)}-tooltip`
+          props.class = `${props.class} ${unref(ns.namespace)}-tooltip`
           props.style = {
             width: `${
               (data.column.realWidth || Number(data.column.width)) - 1

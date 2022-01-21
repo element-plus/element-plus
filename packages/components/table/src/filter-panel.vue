@@ -60,7 +60,7 @@
         <li
           v-for="filter in filters"
           :key="filter.value"
-          :class="[ns.e('list-item'), { [ns.is('active')]: isActive(filter) }]"
+          :class="[ns.e('list-item'), ns.is('active', isActive(filter))]"
           :label="filter.value"
           @click="handleSelect(filter.value)"
         >

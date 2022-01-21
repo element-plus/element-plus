@@ -25,7 +25,7 @@ function useStyle<T>(props: TableFooter<T>) {
       classes.push(column.className)
     }
     if (!column.children) {
-      classes.push(ns.b('leaf'))
+      classes.push(ns.is('leaf'))
     }
     return classes
   }
