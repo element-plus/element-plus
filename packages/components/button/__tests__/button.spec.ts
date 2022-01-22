@@ -1,4 +1,4 @@
-import { ref, h, nextTick } from 'vue'
+import { ref, h, nextTick, defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
 import { Loading, Search } from '@element-plus/icons-vue'
 import Button from '../src/button.vue'
@@ -105,6 +105,42 @@ describe('Button.vue', () => {
     expect(wrapper.classes()).toContain('is-disabled')
     await wrapper.trigger('click')
     expect(wrapper.emitted('click')).toBeUndefined()
+  })
+
+  it('loading icon', () => {
+    const wrapper = mount(Button, {
+      props: {
+        loadingIcon: Search,
+        loading: true,
+      },
+    })
+    expect(wrapper.findComponent(Search).exists()).toBeTruthy()
+  })
+
+  it('loading slot', () => {
+    const App = defineComponent({
+      setup() {
+        return () =>
+          h(
+            Button,
+            {
+              loading: true,
+            },
+            {
+              default: 'Loading',
+              loading: h(
+                'span',
+                {
+                  class: 'custom-loading',
+                },
+                ['111']
+              ),
+            }
+          )
+      },
+    })
+    const wrapper = mount(App)
+    expect(wrapper.find('.custom-loading').exists()).toBeTruthy()
   })
 })
 describe('Button Group', () => {

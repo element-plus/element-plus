@@ -17,15 +17,18 @@
     :style="buttonStyle"
     @click="handleClick"
   >
-    <el-icon v-if="loading" :class="ns.is('loading')">
-      <loading />
-    </el-icon>
+    <template v-if="loading">
+      <slot v-if="$slots.loading" name="loading"></slot>
+      <el-icon v-else :class="ns.is('loading')">
+        <component :is="loadingIcon" />
+      </el-icon>
+    </template>
     <el-icon v-else-if="icon">
       <component :is="icon" />
     </el-icon>
     <span
       v-if="$slots.default"
-      :class="[shouldAddSpace ? `${ns.em('text', 'expand')}` : '']"
+      :class="{ [ns.em('text', 'expand')]: shouldAddSpace }"
     >
       <slot></slot>
     </span>
