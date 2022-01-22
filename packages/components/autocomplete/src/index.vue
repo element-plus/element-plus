@@ -204,7 +204,7 @@ export default defineComponent({
     const popper = ref(null)
 
     const id = computed(() => {
-      return `${ns.namespace.value}-autocomplete-${generateId()}`
+      return `${ns.b()}-${generateId()}`
     })
     const suggestionVisible = computed(() => {
       const isValidData =
@@ -326,10 +326,10 @@ export default defineComponent({
         index = suggestions.value.length - 1
       }
       const suggestion = regionRef.value!.querySelector(
-        `.${ns.namespace.value}-autocomplete-suggestion__wrap`
+        `.${ns.be('suggestion', 'wrap')}`
       )!
       const suggestionList = suggestion.querySelectorAll(
-        `.${ns.namespace.value}-autocomplete-suggestion__list li`
+        `.${ns.be('suggestion', 'list')} li`
       )!
       const highlightItem = suggestionList[index]
       const scrollTop = suggestion.scrollTop
