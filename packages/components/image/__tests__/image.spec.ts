@@ -51,6 +51,24 @@ describe('Image.vue', () => {
     expect(wrapper.find('.el-image__error').exists()).toBe(true)
   })
 
+  test('image load sequence success test', async () => {
+    const wrapper = mount(Image, {
+      props: {
+        src: IMAGE_FAIL,
+      },
+    })
+    wrapper.setProps({
+      src: IMAGE_SUCCESS,
+    })
+    expect(wrapper.find('.el-image__placeholder').exists()).toBe(true)
+    await doubleWait()
+    expect(wrapper.emitted('error')).toBeUndefined()
+    expect(wrapper.find('.el-image__inner').exists()).toBe(true)
+    expect(wrapper.find('img').exists()).toBe(true)
+    expect(wrapper.find('.el-image__placeholder').exists()).toBe(false)
+    expect(wrapper.find('.el-image__error').exists()).toBe(false)
+  })
+
   test('imageStyle fit test', async () => {
     const fits = ['fill', 'contain', 'cover', 'none', 'scale-down']
     for (const fit of fits) {

@@ -9,16 +9,16 @@
     append-to-body
     effect="light"
     pure
-    popper-class="el-table-filter"
+    :popper-class="ns.b()"
     persistent
   >
     <template #content>
       <div v-if="multiple">
-        <div class="el-table-filter__content">
-          <el-scrollbar wrap-class="el-table-filter__wrap">
+        <div :class="ns.e('content')">
+          <el-scrollbar :wrap-class="ns.e('wrap')">
             <el-checkbox-group
               v-model="filteredValue"
-              class="el-table-filter__checkbox-group"
+              :class="ns.e('checkbox-group')"
             >
               <el-checkbox
                 v-for="filter in filters"
@@ -30,9 +30,9 @@
             </el-checkbox-group>
           </el-scrollbar>
         </div>
-        <div class="el-table-filter__bottom">
+        <div :class="ns.e('bottom')">
           <button
-            :class="{ 'is-disabled': filteredValue.length === 0 }"
+            :class="{ [ns.is('disabled')]: filteredValue.length === 0 }"
             :disabled="filteredValue.length === 0"
             type="button"
             @click="handleConfirm"
@@ -44,12 +44,15 @@
           </button>
         </div>
       </div>
-      <ul v-else class="el-table-filter__list">
+      <ul v-else :class="ns.e('list')">
         <li
-          :class="{
-            'is-active': filterValue === undefined || filterValue === null,
-          }"
-          class="el-table-filter__list-item"
+          :class="[
+            ns.e('list-item'),
+            {
+              [ns.is('active')]:
+                filterValue === undefined || filterValue === null,
+            },
+          ]"
           @click="handleSelect(null)"
         >
           {{ t('el.table.clearFilter') }}
@@ -57,9 +60,8 @@
         <li
           v-for="filter in filters"
           :key="filter.value"
-          :class="{ 'is-active': isActive(filter) }"
+          :class="[ns.e('list-item'), ns.is('active', isActive(filter))]"
           :label="filter.value"
-          class="el-table-filter__list-item"
           @click="handleSelect(filter.value)"
         >
           {{ filter.text }}
@@ -69,7 +71,10 @@
     <template #default>
       <span
         v-click-outside:[popperPaneRef]="hideFilterPanel"
-        class="el-table__column-filter-trigger el-none-outline"
+        :class="[
+          `${ns.namespace.value}-table__column-filter-trigger`,
+          `${ns.namespace.value}-none-outline`,
+        ]"
         @click="showFilterPanel"
       >
         <el-icon>
@@ -87,7 +92,7 @@ import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { ClickOutside } from '@element-plus/directives'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import type { Placement } from '@element-plus/components/popper'
@@ -129,7 +134,8 @@ export default defineComponent({
   setup(props) {
     const instance = getCurrentInstance()
     const { t } = useLocale()
-    const parent = instance.parent as TableHeader
+    const ns = useNamespace('table-filter')
+    const parent = instance?.parent as TableHeader
     if (!parent.filterPanels.value[props.column.id]) {
       parent.filterPanels.value[props.column.id] = instance
     }
@@ -139,7 +145,7 @@ export default defineComponent({
       return props.column && props.column.filters
     })
     const filterValue = computed({
-      get: () => (props.column.filteredValue || [])[0],
+      get: () => (props.column?.filteredValue || [])[0],
       set: (value: string) => {
         if (filteredValue.value) {
           if (typeof value !== 'undefined' && value !== null) {
@@ -235,6 +241,7 @@ export default defineComponent({
       handleSelect,
       isActive,
       t,
+      ns,
       showFilterPanel,
       hideFilterPanel,
       popperPaneRef,

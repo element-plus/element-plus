@@ -64,7 +64,7 @@
     margin-right: 10px;
   }
 
-  @include e(badge) {
+  .#{$namespace}-message__badge {
     position: absolute;
     top: -8px;
     right: -8px;

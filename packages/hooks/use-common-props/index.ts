@@ -8,8 +8,8 @@ import type { MaybeRef } from '@vueuse/core'
 
 export const useSizeProp = buildProp({
   type: String,
-  values: ['', ...componentSize],
-  default: '',
+  values: componentSize,
+  required: false,
 } as const)
 
 export const useSize = (

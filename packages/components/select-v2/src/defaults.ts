@@ -51,7 +51,10 @@ export const SelectProps = {
   noDataText: String,
   noMatchText: String,
   remoteMethod: Function,
-  reserveKeyword: Boolean,
+  reserveKeyword: {
+    type: Boolean,
+    default: true,
+  },
   options: {
     type: Array as PropType<OptionType[]>,
     required: true,

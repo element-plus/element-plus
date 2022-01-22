@@ -162,7 +162,8 @@ export const NODE_CHECK_CHANGE = 'check-change'
 export const NODE_CONTEXTMENU = 'node-contextmenu'
 
 export const treeEmits = {
-  [NODE_CLICK]: (data: TreeNodeData, node: TreeNode) => data && node,
+  [NODE_CLICK]: (data: TreeNodeData, node: TreeNode, e: MouseEvent) =>
+    data && node && e,
   [NODE_EXPAND]: (data: TreeNodeData, node: TreeNode) => data && node,
   [NODE_COLLAPSE]: (data: TreeNodeData, node: TreeNode) => data && node,
   [CURRENT_CHANGE]: (data: TreeNodeData, node: TreeNode) => data && node,
@@ -175,7 +176,7 @@ export const treeEmits = {
 }
 
 export const treeNodeEmits = {
-  click: (node: TreeNode) => !!node,
+  click: (node: TreeNode, e: MouseEvent) => !!(node && e),
   toggle: (node: TreeNode) => !!node,
   check: (node: TreeNode, checked: boolean) =>
     node && typeof checked === 'boolean',

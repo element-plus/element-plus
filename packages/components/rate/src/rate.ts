@@ -4,6 +4,7 @@ import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 import type { ComponentSize } from '@element-plus/utils/types'
 import type { Component, ExtractPropTypes, PropType } from 'vue'
+import type Rate from './rate.vue'
 
 export const rateProps = buildProps({
   modelValue: {
@@ -69,7 +70,7 @@ export const rateProps = buildProps({
     default: '#1f2d3d',
   },
   texts: {
-    type: definePropType<string[]>([Array]),
+    type: definePropType<string[]>(Array),
     default: () =>
       mutable([
         'Extremely bad',
@@ -96,3 +97,5 @@ export const rateEmits = {
   [UPDATE_MODEL_EVENT]: (value: number) => typeof value === 'number',
 }
 export type RateEmits = typeof rateEmits
+
+export type RateInstance = InstanceType<typeof Rate>

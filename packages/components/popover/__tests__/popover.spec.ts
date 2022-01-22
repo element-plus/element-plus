@@ -97,4 +97,10 @@ describe('Popover.vue', () => {
       PopupManager.zIndex + PopupManager.globalInitialZIndex
     )
   })
+
+  test('defind hide method', async () => {
+    wrapper = mount()
+    const vm = wrapper.vm as any
+    expect(vm.hide).toBeDefined()
+  })
 })

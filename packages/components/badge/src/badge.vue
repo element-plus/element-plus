@@ -1,16 +1,14 @@
 <template>
-  <div class="el-badge">
+  <div :class="ns.b()">
     <slot></slot>
     <transition name="el-zoom-in-center">
       <sup
         v-show="!hidden && (content || content === '0' || isDot)"
-        class="el-badge__content"
         :class="[
-          'el-badge__content--' + type,
-          {
-            'is-fixed': $slots.default,
-            'is-dot': isDot,
-          },
+          ns.e('content'),
+          ns.em('content', type),
+          ns.is('fixed', !!$slots.default),
+          ns.is('dot', isDot),
         ]"
         v-text="content"
       >
@@ -21,6 +19,7 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
 import { badgeProps } from './badge'
 
 export default defineComponent({
@@ -29,6 +28,8 @@ export default defineComponent({
   props: badgeProps,
 
   setup(props) {
+    const ns = useNamespace('badge')
+
     const content = computed<string>(() => {
       if (props.isDot) return ''
 
@@ -39,6 +40,7 @@ export default defineComponent({
     })
 
     return {
+      ns,
       content,
     }
   },

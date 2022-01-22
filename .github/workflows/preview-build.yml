@@ -38,6 +38,8 @@ jobs:
 
       - name: Build Element Plus
         run: pnpm build
+        env:
+          FORCE_COLOR: 2
 
       - name: Build website
         run: pnpm docs:build

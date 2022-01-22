@@ -1,6 +1,6 @@
 import { buildProps, definePropType } from '@element-plus/utils/props'
-
 import type { ExtractPropTypes, Component } from 'vue'
+import type Breadcrumb from './breadcrumb.vue'
 
 export const breadcrumbProps = buildProps({
   separator: {
@@ -13,3 +13,4 @@ export const breadcrumbProps = buildProps({
   },
 } as const)
 export type BreadcrumbProps = ExtractPropTypes<typeof breadcrumbProps>
+export type BreadcrumbInstance = InstanceType<typeof Breadcrumb>

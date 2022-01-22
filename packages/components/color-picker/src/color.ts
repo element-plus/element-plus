@@ -178,8 +178,11 @@ export default class Color {
         this[option] = options[option]
       }
     }
-
-    this.doOnChange()
+    if (options.value) {
+      this.fromString(options.value)
+    } else {
+      this.doOnChange()
+    }
   }
 
   set(prop: { [key: string]: any } | any, value?: number) {

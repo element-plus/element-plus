@@ -115,8 +115,21 @@ export default defineComponent({
       hasLoadError.value = false
 
       const img = new Image()
-      img.addEventListener('load', (e) => handleLoad(e, img))
-      img.addEventListener('error', handleError)
+      const currentImageSrc = props.src
+
+      // load & error callbacks are only responsible for currentImageSrc
+      img.addEventListener('load', (e) => {
+        if (currentImageSrc !== props.src) {
+          return
+        }
+        handleLoad(e, img)
+      })
+      img.addEventListener('error', (e) => {
+        if (currentImageSrc !== props.src) {
+          return
+        }
+        handleError(e)
+      })
 
       // bind html attrs
       // so it can behave consistently
@@ -125,7 +138,7 @@ export default defineComponent({
         if (key.toLowerCase() === 'onload') return
         img.setAttribute(key, value as string)
       })
-      img.src = props.src
+      img.src = currentImageSrc
     }
 
     function handleLoad(e: Event, img: HTMLImageElement) {

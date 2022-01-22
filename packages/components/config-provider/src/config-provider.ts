@@ -28,6 +28,11 @@ export const configProviderProps = buildProps({
   zIndex: {
     type: Number,
   },
+
+  namespace: {
+    type: String,
+    default: 'el',
+  },
 } as const)
 
 export default defineComponent({

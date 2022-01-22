@@ -5,7 +5,14 @@
     :append-to-body="popperAppendToBody"
     :popper-class="`el-cascader__dropdown ${popperClass}`"
     :popper-options="popperOptions"
-    :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
+    :fallback-placements="[
+      'bottom-start',
+      'bottom',
+      'top-start',
+      'top',
+      'right',
+      'left',
+    ]"
     :stop-popper-mouse-event="false"
     :gpu-acceleration="false"
     placement="bottom-start"
@@ -22,7 +29,9 @@
           'el-cascader',
           realSize && `el-cascader--${realSize}`,
           { 'is-disabled': isDisabled },
+          $attrs.class,
         ]"
+        :style="$attrs.style"
         @click="() => togglePopperVisible(readonly ? undefined : true)"
         @keydown="handleKeyDown"
         @mouseenter="inputHover = true"
@@ -213,7 +222,7 @@ const popperOptions: Partial<Options> = {
       phase: 'main',
       fn: ({ state }) => {
         const { modifiersData, placement } = state as any
-        if (['right', 'left'].includes(placement)) return
+        if (['right', 'left', 'bottom', 'top'].includes(placement)) return
         modifiersData.arrow.x = 35
       },
       requires: ['arrow'],

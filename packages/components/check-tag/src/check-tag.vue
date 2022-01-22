@@ -1,35 +1,22 @@
 <template>
-  <span
-    :class="{
-      'el-check-tag': true,
-      'is-checked': checked,
-    }"
-    @click="onChange"
-  >
+  <span :class="[ns.b(), ns.is('checked', checked)]" @click="onChange">
     <slot></slot>
   </span>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-
-import type { ExtractPropTypes } from 'vue'
-
-export const checkTagProps = {
-  checked: {
-    type: Boolean,
-    default: false,
-  },
-} as const
-
-export type CheckTagProps = ExtractPropTypes<typeof checkTagProps>
+import { useNamespace } from '@element-plus/hooks'
+import { checkTagProps, checkTagEmits } from './check-tag'
 
 export default defineComponent({
   name: 'ElCheckTag',
 
   props: checkTagProps,
-  emits: ['change', 'update:checked'],
+  emits: checkTagEmits,
 
   setup(props, { emit }) {
+    const ns = useNamespace('check-tag')
+
     const onChange = () => {
       const checked = !props.checked
       emit('change', checked)
@@ -37,6 +24,7 @@ export default defineComponent({
     }
 
     return {
+      ns,
       onChange,
     }
   },

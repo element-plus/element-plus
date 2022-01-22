@@ -124,6 +124,37 @@ describe('config-provider', () => {
     })
   })
 
+  describe('namespace-config', () => {
+    it('reactive namespace', async () => {
+      const wrapper = mount({
+        components: {
+          [ConfigProvider.name]: ConfigProvider,
+          ElButton,
+        },
+        setup() {
+          const namespace = ref()
+          return {
+            namespace,
+          }
+        },
+        template: `
+          <el-config-provider :namespace="namespace">
+            <el-button>test str</el-button>
+          </el-config-provider>
+        `,
+      })
+      await nextTick()
+      expect(wrapper.find('button').classes().join('')).toBe(
+        'el-button' + 'el-button--default'
+      )
+      wrapper.vm.namespace = 'ep'
+      await nextTick()
+      expect(wrapper.find('button').classes().join('')).toBe(
+        'ep-button' + 'ep-button--default'
+      )
+    })
+  })
+
   describe('message-config', () => {
     it('limit the number of messages displayed at the same time', async () => {
       const wrapper = mount({

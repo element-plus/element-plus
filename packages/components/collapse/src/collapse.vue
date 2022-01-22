@@ -57,6 +57,9 @@ export default defineComponent({
       () => props.modelValue,
       () => {
         activeNames.value = [].concat(props.modelValue)
+      },
+      {
+        deep: true,
       }
     )
 
