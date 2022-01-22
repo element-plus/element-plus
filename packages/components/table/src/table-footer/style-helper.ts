@@ -1,3 +1,4 @@
+import { useNamespace } from '@element-plus/hooks'
 import {
   getFixedColumnOffset,
   getFixedColumnsClass,
@@ -8,22 +9,23 @@ import type { TableColumnCtx } from '../table-column/defaults'
 import type { TableFooter } from '.'
 
 function useStyle<T>(props: TableFooter<T>) {
-  const { columns } = useMapState<T>()
+  const { columns } = useMapState()
+  const ns = useNamespace('table')
 
   const getCellClasses = (columns: TableColumnCtx<T>[], cellIndex: number) => {
     const column = columns[cellIndex]
     const classes = [
-      'el-table__cell',
+      ns.e('cell'),
       column.id,
       column.align,
       column.labelClassName,
-      ...getFixedColumnsClass(cellIndex, column.fixed, props.store),
+      ...getFixedColumnsClass(ns.b(), cellIndex, column.fixed, props.store),
     ]
     if (column.className) {
       classes.push(column.className)
     }
     if (!column.children) {
-      classes.push('is-leaf')
+      classes.push(ns.is('leaf'))
     }
     return classes
   }

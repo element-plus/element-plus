@@ -5,17 +5,19 @@ import {
   nextTick,
   ref,
   h,
+  inject,
 } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
+import { useNamespace } from '@element-plus/hooks'
 import FilterPanel from '../filter-panel.vue'
 import useLayoutObserver from '../layout-observer'
 import { hColgroup } from '../h-helper'
+import { TABLE_INJECTION_KEY } from '../tokens'
 import useEvent from './event-helper'
 import useStyle from './style.helper'
 import useUtils from './utils-helper'
-
 import type { ComponentInternalInstance, Ref, PropType } from 'vue'
-import type { DefaultRow, Sort, Table } from '../table/defaults'
+import type { DefaultRow, Sort } from '../table/defaults'
 import type { Store } from '../store'
 export interface TableHeader extends ComponentInternalInstance {
   state: {
@@ -58,15 +60,16 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const instance = getCurrentInstance() as TableHeader
-    const parent = instance.parent as Table<unknown>
-    const storeData = parent.store.states
+    const parent = inject(TABLE_INJECTION_KEY)
+    const ns = useNamespace('table')
+    const storeData = parent?.store.states
     const filterPanels = ref({})
-    const { onColumnsChange, onScrollableChange } = useLayoutObserver(parent)
+    const { onColumnsChange, onScrollableChange } = useLayoutObserver(parent!)
     onMounted(() => {
       nextTick(() => {
         const { prop, order } = props.defaultSort
         const init = true
-        parent.store.commit('sort', { prop, order, init })
+        parent?.store.commit('sort', { prop, order, init })
       })
     })
     const {
@@ -96,6 +99,7 @@ export default defineComponent({
     instance.filterPanels = filterPanels
 
     return {
+      ns,
       columns: storeData.columns,
       filterPanels,
       onColumnsChange,
@@ -118,6 +122,7 @@ export default defineComponent({
   },
   render() {
     const {
+      ns,
       columns,
       isGroup,
       columnRows,
@@ -141,14 +146,14 @@ export default defineComponent({
         border: '0',
         cellpadding: '0',
         cellspacing: '0',
-        class: 'el-table__header',
+        class: ns.e('header'),
       },
       [
         hColgroup(columns),
         h(
           'thead',
           {
-            class: { 'is-group': isGroup },
+            class: { [ns.is('group')]: isGroup },
           },
           columnRows.map((subColumns, rowIndex) =>
             h(

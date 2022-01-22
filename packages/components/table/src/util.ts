@@ -136,9 +136,12 @@ export const getColumnByCell = function <T>(
   table: {
     columns: TableColumnCtx<T>[]
   },
-  cell: HTMLElement
+  cell: HTMLElement,
+  namespace: string
 ): null | TableColumnCtx<T> {
-  const matches = (cell.className || '').match(/el-table_[^\s]+/gm)
+  const matches = (cell.className || '').match(
+    new RegExp(`${namespace}-table_[^\\s]+`, 'gm')
+  )
   if (matches) {
     return getColumnById(table, matches[0])
   }
@@ -426,6 +429,7 @@ export const isFixedColumn = <T>(
 }
 
 export const getFixedColumnsClass = <T>(
+  namespace: string,
   index: number,
   fixed: string | boolean,
   store: any,
@@ -435,7 +439,7 @@ export const getFixedColumnsClass = <T>(
   const { direction, start } = isFixedColumn(index, fixed, store, realColumns)
   if (direction) {
     const isLeft = direction === 'left'
-    classes.push(`el-table-fixed-column--${direction}`)
+    classes.push(`${namespace}-fixed-column--${direction}`)
     if (isLeft && start === store.states.fixedLeafColumnsLength.value - 1) {
       classes.push('is-last-column')
     } else if (

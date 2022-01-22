@@ -1,11 +1,9 @@
-import { computed, getCurrentInstance } from 'vue'
+import { computed, inject } from 'vue'
+import { TABLE_INJECTION_KEY } from '../tokens'
 
-import type { Table } from '../table/defaults'
-
-function useMapState<T>() {
-  const instance = getCurrentInstance()
-  const table = instance.parent as Table<T>
-  const store = table.store
+function useMapState() {
+  const table = inject(TABLE_INJECTION_KEY)
+  const store = table?.store
   const leftFixedLeafCount = computed(() => {
     return store.states.fixedLeafColumnsLength.value
   })

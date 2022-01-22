@@ -136,14 +136,16 @@ class TableLayout<T> {
 
   updateElsHeight() {
     if (!this.table.$ready) return nextTick(() => this.updateElsHeight())
-    const { headerWrapper, appendWrapper, footerWrapper, bodyWrapper } =
-      this.table.refs
+    const {
+      headerWrapper,
+      appendWrapper,
+      footerWrapper,
+      tableHeader,
+      tableBody,
+    } = this.table.refs
     this.appendHeight.value = appendWrapper ? appendWrapper.offsetHeight : 0
     if (this.showHeader && !headerWrapper) return
-
-    const headerTrElm: HTMLElement = headerWrapper
-      ? headerWrapper.querySelector('.el-table__header tr')
-      : null
+    const headerTrElm: HTMLElement = tableHeader ? tableHeader.$el : null
     const noneHeader = this.headerDisplayNone(headerTrElm)
 
     const headerHeight = (this.headerHeight.value = !this.showHeader
@@ -159,7 +161,7 @@ class TableLayout<T> {
       return nextTick(() => this.updateElsHeight())
     }
     const tableHeight = (this.tableHeight.value =
-      this.table.vnode.el.clientHeight)
+      this.table?.vnode.el?.clientHeight)
     const footerHeight = (this.footerHeight.value = footerWrapper
       ? footerWrapper.offsetHeight
       : 0)
@@ -169,8 +171,7 @@ class TableLayout<T> {
       }
       this.bodyHeight.value =
         tableHeight - headerHeight - footerHeight + (footerWrapper ? 1 : 0)
-      this.bodyScrollHeight.value =
-        bodyWrapper.querySelector('.el-table__body')?.scrollHeight!
+      this.bodyScrollHeight.value = tableBody?.$el.scrollHeight!
     }
     this.fixedBodyHeight.value = this.scrollX.value
       ? this.bodyHeight.value - this.gutterWidth
