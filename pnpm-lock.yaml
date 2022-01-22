@@ -9,7 +9,7 @@ importers:
       '@element-plus/components': workspace:*
       '@element-plus/directives': workspace:*
       '@element-plus/hooks': workspace:*
-      '@element-plus/icons-vue': ^0.2.4
+      '@element-plus/icons-vue': ^0.2.6
       '@element-plus/locale': workspace:*
       '@element-plus/test-utils': workspace:*
       '@element-plus/theme-chalk': workspace:*
@@ -32,7 +32,7 @@ importers:
       '@typescript-eslint/eslint-plugin': 5.10.0
       '@typescript-eslint/parser': 5.10.0
       '@vue/test-utils': 2.0.0-rc.16
-      '@vueuse/core': ^7.5.3
+      '@vueuse/core': ^7.5.4
       async-validator: ^4.0.7
       chalk: 4.1.2
       components-helper: 1.0.5
@@ -79,14 +79,14 @@ importers:
       '@element-plus/components': link:packages/components
       '@element-plus/directives': link:packages/directives
       '@element-plus/hooks': link:packages/hooks
-      '@element-plus/icons-vue': 0.2.4_vue@3.2.27
+      '@element-plus/icons-vue': 0.2.6_vue@3.2.27
       '@element-plus/locale': link:packages/locale
       '@element-plus/test-utils': link:packages/test-utils
       '@element-plus/theme-chalk': link:packages/theme-chalk
       '@element-plus/tokens': link:packages/tokens
       '@element-plus/utils': link:packages/utils
       '@popperjs/core': 2.11.2
-      '@vueuse/core': 7.5.3_vue@3.2.27
+      '@vueuse/core': 7.5.4_vue@3.2.27
       async-validator: 4.0.7
       dayjs: 1.10.7
       lodash: 4.17.21
@@ -205,10 +205,10 @@ importers:
   packages/element-plus:
     specifiers:
       '@ctrl/tinycolor': ^3.4.0
-      '@element-plus/icons-vue': ^0.2.4
+      '@element-plus/icons-vue': ^0.2.6
       '@popperjs/core': ^2.11.2
       '@types/node': '*'
-      '@vueuse/core': ^7.5.3
+      '@vueuse/core': ^7.5.4
       async-validator: ^4.0.7
       csstype: ^2.6.19
       dayjs: ^1.10.7
@@ -218,9 +218,9 @@ importers:
       vue-router: ^4.0.0
     dependencies:
       '@ctrl/tinycolor': 3.4.0
-      '@element-plus/icons-vue': 0.2.4_vue@3.2.27
+      '@element-plus/icons-vue': 0.2.6_vue@3.2.27
       '@popperjs/core': 2.11.2
-      '@vueuse/core': 7.5.3_vue@3.2.27
+      '@vueuse/core': 7.5.4_vue@3.2.27
       async-validator: 4.0.7
       dayjs: 1.10.7
       lodash: 4.17.21
@@ -268,13 +268,13 @@ importers:
 
   play:
     specifiers:
-      '@element-plus/icons-vue': ^0.2.4
+      '@element-plus/icons-vue': ^0.2.6
       '@vitejs/plugin-vue': 2.0.1
       unplugin-vue-components: 0.17.13
       vite: 2.7.13
       vite-plugin-inspect: 0.3.13
     dependencies:
-      '@element-plus/icons-vue': 0.2.4_vue@3.2.27
+      '@element-plus/icons-vue': 0.2.6_vue@3.2.27
     devDependencies:
       '@vitejs/plugin-vue': 2.0.1_vite@2.7.13+vue@3.2.27
       unplugin-vue-components: 0.17.13_711f3b8efc55779a16e7a8e9a11011e6
@@ -1037,8 +1037,8 @@ packages:
     transitivePeerDependencies:
       - '@algolia/client-search'
 
-  /@element-plus/icons-vue/0.2.4_vue@3.2.27:
-    resolution: {integrity: sha512-RsJNyL58rwxtsjeMy34o8txkL6UlME1stWsUlRpTac6UE9Bx9gdJvnDXbIKhOJqBLX17fBjmposdrn6VTqim2w==}
+  /@element-plus/icons-vue/0.2.6_vue@3.2.27:
+    resolution: {integrity: sha512-2gg7VCq4d2firgl7/aVym4Cx/wqKFwKybEQGJiiWJN4urW36+QdAEG1knqSD9qidbjhVp0Jnc9XdSTR1/4Whzw==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
@@ -2323,8 +2323,39 @@ packages:
       vue-demi: 0.12.1_vue@3.2.27
     dev: false
 
+  /@vueuse/core/7.5.4_vue@3.2.27:
+    resolution: {integrity: sha512-PKmyHN2lZuttGgKmsoMMqiSojSYYKraszilP0gpQIGcLt2YoLABaG3VFjdPs2tY6DM+HG3o70HuzOMEQCY8fqQ==}
+    peerDependencies:
+      '@vue/composition-api': ^1.1.0
+      vue: ^2.6.0 || ^3.2.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      vue:
+        optional: true
+    dependencies:
+      '@vueuse/shared': 7.5.4_vue@3.2.27
+      vue: 3.2.27
+      vue-demi: 0.12.1_vue@3.2.27
+    dev: false
+
   /@vueuse/shared/7.5.3_vue@3.2.27:
     resolution: {integrity: sha512-BJ71cxHN5VByW1S58Gl85NFJaQu93F7Vs7K/MuAKsIIuHm9PBbkR5Vxkg9ko9cBdiKVt+FNoo13BhdbA+Vwycg==}
+    peerDependencies:
+      '@vue/composition-api': ^1.1.0
+      vue: ^2.6.0 || ^3.2.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      vue:
+        optional: true
+    dependencies:
+      vue: 3.2.27
+      vue-demi: 0.12.1_vue@3.2.27
+    dev: false
+
+  /@vueuse/shared/7.5.4_vue@3.2.27:
+    resolution: {integrity: sha512-750RnGUEgg1+K4jGVkv7M5UOStAa/IjAInV6BugyBOvRYL2l1lcIDUi4V/qIKTlhd2oUAByCEnlqIpFD2a3tfw==}
     peerDependencies:
       '@vue/composition-api': ^1.1.0
       vue: ^2.6.0 || ^3.2.0
@@ -4211,7 +4242,7 @@ packages:
       vue: ^3.2.0
     dependencies:
       '@ctrl/tinycolor': 3.4.0
-      '@element-plus/icons-vue': 0.2.4_vue@3.2.27
+      '@element-plus/icons-vue': 0.2.6_vue@3.2.27
       '@popperjs/core': 2.11.2
       '@vueuse/core': 7.5.3_vue@3.2.27
       async-validator: 4.0.7
