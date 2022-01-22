@@ -1,5 +1,88 @@
 ## Changelog
 
+### 1.3.0-beta.6
+
+_2022-01-22_
+
+#### Features
+
+- Components [el-time-select] support custom format (e.g. 12-hour) (#5309 by @Alanscut)
+- Support custom namespace (#5377 by @iamkun)
+- Dropdown add popper-options prop (#5396 by @kooriookami)
+- Build add full bundle locale (#5399 by @sxzz)
+- Components [el-drawer] add footer slot (#5404 by @Alanscut)
+- Components [el-date-picker] add panel change event (#5304 by @msidolphin)
+- [el-select-v2]add reserve-keyword and change docs (#5308 by @Alanscut)
+- Hooks [use-namespace] add is (#5466 by @sxzz)
+- Hooks [use-namespace] add bm (#5475 by @sxzz)
+- Components [el-dropdown]add handleOpen and handleClose methods (#5444 by @Alanscut)
+- Components [tree] node-click passes event object (#4312 by @msidolphin)
+- Components [el-button] support for customize loading component (#5505 by @msidolphin)
+
+#### Bug fixes
+
+- Components [el-cascader] inline style (#5339 by @Alanscut)
+- Components [el-dropdown-menu] size (#5343 by @Alanscut)
+- Components fix TreeOptionProps types (#4813 by @ElsaOOo)
+- Fix space style (#5387 by @kooriookami)
+- Components time picker when midnight (#5403 by @sxzz)
+- Components [el-select] suffix-icon disabled (#5354 by @Alanscut)
+- Hooks component size (#5402 by @sxzz)
+- Components [el-table] fixed column position error issue (#5430 by @msidolphin)
+- [input-number] modelValue change to non-required (#4338 by @msidolphin)
+- Components [el-scrollbar] fix cannot selection issue (#5330 by @msidolphin)
+- Components [el-popover] revert hide method (#5344 by @msidolphin)
+- [el-table] fix checkbox cleared when data reference is not changed (#5443 by @msidolphin)
+- Components [el-time-picker] fix adjust scroll position fail issue (#5312 by @msidolphin)
+- Components [el-image] image load error (#4820 by @holynewbie)
+- Components [el-avatar] fix avatar default size (#5129 by @zhuige)
+- Components [el-input-number]do not change undefined to NaN (#5049 by @Alanscut)
+- Components [el-date-picker]make defaultValue be reactive (#4808 by @Alanscut)
+- Components [el-select] hover index (#4423 by @Alanscut)
+- Components [el-cascader] suddenly jump to the left (#4516 by @Alanscut)
+- Components [el-collapse] watch modelValue invalid (#4593 by @Alanscut)
+- Components [el-color-picker] active-change triggered incorrectly (#4729 by @Alanscut)
+- Slider tooltip (#5508 by @kooriookami)
+- Components fix sub-menu style (#5516 by @sxzz)
+- Components [el-message] style conflict (#5530 by @msidolphin)
+- Upgrade vueuse, closes #5313, #5362 (#5543 by @sxzz)
+- Add export file extension, closes #5522 (#5544 by @sxzz)
+- Components [el-select-v2] optimize component size (#5531 by @msidolphin)
+- Components [el-tree] accordion attribute error at third level (#3862 by @Alanscut)
+- Components [infinite-scroll] Infinite scroll (#5393 by @Alanscut)
+- Components [el-select-v2]set v-model has error (#5128 by @Alanscut)
+- Components [el-cascader] checkStrict and lazyLoad need click twice (#4182 by @Alanscut)
+- Style: msgbox (#5371 by @kooriookami)
+- Style: tooltip padding (#5433 by @kooriookami)
+- Chore: improve table style (#5511 by @msidolphin)
+
+#### Refactors
+
+- Components [empty] add namespace & instance type (#5446 by @sxzz)
+- Components [card] add namespace & instance type (#5445 by @sxzz)
+- Components [link] add namespace & instance type (#5449 by @sxzz)
+- Components [result] add namespace & instance type (#5453 by @sxzz)
+- Components [switch] add namespace (#5455 by @sxzz)
+- Components [icon] add namespace & instance type (#5452 by @sxzz)
+- Components [row] add namespace & instance type (#5454 by @sxzz)
+- Components refactor timeline (#5458 by @sxzz)
+- Components [rate] add namespace & instance type (#5456 by @sxzz)
+- Components [divider] add namespace & instance type (#5462 by @sxzz)
+- Components [avatar] add namespace & instance type (#5461 by @sxzz)
+- Components [alert] add namespace & instance type (#5459 by @sxzz)
+- Components [breadcrumb] add namespace & instance type (#5472 by @sxzz)
+- Components [badge] add namespace & instance type (#5473 by @sxzz)
+- Components [affix] add namespace & instance type (#5474 by @sxzz)
+- Components [input, input-number] add namespace (#5488 by @Valar103769)
+- Components use useNamespace is (#5468 by @sxzz)
+- [el-table] refactoring table with el-scrollbar (#5384 by @msidolphin)
+- Components [descriptions] use useNamespace (#5499 by @btea)
+- Components [container] use useNamespace (#5498 by @btea)
+- Components [calendar] add namespace (#5496 by @Valar103769)
+- Build switch to @vitejs/plugin-vue (#5504 by @sxzz)
+- Components [el-table] use namespace (#5528 by @msidolphin)
+- Refactor(components): refactor check-tag (#5451 by @sxzz)
+
 ### 1.3.0-beta.5
 
 _2022-01-12_
