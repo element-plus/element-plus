@@ -19,7 +19,7 @@
           :class="[
             ns.e('btn'),
             ns.e('prev'),
-            { [ns.is('disabled')]: !infinite && isFirst },
+            ns.is('disabled', !infinite && isFirst),
           ]"
           @click="prev"
         >
@@ -29,7 +29,7 @@
           :class="[
             ns.e('btn'),
             ns.e('next'),
-            { [ns.is('disabled')]: !infinite && isLast },
+            ns.is('disabled', !infinite && isLast),
           ]"
           @click="next"
         >
