@@ -116,4 +116,4 @@ progress/indeterminate-progress
 
 | Name    | Description                                     |
 | ------- | ----------------------------------------------- |
-| default | Customized content, parameter is { percentage } |
+| default | Customized content, parameter is `{ percentage }` |
