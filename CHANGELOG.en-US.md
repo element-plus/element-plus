@@ -1,5 +1,18 @@
 ## Changelog
 
+### 1.3.0-beta.7
+
+_2022-01-22_
+
+#### Bug fixes
+
+- Components [el-pagination] jumper prohibit decimal (#5512 by @btea)
+- Build disable tree shaking (#5558 by @sxzz)
+
+#### Refactors
+
+- Components [image, image-viewer] use useNamespace (#5513 by @btea)
+
 ### 1.3.0-beta.6
 
 _2022-01-22_
