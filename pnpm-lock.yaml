@@ -167,7 +167,7 @@ importers:
       normalize.css: 8.0.1
       nprogress: 0.2.0
       unplugin-icons: 0.13.0
-      unplugin-vue-components: 0.17.13
+      unplugin-vue-components: 0.17.14
       vite: 2.7.13
       vite-plugin-inspect: 0.3.13
       vite-plugin-windicss: 1.6.3
@@ -190,7 +190,7 @@ importers:
       markdown-it: 12.3.2
       markdown-it-container: 3.0.0
       unplugin-icons: 0.13.0_rollup@2.65.0+vite@2.7.13
-      unplugin-vue-components: 0.17.13_711f3b8efc55779a16e7a8e9a11011e6
+      unplugin-vue-components: 0.17.14_711f3b8efc55779a16e7a8e9a11011e6
       vite: 2.7.13_sass@1.49.0
       vite-plugin-inspect: 0.3.13_vite@2.7.13
       vite-plugin-windicss: 1.6.3_vite@2.7.13
@@ -270,14 +270,14 @@ importers:
     specifiers:
       '@element-plus/icons-vue': ^0.2.4
       '@vitejs/plugin-vue': 2.0.1
-      unplugin-vue-components: 0.17.13
+      unplugin-vue-components: 0.17.14
       vite: 2.7.13
       vite-plugin-inspect: 0.3.13
     dependencies:
       '@element-plus/icons-vue': 0.2.4_vue@3.2.27
     devDependencies:
       '@vitejs/plugin-vue': 2.0.1_vite@2.7.13+vue@3.2.27
-      unplugin-vue-components: 0.17.13_711f3b8efc55779a16e7a8e9a11011e6
+      unplugin-vue-components: 0.17.14_711f3b8efc55779a16e7a8e9a11011e6
       vite: 2.7.13_sass@1.49.0
       vite-plugin-inspect: 0.3.13_vite@2.7.13
 
@@ -9032,7 +9032,7 @@ packages:
     resolution: {integrity: sha1-hSBLVNuoLVdC4oyWdW70OvUOM4Q=}
     engines: {node: '>= 0.10'}
     dependencies:
-      resolve: 1.20.0
+      resolve: 1.21.0
     dev: true
 
   /redent/3.0.0:
@@ -10553,8 +10553,8 @@ packages:
       - webpack
     dev: true
 
-  /unplugin-vue-components/0.17.13_711f3b8efc55779a16e7a8e9a11011e6:
-    resolution: {integrity: sha512-WII6hAW+HSvlXDx4t0LqcAvLg4ESsoBz1nuUDMPx6ZGuKBPjSRP4Wmnk559nZ6qpaOW41iY48cBeUpWSPjH7WA==}
+  /unplugin-vue-components/0.17.14_711f3b8efc55779a16e7a8e9a11011e6:
+    resolution: {integrity: sha512-PSJ2EwFTxFSVg/HhUDyoYa5/s6hWqdQzlbJLOIEr0bv4Qczp5YRpTlObld5cjgieFtgPtq2W21A77ucB/msgeg==}
     engines: {node: '>=14'}
     peerDependencies:
       '@babel/parser': ^7.15.8
