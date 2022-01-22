@@ -73,6 +73,7 @@
           :render-after-expand="renderAfterExpand"
           :show-checkbox="showCheckbox"
           :node="child"
+          :accordion="accordion"
           :props="props"
           @node-expand="handleChildNodeExpand"
         />
