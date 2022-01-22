@@ -545,6 +545,69 @@ describe('Select', () => {
     })
   })
 
+  describe('manually set modelValue', () => {
+    it('set modelValue in single select', async () => {
+      const wrapper = createSelect({
+        data: () => {
+          return {
+            value: '',
+          }
+        },
+      })
+      await nextTick()
+      const options = getOptions()
+      const vm = wrapper.vm as any
+      const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
+
+      expect(vm.value).toBe('')
+      expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
+
+      options[0].click()
+      await nextTick()
+      expect(vm.value).toBe(vm.options[0].value)
+      expect(placeholder.text()).toBe(vm.options[0].label)
+      const option = vm.options[0].value
+      console.log(option)
+
+      vm.value = ''
+      await nextTick()
+      expect(vm.value).toBe('')
+      expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
+
+      vm.value = option
+      await nextTick()
+      expect(vm.value).toBe('option_1')
+      expect(placeholder.text()).toBe('a0')
+    })
+
+    it('set modelValue in multiple select', async () => {
+      const wrapper = createSelect({
+        data: () => {
+          return {
+            multiple: true,
+            value: [],
+          }
+        },
+      })
+      await nextTick()
+      const vm = wrapper.vm as any
+      let placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
+      expect(placeholder.exists()).toBeTruthy()
+
+      vm.value = ['option_1']
+      await nextTick()
+      expect(wrapper.find('.el-select-v2__tags-text').text()).toBe('a0')
+      placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
+      expect(placeholder.exists()).toBeFalsy()
+
+      vm.value = []
+      await nextTick()
+      expect(wrapper.find('.el-select-v2__tags-text').exists()).toBeFalsy()
+      placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
+      expect(placeholder.exists()).toBeTruthy()
+    })
+  })
+
   describe('event', () => {
     it('focus & blur', async () => {
       const onFocus = jest.fn()
