@@ -39,6 +39,7 @@ export default defineComponent({
     }
 
     function handleChange(val: number | string) {
+      val = Math.trunc(+val)
       changeEvent?.(+val)
       userInput.value = undefined
     }
