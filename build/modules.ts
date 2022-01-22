@@ -41,6 +41,7 @@ export const buildModules = async () => {
       filesize({ reporter }),
     ],
     external: await generateExternal({ full: false }),
+    treeshake: false,
   })
   await writeBundles(
     bundle,
