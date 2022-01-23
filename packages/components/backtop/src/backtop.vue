@@ -1,16 +1,16 @@
 <template>
-  <transition name="el-fade-in">
+  <transition :name="`${ns.namespace.value}-fade-in`">
     <div
       v-if="visible"
       :style="{
         right: styleRight,
         bottom: styleBottom,
       }"
-      class="el-backtop"
+      :class="ns.b()"
       @click.stop="handleClick"
     >
       <slot>
-        <el-icon class="el-backtop__icon"><caret-top /></el-icon>
+        <el-icon :class="ns.e('icon')"><caret-top /></el-icon>
       </slot>
     </div>
   </transition>
@@ -23,6 +23,7 @@ import { ElIcon } from '@element-plus/components/icon'
 import { easeInOutCubic } from '@element-plus/utils/animation'
 import { throwError } from '@element-plus/utils/error'
 import { CaretTop } from '@element-plus/icons-vue'
+import { useNamespace } from '@element-plus/hooks'
 
 import { backtopEmits, backtopProps } from './backtop'
 
@@ -38,6 +39,7 @@ export default defineComponent({
   emits: backtopEmits,
 
   setup(props, { emit }) {
+    const ns = useNamespace('backtop')
     const el = shallowRef<HTMLElement | undefined>(document.documentElement)
     const container = shallowRef<Document | HTMLElement>(document)
     const visible = ref(false)
@@ -88,6 +90,7 @@ export default defineComponent({
       styleBottom,
       styleRight,
       handleClick,
+      ns,
     }
   },
 })
