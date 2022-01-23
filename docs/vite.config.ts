@@ -2,6 +2,7 @@ import path from 'path'
 import Inspect from 'vite-plugin-inspect'
 import { defineConfig } from 'vite'
 import WindiCSS from 'vite-plugin-windicss'
+import mkcert from 'vite-plugin-mkcert'
 import glob from 'fast-glob'
 
 import Components from 'unplugin-vue-components/vite'
@@ -50,8 +51,8 @@ export default async () => {
   return defineConfig({
     server: {
       host: true,
+      https: true,
       fs: {
-        strict: true,
         allow: [projRoot],
       },
     },
@@ -82,9 +83,9 @@ export default async () => {
       Icons({
         autoInstall: true,
       }),
-
       WindiCSS(),
       Inspect(),
+      mkcert(),
     ],
     optimizeDeps: {
       include: optimizeDeps,
