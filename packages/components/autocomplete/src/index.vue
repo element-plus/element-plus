@@ -55,7 +55,7 @@
     <template #content>
       <div
         ref="regionRef"
-        :class="[ns.b('suggestion'), suggestionLoading && 'is-loading']"
+        :class="[ns.b('suggestion'), ns.is('loading', suggestionLoading)]"
         :style="{ minWidth: dropdownWidth, outline: 'none' }"
         role="region"
       >
@@ -204,7 +204,7 @@ export default defineComponent({
     const popper = ref(null)
 
     const id = computed(() => {
-      return `${ns.b()}-${generateId()}`
+      return ns.b(String(generateId()))
     })
     const suggestionVisible = computed(() => {
       const isValidData =
