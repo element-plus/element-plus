@@ -114,6 +114,6 @@ progress/indeterminate-progress
 
 ## Slots
 
-| Name    | Description                                     |
-| ------- | ----------------------------------------------- |
+| Name    | Description                                       |
+| ------- | ------------------------------------------------- |
 | default | Customized content, parameter is `{ percentage }` |
