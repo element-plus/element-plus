@@ -144,16 +144,7 @@ import { ElMessage } from 'element-plus'
 
 ## Starter Template
 
-### Vue CLI
-
-We prepared a plugin [Element Plus VueCLI plugin](https://github.com/element-plus/vue-cli-plugin-element-plus).
-For [vue-cli](https://cli.vuejs.org/), you can setup a project based
-on Element Plus easily.
-
-### Using Starter Kit
-
-We provide a general [Project Template](https://github.com/element-plus/element-plus-starter),
-also a [Vite Template](https://github.com/element-plus/element-plus-vite-starter).
+We provide a [Vite Template](https://github.com/element-plus/element-plus-vite-starter).
 For Laravel users we have a [Laravel Template](https://github.com/element-plus/element-plus-in-laravel-starter).
 
 ## Global Configuration
