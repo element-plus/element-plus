@@ -49,7 +49,7 @@
         :class="[
           ns.e('indicator'),
           ns.em('indicator', direction),
-          { 'is-active': index === data.activeIndex },
+          ns.is('active', index === data.activeIndex),
         ]"
         @mouseenter="throttledIndicatorHover(index)"
         @click.stop="handleIndicatorClick(index)"

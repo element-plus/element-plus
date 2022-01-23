@@ -3,13 +3,11 @@
     v-show="data.ready"
     :class="[
       ns.e('item'),
-      {
-        'is-active': data.active,
-        'is-in-stage': data.inStage,
-        'is-hover': data.hover,
-        'is-animating': data.animating,
-      },
-      type === 'card' ? ns.em('item', 'card') : '',
+      ns.is('active', data.active),
+      ns.is('in-stage', data.inStage),
+      ns.is('hover', data.hover),
+      ns.is('animating', data.animating),
+      { [ns.em('item', 'card')]: type === 'card' },
     ]"
     :style="itemStyle"
     @click="handleItemClick"
