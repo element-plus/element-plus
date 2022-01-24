@@ -15,7 +15,7 @@
     <div
       v-if="type === 'card'"
       v-show="!data.active"
-      :class="ns.b('mask')"
+      :class="ns.e('mask')"
     ></div>
     <slot></slot>
   </div>
