@@ -429,6 +429,9 @@ describe('TimePicker(range)', () => {
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
+    expect(
+      document.body.querySelector('.el-time-range-picker').innerHTML
+    ).not.toBe('')
     // For skipping Transition animation
     await rAF()
     const list = document.querySelectorAll(

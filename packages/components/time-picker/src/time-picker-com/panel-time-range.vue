@@ -1,5 +1,8 @@
 <template>
-  <div v-if="actualVisible" class="el-time-range-picker el-picker-panel">
+  <div
+    v-if="actualVisible || visible"
+    class="el-time-range-picker el-picker-panel"
+  >
     <div class="el-time-range-picker__content">
       <div class="el-time-range-picker__cell">
         <div class="el-time-range-picker__header">
