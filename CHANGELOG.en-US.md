@@ -1,5 +1,25 @@
 ## Changelog
 
+### 1.3.0-beta.8
+
+_2022-01-24_
+
+#### Features
+
+- Components [el-dialog] remove width validator (#5329 by @purepear) (#5568)
+
+#### Bug fixes
+
+- Dev fix default imports & add https support (#5572 by @sxzz)
+- Build esbuild transform vue sfc (#5602 by @sxzz)
+- Build locale export default (#5576 by @sxzz)
+
+#### Refactors
+
+- Refactor backtop to support namespace (#5552 by @iamkun)
+- Refactor autocomplete to support namespace (#5550 by @iamkun)
+- Components [checkbox] use useNamespace (#5493 by @btea)
+
 ### 1.3.0-beta.7
 
 _2022-01-22_
