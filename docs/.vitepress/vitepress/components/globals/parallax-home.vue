@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive, computed } from 'vue'
 import { useParallax, useThrottleFn, useEventListener } from '@vueuse/core'
+import dayjs from 'dayjs'
 import { useLang } from '../../composables/lang'
 import homeLocale from '../../../i18n/pages/home.json'
 import sponsorLocale from '../../../i18n/component/sponsors-home.json'
@@ -67,28 +68,115 @@ const handleScroll = useThrottleFn(() => {
 }, 10)
 
 useEventListener(window, 'scroll', handleScroll)
+
+const padStart = (string) => {
+  const s = String(string)
+  if (!s || s.length >= 2) return s
+  return `0${s}`
+}
+interface CountdownT {
+  days?: string
+  hours?: string
+  minutes?: string
+  seconds?: string
+}
+const releaseDate = dayjs('2022-02-07T11:00:00.000+08:00')
+const isBeforeRelease = ref(false)
+const countDownText = ref<CountdownT>({})
+const calReleaseCountDown = () => {
+  if (dayjs().isBefore(releaseDate)) {
+    isBeforeRelease.value = true
+    const dayDiff = releaseDate.diff(dayjs(), 'day')
+    countDownText.value.days = padStart(dayDiff)
+    const hourDiff = releaseDate.diff(dayjs(), 'hour') - dayDiff * 24
+    countDownText.value.hours = padStart(hourDiff)
+    const minuteDiff =
+      releaseDate.diff(dayjs(), 'minute') - hourDiff * 60 - dayDiff * 24 * 60
+    countDownText.value.minutes = padStart(minuteDiff)
+    const secondDiff =
+      releaseDate.diff(dayjs(), 'second') -
+      minuteDiff * 60 -
+      hourDiff * 60 * 60 -
+      dayDiff * 24 * 60 * 60
+    countDownText.value.seconds = padStart(secondDiff)
+  } else {
+    clearInterval(intervalId)
+  }
+}
+
+const intervalId = setInterval(() => {
+  calReleaseCountDown()
+}, 1000)
+calReleaseCountDown()
 </script>
 
 <template>
   <div ref="target" class="home-page">
-    <div class="banner">
-      <div class="banner-desc">
-        <h1>{{ homeLang['1'] }}</h1>
-        <p>{{ homeLang['2'] }}</p>
+    <template v-if="isBeforeRelease">
+      <div class="banner">
+        <div class="banner-desc banner-dot">
+          <h1>
+            <span>{{ homeLang['22'] }}</span>
+          </h1>
+          <p>{{ homeLang['2'] }}</p>
+        </div>
       </div>
-    </div>
-    <div ref="jumbotronRef" class="jumbotron">
-      <div :style="containerStyle">
-        <div :style="cardStyle">
-          <div class="banner" :style="layer0">
-            <img src="/images/theme-index-blue.png" alt="banner" />
-            <div class="jumbotron-red" :style="jumbotronRedStyle">
-              <img src="/images/theme-index-red.png" alt="" />
+      <div class="count-down">
+        <div class="cd-main">
+          <div class="cd-date">Feb 7, 2022, 11 AM GMT+8</div>
+          <div class="cd-time">
+            <div class="cd-item">
+              <div class="cd-num">
+                <span>{{ countDownText.days[0] }}</span>
+                <span>{{ countDownText.days[1] }}</span>
+              </div>
+              <div class="cd-str">DAYS</div>
+            </div>
+            <div class="cd-item">
+              <div class="cd-num">
+                <span>{{ countDownText.hours[0] }}</span>
+                <span>{{ countDownText.hours[1] }}</span>
+              </div>
+              <div class="cd-str">HOURS</div>
+            </div>
+            <div class="cd-item">
+              <div class="cd-num">
+                <span>{{ countDownText.minutes[0] }}</span>
+                <span>{{ countDownText.minutes[1] }}</span>
+              </div>
+              <div class="cd-str">MINUTES</div>
+            </div>
+            <div class="cd-item">
+              <div class="cd-num">
+                <span>{{ countDownText.seconds[0] }}</span>
+                <span>{{ countDownText.seconds[1] }}</span>
+              </div>
+              <div class="cd-str">SECONDS</div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </template>
+    <template v-else>
+      <div class="banner">
+        <div class="banner-desc">
+          <h1>{{ homeLang['1'] }}</h1>
+          <p>{{ homeLang['2'] }}</p>
+        </div>
+      </div>
+      <div ref="jumbotronRef" class="jumbotron">
+        <div :style="containerStyle">
+          <div :style="cardStyle">
+            <div class="banner" :style="layer0">
+              <img src="/images/theme-index-blue.png" alt="banner" />
+              <div class="jumbotron-red" :style="jumbotronRedStyle">
+                <img src="/images/theme-index-red.png" alt="" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
     <div class="sponsors-container">
       <div class="sponsors-list">
         <a
@@ -225,6 +313,19 @@ useEventListener(window, 'scroll', handleScroll)
   .banner {
     text-align: center;
   }
+  .banner-dot h1 span {
+    position: relative;
+    &::after {
+      content: '';
+      position: absolute;
+      right: -12px;
+      bottom: 0;
+      background: var(--el-color-primary);
+      height: 8px;
+      width: 8px;
+      border-radius: 100%;
+    }
+  }
   .banner-desc {
     padding-top: 30px;
 
@@ -240,6 +341,41 @@ useEventListener(window, 'scroll', handleScroll)
       line-height: 28px;
       color: var(--text-color-light);
       margin: 20px 0 5px;
+    }
+  }
+
+  .count-down {
+    .cd-main {
+      background: #f1f6fe;
+      border-radius: 10px;
+      width: 50%;
+      margin: 60px auto 120px;
+      padding: 30px 0;
+      font-size: 24px;
+      color: #666;
+      text-align: center;
+      font-weight: 600;
+    }
+    .cd-date {
+      font-size: 28px;
+    }
+    .cd-time {
+      display: flex;
+      justify-content: space-between;
+      width: 80%;
+      margin: 10px auto 0;
+    }
+    .cd-num {
+      color: var(--el-color-primary);
+      font-size: 78px;
+      font-weight: bold;
+    }
+    .cd-num span {
+      width: 50%;
+      display: inline-block;
+    }
+    .cd-str {
+      font-size: 22px;
     }
   }
 
