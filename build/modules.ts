@@ -37,6 +37,9 @@ export const buildModules = async () => {
       esbuild({
         sourceMap: true,
         target,
+        loaders: {
+          '.vue': 'ts',
+        },
       }),
       filesize({ reporter }),
     ],
