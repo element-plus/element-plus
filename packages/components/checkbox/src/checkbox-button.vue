@@ -2,7 +2,7 @@
   <label
     :class="[
       ns.b('button'),
-      size ? ns.bm('button', size) : '',
+      ns.bm('button', size),
       ns.is('disabled', isDisabled),
       ns.is('checked', isChecked),
       ns.is('focus', focus),

@@ -3,7 +3,7 @@
     :id="id"
     :class="[
       ns.b(),
-      checkboxSize ? ns.m(checkboxSize) : '',
+      ns.m(checkboxSize),
       ns.is('disabled', isDisabled),
       ns.is('bordered', border),
       ns.is('checked', isChecked),
