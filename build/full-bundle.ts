@@ -21,6 +21,7 @@ import {
 import { withTaskName } from './utils/gulp'
 import { EP_BRAND_NAME } from './utils/constants'
 import { target } from './build-info'
+import type { Plugin } from 'rollup'
 
 const banner = `/*! ${EP_BRAND_NAME} v${version} */\n`
 
@@ -31,7 +32,7 @@ async function buildFullEntry(minify: boolean) {
       ElementPlusAlias(),
       vue({
         isProduction: true,
-      }),
+      }) as Plugin,
       nodeResolve({
         extensions: ['.mjs', '.js', '.json', '.ts'],
       }),
@@ -40,6 +41,9 @@ async function buildFullEntry(minify: boolean) {
         minify,
         sourceMap: minify,
         target,
+        loaders: {
+          '.vue': 'ts',
+        },
       }),
       replace({
         'process.env.NODE_ENV': JSON.stringify('production'),
