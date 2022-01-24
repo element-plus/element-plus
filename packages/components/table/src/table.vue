@@ -45,7 +45,11 @@
         />
       </div>
       <div ref="bodyWrapper" :style="bodyHeight" :class="ns.e('body-wrapper')">
-        <el-scrollbar ref="scrollWrapper" :height="height">
+        <el-scrollbar
+          ref="scrollWrapper"
+          :height="maxHeight ? undefined : height"
+          :max-height="maxHeight ? height : undefined"
+        >
           <table-body
             ref="tableBody"
             :context="context"
