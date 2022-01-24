@@ -8,7 +8,7 @@ import replace from '@rollup/plugin-replace'
 import filesize from 'rollup-plugin-filesize'
 import { parallel } from 'gulp'
 import glob from 'fast-glob'
-import { camelCase, capitalize } from 'lodash'
+import { camelCase, upperFirst } from 'lodash'
 import { version } from '../packages/element-plus/version'
 import { reporter } from './plugins/size-reporter'
 import { ElementPlusAlias } from './plugins/element-plus-alias'
@@ -21,6 +21,7 @@ import {
 import { withTaskName } from './utils/gulp'
 import { EP_BRAND_NAME } from './utils/constants'
 import { target } from './build-info'
+import type { Plugin } from 'rollup'
 
 const banner = `/*! ${EP_BRAND_NAME} v${version} */\n`
 
@@ -31,7 +32,7 @@ async function buildFullEntry(minify: boolean) {
       ElementPlusAlias(),
       vue({
         isProduction: true,
-      }),
+      }) as Plugin,
       nodeResolve({
         extensions: ['.mjs', '.js', '.json', '.ts'],
       }),
@@ -40,6 +41,9 @@ async function buildFullEntry(minify: boolean) {
         minify,
         sourceMap: minify,
         target,
+        loaders: {
+          '.vue': 'ts',
+        },
       }),
       replace({
         'process.env.NODE_ENV': JSON.stringify('production'),
@@ -87,7 +91,7 @@ async function buildFullLocale(minify: boolean) {
   return Promise.all(
     files.map(async (file) => {
       const filename = path.basename(file, '.ts')
-      const name = capitalize(camelCase(filename))
+      const name = upperFirst(camelCase(filename))
 
       const bundle = await rollup({
         input: file,
@@ -108,7 +112,7 @@ async function buildFullLocale(minify: boolean) {
             'dist/locale',
             formatBundleFilename(filename, minify, 'js')
           ),
-          exports: 'named',
+          exports: 'default',
           name: `ElementPlusLocale${name}`,
           sourcemap: minify,
           banner,
