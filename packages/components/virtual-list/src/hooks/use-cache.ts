@@ -1,5 +1,5 @@
 import { computed, getCurrentInstance } from 'vue'
-import memo from 'lodash/memoize'
+import { memoize } from 'lodash-unified'
 import memoOne from 'memoize-one'
 
 import type { VirtualizedProps } from '../props'
@@ -13,7 +13,7 @@ export const useCache = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const _getItemStyleCache = (_: any, __: any, ___: any) => ({})
     return props.perfMode
-      ? memo(_getItemStyleCache)
+      ? memoize(_getItemStyleCache)
       : memoOne(_getItemStyleCache)
   })
 }

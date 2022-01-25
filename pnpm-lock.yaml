@@ -27,6 +27,7 @@ importers:
       '@types/gulp': 4.0.9
       '@types/jest': 26.0.24
       '@types/lodash': 4.14.178
+      '@types/lodash-es': 4.17.5
       '@types/node': 16.11.22
       '@types/sass': 1.43.1
       '@typescript-eslint/eslint-plugin': 5.10.2
@@ -56,6 +57,8 @@ importers:
       jest: 26.6.3
       lint-staged: 12.3.3
       lodash: ^4.17.21
+      lodash-es: ^4.17.21
+      lodash-unified: ^1.0.1
       memoize-one: ^6.0.0
       normalize-wheel-es: ^1.1.1
       prettier: 2.5.1
@@ -90,6 +93,8 @@ importers:
       async-validator: 4.0.7
       dayjs: 1.10.7
       lodash: 4.17.21
+      lodash-es: 4.17.21
+      lodash-unified: 1.0.1_bd4845f8c1bf1d81a616b60758034d0a
       memoize-one: 6.0.0
       normalize-wheel-es: 1.1.1
     devDependencies:
@@ -106,6 +111,7 @@ importers:
       '@types/gulp': 4.0.9
       '@types/jest': 26.0.24
       '@types/lodash': 4.14.178
+      '@types/lodash-es': 4.17.5
       '@types/node': 16.11.22
       '@types/sass': 1.43.1
       '@typescript-eslint/eslint-plugin': 5.10.2_2595c2126aec4d4b6e944b931dabb4c2
@@ -207,12 +213,16 @@ importers:
       '@ctrl/tinycolor': ^3.4.0
       '@element-plus/icons-vue': ^0.2.6
       '@popperjs/core': ^2.11.2
+      '@types/lodash': ^4.14.178
+      '@types/lodash-es': ^4.17.5
       '@types/node': '*'
       '@vueuse/core': ^7.5.5
       async-validator: ^4.0.7
       csstype: ^2.6.19
       dayjs: ^1.10.7
       lodash: ^4.17.21
+      lodash-es: ^4.17.21
+      lodash-unified: ^1.0.1
       memoize-one: ^6.0.0
       normalize-wheel-es: ^1.1.1
       vue-router: ^4.0.0
@@ -224,9 +234,13 @@ importers:
       async-validator: 4.0.7
       dayjs: 1.10.7
       lodash: 4.17.21
+      lodash-es: 4.17.21
+      lodash-unified: 1.0.1_bd4845f8c1bf1d81a616b60758034d0a
       memoize-one: 6.0.0
       normalize-wheel-es: 1.1.1
     devDependencies:
+      '@types/lodash': 4.14.178
+      '@types/lodash-es': 4.17.5
       '@types/node': 16.11.6
       csstype: 2.6.19
       vue-router: 4.0.12_vue@3.2.27
@@ -2001,6 +2015,12 @@ packages:
 
   /@types/linkify-it/3.0.2:
     resolution: {integrity: sha512-HZQYqbiFVWufzCwexrvh694SOim8z2d+xJl5UNamcvQFejLY/2YUtzXHYi3cHdI7PMlS8ejH2slRAOJQ32aNbA==}
+    dev: true
+
+  /@types/lodash-es/4.17.5:
+    resolution: {integrity: sha512-SHBoI8/0aoMQWAgUHMQ599VM6ZiSKg8sh/0cFqqlQQMyY9uEplc0ULU5yQNzcvdR4ZKa0ey8+vFmahuRbOCT1A==}
+    dependencies:
+      '@types/lodash': 4.14.178
     dev: true
 
   /@types/lodash/4.14.178:
@@ -7650,6 +7670,22 @@ packages:
     dependencies:
       p-locate: 5.0.0
     dev: true
+
+  /lodash-es/4.17.21:
+    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
+    dev: false
+
+  /lodash-unified/1.0.1_bd4845f8c1bf1d81a616b60758034d0a:
+    resolution: {integrity: sha512-Py+twfpWn+2dFQWCuGcp21WiQRwZwnm1cyE3piSt/VtBVKVyxlR58WgOVRzXtmdmDRGJKH8F8GPaA29WK/yK8g==}
+    peerDependencies:
+      '@types/lodash-es': '*'
+      lodash: '*'
+      lodash-es: '*'
+    dependencies:
+      '@types/lodash-es': 4.17.5
+      lodash: 4.17.21
+      lodash-es: 4.17.21
+    dev: false
 
   /lodash.clonedeep/4.5.0:
     resolution: {integrity: sha1-4j8/nE+Pvd6HJSnBBxhXoIblzO8=}

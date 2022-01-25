@@ -11,7 +11,7 @@ import {
   looseEqual,
   toRawType,
 } from '@vue/shared'
-import isEqualWith from 'lodash/isEqualWith'
+import { isEqualWith } from 'lodash-unified'
 import { isClient } from '@vueuse/core'
 import { debugWarn, throwError } from './error'
 

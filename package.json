@@ -66,6 +66,8 @@
     "async-validator": "^4.0.7",
     "dayjs": "^1.10.7",
     "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
+    "lodash-unified": "^1.0.1",
     "memoize-one": "^6.0.0",
     "normalize-wheel-es": "^1.1.1"
   },
@@ -83,6 +85,7 @@
     "@types/gulp": "4.0.9",
     "@types/jest": "26.0.24",
     "@types/lodash": "4.14.178",
+    "@types/lodash-es": "4.17.5",
     "@types/node": "16.11.22",
     "@types/sass": "1.43.1",
     "@typescript-eslint/eslint-plugin": "5.10.2",
