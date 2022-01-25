@@ -758,21 +758,6 @@ $skeleton: map.merge(
   $skeleton
 );
 
-// Tooltip
-// css3 var in packages/theme-chalk/src/tooltip.scss
-$tooltip: () !default;
-$tooltip: map.merge(
-  (
-    'fill': var(--el-text-color-primary),
-    'text-color': var(--el-color-white),
-    'font-size': 12px,
-    'border-color': var(--el-text-color-primary),
-    'arrow-size': 6px,
-    'padding': 10px,
-  ),
-  $tooltip
-);
-
 // Tag
 // css3 var in packages/theme-chalk/src/tag.scss
 $tag: () !default;
