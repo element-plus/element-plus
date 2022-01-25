@@ -47,6 +47,7 @@ $dropdown-divider-width: 1px !default;
   color: var(--el-text-color-regular);
   font-size: var(--el-font-size-base);
   line-height: 1;
+  vertical-align: top;
 
   @include e(popper) {
     @include set-component-css-var('dropdown', $dropdown);
@@ -167,6 +168,7 @@ $dropdown-menu-padding-vertical: map.merge(
   @include e(item) {
     display: flex;
     align-items: center;
+    white-space: nowrap;
     list-style: none;
     line-height: map.get($dropdown-item-line-height, 'default');
     padding: map.get($dropdown-item-padding, 'default');

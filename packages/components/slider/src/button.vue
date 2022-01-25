@@ -18,12 +18,11 @@
   >
     <el-tooltip
       ref="tooltip"
-      v-model="tooltipVisible"
+      v-model:visible="tooltipVisible"
       placement="top"
       :stop-popper-mouse-event="false"
       :popper-class="tooltipClass"
       :disabled="!showTooltip"
-      manual
       persistent
     >
       <template #content>

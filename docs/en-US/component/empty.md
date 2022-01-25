@@ -52,7 +52,7 @@ Use `css/scss` language to change the global or local color. We set some global 
 But usually, if you want to change style, you need to change all color, because these colors are a combination.
 Now the colors are automatically calculate, but you also can set these variables.
 
-### Default Variables
+### Default variables
 
 | Variable                | Color(auto) |
 | ----------------------- | ----------- |

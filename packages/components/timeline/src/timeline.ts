@@ -1,10 +1,12 @@
-<script lang="ts">
-import { h, provide, defineComponent } from 'vue'
+import { h, provide, defineComponent, renderSlot } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
 
-export default defineComponent({
+const Timeline = defineComponent({
   name: 'ElTimeline',
-  setup(_, ctx) {
-    provide('timeline', ctx)
+  setup(_, { slots }) {
+    const ns = useNamespace('timeline')
+
+    provide('timeline', slots)
 
     /**
      *  Maybe ,this component will not support prop 'reverse', why ?
@@ -27,14 +29,10 @@ export default defineComponent({
      */
 
     return () => {
-      return h(
-        'ul',
-        {
-          class: { 'el-timeline': true },
-        },
-        ctx.slots.default?.()
-      )
+      return h('ul', { class: [ns.b()] }, [renderSlot(slots, 'default')])
     }
   },
 })
-</script>
+
+export default Timeline
+export type TimelineInstance = InstanceType<typeof Timeline>

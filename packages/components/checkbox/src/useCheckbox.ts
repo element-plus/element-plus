@@ -141,9 +141,11 @@ const useDisabled = (
   })
   const isDisabled = computed(() => {
     const disabled = props.disabled || elForm.disabled
-    return isGroup.value
-      ? checkboxGroup.disabled?.value || disabled || isLimitDisabled.value
-      : props.disabled || elForm.disabled
+    return (
+      (isGroup.value
+        ? checkboxGroup.disabled?.value || disabled || isLimitDisabled.value
+        : props.disabled || elForm.disabled) ?? false
+    )
   })
 
   return {

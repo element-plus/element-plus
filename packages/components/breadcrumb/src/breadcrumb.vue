@@ -1,7 +1,7 @@
 <template>
   <div
     ref="breadcrumb"
-    class="el-breadcrumb"
+    :class="ns.b()"
     aria-label="Breadcrumb"
     role="navigation"
   >
@@ -13,6 +13,7 @@
 import { defineComponent, provide, ref, onMounted } from 'vue'
 import { elBreadcrumbKey } from '@element-plus/tokens'
 
+import { useNamespace } from '@element-plus/hooks'
 import { breadcrumbProps } from './breadcrumb'
 
 export default defineComponent({
@@ -20,18 +21,20 @@ export default defineComponent({
   props: breadcrumbProps,
 
   setup(props) {
+    const ns = useNamespace('breadcrumb')
     const breadcrumb = ref<HTMLDivElement>()
 
     provide(elBreadcrumbKey, props)
 
     onMounted(() => {
-      const items = breadcrumb.value!.querySelectorAll('.el-breadcrumb__item')
+      const items = breadcrumb.value!.querySelectorAll(`.${ns.e('item')}`)
       if (items.length) {
         items[items.length - 1].setAttribute('aria-current', 'page')
       }
     })
 
     return {
+      ns,
       breadcrumb,
     }
   },

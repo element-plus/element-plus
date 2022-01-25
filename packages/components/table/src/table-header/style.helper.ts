@@ -1,20 +1,20 @@
-import { getCurrentInstance } from 'vue'
+import { inject } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
 import {
   getFixedColumnsClass,
   getFixedColumnOffset,
   ensurePosition,
-  ensureRightFixedStyle,
 } from '../util'
+import { TABLE_INJECTION_KEY } from '../tokens'
 import type { TableColumnCtx } from '../table-column/defaults'
-import type { Table } from '../table/defaults'
 import type { TableHeaderProps } from '.'
 
 function useStyle<T>(props: TableHeaderProps<T>) {
-  const instance = getCurrentInstance()
-  const parent = instance.parent as Table<T>
+  const parent = inject(TABLE_INJECTION_KEY)
+  const ns = useNamespace('table')
 
   const getHeaderRowStyle = (rowIndex: number) => {
-    const headerRowStyle = parent.props.headerRowStyle
+    const headerRowStyle = parent?.props.headerRowStyle
     if (typeof headerRowStyle === 'function') {
       return headerRowStyle.call(null, { rowIndex })
     }
@@ -22,8 +22,8 @@ function useStyle<T>(props: TableHeaderProps<T>) {
   }
 
   const getHeaderRowClass = (rowIndex: number): string => {
-    const classes = []
-    const headerRowClassName = parent.props.headerRowClassName
+    const classes: string[] = []
+    const headerRowClassName = parent?.props.headerRowClassName
     if (typeof headerRowClassName === 'string') {
       classes.push(headerRowClassName)
     } else if (typeof headerRowClassName === 'function') {
@@ -37,10 +37,9 @@ function useStyle<T>(props: TableHeaderProps<T>) {
     rowIndex: number,
     columnIndex: number,
     row: T,
-    column: TableColumnCtx<T>,
-    hasGutter: boolean
+    column: TableColumnCtx<T>
   ) => {
-    let headerCellStyles = parent.props.headerCellStyle ?? {}
+    let headerCellStyles = parent?.props.headerCellStyle ?? {}
     if (typeof headerCellStyles === 'function') {
       headerCellStyles = headerCellStyles.call(null, {
         rowIndex,
@@ -55,7 +54,6 @@ function useStyle<T>(props: TableHeaderProps<T>) {
       props.store,
       row as unknown as TableColumnCtx<T>[]
     )
-    ensureRightFixedStyle(fixedStyle, hasGutter)
     ensurePosition(fixedStyle, 'left')
     ensurePosition(fixedStyle, 'right')
     return Object.assign({}, headerCellStyles, fixedStyle)
@@ -70,6 +68,7 @@ function useStyle<T>(props: TableHeaderProps<T>) {
     const fixedClasses = column.isSubColumn
       ? []
       : getFixedColumnsClass<T>(
+          ns.b(),
           columnIndex,
           column.fixed,
           props.store,
@@ -92,7 +91,7 @@ function useStyle<T>(props: TableHeaderProps<T>) {
       classes.push('is-sortable')
     }
 
-    const headerCellClassName = parent.props.headerCellClassName
+    const headerCellClassName = parent?.props.headerCellClassName
     if (typeof headerCellClassName === 'string') {
       classes.push(headerCellClassName)
     } else if (typeof headerCellClassName === 'function') {
@@ -106,7 +105,7 @@ function useStyle<T>(props: TableHeaderProps<T>) {
       )
     }
 
-    classes.push('el-table__cell')
+    classes.push(ns.e('cell'))
 
     return classes.join(' ')
   }

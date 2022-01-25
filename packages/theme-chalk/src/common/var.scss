@@ -759,21 +759,6 @@ $skeleton: map.merge(
   $skeleton
 );
 
-// Tooltip
-// css3 var in packages/theme-chalk/src/tooltip.scss
-$tooltip: () !default;
-$tooltip: map.merge(
-  (
-    'fill': var(--el-text-color-primary),
-    'text-color': var(--el-color-white),
-    'font-size': 12px,
-    'border-color': var(--el-text-color-primary),
-    'arrow-size': 6px,
-    'padding': 10px,
-  ),
-  $tooltip
-);
-
 // Tag
 // css3 var in packages/theme-chalk/src/tag.scss
 $tag: () !default;
@@ -1163,6 +1148,16 @@ $empty: map.merge(
     'image-width': 160px,
     'description-margin-top': 20px,
     'bottom-margin-top': 20px,
+    'fill-color-0': var(--el-color-white),
+    'fill-color-1': #fcfcfd,
+    'fill-color-2': #f8f9fb,
+    'fill-color-3': #f7f8fc,
+    'fill-color-4': #eeeff3,
+    'fill-color-5': #edeef2,
+    'fill-color-6': #e9ebef,
+    'fill-color-7': #e5e7e9,
+    'fill-color-8': #e0e3e9,
+    'fill-color-9': #d5d7de,
   ),
   $empty
 );

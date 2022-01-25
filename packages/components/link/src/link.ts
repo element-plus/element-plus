@@ -1,5 +1,6 @@
 import { buildProps, definePropType } from '@element-plus/utils/props'
 import type { Component, ExtractPropTypes } from 'vue'
+import type Link from './link.vue'
 
 export const linkProps = buildProps({
   type: {
@@ -24,3 +25,5 @@ export const linkEmits = {
   click: (evt: MouseEvent) => evt instanceof MouseEvent,
 }
 export type LinkEmits = typeof linkEmits
+
+export type LinkInstance = InstanceType<typeof Link>

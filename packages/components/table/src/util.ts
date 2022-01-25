@@ -2,7 +2,6 @@ import { hasOwn } from '@vue/shared'
 import { createPopper } from '@popperjs/core'
 import { PopupManager } from '@element-plus/utils/popup-manager'
 import { getValueByPath } from '@element-plus/utils/util'
-import scrollbarWidth from '@element-plus/utils/scrollbar-width'
 import { off, on } from '@element-plus/utils/dom'
 
 import type {
@@ -137,9 +136,12 @@ export const getColumnByCell = function <T>(
   table: {
     columns: TableColumnCtx<T>[]
   },
-  cell: HTMLElement
+  cell: HTMLElement,
+  namespace: string
 ): null | TableColumnCtx<T> {
-  const matches = (cell.className || '').match(/el-table_[^\s]+/gm)
+  const matches = (cell.className || '').match(
+    new RegExp(`${namespace}-table_[^\\s]+`, 'gm')
+  )
   if (matches) {
     return getColumnById(table, matches[0])
   }
@@ -427,6 +429,7 @@ export const isFixedColumn = <T>(
 }
 
 export const getFixedColumnsClass = <T>(
+  namespace: string,
   index: number,
   fixed: string | boolean,
   store: any,
@@ -436,7 +439,7 @@ export const getFixedColumnsClass = <T>(
   const { direction, start } = isFixedColumn(index, fixed, store, realColumns)
   if (direction) {
     const isLeft = direction === 'left'
-    classes.push(`el-table-fixed-column--${direction}`)
+    classes.push(`${namespace}-fixed-column--${direction}`)
     if (isLeft && start === store.states.fixedLeafColumnsLength.value - 1) {
       classes.push('is-last-column')
     } else if (
@@ -454,7 +457,9 @@ export const getFixedColumnsClass = <T>(
 function getOffset<T>(offset: number, column: TableColumnCtx<T>) {
   return (
     offset +
-    (Number.isNaN(column.realWidth) ? Number(column.width) : column.realWidth)
+    (column.realWidth === null || Number.isNaN(column.realWidth)
+      ? Number(column.width)
+      : column.realWidth)
   )
 }
 
@@ -485,26 +490,6 @@ export const getFixedColumnOffset = <T>(
       .reduce(getOffset, 0)
   }
   return styles
-}
-
-export function getCellStyle<T>(
-  column: TableColumnCtx<T>,
-  cellIndex: number,
-  hasGutter: boolean,
-  gutterWidth: number,
-  store: any
-) {
-  const fixedStyle = getFixedColumnOffset(cellIndex, column.fixed, store)
-  ensureRightFixedStyle(fixedStyle, hasGutter)
-  ensurePosition(fixedStyle, 'left')
-  ensurePosition(fixedStyle, 'right')
-  return fixedStyle
-}
-
-export const ensureRightFixedStyle = (style, hasGutter: boolean) => {
-  if (hasGutter && style && !Number.isNaN(style.right)) {
-    style.right += scrollbarWidth()
-  }
 }
 
 export const ensurePosition = (style, key: string) => {

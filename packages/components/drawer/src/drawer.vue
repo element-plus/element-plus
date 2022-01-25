@@ -51,6 +51,9 @@
               <slot></slot>
             </section>
           </template>
+          <div v-if="$slots.footer" class="el-drawer__footer">
+            <slot name="footer"></slot>
+          </div>
         </div>
       </el-overlay>
     </transition>

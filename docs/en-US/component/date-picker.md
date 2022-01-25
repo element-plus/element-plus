@@ -216,6 +216,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | blur            | triggers when Input blurs                                                 | component instance        |
 | focus           | triggers when Input focuses                                               | component instance        |
 | calendar-change | triggers when the calendar selected date is changed. Only for `daterange` | [Date, Date]              |
+| panel-change    | triggers when the navigation button click.                                | `(date, mode, view)`      |
 
 ## Methods
 

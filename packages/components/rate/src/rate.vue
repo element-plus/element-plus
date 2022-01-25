@@ -12,22 +12,21 @@
     <span
       v-for="(item, key) in max"
       :key="key"
-      class="el-rate__item"
+      :class="ns.e('item')"
       :style="{ cursor: rateDisabled ? 'auto' : 'pointer' }"
       @mousemove="setCurrentValue(item, $event)"
       @mouseleave="resetCurrentValue"
       @click="selectValue(item)"
     >
       <el-icon
-        :class="[{ hover: hoverIndex === item }]"
-        class="el-rate__icon"
+        :class="[ns.e('icon'), { hover: hoverIndex === item }]"
         :style="getIconStyle(item)"
       >
         <component :is="iconComponents[item - 1]" />
         <el-icon
           v-if="showDecimalIcon(item)"
           :style="decimalStyle"
-          class="el-rate__icon el-rate__decimal"
+          :class="[ns.e('icon'), ns.e('decimal')]"
         >
           <component :is="decimalIconComponent" />
         </el-icon>
@@ -35,7 +34,7 @@
     </span>
     <span
       v-if="showText || showScore"
-      class="el-rate__text"
+      :class="ns.e('text')"
       :style="{ color: textColor }"
     >
       {{ text }}
@@ -52,7 +51,7 @@ import { EVENT_CODE } from '@element-plus/utils/aria'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { ElIcon } from '@element-plus/components/icon'
 import { StarFilled, Star } from '@element-plus/icons-vue'
-import { useSize } from '@element-plus/hooks'
+import { useNamespace, useSize } from '@element-plus/hooks'
 import { rateProps, rateEmits } from './rate'
 import type { ElFormContext } from '@element-plus/tokens'
 
@@ -88,14 +87,14 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const elForm = inject(elFormKey, {} as ElFormContext)
-
     const rateSize = useSize()
+    const ns = useNamespace('rate')
+
     const currentValue = ref(props.modelValue)
     const hoverIndex = ref(-1)
     const pointerAtLeftHalf = ref(true)
 
-    const prefix = 'el-rate'
-    const rateKls = computed(() => [prefix, `${prefix}--${rateSize.value}`])
+    const rateKls = computed(() => [ns.b(), ns.m(rateSize.value)])
 
     const rateDisabled = computed(() => props.disabled || elForm.disabled)
     const text = computed(() => {
@@ -241,11 +240,12 @@ export default defineComponent({
         return
       }
       if (props.allowHalf) {
+        // TODO: use cache via computed https://github.com/element-plus/element-plus/pull/5456#discussion_r786472092
         let target = event.target as HTMLElement
-        if (hasClass(target, 'el-rate__item')) {
-          target = target.querySelector('.el-rate__icon')!
+        if (hasClass(target, ns.e('item'))) {
+          target = target.querySelector(`.${ns.e('icon')}`)!
         }
-        if (target.clientWidth === 0 || hasClass(target, 'el-rate__decimal')) {
+        if (target.clientWidth === 0 || hasClass(target, ns.e('decimal'))) {
           target = target.parentNode as HTMLElement
         }
         pointerAtLeftHalf.value = event.offsetX * 2 <= target.clientWidth
@@ -282,6 +282,7 @@ export default defineComponent({
     }
 
     return {
+      ns,
       hoverIndex,
       currentValue,
       rateDisabled,

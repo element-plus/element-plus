@@ -80,7 +80,7 @@ export function useOption(props, states) {
 
   const hoverItem = () => {
     if (!props.disabled && !selectGroup.disabled) {
-      select.hoverIndex = select.optionsArray.indexOf(instance)
+      select.hoverIndex = select.optionsArray.indexOf(instance.proxy)
     }
   }
 

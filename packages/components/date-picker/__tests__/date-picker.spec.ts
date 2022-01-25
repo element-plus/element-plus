@@ -30,6 +30,53 @@ afterEach(() => {
   document.documentElement.innerHTML = ''
 })
 
+const testDatePickerPanelChange = async (type: 'date' | 'daterange') => {
+  let mode
+  const wrapper = _mount(
+    `<el-date-picker
+        type="${type}"
+        v-model="value"
+        @panel-change="onPanelChange"
+    />`,
+    () => ({ value: type === 'daterange' ? [] : '' }),
+    {
+      methods: {
+        onPanelChange(value, _mode) {
+          mode = _mode
+        },
+      },
+    }
+  )
+
+  const reset = () => {
+    mode = undefined
+  }
+
+  const input = wrapper.find('input')
+  input.trigger('blur')
+  input.trigger('focus')
+  await nextTick()
+  const prevMonth = document.querySelector<HTMLElement>('button.arrow-left')
+  const prevYear = document.querySelector<HTMLElement>('button.d-arrow-left')
+  const nextMonth = document.querySelector<HTMLElement>('button.arrow-right')
+  const nextYear = document.querySelector<HTMLElement>('button.d-arrow-right')
+  prevMonth.click()
+  await nextTick()
+  expect(mode).toBe('month')
+  reset()
+  nextMonth.click()
+  await nextTick()
+  expect(mode).toBe('month')
+  reset()
+  prevYear.click()
+  await nextTick()
+  expect(mode).toBe('year')
+  reset()
+  nextYear.click()
+  await nextTick()
+  expect(mode).toBe('year')
+}
+
 describe('DatePicker', () => {
   it('create & custom class & style', async () => {
     const popperClassName = 'popper-class-test'
@@ -128,6 +175,46 @@ describe('DatePicker', () => {
     await nextTick()
     ;(document.querySelector('.clear-icon') as HTMLElement).click()
     expect(vm.value).toBeNull()
+  })
+
+  it('defaultValue', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        :default-value="defaultValue"
+    />`,
+      () => ({
+        value: '',
+        defaultValue: new Date(2011, 10, 1),
+      })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    document.querySelector<HTMLElement>('td.available').click()
+    await nextTick()
+    const vm = wrapper.vm as any
+    expect(vm.value).toBeDefined()
+    expect(vm.value.getFullYear()).toBe(2011)
+    expect(vm.value.getMonth()).toBe(10)
+    expect(vm.value.getDate()).toBe(1)
+    const picker = wrapper.findComponent(CommonPicker)
+    ;(picker.vm as any).showClose = true
+    await nextTick()
+    document.querySelector<HTMLElement>('.clear-icon').click()
+    expect(vm.value).toBeNull()
+
+    vm.defaultValue = new Date(2031, 5, 1)
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    document.querySelector<HTMLElement>('td.available').click()
+    await nextTick()
+    expect(vm.value).toBeDefined()
+    expect(vm.value.getFullYear()).toBe(2031)
+    expect(vm.value.getMonth()).toBe(5)
+    expect(vm.value.getDate()).toBe(1)
   })
 
   it('event change, focus, blur', async () => {
@@ -531,6 +618,10 @@ describe('DatePicker Navigation', () => {
     await nextTick()
     expect(getYearLabel()).toContain('2001')
     expect(getMonthLabel()).toContain('January')
+  })
+
+  it('panel change event', async () => {
+    await testDatePickerPanelChange('date')
   })
 })
 
@@ -1093,6 +1184,10 @@ describe('DateRangePicker', () => {
     expect((wrapper.vm as any).value.toString()).toBe(
       ['01/05 2021', '01/06 2021'].toString()
     )
+  })
+
+  it('panel change event', async () => {
+    await testDatePickerPanelChange('daterange')
   })
 })
 

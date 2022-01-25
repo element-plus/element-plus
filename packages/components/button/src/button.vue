@@ -2,16 +2,14 @@
   <button
     ref="buttonRef"
     :class="[
-      'el-button',
-      buttonType ? 'el-button--' + buttonType : '',
-      buttonSize ? 'el-button--' + buttonSize : '',
-      {
-        'is-disabled': buttonDisabled,
-        'is-loading': loading,
-        'is-plain': plain,
-        'is-round': round,
-        'is-circle': circle,
-      },
+      ns.b(),
+      ns.m(buttonType),
+      ns.m(buttonSize),
+      ns.is('disabled', buttonDisabled),
+      ns.is('loading', loading),
+      ns.is('plain', plain),
+      ns.is('round', round),
+      ns.is('circle', circle),
     ]"
     :disabled="buttonDisabled || loading"
     :autofocus="autofocus"
@@ -19,15 +17,18 @@
     :style="buttonStyle"
     @click="handleClick"
   >
-    <el-icon v-if="loading" class="is-loading">
-      <loading />
-    </el-icon>
+    <template v-if="loading">
+      <slot v-if="$slots.loading" name="loading"></slot>
+      <el-icon v-else :class="ns.is('loading')">
+        <component :is="loadingIcon" />
+      </el-icon>
+    </template>
     <el-icon v-else-if="icon">
       <component :is="icon" />
     </el-icon>
     <span
       v-if="$slots.default"
-      :class="{ 'el-button__text--expand': shouldAddSpace }"
+      :class="{ [ns.em('text', 'expand')]: shouldAddSpace }"
     >
       <slot></slot>
     </span>
@@ -43,6 +44,7 @@ import {
   useDisabled,
   useFormItem,
   useGlobalConfig,
+  useNamespace,
   useSize,
 } from '@element-plus/hooks'
 import { buttonGroupContextKey } from '@element-plus/tokens'
@@ -65,6 +67,7 @@ export default defineComponent({
     const buttonRef = ref()
     const buttonGroupContext = inject(buttonGroupContextKey, undefined)
     const globalConfig = useGlobalConfig('button')
+    const ns = useNamespace('button')
     const autoInsertSpace = computed(
       () =>
         props.autoInsertSpace ?? globalConfig.value?.autoInsertSpace ?? false
@@ -156,6 +159,8 @@ export default defineComponent({
       shouldAddSpace,
 
       handleClick,
+
+      ns,
     }
   },
 })
