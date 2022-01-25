@@ -84,6 +84,8 @@ import type { PropType, VNode } from 'vue'
 import type { ElFormItemContext } from '@element-plus/tokens'
 import type { DataItem, Format, Key, Props, TargetOrder } from './transfer'
 
+type TransferType = InstanceType<typeof TransferPanel>
+
 export default defineComponent({
   name: 'ElTransfer',
 
@@ -183,14 +185,17 @@ export default defineComponent({
       emit
     )
 
-    const leftPanel = ref(null)
-    const rightPanel = ref(null)
+    const leftPanel = ref<TransferType>()
+    const rightPanel = ref<TransferType>()
 
     const clearQuery = (which: 'left' | 'right') => {
-      if (which === 'left') {
-        leftPanel.value.query = ''
-      } else if (which === 'right') {
-        rightPanel.value.query = ''
+      switch (which) {
+        case 'left':
+          leftPanel.value!.query = ''
+          break
+        case 'right':
+          rightPanel.value!.query = ''
+          break
       }
     }
 
@@ -238,6 +243,8 @@ export default defineComponent({
       rightPanelTitle,
       panelFilterPlaceholder,
       clearQuery,
+      leftPanel,
+      rightPanel,
 
       optionRender,
     }

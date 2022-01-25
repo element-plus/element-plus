@@ -51,7 +51,7 @@ export default async () => {
   return defineConfig({
     server: {
       host: true,
-      https: true,
+      https: !!process.env.HTTPS,
       fs: {
         allow: [projRoot],
       },

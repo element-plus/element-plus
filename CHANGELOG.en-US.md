@@ -1,5 +1,20 @@
 ## Changelog
 
+### 1.3.0-beta.9
+
+_2022-01-25_
+
+#### Bug fixes
+
+- Components [el-checkbox] is-disabled class is added unexpectedly
+- Components [el-popover] hide-after bug (#5386 by @BigPengZai)
+- Components [el-transfer] can't find clearQuery (#5438 by @btea)
+- Components [el-message-box] add default value to button-size (#5620 by @btea)
+
+#### Refactors
+
+- Refactor carousel to support namespace (#5553 by @iamkun)
+
 ### 1.3.0-beta.8
 
 _2022-01-24_

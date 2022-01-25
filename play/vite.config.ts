@@ -34,7 +34,7 @@ export default defineConfig(async () => {
     },
     server: {
       host: true,
-      https: true,
+      https: !!process.env.HTTPS,
     },
     plugins: [
       vue(),
