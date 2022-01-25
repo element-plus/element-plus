@@ -165,7 +165,7 @@ import {
   watch,
 } from 'vue'
 import { isPromise } from '@vue/shared'
-import debounce from 'lodash/debounce'
+import debounce from 'lodash/debounce.js'
 
 import { isClient } from '@vueuse/core'
 import ElCascaderPanel, {

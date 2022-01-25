@@ -91,7 +91,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted, nextTick } from 'vue'
 import { NOOP } from '@vue/shared'
-import debounce from 'lodash/debounce'
+import debounce from 'lodash/debounce.js'
 import { useAttrs, useNamespace } from '@element-plus/hooks'
 import { ClickOutside } from '@element-plus/directives'
 import { generateId, isArray } from '@element-plus/utils/util'

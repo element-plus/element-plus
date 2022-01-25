@@ -106,7 +106,7 @@
 
 <script lang="ts">
 import { defineComponent, getCurrentInstance, computed, provide } from 'vue'
-import debounce from 'lodash/debounce'
+import debounce from 'lodash/debounce.js'
 import { Mousewheel } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElScrollbar from '@element-plus/components/scrollbar'

@@ -1,5 +1,5 @@
 import { computed, getCurrentInstance } from 'vue'
-import memo from 'lodash/memoize'
+import memo from 'lodash/memoize.js'
 import memoOne from 'memoize-one'
 
 import type { VirtualizedProps } from '../props'

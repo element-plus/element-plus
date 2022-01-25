@@ -1,13 +1,13 @@
 import { defineComponent, h, provide, ref, renderSlot } from 'vue'
 import dayjs from 'dayjs'
-import customParseFormat from 'dayjs/plugin/customParseFormat'
-import advancedFormat from 'dayjs/plugin/advancedFormat'
-import localeData from 'dayjs/plugin/localeData'
-import weekOfYear from 'dayjs/plugin/weekOfYear'
-import weekYear from 'dayjs/plugin/weekYear'
-import dayOfYear from 'dayjs/plugin/dayOfYear'
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
+import customParseFormat from 'dayjs/plugin/customParseFormat.js'
+import advancedFormat from 'dayjs/plugin/advancedFormat.js'
+import localeData from 'dayjs/plugin/localeData.js'
+import weekOfYear from 'dayjs/plugin/weekOfYear.js'
+import weekYear from 'dayjs/plugin/weekYear.js'
+import dayOfYear from 'dayjs/plugin/dayOfYear.js'
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter.js'
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore.js'
 import {
   CommonPicker,
   DEFAULT_FORMATS_DATE,

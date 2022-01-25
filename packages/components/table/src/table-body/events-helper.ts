@@ -1,5 +1,5 @@
 import { ref, h, inject } from 'vue'
-import debounce from 'lodash/debounce'
+import debounce from 'lodash/debounce.js'
 import { getStyle, hasClass } from '@element-plus/utils/dom'
 import { createTablePopper, getCell, getColumnByCell } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'

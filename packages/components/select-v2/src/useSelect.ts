@@ -8,8 +8,8 @@ import {
   onBeforeMount,
 } from 'vue'
 import { isArray, isFunction, isObject } from '@vue/shared'
-import isEqual from 'lodash/isEqual'
-import lodashDebounce from 'lodash/debounce'
+import isEqual from 'lodash/isEqual.js'
+import lodashDebounce from 'lodash/debounce.js'
 import { useFormItem, useLocale, useSize } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import { ValidateComponentsMap } from '@element-plus/utils/icon'
