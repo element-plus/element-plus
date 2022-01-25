@@ -16,10 +16,6 @@ export const usePopoverProps = {
   ...buildProps({
     title: String,
 
-    hideAfter: {
-      type: Number,
-      default: 200,
-    },
     width: {
       type: [String, Number],
       default: 150,
