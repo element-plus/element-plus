@@ -93,12 +93,12 @@ Use `css/scss` language to change the global or local color. We set some global 
 
 ### Default Variables
 
-| Variable                    | Color                 |
-| --------------------------- | --------------------- |
-|--el-rate-void-color         | #c6d1de               |
-|--el-rate-star-color         | #f7ba2a               |
-|--el-rate-disable-void-color | #eff2f7               |
-|--el-rate-text-color         | #1f2d3d               |
+| Variable                     | Color   |
+| ---------------------------- | ------- |
+| --el-rate-void-color         | #c6d1de |
+| --el-rate-star-color         | #f7ba2a |
+| --el-rate-disable-void-color | #eff2f7 |
+| --el-rate-text-color         | #1f2d3d |
 
 :::
 
