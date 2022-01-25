@@ -1170,7 +1170,8 @@ $empty: map.merge(
 $empty-fill-base-color: #fcfcfd;
 // Automatically calculate colors from 0 to 9. Don't change the numbers unless you are sure.
 $empty-blackness: color.blackness($empty-fill-base-color) * 0.18;
-@mixin set-color-gradient($number) {
+// https://sass-lang.com/documentation/values/maps#immutability
+@mixin set-empty-color-gradient($number: 0) {
   $empty: map.merge(
     (
       'fill-color-#{$number}':
@@ -1182,7 +1183,7 @@ $empty-blackness: color.blackness($empty-fill-base-color) * 0.18;
         ),
     ),
     $empty
-  );
+  ) !global;
 }
 @for $i from 0 through 9 {
   @include set-empty-color-gradient($i);
