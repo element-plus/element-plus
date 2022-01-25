@@ -25,7 +25,27 @@ empty/custom-image
 
 :::
 
-## CustomStyles
+## Image size
+
+Use `image-size` prop to control image size.
+
+:::demo
+
+empty/image-size
+
+:::
+
+## Bottom content
+
+Use the default slot to insert content at the bottom.
+
+:::demo
+
+empty/bottom-content
+
+:::
+
+## Custom styles
 
 Now you can set custom style for empty component.
 Use `css/scss` language to change the global or local color. We set some global color variables: `--el-empty-fill-color-0`, `--el-empty-fill-color-1`, `--el-empty-fill-color-2`, ......, `--el-empty-fill-color-9`. You can use like: `:root { --el-empty-fill-color-0: red; --el-empty-fill-color-1: blue; }`.
@@ -48,26 +68,6 @@ But usually, if you want to change style, you need to change all color, because 
 
 :::
 
-## Image size
-
-Use `image-size` prop to control image size.
-
-:::demo
-
-empty/image-size
-
-:::
-
-## Bottom content
-
-Use the default slot to insert content at the bottom.
-
-:::demo
-
-empty/bottom-content
-
-:::
-
 ## Empty Attributes
 
 | Attribute   | Description        | Type   | Acceptable Value | Default |
@@ -75,6 +75,8 @@ empty/bottom-content
 | image       | image URL          | string | —                | —       |
 | image-size  | image size (width) | number | —                | —       |
 | description | description        | string | —                | —       |
+
+:::
 
 ## Empty Slots
 
