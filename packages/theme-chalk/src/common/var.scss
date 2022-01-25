@@ -1,6 +1,7 @@
 /* Element Chalk Variables */
 @use 'sass:math';
 @use 'sass:map';
+@use 'sass:color';
 
 // Special comment for theme configurator
 // type|skipAutoTranslation|Category|Order
@@ -1162,19 +1163,30 @@ $empty: map.merge(
     'image-width': 160px,
     'description-margin-top': 20px,
     'bottom-margin-top': 20px,
-    'fill-color-0': var(--el-color-white),
-    'fill-color-1': #fcfcfd,
-    'fill-color-2': #f8f9fb,
-    'fill-color-3': #f7f8fc,
-    'fill-color-4': #eeeff3,
-    'fill-color-5': #edeef2,
-    'fill-color-6': #e9ebef,
-    'fill-color-7': #e5e7e9,
-    'fill-color-8': #e0e3e9,
-    'fill-color-9': #d5d7de,
   ),
   $empty
 );
+// Empty fill base color
+$empty-fill-base-color: #fcfcfd;
+// Automatically calculate colors from 0 to 9. Don't change the numbers unless you are sure.
+$empty-blackness: color.blackness($empty-fill-base-color) * 0.18;
+@mixin set-color-gradient($number) {
+  $empty: map.merge(
+    (
+      'fill-color-#{$number}':
+        color.scale(
+          $fill-base-color,
+          $lightness: math.percentage($number * -0.015) - $empty-blackness *
+            $number * 0.15,
+          $saturation: math.percentage($number * 0.025)
+        ),
+    ),
+    $empty
+  );
+}
+@for $i from 0 through 9 {
+  @include set-empty-color-gradient($i);
+}
 
 // Descriptions
 
