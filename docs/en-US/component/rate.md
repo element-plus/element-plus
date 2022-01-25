@@ -84,6 +84,19 @@ Read-only Rate is for displaying rating score. Half star is supported.
 
 rate/readonly
 
+## CustomStyles
+
+Now you can set custom style for rate component.
+
+### Default Variables
+
+- --el-rate-void-color:  \#c6d1de
+- --el-rate-star-color: \#f7ba2a
+- --el-rate-disable-void-color: \#eff2f7
+- --el-rate-text-color: \#1f2d3d
+
+:::demo Use `css/scss` language to change the global or local color. We set some global color variables: `--el-rate-void-color`, `--el-rate-star-color`, `--el-rate-disable-void-color`, `--el-rate-text-color`. You can use like: `:root { --el-rate-void-color: red; --el-rate-star-color: blue; }`.
+
 :::
 
 ## Attributes
