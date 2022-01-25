@@ -261,7 +261,7 @@ export default defineComponent({
         : ''
     })
 
-    const btnSize = useSize(computed(() => props.buttonSize))
+    const btnSize = useSize()
 
     const iconComponent = computed(
       () => state.icon || TypeComponentsMap[state.type] || ''
