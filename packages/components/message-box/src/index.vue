@@ -170,6 +170,7 @@ export default defineComponent({
     buttonSize: {
       type: String as PropType<ComponentSize>,
       validator: isValidComponentSize,
+      default: 'default',
     },
     modal: {
       type: Boolean,
