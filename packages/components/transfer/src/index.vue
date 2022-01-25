@@ -189,10 +189,13 @@ export default defineComponent({
     const rightPanel = ref<TransferType>()
 
     const clearQuery = (which: 'left' | 'right') => {
-      if (which === 'left') {
-        leftPanel.value!.query = ''
-      } else if (which === 'right') {
-        rightPanel.value!.query = ''
+      switch (which) {
+        case 'left':
+          leftPanel.value!.query = ''
+          break
+        case 'right':
+          rightPanel.value!.query = ''
+          break
       }
     }
 
