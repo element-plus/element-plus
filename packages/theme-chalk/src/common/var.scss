@@ -1176,7 +1176,7 @@ $empty-blackness: color.blackness($empty-fill-base-color) * 0.18;
     (
       'fill-color-#{$number}':
         color.scale(
-          $fill-base-color,
+          $empty-fill-base-color,
           $lightness: math.percentage($number * -0.015) - $empty-blackness *
             $number * 0.15,
           $saturation: math.percentage($number * 0.025)
