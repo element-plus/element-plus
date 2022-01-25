@@ -69,11 +69,6 @@ const handleScroll = useThrottleFn(() => {
 
 useEventListener(window, 'scroll', handleScroll)
 
-const padStart = (string) => {
-  const s = String(string)
-  if (!s || s.length >= 2) return s
-  return `0${s}`
-}
 interface CountdownT {
   days?: string
   hours?: string
@@ -87,18 +82,18 @@ const calReleaseCountDown = () => {
   if (dayjs().isBefore(releaseDate)) {
     isBeforeRelease.value = true
     const dayDiff = releaseDate.diff(dayjs(), 'day')
-    countDownText.value.days = padStart(dayDiff)
+    countDownText.value.days = String(dayDiff).padStart(2, '0')
     const hourDiff = releaseDate.diff(dayjs(), 'hour') - dayDiff * 24
-    countDownText.value.hours = padStart(hourDiff)
+    countDownText.value.hours = String(hourDiff).padStart(2, '0')
     const minuteDiff =
       releaseDate.diff(dayjs(), 'minute') - hourDiff * 60 - dayDiff * 24 * 60
-    countDownText.value.minutes = padStart(minuteDiff)
+    countDownText.value.minutes = String(minuteDiff).padStart(2, '0')
     const secondDiff =
       releaseDate.diff(dayjs(), 'second') -
       minuteDiff * 60 -
       hourDiff * 60 * 60 -
       dayDiff * 24 * 60 * 60
-    countDownText.value.seconds = padStart(secondDiff)
+    countDownText.value.seconds = String(secondDiff).padStart(2, '0')
   } else {
     clearInterval(intervalId)
   }
@@ -116,9 +111,9 @@ calReleaseCountDown()
       <div class="banner">
         <div class="banner-desc banner-dot">
           <h1>
-            <span>{{ homeLang['22'] }}</span>
+            <span>{{ homeLang['title_release'] }}</span>
           </h1>
-          <p>{{ homeLang['2'] }}</p>
+          <p>{{ homeLang['title_sub'] }}</p>
         </div>
       </div>
       <div class="count-down">
@@ -160,8 +155,8 @@ calReleaseCountDown()
     <template v-else>
       <div class="banner">
         <div class="banner-desc">
-          <h1>{{ homeLang['1'] }}</h1>
-          <p>{{ homeLang['2'] }}</p>
+          <h1>{{ homeLang['title'] }}</h1>
+          <p>{{ homeLang['title_sub'] }}</p>
         </div>
       </div>
       <div ref="jumbotronRef" class="jumbotron">
@@ -376,6 +371,7 @@ calReleaseCountDown()
     }
     .cd-str {
       font-size: 22px;
+      margin-top: -5px;
     }
   }
 
@@ -546,19 +542,10 @@ calReleaseCountDown()
     }
   }
 
-  @media (max-width: 1000px) {
-    .banner .container {
-      img {
-        display: none;
-      }
-    }
-    .jumbotron,
-    .banner {
-      display: none;
-    }
-  }
-
   @media (max-width: 768px) {
+    .banner-desc {
+      padding-top: 0px;
+    }
     .cards {
       li {
         width: 80%;
@@ -574,6 +561,9 @@ calReleaseCountDown()
       display: none;
     }
     .banner-desc {
+      h1 {
+        font-size: 22px;
+      }
       #line2 {
         display: none;
       }
@@ -582,6 +572,39 @@ calReleaseCountDown()
       }
       p {
         width: auto;
+      }
+    }
+    .banner-dot h1 span {
+      &::after {
+        right: -8px;
+        bottom: 2px;
+        height: 6px;
+        width: 6px;
+      }
+    }
+    .count-down {
+      .cd-main {
+        width: 90%;
+        margin: 40px auto 40px;
+        padding: 20px 0;
+      }
+      .cd-date {
+        font-size: 22px;
+      }
+      .cd-num {
+        font-size: 38px;
+      }
+      .cd-str {
+        font-size: 12px;
+        margin-top: 0px;
+      }
+    }
+    .sponsors-list {
+      display: flex;
+      flex-direction: column;
+      align-content: center;
+      .sponsor {
+        justify-content: left;
       }
     }
   }

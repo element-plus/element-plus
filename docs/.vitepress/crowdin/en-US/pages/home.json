@@ -1,6 +1,6 @@
 {
-  "1": "A Desktop UI Library",
-  "2": "a Vue 3 based component library for designers and developers",
+  "1": "",
+  "2": "",
   "3": "Guide",
   "4": "Understand the design guidelines, helping designers build product that's logically sound, reasonably structured and easy to use.",
   "5": "View Detail",
@@ -20,5 +20,7 @@
   "19": "Community",
   "20": "Become a Sponsor!",
   "21": "Please contact us via",
-  "22": "Element Plus stable release is coming"
+  "title_release": "Element Plus stable release is coming",
+  "title": "Element Plus",
+  "title_sub": "a Vue 3 based component library for designers and developers"
 }
