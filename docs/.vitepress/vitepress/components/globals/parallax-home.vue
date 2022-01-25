@@ -314,7 +314,7 @@ calReleaseCountDown()
       content: '';
       position: absolute;
       right: -12px;
-      bottom: 0;
+      bottom: 8px;
       background: var(--el-color-primary);
       height: 8px;
       width: 8px;
