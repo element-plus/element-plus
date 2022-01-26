@@ -90,7 +90,7 @@
             :loading="cancelButtonLoading"
             :class="[cancelButtonClass]"
             :round="roundButton"
-            :size="buttonSize || ''"
+            :size="btnSize"
             @click="handleAction('cancel')"
             @keydown.prevent.enter="handleAction('cancel')"
           >
@@ -104,7 +104,7 @@
             :class="[confirmButtonClasses]"
             :round="roundButton"
             :disabled="confirmButtonDisabled"
-            :size="buttonSize || ''"
+            :size="btnSize"
             @click="handleAction('confirm')"
             @keydown.prevent.enter="handleAction('confirm')"
           >
@@ -135,6 +135,7 @@ import {
   useLocale,
   useRestoreActive,
   usePreventGlobal,
+  useSize,
 } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import { ElOverlay } from '@element-plus/components/overlay'
@@ -259,6 +260,11 @@ export default defineComponent({
         ? `el-message-box-icon--${type}`
         : ''
     })
+
+    const btnSize = useSize(
+      computed(() => props.buttonSize),
+      { prop: true, form: true, formItem: true }
+    )
 
     const iconComponent = computed(
       () => state.icon || TypeComponentsMap[state.type] || ''
@@ -425,6 +431,7 @@ export default defineComponent({
       visible,
       hasMessage,
       typeClass,
+      btnSize,
       iconComponent,
       confirmButtonClasses,
       inputRef,

@@ -37,7 +37,7 @@ export default defineComponent({
         raf = (fn) => window.setTimeout(fn, 16)
       }
       raf(() => {
-        const rows = instance?.vnode.el?.querySelectorAll(ns.e('row'))
+        const rows = instance?.vnode.el?.querySelectorAll(`.${ns.e('row')}`)
         const oldRow = rows[oldVal]
         const newRow = rows[newVal]
         if (oldRow) {
