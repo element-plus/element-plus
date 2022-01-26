@@ -110,7 +110,7 @@
       font-size: var(--el-font-size-extra-small);
       line-height: var(--el-pagination-line-height-extra-small);
       height: var(--el-pagination-height-extra-small);
-      min-width: 22px;
+      min-width: 24px;
     }
 
     .arrow.disabled {
@@ -216,7 +216,7 @@
     .btn-prev,
     .btn-next,
     .#{$namespace}-pager li {
-      margin: 0 5px;
+      margin: 0 4px;
       background-color: map.get($colors, 'info', 'light-9');
       color: var(--el-text-color-regular);
       min-width: 30px;
@@ -251,8 +251,7 @@
       .btn-prev,
       .btn-next,
       .#{$namespace}-pager li {
-        margin: 0 3px;
-        min-width: 22px;
+        min-width: 24px;
       }
     }
   }
