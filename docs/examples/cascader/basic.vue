@@ -1,6 +1,6 @@
 <template>
-  <div class="block">
-    <span class="demonstration"
+  <div class="example-block">
+    <span class="example-demonstration"
       >Child options expand when clicked (default)</span
     >
     <el-cascader
@@ -9,8 +9,8 @@
       @change="handleChange"
     ></el-cascader>
   </div>
-  <div class="block">
-    <span class="demonstration">Child options expand when hovered</span>
+  <div class="example-block">
+    <span class="example-demonstration">Child options expand when hovered</span>
     <el-cascader
       v-model="value"
       :options="options"
@@ -304,10 +304,10 @@ const options = [
 </script>
 
 <style lang="scss" scoped>
-.block {
+.example-block {
   margin: 1rem;
 }
-.demonstration {
+.example-demonstration {
   margin: 1rem;
 }
 </style>
