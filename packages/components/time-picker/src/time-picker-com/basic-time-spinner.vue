@@ -75,8 +75,17 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref, nextTick, computed, onMounted, watch } from 'vue'
+import {
+  defineComponent,
+  ref,
+  nextTick,
+  computed,
+  onMounted,
+  watch,
+  onBeforeMount,
+} from 'vue'
 import debounce from 'lodash/debounce'
+import { rAF, cAF } from '@element-plus/utils/raf'
 import { RepeatClick } from '@element-plus/directives'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'
@@ -133,6 +142,8 @@ export default defineComponent({
   setup(props, ctx) {
     // data
     let isScrolling = false
+    let isActiveTriggerScroll = false
+    let frameHandle: ReturnType<typeof rAF> | null = null
     const debouncedResetScroll = debounce((type) => {
       isScrolling = false
       adjustCurrentSpinner(type)
@@ -350,6 +361,7 @@ export default defineComponent({
         if (listRefsMap[type] && listRefsMap[type].$el) {
           listRefsMap[type].$el.querySelector('.el-scrollbar__wrap').onscroll =
             () => {
+              if (isActiveTriggerScroll) return
               // TODO: scroll is emitted when set scrollTop programatically
               // should find better solutions in the future!
               handleScroll(type)
@@ -361,13 +373,25 @@ export default defineComponent({
       bindFuntion('seconds')
     }
 
+    const triggerAdjustSpinners = () => {
+      isActiveTriggerScroll = true
+      adjustSpinners()
+      frameHandle = rAF(() => {
+        isActiveTriggerScroll = false
+      })
+    }
+
     onMounted(() => {
       nextTick(() => {
         !props.arrowControl && bindScrollEvent()
-        adjustSpinners()
+        triggerAdjustSpinners()
         // set selection on the first hour part
         if (props.role === 'start') emitSelectRange('hours')
       })
+    })
+
+    onBeforeMount(() => {
+      frameHandle && cAF(frameHandle)
     })
 
     const setRef = (scrollbar, type) => {
@@ -387,7 +411,7 @@ export default defineComponent({
       () => props.spinnerDate,
       () => {
         if (isScrolling) return
-        adjustSpinners()
+        triggerAdjustSpinners()
       }
     )
 

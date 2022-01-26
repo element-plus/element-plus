@@ -651,4 +651,25 @@ describe('TimePicker(range)', () => {
         .innerHTML.split(' ').length
     ).toBe(1)
   })
+
+  it('clear value', async () => {
+    const wrapper = _mount(`<el-time-picker v-model="value" />`, () => ({
+      value: new Date(2016, 9, 10, 8, 40),
+    }))
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    await rAF()
+    const vm = wrapper.vm as any
+    expect(vm.value).toBeDefined()
+    expect(vm.value.getHours()).toBe(8)
+    expect(vm.value.getMinutes()).toBe(40)
+    expect(vm.value.getSeconds()).toBe(0)
+    const picker = wrapper.findComponent(Picker)
+    ;(picker.vm as any).showClose = true
+    await nextTick()
+    ;(document.querySelector('.clear-icon') as HTMLElement).click()
+    expect(vm.value).toBeNull()
+  })
 })
