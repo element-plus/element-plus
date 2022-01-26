@@ -49,16 +49,13 @@ export default defineComponent({
     const ns = useNamespace('tag')
     const classes = computed(() => {
       const { type, hit, effect, closable } = props
-      const tagSizeValue = tagSize.value
       return [
         ns.b(),
-        {
-          [ns.is('closable')]: closable,
-          [ns.m(type)]: type,
-          [ns.m(tagSizeValue)]: tagSize.value,
-          [ns.m(effect)]: effect,
-          [ns.is('hit')]: hit,
-        },
+        ns.is('closable', closable),
+        ns.m(type),
+        ns.m(tagSize.value),
+        ns.m(effect),
+        ns.is('hit', hit),
       ]
     })
 
