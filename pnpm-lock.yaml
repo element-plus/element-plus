@@ -54,7 +54,7 @@ importers:
       gulp: 4.0.2
       husky: 7.0.4
       jest: 26.6.3
-      lint-staged: 12.3.1
+      lint-staged: 12.3.2
       lodash: ^4.17.21
       memoize-one: ^6.0.0
       normalize-wheel-es: ^1.1.1
@@ -130,7 +130,7 @@ importers:
       gulp: 4.0.2
       husky: 7.0.4
       jest: 26.6.3
-      lint-staged: 12.3.1
+      lint-staged: 12.3.2
       prettier: 2.5.1
       pretty-quick: 3.1.3_prettier@2.5.1
       resize-observer-polyfill: 1.5.1
@@ -7514,8 +7514,8 @@ packages:
       uc.micro: 1.0.6
     dev: true
 
-  /lint-staged/12.3.1:
-    resolution: {integrity: sha512-Ocht/eT+4/siWOZDJpNUKcKX2UeWW/pDbohJ4gRsrafAjBi79JK8kiNVk2ciIVNKdw0Q4ABptl2nr6uQAlRImw==}
+  /lint-staged/12.3.2:
+    resolution: {integrity: sha512-gtw4Cbj01SuVSfAOXC6ivd/7VKHTj51yj5xV8TgktFmYNMsZzXuSd5/brqJEA93v63wL7R6iDlunMANOechC0A==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     hasBin: true
     dependencies:
