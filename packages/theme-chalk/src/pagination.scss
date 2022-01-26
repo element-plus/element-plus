@@ -219,7 +219,7 @@
       margin: 0 4px;
       background-color: map.get($colors, 'info', 'light-9');
       color: var(--el-text-color-regular);
-      min-width: 30px;
+      min-width: 32px;
       border-radius: 2px;
 
       &.disabled {
