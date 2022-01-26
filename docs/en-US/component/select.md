@@ -7,12 +7,6 @@ lang: en-US
 
 When there are plenty of options, use a drop-down menu to display and select desired ones.
 
-<style lang="scss">
-.example-showcase .el-select {
-  width: 240px;
-}
-</style>
-
 ## Basic usage
 
 :::demo `v-model` is the value of `el-option` that is currently selected.
