@@ -17,7 +17,7 @@ breadcrumb/basic
 
 ## Icon separator
 
-:::demo Set `separator-icon` to use `iconfont` as the separator，it will cover `separator`
+:::demo Set `separator-icon` to use `svg icon` as the separator，it will cover `separator`
 
 breadcrumb/icon
 
