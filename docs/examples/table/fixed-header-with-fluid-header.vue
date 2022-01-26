@@ -18,14 +18,20 @@
       </template>
     </el-table-column>
   </el-table>
+  <el-button class="mt-4" style="width: 100%" @click="onAddItem"
+    >Add Item</el-button
+  >
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import dayjs from 'dayjs'
+
+let now = dayjs('2016-05-03')
 
 const tableData = ref([
   {
-    date: '2016-05-03',
+    date: '2016-05-01',
     name: 'Tom',
     state: 'California',
     city: 'Los Angeles',
@@ -41,39 +47,7 @@ const tableData = ref([
     zip: 'CA 90036',
   },
   {
-    date: '2016-05-04',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-  },
-  {
-    date: '2016-05-08',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-  },
-  {
-    date: '2016-05-06',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-  },
-  {
-    date: '2016-05-07',
+    date: '2016-05-03',
     name: 'Tom',
     state: 'California',
     city: 'Los Angeles',
@@ -84,5 +58,17 @@ const tableData = ref([
 
 const deleteRow = (index: number) => {
   tableData.value.splice(index, 1)
+}
+
+const onAddItem = () => {
+  now = now.add(1, 'day')
+  tableData.value.push({
+    date: now.format('YYYY-MM-DD'),
+    name: 'Tom',
+    state: 'California',
+    city: 'Los Angeles',
+    address: 'No. 189, Grove St, Los Angeles',
+    zip: 'CA 90036',
+  })
 }
 </script>

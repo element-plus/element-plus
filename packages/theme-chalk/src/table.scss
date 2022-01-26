@@ -115,18 +115,6 @@
     }
   }
 
-  @include m(scrollable-x) {
-    .#{$namespace}-table__body-wrapper {
-      overflow-x: auto;
-    }
-  }
-
-  @include m(scrollable-y) {
-    .#{$namespace}-table__body-wrapper {
-      overflow-y: scroll;
-    }
-  }
-
   thead {
     color: var(--el-table-header-text-color);
     font-weight: 500;
