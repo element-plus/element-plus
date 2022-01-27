@@ -286,11 +286,6 @@ export default defineComponent({
       const startX = e.pageX
       const startY = e.pageY
 
-      const divLeft = wrapper.value.clientLeft
-      const divRight = wrapper.value.clientLeft + wrapper.value.clientWidth
-      const divTop = wrapper.value.clientTop
-      const divBottom = wrapper.value.clientTop + wrapper.value.clientHeight
-
       const dragHandler = rafThrottle((ev: MouseEvent) => {
         transform.value = {
           ...transform.value,
@@ -303,17 +298,7 @@ export default defineComponent({
         'mousemove',
         dragHandler
       )
-      useEventListener(document, 'mouseup', (evt) => {
-        const mouseX = evt.pageX
-        const mouseY = evt.pageY
-        if (
-          mouseX < divLeft ||
-          mouseX > divRight ||
-          mouseY < divTop ||
-          mouseY > divBottom
-        ) {
-          reset()
-        }
+      useEventListener(document, 'mouseup', () => {
         removeMousemove()
       })
 
