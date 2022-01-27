@@ -4,7 +4,7 @@
       :model-value="innerPageSize"
       :disabled="disabled"
       :popper-class="popperClass"
-      size="small"
+      :size="size"
       @change="handleChange"
     >
       <el-option
@@ -41,6 +41,10 @@ const paginationSizesProps = buildProps({
     default: '',
   },
   disabled: Boolean,
+  size: {
+    type: String,
+    default: 'default',
+  },
 } as const)
 
 export default defineComponent({

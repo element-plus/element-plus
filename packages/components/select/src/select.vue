@@ -419,6 +419,9 @@ export default defineComponent({
       if (_selectSize) {
         classList.push(`el-select--${_selectSize}`)
       }
+      if (props.disabled) {
+        classList.push(`el-select--disabled`)
+      }
       return classList
     })
 

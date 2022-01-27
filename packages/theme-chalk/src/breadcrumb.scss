@@ -23,6 +23,8 @@
 
   @include e(item) {
     float: left;
+    display: flex;
+    align-items: center;
 
     @include e(inner) {
       color: var(--el-text-color-regular);

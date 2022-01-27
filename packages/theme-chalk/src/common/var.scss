@@ -695,7 +695,7 @@ $table-cell-padding: map.merge(
 $pagination: () !default;
 $pagination: map.merge(
   (
-    'font-size': 13px,
+    'font-size': 14px,
     'bg-color': var(--el-color-white),
     'text-color': var(--el-text-color-primary),
     'border-radius': 3px,
