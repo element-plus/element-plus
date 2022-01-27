@@ -20,14 +20,14 @@
       </component>
     </div>
     <template v-if="!native">
-      <bar :move="moveX" :ratio="ratioX" :size="sizeWidth" :always="always" />
       <bar
-        :move="moveY"
-        :ratio="ratioY"
-        :size="sizeHeight"
-        vertical
+        ref="barRef"
+        :height="sizeHeight"
+        :width="sizeWidth"
         :always="always"
-      />
+        :ratio-x="ratioX"
+        :ratio-y="ratioY"
+      ></bar>
     </template>
   </div>
 </template>
@@ -69,6 +69,7 @@ export default defineComponent({
 
     const sizeWidth = ref('0')
     const sizeHeight = ref('0')
+    const barRef = ref()
     const moveX = ref(0)
     const moveY = ref(0)
     const ratioY = ref(1)
@@ -85,13 +86,7 @@ export default defineComponent({
 
     const handleScroll = () => {
       if (wrap$.value) {
-        const offsetHeight = wrap$.value.offsetHeight - GAP
-        const offsetWidth = wrap$.value.offsetWidth - GAP
-
-        moveY.value =
-          ((wrap$.value.scrollTop * 100) / offsetHeight) * ratioY.value
-        moveX.value =
-          ((wrap$.value.scrollLeft * 100) / offsetWidth) * ratioX.value
+        barRef.value?.handleScroll(wrap$.value)
 
         emit('scroll', {
           scrollTop: wrap$.value.scrollTop,
@@ -170,7 +165,7 @@ export default defineComponent({
       scrollbar$,
       wrap$,
       resize$,
-
+      barRef,
       moveX,
       moveY,
       ratioX,

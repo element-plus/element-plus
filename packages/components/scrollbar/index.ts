@@ -7,4 +7,4 @@ export default ElScrollbar
 
 export * from './src/util'
 export * from './src/scrollbar'
-export * from './src/bar'
+export * from './src/thumb'
