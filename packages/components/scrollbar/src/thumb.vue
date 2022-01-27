@@ -32,7 +32,7 @@ import { BAR_MAP, renderThumbStyle } from './util'
 
 import { thumbProps } from './thumb'
 
-const COMPONENT_NAME = 'Bar'
+const COMPONENT_NAME = 'Thumb'
 export default defineComponent({
   name: COMPONENT_NAME,
   props: thumbProps,
@@ -45,12 +45,12 @@ export default defineComponent({
     const instance = ref<HTMLDivElement>()
     const thumb = ref<HTMLDivElement>()
 
-    const barStore = ref({})
+    const thumbState = ref({})
     const visible = ref(false)
 
     let cursorDown = false
     let cursorLeave = false
-    let onselectstartStore:
+    let originalOnSelectStart:
       | ((this: GlobalEventHandlers, ev: Event) => any)
       | null = isClient ? document.onselectstart : null
 
@@ -87,7 +87,7 @@ export default defineComponent({
 
       const el = e.currentTarget as HTMLDivElement
       if (!el) return
-      barStore.value[bar.value.axis] =
+      thumbState.value[bar.value.axis] =
         el[bar.value.offset] -
         (e[bar.value.client] - el.getBoundingClientRect()[bar.value.direction])
     }
@@ -115,7 +115,7 @@ export default defineComponent({
       cursorDown = true
       document.addEventListener('mousemove', mouseMoveDocumentHandler)
       document.addEventListener('mouseup', mouseUpDocumentHandler)
-      onselectstartStore = document.onselectstart
+      originalOnSelectStart = document.onselectstart
       document.onselectstart = () => false
     }
 
@@ -123,7 +123,7 @@ export default defineComponent({
       if (!instance.value || !thumb.value) return
       if (cursorDown === false) return
 
-      const prevPage = barStore.value[bar.value.axis]
+      const prevPage = thumbState.value[bar.value.axis]
       if (!prevPage) return
 
       const offset =
@@ -142,7 +142,7 @@ export default defineComponent({
 
     const mouseUpDocumentHandler = () => {
       cursorDown = false
-      barStore.value[bar.value.axis] = 0
+      thumbState.value[bar.value.axis] = 0
       document.removeEventListener('mousemove', mouseMoveDocumentHandler)
       document.removeEventListener('mouseup', mouseUpDocumentHandler)
       restoreOnselectstart()
@@ -165,8 +165,8 @@ export default defineComponent({
     })
 
     const restoreOnselectstart = () => {
-      if (document.onselectstart !== onselectstartStore)
-        document.onselectstart = onselectstartStore
+      if (document.onselectstart !== originalOnSelectStart)
+        document.onselectstart = originalOnSelectStart
     }
 
     useEventListener(
