@@ -63,7 +63,7 @@
         <img
           v-for="(url, i) in urlList"
           v-show="i === index"
-          ref="img"
+          :ref="(el) => (imgRefs[i] = el)"
           :key="url"
           :src="url"
           :style="imgStyle"
@@ -146,7 +146,7 @@ export default defineComponent({
     const { t } = useLocale()
     const ns = useNamespace('image-viewer')
     const wrapper = ref<HTMLDivElement>()
-    const img = ref<HTMLImageElement>()
+    const imgRefs = ref<any[]>([])
 
     const scopeEventListener = effectScope()
 
@@ -180,11 +180,27 @@ export default defineComponent({
 
     const imgStyle = computed(() => {
       const { scale, deg, offsetX, offsetY, enableTransition } = transform.value
+      let translateX = offsetX / scale
+      let translateY = offsetY / scale
+
+      switch (deg % 360) {
+        case 90:
+        case -270:
+          ;[translateX, translateY] = [translateY, -translateX]
+          break
+        case 180:
+        case -180:
+          ;[translateX, translateY] = [-translateX, -translateY]
+          break
+        case 270:
+        case -90:
+          ;[translateX, translateY] = [-translateY, translateX]
+          break
+      }
+
       const style: CSSProperties = {
-        transform: `scale(${scale}) rotate(${deg}deg)`,
+        transform: `scale(${scale}) rotate(${deg}deg) translate(${translateX}px, ${translateY}px)`,
         transition: enableTransition ? 'transform .3s' : '',
-        marginLeft: `${offsetX}px`,
-        marginTop: `${offsetY}px`,
       }
       if (mode.value.name === Mode.CONTAIN.name) {
         style.maxWidth = style.maxHeight = '100%'
@@ -231,12 +247,12 @@ export default defineComponent({
           const delta = e.wheelDelta ? e.wheelDelta : -e.detail
           if (delta > 0) {
             handleActions('zoomIn', {
-              zoomRate: 0.015,
+              zoomRate: 0.1,
               enableTransition: false,
             })
           } else {
             handleActions('zoomOut', {
-              zoomRate: 0.015,
+              zoomRate: 0.1,
               enableTransition: false,
             })
           }
@@ -264,6 +280,7 @@ export default defineComponent({
 
     function handleMouseDown(e: MouseEvent) {
       if (loading.value || e.button !== 0 || !wrapper.value) return
+      transform.value.enableTransition = false
 
       const { offsetX, offsetY } = transform.value
       const startX = e.pageX
@@ -370,7 +387,7 @@ export default defineComponent({
 
     watch(currentImg, () => {
       nextTick(() => {
-        const $img = img.value
+        const $img = imgRefs.value[0]
         if (!$img?.complete) {
           loading.value = true
         }
@@ -392,7 +409,7 @@ export default defineComponent({
     return {
       index,
       wrapper,
-      img,
+      imgRefs,
       isSingle,
       isFirst,
       isLast,
@@ -407,7 +424,6 @@ export default defineComponent({
       handleImgLoad,
       handleImgError,
       handleMouseDown,
-
       ns,
     }
   },
