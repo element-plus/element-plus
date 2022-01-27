@@ -295,6 +295,14 @@
     box-sizing: border-box;
     text-align: center;
 
+    &.btn-quickprev:hover {
+      cursor: pointer;
+    }
+
+    &.btn-quicknext:hover {
+      cursor: pointer;
+    }
+
     &.btn-quicknext,
     &.btn-quickprev {
       line-height: 32px;
@@ -302,19 +310,12 @@
 
       &.disabled {
         color: var(--el-text-color-placeholder);
+        cursor: not-allowed;
       }
 
       svg {
         pointer-events: none;
       }
-    }
-
-    &.btn-quickprev:hover {
-      cursor: pointer;
-    }
-
-    &.btn-quicknext:hover {
-      cursor: pointer;
     }
 
     &.active + li {
