@@ -1,5 +1,5 @@
 <template>
-  <span class="el-pagination__jump">
+  <span class="el-pagination__jump" :disabled="disabled">
     {{ t('el.pagination.goto') }}
     <el-input
       size="small"

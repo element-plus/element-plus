@@ -34,7 +34,7 @@
     display: inline-block;
   }
 
-  &:hover {
+  &:hover:not(.#{$namespace}-select--disabled) {
     .#{$namespace}-input__inner {
       border-color: var(--el-select-border-color-hover);
     }
@@ -47,7 +47,7 @@
     display: inline-flex;
 
     &:focus {
-      border-color: var(--el-select-input-focus-border-color);
+      border-color: var(--el-select-input-focus-border-color) !important;
     }
   }
 
@@ -97,7 +97,7 @@
     }
 
     &.is-focus .#{$namespace}-input__inner {
-      border-color: var(--el-select-input-focus-border-color);
+      border-color: var(--el-select-input-focus-border-color) !important;
     }
   }
 
