@@ -247,12 +247,12 @@ export default defineComponent({
           const delta = e.wheelDelta ? e.wheelDelta : -e.detail
           if (delta > 0) {
             handleActions('zoomIn', {
-              zoomRate: 0.1,
+              zoomRate: 1.2,
               enableTransition: false,
             })
           } else {
             handleActions('zoomOut', {
-              zoomRate: 0.1,
+              zoomRate: 1.2,
               enableTransition: false,
             })
           }
@@ -342,7 +342,7 @@ export default defineComponent({
     function handleActions(action: ImageViewerAction, options = {}) {
       if (loading.value) return
       const { zoomRate, rotateDeg, enableTransition } = {
-        zoomRate: 0.2,
+        zoomRate: 1.4,
         rotateDeg: 90,
         enableTransition: true,
         ...options,
@@ -351,14 +351,16 @@ export default defineComponent({
         case 'zoomOut':
           if (transform.value.scale > 0.2) {
             transform.value.scale = parseFloat(
-              (transform.value.scale - zoomRate).toFixed(3)
+              (transform.value.scale / zoomRate).toFixed(3)
             )
           }
           break
         case 'zoomIn':
-          transform.value.scale = parseFloat(
-            (transform.value.scale + zoomRate).toFixed(3)
-          )
+          if (transform.value.scale < 7) {
+            transform.value.scale = parseFloat(
+              (transform.value.scale * zoomRate).toFixed(3)
+            )
+          }
           break
         case 'clockwise':
           transform.value.deg += rotateDeg
