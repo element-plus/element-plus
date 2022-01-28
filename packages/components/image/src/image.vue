@@ -92,11 +92,10 @@ export default defineComponent({
     })
 
     const imageIndex = computed(() => {
-      const { src, previewSrcList, initialIndex } = props
+      const { previewSrcList, initialIndex } = props
       let previewIndex = initialIndex
-      const srcIndex = previewSrcList.indexOf(src)
-      if (srcIndex >= 0) {
-        previewIndex = srcIndex
+      if (initialIndex > previewSrcList.length - 1) {
+        previewIndex = 0
       }
       return previewIndex
     })
@@ -154,6 +153,7 @@ export default defineComponent({
         removeLazyLoadListener()
       }
     }
+
     const lazyLoadHandler = useThrottleFn(handleLazyLoad, 200)
 
     async function addLazyLoadListener() {
