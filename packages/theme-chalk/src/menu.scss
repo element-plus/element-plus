@@ -5,8 +5,6 @@
 @use 'common/transition';
 
 @mixin menu-item {
-  display: flex;
-  align-items: center;
   height: var(--el-menu-item-height);
   line-height: var(--el-menu-item-height);
   font-size: var(--el-menu-item-font-size);
@@ -218,7 +216,7 @@
 
   & [class^='#{$namespace}-icon'] {
     margin-right: 5px;
-    width: 18px;
+    width: 24px;
     text-align: center;
     font-size: 18px;
     vertical-align: middle;
@@ -278,7 +276,7 @@
   .#{$namespace}-icon {
     vertical-align: middle;
     margin-right: 5px;
-    width: 18px;
+    width: 24px;
     text-align: center;
     font-size: 18px;
 
