@@ -18,7 +18,7 @@
 <script lang="ts">
 import { defineComponent, computed, ref, watch } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
-import { useNamespace } from '@element-plus/hooks'
+import { useNamespace, useSize } from '@element-plus/hooks'
 import { addUnit, isNumber, isString } from '@element-plus/utils/util'
 import { avatarEmits, avatarProps } from './avatar'
 
@@ -48,9 +48,14 @@ export default defineComponent({
 
     const sizeStyle = computed(() => {
       const { size } = props
-      return {
-        '--el-avatar-size': isNumber(size) ? addUnit(size) : undefined,
-      } as CSSProperties
+
+      if (isNumber(size)) {
+        return {
+          '--el-avatar-size': addUnit(size),
+        } as CSSProperties
+      }
+
+      return null
     })
 
     const fitStyle = computed<CSSProperties>(() => ({
