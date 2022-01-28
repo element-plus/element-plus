@@ -7,6 +7,7 @@ importers:
       '@commitlint/cli': 16.1.0
       '@commitlint/config-conventional': 16.0.0
       '@element-plus/components': workspace:*
+      '@element-plus/constants': workspace:*
       '@element-plus/directives': workspace:*
       '@element-plus/hooks': workspace:*
       '@element-plus/icons-vue': ^0.2.6
@@ -15,6 +16,7 @@ importers:
       '@element-plus/theme-chalk': workspace:*
       '@element-plus/tokens': workspace:*
       '@element-plus/utils': workspace:*
+      '@element-plus/utils-v2': workspace:*
       '@pnpm/find-workspace-packages': 3.1.40
       '@pnpm/logger': 4.0.0
       '@pnpm/types': 7.9.0
@@ -80,6 +82,7 @@ importers:
       vue-tsc: 0.31.2
     dependencies:
       '@element-plus/components': link:packages/components
+      '@element-plus/constants': link:packages/constants
       '@element-plus/directives': link:packages/directives
       '@element-plus/hooks': link:packages/hooks
       '@element-plus/icons-vue': 0.2.6_vue@3.2.27
@@ -88,6 +91,7 @@ importers:
       '@element-plus/theme-chalk': link:packages/theme-chalk
       '@element-plus/tokens': link:packages/tokens
       '@element-plus/utils': link:packages/utils
+      '@element-plus/utils-v2': link:packages/utils-v2
       '@popperjs/core': 2.11.2
       '@vueuse/core': 7.5.5_vue@3.2.27
       async-validator: 4.0.7
@@ -205,6 +209,9 @@ importers:
   packages/components:
     specifiers: {}
 
+  packages/constants:
+    specifiers: {}
+
   packages/directives:
     specifiers: {}
 
@@ -278,6 +285,9 @@ importers:
     specifiers: {}
 
   packages/utils:
+    specifiers: {}
+
+  packages/utils-v2:
     specifiers: {}
 
   play:

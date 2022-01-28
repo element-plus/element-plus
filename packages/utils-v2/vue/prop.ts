@@ -1,8 +1,7 @@
 import { warn } from 'vue'
-import { isObject } from '@vue/shared'
 import { fromPairs } from 'lodash-unified'
-import type { ExtractPropTypes, PropType } from '@vue/runtime-core'
-import type { Mutable } from './types'
+import { isObject } from '../types'
+import type { ExtractPropTypes, PropType } from 'vue'
 
 const wrapperKey = Symbol()
 export type PropWrapper<T> = { [wrapperKey]: T }
@@ -201,10 +200,3 @@ export const buildProps = <
 
 export const definePropType = <T>(val: any) =>
   ({ [wrapperKey]: val } as PropWrapper<T>)
-
-export const keyOf = <T>(arr: T) => Object.keys(arr) as Array<keyof T>
-export const mutable = <T extends readonly any[] | Record<string, unknown>>(
-  val: T
-) => val as Mutable<typeof val>
-
-export const componentSize = ['large', 'default', 'small'] as const

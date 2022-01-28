@@ -8,7 +8,7 @@ import {
   CircleCheck,
   CircleClose,
 } from '@element-plus/icons-vue'
-import { definePropType } from './props'
+import { definePropType } from './prop'
 import type { Component } from 'vue'
 
 export const iconPropType = definePropType<string | Component>([String, Object])

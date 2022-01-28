@@ -1,7 +1,7 @@
 import { useSizeProp } from '@element-plus/hooks'
-import { buildProps, definePropType } from '@element-plus/utils/props'
+import { buildProps, iconPropType } from '@element-plus/utils-v2'
 import { Loading } from '@element-plus/icons-vue'
-import type { ExtractPropTypes, Component } from 'vue'
+import type { ExtractPropTypes } from 'vue'
 import type button from './button.vue'
 
 export const buttonType = [
@@ -25,7 +25,7 @@ export const buttonProps = buildProps({
     default: '',
   },
   icon: {
-    type: definePropType<string | Component>([String, Object]),
+    type: iconPropType,
     default: '',
   },
   nativeType: {
@@ -35,7 +35,7 @@ export const buttonProps = buildProps({
   },
   loading: Boolean,
   loadingIcon: {
-    type: definePropType<string | Component>([String, Object]),
+    type: iconPropType,
     default: () => Loading,
   },
   plain: Boolean,

@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { TypeComponentsMap } from '@element-plus/utils/icon'
+import { TypeComponentsMap } from '@element-plus/utils-v2'
 import Alert from '../src/alert.vue'
 
 const AXIOM = 'Rem is the best girl'

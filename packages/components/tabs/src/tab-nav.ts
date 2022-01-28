@@ -14,9 +14,13 @@ import {
   useDocumentVisibility,
   useWindowFocus,
 } from '@vueuse/core'
-import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
+import {
+  buildProps,
+  definePropType,
+  mutable,
+  throwError,
+} from '@element-plus/utils-v2'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { throwError } from '@element-plus/utils/error'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight, Close } from '@element-plus/icons-vue'
 import { tabsRootContextKey } from '@element-plus/tokens'

@@ -93,7 +93,8 @@ import { useEventListener } from '@vueuse/core'
 import ElIcon from '@element-plus/components/icon'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { rafThrottle, isFirefox } from '@element-plus/utils/util'
+import { isFirefox } from '@element-plus/utils-v2'
+import { rafThrottle } from '@element-plus/utils/util'
 import {
   Close,
   ArrowLeft,

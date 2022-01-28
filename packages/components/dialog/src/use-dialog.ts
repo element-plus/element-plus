@@ -7,8 +7,8 @@ import {
   useModal,
   useZIndex,
 } from '@element-plus/hooks'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { isNumber } from '@element-plus/utils/util'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { isNumber } from '@element-plus/utils-v2'
 
 import type { CSSProperties, Ref, SetupContext } from 'vue'
 import type { DialogEmits, DialogProps } from './dialog'

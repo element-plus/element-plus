@@ -1,6 +1,6 @@
 import { ref, computed, inject, getCurrentInstance, watch } from 'vue'
 import { toTypeString } from '@vue/shared'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 
 import { useSize } from '@element-plus/hooks'

@@ -1,4 +1,4 @@
-import { buildProps } from '@element-plus/utils/props'
+import { buildProps } from '@element-plus/utils-v2'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 
 export const usePopoverProps = {

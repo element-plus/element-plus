@@ -1,5 +1,5 @@
 import { NOOP } from '@vue/shared'
-import type { SFCWithInstall } from './types'
+import type { SFCWithInstall } from './typescript'
 
 export const withInstall = <T, E extends Record<string, any>>(
   main: T,

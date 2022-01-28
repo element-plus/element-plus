@@ -1,7 +1,10 @@
-import { buildProps, definePropType } from '@element-plus/utils/props'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-
-import type { ExtractPropTypes, Component } from 'vue'
+import {
+  buildProps,
+  definePropType,
+  iconPropType,
+} from '@element-plus/utils-v2'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import type { ExtractPropTypes } from 'vue'
 
 export const dialogProps = buildProps({
   appendToBody: {
@@ -24,7 +27,7 @@ export const dialogProps = buildProps({
     default: '',
   },
   closeIcon: {
-    type: definePropType<string | Component>([String, Object]),
+    type: iconPropType,
     default: '',
   },
   closeOnClickModal: {

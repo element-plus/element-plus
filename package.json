@@ -53,6 +53,7 @@
   },
   "dependencies": {
     "@element-plus/components": "workspace:*",
+    "@element-plus/constants": "workspace:*",
     "@element-plus/directives": "workspace:*",
     "@element-plus/hooks": "workspace:*",
     "@element-plus/icons-vue": "^0.2.6",
@@ -61,6 +62,7 @@
     "@element-plus/theme-chalk": "workspace:*",
     "@element-plus/tokens": "workspace:*",
     "@element-plus/utils": "workspace:*",
+    "@element-plus/utils-v2": "workspace:*",
     "@popperjs/core": "^2.11.2",
     "@vueuse/core": "^7.5.5",
     "async-validator": "^4.0.7",

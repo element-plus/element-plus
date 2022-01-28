@@ -38,7 +38,7 @@ import ElIcon from '@element-plus/components/icon'
 import { CircleClose, Clock } from '@element-plus/icons-vue'
 
 import type { PropType, Component } from 'vue'
-import type { ComponentSize } from '@element-plus/utils/types'
+import type { ComponentSize } from '@element-plus/constants'
 dayjs.extend(customParseFormat)
 
 const { Option: ElOption } = ElSelect

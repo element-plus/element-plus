@@ -32,7 +32,7 @@ import {
   onUnmounted,
 } from 'vue'
 import { autoprefixer } from '@element-plus/utils/util'
-import { debugWarn } from '@element-plus/utils/error'
+import { debugWarn } from '@element-plus/utils-v2'
 import { useNamespace } from '@element-plus/hooks'
 import type { CSSProperties } from 'vue'
 import type { InjectCarouselScope, ICarouselItemProps } from './carousel'

@@ -21,7 +21,7 @@ import {
   watch,
 } from 'vue'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { radioGroupKey } from '@element-plus/tokens'
 import { useFormItem } from '@element-plus/hooks'
 import { radioGroupEmits, radioGroupProps } from './radio-group'

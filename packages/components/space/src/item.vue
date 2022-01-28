@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { buildProps } from '@element-plus/utils/props'
+import { buildProps } from '@element-plus/utils-v2'
 import { useNamespace } from '@element-plus/hooks'
 
 const spaceItem = buildProps({

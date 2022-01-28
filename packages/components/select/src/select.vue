@@ -231,12 +231,12 @@ import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { useDeprecateAppendToBody } from '@element-plus/components/popper'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
+import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
 import {
   addResizeListener,
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
-import { isValidComponentSize } from '@element-plus/utils/validators'
+import { isValidComponentSize } from '@element-plus/utils-v2'
 import { CircleClose, ArrowUp } from '@element-plus/icons-vue'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
@@ -244,7 +244,7 @@ import { useSelect, useSelectStates } from './useSelect'
 import { selectKey } from './token'
 
 import type { PropType, Component } from 'vue'
-import type { ComponentSize } from '@element-plus/utils/types'
+import type { ComponentSize } from '@element-plus/constants'
 import type { SelectContext } from './token'
 
 const COMPONENT_NAME = 'ElSelect'

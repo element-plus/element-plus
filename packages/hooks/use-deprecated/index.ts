@@ -1,5 +1,5 @@
 import { unref, watch } from 'vue'
-import { debugWarn } from '@element-plus/utils/error'
+import { debugWarn } from '@element-plus/utils-v2'
 
 import type { MaybeRef } from '@vueuse/core'
 

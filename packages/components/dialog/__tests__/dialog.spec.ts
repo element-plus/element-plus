@@ -7,7 +7,7 @@ import Dialog from '../'
 
 const AXIOM = 'Rem is the best girl'
 
-const _mount = ({ slots, ...rest }: Indexable<any>) => {
+const _mount = ({ slots, ...rest }: Record<string, any>) => {
   return mount(Dialog, {
     slots: {
       default: AXIOM,

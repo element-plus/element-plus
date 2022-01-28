@@ -13,7 +13,7 @@ import {
   FORWARD_REF_INJECTION_KEY,
   useForwardRefDirective,
 } from '@element-plus/hooks'
-import { debugWarn } from '@element-plus/utils/error'
+import { debugWarn } from '@element-plus/utils-v2'
 
 import type { VNode } from 'vue'
 

@@ -1,5 +1,5 @@
 import { inject, computed, ref } from 'vue'
-import { generateId } from '@element-plus/utils/util'
+import { generateId } from '@element-plus/utils-v2'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { on, addClass } from '@element-plus/utils/dom'
 

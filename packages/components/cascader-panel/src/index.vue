@@ -28,14 +28,10 @@ import {
 import { isEqual } from 'lodash-unified'
 import { isClient } from '@vueuse/core'
 import { EVENT_CODE, focusNode, getSibling } from '@element-plus/utils/aria'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
+import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
 import scrollIntoView from '@element-plus/utils/scroll-into-view'
-import {
-  arrayFlat,
-  coerceTruthyValueToArray,
-  deduplicate,
-  isEmpty,
-} from '@element-plus/utils/util'
+import { arrayFlat, coerceTruthyValueToArray } from '@element-plus/utils/util'
+import { isEmpty, unique } from '@element-plus/utils-v2'
 
 import ElCascaderMenu from './menu.vue'
 import Store from './store'
@@ -213,7 +209,7 @@ export default defineComponent({
         return
 
       if (lazy && !loaded) {
-        const values: CascaderNodeValue[] = deduplicate(
+        const values: CascaderNodeValue[] = unique(
           arrayFlat(coerceTruthyValueToArray(modelValue))
         )
         const nodes = values
@@ -231,7 +227,7 @@ export default defineComponent({
         const values = multiple
           ? coerceTruthyValueToArray(modelValue)
           : [modelValue]
-        const nodes = deduplicate(
+        const nodes = unique(
           values.map((val) => store?.getNodeByValue(val, leafOnly))
         ) as Node[]
         syncMenuState(nodes, false)
