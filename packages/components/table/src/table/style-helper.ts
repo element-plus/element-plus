@@ -109,7 +109,7 @@ function useStyle<T>(
   onMounted(async () => {
     setScrollClass('is-scrolling-left')
     store.updateColumns()
-    await nextTick()
+    // await nextTick()
     bindEvents()
     requestAnimationFrame(doLayout)
 
