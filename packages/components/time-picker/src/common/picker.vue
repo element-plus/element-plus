@@ -376,11 +376,13 @@ export default defineComponent({
           pickerOptions.value.getRangeAvailableTime(result)
         if (!isEqual(availableResult, result)) {
           result = availableResult
-          emitInput(
-            Array.isArray(result)
-              ? result.map((_) => _.toDate())
-              : result.toDate()
-          )
+          if (!valueIsEmpty.value) {
+            emitInput(
+              Array.isArray(result)
+                ? result.map((_) => _.toDate())
+                : result.toDate()
+            )
+          }
         }
       }
       if (Array.isArray(result) && result.some((_) => !_)) {

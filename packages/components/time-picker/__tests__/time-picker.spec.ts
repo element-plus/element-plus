@@ -410,6 +410,53 @@ describe('TimePicker', () => {
     await nextTick()
     expect(vm.value).toEqual('2000-01-01 09:00:00')
   })
+
+  it('clear value', async () => {
+    const wrapper = _mount(
+      `
+      <el-time-picker
+      v-model="value"
+      :disabled-hours="disabledHours"
+      :disabled-minutes="disabledMinutes"
+      :disabled-seconds="disabledSeconds"
+      placeholder="Arbitrary time"
+      >
+      </el-time-picker>
+      `,
+      () => ({ value: new Date(2021, 10, 20, 9, 20) }),
+      {
+        methods: {
+          disabledHours() {
+            return makeRange(0, 16).concat(makeRange(19, 23))
+          },
+          disabledMinutes(hour) {
+            if (hour === 17) {
+              return makeRange(0, 29)
+            }
+            if (hour === 18) {
+              return makeRange(31, 59)
+            }
+          },
+          disabledSeconds(hour, minute) {
+            if (hour === 18 && minute === 30) {
+              return makeRange(1, 59)
+            }
+          },
+        },
+      }
+    )
+    await nextTick()
+    const vm = wrapper.vm as any
+    const input = wrapper.find('input')
+    const picker = wrapper.findComponent(Picker)
+    expect(input.element.value).toEqual('17:30:00')
+    ;(picker.vm as any).showClose = true
+    await nextTick()
+    wrapper.find('.clear-icon').trigger('click')
+    await nextTick()
+    expect(input.element.value).toBe('')
+    expect(vm.value).toBeNull()
+  })
 })
 
 describe('TimePicker(range)', () => {
