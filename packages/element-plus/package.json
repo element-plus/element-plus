@@ -51,7 +51,7 @@
     "@ctrl/tinycolor": "^3.4.0",
     "@element-plus/icons-vue": "^0.2.6",
     "@popperjs/core": "^2.11.2",
-    "@vueuse/core": "^7.5.4",
+    "@vueuse/core": "^7.5.5",
     "async-validator": "^4.0.7",
     "dayjs": "^1.10.7",
     "lodash": "^4.17.21",

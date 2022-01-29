@@ -33,7 +33,7 @@ importers:
       '@typescript-eslint/parser': 5.10.1
       '@vitejs/plugin-vue': 2.1.0
       '@vue/test-utils': 2.0.0-rc.16
-      '@vueuse/core': ^7.5.4
+      '@vueuse/core': ^7.5.5
       async-validator: ^4.0.7
       chalk: 4.1.2
       components-helper: 1.0.5
@@ -86,7 +86,7 @@ importers:
       '@element-plus/tokens': link:packages/tokens
       '@element-plus/utils': link:packages/utils
       '@popperjs/core': 2.11.2
-      '@vueuse/core': 7.5.4_vue@3.2.27
+      '@vueuse/core': 7.5.5_vue@3.2.27
       async-validator: 4.0.7
       dayjs: 1.10.7
       lodash: 4.17.21
@@ -208,7 +208,7 @@ importers:
       '@element-plus/icons-vue': ^0.2.6
       '@popperjs/core': ^2.11.2
       '@types/node': '*'
-      '@vueuse/core': ^7.5.4
+      '@vueuse/core': ^7.5.5
       async-validator: ^4.0.7
       csstype: ^2.6.19
       dayjs: ^1.10.7
@@ -220,7 +220,7 @@ importers:
       '@ctrl/tinycolor': 3.4.0
       '@element-plus/icons-vue': 0.2.6_vue@3.2.27
       '@popperjs/core': 2.11.2
-      '@vueuse/core': 7.5.4_vue@3.2.27
+      '@vueuse/core': 7.5.5_vue@3.2.27
       async-validator: 4.0.7
       dayjs: 1.10.7
       lodash: 4.17.21
@@ -2418,22 +2418,6 @@ packages:
       vue: 3.2.27
     dev: true
 
-  /@vueuse/core/7.5.4_vue@3.2.27:
-    resolution: {integrity: sha512-PKmyHN2lZuttGgKmsoMMqiSojSYYKraszilP0gpQIGcLt2YoLABaG3VFjdPs2tY6DM+HG3o70HuzOMEQCY8fqQ==}
-    peerDependencies:
-      '@vue/composition-api': ^1.1.0
-      vue: ^2.6.0 || ^3.2.0
-    peerDependenciesMeta:
-      '@vue/composition-api':
-        optional: true
-      vue:
-        optional: true
-    dependencies:
-      '@vueuse/shared': 7.5.4_vue@3.2.27
-      vue: 3.2.27
-      vue-demi: 0.12.1_vue@3.2.27
-    dev: false
-
   /@vueuse/core/7.5.5_vue@3.2.27:
     resolution: {integrity: sha512-RBDqmIoGfak4h3xdXa/Av+ibkb8NY044wEy6+PG2FAWNaID8/FkqmSFjbxogrbmpSX1yZ1PBHrM8DUp/FrIpbg==}
     peerDependencies:
@@ -2446,21 +2430,6 @@ packages:
         optional: true
     dependencies:
       '@vueuse/shared': 7.5.5_vue@3.2.27
-      vue: 3.2.27
-      vue-demi: 0.12.1_vue@3.2.27
-    dev: false
-
-  /@vueuse/shared/7.5.4_vue@3.2.27:
-    resolution: {integrity: sha512-750RnGUEgg1+K4jGVkv7M5UOStAa/IjAInV6BugyBOvRYL2l1lcIDUi4V/qIKTlhd2oUAByCEnlqIpFD2a3tfw==}
-    peerDependencies:
-      '@vue/composition-api': ^1.1.0
-      vue: ^2.6.0 || ^3.2.0
-    peerDependenciesMeta:
-      '@vue/composition-api':
-        optional: true
-      vue:
-        optional: true
-    dependencies:
       vue: 3.2.27
       vue-demi: 0.12.1_vue@3.2.27
     dev: false
@@ -3010,7 +2979,7 @@ packages:
   /axios/0.25.0:
     resolution: {integrity: sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==}
     dependencies:
-      follow-redirects: 1.14.7_debug@4.3.3
+      follow-redirects: 1.14.7
     transitivePeerDependencies:
       - debug
     dev: false
@@ -5511,6 +5480,16 @@ packages:
       readable-stream: 2.3.7
     dev: true
 
+  /follow-redirects/1.14.7:
+    resolution: {integrity: sha512-+hbxoLbFMbRKDwohX8GkTataGqO6Jb7jGwpAlwgy2bIz25XtRm7KEzJM76R1WiNT5SwZkX4Y75SwBolkpmE7iQ==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dev: false
+
   /follow-redirects/1.14.7_debug@4.3.3:
     resolution: {integrity: sha512-+hbxoLbFMbRKDwohX8GkTataGqO6Jb7jGwpAlwgy2bIz25XtRm7KEzJM76R1WiNT5SwZkX4Y75SwBolkpmE7iQ==}
     engines: {node: '>=4.0'}
@@ -5521,6 +5500,7 @@ packages:
         optional: true
     dependencies:
       debug: 4.3.3
+    dev: true
 
   /for-in/1.0.2:
     resolution: {integrity: sha1-gQaNKVqBQuwKxybG4iAMMPttXoA=}
