@@ -1,15 +1,19 @@
 <template>
-  <transition name="el-collapse-transition" v-on="on">
+  <transition :name="ns.b()" v-on="on">
     <slot></slot>
   </transition>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
 
 export default defineComponent({
   name: 'ElCollapseTransition',
   setup() {
+    const ns = useNamespace('collapse-transition')
+
     return {
+      ns,
       on: {
         beforeEnter(el) {
           if (!el.dataset) el.dataset = {}
