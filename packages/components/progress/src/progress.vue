@@ -2,11 +2,12 @@
   <div
     class="el-progress"
     :class="[
-      `el-progress--${type}`,
-      status ? `is-${status}` : '',
+      ns.b(),
+      ns.m(type),
+      ns.is(status),
       {
-        'el-progress--without-text': !showText,
-        'el-progress--text-inside': textInside,
+        [ns.m('without-text')]: !showText,
+        [ns.m('text-inside')]: textInside,
       },
     ]"
     role="progressbar"
@@ -14,21 +15,21 @@
     aria-valuemin="0"
     aria-valuemax="100"
   >
-    <div v-if="type === 'line'" class="el-progress-bar">
+    <div v-if="type === 'line'" :class="ns.b('bar')">
       <div
-        class="el-progress-bar__outer"
+        :class="ns.be('bar', 'outer')"
         :style="{ height: `${strokeWidth}px` }"
       >
         <div
           :class="[
-            'el-progress-bar__inner',
-            { 'el-progress-bar__inner--indeterminate': indeterminate },
+            ns.be('bar', 'inner'),
+            { [ns.bem('bar', 'inner', 'indeterminate')]: indeterminate },
           ]"
           :style="barStyle"
         >
           <div
             v-if="(showText || $slots.default) && textInside"
-            class="el-progress-bar__innerText"
+            :class="ns.be('bar', 'innerText')"
           >
             <slot v-bind="slotData">
               <span>{{ content }}</span>
@@ -39,12 +40,12 @@
     </div>
     <div
       v-else
-      class="el-progress-circle"
+      :class="ns.b('circle')"
       :style="{ height: `${width}px`, width: `${width}px` }"
     >
       <svg viewBox="0 0 100 100">
         <path
-          class="el-progress-circle__track"
+          :class="ns.be('circle', 'track')"
           :d="trackPath"
           stroke="#e5e9f2"
           :stroke-width="relativeStrokeWidth"
@@ -52,7 +53,7 @@
           :style="trailPathStyle"
         />
         <path
-          class="el-progress-circle__path"
+          :class="ns.be('circle', 'path')"
           :d="trackPath"
           :stroke="stroke"
           fill="none"
@@ -64,7 +65,7 @@
     </div>
     <div
       v-if="(showText || $slots.default) && !textInside"
-      class="el-progress__text"
+      :class="ns.e('text')"
       :style="{ fontSize: `${progressTextSize}px` }"
     >
       <slot v-bind="slotData">
@@ -85,6 +86,7 @@ import {
   Check,
   Close,
 } from '@element-plus/icons-vue'
+import { useNamespace } from '@element-plus/hooks'
 import { progressProps } from './progress'
 import type { CSSProperties } from 'vue'
 
@@ -101,6 +103,8 @@ export default defineComponent({
   props: progressProps,
 
   setup(props) {
+    const ns = useNamespace('progress')
+
     const barStyle = computed(
       (): CSSProperties => ({
         width: `${props.percentage}%`,
@@ -234,6 +238,7 @@ export default defineComponent({
     })
 
     return {
+      ns,
       barStyle,
       relativeStrokeWidth,
       radius,
