@@ -7,16 +7,16 @@
   </el-alert>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-export default defineComponent({
-  setup() {
-    const hello = () => {
-      alert('Hello World!')
-    }
-    return {
-      hello,
-    }
-  },
-})
+<script lang="ts" setup>
+const hello = () => {
+  alert('Hello World!')
+}
 </script>
+<style scoped>
+.el-alert {
+  margin: 20px 0 0;
+}
+.el-alert:first-child {
+  margin: 0;
+}
+</style>

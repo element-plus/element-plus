@@ -7,30 +7,6 @@ lang: en-US
 
 Drag the slider within a fixed range.
 
-<style lang="scss">
-.slider-demo-block {
-  display: flex;
-  align-items: center;
-  .el-slider {
-    margin-top: 0;
-    margin-left: 12px;
-  }
-  .demonstration {
-    font-size: 14px;
-    color: var(--el-text-color-secondary);
-    line-height: 44px;
-    flex: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    margin-bottom: 0;
-     & + .el-slider {
-        flex: 0 0 70%;
-    }
-  }
-}
-</style>
-
 ## Basic usage
 
 The current value is displayed when the slider is being dragged.

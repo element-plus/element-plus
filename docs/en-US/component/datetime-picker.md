@@ -13,27 +13,6 @@ DateTimePicker is derived from DatePicker and TimePicker. For a more detailed ex
 
 :::
 
-<style lang="scss">
-.example-showcase  {
-  .block {
-    padding: 30px 0;
-    text-align: center;
-    border-right: solid 1px var(--el-border-color-base);
-    flex: 1;
-    &:last-child {
-      border-right: none;
-    }
-  }
-
-  .demonstration {
-    display: block;
-    color: var(--el-text-color-secondary);
-    font-size: 14px;
-    margin-bottom: 20px;
-  }
-}
-</style>
-
 ## Date and time
 
 :::demo You can select date and time in one picker at the same time by setting `type` to `datetime`. The way to use shortcuts is the same as Date Picker.

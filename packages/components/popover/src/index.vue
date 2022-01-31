@@ -8,6 +8,8 @@
     :popper-class="kls"
     :popper-style="style"
     persistent
+    @show="afterEnter"
+    @hide="afterLeave"
   >
     <template v-if="$slots.reference">
       <slot name="reference" />
@@ -42,7 +44,7 @@ export default defineComponent({
   },
   props: usePopoverProps,
   emits,
-  setup(props) {
+  setup(props, { emit }) {
     const tooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
     const popperRef = computed(() => {
       return unref(tooltipRef)?.popperRef
@@ -75,12 +77,22 @@ export default defineComponent({
       tooltipRef.value?.hide()
     }
 
+    const afterEnter = () => {
+      emit('after-enter')
+    }
+
+    const afterLeave = () => {
+      emit('after-leave')
+    }
+
     return {
       kls,
       style,
       tooltipRef,
       popperRef,
       hide,
+      afterEnter,
+      afterLeave,
     }
   },
 })

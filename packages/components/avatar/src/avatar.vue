@@ -48,9 +48,11 @@ export default defineComponent({
 
     const sizeStyle = computed(() => {
       const { size } = props
-      return {
-        '--el-avatar-size': isNumber(size) ? addUnit(size) : undefined,
-      } as CSSProperties
+      return isNumber(size)
+        ? ({
+            '--el-avatar-size': addUnit(size),
+          } as CSSProperties)
+        : undefined
     })
 
     const fitStyle = computed<CSSProperties>(() => ({

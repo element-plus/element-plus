@@ -46,3 +46,11 @@ function showClick() {
   dropdown1.value.handleOpen()
 }
 </script>
+<style scoped>
+.example-showcase .el-dropdown-link {
+  cursor: pointer;
+  color: var(--el-color-primary);
+  display: flex;
+  align-items: center;
+}
+</style>

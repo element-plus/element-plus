@@ -63,7 +63,7 @@
         <img
           v-for="(url, i) in urlList"
           v-show="i === index"
-          ref="img"
+          :ref="(el) => (imgRefs[i] = el)"
           :key="url"
           :src="url"
           :style="imgStyle"
@@ -146,7 +146,7 @@ export default defineComponent({
     const { t } = useLocale()
     const ns = useNamespace('image-viewer')
     const wrapper = ref<HTMLDivElement>()
-    const img = ref<HTMLImageElement>()
+    const imgRefs = ref<any[]>([])
 
     const scopeEventListener = effectScope()
 
@@ -180,11 +180,27 @@ export default defineComponent({
 
     const imgStyle = computed(() => {
       const { scale, deg, offsetX, offsetY, enableTransition } = transform.value
+      let translateX = offsetX / scale
+      let translateY = offsetY / scale
+
+      switch (deg % 360) {
+        case 90:
+        case -270:
+          ;[translateX, translateY] = [translateY, -translateX]
+          break
+        case 180:
+        case -180:
+          ;[translateX, translateY] = [-translateX, -translateY]
+          break
+        case 270:
+        case -90:
+          ;[translateX, translateY] = [-translateY, translateX]
+          break
+      }
+
       const style: CSSProperties = {
-        transform: `scale(${scale}) rotate(${deg}deg)`,
+        transform: `scale(${scale}) rotate(${deg}deg) translate(${translateX}px, ${translateY}px)`,
         transition: enableTransition ? 'transform .3s' : '',
-        marginLeft: `${offsetX}px`,
-        marginTop: `${offsetY}px`,
       }
       if (mode.value.name === Mode.CONTAIN.name) {
         style.maxWidth = style.maxHeight = '100%'
@@ -231,12 +247,12 @@ export default defineComponent({
           const delta = e.wheelDelta ? e.wheelDelta : -e.detail
           if (delta > 0) {
             handleActions('zoomIn', {
-              zoomRate: 0.015,
+              zoomRate: 1.2,
               enableTransition: false,
             })
           } else {
             handleActions('zoomOut', {
-              zoomRate: 0.015,
+              zoomRate: 1.2,
               enableTransition: false,
             })
           }
@@ -264,15 +280,11 @@ export default defineComponent({
 
     function handleMouseDown(e: MouseEvent) {
       if (loading.value || e.button !== 0 || !wrapper.value) return
+      transform.value.enableTransition = false
 
       const { offsetX, offsetY } = transform.value
       const startX = e.pageX
       const startY = e.pageY
-
-      const divLeft = wrapper.value.clientLeft
-      const divRight = wrapper.value.clientLeft + wrapper.value.clientWidth
-      const divTop = wrapper.value.clientTop
-      const divBottom = wrapper.value.clientTop + wrapper.value.clientHeight
 
       const dragHandler = rafThrottle((ev: MouseEvent) => {
         transform.value = {
@@ -286,17 +298,7 @@ export default defineComponent({
         'mousemove',
         dragHandler
       )
-      useEventListener(document, 'mouseup', (evt) => {
-        const mouseX = evt.pageX
-        const mouseY = evt.pageY
-        if (
-          mouseX < divLeft ||
-          mouseX > divRight ||
-          mouseY < divTop ||
-          mouseY > divBottom
-        ) {
-          reset()
-        }
+      useEventListener(document, 'mouseup', () => {
         removeMousemove()
       })
 
@@ -340,7 +342,7 @@ export default defineComponent({
     function handleActions(action: ImageViewerAction, options = {}) {
       if (loading.value) return
       const { zoomRate, rotateDeg, enableTransition } = {
-        zoomRate: 0.2,
+        zoomRate: 1.4,
         rotateDeg: 90,
         enableTransition: true,
         ...options,
@@ -349,14 +351,16 @@ export default defineComponent({
         case 'zoomOut':
           if (transform.value.scale > 0.2) {
             transform.value.scale = parseFloat(
-              (transform.value.scale - zoomRate).toFixed(3)
+              (transform.value.scale / zoomRate).toFixed(3)
             )
           }
           break
         case 'zoomIn':
-          transform.value.scale = parseFloat(
-            (transform.value.scale + zoomRate).toFixed(3)
-          )
+          if (transform.value.scale < 7) {
+            transform.value.scale = parseFloat(
+              (transform.value.scale * zoomRate).toFixed(3)
+            )
+          }
           break
         case 'clockwise':
           transform.value.deg += rotateDeg
@@ -370,7 +374,7 @@ export default defineComponent({
 
     watch(currentImg, () => {
       nextTick(() => {
-        const $img = img.value
+        const $img = imgRefs.value[0]
         if (!$img?.complete) {
           loading.value = true
         }
@@ -392,7 +396,7 @@ export default defineComponent({
     return {
       index,
       wrapper,
-      img,
+      imgRefs,
       isSingle,
       isFirst,
       isLast,
@@ -407,7 +411,6 @@ export default defineComponent({
       handleImgLoad,
       handleImgError,
       handleMouseDown,
-
       ns,
     }
   },
