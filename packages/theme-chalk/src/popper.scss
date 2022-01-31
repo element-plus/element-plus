@@ -9,7 +9,7 @@
 @include b(popper) {
   position: absolute;
   border-radius: var(--el-popper-border-radius);
-  padding: 6px 12px;
+  padding: 5px 11px;
   z-index: 2000;
   font-size: 12px;
   line-height: 20px;
@@ -22,16 +22,16 @@
   @include when(dark) {
     color: var(--el-color-white);
     background: var(--el-text-color-primary);
+    border: 1px solid var(--el-text-color-primary);
 
     #{$arrow-selector}::before {
+      border: 1px solid var(--el-text-color-primary);
       background: var(--el-text-color-primary);
       right: 0;
     }
   }
 
   @include when(light) {
-    // cause border has 1px offset
-    padding: 5px 11px;
     background: var(--el-color-white);
     border: 1px solid var(--el-border-color-light);
 
@@ -96,10 +96,10 @@
     $adjacency
       in ('top': 'left', 'bottom': 'right', 'left': 'bottom', 'right': 'top')
   {
-    &.is-light[data-popper-placement^='#{$placement}'] {
+    &[data-popper-placement^='#{$placement}'] {
       #{$arrow-selector}::before {
-        border-#{$placement}-color: transparent;
-        border-#{$adjacency}-color: transparent;
+        border-#{$placement}-color: transparent !important;
+        border-#{$adjacency}-color: transparent !important;
       }
     }
   }
