@@ -37,3 +37,29 @@ const state = reactive({
 
 const { circleUrl, squareUrl, sizeList } = toRefs(state)
 </script>
+
+<style scoped>
+.demo-basic {
+  text-align: center;
+}
+.demo-basic .sub-title {
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: var(--el-text-color-secondary);
+}
+.demo-basic .demo-basic--circle,
+.demo-basic .demo-basic--square {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.demo-basic .block:not(:last-child) {
+  border-right: 1px solid var(--el-border-color-base);
+}
+.demo-basic .block {
+  flex: 1;
+}
+.demo-basic .el-col:not(:last-child) {
+  border-right: 1px solid var(--el-border-color-base);
+}
+</style>

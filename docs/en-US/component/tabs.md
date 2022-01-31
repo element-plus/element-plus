@@ -7,23 +7,6 @@ lang: en-US
 
 Divide data collections which are related yet belong to different types.
 
-<style lang="scss">
-
-:not(.el-tabs--border-card) > .el-tabs__content {
-  padding: 32px;
-  background-color: #F4F5F7;
-  color: #6B778C;
-  font-size: 32px;
-  font-weight: 600;
-}
-
-.el-tabs--right, .el-tabs--left {
-  .el-tabs__content {
-    height: 100%;
-  }
-}
-</style>
-
 ## Basic usage
 
 Basic and concise tabs.

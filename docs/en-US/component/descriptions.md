@@ -7,22 +7,6 @@ lang: en-US
 
 Display multiple fields in list form.
 
-<style lang="scss" scoped>
-.example-showcase {
-  .margin-top {
-    margin-top: 20px;
-  }
-
-  .my-label {
-    background: var(--el-color-success-lighter);
-  }
-
-  .my-content {
-    background: var(--el-color-danger-lighter);
-  }
-}
-</style>
-
 ## Basic usage
 
 :::demo

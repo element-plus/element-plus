@@ -107,33 +107,31 @@ const item = {
 const tableData = ref(Array(20).fill(item))
 </script>
 
-<style lang="scss">
-.layout-container-demo {
-  .el-header {
-    position: relative;
-    background-color: #b3c0d1;
-    color: var(--el-text-color-primary);
-  }
-  .el-aside {
-    width: 240px;
-    color: var(--el-text-color-primary);
-    background: #fff !important;
-    border-right: solid 1px #e6e6e6;
-    box-sizing: border-box;
-  }
-  .el-menu {
-    border-right: none;
-  }
-  .el-main {
-    padding: 0;
-  }
-  .toolbar {
-    position: absolute;
-    display: inline-flex;
-    align-items: center;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-  }
+<style scoped>
+.layout-container-demo .el-header {
+  position: relative;
+  background-color: #b3c0d1;
+  color: var(--el-text-color-primary);
+}
+.layout-container-demo .el-aside {
+  width: 240px;
+  color: var(--el-text-color-primary);
+  background: #fff !important;
+  border-right: solid 1px #e6e6e6;
+  box-sizing: border-box;
+}
+.layout-container-demo .el-menu {
+  border-right: none;
+}
+.layout-container-demo .el-main {
+  padding: 0;
+}
+.layout-container-demo .toolbar {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
 }
 </style>

@@ -7,29 +7,6 @@ lang: en-US
 
 Informs users while preserving the current page state.
 
-<style lang="scss" scoped>
-.example-showcase {
-  .dialog-footer button:first-child {
-    margin-right: 10px;
-  }
-  .full-image {
-    width: 100%;
-  }
-  .el-dialog__wrapper {
-    margin: 0;
-  }
-  .el-select {
-    width: 300px;
-  }
-  .el-input {
-    width: 300px;
-  }
-  .el-button--text {
-    margin-right: 15px;
-  }
-}
-</style>
-
 ## Basic usage
 
 Dialog pops up a dialog box, and it's quite customizable.

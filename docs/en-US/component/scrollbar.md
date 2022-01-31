@@ -7,45 +7,6 @@ lang: en-US
 
 Used to replace the browser's native scrollbar.
 
-<style lang="scss">
-.example-showcase {
-  .el-scrollbar {
-    .scrollbar-demo-item {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 50px;
-      margin: 10px;
-      text-align: center;
-      border-radius: 4px;
-      background: var(--el-color-primary-light-9);
-      color: var(--el-color-primary);
-    }
-
-    .flex-content {
-      display: flex;
-
-      .scrollbar-demo-item {
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100px;
-        height: 50px;
-        margin: 10px;
-        text-align: center;
-        border-radius: 4px;
-        background: var(--el-color-danger-lighter);
-        color: var(--el-color-danger);
-      }
-    }
-  }
-  .el-slider {
-    margin-top: 20px;
-  }
-}
-</style>
-
 ## Basic usage
 
 :::demo Use `height` property to set the height of the scrollbar, or if not set, it adapts according to the parent container height.

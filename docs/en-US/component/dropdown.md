@@ -7,44 +7,6 @@ lang: en-US
 
 Toggleable menu for displaying lists of links and actions.
 
-<style lang="scss" >
-
-.example-showcase {
-  .el-dropdown {
-    & + .el-dropdown {
-      margin-left: 15px;
-    }
-  }
-  .el-dropdown-link {
-    cursor: pointer;
-    color: var(--el-color-primary);
-    display: flex;
-    align-items: center;
-  }
-}
-
-.block-col-2 {
-  margin: -24px;
-
-  .el-col {
-    padding: 30px 0;
-    text-align: center;
-    border-right: 1px solid var(--el-border-color-base);
-
-    &:last-child {
-      border-right: 0;
-    }
-  }
-}
-
-.example-showcase .demonstration {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-</style>
-
 ## Basic usage
 
 Hover on the dropdown menu to unfold it for more actions.
