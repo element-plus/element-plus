@@ -39,7 +39,7 @@
       >
         <el-input
           ref="input"
-          v-model.trim="inputValue"
+          v-model="inputValue"
           :placeholder="inputPlaceholder"
           :readonly="readonly"
           :disabled="isDisabled"
@@ -92,7 +92,7 @@
           </el-tag>
           <input
             v-if="filterable && !isDisabled"
-            v-model.trim="searchInputValue"
+            v-model="searchInputValue"
             type="text"
             class="el-cascader__search-input"
             :placeholder="presentText ? '' : inputPlaceholder"
