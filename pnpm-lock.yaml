@@ -15,7 +15,7 @@ importers:
       '@element-plus/theme-chalk': workspace:*
       '@element-plus/tokens': workspace:*
       '@element-plus/utils': workspace:*
-      '@pnpm/find-workspace-packages': 3.1.39
+      '@pnpm/find-workspace-packages': 3.1.40
       '@pnpm/logger': 4.0.0
       '@pnpm/types': 7.9.0
       '@popperjs/core': ^2.11.2
@@ -95,7 +95,7 @@ importers:
     devDependencies:
       '@commitlint/cli': 16.1.0_@types+node@16.11.21
       '@commitlint/config-conventional': 16.0.0
-      '@pnpm/find-workspace-packages': 3.1.39_@pnpm+logger@4.0.0
+      '@pnpm/find-workspace-packages': 3.1.40_@pnpm+logger@4.0.0
       '@pnpm/logger': 4.0.0
       '@pnpm/types': 7.9.0
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.66.1
@@ -1480,15 +1480,15 @@ packages:
       load-json-file: 6.2.0
     dev: true
 
-  /@pnpm/cli-utils/0.6.47_@pnpm+logger@4.0.0:
-    resolution: {integrity: sha512-haNVJCMPxaTHVC5xfaJbLlrNHbFKiyfVMFZp+jVu9dTuF8FLXS2P0R+br57JJukoTDHPiLLeZQjLDSXyhT/paA==}
+  /@pnpm/cli-utils/0.6.48_@pnpm+logger@4.0.0:
+    resolution: {integrity: sha512-hZIudDWb8oI/oq4qZVzzlQFcIX2aq/kFq3NImJ4dOGzH9y530fbrpUj/3EXP1HK+2g4eHZSOtCD8ytnWaz14+w==}
     engines: {node: '>=12.17'}
     peerDependencies:
       '@pnpm/logger': ^4.0.0
     dependencies:
       '@pnpm/cli-meta': 2.0.1
-      '@pnpm/config': 13.12.0_@pnpm+logger@4.0.0
-      '@pnpm/default-reporter': 8.5.10_@pnpm+logger@4.0.0
+      '@pnpm/config': 13.13.0_@pnpm+logger@4.0.0
+      '@pnpm/default-reporter': 8.5.11_@pnpm+logger@4.0.0
       '@pnpm/error': 2.0.0
       '@pnpm/logger': 4.0.0
       '@pnpm/manifest-utils': 2.1.7_@pnpm+logger@4.0.0
@@ -1499,8 +1499,8 @@ packages:
       load-json-file: 6.2.0
     dev: true
 
-  /@pnpm/config/13.12.0_@pnpm+logger@4.0.0:
-    resolution: {integrity: sha512-4wIecGLiAtPVRS4oidJzVVBQBcPH1PUu1jAQLKudNg+hlBO5ff7U1FlclKLlaLQJrybDHRV++jePXFT4NO3hQg==}
+  /@pnpm/config/13.13.0_@pnpm+logger@4.0.0:
+    resolution: {integrity: sha512-0i1ggg9n6yuar1LTe0WiOKBemaxZNJkeCrCcuWy7ypGbTX0Se+UGv5dfeYC6mVbmZ2dqw48HizbW3ReEGDJ4Tw==}
     engines: {node: '>=12.17'}
     dependencies:
       '@pnpm/constants': 5.0.0
@@ -1536,13 +1536,13 @@ packages:
       '@pnpm/types': 7.9.0
     dev: true
 
-  /@pnpm/default-reporter/8.5.10_@pnpm+logger@4.0.0:
-    resolution: {integrity: sha512-f83UctyaMI77z/SgVuMO6hFTGM6sQjtUS443pnApqg1lJGD8FVBr5K0H/pWyl5tHyl5UWzRnZT62VHMqfGZpcg==}
+  /@pnpm/default-reporter/8.5.11_@pnpm+logger@4.0.0:
+    resolution: {integrity: sha512-BkNdi5LI/Ja9qJhZg3z+XFV39hjbBzGh3O6VRIjEchlaoXSKy+WLxYcaEUujVjxMYlAGdCcjVC3hVv6QAbzYug==}
     engines: {node: '>=12.17'}
     peerDependencies:
       '@pnpm/logger': ^4.0.0
     dependencies:
-      '@pnpm/config': 13.12.0_@pnpm+logger@4.0.0
+      '@pnpm/config': 13.13.0_@pnpm+logger@4.0.0
       '@pnpm/core-loggers': 6.1.3_@pnpm+logger@4.0.0
       '@pnpm/error': 2.0.0
       '@pnpm/logger': 4.0.0
@@ -1568,11 +1568,11 @@ packages:
     engines: {node: '>=12.17'}
     dev: true
 
-  /@pnpm/find-workspace-packages/3.1.39_@pnpm+logger@4.0.0:
-    resolution: {integrity: sha512-V6B1zEqd9XU01c9ks2fAuWPe7e8ro6wta2o6b36QhaTRffa3MpHJkoGfjQSj2Qc7iDASfGhm0m2Ys+pgjY5K4Q==}
+  /@pnpm/find-workspace-packages/3.1.40_@pnpm+logger@4.0.0:
+    resolution: {integrity: sha512-SkswAjr1eI633ddx5fQJ0Led7i6xLwk3qDxQ2FClmH9xE/UMyoShlEed43OvLtm0k/WelybPULGf8s9OU/VaNg==}
     engines: {node: '>=12.17'}
     dependencies:
-      '@pnpm/cli-utils': 0.6.47_@pnpm+logger@4.0.0
+      '@pnpm/cli-utils': 0.6.48_@pnpm+logger@4.0.0
       '@pnpm/constants': 5.0.0
       '@pnpm/types': 7.9.0
       find-packages: 8.0.11
