@@ -70,3 +70,12 @@ import {
   Plus,
 } from '@element-plus/icons-vue'
 </script>
+
+<style scoped>
+.block-col-2 .demonstration {
+  display: block;
+  color: var(--el-text-color-secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+</style>

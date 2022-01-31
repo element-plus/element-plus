@@ -42,6 +42,7 @@ export default defineComponent({
     const triggerRef = ref<ElOnlyChildExpose | null>(null)
 
     const stopWhenControlledOrDisabled = () => {
+      console.log('1111')
       if (unref(controlled) || props.disabled) {
         return true
       }

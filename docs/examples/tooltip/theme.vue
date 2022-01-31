@@ -11,11 +11,9 @@
   </el-tooltip>
 </template>
 
-<style lang="scss">
-.el-popper {
-  &.is-customized,
-  .el-popper__arrow::before {
-    background: linear-gradient(90deg, rgb(159, 229, 151), rgb(204, 229, 129));
-  }
+<style>
+.el-popper.is-customized,
+.el-popper .el-popper__arrow::before {
+  background: linear-gradient(90deg, rgb(159, 229, 151), rgb(204, 229, 129));
 }
 </style>

@@ -63,3 +63,20 @@ const shortcuts = [
   },
 ]
 </script>
+<style scoped>
+.block {
+  padding: 30px 0;
+  text-align: center;
+  border-right: solid 1px var(--el-border-color-base);
+  flex: 1;
+}
+.block:last-child {
+  border-right: none;
+}
+.block .demonstration {
+  display: block;
+  color: var(--el-text-color-secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+</style>
