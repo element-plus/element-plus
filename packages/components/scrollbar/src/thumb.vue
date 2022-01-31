@@ -1,14 +1,14 @@
 <template>
-  <transition name="el-scrollbar-fade">
+  <transition :name="ns.b('fade')">
     <div
       v-show="always || visible"
       ref="instance"
-      :class="['el-scrollbar__bar', 'is-' + bar.key]"
+      :class="[ns.e('bar'), ns.is(bar.key)]"
       @mousedown="clickTrackHandler"
     >
       <div
         ref="thumb"
-        class="el-scrollbar__thumb"
+        :class="ns.e('thumb')"
         :style="thumbStyle"
         @mousedown="clickThumbHandler"
       ></div>
@@ -28,6 +28,7 @@ import {
 import { useEventListener, isClient } from '@vueuse/core'
 import { scrollbarContextKey } from '@element-plus/tokens'
 import { throwError } from '@element-plus/utils/error'
+import { useNamespace } from '@element-plus/hooks'
 import { BAR_MAP, renderThumbStyle } from './util'
 
 import { thumbProps } from './thumb'
@@ -39,6 +40,8 @@ export default defineComponent({
 
   setup(props) {
     const scrollbar = inject(scrollbarContextKey)
+    const ns = useNamespace('scrollbar')
+
     if (!scrollbar)
       throwError(COMPONENT_NAME, 'can not inject scrollbar context')
 
@@ -181,6 +184,7 @@ export default defineComponent({
     )
 
     return {
+      ns,
       instance,
       thumb,
       bar,
