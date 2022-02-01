@@ -1,5 +1,5 @@
 <template>
-  <teleport :disabled="!teleported" :to="appendTo">
+  <teleport :disabled="!appendToBody" :to="appendTo">
     <transition
       :name="transition"
       @after-leave="onTransitionLeave"

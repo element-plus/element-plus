@@ -29,7 +29,7 @@
       :reference-el="referenceEl"
       :show-after="compatShowAfter"
       :strategy="strategy"
-      :teleported="teleported"
+      :append-to-body="appendToBody"
       :transition="transition"
       :z-index="zIndex"
     >

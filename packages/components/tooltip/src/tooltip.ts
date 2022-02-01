@@ -44,7 +44,7 @@ export const useTooltipContentProps = {
       type: String,
       default: 'el-fade-in-linear',
     },
-    teleported: {
+    appendToBody: {
       type: Boolean,
       default: true,
     },
