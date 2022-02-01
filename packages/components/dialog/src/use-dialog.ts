@@ -17,13 +17,13 @@ import type { DialogEmits, DialogProps } from './dialog'
 export const useDialog = (
   props: DialogProps,
   { emit }: SetupContext<DialogEmits>,
-  targetRef: Ref<HTMLElement | undefined>
+  targetRef: Ref<HTMLElement | undefined>,
+  headerRef: Ref<HTMLElement | undefined>
 ) => {
   const visible = ref(false)
   const closed = ref(false)
   const rendered = ref(false) // when desctroyOnClose is true, we initialize it as false vise versa
   const zIndex = ref(props.zIndex || PopupManager.nextZIndex())
-  const headerRef = ref<HTMLElement>()
 
   let openTimer: (() => void) | undefined = undefined
   let closeTimer: (() => void) | undefined = undefined
@@ -159,15 +159,14 @@ export const useDialog = (
     }
   )
 
+  const draggable = computed(() => props.draggable && !props.fullscreen)
+  useDraggable(targetRef, headerRef, draggable)
+
   onMounted(() => {
     if (props.modelValue) {
       visible.value = true
       rendered.value = true // enables lazy rendering
       open()
-    }
-    if (!props.fullscreen && props.draggable) {
-      headerRef.value = targetRef.value.querySelector('.el-dialog__header')
-      useDraggable(targetRef, headerRef)
     }
   })
 

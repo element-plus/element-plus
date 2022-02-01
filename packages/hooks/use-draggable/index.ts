@@ -1,9 +1,11 @@
+import { nextTick, onBeforeUnmount, onMounted, watch } from 'vue'
 import { addUnit } from '@element-plus/utils/util'
-import type { Ref } from 'vue'
+import type { Ref, ComputedRef } from 'vue'
 
 export const useDraggable = (
   targetRef: Ref<HTMLElement | undefined>,
-  dragRef: Ref<HTMLElement | undefined>
+  dragRef: Ref<HTMLElement | undefined>,
+  draggable: ComputedRef<boolean>
 ) => {
   let transform = {
     offsetX: 0,
@@ -57,7 +59,36 @@ export const useDraggable = (
     document.addEventListener('mouseup', onMouseup)
   }
 
-  if (dragRef && targetRef) {
-    dragRef.value.addEventListener('mousedown', onMousedown)
+  const onDraggable = () => {
+    if (dragRef && targetRef) {
+      dragRef.value.addEventListener('mousedown', onMousedown)
+    }
   }
+
+  const offDraggable = () => {
+    if (dragRef && targetRef) {
+      dragRef.value.removeEventListener('mousedown', onMousedown)
+    }
+  }
+
+  onMounted(async () => {
+    await nextTick()
+    watch(
+      draggable,
+      (val) => {
+        if (val) {
+          onDraggable()
+        } else {
+          offDraggable()
+        }
+      },
+      {
+        immediate: true,
+      }
+    )
+  })
+
+  onBeforeUnmount(() => {
+    offDraggable()
+  })
 }

@@ -37,7 +37,7 @@
             :style="style"
             @click.stop=""
           >
-            <div class="el-dialog__header">
+            <div ref="headerRef" class="el-dialog__header">
               <slot name="title">
                 <span class="el-dialog__title">
                   {{ title }}
@@ -96,11 +96,13 @@ export default defineComponent({
 
   setup(props, ctx) {
     const dialogRef = ref<HTMLElement>()
-    const dialog = useDialog(props, ctx, dialogRef)
+    const headerRef = ref<HTMLElement>()
+    const dialog = useDialog(props, ctx, dialogRef, headerRef)
     const overlayEvent = useSameTarget(dialog.onModalClick)
 
     return {
       dialogRef,
+      headerRef,
       overlayEvent,
       ...dialog,
     }

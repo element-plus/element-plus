@@ -104,7 +104,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 | close-on-press-escape | whether the Dialog can be closed by pressing ESC                                                  | boolean                                          | —               | true    |
 | show-close            | whether to show a close button                                                                    | boolean                                          | —               | true    |
 | before-close          | callback before Dialog closes, and it will prevent Dialog from closing                            | function(done)，done is used to close the Dialog | —               | —       |
-| draggable             | whether can drag Dialog                                                                           | boolean                                          | —               | false   |
+| draggable             | enable dragging feature for Dialog                                                                | boolean                                          | —               | false   |
 | center                | whether to align the header and footer in center                                                  | boolean                                          | —               | false   |
 | destroy-on-close      | Destroy elements in Dialog when closed                                                            | boolean                                          | —               | false   |
 

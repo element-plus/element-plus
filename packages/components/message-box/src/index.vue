@@ -53,7 +53,9 @@
                 handleAction(distinguishCancelAndClose ? 'close' : 'cancel')
               "
             >
-              <el-icon class="el-message-box__close"><close /></el-icon>
+              <el-icon class="el-message-box__close">
+                <close />
+              </el-icon>
             </button>
           </div>
           <div class="el-message-box__content">
@@ -281,10 +283,10 @@ export default defineComponent({
       () => state.icon || TypeComponentsMap[state.type] || ''
     )
     const hasMessage = computed(() => !!state.message)
-    const rootRef = ref<ComponentPublicInstance>(null)
-    const headerRef = ref<ComponentPublicInstance>(null)
-    const inputRef = ref<ComponentPublicInstance>(null)
-    const confirmRef = ref<ComponentPublicInstance>(null)
+    const rootRef = ref<HTMLElement>()
+    const headerRef = ref<HTMLElement>()
+    const inputRef = ref<HTMLElement>()
+    const confirmRef = ref<HTMLElement>()
 
     const confirmButtonClasses = computed(() => state.confirmButtonClass)
 
@@ -324,13 +326,13 @@ export default defineComponent({
       }
     )
 
+    const draggable = computed(() => props.draggable)
+    useDraggable(rootRef, headerRef, draggable)
+
     onMounted(async () => {
       await nextTick()
       if (props.closeOnHashChange) {
         on(window, 'hashchange', doClose)
-      }
-      if (props.draggable) {
-        useDraggable(rootRef, headerRef)
       }
     })
 
