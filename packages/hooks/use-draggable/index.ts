@@ -1,4 +1,4 @@
-import { nextTick, onBeforeUnmount, onMounted, watch } from 'vue'
+import { nextTick, onBeforeUnmount, onMounted, watch, watchEffect } from 'vue'
 import { addUnit } from '@element-plus/utils/util'
 import type { Ref, ComputedRef } from 'vue'
 
@@ -60,32 +60,25 @@ export const useDraggable = (
   }
 
   const onDraggable = () => {
-    if (dragRef && targetRef) {
+    if (dragRef.value && targetRef.value) {
       dragRef.value.addEventListener('mousedown', onMousedown)
     }
   }
 
   const offDraggable = () => {
-    if (dragRef && targetRef) {
+    if (dragRef.value && targetRef.value) {
       dragRef.value.removeEventListener('mousedown', onMousedown)
     }
   }
 
-  onMounted(async () => {
-    await nextTick()
-    watch(
-      draggable,
-      (val) => {
-        if (val) {
-          onDraggable()
-        } else {
-          offDraggable()
-        }
-      },
-      {
-        immediate: true,
+  onMounted(() => {
+    watchEffect(() => {
+      if (draggable.value) {
+        onDraggable()
+      } else {
+        offDraggable()
       }
-    )
+    })
   })
 
   onBeforeUnmount(() => {
