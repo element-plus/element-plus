@@ -9,7 +9,7 @@
       ref="tooltipRef"
       v-model:visible="dropMenuVisible"
       placement="bottom-start"
-      :append-to-body="popperAppendToBody"
+      :teleported="compatTeleported"
       :popper-class="`el-select__popper ${popperClass}`"
       :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
       effect="light"
@@ -224,10 +224,13 @@ import {
 import { ClickOutside } from '@element-plus/directives'
 import { useFocus, useLocale } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
-import ElTooltip from '@element-plus/components/tooltip'
+import ElTooltip, {
+  useTooltipContentProps,
+} from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
+import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import {
   addResizeListener,
@@ -244,9 +247,10 @@ import type { PropType, Component } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'
 import type { SelectContext } from './token'
 
+const NAME = 'ElSelect'
 export default defineComponent({
-  name: 'ElSelect',
-  componentName: 'ElSelect',
+  name: NAME,
+  componentName: NAME,
   components: {
     ElInput,
     ElSelectMenu,
@@ -308,8 +312,9 @@ export default defineComponent({
     collapseTags: Boolean,
     popperAppendToBody: {
       type: Boolean,
-      default: true,
+      default: undefined,
     },
+    teleported: useTooltipContentProps.teleported,
     clearIcon: {
       type: [String, Object] as PropType<string | Component>,
       default: CircleClose,
@@ -513,6 +518,11 @@ export default defineComponent({
       return tooltipRef.value?.popperRef?.contentRef
     })
 
+    const { compatTeleported } = useDeprecateAppendToBody(
+      NAME,
+      'popperAppendToBody'
+    )
+
     return {
       tagInMultiLine,
       prefixWidth,
@@ -576,6 +586,7 @@ export default defineComponent({
 
       wrapperKls,
       selectTagsStyle,
+      compatTeleported,
     }
   },
 })

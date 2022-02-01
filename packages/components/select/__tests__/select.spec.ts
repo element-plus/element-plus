@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { sleep } from '@element-plus/test-utils'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { CircleClose, ArrowUp, CaretTop } from '@element-plus/icons-vue'
+import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
 import Select from '../src/select.vue'
 import Group from '../src/option-group.vue'
 import Option from '../src/option.vue'
@@ -1610,6 +1611,68 @@ describe('Select', () => {
     test('should call remote method in multiple mode', async () => {
       const remoteMethod = jest.fn()
       await testAfterSearch({ multiple: true, remote: true, remoteMethod })
+    })
+  })
+
+  describe('teleported API', () => {
+    it('should mount on popper container', async () => {
+      expect(document.body.innerHTML).toBe('')
+      wrapper = _mount(
+        `
+      <el-select v-model="modelValue" multiple>
+        <el-option
+          v-for="option in options"
+          :key="option.value"
+          :value="option.value"
+          :label="option.label"
+        >
+        </el-option>
+      </el-select>`,
+        () => ({
+          modelValue: [1],
+          options: [
+            { label: 'Test 1', value: 1 },
+            { label: 'Test 2', value: 2 },
+            { label: 'Test 3', value: 3 },
+            { label: 'Test 4', value: 4 },
+          ],
+        })
+      )
+
+      await nextTick()
+      expect(
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+      ).not.toBe('')
+    })
+
+    it('should not mount on the popper container', async () => {
+      expect(document.body.innerHTML).toBe('')
+      wrapper = _mount(
+        `
+      <el-select v-model="modelValue" multiple :teleported="false">
+        <el-option
+          v-for="option in options"
+          :key="option.value"
+          :value="option.value"
+          :label="option.label"
+        >
+        </el-option>
+      </el-select>`,
+        () => ({
+          modelValue: [1],
+          options: [
+            { label: 'Test 1', value: 1 },
+            { label: 'Test 2', value: 2 },
+            { label: 'Test 3', value: 3 },
+            { label: 'Test 4', value: 4 },
+          ],
+        })
+      )
+
+      await nextTick()
+      expect(
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+      ).toBe('')
     })
   })
 })

@@ -1,4 +1,5 @@
 import { isValidComponentSize } from '@element-plus/utils/validators'
+import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
 
 import type { PropType, Component } from 'vue'
@@ -64,8 +65,9 @@ export const SelectProps = {
   },
   popperAppendToBody: {
     type: Boolean,
-    default: true,
+    default: undefined,
   },
+  teleported: useTooltipContentProps.teleported,
   popperClass: {
     type: String,
     default: '',

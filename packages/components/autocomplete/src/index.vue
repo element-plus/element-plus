@@ -5,7 +5,7 @@
     :placement="placement"
     :fallback-placements="['bottom-start', 'top-start']"
     :popper-class="`${ns.e('popper')} ${popperClass}`"
-    :append-to-body="popperAppendToBody"
+    :teleported="compatTeleported"
     :gpu-acceleration="false"
     pure
     manual-mode
@@ -99,15 +99,19 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { throwError } from '@element-plus/utils/error'
 import ElInput from '@element-plus/components/input'
 import ElScrollbar from '@element-plus/components/scrollbar'
-import ElTooltip from '@element-plus/components/tooltip'
+import ElTooltip, {
+  useTooltipContentProps,
+} from '@element-plus/components/tooltip'
+import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import ElIcon from '@element-plus/components/icon'
 import { Loading } from '@element-plus/icons-vue'
 
 import type { Placement } from '@element-plus/components/popper'
 import type { PropType } from 'vue'
 
+const NAME = 'ElAutocomplete'
 export default defineComponent({
-  name: 'ElAutocomplete',
+  name: NAME,
   components: {
     ElTooltip,
     ElInput,
@@ -170,8 +174,9 @@ export default defineComponent({
     },
     popperAppendToBody: {
       type: Boolean,
-      default: true,
+      default: undefined,
     },
+    teleported: useTooltipContentProps.teleported,
     highlightFirstItem: {
       type: Boolean,
       default: false,
@@ -188,6 +193,10 @@ export default defineComponent({
   ],
   setup(props, ctx) {
     const ns = useNamespace('autocomplete')
+    const { compatTeleported } = useDeprecateAppendToBody(
+      NAME,
+      'popperAppendToBody'
+    )
     const attrs = useAttrs()
     const suggestions = ref<any[]>([])
     const highlightedIndex = ref(-1)
@@ -363,6 +372,9 @@ export default defineComponent({
       id,
       suggestionVisible,
       suggestionLoading,
+
+      // deprecation in 2.1.0
+      compatTeleported,
 
       getData,
       handleInput,

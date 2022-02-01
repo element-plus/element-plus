@@ -7,6 +7,7 @@
     :enterable="enterable"
     :popper-class="kls"
     :popper-style="style"
+    :teleported="compatTeleported"
     persistent
     @show="afterEnter"
     @hide="afterLeave"
@@ -28,6 +29,7 @@
 <script lang="ts">
 import { defineComponent, computed, ref, unref } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
+import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import { isString } from '@element-plus/utils/util'
 import { usePopoverProps } from './popover'
 
@@ -73,6 +75,8 @@ export default defineComponent({
       ]
     })
 
+    const { compatTeleported } = useDeprecateAppendToBody(NAME, 'appendToBody')
+
     const hide = () => {
       tooltipRef.value?.hide()
     }
@@ -86,6 +90,7 @@ export default defineComponent({
     }
 
     return {
+      compatTeleported,
       kls,
       style,
       tooltipRef,
