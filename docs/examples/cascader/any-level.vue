@@ -293,7 +293,7 @@ const options = [
 ]
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .example-block {
   margin: 1rem;
 }
