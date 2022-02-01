@@ -6,7 +6,6 @@ import {
   watchEffect,
   watch,
   unref,
-  nextTick,
 } from 'vue'
 import {
   addResizeListener,
