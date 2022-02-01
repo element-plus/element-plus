@@ -1,4 +1,4 @@
-import { nextTick, onBeforeUnmount, onMounted, watch, watchEffect } from 'vue'
+import { onBeforeUnmount, onMounted, watchEffect } from 'vue'
 import { addUnit } from '@element-plus/utils/util'
 import type { Ref, ComputedRef } from 'vue'
 

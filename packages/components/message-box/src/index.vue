@@ -158,7 +158,7 @@ import { isValidComponentSize } from '@element-plus/utils/validators'
 import { ElIcon } from '@element-plus/components/icon'
 import { TypeComponents, TypeComponentsMap } from '@element-plus/utils/icon'
 
-import type { ComponentPublicInstance, PropType } from 'vue'
+import type { PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'
 import type {
   Action,
