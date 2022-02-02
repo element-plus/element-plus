@@ -139,9 +139,9 @@ export default defineComponent({
           // Thus page size listener is required
           // users are account for page size change
           if (!isAbsent(props.pageSize)) {
-            if (!hasPageSizeListener) {
-              return false
-            }
+            // if (!hasPageSizeListener) {
+            //   return false
+            // }
           } else {
             // (else block just for explaination)
             // else page size is controlled by el-pagination internally

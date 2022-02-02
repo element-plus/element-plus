@@ -410,5 +410,33 @@ describe('Pagination', () => {
        * expect(style.outline).toBeTruthy()
        */
     })
+
+    test('test the pageSize selected reactivity', async () => {
+      const wrapper = mount({
+        setup() {
+          return () => {
+            return h(Pagination, {
+              total: 1000,
+              pageSize: 100,
+              pageSizes: [100, 200, 300, 400],
+              layout: 'prev, pager, next, sizes',
+            })
+          }
+        },
+      })
+      await wrapper.find('.el-select').trigger('click')
+      await wrapper
+        .getComponent(selectDropdownVue)
+        .find('li:nth-child(2)')
+        .trigger('click')
+      await nextTick()
+      assertPages(wrapper, '5')
+      await wrapper
+        .getComponent(selectDropdownVue)
+        .find('li:nth-child(3)')
+        .trigger('click')
+      await nextTick()
+      assertPages(wrapper, '4')
+    })
   })
 })
