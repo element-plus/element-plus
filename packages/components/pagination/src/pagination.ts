@@ -152,20 +152,37 @@ export default defineComponent({
     })
 
     const innerPageSize = ref(
-      isAbsent(props.defaultPageSize) ? 10 : props.defaultPageSize
+      (() => {
+        let pageSize = 10
+        if (!isAbsent(props.defaultPageSize)) {
+          pageSize = props.defaultPageSize
+        }
+        if (!isAbsent(props.pageSize)) {
+          pageSize = props.pageSize
+        }
+        return pageSize
+      })()
     )
+
+    watch(
+      () => props.pageSize,
+      () => {
+        if (!isAbsent(props.pageSize)) {
+          innerPageSize.value = props.pageSize
+        }
+      }
+    )
+
     const innerCurrentPage = ref(
       isAbsent(props.defaultCurrentPage) ? 1 : props.defaultCurrentPage
     )
 
     const pageSizeBridge = computed({
       get() {
-        return isAbsent(props.pageSize) ? innerPageSize.value : props.pageSize
+        return innerPageSize.value
       },
       set(v: number) {
-        if (isAbsent(props.pageSize)) {
-          innerPageSize.value = v
-        }
+        innerPageSize.value = v
         if (hasPageSizeListener) {
           emit('update:page-size', v)
           emit('size-change', v)
