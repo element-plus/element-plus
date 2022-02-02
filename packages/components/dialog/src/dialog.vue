@@ -71,12 +71,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { TrapFocus } from '@element-plus/directives'
 import { ElOverlay } from '@element-plus/components/overlay'
 import { ElIcon } from '@element-plus/components/icon'
 import { CloseComponents } from '@element-plus/utils/icon'
-import { useSameTarget } from '@element-plus/hooks'
+import { useDraggable, useSameTarget } from '@element-plus/hooks'
 import { dialogProps, dialogEmits } from './dialog'
 import { useDialog } from './use-dialog'
 
@@ -97,8 +97,11 @@ export default defineComponent({
   setup(props, ctx) {
     const dialogRef = ref<HTMLElement>()
     const headerRef = ref<HTMLElement>()
-    const dialog = useDialog(props, ctx, dialogRef, headerRef)
+    const dialog = useDialog(props, ctx, dialogRef)
     const overlayEvent = useSameTarget(dialog.onModalClick)
+
+    const draggable = computed(() => props.draggable && !props.fullscreen)
+    useDraggable(dialogRef, headerRef, draggable)
 
     return {
       dialogRef,

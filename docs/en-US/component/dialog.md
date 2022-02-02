@@ -69,7 +69,7 @@ dialog/destroy-on-close
 
 :::
 
-### Draggable Dialog
+## Draggable Dialog
 
 Try to drag the `header` part.
 

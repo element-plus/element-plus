@@ -1,12 +1,7 @@
 import { computed, ref, watch, nextTick, onMounted } from 'vue'
 import { useTimeoutFn, isClient } from '@vueuse/core'
 
-import {
-  useLockscreen,
-  useRestoreActive,
-  useModal,
-  useDraggable,
-} from '@element-plus/hooks'
+import { useLockscreen, useRestoreActive, useModal } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { PopupManager } from '@element-plus/utils/popup-manager'
 import { isNumber } from '@element-plus/utils/util'
@@ -17,8 +12,7 @@ import type { DialogEmits, DialogProps } from './dialog'
 export const useDialog = (
   props: DialogProps,
   { emit }: SetupContext<DialogEmits>,
-  targetRef: Ref<HTMLElement | undefined>,
-  headerRef: Ref<HTMLElement | undefined>
+  targetRef: Ref<HTMLElement | undefined>
 ) => {
   const visible = ref(false)
   const closed = ref(false)
@@ -158,9 +152,6 @@ export const useDialog = (
       }
     }
   )
-
-  const draggable = computed(() => props.draggable && !props.fullscreen)
-  useDraggable(targetRef, headerRef, draggable)
 
   onMounted(() => {
     if (props.modelValue) {
