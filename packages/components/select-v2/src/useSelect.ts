@@ -38,14 +38,14 @@ const TAG_BASE_WIDTH = {
   default: 42,
   small: 33,
 }
-const NAME = 'ElSelectV2'
+const COMPONENT_NAME = 'ElSelectV2'
 
 const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   // inject
   const { t } = useLocale()
   const { form: elForm, formItem: elFormItem } = useFormItem()
   const { compatTeleported } = useDeprecateAppendToBody(
-    NAME,
+    COMPONENT_NAME,
     'popperAppendToBody'
   )
 

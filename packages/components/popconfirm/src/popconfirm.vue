@@ -47,9 +47,9 @@ import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import { useLocale } from '@element-plus/hooks'
 import { popconfirmProps } from './popconfirm'
 
-const NAME = 'Elpopperconfirm'
+const COMPONENT_NAME = 'Elpopperconfirm'
 export default defineComponent({
-  name: NAME,
+  name: COMPONENT_NAME,
 
   components: {
     ElButton,
@@ -60,7 +60,10 @@ export default defineComponent({
   props: popconfirmProps,
 
   setup(props) {
-    const { compatTeleported } = useDeprecateAppendToBody(NAME, 'appendToBody')
+    const { compatTeleported } = useDeprecateAppendToBody(
+      COMPONENT_NAME,
+      'appendToBody'
+    )
     const { t } = useLocale()
     const tooltipRef = ref<{ onClose: () => void }>()
 

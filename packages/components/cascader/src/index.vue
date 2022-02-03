@@ -232,9 +232,9 @@ const popperOptions: Partial<Options> = {
     },
   ],
 }
-const NAME = 'ElCascader'
+const COMPONENT_NAME = 'ElCascader'
 export default defineComponent({
-  name: NAME,
+  name: COMPONENT_NAME,
 
   components: {
     ElCascaderPanel,
@@ -314,7 +314,7 @@ export default defineComponent({
     let pressDeleteCount = 0
 
     const { compatTeleported } = useDeprecateAppendToBody(
-      NAME,
+      COMPONENT_NAME,
       'popperAppendToBody'
     )
     const { t } = useLocale()

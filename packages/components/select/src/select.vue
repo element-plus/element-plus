@@ -247,10 +247,10 @@ import type { PropType, Component } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'
 import type { SelectContext } from './token'
 
-const NAME = 'ElSelect'
+const COMPONENT_NAME = 'ElSelect'
 export default defineComponent({
-  name: NAME,
-  componentName: NAME,
+  name: COMPONENT_NAME,
+  componentName: COMPONENT_NAME,
   components: {
     ElInput,
     ElSelectMenu,
@@ -519,7 +519,7 @@ export default defineComponent({
     })
 
     const { compatTeleported } = useDeprecateAppendToBody(
-      NAME,
+      COMPONENT_NAME,
       'popperAppendToBody'
     )
 

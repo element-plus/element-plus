@@ -37,10 +37,10 @@ import type { StyleValue } from 'vue'
 
 const emits = ['update:visible', 'after-enter', 'after-leave']
 
-const NAME = 'ElPopover'
+const COMPONENT_NAME = 'ElPopover'
 
 export default defineComponent({
-  name: NAME,
+  name: COMPONENT_NAME,
   components: {
     ElTooltip,
   },
@@ -75,7 +75,10 @@ export default defineComponent({
       ]
     })
 
-    const { compatTeleported } = useDeprecateAppendToBody(NAME, 'appendToBody')
+    const { compatTeleported } = useDeprecateAppendToBody(
+      COMPONENT_NAME,
+      'appendToBody'
+    )
 
     const hide = () => {
       tooltipRef.value?.hide()

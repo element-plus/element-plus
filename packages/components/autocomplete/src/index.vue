@@ -109,9 +109,9 @@ import { Loading } from '@element-plus/icons-vue'
 import type { Placement } from '@element-plus/components/popper'
 import type { PropType } from 'vue'
 
-const NAME = 'ElAutocomplete'
+const COMPONENT_NAME = 'ElAutocomplete'
 export default defineComponent({
-  name: NAME,
+  name: COMPONENT_NAME,
   components: {
     ElTooltip,
     ElInput,
@@ -194,7 +194,7 @@ export default defineComponent({
   setup(props, ctx) {
     const ns = useNamespace('autocomplete')
     const { compatTeleported } = useDeprecateAppendToBody(
-      NAME,
+      COMPONENT_NAME,
       'popperAppendToBody'
     )
     const attrs = useAttrs()
