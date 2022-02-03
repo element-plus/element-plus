@@ -275,5 +275,22 @@ describe('Dialog.vue', () => {
       const svg = mount(Delete).find('svg').element
       expect(closeIcon.element.innerHTML).toBe(svg.innerHTML)
     })
+
+    test('should render draggable prop', async () => {
+      const wrapper = _mount({
+        slots: {
+          default: AXIOM,
+        },
+        props: {
+          modelValue: true,
+          draggable: true,
+        },
+      })
+
+      await nextTick()
+      await rAF()
+      await nextTick()
+      expect(wrapper.find('.is-draggable').exists()).toBe(true)
+    })
   })
 })
