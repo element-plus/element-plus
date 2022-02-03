@@ -5,7 +5,7 @@
   >
     <el-roving-focus-item :focusable="!disabled">
       <el-dropdown-item-impl
-        v-bind="$props"
+        v-bind="$attrs"
         @pointerleave="handlePointerLeave"
         @pointermove="handlePointerMove"
         @click="handleClick"
@@ -41,6 +41,7 @@ export default defineComponent({
     ElRovingFocusItem,
     ElDropdownItemImpl,
   },
+  inheritAttrs: false,
   props: dropdownItemProps,
   emits: ['pointermove', 'pointerleave', 'click'],
   setup(props, { emit }) {
