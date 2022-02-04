@@ -1,7 +1,8 @@
+import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { NOOP } from '@vue/shared'
 import { sleep } from '@element-plus/test-utils'
-
+import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
 import Autocomplete from '../src/index.vue'
 
 jest.unmock('lodash/debounce')
@@ -176,5 +177,29 @@ describe('Autocomplete.vue', () => {
     await wrapper.find('input').trigger('focus')
     await sleep(30)
     expect(document.body.querySelector('.highlighted')).toBeDefined()
+  })
+
+  describe('teleported API', () => {
+    it('should mount on popper container', async () => {
+      expect(document.body.innerHTML).toBe('')
+      _mount()
+
+      await nextTick()
+      expect(
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+      ).not.toBe('')
+    })
+
+    it('should not mount on the popper container', async () => {
+      expect(document.body.innerHTML).toBe('')
+      _mount({
+        teleported: false,
+      })
+
+      await nextTick()
+      expect(
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+      ).toBe('')
+    })
   })
 })

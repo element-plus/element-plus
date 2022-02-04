@@ -1,5 +1,6 @@
 export * from './use-attrs'
 export * from './use-common-props'
+export * from './use-deprecated'
 export * from './use-draggable'
 export * from './use-focus'
 export * from './use-form-item'
