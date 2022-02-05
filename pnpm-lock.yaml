@@ -66,7 +66,7 @@ importers:
       rollup-plugin-css-only: 3.1.0
       rollup-plugin-esbuild: 4.8.2
       rollup-plugin-filesize: 9.1.2
-      sass: 1.49.0
+      sass: 1.49.7
       sucrase: 3.20.3
       ts-jest: 26.5.6
       ts-morph: 13.0.3
@@ -139,7 +139,7 @@ importers:
       rollup-plugin-css-only: 3.1.0_rollup@2.66.1
       rollup-plugin-esbuild: 4.8.2_esbuild@0.14.14+rollup@2.66.1
       rollup-plugin-filesize: 9.1.2
-      sass: 1.49.0
+      sass: 1.49.7
       sucrase: 3.20.3
       ts-jest: 26.5.6_jest@26.6.3+typescript@4.5.5
       ts-morph: 13.0.3
@@ -191,10 +191,10 @@ importers:
       markdown-it-container: 3.0.0
       unplugin-icons: 0.13.0_rollup@2.66.1+vite@2.7.13
       unplugin-vue-components: 0.17.15_657107663eade07c7f4b119dd9922c7b
-      vite: 2.7.13_sass@1.49.0
+      vite: 2.7.13_sass@1.49.7
       vite-plugin-inspect: 0.3.13_vite@2.7.13
       vite-plugin-windicss: 1.6.3_vite@2.7.13
-      vitepress: 0.21.6_sass@1.49.0
+      vitepress: 0.21.6_sass@1.49.7
 
   packages/components:
     specifiers: {}
@@ -279,7 +279,7 @@ importers:
     devDependencies:
       '@vitejs/plugin-vue': 2.1.0_vite@2.7.13+vue@3.2.27
       unplugin-vue-components: 0.17.15_657107663eade07c7f4b119dd9922c7b
-      vite: 2.7.13_sass@1.49.0
+      vite: 2.7.13_sass@1.49.7
       vite-plugin-inspect: 0.3.13_vite@2.7.13
       vite-plugin-mkcert: 1.5.2
 
@@ -2236,7 +2236,7 @@ packages:
       vite: ^2.5.10
       vue: ^3.2.25
     dependencies:
-      vite: 2.7.13_sass@1.49.0
+      vite: 2.7.13_sass@1.49.7
       vue: 3.2.27
     dev: true
 
@@ -2247,7 +2247,7 @@ packages:
       vite: ^2.5.10
       vue: ^3.2.25
     dependencies:
-      vite: 2.7.13_sass@1.49.0
+      vite: 2.7.13_sass@1.49.7
       vue: 3.2.27
     dev: true
 
@@ -3413,7 +3413,7 @@ packages:
 
   /chokidar/2.1.8:
     resolution: {integrity: sha512-ZmZUazfOzf0Nve7duiCKD23PFSCs4JPoYyccjUFF3aQkQadqBhfzhjkwBH2mNOG9cTBwhamM37EIsIkZw3nRgg==}
-    deprecated: Chokidar 2 will break on node v14+. Upgrade to chokidar 3 with 15x less dependencies.
+    deprecated: Chokidar 2 does not receive security updates since 2019. Upgrade to chokidar 3 with 15x fewer dependencies
     dependencies:
       anymatch: 2.0.0
       async-each: 1.0.3
@@ -9543,9 +9543,9 @@ packages:
       walker: 1.0.7
     dev: true
 
-  /sass/1.49.0:
-    resolution: {integrity: sha512-TVwVdNDj6p6b4QymJtNtRS2YtLJ/CqZriGg0eIAbAKMlN8Xy6kbv33FsEZSF7FufFFM705SQviHjjThfaQ4VNw==}
-    engines: {node: '>=8.9.0'}
+  /sass/1.49.7:
+    resolution: {integrity: sha512-13dml55EMIR2rS4d/RDHHP0sXMY3+30e1TKsyXaSz3iLWVoDWEoboY8WzJd5JMnxrRHffKO3wq2mpJ0jxRJiEQ==}
+    engines: {node: '>=12.0.0'}
     hasBin: true
     dependencies:
       chokidar: 3.5.2
@@ -10706,7 +10706,7 @@ packages:
         optional: true
     dependencies:
       rollup: 2.66.1
-      vite: 2.7.13_sass@1.49.0
+      vite: 2.7.13_sass@1.49.7
       webpack-virtual-modules: 0.4.3
     dev: true
 
@@ -10729,7 +10729,7 @@ packages:
     dependencies:
       esbuild: 0.14.14
       rollup: 2.66.1
-      vite: 2.7.13_sass@1.49.0
+      vite: 2.7.13_sass@1.49.7
       webpack-virtual-modules: 0.4.3
     dev: true
 
@@ -10906,7 +10906,7 @@ packages:
       kolorist: 1.5.1
       sirv: 2.0.0
       ufo: 0.7.9
-      vite: 2.7.13_sass@1.49.0
+      vite: 2.7.13_sass@1.49.7
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -10931,13 +10931,13 @@ packages:
       '@windicss/plugin-utils': 1.6.3
       debug: 4.3.3
       kolorist: 1.5.1
-      vite: 2.7.13_sass@1.49.0
+      vite: 2.7.13_sass@1.49.7
       windicss: 3.4.3
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /vite/2.7.13_sass@1.49.0:
+  /vite/2.7.13_sass@1.49.7:
     resolution: {integrity: sha512-Mq8et7f3aK0SgSxjDNfOAimZGW9XryfHRa/uV0jseQSilg+KhYDSoNb9h1rknOy6SuMkvNDLKCYAYYUMCE+IgQ==}
     engines: {node: '>=12.2.0'}
     hasBin: true
@@ -10957,12 +10957,12 @@ packages:
       postcss: 8.4.5
       resolve: 1.21.0
       rollup: 2.64.0
-      sass: 1.49.0
+      sass: 1.49.7
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
 
-  /vitepress/0.21.6_sass@1.49.0:
+  /vitepress/0.21.6_sass@1.49.7:
     resolution: {integrity: sha512-OzwD2cTfvoK5VKV0UWSqu4XvUOz4vWFJ4Bdi0z8GoVkTFXkfmbFawEDVXAZwzu0Hn4/VLopgmEyooc91iGKFlg==}
     engines: {node: '>=12.0.0'}
     hasBin: true
@@ -10971,7 +10971,7 @@ packages:
       '@docsearch/js': 3.0.0-alpha.42
       '@vitejs/plugin-vue': 2.0.1_vite@2.7.13+vue@3.2.27
       prismjs: 1.25.0
-      vite: 2.7.13_sass@1.49.0
+      vite: 2.7.13_sass@1.49.7
       vue: 3.2.27
     transitivePeerDependencies:
       - '@algolia/client-search'
