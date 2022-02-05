@@ -72,7 +72,6 @@ describe('Autocomplete.vue', () => {
 
     await wrapper.setProps({ triggerOnFocus: false })
     await wrapper.find('input').trigger('focus')
-    // await sleep(30)
     jest.runAllTimers()
     await nextTick()
     expect(fetchSuggestions).toHaveBeenCalledTimes(0)
