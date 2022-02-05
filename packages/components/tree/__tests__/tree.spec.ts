@@ -1,8 +1,10 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { sleep, defineGetter } from '@element-plus/test-utils'
+import { defineGetter } from '@element-plus/test-utils'
 import Tree from '../src/tree.vue'
+import type Node from '../src/model/node'
 
+jest.useFakeTimers()
 const ALL_NODE_COUNT = 9
 
 const getTreeVm = (props = '', options = {}) => {
@@ -236,7 +238,9 @@ describe('Tree.vue', () => {
     const firstNodeContentWrapper = wrapper.find('.el-tree-node__content')
 
     await firstNodeContentWrapper.trigger('click')
-    expect(treeWrapper.vm.getCheckedKeys()).toEqual([1, 11, 111])
+    expect(
+      (treeWrapper.vm as InstanceType<typeof Tree>).getCheckedKeys()
+    ).toEqual([1, 11, 111])
   })
 
   test('current-node-key', async () => {
@@ -280,13 +284,25 @@ describe('Tree.vue', () => {
         },
       }
     )
+    await nextTick()
     let expanedNodeWrappers = wrapper.findAll('.el-tree-node.is-expanded')
     expect(expanedNodeWrappers.length).toEqual(2)
-
     vm.defaultExpandedKeys = [2]
     await nextTick()
-    vm.data = JSON.parse(JSON.stringify(vm.data))
-    await sleep()
+    jest.runAllTimers()
+    await nextTick()
+    vm.data = [
+      {
+        id: 4,
+        label: 'L1 4',
+        children: [],
+      },
+      ...JSON.parse(JSON.stringify(vm.data)),
+    ]
+    await nextTick()
+    jest.runAllTimers()
+    await nextTick()
+    await nextTick()
     expanedNodeWrappers = wrapper.findAll('.el-tree-node.is-expanded')
     expect(expanedNodeWrappers.length).toEqual(1)
   })
@@ -305,7 +321,7 @@ describe('Tree.vue', () => {
     )
 
     const treeWrapper = wrapper.findComponent(Tree)
-    treeWrapper.vm.filter('2-1')
+    ;(treeWrapper.vm as InstanceType<typeof Tree>).filter('2-1')
 
     await nextTick()
     expect(treeWrapper.findAll('.el-tree-node.is-hidden').length).toEqual(3)
@@ -369,7 +385,7 @@ describe('Tree.vue', () => {
     const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox`)
 
     const treeWrapper = wrapper.findComponent(Tree)
-    const treeVm = treeWrapper.vm
+    const treeVm = treeWrapper.vm as InstanceType<typeof Tree>
     const seconNodeContentWrapper = treeWrapper.findAll(
       '.el-tree-node__content'
     )[1]
@@ -429,7 +445,7 @@ describe('Tree.vue', () => {
       `:props="defaultProps" show-checkbox node-key="id"`
     )
     const treeWrapper = wrapper.findComponent(Tree)
-    const treeVm = treeWrapper.vm
+    const treeVm = treeWrapper.vm as InstanceType<typeof Tree>
     const secondNodeContentWrapper = wrapper.findAll(
       '.el-tree-node__content'
     )[1]
@@ -448,7 +464,7 @@ describe('Tree.vue', () => {
       `:props="defaultProps" show-checkbox node-key="id"`
     )
     const treeWrapper = wrapper.findComponent(Tree)
-    const tree = treeWrapper.vm
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
 
     tree.setCheckedKeys([111])
     expect(tree.getCheckedNodes().length).toEqual(3)
@@ -472,7 +488,7 @@ describe('Tree.vue', () => {
       `:props="defaultProps" checkStrictly show-checkbox node-key="id"`
     )
     const treeWrapper = wrapper.findComponent(Tree)
-    const tree = treeWrapper.vm
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
 
     tree.setCheckedKeys([111])
     expect(tree.getCheckedNodes().length).toEqual(1)
@@ -496,7 +512,7 @@ describe('Tree.vue', () => {
       `:props="defaultProps" show-checkbox node-key="id"`
     )
     const treeWrapper = wrapper.findComponent(Tree)
-    const tree = treeWrapper.vm
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
 
     tree.setChecked(111, true, true)
     expect(tree.getCheckedNodes().length).toEqual(3)
@@ -506,13 +522,13 @@ describe('Tree.vue', () => {
     expect(tree.getCheckedNodes().length).toEqual(0)
     expect(tree.getCheckedKeys().length).toEqual(0)
   })
-
+  69
   test('setCheckedKeys with leafOnly=false', async () => {
     const { wrapper } = getTreeVm(
       `:props="defaultProps" show-checkbox node-key="id"`
     )
     const treeWrapper = wrapper.findComponent(Tree)
-    const tree = treeWrapper.vm
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
 
     tree.setCheckedKeys([1, 11, 111, 2], false)
     expect(tree.getCheckedNodes().length).toEqual(6)
@@ -524,7 +540,7 @@ describe('Tree.vue', () => {
       `:props="defaultProps" show-checkbox node-key="id"`
     )
     const treeWrapper = wrapper.findComponent(Tree)
-    const tree = treeWrapper.vm
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
 
     tree.setCheckedKeys([2], true)
     expect(tree.getCheckedNodes().length).toEqual(2)
@@ -536,7 +552,7 @@ describe('Tree.vue', () => {
       `:props="defaultProps" show-checkbox node-key="id"`
     )
     const treeWrapper = wrapper.findComponent(Tree)
-    const tree = treeWrapper.vm
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
 
     tree.setCurrentKey(111)
     expect(tree.store.currentNode.data.id).toEqual(111)
@@ -550,7 +566,7 @@ describe('Tree.vue', () => {
       `:props="defaultProps" show-checkbox node-key="id"`
     )
     const treeWrapper = wrapper.findComponent(Tree)
-    const tree = treeWrapper.vm
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
 
     tree.setCurrentKey(111)
     await nextTick()
@@ -566,20 +582,29 @@ describe('Tree.vue', () => {
       `:props="defaultProps" show-checkbox node-key="id"`
     )
     const treeWrapper = wrapper.findComponent(Tree)
-    const tree = treeWrapper.vm
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
 
     tree.setCurrentKey(1)
-    await sleep(100)
+    await nextTick()
+    jest.runAllTimers()
+    await nextTick()
+    await nextTick()
     expect(wrapper.text()).toBe('一级 1一级 2一级 3')
     expect(wrapper.findAll('.is-expanded')).toHaveLength(0)
 
     tree.setCurrentKey(11)
-    await sleep(100)
+    await nextTick()
+    jest.runAllTimers()
+    await nextTick()
+    await nextTick()
     expect(wrapper.text()).toBe('一级 1二级 1-1一级 2一级 3')
     expect(wrapper.findAll('.is-expanded')).toHaveLength(1)
 
     tree.setCurrentKey(111)
-    await sleep(100)
+    await nextTick()
+    jest.runAllTimers()
+    await nextTick()
+    await nextTick()
     expect(wrapper.text()).toBe('一级 1二级 1-1三级 1-1一级 2一级 3')
     expect(wrapper.findAll('.is-expanded')).toHaveLength(2)
   })
@@ -589,12 +614,12 @@ describe('Tree.vue', () => {
       `:props="defaultProps" show-checkbox node-key="id"`
     )
     const treeWrapper = wrapper.findComponent(Tree)
-    const tree = treeWrapper.vm
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
 
     tree.setCurrentNode({
       id: 111,
       label: '三级 1-1',
-    })
+    } as Node)
     expect(tree.store.currentNode.data.id).toEqual(111)
 
     tree.setCurrentKey(null)
@@ -606,12 +631,12 @@ describe('Tree.vue', () => {
       `:props="defaultProps" show-checkbox node-key="id"`
     )
     const treeWrapper = wrapper.findComponent(Tree)
-    const tree = treeWrapper.vm
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
 
     tree.setCurrentNode({
       id: 111,
       label: '三级 1-1',
-    })
+    } as Node)
     await nextTick()
     expect(wrapper.find('.is-current').exists()).toBeTruthy()
 
@@ -624,30 +649,40 @@ describe('Tree.vue', () => {
     const { wrapper } = getTreeVm(
       `:props="defaultProps" show-checkbox node-key="id"`
     )
+    await nextTick()
     const treeWrapper = wrapper.findComponent(Tree)
-    const tree = treeWrapper.vm
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
 
     tree.setCurrentNode({
       id: 1,
       label: '一级 1-1',
-    })
-    await sleep(100)
+    } as Node)
+    await nextTick()
+    jest.runAllTimers()
+    await nextTick()
+    await nextTick()
     expect(wrapper.text()).toBe('一级 1一级 2一级 3')
     expect(wrapper.findAll('.is-expanded')).toHaveLength(0)
 
     tree.setCurrentNode({
       id: 11,
       label: '二级 1-1',
-    })
-    await sleep(100)
+    } as Node)
+    await nextTick()
+    jest.runAllTimers()
+    await nextTick()
+    await nextTick()
     expect(wrapper.text()).toBe('一级 1二级 1-1一级 2一级 3')
     expect(wrapper.findAll('.is-expanded')).toHaveLength(1)
 
     tree.setCurrentNode({
       id: 111,
       label: '三级 1-1',
-    })
-    await sleep(100)
+    } as Node)
+    await nextTick()
+    jest.runAllTimers()
+    await nextTick()
+    await nextTick()
     expect(wrapper.text()).toBe('一级 1二级 1-1三级 1-1一级 2一级 3')
     expect(wrapper.findAll('.is-expanded')).toHaveLength(2)
   })
@@ -657,7 +692,7 @@ describe('Tree.vue', () => {
       `:props="defaultProps" show-checkbox node-key="id"`
     )
     const treeWrapper = wrapper.findComponent(Tree)
-    const tree = treeWrapper.vm
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
 
     tree.setCurrentKey(111)
     expect(tree.getCurrentKey()).toEqual(111)
@@ -671,7 +706,7 @@ describe('Tree.vue', () => {
       `:props="defaultProps" show-checkbox node-key="id"`
     )
     const treeWrapper = wrapper.findComponent(Tree)
-    const tree = treeWrapper.vm
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
 
     tree.setCurrentKey(111)
     expect(tree.getCurrentNode().id).toEqual(111)
@@ -680,7 +715,7 @@ describe('Tree.vue', () => {
   test('getNode', async () => {
     const { wrapper } = getTreeVm(`:props="defaultProps" node-key="id"`)
     const treeWrapper = wrapper.findComponent(Tree)
-    const tree = treeWrapper.vm
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
 
     const node = tree.getNode(111)
     expect(node.data.id).toEqual(111)
@@ -689,7 +724,7 @@ describe('Tree.vue', () => {
   test('remove', async () => {
     const { wrapper } = getTreeVm(`:props="defaultProps" node-key="id"`)
     const treeWrapper = wrapper.findComponent(Tree)
-    const tree = treeWrapper.vm
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
 
     tree.setCurrentKey(1)
     expect(tree.getCurrentNode().id).toEqual(1)
@@ -703,7 +738,7 @@ describe('Tree.vue', () => {
   test('append', async () => {
     const { wrapper } = getTreeVm(`:props="defaultProps" node-key="id"`)
     const treeWrapper = wrapper.findComponent(Tree)
-    const tree = treeWrapper.vm
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
 
     const nodeData = { id: 88, label: '88' }
     tree.append(nodeData, tree.getNode(1))
@@ -715,7 +750,7 @@ describe('Tree.vue', () => {
   test('insertBefore', async () => {
     const { wrapper } = getTreeVm(`:props="defaultProps" node-key="id"`)
     const treeWrapper = wrapper.findComponent(Tree)
-    const tree = treeWrapper.vm
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
 
     const nodeData = { id: 88, label: '88' }
     tree.insertBefore(nodeData, tree.getNode(11))
@@ -727,7 +762,7 @@ describe('Tree.vue', () => {
   test('insertAfter', async () => {
     const { wrapper } = getTreeVm(`:props="defaultProps" node-key="id"`)
     const treeWrapper = wrapper.findComponent(Tree)
-    const tree = treeWrapper.vm
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
 
     const nodeData = { id: 88, label: '88' }
     tree.insertAfter(nodeData, tree.getNode(11))
@@ -757,15 +792,21 @@ describe('Tree.vue', () => {
     const secondNodeCheckboxWrapper =
       secondNodeContentWrapper.find('.el-checkbox')
     await secondNodeCheckboxWrapper.trigger('click')
-    expect(treeWrapper.vm.getCheckedNodes().length).toEqual(1)
-    expect(treeWrapper.vm.getCheckedNodes(true).length).toEqual(0)
+    expect(
+      (treeWrapper.vm as InstanceType<typeof Tree>).getCheckedNodes().length
+    ).toEqual(1)
+    expect(
+      (treeWrapper.vm as InstanceType<typeof Tree>).getCheckedNodes(true).length
+    ).toEqual(0)
 
     const secondTreeNodeWrapper = treeWrapper.findAll('.el-tree-node')[3]
     const secondNodefirstLeafCheckboxWrapper = secondTreeNodeWrapper.find(
       '.el-tree-node__children .el-tree-node__content .el-checkbox'
     )
     await secondNodefirstLeafCheckboxWrapper.trigger('click')
-    expect(treeWrapper.vm.getCheckedNodes().length).toEqual(2)
+    expect(
+      (treeWrapper.vm as InstanceType<typeof Tree>).getCheckedNodes().length
+    ).toEqual(2)
   })
 
   test('render content', async () => {
@@ -859,7 +900,8 @@ describe('Tree.vue', () => {
 
     expect(nodeWrappers.length).toEqual(2)
     await nodeWrappers[0].trigger('click')
-    await sleep(100) // wait load finish
+    jest.runAllTimers()
+    await nextTick() // wait load finish
     nodeWrappers = wrapper.findAll('.el-tree-node__content')
     expect(nodeWrappers.length).toEqual(4)
   })
@@ -895,13 +937,14 @@ describe('Tree.vue', () => {
     )
 
     const treeWrapper = wrapper.findComponent(Tree)
-    const tree = treeWrapper.vm
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
     const firstNodeWrapper = treeWrapper.find('.el-tree-node__content')
     expect(firstNodeWrapper.find('.is-indeterminate').exists()).toEqual(false)
 
     tree.store.setCheckedKeys([3])
     await firstNodeWrapper.find('.el-tree-node__expand-icon').trigger('click')
-    await sleep(100)
+    jest.runAllTimers()
+    await nextTick()
 
     expect(firstNodeWrapper.find('.is-indeterminate').exists()).toEqual(true)
     const childWrapper = treeWrapper.findAll('.el-tree-node__content')[1]
@@ -939,10 +982,11 @@ describe('Tree.vue', () => {
     )
 
     const treeWrapper = wrapper.findComponent(Tree)
-    const tree = treeWrapper.vm
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
 
     tree.store.setCheckedKeys([1])
-    await sleep(400)
+    jest.runAllTimers()
+    await nextTick()
     expect(tree.getCheckedKeys().length).toEqual(7)
   })
 
@@ -977,10 +1021,11 @@ describe('Tree.vue', () => {
     )
 
     const treeWrapper = wrapper.findComponent(Tree)
-    const tree = treeWrapper.vm
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
 
     tree.store.setCheckedKeys([1])
-    await sleep(300)
+    jest.runAllTimers()
+    await nextTick()
 
     const nodeWrappers = treeWrapper.findAll('.el-tree-node__content')
     expect(nodeWrappers[0].find('input').element.checked).toEqual(true)
@@ -995,10 +1040,12 @@ describe('Tree.vue', () => {
       '.el-tree-node:nth-child(2) .el-tree-node__content'
     )
     await firstNodeContentWrapper.trigger('click')
-    await sleep()
+    jest.runAllTimers()
+    await nextTick()
     expect(wrapper.find('.el-tree-node').classes('is-expanded')).toBe(true)
     await secondNodeContentWrapper.trigger('click')
-    await sleep()
+    jest.runAllTimers()
+    await nextTick()
     expect(wrapper.find('.el-tree-node').classes('is-expanded')).toBe(false)
   })
 
@@ -1065,7 +1112,7 @@ describe('Tree.vue', () => {
     )
 
     const treeWrapper = wrapper.findComponent(Tree)
-    const tree = treeWrapper.vm
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
 
     tree.updateKeyChildren(1, [
       {
@@ -1115,8 +1162,9 @@ describe('Tree.vue', () => {
     })
     const tree = wrapper.findComponent({ name: 'ElTree' })
     expect(
-      Object.values(tree.vm.store.nodesMap).filter((item) => item.canFocus)
-        .length
+      Object.values(
+        (tree.vm as InstanceType<typeof Tree>).store.nodesMap
+      ).filter((item) => item.canFocus).length
     ).toBe(9)
   })
 
@@ -1137,7 +1185,7 @@ describe('Tree.vue', () => {
     const targetElement = wrapper.find('div[data-key="3"]').element
     const fromElement = wrapper.find('div[data-key="1"]').element
     defineGetter(targetElement, 'focus', handleFocus)
-    tree.vm.setCurrentKey(1)
+    ;(tree.vm as InstanceType<typeof Tree>).setCurrentKey(1)
     expect(fromElement.classList.contains('is-focusable')).toBeTruthy()
     fromElement.dispatchEvent(
       new KeyboardEvent('keydown', {
@@ -1166,7 +1214,7 @@ describe('Tree.vue', () => {
     const targetElement = wrapper.find('div[data-key="2"]').element
     const fromElement = wrapper.find('div[data-key="1"]').element
     defineGetter(targetElement, 'focus', handleFocus)
-    tree.vm.setCurrentKey(1)
+    ;(tree.vm as InstanceType<typeof Tree>).setCurrentKey(1)
     expect(fromElement.classList.contains('is-focusable')).toBeTruthy()
     fromElement.dispatchEvent(
       new KeyboardEvent('keydown', {
@@ -1255,7 +1303,7 @@ describe('Tree.vue', () => {
     const targetElement = wrapper.find('div[data-key="3"]').element
     const fromElement = wrapper.find('div[data-key="1"]').element
     defineGetter(targetElement, 'focus', handleFocus)
-    tree.vm.setCurrentKey(1)
+    ;(tree.vm as InstanceType<typeof Tree>).setCurrentKey(1)
     expect(fromElement.classList.contains('is-focusable')).toBeTruthy()
     fromElement.dispatchEvent(
       new KeyboardEvent('keydown', {
@@ -1289,16 +1337,17 @@ describe('Tree.vue', () => {
             label: 'label',
             disabled: 'disabled',
           },
+          count: 0,
         }
       },
       methods: {
-        loadNode(node, resolve) {
+        loadNode(node: Node, resolve: typeof Promise.resolve) {
           if (node.level === 0) {
             return resolve([{ name: 'region1' }, { name: 'region2' }])
           }
           if (node.level > 3) return resolve([])
 
-          let hasChild
+          let hasChild: boolean
           if (node.data.name === 'region1') {
             hasChild = true
           } else if (node.data.name === 'region2') {
@@ -1307,14 +1356,14 @@ describe('Tree.vue', () => {
             hasChild = false
           }
 
-          let data
+          let data: { name: string }[]
           if (hasChild) {
             data = [
               {
-                name: `zone${this.count++}`,
+                name: `zone${++this.count}`,
               },
               {
-                name: `zone${this.count++}`,
+                name: `zone${++this.count}`,
               },
             ]
           } else {
@@ -1329,6 +1378,8 @@ describe('Tree.vue', () => {
       return () => (flag = !flag)
     }
     await nextTick()
+    jest.runAllTimers()
+    await nextTick()
     const tree = wrapper.findComponent({ name: 'ElTree' })
     const originElements = wrapper.findAll('div[data-key]')
     const region1 = originElements[0].element
@@ -1337,20 +1388,27 @@ describe('Tree.vue', () => {
     // expand
     region1.dispatchEvent(new MouseEvent('click'))
     expect(region1.classList.contains('is-focusable')).toBeTruthy()
-    await sleep(100)
-    expect(Object.values(tree.vm.store.nodesMap.length === 4)).toBeTruthy()
+    await nextTick()
+    jest.runAllTimers()
+    await nextTick()
+    await nextTick()
+    expect(
+      Object.values((tree.vm as InstanceType<typeof Tree>).store.nodesMap)
+    ).toHaveLength(5) // The root node (void node) + 4 child nodes (region1, region2, zone1, zone2)
     expect(
       Object.values(
-        Object.values(tree.vm.store.nodesMap).filter((item) => item.canFocus)
-          .length === 4
+        Object.values(
+          (tree.vm as InstanceType<typeof Tree>).store.nodesMap
+        ).filter((item) => item.canFocus).length === 4
       )
     ).toBeTruthy()
     // collapse
     region1.dispatchEvent(new MouseEvent('click'))
     expect(
       Object.values(
-        Object.values(tree.vm.store.nodesMap).filter((item) => item.canFocus)
-          .length === 2
+        Object.values(
+          (tree.vm as InstanceType<typeof Tree>).store.nodesMap
+        ).filter((item) => item.canFocus).length === 2
       )
     ).toBeTruthy()
     // ArrowDown, region2 focus
