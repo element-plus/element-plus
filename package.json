@@ -97,7 +97,7 @@
     "esbuild": "0.14.18",
     "eslint": "8.8.0",
     "eslint-config-prettier": "8.3.0",
-    "eslint-define-config": "1.2.3",
+    "eslint-define-config": "1.2.4",
     "eslint-plugin-import": "2.25.4",
     "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-vue": "8.4.0",
