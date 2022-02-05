@@ -89,7 +89,7 @@
     "@typescript-eslint/parser": "5.10.1",
     "@vitejs/plugin-vue": "2.1.0",
     "@vue/test-utils": "2.0.0-rc.16",
-    "chalk": "4.1.2",
+    "chalk": "5.0.0",
     "components-helper": "2.0.0",
     "csstype": "2.6.19",
     "cypress": "8.5.0",

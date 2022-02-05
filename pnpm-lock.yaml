@@ -35,7 +35,7 @@ importers:
       '@vue/test-utils': 2.0.0-rc.16
       '@vueuse/core': ^7.5.5
       async-validator: ^4.0.7
-      chalk: 4.1.2
+      chalk: 5.0.0
       components-helper: 2.0.0
       csstype: 2.6.19
       cypress: 8.5.0
@@ -112,7 +112,7 @@ importers:
       '@typescript-eslint/parser': 5.10.1_eslint@8.8.0+typescript@4.5.5
       '@vitejs/plugin-vue': 2.1.0_vue@3.2.27
       '@vue/test-utils': 2.0.0-rc.16_vue@3.2.27
-      chalk: 4.1.2
+      chalk: 5.0.0
       components-helper: 2.0.0
       csstype: 2.6.19
       cypress: 8.5.0
@@ -3389,6 +3389,11 @@ packages:
     dependencies:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
+    dev: true
+
+  /chalk/5.0.0:
+    resolution: {integrity: sha512-/duVOqst+luxCQRKEo4bNxinsOQtMP80ZYm7mMqzuh5PociNL0PvmHFvREJ9ueYL2TxlHjBcmLCdmocx9Vg+IQ==}
+    engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
     dev: true
 
   /char-regex/1.0.2:
