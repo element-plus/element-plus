@@ -1,6 +1,5 @@
-import { nextTick } from 'vue'
+import { nextTick, markRaw } from 'vue'
 import { mount } from '@vue/test-utils'
-import { sleep } from '@element-plus/test-utils'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { CircleClose, ArrowUp, CaretTop } from '@element-plus/icons-vue'
 import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
@@ -596,9 +595,10 @@ describe('Select', () => {
     await nextTick()
     expect((wrapper.vm as any).value).toBe('选项4')
     vm.toggleMenu()
-    const timer = sleep(300)
+
     jest.runAllTimers()
-    await timer
+    await nextTick()
+
     vm.toggleMenu()
     await nextTick()
     expect(vm.hoverIndex).toBe(3)
@@ -623,7 +623,7 @@ describe('Select', () => {
     wrapper = _mount(`<el-select></el-select>`)
     let suffixIcon = wrapper.findComponent(ArrowUp)
     expect(suffixIcon.exists()).toBe(true)
-    await wrapper.setProps({ suffixIcon: CaretTop })
+    await wrapper.setProps({ suffixIcon: markRaw(CaretTop) })
     suffixIcon = wrapper.findComponent(CaretTop)
     expect(suffixIcon.exists()).toBe(true)
   })
@@ -1498,9 +1498,8 @@ describe('Select', () => {
     selectInput.trigger('input')
     await nextTick()
 
-    const timer = sleep(300)
     jest.runAllTimers()
-    await timer
+    await nextTick()
 
     expect(innerInputEl.placeholder).toBe('')
 
