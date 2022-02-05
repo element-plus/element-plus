@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@docsearch/js": "3.0.0-alpha.50",
-    "@docsearch/react": "3.0.0-alpha.42",
+    "@docsearch/react": "3.0.0-alpha.50",
     "@vueuse/core": "7.5.5",
     "axios": "0.25.0",
     "clipboard-copy": "4.0.1",
