@@ -103,7 +103,9 @@ export default defineComponent({
       //
     }
 
-    function onColumnSort() {}
+    function onColumnSort() {
+      //
+    }
 
     // renderers
 
