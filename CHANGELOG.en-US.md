@@ -1,5 +1,14 @@
 ## Changelog
 
+### 2.0.0
+
+_2022-02-07_
+
+#### Bug fixes
+
+- Components [Dialog & MessageBox] support draggable (#5369 by @kooriookami)
+- Components [el-popper] append to body compatability (#5755 by @JeremyWuuuuu)
+
 ### 1.3.0-beta.10
 
 _2022-01-31_
