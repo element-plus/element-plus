@@ -47,7 +47,7 @@ import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import { useLocale } from '@element-plus/hooks'
 import { popconfirmProps } from './popconfirm'
 
-const COMPONENT_NAME = 'Elpopperconfirm'
+const COMPONENT_NAME = 'ElPopconfirm'
 export default defineComponent({
   name: COMPONENT_NAME,
 

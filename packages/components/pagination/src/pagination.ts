@@ -319,13 +319,17 @@ export default defineComponent({
         }
       })
 
-      if (haveRightWrapper && rightWrapperChildren.length > 0) {
-        rootChildren.unshift(rightWrapperRoot)
-      }
-
       addClass(rootChildren[0], 'is-first')
       addClass(rootChildren[rootChildren.length - 1], 'is-last')
 
+      if (haveRightWrapper && rightWrapperChildren.length > 0) {
+        addClass(rightWrapperChildren[0], 'is-first')
+        addClass(
+          rightWrapperChildren[rightWrapperChildren.length - 1],
+          'is-last'
+        )
+        rootChildren.push(rightWrapperRoot)
+      }
       return h(
         'div',
         {

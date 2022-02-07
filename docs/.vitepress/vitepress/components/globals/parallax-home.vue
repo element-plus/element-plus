@@ -1,12 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive, computed } from 'vue'
-import {
-  useParallax,
-  useThrottleFn,
-  useEventListener,
-  useIntervalFn,
-} from '@vueuse/core'
-import dayjs from 'dayjs'
+import { useParallax, useThrottleFn, useEventListener } from '@vueuse/core'
+// import dayjs from 'dayjs'
 import { useLang } from '../../composables/lang'
 import homeLocale from '../../../i18n/pages/home.json'
 import sponsorLocale from '../../../i18n/component/sponsors-home.json'
@@ -74,41 +69,41 @@ const handleScroll = useThrottleFn(() => {
 
 useEventListener(window, 'scroll', handleScroll)
 
-interface CountdownT {
-  days: string
-  hours: string
-  minutes: string
-  seconds: string
-}
-const releaseDate = dayjs('2022-02-07T11:00:00.000+08:00')
-const isBeforeRelease = ref(false)
-const countdownText = ref<CountdownT>({} as CountdownT)
-const calReleaseCountDown = () => {
-  if (dayjs().isBefore(releaseDate)) {
-    isBeforeRelease.value = true
-    const dayDiff = releaseDate.diff(dayjs(), 'day')
-    countdownText.value.days = String(dayDiff).padStart(2, '0')
-    const hourDiff = releaseDate.diff(dayjs(), 'hour') - dayDiff * 24
-    countdownText.value.hours = String(hourDiff).padStart(2, '0')
-    const minuteDiff =
-      releaseDate.diff(dayjs(), 'minute') - hourDiff * 60 - dayDiff * 24 * 60
-    countdownText.value.minutes = String(minuteDiff).padStart(2, '0')
-    const secondDiff =
-      releaseDate.diff(dayjs(), 'second') -
-      minuteDiff * 60 -
-      hourDiff * 60 * 60 -
-      dayDiff * 24 * 60 * 60
-    countdownText.value.seconds = String(secondDiff).padStart(2, '0')
-  } else {
-    pauseCountdown()
-  }
-}
+// interface CountdownT {
+//   days: string
+//   hours: string
+//   minutes: string
+//   seconds: string
+// }
+// const releaseDate = dayjs('2022-02-07T11:00:00.000+08:00')
+// const isBeforeRelease = ref(false)
+// const countdownText = ref<CountdownT>({} as CountdownT)
+// const calReleaseCountDown = () => {
+//   if (dayjs().isBefore(releaseDate)) {
+//     isBeforeRelease.value = true
+//     const dayDiff = releaseDate.diff(dayjs(), 'day')
+//     countdownText.value.days = String(dayDiff).padStart(2, '0')
+//     const hourDiff = releaseDate.diff(dayjs(), 'hour') - dayDiff * 24
+//     countdownText.value.hours = String(hourDiff).padStart(2, '0')
+//     const minuteDiff =
+//       releaseDate.diff(dayjs(), 'minute') - hourDiff * 60 - dayDiff * 24 * 60
+//     countdownText.value.minutes = String(minuteDiff).padStart(2, '0')
+//     const secondDiff =
+//       releaseDate.diff(dayjs(), 'second') -
+//       minuteDiff * 60 -
+//       hourDiff * 60 * 60 -
+//       dayDiff * 24 * 60 * 60
+//     countdownText.value.seconds = String(secondDiff).padStart(2, '0')
+//   } else {
+//     pauseCountdown()
+//   }
+// }
 
-const { pause: pauseCountdown } = useIntervalFn(
-  () => calReleaseCountDown(),
-  1000,
-  { immediateCallback: true }
-)
+// const { pause: pauseCountdown } = useIntervalFn(
+//   () => calReleaseCountDown(),
+//   1000,
+//   { immediateCallback: true }
+// )
 </script>
 
 <template>
