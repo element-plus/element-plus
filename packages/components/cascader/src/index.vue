@@ -2,7 +2,7 @@
   <el-tooltip
     ref="tooltipRef"
     v-model:visible="popperVisible"
-    :append-to-body="popperAppendToBody"
+    :teleported="compatTeleported"
     :popper-class="`el-cascader__dropdown ${popperClass}`"
     :popper-options="popperOptions"
     :fallback-placements="[
@@ -172,7 +172,10 @@ import ElCascaderPanel, {
   CommonProps,
 } from '@element-plus/components/cascader-panel'
 import ElInput from '@element-plus/components/input'
-import ElTooltip from '@element-plus/components/tooltip'
+import ElTooltip, {
+  useTooltipContentProps,
+} from '@element-plus/components/tooltip'
+import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
@@ -229,9 +232,9 @@ const popperOptions: Partial<Options> = {
     },
   ],
 }
-
+const COMPONENT_NAME = 'ElCascader'
 export default defineComponent({
-  name: 'ElCascader',
+  name: COMPONENT_NAME,
 
   components: {
     ElCascaderPanel,
@@ -291,8 +294,9 @@ export default defineComponent({
     },
     popperAppendToBody: {
       type: Boolean,
-      default: true,
+      default: undefined,
     },
+    teleported: useTooltipContentProps.teleported,
   },
 
   emits: [
@@ -309,6 +313,10 @@ export default defineComponent({
     let inputInitialHeight = 0
     let pressDeleteCount = 0
 
+    const { compatTeleported } = useDeprecateAppendToBody(
+      COMPONENT_NAME,
+      'popperAppendToBody'
+    )
     const { t } = useLocale()
     const elForm = inject(elFormKey, {} as ElFormContext)
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
@@ -692,6 +700,9 @@ export default defineComponent({
       multiple,
       readonly,
       clearBtnVisible,
+      // deprecation in ver 2.1.0
+      compatTeleported,
+
       t,
       togglePopperVisible,
       hideSuggestionPanel,

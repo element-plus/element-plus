@@ -1,10 +1,12 @@
+import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { NOOP } from '@vue/shared'
-import { sleep } from '@element-plus/test-utils'
-
+import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
 import Autocomplete from '../src/index.vue'
 
 jest.unmock('lodash/debounce')
+
+jest.useFakeTimers()
 
 const _mount = (payload = {}) =>
   mount({
@@ -51,6 +53,7 @@ describe('Autocomplete.vue', () => {
 
   test('placeholder', async () => {
     const wrapper = _mount()
+    await nextTick()
 
     await wrapper.setProps({ placeholder: 'autocomplete' })
     expect(wrapper.find('input').attributes('placeholder')).toBe('autocomplete')
@@ -65,22 +68,26 @@ describe('Autocomplete.vue', () => {
       debounce: 10,
       fetchSuggestions,
     })
+    await nextTick()
 
     await wrapper.setProps({ triggerOnFocus: false })
     await wrapper.find('input').trigger('focus')
-    await sleep(30)
+    jest.runAllTimers()
+    await nextTick()
     expect(fetchSuggestions).toHaveBeenCalledTimes(0)
 
     await wrapper.find('input').trigger('blur')
 
     await wrapper.setProps({ triggerOnFocus: true })
     await wrapper.find('input').trigger('focus')
-    await sleep(30)
+    jest.runAllTimers()
+    await nextTick()
     expect(fetchSuggestions).toHaveBeenCalledTimes(1)
   })
 
   test('popperClass', async () => {
     const wrapper = _mount()
+    await nextTick()
 
     await wrapper.setProps({ popperClass: 'error' })
     expect(
@@ -107,6 +114,7 @@ describe('Autocomplete.vue', () => {
       debounce: 10,
       fetchSuggestions,
     })
+    await nextTick()
 
     await wrapper.find('input').trigger('focus')
     await wrapper.find('input').trigger('blur')
@@ -115,16 +123,22 @@ describe('Autocomplete.vue', () => {
     await wrapper.find('input').trigger('focus')
     await wrapper.find('input').trigger('blur')
     expect(fetchSuggestions).toHaveBeenCalledTimes(0)
-    await sleep(30)
+    jest.runAllTimers()
+    await nextTick()
+
     expect(fetchSuggestions).toHaveBeenCalledTimes(1)
     await wrapper.find('input').trigger('focus')
-    await sleep(30)
+    jest.runAllTimers()
+    await nextTick()
+
     expect(fetchSuggestions).toHaveBeenCalledTimes(2)
   })
 
   test('valueKey / modelValue', async () => {
     const wrapper = _mount()
-    const target = wrapper.findComponent({ ref: 'autocomplete' }).vm as any
+    await nextTick()
+    const target = wrapper.findComponent({ ref: 'autocomplete' })
+      .vm as InstanceType<typeof Autocomplete>
 
     await target.select({ value: 'Go', tag: 'go' })
     expect(wrapper.vm.state).toBe('Go')
@@ -141,8 +155,11 @@ describe('Autocomplete.vue', () => {
       fetchSuggestions: NOOP,
       debounce: 10,
     })
+    await nextTick()
     await wrapper.find('input').trigger('focus')
-    await sleep(30)
+    jest.runAllTimers()
+    await nextTick()
+
     expect(document.body.querySelector('.el-icon-loading')).toBeDefined()
     await wrapper.setProps({ hideLoading: true })
     expect(document.body.querySelector('.el-icon-loading')).toBeNull()
@@ -155,9 +172,13 @@ describe('Autocomplete.vue', () => {
         debounce: 10,
       },
     })
+    await nextTick()
+
     wrapper.vm.highlightedIndex = 0
     wrapper.vm.handleKeyEnter()
-    await sleep(30)
+    jest.runAllTimers()
+    await nextTick()
+
     expect(wrapper.vm.highlightedIndex).toBe(-1)
   })
 
@@ -166,15 +187,44 @@ describe('Autocomplete.vue', () => {
       highlightFirstItem: false,
       debounce: 10,
     })
+    await nextTick()
 
     await wrapper.find('input').trigger('focus')
-    await sleep(30)
+    jest.runAllTimers()
+    await nextTick()
+
     expect(document.body.querySelector('.highlighted')).toBeNull()
 
     await wrapper.setProps({ highlightFirstItem: true })
 
     await wrapper.find('input').trigger('focus')
-    await sleep(30)
+    jest.runAllTimers()
+    await nextTick()
+
     expect(document.body.querySelector('.highlighted')).toBeDefined()
+  })
+
+  describe('teleported API', () => {
+    it('should mount on popper container', async () => {
+      expect(document.body.innerHTML).toBe('')
+      _mount()
+
+      await nextTick()
+      expect(
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+      ).not.toBe('')
+    })
+
+    it('should not mount on the popper container', async () => {
+      expect(document.body.innerHTML).toBe('')
+      _mount({
+        teleported: false,
+      })
+
+      await nextTick()
+      expect(
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+      ).toBe('')
+    })
   })
 })

@@ -11,7 +11,7 @@
     <el-tooltip
       ref="popper"
       v-model:visible="dropdownMenuVisible"
-      :append-to-body="popperAppendToBody"
+      :teleported="compatTeleported"
       :popper-class="`el-select-v2__popper ${popperClass}`"
       :gpu-acceleration="false"
       :stop-popper-mouse-event="false"

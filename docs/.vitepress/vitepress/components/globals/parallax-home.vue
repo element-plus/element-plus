@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { ref, reactive, computed } from 'vue'
-import { useParallax, useThrottleFn, useEventListener } from '@vueuse/core'
+import {
+  useParallax,
+  useThrottleFn,
+  useEventListener,
+  useIntervalFn,
+} from '@vueuse/core'
 import dayjs from 'dayjs'
 import { useLang } from '../../composables/lang'
 import homeLocale from '../../../i18n/pages/home.json'
@@ -70,39 +75,40 @@ const handleScroll = useThrottleFn(() => {
 useEventListener(window, 'scroll', handleScroll)
 
 interface CountdownT {
-  days?: string
-  hours?: string
-  minutes?: string
-  seconds?: string
+  days: string
+  hours: string
+  minutes: string
+  seconds: string
 }
 const releaseDate = dayjs('2022-02-07T11:00:00.000+08:00')
 const isBeforeRelease = ref(false)
-const countDownText = ref<CountdownT>({})
+const countdownText = ref<CountdownT>({} as CountdownT)
 const calReleaseCountDown = () => {
   if (dayjs().isBefore(releaseDate)) {
     isBeforeRelease.value = true
     const dayDiff = releaseDate.diff(dayjs(), 'day')
-    countDownText.value.days = String(dayDiff).padStart(2, '0')
+    countdownText.value.days = String(dayDiff).padStart(2, '0')
     const hourDiff = releaseDate.diff(dayjs(), 'hour') - dayDiff * 24
-    countDownText.value.hours = String(hourDiff).padStart(2, '0')
+    countdownText.value.hours = String(hourDiff).padStart(2, '0')
     const minuteDiff =
       releaseDate.diff(dayjs(), 'minute') - hourDiff * 60 - dayDiff * 24 * 60
-    countDownText.value.minutes = String(minuteDiff).padStart(2, '0')
+    countdownText.value.minutes = String(minuteDiff).padStart(2, '0')
     const secondDiff =
       releaseDate.diff(dayjs(), 'second') -
       minuteDiff * 60 -
       hourDiff * 60 * 60 -
       dayDiff * 24 * 60 * 60
-    countDownText.value.seconds = String(secondDiff).padStart(2, '0')
+    countdownText.value.seconds = String(secondDiff).padStart(2, '0')
   } else {
-    clearInterval(intervalId)
+    pauseCountdown()
   }
 }
 
-const intervalId = setInterval(() => {
-  calReleaseCountDown()
-}, 1000)
-calReleaseCountDown()
+const { pause: pauseCountdown } = useIntervalFn(
+  () => calReleaseCountDown(),
+  1000,
+  { immediateCallback: true }
+)
 </script>
 
 <template>
@@ -122,29 +128,29 @@ calReleaseCountDown()
           <div class="cd-time">
             <div class="cd-item">
               <div class="cd-num">
-                <span>{{ countDownText.days[0] }}</span>
-                <span>{{ countDownText.days[1] }}</span>
+                <span>{{ countdownText.days[0] }}</span>
+                <span>{{ countdownText.days[1] }}</span>
               </div>
               <div class="cd-str">DAYS</div>
             </div>
             <div class="cd-item">
               <div class="cd-num">
-                <span>{{ countDownText.hours[0] }}</span>
-                <span>{{ countDownText.hours[1] }}</span>
+                <span>{{ countdownText.hours[0] }}</span>
+                <span>{{ countdownText.hours[1] }}</span>
               </div>
               <div class="cd-str">HOURS</div>
             </div>
             <div class="cd-item">
               <div class="cd-num">
-                <span>{{ countDownText.minutes[0] }}</span>
-                <span>{{ countDownText.minutes[1] }}</span>
+                <span>{{ countdownText.minutes[0] }}</span>
+                <span>{{ countdownText.minutes[1] }}</span>
               </div>
               <div class="cd-str">MINUTES</div>
             </div>
             <div class="cd-item">
               <div class="cd-num">
-                <span>{{ countDownText.seconds[0] }}</span>
-                <span>{{ countDownText.seconds[1] }}</span>
+                <span>{{ countdownText.seconds[0] }}</span>
+                <span>{{ countdownText.seconds[1] }}</span>
               </div>
               <div class="cd-str">SECONDS</div>
             </div>
@@ -254,7 +260,7 @@ calReleaseCountDown()
         {{ homeLang['12'] }}
       </a>
       <a
-        href="https://github.com/element-plus/element-plus-starter"
+        href="https://element.eleme.io/"
         class="footer-main-link"
         target="_blank"
       >

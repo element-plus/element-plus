@@ -207,7 +207,6 @@ export default defineComponent({
     watch(
       () => props.defaultExpandedKeys,
       (newVal) => {
-        store.value.defaultExpandedKeys = newVal
         store.value.setDefaultExpandedKeys(newVal)
       }
     )
@@ -252,13 +251,13 @@ export default defineComponent({
     }
 
     const getCheckedNodes = (
-      leafOnly: boolean,
-      includeHalfChecked: boolean
+      leafOnly?: boolean,
+      includeHalfChecked?: boolean
     ): TreeNodeData[] => {
       return store.value.getCheckedNodes(leafOnly, includeHalfChecked)
     }
 
-    const getCheckedKeys = (leafOnly: boolean): TreeKey[] => {
+    const getCheckedKeys = (leafOnly?: boolean): TreeKey[] => {
       return store.value.getCheckedKeys(leafOnly)
     }
 
@@ -274,13 +273,13 @@ export default defineComponent({
       return currentNode ? currentNode[props.nodeKey] : null
     }
 
-    const setCheckedNodes = (nodes: Node[], leafOnly: boolean) => {
+    const setCheckedNodes = (nodes: Node[], leafOnly?: boolean) => {
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in setCheckedNodes')
       store.value.setCheckedNodes(nodes, leafOnly)
     }
 
-    const setCheckedKeys = (keys, leafOnly: boolean) => {
+    const setCheckedKeys = (keys, leafOnly?: boolean) => {
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in setCheckedKeys')
       store.value.setCheckedKeys(keys, leafOnly)

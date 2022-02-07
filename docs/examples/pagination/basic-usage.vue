@@ -1,19 +1,19 @@
 <template>
-  <div class="demo-pagination-block">
-    <div class="demonstration">When you have few pages</div>
+  <div class="example-pagination-block">
+    <div class="example-demonstration">When you have few pages</div>
     <el-pagination layout="prev, pager, next" :total="50"></el-pagination>
   </div>
-  <div class="demo-pagination-block">
-    <div class="demonstration">When you have more than 7 pages</div>
+  <div class="example-pagination-block">
+    <div class="example-demonstration">When you have more than 7 pages</div>
     <el-pagination layout="prev, pager, next" :total="1000"></el-pagination>
   </div>
 </template>
 
-<style>
-.demo-pagination-block + .demo-pagination-block {
+<style scoped>
+.example-pagination-block + .example-pagination-block {
   margin-top: 10px;
 }
-.demo-pagination-block .demonstration {
+.example-pagination-block .example-demonstration {
   margin-bottom: 16px;
 }
 </style>

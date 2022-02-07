@@ -161,6 +161,7 @@ function useStyle<T>(
   }
 
   const bindEvents = () => {
+    if (!table.refs.scrollWrapper) return
     table.refs.scrollWrapper.wrap$?.addEventListener('scroll', syncPostion, {
       passive: true,
     })
