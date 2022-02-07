@@ -26,7 +26,7 @@ For developers that uses Element Plus to develop your website you should go ahea
 
 ## Breaking change list
 
-The first stable release of Element Plus suitable for use in production was released on Febuary 08, 2022. The APIs is stable right now, and here's also a full list about how to get upgraded from [Element UI](https://element.eleme.io) to Element Plus. 
+The first stable release of Element Plus suitable for use in production was released on Febuary 07, 2022. The APIs is stable right now, and here's also a full list about how to get upgraded from [Element UI](https://element.eleme.io) to Element Plus. 
 
 You can find the breaking change list here: [Breaking Change List](https://github.com/element-plus/element-plus/discussions/5658).
 
