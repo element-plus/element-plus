@@ -187,7 +187,10 @@
   }
 
   @include e(rightwrapper) {
-    float: right;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   }
 
   @include e(editor) {
