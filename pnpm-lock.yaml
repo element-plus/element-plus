@@ -167,7 +167,7 @@ importers:
       normalize.css: 8.0.1
       nprogress: 0.2.0
       unplugin-icons: 0.13.0
-      unplugin-vue-components: 0.17.16
+      unplugin-vue-components: 0.17.17
       vite: 2.7.13
       vite-plugin-inspect: 0.3.13
       vite-plugin-windicss: 1.6.3
@@ -190,7 +190,7 @@ importers:
       markdown-it: 12.3.2
       markdown-it-container: 3.0.0
       unplugin-icons: 0.13.0_rollup@2.67.0+vite@2.7.13
-      unplugin-vue-components: 0.17.16_6375c8769287d7de503504d312318567
+      unplugin-vue-components: 0.17.17_6375c8769287d7de503504d312318567
       vite: 2.7.13_sass@1.49.7
       vite-plugin-inspect: 0.3.13_vite@2.7.13
       vite-plugin-windicss: 1.6.3_vite@2.7.13
@@ -270,7 +270,7 @@ importers:
     specifiers:
       '@element-plus/icons-vue': ^0.2.6
       '@vitejs/plugin-vue': 2.1.0
-      unplugin-vue-components: 0.17.16
+      unplugin-vue-components: 0.17.17
       vite: 2.7.13
       vite-plugin-inspect: 0.3.13
       vite-plugin-mkcert: 1.5.2
@@ -278,7 +278,7 @@ importers:
       '@element-plus/icons-vue': 0.2.6_vue@3.2.27
     devDependencies:
       '@vitejs/plugin-vue': 2.1.0_vite@2.7.13+vue@3.2.27
-      unplugin-vue-components: 0.17.16_6375c8769287d7de503504d312318567
+      unplugin-vue-components: 0.17.17_6375c8769287d7de503504d312318567
       vite: 2.7.13_sass@1.49.7
       vite-plugin-inspect: 0.3.13_vite@2.7.13
       vite-plugin-mkcert: 1.5.2
@@ -10682,8 +10682,8 @@ packages:
       - webpack
     dev: true
 
-  /unplugin-vue-components/0.17.16_6375c8769287d7de503504d312318567:
-    resolution: {integrity: sha512-WGQdPAZ6uzx00gRQuhTVxY91dxVz6VD5CpeBjVSrzwghki4fShk3l6h3N/jWQDWCi1ej+JnjYOwND4SLoujDGg==}
+  /unplugin-vue-components/0.17.17_6375c8769287d7de503504d312318567:
+    resolution: {integrity: sha512-XaaCbsdXGazTOl0nH4+PVsuGOXmYcrqLT8B8vO9Jzz9OaUq+S9Tz4KjzUNs7bhkp83SQWaKKF0+noAynYDa/Cg==}
     engines: {node: '>=14'}
     peerDependencies:
       '@babel/parser': ^7.15.8
