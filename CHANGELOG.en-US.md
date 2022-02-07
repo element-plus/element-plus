@@ -1,5 +1,14 @@
 ## Changelog
 
+### 2.0.1
+
+_2022-02-07_
+
+#### Bug fixes
+
+- Components [el-popconfirm] revert component name (#5815 by @msidolphin)
+- [el-pagination] fix justify alignment (#5814 by @msidolphin)
+
 ### 2.0.0
 
 _2022-02-07_
