@@ -17,16 +17,18 @@
 - 💪 Vue 3 Composition API
 - 🔥 Written in TypeScript
 
-## Status: Beta
-
-This project is still under heavy development. Feel free to join us and make your first pull request.
-
 ## Getting Started
 
 Alright, for you to get started if you are looking for making Element Plus better you should keep reading.
 For developers that uses Element Plus to develop your website you should go ahead visit [Getting Started](https://element-plus.org/)
 
 - 中国大陆[加速镜像站点](https://element-plus.gitee.io/)
+
+## Breaking change list
+
+The first stable release of Element Plus suitable for use in production was released on Febuary 07, 2022. The APIs is stable right now, and here's also a full list about how to get upgraded from [Element UI](https://element.eleme.io) to Element Plus.
+
+You can find the breaking change list here: [Breaking Change List](https://github.com/element-plus/element-plus/discussions/5658).
 
 ### Playground
 
@@ -80,14 +82,6 @@ above and leave a message if you want to help translating Element Plus into your
 ## Stay tuned :eyes:
 
 Join our [Discord](https://discord.link/ElementPlus) to start communicating with everybody.
-
-## Breaking change list
-
-**Note:** we are now currently preparing for the stable release, the APIs should be stable right now, we are going to
-make a full list about how to get upgraded from [Element UI](https://element.eleme.io) to Element Plus. This breaking change list
-might be updated day by day.
-
-You can find the breaking change list here: [Breaking Change List](https://github.com/element-plus/element-plus/issues/162).
 
 ## This thing is broken, I should help improve it!
 
