@@ -795,8 +795,8 @@ describe('WeekPicker', () => {
     expect(numberOfHighlightRows()).toBe(0)
   })
   ;[
-    { locale: zhCn, name: 'Monday', value: 1 },
     { locale: enUs, name: 'Sunday', value: 0 },
+    { locale: zhCn, name: 'Monday', value: 1 },
   ].forEach((loObj) => {
     it(`emit first day of the week, ${loObj.locale.name} locale, ${loObj.name}`, async () => {
       const wrapper = mount(
