@@ -1,6 +1,5 @@
 <template>
   <div
-    class="el-progress"
     :class="[
       ns.b(),
       ns.m(type),
