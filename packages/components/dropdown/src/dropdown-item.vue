@@ -5,7 +5,7 @@
   >
     <el-roving-focus-item :focusable="!disabled">
       <el-dropdown-item-impl
-        v-bind="$attrs"
+        v-bind="propsAndAttrs"
         @pointerleave="handlePointerLeave"
         @pointermove="handlePointerMove"
         @click="handleClick"
@@ -44,7 +44,7 @@ export default defineComponent({
   inheritAttrs: false,
   props: dropdownItemProps,
   emits: ['pointermove', 'pointerleave', 'click'],
-  setup(props, { emit }) {
+  setup(props, { emit, attrs }) {
     const { elDropdown } = useDropdown()
     const _instance = getCurrentInstance()
     const itemRef = ref<HTMLElement | null>(null)
@@ -98,11 +98,17 @@ export default defineComponent({
       }
     )
 
+    // direct usage of v-bind={ ...$props, ...$attrs } causes type errors
+    const propsAndAttrs = computed(() => {
+      return { ...props, ...attrs }
+    })
+
     return {
       handleClick,
       handlePointerMove,
       handlePointerLeave,
       textContent,
+      propsAndAttrs,
     }
   },
 })
