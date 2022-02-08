@@ -73,7 +73,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed, inject } from 'vue'
 import dayjs from 'dayjs'
-import union from 'lodash/union'
+import { union } from 'lodash-unified'
 import { useLocale } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import TimeSpinner from './basic-time-spinner.vue'

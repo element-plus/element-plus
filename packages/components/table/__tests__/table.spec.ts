@@ -1,6 +1,7 @@
 import { nextTick } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { triggerEvent } from '@element-plus/test-utils'
+import { rAF } from '@element-plus/test-utils/tick'
 import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column/index'
 import { mount, getTestData } from './table-test-common'
@@ -9,13 +10,7 @@ import type { ComponentPublicInstance } from 'vue'
 
 const { CheckboxGroup: ElCheckboxGroup } = ElCheckbox
 
-async function sleep(time: number) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(undefined)
-    }, time)
-  })
-}
+jest.useFakeTimers()
 
 describe('Table.vue', () => {
   describe('rendering data is correct', () => {
@@ -335,7 +330,7 @@ describe('Table.vue', () => {
       filter.parentNode.removeChild(filter)
     })
 
-    fit('click filter', async () => {
+    it('click filter', async () => {
       const btn = wrapper.find('.el-table__column-filter-trigger')
 
       btn.trigger('click')
@@ -845,13 +840,16 @@ describe('Table.vue', () => {
     })
     await nextTick()
     const tr = wrapper.find('.el-table__body-wrapper tbody tr')
-    tr.trigger('mouseenter')
-
-    await sleep(50)
+    await tr.trigger('mouseenter')
+    await nextTick()
+    await rAF()
+    await nextTick()
     expect(tr.classes()).toContain('hover-row')
-    tr.trigger('mouseleave')
+    await tr.trigger('mouseleave')
+    await nextTick()
 
-    await sleep(50)
+    await rAF()
+    await nextTick()
     expect(tr.classes()).not.toContain('hover-row')
     wrapper.unmount()
   })

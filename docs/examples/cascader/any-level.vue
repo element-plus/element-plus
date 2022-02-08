@@ -1,12 +1,12 @@
 <template>
-  <div class="block">
-    <span class="demonstration"
+  <div class="example-block">
+    <span class="example-demonstration"
       >Select any level of options (Single selection)</span
     >
     <el-cascader :options="options" :props="props1" clearable />
   </div>
-  <div class="block">
-    <span class="demonstration"
+  <div class="example-block">
+    <span class="example-demonstration"
       >Select any level of options (Multiple selection)</span
     >
     <el-cascader :options="options" :props="props2" clearable />
@@ -292,3 +292,12 @@ const options = [
   },
 ]
 </script>
+
+<style scoped>
+.example-block {
+  margin: 1rem;
+}
+.example-demonstration {
+  margin: 1rem;
+}
+</style>

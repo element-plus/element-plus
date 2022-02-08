@@ -3,9 +3,10 @@ import { mount } from '@vue/test-utils'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import Select from '@element-plus/components/select'
-import { sleep } from '@element-plus/test-utils'
 import TimeSelect from '../src/time-select.vue'
 dayjs.extend(customParseFormat)
+
+jest.useFakeTimers()
 
 const { Option } = Select
 
@@ -154,7 +155,10 @@ describe('TimeSelect', () => {
         this.$refs.input.focus()
       },
     })
-    await sleep(50)
+    await nextTick()
+    jest.runAllTimers()
+    await nextTick()
+
     const popperEl = document.querySelector('.el-select__popper')
     const attr = popperEl.getAttribute('aria-hidden')
     expect(attr).toEqual('false')
@@ -168,7 +172,10 @@ describe('TimeSelect', () => {
         this.$refs.input.blur()
       },
     })
-    await sleep(50)
+    await nextTick()
+
+    jest.runAllTimers()
+    await nextTick()
     const popperEl = document.querySelector('.el-select__popper')
     const attr = popperEl.getAttribute('aria-hidden')
     expect(attr).toEqual('true')

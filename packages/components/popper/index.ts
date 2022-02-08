@@ -10,5 +10,6 @@ export default ElPopper
 
 export * from './src/popper'
 export * from './src/tokens'
+export { useDeprecateAppendToBody } from './src/deprecation'
 
 export type { Placement, Options } from '@popperjs/core'

@@ -13,7 +13,8 @@
     "lib": ["ES2018", "DOM"],
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "preserveSymlinks": true
   },
   "include": ["packages"],
   "exclude": ["node_modules", "**/__test?__", "**/dist"]
