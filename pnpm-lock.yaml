@@ -172,7 +172,7 @@ importers:
       markdown-it-container: 3.0.0
       normalize.css: 8.0.1
       nprogress: 0.2.0
-      unplugin-icons: 0.13.0
+      unplugin-icons: 0.13.1
       unplugin-vue-components: 0.17.18
       vite: 2.7.13
       vite-plugin-inspect: 0.3.13
@@ -195,7 +195,7 @@ importers:
       escape-html: 1.0.3
       markdown-it: 12.3.2
       markdown-it-container: 3.0.0
-      unplugin-icons: 0.13.0_rollup@2.67.1+vite@2.7.13
+      unplugin-icons: 0.13.1_05952d394fda153d43e1a89c1cd4c111
       unplugin-vue-components: 0.17.18_67820add53331e2db86e4e8d7ddcfcfc
       vite: 2.7.13_sass@1.49.7
       vite-plugin-inspect: 0.3.13_vite@2.7.13
@@ -399,10 +399,20 @@ packages:
       find-up: 5.0.0
     dev: true
 
+  /@antfu/utils/0.3.0:
+    resolution: {integrity: sha512-UU8TLr/EoXdg7OjMp0h9oDoIAVr+Z/oW9cpOxQQyrsz6Qzd2ms/1CdWx8fl2OQdFpxGmq5Vc4TwfLHId6nAZjA==}
+    dependencies:
+      '@types/throttle-debounce': 2.1.0
+    dev: true
+
   /@antfu/utils/0.4.0:
     resolution: {integrity: sha512-gqkpvjkgFUu+s3kP+Ly33OKpo5zvVY3FDFhv5BIb98SncS3KD6DNxPfNDjwHIoyXbz1leWo1j8DtRLZ1D2Jv+Q==}
     dependencies:
       '@types/throttle-debounce': 2.1.0
+    dev: true
+
+  /@antfu/utils/0.5.0:
+    resolution: {integrity: sha512-MrAQ/MrPSxbh1bBrmwJjORfJymw4IqSHFBXqvxaga3ZdDM+/zokYF8DjyJpSjY2QmpmgQrajDUBJOWrYeARfzA==}
     dev: true
 
   /@babel/code-frame/7.15.8:
@@ -1104,10 +1114,17 @@ packages:
     resolution: {integrity: sha512-6er6wSGF3hgc1JEZqiGpg21CTCjHBYOUwqLmb2Idzkjiw6ogalGP0ZMLVutCzah+0WB4yP+Zd2oVPN8jvJ+Ftg==}
     dev: true
 
-  /@iconify/utils/1.0.20:
-    resolution: {integrity: sha512-J5IriR8KeANs8vIEFKWzOlOvNgZHkwqkmqaIwvqtuDbBeFHtXGfM/LYMDmjtRJ0AAa7f254qw6TK7gAibYfHUA==}
+  /@iconify/utils/1.0.23:
+    resolution: {integrity: sha512-Ktdmpe4mkMXQAnnDUz3s6s5aY/BeVPwHC1d5IhG1bgrWVNWFQNUj8cQPMbHpNCSD9MRC5yGxm9/PGPpOWGJLAg==}
     dependencies:
+      '@antfu/install-pkg': 0.1.0
+      '@antfu/utils': 0.3.0
       '@iconify/types': 1.0.12
+      debug: 4.3.3
+      kolorist: 1.5.1
+      local-pkg: 0.4.1
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /@istanbuljs/load-nyc-config/1.1.0:
@@ -3313,12 +3330,6 @@ packages:
 
   /builtins/1.0.3:
     resolution: {integrity: sha1-y5T662HIaWRR2zZTThQi+U8K7og=}
-    dev: true
-
-  /builtins/4.0.0:
-    resolution: {integrity: sha512-qC0E2Dxgou1IHhvJSLwGDSTvokbRovU5zZFuDY6oY8Y2lF3nGt5Ad8YZK7GMtqzY84Wu7pXTPeHQeHcXSXsRhw==}
-    dependencies:
-      semver: 7.3.5
     dev: true
 
   /cacache/15.2.0:
@@ -6283,12 +6294,6 @@ packages:
       resolve-cwd: 3.0.0
     dev: true
 
-  /import-meta-resolve/1.1.1:
-    resolution: {integrity: sha512-JiTuIvVyPaUg11eTrNDx5bgQ/yMKMZffc7YSjvQeSMXy58DO2SQ8BtAf3xteZvmzvjYh14wnqNjL8XVeDy2o9A==}
-    dependencies:
-      builtins: 4.0.0
-    dev: true
-
   /imurmurhash/0.1.4:
     resolution: {integrity: sha1-khi5srkoojixPcT7a21XbyMUU+o=}
     engines: {node: '>=0.8.19'}
@@ -7640,13 +7645,6 @@ packages:
       type-fest: 0.6.0
     dev: true
 
-  /local-pkg/0.4.0:
-    resolution: {integrity: sha512-2XBWjO/v63JeR1HPzLJxdTVRQDB84Av2p2KtBA5ahvpyLUPubcAU6iXlAJrONcY7aSqgJhXxElAnKtnYsRolPQ==}
-    engines: {node: '>=14'}
-    dependencies:
-      mlly: 0.2.10
-    dev: true
-
   /local-pkg/0.4.1:
     resolution: {integrity: sha512-lL87ytIGP2FU5PWwNDo0w3WhIo2gopIAxPg9RxDYF7m4rr5ahuZxP22xnJHIvaLTe4Z9P6uKKY2UHiwyB4pcrw==}
     engines: {node: '>=14'}
@@ -8060,12 +8058,6 @@ packages:
     resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
     engines: {node: '>=10'}
     hasBin: true
-    dev: true
-
-  /mlly/0.2.10:
-    resolution: {integrity: sha512-xfyW6c2QBGArtctzNnTV5leOKX8nOMz2simeubtXofdsdSJFSNw+Ncvrs8kxcN3pBrQLXuYBHNFV6NgZ5Ryf4A==}
-    dependencies:
-      import-meta-resolve: 1.1.1
     dev: true
 
   /mri/1.2.0:
@@ -10736,10 +10728,10 @@ packages:
     engines: {node: '>= 10.0.0'}
     dev: true
 
-  /unplugin-icons/0.13.0_rollup@2.67.1+vite@2.7.13:
-    resolution: {integrity: sha512-CyAl0HV3bZUGT7ut9agpPRhEYXCvufr80Fh72yrkD57BVCTZ7ze10Rt63ZrvPXiJQpd+aI/Bizm2aqOf3WPSfg==}
+  /unplugin-icons/0.13.1_05952d394fda153d43e1a89c1cd4c111:
+    resolution: {integrity: sha512-Y7ZOjTUvLdY4qUQNDo4OmkxjCh2coNbcAeWfFW66EZW7cJiBI6vU8j4cBAsyqUEwMdFL3q/kwowCRgD6BAaRyQ==}
     peerDependencies:
-      '@svgr/core': ^5.5.0
+      '@svgr/core': '>=5.5.0'
       '@vue/compiler-sfc': ^3.0.2
       vue-template-compiler: ^2.6.12
       vue-template-es2015-compiler: ^1.9.0
@@ -10754,13 +10746,14 @@ packages:
         optional: true
     dependencies:
       '@antfu/install-pkg': 0.1.0
-      '@antfu/utils': 0.4.0
-      '@iconify/utils': 1.0.20
+      '@antfu/utils': 0.5.0
+      '@iconify/utils': 1.0.23
       debug: 4.3.3
       kolorist: 1.5.1
-      local-pkg: 0.4.0
-      unplugin: 0.2.21_rollup@2.67.1+vite@2.7.13
+      local-pkg: 0.4.1
+      unplugin: 0.3.2_05952d394fda153d43e1a89c1cd4c111
     transitivePeerDependencies:
+      - esbuild
       - rollup
       - supports-color
       - vite
@@ -10799,13 +10792,16 @@ packages:
       - webpack
     dev: true
 
-  /unplugin/0.2.21_rollup@2.67.1+vite@2.7.13:
-    resolution: {integrity: sha512-IJ15/L5XbhnV7J09Zjk0FT5HEkBjkXucWAXQWRsmEtUxmmxwh23yavrmDbCF6ZPxWiVB28+wnKIHePTRRpQPbQ==}
+  /unplugin/0.3.0_05952d394fda153d43e1a89c1cd4c111:
+    resolution: {integrity: sha512-9yLlOo+XC4NdIRgpkDSHOAHkQDq2x4mbuVNO/eKVa3C8WTn5wWGfzEFfRJFL8euqnX3Gf7hEur0AhXxy+WSwkg==}
     peerDependencies:
+      esbuild: '>=0.13'
       rollup: ^2.50.0
       vite: ^2.3.0
       webpack: 4 || 5
     peerDependenciesMeta:
+      esbuild:
+        optional: true
       rollup:
         optional: true
       vite:
@@ -10813,13 +10809,14 @@ packages:
       webpack:
         optional: true
     dependencies:
+      esbuild: 0.14.20
       rollup: 2.67.1
       vite: 2.7.13_sass@1.49.7
       webpack-virtual-modules: 0.4.3
     dev: true
 
-  /unplugin/0.3.0_05952d394fda153d43e1a89c1cd4c111:
-    resolution: {integrity: sha512-9yLlOo+XC4NdIRgpkDSHOAHkQDq2x4mbuVNO/eKVa3C8WTn5wWGfzEFfRJFL8euqnX3Gf7hEur0AhXxy+WSwkg==}
+  /unplugin/0.3.2_05952d394fda153d43e1a89c1cd4c111:
+    resolution: {integrity: sha512-5d0DMYNKZU+S9eZUiBfw6Co32eRg8myUgBPoWSqG/wDFCUE/WznfSsJnZWi1P9l69x4uLJqt2qVq1xW/AsXFrw==}
     peerDependencies:
       esbuild: '>=0.13'
       rollup: ^2.50.0
