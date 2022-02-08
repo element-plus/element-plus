@@ -293,7 +293,7 @@ export default defineComponent({
     })
     onUpdated(() => {
       const innerInput = input.value?.input
-      innerInput?.setAttribute('aria-valuenow', data.currentValue)
+      innerInput.setAttribute('aria-valuenow', data.currentValue)
     })
     return {
       input,
