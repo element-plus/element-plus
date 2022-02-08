@@ -30,7 +30,7 @@
     "unplugin-vue-components": "0.17.17",
     "vite": "2.7.13",
     "vite-plugin-inspect": "0.3.13",
-    "vite-plugin-windicss": "1.6.3",
+    "vite-plugin-windicss": "1.7.0",
     "vitepress": "0.21.6"
   }
 }
