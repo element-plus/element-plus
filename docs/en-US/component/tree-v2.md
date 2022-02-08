@@ -84,7 +84,7 @@ tree-v2/filter
 | current-node-key      | key of initially selected node                                                                                                               | string, number        | —       |
 | filter-method         | this function will be executed on each node when use filter method. if return `false`, tree node will be hidden.                             | Function(value, data) | —       |
 | indent                | horizontal indentation of nodes in adjacent levels in pixels                                                                                 | number                | 16      |
-| icon                  | custome tree node icon                                                                                                                       | string                | -       |
+| icon                  | custome tree node icon                                                                                                                       | string / Component    | -       |
 
 ## props
 

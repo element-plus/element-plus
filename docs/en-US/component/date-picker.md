@@ -165,6 +165,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | validate-event        | whether to trigger form validation                                                                    | boolean                                          | -                                                                                                                 | true        |
 | disabledDate          | a function determining if a date is disabled with that date as its parameter. Should return a Boolean | function                                         | —                                                                                                                 | —           |
 | shortcuts             | an object array to set shortcut options                                                               | object[{ text: string, value: date / function }] | —                                                                                                                 | —           |
+| cellClassName         | set custom className                                                                                  | Function(Date)                                   | —                                                                                                                 | —           |
 
 ## Events
 
