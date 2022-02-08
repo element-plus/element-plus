@@ -85,7 +85,7 @@
     "@types/gulp": "4.0.9",
     "@types/jest": "26.0.24",
     "@types/lodash": "4.14.178",
-    "@types/lodash-es": "4.17.5",
+    "@types/lodash-es": "4.17.6",
     "@types/node": "16.11.22",
     "@types/sass": "1.43.1",
     "@typescript-eslint/eslint-plugin": "5.11.0",

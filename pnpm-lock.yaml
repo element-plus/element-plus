@@ -27,7 +27,7 @@ importers:
       '@types/gulp': 4.0.9
       '@types/jest': 26.0.24
       '@types/lodash': 4.14.178
-      '@types/lodash-es': 4.17.5
+      '@types/lodash-es': 4.17.6
       '@types/node': 16.11.22
       '@types/sass': 1.43.1
       '@typescript-eslint/eslint-plugin': 5.11.0
@@ -94,7 +94,7 @@ importers:
       dayjs: 1.10.7
       lodash: 4.17.21
       lodash-es: 4.17.21
-      lodash-unified: 1.0.1_bd4845f8c1bf1d81a616b60758034d0a
+      lodash-unified: 1.0.1_da03a4540fbd16bbaafbb96724306afd
       memoize-one: 6.0.0
       normalize-wheel-es: 1.1.1
     devDependencies:
@@ -111,7 +111,7 @@ importers:
       '@types/gulp': 4.0.9
       '@types/jest': 26.0.24
       '@types/lodash': 4.14.178
-      '@types/lodash-es': 4.17.5
+      '@types/lodash-es': 4.17.6
       '@types/node': 16.11.22
       '@types/sass': 1.43.1
       '@typescript-eslint/eslint-plugin': 5.11.0_de5a1ddccd75ca1e499b8b8491d3dcba
@@ -1985,6 +1985,12 @@ packages:
 
   /@types/lodash-es/4.17.5:
     resolution: {integrity: sha512-SHBoI8/0aoMQWAgUHMQ599VM6ZiSKg8sh/0cFqqlQQMyY9uEplc0ULU5yQNzcvdR4ZKa0ey8+vFmahuRbOCT1A==}
+    dependencies:
+      '@types/lodash': 4.14.178
+    dev: true
+
+  /@types/lodash-es/4.17.6:
+    resolution: {integrity: sha512-R+zTeVUKDdfoRxpAryaQNRKk3105Rrgx2CFRClIgRGaqDTdjsm8h6IYA8ir584W3ePzkZfst5xIgDwYrlh9HLg==}
     dependencies:
       '@types/lodash': 4.14.178
     dev: true
@@ -7649,6 +7655,18 @@ packages:
       lodash-es: '*'
     dependencies:
       '@types/lodash-es': 4.17.5
+      lodash: 4.17.21
+      lodash-es: 4.17.21
+    dev: false
+
+  /lodash-unified/1.0.1_da03a4540fbd16bbaafbb96724306afd:
+    resolution: {integrity: sha512-Py+twfpWn+2dFQWCuGcp21WiQRwZwnm1cyE3piSt/VtBVKVyxlR58WgOVRzXtmdmDRGJKH8F8GPaA29WK/yK8g==}
+    peerDependencies:
+      '@types/lodash-es': '*'
+      lodash: '*'
+      lodash-es: '*'
+    dependencies:
+      '@types/lodash-es': 4.17.6
       lodash: 4.17.21
       lodash-es: 4.17.21
     dev: false
