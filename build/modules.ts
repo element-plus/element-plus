@@ -1,5 +1,6 @@
 import { rollup } from 'rollup'
 import vue from '@vitejs/plugin-vue'
+import DefineOptions from 'unplugin-vue-define-options/vite'
 import css from 'rollup-plugin-css-only'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
@@ -27,6 +28,7 @@ export const buildModules = async () => {
     plugins: [
       ElementPlusAlias(),
       css(),
+      DefineOptions(),
       vue({
         isProduction: false,
       }),
