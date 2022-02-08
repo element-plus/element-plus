@@ -25,9 +25,8 @@ const _bem = (
 }
 
 export const useNamespace = (block: string) => {
-  const namespace = computed(
-    () => useGlobalConfig('namespace').value || defaultNamespace
-  )
+  const globalConfig = useGlobalConfig('namespace')
+  const namespace = computed(() => globalConfig.value || defaultNamespace)
   const b = (blockSuffix = '') =>
     _bem(unref(namespace), block, blockSuffix, '', '')
   const e = (element?: string) =>
@@ -51,7 +50,7 @@ export const useNamespace = (block: string) => {
       ? _bem(unref(namespace), block, blockSuffix, element, modifier)
       : ''
   const is = (name: string, state = true) =>
-    state ? `${statePrefix}${name}` : ''
+    name && state ? `${statePrefix}${name}` : ''
   return {
     namespace,
     b,
