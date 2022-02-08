@@ -1,11 +1,11 @@
 <template>
-  <div ref="scrollbar$" class="el-scrollbar">
+  <div ref="scrollbar$" :class="ns.b()">
     <div
       ref="wrap$"
       :class="[
         wrapClass,
-        'el-scrollbar__wrap',
-        native ? '' : 'el-scrollbar__wrap--hidden-default',
+        ns.e('wrap'),
+        { [ns.em('wrap', 'hidden-default')]: !native },
       ]"
       :style="style"
       @scroll="handleScroll"
@@ -13,7 +13,7 @@
       <component
         :is="tag"
         ref="resize$"
-        :class="['el-scrollbar__view', viewClass]"
+        :class="[ns.e('view'), viewClass]"
         :style="viewStyle"
       >
         <slot />
@@ -46,6 +46,7 @@ import { useResizeObserver, useEventListener } from '@vueuse/core'
 import { addUnit, isNumber } from '@element-plus/utils/util'
 import { debugWarn } from '@element-plus/utils/error'
 import { scrollbarContextKey } from '@element-plus/tokens'
+import { useNamespace } from '@element-plus/hooks'
 import Bar from './bar.vue'
 
 import { scrollbarProps, scrollbarEmits } from './scrollbar'
@@ -60,6 +61,8 @@ export default defineComponent({
   emits: scrollbarEmits,
 
   setup(props, { emit }) {
+    const ns = useNamespace('scrollbar')
+
     let stopResizeObserver: (() => void) | undefined = undefined
     let stopResizeListener: (() => void) | undefined = undefined
 
@@ -162,6 +165,7 @@ export default defineComponent({
     })
 
     return {
+      ns,
       scrollbar$,
       wrap$,
       resize$,

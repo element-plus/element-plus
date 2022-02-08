@@ -5,6 +5,7 @@ import { makeMountFunc } from '@element-plus/test-utils/make-mount'
 import { rAF } from '@element-plus/test-utils/tick'
 import { CircleClose } from '@element-plus/icons-vue'
 import { hasClass } from '@element-plus/utils/dom'
+import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
 import Select from '../src/select.vue'
 
 jest.useFakeTimers()
@@ -97,6 +98,7 @@ const createSelect = (
         :remote="remote"
         :reserve-keyword="reserveKeyword"
         :scrollbar-always-on="scrollbarAlwaysOn"
+        :teleported="teleported"
         ${
           options.methods && options.methods.filterMethod
             ? `:filter-method="filterMethod"`
@@ -132,7 +134,6 @@ const createSelect = (
           filterable: false,
           reserveKeyword: false,
           multipleLimit: 0,
-          popperAppendToBody: true,
           placeholder: DEFAULT_PLACEHOLDER,
           scrollbarAlwaysOn: false,
           ...(options.data && options.data()),
@@ -1361,6 +1362,87 @@ describe('Select', () => {
       const box = document.querySelector<HTMLElement>('.el-vl__wrapper')
       expect(hasClass(box, 'always-on')).toBe(true)
       done()
+    })
+  })
+
+  describe('teleported API', () => {
+    it('should mount on popper container', async () => {
+      expect(document.body.innerHTML).toBe('')
+      createSelect({
+        data() {
+          return {
+            options: [
+              {
+                value: '选项1',
+                label:
+                  '黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕',
+              },
+              {
+                value: '选项2',
+                label:
+                  '双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶',
+              },
+              {
+                value: '选项3',
+                label: '蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎',
+              },
+              {
+                value: '选项4',
+                label: '龙须面',
+              },
+              {
+                value: '选项5',
+                label: '北京烤鸭',
+              },
+            ],
+          }
+        },
+      })
+
+      await nextTick()
+      expect(
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+      ).not.toBe('')
+    })
+
+    it('should not mount on the popper container', async () => {
+      expect(document.body.innerHTML).toBe('')
+      createSelect({
+        data() {
+          return {
+            teleported: false,
+            options: [
+              {
+                value: '选项1',
+                label:
+                  '黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕',
+              },
+              {
+                value: '选项2',
+                label:
+                  '双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶',
+              },
+              {
+                value: '选项3',
+                label: '蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎',
+              },
+              {
+                value: '选项4',
+                label: '龙须面',
+              },
+              {
+                value: '选项5',
+                label: '北京烤鸭',
+              },
+            ],
+          }
+        },
+      })
+
+      await nextTick()
+      expect(
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+      ).toBe('')
     })
   })
 })

@@ -1,5 +1,5 @@
 <template>
-  <transition name="el-alert-fade">
+  <transition :name="ns.b('fade')">
     <div
       v-show="visible"
       :class="[ns.b(), ns.m(type), ns.is('center', center), ns.is(effect)]"

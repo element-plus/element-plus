@@ -155,7 +155,7 @@ import {
   unref,
 } from 'vue'
 import dayjs from 'dayjs'
-import isEqual from 'lodash/isEqual'
+import { isEqual } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import { useLocale, useSize } from '@element-plus/hooks'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'

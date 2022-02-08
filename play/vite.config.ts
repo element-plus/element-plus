@@ -14,7 +14,7 @@ export default defineConfig(async () => {
   const { dependencies } = getPackageDependencies(epPackage)
 
   const optimizeDeps = (
-    await glob(['lodash/*.js', 'dayjs/(locale|plugin)/*.js'], {
+    await glob(['dayjs/(locale|plugin)/*.js'], {
       cwd: path.resolve(projRoot, 'node_modules'),
     })
   ).map((dep) => dep.replace(/\.js$/, ''))

@@ -1,8 +1,8 @@
-import { nextTick } from 'vue'
+import { nextTick, markRaw } from 'vue'
 import { mount } from '@vue/test-utils'
-import { sleep } from '@element-plus/test-utils'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { CircleClose, ArrowUp, CaretTop } from '@element-plus/icons-vue'
+import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
 import Select from '../src/select.vue'
 import Group from '../src/option-group.vue'
 import Option from '../src/option.vue'
@@ -595,9 +595,10 @@ describe('Select', () => {
     await nextTick()
     expect((wrapper.vm as any).value).toBe('选项4')
     vm.toggleMenu()
-    const timer = sleep(300)
+
     jest.runAllTimers()
-    await timer
+    await nextTick()
+
     vm.toggleMenu()
     await nextTick()
     expect(vm.hoverIndex).toBe(3)
@@ -622,7 +623,7 @@ describe('Select', () => {
     wrapper = _mount(`<el-select></el-select>`)
     let suffixIcon = wrapper.findComponent(ArrowUp)
     expect(suffixIcon.exists()).toBe(true)
-    await wrapper.setProps({ suffixIcon: CaretTop })
+    await wrapper.setProps({ suffixIcon: markRaw(CaretTop) })
     suffixIcon = wrapper.findComponent(CaretTop)
     expect(suffixIcon.exists()).toBe(true)
   })
@@ -1497,9 +1498,8 @@ describe('Select', () => {
     selectInput.trigger('input')
     await nextTick()
 
-    const timer = sleep(300)
     jest.runAllTimers()
-    await timer
+    await nextTick()
 
     expect(innerInputEl.placeholder).toBe('')
 
@@ -1610,6 +1610,68 @@ describe('Select', () => {
     test('should call remote method in multiple mode', async () => {
       const remoteMethod = jest.fn()
       await testAfterSearch({ multiple: true, remote: true, remoteMethod })
+    })
+  })
+
+  describe('teleported API', () => {
+    it('should mount on popper container', async () => {
+      expect(document.body.innerHTML).toBe('')
+      wrapper = _mount(
+        `
+      <el-select v-model="modelValue" multiple>
+        <el-option
+          v-for="option in options"
+          :key="option.value"
+          :value="option.value"
+          :label="option.label"
+        >
+        </el-option>
+      </el-select>`,
+        () => ({
+          modelValue: [1],
+          options: [
+            { label: 'Test 1', value: 1 },
+            { label: 'Test 2', value: 2 },
+            { label: 'Test 3', value: 3 },
+            { label: 'Test 4', value: 4 },
+          ],
+        })
+      )
+
+      await nextTick()
+      expect(
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+      ).not.toBe('')
+    })
+
+    it('should not mount on the popper container', async () => {
+      expect(document.body.innerHTML).toBe('')
+      wrapper = _mount(
+        `
+      <el-select v-model="modelValue" multiple :teleported="false">
+        <el-option
+          v-for="option in options"
+          :key="option.value"
+          :value="option.value"
+          :label="option.label"
+        >
+        </el-option>
+      </el-select>`,
+        () => ({
+          modelValue: [1],
+          options: [
+            { label: 'Test 1', value: 1 },
+            { label: 'Test 2', value: 2 },
+            { label: 'Test 3', value: 3 },
+            { label: 'Test 4', value: 4 },
+          ],
+        })
+      )
+
+      await nextTick()
+      expect(
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+      ).toBe('')
     })
   })
 })

@@ -7,7 +7,10 @@
     :enterable="enterable"
     :popper-class="kls"
     :popper-style="style"
+    :teleported="compatTeleported"
     persistent
+    @show="afterEnter"
+    @hide="afterLeave"
   >
     <template v-if="$slots.reference">
       <slot name="reference" />
@@ -26,6 +29,7 @@
 <script lang="ts">
 import { defineComponent, computed, ref, unref } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
+import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import { isString } from '@element-plus/utils/util'
 import { usePopoverProps } from './popover'
 
@@ -33,16 +37,16 @@ import type { StyleValue } from 'vue'
 
 const emits = ['update:visible', 'after-enter', 'after-leave']
 
-const NAME = 'ElPopover'
+const COMPONENT_NAME = 'ElPopover'
 
 export default defineComponent({
-  name: NAME,
+  name: COMPONENT_NAME,
   components: {
     ElTooltip,
   },
   props: usePopoverProps,
   emits,
-  setup(props) {
+  setup(props, { emit }) {
     const tooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
     const popperRef = computed(() => {
       return unref(tooltipRef)?.popperRef
@@ -71,16 +75,32 @@ export default defineComponent({
       ]
     })
 
+    const { compatTeleported } = useDeprecateAppendToBody(
+      COMPONENT_NAME,
+      'appendToBody'
+    )
+
     const hide = () => {
       tooltipRef.value?.hide()
     }
 
+    const afterEnter = () => {
+      emit('after-enter')
+    }
+
+    const afterLeave = () => {
+      emit('after-leave')
+    }
+
     return {
+      compatTeleported,
       kls,
       style,
       tooltipRef,
       popperRef,
       hide,
+      afterEnter,
+      afterLeave,
     }
   },
 })

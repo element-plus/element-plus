@@ -52,7 +52,7 @@ import { reactive, ref } from 'vue'
 
 const dialogTableVisible = ref(false)
 const dialogFormVisible = ref(false)
-const formLabelWidth = '120px'
+const formLabelWidth = '140px'
 
 const form = reactive({
   name: '',
@@ -88,3 +88,17 @@ const gridData = [
   },
 ]
 </script>
+<style scoped>
+.el-button--text {
+  margin-right: 15px;
+}
+.el-select {
+  width: 300px;
+}
+.el-input {
+  width: 300px;
+}
+.dialog-footer button:first-child {
+  margin-right: 10px;
+}
+</style>

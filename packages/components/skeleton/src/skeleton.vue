@@ -1,19 +1,16 @@
 <template>
   <template v-if="uiLoading">
-    <div
-      :class="['el-skeleton', animated ? 'is-animated' : '']"
-      v-bind="$attrs"
-    >
+    <div :class="[ns.b(), ns.is('animated', animated)]" v-bind="$attrs">
       <template v-for="i in count" :key="i">
         <slot v-if="loading" :key="i" name="template">
-          <el-skeleton-item class="is-first" variant="p" />
+          <el-skeleton-item :class="ns.is('first')" variant="p" />
           <el-skeleton-item
             v-for="item in rows"
             :key="item"
-            :class="{
-              'el-skeleton__paragraph': true,
-              'is-last': item === rows && rows > 1,
-            }"
+            :class="[
+              ns.e('paragraph'),
+              ns.is('last', item === rows && rows > 1),
+            ]"
             variant="p"
           />
         </slot>
@@ -27,7 +24,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { useThrottleRender } from '@element-plus/hooks'
+import { useNamespace, useThrottleRender } from '@element-plus/hooks'
 import SkeletonItem from './skeleton-item.vue'
 import { skeletonProps } from './skeleton'
 
@@ -38,6 +35,7 @@ export default defineComponent({
   },
   props: skeletonProps,
   setup(props) {
+    const ns = useNamespace('skeleton')
     const innerLoading = computed(() => {
       return props.loading
     })
@@ -45,6 +43,7 @@ export default defineComponent({
     const uiLoading = useThrottleRender(innerLoading, props.throttle)
 
     return {
+      ns,
       uiLoading,
     }
   },

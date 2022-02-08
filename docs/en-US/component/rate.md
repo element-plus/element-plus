@@ -7,31 +7,6 @@ lang: en-US
 
 Used for rating
 
-<style lang="scss">
-.example-showcase {
-  .demo-rate-block {
-    padding: 30px 0;
-    text-align: center;
-    border-right: solid 1px var(--el-border-color-base);
-    display: inline-block;
-    width: 49%;
-    box-sizing: border-box;
-    &:last-child {
-        border-right: none;
-    }
-    .demonstration {
-      display: block;
-      color: var(--el-text-color-secondary);
-      font-size: 14px;
-      margin-bottom: 20px;
-    }
-  }
-}
-
-
-
-</style>
-
 ## Basic usage
 
 :::demo Rate divides rating scores into several levels and these levels can be distinguished by using different background colors. By default background colors are the same, but you can assign them an array with three element to reflect three levels using the `colors` attribute, and their two thresholds can be defined by `low-threshold` and `high-threshold`, or you can assign them with a object which key is the threshold between two levels and value is the corresponding color.

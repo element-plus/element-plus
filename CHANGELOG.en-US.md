@@ -1,5 +1,56 @@
 ## Changelog
 
+### 2.0.1
+
+_2022-02-07_
+
+#### Bug fixes
+
+- Components [el-popconfirm] revert component name (#5815 by @msidolphin)
+- [el-pagination] fix justify alignment (#5814 by @msidolphin)
+
+### 2.0.0
+
+_2022-02-07_
+
+#### Bug fixes
+
+- Components [Dialog & MessageBox] support draggable (#5369 by @kooriookami)
+- Components [el-popper] append to body compatability (#5755 by @JeremyWuuuuu)
+
+### 1.3.0-beta.10
+
+_2022-01-31_
+
+#### Features
+
+- Theme-chalk css var for empty & rate (#5359 by @MoConWu)
+
+#### Bug fixes
+
+- Components [el-table] fix invalid maxHeight issue (#5584 by @msidolphin)
+- Components [el-table] hover not working in fixed mode (#5638 by @msidolphin)
+- Theme-chalk el-breadcrumb__item style (#5597 by @GGupzHH)
+- Theme-chalk [el-pagination] quick button disabled state (#5672 by @msidolphin)
+- Components [image-viewer] fix some bugs and improve style (#5673 by @kooriookami)
+- Components fix #5582 (#5583 by @CarterLi)
+- Docs fix el-tree props disabled type (#5540 by @ChenAdien)
+- Upgrade vueuse (#5698 by @sxzz)
+- Components [cascader] Unable to use spaces when filtering (#5676 by @emojiiii)
+- Components [popover] after-enter/leave events not trigger (#5681 by @emojiiii)
+- Style: fix popper style (#5736 by @kooriookami)
+
+#### Refactors
+
+- Components [drawer] use useNamespace (#5596 by @btea)
+- Components [el-tag] use namespace (#5643 by @msidolphin)
+- Components [el-pagination] adjust component size (#5640 by @msidolphin)
+- Components [el-pagination] optimize component style (#5666 by @msidolphin)
+- Components [scrollbar] use useNamespace (#5732 by @buqiyuan)
+- Components [skeleton,skeleton-item] use useNamespace (#5739 by @buqiyuan)
+- Perf(components): [el-scrollbar] prevent re-render when scrolling (#5670 by @msidolphin)
+
+
 ### 1.3.0-beta.9
 
 _2022-01-25_
