@@ -4,25 +4,25 @@
     v-bind="$attrs"
     trigger="click"
     effect="light"
-    popper-class="el-popover"
+    :popper-class="`${ns.namespace.value}-popover`"
     :teleported="compatTeleported"
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :hide-after="hideAfter"
     persistent
   >
     <template #content>
-      <div class="el-popconfirm">
-        <div class="el-popconfirm__main">
+      <div :class="ns.b()">
+        <div :class="ns.e('main')">
           <el-icon
             v-if="!hideIcon && icon"
-            class="el-popconfirm__icon"
+            :class="ns.e('icon')"
             :style="{ color: iconColor }"
           >
             <component :is="icon" />
           </el-icon>
           {{ title }}
         </div>
-        <div class="el-popconfirm__action">
+        <div :class="ns.e('action')">
           <el-button size="small" :type="cancelButtonType" @click="cancel">
             {{ finalCancelButtonText }}
           </el-button>
@@ -44,7 +44,7 @@ import ElButton from '@element-plus/components/button'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
 import { useDeprecateAppendToBody } from '@element-plus/components/popper'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { popconfirmProps } from './popconfirm'
 
 const COMPONENT_NAME = 'ElPopconfirm'
@@ -65,6 +65,7 @@ export default defineComponent({
       'appendToBody'
     )
     const { t } = useLocale()
+    const ns = useNamespace('popconfirm')
     const tooltipRef = ref<{ onClose: () => void }>()
 
     const hidePopper = () => {
@@ -95,6 +96,7 @@ export default defineComponent({
       finalConfirmButtonText,
       finalCancelButtonText,
       tooltipRef,
+      ns,
 
       // Deprecation in 2.1.0
       compatTeleported,
