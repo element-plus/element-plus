@@ -74,7 +74,7 @@ import {
   watch,
   nextTick,
 } from 'vue'
-import throttle from 'lodash/throttle'
+import { throttle } from 'lodash-unified'
 import {
   addResizeListener,
   removeResizeListener,
