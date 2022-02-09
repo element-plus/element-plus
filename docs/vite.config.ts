@@ -41,7 +41,7 @@ export default async () => {
   ]
   optimizeDeps.push(
     ...(
-      await glob(['lodash/[!_]*.js', 'dayjs/plugin/*.js'], {
+      await glob(['dayjs/plugin/*.js'], {
         cwd: path.resolve(projRoot, 'node_modules'),
         onlyFiles: true,
       })
