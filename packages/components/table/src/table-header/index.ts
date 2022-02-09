@@ -61,7 +61,6 @@ export default defineComponent({
     const instance = getCurrentInstance() as TableHeader
     const parent = inject(TABLE_INJECTION_KEY)
     const ns = useNamespace('table')
-    const storeData = parent?.store.states
     const filterPanels = ref({})
     const { onColumnsChange, onScrollableChange } = useLayoutObserver(parent!)
     onMounted(() => {
