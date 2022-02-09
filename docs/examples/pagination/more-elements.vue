@@ -34,8 +34,8 @@
     <div class="demonstration">Change page size</div>
     <el-pagination
       v-model:currentPage="currentPage2"
+      v-model:page-size="pageSize2"
       :page-sizes="[100, 200, 300, 400]"
-      :page-size="100"
       :small="small"
       :disabled="disabled"
       :background="background"
@@ -50,7 +50,7 @@
     <div class="demonstration">Jump to</div>
     <el-pagination
       v-model:currentPage="currentPage3"
-      :page-size="100"
+      v-model:page-size="pageSize3"
       :small="small"
       :disabled="disabled"
       :background="background"
@@ -65,8 +65,8 @@
     <div class="demonstration">All combined</div>
     <el-pagination
       v-model:currentPage="currentPage4"
+      v-model:page-size="pageSize4"
       :page-sizes="[100, 200, 300, 400]"
-      :page-size="100"
       :small="small"
       :disabled="disabled"
       :background="background"
@@ -85,6 +85,9 @@ const currentPage1 = ref(5)
 const currentPage2 = ref(5)
 const currentPage3 = ref(5)
 const currentPage4 = ref(4)
+const pageSize2 = ref(100)
+const pageSize3 = ref(100)
+const pageSize4 = ref(100)
 const small = ref(false)
 const background = ref(false)
 const disabled = ref(false)
