@@ -463,10 +463,11 @@ export const useSelect = (props, states: States, ctx) => {
       }
     }
     if (option) return option
-    let label = !isObjectValue && !isNull && !isUndefined ? value : ''
-    if (isObjectValue) {
-      label = value[props.valueKey]
-    }
+    const label = isObjectValue
+      ? value[props.valueKey]
+      : !isNull && !isUndefined
+      ? value
+      : ''
     const newOption = {
       value,
       currentLabel: label,
