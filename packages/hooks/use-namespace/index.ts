@@ -1,4 +1,4 @@
-import { unref, ref } from 'vue'
+import { unref, computed } from 'vue'
 import { useGlobalConfig } from '../use-global-config'
 
 const defaultNamespace = 'el'
