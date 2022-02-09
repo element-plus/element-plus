@@ -144,8 +144,7 @@ export function buildProp<
 
   const prop: any = {
     type:
-      typeof type === 'object' &&
-      Object.getOwnPropertySymbols(type).includes(wrapperKey)
+      isObject(type) && Object.getOwnPropertySymbols(type).includes(wrapperKey)
         ? type[wrapperKey]
         : type,
     required: !!required,
