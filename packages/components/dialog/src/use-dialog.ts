@@ -14,6 +14,7 @@ export const useDialog = (
   { emit }: SetupContext<DialogEmits>,
   targetRef: Ref<HTMLElement | undefined>
 ) => {
+  let lastPosition = ''
   const visible = ref(false)
   const closed = ref(false)
   const rendered = ref(false) // when desctroyOnClose is true, we initialize it as false vise versa
@@ -150,6 +151,23 @@ export const useDialog = (
           close()
         }
       }
+    }
+  )
+
+  watch(
+    () => props.fullscreen,
+    (val) => {
+      if (targetRef.value) {
+        if (val) {
+          lastPosition = targetRef.value.style.transform
+          targetRef.value.style.transform = ''
+        } else {
+          targetRef.value.style.transform = lastPosition
+        }
+      }
+    },
+    {
+      flush: 'post',
     }
   )
 
