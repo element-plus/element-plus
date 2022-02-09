@@ -1,8 +1,12 @@
 <template>
-  <div v-if="divided" class="el-dropdown-menu__item--divided"></div>
+  <div
+    v-if="divided"
+    class="el-dropdown-menu__item--divided"
+    v-bind="$attrs"
+  ></div>
   <div
     :ref="itemRef"
-    v-bind="dataset"
+    v-bind="{ ...dataset, ...$attrs }"
     :aria-disabled="disabled"
     :class="{
       'el-dropdown-menu__item': true,

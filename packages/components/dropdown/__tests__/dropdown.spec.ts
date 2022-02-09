@@ -487,4 +487,28 @@ describe('Dropdown', () => {
 
     expect(popperElement.classList.contains('custom-popper-class')).toBe(true)
   })
+
+  test('custom attributes for dropdown items', async () => {
+    const wrapper = _mount(
+      `
+      <el-dropdown>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item data-custom-attribute="hello">Item</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      `,
+      () => ({})
+    )
+    await nextTick()
+    expect(
+      wrapper
+        .findComponent({
+          name: 'DropdownItemImpl',
+        })
+        .find('.el-dropdown-menu__item')
+        .element.getAttribute('data-custom-attribute')
+    ).toBe('hello')
+  })
 })
