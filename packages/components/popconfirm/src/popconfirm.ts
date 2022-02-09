@@ -43,10 +43,10 @@ export const popconfirmProps = {
       default: 200,
     },
     onConfirm: {
-      type: definePropType<(e: Event) => Promise<boolean> | boolean>(Function),
+      type: definePropType<(e: Event) => Promise<void> | void>(Function),
     },
     onCancel: {
-      type: definePropType<(e: Event) => Promise<boolean> | boolean>(Function),
+      type: definePropType<(e: Event) => Promise<void> | void>(Function),
     },
   } as const),
   teleported: useTooltipContentProps.teleported,
