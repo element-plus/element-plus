@@ -1578,7 +1578,7 @@ describe('Select', () => {
     })
   })
   
-  describe('after options is modified, the selected labels remain unchanged', async () => {
+  it('after options is modified, the selected labels remain unchanged', async () => {
     const options = [
       { value: `value:Alaska`, label: `label:Alaska` },
       { value: `value:California`, label: `label:California` },
