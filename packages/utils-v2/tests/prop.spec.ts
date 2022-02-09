@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 
+import { defineComponent } from 'vue'
+import { mount } from '@vue/test-utils'
 import { expectTypeOf } from 'expect-type'
 import { buildProp, definePropType, mutable, keyOf, buildProps } from '..'
 import type { propKey } from '../vue/prop'
@@ -442,5 +444,40 @@ describe('buildProps', () => {
       readonly validator: ((val: unknown) => boolean) | undefined
       [propKey]: true
     }>()
+  })
+})
+
+describe('runtime', () => {
+  it('default value', () => {
+    const warnHandler = jest.fn()
+
+    const Foo = defineComponent({
+      props: buildProps({
+        bar: { type: Boolean },
+        baz: { values: ['a', 'b', 'c'] },
+        qux: { values: ['a', 'b', 'c'], required: true },
+        qux2: { values: ['a', 'b', 'c'], required: true },
+      } as const),
+      template: `{{ $props }}`,
+    })
+    const props = mount(Foo as any, {
+      props: {
+        baz: undefined,
+        qux2: undefined,
+      },
+      global: {
+        config: {
+          warnHandler,
+        },
+      },
+    }).props()
+
+    expect(props.bar).toBe(false)
+    expect(props.baz).toBe(undefined)
+
+    expect(warnHandler.mock.calls[0][0]).toBe('Missing required prop: "qux"')
+    expect(warnHandler.mock.calls[1][0]).toBe(
+      'Invalid prop: validation failed for prop "qux2". Expected one of ["a", "b", "c"], got value undefined.'
+    )
   })
 })

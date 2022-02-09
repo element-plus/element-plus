@@ -1,6 +1,7 @@
 import { warn } from 'vue'
 import { fromPairs } from 'lodash-unified'
 import { isObject } from '../types'
+import { hasOwn } from '../objects'
 import type { ExtractPropTypes, PropType } from 'vue'
 
 const wrapperKey = Symbol()
@@ -117,7 +118,10 @@ export function buildProp<
           let allowedValues: unknown[] = []
 
           if (values) {
-            allowedValues = [...values, defaultValue]
+            allowedValues = Array.from(values)
+            if (hasOwn(option, 'default')) {
+              allowedValues.push(defaultValue)
+            }
             valid ||= allowedValues.includes(val)
           }
           if (validator) valid ||= validator(val)
@@ -138,17 +142,18 @@ export function buildProp<
         }
       : undefined
 
-  return {
+  const prop: any = {
     type:
-      typeof type === 'object' &&
-      Object.getOwnPropertySymbols(type).includes(wrapperKey)
+      isObject(type) && Object.getOwnPropertySymbols(type).includes(wrapperKey)
         ? type[wrapperKey]
         : type,
     required: !!required,
-    default: defaultValue,
     validator: _validator,
     [propKey]: true,
-  } as unknown as BuildPropReturn<T, D, R, V, C>
+  }
+  if (hasOwn(option, 'default')) prop.default = defaultValue
+
+  return prop as BuildPropReturn<T, D, R, V, C>
 }
 
 type NativePropType = [
