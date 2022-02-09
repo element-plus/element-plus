@@ -1,4 +1,4 @@
-import { unref, computed } from 'vue'
+import { unref, ref } from 'vue'
 import { useGlobalConfig } from '../use-global-config'
 
 const defaultNamespace = 'el'
@@ -25,9 +25,10 @@ const _bem = (
 }
 
 export const useNamespace = (block: string) => {
-  const namespace = computed(
-    () => useGlobalConfig('namespace').value || defaultNamespace
-  )
+  const globalNamespace = useGlobalConfig('namespace')
+  const namespace = globalNamespace.value
+    ? globalNamespace
+    : ref(defaultNamespace)
   const b = (blockSuffix = '') =>
     _bem(unref(namespace), block, blockSuffix, '', '')
   const e = (element?: string) =>

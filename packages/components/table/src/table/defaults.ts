@@ -77,7 +77,7 @@ type CellStyle<T> =
       column: TableColumnCtx<T>
       columnIndex: number
     }) => CSSProperties)
-
+type Layout = 'fixed' | 'auto'
 interface TableProps<T> {
   data: T[]
   size?: string
@@ -129,6 +129,7 @@ interface TableProps<T> {
   load?: (row: T, treeNode: TreeNode, resolve: (data: T[]) => void) => void
   className?: string
   style?: CSSProperties
+  tableLayout: Layout
 }
 
 interface Sort {
@@ -243,6 +244,10 @@ export default {
   className: {
     type: String,
     default: '',
+  },
+  tableLayout: {
+    type: String as PropType<Layout>,
+    default: 'fixed',
   },
 }
 export type {
