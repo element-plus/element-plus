@@ -4,9 +4,7 @@
 @mixin select-common($name) {
   .#{$namespace}-#{$name}__tags-text {
     text-overflow: ellipsis;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
+    display: block;
     overflow: hidden;
   }
 }
