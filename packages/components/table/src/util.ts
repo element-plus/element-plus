@@ -1,6 +1,6 @@
 import { hasOwn } from '@vue/shared'
 import { createPopper } from '@popperjs/core'
-import { PopupManager } from '@element-plus/utils/popup-manager'
+import { useZIndex } from '@element-plus/hooks'
 import { getValueByPath } from '@element-plus/utils/util'
 import { off, on } from '@element-plus/utils/dom'
 
@@ -323,12 +323,13 @@ export function createTablePopper(
   popperOptions: Partial<IPopperOptions>,
   tooltipEffect: string
 ) {
+  const { nextZIndex } = useZIndex()
   function renderContent(): HTMLDivElement {
     const isLight = tooltipEffect === 'light'
     const content = document.createElement('div')
     content.className = `el-popper ${isLight ? 'is-light' : 'is-dark'}`
     content.innerHTML = popperContent
-    content.style.zIndex = String(PopupManager.nextZIndex())
+    content.style.zIndex = String(nextZIndex())
     document.body.appendChild(content)
     return content
   }
