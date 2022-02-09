@@ -23,11 +23,11 @@ export function hColgroup(props) {
     return propsData
   }
 
-  return h('colgroup', {}, [
-    ...columns.map((column) => {
-      return h('col', getPropsData(column))
-    }),
-  ])
+  return h(
+    'colgroup',
+    {},
+    columns.map((column) => h('col', getPropsData(column)))
+  )
 }
 
 hColgroup.props = ['columns', 'tableLayout']
