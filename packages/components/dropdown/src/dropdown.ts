@@ -6,7 +6,7 @@ import {
   useTooltipContentProps,
   useTooltipTriggerProps,
 } from '@element-plus/components/tooltip'
-
+import { ArrowDown } from '@element-plus/icons-vue'
 import type { Options } from '@popperjs/core'
 import type { ButtonProps, ButtonType } from '@element-plus/components/button'
 import type { Placement } from '@element-plus/components/popper'
@@ -48,6 +48,10 @@ export const dropdownProps = buildProps({
     default: '',
   },
   splitButton: Boolean,
+  splitButtonIcon: {
+    type: definePropType<string | Component>([String, Object]),
+    default: () => ArrowDown,
+  },
   hideOnClick: {
     type: Boolean,
     default: true,
