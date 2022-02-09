@@ -51,7 +51,7 @@
     "@ctrl/tinycolor": "^3.4.0",
     "@element-plus/icons-vue": "^0.2.6",
     "@popperjs/core": "^2.11.2",
-    "@vueuse/core": "^7.5.5",
+    "@vueuse/core": "^7.6.0",
     "async-validator": "^4.0.7",
     "dayjs": "^1.10.7",
     "lodash": "^4.17.21",
@@ -62,7 +62,7 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.178",
-    "@types/lodash-es": "^4.17.5",
+    "@types/lodash-es": "^4.17.6",
     "@types/node": "*",
     "csstype": "^2.6.19",
     "vue-router": "^4.0.0"
