@@ -116,7 +116,6 @@ export default defineComponent({
 
     const update = () => {
       if (!wrap$.value) return
-
       const offsetHeight = wrap$.value.offsetHeight - GAP
       const offsetWidth = wrap$.value.offsetWidth - GAP
 
@@ -124,7 +123,6 @@ export default defineComponent({
       const originalWidth = offsetWidth ** 2 / wrap$.value.scrollWidth
       const height = Math.max(originalHeight, props.minSize)
       const width = Math.max(originalWidth, props.minSize)
-
       ratioY.value =
         originalHeight /
         (offsetHeight - originalHeight) /
@@ -146,7 +144,9 @@ export default defineComponent({
           stopResizeListener?.()
         } else {
           ;({ stop: stopResizeObserver } = useResizeObserver(resize$, update))
-          stopResizeListener = useEventListener('resize', update)
+          stopResizeListener = useEventListener('resize', () =>
+            setTimeout(() => update(), 0)
+          )
         }
       },
       { immediate: true }
