@@ -2,20 +2,16 @@
   <transition-group
     tag="ul"
     :class="[
-      'el-upload-list',
-      'el-upload-list--' + listType,
-      { 'is-disabled': disabled },
+      ns.b('list'),
+      ns.bm('list', listType),
+      ns.is('disabled', disabled),
     ]"
     name="el-list"
   >
     <li
       v-for="file in files"
       :key="file.uid || file"
-      :class="[
-        'el-upload-list__item',
-        'is-' + file.status,
-        focusing ? 'focusing' : '',
-      ]"
+      :class="[ns.be('list', 'item'), ns.is(file.status), { focusing }]"
       tabindex="0"
       @keydown.delete="!disabled && handleRemove(file)"
       @focus="focusing = true"
@@ -28,15 +24,15 @@
             file.status !== 'uploading' &&
             ['picture-card', 'picture'].includes(listType)
           "
-          class="el-upload-list__item-thumbnail"
+          :class="ns.be('list', 'item-thumbnail')"
           :src="file.url"
           alt=""
         />
-        <a class="el-upload-list__item-name" @click="handleClick(file)">
+        <a :class="ns.be('list', 'item-name')" @click="handleClick(file)">
           <el-icon class="el-icon--document"><document /></el-icon>
           {{ file.name }}
         </a>
-        <label class="el-upload-list__item-status-label">
+        <label :class="ns.be('list', 'item-status-label')">
           <el-icon
             v-if="listType === 'text'"
             class="el-icon--upload-success el-icon--circle-check"
@@ -72,17 +68,17 @@
         />
         <span
           v-if="listType === 'picture-card'"
-          class="el-upload-list__item-actions"
+          :class="ns.be('list', 'item-actions')"
         >
           <span
-            class="el-upload-list__item-preview"
+            :class="ns.be('list', 'item-preview')"
             @click="handlePreview(file)"
           >
             <el-icon class="el-icon--zoom-in"><zoom-in /></el-icon>
           </span>
           <span
             v-if="!disabled"
-            class="el-upload-list__item-delete"
+            :class="ns.be('list', 'item-delete')"
             @click="handleRemove(file)"
           >
             <el-icon class="el-icon--delete"><delete /></el-icon>
@@ -104,7 +100,7 @@ import {
   Check,
   CircleCheck,
 } from '@element-plus/icons-vue'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElProgress from '@element-plus/components/progress'
 
 import type { PropType } from 'vue'
@@ -143,6 +139,7 @@ export default defineComponent({
   emits: ['remove'],
   setup(props, { emit }) {
     const { t } = useLocale()
+    const ns = useNamespace('upload')
 
     const handleClick = (file: UploadFile) => {
       props.handlePreview(file)
@@ -161,6 +158,7 @@ export default defineComponent({
       handleRemove,
       onFileClicked,
       t,
+      ns,
     }
   },
 })
