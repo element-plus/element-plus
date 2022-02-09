@@ -36,6 +36,10 @@ export const imageProps = buildProps({
     type: definePropType<string[]>(Array),
     default: () => mutable([] as const),
   },
+  previewAppendToBody: {
+    type: Boolean,
+    default: false,
+  },
   zIndex: {
     type: Number,
     default: 2000,

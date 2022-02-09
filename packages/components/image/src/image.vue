@@ -22,6 +22,7 @@
           :initial-index="imageIndex"
           :url-list="previewSrcList"
           :hide-on-click-modal="hideOnClickModal"
+          :append-to-body="previewAppendToBody"
           @close="closeViewer"
           @switch="switchViewer"
         >

@@ -22,6 +22,10 @@ export const imageViewerProps = buildProps({
     type: Boolean,
     default: false,
   },
+  appendToBody: {
+    type: Boolean,
+    default: false,
+  },
 } as const)
 export type ImageViewerProps = ExtractPropTypes<typeof imageViewerProps>
 
