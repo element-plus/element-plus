@@ -32,7 +32,7 @@ importers:
       '@types/sass': 1.43.1
       '@typescript-eslint/eslint-plugin': 5.11.0
       '@typescript-eslint/parser': 5.11.0
-      '@vitejs/plugin-vue': 2.1.0
+      '@vitejs/plugin-vue': 2.2.0
       '@vue/test-utils': 2.0.0-rc.16
       '@vueuse/core': ^7.5.5
       async-validator: ^4.0.7
@@ -116,7 +116,7 @@ importers:
       '@types/sass': 1.43.1
       '@typescript-eslint/eslint-plugin': 5.11.0_de5a1ddccd75ca1e499b8b8491d3dcba
       '@typescript-eslint/parser': 5.11.0_eslint@8.8.0+typescript@4.5.5
-      '@vitejs/plugin-vue': 2.1.0_vue@3.2.27
+      '@vitejs/plugin-vue': 2.2.0_vue@3.2.27
       '@vue/test-utils': 2.0.0-rc.16_vue@3.2.27
       chalk: 4.1.2
       components-helper: 2.0.0
@@ -283,7 +283,7 @@ importers:
   play:
     specifiers:
       '@element-plus/icons-vue': ^0.2.6
-      '@vitejs/plugin-vue': 2.1.0
+      '@vitejs/plugin-vue': 2.2.0
       unplugin-vue-components: 0.17.18
       vite: 2.7.13
       vite-plugin-inspect: 0.3.13
@@ -291,7 +291,7 @@ importers:
     dependencies:
       '@element-plus/icons-vue': 0.2.6_vue@3.2.27
     devDependencies:
-      '@vitejs/plugin-vue': 2.1.0_vite@2.7.13+vue@3.2.27
+      '@vitejs/plugin-vue': 2.2.0_vite@2.7.13+vue@3.2.27
       unplugin-vue-components: 0.17.18_67820add53331e2db86e4e8d7ddcfcfc
       vite: 2.7.13_sass@1.49.7
       vite-plugin-inspect: 0.3.13_vite@2.7.13
@@ -2270,8 +2270,8 @@ packages:
       vue: 3.2.27
     dev: true
 
-  /@vitejs/plugin-vue/2.1.0_vite@2.7.13+vue@3.2.27:
-    resolution: {integrity: sha512-AZ78WxvFMYd8JmM/GBV6a6SGGTU0GgN/0/4T+FnMMsLzFEzTeAUwuraapy50ifHZsC+G5SvWs86bvaCPTneFlA==}
+  /@vitejs/plugin-vue/2.2.0_vite@2.7.13+vue@3.2.27:
+    resolution: {integrity: sha512-wXigM1EwN2G7rZcwG6kLk9ivvIMhx2363tCEvMBiXcTu5nePM/12hUPVzPb83Uugt6U+zom1gTpJopi/Ow/jwg==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       vite: ^2.5.10
@@ -2281,8 +2281,8 @@ packages:
       vue: 3.2.27
     dev: true
 
-  /@vitejs/plugin-vue/2.1.0_vue@3.2.27:
-    resolution: {integrity: sha512-AZ78WxvFMYd8JmM/GBV6a6SGGTU0GgN/0/4T+FnMMsLzFEzTeAUwuraapy50ifHZsC+G5SvWs86bvaCPTneFlA==}
+  /@vitejs/plugin-vue/2.2.0_vue@3.2.27:
+    resolution: {integrity: sha512-wXigM1EwN2G7rZcwG6kLk9ivvIMhx2363tCEvMBiXcTu5nePM/12hUPVzPb83Uugt6U+zom1gTpJopi/Ow/jwg==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       vite: ^2.5.10
