@@ -1,4 +1,4 @@
-import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
+import { buildProps, definePropType, mutable } from '@element-plus/utils-v2'
 import type { InjectionKey } from 'vue'
 import type { TreeNodeData } from '../../tree/src/tree.type'
 import type {

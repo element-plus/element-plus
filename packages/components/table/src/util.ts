@@ -1,5 +1,5 @@
-import { hasOwn } from '@vue/shared'
 import { createPopper } from '@popperjs/core'
+import { hasOwn } from '@element-plus/utils-v2'
 import { useZIndex } from '@element-plus/hooks'
 import { getValueByPath } from '@element-plus/utils/util'
 import { off, on } from '@element-plus/utils/dom'
@@ -8,7 +8,7 @@ import type {
   PopperInstance,
   IPopperOptions,
 } from '@element-plus/components/popper'
-import type { Indexable, Nullable } from '@element-plus/utils/types'
+import type { Nullable } from '@element-plus/utils/types'
 import type { TableColumnCtx } from './table-column/defaults'
 
 export const getCell = function (event: Event): HTMLElement {
@@ -186,7 +186,7 @@ export function mergeOptions<T, K>(defaults: T, config: K): T & K {
     options[key] = defaults[key]
   }
   for (key in config) {
-    if (hasOwn(config as unknown as Indexable<any>, key)) {
+    if (hasOwn(config as unknown as Record<string, any>, key)) {
       const value = config[key]
       if (typeof value !== 'undefined') {
         options[key] = value

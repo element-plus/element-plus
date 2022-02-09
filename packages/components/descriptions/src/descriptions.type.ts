@@ -1,4 +1,4 @@
-import type { ComponentSize } from '@element-plus/utils/types'
+import type { ComponentSize } from '@element-plus/constants'
 
 export interface IDescriptionsInject {
   border: boolean

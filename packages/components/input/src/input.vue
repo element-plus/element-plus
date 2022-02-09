@@ -148,7 +148,11 @@ import {
 import { isClient } from '@vueuse/core'
 import { ElIcon } from '@element-plus/components/icon'
 import { CircleClose, View as IconView } from '@element-plus/icons-vue'
-import { ValidateComponentsMap } from '@element-plus/utils/icon'
+import {
+  ValidateComponentsMap,
+  isObject,
+  isKorean,
+} from '@element-plus/utils-v2'
 import {
   useAttrs,
   useDisabled,
@@ -156,13 +160,11 @@ import {
   useSize,
   useNamespace,
 } from '@element-plus/hooks'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { isObject } from '@element-plus/utils/util'
-import { isKorean } from '@element-plus/utils/isDef'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { calcTextareaHeight } from './calc-textarea-height'
 import { inputProps, inputEmits } from './input'
 
-import type { StyleValue } from '@element-plus/utils/types'
+import type { StyleValue } from 'vue'
 
 type TargetElement = HTMLInputElement | HTMLTextAreaElement
 

@@ -1,24 +1,10 @@
-import {
-  camelize,
-  capitalize,
-  extend,
-  hasOwn,
-  hyphenate,
-  isArray,
-  isObject,
-  isString,
-  isFunction,
-  looseEqual,
-  toRawType,
-} from '@vue/shared'
+import { extend, hasOwn, isFunction, looseEqual } from '@vue/shared'
 import { isEqualWith } from 'lodash-unified'
-import { isClient } from '@vueuse/core'
-import { debugWarn, throwError } from './error'
-
+import { isNumber, throwError } from '@element-plus/utils-v2'
 import type { ComponentPublicInstance, CSSProperties, Ref } from 'vue'
-import type { TimeoutHandle, Nullable } from './types'
+import type { Nullable } from './types'
 
-export const SCOPE = 'Util'
+const SCOPE = 'Util'
 
 export function toObject<T>(arr: Array<T>): Record<string, T> {
   const res = {}
@@ -82,12 +68,6 @@ export function getPropByPath(
   }
 }
 
-/**
- * Generate random number in range [0, 1000]
- * Maybe replace with [uuid](https://www.npmjs.com/package/uuid)
- */
-export const generateId = (): number => Math.floor(Math.random() * 10000)
-
 // use isEqual instead
 // export const valueEquals
 
@@ -104,14 +84,6 @@ export const coerceTruthyValueToArray = (arr) => {
   return Array.isArray(arr) ? arr : [arr]
 }
 
-// drop IE and (Edge < 79) support
-// export const isIE
-// export const isEdge
-
-export const isFirefox = function (): boolean {
-  return isClient && !!window.navigator.userAgent.match(/firefox/i)
-}
-
 export const autoprefixer = function (style: CSSProperties): CSSProperties {
   const rules = ['transform', 'transition', 'animation']
   const prefixes = ['ms-', 'webkit-']
@@ -126,26 +98,8 @@ export const autoprefixer = function (style: CSSProperties): CSSProperties {
   return style
 }
 
-export const kebabCase = hyphenate
-
 // reexport from lodash & vue shared
-export { isVNode } from 'vue'
-export {
-  hasOwn,
-  // isEmpty,
-  // isEqual,
-  isObject,
-  isArray,
-  isString,
-  capitalize,
-  camelize,
-  looseEqual,
-  extend,
-}
-
-export const isBool = (val: unknown): val is boolean => typeof val === 'boolean'
-export const isNumber = (val: unknown): val is number => typeof val === 'number'
-export const isHTMLElement = (val: unknown) => toRawType(val).startsWith('HTML')
+export { looseEqual, extend }
 
 export function rafThrottle<T extends (...args: any) => any>(fn: T): T {
   let locked = false
@@ -160,32 +114,9 @@ export function rafThrottle<T extends (...args: any) => any>(fn: T): T {
   } as T
 }
 
-export const clearTimer = (timer: Ref<TimeoutHandle>) => {
-  clearTimeout(timer.value)
+export const clearTimer = (timer: Ref<Nullable<number>>) => {
+  if (isNumber(timer.value)) clearTimeout(timer.value)
   timer.value = null
-}
-
-/**
- * Generating a random int in range (0, max - 1)
- * @param max {number}
- */
-export function getRandomInt(max: number) {
-  return Math.floor(Math.random() * Math.floor(max))
-}
-
-export function isUndefined(val: any): val is undefined {
-  return val === undefined
-}
-
-export function isEmpty(val: unknown) {
-  if (
-    (!val && val !== 0) ||
-    (isArray(val) && !val.length) ||
-    (isObject(val) && !Object.keys(val).length)
-  )
-    return true
-
-  return false
 }
 
 export function arrayFlat(arr: unknown[]) {
@@ -193,20 +124,6 @@ export function arrayFlat(arr: unknown[]) {
     const val = Array.isArray(item) ? arrayFlat(item) : item
     return acm.concat(val)
   }, [])
-}
-
-export function deduplicate<T>(arr: T[]) {
-  return Array.from(new Set(arr))
-}
-
-export function addUnit(value: string | number) {
-  if (isString(value)) {
-    return value
-  } else if (isNumber(value)) {
-    return `${value}px`
-  }
-  debugWarn(SCOPE, 'binding value must be a string or number')
-  return ''
 }
 
 /**

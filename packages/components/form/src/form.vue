@@ -15,12 +15,12 @@ import {
   watch,
 } from 'vue'
 import { elFormKey } from '@element-plus/tokens'
-import { debugWarn } from '@element-plus/utils/error'
+import { debugWarn } from '@element-plus/utils-v2'
 import { useSize } from '@element-plus/hooks'
 import type { ValidateFieldsError } from 'async-validator'
 
 import type { PropType } from 'vue'
-import type { ComponentSize } from '@element-plus/utils/types'
+import type { ComponentSize } from '@element-plus/constants'
 import type { FormRulesMap } from './form.type'
 import type {
   ElFormItemContext as FormItemCtx,

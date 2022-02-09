@@ -1,4 +1,4 @@
-import { buildProps, definePropType } from '@element-plus/utils/props'
+import { buildProps, definePropType } from '@element-plus/utils-v2'
 import {
   usePopperTriggerProps,
   usePopperContentProps,
@@ -51,7 +51,7 @@ export const useTooltipContentProps = {
     disabled: {
       type: Boolean,
     },
-  }),
+  } as const),
 }
 
 export const useTooltipTriggerProps = {

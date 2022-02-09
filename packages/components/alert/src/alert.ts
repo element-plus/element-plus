@@ -1,5 +1,4 @@
-import { TypeComponentsMap } from '@element-plus/utils/icon'
-import { buildProps, keyOf } from '@element-plus/utils/props'
+import { TypeComponentsMap, buildProps, keyOf } from '@element-plus/utils-v2'
 import type { ExtractPropTypes } from 'vue'
 import type Alert from './alert.vue'
 

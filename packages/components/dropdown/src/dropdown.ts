@@ -1,5 +1,9 @@
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { buildProps, definePropType } from '@element-plus/utils/props'
+import {
+  buildProps,
+  definePropType,
+  iconPropType,
+} from '@element-plus/utils-v2'
 import { createCollectionWithScope } from '@element-plus/components/collection'
 import {
   useTooltipTriggerProps,
@@ -9,7 +13,7 @@ import type { Options } from '@popperjs/core'
 
 import type { ButtonType } from '@element-plus/components/button'
 import type { Placement } from '@element-plus/components/popper'
-import type { ComponentInternalInstance, Component, ComputedRef } from 'vue'
+import type { ComponentInternalInstance, ComputedRef } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'
 
 export interface IElDropdownInstance {
@@ -87,7 +91,7 @@ export const dropdownItemProps = buildProps({
   divided: Boolean,
   textValue: String,
   icon: {
-    type: definePropType<string | Component>([String, Object]),
+    type: iconPropType,
   },
 } as const)
 

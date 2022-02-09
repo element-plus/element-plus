@@ -1,4 +1,4 @@
-import { hasOwn } from '@vue/shared'
+import { hasOwn } from '@element-plus/utils-v2'
 import type {
   ElUploadProgressEvent,
   ElUploadRequestOptions,

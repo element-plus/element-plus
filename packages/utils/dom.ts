@@ -1,5 +1,5 @@
+import { camelize, isObject } from '@vue/shared'
 import { isClient } from '@vueuse/core'
-import { camelize, isObject } from './util'
 import type { CSSProperties, ComponentPublicInstance, Ref } from 'vue'
 
 import type { Nullable } from './types'

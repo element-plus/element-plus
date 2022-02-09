@@ -8,8 +8,12 @@ import {
   watch,
 } from 'vue'
 import { useLocale } from '@element-plus/hooks'
-import { debugWarn } from '@element-plus/utils/error'
-import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
+import {
+  debugWarn,
+  buildProps,
+  definePropType,
+  mutable,
+} from '@element-plus/utils-v2'
 import { elPaginationKey } from '@element-plus/tokens'
 
 import Prev from './components/prev.vue'

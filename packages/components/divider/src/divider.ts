@@ -1,4 +1,4 @@
-import { buildProps, definePropType } from '@element-plus/utils/props'
+import { buildProps, definePropType } from '@element-plus/utils-v2'
 import type { ExtractPropTypes } from 'vue'
 import type Divider from './divider.vue'
 

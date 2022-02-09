@@ -1,7 +1,6 @@
 import { createVNode, defineComponent, renderSlot, h } from 'vue'
-import { PatchFlags } from '@element-plus/utils/vnode'
+import { PatchFlags, buildProps, definePropType } from '@element-plus/utils-v2'
 import { useNamespace, useSameTarget } from '@element-plus/hooks'
-import { buildProps, definePropType } from '@element-plus/utils/props'
 
 import type { ExtractPropTypes, CSSProperties } from 'vue'
 import type { ZIndexProperty } from 'csstype'

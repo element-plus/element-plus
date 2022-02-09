@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-types */
 
 import { expectTypeOf } from 'expect-type'
-import { buildProp, definePropType, mutable, keyOf, buildProps } from '../props'
-import type { propKey } from '../props'
+import { buildProp, definePropType, mutable, keyOf, buildProps } from '..'
+import type { propKey } from '../vue/prop'
 
 import type { PropType, ExtractPropTypes } from 'vue'
 
@@ -355,85 +355,92 @@ describe('buildProps', () => {
       } as const,
     } as const)
 
-    expectTypeOf(props).toEqualTypeOf<{
-      readonly type: {
-        readonly type: PropType<string>
-        readonly required: false
-        readonly default: 'hello'
-        readonly validator: ((val: unknown) => boolean) | undefined
-        [propKey]: true
-      }
+    expectTypeOf(props.type).toEqualTypeOf<{
+      readonly type: PropType<string>
+      readonly required: false
+      readonly default: 'hello'
+      readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
+    }>()
 
-      readonly key1: {
-        readonly type: PropType<'a' | 'b'>
-        readonly required: false
-        readonly validator: ((val: unknown) => boolean) | undefined
-        [propKey]: true
-        readonly default: undefined
-      }
-      readonly key2: {
-        readonly type: PropType<1 | 2 | 3 | 4>
-        readonly required: false
-        readonly default: undefined
-        readonly validator: ((val: unknown) => boolean) | undefined
-        [propKey]: true
-      }
-      readonly key3: {
-        readonly type: PropType<1 | 2 | 3 | 4>
-        readonly required: false
-        readonly default: 2
-        readonly validator: ((val: unknown) => boolean) | undefined
-        [propKey]: true
-      }
-      readonly key4: {
-        readonly type: PropType<'a' | 'b'>
-        readonly required: false
-        readonly default: 'a'
-        readonly validator: ((val: unknown) => boolean) | undefined
-        [propKey]: true
-      }
-      readonly key5: BooleanConstructor
-      readonly key6: StringConstructor
-      readonly key7: null
-      readonly key8: ObjectConstructor
-      readonly key9: DateConstructor
-      readonly key10: SetConstructor
-      readonly key11: undefined
-      readonly key12: {
-        readonly type: PropType<string>
-        readonly required: false
-        readonly default: undefined
-        readonly validator: ((val: unknown) => boolean) | undefined
-        [propKey]: true
-      }
-      readonly key13: {
-        readonly type: PropType<string | number | Function>
-        readonly required: false
-        readonly default: '123'
-        readonly validator: ((val: unknown) => boolean) | undefined
-        [propKey]: true
-      }
-      readonly key14: {
-        readonly type: PropType<Function>
-        readonly required: false
-        readonly default: () => '123'
-        readonly validator: ((val: unknown) => boolean) | undefined
-        [propKey]: true
-      }
-      readonly key15: {
-        readonly type: PropType<Function>
-        readonly required: false
-        readonly default: () => () => '123'
-        readonly validator: ((val: unknown) => boolean) | undefined
-        [propKey]: true
-      }
-      readonly key16: {
-        readonly type: PropType<string>
-        readonly required: false
-        readonly default: '123'
-        readonly validator: ((val: unknown) => boolean) | undefined
-        [propKey]: true
-      }
+    expectTypeOf(props.key1).toEqualTypeOf<{
+      readonly type: PropType<'a' | 'b'>
+      readonly required: false
+      readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
+      readonly default: undefined
+    }>()
+
+    expectTypeOf(props.key2).toEqualTypeOf<{
+      readonly type: PropType<1 | 2 | 3 | 4>
+      readonly required: false
+      readonly default: undefined
+      readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
+    }>()
+
+    expectTypeOf(props.key3).toEqualTypeOf<{
+      readonly type: PropType<1 | 2 | 3 | 4>
+      readonly required: false
+      readonly default: 2
+      readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
+    }>()
+
+    expectTypeOf(props.key4).toEqualTypeOf<{
+      readonly type: PropType<'a' | 'b'>
+      readonly required: false
+      readonly default: 'a'
+      readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
+    }>()
+
+    expectTypeOf(props.key5).toEqualTypeOf<BooleanConstructor>()
+    expectTypeOf(props.key6).toEqualTypeOf<StringConstructor>()
+    expectTypeOf(props.key7).toEqualTypeOf<null>()
+    expectTypeOf(props.key8).toEqualTypeOf<ObjectConstructor>()
+    expectTypeOf(props.key9).toEqualTypeOf<DateConstructor>()
+    expectTypeOf(props.key10).toEqualTypeOf<SetConstructor>()
+    expectTypeOf(props.key11).toEqualTypeOf<undefined>()
+
+    expectTypeOf(props.key12).toEqualTypeOf<{
+      readonly type: PropType<string>
+      readonly required: false
+      readonly default: undefined
+      readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
+    }>()
+
+    expectTypeOf(props.key13).toEqualTypeOf<{
+      readonly type: PropType<string | number | Function>
+      readonly required: false
+      readonly default: '123'
+      readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
+    }>()
+
+    expectTypeOf(props.key14).toEqualTypeOf<{
+      readonly type: PropType<Function>
+      readonly required: false
+      readonly default: () => '123'
+      readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
+    }>()
+
+    expectTypeOf(props.key15).toEqualTypeOf<{
+      readonly type: PropType<Function>
+      readonly required: false
+      readonly default: () => () => '123'
+      readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
+    }>()
+
+    expectTypeOf(props.key16).toEqualTypeOf<{
+      readonly type: PropType<string>
+      readonly required: false
+      readonly default: '123'
+      readonly validator: ((val: unknown) => boolean) | undefined
+      [propKey]: true
     }>()
   })
 })

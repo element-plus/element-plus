@@ -1,4 +1,4 @@
-import { withInstall, withNoopInstall } from '@element-plus/utils/with-install'
+import { withInstall, withNoopInstall } from '@element-plus/utils-v2'
 
 import Container from './src/container.vue'
 import Aside from './src/aside.vue'

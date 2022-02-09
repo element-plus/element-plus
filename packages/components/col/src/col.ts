@@ -1,5 +1,5 @@
 import { defineComponent, computed, inject, h, renderSlot } from 'vue'
-import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
+import { buildProps, definePropType, mutable } from '@element-plus/utils-v2'
 import { useNamespace } from '@element-plus/hooks'
 import type { ExtractPropTypes, CSSProperties } from 'vue'
 

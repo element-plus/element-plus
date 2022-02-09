@@ -12,7 +12,7 @@
 <script lang="ts">
 import { defineComponent, watch, ref, provide } from 'vue'
 
-import { CHANGE_EVENT } from '@element-plus/utils/constants'
+import { CHANGE_EVENT } from '@element-plus/constants'
 
 export default defineComponent({
   name: 'ElSteps',

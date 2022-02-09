@@ -83,7 +83,7 @@ import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
 
-import { debugWarn } from '@element-plus/utils/error'
+import { debugWarn } from '@element-plus/utils-v2'
 import type {
   ICarouselProps,
   CarouselItem,

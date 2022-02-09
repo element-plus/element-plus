@@ -22,7 +22,7 @@ import { defineComponent, watch, computed, ref } from 'vue'
 import { isEqual } from 'lodash-unified'
 import { ElSelect, ElOption } from '@element-plus/components/select'
 import { useLocale } from '@element-plus/hooks'
-import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
+import { buildProps, definePropType, mutable } from '@element-plus/utils-v2'
 import { usePagination } from '../usePagination'
 
 import type { Nullable } from '@element-plus/utils/types'

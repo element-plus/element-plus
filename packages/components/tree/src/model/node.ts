@@ -1,5 +1,5 @@
 import { reactive } from 'vue'
-import { hasOwn } from '@vue/shared'
+import { hasOwn } from '@element-plus/utils-v2'
 import { markNodeData, NODE_KEY } from './util'
 import type TreeStore from './tree-store'
 

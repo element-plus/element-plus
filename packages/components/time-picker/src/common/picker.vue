@@ -163,7 +163,7 @@ import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { isEmpty } from '@element-plus/utils/util'
+import { isEmpty } from '@element-plus/utils-v2'
 import { Clock, Calendar } from '@element-plus/icons-vue'
 import { timePickerDefaultProps } from './props'
 

@@ -3,7 +3,7 @@ import {
   CHANGE_EVENT,
   UPDATE_MODEL_EVENT,
   INPUT_EVENT,
-} from '@element-plus/utils/constants'
+} from '@element-plus/constants'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import type { CSSProperties } from 'vue'
 import type { ButtonRefs, ISliderInitData, ISliderProps } from './slider.type'
