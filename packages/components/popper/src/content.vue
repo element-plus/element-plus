@@ -113,6 +113,15 @@ export default defineComponent({
           immediate: true,
         }
       )
+
+      watch(
+        () =>
+          buildPopperOptions(props, {
+            arrowEl: unref(arrowRef),
+            arrowOffset: unref(arrowOffset),
+          }),
+        (option) => popperInstanceRef.value?.setOptions(option)
+      )
     })
 
     return {
