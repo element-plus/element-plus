@@ -8,22 +8,30 @@
   </el-scrollbar>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      count: 3,
-    }
-  },
-  methods: {
-    add() {
-      this.count++
-    },
-    onDelete() {
-      if (this.count > 0) {
-        this.count--
-      }
-    },
-  },
+<script lang="ts" setup>
+import { ref } from 'vue'
+const count = ref(3)
+
+const add = () => {
+  count.value++
+}
+const onDelete = () => {
+  if (count.value > 0) {
+    count.value--
+  }
 }
 </script>
+
+<style scoped>
+.scrollbar-demo-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  margin: 10px;
+  text-align: center;
+  border-radius: 4px;
+  background: var(--el-color-primary-light-9);
+  color: var(--el-color-primary);
+}
+</style>

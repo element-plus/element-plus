@@ -1,11 +1,15 @@
-import { buildProps, definePropType } from '@element-plus/utils/props'
+import { buildProps, definePropType } from '@element-plus/utils-v2'
 
 import type { ExtractPropTypes, StyleValue } from 'vue'
 
 export const elTeleportProps = buildProps({
   container: {
-    type: definePropType<string | HTMLElement>([String, Object]),
+    type: definePropType<string>(String),
     default: 'body',
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
   },
   style: {
     type: definePropType<StyleValue>([String, Array, Object]),

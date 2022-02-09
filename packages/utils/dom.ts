@@ -1,6 +1,6 @@
-import isServer from './isServer'
-import { camelize, isObject } from './util'
-import type { CSSProperties } from 'vue'
+import { camelize, isObject } from '@vue/shared'
+import { isClient } from '@vueuse/core'
+import type { CSSProperties, ComponentPublicInstance, Ref } from 'vue'
 
 import type { Nullable } from './types'
 
@@ -104,7 +104,7 @@ export const getStyle = function (
   element: HTMLElement,
   styleName: string
 ): string {
-  if (isServer) return ''
+  if (!isClient) return ''
   if (!element || !styleName) return ''
   styleName = camelize(styleName)
   if (styleName === 'float') {
@@ -157,7 +157,7 @@ export const isScroll = (
   el: HTMLElement,
   isVertical?: Nullable<boolean>
 ): RegExpMatchArray | null => {
-  if (isServer) return null
+  if (!isClient) return null
   const determinedDirection = isVertical === null || isVertical === undefined
   const overflow = determinedDirection
     ? getStyle(el, 'overflow')
@@ -172,7 +172,7 @@ export const getScrollContainer = (
   el: HTMLElement,
   isVertical?: Nullable<boolean>
 ): Window | HTMLElement | undefined => {
-  if (isServer) return
+  if (!isClient) return
 
   let parent: HTMLElement = el
   while (parent) {
@@ -191,7 +191,7 @@ export const isInContainer = (
   el: Element | undefined,
   container: Element | Window | undefined
 ): boolean => {
-  if (isServer || !el || !container) return false
+  if (!isClient || !el || !container) return false
 
   const elRect = el.getBoundingClientRect()
 
@@ -251,5 +251,45 @@ export const getClientXY = (event: MouseEvent | TouchEvent) => {
   return {
     clientX,
     clientY,
+  }
+}
+
+export const composeEventHandlers = <E>(
+  theirsHandler?: (event: E) => boolean | void,
+  oursHandler?: (event: E) => void,
+  { checkForDefaultPrevented = true } = {}
+) => {
+  const handleEvent = (event: E) => {
+    const shouldPrevent = theirsHandler?.(event)
+
+    if (checkForDefaultPrevented === false || !shouldPrevent) {
+      return oursHandler?.(event)
+    }
+  }
+  return handleEvent
+}
+
+type WhenMouseHandler = (e: PointerEvent) => any
+
+export const whenMouse = (handler: WhenMouseHandler): WhenMouseHandler => {
+  return (e: PointerEvent) =>
+    e.pointerType === 'mouse' ? handler(e) : undefined
+}
+
+export const composeStoppableHandler = <E extends Event>(
+  handler: (e: E) => void
+) => {
+  return (e: E) => {
+    if (!e.defaultPrevented) {
+      handler(e)
+    }
+  }
+}
+
+export const composeRefs = (...refs: Ref<HTMLElement | null>[]) => {
+  return (el: Element | ComponentPublicInstance | null) => {
+    refs.forEach((ref) => {
+      ref.value = el as HTMLElement | null
+    })
   }
 }

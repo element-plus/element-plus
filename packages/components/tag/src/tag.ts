@@ -1,4 +1,4 @@
-import { buildProps } from '@element-plus/utils/props'
+import { buildProps } from '@element-plus/utils-v2'
 
 import type { ExtractPropTypes } from 'vue'
 
@@ -17,7 +17,7 @@ export const tagProps = buildProps({
   },
   size: {
     type: String,
-    values: ['large', 'medium', 'small', 'mini'],
+    values: ['large', 'default', 'small'],
   },
   effect: {
     type: String,

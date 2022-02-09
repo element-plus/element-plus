@@ -1,5 +1,5 @@
 {
-  extends: ['config:js-lib', ':prHourlyLimitNone'],
+  extends: ['config:js-lib', ':prHourlyLimitNone', ':label(dependencies)'],
   packageRules: [
     {
       matchPaths: ['docs/package.json'],

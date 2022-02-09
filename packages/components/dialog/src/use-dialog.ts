@@ -1,11 +1,14 @@
 import { computed, ref, watch, nextTick, onMounted } from 'vue'
-import { useTimeoutFn } from '@vueuse/core'
+import { useTimeoutFn, isClient } from '@vueuse/core'
 
-import { useLockScreen, useRestoreActive, useModal } from '@element-plus/hooks'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import isServer from '@element-plus/utils/isServer'
-import PopupManager from '@element-plus/utils/popup-manager'
-import { isNumber } from '@element-plus/utils/util'
+import {
+  useLockscreen,
+  useRestoreActive,
+  useModal,
+  useZIndex,
+} from '@element-plus/hooks'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { isNumber } from '@element-plus/utils-v2'
 
 import type { CSSProperties, Ref, SetupContext } from 'vue'
 import type { DialogEmits, DialogProps } from './dialog'
@@ -18,7 +21,8 @@ export const useDialog = (
   const visible = ref(false)
   const closed = ref(false)
   const rendered = ref(false) // when desctroyOnClose is true, we initialize it as false vise versa
-  const zIndex = ref(props.zIndex || PopupManager.nextZIndex())
+  const { nextZIndex } = useZIndex()
+  const zIndex = ref(props.zIndex || nextZIndex())
 
   let openTimer: (() => void) | undefined = undefined
   let closeTimer: (() => void) | undefined = undefined
@@ -101,7 +105,7 @@ export const useDialog = (
   }
 
   function doOpen() {
-    if (isServer) {
+    if (!isClient) {
       return
     }
 
@@ -116,7 +120,7 @@ export const useDialog = (
   }
 
   if (props.lockScroll) {
-    useLockScreen(visible)
+    useLockscreen(visible)
   }
 
   if (props.closeOnPressEscape) {
@@ -138,7 +142,7 @@ export const useDialog = (
         open()
         rendered.value = true // enables lazy rendering
         emit('open')
-        zIndex.value = props.zIndex ? zIndex.value++ : PopupManager.nextZIndex()
+        zIndex.value = props.zIndex ? zIndex.value++ : nextZIndex()
         // this.$el.addEventListener('scroll', this.updatePopper)
         nextTick(() => {
           if (targetRef.value) {
@@ -168,6 +172,8 @@ export const useDialog = (
     beforeLeave,
     handleClose,
     onModalClick,
+    close,
+    doClose,
     closed,
     style,
     rendered,

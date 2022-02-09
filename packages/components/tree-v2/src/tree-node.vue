@@ -50,7 +50,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, inject } from 'vue'
-import { CaretRight } from '@element-plus/icons'
+import { CaretRight } from '@element-plus/icons-vue'
 import ElIcon from '@element-plus/components/icon'
 import ElCheckbox from '@element-plus/components/checkbox'
 import ElNodeContent from './tree-node-content'
@@ -84,8 +84,8 @@ export default defineComponent({
       return tree?.props.icon ?? DEFAULT_ICON
     })
 
-    const handleClick = () => {
-      emit('click', props.node)
+    const handleClick = (e: MouseEvent) => {
+      emit('click', props.node, e)
     }
     const handleExpandIconClick = () => {
       emit('toggle', props.node)

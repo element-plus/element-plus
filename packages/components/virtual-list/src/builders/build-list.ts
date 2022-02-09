@@ -10,11 +10,8 @@ import {
   h,
   unref,
 } from 'vue'
-import { hasOwn } from '@vue/shared'
-
-import { isNumber, isString } from '@element-plus/utils/util'
-import isServer from '@element-plus/utils/isServer'
-
+import { isClient } from '@vueuse/core'
+import { hasOwn, isNumber, isString } from '@element-plus/utils-v2'
 import { useCache } from '../hooks/use-cache'
 import useWheel from '../hooks/use-wheel'
 import Scrollbar from '../components/scrollbar'
@@ -358,7 +355,7 @@ const createList = ({
 
       // life cycles
       onMounted(() => {
-        if (isServer) return
+        if (!isClient) return
         const { initScrollOffset } = props
         const windowElement = unref(windowRef)
         if (isNumber(initScrollOffset) && windowElement) {

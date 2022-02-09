@@ -1,8 +1,8 @@
 import { createVNode, render } from 'vue'
-import { isVNode } from '@element-plus/utils/util'
-import PopupManager from '@element-plus/utils/popup-manager'
-import isServer from '@element-plus/utils/isServer'
-import { debugWarn } from '@element-plus/utils/error'
+import { isClient } from '@vueuse/core'
+import { isVNode, isNumber, debugWarn } from '@element-plus/utils-v2'
+import { useZIndex } from '@element-plus/hooks'
+import { messageConfig } from '@element-plus/components/config-provider/src/config-provider'
 import MessageConstructor from './message.vue'
 import { messageTypes } from './message'
 
@@ -15,7 +15,10 @@ let seed = 1
 // TODO: Since Notify.ts is basically the same like this file. So we could do some encapsulation against them to reduce code duplication.
 
 const message: MessageFn & Partial<Message> = function (options = {}) {
-  if (isServer) return { close: () => undefined }
+  if (!isClient) return { close: () => undefined }
+  if (isNumber(messageConfig.max) && instances.length >= messageConfig.max) {
+    return { close: () => undefined }
+  }
 
   if (
     !isVNode(options) &&
@@ -51,10 +54,12 @@ const message: MessageFn & Partial<Message> = function (options = {}) {
   })
   verticalOffset += 16
 
+  const { nextZIndex } = useZIndex()
+
   const id = `message_${seed++}`
   const userOnClose = options.onClose
   const props: Partial<MessageProps> = {
-    zIndex: PopupManager.nextZIndex(),
+    zIndex: nextZIndex(),
     offset: verticalOffset,
     ...options,
     id,

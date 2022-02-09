@@ -39,7 +39,7 @@ jobs:
         run: cd docs && pnpm exec crowdin upload sources
 
       - name: Pull Crowdin translations
-        run: cd docs && pnpm exec crowdin download
+        run: cd docs && pnpm exec crowdin download -l zh-CN
 
       - name: Generate common locale
         run: pnpm docs:gen-locale
@@ -51,7 +51,7 @@ jobs:
           NODE_OPTIONS: --max-old-space-size=4096
 
       - name: Deploy staging website
-        uses: JamesIves/github-pages-deploy-action@4.1.6
+        uses: JamesIves/github-pages-deploy-action@v4.2.3
         with:
           token: ${{ secrets.EP_BOT_TOKEN }}
           branch: main

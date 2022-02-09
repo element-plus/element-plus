@@ -1,10 +1,11 @@
 <template>
-  <header class="el-header" :style="style">
+  <header :class="ns.b()" :style="style">
     <slot></slot>
   </header>
 </template>
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
 
 import type { CSSProperties } from 'vue'
 
@@ -17,6 +18,8 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const ns = useNamespace('header')
+
     return {
       style: computed(
         () =>
@@ -26,6 +29,7 @@ export default defineComponent({
               }
             : {}) as CSSProperties
       ),
+      ns,
     }
   },
 })

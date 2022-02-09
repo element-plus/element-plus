@@ -1,20 +1,19 @@
 <template>
   <div
     :class="[
-      'el-input-number',
-      inputNumberSize ? 'el-input-number--' + inputNumberSize : '',
-      { 'is-disabled': inputNumberDisabled },
-      { 'is-without-controls': !controls },
-      { 'is-controls-right': controlsAtRight },
+      ns.b(),
+      ns.m(inputNumberSize),
+      ns.is('disabled', inputNumberDisabled),
+      ns.is('without-controls', !controls),
+      ns.is('controls-right', controlsAtRight),
     ]"
     @dragstart.prevent
   >
     <span
       v-if="controls"
       v-repeat-click="decrease"
-      class="el-input-number__decrease"
       role="button"
-      :class="{ 'is-disabled': minDisabled }"
+      :class="[ns.e('decrease'), ns.is('disabled', minDisabled)]"
       @keydown.enter="decrease"
     >
       <el-icon>
@@ -25,9 +24,8 @@
     <span
       v-if="controls"
       v-repeat-click="increase"
-      class="el-input-number__increase"
       role="button"
-      :class="{ 'is-disabled': maxDisabled }"
+      :class="[ns.e('increase'), ns.is('disabled', maxDisabled)]"
       @keydown.enter="increase"
     >
       <el-icon>
@@ -38,6 +36,7 @@
     <el-input
       ref="input"
       type="number"
+      :step="step"
       :model-value="displayValue"
       :placeholder="placeholder"
       :disabled="inputNumberDisabled"
@@ -46,10 +45,11 @@
       :min="min"
       :name="name"
       :label="label"
+      :validate-event="false"
       @keydown.up.prevent="increase"
       @keydown.down.prevent="decrease"
-      @blur="(event) => $emit('blur', event)"
-      @focus="(event) => $emit('focus', event)"
+      @blur="handleBlur"
+      @focus="handleFocus"
       @input="handleInput"
       @change="handleInputChange"
     />
@@ -68,17 +68,21 @@ import {
 
 import { ElIcon } from '@element-plus/components/icon'
 import { RepeatClick } from '@element-plus/directives'
-import { useFormItem } from '@element-plus/hooks'
+import {
+  useDisabled,
+  useFormItem,
+  useSize,
+  useNamespace,
+} from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
-import { isNumber } from '@element-plus/utils/util'
-import { debugWarn } from '@element-plus/utils/error'
-import { ArrowUp, ArrowDown, Plus, Minus } from '@element-plus/icons'
+import { isNumber, debugWarn } from '@element-plus/utils-v2'
+import { ArrowUp, ArrowDown, Plus, Minus } from '@element-plus/icons-vue'
 import { inputNumberProps, inputNumberEmits } from './input-number'
 
 import type { ComponentPublicInstance } from 'vue'
 
 interface IData {
-  currentValue: number
+  currentValue: number | undefined
   userInput: null | number | string
 }
 
@@ -103,6 +107,8 @@ export default defineComponent({
       currentValue: props.modelValue,
       userInput: null,
     })
+    const { formItem } = useFormItem()
+    const ns = useNamespace('input-number')
 
     const minDisabled = computed(() => _decrease(props.modelValue) < props.min)
     const maxDisabled = computed(() => _increase(props.modelValue) > props.max)
@@ -125,14 +131,14 @@ export default defineComponent({
       return props.controls && props.controlsPosition === 'right'
     })
 
-    const { size: inputNumberSize, disabled: inputNumberDisabled } =
-      useFormItem({})
+    const inputNumberSize = useSize()
+    const inputNumberDisabled = useDisabled()
 
     const displayValue = computed(() => {
       if (data.userInput !== null) {
         return data.userInput
       }
-      let currentValue: number | string = data.currentValue
+      let currentValue: number | string | undefined = data.currentValue
       if (isNumber(currentValue)) {
         if (Number.isNaN(currentValue)) return ''
         if (props.precision !== undefined) {
@@ -187,7 +193,7 @@ export default defineComponent({
       const newVal = _decrease(value)
       setCurrentValue(newVal)
     }
-    const setCurrentValue = (newVal: number) => {
+    const setCurrentValue = (newVal: number | string) => {
       const oldVal = data.currentValue
       if (typeof newVal === 'number' && props.precision !== undefined) {
         newVal = toPrecision(newVal, props.precision)
@@ -196,19 +202,20 @@ export default defineComponent({
       if (newVal !== undefined && newVal <= props.min) newVal = props.min
       if (oldVal === newVal) return
       if (!isNumber(newVal)) {
-        newVal = NaN
+        newVal = undefined
       }
       data.userInput = null
       emit('update:modelValue', newVal)
       emit('input', newVal)
       emit('change', newVal, oldVal)
+      formItem?.validate?.('change')
       data.currentValue = newVal
     }
     const handleInput = (value: string) => {
       return (data.userInput = value)
     }
     const handleInputChange = (value: string) => {
-      const newVal = Number(value)
+      const newVal = value !== '' ? Number(value) : ''
       if ((isNumber(newVal) && !Number.isNaN(newVal)) || value === '') {
         setCurrentValue(newVal)
       }
@@ -223,12 +230,23 @@ export default defineComponent({
       input.value?.blur?.()
     }
 
+    const handleFocus = (event: MouseEvent) => {
+      emit('focus', event)
+    }
+
+    const handleBlur = (event: MouseEvent) => {
+      emit('blur', event)
+      formItem?.validate?.('blur')
+    }
+
     watch(
       () => props.modelValue,
       (value) => {
         let newVal = Number(value)
-        if (newVal !== undefined) {
-          if (isNaN(newVal)) return
+        if (value === null) {
+          newVal = Number.NaN
+        }
+        if (!isNaN(newVal)) {
           if (props.stepStrictly) {
             const stepPrecision = getPrecision(props.step)
             const precisionFactor = Math.pow(10, stepPrecision)
@@ -239,14 +257,15 @@ export default defineComponent({
           if (props.precision !== undefined) {
             newVal = toPrecision(newVal, props.precision)
           }
-        }
-        if (newVal !== undefined && newVal >= props.max) {
-          newVal = props.max
-          emit('update:modelValue', newVal)
-        }
-        if (newVal !== undefined && newVal <= props.min) {
-          newVal = props.min
-          emit('update:modelValue', newVal)
+
+          if (newVal > props.max) {
+            newVal = props.max
+            emit('update:modelValue', newVal)
+          }
+          if (newVal < props.min) {
+            newVal = props.min
+            emit('update:modelValue', newVal)
+          }
         }
         data.currentValue = newVal
         data.userInput = null
@@ -264,12 +283,16 @@ export default defineComponent({
         String(inputNumberDisabled.value)
       )
       if (!isNumber(props.modelValue)) {
-        emit('update:modelValue', Number(props.modelValue))
+        let val: number | undefined = Number(props.modelValue)
+        if (isNaN(val)) {
+          val = undefined
+        }
+        emit('update:modelValue', val)
       }
     })
     onUpdated(() => {
       const innerInput = input.value?.input
-      innerInput.setAttribute('aria-valuenow', data.currentValue)
+      innerInput?.setAttribute('aria-valuenow', data.currentValue)
     })
     return {
       input,
@@ -285,6 +308,10 @@ export default defineComponent({
       minDisabled,
       focus,
       blur,
+      handleFocus,
+      handleBlur,
+
+      ns,
     }
   },
 })

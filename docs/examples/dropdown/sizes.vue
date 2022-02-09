@@ -1,6 +1,6 @@
 <template>
-  <el-dropdown split-button type="primary">
-    Default
+  <el-dropdown size="large" split-button type="primary">
+    Large
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item>Action 1</el-dropdown-item>
@@ -11,8 +11,8 @@
     </template>
   </el-dropdown>
 
-  <el-dropdown size="medium" split-button type="primary">
-    Medium
+  <el-dropdown split-button type="primary">
+    Default
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item>Action 1</el-dropdown-item>
@@ -34,16 +34,9 @@
       </el-dropdown-menu>
     </template>
   </el-dropdown>
-
-  <el-dropdown size="mini" split-button type="primary">
-    Mini
-    <template #dropdown>
-      <el-dropdown-menu>
-        <el-dropdown-item>Action 1</el-dropdown-item>
-        <el-dropdown-item>Action 2</el-dropdown-item>
-        <el-dropdown-item>Action 3</el-dropdown-item>
-        <el-dropdown-item>Action 4</el-dropdown-item>
-      </el-dropdown-menu>
-    </template>
-  </el-dropdown>
 </template>
+<style scoped>
+.example-showcase .el-dropdown + .el-dropdown {
+  margin-left: 15px;
+}
+</style>

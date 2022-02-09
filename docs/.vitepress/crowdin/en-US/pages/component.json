@@ -3,12 +3,12 @@
     "text": "Basic",
     "children": [
       {
-        "link": "/border",
-        "text": "Border"
-      },
-      {
         "link": "/button",
         "text": "Button"
+      },
+      {
+        "link": "/border",
+        "text": "Border"
       },
       {
         "link": "/color",
@@ -220,6 +220,10 @@
         "text": "Affix"
       },
       {
+        "link": "/backtop",
+        "text": "Backtop"
+      },
+      {
         "link": "/breadcrumb",
         "text": "Breadcrumb"
       },
@@ -293,10 +297,6 @@
   "others": {
     "text": "Others",
     "children": [
-      {
-        "link": "/backtop",
-        "text": "Backtop"
-      },
       {
         "link": "/divider",
         "text": "Divider"

@@ -90,7 +90,7 @@ lang: en-US
 
 ## Controllability
 
-- **Decision making:** giving advices about operations is acceptable, but do not
+- **Decision making:** giving advice about operations is acceptable, but do not
   make decisions for the users.
 
 - **Controlled consequences:** users should be granted the freedom to operate,

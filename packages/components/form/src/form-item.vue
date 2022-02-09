@@ -53,17 +53,14 @@ import {
 } from 'vue'
 import { NOOP } from '@vue/shared'
 import AsyncValidator from 'async-validator'
-import {
-  addUnit,
-  getPropByPath,
-  useGlobalConfig,
-} from '@element-plus/utils/util'
-import { isValidComponentSize } from '@element-plus/utils/validators'
+import { addUnit, isValidComponentSize } from '@element-plus/utils-v2'
+import { getPropByPath } from '@element-plus/utils/util'
 import { elFormItemKey, elFormKey } from '@element-plus/tokens'
+import { useSize } from '@element-plus/hooks'
 import LabelWrap from './label-wrap'
 
 import type { PropType, CSSProperties } from 'vue'
-import type { ComponentSize } from '@element-plus/utils/types'
+import type { ComponentSize } from '@element-plus/constants'
 import type { ElFormContext, ValidateFieldCallback } from '@element-plus/tokens'
 import type { FormItemRule } from './form.type'
 
@@ -102,8 +99,6 @@ export default defineComponent({
     },
   },
   setup(props, { slots }) {
-    const $ELEMENT = useGlobalConfig()
-
     const elForm = inject(elFormKey, {} as ElFormContext)
     const validateState = ref('')
     const validateMessage = ref('')
@@ -196,10 +191,7 @@ export default defineComponent({
       }
       return required
     })
-    const elFormItemSize = computed(() => props.size || elForm.size)
-    const sizeClass = computed<ComponentSize>(() => {
-      return elFormItemSize.value || $ELEMENT.size
-    })
+    const sizeClass = useSize(undefined, { formItem: false })
 
     const validate = (
       trigger: string,

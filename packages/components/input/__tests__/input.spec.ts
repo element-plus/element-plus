@@ -1,7 +1,9 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { sleep, defineGetter } from '@element-plus/test-utils'
+import { defineGetter } from '@element-plus/test-utils'
 import Input from '../src/input.vue'
+
+jest.useFakeTimers()
 
 const _mount = (options) =>
   mount({
@@ -48,7 +50,7 @@ describe('Input.vue', () => {
     // expect(nativeInput.maxLength).toBe(5)  // The maxlength attribute is no longer a native attribute
 
     vm.input = 'text'
-    await sleep()
+    await nextTick()
     expect(inputElm.element.value).toBe('text')
   })
 
@@ -87,12 +89,12 @@ describe('Input.vue', () => {
       expect(elCount.text()).toBe('3 / 4')
 
       vm.inputVal = '1👌3😄'
-      await sleep()
+      await nextTick()
       expect(nativeInput.value).toBe('1👌3😄')
       expect(elCount.text()).toBe('4 / 4')
 
       vm.inputVal = '哈哈1👌3😄'
-      await sleep()
+      await nextTick()
       expect(nativeInput.value).toBe('哈哈1👌3😄')
       expect(elCount.text()).toBe('6 / 4')
       expect(vm.$el.classList.contains('is-exceed')).toBe(true)
@@ -116,7 +118,7 @@ describe('Input.vue', () => {
       expect(elCount.text()).toBe('3 / 4')
 
       vm.inputVal = '哈哈1👌3😄'
-      await sleep()
+      await nextTick()
       expect(nativeInput.value).toBe('哈哈1👌3😄')
       expect(elCount.text()).toBe('6 / 4')
       expect(vm.$el.classList.contains('is-exceed')).toBe(true)
@@ -175,10 +177,10 @@ describe('Input.vue', () => {
     })
     const vm = wrapper.vm as any
     const textarea = wrapper.find('textarea').element
-    await sleep()
+    await nextTick()
     expect(textarea.style.resize).toEqual(vm.resize)
     vm.resize = 'horizontal'
-    await sleep()
+    await nextTick()
     expect(textarea.style.resize).toEqual(vm.resize)
   })
 
@@ -201,12 +203,12 @@ describe('Input.vue', () => {
   //   })
   //   const limitSizeInput = wrapper.vm.$refs.limitSize
   //   const limitlessSizeInput = wrapper.vm.$refs.limitlessSize
-  //   await sleep()
+  //   await nextTick()
   //   expect(limitSizeInput.computedTextareaStyle.height).toEqual('117px')
   //   expect(limitlessSizeInput.computedTextareaStyle.height).toEqual('201px')
 
   //   wrapper.vm.textareaValue = ''
-  //   await sleep()
+  //   await nextTick()
   //   expect(limitSizeInput.computedTextareaStyle.height).toEqual('75px')
   //   expect(limitlessSizeInput.computedTextareaStyle.height).toEqual('33px')
   // })
@@ -224,10 +226,16 @@ describe('Input.vue', () => {
     const vm = wrapper.vm as any
     expect(vm.$el.querySelector('input').value).toEqual('123')
     vm.type = 'textarea'
-    await sleep()
+    jest.runAllTimers()
+    await nextTick()
+    await nextTick()
+
     expect(vm.$el.querySelector('textarea').value).toEqual('123')
     vm.type = 'password'
-    await sleep()
+    jest.runAllTimers()
+    await nextTick()
+    await nextTick()
+
     expect(vm.$el.querySelector('input').value).toEqual('123')
   })
 
@@ -288,11 +296,11 @@ describe('Input.vue', () => {
 
     const vm = wrapper.vm as any
     vm.show = true
-    await sleep()
+    await nextTick()
     expect(inputElm1.querySelectorAll('.el-input__count').length).toEqual(1)
 
     vm.input4 = '1'
-    await sleep()
+    await nextTick()
     expect(inputElm4.classList.contains('is-exceed')).toBe(false)
   })
 
@@ -323,7 +331,7 @@ describe('Input.vue', () => {
 
       input.select()
       selected = true
-      await sleep()
+      await nextTick()
       expect(input.selectionStart).toEqual(0)
       expect(input.selectionEnd).toEqual(testContent.length)
     })
@@ -412,10 +420,10 @@ describe('Input.vue', () => {
 
       // simplified test, component should emit change when native does
       simulateEvent('2', 'change')
-      await sleep()
+      await nextTick()
       expect(vm.val).toBe('2')
       simulateEvent('1', 'input')
-      await sleep()
+      await nextTick()
       expect(vm.val).toBe('2')
     })
 
@@ -447,9 +455,9 @@ describe('Input.vue', () => {
       const vm = wrapper.vm as any
       // focus to show clear button
       await input.trigger('focus')
-      await sleep()
+      await nextTick()
       vm.$el.querySelector('.el-input__clear').click()
-      await sleep()
+      await nextTick()
       expect(vm.input).toEqual('')
       expect(handleClear).toBeCalled()
       expect(handleInput).toBeCalled()

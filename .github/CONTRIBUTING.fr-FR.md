@@ -2,7 +2,7 @@
 
 Bonjour! Merci d'avoir choisi Element Plus.
 
-Element Plus est une bibliothèque de composants basée sur Vue 3.0 pour les développeurs, les designers et les chefs de produits.
+Element Plus est une bibliothèque de composants basée sur Vue 3 pour les développeurs, les designers et les chefs de produits.
 
 Nous sommes ravis que vous souhaitiez contribuer à Element Plus. Avant de soumettre votre contribution, veuillez vous assurer de prendre un moment pour lire les indications suivantes.
 

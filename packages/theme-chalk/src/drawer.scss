@@ -45,6 +45,12 @@ $directions: rtl, ltr, ttb, btt;
     font-size: 1rem;
   }
 
+  @include e(footer) {
+    padding: var(--el-drawer-padding-primary);
+    padding-top: 10px;
+    text-align: right;
+  }
+
   &__close-btn {
     border: none;
     cursor: pointer;
@@ -66,6 +72,7 @@ $directions: rtl, ltr, ttb, btt;
   &__body {
     flex: 1;
     padding: var(--el-drawer-padding-primary);
+    overflow: auto;
     & > * {
       box-sizing: border-box;
     }

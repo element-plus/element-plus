@@ -1,7 +1,7 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { Checked, CircleClose } from '@element-plus/icons'
-import Switch from '../src/index.vue'
+import { Checked, CircleClose } from '@element-plus/icons-vue'
+import Switch from '../src/switch.vue'
 
 jest.useFakeTimers()
 
@@ -22,6 +22,15 @@ describe('Switch.vue', () => {
     expect(coreEl.style.width).toEqual('100px')
     const leftLabelWrapper = wrapper.find('.el-switch__label--left span')
     expect(leftLabelWrapper.text()).toEqual('off')
+  })
+
+  test('size', () => {
+    const wrapper = mount(Switch, {
+      props: {
+        size: 'large',
+      },
+    })
+    expect(wrapper.find('.el-switch--large').exists()).toBe(true)
   })
 
   test('inline prompt', () => {

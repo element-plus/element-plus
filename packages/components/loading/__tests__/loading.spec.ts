@@ -1,9 +1,10 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { sleep } from '@element-plus/test-utils'
-import Loading from '../src/index'
+import { Loading } from '../src/service'
+import { vLoading } from '../src/directive'
 import ElInput from '../../input'
-import vLoading from '../src/directive'
+
+jest.useFakeTimers()
 
 function destroyLoadingInstance(loadingInstance) {
   if (!loadingInstance) return
@@ -40,8 +41,11 @@ describe('Loading', () => {
     const maskWrapper = wrapper.find('.el-loading-mask')
     expect(maskWrapper.exists()).toBeTruthy()
     vm.loading = false
+    // Trigger update event for dispatching close event.
+    await nextTick()
 
-    await sleep(100)
+    jest.runAllTimers()
+    await nextTick()
     expect(wrapper.find('.el-loading-mask').exists()).toBeFalsy()
   })
 
@@ -221,7 +225,9 @@ describe('Loading', () => {
       container.classList.contains('el-loading-parent--relative')
     ).toBeTruthy()
     loadingInstance.close()
-    await sleep(500)
+    jest.runAllTimers()
+    await nextTick()
+
     expect(
       container.classList.contains('el-loading-parent--relative')
     ).toBeFalsy()
@@ -247,13 +253,19 @@ describe('Loading', () => {
 
   test('fullscreen singleton service', async () => {
     loadingInstance = Loading({ fullscreen: true })
-    await sleep(50)
+    jest.runAllTimers()
+    await nextTick()
+
     loadingInstance2 = Loading({ fullscreen: true })
-    await sleep(500)
+    jest.runAllTimers()
+    await nextTick()
+
     let masks = document.querySelectorAll('.el-loading-mask')
     expect(masks.length).toEqual(1)
     loadingInstance2.close()
-    await sleep(500)
+    jest.runAllTimers()
+    await nextTick()
+
     masks = document.querySelectorAll('.el-loading-mask')
     expect(masks.length).toEqual(0)
   })

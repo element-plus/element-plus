@@ -5,6 +5,7 @@
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 @use './select-dropdown.scss';
+@use './select/common.scss' as *;
 
 @include b(select) {
   @include set-component-css-var('select', $select);
@@ -23,7 +24,7 @@
     );
   }
 
-  @each $size in (medium, small, mini) {
+  @each $size in (large, small) {
     @include m($size) {
       line-height: map.get($input-height, $size);
     }
@@ -33,25 +34,20 @@
     display: inline-block;
   }
 
-  &:hover {
+  &:hover:not(.#{$namespace}-select--disabled) {
     .#{$namespace}-input__inner {
       border-color: var(--el-select-border-color-hover);
     }
   }
 
-  .#{$namespace}-select__tags-text {
-    text-overflow: ellipsis;
-    display: inline-block;
-    overflow-x: hidden;
-    vertical-align: bottom;
-  }
+  @include select-common(select);
 
   .#{$namespace}-input__inner {
     cursor: pointer;
     display: inline-flex;
 
     &:focus {
-      border-color: var(--el-select-input-focus-border-color);
+      border-color: var(--el-select-input-focus-border-color) !important;
     }
   }
 
@@ -95,14 +91,13 @@
           border-color: var(--el-select-disabled-border);
         }
       }
+      & .#{$namespace}-select__caret {
+        cursor: not-allowed;
+      }
     }
 
     &.is-focus .#{$namespace}-input__inner {
-      border-color: var(--el-select-input-focus-border-color);
-    }
-
-    & .#{$namespace}-input__prefix-icon {
-      width: 25px;
+      border-color: var(--el-select-input-focus-border-color) !important;
     }
   }
 
@@ -116,9 +111,6 @@
     appearance: none;
     height: 28px;
     background-color: transparent;
-    @include when(mini) {
-      height: 14px;
-    }
   }
 
   @include e(close) {
@@ -152,26 +144,30 @@
     margin-top: -2px;
   }
 
-  .#{$namespace}-select__tags .#{$namespace}-tag {
-    box-sizing: border-box;
-    border-color: transparent;
-    margin: 2px 0 2px 6px;
-    background-color: #f0f2f5;
+  .#{$namespace}-select__tags {
+    .#{$namespace}-tag {
+      box-sizing: border-box;
+      border-color: transparent;
+      margin: 2px 0 2px 6px;
 
-    .#{$namespace}-icon-close {
-      background-color: var(--el-text-color-placeholder);
-      right: -7px;
-      top: 0;
-      color: $color-white;
+      .#{$namespace}-icon-close {
+        background-color: var(--el-text-color-placeholder);
+        right: -7px;
+        top: 0;
+        color: $color-white;
 
-      &:hover {
-        background-color: var(--el-text-color-secondary);
+        &:hover {
+          background-color: var(--el-text-color-secondary);
+        }
+
+        &::before {
+          display: block;
+          transform: translate(0, 0.5px);
+        }
       }
-
-      &::before {
-        display: block;
-        transform: translate(0, 0.5px);
-      }
+    }
+    .#{$namespace}-tag--info {
+      background-color: #f0f2f5;
     }
   }
 }

@@ -1,27 +1,24 @@
 <template>
-  <transition name="el-alert-fade">
+  <transition :name="ns.b('fade')">
     <div
       v-show="visible"
-      class="el-alert"
-      :class="[typeClass, center ? 'is-center' : '', 'is-' + effect]"
+      :class="[ns.b(), ns.m(type), ns.is('center', center), ns.is(effect)]"
       role="alert"
     >
       <el-icon
         v-if="showIcon && iconComponent"
-        class="el-alert__icon"
-        :class="isBigIcon"
+        :class="[ns.e('icon'), isBigIcon]"
       >
         <component :is="iconComponent" />
       </el-icon>
-      <div class="el-alert__content">
+      <div :class="ns.e('content')">
         <span
           v-if="title || $slots.title"
-          class="el-alert__title"
-          :class="[isBoldTitle]"
+          :class="[ns.e('title'), isBoldTitle]"
         >
           <slot name="title">{{ title }}</slot>
         </span>
-        <p v-if="$slots.default || description" class="el-alert__description">
+        <p v-if="$slots.default || description" :class="ns.e('description')">
           <slot>
             {{ description }}
           </slot>
@@ -29,12 +26,12 @@
         <template v-if="closable">
           <div
             v-if="closeText"
-            class="el-alert__closebtn is-customed"
+            :class="[ns.e('closebtn'), ns.is('customed')]"
             @click="close"
           >
             {{ closeText }}
           </div>
-          <el-icon v-else class="el-alert__closebtn" @click="close">
+          <el-icon v-else :class="ns.e('closebtn')" @click="close">
             <close />
           </el-icon>
         </template>
@@ -45,7 +42,8 @@
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
-import { TypeComponents, TypeComponentsMap } from '@element-plus/utils/icon'
+import { TypeComponents, TypeComponentsMap } from '@element-plus/utils-v2'
+import { useNamespace } from '@element-plus/hooks'
 import { alertProps, alertEmits } from './alert'
 
 export default defineComponent({
@@ -60,19 +58,20 @@ export default defineComponent({
   emits: alertEmits,
 
   setup(props, { emit, slots }) {
+    const ns = useNamespace('alert')
+
     // state
     const visible = ref(true)
 
     // computed
-    const typeClass = computed(() => `el-alert--${props.type}`)
     const iconComponent = computed(
       () => TypeComponentsMap[props.type] || TypeComponentsMap['info']
     )
     const isBigIcon = computed(() =>
-      props.description || slots.default ? 'is-big' : ''
+      props.description || slots.default ? ns.is('big') : ''
     )
     const isBoldTitle = computed(() =>
-      props.description || slots.default ? 'is-bold' : ''
+      props.description || slots.default ? ns.is('bold') : ''
     )
 
     // methods
@@ -82,8 +81,8 @@ export default defineComponent({
     }
 
     return {
+      ns,
       visible,
-      typeClass,
       iconComponent,
       isBigIcon,
       isBoldTitle,

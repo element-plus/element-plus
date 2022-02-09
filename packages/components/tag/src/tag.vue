@@ -5,19 +5,23 @@
     :style="{ backgroundColor: color }"
     @click="handleClick"
   >
-    <slot></slot>
-    <el-icon v-if="closable" class="el-tag__close" @click="handleClose">
+    <span :class="ns.e('content')">
+      <slot></slot>
+    </span>
+    <el-icon v-if="closable" :class="ns.e('close')" @click="handleClose">
       <close />
     </el-icon>
   </span>
-  <transition v-else name="el-zoom-in-center">
+  <transition v-else :name="`${ns.namespace.value}-zoom-in-center`">
     <span
       :class="classes"
       :style="{ backgroundColor: color }"
       @click="handleClick"
     >
-      <slot></slot>
-      <el-icon v-if="closable" class="el-tag__close" @click="handleClose">
+      <span :class="ns.e('content')">
+        <slot></slot>
+      </span>
+      <el-icon v-if="closable" :class="ns.e('close')" @click="handleClose">
         <close />
       </el-icon>
     </span>
@@ -27,9 +31,9 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
 import ElIcon from '@element-plus/components/icon'
-import { useGlobalConfig } from '@element-plus/utils/util'
-import { Close } from '@element-plus/icons'
+import { Close } from '@element-plus/icons-vue'
 
+import { useSize, useNamespace } from '@element-plus/hooks'
 import { tagProps, tagEmits } from './tag'
 
 export default defineComponent({
@@ -41,17 +45,17 @@ export default defineComponent({
   emits: tagEmits,
 
   setup(props, { emit }) {
-    const ELEMENT = useGlobalConfig()
-
-    const tagSize = computed(() => props.size || ELEMENT.size)
+    const tagSize = useSize()
+    const ns = useNamespace('tag')
     const classes = computed(() => {
-      const { type, hit, effect } = props
+      const { type, hit, effect, closable } = props
       return [
-        'el-tag',
-        type ? `el-tag--${type}` : '',
-        tagSize.value ? `el-tag--${tagSize.value}` : '',
-        effect ? `el-tag--${effect}` : '',
-        hit && 'is-hit',
+        ns.b(),
+        ns.is('closable', closable),
+        ns.m(type),
+        ns.m(tagSize.value),
+        ns.m(effect),
+        ns.is('hit', hit),
       ]
     })
 
@@ -66,6 +70,7 @@ export default defineComponent({
     }
 
     return {
+      ns,
       classes,
       handleClose,
       handleClick,

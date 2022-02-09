@@ -4,12 +4,16 @@ import { getPackageDependencies } from './pkg'
 import type { OutputOptions, RollupBuild } from 'rollup'
 
 export const generateExternal = async (options: { full: boolean }) => {
+  const { dependencies, peerDependencies } = await getPackageDependencies(
+    epPackage
+  )
+
   return (id: string) => {
-    const packages: string[] = ['vue']
+    const packages: string[] = peerDependencies
     if (!options.full) {
       packages.push('element-plus/theme-chalk')
       // dependencies
-      packages.push('@vue', ...getPackageDependencies(epPackage))
+      packages.push('@vue', ...dependencies)
     }
 
     return [...new Set(packages)].some(
@@ -20,4 +24,12 @@ export const generateExternal = async (options: { full: boolean }) => {
 
 export function writeBundles(bundle: RollupBuild, options: OutputOptions[]) {
   return Promise.all(options.map((option) => bundle.write(option)))
+}
+
+export function formatBundleFilename(
+  name: string,
+  minify: boolean,
+  ext: string
+) {
+  return `${name}${minify ? '.min' : ''}.${ext}`
 }

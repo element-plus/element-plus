@@ -155,11 +155,7 @@
           />
         </div>
         <div
-          class="
-            el-picker-panel__content
-            el-date-range-picker__content
-            is-right
-          "
+          class="el-picker-panel__content el-date-range-picker__content is-right"
         >
           <div class="el-date-range-picker__header">
             <button
@@ -216,7 +212,7 @@
     <div v-if="showTime" class="el-picker-panel__footer">
       <el-button
         v-if="clearable"
-        size="mini"
+        size="small"
         type="text"
         class="el-picker-panel__link-btn"
         @click="handleClear"
@@ -225,7 +221,7 @@
       </el-button>
       <el-button
         plain
-        size="mini"
+        size="small"
         class="el-picker-panel__link-btn"
         :disabled="btnDisabled"
         @click="handleConfirm(false)"
@@ -237,11 +233,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, ref, watch } from 'vue'
+import { computed, defineComponent, inject, ref, watch, toRef } from 'vue'
 import dayjs from 'dayjs'
 import ElButton from '@element-plus/components/button'
 import { ClickOutside } from '@element-plus/directives'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import {
   extractDateFormat,
@@ -249,13 +245,13 @@ import {
   TimePickPanel,
 } from '@element-plus/components/time-picker'
 import ElIcon from '@element-plus/components/icon'
-import { isValidDatePickType } from '@element-plus/utils/validators'
+import { isValidDatePickType } from '@element-plus/utils-v2'
 import {
   DArrowLeft,
   ArrowLeft,
   DArrowRight,
   ArrowRight,
-} from '@element-plus/icons'
+} from '@element-plus/icons-vue'
 import DateTable from './basic-date-table.vue'
 
 import type { PropType } from 'vue'
@@ -289,10 +285,10 @@ export default defineComponent({
     },
   },
 
-  emits: ['pick', 'set-picker-option', 'calendar-change'],
+  emits: ['pick', 'set-picker-option', 'calendar-change', 'panel-change'],
 
   setup(props, ctx) {
-    const { t, lang } = useLocaleInject()
+    const { t, lang } = useLocale()
     const leftDate = ref(dayjs().locale(lang.value))
     const rightDate = ref(dayjs().locale(lang.value).add(1, 'month'))
     const minDate = ref(null)
@@ -376,6 +372,7 @@ export default defineComponent({
       if (!props.unlinkPanels) {
         rightDate.value = leftDate.value.add(1, 'month')
       }
+      handlePanelChange('year')
     }
 
     const leftPrevMonth = () => {
@@ -383,6 +380,7 @@ export default defineComponent({
       if (!props.unlinkPanels) {
         rightDate.value = leftDate.value.add(1, 'month')
       }
+      handlePanelChange('month')
     }
 
     const rightNextYear = () => {
@@ -392,6 +390,7 @@ export default defineComponent({
       } else {
         rightDate.value = rightDate.value.add(1, 'year')
       }
+      handlePanelChange('year')
     }
 
     const rightNextMonth = () => {
@@ -401,22 +400,35 @@ export default defineComponent({
       } else {
         rightDate.value = rightDate.value.add(1, 'month')
       }
+      handlePanelChange('month')
     }
 
     const leftNextYear = () => {
       leftDate.value = leftDate.value.add(1, 'year')
+      handlePanelChange('year')
     }
 
     const leftNextMonth = () => {
       leftDate.value = leftDate.value.add(1, 'month')
+      handlePanelChange('month')
     }
 
     const rightPrevYear = () => {
       rightDate.value = rightDate.value.subtract(1, 'year')
+      handlePanelChange('year')
     }
 
     const rightPrevMonth = () => {
       rightDate.value = rightDate.value.subtract(1, 'month')
+      handlePanelChange('month')
+    }
+
+    const handlePanelChange = (mode: 'month' | 'year') => {
+      ctx.emit(
+        'panel-change',
+        [leftDate.value.toDate(), rightDate.value.toDate()],
+        mode
+      )
     }
 
     const enableMonthArrow = computed(() => {
@@ -674,15 +686,15 @@ export default defineComponent({
 
     const getDefaultValue = () => {
       let start: Dayjs
-      if (Array.isArray(defaultValue)) {
-        const left = dayjs(defaultValue[0])
-        let right = dayjs(defaultValue[1])
+      if (Array.isArray(defaultValue.value)) {
+        const left = dayjs(defaultValue.value[0])
+        let right = dayjs(defaultValue.value[1])
         if (!props.unlinkPanels) {
           right = left.add(1, 'month')
         }
         return [left, right]
-      } else if (defaultValue) {
-        start = dayjs(defaultValue)
+      } else if (defaultValue.value) {
+        start = dayjs(defaultValue.value)
       } else {
         start = dayjs()
       }
@@ -703,10 +715,24 @@ export default defineComponent({
       cellClassName,
       format,
       defaultTime,
-      defaultValue,
       arrowControl,
       clearable,
     } = pickerBase.props
+    const defaultValue = toRef(pickerBase.props, 'defaultValue')
+
+    watch(
+      () => defaultValue.value,
+      (val) => {
+        if (val) {
+          const defaultArr = getDefaultValue()
+          minDate.value = null
+          maxDate.value = null
+          leftDate.value = defaultArr[0]
+          rightDate.value = defaultArr[1]
+        }
+      },
+      { immediate: true }
+    )
 
     watch(
       () => props.parsedValue,

@@ -2,18 +2,18 @@
   <div
     v-show="type !== 'hidden'"
     :class="[
-      type === 'textarea' ? 'el-textarea' : 'el-input',
-      inputSize ? 'el-input--' + inputSize : '',
+      type === 'textarea' ? nsTextarea.b() : nsInput.b(),
+      nsInput.m(inputSize),
+      nsInput.is('disabled', inputDisabled),
+      nsInput.is('exceed', inputExceed),
       {
-        'is-disabled': inputDisabled,
-        'is-exceed': inputExceed,
-        'el-input-group': $slots.prepend || $slots.append,
-        'el-input-group--append': $slots.append,
-        'el-input-group--prepend': $slots.prepend,
-        'el-input--prefix': $slots.prefix || prefixIcon,
-        'el-input--suffix':
+        [nsInput.b('group')]: $slots.prepend || $slots.append,
+        [nsInput.bm('group', 'append')]: $slots.append,
+        [nsInput.bm('group', 'prepend')]: $slots.prepend,
+        [nsInput.m('prefix')]: $slots.prefix || prefixIcon,
+        [nsInput.m('suffix')]:
           $slots.suffix || suffixIcon || clearable || showPassword,
-        'el-input--suffix--password-clear': clearable && showPassword,
+        [nsInput.m('suffix--password-clear')]: clearable && showPassword,
       },
       $attrs.class,
     ]"
@@ -24,13 +24,13 @@
     <!-- input -->
     <template v-if="type !== 'textarea'">
       <!-- prepend slot -->
-      <div v-if="$slots.prepend" class="el-input-group__prepend">
+      <div v-if="$slots.prepend" :class="nsInput.be('group', 'prepend')">
         <slot name="prepend" />
       </div>
 
       <input
         ref="input"
-        class="el-input__inner"
+        :class="nsInput.e('inner')"
         v-bind="attrs"
         :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
         :disabled="inputDisabled"
@@ -51,27 +51,27 @@
       />
 
       <!-- prefix slot -->
-      <span v-if="$slots.prefix || prefixIcon" class="el-input__prefix">
-        <span class="el-input__prefix-inner">
+      <span v-if="$slots.prefix || prefixIcon" :class="nsInput.e('prefix')">
+        <span :class="nsInput.e('prefix-inner')">
           <slot name="prefix"></slot>
-          <el-icon v-if="prefixIcon" class="el-input__icon">
+          <el-icon v-if="prefixIcon" :class="nsInput.e('icon')">
             <component :is="prefixIcon" />
           </el-icon>
         </span>
       </span>
 
       <!-- suffix slot -->
-      <span v-if="suffixVisible" class="el-input__suffix">
-        <span class="el-input__suffix-inner">
+      <span v-if="suffixVisible" :class="nsInput.e('suffix')">
+        <span :class="nsInput.e('suffix-inner')">
           <template v-if="!showClear || !showPwdVisible || !isWordLimitVisible">
             <slot name="suffix"></slot>
-            <el-icon v-if="suffixIcon" class="el-input__icon">
+            <el-icon v-if="suffixIcon" :class="nsInput.e('icon')">
               <component :is="suffixIcon" />
             </el-icon>
           </template>
           <el-icon
             v-if="showClear"
-            class="el-input__icon el-input__clear"
+            :class="[nsInput.e('icon'), nsInput.e('clear')]"
             @mousedown.prevent
             @click="clear"
           >
@@ -79,27 +79,27 @@
           </el-icon>
           <el-icon
             v-if="showPwdVisible"
-            class="el-input__icon el-input__clear"
+            :class="[nsInput.e('icon'), nsInput.e('clear')]"
             @click="handlePasswordVisible"
           >
             <icon-view />
           </el-icon>
-          <span v-if="isWordLimitVisible" class="el-input__count">
-            <span class="el-input__count-inner">
+          <span v-if="isWordLimitVisible" :class="nsInput.e('count')">
+            <span :class="nsInput.e('count-inner')">
               {{ textLength }} / {{ attrs.maxlength }}
             </span>
           </span>
         </span>
         <el-icon
-          v-if="validateState && validateIcon"
-          class="el-input__icon el-input__validateIcon"
+          v-if="validateState && validateIcon && needStatusIcon"
+          :class="[nsInput.e('icon'), nsInput.e('validateIcon')]"
         >
           <component :is="validateIcon" />
         </el-icon>
       </span>
 
       <!-- append slot -->
-      <div v-if="$slots.append" class="el-input-group__append">
+      <div v-if="$slots.append" :class="nsInput.be('group', 'append')">
         <slot name="append" />
       </div>
     </template>
@@ -108,7 +108,7 @@
     <template v-else>
       <textarea
         ref="textarea"
-        class="el-textarea__inner"
+        :class="nsTextarea.e('inner')"
         v-bind="attrs"
         :tabindex="tabindex"
         :disabled="inputDisabled"
@@ -126,7 +126,7 @@
         @change="handleChange"
         @keydown="handleKeydown"
       />
-      <span v-if="isWordLimitVisible" class="el-input__count">
+      <span v-if="isWordLimitVisible" :class="nsInput.e('count')">
         {{ textLength }} / {{ attrs.maxlength }}
       </span>
     </template>
@@ -136,7 +136,6 @@
 <script lang="ts">
 import {
   defineComponent,
-  inject,
   computed,
   watch,
   nextTick,
@@ -146,19 +145,26 @@ import {
   onMounted,
   onUpdated,
 } from 'vue'
+import { isClient } from '@vueuse/core'
 import { ElIcon } from '@element-plus/components/icon'
-import { CircleClose, View as IconView } from '@element-plus/icons'
-import { ValidateComponentsMap } from '@element-plus/utils/icon'
-import { elFormKey, elFormItemKey } from '@element-plus/tokens'
-import { useAttrs, useFormItem } from '@element-plus/hooks'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { isObject } from '@element-plus/utils/util'
-import isServer from '@element-plus/utils/isServer'
-import { isKorean } from '@element-plus/utils/isDef'
+import { CircleClose, View as IconView } from '@element-plus/icons-vue'
+import {
+  ValidateComponentsMap,
+  isObject,
+  isKorean,
+} from '@element-plus/utils-v2'
+import {
+  useAttrs,
+  useDisabled,
+  useFormItem,
+  useSize,
+  useNamespace,
+} from '@element-plus/hooks'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { calcTextareaHeight } from './calc-textarea-height'
 import { inputProps, inputEmits } from './input'
 
-import type { StyleValue } from '@element-plus/utils/types'
+import type { StyleValue } from 'vue'
 
 type TargetElement = HTMLInputElement | HTMLTextAreaElement
 
@@ -181,10 +187,11 @@ export default defineComponent({
     const instance = getCurrentInstance()!
     const attrs = useAttrs()
 
-    const elForm = inject(elFormKey, undefined)
-    const elFormItem = inject(elFormItemKey, undefined)
-
-    const { size: inputSize, disabled: inputDisabled } = useFormItem({})
+    const { form, formItem } = useFormItem()
+    const inputSize = useSize()
+    const inputDisabled = useDisabled()
+    const nsInput = useNamespace('input')
+    const nsTextarea = useNamespace('textarea')
 
     const input = ref<HTMLInputElement>()
     const textarea = ref<HTMLTextAreaElement>()
@@ -196,8 +203,8 @@ export default defineComponent({
 
     const inputOrTextarea = computed(() => input.value || textarea.value)
 
-    const needStatusIcon = computed(() => elForm?.statusIcon ?? false)
-    const validateState = computed(() => elFormItem?.validateState || '')
+    const needStatusIcon = computed(() => form?.statusIcon ?? false)
+    const validateState = computed(() => formItem?.validateState || '')
     const validateIcon = computed(
       () => ValidateComponentsMap[validateState.value]
     )
@@ -247,7 +254,7 @@ export default defineComponent({
     const resizeTextarea = () => {
       const { type, autosize } = props
 
-      if (isServer || type !== 'textarea') return
+      if (!isClient || type !== 'textarea') return
 
       if (autosize) {
         const minRows = isObject(autosize) ? autosize.minRows : undefined
@@ -272,7 +279,7 @@ export default defineComponent({
       const { el } = instance.vnode
       if (!el) return
       const elList: HTMLSpanElement[] = Array.from(
-        el.querySelectorAll(`.el-input__${place}`)
+        el.querySelectorAll(`.${nsInput.e(place)}`)
       )
       const target = elList.find((item) => item.parentNode === el)
 
@@ -282,7 +289,7 @@ export default defineComponent({
 
       if (slots[pendant]) {
         target.style.transform = `translateX(${place === 'suffix' ? '-' : ''}${
-          el.querySelector(`.el-input-group__${pendant}`).offsetWidth
+          el.querySelector(`.${nsInput.be('group', pendant)}`).offsetWidth
         }px)`
       } else {
         target.removeAttribute('style')
@@ -337,7 +344,7 @@ export default defineComponent({
       focused.value = false
       emit('blur', event)
       if (props.validateEvent) {
-        elFormItem?.validate?.('blur')
+        formItem?.validate?.('blur')
       }
     }
 
@@ -392,7 +399,7 @@ export default defineComponent({
       () => {
         nextTick(resizeTextarea)
         if (props.validateEvent) {
-          elFormItem?.validate?.('change')
+          formItem?.validate?.('change')
         }
       }
     )
@@ -459,6 +466,7 @@ export default defineComponent({
       passwordVisible,
       inputOrTextarea,
       suffixVisible,
+      needStatusIcon,
 
       resizeTextarea,
       handleInput,
@@ -476,6 +484,9 @@ export default defineComponent({
       onMouseLeave,
       onMouseEnter,
       handleKeydown,
+
+      nsInput,
+      nsTextarea,
     }
   },
 })

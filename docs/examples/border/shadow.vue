@@ -13,31 +13,25 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      shadowGroup: [
-        {
-          name: 'Basic Shadow',
-          type: 'base',
-        },
-        {
-          name: 'Light Shadow',
-          type: 'light',
-        },
-      ],
-    }
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const shadowGroup = ref([
+  {
+    name: 'Basic Shadow',
+    type: 'base',
   },
-  methods: {
-    getValue(type) {
-      const getCssVarValue = (prefix, type) =>
-        getComputedStyle(document.documentElement).getPropertyValue(
-          `--el-${prefix}-${type}`
-        )
-      return getCssVarValue('box-shadow', type)
-    },
+  {
+    name: 'Light Shadow',
+    type: 'light',
   },
+])
+const getValue = (type: string) => {
+  const getCssVarValue = (prefix, type) =>
+    getComputedStyle(document.documentElement).getPropertyValue(
+      `--el-${prefix}-${type}`
+    )
+  return getCssVarValue('box-shadow', type)
 }
 </script>
 <style scoped>

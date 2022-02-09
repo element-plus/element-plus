@@ -1,6 +1,6 @@
 import { ref, watch } from 'vue'
 import { NOOP } from '@vue/shared'
-import cloneDeep from 'lodash/cloneDeep'
+import { cloneDeep } from 'lodash-unified'
 
 // Inline types
 import type {
@@ -34,9 +34,11 @@ export default (props: IUseHandlersProps) => {
     uploadRef.value.abort(file)
   }
 
-  function clearFiles(status: UploadStatus[] = ['success', 'fail']) {
+  function clearFiles(
+    status: UploadStatus[] = ['ready', 'uploading', 'success', 'fail']
+  ) {
     uploadFiles.value = uploadFiles.value.filter((row) => {
-      return status.indexOf(row.status) === -1
+      return !status.includes(row.status)
     })
   }
 

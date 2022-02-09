@@ -18,14 +18,13 @@
     </template>
   </el-dialog>
 </template>
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    return {
-      centerDialogVisible: ref(false),
-    }
-  },
-})
+const centerDialogVisible = ref(false)
 </script>
+<style scoped>
+.dialog-footer button:first-child {
+  margin-right: 10px;
+}
+</style>

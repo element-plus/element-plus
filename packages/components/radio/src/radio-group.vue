@@ -21,7 +21,7 @@ import {
   watch,
 } from 'vue'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { radioGroupKey } from '@element-plus/tokens'
 import { useFormItem } from '@element-plus/hooks'
 import { radioGroupEmits, radioGroupProps } from './radio-group'
@@ -34,7 +34,7 @@ export default defineComponent({
 
   setup(props, ctx) {
     const radioGroupRef = ref<HTMLDivElement>()
-    const { size, disabled, formItem } = useFormItem({})
+    const { formItem } = useFormItem()
 
     const changeEvent = (value: RadioGroupProps['modelValue']) => {
       ctx.emit(UPDATE_MODEL_EVENT, value)
@@ -100,8 +100,6 @@ export default defineComponent({
     )
 
     return {
-      size,
-      disabled,
       radioGroupRef,
       handleKeydown,
     }

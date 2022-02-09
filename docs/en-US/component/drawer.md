@@ -13,36 +13,11 @@ Since v-model is natively supported for all components, `visible.sync` has been 
 
 :::
 
-<style lang="scss" scoped>
-.example-showcase {
-  &__content {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    form {
-      flex: 1;
-    }
-  }
-
-  &__footer {
-    display: flex;
-    button {
-      flex: 1;
-    }
-  }
-}
-
-.el-drawer__body {
-  padding: 20px;
-}
-
-</style>
-
 ## Basic Usage
 
 Callout a temporary drawer, from multiple direction
 
-:::demo You must set `model-value` for `Drawer` like `Dialog` does to control the visibility of `Drawer` itself, it's `boolean` type. `Drawer` has to parts: `title` & `body`, the `title` is a named slot, you can also set the title through attribute named `title`, default to an empty string, the `body` part is the main area of `Drawer`, which contains user defined content. When opening, `Drawer` expand itself from the **right corner to left** which size is **30%** of the browser window by default. You can change that default behavior by setting `direction` and `size` attribute. This show case also demonstrated how to use the `before-close` API, check the Attribute section for more detail
+:::demo You must set `model-value` for `Drawer` like `Dialog` does to control the visibility of `Drawer` itself, it's `boolean` type. `Drawer` has three parts: `title` & `body` & `footer`, the `title` is a named slot, you can also set the title through attribute named `title`, default to an empty string, the `body` part is the main area of `Drawer`, which contains user defined content. When opening, `Drawer` expand itself from the **right corner to left** which size is **30%** of the browser window by default. You can change that default behavior by setting `direction` and `size` attribute. This show case also demonstrated how to use the `before-close` API, check the Attribute section for more detail
 
 drawer/basic-usage
 
@@ -115,10 +90,11 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 
 ## Drawer Slots
 
-| Name  | Description          |
-| ----- | -------------------- |
-| —     | Drawer's Content     |
-| title | Drawer Title Section |
+| Name   | Description           |
+| ------ | --------------------- |
+| —      | Drawer's Content      |
+| title  | Drawer Title Section  |
+| footer | Drawer footer Section |
 
 ## Drawer Methods
 

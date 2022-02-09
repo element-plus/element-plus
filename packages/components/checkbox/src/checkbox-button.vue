@@ -1,11 +1,11 @@
 <template>
   <label
-    class="el-checkbox-button"
     :class="[
-      size ? 'el-checkbox-button--' + size : '',
-      { 'is-disabled': isDisabled },
-      { 'is-checked': isChecked },
-      { 'is-focus': focus },
+      ns.b('button'),
+      ns.bm('button', size),
+      ns.is('disabled', isDisabled),
+      ns.is('checked', isChecked),
+      ns.is('focus', focus),
     ]"
     role="checkbox"
     :aria-checked="isChecked"
@@ -14,7 +14,7 @@
     <input
       v-if="trueLabel || falseLabel"
       v-model="model"
-      class="el-checkbox-button__original"
+      :class="ns.be('button', 'original')"
       type="checkbox"
       :name="name"
       :tabindex="tabindex"
@@ -28,7 +28,7 @@
     <input
       v-else
       v-model="model"
-      class="el-checkbox-button__original"
+      :class="ns.be('button', 'original')"
       type="checkbox"
       :name="name"
       :tabindex="tabindex"
@@ -41,7 +41,7 @@
 
     <span
       v-if="$slots.default || label"
-      class="el-checkbox-button__inner"
+      :class="ns.be('button', 'inner')"
       :style="isChecked ? activeStyle : null"
     >
       <slot>{{ label }}</slot>
@@ -50,7 +50,8 @@
 </template>
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { useNamespace } from '@element-plus/hooks'
 import { useCheckbox, useCheckboxGroup, useCheckboxProps } from './useCheckbox'
 
 export default defineComponent({
@@ -61,6 +62,7 @@ export default defineComponent({
     const { focus, isChecked, isDisabled, size, model, handleChange } =
       useCheckbox(props)
     const { checkboxGroup } = useCheckboxGroup()
+    const ns = useNamespace('checkbox')
 
     const activeStyle = computed(() => {
       const fillValue = checkboxGroup?.fill?.value ?? ''
@@ -80,6 +82,7 @@ export default defineComponent({
       handleChange,
       activeStyle,
       size,
+      ns,
     }
   },
 })

@@ -35,6 +35,13 @@
     margin: 0;
   }
 
+  @include when(draggable) {
+    @include e(header) {
+      cursor: move;
+      user-select: none;
+    }
+  }
+
   @include e(header) {
     padding: var(--el-dialog-padding-primary);
     padding-bottom: 10px;

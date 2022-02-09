@@ -1,7 +1,9 @@
-import { isValidWidthUnit } from '@element-plus/utils/validators'
-import { buildProps, definePropType } from '@element-plus/utils/props'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-
+import {
+  buildProps,
+  definePropType,
+  iconPropType,
+} from '@element-plus/utils-v2'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import type { ExtractPropTypes } from 'vue'
 
 export const dialogProps = buildProps({
@@ -24,6 +26,10 @@ export const dialogProps = buildProps({
     type: String,
     default: '',
   },
+  closeIcon: {
+    type: iconPropType,
+    default: '',
+  },
   closeOnClickModal: {
     type: Boolean,
     default: true,
@@ -33,6 +39,10 @@ export const dialogProps = buildProps({
     default: true,
   },
   fullscreen: {
+    type: Boolean,
+    default: false,
+  },
+  draggable: {
     type: Boolean,
     default: false,
   },
@@ -70,7 +80,6 @@ export const dialogProps = buildProps({
   modalClass: String,
   width: {
     type: [String, Number],
-    validator: isValidWidthUnit,
   },
   zIndex: {
     type: Number,

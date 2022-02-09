@@ -1,6 +1,6 @@
 import type { InjectionKey } from 'vue'
 import type { ValidateFieldsError } from 'async-validator'
-import type { ComponentSize } from '@element-plus/utils/types'
+import type { ComponentSize } from '@element-plus/constants'
 
 export interface ElFormContext {
   registerLabelWidth(width: number, oldWidth: number): void
@@ -16,7 +16,7 @@ export interface ElFormContext {
   inline?: boolean
   inlineMessage?: boolean
   model?: Record<string, unknown>
-  size?: string
+  size?: ComponentSize
   showMessage?: boolean
   labelPosition?: string
   labelWidth?: string | number

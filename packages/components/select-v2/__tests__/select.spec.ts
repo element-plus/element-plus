@@ -2,8 +2,10 @@ import { nextTick } from 'vue'
 import { NOOP } from '@vue/shared'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { makeMountFunc } from '@element-plus/test-utils/make-mount'
-import { CircleClose } from '@element-plus/icons'
+import { rAF } from '@element-plus/test-utils/tick'
+import { CircleClose } from '@element-plus/icons-vue'
 import { hasClass } from '@element-plus/utils/dom'
+import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
 import Select from '../src/select.vue'
 
 jest.useFakeTimers()
@@ -94,7 +96,9 @@ const createSelect = (
         :placeholder="placeholder"
         :allow-create="allowCreate"
         :remote="remote"
+        :reserve-keyword="reserveKeyword"
         :scrollbar-always-on="scrollbarAlwaysOn"
+        :teleported="teleported"
         ${
           options.methods && options.methods.filterMethod
             ? `:filter-method="filterMethod"`
@@ -128,8 +132,8 @@ const createSelect = (
           multiple: false,
           remote: false,
           filterable: false,
+          reserveKeyword: false,
           multipleLimit: 0,
-          popperAppendToBody: true,
           placeholder: DEFAULT_PLACEHOLDER,
           scrollbarAlwaysOn: false,
           ...(options.data && options.data()),
@@ -542,6 +546,69 @@ describe('Select', () => {
     })
   })
 
+  describe('manually set modelValue', () => {
+    it('set modelValue in single select', async () => {
+      const wrapper = createSelect({
+        data: () => {
+          return {
+            value: '',
+          }
+        },
+      })
+      await nextTick()
+      const options = getOptions()
+      const vm = wrapper.vm as any
+      const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
+
+      expect(vm.value).toBe('')
+      expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
+
+      options[0].click()
+      await nextTick()
+      expect(vm.value).toBe(vm.options[0].value)
+      expect(placeholder.text()).toBe(vm.options[0].label)
+      const option = vm.options[0].value
+      console.log(option)
+
+      vm.value = ''
+      await nextTick()
+      expect(vm.value).toBe('')
+      expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
+
+      vm.value = option
+      await nextTick()
+      expect(vm.value).toBe('option_1')
+      expect(placeholder.text()).toBe('a0')
+    })
+
+    it('set modelValue in multiple select', async () => {
+      const wrapper = createSelect({
+        data: () => {
+          return {
+            multiple: true,
+            value: [],
+          }
+        },
+      })
+      await nextTick()
+      const vm = wrapper.vm as any
+      let placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
+      expect(placeholder.exists()).toBeTruthy()
+
+      vm.value = ['option_1']
+      await nextTick()
+      expect(wrapper.find('.el-select-v2__tags-text').text()).toBe('a0')
+      placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
+      expect(placeholder.exists()).toBeFalsy()
+
+      vm.value = []
+      await nextTick()
+      expect(wrapper.find('.el-select-v2__tags-text').exists()).toBeFalsy()
+      placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
+      expect(placeholder.exists()).toBeTruthy()
+    })
+  })
+
   describe('event', () => {
     it('focus & blur', async () => {
       const onFocus = jest.fn()
@@ -657,6 +724,7 @@ describe('Select', () => {
       const selectVm = select.vm as any
       selectVm.expanded = true
       await nextTick()
+      await rAF()
       const vm = wrapper.vm as any
       const input = wrapper.find('input')
       // create a new option
@@ -669,8 +737,10 @@ describe('Select', () => {
       expect(vm.value).toBe('1111')
       selectVm.expanded = false
       await nextTick()
+      await rAF()
       selectVm.expanded = true
       await nextTick()
+      await rAF()
       expect(selectVm.filteredOptions.length).toBe(4)
       selectVm.handleClear()
       expect(selectVm.filteredOptions.length).toBe(3)
@@ -734,6 +804,70 @@ describe('Select', () => {
     })
   })
 
+  it('reserve-keyword', async () => {
+    const wrapper = createSelect({
+      data: () => {
+        return {
+          filterable: true,
+          clearable: true,
+          multiple: true,
+          reserveKeyword: true,
+          options: [
+            {
+              value: 'a1',
+              label: 'a1',
+            },
+            {
+              value: 'b1',
+              label: 'b1',
+            },
+            {
+              value: 'a2',
+              label: 'a2',
+            },
+            {
+              value: 'b2',
+              label: 'b2',
+            },
+          ],
+        }
+      },
+    })
+    await nextTick()
+    const vm = wrapper.vm as any
+    await nextTick()
+    await wrapper.trigger('click')
+    const input = wrapper.find('input')
+
+    input.element.value = 'a'
+    await input.trigger('input')
+    await nextTick()
+    let options = getOptions()
+    expect(options.length).toBe(2)
+    options[0].click()
+    await nextTick()
+    options = getOptions()
+    expect(options.length).toBe(2)
+
+    input.element.value = ''
+    await input.trigger('input')
+    await nextTick()
+    options = getOptions()
+    expect(options.length).toBe(4)
+
+    vm.reserveKeyword = false
+    await nextTick()
+    input.element.value = 'a'
+    await input.trigger('input')
+    await nextTick()
+    options = getOptions()
+    expect(options.length).toBe(2)
+    options[0].click()
+    await nextTick()
+    options = getOptions()
+    expect(options.length).toBe(4)
+  })
+
   it('render empty slot', async () => {
     const wrapper = createSelect({
       data() {
@@ -747,7 +881,14 @@ describe('Select', () => {
       },
     })
     await nextTick()
-    expect(wrapper.find('.empty-slot').exists()).toBeTruthy()
+    expect(
+      wrapper
+        .findComponent({
+          name: 'ElPopperContent',
+        })
+        .find('.empty-slot')
+        .exists()
+    ).toBeTruthy()
   })
 
   it('should set placeholder to label of selected option when filterable is true and multiple is false', async () => {
@@ -861,7 +1002,13 @@ describe('Select', () => {
       },
     })
     await nextTick()
-    expect(wrapper.findAll('.custom-renderer').length).toBeGreaterThan(0)
+    expect(
+      wrapper
+        .findComponent({
+          name: 'ElPopperContent',
+        })
+        .findAll('.custom-renderer').length
+    ).toBeGreaterThan(0)
   })
 
   it('tag of disabled option is not closable', async () => {
@@ -1215,6 +1362,87 @@ describe('Select', () => {
       const box = document.querySelector<HTMLElement>('.el-vl__wrapper')
       expect(hasClass(box, 'always-on')).toBe(true)
       done()
+    })
+  })
+
+  describe('teleported API', () => {
+    it('should mount on popper container', async () => {
+      expect(document.body.innerHTML).toBe('')
+      createSelect({
+        data() {
+          return {
+            options: [
+              {
+                value: '选项1',
+                label:
+                  '黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕',
+              },
+              {
+                value: '选项2',
+                label:
+                  '双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶',
+              },
+              {
+                value: '选项3',
+                label: '蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎',
+              },
+              {
+                value: '选项4',
+                label: '龙须面',
+              },
+              {
+                value: '选项5',
+                label: '北京烤鸭',
+              },
+            ],
+          }
+        },
+      })
+
+      await nextTick()
+      expect(
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+      ).not.toBe('')
+    })
+
+    it('should not mount on the popper container', async () => {
+      expect(document.body.innerHTML).toBe('')
+      createSelect({
+        data() {
+          return {
+            teleported: false,
+            options: [
+              {
+                value: '选项1',
+                label:
+                  '黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕',
+              },
+              {
+                value: '选项2',
+                label:
+                  '双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶',
+              },
+              {
+                value: '选项3',
+                label: '蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎',
+              },
+              {
+                value: '选项4',
+                label: '龙须面',
+              },
+              {
+                value: '选项5',
+                label: '北京烤鸭',
+              },
+            ],
+          }
+        },
+      })
+
+      await nextTick()
+      expect(
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+      ).toBe('')
     })
   })
 })

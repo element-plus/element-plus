@@ -1,7 +1,7 @@
 import { ref, nextTick, h } from 'vue'
 import { mount } from '@vue/test-utils'
 
-import useTeleport from '../use-teleport'
+import { useTeleport } from '../use-teleport'
 
 const AXIOM = 'Rem is the best girl'
 

@@ -1,5 +1,5 @@
 <template>
-  <el-tabs type="border-card">
+  <el-tabs type="border-card" class="demo-tabs">
     <el-tab-pane>
       <template #label>
         <span>
@@ -15,5 +15,14 @@
 </template>
 
 <script lang="ts" setup>
-import { Calendar } from '@element-plus/icons'
+import { Calendar } from '@element-plus/icons-vue'
 </script>
+<style>
+.demo-tabs > .el-tabs__content {
+  padding: 32px;
+  background-color: #f4f5f7;
+  color: #6b778c;
+  font-size: 32px;
+  font-weight: 600;
+}
+</style>

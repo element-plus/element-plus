@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import useTimeout from '../use-timeout'
+import { useTimeout } from '../use-timeout'
 
 const _mount = (cb: () => void) => {
   return mount({

@@ -24,46 +24,59 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const state = reactive({
-      shortcuts: [
-        {
-          text: 'Last week',
-          value: () => {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-            return [start, end]
-          },
-        },
-        {
-          text: 'Last month',
-          value: () => {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-            return [start, end]
-          },
-        },
-        {
-          text: 'Last 3 months',
-          value: () => {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-            return [start, end]
-          },
-        },
-      ],
-      value1: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
-      value2: '',
-    })
+const value1 = ref([
+  new Date(2000, 10, 10, 10, 10),
+  new Date(2000, 10, 11, 10, 10),
+])
+const value2 = ref('')
 
-    return toRefs(state)
+const shortcuts = [
+  {
+    text: 'Last week',
+    value: () => {
+      const end = new Date()
+      const start = new Date()
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+      return [start, end]
+    },
   },
-})
+  {
+    text: 'Last month',
+    value: () => {
+      const end = new Date()
+      const start = new Date()
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+      return [start, end]
+    },
+  },
+  {
+    text: 'Last 3 months',
+    value: () => {
+      const end = new Date()
+      const start = new Date()
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+      return [start, end]
+    },
+  },
+]
 </script>
+<style scoped>
+.block {
+  padding: 30px 0;
+  text-align: center;
+  border-right: solid 1px var(--el-border-color-base);
+  flex: 1;
+}
+.block:last-child {
+  border-right: none;
+}
+.block .demonstration {
+  display: block;
+  color: var(--el-text-color-secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+</style>

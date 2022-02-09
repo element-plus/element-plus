@@ -1,5 +1,5 @@
 import { h, defineComponent, inject } from 'vue'
-import { buildProps, definePropType } from '@element-plus/utils/props'
+import { buildProps, definePropType } from '@element-plus/utils-v2'
 import { ROOT_PICKER_INJECTION_KEY } from '../date-picker.type'
 import type { DateCell } from '../date-picker.type'
 
@@ -14,23 +14,31 @@ export default defineComponent({
     const picker = inject(ROOT_PICKER_INJECTION_KEY)
     return () => {
       const cell = props.cell
-      return picker?.ctx.slots.default
-        ? picker.ctx.slots.default(cell)
-        : h(
-            'div',
-            {
-              class: 'el-date-table-cell',
-            },
-            [
-              h(
-                'span',
-                {
-                  class: 'el-date-table-cell__text',
-                },
-                [cell?.text]
-              ),
-            ]
+      if (picker?.ctx.slots.default) {
+        const list = picker.ctx.slots.default(cell).filter((item) => {
+          return (
+            item.patchFlag !== -2 && item.type.toString() !== 'Symbol(Comment)'
           )
+        })
+        if (list.length) {
+          return list
+        }
+      }
+      return h(
+        'div',
+        {
+          class: 'el-date-table-cell',
+        },
+        [
+          h(
+            'span',
+            {
+              class: 'el-date-table-cell__text',
+            },
+            [cell?.text]
+          ),
+        ]
+      )
     }
   },
 })

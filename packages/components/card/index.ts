@@ -1,4 +1,4 @@
-import { withInstall } from '@element-plus/utils/with-install'
+import { withInstall } from '@element-plus/utils-v2'
 
 import Card from './src/card.vue'
 

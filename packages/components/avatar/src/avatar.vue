@@ -8,7 +8,9 @@
       :style="fitStyle"
       @error="handleError"
     />
-    <el-icon v-else-if="icon"><component :is="icon" /></el-icon>
+    <el-icon v-else-if="icon">
+      <component :is="icon" />
+    </el-icon>
     <slot v-else></slot>
   </span>
 </template>
@@ -16,6 +18,8 @@
 <script lang="ts">
 import { defineComponent, computed, ref, watch } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
+import { useNamespace } from '@element-plus/hooks'
+import { isNumber, isString, addUnit } from '@element-plus/utils-v2'
 import { avatarEmits, avatarProps } from './avatar'
 
 import type { CSSProperties } from 'vue'
@@ -29,26 +33,26 @@ export default defineComponent({
   emits: avatarEmits,
 
   setup(props, { emit }) {
+    const ns = useNamespace('avatar')
+
     const hasLoadError = ref(false)
 
     const avatarClass = computed(() => {
       const { size, icon, shape } = props
-      const classList = ['el-avatar']
-      if (size && typeof size === 'string') classList.push(`el-avatar--${size}`)
-      if (icon) classList.push('el-avatar--icon')
-      if (shape) classList.push(`el-avatar--${shape}`)
+      const classList = [ns.b()]
+      if (isString(size)) classList.push(ns.m(size))
+      if (icon) classList.push(ns.m('icon'))
+      if (shape) classList.push(ns.m(shape))
       return classList
     })
 
-    const sizeStyle = computed<CSSProperties>(() => {
+    const sizeStyle = computed(() => {
       const { size } = props
-      return typeof size === 'number'
-        ? {
-            height: `${size}px`,
-            width: `${size}px`,
-            lineHeight: `${size}px`,
-          }
-        : {}
+      return isNumber(size)
+        ? ({
+            '--el-avatar-size': addUnit(size),
+          } as CSSProperties)
+        : undefined
     })
 
     const fitStyle = computed<CSSProperties>(() => ({

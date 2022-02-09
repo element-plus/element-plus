@@ -1,0 +1,25 @@
+// scrollbar
+* {
+  scrollbar-color: var(--el-scrollbar-bg-color) var(--el-bg-color);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar:horizontal {
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+}

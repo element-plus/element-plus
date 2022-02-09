@@ -1,22 +1,23 @@
 import {
   defineComponent,
   getCurrentInstance,
-  computed,
   onMounted,
   nextTick,
   ref,
   h,
+  inject,
 } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
+import { useNamespace } from '@element-plus/hooks'
 import FilterPanel from '../filter-panel.vue'
 import useLayoutObserver from '../layout-observer'
 import { hColgroup } from '../h-helper'
+import { TABLE_INJECTION_KEY } from '../tokens'
 import useEvent from './event-helper'
 import useStyle from './style.helper'
 import useUtils from './utils-helper'
-
 import type { ComponentInternalInstance, Ref, PropType } from 'vue'
-import type { DefaultRow, Sort, Table } from '../table/defaults'
+import type { DefaultRow, Sort } from '../table/defaults'
 import type { Store } from '../store'
 export interface TableHeader extends ComponentInternalInstance {
   state: {
@@ -59,19 +60,16 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const instance = getCurrentInstance() as TableHeader
-    const parent = instance.parent as Table<unknown>
-    const storeData = parent.store.states
+    const parent = inject(TABLE_INJECTION_KEY)
+    const ns = useNamespace('table')
+    const storeData = parent?.store.states
     const filterPanels = ref({})
-    const { tableLayout, onColumnsChange, onScrollableChange } =
-      useLayoutObserver(parent)
-    const hasGutter = computed(() => {
-      return !props.fixed && tableLayout.gutterWidth
-    })
+    const { onColumnsChange, onScrollableChange } = useLayoutObserver(parent!)
     onMounted(() => {
       nextTick(() => {
         const { prop, order } = props.defaultSort
         const init = true
-        parent.store.commit('sort', { prop, order, init })
+        parent?.store.commit('sort', { prop, order, init })
       })
     })
     const {
@@ -101,9 +99,9 @@ export default defineComponent({
     instance.filterPanels = filterPanels
 
     return {
+      ns,
       columns: storeData.columns,
       filterPanels,
-      hasGutter,
       onColumnsChange,
       onScrollableChange,
       columnRows,
@@ -123,34 +121,56 @@ export default defineComponent({
     }
   },
   render() {
+    const {
+      ns,
+      columns,
+      isGroup,
+      columnRows,
+      getHeaderCellStyle,
+      getHeaderCellClass,
+      getHeaderRowClass,
+      getHeaderRowStyle,
+      handleHeaderClick,
+      handleHeaderContextMenu,
+      handleMouseDown,
+      handleMouseMove,
+      handleSortClick,
+      handleMouseOut,
+      store,
+      $parent,
+    } = this
+    let rowSpan = 1
     return h(
       'table',
       {
         border: '0',
         cellpadding: '0',
         cellspacing: '0',
-        class: 'el-table__header',
+        class: ns.e('header'),
       },
       [
-        hColgroup(this.columns, this.hasGutter),
+        hColgroup(columns),
         h(
           'thead',
           {
-            class: { 'is-group': this.isGroup, 'has-gutter': this.hasGutter },
+            class: { [ns.is('group')]: isGroup },
           },
-          this.columnRows.map((subColumns, rowIndex) =>
+          columnRows.map((subColumns, rowIndex) =>
             h(
               'tr',
               {
-                class: this.getHeaderRowClass(rowIndex),
+                class: getHeaderRowClass(rowIndex),
                 key: rowIndex,
-                style: this.getHeaderRowStyle(rowIndex),
+                style: getHeaderRowStyle(rowIndex),
               },
-              subColumns.map((column, cellIndex) =>
-                h(
+              subColumns.map((column, cellIndex) => {
+                if (column.rowSpan > rowSpan) {
+                  rowSpan = column.rowSpan
+                }
+                return h(
                   'th',
                   {
-                    class: this.getHeaderCellClass(
+                    class: getHeaderCellClass(
                       rowIndex,
                       cellIndex,
                       subColumns,
@@ -159,20 +179,18 @@ export default defineComponent({
                     colspan: column.colSpan,
                     key: `${column.id}-thead`,
                     rowSpan: column.rowSpan,
-                    style: this.getHeaderCellStyle(
+                    style: getHeaderCellStyle(
                       rowIndex,
                       cellIndex,
                       subColumns,
                       column
                     ),
-                    onClick: ($event) => this.handleHeaderClick($event, column),
+                    onClick: ($event) => handleHeaderClick($event, column),
                     onContextmenu: ($event) =>
-                      this.handleHeaderContextMenu($event, column),
-                    onMousedown: ($event) =>
-                      this.handleMouseDown($event, column),
-                    onMousemove: ($event) =>
-                      this.handleMouseMove($event, column),
-                    onMouseout: this.handleMouseOut,
+                      handleHeaderContextMenu($event, column),
+                    onMousedown: ($event) => handleMouseDown($event, column),
+                    onMousemove: ($event) => handleMouseMove($event, column),
+                    onMouseout: handleMouseOut,
                   },
                   [
                     h(
@@ -192,8 +210,8 @@ export default defineComponent({
                           ? column.renderHeader({
                               column,
                               $index: cellIndex,
-                              store: this.store,
-                              _self: this.$parent,
+                              store,
+                              _self: $parent,
                             })
                           : column.label,
                         column.sortable &&
@@ -201,33 +219,25 @@ export default defineComponent({
                             'span',
                             {
                               onClick: ($event) =>
-                                this.handleSortClick($event, column),
+                                handleSortClick($event, column),
                               class: 'caret-wrapper',
                             },
                             [
                               h('i', {
                                 onClick: ($event) =>
-                                  this.handleSortClick(
-                                    $event,
-                                    column,
-                                    'ascending'
-                                  ),
+                                  handleSortClick($event, column, 'ascending'),
                                 class: 'sort-caret ascending',
                               }),
                               h('i', {
                                 onClick: ($event) =>
-                                  this.handleSortClick(
-                                    $event,
-                                    column,
-                                    'descending'
-                                  ),
+                                  handleSortClick($event, column, 'descending'),
                                 class: 'sort-caret descending',
                               }),
                             ]
                           ),
                         column.filterable &&
                           h(FilterPanel, {
-                            store: this.$parent.store,
+                            store: $parent.store,
                             placement: column.filterPlacement || 'bottom-start',
                             column,
                             upDataColumn: (key, value) => {
@@ -238,7 +248,7 @@ export default defineComponent({
                     ),
                   ]
                 )
-              )
+              })
             )
           )
         ),

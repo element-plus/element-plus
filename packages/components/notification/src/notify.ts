@@ -1,8 +1,7 @@
 import { createVNode, render } from 'vue'
-import isServer from '@element-plus/utils/isServer'
-import PopupManager from '@element-plus/utils/popup-manager'
-import { isVNode } from '@element-plus/utils/util'
-import { debugWarn } from '@element-plus/utils/error'
+import { isClient } from '@vueuse/core'
+import { useZIndex } from '@element-plus/hooks'
+import { isVNode, debugWarn } from '@element-plus/utils-v2'
 import NotificationConstructor from './notification.vue'
 import { notificationTypes } from './notification'
 
@@ -31,7 +30,7 @@ const GAP_SIZE = 16
 let seed = 1
 
 const notify: NotifyFn & Partial<Notify> = function (options = {}) {
-  if (isServer) return { close: () => undefined }
+  if (!isClient) return { close: () => undefined }
 
   if (typeof options === 'string' || isVNode(options)) {
     options = { message: options }
@@ -45,11 +44,13 @@ const notify: NotifyFn & Partial<Notify> = function (options = {}) {
   })
   verticalOffset += GAP_SIZE
 
+  const { nextZIndex } = useZIndex()
+
   const id = `notification_${seed++}`
   const userOnClose = options.onClose
   const props: Partial<NotificationProps> = {
     // default options end
-    zIndex: PopupManager.nextZIndex(),
+    zIndex: nextZIndex(),
     offset: verticalOffset,
     ...options,
     id,

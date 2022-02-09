@@ -1,25 +1,23 @@
 import { watch } from 'vue'
-import { on, off } from '@element-plus/utils/dom'
-
+import { useEventListener } from '@vueuse/core'
 import type { Ref } from 'vue'
 
-export default (
+export const usePreventGlobal = <E extends keyof DocumentEventMap>(
   indicator: Ref<boolean>,
-  evt: string,
-  cb: (e: Event) => boolean
+  evt: E,
+  cb: (e: DocumentEventMap[E]) => boolean
 ) => {
-  const prevent = (e: Event) => {
-    if (cb(e)) {
-      e.stopImmediatePropagation()
-    }
+  const prevent = (e: DocumentEventMap[E]) => {
+    if (cb(e)) e.stopImmediatePropagation()
   }
+  let stop: (() => void) | undefined = undefined
   watch(
     () => indicator.value,
     (val) => {
       if (val) {
-        on(document, evt, prevent, true)
+        stop = useEventListener(document, evt, prevent, true)
       } else {
-        off(document, evt, prevent, true)
+        stop?.()
       }
     },
     { immediate: true }

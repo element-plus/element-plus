@@ -1,11 +1,5 @@
 <template>
-  <form
-    class="el-form"
-    :class="[
-      labelPosition ? 'el-form--label-' + labelPosition : '',
-      { 'el-form--inline': inline },
-    ]"
-  >
+  <form :class="formKls">
     <slot></slot>
   </form>
 </template>
@@ -21,11 +15,12 @@ import {
   watch,
 } from 'vue'
 import { elFormKey } from '@element-plus/tokens'
-import { debugWarn } from '@element-plus/utils/error'
+import { debugWarn } from '@element-plus/utils-v2'
+import { useSize } from '@element-plus/hooks'
 import type { ValidateFieldsError } from 'async-validator'
 
 import type { PropType } from 'vue'
-import type { ComponentSize } from '@element-plus/utils/types'
+import type { ComponentSize } from '@element-plus/constants'
 import type { FormRulesMap } from './form.type'
 import type {
   ElFormItemContext as FormItemCtx,
@@ -122,6 +117,18 @@ export default defineComponent({
         }
       }
     )
+
+    const formSize = useSize()
+    const prefix = 'el-form'
+    const formKls = computed(() => {
+      const { labelPosition, inline } = props
+      return [
+        prefix,
+        `${prefix}--${formSize.value}`,
+        labelPosition ? `${prefix}--label-${labelPosition}` : '',
+        inline ? `${prefix}--inline` : '',
+      ]
+    })
 
     const addField = (field: FormItemCtx) => {
       if (field) {
@@ -239,6 +246,7 @@ export default defineComponent({
     provide(elFormKey, elForm)
 
     return {
+      formKls,
       validate, // export
       resetFields,
       clearValidate,

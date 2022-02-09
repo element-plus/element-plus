@@ -52,7 +52,7 @@ avatar/fit
 | Attribute | Description                                                                                                            | Type               | Accepted Values                            | Default |
 | --------- | ---------------------------------------------------------------------------------------------------------------------- | ------------------ | ------------------------------------------ | ------- |
 | icon      | set representation type to Icon, more info on Icon Component                                                           | string / Component |                                            |         |
-| size      | set avatar size                                                                                                        | number / string    | number / large / medium / small            | large   |
+| size      | set avatar size                                                                                                        | number / string    | number / large / default /small            | default |
 | shape     | set avatar shape                                                                                                       | string             | circle / square                            | circle  |
 | src       | the address of the image for an image avatar                                                                           | string             |                                            |         |
 | srcSet    | A list of one or more strings separated by commas indicating a set of possible image sources for the user agent to use | string             |                                            |         |
@@ -70,69 +70,3 @@ avatar/fit
 | Name    | Description              |
 | ------- | ------------------------ |
 | default | customize avatar content |
-
-<style lang="scss">
-.example-showcase {
-  .demo-basic {
-    text-align: center;
-
-    .demo-basic--circle,
-    .demo-basic--square {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      .block {
-        flex: 1;
-      }
-
-      .block:not(:last-child) {
-        border-right: 1px solid var(--el-border-color-base);
-      }
-    }
-
-    .el-col:not(:last-child) {
-      border-right: 1px solid var(--el-border-color-base);
-    }
-  }
-
-  .sub-title {
-    margin-bottom: 10px;
-    font-size: 14px;
-    color: var(--el-text-color-secondary);
-  }
-
-
-
-  .demo-type {
-    display: flex;
-
-    > div {
-      flex: 1;
-      text-align: center;
-    }
-
-    > div:not(:last-child) {
-      border-right: 1px solid var(--el-border-color-base);
-    }
-  }
-
-  .demo-fit {
-    display: flex;
-    text-align: center;
-    justify-content: space-between;
-
-    .block {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      flex-grow: 0;
-    }
-
-    .title {
-      margin-bottom: 10px;
-      font-size: 14px;
-      color: var(--el-text-color-secondary);
-    }
-  }
-}
-</style>

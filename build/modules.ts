@@ -1,5 +1,5 @@
 import { rollup } from 'rollup'
-import vue from 'rollup-plugin-vue'
+import vue from '@vitejs/plugin-vue'
 import css from 'rollup-plugin-css-only'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
@@ -11,7 +11,7 @@ import { ElementPlusAlias } from './plugins/element-plus-alias'
 import { generateExternal, writeBundles } from './utils/rollup'
 import { excludeFiles } from './utils/pkg'
 import { reporter } from './plugins/size-reporter'
-import { buildConfigEntries } from './build-info'
+import { buildConfigEntries, target } from './build-info'
 import type { OutputOptions } from 'rollup'
 
 export const buildModules = async () => {
@@ -25,16 +25,21 @@ export const buildModules = async () => {
   const bundle = await rollup({
     input,
     plugins: [
-      await ElementPlusAlias(),
+      ElementPlusAlias(),
       css(),
-      vue({ target: 'browser' }),
+      vue({
+        isProduction: false,
+      }),
       nodeResolve({
         extensions: ['.mjs', '.js', '.json', '.ts'],
       }),
       commonjs(),
       esbuild({
         sourceMap: true,
-        target: 'es2018',
+        target,
+        loaders: {
+          '.vue': 'ts',
+        },
       }),
       filesize({ reporter }),
     ],

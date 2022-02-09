@@ -1,5 +1,5 @@
 import { ref, getCurrentInstance, unref, watch, toRefs } from 'vue'
-import { hasOwn } from '@vue/shared'
+import { hasOwn } from '@element-plus/utils-v2'
 import {
   getKeysMap,
   getRowIdentity,
@@ -170,11 +170,6 @@ function useWatcher<T>() {
       )
       selection.value = newSelection
       instance.emit('selection-change', newSelection.slice())
-    } else {
-      if (selection.value.length) {
-        selection.value = []
-        instance.emit('selection-change', [])
-      }
     }
   }
 

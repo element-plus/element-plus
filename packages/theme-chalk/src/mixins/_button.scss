@@ -28,6 +28,7 @@
 
 @mixin button-variant($type) {
   --el-button-text-color: var(--el-color-white);
+  --el-button-hover-text-color: var(--el-color-white);
   --el-button-disabled-text-color: var(--el-color-white);
   &.is-plain {
     @include button-plain(var(--el-button-bg-color), $type);

@@ -1,5 +1,5 @@
+import { isClient } from '@vueuse/core'
 import { on } from '@element-plus/utils/dom'
-import isServer from '@element-plus/utils/isServer'
 
 import type {
   ComponentPublicInstance,
@@ -21,12 +21,12 @@ const nodeList: FlushList = new Map()
 
 let startClick: MouseEvent
 
-if (!isServer) {
+if (isClient) {
   on(document, 'mousedown', (e: MouseEvent) => (startClick = e))
   on(document, 'mouseup', (e: MouseEvent) => {
     for (const handlers of nodeList.values()) {
       for (const { documentHandler } of handlers) {
-        documentHandler(e, startClick)
+        documentHandler(e as MouseEvent, startClick)
       }
     }
   })

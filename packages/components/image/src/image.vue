@@ -1,24 +1,17 @@
 <template>
-  <div
-    ref="container"
-    :class="['el-image', $attrs.class]"
-    :style="containerStyle"
-  >
+  <div ref="container" :class="[ns.b(), $attrs.class]" :style="containerStyle">
     <slot v-if="loading" name="placeholder">
-      <div class="el-image__placeholder"></div>
+      <div :class="ns.e('placeholder')"></div>
     </slot>
     <slot v-else-if="hasLoadError" name="error">
-      <div class="el-image__error">{{ t('el.image.error') }}</div>
+      <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
     </slot>
     <img
       v-else
-      class="el-image__inner"
       v-bind="attrs"
       :src="src"
       :style="imageStyle"
-      :class="{
-        'el-image__preview': preview,
-      }"
+      :class="[ns.e('inner'), preview ? ns.e('preview') : '']"
       @click="clickHandler"
     />
     <teleport to="body" :disabled="!appendToBody">
@@ -44,10 +37,9 @@
 <script lang="ts">
 import { defineComponent, computed, ref, onMounted, watch, nextTick } from 'vue'
 import { isString } from '@vue/shared'
-import { useEventListener, useThrottleFn } from '@vueuse/core'
-import { useAttrs, useLocaleInject } from '@element-plus/hooks'
+import { useEventListener, useThrottleFn, isClient } from '@vueuse/core'
+import { useAttrs, useLocale, useNamespace } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
-import isServer from '@element-plus/utils/isServer'
 import { getScrollContainer, isInContainer } from '@element-plus/utils/dom'
 import { imageEmits, imageProps } from './image'
 
@@ -69,7 +61,8 @@ export default defineComponent({
   emits: imageEmits,
 
   setup(props, { emit, attrs: rawAttrs }) {
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
+    const ns = useNamespace('image')
 
     const attrs = useAttrs()
     const hasLoadError = ref(false)
@@ -87,7 +80,7 @@ export default defineComponent({
 
     const imageStyle = computed<CSSProperties>(() => {
       const { fit } = props
-      if (!isServer && fit) {
+      if (isClient && fit) {
         return { objectFit: fit }
       }
       return {}
@@ -99,25 +92,37 @@ export default defineComponent({
     })
 
     const imageIndex = computed(() => {
-      const { src, previewSrcList, initialIndex } = props
+      const { previewSrcList, initialIndex } = props
       let previewIndex = initialIndex
-      const srcIndex = previewSrcList.indexOf(src)
-      if (srcIndex >= 0) {
-        previewIndex = srcIndex
+      if (initialIndex > previewSrcList.length - 1) {
+        previewIndex = 0
       }
       return previewIndex
     })
 
     const loadImage = () => {
-      if (isServer) return
+      if (!isClient) return
 
       // reset status
       loading.value = true
       hasLoadError.value = false
 
       const img = new Image()
-      img.addEventListener('load', (e) => handleLoad(e, img))
-      img.addEventListener('error', handleError)
+      const currentImageSrc = props.src
+
+      // load & error callbacks are only responsible for currentImageSrc
+      img.addEventListener('load', (e) => {
+        if (currentImageSrc !== props.src) {
+          return
+        }
+        handleLoad(e, img)
+      })
+      img.addEventListener('error', (e) => {
+        if (currentImageSrc !== props.src) {
+          return
+        }
+        handleError(e)
+      })
 
       // bind html attrs
       // so it can behave consistently
@@ -126,7 +131,7 @@ export default defineComponent({
         if (key.toLowerCase() === 'onload') return
         img.setAttribute(key, value as string)
       })
-      img.src = props.src
+      img.src = currentImageSrc
     }
 
     function handleLoad(e: Event, img: HTMLImageElement) {
@@ -148,10 +153,11 @@ export default defineComponent({
         removeLazyLoadListener()
       }
     }
+
     const lazyLoadHandler = useThrottleFn(handleLazyLoad, 200)
 
     async function addLazyLoadListener() {
-      if (isServer) return
+      if (!isClient) return
 
       await nextTick()
 
@@ -176,7 +182,7 @@ export default defineComponent({
     }
 
     function removeLazyLoadListener() {
-      if (isServer || !_scrollContainer.value || !lazyLoadHandler) return
+      if (!isClient || !_scrollContainer.value || !lazyLoadHandler) return
 
       stopScrollListener()
       _scrollContainer.value = undefined
@@ -252,6 +258,7 @@ export default defineComponent({
       preview,
       imageIndex,
       container,
+      ns,
 
       clickHandler,
       closeViewer,

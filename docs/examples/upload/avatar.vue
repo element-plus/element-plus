@@ -11,34 +11,31 @@
   </el-upload>
 </template>
 
-<script lang="ts">
-import { Plus } from '@element-plus/icons'
-export default {
-  components: {
-    Plus,
-  },
-  data() {
-    return {
-      imageUrl: '',
-    }
-  },
-  methods: {
-    handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw)
-    },
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg'
-      const isLt2M = file.size / 1024 / 1024 < 2
+<script lang="ts" setup>
+import { ref } from 'vue'
+import { ElMessage } from 'element-plus'
+import { Plus } from '@element-plus/icons-vue'
+import type {
+  UploadFile,
+  ElUploadProgressEvent,
+  ElFile,
+} from 'element-plus/es/components/upload/src/upload.type'
 
-      if (!isJPG) {
-        this.$message.error('Avatar picture must be JPG format!')
-      }
-      if (!isLt2M) {
-        this.$message.error('Avatar picture size can not exceed 2MB!')
-      }
-      return isJPG && isLt2M
-    },
-  },
+const imageUrl = ref('')
+const handleAvatarSuccess = (res: ElUploadProgressEvent, file: UploadFile) => {
+  imageUrl.value = URL.createObjectURL(file.raw)
+}
+const beforeAvatarUpload = (file: ElFile) => {
+  const isJPG = file.type === 'image/jpeg'
+  const isLt2M = file.size / 1024 / 1024 < 2
+
+  if (!isJPG) {
+    ElMessage.error('Avatar picture must be JPG format!')
+  }
+  if (!isLt2M) {
+    ElMessage.error('Avatar picture size can not exceed 2MB!')
+  }
+  return isJPG && isLt2M
 }
 </script>
 
@@ -53,15 +50,12 @@ export default {
 .avatar-uploader .el-upload:hover {
   border-color: #409eff;
 }
-.avatar-uploader-icon {
+.el-icon.avatar-uploader-icon {
   font-size: 28px;
   color: #8c939d;
   width: 178px;
   height: 178px;
   text-align: center;
-}
-.avatar-uploader-icon svg {
-  margin-top: 74px; /* (178px - 28px) / 2 - 1px */
 }
 .avatar {
   width: 178px;

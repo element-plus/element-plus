@@ -18,6 +18,7 @@
       "
       :effect="Effect.DARK"
       placement="right"
+      persistent
     >
       <template #content>
         <slot name="title" />
@@ -57,7 +58,7 @@ import {
 } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
 import { Effect } from '@element-plus/components/popper'
-import { throwError } from '@element-plus/utils/error'
+import { throwError } from '@element-plus/utils-v2'
 import useMenu from './use-menu'
 import { menuItemEmits, menuItemProps } from './menu-item'
 

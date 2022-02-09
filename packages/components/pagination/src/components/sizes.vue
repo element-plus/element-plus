@@ -4,7 +4,7 @@
       :model-value="innerPageSize"
       :disabled="disabled"
       :popper-class="popperClass"
-      size="mini"
+      :size="size"
       @change="handleChange"
     >
       <el-option
@@ -19,10 +19,10 @@
 
 <script lang="ts">
 import { defineComponent, watch, computed, ref } from 'vue'
-import isEqual from 'lodash/isEqual'
+import { isEqual } from 'lodash-unified'
 import { ElSelect, ElOption } from '@element-plus/components/select'
-import { useLocaleInject } from '@element-plus/hooks'
-import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
+import { useLocale } from '@element-plus/hooks'
+import { buildProps, definePropType, mutable } from '@element-plus/utils-v2'
 import { usePagination } from '../usePagination'
 
 import type { Nullable } from '@element-plus/utils/types'
@@ -41,6 +41,10 @@ const paginationSizesProps = buildProps({
     default: '',
   },
   disabled: Boolean,
+  size: {
+    type: String,
+    default: 'default',
+  },
 } as const)
 
 export default defineComponent({
@@ -55,7 +59,7 @@ export default defineComponent({
   emits: ['page-size-change'],
 
   setup(props, { emit }) {
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
     const pagination = usePagination()
     const innerPageSize = ref<Nullable<number>>(props.pageSize)
 

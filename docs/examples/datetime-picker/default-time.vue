@@ -25,22 +25,32 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const state = reactive({
-      value1: '',
-      value2: '',
-      defaultTime1: [new Date(2000, 1, 1, 12, 0, 0)], // '12:00:00'
-      defaultTime2: [
-        new Date(2000, 1, 1, 12, 0, 0),
-        new Date(2000, 2, 1, 8, 0, 0),
-      ], // '12:00:00', '08:00:00'
-    })
+const value1 = ref('')
+const value2 = ref('')
 
-    return toRefs(state)
-  },
-})
+const defaultTime1 = [new Date(2000, 1, 1, 12, 0, 0)] // '12:00:00'
+const defaultTime2 = [
+  new Date(2000, 1, 1, 12, 0, 0),
+  new Date(2000, 2, 1, 8, 0, 0),
+] // '12:00:00', '08:00:00'
 </script>
+<style scoped>
+.block {
+  padding: 30px 0;
+  text-align: center;
+  border-right: solid 1px var(--el-border-color-base);
+  flex: 1;
+}
+.block:last-child {
+  border-right: none;
+}
+.block .demonstration {
+  display: block;
+  color: var(--el-text-color-secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+</style>

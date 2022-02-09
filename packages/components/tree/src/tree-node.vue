@@ -73,6 +73,7 @@
           :render-after-expand="renderAfterExpand"
           :show-checkbox="showCheckbox"
           :node="child"
+          :accordion="accordion"
           :props="props"
           @node-expand="handleChildNodeExpand"
         />
@@ -94,8 +95,8 @@ import { isString, isFunction } from '@vue/shared'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
-import { CaretRight, Loading } from '@element-plus/icons'
-import { debugWarn } from '@element-plus/utils/error'
+import { CaretRight, Loading } from '@element-plus/icons-vue'
+import { debugWarn } from '@element-plus/utils-v2'
 import NodeContent from './tree-node-content.vue'
 import { getNodeKey as getNodeKeyUtil } from './model/util'
 import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast'
@@ -224,7 +225,7 @@ export default defineComponent({
       oldIndeterminate.value = indeterminate
     }
 
-    const handleClick = () => {
+    const handleClick = (e: MouseEvent) => {
       const store = tree.store.value
       store.setCurrentNode(props.node)
       tree.ctx.emit(
@@ -243,7 +244,7 @@ export default defineComponent({
           target: { checked: !props.node.checked },
         })
       }
-      tree.ctx.emit('node-click', props.node.data, props.node, instance)
+      tree.ctx.emit('node-click', props.node.data, props.node, instance, e)
     }
 
     const handleContextMenu = (event: Event) => {
@@ -299,12 +300,12 @@ export default defineComponent({
     }
 
     const handleDragOver = (event: DragEvent) => {
+      event.preventDefault()
       if (!tree.props.draggable) return
       dragEvents.treeNodeDragOver({
         event,
         treeNode: { $el: node$.value, node: props.node },
       })
-      event.preventDefault()
     }
 
     const handleDrop = (event: DragEvent) => {

@@ -1,7 +1,6 @@
 import { h, watch, render } from 'vue'
-import { hasOwn } from '@vue/shared'
-import isServer from '@element-plus/utils/isServer'
-import { isVNode, isString } from '@element-plus/utils/util'
+import { isClient } from '@vueuse/core'
+import { isVNode, isString, hasOwn } from '@element-plus/utils-v2'
 import MessageBoxConstructor from './index.vue'
 
 import type { ComponentPublicInstance, VNode } from 'vue'
@@ -115,7 +114,7 @@ async function MessageBox(options: ElMessageBoxOptions): Promise<MessageBoxData>
 function MessageBox(
   options: ElMessageBoxOptions | string | VNode
 ): Promise<{ value: string; action: Action } | Action> {
-  if (isServer) return
+  if (!isClient) return
   let callback
   if (isString(options) || isVNode(options)) {
     options = {

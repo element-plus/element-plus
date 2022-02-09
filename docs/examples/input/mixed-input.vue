@@ -4,12 +4,12 @@
       <template #prepend>Http://</template>
     </el-input>
   </div>
-  <div style="margin-top: 15px">
+  <div class="mt-4">
     <el-input v-model="input2" placeholder="Please input">
       <template #append>.com</template>
     </el-input>
   </div>
-  <div style="margin-top: 15px">
+  <div class="mt-4">
     <el-input
       v-model="input3"
       placeholder="Please input"
@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Search } from '@element-plus/icons'
+import { Search } from '@element-plus/icons-vue'
 const input1 = ref('')
 const input2 = ref('')
 const input3 = ref('')

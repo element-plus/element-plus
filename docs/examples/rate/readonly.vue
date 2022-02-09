@@ -9,14 +9,8 @@
   </el-rate>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    return {
-      value: ref(3.7),
-    }
-  },
-})
+const value = ref(3.7)
 </script>

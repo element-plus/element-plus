@@ -1,29 +1,13 @@
 <template>
   <div
     ref="sliderWrapper"
-    class="el-slider"
-    :class="{ 'is-vertical': vertical, 'el-slider--with-input': showInput }"
+    :class="sliderKls"
     role="slider"
     :aria-valuemin="min"
     :aria-valuemax="max"
     :aria-orientation="vertical ? 'vertical' : 'horizontal'"
     :aria-disabled="sliderDisabled"
   >
-    <el-input-number
-      v-if="showInput && !range"
-      ref="input"
-      :model-value="firstValue"
-      class="el-slider__input"
-      :step="step"
-      :disabled="sliderDisabled"
-      :controls="showInputControls"
-      :min="min"
-      :max="max"
-      :debounce="debounce"
-      :size="inputSize"
-      @update:model-value="setFirstValue"
-      @change="emitChange"
-    />
     <div
       ref="slider"
       class="el-slider__runway"
@@ -74,6 +58,21 @@
         </div>
       </template>
     </div>
+    <el-input-number
+      v-if="showInput && !range"
+      ref="input"
+      :model-value="firstValue"
+      class="el-slider__input"
+      :step="step"
+      :disabled="sliderDisabled"
+      :controls="showInputControls"
+      :min="min"
+      :max="max"
+      :debounce="debounce"
+      :size="sliderInputSize"
+      @update:model-value="setFirstValue"
+      @change="emitChange"
+    />
   </div>
 </template>
 
@@ -95,9 +94,10 @@ import {
   UPDATE_MODEL_EVENT,
   CHANGE_EVENT,
   INPUT_EVENT,
-} from '@element-plus/utils/constants'
+} from '@element-plus/constants'
 import { off, on } from '@element-plus/utils/dom'
-import { throwError } from '@element-plus/utils/error'
+import { throwError, isValidComponentSize } from '@element-plus/utils-v2'
+import { useSize } from '@element-plus/hooks'
 import SliderButton from './button.vue'
 import SliderMarker from './marker.vue'
 import { useMarks } from './useMarks'
@@ -105,7 +105,8 @@ import { useSlide } from './useSlide'
 import { useStops } from './useStops'
 
 import type { PropType, Ref } from 'vue'
-import type { ComponentSize, Nullable } from '@element-plus/utils/types'
+import type { ComponentSize } from '@element-plus/constants'
+import type { Nullable } from '@element-plus/utils/types'
 
 export default defineComponent({
   name: 'ElSlider',
@@ -141,9 +142,13 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    size: {
+      type: String as PropType<ComponentSize>,
+      validator: isValidComponentSize,
+    },
     inputSize: {
       type: String as PropType<ComponentSize>,
-      default: 'small',
+      validator: isValidComponentSize,
     },
     showStops: {
       type: Boolean,
@@ -223,6 +228,19 @@ export default defineComponent({
       maxValue
     )
 
+    const sliderWrapperSize = useSize()
+    const sliderInputSize = computed(
+      () => props.inputSize || sliderWrapperSize.value
+    )
+
+    const prefix = 'el-slider'
+    const sliderKls = computed(() => [
+      prefix,
+      `${prefix}--${sliderWrapperSize.value}`,
+      props.vertical ? 'is-vertical' : '',
+      props.showInput ? 'el-slider--with-input' : '',
+    ])
+
     const markList = useMarks(props)
 
     useWatch(props, initData, minValue, maxValue, emit, elFormItem)
@@ -277,6 +295,9 @@ export default defineComponent({
       markList,
 
       sliderWrapper,
+      sliderWrapperSize,
+      sliderInputSize,
+      sliderKls,
     }
   },
 })

@@ -2,7 +2,7 @@ import { h, nextTick } from 'vue'
 import makeMount from '@element-plus/test-utils/make-mount'
 import { rAF } from '@element-plus/test-utils/tick'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { TypeComponentsMap } from '@element-plus/utils/icon'
+import { TypeComponentsMap } from '@element-plus/utils-v2'
 import Message from '../src/message.vue'
 import type { ComponentPublicInstance, CSSProperties, Component } from 'vue'
 
@@ -87,20 +87,17 @@ describe('Message.vue', () => {
     })
 
     test('should not be able to render invalid type icon', () => {
+      const consoleWarn = console.warn
+      console.warn = jest.fn()
       const type = 'some-type'
       const wrapper = _mount({ props: { type } })
 
       for (const key in TypeComponentsMap) {
-        if (key === type) {
-          expect(wrapper.findComponent(TypeComponentsMap[key]).exists()).toBe(
-            true
-          )
-        } else {
-          expect(wrapper.findComponent(TypeComponentsMap[key]).exists()).toBe(
-            false
-          )
-        }
+        expect(wrapper.findComponent(TypeComponentsMap[key]).exists()).toBe(
+          false
+        )
       }
+      console.warn = consoleWarn
     })
   })
 

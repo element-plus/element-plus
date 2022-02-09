@@ -1,5 +1,5 @@
 <template>
-  <span class="el-pagination__total">
+  <span class="el-pagination__total" :disabled="disabled">
     {{
       t('el.pagination.total', {
         total,
@@ -10,8 +10,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { useLocaleInject } from '@element-plus/hooks'
-
+import { useLocale } from '@element-plus/hooks'
+import { usePagination } from '../usePagination'
 import type { ExtractPropTypes } from 'vue'
 
 const paginationTotalProps = {
@@ -28,9 +28,11 @@ export default defineComponent({
   props: paginationTotalProps,
 
   setup() {
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
+    const { disabled } = usePagination()
     return {
       t,
+      disabled,
     }
   },
 })

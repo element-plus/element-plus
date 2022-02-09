@@ -67,9 +67,9 @@ import {
 import ElButton from '@element-plus/components/button'
 import ElIcon from '@element-plus/components/icon'
 import { elFormItemKey } from '@element-plus/tokens'
-import { useLocaleInject } from '@element-plus/hooks'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { ArrowLeft, ArrowRight } from '@element-plus/icons'
+import { useLocale } from '@element-plus/hooks'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import TransferPanel from './transfer-panel.vue'
 import { useComputedData } from './useComputedData'
 import {
@@ -83,6 +83,8 @@ import { CHANGE_EVENT } from './transfer'
 import type { PropType, VNode } from 'vue'
 import type { ElFormItemContext } from '@element-plus/tokens'
 import type { DataItem, Format, Key, Props, TargetOrder } from './transfer'
+
+type TransferType = InstanceType<typeof TransferPanel>
 
 export default defineComponent({
   name: 'ElTransfer',
@@ -161,7 +163,7 @@ export default defineComponent({
   ],
 
   setup(props, { emit, slots }) {
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
 
     const checkedState = reactive({
@@ -183,14 +185,17 @@ export default defineComponent({
       emit
     )
 
-    const leftPanel = ref(null)
-    const rightPanel = ref(null)
+    const leftPanel = ref<TransferType>()
+    const rightPanel = ref<TransferType>()
 
     const clearQuery = (which: 'left' | 'right') => {
-      if (which === 'left') {
-        leftPanel.value.query = ''
-      } else if (which === 'right') {
-        rightPanel.value.query = ''
+      switch (which) {
+        case 'left':
+          leftPanel.value!.query = ''
+          break
+        case 'right':
+          rightPanel.value!.query = ''
+          break
       }
     }
 
@@ -238,6 +243,8 @@ export default defineComponent({
       rightPanelTitle,
       panelFilterPlaceholder,
       clearQuery,
+      leftPanel,
+      rightPanel,
 
       optionRender,
     }

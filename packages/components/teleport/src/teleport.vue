@@ -1,6 +1,6 @@
 <template>
-  <teleport v-if="container" :to="container">
-    <div ref="containerRef" class="el-teleport" :style="containerStyle">
+  <teleport v-if="container" :to="container" :disabled="disabled">
+    <div ref="containerRef" :class="ns.b()" :style="containerStyle">
       <slot />
     </div>
   </teleport>
@@ -8,16 +8,16 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
-import isServer from '@element-plus/utils/isServer'
+import { useNamespace } from '@element-plus/hooks'
 import { elTeleportProps } from './teleport'
 
 export default defineComponent({
   props: elTeleportProps,
   setup(props) {
+    const ns = useNamespace('teleport')
     const containerRef = ref<HTMLElement>()
     const containerStyle = computed(() => {
-      return props.container === 'body' ||
-        (isServer && props.container === document.body)
+      return props.container === 'body'
         ? [
             props.style,
             {
@@ -30,6 +30,7 @@ export default defineComponent({
         : {}
     })
     return {
+      ns,
       containerRef,
       containerStyle,
     }

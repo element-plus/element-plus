@@ -14,10 +14,12 @@ import IconList from './components/globals/icons.vue'
 
 import ParallaxHome from './components/globals/parallax-home.vue'
 
+import type { Component } from 'vue'
+
 export { default as NotFound } from './components/vp-not-found.vue'
 
 export default VPApp
-export const globals = [
+export const globals: [string, Component][] = [
   ['Demo', VPDemo],
   ['MainColor', MainColor],
   ['NeutralColor', NeutralColor],

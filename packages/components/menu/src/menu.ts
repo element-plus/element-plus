@@ -13,10 +13,15 @@ import {
 } from 'vue'
 import { Resize } from '@element-plus/directives'
 import ElIcon from '@element-plus/components/icon'
-import { More } from '@element-plus/icons'
+import { More } from '@element-plus/icons-vue'
 import Menubar from '@element-plus/utils/menu/menu-bar'
-import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
-import { isString, isObject } from '@element-plus/utils/util'
+import {
+  buildProps,
+  definePropType,
+  mutable,
+  isString,
+  isObject,
+} from '@element-plus/utils-v2'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu'
 import { useMenuCssVar } from './use-menu-css-var'
@@ -280,6 +285,7 @@ export default defineComponent({
       provide<SubMenuProvider>(`subMenu:${instance.uid}`, {
         addSubMenu,
         removeSubMenu,
+        mouseInChild: ref(false),
       })
     }
 

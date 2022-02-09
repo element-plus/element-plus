@@ -1,6 +1,6 @@
-import { hasOwn } from '@vue/shared'
 import { createPopper } from '@popperjs/core'
-import PopupManager from '@element-plus/utils/popup-manager'
+import { hasOwn } from '@element-plus/utils-v2'
+import { useZIndex } from '@element-plus/hooks'
 import { getValueByPath } from '@element-plus/utils/util'
 import { off, on } from '@element-plus/utils/dom'
 
@@ -8,7 +8,7 @@ import type {
   PopperInstance,
   IPopperOptions,
 } from '@element-plus/components/popper'
-import type { Indexable, Nullable } from '@element-plus/utils/types'
+import type { Nullable } from '@element-plus/utils/types'
 import type { TableColumnCtx } from './table-column/defaults'
 
 export const getCell = function (event: Event): HTMLElement {
@@ -136,9 +136,12 @@ export const getColumnByCell = function <T>(
   table: {
     columns: TableColumnCtx<T>[]
   },
-  cell: HTMLElement
+  cell: HTMLElement,
+  namespace: string
 ): null | TableColumnCtx<T> {
-  const matches = (cell.className || '').match(/el-table_[^\s]+/gm)
+  const matches = (cell.className || '').match(
+    new RegExp(`${namespace}-table_[^\\s]+`, 'gm')
+  )
   if (matches) {
     return getColumnById(table, matches[0])
   }
@@ -183,7 +186,7 @@ export function mergeOptions<T, K>(defaults: T, config: K): T & K {
     options[key] = defaults[key]
   }
   for (key in config) {
-    if (hasOwn(config as unknown as Indexable<any>, key)) {
+    if (hasOwn(config as unknown as Record<string, any>, key)) {
       const value = config[key]
       if (typeof value !== 'undefined') {
         options[key] = value
@@ -193,20 +196,22 @@ export function mergeOptions<T, K>(defaults: T, config: K): T & K {
   return options
 }
 
-export function parseWidth(width: number | string): number {
+export function parseWidth(width: number | string): number | string {
+  if (width === '') return width
   if (width !== undefined) {
     width = parseInt(width as string, 10)
-    if (isNaN(width)) {
-      width = null
+    if (Number.isNaN(width)) {
+      width = ''
     }
   }
-  return +width
+  return width
 }
 
-export function parseMinWidth(minWidth): number {
-  if (typeof minWidth !== 'undefined') {
+export function parseMinWidth(minWidth: number | string): number | string {
+  if (minWidth === '') return minWidth
+  if (minWidth !== undefined) {
     minWidth = parseWidth(minWidth)
-    if (isNaN(minWidth)) {
+    if (Number.isNaN(minWidth)) {
       minWidth = 80
     }
   }
@@ -318,19 +323,19 @@ export function createTablePopper(
   popperOptions: Partial<IPopperOptions>,
   tooltipEffect: string
 ) {
+  const { nextZIndex } = useZIndex()
   function renderContent(): HTMLDivElement {
     const isLight = tooltipEffect === 'light'
     const content = document.createElement('div')
     content.className = `el-popper ${isLight ? 'is-light' : 'is-dark'}`
     content.innerHTML = popperContent
-    content.style.zIndex = String(PopupManager.nextZIndex())
+    content.style.zIndex = String(nextZIndex())
     document.body.appendChild(content)
     return content
   }
   function renderArrow(): HTMLDivElement {
     const arrow = document.createElement('div')
     arrow.className = 'el-popper__arrow'
-    arrow.style.bottom = '-4px'
     return arrow
   }
   function showPopper() {
@@ -370,4 +375,131 @@ export function createTablePopper(
   on(trigger, 'mouseenter', showPopper)
   on(trigger, 'mouseleave', removePopper)
   return popperInstance
+}
+
+export const isFixedColumn = <T>(
+  index: number,
+  fixed: string | boolean,
+  store: any,
+  realColumns?: TableColumnCtx<T>[]
+) => {
+  let start = 0
+  let after = index
+  if (realColumns) {
+    if (realColumns[index].colSpan > 1) {
+      // fixed column not supported in grouped header
+      return {}
+    }
+    // handle group
+    for (let i = 0; i < index; i++) {
+      start += realColumns[i].colSpan
+    }
+    after = start + realColumns[index].colSpan - 1
+  } else {
+    start = index
+  }
+  let fixedLayout
+  const columns = store.states.columns
+  switch (fixed) {
+    case 'left':
+      if (after < store.states.fixedLeafColumnsLength.value) {
+        fixedLayout = 'left'
+      }
+      break
+    case 'right':
+      if (
+        start >=
+        columns.value.length - store.states.rightFixedLeafColumnsLength.value
+      ) {
+        fixedLayout = 'right'
+      }
+      break
+    default:
+      if (after < store.states.fixedLeafColumnsLength.value) {
+        fixedLayout = 'left'
+      } else if (
+        start >=
+        columns.value.length - store.states.rightFixedLeafColumnsLength.value
+      ) {
+        fixedLayout = 'right'
+      }
+  }
+  return fixedLayout
+    ? {
+        direction: fixedLayout,
+        start,
+        after,
+      }
+    : {}
+}
+
+export const getFixedColumnsClass = <T>(
+  namespace: string,
+  index: number,
+  fixed: string | boolean,
+  store: any,
+  realColumns?: TableColumnCtx<T>[]
+) => {
+  const classes: string[] = []
+  const { direction, start } = isFixedColumn(index, fixed, store, realColumns)
+  if (direction) {
+    const isLeft = direction === 'left'
+    classes.push(`${namespace}-fixed-column--${direction}`)
+    if (isLeft && start === store.states.fixedLeafColumnsLength.value - 1) {
+      classes.push('is-last-column')
+    } else if (
+      !isLeft &&
+      start ===
+        store.states.columns.value.length -
+          store.states.rightFixedLeafColumnsLength.value
+    ) {
+      classes.push('is-first-column')
+    }
+  }
+  return classes
+}
+
+function getOffset<T>(offset: number, column: TableColumnCtx<T>) {
+  return (
+    offset +
+    (column.realWidth === null || Number.isNaN(column.realWidth)
+      ? Number(column.width)
+      : column.realWidth)
+  )
+}
+
+export const getFixedColumnOffset = <T>(
+  index: number,
+  fixed: string | boolean,
+  store: any,
+  realColumns?: TableColumnCtx<T>[]
+) => {
+  const { direction, start = 0 } = isFixedColumn(
+    index,
+    fixed,
+    store,
+    realColumns
+  )
+  if (!direction) {
+    return
+  }
+  const styles: any = {}
+  const isLeft = direction === 'left'
+  const columns = store.states.columns.value
+  if (isLeft) {
+    styles.left = columns.slice(0, index).reduce(getOffset, 0)
+  } else {
+    styles.right = columns
+      .slice(start + 1)
+      .reverse()
+      .reduce(getOffset, 0)
+  }
+  return styles
+}
+
+export const ensurePosition = (style, key: string) => {
+  if (!style) return
+  if (!Number.isNaN(style[key])) {
+    style[key] = `${style[key]}px`
+  }
 }
