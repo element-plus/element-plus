@@ -61,7 +61,7 @@
               <span
                 :style="{
                   marginLeft:
-                    prefixWidth && selected.length ? `${prefixWidth}px` : null,
+                    prefixWidth && selected.length ? `${prefixWidth}px` : '',
                 }"
               >
                 <el-tag
@@ -96,8 +96,8 @@
                 marginLeft:
                   (prefixWidth && !selected.length) || tagInMultiLine
                     ? `${prefixWidth}px`
-                    : null,
-                flexGrow: '1',
+                    : '',
+                flexGrow: 1,
                 width: `${inputLength / (inputWidth - 32)}%`,
                 maxWidth: `${inputWidth - 42}px`,
               }"
@@ -228,7 +228,7 @@ import ElTooltip, {
   useTooltipContentProps,
 } from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
-import ElTag from '@element-plus/components/tag'
+import ElTag, { tagProps } from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
@@ -327,10 +327,7 @@ export default defineComponent({
       type: [String, Object] as PropType<string | Component>,
       default: ArrowUp,
     },
-    tagType: {
-      type: String,
-      default: 'info',
-    },
+    tagType: tagProps['type'],
   },
   emits: [
     UPDATE_MODEL_EVENT,
