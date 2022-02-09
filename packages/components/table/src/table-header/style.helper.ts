@@ -48,12 +48,14 @@ function useStyle<T>(props: TableHeaderProps<T>) {
         column,
       })
     }
-    const fixedStyle = getFixedColumnOffset<T>(
-      columnIndex,
-      column.fixed,
-      props.store,
-      row as unknown as TableColumnCtx<T>[]
-    )
+    const fixedStyle = column.isSubColumn
+      ? null
+      : getFixedColumnOffset<T>(
+          columnIndex,
+          column.fixed,
+          props.store,
+          row as unknown as TableColumnCtx<T>[]
+        )
     ensurePosition(fixedStyle, 'left')
     ensurePosition(fixedStyle, 'right')
     return Object.assign({}, headerCellStyles, fixedStyle)

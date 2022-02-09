@@ -385,6 +385,10 @@ export const isFixedColumn = <T>(
   let start = 0
   let after = index
   if (realColumns) {
+    if (realColumns[index].colSpan > 1) {
+      // fixed column not supported in grouped header
+      return {}
+    }
     // handle group
     for (let i = 0; i < index; i++) {
       start += realColumns[i].colSpan
