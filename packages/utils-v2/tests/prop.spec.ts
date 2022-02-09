@@ -449,12 +449,35 @@ describe('buildProps', () => {
 
 describe('runtime', () => {
   it('default value', () => {
+    const warnHandler = jest.fn()
+
     const Foo = defineComponent({
       props: buildProps({
         bar: { type: Boolean },
-      }),
+        baz: { values: ['a', 'b', 'c'] },
+        qux: { values: ['a', 'b', 'c'], required: true },
+        qux2: { values: ['a', 'b', 'c'], required: true },
+      } as const),
       template: `{{ $props }}`,
     })
-    expect(mount(Foo).props().bar).toBe(false)
+    const props = mount(Foo as any, {
+      props: {
+        baz: undefined,
+        qux2: undefined,
+      },
+      global: {
+        config: {
+          warnHandler,
+        },
+      },
+    }).props()
+
+    expect(props.bar).toBe(false)
+    expect(props.baz).toBe(undefined)
+
+    expect(warnHandler.mock.calls[0][0]).toBe('Missing required prop: "qux"')
+    expect(warnHandler.mock.calls[1][0]).toBe(
+      'Invalid prop: validation failed for prop "qux2". Expected one of ["a", "b", "c"], got value undefined.'
+    )
   })
 })

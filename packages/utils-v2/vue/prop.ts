@@ -118,7 +118,10 @@ export function buildProp<
           let allowedValues: unknown[] = []
 
           if (values) {
-            allowedValues = [...values, defaultValue]
+            allowedValues = Array.from(values)
+            if (hasOwn(option, 'default')) {
+              allowedValues.push(defaultValue)
+            }
             valid ||= allowedValues.includes(val)
           }
           if (validator) valid ||= validator(val)
