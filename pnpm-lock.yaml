@@ -76,7 +76,7 @@ importers:
       ts-morph: 13.0.3
       type-fest: ^2.11.2
       typescript: 4.5.5
-      unplugin-vue-define-options: ^0.0.5
+      unplugin-vue-define-options: 0.0.6
       vue: 3.2.30
       vue-jest: 5.0.0-alpha.10
       vue-router: 4.0.12
@@ -155,7 +155,7 @@ importers:
       ts-morph: 13.0.3
       type-fest: 2.11.2
       typescript: 4.5.5
-      unplugin-vue-define-options: 0.0.5
+      unplugin-vue-define-options: 0.0.6
       vue: 3.2.30
       vue-jest: 5.0.0-alpha.10_e098c2dbe4ae204628e6416de688af6f
       vue-router: 4.0.12_vue@3.2.30
@@ -10668,8 +10668,8 @@ packages:
       - webpack
     dev: true
 
-  /unplugin-vue-define-options/0.0.5:
-    resolution: {integrity: sha512-if7ElfF2MDffSJk4HfjbRNzpuGYJLs/xvJHcvzZFMY3Kw9Hrd+LB9hX9de/qvOEPd7d/+02LwxsDXSDkx0gRDA==}
+  /unplugin-vue-define-options/0.0.6:
+    resolution: {integrity: sha512-BHV0KVKXDci+yiJdPd6KHoqgMs1dkRJK6ocF8sIh/cYswVYyfm3DBwEtHf/niMMH0QcmO3aurcHpyJ+EmTKtQg==}
     dev: true
 
   /unplugin/0.3.0_737339f39a52c341515b0d4dcab71b66:
