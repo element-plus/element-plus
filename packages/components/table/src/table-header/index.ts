@@ -164,7 +164,7 @@ export default defineComponent({
                 ),
                 colspan: column.colSpan,
                 key: `${column.id}-thead`,
-                rowSpan: column.rowSpan,
+                rowspan: column.rowSpan,
                 style: getHeaderCellStyle(
                   rowIndex,
                   cellIndex,
