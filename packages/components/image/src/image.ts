@@ -36,7 +36,7 @@ export const imageProps = buildProps({
     type: definePropType<string[]>(Array),
     default: () => mutable([] as const),
   },
-  previewAppendToBody: {
+  previewTeleported: {
     type: Boolean,
     default: false,
   },

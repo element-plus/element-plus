@@ -21,7 +21,7 @@
         :initial-index="imageIndex"
         :url-list="previewSrcList"
         :hide-on-click-modal="hideOnClickModal"
-        :append-to-body="compatibleAppendToBody"
+        :teleported="compatibleAppendToBody"
         @close="closeViewer"
         @switch="switchViewer"
       >
@@ -74,7 +74,7 @@ export default defineComponent({
       {
         scope: 'el-image',
         from: 'append-to-body',
-        replacement: 'preview-append-to-body',
+        replacement: 'preview-teleported',
         version: '2.2.0',
         ref: 'https://element-plus.org/en-US/component/image.html#image-attributess',
       },
@@ -112,7 +112,7 @@ export default defineComponent({
     })
 
     const compatibleAppendToBody = computed(() => {
-      return props.appendToBody || props.previewAppendToBody
+      return props.appendToBody || props.previewTeleported
     })
 
     const imageIndex = computed(() => {

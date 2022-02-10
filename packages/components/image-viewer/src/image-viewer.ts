@@ -21,7 +21,7 @@ export const imageViewerProps = buildProps({
     type: Boolean,
     default: false,
   },
-  appendToBody: {
+  teleported: {
     type: Boolean,
     default: false,
   },
