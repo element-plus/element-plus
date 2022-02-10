@@ -9,7 +9,10 @@ export const tagProps = buildProps({
     values: ['success', 'info', 'warning', 'danger', ''],
     default: '',
   },
-  hit: Boolean,
+  hit: {
+    type: Boolean,
+    default: false,
+  },
   disableTransitions: Boolean,
   color: {
     type: String,
