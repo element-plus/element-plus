@@ -93,7 +93,7 @@ import {
 } from 'vue'
 import { useEventListener, isNumber } from '@vueuse/core'
 import ElIcon from '@element-plus/components/icon'
-import { useLocale, useNamespace } from '@element-plus/hooks'
+import { useLocale, useNamespace, useZIndex } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { isFirefox } from '@element-plus/utils-v2'
 import { rafThrottle } from '@element-plus/utils/util'
@@ -108,7 +108,6 @@ import {
   FullScreen,
   ScaleToOriginal,
 } from '@element-plus/icons-vue'
-import { PopupManager } from '@element-plus/utils/popup-manager'
 import { imageViewerProps, imageViewerEmits } from './image-viewer'
 
 import type { CSSProperties } from 'vue'
@@ -149,6 +148,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const { t } = useLocale()
     const ns = useNamespace('image-viewer')
+    const { nextZIndex } = useZIndex()
     const wrapper = ref<HTMLDivElement>()
     const imgRefs = ref<any[]>([])
 
@@ -213,7 +213,7 @@ export default defineComponent({
     })
 
     const computedZIndex = computed(() => {
-      return isNumber(props.zIndex) ? props.zIndex : PopupManager.nextZIndex()
+      return isNumber(props.zIndex) ? props.zIndex : nextZIndex()
     })
 
     function hide() {
