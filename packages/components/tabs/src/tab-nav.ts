@@ -38,7 +38,7 @@ export const tabNavProps = buildProps({
     default: () => mutable([] as const),
   },
   currentName: {
-    type: String,
+    type: [String, Number],
     default: '',
   },
   editable: Boolean,

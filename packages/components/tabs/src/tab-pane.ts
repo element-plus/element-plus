@@ -7,7 +7,7 @@ export const tabPaneProps = buildProps({
     default: '',
   },
   name: {
-    type: String,
+    type: [String, Number],
     default: '',
   },
   closable: Boolean,

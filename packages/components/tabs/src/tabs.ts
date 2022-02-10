@@ -42,7 +42,7 @@ export const tabsProps = buildProps({
   closable: Boolean,
   addable: Boolean,
   modelValue: {
-    type: String,
+    type: [String, Number],
     default: '',
   },
   editable: Boolean,
