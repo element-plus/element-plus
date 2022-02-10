@@ -14,8 +14,8 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "types": ["unplugin-vue-define-options"]
+    "types": ["unplugin-vue-define-options", "jest", "./typings/jsx-shim"]
   },
   "include": ["packages"],
-  "exclude": ["node_modules", "**/__test?__", "**/dist"]
+  "exclude": ["node_modules", "**/dist"]
 }
