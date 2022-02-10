@@ -335,7 +335,7 @@ export const useSelect = (props, states: States, ctx) => {
       const _tags = tags.value
       const sizeInMap = states.initialInputHeight || 40
       input.style.height =
-        states.selected.length === 0
+        states.selected.length === 0 || props.collapseTags
           ? `${sizeInMap}px`
           : `${Math.max(
               _tags
