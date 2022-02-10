@@ -91,7 +91,7 @@ input/mixed-input
 
 ## Sizes
 
-:::demo Add `size` attribute to change the size of Input. In addition to the default size, there are three other options: `large`, `small` and `mini`.
+:::demo Add `size` attribute to change the size of Input. In addition to the default size, there are three other options: `large`, `small`.
 
 input/various-size
 
@@ -148,7 +148,7 @@ input/length-limiting
 | clearable            | whether to show clear button                                                                                                           | boolean            | —                                                                                                                                     | false   |
 | show-password        | whether to show toggleable password input                                                                                              | boolean            | —                                                                                                                                     | false   |
 | disabled             | whether Input is disabled                                                                                                              | boolean            | —                                                                                                                                     | false   |
-| size                 | size of Input, works when `type` is not 'textarea'                                                                                     | string             | large / small                                                                                                                         | —       |
+| size                 | size of Input, works when `type` is not 'textarea'                                                                                     | string             | large / default / small                                                                                                               | —       |
 | prefix-icon          | prefix icon component                                                                                                                  | string / Component | —                                                                                                                                     | —       |
 | suffix-icon          | suffix icon component                                                                                                                  | string / Component | —                                                                                                                                     | —       |
 | rows                 | number of rows of textarea, only works when `type` is 'textarea'                                                                       | number             | —                                                                                                                                     | 2       |
