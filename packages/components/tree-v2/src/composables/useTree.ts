@@ -228,9 +228,62 @@ export function useTree(props: TreeProps, emit) {
     emit(NODE_EXPAND, node.data, node)
   }
 
+  function expandByKeys(keys: Array<TreeKey>) {
+    if (keys && keys.length > 0) {
+      const keySet = expandedKeySet.value
+      if (tree?.value) {
+        // whether only one node among the same level can be expanded at one time
+        const { treeNodeMap } = tree.value
+
+        keys.forEach((key) => {
+          const node = treeNodeMap.get(key)
+          if (node) {
+            if (!keySet.has(node.key)) keySet.add(node.key)
+            emit(NODE_EXPAND, node.data, node)
+          }
+        })
+      }
+    }
+  }
+
   function collapse(node: TreeNode) {
     expandedKeySet.value.delete(node.key)
     emit(NODE_COLLAPSE, node.data, node)
+  }
+
+  function collapseByKeys(keys: Array<TreeKey>) {
+    if (keys && keys.length > 0) {
+      const keySet = expandedKeySet.value
+      if (tree?.value) {
+        // whether only one node among the same level can be expanded at one time
+        const { treeNodeMap } = tree.value
+        keys.forEach((key) => {
+          const node = treeNodeMap.get(key)
+          if (node) {
+            if (keySet.has(node.key)) keySet.delete(node.key)
+            emit(NODE_COLLAPSE, node.data, node)
+          }
+        })
+      }
+    }
+  }
+
+   function getTreeNode(key: TreeKey) {
+    var nodes = getTreeNodes([key])
+    if (nodes && nodes.length > 0) return nodes[0]
+    else return undefined
+  }
+
+  function getTreeNodes(keys: Array<TreeKey>) {
+    let nodes: Array<TreeNode> = []
+    if (tree?.value) {
+      const { treeNodeMap } = tree.value
+      keys.forEach((x) => {
+        let node = treeNodeMap.get(x)
+        if (node) nodes.push(node)
+      })
+    }
+    return nodes
   }
 
   function isExpanded(node: TreeNode): boolean {
@@ -291,5 +344,9 @@ export function useTree(props: TreeProps, emit) {
     setCheckedKeys,
     filter,
     setData,
+    expandByKeys,
+    collapseByKeys,
+    getTreeNode,
+    getTreeNodes,
   }
 }
