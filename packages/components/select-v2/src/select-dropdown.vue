@@ -17,6 +17,7 @@ import {
   FixedSizeList,
   DynamicSizeList,
 } from '@element-plus/components/virtual-list'
+import { useNamespace } from '@element-plus/hooks'
 import GroupItem from './group-item.vue'
 import OptionItem from './option-item.vue'
 
@@ -35,6 +36,7 @@ export default defineComponent({
   },
   setup(props) {
     const select = inject(selectV2InjectionKey) as any
+    const ns = useNamespace('select')
     const cachedHeights = ref<Array<number>>([])
 
     const listRef = ref(null)
@@ -121,6 +123,7 @@ export default defineComponent({
 
     // computed
     return {
+      ns,
       select,
       listProps,
       listRef,
@@ -144,6 +147,7 @@ export default defineComponent({
       select,
       isSized,
       width,
+      ns,
       // methods
       isItemDisabled,
       isItemHovering,
@@ -165,7 +169,7 @@ export default defineComponent({
       return h(
         'div',
         {
-          class: 'el-select-dropdown',
+          class: ns.b('dropdown'),
           style: {
             width: `${width}px`,
           },
@@ -215,7 +219,7 @@ export default defineComponent({
       Comp,
       {
         ref: 'listRef', // forwarded ref so that select can access the list directly
-        className: 'el-select-dropdown__list',
+        className: ns.be('dropdown', 'list'),
         data,
         height,
         width,
@@ -267,10 +271,7 @@ export default defineComponent({
     return h(
       'div',
       {
-        class: {
-          'is-multiple': multiple,
-          'el-select-dropdown': true,
-        },
+        class: [ns.b('dropdown'), ns.is('multiple', multiple)],
       },
       [List]
     )

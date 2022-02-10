@@ -9,7 +9,12 @@ import {
 } from 'vue'
 import { isArray, isFunction, isObject } from '@vue/shared'
 import { isEqual, debounce as lodashDebounce } from 'lodash-unified'
-import { useFormItem, useLocale, useSize } from '@element-plus/hooks'
+import {
+  useFormItem,
+  useLocale,
+  useSize,
+  useNamespace,
+} from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
 import { ValidateComponentsMap } from '@element-plus/utils-v2'
 import {
@@ -42,6 +47,9 @@ const COMPONENT_NAME = 'ElSelectV2'
 const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   // inject
   const { t } = useLocale()
+  const nsSelectV2 = useNamespace('select-v2')
+  const nsZoom = useNamespace('zoom')
+  const nsInput = useNamespace('input')
   const { form: elForm, formItem: elFormItem } = useFormItem()
   const { compatTeleported } = useDeprecateAppendToBody(
     COMPONENT_NAME,
@@ -122,8 +130,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     props.remote && props.filterable ? '' : ArrowUp
   )
 
-  const iconReverse = computed(() =>
-    iconComponent.value && expanded.value ? 'is-reverse' : ''
+  const iconReverse = computed(
+    () => iconComponent.value && nsSelectV2.is('reverse', expanded.value)
   )
 
   const validateState = computed(() => elFormItem?.validateState || '')
@@ -772,6 +780,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     showClearBtn,
     states,
     tagMaxWidth,
+    nsSelectV2,
+    nsZoom,
+    nsInput,
 
     // refs items exports
     calculatorRef,
