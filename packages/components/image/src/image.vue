@@ -21,7 +21,7 @@
         :initial-index="imageIndex"
         :url-list="previewSrcList"
         :hide-on-click-modal="hideOnClickModal"
-        :teleported="compatibleAppendToBody"
+        :teleported="teleported"
         @close="closeViewer"
         @switch="switchViewer"
       >
@@ -111,7 +111,7 @@ export default defineComponent({
       return Array.isArray(previewSrcList) && previewSrcList.length > 0
     })
 
-    const compatibleAppendToBody = computed(() => {
+    const teleported = computed(() => {
       return props.appendToBody || props.previewTeleported
     })
 
@@ -283,7 +283,7 @@ export default defineComponent({
       imageIndex,
       container,
       ns,
-      compatibleAppendToBody,
+      teleported,
 
       clickHandler,
       closeViewer,
