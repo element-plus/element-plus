@@ -494,7 +494,7 @@ export default defineComponent({
             (item) => item.tagName === 'INPUT'
           )[0]
           const prefix = reference.value.$el.querySelector(
-            `.${ns.namespace.value}-input__prefix`
+            `.${nsInput.e('prefix')}`
           )
           prefixWidth.value = Math.max(
             prefix.getBoundingClientRect().width + 5,
