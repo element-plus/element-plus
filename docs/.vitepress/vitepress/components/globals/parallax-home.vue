@@ -108,7 +108,7 @@ useEventListener(window, 'scroll', handleScroll)
 
 <template>
   <div ref="target" class="home-page">
-    <template v-if="isBeforeRelease">
+    <!-- <template v-if="isBeforeRelease">
       <div class="banner">
         <div class="banner-desc banner-dot">
           <h1>
@@ -152,27 +152,25 @@ useEventListener(window, 'scroll', handleScroll)
           </div>
         </div>
       </div>
-    </template>
-    <template v-else>
-      <div class="banner">
-        <div class="banner-desc">
-          <h1>{{ homeLang['title'] }}</h1>
-          <p>{{ homeLang['title_sub'] }}</p>
-        </div>
+    </template> -->
+    <div class="banner">
+      <div class="banner-desc">
+        <h1>{{ homeLang['title'] }}</h1>
+        <p>{{ homeLang['title_sub'] }}</p>
       </div>
-      <div ref="jumbotronRef" class="jumbotron">
-        <div :style="containerStyle">
-          <div :style="cardStyle">
-            <div class="banner" :style="layer0">
-              <img src="/images/theme-index-blue.png" alt="banner" />
-              <div class="jumbotron-red" :style="jumbotronRedStyle">
-                <img src="/images/theme-index-red.png" alt="" />
-              </div>
+    </div>
+    <div ref="jumbotronRef" class="jumbotron">
+      <div :style="containerStyle">
+        <div :style="cardStyle">
+          <div class="banner" :style="layer0">
+            <img src="/images/theme-index-blue.png" alt="banner" />
+            <div class="jumbotron-red" :style="jumbotronRedStyle">
+              <img src="/images/theme-index-red.png" alt="" />
             </div>
           </div>
         </div>
       </div>
-    </template>
+    </div>
     <div class="sponsors-container">
       <div class="sponsors-list">
         <a
