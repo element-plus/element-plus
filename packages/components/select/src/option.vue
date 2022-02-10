@@ -6,7 +6,7 @@
       ns.is('disabled', isDisabled),
       {
         selected: itemSelected,
-        hover: hover,
+        hover,
       },
     ]"
     @mouseenter="hoverItem"
