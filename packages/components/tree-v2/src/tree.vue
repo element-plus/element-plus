@@ -104,6 +104,7 @@ export default defineComponent({
       setCheckedKeys,
       filter,
       setData,
+	  toggleCheckbox,
     })
 
     return {
