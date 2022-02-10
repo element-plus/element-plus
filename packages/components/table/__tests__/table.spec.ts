@@ -10,6 +10,17 @@ import type { ComponentPublicInstance } from 'vue'
 
 const { CheckboxGroup: ElCheckboxGroup } = ElCheckbox
 
+jest.mock('lodash-unified', () => {
+  return {
+    ...(jest.requireActual('lodash-unified') as Record<string, any>),
+    debounce: jest.fn((fn) => {
+      fn.cancel = jest.fn()
+      fn.flush = jest.fn()
+      return fn
+    }),
+  }
+})
+
 jest.useFakeTimers()
 
 describe('Table.vue', () => {
