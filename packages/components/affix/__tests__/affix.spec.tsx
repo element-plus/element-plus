@@ -2,19 +2,12 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { defineGetter, makeScroll } from '@element-plus/test-utils'
 import Affix from '../src/affix.vue'
+import type { VNode } from 'vue'
 
 let clientHeightRestore: () => void
 
-const _mount = (template: string) =>
-  mount(
-    {
-      components: {
-        'el-affix': Affix,
-      },
-      template,
-    },
-    { attachTo: document.body }
-  )
+const _mount = (renderFn: () => VNode) =>
+  mount({ render: renderFn }, { attachTo: document.body })
 
 const AXIOM = 'Rem is the best girl'
 
@@ -33,9 +26,7 @@ afterAll(() => {
 
 describe('Affix.vue', () => {
   test('render test', async () => {
-    const wrapper = _mount(`
-      <el-affix>${AXIOM}</el-affix>
-    `)
+    const wrapper = _mount(() => <Affix>{AXIOM}</Affix>)
     await nextTick()
     expect(wrapper.text()).toEqual(AXIOM)
     const mockAffixRect = jest
@@ -62,9 +53,7 @@ describe('Affix.vue', () => {
   })
 
   test('should render offset props', async () => {
-    const wrapper = _mount(`
-      <el-affix :offset="30">${AXIOM}</el-affix>
-    `)
+    const wrapper = _mount(() => <Affix offset={30}>{AXIOM}</Affix>)
     await nextTick()
     const mockAffixRect = jest
       .spyOn(wrapper.find('.el-affix').element, 'getBoundingClientRect')
@@ -92,9 +81,11 @@ describe('Affix.vue', () => {
   })
 
   test('should render position props', async () => {
-    const wrapper = _mount(`
-      <el-affix position="bottom" :offset="20">${AXIOM}</el-affix>
-    `)
+    const wrapper = _mount(() => (
+      <Affix position="bottom" offset={20}>
+        {AXIOM}
+      </Affix>
+    ))
     await nextTick()
 
     const mockAffixRect = jest
@@ -123,12 +114,14 @@ describe('Affix.vue', () => {
   })
 
   test('should render target props', async () => {
-    const wrapper = _mount(`
-      <div class="target" style="height: 200px">
-        <el-affix target=".target">${AXIOM}</el-affix>
-      </div>
-      <div style="height: 1000px"></div>
-    `)
+    const wrapper = _mount(() => (
+      <>
+        <div class="target" style="height: 200px">
+          <Affix target=".target">{AXIOM}</Affix>
+        </div>
+        <div style="height: 1000px"></div>
+      </>
+    ))
     await nextTick()
 
     const mockAffixRect = jest
@@ -168,9 +161,7 @@ describe('Affix.vue', () => {
   })
 
   test('should render z-index props', async () => {
-    const wrapper = _mount(`
-      <el-affix :z-index="1000">${AXIOM}</el-affix>
-    `)
+    const wrapper = _mount(() => <Affix zIndex={1000}>${AXIOM}</Affix>)
     await nextTick()
     const mockAffixRect = jest
       .spyOn(wrapper.find('.el-affix').element, 'getBoundingClientRect')
