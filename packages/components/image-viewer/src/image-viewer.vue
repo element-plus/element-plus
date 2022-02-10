@@ -1,6 +1,6 @@
 <template>
   <teleport to="body" :disabled="!appendToBody">
-    <transition name="viewer-fade">
+    <transition name="viewer-fade" appear>
       <div
         ref="wrapper"
         :tabindex="-1"
