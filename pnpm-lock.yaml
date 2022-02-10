@@ -179,7 +179,7 @@ importers:
       unplugin-icons: 0.13.1
       unplugin-vue-components: 0.17.18
       vite: 2.8.0
-      vite-plugin-inspect: 0.3.13
+      vite-plugin-inspect: 0.3.14
       vite-plugin-windicss: 1.7.0
       vitepress: 0.21.6
     dependencies:
@@ -202,7 +202,7 @@ importers:
       unplugin-icons: 0.13.1_737339f39a52c341515b0d4dcab71b66
       unplugin-vue-components: 0.17.18_a38d80f49840394e68cec3fd6002634a
       vite: 2.8.0_sass@1.49.7
-      vite-plugin-inspect: 0.3.13_vite@2.8.0
+      vite-plugin-inspect: 0.3.14_vite@2.8.0
       vite-plugin-windicss: 1.7.0_vite@2.8.0
       vitepress: 0.21.6_sass@1.49.7
 
@@ -296,7 +296,7 @@ importers:
       '@vitejs/plugin-vue': 2.2.0
       unplugin-vue-components: 0.17.18
       vite: 2.8.0
-      vite-plugin-inspect: 0.3.13
+      vite-plugin-inspect: 0.3.14
       vite-plugin-mkcert: 1.5.2
     dependencies:
       '@element-plus/icons-vue': 0.2.6_vue@3.2.30
@@ -304,7 +304,7 @@ importers:
       '@vitejs/plugin-vue': 2.2.0_vite@2.8.0+vue@3.2.30
       unplugin-vue-components: 0.17.18_a38d80f49840394e68cec3fd6002634a
       vite: 2.8.0_sass@1.49.7
-      vite-plugin-inspect: 0.3.13_vite@2.8.0
+      vite-plugin-inspect: 0.3.14_vite@2.8.0
       vite-plugin-mkcert: 1.5.2
 
 packages:
@@ -10523,6 +10523,7 @@ packages:
 
   /ufo/0.7.9:
     resolution: {integrity: sha512-6t9LrLk3FhqTS+GW3IqlITtfRB5JAVr5MMNjpBECfK827W+Vh5Ilw/LhTcHWrt6b3hkeBvcbjx4Ti7QVFzmcww==}
+    deprecated: 'security: please use latest version'
     dev: true
 
   /unbox-primitive/1.0.1:
@@ -10887,8 +10888,8 @@ packages:
       replace-ext: 1.0.1
     dev: true
 
-  /vite-plugin-inspect/0.3.13_vite@2.8.0:
-    resolution: {integrity: sha512-Naie3Rx/0IbmQSknfQPVrvWKiar7fCu50u+uLcUgt54yX0espduLDnI8IEtOYlsCA4gHs93IYKtxFDTxAThmYw==}
+  /vite-plugin-inspect/0.3.14_vite@2.8.0:
+    resolution: {integrity: sha512-oRjltmm1nUgkHmlGLgfSAuPiXA/FqC7daURJ+faY498r3mwnXrtcfe6Bg5khANQ0iss9Cn1uV6+W9c85noVq0g==}
     engines: {node: '>=14'}
     peerDependencies:
       vite: ^2.0.0
