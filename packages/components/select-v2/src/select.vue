@@ -11,7 +11,6 @@
       ref="popper"
       v-model:visible="dropdownMenuVisible"
       :teleported="compatTeleported"
-      :append-to-body="popperAppendToBody"
       :popper-class="[nsSelectV2.e('popper'), popperClass]"
       :gpu-acceleration="false"
       :stop-popper-mouse-event="false"
@@ -20,7 +19,7 @@
       effect="light"
       placement="bottom-start"
       pure
-      :transition="nsZoom.b('in-top')"
+      :transition="`${nsSelectV2.namespace.value}in-top`"
       trigger="click"
       persistent
       @show="handleMenuEnter"

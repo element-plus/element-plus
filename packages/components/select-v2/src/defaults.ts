@@ -43,10 +43,7 @@ export const SelectProps = {
   modelValue: [Array, String, Number, Boolean, Object] as PropType<
     any[] | string | number | boolean | Record<string, any> | any
   >,
-  multiple: {
-    type: Boolean,
-    default: false,
-  },
+  multiple: Boolean,
   multipleLimit: {
     type: Number,
     default: 0,

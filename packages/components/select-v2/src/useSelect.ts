@@ -48,7 +48,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   // inject
   const { t } = useLocale()
   const nsSelectV2 = useNamespace('select-v2')
-  const nsZoom = useNamespace('zoom')
   const nsInput = useNamespace('input')
   const { form: elForm, formItem: elFormItem } = useFormItem()
   const { compatTeleported } = useDeprecateAppendToBody(
@@ -781,7 +780,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     states,
     tagMaxWidth,
     nsSelectV2,
-    nsZoom,
     nsInput,
 
     // refs items exports
