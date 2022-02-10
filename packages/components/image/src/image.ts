@@ -10,7 +10,6 @@ import type { ExtractPropTypes } from 'vue'
 export const imageProps = buildProps({
   appendToBody: {
     type: Boolean,
-    default: false,
   },
   hideOnClickModal: {
     type: Boolean,
@@ -42,7 +41,6 @@ export const imageProps = buildProps({
   },
   zIndex: {
     type: Number,
-    default: 2000,
   },
   initialIndex: {
     type: Number,

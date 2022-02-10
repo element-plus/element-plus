@@ -8,7 +8,6 @@ export const imageViewerProps = buildProps({
   },
   zIndex: {
     type: Number,
-    default: 2000,
   },
   initialIndex: {
     type: Number,

@@ -14,31 +14,34 @@
       :class="[ns.e('inner'), preview ? ns.e('preview') : '']"
       @click="clickHandler"
     />
-    <teleport to="body" :disabled="!appendToBody">
-      <template v-if="preview">
-        <image-viewer
-          v-if="showViewer"
-          :z-index="zIndex"
-          :initial-index="imageIndex"
-          :url-list="previewSrcList"
-          :hide-on-click-modal="hideOnClickModal"
-          :append-to-body="previewAppendToBody"
-          @close="closeViewer"
-          @switch="switchViewer"
-        >
-          <div v-if="$slots.viewer">
-            <slot name="viewer" />
-          </div>
-        </image-viewer>
-      </template>
-    </teleport>
+    <template v-if="preview">
+      <image-viewer
+        v-if="showViewer"
+        :z-index="zIndex"
+        :initial-index="imageIndex"
+        :url-list="previewSrcList"
+        :hide-on-click-modal="hideOnClickModal"
+        :append-to-body="compatibleAppendToBody"
+        @close="closeViewer"
+        @switch="switchViewer"
+      >
+        <div v-if="$slots.viewer">
+          <slot name="viewer" />
+        </div>
+      </image-viewer>
+    </template>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed, ref, onMounted, watch, nextTick } from 'vue'
 import { isString } from '@vue/shared'
-import { useEventListener, useThrottleFn, isClient } from '@vueuse/core'
+import {
+  useEventListener,
+  useThrottleFn,
+  isClient,
+  isBoolean,
+} from '@vueuse/core'
 import {
   useAttrs,
   useLocale,
@@ -75,7 +78,7 @@ export default defineComponent({
         version: '2.2.0',
         ref: 'https://element-plus.org/en-US/component/image.html#image-attributess',
       },
-      props.appendToBody
+      computed(() => isBoolean(props.appendToBody))
     )
 
     const { t } = useLocale()
@@ -106,6 +109,12 @@ export default defineComponent({
     const preview = computed(() => {
       const { previewSrcList } = props
       return Array.isArray(previewSrcList) && previewSrcList.length > 0
+    })
+
+    const compatibleAppendToBody = computed(() => {
+      return isBoolean(props.appendToBody)
+        ? props.appendToBody
+        : props.previewAppendToBody
     })
 
     const imageIndex = computed(() => {
@@ -276,6 +285,7 @@ export default defineComponent({
       imageIndex,
       container,
       ns,
+      compatibleAppendToBody,
 
       clickHandler,
       closeViewer,

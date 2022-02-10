@@ -5,7 +5,7 @@
         ref="wrapper"
         :tabindex="-1"
         :class="ns.e('wrapper')"
-        :style="{ zIndex }"
+        :style="{ zIndex: computedZIndex }"
       >
         <div :class="ns.e('mask')" @click.self="hideOnClickModal && hide()" />
 
@@ -91,7 +91,7 @@ import {
   effectScope,
   markRaw,
 } from 'vue'
-import { useEventListener } from '@vueuse/core'
+import { useEventListener, isNumber } from '@vueuse/core'
 import ElIcon from '@element-plus/components/icon'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/utils/aria'
@@ -108,6 +108,7 @@ import {
   FullScreen,
   ScaleToOriginal,
 } from '@element-plus/icons-vue'
+import { PopupManager } from '@element-plus/utils/popup-manager'
 import { imageViewerProps, imageViewerEmits } from './image-viewer'
 
 import type { CSSProperties } from 'vue'
@@ -209,6 +210,10 @@ export default defineComponent({
         style.maxWidth = style.maxHeight = '100%'
       }
       return style
+    })
+
+    const computedZIndex = computed(() => {
+      return isNumber(props.zIndex) ? props.zIndex : PopupManager.nextZIndex()
     })
 
     function hide() {
@@ -406,6 +411,7 @@ export default defineComponent({
       currentImg,
       imgStyle,
       mode,
+      computedZIndex,
       handleActions,
       prev,
       next,
