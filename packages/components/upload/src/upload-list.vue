@@ -2,16 +2,20 @@
   <transition-group
     tag="ul"
     :class="[
-      ns.b('list'),
-      ns.bm('list', listType),
-      ns.is('disabled', disabled),
+      nsUpload.b('list'),
+      nsUpload.bm('list', listType),
+      nsUpload.is('disabled', disabled),
     ]"
-    name="el-list"
+    :name="nsList.b()"
   >
     <li
       v-for="file in files"
       :key="file.uid || file"
-      :class="[ns.be('list', 'item'), ns.is(file.status), { focusing }]"
+      :class="[
+        nsUpload.be('list', 'item'),
+        nsUpload.is(file.status),
+        { focusing },
+      ]"
       tabindex="0"
       @keydown.delete="!disabled && handleRemove(file)"
       @focus="focusing = true"
@@ -24,31 +28,31 @@
             file.status !== 'uploading' &&
             ['picture-card', 'picture'].includes(listType)
           "
-          :class="ns.be('list', 'item-thumbnail')"
+          :class="nsUpload.be('list', 'item-thumbnail')"
           :src="file.url"
           alt=""
         />
-        <a :class="ns.be('list', 'item-name')" @click="handleClick(file)">
-          <el-icon class="el-icon--document"><document /></el-icon>
+        <a :class="nsUpload.be('list', 'item-name')" @click="handleClick(file)">
+          <el-icon :class="nsIcon.m('document')"><document /></el-icon>
           {{ file.name }}
         </a>
-        <label :class="ns.be('list', 'item-status-label')">
+        <label :class="nsUpload.be('list', 'item-status-label')">
           <el-icon
             v-if="listType === 'text'"
-            class="el-icon--upload-success el-icon--circle-check"
+            :class="[nsIcon.m('upload-success'), nsIcon.m('circle-check')]"
           >
             <circle-check />
           </el-icon>
           <el-icon
             v-else-if="['picture-card', 'picture'].includes(listType)"
-            class="el-icon--upload-success el-icon--check"
+            :class="[nsIcon.m('upload-success'), nsIcon.m('check')]"
           >
             <check />
           </el-icon>
         </label>
         <el-icon
           v-if="!disabled"
-          class="el-icon--close"
+          :class="nsIcon.m('close')"
           @click="handleRemove(file)"
         >
           <close />
@@ -56,7 +60,7 @@
         <!-- Due to close btn only appears when li gets focused disappears after li gets blurred, thus keyboard navigation can never reach close btn-->
         <!-- This is a bug which needs to be fixed -->
         <!-- TODO: Fix the incorrect navigation interaction -->
-        <i v-if="!disabled" class="el-icon--close-tip">{{
+        <i v-if="!disabled" :class="nsIcon.m('close-tip')">{{
           t('el.upload.deleteTip')
         }}</i>
         <el-progress
@@ -68,20 +72,20 @@
         />
         <span
           v-if="listType === 'picture-card'"
-          :class="ns.be('list', 'item-actions')"
+          :class="nsUpload.be('list', 'item-actions')"
         >
           <span
-            :class="ns.be('list', 'item-preview')"
+            :class="nsUpload.be('list', 'item-preview')"
             @click="handlePreview(file)"
           >
-            <el-icon class="el-icon--zoom-in"><zoom-in /></el-icon>
+            <el-icon :class="nsIcon.m('zoom-in')"><zoom-in /></el-icon>
           </span>
           <span
             v-if="!disabled"
-            :class="ns.be('list', 'item-delete')"
+            :class="nsUpload.be('list', 'item-delete')"
             @click="handleRemove(file)"
           >
-            <el-icon class="el-icon--delete"><delete /></el-icon>
+            <el-icon :class="nsIcon.m('delete')"><delete /></el-icon>
           </span>
         </span>
       </slot>
@@ -139,7 +143,9 @@ export default defineComponent({
   emits: ['remove'],
   setup(props, { emit }) {
     const { t } = useLocale()
-    const ns = useNamespace('upload')
+    const nsUpload = useNamespace('upload')
+    const nsIcon = useNamespace('icon')
+    const nsList = useNamespace('list')
 
     const handleClick = (file: UploadFile) => {
       props.handlePreview(file)
@@ -158,7 +164,9 @@ export default defineComponent({
       handleRemove,
       onFileClicked,
       t,
-      ns,
+      nsUpload,
+      nsIcon,
+      nsList,
     }
   },
 })
