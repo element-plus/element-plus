@@ -1,6 +1,7 @@
 import path from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import Inspect from 'vite-plugin-inspect'
@@ -39,6 +40,7 @@ export default defineConfig(async () => {
     },
     plugins: [
       vue(),
+      vueJsx(),
       DefineOptions(),
       Components({
         include: `${__dirname}/**`,
