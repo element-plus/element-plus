@@ -374,11 +374,16 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
         initData.dragging ||
         (Array.isArray(val) &&
           Array.isArray(oldVal) &&
-          val.every((item, index) => item === oldVal[index]))
+          val.every((item, index) => item === oldVal[index]) &&
+          initData.firstValue === val[0] &&
+          initData.secondValue === val[1])
       ) {
         return
       }
       setValues()
+    },
+    {
+      deep: true,
     }
   )
 
