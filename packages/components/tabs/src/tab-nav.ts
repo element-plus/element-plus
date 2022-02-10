@@ -38,13 +38,13 @@ export const tabNavProps = buildProps({
     default: () => mutable([] as const),
   },
   currentName: {
-    type: String,
+    type: [String, Number],
     default: '',
   },
   editable: Boolean,
   onTabClick: {
     type: definePropType<
-      (tab: TabsPaneContext, tabName: string, ev: Event) => void
+      (tab: TabsPaneContext, tabName: string | number, ev: Event) => void
     >(Function),
     default: NOOP,
   },

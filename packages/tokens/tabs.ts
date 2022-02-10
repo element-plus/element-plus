@@ -12,7 +12,7 @@ export type TabsPaneContext = UnwrapRef<{
   uid: number
   instance: ShallowReactive<ComponentInternalInstance>
   props: TabPaneProps
-  paneName: ComputedRef<string | undefined>
+  paneName: ComputedRef<string | number | undefined>
   active: ComputedRef<boolean>
   index: Ref<string | undefined>
   isClosable: ComputedRef<boolean>
@@ -20,7 +20,7 @@ export type TabsPaneContext = UnwrapRef<{
 
 export interface TabsRootContext {
   props: TabsProps
-  currentName: Ref<string>
+  currentName: Ref<string | number>
   updatePaneState: (pane: TabsPaneContext) => void
 }
 
