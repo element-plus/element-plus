@@ -1,13 +1,13 @@
-import { defineComponent, computed, inject, h, renderSlot } from 'vue'
+import { defineComponent, computed, inject } from 'vue'
 import { buildProps, definePropType, mutable } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import type { ExtractPropTypes, CSSProperties } from 'vue'
 
-type SizeObject = {
+export type ColSizeObject = {
   span?: number
   offset?: number
 }
-type Size = number | SizeObject
+export type ColSize = number | ColSizeObject
 
 export const colProps = buildProps({
   tag: {
@@ -31,23 +31,23 @@ export const colProps = buildProps({
     default: 0,
   },
   xs: {
-    type: definePropType<Size>([Number, Object]),
+    type: definePropType<ColSize>([Number, Object]),
     default: () => mutable({} as const),
   },
   sm: {
-    type: definePropType<Size>([Number, Object]),
+    type: definePropType<ColSize>([Number, Object]),
     default: () => mutable({} as const),
   },
   md: {
-    type: definePropType<Size>([Number, Object]),
+    type: definePropType<ColSize>([Number, Object]),
     default: () => mutable({} as const),
   },
   lg: {
-    type: definePropType<Size>([Number, Object]),
+    type: definePropType<ColSize>([Number, Object]),
     default: () => mutable({} as const),
   },
   xl: {
-    type: definePropType<Size>([Number, Object]),
+    type: definePropType<ColSize>([Number, Object]),
     default: () => mutable({} as const),
   },
 } as const)
@@ -71,7 +71,7 @@ export default defineComponent({
       return {}
     })
 
-    const classList = computed(() => {
+    const classes = computed(() => {
       const classes: string[] = []
 
       const pos = ['span', 'offset', 'pull', 'push'] as const
@@ -100,20 +100,18 @@ export default defineComponent({
       })
       // this is for the fix
       if (gutter.value) {
-        classes.push('is-guttered')
+        classes.push(ns.is('guttered'))
       }
 
       return classes
     })
 
-    return () =>
-      h(
-        props.tag,
-        {
-          class: [ns.b(), classList.value],
-          style: style.value,
-        },
-        [renderSlot(slots, 'default')]
-      )
+    return () => (
+      <props.tag
+        v-slots={slots}
+        class={[ns.b(), classes.value]}
+        style={style.value}
+      />
+    )
   },
 })
