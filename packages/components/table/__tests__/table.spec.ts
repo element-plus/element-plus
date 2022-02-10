@@ -167,6 +167,15 @@ describe('Table.vue', () => {
       wrapper.unmount()
     })
 
+    it('maxHeight uses special units', async () => {
+      const wrapper = createTable('max-height="60vh"')
+      await nextTick()
+      expect(
+        wrapper.find('.el-table__body-wrapper').attributes('style')
+      ).toContain('max-height: calc(60vh - 44px - 44px);')
+      wrapper.unmount()
+    })
+
     it('stripe', async () => {
       const wrapper = createTable('stripe')
       await nextTick()
