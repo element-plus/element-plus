@@ -157,17 +157,13 @@ export const useDialog = (
   watch(
     () => props.fullscreen,
     (val) => {
-      if (targetRef.value) {
-        if (val) {
-          lastPosition = targetRef.value.style.transform
-          targetRef.value.style.transform = ''
-        } else {
-          targetRef.value.style.transform = lastPosition
-        }
+      if (!targetRef.value) return
+      if (val) {
+        lastPosition = targetRef.value.style.transform
+        targetRef.value.style.transform = ''
+      } else {
+        targetRef.value.style.transform = lastPosition
       }
-    },
-    {
-      flush: 'post',
     }
   )
 
