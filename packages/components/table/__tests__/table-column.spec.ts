@@ -4,6 +4,17 @@ import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column/index'
 import { mount, getTestData } from './table-test-common'
 
+jest.mock('lodash-unified', () => {
+  return {
+    ...(jest.requireActual('lodash-unified') as Record<string, any>),
+    debounce: jest.fn((fn) => {
+      fn.cancel = jest.fn()
+      fn.flush = jest.fn()
+      return fn
+    }),
+  }
+})
+
 describe('table column', () => {
   describe('column attributes', () => {
     const createTable = function (
