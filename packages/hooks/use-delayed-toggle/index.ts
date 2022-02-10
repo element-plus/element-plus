@@ -13,7 +13,7 @@ export const useDelayedToggleProps = buildProps({
     type: Number,
     default: 200,
   },
-})
+} as const)
 
 export type UseDelayedToggleProps = {
   open: () => void

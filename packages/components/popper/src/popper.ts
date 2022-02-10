@@ -26,7 +26,7 @@ export const usePopperArrowProps = buildProps({
     type: Number,
     default: 5,
   },
-})
+} as const)
 
 export const usePopperCoreConfigProps = buildProps({
   boundariesPadding: {
@@ -81,7 +81,7 @@ export const usePopperContentProps = buildProps({
   style: { type: definePropType<StyleValue>([String, Array, Object]) },
   className: { type: definePropType<ClassType>([String, Array, Object]) },
   effect: {
-    type: String,
+    values: effects,
     default: 'dark',
   },
   enterable: {
@@ -105,12 +105,16 @@ export const usePopperContentProps = buildProps({
     default: true,
   },
   zIndex: Number,
-})
+} as const)
 
 export const usePopperTriggerProps = buildProps({
-  virtualRef: { type: definePropType<Measurable>(Object) },
-  virtualTriggering: { type: Boolean },
-})
+  virtualRef: {
+    type: definePropType<Measurable>(Object),
+  },
+  virtualTriggering: {
+    type: Boolean,
+  },
+} as const)
 
 export type UsePopperProps = ExtractPropTypes<typeof usePopperProps>
 export type UsePopperCoreConfigProps = ExtractPropTypes<
