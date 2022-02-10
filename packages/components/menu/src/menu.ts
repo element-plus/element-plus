@@ -13,7 +13,7 @@ import {
 } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import ElIcon from '@element-plus/components/icon'
-import { More } from '@element-plus/icons-vue'
+import { ArrowDown, ArrowRight, More } from '@element-plus/icons-vue'
 import {
   buildProps,
   definePropType,
@@ -30,7 +30,12 @@ import { useMenuCssVar } from './use-menu-css-var'
 
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
-import type { ExtractPropTypes, VNode, VNodeArrayChildren } from 'vue'
+import type {
+  Component,
+  ExtractPropTypes,
+  VNode,
+  VNodeArrayChildren,
+} from 'vue'
 import type { UseResizeObserverReturn } from '@vueuse/core'
 
 export const menuProps = buildProps({
@@ -65,6 +70,14 @@ export const menuProps = buildProps({
   ellipsis: {
     type: Boolean,
     default: true,
+  },
+  subMenuArrowDownIcon: {
+    type: definePropType<string | Component>([String, Object]),
+    default: () => ArrowDown,
+  },
+  subMenuArrowRightIcon: {
+    type: definePropType<string | Component>([String, Object]),
+    default: () => ArrowRight,
   },
 } as const)
 export type MenuProps = ExtractPropTypes<typeof menuProps>

@@ -3,6 +3,12 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
+import {
+  ArrowDown,
+  ArrowRight,
+  CaretBottom,
+  CaretRight,
+} from '@element-plus/icons-vue'
 import Menu from '../src/menu'
 import MenuGroup from '../src/menu-item-group.vue'
 import MenuItem from '../src/menu-item.vue'
@@ -188,6 +194,53 @@ describe('menu', () => {
     vm.background = '#F00'
     await nextTick()
     // expect(vm.$refs.menu.hoverBackground).toEqual('rgb(204, 0, 0)')
+  })
+
+  test("sub-menus' title icons", async () => {
+    const wrapper = _mount(
+      `
+      <el-menu
+        default-active="1"
+        class="el-menu-demo"
+        mode="horizontal"
+        background-color="#545c64"
+        text-color="#fff"
+        active-text-color="#ffd04b"
+        :sub-menu-arrow-down-icon="caretBottom"
+        :sub-menu-arrow-right-icon="caretRight"
+      >
+        <el-menu-item index="1">Processing Center</el-menu-item>
+        <el-sub-menu
+          index="2"
+        >
+          <template #title>Workspace</template>
+          <el-menu-item index="2-1">item one</el-menu-item>
+          <el-menu-item index="2-2">item two</el-menu-item>
+          <el-menu-item index="2-3">item three</el-menu-item>
+          <el-sub-menu index="2-4">
+            <template #title>Item four</template>
+            <el-menu-item index="2-4-1">item one</el-menu-item>
+            <el-menu-item index="2-4-2">item two</el-menu-item>
+            <el-menu-item index="2-4-3">item three</el-menu-item>
+          </el-sub-menu>
+        </el-sub-menu>
+        <el-menu-item index="3">Info</el-menu-item>
+        <el-menu-item index="4">Orders</el-menu-item>
+      </el-menu>
+      `,
+      {
+        data() {
+          return {
+            caretBottom: CaretBottom,
+            caretRight: CaretRight,
+          }
+        },
+      }
+    )
+    expect(wrapper.findAllComponents(CaretBottom).length).toBe(1)
+    expect(wrapper.findAllComponents(CaretRight).length).toBe(1)
+    expect(wrapper.findComponent(ArrowDown).exists()).not.toBe(true)
+    expect(wrapper.findComponent(ArrowRight).exists()).not.toBe(true)
   })
 
   test('menu-overflow', async () => {
