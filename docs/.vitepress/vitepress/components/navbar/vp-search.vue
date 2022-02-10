@@ -134,6 +134,7 @@ function initialize(userOptions: any) {
             },
             children,
           },
+          __v: null,
         }
       },
     })

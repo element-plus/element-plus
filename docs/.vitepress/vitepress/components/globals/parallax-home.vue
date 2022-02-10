@@ -108,7 +108,7 @@ useEventListener(window, 'scroll', handleScroll)
 
 <template>
   <div ref="target" class="home-page">
-    <template v-if="isBeforeRelease">
+    <!-- <template v-if="isBeforeRelease">
       <div class="banner">
         <div class="banner-desc banner-dot">
           <h1>
@@ -152,8 +152,8 @@ useEventListener(window, 'scroll', handleScroll)
           </div>
         </div>
       </div>
-    </template>
-    <template v-else>
+    </template> -->
+    <template>
       <div class="banner">
         <div class="banner-desc">
           <h1>{{ homeLang['title'] }}</h1>
