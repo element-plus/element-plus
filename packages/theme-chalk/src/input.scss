@@ -205,16 +205,12 @@
     display: inline-flex;
   }
 
-  @include e(icon) {
+  & .#{$namespace}-input__icon {
     height: inherit;
     display: flex;
     justify-content: center;
     align-items: center;
     transition: all var(--el-transition-duration);
-
-    &.#{$namespace}-icon {
-      display: flex;
-    }
   }
 
   @include e(validateIcon) {

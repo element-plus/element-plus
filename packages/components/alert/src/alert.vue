@@ -26,12 +26,12 @@
         <template v-if="closable">
           <div
             v-if="closeText"
-            :class="[ns.e('closebtn'), ns.is('customed')]"
+            :class="[ns.e('closeBtn'), ns.is('customed')]"
             @click="close"
           >
             {{ closeText }}
           </div>
-          <el-icon v-else :class="ns.e('closebtn')" @click="close">
+          <el-icon v-else :class="ns.e('closeBtn')" @click="close">
             <close />
           </el-icon>
         </template>

@@ -57,13 +57,13 @@
     }
   }
 
-  @include e(icon) {
+  & .#{$namespace}-notification__icon {
     height: var(--el-notification-icon-size);
     width: var(--el-notification-icon-size);
     font-size: var(--el-notification-icon-size);
   }
 
-  @include e(closeBtn) {
+  & .#{$namespace}-notification__closeBtn {
     position: absolute;
     top: 18px;
     right: 15px;
@@ -77,7 +77,7 @@
   }
 
   @each $type in (success, info, warning, error) {
-    @include m($type) {
+    & .#{$namespace}-notification--#{$type} {
       --el-notification-icon-color: var(--el-color-#{$type});
       color: var(--el-notification-icon-color);
     }
