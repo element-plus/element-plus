@@ -14,7 +14,7 @@ This component is still under testing, if you found any bug or issue please repo
 ## Background
 
 In some use-cases, a single selector may end up loading tens of thousands of rows of data.
-Rendering that much data into the DOM could be a burden to the browser, which can result in performance issues. 
+Rendering that much data into the DOM could be a burden to the browser, which can result in performance issues.
 For a better user and developer experience, we decided to add this component.
 
 ## Basic usage
