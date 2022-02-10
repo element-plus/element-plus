@@ -1,17 +1,17 @@
 <template>
   <button
-    ref="buttonRef"
+    ref="_ref"
     :class="[
       ns.b(),
-      ns.m(buttonType),
-      ns.m(buttonSize),
-      ns.is('disabled', buttonDisabled),
+      ns.m(_type),
+      ns.m(_size),
+      ns.is('disabled', _disabled),
       ns.is('loading', loading),
       ns.is('plain', plain),
       ns.is('round', round),
       ns.is('circle', circle),
     ]"
-    :disabled="buttonDisabled || loading"
+    :disabled="_disabled || loading"
     :autofocus="autofocus"
     :type="nativeType"
     :style="buttonStyle"
@@ -62,10 +62,11 @@ const buttonGroupContext = inject(buttonGroupContextKey, undefined)
 const globalConfig = useGlobalConfig('button')
 const ns = useNamespace('button')
 const { form } = useFormItem()
-const buttonSize = useSize(computed(() => buttonGroupContext?.size))
-const buttonDisabled = useDisabled()
+const _size = useSize(computed(() => buttonGroupContext?.size))
+const _disabled = useDisabled()
+const _ref = ref()
 
-const buttonRef = ref()
+const _type = computed(() => props.type || buttonGroupContext?.type || '')
 const autoInsertSpace = computed(
   () => props.autoInsertSpace ?? globalConfig.value?.autoInsertSpace ?? false
 )
@@ -82,7 +83,6 @@ const shouldAddSpace = computed(() => {
   }
   return false
 })
-const buttonType = computed(() => props.type || buttonGroupContext?.type || '')
 
 // calculate hover & active color by color
 const typeColor = computed(() => useCssVar(`--el-color-${props.type}`).value)
@@ -117,7 +117,7 @@ const buttonStyle = computed(() => {
       }
     }
 
-    if (buttonDisabled.value) {
+    if (_disabled.value) {
       const disabledButtonColor = color.tint(50).toString()
       styles['--el-button-disabled-bg-color'] = disabledButtonColor
       styles['--el-button-disabled-border-color'] = disabledButtonColor
