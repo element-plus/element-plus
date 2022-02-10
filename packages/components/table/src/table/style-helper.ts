@@ -218,6 +218,11 @@ function useStyle<T>(
       : ''
   })
 
+  const tableLayout = computed(() => {
+    if (props.maxHeight) return 'fixed'
+    return props.tableLayout
+  })
+
   const height = computed(() => {
     const headerHeight = layout.headerHeight.value || 0
     const bodyHeight = layout.bodyHeight.value
@@ -355,6 +360,7 @@ function useStyle<T>(
     resizeState,
     doLayout,
     tableBodyStyles,
+    tableLayout,
   }
 }
 
