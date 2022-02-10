@@ -112,9 +112,7 @@ export default defineComponent({
     })
 
     const compatibleAppendToBody = computed(() => {
-      return isBoolean(props.appendToBody)
-        ? props.appendToBody
-        : props.previewAppendToBody
+      return props.appendToBody || props.previewAppendToBody
     })
 
     const imageIndex = computed(() => {
