@@ -75,6 +75,7 @@ importers:
       sucrase: 3.20.3
       ts-jest: 26.5.6
       ts-morph: 13.0.3
+      type-fest: ^2.11.2
       typescript: 4.5.5
       vue: 3.2.30
       vue-jest: 5.0.0-alpha.10
@@ -153,6 +154,7 @@ importers:
       sucrase: 3.20.3
       ts-jest: 26.5.6_jest@26.6.3+typescript@4.5.5
       ts-morph: 13.0.3
+      type-fest: 2.11.2
       typescript: 4.5.5
       vue: 3.2.30
       vue-jest: 5.0.0-alpha.10_e098c2dbe4ae204628e6416de688af6f
@@ -10491,6 +10493,11 @@ packages:
   /type-fest/0.8.1:
     resolution: {integrity: sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==}
     engines: {node: '>=8'}
+    dev: true
+
+  /type-fest/2.11.2:
+    resolution: {integrity: sha512-reW2Y2Mpn0QNA/5fvtm5doROLwDPu2zOm5RtY7xQQS05Q7xgC8MOZ3yPNaP9m/s/sNjjFQtHo7VCNqYW2iI+Ig==}
+    engines: {node: '>=12.20'}
     dev: true
 
   /type/1.2.0:

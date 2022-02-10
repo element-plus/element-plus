@@ -1,5 +1,5 @@
-import { EVENT_CODE } from '@element-plus/utils/aria'
 import {
+  EVENT_CODE,
   buildProps,
   definePropType,
   iconPropType,
@@ -14,7 +14,7 @@ import type { Options } from '@popperjs/core'
 import type { ButtonType } from '@element-plus/components/button'
 import type { Placement } from '@element-plus/components/popper'
 import type { ComponentInternalInstance, ComputedRef } from 'vue'
-import type { Nullable } from '@element-plus/utils/types'
+import type { Nullable } from '@element-plus/utils-v2'
 
 export interface IElDropdownInstance {
   instance?: ComponentInternalInstance

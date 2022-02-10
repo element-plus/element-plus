@@ -1,4 +1,5 @@
-import type { Nullable } from './types'
+import type { Nullable } from '../typescript'
+
 export const EVENT_CODE = {
   tab: 'Tab',
   enter: 'Enter',
@@ -91,10 +92,8 @@ export const attemptFocus = (element: HTMLElement): boolean => {
   if (!isFocusable(element)) {
     return false
   }
-  Utils.IgnoreUtilFocusChanges = true
   // Remove the old try catch block since there will be no error to be thrown
   element.focus?.()
-  Utils.IgnoreUtilFocusChanges = false
   return document.activeElement === element
 }
 
@@ -145,42 +144,3 @@ export const focusNode = (el) => {
   el.focus()
   !isLeaf(el) && el.click()
 }
-
-const Utils = {
-  IgnoreUtilFocusChanges: false,
-  /**
-   * @desc Set focus on descendant nodes until the first focusable element is
-   *       found.
-   * @param {HTMLElement} element
-   *          DOM node for which to find the first focusable descendant.
-   * @returns {Boolean}
-   *  true if a focusable element is found and focus is set.
-   */
-  focusFirstDescendant(element: HTMLElement): boolean {
-    for (let i = 0; i < element.childNodes.length; i++) {
-      const child = element.childNodes[i] as HTMLElement
-      if (attemptFocus(child) || this.focusFirstDescendant(child)) {
-        return true
-      }
-    }
-    return false
-  },
-  /**
-   * @desc Find the last descendant node that is focusable.
-   * @param {HTMLElement} element
-   *          DOM node for which to find the last focusable descendant.
-   * @returns {Boolean}
-   *  true if a focusable element is found and focus is set.
-   */
-  focusLastDescendant(element: HTMLElement): boolean {
-    for (let i = element.childNodes.length - 1; i >= 0; i--) {
-      const child = element.childNodes[i] as HTMLElement
-      if (attemptFocus(child) || this.focusLastDescendant(child)) {
-        return true
-      }
-    }
-    return false
-  },
-}
-
-export default Utils

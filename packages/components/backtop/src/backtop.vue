@@ -20,8 +20,7 @@
 import { defineComponent, ref, computed, onMounted, shallowRef } from 'vue'
 import { useEventListener, useThrottleFn } from '@vueuse/core'
 import { ElIcon } from '@element-plus/components/icon'
-import { easeInOutCubic } from '@element-plus/utils/animation'
-import { throwError } from '@element-plus/utils-v2'
+import { easeInOutCubic, throwError } from '@element-plus/utils-v2'
 import { CaretTop } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
 

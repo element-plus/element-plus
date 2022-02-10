@@ -97,8 +97,12 @@ import {
   CHANGE_EVENT,
   INPUT_EVENT,
 } from '@element-plus/constants'
-import { off, on } from '@element-plus/utils/dom'
-import { throwError, isValidComponentSize } from '@element-plus/utils-v2'
+import {
+  off,
+  on,
+  throwError,
+  isValidComponentSize,
+} from '@element-plus/utils-v2'
 import { useNamespace, useSize } from '@element-plus/hooks'
 import SliderButton from './button.vue'
 import SliderMarker from './marker.vue'
@@ -108,7 +112,7 @@ import { useStops } from './useStops'
 
 import type { PropType, Ref } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
-import type { Nullable } from '@element-plus/utils/types'
+import type { Nullable } from '@element-plus/utils-v2'
 
 export default defineComponent({
   name: 'ElSlider',

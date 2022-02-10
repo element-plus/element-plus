@@ -1,7 +1,6 @@
 import { ref, nextTick, inject, defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
-import { composeRefs } from '@element-plus/utils/dom'
-import { EVENT_CODE } from '@element-plus/utils/aria'
+import { composeRefs, EVENT_CODE } from '@element-plus/utils-v2'
 import {
   ROVING_FOCUS_COLLECTION_INJECTION_KEY,
   ROVING_FOCUS_ITEM_COLLECTION_INJECTION_KEY,

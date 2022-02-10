@@ -45,9 +45,7 @@
 import { defineComponent, inject, computed, ref, watch } from 'vue'
 import { isObject, isArray } from '@vue/shared'
 import { elFormKey } from '@element-plus/tokens'
-import { hasClass } from '@element-plus/utils/dom'
-import { EVENT_CODE } from '@element-plus/utils/aria'
-
+import { hasClass, EVENT_CODE } from '@element-plus/utils-v2'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
 import { StarFilled, Star } from '@element-plus/icons-vue'

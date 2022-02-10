@@ -237,8 +237,8 @@ import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
 import {
   addResizeListener,
   removeResizeListener,
-} from '@element-plus/utils/resize-event'
-import { isValidComponentSize } from '@element-plus/utils-v2'
+  isValidComponentSize,
+} from '@element-plus/utils-v2'
 import { CircleClose, ArrowUp } from '@element-plus/icons-vue'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'

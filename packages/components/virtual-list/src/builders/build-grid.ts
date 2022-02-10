@@ -11,8 +11,12 @@ import {
   unref,
 } from 'vue'
 import { isClient } from '@vueuse/core'
-import { hasOwn, isNumber, isString } from '@element-plus/utils-v2'
-import getScrollBarWidth from '@element-plus/utils/scrollbar-width'
+import {
+  hasOwn,
+  isNumber,
+  isString,
+  getScrollBarWidth,
+} from '@element-plus/utils-v2'
 import Scrollbar from '../components/scrollbar'
 import { useGridWheel } from '../hooks/use-grid-wheel'
 import { useCache } from '../hooks/use-cache'

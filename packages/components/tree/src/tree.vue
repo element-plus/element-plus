@@ -52,7 +52,7 @@ import { useKeydown } from './model/useKeydown'
 import type Node from './model/node'
 
 import type { ComponentInternalInstance, PropType, Component } from 'vue'
-import type { Nullable } from '@element-plus/utils/types'
+import type { Nullable } from '@element-plus/utils-v2'
 import type {
   TreeComponentProps,
   TreeNodeData,

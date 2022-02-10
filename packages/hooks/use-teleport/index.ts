@@ -1,10 +1,7 @@
 import { h, ref, Teleport, onUnmounted } from 'vue'
 import { NOOP } from '@vue/shared'
 import { isClient } from '@vueuse/core'
-import {
-  createGlobalNode,
-  removeGlobalNode,
-} from '@element-plus/utils/global-nodes'
+import { createGlobalNode, removeGlobalNode } from '@element-plus/utils-v2'
 
 import type { VNode, Ref } from 'vue'
 

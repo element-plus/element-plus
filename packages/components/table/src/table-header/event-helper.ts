@@ -1,6 +1,6 @@
 import { getCurrentInstance, ref, inject } from 'vue'
 import { isClient } from '@vueuse/core'
-import { hasClass, addClass, removeClass } from '@element-plus/utils/dom'
+import { hasClass, addClass, removeClass } from '@element-plus/utils-v2'
 import { TABLE_INJECTION_KEY } from '../tokens'
 import type { TableHeaderProps } from '.'
 import type { TableColumnCtx } from '../table-column/defaults'

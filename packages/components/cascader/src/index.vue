@@ -184,13 +184,16 @@ import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import { ClickOutside as Clickoutside } from '@element-plus/directives'
 import { useLocale, useSize } from '@element-plus/hooks'
 
-import { EVENT_CODE, focusNode, getSibling } from '@element-plus/utils/aria'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
 import {
+  EVENT_CODE,
+  focusNode,
+  getSibling,
   addResizeListener,
   removeResizeListener,
-} from '@element-plus/utils/resize-event'
-import { isValidComponentSize, isKorean } from '@element-plus/utils-v2'
+  isValidComponentSize,
+  isKorean,
+} from '@element-plus/utils-v2'
+import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
 import { CircleClose, Check, ArrowDown } from '@element-plus/icons-vue'
 
 import type { Options } from '@element-plus/components/popper'

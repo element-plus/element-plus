@@ -25,7 +25,7 @@ import { buildProps, definePropType, mutable } from '@element-plus/utils-v2'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { usePagination } from '../usePagination'
 
-import type { Nullable } from '@element-plus/utils/types'
+import type { Nullable } from '@element-plus/utils-v2'
 
 const paginationSizesProps = buildProps({
   pageSize: {

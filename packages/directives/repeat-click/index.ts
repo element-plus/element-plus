@@ -1,4 +1,4 @@
-import { on, once } from '@element-plus/utils/dom'
+import { on, once } from '@element-plus/utils-v2'
 
 import type { ObjectDirective, DirectiveBinding } from 'vue'
 

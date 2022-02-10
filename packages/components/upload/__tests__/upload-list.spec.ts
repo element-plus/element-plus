@@ -1,5 +1,5 @@
 import { h } from 'vue'
-import { EVENT_CODE } from '@element-plus/utils/aria'
+import { EVENT_CODE } from '@element-plus/utils-v2'
 
 import makeMount from '@element-plus/test-utils/make-mount'
 import UploadList from '../src/upload-list.vue'

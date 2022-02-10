@@ -1,12 +1,12 @@
 import { isClient } from '@vueuse/core'
-import { on } from '@element-plus/utils/dom'
+import { on } from '@element-plus/utils-v2'
 
 import type {
   ComponentPublicInstance,
   DirectiveBinding,
   ObjectDirective,
 } from 'vue'
-import type { Nullable } from '@element-plus/utils/types'
+import type { Nullable } from '@element-plus/utils-v2'
 
 type DocumentHandler = <T extends MouseEvent>(mouseup: T, mousedown: T) => void
 type FlushList = Map<

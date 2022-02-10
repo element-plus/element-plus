@@ -1,4 +1,4 @@
-import { TypeComponentsMap, buildProps, keyOf } from '@element-plus/utils-v2'
+import { TypeComponentsMap, buildProps, keysOf } from '@element-plus/utils-v2'
 import type { ExtractPropTypes } from 'vue'
 import type Alert from './alert.vue'
 
@@ -15,7 +15,7 @@ export const alertProps = buildProps({
   },
   type: {
     type: String,
-    values: keyOf(TypeComponentsMap),
+    values: keysOf(TypeComponentsMap),
     default: 'info',
   },
   closable: {

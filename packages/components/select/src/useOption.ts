@@ -1,5 +1,6 @@
 import { inject, computed, getCurrentInstance, watch, toRaw, unref } from 'vue'
-import { getValueByPath, escapeRegexpString } from '@element-plus/utils/util'
+import { getValueByPath } from '@element-plus/utils/util'
+import { escapeRegexpString } from '@element-plus/utils-v2'
 import { selectKey, selectGroupKey } from './token'
 
 import type { Ref } from 'vue'

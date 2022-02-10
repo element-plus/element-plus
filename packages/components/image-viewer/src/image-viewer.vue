@@ -90,11 +90,10 @@ import {
   markRaw,
 } from 'vue'
 import { useEventListener } from '@vueuse/core'
+import { throttle } from 'lodash-unified'
 import ElIcon from '@element-plus/components/icon'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { EVENT_CODE } from '@element-plus/utils/aria'
-import { isFirefox } from '@element-plus/utils-v2'
-import { rafThrottle } from '@element-plus/utils/util'
+import { EVENT_CODE, isFirefox } from '@element-plus/utils-v2'
 import {
   Close,
   ArrowLeft,
@@ -215,7 +214,7 @@ export default defineComponent({
     }
 
     function registerEventListener() {
-      const keydownHandler = rafThrottle((e: KeyboardEvent) => {
+      const keydownHandler = throttle((e: KeyboardEvent) => {
         switch (e.code) {
           // ESC
           case EVENT_CODE.esc:
@@ -243,7 +242,7 @@ export default defineComponent({
             break
         }
       })
-      const mousewheelHandler = rafThrottle(
+      const mousewheelHandler = throttle(
         (e: WheelEvent | any /* TODO: wheelDelta is deprecated */) => {
           const delta = e.wheelDelta ? e.wheelDelta : -e.detail
           if (delta > 0) {
@@ -287,7 +286,7 @@ export default defineComponent({
       const startX = e.pageX
       const startY = e.pageY
 
-      const dragHandler = rafThrottle((ev: MouseEvent) => {
+      const dragHandler = throttle((ev: MouseEvent) => {
         transform.value = {
           ...transform.value,
           offsetX: offsetX + ev.pageX - startX,

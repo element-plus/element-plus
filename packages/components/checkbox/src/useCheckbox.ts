@@ -6,7 +6,6 @@ import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import { useSize } from '@element-plus/hooks'
 import type { ExtractPropTypes } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
-import type { PartialReturnType } from '@element-plus/utils/types'
 import type { ICheckboxGroupInstance } from './checkbox.type'
 
 export const useCheckboxProps = {
@@ -90,7 +89,7 @@ const useModel = (props: IUseCheckboxProps) => {
 
 const useCheckboxStatus = (
   props: IUseCheckboxProps,
-  { model }: PartialReturnType<typeof useModel>
+  { model }: Partial<ReturnType<typeof useModel>>
 ) => {
   const { isGroup, checkboxGroup } = useCheckboxGroup()
   const focus = ref(false)
@@ -127,8 +126,8 @@ const useDisabled = (
   {
     model,
     isChecked,
-  }: PartialReturnType<typeof useModel> &
-    PartialReturnType<typeof useCheckboxStatus>
+  }: Partial<ReturnType<typeof useModel>> &
+    Partial<ReturnType<typeof useCheckboxStatus>>
 ) => {
   const { elForm, isGroup, checkboxGroup } = useCheckboxGroup()
   const isLimitDisabled = computed(() => {
@@ -156,7 +155,7 @@ const useDisabled = (
 
 const setStoreValue = (
   props: IUseCheckboxProps,
-  { model }: PartialReturnType<typeof useModel>
+  { model }: Partial<ReturnType<typeof useModel>>
 ) => {
   function addToStore() {
     if (Array.isArray(model.value) && !model.value.includes(props.label)) {
@@ -170,7 +169,7 @@ const setStoreValue = (
 
 const useEvent = (
   props: IUseCheckboxProps,
-  { isLimitExceeded }: PartialReturnType<typeof useModel>
+  { isLimitExceeded }: Partial<ReturnType<typeof useModel>>
 ) => {
   const { elFormItem } = useCheckboxGroup()
   const { emit } = getCurrentInstance()

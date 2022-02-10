@@ -1,4 +1,4 @@
-import { isLeaf } from '@element-plus/utils/aria'
+import { isLeaf } from '@element-plus/utils-v2'
 import type { default as CascaderNode } from './node'
 
 export const getMenuIndex = (el: HTMLElement) => {

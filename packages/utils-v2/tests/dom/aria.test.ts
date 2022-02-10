@@ -1,4 +1,4 @@
-import { triggerEvent, isFocusable } from '../aria'
+import { triggerEvent, isFocusable } from '../..'
 
 const CE = (tag: string) => document.createElement(tag)
 

@@ -20,8 +20,7 @@
 <script lang="ts">
 import { defineComponent, inject, ref, unref, toRef } from 'vue'
 import { ElPopperTrigger } from '@element-plus/components/popper'
-import { EVENT_CODE } from '@element-plus/utils/aria'
-import { composeEventHandlers } from '@element-plus/utils/dom'
+import { EVENT_CODE, composeEventHandlers } from '@element-plus/utils-v2'
 import { useNamespace } from '@element-plus/hooks'
 import { TOOLTIP_INJECTION_KEY } from './tokens'
 import { useTooltipTriggerProps } from './tooltip'

@@ -105,7 +105,7 @@ import { dragEventsKey } from './model/useDragNode'
 import Node from './model/node'
 
 import type { ComponentInternalInstance, PropType } from 'vue'
-import type { Nullable } from '@element-plus/utils/types'
+import type { Nullable } from '@element-plus/utils-v2'
 import type { TreeOptionProps, TreeNodeData, RootTreeType } from './tree.type'
 
 export default defineComponent({

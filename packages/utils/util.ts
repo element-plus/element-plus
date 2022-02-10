@@ -1,25 +1,13 @@
-import { extend, hasOwn, isFunction, looseEqual } from '@vue/shared'
-import { isEqualWith } from 'lodash-unified'
-import { isNumber, throwError } from '@element-plus/utils-v2'
-import type { ComponentPublicInstance, CSSProperties, Ref } from 'vue'
-import type { Nullable } from './types'
+import { hasOwn } from '@vue/shared'
+import { throwError } from '@element-plus/utils-v2'
+import type { Nullable } from '@element-plus/utils-v2'
 
 const SCOPE = 'Util'
-
-export function toObject<T>(arr: Array<T>): Record<string, T> {
-  const res = {}
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i]) {
-      extend(res, arr[i])
-    }
-  }
-  return res
-}
 
 export const getValueByPath = (obj, paths = ''): unknown => {
   let ret: unknown = obj
   paths.split('.').map((path) => {
-    ret = ret?.[path]
+    ret = (ret as any)?.[path]
   })
   return ret
 }
@@ -68,102 +56,10 @@ export function getPropByPath(
   }
 }
 
-// use isEqual instead
-// export const valueEquals
-
-export const escapeRegexpString = (value = ''): string =>
-  String(value).replace(/[|\\{}()[\]^$+*?.]/g, '\\$&')
-
-// Use native Array.find, Array.findIndex instead
-
 // coerce truthy value to array
 export const coerceTruthyValueToArray = (arr) => {
   if (!arr && arr !== 0) {
     return []
   }
   return Array.isArray(arr) ? arr : [arr]
-}
-
-export const autoprefixer = function (style: CSSProperties): CSSProperties {
-  const rules = ['transform', 'transition', 'animation']
-  const prefixes = ['ms-', 'webkit-']
-  rules.forEach((rule) => {
-    const value = style[rule]
-    if (rule && value) {
-      prefixes.forEach((prefix) => {
-        style[prefix + rule] = value
-      })
-    }
-  })
-  return style
-}
-
-// reexport from lodash & vue shared
-export { looseEqual, extend }
-
-export function rafThrottle<T extends (...args: any) => any>(fn: T): T {
-  let locked = false
-  return function (this: ThisParameterType<T>, ...args: any[]) {
-    if (locked) return
-    locked = true
-
-    window.requestAnimationFrame(() => {
-      Reflect.apply(fn, this, args)
-      locked = false
-    })
-  } as T
-}
-
-export const clearTimer = (timer: Ref<Nullable<number>>) => {
-  if (isNumber(timer.value)) clearTimeout(timer.value)
-  timer.value = null
-}
-
-export function arrayFlat(arr: unknown[]) {
-  return arr.reduce((acm: unknown[], item) => {
-    const val = Array.isArray(item) ? arrayFlat(item) : item
-    return acm.concat(val)
-  }, [])
-}
-
-/**
- * Enhance `lodash.isEqual` for it always return false even two functions have completely same statements.
- * @param obj The value to compare
- * @param other The other value to compare
- * @returns Returns `true` if the values are equivalent, else `false`.
- * @example
- *  lodash.isEqual(() => 1, () => 1)      // false
- *  isEqualWith(() => 1, () => 1)         // true
- */
-export function isEqualWithFunction(obj: any, other: any) {
-  return isEqualWith(obj, other, (objVal, otherVal) => {
-    return isFunction(objVal) && isFunction(otherVal)
-      ? `${objVal}` === `${otherVal}`
-      : undefined
-  })
-}
-
-/**
- * Generate function for attach ref for the h renderer
- * @param ref Ref<HTMLElement | ComponentPublicInstance>
- * @returns (val: T) => void
- */
-
-export const refAttacher = <T extends HTMLElement | ComponentPublicInstance>(
-  ref: Ref<T>
-) => {
-  return (val: T) => {
-    ref.value = val
-  }
-}
-
-export const merge = <T extends Record<string, any>>(a: T, b: T) => {
-  const keys = [
-    ...new Set([...Object.keys(a), ...Object.keys(b)]),
-  ] as (keyof T)[]
-  const obj = {} as T
-  for (const key of keys) {
-    obj[key] = b[key] ?? a[key]
-  }
-  return obj
 }

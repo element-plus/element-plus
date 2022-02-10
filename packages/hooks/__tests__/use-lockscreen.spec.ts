@@ -1,6 +1,6 @@
 import { ref, nextTick, defineComponent, onMounted } from 'vue'
 import { mount } from '@vue/test-utils'
-import { hasClass } from '@element-plus/utils/dom'
+import { hasClass } from '@element-plus/utils-v2'
 
 import { useLockscreen } from '../use-lockscreen'
 

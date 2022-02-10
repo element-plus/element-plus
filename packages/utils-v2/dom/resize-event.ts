@@ -1,6 +1,6 @@
 import { isClient } from '@vueuse/core'
 
-import type { HTMLElementCustomized } from '@element-plus/utils-v2'
+import type { HTMLElementCustomized } from '../typescript'
 
 export type ResizableElement = HTMLElementCustomized<{
   __resizeListeners__?: Array<(...args: unknown[]) => unknown>
@@ -19,6 +19,7 @@ const resizeHandler = function (entries: ResizeObserverEntry[]) {
   }
 }
 
+/** @deprecated use `useResizeObserver` or `useElementSize` in vueuse */
 export const addResizeListener = function (
   element: ResizableElement,
   fn: (...args: unknown[]) => unknown
@@ -32,6 +33,7 @@ export const addResizeListener = function (
   element.__resizeListeners__.push(fn)
 }
 
+/** @deprecated use `useResizeObserver` or `useElementSize` in vueuse */
 export const removeResizeListener = function (
   element: ResizableElement,
   fn: (...args: unknown[]) => unknown

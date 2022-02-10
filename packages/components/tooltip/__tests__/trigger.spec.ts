@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
 import { shallowMount } from '@vue/test-utils'
-import { EVENT_CODE } from '@element-plus/utils/aria'
+import { EVENT_CODE } from '@element-plus/utils-v2'
 import ElTooltipTrigger from '../src/trigger.vue'
 import { genTooltipProvides } from '../test-helper/provides'
 import { TOOLTIP_INJECTION_KEY } from '../src/tokens'

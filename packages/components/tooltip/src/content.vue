@@ -43,7 +43,7 @@ import { computed, defineComponent, inject, ref, unref, watch } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import { ElPopperContent } from '@element-plus/components/popper'
 import { ElVisuallyHidden } from '@element-plus/components/visual-hidden'
-import { composeEventHandlers } from '@element-plus/utils/dom'
+import { composeEventHandlers } from '@element-plus/utils-v2'
 import { useEscapeKeydown } from '@element-plus/hooks'
 
 import { useTooltipContentProps } from './tooltip'

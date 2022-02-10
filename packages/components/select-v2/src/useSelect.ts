@@ -16,11 +16,11 @@ import {
   useNamespace,
 } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
-import { ValidateComponentsMap } from '@element-plus/utils-v2'
 import {
+  ValidateComponentsMap,
   addResizeListener,
   removeResizeListener,
-} from '@element-plus/utils/resize-event'
+} from '@element-plus/utils-v2'
 import { getValueByPath } from '@element-plus/utils/util'
 import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 

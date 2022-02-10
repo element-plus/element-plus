@@ -1,7 +1,7 @@
 import { h, inject, nextTick, defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
 import { COLLECTION_ITEM_SIGN } from '@element-plus/components/collection'
-import { composeRefs } from '@element-plus/utils/dom'
+import { composeRefs } from '@element-plus/utils-v2'
 import ElRovingFocusGroup from '../src/roving-focus-group.vue'
 import { ROVING_FOCUS_GROUP_INJECTION_KEY } from '../src/tokens'
 import { ROVING_FOCUS_COLLECTION_INJECTION_KEY } from '../src/roving-focus-group'

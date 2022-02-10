@@ -1,5 +1,5 @@
 import { ref, nextTick } from 'vue'
-import { EVENT_CODE } from '@element-plus/utils/aria'
+import { EVENT_CODE } from '@element-plus/utils-v2'
 
 import { useModal } from '../use-modal'
 

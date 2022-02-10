@@ -8,7 +8,7 @@ import {
   inject,
 } from 'vue'
 import { isClient } from '@vueuse/core'
-import { addClass, removeClass } from '@element-plus/utils/dom'
+import { addClass, removeClass } from '@element-plus/utils-v2'
 import { useNamespace } from '@element-plus/hooks'
 import useLayoutObserver from '../layout-observer'
 import { removePopper } from '../util'

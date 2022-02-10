@@ -5,7 +5,7 @@ import {
   hasClass,
   getStyle,
   removeClass,
-} from '@element-plus/utils/dom'
+} from '@element-plus/utils-v2'
 import getScrollBarWidth from '@element-plus/utils/scrollbar-width'
 
 export const useLockScreen = () => {

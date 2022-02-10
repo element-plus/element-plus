@@ -12,7 +12,7 @@ import {
 } from 'vue'
 import { isUndefined, isObject } from '@element-plus/utils-v2'
 import { getValueByPath } from '@element-plus/utils/util'
-// import { addResizeListener, removeResizeListener, ResizableElement } from '@element-plus/utils/resize-event'
+// import { addResizeListener, removeResizeListener, ResizableElement } from '@element-plus/utils-v2'
 import {
   FixedSizeList,
   DynamicSizeList,

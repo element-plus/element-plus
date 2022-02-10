@@ -40,7 +40,7 @@ import { isString } from '@vue/shared'
 import { useEventListener, useThrottleFn, isClient } from '@vueuse/core'
 import { useAttrs, useLocale, useNamespace } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
-import { getScrollContainer, isInContainer } from '@element-plus/utils/dom'
+import { getScrollContainer, isInContainer } from '@element-plus/utils-v2'
 import { imageEmits, imageProps } from './image'
 
 import type { CSSProperties, StyleValue } from 'vue'

@@ -1,14 +1,13 @@
 import { createPopper } from '@popperjs/core'
-import { hasOwn } from '@element-plus/utils-v2'
+import { hasOwn, off, on } from '@element-plus/utils-v2'
 import { useZIndex } from '@element-plus/hooks'
 import { getValueByPath } from '@element-plus/utils/util'
-import { off, on } from '@element-plus/utils/dom'
 
 import type {
   PopperInstance,
   IPopperOptions,
 } from '@element-plus/components/popper'
-import type { Nullable } from '@element-plus/utils/types'
+import type { Nullable } from '@element-plus/utils-v2'
 import type { TableColumnCtx } from './table-column/defaults'
 
 export const getCell = function (event: Event): HTMLElement {

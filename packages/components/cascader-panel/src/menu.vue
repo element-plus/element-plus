@@ -45,7 +45,7 @@ import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
 import type { default as CascaderNode } from './node'
 import type { PropType } from 'vue'
-import type { Nullable } from '@element-plus/utils/types'
+import type { Nullable } from '@element-plus/utils-v2'
 
 export default defineComponent({
   name: 'ElCascaderMenu',

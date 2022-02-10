@@ -1,7 +1,6 @@
 import { inject, ref, computed, unref, provide, getCurrentInstance } from 'vue'
 import { configProviderContextKey } from '@element-plus/tokens'
 import { debugWarn } from '@element-plus/utils-v2'
-import { merge } from '@element-plus/utils/util'
 import type { MaybeRef } from '@vueuse/core'
 import type { Ref, App } from 'vue'
 import type { ConfigProviderContext } from '@element-plus/tokens'
@@ -53,11 +52,22 @@ export const provideGlobalConfig = (
   const context = computed(() => {
     const cfg = unref(config)
     if (!oldConfig?.value) return cfg
-    return merge(oldConfig.value, cfg)
+    return mergeConfig(oldConfig.value, cfg)
   })
   provideFn(configProviderContextKey, context)
   if (global || !globalConfig.value) {
     globalConfig.value = context.value
   }
   return context
+}
+
+const mergeConfig = <T extends Record<string, any>>(a: T, b: T) => {
+  const keys = [
+    ...new Set([...Object.keys(a), ...Object.keys(b)]),
+  ] as (keyof T)[]
+  const obj = {} as T
+  for (const key of keys) {
+    obj[key] = b[key] ?? a[key]
+  }
+  return obj
 }

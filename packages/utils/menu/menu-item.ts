@@ -1,4 +1,4 @@
-import { EVENT_CODE, triggerEvent } from '../aria'
+import { EVENT_CODE, triggerEvent } from '@element-plus/utils-v2'
 import SubMenu from './submenu'
 
 class MenuItem {

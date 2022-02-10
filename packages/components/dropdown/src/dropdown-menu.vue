@@ -15,14 +15,17 @@
 </template>
 <script lang="ts">
 import { computed, defineComponent, inject, unref } from 'vue'
-import { EVENT_CODE } from '@element-plus/utils/aria'
+import {
+  EVENT_CODE,
+  composeRefs,
+  composeEventHandlers,
+} from '@element-plus/utils-v2'
 import { FOCUS_TRAP_INJECTION_KEY } from '@element-plus/components/focus-trap'
 import {
   ROVING_FOCUS_COLLECTION_INJECTION_KEY,
   ROVING_FOCUS_GROUP_INJECTION_KEY,
   focusFirst,
 } from '@element-plus/components/roving-focus-group'
-import { composeRefs, composeEventHandlers } from '@element-plus/utils/dom'
 import { useNamespace } from '@element-plus/hooks'
 import { DROPDOWN_INJECTION_KEY } from './tokens'
 import {

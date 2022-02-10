@@ -1,13 +1,12 @@
 import { isClient } from '@vueuse/core'
 
-const globalNodes = []
-let target = !isClient ? undefined : document.body
+const globalNodes: HTMLElement[] = []
+let target: HTMLElement = !isClient ? (undefined as any) : document.body
 
 export function createGlobalNode(id?: string) {
   const el = document.createElement('div')
-
   if (id !== undefined) {
-    el.id = id
+    el.setAttribute('id', id)
   }
 
   target.appendChild(el)
@@ -22,13 +21,12 @@ export function removeGlobalNode(el: HTMLElement) {
 }
 
 export function changeGlobalNodesTarget(el: HTMLElement) {
-  if (el !== target) {
-    target = el
+  if (el === target) return
 
-    globalNodes.forEach((el) => {
-      if (el.contains(target) === false) {
-        target.appendChild(el)
-      }
-    })
-  }
+  target = el
+  globalNodes.forEach((el) => {
+    if (el.contains(target) === false) {
+      target.appendChild(el)
+    }
+  })
 }

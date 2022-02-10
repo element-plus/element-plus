@@ -25,13 +25,17 @@ import {
   ref,
   watch,
 } from 'vue'
-import { isEqual } from 'lodash-unified'
+import { isEqual, flattenDeep } from 'lodash-unified'
 import { isClient } from '@vueuse/core'
-import { EVENT_CODE, focusNode, getSibling } from '@element-plus/utils/aria'
+import {
+  EVENT_CODE,
+  focusNode,
+  getSibling,
+  isEmpty,
+  unique,
+} from '@element-plus/utils-v2'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
-import scrollIntoView from '@element-plus/utils/scroll-into-view'
-import { arrayFlat, coerceTruthyValueToArray } from '@element-plus/utils/util'
-import { isEmpty, unique } from '@element-plus/utils-v2'
+import { coerceTruthyValueToArray } from '@element-plus/utils/util'
 
 import ElCascaderMenu from './menu.vue'
 import Store from './store'
@@ -41,7 +45,7 @@ import { checkNode, getMenuIndex, sortByOriginalOrder } from './utils'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
 import type { PropType } from 'vue'
-import type { Nullable } from '@element-plus/utils/types'
+import type { Nullable } from '@element-plus/utils-v2'
 import type {
   CascaderValue,
   CascaderNodeValue,
@@ -210,7 +214,7 @@ export default defineComponent({
 
       if (lazy && !loaded) {
         const values: CascaderNodeValue[] = unique(
-          arrayFlat(coerceTruthyValueToArray(modelValue))
+          flattenDeep(coerceTruthyValueToArray(modelValue))
         )
         const nodes = values
           .map((val) => store?.getNodeByValue(val))
@@ -267,11 +271,13 @@ export default defineComponent({
       menuList.value.forEach((menu) => {
         const menuElement = menu?.$el
         if (menuElement) {
-          const container = menuElement.querySelector('.el-scrollbar__wrap')
+          const container = (menuElement as HTMLElement).querySelector(
+            '.el-scrollbar__wrap'
+          )
           const activeNode =
             menuElement.querySelector('.el-cascader-node.is-active') ||
             menuElement.querySelector('.el-cascader-node.in-active-path')
-          scrollIntoView(container, activeNode)
+          container?.scrollIntoView(activeNode)
         }
       })
     }

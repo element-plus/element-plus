@@ -1,6 +1,6 @@
 import { h, nextTick, inject } from 'vue'
 import { mount } from '@vue/test-utils'
-import { EVENT_CODE } from '@element-plus/utils/aria'
+import { EVENT_CODE } from '@element-plus/utils-v2'
 import ElFocusTrap from '../src/focus-trap.vue'
 import { FOCUS_TRAP_INJECTION_KEY } from '../src/tokens'
 

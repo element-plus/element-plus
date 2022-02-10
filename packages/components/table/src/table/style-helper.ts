@@ -11,12 +11,13 @@ import {
 import {
   addResizeListener,
   removeResizeListener,
-} from '@element-plus/utils/resize-event'
-import { on, off } from '@element-plus/utils/dom'
+  on,
+  off,
+} from '@element-plus/utils-v2'
 import { useSize } from '@element-plus/hooks'
 import { parseHeight } from '../util'
 
-import type { ResizableElement } from '@element-plus/utils/resize-event'
+import type { ResizableElement } from '@element-plus/utils-v2'
 import type { Table, TableProps } from './defaults'
 import type { Store } from '../store'
 import type TableLayout from '../table-layout'

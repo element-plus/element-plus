@@ -12,10 +12,8 @@ import { isObject, toRawType } from '@vue/shared'
 import { debounce as lodashDebounce, isEqual } from 'lodash-unified'
 import { isClient } from '@vueuse/core'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
-import { EVENT_CODE } from '@element-plus/utils/aria'
+import { EVENT_CODE, isKorean } from '@element-plus/utils-v2'
 import { useLocale, useNamespace, useSize } from '@element-plus/hooks'
-import scrollIntoView from '@element-plus/utils/scroll-into-view'
-import { isKorean } from '@element-plus/utils-v2'
 import { getValueByPath } from '@element-plus/utils/util'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 
@@ -662,7 +660,7 @@ export const useSelect = (props, states: States, ctx) => {
         '.el-select-dropdown__wrap'
       )
       if (menu) {
-        scrollIntoView(menu as HTMLElement, target)
+        menu.scrollIntoView(target)
       }
     }
     scrollbar.value?.handleScroll()

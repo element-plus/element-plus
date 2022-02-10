@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { on, off } from '@element-plus/utils/dom'
+import { on, off } from '@element-plus/utils-v2'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { usePreventGlobal } from '../use-prevent-global'
 

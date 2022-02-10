@@ -23,7 +23,7 @@ import { defineComponent, computed, ref } from 'vue'
 import dayjs from 'dayjs'
 import { useLocale } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
-import { hasClass } from '@element-plus/utils/dom'
+import { hasClass } from '@element-plus/utils-v2'
 import { coerceTruthyValueToArray } from '@element-plus/utils/util'
 
 import type { PropType } from 'vue'

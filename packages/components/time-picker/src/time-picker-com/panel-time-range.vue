@@ -75,7 +75,7 @@ import { defineComponent, ref, computed, inject } from 'vue'
 import dayjs from 'dayjs'
 import { union } from 'lodash-unified'
 import { useLocale } from '@element-plus/hooks'
-import { EVENT_CODE } from '@element-plus/utils/aria'
+import { EVENT_CODE } from '@element-plus/utils-v2'
 import TimeSpinner from './basic-time-spinner.vue'
 import { getAvailableArrs, useOldValue } from './useTimePicker'
 
