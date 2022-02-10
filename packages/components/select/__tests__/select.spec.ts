@@ -1613,30 +1613,15 @@ describe('Select', () => {
     })
   })
   
-  it('after options is modified, the selected labels remain unchanged', async () => {
-    const options = [
-      { value: `value:Alaska`, label: `label:Alaska` },
-      { value: `value:California`, label: `label:California` },
-    ]
-    const remoteData = [
-      { value: `value:Colorado`, label: `label:Colorado` },
-      { value: `value:Hawaii`, label: `label:Hawaii` },
-    ]
-    const modelValue = [
-      { value: `value:Alaska`, label: `label:Alaska` },
-      { value: `value:California`, label: `label:California` },
-    ]
-    const remoteMethod = () => {
-      vm.options = remoteData
-    }
+ it('multiple select has an initial value', async () => {
+    const options = [{ value: `value:Alaska`, label: `label:Alaska` }]
+    const modelValue = [{ value: `value:Alaska`, label: `label:Alaska` }]
     const wrapper = _mount(
       `
     <el-select v-model="modelValue"
       multiple
       value-key="value"
-      filterable
-      :remote-method="remoteMethod"
-      remote>
+      filterable>
       <el-option
         v-for="option in options"
         :key="option.value"
@@ -1648,26 +1633,10 @@ describe('Select', () => {
       () => ({
         modelValue,
         options,
-        remoteMethod,
       })
     )
-
-    const vm = wrapper.vm as any
-    await nextTick()
-    let tagWrappers = wrapper.findAll('.el-select__tags-text')
-
-    // do our first assertion
-    expect(tagWrappers[0].element.innerHTML).toBe(options[0].label)
-    // call remote update the options
-    remoteMethod()
-    // update the model value
-    modelValue.push(remoteData[0])
-    vm.value = modelValue
-    await nextTick()
-
-    tagWrappers = wrapper.findAll('.el-select__tags-text')
-    // do our second assertion
-    expect(tagWrappers[0].element.innerHTML).toBe(options[0].label)
+    const select = wrapper.findComponent({ name: 'ElSelect' }).vm
+    expect(select.selected[0].currentLabel).toBe(options[0].label)
   })
   
   describe('teleported API', () => {
