@@ -13,7 +13,7 @@ import { debounce as lodashDebounce, isEqual } from 'lodash-unified'
 import { isClient } from '@vueuse/core'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { useLocale, useSize } from '@element-plus/hooks'
+import { useLocale, useNamespace, useSize } from '@element-plus/hooks'
 import scrollIntoView from '@element-plus/utils/scroll-into-view'
 import { isKorean } from '@element-plus/utils-v2'
 import { getValueByPath } from '@element-plus/utils/util'
@@ -58,6 +58,7 @@ type States = ReturnType<typeof useSelectStates>
 
 export const useSelect = (props, states: States, ctx) => {
   const { t } = useLocale()
+  const ns = useNamespace('select')
 
   // template refs
   const reference = ref<ComponentPublicInstance<{
@@ -104,7 +105,7 @@ export const useSelect = (props, states: States, ctx) => {
     props.remote && props.filterable ? '' : props.suffixIcon
   )
   const iconReverse = computed(() =>
-    iconComponent.value && states.visible ? 'is-reverse' : ''
+    ns.is('reverse', iconComponent.value && states.visible)
   )
 
   const debounce = computed(() => (props.remote ? 300 : 0))

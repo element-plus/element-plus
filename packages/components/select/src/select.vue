@@ -10,12 +10,12 @@
       v-model:visible="dropMenuVisible"
       placement="bottom-start"
       :teleported="compatTeleported"
-      :popper-class="`el-select__popper ${popperClass}`"
+      :popper-class="[ns.e('popper'), popperClass]"
       :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
       effect="light"
       pure
       trigger="click"
-      transition="el-zoom-in-top"
+      :transition="`${ns.namespace.value}zoom-in-top`"
       :stop-popper-mouse-event="false"
       :gpu-acceleration="false"
       persistent
@@ -26,7 +26,7 @@
           <div
             v-if="multiple"
             ref="tags"
-            class="el-select__tags"
+            :class="ns.e('tags')"
             :style="selectTagsStyle"
           >
             <span v-if="collapseTags && selected.length">
@@ -39,7 +39,7 @@
                 @close="deleteTag($event, selected[0])"
               >
                 <span
-                  class="el-select__tags-text"
+                  :class="ns.e('tags-text')"
                   :style="{ maxWidth: inputWidth - 123 + 'px' }"
                   >{{ selected[0].currentLabel }}</span
                 >
@@ -51,7 +51,7 @@
                 :type="tagType"
                 disable-transitions
               >
-                <span class="el-select__tags-text"
+                <span :class="ns.e('tags-text')"
                   >+ {{ selected.length - 1 }}</span
                 >
               </el-tag>
@@ -75,7 +75,7 @@
                   @close="deleteTag($event, item)"
                 >
                   <span
-                    class="el-select__tags-text"
+                    :class="ns.e('tags-text')"
                     :style="{ maxWidth: inputWidth - 75 + 'px' }"
                     >{{ item.currentLabel }}</span
                   >
@@ -88,8 +88,7 @@
               ref="input"
               v-model="query"
               type="text"
-              class="el-select__input"
-              :class="[selectSize ? `is-${selectSize}` : '']"
+              :class="[ns.e('input'), ns.is(selectSize)]"
               :disabled="selectDisabled"
               :autocomplete="autocomplete"
               :style="{
@@ -129,7 +128,7 @@
             :disabled="selectDisabled"
             :readonly="readonly"
             :validate-event="false"
-            :class="{ 'is-focus': visible }"
+            :class="[ns.is('focus', visible)]"
             :tabindex="multiple && filterable ? -1 : undefined"
             @focus="handleFocus"
             @blur="handleBlur"
@@ -162,13 +161,13 @@
               <el-icon
                 v-if="iconComponent"
                 v-show="!showClose"
-                :class="['el-select__caret', 'el-input__icon', iconReverse]"
+                :class="[ns.e('caret'), ns.e('icon'), iconReverse]"
               >
                 <component :is="iconComponent" />
               </el-icon>
               <el-icon
                 v-if="showClose && clearIcon"
-                class="el-select__caret el-input__icon"
+                :class="[ns.e('caret'), ns.e('icon')]"
                 @click="handleClearClick"
               >
                 <component :is="clearIcon" />
@@ -183,11 +182,14 @@
             v-show="options.size > 0 && !loading"
             ref="scrollbar"
             tag="ul"
-            wrap-class="el-select-dropdown__wrap"
-            view-class="el-select-dropdown__list"
-            :class="{
-              'is-empty': !allowCreate && query && filteredOptionsCount === 0,
-            }"
+            :wrap-class="ns.be('dropdown', 'wrap')"
+            :view-class="ns.be('dropdown', 'list')"
+            :class="[
+              ns.is(
+                'empty',
+                !allowCreate && query && filteredOptionsCount === 0
+              ),
+            ]"
           >
             <el-option v-if="showNewOption" :value="query" :created="true" />
             <slot></slot>
@@ -199,7 +201,7 @@
             "
           >
             <slot v-if="$slots.empty" name="empty"></slot>
-            <p v-else class="el-select-dropdown__empty">
+            <p v-else :class="ns.be('dropdown', 'empty')">
               {{ emptyText }}
             </p>
           </template>
@@ -222,7 +224,7 @@ import {
   unref,
 } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
-import { useFocus, useLocale } from '@element-plus/hooks'
+import { useFocus, useLocale, useNamespace } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import ElTooltip, {
   useTooltipContentProps,
@@ -343,6 +345,7 @@ export default defineComponent({
   ],
 
   setup(props, ctx) {
+    const ns = useNamespace('select')
     const { t } = useLocale()
     const states = useSelectStates(props)
     const {
@@ -419,13 +422,13 @@ export default defineComponent({
     } = toRefs(states)
 
     const wrapperKls = computed(() => {
-      const classList = ['el-select']
+      const classList = [ns.b()]
       const _selectSize = unref(selectSize)
       if (_selectSize) {
-        classList.push(`el-select--${_selectSize}`)
+        classList.push(ns.m(_selectSize))
       }
       if (props.disabled) {
-        classList.push(`el-select--disabled`)
+        classList.push(ns.m('disabled'))
       }
       return classList
     })
@@ -490,7 +493,9 @@ export default defineComponent({
           const input = (Array.from(inputChildNodes) as HTMLElement[]).filter(
             (item) => item.tagName === 'INPUT'
           )[0]
-          const prefix = reference.value.$el.querySelector('.el-input__prefix')
+          const prefix = reference.value.$el.querySelector(
+            `.${ns.namespace.value}-input__prefix`
+          )
           prefixWidth.value = Math.max(
             prefix.getBoundingClientRect().width + 5,
             30
@@ -587,6 +592,7 @@ export default defineComponent({
       wrapperKls,
       selectTagsStyle,
       compatTeleported,
+      ns,
     }
   },
 })
