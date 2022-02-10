@@ -18,11 +18,14 @@ const TestComp = {
             ns.be('content', 'active'),
             ns.em('content', 'active'),
             ns.bem('body', 'content', 'active'),
+            ns.is('focus'),
             ns.e(), // return empty string
             ns.m(), // return empty string
             ns.be(), // return empty string
             ns.em(), // return empty string
             ns.bem(), // return empty string
+            ns.is('hover', undefined), // return empty string
+            ns.is('clicked', false), // return empty string
           ],
         },
         'text'
@@ -67,6 +70,7 @@ describe('use-locale', () => {
         'ep-table-content__active', // be('content', 'active')
         'ep-table__content--active', // em('content', 'active')
         'ep-table-body__content--active', // bem('body', 'content', 'active')
+        'is-focus', // is('focus')
       ].join('~')
     )
   })

@@ -49,8 +49,13 @@ export const useNamespace = (block: string) => {
     blockSuffix && element && modifier
       ? _bem(unref(namespace), block, blockSuffix, element, modifier)
       : ''
-  const is = (name: string, state = true) =>
-    name && state ? `${statePrefix}${name}` : ''
+  const is: {
+    (name: string, state: boolean | undefined): string
+    (name: string): string
+  } = (name: string, ...args: [boolean | undefined] | []) => {
+    const state = args.length >= 1 ? args[0]! : true
+    return name && state ? `${statePrefix}${name}` : ''
+  }
   return {
     namespace,
     b,
