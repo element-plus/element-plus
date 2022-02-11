@@ -659,7 +659,7 @@ export const useSelect = (props, states: States, ctx) => {
         '.el-select-dropdown__wrap'
       )
       if (menu) {
-        menu.scrollIntoView(target)
+        menu.scrollIntoView?.(target)
       }
     }
     scrollbar.value?.handleScroll()
