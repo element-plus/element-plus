@@ -327,7 +327,7 @@ export default defineComponent({
       type: [String, Object] as PropType<string | Component>,
       default: ArrowUp,
     },
-    tagType: tagProps['type'],
+    tagType: tagProps.type,
   },
   emits: [
     UPDATE_MODEL_EVENT,
