@@ -4,7 +4,7 @@
     "allowJs": true,
     "module": "ESNext",
     "lib": ["ESNext", "DOM"],
-    "types": ["vite/client", "../global"],
+    "types": ["vite/client", "./global"],
     "resolveJsonModule": true,
     "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
