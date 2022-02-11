@@ -6,7 +6,7 @@
       ns.is('focus', focus),
       ns.is('bordered', border),
       ns.is('checked', modelValue === label),
-      { [ns.m(size)]: size },
+      ns.m(size),
     ]"
     role="radio"
     :aria-checked="modelValue === label"
