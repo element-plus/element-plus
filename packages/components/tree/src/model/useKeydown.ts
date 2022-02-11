@@ -1,5 +1,6 @@
 import { onMounted, onUpdated, onBeforeUnmount, watch, shallowRef } from 'vue'
-import { EVENT_CODE, on, off } from '@element-plus/utils'
+import { on, off } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
 import type TreeStore from './tree-store'
 

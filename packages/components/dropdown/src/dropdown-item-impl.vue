@@ -32,11 +32,8 @@ import {
 import { COLLECTION_ITEM_SIGN } from '@element-plus/components/collection'
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
-import {
-  EVENT_CODE,
-  composeEventHandlers,
-  composeRefs,
-} from '@element-plus/utils'
+import { composeEventHandlers, composeRefs } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
 import {
   DROPDOWN_COLLECTION_ITEM_INJECTION_KEY,
   dropdownItemProps,

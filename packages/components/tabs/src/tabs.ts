@@ -12,10 +12,14 @@ import {
   watch,
 } from 'vue'
 import { isPromise, NOOP } from '@vue/shared'
-import { EVENT_CODE, buildProps, definePropType } from '@element-plus/utils'
+import { buildProps, definePropType } from '@element-plus/utils'
+import {
+  EVENT_CODE,
+  INPUT_EVENT,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
 import ElIcon from '@element-plus/components/icon'
 import { Plus } from '@element-plus/icons-vue'
-import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { tabsRootContextKey } from '@element-plus/tokens'
 import TabNav from './tab-nav'
 import type { TabsPaneContext } from '@element-plus/tokens'

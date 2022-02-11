@@ -11,8 +11,12 @@ import {
 import { isObject, toRawType } from '@vue/shared'
 import { debounce as lodashDebounce, isEqual, get } from 'lodash-unified'
 import { isClient } from '@vueuse/core'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
-import { EVENT_CODE, isKorean } from '@element-plus/utils'
+import {
+  UPDATE_MODEL_EVENT,
+  CHANGE_EVENT,
+  EVENT_CODE,
+} from '@element-plus/constants'
+import { isKorean } from '@element-plus/utils'
 import { useLocale, useNamespace, useSize } from '@element-plus/hooks'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 

@@ -1,5 +1,6 @@
 import { inject, computed, ref } from 'vue'
-import { generateId, on, addClass, EVENT_CODE } from '@element-plus/utils'
+import { generateId, on, addClass } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
 import type { Nullable } from '@element-plus/utils'
 import type { IElDropdownInstance } from './dropdown'

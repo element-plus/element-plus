@@ -19,7 +19,8 @@ import {
   provide,
 } from 'vue'
 import { useId } from '@element-plus/hooks'
-import { composeEventHandlers, EVENT_CODE } from '@element-plus/utils'
+import { composeEventHandlers } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
 import {
   ROVING_FOCUS_COLLECTION_INJECTION_KEY,
   ElCollectionItem as ElRovingFocusCollectionItem,

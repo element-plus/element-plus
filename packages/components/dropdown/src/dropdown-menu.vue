@@ -15,11 +15,8 @@
 </template>
 <script lang="ts">
 import { computed, defineComponent, inject, unref } from 'vue'
-import {
-  EVENT_CODE,
-  composeRefs,
-  composeEventHandlers,
-} from '@element-plus/utils'
+import { composeRefs, composeEventHandlers } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
 import { FOCUS_TRAP_INJECTION_KEY } from '@element-plus/components/focus-trap'
 import {
   ROVING_FOCUS_COLLECTION_INJECTION_KEY,

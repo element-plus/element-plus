@@ -8,7 +8,7 @@ import Input from '@element-plus/components/input'
 import zhCn from '@element-plus/locale/lang/zh-cn'
 import enUs from '@element-plus/locale/lang/en'
 import 'dayjs/locale/zh-cn'
-import { EVENT_CODE } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
 import DatePicker from '../src/date-picker'
 
 const _mount = (template: string, data = () => ({}), otherObj?) =>

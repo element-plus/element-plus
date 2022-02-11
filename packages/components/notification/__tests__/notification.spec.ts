@@ -1,7 +1,8 @@
 import { h, nextTick } from 'vue'
 import { rAF } from '@element-plus/test-utils/tick'
 import makeMount from '@element-plus/test-utils/make-mount'
-import { EVENT_CODE, TypeComponentsMap } from '@element-plus/utils'
+import { TypeComponentsMap } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
 import { useZIndex } from '@element-plus/hooks'
 import Notification from '../src/notification.vue'
 

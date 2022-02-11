@@ -28,14 +28,17 @@ import {
 import { isEqual, flattenDeep } from 'lodash-unified'
 import { isClient } from '@vueuse/core'
 import {
-  EVENT_CODE,
   focusNode,
   getSibling,
   isEmpty,
   unique,
   castArray,
 } from '@element-plus/utils'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
+import {
+  EVENT_CODE,
+  UPDATE_MODEL_EVENT,
+  CHANGE_EVENT,
+} from '@element-plus/constants'
 
 import ElCascaderMenu from './menu.vue'
 import Store from './store'

@@ -1,6 +1,7 @@
 import { nextTick } from 'vue'
 import makeMount from '@element-plus/test-utils/make-mount'
-import { on, EVENT_CODE } from '@element-plus/utils'
+import { on } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
 
 import Upload from '../src/upload.vue'
 

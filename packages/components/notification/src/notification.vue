@@ -41,11 +41,8 @@
 <script lang="ts">
 import { defineComponent, computed, ref, onMounted } from 'vue'
 import { useEventListener, useTimeoutFn } from '@vueuse/core'
-import {
-  EVENT_CODE,
-  TypeComponents,
-  TypeComponentsMap,
-} from '@element-plus/utils'
+import { TypeComponents, TypeComponentsMap } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { notificationProps, notificationEmits } from './notification'

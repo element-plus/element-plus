@@ -158,8 +158,8 @@ import {
   isValidComponentSize,
   TypeComponents,
   TypeComponentsMap,
-  EVENT_CODE,
 } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
 
 import type { PropType } from 'vue'

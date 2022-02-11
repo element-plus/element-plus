@@ -45,11 +45,8 @@
 <script lang="ts">
 import { defineComponent, computed, ref, onMounted, watch } from 'vue'
 import { useEventListener, useTimeoutFn } from '@vueuse/core'
-import {
-  EVENT_CODE,
-  TypeComponents,
-  TypeComponentsMap,
-} from '@element-plus/utils'
+import { TypeComponents, TypeComponentsMap } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
 import ElBadge from '@element-plus/components/badge'
 import { ElIcon } from '@element-plus/components/icon'
 

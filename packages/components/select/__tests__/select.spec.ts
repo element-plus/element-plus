@@ -1,6 +1,6 @@
 import { nextTick, markRaw } from 'vue'
 import { mount } from '@vue/test-utils'
-import { EVENT_CODE } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
 import { CircleClose, ArrowUp, CaretTop } from '@element-plus/icons-vue'
 import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
 import Select from '../src/select.vue'

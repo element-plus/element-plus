@@ -1,23 +1,5 @@
 import type { Nullable } from '../typescript'
 
-export const EVENT_CODE = {
-  tab: 'Tab',
-  enter: 'Enter',
-  space: 'Space',
-  left: 'ArrowLeft', // 37
-  up: 'ArrowUp', // 38
-  right: 'ArrowRight', // 39
-  down: 'ArrowDown', // 40
-  esc: 'Escape',
-  delete: 'Delete',
-  backspace: 'Backspace',
-  numpadEnter: 'NumpadEnter',
-  pageUp: 'PageUp',
-  pageDown: 'PageDown',
-  home: 'Home',
-  end: 'End',
-}
-
 const FOCUSABLE_ELEMENT_SELECTORS = `a[href],button:not([disabled]),button:not([hidden]),:not([tabindex="-1"]),input:not([disabled]),input:not([type="hidden"]),select:not([disabled]),textarea:not([disabled])`
 
 /**
