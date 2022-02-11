@@ -126,6 +126,7 @@
     "ts-morph": "13.0.3",
     "type-fest": "2.11.2",
     "typescript": "4.5.5",
+    "unplugin-vue-define-options": "0.0.6",
     "vue": "3.2.30",
     "vue-jest": "5.0.0-alpha.10",
     "vue-router": "4.0.12",

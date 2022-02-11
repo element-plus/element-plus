@@ -6,6 +6,7 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import Inspect from 'vite-plugin-inspect'
 import mkcert from 'vite-plugin-mkcert'
 import glob from 'fast-glob'
+import DefineOptions from 'unplugin-vue-define-options/vite'
 import { epRoot, pkgRoot, projRoot, epPackage } from '../build/utils/paths'
 import { getPackageDependencies } from '../build/utils/pkg'
 import './vite.init'
@@ -38,6 +39,7 @@ export default defineConfig(async () => {
     },
     plugins: [
       vue(),
+      DefineOptions(),
       Components({
         include: `${__dirname}/**`,
         resolvers: ElementPlusResolver({ importStyle: 'sass' }),

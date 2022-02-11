@@ -1,6 +1,7 @@
 import path from 'path'
 import Inspect from 'vite-plugin-inspect'
 import { defineConfig } from 'vite'
+import DefineOptions from 'unplugin-vue-define-options/vite'
 import WindiCSS from 'vite-plugin-windicss'
 import mkcert from 'vite-plugin-mkcert'
 import glob from 'fast-glob'
@@ -69,6 +70,8 @@ export default async () => {
       },
     },
     plugins: [
+      DefineOptions(),
+
       // https://github.com/antfu/unplugin-vue-components
       Components({
         // custom resolvers
