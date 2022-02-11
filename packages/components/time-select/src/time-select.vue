@@ -6,6 +6,7 @@
     :clearable="clearable"
     :clear-icon="clearIcon"
     :size="size"
+    :effect="effect"
     :placeholder="placeholder"
     default-first-option
     :filterable="editable"
@@ -116,6 +117,10 @@ export default defineComponent({
     editable: {
       type: Boolean,
       default: true,
+    },
+    effect: {
+      type: String as PropType<'light' | 'dark' | string>,
+      default: 'light',
     },
     clearable: {
       type: Boolean,

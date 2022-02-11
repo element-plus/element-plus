@@ -19,6 +19,10 @@ export const SelectProps = {
     type: [String, Object] as PropType<string | Component>,
     default: CircleClose,
   },
+  effect: {
+    type: String as PropType<'light' | 'dark' | string>,
+    default: 'light',
+  },
   collapseTags: Boolean,
   defaultFirstOption: Boolean,
   disabled: Boolean,
