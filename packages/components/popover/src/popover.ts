@@ -32,10 +32,6 @@ export const usePopoverProps = buildProps({
     type: [String, Number],
     default: 150,
   },
-  offset: {
-    type: Number,
-    default: 0,
-  },
   showAfter: {
     type: Number,
     default: 0,
