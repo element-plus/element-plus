@@ -1,6 +1,6 @@
 import { inject, ref, computed, unref, provide, getCurrentInstance } from 'vue'
 import { configProviderContextKey } from '@element-plus/tokens'
-import { debugWarn } from '@element-plus/utils-v2'
+import { debugWarn } from '@element-plus/utils'
 import type { MaybeRef } from '@vueuse/core'
 import type { Ref, App } from 'vue'
 import type { ConfigProviderContext } from '@element-plus/tokens'

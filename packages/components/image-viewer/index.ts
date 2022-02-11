@@ -1,4 +1,4 @@
-import { withInstall } from '@element-plus/utils-v2'
+import { withInstall } from '@element-plus/utils'
 
 import ImageViewer from './src/image-viewer.vue'
 

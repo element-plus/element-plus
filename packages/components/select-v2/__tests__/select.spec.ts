@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
 import { NOOP } from '@vue/shared'
-import { EVENT_CODE, hasClass } from '@element-plus/utils-v2'
+import { EVENT_CODE, hasClass } from '@element-plus/utils'
 import { makeMountFunc } from '@element-plus/test-utils/make-mount'
 import { rAF } from '@element-plus/test-utils/tick'
 import { CircleClose } from '@element-plus/icons-vue'

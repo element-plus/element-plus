@@ -1,5 +1,5 @@
 import { provide, ref } from 'vue'
-import { addClass, removeClass } from '@element-plus/utils-v2'
+import { addClass, removeClass } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import type { InjectionKey } from 'vue'
 import type Node from './node'

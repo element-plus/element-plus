@@ -238,7 +238,7 @@ import {
   addResizeListener,
   removeResizeListener,
   isValidComponentSize,
-} from '@element-plus/utils-v2'
+} from '@element-plus/utils'
 import { CircleClose, ArrowUp } from '@element-plus/icons-vue'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'

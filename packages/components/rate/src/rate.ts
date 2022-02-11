@@ -6,7 +6,7 @@ import {
   mutable,
   isValidComponentSize,
   iconPropType,
-} from '@element-plus/utils-v2'
+} from '@element-plus/utils'
 import type { ComponentSize } from '@element-plus/constants'
 import type { Component, ExtractPropTypes, PropType } from 'vue'
 import type Rate from './rate.vue'

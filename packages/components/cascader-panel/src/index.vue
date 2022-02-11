@@ -34,7 +34,7 @@ import {
   isEmpty,
   unique,
   castArray,
-} from '@element-plus/utils-v2'
+} from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
 
 import ElCascaderMenu from './menu.vue'
@@ -45,7 +45,7 @@ import { checkNode, getMenuIndex, sortByOriginalOrder } from './utils'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
 import type { PropType } from 'vue'
-import type { Nullable } from '@element-plus/utils-v2'
+import type { Nullable } from '@element-plus/utils'
 import type {
   CascaderValue,
   CascaderNodeValue,

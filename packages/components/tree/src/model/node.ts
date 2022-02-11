@@ -1,9 +1,9 @@
 import { reactive } from 'vue'
-import { hasOwn } from '@element-plus/utils-v2'
+import { hasOwn } from '@element-plus/utils'
 import { markNodeData, NODE_KEY } from './util'
 import type TreeStore from './tree-store'
 
-import type { Nullable } from '@element-plus/utils-v2'
+import type { Nullable } from '@element-plus/utils'
 import type {
   TreeNodeOptions,
   TreeNodeData,

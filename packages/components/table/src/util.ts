@@ -1,12 +1,12 @@
 import { createPopper } from '@popperjs/core'
 import { get } from 'lodash-unified'
-import { hasOwn, off, on } from '@element-plus/utils-v2'
+import { hasOwn, off, on } from '@element-plus/utils'
 import { useZIndex } from '@element-plus/hooks'
 import type {
   PopperInstance,
   IPopperOptions,
 } from '@element-plus/components/popper'
-import type { Nullable } from '@element-plus/utils-v2'
+import type { Nullable } from '@element-plus/utils'
 import type { TableColumnCtx } from './table-column/defaults'
 
 export const getCell = function (event: Event): HTMLElement {

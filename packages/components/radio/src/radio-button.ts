@@ -1,4 +1,4 @@
-import { buildProps } from '@element-plus/utils-v2'
+import { buildProps } from '@element-plus/utils'
 import { radioPropsBase } from './radio'
 import type { ExtractPropTypes } from 'vue'
 

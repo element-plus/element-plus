@@ -11,7 +11,7 @@ import {
   unref,
   watch,
 } from 'vue'
-import { EVENT_CODE, on, off } from '@element-plus/utils-v2'
+import { EVENT_CODE, on, off } from '@element-plus/utils'
 import {
   focusableStack,
   focusFirstDescendant,

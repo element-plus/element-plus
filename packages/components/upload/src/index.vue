@@ -19,7 +19,7 @@ import useHandlers from './useHandlers'
 
 import type { PropType } from 'vue'
 import type { ElFormContext } from '@element-plus/tokens'
-import type { Nullable } from '@element-plus/utils-v2'
+import type { Nullable } from '@element-plus/utils'
 import type {
   ListType,
   UploadFile,

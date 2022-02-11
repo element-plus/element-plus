@@ -1,4 +1,4 @@
-import { isValidComponentSize } from '@element-plus/utils-v2'
+import { isValidComponentSize } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
 

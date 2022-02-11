@@ -1,7 +1,7 @@
 import Select from './src/select.vue'
 
 import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils-v2'
+import type { SFCWithInstall } from '@element-plus/utils'
 
 Select.install = (app: App): void => {
   app.component(Select.name, Select)

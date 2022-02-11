@@ -1,5 +1,5 @@
 import { defineComponent, h, inject } from 'vue'
-import { addUnit, getNormalizedProps } from '@element-plus/utils-v2'
+import { addUnit, getNormalizedProps } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { elDescriptionsKey } from './token'
 

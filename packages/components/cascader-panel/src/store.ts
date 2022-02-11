@@ -1,7 +1,7 @@
 import { isEqual } from 'lodash-unified'
 import Node from './node'
 
-import type { Nullable } from '@element-plus/utils-v2'
+import type { Nullable } from '@element-plus/utils'
 import type {
   CascaderNodeValue,
   CascaderNodePathValue,

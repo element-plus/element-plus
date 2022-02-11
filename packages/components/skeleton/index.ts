@@ -1,4 +1,4 @@
-import { withInstall, withNoopInstall } from '@element-plus/utils-v2'
+import { withInstall, withNoopInstall } from '@element-plus/utils'
 
 import Skeleton from './src/skeleton.vue'
 import SkeletonItem from './src/skeleton-item.vue'

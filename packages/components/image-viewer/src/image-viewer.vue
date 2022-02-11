@@ -93,7 +93,7 @@ import { useEventListener } from '@vueuse/core'
 import { throttle } from 'lodash-unified'
 import ElIcon from '@element-plus/components/icon'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { EVENT_CODE, isFirefox } from '@element-plus/utils-v2'
+import { EVENT_CODE, isFirefox } from '@element-plus/utils'
 import {
   Close,
   ArrowLeft,

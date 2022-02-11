@@ -57,7 +57,7 @@ import {
   addUnit,
   isValidComponentSize,
   getPropByPath,
-} from '@element-plus/utils-v2'
+} from '@element-plus/utils'
 import { elFormItemKey, elFormKey } from '@element-plus/tokens'
 import { useSize } from '@element-plus/hooks'
 import LabelWrap from './label-wrap'

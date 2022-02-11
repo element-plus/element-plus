@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 import ColorPicker from '../src/index.vue'
 import type { ComponentPublicInstance } from 'vue'
 
-import type { Nullable } from '@element-plus/utils-v2'
+import type { Nullable } from '@element-plus/utils'
 
 jest.mock('lodash-unified', () => {
   return {

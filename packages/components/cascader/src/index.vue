@@ -192,7 +192,7 @@ import {
   removeResizeListener,
   isValidComponentSize,
   isKorean,
-} from '@element-plus/utils-v2'
+} from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
 import { CircleClose, Check, ArrowDown } from '@element-plus/icons-vue'
 

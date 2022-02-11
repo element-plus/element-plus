@@ -45,7 +45,7 @@ import {
   EVENT_CODE,
   TypeComponents,
   TypeComponentsMap,
-} from '@element-plus/utils-v2'
+} from '@element-plus/utils'
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { notificationProps, notificationEmits } from './notification'

@@ -1,4 +1,4 @@
-import { hasOwn } from '@element-plus/utils-v2'
+import { hasOwn } from '@element-plus/utils'
 import Node from './node'
 import { getNodeKey } from './util'
 

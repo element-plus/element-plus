@@ -174,7 +174,7 @@ import {
   TimePickPanel,
 } from '@element-plus/components/time-picker'
 import { ElIcon } from '@element-plus/components/icon'
-import { EVENT_CODE, isValidDatePickType } from '@element-plus/utils-v2'
+import { EVENT_CODE, isValidDatePickType } from '@element-plus/utils'
 import {
   DArrowLeft,
   ArrowLeft,

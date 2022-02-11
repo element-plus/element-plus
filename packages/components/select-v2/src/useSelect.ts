@@ -20,7 +20,7 @@ import {
   ValidateComponentsMap,
   addResizeListener,
   removeResizeListener,
-} from '@element-plus/utils-v2'
+} from '@element-plus/utils'
 import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 
 import { ArrowUp } from '@element-plus/icons-vue'

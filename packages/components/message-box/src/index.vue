@@ -159,7 +159,7 @@ import {
   TypeComponents,
   TypeComponentsMap,
   EVENT_CODE,
-} from '@element-plus/utils-v2'
+} from '@element-plus/utils'
 import { ElIcon } from '@element-plus/components/icon'
 
 import type { PropType } from 'vue'

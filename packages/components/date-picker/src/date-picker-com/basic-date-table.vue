@@ -36,7 +36,7 @@
 import { defineComponent, computed, ref } from 'vue'
 import dayjs from 'dayjs'
 import { useLocale } from '@element-plus/hooks'
-import { castArray } from '@element-plus/utils-v2'
+import { castArray } from '@element-plus/utils'
 import ElDatePickerCell from './basic-cell-render'
 import type { PropType } from 'vue'
 

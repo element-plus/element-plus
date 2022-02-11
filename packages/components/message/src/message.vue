@@ -49,7 +49,7 @@ import {
   EVENT_CODE,
   TypeComponents,
   TypeComponentsMap,
-} from '@element-plus/utils-v2'
+} from '@element-plus/utils'
 import ElBadge from '@element-plus/components/badge'
 import { ElIcon } from '@element-plus/components/icon'
 

@@ -12,7 +12,7 @@ import {
   watch,
 } from 'vue'
 import { isPromise, NOOP } from '@vue/shared'
-import { EVENT_CODE, buildProps, definePropType } from '@element-plus/utils-v2'
+import { EVENT_CODE, buildProps, definePropType } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
 import { Plus } from '@element-plus/icons-vue'
 import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'

@@ -17,9 +17,9 @@ import {
   ref,
 } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { addResizeListener, removeResizeListener } from '@element-plus/utils-v2'
+import { addResizeListener, removeResizeListener } from '@element-plus/utils'
 import { selectKey } from './token'
-import type { ResizableElement } from '@element-plus/utils-v2'
+import type { ResizableElement } from '@element-plus/utils'
 
 export default defineComponent({
   name: 'ElSelectDropdown',

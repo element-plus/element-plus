@@ -6,7 +6,7 @@ import {
   isNumber,
   isString,
   isValidComponentSize,
-} from '@element-plus/utils-v2'
+} from '@element-plus/utils'
 import {
   UPDATE_MODEL_EVENT,
   CHANGE_EVENT,

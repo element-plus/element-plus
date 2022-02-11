@@ -11,7 +11,7 @@ import {
   unref,
 } from 'vue'
 import { isClient } from '@vueuse/core'
-import { hasOwn, isNumber, isString } from '@element-plus/utils-v2'
+import { hasOwn, isNumber, isString } from '@element-plus/utils'
 import { useCache } from '../hooks/use-cache'
 import useWheel from '../hooks/use-wheel'
 import Scrollbar from '../components/scrollbar'

@@ -10,9 +10,9 @@ import {
   ref,
   watch,
 } from 'vue'
-import { addResizeListener, removeResizeListener } from '@element-plus/utils-v2'
+import { addResizeListener, removeResizeListener } from '@element-plus/utils'
 import { elFormItemKey, elFormKey } from '@element-plus/tokens'
-import type { ResizableElement, Nullable } from '@element-plus/utils-v2'
+import type { ResizableElement, Nullable } from '@element-plus/utils'
 
 import type { CSSProperties } from 'vue'
 

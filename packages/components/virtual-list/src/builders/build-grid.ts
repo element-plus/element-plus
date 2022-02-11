@@ -16,7 +16,7 @@ import {
   isNumber,
   isString,
   getScrollBarWidth,
-} from '@element-plus/utils-v2'
+} from '@element-plus/utils'
 import Scrollbar from '../components/scrollbar'
 import { useGridWheel } from '../hooks/use-grid-wheel'
 import { useCache } from '../hooks/use-cache'

@@ -1,4 +1,4 @@
-import { EVENT_CODE, triggerEvent } from '@element-plus/utils-v2'
+import { EVENT_CODE, triggerEvent } from '@element-plus/utils'
 import type MenuItem from './menu-item'
 
 class SubMenu {

@@ -11,7 +11,7 @@ import {
   withModifiers,
 } from 'vue'
 import { get } from 'lodash-unified'
-import { isUndefined, isObject } from '@element-plus/utils-v2'
+import { isUndefined, isObject } from '@element-plus/utils'
 import {
   FixedSizeList,
   DynamicSizeList,

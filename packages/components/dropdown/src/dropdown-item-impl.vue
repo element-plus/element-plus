@@ -36,7 +36,7 @@ import {
   EVENT_CODE,
   composeEventHandlers,
   composeRefs,
-} from '@element-plus/utils-v2'
+} from '@element-plus/utils'
 import {
   DROPDOWN_COLLECTION_ITEM_INJECTION_KEY,
   dropdownItemProps,

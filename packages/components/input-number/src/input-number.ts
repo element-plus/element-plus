@@ -1,4 +1,4 @@
-import { buildProps, isNumber } from '@element-plus/utils-v2'
+import { buildProps, isNumber } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
 
 export const inputNumberProps = buildProps({

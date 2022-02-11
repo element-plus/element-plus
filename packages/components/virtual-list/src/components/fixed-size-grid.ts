@@ -1,4 +1,4 @@
-import { isNumber, throwError } from '@element-plus/utils-v2'
+import { isNumber, throwError } from '@element-plus/utils'
 import createGrid from '../builders/build-grid'
 
 import {

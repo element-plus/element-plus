@@ -1,4 +1,4 @@
-import { EVENT_CODE } from '@element-plus/utils-v2'
+import { EVENT_CODE } from '@element-plus/utils'
 import * as Util from '../src/utils'
 
 describe('util', () => {

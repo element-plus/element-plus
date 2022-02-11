@@ -19,7 +19,7 @@ import {
   EVENT_CODE,
   composeRefs,
   composeEventHandlers,
-} from '@element-plus/utils-v2'
+} from '@element-plus/utils'
 import { FOCUS_TRAP_INJECTION_KEY } from '@element-plus/components/focus-trap'
 import {
   ROVING_FOCUS_COLLECTION_INJECTION_KEY,

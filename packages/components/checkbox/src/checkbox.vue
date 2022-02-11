@@ -62,7 +62,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { isValidComponentSize } from '@element-plus/utils-v2'
+import { isValidComponentSize } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useCheckbox } from './useCheckbox'
 

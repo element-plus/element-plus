@@ -1,6 +1,6 @@
 import { watch } from 'vue'
 import { isClient, useEventListener } from '@vueuse/core'
-import { EVENT_CODE } from '@element-plus/utils-v2'
+import { EVENT_CODE } from '@element-plus/utils'
 
 import type { Ref } from 'vue'
 

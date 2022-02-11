@@ -16,7 +16,6 @@ importers:
       '@element-plus/theme-chalk': workspace:*
       '@element-plus/tokens': workspace:*
       '@element-plus/utils': workspace:*
-      '@element-plus/utils-v2': workspace:*
       '@pnpm/find-workspace-packages': 3.1.40
       '@pnpm/logger': 4.0.0
       '@pnpm/types': 7.9.0
@@ -92,7 +91,6 @@ importers:
       '@element-plus/theme-chalk': link:packages/theme-chalk
       '@element-plus/tokens': link:packages/tokens
       '@element-plus/utils': link:packages/utils
-      '@element-plus/utils-v2': link:packages/utils-v2
       '@popperjs/core': 2.11.2
       '@vueuse/core': 7.6.0_vue@3.2.30
       async-validator: 4.0.7
@@ -287,9 +285,6 @@ importers:
     specifiers: {}
 
   packages/utils:
-    specifiers: {}
-
-  packages/utils-v2:
     specifiers: {}
 
   play:

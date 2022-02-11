@@ -79,7 +79,7 @@ import {
   addResizeListener,
   removeResizeListener,
   debugWarn,
-} from '@element-plus/utils-v2'
+} from '@element-plus/utils'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'

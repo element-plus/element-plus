@@ -1,4 +1,4 @@
-import { withInstall, withNoopInstall } from '@element-plus/utils-v2'
+import { withInstall, withNoopInstall } from '@element-plus/utils'
 import Table from './src/table.vue'
 import TableColumn from './src/tableColumn'
 

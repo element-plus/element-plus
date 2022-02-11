@@ -20,7 +20,7 @@ import {
   mutable,
   isString,
   isObject,
-} from '@element-plus/utils-v2'
+} from '@element-plus/utils'
 import Menubar from './utils/menu-bar'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu'

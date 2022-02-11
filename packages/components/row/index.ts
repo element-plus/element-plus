@@ -1,4 +1,4 @@
-import { withInstall } from '@element-plus/utils-v2'
+import { withInstall } from '@element-plus/utils'
 import Row from './src/row'
 
 export const ElRow = withInstall(Row)
