@@ -13,6 +13,8 @@ import {
   removeResizeListener,
   on,
   off,
+  isNumber,
+  isString,
 } from '@element-plus/utils'
 import { useSize } from '@element-plus/hooks'
 import { parseHeight } from '../util'
@@ -224,6 +226,20 @@ function useStyle<T>(
     return props.tableLayout
   })
 
+  function calcMaxHeight(
+    maxHeight: string | number,
+    footerHeight: number,
+    headerHeight: number
+  ) {
+    const parsedMaxHeight = parseHeight(maxHeight)
+    const tableHeaderHeight = props.showHeader ? headerHeight : 0
+    if (parsedMaxHeight === null) return
+    if (isString(parsedMaxHeight)) {
+      return `calc(${parsedMaxHeight} - ${footerHeight}px - ${tableHeaderHeight}px)`
+    }
+    return parsedMaxHeight - footerHeight - tableHeaderHeight
+  }
+
   const height = computed(() => {
     const headerHeight = layout.headerHeight.value || 0
     const bodyHeight = layout.bodyHeight.value
@@ -231,8 +247,7 @@ function useStyle<T>(
     if (props.height) {
       return bodyHeight ? bodyHeight : undefined
     } else if (props.maxHeight) {
-      const maxHeight = parseHeight(props.maxHeight)
-      return maxHeight - footerHeight - (props.showHeader ? headerHeight : 0)
+      return calcMaxHeight(props.maxHeight, footerHeight, headerHeight)
     }
     return undefined
   })
@@ -246,12 +261,14 @@ function useStyle<T>(
         height: bodyHeight ? `${bodyHeight}px` : '',
       }
     } else if (props.maxHeight) {
-      const maxHeight = parseHeight(props.maxHeight)
-      if (typeof maxHeight === 'number') {
+      const maxHeight = calcMaxHeight(
+        props.maxHeight,
+        footerHeight,
+        headerHeight
+      )
+      if (maxHeight !== null) {
         return {
-          'max-height': `${
-            maxHeight - footerHeight - (props.showHeader ? headerHeight : 0)
-          }px`,
+          'max-height': `${maxHeight}${isNumber(maxHeight) ? 'px' : ''}`,
         }
       }
     }
