@@ -8,60 +8,58 @@ import {
   POPPER_CONTAINER_SELECTOR,
 } from '@element-plus/hooks'
 
-import type { ExtractPropTypes, PropType } from 'vue'
+import type { ExtractPropTypes } from 'vue'
 
 const triggers = ['hover', 'focus', 'click', 'contextmenu'] as const
 
 export type Trigger = typeof triggers[number]
 
-export const useTooltipContentProps = {
+export const useTooltipContentProps = buildProps({
   ...useDelayedToggleProps,
   ...usePopperContentProps,
-  ...buildProps({
-    appendTo: {
-      type: definePropType<string | HTMLElement>([String, Object]),
-      default: POPPER_CONTAINER_SELECTOR,
-    },
-    content: {
-      type: String,
-      default: '',
-    },
-    rawContent: {
-      type: Boolean,
-      default: false,
-    },
-    persistent: Boolean,
-    ariaLabel: String,
-    // because model toggle prop is generated dynamically
-    // so the typing cannot be evaluated by typescript as type:
-    // [name]: { type: Boolean, default: null }
-    // so we need to declare that again for type checking.
-    visible: {
-      type: definePropType<boolean | null>(Boolean),
-      default: null,
-    },
-    transition: {
-      type: String,
-      default: 'el-fade-in-linear',
-    },
-    teleported: {
-      type: Boolean,
-      default: true,
-    },
-    disabled: {
-      type: Boolean,
-    },
-  } as const),
-}
+  appendTo: {
+    type: definePropType<string | HTMLElement>([String, Object]),
+    default: POPPER_CONTAINER_SELECTOR,
+  },
+  content: {
+    type: String,
+    default: '',
+  },
+  rawContent: {
+    type: Boolean,
+    default: false,
+  },
+  persistent: Boolean,
+  ariaLabel: String,
+  // because model toggle prop is generated dynamically
+  // so the typing cannot be evaluated by typescript as type:
+  // [name]: { type: Boolean, default: null }
+  // so we need to declare that again for type checking.
+  visible: {
+    type: definePropType<boolean | null>(Boolean),
+    default: null,
+  },
+  transition: {
+    type: String,
+    default: 'el-fade-in-linear',
+  },
+  teleported: {
+    type: Boolean,
+    default: true,
+  },
+  disabled: {
+    type: Boolean,
+  },
+} as const)
 
-export const useTooltipTriggerProps = {
+export const useTooltipTriggerProps = buildProps({
   ...usePopperTriggerProps,
   disabled: Boolean,
   trigger: {
-    type: [String, Array] as PropType<Trigger | Trigger[]>,
+    type: definePropType<Trigger | Trigger[]>([String, Array]),
     default: 'hover',
   },
-}
+} as const)
 
 export const useTooltipProps = buildProps({
   openDelay: {

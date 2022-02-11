@@ -24,59 +24,56 @@ export interface IElDropdownInstance {
   triggerElm?: ComputedRef<Nullable<HTMLButtonElement>>
 }
 
-export const dropdownProps = {
+export const dropdownProps = buildProps({
   trigger: useTooltipTriggerProps.trigger,
-
   effect: {
     ...useTooltipContentProps.effect,
     default: 'light',
   },
-  ...buildProps({
-    type: {
-      type: definePropType<ButtonType>(String),
-    },
-    placement: {
-      type: definePropType<Placement>(String),
-      default: 'bottom',
-    },
-    popperOptions: {
-      type: definePropType<Partial<Options>>(Object),
-      default: () => ({}),
-    },
-    size: {
-      type: String,
-      default: '',
-    },
-    splitButton: Boolean,
-    hideOnClick: {
-      type: Boolean,
-      default: true,
-    },
-    loop: {
-      type: Boolean,
-    },
-    showTimeout: {
-      type: Number,
-      default: 150,
-    },
-    hideTimeout: {
-      type: Number,
-      default: 150,
-    },
-    tabindex: {
-      type: definePropType<number | string>([Number, String]),
-      default: 0,
-    },
-    maxHeight: {
-      type: definePropType<number | string>([Number, String]),
-      default: '',
-    },
-    popperClass: {
-      type: String,
-      default: '',
-    },
-  } as const),
-} as const
+  type: {
+    type: definePropType<ButtonType>(String),
+  },
+  placement: {
+    type: definePropType<Placement>(String),
+    default: 'bottom',
+  },
+  popperOptions: {
+    type: definePropType<Partial<Options>>(Object),
+    default: () => ({}),
+  },
+  size: {
+    type: String,
+    default: '',
+  },
+  splitButton: Boolean,
+  hideOnClick: {
+    type: Boolean,
+    default: true,
+  },
+  loop: {
+    type: Boolean,
+  },
+  showTimeout: {
+    type: Number,
+    default: 150,
+  },
+  hideTimeout: {
+    type: Number,
+    default: 150,
+  },
+  tabindex: {
+    type: definePropType<number | string>([Number, String]),
+    default: 0,
+  },
+  maxHeight: {
+    type: definePropType<number | string>([Number, String]),
+    default: '',
+  },
+  popperClass: {
+    type: String,
+    default: '',
+  },
+} as const)
 
 export const dropdownItemProps = buildProps({
   command: {
