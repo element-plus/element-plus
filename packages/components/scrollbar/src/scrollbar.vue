@@ -115,7 +115,6 @@ export default defineComponent({
 
     const update = () => {
       if (!wrap$.value) return
-
       const offsetHeight = wrap$.value.offsetHeight - GAP
       const offsetWidth = wrap$.value.offsetWidth - GAP
 
@@ -149,6 +148,19 @@ export default defineComponent({
         }
       },
       { immediate: true }
+    )
+
+    watch(
+      () => [props.maxHeight, props.height],
+      () => {
+        if (!props.native)
+          nextTick(() => {
+            update()
+            if (wrap$.value) {
+              barRef.value?.handleScroll(wrap$.value)
+            }
+          })
+      }
     )
 
     provide(

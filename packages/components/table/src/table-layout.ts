@@ -137,12 +137,17 @@ class TableLayout<T> {
   updateElsHeight() {
     if (!this.table.$ready) return nextTick(() => this.updateElsHeight())
     const {
+      tableWrapper,
       headerWrapper,
       appendWrapper,
       footerWrapper,
       tableHeader,
       tableBody,
     } = this.table.refs
+    if (tableWrapper && tableWrapper.style.display === 'none') {
+      // avoid v-show
+      return
+    }
     this.appendHeight.value = appendWrapper ? appendWrapper.offsetHeight : 0
     if (this.showHeader && !headerWrapper) return
     const headerTrElm: HTMLElement = tableHeader ? tableHeader : null
