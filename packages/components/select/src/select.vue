@@ -15,7 +15,7 @@
       effect="light"
       pure
       trigger="click"
-      :transition="`${nsSelect.namespace.value}zoom-in-top`"
+      :transition="`${nsSelect.namespace.value}-zoom-in-top`"
       :stop-popper-mouse-event="false"
       :gpu-acceleration="false"
       persistent
