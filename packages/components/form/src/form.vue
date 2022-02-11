@@ -227,7 +227,7 @@ export default defineComponent({
     const scrollToField = (prop: string) => {
       fields.forEach((item) => {
         if (item.prop === prop) {
-          item.$el.scrollIntoView()
+          item.$el.scrollIntoView?.()
         }
       })
     }
