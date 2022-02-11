@@ -1,4 +1,4 @@
-import { rAF, cAF } from '@element-plus/utils/raf'
+import { rAF, cAF } from '@element-plus/utils'
 import { isFF } from '../utils'
 
 import type { ComputedRef } from 'vue'

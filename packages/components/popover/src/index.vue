@@ -30,7 +30,7 @@
 import { defineComponent, computed, ref, unref } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
 import { useDeprecateAppendToBody } from '@element-plus/components/popper'
-import { isString } from '@element-plus/utils-v2'
+import { isString } from '@element-plus/utils'
 import { usePopoverProps } from './popover'
 
 import type { StyleValue } from 'vue'

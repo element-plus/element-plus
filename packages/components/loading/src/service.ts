@@ -1,7 +1,7 @@
 import { nextTick } from 'vue'
 import { isString } from '@vue/shared'
 import { isClient } from '@vueuse/core'
-import { addClass, getStyle, removeClass } from '@element-plus/utils/dom'
+import { addClass, getStyle, removeClass } from '@element-plus/utils'
 import { useZIndex } from '@element-plus/hooks'
 import { createLoadingComponent } from './loading'
 import type { LoadingInstance } from './loading'

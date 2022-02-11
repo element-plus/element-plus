@@ -1,8 +1,4 @@
-import {
-  buildProps,
-  definePropType,
-  iconPropType,
-} from '@element-plus/utils-v2'
+import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import type { ExtractPropTypes } from 'vue'
 

@@ -9,14 +9,15 @@ import {
   triggerRef,
 } from 'vue'
 import { isObject, toRawType } from '@vue/shared'
-import { debounce as lodashDebounce, isEqual } from 'lodash-unified'
+import { debounce as lodashDebounce, isEqual, get } from 'lodash-unified'
 import { isClient } from '@vueuse/core'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
-import { EVENT_CODE } from '@element-plus/utils/aria'
+import {
+  UPDATE_MODEL_EVENT,
+  CHANGE_EVENT,
+  EVENT_CODE,
+} from '@element-plus/constants'
+import { isKorean } from '@element-plus/utils'
 import { useLocale, useNamespace, useSize } from '@element-plus/hooks'
-import scrollIntoView from '@element-plus/utils/scroll-into-view'
-import { isKorean } from '@element-plus/utils-v2'
-import { getValueByPath } from '@element-plus/utils/util'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 
 import type { ComponentPublicInstance } from 'vue'
@@ -463,8 +464,7 @@ export const useSelect = (props, states: States, ctx) => {
     for (let i = states.cachedOptions.size - 1; i >= 0; i--) {
       const cachedOption = cachedOptionsArray.value[i]
       const isEqualValue = isObjectValue
-        ? getValueByPath(cachedOption.value, props.valueKey) ===
-          getValueByPath(value, props.valueKey)
+        ? get(cachedOption.value, props.valueKey) === get(value, props.valueKey)
         : cachedOption.value === value
       if (isEqualValue) {
         option = {
@@ -504,10 +504,7 @@ export const useSelect = (props, states: States, ctx) => {
             null,
             states.selected.map((selected) => {
               return optionsArray.value.findIndex((item) => {
-                return (
-                  getValueByPath(item, valueKey) ===
-                  getValueByPath(selected, valueKey)
-                )
+                return get(item, valueKey) === get(selected, valueKey)
               })
             })
           )
@@ -627,7 +624,7 @@ export const useSelect = (props, states: States, ctx) => {
     const valueKey = props.valueKey
     let index = -1
     arr.some((item, i) => {
-      if (getValueByPath(item, valueKey) === getValueByPath(value, valueKey)) {
+      if (get(item, valueKey) === get(value, valueKey)) {
         index = i
         return true
       }
@@ -662,7 +659,7 @@ export const useSelect = (props, states: States, ctx) => {
         '.el-select-dropdown__wrap'
       )
       if (menu) {
-        scrollIntoView(menu as HTMLElement, target)
+        menu.scrollIntoView(target)
       }
     }
     scrollbar.value?.handleScroll()
@@ -780,9 +777,7 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const getValueKey = (item) => {
-    return isObject(item.value)
-      ? getValueByPath(item.value, props.valueKey)
-      : item.value
+    return isObject(item.value) ? get(item.value, props.valueKey) : item.value
   }
 
   const optionsAllDisabled = computed(() =>

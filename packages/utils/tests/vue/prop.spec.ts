@@ -3,8 +3,8 @@
 import { defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
 import { expectTypeOf } from 'expect-type'
-import { buildProp, definePropType, mutable, keyOf, buildProps } from '..'
-import type { propKey } from '../vue/prop'
+import { buildProp, definePropType, mutable, keysOf, buildProps } from '../..'
+import type { propKey } from '../..'
 
 import type { PropType, ExtractPropTypes } from 'vue'
 
@@ -224,7 +224,7 @@ describe('buildProp', () => {
   it('Required and validator', () => {
     expectTypeOf(
       buildProp({
-        values: keyOf({ a: 'a', b: 'b' }),
+        values: keysOf({ a: 'a', b: 'b' }),
         default: 'a',
       } as const)
     ).toEqualTypeOf<{
@@ -323,7 +323,7 @@ describe('buildProps', () => {
         default: 2,
       },
       key4: {
-        values: keyOf({ a: 'a', b: 'b' }),
+        values: keysOf({ a: 'a', b: 'b' }),
         default: 'a',
       },
       key5: Boolean,

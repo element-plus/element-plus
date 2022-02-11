@@ -1,4 +1,4 @@
-import { buildProps, definePropType } from '@element-plus/utils-v2'
+import { buildProps, definePropType } from '@element-plus/utils'
 
 import type { VNode, ExtractPropTypes } from 'vue'
 

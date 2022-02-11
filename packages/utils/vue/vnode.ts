@@ -12,7 +12,7 @@ import { hasOwn } from '../objects'
 import { debugWarn } from '../error'
 import type { VNode, VNodeChild, VNodeNormalizedChildren } from 'vue'
 
-const SCOPE = 'utils-v2/vue/vnode'
+const SCOPE = 'utils/vue/vnode'
 
 export enum PatchFlags {
   TEXT = 1,

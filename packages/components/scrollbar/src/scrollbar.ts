@@ -1,4 +1,4 @@
-import { buildProps, definePropType, isNumber } from '@element-plus/utils-v2'
+import { buildProps, definePropType, isNumber } from '@element-plus/utils'
 import type { StyleValue, ExtractPropTypes } from 'vue'
 
 export const scrollbarProps = buildProps({

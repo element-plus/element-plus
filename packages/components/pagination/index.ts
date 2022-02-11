@@ -1,4 +1,4 @@
-import { withInstall } from '@element-plus/utils-v2'
+import { withInstall } from '@element-plus/utils'
 
 import Pagination from './src/pagination'
 

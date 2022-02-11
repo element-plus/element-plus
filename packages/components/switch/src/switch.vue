@@ -91,7 +91,7 @@
 <script lang="ts">
 import { defineComponent, computed, onMounted, ref, nextTick, watch } from 'vue'
 import { isPromise } from '@vue/shared'
-import { isBoolean, throwError, debugWarn } from '@element-plus/utils-v2'
+import { isBoolean, throwError, debugWarn } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
 import { Loading } from '@element-plus/icons-vue'
 import {

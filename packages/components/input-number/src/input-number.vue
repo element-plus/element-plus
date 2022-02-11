@@ -75,7 +75,7 @@ import {
   useNamespace,
 } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
-import { isNumber, debugWarn } from '@element-plus/utils-v2'
+import { isNumber, debugWarn } from '@element-plus/utils'
 import { ArrowUp, ArrowDown, Plus, Minus } from '@element-plus/icons-vue'
 import { inputNumberProps, inputNumberEmits } from './input-number'
 

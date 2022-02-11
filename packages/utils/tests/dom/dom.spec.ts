@@ -1,4 +1,4 @@
-import { hasClass, addClass, removeClass } from '../dom'
+import { hasClass, addClass, removeClass } from '../..'
 
 const getClass = (el: Element) => {
   if (!el) {

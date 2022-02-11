@@ -31,9 +31,9 @@ import {
 } from '@element-plus/components/roving-focus-group'
 import { COLLECTION_ITEM_SIGN } from '@element-plus/components/collection'
 import { ElIcon } from '@element-plus/components/icon'
-import { EVENT_CODE } from '@element-plus/utils/aria'
-import { composeEventHandlers, composeRefs } from '@element-plus/utils/dom'
 import { useNamespace } from '@element-plus/hooks'
+import { composeEventHandlers, composeRefs } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
 import {
   DROPDOWN_COLLECTION_ITEM_INJECTION_KEY,
   dropdownItemProps,

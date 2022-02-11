@@ -1,7 +1,7 @@
 import { computed, getCurrentInstance, watch, onMounted } from 'vue'
 import { isFunction } from '@vue/shared'
 import { isClient } from '@vueuse/core'
-import { isBoolean, buildProp, definePropType } from '@element-plus/utils-v2'
+import { isBoolean, buildProp, definePropType } from '@element-plus/utils'
 import type { RouteLocationNormalizedLoaded } from 'vue-router'
 
 import type { Ref, ComponentPublicInstance, ExtractPropTypes } from 'vue'

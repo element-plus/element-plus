@@ -1,8 +1,4 @@
-import {
-  buildProps,
-  definePropType,
-  iconPropType,
-} from '@element-plus/utils-v2'
+import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
 import type { ObjectFitProperty } from 'csstype'
 import type Avatar from './avatar.vue'

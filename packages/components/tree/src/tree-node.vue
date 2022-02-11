@@ -96,7 +96,7 @@ import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
 import { CaretRight, Loading } from '@element-plus/icons-vue'
-import { debugWarn } from '@element-plus/utils-v2'
+import { debugWarn } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import NodeContent from './tree-node-content.vue'
 import { getNodeKey as getNodeKeyUtil } from './model/util'
@@ -105,7 +105,7 @@ import { dragEventsKey } from './model/useDragNode'
 import Node from './model/node'
 
 import type { ComponentInternalInstance, PropType } from 'vue'
-import type { Nullable } from '@element-plus/utils/types'
+import type { Nullable } from '@element-plus/utils'
 import type { TreeOptionProps, TreeNodeData, RootTreeType } from './tree.type'
 
 export default defineComponent({

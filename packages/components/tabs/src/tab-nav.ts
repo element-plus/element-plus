@@ -19,8 +19,8 @@ import {
   definePropType,
   mutable,
   throwError,
-} from '@element-plus/utils-v2'
-import { EVENT_CODE } from '@element-plus/utils/aria'
+} from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight, Close } from '@element-plus/icons-vue'
 import { tabsRootContextKey } from '@element-plus/tokens'

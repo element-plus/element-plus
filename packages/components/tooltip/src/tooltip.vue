@@ -58,7 +58,7 @@ import {
   usePopperArrowProps,
 } from '@element-plus/components/popper'
 
-import { debugWarn, isBoolean, isUndefined } from '@element-plus/utils-v2'
+import { debugWarn, isBoolean, isUndefined } from '@element-plus/utils'
 import {
   usePopperContainer,
   useId,

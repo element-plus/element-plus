@@ -1,6 +1,6 @@
 import { ref, unref, inject, computed } from 'vue'
 import { elFormItemKey, elFormKey } from '@element-plus/tokens'
-import { buildProp } from '@element-plus/utils-v2'
+import { buildProp } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
 import { useProp } from '../use-prop'
 import { useGlobalConfig } from '../use-global-config'

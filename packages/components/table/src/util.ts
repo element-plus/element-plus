@@ -1,14 +1,12 @@
 import { createPopper } from '@popperjs/core'
-import { hasOwn } from '@element-plus/utils-v2'
+import { get } from 'lodash-unified'
+import { hasOwn, off, on } from '@element-plus/utils'
 import { useZIndex } from '@element-plus/hooks'
-import { getValueByPath } from '@element-plus/utils/util'
-import { off, on } from '@element-plus/utils/dom'
-
 import type {
   PopperInstance,
   IPopperOptions,
 } from '@element-plus/components/popper'
-import type { Nullable } from '@element-plus/utils/types'
+import type { Nullable } from '@element-plus/utils'
 import type { TableColumnCtx } from './table-column/defaults'
 
 export const getCell = function (event: Event): HTMLElement {
@@ -56,7 +54,7 @@ export const orderBy = function <T>(
           }
           return sortBy.map(function (by) {
             if (typeof by === 'string') {
-              return getValueByPath(value, by)
+              return get(value, by)
             } else {
               return by(value, index, array)
             }
@@ -65,7 +63,7 @@ export const orderBy = function <T>(
         if (sortKey !== '$key') {
           if (isObject(value) && '$value' in value) value = value.$value
         }
-        return [isObject(value) ? getValueByPath(value, sortKey) : value]
+        return [isObject(value) ? get(value, sortKey) : value]
       }
   const compare = function (a, b) {
     if (sortMethod) {

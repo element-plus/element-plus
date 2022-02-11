@@ -1,11 +1,11 @@
 import { onMounted, onUpdated, onBeforeUnmount, watch, shallowRef } from 'vue'
-import { EVENT_CODE } from '@element-plus/utils/aria'
-import { on, off } from '@element-plus/utils/dom'
+import { on, off } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
 import type TreeStore from './tree-store'
 
 import type { Ref } from 'vue'
-import type { Nullable } from '@element-plus/utils/types'
+import type { Nullable } from '@element-plus/utils'
 
 interface UseKeydownOption {
   el$: Ref<HTMLElement>

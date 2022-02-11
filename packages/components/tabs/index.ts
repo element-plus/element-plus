@@ -1,4 +1,4 @@
-import { withInstall, withNoopInstall } from '@element-plus/utils-v2'
+import { withInstall, withNoopInstall } from '@element-plus/utils'
 import Tabs from './src/tabs'
 import TabPane from './src/tab-pane.vue'
 

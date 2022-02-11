@@ -2,7 +2,7 @@ import { h } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowRight, Loading } from '@element-plus/icons-vue'
-import { getPropByPath } from '@element-plus/utils/util'
+import { getPropByPath } from '@element-plus/utils'
 
 import type { VNode } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'

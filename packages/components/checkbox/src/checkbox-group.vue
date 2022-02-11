@@ -10,7 +10,7 @@ import {
   renderSlot,
 } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { isValidComponentSize } from '@element-plus/utils-v2'
+import { isValidComponentSize } from '@element-plus/utils'
 import { useSize, useNamespace } from '@element-plus/hooks'
 import { useCheckboxGroup } from './useCheckbox'
 

@@ -1,6 +1,5 @@
 import type { ComputedRef } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
-import type { AnyFunction } from '@element-plus/utils/types'
 export interface ICheckboxGroupInstance {
   name?: string
   modelValue?: ComputedRef
@@ -11,5 +10,5 @@ export interface ICheckboxGroupInstance {
   fill?: ComputedRef<string>
   textColor?: ComputedRef<string>
   checkboxGroupSize?: ComputedRef<ComponentSize>
-  changeEvent?: AnyFunction<any>
+  changeEvent?: (...args: any[]) => any
 }
