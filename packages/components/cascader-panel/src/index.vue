@@ -33,6 +33,7 @@ import {
   isEmpty,
   unique,
   castArray,
+  scrollIntoView,
 } from '@element-plus/utils'
 import {
   EVENT_CODE,
@@ -278,7 +279,7 @@ export default defineComponent({
           const activeNode =
             menuElement.querySelector('.el-cascader-node.is-active') ||
             menuElement.querySelector('.el-cascader-node.in-active-path')
-          container?.scrollIntoView?.(activeNode)
+          scrollIntoView(container as HTMLElement, activeNode)
         }
       })
     }
