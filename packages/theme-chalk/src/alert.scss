@@ -21,13 +21,13 @@
   transition: opacity var(--el-transition-duration-fast);
 
   @include when(light) {
-    .#{$namespace}-alert__closebtn {
+    .#{$namespace}-alert__close-btn {
       color: var(--el-text-color-placeholder);
     }
   }
 
   @include when(dark) {
-    .#{$namespace}-alert__closebtn {
+    .#{$namespace}-alert__close-btn {
       color: var(--el-color-white);
     }
     .#{$namespace}-alert__description {
@@ -87,7 +87,7 @@
     margin: 5px 0 0 0;
   }
 
-  & .#{$namespace}-alert__closeBtn {
+  & .#{$namespace}-alert__close-btn {
     font-size: var(--el-alert-close-font-size);
     opacity: 1;
     position: absolute;
