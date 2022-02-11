@@ -1623,7 +1623,33 @@ describe('Select', () => {
       await testAfterSearch({ multiple: true, remote: true, remoteMethod })
     })
   })
-
+  
+ it('multiple select has an initial value', async () => {
+    const options = [{ value: `value:Alaska`, label: `label:Alaska` }]
+    const modelValue = [{ value: `value:Alaska`, label: `label:Alaska` }]
+    const wrapper = _mount(
+      `
+    <el-select v-model="modelValue"
+      multiple
+      value-key="value"
+      filterable>
+      <el-option
+        v-for="option in options"
+        :key="option.value"
+        :value="option.value"
+        :label="option.label"
+      >
+      </el-option>
+    </el-select>`,
+      () => ({
+        modelValue,
+        options,
+      })
+    )
+    const select = wrapper.findComponent({ name: 'ElSelect' }).vm
+    expect(select.selected[0].currentLabel).toBe(options[0].label)
+  })
+ 
   describe('teleported API', () => {
     it('should mount on popper container', async () => {
       expect(document.body.innerHTML).toBe('')
