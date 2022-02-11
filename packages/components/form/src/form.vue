@@ -15,7 +15,7 @@ import {
   watch,
 } from 'vue'
 import { elFormKey } from '@element-plus/tokens'
-import { debugWarn } from '@element-plus/utils-v2'
+import { debugWarn } from '@element-plus/utils'
 import { useSize } from '@element-plus/hooks'
 import type { ValidateFieldsError } from 'async-validator'
 

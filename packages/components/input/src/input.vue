@@ -148,11 +148,7 @@ import {
 import { isClient } from '@vueuse/core'
 import { ElIcon } from '@element-plus/components/icon'
 import { CircleClose, View as IconView } from '@element-plus/icons-vue'
-import {
-  ValidateComponentsMap,
-  isObject,
-  isKorean,
-} from '@element-plus/utils-v2'
+import { ValidateComponentsMap, isObject, isKorean } from '@element-plus/utils'
 import {
   useAttrs,
   useDisabled,

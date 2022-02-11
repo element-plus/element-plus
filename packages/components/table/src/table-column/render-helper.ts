@@ -1,5 +1,5 @@
 import { getCurrentInstance, h, ref, computed, watchEffect, unref } from 'vue'
-import { debugWarn } from '@element-plus/utils-v2'
+import { debugWarn } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import {
   cellForced,

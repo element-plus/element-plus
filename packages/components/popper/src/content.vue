@@ -23,7 +23,7 @@ import {
   watch,
 } from 'vue'
 import { createPopper } from '@popperjs/core'
-import { useZIndex } from '@element-plus/hooks'
+import { useZIndex, useNamespace } from '@element-plus/hooks'
 import { POPPER_INJECTION_KEY, POPPER_CONTENT_INJECTION_KEY } from './tokens'
 import { usePopperContentProps } from './popper'
 import { buildPopperOptions, unwrapMeasurableEl } from './utils'
@@ -38,6 +38,7 @@ export default defineComponent({
       undefined
     )!
     const { nextZIndex } = useZIndex()
+    const ns = useNamespace('popper')
     const popperContentRef = ref<HTMLElement | null>(null)
     const arrowRef = ref<HTMLElement | null>(null)
     const arrowOffset = ref<number>()
@@ -52,11 +53,9 @@ export default defineComponent({
     )
 
     const contentClass = computed(() => [
-      {
-        'el-popper': true,
-        'is-pure': props.pure,
-        [`is-${props.effect}`]: !!props.effect,
-      },
+      ns.b(),
+      ns.is('pure', props.pure),
+      ns.is(props.effect),
       props.popperClass,
     ])
 
@@ -126,6 +125,7 @@ export default defineComponent({
     })
 
     return {
+      ns,
       popperContentRef,
       popperInstanceRef,
       contentStyle,

@@ -11,8 +11,8 @@ import {
   unref,
   watch,
 } from 'vue'
-import { EVENT_CODE } from '@element-plus/utils/aria'
-import { on, off } from '@element-plus/utils/dom'
+import { on, off } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
 import {
   focusableStack,
   focusFirstDescendant,

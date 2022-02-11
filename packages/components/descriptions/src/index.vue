@@ -26,7 +26,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, provide } from 'vue'
-import { isValidComponentSize } from '@element-plus/utils-v2'
+import { isValidComponentSize } from '@element-plus/utils'
 import { useSize, useNamespace } from '@element-plus/hooks'
 import DescriptionsRow from './descriptions-row.vue'
 import { elDescriptionsKey } from './token'

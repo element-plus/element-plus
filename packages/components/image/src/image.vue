@@ -49,7 +49,7 @@ import {
   useDeprecated,
 } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
-import { getScrollContainer, isInContainer } from '@element-plus/utils/dom'
+import { getScrollContainer, isInContainer } from '@element-plus/utils'
 import { imageEmits, imageProps } from './image'
 
 import type { CSSProperties, StyleValue } from 'vue'

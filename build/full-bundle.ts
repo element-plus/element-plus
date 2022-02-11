@@ -3,6 +3,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve'
 import { rollup } from 'rollup'
 import commonjs from '@rollup/plugin-commonjs'
 import vue from '@vitejs/plugin-vue'
+import DefineOptions from 'unplugin-vue-define-options/vite'
 import esbuild from 'rollup-plugin-esbuild'
 import replace from '@rollup/plugin-replace'
 import filesize from 'rollup-plugin-filesize'
@@ -30,6 +31,7 @@ async function buildFullEntry(minify: boolean) {
     input: path.resolve(epRoot, 'index.ts'),
     plugins: [
       ElementPlusAlias(),
+      DefineOptions(),
       vue({
         isProduction: true,
       }) as Plugin,

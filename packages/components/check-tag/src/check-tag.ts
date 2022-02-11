@@ -1,4 +1,4 @@
-import { isBoolean, buildProps } from '@element-plus/utils-v2'
+import { isBoolean, buildProps } from '@element-plus/utils'
 import type CheckTag from './check-tag.vue'
 import type { ExtractPropTypes } from 'vue'
 

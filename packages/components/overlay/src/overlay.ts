@@ -1,5 +1,5 @@
 import { createVNode, defineComponent, renderSlot, h } from 'vue'
-import { PatchFlags, buildProps, definePropType } from '@element-plus/utils-v2'
+import { PatchFlags, buildProps, definePropType } from '@element-plus/utils'
 import { useNamespace, useSameTarget } from '@element-plus/hooks'
 
 import type { ExtractPropTypes, CSSProperties } from 'vue'

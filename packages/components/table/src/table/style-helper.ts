@@ -11,12 +11,13 @@ import {
 import {
   addResizeListener,
   removeResizeListener,
-} from '@element-plus/utils/resize-event'
-import { on, off } from '@element-plus/utils/dom'
+  on,
+  off,
+} from '@element-plus/utils'
 import { useSize } from '@element-plus/hooks'
 import { parseHeight } from '../util'
 
-import type { ResizableElement } from '@element-plus/utils/resize-event'
+import type { ResizableElement } from '@element-plus/utils'
 import type { Table, TableProps } from './defaults'
 import type { Store } from '../store'
 import type TableLayout from '../table-layout'
@@ -218,6 +219,11 @@ function useStyle<T>(
       : ''
   })
 
+  const tableLayout = computed(() => {
+    if (props.maxHeight) return 'fixed'
+    return props.tableLayout
+  })
+
   const height = computed(() => {
     const headerHeight = layout.headerHeight.value || 0
     const bodyHeight = layout.bodyHeight.value
@@ -355,6 +361,7 @@ function useStyle<T>(
     resizeState,
     doLayout,
     tableBodyStyles,
+    tableLayout,
   }
 }
 

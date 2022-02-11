@@ -8,7 +8,7 @@ import {
   useZIndex,
 } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { isNumber } from '@element-plus/utils-v2'
+import { isNumber } from '@element-plus/utils'
 
 import type { CSSProperties, Ref, SetupContext } from 'vue'
 import type { DialogEmits, DialogProps } from './dialog'
@@ -18,6 +18,7 @@ export const useDialog = (
   { emit }: SetupContext<DialogEmits>,
   targetRef: Ref<HTMLElement | undefined>
 ) => {
+  let lastPosition = ''
   const visible = ref(false)
   const closed = ref(false)
   const rendered = ref(false) // when desctroyOnClose is true, we initialize it as false vise versa
@@ -154,6 +155,19 @@ export const useDialog = (
         if (visible.value) {
           close()
         }
+      }
+    }
+  )
+
+  watch(
+    () => props.fullscreen,
+    (val) => {
+      if (!targetRef.value) return
+      if (val) {
+        lastPosition = targetRef.value.style.transform
+        targetRef.value.style.transform = ''
+      } else {
+        targetRef.value.style.transform = lastPosition
       }
     }
   )

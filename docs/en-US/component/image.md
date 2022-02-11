@@ -61,6 +61,7 @@ image/image-preview
 | src                 | Image source, same as native                                                                                                                     | string               | —                                          | -                                                                      |
 | scroll-container    | The container to add scroll listener when using lazy load                                                                                        | string / HTMLElement | —                                          | The nearest parent container whose overflow property is auto or scroll |
 | z-index             | set image preview z-index                                                                                                                        | Number               | —                                          | 2000                                                                   |
+| preview-teleported  | whether to append image-viewer to body. A nested parent element attribute transform should have this attribute set to `true`                     | boolean              | —                                          | false                                                                  |
 
 ## Image Events
 
@@ -85,7 +86,7 @@ image/image-preview
 | initial-index       | The initial preview image index, less than or equal to the length of `url-list`                                              | number          | int                 | 0       |
 | infinite            | Whether preview is infinite                                                                                                  | boolean         | true / false        | true    |
 | hide-on-click-modal | Whether user can emit close event when clicking backdrop                                                                     | boolean         | true / false        | false   |
-| append-to-body      | whether to append image itself to body. A nested parent element attribute transform should have this attribute set to `true` | boolean         | —                   | false   |
+| teleported          | whether to append image itself to body. A nested parent element attribute transform should have this attribute set to `true` | boolean         | —                   | false   |
 
 ## ImageViewer Events
 

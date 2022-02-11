@@ -1,9 +1,6 @@
 <template>
   <div
-    :class="{
-      'el-upload-dragger': true,
-      'is-dragover': dragover,
-    }"
+    :class="[ns.b('dragger'), ns.is('dragover', dragover)]"
     @drop.prevent="onDrop"
     @dragover.prevent="onDragover"
     @dragleave.prevent="dragover = false"
@@ -13,6 +10,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref, inject } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
 
 import type { ElUpload } from './upload.type'
 
@@ -27,6 +25,7 @@ export default defineComponent({
   emits: ['file'],
   setup(props, { emit }) {
     const uploader = inject('uploader', {} as ElUpload)
+    const ns = useNamespace('upload')
     const dragover = ref(false)
 
     function onDrop(e: DragEvent) {
@@ -69,6 +68,7 @@ export default defineComponent({
     }
 
     return {
+      ns,
       dragover,
       onDrop,
       onDragover,

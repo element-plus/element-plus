@@ -1,4 +1,4 @@
-import { buildProps, definePropType, mutable } from '@element-plus/utils-v2'
+import { buildProps, definePropType, mutable } from '@element-plus/utils'
 import type { TabsPaneContext } from '@element-plus/tokens'
 import type { ExtractPropTypes } from 'vue'
 

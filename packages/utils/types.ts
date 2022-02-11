@@ -1,8 +1,20 @@
-export type AnyFunction<T> = (...args: any[]) => T
+import { isArray, isObject } from '@vue/shared'
 
-export type PartialReturnType<T extends (...args: unknown[]) => unknown> =
-  Partial<ReturnType<T>>
+export {
+  isArray,
+  isFunction,
+  isObject,
+  isString,
+  isDate,
+  isPromise,
+  isSymbol,
+} from '@vue/shared'
+export { isBoolean, isNumber } from '@vueuse/core'
+export { isVNode } from 'vue'
 
-export type Nullable<T> = T | null
+export const isUndefined = (val: any): val is undefined => val === undefined
 
-export type RefElement = Nullable<HTMLElement>
+export const isEmpty = (val: unknown) =>
+  (!val && val !== 0) ||
+  (isArray(val) && val.length === 0) ||
+  (isObject(val) && !Object.keys(val).length)

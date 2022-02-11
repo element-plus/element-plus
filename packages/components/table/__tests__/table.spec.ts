@@ -10,6 +10,17 @@ import type { ComponentPublicInstance } from 'vue'
 
 const { CheckboxGroup: ElCheckboxGroup } = ElCheckbox
 
+jest.mock('lodash-unified', () => {
+  return {
+    ...(jest.requireActual('lodash-unified') as Record<string, any>),
+    debounce: jest.fn((fn) => {
+      fn.cancel = jest.fn()
+      fn.flush = jest.fn()
+      return fn
+    }),
+  }
+})
+
 jest.useFakeTimers()
 
 describe('Table.vue', () => {
@@ -1355,5 +1366,30 @@ describe('Table.vue', () => {
       const firstCellSpanAfterHide = wrapper.find('.el-table__body tr td span')
       expect(firstCellSpanAfterHide.classes().includes('release')).toBeTruthy()
     })
+  })
+
+  it('when tableLayout is auto', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+      <el-table :data="testData" table-layout="auto">
+        <el-table-column prop="id" />
+        <el-table-column prop="name" label="片名" />
+        <el-table-column prop="release" label="发行日期" />
+        <el-table-column prop="director" label="导演" />
+        <el-table-column prop="runtime" label="时长（分）" />
+      </el-table>
+      `,
+      created() {
+        this.testData = getTestData()
+      },
+    })
+    await nextTick()
+    expect(wrapper.find('.el-table__body thead').exists()).toBeTruthy()
+    expect(wrapper.find('.el-table__body colgroup col').exists()).toBeFalsy()
+    expect(wrapper.find('.el-table__body tbody').exists()).toBeTruthy()
   })
 })

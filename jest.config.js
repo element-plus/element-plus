@@ -1,3 +1,6 @@
+/**
+ * @type import('@jest/types').Config.InitialOptions
+ */
 module.exports = {
   globals: {
     // work around: https://github.com/kulshekhar/ts-jest/issues/748#issuecomment-423528659
@@ -14,9 +17,9 @@ module.exports = {
   transform: {
     // Doesn't support jsx/tsx since sucrase doesn't support Vue JSX
     '\\.(j|t)s$': '@sucrase/jest-plugin',
-    '^.+\\.vue$': 'vue-jest',
+    '^.+\\.vue$': '<rootDir>/build/vue-jest-transformer.js',
   },
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'json', 'vue'],
   // u can change this option to a more specific folder for test single component or util when dev
   // for example, ['<rootDir>/packages/components/input']
   roots: ['<rootDir>'],

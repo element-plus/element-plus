@@ -1,5 +1,5 @@
 <template>
-  <ul class="el-pager" @click="onPagerClick" @keyup.enter="onEnter">
+  <ul :class="nsPager.b()" @click="onPagerClick" @keyup.enter="onEnter">
     <li
       v-if="pageCount > 0"
       :class="{ active: currentPage === 1, disabled }"
@@ -11,8 +11,7 @@
     </li>
     <li
       v-if="showPrevMore"
-      class="el-icon more btn-quickprev"
-      :class="{ disabled }"
+      :class="['more', 'btn-quickprev', nsIcon.b(), { disabled }]"
       @mouseenter="onMouseenter('left')"
       @mouseleave="quickPrevHover = false"
     >
@@ -31,8 +30,7 @@
     </li>
     <li
       v-if="showNextMore"
-      class="el-icon more btn-quicknext"
-      :class="{ disabled }"
+      :class="['more', 'btn-quicknext', nsIcon.b(), { disabled }]"
       @mouseenter="onMouseenter('right')"
       @mouseleave="quickNextHover = false"
     >
@@ -53,6 +51,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watchEffect } from 'vue'
 import { MoreFilled, DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
+import { useNamespace } from '@element-plus/hooks'
 
 const paginationPagerProps = {
   currentPage: {
@@ -82,6 +81,9 @@ export default defineComponent({
   emits: ['change'],
 
   setup(props, { emit }) {
+    const nsPager = useNamespace('pager')
+    const nsIcon = useNamespace('icon')
+
     const showPrevMore = ref(false)
     const showNextMore = ref(false)
     const quickPrevHover = ref(false)
@@ -201,6 +203,8 @@ export default defineComponent({
       quickPrevHover,
       quickNextHover,
       pagers,
+      nsPager,
+      nsIcon,
 
       onMouseenter,
       onPagerClick,
