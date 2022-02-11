@@ -8,6 +8,7 @@ import {
   unref,
   nextTick,
 } from 'vue'
+import { isNumber, isString } from '@element-plus/utils-v2'
 import {
   addResizeListener,
   removeResizeListener,
@@ -232,7 +233,7 @@ function useStyle<T>(
     const parsedMaxHeight = parseHeight(maxHeight)
     const tableHeaderHeight = props.showHeader ? headerHeight : 0
     if (parsedMaxHeight === null) return
-    if (typeof parsedMaxHeight === 'string') {
+    if (isString(parsedMaxHeight)) {
       return `calc(${parsedMaxHeight} - ${footerHeight}px - ${tableHeaderHeight}px)`
     }
     return parsedMaxHeight - footerHeight - tableHeaderHeight
@@ -266,9 +267,7 @@ function useStyle<T>(
       )
       if (maxHeight !== null) {
         return {
-          'max-height': `${maxHeight}${
-            typeof maxHeight === 'number' ? 'px' : ''
-          }`,
+          'max-height': `${maxHeight}${isNumber(maxHeight) ? 'px' : ''}`,
         }
       }
     }
