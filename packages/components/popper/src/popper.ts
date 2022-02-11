@@ -81,7 +81,7 @@ export const usePopperContentProps = buildProps({
   style: { type: definePropType<StyleValue>([String, Array, Object]) },
   className: { type: definePropType<ClassType>([String, Array, Object]) },
   effect: {
-    values: effects,
+    type: String,
     default: 'dark',
   },
   enterable: {
