@@ -1,11 +1,28 @@
 import { buildProps } from '@element-plus/utils'
-import { useTooltipContentProps } from '@element-plus/components/tooltip'
+import {
+  useTooltipContentProps,
+  useTooltipTriggerProps,
+} from '@element-plus/components/tooltip'
+import { dropdownProps } from '@element-plus/components/dropdown'
+
+import type { PropType } from 'vue'
+
+const triggers = ['click', 'focus', 'hover', 'manual'] as const
+
+export type Trigger = typeof triggers[number]
 
 export const usePopoverProps = buildProps({
-  appendToBody: {
-    type: Boolean,
-    default: undefined,
+  trigger: {
+    type: [String, Array] as PropType<Trigger | Trigger[]>,
+    default: 'click',
   },
+  placement: dropdownProps.placement,
+  disabled: useTooltipTriggerProps.disabled,
+  visible: useTooltipContentProps.visible,
+  transition: useTooltipContentProps.transition,
+  popperOptions: dropdownProps.popperOptions,
+  tabindex: dropdownProps.tabindex,
+  appendToBody: { type: Boolean, default: undefined },
   content: useTooltipContentProps.content,
   popperStyle: useTooltipContentProps.popperStyle,
   popperClass: useTooltipContentProps.popperClass,
@@ -23,5 +40,25 @@ export const usePopoverProps = buildProps({
   width: {
     type: [String, Number],
     default: 150,
+  },
+  offset: {
+    type: Number,
+    default: 0,
+  },
+  showAfter: {
+    type: Number,
+    default: 0,
+  },
+  hideAfter: {
+    type: Number,
+    default: 200,
+  },
+  autoClose: {
+    type: Number,
+    default: 0,
+  },
+  showArrow: {
+    type: Boolean,
+    default: true,
   },
 } as const)
