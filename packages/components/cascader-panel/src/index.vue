@@ -33,9 +33,9 @@ import {
   getSibling,
   isEmpty,
   unique,
+  castArray,
 } from '@element-plus/utils-v2'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
-import { coerceTruthyValueToArray } from '@element-plus/utils/util'
 
 import ElCascaderMenu from './menu.vue'
 import Store from './store'
@@ -214,7 +214,7 @@ export default defineComponent({
 
       if (lazy && !loaded) {
         const values: CascaderNodeValue[] = unique(
-          flattenDeep(coerceTruthyValueToArray(modelValue))
+          flattenDeep(castArray(modelValue))
         )
         const nodes = values
           .map((val) => store?.getNodeByValue(val))
@@ -228,9 +228,7 @@ export default defineComponent({
           syncCheckedValue(true, forced)
         }
       } else {
-        const values = multiple
-          ? coerceTruthyValueToArray(modelValue)
-          : [modelValue]
+        const values = multiple ? castArray(modelValue) : [modelValue]
         const nodes = unique(
           values.map((val) => store?.getNodeByValue(val, leafOnly))
         ) as Node[]

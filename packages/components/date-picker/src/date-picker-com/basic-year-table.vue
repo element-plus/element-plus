@@ -48,8 +48,7 @@ import { defineComponent, computed } from 'vue'
 import dayjs from 'dayjs'
 import { useLocale } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
-import { hasClass } from '@element-plus/utils-v2'
-import { coerceTruthyValueToArray } from '@element-plus/utils/util'
+import { hasClass, castArray } from '@element-plus/utils-v2'
 
 import type { PropType } from 'vue'
 import type { Dayjs } from 'dayjs'
@@ -90,9 +89,7 @@ export default defineComponent({
         : false
 
       style.current =
-        coerceTruthyValueToArray(props.parsedValue).findIndex(
-          (_) => _.year() === year
-        ) >= 0
+        castArray(props.parsedValue).findIndex((_) => _.year() === year) >= 0
 
       style.today = today.year() === year
 
