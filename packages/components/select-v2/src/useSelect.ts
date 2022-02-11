@@ -591,7 +591,10 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const onKeyboardSelect = () => {
     if (!expanded.value) {
       return toggleMenu()
-    } else if (~states.hoveringIndex) {
+    } else if (
+      ~states.hoveringIndex &&
+      filteredOptions.value[states.hoveringIndex]
+    ) {
       onSelect(
         filteredOptions.value[states.hoveringIndex],
         states.hoveringIndex,
