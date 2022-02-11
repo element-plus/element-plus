@@ -64,7 +64,7 @@ const ns = useNamespace('button')
 const { form } = useFormItem()
 const _size = useSize(computed(() => buttonGroupContext?.size))
 const _disabled = useDisabled()
-const _ref = ref()
+const _ref = ref<HTMLButtonElement>()
 
 const _type = computed(() => props.type || buttonGroupContext?.type || '')
 const autoInsertSpace = computed(
@@ -133,4 +133,17 @@ const handleClick = (evt: MouseEvent) => {
   }
   emit('click', evt)
 }
+
+defineExpose({
+  /** @description button html element */
+  ref: _ref,
+  /** @description button size */
+  size: _size,
+  /** @description button type */
+  type: _type,
+  /** @description button disabled */
+  disabled: _disabled,
+  /** @description whether adding space */
+  shouldAddSpace,
+})
 </script>
