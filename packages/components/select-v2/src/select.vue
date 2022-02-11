@@ -19,7 +19,7 @@
       effect="light"
       placement="bottom-start"
       pure
-      :transition="`${nsSelectV2.namespace.value}in-top`"
+      :transition="`${nsSelectV2.namespace.value}-in-top`"
       trigger="click"
       persistent
       @show="handleMenuEnter"
