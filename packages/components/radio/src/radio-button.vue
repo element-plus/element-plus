@@ -5,7 +5,7 @@
       ns.is('active', modelValue === label),
       ns.is('disabled', disabled),
       ns.is('focus', focus),
-      { [ns.bm('button', size)]: size },
+      ns.bm('button', size),
     ]"
     role="radio"
     :aria-checked="modelValue === label"
