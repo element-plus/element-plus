@@ -1,6 +1,8 @@
+import { defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
+import { describe, it, expect, fn, afterEach, vi } from 'vitest'
 import { useAttrs } from '../use-attrs'
-import type { ComponentOptions } from 'vue'
+import type { DefineComponent } from 'vue'
 
 const CLASS = 'a'
 const WIDTH = '50px'
@@ -8,53 +10,50 @@ const TEST_KEY = 'test'
 const TEST_VALUE = 'fake'
 const ANOTHER_TEST_VALUE = 'fake1'
 
-const handleClick = jest.fn()
+const handleClick = fn()
 
 const genComp = (
   inheritAttrs = true,
   excludeListeners = false,
   excludeKeys: string[] = []
 ) => {
-  return {
-    template: `
-      <div>
-        <span v-bind="attrs"></span>
-      </div>
-    `,
+  return defineComponent({
     inheritAttrs,
     props: {},
     setup() {
       const attrs = useAttrs({ excludeListeners, excludeKeys })
-
-      return {
-        attrs,
-      }
-    },
-  }
-}
-
-const _mount = (Comp: ComponentOptions) => {
-  return mount({
-    components: { Comp },
-    template: `
-      <comp
-        class="${CLASS}"
-        style="width: ${WIDTH}"
-        ${TEST_KEY}="${TEST_VALUE}"
-        @click="handleClick"
-      />`,
-    methods: {
-      handleClick,
+      return () => (
+        <div>
+          <span {...attrs.value} />
+        </div>
+      )
     },
   })
 }
 
-afterEach(() => {
-  handleClick.mockClear()
-})
+const _mount = (Comp: ReturnType<typeof genComp>) => {
+  return mount({
+    setup() {
+      return () => (
+        <Comp
+          class={CLASS}
+          style={{ width: WIDTH }}
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-expect-error
+          onClick={handleClick}
+          {...{ [TEST_KEY]: TEST_VALUE }}
+        />
+      )
+    },
+  })
+}
 
 describe('useAttrs', () => {
-  test('class and style should not bind to child node', async () => {
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  it('class and style should not bind to child node', async () => {
     const wrapper = _mount(genComp())
     const container = wrapper.element as HTMLDivElement
     const span = wrapper.find('span')
@@ -70,7 +69,7 @@ describe('useAttrs', () => {
     expect(handleClick).toBeCalledTimes(2)
   })
 
-  test("child node's attributes should update when prop change", async () => {
+  it("child node's attributes should update when prop change", async () => {
     const wrapper = _mount(genComp())
     const span = wrapper.find('span')
 
@@ -78,7 +77,7 @@ describe('useAttrs', () => {
     expect(span.attributes(TEST_KEY)).toBe(ANOTHER_TEST_VALUE)
   })
 
-  test('excluded listeners should not bind to child node', async () => {
+  it('excluded listeners should not bind to child node', async () => {
     const wrapper = _mount(genComp(true, true))
     const span = wrapper.find('span')
 
@@ -87,7 +86,7 @@ describe('useAttrs', () => {
     expect(handleClick).toBeCalledTimes(1)
   })
 
-  test('excluded attributes should not bind to child node', async () => {
+  it('excluded attributes should not bind to child node', async () => {
     const wrapper = _mount(genComp(true, false, [TEST_KEY]))
     const span = wrapper.find('span')
 

@@ -1,11 +1,15 @@
 import { computed, defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
+import { describe, it, fn, vi, expect, afterEach } from 'vitest'
 import { debugWarn } from '@element-plus/utils'
 import { useDeprecated } from '../use-deprecated'
 
-jest.mock('@element-plus/utils/error', () => {
+const AXIOM = 'Rem is the best girl'
+
+vi.mock('@element-plus/utils/error', async () => {
   return {
-    debugWarn: jest.fn(),
+    ...(await vi.importActual<any>('@element-plus/utils/error')),
+    debugWarn: fn(),
   }
 })
 
@@ -24,14 +28,15 @@ const DummyComponent = defineComponent({
       },
       computed(() => props.shouldWarn)
     )
+    return () => AXIOM
   },
-  template: `<div>Rem is the best girl</div>`,
 })
 
 describe('useDeprecated', () => {
-  beforeEach(() => {
-    ;(debugWarn as jest.Mock).mockClear()
+  afterEach(() => {
+    vi.restoreAllMocks()
   })
+
   it('should warn when condition is true', async () => {
     mount(DummyComponent, {
       props: {

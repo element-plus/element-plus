@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { useTimeout } from '../use-timeout'
 
 const _mount = (cb: () => void) => {
@@ -7,29 +8,28 @@ const _mount = (cb: () => void) => {
       const { cancelTimeout, registerTimeout } = useTimeout()
       registerTimeout(cb, 0)
 
-      return {
-        cancelTimeout,
-      }
+      return { cancelTimeout }
     },
-    render() {
-      return null
-    },
+    render: () => undefined,
   })
 }
 
-jest.useFakeTimers()
-
 describe('use-timeout', () => {
-  let wrapper
-  const cb = jest.fn()
   beforeEach(() => {
-    cb.mockClear()
+    vi.useFakeTimers()
     wrapper = _mount(cb)
   })
+  afterEach(() => {
+    vi.useRealTimers()
+    vi.clearAllMocks()
+  })
+
+  let wrapper: ReturnType<typeof _mount>
+  const cb = vi.fn()
 
   it('should register timeout correctly', async () => {
     expect(cb).not.toHaveBeenCalled()
-    jest.runOnlyPendingTimers()
+    vi.runOnlyPendingTimers()
     expect(cb).toHaveBeenCalled()
     wrapper.unmount()
   })
@@ -37,7 +37,7 @@ describe('use-timeout', () => {
   it('should cancel the timeout correctly', async () => {
     wrapper.vm.cancelTimeout()
 
-    jest.runOnlyPendingTimers()
+    vi.runOnlyPendingTimers()
 
     expect(cb).not.toHaveBeenCalled()
     wrapper.unmount()
@@ -47,7 +47,7 @@ describe('use-timeout', () => {
     expect(cb).not.toHaveBeenCalled()
 
     wrapper.unmount()
-    jest.runOnlyPendingTimers()
+    vi.runOnlyPendingTimers()
 
     expect(cb).not.toHaveBeenCalled()
   })
