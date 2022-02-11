@@ -1638,7 +1638,7 @@ describe('Select', () => {
     const select = wrapper.findComponent({ name: 'ElSelect' }).vm
     expect(select.selected[0].currentLabel).toBe(options[0].label)
   })
-  
+ 
   describe('teleported API', () => {
     it('should mount on popper container', async () => {
       expect(document.body.innerHTML).toBe('')
