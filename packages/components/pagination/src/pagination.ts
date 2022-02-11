@@ -7,13 +7,13 @@ import {
   getCurrentInstance,
   watch,
 } from 'vue'
-import { useLocale } from '@element-plus/hooks'
 import {
   debugWarn,
   buildProps,
   definePropType,
   mutable,
 } from '@element-plus/utils-v2'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { elPaginationKey } from '@element-plus/tokens'
 
 import Prev from './components/prev.vue'
@@ -110,6 +110,7 @@ export default defineComponent({
 
   setup(props, { emit, slots }) {
     const { t } = useLocale()
+    const ns = useNamespace('pagination')
     const vnodeProps = getCurrentInstance()!.vnode.props || {}
     // we can find @xxx="xxx" props on `vnodeProps` to check if user bind corresponding events
     const hasCurrentPageListener =
@@ -266,7 +267,7 @@ export default defineComponent({
       const rightWrapperChildren: Array<VNode | VNode[] | null> = []
       const rightWrapperRoot = h(
         'div',
-        { class: 'el-pagination__rightwrapper' },
+        { class: ns.e('rightwrapper') },
         rightWrapperChildren
       )
       const TEMPLATE_MAP: Record<
@@ -323,14 +324,14 @@ export default defineComponent({
         }
       })
 
-      addClass(rootChildren[0], 'is-first')
-      addClass(rootChildren[rootChildren.length - 1], 'is-last')
+      addClass(rootChildren[0], ns.is('first'))
+      addClass(rootChildren[rootChildren.length - 1], ns.is('last'))
 
       if (haveRightWrapper && rightWrapperChildren.length > 0) {
-        addClass(rightWrapperChildren[0], 'is-first')
+        addClass(rightWrapperChildren[0], ns.is('first'))
         addClass(
           rightWrapperChildren[rightWrapperChildren.length - 1],
-          'is-last'
+          ns.is('last')
         )
         rootChildren.push(rightWrapperRoot)
       }
@@ -340,10 +341,10 @@ export default defineComponent({
           role: 'pagination',
           'aria-label': 'pagination',
           class: [
-            'el-pagination',
+            ns.b(),
+            ns.is('background', props.background),
             {
-              'is-background': props.background,
-              'el-pagination--small': props.small,
+              [ns.m('small')]: props.small,
             },
           ],
         },
