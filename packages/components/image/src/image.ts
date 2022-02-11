@@ -10,7 +10,7 @@ import type { ExtractPropTypes } from 'vue'
 export const imageProps = buildProps({
   appendToBody: {
     type: Boolean,
-    default: false,
+    default: undefined,
   },
   hideOnClickModal: {
     type: Boolean,
@@ -36,9 +36,12 @@ export const imageProps = buildProps({
     type: definePropType<string[]>(Array),
     default: () => mutable([] as const),
   },
+  previewTeleported: {
+    type: Boolean,
+    default: false,
+  },
   zIndex: {
     type: Number,
-    default: 2000,
   },
   initialIndex: {
     type: Number,
