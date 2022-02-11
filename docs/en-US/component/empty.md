@@ -66,8 +66,6 @@ But usually, if you want to change style, you need to change all color, because 
 | --el-empty-fill-color-8 | #e0e3e9               |
 | --el-empty-fill-color-9 | #d5d7de               |
 
-:::
-
 ## Empty Attributes
 
 | Attribute   | Description        | Type   | Acceptable Value | Default |
@@ -75,8 +73,6 @@ But usually, if you want to change style, you need to change all color, because 
 | image       | image URL          | string | —                | —       |
 | image-size  | image size (width) | number | —                | —       |
 | description | description        | string | —                | —       |
-
-:::
 
 ## Empty Slots
 
