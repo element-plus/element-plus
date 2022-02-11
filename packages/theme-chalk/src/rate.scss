@@ -35,7 +35,7 @@ $rate-height: map.merge(
     vertical-align: middle;
   }
 
-  @include e(icon) {
+  & .#{$namespace}-rate__icon {
     position: relative;
     display: inline-block;
     font-size: var(--el-rate-icon-size);

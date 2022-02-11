@@ -66,7 +66,7 @@ describe('Alert.vue', () => {
       },
     })
 
-    const closeBtn = wrapper.find('.el-alert__closebtn')
+    const closeBtn = wrapper.find('.el-alert__close-btn')
     expect(closeBtn.exists()).toBe(true)
 
     await closeBtn.trigger('click')
