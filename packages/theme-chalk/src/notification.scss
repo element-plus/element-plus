@@ -64,22 +64,26 @@
   }
 
   @include e(closeBtn) {
-    position: absolute;
-    top: 18px;
-    right: 15px;
-    cursor: pointer;
-    color: var(--el-notification-close-color);
-    font-size: var(--el-notification-close-font-size);
+    &.el-icon {
+      position: absolute;
+      top: 18px;
+      right: 15px;
+      cursor: pointer;
+      color: var(--el-notification-close-color);
+      font-size: var(--el-notification-close-font-size);
 
-    &:hover {
-      color: var(--el-notification-close-hover-color);
+      &:hover {
+        color: var(--el-notification-close-hover-color);
+      }
     }
   }
 
   @each $type in (success, info, warning, error) {
     @include m($type) {
-      --el-notification-icon-color: var(--el-color-#{$type});
-      color: var(--el-notification-icon-color);
+      &.el-icon {
+        --el-notification-icon-color: var(--el-color-#{$type});
+        color: var(--el-notification-icon-color);
+      }
     }
   }
 }
