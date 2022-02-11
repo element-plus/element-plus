@@ -151,7 +151,7 @@ export default defineComponent({
     )
 
     watch(
-      () => style.value,
+      () => [props.maxHeight, props.height],
       () => {
         if (!props.native)
           nextTick(() => {
