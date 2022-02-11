@@ -11,3 +11,5 @@ export const ElDropdown = withInstall(Dropdown, {
 export default ElDropdown
 export const ElDropdownItem = withNoopInstall(DropdownItem)
 export const ElDropdownMenu = withNoopInstall(DropdownMenu)
+export * from './src/dropdown'
+export * from './src/tokens'
