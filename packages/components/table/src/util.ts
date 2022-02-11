@@ -1,8 +1,7 @@
 import { createPopper } from '@popperjs/core'
+import { get } from 'lodash-unified'
 import { hasOwn, off, on } from '@element-plus/utils-v2'
 import { useZIndex } from '@element-plus/hooks'
-import { getValueByPath } from '@element-plus/utils/util'
-
 import type {
   PopperInstance,
   IPopperOptions,
@@ -55,7 +54,7 @@ export const orderBy = function <T>(
           }
           return sortBy.map(function (by) {
             if (typeof by === 'string') {
-              return getValueByPath(value, by)
+              return get(value, by)
             } else {
               return by(value, index, array)
             }
@@ -64,7 +63,7 @@ export const orderBy = function <T>(
         if (sortKey !== '$key') {
           if (isObject(value) && '$value' in value) value = value.$value
         }
-        return [isObject(value) ? getValueByPath(value, sortKey) : value]
+        return [isObject(value) ? get(value, sortKey) : value]
       }
   const compare = function (a, b) {
     if (sortMethod) {

@@ -4,14 +4,6 @@ import type { Nullable } from '@element-plus/utils-v2'
 
 const SCOPE = 'Util'
 
-export const getValueByPath = (obj, paths = ''): unknown => {
-  let ret: unknown = obj
-  paths.split('.').map((path) => {
-    ret = (ret as any)?.[path]
-  })
-  return ret
-}
-
 export function getPropByPath(
   obj: any,
   path: string,

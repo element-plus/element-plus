@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import * as Aria from '@element-plus/utils-v2'
+import * as Aria from '@element-plus/utils-v2/dom/aria'
 
 import TrapFocus, { FOCUSABLE_CHILDREN } from '../trap-focus'
 import type { ITrapFocusElement } from '../trap-focus'

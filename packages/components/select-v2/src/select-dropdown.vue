@@ -10,9 +10,8 @@ import {
   withKeys,
   withModifiers,
 } from 'vue'
+import { get } from 'lodash-unified'
 import { isUndefined, isObject } from '@element-plus/utils-v2'
-import { getValueByPath } from '@element-plus/utils/util'
-// import { addResizeListener, removeResizeListener, ResizableElement } from '@element-plus/utils-v2'
 import {
   FixedSizeList,
   DynamicSizeList,
@@ -69,9 +68,7 @@ export default defineComponent({
       return (
         arr &&
         arr.some((item) => {
-          return (
-            getValueByPath(item, valueKey) === getValueByPath(target, valueKey)
-          )
+          return get(item, valueKey) === get(target, valueKey)
         })
       )
     }
@@ -80,10 +77,7 @@ export default defineComponent({
         return selected === target
       } else {
         const { valueKey } = select.props
-        return (
-          getValueByPath(selected, valueKey) ===
-          getValueByPath(target, valueKey)
-        )
+        return get(selected, valueKey) === get(target, valueKey)
       }
     }
 

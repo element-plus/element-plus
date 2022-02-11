@@ -8,7 +8,7 @@ import {
   onBeforeMount,
 } from 'vue'
 import { isArray, isFunction, isObject } from '@vue/shared'
-import { isEqual, debounce as lodashDebounce } from 'lodash-unified'
+import { isEqual, debounce as lodashDebounce, get } from 'lodash-unified'
 import {
   useFormItem,
   useLocale,
@@ -21,7 +21,6 @@ import {
   addResizeListener,
   removeResizeListener,
 } from '@element-plus/utils-v2'
-import { getValueByPath } from '@element-plus/utils/util'
 import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 
 import { ArrowUp } from '@element-plus/icons-vue'
@@ -348,7 +347,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     const valueKey = props.valueKey
     let index = -1
     arr.some((item, i) => {
-      if (getValueByPath(item, valueKey) === getValueByPath(value, valueKey)) {
+      if (get(item, valueKey) === get(value, valueKey)) {
         index = i
         return true
       }
@@ -358,7 +357,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const getValueKey = (item: unknown) => {
-    return isObject(item) ? getValueByPath(item, props.valueKey) : item
+    return isObject(item) ? get(item, props.valueKey) : item
   }
 
   // if the selected item is item then we get label via indexing
