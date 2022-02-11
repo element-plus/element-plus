@@ -1,4 +1,4 @@
-import { defineComponent, h, provide } from 'vue'
+import { defineComponent, provide } from 'vue'
 import { NOOP } from '@vue/shared'
 import { mount } from '@vue/test-utils'
 import { describe, it, expect } from 'vitest'
