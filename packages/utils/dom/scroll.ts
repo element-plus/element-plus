@@ -61,6 +61,10 @@ export const getScrollBarWidth = (): number => {
   return scrollBarWidth
 }
 
+/**
+ * Scroll with in the container element, positioning the **selected** element at the top
+ * of the container
+ */
 export function scrollIntoView(
   container: HTMLElement,
   selected: HTMLElement
