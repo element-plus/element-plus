@@ -329,7 +329,8 @@ export default defineComponent({
       type: [String, Object] as PropType<string | Component>,
       default: ArrowUp,
     },
-    tagType: tagProps.type,
+    // eslint-disable-next-line vue/require-prop-types
+    tagType: { ...tagProps.type, default: 'info' },
   },
   emits: [
     UPDATE_MODEL_EVENT,
