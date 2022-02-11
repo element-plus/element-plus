@@ -110,8 +110,6 @@ export default defineComponent({
     const items = ref<MenuProvider['items']>({})
     const subMenus = ref<MenuProvider['subMenus']>({})
 
-    const alteredCollapse = ref(false)
-
     // computed
     const isMenuPopup = computed<MenuProvider['isMenuPopup']>(() => {
       return (
@@ -209,14 +207,7 @@ export default defineComponent({
         activeIndex.value = item.index
         initMenu()
       } else {
-        // Can't find item when collapsing
-        // and activeIndex shouldn't be changed when 'collapse' was changed.
-        // Then reset 'alteredCollapse' immediately.
-        if (!alteredCollapse.value) {
-          activeIndex.value = undefined
-        } else {
-          alteredCollapse.value = false
-        }
+        activeIndex.value = val
       }
     }
     const handleResize = () => {
@@ -237,10 +228,7 @@ export default defineComponent({
 
     watch(
       () => props.collapse,
-      (value, prev) => {
-        if (value !== prev) {
-          alteredCollapse.value = true
-        }
+      (value) => {
         if (value) openedMenus.value = []
       }
     )
