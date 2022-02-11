@@ -11,6 +11,7 @@
     :tabindex="tabindex"
     :append-to-body="appendToBody"
     :content="content"
+    :offset="offset"
     :show-after="showAfter"
     :hide-after="hideAfter"
     :auto-close="autoClose"
