@@ -50,7 +50,7 @@ export function useSelectStates(props) {
     menuVisibleOnFocus: false,
     isOnComposition: false,
     isSilentBlur: false,
-    prefixWidth: 0,
+    prefixWidth: 11,
     tagInMultiLine: false,
   })
 }
