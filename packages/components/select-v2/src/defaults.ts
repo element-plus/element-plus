@@ -20,7 +20,7 @@ export const SelectProps = {
     default: CircleClose,
   },
   effect: {
-    type: String as PropType<'light' | 'dark'>,
+    type: String as PropType<'light' | 'dark' | string>,
     default: 'light',
   },
   collapseTags: Boolean,

@@ -119,7 +119,7 @@ export default defineComponent({
       default: true,
     },
     effect: {
-      type: String as PropType<'light' | 'dark'>,
+      type: String as PropType<'light' | 'dark' | string>,
       default: 'light',
     },
     clearable: {
