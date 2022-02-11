@@ -8,12 +8,13 @@ import {
   unref,
   nextTick,
 } from 'vue'
-import { isNumber, isString } from '@element-plus/utils-v2'
 import {
   addResizeListener,
   removeResizeListener,
   on,
   off,
+  isNumber,
+  isString,
 } from '@element-plus/utils'
 import { useSize } from '@element-plus/hooks'
 import { parseHeight } from '../util'
