@@ -11,13 +11,11 @@
     "allowSyntheticDefaultImports": true,
     "types": ["unplugin-vue-define-options"]
   },
-  "references": [{ "path": "./tsconfig.jest.json" }],
+  "references": [
+    { "path": "./tsconfig.vite-config.json" },
+    { "path": "./tsconfig.jest.json" },
+    { "path": "./tsconfig.vitest.json" }
+  ],
   "include": ["packages", "typings"],
-  "exclude": [
-    "node_modules",
-    "**/dist",
-    "**/__tests__",
-    "**/*.test.*",
-    "**/*.spec.*"
-  ]
+  "exclude": ["node_modules", "**/dist", "**/__tests__/**/*"]
 }

@@ -1,4 +1,4 @@
-import { h, nextTick, computed, defineComponent } from 'vue'
+import { nextTick, computed, defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import Chinese from '@element-plus/locale/lang/zh-cn'

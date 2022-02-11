@@ -2,7 +2,6 @@ import { defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, it, expect, fn, afterEach, vi } from 'vitest'
 import { useAttrs } from '../use-attrs'
-import type { DefineComponent } from 'vue'
 
 const CLASS = 'a'
 const WIDTH = '50px'
