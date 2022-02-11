@@ -95,7 +95,7 @@ import { useEventListener, isNumber } from '@vueuse/core'
 import ElIcon from '@element-plus/components/icon'
 import { useLocale, useNamespace, useZIndex } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
-import { isFirefox } from '@element-plus/utils-v2'
+import { isFirefox } from '@element-plus/utils'
 import {
   Close,
   ArrowLeft,
