@@ -6,6 +6,7 @@ import '@element-plus/theme-chalk/src/index.scss'
   const file = apps[`./src/${name}.vue`]
   if (!file) {
     location.pathname = 'App'
+    return
   }
   const App = (await file()).default
   const app = createApp(App)
