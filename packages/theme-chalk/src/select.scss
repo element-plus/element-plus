@@ -149,7 +149,7 @@
       box-sizing: border-box;
       border-color: transparent;
       margin: 2px 6px 2px 0;
-      &:nth-last-child(1) {
+      &:last-child {
         margin-right: 0;
       }
 
