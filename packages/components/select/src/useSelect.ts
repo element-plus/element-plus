@@ -16,7 +16,7 @@ import {
   CHANGE_EVENT,
   EVENT_CODE,
 } from '@element-plus/constants'
-import { isKorean } from '@element-plus/utils'
+import { isKorean, scrollIntoView } from '@element-plus/utils'
 import { useLocale, useNamespace, useSize } from '@element-plus/hooks'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 
@@ -659,7 +659,7 @@ export const useSelect = (props, states: States, ctx) => {
         '.el-select-dropdown__wrap'
       )
       if (menu) {
-        menu.scrollIntoView?.(target)
+        scrollIntoView(menu as HTMLElement, target)
       }
     }
     scrollbar.value?.handleScroll()
