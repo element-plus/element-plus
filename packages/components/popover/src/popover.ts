@@ -5,17 +5,8 @@ import {
 } from '@element-plus/components/tooltip'
 import { dropdownProps } from '@element-plus/components/dropdown'
 
-import type { PropType } from 'vue'
-
-const triggers = ['click', 'focus', 'hover', 'manual'] as const
-
-export type Trigger = typeof triggers[number]
-
 export const usePopoverProps = buildProps({
-  trigger: {
-    type: [String, Array] as PropType<Trigger | Trigger[]>,
-    default: 'click',
-  },
+  trigger: useTooltipTriggerProps.trigger,
   placement: dropdownProps.placement,
   disabled: useTooltipTriggerProps.disabled,
   visible: useTooltipContentProps.visible,

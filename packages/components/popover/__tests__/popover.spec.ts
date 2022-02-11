@@ -79,7 +79,7 @@ describe('Popover.vue', () => {
     wrapper = makeMount(Popover, {
       props: {
         content,
-        appendToBody: false,
+        teleported: false,
         virtualRef,
         virtualTriggering: true,
       },
