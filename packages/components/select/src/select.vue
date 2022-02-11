@@ -10,12 +10,12 @@
       v-model:visible="dropMenuVisible"
       placement="bottom-start"
       :teleported="compatTeleported"
-      :popper-class="[ns.e('popper'), popperClass]"
+      :popper-class="[nsSelect.e('popper'), popperClass]"
       :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
       effect="light"
       pure
       trigger="click"
-      :transition="`${ns.namespace.value}zoom-in-top`"
+      :transition="`${nsSelect.namespace.value}zoom-in-top`"
       :stop-popper-mouse-event="false"
       :gpu-acceleration="false"
       persistent
@@ -26,7 +26,7 @@
           <div
             v-if="multiple"
             ref="tags"
-            :class="ns.e('tags')"
+            :class="nsSelect.e('tags')"
             :style="selectTagsStyle"
           >
             <span v-if="collapseTags && selected.length">
@@ -39,7 +39,7 @@
                 @close="deleteTag($event, selected[0])"
               >
                 <span
-                  :class="ns.e('tags-text')"
+                  :class="nsSelect.e('tags-text')"
                   :style="{ maxWidth: inputWidth - 123 + 'px' }"
                   >{{ selected[0].currentLabel }}</span
                 >
@@ -51,7 +51,7 @@
                 :type="tagType"
                 disable-transitions
               >
-                <span :class="ns.e('tags-text')"
+                <span :class="nsSelect.e('tags-text')"
                   >+ {{ selected.length - 1 }}</span
                 >
               </el-tag>
@@ -75,7 +75,7 @@
                   @close="deleteTag($event, item)"
                 >
                   <span
-                    :class="ns.e('tags-text')"
+                    :class="nsSelect.e('tags-text')"
                     :style="{ maxWidth: inputWidth - 75 + 'px' }"
                     >{{ item.currentLabel }}</span
                   >
@@ -88,7 +88,7 @@
               ref="input"
               v-model="query"
               type="text"
-              :class="[ns.e('input'), ns.is(selectSize)]"
+              :class="[nsSelect.e('input'), nsSelect.is(selectSize)]"
               :disabled="selectDisabled"
               :autocomplete="autocomplete"
               :style="{
@@ -128,7 +128,7 @@
             :disabled="selectDisabled"
             :readonly="readonly"
             :validate-event="false"
-            :class="[ns.is('focus', visible)]"
+            :class="[nsSelect.is('focus', visible)]"
             :tabindex="multiple && filterable ? -1 : undefined"
             @focus="handleFocus"
             @blur="handleBlur"
@@ -161,13 +161,13 @@
               <el-icon
                 v-if="iconComponent"
                 v-show="!showClose"
-                :class="[ns.e('caret'), ns.e('icon'), iconReverse]"
+                :class="[nsSelect.e('caret'), nsSelect.e('icon'), iconReverse]"
               >
                 <component :is="iconComponent" />
               </el-icon>
               <el-icon
                 v-if="showClose && clearIcon"
-                :class="[ns.e('caret'), ns.e('icon')]"
+                :class="[nsSelect.e('caret'), nsSelect.e('icon')]"
                 @click="handleClearClick"
               >
                 <component :is="clearIcon" />
@@ -182,10 +182,10 @@
             v-show="options.size > 0 && !loading"
             ref="scrollbar"
             tag="ul"
-            :wrap-class="ns.be('dropdown', 'wrap')"
-            :view-class="ns.be('dropdown', 'list')"
+            :wrap-class="nsSelect.be('dropdown', 'wrap')"
+            :view-class="nsSelect.be('dropdown', 'list')"
             :class="[
-              ns.is(
+              nsSelect.is(
                 'empty',
                 !allowCreate && query && filteredOptionsCount === 0
               ),
@@ -201,7 +201,7 @@
             "
           >
             <slot v-if="$slots.empty" name="empty"></slot>
-            <p v-else :class="ns.be('dropdown', 'empty')">
+            <p v-else :class="nsSelect.be('dropdown', 'empty')">
               {{ emptyText }}
             </p>
           </template>
@@ -345,7 +345,8 @@ export default defineComponent({
   ],
 
   setup(props, ctx) {
-    const ns = useNamespace('select')
+    const nsSelect = useNamespace('select')
+    const nsInput = useNamespace('input')
     const { t } = useLocale()
     const states = useSelectStates(props)
     const {
@@ -422,13 +423,13 @@ export default defineComponent({
     } = toRefs(states)
 
     const wrapperKls = computed(() => {
-      const classList = [ns.b()]
+      const classList = [nsSelect.b()]
       const _selectSize = unref(selectSize)
       if (_selectSize) {
-        classList.push(ns.m(_selectSize))
+        classList.push(nsSelect.m(_selectSize))
       }
       if (props.disabled) {
-        classList.push(ns.m('disabled'))
+        classList.push(nsSelect.m('disabled'))
       }
       return classList
     })
@@ -592,7 +593,7 @@ export default defineComponent({
       wrapperKls,
       selectTagsStyle,
       compatTeleported,
-      ns,
+      nsSelect,
     }
   },
 })
