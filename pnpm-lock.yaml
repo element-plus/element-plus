@@ -193,7 +193,7 @@ importers:
       vite: 2.8.0
       vite-plugin-inspect: 0.3.14
       vite-plugin-windicss: 1.7.0
-      vitepress: 0.21.6
+      vitepress: 0.22.0
     dependencies:
       '@docsearch/js': 3.0.0-alpha.50
       '@docsearch/react': 3.0.0-alpha.50
@@ -216,7 +216,7 @@ importers:
       vite: 2.8.0_sass@1.49.7
       vite-plugin-inspect: 0.3.14_vite@2.8.0
       vite-plugin-windicss: 1.7.0_vite@2.8.0
-      vitepress: 0.21.6_sass@1.49.7
+      vitepress: 0.22.0_sass@1.49.7
 
   packages/components:
     specifiers: {}
@@ -2031,10 +2031,6 @@ packages:
       lodash.once: 4.1.1
     dev: true
 
-  /@docsearch/css/3.0.0-alpha.42:
-    resolution: {integrity: sha512-AGwI2AXUacYhVOHmYnsXoYDJKO6Ued2W+QO80GERbMLhC7GH5tfvtW5REs/s7jSdcU3vzFoxT8iPDBCh/PkrlQ==}
-    dev: true
-
   /@docsearch/css/3.0.0-alpha.50:
     resolution: {integrity: sha512-QeWFCQOtS9D+Fi20liKsPXF2j/xWKh52e+P2Z1UATIdPMqmH6zoB2lcUz+cgv6PPVgWUtECeR6VSSUm71LT94w==}
 
@@ -3311,17 +3307,6 @@ packages:
       hash-sum: 2.0.0
     transitivePeerDependencies:
       - supports-color
-    dev: true
-
-  /@vitejs/plugin-vue/2.0.1_vite@2.8.0+vue@3.2.30:
-    resolution: {integrity: sha512-wtdMnGVvys9K8tg+DxowU1ytTrdVveXr3LzdhaKakysgGXyrsfaeds2cDywtvujEASjWOwWL/OgWM+qoeM8Plg==}
-    engines: {node: '>=12.0.0'}
-    peerDependencies:
-      vite: ^2.5.10
-      vue: ^3.2.25
-    dependencies:
-      vite: 2.8.0_sass@1.49.7
-      vue: 3.2.30
     dev: true
 
   /@vitejs/plugin-vue/2.2.0_vite@2.8.0+vue@3.2.30:
@@ -9868,9 +9853,9 @@ packages:
     resolution: {integrity: sha512-jBDboWM8qpaqwkMwItqTQTiFikhs/67OYVvblFFTM7MrZjt6yMKd6r2kgXizEbTTljacm4NldIlZnhbjr84QYg==}
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
-      nanoid: 3.1.30
+      nanoid: 3.2.0
       picocolors: 1.0.0
-      source-map-js: 1.0.1
+      source-map-js: 1.0.2
     dev: true
 
   /postcss/8.4.6:
@@ -12165,14 +12150,14 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitepress/0.21.6_sass@1.49.7:
-    resolution: {integrity: sha512-OzwD2cTfvoK5VKV0UWSqu4XvUOz4vWFJ4Bdi0z8GoVkTFXkfmbFawEDVXAZwzu0Hn4/VLopgmEyooc91iGKFlg==}
+  /vitepress/0.22.0_sass@1.49.7:
+    resolution: {integrity: sha512-0q8OFO6mO1q6o33m7RkHl03Ef3qt2eRM3ZlkO19Q6QNC1m0fAPnV32DHLeq432IaHOfjmFo3bIJb9rptqv7VLQ==}
     engines: {node: '>=12.0.0'}
     hasBin: true
     dependencies:
-      '@docsearch/css': 3.0.0-alpha.42
+      '@docsearch/css': 3.0.0-alpha.50
       '@docsearch/js': 3.0.0-alpha.50
-      '@vitejs/plugin-vue': 2.0.1_vite@2.8.0+vue@3.2.30
+      '@vitejs/plugin-vue': 2.2.0_vite@2.8.0+vue@3.2.30
       prismjs: 1.25.0
       vite: 2.8.0_sass@1.49.7
       vue: 3.2.30
