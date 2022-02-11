@@ -1,3 +1,5 @@
+// For this project development
+
 // GlobalComponents for Volar
 declare module 'vue' {
   export interface GlobalComponents {
