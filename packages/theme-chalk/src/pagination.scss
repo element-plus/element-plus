@@ -33,6 +33,14 @@
   align-items: center;
   @include utils-clearfix;
 
+  &.is-center {
+    justify-content: center;
+  }
+
+  &.is-right {
+    justify-content: right;
+  }
+
   span:not([class*='suffix']),
   button {
     display: flex;
