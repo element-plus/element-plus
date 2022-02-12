@@ -34,17 +34,10 @@ const mountComponent = (setup = NOOP, options = {}) => {
   )
 }
 
-const getButtonVm = (wrapper: ReturnType<typeof mountComponent>) => {
-  return wrapper.findComponent(ElButton).vm as any as {
-    buttonSize: string
-    buttonDisabled: boolean
-  }
-}
-
 describe('use-form-item', () => {
   it('should return local value', () => {
     const wrapper = mountComponent()
-    expect(getButtonVm(wrapper).buttonSize).toBe('default')
+    expect(wrapper.find('.el-button--default').exists()).toBe(true)
   })
 
   it('should return props.size instead of injected.size', () => {
@@ -62,7 +55,7 @@ describe('use-form-item', () => {
       }
     )
 
-    expect(getButtonVm(wrapper).buttonSize).toBe(propSize)
+    expect(wrapper.find(`.el-button--${propSize}`).exists()).toBe(true)
   })
 
   it('should return fallback.size instead inject.size', () => {
@@ -77,7 +70,7 @@ describe('use-form-item', () => {
       } as ElFormItemContext)
     })
 
-    expect(getButtonVm(wrapper).buttonSize).toBe(fallbackSize)
+    expect(wrapper.find(`.el-button--${fallbackSize}`).exists()).toBe(true)
   })
 
   it('should return formItem.size instead form.size', () => {
@@ -92,6 +85,6 @@ describe('use-form-item', () => {
       } as ElFormContext)
     })
 
-    expect(getButtonVm(wrapper).buttonSize).toBe(itemSize)
+    expect(wrapper.find(`.el-button--${itemSize}`).exists()).toBe(true)
   })
 })
