@@ -179,7 +179,7 @@ importers:
       '@iconify-json/ri': 1.0.2
       '@types/markdown-it': 12.2.3
       '@vueuse/core': 7.6.2
-      axios: 0.25.0
+      axios: 0.26.0
       clipboard-copy: 4.0.1
       cross-env: 7.0.3
       element-plus: npm:element-plus@latest
@@ -198,7 +198,7 @@ importers:
       '@docsearch/js': 3.0.0-alpha.50
       '@docsearch/react': 3.0.0-alpha.50
       '@vueuse/core': 7.6.2_vue@3.2.30
-      axios: 0.25.0
+      axios: 0.26.0
       clipboard-copy: 4.0.1
       element-plus: 2.0.1_vue@3.2.30
       normalize.css: 8.0.1
@@ -3941,10 +3941,10 @@ packages:
       - debug
     dev: true
 
-  /axios/0.25.0:
-    resolution: {integrity: sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==}
+  /axios/0.26.0:
+    resolution: {integrity: sha512-lKoGLMYtHvFrPVt3r+RBMp9nh34N0M8zEfCWqdWZx6phynIEhQqAdydpyBAAG211zlhX9Rgu08cOamy6XjE5Og==}
     dependencies:
-      follow-redirects: 1.14.7_debug@4.3.3
+      follow-redirects: 1.14.8
     transitivePeerDependencies:
       - debug
     dev: false
@@ -6392,6 +6392,17 @@ packages:
         optional: true
     dependencies:
       debug: 4.3.3
+    dev: true
+
+  /follow-redirects/1.14.8:
+    resolution: {integrity: sha512-1x0S9UVJHsQprFcEC/qnNzBLcIxsjAV905f/UkQxbclCsoTWlacCNOpQa/anodLl2uaEKFhfWOvM2Qg77+15zA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dev: false
 
   /for-in/1.0.2:
     resolution: {integrity: sha1-gQaNKVqBQuwKxybG4iAMMPttXoA=}
