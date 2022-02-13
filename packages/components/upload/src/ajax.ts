@@ -1,13 +1,13 @@
 import { hasOwn } from '@element-plus/utils'
 import type {
-  ElUploadProgressEvent,
-  ElUploadRequestOptions,
-  ElUploadAjaxError,
-} from './upload.type'
+  UploadAjaxError,
+  UploadProgressEvent,
+  UploadRequestOptions,
+} from './upload'
 
 function getError(
   action: string,
-  option: ElUploadRequestOptions,
+  option: UploadRequestOptions,
   xhr: XMLHttpRequest
 ) {
   let msg: string
@@ -19,7 +19,7 @@ function getError(
     msg = `fail to ${option.method} ${action} ${xhr.status}`
   }
 
-  const err = new Error(msg) as ElUploadAjaxError
+  const err = new Error(msg) as UploadAjaxError
   err.status = xhr.status
   err.method = option.method
   err.url = action
@@ -39,7 +39,7 @@ function getBody(xhr: XMLHttpRequest): XMLHttpRequestResponseType {
   }
 }
 
-export default function upload(option: ElUploadRequestOptions) {
+export default function upload(option: UploadRequestOptions) {
   if (typeof XMLHttpRequest === 'undefined') {
     return
   }
@@ -50,7 +50,7 @@ export default function upload(option: ElUploadRequestOptions) {
   if (xhr.upload) {
     xhr.upload.onprogress = function progress(e) {
       if (e.total > 0) {
-        ;(e as ElUploadProgressEvent).percent = (e.loaded / e.total) * 100
+        ;(e as UploadProgressEvent).percent = (e.loaded / e.total) * 100
       }
       option.onProgress(e)
     }
