@@ -1,7 +1,7 @@
 <template>
   <div
     ref="radioGroupRef"
-    class="el-radio-group"
+    :class="ns.b('group')"
     role="radiogroup"
     @keydown="handleKeydown"
   >
@@ -22,7 +22,7 @@ import {
 } from 'vue'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { radioGroupKey } from '@element-plus/tokens'
-import { useFormItem } from '@element-plus/hooks'
+import { useFormItem, useNamespace } from '@element-plus/hooks'
 import { radioGroupEmits, radioGroupProps } from './radio-group'
 import type { RadioGroupProps } from '..'
 
@@ -32,6 +32,7 @@ export default defineComponent({
   emits: radioGroupEmits,
 
   setup(props, ctx) {
+    const ns = useNamespace('radio')
     const radioGroupRef = ref<HTMLDivElement>()
     const { formItem } = useFormItem()
 
@@ -99,6 +100,7 @@ export default defineComponent({
     )
 
     return {
+      ns,
       radioGroupRef,
       handleKeydown,
     }
