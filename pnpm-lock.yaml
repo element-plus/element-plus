@@ -51,7 +51,7 @@ importers:
       esbuild: 0.14.21
       eslint: 8.9.0
       eslint-config-prettier: 8.3.0
-      eslint-define-config: 1.2.4
+      eslint-define-config: 1.2.5
       eslint-plugin-import: 2.25.4
       eslint-plugin-prettier: 4.0.0
       eslint-plugin-vue: 8.4.1
@@ -136,11 +136,11 @@ importers:
       components-helper: 2.0.0
       csstype: 2.6.19
       cypress: 8.5.0
-      cz-conventional-changelog: 3.3.0_@types+node@17.0.16
+      cz-conventional-changelog: 3.3.0
       esbuild: 0.14.21
       eslint: 8.9.0
       eslint-config-prettier: 8.3.0_eslint@8.9.0
-      eslint-define-config: 1.2.4
+      eslint-define-config: 1.2.5
       eslint-plugin-import: 2.25.4_eslint@8.9.0
       eslint-plugin-prettier: 4.0.0_07b422646bb75d3db791621d4fdbc992
       eslint-plugin-vue: 8.4.1_eslint@8.9.0
@@ -1733,31 +1733,10 @@ packages:
       '@commitlint/types': 16.2.1
     dev: true
 
-  /@commitlint/load/16.1.0_@types+node@17.0.16:
-    resolution: {integrity: sha512-MtlEhKjP8jAF85jjX4mw8DUUwCxKsCgAc865hhpnwxjrfBcmGP7Up2AFE/M3ZMGDmSl1X1TMybQk/zohj8Cqdg==}
-    engines: {node: '>=v12'}
-    requiresBuild: true
-    dependencies:
-      '@commitlint/config-validator': 16.2.1
-      '@commitlint/execute-rule': 16.2.1
-      '@commitlint/resolve-extends': 16.2.1
-      '@commitlint/types': 16.2.1
-      chalk: 4.1.2
-      cosmiconfig: 7.0.1
-      cosmiconfig-typescript-loader: 1.0.2_99ae9436e134a034c8d45fdd98ebbf22
-      lodash: 4.17.21
-      resolve-from: 5.0.0
-      typescript: 4.5.5
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - '@types/node'
-    dev: true
-    optional: true
-
   /@commitlint/load/16.2.1:
     resolution: {integrity: sha512-oSpz0jTyVI/A1AIImxJINTLDOMB8YF7lWGm+Jg5wVWM0r7ucpuhyViVvpSRTgvL0z09oIxlctyFGWUQQpI42uw==}
     engines: {node: '>=v12'}
+    requiresBuild: true
     dependencies:
       '@commitlint/config-validator': 16.2.1
       '@commitlint/execute-rule': 16.2.1
@@ -5029,7 +5008,7 @@ packages:
       - '@swc/wasm'
     dev: true
 
-  /cz-conventional-changelog/3.3.0_@types+node@17.0.16:
+  /cz-conventional-changelog/3.3.0:
     resolution: {integrity: sha512-U466fIzU5U22eES5lTNiNbZ+d8dfcHcssH4o7QsdWaCcRs/feIPCxKYSWkYBNs5mny7MvEfwpTLWjvbm94hecw==}
     engines: {node: '>= 10'}
     dependencies:
@@ -5040,11 +5019,10 @@ packages:
       longest: 2.0.1
       word-wrap: 1.2.3
     optionalDependencies:
-      '@commitlint/load': 16.1.0_@types+node@17.0.16
+      '@commitlint/load': 16.2.1
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - '@types/node'
     dev: true
 
   /d/1.0.1:
@@ -5764,9 +5742,9 @@ packages:
       eslint: 8.9.0
     dev: true
 
-  /eslint-define-config/1.2.4:
-    resolution: {integrity: sha512-HTdOfrqthSd6lpl/fRp2+BKSCR/d+knNi66c6mOIxEYjorSkqRdLkmPhmLAW5akOp3+MuP25YgKcFHSsknaigw==}
-    engines: {node: '>= 16.9.0', npm: '>= 7.0.0', pnpm: '>= 6.29.1'}
+  /eslint-define-config/1.2.5:
+    resolution: {integrity: sha512-WVvtYiovaQTUVHZmB5xnP6HyBktJIOpL4XWFPaSgA/gKFndnD4o5yRRv2EZXqQAU1kdwD/ZHKGrHJ2C6gdSgCA==}
+    engines: {node: '>= 16.9.0', npm: '>= 7.0.0', pnpm: '>= 6.30.1'}
     dev: true
 
   /eslint-import-resolver-node/0.3.6:
