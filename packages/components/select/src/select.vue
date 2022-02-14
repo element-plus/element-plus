@@ -29,7 +29,13 @@
             :class="nsSelect.e('tags')"
             :style="selectTagsStyle"
           >
-            <span v-if="collapseTags && selected.length">
+            <span
+              v-if="collapseTags && selected.length"
+              :style="{
+                marginLeft:
+                  prefixWidth && selected.length ? `${prefixWidth}px` : '',
+              }"
+            >
               <el-tag
                 :closable="!selectDisabled && !selected[0].isDisabled"
                 :size="collapseTagSize"
