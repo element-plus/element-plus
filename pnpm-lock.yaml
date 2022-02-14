@@ -176,7 +176,7 @@ importers:
       '@crowdin/cli': 3.7.7
       '@docsearch/js': 3.0.0-alpha.50
       '@docsearch/react': 3.0.0-alpha.50
-      '@iconify-json/ri': 1.0.2
+      '@iconify-json/ri': 1.1.0
       '@types/markdown-it': 12.2.3
       '@vueuse/core': 7.6.2
       axios: 0.25.0
@@ -200,12 +200,12 @@ importers:
       '@vueuse/core': 7.6.2_vue@3.2.30
       axios: 0.25.0
       clipboard-copy: 4.0.1
-      element-plus: 2.0.1_vue@3.2.30
+      element-plus: 2.0.2_8ddf48dde9d511a4d145aeec74353d80
       normalize.css: 8.0.1
       nprogress: 0.2.0
     devDependencies:
       '@crowdin/cli': 3.7.7
-      '@iconify-json/ri': 1.0.2
+      '@iconify-json/ri': 1.1.0
       '@types/markdown-it': 12.2.3
       cross-env: 7.0.3
       escape-html: 1.0.3
@@ -1967,8 +1967,8 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
 
-  /@iconify-json/ri/1.0.2:
-    resolution: {integrity: sha512-PZMjoNE05S1PTcQHdIla/0htpmvMV2JvNwDzfEWVNGsLRG+htZuwozY9iiua6PGqmTw+kfBklvqrkTpzCpZvhQ==}
+  /@iconify-json/ri/1.1.0:
+    resolution: {integrity: sha512-9JE8dyM/4c3qrhH74X5NXVBNF5RPRQLowpldvhMv9kMSil1eq1QcwlNghiUV2SqGPzYAskTHCxXS6abiAQJwVQ==}
     dependencies:
       '@iconify/types': 1.0.12
     dev: true
@@ -5339,8 +5339,8 @@ packages:
     resolution: {integrity: sha512-cId+QwWrV8R1UawO6b9BR1hnkJ4EJPCPAr4h315vliHUtVUJDk39Sg1PMNnaWKfj5x+93ssjeJ9LKL6r8LaMiA==}
     dev: true
 
-  /element-plus/2.0.1_vue@3.2.30:
-    resolution: {integrity: sha512-Cdx3JhbMNGwVsU12DUewIltJ1hUYVSgx2iBB8AuNzzOxAqcxSA9e7p2lfNp8oCBQeh4ThRSaOkdLnJyO4mS3qQ==}
+  /element-plus/2.0.2_8ddf48dde9d511a4d145aeec74353d80:
+    resolution: {integrity: sha512-URjC0HwwiqtlLxqTmHXQ31WXrdAq4ChWyyn52OcQs3PRsnMPfahGVq2AWnfzzlzlhVeI5lY3HQiuB1zDathS+g==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
@@ -5351,10 +5351,13 @@ packages:
       async-validator: 4.0.7
       dayjs: 1.10.7
       lodash: 4.17.21
+      lodash-es: 4.17.21
+      lodash-unified: 1.0.1_da03a4540fbd16bbaafbb96724306afd
       memoize-one: 6.0.0
       normalize-wheel-es: 1.1.1
       vue: 3.2.30
     transitivePeerDependencies:
+      - '@types/lodash-es'
       - '@vue/composition-api'
     dev: false
 
