@@ -28,6 +28,7 @@
     "escape-html": "^1.0.3",
     "markdown-it": "^12.3.2",
     "markdown-it-container": "^3.0.0",
+    "octokit": "^1.7.1",
     "unocss": "^0.30.11",
     "unplugin-icons": "^0.14.1",
     "unplugin-vue-components": "^0.18.5",

@@ -9,3 +9,9 @@ export const breakpoints = {
   xlg: 1280,
   xxl: 1440,
 }
+
+export const owner = 'element-plus'
+export const repoName = 'element-plus'
+export const repo = 'element-plus/element-plus'
+export const branch = 'dev'
+export const docsDir = 'docs'

@@ -24,6 +24,7 @@ import IconList from './components/globals/icons.vue'
 import ParallaxHome from './components/globals/parallax-home.vue'
 import Resource from './components/globals/resource.vue'
 import DesignGuide from './components/globals/design-guide.vue'
+import Contributors from './components/globals/contributors.vue'
 
 import type { Component } from 'vue'
 
@@ -40,4 +41,5 @@ export const globals: [string, Component][] = [
   ['ParallaxHome', ParallaxHome],
   ['Resource', Resource],
   ['DesignGuide', DesignGuide],
+  ['Contributors', Contributors],
 ]
