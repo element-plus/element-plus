@@ -704,6 +704,7 @@ $pagination: map.merge(
     'button-height': 32px,
     'button-disabled-color': var(--el-text-color-placeholder),
     'button-disabled-bg-color': var(--el-color-white),
+    'button-bg-color': map.get($colors, 'info', 'light-9'),
     'hover-color': var(--el-color-primary),
     'height-extra-small': 24px,
     'line-height-extra-small': var(--el-pagination-height-extra-small),
