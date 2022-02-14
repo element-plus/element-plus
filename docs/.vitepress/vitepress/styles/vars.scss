@@ -1,0 +1,75 @@
+// css variables
+:root {
+  --text-color: var(--el-text-color-primary);
+  --text-color-light: var(--el-text-color-regular);
+  --text-color-lighter: var(--el-text-color-secondary);
+
+  --brand-color: var(--el-color-primary);
+  --brand-color-light: var(--el-color-primary-light-1);
+  --bg-brand-color: var(--el-color-primary-light-9);
+  --bg-color: var(--el-color-white);
+  --bg-color-soft: #fafafa;
+  --bg-color-mute: #f2f2f2;
+  --border-color: var(--el-border-color-base);
+  --border-color-light: var(--el-border-color-lighter);
+
+  --font-family: Inter, Roboto, Oxygen, Fira Sans, Helvetica Neue, sans-serif;
+
+  --font-family-mono: 'JetBrains Mono', source-code-pro, Menlo, Monaco, Consolas,
+    'Courier New', monospace;
+
+  // info
+  --success-color: var(--el-color-success);
+  --warning-color: var(--el-color-warning);
+  --danger-color: var(--el-color-danger);
+
+  // header vars
+  --header-height: 55px;
+  --nav-height: 55px; // alias of --header-height
+  --sidebar-width-md: 18rem;
+  --sidebar-width-sm: 16rem;
+  --sidebar-width-xs: 20rem;
+  --content-min-width: 16rem;
+  --content-max-width: 48rem;
+
+  --nav-z-index: 20;
+  --sub-nav-z-index: 10;
+  --sidebar-z-index: 40;
+  --overlay-z-index: 30;
+  // --dropdown-z-index: 22;
+
+  // code block vars
+  --code-font-size: var(--el-font-size-base);
+  --code-bg-color: var(--el-bg-color);
+  --code-text-color: var(--text-color);
+  --code-font-family: var(--font-family-mono);
+
+  // doc search vars
+  --docsearch-primary-color: var(--brand-color);
+  --docsearch-searchbox-background: var(--el-bg-color);
+}
+
+:root {
+  --app-max-width: 1376px;
+}
+
+.dark {
+  --text-color: #e0e0e0;
+  --text-color-light: #a0a0a0;
+  --text-color-lighter: #6c6c6c;
+
+  --border-color: #434343;
+  --border-color-light: #979797;
+
+  --bg-color: #121212;
+  --bg-color-soft: #383838;
+  --bg-color-mute: #2c2c2c;
+}
+
+// SCSS variables
+// breakpoints
+$breakpoint-xxl: 1440px !default;
+$breakpoint-xlg: 1280px !default;
+$breakpoint-lg: 960px !default;
+$breakpoint-md: 768px !default;
+$breakpoint-sm: 480px !default;

@@ -1,8 +1,12 @@
-@import "mixins/mixins";
-@import "checkbox";
-@import "tag";
-@import "tooltip";
-@import "common/var";
+@use 'sass:map';
+
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+
+@include b(table) {
+  @include set-component-css-var('table', $table);
+}
 
 @include b(table) {
   position: relative;
@@ -11,11 +15,32 @@
   height: fit-content;
   width: 100%;
   max-width: 100%;
-  background-color: $--color-white;
+  background-color: var(--el-table-bg-color);
   font-size: 14px;
-  color: $--table-font-color;
+  color: var(--el-table-text-color);
 
-  // 数据为空
+  @include e(inner-wrapper) {
+    position: relative;
+    // 表格底部伪 border，总是有的
+    &::before {
+      @include extend-rule(border-pseudo);
+      left: 0;
+      bottom: 0px;
+      width: 100%;
+      height: 1px;
+      z-index: 3;
+    }
+  }
+
+  &.has-footer {
+    .#{$namespace}-table__inner-wrapper {
+      &::before {
+        bottom: 1px;
+      }
+    }
+  }
+
+  // when data is empty
   @include e(empty-block) {
     min-height: 60px;
     text-align: center;
@@ -30,10 +55,10 @@
     // set empty text line height up to contrainer min-height as workaround.
     line-height: 60px;
     width: 50%;
-    color: $--color-text-secondary;
+    color: var(--el-text-color-secondary);
   }
 
-  // 展开行
+  // expand the row
   @include e(expand-column) {
     .cell {
       padding: 0;
@@ -44,9 +69,9 @@
   @include e(expand-icon) {
     position: relative;
     cursor: pointer;
-    color: #666;
+    color: var(--el-text-color-regular);
     font-size: 12px;
-    transition: transform 0.2s ease-in-out;
+    transition: transform var(--el-transition-duration-fast) ease-in-out;
     height: 20px;
 
     @include m(expanded) {
@@ -54,19 +79,15 @@
     }
 
     > .#{$namespace}-icon {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      margin-left: -5px;
-      margin-top: -5px;
+      font-size: 12px;
     }
   }
 
   @include e(expanded-cell) {
-    background-color: $--color-white;
+    background-color: var(--el-table-expanded-cell-bg-color);
 
-    // 纯属为了增加权重
-    &[class*=cell] {
+    // increase the weight purely
+    &[class*='cell'] {
       padding: 20px 50px;
     }
 
@@ -81,7 +102,7 @@
   }
 
   @include e(append-wrapper) {
-    // 避免外边距重合 https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing
+    // avoid overlapping margin https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing
     overflow: hidden;
   }
 
@@ -89,43 +110,31 @@
     border-right: 0;
     border-bottom: 0;
 
-    th.gutter, td.gutter {
+    .#{$namespace}-table__cell.gutter {
       border-right-width: 1px;
     }
   }
 
-  @include m(scrollable-x) {
-    .#{$namespace}-table__body-wrapper {
-      overflow-x: auto;
-    }
-  }
-
-  @include m(scrollable-y) {
-    .#{$namespace}-table__body-wrapper {
-      overflow-y: auto;
-    }
-  }
-
   thead {
-    color: $--table-header-font-color;
+    color: var(--el-table-header-text-color);
     font-weight: 500;
 
     &.is-group {
-      th {
-        background: $--background-color-base;
+      th.#{$namespace}-table__cell {
+        background: var(--el-bg-color);
       }
     }
   }
 
-  th, td {
-    padding: 12px 0;
+  .#{$namespace}-table__cell {
+    padding: map.get($table-padding, 'default');
     min-width: 0;
     box-sizing: border-box;
     text-overflow: ellipsis;
     vertical-align: middle;
     position: relative;
     text-align: left;
-
+    z-index: 1;
     @include when(center) {
       text-align: center;
     }
@@ -148,46 +157,53 @@
     }
   }
 
-  @include m(medium) {
-    th, td {
-      padding: 10px 0;
+  .cell {
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-all;
+    line-height: 23px;
+    padding: 0 12px;
+
+    &.#{$namespace}-tooltip {
+      white-space: nowrap;
+      min-width: 50px;
     }
   }
 
-  @include m(small) {
-    font-size: 12px;
-    th, td {
-      padding: 8px 0;
-    }
-  }
-
-  @include m(mini) {
-    font-size: 12px;
-    th, td {
-      padding: 6px 0;
+  @each $size in (large, small) {
+    @include m($size) {
+      font-size: map.get($table-font-size, $size);
+      .#{$namespace}-table__cell {
+        padding: map.get($table-padding, $size);
+      }
+      .cell {
+        padding: map.get($table-cell-padding, $size);
+      }
     }
   }
 
   tr {
-    background-color: $--color-white;
+    background-color: var(--el-table-tr-bg-color);
 
-    input[type="checkbox"] {
+    input[type='checkbox'] {
       margin: 0;
     }
   }
 
-  th.is-leaf, td {
-    border-bottom: $--table-border;
+  th.#{$namespace}-table__cell.is-leaf,
+  td.#{$namespace}-table__cell {
+    border-bottom: var(--el-table-border);
   }
 
-  th.is-sortable {
+  th.#{$namespace}-table__cell.is-sortable {
     cursor: pointer;
   }
 
-  th {
-    overflow: hidden;
+  th.#{$namespace}-table__cell {
     user-select: none;
-    background-color: $--table-header-background-color;
+    background-color: var(--el-table-header-bg-color);
 
     > .cell {
       display: inline-block;
@@ -197,13 +213,13 @@
       width: 100%;
 
       &.highlight {
-        color: $--color-primary;
+        color: var(--el-color-primary);
       }
     }
 
     &.required > div::before {
       display: inline-block;
-      content: "";
+      content: '';
       width: 8px;
       height: 8px;
       border-radius: 50%;
@@ -213,7 +229,7 @@
     }
   }
 
-  td {
+  td.#{$namespace}-table__cell {
     div {
       box-sizing: border-box;
     }
@@ -223,77 +239,93 @@
     }
   }
 
-  .cell {
-    box-sizing: border-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal;
-    word-break: break-all;
-    line-height: 23px;
-    padding-left: 10px;
-    padding-right: 10px;
-
-    &.#{$namespace}-tooltip {
-      white-space: nowrap;
-      min-width: 50px;
-    }
-  }
-
   // 拥有多级表头
   @include m((group, border)) {
-    border: $--table-border;
+    @include e((inner-wrapper, footer-wrapper)) {
+      tr:first-child {
+        td,
+        th {
+          &:first-child {
+            border-left: var(--el-table-border);
+          }
+        }
+      }
+    }
+    @include e((footer-wrapper)) {
+      border-top: var(--el-table-border);
+    }
 
     @include share-rule(border-pseudo) {
       content: '';
       position: absolute;
-      background-color: $--table-border-color;
-      z-index: 1;
+      background-color: var(--el-table-border-color);
+      z-index: 3;
     }
-
-    // 表格右部伪 border
-    &::after {
-      @include extend-rule(border-pseudo);
-      top: 0;
-      right: 0;
-      width: 1px;
-      height: 100%;
-    }
-  }
-
-  // 表格底部伪 border，总是有的
-  &::before {
-    @include extend-rule(border-pseudo);
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 1px;
   }
 
   // table--border
   @include m(border) {
-    border-right: none;
-    border-bottom: none;
+    @include e(inner-wrapper) {
+      &::after {
+        @include extend-rule(border-pseudo);
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 1px;
+        z-index: 3;
+      }
+    }
+
+    &::before {
+      @include extend-rule(border-pseudo);
+      top: -1px;
+      left: 0;
+      width: 1px;
+      height: 100%;
+      z-index: 3;
+    }
+
+    &::after {
+      @include extend-rule(border-pseudo);
+      top: -1px;
+      right: 0;
+      width: 1px;
+      height: 100%;
+      z-index: 3;
+    }
+
+    @include e(inner-wrapper) {
+      border-right: none;
+      border-bottom: none;
+    }
+
+    @include e(footer-wrapper) {
+      position: relative;
+    }
+
+    @include e(footer-wrapper) {
+      margin-top: -2px;
+    }
 
     // fix: #1013
     // &.#{$namespace}-loading-parent--relative {
     //   border-color: transparent;
     // }
 
-    th, td {
-      border-right: $--table-border;
-
+    .#{$namespace}-table__cell {
+      border-right: var(--el-table-border);
       &:first-child .cell {
         padding-left: 10px;
       }
     }
 
-    th.gutter:last-of-type {
-      border-bottom: $--table-border;
+    th.#{$namespace}-table__cell.gutter:last-of-type {
+      border-bottom: var(--el-table-border);
       border-bottom-width: 1px;
     }
 
-    & th {
-      border-bottom: $--table-border;
+    & th.#{$namespace}-table__cell {
+      border-bottom: var(--el-table-border);
     }
   }
 
@@ -301,83 +333,50 @@
     visibility: hidden;
   }
 
-  @include e((fixed, fixed-right)) {
-    position: absolute;
-    top: 0;
-    left: 0;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    box-shadow: $--table-fixed-box-shadow;
-
-    &::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      height: 1px;
-      background-color: $--border-color-lighter;
-      z-index: 4;
-    }
-  }
-
-  @include e(fixed-right-patch) {
-    position: absolute;
-    top: -1px;
-    right: 0;
-    background-color: $--color-white;
-    border-bottom: $--table-border;
-  }
-
-  @include e(fixed-right) {
-    top: 0;
-    left: auto;
-    right: 0;
-
-    .#{$namespace}-table__fixed-header-wrapper,
-    .#{$namespace}-table__fixed-body-wrapper,
-    .#{$namespace}-table__fixed-footer-wrapper {
-      left: auto;
-      right: 0;
-    }
-  }
-
-  @include e(fixed-header-wrapper) {
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 3;
-  }
-
-  @include e(fixed-footer-wrapper) {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    z-index: 3;
-
-    & tbody td {
-      border-top: $--table-border;
-      background-color: $--table-row-hover-background-color;
-      color: $--table-font-color;
-    }
-  }
-
-  @include e(fixed-body-wrapper) {
-    position: absolute;
-    left: 0;
-    top: 37px;
-    overflow: hidden;
-    z-index: 3;
-  }
-
   @include e((header-wrapper, body-wrapper, footer-wrapper)) {
     width: 100%;
-  }
-
-  @include e(footer-wrapper) {
-    margin-top: -1px;
-    td {
-      border-top: $--table-border;
+    tr {
+      td,
+      th {
+        &.#{$namespace}-table-fixed-column--left,
+        &.#{$namespace}-table-fixed-column--right {
+          position: sticky !important;
+          z-index: 2;
+          background: #fff;
+          &.is-last-column,
+          &.is-first-column {
+            &::before {
+              content: '';
+              position: absolute;
+              top: 0px;
+              width: 10px;
+              bottom: -1px;
+              overflow-x: hidden;
+              overflow-y: hidden;
+              box-shadow: inset -10px 0 10px -10px rgb(0 0 0 / 15%);
+              touch-action: none;
+              pointer-events: none;
+            }
+          }
+          &.is-first-column {
+            &::before {
+              left: -10px;
+            }
+          }
+          &.is-last-column {
+            &::before {
+              right: -10px;
+              box-shadow: inset 10px 0 10px -10px rgb(0 0 0 / 15%);
+            }
+          }
+        }
+        &.#{$namespace}-table__fixed-right-patch {
+          position: sticky !important;
+          z-index: 2;
+          background: #fff;
+          right: 0;
+        }
+      }
     }
   }
 
@@ -389,47 +388,71 @@
   @include e((header-wrapper, footer-wrapper)) {
     overflow: hidden;
 
-    & tbody td {
-      background-color: $--table-row-hover-background-color;
-      color: $--table-font-color;
+    & tbody td.#{$namespace}-table__cell {
+      background-color: var(--el-table-row-hover-bg-color);
+      color: var(--el-table-text-color);
+    }
+  }
+
+  @include e((header-wrapper, body-wrapper)) {
+    .#{$namespace}-table-column--selection {
+      .el-checkbox {
+        height: unset;
+      }
+    }
+  }
+
+  @include when(scrolling-left) {
+    .#{$namespace}-table-fixed-column--left.is-last-column {
+      &::before {
+        box-shadow: none;
+      }
+    }
+    &.#{$namespace}-table--border {
+      .#{$namespace}-table-fixed-column--left {
+        &.is-last-column {
+          &.#{$namespace}-table__cell {
+            border-right: var(--el-table-border);
+          }
+        }
+      }
+    }
+  }
+
+  @include when(scrolling-right) {
+    .#{$namespace}-table-fixed-column--right.is-first-column {
+      &::before {
+        box-shadow: none;
+      }
+    }
+    .#{$namespace}-table-fixed-column--left.is-last-column.#{$namespace}-table__cell {
+      border-right: none;
+    }
+  }
+
+  @include when(scrolling-middle) {
+    .#{$namespace}-table-fixed-column--left.is-last-column.#{$namespace}-table__cell {
+      border-right: none;
+    }
+  }
+
+  @include when(scrolling-none) {
+    .#{$namespace}-table-fixed-column--left,
+    .#{$namespace}-table-fixed-column--right {
+      &.is-first-column,
+      &.is-last-column {
+        &::before {
+          box-shadow: none;
+        }
+      }
     }
   }
 
   @include e(body-wrapper) {
     overflow: hidden;
     position: relative;
-
-    @include when(scrolling-none) {
-      ~ .#{$namespace}-table__fixed,
-      ~ .#{$namespace}-table__fixed-right {
-        box-shadow: none;
-      }
-    }
-
-    @include when(scrolling-left) {
-      ~ .#{$namespace}-table__fixed {
-        box-shadow: none;
-      }
-    }
-
-    @include when(scrolling-right) {
-      ~ .#{$namespace}-table__fixed-right {
-        box-shadow: none;
-      }
-    }
-
-    .#{$namespace}-table--border {
-      @include when(scrolling-right) {
-        ~ .#{$namespace}-table__fixed-right {
-          border-left: $--table-border;
-        }
-      }
-
-      @include when(scrolling-left) {
-        ~ .#{$namespace}-table__fixed {
-          border-right: $--table-border;
-        }
-      }
+    .#{$namespace}-scrollbar__bar {
+      z-index: 2;
     }
   }
 
@@ -453,22 +476,22 @@
     left: 7px;
 
     &.ascending {
-      border-bottom-color: $--color-text-placeholder;
+      border-bottom-color: var(--el-text-color-placeholder);
       top: -5px;
     }
 
     &.descending {
-      border-top-color: $--color-text-placeholder;
+      border-top-color: var(--el-text-color-placeholder);
       bottom: -3px;
     }
   }
 
   .ascending .sort-caret.ascending {
-    border-bottom-color: $--color-primary;
+    border-bottom-color: var(--el-color-primary);
   }
 
   .descending .sort-caret.descending {
-    border-top-color: $--color-primary;
+    border-top-color: var(--el-color-primary);
   }
 
   .hidden-columns {
@@ -480,12 +503,12 @@
   @include m(striped) {
     & .#{$namespace}-table__body {
       & tr.#{$namespace}-table__row--striped {
-        td {
-          background: #FAFAFA;
+        td.#{$namespace}-table__cell {
+          background: #fafafa;
         }
 
-        &.current-row td {
-          background-color: $--table-current-row-background-color;
+        &.current-row td.#{$namespace}-table__cell {
+          background-color: var(--el-table-current-row-bg-color);
         }
       }
     }
@@ -493,17 +516,19 @@
 
   @include e(body) {
     tr.hover-row {
-      &, &.#{$namespace}-table__row--striped {
-        &, &.current-row {
-          > td {
-            background-color: $--table-row-hover-background-color;
+      &,
+      &.#{$namespace}-table__row--striped {
+        &,
+        &.current-row {
+          > td.#{$namespace}-table__cell {
+            background-color: var(--el-table-row-hover-bg-color);
           }
         }
       }
     }
 
-    tr.current-row > td {
-      background-color: $--table-current-row-background-color;
+    tr.current-row > td.#{$namespace}-table__cell {
+      background-color: var(--el-table-current-row-bg-color);
     }
   }
 
@@ -513,7 +538,7 @@
     top: 0;
     bottom: 0;
     width: 0;
-    border-left: $--table-border;
+    border-left: var(--el-table-border);
     z-index: 10;
   }
 
@@ -522,41 +547,59 @@
     cursor: pointer;
 
     & i {
-      color: $--color-info;
-      font-size: 12px;
+      color: var(--el-color-info);
+      font-size: 14px;
       vertical-align: middle;
-      transform: scale(.75);
     }
   }
 
+  @include e(border-left-patch) {
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 100%;
+    z-index: 3;
+    position: absolute;
+    background-color: var(--el-table-border-color);
+  }
+
+  @include e(border-bottom-patch) {
+    left: 0;
+    height: 1px;
+    z-index: 3;
+    position: absolute;
+    background-color: var(--el-table-border-color);
+  }
+
+  @include e(border-right-patch) {
+    top: 0;
+    height: 100%;
+    width: 1px;
+    z-index: 3;
+    position: absolute;
+    background-color: var(--el-table-border-color);
+  }
+
   @include m(enable-row-transition) {
-    .#{$namespace}-table__body td {
-      transition: background-color .25s ease;
+    .#{$namespace}-table__body td.#{$namespace}-table__cell {
+      transition: background-color 0.25s ease;
     }
   }
 
   @include m(enable-row-hover) {
-    .#{$namespace}-table__body tr:hover > td {
-      background-color: $--table-row-hover-background-color;
+    .#{$namespace}-table__body tr:hover > td.#{$namespace}-table__cell {
+      background-color: var(--el-table-row-hover-bg-color);
     }
   }
 
-  @include m(fluid-height) {
-    .#{$namespace}-table__fixed,
-    .#{$namespace}-table__fixed-right {
-      bottom: 0;
-      overflow: hidden;
-    }
-  }
-
-  [class*=#{$namespace}-table__row--level] {
+  [class*='#{$namespace}-table__row--level'] {
     .#{$namespace}-table__expand-icon {
       display: inline-block;
-      width: 20px;
-      line-height: 20px;
-      height: 20px;
+      width: 12px;
+      line-height: 12px;
+      height: 12px;
       text-align: center;
-      margin-right: 3px;
+      margin-right: 8px;
     }
   }
 }

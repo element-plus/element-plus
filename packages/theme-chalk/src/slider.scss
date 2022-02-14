@@ -1,25 +1,40 @@
-@import "mixins/mixins";
-@import "mixins/utils";
-@import "input-number";
-@import "tooltip";
-@import "common/var";
+@use 'sass:map';
+
+@use 'mixins/mixins' as *;
+@use 'mixins/utils' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+
+$slider-height: () !default;
+$slider-height: map.merge(
+  (
+    'large': 40px,
+    'default': 32px,
+    'small': 24px,
+  ),
+  $slider-height
+);
 
 @include b(slider) {
+  @include set-component-css-var('slider', $slider);
+}
 
-  @include utils-clearfix;
+@include b(slider) {
+  width: 100%;
+  height: map.get($slider-height, 'default');
+  display: flex;
+  align-items: center;
 
   @include e(runway) {
-    width: 100%;
-    height: $--slider-height;
-    margin: $--slider-margin;
-    background-color: $--slider-runway-background-color;
-    border-radius: $--slider-border-radius;
+    flex: 1;
+    height: var(--el-slider-height);
+    background-color: var(--el-slider-runway-bg-color);
+    border-radius: var(--el-slider-border-radius);
     position: relative;
     cursor: pointer;
-    vertical-align: middle;
 
     &.show-input {
-      margin-right: 160px;
+      margin-right: 30px;
       width: auto;
     }
 
@@ -27,11 +42,11 @@
       cursor: default;
 
       .#{$namespace}-slider__bar {
-        background-color: $--slider-disable-color;
+        background-color: var(--el-slider-disable-color);
       }
 
       .#{$namespace}-slider__button {
-        border-color: $--slider-disable-color;
+        border-color: var(--el-slider-disable-color);
       }
 
       .#{$namespace}-slider__button-wrapper {
@@ -65,37 +80,24 @@
   }
 
   @include e(input) {
-    float: right;
-    margin-top: 3px;
+    flex-shrink: 0;
     width: 130px;
-
-    &.#{$namespace}-input-number--mini {
-      margin-top: 5px;
-    }
-
-    &.#{$namespace}-input-number--medium {
-      margin-top: 0;
-    }
-
-    &.#{$namespace}-input-number--large {
-      margin-top: -2px;
-    }
   }
 
   @include e(bar) {
-    height: $--slider-height;
-    background-color: $--slider-main-background-color;
-    border-top-left-radius: $--slider-border-radius;
-    border-bottom-left-radius: $--slider-border-radius;
+    height: var(--el-slider-height);
+    background-color: var(--el-slider-main-bg-color);
+    border-top-left-radius: var(--el-slider-border-radius);
+    border-bottom-left-radius: var(--el-slider-border-radius);
     position: absolute;
   }
 
   @include e(button-wrapper) {
-    height: $--slider-button-wrapper-size;
-    width: $--slider-button-wrapper-size;
+    height: var(--el-slider-button-wrapper-size);
+    width: var(--el-slider-button-wrapper-size);
     position: absolute;
     z-index: 1;
-    top: $--slider-button-wrapper-offset;
+    top: var(--el-slider-button-wrapper-offset);
     transform: translateX(-50%);
     background-color: transparent;
     text-align: center;
@@ -116,14 +118,14 @@
 
   @include e(button) {
     display: inline-block;
-    width: $--slider-button-size;
-    height: $--slider-button-size;
+    width: var(--el-slider-button-size);
+    height: var(--el-slider-button-size);
     vertical-align: middle;
-    border: solid 2px $--slider-main-background-color;
-    background-color: $--color-white;
+    border: solid 2px var(--el-slider-main-bg-color);
+    background-color: var(--el-color-white);
     border-radius: 50%;
     box-sizing: border-box;
-    transition: .2s;
+    transition: var(--el-transition-duration-fast);
     user-select: none;
 
     &:hover,
@@ -144,10 +146,10 @@
 
   @include e(stop) {
     position: absolute;
-    height: $--slider-height;
-    width: $--slider-height;
-    border-radius: $--border-radius-circle;
-    background-color: $--slider-stop-background-color;
+    height: var(--el-slider-height);
+    width: var(--el-slider-height);
+    border-radius: var(--el-border-radius-circle);
+    background-color: var(--el-slider-stop-bg-color);
     transform: translateX(-50%);
   }
 
@@ -161,89 +163,47 @@
       position: absolute;
       transform: translateX(-50%);
       font-size: 14px;
-      color: $--color-info;
+      color: var(--el-color-info);
       margin-top: 15px;
     }
   }
 
   @include when(vertical) {
     position: relative;
+    height: 100%;
+    flex: 0;
+
     .#{$namespace}-slider__runway {
-      width: $--slider-height;
+      width: var(--el-slider-height);
       height: 100%;
       margin: 0 16px;
     }
     .#{$namespace}-slider__bar {
-      width: $--slider-height;
+      width: var(--el-slider-height);
       height: auto;
       border-radius: 0 0 3px 3px;
     }
     .#{$namespace}-slider__button-wrapper {
       top: auto;
-      left: $--slider-button-wrapper-offset;
+      left: var(--el-slider-button-wrapper-offset);
       transform: translateY(50%);
     }
     .#{$namespace}-slider__stop {
       transform: translateY(50%);
-    }
-    &.#{$namespace}-slider--with-input {
-      padding-bottom: #{$--input-medium-height + 22px};
-      .#{$namespace}-slider__input {
-        overflow: visible;
-        float: none;
-        position: absolute;
-        bottom: 22px;
-        width: 36px;
-        margin-top: 15px;
-        .#{$namespace}-input__inner {
-          text-align: center;
-          padding-left: 5px;
-          padding-right: 5px;
-        }
-        .#{$namespace}-input-number__decrease,
-        .#{$namespace}-input-number__increase
-        {
-          top: $--input-small-height;
-          margin-top: -1px;
-          border: $--input-border;
-          line-height: 20px;
-          box-sizing: border-box;
-          transition: $--border-transition-base;
-        }
-        .#{$namespace}-input-number__decrease {
-          width: 18px;
-          right: 18px;
-          border-bottom-left-radius: $--input-border-radius;
-        }
-        .#{$namespace}-input-number__increase {
-          width: 19px;
-          border-bottom-right-radius: $--input-border-radius;
-          & ~ .#{$namespace}-input .#{$namespace}-input__inner {
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-          }
-        }
-        &:hover {
-          .#{$namespace}-input-number__decrease,
-          .#{$namespace}-input-number__increase
-          {
-            border-color: $--input-hover-border;
-          }
-        }
-        &:active {
-          .#{$namespace}-input-number__decrease,
-          .#{$namespace}-input-number__increase
-          {
-            border-color: $--input-focus-border;
-          }
-        }
-      }
     }
 
     @include e(marks-text) {
       margin-top: 0;
       left: 15px;
       transform: translateY(50%);
+    }
+  }
+
+  @each $size in (large, small) {
+    @include m($size) {
+      height: map.get($slider-height, $size);
+      @include e(runway) {
+      }
     }
   }
 }

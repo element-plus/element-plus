@@ -1,32 +1,42 @@
-@import "mixins/mixins";
-@import "common/var";
-@import "./popper";
+@use 'sass:map';
+
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
 
 @include b(select-dropdown) {
-  z-index: #{$--index-top + 1};
-  border-radius: $--border-radius-base;
+  z-index: calc(var(--el-index-top) + 1);
+  border-radius: var(--el-border-radius-base);
   box-sizing: border-box;
 
-  .#{$namespace}-scrollbar.is-empty .#{$namespace}-select-dropdown__list{
+  .#{$namespace}-scrollbar.is-empty .#{$namespace}-select-dropdown__list {
     padding: 0;
+  }
+
+  @include e(option-item) {
+    &:hover {
+      &:not(.hover) {
+        background-color: transparent;
+      }
+    }
   }
 }
 
 @include b(select-dropdown__empty) {
-  padding: $--select-dropdown-empty-padding;
+  padding: map.get($select-dropdown, 'empty-padding');
   margin: 0;
   text-align: center;
-  color: $--select-dropdown-empty-color;
-  font-size: $--select-font-size;
+  color: map.get($select-dropdown, 'empty-color');
+  font-size: var(--el-select-font-size);
 }
 
 @include b(select-dropdown__wrap) {
-  max-height: $--select-dropdown-max-height;
+  max-height: map.get($select-dropdown, 'max-height');
 }
 
 @include b(select-dropdown__list) {
   list-style: none;
-  margin: $--select-dropdown-padding;
-  padding: 0;
+  margin: map.get($select-dropdown, 'padding') !important;
+  padding: 0 !important;
   box-sizing: border-box;
 }

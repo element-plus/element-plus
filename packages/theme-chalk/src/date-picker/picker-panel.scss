@@ -1,22 +1,22 @@
-@import "../common/var";
+@use '../mixins/mixins' as *;
+@use '../common/var' as *;
 
 @include b(picker-panel) {
-  position: relative;
-  color: $--color-text-regular;
-  background: $--color-white;
-  border-radius: $--border-radius-base;
+  color: var(--el-text-color-regular);
+  background: $color-white;
+  border-radius: var(--el-border-radius-base);
   line-height: 30px;
 
   .#{$namespace}-time-panel {
     margin: 5px 0;
-    border: solid 1px $--datepicker-border-color;
-    background-color: $--color-white;
-    box-shadow: $--box-shadow-light;
+    border: solid 1px var(--el-datepicker-border-color);
+    background-color: $color-white;
+    box-shadow: var(--el-box-shadow-light);
   }
 
   @include e((body, body-wrapper)) {
     &::after {
-      content: "";
+      content: '';
       display: table;
       clear: both;
     }
@@ -28,10 +28,10 @@
   }
 
   @include e(footer) {
-    border-top: 1px solid $--datepicker-inner-border-color;
-    padding: 4px;
+    border-top: 1px solid var(--el-datepicker-inner-border-color);
+    padding: 4px 12px;
     text-align: right;
-    background-color: $--color-white;
+    background-color: $color-white;
     position: relative;
     font-size: 0;
   }
@@ -43,25 +43,25 @@
     background-color: transparent;
     line-height: 28px;
     font-size: 14px;
-    color: $--datepicker-font-color;
+    color: var(--el-datepicker-text-color);
     padding-left: 12px;
     text-align: left;
     outline: none;
     cursor: pointer;
 
     &:hover {
-      color: $--datepicker-hover-font-color;
+      color: var(--el-datepicker-hover-text-color);
     }
 
     &.active {
       background-color: #e6f1fe;
-      color: $--datepicker-active-color;
+      color: var(--el-datepicker-active-color);
     }
   }
 
   @include e(btn) {
     border: 1px solid #dcdcdc;
-    color: #333;
+    color: var(--el-text-color-primary);
     line-height: 24px;
     border-radius: 2px;
     padding: 0 20px;
@@ -78,7 +78,7 @@
 
   @include e(icon-btn) {
     font-size: 12px;
-    color: $--datepicker-icon-color;
+    color: var(--el-datepicker-icon-color);
     border: 0;
     background: transparent;
     cursor: pointer;
@@ -86,15 +86,19 @@
     margin-top: 8px;
 
     &:hover {
-      color: $--datepicker-hover-font-color;
+      color: var(--el-datepicker-hover-text-color);
     }
 
     @include when(disabled) {
-      color: $--font-color-disabled-base;
+      color: var(--el-text-color-disabled-base);
 
       &:hover {
         cursor: not-allowed;
       }
+    }
+    & .#{$namespace}-icon {
+      cursor: pointer;
+      font-size: inherit;
     }
   }
 
@@ -103,20 +107,22 @@
   }
 }
 
-.#{$namespace}-picker-panel *[slot=sidebar],
+.#{$namespace}-picker-panel *[slot='sidebar'],
 .#{$namespace}-picker-panel__sidebar {
   position: absolute;
   top: 0;
   bottom: 0;
   width: 110px;
-  border-right: 1px solid $--datepicker-inner-border-color;
+  border-right: 1px solid var(--el-datepicker-inner-border-color);
   box-sizing: border-box;
   padding-top: 6px;
-  background-color: $--color-white;
+  background-color: $color-white;
   overflow: auto;
 }
 
-.#{$namespace}-picker-panel *[slot=sidebar] + .#{$namespace}-picker-panel__body,
+.#{$namespace}-picker-panel
+  *[slot='sidebar']
+  + .#{$namespace}-picker-panel__body,
 .#{$namespace}-picker-panel__sidebar + .#{$namespace}-picker-panel__body {
   margin-left: 110px;
 }

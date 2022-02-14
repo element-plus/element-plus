@@ -1,13 +1,18 @@
-@import 'mixins/mixins';
-@import 'common/var';
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+
+@include b(popper) {
+  @include set-component-css-var('popper', $popper);
+}
 
 @include b(popper) {
   position: absolute;
-  border-radius: $--popover-border-radius;
-  padding: 10px;
+  border-radius: var(--el-popper-border-radius);
+  padding: 5px 11px;
   z-index: 2000;
   font-size: 12px;
-  line-height: 1.2;
+  line-height: 20px;
   min-width: 10px;
   word-wrap: break-word;
   visibility: visible;
@@ -15,21 +20,24 @@
   $arrow-selector: #{& + '__arrow'};
 
   @include when(dark) {
-    color: $--color-white;
-    background: $--color-text-primary;
+    color: var(--el-color-white);
+    background: var(--el-text-color-primary);
+    border: 1px solid var(--el-text-color-primary);
+
     #{$arrow-selector}::before {
-      background: $--color-text-primary;
+      border: 1px solid var(--el-text-color-primary);
+      background: var(--el-text-color-primary);
       right: 0;
     }
   }
 
   @include when(light) {
-    background: $--color-white;
-    border: 1px solid $--border-color-light;
+    background: var(--el-color-white);
+    border: 1px solid var(--el-border-color-light);
 
     #{$arrow-selector}::before {
-      border: 1px solid $--border-color-light;
-      background: $--color-white;
+      border: 1px solid var(--el-border-color-light);
+      background: var(--el-color-white);
       right: 0;
     }
   }
@@ -51,7 +59,7 @@
       z-index: -1;
       content: ' ';
       transform: rotate(45deg);
-      background: $--color-text-primary;
+      background: var(--el-text-color-primary);
       box-sizing: border-box;
     }
   }
@@ -66,6 +74,21 @@
   @each $placement, $opposite in $placements {
     &[data-popper-placement^='#{$placement}'] > #{$arrow-selector} {
       #{$opposite}: -5px;
+
+      &::before {
+        @if $placement == top {
+          border-bottom-right-radius: 2px;
+        }
+        @if $placement == bottom {
+          border-top-left-radius: 2px;
+        }
+        @if $placement == left {
+          border-top-right-radius: 2px;
+        }
+        @if $placement == right {
+          border-bottom-left-radius: 2px;
+        }
+      }
     }
   }
 
@@ -73,10 +96,10 @@
     $adjacency
       in ('top': 'left', 'bottom': 'right', 'left': 'bottom', 'right': 'top')
   {
-    &.is-light[data-popper-placement^='#{$placement}'] {
+    &[data-popper-placement^='#{$placement}'] {
       #{$arrow-selector}::before {
-        border-#{$placement}-color: transparent;
-        border-#{$adjacency}-color: transparent;
+        border-#{$placement}-color: transparent !important;
+        border-#{$adjacency}-color: transparent !important;
       }
     }
   }

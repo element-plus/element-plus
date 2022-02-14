@@ -1,8 +1,5 @@
-@import "./date-picker/picker.scss";
-@import "./date-picker/picker-panel.scss";
-@import "./date-picker/time-spinner.scss";
-@import "./date-picker/time-picker.scss";
-@import "./date-picker/time-range-picker.scss";
-@import "./input.scss";
-@import "./scrollbar.scss";
-@import "./popper";
+@use './date-picker/picker.scss';
+@use './date-picker/picker-panel.scss';
+@use './date-picker/time-spinner.scss';
+@use './date-picker/time-picker.scss';
+@use './date-picker/time-range-picker.scss';

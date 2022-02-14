@@ -1,33 +1,41 @@
 # element-theme-chalk
+
 > element component chalk theme.
 
-
 ## Installation
+
 ```shell
-npm i element-theme-chalk -S
+npm i element-plus
 ```
 
 ## Usage
 
 Use Sass import
+
 ```css
-@import 'element-theme-chalk';
+@use 'element-plus/lib/theme-chalk/index.scss';
 ```
 
-Or Use webpack
+Or Use vite/webpack
+
 ```javascript
-import 'element-theme-chalk';
+import 'element-plus/lib/theme-chalk/index.css'
 ```
 
 Or
+
 ```html
-<link rel="stylesheet" href="path/to/node_modules/element-theme-chalk/lib/index.css">
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/element-plus/lib/theme-chalk/index.css"
+/>
 ```
 
-##  Import on demand
+## Import on demand
+
 ```javascript
-import 'element-theme-chalk/lib/input.css';
-import 'element-theme-chalk/lib/select.css';
+import 'element-plus/lib/theme-chalk/input.css'
+import 'element-plus/lib/theme-chalk/select.css'
 
 // ...
 ```

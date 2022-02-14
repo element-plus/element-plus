@@ -1,5 +1,10 @@
-@import "mixins/mixins";
-@import "common/var";
+@use 'sass:map';
+
+@use 'mixins/mixins' as *;
+@use 'common/var' as *;
+
+$color-picker-size: () !default;
+$color-picker-size: map.merge($common-component-size, $color-picker-size);
 
 @include b(color-predefine) {
   display: flex;
@@ -25,7 +30,7 @@
     }
 
     &.selected {
-      box-shadow: 0 0 3px 2px $--color-primary;
+      box-shadow: 0 0 3px 2px var(--el-color-primary);
     }
 
     > div {
@@ -52,10 +57,15 @@
   @include e(bar) {
     position: relative;
     background: linear-gradient(
-      to right, #f00 0%,
-      #ff0 17%, #0f0 33%,
-      #0ff 50%, #00f 67%,
-      #f0f 83%, #f00 100%);
+      to right,
+      #f00 0%,
+      #ff0 17%,
+      #0f0 33%,
+      #0ff 50%,
+      #00f 67%,
+      #f0f 83%,
+      #f00 100%
+    );
     height: 100%;
   }
 
@@ -81,10 +91,15 @@
 
     .#{$namespace}-color-hue-slider__bar {
       background: linear-gradient(
-        to bottom, #f00 0%,
-        #ff0 17%, #0f0 33%,
-        #0ff 50%, #00f 67%,
-        #f0f 83%, #f00 100%);
+        to bottom,
+        #f00 0%,
+        #ff0 17%,
+        #0f0 33%,
+        #0ff 50%,
+        #00f 67%,
+        #f0f 83%,
+        #f00 100%
+      );
     }
 
     .#{$namespace}-color-hue-slider__thumb {
@@ -110,11 +125,11 @@
   }
 
   @include e('white') {
-    background: linear-gradient(to right, #fff, rgba(255,255,255,0));
+    background: linear-gradient(to right, #fff, rgba(255, 255, 255, 0));
   }
 
   @include e('black') {
-    background: linear-gradient(to top, #000, rgba(0,0,0,0));
+    background: linear-gradient(to top, #000, rgba(0, 0, 0, 0));
   }
 
   @include e(cursor) {
@@ -124,7 +139,8 @@
       cursor: head;
       width: 4px;
       height: 4px;
-      box-shadow: 0 0 0 1.5px #fff, inset 0 0 1px 1px rgba(0,0,0,0.3), 0 0 1px 2px rgba(0,0,0,0.4);
+      box-shadow: 0 0 0 1.5px #fff, inset 0 0 1px 1px rgba(0, 0, 0, 0.3),
+        0 0 1px 2px rgba(0, 0, 0, 0.4);
       border-radius: 50%;
       transform: translate(-2px, -2px);
     }
@@ -141,8 +157,10 @@
   @include e(bar) {
     position: relative;
     background: linear-gradient(
-      to right, rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 1) 100%);
+      to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 1) 100%
+    );
     height: 100%;
   }
 
@@ -167,8 +185,10 @@
 
     .#{$namespace}-color-alpha-slider__bar {
       background: linear-gradient(
-        to bottom, rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 1) 100%);
+        to bottom,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 1) 100%
+      );
     }
 
     .#{$namespace}-color-alpha-slider__thumb {
@@ -187,14 +207,14 @@
     margin-bottom: 6px;
 
     &::after {
-      content: "";
+      content: '';
       display: table;
       clear: both;
     }
   }
 
   @include e(btns) {
-    margin-top: 6px;
+    margin-top: 12px;
     text-align: right;
   }
 
@@ -202,40 +222,8 @@
     float: left;
     line-height: 26px;
     font-size: 12px;
-    color: $--color-black;
+    color: $color-black;
     width: 160px;
-  }
-
-  @include e(btn) {
-    border: 1px solid #dcdcdc;
-    color: #333;
-    line-height: 24px;
-    border-radius: 2px;
-    padding: 0 20px;
-    cursor: pointer;
-    background-color: transparent;
-    outline: none;
-    font-size: 12px;
-
-    &[disabled] {
-      color: #cccccc;
-      cursor: not-allowed;
-    }
-    &:hover {
-      color: $--color-primary;
-      border-color: $--color-primary;
-    }
-  }
-
-  @include e(link-btn) {
-    cursor: pointer;
-    color: $--color-primary;
-    text-decoration: none;
-    padding: 15px;
-    font-size: 12px;
-    &:hover {
-      color: tint($--color-primary, $--button-hover-tint-percent);
-    }
   }
 }
 
@@ -243,7 +231,6 @@
   display: inline-block;
   position: relative;
   line-height: normal;
-  height: 40px;
 
   @include when(disabled) {
     .#{$namespace}-color-picker__trigger {
@@ -251,55 +238,26 @@
     }
   }
 
-  @include m(medium) {
-    height: 36px;
+  @each $size in (large, small) {
+    @include m($size) {
+      height: map.get($color-picker-size, $size);
 
-    .#{$namespace}-color-picker__trigger {
-      height: 36px;
-      width: 36px;
-    }
+      .#{$namespace}-color-picker__trigger {
+        height: map.get($color-picker-size, $size);
+        width: map.get($color-picker-size, $size);
+      }
 
-    .#{$namespace}-color-picker__mask {
-      height: 34px;
-      width: 34px;
+      .#{$namespace}-color-picker__mask {
+        height: map.get($color-picker-size, $size)-2px;
+        width: map.get($color-picker-size, $size)-2px;
+      }
     }
   }
 
   @include m(small) {
-    height: 32px;
-
-    .#{$namespace}-color-picker__trigger {
-      height: 32px;
-      width: 32px;
-    }
-
-    .#{$namespace}-color-picker__mask {
-      height: 30px;
-      width: 30px;
-    }
-
     .#{$namespace}-color-picker__icon,
     .#{$namespace}-color-picker__empty {
-      transform: translate3d(-50%, -50%, 0) scale(0.8);
-    }
-  }
-
-  @include m(mini) {
-    height: 28px;
-
-    .#{$namespace}-color-picker__trigger {
-      height: 28px;
-      width: 28px;
-    }
-
-    .#{$namespace}-color-picker__mask {
-      height: 26px;
-      width: 26px;
-    }
-
-    .#{$namespace}-color-picker__icon,
-    .#{$namespace}-color-picker__empty {
-      transform: translate3d(-50%, -50%, 0) scale(0.8);
+      transform: scale(0.8);
     }
   }
 
@@ -312,14 +270,17 @@
     left: 1px;
     z-index: 1;
     cursor: not-allowed;
-    background-color: rgba(255, 255, 255, .7);
+    background-color: rgba(255, 255, 255, 0.7);
   }
 
   @include e(trigger) {
-    display: inline-block;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
     box-sizing: border-box;
-    height: 40px;
-    width: 40px;
+    height: map.get($color-picker-size, 'default');
+    width: map.get($color-picker-size, 'default');
     padding: 4px;
     border: 1px solid #e6e6e6;
     border-radius: 4px;
@@ -332,8 +293,8 @@
     position: relative;
     display: block;
     box-sizing: border-box;
-    border: 1px solid #999;
-    border-radius: $--border-radius-small;
+    border: 1px solid var(--el-text-color-secondary);
+    border-radius: var(--el-border-radius-small);
     width: 100%;
     height: 100%;
     text-align: center;
@@ -344,31 +305,23 @@
   }
 
   @include e(color-inner) {
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-  }
-
-  @include e(empty) {
-    font-size: 12px;
-    color: #999;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate3d(-50%, -50%, 0);
-  }
-
-  @include e(icon) {
-    display: inline-block;
-    position: absolute;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
-    top: 50%;
-    left: 50%;
-    transform: translate3d(-50%, -50%, 0);
-    color: $--color-white;
-    text-align: center;
+    height: 100%;
+  }
+
+  & .#{$namespace}-color-picker__empty {
+    font-size: 12px;
+    color: var(--el-text-color-secondary);
+  }
+
+  & .#{$namespace}-color-picker__icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    color: $color-white;
     font-size: 12px;
   }
 
@@ -377,11 +330,11 @@
     z-index: 10;
     padding: 6px;
     box-sizing: content-box;
-    background-color: $--color-white;
-    border-radius: $--border-radius-base;
-    box-shadow: $--dropdown-menu-box-shadow;
-    &.#{$namespace}-popper{
-      border: 1px solid $--border-color-lighter;
+    background-color: $color-white;
+    border-radius: var(--el-border-radius-base);
+    box-shadow: map.get($dropdown, 'menu-box-shadow');
+    &.#{$namespace}-popper {
+      border: 1px solid var(--el-border-color-lighter);
     }
   }
 }

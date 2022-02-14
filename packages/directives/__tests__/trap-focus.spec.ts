@@ -1,15 +1,13 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import * as Aria from '@element-plus/utils/aria'
+import * as Aria from '@element-plus/utils/dom/aria'
+
+import TrapFocus, { FOCUSABLE_CHILDREN } from '../trap-focus'
+import type { ITrapFocusElement } from '../trap-focus'
 
 const isVisibleMock = jest
   .spyOn(Aria, 'isVisible')
   .mockImplementation(() => true)
-
-import TrapFocus, {
-  ITrapFocusElement,
-  FOCUSABLE_CHILDREN,
-} from '../trap-focus'
 
 let wrapper
 const _mount = (template: string) =>
@@ -23,7 +21,7 @@ const _mount = (template: string) =>
         directives: { TrapFocus },
       },
       attachTo: document.body,
-    },
+    }
   )
 
 afterAll(() => {
@@ -42,7 +40,7 @@ describe('v-trap-focus', () => {
         </div>
       `)
     expect(
-      (wrapper.element as ITrapFocusElement)[FOCUSABLE_CHILDREN].length,
+      (wrapper.element as ITrapFocusElement)[FOCUSABLE_CHILDREN].length
     ).toBe(1)
   })
 
@@ -65,7 +63,7 @@ describe('v-trap-focus', () => {
       </div>
     `)
     expect(
-      (wrapper.element as ITrapFocusElement)[FOCUSABLE_CHILDREN].length,
+      (wrapper.element as ITrapFocusElement)[FOCUSABLE_CHILDREN].length
     ).toBe(5)
   })
 
@@ -140,7 +138,7 @@ describe('v-trap-focus', () => {
             TrapFocus,
           },
         },
-      },
+      }
     )
     const initialElements = wrapper.element[FOCUSABLE_CHILDREN]
     expect(initialElements.length).toBe(1)

@@ -1,10 +1,10 @@
-@import "common/var";
-@import "mixins/mixins";
+@use 'common/var' as *;
+@use 'mixins/mixins' as *;
 
 .hidden {
-  @each $break-point-name, $value in $--breakpoints-spec {
+  @each $break-point-name, $value in $breakpoints-spec {
     &-#{$break-point-name} {
-      @include res($break-point-name, $--breakpoints-spec) {
+      @include res($break-point-name, $breakpoints-spec) {
         display: none !important;
       }
     }

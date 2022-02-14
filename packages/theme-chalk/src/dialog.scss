@@ -1,21 +1,25 @@
-@import 'mixins/mixins';
-@import 'mixins/utils';
-@import 'common/var';
-@import 'common/popup';
-@import './overlay.scss';
+@use 'sass:map';
+
+@use 'mixins/mixins' as *;
+@use 'mixins/utils' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+@use 'common/popup' as *;
 
 @include b(dialog) {
+  @include set-component-css-var('dialog', $dialog);
+
   position: relative;
-  margin: 0 auto 50px;
-  background: $--dialog-background-color;
-  border-radius: $--border-radius-small;
-  box-shadow: $--dialog-box-shadow;
+  margin: var(--el-dialog-margin-top, 15vh) auto 50px;
+  background: var(--el-dialog-bg-color);
+  border-radius: var(--el-border-radius-small);
+  box-shadow: var(--el-dialog-box-shadow);
   box-sizing: border-box;
-  width: 50%;
+  width: var(--el-dialog-width, 50%);
 
   @include when(fullscreen) {
-    width: 100%;
-    margin-top: 0;
+    --el-dialog-width: 100%;
+    --el-dialog-margin-top: 0;
     margin-bottom: 0;
     height: 100%;
     overflow: auto;
@@ -31,49 +35,58 @@
     margin: 0;
   }
 
+  @include when(draggable) {
+    @include e(header) {
+      cursor: move;
+      user-select: none;
+    }
+  }
+
   @include e(header) {
-    padding: $--dialog-padding-primary;
+    padding: var(--el-dialog-padding-primary);
     padding-bottom: 10px;
   }
 
   @include e(headerbtn) {
     position: absolute;
-    top: $--dialog-padding-primary;
-    right: $--dialog-padding-primary;
+    top: var(--el-dialog-padding-primary);
+    right: var(--el-dialog-padding-primary);
     padding: 0;
     background: transparent;
     border: none;
     outline: none;
     cursor: pointer;
-    font-size: $--message-close-size;
+    font-size: var(--el-message-close-size, map.get($message, 'close-size'));
 
     .#{$namespace}-dialog__close {
-      color: $--color-info;
+      color: var(--el-color-info);
+      font-size: inherit;
     }
 
     &:focus,
     &:hover {
       .#{$namespace}-dialog__close {
-        color: $--color-primary;
+        color: var(--el-color-primary);
       }
     }
   }
 
   @include e(title) {
-    line-height: $--dialog-font-line-height;
-    font-size: $--dialog-title-font-size;
-    color: $--color-text-primary;
+    line-height: var(--el-dialog-font-line-height);
+    font-size: var(--el-dialog-title-font-size);
+    color: var(--el-text-color-primary);
   }
 
   @include e(body) {
-    padding: ($--dialog-padding-primary + 10px) $--dialog-padding-primary;
-    color: $--color-text-regular;
-    font-size: $--dialog-content-font-size;
+    padding: calc(var(--el-dialog-padding-primary) + 10px)
+      var(--el-dialog-padding-primary);
+    color: var(--el-text-color-regular);
+    font-size: var(--el-dialog-content-font-size);
     word-break: break-all;
   }
 
   @include e(footer) {
-    padding: $--dialog-padding-primary;
+    padding: var(--el-dialog-padding-primary);
     padding-top: 10px;
     text-align: right;
     box-sizing: border-box;
@@ -85,7 +98,7 @@
 
     @include e(body) {
       text-align: initial;
-      padding: 25px ($--dialog-padding-primary + 5px) 30px;
+      padding: 25px calc(var(--el-dialog-padding-primary) + 5px) 30px;
     }
 
     @include e(footer) {
@@ -94,22 +107,28 @@
   }
 }
 
+.#{$namespace}-overlay-dialog {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: auto;
+}
+
 .dialog-fade-enter-active {
-  animation: modal-fade-in 0.3s !important;
-  .#{$namespace}-dialog {
-    animation: dialog-fade-in 0.3s;
+  animation: modal-fade-in var(--el-transition-duration);
+  .#{$namespace}-overlay-dialog {
+    animation: dialog-fade-in var(--el-transition-duration);
   }
 }
 
 .dialog-fade-leave-active {
-  animation: modal-fade-out 0.3s;
-  .#{$namespace}-dialog {
-    animation: dialog-fade-out 0.3s;
+  animation: modal-fade-out var(--el-transition-duration);
+  .#{$namespace}-overlay-dialog {
+    animation: dialog-fade-out var(--el-transition-duration);
   }
 }
-
-
-
 
 @keyframes dialog-fade-in {
   0% {
@@ -138,7 +157,6 @@
     opacity: 0;
   }
   100% {
-    transform: translate3d(0, 0, 0);
     opacity: 1;
   }
 }

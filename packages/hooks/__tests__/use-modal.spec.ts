@@ -1,7 +1,7 @@
 import { ref, nextTick } from 'vue'
-import { EVENT_CODE } from '@element-plus/utils/aria'
+import { EVENT_CODE } from '@element-plus/constants'
 
-import useModal from '../use-modal'
+import { useModal } from '../use-modal'
 
 describe('useModal', () => {
   test('should work when ref value changed', async () => {
@@ -12,7 +12,7 @@ describe('useModal', () => {
       {
         handleClose,
       },
-      visible,
+      visible
     )
 
     expect(handleClose).not.toHaveBeenCalled()
