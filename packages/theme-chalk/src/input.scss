@@ -27,12 +27,12 @@
     color: var(--el-input-text-color, map.get($input, 'text-color'));
     background-color: var(--el-input-bg-color, map.get($input, 'bg-color'));
     background-image: none;
-    border: var(--el-input-border, map.get($input, 'border'));
+    box-shadow: var(--el-input-border, map.get($input, 'border'));
     border-radius: var(
       --el-input-border-radius,
       map.get($input, 'border-radius')
     );
-    transition: var(--el-transition-border);
+    transition: var(--el-transition-box-shadow);
 
     &::placeholder {
       color: var(
@@ -42,18 +42,12 @@
     }
 
     &:hover {
-      border-color: var(
-        --el-input-hover-border,
-        map.get($input, 'hover-border')
-      );
+      box-shadow: var(--el-input-hover-border);
     }
 
     &:focus {
       outline: none;
-      border-color: var(
-        --el-input-focus-border,
-        map.get($input, 'focus-border')
-      );
+      box-shadow: var(--el-input-focus-border);
     }
   }
 
@@ -135,7 +129,6 @@
       --el-input-border-radius,
       map.get($input, 'border-radius')
     );
-    border: var(--el-input-border, map.get($input, 'border'));
     box-sizing: border-box;
     color: var(--el-input-text-color, map.get($input, 'text-color'));
     display: inline-block;
@@ -144,8 +137,9 @@
     line-height: map.get($input-height, 'default');
     outline: none;
     padding: 0 map.get($input-padding-horizontal, 'default')-$border-width-base;
-    transition: var(--el-transition-border);
+    transition: var(--el-transition-box-shadow);
     width: 100%;
+    box-shadow: var(--el-input-border, map.get($input, 'border'));
 
     &::placeholder {
       color: var(
@@ -155,18 +149,12 @@
     }
 
     &:hover {
-      border-color: var(
-        --el-input-hover-border,
-        map.get($input, 'hover-border')
-      );
+      box-shadow: var(--el-input-hover-border);
     }
 
     &:focus {
       outline: none;
-      border-color: var(
-        --el-input-focus-border,
-        map.get($input, 'focus-border')
-      );
+      box-shadow: var(--el-input-focus-border);
     }
   }
 
@@ -220,17 +208,15 @@
   @include when(active) {
     .#{$namespace}-input__inner {
       outline: none;
-      border-color: var(
-        --el-input-focus-border,
-        map.get($input, 'focus-color')
-      );
+      box-shadow: 0 0 0 1px
+        var(--el-input-focus-border, map.get($input, 'focus-color')) inset;
     }
   }
 
   @include when(disabled) {
     .#{$namespace}-input__inner {
       background-color: map.get($input-disabled, 'fill');
-      border-color: map.get($input-disabled, 'border');
+      box-shadow: 0 0 0 1px map.get($input-disabled, 'border') inset;
       color: map.get($input-disabled, 'text-color');
       cursor: not-allowed;
 
@@ -246,7 +232,7 @@
 
   @include when(exceed) {
     .#{$namespace}-input__inner {
-      border-color: var(--el-color-danger);
+      box-shadow: 0 0 0 1px var(--el-color-danger) inset;
     }
 
     .#{$namespace}-input__suffix {
@@ -340,7 +326,6 @@
     vertical-align: middle;
     display: table-cell;
     position: relative;
-    border: $border-base;
     border-radius: var(--el-input-border-radius);
     padding: 0 20px;
     width: 1px;
@@ -363,8 +348,6 @@
       border-color: transparent;
       background-color: transparent;
       color: inherit;
-      border-top: 0;
-      border-bottom: 0;
     }
 
     .#{$namespace}-button,
@@ -377,23 +360,70 @@
     border-right: 0;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    box-shadow: 1px 0 0 0 var(--el-input-border-color) inset,
+      0 1px 0 0 var(--el-input-border-color) inset,
+      0 -1px 0 0 var(--el-input-border-color) inset;
   }
 
   @include e(append) {
     border-left: 0;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+    box-shadow: 0 1px 0 0 var(--el-input-border-color) inset,
+      0 -1px 0 0 var(--el-input-border-color) inset,
+      -1px 0 0 0 var(--el-input-border-color) inset;
   }
 
   @include m(prepend) {
     .#{$namespace}-input__inner {
+      box-shadow: 1px 0 0 0px var(--el-input-border-color) inset,
+        0px 1px 0 0px var(--el-input-border-color) inset,
+        0px -1px 0 0px var(--el-input-border-color) inset;
+    }
+
+    > .#{$namespace}-input__inner {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
+      box-shadow: 0 0 0 1px var(--el-input-border-color) inset;
+      &:hover {
+        box-shadow: 0 0 0 1px var(--el-input-hover-border-color) inset;
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 1px var(--el-input-focus-border-color) inset;
+      }
     }
+
     .#{$namespace}-select
       .#{$namespace}-input.is-focus
       .#{$namespace}-input__inner {
-      border-color: transparent;
+      box-shadow: 1px 0 0 0px var(--el-input-border-color) inset,
+        1px 0 0 0px var(--el-input-border-color),
+        0px 1px 0 0px var(--el-input-border-color) inset,
+        0px -1px 0 0px var(--el-input-border-color) inset !important;
+      &:focus {
+        outline: none;
+        box-shadow: 1px 0 0 0px var(--el-input-focus-border-color) inset,
+          1px 0 0 0px var(--el-input-focus-border-color),
+          0px 1px 0 0px var(--el-input-focus-border-color) inset,
+          0px -1px 0 0px var(--el-input-focus-border-color) inset !important;
+      }
+    }
+
+    .#{$namespace}-select .#{$namespace}-input__inner:focus {
+      outline: none;
+      box-shadow: 1px 0 0 0px var(--el-input-focus-border-color) inset,
+        1px 0 0 0px var(--el-input-focus-border-color),
+        0px 1px 0 0px var(--el-input-focus-border-color) inset,
+        0px -1px 0 0px var(--el-input-focus-border-color) inset !important;
+    }
+
+    .#{$namespace}-select:hover .#{$namespace}-input__inner {
+      box-shadow: 1px 0 0 0px var(--el-input-hover-border-color) inset,
+        1px 0 0 0px var(--el-input-hover-border-color),
+        0px 1px 0 0px var(--el-input-hover-border-color) inset,
+        0px -1px 0 0px var(--el-input-hover-border-color) inset !important;
     }
   }
 
@@ -405,7 +435,7 @@
     .#{$namespace}-select
       .#{$namespace}-input.is-focus
       .#{$namespace}-input__inner {
-      border-color: transparent;
+      // box-shadow: var(--el-input-transparent-border);
     }
   }
 }

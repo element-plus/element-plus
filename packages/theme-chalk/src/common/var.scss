@@ -439,15 +439,18 @@ $input: () !default;
 $input: map.merge(
   (
     'text-color': var(--el-text-color-regular),
-    'border': var(--el-border-base),
+    'border': 0 0 0 1px var(--el-input-border-color) inset,
+    'hover-border': 0 0 0 1px var(--el-input-hover-border-color) inset,
+    'focus-border': 0 0 0 1px var(--el-input-focus-border-color) inset,
+    'transparent-border': 0 0 0 1px transparent inset,
     'border-color': var(--el-border-color-base),
     'border-radius': var(--el-border-radius-base),
     'bg-color': var(--el-color-white),
     'icon-color': var(--el-text-color-placeholder),
     'placeholder-color': var(--el-text-color-placeholder),
-    'hover-border': var(--el-border-color-hover),
+    'hover-border-color': var(--el-border-color-hover),
     'clear-hover-color': var(--el-text-color-secondary),
-    'focus-border': var(--el-color-primary),
+    'focus-border-color': var(--el-color-primary),
   ),
   $input
 );
@@ -1206,6 +1209,8 @@ $transition: map.merge(
     ),
     'fade-linear': opacity var(--el-transition-duration-fast) linear,
     'border': border-color var(--el-transition-duration-fast)
+      var(--el-transition-function-ease-in-out-bezier),
+    'box-shadow': box-shadow var(--el-transition-duration-fast)
       var(--el-transition-function-ease-in-out-bezier),
     'color': color var(--el-transition-duration-fast)
       var(--el-transition-function-ease-in-out-bezier),
