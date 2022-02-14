@@ -1,5 +1,102 @@
 ## Changelog
 
+### 2.0.2
+
+_2022-02-14_
+
+#### Features
+
+- Switch to lodash-unified (#5734 by @sxzz)
+- Components [el-table] support tableLayout (#5860 by @msidolphin)
+- Tabpane name support number type (#5915 by @xiaoxian521)
+- Dev support multi-entry (#5945 by @sxzz)
+- Export all locale (#5943 by @sxzz)
+- Components [el-time-picker] add visibleChange event (#5704 by @weidehai)
+- Add `defineOptions` for `script-setup` (#5932 by @sxzz)
+- Support jsx, closes #5708 (#5947 by @sxzz)
+- Components [el-table] `maxHeight` support more units (#5904 by @msidolphin)
+- Components [el-image] support append preview to body (#5883 by @msidolphin)
+- Components [el-select] add effect and close #5956 (#5976 by @BeADre)
+- Play file doesn't exist jump to App (#5985 by @btea)
+- Components [el-pagination] support custom button background color (#6012 by @DarkHighness)
+- Add support for malagay language (#6019 by @mrzdevcore)
+
+#### Bug fixes
+
+- Hooks [use-namespace] cannot be used in nested hooks (#5795 by @buqiyuan)
+- Compnents [el-input-number] cannot read properties of null (reading 'setAttribute') #5691
+- Components [el-dropdown] use custom attributes for dropdown items (#5779 by @mawi1512)
+- Components [el-table] group header not supported fixed column (#5873 by @msidolphin)
+- Components [el-popover] update popperInstance when props change (#5835 by @QuXiaoMing)
+- Only enable preserveSymlinks on build (#5877 by @sxzz)
+- Utils undefined when omiting prop default (#5868 by @sxzz)
+- Docs [pagination] example bugfix according to new usage (#5833 by @ioslh)
+- Utils-v2 add Function type to iconPropType (#5890 by @xiaoxian521)
+- Components [el-slider] sync manually updated value (#5876 by @msidolphin)
+- Docs algolia searching (#5926 by @JeremyWuuuuu)
+- Value does not exist, warning appears (#5906 by @xiaoxian521)
+- Components [dialog] fix dialog not fill full screen after drag (#5875 by @buqiyuan)
+- Hooks `namespace.is` default state (#5941 by @sxzz)
+- Components [el-popconfirm] fix onConfirm and onCancel type bug (#5948 by @virgosoy)
+- Components [select] define nsInput & rename ns to nsSelect (#5953 by @buqiyuan)
+- Components [el-time-picker] border overlap in hover state (#5950 by @msidolphin)
+- Components [el-select] (#5952 by @JacBian)
+- Components [select] change the tagType and style default value (#5884 by @btea)
+- Components [el-menu] collapse menu active color (#5735 by @adaex)
+- [el-select-v2] avoid remove new option when reserve-keyword is true (#5912 by @msidolphin)
+- Delete alteredCollapse in menu (#5889 by @xiaoxian521)
+- Components [el-table] avoid scrollbar not display (#5920 by @msidolphin)
+- Play fix tsconfig types path (#5965 by @btea)
+- Replenish popover missing types (#5958 by @xiaoxian521)
+- Namespace typo (#5972 by @msidolphin)
+- Utils restore scrollIntoView method (#5973 by @JeremyWuuuuu)
+- El-tree isLeaf type is string (#5954 by @xiaoxian521)
+- Components fix [el-select] infinite bounce (#5977 by @eriksyuan)
+- Delete offset in usePopoverProps (#5980 by @xiaoxian521)
+- Add offset in usePopoverProps (#5982 by @xiaoxian521)
+- Components [el-select] tag default theme (#5983 by @JeremyWuuuuu)
+- Components [el-popper] effect prop validation error (#5978 by @JeremyWuuuuu)
+- Components style error when component import order is unknown (#5938 by @emojiiii)
+
+#### Refactors
+
+- Components [collapse-transition] use useNamespace (#5716 by @buqiyuan)
+- Components [color-picker] use useNamespace (#5718 by @buqiyuan)
+- Components [page-header] use useNamespace (#5724 by @buqiyuan)
+- Components [overlay] use useNamespace (#5723 by @buqiyuan)
+- Components [teleport] use useNamespace (#5751 by @buqiyuan)
+- Components [notification] use useNamespace (#5722 by @buqiyuan)
+- Add transition namespace (#5829 by @sxzz)
+- Components [col] use useNamespace (#5714 by @buqiyuan)
+- Components [progress] use useNamespace (#5729 by @buqiyuan)
+- Components [collapse,collapse-item] use useNamespace (#5715 by @buqiyuan)
+- Components [popconfirm] use useNamespace (#5726 by @buqiyuan)
+- Components [message] use useNamespace (#5720 by @buqiyuan)
+- Components [dialog] use useNamespace (#5761 by @buqiyuan)
+- Components [space] use useNamespace (#5749 by @buqiyuan)
+- Hooks refactor popup manager to useZIndex (#5701 by @sxzz)
+- Utils-v2 refactor utils (#5699 by @sxzz)
+- Components [upload] use useNamespace (#5758 by @buqiyuan)
+- Components  [tree-v2] use useNamespace (#5757 by @buqiyuan)
+- Components [transfer] use useNamespace (#5753 by @buqiyuan)
+- Components [tooltip] use useNamespace (#5752 by @buqiyuan)
+- Components [select-v2] use useNamespace (#5738 by @buqiyuan)
+- Components [slider] use useNamespace (#5743 by @buqiyuan)
+- Components [tree] use useNamespace (#5754 by @buqiyuan)
+- Components [select] use useNamespace (#5733 by @buqiyuan)
+- Components [popper] use useNamespace (#5728 by @buqiyuan)
+- Components [steps] use useNamespace (#5944 by @buqiyuan)
+- Components [pagination] use useNamespace (#5725 by @buqiyuan)
+- Components [dropdown,dropdown-item,dropdown-menu] use useNamespace (#5719 by @buqiyuan)
+- Utils migrate utils (#5949 by @sxzz)
+- Fix buildProps (#5936 by @sxzz)
+- Components [popover] use useNamespace (#5727 by @buqiyuan)
+- Components refactor button (#5933 by @sxzz)
+- Components [radio,radio-button,radio-group] use useNamespace (#5731 by @buqiyuan)
+- Utils improve escapeStringRegexp (#6013 by @sxzz)
+- Components refactor icon (#5934 by @sxzz)
+- Fix select-v2 placeholder's size wrong (#5989 by @xiaoxian521)
+
 ### 2.0.1
 
 _2022-02-07_
