@@ -36,7 +36,7 @@ importers:
       '@typescript-eslint/eslint-plugin': 5.11.0
       '@typescript-eslint/parser': 5.11.0
       '@vitejs/plugin-vue': 2.2.0
-      '@vitejs/plugin-vue-jsx': 1.3.5
+      '@vitejs/plugin-vue-jsx': 1.3.7
       '@vue/babel-plugin-jsx': 1.1.1
       '@vue/test-utils': 2.0.0-rc.16
       '@vueuse/core': ^7.6.0
@@ -128,7 +128,7 @@ importers:
       '@typescript-eslint/eslint-plugin': 5.11.0_15a231715447500ed5c06da64c8aef1c
       '@typescript-eslint/parser': 5.11.0_eslint@8.9.0+typescript@4.5.5
       '@vitejs/plugin-vue': 2.2.0_vue@3.2.30
-      '@vitejs/plugin-vue-jsx': 1.3.5
+      '@vitejs/plugin-vue-jsx': 1.3.7
       '@vue/babel-plugin-jsx': 1.1.1_@babel+core@7.17.2
       '@vue/test-utils': 2.0.0-rc.16_vue@3.2.30
       babel-jest: 26.6.3_@babel+core@7.17.2
@@ -200,7 +200,7 @@ importers:
       '@vueuse/core': 7.6.2_vue@3.2.30
       axios: 0.25.0
       clipboard-copy: 4.0.1
-      element-plus: 2.0.1_vue@3.2.30
+      element-plus: 2.0.2_8ddf48dde9d511a4d145aeec74353d80
       normalize.css: 8.0.1
       nprogress: 0.2.0
     devDependencies:
@@ -3139,8 +3139,8 @@ packages:
       eslint-visitor-keys: 3.2.0
     dev: true
 
-  /@vitejs/plugin-vue-jsx/1.3.5:
-    resolution: {integrity: sha512-iBxRQS8SOGxI4c8/cucgumD9a1SO4ngn91YbluyWe1L2k0D7+3v64XbjZxXX2O964LubY8Tehl3ihr0W7f3+/g==}
+  /@vitejs/plugin-vue-jsx/1.3.7:
+    resolution: {integrity: sha512-UH+lI/TtBQg1YZeOTBN5yEYvSDNcL2ei8ZgE+0ESX2ULg2xV7rxzw1TB1eHZiMGXOSR8h5AWp/6F1hCcaq8VYA==}
     engines: {node: '>=12.0.0'}
     dependencies:
       '@babel/core': 7.17.2
@@ -5339,8 +5339,8 @@ packages:
     resolution: {integrity: sha512-cId+QwWrV8R1UawO6b9BR1hnkJ4EJPCPAr4h315vliHUtVUJDk39Sg1PMNnaWKfj5x+93ssjeJ9LKL6r8LaMiA==}
     dev: true
 
-  /element-plus/2.0.1_vue@3.2.30:
-    resolution: {integrity: sha512-Cdx3JhbMNGwVsU12DUewIltJ1hUYVSgx2iBB8AuNzzOxAqcxSA9e7p2lfNp8oCBQeh4ThRSaOkdLnJyO4mS3qQ==}
+  /element-plus/2.0.2_8ddf48dde9d511a4d145aeec74353d80:
+    resolution: {integrity: sha512-URjC0HwwiqtlLxqTmHXQ31WXrdAq4ChWyyn52OcQs3PRsnMPfahGVq2AWnfzzlzlhVeI5lY3HQiuB1zDathS+g==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
@@ -5351,10 +5351,13 @@ packages:
       async-validator: 4.0.7
       dayjs: 1.10.7
       lodash: 4.17.21
+      lodash-es: 4.17.21
+      lodash-unified: 1.0.1_da03a4540fbd16bbaafbb96724306afd
       memoize-one: 6.0.0
       normalize-wheel-es: 1.1.1
       vue: 3.2.30
     transitivePeerDependencies:
+      - '@types/lodash-es'
       - '@vue/composition-api'
     dev: false
 
