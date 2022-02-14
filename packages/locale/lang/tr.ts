@@ -108,14 +108,14 @@ export default {
       hasCheckedFormat: '{checked}/{total} seçildi',
     },
     image: {
-      error: 'FAILED', // to be translated
+      error: 'BAŞARISIZ OLDU',
     },
     pageHeader: {
-      title: 'Back', // to be translated
+      title: 'Geri',
     },
     popconfirm: {
-      confirmButtonText: 'Yes', // to be translated
-      cancelButtonText: 'No', // to be translated
+      confirmButtonText: 'Evet',
+      cancelButtonText: 'Hayır',
     },
   },
 }

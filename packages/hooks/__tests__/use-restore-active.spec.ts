@@ -1,5 +1,5 @@
 import { ref, nextTick } from 'vue'
-import useRestoreActive from '../use-restore-active'
+import { useRestoreActive } from '../use-restore-active'
 
 describe('useRestoreActive', () => {
   it('should restore active element', async () => {
@@ -19,7 +19,5 @@ describe('useRestoreActive', () => {
     visible.value = false
     await nextTick()
     expect(document.activeElement).toBe(btn1)
-
   })
 })
-

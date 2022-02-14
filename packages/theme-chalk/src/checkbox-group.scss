@@ -1,0 +1,6 @@
+@use 'common/var' as *;
+@use 'mixins/mixins' as *;
+
+@include b(checkbox-group) {
+  font-size: 0;
+}

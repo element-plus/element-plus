@@ -1,9 +1,9 @@
-@import "mixins/mixins";
-@import "common/var";
+@use 'mixins/mixins' as *;
+@use 'common/var' as *;
 
 @include b(overlay) {
   #{& + '-root'} {
-      height: 0;
+    height: 0;
   }
   position: fixed;
   top: 0;

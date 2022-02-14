@@ -1,0 +1,76 @@
+@use 'sass:map';
+
+// CSS3 var
+@use 'common/var' as *;
+@use 'mixins/var' as *;
+
+// for better performance do not dynamically change the root variable if you really
+// do not need that, since this could introduce recalculation overhead for rendering.
+// https://lisilinhart.info/posts/css-variables-performance/
+
+:root {
+  --el-color-white: #{$color-white};
+  --el-color-black: #{$color-black};
+
+  --el-color-primary: #{$color-primary};
+
+  @for $i from 1 through 9 {
+    @include set-css-color-type-light('primary', $i);
+  }
+
+  // --el-color-#{$type}
+  // --el-color-#{$type}-light-{$i}
+  @each $type in (success, warning, danger, error, info) {
+    @include set-css-color-type($type);
+  }
+
+  // Background
+  --el-bg-color: #{$bg-color};
+
+  // Border
+  --el-border-width-base: #{$border-width-base};
+  --el-border-style-base: #{$border-style-base};
+  --el-border-color-hover: #{$border-color-hover};
+  --el-border-base: var(--el-border-width-base) var(--el-border-style-base)
+    var(--el-border-color-base);
+
+  // Svg
+  --el-svg-monochrome-grey: #dcdde0;
+
+  // Fill
+  --el-fill-base: var(--el-color-white);
+
+  // Typography
+  @include set-component-css-var('font-size', $font-size);
+
+  --el-font-weight-primary: 500;
+  --el-font-line-height-primary: 24px;
+  --el-text-color-disabled-base: #bbb;
+
+  // z-index
+  --el-index-normal: 1;
+  --el-index-top: 1000;
+  --el-index-popper: 2000;
+
+  // --el-text-color-#{$type}
+  @include set-component-css-var('text-color', $text-color);
+  // --el-border-color-#{$type}
+  @include set-component-css-var('border-color', $border-color);
+  // --el-border-radius-#{$type}
+  @include set-component-css-var('border-radius', $border-radius);
+  // Box-shadow
+  // --el-box-shadow-#{$type}
+  @include set-component-css-var('box-shadow', $box-shadow);
+  // Disable base
+  @include set-component-css-var('disabled', $disabled);
+
+  /* Transition
+-------------------------- */
+  // refer to this website to get the bezier motion function detail
+  //  https://cubic-bezier.com/#p1,p2,p3,p4 (change px as your function parameter)
+  --el-transition-duration: #{map.get($transition-duration, 'default')};
+  --el-transition-duration-fast: #{map.get($transition-duration, 'fast')};
+
+  @include set-component-css-var('transition-function', $transition-function);
+  @include set-component-css-var('transition', $transition);
+}

@@ -1,4 +1,5 @@
-@import "../common/var";
+@use '../mixins/mixins' as *;
+@use '../common/var' as *;
 
 @include b(time-range-picker) {
   width: 354px;
@@ -26,7 +27,7 @@
   }
 
   @include e(body) {
-    border-radius:2px;
-    border: 1px solid $--datepicker-border-color;
+    border-radius: 2px;
+    border: 1px solid var(--el-datepicker-border-color);
   }
 }
