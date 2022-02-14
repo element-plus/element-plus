@@ -1,12 +1,16 @@
 import { NOOP } from '@vue/shared'
 import { buildProps, definePropType } from '@element-plus/utils'
 import { uploadBaseProps } from './upload'
+// to avoid ts error
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { Awaitable } from '@vueuse/core'
 import type { ExtractPropTypes } from 'vue'
 import type {
-  RawFile,
+  UploadRawFile,
   UploadAjaxError,
   UploadFile,
   UploadProgressEvent,
+  UploadHooks,
 } from './upload'
 
 import type uploadContent from './upload-content.vue'
@@ -14,41 +18,39 @@ import type uploadContent from './upload-content.vue'
 export const uploadContentProps = buildProps({
   ...uploadBaseProps,
   beforeUpload: {
-    type: definePropType<(file: RawFile) => void | boolean | Promise<any>>(
-      Function
-    ),
+    type: definePropType<UploadHooks['beforeUpload']>(Function),
     default: NOOP,
   },
   onRemove: {
-    type: definePropType<(file?: UploadFile, rawfile?: RawFile) => void>(
-      Function
-    ),
-    default: NOOP as (file?: UploadFile, rawFile?: RawFile) => void,
+    type: definePropType<
+      (file: UploadFile | UploadRawFile, rawFile?: UploadRawFile) => void
+    >(Function),
+    default: NOOP,
   },
   onStart: {
-    type: definePropType<(rawfile: File) => void>(Function),
+    type: definePropType<(rawFile: UploadRawFile) => void>(Function),
     default: NOOP,
   },
   onSuccess: {
-    type: definePropType<(e: any, file: RawFile) => unknown>(Function),
+    type: definePropType<(response: any, rawFile: UploadRawFile) => unknown>(
+      Function
+    ),
     default: NOOP,
   },
   onProgress: {
-    type: definePropType<(e: UploadProgressEvent, file: RawFile) => void>(
-      Function
-    ),
+    type: definePropType<
+      (evt: UploadProgressEvent, rawFile: UploadRawFile) => void
+    >(Function),
     default: NOOP,
   },
   onError: {
-    type: definePropType<(err: UploadAjaxError, file: RawFile) => void>(
-      Function
-    ),
+    type: definePropType<
+      (err: UploadAjaxError, rawFile: UploadRawFile) => void
+    >(Function),
     default: NOOP,
   },
   onExceed: {
-    type: definePropType<(files: FileList, fileList: UploadFile[]) => void>(
-      Function
-    ),
+    type: definePropType<UploadHooks['onExceed']>(Function),
     default: () => NOOP,
   },
 } as const)

@@ -39,12 +39,12 @@
       :on-remove="handleRemove"
     >
       <template #default>
-        <slot v-if="$slots.trigger" name="trigger"></slot>
-        <slot v-if="!$slots.trigger && $slots.default"></slot>
+        <slot v-if="$slots.trigger" name="trigger" />
+        <slot v-if="!$slots.trigger && $slots.default" />
       </template>
     </upload-content>
-    <slot v-if="$slots.trigger"></slot>
-    <slot name="tip"></slot>
+    <slot v-if="$slots.trigger" />
+    <slot name="tip" />
     <upload-list
       v-if="!isPictureCard && showFileList"
       :disabled="disabled"
@@ -54,20 +54,21 @@
       @remove="handleRemove"
     >
       <template v-if="$slots.file" #default="{ file }">
-        <slot name="file" :file="file"></slot>
+        <slot name="file" :file="file" />
       </template>
     </upload-list>
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, provide, onBeforeUnmount } from 'vue'
+import { computed, provide, onBeforeUnmount, toRef, shallowRef } from 'vue'
 import { uploadContextKey } from '@element-plus/tokens'
-
 import { useDisabled } from '@element-plus/hooks'
+
 import UploadList from './upload-list.vue'
 import UploadContent from './upload-content.vue'
-import useHandlers from './use-handlers'
+import { useHandlers } from './use-handlers'
 import { uploadProps } from './upload'
+import type { UploadContentInstance } from './upload-content'
 
 defineOptions({
   name: 'ElUpload',
@@ -75,12 +76,11 @@ defineOptions({
 
 const props = defineProps(uploadProps)
 const disabled = useDisabled()
-const isPictureCard = computed(() => props.listType === 'picture-card')
 
+const uploadRef = shallowRef<UploadContentInstance>()
 const {
   abort,
   submit,
-  uploadRef,
   clearFiles,
   uploadFiles,
   handleStart,
@@ -88,18 +88,18 @@ const {
   handleRemove,
   handleSuccess,
   handleProgress,
-} = useHandlers(props)
+} = useHandlers(props, uploadRef)
 
-provide(uploadContextKey, {
-  accept: computed(() => props.accept),
-})
+const isPictureCard = computed(() => props.listType === 'picture-card')
 
 onBeforeUnmount(() => {
   uploadFiles.value.forEach((file) => {
-    if (file.url && file.url.indexOf('blob:') === 0) {
-      URL.revokeObjectURL(file.url)
-    }
+    if (file.url?.startsWith('blob:')) URL.revokeObjectURL(file.url)
   })
+})
+
+provide(uploadContextKey, {
+  accept: toRef(props, 'accept'),
 })
 
 defineExpose({

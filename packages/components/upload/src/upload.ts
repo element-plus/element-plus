@@ -1,36 +1,36 @@
 import { NOOP } from '@vue/shared'
-import { buildProps, definePropType } from '@element-plus/utils'
-import ajax from './ajax'
+import { buildProps, definePropType, mutable } from '@element-plus/utils'
+import { ajaxUpload } from './ajax'
+import type { Awaitable } from '@vueuse/core'
 import type { ExtractPropTypes } from 'vue'
 import type upload from './upload.vue'
 
+export const uploadListTypes = ['text', 'picture', 'picture-card'] as const
+
+let fileId = 1
+export const genFileId = () => Date.now() + fileId++
+
 export type UploadStatus = 'ready' | 'uploading' | 'success' | 'fail'
-
-export const listType = ['text', 'picture', 'picture-card'] as const
-
 export interface UploadProgressEvent extends ProgressEvent {
   percent: number
 }
-
 export interface UploadAjaxError extends Error {
   status: number
   method: string
   url: string
 }
-
 export interface UploadRequestOptions {
   action: string
   method: string
-  data: Record<string, string | Blob>
+  data: Record<string, string | Blob | [string | Blob, string]>
   filename: string
   file: File
-  headers: Partial<Headers>
-  onError: (e: Error) => void
-  onProgress: (e: ProgressEvent) => void
-  onSuccess: (response: XMLHttpRequestResponseType) => unknown
+  headers: Headers | Record<string, string | number | null | undefined>
+  onError: (evt: UploadAjaxError) => void
+  onProgress: (evt: UploadProgressEvent) => void
+  onSuccess: (response: any) => void
   withCredentials: boolean
 }
-
 export interface UploadFile {
   name: string
   percentage?: number
@@ -39,11 +39,42 @@ export interface UploadFile {
   response?: unknown
   uid: number
   url?: string
-  raw: RawFile
+  raw: UploadRawFile
 }
-
-export interface RawFile extends File {
+export type UploadFiles = UploadFile[]
+export interface UploadRawFile extends File {
   uid: number
+}
+export type UploadRequestHandler = (
+  options: UploadRequestOptions
+) => XMLHttpRequest | Promise<unknown>
+export interface UploadHooks {
+  beforeUpload: (
+    rawFile: UploadRawFile
+  ) => Awaitable<void | undefined | null | boolean | File | Blob>
+  beforeRemove: (
+    uploadFile: UploadFile,
+    uploadFiles: UploadFiles
+  ) => Awaitable<boolean>
+  onRemove: (uploadFile: UploadFile, uploadFiles: UploadFiles) => void
+  onChange: (uploadFile: UploadFile, uploadFiles: UploadFiles) => void
+  onPreview: (uploadFile: UploadFile) => void
+  onSuccess: (
+    response: any,
+    uploadFile: UploadFile,
+    uploadFiles: UploadFiles
+  ) => void
+  onProgress: (
+    evt: UploadProgressEvent,
+    uploadFile: UploadFile,
+    uploadFiles: UploadFiles
+  ) => void
+  onError: (
+    error: Error,
+    uploadFile: UploadFile,
+    uploadFiles: UploadFiles
+  ) => void
+  onExceed: (files: File[], uploadFiles: UploadFiles) => void
 }
 
 export const uploadBaseProps = buildProps({
@@ -52,7 +83,7 @@ export const uploadBaseProps = buildProps({
     required: true,
   },
   headers: {
-    type: definePropType<Partial<Headers>>(Object),
+    type: definePropType<Headers | Record<string, any>>(Object),
   },
   method: {
     type: String,
@@ -60,7 +91,7 @@ export const uploadBaseProps = buildProps({
   },
   data: {
     type: Object,
-    default: () => ({}),
+    default: () => mutable({} as const),
   },
   multiple: {
     type: Boolean,
@@ -88,8 +119,8 @@ export const uploadBaseProps = buildProps({
     default: 'select',
   },
   fileList: {
-    type: definePropType<UploadFile[]>(Array),
-    default: () => [],
+    type: definePropType<UploadFiles>(Array),
+    default: () => mutable([] as const),
   },
   autoUpload: {
     type: Boolean,
@@ -97,12 +128,12 @@ export const uploadBaseProps = buildProps({
   },
   listType: {
     type: String,
-    values: listType,
+    values: uploadListTypes,
     default: 'text',
   },
   httpRequest: {
-    type: Function,
-    default: ajax,
+    type: definePropType<UploadRequestHandler>(Function),
+    default: ajaxUpload,
   },
   disabled: Boolean,
   limit: Number,
@@ -111,61 +142,38 @@ export const uploadBaseProps = buildProps({
 export const uploadProps = buildProps({
   ...uploadBaseProps,
   beforeUpload: {
-    type: definePropType<(file: RawFile) => void | boolean | Promise<any>>(
-      Function
-    ),
+    type: definePropType<UploadHooks['beforeUpload']>(Function),
     default: NOOP,
   },
   beforeRemove: {
-    type: definePropType<
-      (
-        file: UploadFile,
-        uploadFiles: UploadFile[]
-      ) => boolean | Promise<unknown>
-    >(Function),
+    type: definePropType<UploadHooks['beforeRemove']>(Function),
   },
   onRemove: {
-    type: definePropType<(file: UploadFile, uploadFiles: UploadFile[]) => void>(
-      Function
-    ),
+    type: definePropType<UploadHooks['onRemove']>(Function),
     default: NOOP,
   },
   onChange: {
-    type: definePropType<(file: UploadFile, uploadFiles: UploadFile[]) => void>(
-      Function
-    ),
+    type: definePropType<UploadHooks['onChange']>(Function),
     default: NOOP,
   },
   onPreview: {
-    type: definePropType<(file: UploadFile) => void>(Function),
+    type: definePropType<UploadHooks['onPreview']>(Function),
     default: NOOP,
   },
   onSuccess: {
-    type: definePropType<
-      (param: any, file: UploadFile, uploadFiles: UploadFile[]) => void
-    >(Function),
+    type: definePropType<UploadHooks['onSuccess']>(Function),
     default: NOOP,
   },
   onProgress: {
-    type: definePropType<
-      (
-        param: UploadProgressEvent,
-        file: UploadFile,
-        uploadFiles: UploadFile[]
-      ) => void
-    >(Function),
+    type: definePropType<UploadHooks['onProgress']>(Function),
     default: NOOP,
   },
   onError: {
-    type: definePropType<
-      (param: Error, file: UploadFile, uploadFiles: UploadFile[]) => void
-    >(Function),
+    type: definePropType<UploadHooks['onError']>(Function),
     default: NOOP,
   },
   onExceed: {
-    type: definePropType<(file: FileList, uploadFiles: UploadFile[]) => void>(
-      Function
-    ),
+    type: definePropType<UploadHooks['onExceed']>(Function),
     default: () => NOOP,
   },
 } as const)

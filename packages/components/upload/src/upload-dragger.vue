@@ -29,42 +29,44 @@ const uploaderContext = inject(uploadContextKey)
 if (!uploaderContext) {
   throwError(COMPONENT_NAME, 'must be nested inside ElUpload')
 }
+
 const ns = useNamespace('upload')
 const dragover = ref(false)
 
-function onDrop(e: DragEvent) {
+const onDrop = (e: DragEvent) => {
   if (props.disabled) return
-  const accept = uploaderContext!.accept.value
   dragover.value = false
+
+  const files = Array.from(e.dataTransfer!.files)
+  const accept = uploaderContext.accept.value
   if (!accept) {
-    emit('file', e.dataTransfer!.files)
+    emit('file', files)
     return
   }
-  emit(
-    'file',
-    Array.from(e.dataTransfer!.files).filter((file) => {
-      const { type, name } = file
-      const extension =
-        name.indexOf('.') > -1 ? `.${name.split('.').pop()}` : ''
-      const baseType = type.replace(/\/.*$/, '')
-      return accept
-        .split(',')
-        .map((type) => type.trim())
-        .filter((type) => type)
-        .some((acceptedType) => {
-          if (acceptedType.startsWith('.')) {
-            return extension === acceptedType
-          }
-          if (/\/\*$/.test(acceptedType)) {
-            return baseType === acceptedType.replace(/\/\*$/, '')
-          }
-          if (/^[^/]+\/[^/]+$/.test(acceptedType)) {
-            return type === acceptedType
-          }
-          return false
-        })
-    })
-  )
+
+  const filesFiltered = files.filter((file) => {
+    const { type, name } = file
+    const extension = name.includes('.') ? `.${name.split('.').pop()}` : ''
+    const baseType = type.replace(/\/.*$/, '')
+    return accept
+      .split(',')
+      .map((type) => type.trim())
+      .filter((type) => type)
+      .some((acceptedType) => {
+        if (acceptedType.startsWith('.')) {
+          return extension === acceptedType
+        }
+        if (/\/\*$/.test(acceptedType)) {
+          return baseType === acceptedType.replace(/\/\*$/, '')
+        }
+        if (/^[^/]+\/[^/]+$/.test(acceptedType)) {
+          return type === acceptedType
+        }
+        return false
+      })
+  })
+
+  emit('file', filesFiltered)
 }
 
 const onDragover = () => {

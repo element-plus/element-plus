@@ -7,11 +7,11 @@
   >
     <template v-if="drag">
       <upload-dragger :disabled="disabled" @file="uploadFiles">
-        <slot></slot>
+        <slot />
       </upload-dragger>
     </template>
     <template v-else>
-      <slot></slot>
+      <slot />
     </template>
     <input
       ref="inputRef"
@@ -26,125 +26,121 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { shallowRef } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { hasOwn } from '@element-plus/utils'
+import { entriesOf } from '@element-plus/utils'
+
 import UploadDragger from './upload-dragger.vue'
 import { uploadContentProps } from './upload-content'
-import type { RawFile, UploadFile } from './upload'
+import { genFileId } from './upload'
+import type {
+  UploadRequestOptions,
+  UploadRawFile,
+  UploadFile,
+  UploadHooks,
+} from './upload'
 
 defineOptions({
   name: 'ElUploadContent',
 })
 
 const props = defineProps(uploadContentProps)
-
-const reqs = ref({} as Record<string, XMLHttpRequest | Promise<any>>)
 const ns = useNamespace('upload')
-const inputRef = ref<HTMLInputElement>()
 
-const uploadFiles = (files: FileList | File[]) => {
+const requests = shallowRef<Record<string, XMLHttpRequest | Promise<unknown>>>(
+  {}
+)
+const inputRef = shallowRef<HTMLInputElement>()
+
+const uploadFiles = (files: File[]) => {
+  if (files.length === 0) return
+
   if (props.limit && props.fileList.length + files.length > props.limit) {
-    props.onExceed(files as FileList, props.fileList)
+    props.onExceed(files, props.fileList)
     return
   }
-  let postFiles = Array.from(files)
+
   if (!props.multiple) {
-    postFiles = postFiles.slice(0, 1)
+    files = files.slice(0, 1)
   }
-  if (postFiles.length === 0) {
+
+  for (const file of files) {
+    const rawFile = file as UploadRawFile
+    rawFile.uid = genFileId()
+    props.onStart(rawFile)
+    if (props.autoUpload) upload(rawFile)
+  }
+}
+
+const upload = async (rawFile: UploadRawFile) => {
+  inputRef.value!.value = ''
+
+  if (!props.beforeUpload) {
+    return doUpload(rawFile)
+  }
+
+  let hookResult: Exclude<ReturnType<UploadHooks['beforeUpload']>, Promise<any>>
+  try {
+    hookResult = await props.beforeUpload(rawFile)
+  } catch {
+    hookResult = false
+  }
+
+  if (hookResult === false) {
+    props.onRemove(rawFile)
     return
   }
-  postFiles.forEach((rawFile) => {
-    props.onStart(rawFile)
-    if (props.autoUpload) upload(rawFile as RawFile)
-  })
-}
 
-const upload = (rawFile: RawFile) => {
-  inputRef.value!.value = ''
-  if (!props.beforeUpload) {
-    return post(rawFile)
-  }
-  const before = props.beforeUpload(rawFile)
-  if (before instanceof Promise) {
-    before
-      .then((processedFile) => {
-        const fileType = Object.prototype.toString.call(processedFile)
-        if (fileType === '[object File]' || fileType === '[object Blob]') {
-          if (fileType === '[object Blob]') {
-            processedFile = new File([processedFile], rawFile.name, {
-              type: rawFile.type,
-            })
-          }
-          for (const p in rawFile) {
-            if (hasOwn(rawFile, p)) {
-              processedFile[p] = rawFile[p]
-            }
-          }
-          post(processedFile)
-        } else {
-          post(rawFile)
-        }
+  let file: File = rawFile
+  if (hookResult instanceof Blob) {
+    if (hookResult instanceof File) {
+      file = hookResult
+    } else {
+      file = new File([hookResult], rawFile.name, {
+        type: rawFile.type,
       })
-      .catch(() => {
-        props.onRemove(undefined, rawFile)
-      })
-  } else if (before !== false) {
-    post(rawFile)
-  } else {
-    props.onRemove(undefined, rawFile)
-  }
-}
-
-const abort = (file: UploadFile) => {
-  const _reqs = reqs.value
-  if (file) {
-    const uid = file.uid
-    if (_reqs[uid]) {
-      ;(_reqs[uid] as XMLHttpRequest).abort()
     }
-  } else {
-    Object.keys(_reqs).forEach((uid) => {
-      if (_reqs[uid]) (_reqs[uid] as XMLHttpRequest).abort()
-      delete _reqs[uid]
-    })
+    for (const key of Object.keys(rawFile)) {
+      file[key] = rawFile[key]
+    }
   }
+
+  doUpload(rawFile)
 }
 
-const post = (rawFile: RawFile) => {
+const doUpload = (rawFile: UploadRawFile) => {
   const { uid } = rawFile
-  const options = {
-    headers: props.headers,
+  const options: UploadRequestOptions = {
+    headers: props.headers || {},
     withCredentials: props.withCredentials,
     file: rawFile,
     data: props.data,
     method: props.method,
     filename: props.name,
     action: props.action,
-    onProgress: (e) => {
-      props.onProgress(e, rawFile)
+    onProgress: (evt) => {
+      props.onProgress(evt, rawFile)
     },
-    onSuccess: (res: any) => {
+    onSuccess: (res) => {
       props.onSuccess(res, rawFile)
-      delete reqs.value[uid]
+      delete requests.value[uid]
     },
     onError: (err) => {
       props.onError(err, rawFile)
-      delete reqs.value[uid]
+      delete requests.value[uid]
     },
   }
-  const req = props.httpRequest(options)
-  reqs.value[uid] = req
-  if (req instanceof Promise) {
-    req.then(options.onSuccess, options.onError)
+  const request = props.httpRequest(options)
+  requests.value[uid] = request
+  if (request instanceof Promise) {
+    request.then(options.onSuccess, options.onError)
   }
 }
 
 const handleChange = (e: Event) => {
   const files = (e.target as HTMLInputElement).files
   if (!files) return
-  uploadFiles(files)
+  uploadFiles(Array.from(files))
 }
 
 const handleClick = () => {
@@ -156,6 +152,16 @@ const handleClick = () => {
 
 const handleKeydown = () => {
   handleClick()
+}
+
+const abort = (file?: UploadFile) => {
+  const _reqs = entriesOf(requests.value).filter(
+    file ? ([uid]) => String(file.uid) === uid : () => true
+  )
+  _reqs.forEach(([uid, req]) => {
+    if (req instanceof XMLHttpRequest) req.abort()
+    delete requests.value[uid]
+  })
 }
 
 defineExpose({

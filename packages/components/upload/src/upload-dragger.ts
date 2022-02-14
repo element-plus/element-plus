@@ -12,7 +12,7 @@ export const uploadDraggerProps = buildProps({
 export type UploadDraggerProps = ExtractPropTypes<typeof uploadDraggerProps>
 
 export const uploadDraggerEmits = {
-  file: (file: File[] | FileList) => isArray(file),
+  file: (file: File[]) => isArray(file),
 }
 export type UploadDraggerEmits = typeof uploadDraggerEmits
 

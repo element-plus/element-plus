@@ -1,9 +1,12 @@
-import { hasOwn } from '@element-plus/utils'
+import { throwError } from '@element-plus/utils'
 import type {
+  UploadRequestHandler,
   UploadAjaxError,
   UploadProgressEvent,
   UploadRequestOptions,
 } from './upload'
+
+const SCOPE = 'ElUpload'
 
 function getError(
   action: string,
@@ -39,44 +42,40 @@ function getBody(xhr: XMLHttpRequest): XMLHttpRequestResponseType {
   }
 }
 
-export default function upload(option: UploadRequestOptions) {
-  if (typeof XMLHttpRequest === 'undefined') {
-    return
-  }
+export const ajaxUpload: UploadRequestHandler = (option) => {
+  if (typeof XMLHttpRequest === 'undefined')
+    throwError(SCOPE, 'XMLHttpRequest is undefined')
 
   const xhr = new XMLHttpRequest()
   const action = option.action
 
   if (xhr.upload) {
-    xhr.upload.onprogress = function progress(e) {
-      if (e.total > 0) {
-        ;(e as UploadProgressEvent).percent = (e.loaded / e.total) * 100
-      }
-      option.onProgress(e)
-    }
-  }
-
-  const formData = new FormData()
-
-  if (option.data) {
-    Object.keys(option.data).forEach((key) => {
-      formData.append(key, option.data[key])
+    xhr.upload.addEventListener('progress', (evt) => {
+      const progressEvt = evt as UploadProgressEvent
+      progressEvt.percent = evt.total > 0 ? (evt.loaded / evt.total) * 100 : 0
+      option.onProgress(progressEvt)
     })
   }
 
+  const formData = new FormData()
+  if (option.data) {
+    for (const [key, value] of Object.entries(option.data)) {
+      if (Array.isArray(value)) formData.append(key, ...value)
+      else formData.append(key, value)
+    }
+  }
   formData.append(option.filename, option.file, option.file.name)
 
-  xhr.onerror = function error() {
+  xhr.addEventListener('error', () => {
     option.onError(getError(action, option, xhr))
-  }
+  })
 
-  xhr.onload = function onload() {
+  xhr.addEventListener('load', () => {
     if (xhr.status < 200 || xhr.status >= 300) {
       return option.onError(getError(action, option, xhr))
     }
-
     option.onSuccess(getBody(xhr))
-  }
+  })
 
   xhr.open(option.method, action, true)
 
@@ -85,17 +84,13 @@ export default function upload(option: UploadRequestOptions) {
   }
 
   const headers = option.headers || {}
-
-  for (const item in headers) {
-    if (hasOwn(headers, item) && headers[item] !== null) {
-      xhr.setRequestHeader(item, headers[item])
-    }
-  }
-
   if (headers instanceof Headers) {
-    headers.forEach((value, key) => {
-      xhr.setRequestHeader(key, value)
-    })
+    headers.forEach((value, key) => xhr.setRequestHeader(key, value))
+  } else {
+    for (const [key, value] of Object.entries(headers)) {
+      if (value === undefined || value === null) continue
+      xhr.setRequestHeader(key, String(value))
+    }
   }
 
   xhr.send(formData)
