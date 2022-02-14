@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@crowdin/cli": "3.7.7",
-    "@iconify-json/ri": "1.0.2",
+    "@iconify-json/ri": "1.1.0",
     "@types/markdown-it": "12.2.3",
     "cross-env": "7.0.3",
     "escape-html": "1.0.3",

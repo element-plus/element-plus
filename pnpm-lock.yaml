@@ -176,7 +176,7 @@ importers:
       '@crowdin/cli': 3.7.7
       '@docsearch/js': 3.0.0-alpha.50
       '@docsearch/react': 3.0.0-alpha.50
-      '@iconify-json/ri': 1.0.2
+      '@iconify-json/ri': 1.1.0
       '@types/markdown-it': 12.2.3
       '@vueuse/core': 7.6.2
       axios: 0.25.0
@@ -205,7 +205,7 @@ importers:
       nprogress: 0.2.0
     devDependencies:
       '@crowdin/cli': 3.7.7
-      '@iconify-json/ri': 1.0.2
+      '@iconify-json/ri': 1.1.0
       '@types/markdown-it': 12.2.3
       cross-env: 7.0.3
       escape-html: 1.0.3
@@ -1967,8 +1967,8 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
 
-  /@iconify-json/ri/1.0.2:
-    resolution: {integrity: sha512-PZMjoNE05S1PTcQHdIla/0htpmvMV2JvNwDzfEWVNGsLRG+htZuwozY9iiua6PGqmTw+kfBklvqrkTpzCpZvhQ==}
+  /@iconify-json/ri/1.1.0:
+    resolution: {integrity: sha512-9JE8dyM/4c3qrhH74X5NXVBNF5RPRQLowpldvhMv9kMSil1eq1QcwlNghiUV2SqGPzYAskTHCxXS6abiAQJwVQ==}
     dependencies:
       '@iconify/types': 1.0.12
     dev: true
