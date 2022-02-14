@@ -1,8 +1,7 @@
 import { h, nextTick } from 'vue'
-import { PopupManager } from '@element-plus/utils/popup-manager'
+import { useZIndex, POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
 import makeMount from '@element-plus/test-utils/make-mount'
 import { rAF } from '@element-plus/test-utils/tick'
-import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
 import { ElPopperTrigger } from '@element-plus/components/popper'
 import Popover from '../src/index.vue'
 
@@ -80,7 +79,7 @@ describe('Popover.vue', () => {
     wrapper = makeMount(Popover, {
       props: {
         content,
-        appendToBody: false,
+        teleported: false,
         virtualRef,
         virtualTriggering: true,
       },
@@ -92,11 +91,10 @@ describe('Popover.vue', () => {
   test('popper z-index should be dynamical', () => {
     wrapper = mount()
 
+    const { currentZIndex } = useZIndex()
     expect(
       Number.parseInt(window.getComputedStyle(findContentComp().element).zIndex)
-    ).toBeLessThanOrEqual(
-      PopupManager.zIndex + PopupManager.globalInitialZIndex
-    )
+    ).toBeLessThanOrEqual(currentZIndex.value)
   })
 
   test('defind hide method', async () => {

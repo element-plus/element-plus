@@ -7,12 +7,6 @@ lang: en-US
 
 Element Plus provides a set of common icons.
 
-:::warning
-
-⚠️ **Font Icon** has been removed, since version `1.2.0-beta.1`.
-
-:::
-
 ## Icon Usage
 
 - If you want to **use directly** like the example, you need to [globally register](https://v3.vuejs.org/guide/component-registration.html#global-registration) the components before using it.

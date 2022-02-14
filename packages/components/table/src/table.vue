@@ -20,6 +20,7 @@
       ns.m(tableSize),
       className,
       ns.b(),
+      ns.m(`layout-${tableLayout}`),
     ]"
     :style="style"
     :data-prefix="ns.namespace.value"
@@ -30,19 +31,30 @@
         <slot></slot>
       </div>
       <div
-        v-if="showHeader"
+        v-if="showHeader && tableLayout === 'fixed'"
         ref="headerWrapper"
         v-mousewheel="handleHeaderFooterMousewheel"
         :class="ns.e('header-wrapper')"
       >
-        <table-header
+        <table
           ref="tableHeader"
-          :border="border"
-          :default-sort="defaultSort"
-          :store="store"
+          :class="ns.e('header')"
           :style="tableBodyStyles"
-          @set-drag-visible="setDragVisible"
-        />
+          border="0"
+          cellpadding="0"
+          cellspacing="0"
+        >
+          <hColgroup
+            :columns="store.states.columns.value"
+            :table-layout="tableLayout"
+          ></hColgroup>
+          <table-header
+            :border="border"
+            :default-sort="defaultSort"
+            :store="store"
+            @set-drag-visible="setDragVisible"
+          />
+        </table>
       </div>
       <div ref="bodyWrapper" :style="bodyHeight" :class="ns.e('body-wrapper')">
         <el-scrollbar
@@ -50,19 +62,38 @@
           :height="maxHeight ? undefined : height"
           :max-height="maxHeight ? height : undefined"
         >
-          <table-body
+          <table
             ref="tableBody"
-            :context="context"
-            :highlight="highlightCurrentRow"
-            :row-class-name="rowClassName"
-            :tooltip-effect="tooltipEffect"
-            :row-style="rowStyle"
-            :store="store"
-            :stripe="stripe"
+            :class="ns.e('body')"
+            cellspacing="0"
+            cellpadding="0"
+            border="0"
             :style="{
               width: bodyWidth,
+              tableLayout,
             }"
-          />
+          >
+            <hColgroup
+              :columns="store.states.columns.value"
+              :table-layout="tableLayout"
+            ></hColgroup>
+            <table-header
+              v-if="showHeader && tableLayout === 'auto'"
+              :border="border"
+              :default-sort="defaultSort"
+              :store="store"
+              @set-drag-visible="setDragVisible"
+            />
+            <table-body
+              :context="context"
+              :highlight="highlightCurrentRow"
+              :row-class-name="rowClassName"
+              :tooltip-effect="tooltipEffect"
+              :row-style="rowStyle"
+              :store="store"
+              :stripe="stripe"
+            />
+          </table>
           <div
             v-if="isEmpty"
             ref="emptyBlock"
@@ -110,7 +141,7 @@
 
 <script lang="ts">
 import { defineComponent, getCurrentInstance, computed, provide } from 'vue'
-import debounce from 'lodash/debounce'
+import { debounce } from 'lodash-unified'
 import { Mousewheel } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElScrollbar from '@element-plus/components/scrollbar'
@@ -123,6 +154,7 @@ import useUtils from './table/utils-helper'
 import useStyle from './table/style-helper'
 import defaultProps from './table/defaults'
 import { TABLE_INJECTION_KEY } from './tokens'
+import { hColgroup } from './h-helper'
 
 import type { Table } from './table/defaults'
 
@@ -137,6 +169,7 @@ export default defineComponent({
     TableBody,
     TableFooter,
     ElScrollbar,
+    hColgroup,
   },
   props: defaultProps,
   emits: [
@@ -209,6 +242,7 @@ export default defineComponent({
       resizeState,
       doLayout,
       tableBodyStyles,
+      tableLayout,
     } = useStyle<Row>(props, layout, store, table)
 
     const debouncedUpdateLayout = debounce(doLayout, 50)
@@ -266,6 +300,7 @@ export default defineComponent({
       context: table,
       computedSumText,
       computedEmptyText,
+      tableLayout,
     }
   },
 })

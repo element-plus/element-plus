@@ -1,6 +1,6 @@
 import { ref, watch } from 'vue'
 import { NOOP } from '@vue/shared'
-import cloneDeep from 'lodash/cloneDeep'
+import { cloneDeep } from 'lodash-unified'
 
 // Inline types
 import type {

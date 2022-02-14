@@ -67,11 +67,12 @@ time-picker/range
 
 ## Events
 
-| Event Name | Description                           | Parameters                |
-| ---------- | ------------------------------------- | ------------------------- |
-| change     | triggers when user confirms the value | component's binding value |
-| blur       | triggers when Input blurs             | component instance        |
-| focus      | triggers when Input focuses           | component instance        |
+| Event Name     | Description                                                | Parameters                                |
+| -------------- | ---------------------------------------------------------- | ----------------------------------------- |
+| change         | triggers when user confirms the value                      | component's binding value                 |
+| blur           | triggers when Input blurs                                  | component instance                        |
+| focus          | triggers when Input focuses                                | component instance                        |
+| visible-change | triggers when the TimePicker's dropdown appears/disappears | true when it appears, and false otherwise |
 
 ## Methods
 

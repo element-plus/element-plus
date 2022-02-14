@@ -1,8 +1,7 @@
 import { createVNode, render } from 'vue'
 import { isClient } from '@vueuse/core'
-import { isVNode, isNumber } from '@element-plus/utils/util'
-import { PopupManager } from '@element-plus/utils/popup-manager'
-import { debugWarn } from '@element-plus/utils/error'
+import { isVNode, isNumber, debugWarn } from '@element-plus/utils'
+import { useZIndex } from '@element-plus/hooks'
 import { messageConfig } from '@element-plus/components/config-provider/src/config-provider'
 import MessageConstructor from './message.vue'
 import { messageTypes } from './message'
@@ -55,10 +54,12 @@ const message: MessageFn & Partial<Message> = function (options = {}) {
   })
   verticalOffset += 16
 
+  const { nextZIndex } = useZIndex()
+
   const id = `message_${seed++}`
   const userOnClose = options.onClose
   const props: Partial<MessageProps> = {
-    zIndex: PopupManager.nextZIndex(),
+    zIndex: nextZIndex(),
     offset: verticalOffset,
     ...options,
     id,

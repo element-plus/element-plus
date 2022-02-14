@@ -1,5 +1,5 @@
 import { defineComponent, computed, h, provide } from 'vue'
-import { buildProps } from '@element-plus/utils/props'
+import { buildProps } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import type { ExtractPropTypes, CSSProperties } from 'vue'
 

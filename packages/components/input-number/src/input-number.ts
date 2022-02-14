@@ -1,5 +1,5 @@
-import { buildProps, componentSize } from '@element-plus/utils/props'
-import { isNumber } from '@element-plus/utils/util'
+import { buildProps, isNumber } from '@element-plus/utils'
+import { componentSizes } from '@element-plus/constants'
 
 export const inputNumberProps = buildProps({
   step: {
@@ -27,7 +27,7 @@ export const inputNumberProps = buildProps({
   },
   size: {
     type: String,
-    values: componentSize,
+    values: componentSizes,
   },
   controls: {
     type: Boolean,

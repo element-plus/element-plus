@@ -2,6 +2,20 @@
   <el-tooltip
     ref="tooltipRef"
     v-bind="$attrs"
+    :trigger="trigger"
+    :placement="placement"
+    :disabled="disabled"
+    :visible="visible"
+    :transition="transition"
+    :popper-options="popperOptions"
+    :tabindex="tabindex"
+    :append-to-body="appendToBody"
+    :content="content"
+    :offset="offset"
+    :show-after="showAfter"
+    :hide-after="hideAfter"
+    :auto-close="autoClose"
+    :show-arrow="showArrow"
     :aria-label="title"
     :effect="effect"
     :enterable="enterable"
@@ -17,7 +31,7 @@
     </template>
 
     <template #content>
-      <div v-if="title" class="el-popover__title" role="title">
+      <div v-if="title" :class="ns.e('title')" role="title">
         {{ title }}
       </div>
       <slot>
@@ -30,7 +44,8 @@
 import { defineComponent, computed, ref, unref } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
 import { useDeprecateAppendToBody } from '@element-plus/components/popper'
-import { isString } from '@element-plus/utils/util'
+import { isString } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
 import { usePopoverProps } from './popover'
 
 import type { StyleValue } from 'vue'
@@ -47,6 +62,7 @@ export default defineComponent({
   props: usePopoverProps,
   emits,
   setup(props, { emit }) {
+    const ns = useNamespace('popover')
     const tooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
     const popperRef = computed(() => {
       return unref(tooltipRef)?.popperRef
@@ -68,11 +84,7 @@ export default defineComponent({
     })
 
     const kls = computed(() => {
-      return [
-        { 'el-popover--plain': !!props.content },
-        'el-popover',
-        props.popperClass,
-      ]
+      return [ns.b(), props.popperClass, { [ns.m('plain')]: !!props.content }]
     })
 
     const { compatTeleported } = useDeprecateAppendToBody(
@@ -94,6 +106,7 @@ export default defineComponent({
 
     return {
       compatTeleported,
+      ns,
       kls,
       style,
       tooltipRef,

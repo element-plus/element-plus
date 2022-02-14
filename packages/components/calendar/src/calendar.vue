@@ -48,7 +48,7 @@ import { ref, computed, defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import { ElButton, ElButtonGroup } from '@element-plus/components/button'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { debugWarn } from '@element-plus/utils/error'
+import { debugWarn } from '@element-plus/utils'
 import DateTable from './date-table.vue'
 import { calendarProps, calendarEmits } from './calendar'
 

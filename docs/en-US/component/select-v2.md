@@ -13,8 +13,9 @@ This component is still under testing, if you found any bug or issue please repo
 
 ## Background
 
-Now days, with tons of data came from the backend server through the internet, one single selector could have ended up loading tens of thousands of data from the backend, but rendering
-that much data into the DOM could be a burden to the browser which could crash the browser. For better user experience and developer experience, we decided to add this component.
+In some use-cases, a single selector may end up loading tens of thousands of rows of data.
+Rendering that much data into the DOM could be a burden to the browser, which can result in performance issues.
+For a better user and developer experience, we decided to add this component.
 
 ## Basic usage
 
@@ -136,6 +137,7 @@ select-v2/remote-search
 | collapse-tags                     | whether to collapse tags to a text when multiple selecting                                                                               | boolean                            | —                   | false         |
 | multiple-limit                    | maximum number of options user can select when multiple is true. No limit when set to 0                                                  | number                             | —                   | 0             |
 | name                              | the name attribute of select input                                                                                                       | string                             | —                   | —             |
+| effect                            | Tooltip theme, built-in theme: `dark` / `light`                                                                                          | string                             | string              | light         |
 | autocomplete                      | autocomplete of select input                                                                                                             | string                             | —                   | off           |
 | placeholder                       | the autocomplete attribute of select input                                                                                               | string                             | —                   | Please select |
 | filterable                        | is filterable                                                                                                                            | boolean                            | —                   | false         |

@@ -165,7 +165,7 @@ import {
   watch,
 } from 'vue'
 import { isPromise } from '@vue/shared'
-import debounce from 'lodash/debounce'
+import { debounce } from 'lodash-unified'
 
 import { isClient } from '@vueuse/core'
 import ElCascaderPanel, {
@@ -184,14 +184,19 @@ import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import { ClickOutside as Clickoutside } from '@element-plus/directives'
 import { useLocale, useSize } from '@element-plus/hooks'
 
-import { EVENT_CODE, focusNode, getSibling } from '@element-plus/utils/aria'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import {
+  focusNode,
+  getSibling,
   addResizeListener,
   removeResizeListener,
-} from '@element-plus/utils/resize-event'
-import { isValidComponentSize } from '@element-plus/utils/validators'
-import { isKorean } from '@element-plus/utils/isDef'
+  isValidComponentSize,
+  isKorean,
+} from '@element-plus/utils'
+import {
+  EVENT_CODE,
+  UPDATE_MODEL_EVENT,
+  CHANGE_EVENT,
+} from '@element-plus/constants'
 import { CircleClose, Check, ArrowDown } from '@element-plus/icons-vue'
 
 import type { Options } from '@element-plus/components/popper'
@@ -202,7 +207,7 @@ import type {
   CascaderNode,
   Tag,
 } from '@element-plus/components/cascader-panel'
-import type { ComponentSize } from '@element-plus/utils/types'
+import type { ComponentSize } from '@element-plus/constants'
 
 type cascaderPanelType = InstanceType<typeof ElCascaderPanel>
 type tooltipType = InstanceType<typeof ElTooltip>

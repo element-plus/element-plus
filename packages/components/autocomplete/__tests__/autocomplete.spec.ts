@@ -4,7 +4,7 @@ import { NOOP } from '@vue/shared'
 import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
 import Autocomplete from '../src/index.vue'
 
-jest.unmock('lodash/debounce')
+jest.unmock('lodash')
 
 jest.useFakeTimers()
 

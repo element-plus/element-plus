@@ -1,4 +1,4 @@
-import { buildProps } from '@element-plus/utils/props'
+import { buildProps } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
 
 export const tabPaneProps = buildProps({
@@ -7,7 +7,7 @@ export const tabPaneProps = buildProps({
     default: '',
   },
   name: {
-    type: String,
+    type: [String, Number],
     default: '',
   },
   closable: Boolean,

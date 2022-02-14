@@ -1,6 +1,6 @@
 import { nextTick, ref, isRef } from 'vue'
-import { hasOwn } from '@vue/shared'
 import { isClient } from '@vueuse/core'
+import { hasOwn } from '@element-plus/utils'
 import { parseHeight } from './util'
 import type { Ref } from 'vue'
 
@@ -137,15 +137,20 @@ class TableLayout<T> {
   updateElsHeight() {
     if (!this.table.$ready) return nextTick(() => this.updateElsHeight())
     const {
+      tableWrapper,
       headerWrapper,
       appendWrapper,
       footerWrapper,
       tableHeader,
       tableBody,
     } = this.table.refs
+    if (tableWrapper && tableWrapper.style.display === 'none') {
+      // avoid v-show
+      return
+    }
     this.appendHeight.value = appendWrapper ? appendWrapper.offsetHeight : 0
     if (this.showHeader && !headerWrapper) return
-    const headerTrElm: HTMLElement = tableHeader ? tableHeader.$el : null
+    const headerTrElm: HTMLElement = tableHeader ? tableHeader : null
     const noneHeader = this.headerDisplayNone(headerTrElm)
 
     const headerHeight = (this.headerHeight.value = !this.showHeader
@@ -171,7 +176,7 @@ class TableLayout<T> {
       }
       this.bodyHeight.value =
         tableHeight - headerHeight - footerHeight + (footerWrapper ? 1 : 0)
-      this.bodyScrollHeight.value = tableBody?.$el.scrollHeight!
+      this.bodyScrollHeight.value = tableBody?.scrollHeight
     }
     this.fixedBodyHeight.value = this.scrollX.value
       ? this.bodyHeight.value - this.gutterWidth
@@ -201,6 +206,8 @@ class TableLayout<T> {
     if (!isClient) return
     const fit = this.fit
     const bodyWidth = this.table.vnode.el.clientWidth
+    const { tableBody } = this.table.refs
+    const bodyScrollWidth = tableBody?.scrollWidth || 0
     let bodyMinWidth = 0
 
     const flattenColumns = this.getFlattenColumns()
@@ -217,9 +224,11 @@ class TableLayout<T> {
         bodyMinWidth += Number(column.width || column.minWidth || 80)
       })
 
-      const scrollYWidth = this.scrollY.value ? this.gutterWidth : 0
-
-      if (bodyMinWidth <= bodyWidth - scrollYWidth) {
+      const scrollYWidth = 0
+      if (
+        bodyMinWidth <= bodyWidth - scrollYWidth &&
+        bodyScrollWidth <= bodyWidth
+      ) {
         // DON'T HAVE SCROLL BAR
         this.scrollX.value = false
 

@@ -1,10 +1,14 @@
 import { computed, ref, watch, nextTick, onMounted } from 'vue'
 import { useTimeoutFn, isClient } from '@vueuse/core'
 
-import { useLockscreen, useRestoreActive, useModal } from '@element-plus/hooks'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { PopupManager } from '@element-plus/utils/popup-manager'
-import { isNumber } from '@element-plus/utils/util'
+import {
+  useLockscreen,
+  useRestoreActive,
+  useModal,
+  useZIndex,
+} from '@element-plus/hooks'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { isNumber } from '@element-plus/utils'
 
 import type { CSSProperties, Ref, SetupContext } from 'vue'
 import type { DialogEmits, DialogProps } from './dialog'
@@ -14,10 +18,12 @@ export const useDialog = (
   { emit }: SetupContext<DialogEmits>,
   targetRef: Ref<HTMLElement | undefined>
 ) => {
+  let lastPosition = ''
   const visible = ref(false)
   const closed = ref(false)
   const rendered = ref(false) // when desctroyOnClose is true, we initialize it as false vise versa
-  const zIndex = ref(props.zIndex || PopupManager.nextZIndex())
+  const { nextZIndex } = useZIndex()
+  const zIndex = ref(props.zIndex || nextZIndex())
 
   let openTimer: (() => void) | undefined = undefined
   let closeTimer: (() => void) | undefined = undefined
@@ -137,7 +143,7 @@ export const useDialog = (
         open()
         rendered.value = true // enables lazy rendering
         emit('open')
-        zIndex.value = props.zIndex ? zIndex.value++ : PopupManager.nextZIndex()
+        zIndex.value = props.zIndex ? zIndex.value++ : nextZIndex()
         // this.$el.addEventListener('scroll', this.updatePopper)
         nextTick(() => {
           if (targetRef.value) {
@@ -149,6 +155,19 @@ export const useDialog = (
         if (visible.value) {
           close()
         }
+      }
+    }
+  )
+
+  watch(
+    () => props.fullscreen,
+    (val) => {
+      if (!targetRef.value) return
+      if (val) {
+        lastPosition = targetRef.value.style.transform
+        targetRef.value.style.transform = ''
+      } else {
+        targetRef.value.style.transform = lastPosition
       }
     }
   )

@@ -14,7 +14,7 @@
         :z-index="zIndex"
       >
         <div
-          class="el-overlay-dialog"
+          :class="`${ns.namespace.value}-overlay-dialog`"
           @click="overlayEvent.onClick"
           @mousedown="overlayEvent.onMousedown"
           @mouseup="overlayEvent.onMouseup"
@@ -23,12 +23,10 @@
             ref="dialogRef"
             v-trap-focus
             :class="[
-              'el-dialog',
-              {
-                'is-fullscreen': fullscreen,
-                'is-draggable': draggable,
-                'el-dialog--center': center,
-              },
+              ns.b(),
+              ns.is('fullscreen', fullscreen),
+              ns.is('draggable', draggable),
+              { [ns.m('center')]: center },
               customClass,
             ]"
             aria-modal="true"
@@ -37,30 +35,30 @@
             :style="style"
             @click.stop=""
           >
-            <div ref="headerRef" class="el-dialog__header">
+            <div ref="headerRef" :class="ns.e('header')">
               <slot name="title">
-                <span class="el-dialog__title">
+                <span :class="ns.e('title')">
                   {{ title }}
                 </span>
               </slot>
               <button
                 v-if="showClose"
                 aria-label="close"
-                class="el-dialog__headerbtn"
+                :class="ns.e('headerbtn')"
                 type="button"
                 @click="handleClose"
               >
-                <el-icon class="el-dialog__close">
+                <el-icon :class="ns.e('close')">
                   <component :is="closeIcon || 'close'" />
                 </el-icon>
               </button>
             </div>
             <template v-if="rendered">
-              <div class="el-dialog__body">
+              <div :class="ns.e('body')">
                 <slot></slot>
               </div>
             </template>
-            <div v-if="$slots.footer" class="el-dialog__footer">
+            <div v-if="$slots.footer" :class="ns.e('footer')">
               <slot name="footer"></slot>
             </div>
           </div>
@@ -75,8 +73,8 @@ import { computed, defineComponent, ref } from 'vue'
 import { TrapFocus } from '@element-plus/directives'
 import { ElOverlay } from '@element-plus/components/overlay'
 import { ElIcon } from '@element-plus/components/icon'
-import { CloseComponents } from '@element-plus/utils/icon'
-import { useDraggable, useSameTarget } from '@element-plus/hooks'
+import { CloseComponents } from '@element-plus/utils'
+import { useNamespace, useDraggable, useSameTarget } from '@element-plus/hooks'
 import { dialogProps, dialogEmits } from './dialog'
 import { useDialog } from './use-dialog'
 
@@ -95,6 +93,7 @@ export default defineComponent({
   emits: dialogEmits,
 
   setup(props, ctx) {
+    const ns = useNamespace('dialog')
     const dialogRef = ref<HTMLElement>()
     const headerRef = ref<HTMLElement>()
     const dialog = useDialog(props, ctx, dialogRef)
@@ -104,6 +103,7 @@ export default defineComponent({
     useDraggable(dialogRef, headerRef, draggable)
 
     return {
+      ns,
       dialogRef,
       headerRef,
       overlayEvent,

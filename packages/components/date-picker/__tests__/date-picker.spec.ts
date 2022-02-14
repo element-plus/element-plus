@@ -8,7 +8,7 @@ import Input from '@element-plus/components/input'
 import zhCn from '@element-plus/locale/lang/zh-cn'
 import enUs from '@element-plus/locale/lang/en'
 import 'dayjs/locale/zh-cn'
-import { EVENT_CODE } from '@element-plus/utils/aria'
+import { EVENT_CODE } from '@element-plus/constants'
 import DatePicker from '../src/date-picker'
 
 const _mount = (template: string, data = () => ({}), otherObj?) =>
@@ -795,8 +795,8 @@ describe('WeekPicker', () => {
     expect(numberOfHighlightRows()).toBe(0)
   })
   ;[
-    { locale: zhCn, name: 'Monday', value: 1 },
     { locale: enUs, name: 'Sunday', value: 0 },
+    { locale: zhCn, name: 'Monday', value: 1 },
   ].forEach((loObj) => {
     it(`emit first day of the week, ${loObj.locale.name} locale, ${loObj.name}`, async () => {
       const wrapper = mount(

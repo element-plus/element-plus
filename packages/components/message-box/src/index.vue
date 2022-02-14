@@ -148,18 +148,22 @@ import {
   useSize,
   useDraggable,
   useSameTarget,
+  useZIndex,
 } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import { ElOverlay } from '@element-plus/components/overlay'
-import { PopupManager } from '@element-plus/utils/popup-manager'
-import { on, off } from '@element-plus/utils/dom'
-import { EVENT_CODE } from '@element-plus/utils/aria'
-import { isValidComponentSize } from '@element-plus/utils/validators'
+import {
+  on,
+  off,
+  isValidComponentSize,
+  TypeComponents,
+  TypeComponentsMap,
+} from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
-import { TypeComponents, TypeComponentsMap } from '@element-plus/utils/icon'
 
 import type { PropType } from 'vue'
-import type { ComponentSize } from '@element-plus/utils/types'
+import type { ComponentSize } from '@element-plus/constants'
 import type {
   Action,
   MessageBoxState,
@@ -228,6 +232,7 @@ export default defineComponent({
     // const popup = usePopup(props, doClose)
     const { t } = useLocale()
     const visible = ref(false)
+    const { nextZIndex } = useZIndex()
     // s represents state
     const state = reactive<MessageBoxState>({
       beforeClose: null,
@@ -264,7 +269,7 @@ export default defineComponent({
       // seemed ok for now without this state.
       // isOnComposition: false, // temporary remove
       validateError: false,
-      zIndex: PopupManager.nextZIndex(),
+      zIndex: nextZIndex(),
     })
 
     const typeClass = computed(() => {
@@ -310,7 +315,7 @@ export default defineComponent({
               confirmRef.value?.$el?.focus?.()
             })
           }
-          state.zIndex = PopupManager.nextZIndex()
+          state.zIndex = nextZIndex()
         }
         if (props.boxType !== 'prompt') return
         if (val) {

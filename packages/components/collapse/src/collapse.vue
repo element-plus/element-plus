@@ -1,13 +1,13 @@
 <template>
-  <div class="el-collapse" role="tablist" aria-multiselectable="true">
+  <div :class="ns.b()" role="tablist" aria-multiselectable="true">
     <slot></slot>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, watch, provide } from 'vue'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
-import type { PropType } from 'vue'
+import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
+import { useNamespace } from '@element-plus/hooks'
 import type { CollapseProvider } from './collapse.type'
 
 export default defineComponent({
@@ -23,6 +23,7 @@ export default defineComponent({
   },
   emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT],
   setup(props, { emit }) {
+    const ns = useNamespace('collapse')
     const activeNames = ref([].concat(props.modelValue))
 
     const setActiveNames = (_activeNames) => {
@@ -69,6 +70,7 @@ export default defineComponent({
     })
 
     return {
+      ns,
       activeNames,
       setActiveNames,
       handleItemClick,

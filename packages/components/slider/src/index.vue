@@ -10,12 +10,14 @@
   >
     <div
       ref="slider"
-      class="el-slider__runway"
-      :class="{ 'show-input': showInput && !range, disabled: sliderDisabled }"
+      :class="[
+        ns.e('runway'),
+        { 'show-input': showInput && !range, disabled: sliderDisabled },
+      ]"
       :style="runwayStyle"
       @click="onSliderClick"
     >
-      <div class="el-slider__bar" :style="barStyle"></div>
+      <div :class="ns.e('bar')" :style="barStyle"></div>
       <slider-button
         ref="firstButton"
         :model-value="firstValue"
@@ -35,7 +37,7 @@
         <div
           v-for="(item, key) in stops"
           :key="key"
-          class="el-slider__stop"
+          :class="ns.e('stop')"
           :style="getStopStyle(item)"
         ></div>
       </div>
@@ -45,10 +47,10 @@
             v-for="(item, key) in markList"
             :key="key"
             :style="getStopStyle(item.position)"
-            class="el-slider__stop el-slider__marks-stop"
+            :class="[ns.e('stop'), ns.e('marks-stop')]"
           ></div>
         </div>
-        <div class="el-slider__marks">
+        <div :class="ns.e('marks')">
           <slider-marker
             v-for="(item, key) in markList"
             :key="key"
@@ -62,7 +64,7 @@
       v-if="showInput && !range"
       ref="input"
       :model-value="firstValue"
-      class="el-slider__input"
+      :class="ns.e('input')"
       :step="step"
       :disabled="sliderDisabled"
       :controls="showInputControls"
@@ -94,11 +96,9 @@ import {
   UPDATE_MODEL_EVENT,
   CHANGE_EVENT,
   INPUT_EVENT,
-} from '@element-plus/utils/constants'
-import { off, on } from '@element-plus/utils/dom'
-import { throwError } from '@element-plus/utils/error'
-import { isValidComponentSize } from '@element-plus/utils/validators'
-import { useSize } from '@element-plus/hooks'
+} from '@element-plus/constants'
+import { off, on, throwError, isValidComponentSize } from '@element-plus/utils'
+import { useNamespace, useSize } from '@element-plus/hooks'
 import SliderButton from './button.vue'
 import SliderMarker from './marker.vue'
 import { useMarks } from './useMarks'
@@ -106,7 +106,8 @@ import { useSlide } from './useSlide'
 import { useStops } from './useStops'
 
 import type { PropType, Ref } from 'vue'
-import type { ComponentSize, Nullable } from '@element-plus/utils/types'
+import type { ComponentSize } from '@element-plus/constants'
+import type { Nullable } from '@element-plus/utils'
 
 export default defineComponent({
   name: 'ElSlider',
@@ -196,6 +197,7 @@ export default defineComponent({
   emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, INPUT_EVENT],
 
   setup(props, { emit }) {
+    const ns = useNamespace('slider')
     const initData = reactive({
       firstValue: 0,
       secondValue: 0,
@@ -233,12 +235,11 @@ export default defineComponent({
       () => props.inputSize || sliderWrapperSize.value
     )
 
-    const prefix = 'el-slider'
     const sliderKls = computed(() => [
-      prefix,
-      `${prefix}--${sliderWrapperSize.value}`,
-      props.vertical ? 'is-vertical' : '',
-      props.showInput ? 'el-slider--with-input' : '',
+      ns.b(),
+      ns.m(sliderWrapperSize.value),
+      ns.is('vertical', props.vertical),
+      { [ns.m('with-input')]: props.showInput },
     ])
 
     const markList = useMarks(props)
@@ -273,6 +274,7 @@ export default defineComponent({
     })
 
     return {
+      ns,
       firstValue,
       secondValue,
       oldValue,
@@ -374,11 +376,16 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
         initData.dragging ||
         (Array.isArray(val) &&
           Array.isArray(oldVal) &&
-          val.every((item, index) => item === oldVal[index]))
+          val.every((item, index) => item === oldVal[index]) &&
+          initData.firstValue === val[0] &&
+          initData.secondValue === val[1])
       ) {
         return
       }
       setValues()
+    },
+    {
+      deep: true,
     }
   )
 

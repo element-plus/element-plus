@@ -1,8 +1,8 @@
 import { nextTick } from 'vue'
 import { isString } from '@vue/shared'
 import { isClient } from '@vueuse/core'
-import { addClass, getStyle, removeClass } from '@element-plus/utils/dom'
-import { PopupManager } from '@element-plus/utils/popup-manager'
+import { addClass, getStyle, removeClass } from '@element-plus/utils'
+import { useZIndex } from '@element-plus/hooks'
 import { createLoadingComponent } from './loading'
 import type { LoadingInstance } from './loading'
 import type { LoadingOptionsResolved } from '..'
@@ -93,11 +93,13 @@ const addStyle = async (
   parent: HTMLElement,
   instance: LoadingInstance
 ) => {
+  const { nextZIndex } = useZIndex()
+
   const maskStyle: CSSProperties = {}
   if (options.fullscreen) {
     instance.originalPosition.value = getStyle(document.body, 'position')
     instance.originalOverflow.value = getStyle(document.body, 'overflow')
-    maskStyle.zIndex = PopupManager.nextZIndex()
+    maskStyle.zIndex = nextZIndex()
   } else if (options.parent === document.body) {
     instance.originalPosition.value = getStyle(document.body, 'position')
     /**

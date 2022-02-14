@@ -1,4 +1,4 @@
-import { withInstall, withNoopInstall } from '@element-plus/utils/with-install'
+import { withInstall, withNoopInstall } from '@element-plus/utils'
 
 import Select from './src/select.vue'
 import Option from './src/option.vue'

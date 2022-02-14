@@ -91,15 +91,14 @@
 <script lang="ts">
 import { defineComponent, computed, onMounted, ref, nextTick, watch } from 'vue'
 import { isPromise } from '@vue/shared'
-import { isBool } from '@element-plus/utils/util'
-import { throwError, debugWarn } from '@element-plus/utils/error'
+import { isBoolean, throwError, debugWarn } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
 import { Loading } from '@element-plus/icons-vue'
 import {
   UPDATE_MODEL_EVENT,
   CHANGE_EVENT,
   INPUT_EVENT,
-} from '@element-plus/utils/constants'
+} from '@element-plus/constants'
 import {
   useDisabled,
   useFormItem,
@@ -193,9 +192,10 @@ export default defineComponent({
 
       const shouldChange = beforeChange()
 
-      const isExpectType = [isPromise(shouldChange), isBool(shouldChange)].some(
-        (i) => i
-      )
+      const isExpectType = [
+        isPromise(shouldChange),
+        isBoolean(shouldChange),
+      ].some((i) => i)
       if (!isExpectType) {
         throwError(
           COMPONENT_NAME,

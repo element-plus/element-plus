@@ -1,14 +1,12 @@
-import { hasOwn } from '@vue/shared'
 import { createPopper } from '@popperjs/core'
-import { PopupManager } from '@element-plus/utils/popup-manager'
-import { getValueByPath } from '@element-plus/utils/util'
-import { off, on } from '@element-plus/utils/dom'
-
+import { get } from 'lodash-unified'
+import { hasOwn, off, on } from '@element-plus/utils'
+import { useZIndex } from '@element-plus/hooks'
 import type {
   PopperInstance,
   IPopperOptions,
 } from '@element-plus/components/popper'
-import type { Indexable, Nullable } from '@element-plus/utils/types'
+import type { Nullable } from '@element-plus/utils'
 import type { TableColumnCtx } from './table-column/defaults'
 
 export const getCell = function (event: Event): HTMLElement {
@@ -56,7 +54,7 @@ export const orderBy = function <T>(
           }
           return sortBy.map(function (by) {
             if (typeof by === 'string') {
-              return getValueByPath(value, by)
+              return get(value, by)
             } else {
               return by(value, index, array)
             }
@@ -65,7 +63,7 @@ export const orderBy = function <T>(
         if (sortKey !== '$key') {
           if (isObject(value) && '$value' in value) value = value.$value
         }
-        return [isObject(value) ? getValueByPath(value, sortKey) : value]
+        return [isObject(value) ? get(value, sortKey) : value]
       }
   const compare = function (a, b) {
     if (sortMethod) {
@@ -186,7 +184,7 @@ export function mergeOptions<T, K>(defaults: T, config: K): T & K {
     options[key] = defaults[key]
   }
   for (key in config) {
-    if (hasOwn(config as unknown as Indexable<any>, key)) {
+    if (hasOwn(config as unknown as Record<string, any>, key)) {
       const value = config[key]
       if (typeof value !== 'undefined') {
         options[key] = value
@@ -323,12 +321,13 @@ export function createTablePopper(
   popperOptions: Partial<IPopperOptions>,
   tooltipEffect: string
 ) {
+  const { nextZIndex } = useZIndex()
   function renderContent(): HTMLDivElement {
     const isLight = tooltipEffect === 'light'
     const content = document.createElement('div')
     content.className = `el-popper ${isLight ? 'is-light' : 'is-dark'}`
     content.innerHTML = popperContent
-    content.style.zIndex = String(PopupManager.nextZIndex())
+    content.style.zIndex = String(nextZIndex())
     document.body.appendChild(content)
     return content
   }
@@ -385,6 +384,10 @@ export const isFixedColumn = <T>(
   let start = 0
   let after = index
   if (realColumns) {
+    if (realColumns[index].colSpan > 1) {
+      // fixed column not supported in grouped header
+      return {}
+    }
     // handle group
     for (let i = 0; i < index; i++) {
       start += realColumns[i].colSpan

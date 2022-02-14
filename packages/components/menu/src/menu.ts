@@ -14,9 +14,14 @@ import {
 import { Resize } from '@element-plus/directives'
 import ElIcon from '@element-plus/components/icon'
 import { More } from '@element-plus/icons-vue'
-import Menubar from '@element-plus/utils/menu/menu-bar'
-import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
-import { isString, isObject } from '@element-plus/utils/util'
+import {
+  buildProps,
+  definePropType,
+  mutable,
+  isString,
+  isObject,
+} from '@element-plus/utils'
+import Menubar from './utils/menu-bar'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu'
 import { useMenuCssVar } from './use-menu-css-var'
@@ -104,8 +109,6 @@ export default defineComponent({
     const activeIndex = ref<MenuProvider['activeIndex']>(props.defaultActive)
     const items = ref<MenuProvider['items']>({})
     const subMenus = ref<MenuProvider['subMenus']>({})
-
-    const alteredCollapse = ref(false)
 
     // computed
     const isMenuPopup = computed<MenuProvider['isMenuPopup']>(() => {
@@ -204,14 +207,7 @@ export default defineComponent({
         activeIndex.value = item.index
         initMenu()
       } else {
-        // Can't find item when collapsing
-        // and activeIndex shouldn't be changed when 'collapse' was changed.
-        // Then reset 'alteredCollapse' immediately.
-        if (!alteredCollapse.value) {
-          activeIndex.value = undefined
-        } else {
-          alteredCollapse.value = false
-        }
+        activeIndex.value = val
       }
     }
     const handleResize = () => {
@@ -232,10 +228,7 @@ export default defineComponent({
 
     watch(
       () => props.collapse,
-      (value, prev) => {
-        if (value !== prev) {
-          alteredCollapse.value = true
-        }
+      (value) => {
         if (value) openedMenus.value = []
       }
     )

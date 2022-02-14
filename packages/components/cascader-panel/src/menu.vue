@@ -37,7 +37,7 @@
 import { computed, defineComponent, getCurrentInstance, inject, ref } from 'vue'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import { useLocale } from '@element-plus/hooks'
-import { generateId } from '@element-plus/utils/util'
+import { generateId } from '@element-plus/utils'
 import { Loading } from '@element-plus/icons-vue'
 import ElIcon from '@element-plus/components/icon'
 import ElCascaderNode from './node.vue'
@@ -45,7 +45,7 @@ import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
 import type { default as CascaderNode } from './node'
 import type { PropType } from 'vue'
-import type { TimeoutHandle, Nullable } from '@element-plus/utils/types'
+import type { Nullable } from '@element-plus/utils'
 
 export default defineComponent({
   name: 'ElCascaderMenu',
@@ -73,7 +73,7 @@ export default defineComponent({
     const { t } = useLocale()
     const id = generateId()
     let activeNode: Nullable<HTMLElement> = null
-    let hoverTimer: Nullable<TimeoutHandle> = null
+    let hoverTimer: Nullable<number> = null
 
     const panel = inject(CASCADER_PANEL_INJECTION_KEY)!
 

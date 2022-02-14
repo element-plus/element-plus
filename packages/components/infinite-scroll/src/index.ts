@@ -1,11 +1,11 @@
 import { nextTick } from 'vue'
 import { isFunction } from '@vue/shared'
-import throttle from 'lodash/throttle'
+import { throttle } from 'lodash-unified'
 import {
   getScrollContainer,
   getOffsetTopDistance,
-} from '@element-plus/utils/dom'
-import { throwError } from '@element-plus/utils/error'
+  throwError,
+} from '@element-plus/utils'
 
 import type { ObjectDirective, ComponentPublicInstance } from 'vue'
 

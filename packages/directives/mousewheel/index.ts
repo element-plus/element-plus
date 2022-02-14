@@ -1,5 +1,5 @@
 import normalizeWheel from 'normalize-wheel-es'
-import { isFirefox } from '@element-plus/utils/util'
+import { isFirefox } from '@element-plus/utils'
 import type { ObjectDirective, DirectiveBinding } from 'vue'
 
 const mousewheel = function (element, callback) {

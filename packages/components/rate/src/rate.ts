@@ -1,8 +1,13 @@
 import { Star, StarFilled } from '@element-plus/icons-vue'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
-import { isValidComponentSize } from '@element-plus/utils/validators'
-import type { ComponentSize } from '@element-plus/utils/types'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import {
+  buildProps,
+  definePropType,
+  mutable,
+  isValidComponentSize,
+  iconPropType,
+} from '@element-plus/utils'
+import type { ComponentSize } from '@element-plus/constants'
 import type { Component, ExtractPropTypes, PropType } from 'vue'
 import type Rate from './rate.vue'
 
@@ -47,11 +52,11 @@ export const rateProps = buildProps({
     default: () => [StarFilled, StarFilled, StarFilled],
   },
   voidIcon: {
-    type: definePropType<string | Component>([String, Object]),
+    type: iconPropType,
     default: () => Star,
   },
   disabledvoidIcon: {
-    type: definePropType<string | Component>([String, Object]),
+    type: iconPropType,
     default: () => StarFilled,
   },
   disabled: {

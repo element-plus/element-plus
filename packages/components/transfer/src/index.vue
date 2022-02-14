@@ -1,5 +1,5 @@
 <template>
-  <div class="el-transfer">
+  <div :class="ns.b()">
     <transfer-panel
       ref="leftPanel"
       :data="sourceData"
@@ -15,10 +15,10 @@
     >
       <slot name="left-footer"></slot>
     </transfer-panel>
-    <div class="el-transfer__buttons">
+    <div :class="ns.e('buttons')">
       <el-button
         type="primary"
-        :class="['el-transfer__button', hasButtonTexts ? 'is-with-texts' : '']"
+        :class="[ns.e('button'), ns.is('with-texts', hasButtonTexts)]"
         :disabled="rightChecked.length === 0"
         @click="addToLeft"
       >
@@ -27,7 +27,7 @@
       </el-button>
       <el-button
         type="primary"
-        :class="['el-transfer__button', hasButtonTexts ? 'is-with-texts' : '']"
+        :class="[ns.e('button'), ns.is('with-texts', hasButtonTexts)]"
         :disabled="leftChecked.length === 0"
         @click="addToRight"
       >
@@ -67,8 +67,8 @@ import {
 import ElButton from '@element-plus/components/button'
 import ElIcon from '@element-plus/components/icon'
 import { elFormItemKey } from '@element-plus/tokens'
-import { useLocale } from '@element-plus/hooks'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import TransferPanel from './transfer-panel.vue'
 import { useComputedData } from './useComputedData'
@@ -164,6 +164,7 @@ export default defineComponent({
 
   setup(props, { emit, slots }) {
     const { t } = useLocale()
+    const ns = useNamespace('transfer')
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
 
     const checkedState = reactive({
@@ -229,6 +230,7 @@ export default defineComponent({
     })
 
     return {
+      ns,
       sourceData,
       targetData,
       onSourceCheckedChange,

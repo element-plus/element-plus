@@ -1,7 +1,7 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { rAF } from '@element-plus/test-utils/tick'
-import { EVENT_CODE } from '@element-plus/utils/aria'
+import { EVENT_CODE } from '@element-plus/constants'
 import { ElTooltip } from '@element-plus/components/tooltip'
 import Dropdown from '../src/dropdown.vue'
 import DropdownItem from '../src/dropdown-item.vue'
@@ -486,5 +486,29 @@ describe('Dropdown', () => {
     }).element
 
     expect(popperElement.classList.contains('custom-popper-class')).toBe(true)
+  })
+
+  test('custom attributes for dropdown items', async () => {
+    const wrapper = _mount(
+      `
+      <el-dropdown>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item data-custom-attribute="hello">Item</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      `,
+      () => ({})
+    )
+    await nextTick()
+    expect(
+      wrapper
+        .findComponent({
+          name: 'DropdownItemImpl',
+        })
+        .find('.el-dropdown-menu__item')
+        .element.getAttribute('data-custom-attribute')
+    ).toBe('hello')
   })
 })

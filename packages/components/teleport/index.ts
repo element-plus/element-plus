@@ -1,4 +1,4 @@
-import { withInstall } from '@element-plus/utils/with-install'
+import { withInstall } from '@element-plus/utils'
 import Teleport from './src/teleport.vue'
 
 export const ElTeleport = withInstall(Teleport)

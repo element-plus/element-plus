@@ -1,7 +1,7 @@
 import { ref, h, nextTick, Comment, Fragment } from 'vue'
 import { shallowMount } from '@vue/test-utils'
+import { debugWarn } from '@element-plus/utils'
 import { FORWARD_REF_INJECTION_KEY } from '@element-plus/hooks'
-import { debugWarn } from '@element-plus/utils/error'
 import ElOnlyChild from '../src/only-child'
 
 import type { Slot } from 'vue'

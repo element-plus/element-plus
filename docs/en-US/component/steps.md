@@ -97,12 +97,12 @@ steps/simple
 
 ## Step Attributes
 
-| Attribute   | Description                                                              | Type   | Accepted Values                           | Default |
-| ----------- | ------------------------------------------------------------------------ | ------ | ----------------------------------------- | ------- |
-| title       | step title                                                               | string | —                                         | —       |
-| description | step description                                                         | string | —                                         | —       |
-| icon        | step icon's class name. Icons can be passed via named slot as well       | string | —                                         | —       |
-| status      | current status. It will be automatically set by Steps if not configured. | string | wait / process / finish / error / success | —       |
+| Attribute   | Description                                                              | Type               | Accepted Values                           | Default |
+| ----------- | ------------------------------------------------------------------------ | ------------------ | ----------------------------------------- | ------- |
+| title       | step title                                                               | string             | —                                         | —       |
+| description | step description                                                         | string             | —                                         | —       |
+| icon        | step custom icon. Icons can be passed via named slot as well             | string / Component | —                                         | —       |
+| status      | current status. It will be automatically set by Steps if not configured. | string             | wait / process / finish / error / success | —       |
 
 ## Step Slots
 

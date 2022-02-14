@@ -1,9 +1,9 @@
-import { isValidComponentSize } from '@element-plus/utils/validators'
+import { isValidComponentSize } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
 
 import type { PropType, Component } from 'vue'
-import type { ComponentSize } from '@element-plus/utils/types'
+import type { ComponentSize } from '@element-plus/constants'
 import type { OptionType } from './select.types'
 import type { Options } from '@element-plus/components/popper'
 
@@ -18,6 +18,10 @@ export const SelectProps = {
   clearIcon: {
     type: [String, Object] as PropType<string | Component>,
     default: CircleClose,
+  },
+  effect: {
+    type: String as PropType<'light' | 'dark' | string>,
+    default: 'light',
   },
   collapseTags: Boolean,
   defaultFirstOption: Boolean,

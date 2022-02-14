@@ -1,5 +1,5 @@
-import { buildProps, definePropType } from '@element-plus/utils/props'
-import type { ExtractPropTypes, Component } from 'vue'
+import { buildProps, iconPropType } from '@element-plus/utils'
+import type { ExtractPropTypes } from 'vue'
 import type Breadcrumb from './breadcrumb.vue'
 
 export const breadcrumbProps = buildProps({
@@ -8,7 +8,7 @@ export const breadcrumbProps = buildProps({
     default: '/',
   },
   separatorIcon: {
-    type: definePropType<string | Component>([String, Object]),
+    type: iconPropType,
     default: '',
   },
 } as const)

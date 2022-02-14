@@ -14,33 +14,42 @@
       :class="[ns.e('inner'), preview ? ns.e('preview') : '']"
       @click="clickHandler"
     />
-    <teleport to="body" :disabled="!appendToBody">
-      <template v-if="preview">
-        <image-viewer
-          v-if="showViewer"
-          :z-index="zIndex"
-          :initial-index="imageIndex"
-          :url-list="previewSrcList"
-          :hide-on-click-modal="hideOnClickModal"
-          @close="closeViewer"
-          @switch="switchViewer"
-        >
-          <div v-if="$slots.viewer">
-            <slot name="viewer" />
-          </div>
-        </image-viewer>
-      </template>
-    </teleport>
+    <template v-if="preview">
+      <image-viewer
+        v-if="showViewer"
+        :z-index="zIndex"
+        :initial-index="imageIndex"
+        :url-list="previewSrcList"
+        :hide-on-click-modal="hideOnClickModal"
+        :teleported="teleported"
+        @close="closeViewer"
+        @switch="switchViewer"
+      >
+        <div v-if="$slots.viewer">
+          <slot name="viewer" />
+        </div>
+      </image-viewer>
+    </template>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed, ref, onMounted, watch, nextTick } from 'vue'
 import { isString } from '@vue/shared'
-import { useEventListener, useThrottleFn, isClient } from '@vueuse/core'
-import { useAttrs, useLocale, useNamespace } from '@element-plus/hooks'
+import {
+  useEventListener,
+  useThrottleFn,
+  isClient,
+  isBoolean,
+} from '@vueuse/core'
+import {
+  useAttrs,
+  useLocale,
+  useNamespace,
+  useDeprecated,
+} from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
-import { getScrollContainer, isInContainer } from '@element-plus/utils/dom'
+import { getScrollContainer, isInContainer } from '@element-plus/utils'
 import { imageEmits, imageProps } from './image'
 
 import type { CSSProperties, StyleValue } from 'vue'
@@ -61,6 +70,17 @@ export default defineComponent({
   emits: imageEmits,
 
   setup(props, { emit, attrs: rawAttrs }) {
+    useDeprecated(
+      {
+        scope: 'el-image',
+        from: 'append-to-body',
+        replacement: 'preview-teleported',
+        version: '2.2.0',
+        ref: 'https://element-plus.org/en-US/component/image.html#image-attributess',
+      },
+      computed(() => isBoolean(props.appendToBody))
+    )
+
     const { t } = useLocale()
     const ns = useNamespace('image')
 
@@ -89,6 +109,10 @@ export default defineComponent({
     const preview = computed(() => {
       const { previewSrcList } = props
       return Array.isArray(previewSrcList) && previewSrcList.length > 0
+    })
+
+    const teleported = computed(() => {
+      return props.appendToBody || props.previewTeleported
     })
 
     const imageIndex = computed(() => {
@@ -259,6 +283,7 @@ export default defineComponent({
       imageIndex,
       container,
       ns,
+      teleported,
 
       clickHandler,
       closeViewer,

@@ -9,13 +9,13 @@ import {
   h,
   renderSlot,
 } from 'vue'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { isValidComponentSize } from '@element-plus/utils/validators'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { isValidComponentSize } from '@element-plus/utils'
 import { useSize, useNamespace } from '@element-plus/hooks'
 import { useCheckboxGroup } from './useCheckbox'
 
 import type { PropType } from 'vue'
-import type { ComponentSize } from '@element-plus/utils/types'
+import type { ComponentSize } from '@element-plus/constants'
 
 export default defineComponent({
   name: 'ElCheckboxGroup',

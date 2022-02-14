@@ -1,8 +1,7 @@
 import { computed, getCurrentInstance, watch, onMounted } from 'vue'
 import { isFunction } from '@vue/shared'
 import { isClient } from '@vueuse/core'
-import { isBool } from '@element-plus/utils/util'
-import { buildProp, definePropType } from '@element-plus/utils/props'
+import { isBoolean, buildProp, definePropType } from '@element-plus/utils'
 import type { RouteLocationNormalizedLoaded } from 'vue-router'
 
 import type { Ref, ComponentPublicInstance, ExtractPropTypes } from 'vue'
@@ -97,7 +96,7 @@ export const createModelToggleComposable = (name: string) => {
     }
 
     const onChange = (val: boolean) => {
-      if (!isBool(val)) return
+      if (!isBoolean(val)) return
       if (props.disabled && val) {
         if (hasUpdateHandler.value) {
           emit(updateEventKey, false)

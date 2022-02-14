@@ -1,6 +1,6 @@
 import { computed, defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { debugWarn } from '@element-plus/utils/error'
+import { debugWarn } from '@element-plus/utils'
 import { useDeprecated } from '../use-deprecated'
 
 jest.mock('@element-plus/utils/error', () => {

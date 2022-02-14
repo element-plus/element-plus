@@ -163,18 +163,20 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | prefix-icon           | custom prefix icon component                                                                          | string / Component                               | —                                                                                                                 | Date        |
 | clear-icon            | custom clear icon component                                                                           | string / Component                               | —                                                                                                                 | CircleClose |
 | validate-event        | whether to trigger form validation                                                                    | boolean                                          | -                                                                                                                 | true        |
-| disabledDate          | a function determining if a date is disabled with that date as its parameter. Should return a Boolean | function                                         | —                                                                                                                 | —           |
+| disabled-date         | a function determining if a date is disabled with that date as its parameter. Should return a Boolean | function                                         | —                                                                                                                 | —           |
 | shortcuts             | an object array to set shortcut options                                                               | object[{ text: string, value: date / function }] | —                                                                                                                 | —           |
+| cell-class-name       | set custom className                                                                                  | Function(Date)                                   | —                                                                                                                 | —           |
 
 ## Events
 
-| Event Name      | Description                                                               | Parameters                |
-| --------------- | ------------------------------------------------------------------------- | ------------------------- |
-| change          | triggers when user confirms the value                                     | component's binding value |
-| blur            | triggers when Input blurs                                                 | component instance        |
-| focus           | triggers when Input focuses                                               | component instance        |
-| calendar-change | triggers when the calendar selected date is changed. Only for `daterange` | [Date, Date]              |
-| panel-change    | triggers when the navigation button click.                                | `(date, mode, view)`      |
+| Event Name      | Description                                                               | Parameters                                |
+| --------------- | ------------------------------------------------------------------------- | ----------------------------------------- |
+| change          | triggers when user confirms the value                                     | component's binding value                 |
+| blur            | triggers when Input blurs                                                 | component instance                        |
+| focus           | triggers when Input focuses                                               | component instance                        |
+| calendar-change | triggers when the calendar selected date is changed. Only for `daterange` | [Date, Date]                              |
+| panel-change    | triggers when the navigation button click.                                | `(date, mode, view)`                      |
+| visible-change  | triggers when the DatePicker's dropdown appears/disappears                | true when it appears, and false otherwise |
 
 ## Methods
 

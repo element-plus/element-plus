@@ -15,14 +15,15 @@
 </template>
 <script lang="ts">
 import { computed, defineComponent, inject, unref } from 'vue'
-import { EVENT_CODE } from '@element-plus/utils/aria'
+import { composeRefs, composeEventHandlers } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
 import { FOCUS_TRAP_INJECTION_KEY } from '@element-plus/components/focus-trap'
 import {
   ROVING_FOCUS_COLLECTION_INJECTION_KEY,
   ROVING_FOCUS_GROUP_INJECTION_KEY,
   focusFirst,
 } from '@element-plus/components/roving-focus-group'
-import { composeRefs, composeEventHandlers } from '@element-plus/utils/dom'
+import { useNamespace } from '@element-plus/hooks'
 import { DROPDOWN_INJECTION_KEY } from './tokens'
 import {
   DROPDOWN_COLLECTION_INJECTION_KEY,
@@ -36,6 +37,7 @@ export default defineComponent({
   name: 'ElDropdownMenu',
   props: dropdownMenuProps,
   setup(props) {
+    const ns = useNamespace('dropdown')
     const { _elDropdownSize } = useDropdown()
     const size = _elDropdownSize.value
 
@@ -66,10 +68,7 @@ export default defineComponent({
     )!
 
     const dropdownKls = computed(() => {
-      return [
-        'el-dropdown-menu',
-        size.value && `el-dropdown-menu--${size.value}`,
-      ]
+      return [ns.b('menu'), ns.bm('menu', size?.value)]
     })
 
     const dropdownListWrapperRef = composeRefs(

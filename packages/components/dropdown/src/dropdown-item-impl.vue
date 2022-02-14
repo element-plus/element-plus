@@ -1,13 +1,14 @@
 <template>
-  <div v-if="divided" class="el-dropdown-menu__item--divided"></div>
+  <div
+    v-if="divided"
+    :class="ns.bem('menu', 'item', 'divided')"
+    v-bind="$attrs"
+  ></div>
   <div
     :ref="itemRef"
-    v-bind="dataset"
+    v-bind="{ ...dataset, ...$attrs }"
     :aria-disabled="disabled"
-    :class="{
-      'el-dropdown-menu__item': true,
-      'is-disabled': disabled,
-    }"
+    :class="[ns.be('menu', 'item'), ns.is('disabled', disabled)]"
     :tabindex="tabIndex"
     role="menuitem"
     @click="(e) => $emit('click', e)"
@@ -30,8 +31,9 @@ import {
 } from '@element-plus/components/roving-focus-group'
 import { COLLECTION_ITEM_SIGN } from '@element-plus/components/collection'
 import { ElIcon } from '@element-plus/components/icon'
-import { EVENT_CODE } from '@element-plus/utils/aria'
-import { composeEventHandlers, composeRefs } from '@element-plus/utils/dom'
+import { useNamespace } from '@element-plus/hooks'
+import { composeEventHandlers, composeRefs } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
 import {
   DROPDOWN_COLLECTION_ITEM_INJECTION_KEY,
   dropdownItemProps,
@@ -45,6 +47,8 @@ export default defineComponent({
   props: dropdownItemProps,
   emits: ['pointermove', 'pointerleave', 'click'],
   setup(_, { emit }) {
+    const ns = useNamespace('dropdown')
+
     const { collectionItemRef: dropdownCollectionItemRef } = inject(
       DROPDOWN_COLLECTION_ITEM_INJECTION_KEY,
       undefined
@@ -80,6 +84,7 @@ export default defineComponent({
     }, handleItemKeydown)
 
     return {
+      ns,
       itemRef,
       dataset: {
         [COLLECTION_ITEM_SIGN]: '',

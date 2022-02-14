@@ -43,8 +43,7 @@ import {
   reactive,
 } from 'vue'
 import { useResizeObserver, useEventListener } from '@vueuse/core'
-import { addUnit, isNumber } from '@element-plus/utils/util'
-import { debugWarn } from '@element-plus/utils/error'
+import { isNumber, debugWarn, addUnit } from '@element-plus/utils'
 import { scrollbarContextKey } from '@element-plus/tokens'
 import { useNamespace } from '@element-plus/hooks'
 import Bar from './bar.vue'
@@ -116,7 +115,6 @@ export default defineComponent({
 
     const update = () => {
       if (!wrap$.value) return
-
       const offsetHeight = wrap$.value.offsetHeight - GAP
       const offsetWidth = wrap$.value.offsetWidth - GAP
 
@@ -150,6 +148,19 @@ export default defineComponent({
         }
       },
       { immediate: true }
+    )
+
+    watch(
+      () => [props.maxHeight, props.height],
+      () => {
+        if (!props.native)
+          nextTick(() => {
+            update()
+            if (wrap$.value) {
+              barRef.value?.handleScroll(wrap$.value)
+            }
+          })
+      }
     )
 
     provide(

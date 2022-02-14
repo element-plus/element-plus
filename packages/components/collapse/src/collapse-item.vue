@@ -1,33 +1,33 @@
 <template>
   <div
-    class="el-collapse-item"
-    :class="{ 'is-active': isActive, 'is-disabled': disabled }"
+    :class="[
+      ns.b('item'),
+      ns.is('active', isActive),
+      ns.is('disabled', disabled),
+    ]"
   >
     <div
       role="tab"
       :aria-expanded="isActive"
-      :aria-controls="`el-collapse-content-${id}`"
-      :aria-describedby="`el-collapse-content-${id}`"
+      :aria-controls="ns.b(`content-${id}`)"
+      :aria-describedby="ns.b(`content-${id}`)"
     >
       <div
-        :id="`el-collapse-head-${id}`"
-        class="el-collapse-item__header"
+        :id="ns.b(`head-${id}`)"
+        :class="[
+          ns.be('item', 'header'),
+          ns.is('active', isActive),
+          { focusing },
+        ]"
         role="button"
         :tabindex="disabled ? -1 : 0"
-        :class="{
-          focusing: focusing,
-          'is-active': isActive,
-        }"
         @click="handleHeaderClick"
         @keyup.space.enter.stop="handleEnterClick"
         @focus="handleFocus"
         @blur="focusing = false"
       >
         <slot name="title">{{ title }}</slot>
-        <el-icon
-          class="el-collapse-item__arrow"
-          :class="{ 'is-active': isActive }"
-        >
+        <el-icon :class="[ns.be('item', 'arrow'), ns.is('active', isActive)]">
           <arrow-right />
         </el-icon>
       </div>
@@ -35,13 +35,13 @@
     <el-collapse-transition>
       <div
         v-show="isActive"
-        :id="`el-collapse-content-${id}`"
-        class="el-collapse-item__wrap"
+        :id="ns.b(`content-${id}`)"
+        :class="ns.be('item', 'wrap')"
         role="tabpanel"
         :aria-hidden="!isActive"
-        :aria-labelledby="`el-collapse-head-${id}`"
+        :aria-labelledby="ns.b(`head-${id}`)"
       >
-        <div class="el-collapse-item__content">
+        <div :class="ns.be('item', 'content')">
           <slot></slot>
         </div>
       </div>
@@ -50,10 +50,11 @@
 </template>
 <script lang="ts">
 import { defineComponent, inject, computed, ref } from 'vue'
-import { generateId } from '@element-plus/utils/util'
+import { generateId } from '@element-plus/utils'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElIcon from '@element-plus/components/icon'
 import { ArrowRight } from '@element-plus/icons-vue'
+import { useNamespace } from '@element-plus/hooks'
 
 import type { PropType } from 'vue'
 import type { CollapseProvider } from './collapse.type'
@@ -76,6 +77,7 @@ export default defineComponent({
   },
   setup(props) {
     const collapse = inject<CollapseProvider>('collapse')
+    const ns = useNamespace('collapse')
 
     const contentWrapStyle = ref({
       height: 'auto',
@@ -118,6 +120,7 @@ export default defineComponent({
       focusing,
       isClick,
       id,
+      ns,
       handleFocus,
       handleHeaderClick,
       handleEnterClick,

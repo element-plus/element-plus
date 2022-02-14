@@ -1,5 +1,6 @@
 import { inject, computed, getCurrentInstance, watch, toRaw, unref } from 'vue'
-import { getValueByPath, escapeRegexpString } from '@element-plus/utils/util'
+import { get } from 'lodash-unified'
+import { escapeStringRegexp } from '@element-plus/utils'
 import { selectKey, selectGroupKey } from './token'
 
 import type { Ref } from 'vue'
@@ -61,9 +62,7 @@ export function useOption(props, states) {
       return (
         arr &&
         arr.some((item) => {
-          return (
-            getValueByPath(item, valueKey) === getValueByPath(target, valueKey)
-          )
+          return get(item, valueKey) === get(target, valueKey)
         })
       )
     }
@@ -74,7 +73,7 @@ export function useOption(props, states) {
       return a === b
     } else {
       const { valueKey } = select.props
-      return getValueByPath(a, valueKey) === getValueByPath(b, valueKey)
+      return get(a, valueKey) === get(b, valueKey)
     }
   }
 
@@ -121,7 +120,7 @@ export function useOption(props, states) {
   watch(queryChange, (changes: Ref<QueryChangeCtx>) => {
     const { query } = unref(changes)
 
-    const regexp = new RegExp(escapeRegexpString(query), 'i')
+    const regexp = new RegExp(escapeStringRegexp(query), 'i')
     states.visible = regexp.test(currentLabel.value) || props.created
     if (!states.visible) {
       select.filteredOptionsCount--

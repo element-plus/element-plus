@@ -8,9 +8,8 @@ import {
   inject,
 } from 'vue'
 import { isClient } from '@vueuse/core'
-import { addClass, removeClass } from '@element-plus/utils/dom'
+import { addClass, removeClass } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import { hColgroup } from '../h-helper'
 import useLayoutObserver from '../layout-observer'
 import { removePopper } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
@@ -66,25 +65,12 @@ export default defineComponent({
     }
   },
   render() {
-    const { ns, wrappedRowRender, store } = this
+    const { wrappedRowRender, store } = this
     const data = store.states.data.value || []
-    const columns = store.states.columns.value
-    return h(
-      'table',
-      {
-        class: ns.e('body'),
-        cellspacing: '0',
-        cellpadding: '0',
-        border: '0',
-      },
-      [
-        hColgroup(columns),
-        h('tbody', {}, [
-          data.reduce((acc: VNode[], row) => {
-            return acc.concat(wrappedRowRender(row, acc.length))
-          }, []),
-        ]),
-      ]
-    )
+    return h('tbody', {}, [
+      data.reduce((acc: VNode[], row) => {
+        return acc.concat(wrappedRowRender(row, acc.length))
+      }, []),
+    ])
   },
 })

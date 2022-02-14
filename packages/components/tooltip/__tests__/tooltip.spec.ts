@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { debugWarn } from '@element-plus/utils/error'
+import { debugWarn } from '@element-plus/utils'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElPopperTrigger } from '@element-plus/components/popper'
 import Tooltip from '../src/tooltip.vue'

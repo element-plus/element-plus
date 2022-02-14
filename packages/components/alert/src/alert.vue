@@ -1,5 +1,5 @@
 <template>
-  <transition name="el-alert-fade">
+  <transition :name="ns.b('fade')">
     <div
       v-show="visible"
       :class="[ns.b(), ns.m(type), ns.is('center', center), ns.is(effect)]"
@@ -26,12 +26,12 @@
         <template v-if="closable">
           <div
             v-if="closeText"
-            :class="[ns.e('closebtn'), ns.is('customed')]"
+            :class="[ns.e('close-btn'), ns.is('customed')]"
             @click="close"
           >
             {{ closeText }}
           </div>
-          <el-icon v-else :class="ns.e('closebtn')" @click="close">
+          <el-icon v-else :class="ns.e('close-btn')" @click="close">
             <close />
           </el-icon>
         </template>
@@ -42,7 +42,7 @@
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
-import { TypeComponents, TypeComponentsMap } from '@element-plus/utils/icon'
+import { TypeComponents, TypeComponentsMap } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { alertProps, alertEmits } from './alert'
 

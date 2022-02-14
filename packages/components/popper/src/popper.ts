@@ -1,5 +1,5 @@
 import { placements } from '@popperjs/core'
-import { buildProps, definePropType } from '@element-plus/utils/props'
+import { buildProps, definePropType } from '@element-plus/utils'
 
 import type { ExtractPropTypes, StyleValue } from 'vue'
 import type { Placement, Options } from '@popperjs/core'
@@ -26,7 +26,7 @@ export const usePopperArrowProps = buildProps({
     type: Number,
     default: 5,
   },
-})
+} as const)
 
 export const usePopperCoreConfigProps = buildProps({
   boundariesPadding: {
@@ -105,12 +105,16 @@ export const usePopperContentProps = buildProps({
     default: true,
   },
   zIndex: Number,
-})
+} as const)
 
 export const usePopperTriggerProps = buildProps({
-  virtualRef: { type: definePropType<Measurable>(Object) },
-  virtualTriggering: { type: Boolean },
-})
+  virtualRef: {
+    type: definePropType<Measurable>(Object),
+  },
+  virtualTriggering: {
+    type: Boolean,
+  },
+} as const)
 
 export type UsePopperProps = ExtractPropTypes<typeof usePopperProps>
 export type UsePopperCoreConfigProps = ExtractPropTypes<

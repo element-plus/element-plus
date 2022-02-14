@@ -3,6 +3,16 @@ import { mount } from '@vue/test-utils'
 import { tick, defineGetter, makeScroll } from '@element-plus/test-utils'
 import InfiniteScroll, { SCOPE, DEFAULT_DELAY } from '../src/index'
 
+jest.mock('lodash-unified', () => {
+  return {
+    throttle: jest.fn((fn) => {
+      fn.cancel = jest.fn()
+      fn.flush = jest.fn()
+      return fn
+    }),
+  }
+})
+
 const CONTAINER_HEIGHT = 200
 const ITEM_HEIGHT = 100
 const CONTAINER_STYLE = `overflow-y: auto;`

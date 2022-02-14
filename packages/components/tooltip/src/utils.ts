@@ -1,5 +1,5 @@
 import { unref } from 'vue'
-import { isArray } from '@element-plus/utils/util'
+import { isArray } from '@element-plus/utils'
 import type { Ref } from 'vue'
 import type { Trigger } from './tooltip'
 

@@ -1,11 +1,22 @@
 import { nextTick, markRaw } from 'vue'
 import { mount } from '@vue/test-utils'
-import { EVENT_CODE } from '@element-plus/utils/aria'
+import { EVENT_CODE } from '@element-plus/constants'
 import { CircleClose, ArrowUp, CaretTop } from '@element-plus/icons-vue'
 import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
 import Select from '../src/select.vue'
 import Group from '../src/option-group.vue'
 import Option from '../src/option.vue'
+
+jest.mock('lodash-unified', () => {
+  return {
+    ...(jest.requireActual('lodash-unified') as Record<string, any>),
+    debounce: jest.fn((fn) => {
+      fn.cancel = jest.fn()
+      fn.flush = jest.fn()
+      return fn
+    }),
+  }
+})
 
 jest.useFakeTimers()
 
@@ -1673,5 +1684,31 @@ describe('Select', () => {
         document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
       ).toBe('')
     })
+  })
+
+  it('multiple select has an initial value', async () => {
+    const options = [{ value: `value:Alaska`, label: `label:Alaska` }]
+    const modelValue = [{ value: `value:Alaska`, label: `label:Alaska` }]
+    const wrapper = _mount(
+      `
+    <el-select v-model="modelValue"
+      multiple
+      value-key="value"
+      filterable>
+      <el-option
+        v-for="option in options"
+        :key="option.value"
+        :value="option.value"
+        :label="option.label"
+      >
+      </el-option>
+    </el-select>`,
+      () => ({
+        modelValue,
+        options,
+      })
+    )
+    const select = wrapper.findComponent({ name: 'ElSelect' }).vm
+    expect(select.selected[0].currentLabel).toBe(options[0].label)
   })
 })
