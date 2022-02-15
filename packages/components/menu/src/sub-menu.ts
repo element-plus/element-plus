@@ -46,6 +46,10 @@ export const subMenuProps = buildProps({
     type: Boolean,
     default: undefined,
   },
+  popperOffset: {
+    type: Number,
+    default: 6,
+  },
 } as const)
 export type SubMenuProps = ExtractPropTypes<typeof subMenuProps>
 
@@ -312,7 +316,7 @@ export default defineComponent({
               visible: opened.value,
               effect: 'light',
               pure: true,
-              offset: 6,
+              offset: props.popperOffset,
               showArrow: false,
               persistent: true,
               popperClass: props.popperClass,
