@@ -28,7 +28,7 @@
     "markdown-it-container": "3.0.0",
     "unplugin-icons": "0.13.1",
     "unplugin-vue-components": "0.17.18",
-    "vite": "2.8.2",
+    "vite": "2.8.3",
     "vite-plugin-inspect": "0.3.14",
     "vite-plugin-windicss": "1.7.0",
     "vitepress": "0.22.2"
