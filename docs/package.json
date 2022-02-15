@@ -12,7 +12,7 @@
     "@docsearch/js": "3.0.0-alpha.50",
     "@docsearch/react": "3.0.0-alpha.50",
     "@vueuse/core": "7.6.2",
-    "axios": "0.25.0",
+    "axios": "0.26.0",
     "clipboard-copy": "4.0.1",
     "element-plus": "npm:element-plus@latest",
     "normalize.css": "8.0.1",
@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@crowdin/cli": "3.7.7",
-    "@iconify-json/ri": "1.0.2",
+    "@iconify-json/ri": "1.1.0",
     "@types/markdown-it": "12.2.3",
     "cross-env": "7.0.3",
     "escape-html": "1.0.3",
@@ -28,9 +28,9 @@
     "markdown-it-container": "3.0.0",
     "unplugin-icons": "0.13.1",
     "unplugin-vue-components": "0.17.18",
-    "vite": "2.8.1",
+    "vite": "2.8.2",
     "vite-plugin-inspect": "0.3.14",
     "vite-plugin-windicss": "1.7.0",
-    "vitepress": "0.22.0"
+    "vitepress": "0.22.2"
   }
 }
