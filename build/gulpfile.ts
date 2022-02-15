@@ -17,7 +17,7 @@ export const copyFiles = () =>
       path.resolve(epOutput, 'README.md')
     ),
     copyFile(
-      path.resolve(projRoot, 'typings/global.d.ts'),
+      path.resolve(projRoot, 'global.d.ts'),
       path.resolve(epOutput, 'global.d.ts')
     ),
   ])
