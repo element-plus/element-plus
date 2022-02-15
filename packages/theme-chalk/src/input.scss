@@ -106,6 +106,7 @@
     font-size: map.get($input-font-size, 'default');
     cursor: pointer;
     transition: var(--el-transition-color);
+    margin-left: 8px;
 
     &:hover {
       color: var(--el-input-clear-hover-color);
@@ -262,14 +263,14 @@
   );
 
   @include m(suffix) {
+    .#{$namespace}-input__inner {
+      padding-right: $input-padding-size-with-extra-icon;
+    }
+
     @include m(password-clear) {
       .#{$namespace}-input__inner {
         padding-right: 55px;
       }
-    }
-
-    .#{$namespace}-input__inner {
-      padding-right: $input-padding-size-with-extra-icon;
     }
   }
 
