@@ -60,11 +60,10 @@ export default defineComponent({
   setup(props, { emit, slots }) {
     const ns = useNamespace('alert')
     
-    console.log('test coverage')
-
     // state
     const visible = ref(true)
-
+    visible.value = !!visible.value
+    
     // computed
     const iconComponent = computed(
       () => TypeComponentsMap[props.type] || TypeComponentsMap['info']
