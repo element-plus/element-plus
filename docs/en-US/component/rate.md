@@ -75,8 +75,6 @@ Use `css/scss` language to change the global or local color. We set some global 
 | --el-rate-disable-void-color | #eff2f7 |
 | --el-rate-text-color         | #1f2d3d |
 
-:::
-
 ## Attributes
 
 | Attribute             | Description                                                                                                                                                                                                                    | Type             | Accepted Values         | Default                                                            |
