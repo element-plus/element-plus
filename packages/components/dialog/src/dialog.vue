@@ -68,8 +68,8 @@
   </teleport>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { computed, ref } from 'vue'
 import { TrapFocus } from '@element-plus/directives'
 import { ElOverlay } from '@element-plus/components/overlay'
 import { ElIcon } from '@element-plus/components/icon'
@@ -78,37 +78,40 @@ import { useNamespace, useDraggable, useSameTarget } from '@element-plus/hooks'
 import { dialogProps, dialogEmits } from './dialog'
 import { useDialog } from './use-dialog'
 
-export default defineComponent({
+import type { SetupContext } from 'vue'
+import type { DialogEmits } from './dialog'
+
+const { Close } = CloseComponents
+
+defineOptions({
   name: 'ElDialog',
-  components: {
-    ElOverlay,
-    ElIcon,
-    ...CloseComponents,
-  },
-  directives: {
-    TrapFocus,
-  },
-
-  props: dialogProps,
-  emits: dialogEmits,
-
-  setup(props, ctx) {
-    const ns = useNamespace('dialog')
-    const dialogRef = ref<HTMLElement>()
-    const headerRef = ref<HTMLElement>()
-    const dialog = useDialog(props, ctx, dialogRef)
-    const overlayEvent = useSameTarget(dialog.onModalClick)
-
-    const draggable = computed(() => props.draggable && !props.fullscreen)
-    useDraggable(dialogRef, headerRef, draggable)
-
-    return {
-      ns,
-      dialogRef,
-      headerRef,
-      overlayEvent,
-      ...dialog,
-    }
-  },
 })
+
+const props = defineProps(dialogProps)
+
+const emit = defineEmits(dialogEmits)
+
+const ns = useNamespace('dialog')
+const dialogRef = ref<HTMLElement>()
+const headerRef = ref<HTMLElement>()
+const dialog = useDialog(
+  props,
+  { emit } as SetupContext<DialogEmits>,
+  dialogRef
+)
+
+const overlayEvent = useSameTarget(dialog.onModalClick)
+const draggable = computed(() => props.draggable && !props.fullscreen)
+
+const {
+  visible,
+  afterEnter,
+  afterLeave,
+  beforeLeave,
+  style,
+  handleClose,
+  rendered,
+} = dialog
+
+useDraggable(dialogRef, headerRef, draggable)
 </script>
