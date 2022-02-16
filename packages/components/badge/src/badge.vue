@@ -20,6 +20,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
+import { isNumber } from '@element-plus/utils'
 import { badgeProps } from './badge'
 
 defineOptions({
@@ -33,7 +34,7 @@ const ns = useNamespace('badge')
 const content = computed<string>(() => {
   if (props.isDot) return ''
 
-  if (typeof props.value === 'number' && typeof props.max === 'number') {
+  if (isNumber(props.value) && isNumber(props.max)) {
     return props.max < props.value ? `${props.max}+` : `${props.value}`
   }
   return `${props.value}`
