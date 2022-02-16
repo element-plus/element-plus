@@ -137,6 +137,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
       }
       @include e(placeholder) {
         font-size: map.get($input-font-size, $size);
+        line-height: map.get($input-line-height, $size);
       }
     }
   }
@@ -201,7 +202,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     display: inline-flex;
     position: absolute;
     right: 12px;
-    height: 40px;
+    height: 32px;
     top: 50%;
     transform: translateY(-50%);
     color: var(--el-input-icon-color, map.get($input, 'icon-color'));
