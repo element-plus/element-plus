@@ -395,7 +395,9 @@ export const useSelect = (props, states: States, ctx) => {
       (props.filterable || props.remote) &&
       states.filteredOptionsCount
     ) {
-      checkDefaultFirstOption()
+      nextTick(() => {
+        checkDefaultFirstOption()
+      })
     }
   }
 
