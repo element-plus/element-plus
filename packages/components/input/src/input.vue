@@ -40,6 +40,7 @@
         :aria-label="label"
         :placeholder="placeholder"
         :style="inputStyle"
+        :maxlength="htmlMaxLength"
         @compositionstart="handleCompositionStart"
         @compositionupdate="handleCompositionUpdate"
         @compositionend="handleCompositionEnd"
@@ -48,6 +49,7 @@
         @blur="handleBlur"
         @change="handleChange"
         @keydown="handleKeydown"
+        @paste="handlePaste"
       />
 
       <!-- prefix slot -->
@@ -117,6 +119,7 @@
         :style="computedTextareaStyle"
         :aria-label="label"
         :placeholder="placeholder"
+        :maxlength="htmlMaxLength"
         @compositionstart="handleCompositionStart"
         @compositionupdate="handleCompositionUpdate"
         @compositionend="handleCompositionEnd"
@@ -125,6 +128,7 @@
         @blur="handleBlur"
         @change="handleChange"
         @keydown="handleKeydown"
+        @paste="handlePaste"
       />
       <span v-if="isWordLimitVisible" :class="nsInput.e('count')">
         {{ textLength }} / {{ attrs.maxlength }}
@@ -146,6 +150,7 @@ import {
   onUpdated,
 } from 'vue'
 import { isClient } from '@vueuse/core'
+import { toArray } from 'lodash-unified'
 import { ElIcon } from '@element-plus/components/icon'
 import { CircleClose, View as IconView } from '@element-plus/icons-vue'
 import { ValidateComponentsMap, isObject, isKorean } from '@element-plus/utils'
@@ -196,6 +201,7 @@ export default defineComponent({
     const isComposing = ref(false)
     const passwordVisible = ref(false)
     const _textareaCalcStyle = shallowRef(props.inputStyle)
+    const htmlMaxLength = ref(attrs.value.maxlength as number | undefined)
 
     const inputOrTextarea = computed(() => input.value || textarea.value)
 
@@ -239,7 +245,7 @@ export default defineComponent({
         !props.readonly &&
         !props.showPassword
     )
-    const textLength = computed(() => Array.from(nativeInputValue.value).length)
+    const textLength = computed(() => toArray(nativeInputValue.value).length)
     const inputExceed = computed(
       () =>
         // show exceed style if length of initial value greater then maxlength
@@ -297,6 +303,17 @@ export default defineComponent({
       calcIconOffset('suffix')
     }
 
+    const setHtmlMaxLength = (text: string) => {
+      const codeUnitsLength = text.length
+      const textLength = toArray(text).length
+      htmlMaxLength.value =
+        !!attrs.value.maxlength &&
+        textLength !== codeUnitsLength &&
+        codeUnitsLength > Number(attrs.value.maxlength)
+          ? codeUnitsLength - textLength + Number(attrs.value.maxlength)
+          : (attrs.value.maxlength as number | undefined)
+    }
+
     const handleInput = (event: Event) => {
       const { value } = event.target as TargetElement
 
@@ -308,6 +325,7 @@ export default defineComponent({
       // should remove the following line when we don't support IE
       if (value === nativeInputValue.value) return
 
+      setHtmlMaxLength(value)
       emit(UPDATE_MODEL_EVENT, value)
       emit('input', value)
 
@@ -443,6 +461,12 @@ export default defineComponent({
       emit('keydown', evt)
     }
 
+    const handlePaste = (evt: ClipboardEvent) => {
+      const preText = nativeInputValue.value
+      if (toArray(preText).length >= Number(attrs.value.maxlength)) return
+      setHtmlMaxLength(preText + (evt.clipboardData?.getData('text') ?? ''))
+    }
+
     return {
       input,
       textarea,
@@ -457,6 +481,7 @@ export default defineComponent({
       showPwdVisible,
       isWordLimitVisible,
       textLength,
+      htmlMaxLength,
       hovering,
       inputExceed,
       passwordVisible,
@@ -480,6 +505,7 @@ export default defineComponent({
       onMouseLeave,
       onMouseEnter,
       handleKeydown,
+      handlePaste,
 
       nsInput,
       nsTextarea,
