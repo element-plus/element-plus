@@ -1,8 +1,11 @@
-import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
+import { buildProps, definePropType } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { dialogContentProps } from './dialog-content'
+
 import type { ExtractPropTypes } from 'vue'
 
 export const dialogProps = buildProps({
+  ...dialogContentProps,
   appendToBody: {
     type: Boolean,
     default: false,
@@ -14,18 +17,6 @@ export const dialogProps = buildProps({
     type: Boolean,
     default: false,
   },
-  center: {
-    type: Boolean,
-    default: false,
-  },
-  customClass: {
-    type: String,
-    default: '',
-  },
-  closeIcon: {
-    type: iconPropType,
-    default: '',
-  },
   closeOnClickModal: {
     type: Boolean,
     default: true,
@@ -34,14 +25,6 @@ export const dialogProps = buildProps({
     type: Boolean,
     default: true,
   },
-  fullscreen: {
-    type: Boolean,
-    default: false,
-  },
-  draggable: {
-    type: Boolean,
-    default: false,
-  },
   lockScroll: {
     type: Boolean,
     default: true,
@@ -49,14 +32,6 @@ export const dialogProps = buildProps({
   modal: {
     type: Boolean,
     default: true,
-  },
-  showClose: {
-    type: Boolean,
-    default: true,
-  },
-  title: {
-    type: String,
-    default: '',
   },
   openDelay: {
     type: Number,
@@ -81,6 +56,11 @@ export const dialogProps = buildProps({
     type: Number,
   },
 } as const)
+
+export const dialogContentEmits = {
+  close: () => true,
+}
+
 export type DialogProps = ExtractPropTypes<typeof dialogProps>
 
 export const dialogEmits = {
@@ -89,5 +69,7 @@ export const dialogEmits = {
   close: () => true,
   closed: () => true,
   [UPDATE_MODEL_EVENT]: (value: boolean) => typeof value === 'boolean',
+  openAutoFocus: () => true,
+  closeAutoFocus: () => true,
 }
 export type DialogEmits = typeof dialogEmits
