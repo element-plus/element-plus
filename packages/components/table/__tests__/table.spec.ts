@@ -4,16 +4,11 @@ import { triggerEvent } from '@element-plus/test-utils'
 import { rAF } from '@element-plus/test-utils/tick'
 import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column/index'
-import { mount, getTestData } from './table-test-common'
+import { mount, getTestData, doubleWait } from './table-test-common'
 import type { VueWrapper } from '@vue/test-utils'
 import type { ComponentPublicInstance } from 'vue'
 
 const { CheckboxGroup: ElCheckboxGroup } = ElCheckbox
-
-async function doubleWait() {
-  await nextTick()
-  await nextTick()
-}
 
 jest.mock('lodash-unified', () => {
   return {
