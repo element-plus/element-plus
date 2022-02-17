@@ -307,6 +307,7 @@ importers:
     specifiers:
       '@element-plus/icons-vue': ^0.2.6
       '@vitejs/plugin-vue': 2.2.0
+      rollup-plugin-esbuild: ^4.8.2
       unplugin-vue-components: 0.17.18
       vite: 2.8.3
       vite-plugin-inspect: 0.3.14
@@ -315,7 +316,8 @@ importers:
       '@element-plus/icons-vue': 0.2.6_vue@3.2.30
     devDependencies:
       '@vitejs/plugin-vue': 2.2.0_vite@2.8.3+vue@3.2.30
-      unplugin-vue-components: 0.17.18_ab691e0fae4c9e04ebb26f44612f1f06
+      rollup-plugin-esbuild: 4.8.2_esbuild@0.14.21+rollup@2.67.2
+      unplugin-vue-components: 0.17.18_a1bca6d899a714d078e6b7abb6ae3cb5
       vite: 2.8.3_sass@1.49.7
       vite-plugin-inspect: 0.3.14_vite@2.8.3
       vite-plugin-mkcert: 1.5.2
@@ -7957,7 +7959,7 @@ packages:
     dev: true
 
   /isexe/2.0.0:
-    resolution: {integrity: sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=}
+    resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
     dev: true
 
   /isobject/2.1.0:
@@ -9944,7 +9946,7 @@ packages:
     dev: true
 
   /path-name/1.0.0:
-    resolution: {integrity: sha1-jKBjpj3nmC36lXYO2v/RAhRJTyQ=}
+    resolution: {integrity: sha512-/dcAb5vMXH0f51yvMuSUqFpxUcA8JelbRmE5mW/p4CUJxrNgK24IkstnV7ENtg2IDGBOu6izKTG6eilbnbNKWQ==}
     dev: true
 
   /path-parse/1.0.7:
@@ -10765,7 +10767,7 @@ packages:
       esbuild: '>=0.10.1'
       rollup: ^1.20.0 || ^2.0.0
     dependencies:
-      '@rollup/pluginutils': 4.1.1
+      '@rollup/pluginutils': 4.1.2
       debug: 4.3.3
       es-module-lexer: 0.9.3
       esbuild: 0.14.22
