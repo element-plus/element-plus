@@ -40,7 +40,7 @@ pnpm install
 Then you can following command to verify your installation.
 
 ```shell
-pnpm test && pnpm test:vitest
+pnpm t
 pnpm format
 ```
 

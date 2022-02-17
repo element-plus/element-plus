@@ -27,7 +27,7 @@ jobs:
       - name: Lint
         run: pnpm lint
       - name: Test
-        run: pnpm test && pnpm test:vitest
+        run: pnpm test
 
   publish:
     needs: test

@@ -11,8 +11,10 @@
   },
   "scripts": {
     "cz": "git-cz",
-    "test": "jest",
+    "test": "pnpm test:jest && pnpm test:vitest",
+    "test:jest": "jest",
     "test:vitest": "vitest",
+    "test:coverage": "jest --coverage",
     "prepare:e2e": "if [ ! -d \"docs/.vitepress/dist\" ]; then pnpm run docs:build; fi;",
     "e2e": "cypress open",
     "e2e:ci": "cypress run",
