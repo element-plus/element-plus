@@ -35,7 +35,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
       let loadingNumber: number | string | null =
         target.getAttribute('loading-number')
       loadingNumber = Number.parseInt(loadingNumber as any) - 1
-      if (!loadingNumber) {
+      if (!loadingNumber || data.isService) {
         removeClass(target, 'el-loading-parent--relative')
         target.removeAttribute('loading-number')
       } else {
