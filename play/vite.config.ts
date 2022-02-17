@@ -13,6 +13,17 @@ import { epRoot, pkgRoot, projRoot, epPackage } from '../build/utils/paths'
 import { getPackageDependencies } from '../build/utils/pkg'
 import './vite.init'
 
+const esbuildPlugin = () => ({
+  ...esbuild({
+    target: 'chrome64',
+    include: /\.vue$/,
+    loaders: {
+      '.vue': 'js',
+    },
+  }),
+  enforce: 'post',
+})
+
 export default defineConfig(async () => {
   const { dependencies } = getPackageDependencies(epPackage)
 
@@ -41,16 +52,7 @@ export default defineConfig(async () => {
     },
     plugins: [
       vue(),
-      {
-        ...esbuild({
-          target: 'chrome64',
-          include: /\.vue$/,
-          loaders: {
-            '.vue': 'js',
-          },
-        }),
-        enforce: 'post',
-      },
+      esbuildPlugin(),
       vueJsx(),
       DefineOptions(),
       Components({
