@@ -105,7 +105,7 @@
     "csstype": "2.6.19",
     "cypress": "8.5.0",
     "cz-conventional-changelog": "3.3.0",
-    "esbuild": "0.14.21",
+    "esbuild": "0.14.22",
     "eslint": "8.9.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-define-config": "1.2.5",
