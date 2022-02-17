@@ -43,7 +43,7 @@ export default defineConfig(async () => {
       vue(),
       {
         ...esbuild({
-          target: 'chrome70',
+          target: 'chrome64',
           include: /\.vue$/,
           loaders: {
             '.vue': 'js',
@@ -66,7 +66,7 @@ export default defineConfig(async () => {
       include: ['vue', '@vue/shared', ...dependencies, ...optimizeDeps],
     },
     esbuild: {
-      target: 'chrome70',
+      target: 'chrome64',
     },
   }
 })
