@@ -1,4 +1,3 @@
-import { nextTick } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { triggerEvent } from '@element-plus/test-utils'
 import { rAF } from '@element-plus/test-utils/tick'

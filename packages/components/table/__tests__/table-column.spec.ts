@@ -1,4 +1,3 @@
-import { nextTick } from 'vue'
 import { triggerEvent } from '@element-plus/test-utils'
 import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column/index'
