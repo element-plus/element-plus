@@ -9,7 +9,7 @@ lang: en-US
 
 Similar to Tooltip, Popover is also built with `ElPopper`. So for some duplicated attributes, please refer to the documentation of Tooltip.
 
-:::demo The `trigger` attribute is used to define how popover is triggered: `hover`, `click`, `focus` or `manual`.
+:::demo The `trigger` attribute is used to define how popover is triggered: `hover`, `click`, `focus`, `contextmenu` or `manual`.
 
 popover/basic-usage
 
@@ -66,7 +66,7 @@ popover/directive-usage
 
 | Attribute                 | Description                                                                                                                                                              | Type            | Accepted Values                                                                                           | Default                                                 |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| trigger                   | how the popover is triggered                                                                                                                                             | string          | click/focus/hover/manual                                                                                  | click                                                   |
+| trigger                   | how the popover is triggered                                                                                                                                             | string          | click/focus/hover/contextmenu                                                                             | click                                                   |
 | title                     | popover title                                                                                                                                                            | string          | —                                                                                                         | —                                                       |
 | content                   | popover content, can be replaced with a default `slot`                                                                                                                   | string          | —                                                                                                         | —                                                       |
 | width                     | popover width                                                                                                                                                            | string / number | —                                                                                                         | Min width 150px                                         |
