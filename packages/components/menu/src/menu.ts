@@ -387,7 +387,7 @@ export default defineComponent({
               'el-menu--collapse': props.collapse,
             },
           },
-          [...slot.map((vnode) => resizeMenu(vnode)), ...vShowMore]
+          [...slot, ...vShowMore]
         )
       )
 
