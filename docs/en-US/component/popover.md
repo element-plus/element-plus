@@ -92,9 +92,11 @@ popover/directive-usage
 
 ## Events
 
-| Event Name  | Description                                | Parameters |
-| ----------- | ------------------------------------------ | ---------- |
-| show        | triggers when popover shows                | —          |
-| after-enter | triggers when the entering transition ends | —          |
-| hide        | triggers when popover hides                | —          |
-| after-leave | triggers when the leaving transition ends  | —          |
+| Event Name   | Description                                   | Parameters |
+| ------------ | --------------------------------------------- | ---------- |
+| show         | triggers when popover shows                   | —          |
+| before-enter | triggers when the entering transition befores | —          |
+| after-enter  | triggers when the entering transition ends    | —          |
+| hide         | triggers when popover hides                   | —          |
+| before-leave | triggers when the leaving transition befores  | —          |
+| after-leave  | triggers when the leaving transition ends     | —          |
