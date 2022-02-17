@@ -83,7 +83,7 @@ importers:
       ts-morph: 13.0.3
       type-fest: 2.11.2
       typescript: 4.5.5
-      unplugin-vue-define-options: 0.2.2
+      unplugin-vue-define-options: 0.3.1
       vue: 3.2.30
       vue-jest: 5.0.0-alpha.10
       vue-router: 4.0.12
@@ -169,7 +169,7 @@ importers:
       ts-morph: 13.0.3
       type-fest: 2.11.2
       typescript: 4.5.5
-      unplugin-vue-define-options: 0.2.2
+      unplugin-vue-define-options: 0.3.1_a2d0c1fa84d0bf84d5748cef41c57115
       vue: 3.2.30
       vue-jest: 5.0.0-alpha.10_0ae7559515e9e066186708b0ae18078c
       vue-router: 4.0.12_vue@3.2.30
@@ -12073,8 +12073,19 @@ packages:
       - webpack
     dev: true
 
-  /unplugin-vue-define-options/0.2.2:
-    resolution: {integrity: sha512-1+RoFfvJkCXgJIKG76+Io4gbm86lgQrC8Lf7YoXmF9/RDRyN39B4Sd99HE3rL/XvI15rXNn7vXYFm9Fm3GUgZw==}
+  /unplugin-vue-define-options/0.3.1_a2d0c1fa84d0bf84d5748cef41c57115:
+    resolution: {integrity: sha512-/i4nLLm0m13yWagFljUlqPvJt4ZQD86MdkBhQnhfH2E7OpIe8+7MJlYRqytru7p/h24RFcRZ8FC+vM+4OoiPYQ==}
+    peerDependencies:
+      vue: ^3.2.25
+    dependencies:
+      '@rollup/pluginutils': 4.1.2
+      unplugin: 0.3.2_esbuild@0.14.22+rollup@2.67.2
+      vue: 3.2.30
+    transitivePeerDependencies:
+      - esbuild
+      - rollup
+      - vite
+      - webpack
     dev: true
 
   /unplugin/0.3.0_978ca5bccbb988c0a69188a167451209:
@@ -12120,6 +12131,28 @@ packages:
       esbuild: 0.14.22
       rollup: 2.67.2
       vite: 2.8.3_sass@1.49.7
+      webpack-virtual-modules: 0.4.3
+    dev: true
+
+  /unplugin/0.3.2_esbuild@0.14.22+rollup@2.67.2:
+    resolution: {integrity: sha512-5d0DMYNKZU+S9eZUiBfw6Co32eRg8myUgBPoWSqG/wDFCUE/WznfSsJnZWi1P9l69x4uLJqt2qVq1xW/AsXFrw==}
+    peerDependencies:
+      esbuild: '>=0.13'
+      rollup: ^2.50.0
+      vite: ^2.3.0
+      webpack: 4 || 5
+    peerDependenciesMeta:
+      esbuild:
+        optional: true
+      rollup:
+        optional: true
+      vite:
+        optional: true
+      webpack:
+        optional: true
+    dependencies:
+      esbuild: 0.14.22
+      rollup: 2.67.2
       webpack-virtual-modules: 0.4.3
     dev: true
 
