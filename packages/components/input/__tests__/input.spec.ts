@@ -88,15 +88,15 @@ describe('Input.vue', () => {
       expect(elCount.exists()).toBe(true)
       expect(elCount.text()).toBe('3 / 4')
 
-      vm.inputVal = '1👌3😄'
+      vm.inputVal = '1👌3🤰🏻'
       await nextTick()
-      expect(nativeInput.value).toBe('1👌3😄')
+      expect(nativeInput.value).toBe('1👌3🤰🏻')
       expect(elCount.text()).toBe('4 / 4')
 
-      vm.inputVal = '哈哈1👌3😄'
+      vm.inputVal = 'ln哈哈1👩‍👩‍👧‍👧3🤰🏻'
       await nextTick()
-      expect(nativeInput.value).toBe('哈哈1👌3😄')
-      expect(elCount.text()).toBe('6 / 4')
+      expect(nativeInput.value).toBe('ln哈哈1👩‍👩‍👧‍👧3🤰🏻')
+      expect(elCount.text()).toBe('8 / 4')
       expect(vm.$el.classList.contains('is-exceed')).toBe(true)
     })
 
