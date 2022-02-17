@@ -196,7 +196,7 @@ importers:
       unplugin-vue-components: 0.17.18
       vite: 2.8.3
       vite-plugin-inspect: 0.3.14
-      vite-plugin-windicss: 1.7.0
+      vite-plugin-windicss: 1.7.1
       vitepress: 0.22.2
     dependencies:
       '@docsearch/js': 3.0.0-alpha.50
@@ -219,7 +219,7 @@ importers:
       unplugin-vue-components: 0.17.18_ab691e0fae4c9e04ebb26f44612f1f06
       vite: 2.8.3_sass@1.49.7
       vite-plugin-inspect: 0.3.14_vite@2.8.3
-      vite-plugin-windicss: 1.7.0_vite@2.8.3
+      vite-plugin-windicss: 1.7.1_vite@2.8.3
       vitepress: 0.22.2_sass@1.49.7
 
   packages/components:
@@ -3563,8 +3563,8 @@ packages:
       vue-demi: 0.12.1_vue@3.2.30
     dev: false
 
-  /@windicss/config/1.7.0:
-    resolution: {integrity: sha512-jP+SYEUMTcvEQexYAeaIGKWq3sE+yv0myyOCph7Glm/YZE2ZCK1GukI1oDG6fcVer121EQzCY4Rx11trb3oSZg==}
+  /@windicss/config/1.7.1:
+    resolution: {integrity: sha512-bT4Ze8d1kTKbVdQZ7yal9vjhIfuYypco2gVTy4OXvg6eAHFNZaOB/Ai4FqdRKvbgOqChHGiC32r5J55hmq6tDw==}
     dependencies:
       debug: 4.3.3
       jiti: 1.12.9
@@ -3573,11 +3573,11 @@ packages:
       - supports-color
     dev: true
 
-  /@windicss/plugin-utils/1.7.0:
-    resolution: {integrity: sha512-4zxTIhpGaia4FTxL/c20GQU2bK3bqToerdErvDzwLqWQECVGt7vTGFQd3e4XMpfR6Ujgk4/p7fCHv/F15R/pkA==}
+  /@windicss/plugin-utils/1.7.1:
+    resolution: {integrity: sha512-VMBLZ11s5kQt1RIIwfB45xFswb+SI1cvI5mK07dUSlfpomG1d1bqnB57bioo/jFNZh2Rl8wVnEvLTl7iZ4r09Q==}
     dependencies:
       '@antfu/utils': 0.4.0
-      '@windicss/config': 1.7.0
+      '@windicss/config': 1.7.1
       debug: 4.3.3
       fast-glob: 3.2.11
       magic-string: 0.25.7
@@ -12313,12 +12313,12 @@ packages:
       - supports-color
     dev: true
 
-  /vite-plugin-windicss/1.7.0_vite@2.8.3:
-    resolution: {integrity: sha512-1ps7hk6Pr9TqsW9Y+QXmJ9PMowVLjM0h32c+jh9vdQr5Jzyim3hHivR0rXSkDV9znIB9RkjRQD1znRbAMX0OcQ==}
+  /vite-plugin-windicss/1.7.1_vite@2.8.3:
+    resolution: {integrity: sha512-eEDeTPaeQAfe0widkTkm9X51BVpOE/yDIuFbULIKjXI7CfY1yjsPcxA6E3aZbLBYQcUmfhVUTYVaH5iAE5L8Hg==}
     peerDependencies:
       vite: ^2.0.1
     dependencies:
-      '@windicss/plugin-utils': 1.7.0
+      '@windicss/plugin-utils': 1.7.1
       debug: 4.3.3
       kolorist: 1.5.1
       vite: 2.8.3_sass@1.49.7
