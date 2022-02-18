@@ -192,7 +192,7 @@ importers:
       markdown-it-container: 3.0.0
       normalize.css: 8.0.1
       nprogress: 0.2.0
-      unplugin-icons: 0.13.1
+      unplugin-icons: 0.13.2
       unplugin-vue-components: 0.17.18
       vite: 2.8.3
       vite-plugin-inspect: 0.3.14
@@ -215,7 +215,7 @@ importers:
       escape-html: 1.0.3
       markdown-it: 12.3.2
       markdown-it-container: 3.0.0
-      unplugin-icons: 0.13.1_978ca5bccbb988c0a69188a167451209
+      unplugin-icons: 0.13.2_978ca5bccbb988c0a69188a167451209
       unplugin-vue-components: 0.17.18_ab691e0fae4c9e04ebb26f44612f1f06
       vite: 2.8.3_sass@1.49.7
       vite-plugin-inspect: 0.3.14_vite@2.8.3
@@ -12009,8 +12009,8 @@ packages:
     engines: {node: '>= 10.0.0'}
     dev: true
 
-  /unplugin-icons/0.13.1_978ca5bccbb988c0a69188a167451209:
-    resolution: {integrity: sha512-Y7ZOjTUvLdY4qUQNDo4OmkxjCh2coNbcAeWfFW66EZW7cJiBI6vU8j4cBAsyqUEwMdFL3q/kwowCRgD6BAaRyQ==}
+  /unplugin-icons/0.13.2_978ca5bccbb988c0a69188a167451209:
+    resolution: {integrity: sha512-Dwfn5DkKrp/BpZV0R/2wgU39j+kjkeuIQ54PmJ9LhXNpNAS+Huf6Fl/PUmUrlWOvMAz0uPo3y/5lQKZUBjBkBQ==}
     peerDependencies:
       '@svgr/core': '>=5.5.0'
       '@vue/compiler-sfc': ^3.0.2
