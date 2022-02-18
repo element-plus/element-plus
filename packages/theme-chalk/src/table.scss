@@ -134,7 +134,7 @@
     vertical-align: middle;
     position: relative;
     text-align: left;
-    z-index: 1;
+    z-index: inherit;
     @include when(center) {
       text-align: center;
     }
