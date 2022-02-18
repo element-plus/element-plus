@@ -57,7 +57,7 @@
             :class="[ns.is('text'), checked ? ns.is('show') : ns.is('hide')]"
             :aria-hidden="!checked"
           >
-            {{ activeText.substr(0, 3) }}
+            {{ activeText.substring(0, 3) }}
           </span>
           <span
             v-if="inactiveText"
