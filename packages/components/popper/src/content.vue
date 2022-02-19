@@ -77,6 +77,14 @@ export default defineComponent({
       contentZIndex.value = props.zIndex || nextZIndex()
     }
 
+    const togglePopoerAlive = () => {
+      const monitorable = { name: 'eventListeners', enabled: props.visible }
+      unref(popperInstanceRef)?.setOptions((options) => ({
+        ...options,
+        modifiers: [...options.modifiers, monitorable],
+      }))
+    }
+
     onMounted(() => {
       let updateHandle: ReturnType<typeof watch>
       watch(
@@ -113,6 +121,8 @@ export default defineComponent({
           immediate: true,
         }
       )
+
+      watch(() => props.visible, togglePopoerAlive, { immediate: true })
 
       watch(
         () =>

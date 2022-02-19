@@ -26,6 +26,7 @@
         :popper-class="popperClass"
         :popper-style="[popperStyle, contentStyle]"
         :reference-el="referenceEl"
+        :visible="shouldShow"
         :z-index="zIndex"
         @mouseenter="onContentEnter"
         @mouseleave="onContentLeave"
