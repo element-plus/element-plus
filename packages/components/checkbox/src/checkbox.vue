@@ -73,7 +73,7 @@ export default defineComponent({
   name: 'ElCheckbox',
   props: {
     modelValue: {
-      type: [Boolean, Number, String],
+      type: [Number, String, Boolean],
       default: () => undefined,
     },
     label: {
