@@ -52,7 +52,7 @@ importers:
       dayjs: ^1.10.7
       esbuild: 0.14.22
       eslint: 8.9.0
-      eslint-config-prettier: 8.3.0
+      eslint-config-prettier: 8.4.0
       eslint-define-config: 1.2.5
       eslint-plugin-import: 2.25.4
       eslint-plugin-prettier: 4.0.0
@@ -143,10 +143,10 @@ importers:
       cz-conventional-changelog: 3.3.0
       esbuild: 0.14.22
       eslint: 8.9.0
-      eslint-config-prettier: 8.3.0_eslint@8.9.0
+      eslint-config-prettier: 8.4.0_eslint@8.9.0
       eslint-define-config: 1.2.5
       eslint-plugin-import: 2.25.4_eslint@8.9.0
-      eslint-plugin-prettier: 4.0.0_07b422646bb75d3db791621d4fdbc992
+      eslint-plugin-prettier: 4.0.0_9f62b85ce3ce02949dbd2ccffcebe95f
       eslint-plugin-vue: 8.4.1_eslint@8.9.0
       expect-type: 0.13.0
       fast-glob: 3.2.11
@@ -6095,8 +6095,8 @@ packages:
       source-map: 0.6.1
     dev: true
 
-  /eslint-config-prettier/8.3.0_eslint@8.9.0:
-    resolution: {integrity: sha512-BgZuLUSeKzvlL/VUjx/Yb787VQ26RU3gGjA3iiFvdsp/2bMfVIWUVP7tjxtjS0e+HP409cPlPvNkQloz8C91ew==}
+  /eslint-config-prettier/8.4.0_eslint@8.9.0:
+    resolution: {integrity: sha512-CFotdUcMY18nGRo5KGsnNxpznzhkopOcOo0InID+sgQssPrzjvsyKZPvOgymTFeHrFuC3Tzdf2YndhXtULK9Iw==}
     hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
@@ -6146,7 +6146,7 @@ packages:
       tsconfig-paths: 3.12.0
     dev: true
 
-  /eslint-plugin-prettier/4.0.0_07b422646bb75d3db791621d4fdbc992:
+  /eslint-plugin-prettier/4.0.0_9f62b85ce3ce02949dbd2ccffcebe95f:
     resolution: {integrity: sha512-98MqmCJ7vJodoQK359bqQWaxOE0CS8paAz/GgjaZLyex4TTk3g9HugoO89EqWCrFiOqn9EVvcoo7gZzONCWVwQ==}
     engines: {node: '>=6.0.0'}
     peerDependencies:
@@ -6158,7 +6158,7 @@ packages:
         optional: true
     dependencies:
       eslint: 8.9.0
-      eslint-config-prettier: 8.3.0_eslint@8.9.0
+      eslint-config-prettier: 8.4.0_eslint@8.9.0
       prettier: 2.5.1
       prettier-linter-helpers: 1.0.0
     dev: true
