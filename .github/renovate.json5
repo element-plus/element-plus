@@ -10,5 +10,20 @@
       enabled: false,
     },
   ],
-  ignoreDeps: ['node', 'cypress', 'chalk', 'csstype', '@vue/test-utils'],
+  ignoreDeps: [
+    'node',
+    'csstype',
+
+    // pure esm
+    'chalk',
+
+    // jest
+    '@types/jest',
+    'babel-jest',
+    'jest',
+    'ts-jest',
+    '@vue/test-utils',
+
+    'cypress',
+  ],
 }
