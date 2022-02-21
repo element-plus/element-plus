@@ -762,9 +762,8 @@ describe('Select', () => {
       .spyOn(selectDom, 'getBoundingClientRect')
       .mockReturnValue(selectRect as DOMRect)
     const dropdown = wrapper.findComponent({ name: 'ElSelectDropdown' })
-    dropdown.vm.minWidth = `${
-      selectWrapper.element.getBoundingClientRect().width
-    }px`
+    dropdown.vm.minWidth = `${selectWrapper.element.getBoundingClientRect().width
+      }px`
     await nextTick()
     expect(dropdown.element.style.width).toBe('221px')
     mockSelectWidth.mockRestore()
@@ -2083,5 +2082,36 @@ describe('Select', () => {
       expect(vm.value).toBe(2)
       expect(findInnerInput().value).toBe('z')
     })
+  })
+
+  test('visible of option is updated immediately after query changed', async () => {
+    const wrapper = _mount(
+      `
+        <el-select 
+          v-model="value" 
+          multiple
+          filterable
+          default-first-option
+        >
+          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        </el-select>`,
+      () => {
+        return {
+          value: [],
+          options: [
+            {
+              value: 'test1',
+              label: 'test1',
+            },
+          ],
+        }
+      }
+    )
+    const options = wrapper.findAllComponents(Option)
+    const selectInput = wrapper.find('.el-select__input')
+    const selectInputEl = selectInput.element as HTMLInputElement
+    selectInputEl.value = 'test2'
+    selectInput.trigger('input')
+    expect(options.map((option) => option.vm.visible)).toEqual([false])
   })
 })

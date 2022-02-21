@@ -135,7 +135,7 @@ export function useOption(props, states) {
         select.filteredOptionsCount--
       }
     },
-    { immediate: true }
+    { flush: 'sync' }
   )
 
   return {
