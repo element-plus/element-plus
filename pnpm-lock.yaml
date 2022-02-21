@@ -38,14 +38,14 @@ importers:
       '@typescript-eslint/parser': 5.12.0
       '@vitejs/plugin-vue': 2.2.2
       '@vitejs/plugin-vue-jsx': 1.3.7
-      '@vitest/ui': ^0.3.2
+      '@vitest/ui': 0.3.6
       '@vue/babel-plugin-jsx': 1.1.1
       '@vue/test-utils': 2.0.0-rc.16
       '@vue/tsconfig': 0.1.3
       '@vueuse/core': ^7.6.0
       async-validator: ^4.0.7
       babel-jest: 26.6.3
-      c8: ^7.11.0
+      c8: 7.11.0
       chalk: 4.1.2
       components-helper: 2.0.0
       csstype: 2.6.19
@@ -86,7 +86,7 @@ importers:
       type-fest: 2.12.0
       typescript: 4.5.5
       unplugin-vue-define-options: 0.3.1
-      vitest: ^0.3.2
+      vitest: 0.3.6
       vue: 3.2.30
       vue-jest: 5.0.0-alpha.10
       vue-router: 4.0.12
@@ -135,7 +135,7 @@ importers:
       '@typescript-eslint/parser': 5.12.0_eslint@8.9.0+typescript@4.5.5
       '@vitejs/plugin-vue': 2.2.2_vue@3.2.30
       '@vitejs/plugin-vue-jsx': 1.3.7
-      '@vitest/ui': 0.3.2
+      '@vitest/ui': 0.3.6
       '@vue/babel-plugin-jsx': 1.1.1_@babel+core@7.17.5
       '@vue/test-utils': 2.0.0-rc.16_vue@3.2.30
       '@vue/tsconfig': 0.1.3_@types+node@17.0.16
@@ -175,7 +175,7 @@ importers:
       type-fest: 2.12.0
       typescript: 4.5.5
       unplugin-vue-define-options: 0.3.1_a2d0c1fa84d0bf84d5748cef41c57115
-      vitest: 0.3.2_7eedc1c4db875d438e18b4f15a9092b1
+      vitest: 0.3.6_75987989ac46d41ea55b64ce0e4dcfa8
       vue: 3.2.30
       vue-jest: 5.0.0-alpha.10_9f18a56dc640bc0fc3dd15c5d03f3517
       vue-router: 4.0.12_vue@3.2.30
@@ -2122,7 +2122,7 @@ packages:
       exit: 0.1.2
       glob: 7.1.7
       graceful-fs: 4.2.8
-      istanbul-lib-coverage: 3.0.0
+      istanbul-lib-coverage: 3.2.0
       istanbul-lib-instrument: 4.0.3
       istanbul-lib-report: 3.0.0
       istanbul-lib-source-maps: 4.0.0
@@ -3221,8 +3221,8 @@ packages:
       vue: 3.2.30
     dev: true
 
-  /@vitest/ui/0.3.2:
-    resolution: {integrity: sha512-bW2AWmfBxUlz4Xc0lpY1tfMf1MzK3ZnkzN9ACtDTrrWOQ4yEALgKxJm8qDW71x8qllWlrJTbO0R4xUVI96oc/A==}
+  /@vitest/ui/0.3.6:
+    resolution: {integrity: sha512-xnU6TJAdvMNQ0GVIxZT4GmlZ3FzgysgpzT93Ym+BKGCJGClzwCl5OwOa9MVLBcB0dC/syZ22wZHxXqJQkMh9/g==}
     dependencies:
       sirv: 2.0.2
     dev: true
@@ -8048,11 +8048,6 @@ packages:
     resolution: {integrity: sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=}
     dev: true
 
-  /istanbul-lib-coverage/3.0.0:
-    resolution: {integrity: sha512-UiUIqxMgRDET6eR+o5HbfRYP1l0hqkWOs7vNxC/mggutCMUIhWMm8gAHb8tHlyfD3/l6rlgNA5cKdDzEAf6hEg==}
-    engines: {node: '>=8'}
-    dev: true
-
   /istanbul-lib-coverage/3.2.0:
     resolution: {integrity: sha512-eOeJ5BHCmHYvQK7xt9GkdHuzuCGS1Y6g9Gvnx3Ym33fz/HpLRYxiS0wHNr+m/MBC8B647Xt608vCDEvhl9c6Mw==}
     engines: {node: '>=8'}
@@ -8064,7 +8059,7 @@ packages:
     dependencies:
       '@babel/core': 7.17.5
       '@istanbuljs/schema': 0.1.2
-      istanbul-lib-coverage: 3.0.0
+      istanbul-lib-coverage: 3.2.0
       semver: 6.3.0
     transitivePeerDependencies:
       - supports-color
@@ -12566,8 +12561,8 @@ packages:
       - stylus
     dev: true
 
-  /vitest/0.3.2_7eedc1c4db875d438e18b4f15a9092b1:
-    resolution: {integrity: sha512-Xc0u8BVPBdD029uDcLSYDvy1MFenC6V8WvTJOGdld6NNWgz/swgsMvwZNzftsDohmHLgDyck8A+TaQdDd1tNwA==}
+  /vitest/0.3.6_75987989ac46d41ea55b64ce0e4dcfa8:
+    resolution: {integrity: sha512-EzlAmGHDh/sQhzKeqDtEae6nlFM5pJKJefj5P2eUUmg6DcXL2Xj365M7eN29P2tMofzs+qZD/LW+d2wopfNl0g==}
     engines: {node: '>=14.14.0'}
     hasBin: true
     peerDependencies:
@@ -12587,13 +12582,13 @@ packages:
     dependencies:
       '@types/chai': 4.3.0
       '@types/chai-subset': 1.3.3
-      '@vitest/ui': 0.3.2
+      '@vitest/ui': 0.3.6
       c8: 7.11.0
       chai: 4.3.6
       local-pkg: 0.4.1
       tinypool: 0.1.2
       tinyspy: 0.2.10
-      vite: 2.8.3_sass@1.49.7
+      vite: 2.8.3_sass@1.49.8
     transitivePeerDependencies:
       - less
       - sass
