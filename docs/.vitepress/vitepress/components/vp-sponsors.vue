@@ -10,6 +10,8 @@ const lang = useLang()
 const sponsors = computed(() => sponsorsLocale[lang.value])
 
 const sponsor = computed(() => sponsorLocale[lang.value])
+
+const darkSponsors = ['bit']
 </script>
 
 <template>
@@ -17,7 +19,12 @@ const sponsor = computed(() => sponsorLocale[lang.value])
     <p class="sponsors-title">{{ sponsor.sponsoredBy }}</p>
     <VPSponsorLarge />
     <div class="container">
-      <VPSponsor v-for="(s, key) in sponsors" :key="key" :item="s" />
+      <VPSponsor
+        v-for="(s, key) in sponsors"
+        :key="key"
+        :item="s"
+        :class="darkSponsors.includes(s.name) ? 'filter invert' : ''"
+      />
     </div>
   </div>
 </template>

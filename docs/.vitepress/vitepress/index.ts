@@ -2,6 +2,8 @@ import 'normalize.css'
 // import 'element-plus/dist/index.css'
 // for dev
 import '../../../packages/theme-chalk/src/index.scss'
+// for dark mode
+import '../../../packages/theme-chalk/src/dark/vars.scss'
 import './styles/app.scss'
 
 import VPApp from './components/vp-app.vue'
