@@ -20,9 +20,7 @@ describe('use-timeout', () => {
     wrapper = _mount(cb)
   })
   afterEach(() => {
-    vi.clearAllMocks()
     vi.restoreAllMocks()
-    vi.useRealTimers()
   })
 
   let wrapper: ReturnType<typeof _mount>
