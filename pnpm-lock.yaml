@@ -192,6 +192,7 @@ importers:
       markdown-it-container: 3.0.0
       normalize.css: 8.0.1
       nprogress: 0.2.0
+      prism-theme-vars: ^0.2.2
       unplugin-icons: 0.13.1
       unplugin-vue-components: 0.17.18
       vite: 2.8.2
@@ -207,6 +208,7 @@ importers:
       element-plus: 2.0.2_8ddf48dde9d511a4d145aeec74353d80
       normalize.css: 8.0.1
       nprogress: 0.2.0
+      prism-theme-vars: 0.2.2
     devDependencies:
       '@crowdin/cli': 3.7.7
       '@iconify-json/ri': 1.1.0
@@ -9910,6 +9912,10 @@ packages:
   /printable-characters/1.0.42:
     resolution: {integrity: sha1-Pxjpd6m9jrN/zE/1ZZ176Qhos9g=}
     dev: true
+
+  /prism-theme-vars/0.2.2:
+    resolution: {integrity: sha512-EL9ifuU/F8tEldoCa2sspiiLWysCL54xDbf2gN/ubwdtbuJROqOGopG5kSwunapwaioT+jLUQ/Ky+7jnv62xJA==}
+    dev: false
 
   /prismjs/1.25.0:
     resolution: {integrity: sha512-WCjJHl1KEWbnkQom1+SzftbtXMKQoezOCYs5rECqMN+jP+apI7ftoflyqigqzopSO3hMhTEb0mFClA8lkolgEg==}

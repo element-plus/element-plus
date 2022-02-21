@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import sponsorsLocale from '../../i18n/component/sponsors.json'
 import sponsorLocale from '../../i18n/component/sponsor.json'
 import { useLang } from '../composables/lang'
+import { isDark } from '../composables/dark'
 import VPSponsor from './vp-sponsor.vue'
 import VPSponsorLarge from './vp-sponsor-large.vue'
 
@@ -23,7 +24,7 @@ const darkSponsors = ['bit']
         v-for="(s, key) in sponsors"
         :key="key"
         :item="s"
-        :class="darkSponsors.includes(s.name) ? 'filter invert' : ''"
+        :class="darkSponsors.includes(s.name) && isDark ? 'filter invert' : ''"
       />
     </div>
   </div>

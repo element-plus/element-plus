@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import CommonThemeToggler from '../common/vp-theme-toggler.vue'
-import { useTheme } from '../../composables/theme'
-
-const toggle = useTheme()
+import { toggleDark } from '../../composables/dark'
 </script>
 
 <template>
   <div class="full-screen-theme-toggler">
     <span> Theme </span>
-    <CommonThemeToggler @click="toggle" />
+    <CommonThemeToggler @click="toggleDark()" />
   </div>
 </template>
 
