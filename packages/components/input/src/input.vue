@@ -153,12 +153,7 @@ import { isClient } from '@vueuse/core'
 import { toArray } from 'lodash-unified'
 import { ElIcon } from '@element-plus/components/icon'
 import { CircleClose, View as IconView } from '@element-plus/icons-vue'
-import {
-  ValidateComponentsMap,
-  isObject,
-  isKorean,
-  isNumber,
-} from '@element-plus/utils'
+import { ValidateComponentsMap, isObject, isKorean } from '@element-plus/utils'
 import {
   useAttrs,
   useDisabled,
@@ -206,7 +201,9 @@ export default defineComponent({
     const isComposing = ref(false)
     const passwordVisible = ref(false)
     const _textareaCalcStyle = shallowRef(props.inputStyle)
-    const htmlMaxLength = ref(attrs.value.maxlength as number | undefined)
+    const htmlMaxLength = ref(
+      attrs.value.maxlength as number | string | undefined
+    )
 
     const inputOrTextarea = computed(() => input.value || textarea.value)
 
@@ -311,12 +308,13 @@ export default defineComponent({
     const setHtmlMaxLength = (text: string) => {
       const codeUnitsLength = text.length
       const textLength = toArray(text).length
+      const maxlength = Number(attrs.value.maxlength)
       htmlMaxLength.value =
-        isNumber(attrs.value.maxlength) &&
+        !isNaN(maxlength) &&
         textLength !== codeUnitsLength &&
-        codeUnitsLength > attrs.value.maxlength
-          ? codeUnitsLength - textLength + attrs.value.maxlength
-          : (attrs.value.maxlength as number | undefined)
+        codeUnitsLength > maxlength
+          ? codeUnitsLength - textLength + maxlength
+          : (attrs.value.maxlength as number | string | undefined)
     }
 
     const handleInput = (event: Event) => {
@@ -468,11 +466,7 @@ export default defineComponent({
 
     const handlePaste = (evt: ClipboardEvent) => {
       const preText = nativeInputValue.value
-      if (
-        isNumber(attrs.value.maxlength) &&
-        toArray(preText).length >= attrs.value.maxlength
-      )
-        return
+      if (toArray(preText).length >= Number(attrs.value.maxlength)) return
       setHtmlMaxLength(preText + (evt.clipboardData?.getData('text') ?? ''))
     }
 
