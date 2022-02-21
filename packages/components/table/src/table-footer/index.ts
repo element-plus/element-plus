@@ -110,7 +110,9 @@ export default defineComponent({
         border: '0',
       },
       [
-        hColgroup(columns),
+        hColgroup({
+          columns,
+        }),
         h('tbody', [
           h('tr', {}, [
             ...columns.map((column, cellIndex) =>
