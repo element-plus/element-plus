@@ -309,10 +309,11 @@ export default defineComponent({
       const codeUnitsLength = text.length
       const textLength = toArray(text).length
       const maxlength = Number(attrs.value.maxlength)
+      const diffLength = codeUnitsLength - textLength
       htmlMaxLength.value =
         !isNaN(maxlength) &&
         textLength !== codeUnitsLength &&
-        codeUnitsLength > maxlength
+        codeUnitsLength + diffLength > maxlength
           ? codeUnitsLength - textLength + maxlength
           : (attrs.value.maxlength as number | string | undefined)
     }
