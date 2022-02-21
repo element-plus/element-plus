@@ -1,3 +1,4 @@
+import { nextTick } from 'vue'
 import { mount as _mount } from '@vue/test-utils'
 
 jest.mock('lodash-unified', () => {
@@ -10,6 +11,11 @@ jest.mock('lodash-unified', () => {
     }),
   }
 })
+
+export async function doubleWait() {
+  await nextTick()
+  await nextTick()
+}
 
 export const mount = (opt: any) =>
   _mount<any>(opt, {
