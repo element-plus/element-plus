@@ -1,21 +1,24 @@
-import { nextTick, ref, h, reactive } from 'vue'
+import { nextTick, ref, reactive, defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
+import { describe, it, expect, fn, beforeEach, afterEach } from 'vitest'
 
 import { useModelToggle, useModelToggleProps } from '../use-model-toggle'
-
-import type { ExtractPropTypes } from 'vue'
+import type { VueWrapper } from '@vue/test-utils'
 
 const AXIOM = 'Rem is the best girl'
 
-const onShow = jest.fn()
-const onHide = jest.fn()
+const onShow = fn()
+const onHide = fn()
 let flag = true
 const shouldProceed = () => flag
 
-const Comp = {
-  name: 'comp',
-  props: { ...useModelToggleProps, disabled: Boolean },
-  setup(props: ExtractPropTypes<typeof useModelToggleProps>) {
+const Comp = defineComponent({
+  props: {
+    ...useModelToggleProps,
+    disabled: Boolean,
+  },
+
+  setup(props) {
     const indicator = ref(false)
     const { show, hide, toggle } = useModelToggle({
       indicator,
@@ -26,36 +29,26 @@ const Comp = {
     })
 
     return () => {
-      return [
-        h(
-          'button',
-          {
-            class: 'show',
-            onClick: show,
-          },
-          'show'
-        ),
-        h(
-          'button',
-          {
-            class: 'hide',
-            onClick: hide,
-          },
-          'hide'
-        ),
-        h('button', {
-          class: 'toggle',
-          onClick: toggle,
-        }),
-
-        indicator.value || props.modelValue ? h('div', AXIOM) : null,
-      ]
+      return (
+        <>
+          <button class="show" onClick={show}>
+            show
+          </button>
+          <button class="hide" onClick={hide}>
+            hide
+          </button>
+          <button class="toggle" onClick={toggle}>
+            toggle
+          </button>
+          {indicator.value || props.modelValue ? <div>{AXIOM}</div> : undefined}
+        </>
+      )
     }
   },
-}
+})
 
 describe('use-model-toggle', () => {
-  let wrapper: ReturnType<typeof mount>
+  let wrapper: VueWrapper<any>
   beforeEach(() => {
     flag = true
     wrapper = mount(Comp)
@@ -129,33 +122,28 @@ describe('use-model-toggle', () => {
 
   it('should bind with modelValue', async () => {
     wrapper.unmount()
+
+    const model = ref(false)
+    const disabled = ref(false)
     wrapper = mount({
-      components: {
-        Comp,
-      },
-      template: `<comp v-model="model" :disabled="disabled" />`,
-      data() {
-        return {
-          model: false,
-          disabled: false,
-        }
-      },
+      setup: () => () =>
+        <Comp v-model={model.value} disabled={disabled.value} />,
     })
 
     expect(wrapper.findComponent(Comp).text()).not.toContain(AXIOM)
     await wrapper.find('.show').trigger('click')
-    expect(wrapper.vm.model).toBe(true)
+    expect(model.value).toBe(true)
     expect(wrapper.findComponent(Comp).text()).toContain(AXIOM)
 
     await wrapper.find('.hide').trigger('click')
     expect(onHide).toHaveBeenCalledTimes(1)
-    expect(wrapper.vm.model).toBe(false)
+    expect(model.value).toBe(false)
     expect(wrapper.findComponent(Comp).text()).not.toContain(AXIOM)
-    ;(wrapper.vm.model as any) = true
-    ;(wrapper.vm.disabled as any) = true
+    model.value = true
+    disabled.value = true
     await nextTick()
     // when disabled emits false that modifies the model
-    expect(wrapper.vm.model).toBe(false)
+    expect(model.value).toBe(false)
 
     // should not hide when disabled
     await wrapper.find('.hide').trigger('click')

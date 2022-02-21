@@ -2,6 +2,7 @@
 
 import { defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
+import { describe, it, expect, vi } from 'vitest'
 import { expectTypeOf } from 'expect-type'
 import { buildProp, definePropType, mutable, keysOf, buildProps } from '../..'
 import type { propKey } from '../..'
@@ -449,7 +450,7 @@ describe('buildProps', () => {
 
 describe('runtime', () => {
   it('default value', () => {
-    const warnHandler = jest.fn()
+    const warnHandler = vi.fn()
 
     const Foo = defineComponent({
       props: buildProps({

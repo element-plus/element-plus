@@ -1,11 +1,12 @@
-import { ref, nextTick, h } from 'vue'
+import { ref, nextTick, h, defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
-
+import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { useTeleport } from '../use-teleport'
+import type { VueWrapper } from '@vue/test-utils'
 
 const AXIOM = 'Rem is the best girl'
 
-const Comp = {
+const Comp = defineComponent({
   setup() {
     const appendToBody = ref(true)
     const { showTeleport, hideTeleport, renderTeleport } = useTeleport(
@@ -13,39 +14,28 @@ const Comp = {
       appendToBody
     )
 
-    return () => {
-      return [
-        h(
-          'button',
-          {
-            class: 'show',
-            onClick: showTeleport,
-          },
-          'show'
-        ),
-        h(
-          'button',
-          {
-            class: 'hide',
-            onClick: hideTeleport,
-          },
-          'hide'
-        ),
-        h('button', {
-          class: 'toggle',
-          onClick: () => {
-            // toggle append to body.
-            appendToBody.value = !appendToBody.value
-          },
-        }),
-        renderTeleport(),
-      ]
-    }
+    return () => (
+      <>
+        <button class="show" onClick={showTeleport}>
+          show
+        </button>
+        <button class="hide" onClick={hideTeleport}>
+          hide
+        </button>
+        <button
+          class="toggle"
+          onClick={() => (appendToBody.value = !appendToBody.value)}
+        >
+          toggle
+        </button>
+        {renderTeleport()}
+      </>
+    )
   },
-}
+})
 
 describe('useModal', () => {
-  let wrapper: ReturnType<typeof mount>
+  let wrapper: VueWrapper<InstanceType<typeof Comp>>
 
   beforeEach(() => {
     wrapper = mount(Comp)
