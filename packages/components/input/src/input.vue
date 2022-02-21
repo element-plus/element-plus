@@ -153,7 +153,12 @@ import { isClient } from '@vueuse/core'
 import { toArray } from 'lodash-unified'
 import { ElIcon } from '@element-plus/components/icon'
 import { CircleClose, View as IconView } from '@element-plus/icons-vue'
-import { ValidateComponentsMap, isObject, isKorean } from '@element-plus/utils'
+import {
+  ValidateComponentsMap,
+  isObject,
+  isKorean,
+  isNumber,
+} from '@element-plus/utils'
 import {
   useAttrs,
   useDisabled,
@@ -307,10 +312,10 @@ export default defineComponent({
       const codeUnitsLength = text.length
       const textLength = toArray(text).length
       htmlMaxLength.value =
-        !!attrs.value.maxlength &&
+        isNumber(attrs.value.maxlength) &&
         textLength !== codeUnitsLength &&
-        codeUnitsLength > Number(attrs.value.maxlength)
-          ? codeUnitsLength - textLength + Number(attrs.value.maxlength)
+        codeUnitsLength > attrs.value.maxlength
+          ? codeUnitsLength - textLength + attrs.value.maxlength
           : (attrs.value.maxlength as number | undefined)
     }
 
