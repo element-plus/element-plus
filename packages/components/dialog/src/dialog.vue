@@ -53,11 +53,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, provide, onMounted, shallowRef } from 'vue'
+import { computed, ref, provide } from 'vue'
 import { ElOverlay } from '@element-plus/components/overlay'
 import { ElFocusTrap } from '@element-plus/components/focus-trap'
 import { useNamespace, useDraggable, useSameTarget } from '@element-plus/hooks'
-import { composeEventHandlers } from '@element-plus/utils'
 import ElDialogContent from './dialog-content.vue'
 import { dialogProps, dialogEmits } from './dialog'
 import { elDialogInjectionKey } from './token'

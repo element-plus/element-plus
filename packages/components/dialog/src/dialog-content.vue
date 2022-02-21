@@ -21,17 +21,6 @@
           {{ title }}
         </span>
       </slot>
-      <button
-        v-if="showClose"
-        aria-label="close"
-        :class="ns.e('headerbtn')"
-        type="button"
-        @click="$emit('close')"
-      >
-        <el-icon :class="ns.e('close')">
-          <component :is="closeIcon || Close" />
-        </el-icon>
-      </button>
     </div>
     <div :class="ns.e('body')">
       <slot></slot>
@@ -39,6 +28,17 @@
     <div v-if="$slots.footer" :class="ns.e('footer')">
       <slot name="footer"></slot>
     </div>
+    <button
+      v-if="showClose"
+      aria-label="close"
+      :class="ns.e('headerbtn')"
+      type="button"
+      @click="$emit('close')"
+    >
+      <el-icon :class="ns.e('close')">
+        <component :is="closeIcon || Close" />
+      </el-icon>
+    </button>
   </div>
 </template>
 
@@ -55,7 +55,7 @@ const Close = markRaw(CloseComponents.Close)
 
 defineProps(dialogContentProps)
 
-const { dialogRef, headerRef, ns, rendered, style } = inject(
+const { dialogRef, headerRef, ns, style } = inject(
   elDialogInjectionKey,
   undefined
 )!
