@@ -123,6 +123,53 @@ describe('Input.vue', () => {
       expect(elCount.text()).toBe('6 / 4')
       expect(vm.$el.classList.contains('is-exceed')).toBe(true)
     })
+
+    test('when paste or input emoji, the input element maxlength value should be  maxlength + (String length - Character length)', async () => {
+      const wrapper = _mount({
+        template: `<el-input ref="emoji" maxlength="10"  />`,
+      })
+
+      const vm = wrapper.vm
+      // 😈 got 2
+      // 👩‍👩‍👧‍👧 got 11
+      const prefilledText = '😈1哈ln👩‍👩‍👧‍👧'
+      const inputNode = wrapper.find('input')
+
+      // simulating a paste event
+      vm.$refs.emoji.handlePaste({
+        clipboardData: {
+          getData() {
+            return prefilledText
+          },
+        },
+      } as any)
+
+      await nextTick()
+      expect(inputNode.element.getAttribute('maxlength')).toEqual('21')
+    })
+
+    test('when paste or input emoji, the textarea element maxlength value should be  maxlength + (String length - Character length)', async () => {
+      const wrapper = _mount({
+        template: `<el-input type="textarea" ref="emoji" maxlength="10"  />`,
+      })
+
+      const vm = wrapper.vm
+      // 🏄‍♂️ got 5
+      const prefilledText = '🏄‍♂️1哈ln'
+      const inputNode = wrapper.find('textarea')
+
+      // simulating a paste event
+      vm.$refs.emoji.handlePaste({
+        clipboardData: {
+          getData() {
+            return prefilledText
+          },
+        },
+      } as any)
+
+      await nextTick()
+      expect(inputNode.element.getAttribute('maxlength')).toEqual('14')
+    })
   })
 
   test('suffixIcon', () => {
