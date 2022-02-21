@@ -112,7 +112,7 @@ export default defineComponent({
     const maxDate = computed(() => props.parsedValue[1])
     const oldValue = useOldValue(props)
     const handleCancel = () => {
-      ctx.emit('pick', oldValue.value, null)
+      ctx.emit('pick', oldValue.value, false)
     }
     const showSeconds = computed(() => {
       return props.format.includes('ss')
