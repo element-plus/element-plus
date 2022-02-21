@@ -10,9 +10,9 @@
     "@element-plus/icons-vue": "^0.2.6"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "2.2.0",
+    "@vitejs/plugin-vue": "2.2.2",
     "unplugin-vue-components": "0.17.18",
-    "vite": "2.8.2",
+    "vite": "2.8.3",
     "vite-plugin-inspect": "0.3.14",
     "vite-plugin-mkcert": "1.5.2"
   }

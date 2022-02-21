@@ -206,8 +206,6 @@ class TableLayout<T> {
     if (!isClient) return
     const fit = this.fit
     const bodyWidth = this.table.vnode.el.clientWidth
-    const { tableBody } = this.table.refs
-    const bodyScrollWidth = tableBody?.scrollWidth || 0
     let bodyMinWidth = 0
 
     const flattenColumns = this.getFlattenColumns()
@@ -223,16 +221,11 @@ class TableLayout<T> {
       flattenColumns.forEach((column) => {
         bodyMinWidth += Number(column.width || column.minWidth || 80)
       })
-
-      const scrollYWidth = 0
-      if (
-        bodyMinWidth <= bodyWidth - scrollYWidth &&
-        bodyScrollWidth <= bodyWidth
-      ) {
+      if (bodyMinWidth <= bodyWidth) {
         // DON'T HAVE SCROLL BAR
         this.scrollX.value = false
 
-        const totalFlexWidth = bodyWidth - scrollYWidth - bodyMinWidth
+        const totalFlexWidth = bodyWidth - bodyMinWidth
 
         if (flexColumns.length === 1) {
           flexColumns[0].realWidth =

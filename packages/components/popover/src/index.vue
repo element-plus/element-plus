@@ -22,7 +22,7 @@
     :popper-class="kls"
     :popper-style="style"
     :teleported="compatTeleported"
-    persistent
+    :persistent="persistent"
     @before-show="beforeEnter"
     @before-hide="beforeLeave"
     @show="afterEnter"
