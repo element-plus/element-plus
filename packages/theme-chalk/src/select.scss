@@ -36,7 +36,7 @@
 
   &:hover:not(.#{$namespace}-select--disabled) {
     .#{$namespace}-input__inner {
-      border-color: var(--el-select-border-color-hover);
+      box-shadow: 0 0 0 1px var(--el-select-border-color-hover) inset;
     }
   }
 
@@ -47,7 +47,7 @@
     display: inline-flex;
 
     &:focus {
-      border-color: var(--el-select-input-focus-border-color) !important;
+      box-shadow: 0 0 0 1px var(--el-select-input-focus-border-color) inset;
     }
   }
 
@@ -88,7 +88,7 @@
         cursor: not-allowed;
 
         &:hover {
-          border-color: var(--el-select-disabled-border);
+          box-shadow: 0 0 0 1px var(--el-select-disabled-border) inset;
         }
       }
       & .#{$namespace}-select__caret {
@@ -97,7 +97,7 @@
     }
 
     &.is-focus .#{$namespace}-input__inner {
-      border-color: var(--el-select-input-focus-border-color) !important;
+      box-shadow: 0 0 0 1px var(--el-select-input-focus-border-color) inset !important;
     }
   }
 

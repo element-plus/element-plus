@@ -32,6 +32,7 @@
       :teleported="teleported"
       :transition="transition"
       :z-index="zIndex"
+      :append-to="appendTo"
     >
       <slot name="content">
         <span v-if="rawContent" v-html="content"></span>

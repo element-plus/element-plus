@@ -64,6 +64,8 @@ function findFirstLegitChild(node: VNode[] | undefined) {
           continue
         case Text:
           return wrapTextContent(child)
+        case 'svg':
+          return wrapTextContent(child)
         case Fragment:
           return findFirstLegitChild(child.children as VNode[])
         default:

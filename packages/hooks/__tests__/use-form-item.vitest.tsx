@@ -1,6 +1,7 @@
-import { h, provide } from 'vue'
+import { defineComponent, provide } from 'vue'
 import { NOOP } from '@vue/shared'
 import { mount } from '@vue/test-utils'
+import { describe, it, expect } from 'vitest'
 import { ElButton } from '@element-plus/components'
 import {
   elFormKey,
@@ -16,23 +17,16 @@ import type {
 
 const AXIOM = 'Rem is the best girl'
 
-const Component = {
-  render() {
-    return h(ElButton, this.$attrs, {
-      default: () => [AXIOM],
-    })
-  },
-}
-
-const mountComponent = (setup = NOOP, options = {}) => {
-  return mount(
-    {
-      ...Component,
+const mountComponent = (setup = NOOP, options = {}) =>
+  mount(
+    defineComponent({
       setup,
-    },
+      render() {
+        return <ElButton {...this.$attrs}>{AXIOM}</ElButton>
+      },
+    }),
     options
   )
-}
 
 describe('use-form-item', () => {
   it('should return local value', () => {
@@ -44,14 +38,10 @@ describe('use-form-item', () => {
     const propSize = 'small'
     const wrapper = mountComponent(
       () => {
-        provide(elFormItemKey, {
-          size: 'large',
-        } as ElFormItemContext)
+        provide(elFormItemKey, { size: 'large' } as ElFormItemContext)
       },
       {
-        props: {
-          size: propSize,
-        },
+        props: { size: propSize },
       }
     )
 

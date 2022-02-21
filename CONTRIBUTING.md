@@ -40,8 +40,8 @@ pnpm install
 Then you can following command to verify your installation.
 
 ```shell
-pnpm test
-pnpm run format
+pnpm t
+pnpm format
 ```
 
 ## Getting Started developing

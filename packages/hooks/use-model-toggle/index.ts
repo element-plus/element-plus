@@ -1,21 +1,30 @@
 import { computed, getCurrentInstance, watch, onMounted } from 'vue'
 import { isFunction } from '@vue/shared'
 import { isClient } from '@vueuse/core'
-import { isBoolean, buildProp, definePropType } from '@element-plus/utils'
+import { isBoolean, definePropType, buildProp } from '@element-plus/utils'
 import type { RouteLocationNormalizedLoaded } from 'vue-router'
 
 import type { Ref, ComponentPublicInstance, ExtractPropTypes } from 'vue'
 
-export const createModelToggleComposable = (name: string) => {
+const _prop = buildProp({
+  type: definePropType<boolean | null>(Boolean),
+  default: null,
+} as const)
+const _event = buildProp({
+  type: definePropType<(val: boolean) => void>(Function),
+} as const)
+
+type _UseModelToggleProps<T extends string> = {
+  [K in T]: typeof _prop
+} & {
+  [K in `onUpdate:${T}`]: typeof _event
+}
+
+export const createModelToggleComposable = <T extends string>(name: T) => {
   const useModelToggleProps = {
-    [name]: buildProp({
-      type: definePropType<boolean | null>(Boolean),
-      default: null,
-    } as const),
-    [`onUpdate:${name}`]: buildProp({
-      type: definePropType<(val: boolean) => void>(Function),
-    } as const),
-  }
+    [name]: _prop,
+    [`onUpdate:${name}`]: _event,
+  } as _UseModelToggleProps<T>
 
   const useModelToggleEmits = [`update:${name}`]
 
@@ -27,7 +36,9 @@ export const createModelToggleComposable = (name: string) => {
     onHide,
   }: ModelToggleParams) => {
     const instance = getCurrentInstance()!
-    const props = instance.props as UseModelToggleProps & { disabled: boolean }
+    const props = instance.props as _UseModelToggleProps<T> & {
+      disabled: boolean
+    }
     const { emit } = instance
 
     const updateEventKey = `update:${name}`

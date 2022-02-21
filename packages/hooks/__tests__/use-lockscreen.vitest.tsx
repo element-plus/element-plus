@@ -1,5 +1,6 @@
 import { ref, nextTick, defineComponent, onMounted } from 'vue'
 import { mount } from '@vue/test-utils'
+import { describe, it, expect } from 'vitest'
 import { hasClass } from '@element-plus/utils'
 
 import { useLockscreen } from '../use-lockscreen'
@@ -13,19 +14,15 @@ const Comp = defineComponent({
     onMounted(() => {
       flag.value = true
     })
+
+    return () => undefined
   },
-  template: `<div></div>`,
 })
 
 describe('useLockscreen', () => {
-  test('should lock screen when trigger is true', async () => {
+  it('should lock screen when trigger is true', async () => {
     const wrapper = mount({
-      template: `
-        <test-comp />
-      `,
-      components: {
-        'test-comp': Comp,
-      },
+      setup: () => () => <Comp />,
     })
     await nextTick()
     expect(hasClass(document.body, kls)).toBe(true)
@@ -35,26 +32,17 @@ describe('useLockscreen', () => {
     expect(hasClass(document.body, kls)).toBe(false)
   })
 
-  test('should cleanup when unmounted', async () => {
-    const wrapper = mount({
-      template: `
-        <test-comp v-if="shouldRender" />
-      `,
-      data() {
-        return {
-          shouldRender: true,
-        }
-      },
-      components: {
-        'test-comp': Comp,
-      },
+  it('should cleanup when unmounted', async () => {
+    const shouldRender = ref(true)
+    mount({
+      setup: () => () => shouldRender.value ? <Comp /> : undefined,
     })
 
     await nextTick()
 
     expect(hasClass(document.body, kls)).toBe(true)
 
-    wrapper.vm.shouldRender = false
+    shouldRender.value = false
     await nextTick()
 
     expect(hasClass(document.body, kls)).toBe(false)

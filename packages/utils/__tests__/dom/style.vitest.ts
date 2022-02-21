@@ -1,13 +1,12 @@
+import { describe, it, expect } from 'vitest'
 import { hasClass, addClass, removeClass } from '../..'
 
 const getClass = (el: Element) => {
-  if (!el) {
-    return ''
-  }
+  if (!el) return ''
   return el.getAttribute('class')
 }
 
-describe('Dom Utils', () => {
+describe('dom style', () => {
   describe('hasClass', () => {
     it('Judge whether a Element has a class', () => {
       const div = document.createElement('div')
