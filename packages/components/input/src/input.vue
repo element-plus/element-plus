@@ -468,7 +468,11 @@ export default defineComponent({
 
     const handlePaste = (evt: ClipboardEvent) => {
       const preText = nativeInputValue.value
-      if (toArray(preText).length >= Number(attrs.value.maxlength)) return
+      if (
+        isNumber(attrs.value.maxlength) &&
+        toArray(preText).length >= attrs.value.maxlength
+      )
+        return
       setHtmlMaxLength(preText + (evt.clipboardData?.getData('text') ?? ''))
     }
 
