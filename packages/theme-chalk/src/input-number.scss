@@ -49,10 +49,12 @@
       color: var(--el-color-primary);
 
       & ~ .#{$namespace}-input:not(.is-disabled) .#{$namespace}-input__inner {
-        border-color: var(
-          --el-input-focus-border,
-          map.get($input, 'focus-border')
-        );
+        box-shadow: 0 0 0 1px
+          var(
+            --el-input-focus-border-color,
+            map.get($input, 'focus-border-color')
+          )
+          inset;
       }
     }
 
