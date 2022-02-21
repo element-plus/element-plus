@@ -242,7 +242,7 @@ form {
   }
   &.tip {
     padding: 8px 16px;
-    background-color: var(--el-color-primary-light-9);
+    background-color: var(--block-tip-bg-color);
     border-radius: 4px;
     border-left: 5px solid var(--el-color-primary);
     margin: 20px 0;
@@ -250,15 +250,9 @@ form {
 
   &.warning {
     padding: 8px 16px;
-    background-color: var(--el-color-danger-lighter);
+    background-color: var(--block-warning-bg-color);
     border-radius: 4px;
     border-left: 5px solid var(--el-color-danger);
     margin: 20px 0;
-  }
-}
-
-.dark {
-  .example .el-divider {
-    background-color: var(--border-color-light);
   }
 }

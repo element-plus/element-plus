@@ -16,7 +16,8 @@
     "clipboard-copy": "^4.0.1",
     "element-plus": "npm:element-plus@latest",
     "normalize.css": "^8.0.1",
-    "nprogress": "^0.2.0"
+    "nprogress": "^0.2.0",
+    "prism-theme-vars": "^0.2.2"
   },
   "devDependencies": {
     "@crowdin/cli": "^3.7.8",

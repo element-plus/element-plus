@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, toRef, getCurrentInstance } from 'vue'
-import { useClipboard } from '@vueuse/core'
-import { useToggle } from '../composables/toggle'
+import { useClipboard, useToggle } from '@vueuse/core'
 import { useLang } from '../composables/lang'
 import { useSourceCode } from '../composables/source-code'
 import { usePlayGround } from '../composables/use-playground'
@@ -106,7 +105,6 @@ const copyCode = async () => {
       </div>
       <ElDivider class="m-0" />
       <Example :file="path" :demo="formatPathDemos[path]" />
-      <ElDivider v-if="sourceVisible" />
       <el-collapse-transition>
         <SourceCode v-show="sourceVisible" :source="source" />
       </el-collapse-transition>

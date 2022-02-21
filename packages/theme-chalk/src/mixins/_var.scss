@@ -28,3 +28,8 @@
     --el-#{$name}-#{$attribute}: #{$value};
   }
 }
+
+@mixin set-css-color-rgb($type) {
+  $color: map.get($colors, $type, 'base');
+  --el-color-#{$type}-rgb: #{red($color)}, #{green($color)}, #{blue($color)};
+}
