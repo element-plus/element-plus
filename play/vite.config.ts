@@ -8,9 +8,21 @@ import Inspect from 'vite-plugin-inspect'
 import mkcert from 'vite-plugin-mkcert'
 import glob from 'fast-glob'
 import DefineOptions from 'unplugin-vue-define-options/vite'
+import esbuild from 'rollup-plugin-esbuild'
 import { epRoot, pkgRoot, projRoot, epPackage } from '../build/utils/paths'
 import { getPackageDependencies } from '../build/utils/pkg'
 import './vite.init'
+
+const esbuildPlugin = () => ({
+  ...esbuild({
+    target: 'chrome64',
+    include: /\.vue$/,
+    loaders: {
+      '.vue': 'js',
+    },
+  }),
+  enforce: 'post',
+})
 
 export default defineConfig(async () => {
   const { dependencies } = getPackageDependencies(epPackage)
@@ -40,6 +52,7 @@ export default defineConfig(async () => {
     },
     plugins: [
       vue(),
+      esbuildPlugin(),
       vueJsx(),
       DefineOptions(),
       Components({
@@ -53,6 +66,9 @@ export default defineConfig(async () => {
 
     optimizeDeps: {
       include: ['vue', '@vue/shared', ...dependencies, ...optimizeDeps],
+    },
+    esbuild: {
+      target: 'chrome64',
     },
   }
 })
