@@ -56,6 +56,7 @@
       <el-button-group>
         <el-button
           ref="referenceElementRef"
+          v-bind="buttonProps"
           :size="dropdownSize"
           :type="type"
           :disabled="disabled"
@@ -65,6 +66,7 @@
         </el-button>
         <el-button
           ref="triggeringElementRef"
+          v-bind="buttonProps"
           :size="dropdownSize"
           :type="type"
           :class="ns.e('caret-button')"
