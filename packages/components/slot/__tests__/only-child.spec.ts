@@ -75,6 +75,36 @@ describe('<ElOnlyChild />', () => {
     expect(wrapper.find('span').exists()).toBe(true)
   })
 
+  it('should skip svg and child type is svg', async () => {
+    const wrapper = createComponent(() => [
+      h(
+        'svg',
+        {
+          xmlns: 'http://www.w3.org/2000/svg',
+          viewBox: '0 0 32 32',
+          width: '20',
+          height: '20',
+        },
+        {
+          default: () => [
+            h('path', {
+              d: 'M14.667 14.667v-8h2.667v8h8v2.667h-8v8h-2.667v-8h-8v-2.667z',
+            }),
+          ],
+        }
+      ),
+    ])
+    await nextTick()
+
+    expect(debugWarn).not.toHaveBeenCalled()
+    expect(wrapper.find('svg').attributes('viewBox')).toEqual('0 0 32 32')
+    expect(wrapper.find('svg').attributes('width')).toEqual('20')
+    expect(wrapper.find('svg').attributes('height')).toEqual('20')
+
+    await wrapper.trigger('hover')
+    await expect(wrapper.find('svg').exists()).toBe(true)
+  })
+
   it('should skip comment', async () => {
     wrapper = createComponent(() => [
       h(Fragment, [h(Comment, 'some comment'), AXIOM as any]),
