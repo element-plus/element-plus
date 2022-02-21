@@ -9,7 +9,7 @@ lang: en-US
 
 Similar to Tooltip, Popover is also built with `ElPopper`. So for some duplicated attributes, please refer to the documentation of Tooltip.
 
-:::demo The `trigger` attribute is used to define how popover is triggered: `hover`, `click`, `focus` or `manual`.
+:::demo The `trigger` attribute is used to define how popover is triggered: `hover`, `click`, `focus` or `contextmenu` . If you want to manually controll it, you can set `v-model:visible`.
 
 popover/basic-usage
 
@@ -66,7 +66,7 @@ popover/directive-usage
 
 | Attribute                 | Description                                                                                                                                                              | Type            | Accepted Values                                                                                           | Default                                                 |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| trigger                   | how the popover is triggered                                                                                                                                             | string          | click/focus/hover/manual                                                                                  | click                                                   |
+| trigger                   | how the popover is triggered                                                                                                                                             | string          | click/focus/hover/contextmenu                                                                             | click                                                   |
 | title                     | popover title                                                                                                                                                            | string          | —                                                                                                         | —                                                       |
 | effect                    | Tooltip theme, built-in theme: `dark` / `light`                                                                                                                          | string          | string                                                                                                    | dark                                                    |
 | content                   | popover content, can be replaced with a default `slot`                                                                                                                   | string          | —                                                                                                         | —                                                       |
@@ -95,9 +95,11 @@ popover/directive-usage
 
 ## Events
 
-| Event Name  | Description                                | Parameters |
-| ----------- | ------------------------------------------ | ---------- |
-| show        | triggers when popover shows                | —          |
-| after-enter | triggers when the entering transition ends | —          |
-| hide        | triggers when popover hides                | —          |
-| after-leave | triggers when the leaving transition ends  | —          |
+| Event Name   | Description                                   | Parameters |
+| ------------ | --------------------------------------------- | ---------- |
+| show         | triggers when popover shows                   | —          |
+| before-enter | triggers when the entering transition befores | —          |
+| after-enter  | triggers when the entering transition ends    | —          |
+| hide         | triggers when popover hides                   | —          |
+| before-leave | triggers when the leaving transition befores  | —          |
+| after-leave  | triggers when the leaving transition ends     | —          |
