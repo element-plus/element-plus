@@ -190,19 +190,14 @@ function useWatcher<T>() {
   }
 
   const toggleRowSelectionByRowKey = (
-    rowKeyValue: T,
+    value: T,
     selected = undefined,
     emitChange = true
   ) => {
-    const rowKey = instance?.store?.states?.rowKey.value
     assertRowKey()
-    let rowIndex = -1
-    data.value.forEach((row, index) => {
-      if (row[rowKey] === rowKeyValue) {
-        rowIndex = index
-      }
-    })
-    toggleRowSelection(data.value[rowIndex], selected, emitChange)
+    const rowKeyValue = rowKey.value
+    const row = data.value.find((row) => row[rowKeyValue] === value)
+    row && toggleRowSelection(row, selected, emitChange)
   }
 
   const _toggleAllSelection = () => {
