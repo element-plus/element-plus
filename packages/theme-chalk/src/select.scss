@@ -47,7 +47,10 @@
     display: inline-flex;
 
     &:focus {
-      box-shadow: 0 0 0 1px var(--el-select-input-focus-border-color) inset;
+      @include inset-input-border(
+        var(--el-select-input-focus-border-color),
+        true
+      );
     }
   }
 
@@ -79,7 +82,9 @@
       }
 
       &.#{$namespace}-icon {
+        position: relative;
         height: inherit;
+        z-index: 2;
       }
     }
 
@@ -88,7 +93,7 @@
         cursor: not-allowed;
 
         &:hover {
-          box-shadow: 0 0 0 1px var(--el-select-disabled-border) inset;
+          @include inset-input-border(var(--el-select-disabled-border));
         }
       }
       & .#{$namespace}-select__caret {
@@ -97,7 +102,10 @@
     }
 
     &.is-focus .#{$namespace}-input__inner {
-      box-shadow: 0 0 0 1px var(--el-select-input-focus-border-color) inset !important;
+      @include inset-input-border(
+        var(--el-select-input-focus-border-color),
+        true
+      );
     }
   }
 
