@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, markRaw } from 'vue'
+import { inject } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { FOCUS_TRAP_INJECTION_KEY } from '@element-plus/components/focus-trap'
 import { CloseComponents, composeRefs } from '@element-plus/utils'
@@ -51,7 +51,7 @@ import { dialogContentProps } from './dialog-content'
 
 import { elDialogInjectionKey } from './token'
 
-const Close = markRaw(CloseComponents.Close)
+const { Close } = CloseComponents
 
 defineProps(dialogContentProps)
 
