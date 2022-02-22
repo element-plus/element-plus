@@ -356,14 +356,9 @@ function useWatcher<T>() {
   }
 
   const clearFilter = (columnKeys) => {
-    const { tableHeader, fixedTableHeader, rightFixedTableHeader } =
-      instance.refs as TableRefs
-    let panels = {}
-    if (tableHeader) panels = Object.assign(panels, tableHeader.filterPanels)
-    if (fixedTableHeader)
-      panels = Object.assign(panels, fixedTableHeader.filterPanels)
-    if (rightFixedTableHeader)
-      panels = Object.assign(panels, rightFixedTableHeader.filterPanels)
+    const { tableHeaderRef } = instance.refs as TableRefs
+    if (!tableHeaderRef) return
+    const panels = Object.assign({}, tableHeaderRef.filterPanels)
 
     const keys = Object.keys(panels)
     if (!keys.length) return
