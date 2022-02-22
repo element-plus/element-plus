@@ -306,7 +306,6 @@ export default defineComponent({
     }
 
     const setHtmlMaxLength = (text: string) => {
-      console.log(text)
       const codeUnitsLength = text.length
       const textLength = toArray(text).length
       const maxlength = Number(attrs.value.maxlength)
