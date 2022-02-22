@@ -321,6 +321,9 @@ export default defineComponent({
     const handleInput = (event: Event) => {
       const { value } = event.target as TargetElement
 
+      // should compute every input
+      setHtmlMaxLength(value)
+
       // should not emit input during composition
       // see: https://github.com/ElemeFE/element/issues/10516
       if (isComposing.value) return
@@ -329,7 +332,6 @@ export default defineComponent({
       // should remove the following line when we don't support IE
       if (value === nativeInputValue.value) return
 
-      setHtmlMaxLength(value)
       emit(UPDATE_MODEL_EVENT, value)
       emit('input', value)
 
@@ -380,12 +382,22 @@ export default defineComponent({
       const text = (event.target as HTMLInputElement)?.value
       const lastCharacter = text[text.length - 1] || ''
       isComposing.value = !isKorean(lastCharacter)
+      if (isComposing.value) {
+        htmlMaxLength.value = undefined
+      }
     }
 
     const handleCompositionEnd = (event: CompositionEvent) => {
       emit('compositionend', event)
       if (isComposing.value) {
         isComposing.value = false
+        const text = (event.target as HTMLInputElement)?.value ?? ''
+        const textArr = toArray(text)
+        if (text && textArr.length > Number(attrs.value.maxlength)) {
+          ;(event.target as HTMLInputElement).value = textArr
+            .slice(0, Number(attrs.value.maxlength))
+            .join('')
+        }
         handleInput(event)
       }
     }
