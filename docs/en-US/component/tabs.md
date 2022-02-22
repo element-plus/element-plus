@@ -51,7 +51,7 @@ tabs/tab-position
 
 You can use `scroll-position` attribute to set the active tab's scroll position.
 
-:::demo You can choose from four position: `tabPosition="auto|start|end|center"`
+:::demo You can choose from four position: `scrollPosition="auto|start|end|center"`
 
 tabs/scroll-position
 
