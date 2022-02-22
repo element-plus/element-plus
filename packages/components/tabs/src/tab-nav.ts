@@ -149,37 +149,38 @@ export default defineComponent({
       const currentOffset = navOffset.value
       let newOffset = currentOffset
 
-      let startDiff, endDiff, centerDiff
+      const diffMap = {
+        start: 0,
+        end: 0,
+        center: 0,
+      }
       if (isHorizontal) {
-        startDiff = activeTabBounding.left - navScrollBounding.left
-        endDiff = activeTabBounding.right - navScrollBounding.right
-        centerDiff =
-          startDiff - navScrollBounding.width / 2 + activeTabBounding.width / 2
+        diffMap.start = activeTabBounding.left - navScrollBounding.left
+        diffMap.end = activeTabBounding.right - navScrollBounding.right
+        diffMap.center =
+          diffMap.start -
+          navScrollBounding.width / 2 +
+          activeTabBounding.width / 2
       } else {
-        startDiff = activeTabBounding.top - navScrollBounding.top
-        endDiff = activeTabBounding.bottom - navScrollBounding.bottom
-        centerDiff =
-          startDiff -
+        diffMap.start = activeTabBounding.top - navScrollBounding.top
+        diffMap.end = activeTabBounding.bottom - navScrollBounding.bottom
+        diffMap.center =
+          diffMap.start -
           navScrollBounding.height / 2 +
           activeTabBounding.height / 2
       }
 
-      const scrollPosition =
-        props.scrollPosition === 'auto'
-          ? startDiff < 0
-            ? 'start'
-            : endDiff > 0
-            ? 'end'
-            : null
-          : props.scrollPosition
+      let scrollPosition = props.scrollPosition
 
-      if (scrollPosition === 'start') {
-        newOffset = currentOffset + startDiff
-      } else if (scrollPosition === 'end') {
-        newOffset = currentOffset + endDiff
-      } else if (scrollPosition === 'center') {
-        newOffset = currentOffset + centerDiff
+      if (scrollPosition === 'auto') {
+        scrollPosition =
+          diffMap.start < 0 ? 'start' : diffMap.end > 0 ? 'end' : scrollPosition
       }
+
+      if (scrollPosition && scrollPosition !== 'auto') {
+        newOffset = currentOffset + diffMap[scrollPosition]
+      }
+
       newOffset = Math.max(newOffset, 0)
       navOffset.value = Math.min(newOffset, maxOffset)
     }
