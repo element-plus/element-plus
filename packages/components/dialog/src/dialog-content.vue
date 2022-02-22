@@ -12,7 +12,7 @@
     role="dialog"
     :aria-label="title || 'dialog'"
     :style="style"
-    @click.stop=""
+    @click.stop
     @keydown="onKeydown"
   >
     <div ref="headerRef" :class="ns.e('header')">
@@ -47,19 +47,18 @@ import { inject } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { FOCUS_TRAP_INJECTION_KEY } from '@element-plus/components/focus-trap'
 import { CloseComponents, composeRefs } from '@element-plus/utils'
-import { dialogContentProps } from './dialog-content'
+import { dialogContentProps, dialogContentEmits } from './dialog-content'
 
 import { elDialogInjectionKey } from './token'
 
 const { Close } = CloseComponents
 
+defineOptions({ name: 'ElDialogContent' })
 defineProps(dialogContentProps)
+defineEmits(dialogContentEmits)
 
-const { dialogRef, headerRef, ns, style } = inject(
-  elDialogInjectionKey,
-  undefined
-)!
+const { dialogRef, headerRef, ns, style } = inject(elDialogInjectionKey)!
+const { focusTrapRef, onKeydown } = inject(FOCUS_TRAP_INJECTION_KEY)!
 
-const { focusTrapRef, onKeydown } = inject(FOCUS_TRAP_INJECTION_KEY, undefined)!
 const composedDialogRef = composeRefs(focusTrapRef, dialogRef)
 </script>
