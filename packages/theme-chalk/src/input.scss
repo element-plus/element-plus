@@ -177,13 +177,11 @@
 
     &:hover {
       box-shadow: var(--el-input-hover-border);
-      z-index: 1;
     }
 
     &:focus {
       outline: none;
       box-shadow: var(--el-input-focus-border);
-      z-index: 2;
     }
   }
 
@@ -411,11 +409,13 @@
       border-bottom-left-radius: 0;
       @include mixed-input-border(var(--el-input-border-color));
       &:hover {
+        z-index: 1;
         @include mixed-input-border(var(--el-input-hover-border-color));
       }
 
       &:focus {
         outline: none;
+        z-index: 2;
         @include mixed-input-border(var(--el-input-focus-border-color));
       }
     }
@@ -428,6 +428,7 @@
             border-bottom-right-radius: 0;
             &:focus {
               outline: none;
+              z-index: 2;
               @include inset-prepend-input-border(
                 var(--el-input-focus-border-color)
               );
@@ -441,6 +442,7 @@
               z-index: 2;
               &:focus {
                 outline: none;
+                z-index: 2;
                 @include inset-prepend-input-border(
                   var(--el-input-focus-border-color)
                 );
@@ -450,6 +452,7 @@
         }
         &:hover {
           .#{$namespace}-input__inner {
+            z-index: 1;
             @include inset-prepend-input-border(
               var(--el-input-hover-border-color)
             );
@@ -473,6 +476,7 @@
             @include inset-append-input-border(var(--el-input-border-color));
             &:focus {
               outline: none;
+              z-index: 2;
               @include inset-append-input-border(
                 var(--el-input-focus-border-color)
               );
@@ -481,11 +485,13 @@
           &.is-focus {
             .#{$namespace}-input__inner {
               outline: none;
+              z-index: 2;
               @include inset-append-input-border(
                 var(--el-input-focus-border-color)
               );
               &:focus {
                 outline: none;
+                z-index: 2;
                 @include inset-append-input-border(
                   var(--el-input-focus-border-color)
                 );
@@ -495,6 +501,7 @@
         }
         &:hover {
           .#{$namespace}-input__inner {
+            z-index: 1;
             @include inset-append-input-border(
               var(--el-input-hover-border-color)
             );
