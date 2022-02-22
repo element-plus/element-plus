@@ -37,7 +37,6 @@
 
 <script lang="ts" setup>
 import { computed, inject, Text, ref, useSlots } from 'vue'
-import { useCssVar } from '@vueuse/core'
 import { TinyColor } from '@ctrl/tinycolor'
 import { ElIcon } from '@element-plus/components/icon'
 import {
@@ -84,16 +83,16 @@ const shouldAddSpace = computed(() => {
   return false
 })
 
-// calculate hover & active color by color
-const typeColor = computed(() => useCssVar(`--el-color-${props.type}`).value)
+// calculate hover & active color by custom color
+// only work when custom color
 const buttonStyle = computed(() => {
   let styles: Record<string, string> = {}
 
-  const buttonColor = props.color || typeColor.value
+  const buttonColor = props.color
 
   if (buttonColor) {
     const color = new TinyColor(buttonColor)
-    const shadeBgColor = color.shade(10).toString()
+    const shadeBgColor = color.shade(20).toString()
     if (props.plain) {
       styles = {
         '--el-button-bg-color': color.tint(90).toString(),
@@ -106,7 +105,7 @@ const buttonStyle = computed(() => {
         '--el-button-active-border-color': shadeBgColor,
       }
     } else {
-      const tintBgColor = color.tint(20).toString()
+      const tintBgColor = color.tint(30).toString()
       styles = {
         '--el-button-bg-color': buttonColor,
         '--el-button-border-color': buttonColor,
