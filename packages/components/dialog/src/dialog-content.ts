@@ -30,3 +30,7 @@ export const dialogContentProps = buildProps({
     default: '',
   },
 } as const)
+
+export const dialogContentEmits = {
+  close: () => true,
+}

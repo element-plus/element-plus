@@ -57,10 +57,6 @@ export const dialogProps = buildProps({
   },
 } as const)
 
-export const dialogContentEmits = {
-  close: () => true,
-}
-
 export type DialogProps = ExtractPropTypes<typeof dialogProps>
 
 export const dialogEmits = {
