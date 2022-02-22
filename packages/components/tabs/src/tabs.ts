@@ -10,6 +10,7 @@ import {
   ref,
   renderSlot,
   watch,
+  computed,
 } from 'vue'
 import { isPromise, NOOP } from '@vue/shared'
 import { buildProps, definePropType } from '@element-plus/utils'
@@ -115,7 +116,8 @@ export default defineComponent({
 
     const panes: Ref<TabsPaneContext[]> = ref([])
     const currentName = ref(props.modelValue || props.activeName || '0')
-    const scrollPosition = ref(props.scrollPosition || 'auto')
+
+    const scrollPosition = computed(() => props.scrollPosition)
 
     const paneStatesMap: Record<number, TabsPaneContext> = {}
 
@@ -208,11 +210,6 @@ export default defineComponent({
     watch(
       () => props.modelValue,
       (modelValue) => setCurrentName(modelValue)
-    )
-
-    watch(
-      () => props.scrollPosition,
-      (scrollValue) => (scrollPosition.value = scrollValue)
     )
 
     watch([currentName, scrollPosition], async () => {
