@@ -85,7 +85,9 @@ const shouldAddSpace = computed(() => {
 })
 
 // calculate hover & active color by color
-const typeColor = computed(() => useCssVar(`--el-color-${props.type}`).value)
+const typeColor = computed(
+  () => useCssVar(`--el-color-${props.type || _type.value}`).value
+)
 const buttonStyle = computed(() => {
   let styles: Record<string, string> = {}
 
