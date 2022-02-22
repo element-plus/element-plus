@@ -47,6 +47,16 @@ tabs/tab-position
 
 :::
 
+## Tab scroll position
+
+You can use `scroll-position` attribute to set the active tab's scroll position.
+
+:::demo You can choose from four position: `tabPosition="auto|start|end|center"`
+
+tabs/scroll-position
+
+:::
+
 ## Custom Tab
 
 You can use named slot to customize the tab label content.
@@ -85,6 +95,7 @@ tabs/customized-trigger
 | addable               | whether Tab is addable                                                                                                                  | boolean                             | —                     | false             |
 | editable              | whether Tab is addable and closable                                                                                                     | boolean                             | —                     | false             |
 | tab-position          | position of tabs                                                                                                                        | string                              | top/right/bottom/left | top               |
+| scroll-position       | scroll position of active tab                                                                                                           | string                              | auto/start/end/center | auto              |
 | stretch               | whether width of tab automatically fits its container                                                                                   | boolean                             | -                     | false             |
 | before-leave          | hook function before switching tab. If `false` is returned or a `Promise` is returned and then is rejected, switching will be prevented | Function(activeName, oldActiveName) | —                     | —                 |
 
