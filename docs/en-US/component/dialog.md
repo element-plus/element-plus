@@ -23,6 +23,22 @@ dialog/basic-usage
 
 :::
 
+## Focus trapping
+
+Dialog traps focus inside the dialog content which enables your users to navigate the content via keyboard.
+
+:::tip
+
+Focusing on other element after the dialog is closed will only work when `destroy-on-close` is enabled
+
+:::
+
+:::demo
+
+dialog/focus-trapping
+
+:::
+
 ## Customizations
 
 The content of Dialog can be anything, even a table or a form. This example shows how to use Element Plus Table and Form with Dialog。
@@ -118,9 +134,11 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 
 ## Events
 
-| Event Name | Description                                     | Parameters |
-| ---------- | ----------------------------------------------- | ---------- |
-| open       | triggers when the Dialog opens                  | —          |
-| opened     | triggers when the Dialog opening animation ends | —          |
-| close      | triggers when the Dialog closes                 | —          |
-| closed     | triggers when the Dialog closing animation ends | —          |
+| Event Name       | Description                                      | Parameters |
+| ---------------- | ------------------------------------------------ | ---------- |
+| open             | triggers when the Dialog opens                   | —          |
+| opened           | triggers when the Dialog opening animation ends  | —          |
+| close            | triggers when the Dialog closes                  | —          |
+| closed           | triggers when the Dialog closing animation ends  | —          |
+| open-auto-focus  | triggers after Dialog opens and content focused  | —          |
+| close-auto-focus | triggers after Dialog closed and content focused | —          |
