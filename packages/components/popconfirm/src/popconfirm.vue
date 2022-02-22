@@ -8,7 +8,7 @@
     :teleported="compatTeleported"
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :hide-after="hideAfter"
-    persistent
+    :persistent="persistent"
   >
     <template #content>
       <div :class="ns.b()">

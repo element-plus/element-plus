@@ -47,5 +47,6 @@ export const popconfirmProps = buildProps({
     type: definePropType<(e: Event) => Promise<void> | void>(Function),
   },
   teleported: useTooltipContentProps.teleported,
+  persistent: useTooltipContentProps.persistent,
 } as const)
 export type PopconfirmProps = ExtractPropTypes<typeof popconfirmProps>
