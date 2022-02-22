@@ -54,6 +54,11 @@ export const tabsProps = buildProps({
     values: ['top', 'right', 'bottom', 'left'],
     default: 'top',
   },
+  scrollPosition: {
+    type: String,
+    values: ['auto', 'start', 'center', 'end'],
+    default: 'auto',
+  },
   beforeLeave: {
     type: definePropType<
       (
@@ -110,6 +115,7 @@ export default defineComponent({
 
     const panes: Ref<TabsPaneContext[]> = ref([])
     const currentName = ref(props.modelValue || props.activeName || '0')
+    const scrollPosition = ref(props.scrollPosition || 'auto')
 
     const paneStatesMap: Record<number, TabsPaneContext> = {}
 
@@ -204,7 +210,12 @@ export default defineComponent({
       (modelValue) => setCurrentName(modelValue)
     )
 
-    watch(currentName, async () => {
+    watch(
+      () => props.scrollPosition,
+      (scrollValue) => (scrollPosition.value = scrollValue)
+    )
+
+    watch([currentName, scrollPosition], async () => {
       updatePaneInstances(true)
       await nextTick()
       await nav$.value?.$nextTick()
@@ -249,6 +260,7 @@ export default defineComponent({
           newButton,
           h(TabNav, {
             currentName: currentName.value,
+            scrollPosition: scrollPosition.value,
             editable: props.editable,
             type: props.type,
             panes: panes.value,
