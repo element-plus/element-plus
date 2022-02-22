@@ -306,6 +306,7 @@ export default defineComponent({
     }
 
     const setHtmlMaxLength = (text: string) => {
+      console.log(text)
       const codeUnitsLength = text.length
       const textLength = toArray(text).length
       const maxlength = Number(attrs.value.maxlength)
@@ -321,12 +322,12 @@ export default defineComponent({
     const handleInput = (event: Event) => {
       const { value } = event.target as TargetElement
 
-      // should compute every input
-      setHtmlMaxLength(value)
-
       // should not emit input during composition
       // see: https://github.com/ElemeFE/element/issues/10516
       if (isComposing.value) return
+
+      // should compute every input except during composition
+      setHtmlMaxLength(value)
 
       // hack for https://github.com/ElemeFE/element/issues/8548
       // should remove the following line when we don't support IE
