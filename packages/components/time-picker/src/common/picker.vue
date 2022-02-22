@@ -449,9 +449,10 @@ export default defineComponent({
       }
     }
     const valueIsEmpty = computed(() => {
+      const { modelValue } = props
       return (
-        !props.modelValue ||
-        (Array.isArray(props.modelValue) && !props.modelValue.length)
+        !modelValue ||
+        (Array.isArray(modelValue) && !modelValue.filter(Boolean).length)
       )
     })
     const onMouseEnter = () => {
