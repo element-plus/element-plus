@@ -189,6 +189,22 @@ function useWatcher<T>() {
     }
   }
 
+  const toggleRowSelectionByRowKey = (
+    rowKeyValue: T,
+    selected = undefined,
+    emitChange = true
+  ) => {
+    const rowKey = instance?.store?.states?.rowKey.value
+    assertRowKey()
+    let rowIndex = -1
+    data.value.forEach((row, index) => {
+      if (row[rowKey] === rowKeyValue) {
+        rowIndex = index
+      }
+    })
+    toggleRowSelection(data.value[rowIndex], selected, emitChange)
+  }
+
   const _toggleAllSelection = () => {
     // when only some rows are selected (but not all), select or deselect all of them
     // depending on the value of selectOnIndeterminate
@@ -472,6 +488,7 @@ function useWatcher<T>() {
     clearSelection,
     cleanSelection,
     toggleRowSelection,
+    toggleRowSelectionByRowKey,
     _toggleAllSelection,
     toggleAllSelection: null,
     updateSelectionByRowKey,
