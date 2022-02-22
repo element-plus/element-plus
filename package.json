@@ -144,5 +144,10 @@
     "vue-jest": "^5.0.0-alpha.10",
     "vue-router": "^4.0.12",
     "vue-tsc": "^0.31.4"
+  },
+  "pnpm": {
+    "overrides": {
+      "jsdom": "16.4.0"
+    }
   }
 }
