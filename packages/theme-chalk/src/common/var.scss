@@ -47,6 +47,7 @@ $color-error: map.get($colors, 'error', 'base') !default;
 $color-info: map.get($colors, 'info', 'base') !default;
 
 // https://sass-lang.com/documentation/values/maps#immutability
+// mix color with white
 @mixin set-color-type-light($type, $number) {
   $colors: map.deep-merge(
     (
@@ -54,6 +55,23 @@ $color-info: map.get($colors, 'info', 'base') !default;
         'light-#{$number}':
           mix(
             $color-white,
+            map.get($colors, $type, 'base'),
+            math.percentage(math.div($number, 10))
+          ),
+      ),
+    ),
+    $colors
+  ) !global;
+}
+
+// mix color with black
+@mixin set-color-type-dark($type, $number) {
+  $colors: map.deep-merge(
+    (
+      $type: (
+        'dark-#{$number}':
+          mix(
+            $color-black,
             map.get($colors, $type, 'base'),
             math.percentage(math.div($number, 10))
           ),
@@ -78,6 +96,10 @@ $color-info: map.get($colors, 'info', 'base') !default;
   @each $type in $types {
     @include set-color-type-light($type, $i);
   }
+}
+// --el-color-primary-dark-2
+@each $type in $types {
+  @include set-color-type-dark($type, 2);
 }
 
 $text-color: () !default;
@@ -833,7 +855,7 @@ $dropdown: map.merge(
   (
     'menu-box-shadow': var(--el-box-shadow-light),
     'menuItem-hover-fill': var(--el-color-primary-light-9),
-    'menuItem-hover-color': var(--el-color-primary-light-2),
+    'menuItem-hover-color': var(--el-color-primary-light-3),
     'menu-index': 10,
   ),
   $dropdown
