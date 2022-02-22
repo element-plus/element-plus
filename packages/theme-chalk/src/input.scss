@@ -4,6 +4,30 @@
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
+@mixin inset-prepend-border($color) {
+  box-shadow: 1px 0 0 0 $color inset, 0 1px 0 0 $color inset,
+    0 -1px 0 0 $color inset;
+}
+
+@mixin inset-append-border($color) {
+  box-shadow: 0 1px 0 0 $color inset, 0 -1px 0 0 $color inset,
+    -1px 0 0 0 $color inset;
+}
+
+@mixin inset-prepend-input-border($color) {
+  box-shadow: 1px 0 0 0px $color inset, 1px 0 0 0px $color,
+    0px 1px 0 0px $color inset, 0px -1px 0 0px $color inset !important;
+}
+
+@mixin inset-append-input-border($color) {
+  box-shadow: -1px 0 0 0px $color, -1px 0 0 0px $color inset,
+    0px 1px 0 0px $color inset, 0px -1px 0 0px $color inset !important;
+}
+
+@mixin mixed-input-border($color) {
+  box-shadow: 0 0 0 1px $color inset;
+}
+
 @include b(textarea) {
   @include set-component-css-var('input', $input);
 }
@@ -153,13 +177,11 @@
 
     &:hover {
       box-shadow: var(--el-input-hover-border);
-      z-index: 1;
     }
 
     &:focus {
       outline: none;
       box-shadow: var(--el-input-focus-border);
-      z-index: 2;
     }
   }
 
@@ -365,18 +387,14 @@
     border-right: 0;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-    box-shadow: 1px 0 0 0 var(--el-input-border-color) inset,
-      0 1px 0 0 var(--el-input-border-color) inset,
-      0 -1px 0 0 var(--el-input-border-color) inset;
+    @include inset-prepend-border(var(--el-input-border-color));
   }
 
   @include e(append) {
     border-left: 0;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
-    box-shadow: 0 1px 0 0 var(--el-input-border-color) inset,
-      0 -1px 0 0 var(--el-input-border-color) inset,
-      -1px 0 0 0 var(--el-input-border-color) inset;
+    @include inset-append-border(var(--el-input-border-color));
   }
 
   @include m(prepend) {
@@ -389,14 +407,16 @@
     > .#{$namespace}-input__inner {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
-      box-shadow: 0 0 0 1px var(--el-input-border-color) inset;
+      @include mixed-input-border(var(--el-input-border-color));
       &:hover {
-        box-shadow: 0 0 0 1px var(--el-input-hover-border-color) inset;
+        z-index: 1;
+        @include mixed-input-border(var(--el-input-hover-border-color));
       }
 
       &:focus {
         outline: none;
-        box-shadow: 0 0 0 1px var(--el-input-focus-border-color) inset;
+        z-index: 2;
+        @include mixed-input-border(var(--el-input-focus-border-color));
       }
     }
 
@@ -408,35 +428,34 @@
             border-bottom-right-radius: 0;
             &:focus {
               outline: none;
-              box-shadow: 1px 0 0 0px var(--el-input-focus-border-color) inset,
-                1px 0 0 0px var(--el-input-focus-border-color),
-                0px 1px 0 0px var(--el-input-focus-border-color) inset,
-                0px -1px 0 0px var(--el-input-focus-border-color) inset !important;
+              z-index: 2;
+              @include inset-prepend-input-border(
+                var(--el-input-focus-border-color)
+              );
             }
           }
           &.is-focus {
             .#{$namespace}-input__inner {
-              box-shadow: 1px 0 0 0px var(--el-input-focus-border-color) inset,
-                1px 0 0 0px var(--el-input-focus-border-color),
-                0px 1px 0 0px var(--el-input-focus-border-color) inset,
-                0px -1px 0 0px var(--el-input-focus-border-color) inset !important;
+              @include inset-prepend-input-border(
+                var(--el-input-focus-border-color)
+              );
               z-index: 2;
               &:focus {
                 outline: none;
-                box-shadow: 1px 0 0 0px var(--el-input-focus-border-color) inset,
-                  1px 0 0 0px var(--el-input-focus-border-color),
-                  0px 1px 0 0px var(--el-input-focus-border-color) inset,
-                  0px -1px 0 0px var(--el-input-focus-border-color) inset !important;
+                z-index: 2;
+                @include inset-prepend-input-border(
+                  var(--el-input-focus-border-color)
+                );
               }
             }
           }
         }
         &:hover {
           .#{$namespace}-input__inner {
-            box-shadow: 1px 0 0 0px var(--el-input-hover-border-color) inset,
-              1px 0 0 0px var(--el-input-hover-border-color),
-              0px 1px 0 0px var(--el-input-hover-border-color) inset,
-              0px -1px 0 0px var(--el-input-hover-border-color) inset !important;
+            z-index: 1;
+            @include inset-prepend-input-border(
+              var(--el-input-hover-border-color)
+            );
           }
         }
       }
@@ -454,41 +473,38 @@
           .#{$namespace}-input__inner {
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
-            box-shadow: -1px 0 0 0px var(--el-input-border-color),
-              -1px 0 0 0px var(--el-input-border-color) inset,
-              0px 1px 0 0px var(--el-input-border-color) inset,
-              0px -1px 0 0px var(--el-input-border-color) inset;
+            @include inset-append-input-border(var(--el-input-border-color));
             &:focus {
               outline: none;
-              box-shadow: -1px 0 0 0px var(--el-input-focus-border-color),
-                -1px 0 0 0px var(--el-input-focus-border-color) inset,
-                0px 1px 0 0px var(--el-input-focus-border-color) inset,
-                0px -1px 0 0px var(--el-input-focus-border-color) inset !important;
+              z-index: 2;
+              @include inset-append-input-border(
+                var(--el-input-focus-border-color)
+              );
             }
           }
           &.is-focus {
             .#{$namespace}-input__inner {
               outline: none;
-              box-shadow: -1px 0 0 0px var(--el-input-focus-border-color),
-                -1px 0 0 0px var(--el-input-focus-border-color) inset,
-                0px 1px 0 0px var(--el-input-focus-border-color) inset,
-                0px -1px 0 0px var(--el-input-focus-border-color) inset !important;
+              z-index: 2;
+              @include inset-append-input-border(
+                var(--el-input-focus-border-color)
+              );
               &:focus {
                 outline: none;
-                box-shadow: -1px 0 0 0px var(--el-input-focus-border-color),
-                  -1px 0 0 0px var(--el-input-focus-border-color) inset,
-                  0px 1px 0 0px var(--el-input-focus-border-color) inset,
-                  0px -1px 0 0px var(--el-input-focus-border-color) inset !important;
+                z-index: 2;
+                @include inset-append-input-border(
+                  var(--el-input-focus-border-color)
+                );
               }
             }
           }
         }
         &:hover {
           .#{$namespace}-input__inner {
-            box-shadow: -1px 0 0 0px var(--el-input-hover-border-color),
-              -1px 0 0 0px var(--el-input-hover-border-color) inset,
-              0px 1px 0 0px var(--el-input-hover-border-color) inset,
-              0px -1px 0 0px var(--el-input-hover-border-color) inset;
+            z-index: 1;
+            @include inset-append-input-border(
+              var(--el-input-hover-border-color)
+            );
           }
         }
       }
