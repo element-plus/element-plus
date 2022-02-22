@@ -8,6 +8,8 @@ import { inBrowser } from 'vitepress'
 
 import type { Route } from 'vitepress'
 
+export * from './colors'
+
 export {
   isArray,
   isNullish,

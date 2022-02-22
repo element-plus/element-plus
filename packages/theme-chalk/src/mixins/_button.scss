@@ -19,7 +19,7 @@
     &:hover,
     &:focus,
     &:active {
-      color: map.get($colors, $type, 'light-4');
+      color: map.get($colors, $type, 'light-5');
       background-color: map.get($colors, $type, 'light-9');
       border-color: map.get($colors, $type, 'light-8');
     }
