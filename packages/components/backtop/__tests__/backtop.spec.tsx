@@ -1,15 +1,11 @@
-import { nextTick, type VNode } from 'vue'
+import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { CaretTop } from '@element-plus/icons-vue'
 import Backtop from '../src/backtop.vue'
+import type { VNode } from 'vue'
 
 const _mount = (render: () => VNode) =>
-  mount(
-    {
-      setup: () => render,
-    },
-    { attachTo: document.body }
-  )
+  mount(render, { attachTo: document.body })
 
 describe('Backtop.vue', () => {
   test('render', async () => {
