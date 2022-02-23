@@ -28,7 +28,6 @@ importers:
       '@popperjs/core': ^2.11.2
       '@rollup/plugin-commonjs': ^21.0.1
       '@rollup/plugin-node-resolve': ^13.1.3
-      '@rollup/plugin-replace': ^3.1.0
       '@types/fs-extra': ^9.0.13
       '@types/gulp': ^4.0.9
       '@types/jest': ^26.0.24
@@ -125,7 +124,6 @@ importers:
       '@pnpm/types': 7.10.0
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.68.0
       '@rollup/plugin-node-resolve': 13.1.3_rollup@2.68.0
-      '@rollup/plugin-replace': 3.1.0_rollup@2.68.0
       '@types/fs-extra': 9.0.13
       '@types/gulp': 4.0.9
       '@types/jest': 26.0.24
@@ -2656,16 +2654,6 @@ packages:
       deepmerge: 4.2.2
       is-module: 1.0.0
       resolve: 1.22.0
-      rollup: 2.68.0
-    dev: true
-
-  /@rollup/plugin-replace/3.1.0_rollup@2.68.0:
-    resolution: {integrity: sha512-pA3XRUrSKybVYqmH5TqWNZpGxF+VV+1GrYchKgCNIj2vsSOX7CVm2RCtx8p2nrC7xvkziYyK+lSi74T93MU3YA==}
-    peerDependencies:
-      rollup: ^1.20.0 || ^2.0.0
-    dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@2.68.0
-      magic-string: 0.25.7
       rollup: 2.68.0
     dev: true
 
