@@ -30,7 +30,7 @@
       type="button"
       @click="$emit('close')"
     >
-      <el-icon :class="ns.e('close')"><close /></el-icon>
+      <el-icon :class="ns.e('close')"><Close /></el-icon>
     </button>
   </div>
 </template>
@@ -52,7 +52,7 @@ defineOptions({
 defineEmits(drawerContentEmits)
 const props = defineProps(drawerContentProps)
 
-const { drawerRef, rendered, ns, visible } = inject(elDrawerInjectionKey)!
+const { drawerRef, ns, visible } = inject(elDrawerInjectionKey)!
 const { focusTrapRef, onKeydown } = inject(FOCUS_TRAP_INJECTION_KEY)!
 
 const composedDialogRef = composeRefs(focusTrapRef, drawerRef)

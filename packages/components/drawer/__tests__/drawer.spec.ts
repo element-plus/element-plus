@@ -4,8 +4,6 @@ import { rAF } from '@element-plus/test-utils/tick'
 import Drawer from '../src/drawer.vue'
 import Button from '../../button/src/button.vue'
 
-import type { CSSProperties } from 'vue'
-
 jest.useFakeTimers()
 
 const _mount = (template: string, data: any, otherObj?: any) =>

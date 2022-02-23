@@ -1,4 +1,4 @@
-import type { ComputedRef, CSSProperties, InjectionKey, Ref } from 'vue'
+import type { InjectionKey, Ref } from 'vue'
 import type { useNamespace } from '@element-plus/hooks'
 
 export type DrawerContext = {

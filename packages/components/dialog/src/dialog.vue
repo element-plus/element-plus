@@ -62,8 +62,6 @@ import { dialogProps, dialogEmits } from './dialog'
 import { elDialogInjectionKey } from './token'
 import { useDialog } from './use-dialog'
 
-import type { Ref } from 'vue'
-
 defineOptions({
   name: 'ElDialog',
 })
