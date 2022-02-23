@@ -6,7 +6,7 @@ import type { VNode } from 'vue'
 
 let clientHeightRestore: () => void
 
-const _mount = (template: VNode) => {
+const _mount = (render: () => VNode) => {
   return mount(() => template, { attachTo: document.body })
 }
 
