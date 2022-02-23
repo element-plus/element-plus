@@ -57,9 +57,40 @@
                 :type="tagType"
                 disable-transitions
               >
-                <span :class="nsSelect.e('tags-text')"
-                  >+ {{ selected.length - 1 }}</span
+                <el-tooltip
+                  :disabled="!collapseTagsTooltip"
+                  effect="light"
+                  placement="bottom"
+                  :teleported="false"
                 >
+                  <template #default>
+                    <span :class="nsSelect.e('tags-text')"
+                      >+ {{ selected.length - 1 }}</span
+                    >
+                  </template>
+                  <template #content>
+                    <el-tag
+                      v-for="item in selected"
+                      :key="getValueKey(item)"
+                      class="in-tooltip"
+                      :closable="!selectDisabled && !item.isDisabled"
+                      :size="collapseTagSize"
+                      :hit="item.hitState"
+                      :type="tagType"
+                      disable-transitions
+                      :style="{ margin: '2px' }"
+                      @close="deleteTag($event, item)"
+                    >
+                      <span
+                        :class="nsSelect.e('tags-text')"
+                        :style="{
+                          maxWidth: inputWidth - 75 + 'px',
+                        }"
+                        >{{ item.currentLabel }}</span
+                      >
+                    </el-tag>
+                  </template>
+                </el-tooltip>
               </el-tag>
             </span>
             <!-- <div> -->
@@ -322,6 +353,10 @@ export default defineComponent({
       default: 'value',
     },
     collapseTags: Boolean,
+    collapseTagsTooltip: {
+      type: Boolean,
+      default: false,
+    },
     popperAppendToBody: {
       type: Boolean,
       default: undefined,
