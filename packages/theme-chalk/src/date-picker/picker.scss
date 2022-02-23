@@ -18,7 +18,7 @@
 
 @include b(date-editor) {
   @include set-component-css-var('date-editor', $date-editor);
-
+  @include set-component-css-var('input', $input);
   position: relative;
   display: inline-block;
   text-align: left;
@@ -144,10 +144,9 @@
   }
 
   @include when(active) {
-    border-color: var(--el-color-primary);
-
+    @include inset-input-border(var(--el-input-focus-border-color));
     &:hover {
-      border-color: var(--el-color-primary);
+      @include inset-input-border(var(--el-input-focus-border-color));
     }
   }
 
