@@ -3,17 +3,17 @@ import { mount } from '@vue/test-utils'
 import { CaretTop } from '@element-plus/icons-vue'
 import Backtop from '../src/backtop.vue'
 
-const _mount = (template: VNode) =>
+const _mount = (render: () => VNode) =>
   mount(
     {
-      setup: () => () => template,
+      setup: () => render,
     },
     { attachTo: document.body }
   )
 
 describe('Backtop.vue', () => {
   test('render', async () => {
-    const wrapper = _mount(
+    const wrapper = _mount(() => (
       <div class="target" style="height: 100px; overflow: auto">
         <div style="height: 10000px; width: 100%">
           <Backtop
@@ -24,7 +24,7 @@ describe('Backtop.vue', () => {
           />
         </div>
       </div>
-    )
+    ))
     await nextTick()
 
     expect(wrapper.find('.el-backtop').exists()).toBe(false)
