@@ -17,16 +17,17 @@ import {
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { isNumber } from '@element-plus/utils'
 
-import type { CSSProperties, Ref } from 'vue'
-import type { DialogProps } from './dialog'
+import type { CSSProperties, Ref, SetupContext } from 'vue'
+import type { DialogProps, DialogEmits } from './dialog'
 
 export const useDialog = (
   props: DialogProps,
   targetRef: Ref<HTMLElement | undefined>
 ) => {
   const vm = getCurrentInstance()!
-  const { emit } = vm
+  const emit = vm.emit as SetupContext<DialogEmits>['emit']
   let lastPosition = ''
+
   const visible = ref(false)
   const closed = ref(false)
   const rendered = ref(false) // when desctroyOnClose is true, we initialize it as false vise versa

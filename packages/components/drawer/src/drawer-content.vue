@@ -2,9 +2,10 @@
   <div
     :ref="composedDialogRef"
     aria-modal="true"
+    :aria-hidden="!visible"
     :aria-labelledby="ns.e('title')"
     :aria-label="title"
-    :class="[ns.b(), direction, visible && 'open', customClass]"
+    :class="[ns.b(), direction, ns.is('open', visible), customClass]"
     :style="contentStyle"
     role="dialog"
     @click.stop

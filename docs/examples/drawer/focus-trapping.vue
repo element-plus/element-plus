@@ -1,6 +1,6 @@
 <template>
   <div class="mb-3">
-    <el-button type="primary" @click="drawer = true"> open </el-button>
+    <el-button type="primary" @click="drawer = true">open</el-button>
   </div>
   <div>
     <el-input ref="outerInputRef" placeholder="Auto focus after closed" />
