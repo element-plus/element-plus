@@ -1,3 +1,4 @@
+import { nextTick } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { triggerEvent } from '@element-plus/test-utils'
 import { rAF } from '@element-plus/test-utils/tick'
@@ -374,6 +375,34 @@ describe('Table.vue', () => {
       expect(
         wrapper.findAll('.el-table__body-wrapper tbody tr').length
       ).toEqual(3)
+      filter.parentNode.removeChild(filter)
+    })
+
+    it('clear filter', async () => {
+      const btn = wrapper.find('.el-table__column-filter-trigger')
+
+      btn.trigger('click')
+      await doubleWait()
+      const filter = document.body.querySelector('.el-table-filter')
+
+      triggerEvent(filter.querySelector('.el-checkbox'), 'click', true, false)
+      // confrim button
+      await doubleWait()
+      triggerEvent(
+        filter.querySelector('.el-table-filter__bottom button'),
+        'click',
+        true,
+        false
+      )
+      await nextTick()
+      expect(
+        wrapper.findAll('.el-table__body-wrapper tbody tr').length
+      ).toEqual(3)
+      wrapper.vm.$refs.table.clearFilter()
+      await nextTick()
+      expect(
+        wrapper.findAll('.el-table__body-wrapper tbody tr').length
+      ).toEqual(5)
       filter.parentNode.removeChild(filter)
     })
 
