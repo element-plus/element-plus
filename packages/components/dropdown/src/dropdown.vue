@@ -27,7 +27,7 @@
         <el-scrollbar
           ref="scrollbar"
           :wrap-style="wrapStyle"
-          tag="ul"
+          tag="div"
           :view-class="ns.e('list')"
         >
           <el-focus-trap trapped @mount-on-focus="onMountOnFocus">
