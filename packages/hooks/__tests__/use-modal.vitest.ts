@@ -1,12 +1,12 @@
 import { ref, nextTick } from 'vue'
+import { describe, it, expect, fn } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
-
 import { useModal } from '../use-modal'
 
 describe('useModal', () => {
-  test('should work when ref value changed', async () => {
+  it('should work when ref value changed', async () => {
     const visible = ref(false)
-    const handleClose = jest.fn()
+    const handleClose = fn()
 
     useModal(
       {

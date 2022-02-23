@@ -193,10 +193,10 @@ export default defineComponent({
 
 ## Using Nuxt.js
 
-We can also use [Nuxt.js](https://nuxtjs.org)：
+We can also use [Nuxt.js](https://v3.nuxtjs.org/)：
 
 <div class="glitch-embed-wrap" style="height: 420px; width: 100%;">
-  <iframe src="https://glitch.com/embed/#!/embed/nuxt-with-element?path=nuxt.config.js&previewSize=0&attributionHidden=true" alt="nuxt-with-element on glitch" style="height: 100%; width: 100%; border: 0;"></iframe>
+  <iframe src="https://glitch.com/edit/#!/nuxt-element-plus?path=components%2FExamples.vue%3A1%3A0" alt="nuxt-element-plus on glitch" style="height: 100%; width: 100%; border: 0;"></iframe>
 </div>
 
 ## Let's Get Started

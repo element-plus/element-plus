@@ -5,6 +5,7 @@
       @after-leave="onTransitionLeave"
       @before-enter="onBeforeEnter"
       @after-enter="onAfterShow"
+      @before-leave="onBeforeLeave"
     >
       <el-popper-content
         v-if="shouldRender"
@@ -62,8 +63,18 @@ export default defineComponent({
     const intermediateOpen = ref(false)
     const entering = ref(false)
     const leaving = ref(false)
-    const { controlled, id, open, trigger, onClose, onOpen, onShow, onHide } =
-      inject(TOOLTIP_INJECTION_KEY, undefined)!
+    const {
+      controlled,
+      id,
+      open,
+      trigger,
+      onClose,
+      onOpen,
+      onShow,
+      onHide,
+      onBeforeShow,
+      onBeforeHide,
+    } = inject(TOOLTIP_INJECTION_KEY, undefined)!
     const persistentRef = computed(() => {
       // For testing, we would always want the content to be rendered
       // to the DOM, so we need to return true here.
@@ -109,6 +120,11 @@ export default defineComponent({
 
     const onBeforeEnter = () => {
       contentRef.value?.updatePopper?.()
+      onBeforeShow()
+    }
+
+    const onBeforeLeave = () => {
+      onBeforeHide()
     }
 
     const onAfterShow = () => {
@@ -155,6 +171,7 @@ export default defineComponent({
       open,
       onAfterShow,
       onBeforeEnter,
+      onBeforeLeave,
       onContentEnter,
       onContentLeave,
       onTransitionLeave,

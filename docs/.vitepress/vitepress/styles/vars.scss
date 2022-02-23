@@ -7,6 +7,7 @@
   --brand-color: var(--el-color-primary);
   --brand-color-light: var(--el-color-primary-light-1);
   --bg-brand-color: var(--el-color-primary-light-9);
+
   --bg-color: var(--el-color-white);
   --bg-color-soft: #fafafa;
   --bg-color-mute: #f2f2f2;
@@ -39,6 +40,7 @@
   // --dropdown-z-index: 22;
 
   // code block vars
+  --code-line-height: 1.4;
   --code-font-size: var(--el-font-size-base);
   --code-bg-color: var(--el-bg-color);
   --code-text-color: var(--text-color);
@@ -47,6 +49,13 @@
   // doc search vars
   --docsearch-primary-color: var(--brand-color);
   --docsearch-searchbox-background: var(--el-bg-color);
+
+  // tip block
+  --block-tip-bg-color: rgba(var(--el-color-primary-rgb), 0.1);
+  --block-warning-bg-color: rgba(var(--el-color-danger-rgb), 0.1);
+
+  // link
+  --link-active-bg-color: rgba(var(--el-color-primary-rgb), 0.1);
 }
 
 :root {
@@ -61,8 +70,8 @@
   --border-color: #434343;
   --border-color-light: #979797;
 
-  --bg-color: #121212;
-  --bg-color-soft: #383838;
+  --bg-color: var(--el-bg-color);
+  --bg-color-soft: #242424;
   --bg-color-mute: #2c2c2c;
 }
 

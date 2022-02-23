@@ -1,44 +1,51 @@
 import { ref } from 'vue'
-import { on, off } from '@element-plus/utils'
+import {
+  describe,
+  it,
+  expect,
+  beforeAll,
+  beforeEach,
+  afterAll,
+  fn,
+} from 'vitest'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { usePreventGlobal } from '../use-prevent-global'
 
 describe('usePreventGlobal', () => {
   const evtName = 'keydown'
-  const evt = jest.fn()
+  const evtHandler = fn()
   beforeAll(() => {
-    on(document.body, evtName, evt)
+    document.body.addEventListener(evtName, evtHandler)
   })
 
   beforeEach(() => {
-    evt.mockClear()
+    evtHandler.mockClear()
   })
 
   afterAll(() => {
-    off(document.body, evtName, evt)
+    document.body.removeEventListener(evtName, evtHandler)
   })
 
   it('should prevent global event from happening', () => {
     const visible = ref(true)
-    const evt2Trigger = jest.fn().mockReturnValue(true)
+    const evt2Trigger = fn().mockReturnValue(true)
     usePreventGlobal(visible, evtName, evt2Trigger)
 
     triggerEvent(document.body, evtName)
 
-    expect(evt).not.toBeCalled()
+    expect(evtHandler).not.toBeCalled()
     expect(evt2Trigger).toHaveBeenCalled()
     visible.value = false
-    // clean up
   })
 
   it('should not prevent global event from happening', () => {
     const visible = ref(true)
-    const evt2Trigger = jest.fn().mockReturnValue(false)
+    const evt2Trigger = fn().mockReturnValue(false)
     usePreventGlobal(visible, evtName, evt2Trigger)
 
     triggerEvent(document.body, evtName)
 
-    expect(evt).toHaveBeenCalled()
+    expect(evtHandler).toHaveBeenCalled()
     expect(evt2Trigger).toHaveBeenCalled()
 
     visible.value = false

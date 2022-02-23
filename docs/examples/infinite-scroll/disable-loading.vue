@@ -43,7 +43,7 @@ const load = () => {
   align-items: center;
   justify-content: center;
   height: 50px;
-  background: var(--el-color-danger-lighter);
+  background: var(--el-color-danger-light-9);
   color: var(--el-color-danger);
 }
 .infinite-list-wrapper .list-item + .list-item {
