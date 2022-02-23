@@ -14,6 +14,7 @@ import {
   useDocumentVisibility,
   useWindowFocus,
 } from '@vueuse/core'
+import { debounce } from 'lodash-unified'
 import {
   buildProps,
   definePropType,
@@ -265,8 +266,11 @@ export default defineComponent({
         focusable.value = false
       }
     })
-
-    useResizeObserver(el$, update)
+    const debounceUpdateActive = debounce(scrollToActiveTab, 100)
+    useResizeObserver(el$, () => {
+      update()
+      debounceUpdateActive()
+    })
 
     onMounted(() => setTimeout(() => scrollToActiveTab(), 0))
     onUpdated(() => update())
