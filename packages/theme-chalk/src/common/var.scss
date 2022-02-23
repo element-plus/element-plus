@@ -795,8 +795,6 @@ $tag: map.merge(
   $tag
 );
 
-$tag-color: () !default;
-
 $tag-height: () !default;
 $tag-height: map.merge(
   (
@@ -826,15 +824,6 @@ $tag-icon-size: map.merge(
   ),
   $tag-icon-size
 );
-
-@each $type in $types {
-  $tag-color: map.merge(
-    (
-      $type: map.get($colors, $type, 'base'),
-    ),
-    $tag-color
-  ) !global;
-}
 
 // Tree
 // css3 var in packages/theme-chalk/src/tree.scss
