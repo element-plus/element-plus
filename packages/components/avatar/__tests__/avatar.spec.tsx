@@ -1,4 +1,4 @@
-import { nextTick, type VNode } from 'vue'
+import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { User } from '@element-plus/icons-vue'
 import {
@@ -8,6 +8,7 @@ import {
 } from '@element-plus/test-utils'
 
 import Avatar from '../src/avatar.vue'
+import type { VNode } from 'vue'
 
 const _mount = (render: () => VNode) =>
   mount({
