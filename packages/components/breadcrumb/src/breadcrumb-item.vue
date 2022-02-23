@@ -12,14 +12,8 @@
   </span>
 </template>
 
-<script lang="ts">
-import {
-  defineComponent,
-  inject,
-  ref,
-  onMounted,
-  getCurrentInstance,
-} from 'vue'
+<script lang="ts" setup>
+import { inject, ref, onMounted, getCurrentInstance } from 'vue'
 import ElIcon from '@element-plus/components/icon'
 import { elBreadcrumbKey } from '@element-plus/tokens'
 import { useNamespace } from '@element-plus/hooks'
@@ -27,39 +21,27 @@ import { breadcrumbItemProps } from './breadcrumb-item'
 
 import type { Router } from 'vue-router'
 
-const COMPONENT_NAME = 'ElBreadcrumbItem'
+defineOptions({
+  name: 'ElBreadcrumbItem',
+})
 
-export default defineComponent({
-  name: COMPONENT_NAME,
+const props = defineProps(breadcrumbItemProps)
 
-  components: {
-    ElIcon,
-  },
+const instance = getCurrentInstance()!
+const router = instance.appContext.config.globalProperties.$router as Router
+const parent = inject(elBreadcrumbKey, undefined)
+const ns = useNamespace('breadcrumb')
 
-  props: breadcrumbItemProps,
+const separator = parent?.separator
+const separatorIcon = parent?.separatorIcon
 
-  setup(props) {
-    const instance = getCurrentInstance()!
-    const router = instance.appContext.config.globalProperties.$router as Router
-    const parent = inject(elBreadcrumbKey, undefined)
-    const ns = useNamespace('breadcrumb')
+const link = ref<HTMLSpanElement>()
 
-    const link = ref<HTMLSpanElement>()
-
-    onMounted(() => {
-      link.value!.setAttribute('role', 'link')
-      link.value!.addEventListener('click', () => {
-        if (!props.to || !router) return
-        props.replace ? router.replace(props.to) : router.push(props.to)
-      })
-    })
-
-    return {
-      ns,
-      link,
-      separator: parent?.separator,
-      separatorIcon: parent?.separatorIcon,
-    }
-  },
+onMounted(() => {
+  link.value!.setAttribute('role', 'link')
+  link.value!.addEventListener('click', () => {
+    if (!props.to || !router) return
+    props.replace ? router.replace(props.to) : router.push(props.to)
+  })
 })
 </script>
