@@ -102,7 +102,7 @@ const onScroll = () => {
 }
 
 watch(
-  () => fixed.value,
+  fixed,
   (fixed) => {
     emit('change', fixed)
   }
