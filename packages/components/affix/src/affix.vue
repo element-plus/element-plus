@@ -1,12 +1,12 @@
 <template>
   <div ref="root" :class="ns.b()" :style="rootStyle">
-    <div :class="{ [ns.m('fixed')]: state.fixed }" :style="affixStyle">
+    <div :class="{ [ns.m('fixed')]: fixed }" :style="affixStyle">
       <slot></slot>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, onMounted, reactive, shallowRef, watch } from 'vue'
+import { computed, onMounted, ref, shallowRef, watch } from 'vue'
 import { useEventListener, useResizeObserver } from '@vueuse/core'
 import { getScrollContainer } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
@@ -27,34 +27,32 @@ const target = shallowRef<HTMLElement>()
 const root = shallowRef<HTMLDivElement>()
 const scrollContainer = shallowRef<HTMLElement | Window>()
 
-const state = reactive({
-  fixed: false,
-  height: 0, // height of root
-  width: 0, // width of root
-  scrollTop: 0, // scrollTop of documentElement
-  clientHeight: 0, // clientHeight of documentElement
-  transform: 0,
-})
+const fixed = ref(false)
+const height = ref(0) // height of root
+const width = ref(0) // width of root
+const scrollTop = ref(0) // scrollTop of documentElement
+const clientHeight = ref(0) // clientHeight of documentElement
+const transform = ref(0)
 
 const rootStyle = computed<CSSProperties>(() => {
   return {
-    height: state.fixed ? `${state.height}px` : '',
-    width: state.fixed ? `${state.width}px` : '',
+    height: fixed.value ? `${height.value}px` : '',
+    width: fixed.value ? `${width.value}px` : '',
   }
 })
 
 const affixStyle = computed<CSSProperties | undefined>(() => {
-  if (!state.fixed) return
+  if (!fixed.value) return
 
   const offset = props.offset ? `${props.offset}px` : 0
-  const transform = state.transform ? `translateY(${state.transform}px)` : ''
+  const _transform = transform.value ? `translateY(${transform.value}px)` : ''
 
   return {
-    height: `${state.height}px`,
-    width: `${state.width}px`,
+    height: `${height.value}px`,
+    width: `${width.value}px`,
     top: props.position === 'top' ? offset : '',
     bottom: props.position === 'bottom' ? offset : '',
-    transform,
+    transform: _transform,
     zIndex: props.zIndex,
   }
 })
@@ -64,32 +62,32 @@ const update = () => {
 
   const rootRect = root.value.getBoundingClientRect()
   const targetRect = target.value.getBoundingClientRect()
-  state.height = rootRect.height
-  state.width = rootRect.width
-  state.scrollTop =
+  height.value = rootRect.height
+  width.value = rootRect.width
+  scrollTop.value =
     scrollContainer.value instanceof Window
       ? document.documentElement.scrollTop
       : scrollContainer.value.scrollTop || 0
-  state.clientHeight = document.documentElement.clientHeight
+  clientHeight.value = document.documentElement.clientHeight
 
   if (props.position === 'top') {
     if (props.target) {
-      const difference = targetRect.bottom - props.offset - state.height
-      state.fixed = props.offset > rootRect.top && targetRect.bottom > 0
-      state.transform = difference < 0 ? difference : 0
+      const difference = targetRect.bottom - props.offset - height.value
+      fixed.value = props.offset > rootRect.top && targetRect.bottom > 0
+      transform.value = difference < 0 ? difference : 0
     } else {
-      state.fixed = props.offset > rootRect.top
+      fixed.value = props.offset > rootRect.top
     }
   } else {
     if (props.target) {
       const difference =
-        state.clientHeight - targetRect.top - props.offset - state.height
-      state.fixed =
-        state.clientHeight - props.offset < rootRect.bottom &&
-        state.clientHeight > targetRect.top
-      state.transform = difference < 0 ? -difference : 0
+        clientHeight.value - targetRect.top - props.offset - height.value
+      fixed.value =
+        clientHeight.value - props.offset < rootRect.bottom &&
+        clientHeight.value > targetRect.top
+      transform.value = difference < 0 ? -difference : 0
     } else {
-      state.fixed = state.clientHeight - props.offset < rootRect.bottom
+      fixed.value = clientHeight.value - props.offset < rootRect.bottom
     }
   }
 }
@@ -98,17 +96,14 @@ const onScroll = () => {
   update()
 
   emit('scroll', {
-    scrollTop: state.scrollTop,
-    fixed: state.fixed,
+    scrollTop: scrollTop.value,
+    fixed: fixed.value,
   })
 }
 
-watch(
-  () => state.fixed,
-  () => {
-    emit('change', state.fixed)
-  }
-)
+watch(fixed, (fixed) => {
+  emit('change', fixed)
+})
 
 onMounted(() => {
   if (props.target) {
@@ -126,4 +121,9 @@ onMounted(() => {
 useEventListener(scrollContainer, 'scroll', onScroll)
 useResizeObserver(root, () => update())
 useResizeObserver(target, () => update())
+
+defineExpose({
+  /** @description update affix status */
+  update,
+})
 </script>
