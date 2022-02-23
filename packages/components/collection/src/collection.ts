@@ -23,7 +23,7 @@ export const createCollectionWithScope = (name: string) => {
     ...Collection,
     name: COLLECTION_NAME,
     setup() {
-      const collectionRef = ref<HTMLElement | null>(null)
+      const collectionRef = ref<HTMLElement>()
       const itemMap: ElCollectionInjectionContext['itemMap'] = new Map()
       const getItems = () => {
         const collectionEl = unref(collectionRef)
@@ -53,7 +53,7 @@ export const createCollectionWithScope = (name: string) => {
     ...CollectionItem,
     name: COLLECTION_ITEM_NAME,
     setup(_, { attrs }) {
-      const collectionItemRef = ref<HTMLElement | null>(null)
+      const collectionItemRef = ref<HTMLElement>()
       const collectionInjection = inject(COLLECTION_INJECTION_KEY, undefined)!
 
       provide(COLLECTION_ITEM_INJECTION_KEY, {

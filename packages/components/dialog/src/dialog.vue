@@ -62,25 +62,20 @@ import { dialogProps, dialogEmits } from './dialog'
 import { elDialogInjectionKey } from './token'
 import { useDialog } from './use-dialog'
 
-import type { SetupContext, Ref } from 'vue'
-import type { DialogEmits } from './dialog'
+import type { Ref } from 'vue'
 
 defineOptions({
   name: 'ElDialog',
 })
 
+defineEmits(dialogEmits)
 const props = defineProps(dialogProps)
-const emit = defineEmits(dialogEmits)
 
 const ns = useNamespace('dialog')
-const dialogRef = ref<HTMLElement | null>(null)
-const headerRef = ref<HTMLElement | null>(null)
+const dialogRef = ref<HTMLElement>()
+const headerRef = ref<HTMLElement>()
 
-const dialog = useDialog(
-  props,
-  { emit } as SetupContext<DialogEmits>,
-  dialogRef as Ref<HTMLElement>
-)
+const dialog = useDialog(props, dialogRef)
 const {
   visible,
   afterEnter,
@@ -103,9 +98,5 @@ const overlayEvent = useSameTarget(dialog.onModalClick)
 
 const draggable = computed(() => props.draggable && !props.fullscreen)
 
-useDraggable(
-  dialogRef as Ref<HTMLElement>,
-  headerRef as Ref<HTMLElement>,
-  draggable
-)
+useDraggable(dialogRef, headerRef, draggable)
 </script>

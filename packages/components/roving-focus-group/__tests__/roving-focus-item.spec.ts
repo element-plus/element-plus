@@ -18,12 +18,10 @@ let counter = 0
 const FocusItem = defineComponent({
   setup() {
     const { rovingFocusGroupItemRef, ...itemInjection } = inject(
-      ROVING_FOCUS_GROUP_ITEM_INJECTION_KEY,
-      undefined
-    )
+      ROVING_FOCUS_GROUP_ITEM_INJECTION_KEY
+    )!
     const collectionItemInjection = inject(
-      ROVING_FOCUS_ITEM_COLLECTION_INJECTION_KEY,
-      undefined
+      ROVING_FOCUS_ITEM_COLLECTION_INJECTION_KEY
     )!
     const itemRef = composeRefs(
       rovingFocusGroupItemRef,

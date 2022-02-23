@@ -52,13 +52,19 @@ $directions: rtl, ltr, ttb, btt;
   }
 
   &__close-btn {
+    position: absolute;
+    top: 3px;
+    right: 0;
+    padding: 0;
+    width: 54px;
+    height: 54px;
+    background: transparent;
     border: none;
-    cursor: pointer;
-    font-size: var(--el-font-size-extra-large);
-    color: inherit;
-    background-color: transparent;
     outline: none;
-    &:hover {
+    cursor: pointer;
+    font-size: var(--el-message-close-size, 16px);
+    &:hover,
+    &:focus {
       i {
         color: var(--el-color-primary);
       }

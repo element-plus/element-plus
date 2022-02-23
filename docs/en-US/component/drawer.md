@@ -23,6 +23,22 @@ drawer/basic-usage
 
 :::
 
+## Focus trapping
+
+Like [Dialog](https://element-plus.org/en-US/component/dialog.html), `Drawer` will automatically trap your keyboard focus inside the drawer content, which allows you to navigate inside the drawer via keyboard.
+
+:::tip
+
+Auto focus will only take effect when the `Focus Trap` component (**internally used**) initially mounted, set `destroy-on-close` to refresh the component's state if you need this feature.
+
+:::
+
+:::demo
+
+drawer/focus-trapping
+
+:::
+
 ## No Title
 
 When you no longer need a title, you can remove title from drawer.

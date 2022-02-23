@@ -4,9 +4,11 @@ import { rAF } from '@element-plus/test-utils/tick'
 import Drawer from '../src/drawer.vue'
 import Button from '../../button/src/button.vue'
 
+import type { CSSProperties } from 'vue'
+
 jest.useFakeTimers()
 
-const _mount = (template: string, data, otherObj?) =>
+const _mount = (template: string, data: any, otherObj?: any) =>
   mount({
     components: {
       [Drawer.name]: Drawer,
@@ -20,7 +22,7 @@ const title = 'Drawer Title'
 const content = 'content'
 
 describe('Drawer', () => {
-  test('create', async () => {
+  it('create', async () => {
     const wrapper = _mount(
       `
       <el-drawer :title="title" v-model="visible"></el-drawer>
@@ -41,7 +43,7 @@ describe('Drawer', () => {
     expect(headerEl.textContent).toEqual(title)
   })
 
-  test('render correct content', async () => {
+  it('render correct content', async () => {
     const wrapper = _mount(
       `
       <el-drawer :title='title' v-model='visible'>
@@ -68,7 +70,7 @@ describe('Drawer', () => {
     expect(footerBtns[1].find('span').element.textContent).toEqual('confirm')
   })
 
-  test('should append to body, when append-to-body flag is true', async () => {
+  it('should append to body, when append-to-body flag is true', async () => {
     const wrapper = _mount(
       `
       <el-drawer ref='d' :title='title' v-model='visible' :append-to-body='true'>
@@ -86,12 +88,12 @@ describe('Drawer', () => {
     await nextTick()
     await rAF()
     await nextTick()
-    expect(document.querySelector('.el-overlay').parentNode).toEqual(
+    expect(document.querySelector('.el-overlay')?.parentNode).toEqual(
       document.body
     )
   })
 
-  test('should open and close drawer properly', async () => {
+  it('should open and close drawer properly', async () => {
     const onClose = jest.fn()
     const onClosed = jest.fn()
     const onOpened = jest.fn()
@@ -135,7 +137,7 @@ describe('Drawer', () => {
     // expect(onClose).toHaveBeenCalled()
   })
 
-  test('should destroy every child after drawer was closed when destroy-on-close flag is true', async () => {
+  it('should destroy every child after drawer was closed when destroy-on-close flag is true', async () => {
     const wrapper = _mount(
       `
       <el-drawer :title='title' v-model='visible' :append-to-body='false' :destroy-on-close='true' ref='drawer'>
@@ -147,6 +149,7 @@ describe('Drawer', () => {
         visible: true,
       })
     )
+    await nextTick()
     const vm = wrapper.vm as any
 
     await nextTick()
@@ -162,7 +165,7 @@ describe('Drawer', () => {
     expect(wrapper.find('.el-drawer__body').exists()).toBe(false)
   })
 
-  test('should close dialog by clicking the close button', async () => {
+  it('should close dialog by clicking the close button', async () => {
     const wrapper = _mount(
       `
       <el-drawer :title='title' v-model='visible' :append-to-body='false' :destroy-on-close='true' ref='drawer'>
@@ -186,7 +189,7 @@ describe('Drawer', () => {
     expect(vm.visible).toEqual(false)
   })
 
-  test('should invoke before-close', async () => {
+  it('should invoke before-close', async () => {
     const beforeClose = jest.fn()
     const wrapper = _mount(
       `
@@ -213,7 +216,7 @@ describe('Drawer', () => {
     expect(beforeClose).toHaveBeenCalled()
   })
 
-  test('should not show close button when show-close flag is false', async () => {
+  it('should not show close button when show-close flag is false', async () => {
     const wrapper = _mount(
       `
       <el-drawer :title='title' v-model='visible' ref='drawer' :show-close='false'>
@@ -229,7 +232,7 @@ describe('Drawer', () => {
     expect(wrapper.find('.el-drawer__close-btn').exists()).toBe(false)
   })
 
-  test('should have custom classes when custom classes were given', async () => {
+  it('should have custom classes when custom classes were given', async () => {
     const classes = 'some-custom-class'
     const wrapper = _mount(
       `
@@ -242,11 +245,12 @@ describe('Drawer', () => {
         visible: true,
       })
     )
+    await nextTick()
 
     expect(wrapper.find(`.${classes}`).exists()).toBe(true)
   })
 
-  test('should not render header when withHeader attribute is false', async () => {
+  it('should not render header when withHeader attribute is false', async () => {
     const wrapper = _mount(
       `
       <el-drawer :title='title' v-model='visible' ref='drawer' :with-header='false'>
@@ -263,7 +267,7 @@ describe('Drawer', () => {
   })
 
   describe('directions', () => {
-    const renderer = (direction) => {
+    const renderer = (direction: string) => {
       return _mount(
         `
         <el-drawer :title='title' v-model='visible' direction='${direction}'>
@@ -277,19 +281,27 @@ describe('Drawer', () => {
       )
     }
     test('should render from left to right', async () => {
-      expect(renderer('ltr').find('.ltr').exists()).toBe(true)
+      const wrapper = renderer('ltr')
+      await nextTick()
+      expect(wrapper.find('.ltr').exists()).toBe(true)
     })
 
     test('should render from right to left', async () => {
-      expect(renderer('rtl').find('.rtl').exists()).toBe(true)
+      const wrapper = renderer('rtl')
+      await nextTick()
+      expect(wrapper.find('.rtl').exists()).toBe(true)
     })
 
     test('should render from top to bottom', async () => {
-      expect(renderer('ttb').find('.ttb').exists()).toBe(true)
+      const wrapper = renderer('ttb')
+      await nextTick()
+      expect(wrapper.find('.ttb').exists()).toBe(true)
     })
 
     test('should render from bottom to top', async () => {
-      expect(renderer('btt').find('.btt').exists()).toBe(true)
+      const wrapper = renderer('btt')
+      await nextTick()
+      expect(wrapper.find('.btt').exists()).toBe(true)
     })
   })
 
@@ -325,12 +337,13 @@ describe('Drawer', () => {
       }
     )
     const vm = wrapper.vm as any
-    const drawer = wrapper.vm.$refs.drawer as any
+    const drawer = wrapper.findComponent(Drawer)
 
     vm.visible = true
     await nextTick()
     expect(open).toHaveBeenCalled()
-    drawer.afterEnter()
+    drawer.vm.$emit('opened')
+    await nextTick()
     expect(opened).toHaveBeenCalled()
     expect(close).not.toHaveBeenCalled()
     expect(closed).not.toHaveBeenCalled()
@@ -338,12 +351,12 @@ describe('Drawer', () => {
     vm.visible = false
     await nextTick()
     expect(close).toHaveBeenCalled()
-    drawer.afterLeave()
+    drawer.vm.$emit('closed')
     expect(closed).toHaveBeenCalled()
   })
 
   describe('size', () => {
-    const renderer = (size, isVertical) =>
+    const renderer = (size: string, isVertical: boolean) =>
       _mount(
         `
         <el-drawer :title='title' v-model='visible' direction='${
@@ -358,16 +371,28 @@ describe('Drawer', () => {
         })
       )
 
-    test('should effect height when drawer is vertical', async () => {
-      const drawerEl = renderer('50%', true).find('.el-drawer')
-        .element as HTMLDivElement
-      expect(drawerEl.style.width).toEqual('50%')
-    })
-
-    test('should effect width when drawer is horizontal', async () => {
-      const drawerEl = renderer('50%', false).find('.el-drawer')
-        .element as HTMLDivElement
-      expect(drawerEl.style.height).toEqual('50%')
-    })
+    describe.each`
+      size     | isVertical | key
+      ${'50%'} | ${true}    | ${'width'}
+      ${'30%'} | ${false}   | ${'height'}
+    `(
+      'sizing with directions',
+      ({
+        size,
+        isVertical,
+        key,
+      }: {
+        size: string
+        isVertical: boolean
+        key: 'width' | 'height'
+      }) => {
+        it('should render correctly', async () => {
+          const wrapper = renderer(size, isVertical)
+          await nextTick()
+          const drawerEl = wrapper.find('.el-drawer').element as HTMLDivElement
+          expect(drawerEl.style[key]).toEqual(size)
+        })
+      }
+    )
   })
 })

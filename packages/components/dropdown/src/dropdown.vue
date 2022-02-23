@@ -121,7 +121,7 @@ export default defineComponent({
     const triggeringElementRef = ref()
     const referenceElementRef = ref()
     const popperRef = ref<InstanceType<typeof ElTooltip> | null>(null)
-    const contentRef = ref<HTMLElement | null>(null)
+    const contentRef = ref<HTMLElement>()
     const scrollbar = ref(null)
     const currentTabId = ref<string | null>(null)
     const isUsingKeyboard = ref(false)

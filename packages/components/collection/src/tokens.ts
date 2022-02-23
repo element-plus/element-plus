@@ -1,15 +1,15 @@
 import type { Ref } from 'vue'
 
 export type CollectionItem<T = Record<string, any>> = {
-  ref: HTMLElement | null
+  ref: HTMLElement | undefined
 } & T
 
 export type ElCollectionInjectionContext = {
   itemMap: Map<HTMLElement, CollectionItem>
   getItems: <T>() => CollectionItem<T>[]
-  collectionRef: Ref<HTMLElement | null>
+  collectionRef: Ref<HTMLElement | undefined>
 }
 
 export type ElCollectionItemInjectionContext = {
-  collectionItemRef: Ref<HTMLElement | null>
+  collectionItemRef: Ref<HTMLElement | undefined>
 }

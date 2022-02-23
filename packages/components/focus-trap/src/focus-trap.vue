@@ -40,8 +40,8 @@ export default defineComponent({
   },
   emits: [ON_MOUNT_FOCUS_EVT, ON_UNMOUNT_FOCUS_EVT],
   setup(props, { emit }) {
-    const focusTrapRef = ref<HTMLElement | null>()
-    const forwardRef = ref<HTMLElement | null>(null)
+    const focusTrapRef = ref<HTMLElement | undefined>()
+    const forwardRef = ref<HTMLElement | undefined>()
     let lastFocusBeforeMounted: HTMLElement | null
     let lastFocusAfterMounted: HTMLElement | null
 

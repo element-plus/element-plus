@@ -1,4 +1,11 @@
-import { computed, ref, watch, nextTick, onMounted } from 'vue'
+import {
+  computed,
+  getCurrentInstance,
+  ref,
+  watch,
+  nextTick,
+  onMounted,
+} from 'vue'
 import { useTimeoutFn, isClient } from '@vueuse/core'
 
 import {
@@ -10,14 +17,15 @@ import {
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { isNumber } from '@element-plus/utils'
 
-import type { CSSProperties, Ref, SetupContext } from 'vue'
-import type { DialogEmits, DialogProps } from './dialog'
+import type { CSSProperties, Ref } from 'vue'
+import type { DialogProps } from './dialog'
 
 export const useDialog = (
   props: DialogProps,
-  { emit }: SetupContext<DialogEmits>,
   targetRef: Ref<HTMLElement | undefined>
 ) => {
+  const vm = getCurrentInstance()!
+  const { emit } = vm
   let lastPosition = ''
   const visible = ref(false)
   const closed = ref(false)
