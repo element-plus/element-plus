@@ -101,12 +101,9 @@ const onScroll = () => {
   })
 }
 
-watch(
-  fixed,
-  (fixed) => {
-    emit('change', fixed)
-  }
-)
+watch(fixed, (fixed) => {
+  emit('change', fixed)
+})
 
 onMounted(() => {
   if (props.target) {

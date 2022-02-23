@@ -7,7 +7,7 @@ import type { VNode } from 'vue'
 let clientHeightRestore: () => void
 
 const _mount = (render: () => VNode) => {
-  return mount(() => template, { attachTo: document.body })
+  return mount(render, { attachTo: document.body })
 }
 
 const AXIOM = 'Rem is the best girl'
@@ -27,7 +27,7 @@ afterAll(() => {
 
 describe('Affix.vue', () => {
   test('render test', async () => {
-    const wrapper = _mount(<Affix>{AXIOM}</Affix>)
+    const wrapper = _mount(() => <Affix>{AXIOM}</Affix>)
     await nextTick()
 
     expect(wrapper.text()).toEqual(AXIOM)
@@ -55,7 +55,7 @@ describe('Affix.vue', () => {
   })
 
   test('should render offset props', async () => {
-    const wrapper = _mount(<Affix offset={30}>AXIOM</Affix>)
+    const wrapper = _mount(() => <Affix offset={30}>AXIOM</Affix>)
     await nextTick()
     const mockAffixRect = jest
       .spyOn(wrapper.find('.el-affix').element, 'getBoundingClientRect')
@@ -83,11 +83,11 @@ describe('Affix.vue', () => {
   })
 
   test('should render position props', async () => {
-    const wrapper = _mount(
+    const wrapper = _mount(() => (
       <Affix position="bottom" offset={20}>
         AXIOM
       </Affix>
-    )
+    ))
     await nextTick()
 
     const mockAffixRect = jest
@@ -116,14 +116,14 @@ describe('Affix.vue', () => {
   })
 
   test('should render target props', async () => {
-    const wrapper = _mount(
+    const wrapper = _mount(() => (
       <>
         <div class="target" style="height: 200px">
           <Affix target=".target">AXIOM</Affix>
         </div>
         <div style="height: 1000px"></div>
       </>
-    )
+    ))
     await nextTick()
 
     const mockAffixRect = jest
@@ -163,7 +163,7 @@ describe('Affix.vue', () => {
   })
 
   test('should render z-index props', async () => {
-    const wrapper = _mount(<Affix z-index={1000}>AXIOM</Affix>)
+    const wrapper = _mount(() => <Affix z-index={1000}>AXIOM</Affix>)
     await nextTick()
     const mockAffixRect = jest
       .spyOn(wrapper.find('.el-affix').element, 'getBoundingClientRect')
