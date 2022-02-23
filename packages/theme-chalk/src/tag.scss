@@ -108,21 +108,14 @@ $tag-icon-span-gap: map.merge(
 
   --el-icon-size: 14px;
 
+  $svg-margin-size: 1px;
   .#{$namespace}-icon {
     border-radius: 50%;
-    text-align: center;
-    position: relative;
     cursor: pointer;
 
-    font-size: calc(var(--el-icon-size) - 1px);
-
+    font-size: calc(var(--el-icon-size) - #{$svg-margin-size * 2});
     height: var(--el-icon-size);
     width: var(--el-icon-size);
-    line-height: var(--el-icon-size);
-
-    svg {
-      margin: 1px;
-    }
   }
 
   .#{$namespace}-tag__close {
