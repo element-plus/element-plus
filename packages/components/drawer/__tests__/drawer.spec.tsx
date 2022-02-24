@@ -17,10 +17,6 @@ const _mount = (
   otherObj?: any
 ) =>
   mount({
-    components: {
-      [Drawer.name]: Drawer,
-      [Button.name]: Button,
-    },
     setup() {
       const { visible, title } = data()
       return {
@@ -60,10 +56,8 @@ describe('Drawer', () => {
       (props) => (
         <Drawer v-model={props.visible} title={props.title}>
           <span>this is a sentence</span>
-          <el-button onClick="dialogVisible = false">cancel</el-button>
-          <el-button type="primary" onClick="dialogVisible = false">
-            confirm
-          </el-button>
+          <Button>cancel</Button>
+          <Button type="primary">confirm</Button>
         </Drawer>
       ),
       () => ({
@@ -78,7 +72,7 @@ describe('Drawer', () => {
     expect(wrapper.find('.el-drawer__body span').element.textContent).toEqual(
       'this is a sentence'
     )
-    const footerBtns = wrapper.findAll('.el-button')
+    const footerBtns = wrapper.findAllComponents(Button)
     expect(footerBtns.length).toEqual(2)
     expect(footerBtns[0].find('span').element.textContent).toEqual('cancel')
     expect(footerBtns[1].find('span').element.textContent).toEqual('confirm')
@@ -93,7 +87,7 @@ describe('Drawer', () => {
           title={props.title}
           append-to-body
         >
-          <span> content </span>
+          <span>{content}</span>
         </Drawer>
       ),
       () => ({
@@ -154,12 +148,6 @@ describe('Drawer', () => {
     await rAF()
     expect(drawerEl.style.display).not.toEqual('none')
     expect(onOpened).toHaveBeenCalled()
-
-    // vm.visible = false
-    // await nextTick()
-    // await rAF()
-    // await nextTick()
-    // expect(onClose).toHaveBeenCalled()
   })
 
   it('should destroy every child after drawer was closed when destroy-on-close flag is true', async () => {
