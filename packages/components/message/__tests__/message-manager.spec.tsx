@@ -1,6 +1,7 @@
 import { nextTick } from 'vue'
 import { getStyle } from '@element-plus/utils'
 import { rAF } from '@element-plus/test-utils/tick'
+import { ElMessage } from '..'
 import Message from '../src/message-method'
 
 jest.useFakeTimers()
@@ -114,5 +115,22 @@ describe('Message on command', () => {
     await rAF()
     await nextTick()
     expect(htmlElement.querySelector(selector)).toBeFalsy()
+  })
+
+  describe('context inheritance', () => {
+    it('should globally inherit context correctly', () => {
+      expect(ElMessage._context).toBe(null)
+      const testContext = {
+        config: {
+          globalProperties: {},
+        },
+        _context: {},
+      }
+      ElMessage.install?.(testContext as any)
+      expect(ElMessage._context).not.toBe(null)
+      expect(ElMessage._context).toBe(testContext._context)
+      // clean up
+      ElMessage._context = null
+    })
   })
 })
