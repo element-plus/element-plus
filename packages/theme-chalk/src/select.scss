@@ -24,9 +24,20 @@
     );
   }
 
+  .#{$namespace}-select-tags-wrapper {
+    &.has-prefix {
+      margin-left: map.get($select-tags-prefix-padding, 'default');
+    }
+  }
+
   @each $size in (large, small) {
     @include m($size) {
       line-height: map.get($input-height, $size);
+      .#{$namespace}-select-tags-wrapper {
+        &.has-prefix {
+          margin-left: map.get($select-tags-prefix-padding, $size);
+        }
+      }
     }
   }
 
