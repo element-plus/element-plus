@@ -183,6 +183,10 @@ const copyCode = async () => {
       font-size: 14px;
       margin-left: 10px;
     }
+    &:hover {
+      color: var(--el-color-primary);
+      background-color: #f9fafc;
+    }
   }
 }
 </style>
