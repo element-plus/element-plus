@@ -1,6 +1,12 @@
 import { createVNode, render } from 'vue'
 import { isClient } from '@vueuse/core'
-import { isVNode, isNumber, debugWarn } from '@element-plus/utils'
+import {
+  isVNode,
+  isNumber,
+  isObject,
+  isString,
+  debugWarn,
+} from '@element-plus/utils'
 import { useZIndex } from '@element-plus/hooks'
 import { messageConfig } from '@element-plus/components/config-provider/src/config-provider'
 import MessageConstructor from './message.vue'
@@ -23,7 +29,7 @@ const message: MessageFn & Partial<Message> & { _context: AppContext | null } =
 
     if (
       !isVNode(options) &&
-      typeof options === 'object' &&
+      isObject(options) &&
       options.grouping &&
       !isVNode(options.message) &&
       instances.length
@@ -47,7 +53,7 @@ const message: MessageFn & Partial<Message> & { _context: AppContext | null } =
       }
     }
 
-    if (typeof options === 'string' || isVNode(options)) {
+    if (isString(options) || isVNode(options)) {
       options = { message: options }
     }
 
@@ -74,7 +80,7 @@ const message: MessageFn & Partial<Message> & { _context: AppContext | null } =
     let appendTo: HTMLElement | null = document.body
     if (options.appendTo instanceof HTMLElement) {
       appendTo = options.appendTo
-    } else if (typeof options.appendTo === 'string') {
+    } else if (isString(options.appendTo)) {
       appendTo = document.querySelector(options.appendTo)
     }
     // should fallback to default value with a warning
@@ -124,7 +130,7 @@ const message: MessageFn & Partial<Message> & { _context: AppContext | null } =
 
 messageTypes.forEach((type) => {
   message[type] = (options = {}) => {
-    if (typeof options === 'string' || isVNode(options)) {
+    if (isString(options) || isVNode(options)) {
       options = {
         message: options,
       }
