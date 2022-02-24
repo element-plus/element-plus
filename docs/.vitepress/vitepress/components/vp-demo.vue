@@ -113,7 +113,7 @@ const copyCode = async () => {
         <div
           v-show="sourceVisible"
           class="example-float-control"
-          @click="() => setSourceVisible(false)"
+          @click="setSourceVisible(false)"
         >
           <ElIcon :size="16">
             <CaretTop></CaretTop>
