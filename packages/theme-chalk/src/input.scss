@@ -60,6 +60,7 @@
       map.get($input, 'border-radius')
     );
     transition: var(--el-transition-box-shadow);
+    border: none;
 
     &::placeholder {
       color: var(
@@ -171,7 +172,7 @@
     @include inset-input-border(
       var(--el-input-border-color, map.get($input, 'border-color'))
     );
-
+    border: none;
     &::placeholder {
       color: var(
         --el-input-placeholder-color,

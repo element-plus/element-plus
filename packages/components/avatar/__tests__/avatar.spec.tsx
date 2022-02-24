@@ -8,6 +8,12 @@ import {
 } from '@element-plus/test-utils'
 
 import Avatar from '../src/avatar.vue'
+import type { VNode } from 'vue'
+
+const _mount = (render: () => VNode) =>
+  mount({
+    setup: () => render,
+  })
 
 describe('Avatar.vue', () => {
   mockImageEvent()
@@ -18,38 +24,28 @@ describe('Avatar.vue', () => {
   })
 
   test('size is number', () => {
-    const wrapper = mount(Avatar, {
-      props: { size: 50 },
-    })
+    const wrapper = _mount(() => <Avatar size={50} />)
     expect(wrapper.attributes('style')).toContain('--el-avatar-size: 50px;')
   })
 
   test('size is string', () => {
-    const wrapper = mount(Avatar, {
-      props: { size: 'small' },
-    })
+    const wrapper = _mount(() => <Avatar size="small" />)
     expect(wrapper.classes()).toContain('el-avatar--small')
   })
 
   test('shape', () => {
-    const wrapper = mount(Avatar, {
-      props: { size: 'small', shape: 'square' },
-    })
+    const wrapper = _mount(() => <Avatar size="small" shape="square" />)
     expect(wrapper.classes()).toContain('el-avatar--square')
   })
 
   test('icon avatar', () => {
-    const wrapper = mount(Avatar, {
-      props: { icon: User },
-    })
+    const wrapper = _mount(() => <Avatar icon={User} />)
     expect(wrapper.classes()).toContain('el-avatar--icon')
     expect(wrapper.findComponent(User).exists()).toBe(true)
   })
 
   test('image avatar', () => {
-    const wrapper = mount(Avatar, {
-      props: { src: IMAGE_SUCCESS },
-    })
+    const wrapper = _mount(() => <Avatar src={IMAGE_SUCCESS} />)
     expect(wrapper.find('img').exists()).toBe(true)
   })
 
@@ -66,11 +62,9 @@ describe('Avatar.vue', () => {
   })
 
   test('image fit', () => {
-    const fits = ['fill', 'contain', 'cover', 'none', 'scale-down']
+    const fits = ['fill', 'contain', 'cover', 'none', 'scale-down'] as const
     for (const fit of fits) {
-      const wrapper = mount(Avatar, {
-        props: { fit, src: IMAGE_SUCCESS },
-      })
+      const wrapper = _mount(() => <Avatar fit={fit} src={IMAGE_SUCCESS} />)
       expect(wrapper.find('img').attributes('style')).toContain(
         `object-fit: ${fit};`
       )

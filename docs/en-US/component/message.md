@@ -85,6 +85,24 @@ import { ElMessage } from 'element-plus'
 
 In this case you should call `ElMessage(options)`. We have also registered methods for different types, e.g. `ElMessage.success(options)`. You can call `ElMessage.closeAll()` to manually close all the instances.
 
+## App context inheritance <el-tag>> 2.0.2</el-tag>
+
+Now message accepts a `context` as second parameter of the message constructor which allows you to inject current app's context to message which allows you to inherit all the properties of the app.
+
+You can use it like this:
+
+:::tip
+
+If you globally registered ElMessage component, it will automatically inherit your app context.
+
+:::
+
+```ts
+import { ElMessage } from 'element-plus'
+
+ElMessage({}, app._context)
+```
+
 ## Options
 
 | Attribute                | Description                                                                    | Type                 | Accepted Values            | Default       |

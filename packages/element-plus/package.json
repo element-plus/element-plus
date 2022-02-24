@@ -56,7 +56,7 @@
     "dayjs": "^1.10.7",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
-    "lodash-unified": "^1.0.1",
+    "lodash-unified": "^1.0.2",
     "memoize-one": "^6.0.0",
     "normalize-wheel-es": "^1.1.1"
   },

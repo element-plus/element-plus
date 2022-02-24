@@ -39,4 +39,9 @@ const content = computed<string>(() => {
   }
   return `${props.value}`
 })
+
+defineExpose({
+  /** @description badge content */
+  content,
+})
 </script>
