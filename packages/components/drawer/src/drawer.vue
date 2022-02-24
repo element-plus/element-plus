@@ -56,9 +56,8 @@ import ElDrawerContent from './drawer-content.vue'
 defineOptions({
   name: 'ElDrawer',
 })
-defineEmits(drawerEmits)
-
 const props = defineProps(drawerProps)
+defineEmits(drawerEmits)
 
 const drawerRef = ref<HTMLElement>()
 const ns = useNamespace('drawer')

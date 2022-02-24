@@ -50,8 +50,8 @@ import type { CSSProperties } from 'vue'
 defineOptions({
   name: 'ElDrawerContent',
 })
-defineEmits(drawerContentEmits)
 const props = defineProps(drawerContentProps)
+defineEmits(drawerContentEmits)
 
 const { drawerRef, ns, visible } = inject(elDrawerInjectionKey)!
 const { focusTrapRef, onKeydown } = inject(FOCUS_TRAP_INJECTION_KEY)!
