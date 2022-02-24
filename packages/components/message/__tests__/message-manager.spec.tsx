@@ -118,7 +118,7 @@ describe('Message on command', () => {
   })
 
   describe('context inheritance', () => {
-    it.only('should inherit context correctly', () => {
+    it('should globally inherit context correctly', () => {
       expect(ElMessage._context).toBe(null)
       const testContext = {
         config: {
