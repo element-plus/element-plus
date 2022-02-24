@@ -66,13 +66,49 @@
                   type="info"
                   disable-transitions
                 >
-                  <span
-                    :class="nsSelectV2.e('tags-text')"
-                    :style="{
-                      maxWidth: `${tagMaxWidth}px`,
-                    }"
-                    >+ {{ modelValue.length - 1 }}</span
+                  <el-tooltip
+                    :disabled="!collapseTagsTooltip"
+                    effect="light"
+                    placement="bottom"
+                    :teleported="false"
                   >
+                    <template #default>
+                      <span
+                        :class="nsSelectV2.e('tags-text')"
+                        :style="{
+                          maxWidth: `${tagMaxWidth}px`,
+                        }"
+                        >+ {{ modelValue.length - 1 }}</span
+                      >
+                    </template>
+                    <template #content>
+                      <div :class="nsSelectV2.e('selection')">
+                        <div
+                          v-for="(selected, idx) in states.cachedOptions"
+                          :key="idx"
+                          :class="nsSelectV2.e('selected-item')"
+                        >
+                          <el-tag
+                            :key="getValueKey(selected)"
+                            :closable="!selectDisabled && !selected.disabled"
+                            :size="collapseTagSize"
+                            class="in-tooltip"
+                            type="info"
+                            disable-transitions
+                            @close="deleteTag($event, selected)"
+                          >
+                            <span
+                              :class="nsSelectV2.e('tags-text')"
+                              :style="{
+                                maxWidth: `${tagMaxWidth}px`,
+                              }"
+                              >{{ getLabel(selected) }}</span
+                            >
+                          </el-tag>
+                        </div>
+                      </div>
+                    </template>
+                  </el-tooltip>
                 </el-tag>
               </div>
             </template>
