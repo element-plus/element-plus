@@ -74,6 +74,8 @@ const notify: NotifyFn & Partial<Notify> = function (options = {}) {
     )
     appendTo = document.body
   }
+  // Removing appendTo prop from component props
+  if ('appendTo' in props) delete props['appendTo']
 
   const container = document.createElement('div')
 
