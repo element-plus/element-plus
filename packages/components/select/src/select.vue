@@ -69,26 +69,33 @@
                     >
                   </template>
                   <template #content>
-                    <el-tag
-                      v-for="item in selected"
-                      :key="getValueKey(item)"
-                      class="in-tooltip"
-                      :closable="!selectDisabled && !item.isDisabled"
-                      :size="collapseTagSize"
-                      :hit="item.hitState"
-                      :type="tagType"
-                      disable-transitions
-                      :style="{ margin: '2px' }"
-                      @close="deleteTag($event, item)"
-                    >
-                      <span
-                        :class="nsSelect.e('tags-text')"
-                        :style="{
-                          maxWidth: inputWidth - 75 + 'px',
-                        }"
-                        >{{ item.currentLabel }}</span
+                    <div :class="nsSelect.e('collapse-tags')">
+                      <div
+                        v-for="(item, idx) in selected"
+                        :key="idx"
+                        :class="nsSelect.e('collapse-tag')"
                       >
-                    </el-tag>
+                        <el-tag
+                          :key="getValueKey(item)"
+                          class="in-tooltip"
+                          :closable="!selectDisabled && !item.isDisabled"
+                          :size="collapseTagSize"
+                          :hit="item.hitState"
+                          :type="tagType"
+                          disable-transitions
+                          :style="{ margin: '2px' }"
+                          @close="deleteTag($event, item)"
+                        >
+                          <span
+                            :class="nsSelect.e('tags-text')"
+                            :style="{
+                              maxWidth: inputWidth - 75 + 'px',
+                            }"
+                            >{{ item.currentLabel }}</span
+                          >
+                        </el-tag>
+                      </div>
+                    </div>
                   </template>
                 </el-tooltip>
               </el-tag>
