@@ -3,7 +3,7 @@
     <h1>Resources</h1>
     <p>More resources are still in development...</p>
     <el-space :size="20" alignment="start">
-      <el-card class="card">
+      <el-card class="card" shadow="hover">
         <img src="/images/Axure-Components.svg" alt="axure" />
         <h3>Axure Components</h3>
         <p>
@@ -16,7 +16,7 @@
           <el-button type="primary">Download</el-button>
         </a>
       </el-card>
-      <el-card class="card">
+      <el-card class="card" shadow="hover">
         <img src="/images/Sketch-Template.svg" alt="Sketch" />
         <h3>Sketch Template</h3>
         <p>
@@ -29,7 +29,7 @@
           <el-button type="primary">Download</el-button>
         </a>
       </el-card>
-      <el-card class="card">
+      <el-card class="card" shadow="hover">
         <img src="/images/figma.png" alt="Figma" />
         <h3>Figma Template</h3>
         <p>
