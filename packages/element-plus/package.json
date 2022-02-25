@@ -32,8 +32,8 @@
   "main": "lib/index.js",
   "module": "es/index.mjs",
   "style": "dist/index.css",
-  "unpkg": "dist/index.full.js",
-  "jsdelivr": "dist/index.full.js",
+  "unpkg": "dist/index.iife.js",
+  "jsdelivr": "dist/index.iife.js",
   "sideEffects": [
     "dist/*",
     "theme-chalk/*.css",

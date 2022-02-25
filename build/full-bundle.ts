@@ -58,11 +58,11 @@ async function buildFullEntry(minify: boolean) {
   })
   await writeBundles(bundle, [
     {
-      format: 'umd',
+      format: 'iife',
       file: path.resolve(
         epOutput,
         'dist',
-        formatBundleFilename('index.full', minify, 'js')
+        formatBundleFilename('index.iife', minify, 'js')
       ),
       exports: 'named',
       name: 'ElementPlus',
@@ -73,11 +73,22 @@ async function buildFullEntry(minify: boolean) {
       banner,
     },
     {
+      format: 'cjs',
+      file: path.resolve(
+        epOutput,
+        'dist',
+        formatBundleFilename('index', minify, 'js')
+      ),
+      exports: 'named',
+      sourcemap: minify,
+      banner,
+    },
+    {
       format: 'esm',
       file: path.resolve(
         epOutput,
         'dist',
-        formatBundleFilename('index.full', minify, 'mjs')
+        formatBundleFilename('index', minify, 'mjs')
       ),
       sourcemap: minify,
       banner,
@@ -107,7 +118,19 @@ async function buildFullLocale(minify: boolean) {
       })
       await writeBundles(bundle, [
         {
-          format: 'umd',
+          format: 'iife',
+          file: path.resolve(
+            epOutput,
+            'dist/locale',
+            formatBundleFilename(`${filename}.iife`, minify, 'js')
+          ),
+          exports: 'default',
+          name: `ElementPlusLocale${name}`,
+          sourcemap: minify,
+          banner,
+        },
+        {
+          format: 'cjs',
           file: path.resolve(
             epOutput,
             'dist/locale',
