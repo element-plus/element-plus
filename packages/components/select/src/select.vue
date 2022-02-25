@@ -58,8 +58,9 @@
                 disable-transitions
               >
                 <el-tooltip
-                  :disabled="!collapseTagsTooltip"
-                  effect="light"
+                  :disabled="dropMenuVisible || !collapseTagsTooltip"
+                  :fallback-placements="['bottom', 'top', 'right', 'left']"
+                  :effect="effect"
                   placement="bottom"
                   :teleported="false"
                 >
