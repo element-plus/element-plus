@@ -9,6 +9,9 @@
   <a href="https://npmcharts.com/compare/element-plus?minimal=true">
     <img src="http://img.shields.io/npm/dm/element-plus.svg">
   </a>
+  <a href="https://codecov.io/gh/element-plus/element-plus">
+    <img src="https://codecov.io/gh/element-plus/element-plus/branch/dev/graph/badge.svg?token=BKSBO2GLZI"/>
+  </a>
   <br>
 </p>
 

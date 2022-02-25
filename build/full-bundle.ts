@@ -3,10 +3,9 @@ import { nodeResolve } from '@rollup/plugin-node-resolve'
 import { rollup } from 'rollup'
 import commonjs from '@rollup/plugin-commonjs'
 import vue from '@vitejs/plugin-vue'
-import DefineOptions from 'unplugin-vue-define-options/vite'
+import DefineOptions from 'unplugin-vue-define-options/rollup'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import esbuild from 'rollup-plugin-esbuild'
-import replace from '@rollup/plugin-replace'
 import filesize from 'rollup-plugin-filesize'
 import { parallel } from 'gulp'
 import glob from 'fast-glob'
@@ -42,18 +41,16 @@ async function buildFullEntry(minify: boolean) {
       }),
       commonjs(),
       esbuild({
+        exclude: [],
         minify,
         sourceMap: minify,
         target,
         loaders: {
           '.vue': 'ts',
         },
-      }),
-      replace({
-        'process.env.NODE_ENV': JSON.stringify('production'),
-
-        // options
-        preventAssignment: true,
+        define: {
+          'process.env.NODE_ENV': JSON.stringify('production'),
+        },
       }),
       filesize(),
     ],

@@ -36,7 +36,7 @@
 
   &:hover:not(.#{$namespace}-select--disabled) {
     .#{$namespace}-input__inner {
-      border-color: var(--el-select-border-color-hover);
+      box-shadow: 0 0 0 1px var(--el-select-border-color-hover) inset;
     }
   }
 
@@ -47,7 +47,10 @@
     display: inline-flex;
 
     &:focus {
-      border-color: var(--el-select-input-focus-border-color) !important;
+      @include inset-input-border(
+        var(--el-select-input-focus-border-color),
+        true
+      );
     }
   }
 
@@ -79,7 +82,9 @@
       }
 
       &.#{$namespace}-icon {
+        position: relative;
         height: inherit;
+        z-index: 2;
       }
     }
 
@@ -88,7 +93,7 @@
         cursor: not-allowed;
 
         &:hover {
-          border-color: var(--el-select-disabled-border);
+          @include inset-input-border(var(--el-select-disabled-border));
         }
       }
       & .#{$namespace}-select__caret {
@@ -97,7 +102,10 @@
     }
 
     &.is-focus .#{$namespace}-input__inner {
-      border-color: var(--el-select-input-focus-border-color) !important;
+      @include inset-input-border(
+        var(--el-select-input-focus-border-color),
+        true
+      );
     }
   }
 
@@ -149,6 +157,9 @@
       box-sizing: border-box;
       border-color: transparent;
       margin: 2px 6px 2px 0;
+      &:last-child {
+        margin-right: 0;
+      }
 
       .#{$namespace}-icon-close {
         background-color: var(--el-text-color-placeholder);

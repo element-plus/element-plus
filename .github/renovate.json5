@@ -1,0 +1,29 @@
+{
+  extends: ['config:base', 'schedule:weekly', 'group:allNonMajor'],
+  labels: ['dependencies'],
+  pin: false,
+  rangeStrategy: 'bump',
+  node: false,
+  packageRules: [
+    {
+      depTypeList: ['peerDependencies'],
+      enabled: false,
+    },
+  ],
+  ignoreDeps: [
+    'node',
+    'csstype',
+
+    // pure esm
+    'chalk',
+
+    // jest
+    '@types/jest',
+    'babel-jest',
+    'jest',
+    'ts-jest',
+    '@vue/test-utils',
+
+    'cypress',
+  ],
+}

@@ -22,7 +22,9 @@
     :popper-class="kls"
     :popper-style="style"
     :teleported="compatTeleported"
-    persistent
+    :persistent="persistent"
+    @before-show="beforeEnter"
+    @before-hide="beforeLeave"
     @show="afterEnter"
     @hide="afterLeave"
   >
@@ -50,7 +52,13 @@ import { usePopoverProps } from './popover'
 
 import type { StyleValue } from 'vue'
 
-const emits = ['update:visible', 'after-enter', 'after-leave']
+const emits = [
+  'update:visible',
+  'before-enter',
+  'before-leave',
+  'after-enter',
+  'after-leave',
+]
 
 const COMPONENT_NAME = 'ElPopover'
 
@@ -96,6 +104,13 @@ export default defineComponent({
       tooltipRef.value?.hide()
     }
 
+    const beforeEnter = () => {
+      emit('before-enter')
+    }
+    const beforeLeave = () => {
+      emit('before-leave')
+    }
+
     const afterEnter = () => {
       emit('after-enter')
     }
@@ -112,6 +127,8 @@ export default defineComponent({
       tooltipRef,
       popperRef,
       hide,
+      beforeEnter,
+      beforeLeave,
       afterEnter,
       afterLeave,
     }

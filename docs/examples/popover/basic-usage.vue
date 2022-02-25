@@ -37,6 +37,18 @@
   </el-popover>
 
   <el-popover
+    ref="popover"
+    title="Title"
+    :width="200"
+    trigger="contextmenu"
+    content="this is content, this is content, this is content"
+  >
+    <template #reference>
+      <el-button>contextmenu to activate</el-button>
+    </template>
+  </el-popover>
+
+  <el-popover
     v-model:visible="visible"
     placement="bottom"
     title="Title"

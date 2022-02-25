@@ -13,7 +13,7 @@
         [nsInput.m('prefix')]: $slots.prefix || prefixIcon,
         [nsInput.m('suffix')]:
           $slots.suffix || suffixIcon || clearable || showPassword,
-        [nsInput.m('suffix--password-clear')]: clearable && showPassword,
+        [nsInput.m('suffix--password-clear')]: showClear && showPwdVisible,
       },
       $attrs.class,
     ]"

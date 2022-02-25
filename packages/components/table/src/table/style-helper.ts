@@ -111,8 +111,8 @@ function useStyle<T>(
   }
   onMounted(async () => {
     setScrollClass('is-scrolling-left')
-    store.updateColumns()
     await nextTick()
+    store.updateColumns()
     bindEvents()
     requestAnimationFrame(doLayout)
 
@@ -146,7 +146,7 @@ function useStyle<T>(
     setScrollClassByEl(tableWrapper, className)
   }
   const syncPostion = function () {
-    if (!table.refs.scrollWrapper) return
+    if (!layout.scrollX.value || !table.refs.scrollWrapper) return
     const scrollContainer = table.refs.scrollWrapper.wrap$
     if (!scrollContainer) return
     const { scrollLeft, offsetWidth, scrollWidth } = scrollContainer

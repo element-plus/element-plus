@@ -1,17 +1,17 @@
 <template>
-  <div
+  <li
     v-if="divided"
     :class="ns.bem('menu', 'item', 'divided')"
     v-bind="$attrs"
-  ></div>
-  <div
+  ></li>
+  <li
     :ref="itemRef"
     v-bind="{ ...dataset, ...$attrs }"
     :aria-disabled="disabled"
     :class="[ns.be('menu', 'item'), ns.is('disabled', disabled)]"
     :tabindex="tabIndex"
     role="menuitem"
-    @click="(e) => $emit('click', e)"
+    @click="(e) => $emit('clickimpl', e)"
     @focus="handleFocus"
     @keydown="handleKeydown"
     @mousedown="handleMousedown"
@@ -20,7 +20,7 @@
   >
     <el-icon v-if="icon"><component :is="icon" /></el-icon>
     <slot />
-  </div>
+  </li>
 </template>
 
 <script lang="ts">
@@ -45,7 +45,7 @@ export default defineComponent({
     ElIcon,
   },
   props: dropdownItemProps,
-  emits: ['pointermove', 'pointerleave', 'click'],
+  emits: ['pointermove', 'pointerleave', 'click', 'clickimpl'],
   setup(_, { emit }) {
     const ns = useNamespace('dropdown')
 
@@ -78,7 +78,7 @@ export default defineComponent({
       if (code === EVENT_CODE.enter || code === EVENT_CODE.space) {
         e.preventDefault()
         e.stopImmediatePropagation()
-        emit('click', e)
+        emit('clickimpl', e)
         return true
       }
     }, handleItemKeydown)

@@ -22,7 +22,10 @@
         :class="[ns.e('icon'), { hover: hoverIndex === item }]"
         :style="getIconStyle(item)"
       >
-        <component :is="iconComponents[item - 1]" />
+        <component
+          :is="iconComponents[item - 1]"
+          v-if="!showDecimalIcon(item)"
+        />
         <el-icon
           v-if="showDecimalIcon(item)"
           :style="decimalStyle"
