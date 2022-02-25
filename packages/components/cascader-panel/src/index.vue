@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="[ns.b('panel'), border && 'is-bordered']"
+    :class="[ns.b('panel'), ns.is('bordered', border)]"
     @keydown="handleKeyDown"
   >
     <el-cascader-menu
