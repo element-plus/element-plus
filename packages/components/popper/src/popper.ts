@@ -107,6 +107,10 @@ export const usePopperContentProps = buildProps({
     type: Boolean,
     default: true,
   },
+  open: {
+    type: Boolean,
+    default: false,
+  },
   zIndex: Number,
 } as const)
 

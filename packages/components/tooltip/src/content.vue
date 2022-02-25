@@ -13,6 +13,7 @@
         ref="contentRef"
         v-bind="$attrs"
         :aria-hidden="ariaHidden"
+        :open="open"
         :boundaries-padding="boundariesPadding"
         :fallback-placements="fallbackPlacements"
         :gpu-acceleration="gpuAcceleration"
