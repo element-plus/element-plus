@@ -1,4 +1,4 @@
-import Autocomplete from './src/index.vue'
+import Autocomplete from './src/autocomplete.vue'
 import type { App } from 'vue'
 import type { SFCWithInstall } from '@element-plus/utils'
 
