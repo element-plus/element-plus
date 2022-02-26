@@ -257,12 +257,12 @@ const highlight = (index: number) => {
   const suggestion = regionRef.value!.querySelector(
     `.${ns.be('suggestion', 'wrap')}`
   )!
-  const suggestionList = suggestion.querySelectorAll(
+  const suggestionList = suggestion.querySelectorAll<HTMLElement>(
     `.${ns.be('suggestion', 'list')} li`
   )!
   const highlightItem = suggestionList[index]
   const scrollTop = suggestion.scrollTop
-  const { offsetTop, scrollHeight } = highlightItem as HTMLElement
+  const { offsetTop, scrollHeight } = highlightItem
 
   if (offsetTop + scrollHeight > scrollTop + suggestion.clientHeight) {
     suggestion.scrollTop += scrollHeight
