@@ -18,3 +18,6 @@ export const isEmpty = (val: unknown) =>
   (!val && val !== 0) ||
   (isArray(val) && val.length === 0) ||
   (isObject(val) && !Object.keys(val).length)
+
+export const isHtmlElement = (e: any): e is Element =>
+  e && e.nodeType === Node.ELEMENT_NODE

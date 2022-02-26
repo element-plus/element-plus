@@ -5,6 +5,7 @@ import {
   isNumber,
   isObject,
   isString,
+  isHtmlElement,
   debugWarn,
 } from '@element-plus/utils'
 import { useZIndex } from '@element-plus/hooks'
@@ -78,13 +79,13 @@ const message: MessageFn & Partial<Message> & { _context: AppContext | null } =
     }
 
     let appendTo: HTMLElement | null = document.body
-    if (options.appendTo instanceof HTMLElement) {
+    if (isHtmlElement(options.appendTo)) {
       appendTo = options.appendTo
     } else if (isString(options.appendTo)) {
       appendTo = document.querySelector(options.appendTo)
     }
     // should fallback to default value with a warning
-    if (!(appendTo instanceof HTMLElement)) {
+    if (!isHtmlElement(appendTo)) {
       debugWarn(
         'ElMessage',
         'the appendTo option is not an HTMLElement. Falling back to document.body.'

@@ -54,9 +54,6 @@ import { imageEmits, imageProps } from './image'
 
 import type { CSSProperties, StyleValue } from 'vue'
 
-const isHtmlElement = (e: any): e is Element =>
-  e && e.nodeType === Node.ELEMENT_NODE
-
 let prevOverflow = ''
 
 export default defineComponent({
