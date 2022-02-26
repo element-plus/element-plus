@@ -12,7 +12,7 @@
 import { defineComponent, inject, watch } from 'vue'
 import { ElOnlyChild } from '@element-plus/components/slot'
 import { useForwardRef } from '@element-plus/hooks'
-import { isHtmlElement } from '@element-plus/utils'
+import { isElement } from '@element-plus/utils'
 import { usePopperTriggerProps } from './popper'
 import { POPPER_INJECTION_KEY } from './tokens'
 import { unwrapMeasurableEl } from './utils'
@@ -52,7 +52,7 @@ export default defineComponent({
     watch(
       () => triggerRef.value,
       (el, prevEl) => {
-        if (isHtmlElement(el)) {
+        if (isElement(el)) {
           ;[
             'onMouseenter',
             'onMouseleave',

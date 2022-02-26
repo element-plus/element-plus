@@ -49,7 +49,11 @@ import {
   useDeprecated,
 } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
-import { getScrollContainer, isInContainer } from '@element-plus/utils'
+import {
+  getScrollContainer,
+  isInContainer,
+  isElement,
+} from '@element-plus/utils'
 import { imageEmits, imageProps } from './image'
 
 import type { CSSProperties, StyleValue } from 'vue'
@@ -183,7 +187,7 @@ export default defineComponent({
       await nextTick()
 
       const { scrollContainer } = props
-      if (isHtmlElement(scrollContainer)) {
+      if (isElement(scrollContainer)) {
         _scrollContainer.value = scrollContainer
       } else if (isString(scrollContainer) && scrollContainer !== '') {
         _scrollContainer.value =

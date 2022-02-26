@@ -1,5 +1,5 @@
 import { isClient } from '@vueuse/core'
-import { isHtmlElement } from '@element-plus/utils'
+import { isElement } from '@element-plus/utils'
 
 import type {
   ComponentPublicInstance,
@@ -39,7 +39,7 @@ function createDocumentHandler(
   let excludes: HTMLElement[] = []
   if (Array.isArray(binding.arg)) {
     excludes = binding.arg
-  } else if (isHtmlElement(binding.arg)) {
+  } else if (isElement(binding.arg)) {
     // due to current implementation on binding type is wrong the type casting is necessary here
     excludes.push(binding.arg as unknown as HTMLElement)
   }
