@@ -11,7 +11,9 @@ export const dialogProps = buildProps({
     default: false,
   },
   beforeClose: {
-    type: definePropType<(...args: any[]) => void>(Function),
+    type: definePropType<(done: (shouldCancel: boolean) => void) => void>(
+      Function
+    ),
   },
   destroyOnClose: {
     type: Boolean,

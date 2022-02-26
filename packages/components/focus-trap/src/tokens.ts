@@ -11,7 +11,7 @@ export const ON_MOUNT_FOCUS_EVT = 'mountOnFocus'
 export const ON_UNMOUNT_FOCUS_EVT = 'unmountOnFocus'
 
 export type FocusTrapInjectionContext = {
-  focusTrapRef: Ref<HTMLElement | null>
+  focusTrapRef: Ref<HTMLElement | undefined>
   onKeydown: (e: KeyboardEvent) => void
 }
 
