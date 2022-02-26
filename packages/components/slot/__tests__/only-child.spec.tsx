@@ -2,9 +2,10 @@ import { ref, h, nextTick, Comment, Fragment } from 'vue'
 import { shallowMount } from '@vue/test-utils'
 import { debugWarn } from '@element-plus/utils'
 import { FORWARD_REF_INJECTION_KEY } from '@element-plus/hooks'
-import ElOnlyChild from '../src/only-child'
+import { OnlyChild } from '../src/only-child'
+import type { MountingOptions } from '@vue/test-utils'
 
-import type { Slot } from 'vue'
+type Slot = NonNullable<NonNullable<MountingOptions<any>['slots']>['default']>
 
 jest.mock('@element-plus/utils/error', () => ({
   debugWarn: jest.fn(),
@@ -12,26 +13,22 @@ jest.mock('@element-plus/utils/error', () => ({
 
 const AXIOM = 'rem is the best girl'
 
-describe('<ElOnlyChild />', () => {
-  const defaultProvide = {
-    [FORWARD_REF_INJECTION_KEY as any]: {
-      forwardRef: ref(null),
+const defaultProvide = {
+  [FORWARD_REF_INJECTION_KEY as any]: {
+    forwardRef: ref(null),
+  },
+}
+const createComponent = (slot: Slot) => {
+  return shallowMount(OnlyChild, {
+    global: {
+      provide: defaultProvide,
     },
-  }
-  const createComponent = (slot: Slot) => {
-    return shallowMount(ElOnlyChild, {
-      global: {
-        provide: defaultProvide,
-      },
-      // vue test utils adds the entry for us even though default's value is null
-      slots: slot
-        ? {
-            default: slot,
-          }
-        : null,
-    })
-  }
+    // vue test utils adds the entry for us even though default's value is null
+    slots: slot ? { default: slot } : undefined,
+  })
+}
 
+describe('ElOnlyChild', () => {
   let wrapper: ReturnType<typeof createComponent>
 
   afterEach(() => {
@@ -41,15 +38,7 @@ describe('<ElOnlyChild />', () => {
 
   it('should be able to render only one child', async () => {
     const kls = 'test_kls'
-    wrapper = createComponent(() => [
-      h(
-        'div',
-        {
-          class: kls,
-        },
-        [AXIOM]
-      ),
-    ])
+    wrapper = createComponent(() => [<div class={kls}>{AXIOM}</div>])
 
     await nextTick()
 
@@ -60,7 +49,7 @@ describe('<ElOnlyChild />', () => {
   })
 
   it('should be able to render string type and wrap it into span', async () => {
-    wrapper = createComponent(() => [AXIOM as any])
+    wrapper = createComponent(() => [AXIOM])
     await nextTick()
 
     expect(debugWarn).not.toHaveBeenCalled()
@@ -68,7 +57,7 @@ describe('<ElOnlyChild />', () => {
   })
 
   it('should be able to unwrap fragmented children', async () => {
-    wrapper = createComponent(() => [h(Fragment, [AXIOM])])
+    wrapper = createComponent(() => [<>{AXIOM}</>])
     await nextTick()
 
     expect(debugWarn).not.toHaveBeenCalled()
@@ -77,22 +66,14 @@ describe('<ElOnlyChild />', () => {
 
   it('should skip svg and child type is svg', async () => {
     const wrapper = createComponent(() => [
-      h(
-        'svg',
-        {
-          xmlns: 'http://www.w3.org/2000/svg',
-          viewBox: '0 0 32 32',
-          width: '20',
-          height: '20',
-        },
-        {
-          default: () => [
-            h('path', {
-              d: 'M14.667 14.667v-8h2.667v8h8v2.667h-8v8h-2.667v-8h-8v-2.667z',
-            }),
-          ],
-        }
-      ),
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 32 32"
+        width="20"
+        height="20"
+      >
+        <path d="M14.667 14.667v-8h2.667v8h8v2.667h-8v8h-2.667v-8h-8v-2.667z" />
+      </svg>,
     ])
     await nextTick()
 
@@ -107,7 +88,10 @@ describe('<ElOnlyChild />', () => {
 
   it('should skip comment', async () => {
     wrapper = createComponent(() => [
-      h(Fragment, [h(Comment, 'some comment'), AXIOM as any]),
+      <>
+        {h(Comment, 'some comment')}
+        {AXIOM}
+      </>,
     ])
     await nextTick()
 
@@ -116,7 +100,7 @@ describe('<ElOnlyChild />', () => {
   })
 
   it('should return nothing and warn when no valid children found', async () => {
-    wrapper = createComponent(() => [h(Fragment, [])])
+    wrapper = createComponent(() => [<></>])
     await nextTick()
 
     expect(debugWarn).toHaveBeenCalled()
@@ -130,7 +114,7 @@ describe('<ElOnlyChild />', () => {
   })
 
   it('should warns about having multiple children', async () => {
-    wrapper = createComponent(() => [AXIOM, AXIOM] as any[])
+    wrapper = createComponent(() => [AXIOM, AXIOM])
     await nextTick()
 
     expect(debugWarn).toHaveBeenCalledTimes(1)
@@ -138,7 +122,7 @@ describe('<ElOnlyChild />', () => {
   })
 
   it('should render nothing when no children provided', async () => {
-    wrapper = createComponent(null)
+    wrapper = createComponent(null as any)
     await nextTick()
 
     expect(debugWarn).not.toHaveBeenCalled()
