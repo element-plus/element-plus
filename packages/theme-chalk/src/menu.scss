@@ -56,6 +56,10 @@
   background-color: var(--el-menu-bg-color);
   box-sizing: border-box;
 
+  > .#{$namespace}-sub-menu > .#{$namespace}-sub-menu__title i:nth-child(1) {
+    flex-shrink: 0;
+  }
+
   @include m(horizontal) {
     display: flex;
     flex-wrap: nowrap;
