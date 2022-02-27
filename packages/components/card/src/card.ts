@@ -1,7 +1,6 @@
-import { buildProps, definePropType } from '@element-plus/utils/props'
+import { buildProps, definePropType } from '@element-plus/utils'
 import type Card from './card.vue'
-import type { ExtractPropTypes } from 'vue'
-import type { StyleValue } from '@element-plus/utils/types'
+import type { ExtractPropTypes, StyleValue } from 'vue'
 
 export const cardProps = buildProps({
   header: {
@@ -14,7 +13,7 @@ export const cardProps = buildProps({
   },
   shadow: {
     type: String,
-    default: '',
+    default: 'always',
   },
 } as const)
 export type CardProps = ExtractPropTypes<typeof cardProps>

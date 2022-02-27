@@ -1,8 +1,13 @@
 import { Star, StarFilled } from '@element-plus/icons-vue'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
-import { isValidComponentSize } from '@element-plus/utils/validators'
-import type { ComponentSize } from '@element-plus/utils/types'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import {
+  buildProps,
+  definePropType,
+  mutable,
+  isValidComponentSize,
+  iconPropType,
+} from '@element-plus/utils'
+import type { ComponentSize } from '@element-plus/constants'
 import type { Component, ExtractPropTypes, PropType } from 'vue'
 import type Rate from './rate.vue'
 
@@ -25,15 +30,20 @@ export const rateProps = buildProps({
   },
   colors: {
     type: definePropType<string[] | Record<number, string>>([Array, Object]),
-    default: () => mutable(['#F7BA2A', '#F7BA2A', '#F7BA2A'] as const),
+    default: () =>
+      mutable([
+        'var(--el-rate-star-color)',
+        'var(--el-rate-star-color)',
+        'var(--el-rate-star-color)',
+      ] as const),
   },
   voidColor: {
     type: String,
-    default: '#C6D1DE',
+    default: 'var(--el-rate-void-color)',
   },
   disabledVoidColor: {
     type: String,
-    default: '#EFF2F7',
+    default: 'var(--el-rate-disable-void-color)',
   },
   icons: {
     type: definePropType<
@@ -42,11 +52,11 @@ export const rateProps = buildProps({
     default: () => [StarFilled, StarFilled, StarFilled],
   },
   voidIcon: {
-    type: definePropType<string | Component>([String, Object]),
+    type: iconPropType,
     default: () => Star,
   },
   disabledvoidIcon: {
-    type: definePropType<string | Component>([String, Object]),
+    type: iconPropType,
     default: () => StarFilled,
   },
   disabled: {
@@ -67,7 +77,7 @@ export const rateProps = buildProps({
   },
   textColor: {
     type: String,
-    default: '#1f2d3d',
+    default: 'var(--el-rate-text-color)',
   },
   texts: {
     type: definePropType<string[]>(Array),

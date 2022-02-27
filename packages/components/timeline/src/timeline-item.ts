@@ -1,5 +1,5 @@
-import { definePropType, buildProps } from '@element-plus/utils/props'
-import type { Component, ExtractPropTypes } from 'vue'
+import { buildProps, iconPropType } from '@element-plus/utils'
+import type { ExtractPropTypes } from 'vue'
 import type TimelineItem from './timeline-item.vue'
 
 export const timelineItemProps = buildProps({
@@ -32,7 +32,7 @@ export const timelineItemProps = buildProps({
     default: 'normal',
   },
   icon: {
-    type: definePropType<string | Component>([String, Object]),
+    type: iconPropType,
     default: '',
   },
   hollow: {

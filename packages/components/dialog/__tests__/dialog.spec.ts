@@ -1,13 +1,13 @@
-import { nextTick } from 'vue'
+import { nextTick, markRaw } from 'vue'
 import { mount } from '@vue/test-utils'
 import { rAF } from '@element-plus/test-utils/tick'
 import triggerCompositeClick from '@element-plus/test-utils/composite-click'
 import { Delete } from '@element-plus/icons-vue'
-import Dialog from '../'
+import Dialog from '../src/dialog.vue'
 
 const AXIOM = 'Rem is the best girl'
 
-const _mount = ({ slots, ...rest }: Indexable<any>) => {
+const _mount = ({ slots, ...rest }: Record<string, any>) => {
   return mount(Dialog, {
     slots: {
       default: AXIOM,
@@ -83,7 +83,7 @@ describe('Dialog.vue', () => {
     })
     await nextTick()
     expect(
-      document.body.firstElementChild.classList.contains('el-overlay')
+      document.body.firstElementChild!.classList.contains('el-overlay')
     ).toBe(true)
     wrapper.unmount()
   })
@@ -128,7 +128,7 @@ describe('Dialog.vue', () => {
     })
     await nextTick()
     await wrapper.find('.el-dialog__headerbtn').trigger('click')
-    expect(wrapper.vm.visible).toBe(false)
+    expect((wrapper.vm as InstanceType<typeof Dialog>).visible).toBe(false)
   })
 
   describe('mask related', () => {
@@ -265,7 +265,7 @@ describe('Dialog.vue', () => {
       const wrapper = _mount({
         props: {
           modelValue: true,
-          closeIcon: Delete,
+          closeIcon: markRaw(Delete),
         },
       })
       await nextTick()
@@ -274,6 +274,23 @@ describe('Dialog.vue', () => {
       expect(closeIcon.exists()).toBe(true)
       const svg = mount(Delete).find('svg').element
       expect(closeIcon.element.innerHTML).toBe(svg.innerHTML)
+    })
+
+    test('should render draggable prop', async () => {
+      const wrapper = _mount({
+        slots: {
+          default: AXIOM,
+        },
+        props: {
+          modelValue: true,
+          draggable: true,
+        },
+      })
+
+      await nextTick()
+      await rAF()
+      await nextTick()
+      expect(wrapper.find('.is-draggable').exists()).toBe(true)
     })
   })
 })

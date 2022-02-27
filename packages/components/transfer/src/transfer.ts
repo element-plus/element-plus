@@ -1,4 +1,4 @@
-import { CHANGE_EVENT } from '@element-plus/utils/constants'
+import { CHANGE_EVENT } from '@element-plus/constants'
 
 import type { VNode } from 'vue'
 

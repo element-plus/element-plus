@@ -1,7 +1,7 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { rAF } from '@element-plus/test-utils/tick'
-import { EVENT_CODE } from '@element-plus/utils/aria'
+import { EVENT_CODE } from '@element-plus/constants'
 import { ElTooltip } from '@element-plus/components/tooltip'
 import Dropdown from '../src/dropdown.vue'
 import DropdownItem from '../src/dropdown-item.vue'
@@ -185,6 +185,44 @@ describe('Dropdown', () => {
     jest.runAllTimers()
     await rAF()
     expect(content.open).toBe(true)
+  })
+
+  test('handleOpen and handleClose', async () => {
+    const wrapper = _mount(
+      `
+      <el-dropdown trigger="click" ref="refDropdown" placement="right">
+        <span class="el-dropdown-link" ref="a">
+          dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item command="a">Apple</el-dropdown-item>
+            <el-dropdown-item command="b">Orange</el-dropdown-item>
+            <el-dropdown-item command="c">Cherry</el-dropdown-item>
+            <el-dropdown-item command="d">Peach</el-dropdown-item>
+            <el-dropdown-item command="e">Pear</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      `,
+      () => ({
+        name: '',
+      })
+    )
+    await nextTick()
+    const dropdown = wrapper.vm
+    const content = wrapper.findComponent(ElTooltip).vm as InstanceType<
+      typeof ElTooltip
+    >
+    expect(content.open).toBe(false)
+    await dropdown.$refs.refDropdown.handleOpen()
+    jest.runAllTimers()
+    await rAF()
+    expect(content.open).toBe(true)
+    await dropdown.$refs.refDropdown.handleClose()
+    jest.runAllTimers()
+    await rAF()
+    expect(content.open).toBe(false)
   })
 
   test('split button', async () => {
@@ -448,5 +486,29 @@ describe('Dropdown', () => {
     }).element
 
     expect(popperElement.classList.contains('custom-popper-class')).toBe(true)
+  })
+
+  test('custom attributes for dropdown items', async () => {
+    const wrapper = _mount(
+      `
+      <el-dropdown>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item data-custom-attribute="hello">Item</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      `,
+      () => ({})
+    )
+    await nextTick()
+    expect(
+      wrapper
+        .findComponent({
+          name: 'DropdownItemImpl',
+        })
+        .find('.el-dropdown-menu__item')
+        .element.getAttribute('data-custom-attribute')
+    ).toBe('hello')
   })
 })

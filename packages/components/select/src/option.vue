@@ -1,12 +1,14 @@
 <template>
   <li
     v-show="visible"
-    class="el-select-dropdown__item"
-    :class="{
-      selected: itemSelected,
-      'is-disabled': isDisabled,
-      hover: hover,
-    }"
+    :class="[
+      ns.be('dropdown', 'item'),
+      ns.is('disabled', isDisabled),
+      {
+        selected: itemSelected,
+        hover,
+      },
+    ]"
     @mouseenter="hoverItem"
     @click.stop="selectOptionClick"
   >
@@ -24,6 +26,7 @@ import {
   onBeforeUnmount,
   reactive,
 } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
 import { useOption } from './useOption'
 import type { SelectOptionProxy } from './token'
 
@@ -45,6 +48,7 @@ export default defineComponent({
   },
 
   setup(props) {
+    const ns = useNamespace('select')
     const states = reactive({
       index: -1,
       groupDisabled: false,
@@ -83,6 +87,7 @@ export default defineComponent({
     }
 
     return {
+      ns,
       currentLabel,
       itemSelected,
       isDisabled,

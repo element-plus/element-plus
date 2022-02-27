@@ -23,7 +23,7 @@ import {
   watch,
 } from 'vue'
 import { createPopper } from '@popperjs/core'
-import { PopupManager } from '@element-plus/utils/popup-manager'
+import { useZIndex, useNamespace } from '@element-plus/hooks'
 import { POPPER_INJECTION_KEY, POPPER_CONTENT_INJECTION_KEY } from './tokens'
 import { usePopperContentProps } from './popper'
 import { buildPopperOptions, unwrapMeasurableEl } from './utils'
@@ -37,6 +37,8 @@ export default defineComponent({
       POPPER_INJECTION_KEY,
       undefined
     )!
+    const { nextZIndex } = useZIndex()
+    const ns = useNamespace('popper')
     const popperContentRef = ref<HTMLElement | null>(null)
     const arrowRef = ref<HTMLElement | null>(null)
     const arrowOffset = ref<number>()
@@ -44,18 +46,16 @@ export default defineComponent({
       arrowRef,
       arrowOffset,
     })
-    const contentZIndex = ref(props.zIndex || PopupManager.nextZIndex())
+    const contentZIndex = ref(props.zIndex || nextZIndex())
 
     const contentStyle = computed(
       () => [{ zIndex: unref(contentZIndex) }, props.popperStyle] as any
     )
 
     const contentClass = computed(() => [
-      {
-        'el-popper': true,
-        'is-pure': props.pure,
-        [`is-${props.effect}`]: !!props.effect,
-      },
+      ns.b(),
+      ns.is('pure', props.pure),
+      ns.is(props.effect),
       props.popperClass,
     ])
 
@@ -74,7 +74,15 @@ export default defineComponent({
 
     const updatePopper = () => {
       unref(popperInstanceRef)?.update()
-      contentZIndex.value = props.zIndex || PopupManager.nextZIndex()
+      contentZIndex.value = props.zIndex || nextZIndex()
+    }
+
+    const togglePopoerAlive = () => {
+      const monitorable = { name: 'eventListeners', enabled: props.visible }
+      unref(popperInstanceRef)?.setOptions((options) => ({
+        ...options,
+        modifiers: [...options.modifiers, monitorable],
+      }))
     }
 
     onMounted(() => {
@@ -113,9 +121,21 @@ export default defineComponent({
           immediate: true,
         }
       )
+
+      watch(() => props.visible, togglePopoerAlive, { immediate: true })
+
+      watch(
+        () =>
+          buildPopperOptions(props, {
+            arrowEl: unref(arrowRef),
+            arrowOffset: unref(arrowOffset),
+          }),
+        (option) => popperInstanceRef.value?.setOptions(option)
+      )
     })
 
     return {
+      ns,
       popperContentRef,
       popperInstanceRef,
       contentStyle,

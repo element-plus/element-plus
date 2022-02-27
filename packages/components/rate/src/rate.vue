@@ -22,7 +22,10 @@
         :class="[ns.e('icon'), { hover: hoverIndex === item }]"
         :style="getIconStyle(item)"
       >
-        <component :is="iconComponents[item - 1]" />
+        <component
+          :is="iconComponents[item - 1]"
+          v-if="!showDecimalIcon(item)"
+        />
         <el-icon
           v-if="showDecimalIcon(item)"
           :style="decimalStyle"
@@ -45,10 +48,8 @@
 import { defineComponent, inject, computed, ref, watch } from 'vue'
 import { isObject, isArray } from '@vue/shared'
 import { elFormKey } from '@element-plus/tokens'
-import { hasClass } from '@element-plus/utils/dom'
-import { EVENT_CODE } from '@element-plus/utils/aria'
-
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { hasClass } from '@element-plus/utils'
+import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
 import { StarFilled, Star } from '@element-plus/icons-vue'
 import { useNamespace, useSize } from '@element-plus/hooks'

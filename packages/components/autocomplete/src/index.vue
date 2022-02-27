@@ -4,20 +4,20 @@
     v-model:visible="suggestionVisible"
     :placement="placement"
     :fallback-placements="['bottom-start', 'top-start']"
-    :popper-class="`el-autocomplete__popper ${popperClass}`"
-    :append-to-body="popperAppendToBody"
+    :popper-class="`${ns.e('popper')} ${popperClass}`"
+    :teleported="compatTeleported"
     :gpu-acceleration="false"
     pure
     manual-mode
     effect="light"
     trigger="click"
-    transition="el-zoom-in-top"
+    :transition="`${ns.namespace.value}-zoom-in-top`"
     persistent
     @show="onSuggestionShow"
   >
     <div
       v-clickoutside="close"
-      :class="['el-autocomplete', $attrs.class]"
+      :class="[ns.b(), $attrs.class]"
       :style="$attrs.style"
       role="combobox"
       aria-haspopup="listbox"
@@ -55,18 +55,15 @@
     <template #content>
       <div
         ref="regionRef"
-        :class="[
-          'el-autocomplete-suggestion',
-          suggestionLoading && 'is-loading',
-        ]"
+        :class="[ns.b('suggestion'), ns.is('loading', suggestionLoading)]"
         :style="{ minWidth: dropdownWidth, outline: 'none' }"
         role="region"
       >
         <el-scrollbar
           :id="id"
           tag="ul"
-          wrap-class="el-autocomplete-suggestion__wrap"
-          view-class="el-autocomplete-suggestion__list"
+          :wrap-class="ns.be('suggestion', 'wrap')"
+          :view-class="ns.be('suggestion', 'list')"
           role="listbox"
         >
           <li v-if="suggestionLoading">
@@ -94,23 +91,26 @@
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted, nextTick } from 'vue'
 import { NOOP } from '@vue/shared'
-import debounce from 'lodash/debounce'
-import { useAttrs } from '@element-plus/hooks'
+import { debounce } from 'lodash-unified'
+import { useAttrs, useNamespace } from '@element-plus/hooks'
 import { ClickOutside } from '@element-plus/directives'
-import { generateId, isArray } from '@element-plus/utils/util'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { throwError } from '@element-plus/utils/error'
+import { generateId, isArray, throwError } from '@element-plus/utils'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import ElInput from '@element-plus/components/input'
 import ElScrollbar from '@element-plus/components/scrollbar'
-import ElTooltip from '@element-plus/components/tooltip'
+import ElTooltip, {
+  useTooltipContentProps,
+} from '@element-plus/components/tooltip'
+import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import ElIcon from '@element-plus/components/icon'
 import { Loading } from '@element-plus/icons-vue'
 
 import type { Placement } from '@element-plus/components/popper'
 import type { PropType } from 'vue'
 
+const COMPONENT_NAME = 'ElAutocomplete'
 export default defineComponent({
-  name: 'ElAutocomplete',
+  name: COMPONENT_NAME,
   components: {
     ElTooltip,
     ElInput,
@@ -173,8 +173,9 @@ export default defineComponent({
     },
     popperAppendToBody: {
       type: Boolean,
-      default: true,
+      default: undefined,
     },
+    teleported: useTooltipContentProps.teleported,
     highlightFirstItem: {
       type: Boolean,
       default: false,
@@ -190,6 +191,11 @@ export default defineComponent({
     'select',
   ],
   setup(props, ctx) {
+    const ns = useNamespace('autocomplete')
+    const { compatTeleported } = useDeprecateAppendToBody(
+      COMPONENT_NAME,
+      'popperAppendToBody'
+    )
     const attrs = useAttrs()
     const suggestions = ref<any[]>([])
     const highlightedIndex = ref(-1)
@@ -206,7 +212,7 @@ export default defineComponent({
     const popper = ref(null)
 
     const id = computed(() => {
-      return `el-autocomplete-${generateId()}`
+      return ns.b(String(generateId()))
     })
     const suggestionVisible = computed(() => {
       const isValidData =
@@ -328,10 +334,10 @@ export default defineComponent({
         index = suggestions.value.length - 1
       }
       const suggestion = regionRef.value!.querySelector(
-        '.el-autocomplete-suggestion__wrap'
+        `.${ns.be('suggestion', 'wrap')}`
       )!
       const suggestionList = suggestion.querySelectorAll(
-        '.el-autocomplete-suggestion__list li'
+        `.${ns.be('suggestion', 'list')} li`
       )!
       const highlightItem = suggestionList[index]
       const scrollTop = suggestion.scrollTop
@@ -366,6 +372,9 @@ export default defineComponent({
       suggestionVisible,
       suggestionLoading,
 
+      // deprecation in 2.1.0
+      compatTeleported,
+
       getData,
       handleInput,
       handleChange,
@@ -378,6 +387,7 @@ export default defineComponent({
       select,
       highlight,
       onSuggestionShow,
+      ns,
     }
   },
 })

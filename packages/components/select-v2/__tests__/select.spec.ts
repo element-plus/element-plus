@@ -1,11 +1,23 @@
 import { nextTick } from 'vue'
 import { NOOP } from '@vue/shared'
-import { EVENT_CODE } from '@element-plus/utils/aria'
+import { hasClass } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
 import { makeMountFunc } from '@element-plus/test-utils/make-mount'
 import { rAF } from '@element-plus/test-utils/tick'
 import { CircleClose } from '@element-plus/icons-vue'
-import { hasClass } from '@element-plus/utils/dom'
+import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
 import Select from '../src/select.vue'
+
+jest.mock('lodash-unified', () => {
+  return {
+    ...(jest.requireActual('lodash-unified') as Record<string, any>),
+    debounce: jest.fn((fn) => {
+      fn.cancel = jest.fn()
+      fn.flush = jest.fn()
+      return fn
+    }),
+  }
+})
 
 jest.useFakeTimers()
 
@@ -97,6 +109,7 @@ const createSelect = (
         :remote="remote"
         :reserve-keyword="reserveKeyword"
         :scrollbar-always-on="scrollbarAlwaysOn"
+        :teleported="teleported"
         ${
           options.methods && options.methods.filterMethod
             ? `:filter-method="filterMethod"`
@@ -132,7 +145,6 @@ const createSelect = (
           filterable: false,
           reserveKeyword: false,
           multipleLimit: 0,
-          popperAppendToBody: true,
           placeholder: DEFAULT_PLACEHOLDER,
           scrollbarAlwaysOn: false,
           ...(options.data && options.data()),
@@ -542,6 +554,69 @@ describe('Select', () => {
       await nextTick()
       expect(vm.value.length).toBe(2)
       expect(vm.value[1]).toBe(vm.options[2].value)
+    })
+  })
+
+  describe('manually set modelValue', () => {
+    it('set modelValue in single select', async () => {
+      const wrapper = createSelect({
+        data: () => {
+          return {
+            value: '',
+          }
+        },
+      })
+      await nextTick()
+      const options = getOptions()
+      const vm = wrapper.vm as any
+      const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
+
+      expect(vm.value).toBe('')
+      expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
+
+      options[0].click()
+      await nextTick()
+      expect(vm.value).toBe(vm.options[0].value)
+      expect(placeholder.text()).toBe(vm.options[0].label)
+      const option = vm.options[0].value
+      console.log(option)
+
+      vm.value = ''
+      await nextTick()
+      expect(vm.value).toBe('')
+      expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
+
+      vm.value = option
+      await nextTick()
+      expect(vm.value).toBe('option_1')
+      expect(placeholder.text()).toBe('a0')
+    })
+
+    it('set modelValue in multiple select', async () => {
+      const wrapper = createSelect({
+        data: () => {
+          return {
+            multiple: true,
+            value: [],
+          }
+        },
+      })
+      await nextTick()
+      const vm = wrapper.vm as any
+      let placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
+      expect(placeholder.exists()).toBeTruthy()
+
+      vm.value = ['option_1']
+      await nextTick()
+      expect(wrapper.find('.el-select-v2__tags-text').text()).toBe('a0')
+      placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
+      expect(placeholder.exists()).toBeFalsy()
+
+      vm.value = []
+      await nextTick()
+      expect(wrapper.find('.el-select-v2__tags-text').exists()).toBeFalsy()
+      placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
+      expect(placeholder.exists()).toBeTruthy()
     })
   })
 
@@ -1298,6 +1373,87 @@ describe('Select', () => {
       const box = document.querySelector<HTMLElement>('.el-vl__wrapper')
       expect(hasClass(box, 'always-on')).toBe(true)
       done()
+    })
+  })
+
+  describe('teleported API', () => {
+    it('should mount on popper container', async () => {
+      expect(document.body.innerHTML).toBe('')
+      createSelect({
+        data() {
+          return {
+            options: [
+              {
+                value: '选项1',
+                label:
+                  '黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕',
+              },
+              {
+                value: '选项2',
+                label:
+                  '双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶',
+              },
+              {
+                value: '选项3',
+                label: '蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎',
+              },
+              {
+                value: '选项4',
+                label: '龙须面',
+              },
+              {
+                value: '选项5',
+                label: '北京烤鸭',
+              },
+            ],
+          }
+        },
+      })
+
+      await nextTick()
+      expect(
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+      ).not.toBe('')
+    })
+
+    it('should not mount on the popper container', async () => {
+      expect(document.body.innerHTML).toBe('')
+      createSelect({
+        data() {
+          return {
+            teleported: false,
+            options: [
+              {
+                value: '选项1',
+                label:
+                  '黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕',
+              },
+              {
+                value: '选项2',
+                label:
+                  '双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶',
+              },
+              {
+                value: '选项3',
+                label: '蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎',
+              },
+              {
+                value: '选项4',
+                label: '龙须面',
+              },
+              {
+                value: '选项5',
+                label: '北京烤鸭',
+              },
+            ],
+          }
+        },
+      })
+
+      await nextTick()
+      expect(
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+      ).toBe('')
     })
   })
 })

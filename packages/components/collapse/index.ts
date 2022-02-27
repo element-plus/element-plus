@@ -1,4 +1,4 @@
-import { withInstall, withNoopInstall } from '@element-plus/utils/with-install'
+import { withInstall, withNoopInstall } from '@element-plus/utils'
 
 import Collapse from './src/collapse.vue'
 import CollapseItem from './src/collapse-item.vue'

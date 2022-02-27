@@ -5,7 +5,7 @@
     @mouseenter.stop="handleMouseEnter"
     @mouseleave.stop="handleMouseLeave"
   >
-    <div class="el-carousel__container" :style="{ height: height }">
+    <div :class="ns.e('container')" :style="{ height: height }">
       <transition v-if="arrowDisplay" name="carousel-arrow-left">
         <button
           v-show="
@@ -13,7 +13,7 @@
             (props.loop || data.activeIndex > 0)
           "
           type="button"
-          class="el-carousel__arrow el-carousel__arrow--left"
+          :class="[ns.e('arrow'), ns.em('arrow', 'left')]"
           @mouseenter="handleButtonEnter('left')"
           @mouseleave="handleButtonLeave"
           @click.stop="throttledArrowClick(data.activeIndex - 1)"
@@ -30,7 +30,7 @@
             (props.loop || data.activeIndex < items.length - 1)
           "
           type="button"
-          class="el-carousel__arrow el-carousel__arrow--right"
+          :class="[ns.e('arrow'), ns.em('arrow', 'right')]"
           @mouseenter="handleButtonEnter('right')"
           @mouseleave="handleButtonLeave"
           @click.stop="throttledArrowClick(data.activeIndex + 1)"
@@ -47,14 +47,14 @@
         v-for="(item, index) in items"
         :key="index"
         :class="[
-          'el-carousel__indicator',
-          'el-carousel__indicator--' + direction,
-          { 'is-active': index === data.activeIndex },
+          ns.e('indicator'),
+          ns.em('indicator', direction),
+          ns.is('active', index === data.activeIndex),
         ]"
         @mouseenter="throttledIndicatorHover(index)"
         @click.stop="handleIndicatorClick(index)"
       >
-        <button class="el-carousel__button">
+        <button :class="ns.e('button')">
           <span v-if="hasLabel">{{ item.label }}</span>
         </button>
       </li>
@@ -74,15 +74,16 @@ import {
   watch,
   nextTick,
 } from 'vue'
-import throttle from 'lodash/throttle'
+import { throttle } from 'lodash-unified'
 import {
   addResizeListener,
   removeResizeListener,
-} from '@element-plus/utils/resize-event'
+  debugWarn,
+} from '@element-plus/utils'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
+import { useNamespace } from '@element-plus/hooks'
 
-import { debugWarn } from '@element-plus/utils/error'
 import type {
   ICarouselProps,
   CarouselItem,
@@ -142,6 +143,7 @@ export default defineComponent({
   },
   emits: ['change'],
   setup(props: ICarouselProps, { emit }) {
+    const ns = useNamespace('carousel')
     // data
     const data = reactive<{
       activeIndex: number
@@ -169,23 +171,20 @@ export default defineComponent({
     })
 
     const carouselClasses = computed(() => {
-      const classes = ['el-carousel', `el-carousel--${props.direction}`]
+      const classes = [ns.b(), ns.m(props.direction)]
       if (props.type === 'card') {
-        classes.push('el-carousel--card')
+        classes.push(ns.m('card'))
       }
       return classes
     })
 
     const indicatorsClasses = computed(() => {
-      const classes = [
-        'el-carousel__indicators',
-        `el-carousel__indicators--${props.direction}`,
-      ]
+      const classes = [ns.e('indicators'), ns.em('indicators', props.direction)]
       if (hasLabel.value) {
-        classes.push('el-carousel__indicators--labels')
+        classes.push(ns.em('indicators', 'labels'))
       }
       if (props.indicatorPosition === 'outside' || props.type === 'card') {
-        classes.push('el-carousel__indicators--outside')
+        classes.push(ns.em('indicators', 'outside'))
       }
       return classes
     })
@@ -410,6 +409,7 @@ export default defineComponent({
       setActiveItem,
 
       root,
+      ns,
     }
   },
 })

@@ -1,5 +1,6 @@
 import { defineComponent, computed, inject, h, renderSlot } from 'vue'
-import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
+import { buildProps, definePropType, mutable } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
 import type { ExtractPropTypes, CSSProperties } from 'vue'
 
 type SizeObject = {
@@ -58,6 +59,7 @@ export default defineComponent({
 
   setup(props, { slots }) {
     const { gutter } = inject('ElRow', { gutter: { value: 0 } })
+    const ns = useNamespace('col')
 
     const style = computed<CSSProperties>(() => {
       if (gutter.value) {
@@ -76,22 +78,22 @@ export default defineComponent({
       pos.forEach((prop) => {
         const size = props[prop]
         if (typeof size === 'number') {
-          if (prop === 'span') classes.push(`el-col-${props[prop]}`)
-          else if (size > 0) classes.push(`el-col-${prop}-${props[prop]}`)
+          if (prop === 'span') classes.push(ns.b(`${props[prop]}`))
+          else if (size > 0) classes.push(ns.b(`${prop}-${props[prop]}`))
         }
       })
 
       const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
       sizes.forEach((size) => {
         if (typeof props[size] === 'number') {
-          classes.push(`el-col-${size}-${props[size]}`)
+          classes.push(ns.b(`${size}-${props[size]}`))
         } else if (typeof props[size] === 'object') {
           const sizeProps = props[size]
           Object.keys(sizeProps).forEach((prop) => {
             classes.push(
               prop !== 'span'
-                ? `el-col-${size}-${prop}-${sizeProps[prop]}`
-                : `el-col-${size}-${sizeProps[prop]}`
+                ? ns.b(`${size}-${prop}-${sizeProps[prop]}`)
+                : ns.b(`${size}-${sizeProps[prop]}`)
             )
           })
         }
@@ -108,7 +110,7 @@ export default defineComponent({
       h(
         props.tag,
         {
-          class: ['el-col', classList.value],
+          class: [ns.b(), classList.value],
           style: style.value,
         },
         [renderSlot(slots, 'default')]

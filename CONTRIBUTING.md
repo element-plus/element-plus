@@ -40,8 +40,8 @@ pnpm install
 Then you can following command to verify your installation.
 
 ```shell
-pnpm test
-pnpm run format
+pnpm t
+pnpm format
 ```
 
 ## Getting Started developing
@@ -62,7 +62,7 @@ pnpm run docs:dev
 ```shell
 # If you would like to run a local playground to test out your changes against
 # Some specific component
-touch play/scr/App.vue # Adding an entry for the play to run.
+touch play/src/App.vue # Adding an entry for the play to run.
 pnpm run dev
 ```
 

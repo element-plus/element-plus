@@ -1,6 +1,5 @@
-import { buildProps, definePropType } from '@element-plus/utils/props'
-
-import type { VNode, ExtractPropTypes, Component } from 'vue'
+import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
+import type { VNode, ExtractPropTypes, AppContext } from 'vue'
 
 export const messageTypes = ['success', 'info', 'warning', 'error'] as const
 
@@ -26,7 +25,7 @@ export const messageProps = buildProps({
     default: 3000,
   },
   icon: {
-    type: definePropType<string | Component>([String, Object]),
+    type: iconPropType,
     default: '',
   },
   id: {
@@ -86,10 +85,16 @@ export interface MessageHandle {
 export type MessageParams = Partial<MessageOptions> | string | VNode
 export type MessageParamsTyped = Partial<MessageOptionsTyped> | string | VNode
 
-export type MessageFn = ((options?: MessageParams) => MessageHandle) & {
+export type MessageFn = ((
+  options?: MessageParams,
+  appContext?: null | AppContext
+) => MessageHandle) & {
   closeAll(): void
 }
-export type MessageTypedFn = (options?: MessageParamsTyped) => MessageHandle
+export type MessageTypedFn = (
+  options?: MessageParamsTyped,
+  appContext?: null | AppContext
+) => MessageHandle
 
 export interface Message extends MessageFn {
   success: MessageTypedFn

@@ -64,7 +64,7 @@
     margin-right: 10px;
   }
 
-  @include e(badge) {
+  .#{$namespace}-message__badge {
     position: absolute;
     top: -8px;
     right: -8px;
@@ -79,7 +79,7 @@
     }
   }
 
-  @include e(closeBtn) {
+  & .#{$namespace}-message__closeBtn {
     position: absolute;
     top: 50%;
     right: 15px;

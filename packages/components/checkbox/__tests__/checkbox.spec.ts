@@ -27,6 +27,7 @@ describe('Checkbox', () => {
       () => ({ checkbox: false })
     )
     expect(wrapper.classes()).toContain('el-checkbox')
+    expect(wrapper.classes()).not.toContain('is-disabled')
     await wrapper.trigger('click')
     expect(wrapper.classes()).toContain('is-checked')
     await wrapper.trigger('click')

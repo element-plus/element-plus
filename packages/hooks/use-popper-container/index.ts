@@ -1,6 +1,6 @@
 import { onBeforeMount } from 'vue'
 import { isClient } from '@vueuse/core'
-import { generateId } from '@element-plus/utils/util'
+import { generateId } from '@element-plus/utils'
 
 let cachedContainer: HTMLElement
 

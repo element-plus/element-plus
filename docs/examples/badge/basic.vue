@@ -41,4 +41,7 @@ import { CaretBottom } from '@element-plus/icons-vue'
   margin-top: 10px;
   margin-right: 40px;
 }
+.el-dropdown {
+  margin-top: 1.1rem;
+}
 </style>

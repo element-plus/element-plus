@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
 import { shallowMount } from '@vue/test-utils'
-import { EVENT_CODE } from '@element-plus/utils/aria'
+import { EVENT_CODE } from '@element-plus/constants'
 import ElTooltipTrigger from '../src/trigger.vue'
 import { genTooltipProvides } from '../test-helper/provides'
 import { TOOLTIP_INJECTION_KEY } from '../src/tokens'
@@ -8,8 +8,18 @@ import { TOOLTIP_INJECTION_KEY } from '../src/tokens'
 const AXIOM = 'rem is the best girl'
 
 describe('<ElTooltipTrigger />', () => {
-  const { controlled, id, open, onOpen, onClose, onToggle, onShow, onHide } =
-    genTooltipProvides()
+  const {
+    controlled,
+    id,
+    open,
+    onOpen,
+    onClose,
+    onToggle,
+    onShow,
+    onHide,
+    onBeforeShow,
+    onBeforeHide,
+  } = genTooltipProvides()
 
   const defaultProvide = {
     [TOOLTIP_INJECTION_KEY as symbol]: {
@@ -21,6 +31,8 @@ describe('<ElTooltipTrigger />', () => {
       onToggle,
       onShow,
       onHide,
+      onBeforeShow,
+      onBeforeHide,
     },
   }
 

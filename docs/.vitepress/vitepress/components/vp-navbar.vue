@@ -37,7 +37,7 @@ const currentLink = computed(() => {
           <img
             class="logo"
             src="/images/element-plus-logo.svg"
-            alt="Elemenet Plus Logo"
+            alt="Element Plus Logo"
           />
         </a>
       </div>

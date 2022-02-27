@@ -35,16 +35,27 @@
     margin: 0;
   }
 
+  @include when(draggable) {
+    @include e(header) {
+      cursor: move;
+      user-select: none;
+    }
+  }
+
   @include e(header) {
     padding: var(--el-dialog-padding-primary);
     padding-bottom: 10px;
+    margin-right: 16px;
+    word-break: break-all;
   }
 
   @include e(headerbtn) {
     position: absolute;
-    top: var(--el-dialog-padding-primary);
-    right: var(--el-dialog-padding-primary);
+    top: 6px;
+    right: 0;
     padding: 0;
+    width: 54px;
+    height: 54px;
     background: transparent;
     border: none;
     outline: none;

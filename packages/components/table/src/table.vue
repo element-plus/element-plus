@@ -3,89 +3,125 @@
     ref="tableWrapper"
     :class="[
       {
-        'el-table--fit': fit,
-        'el-table--striped': stripe,
-        'el-table--border': border || isGroup,
-        'el-table--hidden': isHidden,
-        'el-table--group': isGroup,
-        'el-table--fluid-height': maxHeight,
-        'el-table--scrollable-x': layout.scrollX.value,
-        'el-table--scrollable-y': layout.scrollY.value,
-        'el-table--enable-row-hover': !store.states.isComplex.value,
-        'el-table--enable-row-transition':
+        [ns.m('fit')]: fit,
+        [ns.m('striped')]: stripe,
+        [ns.m('border')]: border || isGroup,
+        [ns.m('hidden')]: isHidden,
+        [ns.m('group')]: isGroup,
+        [ns.m('fluid-height')]: maxHeight,
+        [ns.m('scrollable-x')]: layout.scrollX.value,
+        [ns.m('scrollable-y')]: layout.scrollY.value,
+        [ns.m('enable-row-hover')]: !store.states.isComplex.value,
+        [ns.m('enable-row-transition')]:
           (store.states.data.value || []).length !== 0 &&
           (store.states.data.value || []).length < 100,
+        'has-footer': showSummary,
       },
-      tableSize ? `el-table--${tableSize}` : '',
+      ns.m(tableSize),
       className,
-      'el-table',
+      ns.b(),
+      ns.m(`layout-${tableLayout}`),
     ]"
     :style="style"
+    :data-prefix="ns.namespace.value"
     @mouseleave="handleMouseLeave()"
   >
-    <div class="el-table__inner-wrapper">
+    <div :class="ns.e('inner-wrapper')">
       <div ref="hiddenColumns" class="hidden-columns">
         <slot></slot>
       </div>
       <div
-        v-if="showHeader"
+        v-if="showHeader && tableLayout === 'fixed'"
         ref="headerWrapper"
         v-mousewheel="handleHeaderFooterMousewheel"
-        class="el-table__header-wrapper"
+        :class="ns.e('header-wrapper')"
       >
-        <table-header
+        <table
           ref="tableHeader"
-          :border="border"
-          :default-sort="defaultSort"
-          :store="store"
+          :class="ns.e('header')"
           :style="tableBodyStyles"
-          @set-drag-visible="setDragVisible"
-        />
-      </div>
-      <div ref="bodyWrapper" :style="bodyHeight" class="el-table__body-wrapper">
-        <table-body
-          :context="context"
-          :highlight="highlightCurrentRow"
-          :row-class-name="rowClassName"
-          :tooltip-effect="tooltipEffect"
-          :row-style="rowStyle"
-          :store="store"
-          :stripe="stripe"
-          :style="{
-            width: bodyWidth,
-          }"
-        />
-        <div
-          v-if="isEmpty"
-          ref="emptyBlock"
-          :style="emptyBlockStyle"
-          class="el-table__empty-block"
+          border="0"
+          cellpadding="0"
+          cellspacing="0"
         >
-          <span class="el-table__empty-text">
-            <slot name="empty">{{ computedEmptyText }}</slot>
-          </span>
-        </div>
-        <div
-          v-if="$slots.append"
-          ref="appendWrapper"
-          class="el-table__append-wrapper"
-        >
-          <slot name="append"></slot>
-        </div>
+          <hColgroup
+            :columns="store.states.columns.value"
+            :table-layout="tableLayout"
+          ></hColgroup>
+          <table-header
+            ref="tableHeaderRef"
+            :border="border"
+            :default-sort="defaultSort"
+            :store="store"
+            @set-drag-visible="setDragVisible"
+          />
+        </table>
       </div>
-      <div v-if="border || isGroup" class="el-table__border-left-patch"></div>
-      <div
-        v-if="layout.scrollX.value && layout.height.value"
-        class="el-table__border-bottom-patch"
-        :style="borderBottomPatchStyles"
-      ></div>
+      <div ref="bodyWrapper" :style="bodyHeight" :class="ns.e('body-wrapper')">
+        <el-scrollbar
+          ref="scrollWrapper"
+          :height="maxHeight ? undefined : height"
+          :max-height="maxHeight ? height : undefined"
+        >
+          <table
+            ref="tableBody"
+            :class="ns.e('body')"
+            cellspacing="0"
+            cellpadding="0"
+            border="0"
+            :style="{
+              width: bodyWidth,
+              tableLayout,
+            }"
+          >
+            <hColgroup
+              :columns="store.states.columns.value"
+              :table-layout="tableLayout"
+            ></hColgroup>
+            <table-header
+              v-if="showHeader && tableLayout === 'auto'"
+              :border="border"
+              :default-sort="defaultSort"
+              :store="store"
+              @set-drag-visible="setDragVisible"
+            />
+            <table-body
+              :context="context"
+              :highlight="highlightCurrentRow"
+              :row-class-name="rowClassName"
+              :tooltip-effect="tooltipEffect"
+              :row-style="rowStyle"
+              :store="store"
+              :stripe="stripe"
+            />
+          </table>
+          <div
+            v-if="isEmpty"
+            ref="emptyBlock"
+            :style="emptyBlockStyle"
+            :class="ns.e('empty-block')"
+          >
+            <span :class="ns.e('empty-text')">
+              <slot name="empty">{{ computedEmptyText }}</slot>
+            </span>
+          </div>
+          <div
+            v-if="$slots.append"
+            ref="appendWrapper"
+            :class="ns.e('append-wrapper')"
+          >
+            <slot name="append"></slot>
+          </div>
+        </el-scrollbar>
+      </div>
+      <div v-if="border || isGroup" :class="ns.e('border-left-patch')"></div>
     </div>
     <div
       v-if="showSummary"
       v-show="!isEmpty"
       ref="footerWrapper"
       v-mousewheel="handleHeaderFooterMousewheel"
-      class="el-table__footer-wrapper"
+      :class="ns.e('footer-wrapper')"
     >
       <table-footer
         :border="border"
@@ -99,16 +135,17 @@
     <div
       v-show="resizeProxyVisible"
       ref="resizeProxy"
-      class="el-table__column-resize-proxy"
+      :class="ns.e('column-resize-proxy')"
     ></div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, getCurrentInstance, computed } from 'vue'
-import debounce from 'lodash/debounce'
+import { defineComponent, getCurrentInstance, computed, provide } from 'vue'
+import { debounce } from 'lodash-unified'
 import { Mousewheel } from '@element-plus/directives'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
+import ElScrollbar from '@element-plus/components/scrollbar'
 import { createStore } from './store/helper'
 import TableLayout from './table-layout'
 import TableHeader from './table-header'
@@ -117,6 +154,8 @@ import TableFooter from './table-footer'
 import useUtils from './table/utils-helper'
 import useStyle from './table/style-helper'
 import defaultProps from './table/defaults'
+import { TABLE_INJECTION_KEY } from './tokens'
+import { hColgroup } from './h-helper'
 
 import type { Table } from './table/defaults'
 
@@ -130,6 +169,8 @@ export default defineComponent({
     TableHeader,
     TableBody,
     TableFooter,
+    ElScrollbar,
+    hColgroup,
   },
   props: defaultProps,
   emits: [
@@ -155,7 +196,9 @@ export default defineComponent({
   setup(props) {
     type Row = typeof props.data[number]
     const { t } = useLocale()
+    const ns = useNamespace('table')
     const table = getCurrentInstance() as Table<Row>
+    provide(TABLE_INJECTION_KEY, table)
     const store = createStore<Row>(table, props)
     table.store = store
     const layout = new TableLayout<Row>({
@@ -190,6 +233,7 @@ export default defineComponent({
       handleHeaderFooterMousewheel,
       tableSize,
       bodyHeight,
+      height,
       emptyBlockStyle,
       handleFixedMousewheel,
       fixedHeight,
@@ -199,7 +243,7 @@ export default defineComponent({
       resizeState,
       doLayout,
       tableBodyStyles,
-      borderBottomPatchStyles,
+      tableLayout,
     } = useStyle<Row>(props, layout, store, table)
 
     const debouncedUpdateLayout = debounce(doLayout, 50)
@@ -221,6 +265,7 @@ export default defineComponent({
     })
 
     return {
+      ns,
       layout,
       store,
       handleHeaderFooterMousewheel,
@@ -235,9 +280,9 @@ export default defineComponent({
       isGroup,
       bodyWidth,
       bodyHeight,
+      height,
       tableBodyStyles,
       emptyBlockStyle,
-      borderBottomPatchStyles,
       debouncedUpdateLayout,
       handleFixedMousewheel,
       fixedHeight,
@@ -256,6 +301,7 @@ export default defineComponent({
       context: table,
       computedSumText,
       computedEmptyText,
+      tableLayout,
     }
   },
 })

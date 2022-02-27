@@ -1,9 +1,10 @@
 import { ref, computed, watchEffect } from 'vue'
-import { isNumber } from '@element-plus/utils/util'
+import { isNumber } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
 import type { SpaceProps } from './space'
 
 import type { CSSProperties, StyleValue } from 'vue'
-import type { ComponentSize } from '@element-plus/utils/types'
+import type { ComponentSize } from '@element-plus/constants'
 
 const SIZE_MAP: Record<ComponentSize, number> = {
   small: 8,
@@ -12,11 +13,9 @@ const SIZE_MAP: Record<ComponentSize, number> = {
 }
 
 export function useSpace(props: SpaceProps) {
-  const classes = computed(() => [
-    'el-space',
-    `el-space--${props.direction}`,
-    props.class,
-  ])
+  const ns = useNamespace('space')
+
+  const classes = computed(() => [ns.b(), ns.m(props.direction), props.class])
 
   const horizontalSize = ref(0)
   const verticalSize = ref(0)

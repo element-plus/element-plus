@@ -77,14 +77,15 @@ menu/collapse
 
 ## SubMenu Attributes
 
-| Attribute             | Description                                                                                                      | Type    | Accepted Values | Default                                         |
-| --------------------- | ---------------------------------------------------------------------------------------------------------------- | ------- | --------------- | ----------------------------------------------- |
-| index                 | unique identification                                                                                            | string  | —               | —                                               |
-| popper-class          | custom class name for the popup menu                                                                             | string  | —               | —                                               |
-| show-timeout          | timeout before showing a sub-menu                                                                                | number  | —               | 300                                             |
-| hide-timeout          | timeout before hiding a sub-menu                                                                                 | number  | —               | 300                                             |
-| disabled              | whether the sub-menu is disabled                                                                                 | boolean | —               | false                                           |
-| popper-append-to-body | whether to append the popup menu to body. If the positioning of the menu is wrong, you can try setting this prop | boolean | -               | level one SubMenu: true / other SubMenus: false |
+| Attribute                         | Description                                                                                                      | Type    | Accepted Values | Default                                         |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ------- | --------------- | ----------------------------------------------- |
+| index                             | unique identification                                                                                            | string  | —               | —                                               |
+| popper-class                      | custom class name for the popup menu                                                                             | string  | —               | —                                               |
+| show-timeout                      | timeout before showing a sub-menu                                                                                | number  | —               | 300                                             |
+| hide-timeout                      | timeout before hiding a sub-menu                                                                                 | number  | —               | 300                                             |
+| disabled                          | whether the sub-menu is disabled                                                                                 | boolean | —               | false                                           |
+| popper-append-to-body(deprecated) | whether to append the popup menu to body. If the positioning of the menu is wrong, you can try setting this prop | boolean | -               | level one SubMenu: true / other SubMenus: false |
+| popper-offset                     | offset of the popper                                                                                             | number  | —               | 6                                               |
 
 ## SubMenu Slots
 

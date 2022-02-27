@@ -7,15 +7,6 @@ lang: en-US
 
 Use Collapse to store contents.
 
-<style lang="scss">
-.demo-collapse {
-  .el-collapse {
-    padding: 8px;
-    background: white;
-  }
-}
-</style>
-
 ## Basic usage
 
 You can expand multiple panels

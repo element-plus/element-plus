@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="['el-upload', `el-upload--${listType}`]"
+    :class="[ns.b(), ns.m(listType)]"
     tabindex="0"
     @click="handleClick"
     @keydown.self.enter.space="handleKeydown"
@@ -15,7 +15,7 @@
     </template>
     <input
       ref="inputRef"
-      class="el-upload__input"
+      :class="ns.e('input')"
       type="file"
       :name="name"
       :multiple="multiple"
@@ -27,13 +27,15 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { NOOP, hasOwn } from '@vue/shared'
+import { NOOP } from '@vue/shared'
+import { hasOwn } from '@element-plus/utils'
 
+import { useNamespace } from '@element-plus/hooks'
 import ajax from './ajax'
 import UploadDragger from './upload-dragger.vue'
 
 import type { PropType } from 'vue'
-import type { Indexable, Nullable } from '@element-plus/utils/types'
+import type { Nullable } from '@element-plus/utils'
 import type { ListType, UploadFile, ElFile } from './upload.type'
 
 type IFileHanlder = (
@@ -152,7 +154,8 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const reqs = ref({} as Indexable<XMLHttpRequest | Promise<any>>)
+    const reqs = ref({} as Record<string, XMLHttpRequest | Promise<any>>)
+    const ns = useNamespace('upload')
     const mouseover = ref(false)
     const inputRef = ref(null as Nullable<HTMLInputElement>)
 
@@ -272,6 +275,7 @@ export default defineComponent({
     }
 
     return {
+      ns,
       reqs,
       mouseover,
       inputRef,

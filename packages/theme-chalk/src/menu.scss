@@ -198,8 +198,8 @@
         }
       }
 
-      &.is-active i {
-        color: inherit;
+      &.is-active .#{$namespace}-sub-menu__title {
+        color: var(--el-menu-active-color);
       }
     }
   }

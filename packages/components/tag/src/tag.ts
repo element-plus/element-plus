@@ -1,4 +1,5 @@
-import { buildProps } from '@element-plus/utils/props'
+import { buildProps } from '@element-plus/utils'
+import type Tag from './tag.vue'
 
 import type { ExtractPropTypes } from 'vue'
 
@@ -32,3 +33,5 @@ export const tagEmits = {
   click: (evt: MouseEvent) => evt instanceof MouseEvent,
 }
 export type TagEmits = typeof tagEmits
+
+export type TagInstance = InstanceType<typeof Tag>

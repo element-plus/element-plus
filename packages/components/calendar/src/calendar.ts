@@ -1,5 +1,5 @@
-import { buildProps, definePropType } from '@element-plus/utils/props'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { buildProps, definePropType } from '@element-plus/utils'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import type { ExtractPropTypes } from 'vue'
 
 export const calendarProps = buildProps({

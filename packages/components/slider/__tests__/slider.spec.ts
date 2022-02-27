@@ -2,6 +2,17 @@ import { h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import Slider from '../src/index.vue'
 
+jest.mock('lodash-unified', () => {
+  return {
+    ...(jest.requireActual('lodash-unified') as Record<string, any>),
+    debounce: jest.fn((fn) => {
+      fn.cancel = jest.fn()
+      fn.flush = jest.fn()
+      return fn
+    }),
+  }
+})
+
 describe('Slider', () => {
   it('create', () => {
     const wrapper = mount(Slider)

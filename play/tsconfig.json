@@ -1,13 +1,10 @@
 {
+  "extends": "@vue/tsconfig/tsconfig.web.json",
   "compilerOptions": {
-    "strict": true,
     "allowJs": true,
-    "module": "ESNext",
     "lib": ["ESNext", "DOM"],
-    "types": ["../typings/global"],
-    "resolveJsonModule": true,
-    "moduleResolution": "Node",
-    "baseUrl": "."
+    "types": ["node", "vite/client", "../typings/components"],
+    "allowSyntheticDefaultImports": true
   },
   "include": ["**/*"]
 }

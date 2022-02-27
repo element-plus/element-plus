@@ -19,10 +19,16 @@ export const getPackageManifest = (pkgPath: string) => {
   return require(pkgPath) as ProjectManifest
 }
 
-export const getPackageDependencies = (pkgPath: string): string[] => {
+export const getPackageDependencies = (
+  pkgPath: string
+): Record<'dependencies' | 'peerDependencies', string[]> => {
   const manifest = getPackageManifest(pkgPath)
-  const { dependencies } = manifest
-  return Object.keys(dependencies ?? {})
+  const { dependencies = {}, peerDependencies = {} } = manifest
+
+  return {
+    dependencies: Object.keys(dependencies),
+    peerDependencies: Object.keys(peerDependencies),
+  }
 }
 
 /** used for type generator */

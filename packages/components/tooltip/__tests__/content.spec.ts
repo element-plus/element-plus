@@ -18,6 +18,8 @@ describe('<ElTooltipContent />', () => {
     onToggle,
     onShow,
     onHide,
+    onBeforeShow,
+    onBeforeHide,
   } = genTooltipProvides()
 
   const defaultProvide = {
@@ -31,6 +33,8 @@ describe('<ElTooltipContent />', () => {
       onToggle,
       onShow,
       onHide,
+      onBeforeShow,
+      onBeforeHide,
     },
   }
 
@@ -78,7 +82,15 @@ describe('<ElTooltipContent />', () => {
   })
 
   afterEach(() => {
-    ;[onOpen, onClose, onToggle, onShow, onHide].forEach((fn) => fn.mockClear())
+    ;[
+      onOpen,
+      onClose,
+      onToggle,
+      onShow,
+      onHide,
+      onBeforeShow,
+      onBeforeHide,
+    ].forEach((fn) => fn.mockClear())
     open.value = false
     controlled.value = false
     trigger.value = 'hover'

@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { TypeComponentsMap } from '@element-plus/utils/icon'
+import { TypeComponentsMap } from '@element-plus/utils'
 import Alert from '../src/alert.vue'
 
 const AXIOM = 'Rem is the best girl'
@@ -66,7 +66,7 @@ describe('Alert.vue', () => {
       },
     })
 
-    const closeBtn = wrapper.find('.el-alert__closebtn')
+    const closeBtn = wrapper.find('.el-alert__close-btn')
     expect(closeBtn.exists()).toBe(true)
 
     await closeBtn.trigger('click')

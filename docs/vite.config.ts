@@ -1,8 +1,11 @@
 import path from 'path'
 import Inspect from 'vite-plugin-inspect'
 import { defineConfig } from 'vite'
+import DefineOptions from 'unplugin-vue-define-options/vite'
 import WindiCSS from 'vite-plugin-windicss'
+import mkcert from 'vite-plugin-mkcert'
 import glob from 'fast-glob'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 
 import Components from 'unplugin-vue-components/vite'
 import Icons from 'unplugin-icons/vite'
@@ -28,7 +31,7 @@ if (process.env.DOC_ENV !== 'production') {
 }
 
 export default async () => {
-  const deps = getPackageDependencies(epPackage)
+  const { dependencies } = getPackageDependencies(epPackage)
   const optimizeDeps = [
     'vue',
     '@vue/shared',
@@ -36,11 +39,11 @@ export default async () => {
     'clipboard-copy',
     'axios',
     'nprogress',
-    ...deps,
+    ...dependencies,
   ]
   optimizeDeps.push(
     ...(
-      await glob(['lodash/[!_]*.js', 'dayjs/plugin/*.js'], {
+      await glob(['dayjs/plugin/*.js'], {
         cwd: path.resolve(projRoot, 'node_modules'),
         onlyFiles: true,
       })
@@ -50,8 +53,8 @@ export default async () => {
   return defineConfig({
     server: {
       host: true,
+      https: !!process.env.HTTPS,
       fs: {
-        strict: true,
         allow: [projRoot],
       },
     },
@@ -68,6 +71,9 @@ export default async () => {
       },
     },
     plugins: [
+      vueJsx(),
+      DefineOptions(),
+
       // https://github.com/antfu/unplugin-vue-components
       Components({
         // custom resolvers
@@ -82,9 +88,9 @@ export default async () => {
       Icons({
         autoInstall: true,
       }),
-
       WindiCSS(),
       Inspect(),
+      mkcert(),
     ],
     optimizeDeps: {
       include: optimizeDeps,

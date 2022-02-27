@@ -24,3 +24,11 @@
     >
   </el-descriptions>
 </template>
+<style scoped>
+.my-label {
+  background: var(--el-color-success-light-9);
+}
+.my-content {
+  background: var(--el-color-danger-light-9);
+}
+</style>

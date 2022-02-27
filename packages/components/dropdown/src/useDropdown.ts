@@ -1,9 +1,8 @@
 import { inject, computed, ref } from 'vue'
-import { generateId } from '@element-plus/utils/util'
-import { EVENT_CODE } from '@element-plus/utils/aria'
-import { on, addClass } from '@element-plus/utils/dom'
-
-import type { Nullable } from '@element-plus/utils/types'
+import { generateId, on, addClass } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
+import { useNamespace } from '@element-plus/hooks'
+import type { Nullable } from '@element-plus/utils'
 import type { IElDropdownInstance } from './dropdown'
 
 export const useDropdown = () => {
@@ -21,6 +20,7 @@ export const initDropdownDomEvent = (
   triggerElm,
   _instance
 ) => {
+  const ns = useNamespace('dropdown')
   const menuItems = ref<Nullable<HTMLButtonElement[]>>(null)
   const menuItemsArray = ref<Nullable<HTMLElement[]>>(null)
   const dropdownElm = ref<Nullable<HTMLElement>>(null)
@@ -90,7 +90,7 @@ export const initDropdownDomEvent = (
     if (!_instance.props.splitButton) {
       triggerElm.setAttribute('role', 'button')
       triggerElm.setAttribute('tabindex', _instance.props.tabindex)
-      addClass(triggerElm, 'el-dropdown-selfdefine')
+      addClass(triggerElm, ns.b('selfdefine'))
     }
   }
 

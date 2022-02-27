@@ -1,6 +1,12 @@
-import { getCurrentInstance, h, ref, computed, watchEffect } from 'vue'
-import { debugWarn } from '@element-plus/utils/error'
-import { cellForced, defaultRenderCell, treeCellPrefix } from '../config'
+import { getCurrentInstance, h, ref, computed, watchEffect, unref } from 'vue'
+import { debugWarn } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
+import {
+  cellForced,
+  defaultRenderCell,
+  treeCellPrefix,
+  getDefaultClassName,
+} from '../config'
 import { parseWidth, parseMinWidth } from '../util'
 
 import type { ComputedRef } from 'vue'
@@ -16,6 +22,7 @@ function useRender<T>(
   const isSubColumn = ref(false)
   const realAlign = ref<string>()
   const realHeaderAlign = ref<string>()
+  const ns = useNamespace('table')
   watchEffect(() => {
     realAlign.value = props.align ? `is-${props.align}` : null
     // nextline help render
@@ -57,10 +64,17 @@ function useRender<T>(
     const source = cellForced[type] || {}
     Object.keys(source).forEach((prop) => {
       const value = source[prop]
-      if (value !== undefined) {
-        column[prop] = prop === 'className' ? `${column[prop]} ${value}` : value
+      if (prop !== 'className' && value !== undefined) {
+        column[prop] = value
       }
     })
+    const className = getDefaultClassName(type)
+    if (className) {
+      const forceClass = `${unref(ns.namespace)}-${className}`
+      column.className = column.className
+        ? `${column.className} ${forceClass}`
+        : forceClass
+    }
     return column
   }
 
@@ -123,7 +137,7 @@ function useRender<T>(
           style: {},
         }
         if (column.showOverflowTooltip) {
-          props.class += ' el-tooltip'
+          props.class = `${props.class} ${unref(ns.namespace)}-tooltip`
           props.style = {
             width: `${
               (data.column.realWidth || Number(data.column.width)) - 1

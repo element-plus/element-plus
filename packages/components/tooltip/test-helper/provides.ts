@@ -6,6 +6,8 @@ export const genTooltipProvides = () => {
   const onToggle = jest.fn()
   const onShow = jest.fn()
   const onHide = jest.fn()
+  const onBeforeShow = jest.fn()
+  const onBeforeHide = jest.fn()
   const id = ref('test_id')
   const open = ref(false)
   const controlled = ref(false)
@@ -17,6 +19,8 @@ export const genTooltipProvides = () => {
     onClose,
     onShow,
     onHide,
+    onBeforeShow,
+    onBeforeHide,
     id,
     open,
     controlled,

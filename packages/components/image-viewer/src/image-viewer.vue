@@ -1,78 +1,83 @@
 <template>
-  <transition name="viewer-fade">
-    <div
-      ref="wrapper"
-      :tabindex="-1"
-      class="el-image-viewer__wrapper"
-      :style="{ zIndex }"
-    >
+  <teleport to="body" :disabled="!teleported">
+    <transition name="viewer-fade" appear>
       <div
-        class="el-image-viewer__mask"
-        @click.self="hideOnClickModal && hide()"
-      />
+        ref="wrapper"
+        :tabindex="-1"
+        :class="ns.e('wrapper')"
+        :style="{ zIndex: computedZIndex }"
+      >
+        <div :class="ns.e('mask')" @click.self="hideOnClickModal && hide()" />
 
-      <!-- CLOSE -->
-      <span class="el-image-viewer__btn el-image-viewer__close" @click="hide">
-        <el-icon><close /></el-icon>
-      </span>
+        <!-- CLOSE -->
+        <span :class="[ns.e('btn'), ns.e('close')]" @click="hide">
+          <el-icon><close /></el-icon>
+        </span>
 
-      <!-- ARROW -->
-      <template v-if="!isSingle">
-        <span
-          class="el-image-viewer__btn el-image-viewer__prev"
-          :class="{ 'is-disabled': !infinite && isFirst }"
-          @click="prev"
-        >
-          <el-icon><arrow-left /></el-icon>
-        </span>
-        <span
-          class="el-image-viewer__btn el-image-viewer__next"
-          :class="{ 'is-disabled': !infinite && isLast }"
-          @click="next"
-        >
-          <el-icon><arrow-right /></el-icon>
-        </span>
-      </template>
-      <!-- ACTIONS -->
-      <div class="el-image-viewer__btn el-image-viewer__actions">
-        <div class="el-image-viewer__actions__inner">
-          <el-icon @click="handleActions('zoomOut')">
-            <zoom-out />
-          </el-icon>
-          <el-icon @click="handleActions('zoomIn')">
-            <zoom-in />
-          </el-icon>
-          <i class="el-image-viewer__actions__divider"></i>
-          <el-icon @click="toggleMode">
-            <component :is="mode.icon" />
-          </el-icon>
-          <i class="el-image-viewer__actions__divider"></i>
-          <el-icon @click="handleActions('anticlockwise')">
-            <refresh-left />
-          </el-icon>
-          <el-icon @click="handleActions('clockwise')">
-            <refresh-right />
-          </el-icon>
+        <!-- ARROW -->
+        <template v-if="!isSingle">
+          <span
+            :class="[
+              ns.e('btn'),
+              ns.e('prev'),
+              ns.is('disabled', !infinite && isFirst),
+            ]"
+            @click="prev"
+          >
+            <el-icon><arrow-left /></el-icon>
+          </span>
+          <span
+            :class="[
+              ns.e('btn'),
+              ns.e('next'),
+              ns.is('disabled', !infinite && isLast),
+            ]"
+            @click="next"
+          >
+            <el-icon><arrow-right /></el-icon>
+          </span>
+        </template>
+        <!-- ACTIONS -->
+        <div :class="[ns.e('btn'), ns.e('actions')]">
+          <div :class="ns.e('actions__inner')">
+            <el-icon @click="handleActions('zoomOut')">
+              <zoom-out />
+            </el-icon>
+            <el-icon @click="handleActions('zoomIn')">
+              <zoom-in />
+            </el-icon>
+            <i :class="ns.e('actions__divider')"></i>
+            <el-icon @click="toggleMode">
+              <component :is="mode.icon" />
+            </el-icon>
+            <i :class="ns.e('actions__divider')"></i>
+            <el-icon @click="handleActions('anticlockwise')">
+              <refresh-left />
+            </el-icon>
+            <el-icon @click="handleActions('clockwise')">
+              <refresh-right />
+            </el-icon>
+          </div>
         </div>
+        <!-- CANVAS -->
+        <div :class="ns.e('canvas')">
+          <img
+            v-for="(url, i) in urlList"
+            v-show="i === index"
+            :ref="(el) => (imgRefs[i] = el)"
+            :key="url"
+            :src="url"
+            :style="imgStyle"
+            :class="ns.e('img')"
+            @load="handleImgLoad"
+            @error="handleImgError"
+            @mousedown="handleMouseDown"
+          />
+        </div>
+        <slot />
       </div>
-      <!-- CANVAS -->
-      <div class="el-image-viewer__canvas">
-        <img
-          v-for="(url, i) in urlList"
-          v-show="i === index"
-          ref="img"
-          :key="url"
-          :src="url"
-          :style="imgStyle"
-          class="el-image-viewer__img"
-          @load="handleImgLoad"
-          @error="handleImgError"
-          @mousedown="handleMouseDown"
-        />
-      </div>
-      <slot />
-    </div>
-  </transition>
+    </transition>
+  </teleport>
 </template>
 
 <script lang="ts">
@@ -86,11 +91,12 @@ import {
   effectScope,
   markRaw,
 } from 'vue'
-import { useEventListener } from '@vueuse/core'
+import { useEventListener, isNumber } from '@vueuse/core'
+import { throttle } from 'lodash-unified'
 import ElIcon from '@element-plus/components/icon'
-import { useLocale } from '@element-plus/hooks'
-import { EVENT_CODE } from '@element-plus/utils/aria'
-import { rafThrottle, isFirefox } from '@element-plus/utils/util'
+import { useLocale, useNamespace, useZIndex } from '@element-plus/hooks'
+import { EVENT_CODE } from '@element-plus/constants'
+import { isFirefox } from '@element-plus/utils'
 import {
   Close,
   ArrowLeft,
@@ -141,8 +147,10 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const { t } = useLocale()
+    const ns = useNamespace('image-viewer')
+    const { nextZIndex } = useZIndex()
     const wrapper = ref<HTMLDivElement>()
-    const img = ref<HTMLImageElement>()
+    const imgRefs = ref<any[]>([])
 
     const scopeEventListener = effectScope()
 
@@ -176,16 +184,36 @@ export default defineComponent({
 
     const imgStyle = computed(() => {
       const { scale, deg, offsetX, offsetY, enableTransition } = transform.value
+      let translateX = offsetX / scale
+      let translateY = offsetY / scale
+
+      switch (deg % 360) {
+        case 90:
+        case -270:
+          ;[translateX, translateY] = [translateY, -translateX]
+          break
+        case 180:
+        case -180:
+          ;[translateX, translateY] = [-translateX, -translateY]
+          break
+        case 270:
+        case -90:
+          ;[translateX, translateY] = [-translateY, translateX]
+          break
+      }
+
       const style: CSSProperties = {
-        transform: `scale(${scale}) rotate(${deg}deg)`,
+        transform: `scale(${scale}) rotate(${deg}deg) translate(${translateX}px, ${translateY}px)`,
         transition: enableTransition ? 'transform .3s' : '',
-        marginLeft: `${offsetX}px`,
-        marginTop: `${offsetY}px`,
       }
       if (mode.value.name === Mode.CONTAIN.name) {
         style.maxWidth = style.maxHeight = '100%'
       }
       return style
+    })
+
+    const computedZIndex = computed(() => {
+      return isNumber(props.zIndex) ? props.zIndex : nextZIndex()
     })
 
     function hide() {
@@ -194,7 +222,7 @@ export default defineComponent({
     }
 
     function registerEventListener() {
-      const keydownHandler = rafThrottle((e: KeyboardEvent) => {
+      const keydownHandler = throttle((e: KeyboardEvent) => {
         switch (e.code) {
           // ESC
           case EVENT_CODE.esc:
@@ -222,17 +250,17 @@ export default defineComponent({
             break
         }
       })
-      const mousewheelHandler = rafThrottle(
+      const mousewheelHandler = throttle(
         (e: WheelEvent | any /* TODO: wheelDelta is deprecated */) => {
           const delta = e.wheelDelta ? e.wheelDelta : -e.detail
           if (delta > 0) {
             handleActions('zoomIn', {
-              zoomRate: 0.015,
+              zoomRate: 1.2,
               enableTransition: false,
             })
           } else {
             handleActions('zoomOut', {
-              zoomRate: 0.015,
+              zoomRate: 1.2,
               enableTransition: false,
             })
           }
@@ -260,17 +288,13 @@ export default defineComponent({
 
     function handleMouseDown(e: MouseEvent) {
       if (loading.value || e.button !== 0 || !wrapper.value) return
+      transform.value.enableTransition = false
 
       const { offsetX, offsetY } = transform.value
       const startX = e.pageX
       const startY = e.pageY
 
-      const divLeft = wrapper.value.clientLeft
-      const divRight = wrapper.value.clientLeft + wrapper.value.clientWidth
-      const divTop = wrapper.value.clientTop
-      const divBottom = wrapper.value.clientTop + wrapper.value.clientHeight
-
-      const dragHandler = rafThrottle((ev: MouseEvent) => {
+      const dragHandler = throttle((ev: MouseEvent) => {
         transform.value = {
           ...transform.value,
           offsetX: offsetX + ev.pageX - startX,
@@ -282,17 +306,7 @@ export default defineComponent({
         'mousemove',
         dragHandler
       )
-      useEventListener(document, 'mouseup', (evt) => {
-        const mouseX = evt.pageX
-        const mouseY = evt.pageY
-        if (
-          mouseX < divLeft ||
-          mouseX > divRight ||
-          mouseY < divTop ||
-          mouseY > divBottom
-        ) {
-          reset()
-        }
+      useEventListener(document, 'mouseup', () => {
         removeMousemove()
       })
 
@@ -336,7 +350,7 @@ export default defineComponent({
     function handleActions(action: ImageViewerAction, options = {}) {
       if (loading.value) return
       const { zoomRate, rotateDeg, enableTransition } = {
-        zoomRate: 0.2,
+        zoomRate: 1.4,
         rotateDeg: 90,
         enableTransition: true,
         ...options,
@@ -345,14 +359,16 @@ export default defineComponent({
         case 'zoomOut':
           if (transform.value.scale > 0.2) {
             transform.value.scale = parseFloat(
-              (transform.value.scale - zoomRate).toFixed(3)
+              (transform.value.scale / zoomRate).toFixed(3)
             )
           }
           break
         case 'zoomIn':
-          transform.value.scale = parseFloat(
-            (transform.value.scale + zoomRate).toFixed(3)
-          )
+          if (transform.value.scale < 7) {
+            transform.value.scale = parseFloat(
+              (transform.value.scale * zoomRate).toFixed(3)
+            )
+          }
           break
         case 'clockwise':
           transform.value.deg += rotateDeg
@@ -366,7 +382,7 @@ export default defineComponent({
 
     watch(currentImg, () => {
       nextTick(() => {
-        const $img = img.value
+        const $img = imgRefs.value[0]
         if (!$img?.complete) {
           loading.value = true
         }
@@ -388,13 +404,14 @@ export default defineComponent({
     return {
       index,
       wrapper,
-      img,
+      imgRefs,
       isSingle,
       isFirst,
       isLast,
       currentImg,
       imgStyle,
       mode,
+      computedZIndex,
       handleActions,
       prev,
       next,
@@ -403,6 +420,7 @@ export default defineComponent({
       handleImgLoad,
       handleImgError,
       handleMouseDown,
+      ns,
     }
   },
 })

@@ -14,9 +14,13 @@ import {
   useDocumentVisibility,
   useWindowFocus,
 } from '@vueuse/core'
-import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
-import { EVENT_CODE } from '@element-plus/utils/aria'
-import { throwError } from '@element-plus/utils/error'
+import {
+  buildProps,
+  definePropType,
+  mutable,
+  throwError,
+} from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight, Close } from '@element-plus/icons-vue'
 import { tabsRootContextKey } from '@element-plus/tokens'
@@ -34,13 +38,13 @@ export const tabNavProps = buildProps({
     default: () => mutable([] as const),
   },
   currentName: {
-    type: String,
+    type: [String, Number],
     default: '',
   },
   editable: Boolean,
   onTabClick: {
     type: definePropType<
-      (tab: TabsPaneContext, tabName: string, ev: Event) => void
+      (tab: TabsPaneContext, tabName: string | number, ev: Event) => void
     >(Function),
     default: NOOP,
   },

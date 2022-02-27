@@ -3,8 +3,8 @@
     :class="[
       ns.b(),
       type ? ns.m(type) : '',
-      disabled && 'is-disabled',
-      underline && !disabled && 'is-underline',
+      ns.is('disabled', disabled),
+      ns.is('underline', underline && !disabled),
     ]"
     :href="disabled || !href ? undefined : href"
     @click="handleClick"

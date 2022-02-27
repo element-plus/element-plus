@@ -16,3 +16,23 @@ const state = reactive({
 
 const { fits, url } = toRefs(state)
 </script>
+
+<style scoped>
+.demo-fit {
+  display: flex;
+  text-align: center;
+  justify-content: space-between;
+}
+.demo-fit .block {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 0;
+}
+
+.demo-fit .title {
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: var(--el-text-color-secondary);
+}
+</style>

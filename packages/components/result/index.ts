@@ -1,4 +1,4 @@
-import { withInstall } from '@element-plus/utils/with-install'
+import { withInstall } from '@element-plus/utils'
 import Result from './src/result.vue'
 
 export const ElResult = withInstall(Result)

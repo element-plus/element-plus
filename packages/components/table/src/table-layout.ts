@@ -1,7 +1,6 @@
 import { nextTick, ref, isRef } from 'vue'
-import { hasOwn } from '@vue/shared'
 import { isClient } from '@vueuse/core'
-import scrollbarWidth from '@element-plus/utils/scrollbar-width'
+import { hasOwn } from '@element-plus/utils'
 import { parseHeight } from './util'
 import type { Ref } from 'vue'
 
@@ -53,7 +52,7 @@ class TableLayout<T> {
     this.bodyHeight = ref(null)
     this.bodyScrollHeight = ref(0)
     this.fixedBodyHeight = ref(null)
-    this.gutterWidth = scrollbarWidth()
+    this.gutterWidth = 0
     for (const name in options) {
       if (hasOwn(options, name)) {
         if (isRef(this[name])) {
@@ -137,14 +136,21 @@ class TableLayout<T> {
 
   updateElsHeight() {
     if (!this.table.$ready) return nextTick(() => this.updateElsHeight())
-    const { headerWrapper, appendWrapper, footerWrapper, bodyWrapper } =
-      this.table.refs
+    const {
+      tableWrapper,
+      headerWrapper,
+      appendWrapper,
+      footerWrapper,
+      tableHeader,
+      tableBody,
+    } = this.table.refs
+    if (tableWrapper && tableWrapper.style.display === 'none') {
+      // avoid v-show
+      return
+    }
     this.appendHeight.value = appendWrapper ? appendWrapper.offsetHeight : 0
     if (this.showHeader && !headerWrapper) return
-
-    const headerTrElm: HTMLElement = headerWrapper
-      ? headerWrapper.querySelector('.el-table__header tr')
-      : null
+    const headerTrElm: HTMLElement = tableHeader ? tableHeader : null
     const noneHeader = this.headerDisplayNone(headerTrElm)
 
     const headerHeight = (this.headerHeight.value = !this.showHeader
@@ -160,7 +166,7 @@ class TableLayout<T> {
       return nextTick(() => this.updateElsHeight())
     }
     const tableHeight = (this.tableHeight.value =
-      this.table.vnode.el.clientHeight)
+      this.table?.vnode.el?.clientHeight)
     const footerHeight = (this.footerHeight.value = footerWrapper
       ? footerWrapper.offsetHeight
       : 0)
@@ -170,8 +176,7 @@ class TableLayout<T> {
       }
       this.bodyHeight.value =
         tableHeight - headerHeight - footerHeight + (footerWrapper ? 1 : 0)
-      this.bodyScrollHeight.value =
-        bodyWrapper.querySelector('.el-table__body')?.scrollHeight!
+      this.bodyScrollHeight.value = tableBody?.scrollHeight
     }
     this.fixedBodyHeight.value = this.scrollX.value
       ? this.bodyHeight.value - this.gutterWidth
@@ -216,14 +221,11 @@ class TableLayout<T> {
       flattenColumns.forEach((column) => {
         bodyMinWidth += Number(column.width || column.minWidth || 80)
       })
-
-      const scrollYWidth = this.scrollY.value ? this.gutterWidth : 0
-
-      if (bodyMinWidth <= bodyWidth - scrollYWidth) {
+      if (bodyMinWidth <= bodyWidth) {
         // DON'T HAVE SCROLL BAR
         this.scrollX.value = false
 
-        const totalFlexWidth = bodyWidth - scrollYWidth - bodyMinWidth
+        const totalFlexWidth = bodyWidth - bodyMinWidth
 
         if (flexColumns.length === 1) {
           flexColumns[0].realWidth =

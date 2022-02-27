@@ -84,7 +84,7 @@ tree-v2/filter
 | current-node-key      | key of initially selected node                                                                                                               | string, number        | —       |
 | filter-method         | this function will be executed on each node when use filter method. if return `false`, tree node will be hidden.                             | Function(value, data) | —       |
 | indent                | horizontal indentation of nodes in adjacent levels in pixels                                                                                 | number                | 16      |
-| icon                  | custome tree node icon                                                                                                                       | string                | -       |
+| icon                  | custome tree node icon                                                                                                                       | string / Component    | -       |
 
 ## props
 
@@ -93,7 +93,7 @@ tree-v2/filter
 | value     | unique identity key name for nodes, its value should be unique across the whole tree | string, number | id       |
 | label     | specify which key of node object is used as the node's label                         | string         | label    |
 | children  | specify which node object is used as the node's subtree                              | string         | children |
-| disabled  | specify which key of node object represents if node's checkbox is disabled           | boolean        | disabled |
+| disabled  | specify which key of node object represents if node's checkbox is disabled           | string         | disabled |
 
 ## Method
 
@@ -116,7 +116,7 @@ tree-v2/filter
 
 | Event Name       | Description                                          | Parameters                                                                                                                              |
 | ---------------- | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| node-click       | triggers when a node is clicked                      | `(data: TreeNodeData, node: TreeNode)`                                                                                                  |
+| node-click       | triggers when a node is clicked                      | `(data: TreeNodeData, node: TreeNode, e: MouseEvent)`                                                                                   |
 | node-contextmenu | triggers when a node is clicked by right button      | `(e: Event, data: TreeNodeData, node: TreeNode)`                                                                                        |
 | check-change     | triggers when the selected state of the node changes | `(data: TreeNodeData, checked: boolean)`                                                                                                |
 | check            | triggers after clicking the checkbox of a node       | `(data: TreeNodeData, info: { checkedKeys: TreeKey[],checkedNodes: TreeData, halfCheckedKeys: TreeKey[], halfCheckedNodes: TreeData,})` |

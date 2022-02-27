@@ -1,9 +1,6 @@
 <template>
   <table
-    :class="{
-      'el-calendar-table': true,
-      'is-range': isInRange,
-    }"
+    :class="[nsTable.b(), nsTable.is('range', isInRange)]"
     cellspacing="0"
     cellpadding="0"
   >
@@ -16,8 +13,8 @@
         v-for="(row, index) in rows"
         :key="index"
         :class="{
-          'el-calendar-table__row': true,
-          'el-calendar-table__row--hide-border': index === 0 && hideHeader,
+          [nsTable.e('row')]: true,
+          [nsTable.em('row', 'hide-border')]: index === 0 && hideHeader,
         }"
       >
         <td
@@ -26,7 +23,7 @@
           :class="getCellClass(cell)"
           @click="handlePickDay(cell)"
         >
-          <div class="el-calendar-day">
+          <div :class="nsDay.b()">
             <slot name="dateCell" :data="getSlotData(cell)">
               <span>{{ cell.text }}</span>
             </slot>
@@ -41,7 +38,7 @@
 import { computed, defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import localeData from 'dayjs/plugin/localeData'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
 import { dateTableProps, dateTableEmits } from './date-table'
 import type { Dayjs } from 'dayjs'
@@ -77,6 +74,8 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const { t, lang } = useLocale()
+    const nsTable = useNamespace('calendar-table')
+    const nsDay = useNamespace('calendar-day')
 
     const now = dayjs().locale(lang.value)
     // todo better way to get Day.js locale object
@@ -187,6 +186,9 @@ export default defineComponent({
       getCellClass,
       handlePickDay,
       getSlotData,
+
+      nsTable,
+      nsDay,
     }
   },
 })

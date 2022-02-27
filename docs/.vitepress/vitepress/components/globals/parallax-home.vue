@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref, reactive, computed } from 'vue'
 import { useParallax, useThrottleFn, useEventListener } from '@vueuse/core'
+// import dayjs from 'dayjs'
 import { useLang } from '../../composables/lang'
 import homeLocale from '../../../i18n/pages/home.json'
 import sponsorLocale from '../../../i18n/component/sponsors-home.json'
+import { isDark } from '../../composables/dark'
 import type { CSSProperties } from 'vue'
 
 const target = ref<HTMLElement | null>(null)
@@ -27,12 +29,13 @@ const containerStyle: CSSProperties = {
 }
 
 const cardStyle = computed(() => ({
-  background: '#fff',
+  background: 'var(--bg-color)',
   minHeight: '30rem',
   width: '50rem',
   borderRadius: '5px',
   transition: '.3s ease-out all',
-  boxShadow: '0 0 20px 0 rgba(255, 255, 255, 0.25)',
+  boxShadow:
+    isDark && !isDark.value ? '0 0 20px 0 rgba(255, 255, 255, 0.25)' : 'none',
   transform: `rotateX(${parallax.roll}deg) rotateY(${parallax.tilt}deg)`,
 }))
 
@@ -58,7 +61,7 @@ const handleScroll = useThrottleFn(() => {
   const ele = jumbotronRef.value
   if (ele) {
     const rect = ele.getBoundingClientRect()
-    const eleHeight = ele.clientHeight + 55
+    const eleHeight = ele.clientHeight
     let calHeight = (180 - rect.top) * 2
     if (calHeight < 0) calHeight = 0
     if (calHeight > eleHeight) calHeight = eleHeight
@@ -67,14 +70,95 @@ const handleScroll = useThrottleFn(() => {
 }, 10)
 
 useEventListener(window, 'scroll', handleScroll)
+
+// interface CountdownT {
+//   days: string
+//   hours: string
+//   minutes: string
+//   seconds: string
+// }
+// const releaseDate = dayjs('2022-02-07T11:00:00.000+08:00')
+// const isBeforeRelease = ref(false)
+// const countdownText = ref<CountdownT>({} as CountdownT)
+// const calReleaseCountDown = () => {
+//   if (dayjs().isBefore(releaseDate)) {
+//     isBeforeRelease.value = true
+//     const dayDiff = releaseDate.diff(dayjs(), 'day')
+//     countdownText.value.days = String(dayDiff).padStart(2, '0')
+//     const hourDiff = releaseDate.diff(dayjs(), 'hour') - dayDiff * 24
+//     countdownText.value.hours = String(hourDiff).padStart(2, '0')
+//     const minuteDiff =
+//       releaseDate.diff(dayjs(), 'minute') - hourDiff * 60 - dayDiff * 24 * 60
+//     countdownText.value.minutes = String(minuteDiff).padStart(2, '0')
+//     const secondDiff =
+//       releaseDate.diff(dayjs(), 'second') -
+//       minuteDiff * 60 -
+//       hourDiff * 60 * 60 -
+//       dayDiff * 24 * 60 * 60
+//     countdownText.value.seconds = String(secondDiff).padStart(2, '0')
+//   } else {
+//     pauseCountdown()
+//   }
+// }
+
+// const { pause: pauseCountdown } = useIntervalFn(
+//   () => calReleaseCountDown(),
+//   1000,
+//   { immediateCallback: true }
+// )
 </script>
 
 <template>
   <div ref="target" class="home-page">
+    <!-- <template v-if="isBeforeRelease">
+      <div class="banner">
+        <div class="banner-desc banner-dot">
+          <h1>
+            <span>{{ homeLang['title_release'] }}</span>
+          </h1>
+          <p>{{ homeLang['title_sub'] }}</p>
+        </div>
+      </div>
+      <div class="count-down">
+        <div class="cd-main">
+          <div class="cd-date">Feb 7, 2022, 11 AM GMT+8</div>
+          <div class="cd-time">
+            <div class="cd-item">
+              <div class="cd-num">
+                <span>{{ countdownText.days[0] }}</span>
+                <span>{{ countdownText.days[1] }}</span>
+              </div>
+              <div class="cd-str">DAYS</div>
+            </div>
+            <div class="cd-item">
+              <div class="cd-num">
+                <span>{{ countdownText.hours[0] }}</span>
+                <span>{{ countdownText.hours[1] }}</span>
+              </div>
+              <div class="cd-str">HOURS</div>
+            </div>
+            <div class="cd-item">
+              <div class="cd-num">
+                <span>{{ countdownText.minutes[0] }}</span>
+                <span>{{ countdownText.minutes[1] }}</span>
+              </div>
+              <div class="cd-str">MINUTES</div>
+            </div>
+            <div class="cd-item">
+              <div class="cd-num">
+                <span>{{ countdownText.seconds[0] }}</span>
+                <span>{{ countdownText.seconds[1] }}</span>
+              </div>
+              <div class="cd-str">SECONDS</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template> -->
     <div class="banner">
       <div class="banner-desc">
-        <h1>{{ homeLang['1'] }}</h1>
-        <p>{{ homeLang['2'] }}</p>
+        <h1>{{ homeLang['title'] }}</h1>
+        <p>{{ homeLang['title_sub'] }}</p>
       </div>
     </div>
     <div ref="jumbotronRef" class="jumbotron">
@@ -171,7 +255,7 @@ useEventListener(window, 'scroll', handleScroll)
         {{ homeLang['12'] }}
       </a>
       <a
-        href="https://github.com/element-plus/element-plus-starter"
+        href="https://element.eleme.io/"
         class="footer-main-link"
         target="_blank"
       >
@@ -225,6 +309,19 @@ useEventListener(window, 'scroll', handleScroll)
   .banner {
     text-align: center;
   }
+  .banner-dot h1 span {
+    position: relative;
+    &::after {
+      content: '';
+      position: absolute;
+      right: -12px;
+      bottom: 8px;
+      background: var(--el-color-primary);
+      height: 8px;
+      width: 8px;
+      border-radius: 100%;
+    }
+  }
   .banner-desc {
     padding-top: 30px;
 
@@ -240,6 +337,42 @@ useEventListener(window, 'scroll', handleScroll)
       line-height: 28px;
       color: var(--text-color-light);
       margin: 20px 0 5px;
+    }
+  }
+
+  .count-down {
+    .cd-main {
+      background: #f1f6fe;
+      border-radius: 10px;
+      width: 50%;
+      margin: 60px auto 120px;
+      padding: 30px 0;
+      font-size: 24px;
+      color: #666;
+      text-align: center;
+      font-weight: 600;
+    }
+    .cd-date {
+      font-size: 28px;
+    }
+    .cd-time {
+      display: flex;
+      justify-content: space-between;
+      width: 80%;
+      margin: 10px auto 0;
+    }
+    .cd-num {
+      color: var(--el-color-primary);
+      font-size: 78px;
+      font-weight: bold;
+    }
+    .cd-num span {
+      width: 50%;
+      display: inline-block;
+    }
+    .cd-str {
+      font-size: 22px;
+      margin-top: -5px;
     }
   }
 
@@ -298,7 +431,6 @@ useEventListener(window, 'scroll', handleScroll)
     }
     .jumbotron-red {
       transition: height 0.1s;
-      background: #fff;
       position: absolute;
       left: 0;
       top: 0;
@@ -410,19 +542,10 @@ useEventListener(window, 'scroll', handleScroll)
     }
   }
 
-  @media (max-width: 1000px) {
-    .banner .container {
-      img {
-        display: none;
-      }
-    }
-    .jumbotron,
-    .banner {
-      display: none;
-    }
-  }
-
   @media (max-width: 768px) {
+    .banner-desc {
+      padding-top: 0px;
+    }
     .cards {
       li {
         width: 80%;
@@ -438,6 +561,9 @@ useEventListener(window, 'scroll', handleScroll)
       display: none;
     }
     .banner-desc {
+      h1 {
+        font-size: 22px;
+      }
       #line2 {
         display: none;
       }
@@ -446,6 +572,39 @@ useEventListener(window, 'scroll', handleScroll)
       }
       p {
         width: auto;
+      }
+    }
+    .banner-dot h1 span {
+      &::after {
+        right: -8px;
+        bottom: 2px;
+        height: 6px;
+        width: 6px;
+      }
+    }
+    .count-down {
+      .cd-main {
+        width: 90%;
+        margin: 40px auto 40px;
+        padding: 20px 0;
+      }
+      .cd-date {
+        font-size: 22px;
+      }
+      .cd-num {
+        font-size: 38px;
+      }
+      .cd-str {
+        font-size: 12px;
+        margin-top: 0px;
+      }
+    }
+    .sponsors-list {
+      display: flex;
+      flex-direction: column;
+      align-content: center;
+      .sponsor {
+        justify-content: left;
       }
     }
   }

@@ -1,6 +1,6 @@
 import CascaderPanel from './src/index.vue'
 import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
+import type { SFCWithInstall } from '@element-plus/utils'
 
 CascaderPanel.install = (app: App): void => {
   app.component(CascaderPanel.name, CascaderPanel)

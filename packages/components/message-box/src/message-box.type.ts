@@ -92,6 +92,9 @@ export interface ElMessageBoxOptions {
   /** Whether to align the content in center */
   center?: boolean
 
+  /** Whether MessageBox can be drag */
+  draggable?: boolean
+
   /** Content of the MessageBox */
   message?: string | VNode
 

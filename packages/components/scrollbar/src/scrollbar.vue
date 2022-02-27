@@ -1,11 +1,11 @@
 <template>
-  <div ref="scrollbar$" class="el-scrollbar">
+  <div ref="scrollbar$" :class="ns.b()">
     <div
       ref="wrap$"
       :class="[
         wrapClass,
-        'el-scrollbar__wrap',
-        native ? '' : 'el-scrollbar__wrap--hidden-default',
+        ns.e('wrap'),
+        { [ns.em('wrap', 'hidden-default')]: !native },
       ]"
       :style="style"
       @scroll="handleScroll"
@@ -13,21 +13,21 @@
       <component
         :is="tag"
         ref="resize$"
-        :class="['el-scrollbar__view', viewClass]"
+        :class="[ns.e('view'), viewClass]"
         :style="viewStyle"
       >
         <slot />
       </component>
     </div>
     <template v-if="!native">
-      <bar :move="moveX" :ratio="ratioX" :size="sizeWidth" :always="always" />
       <bar
-        :move="moveY"
-        :ratio="ratioY"
-        :size="sizeHeight"
-        vertical
+        ref="barRef"
+        :height="sizeHeight"
+        :width="sizeWidth"
         :always="always"
-      />
+        :ratio-x="ratioX"
+        :ratio-y="ratioY"
+      ></bar>
     </template>
   </div>
 </template>
@@ -43,9 +43,9 @@ import {
   reactive,
 } from 'vue'
 import { useResizeObserver, useEventListener } from '@vueuse/core'
-import { addUnit, isNumber } from '@element-plus/utils/util'
-import { debugWarn } from '@element-plus/utils/error'
+import { isNumber, debugWarn, addUnit } from '@element-plus/utils'
 import { scrollbarContextKey } from '@element-plus/tokens'
+import { useNamespace } from '@element-plus/hooks'
 import Bar from './bar.vue'
 
 import { scrollbarProps, scrollbarEmits } from './scrollbar'
@@ -60,6 +60,8 @@ export default defineComponent({
   emits: scrollbarEmits,
 
   setup(props, { emit }) {
+    const ns = useNamespace('scrollbar')
+
     let stopResizeObserver: (() => void) | undefined = undefined
     let stopResizeListener: (() => void) | undefined = undefined
 
@@ -69,6 +71,7 @@ export default defineComponent({
 
     const sizeWidth = ref('0')
     const sizeHeight = ref('0')
+    const barRef = ref()
     const moveX = ref(0)
     const moveY = ref(0)
     const ratioY = ref(1)
@@ -85,13 +88,7 @@ export default defineComponent({
 
     const handleScroll = () => {
       if (wrap$.value) {
-        const offsetHeight = wrap$.value.offsetHeight - GAP
-        const offsetWidth = wrap$.value.offsetWidth - GAP
-
-        moveY.value =
-          ((wrap$.value.scrollTop * 100) / offsetHeight) * ratioY.value
-        moveX.value =
-          ((wrap$.value.scrollLeft * 100) / offsetWidth) * ratioX.value
+        barRef.value?.handleScroll(wrap$.value)
 
         emit('scroll', {
           scrollTop: wrap$.value.scrollTop,
@@ -118,7 +115,6 @@ export default defineComponent({
 
     const update = () => {
       if (!wrap$.value) return
-
       const offsetHeight = wrap$.value.offsetHeight - GAP
       const offsetWidth = wrap$.value.offsetWidth - GAP
 
@@ -154,6 +150,19 @@ export default defineComponent({
       { immediate: true }
     )
 
+    watch(
+      () => [props.maxHeight, props.height],
+      () => {
+        if (!props.native)
+          nextTick(() => {
+            update()
+            if (wrap$.value) {
+              barRef.value?.handleScroll(wrap$.value)
+            }
+          })
+      }
+    )
+
     provide(
       scrollbarContextKey,
       reactive({
@@ -167,10 +176,11 @@ export default defineComponent({
     })
 
     return {
+      ns,
       scrollbar$,
       wrap$,
       resize$,
-
+      barRef,
       moveX,
       moveY,
       ratioX,

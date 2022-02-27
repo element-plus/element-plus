@@ -1,5 +1,4 @@
-import { isBool } from '@element-plus/utils/util'
-import { buildProps } from '@element-plus/utils/props'
+import { isBoolean, buildProps } from '@element-plus/utils'
 import type CheckTag from './check-tag.vue'
 import type { ExtractPropTypes } from 'vue'
 
@@ -12,8 +11,8 @@ export const checkTagProps = buildProps({
 export type CheckTagProps = ExtractPropTypes<typeof checkTagProps>
 
 export const checkTagEmits = {
-  'update:checked': (value: boolean) => isBool(value),
-  change: (value: boolean) => isBool(value),
+  'update:checked': (value: boolean) => isBoolean(value),
+  change: (value: boolean) => isBoolean(value),
 }
 export type CheckTagEmits = typeof checkTagEmits
 

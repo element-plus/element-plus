@@ -1,4 +1,4 @@
-import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
+import { buildProps, definePropType, mutable } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
 
 export const imageViewerProps = buildProps({
@@ -8,7 +8,6 @@ export const imageViewerProps = buildProps({
   },
   zIndex: {
     type: Number,
-    default: 2000,
   },
   initialIndex: {
     type: Number,
@@ -19,6 +18,10 @@ export const imageViewerProps = buildProps({
     default: true,
   },
   hideOnClickModal: {
+    type: Boolean,
+    default: false,
+  },
+  teleported: {
     type: Boolean,
     default: false,
   },

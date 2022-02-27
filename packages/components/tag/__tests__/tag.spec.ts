@@ -23,11 +23,11 @@ describe('Tag.vue', () => {
   test('type', () => {
     const wrapper = mount(Tag, {
       props: {
-        type: 'primary',
+        type: 'success',
       },
     })
     const vm = wrapper.vm
-    expect(vm.$el.classList.contains('el-tag--primary')).toEqual(true)
+    expect(vm.$el.classList.contains('el-tag--success')).toEqual(true)
   })
 
   test('hit', () => {

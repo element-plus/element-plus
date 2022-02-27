@@ -7,29 +7,6 @@ lang: en-US
 
 Informs users while preserving the current page state.
 
-<style lang="scss" scoped>
-.example-showcase {
-  .dialog-footer button:first-child {
-    margin-right: 10px;
-  }
-  .full-image {
-    width: 100%;
-  }
-  .el-dialog__wrapper {
-    margin: 0;
-  }
-  .el-select {
-    width: 300px;
-  }
-  .el-input {
-    width: 300px;
-  }
-  .el-button--text {
-    margin-right: 15px;
-  }
-}
-</style>
-
 ## Basic usage
 
 Dialog pops up a dialog box, and it's quite customizable.
@@ -43,6 +20,22 @@ dialog/basic-usage
 :::tip
 
 `before-close` only works when user clicks the close icon or the backdrop. If you have buttons that close the Dialog in the `footer` named slot, you can add what you would do with `before-close` in the buttons' click event handler.
+
+:::
+
+## Focus trapping
+
+Dialog traps focus inside the dialog content which enables your users to navigate the content via keyboard.
+
+:::tip
+
+Focusing on other element after the dialog is closed will only work when `destroy-on-close` is enabled
+
+:::
+
+:::demo
+
+dialog/focus-trapping
 
 :::
 
@@ -92,6 +85,16 @@ dialog/destroy-on-close
 
 :::
 
+## Draggable Dialog
+
+Try to drag the `header` part.
+
+:::demo Set `draggable` to `true` to drag.
+
+dialog/draggable-dialog
+
+:::
+
 :::tip
 
 When using `modal` = false, please make sure that `append-to-body` was set to **true**, because `Dialog` was positioned by `position: relative`, when `modal` gets removed, `Dialog` will position itself based on the current position in the DOM, instead of `Document.Body`, thus the style will be messed up.
@@ -117,6 +120,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 | close-on-press-escape | whether the Dialog can be closed by pressing ESC                                                  | boolean                                          | —               | true    |
 | show-close            | whether to show a close button                                                                    | boolean                                          | —               | true    |
 | before-close          | callback before Dialog closes, and it will prevent Dialog from closing                            | function(done)，done is used to close the Dialog | —               | —       |
+| draggable             | enable dragging feature for Dialog                                                                | boolean                                          | —               | false   |
 | center                | whether to align the header and footer in center                                                  | boolean                                          | —               | false   |
 | destroy-on-close      | Destroy elements in Dialog when closed                                                            | boolean                                          | —               | false   |
 
@@ -130,9 +134,11 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 
 ## Events
 
-| Event Name | Description                                     | Parameters |
-| ---------- | ----------------------------------------------- | ---------- |
-| open       | triggers when the Dialog opens                  | —          |
-| opened     | triggers when the Dialog opening animation ends | —          |
-| close      | triggers when the Dialog closes                 | —          |
-| closed     | triggers when the Dialog closing animation ends | —          |
+| Event Name       | Description                                      | Parameters |
+| ---------------- | ------------------------------------------------ | ---------- |
+| open             | triggers when the Dialog opens                   | —          |
+| opened           | triggers when the Dialog opening animation ends  | —          |
+| close            | triggers when the Dialog closes                  | —          |
+| closed           | triggers when the Dialog closing animation ends  | —          |
+| open-auto-focus  | triggers after Dialog opens and content focused  | —          |
+| close-auto-focus | triggers after Dialog closed and content focused | —          |

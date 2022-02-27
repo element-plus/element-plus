@@ -17,8 +17,7 @@ import {
 import { useTimeoutFn } from '@vueuse/core'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElTooltip from '@element-plus/components/tooltip'
-import { buildProps } from '@element-plus/utils/props'
-import { throwError } from '@element-plus/utils/error'
+import { buildProps, throwError } from '@element-plus/utils'
 import { ArrowDown, ArrowRight } from '@element-plus/icons-vue'
 import { ElIcon } from '@element-plus/components/icon'
 import useMenu from './use-menu'
@@ -46,6 +45,10 @@ export const subMenuProps = buildProps({
   popperAppendToBody: {
     type: Boolean,
     default: undefined,
+  },
+  popperOffset: {
+    type: Number,
+    default: 6,
   },
 } as const)
 export type SubMenuProps = ExtractPropTypes<typeof subMenuProps>
@@ -313,7 +316,7 @@ export default defineComponent({
               visible: opened.value,
               effect: 'light',
               pure: true,
-              offset: 6,
+              offset: props.popperOffset,
               showArrow: false,
               persistent: true,
               popperClass: props.popperClass,

@@ -3,6 +3,16 @@ import { mount } from '@vue/test-utils'
 import { tick, defineGetter, makeScroll } from '@element-plus/test-utils'
 import InfiniteScroll, { SCOPE, DEFAULT_DELAY } from '../src/index'
 
+jest.mock('lodash-unified', () => {
+  return {
+    throttle: jest.fn((fn) => {
+      fn.cancel = jest.fn()
+      fn.flush = jest.fn()
+      return fn
+    }),
+  }
+})
+
 const CONTAINER_HEIGHT = 200
 const ITEM_HEIGHT = 100
 const CONTAINER_STYLE = `overflow-y: auto;`
@@ -22,7 +32,7 @@ const _mount = (options: Record<string, unknown>) =>
     {
       ...options,
       template: `
-    <ul v-infinite-scroll="load" ${options.extraAttrs}>
+    <ul v-infinite-scroll="load" ${options.extraAttrs} ref="ulRef">
       <li
         v-for="i in count"
         :key="i"
@@ -199,5 +209,39 @@ describe('InfiniteScroll', () => {
     // won't trigger load when scroll back
     await makeScroll(documentElement, 'scrollTop', 0)
     expect(countListItem(wrapper)).toBe(INITIAL_VALUE + 1)
+  })
+
+  test('callback will not be triggered infinitely', async () => {
+    const restoreClientHeight = defineGetter(
+      window.HTMLElement.prototype,
+      'clientHeight',
+      0,
+      CONTAINER_HEIGHT
+    )
+    const restoreScrollHeight = defineGetter(
+      window.HTMLElement.prototype,
+      'scrollHeight',
+      0,
+      function () {
+        return (
+          Array.from(this.getElementsByClassName(LIST_ITEM_CLASS)).length *
+          ITEM_HEIGHT
+        )
+      }
+    )
+    const wrapper = _mount({
+      extraAttrs: `style="${CONTAINER_STYLE}"`,
+      setup,
+    })
+
+    await tick(INITIAL_TICK)
+    expect(countListItem(wrapper)).toBe(0)
+
+    restoreClientHeight()
+    restoreScrollHeight()
+
+    wrapper.vm.$refs.ulRef.ElInfiniteScroll.instance.count++
+    await nextTick()
+    expect(countListItem(wrapper)).toBe(INITIAL_VALUE)
   })
 })
