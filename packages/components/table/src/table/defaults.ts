@@ -129,7 +129,7 @@ interface TableProps<T> {
   load?: (row: T, treeNode: TreeNode, resolve: (data: T[]) => void) => void
   className?: string
   style?: CSSProperties
-  tableLayout: Layout
+  tableLayout?: Layout
 }
 
 interface Sort {
