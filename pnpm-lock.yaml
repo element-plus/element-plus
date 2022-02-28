@@ -16,7 +16,7 @@ importers:
       '@element-plus/constants': workspace:*
       '@element-plus/directives': workspace:*
       '@element-plus/hooks': workspace:*
-      '@element-plus/icons-vue': ^0.2.7
+      '@element-plus/icons-vue': ^1.0.0
       '@element-plus/locale': workspace:*
       '@element-plus/test-utils': workspace:*
       '@element-plus/theme-chalk': workspace:*
@@ -98,7 +98,7 @@ importers:
       '@element-plus/constants': link:packages/constants
       '@element-plus/directives': link:packages/directives
       '@element-plus/hooks': link:packages/hooks
-      '@element-plus/icons-vue': 0.2.7_vue@3.2.31
+      '@element-plus/icons-vue': 1.0.0_vue@3.2.31
       '@element-plus/locale': link:packages/locale
       '@element-plus/test-utils': link:packages/test-utils
       '@element-plus/theme-chalk': link:packages/theme-chalk
@@ -212,7 +212,7 @@ importers:
       '@vueuse/core': 7.6.2_vue@3.2.31
       axios: 0.26.0
       clipboard-copy: 4.0.1
-      element-plus: 2.0.2_1a412d14def5ff5ca1122000e4bee666
+      element-plus: 2.0.3_1a412d14def5ff5ca1122000e4bee666
       normalize.css: 8.0.1
       nprogress: 0.2.0
       prism-theme-vars: 0.2.2
@@ -243,7 +243,7 @@ importers:
   packages/element-plus:
     specifiers:
       '@ctrl/tinycolor': ^3.4.0
-      '@element-plus/icons-vue': ^0.2.7
+      '@element-plus/icons-vue': ^1.0.0
       '@popperjs/core': ^2.11.2
       '@types/lodash': ^4.14.178
       '@types/lodash-es': ^4.17.6
@@ -260,7 +260,7 @@ importers:
       vue-router: ^4.0.12
     dependencies:
       '@ctrl/tinycolor': 3.4.0
-      '@element-plus/icons-vue': 0.2.7_vue@3.2.31
+      '@element-plus/icons-vue': 1.0.0_vue@3.2.31
       '@popperjs/core': 2.11.2
       '@vueuse/core': 7.6.2_vue@3.2.31
       async-validator: 4.0.7
@@ -314,14 +314,14 @@ importers:
 
   play:
     specifiers:
-      '@element-plus/icons-vue': ^0.2.7
+      '@element-plus/icons-vue': ^1.0.0
       '@vitejs/plugin-vue': ^2.2.2
       unplugin-vue-components: ^0.17.20
       vite: ^2.8.4
       vite-plugin-inspect: ^0.3.15
       vite-plugin-mkcert: ^1.5.2
     dependencies:
-      '@element-plus/icons-vue': 0.2.7_vue@3.2.31
+      '@element-plus/icons-vue': 1.0.0_vue@3.2.31
     devDependencies:
       '@vitejs/plugin-vue': 2.2.2_vite@2.8.4+vue@3.2.31
       unplugin-vue-components: 0.17.20_8bd48d7d1410260319f6d1eb349a3067
@@ -1910,6 +1910,14 @@ packages:
 
   /@element-plus/icons-vue/0.2.7_vue@3.2.31:
     resolution: {integrity: sha512-S8kDbfVaWkQvbUYQE1ui448tzaHfUvyESCep9J6uPRlViyQPXjdIfwLBhV6AmQSOfFS8rL+xehJGhvzPXLrSBg==}
+    peerDependencies:
+      vue: ^3.2.0
+    dependencies:
+      vue: 3.2.31
+    dev: false
+
+  /@element-plus/icons-vue/1.0.0_vue@3.2.31:
+    resolution: {integrity: sha512-v8W6uiOfwq9GRWBLc0fvp0WwExU09BLdYfldRBxWUCJHeJ9WHeFrtt6BdixGVl9SCZ2V5soB8gi4tr365a9p/Q==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
@@ -5369,8 +5377,8 @@ packages:
     resolution: {integrity: sha512-Hk61vXXKRb2cd3znPE9F+2pLWdIOmP7GjiTj45y6L3W/lO+hSnUSUhq+6lEaERWBdZOHbk2s3YV5c9xVl3boVw==}
     dev: true
 
-  /element-plus/2.0.2_1a412d14def5ff5ca1122000e4bee666:
-    resolution: {integrity: sha512-URjC0HwwiqtlLxqTmHXQ31WXrdAq4ChWyyn52OcQs3PRsnMPfahGVq2AWnfzzlzlhVeI5lY3HQiuB1zDathS+g==}
+  /element-plus/2.0.3_1a412d14def5ff5ca1122000e4bee666:
+    resolution: {integrity: sha512-k+b4V4sGmgOpOYjrAWyp0k+N1mVaIZQ9LpbXWvmJNzE+j21DYOe9m1zGn5mFDPgeLOZcUS7QzzwYAommhwFj0g==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:

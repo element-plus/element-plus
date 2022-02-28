@@ -59,7 +59,7 @@
     "@element-plus/constants": "workspace:*",
     "@element-plus/directives": "workspace:*",
     "@element-plus/hooks": "workspace:*",
-    "@element-plus/icons-vue": "^0.2.7",
+    "@element-plus/icons-vue": "^1.0.0",
     "@element-plus/locale": "workspace:*",
     "@element-plus/test-utils": "workspace:*",
     "@element-plus/theme-chalk": "workspace:*",

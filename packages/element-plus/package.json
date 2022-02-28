@@ -49,7 +49,7 @@
   },
   "dependencies": {
     "@ctrl/tinycolor": "^3.4.0",
-    "@element-plus/icons-vue": "^0.2.7",
+    "@element-plus/icons-vue": "^1.0.0",
     "@popperjs/core": "^2.11.2",
     "@vueuse/core": "^7.6.2",
     "async-validator": "^4.0.7",
