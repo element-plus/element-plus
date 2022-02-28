@@ -749,9 +749,9 @@ describe('Table.vue', () => {
       )
       expect(lastCells.map((node) => node.text())).toEqual([
         '80',
+        '92',
+        '92',
         '95',
-        '92',
-        '92',
         '100',
       ])
       await doubleWait()
