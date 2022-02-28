@@ -1,5 +1,6 @@
 import { Back } from '@element-plus/icons-vue'
 import type { ExtractPropTypes, PropType, Component } from 'vue'
+import type PageHeader from './page-header.vue'
 
 export const pageHeaderProps = {
   icon: {
@@ -18,3 +19,5 @@ export const pageHeaderEmits = {
   back: () => true,
 }
 export type PageHeaderEmits = typeof pageHeaderEmits
+
+export type PageHeaderInstance = InstanceType<typeof PageHeader>

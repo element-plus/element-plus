@@ -3,7 +3,7 @@
     <div :class="ns.e('left')" @click="handleClick">
       <div v-if="icon || $slots.icon" :class="ns.e('icon')">
         <slot name="icon">
-          <el-icon v-if="icon"><component :is="icon" /></el-icon>
+          <ElIcon v-if="icon"><component :is="icon" /></ElIcon>
         </slot>
       </div>
       <div :class="ns.e('title')">
@@ -15,36 +15,23 @@
     </div>
   </div>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
 import { defineComponent } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { pageHeaderEmits, pageHeaderProps } from './page-header'
 
-export default defineComponent({
+defineOptions({
   name: 'ElPageHeader',
-
-  components: {
-    ElIcon,
-  },
-
-  props: pageHeaderProps,
-  emits: pageHeaderEmits,
-
-  setup(_, { emit }) {
-    const { t } = useLocale()
-    const ns = useNamespace('page-header')
-
-    function handleClick() {
-      emit('back')
-    }
-
-    return {
-      handleClick,
-      t,
-      ns,
-    }
-  },
 })
+const props = defineProps(pageHeaderProps)
+const emit = defineEmits(pageHeaderEmits)
+
+const { t } = useLocale()
+const ns = useNamespace('page-header')
+
+function handleClick() {
+  emit('back')
+}
 </script>
