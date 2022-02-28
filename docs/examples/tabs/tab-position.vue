@@ -21,7 +21,6 @@ const tabPosition = ref('left')
 <style>
 .demo-tabs > .el-tabs__content {
   padding: 32px;
-  background-color: #f4f5f7;
   color: #6b778c;
   font-size: 32px;
   font-weight: 600;
