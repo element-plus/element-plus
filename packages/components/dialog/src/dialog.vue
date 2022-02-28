@@ -89,6 +89,7 @@ const {
   style,
   handleClose,
   rendered,
+  zIndex,
 } = dialog
 
 provide(elDialogInjectionKey, {
