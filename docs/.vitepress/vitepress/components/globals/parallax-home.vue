@@ -5,6 +5,7 @@ import { useParallax, useThrottleFn, useEventListener } from '@vueuse/core'
 import { useLang } from '../../composables/lang'
 import homeLocale from '../../../i18n/pages/home.json'
 import sponsorLocale from '../../../i18n/component/sponsors-home.json'
+import { isDark } from '../../composables/dark'
 import type { CSSProperties } from 'vue'
 
 const target = ref<HTMLElement | null>(null)
@@ -28,12 +29,13 @@ const containerStyle: CSSProperties = {
 }
 
 const cardStyle = computed(() => ({
-  background: '#fff',
+  background: 'var(--bg-color)',
   minHeight: '30rem',
   width: '50rem',
   borderRadius: '5px',
   transition: '.3s ease-out all',
-  boxShadow: '0 0 20px 0 rgba(255, 255, 255, 0.25)',
+  boxShadow:
+    isDark && !isDark.value ? '0 0 20px 0 rgba(255, 255, 255, 0.25)' : 'none',
   transform: `rotateX(${parallax.roll}deg) rotateY(${parallax.tilt}deg)`,
 }))
 
@@ -59,7 +61,7 @@ const handleScroll = useThrottleFn(() => {
   const ele = jumbotronRef.value
   if (ele) {
     const rect = ele.getBoundingClientRect()
-    const eleHeight = ele.clientHeight + 55
+    const eleHeight = ele.clientHeight
     let calHeight = (180 - rect.top) * 2
     if (calHeight < 0) calHeight = 0
     if (calHeight > eleHeight) calHeight = eleHeight
@@ -429,7 +431,6 @@ useEventListener(window, 'scroll', handleScroll)
     }
     .jumbotron-red {
       transition: height 0.1s;
-      background: #fff;
       position: absolute;
       left: 0;
       top: 0;

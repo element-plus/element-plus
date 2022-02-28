@@ -1,5 +1,5 @@
 import { isClient } from '@vueuse/core'
-import { on } from '@element-plus/utils'
+import { isElement } from '@element-plus/utils'
 
 import type {
   ComponentPublicInstance,
@@ -22,8 +22,8 @@ const nodeList: FlushList = new Map()
 let startClick: MouseEvent
 
 if (isClient) {
-  on(document, 'mousedown', (e: MouseEvent) => (startClick = e))
-  on(document, 'mouseup', (e: MouseEvent) => {
+  document.addEventListener('mousedown', (e: MouseEvent) => (startClick = e))
+  document.addEventListener('mouseup', (e: MouseEvent) => {
     for (const handlers of nodeList.values()) {
       for (const { documentHandler } of handlers) {
         documentHandler(e as MouseEvent, startClick)
@@ -39,7 +39,7 @@ function createDocumentHandler(
   let excludes: HTMLElement[] = []
   if (Array.isArray(binding.arg)) {
     excludes = binding.arg
-  } else if ((binding.arg as unknown) instanceof HTMLElement) {
+  } else if (isElement(binding.arg)) {
     // due to current implementation on binding type is wrong the type casting is necessary here
     excludes.push(binding.arg as unknown as HTMLElement)
   }

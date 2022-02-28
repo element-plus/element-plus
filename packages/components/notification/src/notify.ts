@@ -1,7 +1,7 @@
 import { createVNode, render } from 'vue'
 import { isClient } from '@vueuse/core'
 import { useZIndex } from '@element-plus/hooks'
-import { isVNode, debugWarn } from '@element-plus/utils'
+import { isVNode, isElement, isString, debugWarn } from '@element-plus/utils'
 import NotificationConstructor from './notification.vue'
 import { notificationTypes } from './notification'
 
@@ -60,14 +60,14 @@ const notify: NotifyFn & Partial<Notify> = function (options = {}) {
   }
 
   let appendTo: HTMLElement | null = document.body
-  if (options.appendTo instanceof HTMLElement) {
+  if (isElement(options.appendTo)) {
     appendTo = options.appendTo
-  } else if (typeof options.appendTo === 'string') {
+  } else if (isString(options.appendTo)) {
     appendTo = document.querySelector(options.appendTo)
   }
 
   // should fallback to default value with a warning
-  if (!(appendTo instanceof HTMLElement)) {
+  if (!isElement(appendTo)) {
     debugWarn(
       'ElNotification',
       'the appendTo option is not an HTMLElement. Falling back to document.body.'

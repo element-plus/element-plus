@@ -1,5 +1,26 @@
 ## Changelog
 
+### 2.0.4
+
+_2022-02-28_
+
+#### Features
+
+- Components [button] add icon slot (#6343 by @sxzz)
+
+#### Bug fixes
+
+- Docs jitter when expand source code (#6279 by @msidolphin)
+- Docs fix banner covering sponsor problem (#6269 by @msidolphin)
+- Deps update dependency @element-plus/icons-vue to v1 (#6319 by @renovate[bot])
+- Components [el-dialog] don't ignore z-index (#6332 by @purepear)
+- Components [el-dialog] revert focus trapping feature (#6346 by @JeremyWuuuuu)
+
+#### Refactors
+
+- Components [tag] switch to script-setup syntax (#6288 by @freedomlang)
+- Utils extract `isElement` (#6292 by @btea)
+
 ### 2.0.3
 
 _2022-02-25_

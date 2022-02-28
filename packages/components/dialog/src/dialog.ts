@@ -55,6 +55,10 @@ export const dialogProps = buildProps({
   zIndex: {
     type: Number,
   },
+  trapFocus: {
+    type: Boolean,
+    default: false,
+  },
 } as const)
 
 export type DialogProps = ExtractPropTypes<typeof dialogProps>

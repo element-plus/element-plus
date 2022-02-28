@@ -1,3 +1,5 @@
+import { isElement } from '@element-plus/utils'
+
 import type { ComponentPublicInstance } from 'vue'
 import type { UsePopperCoreConfigProps, Measurable } from './popper'
 
@@ -29,7 +31,7 @@ export const unwrapMeasurableEl = (
   let el: HTMLElement | null = null
   if (!$el) return null
 
-  if ('getBoundingClientRect' in $el || ($el as any) instanceof HTMLElement) {
+  if ('getBoundingClientRect' in $el || isElement($el)) {
     el = $el as HTMLElement
   } else {
     // refs can be Vue component
