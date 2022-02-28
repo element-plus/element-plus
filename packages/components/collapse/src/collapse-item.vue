@@ -56,9 +56,8 @@ import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElIcon from '@element-plus/components/icon'
 import { ArrowRight } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
-
+import { collapseContextKey } from '@element-plus/tokens'
 import { collapseItemProps } from './collapse-item'
-import type { CollapseProvider } from './collapse.type'
 
 defineOptions({
   name: 'ElCollapseItem',
@@ -66,16 +65,16 @@ defineOptions({
 
 const props = defineProps(collapseItemProps)
 
-const collapse = inject<CollapseProvider>('collapse')
+const collapse = inject(collapseContextKey)
 const ns = useNamespace('collapse')
 
 const focusing = ref(false)
 const isClick = ref(false)
 const id = ref(generateId())
 
-const isActive = computed(() => {
-  return collapse?.activeNames.value.indexOf(props.name) > -1
-})
+const isActive = computed(() =>
+  collapse?.activeNames.value.includes(props.name)
+)
 
 const handleFocus = () => {
   setTimeout(() => {

@@ -6,10 +6,12 @@
 
 <script lang="ts" setup>
 import { ref, watch, provide } from 'vue'
+import { toArray } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
+import { collapseContextKey } from '@element-plus/tokens'
 import { collapseProps, collapseEmits } from './collapse'
-import type { CollapseProvider } from './collapse.type'
+import type { CollapseActiveName } from './collapse'
 
 defineOptions({
   name: 'ElCollapse',
@@ -18,25 +20,25 @@ const props = defineProps(collapseProps)
 const emit = defineEmits(collapseEmits)
 
 const ns = useNamespace('collapse')
-const activeNames = ref(Array<string | number>().concat(props.modelValue))
+const activeNames = ref(toArray(props.modelValue))
 
-const setActiveNames = (_activeNames) => {
-  activeNames.value = [].concat(_activeNames)
+const setActiveNames = (_activeNames: CollapseActiveName[]) => {
+  activeNames.value = _activeNames
   const value = props.accordion ? activeNames.value[0] : activeNames.value
   emit(UPDATE_MODEL_EVENT, value)
   emit(CHANGE_EVENT, value)
 }
 
-const handleItemClick = (name) => {
+const handleItemClick = (name: CollapseActiveName) => {
   if (props.accordion) {
-    setActiveNames(
+    setActiveNames([
       (activeNames.value[0] || activeNames.value[0] === 0) &&
-        activeNames.value[0] === name
+      activeNames.value[0] === name
         ? ''
-        : name
-    )
+        : name,
+    ])
   } else {
-    const _activeNames = activeNames.value.slice(0)
+    const _activeNames = [...activeNames.value]
     const index = _activeNames.indexOf(name)
 
     if (index > -1) {
@@ -50,15 +52,11 @@ const handleItemClick = (name) => {
 
 watch(
   () => props.modelValue,
-  () => {
-    activeNames.value = Array<string | number>().concat(props.modelValue)
-  },
-  {
-    deep: true,
-  }
+  () => (activeNames.value = toArray(props.modelValue)),
+  { deep: true }
 )
 
-provide<CollapseProvider>('collapse', {
+provide(collapseContextKey, {
   activeNames,
   handleItemClick,
 })

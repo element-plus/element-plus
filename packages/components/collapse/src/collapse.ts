@@ -1,18 +1,26 @@
-import { buildProps, definePropType } from '@element-plus/utils'
+import {
+  buildProps,
+  definePropType,
+  mutable,
+  isNumber,
+  isString,
+} from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
 import type { ExtractPropTypes } from 'vue'
 import type Collapse from './collapse.vue'
+import type { Arrayable } from '@element-plus/utils'
 
-export type ModelValueType = string | number | Array<string | number>
+export type CollapseActiveName = string | number
+export type CollapseModelValue = Arrayable<CollapseActiveName>
 
-export const emitChangeFn = (value: ModelValueType) =>
-  typeof value === 'number' || typeof value === 'string' || Array.isArray(value)
+export const emitChangeFn = (value: CollapseModelValue) =>
+  typeof isNumber(value) || isString(value) || Array.isArray(value)
 
 export const collapseProps = buildProps({
   accordion: Boolean,
   modelValue: {
-    type: definePropType<ModelValueType>([Array, String, Number]),
-    default: () => [] as Array<string | number>,
+    type: definePropType<CollapseModelValue>([Array, String, Number]),
+    default: () => mutable([] as const),
   },
 } as const)
 export type CollapseProps = ExtractPropTypes<typeof collapseProps>
