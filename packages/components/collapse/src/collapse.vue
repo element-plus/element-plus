@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
 import { ref, watch, provide } from 'vue'
-import { toArray } from '@element-plus/utils'
+import { ensureArray } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
 import { collapseContextKey } from '@element-plus/tokens'
@@ -20,7 +20,7 @@ const props = defineProps(collapseProps)
 const emit = defineEmits(collapseEmits)
 
 const ns = useNamespace('collapse')
-const activeNames = ref(toArray(props.modelValue))
+const activeNames = ref(ensureArray(props.modelValue))
 
 const setActiveNames = (_activeNames: CollapseActiveName[]) => {
   activeNames.value = _activeNames
@@ -52,7 +52,7 @@ const handleItemClick = (name: CollapseActiveName) => {
 
 watch(
   () => props.modelValue,
-  () => (activeNames.value = toArray(props.modelValue)),
+  () => (activeNames.value = ensureArray(props.modelValue)),
   { deep: true }
 )
 
