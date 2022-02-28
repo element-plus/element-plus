@@ -145,8 +145,22 @@ function useStyle<T>(
     const { tableWrapper } = table.refs
     setScrollClassByEl(tableWrapper, className)
   }
+  const existsScrollClass = (className: string) => {
+    const { tableWrapper } = table.refs
+    if (tableWrapper && tableWrapper.classList.contains(className)) {
+      return true
+    }
+    return false
+  }
   const syncPostion = function () {
-    if (!layout.scrollX.value || !table.refs.scrollWrapper) return
+    if (!table.refs.scrollWrapper) return
+    if (!layout.scrollX.value) {
+      const scrollingNoneClass = 'is-scrolling-none'
+      if (!existsScrollClass(scrollingNoneClass)) {
+        setScrollClass(scrollingNoneClass)
+      }
+      return
+    }
     const scrollContainer = table.refs.scrollWrapper.wrap$
     if (!scrollContainer) return
     const { scrollLeft, offsetWidth, scrollWidth } = scrollContainer
