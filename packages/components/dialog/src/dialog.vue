@@ -19,33 +19,26 @@
           @mousedown="overlayEvent.onMousedown"
           @mouseup="overlayEvent.onMouseup"
         >
-          <el-focus-trap
+          <el-dialog-content
             v-if="rendered"
-            loop
-            trapped
-            @mount-on-focus="$emit('openAutoFocus')"
-            @unmount-on-focus="$emit('closeAutoFocus')"
+            :custom-class="customClass"
+            :center="center"
+            :close-icon="closeIcon"
+            :draggable="draggable"
+            :fullscreen="fullscreen"
+            :show-close="showClose"
+            :style="style"
+            :title="title"
+            @close="handleClose"
           >
-            <el-dialog-content
-              :custom-class="customClass"
-              :center="center"
-              :close-icon="closeIcon"
-              :draggable="draggable"
-              :fullscreen="fullscreen"
-              :show-close="showClose"
-              :style="style"
-              :title="title"
-              @close="handleClose"
-            >
-              <template #title>
-                <slot name="title" />
-              </template>
-              <slot />
-              <template #footer>
-                <slot name="footer" />
-              </template>
-            </el-dialog-content>
-          </el-focus-trap>
+            <template #title>
+              <slot name="title" />
+            </template>
+            <slot />
+            <template #footer>
+              <slot name="footer" />
+            </template>
+          </el-dialog-content>
         </div>
       </el-overlay>
     </transition>
@@ -55,7 +48,6 @@
 <script lang="ts" setup>
 import { computed, ref, provide } from 'vue'
 import { ElOverlay } from '@element-plus/components/overlay'
-import { ElFocusTrap } from '@element-plus/components/focus-trap'
 import { useNamespace, useDraggable, useSameTarget } from '@element-plus/hooks'
 import ElDialogContent from './dialog-content.vue'
 import { dialogProps, dialogEmits } from './dialog'
