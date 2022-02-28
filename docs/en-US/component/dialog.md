@@ -23,7 +23,7 @@ dialog/basic-usage
 
 :::
 
-## Focus trapping
+<!-- ## Focus trapping
 
 Dialog traps focus inside the dialog content which enables your users to navigate the content via keyboard.
 
@@ -37,7 +37,7 @@ Focusing on other element after the dialog is closed will only work when `destro
 
 dialog/focus-trapping
 
-:::
+::: -->
 
 ## Customizations
 
