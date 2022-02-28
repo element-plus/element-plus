@@ -16,7 +16,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { defineComponent } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -25,7 +24,7 @@ import { pageHeaderEmits, pageHeaderProps } from './page-header'
 defineOptions({
   name: 'ElPageHeader',
 })
-const props = defineProps(pageHeaderProps)
+defineProps(pageHeaderProps)
 const emit = defineEmits(pageHeaderEmits)
 
 const { t } = useLocale()
