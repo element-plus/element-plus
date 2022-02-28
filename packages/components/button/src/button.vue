@@ -23,8 +23,9 @@
         <component :is="loadingIcon" />
       </el-icon>
     </template>
-    <el-icon v-else-if="icon">
-      <component :is="icon" />
+    <el-icon v-else-if="icon || $slots.icon">
+      <component :is="icon" v-if="icon" />
+      <slot v-else name="icon" />
     </el-icon>
     <span
       v-if="$slots.default"
