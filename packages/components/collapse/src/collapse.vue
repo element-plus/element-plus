@@ -4,77 +4,67 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, watch, provide } from 'vue'
+<script lang="ts" setup>
+import { ref, watch, provide } from 'vue'
+import { ensureArray } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
-import type { CollapseProvider } from './collapse.type'
+import { collapseContextKey } from '@element-plus/tokens'
+import { collapseProps, collapseEmits } from './collapse'
+import type { CollapseActiveName } from './collapse'
 
-export default defineComponent({
+defineOptions({
   name: 'ElCollapse',
-  props: {
-    accordion: Boolean,
-    modelValue: {
-      type: [Array, String, Number] as PropType<
-        string | number | Array<string | number>
-      >,
-      default: () => [],
-    },
-  },
-  emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT],
-  setup(props, { emit }) {
-    const ns = useNamespace('collapse')
-    const activeNames = ref([].concat(props.modelValue))
+})
+const props = defineProps(collapseProps)
+const emit = defineEmits(collapseEmits)
 
-    const setActiveNames = (_activeNames) => {
-      activeNames.value = [].concat(_activeNames)
-      const value = props.accordion ? activeNames.value[0] : activeNames.value
-      emit(UPDATE_MODEL_EVENT, value)
-      emit(CHANGE_EVENT, value)
+const ns = useNamespace('collapse')
+const activeNames = ref(ensureArray(props.modelValue))
+
+const setActiveNames = (_activeNames: CollapseActiveName[]) => {
+  activeNames.value = _activeNames
+  const value = props.accordion ? activeNames.value[0] : activeNames.value
+  emit(UPDATE_MODEL_EVENT, value)
+  emit(CHANGE_EVENT, value)
+}
+
+const handleItemClick = (name: CollapseActiveName) => {
+  if (props.accordion) {
+    setActiveNames([
+      (activeNames.value[0] || activeNames.value[0] === 0) &&
+      activeNames.value[0] === name
+        ? ''
+        : name,
+    ])
+  } else {
+    const _activeNames = [...activeNames.value]
+    const index = _activeNames.indexOf(name)
+
+    if (index > -1) {
+      _activeNames.splice(index, 1)
+    } else {
+      _activeNames.push(name)
     }
+    setActiveNames(_activeNames)
+  }
+}
 
-    const handleItemClick = (name) => {
-      if (props.accordion) {
-        setActiveNames(
-          (activeNames.value[0] || activeNames.value[0] === 0) &&
-            activeNames.value[0] === name
-            ? ''
-            : name
-        )
-      } else {
-        const _activeNames = activeNames.value.slice(0)
-        const index = _activeNames.indexOf(name)
+watch(
+  () => props.modelValue,
+  () => (activeNames.value = ensureArray(props.modelValue)),
+  { deep: true }
+)
 
-        if (index > -1) {
-          _activeNames.splice(index, 1)
-        } else {
-          _activeNames.push(name)
-        }
-        setActiveNames(_activeNames)
-      }
-    }
+provide(collapseContextKey, {
+  activeNames,
+  handleItemClick,
+})
 
-    watch(
-      () => props.modelValue,
-      () => {
-        activeNames.value = [].concat(props.modelValue)
-      },
-      {
-        deep: true,
-      }
-    )
-
-    provide<CollapseProvider>('collapse', {
-      activeNames,
-      handleItemClick,
-    })
-
-    return {
-      ns,
-      activeNames,
-      setActiveNames,
-      handleItemClick,
-    }
-  },
+defineExpose({
+  /** @description active names */
+  activeNames,
+  /** @description set active names */
+  setActiveNames,
 })
 </script>
