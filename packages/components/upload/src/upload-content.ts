@@ -10,7 +10,7 @@ import type {
   UploadHooks,
 } from './upload'
 
-import type uploadContent from './upload-content.vue'
+import type UploadContent from './upload-content.vue'
 
 export const uploadContentProps = buildProps({
   ...uploadBaseProps,
@@ -54,4 +54,4 @@ export const uploadContentProps = buildProps({
 
 export type UploadContentProps = ExtractPropTypes<typeof uploadContentProps>
 
-export type UploadContentInstance = InstanceType<typeof uploadContent>
+export type UploadContentInstance = InstanceType<typeof UploadContent>
