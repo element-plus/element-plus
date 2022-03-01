@@ -189,7 +189,7 @@
     }
 
     @include e((btns, content)) {
-      text-align: center;
+      justify-content: center;
     }
 
     @include e(content) {
