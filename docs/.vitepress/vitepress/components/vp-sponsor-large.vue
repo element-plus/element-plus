@@ -1,12 +1,15 @@
+<script setup lang="ts">
+import { sponsors } from '../../config/sponsors'
+const sponsorList = sponsors.filter((_) => _.type === 'banner')
+</script>
+
 <template>
-  <div class="sponsor-item">
-    <a
-      href="https://www.jnpfsoft.com/index.html?from=elementUI"
-      title="jnpfsoft"
-      target="_blank"
-    >
-      <img src="/images/jnpfsoft.jpg" alt="jnpfsoft" />
-    </a>
+  <div class="container">
+    <div v-for="item in sponsorList" :key="item.name" class="sponsor-item">
+      <a :href="item.url" :title="item.name" target="_blank">
+        <img :src="item.banner_img" :alt="item.name" />
+      </a>
+    </div>
   </div>
 </template>
 
@@ -16,6 +19,7 @@
   img {
     border-radius: 8px;
     overflow: hidden;
+    min-height: 60px;
   }
 }
 @media (max-width: 768px) {
@@ -23,6 +27,7 @@
     max-width: 160px;
     img {
       border-radius: 4px;
+      min-height: 45px;
     }
   }
 }
