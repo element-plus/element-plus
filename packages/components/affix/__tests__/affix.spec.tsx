@@ -55,7 +55,7 @@ describe('Affix.vue', () => {
   })
 
   test('should render offset props', async () => {
-    const wrapper = _mount(() => <Affix offset={30}>AXIOM</Affix>)
+    const wrapper = _mount(() => <Affix offset={30}>{AXIOM}</Affix>)
     await nextTick()
     const mockAffixRect = jest
       .spyOn(wrapper.find('.el-affix').element, 'getBoundingClientRect')
@@ -85,7 +85,7 @@ describe('Affix.vue', () => {
   test('should render position props', async () => {
     const wrapper = _mount(() => (
       <Affix position="bottom" offset={20}>
-        AXIOM
+        {AXIOM}
       </Affix>
     ))
     await nextTick()
@@ -119,7 +119,7 @@ describe('Affix.vue', () => {
     const wrapper = _mount(() => (
       <>
         <div class="target" style="height: 200px">
-          <Affix target=".target">AXIOM</Affix>
+          <Affix target=".target">{AXIOM}</Affix>
         </div>
         <div style="height: 1000px"></div>
       </>
@@ -163,7 +163,7 @@ describe('Affix.vue', () => {
   })
 
   test('should render z-index props', async () => {
-    const wrapper = _mount(() => <Affix z-index={1000}>AXIOM</Affix>)
+    const wrapper = _mount(() => <Affix zIndex={1000}>{AXIOM}</Affix>)
     await nextTick()
     const mockAffixRect = jest
       .spyOn(wrapper.find('.el-affix').element, 'getBoundingClientRect')
