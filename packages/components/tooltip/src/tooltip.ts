@@ -7,6 +7,7 @@ import {
   useDelayedToggleProps,
   POPPER_CONTAINER_SELECTOR,
 } from '@element-plus/hooks'
+import type Tooltip from '../src/tooltip.vue'
 
 import type { ExtractPropTypes } from 'vue'
 
@@ -90,3 +91,5 @@ export type ElTooltipTriggerProps = ExtractPropTypes<
 export type ElTooltipProps = ExtractPropTypes<typeof useTooltipProps> &
   ElTooltipContentProps &
   ElTooltipTriggerProps
+
+export type TooltipInstance = InstanceType<typeof Tooltip>
