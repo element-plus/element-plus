@@ -104,6 +104,7 @@ export default defineComponent({
       }
     }
 
+    let hasFocusOutHandler: NodeJS.Timeout
     const onFocusOut = (e: Event) => {
       const trapContainer = unref(forwardRef)
       if (focusLayer.paused || !trapContainer) return
@@ -113,7 +114,10 @@ export default defineComponent({
           (e as FocusEvent).relatedTarget as HTMLElement | null
         )
       ) {
-        tryFocus(lastFocusAfterMounted, true)
+        hasFocusOutHandler && clearTimeout(hasFocusOutHandler)
+        hasFocusOutHandler = setTimeout(() => {
+          tryFocus(lastFocusAfterMounted, true)
+        }, 500)
       }
     }
 
