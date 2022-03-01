@@ -1,5 +1,5 @@
 import path from 'path'
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import Components from 'unplugin-vue-components/vite'
@@ -24,7 +24,8 @@ const esbuildPlugin = () => ({
   enforce: 'post',
 })
 
-export default defineConfig(async () => {
+export default defineConfig(async ({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '')
   const { dependencies } = getPackageDependencies(epPackage)
 
   const optimizeDeps = (
@@ -48,7 +49,7 @@ export default defineConfig(async () => {
     },
     server: {
       host: true,
-      https: !!process.env.HTTPS,
+      https: !!env.HTTPS,
     },
     plugins: [
       vue(),
