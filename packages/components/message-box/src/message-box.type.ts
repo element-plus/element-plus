@@ -1,4 +1,5 @@
 import type { CSSProperties, VNode, Component } from 'vue'
+import type { ComponentSize } from '@element-plus/constants'
 
 type MessageType = '' | 'success' | 'warning' | 'info' | 'error'
 
@@ -160,6 +161,9 @@ export interface ElMessageBoxOptions {
 
   /** Error message when validation fails */
   inputErrorMessage?: string
+
+  /** Custom size of confirm and cancel buttons */
+  buttonSize?: ComponentSize
 }
 
 export type ElMessageBoxShortcutMethod = ((
