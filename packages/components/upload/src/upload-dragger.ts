@@ -1,7 +1,7 @@
 import { buildProps, isArray } from '@element-plus/utils'
 
 import type { ExtractPropTypes } from 'vue'
-import type uploadDragger from './upload-dragger.vue'
+import type UploadDragger from './upload-dragger.vue'
 
 export const uploadDraggerProps = buildProps({
   disabled: {
@@ -16,4 +16,4 @@ export const uploadDraggerEmits = {
 }
 export type UploadDraggerEmits = typeof uploadDraggerEmits
 
-export type UploadDraggerInstance = InstanceType<typeof uploadDragger>
+export type UploadDraggerInstance = InstanceType<typeof UploadDragger>

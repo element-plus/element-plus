@@ -3,7 +3,7 @@ import { buildProps, definePropType, mutable } from '@element-plus/utils'
 import { ajaxUpload } from './ajax'
 import type { Awaitable } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
-import type upload from './upload.vue'
+import type Upload from './upload.vue'
 
 export const uploadListTypes = ['text', 'picture', 'picture-card'] as const
 
@@ -180,4 +180,4 @@ export const uploadProps = buildProps({
 
 export type UploadProps = ExtractPropTypes<typeof uploadProps>
 
-export type UploadInstance = InstanceType<typeof upload>
+export type UploadInstance = InstanceType<typeof Upload>

@@ -3,7 +3,7 @@ import { buildProps, definePropType, mutable } from '@element-plus/utils'
 import { uploadListTypes } from './upload'
 import type { ExtractPropTypes } from 'vue'
 import type { UploadFile, UploadHooks, UploadFiles } from './upload'
-import type uploadList from './upload-list.vue'
+import type UploadList from './upload-list.vue'
 
 export const uploadListProps = buildProps({
   files: {
@@ -30,4 +30,4 @@ export const uploadListEmits = {
   remove: (file: UploadFile) => !!file,
 }
 export type UploadListEmits = typeof uploadListEmits
-export type UploadListInstance = InstanceType<typeof uploadList>
+export type UploadListInstance = InstanceType<typeof UploadList>
