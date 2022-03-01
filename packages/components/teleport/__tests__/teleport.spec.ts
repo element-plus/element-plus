@@ -1,10 +1,13 @@
 import { mount } from '@vue/test-utils'
 import Teleport from '../src/teleport.vue'
+import type { VueWrapper } from '@vue/test-utils'
+import type { TeleportInstance } from '../src/teleport'
 
 const AXIOM = 'rem is the best girl'
 
-describe('<el-teleport />', () => {
-  let wrapper
+describe('ElTelport', () => {
+  let wrapper: VueWrapper<TeleportInstance>
+
   beforeEach(() => {
     wrapper = mount(Teleport, {
       slots: { default: () => AXIOM },
@@ -28,13 +31,15 @@ describe('<el-teleport />', () => {
       }
 
       await wrapper.setProps({ style })
-      expect(getComputedStyle(wrapper.vm?.containerRef).color).toBe(style.color)
+      expect(getComputedStyle(wrapper.vm?.containerRef!).color).toBe(
+        style.color
+      )
     })
 
     it('should be able to set z-index', async () => {
       const zIndex = '10000'
       await wrapper.setProps({ zIndex })
-      expect(getComputedStyle(wrapper.vm?.containerRef).zIndex).toBe(zIndex)
+      expect(getComputedStyle(wrapper.vm?.containerRef!).zIndex).toBe(zIndex)
     })
   })
 })
