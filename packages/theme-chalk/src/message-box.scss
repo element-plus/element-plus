@@ -188,7 +188,7 @@
       margin-left: 0;
     }
 
-    @include e((btns, content)) {
+    @include e(btns) {
       justify-content: center;
     }
 
@@ -197,6 +197,8 @@
 
       padding-left: $padding-horizontal;
       padding-right: $padding-horizontal;
+
+      text-align: center;
     }
   }
 }
