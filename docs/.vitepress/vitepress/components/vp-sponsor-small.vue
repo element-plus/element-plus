@@ -1,14 +1,6 @@
 <script setup lang="ts">
 import { isDark } from '../composables/dark'
 import { sponsors } from '../../config/sponsors'
-defineProps<{
-  item: {
-    name: string
-    img: string
-    url: string
-  }
-}>()
-
 const sponsorList = sponsors.filter((_) => !_.type)
 </script>
 
