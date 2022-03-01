@@ -6,7 +6,7 @@ import { Delete } from '@element-plus/icons-vue'
 import Dialog from '../src/dialog.vue'
 
 const AXIOM = 'Rem is the best girl'
-const defaultSlots = { default: AXIOM }
+const defaultSlots = { default: () => AXIOM }
 
 jest.useFakeTimers()
 
@@ -30,7 +30,7 @@ describe('Dialog.vue', () => {
     let wrapper = mount(Dialog, {
       slots: {
         ...defaultSlots,
-        title: HEADER,
+        title: () => HEADER,
       },
       props: {
         modelValue: true,
@@ -55,7 +55,7 @@ describe('Dialog.vue', () => {
     const wrapper = mount(Dialog, {
       slots: {
         ...defaultSlots,
-        footer: AXIOM,
+        footer: () => AXIOM,
       },
       props: {
         modelValue: true,
