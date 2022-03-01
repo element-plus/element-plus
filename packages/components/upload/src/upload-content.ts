@@ -1,9 +1,6 @@
 import { NOOP } from '@vue/shared'
 import { buildProps, definePropType } from '@element-plus/utils'
 import { uploadBaseProps } from './upload'
-// to avoid ts error
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { Awaitable } from '@vueuse/core'
 import type { ExtractPropTypes } from 'vue'
 import type {
   UploadRawFile,
