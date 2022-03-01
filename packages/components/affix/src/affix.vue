@@ -1,7 +1,7 @@
 <template>
   <div ref="root" :class="ns.b()" :style="rootStyle">
     <div :class="{ [ns.m('fixed')]: fixed }" :style="affixStyle">
-      <slot></slot>
+      <slot />
     </div>
   </div>
 </template>
@@ -32,7 +32,13 @@ const target = shallowRef<HTMLElement>()
 const root = shallowRef<HTMLDivElement>()
 const scrollContainer = shallowRef<HTMLElement | Window>()
 const { height: windowHeight } = useWindowSize()
-const rootRect = useElementBounding(root)
+const {
+  height: rootHeight,
+  width: rootWidth,
+  top: rootTop,
+  bottom: rootBottom,
+  update: updateRoot,
+} = useElementBounding(root)
 const targetRect = useElementBounding(target)
 
 const fixed = ref(false)
@@ -41,8 +47,8 @@ const transform = ref(0)
 
 const rootStyle = computed<CSSProperties>(() => {
   return {
-    height: fixed.value ? `${rootRect.height.value}px` : '',
-    width: fixed.value ? `${rootRect.width.value}px` : '',
+    height: fixed.value ? `${rootHeight.value}px` : '',
+    width: fixed.value ? `${rootWidth.value}px` : '',
   }
 })
 
@@ -51,8 +57,8 @@ const affixStyle = computed<CSSProperties>(() => {
 
   const offset = props.offset ? `${props.offset}px` : 0
   return {
-    height: `${rootRect.height.value}px`,
-    width: `${rootRect.width.value}px`,
+    height: `${rootHeight.value}px`,
+    width: `${rootWidth.value}px`,
     top: props.position === 'top' ? offset : '',
     bottom: props.position === 'bottom' ? offset : '',
     transform: transform.value ? `translateY(${transform.value}px)` : '',
@@ -71,25 +77,24 @@ const update = () => {
   if (props.position === 'top') {
     if (props.target) {
       const difference =
-        targetRect.bottom.value - props.offset - rootRect.height.value
-      fixed.value =
-        props.offset > rootRect.top.value && targetRect.bottom.value > 0
+        targetRect.bottom.value - props.offset - rootHeight.value
+      fixed.value = props.offset > rootTop.value && targetRect.bottom.value > 0
       transform.value = difference < 0 ? difference : 0
     } else {
-      fixed.value = props.offset > rootRect.top.value
+      fixed.value = props.offset > rootTop.value
     }
   } else if (props.target) {
     const difference =
       windowHeight.value -
       targetRect.top.value -
       props.offset -
-      rootRect.height.value
+      rootHeight.value
     fixed.value =
-      windowHeight.value - props.offset < rootRect.bottom.value &&
+      windowHeight.value - props.offset < rootBottom.value &&
       windowHeight.value > targetRect.top.value
     transform.value = difference < 0 ? -difference : 0
   } else {
-    fixed.value = windowHeight.value - props.offset < rootRect.bottom.value
+    fixed.value = windowHeight.value - props.offset < rootBottom.value
   }
 }
 
@@ -100,7 +105,7 @@ const handleScroll = () => {
   })
 }
 
-watch(fixed, () => emit('change', fixed.value))
+watch(fixed, (val) => emit('change', val))
 
 onMounted(() => {
   if (props.target) {
@@ -112,7 +117,7 @@ onMounted(() => {
     target.value = document.documentElement
   }
   scrollContainer.value = getScrollContainer(root.value!, true)
-  rootRect.update()
+  updateRoot()
 })
 
 useEventListener(scrollContainer, 'scroll', handleScroll)
