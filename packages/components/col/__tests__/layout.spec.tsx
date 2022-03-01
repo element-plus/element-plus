@@ -1,4 +1,4 @@
-import { h, ref, nextTick } from 'vue'
+import { defineComponent, ref, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import Row from '@element-plus/components/row'
 import Col from '../src/col'
@@ -31,15 +31,14 @@ describe('Col', () => {
   })
 
   it('gutter', () => {
-    const TestComponent = {
-      template: `<el-row :gutter="20">
-      <el-col :span="12" ref="col"></el-col>
-    </el-row>`,
-      components: {
-        'el-col': Col,
-        'el-row': Row,
-      },
-    }
+    const TestComponent = defineComponent({
+      setup: () => () =>
+        (
+          <Row gutter={20}>
+            <Col span={12} ref="col"></Col>
+          </Row>
+        ),
+    })
     const wrapper = mount(TestComponent)
     const colElm = wrapper.findComponent({ ref: 'col' }).element as HTMLElement
     expect(colElm.style.paddingLeft === '10px').toBe(true)
@@ -48,25 +47,14 @@ describe('Col', () => {
 
   it('change gutter value', async () => {
     const outer = ref(20)
-    const App = {
-      setup() {
-        return () => {
-          return h(
-            Row,
-            {
-              gutter: outer.value,
-              ref: 'row',
-            },
-            [
-              h(Col, {
-                span: 12,
-                ref: 'col',
-              }),
-            ]
-          )
-        }
-      },
-    }
+    const App = defineComponent({
+      setup: () => () =>
+        (
+          <Row gutter={outer.value} ref="row">
+            <Col span={12} ref="col" />
+          </Row>
+        ),
+    })
 
     const wrapper = mount(App)
     const rowElm = wrapper.findComponent({ ref: 'row' }).element as HTMLElement
@@ -85,16 +73,19 @@ describe('Col', () => {
   })
 
   it('responsive', () => {
-    const TestComponent = {
-      template: `<el-row :gutter="20">
-      <el-col ref="col" :sm="{ span: 4, offset: 2 }" :md="8" :lg="{ span: 6, offset: 3 }">
-      </el-col>
-    </el-row>`,
-      components: {
-        'el-col': Col,
-        'el-row': Row,
-      },
-    }
+    const TestComponent = defineComponent({
+      setup: () => () =>
+        (
+          <Row gutter={20}>
+            <Col
+              ref="col"
+              sm={{ span: 4, offset: 2 }}
+              md={8}
+              lg={{ span: 6, offset: 3 }}
+            />
+          </Row>
+        ),
+    })
     const wrapper = mount(TestComponent)
     const colElmClass = wrapper.findComponent({ ref: 'col' }).classes()
     expect(colElmClass.includes('el-col-sm-4')).toBe(true)
