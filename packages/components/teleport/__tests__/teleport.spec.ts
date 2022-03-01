@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import Teleport from '../src/teleport.vue'
-import type { TeleportInstance } from '../src/teleport'
 import type { VueWrapper } from '@vue/test-utils'
+import type { TeleportInstance } from '../src/teleport'
 
 const AXIOM = 'rem is the best girl'
 

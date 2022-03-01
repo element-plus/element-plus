@@ -1,6 +1,6 @@
 import { buildProps, definePropType } from '@element-plus/utils'
-import type Teleport from './teleport.vue'
 import type { ExtractPropTypes, StyleValue } from 'vue'
+import type Teleport from './teleport.vue'
 
 export const teleportProps = buildProps({
   container: {
