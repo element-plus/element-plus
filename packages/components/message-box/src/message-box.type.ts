@@ -163,7 +163,7 @@ export interface ElMessageBoxOptions {
   inputErrorMessage?: string
 
   /** Custom size of confirm and cancel buttons */
-  buttonSize: ComponentSize
+  buttonSize?: ComponentSize
 }
 
 export type ElMessageBoxShortcutMethod = ((
