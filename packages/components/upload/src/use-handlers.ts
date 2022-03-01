@@ -167,7 +167,7 @@ export const useHandlers = (
         file.status ||= 'success'
       }
     },
-    { immediate: true, deep: true }
+    { immediate: true }
   )
 
   return {
