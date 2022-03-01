@@ -31,15 +31,11 @@ describe('Col', () => {
   })
 
   it('gutter', () => {
-    const TestComponent = defineComponent({
-      setup: () => () =>
-        (
-          <Row gutter={20}>
-            <Col span={12} ref="col"></Col>
-          </Row>
-        ),
-    })
-    const wrapper = mount(TestComponent)
+    const wrapper = mount(() => (
+      <Row gutter={20}>
+        <Col span={12} ref="col"></Col>
+      </Row>
+    ))
     const colElm = wrapper.findComponent({ ref: 'col' }).element as HTMLElement
     expect(colElm.style.paddingLeft === '10px').toBe(true)
     expect(colElm.style.paddingRight === '10px').toBe(true)
@@ -73,20 +69,16 @@ describe('Col', () => {
   })
 
   it('responsive', () => {
-    const TestComponent = defineComponent({
-      setup: () => () =>
-        (
-          <Row gutter={20}>
-            <Col
-              ref="col"
-              sm={{ span: 4, offset: 2 }}
-              md={8}
-              lg={{ span: 6, offset: 3 }}
-            />
-          </Row>
-        ),
-    })
-    const wrapper = mount(TestComponent)
+    const wrapper = mount(() => (
+      <Row gutter={20}>
+        <Col
+          ref="col"
+          sm={{ span: 4, offset: 2 }}
+          md={8}
+          lg={{ span: 6, offset: 3 }}
+        />
+      </Row>
+    ))
     const colElmClass = wrapper.findComponent({ ref: 'col' }).classes()
     expect(colElmClass.includes('el-col-sm-4')).toBe(true)
     expect(colElmClass.includes('el-col-sm-4')).toBe(true)
