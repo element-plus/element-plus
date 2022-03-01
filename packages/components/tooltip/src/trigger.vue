@@ -27,7 +27,7 @@ import { TOOLTIP_INJECTION_KEY } from './tokens'
 import { useTooltipTriggerProps } from './tooltip'
 import { whenTrigger } from './utils'
 
-import type { ElOnlyChildExpose } from '@element-plus/components/slot'
+import type { OnlyChildExpose } from '@element-plus/components/slot'
 
 export default defineComponent({
   name: 'ElTooltipTrigger',
@@ -41,7 +41,7 @@ export default defineComponent({
       TOOLTIP_INJECTION_KEY,
       undefined
     )!
-    const triggerRef = ref<ElOnlyChildExpose | null>(null)
+    const triggerRef = ref<OnlyChildExpose | null>(null)
 
     const stopWhenControlledOrDisabled = () => {
       if (unref(controlled) || props.disabled) {
