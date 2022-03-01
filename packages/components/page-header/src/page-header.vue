@@ -3,7 +3,9 @@
     <div :class="ns.e('left')" @click="handleClick">
       <div v-if="icon || $slots.icon" :class="ns.e('icon')">
         <slot name="icon">
-          <ElIcon v-if="icon"><component :is="icon" /></ElIcon>
+          <el-icon v-if="icon">
+            <component :is="icon" />
+          </el-icon>
         </slot>
       </div>
       <div :class="ns.e('title')">
