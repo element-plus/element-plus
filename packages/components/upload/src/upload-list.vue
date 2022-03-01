@@ -85,7 +85,7 @@
             :class="nsUpload.be('list', 'item-delete')"
             @click="handleRemove(file)"
           >
-            <el-icon :class="nsIcon.m('delete')"><delete /></el-icon>
+            <el-icon :class="nsIcon.m('delete')"><Delete /></el-icon>
           </span>
         </span>
       </slot>
