@@ -2,11 +2,11 @@ import { ref, watch } from 'vue'
 import { debugWarn, throwError } from '@element-plus/utils'
 import { useDeprecated } from '@element-plus/hooks'
 import { genFileId } from './upload'
+import type { ShallowRef } from 'vue'
 import type {
   UploadContentProps,
   UploadContentInstance,
 } from './upload-content'
-import type { ShallowRef } from 'vue'
 import type {
   UploadRawFile,
   UploadFile,
