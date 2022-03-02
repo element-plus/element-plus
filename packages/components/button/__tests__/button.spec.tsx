@@ -206,4 +206,19 @@ describe('Button Group', () => {
       'el-button__text--expand'
     )
   })
+
+  it('add space between two Chinese characters even if there is whitespace at both ends', async () => {
+    const wrapper = mount(Button, {
+      slots: {
+        default: '&nbsp;中文&nbsp;',
+      },
+      props: {
+        autoInsertSpace: true,
+      },
+    })
+    expect(wrapper.find('.el-button span').text()).toBe('中文')
+    expect(wrapper.find('.el-button span').classes()).toContain(
+      'el-button__text--expand'
+    )
+  })
 })

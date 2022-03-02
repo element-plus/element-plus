@@ -77,8 +77,8 @@ const shouldAddSpace = computed(() => {
   if (autoInsertSpace.value && defaultSlot?.length === 1) {
     const slot = defaultSlot[0]
     if (slot?.type === Text) {
-      const text = slot.children
-      return /^\p{Unified_Ideograph}{2}$/u.test(text as string)
+      const text = slot.children as string
+      return /^\p{Unified_Ideograph}{2}$/u.test(text.trim())
     }
   }
   return false
