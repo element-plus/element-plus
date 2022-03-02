@@ -26,14 +26,15 @@ import { tabsRootContextKey } from '@element-plus/tokens'
 import { throwError } from '@element-plus/utils'
 import { tabPaneProps } from './tab-pane'
 
+const COMPONENT_NAME = 'ElTabPane'
 defineOptions({
-  name: 'ElTabPane',
+  name: COMPONENT_NAME,
 })
 const props = defineProps(tabPaneProps)
 
 const instance = getCurrentInstance()!
 const tabsRoot = inject(tabsRootContextKey)
-if (!tabsRoot) throwError('ElTabPane', `must use with ElTabs`)
+if (!tabsRoot) throwError(COMPONENT_NAME, `must use with ElTabs`)
 
 const index = ref<string>()
 const loaded = ref(false)
