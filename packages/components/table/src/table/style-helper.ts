@@ -43,7 +43,8 @@ function useStyle<T>(
   })
   const isGroup = ref(false)
   const scrollbarViewStyle = {
-    display: 'inline-block',
+    display: 'inline-flex',
+    flexDirection: 'column',
   }
 
   watchEffect(() => {
