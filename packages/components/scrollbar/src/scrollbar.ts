@@ -27,7 +27,7 @@ export const scrollbarProps = buildProps({
     default: '',
   },
   viewStyle: {
-    type: [String, Array],
+    type: [String, Array, Object],
     default: '',
   },
   noresize: Boolean, // 如果 container 尺寸不会发生变化，最好设置它可以优化性能
