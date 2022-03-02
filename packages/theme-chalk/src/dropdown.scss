@@ -49,6 +49,11 @@ $dropdown-divider-width: 1px !default;
   line-height: 1;
   vertical-align: top;
 
+  &.disabled {
+    color: var(--el-text-color-placeholder);
+    cursor: not-allowed;
+  }
+
   @include e(popper) {
     @include set-component-css-var('dropdown', $dropdown);
 
