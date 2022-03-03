@@ -31,10 +31,10 @@
             <p v-else v-html="message"></p>
           </slot>
         </div>
-        <el-icon v-if="showClose" :class="ns.e('closeBtn')" @click.stop="close">
-          <close />
-        </el-icon>
       </div>
+      <el-icon v-if="showClose" :class="ns.e('closeBtn')" @click.stop="close">
+        <close />
+      </el-icon>
     </div>
   </transition>
 </template>
