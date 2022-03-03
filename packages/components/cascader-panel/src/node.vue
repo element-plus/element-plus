@@ -8,11 +8,11 @@
     :tabindex="expandable ? -1 : undefined"
     :class="[
       ns.b(),
-      checkStrictly && 'is-selectable',
-      inExpandingPath && 'in-active-path',
-      inCheckedPath && 'in-checked-path',
-      node.checked && 'is-active',
-      !expandable && 'is-disabled',
+      ns.is('selectable', checkStrictly),
+      ns.is('active-path', inExpandingPath),
+      ns.is('checked-path', inCheckedPath),
+      ns.is('active', node.checked),
+      ns.is('disabled', !expandable),
     ]"
     @mouseenter="handleHoverExpand"
     @focus="handleHoverExpand"
@@ -50,7 +50,7 @@
 
     <!-- postfix -->
     <template v-if="!isLeaf">
-      <el-icon v-if="node.loading" :class="['is-loading', ns.e('postfix')]">
+      <el-icon v-if="node.loading" :class="[ns.is('loading'), ns.e('postfix')]">
         <loading />
       </el-icon>
       <el-icon v-else :class="['arrow-right', ns.e('postfix')]">

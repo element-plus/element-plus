@@ -5,7 +5,7 @@
     role="menu"
     :class="ns.b()"
     :wrap-class="ns.e('wrap')"
-    :view-class="[ns.e('list'), isEmpty && 'is-empty']"
+    :view-class="[ns.e('list'), ns.is('empty', isEmpty)]"
     @mousemove="handleMouseMove"
     @mouseleave="clearHoverZone"
   >
@@ -17,7 +17,7 @@
       @expand="handleExpand"
     />
     <div v-if="isLoading" :class="ns.e('empty-text')">
-      <el-icon size="14" class="is-loading">
+      <el-icon size="14" :class="ns.is('loading')">
         <loading />
       </el-icon>
       {{ t('el.cascader.loading') }}

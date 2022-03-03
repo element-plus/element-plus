@@ -28,7 +28,7 @@
         :class="[
           ns.b(),
           ns.m(realSize),
-          { 'is-disabled': isDisabled },
+          ns.is('disabled', isDisabled),
           $attrs.class,
         ]"
         :style="$attrs.style"
@@ -45,7 +45,7 @@
           :disabled="isDisabled"
           :validate-event="false"
           :size="realSize"
-          :class="{ 'is-focus': popperVisible }"
+          :class="ns.is('focus', popperVisible)"
           @compositionstart="handleComposition"
           @compositionupdate="handleComposition"
           @compositionend="handleComposition"
@@ -68,7 +68,7 @@
               :class="[
                 nsInput.e('icon'),
                 'icon-arrow-down',
-                popperVisible && 'is-reverse',
+                ns.is('reverse', popperVisible),
               ]"
               @click.stop="togglePopperVisible()"
             >
@@ -132,7 +132,7 @@
           <li
             v-for="item in suggestions"
             :key="item.uid"
-            :class="[ns.e('suggestion-item'), item.checked && 'is-checked']"
+            :class="[ns.e('suggestion-item'), ns.is('checked', item.checked)]"
             :tabindex="-1"
             @click="handleSuggestionClick(item)"
           >

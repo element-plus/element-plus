@@ -279,7 +279,7 @@ export default defineComponent({
             `.${ns.namespace.value}scrollbar__wrap`
           )
           const activeNode =
-            menuElement.querySelector(`.${ns.b('node')}.is-active`) ||
+            menuElement.querySelector(`.${ns.b('node')}.${ns.is('active')}`) ||
             menuElement.querySelector(`.${ns.b('node')}.in-active-path`)
           scrollIntoView(container, activeNode)
         }
