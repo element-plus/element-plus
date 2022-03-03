@@ -228,9 +228,11 @@
   }
   @include when(active) {
     color: var(--el-menu-active-color);
-    background-color: var(--el-menu-hover-bg-color);
     i {
       color: inherit;
+    }
+    @include when(bg-color) {
+      background-color: var(--el-menu-hover-bg-color);
     }
   }
   .el-menu-tooltip__trigger {

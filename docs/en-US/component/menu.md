@@ -95,11 +95,12 @@ menu/collapse
 
 ## Menu-Item Attributes
 
-| Attribute | Description           | Type        | Accepted Values | Default |
-| --------- | --------------------- | ----------- | --------------- | ------- |
-| index     | unique identification | string/null | —               | null    |
-| route     | Vue Router object     | object      | —               | —       |
-| disabled  | whether disabled      | boolean     | —               | false   |
+| Attribute               | Description                                                          | Type        | Accepted Values | Default |
+| ----------------------- | -------------------------------------------------------------------- | ----------- | --------------- | ------- |
+| index                   | unique identification                                                | string/null | —               | null    |
+| route                   | Vue Router object                                                    | object      | —               | —       |
+| disabled                | whether disabled                                                     | boolean     | —               | false   |
+| change-background-color | whether change the background color of menu-item when it is selected | boolean     | -               | false   |
 
 ## Menu-Item Events
 

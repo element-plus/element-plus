@@ -6,6 +6,7 @@
     :style="paddingStyle"
     :class="{
       'is-active': active,
+      'is-bg-color': changeBackgroundColor,
       'is-disabled': disabled,
     }"
     @click="handleClick"

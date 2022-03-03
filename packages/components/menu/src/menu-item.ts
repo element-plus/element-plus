@@ -12,6 +12,10 @@ export const menuItemProps = buildProps({
   route: {
     type: definePropType<RouteLocationRaw>([String, Object]),
   },
+  changeBackgroundColor: {
+    type: Boolean,
+    default: false,
+  },
   disabled: Boolean,
 } as const)
 export type MenuItemProps = ExtractPropTypes<typeof menuItemProps>
