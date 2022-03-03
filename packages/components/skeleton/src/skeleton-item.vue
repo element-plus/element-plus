@@ -1,26 +1,21 @@
 <template>
   <div :class="[ns.e('item'), ns.e(variant)]">
-    <img-placeholder v-if="variant === 'image'" />
+    <ImgPlaceholder v-if="variant === 'image'" />
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
 import { useNamespace } from '@element-plus/hooks'
 import ImgPlaceholder from './image-placeholder.vue'
 import { skeletonItemProps } from './skeleton-item'
 
-export default defineComponent({
+defineOptions({
   name: 'ElSkeletonItem',
-  components: {
-    ImgPlaceholder,
-  },
-  props: skeletonItemProps,
-  setup() {
-    const ns = useNamespace('skeleton')
-    return {
-      ns,
-    }
-  },
+})
+defineProps(skeletonItemProps)
+const ns = useNamespace('skeleton')
+
+defineExpose({
+  ns,
 })
 </script>
