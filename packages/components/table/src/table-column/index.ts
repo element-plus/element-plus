@@ -10,6 +10,7 @@ import {
   Fragment,
 } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
+import { isString } from '@element-plus/utils'
 import { cellStarts } from '../config'
 import { mergeOptions, compose } from '../util'
 import useWatcher from './watcher-helper'
@@ -156,13 +157,13 @@ export default defineComponent({
     return
   },
   render() {
-    let children = []
     try {
       const renderDefault = this.$slots.default?.({
         row: {},
         column: {},
         $index: -1,
       })
+      const children = []
       if (renderDefault instanceof Array) {
         for (const childNode of renderDefault) {
           if (
@@ -174,13 +175,19 @@ export default defineComponent({
             childNode.type === Fragment &&
             childNode.children instanceof Array
           ) {
-            children.push(...childNode.children)
+            childNode.children.forEach((vnode) => {
+              // No rendering when vnode is dynamic slot or text
+              if (vnode?.patchFlag !== 1024 && !isString(vnode?.children)) {
+                children.push(vnode)
+              }
+            })
           }
         }
       }
+      const vnode = h('div', children)
+      return vnode
     } catch {
-      children = []
+      return h('div', [])
     }
-    return h('div', children)
   },
 })
