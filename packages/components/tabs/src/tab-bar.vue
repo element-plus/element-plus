@@ -7,11 +7,10 @@
 </template>
 <script lang="ts" setup>
 import { inject, getCurrentInstance, watch, nextTick, ref } from 'vue'
-import { capitalize } from '@vue/shared'
 import { useResizeObserver } from '@vueuse/core'
+import { capitalize, throwError } from '@element-plus/utils'
 import { tabsRootContextKey } from '@element-plus/tokens'
-import { throwError } from '@element-plus/utils'
-import { tabBar } from './tab-bar'
+import { tabBarProps } from './tab-bar'
 
 import type { CSSProperties } from 'vue'
 
@@ -19,7 +18,7 @@ const COMPONENT_NAME = 'ElTabBar'
 defineOptions({
   name: 'ElTabBar',
 })
-const props = defineProps(tabBar)
+const props = defineProps(tabBarProps)
 
 const instance = getCurrentInstance()!
 const rootTabs = inject(tabsRootContextKey)
@@ -79,4 +78,11 @@ watch(
   { immediate: true }
 )
 useResizeObserver(bar$, () => update())
+
+defineExpose({
+  bar$,
+  rootTabs,
+  barStyle,
+  update,
+})
 </script>
