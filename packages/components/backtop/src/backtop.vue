@@ -16,8 +16,8 @@
   </transition>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed, onMounted, shallowRef } from 'vue'
+<script lang="ts" setup>
+import { ref, computed, onMounted, shallowRef } from 'vue'
 import { useEventListener, useThrottleFn } from '@vueuse/core'
 import { ElIcon } from '@element-plus/components/icon'
 import { easeInOutCubic, throwError } from '@element-plus/utils'
@@ -28,69 +28,55 @@ import { backtopEmits, backtopProps } from './backtop'
 
 const COMPONENT_NAME = 'ElBacktop'
 
-export default defineComponent({
-  name: COMPONENT_NAME,
-  components: {
-    ElIcon,
-    CaretTop,
-  },
-  props: backtopProps,
-  emits: backtopEmits,
+defineOptions({
+  name: 'ElBacktop',
+})
 
-  setup(props, { emit }) {
-    const ns = useNamespace('backtop')
-    const el = shallowRef<HTMLElement | undefined>(document.documentElement)
-    const container = shallowRef<Document | HTMLElement>(document)
-    const visible = ref(false)
-    const styleBottom = computed(() => `${props.bottom}px`)
-    const styleRight = computed(() => `${props.right}px`)
+const props = defineProps(backtopProps)
+const emit = defineEmits(backtopEmits)
 
-    const scrollToTop = () => {
-      if (!el.value) return
-      const beginTime = Date.now()
-      const beginValue = el.value.scrollTop
-      const frameFunc = () => {
-        if (!el.value) return
-        const progress = (Date.now() - beginTime) / 500
-        if (progress < 1) {
-          el.value.scrollTop = beginValue * (1 - easeInOutCubic(progress))
-          requestAnimationFrame(frameFunc)
-        } else {
-          el.value.scrollTop = 0
-        }
-      }
+const ns = useNamespace('backtop')
+const el = shallowRef<HTMLElement | undefined>(document.documentElement)
+const container = shallowRef<Document | HTMLElement>(document)
+const visible = ref(false)
+const styleBottom = computed(() => `${props.bottom}px`)
+const styleRight = computed(() => `${props.right}px`)
+
+const scrollToTop = () => {
+  if (!el.value) return
+  const beginTime = Date.now()
+  const beginValue = el.value.scrollTop
+  const frameFunc = () => {
+    if (!el.value) return
+    const progress = (Date.now() - beginTime) / 500
+    if (progress < 1) {
+      el.value.scrollTop = beginValue * (1 - easeInOutCubic(progress))
       requestAnimationFrame(frameFunc)
+    } else {
+      el.value.scrollTop = 0
     }
-    const handleScroll = () => {
-      if (el.value) visible.value = el.value.scrollTop >= props.visibilityHeight
+  }
+  requestAnimationFrame(frameFunc)
+}
+const handleScroll = () => {
+  if (el.value) visible.value = el.value.scrollTop >= props.visibilityHeight
+}
+const handleClick = (event: MouseEvent) => {
+  scrollToTop()
+  emit('click', event)
+}
+
+const handleScrollThrottled = useThrottleFn(handleScroll, 300)
+
+onMounted(() => {
+  if (props.target) {
+    el.value = document.querySelector<HTMLElement>(props.target) ?? undefined
+    if (!el.value) {
+      throwError(COMPONENT_NAME, `target is not existed: ${props.target}`)
     }
-    const handleClick = (event: MouseEvent) => {
-      scrollToTop()
-      emit('click', event)
-    }
+    container.value = el.value
+  }
 
-    const handleScrollThrottled = useThrottleFn(handleScroll, 300)
-
-    onMounted(() => {
-      if (props.target) {
-        el.value =
-          document.querySelector<HTMLElement>(props.target) ?? undefined
-        if (!el.value) {
-          throwError(COMPONENT_NAME, `target is not existed: ${props.target}`)
-        }
-        container.value = el.value
-      }
-
-      useEventListener(container, 'scroll', handleScrollThrottled)
-    })
-
-    return {
-      visible,
-      styleBottom,
-      styleRight,
-      handleClick,
-      ns,
-    }
-  },
+  useEventListener(container, 'scroll', handleScrollThrottled)
 })
 </script>

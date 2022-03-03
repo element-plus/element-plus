@@ -52,4 +52,8 @@ export const usePopoverProps = buildProps({
     type: Boolean,
     default: true,
   },
+  persistent: {
+    type: Boolean,
+    default: true,
+  },
 } as const)

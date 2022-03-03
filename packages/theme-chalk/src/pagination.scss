@@ -223,7 +223,7 @@
     .btn-next,
     .#{$namespace}-pager li {
       margin: 0 4px;
-      background-color: map.get($colors, 'info', 'light-9');
+      background-color: var(--el-pagination-button-bg-color);
       color: var(--el-text-color-regular);
       min-width: 32px;
       border-radius: 2px;

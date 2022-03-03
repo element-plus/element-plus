@@ -123,10 +123,6 @@ $dropdown-divider-width: 1px !default;
       padding-left: 0;
     }
   }
-  @include e(icon) {
-    font-size: 12px;
-    margin: 0 3px;
-  }
 
   .#{$namespace}-dropdown-selfdefine {
     // 自定义
@@ -164,6 +160,7 @@ $dropdown-menu-padding-vertical: map.merge(
   border: none;
   border-radius: var(--el-border-radius-base);
   box-shadow: none;
+  list-style: none;
 
   @include e(item) {
     display: flex;

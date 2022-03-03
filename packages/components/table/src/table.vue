@@ -49,6 +49,7 @@
             :table-layout="tableLayout"
           ></hColgroup>
           <table-header
+            ref="tableHeaderRef"
             :border="border"
             :default-sort="defaultSort"
             :store="store"

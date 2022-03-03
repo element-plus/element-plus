@@ -8,7 +8,7 @@
         v-bind="propsAndAttrs"
         @pointerleave="handlePointerLeave"
         @pointermove="handlePointerMove"
-        @click="handleClick"
+        @clickimpl="handleClick"
       >
         <slot />
       </el-dropdown-item-impl>

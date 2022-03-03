@@ -41,6 +41,19 @@ describe('<ElTooltip />', () => {
       await nextTick()
       expect(findTrigger().text()).toContain(AXIOM)
     })
+    it('content should teleport according appendTo', async () => {
+      const el = document.createElement('div')
+      el.id = 'test'
+      document.body.appendChild(el)
+      wrapper = createComponent({ appendTo: '#test' }, 'test appendTo props')
+      await nextTick()
+      const trigger$ = findTrigger()
+      const triggerEl = trigger$.find('.el-tooltip__trigger')
+      await triggerEl.trigger('mouseenter')
+      expect(document.querySelector('#test')?.innerHTML).toContain(
+        'test appendTo props'
+      )
+    })
   })
 
   describe('deprecating API', () => {

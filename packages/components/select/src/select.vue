@@ -12,7 +12,7 @@
       :teleported="compatTeleported"
       :popper-class="[nsSelect.e('popper'), popperClass]"
       :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
-      effect="light"
+      :effect="effect"
       pure
       trigger="click"
       :transition="`${nsSelect.namespace.value}-zoom-in-top`"
@@ -29,7 +29,13 @@
             :class="nsSelect.e('tags')"
             :style="selectTagsStyle"
           >
-            <span v-if="collapseTags && selected.length">
+            <span
+              v-if="collapseTags && selected.length"
+              :style="{
+                marginLeft:
+                  prefixWidth && selected.length ? `${prefixWidth}px` : '',
+              }"
+            >
               <el-tag
                 :closable="!selectDisabled && !selected[0].isDisabled"
                 :size="collapseTagSize"
@@ -278,6 +284,10 @@ export default defineComponent({
     size: {
       type: String as PropType<ComponentSize>,
       validator: isValidComponentSize,
+    },
+    effect: {
+      type: String as PropType<'light' | 'dark' | string>,
+      default: 'light',
     },
     disabled: Boolean,
     clearable: Boolean,

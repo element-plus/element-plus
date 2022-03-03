@@ -112,6 +112,7 @@ $switch-font-size: map.merge(
       justify-content: center;
       align-items: center;
       left: 50%;
+      white-space: nowrap;
 
       .is-icon,
       .is-text {
@@ -170,6 +171,7 @@ $switch-font-size: map.merge(
 
       .#{$namespace}-switch__inner {
         left: 50%;
+        white-space: nowrap;
         margin-left: calc(-1px - var(--el-switch-button-size));
       }
     }

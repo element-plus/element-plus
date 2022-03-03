@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
 
@@ -23,6 +23,18 @@ jobs:
         uses: pnpm/action-setup@v2
         with:
           version: latest
+
+      - name: Cache ~/.pnpm-store
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-pnpm-store
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-preview-${{ env.cache-name }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-preview-${{ env.cache-name }}-
+            ${{ runner.os }}-preview-
+            ${{ runner.os }}-
 
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
@@ -51,7 +63,7 @@ jobs:
           NODE_OPTIONS: --max-old-space-size=4096
 
       - name: Deploy staging website
-        uses: JamesIves/github-pages-deploy-action@v4.2.3
+        uses: JamesIves/github-pages-deploy-action@v4.2.5
         with:
           token: ${{ secrets.EP_BOT_TOKEN }}
           branch: main

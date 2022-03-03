@@ -312,12 +312,12 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
     height: 100%;
   }
 
-  @include e(empty) {
+  & .#{$namespace}-color-picker__empty {
     font-size: 12px;
     color: var(--el-text-color-secondary);
   }
 
-  @include e(icon) {
+  & .#{$namespace}-color-picker__icon {
     display: inline-flex;
     justify-content: center;
     align-items: center;

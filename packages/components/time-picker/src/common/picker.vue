@@ -15,6 +15,7 @@
     :stop-popper-mouse-event="false"
     :hide-after="0"
     persistent
+    @before-show="onBeforeShow"
     @show="onShow"
     @hide="onHide"
   >
@@ -212,7 +213,7 @@ const valueEquals = function (a: Array<Date> | any, b: Array<Date> | any) {
 }
 
 const parser = function (
-  date: Date | string,
+  date: string | number | Date,
   format: string,
   lang: string
 ): Dayjs {
@@ -223,7 +224,11 @@ const parser = function (
   return day.isValid() ? day : undefined
 }
 
-const formatter = function (date: number | Date, format: string, lang: string) {
+const formatter = function (
+  date: string | number | Date,
+  format: string,
+  lang: string
+) {
   if (isEmpty(format)) return date
   if (format === 'x') return +date
   return dayjs(date).locale(lang).format(format)
@@ -331,8 +336,11 @@ export default defineComponent({
       emitInput(result)
     }
 
-    const onShow = () => {
+    const onBeforeShow = () => {
       pickerActualVisible.value = true
+    }
+
+    const onShow = () => {
       ctx.emit('visible-change', true)
     }
 
@@ -683,6 +691,7 @@ export default defineComponent({
       onPanelChange,
       focus,
       onShow,
+      onBeforeShow,
       onHide,
     }
   },

@@ -16,7 +16,7 @@
       :stop-popper-mouse-event="false"
       :popper-options="popperOptions"
       :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
-      effect="light"
+      :effect="effect"
       placement="bottom-start"
       pure
       :transition="`${nsSelectV2.namespace.value}-zoom-in-top`"

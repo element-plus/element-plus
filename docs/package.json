@@ -9,28 +9,29 @@
     "crowdin-credentials": "sucrase-node .vitepress/build/crowdin-credentials.ts"
   },
   "dependencies": {
-    "@docsearch/js": "3.0.0-alpha.50",
-    "@docsearch/react": "3.0.0-alpha.50",
-    "@vueuse/core": "7.6.1",
-    "axios": "0.25.0",
-    "clipboard-copy": "4.0.1",
+    "@docsearch/js": "^3.0.0",
+    "@docsearch/react": "^3.0.0",
+    "@vueuse/core": "^7.7.0",
+    "axios": "^0.26.0",
+    "clipboard-copy": "^4.0.1",
     "element-plus": "npm:element-plus@latest",
-    "normalize.css": "8.0.1",
-    "nprogress": "0.2.0"
+    "normalize.css": "^8.0.1",
+    "nprogress": "^0.2.0",
+    "prism-theme-vars": "^0.2.2"
   },
   "devDependencies": {
-    "@crowdin/cli": "3.7.7",
-    "@iconify-json/ri": "1.0.2",
-    "@types/markdown-it": "12.2.3",
-    "cross-env": "7.0.3",
-    "escape-html": "1.0.3",
-    "markdown-it": "12.3.2",
-    "markdown-it-container": "3.0.0",
-    "unplugin-icons": "0.13.1",
-    "unplugin-vue-components": "0.17.18",
-    "vite": "2.8.0",
-    "vite-plugin-inspect": "0.3.14",
-    "vite-plugin-windicss": "1.7.0",
-    "vitepress": "0.22.0"
+    "@crowdin/cli": "^3.7.8",
+    "@iconify-json/ri": "^1.1.0",
+    "@types/markdown-it": "^12.2.3",
+    "cross-env": "^7.0.3",
+    "escape-html": "^1.0.3",
+    "markdown-it": "^12.3.2",
+    "markdown-it-container": "^3.0.0",
+    "unplugin-icons": "^0.13.2",
+    "unplugin-vue-components": "^0.17.21",
+    "vite": "^2.8.4",
+    "vite-plugin-inspect": "^0.4.3",
+    "vite-plugin-windicss": "^1.8.1",
+    "vitepress": "^0.22.3"
   }
 }

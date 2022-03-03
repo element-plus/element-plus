@@ -1,0 +1,74 @@
+import { nextTick, computed, defineComponent } from 'vue'
+import { mount } from '@vue/test-utils'
+import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import Chinese from '@element-plus/locale/lang/zh-cn'
+import English from '@element-plus/locale/lang/en'
+import { useLocale, buildTranslator } from '../use-locale'
+import { provideGlobalConfig } from '..'
+import type { Language } from '@element-plus/locale'
+import type { PropType, ComponentPublicInstance } from 'vue'
+import type { VueWrapper } from '@vue/test-utils'
+
+const TestComp = defineComponent({
+  setup() {
+    const { t } = useLocale()
+    return () => (
+      <div class="locale-manifest">{t('el.popconfirm.confirmButtonText')}</div>
+    )
+  },
+})
+
+describe('use-locale', () => {
+  let wrapper: VueWrapper<ComponentPublicInstance>
+
+  beforeEach(() => {
+    wrapper = mount(
+      {
+        props: {
+          locale: Object as PropType<Language>,
+        },
+        components: {
+          'el-test': TestComp,
+        },
+        setup(props, { slots }) {
+          provideGlobalConfig(computed(() => ({ locale: props.locale })))
+          return () => slots.default?.()
+        },
+      },
+      {
+        props: { locale: Chinese },
+        slots: { default: () => <TestComp /> },
+      }
+    )
+  })
+
+  afterEach(() => {
+    wrapper.unmount()
+  })
+
+  it('should provide locale correctly', async () => {
+    await nextTick()
+    expect(wrapper.find('.locale-manifest').text()).toBe(
+      Chinese.el.popconfirm.confirmButtonText
+    )
+  })
+
+  it('should update the text reactively', async () => {
+    await nextTick()
+    expect(wrapper.find('.locale-manifest').text()).toBe(
+      Chinese.el.popconfirm.confirmButtonText
+    )
+    await wrapper.setProps({
+      locale: English,
+    })
+
+    expect(wrapper.find('.locale-manifest').text()).toBe(
+      English.el.popconfirm.confirmButtonText
+    )
+  })
+
+  it('return key name if not defined', () => {
+    const t = buildTranslator(English)
+    expect(t('el.popconfirm.someThing')).toBe('el.popconfirm.someThing')
+  })
+})

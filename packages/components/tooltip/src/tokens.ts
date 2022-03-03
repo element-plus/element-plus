@@ -11,6 +11,8 @@ export type ElTooltipInjectionContext = {
   onToggle: (e: Event) => void
   onShow: () => void
   onHide: () => void
+  onBeforeShow: () => void
+  onBeforeHide: () => void
   updatePopper: () => void
 }
 

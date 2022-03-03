@@ -79,7 +79,7 @@
     }
   }
 
-  @include e(closeBtn) {
+  & .#{$namespace}-message__closeBtn {
     position: absolute;
     top: 50%;
     right: 15px;

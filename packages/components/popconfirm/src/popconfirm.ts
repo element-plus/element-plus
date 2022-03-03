@@ -1,4 +1,4 @@
-import { buttonType } from '@element-plus/components/button'
+import { buttonTypes } from '@element-plus/components/button'
 import { QuestionFilled } from '@element-plus/icons-vue'
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
@@ -16,12 +16,12 @@ export const popconfirmProps = buildProps({
   },
   confirmButtonType: {
     type: String,
-    values: buttonType,
+    values: buttonTypes,
     default: 'primary',
   },
   cancelButtonType: {
     type: String,
-    values: buttonType,
+    values: buttonTypes,
     default: 'text',
   },
   icon: {
@@ -47,5 +47,6 @@ export const popconfirmProps = buildProps({
     type: definePropType<(e: Event) => Promise<void> | void>(Function),
   },
   teleported: useTooltipContentProps.teleported,
+  persistent: useTooltipContentProps.persistent,
 } as const)
 export type PopconfirmProps = ExtractPropTypes<typeof popconfirmProps>

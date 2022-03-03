@@ -1,5 +1,5 @@
 import path from 'path'
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import Components from 'unplugin-vue-components/vite'
@@ -8,11 +8,24 @@ import Inspect from 'vite-plugin-inspect'
 import mkcert from 'vite-plugin-mkcert'
 import glob from 'fast-glob'
 import DefineOptions from 'unplugin-vue-define-options/vite'
+import esbuild from 'rollup-plugin-esbuild'
 import { epRoot, pkgRoot, projRoot, epPackage } from '../build/utils/paths'
 import { getPackageDependencies } from '../build/utils/pkg'
 import './vite.init'
 
-export default defineConfig(async () => {
+const esbuildPlugin = () => ({
+  ...esbuild({
+    target: 'chrome64',
+    include: /\.vue$/,
+    loaders: {
+      '.vue': 'js',
+    },
+  }),
+  enforce: 'post',
+})
+
+export default defineConfig(async ({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '')
   const { dependencies } = getPackageDependencies(epPackage)
 
   const optimizeDeps = (
@@ -36,10 +49,11 @@ export default defineConfig(async () => {
     },
     server: {
       host: true,
-      https: !!process.env.HTTPS,
+      https: !!env.HTTPS,
     },
     plugins: [
       vue(),
+      esbuildPlugin(),
       vueJsx(),
       DefineOptions(),
       Components({
@@ -53,6 +67,9 @@ export default defineConfig(async () => {
 
     optimizeDeps: {
       include: ['vue', '@vue/shared', ...dependencies, ...optimizeDeps],
+    },
+    esbuild: {
+      target: 'chrome64',
     },
   }
 })

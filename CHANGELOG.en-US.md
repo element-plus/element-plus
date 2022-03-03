@@ -1,5 +1,187 @@
 ## Changelog
 
+### 2.0.4
+
+_2022-02-28_
+
+#### Features
+
+- Components [button] add icon slot (#6343 by @sxzz)
+
+#### Bug fixes
+
+- Docs jitter when expand source code (#6279 by @msidolphin)
+- Docs fix banner covering sponsor problem (#6269 by @msidolphin)
+- Deps update dependency @element-plus/icons-vue to v1 (#6319 by @renovate[bot])
+- Components [el-dialog] don't ignore z-index (#6332 by @purepear)
+- Components [el-dialog] revert focus trapping feature (#6346 by @JeremyWuuuuu)
+
+#### Refactors
+
+- Components [tag] switch to script-setup syntax (#6288 by @freedomlang)
+- Utils extract `isElement` (#6292 by @btea)
+
+### 2.0.3
+
+_2022-02-25_
+
+#### Features
+
+- Components [el-menu] support customize popper offset (#6049 by @msidolphin)
+- [el-popover] add before-enter、before-leave (#6203 by @xiaoxian521)
+- Docs add docs dark basic style (#6196 by @YunYouJun)
+- Components [el-popconfirm] support persistent (#6207 by @msidolphin)
+- Components [el-dialog] enhancement for dialog a11y (#6087 by @JeremyWuuuuu)
+- Components [el-row] enhancement for supporting space-evenly (#6223 by @gp5251)
+- Components [badge] expose content (#6247 by @sxzz)
+- Components [message] add vue context for message component (#6259 by @JeremyWuuuuu)
+
+#### Bug fixes
+
+- Components [el-table] auto-load missing scrollbar style (#6045 by @msidolphin)
+- Components [el-input] missing margin between two icons (#5942 by @kouchao) (#6017)
+- Components [el-rate] allow-half show two icon (#6076 by @btea)
+- Components pass through appendTo (#6146 by @hhparty)
+- Components [el-table] footer layout error (#6090 by @msidolphin)
+- Components [el-table] optimize popover  performance (#6170 by @msidolphin)
+- Components [el-table] column width calc error during resize (#6171 by @msidolphin)
+- Components [el-dropdown-item] (#6147 by @iwusong)
+- Components [el-switch] increase the word count of (in)active-text (#6140 by @Alanscut)
+- Docs [popover] add description of teleported (#6137 by @Alanscut)
+- Formatter func parameter type miss (#6186 by @zongzi531)
+- Components [el-table] some columns are missing in older chrome (#6111 by @msidolphin)
+- [el-popover] compatible svg (#6089 by @xiaoxian521)
+- Components [select-v2] fix #6083 bug (#6084 by @weidehai)
+- Locale language type (#6198 by @sxzz)
+- Deps (#6213 by @sxzz)
+- Docs remove fixed variables & add color palette (#6216 by @YunYouJun)
+- Components [el-dialog] refactor left overs (#6211 by @JeremyWuuuuu)
+- Style classes for hiding elements (#6217 by @Alanscut)
+- Components [el-table] fix clearFilter failure problem (#6212 by @msidolphin)
+- Components [el-popper] fix #6152 bug (#6173 by @weidehai)
+- Components[el-date-picker] styles (#6187 by @gjfei)
+- Theme-chalk remove useless tag close icon css attribute (#6242 by @YunYouJun)
+- Deps update all non-major dependencies (#6251 by @renovate[bot])
+- Components [el-dropdown-menu] adjust html tag (#6231 by @msidolphin)
+- Components [el-time-picker] lags when open range picker (#6249 by @msidolphin)
+- Docs do not useDark when production (#6262 by @YunYouJun)
+- Typo (#6263 by @HandsomeOne)
+- [el-select] remove last tag margin-right (#5992 by @btea)
+- Style(components): [el-select] add margin-left when collapse-tags exists (#6037 by @wzrove)
+
+#### Refactors
+
+- Improve tsconfig (#5993 by @sxzz)
+- Components [badge] switch to script-setup syntax (#6068 by @buqiyuan)
+- Components [el-badge] use utils isNumber (#6095 by @btea)
+- Components [affix] switch to script-setup syntax (#6065 by @buqiyuan)
+- Components [alert] switch to script-setup syntax (#6066 by @buqiyuan)
+- Components [backtop] switch to script-setup syntax (#6069 by @buqiyuan)
+- Components [el-input] use box-shadow to implement border (#6031 by @msidolphin)
+- Theme-chalk use scss list & map generate type css var (#6221 by @YunYouJun)
+- Components [avatar] switch to script-setup syntax (#6070 by @buqiyuan)
+- Components [affix] use JSX in Unit test (#6159 by @buqiyuan)
+- Components [backtop] use JSX in Unit test (#6160 by @buqiyuan)
+- Components [card] switch to script-setup syntax (#6071 by @buqiyuan)
+- Components [button-group] switch to script-setup syntax (#6256 by @freedomlang)
+
+### 2.0.2
+
+_2022-02-14_
+
+#### Features
+
+- Switch to lodash-unified (#5734 by @sxzz)
+- Components [el-table] support tableLayout (#5860 by @msidolphin)
+- Tabpane name support number type (#5915 by @xiaoxian521)
+- Dev support multi-entry (#5945 by @sxzz)
+- Export all locale (#5943 by @sxzz)
+- Components [el-time-picker] add visibleChange event (#5704 by @weidehai)
+- Add `defineOptions` for `script-setup` (#5932 by @sxzz)
+- Support jsx, closes #5708 (#5947 by @sxzz)
+- Components [el-table] `maxHeight` support more units (#5904 by @msidolphin)
+- Components [el-image] support append preview to body (#5883 by @msidolphin)
+- Components [el-select] add effect and close #5956 (#5976 by @BeADre)
+- Play file doesn't exist jump to App (#5985 by @btea)
+- Components [el-pagination] support custom button background color (#6012 by @DarkHighness)
+- Add support for malagay language (#6019 by @mrzdevcore)
+
+#### Bug fixes
+
+- Hooks [use-namespace] cannot be used in nested hooks (#5795 by @buqiyuan)
+- Compnents [el-input-number] cannot read properties of null (reading 'setAttribute') #5691
+- Components [el-dropdown] use custom attributes for dropdown items (#5779 by @mawi1512)
+- Components [el-table] group header not supported fixed column (#5873 by @msidolphin)
+- Components [el-popover] update popperInstance when props change (#5835 by @QuXiaoMing)
+- Only enable preserveSymlinks on build (#5877 by @sxzz)
+- Utils undefined when omiting prop default (#5868 by @sxzz)
+- Docs [pagination] example bugfix according to new usage (#5833 by @ioslh)
+- Utils-v2 add Function type to iconPropType (#5890 by @xiaoxian521)
+- Components [el-slider] sync manually updated value (#5876 by @msidolphin)
+- Docs algolia searching (#5926 by @JeremyWuuuuu)
+- Value does not exist, warning appears (#5906 by @xiaoxian521)
+- Components [dialog] fix dialog not fill full screen after drag (#5875 by @buqiyuan)
+- Hooks `namespace.is` default state (#5941 by @sxzz)
+- Components [el-popconfirm] fix onConfirm and onCancel type bug (#5948 by @virgosoy)
+- Components [select] define nsInput & rename ns to nsSelect (#5953 by @buqiyuan)
+- Components [el-time-picker] border overlap in hover state (#5950 by @msidolphin)
+- Components [el-select] (#5952 by @JacBian)
+- Components [select] change the tagType and style default value (#5884 by @btea)
+- Components [el-menu] collapse menu active color (#5735 by @adaex)
+- [el-select-v2] avoid remove new option when reserve-keyword is true (#5912 by @msidolphin)
+- Delete alteredCollapse in menu (#5889 by @xiaoxian521)
+- Components [el-table] avoid scrollbar not display (#5920 by @msidolphin)
+- Play fix tsconfig types path (#5965 by @btea)
+- Replenish popover missing types (#5958 by @xiaoxian521)
+- Namespace typo (#5972 by @msidolphin)
+- Utils restore scrollIntoView method (#5973 by @JeremyWuuuuu)
+- El-tree isLeaf type is string (#5954 by @xiaoxian521)
+- Components fix [el-select] infinite bounce (#5977 by @eriksyuan)
+- Delete offset in usePopoverProps (#5980 by @xiaoxian521)
+- Add offset in usePopoverProps (#5982 by @xiaoxian521)
+- Components [el-select] tag default theme (#5983 by @JeremyWuuuuu)
+- Components [el-popper] effect prop validation error (#5978 by @JeremyWuuuuu)
+- Components style error when component import order is unknown (#5938 by @emojiiii)
+
+#### Refactors
+
+- Components [collapse-transition] use useNamespace (#5716 by @buqiyuan)
+- Components [color-picker] use useNamespace (#5718 by @buqiyuan)
+- Components [page-header] use useNamespace (#5724 by @buqiyuan)
+- Components [overlay] use useNamespace (#5723 by @buqiyuan)
+- Components [teleport] use useNamespace (#5751 by @buqiyuan)
+- Components [notification] use useNamespace (#5722 by @buqiyuan)
+- Add transition namespace (#5829 by @sxzz)
+- Components [col] use useNamespace (#5714 by @buqiyuan)
+- Components [progress] use useNamespace (#5729 by @buqiyuan)
+- Components [collapse,collapse-item] use useNamespace (#5715 by @buqiyuan)
+- Components [popconfirm] use useNamespace (#5726 by @buqiyuan)
+- Components [message] use useNamespace (#5720 by @buqiyuan)
+- Components [dialog] use useNamespace (#5761 by @buqiyuan)
+- Components [space] use useNamespace (#5749 by @buqiyuan)
+- Hooks refactor popup manager to useZIndex (#5701 by @sxzz)
+- Utils-v2 refactor utils (#5699 by @sxzz)
+- Components [upload] use useNamespace (#5758 by @buqiyuan)
+- Components  [tree-v2] use useNamespace (#5757 by @buqiyuan)
+- Components [transfer] use useNamespace (#5753 by @buqiyuan)
+- Components [tooltip] use useNamespace (#5752 by @buqiyuan)
+- Components [select-v2] use useNamespace (#5738 by @buqiyuan)
+- Components [slider] use useNamespace (#5743 by @buqiyuan)
+- Components [tree] use useNamespace (#5754 by @buqiyuan)
+- Components [select] use useNamespace (#5733 by @buqiyuan)
+- Components [popper] use useNamespace (#5728 by @buqiyuan)
+- Components [steps] use useNamespace (#5944 by @buqiyuan)
+- Components [pagination] use useNamespace (#5725 by @buqiyuan)
+- Components [dropdown,dropdown-item,dropdown-menu] use useNamespace (#5719 by @buqiyuan)
+- Utils migrate utils (#5949 by @sxzz)
+- Fix buildProps (#5936 by @sxzz)
+- Components [popover] use useNamespace (#5727 by @buqiyuan)
+- Components refactor button (#5933 by @sxzz)
+- Components [radio,radio-button,radio-group] use useNamespace (#5731 by @buqiyuan)
+- Utils improve escapeStringRegexp (#6013 by @sxzz)
+- Components refactor icon (#5934 by @sxzz)
+- Fix select-v2 placeholder's size wrong (#5989 by @xiaoxian521)
+
 ### 2.0.1
 
 _2022-02-07_

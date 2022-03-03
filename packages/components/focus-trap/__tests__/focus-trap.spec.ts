@@ -30,7 +30,7 @@ describe('<ElFocusTrap', () => {
     </div>`,
   }
 
-  const createComponent = (props = {}, items = null) =>
+  const createComponent = (props = {}, items = 0) =>
     mount(ElFocusTrap, {
       props: {
         trapped: true,
@@ -68,7 +68,7 @@ describe('<ElFocusTrap', () => {
 
       const descendants = findDescendants()
       expect(descendants).toHaveLength(3)
-      expect(document.activeElement).toBe(descendants.at(0).element)
+      expect(document.activeElement).toBe(descendants.at(0)?.element)
     })
   })
 
@@ -105,7 +105,7 @@ describe('<ElFocusTrap', () => {
 
       const childComponent = findFocusComponent()
       const items = findDescendants()
-      expect(document.activeElement).toBe(items.at(0).element)
+      expect(document.activeElement).toBe(items.at(0)?.element)
 
       /**
        * NOTE:
@@ -117,14 +117,14 @@ describe('<ElFocusTrap', () => {
       await childComponent.trigger('keydown.shift', {
         key: EVENT_CODE.tab,
       })
-      expect(document.activeElement).toBe(items.at(0).element)
-      ;(items.at(2).element as HTMLElement).focus()
-      expect(document.activeElement).toBe(items.at(2).element)
+      expect(document.activeElement).toBe(items.at(0)?.element)
+      ;(items.at(2)?.element as HTMLElement).focus()
+      expect(document.activeElement).toBe(items.at(2)?.element)
 
       await childComponent.trigger('keydown', {
         key: EVENT_CODE.tab,
       })
-      expect(document.activeElement).toBe(items.at(2).element)
+      expect(document.activeElement).toBe(items.at(2)?.element)
 
       // set loop to true so that tab can tabbing from last to first and back forth
       await wrapper.setProps({
@@ -134,12 +134,12 @@ describe('<ElFocusTrap', () => {
       await childComponent.trigger('keydown', {
         key: EVENT_CODE.tab,
       })
-      expect(document.activeElement).toBe(items.at(0).element)
+      expect(document.activeElement).toBe(items.at(0)?.element)
 
       await childComponent.trigger('keydown.shift', {
         key: EVENT_CODE.tab,
       })
-      expect(document.activeElement).toBe(items.at(2).element)
+      expect(document.activeElement).toBe(items.at(2)?.element)
     })
 
     it('should not be able to navigate when no focusable element contained', async () => {
@@ -166,13 +166,13 @@ describe('<ElFocusTrap', () => {
 
       const focusComponent = findFocusComponent()
       const items = findDescendants()
-      expect(document.activeElement).toBe(items.at(0).element)
+      expect(document.activeElement).toBe(items.at(0)?.element)
 
       await focusComponent.trigger('keydown', {
         key: EVENT_CODE.tab,
       })
 
-      expect(document.activeElement).toBe(items.at(0).element)
+      expect(document.activeElement).toBe(items.at(0)?.element)
     })
 
     it('should not be able to navigate if the current layer is paused', async () => {
@@ -186,31 +186,30 @@ describe('<ElFocusTrap', () => {
 
       const focusComponent = findFocusComponent()
       const items = findDescendants()
-      expect(document.activeElement).toBe(items.at(0).element)
+      expect(document.activeElement).toBe(items.at(0)?.element)
 
       await focusComponent.trigger('keydown.shift', {
         key: EVENT_CODE.tab,
       })
-      expect(document.activeElement).toBe(items.at(2).element)
+      expect(document.activeElement).toBe(items.at(2)?.element)
 
-      const newFocusTrap = createComponent()
+      const newFocusTrap = createComponent({ loop: true }, 3)
       await nextTick()
-      expect(document.activeElement).toBe(
-        newFocusTrap.find(`.${childKls}`).element
-      )
+      expect(document.activeElement).toBe(newFocusTrap.find('.item').element)
 
       await focusComponent.trigger('keydown', {
         key: EVENT_CODE.tab,
       })
-      expect(document.activeElement).not.toBe(items.at(0).element)
-
+      expect(document.activeElement).not.toBe(items.at(0)?.element)
       newFocusTrap.unmount()
-      expect(document.activeElement).toBe(items.at(2).element)
+      await nextTick()
+
+      expect(document.activeElement).toBe(items.at(2)?.element)
 
       await focusComponent.trigger('keydown', {
         key: EVENT_CODE.tab,
       })
-      expect(document.activeElement).toBe(items.at(0).element)
+      expect(document.activeElement).toBe(items.at(0)?.element)
     })
   })
 })

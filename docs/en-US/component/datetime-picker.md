@@ -81,11 +81,12 @@ datetime-picker/default-time
 | id                    | same as `id` in native input                                                                          | string / array(string)                            | String `id="my-datetime"` or array `:id="['my-range-start', 'my-range-end']"` for date range                                                                                    | -                   |
 | name                  | same as `name` in native input                                                                        | string                                            | —                                                                                                                                                                               | —                   |
 | unlink-panels         | unllink two date-panels in range-picker                                                               | boolean                                           | —                                                                                                                                                                               | false               |
-| prefix-icon           | Custom prefix icon component                                                                          | string                                            | —                                                                                                                                                                               | Date                |
-| clear-icon            | Custom clear icon component                                                                           | string                                            | —                                                                                                                                                                               | CircleClose         |
+| prefix-icon           | Custom prefix icon component                                                                          | string / Component                                | —                                                                                                                                                                               | Date                |
+| clear-icon            | Custom clear icon component                                                                           | string / Component                                | —                                                                                                                                                                               | CircleClose         |
 | shortcuts             | an object array to set shortcut options                                                               | object[{ text: string, value: date / function }]  | —                                                                                                                                                                               | —                   |
 | disabledDate          | a function determining if a date is disabled with that date as its parameter. Should return a Boolean | function                                          | —                                                                                                                                                                               | —                   |
 | cellClassName         | set custom className                                                                                  | Function(Date)                                    | —                                                                                                                                                                               | —                   |
+| teleported            | whether datetime-picker dropdown is teleported to the body                                            | boolean                                           | true / false                                                                                                                                                                    | true                |
 
 ## Events
 
@@ -102,3 +103,10 @@ datetime-picker/default-time
 | Method | Description               | Parameters |
 | ------ | ------------------------- | ---------- |
 | focus  | focus the Input component | —          |
+
+## Slots
+
+| Name            | Description                    |
+| --------------- | ------------------------------ |
+| default         | custom cell content            |
+| range-separator | custom range separator content |

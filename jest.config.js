@@ -3,6 +3,11 @@
  */
 module.exports = {
   setupFiles: ['./jest.setup.js'],
+  testMatch: [
+    '**/__tests__/**/*.[jt]s?(x)',
+    '**/?(*.)+(spec|test).[jt]s?(x)',
+    '!**/**vitest**',
+  ],
   testPathIgnorePatterns: ['/node_modules/', 'dist'],
   modulePathIgnorePatterns: ['/node_modules/', 'dist', 'cypress'],
   testEnvironment: 'jsdom',

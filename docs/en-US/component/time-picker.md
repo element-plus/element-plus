@@ -64,6 +64,7 @@ time-picker/range
 | disabled-hours        | To specify the array of hours that cannot be selected   | function                                   | —                                                                                   | —           |
 | disabled-minutes      | To specify the array of minutes that cannot be selected | function(selectedHour)                     | —                                                                                   | —           |
 | disabled-seconds      | To specify the array of seconds that cannot be selected | function(selectedHour, selectedMinute)     | —                                                                                   | —           |
+| teleported            | whether time-picker dropdown is teleported to the body  | boolean                                    | true / false                                                                        | true        |
 
 ## Events
 

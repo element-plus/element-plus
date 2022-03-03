@@ -1,5 +1,6 @@
 {
   "name": "@element-plus/constants",
   "private": true,
-  "license": "MIT"
+  "license": "MIT",
+  "main": "index.ts"
 }

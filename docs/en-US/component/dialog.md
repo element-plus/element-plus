@@ -118,9 +118,11 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 
 ## Events
 
-| Event Name | Description                                     | Parameters |
-| ---------- | ----------------------------------------------- | ---------- |
-| open       | triggers when the Dialog opens                  | —          |
-| opened     | triggers when the Dialog opening animation ends | —          |
-| close      | triggers when the Dialog closes                 | —          |
-| closed     | triggers when the Dialog closing animation ends | —          |
+| Event Name       | Description                                      | Parameters |
+| ---------------- | ------------------------------------------------ | ---------- |
+| open             | triggers when the Dialog opens                   | —          |
+| opened           | triggers when the Dialog opening animation ends  | —          |
+| close            | triggers when the Dialog closes                  | —          |
+| closed           | triggers when the Dialog closing animation ends  | —          |
+| open-auto-focus  | triggers after Dialog opens and content focused  | —          |
+| close-auto-focus | triggers after Dialog closed and content focused | —          |

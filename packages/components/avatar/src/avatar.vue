@@ -15,8 +15,8 @@
   </span>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed, ref, watch } from 'vue'
+<script lang="ts" setup>
+import { computed, ref, watch } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { isNumber, isString, addUnit } from '@element-plus/utils'
@@ -24,59 +24,47 @@ import { avatarEmits, avatarProps } from './avatar'
 
 import type { CSSProperties } from 'vue'
 
-export default defineComponent({
+defineOptions({
   name: 'ElAvatar',
-  components: {
-    ElIcon,
-  },
-  props: avatarProps,
-  emits: avatarEmits,
-
-  setup(props, { emit }) {
-    const ns = useNamespace('avatar')
-
-    const hasLoadError = ref(false)
-
-    const avatarClass = computed(() => {
-      const { size, icon, shape } = props
-      const classList = [ns.b()]
-      if (isString(size)) classList.push(ns.m(size))
-      if (icon) classList.push(ns.m('icon'))
-      if (shape) classList.push(ns.m(shape))
-      return classList
-    })
-
-    const sizeStyle = computed(() => {
-      const { size } = props
-      return isNumber(size)
-        ? ({
-            '--el-avatar-size': addUnit(size),
-          } as CSSProperties)
-        : undefined
-    })
-
-    const fitStyle = computed<CSSProperties>(() => ({
-      objectFit: props.fit,
-    }))
-
-    // need reset hasLoadError to false if src changed
-    watch(
-      () => props.src,
-      () => (hasLoadError.value = false)
-    )
-
-    function handleError(e: Event) {
-      hasLoadError.value = true
-      emit('error', e)
-    }
-
-    return {
-      hasLoadError,
-      avatarClass,
-      sizeStyle,
-      fitStyle,
-      handleError,
-    }
-  },
 })
+
+const props = defineProps(avatarProps)
+const emit = defineEmits(avatarEmits)
+
+const ns = useNamespace('avatar')
+
+const hasLoadError = ref(false)
+
+const avatarClass = computed(() => {
+  const { size, icon, shape } = props
+  const classList = [ns.b()]
+  if (isString(size)) classList.push(ns.m(size))
+  if (icon) classList.push(ns.m('icon'))
+  if (shape) classList.push(ns.m(shape))
+  return classList
+})
+
+const sizeStyle = computed(() => {
+  const { size } = props
+  return isNumber(size)
+    ? ({
+        '--el-avatar-size': addUnit(size),
+      } as CSSProperties)
+    : undefined
+})
+
+const fitStyle = computed<CSSProperties>(() => ({
+  objectFit: props.fit,
+}))
+
+// need reset hasLoadError to false if src changed
+watch(
+  () => props.src,
+  () => (hasLoadError.value = false)
+)
+
+function handleError(e: Event) {
+  hasLoadError.value = true
+  emit('error', e)
+}
 </script>

@@ -32,6 +32,7 @@
       :teleported="teleported"
       :transition="transition"
       :z-index="zIndex"
+      :append-to="appendTo"
     >
       <slot name="content">
         <span v-if="rawContent" v-html="content"></span>
@@ -92,7 +93,7 @@ export default defineComponent({
     ...usePopperArrowProps,
     ...useTooltipProps,
   },
-  emits: [...useModelToggleEmits, 'show', 'hide'],
+  emits: [...useModelToggleEmits, 'before-show', 'before-hide', 'show', 'hide'],
   setup(props, { emit }) {
     usePopperContainer()
     const compatShowAfter = computed(() => {
@@ -159,6 +160,12 @@ export default defineComponent({
       },
       onHide: () => {
         emit('hide')
+      },
+      onBeforeShow: () => {
+        emit('before-show')
+      },
+      onBeforeHide: () => {
+        emit('before-hide')
       },
       updatePopper,
     })

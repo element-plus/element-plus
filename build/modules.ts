@@ -1,7 +1,7 @@
 import { rollup } from 'rollup'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import DefineOptions from 'unplugin-vue-define-options/vite'
+import DefineOptions from 'unplugin-vue-define-options/rollup'
 import css from 'rollup-plugin-css-only'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
