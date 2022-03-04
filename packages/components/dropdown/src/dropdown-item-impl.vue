@@ -1,10 +1,10 @@
 <template>
-  <div
+  <li
     v-if="divided"
     :class="ns.bem('menu', 'item', 'divided')"
     v-bind="$attrs"
-  ></div>
-  <div
+  ></li>
+  <li
     :ref="itemRef"
     v-bind="{ ...dataset, ...$attrs }"
     :aria-disabled="disabled"
@@ -20,7 +20,7 @@
   >
     <el-icon v-if="icon"><component :is="icon" /></el-icon>
     <slot />
-  </div>
+  </li>
 </template>
 
 <script lang="ts">

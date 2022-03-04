@@ -1,6 +1,6 @@
 <template>
   <div
-    :ref="composedDialogRef"
+    ref="dialogRef"
     :class="[
       ns.b(),
       ns.is('fullscreen', fullscreen),
@@ -12,8 +12,7 @@
     role="dialog"
     :aria-label="title || 'dialog'"
     :style="style"
-    @click.stop=""
-    @keydown="onKeydown"
+    @click.stop
   >
     <div ref="headerRef" :class="ns.e('header')">
       <slot name="title">
@@ -45,21 +44,18 @@
 <script lang="ts" setup>
 import { inject } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
-import { FOCUS_TRAP_INJECTION_KEY } from '@element-plus/components/focus-trap'
-import { CloseComponents, composeRefs } from '@element-plus/utils'
-import { dialogContentProps } from './dialog-content'
-
-import { elDialogInjectionKey } from './token'
+import { CloseComponents } from '@element-plus/utils'
+import { dialogInjectionKey } from '@element-plus/tokens'
+import { dialogContentProps, dialogContentEmits } from './dialog-content'
 
 const { Close } = CloseComponents
 
+defineOptions({ name: 'ElDialogContent' })
 defineProps(dialogContentProps)
+defineEmits(dialogContentEmits)
 
-const { dialogRef, headerRef, ns, style } = inject(
-  elDialogInjectionKey,
-  undefined
-)!
+const { dialogRef, headerRef, ns, style } = inject(dialogInjectionKey)!
+// const { focusTrapRef, onKeydown } = inject(FOCUS_TRAP_INJECTION_KEY)!
 
-const { focusTrapRef, onKeydown } = inject(FOCUS_TRAP_INJECTION_KEY, undefined)!
-const composedDialogRef = composeRefs(focusTrapRef, dialogRef)
+// const composedDialogRef = composeRefs(focusTrapRef, dialogRef)
 </script>

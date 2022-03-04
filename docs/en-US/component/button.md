@@ -120,13 +120,14 @@ button/custom
 | ------- | --------------------------- |
 | —       | customize default content   |
 | loading | customize loading component |
+| icon    | customize icon component    |
 
 ## Button-Group Attributes
 
-| Attribute | Description                                      | Type   | Accepted Values             | Default |
-| --------- | ------------------------------------------------ | ------ | --------------------------- | ------- |
-| size      | control the size of buttons in this button-group | string | large / small               | —       |
-| type      | control the type of buttons in this button-group | string | primary / success / warning | —       |
+| Attribute | Description                                      | Type   | Accepted Values       | Default |
+| --------- | ------------------------------------------------ | ------ | --------------------- | ------- |
+| size      | control the size of buttons in this button-group | string | same as button's size | —       |
+| type      | control the type of buttons in this button-group | string | same as button's type | —       |
 
 ## Button-Group Slots
 

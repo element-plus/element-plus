@@ -29,9 +29,6 @@ import { Eleme } from '@element-plus/icons-vue'
 </script>
 
 <style scoped>
-:root {
-  --el-color-primary: #409eff;
-}
 .el-button .custom-loading .circular {
   margin-right: 6px;
   width: 18px;

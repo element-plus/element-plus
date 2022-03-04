@@ -47,6 +47,7 @@ $color-error: map.get($colors, 'error', 'base') !default;
 $color-info: map.get($colors, 'info', 'base') !default;
 
 // https://sass-lang.com/documentation/values/maps#immutability
+// mix color with white
 @mixin set-color-type-light($type, $number) {
   $colors: map.deep-merge(
     (
@@ -54,6 +55,23 @@ $color-info: map.get($colors, 'info', 'base') !default;
         'light-#{$number}':
           mix(
             $color-white,
+            map.get($colors, $type, 'base'),
+            math.percentage(math.div($number, 10))
+          ),
+      ),
+    ),
+    $colors
+  ) !global;
+}
+
+// mix color with black
+@mixin set-color-type-dark($type, $number) {
+  $colors: map.deep-merge(
+    (
+      $type: (
+        'dark-#{$number}':
+          mix(
+            $color-black,
             map.get($colors, $type, 'base'),
             math.percentage(math.div($number, 10))
           ),
@@ -78,6 +96,10 @@ $color-info: map.get($colors, 'info', 'base') !default;
   @each $type in $types {
     @include set-color-type-light($type, $i);
   }
+}
+// --el-color-primary-dark-2
+@each $type in $types {
+  @include set-color-type-dark($type, 2);
 }
 
 $text-color: () !default;
@@ -439,9 +461,9 @@ $input: () !default;
 $input: map.merge(
   (
     'text-color': var(--el-text-color-regular),
-    'border': 0 0 0 1px var(--el-input-border-color) inset,
-    'hover-border': 0 0 0 1px var(--el-input-hover-border-color) inset,
-    'focus-border': 0 0 0 1px var(--el-input-focus-border-color) inset,
+    'border': var(--el-border-base),
+    'hover-border': var(--el-border-color-hover),
+    'focus-border': var(--el-color-primary),
     'transparent-border': 0 0 0 1px transparent inset,
     'border-color': var(--el-border-color-base),
     'border-radius': var(--el-border-radius-base),
@@ -773,8 +795,6 @@ $tag: map.merge(
   $tag
 );
 
-$tag-color: () !default;
-
 $tag-height: () !default;
 $tag-height: map.merge(
   (
@@ -805,15 +825,6 @@ $tag-icon-size: map.merge(
   $tag-icon-size
 );
 
-@each $type in $types {
-  $tag-color: map.merge(
-    (
-      $type: map.get($colors, $type, 'base'),
-    ),
-    $tag-color
-  ) !global;
-}
-
 // Tree
 // css3 var in packages/theme-chalk/src/tree.scss
 $tree: () !default;
@@ -833,7 +844,7 @@ $dropdown: map.merge(
   (
     'menu-box-shadow': var(--el-box-shadow-light),
     'menuItem-hover-fill': var(--el-color-primary-light-9),
-    'menuItem-hover-color': var(--el-color-primary-light-2),
+    'menuItem-hover-color': var(--el-color-primary-light-3),
     'menu-index': 10,
   ),
   $dropdown
@@ -1278,15 +1289,15 @@ $breakpoints: (
 ) !default;
 
 $breakpoints-spec: (
-  'xs-only': '(max-width: #{$sm})',
+  'xs-only': '(max-width: #{$sm - 1})',
   'sm-and-up': '(min-width: #{$sm})',
-  'sm-only': '(min-width: #{$sm}) and (max-width: #{$md})',
-  'sm-and-down': '(max-width: #{$md})',
+  'sm-only': '(min-width: #{$sm}) and (max-width: #{$md - 1})',
+  'sm-and-down': '(max-width: #{$md - 1})',
   'md-and-up': '(min-width: #{$md})',
-  'md-only': '(min-width: #{$md}) and (max-width: #{$lg})',
-  'md-and-down': '(max-width: #{$lg})',
+  'md-only': '(min-width: #{$md}) and (max-width: #{$lg - 1})',
+  'md-and-down': '(max-width: #{$lg - 1})',
   'lg-and-up': '(min-width: #{$lg})',
-  'lg-only': '(min-width: #{$lg}) and (max-width: #{$xl})',
-  'lg-and-down': '(max-width: #{$xl})',
+  'lg-only': '(min-width: #{$lg}) and (max-width: #{$xl - 1})',
+  'lg-and-down': '(max-width: #{$xl - 1})',
   'xl-only': '(min-width: #{$xl})',
 ) !default;

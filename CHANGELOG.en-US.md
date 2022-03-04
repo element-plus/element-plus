@@ -1,5 +1,90 @@
 ## Changelog
 
+### 2.0.4
+
+_2022-02-28_
+
+#### Features
+
+- Components [button] add icon slot (#6343 by @sxzz)
+
+#### Bug fixes
+
+- Docs jitter when expand source code (#6279 by @msidolphin)
+- Docs fix banner covering sponsor problem (#6269 by @msidolphin)
+- Deps update dependency @element-plus/icons-vue to v1 (#6319 by @renovate[bot])
+- Components [el-dialog] don't ignore z-index (#6332 by @purepear)
+- Components [el-dialog] revert focus trapping feature (#6346 by @JeremyWuuuuu)
+
+#### Refactors
+
+- Components [tag] switch to script-setup syntax (#6288 by @freedomlang)
+- Utils extract `isElement` (#6292 by @btea)
+
+### 2.0.3
+
+_2022-02-25_
+
+#### Features
+
+- Components [el-menu] support customize popper offset (#6049 by @msidolphin)
+- [el-popover] add before-enter、before-leave (#6203 by @xiaoxian521)
+- Docs add docs dark basic style (#6196 by @YunYouJun)
+- Components [el-popconfirm] support persistent (#6207 by @msidolphin)
+- Components [el-dialog] enhancement for dialog a11y (#6087 by @JeremyWuuuuu)
+- Components [el-row] enhancement for supporting space-evenly (#6223 by @gp5251)
+- Components [badge] expose content (#6247 by @sxzz)
+- Components [message] add vue context for message component (#6259 by @JeremyWuuuuu)
+
+#### Bug fixes
+
+- Components [el-table] auto-load missing scrollbar style (#6045 by @msidolphin)
+- Components [el-input] missing margin between two icons (#5942 by @kouchao) (#6017)
+- Components [el-rate] allow-half show two icon (#6076 by @btea)
+- Components pass through appendTo (#6146 by @hhparty)
+- Components [el-table] footer layout error (#6090 by @msidolphin)
+- Components [el-table] optimize popover  performance (#6170 by @msidolphin)
+- Components [el-table] column width calc error during resize (#6171 by @msidolphin)
+- Components [el-dropdown-item] (#6147 by @iwusong)
+- Components [el-switch] increase the word count of (in)active-text (#6140 by @Alanscut)
+- Docs [popover] add description of teleported (#6137 by @Alanscut)
+- Formatter func parameter type miss (#6186 by @zongzi531)
+- Components [el-table] some columns are missing in older chrome (#6111 by @msidolphin)
+- [el-popover] compatible svg (#6089 by @xiaoxian521)
+- Components [select-v2] fix #6083 bug (#6084 by @weidehai)
+- Locale language type (#6198 by @sxzz)
+- Deps (#6213 by @sxzz)
+- Docs remove fixed variables & add color palette (#6216 by @YunYouJun)
+- Components [el-dialog] refactor left overs (#6211 by @JeremyWuuuuu)
+- Style classes for hiding elements (#6217 by @Alanscut)
+- Components [el-table] fix clearFilter failure problem (#6212 by @msidolphin)
+- Components [el-popper] fix #6152 bug (#6173 by @weidehai)
+- Components[el-date-picker] styles (#6187 by @gjfei)
+- Theme-chalk remove useless tag close icon css attribute (#6242 by @YunYouJun)
+- Deps update all non-major dependencies (#6251 by @renovate[bot])
+- Components [el-dropdown-menu] adjust html tag (#6231 by @msidolphin)
+- Components [el-time-picker] lags when open range picker (#6249 by @msidolphin)
+- Docs do not useDark when production (#6262 by @YunYouJun)
+- Typo (#6263 by @HandsomeOne)
+- [el-select] remove last tag margin-right (#5992 by @btea)
+- Style(components): [el-select] add margin-left when collapse-tags exists (#6037 by @wzrove)
+
+#### Refactors
+
+- Improve tsconfig (#5993 by @sxzz)
+- Components [badge] switch to script-setup syntax (#6068 by @buqiyuan)
+- Components [el-badge] use utils isNumber (#6095 by @btea)
+- Components [affix] switch to script-setup syntax (#6065 by @buqiyuan)
+- Components [alert] switch to script-setup syntax (#6066 by @buqiyuan)
+- Components [backtop] switch to script-setup syntax (#6069 by @buqiyuan)
+- Components [el-input] use box-shadow to implement border (#6031 by @msidolphin)
+- Theme-chalk use scss list & map generate type css var (#6221 by @YunYouJun)
+- Components [avatar] switch to script-setup syntax (#6070 by @buqiyuan)
+- Components [affix] use JSX in Unit test (#6159 by @buqiyuan)
+- Components [backtop] use JSX in Unit test (#6160 by @buqiyuan)
+- Components [card] switch to script-setup syntax (#6071 by @buqiyuan)
+- Components [button-group] switch to script-setup syntax (#6256 by @freedomlang)
+
 ### 2.0.2
 
 _2022-02-14_

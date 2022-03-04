@@ -1,19 +1,31 @@
 <script setup lang="ts">
 import { ref, reactive, computed } from 'vue'
 import { useParallax, useThrottleFn, useEventListener } from '@vueuse/core'
-// import dayjs from 'dayjs'
 import { useLang } from '../../composables/lang'
 import homeLocale from '../../../i18n/pages/home.json'
-import sponsorLocale from '../../../i18n/component/sponsors-home.json'
+import { isDark } from '../../composables/dark'
+import { sponsors } from '../../../config/sponsors'
 import type { CSSProperties } from 'vue'
-
+const langZhCN = 'zh-CN'
 const target = ref<HTMLElement | null>(null)
 const parallax = reactive(useParallax(target))
 const jumbotronRedOffset = ref(0)
 const jumbotronRef = ref<HTMLElement | null>(null)
 const lang = useLang()
 const homeLang = computed(() => homeLocale[lang.value])
-const sponsors = computed(() => sponsorLocale[lang.value])
+
+const getSponsorName = (spons) => {
+  if (lang.value === langZhCN) {
+    return spons.name_cn || spons.name
+  }
+  return spons.name
+}
+const getSponsorSlogan = (spons) => {
+  if (lang.value === langZhCN) {
+    return spons.slogan_cn || spons.slogan
+  }
+  return spons.slogan
+}
 
 const containerStyle: CSSProperties = {
   display: 'flex',
@@ -28,12 +40,13 @@ const containerStyle: CSSProperties = {
 }
 
 const cardStyle = computed(() => ({
-  background: '#fff',
+  background: 'var(--bg-color)',
   minHeight: '30rem',
   width: '50rem',
   borderRadius: '5px',
   transition: '.3s ease-out all',
-  boxShadow: '0 0 20px 0 rgba(255, 255, 255, 0.25)',
+  boxShadow:
+    isDark && !isDark.value ? '0 0 20px 0 rgba(255, 255, 255, 0.25)' : 'none',
   transform: `rotateX(${parallax.roll}deg) rotateY(${parallax.tilt}deg)`,
 }))
 
@@ -59,7 +72,7 @@ const handleScroll = useThrottleFn(() => {
   const ele = jumbotronRef.value
   if (ele) {
     const rect = ele.getBoundingClientRect()
-    const eleHeight = ele.clientHeight + 55
+    const eleHeight = ele.clientHeight
     let calHeight = (180 - rect.top) * 2
     if (calHeight < 0) calHeight = 0
     if (calHeight > eleHeight) calHeight = eleHeight
@@ -68,91 +81,10 @@ const handleScroll = useThrottleFn(() => {
 }, 10)
 
 useEventListener(window, 'scroll', handleScroll)
-
-// interface CountdownT {
-//   days: string
-//   hours: string
-//   minutes: string
-//   seconds: string
-// }
-// const releaseDate = dayjs('2022-02-07T11:00:00.000+08:00')
-// const isBeforeRelease = ref(false)
-// const countdownText = ref<CountdownT>({} as CountdownT)
-// const calReleaseCountDown = () => {
-//   if (dayjs().isBefore(releaseDate)) {
-//     isBeforeRelease.value = true
-//     const dayDiff = releaseDate.diff(dayjs(), 'day')
-//     countdownText.value.days = String(dayDiff).padStart(2, '0')
-//     const hourDiff = releaseDate.diff(dayjs(), 'hour') - dayDiff * 24
-//     countdownText.value.hours = String(hourDiff).padStart(2, '0')
-//     const minuteDiff =
-//       releaseDate.diff(dayjs(), 'minute') - hourDiff * 60 - dayDiff * 24 * 60
-//     countdownText.value.minutes = String(minuteDiff).padStart(2, '0')
-//     const secondDiff =
-//       releaseDate.diff(dayjs(), 'second') -
-//       minuteDiff * 60 -
-//       hourDiff * 60 * 60 -
-//       dayDiff * 24 * 60 * 60
-//     countdownText.value.seconds = String(secondDiff).padStart(2, '0')
-//   } else {
-//     pauseCountdown()
-//   }
-// }
-
-// const { pause: pauseCountdown } = useIntervalFn(
-//   () => calReleaseCountDown(),
-//   1000,
-//   { immediateCallback: true }
-// )
 </script>
 
 <template>
   <div ref="target" class="home-page">
-    <!-- <template v-if="isBeforeRelease">
-      <div class="banner">
-        <div class="banner-desc banner-dot">
-          <h1>
-            <span>{{ homeLang['title_release'] }}</span>
-          </h1>
-          <p>{{ homeLang['title_sub'] }}</p>
-        </div>
-      </div>
-      <div class="count-down">
-        <div class="cd-main">
-          <div class="cd-date">Feb 7, 2022, 11 AM GMT+8</div>
-          <div class="cd-time">
-            <div class="cd-item">
-              <div class="cd-num">
-                <span>{{ countdownText.days[0] }}</span>
-                <span>{{ countdownText.days[1] }}</span>
-              </div>
-              <div class="cd-str">DAYS</div>
-            </div>
-            <div class="cd-item">
-              <div class="cd-num">
-                <span>{{ countdownText.hours[0] }}</span>
-                <span>{{ countdownText.hours[1] }}</span>
-              </div>
-              <div class="cd-str">HOURS</div>
-            </div>
-            <div class="cd-item">
-              <div class="cd-num">
-                <span>{{ countdownText.minutes[0] }}</span>
-                <span>{{ countdownText.minutes[1] }}</span>
-              </div>
-              <div class="cd-str">MINUTES</div>
-            </div>
-            <div class="cd-item">
-              <div class="cd-num">
-                <span>{{ countdownText.seconds[0] }}</span>
-                <span>{{ countdownText.seconds[1] }}</span>
-              </div>
-              <div class="cd-str">SECONDS</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </template> -->
     <div class="banner">
       <div class="banner-desc">
         <h1>{{ homeLang['title'] }}</h1>
@@ -184,9 +116,9 @@ useEventListener(window, 'scroll', handleScroll)
           <div>
             <p>
               Sponsored by
-              <span class="name">{{ sponsor.name }}</span>
+              <span class="name">{{ getSponsorName(sponsor) }}</span>
             </p>
-            <p>{{ sponsor.slogan }}</p>
+            <p>{{ getSponsorSlogan(sponsor) }}</p>
           </div>
         </a>
       </div>
@@ -375,6 +307,8 @@ useEventListener(window, 'scroll', handleScroll)
   }
 
   .sponsors-container {
+    width: 92%;
+    margin: 0 auto;
     .join {
       text-align: center;
       margin: 0 0 50px 0;
@@ -384,10 +318,6 @@ useEventListener(window, 'scroll', handleScroll)
   .sponsors-list {
     display: flex;
     justify-content: center;
-    // jnpf ad class
-    .jnpf > div > p:last-of-type {
-      font-size: 12px;
-    }
   }
 
   .sponsor {
@@ -417,7 +347,7 @@ useEventListener(window, 'scroll', handleScroll)
       margin: 0;
       line-height: 1.8;
       color: var(--text-color-light);
-      font-size: 14px;
+      font-size: 12px;
     }
   }
   .jumbotron {
@@ -429,7 +359,6 @@ useEventListener(window, 'scroll', handleScroll)
     }
     .jumbotron-red {
       transition: height 0.1s;
-      background: #fff;
       position: absolute;
       left: 0;
       top: 0;

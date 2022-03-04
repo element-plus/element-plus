@@ -30,7 +30,7 @@ describe('<ElFocusTrap', () => {
     </div>`,
   }
 
-  const createComponent = (props = {}, items: null | number = null) =>
+  const createComponent = (props = {}, items = 0) =>
     mount(ElFocusTrap, {
       props: {
         trapped: true,
@@ -47,7 +47,7 @@ describe('<ElFocusTrap', () => {
   const findDescendants = () => wrapper.findAll('.item')
 
   afterEach(() => {
-    // wrapper?.unmount()
+    wrapper?.unmount()
     document.body.innerHTML = ''
   })
 

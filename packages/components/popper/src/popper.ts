@@ -84,6 +84,9 @@ export const usePopperContentProps = buildProps({
     type: String,
     default: 'dark',
   },
+  visible: {
+    type: Boolean,
+  },
   enterable: {
     type: Boolean,
     default: true,

@@ -2,27 +2,25 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { CaretTop } from '@element-plus/icons-vue'
 import Backtop from '../src/backtop.vue'
+import type { VNode } from 'vue'
 
-const _mount = (template: string) =>
-  mount(
-    {
-      components: {
-        'el-backtop': Backtop,
-      },
-      template,
-    },
-    { attachTo: document.body }
-  )
+const _mount = (render: () => VNode) =>
+  mount(render, { attachTo: document.body })
 
 describe('Backtop.vue', () => {
   test('render', async () => {
-    const wrapper = _mount(`
+    const wrapper = _mount(() => (
       <div class="target" style="height: 100px; overflow: auto">
         <div style="height: 10000px; width: 100%">
-          <el-backtop target=".target" :visibilityHeight="2000" :right="100" :bottom="200" />
+          <Backtop
+            target=".target"
+            visibilityHeight={2000}
+            right={100}
+            bottom={200}
+          />
         </div>
       </div>
-    `)
+    ))
     await nextTick()
 
     expect(wrapper.find('.el-backtop').exists()).toBe(false)

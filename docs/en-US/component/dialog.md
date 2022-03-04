@@ -23,22 +23,6 @@ dialog/basic-usage
 
 :::
 
-## Focus trapping
-
-Dialog traps focus inside the dialog content which enables your users to navigate the content via keyboard.
-
-:::tip
-
-Focusing on other element after the dialog is closed will only work when `destroy-on-close` is enabled
-
-:::
-
-:::demo
-
-dialog/focus-trapping
-
-:::
-
 ## Customizations
 
 The content of Dialog can be anything, even a table or a form. This example shows how to use Element Plus Table and Form with Dialog。

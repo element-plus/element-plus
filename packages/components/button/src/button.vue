@@ -23,8 +23,9 @@
         <component :is="loadingIcon" />
       </el-icon>
     </template>
-    <el-icon v-else-if="icon">
-      <component :is="icon" />
+    <el-icon v-else-if="icon || $slots.icon">
+      <component :is="icon" v-if="icon" />
+      <slot v-else name="icon" />
     </el-icon>
     <span
       v-if="$slots.default"
@@ -37,7 +38,6 @@
 
 <script lang="ts" setup>
 import { computed, inject, Text, ref, useSlots } from 'vue'
-import { useCssVar } from '@vueuse/core'
 import { TinyColor } from '@ctrl/tinycolor'
 import { ElIcon } from '@element-plus/components/icon'
 import {
@@ -77,23 +77,23 @@ const shouldAddSpace = computed(() => {
   if (autoInsertSpace.value && defaultSlot?.length === 1) {
     const slot = defaultSlot[0]
     if (slot?.type === Text) {
-      const text = slot.children
-      return /^\p{Unified_Ideograph}{2}$/u.test(text as string)
+      const text = slot.children as string
+      return /^\p{Unified_Ideograph}{2}$/u.test(text.trim())
     }
   }
   return false
 })
 
-// calculate hover & active color by color
-const typeColor = computed(() => useCssVar(`--el-color-${props.type}`).value)
+// calculate hover & active color by custom color
+// only work when custom color
 const buttonStyle = computed(() => {
   let styles: Record<string, string> = {}
 
-  const buttonColor = props.color || typeColor.value
+  const buttonColor = props.color
 
   if (buttonColor) {
     const color = new TinyColor(buttonColor)
-    const shadeBgColor = color.shade(10).toString()
+    const shadeBgColor = color.shade(20).toString()
     if (props.plain) {
       styles = {
         '--el-button-bg-color': color.tint(90).toString(),
@@ -106,7 +106,7 @@ const buttonStyle = computed(() => {
         '--el-button-active-border-color': shadeBgColor,
       }
     } else {
-      const tintBgColor = color.tint(20).toString()
+      const tintBgColor = color.tint(30).toString()
       styles = {
         '--el-button-bg-color': buttonColor,
         '--el-button-border-color': buttonColor,

@@ -22,6 +22,7 @@
   @for $i from 1 through 9 {
     @include set-css-color-type-light('primary', $i);
   }
+  --el-color-primary-dark-2: #{map.get($colors, 'primary', 'dark-2')};
 
   // --el-color-#{$type}
   // --el-color-#{$type}-light-{$i}

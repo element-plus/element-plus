@@ -21,16 +21,19 @@
     list-style: none;
   }
   @include e(new-tab) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     float: right;
     border: 1px solid #d3dce6;
-    height: 18px;
-    width: 18px;
-    line-height: 18px;
-    margin: 10px;
+    height: 20px;
+    width: 20px;
+    line-height: 20px;
+    margin: 10px 0 10px 10px;
     border-radius: 3px;
     text-align: center;
     font-size: 12px;
-    color: #d3dce6;
+    color: var(--el-text-color-primary);
     cursor: pointer;
     transition: all 0.15s;
 

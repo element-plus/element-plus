@@ -33,7 +33,7 @@
             nsSelectV2.is('focused', states.isComposing),
             nsSelectV2.is('hovering', states.comboBoxHovering),
             nsSelectV2.is('filterable', filterable),
-            nsSelectV2.is('disabled', disabled),
+            nsSelectV2.is('disabled', selectDisabled),
           ]"
         >
           <div v-if="$slots.prefix">

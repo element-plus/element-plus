@@ -65,12 +65,12 @@
 
     &.today {
       position: relative;
-      .el-date-table-cell__text {
+      .#{$namespace}-date-table-cell__text {
         color: var(--el-color-primary);
         font-weight: bold;
       }
-      &.start-date .el-date-table-cell__text,
-      &.end-date .el-date-table-cell__text {
+      &.start-date .#{$namespace}-date-table-cell__text,
+      &.end-date .#{$namespace}-date-table-cell__text {
         color: $color-white;
       }
     }
@@ -79,47 +79,47 @@
       color: var(--el-datepicker-hover-text-color);
     }
 
-    &.in-range .el-date-table-cell {
+    &.in-range .#{$namespace}-date-table-cell {
       background-color: var(--el-datepicker-inrange-bg-color);
       &:hover {
         background-color: var(--el-datepicker-inrange-hover-bg-color);
       }
     }
 
-    &.current:not(.disabled) .el-date-table-cell__text {
+    &.current:not(.disabled) .#{$namespace}-date-table-cell__text {
       color: $color-white;
       background-color: var(--el-datepicker-active-color);
     }
-    &.start-date .el-date-table-cell,
-    &.end-date .el-date-table-cell {
+    &.start-date .#{$namespace}-date-table-cell,
+    &.end-date .#{$namespace}-date-table-cell {
       color: $color-white;
     }
 
-    &.start-date .el-date-table-cell__text,
-    &.end-date .el-date-table-cell__text {
+    &.start-date .#{$namespace}-date-table-cell__text,
+    &.end-date .#{$namespace}-date-table-cell__text {
       background-color: var(--el-datepicker-active-color);
     }
 
-    &.start-date .el-date-table-cell {
+    &.start-date .#{$namespace}-date-table-cell {
       margin-left: 5px;
       border-top-left-radius: 15px;
       border-bottom-left-radius: 15px;
     }
 
-    &.end-date .el-date-table-cell {
+    &.end-date .#{$namespace}-date-table-cell {
       margin-right: 5px;
       border-top-right-radius: 15px;
       border-bottom-right-radius: 15px;
     }
 
-    &.disabled .el-date-table-cell {
+    &.disabled .#{$namespace}-date-table-cell {
       background-color: var(--el-bg-color);
       opacity: 1;
       cursor: not-allowed;
       color: var(--el-text-color-placeholder);
     }
 
-    &.selected .el-date-table-cell {
+    &.selected .#{$namespace}-date-table-cell {
       margin-left: 5px;
       margin-right: 5px;
       background-color: var(--el-datepicker-inrange-bg-color);
@@ -129,7 +129,7 @@
       }
     }
 
-    &.selected .el-date-table-cell__text {
+    &.selected .#{$namespace}-date-table-cell__text {
       background-color: var(--el-datepicker-active-color);
       color: $color-white;
       border-radius: 15px;

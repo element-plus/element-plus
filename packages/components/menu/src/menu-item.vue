@@ -23,18 +23,7 @@
       <template #content>
         <slot name="title" />
       </template>
-      <div
-        :style="{
-          position: 'absolute',
-          left: 0,
-          top: 0,
-          height: '100%',
-          width: '100%',
-          display: 'inline-block',
-          boxSizing: 'border-box',
-          padding: '0 20px',
-        }"
-      >
+      <div class="el-menu-tooltip__trigger">
         <slot />
       </div>
     </el-tooltip>
