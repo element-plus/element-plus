@@ -14,7 +14,14 @@ export const rowProps = buildProps({
   },
   justify: {
     type: String,
-    values: ['start', 'center', 'end', 'space-around', 'space-between'],
+    values: [
+      'start',
+      'center',
+      'end',
+      'space-around',
+      'space-between',
+      'space-evenly',
+    ],
     default: 'start',
   },
   align: {

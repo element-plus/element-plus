@@ -72,6 +72,10 @@ export const SelectProps = {
     default: undefined,
   },
   teleported: useTooltipContentProps.teleported,
+  persistent: {
+    type: Boolean,
+    default: true,
+  },
   popperClass: {
     type: String,
     default: '',

@@ -461,9 +461,9 @@ $input: () !default;
 $input: map.merge(
   (
     'text-color': var(--el-text-color-regular),
-    'border': 0 0 0 1px var(--el-input-border-color) inset,
-    'hover-border': 0 0 0 1px var(--el-input-hover-border-color) inset,
-    'focus-border': 0 0 0 1px var(--el-input-focus-border-color) inset,
+    'border': var(--el-border-base),
+    'hover-border': var(--el-border-color-hover),
+    'focus-border': var(--el-color-primary),
     'transparent-border': 0 0 0 1px transparent inset,
     'border-color': var(--el-border-color-base),
     'border-radius': var(--el-border-radius-base),
@@ -795,8 +795,6 @@ $tag: map.merge(
   $tag
 );
 
-$tag-color: () !default;
-
 $tag-height: () !default;
 $tag-height: map.merge(
   (
@@ -826,15 +824,6 @@ $tag-icon-size: map.merge(
   ),
   $tag-icon-size
 );
-
-@each $type in $types {
-  $tag-color: map.merge(
-    (
-      $type: map.get($colors, $type, 'base'),
-    ),
-    $tag-color
-  ) !global;
-}
 
 // Tree
 // css3 var in packages/theme-chalk/src/tree.scss

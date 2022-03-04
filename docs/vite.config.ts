@@ -1,6 +1,6 @@
 import path from 'path'
 import Inspect from 'vite-plugin-inspect'
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import DefineOptions from 'unplugin-vue-define-options/vite'
 import WindiCSS from 'vite-plugin-windicss'
 import mkcert from 'vite-plugin-mkcert'
@@ -30,7 +30,8 @@ if (process.env.DOC_ENV !== 'production') {
   )
 }
 
-export default async () => {
+export default defineConfig(async ({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '')
   const { dependencies } = getPackageDependencies(epPackage)
   const optimizeDeps = [
     'vue',
@@ -50,10 +51,10 @@ export default async () => {
     ).map((file) => file.replace(/\.js$/, ''))
   )
 
-  return defineConfig({
+  return {
     server: {
       host: true,
-      https: !!process.env.HTTPS,
+      https: !!env.HTTPS,
       fs: {
         allow: [projRoot],
       },
@@ -95,5 +96,5 @@ export default async () => {
     optimizeDeps: {
       include: optimizeDeps,
     },
-  })
-}
+  }
+})

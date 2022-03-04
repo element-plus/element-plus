@@ -52,12 +52,15 @@
     color: var(--el-input-text-color, map.get($input, 'text-color'));
     background-color: var(--el-input-bg-color, map.get($input, 'bg-color'));
     background-image: none;
-    box-shadow: var(--el-input-border, map.get($input, 'border'));
+    @include inset-input-border(
+      var(--el-input-border-color, map.get($input, 'border-color'))
+    );
     border-radius: var(
       --el-input-border-radius,
       map.get($input, 'border-radius')
     );
     transition: var(--el-transition-box-shadow);
+    border: none;
 
     &::placeholder {
       color: var(
@@ -67,12 +70,12 @@
     }
 
     &:hover {
-      box-shadow: var(--el-input-hover-border);
+      @include inset-input-border(var(--el-input-hover-border-color));
     }
 
     &:focus {
       outline: none;
-      box-shadow: var(--el-input-focus-border);
+      @include inset-input-border(var(--el-input-focus-border-color));
     }
   }
 
@@ -166,8 +169,10 @@
     padding: 0 map.get($input-padding-horizontal, 'default')-$border-width-base;
     transition: var(--el-transition-box-shadow);
     width: 100%;
-    box-shadow: var(--el-input-border, map.get($input, 'border'));
-
+    @include inset-input-border(
+      var(--el-input-border-color, map.get($input, 'border-color'))
+    );
+    border: none;
     &::placeholder {
       color: var(
         --el-input-placeholder-color,
@@ -176,12 +181,12 @@
     }
 
     &:hover {
-      box-shadow: var(--el-input-hover-border);
+      @include inset-input-border(var(--el-input-hover-border-color));
     }
 
     &:focus {
       outline: none;
-      box-shadow: var(--el-input-focus-border);
+      @include inset-input-border(var(--el-input-focus-border-color));
     }
   }
 

@@ -1,5 +1,7 @@
 @use 'sass:map';
 
+@use 'config';
+@use 'function' as *;
 @use '../common/var' as *;
 
 @mixin set-css-color-type-light($type, $i) {
@@ -28,4 +30,14 @@
 @mixin set-css-color-rgb($type) {
   $color: map.get($colors, $type, 'base');
   --el-color-#{$type}-rgb: #{red($color)}, #{green($color)}, #{blue($color)};
+}
+
+// generate css var from existing css var
+// for example:
+// @include css-var-from-global(('button', 'text-color'), ('color', $type))
+// --el-button-text-color: var(--el-color-#{$type});
+@mixin css-var-from-global($var, $gVar) {
+  $varName: joinVarName($var);
+  $gVarName: joinVarName($gVar);
+  #{$varName}: var(#{$gVarName});
 }

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, toRef, getCurrentInstance } from 'vue'
 import { useClipboard, useToggle } from '@vueuse/core'
+import { CaretTop } from '@element-plus/icons-vue'
 import { useLang } from '../composables/lang'
 import { useSourceCode } from '../composables/source-code'
 import { usePlayGround } from '../composables/use-playground'
@@ -108,6 +109,18 @@ const copyCode = async () => {
       <el-collapse-transition>
         <SourceCode v-show="sourceVisible" :source="source" />
       </el-collapse-transition>
+      <transition name="el-fade-in-linear">
+        <div
+          v-show="sourceVisible"
+          class="example-float-control"
+          @click="setSourceVisible(false)"
+        >
+          <ElIcon :size="16">
+            <CaretTop></CaretTop>
+          </ElIcon>
+          <span>{{ locale['hide-source'] }}</span>
+        </div>
+      </transition>
     </div>
   </ClientOnly>
 </template>
@@ -116,7 +129,6 @@ const copyCode = async () => {
 .example {
   border: 1px solid var(--border-color);
   border-radius: var(--el-border-radius-base);
-  overflow: hidden;
 
   .op-btns {
     padding: 0.5rem;
@@ -146,6 +158,34 @@ const copyCode = async () => {
           color: var(--text-color);
         }
       }
+    }
+  }
+
+  &-float-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid #eaeefb;
+    height: 44px;
+    box-sizing: border-box;
+    background-color: var(--bg-color, #fff);
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    margin-top: -1px;
+    color: #d3dce6;
+    cursor: pointer;
+    position: sticky;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    span {
+      font-size: 14px;
+      margin-left: 10px;
+    }
+    &:hover {
+      color: var(--el-color-primary);
+      background-color: #f9fafc;
     }
   }
 }

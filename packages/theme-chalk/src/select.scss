@@ -148,15 +148,14 @@
     flex-wrap: wrap;
   }
 
-  .#{$namespace}-tag__close {
-    margin-top: -2px;
-  }
-
   .#{$namespace}-select__tags {
     .#{$namespace}-tag {
       box-sizing: border-box;
       border-color: transparent;
       margin: 2px 6px 2px 0;
+      &:last-child {
+        margin-right: 0;
+      }
 
       .#{$namespace}-icon-close {
         background-color: var(--el-text-color-placeholder);

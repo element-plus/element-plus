@@ -18,3 +18,5 @@ export const isEmpty = (val: unknown) =>
   (!val && val !== 0) ||
   (isArray(val) && val.length === 0) ||
   (isObject(val) && !Object.keys(val).length)
+
+export const isElement = (e: unknown): e is Element => e instanceof Element

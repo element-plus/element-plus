@@ -15,6 +15,7 @@
     :stop-popper-mouse-event="false"
     :hide-after="0"
     persistent
+    @before-show="onBeforeShow"
     @show="onShow"
     @hide="onHide"
   >
@@ -335,8 +336,11 @@ export default defineComponent({
       emitInput(result)
     }
 
-    const onShow = () => {
+    const onBeforeShow = () => {
       pickerActualVisible.value = true
+    }
+
+    const onShow = () => {
       ctx.emit('visible-change', true)
     }
 
@@ -688,6 +692,7 @@ export default defineComponent({
       onPanelChange,
       focus,
       onShow,
+      onBeforeShow,
       onHide,
     }
   },

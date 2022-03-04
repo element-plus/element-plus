@@ -191,7 +191,6 @@
         border-radius: var(--el-border-radius-small);
         box-shadow: var(--el-box-shadow-light);
       }
-
       &.is-opened {
         > .#{$namespace}-sub-menu__title .#{$namespace}-sub-menu__icon-arrow {
           transform: none;
@@ -211,6 +210,10 @@
     border-radius: var(--el-border-radius-small);
     box-shadow: var(--el-box-shadow-light);
   }
+
+  .#{$namespace}-icon {
+    flex-shrink: 0;
+  }
 }
 
 @include b(menu-item) {
@@ -228,6 +231,17 @@
     i {
       color: inherit;
     }
+  }
+  .el-menu-tooltip__trigger {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 20px;
   }
 }
 
