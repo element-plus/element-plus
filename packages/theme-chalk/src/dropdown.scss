@@ -49,7 +49,7 @@ $dropdown-divider-width: 1px !default;
   line-height: 1;
   vertical-align: top;
 
-  &.disabled {
+  &.is-disabled {
     color: var(--el-text-color-placeholder);
     cursor: not-allowed;
   }

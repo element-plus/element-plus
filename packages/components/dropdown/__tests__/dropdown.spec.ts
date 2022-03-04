@@ -535,7 +535,7 @@ describe('Dropdown', () => {
           name: 'ElDropdown',
         })
         .classes()
-    ).toContain('disabled')
+    ).toContain('is-disabled')
   })
   test('disable dropdown with split button', async () => {
     const wrapper = _mount(
