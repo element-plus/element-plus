@@ -47,12 +47,12 @@
   }
 
   @include when(multiple) {
-    .el-select-dropdown__option-item {
+    .#{$namespace}-select-dropdown__option-item {
       &.is-selected {
         color: map.get($select-option, 'selected-text-color');
         background-color: map.get($select-dropdown, 'bg-color');
 
-        & .el-icon {
+        & .#{$namespace}-icon {
           position: absolute;
           right: 20px;
           top: 0;
