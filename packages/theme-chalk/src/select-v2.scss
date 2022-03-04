@@ -70,6 +70,14 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
         opacity: 1;
         user-select: none;
       }
+
+      #{$selector}__caret {
+        cursor: not-allowed;
+      }
+
+      #{$selector}__combobox-input {
+        cursor: not-allowed;
+      }
     }
 
     #{$selector}__input-wrapper {
