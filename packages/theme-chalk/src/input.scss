@@ -275,8 +275,10 @@
   }
 
   $input-padding-size-with-extra-icon: calc(
-    5px + map.get($input-font-size, 'default') +
-      map.get($input-padding-horizontal, 'default')
+    5px + #{map.get($input-font-size, 'default')} + #{map.get(
+        $input-padding-horizontal,
+        'default'
+      )}
   );
 
   @include m(suffix) {
@@ -313,8 +315,10 @@
       }
 
       $input-padding-size-with-extra-icon: calc(
-        5px + map.get($input-font-size, $size) +
-          map.get($input-padding-horizontal, $size)
+        5px + #{map.get($input-font-size, $size)} + #{map.get(
+            $input-padding-horizontal,
+            $size
+          )}
       );
 
       &.#{$namespace}-input--prefix {
