@@ -1,12 +1,13 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { sleep } from '@element-plus/test-utils'
 import { rAF } from '@element-plus/test-utils/tick'
 
 import Menu from '../src/menu'
 import MenuGroup from '../src/menu-item-group.vue'
 import MenuItem from '../src/menu-item.vue'
 import SubMenu from '../src/sub-menu'
+
+jest.useFakeTimers()
 
 const _mount = (template: string, options = {}) =>
   mount({
@@ -417,7 +418,7 @@ describe('other', () => {
 
     await submenu.trigger('mouseenter')
 
-    await sleep(500)
+    jest.runAllTimers()
     await nextTick()
     await rAF()
 

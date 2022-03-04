@@ -49,11 +49,10 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-// More info see https://github.com/element-plus/element-plus/blob/dev/docs/examples/form/utils.ts
-import { resetForm, submitForm } from './utils'
 import type { ElForm } from 'element-plus'
 
-const formRef = ref<InstanceType<typeof ElForm>>()
+type FormInstance = InstanceType<typeof ElForm>
+const formRef = ref<FormInstance>()
 const dynamicValidateForm = reactive<{
   domains: DomainItem[]
   email: string
@@ -84,5 +83,22 @@ const addDomain = () => {
     key: Date.now(),
     value: '',
   })
+}
+
+const submitForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  formEl.validate((valid) => {
+    if (valid) {
+      console.log('submit!')
+    } else {
+      console.log('error submit!')
+      return false
+    }
+  })
+}
+
+const resetForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  formEl.resetFields()
 }
 </script>

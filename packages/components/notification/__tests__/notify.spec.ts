@@ -1,6 +1,7 @@
 import { nextTick, h } from 'vue'
 import { rAF } from '@element-plus/test-utils/tick'
 import Notification, { closeAll } from '../src/notify'
+import { ElNotification } from '..'
 
 import type { NotificationHandle } from '../src/notification'
 
@@ -108,5 +109,21 @@ describe('Notification on command', () => {
     await rAF()
     await nextTick()
     expect(htmlElement.querySelector(selector)).toBeNull()
+  })
+  describe('context inheritance', () => {
+    it('should globally inherit context correctly', () => {
+      expect(ElNotification._context).toBe(null)
+      const testContext = {
+        config: {
+          globalProperties: {},
+        },
+        _context: {},
+      }
+      ElNotification.install?.(testContext as any)
+      expect(ElNotification._context).not.toBe(null)
+      expect(ElNotification._context).toBe(testContext._context)
+      // clean up
+      ElNotification._context = null
+    })
   })
 })

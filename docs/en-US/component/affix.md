@@ -64,14 +64,3 @@ affix/fixed
 | Name | Description               |
 | ---- | ------------------------- |
 | —    | customize default content |
-
-<style lang="scss">
-.example-showcase {
-  .affix-container {
-    text-align: center;
-    height: 400px;
-    border-radius: 4px;
-    background: var(--el-color-primary-light-9);
-  }
-}
-</style>

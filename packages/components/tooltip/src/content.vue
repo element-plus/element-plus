@@ -5,6 +5,7 @@
       @after-leave="onTransitionLeave"
       @before-enter="onBeforeEnter"
       @after-enter="onAfterShow"
+      @before-leave="onBeforeLeave"
     >
       <el-popper-content
         v-if="shouldRender"
@@ -25,25 +26,37 @@
         :popper-class="popperClass"
         :popper-style="[popperStyle, contentStyle]"
         :reference-el="referenceEl"
+        :visible="shouldShow"
         :z-index="zIndex"
         @mouseenter="onContentEnter"
         @mouseleave="onContentLeave"
       >
-        <slot />
-        <el-visually-hidden :id="id" role="tooltip">
-          {{ ariaLabel }}
-        </el-visually-hidden>
+        <!-- Workaround bug #6378 -->
+        <template v-if="!destroyed">
+          <slot />
+          <el-visually-hidden :id="id" role="tooltip">
+            {{ ariaLabel }}
+          </el-visually-hidden>
+        </template>
       </el-popper-content>
     </transition>
   </teleport>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, ref, unref, watch } from 'vue'
+import {
+  computed,
+  defineComponent,
+  inject,
+  onBeforeUnmount,
+  ref,
+  unref,
+  watch,
+} from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import { ElPopperContent } from '@element-plus/components/popper'
 import { ElVisuallyHidden } from '@element-plus/components/visual-hidden'
-import { composeEventHandlers } from '@element-plus/utils/dom'
+import { composeEventHandlers } from '@element-plus/utils'
 import { useEscapeKeydown } from '@element-plus/hooks'
 
 import { useTooltipContentProps } from './tooltip'
@@ -62,8 +75,19 @@ export default defineComponent({
     const intermediateOpen = ref(false)
     const entering = ref(false)
     const leaving = ref(false)
-    const { controlled, id, open, trigger, onClose, onOpen, onShow, onHide } =
-      inject(TOOLTIP_INJECTION_KEY, undefined)!
+    const destroyed = ref(false)
+    const {
+      controlled,
+      id,
+      open,
+      trigger,
+      onClose,
+      onOpen,
+      onShow,
+      onHide,
+      onBeforeShow,
+      onBeforeHide,
+    } = inject(TOOLTIP_INJECTION_KEY, undefined)!
     const persistentRef = computed(() => {
       // For testing, we would always want the content to be rendered
       // to the DOM, so we need to return true here.
@@ -71,6 +95,10 @@ export default defineComponent({
         return true
       }
       return props.persistent
+    })
+
+    onBeforeUnmount(() => {
+      destroyed.value = true
     })
 
     const shouldRender = computed(() => {
@@ -109,6 +137,11 @@ export default defineComponent({
 
     const onBeforeEnter = () => {
       contentRef.value?.updatePopper?.()
+      onBeforeShow?.()
+    }
+
+    const onBeforeLeave = () => {
+      onBeforeHide?.()
     }
 
     const onAfterShow = () => {
@@ -150,11 +183,13 @@ export default defineComponent({
       intermediateOpen,
       contentStyle,
       contentRef,
+      destroyed,
       shouldRender,
       shouldShow,
       open,
       onAfterShow,
       onBeforeEnter,
+      onBeforeLeave,
       onContentEnter,
       onContentLeave,
       onTransitionLeave,

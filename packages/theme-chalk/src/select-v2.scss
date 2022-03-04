@@ -18,6 +18,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
 @include b(select-v2) {
   display: inline-block;
   position: relative;
+  vertical-align: middle;
   font-size: map.get($input-font-size, 'default');
   $selector: &;
   @include e(wrapper) {
@@ -27,7 +28,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
 
     box-sizing: border-box;
     cursor: pointer;
-    padding: 2px 30px 2px 0;
+    padding: 1px 30px 1px 0;
     border: 1px solid var(--el-border-color-base);
     border-radius: var(--el-border-radius-base);
     transition: border-color var(--el-transition-duration-fast)
@@ -69,6 +70,14 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
         opacity: 1;
         user-select: none;
       }
+
+      #{$selector}__caret {
+        cursor: not-allowed;
+      }
+
+      #{$selector}__combobox-input {
+        cursor: not-allowed;
+      }
     }
 
     #{$selector}__input-wrapper {
@@ -87,7 +96,6 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     #{$selector}__input-wrapper input {
       line-height: map.get($input-height, 'default') - 8px;
       height: map.get($input-height, 'default') - 8px;
-
       min-width: 4px;
       width: 100%;
 
@@ -98,7 +106,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
       background: 0 0;
       border: none;
 
-      margin: 0;
+      margin: 2px 0;
       outline: none;
       padding: 0;
     }
@@ -126,7 +134,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     @include m($size) {
       @include e(wrapper) {
         #{$selector}__combobox-input {
-          height: map.get($input-height, $size) - 6px;
+          height: map.get($input-height, $size) - 8px;
         }
       }
       @include e(caret) {
@@ -134,6 +142,10 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
       }
       @include e(suffix) {
         height: map.get($input-height, $size);
+      }
+      @include e(placeholder) {
+        font-size: map.get($input-font-size, $size);
+        line-height: map.get($input-line-height, $size);
       }
     }
   }
@@ -198,7 +210,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     display: inline-flex;
     position: absolute;
     right: 12px;
-    height: 40px;
+    height: 32px;
     top: 50%;
     transform: translateY(-50%);
     color: var(--el-input-icon-color, map.get($input, 'icon-color'));
@@ -278,7 +290,6 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     width: calc(100% - 52px);
     @include utils-ellipsis;
     color: var(--el-input-text-color, map.get($input, 'text-color'));
-    font-size: inherit;
     @include when(transparent) {
       color: var(--el-text-color-placeholder);
     }
@@ -303,6 +314,13 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
         display: block;
         transform: translate(0, 0.5px);
       }
+    }
+  }
+
+  &.#{$namespace}-select-v2--small {
+    .#{$namespace}-select-v2__selection .#{$namespace}-tag {
+      margin: 1px 0 1px 6px;
+      height: 18px;
     }
   }
 }

@@ -681,6 +681,54 @@ describe('CascaderPanel.vue', () => {
     )
   })
 
+  test('no loaded nodes with checkStrictly should be selectable', async () => {
+    const wrapper = _mount({
+      template: `
+        <cascader-panel
+          :props="props"
+        />
+      `,
+      data() {
+        return {
+          props: {
+            checkStrictly: true,
+            lazy: true,
+            lazyLoad(node, resolve) {
+              const { level } = node
+              setTimeout(() => {
+                const nodes = Array.from({ length: level + 1 }).map(() => ({
+                  value: ++id,
+                  label: `Option - ${id}`,
+                  leaf: level >= 2,
+                }))
+                resolve(nodes)
+              }, 1000)
+            },
+          },
+        }
+      },
+    })
+    jest.runAllTimers()
+    await nextTick()
+    const firstMenu = wrapper.findAll(MENU)[0]
+    await firstMenu.find(RADIO).trigger('click')
+    expect(firstMenu.find(RADIO).classes('is-checked')).toBe(true)
+    expect(firstMenu.find(RADIO).classes('is-indeterminate')).toBe(false)
+
+    jest.runAllTimers()
+    await nextTick()
+    let secondMenu = wrapper.findAll(MENU)[1]
+    expect(secondMenu).toBeUndefined()
+    await firstMenu.find(NODE).trigger('click')
+
+    jest.runAllTimers()
+    await nextTick()
+    secondMenu = wrapper.findAll(MENU)[1]
+    await secondMenu.find(NODE).trigger('click')
+    expect(secondMenu.find(RADIO).classes('is-checked')).toBe(false)
+    expect(secondMenu.find(RADIO).classes('is-indeterminate')).toBe(false)
+  })
+
   test('getCheckedNodes and clearCheckedNodes', () => {
     const wrapper = mount(CascaderPanel, {
       props: {

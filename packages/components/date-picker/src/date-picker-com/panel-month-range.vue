@@ -97,7 +97,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, watch, inject } from 'vue'
+import { defineComponent, computed, ref, watch, inject, toRef } from 'vue'
 import dayjs from 'dayjs'
 import ElIcon from '@element-plus/components/icon'
 import { useLocale } from '@element-plus/hooks'
@@ -242,15 +242,15 @@ export default defineComponent({
 
     const getDefaultValue = () => {
       let start: Dayjs
-      if (Array.isArray(defaultValue)) {
-        const left = dayjs(defaultValue[0])
-        let right = dayjs(defaultValue[1])
+      if (Array.isArray(defaultValue.value)) {
+        const left = dayjs(defaultValue.value[0])
+        let right = dayjs(defaultValue.value[1])
         if (!props.unlinkPanels) {
           right = left.add(1, 'year')
         }
         return [left, right]
-      } else if (defaultValue) {
-        start = dayjs(defaultValue)
+      } else if (defaultValue.value) {
+        start = dayjs(defaultValue.value)
       } else {
         start = dayjs()
       }
@@ -261,7 +261,20 @@ export default defineComponent({
     // pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
     ctx.emit('set-picker-option', ['formatToString', formatToString])
     const pickerBase = inject('EP_PICKER_BASE') as any
-    const { shortcuts, disabledDate, format, defaultValue } = pickerBase.props
+    const { shortcuts, disabledDate, format } = pickerBase.props
+    const defaultValue = toRef(pickerBase.props, 'defaultValue')
+
+    watch(
+      () => defaultValue.value,
+      (val) => {
+        if (val) {
+          const defaultArr = getDefaultValue()
+          leftDate.value = defaultArr[0]
+          rightDate.value = defaultArr[1]
+        }
+      },
+      { immediate: true }
+    )
 
     watch(
       () => props.parsedValue,

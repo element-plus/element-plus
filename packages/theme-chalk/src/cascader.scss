@@ -16,10 +16,7 @@
   &:not(.is-disabled):hover {
     .#{$namespace}-input__inner {
       cursor: pointer;
-      border-color: var(
-        --el-input-hover-border,
-        map.get($input, 'hover-border')
-      );
+      box-shadow: 0 0 0 1px var(--el-input-hover-border-color) inset;
     }
   }
 
@@ -30,10 +27,12 @@
       text-overflow: ellipsis;
 
       &:focus {
-        border-color: var(
-          --el-input-focus-border,
-          map.get($input, 'focus-border')
-        );
+        box-shadow: 0 0 0 1px
+          var(
+            --el-input-focus-border-color,
+            map.get($input, 'focus-border-color')
+          )
+          inset;
       }
     }
 
@@ -65,10 +64,12 @@
 
     @include when(focus) {
       .#{$namespace}-input__inner {
-        border-color: var(
-          --el-input-focus-border,
-          map.get($input, 'focus-border')
-        );
+        box-shadow: 0 0 0 1px
+          var(
+            --el-input-focus-border-color,
+            map.get($input, 'focus-border-color')
+          )
+          inset;
       }
     }
   }
@@ -195,7 +196,7 @@
     flex: 1;
     height: 24px;
     min-width: 60px;
-    margin: 2px 0 2px 15px;
+    margin: 2px 0 2px map.get($input-padding-horizontal, 'default')-$border-width-base;
     padding: 0;
     color: var(--el-cascader-menu-text-color);
     border: none;

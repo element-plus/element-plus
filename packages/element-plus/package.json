@@ -19,6 +19,10 @@
     },
     "./es": "./es/index.mjs",
     "./lib": "./lib/index.js",
+    "./es/*.mjs": "./es/*.mjs",
+    "./es/*": "./es/*.mjs",
+    "./lib/*.js": "./lib/*.js",
+    "./lib/*": "./lib/*.js",
     "./*": "./*"
   },
   "main": "lib/index.js",
@@ -31,9 +35,7 @@
     "theme-chalk/*.css",
     "theme-chalk/src/*.scss",
     "es/components/*/style/*",
-    "lib/components/*/style/*",
-    "lib/components/**/*",
-    "es/components/**/*"
+    "lib/components/*/style/*"
   ],
   "repository": {
     "type": "git",
@@ -47,19 +49,23 @@
   },
   "dependencies": {
     "@ctrl/tinycolor": "^3.4.0",
-    "@element-plus/icons-vue": "^0.2.4",
-    "@popperjs/core": "^2.10.2",
-    "@vueuse/core": "^7.3.0",
+    "@element-plus/icons-vue": "^1.0.0",
+    "@popperjs/core": "^2.11.2",
+    "@vueuse/core": "^7.7.0",
     "async-validator": "^4.0.7",
     "dayjs": "^1.10.7",
     "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
+    "lodash-unified": "^1.0.2",
     "memoize-one": "^6.0.0",
     "normalize-wheel-es": "^1.1.1"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.179",
+    "@types/lodash-es": "^4.17.6",
     "@types/node": "*",
-    "csstype": "^2.6.0",
-    "vue-router": "^4.0.0"
+    "csstype": "^2.6.19",
+    "vue-router": "^4.0.12"
   },
   "vetur": {
     "tags": "tags.json",

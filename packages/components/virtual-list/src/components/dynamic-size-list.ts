@@ -1,4 +1,4 @@
-import { throwError } from '@element-plus/utils/error'
+import { throwError } from '@element-plus/utils'
 
 import createList from '../builders/build-list'
 

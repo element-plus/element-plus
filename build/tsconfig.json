@@ -1,9 +1,11 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "@vue/tsconfig/tsconfig.node.json",
   "compilerOptions": {
-    "module": "CommonJS",
-    "target": "ESNext",
-    "lib": ["ESNext"]
+    "target": "ES2021",
+    "lib": ["ES2021"],
+    "types": ["node"],
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*"]
 }

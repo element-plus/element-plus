@@ -25,17 +25,21 @@ import {
   ref,
   watch,
 } from 'vue'
-import isEqual from 'lodash/isEqual'
+import { isEqual, flattenDeep } from 'lodash-unified'
 import { isClient } from '@vueuse/core'
-import { EVENT_CODE, focusNode, getSibling } from '@element-plus/utils/aria'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
-import scrollIntoView from '@element-plus/utils/scroll-into-view'
 import {
-  arrayFlat,
-  coerceTruthyValueToArray,
-  deduplicate,
+  focusNode,
+  getSibling,
   isEmpty,
-} from '@element-plus/utils/util'
+  unique,
+  castArray,
+  scrollIntoView,
+} from '@element-plus/utils'
+import {
+  EVENT_CODE,
+  UPDATE_MODEL_EVENT,
+  CHANGE_EVENT,
+} from '@element-plus/constants'
 
 import ElCascaderMenu from './menu.vue'
 import Store from './store'
@@ -45,7 +49,7 @@ import { checkNode, getMenuIndex, sortByOriginalOrder } from './utils'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
 import type { PropType } from 'vue'
-import type { Nullable } from '@element-plus/utils/types'
+import type { Nullable } from '@element-plus/utils'
 import type {
   CascaderValue,
   CascaderNodeValue,
@@ -213,8 +217,8 @@ export default defineComponent({
         return
 
       if (lazy && !loaded) {
-        const values: CascaderNodeValue[] = deduplicate(
-          arrayFlat(coerceTruthyValueToArray(modelValue))
+        const values: CascaderNodeValue[] = unique(
+          flattenDeep(castArray(modelValue))
         )
         const nodes = values
           .map((val) => store?.getNodeByValue(val))
@@ -228,10 +232,8 @@ export default defineComponent({
           syncCheckedValue(true, forced)
         }
       } else {
-        const values = multiple
-          ? coerceTruthyValueToArray(modelValue)
-          : [modelValue]
-        const nodes = deduplicate(
+        const values = multiple ? castArray(modelValue) : [modelValue]
+        const nodes = unique(
           values.map((val) => store?.getNodeByValue(val, leafOnly))
         ) as Node[]
         syncMenuState(nodes, false)
@@ -271,11 +273,13 @@ export default defineComponent({
       menuList.value.forEach((menu) => {
         const menuElement = menu?.$el
         if (menuElement) {
-          const container = menuElement.querySelector('.el-scrollbar__wrap')
+          const container = (menuElement as HTMLElement).querySelector(
+            '.el-scrollbar__wrap'
+          )
           const activeNode =
             menuElement.querySelector('.el-cascader-node.is-active') ||
             menuElement.querySelector('.el-cascader-node.in-active-path')
-          scrollIntoView(container, activeNode)
+          scrollIntoView(container as HTMLElement, activeNode)
         }
       })
     }

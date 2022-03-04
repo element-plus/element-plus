@@ -9,6 +9,9 @@
   <a href="https://npmcharts.com/compare/element-plus?minimal=true">
     <img src="http://img.shields.io/npm/dm/element-plus.svg">
   </a>
+  <a href="https://codecov.io/gh/element-plus/element-plus">
+    <img src="https://codecov.io/gh/element-plus/element-plus/branch/dev/graph/badge.svg?token=BKSBO2GLZI"/>
+  </a>
   <br>
 </p>
 
@@ -17,16 +20,26 @@
 - 💪 Vue 3 Composition API
 - 🔥 Written in TypeScript
 
-## Status: Beta
-
-This project is still under heavy development. Feel free to join us and make your first pull request.
-
 ## Getting Started
 
 Alright, for you to get started if you are looking for making Element Plus better you should keep reading.
 For developers that uses Element Plus to develop your website you should go ahead visit [Getting Started](https://element-plus.org/)
 
 - 中国大陆[加速镜像站点](https://element-plus.gitee.io/)
+
+## Breaking change list
+
+The first stable release of Element Plus suitable for use in production was released on Febuary 07, 2022. The APIs is stable right now, and here's also a full list about how to get upgraded from [Element UI](https://element.eleme.io) to Element Plus.
+
+You can find the breaking change list here: [Breaking Change List](https://github.com/element-plus/element-plus/discussions/5658).
+
+### Migration Tool :hammer_and_wrench:
+
+We have made a migration tool for you to migrate your project from [Element UI](https://element.eleme.io) to Element Plus.
+
+You can find the [gogo code migration tool](https://github.com/thx/gogocode/tree/main/packages/gogocode-plugin-element) here.
+
+We have tested this on [Vue Element Admin](https://github.com/PanJiaChen/vue-element-admin（Vue2+Element). You can find the transpiled code [here](https://github.com/gogocodeio/vue-element-admin)
 
 ### Playground
 
@@ -51,6 +64,11 @@ You can also try Element Plus out with the components built-in playground
       <td align="center" valign="middle">
         <a href="https://www.jnpfsoft.com/index.html?from=elementUI" target="_blank">
           <img width="150px" src="https://user-images.githubusercontent.com/17680888/145664631-bbe85550-4406-4f20-a19f-7e6e844a9b85.png">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://vform666.com/vform3.html?from=element_plus" target="_blank">
+          <img width="150px" src="https://user-images.githubusercontent.com/17680888/156188909-f6780e1a-3b8c-4cab-a637-9a16f04110be.png">
         </a>
       </td>
       <td align="center" valign="middle">
@@ -80,14 +98,6 @@ above and leave a message if you want to help translating Element Plus into your
 ## Stay tuned :eyes:
 
 Join our [Discord](https://discord.link/ElementPlus) to start communicating with everybody.
-
-## Breaking change list
-
-**Note:** we are now currently preparing for the stable release, the APIs should be stable right now, we are going to
-make a full list about how to get upgraded from [Element UI](https://element.eleme.io) to Element Plus. This breaking change list
-might be updated day by day.
-
-You can find the breaking change list here: [Breaking Change List](https://github.com/element-plus/element-plus/issues/162).
 
 ## This thing is broken, I should help improve it!
 

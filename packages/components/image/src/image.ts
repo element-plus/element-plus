@@ -1,12 +1,16 @@
-import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
-import { isNumber } from '@element-plus/utils/util'
+import {
+  buildProps,
+  definePropType,
+  mutable,
+  isNumber,
+} from '@element-plus/utils'
 
 import type { ExtractPropTypes } from 'vue'
 
 export const imageProps = buildProps({
   appendToBody: {
     type: Boolean,
-    default: false,
+    default: undefined,
   },
   hideOnClickModal: {
     type: Boolean,
@@ -32,9 +36,12 @@ export const imageProps = buildProps({
     type: definePropType<string[]>(Array),
     default: () => mutable([] as const),
   },
+  previewTeleported: {
+    type: Boolean,
+    default: false,
+  },
   zIndex: {
     type: Number,
-    default: 2000,
   },
   initialIndex: {
     type: Number,

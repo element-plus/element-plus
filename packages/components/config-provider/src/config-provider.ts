@@ -1,5 +1,5 @@
 import { defineComponent, renderSlot, watch } from 'vue'
-import { buildProps, definePropType } from '@element-plus/utils/props'
+import { buildProps, definePropType } from '@element-plus/utils'
 import { provideGlobalConfig } from '@element-plus/hooks'
 import type { Language } from '@element-plus/locale'
 import type { ButtonConfigContext } from '@element-plus/components/button'

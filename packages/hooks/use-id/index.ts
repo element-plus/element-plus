@@ -1,6 +1,6 @@
 import { computed, inject, unref } from 'vue'
 import { isClient } from '@vueuse/core'
-import { debugWarn } from '@element-plus/utils/error'
+import { debugWarn } from '@element-plus/utils'
 
 import type { InjectionKey, Ref } from 'vue'
 import type { MaybeRef } from '@vueuse/core'

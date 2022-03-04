@@ -7,48 +7,6 @@ lang: en-US
 
 Use Date Picker for date input.
 
-<style lang="scss">
-
-.example-showcase .demo-date-picker {
-  display: flex;
-  width: 100%;
-  padding: 0;
-  flex-wrap: wrap;
-}
-
-.demo-date-picker .block {
-  padding: 30px 0;
-  text-align: center;
-  border-right: solid 1px var(--el-border-color-base);
-  flex: 1;
-  &:last-child {
-    border-right: none;
-  }
-}
-
-.demo-date-picker .container {
-  flex: 1;
-  border-right: solid 1px var(--el-border-color-base);
-  .block {
-    border-right: none;
-    &:last-child {
-      border-top: solid 1px var(--el-border-color-base);
-    }
-  }
-  &:last-child {
-    border-right: none;
-  }
-}
-
-.demo-date-picker .demonstration {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-
-</style>
-
 ## Enter Date
 
 Basic date picker measured by 'day'.
@@ -205,17 +163,21 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | prefix-icon           | custom prefix icon component                                                                          | string / Component                               | —                                                                                                                 | Date        |
 | clear-icon            | custom clear icon component                                                                           | string / Component                               | —                                                                                                                 | CircleClose |
 | validate-event        | whether to trigger form validation                                                                    | boolean                                          | -                                                                                                                 | true        |
-| disabledDate          | a function determining if a date is disabled with that date as its parameter. Should return a Boolean | function                                         | —                                                                                                                 | —           |
+| disabled-date         | a function determining if a date is disabled with that date as its parameter. Should return a Boolean | function                                         | —                                                                                                                 | —           |
 | shortcuts             | an object array to set shortcut options                                                               | object[{ text: string, value: date / function }] | —                                                                                                                 | —           |
+| cell-class-name       | set custom className                                                                                  | Function(Date)                                   | —                                                                                                                 | —           |
+| teleported            | whether date-picker dropdown is teleported to the body                                                | boolean                                          | true / false                                                                                                      | true        |
 
 ## Events
 
-| Event Name      | Description                                                               | Parameters                |
-| --------------- | ------------------------------------------------------------------------- | ------------------------- |
-| change          | triggers when user confirms the value                                     | component's binding value |
-| blur            | triggers when Input blurs                                                 | component instance        |
-| focus           | triggers when Input focuses                                               | component instance        |
-| calendar-change | triggers when the calendar selected date is changed. Only for `daterange` | [Date, Date]              |
+| Event Name      | Description                                                               | Parameters                                |
+| --------------- | ------------------------------------------------------------------------- | ----------------------------------------- |
+| change          | triggers when user confirms the value                                     | component's binding value                 |
+| blur            | triggers when Input blurs                                                 | component instance                        |
+| focus           | triggers when Input focuses                                               | component instance                        |
+| calendar-change | triggers when the calendar selected date is changed. Only for `daterange` | [Date, Date]                              |
+| panel-change    | triggers when the navigation button click.                                | `(date, mode, view)`                      |
+| visible-change  | triggers when the DatePicker's dropdown appears/disappears                | true when it appears, and false otherwise |
 
 ## Methods
 

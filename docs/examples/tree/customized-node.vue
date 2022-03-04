@@ -1,36 +1,32 @@
 <template>
   <div class="custom-tree-container">
-    <div class="block">
-      <p>Using render-content</p>
-      <el-tree
-        :data="dataSource"
-        show-checkbox
-        node-key="id"
-        default-expand-all
-        :expand-on-click-node="false"
-        :render-content="renderContent"
-      />
-    </div>
-    <div class="block">
-      <p>Using scoped slot</p>
-      <el-tree
-        :data="dataSource"
-        show-checkbox
-        node-key="id"
-        default-expand-all
-        :expand-on-click-node="false"
-      >
-        <template #default="{ node, data }">
-          <span class="custom-tree-node">
-            <span>{{ node.label }}</span>
-            <span>
-              <a @click="append(data)"> Append </a>
-              <a @click="remove(node, data)"> Delete </a>
-            </span>
+    <p>Using render-content</p>
+    <el-tree
+      :data="dataSource"
+      show-checkbox
+      node-key="id"
+      default-expand-all
+      :expand-on-click-node="false"
+      :render-content="renderContent"
+    />
+    <p>Using scoped slot</p>
+    <el-tree
+      :data="dataSource"
+      show-checkbox
+      node-key="id"
+      default-expand-all
+      :expand-on-click-node="false"
+    >
+      <template #default="{ node, data }">
+        <span class="custom-tree-node">
+          <span>{{ node.label }}</span>
+          <span>
+            <a @click="append(data)"> Append </a>
+            <a @click="remove(node, data)"> Delete </a>
           </span>
-        </template>
-      </el-tree>
-    </div>
+        </span>
+      </template>
+    </el-tree>
   </div>
 </template>
 

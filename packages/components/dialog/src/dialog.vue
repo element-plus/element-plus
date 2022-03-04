@@ -14,95 +14,85 @@
         :z-index="zIndex"
       >
         <div
-          class="el-overlay-dialog"
+          :class="`${ns.namespace.value}-overlay-dialog`"
           @click="overlayEvent.onClick"
           @mousedown="overlayEvent.onMousedown"
           @mouseup="overlayEvent.onMouseup"
         >
-          <div
-            ref="dialogRef"
-            v-trap-focus
-            :class="[
-              'el-dialog',
-              {
-                'is-fullscreen': fullscreen,
-                'el-dialog--center': center,
-              },
-              customClass,
-            ]"
-            aria-modal="true"
-            role="dialog"
-            :aria-label="title || 'dialog'"
+          <el-dialog-content
+            v-if="rendered"
+            :custom-class="customClass"
+            :center="center"
+            :close-icon="closeIcon"
+            :draggable="draggable"
+            :fullscreen="fullscreen"
+            :show-close="showClose"
             :style="style"
-            @click.stop=""
+            :title="title"
+            @close="handleClose"
           >
-            <div class="el-dialog__header">
-              <slot name="title">
-                <span class="el-dialog__title">
-                  {{ title }}
-                </span>
-              </slot>
-              <button
-                v-if="showClose"
-                aria-label="close"
-                class="el-dialog__headerbtn"
-                type="button"
-                @click="handleClose"
-              >
-                <el-icon class="el-dialog__close">
-                  <component :is="closeIcon || 'close'" />
-                </el-icon>
-              </button>
-            </div>
-            <template v-if="rendered">
-              <div class="el-dialog__body">
-                <slot></slot>
-              </div>
+            <template #title>
+              <slot name="title" />
             </template>
-            <div v-if="$slots.footer" class="el-dialog__footer">
-              <slot name="footer"></slot>
-            </div>
-          </div>
+            <slot />
+            <template #footer>
+              <slot name="footer" />
+            </template>
+          </el-dialog-content>
         </div>
       </el-overlay>
     </transition>
   </teleport>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
-import { TrapFocus } from '@element-plus/directives'
+<script lang="ts" setup>
+import { computed, ref, provide } from 'vue'
 import { ElOverlay } from '@element-plus/components/overlay'
-import { ElIcon } from '@element-plus/components/icon'
-import { CloseComponents } from '@element-plus/utils/icon'
-import { useSameTarget } from '@element-plus/hooks'
+import { useNamespace, useDraggable, useSameTarget } from '@element-plus/hooks'
+import { dialogInjectionKey } from '@element-plus/tokens'
+import ElDialogContent from './dialog-content.vue'
 import { dialogProps, dialogEmits } from './dialog'
 import { useDialog } from './use-dialog'
 
-export default defineComponent({
+defineOptions({
   name: 'ElDialog',
-  components: {
-    ElOverlay,
-    ElIcon,
-    ...CloseComponents,
-  },
-  directives: {
-    TrapFocus,
-  },
+})
 
-  props: dialogProps,
-  emits: dialogEmits,
+const props = defineProps(dialogProps)
+defineEmits(dialogEmits)
 
-  setup(props, ctx) {
-    const dialogRef = ref<HTMLElement>()
-    const dialog = useDialog(props, ctx, dialogRef)
-    const overlayEvent = useSameTarget(dialog.onModalClick)
+const ns = useNamespace('dialog')
+const dialogRef = ref<HTMLElement>()
+const headerRef = ref<HTMLElement>()
 
-    return {
-      dialogRef,
-      overlayEvent,
-      ...dialog,
-    }
-  },
+const {
+  visible,
+  style,
+  rendered,
+  zIndex,
+  afterEnter,
+  afterLeave,
+  beforeLeave,
+  handleClose,
+  onModalClick,
+} = useDialog(props, dialogRef)
+
+provide(dialogInjectionKey, {
+  dialogRef,
+  headerRef,
+  ns,
+  rendered,
+  style,
+})
+
+const overlayEvent = useSameTarget(onModalClick)
+
+const draggable = computed(() => props.draggable && !props.fullscreen)
+
+useDraggable(dialogRef, headerRef, draggable)
+
+defineExpose({
+  /** @description whether the dialog is visible */
+  visible,
 })
 </script>

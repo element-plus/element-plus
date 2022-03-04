@@ -7,20 +7,6 @@ lang: en-US
 
 Text hyperlink
 
-<style lang="scss">
-
-.example-showcase {
-  .el-link {
-    margin-right: 8px;
-
-    & .el-icon--right.el-icon {
-      vertical-align: text-bottom;
-    }
-  }
-}
-
-</style>
-
 ## Basic
 
 Basic text link

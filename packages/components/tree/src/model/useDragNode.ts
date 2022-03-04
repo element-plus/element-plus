@@ -1,5 +1,6 @@
 import { provide, ref } from 'vue'
-import { addClass, removeClass } from '@element-plus/utils/dom'
+import { addClass, removeClass } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
 import type { InjectionKey } from 'vue'
 import type Node from './node'
 
@@ -22,6 +23,7 @@ export interface DragEvents {
 export const dragEventsKey: InjectionKey<DragEvents> = Symbol('dragEvents')
 
 export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
+  const ns = useNamespace('tree')
   const dragState = ref({
     showDropIndicator: false,
     draggingNode: null,
@@ -54,7 +56,7 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
     const dropNode = treeNode
     const oldDropNode = dragState.value.dropNode
     if (oldDropNode && oldDropNode !== dropNode) {
-      removeClass(oldDropNode.$el, 'is-drop-inner')
+      removeClass(oldDropNode.$el, ns.is('drop-inner'))
     }
     const draggingNode = dragState.value.draggingNode
     if (!draggingNode || !dropNode) return
@@ -123,7 +125,7 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
     }
 
     const iconPosition = dropNode.$el
-      .querySelector('.el-tree-node__expand-icon')
+      .querySelector(`.${ns.be('node', 'expand-icon')}`)
       .getBoundingClientRect()
     const dropIndicator = dropIndicator$.value
     if (dropType === 'before') {
@@ -135,9 +137,9 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
     dropIndicator.style.left = `${iconPosition.right - treePosition.left}px`
 
     if (dropType === 'inner') {
-      addClass(dropNode.$el, 'is-drop-inner')
+      addClass(dropNode.$el, ns.is('drop-inner'))
     } else {
-      removeClass(dropNode.$el, 'is-drop-inner')
+      removeClass(dropNode.$el, ns.is('drop-inner'))
     }
 
     dragState.value.showDropIndicator =
@@ -169,7 +171,7 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
         store.value.registerNode(draggingNodeCopy)
       }
 
-      removeClass(dropNode.$el, 'is-drop-inner')
+      removeClass(dropNode.$el, ns.is('drop-inner'))
 
       ctx.emit(
         'node-drag-end',

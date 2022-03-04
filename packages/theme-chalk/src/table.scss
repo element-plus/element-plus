@@ -25,10 +25,18 @@
     &::before {
       @include extend-rule(border-pseudo);
       left: 0;
-      bottom: 0;
+      bottom: 0px;
       width: 100%;
       height: 1px;
       z-index: 3;
+    }
+  }
+
+  &.has-footer {
+    .#{$namespace}-table__inner-wrapper {
+      &::before {
+        bottom: 1px;
+      }
     }
   }
 
@@ -104,18 +112,6 @@
 
     .#{$namespace}-table__cell.gutter {
       border-right-width: 1px;
-    }
-  }
-
-  @include m(scrollable-x) {
-    .#{$namespace}-table__body-wrapper {
-      overflow-x: auto;
-    }
-  }
-
-  @include m(scrollable-y) {
-    .#{$namespace}-table__body-wrapper {
-      overflow-y: scroll;
     }
   }
 
@@ -263,7 +259,7 @@
       content: '';
       position: absolute;
       background-color: var(--el-table-border-color);
-      z-index: 1;
+      z-index: 3;
     }
   }
 
@@ -309,11 +305,6 @@
 
     @include e(footer-wrapper) {
       margin-top: -2px;
-      td.#{$namespace}-table__cell {
-        &.last {
-          border-right: none;
-        }
-      }
     }
 
     // fix: #1013
@@ -403,6 +394,14 @@
     }
   }
 
+  @include e((header-wrapper, body-wrapper)) {
+    .#{$namespace}-table-column--selection {
+      .el-checkbox {
+        height: unset;
+      }
+    }
+  }
+
   @include when(scrolling-left) {
     .#{$namespace}-table-fixed-column--left.is-last-column {
       &::before {
@@ -452,6 +451,9 @@
   @include e(body-wrapper) {
     overflow: hidden;
     position: relative;
+    .#{$namespace}-scrollbar__bar {
+      z-index: 2;
+    }
   }
 
   .caret-wrapper {
@@ -546,9 +548,8 @@
 
     & i {
       color: var(--el-color-info);
-      font-size: 12px;
+      font-size: 14px;
       vertical-align: middle;
-      transform: scale(0.75);
     }
   }
 

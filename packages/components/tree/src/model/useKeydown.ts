@@ -1,15 +1,18 @@
 import { onMounted, onUpdated, onBeforeUnmount, watch, shallowRef } from 'vue'
-import { EVENT_CODE } from '@element-plus/utils/aria'
-import { on, off } from '@element-plus/utils/dom'
+import { on, off } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
+import { useNamespace } from '@element-plus/hooks'
 import type TreeStore from './tree-store'
 
 import type { Ref } from 'vue'
-import type { Nullable } from '@element-plus/utils/types'
+import type { Nullable } from '@element-plus/utils'
 
 interface UseKeydownOption {
   el$: Ref<HTMLElement>
 }
 export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
+  const ns = useNamespace('tree')
+
   const treeItems = shallowRef<Nullable<HTMLElement>[]>([])
   const checkboxItems = shallowRef<Nullable<HTMLElement>[]>([])
 
@@ -37,10 +40,10 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
 
   const handleKeydown = (ev: KeyboardEvent): void => {
     const currentItem = ev.target as HTMLElement
-    if (currentItem.className.indexOf('el-tree-node') === -1) return
+    if (currentItem.className.indexOf(ns.b('node')) === -1) return
     const code = ev.code
     treeItems.value = Array.from(
-      el$.value.querySelectorAll('.is-focusable[role=treeitem]')
+      el$.value.querySelectorAll(`.${ns.is('focusable')}[role=treeitem]`)
     )
     const currentIndex = treeItems.value.indexOf(currentItem)
     let nextIndex
@@ -108,12 +111,14 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
 
   const initTabIndex = (): void => {
     treeItems.value = Array.from(
-      el$.value.querySelectorAll('.is-focusable[role=treeitem]')
+      el$.value.querySelectorAll(`.${ns.is('focusable')}[role=treeitem]`)
     )
     checkboxItems.value = Array.from(
       el$.value.querySelectorAll('input[type=checkbox]')
     )
-    const checkedItem = el$.value.querySelectorAll('.is-checked[role=treeitem]')
+    const checkedItem = el$.value.querySelectorAll(
+      `.${ns.is('checked')}[role=treeitem]`
+    )
     if (checkedItem.length) {
       checkedItem[0].setAttribute('tabindex', '0')
       return

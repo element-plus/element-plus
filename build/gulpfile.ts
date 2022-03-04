@@ -3,14 +3,11 @@ import { mkdir, copyFile } from 'fs/promises'
 import { copy } from 'fs-extra'
 import { series, parallel } from 'gulp'
 import { run } from './utils/process'
-import { withTaskName } from './utils/gulp'
+import { runTask, withTaskName } from './utils/gulp'
 import { buildOutput, epOutput, epPackage, projRoot } from './utils/paths'
 import { buildConfig } from './build-info'
 import type { TaskFunction } from 'gulp'
 import type { Module } from './build-info'
-
-const runTask = (name: string) =>
-  withTaskName(name, () => run(`pnpm run build ${name}`))
 
 export const copyFiles = () =>
   Promise.all([
@@ -20,7 +17,7 @@ export const copyFiles = () =>
       path.resolve(epOutput, 'README.md')
     ),
     copyFile(
-      path.resolve(projRoot, 'typings/global.d.ts'),
+      path.resolve(projRoot, 'global.d.ts'),
       path.resolve(epOutput, 'global.d.ts')
     ),
   ])

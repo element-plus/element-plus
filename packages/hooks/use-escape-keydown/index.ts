@@ -1,6 +1,6 @@
 import { onMounted, onBeforeUnmount } from 'vue'
-import { on, off } from '@element-plus/utils/dom'
-import { EVENT_CODE } from '@element-plus/utils/aria'
+import { on, off } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
 
 export const useEscapeKeydown = (handler?: (e: KeyboardEvent) => void) => {
   const cachedHandler = (e: Event) => {

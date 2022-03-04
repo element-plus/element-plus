@@ -36,7 +36,7 @@
 import { defineComponent, computed, ref } from 'vue'
 import dayjs from 'dayjs'
 import { useLocale } from '@element-plus/hooks'
-import { coerceTruthyValueToArray } from '@element-plus/utils/util'
+import { castArray } from '@element-plus/utils'
 import ElDatePickerCell from './basic-cell-render'
 import type { PropType } from 'vue'
 
@@ -130,9 +130,7 @@ export default defineComponent({
       let count = 1
 
       const selectedDate: Dayjs[] =
-        props.selectionMode === 'dates'
-          ? coerceTruthyValueToArray(props.parsedValue)
-          : []
+        props.selectionMode === 'dates' ? castArray(props.parsedValue) : []
 
       const calNow = dayjs().locale(lang.value).startOf('day')
 
@@ -389,10 +387,10 @@ export default defineComponent({
         })
       } else if (props.selectionMode === 'dates') {
         const newValue = cell.selected
-          ? coerceTruthyValueToArray(props.parsedValue).filter(
+          ? castArray(props.parsedValue).filter(
               (_) => _.valueOf() !== newDate.valueOf()
             )
-          : coerceTruthyValueToArray(props.parsedValue).concat([newDate])
+          : castArray(props.parsedValue).concat([newDate])
         ctx.emit('pick', newValue)
       }
     }

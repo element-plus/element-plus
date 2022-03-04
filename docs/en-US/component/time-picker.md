@@ -64,14 +64,16 @@ time-picker/range
 | disabled-hours        | To specify the array of hours that cannot be selected   | function                                   | —                                                                                   | —           |
 | disabled-minutes      | To specify the array of minutes that cannot be selected | function(selectedHour)                     | —                                                                                   | —           |
 | disabled-seconds      | To specify the array of seconds that cannot be selected | function(selectedHour, selectedMinute)     | —                                                                                   | —           |
+| teleported            | whether time-picker dropdown is teleported to the body  | boolean                                    | true / false                                                                        | true        |
 
 ## Events
 
-| Event Name | Description                           | Parameters                |
-| ---------- | ------------------------------------- | ------------------------- |
-| change     | triggers when user confirms the value | component's binding value |
-| blur       | triggers when Input blurs             | component instance        |
-| focus      | triggers when Input focuses           | component instance        |
+| Event Name     | Description                                                | Parameters                                |
+| -------------- | ---------------------------------------------------------- | ----------------------------------------- |
+| change         | triggers when user confirms the value                      | component's binding value                 |
+| blur           | triggers when Input blurs                                  | component instance                        |
+| focus          | triggers when Input focuses                                | component instance                        |
+| visible-change | triggers when the TimePicker's dropdown appears/disappears | true when it appears, and false otherwise |
 
 ## Methods
 

@@ -12,11 +12,14 @@ import {
   watch,
 } from 'vue'
 import { isPromise, NOOP } from '@vue/shared'
-import { EVENT_CODE } from '@element-plus/utils/aria'
+import { buildProps, definePropType } from '@element-plus/utils'
+import {
+  EVENT_CODE,
+  INPUT_EVENT,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
 import ElIcon from '@element-plus/components/icon'
 import { Plus } from '@element-plus/icons-vue'
-import { buildProps, definePropType } from '@element-plus/utils/props'
-import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { tabsRootContextKey } from '@element-plus/tokens'
 import TabNav from './tab-nav'
 import type { TabsPaneContext } from '@element-plus/tokens'
@@ -42,7 +45,7 @@ export const tabsProps = buildProps({
   closable: Boolean,
   addable: Boolean,
   modelValue: {
-    type: String,
+    type: [String, Number],
     default: '',
   },
   editable: Boolean,
@@ -54,8 +57,8 @@ export const tabsProps = buildProps({
   beforeLeave: {
     type: definePropType<
       (
-        newTabName: string,
-        oldTabName: string
+        newTabName: string | number,
+        oldTabName: string | number
       ) => void | boolean | Promise<void | boolean>
     >(Function),
     default: () => true,
@@ -65,12 +68,15 @@ export const tabsProps = buildProps({
 export type TabsProps = ExtractPropTypes<typeof tabsProps>
 
 export const tabsEmits = {
-  [UPDATE_MODEL_EVENT]: (tabName: string) => typeof tabName === 'string',
-  [INPUT_EVENT]: (tabName: string) => typeof tabName === 'string',
+  [UPDATE_MODEL_EVENT]: (tabName: string | number) =>
+    typeof tabName === 'string' || typeof tabName === 'number',
+  [INPUT_EVENT]: (tabName: string | number) =>
+    typeof tabName === 'string' || typeof tabName === 'number',
   'tab-click': (pane: TabsPaneContext, ev: Event) => ev instanceof Event,
-  edit: (paneName: string | null, action: 'remove' | 'add') =>
+  edit: (paneName: string | number | null, action: 'remove' | 'add') =>
     action === 'remove' || action === 'add',
-  'tab-remove': (paneName: string) => typeof paneName === 'string',
+  'tab-remove': (paneName: string | number) =>
+    typeof paneName === 'string' || typeof paneName === 'number',
   'tab-add': () => true,
 }
 export type TabsEmits = typeof tabsEmits
@@ -134,13 +140,13 @@ export default defineComponent({
       }
     }
 
-    const changeCurrentName = (value: string) => {
+    const changeCurrentName = (value: string | number) => {
       currentName.value = value
       emit(INPUT_EVENT, value)
       emit(UPDATE_MODEL_EVENT, value)
     }
 
-    const setCurrentName = (value: string) => {
+    const setCurrentName = (value: string | number) => {
       // should do nothing.
       if (currentName.value === value) return
 
@@ -165,7 +171,7 @@ export default defineComponent({
 
     const handleTabClick = (
       tab: TabsPaneContext,
-      tabName: string,
+      tabName: string | number,
       event: Event
     ) => {
       if (tab.props.disabled) return

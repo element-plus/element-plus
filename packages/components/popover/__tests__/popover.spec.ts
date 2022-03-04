@@ -1,18 +1,18 @@
-import { h } from 'vue'
-import { PopupManager } from '@element-plus/utils/popup-manager'
+import { h, nextTick } from 'vue'
+import { useZIndex, POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
 import makeMount from '@element-plus/test-utils/make-mount'
+import { rAF } from '@element-plus/test-utils/tick'
+import { ElPopperTrigger } from '@element-plus/components/popper'
 import Popover from '../src/index.vue'
 
 const AXIOM = 'Rem is the best girl'
-
+jest.useFakeTimers()
 const mount = makeMount(Popover, {
   slots: {
     default: () => AXIOM,
     reference: () => h('button', 'click me'),
   },
-  props: {
-    appendToBody: false,
-  },
+  props: {},
   global: {
     attachTo: document.body,
   },
@@ -79,7 +79,7 @@ describe('Popover.vue', () => {
     wrapper = makeMount(Popover, {
       props: {
         content,
-        appendToBody: false,
+        teleported: false,
         virtualRef,
         virtualTriggering: true,
       },
@@ -91,10 +91,59 @@ describe('Popover.vue', () => {
   test('popper z-index should be dynamical', () => {
     wrapper = mount()
 
+    const { currentZIndex } = useZIndex()
     expect(
       Number.parseInt(window.getComputedStyle(findContentComp().element).zIndex)
-    ).toBeLessThanOrEqual(
-      PopupManager.zIndex + PopupManager.globalInitialZIndex
-    )
+    ).toBeLessThanOrEqual(currentZIndex.value)
+  })
+
+  test('defind hide method', async () => {
+    wrapper = mount()
+    const vm = wrapper.vm as any
+    expect(vm.hide).toBeDefined()
+  })
+
+  test('should be able to emit after-enter and after-leave', async () => {
+    const wrapper = mount({
+      attrs: {
+        trigger: 'click',
+      },
+    })
+    await nextTick()
+    const trigger$ = wrapper.findComponent(ElPopperTrigger)
+    const triggerEl = trigger$.find('.el-tooltip__trigger')
+    await triggerEl.trigger('click')
+    jest.runAllTimers()
+    await rAF()
+    expect(wrapper.emitted()).toHaveProperty('after-enter')
+
+    await triggerEl.trigger('click')
+    jest.runAllTimers()
+    await rAF()
+    expect(wrapper.emitted()).toHaveProperty('after-leave')
+  })
+
+  describe('teleported API', () => {
+    it('should mount on popper container', async () => {
+      expect(document.body.innerHTML).toBe('')
+      mount()
+
+      await nextTick()
+      expect(
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+      ).not.toBe('')
+    })
+
+    it('should not mount on the popper container', async () => {
+      expect(document.body.innerHTML).toBe('')
+      mount({
+        props: { teleported: false },
+      })
+
+      await nextTick()
+      expect(
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+      ).toBe('')
+    })
   })
 })

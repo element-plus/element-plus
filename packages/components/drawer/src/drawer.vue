@@ -1,7 +1,7 @@
 <template>
   <teleport to="body" :disabled="!appendToBody">
     <transition
-      name="el-drawer-fade"
+      :name="ns.b('fade')"
       @after-enter="afterEnter"
       @after-leave="afterLeave"
       @before-leave="beforeLeave"
@@ -17,20 +17,16 @@
           ref="drawerRef"
           v-trap-focus
           aria-modal="true"
-          aria-labelledby="el-drawer__title"
+          :aria-labelledby="ns.e('title')"
           :aria-label="title"
-          :class="['el-drawer', direction, visible && 'open', customClass]"
+          :class="[ns.b(), direction, visible && 'open', customClass]"
           :style="
             isHorizontal ? 'width: ' + drawerSize : 'height: ' + drawerSize
           "
           role="dialog"
           @click.stop
         >
-          <header
-            v-if="withHeader"
-            id="el-drawer__title"
-            class="el-drawer__header"
-          >
+          <header v-if="withHeader" :id="ns.e('title')" :class="ns.e('header')">
             <slot name="title">
               <span role="heading" :title="title">
                 {{ title }}
@@ -39,18 +35,21 @@
             <button
               v-if="showClose"
               :aria-label="'close ' + (title || 'drawer')"
-              class="el-drawer__close-btn"
+              :class="ns.e('close-btn')"
               type="button"
               @click="handleClose"
             >
-              <el-icon class="el-drawer__close"><close /></el-icon>
+              <el-icon :class="ns.e('close')"><close /></el-icon>
             </button>
           </header>
           <template v-if="rendered">
-            <section class="el-drawer__body">
+            <section :class="ns.e('body')">
               <slot></slot>
             </section>
           </template>
+          <div v-if="$slots.footer" :class="ns.e('footer')">
+            <slot name="footer"></slot>
+          </div>
         </div>
       </el-overlay>
     </transition>
@@ -65,6 +64,7 @@ import { ElOverlay } from '@element-plus/components/overlay'
 import { useDialog } from '@element-plus/components/dialog'
 import ElIcon from '@element-plus/components/icon'
 import { TrapFocus } from '@element-plus/directives'
+import { useNamespace } from '@element-plus/hooks'
 import { drawerProps, drawerEmits } from './drawer'
 
 export default defineComponent({
@@ -82,6 +82,7 @@ export default defineComponent({
 
   setup(props, ctx) {
     const drawerRef = ref<HTMLElement>()
+    const ns = useNamespace('drawer')
 
     const isHorizontal = computed(
       () => props.direction === 'rtl' || props.direction === 'ltr'
@@ -95,6 +96,7 @@ export default defineComponent({
       drawerRef,
       isHorizontal,
       drawerSize,
+      ns,
     }
   },
 })

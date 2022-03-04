@@ -1,30 +1,19 @@
-import { nextTick } from 'vue'
+import { nextTick, markRaw } from 'vue'
 import { mount } from '@vue/test-utils'
 import { rAF } from '@element-plus/test-utils/tick'
 import triggerCompositeClick from '@element-plus/test-utils/composite-click'
 import { Delete } from '@element-plus/icons-vue'
-import Dialog from '../'
+import Dialog from '../src/dialog.vue'
 
 const AXIOM = 'Rem is the best girl'
-
-const _mount = ({ slots, ...rest }: Indexable<any>) => {
-  return mount(Dialog, {
-    slots: {
-      default: AXIOM,
-      ...slots,
-    },
-    ...rest,
-  })
-}
+const defaultSlots = { default: () => AXIOM }
 
 jest.useFakeTimers()
 
 describe('Dialog.vue', () => {
   test('render test', async () => {
-    const wrapper = _mount({
-      slots: {
-        default: AXIOM,
-      },
+    const wrapper = mount(Dialog, {
+      slots: defaultSlots,
       props: {
         modelValue: true,
       },
@@ -38,9 +27,10 @@ describe('Dialog.vue', () => {
 
   test('dialog should have a title when title has been given', async () => {
     const HEADER = 'I am header'
-    let wrapper = _mount({
+    let wrapper = mount(Dialog, {
       slots: {
-        title: HEADER,
+        ...defaultSlots,
+        title: () => HEADER,
       },
       props: {
         modelValue: true,
@@ -49,7 +39,8 @@ describe('Dialog.vue', () => {
     await nextTick()
     expect(wrapper.find('.el-dialog__header').text()).toBe(HEADER)
 
-    wrapper = _mount({
+    wrapper = mount(Dialog, {
+      slots: defaultSlots,
       props: {
         title: HEADER,
         modelValue: true,
@@ -61,9 +52,10 @@ describe('Dialog.vue', () => {
   })
 
   test('dialog should have a footer when footer has been given', async () => {
-    const wrapper = _mount({
+    const wrapper = mount(Dialog, {
       slots: {
-        footer: AXIOM,
+        ...defaultSlots,
+        footer: () => AXIOM,
       },
       props: {
         modelValue: true,
@@ -75,7 +67,8 @@ describe('Dialog.vue', () => {
   })
 
   test('should append dialog to body when appendToBody is true', async () => {
-    const wrapper = _mount({
+    const wrapper = mount(Dialog, {
+      slots: defaultSlots,
       props: {
         appendToBody: true,
         modelValue: true,
@@ -83,13 +76,14 @@ describe('Dialog.vue', () => {
     })
     await nextTick()
     expect(
-      document.body.firstElementChild.classList.contains('el-overlay')
+      document.body.firstElementChild!.classList.contains('el-overlay')
     ).toBe(true)
     wrapper.unmount()
   })
 
   test('should center dialog', async () => {
-    const wrapper = _mount({
+    const wrapper = mount(Dialog, {
+      slots: defaultSlots,
       props: {
         center: true,
         modelValue: true,
@@ -100,7 +94,8 @@ describe('Dialog.vue', () => {
   })
 
   test('should show close button', async () => {
-    const wrapper = _mount({
+    const wrapper = mount(Dialog, {
+      slots: defaultSlots,
       props: {
         modelValue: true,
       },
@@ -110,7 +105,8 @@ describe('Dialog.vue', () => {
   })
 
   test('should hide close button when showClose = false', async () => {
-    const wrapper = _mount({
+    const wrapper = mount(Dialog, {
+      slots: defaultSlots,
       props: {
         modelValue: true,
         showClose: false,
@@ -121,10 +117,11 @@ describe('Dialog.vue', () => {
   })
 
   test('should close dialog when click on close button', async () => {
-    const wrapper = _mount({
+    const wrapper = mount(Dialog, {
       props: {
         modelValue: true,
       },
+      slots: defaultSlots,
     })
     await nextTick()
     await wrapper.find('.el-dialog__headerbtn').trigger('click')
@@ -133,7 +130,8 @@ describe('Dialog.vue', () => {
 
   describe('mask related', () => {
     test('should not have overlay mask when mask is false', async () => {
-      const wrapper = _mount({
+      const wrapper = mount(Dialog, {
+        slots: defaultSlots,
         props: {
           modal: false,
           modelValue: true,
@@ -144,7 +142,8 @@ describe('Dialog.vue', () => {
     })
 
     test('should close the modal when clicking on mask when `closeOnClickModal` is true', async () => {
-      const wrapper = _mount({
+      const wrapper = mount(Dialog, {
+        slots: defaultSlots,
         props: {
           modelValue: true,
         },
@@ -161,7 +160,8 @@ describe('Dialog.vue', () => {
   describe('life cycles', () => {
     test('should call before close', async () => {
       const beforeClose = jest.fn()
-      const wrapper = _mount({
+      const wrapper = mount(Dialog, {
+        slots: defaultSlots,
         props: {
           beforeClose,
           modelValue: true,
@@ -177,7 +177,8 @@ describe('Dialog.vue', () => {
         .fn()
         .mockImplementation((hide: (cancel: boolean) => void) => hide(true))
 
-      const wrapper = _mount({
+      const wrapper = mount(Dialog, {
+        slots: defaultSlots,
         props: {
           beforeClose,
           modelValue: true,
@@ -190,7 +191,8 @@ describe('Dialog.vue', () => {
     })
 
     test('should open and close with delay', async () => {
-      const wrapper = _mount({
+      const wrapper = mount(Dialog, {
+        slots: defaultSlots,
         props: {
           openDelay: 200,
           closeDelay: 200,
@@ -203,16 +205,11 @@ describe('Dialog.vue', () => {
       await wrapper.setProps({
         modelValue: true,
       })
-
-      // expect(wrapper.vm.visible).toBe(false)
-
-      // jest.runOnlyPendingTimers()
-
-      // expect(wrapper.vm.visible).toBe(true)
     })
 
     test('should destroy on close', async () => {
-      const wrapper = _mount({
+      const wrapper = mount(Dialog, {
+        slots: defaultSlots,
         props: {
           modelValue: true,
           destroyOnClose: true,
@@ -238,7 +235,8 @@ describe('Dialog.vue', () => {
       let visible = true
       const onClose = jest.fn()
       const onClosed = jest.fn()
-      const wrapper = _mount({
+      const wrapper = mount(Dialog, {
+        slots: defaultSlots,
         props: {
           modelValue: visible,
           'onUpdate:modelValue': (val: boolean) => (visible = val),
@@ -262,10 +260,11 @@ describe('Dialog.vue', () => {
     })
 
     test('closeIcon', async () => {
-      const wrapper = _mount({
+      const wrapper = mount(Dialog, {
+        slots: defaultSlots,
         props: {
           modelValue: true,
-          closeIcon: Delete,
+          closeIcon: markRaw(Delete),
         },
       })
       await nextTick()
@@ -274,6 +273,21 @@ describe('Dialog.vue', () => {
       expect(closeIcon.exists()).toBe(true)
       const svg = mount(Delete).find('svg').element
       expect(closeIcon.element.innerHTML).toBe(svg.innerHTML)
+    })
+
+    test('should render draggable prop', async () => {
+      const wrapper = mount(Dialog, {
+        slots: defaultSlots,
+        props: {
+          modelValue: true,
+          draggable: true,
+        },
+      })
+
+      await nextTick()
+      await rAF()
+      await nextTick()
+      expect(wrapper.find('.is-draggable').exists()).toBe(true)
     })
   })
 })

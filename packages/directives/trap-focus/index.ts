@@ -1,10 +1,6 @@
 import { nextTick } from 'vue'
-import { on, off } from '@element-plus/utils/dom'
-import {
-  obtainAllFocusableElements,
-  EVENT_CODE,
-} from '@element-plus/utils/aria'
-
+import { on, off, obtainAllFocusableElements } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
 import type { ObjectDirective } from 'vue'
 
 export const FOCUSABLE_CHILDREN = '_trap-focus-children'

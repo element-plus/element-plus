@@ -1,7 +1,9 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { sleep, defineGetter } from '@element-plus/test-utils'
+import { defineGetter } from '@element-plus/test-utils'
 import Input from '../src/input.vue'
+
+jest.useFakeTimers()
 
 const _mount = (options) =>
   mount({
@@ -224,10 +226,16 @@ describe('Input.vue', () => {
     const vm = wrapper.vm as any
     expect(vm.$el.querySelector('input').value).toEqual('123')
     vm.type = 'textarea'
-    await sleep()
+    jest.runAllTimers()
+    await nextTick()
+    await nextTick()
+
     expect(vm.$el.querySelector('textarea').value).toEqual('123')
     vm.type = 'password'
-    await sleep()
+    jest.runAllTimers()
+    await nextTick()
+    await nextTick()
+
     expect(vm.$el.querySelector('input').value).toEqual('123')
   })
 

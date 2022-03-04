@@ -1,8 +1,8 @@
 import { defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
 import { MoreFilled } from '@element-plus/icons-vue'
-import TimeLine from '../src/index.vue'
-import TimeLineItem from '../src/item.vue'
+import TimeLine from '../src/timeline'
+import TimeLineItem from '../src/timeline-item.vue'
 
 const Component = defineComponent({
   components: {

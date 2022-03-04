@@ -58,7 +58,14 @@ export function useAllowCreate(props: ISelectProps, states) {
   }
 
   function removeNewOption(option: Option) {
-    if (!enableAllowCreateMode.value || !option || !option.created) {
+    if (
+      !enableAllowCreateMode.value ||
+      !option ||
+      !option.created ||
+      (option.created &&
+        props.reserveKeyword &&
+        states.inputValue === option.label)
+    ) {
       return
     }
     const idx = states.createdOptions.findIndex(

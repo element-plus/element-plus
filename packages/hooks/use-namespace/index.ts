@@ -1,49 +1,61 @@
 import { unref, computed } from 'vue'
-import curry from 'lodash/curry'
 import { useGlobalConfig } from '../use-global-config'
 
-const curryBem = curry(
-  (
-    namespace: string,
-    block: string,
-    blockSuffix: string,
-    element: string,
-    modifier: string
-  ) => {
-    let cls = `${namespace}-${block}`
-    if (blockSuffix) {
-      cls += `-${blockSuffix}`
-    }
-    if (element) {
-      cls += `__${element}`
-    }
-    if (modifier) {
-      cls += `--${modifier}`
-    }
-    return cls
+const defaultNamespace = 'el'
+const statePrefix = 'is-'
+
+const _bem = (
+  namespace: string,
+  block: string,
+  blockSuffix: string,
+  element: string,
+  modifier: string
+) => {
+  let cls = `${namespace}-${block}`
+  if (blockSuffix) {
+    cls += `-${blockSuffix}`
   }
-)
+  if (element) {
+    cls += `__${element}`
+  }
+  if (modifier) {
+    cls += `--${modifier}`
+  }
+  return cls
+}
 
 export const useNamespace = (block: string) => {
-  const namespace = computed(() => useGlobalConfig('namespace').value || 'el')
+  const globalConfig = useGlobalConfig('namespace')
+  const namespace = computed(() => globalConfig.value || defaultNamespace)
   const b = (blockSuffix = '') =>
-    curryBem(unref(namespace), block, blockSuffix, '', '')
+    _bem(unref(namespace), block, blockSuffix, '', '')
   const e = (element?: string) =>
-    element ? curryBem(unref(namespace), block, '', element, '') : ''
+    element ? _bem(unref(namespace), block, '', element, '') : ''
   const m = (modifier?: string) =>
-    modifier ? curryBem(unref(namespace), block, '', '')(modifier) : ''
+    modifier ? _bem(unref(namespace), block, '', '', modifier) : ''
   const be = (blockSuffix?: string, element?: string) =>
     blockSuffix && element
-      ? curryBem(unref(namespace), block, blockSuffix, element, '')
+      ? _bem(unref(namespace), block, blockSuffix, element, '')
       : ''
   const em = (element?: string, modifier?: string) =>
     element && modifier
-      ? curryBem(unref(namespace), block, '')(element, modifier)
+      ? _bem(unref(namespace), block, '', element, modifier)
+      : ''
+  const bm = (blockSuffix?: string, modifier?: string) =>
+    blockSuffix && modifier
+      ? _bem(unref(namespace), block, blockSuffix, '', modifier)
       : ''
   const bem = (blockSuffix?: string, element?: string, modifier?: string) =>
     blockSuffix && element && modifier
-      ? curryBem(unref(namespace), block)(blockSuffix, element, modifier)
+      ? _bem(unref(namespace), block, blockSuffix, element, modifier)
       : ''
+  const is: {
+    (name: string, state: boolean | undefined): string
+    (name: string): string
+  } = (name: string, ...args: [boolean | undefined] | []) => {
+    const state = args.length >= 1 ? args[0]! : true
+    return name && state ? `${statePrefix}${name}` : ''
+  }
   return {
     namespace,
     b,
@@ -51,6 +63,8 @@ export const useNamespace = (block: string) => {
     m,
     be,
     em,
+    bm,
     bem,
+    is,
   }
 }

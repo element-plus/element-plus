@@ -9,7 +9,7 @@
     <input
       :id="id"
       ref="input"
-      class="el-switch__input"
+      :class="ns.e('input')"
       type="checkbox"
       :name="name"
       :true-value="activeValue"
@@ -21,9 +21,9 @@
     <span
       v-if="!inlinePrompt && (inactiveIcon || inactiveText)"
       :class="[
-        'el-switch__label',
-        'el-switch__label--left',
-        !checked ? 'is-active' : '',
+        ns.e('label'),
+        ns.em('label', 'left'),
+        ns.is('active', !checked),
       ]"
     >
       <el-icon v-if="inactiveIcon"><component :is="inactiveIcon" /></el-icon>
@@ -33,22 +33,20 @@
     </span>
     <span
       ref="core"
-      class="el-switch__core"
+      :class="ns.e('core')"
       :style="{ width: (width || 40) + 'px' }"
     >
-      <div v-if="inlinePrompt" class="el-switch__inner">
+      <div v-if="inlinePrompt" :class="ns.e('inner')">
         <template v-if="activeIcon || inactiveIcon">
           <el-icon
             v-if="activeIcon"
-            class="is-icon"
-            :class="checked ? 'is-show' : 'is-hide'"
+            :class="[ns.is('icon'), checked ? ns.is('show') : ns.is('hide')]"
           >
             <component :is="activeIcon" />
           </el-icon>
           <el-icon
             v-if="inactiveIcon"
-            class="is-icon"
-            :class="!checked ? 'is-show' : 'is-hide'"
+            :class="[ns.is('icon'), !checked ? ns.is('show') : ns.is('hide')]"
           >
             <component :is="inactiveIcon" />
           </el-icon>
@@ -56,32 +54,30 @@
         <template v-else-if="activeText || inactiveIcon">
           <span
             v-if="activeText"
-            class="is-text"
-            :class="checked ? 'is-show' : 'is-hide'"
+            :class="[ns.is('text'), checked ? ns.is('show') : ns.is('hide')]"
             :aria-hidden="!checked"
           >
-            {{ activeText.substr(0, 1) }}
+            {{ activeText.substring(0, 3) }}
           </span>
           <span
             v-if="inactiveText"
-            class="is-text"
-            :class="!checked ? 'is-show' : 'is-hide'"
+            :class="[ns.is('text'), !checked ? ns.is('show') : ns.is('hide')]"
             :aria-hidden="checked"
           >
-            {{ inactiveText.substr(0, 1) }}
+            {{ inactiveText.substring(0, 3) }}
           </span>
         </template>
       </div>
-      <div class="el-switch__action">
-        <el-icon v-if="loading" class="is-loading"><loading /></el-icon>
+      <div :class="ns.e('action')">
+        <el-icon v-if="loading" :class="ns.is('loading')"><loading /></el-icon>
       </div>
     </span>
     <span
       v-if="!inlinePrompt && (activeIcon || activeText)"
       :class="[
-        'el-switch__label',
-        'el-switch__label--right',
-        checked ? 'is-active' : '',
+        ns.e('label'),
+        ns.em('label', 'right'),
+        ns.is('active', checked),
       ]"
     >
       <el-icon v-if="activeIcon"><component :is="activeIcon" /></el-icon>
@@ -95,16 +91,20 @@
 <script lang="ts">
 import { defineComponent, computed, onMounted, ref, nextTick, watch } from 'vue'
 import { isPromise } from '@vue/shared'
-import { isBool } from '@element-plus/utils/util'
-import { throwError, debugWarn } from '@element-plus/utils/error'
+import { isBoolean, throwError, debugWarn } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
 import { Loading } from '@element-plus/icons-vue'
 import {
   UPDATE_MODEL_EVENT,
   CHANGE_EVENT,
   INPUT_EVENT,
-} from '@element-plus/utils/constants'
-import { useDisabled, useFormItem, useSize } from '@element-plus/hooks'
+} from '@element-plus/constants'
+import {
+  useDisabled,
+  useFormItem,
+  useNamespace,
+  useSize,
+} from '@element-plus/hooks'
 import { switchProps, switchEmits } from './switch'
 
 const COMPONENT_NAME = 'ElSwitch'
@@ -119,18 +119,18 @@ export default defineComponent({
   setup(props, { emit }) {
     const { formItem } = useFormItem()
     const switchDisabled = useDisabled(computed(() => props.loading))
+    const ns = useNamespace('switch')
 
     const switchSize = useSize()
     const isModelValue = ref(props.modelValue !== false)
     const input = ref<HTMLInputElement>()
     const core = ref<HTMLSpanElement>()
 
-    const prefix = 'el-switch'
     const switchKls = computed(() => [
-      prefix,
-      `${prefix}--${switchSize.value}`,
-      switchDisabled.value ? 'is-disabled' : '',
-      checked.value ? 'is-checked' : '',
+      ns.b(),
+      ns.m(switchSize.value),
+      ns.is('disabled', switchDisabled.value),
+      ns.is('checked', checked.value),
     ])
 
     watch(
@@ -192,9 +192,10 @@ export default defineComponent({
 
       const shouldChange = beforeChange()
 
-      const isExpectType = [isPromise(shouldChange), isBool(shouldChange)].some(
-        (i) => i
-      )
+      const isExpectType = [
+        isPromise(shouldChange),
+        isBoolean(shouldChange),
+      ].some((i) => i)
       if (!isExpectType) {
         throwError(
           COMPONENT_NAME,
@@ -239,6 +240,7 @@ export default defineComponent({
     })
 
     return {
+      ns,
       input,
       core,
       switchDisabled,

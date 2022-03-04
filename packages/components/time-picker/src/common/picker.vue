@@ -15,8 +15,9 @@
     :stop-popper-mouse-event="false"
     :hide-after="0"
     persistent
-    @show="pickerActualVisible = true"
-    @hide="pickerActualVisible = false"
+    @before-show="onBeforeShow"
+    @show="onShow"
+    @hide="onHide"
   >
     <template #default>
       <el-input
@@ -137,6 +138,7 @@
         @select-range="setSelectionRange"
         @set-picker-option="onSetPickerOption"
         @calendar-change="onCalendarChange"
+        @panel-change="onPanelChange"
         @mousedown.stop
       ></slot>
     </template>
@@ -154,15 +156,15 @@ import {
   unref,
 } from 'vue'
 import dayjs from 'dayjs'
-import isEqual from 'lodash/isEqual'
+import { isEqual } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import { useLocale, useSize } from '@element-plus/hooks'
 import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
-import { EVENT_CODE } from '@element-plus/utils/aria'
-import { isEmpty } from '@element-plus/utils/util'
+import { isEmpty } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
 import { Clock, Calendar } from '@element-plus/icons-vue'
 import { timePickerDefaultProps } from './props'
 
@@ -211,7 +213,7 @@ const valueEquals = function (a: Array<Date> | any, b: Array<Date> | any) {
 }
 
 const parser = function (
-  date: Date | string,
+  date: string | number | Date,
   format: string,
   lang: string
 ): Dayjs {
@@ -222,7 +224,11 @@ const parser = function (
   return day.isValid() ? day : undefined
 }
 
-const formatter = function (date: number | Date, format: string, lang: string) {
+const formatter = function (
+  date: string | number | Date,
+  format: string,
+  lang: string
+) {
   if (isEmpty(format)) return date
   if (format === 'x') return +date
   return dayjs(date).locale(lang).format(format)
@@ -236,7 +242,15 @@ export default defineComponent({
     ElIcon,
   },
   props: timePickerDefaultProps,
-  emits: ['update:modelValue', 'change', 'focus', 'blur', 'calendar-change'],
+  emits: [
+    'update:modelValue',
+    'change',
+    'focus',
+    'blur',
+    'calendar-change',
+    'panel-change',
+    'visible-change',
+  ],
   setup(props, ctx) {
     const { lang } = useLocale()
 
@@ -320,6 +334,19 @@ export default defineComponent({
       }
       userInput.value = null
       emitInput(result)
+    }
+
+    const onBeforeShow = () => {
+      pickerActualVisible.value = true
+    }
+
+    const onShow = () => {
+      ctx.emit('visible-change', true)
+    }
+
+    const onHide = () => {
+      pickerActualVisible.value = false
+      ctx.emit('visible-change', false)
     }
 
     const focus = (focusStartInput = true) => {
@@ -619,6 +646,10 @@ export default defineComponent({
       ctx.emit('calendar-change', e)
     }
 
+    const onPanelChange = (value, mode, view) => {
+      ctx.emit('panel-change', value, mode, view)
+    }
+
     provide('EP_PICKER_BASE', {
       props,
     })
@@ -657,7 +688,11 @@ export default defineComponent({
       pickerDisabled,
       onSetPickerOption,
       onCalendarChange,
+      onPanelChange,
       focus,
+      onShow,
+      onBeforeShow,
+      onHide,
     }
   },
 })

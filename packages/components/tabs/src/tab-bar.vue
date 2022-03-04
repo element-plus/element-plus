@@ -17,7 +17,7 @@ import {
 import { capitalize } from '@vue/shared'
 import { useResizeObserver } from '@vueuse/core'
 import { tabsRootContextKey } from '@element-plus/tokens'
-import { throwError } from '@element-plus/utils/error'
+import { throwError } from '@element-plus/utils'
 import { tabBar } from './tab-bar'
 
 import type { CSSProperties } from 'vue'

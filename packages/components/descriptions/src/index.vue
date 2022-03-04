@@ -2,18 +2,18 @@
   <div :class="descriptionKls">
     <div
       v-if="title || extra || $slots.title || $slots.extra"
-      class="el-descriptions__header"
+      :class="ns.e('header')"
     >
-      <div class="el-descriptions__title">
+      <div :class="ns.e('title')">
         <slot name="title">{{ title }}</slot>
       </div>
-      <div class="el-descriptions__extra">
+      <div :class="ns.e('extra')">
         <slot name="extra">{{ extra }}</slot>
       </div>
     </div>
 
-    <div class="el-descriptions__body">
-      <table :class="['el-descriptions__table', { 'is-bordered': border }]">
+    <div :class="ns.e('body')">
+      <table :class="[ns.e('table'), ns.is('bordered', border)]">
         <tbody>
           <template v-for="(row, index) in getRows()" :key="index">
             <el-descriptions-row :row="row" />
@@ -26,13 +26,13 @@
 
 <script lang="ts">
 import { computed, defineComponent, provide } from 'vue'
-import { isValidComponentSize } from '@element-plus/utils/validators'
-import { useSize } from '@element-plus/hooks'
+import { isValidComponentSize } from '@element-plus/utils'
+import { useSize, useNamespace } from '@element-plus/hooks'
 import DescriptionsRow from './descriptions-row.vue'
 import { elDescriptionsKey } from './token'
 
 import type { PropType } from 'vue'
-import type { ComponentSize } from '@element-plus/utils/types'
+import type { ComponentSize } from '@element-plus/constants'
 
 export default defineComponent({
   name: 'ElDescriptions',
@@ -69,11 +69,11 @@ export default defineComponent({
     provide(elDescriptionsKey, props)
 
     const descriptionsSize = useSize()
+    const ns = useNamespace('descriptions')
 
-    const prefix = 'el-descriptions'
     const descriptionKls = computed(() => [
-      prefix,
-      descriptionsSize.value ? `${prefix}--${descriptionsSize.value}` : '',
+      ns.b(),
+      ns.is(ns.m(descriptionsSize.value), !!descriptionsSize.value),
     ])
 
     const flattedChildren = (children) => {
@@ -144,6 +144,7 @@ export default defineComponent({
     return {
       descriptionKls,
       getRows,
+      ns,
     }
   },
 })

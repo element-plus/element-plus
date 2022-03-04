@@ -25,14 +25,14 @@
       :indeterminate="node.indeterminate"
       :disabled="isDisabled"
       @click.stop
-      @update:model-value="handleCheck"
+      @update:model-value="handleSelectCheck"
     />
     <el-radio
       v-else-if="checkStrictly"
       :model-value="checkedNodeId"
       :label="node.uid"
       :disabled="isDisabled"
-      @update:model-value="handleCheck"
+      @update:model-value="handleSelectCheck"
       @click.stop
     >
       <!--
@@ -166,6 +166,17 @@ export default defineComponent({
       }
     }
 
+    const handleSelectCheck = (checked: boolean) => {
+      if (checkStrictly.value) {
+        doCheck(checked)
+        if (props.node.loaded) {
+          doExpand()
+        }
+      } else {
+        handleCheck(checked)
+      }
+    }
+
     const handleCheck = (checked: boolean) => {
       if (!props.node.loaded) {
         doLoad()
@@ -190,6 +201,7 @@ export default defineComponent({
       handleExpand,
       handleClick,
       handleCheck,
+      handleSelectCheck,
     }
   },
 })

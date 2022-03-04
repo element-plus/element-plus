@@ -1,5 +1,5 @@
 import { ref, getCurrentInstance, unref, watch, toRefs } from 'vue'
-import { hasOwn } from '@vue/shared'
+import { hasOwn } from '@element-plus/utils'
 import {
   getKeysMap,
   getRowIdentity,
@@ -170,11 +170,6 @@ function useWatcher<T>() {
       )
       selection.value = newSelection
       instance.emit('selection-change', newSelection.slice())
-    } else {
-      if (selection.value.length) {
-        selection.value = []
-        instance.emit('selection-change', [])
-      }
     }
   }
 
@@ -361,14 +356,9 @@ function useWatcher<T>() {
   }
 
   const clearFilter = (columnKeys) => {
-    const { tableHeader, fixedTableHeader, rightFixedTableHeader } =
-      instance.refs as TableRefs
-    let panels = {}
-    if (tableHeader) panels = Object.assign(panels, tableHeader.filterPanels)
-    if (fixedTableHeader)
-      panels = Object.assign(panels, fixedTableHeader.filterPanels)
-    if (rightFixedTableHeader)
-      panels = Object.assign(panels, rightFixedTableHeader.filterPanels)
+    const { tableHeaderRef } = instance.refs as TableRefs
+    if (!tableHeaderRef) return
+    const panels = Object.assign({}, tableHeaderRef.filterPanels)
 
     const keys = Object.keys(panels)
     if (!keys.length) return

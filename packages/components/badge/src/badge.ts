@@ -1,6 +1,6 @@
-import { buildProps } from '@element-plus/utils/props'
-
+import { buildProps } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
+import type Badge from './badge.vue'
 
 export const badgeProps = buildProps({
   value: {
@@ -20,3 +20,5 @@ export const badgeProps = buildProps({
   },
 } as const)
 export type BadgeProps = ExtractPropTypes<typeof badgeProps>
+
+export type BadgeInstance = InstanceType<typeof Badge>

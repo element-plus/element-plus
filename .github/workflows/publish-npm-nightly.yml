@@ -15,13 +15,26 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: latest
+
+      - name: Cache ~/.pnpm-store
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-pnpm-store
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-publish-${{ env.cache-name }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-publish-${{ env.cache-name }}-
+            ${{ runner.os }}-publish-
+            ${{ runner.os }}-
+
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
       - name: Lint
@@ -35,7 +48,7 @@ jobs:
     if: ${{ github.repository_owner == 'element-plus' }}
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node-version: '16'
           registry-url: https://registry.npmjs.com/

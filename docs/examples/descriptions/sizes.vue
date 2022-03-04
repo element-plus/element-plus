@@ -131,9 +131,11 @@ const blockMargin = computed(() => {
 .el-descriptions {
   margin-top: 20px;
 }
-
 .cell-item {
   display: flex;
   align-items: center;
+}
+.margin-top {
+  margin-top: 20px;
 }
 </style>

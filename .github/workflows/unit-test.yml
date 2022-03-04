@@ -23,13 +23,29 @@ jobs:
         with:
           version: latest
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
+
+      - name: Cache ~/.pnpm-store
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-pnpm-store
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ matrix.node-version }}-test-${{ env.cache-name }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.node-version }}-test-${{ env.cache-name }}-
+            ${{ runner.os }}-${{ matrix.node-version }}-test-
+            ${{ runner.os }}-
+
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
       - name: Lint
         run: pnpm lint
       - name: Test
-        run: pnpm test
+        run: pnpm test:jest && pnpm test:coverage
+      - name: Upload to codecov.io
+        uses: codecov/codecov-action@v2
+        with:
+          fail_ci_if_error: true

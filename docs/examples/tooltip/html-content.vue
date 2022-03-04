@@ -1,6 +1,6 @@
 <template>
   <el-tooltip
-    content="<p>The content can be <strong>HTML</strong></p>"
+    content="<span>The content can be <strong>HTML</strong></span>"
     raw-content
   >
     <el-button>hover me</el-button>

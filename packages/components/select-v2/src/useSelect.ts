@@ -8,17 +8,20 @@ import {
   onBeforeMount,
 } from 'vue'
 import { isArray, isFunction, isObject } from '@vue/shared'
-import isEqual from 'lodash/isEqual'
-import lodashDebounce from 'lodash/debounce'
-import { useFormItem, useLocale, useSize } from '@element-plus/hooks'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
-import { ValidateComponentsMap } from '@element-plus/utils/icon'
+import { isEqual, debounce as lodashDebounce, get } from 'lodash-unified'
 import {
+  useFormItem,
+  useLocale,
+  useSize,
+  useNamespace,
+} from '@element-plus/hooks'
+import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
+import {
+  ValidateComponentsMap,
   addResizeListener,
   removeResizeListener,
-} from '@element-plus/utils/resize-event'
-import { getValueByPath } from '@element-plus/utils/util'
-import { Effect } from '@element-plus/components/popper'
+} from '@element-plus/utils'
+import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 
 import { ArrowUp } from '@element-plus/icons-vue'
 import { useAllowCreate } from './useAllowCreate'
@@ -38,11 +41,18 @@ const TAG_BASE_WIDTH = {
   default: 42,
   small: 33,
 }
+const COMPONENT_NAME = 'ElSelectV2'
 
 const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   // inject
   const { t } = useLocale()
+  const nsSelectV2 = useNamespace('select-v2')
+  const nsInput = useNamespace('input')
   const { form: elForm, formItem: elFormItem } = useFormItem()
+  const { compatTeleported } = useDeprecateAppendToBody(
+    COMPONENT_NAME,
+    'popperAppendToBody'
+  )
 
   const states = reactive({
     inputValue: DEFAULT_INPUT_PLACEHOLDER,
@@ -118,8 +128,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     props.remote && props.filterable ? '' : ArrowUp
   )
 
-  const iconReverse = computed(() =>
-    iconComponent.value && expanded.value ? 'is-reverse' : ''
+  const iconReverse = computed(
+    () => iconComponent.value && nsSelectV2.is('reverse', expanded.value)
   )
 
   const validateState = computed(() => elFormItem?.validateState || '')
@@ -337,7 +347,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     const valueKey = props.valueKey
     let index = -1
     arr.some((item, i) => {
-      if (getValueByPath(item, valueKey) === getValueByPath(value, valueKey)) {
+      if (get(item, valueKey) === get(value, valueKey)) {
         index = i
         return true
       }
@@ -347,7 +357,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const getValueKey = (item: unknown) => {
-    return isObject(item) ? getValueByPath(item, props.valueKey) : item
+    return isObject(item) ? get(item, props.valueKey) : item
   }
 
   // if the selected item is item then we get label via indexing
@@ -414,7 +424,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         handleQueryChange('')
         states.inputLength = 20
       }
-      if (props.filterable) {
+      if (props.filterable && !props.reserveKeyword) {
         inputRef.value.focus?.()
         onUpdateInputValue('')
       }
@@ -581,7 +591,10 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const onKeyboardSelect = () => {
     if (!expanded.value) {
       return toggleMenu()
-    } else if (~states.hoveringIndex) {
+    } else if (
+      ~states.hoveringIndex &&
+      filteredOptions.value[states.hoveringIndex]
+    ) {
       onSelect(
         filteredOptions.value[states.hoveringIndex],
         states.hoveringIndex,
@@ -648,6 +661,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       if ((props.modelValue as Array<any>).length > 0) {
         let initHovering = false
         states.cachedOptions.length = 0
+        states.previousValue = props.modelValue.toString()
         ;(props.modelValue as Array<any>).map((selected) => {
           const itemIndex = filteredOptions.value.findIndex(
             (option) => getValueKey(option) === selected
@@ -664,9 +678,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         })
       } else {
         states.cachedOptions = []
+        states.previousValue = ''
       }
     } else {
       if (hasModelValue.value) {
+        states.previousValue = props.modelValue
         const options = filteredOptions.value
         const selectedItemIndex = options.findIndex(
           (option) => getValueKey(option) === props.modelValue
@@ -679,6 +695,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         }
       } else {
         states.selectedLabel = ''
+        states.previousValue = ''
       }
     }
     calculatePopperSize()
@@ -764,6 +781,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     showClearBtn,
     states,
     tagMaxWidth,
+    nsSelectV2,
+    nsInput,
 
     // refs items exports
     calculatorRef,
@@ -778,8 +797,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
     validateState,
     validateIcon,
-
-    Effect,
+    // deprecations
+    compatTeleported,
 
     // methods exports
     debouncedOnInputChange,

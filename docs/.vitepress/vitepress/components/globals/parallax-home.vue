@@ -3,16 +3,29 @@ import { ref, reactive, computed } from 'vue'
 import { useParallax, useThrottleFn, useEventListener } from '@vueuse/core'
 import { useLang } from '../../composables/lang'
 import homeLocale from '../../../i18n/pages/home.json'
-import sponsorLocale from '../../../i18n/component/sponsors-home.json'
+import { isDark } from '../../composables/dark'
+import { sponsors } from '../../../config/sponsors'
 import type { CSSProperties } from 'vue'
-
+const langZhCN = 'zh-CN'
 const target = ref<HTMLElement | null>(null)
 const parallax = reactive(useParallax(target))
 const jumbotronRedOffset = ref(0)
 const jumbotronRef = ref<HTMLElement | null>(null)
 const lang = useLang()
 const homeLang = computed(() => homeLocale[lang.value])
-const sponsors = computed(() => sponsorLocale[lang.value])
+
+const getSponsorName = (spons) => {
+  if (lang.value === langZhCN) {
+    return spons.name_cn || spons.name
+  }
+  return spons.name
+}
+const getSponsorSlogan = (spons) => {
+  if (lang.value === langZhCN) {
+    return spons.slogan_cn || spons.slogan
+  }
+  return spons.slogan
+}
 
 const containerStyle: CSSProperties = {
   display: 'flex',
@@ -27,12 +40,13 @@ const containerStyle: CSSProperties = {
 }
 
 const cardStyle = computed(() => ({
-  background: '#fff',
+  background: 'var(--bg-color)',
   minHeight: '30rem',
   width: '50rem',
   borderRadius: '5px',
   transition: '.3s ease-out all',
-  boxShadow: '0 0 20px 0 rgba(255, 255, 255, 0.25)',
+  boxShadow:
+    isDark && !isDark.value ? '0 0 20px 0 rgba(255, 255, 255, 0.25)' : 'none',
   transform: `rotateX(${parallax.roll}deg) rotateY(${parallax.tilt}deg)`,
 }))
 
@@ -58,7 +72,7 @@ const handleScroll = useThrottleFn(() => {
   const ele = jumbotronRef.value
   if (ele) {
     const rect = ele.getBoundingClientRect()
-    const eleHeight = ele.clientHeight + 55
+    const eleHeight = ele.clientHeight
     let calHeight = (180 - rect.top) * 2
     if (calHeight < 0) calHeight = 0
     if (calHeight > eleHeight) calHeight = eleHeight
@@ -73,8 +87,8 @@ useEventListener(window, 'scroll', handleScroll)
   <div ref="target" class="home-page">
     <div class="banner">
       <div class="banner-desc">
-        <h1>{{ homeLang['1'] }}</h1>
-        <p>{{ homeLang['2'] }}</p>
+        <h1>{{ homeLang['title'] }}</h1>
+        <p>{{ homeLang['title_sub'] }}</p>
       </div>
     </div>
     <div ref="jumbotronRef" class="jumbotron">
@@ -102,9 +116,9 @@ useEventListener(window, 'scroll', handleScroll)
           <div>
             <p>
               Sponsored by
-              <span class="name">{{ sponsor.name }}</span>
+              <span class="name">{{ getSponsorName(sponsor) }}</span>
             </p>
-            <p>{{ sponsor.slogan }}</p>
+            <p>{{ getSponsorSlogan(sponsor) }}</p>
           </div>
         </a>
       </div>
@@ -171,7 +185,7 @@ useEventListener(window, 'scroll', handleScroll)
         {{ homeLang['12'] }}
       </a>
       <a
-        href="https://github.com/element-plus/element-plus-starter"
+        href="https://element.eleme.io/"
         class="footer-main-link"
         target="_blank"
       >
@@ -225,6 +239,19 @@ useEventListener(window, 'scroll', handleScroll)
   .banner {
     text-align: center;
   }
+  .banner-dot h1 span {
+    position: relative;
+    &::after {
+      content: '';
+      position: absolute;
+      right: -12px;
+      bottom: 8px;
+      background: var(--el-color-primary);
+      height: 8px;
+      width: 8px;
+      border-radius: 100%;
+    }
+  }
   .banner-desc {
     padding-top: 30px;
 
@@ -243,7 +270,45 @@ useEventListener(window, 'scroll', handleScroll)
     }
   }
 
+  .count-down {
+    .cd-main {
+      background: #f1f6fe;
+      border-radius: 10px;
+      width: 50%;
+      margin: 60px auto 120px;
+      padding: 30px 0;
+      font-size: 24px;
+      color: #666;
+      text-align: center;
+      font-weight: 600;
+    }
+    .cd-date {
+      font-size: 28px;
+    }
+    .cd-time {
+      display: flex;
+      justify-content: space-between;
+      width: 80%;
+      margin: 10px auto 0;
+    }
+    .cd-num {
+      color: var(--el-color-primary);
+      font-size: 78px;
+      font-weight: bold;
+    }
+    .cd-num span {
+      width: 50%;
+      display: inline-block;
+    }
+    .cd-str {
+      font-size: 22px;
+      margin-top: -5px;
+    }
+  }
+
   .sponsors-container {
+    width: 92%;
+    margin: 0 auto;
     .join {
       text-align: center;
       margin: 0 0 50px 0;
@@ -253,10 +318,6 @@ useEventListener(window, 'scroll', handleScroll)
   .sponsors-list {
     display: flex;
     justify-content: center;
-    // jnpf ad class
-    .jnpf > div > p:last-of-type {
-      font-size: 12px;
-    }
   }
 
   .sponsor {
@@ -286,7 +347,7 @@ useEventListener(window, 'scroll', handleScroll)
       margin: 0;
       line-height: 1.8;
       color: var(--text-color-light);
-      font-size: 14px;
+      font-size: 12px;
     }
   }
   .jumbotron {
@@ -298,7 +359,6 @@ useEventListener(window, 'scroll', handleScroll)
     }
     .jumbotron-red {
       transition: height 0.1s;
-      background: #fff;
       position: absolute;
       left: 0;
       top: 0;
@@ -410,19 +470,10 @@ useEventListener(window, 'scroll', handleScroll)
     }
   }
 
-  @media (max-width: 1000px) {
-    .banner .container {
-      img {
-        display: none;
-      }
-    }
-    .jumbotron,
-    .banner {
-      display: none;
-    }
-  }
-
   @media (max-width: 768px) {
+    .banner-desc {
+      padding-top: 0px;
+    }
     .cards {
       li {
         width: 80%;
@@ -438,6 +489,9 @@ useEventListener(window, 'scroll', handleScroll)
       display: none;
     }
     .banner-desc {
+      h1 {
+        font-size: 22px;
+      }
       #line2 {
         display: none;
       }
@@ -446,6 +500,39 @@ useEventListener(window, 'scroll', handleScroll)
       }
       p {
         width: auto;
+      }
+    }
+    .banner-dot h1 span {
+      &::after {
+        right: -8px;
+        bottom: 2px;
+        height: 6px;
+        width: 6px;
+      }
+    }
+    .count-down {
+      .cd-main {
+        width: 90%;
+        margin: 40px auto 40px;
+        padding: 20px 0;
+      }
+      .cd-date {
+        font-size: 22px;
+      }
+      .cd-num {
+        font-size: 38px;
+      }
+      .cd-str {
+        font-size: 12px;
+        margin-top: 0px;
+      }
+    }
+    .sponsors-list {
+      display: flex;
+      flex-direction: column;
+      align-content: center;
+      .sponsor {
+        justify-content: left;
       }
     }
   }

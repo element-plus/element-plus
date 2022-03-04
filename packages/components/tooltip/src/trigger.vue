@@ -4,7 +4,7 @@
     :virtual-ref="virtualRef"
     :open="open"
     :virtual-triggering="virtualTriggering"
-    class="el-tooltip__trigger"
+    :class="ns.e('trigger')"
     @blur="onBlur"
     @click="onClick"
     @contextmenu="onContextMenu"
@@ -20,13 +20,14 @@
 <script lang="ts">
 import { defineComponent, inject, ref, unref, toRef } from 'vue'
 import { ElPopperTrigger } from '@element-plus/components/popper'
-import { EVENT_CODE } from '@element-plus/utils/aria'
-import { composeEventHandlers } from '@element-plus/utils/dom'
+import { composeEventHandlers } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
+import { useNamespace } from '@element-plus/hooks'
 import { TOOLTIP_INJECTION_KEY } from './tokens'
 import { useTooltipTriggerProps } from './tooltip'
 import { whenTrigger } from './utils'
 
-import type { ElOnlyChildExpose } from '@element-plus/components/slot'
+import type { OnlyChildExpose } from '@element-plus/components/slot'
 
 export default defineComponent({
   name: 'ElTooltipTrigger',
@@ -35,11 +36,12 @@ export default defineComponent({
   },
   props: useTooltipTriggerProps,
   setup(props) {
+    const ns = useNamespace('tooltip')
     const { controlled, id, open, onOpen, onClose, onToggle } = inject(
       TOOLTIP_INJECTION_KEY,
       undefined
     )!
-    const triggerRef = ref<ElOnlyChildExpose | null>(null)
+    const triggerRef = ref<OnlyChildExpose | null>(null)
 
     const stopWhenControlledOrDisabled = () => {
       if (unref(controlled) || props.disabled) {
@@ -104,6 +106,7 @@ export default defineComponent({
       open,
       id,
       triggerRef,
+      ns,
     }
   },
 })

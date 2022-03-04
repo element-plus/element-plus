@@ -43,7 +43,7 @@ const route = useRoute()
 }
 
 .link.active {
-  background-color: var(--bg-brand-color);
+  background-color: var(--link-active-bg-color);
   .link-text {
     font-weight: 600;
     color: var(--brand-color);

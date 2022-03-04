@@ -1,6 +1,6 @@
 <template>
-  <div class="el-transfer-panel">
-    <p class="el-transfer-panel__header">
+  <div :class="ns.b('panel')">
+    <p :class="ns.be('panel', 'header')">
       <el-checkbox
         v-model="allChecked"
         :indeterminate="isIndeterminate"
@@ -11,13 +11,11 @@
       </el-checkbox>
     </p>
 
-    <div
-      :class="['el-transfer-panel__body', hasFooter ? 'is-with-footer' : '']"
-    >
+    <div :class="[ns.be('panel', 'body'), ns.is('with-footer', hasFooter)]">
       <el-input
         v-if="filterable"
         v-model="query"
-        class="el-transfer-panel__filter"
+        :class="ns.be('panel', 'filter')"
         size="default"
         :placeholder="placeholder"
         :prefix-icon="SearchIcon"
@@ -29,13 +27,12 @@
       <el-checkbox-group
         v-show="!hasNoMatch && data.length > 0"
         v-model="checked"
-        :class="{ 'is-filterable': filterable }"
-        class="el-transfer-panel__list"
+        :class="[ns.is('filterable', filterable), ns.be('panel', 'list')]"
       >
         <el-checkbox
           v-for="item in filteredData"
           :key="item[keyProp]"
-          class="el-transfer-panel__item"
+          :class="ns.be('panel', 'item')"
           :label="item[keyProp]"
           :disabled="item[disabledProp]"
         >
@@ -44,12 +41,12 @@
       </el-checkbox-group>
       <p
         v-show="hasNoMatch || data.length === 0"
-        class="el-transfer-panel__empty"
+        :class="ns.be('panel', 'empty')"
       >
         {{ hasNoMatch ? t('el.transfer.noMatch') : t('el.transfer.noData') }}
       </p>
     </div>
-    <p v-if="hasFooter" class="el-transfer-panel__footer">
+    <p v-if="hasFooter" :class="ns.be('panel', 'footer')">
       <slot></slot>
     </p>
   </div>
@@ -57,7 +54,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { ElCheckbox, ElCheckboxGroup } from '@element-plus/components/checkbox'
 import ElInput from '@element-plus/components/input'
 import { Search } from '@element-plus/icons-vue'
@@ -79,6 +76,7 @@ export default defineComponent({
 
   setup(props, { slots }) {
     const { t } = useLocale()
+    const ns = useNamespace('transfer')
 
     const panelState = reactive({
       checked: [],
@@ -108,6 +106,7 @@ export default defineComponent({
       toRefs(panelState)
 
     return {
+      ns,
       labelProp,
       keyProp,
       disabledProp,

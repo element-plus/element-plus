@@ -47,6 +47,7 @@ $color-error: map.get($colors, 'error', 'base') !default;
 $color-info: map.get($colors, 'info', 'base') !default;
 
 // https://sass-lang.com/documentation/values/maps#immutability
+// mix color with white
 @mixin set-color-type-light($type, $number) {
   $colors: map.deep-merge(
     (
@@ -54,6 +55,23 @@ $color-info: map.get($colors, 'info', 'base') !default;
         'light-#{$number}':
           mix(
             $color-white,
+            map.get($colors, $type, 'base'),
+            math.percentage(math.div($number, 10))
+          ),
+      ),
+    ),
+    $colors
+  ) !global;
+}
+
+// mix color with black
+@mixin set-color-type-dark($type, $number) {
+  $colors: map.deep-merge(
+    (
+      $type: (
+        'dark-#{$number}':
+          mix(
+            $color-black,
             map.get($colors, $type, 'base'),
             math.percentage(math.div($number, 10))
           ),
@@ -78,6 +96,10 @@ $color-info: map.get($colors, 'info', 'base') !default;
   @each $type in $types {
     @include set-color-type-light($type, $i);
   }
+}
+// --el-color-primary-dark-2
+@each $type in $types {
+  @include set-color-type-dark($type, 2);
 }
 
 $text-color: () !default;
@@ -440,14 +462,17 @@ $input: map.merge(
   (
     'text-color': var(--el-text-color-regular),
     'border': var(--el-border-base),
+    'hover-border': var(--el-border-color-hover),
+    'focus-border': var(--el-color-primary),
+    'transparent-border': 0 0 0 1px transparent inset,
     'border-color': var(--el-border-color-base),
     'border-radius': var(--el-border-radius-base),
     'bg-color': var(--el-color-white),
     'icon-color': var(--el-text-color-placeholder),
     'placeholder-color': var(--el-text-color-placeholder),
-    'hover-border': var(--el-border-color-hover),
+    'hover-border-color': var(--el-border-color-hover),
     'clear-hover-color': var(--el-text-color-secondary),
-    'focus-border': var(--el-color-primary),
+    'focus-border-color': var(--el-color-primary),
   ),
   $input
 );
@@ -695,17 +720,18 @@ $table-cell-padding: map.merge(
 $pagination: () !default;
 $pagination: map.merge(
   (
-    'font-size': 13px,
+    'font-size': 14px,
     'bg-color': var(--el-color-white),
     'text-color': var(--el-text-color-primary),
     'border-radius': 3px,
     'button-color': var(--el-text-color-primary),
-    'button-width': 35.5px,
-    'button-height': 28px,
+    'button-width': 32px,
+    'button-height': 32px,
     'button-disabled-color': var(--el-text-color-placeholder),
     'button-disabled-bg-color': var(--el-color-white),
+    'button-bg-color': map.get($colors, 'info', 'light-9'),
     'hover-color': var(--el-color-primary),
-    'height-extra-small': 22px,
+    'height-extra-small': 24px,
     'line-height-extra-small': var(--el-pagination-height-extra-small),
   ),
   $pagination
@@ -758,21 +784,6 @@ $skeleton: map.merge(
   $skeleton
 );
 
-// Tooltip
-// css3 var in packages/theme-chalk/src/tooltip.scss
-$tooltip: () !default;
-$tooltip: map.merge(
-  (
-    'fill': var(--el-text-color-primary),
-    'text-color': var(--el-color-white),
-    'font-size': 12px,
-    'border-color': var(--el-text-color-primary),
-    'arrow-size': 6px,
-    'padding': 10px,
-  ),
-  $tooltip
-);
-
 // Tag
 // css3 var in packages/theme-chalk/src/tag.scss
 $tag: () !default;
@@ -783,8 +794,6 @@ $tag: map.merge(
   ),
   $tag
 );
-
-$tag-color: () !default;
 
 $tag-height: () !default;
 $tag-height: map.merge(
@@ -816,15 +825,6 @@ $tag-icon-size: map.merge(
   $tag-icon-size
 );
 
-@each $type in $types {
-  $tag-color: map.merge(
-    (
-      $type: map.get($colors, $type, 'base'),
-    ),
-    $tag-color
-  ) !global;
-}
-
 // Tree
 // css3 var in packages/theme-chalk/src/tree.scss
 $tree: () !default;
@@ -844,7 +844,7 @@ $dropdown: map.merge(
   (
     'menu-box-shadow': var(--el-box-shadow-light),
     'menuItem-hover-fill': var(--el-color-primary-light-9),
-    'menuItem-hover-color': var(--el-color-primary-light-2),
+    'menuItem-hover-color': var(--el-color-primary-light-3),
     'menu-index': 10,
   ),
   $dropdown
@@ -940,6 +940,10 @@ $rate: map.merge(
     'icon-size': 18px,
     'icon-margin': 6px,
     'icon-color': var(--el-text-color-placeholder),
+    'void-color': #c6d1de,
+    'star-color': #f7ba2a,
+    'disable-void-color': #eff2f7,
+    'text-color': #1f2d3d,
   ),
   $rate
 );
@@ -1158,6 +1162,16 @@ $empty: map.merge(
     'image-width': 160px,
     'description-margin-top': 20px,
     'bottom-margin-top': 20px,
+    'fill-color-0': var(--el-color-white),
+    'fill-color-1': #fcfcfd,
+    'fill-color-2': #f8f9fb,
+    'fill-color-3': #f7f8fc,
+    'fill-color-4': #eeeff3,
+    'fill-color-5': #edeef2,
+    'fill-color-6': #e9ebef,
+    'fill-color-7': #e5e7e9,
+    'fill-color-8': #e0e3e9,
+    'fill-color-9': #d5d7de,
   ),
   $empty
 );
@@ -1206,6 +1220,8 @@ $transition: map.merge(
     ),
     'fade-linear': opacity var(--el-transition-duration-fast) linear,
     'border': border-color var(--el-transition-duration-fast)
+      var(--el-transition-function-ease-in-out-bezier),
+    'box-shadow': box-shadow var(--el-transition-duration-fast)
       var(--el-transition-function-ease-in-out-bezier),
     'color': color var(--el-transition-duration-fast)
       var(--el-transition-function-ease-in-out-bezier),
@@ -1273,15 +1289,15 @@ $breakpoints: (
 ) !default;
 
 $breakpoints-spec: (
-  'xs-only': '(max-width: #{$sm})',
+  'xs-only': '(max-width: #{$sm - 1})',
   'sm-and-up': '(min-width: #{$sm})',
-  'sm-only': '(min-width: #{$sm}) and (max-width: #{$md})',
-  'sm-and-down': '(max-width: #{$md})',
+  'sm-only': '(min-width: #{$sm}) and (max-width: #{$md - 1})',
+  'sm-and-down': '(max-width: #{$md - 1})',
   'md-and-up': '(min-width: #{$md})',
-  'md-only': '(min-width: #{$md}) and (max-width: #{$lg})',
-  'md-and-down': '(max-width: #{$lg})',
+  'md-only': '(min-width: #{$md}) and (max-width: #{$lg - 1})',
+  'md-and-down': '(max-width: #{$lg - 1})',
   'lg-and-up': '(min-width: #{$lg})',
-  'lg-only': '(min-width: #{$lg}) and (max-width: #{$xl})',
-  'lg-and-down': '(max-width: #{$xl})',
+  'lg-only': '(min-width: #{$lg}) and (max-width: #{$xl - 1})',
+  'lg-and-down': '(max-width: #{$xl - 1})',
   'xl-only': '(min-width: #{$xl})',
 ) !default;

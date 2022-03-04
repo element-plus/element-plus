@@ -37,6 +37,7 @@ module.exports = defineConfig({
       files: ['**/__tests__/**', '**/gulpfile.ts'],
       rules: {
         'no-console': 'off',
+        'vue/one-component-per-file': 'off',
       },
     },
   ],

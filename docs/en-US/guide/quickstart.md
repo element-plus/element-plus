@@ -144,16 +144,7 @@ import { ElMessage } from 'element-plus'
 
 ## Starter Template
 
-### Vue CLI
-
-We prepared a plugin [Element Plus VueCLI plugin](https://github.com/element-plus/vue-cli-plugin-element-plus).
-For [vue-cli](https://cli.vuejs.org/), you can setup a project based
-on Element Plus easily.
-
-### Using Starter Kit
-
-We provide a general [Project Template](https://github.com/element-plus/element-plus-starter),
-also a [Vite Template](https://github.com/element-plus/element-plus-vite-starter).
+We provide a [Vite Template](https://github.com/element-plus/element-plus-vite-starter).
 For Laravel users we have a [Laravel Template](https://github.com/element-plus/element-plus-in-laravel-starter).
 
 ## Global Configuration
@@ -202,10 +193,10 @@ export default defineComponent({
 
 ## Using Nuxt.js
 
-We can also use [Nuxt.js](https://nuxtjs.org)：
+We can also use [Nuxt.js](https://v3.nuxtjs.org/)：
 
 <div class="glitch-embed-wrap" style="height: 420px; width: 100%;">
-  <iframe src="https://glitch.com/embed/#!/embed/nuxt-with-element?path=nuxt.config.js&previewSize=0&attributionHidden=true" alt="nuxt-with-element on glitch" style="height: 100%; width: 100%; border: 0;"></iframe>
+  <iframe src="https://glitch.com/edit/#!/nuxt-element-plus?path=components%2FExamples.vue%3A1%3A0" alt="nuxt-element-plus on glitch" style="height: 100%; width: 100%; border: 0;"></iframe>
 </div>
 
 ## Let's Get Started

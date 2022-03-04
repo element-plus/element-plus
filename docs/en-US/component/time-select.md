@@ -58,6 +58,7 @@ time-select/time-range
 | size                  | size of Input                                            | string             | large / default / small                                                                | default     |
 | placeholder           | placeholder in non-range mode                            | string             | —                                                                                      | —           |
 | name                  | same as `name` in native input                           | string             | —                                                                                      | —           |
+| effect                | Tooltip theme, built-in theme: `dark` / `light`          | string             | string                                                                                 | light       |
 | prefix-icon           | Custom prefix icon component                             | string / Component | —                                                                                      | Clock       |
 | clear-icon            | Custom clear icon component                              | string / Component | —                                                                                      | CircleClose |
 | start                 | start time                                               | string             | —                                                                                      | 09:00       |

@@ -1,6 +1,6 @@
 <template>
-  <div class="el-result">
-    <div class="el-result__icon">
+  <div :class="ns.b()">
+    <div :class="ns.e('icon')">
       <slot name="icon">
         <component
           :is="resultIcon.component"
@@ -9,29 +9,32 @@
         />
       </slot>
     </div>
-    <div v-if="title || $slots.title" class="el-result__title">
+    <div v-if="title || $slots.title" :class="ns.e('title')">
       <slot name="title">
         <p>{{ title }}</p>
       </slot>
     </div>
-    <div v-if="subTitle || $slots.subTitle" class="el-result__subtitle">
+    <div v-if="subTitle || $slots.subTitle" :class="ns.e('subtitle')">
       <slot name="subTitle">
         <p>{{ subTitle }}</p>
       </slot>
     </div>
-    <div v-if="$slots.extra" class="el-result__extra">
+    <div v-if="$slots.extra" :class="ns.e('extra')">
       <slot name="extra"></slot>
     </div>
   </div>
 </template>
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
 import { resultProps, IconComponentMap, IconMap } from './result'
 
 export default defineComponent({
   name: 'ElResult',
   props: resultProps,
   setup(props) {
+    const ns = useNamespace('result')
+
     const resultIcon = computed(() => {
       const icon = props.icon
       const iconClass = icon && IconMap[icon] ? IconMap[icon] : 'icon-info'
@@ -45,6 +48,7 @@ export default defineComponent({
     })
 
     return {
+      ns,
       resultIcon,
     }
   },

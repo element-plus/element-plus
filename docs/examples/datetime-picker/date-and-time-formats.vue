@@ -1,5 +1,5 @@
 <template>
-  <div class="demo-date-picker">
+  <div class="demo-datetime-picker">
     <div class="block">
       <span class="demonstration">Emits Date object</span>
       <div class="demonstration">Value: {{ value1 }}</div>
@@ -38,20 +38,33 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const value1 = ref('')
-    const value2 = ref('')
-    const value3 = ref('')
-
-    return {
-      value1,
-      value2,
-      value3,
-    }
-  },
-})
+const value1 = ref('')
+const value2 = ref('')
+const value3 = ref('')
 </script>
+<style scoped>
+.demo-datetime-picker {
+  display: flex;
+  width: 100%;
+  padding: 0;
+  flex-wrap: wrap;
+}
+.demo-datetime-picker .block {
+  padding: 30px 0;
+  text-align: center;
+  border-right: solid 1px var(--el-border-color-base);
+  flex: 1;
+}
+.demo-datetime-picker .block:last-child {
+  border-right: none;
+}
+.demo-datetime-picker .demonstration {
+  display: block;
+  color: var(--el-text-color-secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+</style>

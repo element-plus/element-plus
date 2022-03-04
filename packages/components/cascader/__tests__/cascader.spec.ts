@@ -1,9 +1,21 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { EVENT_CODE } from '@element-plus/utils/aria'
+import { EVENT_CODE } from '@element-plus/constants'
 import { triggerEvent } from '@element-plus/test-utils'
 import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
+import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
 import Cascader from '../src/index.vue'
+
+jest.mock('lodash-unified', () => {
+  return {
+    ...(jest.requireActual('lodash-unified') as Record<string, any>),
+    debounce: jest.fn((fn) => {
+      fn.cancel = jest.fn()
+      fn.flush = jest.fn()
+      return fn
+    }),
+  }
+})
 
 const OPTIONS = [
   {
@@ -366,5 +378,56 @@ describe('Cascader.vue', () => {
     triggerEvent(hzSuggestion, 'keydown', EVENT_CODE.enter)
     await nextTick()
     expect(wrapper.vm.value).toEqual(['zhejiang', 'hangzhou'])
+  })
+
+  describe('teleported API', () => {
+    it('should mount on popper container', async () => {
+      expect(document.body.innerHTML).toBe('')
+      _mount({
+        template: `
+          <cascader
+            v-model="value"
+            :options="options"
+            filterable
+          />
+        `,
+        data() {
+          return {
+            options: OPTIONS,
+            value: [],
+          }
+        },
+      })
+
+      await nextTick()
+      expect(
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+      ).not.toBe('')
+    })
+
+    it('should not mount on the popper container', async () => {
+      expect(document.body.innerHTML).toBe('')
+      _mount({
+        template: `
+          <cascader
+            v-model="value"
+            :options="options"
+            :teleported="false"
+            filterable
+          />
+        `,
+        data() {
+          return {
+            options: OPTIONS,
+            value: [],
+          }
+        },
+      })
+
+      await nextTick()
+      expect(
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+      ).toBe('')
+    })
   })
 })

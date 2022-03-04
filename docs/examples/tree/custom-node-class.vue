@@ -1,15 +1,13 @@
 <template>
   <div class="custom-tree-node-container">
-    <div class="block">
-      <el-tree
-        :data="data"
-        show-checkbox
-        node-key="id"
-        default-expand-all
-        :expand-on-click-node="false"
-        :props="{ class: customNodeClass }"
-      />
-    </div>
+    <el-tree
+      :data="data"
+      show-checkbox
+      node-key="id"
+      default-expand-all
+      :expand-on-click-node="false"
+      :props="{ class: customNodeClass }"
+    />
   </div>
 </template>
 

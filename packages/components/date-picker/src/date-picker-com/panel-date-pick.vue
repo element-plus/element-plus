@@ -162,7 +162,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, ref, watch } from 'vue'
+import { computed, defineComponent, inject, ref, watch, toRef } from 'vue'
 import dayjs from 'dayjs'
 import ElButton from '@element-plus/components/button'
 import { ClickOutside } from '@element-plus/directives'
@@ -174,8 +174,8 @@ import {
   TimePickPanel,
 } from '@element-plus/components/time-picker'
 import { ElIcon } from '@element-plus/components/icon'
-import { EVENT_CODE } from '@element-plus/utils/aria'
-import { isValidDatePickType } from '@element-plus/utils/validators'
+import { isValidDatePickType } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
 import {
   DArrowLeft,
   ArrowLeft,
@@ -229,7 +229,7 @@ export default defineComponent({
       validator: isValidDatePickType,
     },
   },
-  emits: ['pick', 'set-picker-option'],
+  emits: ['pick', 'set-picker-option', 'panel-change'],
   setup(props, ctx) {
     const { t, lang } = useLocale()
     const pickerBase = inject('EP_PICKER_BASE') as any
@@ -239,9 +239,9 @@ export default defineComponent({
       disabledDate,
       cellClassName,
       defaultTime,
-      defaultValue,
       arrowControl,
     } = pickerBase.props
+    const defaultValue = toRef(pickerBase.props, 'defaultValue')
 
     const innerDate = ref(dayjs().locale(lang.value))
 
@@ -317,10 +317,12 @@ export default defineComponent({
     }
     const prevMonth_ = () => {
       innerDate.value = innerDate.value.subtract(1, 'month')
+      handlePanelChange('month')
     }
 
     const nextMonth_ = () => {
       innerDate.value = innerDate.value.add(1, 'month')
+      handlePanelChange('month')
     }
 
     const prevYear_ = () => {
@@ -329,6 +331,7 @@ export default defineComponent({
       } else {
         innerDate.value = innerDate.value.subtract(1, 'year')
       }
+      handlePanelChange('year')
     }
 
     const nextYear_ = () => {
@@ -337,6 +340,7 @@ export default defineComponent({
       } else {
         innerDate.value = innerDate.value.add(1, 'year')
       }
+      handlePanelChange('year')
     }
 
     const currentView = ref('date')
@@ -402,6 +406,7 @@ export default defineComponent({
       } else {
         currentView.value = 'date'
       }
+      handlePanelChange('month')
     }
 
     const handleYearPick = (year) => {
@@ -412,6 +417,7 @@ export default defineComponent({
         innerDate.value = innerDate.value.year(year)
         currentView.value = 'month'
       }
+      handlePanelChange('year')
     }
 
     const showMonthPicker = () => {
@@ -473,7 +479,7 @@ export default defineComponent({
 
     const visibleTime = computed(() => {
       if (userInputTime.value) return userInputTime.value
-      if (!props.parsedValue && !defaultValue) return
+      if (!props.parsedValue && !defaultValue.value) return
       return ((props.parsedValue || innerDate.value) as Dayjs).format(
         timeFormat.value
       )
@@ -481,7 +487,7 @@ export default defineComponent({
 
     const visibleDate = computed(() => {
       if (userInputDate.value) return userInputDate.value
-      if (!props.parsedValue && !defaultValue) return
+      if (!props.parsedValue && !defaultValue.value) return
       return ((props.parsedValue || innerDate.value) as Dayjs).format(
         dateFormat.value
       )
@@ -557,8 +563,8 @@ export default defineComponent({
     }
 
     const getDefaultValue = () => {
-      const parseDate = dayjs(defaultValue).locale(lang.value)
-      if (!defaultValue) {
+      const parseDate = dayjs(defaultValue.value).locale(lang.value)
+      if (!defaultValue.value) {
         const defaultTimeDValue = defaultTimeD.value
         return dayjs()
           .hour(defaultTimeDValue.hour())
@@ -640,10 +646,29 @@ export default defineComponent({
       }
     }
 
+    const handlePanelChange = (mode: 'month' | 'year') => {
+      ctx.emit(
+        'panel-change',
+        innerDate.value.toDate(),
+        mode,
+        currentView.value
+      )
+    }
+
     ctx.emit('set-picker-option', ['isValidValue', isValidValue])
     ctx.emit('set-picker-option', ['formatToString', formatToString])
     ctx.emit('set-picker-option', ['parseUserInput', parseUserInput])
     ctx.emit('set-picker-option', ['handleKeydown', handleKeydown])
+
+    watch(
+      () => defaultValue.value,
+      (val) => {
+        if (val) {
+          innerDate.value = getDefaultValue()
+        }
+      },
+      { immediate: true }
+    )
 
     watch(
       () => props.parsedValue,

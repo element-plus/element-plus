@@ -1,20 +1,19 @@
 <template>
   <div
     :class="[
-      'el-input-number',
-      inputNumberSize ? 'el-input-number--' + inputNumberSize : '',
-      { 'is-disabled': inputNumberDisabled },
-      { 'is-without-controls': !controls },
-      { 'is-controls-right': controlsAtRight },
+      ns.b(),
+      ns.m(inputNumberSize),
+      ns.is('disabled', inputNumberDisabled),
+      ns.is('without-controls', !controls),
+      ns.is('controls-right', controlsAtRight),
     ]"
     @dragstart.prevent
   >
     <span
       v-if="controls"
       v-repeat-click="decrease"
-      class="el-input-number__decrease"
       role="button"
-      :class="{ 'is-disabled': minDisabled }"
+      :class="[ns.e('decrease'), ns.is('disabled', minDisabled)]"
       @keydown.enter="decrease"
     >
       <el-icon>
@@ -25,9 +24,8 @@
     <span
       v-if="controls"
       v-repeat-click="increase"
-      class="el-input-number__increase"
       role="button"
-      :class="{ 'is-disabled': maxDisabled }"
+      :class="[ns.e('increase'), ns.is('disabled', maxDisabled)]"
       @keydown.enter="increase"
     >
       <el-icon>
@@ -70,10 +68,14 @@ import {
 
 import { ElIcon } from '@element-plus/components/icon'
 import { RepeatClick } from '@element-plus/directives'
-import { useDisabled, useFormItem, useSize } from '@element-plus/hooks'
+import {
+  useDisabled,
+  useFormItem,
+  useSize,
+  useNamespace,
+} from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
-import { isNumber } from '@element-plus/utils/util'
-import { debugWarn } from '@element-plus/utils/error'
+import { isNumber, debugWarn } from '@element-plus/utils'
 import { ArrowUp, ArrowDown, Plus, Minus } from '@element-plus/icons-vue'
 import { inputNumberProps, inputNumberEmits } from './input-number'
 
@@ -106,6 +108,7 @@ export default defineComponent({
       userInput: null,
     })
     const { formItem } = useFormItem()
+    const ns = useNamespace('input-number')
 
     const minDisabled = computed(() => _decrease(props.modelValue) < props.min)
     const maxDisabled = computed(() => _increase(props.modelValue) > props.max)
@@ -190,7 +193,7 @@ export default defineComponent({
       const newVal = _decrease(value)
       setCurrentValue(newVal)
     }
-    const setCurrentValue = (newVal: number) => {
+    const setCurrentValue = (newVal: number | string) => {
       const oldVal = data.currentValue
       if (typeof newVal === 'number' && props.precision !== undefined) {
         newVal = toPrecision(newVal, props.precision)
@@ -199,7 +202,7 @@ export default defineComponent({
       if (newVal !== undefined && newVal <= props.min) newVal = props.min
       if (oldVal === newVal) return
       if (!isNumber(newVal)) {
-        newVal = NaN
+        newVal = undefined
       }
       data.userInput = null
       emit('update:modelValue', newVal)
@@ -212,7 +215,7 @@ export default defineComponent({
       return (data.userInput = value)
     }
     const handleInputChange = (value: string) => {
-      const newVal = Number(value)
+      const newVal = value !== '' ? Number(value) : ''
       if ((isNumber(newVal) && !Number.isNaN(newVal)) || value === '') {
         setCurrentValue(newVal)
       }
@@ -240,6 +243,9 @@ export default defineComponent({
       () => props.modelValue,
       (value) => {
         let newVal = Number(value)
+        if (value === null) {
+          newVal = Number.NaN
+        }
         if (!isNaN(newVal)) {
           if (props.stepStrictly) {
             const stepPrecision = getPrecision(props.step)
@@ -277,12 +283,16 @@ export default defineComponent({
         String(inputNumberDisabled.value)
       )
       if (!isNumber(props.modelValue)) {
-        emit('update:modelValue', Number(props.modelValue))
+        let val: number | undefined = Number(props.modelValue)
+        if (isNaN(val)) {
+          val = undefined
+        }
+        emit('update:modelValue', val)
       }
     })
     onUpdated(() => {
       const innerInput = input.value?.input
-      innerInput.setAttribute('aria-valuenow', data.currentValue)
+      innerInput?.setAttribute('aria-valuenow', data.currentValue)
     })
     return {
       input,
@@ -300,6 +310,8 @@ export default defineComponent({
       blur,
       handleFocus,
       handleBlur,
+
+      ns,
     }
   },
 })

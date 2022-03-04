@@ -203,6 +203,16 @@ table/custom-index
 
 :::
 
+## Table Layout
+
+The [table-layout](https://developer.mozilla.org/en-US/docs/Web/CSS/table-layout) property sets the algorithm used to lay out table cells, rows, and columns.
+
+:::demo
+
+table/table-layout
+
+:::
+
 ## Table Attributes
 
 | Attribute               | Description                                                                                                                                                                                                                                                                 | Type                                                        | Accepted Values                 | Default                                                                        |
@@ -240,6 +250,7 @@ table/custom-index
 | lazy                    | whether to lazy loading data                                                                                                                                                                                                                                                | boolean                                                     | —                               | —                                                                              |
 | load                    | method for loading child row data, only works when `lazy` is true                                                                                                                                                                                                           | function(row, treeNode, resolve)                            | —                               | —                                                                              |
 | tree-props              | configuration for rendering nested data                                                                                                                                                                                                                                     | object                                                      | —                               | `{ hasChildren: 'hasChildren', children: 'children' }`                         |
+| table-layout            | Sets the algorithm used to lay out table cells, rows, and columns                                                                                                                                                                                                           | string                                                      | fixed / auto                    | fixed                                                                          |
 
 ## Table Events
 

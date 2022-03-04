@@ -1,59 +1,62 @@
 <template>
-  <div
-    ref="container"
-    :class="['el-image', $attrs.class]"
-    :style="containerStyle"
-  >
+  <div ref="container" :class="[ns.b(), $attrs.class]" :style="containerStyle">
     <slot v-if="loading" name="placeholder">
-      <div class="el-image__placeholder"></div>
+      <div :class="ns.e('placeholder')"></div>
     </slot>
     <slot v-else-if="hasLoadError" name="error">
-      <div class="el-image__error">{{ t('el.image.error') }}</div>
+      <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
     </slot>
     <img
       v-else
-      class="el-image__inner"
       v-bind="attrs"
       :src="src"
       :style="imageStyle"
-      :class="{
-        'el-image__preview': preview,
-      }"
+      :class="[ns.e('inner'), preview ? ns.e('preview') : '']"
       @click="clickHandler"
     />
-    <teleport to="body" :disabled="!appendToBody">
-      <template v-if="preview">
-        <image-viewer
-          v-if="showViewer"
-          :z-index="zIndex"
-          :initial-index="imageIndex"
-          :url-list="previewSrcList"
-          :hide-on-click-modal="hideOnClickModal"
-          @close="closeViewer"
-          @switch="switchViewer"
-        >
-          <div v-if="$slots.viewer">
-            <slot name="viewer" />
-          </div>
-        </image-viewer>
-      </template>
-    </teleport>
+    <template v-if="preview">
+      <image-viewer
+        v-if="showViewer"
+        :z-index="zIndex"
+        :initial-index="imageIndex"
+        :url-list="previewSrcList"
+        :hide-on-click-modal="hideOnClickModal"
+        :teleported="teleported"
+        @close="closeViewer"
+        @switch="switchViewer"
+      >
+        <div v-if="$slots.viewer">
+          <slot name="viewer" />
+        </div>
+      </image-viewer>
+    </template>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed, ref, onMounted, watch, nextTick } from 'vue'
 import { isString } from '@vue/shared'
-import { useEventListener, useThrottleFn, isClient } from '@vueuse/core'
-import { useAttrs, useLocale } from '@element-plus/hooks'
+import {
+  useEventListener,
+  useThrottleFn,
+  isClient,
+  isBoolean,
+} from '@vueuse/core'
+import {
+  useAttrs,
+  useLocale,
+  useNamespace,
+  useDeprecated,
+} from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
-import { getScrollContainer, isInContainer } from '@element-plus/utils/dom'
+import {
+  getScrollContainer,
+  isInContainer,
+  isElement,
+} from '@element-plus/utils'
 import { imageEmits, imageProps } from './image'
 
 import type { CSSProperties, StyleValue } from 'vue'
-
-const isHtmlElement = (e: any): e is Element =>
-  e && e.nodeType === Node.ELEMENT_NODE
 
 let prevOverflow = ''
 
@@ -68,7 +71,19 @@ export default defineComponent({
   emits: imageEmits,
 
   setup(props, { emit, attrs: rawAttrs }) {
+    useDeprecated(
+      {
+        scope: 'el-image',
+        from: 'append-to-body',
+        replacement: 'preview-teleported',
+        version: '2.2.0',
+        ref: 'https://element-plus.org/en-US/component/image.html#image-attributess',
+      },
+      computed(() => isBoolean(props.appendToBody))
+    )
+
     const { t } = useLocale()
+    const ns = useNamespace('image')
 
     const attrs = useAttrs()
     const hasLoadError = ref(false)
@@ -97,12 +112,15 @@ export default defineComponent({
       return Array.isArray(previewSrcList) && previewSrcList.length > 0
     })
 
+    const teleported = computed(() => {
+      return props.appendToBody || props.previewTeleported
+    })
+
     const imageIndex = computed(() => {
-      const { src, previewSrcList, initialIndex } = props
+      const { previewSrcList, initialIndex } = props
       let previewIndex = initialIndex
-      const srcIndex = previewSrcList.indexOf(src)
-      if (srcIndex >= 0) {
-        previewIndex = srcIndex
+      if (initialIndex > previewSrcList.length - 1) {
+        previewIndex = 0
       }
       return previewIndex
     })
@@ -115,8 +133,21 @@ export default defineComponent({
       hasLoadError.value = false
 
       const img = new Image()
-      img.addEventListener('load', (e) => handleLoad(e, img))
-      img.addEventListener('error', handleError)
+      const currentImageSrc = props.src
+
+      // load & error callbacks are only responsible for currentImageSrc
+      img.addEventListener('load', (e) => {
+        if (currentImageSrc !== props.src) {
+          return
+        }
+        handleLoad(e, img)
+      })
+      img.addEventListener('error', (e) => {
+        if (currentImageSrc !== props.src) {
+          return
+        }
+        handleError(e)
+      })
 
       // bind html attrs
       // so it can behave consistently
@@ -125,7 +156,7 @@ export default defineComponent({
         if (key.toLowerCase() === 'onload') return
         img.setAttribute(key, value as string)
       })
-      img.src = props.src
+      img.src = currentImageSrc
     }
 
     function handleLoad(e: Event, img: HTMLImageElement) {
@@ -147,6 +178,7 @@ export default defineComponent({
         removeLazyLoadListener()
       }
     }
+
     const lazyLoadHandler = useThrottleFn(handleLazyLoad, 200)
 
     async function addLazyLoadListener() {
@@ -155,7 +187,7 @@ export default defineComponent({
       await nextTick()
 
       const { scrollContainer } = props
-      if (isHtmlElement(scrollContainer)) {
+      if (isElement(scrollContainer)) {
         _scrollContainer.value = scrollContainer
       } else if (isString(scrollContainer) && scrollContainer !== '') {
         _scrollContainer.value =
@@ -251,6 +283,8 @@ export default defineComponent({
       preview,
       imageIndex,
       container,
+      ns,
+      teleported,
 
       clickHandler,
       closeViewer,

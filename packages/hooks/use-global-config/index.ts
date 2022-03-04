@@ -1,7 +1,6 @@
 import { inject, ref, computed, unref, provide, getCurrentInstance } from 'vue'
 import { configProviderContextKey } from '@element-plus/tokens'
-import { hasOwn, isObject, merge } from '@element-plus/utils/util'
-import { debugWarn } from '@element-plus/utils/error'
+import { debugWarn, keysOf } from '@element-plus/utils'
 import type { MaybeRef } from '@vueuse/core'
 import type { Ref, App } from 'vue'
 import type { ConfigProviderContext } from '@element-plus/tokens'
@@ -9,18 +8,25 @@ import type { ConfigProviderContext } from '@element-plus/tokens'
 // this is meant to fix global methods like `ElMessage(opts)`, this way we can inject current locale
 // into the component as default injection value.
 // refer to: https://github.com/element-plus/element-plus/issues/2610#issuecomment-887965266
-const cache = ref<ConfigProviderContext>({})
+const globalConfig = ref<ConfigProviderContext>()
 
-export function useGlobalConfig<K extends keyof ConfigProviderContext>(
-  key: K
-): Ref<ConfigProviderContext[K]>
+export function useGlobalConfig<
+  K extends keyof ConfigProviderContext,
+  D extends ConfigProviderContext[K]
+>(
+  key: K,
+  defaultValue?: D
+): Ref<Exclude<ConfigProviderContext[K], undefined> | D>
 export function useGlobalConfig(): Ref<ConfigProviderContext>
-export function useGlobalConfig(key?: keyof ConfigProviderContext) {
-  const config = inject(configProviderContextKey, cache)
+export function useGlobalConfig(
+  key?: keyof ConfigProviderContext,
+  defaultValue = undefined
+) {
+  const config = getCurrentInstance()
+    ? inject(configProviderContextKey, globalConfig)
+    : globalConfig
   if (key) {
-    return isObject(config.value) && hasOwn(config.value, key)
-      ? computed(() => config.value[key])
-      : ref(undefined)
+    return computed(() => config.value?.[key] ?? defaultValue)
   } else {
     return config
   }
@@ -28,7 +34,8 @@ export function useGlobalConfig(key?: keyof ConfigProviderContext) {
 
 export const provideGlobalConfig = (
   config: MaybeRef<ConfigProviderContext>,
-  app?: App
+  app?: App,
+  global = false
 ) => {
   const inSetup = !!getCurrentInstance()
   const oldConfig = inSetup ? useGlobalConfig() : undefined
@@ -44,10 +51,24 @@ export const provideGlobalConfig = (
 
   const context = computed(() => {
     const cfg = unref(config)
-    if (!oldConfig) return cfg
-    return merge(oldConfig.value, cfg)
+    if (!oldConfig?.value) return cfg
+    return mergeConfig(oldConfig.value, cfg)
   })
   provideFn(configProviderContextKey, context)
-  cache.value = context.value
+  if (global || !globalConfig.value) {
+    globalConfig.value = context.value
+  }
   return context
+}
+
+const mergeConfig = (
+  a: ConfigProviderContext,
+  b: ConfigProviderContext
+): ConfigProviderContext => {
+  const keys = [...new Set([...keysOf(a), ...keysOf(b)])]
+  const obj = {}
+  for (const key of keys) {
+    obj[key] = b[key] ?? a[key]
+  }
+  return obj
 }

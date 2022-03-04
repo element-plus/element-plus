@@ -1,12 +1,9 @@
 <template>
-  <div class="el-calendar">
-    <div class="el-calendar__header">
+  <div :class="ns.b()">
+    <div :class="ns.e('header')">
       <slot name="header" :date="i18nDate">
-        <div class="el-calendar__title">{{ i18nDate }}</div>
-        <div
-          v-if="validatedRange.length === 0"
-          class="el-calendar__button-group"
-        >
+        <div :class="ns.e('title')">{{ i18nDate }}</div>
+        <div v-if="validatedRange.length === 0" :class="ns.e('button-group')">
           <el-button-group>
             <el-button size="small" @click="selectDate('prev-month')">
               {{ t('el.datepicker.prevMonth') }}
@@ -21,14 +18,14 @@
         </div>
       </slot>
     </div>
-    <div v-if="validatedRange.length === 0" class="el-calendar__body">
+    <div v-if="validatedRange.length === 0" :class="ns.e('body')">
       <date-table :date="date" :selected-day="realSelectedDay" @pick="pickDay">
         <template v-if="$slots.dateCell" #dateCell="data">
           <slot name="dateCell" v-bind="data"></slot>
         </template>
       </date-table>
     </div>
-    <div v-else class="el-calendar__body">
+    <div v-else :class="ns.e('body')">
       <date-table
         v-for="(range_, index) in validatedRange"
         :key="index"
@@ -50,8 +47,8 @@
 import { ref, computed, defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import { ElButton, ElButtonGroup } from '@element-plus/components/button'
-import { useLocale } from '@element-plus/hooks'
-import { debugWarn } from '@element-plus/utils/error'
+import { useLocale, useNamespace } from '@element-plus/hooks'
+import { debugWarn } from '@element-plus/utils'
 import DateTable from './date-table.vue'
 import { calendarProps, calendarEmits } from './calendar'
 
@@ -78,6 +75,8 @@ export default defineComponent({
   emits: calendarEmits,
 
   setup(props, { emit }) {
+    const ns = useNamespace('calendar')
+
     const { t, lang } = useLocale()
     const selectedDay = ref<Dayjs>()
     const now = dayjs().locale(lang.value)
@@ -264,6 +263,8 @@ export default defineComponent({
       pickDay,
       selectDate,
       t,
+
+      ns,
     }
   },
 })

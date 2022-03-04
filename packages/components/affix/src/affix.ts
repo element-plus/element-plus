@@ -1,7 +1,7 @@
-import { buildProps, definePropType } from '@element-plus/utils/props'
-
+import { buildProps, definePropType } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
 import type { ZIndexProperty } from 'csstype'
+import type Affix from './affix.vue'
 
 export const affixProps = buildProps({
   zIndex: {
@@ -30,3 +30,5 @@ export const affixEmits = {
   change: (fixed: boolean) => typeof fixed === 'boolean',
 }
 export type AffixEmits = typeof affixEmits
+
+export type AffixInstance = InstanceType<typeof Affix>

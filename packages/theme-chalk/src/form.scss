@@ -204,13 +204,13 @@ $form-item-label-top-margin-bottom: map.merge(
     & .#{$namespace}-textarea__inner {
       &,
       &:focus {
-        border-color: var(--el-color-danger);
+        box-shadow: 0 0 0 1px var(--el-color-danger) inset;
       }
     }
     .#{$namespace}-input-group__append,
     .#{$namespace}-input-group__prepend {
       .#{$namespace}-input__inner {
-        border-color: transparent;
+        box-shadow: 0 0 0 1px transparent inset;
       }
     }
     .#{$namespace}-input__validateIcon {

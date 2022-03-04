@@ -17,4 +17,22 @@ const value2 = ref(null)
 const colors = ref(['#99A9BF', '#F7BA2A', '#FF9900']) // same as { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
 </script>
 
-<style scoped></style>
+<style scoped>
+.demo-rate-block {
+  padding: 30px 0;
+  text-align: center;
+  border-right: solid 1px var(--el-border-color-base);
+  display: inline-block;
+  width: 49%;
+  box-sizing: border-box;
+}
+.demo-rate-block:last-child {
+  border-right: none;
+}
+.demo-rate-block .demonstration {
+  display: block;
+  color: var(--el-text-color-secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+</style>

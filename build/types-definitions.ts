@@ -26,6 +26,7 @@ export const generateTypesDefinitions = async () => {
       paths: {
         '@element-plus/*': ['packages/*'],
       },
+      preserveSymlinks: true,
     },
     tsConfigFilePath: TSCONFIG_PATH,
     skipAddingFilesFromTsConfig: true,

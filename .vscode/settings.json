@@ -11,8 +11,7 @@
     "typescript",
     "typescriptreact",
     "html",
-    "vue",
-    "markdown"
+    "vue"
   ],
   "eslint.validate": [
     "javascript",
@@ -20,8 +19,7 @@
     "typescript",
     "typescriptreact",
     "html",
-    "vue",
-    "markdown"
+    "vue"
   ],
   "vite.devCommand": "pnpm run dev -- --",
   "i18n-ally.localesPaths": "packages/locale/lang",

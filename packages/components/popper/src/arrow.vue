@@ -1,5 +1,5 @@
 <template>
-  <span ref="arrowRef" class="el-popper__arrow" data-popper-arrow="" />
+  <span ref="arrowRef" :class="ns.e('arrow')" data-popper-arrow="" />
 </template>
 
 <script lang="ts">
@@ -12,6 +12,7 @@ import {
   watch,
   unref,
 } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
 import { usePopperArrowProps } from './popper'
 import { POPPER_CONTENT_INJECTION_KEY } from './tokens'
 
@@ -19,6 +20,7 @@ export default defineComponent({
   name: 'ElPopperArrow',
   props: usePopperArrowProps,
   setup(props) {
+    const ns = useNamespace('popper')
     const arrowRef = ref<HTMLSpanElement | null>(null)
     const popperContentInjection = inject(
       POPPER_CONTENT_INJECTION_KEY,
@@ -41,6 +43,7 @@ export default defineComponent({
     })
 
     return {
+      ns,
       arrowRef,
     }
   },

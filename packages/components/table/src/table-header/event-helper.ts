@@ -1,14 +1,13 @@
-import { getCurrentInstance, ref } from 'vue'
+import { getCurrentInstance, ref, inject } from 'vue'
 import { isClient } from '@vueuse/core'
-import { hasClass, addClass, removeClass } from '@element-plus/utils/dom'
-
+import { hasClass, addClass, removeClass } from '@element-plus/utils'
+import { TABLE_INJECTION_KEY } from '../tokens'
 import type { TableHeaderProps } from '.'
 import type { TableColumnCtx } from '../table-column/defaults'
-import type { Table } from '../table/defaults'
 
 function useEvent<T>(props: TableHeaderProps<T>, emit) {
   const instance = getCurrentInstance()
-  const parent = instance.parent as Table<T>
+  const parent = inject(TABLE_INJECTION_KEY)
   const handleFilterClick = (event: Event) => {
     event.stopPropagation()
     return
@@ -20,11 +19,11 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
     } else if (column.filterable && !column.sortable) {
       handleFilterClick(event)
     }
-    parent.emit('header-click', column, event)
+    parent?.emit('header-click', column, event)
   }
 
   const handleHeaderContextMenu = (event: Event, column: TableColumnCtx<T>) => {
-    parent.emit('header-contextmenu', column, event)
+    parent?.emit('header-contextmenu', column, event)
   }
   const draggingColumn = ref(null)
   const dragging = ref(false)
@@ -38,7 +37,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
 
       const table = parent
       emit('set-drag-visible', true)
-      const tableEl = table.vnode.el
+      const tableEl = table?.vnode.el
       const tableLeft = tableEl.getBoundingClientRect().left
       const columnEl = instance.vnode.el.querySelector(`th.${column.id}`)
       const columnRect = columnEl.getBoundingClientRect()
@@ -52,7 +51,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
         startColumnLeft: columnRect.left - tableLeft,
         tableLeft,
       }
-      const resizeProxy = table.refs.resizeProxy as HTMLElement
+      const resizeProxy = table?.refs.resizeProxy as HTMLElement
       resizeProxy.style.left = `${(dragState.value as any).startLeft}px`
 
       document.onselectstart = function () {
@@ -76,7 +75,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
           const finalLeft = parseInt(resizeProxy.style.left, 10)
           const columnWidth = finalLeft - startColumnLeft
           column.width = column.realWidth = columnWidth
-          table.emit(
+          table?.emit(
             'header-dragend',
             column.width,
             startLeft - startColumnLeft,
@@ -193,7 +192,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
     states.sortProp.value = sortProp
     states.sortOrder.value = sortOrder
 
-    parent.store.commit('changeSortCondition')
+    parent?.store.commit('changeSortCondition')
   }
 
   return {

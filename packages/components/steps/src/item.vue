@@ -2,43 +2,43 @@
   <div
     :style="style"
     :class="[
-      'el-step',
-      isSimple ? 'is-simple' : `is-${parent.props.direction}`,
-      isLast && !space && !isCenter && 'is-flex',
-      isCenter && !isVertical && !isSimple && 'is-center',
+      ns.b(),
+      ns.is(isSimple ? 'simple' : parent.props.direction),
+      ns.is('flex', isLast && !space && !isCenter),
+      ns.is('center', isCenter && !isVertical && !isSimple),
     ]"
   >
     <!-- icon & line -->
-    <div :class="['el-step__head', `is-${currentStatus}`]">
-      <div v-if="!isSimple" class="el-step__line">
-        <i class="el-step__line-inner" :style="lineStyle"></i>
+    <div :class="[ns.e('head'), ns.is(currentStatus)]">
+      <div v-if="!isSimple" :class="ns.e('line')">
+        <i :class="ns.e('line-inner')" :style="lineStyle"></i>
       </div>
 
-      <div :class="['el-step__icon', `is-${icon ? 'icon' : 'text'}`]">
+      <div :class="[ns.e('icon'), ns.is(icon ? 'icon' : 'text')]">
         <slot
           v-if="currentStatus !== 'success' && currentStatus !== 'error'"
           name="icon"
         >
-          <el-icon v-if="icon" class="el-step__icon-inner">
+          <el-icon v-if="icon" :class="ns.e('icon-inner')">
             <component :is="icon" />
           </el-icon>
-          <div v-if="!icon && !isSimple" class="el-step__icon-inner">
+          <div v-if="!icon && !isSimple" :class="ns.e('icon-inner')">
             {{ index + 1 }}
           </div>
         </slot>
-        <el-icon v-else class="el-step__icon-inner is-status">
+        <el-icon v-else :class="[ns.e('icon-inner'), ns.is('status')]">
           <check v-if="currentStatus === 'success'" />
           <close v-else />
         </el-icon>
       </div>
     </div>
     <!-- title & description -->
-    <div class="el-step__main">
-      <div :class="['el-step__title', `is-${currentStatus}`]">
+    <div :class="ns.e('main')">
+      <div :class="[ns.e('title'), ns.is(currentStatus)]">
         <slot name="title">{{ title }}</slot>
       </div>
-      <div v-if="isSimple" class="el-step__arrow"></div>
-      <div v-else :class="['el-step__description', `is-${currentStatus}`]">
+      <div v-if="isSimple" :class="ns.e('arrow')"></div>
+      <div v-else :class="[ns.e('description'), ns.is(currentStatus)]">
         <slot name="description">{{ description }}</slot>
       </div>
     </div>
@@ -60,6 +60,7 @@ import {
 import { ElIcon } from '@element-plus/components/icon'
 import { Close, Check } from '@element-plus/icons-vue'
 
+import { useNamespace } from '@element-plus/hooks'
 import type { Ref, PropType, Component } from 'vue'
 
 export interface IStepsProps {
@@ -112,6 +113,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const ns = useNamespace('step')
     const index = ref(-1)
     const lineStyle = ref({})
     const internalStatus = ref('')
@@ -222,6 +224,7 @@ export default defineComponent({
     parent.steps.value = [...parent.steps.value, stepItemState]
 
     return {
+      ns,
       index,
       lineStyle,
       currentStatus,

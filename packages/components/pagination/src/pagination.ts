@@ -7,9 +7,13 @@ import {
   getCurrentInstance,
   watch,
 } from 'vue'
-import { useLocale } from '@element-plus/hooks'
-import { debugWarn } from '@element-plus/utils/error'
-import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
+import {
+  debugWarn,
+  buildProps,
+  definePropType,
+  mutable,
+} from '@element-plus/utils'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { elPaginationKey } from '@element-plus/tokens'
 
 import Prev from './components/prev.vue'
@@ -106,6 +110,7 @@ export default defineComponent({
 
   setup(props, { emit, slots }) {
     const { t } = useLocale()
+    const ns = useNamespace('pagination')
     const vnodeProps = getCurrentInstance()!.vnode.props || {}
     // we can find @xxx="xxx" props on `vnodeProps` to check if user bind corresponding events
     const hasCurrentPageListener =
@@ -234,6 +239,15 @@ export default defineComponent({
       emit('next-click', currentPageBridge.value)
     }
 
+    function addClass(element: any, cls: string) {
+      if (element) {
+        if (!element.props) {
+          element.props = {}
+        }
+        element.props.class = [element.props.class, cls].join(' ')
+      }
+    }
+
     provide(elPaginationKey, {
       pageCount: pageCountBridge,
       disabled: computed(() => props.disabled),
@@ -253,7 +267,7 @@ export default defineComponent({
       const rightWrapperChildren: Array<VNode | VNode[] | null> = []
       const rightWrapperRoot = h(
         'div',
-        { class: 'el-pagination__rightwrapper' },
+        { class: ns.e('rightwrapper') },
         rightWrapperChildren
       )
       const TEMPLATE_MAP: Record<
@@ -286,6 +300,7 @@ export default defineComponent({
           pageSizes: props.pageSizes,
           popperClass: props.popperClass,
           disabled: props.disabled,
+          size: props.small ? 'small' : 'default',
         }),
         slot: slots?.default?.() ?? null,
         total: h(Total, { total: isAbsent(props.total) ? 0 : props.total }),
@@ -309,20 +324,27 @@ export default defineComponent({
         }
       })
 
-      if (haveRightWrapper && rightWrapperChildren.length > 0) {
-        rootChildren.unshift(rightWrapperRoot)
-      }
+      addClass(rootChildren[0], ns.is('first'))
+      addClass(rootChildren[rootChildren.length - 1], ns.is('last'))
 
+      if (haveRightWrapper && rightWrapperChildren.length > 0) {
+        addClass(rightWrapperChildren[0], ns.is('first'))
+        addClass(
+          rightWrapperChildren[rightWrapperChildren.length - 1],
+          ns.is('last')
+        )
+        rootChildren.push(rightWrapperRoot)
+      }
       return h(
         'div',
         {
           role: 'pagination',
           'aria-label': 'pagination',
           class: [
-            'el-pagination',
+            ns.b(),
+            ns.is('background', props.background),
             {
-              'is-background': props.background,
-              'el-pagination--small': props.small,
+              [ns.m('small')]: props.small,
             },
           ],
         },

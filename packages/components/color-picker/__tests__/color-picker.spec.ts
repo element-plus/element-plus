@@ -3,7 +3,18 @@ import { mount } from '@vue/test-utils'
 import ColorPicker from '../src/index.vue'
 import type { ComponentPublicInstance } from 'vue'
 
-import type { Nullable } from '@element-plus/utils/types'
+import type { Nullable } from '@element-plus/utils'
+
+jest.mock('lodash-unified', () => {
+  return {
+    ...(jest.requireActual('lodash-unified') as Record<string, any>),
+    debounce: jest.fn((fn) => {
+      fn.cancel = jest.fn()
+      fn.flush = jest.fn()
+      return fn
+    }),
+  }
+})
 
 const _mount = (template: string, data: () => { [key: string]: any }) => {
   const Component = defineComponent({
@@ -425,5 +436,18 @@ describe('Color-picker', () => {
     mockHueSlideRect.mockRestore()
     mockThumbDom.mockRestore()
     mockHueSlideOffsetHeight.mockRestore()
+  })
+  it('should not execute active-change event', async () => {
+    const onActiveChange = jest.fn()
+    const wrapper = _mount(
+      `<el-color-picker :model-value='color' @active-change='onActiveChange'/>`,
+      () => ({
+        color: '#20A0FF',
+        onActiveChange,
+      })
+    )
+    await nextTick()
+    expect(onActiveChange).not.toHaveBeenCalled()
+    wrapper.unmount()
   })
 })

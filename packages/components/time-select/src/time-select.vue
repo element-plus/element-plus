@@ -6,6 +6,7 @@
     :clearable="clearable"
     :clear-icon="clearIcon"
     :size="size"
+    :effect="effect"
     :placeholder="placeholder"
     default-first-option
     :filterable="editable"
@@ -38,7 +39,7 @@ import ElIcon from '@element-plus/components/icon'
 import { CircleClose, Clock } from '@element-plus/icons-vue'
 
 import type { PropType, Component } from 'vue'
-import type { ComponentSize } from '@element-plus/utils/types'
+import type { ComponentSize } from '@element-plus/constants'
 dayjs.extend(customParseFormat)
 
 const { Option: ElOption } = ElSelect
@@ -116,6 +117,10 @@ export default defineComponent({
     editable: {
       type: Boolean,
       default: true,
+    },
+    effect: {
+      type: String as PropType<'light' | 'dark' | string>,
+      default: 'light',
     },
     clearable: {
       type: Boolean,

@@ -1,13 +1,12 @@
-import { getCurrentInstance, computed } from 'vue'
-
+import { computed, inject } from 'vue'
+import { TABLE_INJECTION_KEY } from '../tokens'
 import type { TableColumnCtx } from '../table-column/defaults'
-import type { Table } from '../table/defaults'
 import type { TableHeaderProps } from '.'
 
 const getAllColumns = <T>(
   columns: TableColumnCtx<T>[]
 ): TableColumnCtx<T>[] => {
-  const result = []
+  const result: TableColumnCtx<T>[] = []
   columns.forEach((column) => {
     if (column.children) {
       result.push(column)
@@ -53,7 +52,7 @@ const convertToRows = <T>(
     rows.push([])
   }
 
-  const allColumns = getAllColumns(originColumns)
+  const allColumns: TableColumnCtx<T>[] = getAllColumns(originColumns)
 
   allColumns.forEach((column) => {
     if (!column.children) {
@@ -69,19 +68,20 @@ const convertToRows = <T>(
 }
 
 function useUtils<T>(props: TableHeaderProps<T>) {
-  const instance = getCurrentInstance()
-  const parent = instance.parent as Table<T>
+  const parent = inject(TABLE_INJECTION_KEY)
   const columnRows = computed(() => {
     return convertToRows(props.store.states.originColumns.value)
   })
   const isGroup = computed(() => {
     const result = columnRows.value.length > 1
-    if (result) parent.state.isGroup.value = true
+    if (result && parent) {
+      parent.state.isGroup.value = true
+    }
     return result
   })
   const toggleAllSelection = (event: Event) => {
     event.stopPropagation()
-    parent.store.commit('toggleAllSelection')
+    parent?.store.commit('toggleAllSelection')
   }
   return {
     isGroup,

@@ -45,6 +45,7 @@ $button-icon-span-gap: map.merge(
   transition: 0.1s;
   font-weight: var(--el-button-font-weight);
   user-select: none;
+  vertical-align: middle;
 
   > span {
     display: inline-flex;
@@ -229,7 +230,7 @@ $button-icon-span-gap: map.merge(
 
     &:hover,
     &:focus {
-      color: var(--el-color-primary-light-2);
+      color: var(--el-color-primary-light-3);
       border-color: transparent;
       background-color: transparent;
     }

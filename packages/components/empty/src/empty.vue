@@ -1,16 +1,16 @@
 <template>
-  <div class="el-empty">
-    <div class="el-empty__image" :style="imageStyle">
+  <div :class="ns.b()">
+    <div :class="ns.e('image')" :style="imageStyle">
       <img v-if="image" :src="image" ondragstart="return false" />
       <slot v-else name="image">
         <img-empty />
       </slot>
     </div>
-    <div class="el-empty__description">
+    <div :class="ns.e('description')">
       <slot v-if="$slots.description" name="description"></slot>
       <p v-else>{{ emptyDescription }}</p>
     </div>
-    <div v-if="$slots.default" class="el-empty__bottom">
+    <div v-if="$slots.default" :class="ns.e('bottom')">
       <slot></slot>
     </div>
   </div>
@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import ImgEmpty from './img-empty.vue'
 import { emptyProps } from './empty'
 
@@ -34,6 +34,7 @@ export default defineComponent({
 
   setup(props) {
     const { t } = useLocale()
+    const ns = useNamespace('empty')
     const emptyDescription = computed(
       () => props.description || t('el.table.emptyText')
     )
@@ -42,6 +43,7 @@ export default defineComponent({
     }))
 
     return {
+      ns,
       emptyDescription,
       imageStyle,
     }

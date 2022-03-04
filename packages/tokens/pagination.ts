@@ -1,7 +1,7 @@
-import type { InjectionKey, ComputedRef } from 'vue'
+import type { InjectionKey, ComputedRef, WritableComputedRef } from 'vue'
 
 export interface ElPaginationContext {
-  currentPage?: ComputedRef<number>
+  currentPage?: WritableComputedRef<number>
   pageCount?: ComputedRef<number>
   disabled?: ComputedRef<boolean>
   changeEvent?: (val: number) => void

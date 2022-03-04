@@ -1,32 +1,32 @@
 <template>
   <label
     :id="id"
-    class="el-checkbox"
     :class="[
-      checkboxSize ? 'el-checkbox--' + checkboxSize : '',
-      { 'is-disabled': isDisabled },
-      { 'is-bordered': border },
-      { 'is-checked': isChecked },
+      ns.b(),
+      ns.m(checkboxSize),
+      ns.is('disabled', isDisabled),
+      ns.is('bordered', border),
+      ns.is('checked', isChecked),
     ]"
     :aria-controls="indeterminate ? controls : null"
   >
     <span
-      class="el-checkbox__input"
-      :class="{
-        'is-disabled': isDisabled,
-        'is-checked': isChecked,
-        'is-indeterminate': indeterminate,
-        'is-focus': focus,
-      }"
+      :class="[
+        ns.e('input'),
+        ns.is('disabled', isDisabled),
+        ns.is('checked', isChecked),
+        ns.is('indeterminate', indeterminate),
+        ns.is('focus', focus),
+      ]"
       :tabindex="indeterminate ? 0 : undefined"
       :role="indeterminate ? 'checkbox' : undefined"
       :aria-checked="indeterminate ? 'mixed' : false"
     >
-      <span class="el-checkbox__inner"></span>
+      <span :class="ns.e('inner')"></span>
       <input
         v-if="trueLabel || falseLabel"
         v-model="model"
-        class="el-checkbox__original"
+        :class="ns.e('original')"
         type="checkbox"
         :aria-hidden="indeterminate ? 'true' : 'false'"
         :name="name"
@@ -41,7 +41,7 @@
       <input
         v-else
         v-model="model"
-        class="el-checkbox__original"
+        :class="ns.e('original')"
         type="checkbox"
         :aria-hidden="indeterminate ? 'true' : 'false'"
         :disabled="isDisabled"
@@ -53,7 +53,7 @@
         @blur="focus = false"
       />
     </span>
-    <span v-if="$slots.default || label" class="el-checkbox__label">
+    <span v-if="$slots.default || label" :class="ns.e('label')">
       <slot></slot>
       <template v-if="!$slots.default">{{ label }}</template>
     </span>
@@ -61,12 +61,13 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { isValidComponentSize } from '@element-plus/utils/validators'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { isValidComponentSize } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
 import { useCheckbox } from './useCheckbox'
 
 import type { PropType } from 'vue'
-import type { ComponentSize } from '@element-plus/utils/types'
+import type { ComponentSize } from '@element-plus/constants'
 
 export default defineComponent({
   name: 'ElCheckbox',
@@ -110,7 +111,11 @@ export default defineComponent({
   },
   emits: [UPDATE_MODEL_EVENT, 'change'],
   setup(props) {
-    return useCheckbox(props)
+    const ns = useNamespace('checkbox')
+    return {
+      ns,
+      ...useCheckbox(props),
+    }
   },
 })
 </script>

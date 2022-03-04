@@ -1,7 +1,6 @@
 <template>
   <div
-    class="el-select-dropdown"
-    :class="[{ 'is-multiple': isMultiple }, popperClass]"
+    :class="[ns.b('dropdown'), ns.is('multiple', isMultiple), popperClass]"
     :style="{ [isFitInputWidth ? 'width' : 'minWidth']: minWidth }"
   >
     <slot></slot>
@@ -17,12 +16,10 @@ import {
   inject,
   ref,
 } from 'vue'
-import {
-  addResizeListener,
-  removeResizeListener,
-} from '@element-plus/utils/resize-event'
+import { useNamespace } from '@element-plus/hooks'
+import { addResizeListener, removeResizeListener } from '@element-plus/utils'
 import { selectKey } from './token'
-import type { ResizableElement } from '@element-plus/utils/resize-event'
+import type { ResizableElement } from '@element-plus/utils'
 
 export default defineComponent({
   name: 'ElSelectDropdown',
@@ -31,6 +28,7 @@ export default defineComponent({
 
   setup() {
     const select = inject(selectKey)!
+    const ns = useNamespace('select')
 
     // computed
     const popperClass = computed(() => select.props.popperClass)
@@ -62,6 +60,7 @@ export default defineComponent({
     })
 
     return {
+      ns,
       minWidth,
       popperClass,
       isMultiple,

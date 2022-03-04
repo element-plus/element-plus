@@ -59,7 +59,17 @@ button/group
 
 Click the button to load data, then the button displays a loading state.
 
-:::demo Set `loading` attribute to `true` to display loading state.
+Set `loading` attribute to `true` to display loading state.
+
+:::tip
+
+You can use the `loading` slot or `loadingIcon` to customize your loading component
+
+ps: `loading` slot has higher priority than loadingIcon
+
+:::
+
+:::demo
 
 button/loading
 
@@ -97,6 +107,7 @@ button/custom
 | round             | determine whether it's a round button                       | boolean            | —                                                  | false   |
 | circle            | determine whether it's a circle button                      | boolean            | —                                                  | false   |
 | loading           | determine whether it's loading                              | boolean            | —                                                  | false   |
+| loading-icon      | customize loading icon component                            | string / Component | —                                                  | Loading |
 | disabled          | disable the button                                          | boolean            | —                                                  | false   |
 | icon              | icon component                                              | string / Component | —                                                  | —       |
 | autofocus         | same as native button's `autofocus`                         | boolean            | —                                                  | false   |
@@ -105,16 +116,18 @@ button/custom
 
 ## Button Slots
 
-| Name | Description               |
-| ---- | ------------------------- |
-| —    | customize default content |
+| Name    | Description                 |
+| ------- | --------------------------- |
+| —       | customize default content   |
+| loading | customize loading component |
+| icon    | customize icon component    |
 
 ## Button-Group Attributes
 
-| Attribute | Description                                      | Type   | Accepted Values             | Default |
-| --------- | ------------------------------------------------ | ------ | --------------------------- | ------- |
-| size      | control the size of buttons in this button-group | string | large / small               | —       |
-| type      | control the type of buttons in this button-group | string | primary / success / warning | —       |
+| Attribute | Description                                      | Type   | Accepted Values       | Default |
+| --------- | ------------------------------------------------ | ------ | --------------------- | ------- |
+| size      | control the size of buttons in this button-group | string | same as button's size | —       |
+| type      | control the type of buttons in this button-group | string | same as button's type | —       |
 
 ## Button-Group Slots
 

@@ -10,12 +10,13 @@ import {
   h,
   unref,
 } from 'vue'
-import { hasOwn } from '@vue/shared'
-
 import { isClient } from '@vueuse/core'
-import { isNumber, isString } from '@element-plus/utils/util'
-import getScrollBarWidth from '@element-plus/utils/scrollbar-width'
-
+import {
+  hasOwn,
+  isNumber,
+  isString,
+  getScrollBarWidth,
+} from '@element-plus/utils'
 import Scrollbar from '../components/scrollbar'
 import { useGridWheel } from '../hooks/use-grid-wheel'
 import { useCache } from '../hooks/use-cache'
@@ -33,8 +34,7 @@ import {
   RTL_OFFSET_POS_ASC,
 } from '../defaults'
 
-import type { CSSProperties, VNode, VNodeChild } from 'vue'
-import type { StyleValue } from '@element-plus/utils/types'
+import type { CSSProperties, VNode, VNodeChild, StyleValue } from 'vue'
 import type { GridConstructorProps, Alignment, ScrollbarExpose } from '../types'
 import type { VirtualizedGridProps } from '../props'
 

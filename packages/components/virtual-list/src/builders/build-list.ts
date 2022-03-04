@@ -10,11 +10,8 @@ import {
   h,
   unref,
 } from 'vue'
-import { hasOwn } from '@vue/shared'
-
 import { isClient } from '@vueuse/core'
-import { isNumber, isString } from '@element-plus/utils/util'
-
+import { hasOwn, isNumber, isString } from '@element-plus/utils'
 import { useCache } from '../hooks/use-cache'
 import useWheel from '../hooks/use-wheel'
 import Scrollbar from '../components/scrollbar'

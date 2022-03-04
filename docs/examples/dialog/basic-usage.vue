@@ -37,3 +37,8 @@ const handleClose = (done: () => void) => {
     })
 }
 </script>
+<style scoped>
+.dialog-footer button:first-child {
+  margin-right: 10px;
+}
+</style>

@@ -190,8 +190,8 @@ export function useTree(props: TreeProps, emit) {
     }
   }
 
-  function handleNodeClick(node: TreeNode) {
-    emit(NODE_CLICK, node.data, node)
+  function handleNodeClick(node: TreeNode, e: MouseEvent) {
+    emit(NODE_CLICK, node.data, node, e)
     handleCurrentChange(node)
     if (props.expandOnClickNode) {
       toggleExpand(node)

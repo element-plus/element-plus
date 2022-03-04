@@ -83,10 +83,12 @@
     padding: 10px;
 
     label.#{$namespace}-checkbox {
-      display: block;
+      display: flex;
+      align-items: center;
       margin-right: 5px;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
       margin-left: 5px;
+      height: unset;
     }
 
     .#{$namespace}-checkbox:last-child {

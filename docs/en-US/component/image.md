@@ -7,76 +7,6 @@ lang: en-US
 
 Besides the native features of img, support lazy load, custom placeholder and load failure, etc.
 
-<style lang="scss">
-.demo-image {
-  .block {
-    padding: 30px 0;
-    text-align: center;
-    border-right: solid 1px var(--el-border-color-base);
-    display: inline-block;
-    width: 20%;
-    box-sizing: border-box;
-    vertical-align: top;
-    &:last-child {
-      border-right: none;
-    }
-  }
-
-  .demonstration {
-    display: block;
-    color: var(--el-text-color-secondary);
-    font-size: 14px;
-    margin-bottom: 20px;
-  }
-}
-
-.demo-image__placeholder,
-.demo-image__error {
-  @extend .demo-image;
-
-  .block {
-    width: 49%;
-  }
-
-  .el-image {
-    padding: 0 5px;
-    max-width: 300px;
-    max-height: 200px;
-  }
-
-  .image-slot {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    background: #f5f7fa;
-    color: var(--el-text-color-secondary);
-    font-size: 14px;
-  }
-}
-
-.demo-image__placeholder {
-  .dot {
-    animation: dot 2s infinite steps(3, start);
-    overflow: hidden;
-  }
-}
-
-.demo-image__error {
-  .image-slot {
-    font-size: 30px;
-    .el-icon {
-      font-size: 30px;
-    }
-  }
-  .el-image {
-    width: 100%;
-    height: 200px;
-  }
-}
-</style>
-
 ## Basic Usage
 
 :::demo Indicate how the image should be resized to fit its container by `fit`, same as native [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit)。
@@ -131,6 +61,7 @@ image/image-preview
 | src                 | Image source, same as native                                                                                                                     | string               | —                                          | -                                                                      |
 | scroll-container    | The container to add scroll listener when using lazy load                                                                                        | string / HTMLElement | —                                          | The nearest parent container whose overflow property is auto or scroll |
 | z-index             | set image preview z-index                                                                                                                        | Number               | —                                          | 2000                                                                   |
+| preview-teleported  | whether to append image-viewer to body. A nested parent element attribute transform should have this attribute set to `true`                     | boolean              | —                                          | false                                                                  |
 
 ## Image Events
 
@@ -155,7 +86,7 @@ image/image-preview
 | initial-index       | The initial preview image index, less than or equal to the length of `url-list`                                              | number          | int                 | 0       |
 | infinite            | Whether preview is infinite                                                                                                  | boolean         | true / false        | true    |
 | hide-on-click-modal | Whether user can emit close event when clicking backdrop                                                                     | boolean         | true / false        | false   |
-| append-to-body      | whether to append image itself to body. A nested parent element attribute transform should have this attribute set to `true` | boolean         | —                   | false   |
+| teleported          | whether to append image itself to body. A nested parent element attribute transform should have this attribute set to `true` | boolean         | —                   | false   |
 
 ## ImageViewer Events
 

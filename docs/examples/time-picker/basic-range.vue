@@ -1,5 +1,5 @@
 <template>
-  <div class="demo-basic">
+  <div class="example-basic">
     <el-time-picker
       v-model="value1"
       :disabled-hours="disabledHours"
@@ -42,7 +42,7 @@ const disabledSeconds = (hour: number, minute: number) => {
 </script>
 
 <style>
-.demo-basic .el-date-editor {
+.example-basic .el-date-editor {
   margin: 8px;
 }
 </style>

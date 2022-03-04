@@ -18,7 +18,7 @@
     border-left: 2px solid var(--el-timeline-node-color);
   }
 
-  @include e(icon) {
+  & .#{$namespace}-timeline-item__icon {
     color: var(--el-color-white);
     font-size: var(--el-font-size-small);
   }

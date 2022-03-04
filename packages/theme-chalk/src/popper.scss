@@ -9,10 +9,10 @@
 @include b(popper) {
   position: absolute;
   border-radius: var(--el-popper-border-radius);
-  padding: 12px;
+  padding: 5px 11px;
   z-index: 2000;
   font-size: 12px;
-  line-height: 1.2;
+  line-height: 20px;
   min-width: 10px;
   word-wrap: break-word;
   visibility: visible;
@@ -22,7 +22,10 @@
   @include when(dark) {
     color: var(--el-color-white);
     background: var(--el-text-color-primary);
+    border: 1px solid var(--el-text-color-primary);
+
     #{$arrow-selector}::before {
+      border: 1px solid var(--el-text-color-primary);
       background: var(--el-text-color-primary);
       right: 0;
     }
@@ -71,6 +74,21 @@
   @each $placement, $opposite in $placements {
     &[data-popper-placement^='#{$placement}'] > #{$arrow-selector} {
       #{$opposite}: -5px;
+
+      &::before {
+        @if $placement == top {
+          border-bottom-right-radius: 2px;
+        }
+        @if $placement == bottom {
+          border-top-left-radius: 2px;
+        }
+        @if $placement == left {
+          border-top-right-radius: 2px;
+        }
+        @if $placement == right {
+          border-bottom-left-radius: 2px;
+        }
+      }
     }
   }
 
@@ -78,10 +96,10 @@
     $adjacency
       in ('top': 'left', 'bottom': 'right', 'left': 'bottom', 'right': 'top')
   {
-    &.is-light[data-popper-placement^='#{$placement}'] {
+    &[data-popper-placement^='#{$placement}'] {
       #{$arrow-selector}::before {
-        border-#{$placement}-color: transparent;
-        border-#{$adjacency}-color: transparent;
+        border-#{$placement}-color: transparent !important;
+        border-#{$adjacency}-color: transparent !important;
       }
     }
   }

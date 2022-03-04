@@ -4,7 +4,7 @@
       <el-scrollbar
         v-for="item in spinnerItems"
         :key="item"
-        :ref="getRefId(item)"
+        :ref="(scollbar) => setRef(scollbar, item)"
         class="el-time-spinner__wrapper"
         wrap-style="max-height: inherit;"
         view-class="el-time-spinner__list"
@@ -59,7 +59,7 @@
               disabled: listMap[item].value[time],
             }"
           >
-            <template v-if="time">
+            <template v-if="typeof time === 'number'">
               <template v-if="item === 'hours'">
                 {{ ('0' + (amPmMode ? time % 12 || 12 : time)).slice(-2)
                 }}{{ getAmPmFlag(time) }}
@@ -76,7 +76,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref, nextTick, computed, onMounted, watch } from 'vue'
-import debounce from 'lodash/debounce'
+import { debounce } from 'lodash-unified'
 import { RepeatClick } from '@element-plus/directives'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'
@@ -85,7 +85,7 @@ import { getTimeLists } from './useTimePicker'
 
 import type { PropType, Ref } from 'vue'
 import type { Dayjs } from 'dayjs'
-import type { Nullable } from '@element-plus/utils/types'
+import type { Nullable } from '@element-plus/utils'
 
 export default defineComponent({
   directives: {
@@ -246,8 +246,8 @@ export default defineComponent({
     const adjustSpinner = (type, value) => {
       if (props.arrowControl) return
       const el = listRefsMap[type]
-      if (el.value) {
-        el.value.$el.querySelector('.el-scrollbar__wrap').scrollTop = Math.max(
+      if (el && el.$el) {
+        el.$el.querySelector('.el-scrollbar__wrap').scrollTop = Math.max(
           0,
           value * typeItemHeight(type)
         )
@@ -256,7 +256,7 @@ export default defineComponent({
 
     const typeItemHeight = (type) => {
       const el = listRefsMap[type]
-      return el.value.$el.querySelector('li').offsetHeight
+      return el.$el.querySelector('li').offsetHeight
     }
 
     const onIncreaseClick = () => {
@@ -330,7 +330,7 @@ export default defineComponent({
       debouncedResetScroll(type)
       const value = Math.min(
         Math.round(
-          (listRefsMap[type].value.$el.querySelector('.el-scrollbar__wrap')
+          (listRefsMap[type].$el.querySelector('.el-scrollbar__wrap')
             .scrollTop -
             (scrollBarHeight(type) * 0.5 - 10) / typeItemHeight(type) +
             3) /
@@ -342,19 +342,18 @@ export default defineComponent({
     }
 
     const scrollBarHeight = (type) => {
-      return listRefsMap[type].value.$el.offsetHeight
+      return listRefsMap[type].$el.offsetHeight
     }
 
     const bindScrollEvent = () => {
       const bindFuntion = (type) => {
-        if (listRefsMap[type].value) {
-          listRefsMap[type].value.$el.querySelector(
-            '.el-scrollbar__wrap'
-          ).onscroll = () => {
-            // TODO: scroll is emitted when set scrollTop programatically
-            // should find better solutions in the future!
-            handleScroll(type)
-          }
+        if (listRefsMap[type] && listRefsMap[type].$el) {
+          listRefsMap[type].$el.querySelector('.el-scrollbar__wrap').onscroll =
+            () => {
+              // TODO: scroll is emitted when set scrollTop programatically
+              // should find better solutions in the future!
+              handleScroll(type)
+            }
         }
       }
       bindFuntion('hours')
@@ -371,8 +370,8 @@ export default defineComponent({
       })
     })
 
-    const getRefId = (item) => {
-      return `list${item.charAt(0).toUpperCase() + item.slice(1)}Ref`
+    const setRef = (scrollbar, type) => {
+      listRefsMap[type] = scrollbar
     }
 
     ctx.emit('set-option', [`${props.role}_scrollDown`, scrollDown])
@@ -393,7 +392,7 @@ export default defineComponent({
     )
 
     return {
-      getRefId,
+      setRef,
       spinnerItems,
       currentScrollbar,
       hours,

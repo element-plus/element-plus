@@ -7,44 +7,6 @@ lang: en-US
 
 Toggleable menu for displaying lists of links and actions.
 
-<style lang="scss" >
-
-.example-showcase {
-  .el-dropdown {
-    & + .el-dropdown {
-      margin-left: 15px;
-    }
-  }
-  .el-dropdown-link {
-    cursor: pointer;
-    color: var(--el-color-primary);
-    display: flex;
-    align-items: center;
-  }
-}
-
-.block-col-2 {
-  margin: -24px;
-
-  .el-col {
-    padding: 30px 0;
-    text-align: center;
-    border-right: 1px solid var(--el-border-color-base);
-
-    &:last-child {
-      border-right: 0;
-    }
-  }
-}
-
-.example-showcase .demonstration {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-</style>
-
 ## Basic usage
 
 Hover on the dropdown menu to unfold it for more actions.
@@ -95,6 +57,16 @@ dropdown/command-event
 
 :::
 
+## Dropdown methods
+
+You can open or close the dropdown menu by manually use `handleOpen` or `handleClose`
+
+:::demo
+
+dropdown/dropdown-methods
+
+:::
+
 ## Sizes
 
 Besides default size, Dropdown component provides three additional sizes for you to choose among different scenarios.
@@ -138,6 +110,13 @@ dropdown/sizes
 | command        | triggers when a dropdown item is clicked                          | the command dispatched from the dropdown item |
 | visible-change | triggers when the dropdown appears/disappears                     | true when it appears, and false otherwise     |
 
+## Dropdown Methods
+
+| Method      | Description             | Parameters |
+| ----------- | ----------------------- | ---------- |
+| handleOpen  | open the dropdown menu  | —          |
+| handleClose | close the dropdown menu | —          |
+
 ## Dropdown-Menu Slots
 
 | Name | Description              | Subtags       |
@@ -151,7 +130,7 @@ dropdown/sizes
 | command   | a command to be dispatched to Dropdown's `command` callback | string/number/object | —               | —       |
 | disabled  | whether the item is disabled                                | boolean              | —               | false   |
 | divided   | whether a divider is displayed                              | boolean              | —               | false   |
-| icon      | icon class name                                             | string               | —               | —       |
+| icon      | custom icon                                                 | string / Component   | —               | —       |
 
 ## Dropdown-Item Slots
 

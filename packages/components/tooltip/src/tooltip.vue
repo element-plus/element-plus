@@ -32,6 +32,7 @@
       :teleported="teleported"
       :transition="transition"
       :z-index="zIndex"
+      :append-to="appendTo"
     >
       <slot name="content">
         <span v-if="rawContent" v-html="content"></span>
@@ -58,8 +59,7 @@ import {
   usePopperArrowProps,
 } from '@element-plus/components/popper'
 
-import { debugWarn } from '@element-plus/utils/error'
-import { isBool, isUndefined } from '@element-plus/utils/util'
+import { debugWarn, isBoolean, isUndefined } from '@element-plus/utils'
 import {
   usePopperContainer,
   useId,
@@ -93,7 +93,7 @@ export default defineComponent({
     ...usePopperArrowProps,
     ...useTooltipProps,
   },
-  emits: [...useModelToggleEmits, 'show', 'hide'],
+  emits: [...useModelToggleEmits, 'before-show', 'before-hide', 'show', 'hide'],
   setup(props, { emit }) {
     usePopperContainer()
     const compatShowAfter = computed(() => {
@@ -112,7 +112,9 @@ export default defineComponent({
           '`visible-arrow` is about to be deprecated in the next major version, please use `show-arrow` instead'
         )
       }
-      return isBool(props.visibleArrow) ? props.visibleArrow : props.showArrow
+      return isBoolean(props.visibleArrow)
+        ? props.visibleArrow
+        : props.showArrow
     })
 
     const id = useId()
@@ -137,7 +139,7 @@ export default defineComponent({
       close: hide,
     })
 
-    const controlled = computed(() => isBool(props.visible))
+    const controlled = computed(() => isBoolean(props.visible))
 
     provide(TOOLTIP_INJECTION_KEY, {
       controlled,
@@ -159,6 +161,12 @@ export default defineComponent({
       onHide: () => {
         emit('hide')
       },
+      onBeforeShow: () => {
+        emit('before-show')
+      },
+      onBeforeHide: () => {
+        emit('before-hide')
+      },
       updatePopper,
     })
 
@@ -167,6 +175,7 @@ export default defineComponent({
       compatShowArrow,
       popperRef,
       open,
+      hide,
       updatePopper,
       onOpen,
       onClose,

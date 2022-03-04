@@ -1,21 +1,21 @@
 <template>
   <div
     v-show="data.ready"
-    class="el-carousel__item"
-    :class="{
-      'is-active': data.active,
-      'el-carousel__item--card': type === 'card',
-      'is-in-stage': data.inStage,
-      'is-hover': data.hover,
-      'is-animating': data.animating,
-    }"
+    :class="[
+      ns.e('item'),
+      ns.is('active', data.active),
+      ns.is('in-stage', data.inStage),
+      ns.is('hover', data.hover),
+      ns.is('animating', data.animating),
+      { [ns.em('item', 'card')]: type === 'card' },
+    ]"
     :style="itemStyle"
     @click="handleItemClick"
   >
     <div
       v-if="type === 'card'"
       v-show="!data.active"
-      class="el-carousel__mask"
+      :class="ns.e('mask')"
     ></div>
     <slot></slot>
   </div>
@@ -31,8 +31,8 @@ import {
   getCurrentInstance,
   onUnmounted,
 } from 'vue'
-import { autoprefixer } from '@element-plus/utils/util'
-import { debugWarn } from '@element-plus/utils/error'
+import { debugWarn } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
 import type { CSSProperties } from 'vue'
 import type { InjectCarouselScope, ICarouselItemProps } from './carousel'
 
@@ -47,6 +47,7 @@ export default defineComponent({
     },
   },
   setup(props: ICarouselItemProps) {
+    const ns = useNamespace('carousel')
     // instance
     const instance = getCurrentInstance()
 
@@ -78,7 +79,7 @@ export default defineComponent({
       const style: CSSProperties = {
         transform: value,
       }
-      return autoprefixer(style)
+      return style
     })
 
     // methods
@@ -182,6 +183,7 @@ export default defineComponent({
       translateItem,
       type: injectCarouselScope.type,
       handleItemClick,
+      ns,
     }
   },
 })

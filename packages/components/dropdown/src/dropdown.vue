@@ -1,5 +1,5 @@
 <template>
-  <div class="el-dropdown">
+  <div :class="ns.b()">
     <el-tooltip
       ref="popperRef"
       :effect="effect"
@@ -9,7 +9,7 @@
       :hide-after="hideTimeout"
       :manual-mode="true"
       :placement="placement"
-      :popper-class="`el-dropdown__popper ${popperClass}`"
+      :popper-class="[ns.e('popper'), popperClass]"
       :reference-element="referenceElementRef?.$el"
       :trigger="trigger"
       :show-after="showTimeout"
@@ -18,7 +18,7 @@
       :virtual-triggering="splitButton"
       append-to-body
       pure
-      transition="el-zoom-in-top"
+      :transition="`${ns.namespace.value}-zoom-in-top`"
       persistent
       @show="$emit('visible-change', true)"
       @hide="$emit('visible-change', false)"
@@ -27,8 +27,8 @@
         <el-scrollbar
           ref="scrollbar"
           :wrap-style="wrapStyle"
-          tag="ul"
-          view-class="el-dropdown__list"
+          tag="div"
+          :view-class="ns.e('list')"
         >
           <el-focus-trap trapped @mount-on-focus="onMountOnFocus">
             <el-roving-focus-group
@@ -65,9 +65,9 @@
           ref="triggeringElementRef"
           :size="dropdownSize"
           :type="type"
-          class="el-dropdown__caret-button"
+          :class="ns.e('caret-button')"
         >
-          <el-icon class="el-dropdown__icon"><arrow-down /></el-icon>
+          <el-icon :class="ns.e('icon')"><arrow-down /></el-icon>
         </el-button>
       </el-button-group>
     </template>
@@ -89,9 +89,9 @@ import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import ElRovingFocusGroup from '@element-plus/components/roving-focus-group'
-import { addUnit } from '@element-plus/utils/util'
+import { addUnit } from '@element-plus/utils'
 import { ArrowDown } from '@element-plus/icons-vue'
-import { useSize } from '@element-plus/hooks'
+import { useNamespace, useSize } from '@element-plus/hooks'
 import { ElCollection as ElDropdownCollection, dropdownProps } from './dropdown'
 import { DROPDOWN_INJECTION_KEY } from './tokens'
 
@@ -116,12 +116,12 @@ export default defineComponent({
   emits: ['visible-change', 'click', 'command'],
   setup(props, { emit }) {
     const _instance = getCurrentInstance()
+    const ns = useNamespace('dropdown')
 
     const triggeringElementRef = ref()
     const referenceElementRef = ref()
     const popperRef = ref<InstanceType<typeof ElTooltip> | null>(null)
     const contentRef = ref<HTMLElement | null>(null)
-    const visible = ref(false)
     const scrollbar = ref(null)
     const currentTabId = ref<string | null>(null)
     const isUsingKeyboard = ref(false)
@@ -129,12 +129,18 @@ export default defineComponent({
     const wrapStyle = computed<CSSProperties>(() => ({
       maxHeight: addUnit(props.maxHeight),
     }))
-    const dropdownTriggerKls = computed(() => [
-      [dropdownSize.value ? `el-dropdown--${dropdownSize.value}` : ''],
-    ])
+    const dropdownTriggerKls = computed(() => [ns.m(dropdownSize.value)])
 
     function handleClick() {
+      handleClose()
+    }
+
+    function handleClose() {
       popperRef.value?.onClose()
+    }
+
+    function handleOpen() {
+      popperRef.value?.onOpen()
     }
 
     const dropdownSize = useSize()
@@ -175,7 +181,6 @@ export default defineComponent({
     provide('elDropdown', {
       instance: _instance,
       dropdownSize,
-      visible,
       handleClick,
       commandHandler,
       trigger: toRef(props, 'trigger'),
@@ -194,7 +199,7 @@ export default defineComponent({
     }
 
     return {
-      visible,
+      ns,
       scrollbar,
       wrapStyle,
       dropdownTriggerKls,
@@ -203,6 +208,8 @@ export default defineComponent({
       handleCurrentTabIdChange,
       handlerMainButtonClick,
       handleEntryFocus,
+      handleClose,
+      handleOpen,
       onMountOnFocus,
       popperRef,
       triggeringElementRef,
