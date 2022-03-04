@@ -8,3 +8,6 @@ export const ElCollapse = withInstall(Collapse, {
 })
 export default ElCollapse
 export const ElCollapseItem = withNoopInstall(CollapseItem)
+
+export * from './src/collapse'
+export * from './src/collapse-item'
