@@ -232,7 +232,7 @@
       color: inherit;
     }
   }
-  .el-menu-tooltip__trigger {
+  .#{$namespace}-menu-tooltip__trigger {
     position: absolute;
     left: 0;
     top: 0;
