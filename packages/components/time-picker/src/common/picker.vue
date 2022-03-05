@@ -11,7 +11,8 @@
     :transition="`${nsDate.namespace.value}-zoom-in-top`"
     :popper-class="[`${nsDate.namespace.value}-picker__popper`, popperClass]"
     :popper-options="elPopperOptions"
-    :fallback-placements="['bottom', 'top', 'right', 'left']"
+    :fallback-placements="currentFallbackPlacements"
+    :placement="currentPlacement"
     :gpu-acceleration="false"
     :stop-popper-mouse-event="false"
     :hide-after="0"
@@ -187,8 +188,8 @@ import { formatter, parseDate, valueEquals } from '../utils'
 import { timePickerDefaultProps } from './props'
 
 import type { Dayjs } from 'dayjs'
-import type { ComponentPublicInstance } from 'vue'
-import type { Options } from '@popperjs/core'
+import type { ComponentPublicInstance, ComputedRef } from 'vue'
+import type { Options, Placement } from '@popperjs/core'
 import type {
   DateModelType,
   DateOrDates,
@@ -205,6 +206,13 @@ import type { TooltipInstance } from '@element-plus/components/tooltip'
 defineOptions({
   name: 'Picker',
 })
+
+const DEFAULT_FALLBACK_PLACEMENTS: string[] = ['bottom', 'top', 'right', 'left']
+const ALIGN_PLACEMENT_MAP = {
+  start: '-start',
+  middle: '',
+  end: '-end',
+}
 
 const props = defineProps(timePickerDefaultProps)
 const emit = defineEmits([
@@ -722,6 +730,23 @@ const onPanelChange = (
 ) => {
   emit('panel-change', value, mode, view)
 }
+
+const realAlign = computed(() => {
+  return (
+    ['start', 'middle', 'end'].find(
+      (align) => align === props.pickerContentAlign
+    ) ?? 'start'
+  )
+}) as ComputedRef<keyof typeof ALIGN_PLACEMENT_MAP>
+
+const currentFallbackPlacements = computed(() => {
+  return DEFAULT_FALLBACK_PLACEMENTS.map(
+    (placement) => `${placement}${ALIGN_PLACEMENT_MAP[realAlign.value]}`
+  ) as Placement[]
+})
+const currentPlacement = computed(() => {
+  return `bottom${ALIGN_PLACEMENT_MAP[realAlign.value]}` as Placement
+})
 
 provide('EP_PICKER_BASE', {
   props,

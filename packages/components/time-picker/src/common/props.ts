@@ -3,7 +3,7 @@ import { useSizeProp } from '@element-plus/hooks'
 import { CircleClose } from '@element-plus/icons-vue'
 import { disabledTimeListsProps } from '../props/shared'
 
-import type { Component, ExtractPropTypes } from 'vue'
+import type { Component, ExtractPropTypes, PropType } from 'vue'
 import type { Options } from '@popperjs/core'
 import type { Dayjs } from 'dayjs'
 
@@ -125,6 +125,10 @@ export const timePickerDefaultProps = buildProps({
     default: true,
   },
   unlinkPanels: Boolean,
+  pickerContentAlign: {
+    type: String as PropType<'start' | 'middle' | 'end'>,
+    default: 'start',
+  },
 } as const)
 
 export type TimePickerDefaultProps = ExtractPropTypes<
