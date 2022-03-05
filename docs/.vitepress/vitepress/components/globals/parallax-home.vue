@@ -58,9 +58,9 @@ const peopleLayer = computed(() => ({
   height: '30%',
   right: 0,
   bottom: 0,
-  transform: `translateX(${parallax.tilt * 25}px) translateY(${
+  transform: `translateX(${parallax.tilt * 25 + 25}px) translateY(${
     parallax.roll * 25
-  }px) scale(1)`,
+  }px) scale(1.1)`,
 }))
 
 // center layer
@@ -68,7 +68,7 @@ const leftLayer = computed(() => ({
   ...layerBase,
   width: '20%',
   height: '20%',
-  transform: `translateX(${274 + parallax.tilt * 12}px) translateY(${
+  transform: `translateX(${parallax.tilt * 12 + 194}px) translateY(${
     parallax.roll * 12 + 220
   }px)`,
 }))
@@ -79,7 +79,7 @@ const leftBottomLayer = computed(() => ({
   height: '30%',
   left: 0,
   bottom: 0,
-  transform: `translateX(${parallax.tilt * 30 + 50}px) translateY(${
+  transform: `translateX(${parallax.tilt * 30 - 30}px) translateY(${
     parallax.roll * 30
   }px)`,
 }))
@@ -90,7 +90,7 @@ const rightLayer = computed(() => ({
   height: '35%',
   top: 0,
   right: 0,
-  transform: `translateX(${parallax.tilt * 25}px) translateY(${
+  transform: `translateX(${parallax.tilt * 25 + 50}px) translateY(${
     parallax.roll * 25 - 20
   }px)`,
 }))
@@ -175,7 +175,7 @@ useEventListener(window, 'scroll', handleScroll)
     }
   }
   .banner-desc {
-    padding-top: 30px;
+    padding-top: 20px;
 
     h1 {
       font-size: 34px;
@@ -229,8 +229,8 @@ useEventListener(window, 'scroll', handleScroll)
   }
 
   .jumbotron {
-    width: 1000px;
-    margin: 30px auto;
+    width: 800px;
+    margin: 20px auto;
     position: relative;
 
     img {
@@ -238,7 +238,7 @@ useEventListener(window, 'scroll', handleScroll)
     }
 
     .parallax-container {
-      width: 1000px;
+      width: 800px;
     }
   }
 
