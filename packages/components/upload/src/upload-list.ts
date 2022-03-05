@@ -16,7 +16,7 @@ export const uploadListProps = buildProps({
   },
   handlePreview: {
     type: definePropType<UploadHooks['onPreview']>(Function),
-    default: () => NOOP,
+    default: NOOP,
   },
   listType: {
     type: String,

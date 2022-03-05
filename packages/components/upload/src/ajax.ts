@@ -1,12 +1,25 @@
+import { isNil } from 'lodash-unified'
 import { throwError } from '@element-plus/utils'
 import type {
   UploadRequestHandler,
-  UploadAjaxError,
   UploadProgressEvent,
   UploadRequestOptions,
 } from './upload'
 
 const SCOPE = 'ElUpload'
+
+export class UploadAjaxError extends Error {
+  status: number
+  method: string
+  url: string
+
+  constructor(message: string, status: number, method: string, url: string) {
+    super(message)
+    this.status = status
+    this.method = method
+    this.url = url
+  }
+}
 
 function getError(
   action: string,
@@ -22,11 +35,7 @@ function getError(
     msg = `fail to ${option.method} ${action} ${xhr.status}`
   }
 
-  const err = new Error(msg) as UploadAjaxError
-  err.status = xhr.status
-  err.method = option.method
-  err.url = action
-  return err
+  return new UploadAjaxError(msg, xhr.status, option.method, action)
 }
 
 function getBody(xhr: XMLHttpRequest): XMLHttpRequestResponseType {
@@ -88,7 +97,7 @@ export const ajaxUpload: UploadRequestHandler = (option) => {
     headers.forEach((value, key) => xhr.setRequestHeader(key, value))
   } else {
     for (const [key, value] of Object.entries(headers)) {
-      if (value === undefined || value === null) continue
+      if (isNil(value)) continue
       xhr.setRequestHeader(key, String(value))
     }
   }

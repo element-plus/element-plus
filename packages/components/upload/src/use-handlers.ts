@@ -38,10 +38,10 @@ export const useHandlers = (
 
   function clearFiles(
     /** @default ['ready', 'uploading', 'success', 'fail'] */
-    status: UploadStatus[] = ['ready', 'uploading', 'success', 'fail']
+    states: UploadStatus[] = ['ready', 'uploading', 'success', 'fail']
   ) {
     uploadFiles.value = uploadFiles.value.filter(
-      (row) => !status.includes(row.status)
+      (row) => !states.includes(row.status)
     )
   }
 
@@ -117,7 +117,7 @@ export const useHandlers = (
 
     const _file = rawFile || file
     const uploadFile = _file instanceof File ? getFile(_file) : _file
-    if (!uploadFile) throwError(SCOPE, 'handle remove error')
+    if (!uploadFile) throwError(SCOPE, 'file to be removed not found')
 
     const doRemove = (file: UploadFile) => {
       abort(file)
@@ -137,25 +137,28 @@ export const useHandlers = (
 
   function submit() {
     uploadFiles.value
-      .filter((file) => file.status === 'ready')
-      .forEach((file) => uploadRef.value?.upload(file.raw))
+      .filter(({ status }) => status === 'ready')
+      .forEach(({ raw }) => uploadRef.value?.upload(raw))
   }
 
   watch(
     () => props.listType,
     (val) => {
-      if (val === 'picture-card' || val === 'picture') {
-        uploadFiles.value = uploadFiles.value.map((file) => {
-          if (!file.url && file.raw) {
-            try {
-              file.url = URL.createObjectURL(file.raw)
-            } catch (err: unknown) {
-              props.onError(err as Error, file, uploadFiles.value)
-            }
-          }
-          return file
-        })
+      if (val !== 'picture-card' && val !== 'picture') {
+        return
       }
+
+      uploadFiles.value = uploadFiles.value.map((file) => {
+        const { raw, url } = file
+        if (!url && raw) {
+          try {
+            file.url = URL.createObjectURL(raw)
+          } catch (err: unknown) {
+            props.onError(err as Error, file, uploadFiles.value)
+          }
+        }
+        return file
+      })
     }
   )
 

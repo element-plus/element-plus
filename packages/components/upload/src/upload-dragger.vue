@@ -27,7 +27,10 @@ const emit = defineEmits(uploadDraggerEmits)
 
 const uploaderContext = inject(uploadContextKey)
 if (!uploaderContext) {
-  throwError(COMPONENT_NAME, 'must be nested inside ElUpload')
+  throwError(
+    COMPONENT_NAME,
+    'usage: <el-upload><el-upload-dragger /></el-upload>'
+  )
 }
 
 const ns = useNamespace('upload')

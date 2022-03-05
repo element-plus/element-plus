@@ -93,8 +93,8 @@ const {
 const isPictureCard = computed(() => props.listType === 'picture-card')
 
 onBeforeUnmount(() => {
-  uploadFiles.value.forEach((file) => {
-    if (file.url?.startsWith('blob:')) URL.revokeObjectURL(file.url)
+  uploadFiles.value.forEach(({ url }) => {
+    if (url?.startsWith('blob:')) URL.revokeObjectURL(url)
   })
 })
 

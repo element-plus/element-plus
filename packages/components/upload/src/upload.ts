@@ -1,6 +1,8 @@
 import { NOOP } from '@vue/shared'
 import { buildProps, definePropType, mutable } from '@element-plus/utils'
 import { ajaxUpload } from './ajax'
+
+import type { UploadAjaxError } from './ajax'
 import type { Awaitable } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
 import type Upload from './upload.vue'
@@ -14,11 +16,7 @@ export type UploadStatus = 'ready' | 'uploading' | 'success' | 'fail'
 export interface UploadProgressEvent extends ProgressEvent {
   percent: number
 }
-export interface UploadAjaxError extends Error {
-  status: number
-  method: string
-  url: string
-}
+
 export interface UploadRequestOptions {
   action: string
   method: string
@@ -174,7 +172,7 @@ export const uploadProps = buildProps({
   },
   onExceed: {
     type: definePropType<UploadHooks['onExceed']>(Function),
-    default: () => NOOP,
+    default: NOOP,
   },
 } as const)
 

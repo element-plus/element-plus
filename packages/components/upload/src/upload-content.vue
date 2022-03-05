@@ -16,10 +16,10 @@
     <input
       ref="inputRef"
       :class="ns.e('input')"
-      type="file"
       :name="name"
       :multiple="multiple"
       :accept="accept"
+      type="file"
       @change="handleChange"
     />
   </div>
@@ -29,10 +29,10 @@
 import { shallowRef } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { entriesOf } from '@element-plus/utils'
-
 import UploadDragger from './upload-dragger.vue'
 import { uploadContentProps } from './upload-content'
 import { genFileId } from './upload'
+
 import type {
   UploadRequestOptions,
   UploadRawFile,
@@ -55,20 +55,22 @@ const inputRef = shallowRef<HTMLInputElement>()
 const uploadFiles = (files: File[]) => {
   if (files.length === 0) return
 
-  if (props.limit && props.fileList.length + files.length > props.limit) {
-    props.onExceed(files, props.fileList)
+  const { autoUpload, limit, fileList, multiple, onStart, onExceed } = props
+
+  if (limit && fileList.length + files.length > limit) {
+    onExceed(files, fileList)
     return
   }
 
-  if (!props.multiple) {
+  if (!multiple) {
     files = files.slice(0, 1)
   }
 
   for (const file of files) {
     const rawFile = file as UploadRawFile
     rawFile.uid = genFileId()
-    props.onStart(rawFile)
-    if (props.autoUpload) upload(rawFile)
+    onStart(rawFile)
+    if (autoUpload) upload(rawFile)
   }
 }
 
@@ -109,28 +111,41 @@ const upload = async (rawFile: UploadRawFile) => {
 }
 
 const doUpload = (rawFile: UploadRawFile) => {
+  const {
+    headers,
+    data,
+    method,
+    withCredentials,
+    name: filename,
+    action,
+    onProgress,
+    onSuccess,
+    onError,
+    httpRequest,
+  } = props
+
   const { uid } = rawFile
   const options: UploadRequestOptions = {
-    headers: props.headers || {},
-    withCredentials: props.withCredentials,
+    headers: headers || {},
+    withCredentials,
     file: rawFile,
-    data: props.data,
-    method: props.method,
-    filename: props.name,
-    action: props.action,
+    data,
+    method,
+    filename,
+    action,
     onProgress: (evt) => {
-      props.onProgress(evt, rawFile)
+      onProgress(evt, rawFile)
     },
     onSuccess: (res) => {
-      props.onSuccess(res, rawFile)
+      onSuccess(res, rawFile)
       delete requests.value[uid]
     },
     onError: (err) => {
-      props.onError(err, rawFile)
+      onError(err, rawFile)
       delete requests.value[uid]
     },
   }
-  const request = props.httpRequest(options)
+  const request = httpRequest(options)
   requests.value[uid] = request
   if (request instanceof Promise) {
     request.then(options.onSuccess, options.onError)

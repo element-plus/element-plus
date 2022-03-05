@@ -1,16 +1,16 @@
 import { NOOP } from '@vue/shared'
 import { buildProps, definePropType } from '@element-plus/utils'
 import { uploadBaseProps } from './upload'
+
 import type { ExtractPropTypes } from 'vue'
 import type {
   UploadRawFile,
-  UploadAjaxError,
   UploadFile,
   UploadProgressEvent,
   UploadHooks,
 } from './upload'
-
 import type UploadContent from './upload-content.vue'
+import type { UploadAjaxError } from './ajax'
 
 export const uploadContentProps = buildProps({
   ...uploadBaseProps,
@@ -48,7 +48,7 @@ export const uploadContentProps = buildProps({
   },
   onExceed: {
     type: definePropType<UploadHooks['onExceed']>(Function),
-    default: () => NOOP,
+    default: NOOP,
   },
 } as const)
 
