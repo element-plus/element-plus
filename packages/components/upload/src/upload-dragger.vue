@@ -8,71 +8,71 @@
     <slot></slot>
   </div>
 </template>
-<script lang="ts">
-import { defineComponent, ref, inject } from 'vue'
+<script lang="ts" setup>
+import { ref, inject } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 
-import type { ElUpload } from './upload.type'
+import { uploadContextKey } from '@element-plus/tokens'
+import { throwError } from '@element-plus/utils/error'
+import { uploadDraggerEmits, uploadDraggerProps } from './upload-dragger'
 
-export default defineComponent({
+const COMPONENT_NAME = 'ElUploadDrag'
+
+defineOptions({
   name: 'ElUploadDrag',
-  props: {
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['file'],
-  setup(props, { emit }) {
-    const uploader = inject('uploader', {} as ElUpload)
-    const ns = useNamespace('upload')
-    const dragover = ref(false)
-
-    function onDrop(e: DragEvent) {
-      if (props.disabled || !uploader) return
-      const accept = uploader.props?.accept || uploader.accept
-      dragover.value = false
-      if (!accept) {
-        emit('file', e.dataTransfer.files)
-        return
-      }
-      emit(
-        'file',
-        Array.from(e.dataTransfer.files).filter((file) => {
-          const { type, name } = file
-          const extension =
-            name.indexOf('.') > -1 ? `.${name.split('.').pop()}` : ''
-          const baseType = type.replace(/\/.*$/, '')
-          return accept
-            .split(',')
-            .map((type) => type.trim())
-            .filter((type) => type)
-            .some((acceptedType) => {
-              if (acceptedType.startsWith('.')) {
-                return extension === acceptedType
-              }
-              if (/\/\*$/.test(acceptedType)) {
-                return baseType === acceptedType.replace(/\/\*$/, '')
-              }
-              if (/^[^/]+\/[^/]+$/.test(acceptedType)) {
-                return type === acceptedType
-              }
-              return false
-            })
-        })
-      )
-    }
-
-    function onDragover() {
-      if (!props.disabled) dragover.value = true
-    }
-
-    return {
-      ns,
-      dragover,
-      onDrop,
-      onDragover,
-    }
-  },
 })
+
+const props = defineProps(uploadDraggerProps)
+const emit = defineEmits(uploadDraggerEmits)
+
+const uploaderContext = inject(uploadContextKey)
+if (!uploaderContext) {
+  throwError(
+    COMPONENT_NAME,
+    'usage: <el-upload><el-upload-dragger /></el-upload>'
+  )
+}
+
+const ns = useNamespace('upload')
+const dragover = ref(false)
+
+const onDrop = (e: DragEvent) => {
+  if (props.disabled) return
+  dragover.value = false
+
+  const files = Array.from(e.dataTransfer!.files)
+  const accept = uploaderContext.accept.value
+  if (!accept) {
+    emit('file', files)
+    return
+  }
+
+  const filesFiltered = files.filter((file) => {
+    const { type, name } = file
+    const extension = name.includes('.') ? `.${name.split('.').pop()}` : ''
+    const baseType = type.replace(/\/.*$/, '')
+    return accept
+      .split(',')
+      .map((type) => type.trim())
+      .filter((type) => type)
+      .some((acceptedType) => {
+        if (acceptedType.startsWith('.')) {
+          return extension === acceptedType
+        }
+        if (/\/\*$/.test(acceptedType)) {
+          return baseType === acceptedType.replace(/\/\*$/, '')
+        }
+        if (/^[^/]+\/[^/]+$/.test(acceptedType)) {
+          return type === acceptedType
+        }
+        return false
+      })
+  })
+
+  emit('file', filesFiltered)
+}
+
+const onDragover = () => {
+  if (!props.disabled) dragover.value = true
+}
 </script>
