@@ -47,9 +47,11 @@ const layerBase: CSSProperties = {
 
 const screenLayer = computed(() => ({
   ...layerBase,
-  transform: `translateX(${parallax.tilt * 10}px) translateY(${
-    parallax.roll * 10
-  }px) scale(0.9)`,
+  width: '80%',
+  height: '80%',
+  transform: `translateX(${parallax.tilt * 10 + 80}px) translateY(${
+    parallax.roll * 10 + 50
+  }px)`,
 }))
 
 const peopleLayer = computed(() => ({
@@ -68,8 +70,8 @@ const leftLayer = computed(() => ({
   ...layerBase,
   width: '20%',
   height: '20%',
-  transform: `translateX(${parallax.tilt * 12 + 194}px) translateY(${
-    parallax.roll * 12 + 220
+  transform: `translateX(${parallax.tilt * 12 + 205}px) translateY(${
+    parallax.roll * 12 + 210
   }px)`,
 }))
 
@@ -79,19 +81,19 @@ const leftBottomLayer = computed(() => ({
   height: '30%',
   left: 0,
   bottom: 0,
-  transform: `translateX(${parallax.tilt * 30 - 30}px) translateY(${
+  transform: `translateX(${parallax.tilt * 30 - 10}px) translateY(${
     parallax.roll * 30
   }px)`,
 }))
 
 const rightLayer = computed(() => ({
   ...layerBase,
-  width: '35%',
-  height: '35%',
+  width: '33%',
+  height: '33%',
   top: 0,
   right: 0,
-  transform: `translateX(${parallax.tilt * 25 + 50}px) translateY(${
-    parallax.roll * 25 - 20
+  transform: `translateX(${parallax.tilt * 25 + 5}px) translateY(${
+    parallax.roll * 25
   }px)`,
 }))
 
@@ -175,7 +177,7 @@ useEventListener(window, 'scroll', handleScroll)
     }
   }
   .banner-desc {
-    padding-top: 20px;
+    padding-top: 30px;
 
     h1 {
       font-size: 34px;
@@ -244,10 +246,15 @@ useEventListener(window, 'scroll', handleScroll)
 
   @media (max-width: 768px) {
     .jumbotron {
-      width: 100%;
+      width: 50%;
       display: flex;
+      margin: auto;
       justify-content: center;
       align-items: center;
+
+      .parallax-container {
+        width: 100%;
+      }
     }
   }
 

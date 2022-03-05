@@ -78,7 +78,7 @@ const homeLang = computed(() => homeLocale[lang.value])
 .footer {
   background-color: var(--bg-color);
   width: 100%;
-  padding: 40px 100px;
+  padding: 40px 80px;
   box-sizing: border-box;
   height: 340px;
 
