@@ -3,29 +3,16 @@ import { ref, reactive, computed } from 'vue'
 import { useParallax, useThrottleFn, useEventListener } from '@vueuse/core'
 import { useLang } from '../../composables/lang'
 import homeLocale from '../../../i18n/pages/home.json'
-import { isDark } from '../../composables/dark'
-import { sponsors } from '../../../config/sponsors'
+import HomeSponsors from '../home/home-sponsors.vue'
+import HomeCards from '../home/home-cards.vue'
+import HomeFooter from './home-footer.vue'
 import type { CSSProperties } from 'vue'
-const langZhCN = 'zh-CN'
 const target = ref<HTMLElement | null>(null)
 const parallax = reactive(useParallax(target))
 const jumbotronRedOffset = ref(0)
 const jumbotronRef = ref<HTMLElement | null>(null)
 const lang = useLang()
 const homeLang = computed(() => homeLocale[lang.value])
-
-const getSponsorName = (spons) => {
-  if (lang.value === langZhCN) {
-    return spons.name_cn || spons.name
-  }
-  return spons.name
-}
-const getSponsorSlogan = (spons) => {
-  if (lang.value === langZhCN) {
-    return spons.slogan_cn || spons.slogan
-  }
-  return spons.slogan
-}
 
 const containerStyle: CSSProperties = {
   display: 'flex',
@@ -40,13 +27,9 @@ const containerStyle: CSSProperties = {
 }
 
 const cardStyle = computed(() => ({
-  background: 'var(--bg-color)',
-  minHeight: '30rem',
-  width: '50rem',
-  borderRadius: '5px',
+  height: '30rem',
+  width: '100%',
   transition: '.3s ease-out all',
-  boxShadow:
-    isDark && !isDark.value ? '0 0 20px 0 rgba(255, 255, 255, 0.25)' : 'none',
   transform: `rotateX(${parallax.roll}deg) rotateY(${parallax.tilt}deg)`,
 }))
 
@@ -57,15 +40,56 @@ const layerBase: CSSProperties = {
   transition: '.3s ease-out all',
 }
 
-const layer0 = computed(() => ({
+const screenLayer = computed(() => ({
   ...layerBase,
-  transform: `translateX(${parallax.tilt * 10}px) translateY(${
-    parallax.roll * 10
+  width: '80%',
+  height: '80%',
+  transform: `translateX(${parallax.tilt * 10 + 80}px) translateY(${
+    parallax.roll * 10 + 50
+  }px)`,
+}))
+
+const peopleLayer = computed(() => ({
+  ...layerBase,
+  width: '30%',
+  height: '30%',
+  right: 0,
+  bottom: 0,
+  transform: `translateX(${parallax.tilt * 25 + 25}px) translateY(${
+    parallax.roll * 25
   }px) scale(1)`,
 }))
 
-const jumbotronRedStyle = computed(() => ({
-  height: `${jumbotronRedOffset.value}px`,
+// center layer
+const leftLayer = computed(() => ({
+  ...layerBase,
+  width: '20%',
+  height: '20%',
+  transform: `translateX(${parallax.tilt * 12 + 205}px) translateY(${
+    parallax.roll * 12 + 210
+  }px)`,
+}))
+
+const leftBottomLayer = computed(() => ({
+  ...layerBase,
+  width: '30%',
+  height: '30%',
+  left: 0,
+  bottom: 0,
+  transform: `translateX(${parallax.tilt * 30 - 10}px) translateY(${
+    parallax.roll * 30
+  }px)`,
+}))
+
+const rightLayer = computed(() => ({
+  ...layerBase,
+  width: '33%',
+  height: '33%',
+  top: 0,
+  right: 0,
+  transform: `translateX(${parallax.tilt * 25 + 5}px) translateY(${
+    parallax.roll * 25
+  }px)`,
 }))
 
 const handleScroll = useThrottleFn(() => {
@@ -85,160 +109,52 @@ useEventListener(window, 'scroll', handleScroll)
 
 <template>
   <div ref="target" class="home-page">
-    <div class="banner">
-      <div class="banner-desc">
+    <div class="banner" text="center">
+      <div class="banner-desc" m="t-4">
         <h1>{{ homeLang['title'] }}</h1>
-        <p>{{ homeLang['title_sub'] }}</p>
+        <p m="t-2">{{ homeLang['title_sub'] }}</p>
       </div>
     </div>
     <div ref="jumbotronRef" class="jumbotron">
-      <div :style="containerStyle">
+      <div class="parallax-container" :style="containerStyle">
         <div :style="cardStyle">
-          <div class="banner" :style="layer0">
-            <img src="/images/theme-index-blue.png" alt="banner" />
-            <div class="jumbotron-red" :style="jumbotronRedStyle">
-              <img src="/images/theme-index-red.png" alt="" />
-            </div>
-          </div>
+          <img
+            :style="screenLayer"
+            src="/images/home/screen.svg"
+            alt="banner"
+          />
+          <img
+            :style="peopleLayer"
+            src="/images/home/people.svg"
+            alt="banner"
+          />
+          <img
+            :style="leftLayer"
+            src="/images/home/left-layer.svg"
+            alt="banner"
+          />
+          <img
+            :style="leftBottomLayer"
+            src="/images/home/left-bottom-layer.svg"
+            alt="banner"
+          />
+          <img
+            :style="rightLayer"
+            src="/images/home/right-layer.svg"
+            alt="banner"
+          />
         </div>
       </div>
     </div>
-    <div class="sponsors-container">
-      <div class="sponsors-list">
-        <a
-          v-for="(sponsor, i) in sponsors"
-          :key="i"
-          :class="['sponsor', sponsor.className]"
-          :href="sponsor.url"
-          target="_blank"
-        >
-          <img width="45" :src="sponsor.img" :alt="sponsor.name" />
-          <div>
-            <p>
-              Sponsored by
-              <span class="name">{{ getSponsorName(sponsor) }}</span>
-            </p>
-            <p>{{ getSponsorSlogan(sponsor) }}</p>
-          </div>
-        </a>
-      </div>
-      <div class="join">
-        <el-tooltip placement="top" :hide-after="1000" :offset="20">
-          <template #content>
-            {{ homeLang['21'] }}
-            <a href="mailto:element-plus@outlook.com" target="_blank">
-              &nbsp;element-plus@outlook.com
-            </a>
-          </template>
-          <a href="mailto:element-plus@outlook.com" target="_blank">
-            <el-button round>{{ homeLang['20'] }}</el-button>
-          </a>
-        </el-tooltip>
-      </div>
-    </div>
-    <div class="cards">
-      <ul class="container">
-        <li>
-          <div class="card">
-            <img src="/images/guide.png" alt="" />
-            <h3>{{ homeLang['3'] }}</h3>
-            <p>{{ homeLang['4'] }}</p>
-            <a :href="`/${lang}/guide/design.html`">{{ homeLang['5'] }}</a>
-          </div>
-        </li>
-        <li>
-          <div class="card">
-            <img src="/images/component.png" alt="" />
-            <h3>{{ homeLang['6'] }}</h3>
-            <p>{{ homeLang['7'] }}</p>
-            <a :href="`/${lang}/component/layout.html`">
-              {{ homeLang['5'] }}
-            </a>
-          </div>
-        </li>
-        <li>
-          <div class="card">
-            <img src="/images/resource.png" alt="" />
-            <h3>{{ homeLang['8'] }}</h3>
-            <p>{{ homeLang['9'] }}</p>
-            <a :href="`/${lang}/resource/index.html`"> {{ homeLang['5'] }} </a>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <footer class="footer">
-    <div class="footer-main">
-      <h4>{{ homeLang['10'] }}</h4>
-      <a
-        href="https://github.com/element-plus/element-plus"
-        class="footer-main-link"
-        target="_blank"
-      >
-        {{ homeLang['11'] }}
-      </a>
-      <a
-        href="https://github.com/element-plus/element-plus/releases"
-        class="footer-main-link"
-        target="_blank"
-      >
-        {{ homeLang['12'] }}
-      </a>
-      <a
-        href="https://element.eleme.io/"
-        class="footer-main-link"
-        target="_blank"
-      >
-        {{ homeLang['13'] }}
-      </a>
-      <a
-        :href="`/${lang}/guide/theming`"
-        class="footer-main-link"
-        target="_blank"
-      >
-        {{ homeLang['14'] }}
-      </a>
-    </div>
 
-    <div class="footer-main">
-      <h4>{{ homeLang['19'] }}</h4>
-      <a
-        href="https://gitter.im/element-en/Lobby"
-        class="footer-main-link"
-        target="_blank"
-      >
-        {{ homeLang['15'] }}
-      </a>
-      <a
-        href="https://github.com/element-plus/element-plus/issues"
-        class="footer-main-link"
-        target="_blank"
-      >
-        {{ homeLang['16'] }}
-      </a>
-      <a
-        href="https://github.com/element-plus/element-plus/blob/dev/.github/CONTRIBUTING.en-US.md"
-        class="footer-main-link"
-        target="_blank"
-      >
-        {{ homeLang['17'] }}
-      </a>
-      <a
-        href="https://segmentfault.com/t/element-plus"
-        class="footer-main-link"
-        target="_blank"
-      >
-        {{ homeLang['18'] }}
-      </a>
-    </div>
-  </footer>
+    <HomeSponsors />
+    <HomeCards />
+  </div>
+  <HomeFooter />
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .home-page {
-  .banner {
-    text-align: center;
-  }
   .banner-dot h1 span {
     position: relative;
     &::after {
@@ -253,8 +169,6 @@ useEventListener(window, 'scroll', handleScroll)
     }
   }
   .banner-desc {
-    padding-top: 30px;
-
     h1 {
       font-size: 34px;
       margin: 0;
@@ -264,9 +178,7 @@ useEventListener(window, 'scroll', handleScroll)
 
     p {
       font-size: 18px;
-      line-height: 28px;
       color: var(--text-color-light);
-      margin: 20px 0 5px;
     }
   }
 
@@ -306,167 +218,31 @@ useEventListener(window, 'scroll', handleScroll)
     }
   }
 
-  .sponsors-container {
-    width: 92%;
-    margin: 0 auto;
-    .join {
-      text-align: center;
-      margin: 0 0 50px 0;
-    }
-  }
-
-  .sponsors-list {
-    display: flex;
-    justify-content: center;
-  }
-
-  .sponsor {
-    margin: 0 20px 10px;
-    display: inline-flex;
-    width: 300px;
-    height: 100px;
-    justify-content: center;
-    align-items: center;
-
-    .name {
-      font-weight: bold;
-      color: var(--text-color);
-    }
-
-    img {
-      margin-right: 20px;
-    }
-
-    div {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    p {
-      margin: 0;
-      line-height: 1.8;
-      color: var(--text-color-light);
-      font-size: 12px;
-    }
-  }
   .jumbotron {
-    width: 890px;
-    margin: 30px auto;
+    width: 800px;
+    margin: 20px auto;
     position: relative;
+
     img {
       width: 100%;
     }
-    .jumbotron-red {
-      transition: height 0.1s;
-      position: absolute;
-      left: 0;
-      top: 0;
-      overflow: hidden;
+
+    .parallax-container {
+      width: 800px;
     }
   }
-  .cards {
-    margin: 0 auto 110px;
-    width: 1140px;
 
-    .container {
-      padding: 0;
-      margin: 0 -11px;
-      width: auto;
-      &::before,
-      &::after {
-        display: table;
-        content: '';
-      }
-      &::after {
-        clear: both;
-      }
-    }
+  @media (max-width: 768px) {
+    .jumbotron {
+      width: 50%;
+      display: flex;
+      margin: auto;
+      justify-content: center;
+      align-items: center;
 
-    li {
-      width: 33.3%;
-      padding: 0 19px;
-      box-sizing: border-box;
-      float: left;
-      list-style: none;
-    }
-
-    img {
-      width: 160px;
-      height: 120px;
-    }
-  }
-  .card {
-    height: 430px;
-    width: 100%;
-    background: var(--bg-color);
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    box-sizing: border-box;
-    text-align: center;
-    position: relative;
-    transition: all 0.3s ease-in-out;
-    bottom: 0;
-
-    img {
-      margin: 66px auto 60px;
-    }
-    h3 {
-      margin: 0;
-      font-size: 18px;
-      color: #1f2f3d;
-      font-weight: normal;
-    }
-    p {
-      font-size: 14px;
-      color: #99a9bf;
-      padding: 0 25px;
-      line-height: 20px;
-    }
-    a {
-      height: 53px;
-      line-height: 52px;
-      font-size: 14px;
-      color: var(--brand-color);
-      text-align: center;
-      border: 0;
-      border-top: 1px solid var(--border-color);
-      padding: 0;
-      cursor: pointer;
-      width: 100%;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      background-color: var(--bg-color);
-      border-radius: 0 0 5px 5px;
-      transition: all 0.3s;
-      text-decoration: none;
-      display: block;
-
-      &:hover {
-        color: #fff;
-        background: var(--brand-color);
-      }
-    }
-    &:hover {
-      bottom: 6px;
-      box-shadow: 0 6px 18px 0 rgba(232, 237, 250, 0.5);
-    }
-  }
-  @media (max-width: 1140px) {
-    .cards {
-      width: 100%;
-      .container {
+      .parallax-container {
         width: 100%;
-        margin: 0;
       }
-    }
-    .banner .container {
-      width: 100%;
-      box-sizing: border-box;
-    }
-    .banner img {
-      right: 0;
     }
   }
 
@@ -608,97 +384,6 @@ useEventListener(window, 'scroll', handleScroll)
           color: #fff;
         }
       }
-    }
-  }
-}
-.footer {
-  background-color: var(--bg-color);
-  width: 100%;
-  padding: 40px 150px;
-  box-sizing: border-box;
-  height: 340px;
-
-  .container {
-    box-sizing: border-box;
-    width: auto;
-  }
-
-  .footer-main {
-    font-size: 0;
-    display: inline-block;
-    vertical-align: top;
-    margin-right: 110px;
-
-    h4 {
-      font-size: 18px;
-      line-height: 1;
-      margin: 0 0 15px 0;
-    }
-
-    .footer-main-link {
-      display: block;
-      margin: 0;
-      line-height: 2;
-      font-size: 14px;
-      color: var(--text-color-light);
-
-      &:hover {
-        color: var(--text-color);
-      }
-    }
-  }
-
-  .footer-social {
-    float: right;
-    text-align: right;
-
-    .footer-social-title {
-      color: var(--text-color-light);
-      font-size: 18px;
-      line-height: 1;
-      margin: 0 0 20px 0;
-      padding: 0;
-      font-weight: bold;
-    }
-
-    .ep-icon-github {
-      transition: 0.3s;
-      display: inline-block;
-      line-height: 32px;
-      text-align: center;
-      color: #c8d6e8;
-      background-color: transparent;
-      font-size: 32px;
-      vertical-align: middle;
-      margin-right: 20px;
-      &:hover {
-        transform: scale(1.2);
-        color: #8d99ab;
-      }
-    }
-
-    .doc-icon-gitter {
-      margin-right: 0;
-    }
-  }
-}
-
-@media (max-width: 1140px) {
-  .footer {
-    height: auto;
-  }
-}
-
-@media (max-width: 1000px) {
-  .footer-social {
-    display: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .footer {
-    .footer-main {
-      margin-bottom: 30px;
     }
   }
 }
