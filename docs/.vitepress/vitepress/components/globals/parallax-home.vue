@@ -3,7 +3,6 @@ import { ref, reactive, computed } from 'vue'
 import { useParallax, useThrottleFn, useEventListener } from '@vueuse/core'
 import { useLang } from '../../composables/lang'
 import homeLocale from '../../../i18n/pages/home.json'
-import { isDark } from '../../composables/dark'
 import HomeSponsors from '../home/home-sponsors.vue'
 import HomeCards from '../home/home-cards.vue'
 import HomeFooter from './home-footer.vue'
@@ -28,13 +27,9 @@ const containerStyle: CSSProperties = {
 }
 
 const cardStyle = computed(() => ({
-  background: 'var(--bg-color)',
   height: '30rem',
   width: '100%',
-  borderRadius: '5px',
   transition: '.3s ease-out all',
-  boxShadow:
-    isDark && !isDark.value ? '0 0 20px 0 rgba(255, 255, 255, 0.25)' : 'none',
   transform: `rotateX(${parallax.roll}deg) rotateY(${parallax.tilt}deg)`,
 }))
 
@@ -62,7 +57,7 @@ const peopleLayer = computed(() => ({
   bottom: 0,
   transform: `translateX(${parallax.tilt * 25 + 25}px) translateY(${
     parallax.roll * 25
-  }px) scale(1.1)`,
+  }px) scale(1)`,
 }))
 
 // center layer
@@ -114,10 +109,10 @@ useEventListener(window, 'scroll', handleScroll)
 
 <template>
   <div ref="target" class="home-page">
-    <div class="banner">
-      <div class="banner-desc">
+    <div class="banner" text="center">
+      <div class="banner-desc" m="t-4">
         <h1>{{ homeLang['title'] }}</h1>
-        <p>{{ homeLang['title_sub'] }}</p>
+        <p m="t-2">{{ homeLang['title_sub'] }}</p>
       </div>
     </div>
     <div ref="jumbotronRef" class="jumbotron">
@@ -160,9 +155,6 @@ useEventListener(window, 'scroll', handleScroll)
 
 <style lang="scss">
 .home-page {
-  .banner {
-    text-align: center;
-  }
   .banner-dot h1 span {
     position: relative;
     &::after {
@@ -177,8 +169,6 @@ useEventListener(window, 'scroll', handleScroll)
     }
   }
   .banner-desc {
-    padding-top: 30px;
-
     h1 {
       font-size: 34px;
       margin: 0;
@@ -188,9 +178,7 @@ useEventListener(window, 'scroll', handleScroll)
 
     p {
       font-size: 18px;
-      line-height: 28px;
       color: var(--text-color-light);
-      margin: 20px 0 5px;
     }
   }
 

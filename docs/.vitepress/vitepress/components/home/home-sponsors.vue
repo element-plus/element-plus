@@ -23,7 +23,7 @@ const getSponsorSlogan = (sponsor) => {
 </script>
 
 <template>
-  <div class="sponsors-container">
+  <div class="sponsors-container" m="t-9 auto">
     <div class="sponsors-list">
       <a
         v-for="(sponsor, i) in sponsors"
@@ -62,7 +62,6 @@ const getSponsorSlogan = (sponsor) => {
 .home-page {
   .sponsors-container {
     width: 92%;
-    margin: 0 auto;
     .join {
       text-align: center;
       margin: 0 0 50px 0;
