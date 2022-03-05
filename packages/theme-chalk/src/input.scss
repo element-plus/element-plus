@@ -188,6 +188,10 @@
       outline: none;
       @include inset-input-border(var(--el-input-focus-border-color));
     }
+    // override edge default style
+    &[type='password']::-ms-reveal {
+      display: none;
+    }
   }
 
   @include e(suffix) {
