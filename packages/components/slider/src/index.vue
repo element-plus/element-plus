@@ -97,7 +97,13 @@ import {
   CHANGE_EVENT,
   INPUT_EVENT,
 } from '@element-plus/constants'
-import { off, on, throwError, isValidComponentSize } from '@element-plus/utils'
+import {
+  off,
+  on,
+  throwError,
+  isValidComponentSize,
+  debugWarn,
+} from '@element-plus/utils'
 import { useNamespace, useSize } from '@element-plus/hooks'
 import SliderButton from './button.vue'
 import SliderMarker from './marker.vue'
@@ -339,7 +345,7 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
         initData.firstValue = val[0]
         initData.secondValue = val[1]
         if (valueChanged()) {
-          elFormItem.validate?.('change')
+          elFormItem.validate?.('change').catch((err) => debugWarn(err))
           initData.oldValue = val.slice()
         }
       }
@@ -351,7 +357,7 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
       } else {
         initData.firstValue = val
         if (valueChanged()) {
-          elFormItem.validate?.('change')
+          elFormItem.validate?.('change').catch((err) => debugWarn(err))
           initData.oldValue = val
         }
       }

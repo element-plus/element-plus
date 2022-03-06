@@ -9,7 +9,10 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitAny": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "element-plus": ["../packages/element-plus"]
+    }
   },
   "include": ["**/*", ".vitepress/**/*"],
   "exclude": ["node_modules"]
