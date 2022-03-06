@@ -92,7 +92,7 @@ const validateField: FormContext['validateField'] = async (
 
   let valid = true
   let invalidFields: ValidateFieldsError = {}
-  let firstInvalidFields: ValidateFieldsError | undefined = undefined
+  let firstInvalidFields: ValidateFieldsError | undefined
 
   for (const field of filteredFields) {
     const fieldsError = await field
