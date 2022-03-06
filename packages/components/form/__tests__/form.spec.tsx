@@ -6,8 +6,10 @@ import CheckboxGroup from '@element-plus/components/checkbox/src/checkbox-group.
 import Input from '@element-plus/components/input'
 import Form from '../src/form.vue'
 import FormItem from '../src/form-item.vue'
+
 import type { VueWrapper } from '@vue/test-utils'
-import type { FormInstance, FormRules } from '../src/form'
+import type { FormInstance } from '../src/form'
+import type { FormRules } from '../src/types'
 import type { FormItemInstance } from '../src/form-item'
 
 const findStyle = (wrapper: VueWrapper<any>, selector: string) =>

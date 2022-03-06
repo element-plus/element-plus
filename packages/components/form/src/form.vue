@@ -77,15 +77,15 @@ const validateField: FormContext['validateField'] = async (
   const { model, scrollToError } = props
 
   if (!model) {
-    debugWarn(COMPONENT_NAME, 'model is required for validate to work!')
+    debugWarn(COMPONENT_NAME, 'model is required for form validation!')
     return
   }
   if (fields.length === 0) {
     return
   }
 
-  const fds = filterFields(fields, properties)
-  if (!fds.length) {
+  const filteredFields = filterFields(fields, properties)
+  if (!filteredFields.length) {
     debugWarn(COMPONENT_NAME, 'please pass correct props!')
     return
   }
@@ -94,7 +94,7 @@ const validateField: FormContext['validateField'] = async (
   let invalidFields: ValidateFieldsError = {}
   let firstInvalidFields: ValidateFieldsError | undefined = undefined
 
-  for (const field of fds) {
+  for (const field of filteredFields) {
     const fieldsError = await field
       .validate('')
       .catch((fields: ValidateFieldsError) => fields)
@@ -124,7 +124,8 @@ watch(
   () => props.rules,
   () => {
     if (props.validateOnRuleChange) validate()
-  }
+  },
+  { deep: true }
 )
 
 provide(

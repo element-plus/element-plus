@@ -20,6 +20,7 @@ import {
   ValidateComponentsMap,
   addResizeListener,
   removeResizeListener,
+  debugWarn,
 } from '@element-plus/utils'
 import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 
@@ -723,7 +724,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         initStates()
       }
       if (!isEqual(val, oldVal)) {
-        elFormItem?.validate?.('change').catch(() => undefined)
+        elFormItem?.validate?.('change').catch((err) => debugWarn(err))
       }
     },
     {

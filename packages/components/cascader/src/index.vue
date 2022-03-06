@@ -191,6 +191,7 @@ import {
   removeResizeListener,
   isValidComponentSize,
   isKorean,
+  debugWarn,
 } from '@element-plus/utils'
 import {
   EVENT_CODE,
@@ -384,7 +385,7 @@ export default defineComponent({
       set(val) {
         emit(UPDATE_MODEL_EVENT, val)
         emit(CHANGE_EVENT, val)
-        elFormItem.validate?.('change').catch(() => undefined)
+        elFormItem.validate?.('change').catch((err) => debugWarn(err))
       },
     })
 

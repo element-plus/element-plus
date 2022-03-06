@@ -27,11 +27,12 @@ export default defineComponent({
 
   setup(props, { slots }) {
     const formContext = inject(formContextKey)
-    if (!formContext) throwError(COMPONENT_NAME, 'can not inject form context.')
-
     const formItemContext = inject(formItemContextKey)
-    if (!formItemContext)
-      throwError(COMPONENT_NAME, 'can not inject form-item context.')
+    if (!formContext || !formItemContext)
+      throwError(
+        COMPONENT_NAME,
+        'usage: <el-form><el-form-item><label-wrap /></el-form-item></el-form>'
+      )
 
     const ns = useNamespace('form')
 
@@ -47,7 +48,7 @@ export default defineComponent({
       }
     }
 
-    const updateLabelWidth = (action = 'update') => {
+    const updateLabelWidth = (action: 'update' | 'remove' = 'update') => {
       nextTick(() => {
         if (slots.default && props.isAutoWidth) {
           if (action === 'update') {
@@ -71,7 +72,6 @@ export default defineComponent({
     watch(computedWidth, (val, oldVal) => {
       if (props.updateAll) {
         formContext.registerLabelWidth(val, oldVal)
-        formItemContext.updateComputedLabelWidth(val)
       }
     })
 

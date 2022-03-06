@@ -113,7 +113,7 @@ import { useLocale, useSize, useNamespace } from '@element-plus/hooks'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElInput from '@element-plus/components/input'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { isValidComponentSize } from '@element-plus/utils'
+import { debugWarn, isValidComponentSize } from '@element-plus/utils'
 import { Close, ArrowDown } from '@element-plus/icons-vue'
 import AlphaSlider from './components/alpha-slider.vue'
 import HueSlider from './components/hue-slider.vue'
@@ -266,7 +266,7 @@ export default defineComponent({
       const value = color.value
       emit(UPDATE_MODEL_EVENT, value)
       emit('change', value)
-      elFormItem.validate?.('change').catch(() => undefined)
+      elFormItem.validate?.('change').catch((err) => debugWarn(err))
       debounceSetShowPicker(false)
       // check if modelValue change, if not change, then reset color.
       nextTick(() => {
@@ -286,7 +286,7 @@ export default defineComponent({
       emit(UPDATE_MODEL_EVENT, null)
       emit('change', null)
       if (props.modelValue !== null) {
-        elFormItem.validate?.('change').catch(() => undefined)
+        elFormItem.validate?.('change').catch((err) => debugWarn(err))
       }
       resetColor()
     }

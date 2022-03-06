@@ -16,7 +16,7 @@ import {
   CHANGE_EVENT,
   EVENT_CODE,
 } from '@element-plus/constants'
-import { isKorean, scrollIntoView } from '@element-plus/utils'
+import { debugWarn, isKorean, scrollIntoView } from '@element-plus/utils'
 import { useLocale, useNamespace, useSize } from '@element-plus/hooks'
 import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 
@@ -206,7 +206,7 @@ export const useSelect = (props, states: States, ctx) => {
         states.inputLength = 20
       }
       if (!isEqual(val, oldVal)) {
-        elFormItem.validate?.('change').catch(() => undefined)
+        elFormItem.validate?.('change').catch((err) => debugWarn(err))
       }
     },
     {

@@ -70,6 +70,7 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { formItemContextKey } from '@element-plus/tokens'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
+import { debugWarn } from '@element-plus/utils'
 import TransferPanel from './transfer-panel.vue'
 import { useComputedData } from './useComputedData'
 import {
@@ -217,7 +218,7 @@ export default defineComponent({
     watch(
       () => props.modelValue,
       () => {
-        elFormItem.validate?.('change').catch(() => undefined)
+        elFormItem.validate?.('change').catch((err) => debugWarn(err))
       }
     )
 

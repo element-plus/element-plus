@@ -163,7 +163,7 @@ import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
-import { isEmpty } from '@element-plus/utils'
+import { debugWarn, isEmpty } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { Clock, Calendar } from '@element-plus/icons-vue'
 import { timePickerDefaultProps } from './props'
@@ -273,7 +273,7 @@ export default defineComponent({
         ctx.emit('blur')
         blurInput()
         props.validateEvent &&
-          elFormItem.validate?.('blur').catch(() => undefined)
+          elFormItem.validate?.('blur').catch((err) => debugWarn(err))
       } else {
         valueOnOpen.value = props.modelValue
       }
@@ -283,7 +283,7 @@ export default defineComponent({
       if (isClear || !valueEquals(val, valueOnOpen.value)) {
         ctx.emit('change', val)
         props.validateEvent &&
-          elFormItem.validate?.('change').catch(() => undefined)
+          elFormItem.validate?.('change').catch((err) => debugWarn(err))
       }
     }
     const emitInput = (val) => {

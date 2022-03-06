@@ -29,7 +29,6 @@ export interface FormItemContext extends FormItemProps {
   size: ComponentSize
   validateState: string
   validate: (trigger: string, callback?: FormValidateCallback) => Promise<void>
-  updateComputedLabelWidth(width: number): void
   resetField(): void
   clearValidate(): void
 }

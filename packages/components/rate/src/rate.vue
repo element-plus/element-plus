@@ -54,6 +54,7 @@ import { ElIcon } from '@element-plus/components/icon'
 import { StarFilled, Star } from '@element-plus/icons-vue'
 import { useNamespace, useSize } from '@element-plus/hooks'
 import { rateProps, rateEmits } from './rate'
+
 import type { FormContext } from '@element-plus/tokens'
 
 function getValueFromMap<T>(

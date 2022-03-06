@@ -3,6 +3,7 @@ import { toTypeString } from '@vue/shared'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 import { useSize } from '@element-plus/hooks'
+import { debugWarn } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
 import type { FormContext, FormItemContext } from '@element-plus/tokens'
 import type { ICheckboxGroupInstance } from './checkbox.type'
@@ -185,7 +186,7 @@ const useEvent = (
   watch(
     () => props.modelValue,
     () => {
-      elFormItem.validate?.('change').catch(() => undefined)
+      elFormItem.validate?.('change').catch((err) => debugWarn(err))
     }
   )
 
