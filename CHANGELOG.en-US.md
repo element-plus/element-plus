@@ -1,5 +1,55 @@
 ## Changelog
 
+### 2.0.5
+
+_2022-03-06_
+
+#### Features
+
+- Components [el-notification] add context for notification (#6367 by @JeremyWuuuuu)
+- Components [el-notification] add context for notification (#6368 by @JeremyWuuuuu)
+- Components export prop `persistent` in `el-select` (#6428 by @CarterLi)
+- Components [el-messagebox] add context for message box (#6379 by @JeremyWuuuuu)
+- Components [el-dialog] add border-radius css variable (#6412 by @msidolphin)
+
+#### Bug fixes
+
+- Components set flex-shrink for first child of submenu title (#6315 by @nieyuyao)
+- Components [message-box]add type declaration of button-size (#6344 by @Wiensss)
+- Components [message-box] fix center style (#6356 by @llllllllllx)
+- Components [el-dropdown-menu] override default style (#6328 by @msidolphin)
+- Components [button] space is not added (#6361 by @Alanscut)
+- Components [tabs] optimize new icon style (#6327 by @msidolphin)
+- Components work around #6378 (#6380 by @CarterLi)
+- Components make margin of search equal to padding of el-input (#6409 by @nieyuyao)
+- Components [select] fix align issue for remove button (#6397 by @freedomlang)
+- Components [select-v2] style error when form is set to disabled (#6391 by @Alanscut)
+- Components [el-input] override edge browser default password style (#6423 by @msidolphin)
+- Theme-chalk [input] custom theme error (#6430 by @Alanscut)
+- Theme-chalk namespace (#6416 by @gjfei)
+- Components[el-collapse-transition] styles (#6414 by @gjfei)
+- Build output task name repeat (#6363 by @HitStarrySky)
+- [el-table] selection cell when double clicking expand icon (#6400 by @msidolphin)
+- Components [form] trigger can be a string list (#5975 by @ntnyq)
+- Components [el-popover] transition error (#6329 by @Alanscut)
+- Components [select] click icon not respond (#6441 by @Alanscut)
+- Components [el-table] render failed when custom table column (#6398 by @msidolphin)
+- Components [el-table] scrollbar cannot display when resize table (#6369 by @msidolphin)
+- Components [dropdown] add disabled support (#6375 by @freedomlang)
+
+#### Refactors
+
+- Components [autocomplete] refactor autocomplete (#6067 by @buqiyuan)
+- Components [collapse] refactor (#6307 by @buqiyuan)
+- Components [slot] refactor (#6302 by @sxzz)
+- Components [check-tag] switch to script-setup syntax (#6296 by @sxzz)
+- Components [page-header] switch to script-setup syntax (#6321 by @freedomlang)
+- Components [col] refactor (#6303 by @sxzz)
+- Components [teleport] refactor (#6301 by @sxzz)
+- Components [affix] use vueuse utils (#6295 by @sxzz)
+- Components [dialog] refactor (#6300 by @sxzz)
+- Components refactor upload (#6014 by @emojiiii)
+
 ### 2.0.4
 
 _2022-02-28_
