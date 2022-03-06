@@ -1,5 +1,5 @@
 <template>
-  <div :class="[ns.b(), { 'is-disabled': disabled }]">
+  <div :class="[ns.b(), ns.is('disabled', disabled)]">
     <el-tooltip
       ref="popperRef"
       :effect="effect"
