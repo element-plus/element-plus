@@ -73,6 +73,10 @@ export const dropdownProps = buildProps({
     type: String,
     default: '',
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 } as const)
 
 export const dropdownItemProps = buildProps({

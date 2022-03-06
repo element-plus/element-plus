@@ -17,7 +17,7 @@ export const useDraggable = (
     const downY = e.clientY
     const { offsetX, offsetY } = transform
 
-    const targetRect = targetRef.value.getBoundingClientRect()
+    const targetRect = targetRef.value!.getBoundingClientRect()
     const targetLeft = targetRect.left
     const targetTop = targetRect.top
     const targetWidth = targetRect.width
@@ -45,9 +45,9 @@ export const useDraggable = (
         offsetX: moveX,
         offsetY: moveY,
       }
-      targetRef.value.style.transform = `translate(${addUnit(moveX)}, ${addUnit(
-        moveY
-      )})`
+      targetRef.value!.style.transform = `translate(${addUnit(
+        moveX
+      )}, ${addUnit(moveY)})`
     }
 
     const onMouseup = () => {

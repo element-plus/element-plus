@@ -130,16 +130,19 @@ const message: MessageFn & Partial<Message> & { _context: AppContext | null } =
   }
 
 messageTypes.forEach((type) => {
-  message[type] = (options = {}) => {
+  message[type] = (options = {}, appContext?: AppContext | null) => {
     if (isString(options) || isVNode(options)) {
       options = {
         message: options,
       }
     }
-    return message({
-      ...options,
-      type,
-    })
+    return message(
+      {
+        ...options,
+        type,
+      },
+      appContext
+    )
   }
 })
 

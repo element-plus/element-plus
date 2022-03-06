@@ -16,26 +16,19 @@ describe('CheckTag.vue', () => {
   })
 
   test('functionality', async () => {
-    const wrapper = mount(
-      {
-        template: `<el-check-tag @change="checked = !checked" :checked="checked">
-        ${AXIOM}
-      </el-check-tag>`,
-        components: {
-          'el-check-tag': CheckTag,
-        },
-        data() {
-          return {
-            checked: false,
-          }
-        },
+    const wrapper = mount({
+      data: () => ({ checked: false }),
+      render() {
+        return (
+          <CheckTag
+            onChange={() => (this.checked = !this.checked)}
+            checked={this.checked}
+          >
+            {AXIOM}
+          </CheckTag>
+        )
       },
-      {
-        slots: {
-          default: AXIOM,
-        },
-      }
-    )
+    })
     expect(wrapper.text()).toEqual(AXIOM)
 
     await wrapper.find('.el-check-tag').trigger('click')

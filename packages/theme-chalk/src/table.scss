@@ -63,6 +63,7 @@
     .cell {
       padding: 0;
       text-align: center;
+      user-select: none;
     }
   }
 
@@ -396,7 +397,7 @@
 
   @include e((header-wrapper, body-wrapper)) {
     .#{$namespace}-table-column--selection {
-      .el-checkbox {
+      .#{$namespace}-checkbox {
         height: unset;
       }
     }

@@ -716,10 +716,10 @@ export const useSelect = (props, states: States, ctx) => {
   const handleFocus = (event) => {
     if (!states.softFocus) {
       if (props.automaticDropdown || props.filterable) {
-        states.visible = true
-        if (props.filterable) {
+        if (props.filterable && !states.visible) {
           states.menuVisibleOnFocus = true
         }
+        states.visible = true
       }
       ctx.emit('focus', event)
     } else {

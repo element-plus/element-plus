@@ -1,4 +1,3 @@
-import { h } from 'vue'
 import { EVENT_CODE } from '@element-plus/constants'
 
 import makeMount from '@element-plus/test-utils/make-mount'
@@ -17,7 +16,7 @@ describe('<upload-list />', () => {
     test('should render correct', () => {
       const wrapper = mount({
         slots: {
-          default: ({ file }: { file: File }) => h('div', null, file.name),
+          default: ({ file }: { file: File }) => <div>{file.name}</div>,
         },
       })
       expect(wrapper.text()).toBe(testName)

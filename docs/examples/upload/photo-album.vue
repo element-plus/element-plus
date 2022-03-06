@@ -5,7 +5,7 @@
     :on-preview="handlePictureCardPreview"
     :on-remove="handleRemove"
   >
-    <el-icon><plus /></el-icon>
+    <el-icon><Plus /></el-icon>
   </el-upload>
   <el-dialog v-model="dialogVisible">
     <img width="100%" :src="dialogImageUrl" alt="" />

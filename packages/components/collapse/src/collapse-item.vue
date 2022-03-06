@@ -48,84 +48,57 @@
     </el-collapse-transition>
   </div>
 </template>
-<script lang="ts">
-import { defineComponent, inject, computed, ref } from 'vue'
+
+<script lang="ts" setup>
+import { inject, computed, ref } from 'vue'
 import { generateId } from '@element-plus/utils'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElIcon from '@element-plus/components/icon'
 import { ArrowRight } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
+import { collapseContextKey } from '@element-plus/tokens'
+import { collapseItemProps } from './collapse-item'
 
-import type { PropType } from 'vue'
-import type { CollapseProvider } from './collapse.type'
-
-export default defineComponent({
+defineOptions({
   name: 'ElCollapseItem',
-  components: { ElCollapseTransition, ElIcon, ArrowRight },
-  props: {
-    title: {
-      type: String,
-      default: '',
-    },
-    name: {
-      type: [String, Number] as PropType<string | number>,
-      default: () => {
-        return generateId()
-      },
-    },
-    disabled: Boolean,
-  },
-  setup(props) {
-    const collapse = inject<CollapseProvider>('collapse')
-    const ns = useNamespace('collapse')
+})
 
-    const contentWrapStyle = ref({
-      height: 'auto',
-      display: 'block',
-    })
-    const contentHeight = ref(0)
-    const focusing = ref(false)
-    const isClick = ref(false)
-    const id = ref(generateId())
+const props = defineProps(collapseItemProps)
 
-    const isActive = computed(() => {
-      return collapse?.activeNames.value.indexOf(props.name) > -1
-    })
+const collapse = inject(collapseContextKey)
+const ns = useNamespace('collapse')
 
-    const handleFocus = () => {
-      setTimeout(() => {
-        if (!isClick.value) {
-          focusing.value = true
-        } else {
-          isClick.value = false
-        }
-      }, 50)
+const focusing = ref(false)
+const isClick = ref(false)
+const id = ref(generateId())
+
+const isActive = computed(() =>
+  collapse?.activeNames.value.includes(props.name)
+)
+
+const handleFocus = () => {
+  setTimeout(() => {
+    if (!isClick.value) {
+      focusing.value = true
+    } else {
+      isClick.value = false
     }
+  }, 50)
+}
 
-    const handleHeaderClick = () => {
-      if (props.disabled) return
-      collapse?.handleItemClick(props.name)
-      focusing.value = false
-      isClick.value = true
-    }
+const handleHeaderClick = () => {
+  if (props.disabled) return
+  collapse?.handleItemClick(props.name)
+  focusing.value = false
+  isClick.value = true
+}
 
-    const handleEnterClick = () => {
-      collapse?.handleItemClick(props.name)
-    }
+const handleEnterClick = () => {
+  collapse?.handleItemClick(props.name)
+}
 
-    return {
-      isActive,
-      contentWrapStyle,
-      contentHeight,
-      focusing,
-      isClick,
-      id,
-      ns,
-      handleFocus,
-      handleHeaderClick,
-      handleEnterClick,
-      collapse,
-    }
-  },
+defineExpose({
+  /** @description current collapse-item whether active */
+  isActive,
 })
 </script>

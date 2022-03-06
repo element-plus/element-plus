@@ -511,4 +511,62 @@ describe('Dropdown', () => {
         .element.getAttribute('data-custom-attribute')
     ).toBe('hello')
   })
+
+  test('disable normal dropdown', async () => {
+    const wrapper = _mount(
+      `
+      <el-dropdown disabled>
+        <span class="el-dropdown-link">
+          Dropdown List
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item data-custom-attribute="hello">Item</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      `,
+      () => ({})
+    )
+    await nextTick()
+    expect(
+      wrapper
+        .findComponent({
+          name: 'ElDropdown',
+        })
+        .classes()
+    ).toContain('is-disabled')
+  })
+  test('disable dropdown with split button', async () => {
+    const wrapper = _mount(
+      `
+      <el-dropdown disabled split-button>
+        <span class="el-dropdown-link">
+          Dropdown List
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item data-custom-attribute="hello">Item</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      `,
+      () => ({})
+    )
+    await nextTick()
+    expect(
+      wrapper
+        .findAllComponents({
+          name: 'ElButton',
+        })[0]
+        .classes()
+    ).toContain('is-disabled')
+    expect(
+      wrapper
+        .findAllComponents({
+          name: 'ElButton',
+        })[1]
+        .classes()
+    ).toContain('is-disabled')
+  })
 })
