@@ -42,6 +42,10 @@ function useStyle<T>(
     height: null,
   })
   const isGroup = ref(false)
+  const scrollbarViewStyle = {
+    display: 'inline-flex',
+    flexDirection: 'column',
+  }
 
   watchEffect(() => {
     layout.setHeight(props.height)
@@ -379,6 +383,7 @@ function useStyle<T>(
     doLayout,
     tableBodyStyles,
     tableLayout,
+    scrollbarViewStyle,
   }
 }
 
