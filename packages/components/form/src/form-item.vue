@@ -32,7 +32,6 @@
 <script lang="ts" setup>
 import {
   computed,
-  getCurrentInstance,
   inject,
   onBeforeUnmount,
   onMounted,
@@ -77,10 +76,10 @@ defineOptions({
 const props = defineProps(formItemProps)
 const slots = useSlots()
 
-const vm = getCurrentInstance()!
 const formContext = inject(formContextKey)
 if (!formContext)
   throwError(COMPONENT_NAME, 'usage: <el-form><el-form-item /></el-form>')
+const parentFormItemContext = inject(formItemContextKey, undefined)
 
 const _size = useSize(undefined, { formItem: false })
 const ns = useNamespace('form-item')
@@ -104,7 +103,7 @@ const contentStyle = computed<CSSProperties>(() => {
   if (formContext.labelPosition === 'top' || formContext.inline) {
     return {}
   }
-  if (!props.label && !props.labelWidth && isNested.value) {
+  if (!props.label && !props.labelWidth && isNested) {
     return {}
   }
   const labelWidth = addUnit(props.labelWidth || formContext.labelWidth || '')
@@ -143,17 +142,7 @@ const propString = computed(() => {
 
 const labelFor = computed(() => props.for || propString.value)
 
-const isNested = computed(() => {
-  // TODO: Using inject
-  let parent = vm.parent
-  while (parent && parent.type.name !== 'ElForm') {
-    if (parent.type.name === 'ElFormItem') {
-      return true
-    }
-    parent = parent.parent
-  }
-  return false
-})
+const isNested = !!parentFormItemContext
 
 const fieldValue = computed(() => {
   const model = formContext.model
@@ -299,7 +288,7 @@ watch(
   (val) => (validateState.value = val || '')
 )
 
-const formItemContext: FormItemContext = reactive({
+const context: FormItemContext = reactive({
   ...toRefs(props),
   $el: formItemRef,
   size: _size,
@@ -308,16 +297,16 @@ const formItemContext: FormItemContext = reactive({
   clearValidate,
   validate,
 })
-provide(formItemContextKey, formItemContext)
+provide(formItemContextKey, context)
 
 onMounted(() => {
   if (props.prop) {
-    formContext.addField(formItemContext)
+    formContext.addField(context)
     initialValue = clone(fieldValue.value)
   }
 })
 onBeforeUnmount(() => {
-  formContext.removeField(formItemContext)
+  formContext.removeField(context)
 })
 
 defineExpose({
