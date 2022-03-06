@@ -2,7 +2,7 @@ import { computed, ref } from 'vue'
 import { debugWarn, ensureArray } from '@element-plus/utils'
 import type { Arrayable } from '@element-plus/utils'
 import type { FormItemContext } from '@element-plus/tokens'
-import type { FormItemProps } from './form-item'
+import type { FormItemProp } from './form-item'
 
 const SCOPE = 'ElForm'
 
@@ -48,7 +48,7 @@ export function useFormLabelWidth() {
 
 export const filterFields = (
   fields: FormItemContext[],
-  props: Arrayable<FormItemProps['prop']>
+  props: Arrayable<FormItemProp>
 ) => {
   const normalized = ensureArray(props)
   return normalized.length > 0

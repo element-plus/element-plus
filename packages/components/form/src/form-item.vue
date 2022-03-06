@@ -257,7 +257,7 @@ const validate: FormItemContext['validate'] = async (trigger, callback) => {
       validateMessage.value = errors
         ? errors[0].message || `${props.prop} is required`
         : ''
-      formContext.emit('validate', props.prop, !errors, validateMessage.value)
+      formContext.emit('validate', props.prop!, !errors, validateMessage.value)
       return Promise.reject(fields)
     })
 }

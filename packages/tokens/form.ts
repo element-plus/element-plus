@@ -3,6 +3,7 @@ import type { ComponentSize } from '@element-plus/constants'
 import type {
   FormProps,
   FormEmits,
+  FormItemProp,
   FormItemProps,
   FormValidateCallback,
   FormLabelWidthContext,
@@ -16,10 +17,10 @@ export type FormContext = FormProps &
     // expose
     addField: (field: FormItemContext) => void
     removeField: (field: FormItemContext) => void
-    resetFields: (props?: Arrayable<string>) => void
-    clearValidate: (props?: Arrayable<string>) => void
+    resetFields: (props?: Arrayable<FormItemProp>) => void
+    clearValidate: (props?: Arrayable<FormItemProp>) => void
     validateField: (
-      props?: Arrayable<string>,
+      props?: Arrayable<FormItemProp>,
       callback?: FormValidateCallback
     ) => Promise<void>
   }
