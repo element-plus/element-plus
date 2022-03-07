@@ -252,7 +252,7 @@ export default defineComponent({
       const el = listRefsMap[type]
       if (el && el.$el) {
         el.$el.querySelector(
-          `.${ns.namespace.value}-scrollbar__wrap}`
+          `.${ns.namespace.value}-scrollbar__wrap`
         ).scrollTop = Math.max(0, value * typeItemHeight(type))
       }
     }
