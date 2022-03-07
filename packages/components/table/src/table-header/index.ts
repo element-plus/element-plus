@@ -68,8 +68,7 @@ export default defineComponent({
       await nextTick()
       await nextTick()
       const { prop, order } = props.defaultSort
-      const init = true
-      parent?.store.commit('sort', { prop, order, init })
+      parent?.store.commit('sort', { prop, order, init: true })
     })
     const {
       handleHeaderClick,
