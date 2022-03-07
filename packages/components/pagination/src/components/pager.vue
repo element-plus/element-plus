@@ -2,7 +2,7 @@
   <ul :class="nsPager.b()" @click="onPagerClick" @keyup.enter="onEnter">
     <li
       v-if="pageCount > 0"
-      :class="{ active: currentPage === 1, disabled }"
+      :class="[{ active: currentPage === 1 }, nsPager.is('disabled', disabled)]"
       class="number"
       :aria-current="currentPage === 1"
       tabindex="0"
@@ -11,7 +11,12 @@
     </li>
     <li
       v-if="showPrevMore"
-      :class="['more', 'btn-quickprev', nsIcon.b(), { disabled }]"
+      :class="[
+        'more',
+        'btn-quickprev',
+        nsIcon.b(),
+        nsPager.is('disabled', disabled),
+      ]"
       @mouseenter="onMouseenter('left')"
       @mouseleave="quickPrevHover = false"
     >
@@ -21,7 +26,10 @@
     <li
       v-for="pager in pagers"
       :key="pager"
-      :class="{ active: currentPage === pager, disabled }"
+      :class="[
+        { active: currentPage === pager },
+        nsPager.is('disabled', disabled),
+      ]"
       class="number"
       :aria-current="currentPage === pager"
       tabindex="0"
@@ -30,7 +38,12 @@
     </li>
     <li
       v-if="showNextMore"
-      :class="['more', 'btn-quicknext', nsIcon.b(), { disabled }]"
+      :class="[
+        'more',
+        'btn-quicknext',
+        nsIcon.b(),
+        nsPager.is('disabled', disabled),
+      ]"
       @mouseenter="onMouseenter('right')"
       @mouseleave="quickNextHover = false"
     >
@@ -39,7 +52,10 @@
     </li>
     <li
       v-if="pageCount > 1"
-      :class="{ active: currentPage === pageCount, disabled }"
+      :class="[
+        { active: currentPage === pageCount },
+        nsPager.is('disabled', disabled),
+      ]"
       class="number"
       :aria-current="currentPage === pageCount"
       tabindex="0"

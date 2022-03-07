@@ -92,7 +92,7 @@
     }
   }
 
-  .#{$namespace}-pager li.disabled {
+  .#{$namespace}-pager li.is-disabled {
     color: var(--el-text-color-placeholder);
     cursor: not-allowed;
   }
@@ -111,7 +111,7 @@
       min-width: 24px;
     }
 
-    .arrow.disabled {
+    .arrow.is-disabled {
       visibility: hidden;
     }
 
@@ -228,7 +228,7 @@
       min-width: 32px;
       border-radius: 2px;
 
-      &.disabled {
+      &.is-disabled {
         color: var(--el-text-color-placeholder);
         background-color: var(--el-disabled-bg-color);
       }
@@ -253,7 +253,7 @@
       }
     }
 
-    .#{$namespace}-pager li:not(.disabled) {
+    .#{$namespace}-pager li:not(.is-disabled) {
       &:hover {
         color: var(--el-pagination-hover-color);
       }
@@ -311,7 +311,7 @@
       line-height: 32px;
       color: var(--el-pagination-button-color);
 
-      &.disabled {
+      &.is-disabled {
         color: var(--el-text-color-placeholder);
         cursor: not-allowed;
       }
