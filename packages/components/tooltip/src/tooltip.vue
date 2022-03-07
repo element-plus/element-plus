@@ -174,7 +174,7 @@ export default defineComponent({
     watch(
       () => props.disabled,
       () => {
-        if (props.disabled) {
+        if (props.disabled && open.value) {
           open.value = false
         }
       }
