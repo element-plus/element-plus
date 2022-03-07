@@ -172,7 +172,7 @@ export default defineComponent({
   },
   emits: ['change', 'blur', 'focus', 'update:modelValue'],
   setup(props) {
-    const ns = useNamespace(input)
+    const ns = useNamespace('input')
     const select = ref(null)
 
     // computed
