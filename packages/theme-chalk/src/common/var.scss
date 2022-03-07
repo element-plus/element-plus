@@ -692,6 +692,8 @@ $table: map.merge(
     'bg-color': var(--el-color-white),
     'tr-bg-color': var(--el-color-white),
     'expanded-cell-bg-color': var(--el-color-white),
+    'fixed-left-column': inset 10px 0 10px -10px rgb(0 0 0 / 15%),
+    'fixed-right-column': inset -10px 0 10px -10px rgb(0 0 0 / 15%),
   ),
   $table
 );
