@@ -14,6 +14,7 @@ import { useFormLabelWidth, filterFields } from './utils'
 import type { ValidateFieldsError } from 'async-validator'
 import type { FormItemContext, FormContext } from '@element-plus/tokens'
 import type { FormValidateCallback } from './types'
+import type { FormItemProp } from './form-item'
 
 const COMPONENT_NAME = 'ElForm'
 defineOptions({
@@ -113,7 +114,7 @@ const validateField: FormContext['validateField'] = async (
   }
 }
 
-const scrollToField = (prop: string) => {
+const scrollToField = (prop: FormItemProp) => {
   const field = filterFields(fields, prop)[0]
   if (field) {
     field.$el?.scrollIntoView()

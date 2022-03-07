@@ -8,7 +8,7 @@ import {
 } from '@element-plus/utils'
 
 import type { ExtractPropTypes } from 'vue'
-import type { FormItemProps } from './form-item'
+import type { FormItemProp } from './form-item'
 import type { FormRules } from './types'
 import type Form from './form.vue'
 
@@ -51,7 +51,7 @@ export const formProps = buildProps({
 export type FormProps = ExtractPropTypes<typeof formProps>
 
 export const formEmits = {
-  validate: (prop: FormItemProps['prop'], isValid: boolean, message: string) =>
+  validate: (prop: FormItemProp, isValid: boolean, message: string) =>
     (isArray(prop) || isString(prop)) &&
     isBoolean(isValid) &&
     isString(message),

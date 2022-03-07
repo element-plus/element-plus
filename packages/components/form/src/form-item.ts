@@ -14,6 +14,8 @@ export const formItemValidateStates = [
 ] as const
 export type FormItemValidateState = typeof formItemValidateStates[number]
 
+export type FormItemProp = Arrayable<string>
+
 export const formItemProps = buildProps({
   label: String,
   labelWidth: {
@@ -21,7 +23,7 @@ export const formItemProps = buildProps({
     default: '',
   },
   prop: {
-    type: definePropType<Arrayable<string>>([String, Array]),
+    type: definePropType<FormItemProp>([String, Array]),
   },
   required: {
     type: Boolean,
