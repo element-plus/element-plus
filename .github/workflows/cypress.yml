@@ -12,7 +12,7 @@ jobs:
     container: cypress/browsers:node14.7.0-chrome84
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Download artifact
         uses: dawidd6/action-download-artifact@v2
