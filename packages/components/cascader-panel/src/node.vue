@@ -9,10 +9,10 @@
     :class="[
       ns.b(),
       ns.is('selectable', checkStrictly),
-      ns.is('active-path', inExpandingPath),
-      ns.is('checked-path', inCheckedPath),
       ns.is('active', node.checked),
       ns.is('disabled', !expandable),
+      inExpandingPath && 'in-active-path',
+      inCheckedPath && 'in-checked-path',
     ]"
     @mouseenter="handleHoverExpand"
     @focus="handleHoverExpand"
