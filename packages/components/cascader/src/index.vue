@@ -132,7 +132,10 @@
           <li
             v-for="item in suggestions"
             :key="item.uid"
-            :class="[nsCascader.e('suggestion-item'), nsCascader.is('checked', item.checked)]"
+            :class="[
+              nsCascader.e('suggestion-item'),
+              nsCascader.is('checked', item.checked),
+            ]"
             :tabindex="-1"
             @click="handleSuggestionClick(item)"
           >
