@@ -1,9 +1,9 @@
 import { inject } from 'vue'
-import { elFormKey, elFormItemKey } from '@element-plus/tokens'
+import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 
 export const useFormItem = () => {
-  const form = inject(elFormKey, undefined)
-  const formItem = inject(elFormItemKey, undefined)
+  const form = inject(formContextKey, undefined)
+  const formItem = inject(formItemContextKey, undefined)
   return {
     form,
     formItem,

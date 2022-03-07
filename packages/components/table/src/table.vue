@@ -62,6 +62,7 @@
           ref="scrollWrapper"
           :height="maxHeight ? undefined : height"
           :max-height="maxHeight ? height : undefined"
+          :view-style="scrollbarViewStyle"
         >
           <table
             ref="tableBody"
@@ -244,6 +245,7 @@ export default defineComponent({
       doLayout,
       tableBodyStyles,
       tableLayout,
+      scrollbarViewStyle,
     } = useStyle<Row>(props, layout, store, table)
 
     const debouncedUpdateLayout = debounce(doLayout, 50)
@@ -302,6 +304,7 @@ export default defineComponent({
       computedSumText,
       computedEmptyText,
       tableLayout,
+      scrollbarViewStyle,
     }
   },
 })

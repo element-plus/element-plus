@@ -63,6 +63,7 @@
     .cell {
       padding: 0;
       text-align: center;
+      user-select: none;
     }
   }
 
@@ -353,7 +354,7 @@
               bottom: -1px;
               overflow-x: hidden;
               overflow-y: hidden;
-              box-shadow: inset -10px 0 10px -10px rgb(0 0 0 / 15%);
+              box-shadow: none;
               touch-action: none;
               pointer-events: none;
             }
@@ -366,7 +367,7 @@
           &.is-last-column {
             &::before {
               right: -10px;
-              box-shadow: inset 10px 0 10px -10px rgb(0 0 0 / 15%);
+              box-shadow: none;
             }
           }
         }
@@ -396,16 +397,16 @@
 
   @include e((header-wrapper, body-wrapper)) {
     .#{$namespace}-table-column--selection {
-      .el-checkbox {
+      .#{$namespace}-checkbox {
         height: unset;
       }
     }
   }
 
   @include when(scrolling-left) {
-    .#{$namespace}-table-fixed-column--left.is-last-column {
+    .#{$namespace}-table-fixed-column--right.is-first-column {
       &::before {
-        box-shadow: none;
+        box-shadow: var(--el-table-fixed-right-column);
       }
     }
     &.#{$namespace}-table--border {
@@ -420,9 +421,9 @@
   }
 
   @include when(scrolling-right) {
-    .#{$namespace}-table-fixed-column--right.is-first-column {
+    .#{$namespace}-table-fixed-column--left.is-last-column {
       &::before {
-        box-shadow: none;
+        box-shadow: var(--el-table-fixed-left-column);
       }
     }
     .#{$namespace}-table-fixed-column--left.is-last-column.#{$namespace}-table__cell {
@@ -433,6 +434,16 @@
   @include when(scrolling-middle) {
     .#{$namespace}-table-fixed-column--left.is-last-column.#{$namespace}-table__cell {
       border-right: none;
+    }
+    .#{$namespace}-table-fixed-column--right.is-first-column {
+      &::before {
+        box-shadow: var(--el-table-fixed-right-column);
+      }
+    }
+    .#{$namespace}-table-fixed-column--left.is-last-column {
+      &::before {
+        box-shadow: var(--el-table-fixed-left-column);
+      }
     }
   }
 

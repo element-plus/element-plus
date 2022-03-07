@@ -2,7 +2,7 @@ import { h } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowRight, Loading } from '@element-plus/icons-vue'
-import { getPropByPath } from '@element-plus/utils'
+import { getProp } from '@element-plus/utils'
 
 import type { VNode } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'
@@ -156,7 +156,7 @@ export function defaultRenderCell<T>({
   $index: number
 }) {
   const property = column.property
-  const value = property && getPropByPath(row, property, false).v
+  const value = property && getProp(row, property).value
   if (column && column.formatter) {
     return column.formatter(row, column, value, $index)
   }

@@ -18,7 +18,7 @@
       :transition="`${nsSelect.namespace.value}-zoom-in-top`"
       :stop-popper-mouse-event="false"
       :gpu-acceleration="false"
-      persistent
+      :persistent="persistent"
       @show="handleMenuEnter"
     >
       <template #default>
@@ -31,10 +31,10 @@
           >
             <span
               v-if="collapseTags && selected.length"
-              :style="{
-                marginLeft:
-                  prefixWidth && selected.length ? `${prefixWidth}px` : '',
-              }"
+              :class="[
+                nsSelect.b('tags-wrapper'),
+                { 'has-prefix': prefixWidth && selected.length },
+              ]"
             >
               <el-tag
                 :closable="!selectDisabled && !selected[0].isDisabled"
@@ -65,10 +65,10 @@
             <!-- <div> -->
             <transition v-if="!collapseTags" @after-leave="resetInputHeight">
               <span
-                :style="{
-                  marginLeft:
-                    prefixWidth && selected.length ? `${prefixWidth}px` : '',
-                }"
+                :class="[
+                  nsSelect.b('tags-wrapper'),
+                  { 'has-prefix': prefixWidth && selected.length },
+                ]"
               >
                 <el-tag
                   v-for="item in selected"
@@ -327,6 +327,10 @@ export default defineComponent({
       default: undefined,
     },
     teleported: useTooltipContentProps.teleported,
+    persistent: {
+      type: Boolean,
+      default: true,
+    },
     clearIcon: {
       type: [String, Object] as PropType<string | Component>,
       default: CircleClose,

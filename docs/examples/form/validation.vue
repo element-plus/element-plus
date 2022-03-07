@@ -71,14 +71,12 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import type { ElForm } from 'element-plus'
+import type { FormInstance } from 'element-plus'
 
-type FormInstance = InstanceType<typeof ElForm>
-
-const formSize = ref('')
+const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
-  name: '',
+  name: 'Hello',
   region: '',
   date1: '',
   date2: '',
@@ -90,17 +88,8 @@ const ruleForm = reactive({
 
 const rules = reactive({
   name: [
-    {
-      required: true,
-      message: 'Please input Activity name',
-      trigger: 'blur',
-    },
-    {
-      min: 3,
-      max: 5,
-      message: 'Length should be 3 to 5',
-      trigger: 'blur',
-    },
+    { required: true, message: 'Please input Activity name', trigger: 'blur' },
+    { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
   ],
   region: [
     {
@@ -141,22 +130,17 @@ const rules = reactive({
     },
   ],
   desc: [
-    {
-      required: true,
-      message: 'Please input activity form',
-      trigger: 'blur',
-    },
+    { required: true, message: 'Please input activity form', trigger: 'blur' },
   ],
 })
 
-const submitForm = (formEl: FormInstance | undefined) => {
+const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
-  formEl.validate((valid) => {
+  await formEl.validate((valid, fields) => {
     if (valid) {
       console.log('submit!')
     } else {
-      console.log('error submit!')
-      return false
+      console.log('error submit!', fields)
     }
   })
 }

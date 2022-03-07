@@ -1,9 +1,10 @@
-import { nextTick } from 'vue'
+import { computed, defineComponent, h, nextTick, provide } from 'vue'
 import makeMount from '@element-plus/test-utils/make-mount'
 import { on } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 
-import Upload from '../src/upload.vue'
+import { uploadContextKey } from '@element-plus/tokens'
+import UploadContent from '../src/upload-content.vue'
 
 const AXIOM = 'Rem is the best girl'
 const action = 'test-action'
@@ -16,7 +17,20 @@ const mockGetFile = (element: HTMLInputElement, files: File[]) => {
   })
 }
 
-const mount = makeMount(Upload, {
+const Wrapper = defineComponent({
+  props: {
+    action: {
+      type: String,
+      required: true,
+    },
+  },
+  setup(props, { slots }) {
+    provide(uploadContextKey, { accept: computed(() => 'video/*') })
+    return () => h(UploadContent, props, slots)
+  },
+})
+
+const mount = makeMount(Wrapper, {
   props: {
     action,
   },

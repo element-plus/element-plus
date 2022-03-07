@@ -1,6 +1,7 @@
-import { defineComponent, computed, h, provide } from 'vue'
+import { defineComponent, computed, provide } from 'vue'
 import { buildProps } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
+import { rowContextKey } from '@element-plus/tokens'
 import type { ExtractPropTypes, CSSProperties } from 'vue'
 
 export const rowProps = buildProps({
@@ -40,7 +41,7 @@ const Row = defineComponent({
     const ns = useNamespace('row')
 
     const gutter = computed(() => props.gutter)
-    provide('ElRow', {
+    provide(rowContextKey, {
       gutter,
     })
 
@@ -56,19 +57,18 @@ const Row = defineComponent({
       return styles
     })
 
-    return () =>
-      h(
-        props.tag,
-        {
-          class: [
-            ns.b(),
-            ns.is(`justify-${props.justify}`, props.justify !== 'start'),
-            ns.is(`align-${props.align}`, props.align !== 'top'),
-          ],
-          style: style.value,
-        },
-        slots.default?.()
-      )
+    return () => (
+      <props.tag
+        class={[
+          ns.b(),
+          ns.is(`justify-${props.justify}`, props.justify !== 'start'),
+          ns.is(`align-${props.align}`, props.align !== 'top'),
+        ]}
+        style={style.value}
+      >
+        {slots.default?.()}
+      </props.tag>
+    )
   },
 })
 

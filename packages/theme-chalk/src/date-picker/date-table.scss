@@ -8,25 +8,25 @@
   @include when(week-mode) {
     .#{$namespace}-date-table__row {
       &:hover {
-        .el-date-table-cell {
+        .#{$namespace}-date-table-cell {
           background-color: var(--el-datepicker-inrange-bg-color);
         }
         td.available:hover {
           color: var(--el-datepicker-text-color);
         }
-        td:first-child .el-date-table-cell {
+        td:first-child .#{$namespace}-date-table-cell {
           margin-left: 5px;
           border-top-left-radius: 15px;
           border-bottom-left-radius: 15px;
         }
-        td:last-child .el-date-table-cell {
+        td:last-child .#{$namespace}-date-table-cell {
           margin-right: 5px;
           border-top-right-radius: 15px;
           border-bottom-right-radius: 15px;
         }
       }
 
-      &.current .el-date-table-cell {
+      &.current .#{$namespace}-date-table-cell {
         background-color: var(--el-datepicker-inrange-bg-color);
       }
     }
