@@ -15,6 +15,7 @@ import type { SourceFile } from 'ts-morph'
 const TSCONFIG_PATH = path.resolve(projRoot, 'tsconfig.json')
 const outDir = path.resolve(buildOutput, 'types')
 
+// Type safe list. The TS errors are not all fixed yet, so we need a list of which files are fixed with TS errors to prevent accidental TS errors.
 const typeSafePaths = typeSafe.map((_path) => {
   let safePath = path.resolve(projRoot, _path)
   if (_path.endsWith('/')) safePath += path.sep
