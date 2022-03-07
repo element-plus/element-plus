@@ -31,10 +31,10 @@
           >
             <span
               v-if="collapseTags && selected.length"
-              :style="{
-                marginLeft:
-                  prefixWidth && selected.length ? `${prefixWidth}px` : '',
-              }"
+              :class="[
+                nsSelect.b('tags-wrapper'),
+                { 'has-prefix': prefixWidth && selected.length },
+              ]"
             >
               <el-tag
                 :closable="!selectDisabled && !selected[0].isDisabled"
@@ -65,10 +65,10 @@
             <!-- <div> -->
             <transition v-if="!collapseTags" @after-leave="resetInputHeight">
               <span
-                :style="{
-                  marginLeft:
-                    prefixWidth && selected.length ? `${prefixWidth}px` : '',
-                }"
+                :class="[
+                  nsSelect.b('tags-wrapper'),
+                  { 'has-prefix': prefixWidth && selected.length },
+                ]"
               >
                 <el-tag
                   v-for="item in selected"

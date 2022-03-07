@@ -1,5 +1,10 @@
 <template>
-  <el-select v-model="value1" multiple placeholder="Select">
+  <el-select
+    v-model="value1"
+    multiple
+    placeholder="Select"
+    style="width: 240px"
+  >
     <el-option
       v-for="item in options"
       :key="item.value"
@@ -13,7 +18,7 @@
     v-model="value2"
     multiple
     collapse-tags
-    style="margin-left: 20px"
+    style="margin-left: 20px; width: 240px"
     placeholder="Select"
   >
     <el-option
