@@ -23,7 +23,7 @@
       :disabled="item.disabled"
     />
     <template #prefix>
-      <el-icon v-if="prefixIcon" class="el-input__prefix-icon">
+      <el-icon v-if="prefixIcon" :class="ns.e('prefix-icon')">
         <component :is="prefixIcon" />
       </el-icon>
     </template>
@@ -37,6 +37,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat'
 import ElSelect from '@element-plus/components/select'
 import ElIcon from '@element-plus/components/icon'
 import { CircleClose, Clock } from '@element-plus/icons-vue'
+import { useNamespace } from '@element-plus/hooks'
 
 import type { PropType, Component } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
@@ -171,8 +172,11 @@ export default defineComponent({
   },
   emits: ['change', 'blur', 'focus', 'update:modelValue'],
   setup(props) {
-    // computed
+    const ns = useNamespace(input)
     const select = ref(null)
+
+    // computed
+
     const value = computed(() => props.modelValue)
     const start = computed(() => {
       const time = parseTime(props.start)
@@ -220,6 +224,7 @@ export default defineComponent({
     }
 
     return {
+      ns,
       select,
       value,
       items,
