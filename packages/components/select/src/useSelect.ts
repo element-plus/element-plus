@@ -265,7 +265,7 @@ export const useSelect = (props, states: States, ctx) => {
             input.value?.focus()
           } else {
             if (states.selectedLabel) {
-              states.currentPlaceholder = states.selectedLabel
+              states.currentPlaceholder = `${states.selectedLabel}`
               states.selectedLabel = ''
             }
           }
