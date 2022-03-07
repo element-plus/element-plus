@@ -63,12 +63,12 @@ export default defineComponent({
     const ns = useNamespace('table')
     const filterPanels = ref({})
     const { onColumnsChange, onScrollableChange } = useLayoutObserver(parent!)
-    onMounted(() => {
-      nextTick(() => {
-        const { prop, order } = props.defaultSort
-        const init = true
-        parent?.store.commit('sort', { prop, order, init })
-      })
+    onMounted(async () => {
+      // Need double await, because udpateColumns is executed after nextTick for now
+      await nextTick()
+      await nextTick()
+      const { prop, order } = props.defaultSort
+      parent?.store.commit('sort', { prop, order, init: true })
     })
     const {
       handleHeaderClick,
