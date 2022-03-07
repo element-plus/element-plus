@@ -7,8 +7,8 @@
     trigger="click"
     v-bind="$attrs"
     append-to-body
-    transition="el-zoom-in-top"
-    :popper-class="`el-picker__popper ${popperClass}`"
+    :transition="`${ns.namespace.value}-zoom-in-top`"
+    :popper-class="`${ns.namespace.value}-picker__popper ${popperClass}`"
     :popper-options="elPopperOptions"
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :gpu-acceleration="false"
@@ -29,8 +29,11 @@
         :size="pickerSize"
         :disabled="pickerDisabled"
         :placeholder="placeholder"
-        class="el-date-editor"
-        :class="['el-date-editor--' + type, $attrs.class || undefined]"
+        :class="[
+          ns.b('editor'),
+          ns.bm('editor', type),
+          $attrs.class || undefined,
+        ]"
         :style="$attrs.style || undefined"
         :readonly="!editable || readonly || isDatesPicker || type === 'week'"
         @input="onUserInput"
@@ -44,7 +47,7 @@
         <template #prefix>
           <el-icon
             v-if="triggerIcon"
-            class="el-input__icon"
+            :class="`${ns.namespace.value}-input__icon`"
             @click="handleFocus"
           >
             <component :is="triggerIcon" />
@@ -53,7 +56,7 @@
         <template #suffix>
           <el-icon
             v-if="showClose && clearIcon"
-            class="el-input__icon clear-icon"
+            :class="`${ns.namespace.value}-input__icon clear-icon`"
             @click="onClearIconClick"
           >
             <component :is="clearIcon" />
@@ -63,12 +66,14 @@
       <div
         v-else
         ref="inputRef"
-        class="el-date-editor el-range-editor el-input__inner"
         :class="[
-          'el-date-editor--' + type,
-          pickerSize ? `el-range-editor--${pickerSize}` : '',
-          pickerDisabled ? 'is-disabled' : '',
-          pickerVisible ? 'is-active' : '',
+          ns.b('editor'),
+          ns.bm('editor', type),
+          `${ns.namespace.value}-range-editor`,
+          `${ns.namespace.value}-input__inner`,
+          ns.is('disabled', pickerDisabled),
+          ns.is('active', pickerVisible),
+          pickerSize ? `${ns.namespace.value}-range-editor--${pickerSize}` : '',
           $attrs.class || undefined,
         ]"
         :style="$attrs.style || undefined"
@@ -79,7 +84,7 @@
       >
         <el-icon
           v-if="triggerIcon"
-          class="el-input__icon el-range__icon"
+          :class="`${ns.namespace.value}-input__icon ${ns.namespace.value}-range__icon`"
           @click="handleFocus"
         >
           <component :is="triggerIcon" />
@@ -92,13 +97,15 @@
           :value="displayValue && displayValue[0]"
           :disabled="pickerDisabled"
           :readonly="!editable || readonly"
-          class="el-range-input"
+          :class="`${ns.namespace.value}-range-input`"
           @input="handleStartInput"
           @change="handleStartChange"
           @focus="handleFocus"
         />
         <slot name="range-separator">
-          <span class="el-range-separator">{{ rangeSeparator }}</span>
+          <span :class="`${ns.namespace.value}-range-separator`">{{
+            rangeSeparator
+          }}</span>
         </slot>
         <input
           :id="id && id[1]"
@@ -108,17 +115,20 @@
           :value="displayValue && displayValue[1]"
           :disabled="pickerDisabled"
           :readonly="!editable || readonly"
-          class="el-range-input"
+          :class="`${ns.namespace.value}-range-input`"
           @focus="handleFocus"
           @input="handleEndInput"
           @change="handleEndChange"
         />
         <el-icon
           v-if="clearIcon"
-          class="el-input__icon el-range__close-icon"
-          :class="{
-            'el-range__close-icon--hidden': !showClose,
-          }"
+          :class="[
+            `${ns.namespace.value}-input__icon`,
+            `${ns.namespace.value}-range__close-icon`,
+            {
+              [`${ns.namespace.value}-range__close-icon--hidden`]: !showClose,
+            },
+          ]"
           @click="onClearIconClick"
         >
           <component :is="clearIcon" />
@@ -158,7 +168,7 @@ import {
 import dayjs from 'dayjs'
 import { isEqual } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
-import { useLocale, useSize } from '@element-plus/hooks'
+import { useLocale, useNamespace, useSize } from '@element-plus/hooks'
 import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
@@ -254,6 +264,7 @@ export default defineComponent({
   setup(props, ctx) {
     const { lang } = useLocale()
 
+    const ns = useNamespace('date')
     const elForm = inject(formContextKey, {} as FormContext)
     const elFormItem = inject(formItemContextKey, {} as FormItemContext)
     const elPopperOptions = inject('ElPopperOptions', {} as Options)
@@ -657,6 +668,7 @@ export default defineComponent({
     })
 
     return {
+      ns,
       // injected popper options
       elPopperOptions,
 
