@@ -173,6 +173,10 @@ function useWatcher<T>() {
     }
   }
 
+  const getSelectionRows = () => {
+    return (selection.value || []).slice()
+  }
+
   const toggleRowSelection = (
     row: T,
     selected = undefined,
@@ -466,6 +470,7 @@ function useWatcher<T>() {
     isSelected,
     clearSelection,
     cleanSelection,
+    getSelectionRows,
     toggleRowSelection,
     _toggleAllSelection,
     toggleAllSelection: null,
