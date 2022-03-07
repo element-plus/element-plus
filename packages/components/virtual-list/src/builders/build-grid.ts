@@ -17,6 +17,7 @@ import {
   isString,
   getScrollBarWidth,
 } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
 import Scrollbar from '../components/scrollbar'
 import { useGridWheel } from '../hooks/use-grid-wheel'
 import { useCache } from '../hooks/use-cache'
@@ -33,7 +34,6 @@ import {
   RTL_OFFSET_POS_DESC,
   RTL_OFFSET_POS_ASC,
 } from '../defaults'
-
 import type { CSSProperties, VNode, VNodeChild, StyleValue } from 'vue'
 import type { GridConstructorProps, Alignment, ScrollbarExpose } from '../types'
 import type { VirtualizedGridProps } from '../props'
@@ -60,6 +60,8 @@ const createGrid = ({
     props: virtualizedGridProps,
     emits: [ITEM_RENDER_EVT, SCROLL_EVT],
     setup(props, { emit, expose, slots }) {
+      const ns = useNamespace('vl')
+
       validateProps(props)
       const instance = getCurrentInstance()!
       const cache = ref(initCache(props, instance))
@@ -594,7 +596,7 @@ const createGrid = ({
           'div',
           {
             key: 0,
-            class: 'el-vg__wrapper',
+            class: ns.e('wrapper'),
           },
           [
             h(

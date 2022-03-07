@@ -12,6 +12,7 @@ import {
 } from 'vue'
 import { isClient } from '@vueuse/core'
 import { hasOwn, isNumber, isString } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
 import { useCache } from '../hooks/use-cache'
 import useWheel from '../hooks/use-wheel'
 import Scrollbar from '../components/scrollbar'
@@ -52,6 +53,9 @@ const createList = ({
     setup(props, { emit, expose }) {
       validateProps(props)
       const instance = getCurrentInstance()!
+
+      const ns = useNamespace('vl')
+
       const dynamicSizeCache = ref(initCache(props, instance))
 
       const getItemStyleCache = useCache()
@@ -406,6 +410,7 @@ const createList = ({
       })
 
       const api = {
+        ns,
         clientSize,
         estimatedTotalSize,
         windowStyle,
@@ -456,6 +461,7 @@ const createList = ({
         states,
         useIsScrolling,
         windowStyle,
+        ns,
       } = ctx
 
       const [start, end] = itemsToRender
@@ -522,10 +528,7 @@ const createList = ({
         'div',
         {
           key: 0,
-          class: [
-            'el-vl__wrapper',
-            states.scrollbarAlwaysOn ? 'always-on' : '',
-          ],
+          class: [ns.e('wrapper'), states.scrollbarAlwaysOn ? 'always-on' : ''],
         },
         [listContainer, scrollbar]
       )
