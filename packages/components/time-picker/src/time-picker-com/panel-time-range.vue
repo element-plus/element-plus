@@ -61,17 +61,17 @@
         </div>
       </div>
     </div>
-    <div :class="nsTime.be('range-panel', 'footer')">
+    <div :class="nsTime.be('panel', 'footer')">
       <button
         type="button"
-        :class="[nsTime.be('range-panel', 'btn'), 'cancel']"
+        :class="[nsTime.be('panel', 'btn'), 'cancel']"
         @click="handleCancel()"
       >
         {{ t('el.datepicker.cancel') }}
       </button>
       <button
         type="button"
-        :class="[nsTime.be('range-panel', 'btn'), 'confirm']"
+        :class="[nsTime.be('panel', 'btn'), 'confirm']"
         :disabled="btnConfirmDisabled"
         @click="handleConfirm()"
       >
