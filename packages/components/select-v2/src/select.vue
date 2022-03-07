@@ -21,8 +21,8 @@
       pure
       :transition="`${nsSelectV2.namespace.value}-zoom-in-top`"
       trigger="click"
-      persistent
-      @show="handleMenuEnter"
+      :persistent="persistent"
+      @before-show="handleMenuEnter"
       @hide="states.inputValue = states.displayInputValue"
     >
       <template #default>

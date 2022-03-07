@@ -68,7 +68,7 @@ You can also try Element Plus out with the components built-in playground
       </td>
       <td align="center" valign="middle">
         <a href="https://vform666.com/vform3.html?from=element_plus" target="_blank">
-          <img width="150px" src="https://user-images.githubusercontent.com/17680888/156188909-f6780e1a-3b8c-4cab-a637-9a16f04110be.png">
+          <img width="150px" src="https://user-images.githubusercontent.com/17680888/156870588-b25a42d5-888b-4943-8b1b-5239dfd8f4d2.png">
         </a>
       </td>
       <td align="center" valign="middle">

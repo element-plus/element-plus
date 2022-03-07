@@ -1,5 +1,5 @@
 <template>
-  <div :class="ns.b()">
+  <div :class="[ns.b(), ns.is('disabled', disabled)]">
     <el-tooltip
       ref="popperRef"
       :effect="effect"
@@ -16,6 +16,7 @@
       :stop-popper-mouse-event="false"
       :virtual-ref="triggeringElementRef"
       :virtual-triggering="splitButton"
+      :disabled="disabled"
       append-to-body
       pure
       :transition="`${ns.namespace.value}-zoom-in-top`"
@@ -57,6 +58,7 @@
           ref="referenceElementRef"
           :size="dropdownSize"
           :type="type"
+          :disabled="disabled"
           @click="handlerMainButtonClick"
         >
           <slot name="default" />
@@ -66,6 +68,7 @@
           :size="dropdownSize"
           :type="type"
           :class="ns.e('caret-button')"
+          :disabled="disabled"
         >
           <el-icon :class="ns.e('icon')"><arrow-down /></el-icon>
         </el-button>

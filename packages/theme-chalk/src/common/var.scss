@@ -381,6 +381,16 @@ $select-dropdown: map.merge(
   $select-dropdown
 );
 
+$select-tags-prefix-padding: () !default;
+$select-tags-prefix-padding: map.merge(
+  (
+    'large': 8px,
+    'default': 6px,
+    'small': 4px,
+  ),
+  $select-tags-prefix-padding
+);
+
 // Alert
 // css3 var in packages/theme-chalk/src/alert.scss
 $alert: () !default;
@@ -661,6 +671,7 @@ $dialog: map.merge(
     'content-font-size': 14px,
     'font-line-height': var(--el-font-line-height-primary),
     'padding-primary': 20px,
+    'border-radius': var(--el-border-radius-small),
   ),
   $dialog
 );
@@ -681,6 +692,8 @@ $table: map.merge(
     'bg-color': var(--el-color-white),
     'tr-bg-color': var(--el-color-white),
     'expanded-cell-bg-color': var(--el-color-white),
+    'fixed-left-column': inset 10px 0 10px -10px rgb(0 0 0 / 15%),
+    'fixed-right-column': inset -10px 0 10px -10px rgb(0 0 0 / 15%),
   ),
   $table
 );

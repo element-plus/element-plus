@@ -148,7 +148,12 @@ import {
 import { isClient } from '@vueuse/core'
 import { ElIcon } from '@element-plus/components/icon'
 import { CircleClose, View as IconView } from '@element-plus/icons-vue'
-import { ValidateComponentsMap, isObject, isKorean } from '@element-plus/utils'
+import {
+  ValidateComponentsMap,
+  isObject,
+  isKorean,
+  debugWarn,
+} from '@element-plus/utils'
 import {
   useAttrs,
   useDisabled,
@@ -340,7 +345,7 @@ export default defineComponent({
       focused.value = false
       emit('blur', event)
       if (props.validateEvent) {
-        formItem?.validate?.('blur')
+        formItem?.validate?.('blur').catch((err) => debugWarn(err))
       }
     }
 
@@ -395,7 +400,7 @@ export default defineComponent({
       () => {
         nextTick(resizeTextarea)
         if (props.validateEvent) {
-          formItem?.validate?.('change')
+          formItem?.validate?.('change').catch((err) => debugWarn(err))
         }
       }
     )
