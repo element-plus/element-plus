@@ -3,7 +3,7 @@
     ref="tooltipRef"
     v-model:visible="popperVisible"
     :teleported="compatTeleported"
-    :popper-class="[ns.e('dropdown'), popperClass]"
+    :popper-class="[nsCascader.e('dropdown'), popperClass]"
     :popper-options="popperOptions"
     :fallback-placements="[
       'bottom-start',
@@ -16,7 +16,7 @@
     :stop-popper-mouse-event="false"
     :gpu-acceleration="false"
     placement="bottom-start"
-    :transition="`${ns.namespace.value}-zoom-in-top`"
+    :transition="`${nsCascader.namespace.value}-zoom-in-top`"
     effect="light"
     pure
     persistent
@@ -26,9 +26,9 @@
       <div
         v-clickoutside:[popperPaneRef]="() => togglePopperVisible(false)"
         :class="[
-          ns.b(),
-          ns.m(realSize),
-          ns.is('disabled', isDisabled),
+          nsCascader.b(),
+          nsCascader.m(realSize),
+          nsCascader.is('disabled', isDisabled),
           $attrs.class,
         ]"
         :style="$attrs.style"
@@ -45,7 +45,7 @@
           :disabled="isDisabled"
           :validate-event="false"
           :size="realSize"
-          :class="ns.is('focus', popperVisible)"
+          :class="nsCascader.is('focus', popperVisible)"
           @compositionstart="handleComposition"
           @compositionupdate="handleComposition"
           @compositionend="handleComposition"
@@ -68,7 +68,7 @@
               :class="[
                 nsInput.e('icon'),
                 'icon-arrow-down',
-                ns.is('reverse', popperVisible),
+                nsCascader.is('reverse', popperVisible),
               ]"
               @click.stop="togglePopperVisible()"
             >
@@ -77,7 +77,7 @@
           </template>
         </el-input>
 
-        <div v-if="multiple" ref="tagWrapper" :class="ns.e('tags')">
+        <div v-if="multiple" ref="tagWrapper" :class="nsCascader.e('tags')">
           <el-tag
             v-for="tag in presentTags"
             :key="tag.key"
@@ -94,7 +94,7 @@
             v-if="filterable && !isDisabled"
             v-model="searchInputValue"
             type="text"
-            :class="ns.e('search-input')"
+            :class="nsCascader.e('search-input')"
             :placeholder="presentText ? '' : inputPlaceholder"
             @input="(e) => handleInput(searchInputValue, e)"
             @click.stop="togglePopperVisible(true)"
@@ -124,15 +124,15 @@
         v-show="filtering"
         ref="suggestionPanel"
         tag="ul"
-        :class="ns.e('suggestion-panel')"
-        :view-class="ns.e('suggestion-list')"
+        :class="nsCascader.e('suggestion-panel')"
+        :view-class="nsCascader.e('suggestion-list')"
         @keydown="handleSuggestionKeyDown"
       >
         <template v-if="suggestions.length">
           <li
             v-for="item in suggestions"
             :key="item.uid"
-            :class="[ns.e('suggestion-item'), ns.is('checked', item.checked)]"
+            :class="[nsCascader.e('suggestion-item'), nsCascader.is('checked', item.checked)]"
             :tabindex="-1"
             @click="handleSuggestionClick(item)"
           >
@@ -141,7 +141,7 @@
           </li>
         </template>
         <slot v-else name="empty">
-          <li :class="ns.e('empty-text')">
+          <li :class="nsCascader.e('empty-text')">
             {{ t('el.cascader.noMatch') }}
           </li>
         </slot>
@@ -320,7 +320,7 @@ export default defineComponent({
       COMPONENT_NAME,
       'popperAppendToBody'
     )
-    const ns = useNamespace('cascader')
+    const nsCascader = useNamespace('cascader')
     const nsInput = useNamespace('input')
 
     const { t } = useLocale()
@@ -497,11 +497,11 @@ export default defineComponent({
 
       if (filtering.value && suggestionPanel.value) {
         firstNode = suggestionPanel.value.$el.querySelector(
-          `.${ns.e('suggestion-item')}`
+          `.${nsCascader.e('suggestion-item')}`
         )
       } else {
         firstNode = panel.value?.$el.querySelector(
-          `.${ns.b('node')}[tabindex="-1"]`
+          `.${nsCascader.b('node')}[tabindex="-1"]`
         )
       }
 
@@ -520,7 +520,7 @@ export default defineComponent({
 
       if (suggestionPanelEl) {
         const suggestionList = suggestionPanelEl.querySelector(
-          `.${ns.e('suggestion-list')}`
+          `.${nsCascader.e('suggestion-list')}`
         )
         suggestionList.style.minWidth = `${inputInner.offsetWidth}px`
       }
@@ -603,7 +603,7 @@ export default defineComponent({
             getSibling(
               target,
               distance,
-              `.${ns.e('suggestion-item')}[tabindex="-1"]`
+              `.${nsCascader.e('suggestion-item')}[tabindex="-1"]`
             )
           )
           break
@@ -709,7 +709,7 @@ export default defineComponent({
       // deprecation in ver 2.1.0
       compatTeleported,
 
-      ns,
+      nsCascader,
       nsInput,
       t,
       togglePopperVisible,
