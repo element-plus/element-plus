@@ -150,6 +150,7 @@ export const useSelect = (props, states: States, ctx) => {
       props.filterable &&
       props.allowCreate &&
       states.query !== '' &&
+      !getOption(states.query) &&
       !hasExistingOption
     )
   })
