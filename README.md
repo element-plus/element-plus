@@ -33,6 +33,14 @@ The first stable release of Element Plus suitable for use in production was rele
 
 You can find the breaking change list here: [Breaking Change List](https://github.com/element-plus/element-plus/discussions/5658).
 
+### Migration Tool :hammer_and_wrench:
+
+We have made a migration tool for you to migrate your project from [Element UI](https://element.eleme.io) to Element Plus.
+
+You can find the [gogo code migration tool](https://github.com/thx/gogocode/tree/main/packages/gogocode-plugin-element) here.
+
+We have tested this on [Vue Element Admin](https://github.com/PanJiaChen/vue-element-admin（Vue2+Element). You can find the transpiled code [here](https://github.com/gogocodeio/vue-element-admin)
+
 ### Playground
 
 You can also try Element Plus out with the components built-in playground
@@ -56,6 +64,11 @@ You can also try Element Plus out with the components built-in playground
       <td align="center" valign="middle">
         <a href="https://www.jnpfsoft.com/index.html?from=elementUI" target="_blank">
           <img width="150px" src="https://user-images.githubusercontent.com/17680888/145664631-bbe85550-4406-4f20-a19f-7e6e844a9b85.png">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://vform666.com/vform3.html?from=element_plus" target="_blank">
+          <img width="150px" src="https://user-images.githubusercontent.com/17680888/156870588-b25a42d5-888b-4943-8b1b-5239dfd8f4d2.png">
         </a>
       </td>
       <td align="center" valign="middle">

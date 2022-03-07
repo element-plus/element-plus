@@ -10,7 +10,7 @@
     margin-left: 0;
   }
 
-  & + .el-pager {
+  & + .#{$namespace}-pager {
     .number {
       &:first-child {
         margin-left: 0;
@@ -144,7 +144,7 @@
       line-height: var(--el-pagination-line-height-extra-small);
       .#{$namespace}-input__suffix-inner {
         line-height: var(--el-pagination-line-height-extra-small);
-        i.el-select__caret {
+        i.#{$namespace}-select__caret {
           line-height: var(--el-pagination-line-height-extra-small);
         }
       }

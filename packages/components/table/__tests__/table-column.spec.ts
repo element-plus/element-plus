@@ -803,6 +803,45 @@ describe('table column', () => {
         wrapper.find('.hidden-columns').find('.other-component').exists()
       ).toBeFalsy()
     })
+
+    it('should not rendered text in hidden-columns', async () => {
+      const TableColumn = {
+        name: 'TableColumn',
+        components: {
+          ElTableColumn,
+        },
+        template: `
+          <el-table-column>
+            <template v-if="$slots.default" #default="scope">
+              <slot v-bind="scope" />
+            </template>
+          </el-table-column>
+        `,
+      }
+      const wrapper = mount({
+        components: {
+          ElTableColumn,
+          ElTable,
+          TableColumn,
+        },
+        template: `
+          <el-table :data="testData">
+            <table-column>
+              <template #default="{ row }">Hello World</template>
+            </table-column>
+          </el-table>
+        `,
+        data() {
+          return {
+            testData: getTestData(),
+          }
+        },
+      })
+      await doubleWait()
+      expect(wrapper.find('.hidden-columns').text().trim()).not.toContain(
+        'Hello World'
+      )
+    })
   })
 
   describe('dynamic column attribtes', () => {

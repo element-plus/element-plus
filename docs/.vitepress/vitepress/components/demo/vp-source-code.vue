@@ -14,7 +14,9 @@ const decoded = computed(() => {
 </script>
 
 <template>
-  <div class="example-source language-vue" v-html="decoded"></div>
+  <div class="example-source-wrapper">
+    <div class="example-source language-vue" v-html="decoded"></div>
+  </div>
 </template>
 
 <style scoped lang="scss">

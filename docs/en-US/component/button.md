@@ -120,6 +120,7 @@ button/custom
 | ------- | --------------------------- |
 | —       | customize default content   |
 | loading | customize loading component |
+| icon    | customize icon component    |
 
 ## Button-Group Attributes
 

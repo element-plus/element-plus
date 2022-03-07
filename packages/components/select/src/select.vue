@@ -18,7 +18,7 @@
       :transition="`${nsSelect.namespace.value}-zoom-in-top`"
       :stop-popper-mouse-event="false"
       :gpu-acceleration="false"
-      persistent
+      :persistent="persistent"
       @show="handleMenuEnter"
     >
       <template #default>
@@ -327,6 +327,10 @@ export default defineComponent({
       default: undefined,
     },
     teleported: useTooltipContentProps.teleported,
+    persistent: {
+      type: Boolean,
+      default: true,
+    },
     clearIcon: {
       type: [String, Object] as PropType<string | Component>,
       default: CircleClose,

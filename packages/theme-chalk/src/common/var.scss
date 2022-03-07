@@ -671,6 +671,7 @@ $dialog: map.merge(
     'content-font-size': 14px,
     'font-line-height': var(--el-font-line-height-primary),
     'padding-primary': 20px,
+    'border-radius': var(--el-border-radius-small),
   ),
   $dialog
 );

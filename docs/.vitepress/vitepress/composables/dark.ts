@@ -2,7 +2,7 @@ import { useDark, useToggle } from '@vueuse/core'
 
 export const isDark =
   // @ts-expect-error when PROD is true, do not useDark
-  import.meta.env.PROD ||
+  import.meta.env.DEV &&
   useDark({
     storageKey: 'el-theme-appearance',
   })

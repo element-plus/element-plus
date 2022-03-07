@@ -21,7 +21,7 @@
       pure
       :transition="`${nsSelectV2.namespace.value}-zoom-in-top`"
       trigger="click"
-      persistent
+      :persistent="persistent"
       @before-show="handleMenuEnter"
       @hide="states.inputValue = states.displayInputValue"
     >
@@ -33,7 +33,7 @@
             nsSelectV2.is('focused', states.isComposing),
             nsSelectV2.is('hovering', states.comboBoxHovering),
             nsSelectV2.is('filterable', filterable),
-            nsSelectV2.is('disabled', disabled),
+            nsSelectV2.is('disabled', selectDisabled),
           ]"
         >
           <div v-if="$slots.prefix">

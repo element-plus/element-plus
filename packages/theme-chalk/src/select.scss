@@ -159,10 +159,6 @@
     flex-wrap: wrap;
   }
 
-  .#{$namespace}-tag__close {
-    margin-top: -2px;
-  }
-
   .#{$namespace}-select__tags {
     .#{$namespace}-tag {
       box-sizing: border-box;

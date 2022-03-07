@@ -98,9 +98,12 @@ If you globally registered ElMessage component, it will automatically inherit yo
 :::
 
 ```ts
+import { getCurrentInstance } from 'vue'
 import { ElMessage } from 'element-plus'
 
-ElMessage({}, app._context)
+// in your setup method
+const { appContext } = getCurrentInstance()!
+ElMessage({}, appContext)
 ```
 
 ## Options

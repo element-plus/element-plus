@@ -1,8 +1,11 @@
-import { buildProps, definePropType } from '@element-plus/utils'
+import { buildProps, definePropType, isBoolean } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { dialogContentProps } from './dialog-content'
 
 import type { ExtractPropTypes } from 'vue'
+
+type DoneFn = (cancel: boolean) => void
+export type DialogBeforeCloseFn = (done: DoneFn) => void
 
 export const dialogProps = buildProps({
   ...dialogContentProps,
@@ -11,7 +14,7 @@ export const dialogProps = buildProps({
     default: false,
   },
   beforeClose: {
-    type: definePropType<(...args: any[]) => void>(Function),
+    type: definePropType<DialogBeforeCloseFn>(Function),
   },
   destroyOnClose: {
     type: Boolean,
@@ -55,6 +58,10 @@ export const dialogProps = buildProps({
   zIndex: {
     type: Number,
   },
+  trapFocus: {
+    type: Boolean,
+    default: false,
+  },
 } as const)
 
 export type DialogProps = ExtractPropTypes<typeof dialogProps>
@@ -64,7 +71,7 @@ export const dialogEmits = {
   opened: () => true,
   close: () => true,
   closed: () => true,
-  [UPDATE_MODEL_EVENT]: (value: boolean) => typeof value === 'boolean',
+  [UPDATE_MODEL_EVENT]: (value: boolean) => isBoolean(value),
   openAutoFocus: () => true,
   closeAutoFocus: () => true,
 }

@@ -108,12 +108,12 @@ import { debounce } from 'lodash-unified'
 import ElButton from '@element-plus/components/button'
 import ElIcon from '@element-plus/components/icon'
 import { ClickOutside } from '@element-plus/directives'
-import { elFormItemKey, elFormKey } from '@element-plus/tokens'
+import { formItemContextKey, formContextKey } from '@element-plus/tokens'
 import { useLocale, useSize, useNamespace } from '@element-plus/hooks'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElInput from '@element-plus/components/input'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { isValidComponentSize } from '@element-plus/utils'
+import { debugWarn, isValidComponentSize } from '@element-plus/utils'
 import { Close, ArrowDown } from '@element-plus/icons-vue'
 import AlphaSlider from './components/alpha-slider.vue'
 import HueSlider from './components/hue-slider.vue'
@@ -121,9 +121,8 @@ import Predefine from './components/predefine.vue'
 import SvPanel from './components/sv-panel.vue'
 import Color from './color'
 import { OPTIONS_KEY } from './useOption'
-
 import type { PropType } from 'vue'
-import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
+import type { FormContext, FormItemContext } from '@element-plus/tokens'
 import type { ComponentSize } from '@element-plus/constants'
 import type { IUseOptions } from './useOption'
 
@@ -160,8 +159,8 @@ export default defineComponent({
   setup(props, { emit }) {
     const { t } = useLocale()
     const ns = useNamespace('color')
-    const elForm = inject(elFormKey, {} as ElFormContext)
-    const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
+    const elForm = inject(formContextKey, {} as FormContext)
+    const elFormItem = inject(formItemContextKey, {} as FormItemContext)
 
     const hue = ref(null)
     const svPanel = ref(null)
@@ -267,7 +266,7 @@ export default defineComponent({
       const value = color.value
       emit(UPDATE_MODEL_EVENT, value)
       emit('change', value)
-      elFormItem.validate?.('change')
+      elFormItem.validate?.('change').catch((err) => debugWarn(err))
       debounceSetShowPicker(false)
       // check if modelValue change, if not change, then reset color.
       nextTick(() => {
@@ -287,7 +286,7 @@ export default defineComponent({
       emit(UPDATE_MODEL_EVENT, null)
       emit('change', null)
       if (props.modelValue !== null) {
-        elFormItem.validate?.('change')
+        elFormItem.validate?.('change').catch((err) => debugWarn(err))
       }
       resetColor()
     }

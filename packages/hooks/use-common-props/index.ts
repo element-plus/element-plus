@@ -1,5 +1,5 @@
 import { ref, unref, inject, computed } from 'vue'
-import { elFormItemKey, elFormKey } from '@element-plus/tokens'
+import { formItemContextKey, formContextKey } from '@element-plus/tokens'
 import { buildProp } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
 import { useProp } from '../use-prop'
@@ -21,10 +21,12 @@ export const useSize = (
 
   const size = ignore.prop ? emptyRef : useProp<ComponentSize>('size')
   const globalConfig = ignore.global ? emptyRef : useGlobalConfig('size')
-  const form = ignore.form ? { size: undefined } : inject(elFormKey, undefined)
+  const form = ignore.form
+    ? { size: undefined }
+    : inject(formContextKey, undefined)
   const formItem = ignore.formItem
     ? { size: undefined }
-    : inject(elFormItemKey, undefined)
+    : inject(formItemContextKey, undefined)
 
   return computed(
     (): ComponentSize =>
@@ -39,7 +41,7 @@ export const useSize = (
 
 export const useDisabled = (fallback?: MaybeRef<boolean | undefined>) => {
   const disabled = useProp<boolean>('disabled')
-  const form = inject(elFormKey, undefined)
+  const form = inject(formContextKey, undefined)
   return computed(
     () => disabled.value || unref(fallback) || form?.disabled || false
   )

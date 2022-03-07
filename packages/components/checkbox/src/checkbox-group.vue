@@ -10,7 +10,7 @@ import {
   renderSlot,
 } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { isValidComponentSize } from '@element-plus/utils'
+import { debugWarn, isValidComponentSize } from '@element-plus/utils'
 import { useSize, useNamespace } from '@element-plus/hooks'
 import { useCheckboxGroup } from './useCheckbox'
 
@@ -86,7 +86,7 @@ export default defineComponent({
     watch(
       () => props.modelValue,
       () => {
-        elFormItem.validate?.('change')
+        elFormItem.validate?.('change').catch((err) => debugWarn(err))
       }
     )
     return () => {
