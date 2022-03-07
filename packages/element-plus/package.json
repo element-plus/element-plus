@@ -49,11 +49,11 @@
   },
   "dependencies": {
     "@ctrl/tinycolor": "^3.4.0",
-    "@element-plus/icons-vue": "^1.0.0",
+    "@element-plus/icons-vue": "^1.0.1",
     "@popperjs/core": "^2.11.2",
-    "@vueuse/core": "^7.7.0",
+    "@vueuse/core": "^7.7.1",
     "async-validator": "^4.0.7",
-    "dayjs": "^1.10.7",
+    "dayjs": "^1.10.8",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
     "lodash-unified": "^1.0.2",
@@ -65,7 +65,7 @@
     "@types/lodash-es": "^4.17.6",
     "@types/node": "*",
     "csstype": "^2.6.19",
-    "vue-router": "^4.0.12"
+    "vue-router": "^4.0.13"
   },
   "vetur": {
     "tags": "tags.json",
