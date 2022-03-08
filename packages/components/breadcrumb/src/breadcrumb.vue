@@ -11,7 +11,7 @@
 
 <script lang="ts" setup>
 import { provide, ref, onMounted } from 'vue'
-import { elBreadcrumbKey } from '@element-plus/tokens'
+import { breadcrumbKey } from '@element-plus/tokens'
 
 import { useNamespace } from '@element-plus/hooks'
 import { breadcrumbProps } from './breadcrumb'
