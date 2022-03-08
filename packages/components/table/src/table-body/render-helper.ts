@@ -154,7 +154,6 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
               'tr',
               {
                 key: `expanded-row__${tr.key as string}`,
-                style: expanded ? '' : 'display: none',
               },
               [
                 h(
