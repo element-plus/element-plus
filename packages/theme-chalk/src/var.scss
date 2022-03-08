@@ -74,8 +74,7 @@
 -------------------------- */
   // refer to this website to get the bezier motion function detail
   //  https://cubic-bezier.com/#p1,p2,p3,p4 (change px as your function parameter)
-  --el-transition-duration: #{map.get($transition-duration, 'default')};
-  --el-transition-duration-fast: #{map.get($transition-duration, 'fast')};
+  @include set-component-css-var('transition-duration', $transition-duration);
 
   @include set-component-css-var('transition-function', $transition-function);
   @include set-component-css-var('transition', $transition);
