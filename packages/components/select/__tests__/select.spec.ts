@@ -760,12 +760,13 @@ describe('Select', () => {
         value: '选项2',
       })
     )
+
     await nextTick()
+    expect(getOptions()).toHaveLength(1)
     await wrapper.setData({
       options,
     })
-
-    expect(getOptions().length).toBe(options.length)
+    expect(getOptions()).toHaveLength(options.length)
   })
 
   test('multiple select', async () => {
