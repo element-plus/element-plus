@@ -148,7 +148,7 @@ function useStyle<T>(
     const { tableWrapper } = table.refs
     setScrollClassByEl(tableWrapper, className)
   }
-  const existsScrollClass = (className: string) => {
+  const hasScrollClass = (className: string) => {
     const { tableWrapper } = table.refs
     if (tableWrapper && tableWrapper.classList.contains(className)) {
       return true
@@ -159,7 +159,7 @@ function useStyle<T>(
     if (!table.refs.scrollWrapper) return
     if (!layout.scrollX.value) {
       const scrollingNoneClass = 'is-scrolling-none'
-      if (!existsScrollClass(scrollingNoneClass)) {
+      if (!hasScrollClass(scrollingNoneClass)) {
         setScrollClass(scrollingNoneClass)
       }
       return
