@@ -157,7 +157,8 @@ export function close(
   for (let i = idx; i < len; i++) {
     // new position equals the current offsetTop minus removed height plus 16px(the gap size between each item)
     const { el, component } = orientedNotifications[i].vm
-    const pos = parseInt(el!.style[verticalPos], 10) - removedHeight - GAP_SIZE
+    const pos =
+      Number.parseInt(el!.style[verticalPos], 10) - removedHeight - GAP_SIZE
     component!.props.offset = pos
   }
 }

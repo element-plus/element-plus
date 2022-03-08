@@ -88,10 +88,10 @@ import { Edit, Share, Delete, Search, Loading } from '@element-plus/icons-vue'
     <loading />
   </el-icon>
   <el-button type="primary">
-    <el-icon style="vertical-align: middle;">
+    <el-icon style="vertical-align: middle">
       <search />
     </el-icon>
-    <span style="vertical-align: middle;"> Search </span>
+    <span style="vertical-align: middle"> Search </span>
   </el-button>
 </template>
 ```
@@ -127,13 +127,13 @@ import { Edit, Share, Delete, Search, Loading } from '@element-plus/icons-vue'
 
 ```vue
 <template>
-  <div style="font-size: 20px;">
+  <div style="font-size: 20px">
     <!-- Since svg icons do not carry any attributes by default -->
     <!-- You need to provide attributes directly -->
-    <edit style="width: 1em; height: 1em; margin-right: 8px;" />
-    <share style="width: 1em; height: 1em; margin-right: 8px;" />
-    <delete style="width: 1em; height: 1em; margin-right: 8px;" />
-    <search style="width: 1em; height: 1em; margin-right: 8px;" />
+    <edit style="width: 1em; height: 1em; margin-right: 8px" />
+    <share style="width: 1em; height: 1em; margin-right: 8px" />
+    <delete style="width: 1em; height: 1em; margin-right: 8px" />
+    <search style="width: 1em; height: 1em; margin-right: 8px" />
   </div>
 </template>
 ```

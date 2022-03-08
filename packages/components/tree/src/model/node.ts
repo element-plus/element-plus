@@ -155,11 +155,7 @@ class Node {
     const defaultExpandedKeys = store.defaultExpandedKeys
     const key = store.key
 
-    if (
-      key &&
-      defaultExpandedKeys &&
-      defaultExpandedKeys.indexOf(this.key) !== -1
-    ) {
+    if (key && defaultExpandedKeys && defaultExpandedKeys.includes(this.key)) {
       this.expand(null, store.autoExpandParent)
     }
 
@@ -190,7 +186,7 @@ class Node {
     this.childNodes = []
 
     let children
-    if (this.level === 0 && this.data instanceof Array) {
+    if (this.level === 0 && Array.isArray(this.data)) {
       children = this.data
     } else {
       children = getPropertyFromData(this, 'children') || []
@@ -256,7 +252,7 @@ class Node {
     if (!(child instanceof Node)) {
       if (!batch) {
         const children = this.getChildren(true)
-        if (children.indexOf(child.data) === -1) {
+        if (!children.includes(child.data)) {
           if (typeof index === 'undefined' || index < 0) {
             children.push(child.data)
           } else {

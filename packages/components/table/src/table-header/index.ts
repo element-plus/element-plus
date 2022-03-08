@@ -93,7 +93,6 @@ export default defineComponent({
       onColumnsChange,
       onScrollableChange,
     }
-    // eslint-disable-next-line
     instance.filterPanels = filterPanels
 
     return {

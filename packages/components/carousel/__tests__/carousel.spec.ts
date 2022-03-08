@@ -195,7 +195,7 @@ describe('Carousel', () => {
     const items = wrapper.vm.$el.querySelectorAll('.el-carousel__item')
 
     expect(wrapper.vm.$refs.carousel.direction).toBe('vertical')
-    expect(items[0].style.transform.indexOf('translateY') !== -1).toBeTruthy()
+    expect(items[0].style.transform.includes('translateY')).toBeTruthy()
   })
 
   it('pause auto play on hover', async (done) => {

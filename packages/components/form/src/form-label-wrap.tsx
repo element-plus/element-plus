@@ -42,7 +42,7 @@ export default defineComponent({
     const getLabelWidth = () => {
       if (el.value?.firstElementChild) {
         const width = window.getComputedStyle(el.value.firstElementChild).width
-        return Math.ceil(parseFloat(width))
+        return Math.ceil(Number.parseFloat(width))
       } else {
         return 0
       }
@@ -92,7 +92,7 @@ export default defineComponent({
         if (autoLabelWidth && autoLabelWidth !== 'auto') {
           const marginWidth = Math.max(
             0,
-            parseInt(autoLabelWidth, 10) - computedWidth.value
+            Number.parseInt(autoLabelWidth, 10) - computedWidth.value
           )
           const marginPosition =
             formContext.labelPosition === 'left' ? 'marginRight' : 'marginLeft'

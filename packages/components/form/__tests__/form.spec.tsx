@@ -69,16 +69,28 @@ describe('Form', () => {
     await nextTick()
 
     const formItems = wrapper.findAll<HTMLElement>('.el-form-item__content')
-    const marginLeft = parseInt(formItems[0].element.style.marginLeft, 10)
-    const marginLeft1 = parseInt(formItems[1].element.style.marginLeft, 10)
+    const marginLeft = Number.parseInt(
+      formItems[0].element.style.marginLeft,
+      10
+    )
+    const marginLeft1 = Number.parseInt(
+      formItems[1].element.style.marginLeft,
+      10
+    )
     expect(marginLeft).toEqual(marginLeft1)
 
     labelPosition.value = 'left'
     await nextTick()
 
     const formItems1 = wrapper.findAll<HTMLElement>('.el-form-item__content')
-    const marginRight = parseInt(formItems1[0].element.style.marginRight, 10)
-    const marginRight1 = parseInt(formItems1[1].element.style.marginRight, 10)
+    const marginRight = Number.parseInt(
+      formItems1[0].element.style.marginRight,
+      10
+    )
+    const marginRight1 = Number.parseInt(
+      formItems1[1].element.style.marginRight,
+      10
+    )
     expect(marginRight).toEqual(marginRight1)
   })
 
@@ -126,7 +138,10 @@ describe('Form', () => {
     expect(labelWrapMarginLeft1).toEqual(labelWrapMarginLeft2)
     expect(labelWrapMarginLeft2).toEqual('')
 
-    const labelWidth0 = parseInt(formItemLabels[0].element.style.width, 10)
+    const labelWidth0 = Number.parseInt(
+      formItemLabels[0].element.style.width,
+      10
+    )
     expect(labelWidth0).toEqual(150)
     const labelWidth1 = formItemLabels[1].element.style.width
     const labelWidth2 = formItemLabels[2].element.style.width
@@ -256,7 +271,7 @@ describe('Form', () => {
     const form = reactive({
       name: '',
       address: '',
-      type: Array<string>(),
+      type: new Array<string>(),
     })
 
     const wrapper = mount({

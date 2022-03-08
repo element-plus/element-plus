@@ -48,12 +48,12 @@ function calculateNodeStyling(targetElement: Element): NodeStyle {
   const boxSizing = style.getPropertyValue('box-sizing')
 
   const paddingSize =
-    parseFloat(style.getPropertyValue('padding-bottom')) +
-    parseFloat(style.getPropertyValue('padding-top'))
+    Number.parseFloat(style.getPropertyValue('padding-bottom')) +
+    Number.parseFloat(style.getPropertyValue('padding-top'))
 
   const borderSize =
-    parseFloat(style.getPropertyValue('border-bottom-width')) +
-    parseFloat(style.getPropertyValue('border-top-width'))
+    Number.parseFloat(style.getPropertyValue('border-bottom-width')) +
+    Number.parseFloat(style.getPropertyValue('border-top-width'))
 
   const contextStyle = CONTEXT_STYLE.map(
     (name) => `${name}:${style.getPropertyValue(name)}`

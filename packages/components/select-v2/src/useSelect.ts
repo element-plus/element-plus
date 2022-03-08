@@ -206,10 +206,10 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     const select = selectionRef.value
     const size = collapseTagSize.value || 'default'
     const paddingLeft = select
-      ? parseInt(getComputedStyle(select).paddingLeft)
+      ? Number.parseInt(getComputedStyle(select).paddingLeft)
       : 0
     const paddingRight = select
-      ? parseInt(getComputedStyle(select).paddingRight)
+      ? Number.parseInt(getComputedStyle(select).paddingRight)
       : 0
     return (
       states.selectWidth - paddingRight - paddingLeft - TAG_BASE_WIDTH[size]
@@ -663,7 +663,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         let initHovering = false
         states.cachedOptions.length = 0
         states.previousValue = props.modelValue.toString()
-        ;(props.modelValue as Array<any>).map((selected) => {
+        ;(props.modelValue as Array<any>).forEach((selected) => {
           const itemIndex = filteredOptions.value.findIndex(
             (option) => getValueKey(option) === selected
           )

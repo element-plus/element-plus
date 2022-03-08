@@ -35,7 +35,7 @@ watch(filterText, (val) => {
 
 const filterNode = (value: string, data: Tree) => {
   if (!value) return true
-  return data.label.indexOf(value) !== -1
+  return data.label.includes(value)
 }
 
 const data: Tree[] = [

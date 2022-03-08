@@ -184,7 +184,7 @@ export default defineComponent({
           newPage = currentPage + pagerCountOffset
         }
       }
-      if (!isNaN(newPage)) {
+      if (!Number.isNaN(+newPage)) {
         if (newPage < 1) {
           newPage = 1
         }

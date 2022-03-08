@@ -12,11 +12,11 @@ export const inputNumberProps = buildProps({
   },
   max: {
     type: Number,
-    default: Infinity,
+    default: Number.POSITIVE_INFINITY,
   },
   min: {
     type: Number,
-    default: -Infinity,
+    default: Number.NEGATIVE_INFINITY,
   },
   modelValue: {
     type: Number,
@@ -43,7 +43,8 @@ export const inputNumberProps = buildProps({
   placeholder: String,
   precision: {
     type: Number,
-    validator: (val: number) => val >= 0 && val === parseInt(`${val}`, 10),
+    validator: (val: number) =>
+      val >= 0 && val === Number.parseInt(`${val}`, 10),
   },
 } as const)
 

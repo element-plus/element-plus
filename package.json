@@ -27,8 +27,8 @@
     "build": "gulp --require sucrase/register/ts -f build/gulpfile.ts",
     "build:theme": "pnpm run build -C packages/theme-chalk",
     "format": "prettier --write .",
-    "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --max-warnings 0 && pretty-quick --check --branch dev",
-    "lint:fix": "eslint --fix . --ext .vue,.js,.ts,.jsx,.tsx && pretty-quick --branch dev",
+    "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx,.md --max-warnings 0 && pretty-quick --check --branch dev",
+    "lint:fix": "eslint --fix . --ext .vue,.js,.ts,.jsx,.tsx,.md && pretty-quick --branch dev",
     "docs:dev": "pnpm run -C docs dev",
     "docs:build": "pnpm run -C docs build",
     "docs:serve": "pnpm run -C docs serve",
@@ -44,7 +44,7 @@
     }
   },
   "lint-staged": {
-    "*.{vue,js,ts,jsx,tsx}": "eslint --fix"
+    "*.{vue,js,ts,jsx,tsx,md}": "eslint --fix"
   },
   "browserslist": [
     "> 1%",
@@ -113,8 +113,12 @@
     "eslint": "^8.10.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-define-config": "^1.2.5",
+    "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsonc": "^2.2.1",
+    "eslint-plugin-markdown": "^2.2.1",
     "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-unicorn": "^41.0.0",
     "eslint-plugin-vue": "^8.5.0",
     "expect-type": "^0.13.0",
     "fast-glob": "^3.2.11",
@@ -122,6 +126,7 @@
     "gulp": "^4.0.2",
     "husky": "^7.0.4",
     "jest": "^26.6.3",
+    "jsonc-eslint-parser": "^2.1.0",
     "lint-staged": "^12.3.5",
     "prettier": "^2.5.1",
     "pretty-quick": "^3.1.3",
@@ -142,7 +147,8 @@
     "vue": "^3.2.31",
     "vue-jest": "^5.0.0-alpha.10",
     "vue-router": "^4.0.13",
-    "vue-tsc": "^0.32.1"
+    "vue-tsc": "^0.32.1",
+    "yaml-eslint-parser": "^0.5.0"
   },
   "pnpm": {
     "overrides": {
