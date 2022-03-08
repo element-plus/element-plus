@@ -249,6 +249,10 @@ export default {
     type: String as PropType<Layout>,
     default: 'fixed',
   },
+  scrollbarAlwaysOn: {
+    type: Boolean,
+    default: false,
+  },
 }
 export type {
   SummaryMethod,
