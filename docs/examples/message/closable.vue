@@ -12,7 +12,6 @@ const open1 = () => {
   ElMessage({
     showClose: true,
     message: 'This is a message.',
-    duration: 300000,
   })
 }
 const open2 = () => {
