@@ -24,6 +24,7 @@
   "packages/components/rate/",
   "packages/components/row/",
   "packages/components/slot/",
+  "packages/components/tabs/",
   "packages/components/tag/",
   "packages/components/teleport/",
   "packages/components/upload/",

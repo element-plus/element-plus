@@ -8,7 +8,7 @@ import {
   ref,
   watch,
 } from 'vue'
-import { NOOP, capitalize } from '@vue/shared'
+import { NOOP } from '@vue/shared'
 import {
   useDocumentVisibility,
   useResizeObserver,
@@ -19,6 +19,7 @@ import {
   definePropType,
   mutable,
   throwError,
+  capitalize,
 } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
@@ -27,7 +28,8 @@ import { tabsRootContextKey } from '@element-plus/tokens'
 import TabBar from './tab-bar.vue'
 import type { CSSProperties, ExtractPropTypes } from 'vue'
 import type { TabsPaneContext } from '@element-plus/tokens'
-export interface Scrollable {
+
+interface Scrollable {
   next?: boolean
   prev?: number
 }

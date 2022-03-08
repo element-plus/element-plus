@@ -1,7 +1,7 @@
 <template>
   <div
-    ref="bar$"
-    :class="['el-tabs__active-bar', `is-${rootTabs.props.tabPosition}`]"
+    ref="barRef"
+    :class="[ns.e('active-bar'), ns.is(rootTabs.props.tabPosition)]"
     :style="barStyle"
   />
 </template>
@@ -10,6 +10,7 @@ import { getCurrentInstance, inject, nextTick, ref, watch } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import { capitalize, throwError } from '@element-plus/utils'
 import { tabsRootContextKey } from '@element-plus/tokens'
+import { useNamespace } from '@element-plus/hooks'
 import { tabBarProps } from './tab-bar'
 
 import type { CSSProperties } from 'vue'
@@ -22,9 +23,11 @@ const props = defineProps(tabBarProps)
 
 const instance = getCurrentInstance()!
 const rootTabs = inject(tabsRootContextKey)
-if (!rootTabs) throwError(COMPONENT_NAME, 'must use with ElTabs')
+if (!rootTabs) throwError(COMPONENT_NAME, '<el-tabs><el-tab-bar /></el-tabs>')
 
-const bar$ = ref<HTMLDivElement>()
+const ns = useNamespace('tabs')
+
+const barRef = ref<HTMLDivElement>()
 const barStyle = ref()
 
 const getBarStyle = (): CSSProperties => {
@@ -78,12 +81,12 @@ watch(
   },
   { immediate: true }
 )
-useResizeObserver(bar$, () => update())
+useResizeObserver(barRef, () => update())
 
 defineExpose({
-  bar$,
-  rootTabs,
-  barStyle,
+  /** @description html element */
+  ref: barRef,
+  /** @description update bar style */
   update,
 })
 </script>

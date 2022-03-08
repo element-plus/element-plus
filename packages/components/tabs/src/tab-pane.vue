@@ -3,7 +3,7 @@
     v-if="shouldBeRender"
     v-show="active"
     :id="`pane-${paneName}`"
-    class="el-tab-pane"
+    :class="ns.b()"
     role="tabpanel"
     :aria-hidden="!active"
     :aria-labelledby="`tab-${paneName}`"
@@ -24,6 +24,7 @@ import {
 import { eagerComputed } from '@vueuse/core'
 import { tabsRootContextKey } from '@element-plus/tokens'
 import { throwError } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
 import { tabPaneProps } from './tab-pane'
 
 const COMPONENT_NAME = 'ElTabPane'
@@ -34,7 +35,9 @@ const props = defineProps(tabPaneProps)
 
 const instance = getCurrentInstance()!
 const tabsRoot = inject(tabsRootContextKey)
-if (!tabsRoot) throwError(COMPONENT_NAME, `must use with ElTabs`)
+if (!tabsRoot) throwError(COMPONENT_NAME, '<el-tabs><el-tab-pane /></el-tabs/>')
+
+const ns = useNamespace('tab-pane')
 
 const index = ref<string>()
 const loaded = ref(active.value)
