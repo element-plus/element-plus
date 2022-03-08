@@ -1,0 +1,31 @@
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+
+@include b(tree-select) {
+  @include set-component-css-var('tree', $tree);
+}
+
+@include b(tree-select) {
+  @include e(popper) {
+    // fix: checkbox 在展示下拉框时跳动问题
+    //.el-checkbox__input {
+    //  display: flex;
+    //}
+
+    .el-select-dropdown__item {
+      flex: 1;
+      padding: 0 30px 0 0;
+      background: transparent !important;
+
+      // fix: 节点展开时 popper 底部抖动问题
+      // https://github.com/yujinpan/el-select-tree/pull/33
+      height: 20px;
+      line-height: 20px;
+
+      &.selected:after {
+        right: 10px;
+      }
+    }
+  }
+}
