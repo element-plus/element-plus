@@ -150,7 +150,6 @@ export const useSelect = (props, states: States, ctx) => {
       props.filterable &&
       props.allowCreate &&
       states.query !== '' &&
-      !getOption(states.query) &&
       !hasExistingOption
     )
   })
@@ -673,10 +672,12 @@ export const useSelect = (props, states: States, ctx) => {
     states.cachedOptions.set(vm.value, vm)
   }
 
-  const onOptionDestroy = (key) => {
-    states.optionsCount--
-    states.filteredOptionsCount--
-    states.options.delete(key)
+  const onOptionDestroy = (key, vm: SelectOptionProxy) => {
+    if (states.options.get(key) === vm) {
+      states.optionsCount--
+      states.filteredOptionsCount--
+      states.options.delete(key)
+    }
   }
 
   const resetInputState = (e: KeyboardEvent) => {
