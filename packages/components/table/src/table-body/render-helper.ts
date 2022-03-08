@@ -145,6 +145,8 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
           console.error('[Element Error]renderExpanded is required.')
           return tr
         }
+        // 使用二维数组，避免修改 $index
+        // Use a two dimensional array avoid modifying $index
         return [
           [
             tr,
@@ -168,6 +170,8 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
           ],
         ]
       } else {
+        // 使用二维数组，避免修改 $index
+        // Use a two dimensional array avoid modifying $index
         return [[tr]]
       }
     } else if (Object.keys(treeData.value).length) {
