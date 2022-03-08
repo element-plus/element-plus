@@ -17,10 +17,14 @@ export const Loading = function (
   if (!isClient) return undefined as any
 
   const resolved = resolveOptions(options)
-
-  if (resolved.fullscreen && fullscreenInstance) {
-    fullscreenInstance.remvoeElLoadingChild()
-    fullscreenInstance.close()
+  /**
+   *  because if the property fullscreen in the service is false
+   *  is not single，so use isService to distinguish
+   */
+  if (resolved.isService && fullscreenInstance) {
+    //because destroySelf function remvoeElLoadingChild
+    addPropsToInstance(resolved, fullscreenInstance)
+    return fullscreenInstance
   }
 
   const instance = createLoadingComponent({
@@ -30,7 +34,17 @@ export const Loading = function (
       if (resolved.fullscreen) fullscreenInstance = undefined
     },
   })
+  addPropsToInstance(resolved, instance)
+  if (resolved.isService && fullscreenInstance == undefined) {
+    fullscreenInstance = instance
+  }
+  return instance
+}
 
+const addPropsToInstance = (
+  resolved: LoadingOptionsResolved,
+  instance: LoadingInstance
+) => {
   addStyle(resolved, resolved.parent, instance)
   addClassList(resolved, resolved.parent, instance)
 
@@ -58,11 +72,6 @@ export const Loading = function (
 
   // after instance render, then modify visible to trigger transition
   nextTick(() => (instance.visible.value = resolved.visible))
-
-  if (resolved.fullscreen) {
-    fullscreenInstance = instance
-  }
-  return instance
 }
 
 const resolveOptions = (options: LoadingOptions): LoadingOptionsResolved => {
@@ -85,6 +94,7 @@ const resolveOptions = (options: LoadingOptions): LoadingOptionsResolved => {
     customClass: options.customClass || '',
     visible: options.visible ?? true,
     target,
+    isService: target === document.body && (options.isService ?? true),
   }
 }
 
@@ -114,7 +124,10 @@ const addStyle = async (
         (options.target as HTMLElement).getBoundingClientRect()[property] +
         document.body[scroll] +
         document.documentElement[scroll] -
-        parseInt(getStyle(document.body, `margin-${property}`), 10)
+        parseInt(
+          getStyle(document.body, `margin-${property}` as keyof CSSProperties),
+          10
+        )
       }px`
     }
     for (const property of ['height', 'width']) {

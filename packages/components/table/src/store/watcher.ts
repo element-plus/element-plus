@@ -189,6 +189,17 @@ function useWatcher<T>() {
     }
   }
 
+  const toggleRowSelectionByRowKey = (
+    value: T,
+    selected = undefined,
+    emitChange = true
+  ) => {
+    assertRowKey()
+    const rowKeyValue = rowKey.value
+    const row = data.value.find((row) => row[rowKeyValue] === value)
+    row && toggleRowSelection(row, selected, emitChange)
+  }
+
   const _toggleAllSelection = () => {
     // when only some rows are selected (but not all), select or deselect all of them
     // depending on the value of selectOnIndeterminate
@@ -467,6 +478,7 @@ function useWatcher<T>() {
     clearSelection,
     cleanSelection,
     toggleRowSelection,
+    toggleRowSelectionByRowKey,
     _toggleAllSelection,
     toggleAllSelection: null,
     updateSelectionByRowKey,

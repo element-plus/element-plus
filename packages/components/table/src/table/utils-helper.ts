@@ -8,6 +8,10 @@ function useUtils<T>(store: Store<T>) {
     store.toggleRowSelection(row, selected, false)
     store.updateAllSelected()
   }
+  const toggleRowSelectionByRowKey = (value: T, selected: boolean) => {
+    store.toggleRowSelectionByRowKey(value, selected, false)
+    store.updateAllSelected()
+  }
   const clearSelection = () => {
     store.clearSelection()
   }
@@ -30,6 +34,7 @@ function useUtils<T>(store: Store<T>) {
   return {
     setCurrentRow,
     toggleRowSelection,
+    toggleRowSelectionByRowKey,
     clearSelection,
     clearFilter,
     toggleAllSelection,

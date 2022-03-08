@@ -653,7 +653,7 @@ describe('Table.vue', () => {
           ElTable,
         },
         template: `
-          <el-table ref="table" :data="testData" @${prop}="handleEvent">
+          <el-table ref="table" row-key="release"  :data="testData" @${prop}="handleEvent">
             <el-table-column type="selection" />
             <el-table-column prop="name" />
             <el-table-column prop="release" />
@@ -687,6 +687,25 @@ describe('Table.vue', () => {
       expect(vm.fireCount).toEqual(2)
 
       vm.$refs.table.toggleRowSelection(vm.testData[0], false)
+      expect(vm.fireCount).toEqual(2)
+      expect(vm.selection.length).toEqual(0)
+
+      wrapper.unmount()
+    })
+
+    it('toggleRowSelectionByRowKey', () => {
+      const wrapper = createTable('selection-change')
+      const vm = wrapper.vm
+
+      vm.$refs.table.toggleRowSelectionByRowKey(vm.testData[0].release)
+      expect(vm.selection.length).toEqual(1)
+      expect(vm.fireCount).toEqual(1)
+
+      // test use second parameter
+      vm.$refs.table.toggleRowSelectionByRowKey(vm.testData[0].release)
+      expect(vm.fireCount).toEqual(2)
+
+      vm.$refs.table.toggleRowSelectionByRowKey(vm.testData[0].release, false)
       expect(vm.fireCount).toEqual(2)
       expect(vm.selection.length).toEqual(0)
 

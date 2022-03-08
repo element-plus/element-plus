@@ -218,6 +218,7 @@ export default defineComponent({
     const {
       setCurrentRow,
       toggleRowSelection,
+      toggleRowSelectionByRowKey,
       clearSelection,
       clearFilter,
       toggleAllSelection,
@@ -291,6 +292,7 @@ export default defineComponent({
       fixedBodyHeight,
       setCurrentRow,
       toggleRowSelection,
+      toggleRowSelectionByRowKey,
       clearSelection,
       clearFilter,
       toggleAllSelection,
