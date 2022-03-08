@@ -7,6 +7,8 @@
   "packages/components/backtop/",
   "packages/components/badge/",
   "packages/components/base/",
+  "packages/components/breadcrumb/",
+  "packages/components/breadcrumb-item/",
   "packages/components/button/",
   "packages/components/button-group/",
   "packages/components/card/",
