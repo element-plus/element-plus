@@ -654,7 +654,7 @@ export const useSelect = (props, states: States, ctx) => {
 
     if (tooltipRef.value && target) {
       const menu = tooltipRef.value?.popperRef?.contentRef?.querySelector?.(
-        '.el-select-dropdown__wrap'
+        `.${ns.be('dropdown', 'wrap')}`
       )
       if (menu) {
         scrollIntoView(menu as HTMLElement, target)
