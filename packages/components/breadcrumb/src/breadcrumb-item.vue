@@ -15,7 +15,7 @@
 <script lang="ts" setup>
 import { inject, ref, onMounted, getCurrentInstance } from 'vue'
 import ElIcon from '@element-plus/components/icon'
-import { elBreadcrumbKey } from '@element-plus/tokens'
+import { breadcrumbKey } from '@element-plus/tokens'
 import { useNamespace } from '@element-plus/hooks'
 import { breadcrumbItemProps } from './breadcrumb-item'
 
@@ -29,7 +29,7 @@ const props = defineProps(breadcrumbItemProps)
 
 const instance = getCurrentInstance()!
 const router = instance.appContext.config.globalProperties.$router as Router
-const parent = inject(elBreadcrumbKey, undefined)
+const parent = inject(breadcrumbKey, undefined)
 const ns = useNamespace('breadcrumb')
 
 const separator = parent?.separator

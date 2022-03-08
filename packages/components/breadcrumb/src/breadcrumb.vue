@@ -25,7 +25,7 @@ const props = defineProps(breadcrumbProps)
 const ns = useNamespace('breadcrumb')
 const breadcrumb = ref<HTMLDivElement>()
 
-provide(elBreadcrumbKey, props)
+provide(breadcrumbKey, props)
 
 onMounted(() => {
   const items = breadcrumb.value!.querySelectorAll(`.${ns.e('item')}`)

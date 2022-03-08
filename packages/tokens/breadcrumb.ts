@@ -1,5 +1,5 @@
 import type { InjectionKey } from 'vue'
 import type { BreadcrumbProps } from '@element-plus/components/breadcrumb'
 
-export const elBreadcrumbKey: InjectionKey<BreadcrumbProps> =
-  Symbol('elBreadcrumbKey')
+export const breadcrumbKey: InjectionKey<BreadcrumbProps> =
+  Symbol('breadcrumbKey')
