@@ -11,6 +11,7 @@
   "packages/components/breadcrumb-item/",
   "packages/components/button/",
   "packages/components/button-group/",
+  "packages/components/calendar/",
   "packages/components/card/",
   "packages/components/check-tag/",
   "packages/components/col/",
