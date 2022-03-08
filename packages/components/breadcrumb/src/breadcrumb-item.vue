@@ -32,8 +32,7 @@ const router = instance.appContext.config.globalProperties.$router as Router
 const parent = inject(breadcrumbKey, undefined)
 const ns = useNamespace('breadcrumb')
 
-const separator = parent?.separator
-const separatorIcon = parent?.separatorIcon
+const { separator, separatorIcon } = parent ?? {}
 
 const link = ref<HTMLSpanElement>()
 
