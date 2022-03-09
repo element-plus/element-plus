@@ -27,7 +27,7 @@ export const useHandlers = (
   props: UploadProps,
   uploadRef: ShallowRef<UploadContentInstance | undefined>
 ) => {
-  const uploadFiles = ref<UploadFiles>([])
+  const uploadFiles = ref<UploadFiles>(props.fileList)
 
   const getFile = (rawFile: UploadRawFile) =>
     uploadFiles.value.find((file) => file.uid === rawFile.uid)
@@ -61,7 +61,7 @@ export const useHandlers = (
 
     props.onProgress(evt, file, uploadFiles.value)
     file.status = 'uploading'
-    file.percentage = evt.percent
+    file.percentage = Math.round(evt.percent)
   }
 
   const handleSuccess: UploadContentProps['onSuccess'] = (

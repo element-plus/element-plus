@@ -21,7 +21,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import type { UploadFile } from 'element-plus/es/components/upload/src/upload.type'
+import type { UploadFile } from 'element-plus/es/components/upload'
 
 interface RawFile {
   name: string

@@ -31,11 +31,7 @@
 // set all css var for component by map
 @mixin set-component-css-var($name, $variables) {
   @each $attribute, $value in $variables {
-    @if $attribute == '' {
-      #{getCssVarName($name)}: #{$value};
-    } @else {
-      #{getCssVarName($name, $attribute)}: #{$value};
-    }
+    #{getCssVarName($name, $attribute)}: #{$value};
   }
 }
 

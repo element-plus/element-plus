@@ -17,15 +17,14 @@ import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import type {
   UploadFile,
-  ElUploadProgressEvent,
-  ElFile,
-} from 'element-plus/es/components/upload/src/upload.type'
+  UploadProgressEvent,
+} from 'element-plus/es/components/upload'
 
 const imageUrl = ref('')
-const handleAvatarSuccess = (res: ElUploadProgressEvent, file: UploadFile) => {
+const handleAvatarSuccess = (res: UploadProgressEvent, file: UploadFile) => {
   imageUrl.value = URL.createObjectURL(file.raw)
 }
-const beforeAvatarUpload = (file: ElFile) => {
+const beforeAvatarUpload = (file: File) => {
   const isJPG = file.type === 'image/jpeg'
   const isLt2M = file.size / 1024 / 1024 < 2
 
@@ -46,9 +45,10 @@ const beforeAvatarUpload = (file: ElFile) => {
   cursor: pointer;
   position: relative;
   overflow: hidden;
+  transition: 0.2s;
 }
 .avatar-uploader .el-upload:hover {
-  border-color: #409eff;
+  border-color: var(--el-color-primary);
 }
 .el-icon.avatar-uploader-icon {
   font-size: 28px;
