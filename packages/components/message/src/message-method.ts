@@ -70,8 +70,8 @@ const message: MessageFn & Partial<Message> & { _context: AppContext | null } =
     const userOnClose = options.onClose
     const props: Partial<MessageProps> = {
       zIndex: nextZIndex(),
-      offset: verticalOffset,
       ...options,
+      offset: verticalOffset,
       id,
       onClose: () => {
         close(id, userOnClose)
