@@ -161,6 +161,30 @@ export default defineConfig({
 })
 ```
 
+If you are using webpack, and you want to custom theme when importing on demand.
+
+```
+// webpack.config.ts
+// use unplugin-element-plus
+
+import ElementPlus from 'unplugin-element-plus/webpack'
+
+export default defineConfig({
+  css: {
+    loaderOptions: {
+      scss: {
+        additionalData: `@use "~/styles/element/index.scss" as *;`,
+      },
+    },
+  },
+  plugins: [
+    ElementPlus({
+      useSource: true,
+    }),
+  ],
+})
+```
+
 ### By CSS Variable
 
 CSS Variables is a very useful feature, already supported by almost all browsers. (IE: Wait?)
