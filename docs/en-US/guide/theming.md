@@ -163,7 +163,7 @@ export default defineConfig({
 
 If you are using webpack, and you want to custom theme when importing on demand.
 
-```
+```ts
 // webpack.config.ts
 // use unplugin-element-plus
 
