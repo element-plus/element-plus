@@ -1,4 +1,3 @@
-import { isObject } from '@vue/shared'
 import {
   FORWARD,
   BACKWARD,
