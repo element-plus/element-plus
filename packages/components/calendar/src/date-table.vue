@@ -155,10 +155,10 @@ export default defineComponent({
       if (type === 'current') {
         const date = getFormattedDate(text, type)
         if (date.isSame(props.selectedDay, 'day')) {
-          classes.push('is-selected')
+          classes.push(nsDay.is('selected'))
         }
         if (date.isSame(now, 'day')) {
-          classes.push('is-today')
+          classes.push(nsDay.is('today'))
         }
       }
       return classes
