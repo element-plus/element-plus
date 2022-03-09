@@ -258,7 +258,7 @@
         color: var(--el-pagination-hover-color);
       }
 
-      &.active {
+      &.is-active {
         background-color: var(--el-color-primary);
         color: var(--el-color-white);
         font-weight: bold;
@@ -321,7 +321,7 @@
       }
     }
 
-    &.active + li {
+    &.is-active + li {
       border-left: 0;
     }
 
@@ -333,7 +333,7 @@
       color: var(--el-pagination-hover-color);
     }
 
-    &.active {
+    &.is-active {
       color: var(--el-pagination-hover-color);
       cursor: default;
     }
