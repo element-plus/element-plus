@@ -115,7 +115,7 @@
 }
 
 @include b(upload-list) {
-  margin: 0;
+  margin: 10px 0 0;
   padding: 0;
   list-style: none;
 
@@ -123,7 +123,8 @@
     transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
     font-size: 14px;
     color: var(--el-text-color-regular);
-    margin-top: 4px;
+    line-height: 2.1;
+    margin-bottom: 0;
     position: relative;
     box-sizing: border-box;
     border-radius: 4px;
@@ -148,10 +149,6 @@
     .#{bem('progress-bar')} {
       margin-right: 0;
       padding-right: 0;
-    }
-
-    &:first-child {
-      margin-top: 8px;
     }
 
     & .#{bem('icon', '', 'upload-success')} {
@@ -181,6 +178,7 @@
       cursor: pointer;
       opacity: 1;
       color: var(--el-color-primary);
+      transform: translateY(-50%);
     }
 
     &:hover {

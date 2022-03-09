@@ -110,6 +110,10 @@
   transform: translateY(-30px);
 }
 
+.#{$namespace}-list-leave-active {
+  height: 0;
+}
+
 .#{$namespace}-opacity-transition {
   transition: opacity var(--el-transition-duration)
     cubic-bezier(0.55, 0, 0.1, 1);
