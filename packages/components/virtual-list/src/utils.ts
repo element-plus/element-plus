@@ -86,8 +86,3 @@ export function renderThumbStyle({ move, size, bar }, layout: string) {
 
   return style
 }
-
-export const isFF =
-  typeof navigator !== 'undefined' &&
-  isObject(navigator) &&
-  /Firefox/i.test(navigator.userAgent)
