@@ -63,12 +63,14 @@
         <i v-if="!disabled" :class="nsIcon.m('close-tip')">{{
           t('el.upload.deleteTip')
         }}</i>
+        <!-- todo -->
+
         <el-progress
           v-if="file.status === 'uploading'"
           :type="listType === 'picture-card' ? 'circle' : 'line'"
           :stroke-width="listType === 'picture-card' ? 6 : 2"
           :percentage="Number(file.percentage)"
-          style="margin-top: 0.5rem"
+          :style="listType === 'picture-card' ? '' : 'margin-top: 0.5rem'"
         />
         <span
           v-if="listType === 'picture-card'"

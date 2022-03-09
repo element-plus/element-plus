@@ -187,11 +187,11 @@
     &:hover {
       background-color: var(--el-bg-color);
 
-      .#{$namespace}-icon--close {
+      .#{bem('icon', '', 'close')} {
         display: inline-flex;
       }
 
-      .#{$namespace}-progress__text {
+      .#{bem('progress', 'text')} {
         display: none;
       }
     }
@@ -242,6 +242,7 @@
   @include e(item-name) {
     color: var(--el-text-color-regular);
     display: inline-flex;
+    text-align: center;
     align-items: center;
 
     padding: 0 4px;
@@ -324,8 +325,10 @@
       }
     }
 
-    .#{bem('upload-list', 'item-name')} {
-      display: none;
+    .#{bem('upload-list', 'item')} {
+      .#{bem('upload-list', 'item-name')} {
+        display: none;
+      }
     }
 
     .#{bem('upload-list', 'item-thumbnail')} {
