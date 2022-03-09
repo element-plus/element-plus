@@ -196,6 +196,14 @@
       }
     }
 
+    .#{bem('upload-list', 'item-info')} {
+      display: inline-flex;
+      justify-content: center;
+      flex-direction: column;
+      width: 100%;
+      margin-left: 4px;
+    }
+
     @include when(success) {
       .#{bem('upload-list', 'item-status-label')} {
         display: inline-flex;
