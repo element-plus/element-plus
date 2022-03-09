@@ -164,11 +164,14 @@ export const useHandlers = (
 
   watch(
     () => props.fileList,
-    (fileList) => {
-      for (const file of fileList) {
-        file.uid = genFileId()
-        file.status ||= 'success'
-      }
+    (fileList: UploadFile[]) => {
+      uploadFiles.value = fileList.map((file) => {
+        return {
+          ...file,
+          uid: file.uid || genFileId(),
+          status: file.status || 'success',
+        }
+      })
     },
     { immediate: true }
   )
