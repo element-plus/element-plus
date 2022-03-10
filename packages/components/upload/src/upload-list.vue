@@ -26,7 +26,7 @@
         <img
           v-if="
             listType === 'picture' ||
-            (file.status !== 'uploading' && ['picture-card'].includes(listType))
+            (file.status !== 'uploading' && listType === 'picture-card')
           "
           :class="nsUpload.be('list', 'item-thumbnail')"
           :src="file.url"
@@ -79,8 +79,6 @@
         <i v-if="!disabled" :class="nsIcon.m('close-tip')">{{
           t('el.upload.deleteTip')
         }}</i>
-        <!-- todo -->
-
         <span
           v-if="listType === 'picture-card'"
           :class="nsUpload.be('list', 'item-actions')"

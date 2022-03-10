@@ -3,9 +3,8 @@
 @use 'common/var' as *;
 
 @include b(upload) {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
+  @include utils-flex-center;
+
   cursor: pointer;
   outline: none;
   @include e(input) {

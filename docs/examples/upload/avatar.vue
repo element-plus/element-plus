@@ -15,6 +15,7 @@
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
+
 import type {
   UploadFile,
   UploadProgressEvent,
@@ -45,7 +46,7 @@ const beforeAvatarUpload = (file: File) => {
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  transition: 0.2s;
+  transition: var(--el-transition-duration-fast);
 }
 .avatar-uploader .el-upload:hover {
   border-color: var(--el-color-primary);

@@ -16,6 +16,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
+
 import type { UploadFile } from 'element-plus/es/components/upload'
 
 interface RawFile {

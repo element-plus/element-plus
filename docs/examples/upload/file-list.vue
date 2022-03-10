@@ -15,6 +15,7 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { UploadFile } from 'element-plus/es/components/upload'
 
 const fileList = ref([
