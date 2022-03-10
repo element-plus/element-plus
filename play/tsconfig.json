@@ -4,6 +4,9 @@
     "allowJs": true,
     "lib": ["ESNext", "DOM"],
     "types": ["node", "vite/client", "../typings/components"],
+    "paths": {
+      "element-plus": ["../packages/element-plus"]
+    },
     "allowSyntheticDefaultImports": true
   },
   "include": ["**/*"]
