@@ -80,7 +80,7 @@ describe('TimePicker', () => {
     expect(items[1].textContent).toBe('01 AM')
     expect(items[12].textContent).toBe('12 PM')
     expect(items[15].textContent).toBe('03 PM')
-    const times = document.querySelectorAll('.el-time-spinner__list .active')
+    const times = document.querySelectorAll('.el-time-spinner__list .is-active')
     expect(times[0].textContent).toBe('06 PM')
     expect(times[1].textContent).toBe('40') // default value
     expect(times[2].textContent).toBe('00')
@@ -119,9 +119,9 @@ describe('TimePicker', () => {
     await nextTick()
     const vm = wrapper.vm as any
     const date = vm.value
-    expect(hourEl.classList.contains('active')).toBeTruthy()
-    expect(minuteEl.classList.contains('active')).toBeTruthy()
-    expect(secondEl.classList.contains('active')).toBeTruthy()
+    expect(hourEl.classList.contains('is-active')).toBeTruthy()
+    expect(minuteEl.classList.contains('is-active')).toBeTruthy()
+    expect(secondEl.classList.contains('is-active')).toBeTruthy()
     expect(date.getHours()).toBe(4)
     expect(date.getMinutes()).toBe(36)
     expect(date.getSeconds()).toBe(20)
@@ -316,18 +316,24 @@ describe('TimePicker', () => {
     const hoursEl = list[0]
     const minutesEl = list[1]
     const secondsEl = list[2]
-    const disabledHours = getSpinnerTextAsArray(hoursEl, '.disabled')
+    const disabledHours = getSpinnerTextAsArray(hoursEl, '.is-disabled')
     expect(disabledHours).toEqual(disabledHoursArr)
     const hourSpinners = hoursEl.querySelectorAll('.el-time-spinner__item')
     ;(hourSpinners[18] as any).click()
     await nextTick()
-    const disabledMinutes = getSpinnerTextAsArray(minutesEl, '.disabled')
+    const disabledMinutes = getSpinnerTextAsArray(minutesEl, '.is-disabled')
     expect(disabledMinutes.every((t) => t > 30 && t < 50)).toBeTruthy()
     expect(disabledMinutes.length).toEqual(19)
     ;(hourSpinners[22] as any).click()
     await nextTick()
-    const enabledMinutes = getSpinnerTextAsArray(minutesEl, ':not(.disabled)')
-    const enabledSeconds = getSpinnerTextAsArray(secondsEl, ':not(.disabled)')
+    const enabledMinutes = getSpinnerTextAsArray(
+      minutesEl,
+      ':not(.is-disabled)'
+    )
+    const enabledSeconds = getSpinnerTextAsArray(
+      secondsEl,
+      ':not(.is-disabled)'
+    )
     expect(enabledMinutes).toEqual([0])
     expect(enabledSeconds).toEqual([0])
   })
@@ -432,7 +438,7 @@ describe('TimePicker(range)', () => {
     // For skipping Transition animation
     await rAF()
     const list = document.querySelectorAll(
-      '.el-time-spinner__list .el-time-spinner__item.active'
+      '.el-time-spinner__list .el-time-spinner__item.is-active'
     )
     ;['18', '40', '00', '19', '40', '00'].forEach((_, i) => {
       expect(list[i].textContent).toBe(_)
@@ -460,7 +466,7 @@ describe('TimePicker(range)', () => {
     // For skipping Transition animation
     await rAF()
     const list = document.querySelectorAll(
-      '.el-time-spinner__list .el-time-spinner__item.active'
+      '.el-time-spinner__list .el-time-spinner__item.is-active'
     )
 
     ;['10', '20', '00', '11', '10', '00'].forEach((_, i) => {
@@ -536,20 +542,20 @@ describe('TimePicker(range)', () => {
     const leftHoursEl = list[0]
     const leftEndbledHours = getSpinnerTextAsArray(
       leftHoursEl,
-      ':not(.disabled)'
+      ':not(.is-disabled)'
     )
     expect(leftEndbledHours).toEqual([8, 9, 10, 11, 12])
     const rightHoursEl = list[3]
     const rightEndbledHours = getSpinnerTextAsArray(
       rightHoursEl,
-      ':not(.disabled)'
+      ':not(.is-disabled)'
     )
     expect(rightEndbledHours).toEqual([11, 12, 13, 14, 15, 16])
     ;(leftHoursEl.querySelectorAll('.el-time-spinner__item')[12] as any).click()
     await nextTick()
     const NextRightEndbledHours = getSpinnerTextAsArray(
       rightHoursEl,
-      ':not(.disabled)'
+      ':not(.is-disabled)'
     )
     expect(NextRightEndbledHours).toEqual([12, 13, 14, 15, 16])
   })
@@ -637,17 +643,17 @@ describe('TimePicker(range)', () => {
     const list = document.querySelectorAll('.el-time-spinner__list')
     expect(
       list[0]
-        .querySelector('.el-time-spinner__item.active')
+        .querySelector('.el-time-spinner__item.is-active')
         .innerHTML.split(' ').length
     ).toBe(2)
     expect(
       list[1]
-        .querySelector('.el-time-spinner__item.active')
+        .querySelector('.el-time-spinner__item.is-active')
         .innerHTML.split(' ').length
     ).toBe(1)
     expect(
       list[2]
-        .querySelector('.el-time-spinner__item.active')
+        .querySelector('.el-time-spinner__item.is-active')
         .innerHTML.split(' ').length
     ).toBe(1)
   })

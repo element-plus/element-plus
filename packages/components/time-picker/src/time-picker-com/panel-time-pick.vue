@@ -42,6 +42,7 @@ import { defineComponent, ref, computed, inject } from 'vue'
 import dayjs from 'dayjs'
 import { EVENT_CODE } from '@element-plus/constants'
 import { useLocale, useNamespace } from '@element-plus/hooks'
+import { isUndefined } from '@element-plus/utils'
 import TimeSpinner from './basic-time-spinner.vue'
 import { getAvailableArrs, useOldValue } from './useTimePicker'
 
@@ -81,7 +82,7 @@ export default defineComponent({
     const oldValue = useOldValue(props)
     // computed
     const transitionName = computed(() => {
-      return props.actualVisible === undefined
+      return isUndefined(props.actualVisible)
         ? `${ns.namespace.value}-zoom-in-top`
         : ''
     })

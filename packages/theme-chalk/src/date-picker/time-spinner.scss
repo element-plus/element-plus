@@ -16,8 +16,7 @@
     vertical-align: top;
     position: relative;
 
-    &
-      .#{$namespace}-scrollbar__wrap:not(.#{$namespace}-scrollbar__wrap--hidden-default) {
+    &.#{$namespace}-scrollbar__wrap:not(.#{$namespace}-scrollbar__wrap--hidden-default) {
       padding-bottom: 15px;
     }
 
@@ -30,7 +29,7 @@
         transform: translateY(-32px);
       }
 
-      .#{$namespace}-time-spinner__item:hover:not(.disabled):not(.active) {
+      .#{$namespace}-time-spinner__item:hover:not(.is-disabled):not(.is-active) {
         background: $color-white;
         cursor: default;
       }
@@ -94,17 +93,17 @@
     font-size: 12px;
     color: var(--el-text-color-regular);
 
-    &:hover:not(.disabled):not(.active) {
+    &:hover:not(.is-disabled):not(.is-active) {
       background: var(--el-bg-color);
       cursor: pointer;
     }
 
-    &.active:not(.disabled) {
+    &.is-active:not(.is-disabled) {
       color: var(--el-text-color-primary);
       font-weight: bold;
     }
 
-    &.disabled {
+    &.is-disabled {
       color: var(--el-text-color-placeholder);
       cursor: not-allowed;
     }

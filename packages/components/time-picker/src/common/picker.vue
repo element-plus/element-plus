@@ -29,12 +29,8 @@
         :size="pickerSize"
         :disabled="pickerDisabled"
         :placeholder="placeholder"
-        :class="[
-          ns.b('editor'),
-          ns.bm('editor', type),
-          $attrs.class || undefined,
-        ]"
-        :style="$attrs.style || undefined"
+        :class="[ns.b('editor'), ns.bm('editor', type), $attrs.class]"
+        :style="$attrs.style"
         :readonly="!editable || readonly || isDatesPicker || type === 'week'"
         @input="onUserInput"
         @focus="handleFocus"
