@@ -1,0 +1,31 @@
+.common-layout {
+  .el-header,
+  .el-footer,
+  .el-main,
+  .el-aside {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .el-header,
+  .el-footer {
+    background-color: #b3c0d1;
+    color: var(--el-text-color-primary);
+    text-align: center;
+  }
+
+  .el-aside {
+    background-color: #d3dce6;
+    color: var(--el-text-color-primary);
+    text-align: center;
+  }
+
+  .el-main {
+    background-color: #e9eef3;
+    color: var(--el-text-color-primary);
+    text-align: center;
+
+    height: 150px;
+  }
+}
