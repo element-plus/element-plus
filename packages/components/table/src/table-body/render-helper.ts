@@ -146,7 +146,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
           return tr
         }
         // 使用二维数组，避免修改 $index
-        // Use a two dimensional array avoid modifying $index
+        // Use a matrix to avoid modifying $index
         return [
           [
             tr,
