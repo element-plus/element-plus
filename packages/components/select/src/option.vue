@@ -69,15 +69,14 @@ export default defineComponent({
     onBeforeUnmount(() => {
       const { selected } = select
       const selectedOptions = select.props.multiple ? selected : [selected]
-      const doesExist = select.cachedOptions.has(key)
       const doesSelected = selectedOptions.some((item) => {
         return item.value === (vm as unknown as SelectOptionProxy).value
       })
       // if option is not selected, remove it from cache
-      if (doesExist && !doesSelected) {
+      if (select.cachedOptions.get(key) === vm && !doesSelected) {
         select.cachedOptions.delete(key)
       }
-      select.onOptionDestroy(key)
+      select.onOptionDestroy(key, vm)
     })
 
     function selectOptionClick() {

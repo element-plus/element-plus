@@ -63,6 +63,7 @@
           :height="maxHeight ? undefined : height"
           :max-height="maxHeight ? height : undefined"
           :view-style="scrollbarViewStyle"
+          :always="scrollbarAlwaysOn"
         >
           <table
             ref="tableBody"
@@ -217,6 +218,7 @@ export default defineComponent({
      */
     const {
       setCurrentRow,
+      getSelectionRows,
       toggleRowSelection,
       clearSelection,
       clearFilter,
@@ -290,6 +292,7 @@ export default defineComponent({
       fixedHeight,
       fixedBodyHeight,
       setCurrentRow,
+      getSelectionRows,
       toggleRowSelection,
       clearSelection,
       clearFilter,

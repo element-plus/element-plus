@@ -30,7 +30,7 @@ const makeRange = (start, end) => {
 }
 
 const getSpinnerTextAsArray = (dom, selector) => {
-  return [].slice
+  return Array.prototype.slice
     .call(dom.querySelectorAll(selector))
     .map((node) => Number(node.textContent))
 }
@@ -397,10 +397,10 @@ describe('TimePicker', () => {
         computed: {
           disabledHours() {
             return () => {
-              return Array(24)
+              return Array.from({ length: 24 })
                 .fill(null)
                 .map((_, i) => i)
-                .filter((h) => h < parseInt(this.minHour, 10))
+                .filter((h) => h < Number.parseInt(this.minHour, 10))
             }
           },
         },
@@ -504,7 +504,7 @@ describe('TimePicker(range)', () => {
     input.trigger('focus')
     await nextTick()
     ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
-    expect(vm.value instanceof Array).toBeTruthy()
+    expect(Array.isArray(vm.value)).toBeTruthy()
     vm.value.forEach((_) => {
       expect(_ instanceof Date).toBeTruthy()
     })

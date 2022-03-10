@@ -56,7 +56,7 @@ export function useOption(props, states) {
 
   const contains = (arr = [], target) => {
     if (!isObject.value) {
-      return arr && arr.indexOf(target) > -1
+      return arr && arr.includes(target)
     } else {
       const valueKey = select.props.valueKey
       return (

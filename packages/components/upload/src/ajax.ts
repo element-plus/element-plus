@@ -9,6 +9,7 @@ import type {
 const SCOPE = 'ElUpload'
 
 export class UploadAjaxError extends Error {
+  name = 'UploadAjaxError'
   status: number
   method: string
   url: string
@@ -46,7 +47,7 @@ function getBody(xhr: XMLHttpRequest): XMLHttpRequestResponseType {
 
   try {
     return JSON.parse(text)
-  } catch (e) {
+  } catch {
     return text
   }
 }

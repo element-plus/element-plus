@@ -135,8 +135,8 @@ export default {
       return ['ascending', 'descending', null]
     },
     validator: (val: TableColumnCtx<unknown>['sortOrders']) => {
-      return val.every(
-        (order: string) => ['ascending', 'descending', null].indexOf(order) > -1
+      return val.every((order: string) =>
+        ['ascending', 'descending', null].includes(order)
       )
     },
   },

@@ -161,7 +161,7 @@ export default defineComponent({
       getValueFromMap(currentValue.value, componentMap.value)
     )
     const iconComponents = computed(() => {
-      const result = Array(props.max)
+      const result = Array.from({ length: props.max })
       const threshold = currentValue.value
       result.fill(activeComponent.value, 0, threshold)
       result.fill(voidComponent.value, threshold, props.max)

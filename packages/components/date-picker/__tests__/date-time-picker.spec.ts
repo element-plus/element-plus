@@ -2,21 +2,15 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import dayjs from 'dayjs'
 import { triggerEvent } from '@element-plus/test-utils'
-import DatePicker from '../src/date-picker'
+import { rAF } from '@element-plus/test-utils/tick'
+import TimePicker from '../src/time-picker'
+import Picker from '../src/common/picker.vue'
 
-const formatStr = 'YYYY-MM-DD HH:mm:ss'
-const makeRange = (start, end) => {
-  const result = []
-  for (let i = start; i <= end; i++) {
-    result.push(i)
-  }
-  return result
-}
-const _mount = (template: string, data = () => ({}), otherObj?) =>
+const _mount = (template: string, data, otherObj?) =>
   mount(
     {
       components: {
-        'el-date-picker': DatePicker,
+        'el-time-picker': TimePicker,
       },
       template,
       data,
@@ -27,247 +21,259 @@ const _mount = (template: string, data = () => ({}), otherObj?) =>
     }
   )
 
+const makeRange = (start, end) => {
+  const result = []
+  for (let i = start; i <= end; i++) {
+    result.push(i)
+  }
+  return result
+}
+
+const getSpinnerTextAsArray = (dom, selector) => {
+  return [].slice
+    .call(dom.querySelectorAll(selector))
+    .map((node) => Number(node.textContent))
+}
+
 afterEach(() => {
   document.documentElement.innerHTML = ''
 })
 
-describe('Datetime Picker', () => {
-  it('both picker show correct formated value (extract date-format and time-format from format property', async () => {
+describe('TimePicker', () => {
+  it('create & custom class & style', async () => {
     const wrapper = _mount(
-      `<el-date-picker
-        v-model="value"
-        type="datetime"
+      `<el-time-picker
+    :placeholder="placeholder"
+    :readonly="readonly"
+    :style="{color:'red'}"
+    class="customClass"
+  />`,
+      () => ({ placeholder: 'test_', readonly: true })
+    )
+    const input = wrapper.find('input')
+    expect(input.attributes('placeholder')).toBe('test_')
+    expect(input.attributes('readonly')).not.toBeUndefined()
+    const outterInput = wrapper.find('.el-input')
+    expect(outterInput.classes()).toContain('customClass')
+    expect(outterInput.attributes().style).toBeDefined()
+  })
+
+  it('set format && default value && set AM/PM spinner && no $attr to panel', async () => {
+    const wrapper = _mount(
+      `<el-time-picker
         :format="format"
-    />`,
-      () => ({
-        value: new Date(2018, 2, 5, 10, 15, 24),
-        format: 'YYYY/MM/DD HH:mm A',
-      })
+        v-model="value"
+        class="customClass"
+      />`,
+      () => ({ format: 'hh-mm:ss A', value: new Date(2016, 9, 10, 18, 40) })
     )
+    await nextTick()
     const input = wrapper.find('input')
+    expect(input.element.value).toBe('06-40:00 PM') // format
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    const dateInput = document.querySelector(
-      '.el-date-picker__time-header > span:nth-child(1) input'
-    )
-    const timeInput = document.querySelector(
-      '.el-date-picker__time-header > span:nth-child(2) input'
-    )
-    ;(timeInput as HTMLElement).focus()
-    await nextTick()
-    // both input shows correct value
-    expect((dateInput as HTMLInputElement).value).toBe('2018/03/05')
-    expect((timeInput as HTMLInputElement).value).toBe('10:15 AM')
-    wrapper.setProps({
-      format: 'MM-DD-YYYY HH a',
-    })
-    await nextTick()
-    expect((dateInput as HTMLInputElement).value).toBe('03-05-2018')
-    expect((timeInput as HTMLInputElement).value).toBe('10 am')
+    const list = document.querySelectorAll('.el-time-spinner__list')
+    const hoursEl = list[0]
+    const items = hoursEl.querySelectorAll('.el-time-spinner__item')
+    expect(items[0].textContent).toBe('12 AM') // am pm
+    expect(items[1].textContent).toBe('01 AM')
+    expect(items[12].textContent).toBe('12 PM')
+    expect(items[15].textContent).toBe('03 PM')
+    const times = document.querySelectorAll('.el-time-spinner__list .is-active')
+    expect(times[0].textContent).toBe('06 PM')
+    expect(times[1].textContent).toBe('40') // default value
+    expect(times[2].textContent).toBe('00')
+    const panel = document.querySelector('.el-time-panel') as any
+    expect(panel.classList).not.toContain('customClass')
   })
 
-  it('both picker show correct value', async () => {
+  it('select time', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<el-time-picker
         v-model="value"
-        type="datetime"
-    />`,
-      () => ({
-        value: new Date(2000, 9, 1, 10, 0, 1),
-      })
-    )
-
-    const input = wrapper.find('input')
-    input.trigger('blur')
-    input.trigger('focus')
-    await nextTick()
-    const dateInput = document.querySelector(
-      '.el-date-picker__time-header > span:nth-child(1) input'
-    )
-    const timeInput = document.querySelector(
-      '.el-date-picker__time-header > span:nth-child(2) input'
-    )
-    ;(timeInput as HTMLElement).focus()
-    await nextTick()
-    // both input shows correct value
-    expect((dateInput as HTMLInputElement).value).toBe('2000-10-01')
-    expect((timeInput as HTMLInputElement).value).toBe('10:00:01')
-    // time spinner highlight is correct
-    let spinners = document.querySelectorAll(
-      '.el-time-spinner ul li.is-active'
-    ) as any
-    expect(spinners[0].textContent).toBe('10')
-    expect(spinners[1].textContent).toBe('00')
-    expect(spinners[2].textContent).toBe('01')
-    wrapper.setProps({
-      modelValue: new Date(2001, 10, 2, 11, 1, 2),
-    })
-    await nextTick()
-    spinners = document.querySelectorAll(
-      '.el-time-spinner ul li.is-active'
-    ) as any
-    expect((dateInput as HTMLInputElement).value).toBe('2001-11-02')
-    expect((timeInput as HTMLInputElement).value).toBe('11:01:02')
-    expect(spinners[0].textContent).toBe('11')
-    expect(spinners[1].textContent).toBe('01')
-    expect(spinners[2].textContent).toBe('02')
-  })
-
-  it('click now button', async () => {
-    const wrapper = _mount(
-      `<el-date-picker
-        v-model="value"
-        type="datetime"
-    />`,
-      () => ({
-        value: '',
-      })
+      />`,
+      () => ({ value: '' })
     )
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    ;(
-      document.querySelector('.el-picker-panel__link-btn') as HTMLElement
-    ).click()
+    const list = document.querySelectorAll('.el-time-spinner__list')
+    const hoursEl = list[0]
+    const minutesEl = list[1]
+    const secondsEl = list[2]
+    const hourEl = hoursEl.querySelectorAll('.el-time-spinner__item')[4] as any
+    const minuteEl = minutesEl.querySelectorAll(
+      '.el-time-spinner__item'
+    )[36] as any
+    const secondEl = secondsEl.querySelectorAll(
+      '.el-time-spinner__item'
+    )[20] as any
+    // click hour, minute, second one at a time.
+    hourEl.click()
+    await nextTick()
+    minuteEl.click()
+    await nextTick()
+    secondEl.click()
     await nextTick()
     const vm = wrapper.vm as any
-    // test if is current time (deviation 10 seconds)
-    expect(dayjs(vm.value).diff(dayjs()) < 10).toBeTruthy()
+    const date = vm.value
+    expect(hourEl.classList.contains('is-active')).toBeTruthy()
+    expect(minuteEl.classList.contains('is-active')).toBeTruthy()
+    expect(secondEl.classList.contains('is-active')).toBeTruthy()
+    expect(date.getHours()).toBe(4)
+    expect(date.getMinutes()).toBe(36)
+    expect(date.getSeconds()).toBe(20)
   })
 
-  it('timepicker select && input time && input date', async () => {
+  it('click confirm / cancel button', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<el-time-picker
         v-model="value"
-        type="datetime"
-    />`,
-      () => ({
-        value: '',
-      })
+      />`,
+      () => ({ value: '' })
     )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    ;(document.querySelector('.el-time-panel__btn.cancel') as any).click()
     const vm = wrapper.vm as any
     expect(vm.value).toBe('')
-    const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    const input_ = document.querySelectorAll(
-      '.el-date-picker__editor-wrap input'
-    )[1]
-    ;(input_ as HTMLElement).focus()
-    await nextTick()
-    const timePanel = document.querySelector('.el-time-panel')
-    expect(timePanel.querySelector('.el-time-spinner').innerHTML).not.toBeNull()
-    const button = document.querySelector(
-      '.el-time-panel .confirm'
-    ) as HTMLElement
-    button.click()
-    await nextTick()
-    expect(vm.value).not.toBe('')
-    const timeInput = document.querySelectorAll(
-      '.el-date-picker__editor-wrap input'
-    )[1] as HTMLInputElement
-    timeInput.value = '20:30:33'
-    timeInput.dispatchEvent(new Event('change'))
-    await nextTick()
-    const valueResult = dayjs(vm.value)
-    expect(valueResult.hour()).toBe(20)
-    expect(valueResult.minute()).toBe(30)
-    expect(valueResult.second()).toBe(33)
-    const dateInput = document.querySelector(
-      '.el-date-picker__editor-wrap input'
-    ) as HTMLInputElement
-    dateInput.value = '2017-02-02'
-    dateInput.dispatchEvent(new Event('change'))
-    await nextTick()
-    const valueResult2 = dayjs(vm.value)
-    expect(valueResult2.year()).toBe(2017)
-    expect(valueResult2.month()).toBe(1)
-    expect(valueResult2.date()).toBe(2)
+    ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
+    expect(vm.value instanceof Date).toBeTruthy()
   })
 
-  it('now button: can not choose disabled date', async () => {
-    let isDisable = true
+  it('should update oldValue when visible change', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<el-time-picker
         v-model="value"
-        type="datetime"
-        :disabledDate="disabledDate"
-    />`,
-      () => ({
-        value: '',
-        disabledDate() {
-          return isDisable
-        },
-      })
+      />`,
+      () => ({ value: new Date(2016, 9, 10, 18, 40) })
     )
-    const input = wrapper.find('input')
-    input.trigger('blur')
-    input.trigger('focus')
-    await nextTick()
-    // click now button
-    const btn = document.querySelector(
-      '.el-picker-panel__footer .el-button--text'
-    ) as HTMLElement
-    btn.click()
-    await nextTick()
-    const vm = wrapper.vm as any
-    expect(vm.value).toBe('')
-    isDisable = false
-    await nextTick()
-    btn.click()
-    await nextTick()
-    expect(vm.value).not.toBe('')
-  })
 
-  it('confirm button honors picked date', async () => {
-    const wrapper = _mount(
-      `<el-date-picker
-        v-model="value"
-        type="datetime"
-    />`,
-      () => ({
-        value: new Date(2000, 9, 1, 12, 0, 0), // 2010-10-01 12:00:00
-      })
-    )
+    // show picker panel
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    // changed month / year should not effect picked time
-    ;(
-      document.querySelector(
-        '.el-date-picker__header .arrow-right'
-      ) as HTMLElement
-    ).click()
-    ;(
-      document.querySelector(
-        '.el-date-picker__header .d-arrow-right'
-      ) as HTMLElement
-    ).click()
+
+    // select time
+    const list = document.querySelectorAll('.el-time-spinner__list')
+    const hoursEl = list[0]
+    const minutesEl = list[1]
+    const secondsEl = list[2]
+    const hourEl = hoursEl.querySelectorAll('.el-time-spinner__item')[4] as any
+    const minuteEl = minutesEl.querySelectorAll(
+      '.el-time-spinner__item'
+    )[36] as any
+    const secondEl = secondsEl.querySelectorAll(
+      '.el-time-spinner__item'
+    )[20] as any
+    hourEl.click()
+    await nextTick()
+    minuteEl.click()
+    await nextTick()
+    secondEl.click()
+    await nextTick()
+
     // click confirm button
-    document.querySelectorAll('.el-picker-panel__footer .el-button')[1].click()
-    const vm = wrapper.vm as any
-    expect(dayjs(vm.value).format(formatStr)).toBe('2000-10-01 12:00:00')
+    ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
+    const date = (wrapper.vm as any).value
+    expect(date.getHours()).toBe(4)
+    expect(date.getMinutes()).toBe(36)
+    expect(date.getSeconds()).toBe(20)
+
+    // show picker panel and click cancel button
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    ;(document.querySelector('.el-time-panel__btn.cancel') as any).click()
+    expect(date.getHours()).toBe(4)
+    expect(date.getMinutes()).toBe(36)
+    expect(date.getSeconds()).toBe(20)
   })
 
-  it('selectableRange', async () => {
+  it('set format', async () => {
+    const wrapper = _mount(
+      `<el-time-picker
+        v-model="value"
+        format='HH:mm'
+      />`,
+      () => ({ value: '' })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const spinnerDom = document.querySelectorAll('.el-time-spinner__wrapper')
+    const minutesDom = spinnerDom[1]
+    const secondsDom = spinnerDom[2]
+    expect(minutesDom).not.toBeUndefined()
+    expect(secondsDom).toBeUndefined()
+  })
+
+  it('event change, focus, blur', async () => {
+    const changeHandler = jest.fn()
+    const focusHandler = jest.fn()
+    const blurHandler = jest.fn()
+    const wrapper = _mount(
+      `<el-time-picker
+        v-model="value"
+        @change="onChange"
+        @focus="onFocus"
+        @blur="onBlur"
+      />`,
+      () => ({ value: new Date(2016, 9, 10, 18, 40) }),
+      {
+        methods: {
+          onChange(e) {
+            return changeHandler(e)
+          },
+          onFocus(e) {
+            return focusHandler(e)
+          },
+          onBlur(e) {
+            return blurHandler(e)
+          },
+        },
+      }
+    )
+
+    const input = wrapper.find('input')
+    input.trigger('focus')
+    await nextTick()
+    expect(focusHandler).toHaveBeenCalledTimes(1)
+    const list = document.querySelectorAll('.el-time-spinner__list')
+    const hoursEl = list[0]
+    const hourEl = hoursEl.querySelectorAll('.el-time-spinner__item')[4] as any
+    hourEl.click()
+    await nextTick()
+    expect(changeHandler).toHaveBeenCalledTimes(0)
+    ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
+    await nextTick()
+    await nextTick() // onchange is triggered by props.modelValue update
+    expect(changeHandler).toHaveBeenCalledTimes(1)
+    expect(blurHandler).toHaveBeenCalledTimes(1)
+  })
+
+  it('selectableRange ', async () => {
+    // ['17:30:00 - 18:30:00', '18:50:00 - 20:30:00', '21:00:00 - 22:00:00']
     const disabledHoursArr = [
       0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 23,
     ]
     const wrapper = _mount(
-      `<el-date-picker
+      `<el-time-picker
         v-model="value"
-        type="datetime"
-        :disabledHours="disabledHours"
-        :disabledMinutes="disabledMinutes"
-        :disabledSeconds="disabledSeconds"
-    />`,
-      () => ({
-        value: new Date(2019, 0, 1, 18, 50),
-      }),
+        :disabled-hours="disabledHours"
+        :disabled-minutes="disabledMinutes"
+        :disabled-seconds="disabledSeconds"
+      />`,
+      () => ({ value: '' }),
       {
         methods: {
           disabledHours() {
@@ -303,452 +309,352 @@ describe('Datetime Picker', () => {
       }
     )
     const input = wrapper.find('input')
-    input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    const input1 = document.querySelectorAll(
-      '.el-date-picker__editor-wrap input'
-    )[1] as HTMLInputElement
-    input1.blur()
-    input1.focus()
-    await nextTick()
+
     const list = document.querySelectorAll('.el-time-spinner__list')
     const hoursEl = list[0]
-    const disabledHours = [].slice
-      .call(hoursEl.querySelectorAll('.is-disabled'))
-      .map((node) => Number(node.textContent))
-    expect(disabledHours).toStrictEqual(disabledHoursArr)
     const minutesEl = list[1]
-    const disabledMinutes = [].slice
-      .call(minutesEl.querySelectorAll('.is-disabled'))
-      .map((node) => Number(node.textContent))
-    expect(disabledMinutes.length).toBe(19)
+    const secondsEl = list[2]
+    const disabledHours = getSpinnerTextAsArray(hoursEl, '.is-disabled')
+    expect(disabledHours).toEqual(disabledHoursArr)
+    const hourSpinners = hoursEl.querySelectorAll('.el-time-spinner__item')
+    ;(hourSpinners[18] as any).click()
+    await nextTick()
+    const disabledMinutes = getSpinnerTextAsArray(minutesEl, '.is-disabled')
+    expect(disabledMinutes.every((t) => t > 30 && t < 50)).toBeTruthy()
+    expect(disabledMinutes.length).toEqual(19)
+    ;(hourSpinners[22] as any).click()
+    await nextTick()
+    const enabledMinutes = getSpinnerTextAsArray(
+      minutesEl,
+      ':not(.is-disabled)'
+    )
+    const enabledSeconds = getSpinnerTextAsArray(
+      secondsEl,
+      ':not(.is-disabled)'
+    )
+    expect(enabledMinutes).toEqual([0])
+    expect(enabledSeconds).toEqual([0])
   })
 
-  it('defaultTime takes effect when the type is datetime', async () => {
-    const wrapper = _mount(
-      `<el-date-picker
+  it('ref focus', async () => {
+    _mount(
+      `<el-time-picker
         v-model="value"
-        type="datetime"
-        :default-time="defaultTime"
-    />`,
-      () => ({
-        value: '',
-        defaultTime: new Date(2000, 1, 1, 12, 24, 48),
-      })
+        ref="input"
+      />`,
+      () => ({ value: new Date(2016, 9, 10, 18, 40) }),
+      {
+        mounted() {
+          this.$refs.input.focus()
+        },
+      }
     )
-
-    const input = wrapper.find('input')
-    input.trigger('blur')
-    input.trigger('focus')
+    // This one allows mounted to take effect
     await nextTick()
-    const someDateTd = document.querySelector(
-      '.el-picker-panel__content tr:nth-child(3) td:nth-child(4)'
-    )
-    const timeInput = document.querySelector(
-      '.el-date-picker__time-header > span:nth-child(2) input'
-    )
-    ;(someDateTd as HTMLElement).click()
-    ;(timeInput as HTMLElement).focus()
-    await nextTick()
-    expect((timeInput as HTMLInputElement).value).toBe('12:24:48')
-    // time spinner highlight is correct
-    const spinners = document.querySelectorAll(
-      '.el-time-spinner ul li.is-active'
-    ) as any
-    expect(spinners[0].textContent).toBe('12')
-    expect(spinners[1].textContent).toBe('24')
-    expect(spinners[2].textContent).toBe('48')
+    // These following two allows popper to gets rendered.
+    await rAF()
+    const popperEl = document.querySelector('.el-picker__popper')
+    const attr = popperEl.getAttribute('aria-hidden')
+    expect(attr).toEqual('false')
   })
 
-  it('defaultTime only takes effect when time is not selected', async () => {
-    const wrapper = _mount(
-      `<el-date-picker
+  it('ref blur', async () => {
+    _mount(
+      `<el-time-picker
         v-model="value"
-        type="datetime"
-        :default-time="defaultTime"
-    />`,
-      () => ({
-        value: '',
-        defaultTime: new Date(2000, 1, 1, 12, 0, 0),
-      })
+        ref="input"
+      />`,
+      () => ({ value: new Date(2016, 9, 10, 18, 40) }),
+      {
+        mounted() {
+          this.$refs.input.focus()
+          this.$refs.input.blur()
+        },
+      }
     )
-    const input = wrapper.find('input')
-    input.trigger('blur')
-    input.trigger('focus')
     await nextTick()
-    const cells = document.querySelectorAll('.available .el-date-table-cell')
-    ;(cells[0] as HTMLElement).click()
+    const popperEl = document.querySelector('.el-picker__popper')
+    const attr = popperEl.getAttribute('aria-hidden')
+    expect(attr).toEqual('false')
+  })
+
+  it('model value should sync when disabled-hours was updated', async () => {
+    const wrapper = _mount(
+      `
+       <el-time-picker
+        v-model="value"
+        :disabled-hours="disabledHours"
+        value-format="YYYY-MM-DD HH:mm:ss"
+      />
+    `,
+      () => ({
+        value: '2000-01-01 00:00:00',
+        minHour: '8',
+      }),
+      {
+        computed: {
+          disabledHours() {
+            return () => {
+              return Array(24)
+                .fill(null)
+                .map((_, i) => i)
+                .filter((h) => h < parseInt(this.minHour, 10))
+            }
+          },
+        },
+      }
+    )
     await nextTick()
-    const timeInput = document.querySelector(
-      '.el-date-picker__time-header > span:nth-child(2) input'
-    ) as HTMLInputElement
-    expect(timeInput.value).toBe('12:00:00')
-    ;(timeInput as HTMLElement).focus()
+    const vm = wrapper.vm as any
+    expect(vm.value).toEqual('2000-01-01 08:00:00')
+    vm.minHour = '9'
     await nextTick()
-    const spinner = document.querySelector(
-      '.el-time-spinner ul li.is-active'
-    ) as HTMLElement
-    ;(spinner.nextSibling as HTMLElement).click()
+    expect(vm.value).toEqual('2000-01-01 09:00:00')
+    vm.minHour = '8'
     await nextTick()
-    expect(timeInput.value).toBe('13:00:00')
+    expect(vm.value).toEqual('2000-01-01 09:00:00')
   })
 })
 
-describe('Datetimerange', () => {
-  it('select daterange and default Time and input format', async () => {
+describe('TimePicker(range)', () => {
+  it('create', async () => {
     const wrapper = _mount(
-      `<el-date-picker
+      `<el-time-picker
         v-model="value"
-        type="datetimerange"
-        :defaultTime="new Date(2020, 1, 1, 1, 1, 1)"
-        format="YYYY/MM/DD HH:mm A"
-    />`,
+        size="small"
+        :is-range="true"
+      />`,
       () => ({
-        value: [new Date(2000, 10, 8, 10, 10), new Date(2000, 10, 11, 10, 10)],
+        value: [new Date(2016, 9, 10, 18, 40), new Date(2016, 9, 10, 19, 40)],
       })
     )
+    expect(wrapper.find('.el-range-editor--small').exists()).toBeTruthy()
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    const pickers = document.querySelectorAll('.el-date-range-picker__content')
-    const leftCell = pickers[0].querySelector('td.available')
-    const rightCell = pickers[1].querySelector('td.available')
-    triggerEvent(leftCell, 'mousemove', true)
-    triggerEvent(leftCell, 'click', true)
-    await nextTick()
-    triggerEvent(rightCell, 'mousemove', true)
-    triggerEvent(rightCell, 'click', true)
-    await nextTick()
-    ;(
-      document.querySelectorAll(
-        '.el-picker-panel__footer .el-button'
-      )[1] as HTMLElement
-    ).click()
-    await nextTick()
-    const vm = wrapper.vm as any
-    expect(vm.value.map((_) => dayjs(_).format(formatStr))).toStrictEqual([
-      '2000-11-01 01:01:01',
-      '2000-12-01 01:01:01',
-    ])
-    const pickerss = document.querySelectorAll(
-      '.el-date-range-picker__time-header .el-date-range-picker__editors-wrap'
+    // For skipping Transition animation
+    await rAF()
+    const list = document.querySelectorAll(
+      '.el-time-spinner__list .el-time-spinner__item.is-active'
     )
-    const left = {
-      dateInput: pickerss[0].querySelector(
-        '.el-date-range-picker__time-picker-wrap:nth-child(1) input'
-      ),
-      timeInput: pickerss[0].querySelector(
-        '.el-date-range-picker__time-picker-wrap:nth-child(2) input'
-      ),
-    }
-    const right = {
-      dateInput: pickerss[1].querySelector(
-        '.el-date-range-picker__time-picker-wrap:nth-child(1) input'
-      ),
-      timeInput: pickerss[1].querySelector(
-        '.el-date-range-picker__time-picker-wrap:nth-child(2) input'
-      ),
-    }
-    await nextTick()
-    // both input shows correct value
-    expect((left.dateInput as HTMLInputElement).value).toBe('2000/11/01')
-    expect((left.timeInput as HTMLInputElement).value).toBe('01:01 AM')
-    expect((right.dateInput as HTMLInputElement).value).toBe('2000/12/01')
-    expect((right.timeInput as HTMLInputElement).value).toBe('01:01 AM')
+    ;['18', '40', '00', '19', '40', '00'].forEach((_, i) => {
+      expect(list[i].textContent).toBe(_)
+    })
   })
 
-  it('input date', async () => {
-    const wrapper = _mount(
-      `<el-date-picker
-        v-model="value"
-        type="datetimerange"
-    />`,
-      () => ({
-        value: '',
-      })
-    )
-    const input = wrapper.find('input')
-    input.trigger('blur')
-    input.trigger('focus')
-    await nextTick()
-    const pickerss = document.querySelectorAll(
-      '.el-date-range-picker__time-header .el-date-range-picker__editors-wrap'
-    )
-    const leftDateInput = pickerss[0].querySelector(
-      '.el-date-range-picker__time-picker-wrap:nth-child(1) input'
-    ) as HTMLInputElement
-    const rightDateInput = pickerss[0].querySelector(
-      '.el-date-range-picker__time-picker-wrap:nth-child(1) input'
-    ) as HTMLInputElement
-    leftDateInput.value = '1999-03-04'
-    triggerEvent(leftDateInput, 'input', true)
-    triggerEvent(leftDateInput, 'change', true)
-    await nextTick()
-    const pickers = document.querySelectorAll('.el-date-range-picker__content')
-    const leftCell = pickers[0].querySelector('td.available')
-    const rightCell = pickers[1].querySelector('td.available')
-    triggerEvent(leftCell, 'mousemove', true)
-    triggerEvent(leftCell, 'click', true)
-    await nextTick()
-    triggerEvent(rightCell, 'mousemove', true)
-    triggerEvent(rightCell, 'click', true)
-    await nextTick()
-    const btn = document.querySelectorAll(
-      '.el-picker-panel__footer .el-button'
-    )[1] as HTMLElement
-    btn.click()
-    await nextTick()
-    const vm = wrapper.vm as any
-    expect(vm.value.map((_) => dayjs(_).format(formatStr))).toStrictEqual([
-      '1999-03-01 00:00:00',
-      '1999-04-01 00:00:00',
-    ])
-    // input date when minDate > maxDate
-    rightDateInput.value = '1998-01-01'
-    triggerEvent(rightDateInput, 'input', true)
-    triggerEvent(rightDateInput, 'change', true)
-    await nextTick()
-    btn.click()
-    await nextTick()
-    expect(dayjs(vm.value[0]).isBefore(vm.value[1])).toBeTruthy()
-  })
-
-  it('select time', async () => {
-    const wrapper = _mount(
-      `<el-date-picker
-        v-model="value"
-        type="datetimerange"
-    />`,
-      () => ({
-        value: '',
-      })
-    )
-    const vm = wrapper.vm as any
-    expect(vm.value).toBe('')
-    const input = wrapper.find('input')
-    input.trigger('blur')
-    input.trigger('focus')
-    await nextTick()
-    const timeInput = document.querySelectorAll(
-      '.el-date-range-picker__editors-wrap input'
-    )[1] as HTMLInputElement
-    timeInput.blur()
-    timeInput.focus()
-    timeInput.blur()
-    await nextTick()
-    const button = document.querySelector(
-      '.el-date-range-picker__time-picker-wrap .el-time-panel .confirm'
-    ) as HTMLElement
-    button.click()
-    await nextTick()
-    const btn = document.querySelectorAll(
-      '.el-picker-panel__footer .el-button'
-    )[1] as HTMLElement
-    btn.click()
-    await nextTick()
-    expect(vm.value).not.toBe('')
-  })
-
-  it('confirm honors disabledDate', async () => {
-    const wrapper = _mount(
-      `<el-date-picker
-        v-model="value"
-        type="datetimerange"
-        :disabledDate="disabledDate"
-    />`,
-      () => ({
-        value: '',
-        disabledDate: (date) => {
-          return date.getTime() < new Date(2000, 9, 1) // 2000-10-01
-        },
-      })
-    )
-    const vm = wrapper.vm as any
-    const input = wrapper.find('input')
-    input.trigger('blur')
-    input.trigger('focus')
-    await nextTick()
-    // simulate user input of invalid date
-    const pickerss = document.querySelectorAll(
-      '.el-date-range-picker__time-header .el-date-range-picker__editors-wrap'
-    )
-    const leftDateInput = pickerss[0].querySelector(
-      '.el-date-range-picker__time-picker-wrap:nth-child(1) input'
-    ) as HTMLInputElement
-    leftDateInput.value = '2000-09-01'
-    triggerEvent(leftDateInput, 'input', true)
-    triggerEvent(leftDateInput, 'change', true)
-    await nextTick()
-    const btn = document.querySelectorAll(
-      '.el-picker-panel__footer .el-button'
-    )[1] as HTMLElement
-    expect(btn.getAttribute('disabled')).not.toBeUndefined() // invalid input disables button
-    btn.click()
-    await nextTick()
-    const rangePanel = document.querySelector('.el-date-range-picker')
-    expect(rangePanel.getAttribute('visible')).toBe('true') // popper still open
-    expect(vm.value).toBe('')
-    leftDateInput.value = '2001-09-01'
-    triggerEvent(leftDateInput, 'input', true)
-    triggerEvent(leftDateInput, 'change', true)
-    await nextTick()
-    expect(btn.getAttribute('disabled')).not.toBeUndefined()
-    btn.click()
-    await nextTick()
-    expect(rangePanel.getAttribute('visible')).toBe('false') // popper dismiss
-    expect(vm.value).not.toBe('')
-  })
-
-  it('selectableRange', async () => {
-    const disabledHoursArr = [
-      0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 23,
+  it('default value', async () => {
+    const defaultValue = [
+      new Date(2000, 9, 1, 10, 20, 0),
+      new Date(2000, 9, 1, 11, 10, 0),
     ]
-    const disabledHoursRightArr = [0, 1, 2]
     const wrapper = _mount(
-      `<el-date-picker
+      `<el-time-picker
         v-model="value"
-        type="datetimerange"
-        :disabledHours="disabledHours"
-    />`,
+        :default-value="defaultValue"
+        :is-range="true"
+      />`,
+      () => ({ value: '', defaultValue })
+    )
+
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    // For skipping Transition animation
+    await rAF()
+    const list = document.querySelectorAll(
+      '.el-time-spinner__list .el-time-spinner__item.is-active'
+    )
+
+    ;['10', '20', '00', '11', '10', '00'].forEach((_, i) => {
+      expect(list[i].textContent).toBe(_)
+    })
+  })
+
+  it('cancel button', async () => {
+    const cancelDates = [
+      new Date(2016, 9, 10, 9, 40),
+      new Date(2016, 9, 10, 15, 40),
+    ]
+    const wrapper = _mount(
+      `<el-time-picker
+        v-model="value"
+        is-range
+      />`,
       () => ({
-        value: '',
+        value: cancelDates,
+      })
+    )
+
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    await nextTick()
+    input.trigger('focus')
+    await nextTick()
+    // For skipping Transition animation
+    await rAF()
+    ;(document.querySelector('.el-time-panel__btn.cancel') as any).click()
+    await nextTick()
+    const vm = wrapper.vm as any
+    expect(vm.value).toEqual(cancelDates)
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
+    expect(vm.value instanceof Array).toBeTruthy()
+    vm.value.forEach((_) => {
+      expect(_ instanceof Date).toBeTruthy()
+    })
+  })
+
+  it('selectableRange ', async () => {
+    // left ['08:00:00 - 12:59:59'] right ['11:00:00 - 16:59:59']
+    const wrapper = _mount(
+      `<el-time-picker
+        v-model="value"
+        is-range
+        :disabled-hours="disabledHours"
+      />`,
+      () => ({
+        value: [new Date(2016, 9, 10, 9, 40), new Date(2016, 9, 10, 15, 40)],
       }),
       {
         methods: {
           disabledHours(role) {
-            if (role === 'end') {
-              return disabledHoursRightArr
+            if (role === 'start') {
+              return makeRange(0, 7).concat(makeRange(13, 23))
             }
-            return disabledHoursArr
+            return makeRange(0, 10).concat(makeRange(17, 23))
           },
         },
       }
     )
     const input = wrapper.find('input')
+    input.trigger('focus')
+    await nextTick()
+    // For skipping Transition animation
+    await rAF()
+
+    const list = document.querySelectorAll('.el-time-spinner__list')
+    const leftHoursEl = list[0]
+    const leftEndbledHours = getSpinnerTextAsArray(
+      leftHoursEl,
+      ':not(.is-disabled)'
+    )
+    expect(leftEndbledHours).toEqual([8, 9, 10, 11, 12])
+    const rightHoursEl = list[3]
+    const rightEndbledHours = getSpinnerTextAsArray(
+      rightHoursEl,
+      ':not(.is-disabled)'
+    )
+    expect(rightEndbledHours).toEqual([11, 12, 13, 14, 15, 16])
+    ;(leftHoursEl.querySelectorAll('.el-time-spinner__item')[12] as any).click()
+    await nextTick()
+    const NextRightEndbledHours = getSpinnerTextAsArray(
+      rightHoursEl,
+      ':not(.is-disabled)'
+    )
+    expect(NextRightEndbledHours).toEqual([12, 13, 14, 15, 16])
+  })
+
+  it('arrow key', async () => {
+    const wrapper = _mount(
+      `<el-time-picker
+        v-model="value"
+        format="YYYY-MM-DD HH:mm:ss"
+      />`,
+      () => ({ value: new Date(2016, 9, 10, 18, 40) })
+    )
+
+    const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    const pickerss = document.querySelectorAll(
-      '.el-date-range-picker__time-header .el-date-range-picker__editors-wrap'
-    )
-    const leftDateInput = pickerss[0].querySelector(
-      '.el-date-range-picker__time-picker-wrap:nth-child(2) input'
-    ) as HTMLInputElement
-    const rightDateInput = pickerss[1].querySelector(
-      '.el-date-range-picker__time-picker-wrap:nth-child(2) input'
-    ) as HTMLInputElement
-    leftDateInput.blur()
-    leftDateInput.focus()
+    const initValue = input.element.value
+    triggerEvent(input.element, 'keydown', 'ArrowDown')
     await nextTick()
-    const listleft = document.querySelectorAll(
-      '.el-date-range-picker__editors-wrap .el-time-spinner__list'
-    )
-    const hoursEl = listleft[0]
-    const disabledHours = [].slice
-      .call(hoursEl.querySelectorAll('.is-disabled'))
-      .map((node) => Number(node.textContent))
-    expect(disabledHours).toStrictEqual(disabledHoursArr)
-    const button = document.querySelector(
-      '.el-date-range-picker__time-picker-wrap .el-time-panel .confirm'
-    ) as HTMLElement
-    button.click()
+    const addOneHour = input.element.value
+    triggerEvent(input.element, 'keydown', 'ArrowRight')
     await nextTick()
-    rightDateInput.blur()
-    rightDateInput.focus()
+    triggerEvent(input.element, 'keydown', 'ArrowDown')
     await nextTick()
-    const listright = document.querySelectorAll(
-      '.el-date-range-picker__editors-wrap.is-right .el-time-spinner__list'
-    )
-    const hoursEl2 = listright[0]
-    const disabledHours2 = [].slice
-      .call(hoursEl2.querySelectorAll('.is-disabled'))
-      .map((node) => Number(node.textContent))
-    expect(disabledHours2).toStrictEqual(disabledHoursRightArr)
+    const addOneHourOneMinute = input.element.value
+    expect(dayjs(initValue).diff(addOneHour, 'minute')).toEqual(-60)
+    expect(dayjs(initValue).diff(addOneHourOneMinute, 'minute')).toEqual(-61)
   })
 
-  it('select same date, different time', async () => {
-    const leftSelect = ['10', '59', '59']
+  it('should be able to inherit options from parent injection', async () => {
+    const ElPopperOptions = {
+      strategy: 'fixed',
+    }
     const wrapper = _mount(
-      `<el-date-picker
+      `<el-time-picker
         v-model="value"
-        type="datetimerange"
-    />`,
+        format="YYYY-MM-DD HH:mm:ss"
+        :popper-options="options"
+      />`,
       () => ({
-        value: '',
+        value: new Date(2016, 9, 10, 18, 40),
+        options: ElPopperOptions,
+      }),
+      {
+        provide() {
+          return {
+            ElPopperOptions,
+          }
+        },
+      }
+    )
+
+    await nextTick()
+
+    expect((wrapper.findComponent(Picker).vm as any).elPopperOptions).toEqual(
+      ElPopperOptions
+    )
+  })
+
+  it('am/pm mode avoid render redundant content', async () => {
+    const wrapper = _mount(
+      `<el-time-picker
+        v-model="timeRange"
+        is-range
+        range-separator="To"
+        start-placeholder="Start time"
+        end-placeholder="End time"
+        arrow-control
+        format="hh:mm:ss a"
+      >
+      </el-time-picker>
+      `,
+      () => ({
+        timeRange: [],
       })
     )
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    const pickers = document.querySelectorAll('.el-date-range-picker__content')
-    const leftCell = pickers[0].querySelector('td.available')
-    triggerEvent(leftCell, 'mousemove', true)
-    triggerEvent(leftCell, 'click', true)
-    await nextTick()
-    triggerEvent(leftCell, 'mousemove', true)
-    triggerEvent(leftCell, 'click', true)
-    await nextTick()
-    const leftTimeInput = document.querySelectorAll(
-      '.el-date-range-picker__editors-wrap input'
-    )[1] as HTMLInputElement
-    leftTimeInput.blur()
-    leftTimeInput.focus()
-    await nextTick()
-    const leftList = document.querySelectorAll('.el-time-spinner__list')
-    triggerEvent(leftList[0].children[+leftSelect[0]], 'click', true)
-    await nextTick()
-    triggerEvent(leftList[1].children[+leftSelect[1]], 'click', true)
-    await nextTick()
-    triggerEvent(leftList[2].children[+leftSelect[2]], 'click', true)
-    await nextTick()
-    ;(
-      document.querySelector('.el-time-panel__btn.confirm') as HTMLElement
-    ).click()
-    await nextTick()
-    const rightTimeInput = document.querySelectorAll(
-      '.el-date-range-picker__editors-wrap input'
-    )[3] as HTMLInputElement
-    rightTimeInput.blur()
-    rightTimeInput.focus()
-    await nextTick()
-    const rightList = document.querySelectorAll(
-      '.is-right .el-time-spinner__list'
-    )
-    // auto set left time to right time
+    // For skipping Transition animation
+    await rAF()
+
+    const list = document.querySelectorAll('.el-time-spinner__list')
     expect(
-      rightList[0].querySelector('.el-time-spinner__item.is-active').innerHTML
-    ).toBe(leftSelect[0])
+      list[0]
+        .querySelector('.el-time-spinner__item.is-active')
+        .innerHTML.split(' ').length
+    ).toBe(2)
     expect(
-      rightList[1].querySelector('.el-time-spinner__item.is-active').innerHTML
-    ).toBe(leftSelect[1])
+      list[1]
+        .querySelector('.el-time-spinner__item.is-active')
+        .innerHTML.split(' ').length
+    ).toBe(1)
     expect(
-      rightList[2].querySelector('.el-time-spinner__item.is-active').innerHTML
-    ).toBe(leftSelect[2])
-    triggerEvent(rightList[0].children[12], 'click', true)
-    await nextTick()
-    triggerEvent(rightList[1].children[12], 'click', true)
-    await nextTick()
-    triggerEvent(rightList[2].children[12], 'click', true)
-    await nextTick()
-    ;(
-      document.querySelector(
-        '.is-right .el-time-panel__btn.confirm'
-      ) as HTMLElement
-    ).click()
-    await nextTick()
-    ;(
-      document.querySelectorAll(
-        '.el-picker-panel__footer .el-button'
-      )[1] as HTMLElement
-    ).click()
-    await nextTick()
-    const vm = wrapper.vm as any
-    expect(vm.value.map((_) => dayjs(_).format('HH:mm:ss'))).toStrictEqual([
-      '10:59:59',
-      '12:12:12',
-    ])
+      list[2]
+        .querySelector('.el-time-spinner__item.is-active')
+        .innerHTML.split(' ').length
+    ).toBe(1)
   })
 })

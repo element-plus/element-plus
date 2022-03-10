@@ -94,7 +94,7 @@ function getAnchorTop(anchor: HTMLAnchorElement) {
   const pageOffset = getPageOffset()
   try {
     return anchor.parentElement!.offsetTop - pageOffset - 15
-  } catch (e) {
+  } catch {
     return 0
   }
 }

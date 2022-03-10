@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const transfomer = require('vue-jest')
 const { transform } = require('unplugin-vue-define-options')
 
