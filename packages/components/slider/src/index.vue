@@ -12,7 +12,8 @@
       ref="slider"
       :class="[
         ns.e('runway'),
-        { 'show-input': showInput && !range, disabled: sliderDisabled },
+        { 'show-input': showInput && !range },
+        ns.is('disabled', sliderDisabled),
       ]"
       :style="runwayStyle"
       @click="onSliderClick"
