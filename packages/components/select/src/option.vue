@@ -25,6 +25,7 @@ import {
   getCurrentInstance,
   onBeforeUnmount,
   reactive,
+  nextTick,
 } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useOption } from './useOption'
@@ -75,7 +76,9 @@ export default defineComponent({
       })
       // if option is not selected, remove it from cache
       if (doesExist && !doesSelected) {
-        select.cachedOptions.delete(key)
+        nextTick(() => {
+          select.cachedOptions.delete(key)
+        })
       }
       select.onOptionDestroy(key)
     })
