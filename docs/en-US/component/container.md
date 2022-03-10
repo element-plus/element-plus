@@ -27,7 +27,43 @@ These components use flex for layout, so please make sure your browser supports 
 
 :::demo
 
-container/basic
+container/layout-hm
+
+:::
+
+:::demo
+
+container/layout-hmf
+
+:::
+
+:::demo
+
+container/layout-am
+
+:::
+
+:::demo
+
+container/layout-ham
+
+:::
+
+:::demo
+
+container/layout-hamf
+
+:::
+
+:::demo
+
+container/layout-ahm
+
+:::
+
+:::demo
+
+container/layout-ahmf
 
 :::
 
