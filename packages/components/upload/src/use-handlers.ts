@@ -61,7 +61,7 @@ export const useHandlers = (
 
     props.onProgress(evt, file, uploadFiles.value)
     file.status = 'uploading'
-    file.percentage = evt.percent
+    file.percentage = Math.round(evt.percent)
   }
 
   const handleSuccess: UploadContentProps['onSuccess'] = (

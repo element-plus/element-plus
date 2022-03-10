@@ -7,7 +7,7 @@
     :before-upload="beforeAvatarUpload"
   >
     <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-    <el-icon v-else class="avatar-uploader-icon"><plus /></el-icon>
+    <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
   </el-upload>
 </template>
 
@@ -15,17 +15,18 @@
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
+
 import type {
   UploadFile,
-  ElUploadProgressEvent,
-  ElFile,
-} from 'element-plus/es/components/upload/src/upload.type'
+  UploadRawFile,
+  UploadProgressEvent,
+} from 'element-plus'
 
 const imageUrl = ref('')
-const handleAvatarSuccess = (res: ElUploadProgressEvent, file: UploadFile) => {
-  imageUrl.value = URL.createObjectURL(file.raw)
+const handleAvatarSuccess = (res: UploadProgressEvent, file: UploadFile) => {
+  imageUrl.value = URL.createObjectURL(file.raw!)
 }
-const beforeAvatarUpload = (file: ElFile) => {
+const beforeAvatarUpload = (file: UploadRawFile) => {
   const isJPG = file.type === 'image/jpeg'
   const isLt2M = file.size / 1024 / 1024 < 2
 
@@ -46,9 +47,10 @@ const beforeAvatarUpload = (file: ElFile) => {
   cursor: pointer;
   position: relative;
   overflow: hidden;
+  transition: var(--el-transition-duration-fast);
 }
 .avatar-uploader .el-upload:hover {
-  border-color: #409eff;
+  border-color: var(--el-color-primary);
 }
 .el-icon.avatar-uploader-icon {
   font-size: 28px;
