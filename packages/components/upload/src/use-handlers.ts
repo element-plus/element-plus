@@ -138,7 +138,7 @@ export const useHandlers = (
   function submit() {
     uploadFiles.value
       .filter(({ status }) => status === 'ready')
-      .forEach(({ raw }) => uploadRef.value?.upload(raw))
+      .forEach(({ raw }) => raw && uploadRef.value?.upload(raw))
   }
 
   watch(
@@ -166,11 +166,12 @@ export const useHandlers = (
     () => props.fileList,
     (fileList) => {
       for (const file of fileList) {
-        file.uid = genFileId()
+        file.uid ||= genFileId()
         file.status ||= 'success'
       }
+      uploadFiles.value = fileList as UploadFiles
     },
-    { immediate: true }
+    { immediate: true, deep: true }
   )
 
   return {

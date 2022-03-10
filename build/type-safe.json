@@ -23,6 +23,7 @@
   "packages/components/slot/",
   "packages/components/tag/",
   "packages/components/teleport/",
+  "packages/components/upload/",
   "packages/constants",
   "packages/element-plus",
   "packages/hooks",
