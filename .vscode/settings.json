@@ -10,7 +10,9 @@
     "typescriptreact",
     "html",
     "vue",
-    "markdown"
+    "markdown",
+    "json",
+    "jsonc"
   ],
   "eslint.validate": [
     "javascript",
@@ -19,7 +21,9 @@
     "typescriptreact",
     "html",
     "vue",
-    "markdown"
+    "markdown",
+    "json",
+    "jsonc"
   ],
   "vite.devCommand": "pnpm run dev -- --",
   "i18n-ally.localesPaths": "packages/locale/lang",
