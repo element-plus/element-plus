@@ -18,7 +18,8 @@
           :key="key"
           :class="[
             ns.be('spinner', 'item'),
-            { active: key === timePartsMap[item].value, disabled },
+            ns.is('active', key === timePartsMap[item].value),
+            ns.is('disabled', disabled),
           ]"
           @click="handleClick(item, { value: key, disabled })"
         >
@@ -55,11 +56,11 @@
           <li
             v-for="(time, key) in arrowListMap[item].value"
             :key="key"
-            :class="{
-              [ns.be('spinner', 'item')]: true,
-              active: time === timePartsMap[item].value,
-              disabled: listMap[item].value[time],
-            }"
+            :class="[
+              ns.be('spinner', 'item'),
+              ns.is('active', time === timePartsMap[item].value),
+              ns.is('disabled', listMap[item].value[time]),
+            ]"
           >
             <template v-if="typeof time === 'number'">
               <template v-if="item === 'hours'">
@@ -247,13 +248,17 @@ export default defineComponent({
       adjustCurrentSpinner('seconds')
     }
 
+    const getScrollbarElement = (el: HTMLElement) =>
+      el.querySelector(`.${ns.namespace.value}-scrollbar__wrap`) as HTMLElement
+
     const adjustSpinner = (type, value) => {
       if (props.arrowControl) return
       const el = listRefsMap[type]
       if (el && el.$el) {
-        el.$el.querySelector(
-          `.${ns.namespace.value}-scrollbar__wrap`
-        ).scrollTop = Math.max(0, value * typeItemHeight(type))
+        getScrollbarElement(el.$el).scrollTop = Math.max(
+          0,
+          value * typeItemHeight(type)
+        )
       }
     }
 
@@ -333,9 +338,7 @@ export default defineComponent({
       debouncedResetScroll(type)
       const value = Math.min(
         Math.round(
-          (listRefsMap[type].$el.querySelector(
-            `.${ns.namespace.value}-scrollbar__wrap`
-          ).scrollTop -
+          (getScrollbarElement(listRefsMap[type].$el).scrollTop -
             (scrollBarHeight(type) * 0.5 - 10) / typeItemHeight(type) +
             3) /
             typeItemHeight(type)
@@ -352,9 +355,7 @@ export default defineComponent({
     const bindScrollEvent = () => {
       const bindFunction = (type) => {
         if (listRefsMap[type] && listRefsMap[type].$el) {
-          listRefsMap[type].$el.querySelector(
-            `.${ns.namespace.value}-scrollbar__wrap`
-          ).onscroll = () => {
+          getScrollbarElement(listRefsMap[type].$el).onscroll = () => {
             // TODO: scroll is emitted when set scrollTop programatically
             // should find better solutions in the future!
             handleScroll(type)
