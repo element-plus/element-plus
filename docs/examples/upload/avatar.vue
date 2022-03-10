@@ -7,7 +7,7 @@
     :before-upload="beforeAvatarUpload"
   >
     <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-    <el-icon v-else class="avatar-uploader-icon"><plus /></el-icon>
+    <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
   </el-upload>
 </template>
 
@@ -24,7 +24,7 @@ import type {
 
 const imageUrl = ref('')
 const handleAvatarSuccess = (res: UploadProgressEvent, file: UploadFile) => {
-  imageUrl.value = URL.createObjectURL(file.raw)
+  imageUrl.value = URL.createObjectURL(file.raw!)
 }
 const beforeAvatarUpload = (file: UploadRawFile) => {
   const isJPG = file.type === 'image/jpeg'

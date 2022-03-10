@@ -17,14 +17,9 @@
 import { ref } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
 
-import type { UploadFile } from 'element-plus'
+import type { UploadFile, UploadUserFile } from 'element-plus'
 
-interface RawFile {
-  name: string
-  url: string
-}
-
-const fileList = ref<RawFile[]>([
+const fileList = ref<UploadUserFile[]>([
   {
     name: 'food.jpeg',
     url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',

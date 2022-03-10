@@ -27,7 +27,7 @@ export const useHandlers = (
   props: UploadProps,
   uploadRef: ShallowRef<UploadContentInstance | undefined>
 ) => {
-  const uploadFiles = ref<UploadFiles>(props.fileList)
+  const uploadFiles = ref<UploadFiles>([])
 
   const getFile = (rawFile: UploadRawFile) =>
     uploadFiles.value.find((file) => file.uid === rawFile.uid)
