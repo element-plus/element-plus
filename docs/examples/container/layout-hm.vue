@@ -6,7 +6,3 @@
     </el-container>
   </div>
 </template>
-
-<style lang="scss">
-@use './common-layout.scss';
-</style>

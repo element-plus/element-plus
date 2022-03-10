@@ -25,6 +25,10 @@ These components use flex for layout, so please make sure your browser supports 
 
 ## Common layouts
 
+<style lang="scss">
+@use '../../examples/container/common-layout.scss';
+</style>
+
 :::demo
 
 container/layout-hm
