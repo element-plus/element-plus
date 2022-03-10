@@ -33,12 +33,15 @@ export interface UploadFile {
   name: string
   percentage?: number
   status: UploadStatus
-  size: number
+  size?: number
   response?: unknown
   uid: number
   url?: string
-  raw: UploadRawFile
+  raw?: UploadRawFile
 }
+export type UploadUserFile = Omit<UploadFile, 'status' | 'uid'> &
+  Partial<Pick<UploadFile, 'status' | 'uid'>>
+
 export type UploadFiles = UploadFile[]
 export interface UploadRawFile extends File {
   uid: number
@@ -117,7 +120,7 @@ export const uploadBaseProps = buildProps({
     default: 'select',
   },
   fileList: {
-    type: definePropType<UploadFiles>(Array),
+    type: definePropType<UploadUserFile[]>(Array),
     default: () => mutable([] as const),
   },
   autoUpload: {
