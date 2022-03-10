@@ -81,7 +81,9 @@ pagination/more-elements
 | next-text            | text for the next button                                                                                                        | string   | —                                                                        | —                                      |
 | disabled             | whether Pagination is disabled                                                                                                  | boolean  | —                                                                        | false                                  |
 | hide-on-single-page  | whether to hide when there's only one page                                                                                      | boolean  | —                                                                        | -                                      |
+| align                | pagination align mode                                                                                                           | string   | `left` / `center` / `right`                                              | -                                      |
 
+—
 :::warning
 
 We'll detect some deprecated usages, if your pagination don't appeared or worked as expected, please check rules below:

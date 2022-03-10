@@ -88,6 +88,11 @@ export const paginationProps = buildProps({
   background: Boolean,
   disabled: Boolean,
   hideOnSinglePage: Boolean,
+  align: {
+    type: String,
+    values: ['', 'left', 'center', 'right'],
+    default: '',
+  },
 } as const)
 export type PaginationProps = ExtractPropTypes<typeof paginationProps>
 
@@ -342,6 +347,7 @@ export default defineComponent({
           'aria-label': 'pagination',
           class: [
             ns.b(),
+            ns.is(props.align),
             ns.is('background', props.background),
             {
               [ns.m('small')]: props.small,
