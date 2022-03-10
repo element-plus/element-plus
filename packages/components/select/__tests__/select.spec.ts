@@ -1557,6 +1557,19 @@ describe('Select', () => {
     expect(innerInputEl.placeholder).toBe(placeholder)
   })
 
+  test('should close popper when click icon twice', async () => {
+    wrapper = getSelectVm({
+      filterable: true,
+      clearable: true,
+    })
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const suffixIcon = select.find('.el-input__suffix')
+    await suffixIcon.trigger('click')
+    expect((select.vm as any).visible).toBe(true)
+    await suffixIcon.trigger('click')
+    expect((select.vm as any).visible).toBe(false)
+  })
+
   describe('should show all options when open select dropdown', () => {
     async function testShowOptions({ filterable, multiple }: SelectProps = {}) {
       wrapper = getSelectVm({ filterable, multiple })
