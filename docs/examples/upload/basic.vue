@@ -22,7 +22,7 @@
 import { ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
-import type { UploadFile } from 'element-plus/es/components/upload'
+import type { UploadFile } from 'element-plus'
 
 interface RawFile {
   name: string

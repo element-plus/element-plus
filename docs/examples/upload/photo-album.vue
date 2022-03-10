@@ -17,7 +17,7 @@
 import { ref } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
 
-import type { UploadFile } from 'element-plus/es/components/upload'
+import type { UploadFile } from 'element-plus'
 
 interface RawFile {
   name: string

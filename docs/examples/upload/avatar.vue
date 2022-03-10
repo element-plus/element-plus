@@ -18,14 +18,15 @@ import { Plus } from '@element-plus/icons-vue'
 
 import type {
   UploadFile,
+  UploadRawFile,
   UploadProgressEvent,
-} from 'element-plus/es/components/upload'
+} from 'element-plus'
 
 const imageUrl = ref('')
 const handleAvatarSuccess = (res: UploadProgressEvent, file: UploadFile) => {
   imageUrl.value = URL.createObjectURL(file.raw)
 }
-const beforeAvatarUpload = (file: File) => {
+const beforeAvatarUpload = (file: UploadRawFile) => {
   const isJPG = file.type === 'image/jpeg'
   const isLt2M = file.size / 1024 / 1024 < 2
 
