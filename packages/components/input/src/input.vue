@@ -247,7 +247,7 @@ export default defineComponent({
         !props.readonly &&
         !props.showPassword
     )
-    const textLength = computed(() => Array.from(nativeInputValue.value).length)
+    const textLength = computed(() => nativeInputValue.value.length)
     const inputExceed = computed(
       () =>
         // show exceed style if length of initial value greater then maxlength
