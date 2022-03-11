@@ -67,7 +67,8 @@
                   disable-transitions
                 >
                   <el-tooltip
-                    :disabled="dropdownMenuVisible || !collapseTagsTooltip"
+                    v-if="collapseTagsTooltip"
+                    :disabled="dropdownMenuVisible"
                     :fallback-placements="['bottom', 'top', 'right', 'left']"
                     :effect="effect"
                     placement="bottom"
@@ -110,6 +111,14 @@
                       </div>
                     </template>
                   </el-tooltip>
+                  <span
+                    v-else
+                    :class="nsSelectV2.e('tags-text')"
+                    :style="{
+                      maxWidth: `${tagMaxWidth}px`,
+                    }"
+                    >+ {{ modelValue.length - 1 }}</span
+                  >
                 </el-tag>
               </div>
             </template>
