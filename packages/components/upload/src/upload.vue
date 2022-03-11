@@ -35,7 +35,7 @@
     </upload-list>
   </div>
 </template>
-<script lang="ts" setup>
+<script lang="tsx" setup>
 import {
   computed,
   provide,
@@ -104,43 +104,35 @@ const slots = useSlots()
 
 const UploadContentWithProps = defineComponent({
   render() {
-    return h(
-      UploadContent,
-      {
-        ref: 'uploadRef',
-        type: props.type,
-        drag: props.drag,
-        action: props.action,
-        multiple: props.multiple,
-        withCredentials: props.withCredentials,
-        headers: props.headers,
-        method: props.method,
-        name: props.name,
-        data: props.data,
-        accept: props.accept,
-        autoUpload: props.autoUpload,
-        listType: props.listType,
-        disabled: props.disabled,
-        limit: props.limit,
-        fileList: props.fileList,
-        httpRequest: props.httpRequest,
-        beforeUpload: props.beforeUpload,
-        onExceed: props.onExceed,
-        onStart: handleStart,
-        onProgress: handleProgress,
-        onSuccess: handleSuccess,
-        onError: handleError,
-        onRemove: handleRemove,
-      },
-      {
-        default: () => {
-          if (slots.trigger) {
-            return slots.trigger()
-          } else if (slots.default) {
-            return slots.default()
-          }
-        },
-      }
+    return (
+      <UploadContent
+        ref={'uploadRef'}
+        type={props.type}
+        drag={props.drag}
+        action={props.action}
+        multiple={props.multiple}
+        withCredentials={props.withCredentials}
+        headers={props.headers}
+        method={props.method}
+        name={props.name}
+        data={props.data}
+        accept={props.accept}
+        autoUpload={props.autoUpload}
+        listType={props.listType}
+        disabled={props.disabled}
+        limit={props.limit}
+        fileList={uploadFiles.value}
+        httpRequest={props.httpRequest}
+        beforeUpload={props.beforeUpload}
+        onExceed={props.onExceed}
+        onStart={handleStart}
+        onProgress={handleProgress}
+        onSuccess={handleSuccess}
+        onError={handleError}
+        onRemove={handleRemove}
+      >
+        {slots.trigger ? slots.trigger() : slots.default && slots.default()}
+      </UploadContent>
     )
   },
 })
