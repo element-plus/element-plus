@@ -7,6 +7,16 @@
     <span class="example-demonstration">Collapse tags</span>
     <el-cascader :options="options" :props="props" collapse-tags clearable />
   </div>
+  <div class="example-block">
+    <span class="example-demonstration">Collapse tags tooltip</span>
+    <el-cascader
+      :options="options"
+      :props="props"
+      collapse-tags
+      collapse-tags-tooltip
+      clearable
+    />
+  </div>
 </template>
 
 <script lang="ts" setup>

@@ -88,7 +88,44 @@
             disable-transitions
             @close="deleteTag(tag)"
           >
-            <span>{{ tag.text }}</span>
+            <template v-if="tag.isCollapseTag === false">
+              <span>{{ tag.text }}</span>
+            </template>
+            <template v-else>
+              <el-tooltip
+                :teleported="false"
+                :disabled="popperVisible || !collapseTagsTooltip"
+                :fallback-placements="['bottom', 'top', 'right', 'left']"
+                placement="bottom"
+                effect="light"
+              >
+                <template #default>
+                  <span>{{ tag.text }}</span>
+                </template>
+                <template #content>
+                  <div class="el-cascader__collapse-tags">
+                    <div
+                      v-for="(tag2, idx) in allPresentTags"
+                      :key="idx"
+                      class="el-cascader__collapse-tag"
+                    >
+                      <el-tag
+                        :key="tag2.key"
+                        class="in-tooltip"
+                        type="info"
+                        :size="tagSize"
+                        :hit="tag2.hitState"
+                        :closable="tag2.closable"
+                        disable-transitions
+                        @close="deleteTag(tag2)"
+                      >
+                        <span>{{ tag2.text }}</span>
+                      </el-tag>
+                    </div>
+                  </div>
+                </template>
+              </el-tooltip>
+            </template>
           </el-tag>
           <input
             v-if="filterable && !isDisabled"
@@ -286,6 +323,10 @@ export default defineComponent({
       default: true,
     },
     collapseTags: Boolean,
+    collapseTagsTooltip: {
+      type: Boolean,
+      default: false,
+    },
     debounce: {
       type: Number,
       default: 300,
@@ -341,6 +382,7 @@ export default defineComponent({
     const inputValue = ref('')
     const searchInputValue = ref('')
     const presentTags: Ref<Tag[]> = ref([])
+    const allPresentTags: Ref<Tag[]> = ref([])
     const suggestions: Ref<CascaderNode[]> = ref([])
     const isOnComposition = ref(false)
 
@@ -436,6 +478,7 @@ export default defineComponent({
         text: node.calcText(showAllLevels, separator),
         hitState: false,
         closable: !isDisabled.value && !node.isDisabled,
+        isCollapseTag: false,
       }
     }
 
@@ -452,6 +495,10 @@ export default defineComponent({
       const nodes = checkedNodes.value
       const tags: Tag[] = []
 
+      const allTags: Tag[] = []
+      nodes.forEach((node) => allTags.push(genTag(node)))
+      allPresentTags.value = allTags
+
       if (nodes.length) {
         const [first, ...rest] = nodes
         const restCount = rest.length
@@ -464,6 +511,7 @@ export default defineComponent({
               key: -1,
               text: `+ ${restCount}`,
               closable: false,
+              isCollapseTag: true,
             })
           } else {
             rest.forEach((node) => tags.push(genTag(node)))
@@ -486,6 +534,9 @@ export default defineComponent({
 
       if (multiple.value) {
         presentTags.value.forEach((tag) => {
+          tag.hitState = false
+        })
+        allPresentTags.value.forEach((tag) => {
           tag.hitState = false
         })
       }
@@ -701,6 +752,7 @@ export default defineComponent({
       inputValue,
       searchInputValue,
       presentTags,
+      allPresentTags,
       suggestions,
       isDisabled,
       isOnComposition,
