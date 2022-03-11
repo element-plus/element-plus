@@ -12,6 +12,10 @@
     "vue"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git"
+  },
   "exports": {
     ".": {
       "require": "./lib/index.js",
@@ -37,10 +41,6 @@
     "es/components/*/style/*",
     "lib/components/*/style/*"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/element-plus/element-plus.git"
-  },
   "bugs": {
     "url": "https://github.com/element-plus/element-plus/issues"
   },

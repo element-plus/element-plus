@@ -1,13 +1,13 @@
 {
   "name": "@element-plus/hooks",
-  "description": "Element Plus composables",
   "version": "0.0.5",
+  "description": "Element Plus composables",
+  "license": "MIT",
   "main": "index.ts",
   "module": "index.ts",
   "unpkg": "index.js",
   "jsdelivr": "index.js",
   "types": "index.d.ts",
-  "license": "MIT",
   "peerDependencies": {
     "vue": "^3.2.0"
   },

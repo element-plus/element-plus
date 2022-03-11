@@ -729,6 +729,46 @@ describe('Select', () => {
     expect((wrapper.vm as any).value).toBe('new')
   })
 
+  test('allow create async option', async () => {
+    const options = [
+      {
+        value: '选项1',
+        label: '黄金糕',
+      },
+      {
+        value: '选项2',
+        label: '双皮奶',
+      },
+    ]
+    wrapper = _mount(
+      `
+      <el-select
+        v-model="value"
+        filterable
+        allowCreate
+      >
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [],
+        value: '选项2',
+      })
+    )
+
+    await nextTick()
+    expect(getOptions()).toHaveLength(1)
+    await wrapper.setData({
+      options,
+    })
+    expect(getOptions()).toHaveLength(options.length)
+  })
+
   test('multiple select', async () => {
     wrapper = getSelectVm({ multiple: true })
     await wrapper.find('.select-trigger').trigger('click')
@@ -1515,6 +1555,19 @@ describe('Select', () => {
     })
     await nextTick()
     expect(innerInputEl.placeholder).toBe(placeholder)
+  })
+
+  test('should close popper when click icon twice', async () => {
+    wrapper = getSelectVm({
+      filterable: true,
+      clearable: true,
+    })
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const suffixIcon = select.find('.el-input__suffix')
+    await suffixIcon.trigger('click')
+    expect((select.vm as any).visible).toBe(true)
+    await suffixIcon.trigger('click')
+    expect((select.vm as any).visible).toBe(false)
   })
 
   describe('should show all options when open select dropdown', () => {

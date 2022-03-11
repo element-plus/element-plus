@@ -654,7 +654,7 @@ export const useSelect = (props, states: States, ctx) => {
 
     if (tooltipRef.value && target) {
       const menu = tooltipRef.value?.popperRef?.contentRef?.querySelector?.(
-        '.el-select-dropdown__wrap'
+        `.${ns.be('dropdown', 'wrap')}`
       )
       if (menu) {
         scrollIntoView(menu as HTMLElement, target)
@@ -670,10 +670,12 @@ export const useSelect = (props, states: States, ctx) => {
     states.cachedOptions.set(vm.value, vm)
   }
 
-  const onOptionDestroy = (key) => {
-    states.optionsCount--
-    states.filteredOptionsCount--
-    states.options.delete(key)
+  const onOptionDestroy = (key, vm: SelectOptionProxy) => {
+    if (states.options.get(key) === vm) {
+      states.optionsCount--
+      states.filteredOptionsCount--
+      states.options.delete(key)
+    }
   }
 
   const resetInputState = (e: KeyboardEvent) => {
