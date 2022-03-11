@@ -55,7 +55,7 @@ export const rateProps = buildProps({
     type: iconPropType,
     default: () => Star,
   },
-  disabledvoidIcon: {
+  disabledVoidIcon: {
     type: iconPropType,
     default: () => StarFilled,
   },
