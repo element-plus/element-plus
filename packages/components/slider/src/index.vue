@@ -12,7 +12,8 @@
       ref="slider"
       :class="[
         ns.e('runway'),
-        { 'show-input': showInput && !range, disabled: sliderDisabled },
+        { 'show-input': showInput && !range },
+        ns.is('disabled', sliderDisabled),
       ]"
       :style="runwayStyle"
       @click="onSliderClick"
@@ -349,7 +350,7 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
           initData.oldValue = val.slice()
         }
       }
-    } else if (!props.range && typeof val === 'number' && !isNaN(val)) {
+    } else if (!props.range && typeof val === 'number' && !Number.isNaN(val)) {
       if (val < props.min) {
         _emit(props.min)
       } else if (val > props.max) {
@@ -419,7 +420,10 @@ const useLifecycle = (props, initData, resetSize) => {
       initData.oldValue = [initData.firstValue, initData.secondValue]
       valuetext = `${initData.firstValue}-${initData.secondValue}`
     } else {
-      if (typeof props.modelValue !== 'number' || isNaN(props.modelValue)) {
+      if (
+        typeof props.modelValue !== 'number' ||
+        Number.isNaN(props.modelValue)
+      ) {
         initData.firstValue = props.min
       } else {
         initData.firstValue = Math.min(

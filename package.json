@@ -27,8 +27,8 @@
     "build": "gulp --require sucrase/register/ts -f build/gulpfile.ts",
     "build:theme": "pnpm run build -C packages/theme-chalk",
     "format": "prettier --write .",
-    "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --max-warnings 0 && pretty-quick --check --branch dev",
-    "lint:fix": "eslint --fix . --ext .vue,.js,.ts,.jsx,.tsx && pretty-quick --branch dev",
+    "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx,.md,.json --max-warnings 0 && pretty-quick --check --branch dev",
+    "lint:fix": "eslint --fix . --ext .vue,.js,.ts,.jsx,.tsx,.md,.json && pretty-quick --branch dev",
     "docs:dev": "pnpm run -C docs dev",
     "docs:build": "pnpm run -C docs build",
     "docs:serve": "pnpm run -C docs serve",
@@ -44,7 +44,7 @@
     }
   },
   "lint-staged": {
-    "*.{vue,js,ts,jsx,tsx}": "eslint --fix"
+    "*.{vue,js,ts,jsx,tsx,md,json}": "eslint --fix"
   },
   "browserslist": [
     "> 1%",
@@ -81,6 +81,7 @@
     "@babel/preset-typescript": "^7.16.7",
     "@commitlint/cli": "^16.2.1",
     "@commitlint/config-conventional": "^16.2.1",
+    "@element-plus/eslint-config": "workspace:*",
     "@pnpm/find-workspace-packages": "^3.1.42",
     "@pnpm/logger": "^4.0.0",
     "@pnpm/types": "^7.10.0",
@@ -94,8 +95,6 @@
     "@types/node": "^17.0.18",
     "@types/rollup-plugin-css-only": "^3.1.0",
     "@types/sass": "^1.43.1",
-    "@typescript-eslint/eslint-plugin": "^5.13.0",
-    "@typescript-eslint/parser": "^5.13.0",
     "@vitejs/plugin-vue": "^2.2.4",
     "@vitejs/plugin-vue-jsx": "^1.3.8",
     "@vitest/ui": "^0.5.9",
@@ -111,11 +110,7 @@
     "cz-conventional-changelog": "^3.3.0",
     "esbuild": "^0.14.25",
     "eslint": "^8.10.0",
-    "eslint-config-prettier": "^8.5.0",
     "eslint-define-config": "^1.2.5",
-    "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-vue": "^8.5.0",
     "expect-type": "^0.13.0",
     "fast-glob": "^3.2.11",
     "fs-extra": "^10.0.1",

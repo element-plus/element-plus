@@ -3,7 +3,7 @@
     ref="tooltipRef"
     v-model:visible="popperVisible"
     :teleported="compatTeleported"
-    :popper-class="`el-cascader__dropdown ${popperClass}`"
+    :popper-class="[nsCascader.e('dropdown'), popperClass]"
     :popper-options="popperOptions"
     :fallback-placements="[
       'bottom-start',
@@ -16,7 +16,7 @@
     :stop-popper-mouse-event="false"
     :gpu-acceleration="false"
     placement="bottom-start"
-    transition="el-zoom-in-top"
+    :transition="`${nsCascader.namespace.value}-zoom-in-top`"
     effect="light"
     pure
     persistent
@@ -26,9 +26,9 @@
       <div
         v-clickoutside:[popperPaneRef]="() => togglePopperVisible(false)"
         :class="[
-          'el-cascader',
-          realSize && `el-cascader--${realSize}`,
-          { 'is-disabled': isDisabled },
+          nsCascader.b(),
+          nsCascader.m(realSize),
+          nsCascader.is('disabled', isDisabled),
           $attrs.class,
         ]"
         :style="$attrs.style"
@@ -45,7 +45,7 @@
           :disabled="isDisabled"
           :validate-event="false"
           :size="realSize"
-          :class="{ 'is-focus': popperVisible }"
+          :class="nsCascader.is('focus', popperVisible)"
           @compositionstart="handleComposition"
           @compositionupdate="handleComposition"
           @compositionend="handleComposition"
@@ -57,7 +57,7 @@
             <el-icon
               v-if="clearBtnVisible"
               key="clear"
-              class="el-input__icon icon-circle-close"
+              :class="[nsInput.e('icon'), 'icon-circle-close']"
               @click.stop="handleClear"
             >
               <circle-close />
@@ -66,9 +66,9 @@
               v-else
               key="arrow-down"
               :class="[
-                'el-input__icon',
+                nsInput.e('icon'),
                 'icon-arrow-down',
-                popperVisible && 'is-reverse',
+                nsCascader.is('reverse', popperVisible),
               ]"
               @click.stop="togglePopperVisible()"
             >
@@ -77,7 +77,7 @@
           </template>
         </el-input>
 
-        <div v-if="multiple" ref="tagWrapper" class="el-cascader__tags">
+        <div v-if="multiple" ref="tagWrapper" :class="nsCascader.e('tags')">
           <el-tag
             v-for="tag in presentTags"
             :key="tag.key"
@@ -94,7 +94,7 @@
             v-if="filterable && !isDisabled"
             v-model="searchInputValue"
             type="text"
-            class="el-cascader__search-input"
+            :class="nsCascader.e('search-input')"
             :placeholder="presentText ? '' : inputPlaceholder"
             @input="(e) => handleInput(searchInputValue, e)"
             @click.stop="togglePopperVisible(true)"
@@ -124,8 +124,8 @@
         v-show="filtering"
         ref="suggestionPanel"
         tag="ul"
-        class="el-cascader__suggestion-panel"
-        view-class="el-cascader__suggestion-list"
+        :class="nsCascader.e('suggestion-panel')"
+        :view-class="nsCascader.e('suggestion-list')"
         @keydown="handleSuggestionKeyDown"
       >
         <template v-if="suggestions.length">
@@ -133,8 +133,8 @@
             v-for="item in suggestions"
             :key="item.uid"
             :class="[
-              'el-cascader__suggestion-item',
-              item.checked && 'is-checked',
+              nsCascader.e('suggestion-item'),
+              nsCascader.is('checked', item.checked),
             ]"
             :tabindex="-1"
             @click="handleSuggestionClick(item)"
@@ -144,7 +144,7 @@
           </li>
         </template>
         <slot v-else name="empty">
-          <li class="el-cascader__empty-text">
+          <li :class="nsCascader.e('empty-text')">
             {{ t('el.cascader.noMatch') }}
           </li>
         </slot>
@@ -182,7 +182,7 @@ import ElIcon from '@element-plus/components/icon'
 
 import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 import { ClickOutside as Clickoutside } from '@element-plus/directives'
-import { useLocale, useSize } from '@element-plus/hooks'
+import { useLocale, useSize, useNamespace } from '@element-plus/hooks'
 
 import {
   focusNode,
@@ -323,6 +323,9 @@ export default defineComponent({
       COMPONENT_NAME,
       'popperAppendToBody'
     )
+    const nsCascader = useNamespace('cascader')
+    const nsInput = useNamespace('input')
+
     const { t } = useLocale()
     const elForm = inject(formContextKey, {} as FormContext)
     const elFormItem = inject(formItemContextKey, {} as FormItemContext)
@@ -497,11 +500,11 @@ export default defineComponent({
 
       if (filtering.value && suggestionPanel.value) {
         firstNode = suggestionPanel.value.$el.querySelector(
-          '.el-cascader__suggestion-item'
+          `.${nsCascader.e('suggestion-item')}`
         )
       } else {
         firstNode = panel.value?.$el.querySelector(
-          '.el-cascader-node[tabindex="-1"]'
+          `.${nsCascader.b('node')}[tabindex="-1"]`
         )
       }
 
@@ -520,7 +523,7 @@ export default defineComponent({
 
       if (suggestionPanelEl) {
         const suggestionList = suggestionPanelEl.querySelector(
-          '.el-cascader__suggestion-list'
+          `.${nsCascader.e('suggestion-list')}`
         )
         suggestionList.style.minWidth = `${inputInner.offsetWidth}px`
       }
@@ -603,7 +606,7 @@ export default defineComponent({
             getSibling(
               target,
               distance,
-              '.el-cascader__suggestion-item[tabindex="-1"]'
+              `.${nsCascader.e('suggestion-item')}[tabindex="-1"]`
             )
           )
           break
@@ -709,6 +712,8 @@ export default defineComponent({
       // deprecation in ver 2.1.0
       compatTeleported,
 
+      nsCascader,
+      nsInput,
       t,
       togglePopperVisible,
       hideSuggestionPanel,

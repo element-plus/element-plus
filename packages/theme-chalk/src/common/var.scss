@@ -432,6 +432,7 @@ $message: map.merge(
   (
     'min-width': 380px,
     'bg-color': #edf2fc,
+    'border-color': var(--el-border-color-lighter),
     'padding': 15px 15px 15px 20px,
     'close-size': 16px,
     'close-icon-color': var(--el-text-color-placeholder),
@@ -1245,7 +1246,7 @@ $transition: map.merge(
 $transition-duration: () !default;
 $transition-duration: map.merge(
   (
-    'default': 0.3s,
+    '': 0.3s,
     'fast': 0.2s,
   ),
   $transition-duration

@@ -546,9 +546,9 @@ export default defineComponent({
         }
         if (ctx.slots.prefix) {
           const inputChildNodes = reference.value.$el.childNodes
-          const input = (Array.from(inputChildNodes) as HTMLElement[]).filter(
+          const input = (Array.from(inputChildNodes) as HTMLElement[]).find(
             (item) => item.tagName === 'INPUT'
-          )[0]
+          )
           const prefix = reference.value.$el.querySelector(
             `.${nsInput.e('prefix')}`
           )

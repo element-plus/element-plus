@@ -79,7 +79,7 @@ function useRender<T>(
   }
 
   const checkSubColumn = (children: TableColumn<T> | TableColumn<T>[]) => {
-    if (children instanceof Array) {
+    if (Array.isArray(children)) {
       children.forEach((child) => check(child))
     } else {
       check(children)
@@ -161,7 +161,7 @@ function useRender<T>(
     }, {})
   }
   const getColumnElIndex = (children, child) => {
-    return [].indexOf.call(children, child)
+    return Array.prototype.indexOf.call(children, child)
   }
 
   return {

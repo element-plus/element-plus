@@ -103,8 +103,7 @@ If they are mixed together, each hot update of `element-plus` needs to compile a
 :::
 
 ```ts
-import Vue from 'vue'
-
+import { createApp } from 'vue'
 import './styles/element/index.scss'
 import ElementPlus from 'element-plus'
 import App from './App.vue'
@@ -155,6 +154,30 @@ export default defineConfig({
     //   ],
     // }),
     // or use unplugin-element-plus
+    ElementPlus({
+      useSource: true,
+    }),
+  ],
+})
+```
+
+If you are using webpack, and you want to custom theme when importing on demand.
+
+```ts
+// webpack.config.ts
+// use unplugin-element-plus
+
+import ElementPlus from 'unplugin-element-plus/webpack'
+
+export default defineConfig({
+  css: {
+    loaderOptions: {
+      scss: {
+        additionalData: `@use "~/styles/element/index.scss" as *;`,
+      },
+    },
+  },
+  plugins: [
     ElementPlus({
       useSource: true,
     }),

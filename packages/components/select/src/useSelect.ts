@@ -157,7 +157,7 @@ export const useSelect = (props, states: States, ctx) => {
   const selectSize = useSize()
 
   const collapseTagSize = computed(() =>
-    ['small'].indexOf(selectSize.value) > -1 ? 'small' : 'default'
+    ['small'].includes(selectSize.value) ? 'small' : 'default'
   )
 
   const dropMenuVisible = computed({
@@ -265,7 +265,7 @@ export const useSelect = (props, states: States, ctx) => {
             input.value?.focus()
           } else {
             if (states.selectedLabel) {
-              states.currentPlaceholder = states.selectedLabel
+              states.currentPlaceholder = `${states.selectedLabel}`
               states.selectedLabel = ''
             }
           }
@@ -294,9 +294,7 @@ export const useSelect = (props, states: States, ctx) => {
       }
       const inputs = selectWrapper.value?.querySelectorAll('input') || []
       if (
-        Array.from(inputs).indexOf(
-          document.activeElement as HTMLInputElement
-        ) === -1
+        !Array.from(inputs).includes(document.activeElement as HTMLInputElement)
       ) {
         setSelected()
       }
@@ -331,9 +329,9 @@ export const useSelect = (props, states: States, ctx) => {
     nextTick(() => {
       if (!reference.value) return
       const inputChildNodes = reference.value.$el.childNodes
-      const input = Array.from(inputChildNodes).filter(
+      const input = Array.from(inputChildNodes).find(
         (item) => (item as HTMLElement).tagName === 'INPUT'
-      )[0] as HTMLInputElement
+      ) as HTMLInputElement
       const _tags = tags.value
       const sizeInMap = states.initialInputHeight || 40
       input.style.height =
@@ -346,7 +344,7 @@ export const useSelect = (props, states: States, ctx) => {
               sizeInMap
             )}px`
 
-      states.tagInMultiLine = parseFloat(input.style.height) >= sizeInMap
+      states.tagInMultiLine = Number.parseFloat(input.style.height) >= sizeInMap
 
       if (states.visible && emptyText.value !== false) {
         tooltipRef.value?.updatePopper?.()
@@ -421,7 +419,7 @@ export const useSelect = (props, states: States, ctx) => {
     const optionsInDropdown = optionsArray.value.filter(
       (n) => n.visible && !n.disabled && !n.states.groupDisabled
     )
-    const userCreatedOption = optionsInDropdown.filter((n) => n.created)[0]
+    const userCreatedOption = optionsInDropdown.find((n) => n.created)
     const firstOriginOption = optionsInDropdown[0]
     states.hoverIndex = getValueIndex(
       optionsArray.value,
@@ -656,7 +654,7 @@ export const useSelect = (props, states: States, ctx) => {
 
     if (tooltipRef.value && target) {
       const menu = tooltipRef.value?.popperRef?.contentRef?.querySelector?.(
-        '.el-select-dropdown__wrap'
+        `.${ns.be('dropdown', 'wrap')}`
       )
       if (menu) {
         scrollIntoView(menu as HTMLElement, target)
@@ -672,10 +670,12 @@ export const useSelect = (props, states: States, ctx) => {
     states.cachedOptions.set(vm.value, vm)
   }
 
-  const onOptionDestroy = (key) => {
-    states.optionsCount--
-    states.filteredOptionsCount--
-    states.options.delete(key)
+  const onOptionDestroy = (key, vm: SelectOptionProxy) => {
+    if (states.options.get(key) === vm) {
+      states.optionsCount--
+      states.filteredOptionsCount--
+      states.options.delete(key)
+    }
   }
 
   const resetInputState = (e: KeyboardEvent) => {

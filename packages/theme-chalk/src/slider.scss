@@ -38,7 +38,7 @@ $slider-height: map.merge(
       width: auto;
     }
 
-    &.disabled {
+    &.is-disabled {
       cursor: default;
 
       .#{$namespace}-slider__bar {
