@@ -244,6 +244,7 @@ importers:
       async-validator: ^4.0.7
       csstype: ^2.6.19
       dayjs: ^1.10.8
+      escape-html: ^1.0.3
       lodash: ^4.17.21
       lodash-es: ^4.17.21
       lodash-unified: ^1.0.2
@@ -257,6 +258,7 @@ importers:
       '@vueuse/core': 7.7.1_vue@3.2.31
       async-validator: 4.0.7
       dayjs: 1.10.8
+      escape-html: 1.0.3
       lodash: 4.17.21
       lodash-es: 4.17.21
       lodash-unified: 1.0.2_da03a4540fbd16bbaafbb96724306afd
@@ -5987,7 +5989,7 @@ packages:
     dev: true
 
   /escape-html/1.0.3:
-    resolution: {integrity: sha512-NiSupZ4OeuGwr68lGIeym/ksIZMJodUGOSCZ/FSnTxcrekbvqrgdUxlJOMpijaKZVjAJrWrGs/6Jy8OMuyj9ow==}
+    resolution: {integrity: sha1-Aljq5NPQwJdN4cFpGI7wBR0dGYg=}
 
   /escape-string-regexp/1.0.5:
     resolution: {integrity: sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=}
