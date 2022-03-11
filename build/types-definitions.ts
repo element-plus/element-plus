@@ -68,9 +68,11 @@ export const generateTypesDefinitions = async () => {
         if (script || scriptSetup) {
           let content = ''
           let isTS = false
+          let isTSX = false
           if (script && script.content) {
             content += script.content
             if (script.lang === 'ts') isTS = true
+            else if (script.lang === 'tsx') isTSX = true
           }
           if (scriptSetup) {
             const compiled = vueCompiler.compileScript(sfc.descriptor, {
@@ -78,9 +80,11 @@ export const generateTypesDefinitions = async () => {
             })
             content += compiled.content
             if (scriptSetup.lang === 'ts') isTS = true
+            else if (scriptSetup.lang === 'tsx') isTSX = true
           }
           const sourceFile = project.createSourceFile(
-            path.relative(process.cwd(), file) + (isTS ? '.ts' : '.js'),
+            path.relative(process.cwd(), file) +
+              (isTSX ? '.tsx' : isTS ? '.ts' : '.js'),
             content
           )
           sourceFiles.push(sourceFile)

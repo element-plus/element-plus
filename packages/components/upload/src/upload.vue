@@ -42,7 +42,6 @@ import {
   onBeforeUnmount,
   toRef,
   shallowRef,
-  h,
   defineComponent,
   useSlots,
 } from 'vue'
