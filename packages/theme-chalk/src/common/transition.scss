@@ -104,14 +104,15 @@
 .#{$namespace}-list-leave-active {
   transition: all 1s;
 }
+
 .#{$namespace}-list-enter-from,
-.#{$namespace}-list-leave-active {
+.#{$namespace}-list-leave-to {
   opacity: 0;
   transform: translateY(-30px);
 }
 
 .#{$namespace}-list-leave-active {
-  height: 0;
+  position: absolute !important;
 }
 
 .#{$namespace}-opacity-transition {

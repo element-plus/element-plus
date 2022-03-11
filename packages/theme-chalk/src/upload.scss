@@ -118,21 +118,16 @@
   margin: 10px 0 0;
   padding: 0;
   list-style: none;
-
+  position: relative;
   @include e(item) {
     transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
     font-size: 14px;
     color: var(--el-text-color-regular);
-    line-height: 2.1;
-    margin-bottom: 0;
+    margin-bottom: 5px;
     position: relative;
     box-sizing: border-box;
     border-radius: 4px;
     width: 100%;
-
-    display: inline-flex;
-    align-items: center;
-    padding: 1px;
 
     .#{bem('progress')} {
       position: absolute;
@@ -159,10 +154,12 @@
       display: none;
       position: absolute;
       right: 5px;
+      top: 50%;
       cursor: pointer;
       opacity: 0.75;
       color: var(--el-text-color-regular);
       transition: opacity var(--el-transition-duration);
+      transform: translateY(-50%);
 
       &:hover {
         opacity: 1;
@@ -293,7 +290,7 @@
 
   @include m(picture-card) {
     display: inline-flex;
-
+    margin: 0;
     #{getCssVarName('upload-list', 'picture-card', 'size')}: 148px;
 
     .#{bem('upload-list', 'item')} {
@@ -424,7 +421,6 @@
       box-sizing: border-box;
       margin-top: 10px;
       padding: 10px;
-      height: 92px;
 
       .#{bem('icon', '' ,'check')},
       .#{bem('icon', '' ,'circle-check')} {
@@ -448,10 +444,11 @@
             display: none;
           }
         }
+      }
 
-        .#{bem('icon', '' ,'close')} {
-          top: 5px;
-        }
+      & .#{bem('icon', '' ,'close')} {
+        top: 5px;
+        transform: translateY(0);
       }
     }
 
