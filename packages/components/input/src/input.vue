@@ -209,7 +209,10 @@ export default defineComponent({
     const validateIcon = computed(
       () => ValidateComponentsMap[validateState.value]
     )
-    const containerStyle = computed(() => rawAttrs.style as StyleValue)
+    const containerStyle = computed<StyleValue>(() => [
+      rawAttrs.style,
+      props.inputStyle,
+    ])
     const computedTextareaStyle = computed<StyleValue>(() => [
       props.inputStyle,
       _textareaCalcStyle.value,
