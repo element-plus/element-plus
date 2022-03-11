@@ -355,6 +355,17 @@ export default defineComponent({
       }
     )
 
+    const stopWatchItems = watch(
+      () => items.value,
+      (val) => {
+        if (val.length) {
+          playSlides()
+          stopWatchItems()
+        }
+      },
+      { immediate: true, deep: true }
+    )
+
     // lifecycle
     onMounted(() => {
       nextTick(() => {
