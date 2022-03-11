@@ -18,8 +18,8 @@
       $attrs.class,
     ]"
     :style="containerStyle"
-    @mouseenter="onMouseEnter"
-    @mouseleave="onMouseLeave"
+    @mouseenter="handleMouseEnter"
+    @mouseleave="handleMouseLeave"
   >
     <!-- input -->
     <template v-if="type !== 'textarea'">
@@ -114,7 +114,7 @@
         :disabled="inputDisabled"
         :readonly="readonly"
         :autocomplete="autocomplete"
-        :style="computedTextareaStyle"
+        :style="textareaStyle"
         :aria-label="label"
         :placeholder="placeholder"
         @compositionstart="handleCompositionStart"
@@ -165,7 +165,7 @@ import {
   useNamespace,
 } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { calcTextareaHeight } from './calc-textarea-height'
+import { calcTextareaHeight } from './utils'
 import { inputProps, inputEmits } from './input'
 import type { StyleValue } from 'vue'
 
@@ -181,12 +181,12 @@ defineOptions({
 })
 const props = defineProps(inputProps)
 const emit = defineEmits(inputEmits)
-const slots = useSlots()
-const rawAttrs = useRawAttrs()
 
 const instance = getCurrentInstance()!
-const attrs = useAttrs()
+const rawAttrs = useRawAttrs()
+const slots = useSlots()
 
+const attrs = useAttrs()
 const { form, formItem } = useFormItem()
 const inputSize = useSize()
 const inputDisabled = useDisabled()
@@ -195,13 +195,14 @@ const nsTextarea = useNamespace('textarea')
 
 const input = shallowRef<HTMLInputElement>()
 const textarea = shallowRef<HTMLTextAreaElement>()
+
 const focused = ref(false)
 const hovering = ref(false)
 const isComposing = ref(false)
 const passwordVisible = ref(false)
-const _textareaCalcStyle = shallowRef(props.inputStyle)
+const textareaCalcStyle = shallowRef(props.inputStyle)
 
-const inputOrTextarea = computed(() => input.value || textarea.value)
+const _ref = computed(() => input.value || textarea.value)
 
 const needStatusIcon = computed(() => form?.statusIcon ?? false)
 const validateState = computed(() => formItem?.validateState || '')
@@ -210,9 +211,9 @@ const containerStyle = computed<StyleValue>(() => [
   rawAttrs.style as StyleValue,
   props.inputStyle,
 ])
-const computedTextareaStyle = computed<StyleValue>(() => [
+const textareaStyle = computed<StyleValue>(() => [
   props.inputStyle,
-  _textareaCalcStyle.value,
+  textareaCalcStyle.value,
   { resize: props.resize },
 ])
 const nativeInputValue = computed(() =>
@@ -249,6 +250,15 @@ const inputExceed = computed(
     !!isWordLimitVisible.value &&
     textLength.value > Number(attrs.value.maxlength)
 )
+const suffixVisible = computed(
+  () =>
+    !!slots.suffix ||
+    !!props.suffixIcon ||
+    showClear.value ||
+    props.showPassword ||
+    isWordLimitVisible.value ||
+    (!!validateState.value && needStatusIcon.value)
+)
 
 const resizeTextarea = () => {
   const { type, autosize } = props
@@ -258,18 +268,18 @@ const resizeTextarea = () => {
   if (autosize) {
     const minRows = isObject(autosize) ? autosize.minRows : undefined
     const maxRows = isObject(autosize) ? autosize.maxRows : undefined
-    _textareaCalcStyle.value = {
+    textareaCalcStyle.value = {
       ...calcTextareaHeight(textarea.value!, minRows, maxRows),
     }
   } else {
-    _textareaCalcStyle.value = {
+    textareaCalcStyle.value = {
       minHeight: calcTextareaHeight(textarea.value!).minHeight,
     }
   }
 }
 
 const setNativeInputValue = () => {
-  const input = inputOrTextarea.value
+  const input = _ref.value
   if (!input || input.value === nativeInputValue.value) return
   input.value = nativeInputValue.value
 }
@@ -277,11 +287,10 @@ const setNativeInputValue = () => {
 const calcIconOffset = (place: 'prefix' | 'suffix') => {
   const { el } = instance.vnode
   if (!el) return
-  const elList: HTMLSpanElement[] = Array.from(
-    el.querySelectorAll(`.${nsInput.e(place)}`)
+  const elList = Array.from(
+    (el as Element).querySelectorAll<HTMLSpanElement>(`.${nsInput.e(place)}`)
   )
   const target = elList.find((item) => item.parentNode === el)
-
   if (!target) return
 
   const pendant = PENDANT_MAP[place]
@@ -323,34 +332,6 @@ const handleChange = (event: Event) => {
   emit('change', (event.target as TargetElement).value)
 }
 
-const focus = () => {
-  // see: https://github.com/ElemeFE/element/issues/18573
-  nextTick(() => {
-    inputOrTextarea.value?.focus()
-  })
-}
-
-const blur = () => {
-  inputOrTextarea.value?.blur()
-}
-
-const handleFocus = (event: FocusEvent) => {
-  focused.value = true
-  emit('focus', event)
-}
-
-const handleBlur = (event: FocusEvent) => {
-  focused.value = false
-  emit('blur', event)
-  if (props.validateEvent) {
-    formItem?.validate?.('blur').catch((err) => debugWarn(err))
-  }
-}
-
-const select = () => {
-  inputOrTextarea.value?.select()
-}
-
 const handleCompositionStart = (event: CompositionEvent) => {
   emit('compositionstart', event)
   isComposing.value = true
@@ -371,27 +352,56 @@ const handleCompositionEnd = (event: CompositionEvent) => {
   }
 }
 
+const handlePasswordVisible = () => {
+  passwordVisible.value = !passwordVisible.value
+  focus()
+}
+
+const focus = async () => {
+  // see: https://github.com/ElemeFE/element/issues/18573
+  await nextTick()
+  _ref.value?.focus()
+}
+
+const blur = () => _ref.value?.blur()
+
+const handleFocus = (event: FocusEvent) => {
+  focused.value = true
+  emit('focus', event)
+}
+
+const handleBlur = (event: FocusEvent) => {
+  focused.value = false
+  emit('blur', event)
+  if (props.validateEvent) {
+    formItem?.validate?.('blur').catch((err) => debugWarn(err))
+  }
+}
+
+const handleMouseLeave = (evt: MouseEvent) => {
+  hovering.value = false
+  emit('mouseleave', evt)
+}
+
+const handleMouseEnter = (evt: MouseEvent) => {
+  hovering.value = true
+  emit('mouseenter', evt)
+}
+
+const handleKeydown = (evt: KeyboardEvent) => {
+  emit('keydown', evt)
+}
+
+const select = () => {
+  _ref.value?.select()
+}
+
 const clear = () => {
   emit(UPDATE_MODEL_EVENT, '')
   emit('change', '')
   emit('clear')
   emit('input', '')
 }
-
-const handlePasswordVisible = () => {
-  passwordVisible.value = !passwordVisible.value
-  focus()
-}
-
-const suffixVisible = computed(
-  () =>
-    !!slots.suffix ||
-    !!props.suffixIcon ||
-    showClear.value ||
-    props.showPassword ||
-    isWordLimitVisible.value ||
-    (!!validateState.value && needStatusIcon.value)
-)
 
 watch(
   () => props.modelValue,
@@ -413,12 +423,11 @@ watch(nativeInputValue, () => setNativeInputValue())
 // https://github.com/ElemeFE/element/issues/14857
 watch(
   () => props.type,
-  () => {
-    nextTick(() => {
-      setNativeInputValue()
-      resizeTextarea()
-      updateIconOffset()
-    })
+  async () => {
+    await nextTick()
+    setNativeInputValue()
+    resizeTextarea()
+    updateIconOffset()
   }
 )
 
@@ -432,35 +441,28 @@ onUpdated(() => {
   nextTick(updateIconOffset)
 })
 
-const onMouseLeave = (evt: MouseEvent) => {
-  hovering.value = false
-  emit('mouseleave', evt)
-}
-
-const onMouseEnter = (evt: MouseEvent) => {
-  hovering.value = true
-  emit('mouseenter', evt)
-}
-
-const handleKeydown = (evt: KeyboardEvent) => {
-  emit('keydown', evt)
-}
-
 defineExpose({
   /** @description HTML input element */
   input,
+  /** @description HTML textarea element */
+  textarea,
+  /** @description HTML element, input or textarea */
+  ref: _ref,
+  /** @description style of textarea. */
+  textareaStyle,
+
+  /** @description from props (used on unit test) */
+  autosize: toRef(props, 'autosize'),
+
   /** @description HTML input element native method */
   focus,
   /** @description HTML input element native method */
   blur,
   /** @description HTML input element native method */
   select,
-
-  /** @description style of textarea. */
-  textareaStyle: computedTextareaStyle,
+  /** @description clear input value */
+  clear,
   /** @description resize textarea. */
   resizeTextarea,
-
-  autosize: toRef(props, 'autosize'),
 })
 </script>

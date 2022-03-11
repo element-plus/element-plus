@@ -108,8 +108,9 @@ import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import ElIcon from '@element-plus/components/icon'
 import { Loading } from '@element-plus/icons-vue'
 import { autocompleteProps, autocompleteEmits } from './autocomplete'
-import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { StyleValue } from 'vue'
+import type { TooltipInstance } from '@element-plus/components/tooltip'
+import type { InputInstance } from '@element-plus/components/input'
 
 defineOptions({
   name: 'ElAutocomplete',
@@ -134,11 +135,7 @@ const dropdownWidth = ref('')
 const activated = ref(false)
 const suggestionDisabled = ref(false)
 const loading = ref(false)
-const inputRef = ref<{
-  inputOrTextarea: HTMLInputElement | HTMLTextAreaElement
-  focus: () => void
-  $el: HTMLElement
-}>()
+const inputRef = ref<InputInstance>()
 const regionRef = ref<HTMLElement>()
 const popperRef = ref<TooltipInstance>()
 const listboxRef = ref<HTMLElement>()
@@ -271,7 +268,7 @@ const highlight = (index: number) => {
     suggestion.scrollTop -= scrollHeight
   }
   highlightedIndex.value = index
-  inputRef.value!.inputOrTextarea.setAttribute(
+  inputRef.value!.ref!.setAttribute(
     'aria-activedescendant',
     `${id.value}-item-${highlightedIndex.value}`
   )
@@ -280,10 +277,10 @@ const highlight = (index: number) => {
 onClickOutside(listboxRef, close)
 
 onMounted(() => {
-  inputRef.value!.inputOrTextarea.setAttribute('role', 'textbox')
-  inputRef.value!.inputOrTextarea.setAttribute('aria-autocomplete', 'list')
-  inputRef.value!.inputOrTextarea.setAttribute('aria-controls', 'id')
-  inputRef.value!.inputOrTextarea.setAttribute(
+  inputRef.value!.ref!.setAttribute('role', 'textbox')
+  inputRef.value!.ref!.setAttribute('aria-autocomplete', 'list')
+  inputRef.value!.ref!.setAttribute('aria-controls', 'id')
+  inputRef.value!.ref!.setAttribute(
     'aria-activedescendant',
     `${id.value}-item-${highlightedIndex.value}`
   )
