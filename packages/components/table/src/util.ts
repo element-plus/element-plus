@@ -1,6 +1,7 @@
 import { createPopper } from '@popperjs/core'
 import { get } from 'lodash-unified'
-import { hasOwn, off, on, escapeHtml } from '@element-plus/utils'
+import escapeHtml from 'escape-html'
+import { hasOwn, off, on } from '@element-plus/utils'
 import { useZIndex } from '@element-plus/hooks'
 import type {
   PopperInstance,
