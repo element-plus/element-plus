@@ -11,38 +11,14 @@
       <template v-if="$slots.file" #default="{ file }">
         <slot name="file" :file="file"></slot>
       </template>
-    </upload-list>
-    <upload-content
-      ref="uploadRef"
-      :type="type"
-      :drag="drag"
-      :action="action"
-      :multiple="multiple"
-      :with-credentials="withCredentials"
-      :headers="headers"
-      :method="method"
-      :name="name"
-      :data="data"
-      :accept="accept"
-      :file-list="uploadFiles"
-      :auto-upload="autoUpload"
-      :list-type="listType"
-      :disabled="disabled"
-      :limit="limit"
-      :http-request="httpRequest"
-      :before-upload="beforeUpload"
-      :on-exceed="onExceed"
-      :on-start="handleStart"
-      :on-progress="handleProgress"
-      :on-success="handleSuccess"
-      :on-error="handleError"
-      :on-remove="handleRemove"
-    >
-      <template #default>
-        <slot v-if="$slots.trigger" name="trigger" />
-        <slot v-if="!$slots.trigger && $slots.default" />
+      <template #append>
+        <upload-content-with-props
+          v-if="listType === 'picture-card'"
+          :key="uploadFiles.length + 1"
+        />
       </template>
-    </upload-content>
+    </upload-list>
+    <upload-content-with-props v-if="listType !== 'picture-card'" />
     <slot v-if="$slots.trigger" />
     <slot name="tip" />
     <upload-list
@@ -60,7 +36,16 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, provide, onBeforeUnmount, toRef, shallowRef } from 'vue'
+import {
+  computed,
+  provide,
+  onBeforeUnmount,
+  toRef,
+  shallowRef,
+  h,
+  defineComponent,
+  useSlots,
+} from 'vue'
 import { uploadContextKey } from '@element-plus/tokens'
 import { useDisabled } from '@element-plus/hooks'
 
@@ -113,5 +98,50 @@ defineExpose({
   handleStart,
   /** @description remove the file manually */
   handleRemove,
+})
+
+const slots = useSlots()
+
+const UploadContentWithProps = defineComponent({
+  render() {
+    return h(
+      UploadContent,
+      {
+        ref: 'uploadRef',
+        type: props.type,
+        drag: props.drag,
+        action: props.action,
+        multiple: props.multiple,
+        withCredentials: props.withCredentials,
+        headers: props.headers,
+        method: props.method,
+        name: props.name,
+        data: props.data,
+        accept: props.accept,
+        autoUpload: props.autoUpload,
+        listType: props.listType,
+        disabled: props.disabled,
+        limit: props.limit,
+        fileList: props.fileList,
+        httpRequest: props.httpRequest,
+        beforeUpload: props.beforeUpload,
+        onExceed: props.onExceed,
+        onStart: handleStart,
+        onProgress: handleProgress,
+        onSuccess: handleSuccess,
+        onError: handleError,
+        onRemove: handleRemove,
+      },
+      {
+        default: () => {
+          if (slots.trigger) {
+            return slots.trigger()
+          } else if (slots.default) {
+            return slots.default()
+          }
+        },
+      }
+    )
+  },
 })
 </script>
