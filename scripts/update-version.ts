@@ -30,7 +30,7 @@ cyan(
       await fs.promises.writeFile(epPackage, JSON.stringify(json, null, 2), {
         encoding: 'utf-8',
       })
-    } catch (e) {
+    } catch {
       process.exit(1)
     }
   } else {

@@ -22,7 +22,7 @@
       :transition="`${nsSelectV2.namespace.value}-zoom-in-top`"
       trigger="click"
       :persistent="persistent"
-      @show="handleMenuEnter"
+      @before-show="handleMenuEnter"
       @hide="states.inputValue = states.displayInputValue"
     >
       <template #default>
@@ -66,7 +66,53 @@
                   type="info"
                   disable-transitions
                 >
+                  <el-tooltip
+                    v-if="collapseTagsTooltip"
+                    :disabled="dropdownMenuVisible"
+                    :fallback-placements="['bottom', 'top', 'right', 'left']"
+                    :effect="effect"
+                    placement="bottom"
+                    :teleported="false"
+                  >
+                    <template #default>
+                      <span
+                        :class="nsSelectV2.e('tags-text')"
+                        :style="{
+                          maxWidth: `${tagMaxWidth}px`,
+                        }"
+                        >+ {{ modelValue.length - 1 }}</span
+                      >
+                    </template>
+                    <template #content>
+                      <div :class="nsSelectV2.e('selection')">
+                        <div
+                          v-for="(selected, idx) in states.cachedOptions"
+                          :key="idx"
+                          :class="nsSelectV2.e('selected-item')"
+                        >
+                          <el-tag
+                            :key="getValueKey(selected)"
+                            :closable="!selectDisabled && !selected.disabled"
+                            :size="collapseTagSize"
+                            class="in-tooltip"
+                            type="info"
+                            disable-transitions
+                            @close="deleteTag($event, selected)"
+                          >
+                            <span
+                              :class="nsSelectV2.e('tags-text')"
+                              :style="{
+                                maxWidth: `${tagMaxWidth}px`,
+                              }"
+                              >{{ getLabel(selected) }}</span
+                            >
+                          </el-tag>
+                        </div>
+                      </div>
+                    </template>
+                  </el-tooltip>
                   <span
+                    v-else
                     :class="nsSelectV2.e('tags-text')"
                     :style="{
                       maxWidth: `${tagMaxWidth}px`,

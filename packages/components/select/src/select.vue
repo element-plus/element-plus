@@ -31,10 +31,10 @@
           >
             <span
               v-if="collapseTags && selected.length"
-              :style="{
-                marginLeft:
-                  prefixWidth && selected.length ? `${prefixWidth}px` : '',
-              }"
+              :class="[
+                nsSelect.b('tags-wrapper'),
+                { 'has-prefix': prefixWidth && selected.length },
+              ]"
             >
               <el-tag
                 :closable="!selectDisabled && !selected[0].isDisabled"
@@ -57,7 +57,50 @@
                 :type="tagType"
                 disable-transitions
               >
-                <span :class="nsSelect.e('tags-text')"
+                <el-tooltip
+                  v-if="collapseTagsTooltip"
+                  :disabled="dropMenuVisible"
+                  :fallback-placements="['bottom', 'top', 'right', 'left']"
+                  :effect="effect"
+                  placement="bottom"
+                  :teleported="false"
+                >
+                  <template #default>
+                    <span :class="nsSelect.e('tags-text')"
+                      >+ {{ selected.length - 1 }}</span
+                    >
+                  </template>
+                  <template #content>
+                    <div :class="nsSelect.e('collapse-tags')">
+                      <div
+                        v-for="(item, idx) in selected"
+                        :key="idx"
+                        :class="nsSelect.e('collapse-tag')"
+                      >
+                        <el-tag
+                          :key="getValueKey(item)"
+                          class="in-tooltip"
+                          :closable="!selectDisabled && !item.isDisabled"
+                          :size="collapseTagSize"
+                          :hit="item.hitState"
+                          :type="tagType"
+                          disable-transitions
+                          :style="{ margin: '2px' }"
+                          @close="deleteTag($event, item)"
+                        >
+                          <span
+                            :class="nsSelect.e('tags-text')"
+                            :style="{
+                              maxWidth: inputWidth - 75 + 'px',
+                            }"
+                            >{{ item.currentLabel }}</span
+                          >
+                        </el-tag>
+                      </div>
+                    </div>
+                  </template>
+                </el-tooltip>
+                <span v-else :class="nsSelect.e('tags-text')"
                   >+ {{ selected.length - 1 }}</span
                 >
               </el-tag>
@@ -65,10 +108,10 @@
             <!-- <div> -->
             <transition v-if="!collapseTags" @after-leave="resetInputHeight">
               <span
-                :style="{
-                  marginLeft:
-                    prefixWidth && selected.length ? `${prefixWidth}px` : '',
-                }"
+                :class="[
+                  nsSelect.b('tags-wrapper'),
+                  { 'has-prefix': prefixWidth && selected.length },
+                ]"
               >
                 <el-tag
                   v-for="item in selected"
@@ -322,6 +365,10 @@ export default defineComponent({
       default: 'value',
     },
     collapseTags: Boolean,
+    collapseTagsTooltip: {
+      type: Boolean,
+      default: false,
+    },
     popperAppendToBody: {
       type: Boolean,
       default: undefined,
@@ -503,9 +550,9 @@ export default defineComponent({
         }
         if (ctx.slots.prefix) {
           const inputChildNodes = reference.value.$el.childNodes
-          const input = (Array.from(inputChildNodes) as HTMLElement[]).filter(
+          const input = (Array.from(inputChildNodes) as HTMLElement[]).find(
             (item) => item.tagName === 'INPUT'
-          )[0]
+          )
           const prefix = reference.value.$el.querySelector(
             `.${nsInput.e('prefix')}`
           )

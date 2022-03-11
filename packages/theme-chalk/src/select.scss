@@ -24,9 +24,20 @@
     );
   }
 
+  .#{$namespace}-select-tags-wrapper {
+    &.has-prefix {
+      margin-left: map.get($select-tags-prefix-padding, 'default');
+    }
+  }
+
   @each $size in (large, small) {
     @include m($size) {
       line-height: map.get($input-height, $size);
+      .#{$namespace}-select-tags-wrapper {
+        &.has-prefix {
+          margin-left: map.get($select-tags-prefix-padding, $size);
+        }
+      }
     }
   }
 
@@ -146,6 +157,20 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+  }
+
+  @include e(collapse-tags) {
+    white-space: normal;
+    z-index: var(--el-index-normal);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  @include e(collapse-tag) {
+    line-height: inherit;
+    height: inherit;
+    display: flex;
   }
 
   .#{$namespace}-select__tags {

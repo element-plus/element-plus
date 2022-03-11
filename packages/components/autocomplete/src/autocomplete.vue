@@ -13,7 +13,7 @@
     trigger="click"
     :transition="`${ns.namespace.value}-zoom-in-top`"
     persistent
-    @show="onSuggestionShow"
+    @before-show="onSuggestionShow"
   >
     <div
       ref="listboxRef"

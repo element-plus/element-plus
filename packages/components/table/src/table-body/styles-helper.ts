@@ -47,11 +47,6 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
         })
       )
     }
-
-    if (props.store.states.expandRows.value.indexOf(row) > -1) {
-      classes.push('expanded')
-    }
-
     return classes
   }
 

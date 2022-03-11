@@ -47,14 +47,15 @@
 <script lang="ts">
 import { defineComponent, inject, computed, ref, watch } from 'vue'
 import { isObject, isArray } from '@vue/shared'
-import { elFormKey } from '@element-plus/tokens'
+import { formContextKey } from '@element-plus/tokens'
 import { hasClass } from '@element-plus/utils'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
 import { StarFilled, Star } from '@element-plus/icons-vue'
 import { useNamespace, useSize } from '@element-plus/hooks'
 import { rateProps, rateEmits } from './rate'
-import type { ElFormContext } from '@element-plus/tokens'
+
+import type { FormContext } from '@element-plus/tokens'
 
 function getValueFromMap<T>(
   value: number,
@@ -87,7 +88,8 @@ export default defineComponent({
   emits: rateEmits,
 
   setup(props, { emit }) {
-    const elForm = inject(elFormKey, {} as ElFormContext)
+    const elForm = inject(formContextKey, {} as FormContext)
+
     const rateSize = useSize()
     const ns = useNamespace('rate')
 
@@ -153,13 +155,13 @@ export default defineComponent({
       getValueFromMap(props.modelValue, componentMap.value)
     )
     const voidComponent = computed(() =>
-      rateDisabled.value ? props.disabledvoidIcon : props.voidIcon
+      rateDisabled.value ? props.disabledVoidIcon : props.voidIcon
     )
     const activeComponent = computed(() =>
       getValueFromMap(currentValue.value, componentMap.value)
     )
     const iconComponents = computed(() => {
-      const result = Array(props.max)
+      const result = Array.from({ length: props.max })
       const threshold = currentValue.value
       result.fill(activeComponent.value, 0, threshold)
       result.fill(voidComponent.value, threshold, props.max)

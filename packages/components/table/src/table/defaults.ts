@@ -37,9 +37,14 @@ type HoverState<T> = Nullable<{
   row: T
 }>
 
-type RIS<T> = { row: T; $index: number; store: Store<T> }
+type RIS<T> = { row: T; $index: number; store: Store<T>; expanded: boolean }
 
-type RenderExpanded<T> = ({ row, $index, store }: RIS<T>) => VNode
+type RenderExpanded<T> = ({
+  row,
+  $index,
+  store,
+  expanded: boolean,
+}: RIS<T>) => VNode
 
 type SummaryMethod<T> = (data: {
   columns: TableColumnCtx<T>
@@ -161,6 +166,7 @@ interface RenderRowData<T> {
   row: T
   $index: number
   treeNode?: TreeNode
+  expanded: boolean
 }
 
 export default {
@@ -248,6 +254,10 @@ export default {
   tableLayout: {
     type: String as PropType<Layout>,
     default: 'fixed',
+  },
+  scrollbarAlwaysOn: {
+    type: Boolean,
+    default: false,
   },
 }
 export type {

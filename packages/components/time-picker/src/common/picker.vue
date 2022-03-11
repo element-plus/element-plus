@@ -159,18 +159,18 @@ import dayjs from 'dayjs'
 import { isEqual } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import { useLocale, useSize } from '@element-plus/hooks'
-import { elFormKey, elFormItemKey } from '@element-plus/tokens'
+import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
-import { isEmpty } from '@element-plus/utils'
+import { debugWarn, isEmpty } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { Clock, Calendar } from '@element-plus/icons-vue'
 import { timePickerDefaultProps } from './props'
 
 import type { Dayjs } from 'dayjs'
 import type { ComponentPublicInstance } from 'vue'
-import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
+import type { FormContext, FormItemContext } from '@element-plus/tokens'
 import type { Options } from '@popperjs/core'
 
 interface PickerOptions {
@@ -198,8 +198,8 @@ const dateEquals = function (a: Date | any, b: Date | any) {
 }
 
 const valueEquals = function (a: Array<Date> | any, b: Array<Date> | any) {
-  const aIsArray = a instanceof Array
-  const bIsArray = b instanceof Array
+  const aIsArray = Array.isArray(a)
+  const bIsArray = Array.isArray(b)
   if (aIsArray && bIsArray) {
     if (a.length !== b.length) {
       return false
@@ -254,8 +254,8 @@ export default defineComponent({
   setup(props, ctx) {
     const { lang } = useLocale()
 
-    const elForm = inject(elFormKey, {} as ElFormContext)
-    const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
+    const elForm = inject(formContextKey, {} as FormContext)
+    const elFormItem = inject(formItemContextKey, {} as FormItemContext)
     const elPopperOptions = inject('ElPopperOptions', {} as Options)
 
     const refPopper = ref<InstanceType<typeof ElTooltip>>()
@@ -272,7 +272,8 @@ export default defineComponent({
         })
         ctx.emit('blur')
         blurInput()
-        props.validateEvent && elFormItem.validate?.('blur')
+        props.validateEvent &&
+          elFormItem.validate?.('blur').catch((err) => debugWarn(err))
       } else {
         valueOnOpen.value = props.modelValue
       }
@@ -281,7 +282,8 @@ export default defineComponent({
       // determine user real change only
       if (isClear || !valueEquals(val, valueOnOpen.value)) {
         ctx.emit('change', val)
-        props.validateEvent && elFormItem.validate?.('change')
+        props.validateEvent &&
+          elFormItem.validate?.('change').catch((err) => debugWarn(err))
       }
     }
     const emitInput = (val) => {
@@ -468,7 +470,7 @@ export default defineComponent({
       showClose.value = false
     }
     const isRangeInput = computed(() => {
-      return props.type.indexOf('range') > -1
+      return props.type.includes('range')
     })
 
     const pickerSize = useSize()
@@ -558,7 +560,7 @@ export default defineComponent({
         } else {
           // user may change focus between two input
           setTimeout(() => {
-            if (refInput.value.indexOf(document.activeElement) === -1) {
+            if (!refInput.value.includes(document.activeElement)) {
               pickerVisible.value = false
               blurInput()
             }

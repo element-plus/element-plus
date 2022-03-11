@@ -80,7 +80,7 @@ Don't do:
 </template>
 ```
 
-:::demo When using multiple selection, all selected tags will display by default, You can set `collapse-tags = true` to fold selected tags.
+:::demo When using multiple selection, all selected tags will display by default. You can set `collapse-tags = true` to fold selected tags. You can check them when mouse hover collapse text by using `collapse-tags-tooltip` attribute.
 
 cascader/multiple-selection
 
@@ -149,6 +149,7 @@ cascader/panel
 | clearable                         | whether selected value can be cleared                                                                                                                                            | boolean                 | —                      | false   |
 | show-all-levels                   | whether to display all levels of the selected value in the input                                                                                                                 | boolean                 | —                      | true    |
 | collapse-tags                     | whether to collapse tags in multiple selection mode                                                                                                                              | boolean                 | -                      | false   |
+| collapse-tags-tooltip             | whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true                                                                 | boolean                 | -                      | false   |
 | separator                         | option label separator                                                                                                                                                           | string                  | —                      | ' / '   |
 | filterable                        | whether the options can be searched                                                                                                                                              | boolean                 | —                      | —       |
 | filter-method                     | customize search logic, the first parameter is `node`, the second is `keyword`, and need return a boolean value indicating whether it hits.                                      | function(node, keyword) | -                      | -       |

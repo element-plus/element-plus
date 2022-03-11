@@ -4,14 +4,14 @@ import { mount } from '@vue/test-utils'
 import { describe, it, expect } from 'vitest'
 import { ElButton } from '@element-plus/components'
 import {
-  elFormKey,
-  elFormItemKey,
+  formContextKey,
+  formItemContextKey,
   buttonGroupContextKey,
 } from '@element-plus/tokens'
 
 import type {
-  ElFormContext,
-  ElFormItemContext,
+  FormContext,
+  FormItemContext,
   ButtonGroupContext,
 } from '@element-plus/tokens'
 
@@ -38,7 +38,7 @@ describe('use-form-item', () => {
     const propSize = 'small'
     const wrapper = mountComponent(
       () => {
-        provide(elFormItemKey, { size: 'large' } as ElFormItemContext)
+        provide(formItemContextKey, { size: 'large' })
       },
       {
         props: { size: propSize },
@@ -55,9 +55,9 @@ describe('use-form-item', () => {
         size: fallbackSize,
       } as ButtonGroupContext)
 
-      provide(elFormItemKey, {
+      provide(formItemContextKey, {
         size: 'large',
-      } as ElFormItemContext)
+      } as FormItemContext)
     })
 
     expect(wrapper.find(`.el-button--${fallbackSize}`).exists()).toBe(true)
@@ -66,13 +66,13 @@ describe('use-form-item', () => {
   it('should return formItem.size instead form.size', () => {
     const itemSize = 'small'
     const wrapper = mountComponent(() => {
-      provide(elFormItemKey, {
+      provide(formItemContextKey, {
         size: itemSize,
-      } as ElFormItemContext)
+      } as FormItemContext)
 
-      provide(elFormKey, {
+      provide(formContextKey, {
         size: 'large',
-      } as ElFormContext)
+      } as FormContext)
     })
 
     expect(wrapper.find(`.el-button--${itemSize}`).exists()).toBe(true)

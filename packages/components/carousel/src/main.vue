@@ -230,7 +230,7 @@ export default defineComponent({
         }
       }
       index = Number(index)
-      if (isNaN(index) || index !== Math.floor(index)) {
+      if (Number.isNaN(index) || index !== Math.floor(index)) {
         debugWarn('Carousel', 'index must be an integer.')
         return
       }

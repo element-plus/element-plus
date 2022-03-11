@@ -21,14 +21,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import type { UploadFile } from 'element-plus/es/components/upload/src/upload.type'
 
-interface RawFile {
-  name: string
-  url: string
-}
+import type { UploadUserFile, UploadFile } from 'element-plus'
 
-const fileList = ref<RawFile[]>([
+const fileList = ref<UploadUserFile[]>([
   {
     name: 'food.jpeg',
     url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
@@ -45,7 +41,7 @@ const handleRemove = (file: UploadFile, fileList: UploadFile[]) => {
 const handlePreview = (file: UploadFile) => {
   console.log(file)
 }
-const handleExceed = (files: FileList, fileList: UploadFile[]) => {
+const handleExceed = (files: File[], fileList: UploadFile[]) => {
   ElMessage.warning(
     `The limit is 3, you selected ${files.length} files this time, add up to ${
       files.length + fileList.length
@@ -53,6 +49,9 @@ const handleExceed = (files: FileList, fileList: UploadFile[]) => {
   )
 }
 const beforeRemove = (file: UploadFile, fileList: UploadFile[]) => {
-  return ElMessageBox.confirm(`Cancel the transfert of ${file.name} ?`)
+  return ElMessageBox.confirm(`Cancel the transfert of ${file.name} ?`).then(
+    () => true,
+    () => false
+  )
 }
 </script>

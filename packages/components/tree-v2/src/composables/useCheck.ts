@@ -44,8 +44,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
           let allChecked = true
           // Whether a child node is selected
           let hasChecked = false
-          for (let i = 0; i < children.length; ++i) {
-            const childNode = children[i]
+          for (const childNode of children) {
             const key = childNode.key
             if (checkedKeySet.has(key)) {
               hasChecked = true
@@ -194,8 +193,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     if (tree?.value) {
       const { treeNodeMap } = tree.value
       if (props.showCheckbox && treeNodeMap && keys) {
-        for (let i = 0; i < keys.length; ++i) {
-          const key = keys[i]
+        for (const key of keys) {
           const node = treeNodeMap.get(key)
           if (node && !isChecked(node)) {
             toggleCheckbox(node, true, false)

@@ -149,9 +149,7 @@ export default defineComponent({
     })
     const toPrecision = (num: number, pre?: number) => {
       if (pre === undefined) pre = numPrecision.value
-      return parseFloat(
-        `${Math.round(num * Math.pow(10, pre)) / Math.pow(10, pre)}`
-      )
+      return Number.parseFloat(`${Math.round(num * 10 ** pre) / 10 ** pre}`)
     }
     const getPrecision = (value: number | undefined) => {
       if (value === undefined) return 0
@@ -165,18 +163,18 @@ export default defineComponent({
     }
     const _increase = (val: number) => {
       if (!isNumber(val)) return data.currentValue
-      const precisionFactor = Math.pow(10, numPrecision.value)
+      const precisionFactor = 10 ** numPrecision.value
       // Solve the accuracy problem of JS decimal calculation by converting the value to integer.
-      val = isNumber(val) ? val : NaN
+      val = isNumber(val) ? val : Number.NaN
       return toPrecision(
         (precisionFactor * val + precisionFactor * props.step) / precisionFactor
       )
     }
     const _decrease = (val: number) => {
       if (!isNumber(val)) return data.currentValue
-      const precisionFactor = Math.pow(10, numPrecision.value)
+      const precisionFactor = 10 ** numPrecision.value
       // Solve the accuracy problem of JS decimal calculation by converting the value to integer.
-      val = isNumber(val) ? val : NaN
+      val = isNumber(val) ? val : Number.NaN
       return toPrecision(
         (precisionFactor * val - precisionFactor * props.step) / precisionFactor
       )
@@ -208,7 +206,7 @@ export default defineComponent({
       emit('update:modelValue', newVal)
       emit('input', newVal)
       emit('change', newVal, oldVal)
-      formItem?.validate?.('change')
+      formItem?.validate?.('change').catch((err) => debugWarn(err))
       data.currentValue = newVal
     }
     const handleInput = (value: string) => {
@@ -236,7 +234,7 @@ export default defineComponent({
 
     const handleBlur = (event: MouseEvent) => {
       emit('blur', event)
-      formItem?.validate?.('blur')
+      formItem?.validate?.('blur').catch((err) => debugWarn(err))
     }
 
     watch(
@@ -246,10 +244,10 @@ export default defineComponent({
         if (value === null) {
           newVal = Number.NaN
         }
-        if (!isNaN(newVal)) {
+        if (!Number.isNaN(newVal)) {
           if (props.stepStrictly) {
             const stepPrecision = getPrecision(props.step)
-            const precisionFactor = Math.pow(10, stepPrecision)
+            const precisionFactor = 10 ** stepPrecision
             newVal =
               (Math.round(newVal / props.step) * precisionFactor * props.step) /
               precisionFactor
@@ -284,7 +282,7 @@ export default defineComponent({
       )
       if (!isNumber(props.modelValue)) {
         let val: number | undefined = Number(props.modelValue)
-        if (isNaN(val)) {
+        if (Number.isNaN(val)) {
           val = undefined
         }
         emit('update:modelValue', val)

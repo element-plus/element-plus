@@ -1,5 +1,6 @@
 import { createPopper } from '@popperjs/core'
 import { get } from 'lodash-unified'
+import escapeHtml from 'escape-html'
 import { hasOwn, off, on } from '@element-plus/utils'
 import { useZIndex } from '@element-plus/hooks'
 import type {
@@ -52,7 +53,7 @@ export const orderBy = function <T>(
           if (!Array.isArray(sortBy)) {
             sortBy = [sortBy]
           }
-          return sortBy.map(function (by) {
+          return sortBy.map((by) => {
             if (typeof by === 'string') {
               return get(value, by)
             } else {
@@ -80,14 +81,14 @@ export const orderBy = function <T>(
     return 0
   }
   return array
-    .map(function (value, index) {
+    .map((value, index) => {
       return {
         value,
         index,
         key: getKey ? getKey(value, index) : null,
       }
     })
-    .sort(function (a, b) {
+    .sort((a, b) => {
       let order = compare(a, b)
       if (!order) {
         // make stable https://en.wikipedia.org/wiki/Sorting_algorithm#Stability
@@ -105,7 +106,7 @@ export const getColumnById = function <T>(
   columnId: string
 ): null | TableColumnCtx<T> {
   let column = null
-  table.columns.forEach(function (item) {
+  table.columns.forEach((item) => {
     if (item.id === columnId) {
       column = item
     }
@@ -152,13 +153,13 @@ export const getRowIdentity = <T>(
 ): string => {
   if (!row) throw new Error('Row is required when get row identity')
   if (typeof rowKey === 'string') {
-    if (rowKey.indexOf('.') < 0) {
+    if (!rowKey.includes('.')) {
       return `${row[rowKey]}`
     }
     const key = rowKey.split('.')
     let current = row
-    for (let i = 0; i < key.length; i++) {
-      current = current[key[i]]
+    for (const element of key) {
+      current = current[element]
     }
     return `${current}`
   } else if (typeof rowKey === 'function') {
@@ -197,7 +198,7 @@ export function mergeOptions<T, K>(defaults: T, config: K): T & K {
 export function parseWidth(width: number | string): number | string {
   if (width === '') return width
   if (width !== undefined) {
-    width = parseInt(width as string, 10)
+    width = Number.parseInt(width as string, 10)
     if (Number.isNaN(width)) {
       width = ''
     }
@@ -222,7 +223,7 @@ export function parseHeight(height: number | string) {
   }
   if (typeof height === 'string') {
     if (/^\d+(?:px)?$/.test(height)) {
-      return parseInt(height, 10)
+      return Number.parseInt(height, 10)
     } else {
       return height
     }
@@ -326,6 +327,7 @@ export function createTablePopper(
     const isLight = tooltipEffect === 'light'
     const content = document.createElement('div')
     content.className = `el-popper ${isLight ? 'is-light' : 'is-dark'}`
+    popperContent = escapeHtml(popperContent)
     content.innerHTML = popperContent
     content.style.zIndex = String(nextZIndex())
     document.body.appendChild(content)

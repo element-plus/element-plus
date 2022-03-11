@@ -2,6 +2,6 @@
   "name": "@element-plus/test-utils",
   "private": true,
   "version": "0.0.5",
-  "main": "dist/index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "main": "dist/index.js"
 }

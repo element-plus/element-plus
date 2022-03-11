@@ -2,6 +2,7 @@
   "extends": "@vue/tsconfig/tsconfig.node.json",
   "include": ["packages/**/*.test.*", "packages/**/*.spec.*"],
   "compilerOptions": {
+    "isolatedModules": false,
     "composite": true,
     "lib": ["DOM"],
     "types": ["node", "jest"],

@@ -1,9 +1,7 @@
 {
   "cSpell.words": ["Element Plus", "element-plus"],
   "typescript.tsdk": "node_modules/typescript/lib",
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  },
+  "editor.formatOnSave": true,
   "npm.packageManager": "pnpm",
   "eslint.probe": [
     "javascript",
@@ -11,7 +9,10 @@
     "typescript",
     "typescriptreact",
     "html",
-    "vue"
+    "vue",
+    "markdown",
+    "json",
+    "jsonc"
   ],
   "eslint.validate": [
     "javascript",
@@ -19,7 +20,10 @@
     "typescript",
     "typescriptreact",
     "html",
-    "vue"
+    "vue",
+    "markdown",
+    "json",
+    "jsonc"
   ],
   "vite.devCommand": "pnpm run dev -- --",
   "i18n-ally.localesPaths": "packages/locale/lang",

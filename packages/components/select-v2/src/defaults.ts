@@ -24,6 +24,10 @@ export const SelectProps = {
     default: 'light',
   },
   collapseTags: Boolean,
+  collapseTagsTooltip: {
+    type: Boolean,
+    default: false,
+  },
   defaultFirstOption: Boolean,
   disabled: Boolean,
   estimatedOptionHeight: {

@@ -64,10 +64,10 @@ export default defineComponent({
         if (sizeName === 'width') {
           if (props.tabs.length > 1) {
             tabSize -=
-              parseFloat(tabStyles.paddingLeft) +
-              parseFloat(tabStyles.paddingRight)
+              Number.parseFloat(tabStyles.paddingLeft) +
+              Number.parseFloat(tabStyles.paddingRight)
           }
-          offset += parseFloat(tabStyles.paddingLeft)
+          offset += Number.parseFloat(tabStyles.paddingLeft)
         }
         return false
       })

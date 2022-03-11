@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const { config } = require('@vue/test-utils')
 const _ResizeObserver = require('resize-observer-polyfill')
 

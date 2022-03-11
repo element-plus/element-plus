@@ -1,6 +1,7 @@
 @use 'function' as *;
 @use '../common/var' as *;
 @forward 'config';
+@forward 'function';
 @use 'config' as *;
 
 // Break-points
