@@ -58,7 +58,8 @@
                 disable-transitions
               >
                 <el-tooltip
-                  :disabled="dropMenuVisible || !collapseTagsTooltip"
+                  v-if="collapseTagsTooltip"
+                  :disabled="dropMenuVisible"
                   :fallback-placements="['bottom', 'top', 'right', 'left']"
                   :effect="effect"
                   placement="bottom"
@@ -99,6 +100,9 @@
                     </div>
                   </template>
                 </el-tooltip>
+                <span v-else :class="nsSelect.e('tags-text')"
+                  >+ {{ selected.length - 1 }}</span
+                >
               </el-tag>
             </span>
             <!-- <div> -->
