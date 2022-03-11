@@ -35,6 +35,7 @@
     </upload-list>
   </div>
 </template>
+
 <script lang="ts" setup>
 import {
   computed,
@@ -105,7 +106,7 @@ const slots = useSlots()
 const UploadContentWithProps = defineComponent({
   render() {
     return h(
-      UploadContent,
+      UploadContent as any,
       {
         ref: 'uploadRef',
         type: props.type,
