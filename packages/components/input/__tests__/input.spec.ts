@@ -204,13 +204,13 @@ describe('Input.vue', () => {
   //   const limitSizeInput = wrapper.vm.$refs.limitSize
   //   const limitlessSizeInput = wrapper.vm.$refs.limitlessSize
   //   await nextTick()
-  //   expect(limitSizeInput.computedTextareaStyle.height).toEqual('117px')
-  //   expect(limitlessSizeInput.computedTextareaStyle.height).toEqual('201px')
+  //   expect(limitSizeInput.textareaStyle.height).toEqual('117px')
+  //   expect(limitlessSizeInput.textareaStyle.height).toEqual('201px')
 
   //   wrapper.vm.textareaValue = ''
   //   await nextTick()
-  //   expect(limitSizeInput.computedTextareaStyle.height).toEqual('75px')
-  //   expect(limitlessSizeInput.computedTextareaStyle.height).toEqual('33px')
+  //   expect(limitSizeInput.textareaStyle.height).toEqual('75px')
+  //   expect(limitlessSizeInput.textareaStyle.height).toEqual('33px')
   // })
 
   test('sets value on textarea / input type change', async () => {
@@ -346,12 +346,12 @@ describe('Input.vue', () => {
         },
       })
       const ref = wrapper.vm.$refs.textarea
-      const originMinHeight = ref.computedTextareaStyle.minHeight
+      const originMinHeight = ref.textareaStyle.minHeight
 
       ref.autosize.minRows = 5
       ref.resizeTextarea()
       // Atfer this textarea min-height (style)  will change
-      const nowMinHeight = ref.computedTextareaStyle[1].minHeight
+      const nowMinHeight = ref.textareaStyle[1].minHeight
       expect(originMinHeight).not.toEqual(nowMinHeight)
     })
   })
