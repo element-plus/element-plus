@@ -155,7 +155,7 @@ export default defineComponent({
       getValueFromMap(props.modelValue, componentMap.value)
     )
     const voidComponent = computed(() =>
-      rateDisabled.value ? props.disabledvoidIcon : props.voidIcon
+      rateDisabled.value ? props.disabledVoidIcon : props.voidIcon
     )
     const activeComponent = computed(() =>
       getValueFromMap(currentValue.value, componentMap.value)

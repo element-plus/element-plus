@@ -113,23 +113,19 @@
 }
 
 @include b(upload-list) {
-  margin: 0;
+  margin: 10px 0 0;
   padding: 0;
   list-style: none;
-
+  position: relative;
   @include e(item) {
     transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
     font-size: 14px;
     color: var(--el-text-color-regular);
-    margin-top: 4px;
+    margin-bottom: 5px;
     position: relative;
     box-sizing: border-box;
     border-radius: 4px;
     width: 100%;
-
-    display: inline-flex;
-    align-items: center;
-    padding: 1px;
 
     .#{bem('progress')} {
       position: absolute;
@@ -148,10 +144,6 @@
       padding-right: 0;
     }
 
-    &:first-child {
-      margin-top: 8px;
-    }
-
     & .#{bem('icon', '', 'upload-success')} {
       color: var(--el-color-success);
     }
@@ -160,10 +152,12 @@
       display: none;
       position: absolute;
       right: 5px;
+      top: 50%;
       cursor: pointer;
       opacity: 0.75;
       color: var(--el-text-color-regular);
       transition: opacity var(--el-transition-duration);
+      transform: translateY(-50%);
 
       &:hover {
         opacity: 1;
@@ -179,6 +173,7 @@
       cursor: pointer;
       opacity: 1;
       color: var(--el-color-primary);
+      transform: translateY(-50%);
     }
 
     &:hover {
@@ -296,6 +291,7 @@
     display: inline-flex;
     flex-wrap: wrap;
 
+    margin: 0;
     #{getCssVarName('upload-list', 'picture-card', 'size')}: 148px;
 
     .#{bem('upload-list', 'item')} {
@@ -426,7 +422,6 @@
       box-sizing: border-box;
       margin-top: 10px;
       padding: 10px;
-      height: 92px;
 
       .#{bem('icon', '' ,'check')},
       .#{bem('icon', '' ,'circle-check')} {
@@ -450,10 +445,11 @@
             display: none;
           }
         }
+      }
 
-        .#{bem('icon', '' ,'close')} {
-          top: 5px;
-        }
+      & .#{bem('icon', '' ,'close')} {
+        top: 5px;
+        transform: translateY(0);
       }
     }
 

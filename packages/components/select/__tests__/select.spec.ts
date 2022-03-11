@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { CircleClose, ArrowUp, CaretTop } from '@element-plus/icons-vue'
 import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
+import { hasClass } from '@element-plus/utils'
 import Select from '../src/select.vue'
 import Group from '../src/option-group.vue'
 import Option from '../src/option.vue'
@@ -920,6 +921,56 @@ describe('Select', () => {
     mockInputWidth.mockRestore()
   })
 
+  test('multiple select with collapseTagsTooltip', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="selectedList" multiple collapseTags collapse-tags-tooltip placeholder="请选择">
+        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕',
+          },
+          {
+            value: '选项2',
+            label: '双皮奶',
+          },
+          {
+            value: '选项3',
+            label: '蚵仔煎',
+          },
+          {
+            value: '选项4',
+            label: '龙须面',
+          },
+          {
+            value: '选项5',
+            label: '北京烤鸭',
+          },
+        ],
+        selectedList: [],
+      })
+    )
+    await wrapper.find('.select-trigger').trigger('click')
+    const options = getOptions()
+
+    options[0].click()
+    await nextTick()
+    options[1].click()
+    await nextTick()
+    options[2].click()
+    await nextTick()
+    const triggerWrappers = wrapper.findAll('.el-tooltip__trigger')
+    expect(triggerWrappers[0]).toBeDefined()
+    const tags = wrapper.findAll('.el-select__tags-text')
+    expect(tags.length).toBe(5)
+    expect(tags[4].element.textContent).toBe('蚵仔煎')
+  })
+
   test('multiple remove-tag', async () => {
     wrapper = _mount(
       `
@@ -1435,9 +1486,17 @@ describe('Select', () => {
     vm.isCollapsed = true
     vm.isClearable = false
     await nextTick()
-    expect(wrapper.findAll('.el-tag').length).toBe(2)
+    expect(
+      wrapper.findAll('.el-tag').filter((item) => {
+        return !hasClass(item.element, 'in-tooltip')
+      }).length
+    ).toBe(2)
     await wrapper.find('.el-tag__close').trigger('click')
-    expect(wrapper.findAll('.el-tag').length).toBe(2)
+    expect(
+      wrapper.findAll('.el-tag').filter((item) => {
+        return !hasClass(item.element, 'in-tooltip')
+      }).length
+    ).toBe(2)
     expect(wrapper.findAll('.el-tag__close').length).toBe(0)
 
     // test for collapse select if is clearable
@@ -1445,9 +1504,17 @@ describe('Select', () => {
     vm.isCollapsed = true
     vm.isClearable = true
     await nextTick()
-    expect(wrapper.findAll('.el-tag__close').length).toBe(1)
+    expect(
+      wrapper.findAll('.el-tag__close').filter((item) => {
+        return !hasClass(item.element.parentElement, 'in-tooltip')
+      }).length
+    ).toBe(1)
     await wrapper.find('.el-tag__close').trigger('click')
-    expect(wrapper.findAll('.el-tag').length).toBe(2)
+    expect(
+      wrapper.findAll('.el-tag').filter((item) => {
+        return !hasClass(item.element, 'in-tooltip')
+      }).length
+    ).toBe(2)
     expect(wrapper.findAll('.el-tag__close').length).toBe(0)
   })
 

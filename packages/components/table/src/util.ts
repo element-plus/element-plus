@@ -1,5 +1,6 @@
 import { createPopper } from '@popperjs/core'
 import { get } from 'lodash-unified'
+import escapeHtml from 'escape-html'
 import { hasOwn, off, on } from '@element-plus/utils'
 import { useZIndex } from '@element-plus/hooks'
 import type {
@@ -326,6 +327,7 @@ export function createTablePopper(
     const isLight = tooltipEffect === 'light'
     const content = document.createElement('div')
     content.className = `el-popper ${isLight ? 'is-light' : 'is-dark'}`
+    popperContent = escapeHtml(popperContent)
     content.innerHTML = popperContent
     content.style.zIndex = String(nextZIndex())
     document.body.appendChild(content)

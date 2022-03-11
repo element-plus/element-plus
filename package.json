@@ -69,6 +69,7 @@
     "@vueuse/core": "^7.7.1",
     "async-validator": "^4.0.7",
     "dayjs": "^1.10.8",
+    "escape-html": "^1.0.3",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
     "lodash-unified": "^1.0.2",
