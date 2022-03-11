@@ -1,0 +1,18 @@
+name: 📦 Package Size Report
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  size-report:
+    runs-on: ubuntu-latest
+    env:
+      CI_JOB_NUMBER: 1
+    steps:
+      - uses: actions/checkout@v2
+      - uses: preactjs/compressed-size-action@v2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          pattern: './dist/element-plus/dist/*.{js,mjs,css}'
+          clean-script: 'clean:lockfile'
