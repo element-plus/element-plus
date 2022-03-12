@@ -36,11 +36,11 @@ async function main() {
 
     output = `**Total changed files:** ${fileDiffs.length}
 
-<detail><summary>:info: Files have been changed</summary>
+<details><summary>:information_source: Files have been changed</summary>
 
 ${table}
 
-</detail>
+</details>
 
 <sub>Generated with :heart: by Element Plus bot</sub>`
   }
