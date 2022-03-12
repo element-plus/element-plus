@@ -1,4 +1,7 @@
 {
+  "componentFolder": "e2e",
+  "testFiles": "**/*spec.cy.{ts,tsx}",
   "video": false,
-  "baseUrl": "http://127.0.0.1:5001/en-US/"
+  "supportFile": "./cypress/support/index.js",
+  "pluginFile": "./cypress/plugins/index.js"
 }
