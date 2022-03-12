@@ -2,7 +2,7 @@
   <a
     :class="[
       ns.b(),
-      type ? ns.m(type) : '',
+      ns.m(type),
       ns.is('disabled', disabled),
       ns.is('underline', underline && !disabled),
     ]"
@@ -11,37 +11,27 @@
   >
     <el-icon v-if="icon"><component :is="icon" /></el-icon>
     <span v-if="$slots.default" :class="ns.e('inner')">
-      <slot></slot>
+      <slot />
     </span>
 
-    <slot v-if="$slots.icon" name="icon"></slot>
+    <slot v-if="$slots.icon" name="icon" />
   </a>
 </template>
-<script lang="ts">
-import { defineComponent } from 'vue'
+
+<script lang="ts" setup>
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { linkProps, linkEmits } from './link'
 
-export default defineComponent({
+defineOptions({
   name: 'ElLink',
-
-  components: { ElIcon },
-
-  props: linkProps,
-  emits: linkEmits,
-
-  setup(props, { emit }) {
-    const ns = useNamespace('link')
-
-    function handleClick(event: MouseEvent) {
-      if (!props.disabled) emit('click', event)
-    }
-
-    return {
-      ns,
-      handleClick,
-    }
-  },
 })
+const props = defineProps(linkProps)
+const emit = defineEmits(linkEmits)
+
+const ns = useNamespace('link')
+
+function handleClick(event: MouseEvent) {
+  if (!props.disabled) emit('click', event)
+}
 </script>

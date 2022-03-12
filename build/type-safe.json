@@ -18,6 +18,7 @@
   "packages/components/collapse-item/",
   "packages/components/dialog/",
   "packages/components/icon/",
+  "packages/components/link/",
   "packages/components/page-header/",
   "packages/components/row/",
   "packages/components/slot/",
