@@ -720,6 +720,10 @@ export default defineComponent({
       nextTick(() => updateStyle())
     })
 
+    watch(popperVisible, () => {
+      panel.value?.loadInitialData()
+    })
+
     watch(presentText, (val) => (inputValue.value = val), { immediate: true })
 
     onMounted(() => {

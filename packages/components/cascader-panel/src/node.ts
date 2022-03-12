@@ -16,7 +16,11 @@ export enum ExpandTrigger {
 export type isDisabled = (data: CascaderOption, node: Node) => boolean
 export type isLeaf = (data: CascaderOption, node: Node) => boolean
 export type Resolve = (dataList?: CascaderOption[]) => void
-export type LazyLoad = (node: Node, resolve: Resolve) => void
+export type LazyLoad = (
+  node: Node,
+  resolve: Resolve,
+  reject: () => void
+) => void
 export type RenderLabel = ({
   node: Node,
   data: CascaderOption,

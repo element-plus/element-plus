@@ -102,6 +102,7 @@ const CHECKBOX = '.el-checkbox__input'
 const RADIO = '.el-radio__input'
 
 let id = 0
+let lazyLoadCount = 0
 
 console.warn = function () {
   // noop
@@ -115,15 +116,28 @@ const _mount: typeof mount = (options) =>
     ...options,
   })
 
-const lazyLoad = (node, resolve) => {
+const lazyLoad = (node, resolve, reject) => {
   const { level } = node
   setTimeout(() => {
-    const nodes = Array.from({ length: level + 1 }).map(() => ({
-      value: ++id,
-      label: `option${id}`,
-      leaf: level >= 1,
-    }))
-    resolve(nodes)
+    // After reject, resolve should not working, either for resolve
+    if (lazyLoadCount === 1) {
+      reject()
+      const nodes = Array.from({ length: level + 1 }).map(() => ({
+        value: ++id,
+        label: `option${id}`,
+        leaf: level >= 1,
+      }))
+      resolve(nodes)
+    } else {
+      const nodes = Array.from({ length: level + 1 }).map(() => ({
+        value: ++id,
+        label: `option${id}`,
+        leaf: level >= 1,
+      }))
+      resolve(nodes)
+      reject()
+    }
+    lazyLoadCount += 1
   }, 1000)
 }
 
@@ -574,8 +588,16 @@ describe('CascaderPanel.vue', () => {
     await nextTick()
     expect(firstOption.findComponent(Loading).exists()).toBe(false)
 
+    // only the second time will be rejected
+    const menus = wrapper.findAll(MENU)
+    expect(menus.length).toBe(1)
+
+    await firstOption.trigger('click')
+    jest.runAllTimers()
+    await nextTick()
+
     const secondMenu = wrapper.findAll(MENU)[1]
-    expect(secondMenu.exists()).toBe(true)
+    expect(secondMenu.exists()).toBe(false)
 
     await secondMenu.find(NODE).trigger('click')
     expect(wrapper.vm.value).toEqual([1, 2])

@@ -82,6 +82,7 @@ export default defineComponent({
   setup(props, { emit, slots }) {
     // for interrupt sync check status in lazy mode
     let manualChecked = false
+    let isInitialLoading = false
 
     const ns = useNamespace('cascader')
     const config = useCascaderConfig(props)
@@ -109,25 +110,44 @@ export default defineComponent({
 
       if (cfg.lazy && isEmpty(props.options)) {
         initialLoaded.value = false
-        lazyLoad(undefined, (list) => {
-          if (list) {
-            store = new Store(list, cfg)
-            menus.value = [store.getNodes()]
+        lazyLoad(
+          undefined,
+          (list) => {
+            if (list) {
+              store = new Store(list, cfg)
+              menus.value = [store.getNodes()]
+            }
+            initialLoaded.value = true
+            isInitialLoading = false
+            syncCheckedValue(false, true)
+          },
+          () => {
+            initialLoaded.value = false
+            isInitialLoading = false
+            emit('close')
           }
-          initialLoaded.value = true
-          syncCheckedValue(false, true)
-        })
+        )
       } else {
+        isInitialLoading = false
         syncCheckedValue(false, true)
       }
     }
 
-    const lazyLoad: ElCascaderPanelContext['lazyLoad'] = (node, cb) => {
+    const loadInitialData = () => {
+      if (initialLoaded.value || isInitialLoading) return
+      isInitialLoading = true
+      initStore()
+    }
+
+    const lazyLoad: ElCascaderPanelContext['lazyLoad'] = (node, cb, reject) => {
       const cfg = config.value
       node! = node || new Node({}, cfg, undefined, true)
       node.loading = true
+      let isSolved = false
 
       const resolve = (dataList: CascaderOption[]) => {
+        if (isSolved) return
+        isSolved = true
         const _node = node as Node
         const parent = _node.root ? null : _node
         dataList && store?.appendNodes(dataList, parent as any)
@@ -137,7 +157,16 @@ export default defineComponent({
         cb && cb(dataList)
       }
 
-      cfg.lazyLoad(node, resolve as any)
+      const _reject = () => {
+        if (isSolved) return
+        isSolved = true
+        const _node = node as Node
+        _node.loading = false
+        _node.loaded = false
+        reject && reject()
+      }
+
+      cfg.lazyLoad(node, resolve as any, _reject)
     }
 
     const expandNode: ElCascaderPanelContext['expandNode'] = (node, silent) => {
@@ -379,6 +408,7 @@ export default defineComponent({
       clearCheckedNodes,
       calculateCheckedValue,
       scrollToExpandingNode,
+      loadInitialData,
     }
   },
 })

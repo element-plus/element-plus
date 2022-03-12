@@ -66,7 +66,8 @@ export interface ElCascaderPanelContext {
   renderLabelFn: RenderLabel
   lazyLoad: (
     node?: CascaderNode,
-    cb?: (dataList: CascaderOption[]) => void
+    cb?: (dataList: CascaderOption[]) => void,
+    reject?: () => void
   ) => void
   expandNode: (node: CascaderNode, silent?: boolean) => void
   handleCheckChange: (
