@@ -18,7 +18,7 @@ const { startDevServer } = require('@cypress/vite-dev-server')
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 module.exports = (on, _config) => {
   on('dev-server:start', async (options) => {
-    const { default: viteConfig } = await import('../../vite.config.cy.mjs')
+    const { default: viteConfig } = await import('../vite.config.cy.mjs')
     return startDevServer({ options, viteConfig })
   })
   // `on` is used to hook into various events Cypress emits
