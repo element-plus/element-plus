@@ -116,7 +116,7 @@ importers:
       '@babel/preset-typescript': 7.16.7_@babel+core@7.17.5
       '@commitlint/cli': 16.2.1
       '@commitlint/config-conventional': 16.2.1
-      '@element-plus/eslint-config': link:packages/eslint-config
+      '@element-plus/eslint-config': link:internal/eslint-config
       '@pnpm/find-workspace-packages': 3.1.42_@pnpm+logger@4.0.0
       '@pnpm/logger': 4.0.0
       '@pnpm/types': 7.10.0
@@ -223,6 +223,36 @@ importers:
       vite-plugin-windicss: 1.8.3_vite@2.8.6
       vitepress: 0.22.3_sass@1.49.9
 
+  internal/eslint-config:
+    specifiers:
+      '@typescript-eslint/eslint-plugin': ^5.13.0
+      '@typescript-eslint/parser': ^5.13.0
+      eslint-config-prettier: ^8.5.0
+      eslint-define-config: ^1.2.5
+      eslint-plugin-eslint-comments: ^3.2.0
+      eslint-plugin-import: ^2.25.4
+      eslint-plugin-jsonc: ^2.2.1
+      eslint-plugin-markdown: ^2.2.1
+      eslint-plugin-prettier: ^4.0.0
+      eslint-plugin-unicorn: ^41.0.0
+      eslint-plugin-vue: ^8.5.0
+      jsonc-eslint-parser: ^2.1.0
+      yaml-eslint-parser: ^0.5.0
+    dependencies:
+      '@typescript-eslint/eslint-plugin': 5.13.0_33fffc354ccfa91fbe7d1677b9395a0a
+      '@typescript-eslint/parser': 5.13.0_eslint@8.10.0+typescript@4.6.2
+      eslint-config-prettier: 8.5.0_eslint@8.10.0
+      eslint-define-config: 1.2.5
+      eslint-plugin-eslint-comments: 3.2.0_eslint@8.10.0
+      eslint-plugin-import: 2.25.4_eslint@8.10.0
+      eslint-plugin-jsonc: 2.2.1_eslint@8.10.0
+      eslint-plugin-markdown: 2.2.1_eslint@8.10.0
+      eslint-plugin-prettier: 4.0.0_f3d13a703a9c1079e3d1af6044603beb
+      eslint-plugin-unicorn: 41.0.0_eslint@8.10.0
+      eslint-plugin-vue: 8.5.0_eslint@8.10.0
+      jsonc-eslint-parser: 2.1.0
+      yaml-eslint-parser: 0.5.0
+
   packages/components:
     specifiers: {}
 
@@ -270,36 +300,6 @@ importers:
       '@types/node': 17.0.18
       csstype: 2.6.19
       vue-router: 4.0.13_vue@3.2.31
-
-  packages/eslint-config:
-    specifiers:
-      '@typescript-eslint/eslint-plugin': ^5.13.0
-      '@typescript-eslint/parser': ^5.13.0
-      eslint-config-prettier: ^8.5.0
-      eslint-define-config: ^1.2.5
-      eslint-plugin-eslint-comments: ^3.2.0
-      eslint-plugin-import: ^2.25.4
-      eslint-plugin-jsonc: ^2.2.1
-      eslint-plugin-markdown: ^2.2.1
-      eslint-plugin-prettier: ^4.0.0
-      eslint-plugin-unicorn: ^41.0.0
-      eslint-plugin-vue: ^8.5.0
-      jsonc-eslint-parser: ^2.1.0
-      yaml-eslint-parser: ^0.5.0
-    dependencies:
-      '@typescript-eslint/eslint-plugin': 5.13.0_33fffc354ccfa91fbe7d1677b9395a0a
-      '@typescript-eslint/parser': 5.13.0_eslint@8.10.0+typescript@4.6.2
-      eslint-config-prettier: 8.5.0_eslint@8.10.0
-      eslint-define-config: 1.2.5
-      eslint-plugin-eslint-comments: 3.2.0_eslint@8.10.0
-      eslint-plugin-import: 2.25.4_eslint@8.10.0
-      eslint-plugin-jsonc: 2.2.1_eslint@8.10.0
-      eslint-plugin-markdown: 2.2.1_eslint@8.10.0
-      eslint-plugin-prettier: 4.0.0_f3d13a703a9c1079e3d1af6044603beb
-      eslint-plugin-unicorn: 41.0.0_eslint@8.10.0
-      eslint-plugin-vue: 8.5.0_eslint@8.10.0
-      jsonc-eslint-parser: 2.1.0
-      yaml-eslint-parser: 0.5.0
 
   packages/hooks:
     specifiers: {}
