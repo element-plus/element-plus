@@ -9,19 +9,15 @@ export const useScrollbar = () => {
     setScrollLeft(left)
   }
 
-  const setScrollTop = (top?: number) => {
+  const setScrollPosition = (position: 'Top' | 'Left', offset?: number) => {
     const scrollbar = scrollBarRef.value
-    if (scrollbar && isNumber(top)) {
-      scrollbar.setScrollTop(top)
+    if (scrollbar && isNumber(offset) && ['Top', 'Left'].includes(position)) {
+      scrollbar[`setScroll${position}`](offset)
     }
   }
 
-  const setScrollLeft = (left?: number) => {
-    const scrollbar = scrollBarRef.value
-    if (scrollbar && isNumber(left)) {
-      scrollbar.setScrollLeft(left)
-    }
-  }
+  const setScrollTop = (top?: number) => setScrollPosition('Top', top)
+  const setScrollLeft = (left?: number) => setScrollPosition('Left', left)
 
   return {
     scrollBarRef,
