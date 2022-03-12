@@ -7,6 +7,9 @@ on:
 jobs:
   pr-open-greeting:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - uses: actions-cool/check-user-permission@v2
         id: isTeamMember
