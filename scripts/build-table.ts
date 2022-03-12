@@ -17,7 +17,7 @@ async function main() {
     .map((s) => s.split(':'))
 
   if (fileDiffs.length === 0) {
-    output = 'ℹ️ No changes be found'
+    output = ''
   } else {
     const table = fileDiffs.reduce(
       (prev, [source, filename]) => {
