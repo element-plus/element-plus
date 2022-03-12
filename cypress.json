@@ -1,6 +1,6 @@
 {
-  "componentFolder": "packages/components",
-  "testFiles": "**/__tests__/*spec.cy.{ts,tsx}",
+  "componentFolder": "e2e",
+  "testFiles": "**/*spec.cy.{ts,tsx}",
   "video": false,
   "supportFile": "./cypress/support/index.js",
   "pluginFile": "./cypress/plugins/index.js"
