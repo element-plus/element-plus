@@ -10,7 +10,7 @@
     @click="handleClick"
   >
     <el-icon v-if="icon"><component :is="icon" /></el-icon>
-    <span v-if="$slots.default" :class="ns.m('inner')">
+    <span v-if="$slots.default" :class="ns.e('inner')">
       <slot></slot>
     </span>
 
