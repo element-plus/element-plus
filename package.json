@@ -24,7 +24,6 @@
     "update:version": "sucrase-node scripts/update-version.ts",
     "clean": "pnpm run clean:dist && pnpm run clean -r --stream",
     "clean:dist": "rimraf dist",
-    "clean:lockfile": "rm -f pnpm-lock.yaml",
     "build": "gulp --require sucrase/register/ts -f build/gulpfile.ts",
     "build:theme": "pnpm run build -C packages/theme-chalk",
     "format": "prettier --write .",
