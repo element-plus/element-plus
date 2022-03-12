@@ -85,6 +85,7 @@ importers:
       ts-morph: ^14.0.0
       type-fest: ^2.12.0
       typescript: ^4.6.2
+      unplugin-element-plus: ^0.3.1
       unplugin-vue-define-options: ^0.4.0
       vitest: ^0.5.9
       vue: ^3.2.31
@@ -118,9 +119,9 @@ importers:
       '@babel/preset-typescript': 7.16.7_@babel+core@7.17.5
       '@commitlint/cli': 16.2.1
       '@commitlint/config-conventional': 16.2.1
-      '@element-plus/eslint-config': link:internal/eslint-config
       '@cypress/vite-dev-server': 2.2.2
       '@cypress/vue': 3.1.0_cypress@8.5.0+vue@3.2.31
+      '@element-plus/eslint-config': link:internal/eslint-config
       '@pnpm/find-workspace-packages': 3.1.42_@pnpm+logger@4.0.0
       '@pnpm/logger': 4.0.0
       '@pnpm/types': 7.10.0
@@ -171,6 +172,7 @@ importers:
       ts-morph: 14.0.0
       type-fest: 2.12.0
       typescript: 4.6.2
+      unplugin-element-plus: 0.3.1_c30e5c6c929d1f3c3b17cbac52c918c0
       unplugin-vue-define-options: 0.4.0_c30e5c6c929d1f3c3b17cbac52c918c0
       vitest: 0.5.9_0806f0693d07c4237ca3c20ba5503180
       vue: 3.2.31
@@ -12064,6 +12066,24 @@ packages:
   /universalify/2.0.0:
     resolution: {integrity: sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ==}
     engines: {node: '>= 10.0.0'}
+    dev: true
+
+  /unplugin-element-plus/0.3.1_c30e5c6c929d1f3c3b17cbac52c918c0:
+    resolution: {integrity: sha512-DowQB5yvyJ/89q45o9LELGiRFYIGo5AJZqEBsjVJOVHL0x3OY57XB5BTLxUd5Of3wPk646MvADKY3htJvopy9w==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      vue: '3'
+    dependencies:
+      '@rollup/pluginutils': 4.1.2
+      es-module-lexer: 0.9.3
+      magic-string: 0.25.7
+      unplugin: 0.3.2_esbuild@0.14.25+rollup@2.69.2
+      vue: 3.2.31
+    transitivePeerDependencies:
+      - esbuild
+      - rollup
+      - vite
+      - webpack
     dev: true
 
   /unplugin-icons/0.13.2_d1ceb6729d992b8502afaf839b1d9fb4:

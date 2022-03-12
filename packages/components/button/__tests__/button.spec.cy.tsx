@@ -1,12 +1,14 @@
 import { mount } from '@cypress/vue'
-import Button from '../src/button.vue'
+import { ElButton } from 'element-plus'
 
 const AXIOM = 'rem is the best girl'
 
 describe('Cypress Button', () => {
   describe('when initialized', () => {
-    mount(() => <Button>{AXIOM}</Button>)
+    it('render correctly', () => {
+      mount(() => <ElButton>{AXIOM}</ElButton>)
 
-    cy.get('.el-button').should('have.text', AXIOM)
+      cy.get('.el-button').should('have.text', AXIOM)
+    })
   })
 })

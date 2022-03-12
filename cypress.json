@@ -1,10 +1,7 @@
 {
-  "baseUrl": "http://127.0.0.1:5001/en-US/",
-  "component": {
-    "componentFolder": "./packages/components",
-    "testFiles": "**/*.spec.cy.{ts, tsx}",
-    "video": false,
-    "supportFile": "./cypress/support/index.js",
-    "pluginFile": "./cypress/plugins/index.js"
-  }
+  "componentFolder": "packages/components",
+  "testFiles": "**/__tests__/*spec.cy.{ts,tsx}",
+  "video": false,
+  "supportFile": "./cypress/support/index.js",
+  "pluginFile": "./cypress/plugins/index.js"
 }

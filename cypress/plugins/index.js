@@ -18,17 +18,8 @@ const { startDevServer } = require('@cypress/vite-dev-server')
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 module.exports = (on, _config) => {
   on('dev-server:start', async (options) => {
-    const viteConfig = await import('../../vite.config.cy.mjs')
+    const { default: viteConfig } = await import('../../vite.config.cy.mjs')
     return startDevServer({ options, viteConfig })
-  })
-
-  on('before:browser:launch', (browser = {}, args) => {
-    if (browser.name === 'chrome') {
-      // ^ make sure this is your browser name, you may
-      // be using 'canary' or 'chromium' for example, so change it to match!
-      args.push('--proxy-bypass-list=<-loopback>')
-      return args
-    }
   })
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
