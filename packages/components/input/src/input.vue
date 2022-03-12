@@ -309,7 +309,7 @@ const updateIconOffset = () => {
   calcIconOffset('suffix')
 }
 
-const handleInput = (event: Event) => {
+const handleInput = async (event: Event) => {
   const { value } = event.target as TargetElement
 
   // should not emit input during composition
@@ -325,7 +325,8 @@ const handleInput = (event: Event) => {
 
   // ensure native input value is controlled
   // see: https://github.com/ElemeFE/element/issues/12850
-  nextTick(setNativeInputValue)
+  await nextTick()
+  setNativeInputValue()
 }
 
 const handleChange = (event: Event) => {
@@ -406,7 +407,7 @@ const clear = () => {
 watch(
   () => props.modelValue,
   () => {
-    nextTick(resizeTextarea)
+    nextTick(() => resizeTextarea())
     if (props.validateEvent) {
       formItem?.validate?.('change').catch((err) => debugWarn(err))
     }
@@ -431,14 +432,16 @@ watch(
   }
 )
 
-onMounted(() => {
+onMounted(async () => {
   setNativeInputValue()
   updateIconOffset()
-  nextTick(resizeTextarea)
+  await nextTick()
+  resizeTextarea()
 })
 
-onUpdated(() => {
-  nextTick(updateIconOffset)
+onUpdated(async () => {
+  await nextTick()
+  updateIconOffset()
 })
 
 defineExpose({
