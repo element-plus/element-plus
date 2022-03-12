@@ -14,7 +14,6 @@
       <template #append>
         <upload-content
           v-if="listType === 'picture-card'"
-          :key="uploadFiles.length + 1"
           ref="uploadRef"
           v-bind="uploadContentProps"
         >
