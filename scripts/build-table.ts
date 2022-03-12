@@ -4,6 +4,7 @@ import path from 'path'
 main()
 
 async function main() {
+  const threshold = process.env.THRESHOLD || 40
   let output: string
   const diffOutput = await fs.readFile(
     path.resolve(__dirname, '..', 'tmp/diff.txt'),
@@ -35,6 +36,12 @@ async function main() {
     )
 
     output = `**Total changed files:** ${fileDiffs.length}
+
+${
+  fileDiffs.length >= threshold
+    ? `#### 🚔 Attention: the changed file has exceeded the threshold`
+    : ''
+}
 
 <details><summary>:information_source: Files have been changed</summary>
 

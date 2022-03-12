@@ -47,6 +47,8 @@ jobs:
 
       - name: Diff gen
         run: pnpm diff:table
+        env:
+          THRESHOLD: 50
 
       - name: Read diff file
         id: diff
