@@ -153,6 +153,8 @@ const createSelect = (
           multipleLimit: 0,
           placeholder: DEFAULT_PLACEHOLDER,
           scrollbarAlwaysOn: false,
+          popperAppendToBody: undefined,
+          teleported: undefined,
           ...(options.data && options.data()),
         }
       },
