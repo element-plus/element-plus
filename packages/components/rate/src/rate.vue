@@ -51,6 +51,7 @@ import { formContextKey } from '@element-plus/tokens'
 import { hasClass } from '@element-plus/utils'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
+// eslint-disable-next-line  @typescript-eslint/no-unused-vars
 import { StarFilled, Star } from '@element-plus/icons-vue'
 import { useNamespace, useSize } from '@element-plus/hooks'
 import { rateProps, rateEmits } from './rate'
@@ -61,6 +62,7 @@ function getValueFromMap<T>(
   value: number,
   map: Record<string, T | { excluded?: boolean; value: T }>
 ) {
+  debugger
   const isExcludedObject = (
     val: unknown
   ): val is { excluded?: boolean } & Record<any, unknown> => isObject(val)
