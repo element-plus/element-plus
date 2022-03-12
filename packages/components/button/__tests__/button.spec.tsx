@@ -1,4 +1,4 @@
-import { ref, nextTick, defineComponent } from 'vue'
+import { ref, nextTick, defineComponent, markRaw } from 'vue'
 import { mount } from '@vue/test-utils'
 import { Loading, Search } from '@element-plus/icons-vue'
 import Button from '../src/button.vue'
@@ -17,7 +17,7 @@ describe('Button.vue', () => {
 
   it('icon', () => {
     const wrapper = mount(Button, {
-      props: { icon: Search },
+      props: { icon: markRaw(Search) },
     })
     expect(wrapper.findComponent(Search).exists()).toBeTruthy()
   })
@@ -111,7 +111,7 @@ describe('Button.vue', () => {
   it('loading icon', () => {
     const wrapper = mount(Button, {
       props: {
-        loadingIcon: Search,
+        loadingIcon: markRaw(Search),
         loading: true,
       },
     })
