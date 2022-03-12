@@ -1,3 +1,4 @@
+import { isClient } from '@vueuse/core'
 import { isElement } from '@element-plus/utils'
 
 import type { ComponentPublicInstance } from 'vue'
@@ -28,6 +29,7 @@ export const buildPopperOptions = (
 export const unwrapMeasurableEl = (
   $el: Measurable | null | ComponentPublicInstance
 ) => {
+  if (!isClient) return null
   let el: HTMLElement | null = null
   if (!$el) return null
 
