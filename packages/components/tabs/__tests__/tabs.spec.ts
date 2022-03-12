@@ -564,7 +564,7 @@ describe('Tabs.vue', () => {
       `,
       data() {
         return {
-          activeName: 'A'
+          activeName: 'A',
         }
       },
     })
