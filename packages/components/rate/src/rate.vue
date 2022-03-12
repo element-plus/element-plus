@@ -62,7 +62,6 @@ function getValueFromMap<T>(
   value: number,
   map: Record<string, T | { excluded?: boolean; value: T }>
 ) {
-  debugger
   const isExcludedObject = (
     val: unknown
   ): val is { excluded?: boolean } & Record<any, unknown> => isObject(val)
