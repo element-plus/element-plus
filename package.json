@@ -21,6 +21,7 @@
     "dev": "pnpm -C play dev",
     "gen": "bash ./scripts/gc.sh",
     "gen:version": "sucrase-node scripts/gen-version.ts",
+    "diff:table": "sucrase-node scripts/build-table.ts",
     "update:version": "sucrase-node scripts/update-version.ts",
     "clean": "pnpm run clean:dist && pnpm run clean -r --stream",
     "clean:dist": "rimraf dist",
