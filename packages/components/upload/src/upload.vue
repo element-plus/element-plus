@@ -119,7 +119,7 @@ defineExpose({
 const slots = useSlots()
 
 // did not use `defineComponent` for performance
-const uploadContentProps: UploadContentProps = {
+const uploadContentProps: UploadContentProps = computed(() => ({
   type: props.type,
   drag: props.drag,
   action: props.action,
@@ -144,5 +144,5 @@ const uploadContentProps: UploadContentProps = {
   onSuccess: handleSuccess,
   onError: handleError,
   onRemove: handleRemove,
-}
+}))
 </script>
