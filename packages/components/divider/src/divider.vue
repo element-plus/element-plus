@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps } from 'vue'
+import { computed } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { dividerProps } from './divider'
 import type { CSSProperties } from 'vue'
