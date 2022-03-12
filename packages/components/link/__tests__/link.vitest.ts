@@ -1,10 +1,11 @@
 import { mount } from '@vue/test-utils'
+import { describe, it, expect } from 'vitest'
 import Link from '../src/link.vue'
 
 const AXIOM = 'Rem is the best girl'
 
 describe('Link.vue', () => {
-  test('render test', () => {
+  it('render test', () => {
     const wrapper = mount(Link, {
       slots: {
         default: AXIOM,
@@ -13,7 +14,7 @@ describe('Link.vue', () => {
     expect(wrapper.text()).toEqual(AXIOM)
   })
 
-  test('it should handle click event when link is not disabled', async () => {
+  it('it should handle click event when link is not disabled', async () => {
     const wrapper = mount(Link, {
       slots: {
         default: AXIOM,
@@ -24,7 +25,7 @@ describe('Link.vue', () => {
     expect(wrapper.emitted('click')).toHaveLength(1)
   })
 
-  test('it should disable click when link is disabled', async () => {
+  it('it should disable click when link is disabled', async () => {
     const wrapper = mount(Link, {
       slots: {
         default: AXIOM,
@@ -38,7 +39,7 @@ describe('Link.vue', () => {
     expect(wrapper.emitted('click')).toBeUndefined()
   })
 
-  test('icon slots', () => {
+  it('icon slots', () => {
     const linkName = 'test link'
     const wrapper = mount(Link, {
       slots: {

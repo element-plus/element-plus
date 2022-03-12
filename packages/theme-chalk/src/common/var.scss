@@ -1100,8 +1100,8 @@ $link: map.merge(
   (
     'font-size': var(--el-font-size-base),
     'font-weight': var(--el-font-weight-primary),
-    'default-text-color': var(--el-text-color-regular),
-    'default-active-color': var(--el-color-primary),
+    'text-color': var(--el-text-color-regular),
+    'hover-text-color': var(--el-color-primary),
     'disabled-text-color': var(--el-text-color-placeholder),
   ),
   $link

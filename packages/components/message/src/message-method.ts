@@ -7,6 +7,7 @@ import {
   isString,
   isElement,
   debugWarn,
+  isFunction,
 } from '@element-plus/utils'
 import { useZIndex } from '@element-plus/hooks'
 import { messageConfig } from '@element-plus/components/config-provider/src/config-provider'
@@ -101,7 +102,11 @@ const message: MessageFn & Partial<Message> & { _context: AppContext | null } =
     const vm = createVNode(
       MessageConstructor,
       props,
-      isVNode(messageContent) ? { default: () => messageContent } : null
+      isFunction(messageContent)
+        ? { default: messageContent }
+        : isVNode(messageContent)
+        ? { default: () => messageContent }
+        : null
     )
 
     vm.appContext = context || message._context

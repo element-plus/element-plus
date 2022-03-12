@@ -1,5 +1,28 @@
 ## Changelog
 
+### 2.1.0
+
+_2022-03-12_
+
+#### Features
+
+- Components [message] support re-render vnode (#6527 by @sxzz)
+
+#### Bug fixes
+
+- Ci remove clean script (#6550 by @JeremyWuuuuu)
+- Ci clean up several warning (#6551 by @HerringtonDarkholme)
+- Ci fix cascader ns querySelector class (#6552 by @HerringtonDarkholme)
+- Build move eslint config to internal (#6553 by @sxzz)
+- Ci suppress warning by mark icon as raw (#6555 by @HerringtonDarkholme)
+- Components [upload] photo-wall wrap (#6546 by @YunYouJun)
+
+#### Refactors
+
+- Components [link] dynamic css vars & fix inner align (#6557 by @YunYouJun)
+- Components [link] refactor (#6543 by @sxzz)
+
+
 ### 2.0.6
 
 _2022-03-11_

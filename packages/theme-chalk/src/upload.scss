@@ -3,7 +3,7 @@
 @use 'common/var' as *;
 
 @include b(upload) {
-  @include utils-flex-center;
+  @include utils-inline-flex-center;
 
   cursor: pointer;
   outline: none;
@@ -39,9 +39,7 @@
     cursor: pointer;
     vertical-align: top;
 
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
+    @include utils-inline-flex-center;
 
     i {
       font-size: 28px;
@@ -288,8 +286,11 @@
     }
   }
 
+  // upload-list
   @include m(picture-card) {
     display: inline-flex;
+    flex-wrap: wrap;
+
     margin: 0;
     #{getCssVarName('upload-list', 'picture-card', 'size')}: 148px;
 

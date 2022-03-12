@@ -1,4 +1,4 @@
-import { nextTick } from 'vue'
+import { nextTick, h, ref } from 'vue'
 import { getStyle } from '@element-plus/utils'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElMessage } from '..'
@@ -104,6 +104,26 @@ describe('Message on command', () => {
     await rAF()
     await nextTick()
     expect(htmlElement.querySelector(selector)).toBeFalsy()
+  })
+
+  test('it should render vnode function', async () => {
+    const i = ref(0)
+
+    Message({
+      message: () => h('div', i.value),
+    })
+
+    await rAF()
+    expect(document.querySelector(selector)?.textContent).toMatchInlineSnapshot(
+      `"0"`
+    )
+
+    i.value++
+
+    await rAF()
+    expect(document.querySelector(selector)?.textContent).toMatchInlineSnapshot(
+      `"1"`
+    )
   })
 
   describe('context inheritance', () => {

@@ -276,7 +276,7 @@ export default defineComponent({
         const menuElement = menu?.$el
         if (menuElement) {
           const container = menuElement.querySelector(
-            `.${ns.namespace.value}scrollbar__wrap`
+            `.${ns.namespace.value}-scrollbar__wrap`
           )
           const activeNode =
             menuElement.querySelector(`.${ns.b('node')}.${ns.is('active')}`) ||
