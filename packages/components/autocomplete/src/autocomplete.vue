@@ -268,7 +268,8 @@ const highlight = (index: number) => {
     suggestion.scrollTop -= scrollHeight
   }
   highlightedIndex.value = index
-  inputRef.value!.ref!.setAttribute(
+  // TODO: use Volar generate dts to fix it.
+  ;(inputRef.value as any).ref!.setAttribute(
     'aria-activedescendant',
     `${id.value}-item-${highlightedIndex.value}`
   )
@@ -277,10 +278,11 @@ const highlight = (index: number) => {
 onClickOutside(listboxRef, close)
 
 onMounted(() => {
-  inputRef.value!.ref!.setAttribute('role', 'textbox')
-  inputRef.value!.ref!.setAttribute('aria-autocomplete', 'list')
-  inputRef.value!.ref!.setAttribute('aria-controls', 'id')
-  inputRef.value!.ref!.setAttribute(
+  // TODO: use Volar generate dts to fix it.
+  ;(inputRef.value as any).ref!.setAttribute('role', 'textbox')
+  ;(inputRef.value as any).ref!.setAttribute('aria-autocomplete', 'list')
+  ;(inputRef.value as any).ref!.setAttribute('aria-controls', 'id')
+  ;(inputRef.value as any).ref!.setAttribute(
     'aria-activedescendant',
     `${id.value}-item-${highlightedIndex.value}`
   )
