@@ -83,6 +83,8 @@
     "@babel/preset-typescript": "^7.16.7",
     "@commitlint/cli": "^16.2.1",
     "@commitlint/config-conventional": "^16.2.1",
+    "@cypress/vite-dev-server": "^2.2.2",
+    "@cypress/vue": "^3.1.0",
     "@element-plus/eslint-config": "workspace:*",
     "@pnpm/find-workspace-packages": "^3.1.42",
     "@pnpm/logger": "^4.0.0",

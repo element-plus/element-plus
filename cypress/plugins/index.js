@@ -11,12 +11,17 @@
 
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
-
+const { startDevServer } = require('@cypress/vite-dev-server')
 /**
  * @type {Cypress.PluginConfig}
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 module.exports = (on, _config) => {
+  on('dev-server:start', async (options) => {
+    const viteConfig = await import('../../vite.config.cy.mjs')
+    return startDevServer({ options, viteConfig })
+  })
+
   on('before:browser:launch', (browser = {}, args) => {
     if (browser.name === 'chrome') {
       // ^ make sure this is your browser name, you may
