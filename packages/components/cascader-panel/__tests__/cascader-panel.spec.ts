@@ -597,7 +597,7 @@ describe('CascaderPanel.vue', () => {
     await nextTick()
 
     const secondMenu = wrapper.findAll(MENU)[1]
-    expect(secondMenu.exists()).toBe(false)
+    expect(secondMenu.exists()).toBe(true)
 
     await secondMenu.find(NODE).trigger('click')
     expect(wrapper.vm.value).toEqual([1, 2])
