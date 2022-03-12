@@ -12,13 +12,27 @@
         <slot name="file" :file="file"></slot>
       </template>
       <template #append>
-        <upload-content-with-props
+        <upload-content
           v-if="listType === 'picture-card'"
           :key="uploadFiles.length + 1"
-        />
+          ref="uploadRef"
+          v-bind="uploadContentProps"
+        >
+          <slot v-if="slots.trigger" name="trigger" />
+          <slot v-if="!slots.trigger && slots.default" />
+        </upload-content>
       </template>
     </upload-list>
-    <upload-content-with-props v-if="listType !== 'picture-card'" />
+
+    <upload-content
+      v-if="listType !== 'picture-card'"
+      ref="uploadRef"
+      v-bind="uploadContentProps"
+    >
+      <slot v-if="slots.trigger" name="trigger" />
+      <slot v-if="!slots.trigger && slots.default" />
+    </upload-content>
+
     <slot v-if="$slots.trigger" />
     <slot name="tip" />
     <upload-list
@@ -43,8 +57,6 @@ import {
   onBeforeUnmount,
   toRef,
   shallowRef,
-  h,
-  defineComponent,
   useSlots,
 } from 'vue'
 import { uploadContextKey } from '@element-plus/tokens'
@@ -53,8 +65,11 @@ import { useDisabled } from '@element-plus/hooks'
 import UploadList from './upload-list.vue'
 import UploadContent from './upload-content.vue'
 import { useHandlers } from './use-handlers'
-import { uploadProps } from './upload'
-import type { UploadContentInstance } from './upload-content'
+import { uploadProps, type UploadFiles } from './upload'
+import type {
+  UploadContentInstance,
+  UploadContentProps,
+} from './upload-content'
 
 defineOptions({
   name: 'ElUpload',
@@ -103,8 +118,8 @@ defineExpose({
 
 const slots = useSlots()
 
-const uploadContentProps = {
-  ref: 'uploadRef',
+// did not use `defineComponent` for performance
+const uploadContentProps: UploadContentProps = {
   type: props.type,
   drag: props.drag,
   action: props.action,
@@ -119,7 +134,8 @@ const uploadContentProps = {
   listType: props.listType,
   disabled: props.disabled,
   limit: props.limit,
-  fileList: props.fileList,
+  fileList: props.fileList as UploadFiles,
+  showFileList: props.showFileList,
   httpRequest: props.httpRequest,
   beforeUpload: props.beforeUpload,
   onExceed: props.onExceed,
@@ -129,18 +145,4 @@ const uploadContentProps = {
   onError: handleError,
   onRemove: handleRemove,
 }
-
-const UploadContentWithProps = defineComponent({
-  render() {
-    return h(UploadContent as any, uploadContentProps, {
-      default: () => {
-        if (slots.trigger) {
-          return slots.trigger()
-        } else if (slots.default) {
-          return slots.default()
-        }
-      },
-    })
-  },
-})
 </script>
