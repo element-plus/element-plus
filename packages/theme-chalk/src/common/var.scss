@@ -984,7 +984,7 @@ $rate: map.merge(
     // seems not be used, to remove
     // 'icon-color': var(--el-text-color-placeholder),
     'void-color': getCssVar('border-color', 'darker'),
-    'star-color': #f7ba2a,
+    'fill-color': #f7ba2a,
     'disabled-void-color': getCssVar('fill-color'),
     'text-color': getCssVar('text-color', 'primary'),
   ),

@@ -55,7 +55,7 @@ $rate-height: map.merge(
     }
 
     @include when(active) {
-      color: getCssVar('rate', 'star-color');
+      color: getCssVar('rate', 'fill-color');
     }
   }
 
@@ -65,7 +65,7 @@ $rate-height: map.merge(
     left: 0;
     display: inline-block;
     overflow: hidden;
-    color: var(--el-rate-star-color);
+    color: getCssVar('rate', 'fill-color');
   }
 
   @include e(text) {
