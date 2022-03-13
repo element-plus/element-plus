@@ -1,5 +1,5 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.web.json",
+  "extends": "@vue/tsconfig/tsconfig.node.json",
   "compilerOptions": {
     "isolatedModules": false,
     "module": "esnext",
