@@ -1,29 +1,46 @@
 import { nextTick } from 'vue'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import makeMount from '@element-plus/test-utils/make-mount'
 import Skeleton from '../src/skeleton.vue'
+import type { SkeletonInstance } from '../src/skeleton'
 const AXIOM = 'AXIOM is the best girl'
 
-jest.useFakeTimers()
-
 describe('Skeleton.vue', () => {
-  const mount = makeMount(Skeleton, {})
-  test('render test', () => {
-    const wrapper = mount()
-    expect(wrapper.findAll('.el-skeleton__p')).toHaveLength(4)
-    expect(wrapper.classes()).toContain('el-skeleton')
+  beforeEach(() => {
+    vi.useFakeTimers()
   })
 
-  test('should render with animation', () => {
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  const mount = makeMount(Skeleton, {})
+  it('render test', () => {
+    const wrapper = mount()
+    expect(wrapper.findAll('.el-skeleton__p')).toHaveLength(4)
+    expect(wrapper.classes()).toMatchInlineSnapshot(`
+      [
+        "el-skeleton",
+      ]
+    `)
+  })
+
+  it('should render with animation', () => {
     const wrapper = mount({
       props: {
         animated: true,
       },
     })
 
-    expect(wrapper.classes()).toContain('is-animated')
+    expect(wrapper.classes()).toMatchInlineSnapshot(`
+      [
+        "el-skeleton",
+        "is-animated",
+      ]
+    `)
   })
 
-  test('should render x times', async () => {
+  it('should render x times', async () => {
     const wrapper = mount()
 
     expect(wrapper.findAll('.el-skeleton__p')).toHaveLength(4)
@@ -35,7 +52,7 @@ describe('Skeleton.vue', () => {
     expect(wrapper.findAll('.el-skeleton__p')).toHaveLength(8)
   })
 
-  test('should render x rows', () => {
+  it('should render x rows', () => {
     const wrapper = mount({
       props: {
         rows: 4,
@@ -45,7 +62,7 @@ describe('Skeleton.vue', () => {
     expect(wrapper.findAll('.el-skeleton__p')).toHaveLength(5)
   })
 
-  test('should render default slots', () => {
+  it('should render default slots', () => {
     const wrapper = mount({
       slots: {
         default: () => AXIOM,
@@ -58,7 +75,7 @@ describe('Skeleton.vue', () => {
     expect(wrapper.text()).toBe(AXIOM)
   })
 
-  test('should render templates', () => {
+  it('should render templates', () => {
     const wrapper = mount({
       slots: {
         template: () => AXIOM,
@@ -68,19 +85,19 @@ describe('Skeleton.vue', () => {
     expect(wrapper.text()).toBe(AXIOM)
   })
 
-  test('should throttle rendering', async () => {
+  it('should throttle rendering', async () => {
     const wrapper = mount({
       props: {
         throttle: 500,
       },
     })
 
-    expect((wrapper.vm as any).uiLoading).toBe(false)
+    expect((wrapper.vm as SkeletonInstance).uiLoading).toBe(false)
 
-    jest.runAllTimers()
+    vi.runAllTimers()
 
     await nextTick()
 
-    expect((wrapper.vm as any).uiLoading).toBe(true)
+    expect((wrapper.vm as SkeletonInstance).uiLoading).toBe(true)
   })
 })
