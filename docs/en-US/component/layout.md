@@ -103,12 +103,12 @@ The classes are:
 
 ## Row Attributes
 
-| Attribute | Description                         | Type   | Accepted Values                                            | Default |
-| --------- | ----------------------------------- | ------ | ---------------------------------------------------------- | ------- |
-| gutter    | grid spacing                        | number | —                                                          | 0       |
-| justify   | horizontal alignment of flex layout | string | start/end/center/space-around/space-between/space-evenly   | start   |
-| align     | vertical alignment of flex layout   | string | top/middle/bottom                                          | top     |
-| tag       | custom element tag                  | string | \*                                                         | div     |
+| Attribute | Description                         | Type   | Accepted Values                                          | Default |
+| --------- | ----------------------------------- | ------ | -------------------------------------------------------- | ------- |
+| gutter    | grid spacing                        | number | —                                                        | 0       |
+| justify   | horizontal alignment of flex layout | string | start/end/center/space-around/space-between/space-evenly | start   |
+| align     | vertical alignment of flex layout   | string | top/middle/bottom                                        | top     |
+| tag       | custom element tag                  | string | \*                                                       | div     |
 
 ## Row Slots
 
