@@ -17,7 +17,7 @@
             ? `var(--el-border-radius-${radius.type})`
             : '',
         }"
-      ></div>
+      />
     </el-col>
   </el-row>
 </template>

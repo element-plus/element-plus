@@ -2,7 +2,7 @@
   <div class="demo-image__placeholder">
     <div class="block">
       <span class="demonstration">Default</span>
-      <el-image :src="src"></el-image>
+      <el-image :src="src" />
     </div>
     <div class="block">
       <span class="demonstration">Custom</span>

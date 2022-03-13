@@ -1,11 +1,11 @@
 <template>
   <div class="demo-rate-block">
     <span class="demonstration">Default</span>
-    <el-rate v-model="value1"></el-rate>
+    <el-rate v-model="value1" />
   </div>
   <div class="demo-rate-block">
     <span class="demonstration">Color for different levels</span>
-    <el-rate v-model="value2" :colors="colors"> </el-rate>
+    <el-rate v-model="value2" :colors="colors" />
   </div>
 </template>
 

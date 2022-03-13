@@ -1,7 +1,7 @@
 <template>
   <span :class="ns.e('item')">
     <span ref="link" :class="[ns.e('inner'), ns.is('link', !!to)]" role="link">
-      <slot></slot>
+      <slot />
     </span>
     <el-icon v-if="separatorIcon" :class="ns.e('separator')">
       <component :is="separatorIcon" />

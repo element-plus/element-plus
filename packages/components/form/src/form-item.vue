@@ -17,7 +17,7 @@
     </form-label-wrap>
 
     <div :class="ns.e('content')" :style="contentStyle">
-      <slot></slot>
+      <slot />
       <transition :name="`${ns.namespace.value}-zoom-in-top`">
         <slot v-if="shouldShowError" name="error" :error="validateMessage">
           <div :class="validateClasses">

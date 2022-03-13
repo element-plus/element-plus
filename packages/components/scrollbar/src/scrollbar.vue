@@ -27,7 +27,7 @@
         :always="always"
         :ratio-x="ratioX"
         :ratio-y="ratioY"
-      ></bar>
+      />
     </template>
   </div>
 </template>

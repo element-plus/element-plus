@@ -10,14 +10,14 @@
         <td class="text">Solid</td>
         <td class="text">1px</td>
         <td class="line">
-          <div></div>
+          <div />
         </td>
       </tr>
       <tr>
         <td class="text">Dashed</td>
         <td class="text">2px</td>
         <td class="line">
-          <div class="dashed"></div>
+          <div class="dashed" />
         </td>
       </tr>
     </tbody>

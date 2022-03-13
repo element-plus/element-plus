@@ -27,7 +27,7 @@
       <template #content>
         <span>{{ formatValue }}</span>
       </template>
-      <div :class="[ns.e('button'), { hover: hovering, dragging }]"></div>
+      <div :class="[ns.e('button'), { hover: hovering, dragging }]" />
     </el-tooltip>
   </div>
 </template>

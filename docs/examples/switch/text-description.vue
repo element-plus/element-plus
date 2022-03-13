@@ -4,8 +4,7 @@
     class="mb-2"
     active-text="Pay by month"
     inactive-text="Pay by year"
-  >
-  </el-switch>
+  />
   <br />
   <el-switch
     v-model="value2"
@@ -16,8 +15,12 @@
     inactive-text="Pay by year"
   />
   <br />
-  <el-switch v-model="value3" inline-prompt active-text="是" inactive-text="否">
-  </el-switch>
+  <el-switch
+    v-model="value3"
+    inline-prompt
+    active-text="是"
+    inactive-text="否"
+  />
   <el-switch
     v-model="value4"
     class="ml-2"

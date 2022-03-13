@@ -5,7 +5,7 @@
     aria-label="Breadcrumb"
     role="navigation"
   >
-    <slot></slot>
+    <slot />
   </div>
 </template>
 

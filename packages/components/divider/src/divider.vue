@@ -4,7 +4,7 @@
       v-if="$slots.default && direction !== 'vertical'"
       :class="[ns.e('text'), ns.is(contentPosition)]"
     >
-      <slot></slot>
+      <slot />
     </div>
   </div>
 </template>

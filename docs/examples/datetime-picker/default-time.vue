@@ -7,8 +7,7 @@
       start-placeholder="Start Date"
       end-placeholder="End Date"
       :default-time="defaultTime1"
-    >
-    </el-date-picker>
+    />
   </div>
   <div class="block">
     <span class="demonstration"
@@ -20,8 +19,7 @@
       start-placeholder="Start Date"
       end-placeholder="End Date"
       :default-time="defaultTime2"
-    >
-    </el-date-picker>
+    />
   </div>
 </template>
 

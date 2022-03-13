@@ -8,8 +8,7 @@
       start="08:30"
       step="00:15"
       end="18:30"
-    >
-    </el-time-select>
+    />
     <el-time-select
       v-model="endTime"
       :min-time="startTime"
@@ -17,8 +16,7 @@
       start="08:30"
       step="00:15"
       end="18:30"
-    >
-    </el-time-select>
+    />
   </div>
 </template>
 

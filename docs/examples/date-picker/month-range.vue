@@ -8,8 +8,7 @@
         range-separator="To"
         start-placeholder="Start month"
         end-placeholder="End month"
-      >
-      </el-date-picker>
+      />
     </div>
     <div class="block">
       <span class="demonstration">With quick options</span>
@@ -21,8 +20,7 @@
         start-placeholder="Start month"
         end-placeholder="End month"
         :shortcuts="shortcuts"
-      >
-      </el-date-picker>
+      />
     </div>
   </div>
 </template>

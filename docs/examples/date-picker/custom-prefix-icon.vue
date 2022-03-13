@@ -7,8 +7,7 @@
         type="date"
         placeholder="Pick a day"
         :prefix-icon="customPrefix"
-      >
-      </el-date-picker>
+      />
     </div>
   </div>
 </template>

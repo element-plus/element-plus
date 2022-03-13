@@ -8,7 +8,7 @@
     :aria-hidden="!active"
     :aria-labelledby="`tab-${paneName}`"
   >
-    <slot></slot>
+    <slot />
   </div>
 </template>
 <script lang="ts">

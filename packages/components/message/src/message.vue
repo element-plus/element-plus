@@ -24,8 +24,7 @@
         :value="repeatNum"
         :type="badgeType"
         :class="ns.e('badge')"
-      >
-      </el-badge>
+      />
       <el-icon v-if="iconComponent" :class="[ns.e('icon'), typeClass]">
         <component :is="iconComponent" />
       </el-icon>
@@ -34,7 +33,7 @@
           {{ message }}
         </p>
         <!-- Caution here, message could've been compromised, never use user's input as message -->
-        <p v-else :class="ns.e('content')" v-html="message"></p>
+        <p v-else :class="ns.e('content')" v-html="message" />
       </slot>
       <el-icon v-if="showClose" :class="ns.e('closeBtn')" @click.stop="close">
         <close />

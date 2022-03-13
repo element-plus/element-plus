@@ -28,7 +28,7 @@
   >
     <div :class="ns.e('inner-wrapper')">
       <div ref="hiddenColumns" class="hidden-columns">
-        <slot></slot>
+        <slot />
       </div>
       <div
         v-if="showHeader && tableLayout === 'fixed'"
@@ -47,7 +47,7 @@
           <hColgroup
             :columns="store.states.columns.value"
             :table-layout="tableLayout"
-          ></hColgroup>
+          />
           <table-header
             ref="tableHeaderRef"
             :border="border"
@@ -79,7 +79,7 @@
             <hColgroup
               :columns="store.states.columns.value"
               :table-layout="tableLayout"
-            ></hColgroup>
+            />
             <table-header
               v-if="showHeader && tableLayout === 'auto'"
               :border="border"
@@ -112,11 +112,11 @@
             ref="appendWrapper"
             :class="ns.e('append-wrapper')"
           >
-            <slot name="append"></slot>
+            <slot name="append" />
           </div>
         </el-scrollbar>
       </div>
-      <div v-if="border || isGroup" :class="ns.e('border-left-patch')"></div>
+      <div v-if="border || isGroup" :class="ns.e('border-left-patch')" />
     </div>
     <div
       v-if="showSummary"
@@ -138,7 +138,7 @@
       v-show="resizeProxyVisible"
       ref="resizeProxy"
       :class="ns.e('column-resize-proxy')"
-    ></div>
+    />
   </div>
 </template>
 

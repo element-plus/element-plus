@@ -37,7 +37,7 @@
           ]"
         >
           <div v-if="$slots.prefix">
-            <slot name="prefix"></slot>
+            <slot name="prefix" />
           </div>
           <div v-if="multiple" :class="nsSelectV2.e('selection')">
             <template v-if="collapseTags && modelValue.length > 0">
@@ -193,8 +193,7 @@
                 aria-hidden="true"
                 :class="nsSelectV2.e('input-calculator')"
                 v-text="states.displayInputValue"
-              >
-              </span>
+              />
             </div>
           </div>
           <template v-else>
@@ -243,8 +242,7 @@
                 nsSelectV2.e('input-calculator'),
               ]"
               v-text="states.displayInputValue"
-            >
-            </span>
+            />
           </template>
           <span
             v-if="shouldShowPlaceholder"
@@ -294,7 +292,7 @@
           :scrollbar-always-on="scrollbarAlwaysOn"
         >
           <template #default="scope">
-            <slot v-bind="scope"></slot>
+            <slot v-bind="scope" />
           </template>
           <template #empty>
             <slot name="empty">

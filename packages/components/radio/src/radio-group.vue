@@ -5,7 +5,7 @@
     role="radiogroup"
     @keydown="handleKeydown"
   >
-    <slot></slot>
+    <slot />
   </div>
 </template>
 

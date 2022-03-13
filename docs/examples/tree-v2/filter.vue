@@ -3,14 +3,14 @@
     v-model="query"
     placeholder="Please enter keyword"
     @input="onQueryChanged"
-  ></el-input>
+  />
   <el-tree-v2
     ref="treeRef"
     :data="data"
     :props="props"
     :filter-method="filterMethod"
     :height="208"
-  ></el-tree-v2>
+  />
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'

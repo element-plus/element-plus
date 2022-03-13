@@ -8,7 +8,7 @@
         :class="{ selected: item.selected, 'is-alpha': item._alpha < 100 }"
         @click="handleSelect(index)"
       >
-        <div :style="{ backgroundColor: item.value }"></div>
+        <div :style="{ backgroundColor: item.value }" />
       </div>
     </div>
   </div>

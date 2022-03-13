@@ -45,8 +45,7 @@ const copySvgIcon = async (name, refs) => {
       v-model="copyIcon"
       active-text="Copy icon code"
       inactive-text="Copy SVG content"
-    >
-    </el-switch>
+    />
   </div>
   <ul class="demo-icon-list">
     <li

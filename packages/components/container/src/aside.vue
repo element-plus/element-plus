@@ -1,6 +1,6 @@
 <template>
   <aside :class="ns.b()" :style="style">
-    <slot></slot>
+    <slot />
   </aside>
 </template>
 <script lang="ts">

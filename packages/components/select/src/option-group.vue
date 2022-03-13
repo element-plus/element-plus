@@ -3,7 +3,7 @@
     <li :class="ns.be('group', 'title')">{{ label }}</li>
     <li>
       <ul :class="ns.b('group')">
-        <slot></slot>
+        <slot />
       </ul>
     </li>
   </ul>

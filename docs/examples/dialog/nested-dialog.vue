@@ -10,8 +10,7 @@
         width="30%"
         title="Inner Dialog"
         append-to-body
-      >
-      </el-dialog>
+      />
     </template>
     <template #footer>
       <div class="dialog-footer">
