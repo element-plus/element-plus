@@ -36,7 +36,6 @@ describe('Cypress Button', () => {
             const string = await renderToString(app)
             document.body.innerHTML = string
 
-            console.log(cy.screenshot)
             cy.screenshot(filename)
             resolve()
             done()
