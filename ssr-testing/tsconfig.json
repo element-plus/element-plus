@@ -1,11 +1,10 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.web.json",
+  "extends": "@vue/tsconfig/tsconfig.node.json",
   "compilerOptions": {
     "isolatedModules": false,
     "module": "esnext",
     "target": "es5",
     "lib": ["es5", "dom"],
-    "types": ["cypress"],
     "jsx": "preserve"
   }
 }
