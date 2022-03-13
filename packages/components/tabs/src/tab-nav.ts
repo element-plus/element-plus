@@ -65,7 +65,7 @@ export const tabNavProps = buildProps({
 export type TabNavProps = ExtractPropTypes<typeof tabNavProps>
 
 const COMPONENT_NAME = 'ElTabNav'
-export default defineComponent({
+const TabNav = defineComponent({
   name: COMPONENT_NAME,
   props: tabNavProps,
 
@@ -402,3 +402,6 @@ export default defineComponent({
     }
   },
 })
+
+export type TabNavInstance = InstanceType<typeof TabNav>
+export default TabNav
