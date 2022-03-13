@@ -1,5 +1,36 @@
 ## Changelog
 
+### 2.1.1
+
+_2022-03-13_
+
+#### Features
+
+- Ci setup cypress circle ci (#6581 by @JeremyWuuuuu)
+- Ci replace cypress  with puppeteer (#6592 by @JeremyWuuuuu)
+- Components [el-table] exposes scroll methods (#6539 by @msidolphin)
+
+#### Bug fixes
+
+- Component [el-tabs] the initial pane should only render for once (#6563 by @KawaiiZapic)
+- Components [carousel] center arrow (#6573 by @buqiyuan)
+- Ci skip if no changes at all (#6574 by @JeremyWuuuuu)
+- Components [popper-trigger] SSR issue (#6575 by @JeremyWuuuuu)
+- Ci build product check (#6587 by @JeremyWuuuuu)
+- Components [dialog] remove footer when not existed (#6590 by @sxzz)
+- Docsearch dark shadow (#6595 by @YunYouJun)
+- Components [form] set validateState to success after passed (#6596 by @plainheart)
+- Upload component remove status label box shadow (#6586 by @iamkun)
+
+#### Refactors
+
+- Components [divider] switch to script-setup (#6556 by @wzrove)
+- Components [input] refactor (#6545 by @sxzz)
+- Theme-chalk rewrite palette & remove -base suffix (#6593 by @YunYouJun)
+- Components [rate] switch to script-setup syntax (#6565 by @btea)
+- Components [skeleton] switch to script-setup syntax (#6395 by @freedomlang)
+- Theme-chalk dark.scss to css vars & migrate fill-color-blank (#6597 by @YunYouJun)
+
 ### 2.2.0
 
 _2022-05-09_
