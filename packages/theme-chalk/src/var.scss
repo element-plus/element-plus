@@ -32,16 +32,18 @@
     @include set-css-color-type($type);
   }
 
+  // color-scheme
   // Background --el-bg-color-#{$type}
   @include set-component-css-var('bg-color', $bg-color);
   // --el-text-color-#{$type}
   @include set-component-css-var('text-color', $text-color);
   // --el-border-color-#{$type}
   @include set-component-css-var('border-color', $border-color);
-  // --el-border-radius-#{$type}
-  @include set-component-css-var('border-radius', $border-radius);
   // Fill --el-fill-color-#{$type}
   @include set-component-css-var('fill-color', $fill-color);
+
+  // --el-border-radius-#{$type}
+  @include set-component-css-var('border-radius', $border-radius);
   // Typography
   @include set-component-css-var('font-size', $font-size);
   // Box-shadow
