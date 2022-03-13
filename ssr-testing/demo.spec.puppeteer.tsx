@@ -1,12 +1,12 @@
 import path from 'path'
 import { createApp } from 'vue'
 import { renderToString } from '@vue/server-renderer'
-import { beforeAll, beforeEach, afterEach, describe, expect, it } from 'vitest'
+import { beforeAll, describe, expect, it } from 'vitest'
 import puppeteer from 'puppeteer'
 import glob from 'fast-glob'
 import ElementPlus from '../dist/element-plus'
 
-import type { Browser, Page } from 'puppeteer'
+import type { Browser } from 'puppeteer'
 
 const projectRoot = process.cwd()
 const testRoot = `${projectRoot}/ssr-testing`
