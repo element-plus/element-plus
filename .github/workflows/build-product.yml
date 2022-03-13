@@ -1,6 +1,9 @@
 name: Build Product 👮‍♂️
 
-on: pull_request
+on:
+  pull_request:
+    branches:
+      - 'master'
 
 jobs:
   check:
@@ -58,23 +61,9 @@ jobs:
         with:
           path: ./tmp/diff.md
 
-      - uses: actions-cool/check-user-permission@v2
-        id: isTeamMember
-        with:
-          require: 'write'
-          username: ${{ github.event.pull_request.user.login }}
-
       - name: Set comment
         uses: actions-cool/maintain-one-comment@v2.0.2
-        if: steps.isTeamMember.outputs.require-result == 'true' && steps.diff.outputs.content != ''
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: ${{ steps.diff.outputs.content }}
           body-include: '<sub>Generated with'
-
-      - name: Echo comment
-        if: steps.isTeamMember.outputs.require-result == 'false'
-        run: |
-          echo 'Error: compressed-size-action was unable to comment on your PR.'
-          echo 'This can happen for PR's originating from a fork without write permissions.'
-          echo ${{ steps.diff.outputs.content }}
