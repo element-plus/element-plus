@@ -86,7 +86,7 @@ useResizeObserver(barRef, () => update())
 defineExpose({
   /** @description html element */
   ref: barRef,
-  /** @description update bar style */
+  /** @description method to manually update tab bar style */
   update,
 })
 </script>

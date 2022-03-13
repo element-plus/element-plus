@@ -35,16 +35,17 @@ const props = defineProps(tabPaneProps)
 
 const instance = getCurrentInstance()!
 const tabsRoot = inject(tabsRootContextKey)
-if (!tabsRoot) throwError(COMPONENT_NAME, '<el-tabs><el-tab-pane /></el-tabs/>')
+if (!tabsRoot)
+  throwError(COMPONENT_NAME, 'usage: <el-tabs><el-tab-pane /></el-tabs/>')
 
 const ns = useNamespace('tab-pane')
 
 const index = ref<string>()
-const loaded = ref(active.value)
 const isClosable = computed(() => props.closable || tabsRoot.props.closable)
 const active = eagerComputed(
   () => tabsRoot.currentName.value === (props.name || index.value)
 )
+const loaded = ref(active.value)
 const paneName = computed(() => props.name || index.value)
 const shouldBeRender = eagerComputed(
   () => !props.lazy || loaded.value || active.value
