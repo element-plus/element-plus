@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@crowdin/cli": "^3.7.8",
+    "@element-plus/build": "workspace:*",
     "@iconify-json/ri": "^1.1.1",
     "@types/markdown-it": "^12.2.3",
     "cross-env": "^7.0.3",

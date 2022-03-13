@@ -1,9 +1,8 @@
 import fs from 'fs'
 import path from 'path'
 import chalk from 'chalk'
-
+import { errorAndExit } from '@element-plus/build/utils/log'
 import { docRoot } from '../utils/paths'
-import { errorAndExit } from '../../../build/utils/log'
 
 // NB: this file is only for generating files that enables developers to develop the website.
 const componentLocaleRoot = path.resolve(docRoot, '.vitepress/crowdin')
