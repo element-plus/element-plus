@@ -23,7 +23,6 @@
           { hover: hoverIndex === item },
           item <= currentValue && ns.is('active'),
         ]"
-        :style="getIconStyle(item)"
       >
         <component
           :is="iconComponents[item - 1]"
@@ -170,15 +169,6 @@ function showDecimalIcon(item: number) {
     item - 0.5 <= currentValue.value &&
     item > currentValue.value
   return showWhenDisabled || showWhenAllowHalf
-}
-
-function getIconStyle(item: number) {
-  const voidColor = rateDisabled.value
-    ? props.disabledVoidColor
-    : props.voidColor
-  return {
-    color: item <= currentValue.value ? activeColor.value : voidColor,
-  }
 }
 
 function selectValue(value: number) {
